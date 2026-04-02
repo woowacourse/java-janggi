@@ -28,7 +28,7 @@ public class JanggiGame {
 
     public Team getWinner() {
         if (!gameStatus.isFinished()) {
-            throw new RuntimeException("[ERROR] 게임이 아직 끝나지 않았습니다.");
+            throw new IllegalStateException("[ERROR] 게임이 아직 끝나지 않았습니다.");
         }
         return gameStatus.getTeam();
     }
