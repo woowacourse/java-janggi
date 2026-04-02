@@ -36,4 +36,8 @@ public enum PieceType {
         }
         return nameOfHan;
     }
+
+    public MoveStrategy getMoveStrategy() {
+        return moveStrategy;
+    }
 }

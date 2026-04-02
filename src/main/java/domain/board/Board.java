@@ -5,6 +5,7 @@ import domain.piece.PieceType;
 import domain.piece.Position;
 import domain.player.Team;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Board {
@@ -23,8 +24,14 @@ public class Board {
         this.pieces = pieces;
     }
 
-    public static Board of(Map<Position, Piece> pieces) {
+    public static Board of(final Map<Position, Piece> pieces) {
         return new Board(new HashMap<>(pieces));
+    }
+
+
+    public void move(final Position from, final Position to) {
+        final Piece piece = pieces.remove(from);
+        pieces.put(to, piece);
     }
 
 
@@ -33,11 +40,11 @@ public class Board {
                 && (current.column() >= Board.MIN_COLUMN_RANGE && current.column() <= Board.MAX_COLUMN_RANGE);
     }
 
-    public boolean hasPiece(Position position) {
+    public boolean hasPiece(final Position position) {
         return pieces.containsKey(position);
     }
-    
-    public Position findGeneral(Team team) {
+
+    public Position findGeneral(final Team team) {
         return pieces.entrySet().stream()
                 .filter(entry -> entry.getValue().getPieceType() == PieceType.GENERAL)
                 .filter(entry -> entry.getValue().isSameTeam(team))
@@ -46,8 +53,15 @@ public class Board {
                 .orElseThrow(() -> new IllegalStateException(GENERAL_NOWHERE));
     }
 
+    public List<Position> findPositionsByTeam(final Team team) {
+        return pieces.entrySet().stream()
+                .filter(entry -> entry.getValue().isSameTeam(team))
+                .map(Map.Entry::getKey)
+                .toList();
+    }
 
-    public Piece getPiece(Position position) {
+
+    public Piece getPiece(final Position position) {
         if (hasPiece(position)) {
             return pieces.get(position);
         }

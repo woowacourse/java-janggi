@@ -1,6 +1,7 @@
 package view;
 
 import controller.response.BoardView;
+import controller.response.Turn;
 import domain.board.ElephantSetup;
 import domain.piece.Piece;
 import domain.piece.Position;
@@ -14,6 +15,10 @@ public class OutputView {
     private static final String RED = "\u001B[31m";
     private static final String BLUE = "\u001B[34m";
     private static final String BOARD_OUTER_SPACES = "   ";
+
+    public void printErrorMessage(final String message) {
+        System.out.println(message);
+    }
 
 
     public void printEnterChoPlayerNamePrompt() {
@@ -36,7 +41,7 @@ public class OutputView {
     }
 
 
-    public void printBoard(BoardView board) {
+    public void printBoard(final BoardView board) {
         printHorizontal(board);
 
         for (int row = board.minRow(); row <= board.maxRow(); row++) {
@@ -47,12 +52,57 @@ public class OutputView {
         printColumnNumbers(board);
     }
 
-    private void printRow(BoardView board, int row) {
+
+    public void printCurrentTurn(final Turn turn) {
+        if (turn.team() == Team.HAN) {
+            System.out.println(RED + "[한나라 턴] " + turn.name() + RESET);
+            return;
+        }
+
+        System.out.println(BLUE + "[초나라 턴] " + turn.name() + RESET);
+    }
+
+
+    public void printSelectablePieces(final List<Position> positions, final BoardView board) {
+        System.out.print("이동할 기물을 선택하세요: ");
+
+        for (int i = 0; i < positions.size(); i++) {
+            final Position pos = positions.get(i);
+            final Piece piece = board.findPiece(pos).orElseThrow(); // Optional 활용 고민
+
+            System.out.printf("%d. %s(%d, %d)  ",
+                    i + 1,
+                    piece.getPieceType().getNameOf(piece.getTeam()),
+                    pos.row(),
+                    pos.column());
+        }
+
+        System.out.println();
+    }
+
+
+    public void printMovablePositions(final List<Position> moves) {
+        System.out.print("이동할 좌표를 선택하세요: ");
+
+        for (int i = 0; i < moves.size(); i++) {
+            final Position pos = moves.get(i);
+
+            System.out.printf("%d. (%d, %d)  ",
+                    i + 1,
+                    pos.row(),
+                    pos.column());
+        }
+
+        System.out.println();
+    }
+
+
+    private void printRow(final BoardView board, final int row) {
         System.out.printf("%2d ", row);
         System.out.print("|");
 
         for (int col = board.minCol(); col <= board.maxCol(); col++) {
-            Position pos = Position.of(row, col);
+            final Position pos = Position.of(row, col);
             System.out.print(renderCell(board, pos));
             System.out.print("|");
         }
@@ -60,15 +110,15 @@ public class OutputView {
         System.out.println();
     }
 
-    private String renderCell(BoardView board, Position pos) {
+    private String renderCell(final BoardView board, final Position pos) {
         return board.findPiece(pos)
                 .map(this::renderPiece)
                 .orElse(EMPTY);
     }
 
-    private String renderPiece(Piece piece) {
-        String name = piece.getPieceType().getNameOf(piece.getTeam());
-        String centered = " " + name + " ";
+    private String renderPiece(final Piece piece) {
+        final String name = piece.getPieceType().getNameOf(piece.getTeam());
+        final String centered = " " + name + " ";
 
         if (piece.getTeam() == Team.HAN) {
             return RED + centered + RESET;
@@ -76,19 +126,17 @@ public class OutputView {
         return BLUE + centered + RESET;
     }
 
-    private void printHorizontal(BoardView board) {
-        int cols = board.maxCol() - board.minCol() + 1;
+    private void printHorizontal(final BoardView board) {
+        final int cols = board.maxCol() - board.minCol() + 1;
 
-        StringBuilder sb = new StringBuilder();
+        final String line = BOARD_OUTER_SPACES
+                + "+----".repeat(Math.max(0, cols))
+                + "+";
 
-        sb.append(BOARD_OUTER_SPACES);
-        sb.append("+----".repeat(Math.max(0, cols)));
-        sb.append("+");
-
-        System.out.println(sb);
+        System.out.println(line);
     }
 
-    private void printColumnNumbers(BoardView board) {
+    private void printColumnNumbers(final BoardView board) {
         System.out.print(BOARD_OUTER_SPACES);
 
         for (int col = board.minCol(); col <= board.maxCol(); col++) {
@@ -100,8 +148,8 @@ public class OutputView {
 
 
     private void printElephantSetups() {
-        StringBuilder promptBuilder = new StringBuilder();
-        List<String> descriptions = ElephantSetup.descriptions();
+        final StringBuilder promptBuilder = new StringBuilder();
+        final List<String> descriptions = ElephantSetup.descriptions();
         for (int i = 0; i < descriptions.size(); i++) {
             promptBuilder.append(String.format("%d. %s ", i + 1, descriptions.get(i)));
         }

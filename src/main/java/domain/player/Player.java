@@ -13,4 +13,12 @@ public class Player {
     public static Player of(final String name, final Team team) {
         return new Player(new Name(name), team);
     }
+
+    public Name getName() {
+        return name;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
 }
