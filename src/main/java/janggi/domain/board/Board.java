@@ -3,6 +3,7 @@ package janggi.domain.board;
 import janggi.domain.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Board implements BoardMediator {
@@ -10,7 +11,7 @@ public class Board implements BoardMediator {
     private final Map<Position, Piece> positionPieceMap;
 
     public Board(final Map<Position, Piece> positionPieceMap) {
-        this.positionPieceMap = positionPieceMap;
+        this.positionPieceMap = new LinkedHashMap<>(positionPieceMap);
     }
 
     public void movePiece(final Position from, final Position to) {
