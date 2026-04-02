@@ -4,6 +4,7 @@ import janggi.domain.board.Board;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceAttribute;
 import janggi.domain.turn.ChoTurn;
+import janggi.domain.turn.HanTurn;
 import janggi.domain.turn.PlayerTurn;
 import janggi.domain.turn.TurnState;
 import janggi.dto.BoardDto;
@@ -30,7 +31,7 @@ public class Game {
         return getPieceInitInfo(initBoard);
     }
 
-    public List<PieceInitInfo> init(List<PieceInitInfo> pieceInitInfos) {
+    public void init(List<PieceInitInfo> pieceInitInfos, Side side, int turn) {
         Map<Position, Piece> initBoard = BoardInitializer.createBoard(pieceInitInfos);
         int hanScore = initBoard.values().stream()
                 .filter(piece -> piece.isEqualSide(Side.HAN))
@@ -41,16 +42,13 @@ public class Game {
                 .mapToInt(Piece::getPieceScore)
                 .sum();
 
-        this.playerTurn = new ChoTurn(new Board(initBoard, hanScore, choScore), 1); // 현재 side, turn 가져오기
-        return getPieceInitInfo(initBoard);
+        initTurn(new Board(initBoard, hanScore, choScore), side, turn);
     }
 
-    public PieceAttribute move(Position start, Position end) {
-        Side currentTurn = playerTurn.getCurrentSide();
-
+    public MoveResult move(Position start, Position end) {
         TurnState turnState = playerTurn.move(start, end);
         playerTurn = turnState.playerTurn();
-        return turnState.movedPiece();
+        return new MoveResult(turnState.turnAttribute(), turnState.movedPiece());
     }
 
     public boolean isFinished() {
@@ -77,5 +75,13 @@ public class Game {
         List<PieceInitInfo> pieceInitInfos = new ArrayList<>();
         board.forEach(((position, piece) -> pieceInitInfos.add(piece.getPieceInitInfo(position))));
         return pieceInitInfos;
+    }
+
+    private void initTurn(Board board, Side side, int turn) {
+        if(side.equals(Side.CHO)) {
+            this.playerTurn = new ChoTurn(board, turn);
+            return;
+        }
+        this.playerTurn = new HanTurn(board, turn);
     }
 }

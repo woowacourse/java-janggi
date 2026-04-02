@@ -63,7 +63,7 @@ public class Piece {
         return pieces;
     }
 
-    public void updatePiece(Connection conn, int gameId, int x, int y, String type, String side) {
+    public void updatePiece(Connection connection, int gameId, PieceDto pieceDto) {
         String sql = """
         INSERT INTO Piece (game_id, x, y, piece_type, side)
         VALUES (?, ?, ?, ?, ?)
@@ -73,33 +73,58 @@ public class Piece {
             side = excluded.side
         """;
 
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
 
             pstmt.setInt(1, gameId);
-            pstmt.setInt(2, x);
-            pstmt.setInt(3, y);
-            pstmt.setString(4, type);
-            pstmt.setString(5, side);
+            pstmt.setInt(2, pieceDto.x());
+            pstmt.setInt(3, pieceDto.y());
+            pstmt.setString(4, pieceDto.pieceType());
+            pstmt.setString(5, pieceDto.side());
 
             pstmt.executeUpdate();
 
-            if (!conn.getAutoCommit()) conn.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void deletePiece(Connection conn, int gameId, int x, int y) {
+    public void updatePieces(Connection connection, int gameId, List<PieceDto> pieceDtos) {
+        String sql = """
+        INSERT INTO Piece (game_id, x, y, piece_type, side)
+        VALUES (?, ?, ?, ?, ?)
+        ON CONFLICT(game_id, x, y)
+        DO UPDATE SET
+            piece_type = excluded.piece_type,
+            side = excluded.side
+        """;
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            for (PieceDto pieceDto : pieceDtos) {
+                pstmt.setInt(1, gameId);
+                pstmt.setInt(2, pieceDto.x());
+                pstmt.setInt(3, pieceDto.y());
+                pstmt.setString(4, pieceDto.pieceType());
+                pstmt.setString(5, pieceDto.side());
+
+                pstmt.addBatch();
+            }
+
+            pstmt.executeBatch();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deletePiece(Connection connection, int gameId, int x, int y) {
         String sql = "DELETE FROM Piece WHERE game_id = ? AND x = ? AND y = ?";
 
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
 
             pstmt.setInt(1, gameId);
             pstmt.setInt(2, x);
             pstmt.setInt(3, y);
 
             pstmt.executeUpdate();
-            if (!conn.getAutoCommit()) conn.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }

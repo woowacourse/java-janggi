@@ -3,11 +3,14 @@ package janggi;
 import janggi.dao.GameRoom;
 import janggi.dao.Piece;
 import janggi.db.SQLManager;
-import janggi.domain.GameInfo;
 import janggi.domain.PieceInitInfo;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.piece.PieceType;
+import janggi.dto.GameDto;
+import janggi.dto.GameResponseDto;
+import janggi.dto.PieceDto;
+import janggi.dto.TurnDto;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -23,17 +26,45 @@ public class JanggiService {
         this.piece = piece;
     }
 
-    public List<GameInfo> getEntireGame() {
+    public List<GameResponseDto> getEntireGame() {
         gameRoom.initTable();
         return gameRoom.findAllGames();
     }
 
-    public int addGameData(String name, String createdDate, String lastUpdatedDate, List<PieceInitInfo> pieceInitInfos) {
-        return gameRoom.insertGame(name, createdDate, lastUpdatedDate);
+    public int addGameData(GameDto gameDto, List<PieceDto> pieceDtos) {
+        Connection connection = sqlManager.ensureConnection();
+
+        try {
+            int gameId = gameRoom.insertGame(connection, gameDto);
+            piece.updatePieces(connection, gameId, pieceDtos);
+
+            connection.commit();
+            return gameId;
+        } catch (Exception e) {
+            try {
+                if (connection != null) {
+                    connection.rollback();
+                }
+            } catch (SQLException rollbackEx) {
+                rollbackEx.printStackTrace();
+            }
+            throw new RuntimeException("게임 데이터 생성 중 오류가 발생하여 롤백되었습니다.", e);
+        }
     }
 
     public void removeGame(int id) {
-        gameRoom.removeGame(id);
+        Connection connection = sqlManager.ensureConnection();
+        try {
+            gameRoom.removeGame(connection, id);
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException rollbackEx) {
+                rollbackEx.printStackTrace();
+            }
+            throw new RuntimeException("게임 데이터 삭제 중 오류가 발생하여 롤백되었습니다.", e);
+        }
     }
 
     public List<PieceInitInfo> getPieceInitInfos(int gameId) {
@@ -42,11 +73,13 @@ public class JanggiService {
                 .toList();
     }
 
-    public void movePiece(int gameId, Position start, Position end, Side side, PieceType pieceType) {
+    public void movePiece(int gameId, Position start, Position end, Side side, PieceType pieceType, TurnDto turnDto) {
         Connection connection = sqlManager.ensureConnection();
+        PieceDto pieceDto = new PieceDto(end.getX(), end.getY(), side.name(), pieceType.name());
         try {
+            gameRoom.updateGameTurn(connection, gameId, turnDto);
             piece.deletePiece(connection, gameId, start.getX(), start.getY());
-            piece.updatePiece(connection, gameId, end.getX(), end.getY(), side.name(), pieceType.name());
+            piece.updatePiece(connection, gameId, pieceDto);
 
             connection.commit();
         } catch (SQLException e) {

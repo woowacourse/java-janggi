@@ -15,14 +15,17 @@ public class ChoTurn extends BaseTurn {
         PieceAttribute pieceAttribute = board.move(start, end, Side.CHO);
 
         if(turn == MAX_TURN) {
-            return new TurnState(new FinishTurn(board, Side.EMPTY, turn), pieceAttribute);
+            TurnAttribute turnAttribute = new TurnAttribute(Side.EMPTY, turn + 1);
+            return new TurnState(new FinishTurn(board, Side.EMPTY, turn + 1), turnAttribute, pieceAttribute);
         }
 
         if (board.isEndGame()) {
-            return new TurnState(new FinishTurn(board, Side.CHO, turn), pieceAttribute);
+            TurnAttribute turnAttribute = new TurnAttribute(Side.EMPTY, turn + 1);
+            return new TurnState(new FinishTurn(board, Side.CHO, turn + 1), turnAttribute, pieceAttribute);
         }
 
-        return new TurnState(new HanTurn(board, turn + 1), pieceAttribute);
+        TurnAttribute turnAttribute = new TurnAttribute(Side.HAN, turn + 1);
+        return new TurnState(new HanTurn(board, turn + 1), turnAttribute, pieceAttribute);
     }
 
     @Override

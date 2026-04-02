@@ -15,13 +15,17 @@ public class HanTurn extends BaseTurn {
         PieceAttribute pieceAttribute = board.move(start, end, Side.HAN);
 
         if(turn == MAX_TURN) {
-            return new TurnState(new FinishTurn(board, Side.EMPTY, turn), pieceAttribute);
+            TurnAttribute turnAttribute = new TurnAttribute(Side.EMPTY, turn + 1);
+            return new TurnState(new FinishTurn(board, Side.EMPTY, turn), turnAttribute, pieceAttribute);
         }
 
         if (board.isEndGame()) {
-            return new TurnState(new FinishTurn(board, Side.HAN, turn), pieceAttribute);
+            TurnAttribute turnAttribute = new TurnAttribute(Side.EMPTY, turn + 1);
+            return new TurnState(new FinishTurn(board, Side.HAN, turn), turnAttribute, pieceAttribute);
         }
-        return new TurnState(new ChoTurn(board, turn + 1), pieceAttribute);
+
+        TurnAttribute turnAttribute = new TurnAttribute(Side.HAN, turn + 1);
+        return new TurnState(new ChoTurn(board, turn + 1), turnAttribute, pieceAttribute);
     }
 
     @Override

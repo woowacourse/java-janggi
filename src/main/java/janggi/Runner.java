@@ -4,11 +4,14 @@ import janggi.domain.Arrangement;
 import janggi.domain.Game;
 import janggi.domain.GameInfo;
 import janggi.domain.GameName;
+import janggi.domain.MoveResult;
 import janggi.domain.PieceInitInfo;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.SideScore;
-import janggi.domain.piece.PieceAttribute;
+import janggi.dto.GameDto;
+import janggi.dto.PieceDto;
+import janggi.dto.TurnDto;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.time.LocalDateTime;
@@ -40,12 +43,13 @@ public class Runner {
     }
 
     public int manageGameRoom() {
-        List<GameInfo> gameInfos = janggiService.getEntireGame();
+        List<GameInfo> gameInfos = janggiService.getEntireGame().stream()
+                .map(gameResponseDto -> new GameInfo(gameResponseDto.id(), gameResponseDto.name(), gameResponseDto.createdAt(), gameResponseDto.updatedAt(), Side.from(gameResponseDto.side()), gameResponseDto.turn()))
+                .toList();
         if(gameInfos.isEmpty()) {
             return initArrangeGame();
         }
         OutputView.printGameRoom(gameInfos);
-
         Optional<Integer> input = InputView.askLoadGame();
 
         if(input.isEmpty()) {
@@ -59,12 +63,14 @@ public class Runner {
         }
 
         List<PieceInitInfo> pieceInitInfos = janggiService.getPieceInitInfos(selectedGame.id());
-        game.init(pieceInitInfos);
+        game.init(pieceInitInfos, selectedGame.side(), selectedGame.turn());
         return selectedGame.id();
     }
 
     private int initArrangeGame() {
         GameName gameName = new GameName(InputView.askGameName());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedNow = LocalDateTime.now().format(formatter);
 
         String hanArrangementInput = InputView.askHanArrangement();
         Arrangement hanArrangement = Arrangement.from(hanArrangementInput);
@@ -72,17 +78,18 @@ public class Runner {
         String choArrangementInput = InputView.askChoArrangement();
         Arrangement choArrangement = Arrangement.from(choArrangementInput);
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String formattedNow = LocalDateTime.now().format(formatter);
+        List<PieceDto> pieceDtos = game.init(choArrangement, hanArrangement).stream()
+                .map(pieceInitInfo -> new PieceDto(pieceInitInfo.position().getX(), pieceInitInfo.position().getY(), pieceInitInfo.pieceType().name(), pieceInitInfo.side().name()))
+                .toList();
 
-        List<PieceInitInfo> pieceInitInfos = game.init(hanArrangement, choArrangement);
-
-        return janggiService.addGameData(gameName.name(), formattedNow, formattedNow, pieceInitInfos);
+        return janggiService.addGameData(new GameDto(gameName.name(), formattedNow, formattedNow, Side.CHO.name(), 1), pieceDtos);
     }
 
     private void playGame(int gameId) {
         while (playTurnGame(gameId)) {
         }
+
+        janggiService.removeGame(gameId);
 
         Side winnerSide = game.getWinnerSide();
 
@@ -125,10 +132,13 @@ public class Runner {
 
         List<Integer> endPositionInput = InputView.askEndPosition();
         Position endPosition = Position.from(endPositionInput);
+
         OutputView.printLine();
 
-        PieceAttribute pieceAttribute = game.move(startPosition, endPosition);
-        janggiService.movePiece(gameId, startPosition, endPosition, pieceAttribute.side(), pieceAttribute.pieceType());
+        MoveResult moveResult = game.move(startPosition, endPosition);
+        TurnDto turnDto = new TurnDto(moveResult.turnAttribute().side().name(), moveResult.turnAttribute().turn());
+
+        janggiService.movePiece(gameId, startPosition, endPosition, moveResult.pieceAttribute().side(), moveResult.pieceAttribute().pieceType(), turnDto);
 
         printCurrentScore();
         return game.isFinished();
