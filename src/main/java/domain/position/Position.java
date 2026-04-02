@@ -1,7 +1,5 @@
 package domain.position;
 
-import domain.board.Direction;
-
 import java.util.Objects;
 
 public final class Position {
@@ -24,15 +22,18 @@ public final class Position {
     }
 
     public static Position rotate180from(Position position) {
-        return Position.of(11 - position.getRow(), 10 - position.getColumn());
+        return Position.of(
+                MAX_ROW + MIN_ROW - position.getRow(),
+                MAX_COLUMN + MIN_COLUMN - position.getColumn()
+        );
     }
 
     public PositionDelta minus(Position position) {
         return new PositionDelta(this.getRow() - position.getRow(), this.getColumn() - position.getColumn());
     }
 
-    public Position append(Direction direction) {
-        return Position.of(getRow() + direction.getdRow(), getColumn() + direction.getdColumn());
+    public Position append(int dRow, int dColumn) {
+        return Position.of(this.row + dRow, this.column + dColumn);
     }
 
     public int getRow() {

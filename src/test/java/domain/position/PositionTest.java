@@ -26,11 +26,11 @@ public class PositionTest {
 
     @Test
     @DisplayName("(5,5)에서 단위 방향(UP)이 들어오면 (6,5)를 반환한다")
-    void append_기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트_1(){
+    void append_기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트_1() {
         Position position = Position.of(5, 5);
         Direction direction = Direction.UP;
 
-        Position newPosition = position.append(direction);
+        Position newPosition = PositionCalculator.add(position, direction);
 
         assertThat(newPosition.getRow()).isEqualTo(6);
         assertThat(newPosition.getColumn()).isEqualTo(5);
@@ -38,11 +38,11 @@ public class PositionTest {
 
     @Test
     @DisplayName("(5,5)에서 단위 방향(UP_RIGHT)이 들어오면 (6,6)를 반환한다")
-    void append_기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트_2(){
+    void append_기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트_2() {
         Position position = Position.of(5, 5);
         Direction direction = Direction.UP_RIGHT;
 
-        Position newPosition = position.append(direction);
+        Position newPosition = PositionCalculator.add(position, direction);
 
         assertThat(newPosition.getRow()).isEqualTo(6);
         assertThat(newPosition.getColumn()).isEqualTo(6);
@@ -50,11 +50,11 @@ public class PositionTest {
 
     @Test
     @DisplayName("(5,5)에서 단위 방향(RIGHT)이 들어오면 (5,6)를 반환한다")
-    void append_기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트_3(){
+    void append_기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트_3() {
         Position position = Position.of(5, 5);
         Direction direction = Direction.RIGHT;
 
-        Position newPosition = position.append(direction);
+        Position newPosition = PositionCalculator.add(position, direction);
 
         assertThat(newPosition.getRow()).isEqualTo(5);
         assertThat(newPosition.getColumn()).isEqualTo(6);
@@ -62,11 +62,11 @@ public class PositionTest {
 
     @Test
     @DisplayName("(5,5)에서 단위 방향(DOWN_RIGHT)이 들어오면 (4,6)를 반환한다")
-    void append_기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트_4(){
+    void append_기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트_4() {
         Position position = Position.of(5, 5);
         Direction direction = Direction.DOWN_RIGHT;
 
-        Position newPosition = position.append(direction);
+        Position newPosition = PositionCalculator.add(position, direction);
 
         assertThat(newPosition.getRow()).isEqualTo(4);
         assertThat(newPosition.getColumn()).isEqualTo(6);
@@ -74,11 +74,11 @@ public class PositionTest {
 
     @Test
     @DisplayName("(5,5)에서 단위 방향(DOWN)이 들어오면 (4,5)를 반환한다")
-    void append_기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트_5(){
+    void append_기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트_5() {
         Position position = Position.of(5, 5);
         Direction direction = Direction.DOWN;
 
-        Position newPosition = position.append(direction);
+        Position newPosition = PositionCalculator.add(position, direction);
 
         assertThat(newPosition.getRow()).isEqualTo(4);
         assertThat(newPosition.getColumn()).isEqualTo(5);
@@ -86,11 +86,11 @@ public class PositionTest {
 
     @Test
     @DisplayName("(5,5)에서 단위 방향(DOWN_LEFT)이 들어오면 (4,4)를 반환한다")
-    void append_기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트_6(){
+    void append_기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트_6() {
         Position position = Position.of(5, 5);
         Direction direction = Direction.DOWN_LEFT;
 
-        Position newPosition = position.append(direction);
+        Position newPosition = PositionCalculator.add(position, direction);
 
         assertThat(newPosition.getRow()).isEqualTo(4);
         assertThat(newPosition.getColumn()).isEqualTo(4);
@@ -98,11 +98,11 @@ public class PositionTest {
 
     @Test
     @DisplayName("(5,5)에서 단위 방향(LEFT)이 들어오면 (5,4)를 반환한다")
-    void append_기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트_7(){
+    void append_기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트_7() {
         Position position = Position.of(5, 5);
         Direction direction = Direction.LEFT;
 
-        Position newPosition = position.append(direction);
+        Position newPosition = PositionCalculator.add(position, direction);
 
         assertThat(newPosition.getRow()).isEqualTo(5);
         assertThat(newPosition.getColumn()).isEqualTo(4);
@@ -110,11 +110,11 @@ public class PositionTest {
 
     @Test
     @DisplayName("(5,5)에서 단위 방향(UP_LEFT)이 들어오면 (6,4)를 반환한다")
-    void append_기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트_8(){
+    void append_기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트_8() {
         Position position = Position.of(5, 5);
         Direction direction = Direction.UP_LEFT;
 
-        Position newPosition = position.append(direction);
+        Position newPosition = PositionCalculator.add(position, direction);
 
         assertThat(newPosition.getRow()).isEqualTo(6);
         assertThat(newPosition.getColumn()).isEqualTo(4);
@@ -122,11 +122,11 @@ public class PositionTest {
 
     @Test
     @DisplayName("(4,4)와 (5,5)의 거리를 구할 수 있다.")
-    void minus_출발지_좌표에서_목적지_좌표까지의_거리_구하기_테스트_1(){
+    void minus_출발지_좌표에서_목적지_좌표까지의_거리_구하기_테스트_1() {
         Position startPosition = Position.of(4, 4);
         Position endPosition = Position.of(5, 5);
 
-        PositionDelta distance = endPosition.minus(startPosition);
+        PositionDelta distance = PositionCalculator.subtract(endPosition, startPosition);
 
         assertThat(distance.row()).isEqualTo(1);
         assertThat(distance.column()).isEqualTo(1);
@@ -134,11 +134,11 @@ public class PositionTest {
 
     @Test
     @DisplayName("(4,6)와 (5,5)의 거리를 구할 수 있다.")
-    void minus_출발지_좌표에서_목적지_좌표까지의_거리_구하기_테스트_2(){
+    void minus_출발지_좌표에서_목적지_좌표까지의_거리_구하기_테스트_2() {
         Position startPosition = Position.of(4, 6);
         Position endPosition = Position.of(5, 5);
 
-        PositionDelta distance = endPosition.minus(startPosition);
+        PositionDelta distance = PositionCalculator.subtract(endPosition, startPosition);
 
         assertThat(distance.row()).isEqualTo(1);
         assertThat(distance.column()).isEqualTo(-1);
@@ -146,11 +146,11 @@ public class PositionTest {
 
     @Test
     @DisplayName("(6,4)와 (5,5)의 거리를 구할 수 있다.")
-    void minus_출발지_좌표에서_목적지_좌표까지의_거리_구하기_테스트_3(){
+    void minus_출발지_좌표에서_목적지_좌표까지의_거리_구하기_테스트_3() {
         Position startPosition = Position.of(6, 4);
         Position endPosition = Position.of(5, 5);
 
-        PositionDelta distance = endPosition.minus(startPosition);
+        PositionDelta distance = PositionCalculator.subtract(endPosition, startPosition);
 
         assertThat(distance.row()).isEqualTo(-1);
         assertThat(distance.column()).isEqualTo(1);
@@ -158,11 +158,11 @@ public class PositionTest {
 
     @Test
     @DisplayName("(6,6)와 (5,5)의 거리를 구할 수 있다.")
-    void minus_출발지_좌표에서_목적지_좌표까지의_거리_구하기_테스트_4(){
+    void minus_출발지_좌표에서_목적지_좌표까지의_거리_구하기_테스트_4() {
         Position startPosition = Position.of(6, 6);
         Position endPosition = Position.of(5, 5);
 
-        PositionDelta distance = endPosition.minus(startPosition);
+        PositionDelta distance = PositionCalculator.subtract(endPosition, startPosition);
 
         assertThat(distance.row()).isEqualTo(-1);
         assertThat(distance.column()).isEqualTo(-1);
