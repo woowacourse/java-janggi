@@ -1,11 +1,13 @@
 package janggi.domain.piece.Implementation;
 
 import janggi.domain.piece.PieceType;
+import janggi.domain.piece.direction.Offset;
 import janggi.domain.piece.direction.SangDirection;
 import janggi.domain.piece.template.AbstractFixedStepPiece;
 import janggi.domain.point.Point;
 import janggi.domain.point.Points;
 import janggi.domain.status.Team;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Sang extends AbstractFixedStepPiece {
@@ -23,14 +25,11 @@ public class Sang extends AbstractFixedStepPiece {
 
         SangDirection direction = SangDirection.find(pathCol, pathRow);
 
-        Point routePoint1 = Point.of(
-                from.getColumn() + direction.getRoute1Col(),
-                from.getRow() + direction.getRoute1Row()
-        );
-        Point routePoint2 = Point.of(from.getColumn() + direction.getRoute2Col(),
-                from.getRow() + direction.getRoute2Row()
-        );
+        List<Point> points = new ArrayList<>();
+        for (Offset offset : direction.getWaypoints()) {
+            points.add(Point.of(from.getColumn() + offset.directionColumn(), from.getRow() + offset.directionRow()));
+        }
 
-        return new Points(List.of(routePoint1, routePoint2));
+        return new Points(points);
     }
 }

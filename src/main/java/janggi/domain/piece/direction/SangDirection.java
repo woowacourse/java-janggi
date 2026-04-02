@@ -1,54 +1,85 @@
 package janggi.domain.piece.direction;
 
 import java.util.Arrays;
+import java.util.List;
 
 public enum SangDirection {
-    UP_LEFT(-2, -3, 0, -1, -1, -2),
-    UP_RIGHT(2, -3, 0, -1, 1, -2),
-    DOWN_LEFT(-2, 3, 0, 1, -1, 2),
-    DOWN_RIGHT(2, 3, 0, 1, 1, 2),
+    UP_LEFT(
+        List.of(
+            new Offset(-2, -3),
+            new Offset(0, -1),
+            new Offset(-1, -2)
+        )
+    ),
+    UP_RIGHT(
+        List.of(
+            new Offset(2, -3),
+            new Offset(0, -1),
+            new Offset(1, -2)
+        )
+    ),
+    DOWN_LEFT(
+        List.of(
+            new Offset(-2, 3),
+            new Offset(0, 1),
+            new Offset(-1, 2)
+        )
+    ),
+    DOWN_RIGHT(
+        List.of(
+            new Offset(2, 3),
+            new Offset(0, 1),
+            new Offset(1, 2)
+        )
+    ),
+    LEFT_UP(
+        List.of(
+            new Offset(-3, -2),
+            new Offset(-1, 0),
+            new Offset(-2, -1)
+        )
+    ),
+    LEFT_DOWN(
+        List.of(
+            new Offset(-3, 2),
+            new Offset(-1, 0),
+            new Offset(-2, 1)
+        )
+    ),
+    RIGHT_UP(
+        List.of(
+            new Offset(3, -2),
+            new Offset(1, 0),
+            new Offset(2, -1)
+        )
+    ),
+    RIGHT_DOWN(
+        List.of(
+            new Offset(3, 2),
+            new Offset(1, 0),
+            new Offset(2, 1)
+        )
+    );
 
-    LEFT_UP(-3, -2, -1, 0, -2, -1),
-    LEFT_DOWN(-3, 2, -1, 0, -2, 1),
-    RIGHT_UP(3, -2, 1, 0, 2, -1),
-    RIGHT_DOWN(3, 2, 1, 0, 2, 1);
+    private final List<Offset> routes;
 
-    private final int targetCol;
-    private final int targetRow;
-    private final int route1Col;
-    private final int route1Row;
-    private final int route2Col;
-    private final int route2Row;
-
-    SangDirection(int targetCol, int targetRow, int route1Col, int route1Row, int route2Col, int route2Row) {
-        this.targetCol = targetCol;
-        this.targetRow = targetRow;
-        this.route1Col = route1Col;
-        this.route1Row = route1Row;
-        this.route2Col = route2Col;
-        this.route2Row = route2Row;
+    SangDirection(List<Offset> routes) {
+        this.routes = routes;
     }
 
     public static SangDirection find(int directionCol, int directionRow) {
         return Arrays.stream(values())
-                .filter(dir -> dir.targetCol == directionCol && dir.targetRow == directionRow)
+                .filter(dir -> dir.getTarget().directionColumn() == directionCol
+                        && dir.getTarget().directionRow() == directionRow)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 상이 이동할 수 없는 방향입니다."));
     }
 
-    public int getRoute1Col() {
-        return route1Col;
+    public List<Offset> getWaypoints() {
+        return routes.subList(1, routes.size());
     }
 
-    public int getRoute1Row() {
-        return route1Row;
-    }
-
-    public int getRoute2Col() {
-        return route2Col;
-    }
-
-    public int getRoute2Row() {
-        return route2Row;
+    private Offset getTarget() {
+        return routes.getFirst();
     }
 }
