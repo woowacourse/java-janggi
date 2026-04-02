@@ -7,6 +7,8 @@ import domain.state.State;
 import java.util.List;
 
 public class JanggiGame {
+    private static final double HAN_BONUS_SCORE = 1.5;
+
     private final Board board;
     private State state;
 
@@ -26,5 +28,13 @@ public class JanggiGame {
 
     public Country getCountry() {
         return state.getCountry();
+    }
+
+    public double calculateScore() {
+        Country country = getCountry();
+        if (country.equals(Country.CHO)) {
+            return board.calculateScore(country);
+        }
+        return board.calculateScore(country) + HAN_BONUS_SCORE;
     }
 }

@@ -32,36 +32,41 @@ public class OutputView {
         System.out.println("\n초나라가 먼저 시작합니다.");
     }
 
-    public void printChangeTurnMessage(String countryName) {
+    public void printChangeTurnMessage(String countryName, double score) {
         System.out.println(formatter.formatChangeTurn(countryName));
+        System.out.println(countryName + " 점수: " + score);
     }
 
     public void printBoard(BoardDto boardDto) {
-        StringBuilder boardResult = new StringBuilder();
         Map<PositionDto, PieceDto> pieces = boardDto.pieces();
-        boardResult.append(formatter.formatColNumbers());
-        boardResult.append(formatter.formatHorizontalLine());
+        StringBuilder boardResult = new StringBuilder(formatter.formatColNumbers());
 
+        boardResult.append(formatter.formatHorizontalLine());
         for (int x = 1; x <= 10; x++) {
             boardResult.append(formatter.formatRowNumber(x));
-
-            for (int y = 1; y <= 9; y++) {
-                PositionDto nowPosition = new PositionDto(x, y);
-                if (!pieces.containsKey(nowPosition)) {
-                    boardResult.append(formatter.formatEmptyPiece());
-                    continue;
-                }
-
-                PieceDto pieceDto = pieces.get(nowPosition);
-                boardResult.append(
-                        formatter.formatPiece(PieceColor.getColorCode(pieceDto.countryName()), pieceDto.pieceName()));
-            }
-
+            printBoardColumn(boardResult, pieces, x);
             boardResult.append(formatter.formatRightVerticalLine());
         }
-
         boardResult.append(formatter.formatHorizontalLine());
         System.out.print(boardResult);
+    }
+
+    private void printBoardColumn(StringBuilder boardResult, Map<PositionDto, PieceDto> pieces, int x) {
+        for (int y = 1; y <= 9; y++) {
+            printPiece(boardResult, pieces, x, y);
+        }
+    }
+
+    private void printPiece(StringBuilder boardResult, Map<PositionDto, PieceDto> pieces, int x, int y) {
+        PositionDto nowPosition = new PositionDto(x, y);
+        if (!pieces.containsKey(nowPosition)) {
+            boardResult.append(formatter.formatEmptyPiece());
+            return;
+        }
+
+        PieceDto pieceDto = pieces.get(nowPosition);
+        boardResult.append(
+                formatter.formatPiece(PieceColor.getColorCode(pieceDto.countryName()), pieceDto.pieceName()));
     }
 
     public void printPiecePossiblePosition(PieceType pieceType, List<PositionDto> positionDtos) {

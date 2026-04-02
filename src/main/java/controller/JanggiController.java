@@ -33,7 +33,7 @@ public class JanggiController {
         JanggiGame janggiGame = initJanggiGame(board);
 
         while (true) {
-            outputView.printChangeTurnMessage(janggiGame.getCountry().getName());
+            outputView.printChangeTurnMessage(janggiGame.getCountry().getName(), janggiGame.calculateScore());
             List<PositionDto> positionDtos = requestMovePiece(janggiGame);
             playTurn(positionDtos, janggiGame, board);
         }

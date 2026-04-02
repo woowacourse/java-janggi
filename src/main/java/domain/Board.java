@@ -88,4 +88,11 @@ public class Board {
         }
         return positions;
     }
+
+    public double calculateScore(Country country) {
+        return board.values().stream()
+                .filter(piece -> piece.getCountry() == country)
+                .mapToDouble(piece -> piece.getPieceType().getScore())
+                .sum();
+    }
 }
