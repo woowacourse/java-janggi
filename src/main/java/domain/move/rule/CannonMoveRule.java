@@ -27,6 +27,11 @@ public class CannonMoveRule implements MoveRule {
 
     @Override
     public List<Point> findPathOfPoints(Intersection origin, Intersection destination) {
+        if (origin.isPalace()) {
+            return DEFAULT_CANNON_DIRECTIONS.add(origin.getDiagonalDirections())
+                    .findPoints(origin, destination);
+        }
+
         return DEFAULT_CANNON_DIRECTIONS.findPoints(origin, destination);
     }
 

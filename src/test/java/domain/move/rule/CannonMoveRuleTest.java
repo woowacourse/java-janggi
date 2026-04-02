@@ -2,6 +2,9 @@ package domain.move.rule;
 
 import domain.board.JanggiBoard;
 import domain.intersection.Intersection;
+import domain.intersection.palace.*;
+import domain.move.directions.Vector;
+import domain.move.directions.exception.DirectionException;
 import domain.move.path.Path;
 import domain.move.path.exception.PathException;
 import domain.piece.Piece;
@@ -11,10 +14,12 @@ import domain.point.Point;
 import fixture.TestIntersectionGenerator;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static domain.move.directions.exception.DirectionError.INVALID_DIRECTION;
 import static domain.move.path.exception.PathError.*;
 
 class CannonMoveRuleTest {
@@ -261,6 +266,207 @@ class CannonMoveRuleTest {
         // then
         Assertions.assertThat(actual)
                 .isEqualTo(expected);
+    }
+
+    @Nested
+    @DisplayName("포의 궁성 내 대각선 이동 테스트")
+    class CannonPalaceDiagonalMoveTest {
+
+        @Test
+        @DisplayName("포가 좌하(9, 3)에서 우상(7, 5)으로 이동할 수 있다.")
+        void cannonCanMoveRightUpTwiceWhenCannonInLeftBottomPalace() {
+            // given
+            Piece cannon = new Piece(Team.CHO, PieceType.CANNON);
+            Piece soldier = new Piece(Team.CHO, PieceType.SOLDIER);
+
+            Point leftBottomPoint = new Point(9, 3);
+            Point centerPoint = leftBottomPoint.next(Vector.RIGHT_UP);
+            Point destinationPoint = centerPoint.next(Vector.RIGHT_UP);
+
+            Intersection leftBottomPalace = new LeftBottomPalace(leftBottomPoint, cannon);
+            Intersection centerPalaceHasObstacle = new CenterPalace(centerPoint, soldier);
+            Intersection rightTopPalace = RightTopPalace.empty(destinationPoint);
+            Intersection expected = new RightTopPalace(destinationPoint, cannon);
+
+            JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
+                    leftBottomPalace,
+                    centerPalaceHasObstacle,
+                    rightTopPalace
+            )));
+
+            // when
+            janggiBoard.tryToMove(leftBottomPoint, destinationPoint, Team.CHO);
+
+            // then
+            Assertions.assertThat(janggiBoard.findIntersection(destinationPoint))
+                    .isEqualTo(expected);
+        }
+
+        @Test
+        @DisplayName("포가 좌상(7, 3)에서 우하(9, 5)로 이동할 수 있다.")
+        void cannonCanMoveRightDownTwiceWhenCannonInLeftTopPalace() {
+            // given
+            Piece cannon = new Piece(Team.CHO, PieceType.CANNON);
+            Piece soldier = new Piece(Team.CHO, PieceType.SOLDIER);
+
+            Point leftTopPoint = new Point(7, 3);
+            Point centerPoint = leftTopPoint.next(Vector.RIGHT_DOWN);
+            Point destinationPoint = centerPoint.next(Vector.RIGHT_DOWN);
+
+            Intersection leftTopPalace = new LeftTopPalace(leftTopPoint, cannon);
+            Intersection centerPalaceHasObstacle = new CenterPalace(centerPoint, soldier);
+            Intersection rightBottomPalace = RightBottomPalace.empty(destinationPoint);
+            Intersection expected = new RightBottomPalace(destinationPoint, cannon);
+
+            JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
+                    leftTopPalace,
+                    centerPalaceHasObstacle,
+                    rightBottomPalace
+            )));
+
+            // when
+            janggiBoard.tryToMove(leftTopPoint, destinationPoint, Team.CHO);
+
+            // then
+            Assertions.assertThat(janggiBoard.findIntersection(destinationPoint))
+                    .isEqualTo(expected);
+        }
+
+        @Test
+        @DisplayName("포가 우상(7, 5)에서 좌하(9, 3)로 이동할 수 있다.")
+        void cannonCanMoveLeftDownTwiceWhenCannonInRightTopPalace() {
+            // given
+            Piece cannon = new Piece(Team.CHO, PieceType.CANNON);
+            Piece soldier = new Piece(Team.CHO, PieceType.SOLDIER);
+
+            Point rightTopPoint = new Point(7, 5);
+            Point centerPoint = rightTopPoint.next(Vector.LEFT_DOWN);
+            Point destinationPoint = centerPoint.next(Vector.LEFT_DOWN);
+
+            Intersection rightTopPalace = new RightTopPalace(rightTopPoint, cannon);
+            Intersection centerPalaceHasObstacle = new CenterPalace(centerPoint, soldier);
+            Intersection leftBottomPalace = LeftBottomPalace.empty(destinationPoint);
+            Intersection expected = new LeftBottomPalace(destinationPoint, cannon);
+
+            JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
+                    rightTopPalace,
+                    centerPalaceHasObstacle,
+                    leftBottomPalace
+            )));
+
+            // when
+            janggiBoard.tryToMove(rightTopPoint, destinationPoint, Team.CHO);
+
+            // then
+            Assertions.assertThat(janggiBoard.findIntersection(destinationPoint))
+                    .isEqualTo(expected);
+        }
+
+        @Test
+        @DisplayName("포가 우하(9, 5)에서 좌상(7, 3)으로 이동할 수 있다.")
+        void cannonCanMoveLeftUpTwiceWhenCannonInRightBottomPalace() {
+            // given
+            Piece cannon = new Piece(Team.CHO, PieceType.CANNON);
+            Piece soldier = new Piece(Team.CHO, PieceType.SOLDIER);
+
+            Point rightBottomPoint = new Point(9, 5);
+            Point centerPoint = rightBottomPoint.next(Vector.LEFT_UP);
+            Point destinationPoint = centerPoint.next(Vector.LEFT_UP);
+
+            Intersection rightBottomPalace = new RightBottomPalace(rightBottomPoint, cannon);
+            Intersection centerPalaceHasObstacle = new CenterPalace(centerPoint, soldier);
+            Intersection leftTopPalace = LeftTopPalace.empty(destinationPoint);
+            Intersection expected = new LeftTopPalace(destinationPoint, cannon);
+
+            JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
+                    rightBottomPalace,
+                    centerPalaceHasObstacle,
+                    leftTopPalace
+            )));
+
+            // when
+            janggiBoard.tryToMove(rightBottomPoint, destinationPoint, Team.CHO);
+
+            // then
+            Assertions.assertThat(janggiBoard.findIntersection(destinationPoint))
+                    .isEqualTo(expected);
+        }
+    }
+
+    @Test
+    @DisplayName("장애물이 없다면 포가 좌하(9, 3)에서 우상(7, 5)으로 이동할 수 없다.")
+    void cannonCanNotMoveRightUpTwiceWhenCannonInLeftBottomPalaceButNoObstacle() {
+        // given
+        Piece cannon = new Piece(Team.CHO, PieceType.CANNON);
+
+        Point leftBottomPoint = new Point(9, 3);
+        Point centerPoint = leftBottomPoint.next(Vector.RIGHT_UP);
+        Point destinationPoint = centerPoint.next(Vector.RIGHT_UP);
+
+        Intersection leftBottomPalace = new LeftBottomPalace(leftBottomPoint, cannon);
+        Intersection emptyCenterPalace = RightTopPalace.empty(centerPoint);
+        Intersection rightTopPalace = RightTopPalace.empty(destinationPoint);
+
+        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
+                leftBottomPalace,
+                emptyCenterPalace,
+                rightTopPalace
+        )));
+
+        // when & then
+        Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(leftBottomPoint, destinationPoint, Team.CHO))
+                .isInstanceOf(PathException.class)
+                .hasMessage(CANNON_MUST_JUMP_ONE_PIECE.getMessage());
+    }
+
+    @Test
+    @DisplayName("장애물이 없다면 포가 좌하(9, 3)에서 가운데(8, 4)으로 이동할 수 없다.")
+    void cannonCanNotMoveRightUpOnceWhenCannonInLeftBottomPalace() {
+        // given
+        Piece cannon = new Piece(Team.CHO, PieceType.CANNON);
+
+        Point leftBottomPoint = new Point(9, 3);
+        Point centerPoint = leftBottomPoint.next(Vector.RIGHT_UP);
+
+        Intersection leftBottomPalace = new LeftBottomPalace(leftBottomPoint, cannon);
+        Intersection emptyCenterPalace = RightTopPalace.empty(centerPoint);
+
+        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
+                leftBottomPalace,
+                emptyCenterPalace
+        )));
+
+        // when & then
+        Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(leftBottomPoint, centerPoint, Team.CHO))
+                .isInstanceOf(PathException.class)
+                .hasMessage(CANNON_MUST_JUMP_ONE_PIECE.getMessage());
+    }
+
+    @Test
+    @DisplayName("포가 우하(9, 5)에서 일반 격자점 우상(7, 7)으로 대각선 이동할 수 없다.")
+    void cannonCanNotMoveRightUpTwiceWhenCannonInRightBottomPalace() {
+        // given
+        Piece cannon = new Piece(Team.CHO, PieceType.CANNON);
+        Piece soldier = new Piece(Team.CHO, PieceType.SOLDIER);
+
+        Point rightBottomPoint = new Point(9, 5);
+        Point rightUpPoint = rightBottomPoint.next(Vector.RIGHT_UP);
+        Point destinationPoint = rightUpPoint.next(Vector.RIGHT_UP);
+
+        Intersection rightBottomPalace = new RightBottomPalace(rightBottomPoint, cannon);
+        Intersection hasObstacleButNormalIntersection = new NormalIntersection(rightUpPoint, soldier);
+        Intersection normalDestination = NormalIntersection.empty(destinationPoint);
+
+        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
+                rightBottomPalace,
+                hasObstacleButNormalIntersection,
+                normalDestination
+        )));
+
+        // when & then
+        Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(rightBottomPoint, destinationPoint, Team.CHO))
+                .isInstanceOf(DirectionException.class)
+                .hasMessage(INVALID_DIRECTION.getMessage());
     }
 
 }
