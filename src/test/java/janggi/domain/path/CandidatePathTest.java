@@ -1,10 +1,8 @@
-package janggi.domain.piece.path;
+package janggi.domain.path;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.point.Point;
-import janggi.domain.path.CandidatePath;
-import janggi.domain.path.Direction;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;

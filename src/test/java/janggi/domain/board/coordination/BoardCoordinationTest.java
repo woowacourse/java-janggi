@@ -1,9 +1,7 @@
-package janggi.domain.board;
+package janggi.domain.board.coordination;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.board.coordination.BoardCoordination;
-import janggi.domain.board.coordination.Coordination;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
