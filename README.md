@@ -221,3 +221,7 @@
 ## JdbcTemplate
 
 - [x] Jdbc를 사용하는 과정에서 발생하는 공통된 로직을 공통으로 관리한다
+
+## PieceSaveDao && PieceJdbcRepository
+
+- [ ] JdbcTemplate을 이용하여 Piece의 정보를 Database에 저장한다
