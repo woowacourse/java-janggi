@@ -38,11 +38,10 @@ public class Board {
         Piece toPiece = state.get(to);
 
         validateMoveBySide(side, fromPiece, toPiece);
+        validateCanMove(from, to, side, fromPiece);
 
-        if (fromPiece.canMove(adjustStateBySide(side), adjustPositionBySide(side, from), adjustPositionBySide(side, to))) {
-            state.put(to, fromPiece);
-            state.remove(from);
-        }
+        state.put(to, fromPiece);
+        state.remove(from);
     }
 
     public void placePieces(Side side, Placement placement) {
@@ -126,6 +125,12 @@ public class Board {
     private static void validateMoveBySide(Side side, Piece fromPiece, Piece toPiece) {
         validateCanMoveSameSidePiece(side, fromPiece);
         validateCanCatchSameSidePiece(side, toPiece);
+    }
+
+    private void validateCanMove(Position from, Position to, Side side, Piece fromPiece) {
+        if (!fromPiece.canMove(adjustStateBySide(side), adjustPositionBySide(side, from), adjustPositionBySide(side, to))) {
+            throw new IllegalArgumentException("움직일 수 없습니다.");
+        }
     }
 
     private static void validateCanMoveSameSidePiece(Side side, Piece fromPiece) {
