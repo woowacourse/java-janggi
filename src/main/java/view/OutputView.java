@@ -57,6 +57,10 @@ public class OutputView {
         printLine();
     }
 
+    public static void printError(String error) {
+        System.out.println(error);
+    }
+
     private static void printColumn(int row, Board board) {
         for (int col = MIN_COL_RANGE; col <= MAX_COL_RANGE; col++) {
             Position position = Position.of(row, col);

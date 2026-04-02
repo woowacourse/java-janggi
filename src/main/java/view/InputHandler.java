@@ -12,7 +12,7 @@ public class InputHandler {
             try {
                 return supplier.get();
             } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
+                OutputView.printError(e.getMessage());
             }
         }
     }
@@ -21,9 +21,9 @@ public class InputHandler {
         while (true) {
             try {
                 callback.run();
-                return ;
+                return;
             } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
+                OutputView.printError(e.getMessage());
             }
         }
     }
