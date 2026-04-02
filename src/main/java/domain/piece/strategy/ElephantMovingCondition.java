@@ -43,7 +43,7 @@ public class ElephantMovingCondition implements MovingCondition {
             return false;
         }
         Position nextPosition = startPosition.append(nextDirection);
-        return !isBlocked(state, nextPosition);
+        return isNotBlocked(state, nextPosition);
     }
 
     private boolean canSecondStep(Map<Position, Piece> state, Position firstPosition, Direction firstDirection, Direction secondDirection) {
@@ -51,14 +51,14 @@ public class ElephantMovingCondition implements MovingCondition {
             return false;
         }
         Position secondPosition = firstPosition.append(secondDirection);
-        return !isBlocked(state, secondPosition);
+        return isNotBlocked(state, secondPosition);
     }
 
     private boolean canLastStep(Queue<Direction> directions, Direction secondDirection) {
         return directions.poll() == secondDirection;
     }
 
-    private boolean isBlocked(Map<Position, Piece> state, Position position) {
-        return state.containsKey(position);
+    private boolean isNotBlocked(Map<Position, Piece> state, Position position) {
+        return !state.containsKey(position);
     }
 }
