@@ -21,7 +21,7 @@ class PalacePieceMoveStrategyTest {
     }
 
     @ParameterizedTest
-    @MethodSource("nonMovableDirectionsOfSide")
+    @MethodSource("nonMovableDirectionsOfWestSide")
     @DisplayName("장, 사는 면에서는 대각선으로 이동할 수 없어야 한다.")
     void palace_piece_side_move_test_negative(Position palacePiecePosition, Position wrongTarget) {
         PalacePieceMoveStrategy moveStrategy = PalacePieceMoveStrategy.of(palacePiecePosition);
@@ -74,7 +74,7 @@ class PalacePieceMoveStrategyTest {
         );
     }
 
-    private static Stream<Arguments> nonMovableDirectionsOfSide() {
+    private static Stream<Arguments> nonMovableDirectionsOfWestSide() {
         Position westSide = Position.of(1,3);
         return Stream.of(
                 Arguments.arguments(westSide, westSide.downCrossRight()),
