@@ -1,6 +1,7 @@
 package domain.player;
 
 import common.exception.JanggiException;
+import domain.piece.BasicPiece;
 import domain.piece.Piece;
 
 public final class Player {
@@ -16,7 +17,7 @@ public final class Player {
         return playerProfile.hasName(name);
     }
 
-    public boolean isDifferentTeam(Piece piece) {
+    public boolean isDifferentTeam(BasicPiece piece) {
         return piece.isDifferentTeam(playerProfile.team());
     }
 

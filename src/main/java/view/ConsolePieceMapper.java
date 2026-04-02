@@ -1,6 +1,6 @@
 package view;
 
-import domain.piece.Piece;
+import domain.piece.BasicPiece;
 import domain.piece.PieceType;
 import java.util.EnumMap;
 import java.util.Map;
@@ -23,7 +23,7 @@ public class ConsolePieceMapper {
         SYMBOLS.put(PieceType.JOL, "ZO");
     }
 
-    public static String toViewString(Piece piece) {
+    public static String toViewString(BasicPiece piece) {
         String symbol = SYMBOLS.getOrDefault(piece.getPieceType(), "  ");
 
         if (piece.getTeam().isCho()) {

@@ -4,6 +4,7 @@ import static domain.piece.PieceType.MA;
 import static domain.piece.PieceType.SANG;
 
 import common.exception.JanggiException;
+import domain.piece.BasicPiece;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.player.Team;
@@ -34,7 +35,7 @@ public enum Formation {
                 .orElseThrow(() -> new JanggiException("1에서 4까지 숫자만 입력해주세요. 입력값: %s".formatted(inputNumber)));
     }
 
-    public void putFormation(Map<Position, Piece> board, Team team) {
+    public void putFormation(Map<Position, BasicPiece> board, Team team) {
         List<Integer> columnPositions = List.of(1, 2, 6, 7);
 
         for (int i = 0; i < formation.size(); i++) {

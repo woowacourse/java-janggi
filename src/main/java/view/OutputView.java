@@ -6,6 +6,7 @@ import static common.Constants.MIN_COLUMN;
 import static common.Constants.MIN_ROW;
 
 import domain.board.Board;
+import domain.piece.BasicPiece;
 import domain.player.PlayerProfile;
 import domain.position.Position;
 
@@ -46,8 +47,9 @@ public class OutputView {
         sb.append(String.format("%3d   ", row));
         for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
             Position position = new Position(row, column);
-            if (board.hasPiece(position)) {
-                sb.append(ConsolePieceMapper.toViewString(board.findPiece(position)));
+            BasicPiece piece = board.findPiece(position);
+            if (!piece.isNone()) {
+                sb.append(ConsolePieceMapper.toViewString(piece));
             } else {
                 sb.append(ConsolePieceMapper.toEmptyString());
             }

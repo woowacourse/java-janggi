@@ -6,8 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import common.exception.JanggiException;
+import domain.piece.BasicPiece;
 import domain.piece.Cha;
-import domain.piece.Piece;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
@@ -34,8 +34,8 @@ class PlayerTest {
     @Test
     void 기물과_플레이어의_팀이_다름을_확인한다() {
         Player player = new Player(new Name("p1"), Team.CHO);
-        Piece hanPiece = new Cha(Team.HAN);
-        Piece choPiece = new Cha(Team.CHO);
+        BasicPiece hanPiece = new Cha(Team.HAN);
+        BasicPiece choPiece = new Cha(Team.CHO);
 
         assertTrue(player.isDifferentTeam(hanPiece));
         assertFalse(player.isDifferentTeam(choPiece));

@@ -3,8 +3,9 @@ package domain.board;
 import static domain.piece.PieceType.MA;
 import static domain.piece.PieceType.SANG;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
-import domain.piece.Piece;
+import domain.piece.BasicPiece;
 import domain.piece.PieceType;
 import domain.player.Team;
 import domain.position.Position;
@@ -35,7 +36,8 @@ class BoardFactoryTest {
     }
 
     private void assertPiece(Board board, int row, int column, Team expectedTeam, PieceType expectedPieceType) {
-        Piece piece = board.findPiece(new Position(row, column));
+        BasicPiece piece = board.findPiece(new Position(row, column));
+        assertFalse(piece.isNone());
         assertEquals(expectedTeam, piece.getTeam());
         assertEquals(expectedPieceType, piece.getPieceType());
     }

@@ -1,7 +1,9 @@
 package domain.board;
 
 import common.exception.JanggiException;
-import domain.piece.Piece;
+import domain.piece.BasicPiece;
+import domain.piece.MovablePiece;
+import domain.piece.None;
 import domain.player.Player;
 import domain.position.Path;
 import domain.position.Position;
@@ -9,45 +11,39 @@ import java.util.List;
 import java.util.Map;
 
 public class Board {
-    private final Map<Position, Piece> board;
+    private final Map<Position, BasicPiece> board;
 
-    public Board(Map<Position, Piece> board) {
+    public Board(Map<Position, BasicPiece> board) {
         this.board = board;
     }
 
     public void move(Position source, Position destination, Player player) {
         validateSource(source, player);
-        Piece movePiece = findPiece(source);
+        BasicPiece movePiece = findPiece(source);
 
-        validateMovement(movePiece, source, destination);
+        validateMovement((MovablePiece) movePiece, source, destination);
 
-        board.remove(source);
+        board.put(source, None.getInstance());
         board.put(destination, movePiece);
     }
 
-    public boolean hasPiece(Position position) {
-        return board.containsKey(position);
-    }
-
-    public Piece findPiece(Position position) {
-        if (!hasPiece(position)) {
-            throw new JanggiException("비어있는 곳입니다.");
-        }
+    public BasicPiece findPiece(Position position) {
         return board.get(position);
     }
 
     public void validateSource(Position source, Player player) {
-        if (!hasPiece(source)) {
+        BasicPiece piece = findPiece(source);
+
+        if (piece.isNone()) {
             throw new JanggiException("비어있는 곳입니다.");
         }
-        Piece piece = findPiece(source);
 
         if (player.isDifferentTeam(piece)) {
             throw new JanggiException("자신의 기물이 아닙니다.");
         }
     }
 
-    private void validateMovement(Piece piece, Position source, Position destination) {
+    private void validateMovement(MovablePiece piece, Position source, Position destination) {
         Path path = piece.calculatePath(source, destination);
         PathPieces pathPieces = createPathPieces(piece, path);
         if (!piece.validatePath(pathPieces)) {
@@ -55,15 +51,16 @@ public class Board {
         }
     }
 
-    private PathPieces createPathPieces(Piece sourcePiece, Path path) {
-        List<Piece> pieces = path.waypoints().stream()
-                .filter(this::hasPiece)
+    private PathPieces createPathPieces(MovablePiece sourcePiece, Path path) {
+        List<BasicPiece> pieces = path.waypoints().stream()
                 .map(this::findPiece)
+                .filter(piece -> !piece.isNone())
                 .toList();
 
-        if (hasPiece(path.destination())) {
-            return new PathPieces(sourcePiece, pieces, findPiece(path.destination()));
+        BasicPiece destinationPiece = findPiece(path.destination());
+        if (destinationPiece.isNone()) {
+            return new PathPieces(sourcePiece, pieces);
         }
-        return new PathPieces(sourcePiece, pieces);
+        return new PathPieces(sourcePiece, pieces, (MovablePiece) destinationPiece);
     }
 }
