@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.UnaryOperator;
 
-
 public class CannonMoveStrategy extends MoveStrategy {
 
     private CannonMoveStrategy(Position position) {

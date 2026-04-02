@@ -3,7 +3,6 @@ package domain.moverule;
 import domain.MoveRules;
 import domain.Position;
 import java.util.List;
-import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
 public enum GreenSoldierMoveRule implements MoveRules {
