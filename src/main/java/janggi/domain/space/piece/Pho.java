@@ -76,10 +76,18 @@ public class Pho extends Piece {
     }
 
     private boolean isMovable(Position from, Position to) {
+        return isStraightMove(from, to) || isDigonalMove(from, to);
+    }
+
+    private boolean isStraightMove(Position from, Position to) {
         int dx = from.deltaX(to);
         int dy = from.deltaY(to);
 
         return (Math.abs(dx) == 0 && Math.abs(dy) > 1) ||
                 (Math.abs(dx) > 1 && Math.abs(dy) == 0);
+    }
+
+    private boolean isDigonalMove(Position from, Position to) {
+        return from.isDiagonalMoveInCastle(to);
     }
 }
