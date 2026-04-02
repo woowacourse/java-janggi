@@ -1,15 +1,11 @@
 package domain.piece;
 
-import domain.game.Turn;
-
 public enum Team {
 
     CHO(true),
     HAN(false),
     NONE(false),
     ;
-
-    private static final String ERROR_NOT_SAME_TEAM = "본인의 진영의 기물이 아닙니다.";
 
     private final boolean isCho;
 

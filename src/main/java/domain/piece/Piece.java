@@ -1,7 +1,6 @@
 package domain.piece;
 
 import domain.coordination.Coordination;
-import domain.game.Turn;
 import domain.piece.error.PieceException;
 import java.util.Map;
 
@@ -23,12 +22,6 @@ public abstract class Piece {
         return false;
     }
 
-    public void validateNotSameTeam(Piece piece) {
-        if (!isEmptyPiece(piece) && piece.isSameTeam(this.team)) {
-            throw new PieceException(IMPOSSIBLE_MOVE);
-        }
-    }
-
     public boolean isSameTeam(Team team) {
         return this.team.equals(team);
     }
@@ -37,6 +30,12 @@ public abstract class Piece {
         Piece fromPiece = board.get(from);
         Piece toPiece = board.get(to);
         fromPiece.validateNotSameTeam(toPiece);
+    }
+
+    private void validateNotSameTeam(Piece piece) {
+        if (!isEmptyPiece(piece) && piece.isSameTeam(this.team)) {
+            throw new PieceException(IMPOSSIBLE_MOVE);
+        }
     }
 
     private boolean isEmptyPiece(Piece piece) {

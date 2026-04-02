@@ -4,8 +4,8 @@ import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.formation.FormationType;
 import domain.coordination.Coordination;
-import view.dto.BoardDto;
 import java.util.List;
+import view.dto.BoardDto;
 
 public class JanggiGame {
 
@@ -42,6 +42,6 @@ public class JanggiGame {
     }
 
     public void checkSameTeam(List<Integer> pieceLocation, Turn turn) {
-        board.checkSameTeam(pieceLocation, turn);
+        board.checkSameTeam(Coordination.of(pieceLocation.get(0), pieceLocation.get(1)), turn);
     }
 }
