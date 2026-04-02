@@ -141,7 +141,6 @@ public class BoardTest {
         // then
         Piece piece = board.findBy(Position.of(4, 9));
         assertThat(piece).isEqualTo(Piece.of(Side.HAN, PieceType.CHARIOT));
-
     }
 
     @Test
