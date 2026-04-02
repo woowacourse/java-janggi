@@ -1,9 +1,9 @@
 package janggi.view;
 
-import janggi.exception.EmptyCoordinateException;
-import janggi.exception.EmptyInputException;
-import janggi.exception.InvalidDelimiterException;
-import janggi.exception.NonNumericInputException;
+import janggi.exception.input.EmptyCoordinateException;
+import janggi.exception.input.EmptyInputException;
+import janggi.exception.input.InvalidDelimiterException;
+import janggi.exception.input.NonNumericInputException;
 
 import java.util.ArrayList;
 import java.util.Arrays;

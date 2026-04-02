@@ -7,7 +7,8 @@ import janggi.domain.position.Position;
 import janggi.domain.position.Row;
 import janggi.domain.Team;
 import janggi.dto.BoardDto;
-import janggi.exception.BusinessException;
+import janggi.exception.business.BusinessException;
+import janggi.exception.input.InputException;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 
@@ -44,8 +45,12 @@ public class Controller {
                     currentTeam = currentTeam.switchTeam();
                     break;
 
+                } catch (InputException e) {
+                    outputView.printInputErrorMessage(e.getMessage());
                 } catch (BusinessException e) {
-                    outputView.printErrorMessage(e.getMessage());
+                    outputView.printBusinessErrorMessage(e.getMessage());
+                } catch (Exception e) {
+                    outputView.printUndefinedErrorMessage();
                 }
             }
         }

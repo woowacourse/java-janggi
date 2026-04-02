@@ -25,8 +25,16 @@ public class OutputView {
         System.out.println();
     }
 
-    public void printErrorMessage(String errorMessage) {
-        System.out.println(errorMessage);
+    public void printBusinessErrorMessage(String errorMessage) {
+        System.out.println("[ERROR] " + errorMessage);
+    }
+
+    public void printInputErrorMessage(String errorMessage) {
+        System.out.println("[WARNING] " + errorMessage);
+    }
+
+    public void printUndefinedErrorMessage() {
+        System.out.println("[FATAL] 예상치 못한 시스템 오류가 발생했습니다.");
     }
 
     public void printBoard(BoardDto boardDto) {

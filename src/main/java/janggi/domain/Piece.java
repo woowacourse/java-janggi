@@ -2,7 +2,7 @@ package janggi.domain;
 
 import janggi.domain.movestrategy.MoveStrategy;
 import janggi.domain.position.Position;
-import janggi.exception.InvalidMoveException;
+import janggi.exception.business.InvalidMoveException;
 
 import java.util.Objects;
 

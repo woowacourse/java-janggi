@@ -5,7 +5,7 @@ import janggi.domain.movestrategy.MoveStrategy;
 import janggi.domain.position.Column;
 import janggi.domain.position.Position;
 import janggi.domain.position.Row;
-import janggi.exception.InvalidMoveException;
+import janggi.exception.business.InvalidMoveException;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;

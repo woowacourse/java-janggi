@@ -1,4 +1,4 @@
-package janggi.exception;
+package janggi.exception.business;
 
 public class RowOutOfRangeException extends BusinessException {
     public RowOutOfRangeException() {

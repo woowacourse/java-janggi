@@ -1,7 +1,7 @@
 package janggi.domain;
 
 import janggi.domain.position.Position;
-import janggi.exception.EmptyPositionException;
+import janggi.exception.business.EmptyPositionException;
 
 import java.util.HashMap;
 import java.util.Map;
