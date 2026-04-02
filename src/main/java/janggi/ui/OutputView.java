@@ -37,6 +37,12 @@ public class OutputView {
         System.out.println();
     }
 
+    public static void printScore(int choScore, int hanScore) {
+        System.out.println("최종 점수");
+        System.out.println("초 : " + choScore);
+        System.out.println("한 : " + hanScore);
+    }
+
     private static void printGameSummary(GameSummary gameSummary) {
         System.out.println(
                 gameSummary.id() + "번 게임 - " + gameStatus(gameSummary)

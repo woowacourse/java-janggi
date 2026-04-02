@@ -1,5 +1,6 @@
 package janggi;
 
+import janggi.domain.status.Team;
 import janggi.repository.CsvInitialBoardProvider;
 import janggi.repository.GameRepository;
 import janggi.repository.InitialBoardProvider;
@@ -64,5 +65,6 @@ public class JanggiApplication {
             OutputView.printGameStatus(GameStatusInfo.from(janggiGame.getBoardStatus()));
         }
         OutputView.printWinner(janggiGame.getWinner());
+        OutputView.printScore(janggiGame.scoreOf(Team.CHO), janggiGame.scoreOf(Team.HAN));
     }
 }
