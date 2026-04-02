@@ -13,15 +13,9 @@ public abstract class ActivePiece implements Piece {
         this.type = type;
     }
 
-    private boolean isSameTeam(ActivePiece other) {
-        return this.team == other.team;
-    }
-
+    @Override
     public boolean isAlly(Piece other) {
-        if (!(other instanceof ActivePiece)) {
-            return false;
-        }
-        return isSameTeam((ActivePiece) other);
+        return other instanceof ActivePiece activePiece && this.team == activePiece.team;
     }
 
     protected int forwardDirection() {
