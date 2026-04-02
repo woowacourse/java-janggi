@@ -12,7 +12,7 @@ public class CanonMovingCondition implements MovingCondition {
     public boolean canMove(Map<Position, Piece> state, Position startPosition, Position endPosition) {
         Directions directions = Directions.between(startPosition, endPosition);
 
-        if (!directions.isStraightDirection()) {
+        if (!directions.checkAllDirectionIsStraight()) {
             return false;
         }
         return hasValidCanonPath(state, endPosition, new LinePath(startPosition, directions));

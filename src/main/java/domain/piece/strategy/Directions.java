@@ -16,8 +16,12 @@ public class Directions {
         return new Directions(Direction.of(startPosition, endPosition));
     }
 
-    public boolean isStraightDirection() {
-        return !directions.isEmpty() && directions.peek().isStraight();
+    public boolean checkAllDirectionIsStraight() {
+        Direction standardDirection = directions.peek();
+        if (!directions.isEmpty() && !standardDirection.isStraight()) {
+            return false;
+        }
+        return directions.stream().allMatch(direction -> direction.isSameDirection(standardDirection));
     }
 
     public boolean hasNext() {

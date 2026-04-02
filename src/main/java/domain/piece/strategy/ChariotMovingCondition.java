@@ -10,7 +10,7 @@ public class ChariotMovingCondition implements MovingCondition {
     @Override
     public boolean canMove(Map<Position, Piece> state, Position startPosition, Position endPosition) {
         Directions directions = Directions.between(startPosition, endPosition);
-        if (!directions.isStraightDirection()) {
+        if (!directions.checkAllDirectionIsStraight()) {
             return false;
         }
         return hasValidChariotPath(state, endPosition, new LinePath(startPosition, directions));
