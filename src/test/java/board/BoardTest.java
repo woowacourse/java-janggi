@@ -1,9 +1,7 @@
 package board;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
@@ -75,38 +73,12 @@ class BoardTest {
     }
 
     @Test
-    void 중복이_없는_두_보드를_합친다() {
+    void 궁() {
         // given
-        Map<Position, Piece> choPieces = Map.of(
-            new Position(1, 1), new Piece(Side.CHO, PieceType.CHA)
-        );
-        Map<Position, Piece> hanPieces = Map.of(
-            new Position(1, 2), new Piece(Side.HAN, PieceType.CHA)
-        );
-        Board choBoard = new Board(choPieces);
-        Board hanBoard = new Board(hanPieces);
-        // when
-        Board mergedBoard = choBoard.merge(hanBoard);
-        // then
-        Map<Position, Piece> expected = new HashMap<>();
-        expected.putAll(choPieces);
-        expected.putAll(hanPieces);
-        assertThat(mergedBoard.pieces()).isEqualTo(expected);
-    }
 
-    @Test
-    void 중복이_있는_두_보드를_합치는_경우_예외를_던진다() {
-        // given
-        Map<Position, Piece> choPieces = Map.of(
-            new Position(1, 1), new Piece(Side.CHO, PieceType.CHA)
-        );
-        Map<Position, Piece> hanPieces = Map.of(
-            new Position(1, 1), new Piece(Side.HAN, PieceType.CHA)
-        );
-        Board choBoard = new Board(choPieces);
-        Board hanBoard = new Board(hanPieces);
-        // when & then
-        assertThatThrownBy(() -> choBoard.merge(hanBoard))
-            .isInstanceOf(IllegalArgumentException.class);
+        // when
+
+        // then
+
     }
 }

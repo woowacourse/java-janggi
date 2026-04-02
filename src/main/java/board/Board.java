@@ -16,20 +16,6 @@ public record Board(Map<Position, Piece> pieces) {
         return Map.copyOf(pieces);
     }
 
-    public Board merge(Board other) {
-        Map<Position, Piece> merged = new HashMap<>(pieces);
-        other.pieces
-            .forEach((position, piece) -> put(position, piece, merged));
-        return new Board(merged);
-    }
-
-    private void put(Position position, Piece piece, Map<Position, Piece> merged) {
-        if (merged.containsKey(position)) {
-            throw new IllegalArgumentException("이미 기물이 존재하는 위치입니다.");
-        }
-        merged.put(position, piece);
-    }
-
     public void validateDeparturePiece(Position departure, Turn turn) {
         Piece movingPiece = requirePieceAt(departure);
         if (!movingPiece.isSameSide(turn.getSide())) {

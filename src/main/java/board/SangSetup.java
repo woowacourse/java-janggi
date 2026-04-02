@@ -12,11 +12,18 @@ public final class SangSetup {
     private static final int BOARD_ROW_SIZE = 9;
     private static final int BOARD_COLUMN_SIZE = 8;
 
-    public static Board initialize(SangSetupType setupType, Side side) {
-        Map<Position, Piece> board = new HashMap<>();
-        putDefaultPieces(board, side);
-        board.putAll(createSangMa(setupType, side));
-        return new Board(board);
+    public static Board initialize(SangSetupType choSetupType, SangSetupType hanSetupType) {
+        Map<Position, Piece> merged = new HashMap<>();
+        merged.putAll(initialize(choSetupType, Side.CHO));
+        merged.putAll(initialize(hanSetupType, Side.HAN));
+        return new Board(merged);
+    }
+
+    private static Map<Position, Piece> initialize(SangSetupType setupType, Side side) {
+        Map<Position, Piece> pieces = new HashMap<>();
+        putDefaultPieces(pieces, side);
+        pieces.putAll(createSangMa(setupType, side));
+        return pieces;
     }
 
     private static void putDefaultPieces(Map<Position, Piece> board, Side side) {

@@ -36,9 +36,7 @@ public class JanggiGame {
     }
 
     public static JanggiGame of(SangSetupType choSangSetup, SangSetupType hanSangSetup) {
-        Board choBoard = SangSetup.initialize(choSangSetup, Side.CHO);
-        Board hanBoard = SangSetup.initialize(hanSangSetup, Side.HAN);
-        return new JanggiGame(choBoard.merge(hanBoard));
+        return new JanggiGame(SangSetup.initialize(choSangSetup, hanSangSetup));
     }
 
     public JanggiGame move(Position departure, Position destination) {
