@@ -24,22 +24,9 @@ public class HorseMoveStrategy implements MoveStrategy {
 
     private void addHorsePaths(Position current, Direction baseDirection, Paths paths) {
         for (Direction diagonalDirection : baseDirection.getAdjacentDiagonals()) {
-            createAndAddSequence(current, baseDirection, diagonalDirection, paths);
+            Path.fromSequence(current, List.of(baseDirection, diagonalDirection))
+                    .ifPresent(paths::addPath);
         }
-    }
-
-    private void createAndAddSequence(Position current, Direction baseDirection, Direction diagonalDirection,
-                                      Paths paths) {
-        // 직선 이동이 가능한지 체크
-        current.tryMove(baseDirection).ifPresent(step1 -> {
-            // 꺾이는 대각선 이동이 가능한지 체크
-            step1.tryMove(diagonalDirection).ifPresent(step2 -> {
-                Path path = new Path();
-                path.add(step1);
-                path.add(step2);
-                paths.addPath(path);
-            });
-        });
     }
 
     @Override
@@ -52,18 +39,18 @@ public class HorseMoveStrategy implements MoveStrategy {
     }
 
     private void validateHorsePath(Path route, Map<Position, Piece> state, List<Position> destinations, Piece me) {
-        Iterator<Position> it = route.iterator();
-        Position transit = it.next(); // 멱 (1번째)
+        Iterator<Position> iterator = route.iterator();
+        Position transit = iterator.next(); // 멱 (1번째)
 
         if (state.get(transit) == null) {
-            addIfValid(it.next(), state, destinations, me); // 도착지 (2번째)
+            addIfValid(iterator.next(), state, destinations, me); // 도착지 (2번째)
         }
     }
 
-    private void addIfValid(Position dest, Map<Position, Piece> state, List<Position> destinations, Piece me) {
-        Piece target = state.get(dest);
+    private void addIfValid(Position destination, Map<Position, Piece> state, List<Position> destinations, Piece me) {
+        Piece target = state.get(destination);
         if (target == null || !target.isSameSide(me)) {
-            destinations.add(dest);
+            destinations.add(destination);
         }
     }
 }

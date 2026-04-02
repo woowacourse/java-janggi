@@ -1,9 +1,11 @@
 package janggi.domain.route;
 
+import janggi.domain.board.Direction;
 import janggi.domain.board.Position;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 public class Path implements Iterable<Position> {
 
@@ -29,5 +31,20 @@ public class Path implements Iterable<Position> {
     @Override
     public String toString() {
         return positions.toString();
+    }
+
+    public static Optional<Path> fromSequence(Position start, List<Direction> sequence) {
+        Path path = new Path();
+        Position current = start;
+
+        for (Direction direction : sequence) {
+            Optional<Position> next = current.tryMove(direction);
+            if (next.isEmpty()) {
+                return Optional.empty();
+            }
+            current = next.get();
+            path.add(current);
+        }
+        return Optional.of(path);
     }
 }

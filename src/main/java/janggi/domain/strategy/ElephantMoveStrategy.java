@@ -10,6 +10,7 @@ import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class ElephantMoveStrategy implements MoveStrategy {
 
@@ -24,26 +25,9 @@ public class ElephantMoveStrategy implements MoveStrategy {
 
     private void addElephantPaths(Position current, Direction baseDirection, Paths paths) {
         for (Direction diagonalDirection : baseDirection.getAdjacentDiagonals()) {
-            createAndAddSequence(current, baseDirection, diagonalDirection, paths);
+            Path.fromSequence(current, List.of(baseDirection, diagonalDirection, diagonalDirection))
+                    .ifPresent(paths::addPath);
         }
-    }
-
-    private void createAndAddSequence(Position current, Direction baseDirection, Direction diagonalDirection,
-                                      Paths paths) {
-        // 직선 이동이 가능한지 체크
-        current.tryMove(baseDirection).ifPresent(step1 -> {
-            // 첫 번째 대각선 이동 가능한지 체크
-            step1.tryMove(diagonalDirection).ifPresent(step2 -> {
-                // 두 번째 대각선 이동 가능한지 체크
-                step2.tryMove(diagonalDirection).ifPresent(step3 -> {
-                    Path path = new Path();
-                    path.add(step1);
-                    path.add(step2);
-                    path.add(step3);
-                    paths.addPath(path);
-                });
-            });
-        });
     }
 
     @Override
