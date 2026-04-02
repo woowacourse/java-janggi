@@ -51,8 +51,7 @@ public class JanggiGame {
 
     private void selectSide() {
         retry(() -> {
-            String input = InputView.inputSideChoice();
-            int sideCode = Parser.parseToSideCode(input);
+            int sideCode = InputView.inputSideChoice();
             Side side = generateSide(sideCode);
             OutputView.printSideChoiceResult(side);
         });
@@ -61,7 +60,6 @@ public class JanggiGame {
     private Side generateSide(int sideCode) {
         List<Side> sides = Arrays.asList(Side.values());
         Collections.shuffle(sides);
-
         return sides.get(sideCode - 1);
     }
 

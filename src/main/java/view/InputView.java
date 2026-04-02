@@ -5,14 +5,18 @@ import java.util.Scanner;
 public class InputView {
     private static final Scanner scanner = new Scanner(System.in);
 
-    public static String inputSideChoice() {
+    public static int inputSideChoice() {
         System.out.println("연장자나 상급자가 양손에 색깔 하나씩을 숨겼습니다.");
         System.out.println("하급자는 왼속, 오른손 중에서 하나 선택해주세요.");
         System.out.println("1. 왼손");
         System.out.println("2. 오른손");
         System.out.println();
 
-        return scanner.nextLine();
+        String inputSideCode = scanner.nextLine();
+        if (!inputSideCode.matches("^[1|2]$")) {
+            throw new IllegalArgumentException("코드는 1, 2만 입력 가능합니다.");
+        }
+        return Integer.parseInt(inputSideCode);
     }
 
     public static String inputHanPlacementCode() {
