@@ -1,4 +1,4 @@
-package janggi.util;
+package janggi.presentation.util;
 
 import janggi.presentation.dto.PositionInfo;
 import java.util.List;

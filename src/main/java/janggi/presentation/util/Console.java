@@ -1,4 +1,4 @@
-package janggi.util;
+package janggi.presentation.util;
 
 import java.util.Scanner;
 

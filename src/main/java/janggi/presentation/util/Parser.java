@@ -1,4 +1,4 @@
-package janggi.util;
+package janggi.presentation.util;
 
 import janggi.domain.point.Point;
 import janggi.domain.status.Team;

@@ -2,8 +2,8 @@ package janggi.presentation.ui;
 
 import janggi.domain.status.Team;
 import janggi.presentation.dto.MoveCommand;
-import janggi.util.Console;
-import janggi.util.Parser;
+import janggi.presentation.util.Console;
+import janggi.presentation.util.Parser;
 import java.util.Map;
 
 public class InputView {
