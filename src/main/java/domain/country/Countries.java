@@ -1,4 +1,4 @@
-package domain;
+package domain.country;
 
 import java.util.ArrayList;
 import java.util.HashMap;

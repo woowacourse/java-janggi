@@ -1,4 +1,4 @@
-package domain;
+package domain.country;
 
 public class Country {
     private final CountryType countryType;

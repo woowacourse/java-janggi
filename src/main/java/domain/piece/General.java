@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.CountryType;
+import domain.country.CountryType;
 
 public class General extends MoveInsidePalacePiece {
     public General(CountryType countryType) {

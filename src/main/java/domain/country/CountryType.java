@@ -1,4 +1,4 @@
-package domain;
+package domain.country;
 
 public enum CountryType {
     HAN,

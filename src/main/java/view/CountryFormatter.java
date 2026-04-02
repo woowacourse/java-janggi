@@ -1,6 +1,6 @@
 package view;
 
-import domain.CountryType;
+import domain.country.CountryType;
 import java.util.Arrays;
 
 public enum CountryFormatter {

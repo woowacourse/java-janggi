@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.CountryType;
+import domain.country.CountryType;
 import domain.Direction;
 import domain.Position;
 import java.util.List;

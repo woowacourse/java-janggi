@@ -1,5 +1,6 @@
-package domain;
+package domain.board;
 
+import domain.country.CountryType;
 import domain.piece.PieceType;
 import java.util.ArrayList;
 import java.util.Arrays;

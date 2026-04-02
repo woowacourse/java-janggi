@@ -1,6 +1,6 @@
 package domain.state;
 
-import domain.CountryType;
+import domain.country.CountryType;
 import domain.piece.Piece;
 import domain.piece.PieceInfo;
 import domain.piece.PieceType;

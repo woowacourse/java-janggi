@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.CountryType;
+import domain.country.CountryType;
 import domain.state.State;
 import java.util.List;
 

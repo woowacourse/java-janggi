@@ -1,5 +1,6 @@
 package domain;
 
+import domain.country.CountryType;
 import java.util.ArrayList;
 import java.util.List;
 

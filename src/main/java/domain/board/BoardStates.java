@@ -1,7 +1,7 @@
 package domain.board;
 
-import domain.Country;
-import domain.CountryType;
+import domain.country.Country;
+import domain.country.CountryType;
 import domain.Path;
 import domain.Position;
 import domain.piece.PieceInfo;

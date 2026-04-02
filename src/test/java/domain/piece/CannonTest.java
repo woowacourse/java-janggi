@@ -3,7 +3,7 @@ package domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import domain.CountryType;
+import domain.country.CountryType;
 import domain.Path;
 import domain.Position;
 import domain.state.EmptyState;

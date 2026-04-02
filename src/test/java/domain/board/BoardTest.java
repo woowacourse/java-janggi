@@ -3,9 +3,8 @@ package domain.board;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import domain.CountryType;
+import domain.country.CountryType;
 import domain.Position;
-import domain.TableSetting;
 import domain.piece.PieceInfo;
 import domain.piece.PieceType;
 import domain.piece.Soldier;

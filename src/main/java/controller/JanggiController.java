@@ -1,8 +1,8 @@
 package controller;
 
-import domain.CountryType;
+import domain.country.CountryType;
 import domain.Position;
-import domain.TableSetting;
+import domain.board.TableSetting;
 import domain.board.Board;
 import domain.board.BoardFactory;
 import java.util.List;
