@@ -1,6 +1,7 @@
 package janggi.model.gimul;
 
 import janggi.model.Team;
+import janggi.model.position.DiagonalDelta;
 import janggi.model.position.Position;
 import janggi.model.position.PositionPath;
 import java.util.List;
@@ -19,8 +20,25 @@ public class Byeong extends AbstractGimul {
     public PositionPath getLegalPath(Position from, Position to) {
         int rowDistance = to.getRowDistance(from);
         int columnDistance = to.getColumnDistance(from);
+
+        if (isPalaceMove(from, to, rowDistance, columnDistance)) {
+            return from.moveDiagonal(new DiagonalDelta(rowDistance, columnDistance)).getMiddlePath();
+        }
+
         validateDistance(rowDistance, columnDistance);
         return calculatePath(from, rowDistance, columnDistance);
+    }
+
+    private boolean isPalaceMove(Position from, Position to, int rowDistance, int columnDistance) {
+        return from.isOnPalaceDiagonal()
+                && to.isOnPalaceDiagonal()
+                && Math.abs(rowDistance) == Math.abs(columnDistance)
+                && !isBackward(rowDistance);
+    }
+
+    private boolean isBackward(int rowDistance) {
+        return (Team.CHO.equals(team) && rowDistance == CHO_BACKWARD)
+                || (Team.HAN.equals(team) && rowDistance == HAN_BACKWARD);
     }
 
     private void validateDistance(int rowDistance, int columnDistance) {

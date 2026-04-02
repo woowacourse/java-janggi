@@ -81,6 +81,43 @@ class ByeongTest {
                 .isEqualTo(0);
     }
 
+    @DisplayName("현재 기물이 궁성 영역에 있을때, 간선 경로를 가져 올 수 있다.")
+    @Test
+    void getLegalPath_inPalace_cho() {
+        //given
+        Position from = new Position(Row.EIGHT, Column.SIX);
+        Position to = new Position(Row.NINE, Column.FIVE);
+        Byeong byeong = new Byeong(Team.HAN);
+
+        //when & then
+        PositionPath positionPath = byeong.getLegalPath(from, to);
+        assertThat(positionPath.stream().count())
+                .isEqualTo(0);
+    }
+
+    @DisplayName("현재 기물이 궁성 영역에 있을때, 간선 경로를 가져 올 수 있다.")
+    @Test
+    void getLegalPath_inPalace_han() {
+        Position from = new Position(Row.THREE, Column.FOUR);
+        Position to = new Position(Row.TWO, Column.FIVE);
+        Byeong byeong = new Byeong(Team.CHO);
+
+        PositionPath positionPath = byeong.getLegalPath(from, to);
+        assertThat(positionPath.stream().count()).isEqualTo(0);
+    }
+
+    @DisplayName("궁성 대각선 선 위에 있지 않으면 대각선으로 이동할 수 없다.")
+    @Test
+    void getLegalPath_palace_not_diagonal() {
+        Position from = new Position(Row.NINE, Column.FOUR);
+        Position to = new Position(Row.EIGHT, Column.FIVE);
+        Byeong byeong = new Byeong(Team.HAN);
+
+        assertThatThrownBy(() -> byeong.getLegalPath(from, to))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("이동할 수 없는 위치입니다.");
+    }
+
     @DisplayName("대각선으로 이동하면 예외가 발생한다.")
     @Test
     void getLegalPath_diagonal() {
