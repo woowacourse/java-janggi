@@ -75,6 +75,12 @@ public class JanggiBoard implements PieceProvider {
     }
 
     @Override
+    public boolean isCannon(Position position) {
+        Piece piece = janggiBoard.get(position);
+        return piece instanceof Cannon;
+    }
+
+    @Override
     public Piece getPiece(Position position) {
         return janggiBoard.get(position);
     }
