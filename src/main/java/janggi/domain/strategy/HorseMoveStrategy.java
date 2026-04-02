@@ -1,0 +1,56 @@
+package janggi.domain.strategy;
+
+import janggi.domain.board.Direction;
+import janggi.domain.piece.Piece;
+import janggi.domain.route.Path;
+import janggi.domain.route.Paths;
+import janggi.domain.board.Position;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+public class HorseMoveStrategy implements MoveStrategy {
+
+    @Override
+    public Paths findMovablePaths(Position current, EnumSet<Direction> baseDirections) {
+        Paths paths = new Paths();
+        for (Direction baseDirection : baseDirections) {
+            addHorsePaths(current, baseDirection, paths);
+        }
+        return paths;
+    }
+
+    private void addHorsePaths(Position current, Direction baseDirection, Paths paths) {
+        for (Direction diagonalDirection : baseDirection.getAdjacentDiagonals()) {
+            Path.fromSequence(current, List.of(baseDirection, diagonalDirection))
+                    .ifPresent(paths::addPath);
+        }
+    }
+
+    @Override
+    public List<Position> determineDestinations(Paths routes, Map<Position, Piece> boardState, Piece movingPiece) {
+        List<Position> destinations = new ArrayList<>();
+        for (Path route : routes) {
+            validateHorsePath(route, boardState, destinations, movingPiece);
+        }
+        return destinations;
+    }
+
+    private void validateHorsePath(Path route, Map<Position, Piece> state, List<Position> destinations, Piece me) {
+        Iterator<Position> iterator = route.iterator();
+        Position transit = iterator.next(); // 멱 (1번째)
+
+        if (state.get(transit) == null) {
+            addIfValid(iterator.next(), state, destinations, me); // 도착지 (2번째)
+        }
+    }
+
+    private void addIfValid(Position destination, Map<Position, Piece> state, List<Position> destinations, Piece me) {
+        Piece target = state.get(destination);
+        if (target == null || !target.isSameSide(me)) {
+            destinations.add(destination);
+        }
+    }
+}
