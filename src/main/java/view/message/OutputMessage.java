@@ -1,4 +1,4 @@
-package message;
+package view.message;
 
 public enum OutputMessage {
 

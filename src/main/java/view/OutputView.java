@@ -2,7 +2,7 @@ package view;
 
 import dto.BoardDto;
 import java.util.List;
-import message.OutputMessage;
+import view.message.OutputMessage;
 
 public class OutputView {
 

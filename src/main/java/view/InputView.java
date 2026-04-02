@@ -1,7 +1,7 @@
 package view;
 
 import java.util.Scanner;
-import message.InputMessage;
+import view.message.InputMessage;
 
 public class InputView {
 

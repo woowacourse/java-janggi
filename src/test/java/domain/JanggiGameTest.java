@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import domain.strategy.HorseMoveStrategy;
 import java.util.HashMap;
 import java.util.Map;
-import message.ErrorMessage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -47,7 +46,7 @@ class JanggiGameTest {
 
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> janggiGame.validatePieceSelection(current))
-                .withMessage(ErrorMessage.OUT_OF_RANGE_JANGGI_BOARD.getMessage());
+                .withMessage("[ERROR] 장기판 범위를 벗어났습니다.");
     }
 
     @Test
@@ -61,11 +60,10 @@ class JanggiGameTest {
         Board board = Board.of(testBoard);
 
         JanggiGame janggiGame = JanggiGame.of(board);
-        String playerGreenTeam = janggiGame.gameStatus();
 
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> janggiGame.validatePieceSelection(current))
-                .withMessage(ErrorMessage.NOT_SAME_TEAM_PIECE.getMessage());
+                .withMessage("[ERROR] 본인의 기물이 아닙니다.");
     }
 
     @Test
