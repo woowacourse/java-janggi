@@ -17,7 +17,8 @@ class StraightMovementTest {
     @Test
     void 지정한_거리_이하로_직선_이동한_경로들을_모두_반환한다() {
         // given
-        StraightMovement straightMovement = new StraightMovement();
+        MoveAmount moveAmount = new MoveAmount(2);
+        StraightMovement straightMovement = new StraightMovement(moveAmount);
 
         int fromRow = 3;
         int fromFile = 4;
@@ -27,14 +28,13 @@ class StraightMovementTest {
         Intersection forwardTwoRow = new Intersection(fromRow + 2, fromFile);
 
         Vector vector = new Vector(1, 0);
-        MoveAmount moveAmount = new MoveAmount(2);
         List<Route> expected = List.of(
                 new Route(List.of(forwardOneRow)),
                 new Route(List.of(forwardOneRow, forwardTwoRow))
         );
 
         // when
-        List<Route> actual = straightMovement.getRoutes(from, moveAmount, vector);
+        List<Route> actual = straightMovement.getRoutes(from, vector);
 
         // then
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
@@ -43,13 +43,13 @@ class StraightMovementTest {
     @Test
     void 이동_거리가_없다면_빈_목록을_반환한다() {
         // given
-        StraightMovement straightMovement = new StraightMovement();
+        MoveAmount zeroMoveAmount = new MoveAmount(0);
+        StraightMovement straightMovement = new StraightMovement(zeroMoveAmount);
 
         Vector vector = Side.HAN.toForward();
-        MoveAmount amount = new MoveAmount(0);
 
         // when
-        List<Route> routes = straightMovement.getRoutes(DEFAULT_INTERSECTION, amount, vector);
+        List<Route> routes = straightMovement.getRoutes(DEFAULT_INTERSECTION, vector);
 
         // then
         assertThat(routes).isEmpty();

@@ -22,11 +22,10 @@ class ForwardAndDiagonalMovementTest {
     })
     void 직진_후_지정된_만큼_대각선으로_이동한_경로를_반환한다(int diagonalAmount) {
         // given
-        ForwardAndDiagonalMovement forwardAndDiagonalMovement = new ForwardAndDiagonalMovement();
+        MoveAmount moveAmount = new MoveAmount(diagonalAmount);
+        ForwardAndDiagonalMovement forwardAndDiagonalMovement = new ForwardAndDiagonalMovement(moveAmount);
 
         Vector forward = new Vector(1, 0);
-        MoveAmount moveAmount = new MoveAmount(diagonalAmount);
-
         Intersection forwardNode = forward.next(START_INTERSECTION);
         Vector leftDiagonal = forward.turnLeft45Degrees();
         Vector rightDiagonal = forward.turnRight45Degrees();
@@ -37,7 +36,7 @@ class ForwardAndDiagonalMovementTest {
         );
 
         // when
-        List<Route> actual = forwardAndDiagonalMovement.getRoutes(START_INTERSECTION, moveAmount, forward);
+        List<Route> actual = forwardAndDiagonalMovement.getRoutes(START_INTERSECTION, forward);
 
         // then
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);

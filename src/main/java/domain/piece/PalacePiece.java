@@ -13,7 +13,7 @@ public abstract class PalacePiece extends StaticPositionedPiece {
 
     private static final MoveAmount FORWARD_AMOUNT = new MoveAmount(1);
 
-    private final StraightMovement movementStrategy = new StraightMovement();
+    private final StraightMovement movementStrategy = new StraightMovement(FORWARD_AMOUNT);
 
     public PalacePiece(Side side) {
         super(side);
@@ -49,7 +49,7 @@ public abstract class PalacePiece extends StaticPositionedPiece {
             Vector vector,
             AlivePieces alivePieces
     ) {
-        return movementStrategy.getRoutes(from, FORWARD_AMOUNT, vector)
+        return movementStrategy.getRoutes(from, vector)
                 .stream()
                 .filter(route -> route.canReachDestinationThroughPath(alivePieces, side))
                 .map(Route::getDestination)

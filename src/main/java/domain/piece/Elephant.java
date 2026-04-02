@@ -1,10 +1,10 @@
 package domain.piece;
 
 import domain.board.Intersection;
+import domain.game.Side;
+import domain.movement.MoveAmount;
 import domain.movement.Route;
 import domain.movement.Vector;
-import domain.movement.MoveAmount;
-import domain.game.Side;
 import domain.movement.strategy.ForwardAndDiagonalMovement;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ public final class Elephant extends Piece {
 
     private static final MoveAmount DIAGONAL_MOVE_AMOUNT = new MoveAmount(2);
 
-    private final ForwardAndDiagonalMovement movementStrategy = new ForwardAndDiagonalMovement();
+    private final ForwardAndDiagonalMovement movementStrategy = new ForwardAndDiagonalMovement(DIAGONAL_MOVE_AMOUNT);
 
     public Elephant(Side side) {
         super(side);
@@ -54,7 +54,7 @@ public final class Elephant extends Piece {
             Vector vector,
             AlivePieces alivePieces
     ) {
-        return movementStrategy.getRoutes(from, DIAGONAL_MOVE_AMOUNT, vector)
+        return movementStrategy.getRoutes(from, vector)
                 .stream()
                 .filter(route -> route.canReachDestinationThroughPath(alivePieces, side))
                 .map(Route::getDestination)

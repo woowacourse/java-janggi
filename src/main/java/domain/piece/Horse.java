@@ -13,7 +13,7 @@ public final class Horse extends Piece {
 
     private static final MoveAmount DIAGONAL_MOVE_AMOUNT = new MoveAmount(1);
 
-    private final ForwardAndDiagonalMovement movementStrategy = new ForwardAndDiagonalMovement();
+    private final ForwardAndDiagonalMovement movementStrategy = new ForwardAndDiagonalMovement(DIAGONAL_MOVE_AMOUNT);
 
     public Horse(Side side) {
         super(side);
@@ -54,7 +54,7 @@ public final class Horse extends Piece {
             Vector vector,
             AlivePieces alivePieces
     ) {
-        return movementStrategy.getRoutes(from, DIAGONAL_MOVE_AMOUNT, vector)
+        return movementStrategy.getRoutes(from, vector)
                 .stream()
                 .filter(route -> route.canReachDestinationThroughPath(alivePieces, side))
                 .map(Route::getDestination)

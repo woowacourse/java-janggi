@@ -9,14 +9,19 @@ import java.util.List;
 
 public class ForwardAndDiagonalMovement {
 
+    private final MoveAmount diagonalMovementAmount;
+
+    public ForwardAndDiagonalMovement(MoveAmount diagonalMovementAmount) {
+        this.diagonalMovementAmount = diagonalMovementAmount;
+    }
+
     public List<Route> getRoutes(
             Intersection from,
-            MoveAmount diagonalMovementAmount,
             Vector vector
     ) {
         Intersection forwardNode = vector.next(from);
-        List<Intersection> leftRoute = moveAsAmount(forwardNode, diagonalMovementAmount, vector.turnLeft45Degrees());
-        List<Intersection> rightRoute = moveAsAmount(forwardNode, diagonalMovementAmount, vector.turnRight45Degrees());
+        List<Intersection> leftRoute = moveAsAmount(forwardNode, vector.turnLeft45Degrees());
+        List<Intersection> rightRoute = moveAsAmount(forwardNode, vector.turnRight45Degrees());
 
         return List.of(
                 new Route(leftRoute),
@@ -26,14 +31,13 @@ public class ForwardAndDiagonalMovement {
 
     private List<Intersection> moveAsAmount(
             Intersection from,
-            MoveAmount moveAmount,
             Vector vector
     ) {
         List<Intersection> intersections = new ArrayList<>();
         intersections.add(from);
 
         Intersection currentIntersection = vector.next(from);
-        for (int i = 0; i < moveAmount.amount(); i++) {
+        for (int i = 0; i < diagonalMovementAmount.amount(); i++) {
             intersections.add(currentIntersection);
             currentIntersection = vector.next(currentIntersection);
         }

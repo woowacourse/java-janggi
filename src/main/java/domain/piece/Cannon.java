@@ -15,7 +15,7 @@ public final class Cannon extends StaticPositionedPiece {
     private static final List<Integer> INITIAL_FILES = List.of(2, 8);
     private static final MoveAmount FORWARDABLE_AMOUNT = MoveAmount.maximum();
 
-    private final StraightMovement movementStrategy = new StraightMovement();
+    private final StraightMovement movementStrategy = new StraightMovement(FORWARDABLE_AMOUNT);
 
     public Cannon(Side side) {
         super(side);
@@ -65,7 +65,7 @@ public final class Cannon extends StaticPositionedPiece {
             Vector vector,
             AlivePieces alivePieces
     ) {
-        return movementStrategy.getRoutes(from, FORWARDABLE_AMOUNT, vector)
+        return movementStrategy.getRoutes(from, vector)
                 .stream()
                 .filter(route -> isAvailableCannonRoute(route, alivePieces))
                 .filter(route -> isDestinationAvailable(route, alivePieces))

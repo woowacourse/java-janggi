@@ -10,9 +10,14 @@ import java.util.List;
 
 public class StraightMovement {
 
+    private final MoveAmount moveAmount;
+
+    public StraightMovement(MoveAmount moveAmount) {
+        this.moveAmount = moveAmount;
+    }
+
     public List<Route> getRoutes(
             Intersection from,
-            MoveAmount moveAmount,
             Vector vector
     ) {
         List<Route> routes = new ArrayList<>();

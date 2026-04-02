@@ -17,7 +17,7 @@ public final class Soldier extends StaticPositionedPiece {
     private static final List<Integer> INITIAL_FILES = List.of(1, 3, 5, 7, 9);
     private static final MoveAmount MOVE_AMOUNT = new MoveAmount(1);
 
-    private final StraightMovement movementStrategy = new StraightMovement();
+    private final StraightMovement movementStrategy = new StraightMovement(MOVE_AMOUNT);
 
     public Soldier(Side side) {
         super(side);
@@ -48,11 +48,11 @@ public final class Soldier extends StaticPositionedPiece {
             AlivePieces alivePieces
     ) {
         Vector forward = side.toForward();
-        List<Route> forwardRoutes = movementStrategy.getRoutes(from, MOVE_AMOUNT, forward);
+        List<Route> forwardRoutes = movementStrategy.getRoutes(from, forward);
         Vector left = side.toLeft();
-        List<Route> leftRoutes = movementStrategy.getRoutes(from, MOVE_AMOUNT, left);
+        List<Route> leftRoutes = movementStrategy.getRoutes(from, left);
         Vector right = side.toRight();
-        List<Route> rightRoutes = movementStrategy.getRoutes(from, MOVE_AMOUNT, right);
+        List<Route> rightRoutes = movementStrategy.getRoutes(from, right);
 
         List<Intersection> movableDestinations = concatRoutes(forwardRoutes, leftRoutes, rightRoutes)
                 .filter(route -> route.isDestinationAvailable(alivePieces, side))
