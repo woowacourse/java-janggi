@@ -8,6 +8,11 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 
 class PositionTest {
+    @Test
+    void 좌표를_이동시킨다() {
+        Position position = new Position(0, 0);
+        assertThat(position.move(1, 2)).isEqualTo(new Position(1, 2));
+    }
 
     @Nested
     class 좌표_범위_검증_테스트 {
