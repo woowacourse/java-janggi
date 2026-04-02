@@ -61,6 +61,6 @@ public class Board {
         if (destinationPiece.isNone()) {
             return new PathPieces(sourcePiece, pieces);
         }
-        return new PathPieces(sourcePiece, pieces, (MovablePiece) destinationPiece);
+        return new PathPieces(sourcePiece, pieces, destinationPiece);
     }
 }
