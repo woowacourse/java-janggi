@@ -48,8 +48,8 @@ public class Board {
 
     public void validateCanMove(Position start, Position end, TeamType currentTeamType) {
         validateRange(end);
+        validateTeamPieceExistsAtEnd(currentTeam(currentTeamType), end);
         Piece piece = findTeamPiece(start, currentTeam(currentTeamType));
-        validateEndPosition(currentTeam(currentTeamType), end);
         piece.validateCanMove(start, end, this);
     }
 
@@ -99,7 +99,7 @@ public class Board {
                 .orElseThrow(() -> new IllegalArgumentException("입력한 위치에 기물이 없습니다."));
     }
 
-    private void validateEndPosition(Team team, Position end) {
+    private void validateTeamPieceExistsAtEnd(Team team, Position end) {
         if (team.isPieceExists(end)) {
             throw new IllegalArgumentException("아군이 존재하는 좌표로는 이동할 수 없습니다.");
         }
