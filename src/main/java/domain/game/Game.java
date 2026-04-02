@@ -88,4 +88,8 @@ public class Game {
         return caughtPieces.stream()
                 .anyMatch(Piece::isJang);
     }
+
+    public List<Piece> getCaughtPieces() {
+        return List.copyOf(caughtPieces);
+    }
 }

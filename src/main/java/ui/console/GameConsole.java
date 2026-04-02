@@ -28,6 +28,7 @@ public class GameConsole {
     public void run() {
         game = createGame();
         outputView.printBoard(game.getBoardMap());
+        outputView.printCaughtPieces(game.getCaughtPieces());
         while (game.isRunning()) {
             playTurn();
         }
@@ -57,6 +58,7 @@ public class GameConsole {
             game.move(source, destination);
         });
         outputView.printBoard(game.getBoardMap());
+        outputView.printCaughtPieces(game.getCaughtPieces());
     }
 
     private <T> T retryOnInvalidInput(Supplier<T> function) {

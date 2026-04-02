@@ -8,6 +8,7 @@ import static common.Constants.MIN_ROW;
 import domain.piece.Piece;
 import domain.player.Team;
 import domain.position.Position;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -102,5 +103,23 @@ public class OutputView {
         }
         printColumnHeader();
         System.out.println();
+    }
+
+    public void printCaughtPieces(List<Piece> caughtPieces) {
+        StringBuilder sb = new StringBuilder("잡힌 기물: ");
+        if (caughtPieces.isEmpty()) {
+            sb.append("없음");
+            System.out.println(sb);
+            return;
+        }
+
+        for (int index = 0; index < caughtPieces.size(); index++) {
+            Piece piece = caughtPieces.get(index);
+            sb.append(formatPiece(piece, false));
+            if (index != caughtPieces.size() - 1) {
+                sb.append(' ');
+            }
+        }
+        System.out.println(sb);
     }
 }
