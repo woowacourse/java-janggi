@@ -7,7 +7,7 @@ public class ElephantMoveStrategy implements MoveStrategy {
 
     @Override
     public boolean canMove(final Position from, final Position to, final Board board) {
-        if (isValidElephantMove(from, to))
+        if (isNotValidElephantMove(from, to))
             return false;
 
         int distanceX = to.getRow() - from.getRow();
@@ -27,7 +27,7 @@ public class ElephantMoveStrategy implements MoveStrategy {
         return board.canOccupy(from, to);
     }
 
-    private boolean isValidElephantMove(final Position from, final Position to) {
+    private boolean isNotValidElephantMove(final Position from, final Position to) {
         if (Math.abs(from.getRow() - to.getRow()) == 2 && Math.abs(from.getCol() - to.getCol()) == 3) {
             return false;
         }

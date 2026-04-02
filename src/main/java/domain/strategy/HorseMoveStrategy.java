@@ -7,7 +7,7 @@ public class HorseMoveStrategy implements MoveStrategy {
 
     @Override
     public boolean canMove(final Position from, final Position to, final Board board) {
-        if (isValidHorseMove(from, to))
+        if (isNotValidHorseMove(from, to))
             return false;
 
         int distanceX = to.getRow() - from.getRow();
@@ -20,7 +20,7 @@ public class HorseMoveStrategy implements MoveStrategy {
         return board.canOccupy(from, to);
     }
 
-    private boolean isValidHorseMove(final Position from, final Position to) {
+    private boolean isNotValidHorseMove(final Position from, final Position to) {
         if (Math.abs(from.getRow() - to.getRow()) == 1 && Math.abs(from.getCol() - to.getCol()) == 2) {
             return false;
         }
