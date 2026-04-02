@@ -17,13 +17,13 @@ public class BoardFactory {
     public static Map<Position, Piece> generate() {
         Map<Position, Piece> board = new HashMap<>();
 
-        SetHanPieces(board);
-        SetChoPieces(board);
+        setHanPieces(board);
+        setChoPieces(board);
 
         return board;
     }
 
-    private static void SetHanPieces(Map<Position, Piece> board) {
+    private static void setHanPieces(Map<Position, Piece> board) {
         // 차
         board.put(Position.of(Row.of(0), Column.of(0)),
                 new Piece(new ChaMoveStrategy(), Team.HAN, PieceType.CHA));
@@ -65,7 +65,7 @@ public class BoardFactory {
                 new Piece(new JolMoveStrategy(), Team.HAN, PieceType.HAN_JOL));
     }
 
-    private static void SetChoPieces(Map<Position, Piece> board) {
+    private static void setChoPieces(Map<Position, Piece> board) {
         // 차
         board.put(Position.of(Row.of(9), Column.of(0)),
                 new Piece(new ChaMoveStrategy(), Team.CHO, PieceType.CHA));
