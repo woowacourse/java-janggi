@@ -1,6 +1,7 @@
 package controller;
 
 import domain.board.Board;
+import domain.board.BoardInitializer;
 import domain.board.ElephantSetup;
 import domain.player.Player;
 import domain.player.Team;
@@ -45,6 +46,7 @@ public class JanggiController {
         outputView.printChoiceHanElephantSetupPrompt();
         int hanElephantSetupNumber = inputView.readElephantSetup();
 
-        return Board.init(ElephantSetup.of(choElephantSetupNumber), ElephantSetup.of(hanElephantSetupNumber));
+        return BoardInitializer.initialize(ElephantSetup.of(choElephantSetupNumber),
+                ElephantSetup.of(hanElephantSetupNumber));
     }
 }

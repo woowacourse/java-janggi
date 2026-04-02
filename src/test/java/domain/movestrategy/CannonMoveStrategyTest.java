@@ -6,6 +6,7 @@ import domain.board.Board;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Position;
+import domain.player.Team;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +24,7 @@ class CannonMoveStrategyTest {
         Map<Position, Piece> pieces = new HashMap<>();
         Position from = Position.of(5, 5);
 
-        pieces.put(from, Piece.choPieceOf(PieceType.CANNON));
+        pieces.put(from, Piece.of(PieceType.CANNON, Team.CHO));
 
         Board board = Board.of(pieces);
 
@@ -41,10 +42,10 @@ class CannonMoveStrategyTest {
         Map<Position, Piece> pieces = new HashMap<>();
         Position from = Position.of(5, 5);
 
-        pieces.put(from, Piece.choPieceOf(PieceType.CANNON));
+        pieces.put(from, Piece.of(PieceType.CANNON, Team.CHO));
 
         // 장애물 (screen)
-        pieces.put(Position.of(6, 5), Piece.choPieceOf(PieceType.SOLDIER));
+        pieces.put(Position.of(6, 5), Piece.of(PieceType.SOLDIER, Team.CHO));
 
         Board board = Board.of(pieces);
 
@@ -67,13 +68,13 @@ class CannonMoveStrategyTest {
         Map<Position, Piece> pieces = new HashMap<>();
         Position from = Position.of(5, 5);
 
-        pieces.put(from, Piece.choPieceOf(PieceType.CANNON));
+        pieces.put(from, Piece.of(PieceType.CANNON, Team.CHO));
 
         // 첫 번째 장애물
-        pieces.put(Position.of(6, 5), Piece.choPieceOf(PieceType.SOLDIER));
+        pieces.put(Position.of(6, 5), Piece.of(PieceType.SOLDIER, Team.CHO));
 
         // 두 번째 기물
-        pieces.put(Position.of(8, 5), Piece.hanPieceOf(PieceType.SOLDIER));
+        pieces.put(Position.of(8, 5), Piece.of(PieceType.SOLDIER, Team.HAN));
 
         Board board = Board.of(pieces);
 
@@ -96,10 +97,10 @@ class CannonMoveStrategyTest {
         Map<Position, Piece> pieces = new HashMap<>();
         Position from = Position.of(5, 5);
 
-        pieces.put(from, Piece.choPieceOf(PieceType.CANNON));
+        pieces.put(from, Piece.of(PieceType.CANNON, Team.CHO));
 
         // 첫 번째 기물이 포
-        pieces.put(Position.of(6, 5), Piece.choPieceOf(PieceType.CANNON));
+        pieces.put(Position.of(6, 5), Piece.of(PieceType.CANNON, Team.CHO));
 
         Board board = Board.of(pieces);
 
@@ -117,14 +118,14 @@ class CannonMoveStrategyTest {
         Position from = Position.of(5, 5);
         Map<Position, Piece> pieces = new HashMap<>();
 
-        pieces.put(from, Piece.choPieceOf(PieceType.CANNON));
+        pieces.put(from, Piece.of(PieceType.CANNON, Team.CHO));
 
         // 뛰어넘을 기물
-        pieces.put(Position.of(5, 6), Piece.hanPieceOf(PieceType.SOLDIER));
+        pieces.put(Position.of(5, 6), Piece.of(PieceType.SOLDIER, Team.HAN));
 
         // 아군 기물
         Position ally = Position.of(5, 7);
-        pieces.put(ally, Piece.choPieceOf(PieceType.GUARD));
+        pieces.put(ally, Piece.of(PieceType.GUARD, Team.CHO));
 
         Board board = Board.of(pieces);
 

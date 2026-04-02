@@ -6,6 +6,7 @@ import domain.board.Board;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Position;
+import domain.player.Team;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,7 @@ class ChariotMoveStrategyTest {
         // given
         Position from = Position.of(5, 5);
         Map<Position, Piece> pieces = new HashMap<>();
-        pieces.put(from, Piece.choPieceOf(PieceType.CHARIOT));
+        pieces.put(from, Piece.of(PieceType.CHARIOT, Team.CHO));
 
         Board board = Board.of(pieces);
 
@@ -45,8 +46,8 @@ class ChariotMoveStrategyTest {
         Position from = Position.of(5, 5);
         Map<Position, Piece> pieces = new HashMap<>();
 
-        pieces.put(from, Piece.choPieceOf(PieceType.CHARIOT));
-        pieces.put(Position.of(7, 5), Piece.hanPieceOf(PieceType.SOLDIER));
+        pieces.put(from, Piece.of(PieceType.CHARIOT, Team.CHO));
+        pieces.put(Position.of(7, 5), Piece.of(PieceType.SOLDIER, Team.HAN));
 
         Board board = Board.of(pieces);
 
@@ -67,10 +68,10 @@ class ChariotMoveStrategyTest {
         Position from = Position.of(5, 5);
         Map<Position, Piece> pieces = new HashMap<>();
 
-        pieces.put(from, Piece.choPieceOf(PieceType.CHARIOT));
+        pieces.put(from, Piece.of(PieceType.CHARIOT, Team.CHO));
 
         // 아군
-        pieces.put(Position.of(7, 5), Piece.choPieceOf(PieceType.SOLDIER));
+        pieces.put(Position.of(7, 5), Piece.of(PieceType.SOLDIER, Team.CHO));
 
         Board board = Board.of(pieces);
 

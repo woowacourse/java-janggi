@@ -6,6 +6,7 @@ import domain.board.Board;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Position;
+import domain.player.Team;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,8 +23,7 @@ class HorseMoveStrategyTest {
         // given
         Position from = Position.of(5, 5);
         Map<Position, Piece> pieces = new HashMap<>();
-        pieces.put(from, Piece.choPieceOf(PieceType.HORSE));
-        
+
         Board board = Board.of(pieces);
 
         // when
@@ -49,10 +49,8 @@ class HorseMoveStrategyTest {
         Position from = Position.of(5, 5);
         Map<Position, Piece> pieces = new HashMap<>();
 
-        pieces.put(from, Piece.choPieceOf(PieceType.HORSE));
-
         // UP 경유지 막기
-        pieces.put(Position.of(4, 5), Piece.choPieceOf(PieceType.SOLDIER));
+        pieces.put(Position.of(4, 5), Piece.of(PieceType.SOLDIER, Team.CHO));
 
         Board board = Board.of(pieces);
 
@@ -84,11 +82,9 @@ class HorseMoveStrategyTest {
         Position from = Position.of(5, 5);
         Map<Position, Piece> pieces = new HashMap<>();
 
-        pieces.put(from, Piece.choPieceOf(PieceType.HORSE));
-
         // UP, RIGHT 막기
-        pieces.put(Position.of(4, 5), Piece.choPieceOf(PieceType.SOLDIER)); // UP
-        pieces.put(Position.of(5, 6), Piece.choPieceOf(PieceType.SOLDIER)); // RIGHT
+        pieces.put(Position.of(4, 5), Piece.of(PieceType.SOLDIER, Team.CHO)); // UP
+        pieces.put(Position.of(5, 6), Piece.of(PieceType.SOLDIER, Team.CHO)); // RIGHT
 
         Board board = Board.of(pieces);
 
@@ -111,9 +107,8 @@ class HorseMoveStrategyTest {
         Position from = Position.of(5, 5);
         Map<Position, Piece> pieces = new HashMap<>();
 
-        pieces.put(from, Piece.choPieceOf(PieceType.HORSE));
-
-        pieces.put(Position.of(3, 4), Piece.choPieceOf(PieceType.SOLDIER));
+        pieces.put(from, Piece.of(PieceType.HORSE, Team.CHO));
+        pieces.put(Position.of(3, 4), Piece.of(PieceType.SOLDIER, Team.CHO));
 
         Board board = Board.of(pieces);
 

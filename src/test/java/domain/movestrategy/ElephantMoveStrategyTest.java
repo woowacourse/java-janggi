@@ -6,6 +6,7 @@ import domain.board.Board;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Position;
+import domain.player.Team;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +49,7 @@ class ElephantMoveStrategyTest {
         Position from = Position.of(5, 5);
 
         Map<Position, Piece> pieces = new HashMap<>();
-        pieces.put(Position.of(4, 5), Piece.hanPieceOf(PieceType.SOLDIER)); // UP 막힘
+        pieces.put(Position.of(4, 5), Piece.of(PieceType.SOLDIER, Team.CHO)); // UP 막힘
 
         Board board = Board.of(pieces);
 
@@ -69,7 +70,7 @@ class ElephantMoveStrategyTest {
         Position from = Position.of(5, 5);
 
         Map<Position, Piece> pieces = new HashMap<>();
-        pieces.put(Position.of(3, 4), Piece.hanPieceOf(PieceType.SOLDIER)); // UP → LEFT_UP
+        pieces.put(Position.of(3, 4), Piece.of(PieceType.SOLDIER, Team.HAN)); // UP → LEFT_UP
 
         Board board = Board.of(pieces);
 
@@ -89,7 +90,7 @@ class ElephantMoveStrategyTest {
         Position from = Position.of(5, 5);
 
         Map<Position, Piece> pieces = new HashMap<>();
-        pieces.put(Position.of(4, 5), Piece.hanPieceOf(PieceType.SOLDIER)); // UP 막힘
+        pieces.put(Position.of(4, 5), Piece.of(PieceType.SOLDIER, Team.HAN)); // UP 막힘
 
         Board board = Board.of(pieces);
 
@@ -115,10 +116,10 @@ class ElephantMoveStrategyTest {
         Position from = Position.of(5, 5);
 
         Map<Position, Piece> pieces = new HashMap<>();
-        pieces.put(from, Piece.choPieceOf(PieceType.ELEPHANT));
+        pieces.put(from, Piece.of(PieceType.ELEPHANT, Team.CHO));
 
         // 도착지
-        pieces.put(Position.of(2, 3), Piece.choPieceOf(PieceType.SOLDIER));
+        pieces.put(Position.of(2, 3), Piece.of(PieceType.SOLDIER, Team.CHO));
 
         Board board = Board.of(pieces);
 

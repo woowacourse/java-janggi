@@ -6,6 +6,7 @@ import domain.board.Board;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Position;
+import domain.player.Team;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,8 +24,8 @@ class GeneralMoveStrategyTest {
         Position from = Position.of(5, 5);
         Map<Position, Piece> pieces = new HashMap<>();
 
-        pieces.put(from, Piece.choPieceOf(PieceType.GENERAL));
-        pieces.put(Position.of(1, 1), Piece.hanPieceOf(PieceType.GENERAL));
+        pieces.put(from, Piece.of(PieceType.GENERAL, Team.CHO));
+        pieces.put(Position.of(1, 1), Piece.of(PieceType.GENERAL, Team.HAN));
 
         Board board = Board.of(pieces);
 
@@ -51,8 +52,8 @@ class GeneralMoveStrategyTest {
         Position from = Position.of(2, 4);
         Map<Position, Piece> pieces = new HashMap<>();
 
-        pieces.put(from, Piece.choPieceOf(PieceType.GENERAL));
-        pieces.put(Position.of(7, 5), Piece.hanPieceOf(PieceType.GENERAL));
+        pieces.put(from, Piece.of(PieceType.GENERAL, Team.CHO));
+        pieces.put(Position.of(7, 5), Piece.of(PieceType.GENERAL, Team.HAN));
 
         Board board = Board.of(pieces);
 
@@ -76,13 +77,13 @@ class GeneralMoveStrategyTest {
         Position from = Position.of(5, 5);
         Map<Position, Piece> pieces = new HashMap<>();
 
-        pieces.put(from, Piece.choPieceOf(PieceType.GENERAL));
+        pieces.put(from, Piece.of(PieceType.GENERAL, Team.CHO));
 
         // 아군 기물 배치
-        pieces.put(Position.of(5, 6), Piece.choPieceOf(PieceType.GUARD));
-        pieces.put(Position.of(6, 5), Piece.choPieceOf(PieceType.GUARD));
+        pieces.put(Position.of(5, 6), Piece.of(PieceType.GUARD, Team.CHO));
+        pieces.put(Position.of(6, 5), Piece.of(PieceType.GUARD, Team.CHO));
 
-        pieces.put(Position.of(1, 1), Piece.hanPieceOf(PieceType.GENERAL));
+        pieces.put(Position.of(1, 1), Piece.of(PieceType.GENERAL, Team.HAN));
 
         Board board = Board.of(pieces);
 
