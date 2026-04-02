@@ -78,7 +78,7 @@ public class JanggiController {
                 OutputView.printInputFromPosition();
                 Position from = InputView.readPosition();
                 Piece piece = board.getPieceInPosition(from);
-                if (!turnManager.isCurrentTurnOf(piece)) {
+                if (!turnManager.isCurrentTurnOf(piece.getTeamType())) {
                     throw new IllegalArgumentException("자신의 기물을 선택하세요.");
                 }
                 return from;

@@ -1,7 +1,5 @@
 package janggi.domain.team;
 
-import janggi.domain.piece.Piece;
-
 public class TurnManager {
     private TeamType currentTurnTeamType;
 
@@ -13,8 +11,8 @@ public class TurnManager {
         this.currentTurnTeamType = currentTurnTeamType.nextTeamType();
     }
 
-    public boolean isCurrentTurnOf(Piece piece) {
-        return piece.getTeamType() == currentTurnTeamType;
+    public boolean isCurrentTurnOf(TeamType teamType) {
+        return this.currentTurnTeamType == teamType;
     }
 
     public String currentTeamType() {
