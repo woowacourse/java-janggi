@@ -1,8 +1,6 @@
 package service;
 
-import domain.Piece;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import domain.Board;
@@ -10,6 +8,7 @@ import domain.JanggiGame;
 import domain.PieceType;
 import domain.Position;
 import java.util.Map;
+import java.util.stream.Collectors;
 import service.dto.BoardDto;
 import service.dto.PieceDto;
 import service.dto.PositionDto;
@@ -26,20 +25,14 @@ public class JanggiService {
         return new JanggiGame(board);
     }
 
-    public BoardDto getBoard(Board board) {
-        Map<PositionDto, PieceDto> pieceDtos = new HashMap<>();
-
-        for (Map.Entry<Position, Piece> entry : board.getPieces().entrySet()) {
-            Piece piece = entry.getValue();
-            if (!piece.isEmpty()) {
-                Position position = entry.getKey();
-                pieceDtos.put(
-                        new PositionDto(position.getX(), position.getY()),
-                        new PieceDto(piece.getCountry().name(), piece.getPieceType().getName())
-                );
-            }
-        }
-
+    public BoardDto createBoardDto(Board board) {
+        Map<PositionDto, PieceDto> pieceDtos = board.getPieces().entrySet().stream()
+                .filter(entry -> !entry.getValue().isEmpty())
+                .collect(Collectors.toMap(
+                        entry -> new PositionDto(entry.getKey().getX(), entry.getKey().getY()),
+                        entry -> new PieceDto(entry.getValue().getCountry().name(),
+                                entry.getValue().getPieceType().getName())
+                ));
         return new BoardDto(pieceDtos);
     }
 

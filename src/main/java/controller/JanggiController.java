@@ -42,7 +42,7 @@ public class JanggiController {
     private void playTurn(List<PositionDto> positionDtos, JanggiGame janggiGame, Board board) {
         Position start = requestStartPiecePosition(positionDtos);
         requestEndPosition(start, janggiGame);
-        outputView.printBoard(janggiService.getBoard(board));
+        outputView.printBoard(janggiService.createBoardDto(board));
     }
 
     private void requestEndPosition(Position start, JanggiGame janggiGame) {
@@ -83,7 +83,7 @@ public class JanggiController {
     private JanggiGame initJanggiGame(Board board) {
         outputView.printTurnStartMessage();
 
-        BoardDto boardDto = janggiService.getBoard(board);
+        BoardDto boardDto = janggiService.createBoardDto(board);
         outputView.printBoard(boardDto);
 
         return janggiService.createJanggiGame(board);
