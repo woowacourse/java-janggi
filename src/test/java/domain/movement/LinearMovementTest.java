@@ -9,7 +9,7 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("StepPieceMovement 클래스 테스트")
+@DisplayName("LinearMovement 클래스 테스트")
 class LinearMovementTest {
 
     private Position pos(Column column, Row row) {
@@ -85,5 +85,75 @@ class LinearMovementTest {
         List<Position> intermediates = downPath.intermediates();
         assertThat(intermediates.get(0)).isEqualTo(pos(Column.A, Row.ONE));
         assertThat(intermediates.get(7)).isEqualTo(pos(Column.A, Row.EIGHT));
+    }
+
+    @Test
+    @DisplayName("궁성 밖 위치에서는 대각선 경로를 생성하지 않는다")
+    void outsidePalaceHasNodiagonalPaths() {
+        LinearMovement movement = new LinearMovement();
+
+        Paths paths = movement.candidatePaths(pos(Column.E, Row.FOUR));
+
+        assertThat(paths.asList()).hasSize(4); // 상하좌우만
+    }
+
+    @Test
+    @DisplayName("궁성 대각선 위 위치에서 4개의 대각선 경로를 추가로 생성한다")
+    void palaceDiagonalCenterHasEightTotalPaths() {
+        LinearMovement movement = new LinearMovement();
+        Paths paths = movement.candidatePaths(pos(Column.E, Row.ONE));
+
+        assertThat(paths.asList()).hasSize(8);
+    }
+
+    @Test
+    @DisplayName("궁성 비대각선 위치(e0)에서는 대각선 경로를 생성하지 않는다")
+    void palaceNonDiagonalPositionHasNoDiagonalPaths() {
+        LinearMovement movement = new LinearMovement();
+        Paths paths = movement.candidatePaths(pos(Column.E, Row.ZERO));
+
+        assertThat(paths.asList()).hasSize(3);
+    }
+
+    @Test
+    @DisplayName("궁성 중앙에서 대각선 경로는 궁성 밖으로 이어진다")
+    void diagonalFromPalaceCenterExtendsOutsidePalace() {
+        LinearMovement movement = new LinearMovement();
+        Paths paths = movement.candidatePaths(pos(Column.E, Row.ONE));
+
+        Path swPath = paths.asList().stream()
+                .filter(p -> p.endsAt(pos(Column.A, Row.FIVE)))
+                .findFirst()
+                .orElse(null);
+
+        assertThat(swPath).isNotNull();
+        assertThat(swPath.contains(pos(Column.D, Row.TWO))).isTrue();
+        assertThat(swPath.contains(pos(Column.C, Row.THREE))).isTrue();
+    }
+
+    @Test
+    @DisplayName("궁성 코너(d0)에서 SE 대각선 경로가 보드 끝까지 이어진다")
+    void diagonalFromPalaceCornerExtendsToEdge() {
+        LinearMovement movement = new LinearMovement();
+        Paths paths = movement.candidatePaths(pos(Column.D, Row.ZERO));
+
+        Path sePath = paths.asList().stream()
+                .filter(p -> p.endsAt(pos(Column.I, Row.FIVE)))
+                .findFirst()
+                .orElse(null);
+
+        assertThat(sePath).isNotNull();
+        assertThat(sePath.contains(pos(Column.E, Row.ONE))).isTrue();
+        assertThat(sePath.contains(pos(Column.F, Row.TWO))).isTrue();
+        assertThat(sePath.contains(pos(Column.G, Row.THREE))).isTrue();
+    }
+
+    @Test
+    @DisplayName("초 궁성 대각선 위치(e8)에서도 동일하게 대각선 경로를 생성한다")
+    void choPalaceCenterAlsoGeneratesDiagonalPaths() {
+        LinearMovement movement = new LinearMovement();
+        Paths paths = movement.candidatePaths(pos(Column.E, Row.EIGHT));
+
+        assertThat(paths.asList()).hasSize(8);
     }
 }
