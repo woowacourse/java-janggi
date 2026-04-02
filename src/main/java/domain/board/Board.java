@@ -1,10 +1,5 @@
 package domain.board;
 
-import static domain.board.BoardPolicy.MAX_COLUMN;
-import static domain.board.BoardPolicy.MAX_ROW;
-import static domain.board.BoardPolicy.MIN_COLUMN;
-import static domain.board.BoardPolicy.MIN_ROW;
-
 import domain.place.Empty;
 import domain.place.Place;
 import domain.place.piece.PieceSymbol;
@@ -22,6 +17,7 @@ import java.util.stream.Collectors;
 public class Board {
 
     private static final double HAN_PIECE_BONUS_SCORE = 1.5;
+    public static final int MIN_POSITION = 1;
 
     private final Map<Position, Place> board;
 
@@ -129,21 +125,29 @@ public class Board {
     }
 
     private <T> List<List<T>> getBoard(Function<Place, T> mapper) {
-        List<List<T>> result = new ArrayList<>();
-        for (int row = MIN_ROW; row <= MAX_ROW; row++) {
-            result.add(getRow(row, mapper));
-        }
-        return result;
-    }
+        int maxRow = board.keySet().stream()
+                .mapToInt(Position::getRow)
+                .max()
+                .orElse(MIN_POSITION);
+        int maxCol = board.keySet().stream()
+                .mapToInt(Position::getColumn)
+                .max()
+                .orElse(MIN_POSITION);
 
-    private <T> List<T> getRow(int row, Function<Place, T> mapper) {
-        List<T> rowResult = new ArrayList<>();
-        for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
-            Position position = new Position(row, column);
-            Place place = board.get(position);
-            rowResult.add(mapper.apply(place));
+        List<List<T>> result = new ArrayList<>();
+
+        for (int row = MIN_POSITION; row <= maxRow; row++) {
+            List<T> rowResult = new ArrayList<>();
+
+            for (int col = MIN_POSITION; col <= maxCol; col++) {
+                Place place = board.get(new Position(row, col));
+                rowResult.add(mapper.apply(place));
+            }
+
+            result.add(rowResult);
         }
-        return rowResult;
+
+        return result;
     }
 
 }

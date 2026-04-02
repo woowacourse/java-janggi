@@ -1,10 +1,5 @@
 package factory;
 
-import static domain.board.BoardPolicy.MAX_COLUMN;
-import static domain.board.BoardPolicy.MAX_ROW;
-import static domain.board.BoardPolicy.MIN_COLUMN;
-import static domain.board.BoardPolicy.MIN_ROW;
-
 import domain.board.Board;
 import domain.board.HorseElephantFormation;
 import domain.place.Empty;
@@ -38,6 +33,11 @@ public class BoardFactory {
     private static final int GENERAL_COLS = 5;
     private static final List<Integer> CANNON_COLS = List.of(2, 8);
     private static final List<Integer> SOLDIER_COLS = List.of(1, 3, 5, 7, 9);
+
+    public static final int MIN_ROW = 1;
+    public static final int MAX_ROW = 10;
+    public static final int MIN_COLUMN = 1;
+    public static final int MAX_COLUMN = 9;
 
     public static Board create(HorseElephantFormation cho, HorseElephantFormation han) {
         Map<Position, Place> board = setUpEmpty();

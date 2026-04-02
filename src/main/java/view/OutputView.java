@@ -1,9 +1,5 @@
 package view;
 
-import static domain.board.BoardPolicy.MAX_COLUMN;
-import static domain.board.BoardPolicy.MIN_COLUMN;
-import static domain.board.BoardPolicy.MIN_ROW;
-
 import domain.place.piece.Side;
 import entity.GameRoomEntity;
 import java.time.LocalDate;
@@ -94,32 +90,36 @@ public class OutputView {
         System.out.printf(PLAYER_WINNER, side.getName());
     }
 
-    public static void printBoard(List<List<String>> boardFormats, List<List<Optional<Side>>> boardSides) {
-        StringBuilder sb = new StringBuilder();
-        appendHeader(sb);
+    public static void printBoard(List<List<String>> boardFormats,
+                                  List<List<Optional<Side>>> boardSides) {
 
+        StringBuilder sb = new StringBuilder();
+        appendHeader(sb, boardFormats);
         for (int row = 0; row < boardFormats.size(); row++) {
             appendRow(sb, row, boardFormats.get(row), boardSides.get(row));
         }
-
         System.out.println(sb);
     }
 
-    private static void appendHeader(StringBuilder sb) {
-        sb.append(" ");
-        for (int i = MIN_COLUMN; i <= MAX_COLUMN; i++) {
+    private static void appendHeader(StringBuilder sb, List<List<String>> boardFormats) {
+        sb.append("   ");
+        int columnSize = boardFormats.get(0).size();
+        for (int i = 1; i <= columnSize; i++) {
             sb.append(String.format("%2d", i)).append(" ");
         }
+
         sb.append("\n");
     }
 
-    private static void appendRow(StringBuilder sb, int rowNumber,
+    private static void appendRow(StringBuilder sb,
+                                  int rowIndex,
                                   List<String> rowFormats,
                                   List<Optional<Side>> rowSides) {
-        sb.append(String.format("%2d ", rowNumber + MIN_ROW));
+        sb.append(String.format("%2d ", rowIndex + 1));
 
         for (int col = 0; col < rowFormats.size(); col++) {
-            sb.append(colorize(rowFormats.get(col), rowSides.get(col))).append(" ");
+            sb.append(colorize(rowFormats.get(col), rowSides.get(col)))
+                    .append(" ");
         }
 
         sb.append("\n");

@@ -1,11 +1,5 @@
 package domain.position;
 
-import static domain.board.BoardPolicy.MAX_COLUMN;
-import static domain.board.BoardPolicy.MAX_ROW;
-import static domain.board.BoardPolicy.MIN_COLUMN;
-import static domain.board.BoardPolicy.MIN_ROW;
-
-import domain.board.BoardPolicy;
 import domain.place.moveStrategy.Direction;
 import java.util.Objects;
 import java.util.Optional;
@@ -32,13 +26,16 @@ public class Position {
         int currentRow = getRow() + direction.getRow();
         int currentColumn = getColumn() + direction.getColumn();
 
-        if (BoardPolicy.isOutBoundPosition(currentRow, currentColumn)) {
+        if (isOutBound(currentRow, currentColumn)) {
             return Optional.empty();
         }
 
         return Optional.of(new Position(currentRow, currentColumn));
     }
 
+    private boolean isOutBound(int currentRow, int currentColumn) {
+        return row.isOutBoundRow(currentRow) || column.isOutBoundColumn(currentColumn);
+    }
 
     @Override
     public boolean equals(Object o) {
