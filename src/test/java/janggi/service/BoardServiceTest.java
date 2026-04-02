@@ -8,6 +8,7 @@ import janggi.config.TestDBConnection;
 import janggi.entity.BoardEntity;
 import janggi.repository.BoardRepository;
 import janggi.repository.BoardRepositoryImpl;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -29,6 +30,11 @@ public class BoardServiceTest {
 
         dbConnection.init();
         dbTableInitializer.init();
+    }
+
+    @AfterEach
+    void cleanUp() {
+        dbConnection.closeConnection();
     }
 
     @Test
