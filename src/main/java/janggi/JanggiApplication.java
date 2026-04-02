@@ -1,16 +1,16 @@
 package janggi;
 
-import janggi.application.CsvInitialBoardProvider;
-import janggi.application.GameRepository;
-import janggi.application.InitialBoardProvider;
-import janggi.application.JanggiGameService;
-import janggi.application.dto.GameSummary;
+import janggi.service.CsvInitialBoardProvider;
+import janggi.service.GameRepository;
+import janggi.service.InitialBoardProvider;
+import janggi.service.JanggiGameService;
+import janggi.dto.GameSummary;
 import janggi.domain.JanggiGame;
 import janggi.domain.Point;
 import janggi.dto.GameStatusInfo;
-import janggi.persistence.DatabaseInitializer;
-import janggi.persistence.JdbcConnectionManager;
-import janggi.persistence.JdbcGameRepository;
+import janggi.util.DatabaseInitializer;
+import janggi.repository.JdbcConnectionManager;
+import janggi.repository.JdbcGameRepository;
 import janggi.ui.InputView;
 import janggi.ui.OutputView;
 import java.util.List;

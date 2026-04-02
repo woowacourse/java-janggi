@@ -1,5 +1,6 @@
-package janggi.persistence;
+package janggi.util;
 
+import janggi.repository.JdbcConnectionManager;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;

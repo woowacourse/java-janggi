@@ -1,7 +1,8 @@
-package janggi.persistence;
+package janggi.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import janggi.util.DatabaseInitializer;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;

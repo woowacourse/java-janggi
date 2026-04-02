@@ -1,10 +1,10 @@
-package janggi.application;
+package janggi.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.application.dto.GameSnapshot;
-import janggi.application.dto.GameSummary;
+import janggi.dto.GameSnapshot;
+import janggi.dto.GameSummary;
 import janggi.domain.JanggiGame;
 import janggi.domain.Point;
 import janggi.domain.status.Team;

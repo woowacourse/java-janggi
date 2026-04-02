@@ -1,7 +1,6 @@
-package janggi.application.dto;
+package janggi.dto;
 
 import janggi.domain.status.Team;
-import janggi.dto.PositionInfo;
 import java.util.List;
 
 public record GameSnapshot(

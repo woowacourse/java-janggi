@@ -1,8 +1,8 @@
-package janggi.persistence;
+package janggi.repository;
 
-import janggi.application.GameRepository;
-import janggi.application.dto.GameSnapshot;
-import janggi.application.dto.GameSummary;
+import janggi.service.GameRepository;
+import janggi.dto.GameSnapshot;
+import janggi.dto.GameSummary;
 import janggi.domain.status.Team;
 import janggi.dto.PositionInfo;
 import java.sql.Connection;

@@ -1,6 +1,6 @@
 package janggi.ui;
 
-import janggi.application.dto.GameSummary;
+import janggi.dto.GameSummary;
 import janggi.domain.status.Team;
 import janggi.dto.GameStatusInfo;
 import janggi.dto.PieceInfo;

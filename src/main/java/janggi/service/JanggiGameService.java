@@ -1,7 +1,7 @@
-package janggi.application;
+package janggi.service;
 
-import janggi.application.dto.GameSnapshot;
-import janggi.application.dto.GameSummary;
+import janggi.dto.GameSnapshot;
+import janggi.dto.GameSummary;
 import janggi.domain.Board;
 import janggi.domain.JanggiGame;
 import janggi.domain.Point;

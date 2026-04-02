@@ -1,14 +1,13 @@
-package janggi.persistence;
+package janggi.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.application.GameRepository;
-import janggi.application.dto.GameSnapshot;
-import janggi.application.dto.GameSummary;
-import janggi.domain.Point;
-import janggi.domain.piece.PieceType;
+import janggi.service.GameRepository;
+import janggi.dto.GameSnapshot;
+import janggi.dto.GameSummary;
 import janggi.domain.status.Team;
 import janggi.dto.PositionInfo;
+import janggi.util.DatabaseInitializer;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

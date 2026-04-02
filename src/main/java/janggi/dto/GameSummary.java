@@ -1,4 +1,4 @@
-package janggi.application.dto;
+package janggi.dto;
 
 public record GameSummary(
         Long id,
