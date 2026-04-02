@@ -12,19 +12,34 @@ import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class PalaceAdjacentMovementTest {
+class PalaceMultipleMovementTest {
 
-    @DisplayName("궁성 안에서 이동할 수 있다.")
+    @DisplayName("궁성 안에서 한칸 이동할 수 있다.")
     @Test
-    void move() {
+    void move_one_step() {
         //given
-        Movement movement = new PalaceAdjacentMovement();
+        Movement movement = new PalaceMultipleMovement();
         Map<Position, Piece> board = Map.of();
 
         //when & then
         assertThat(movement.move(
-                new Position(Row.NINE, Column.FIVE),
-                new Position(Row.EIGHT, Column.FOUR)
+                        new Position(Row.NINE, Column.FIVE),
+                        new Position(Row.EIGHT, Column.FOUR)
+                ).findPiecesOn(board)
+        ).isEmpty();
+    }
+
+    @DisplayName("궁성 안에서 두칸 이동할 수 있다.")
+    @Test
+    void move_two_step() {
+        //given
+        Movement movement = new PalaceMultipleMovement();
+        Map<Position, Piece> board = Map.of();
+
+        //when & then
+        assertThat(movement.move(
+                        new Position(Row.EIGHT, Column.FOUR),
+                        new Position(Row.ZERO, Column.SIX)
                 ).findPiecesOn(board)
         ).isEmpty();
     }
@@ -33,23 +48,23 @@ class PalaceAdjacentMovementTest {
     @Test
     void move_not_adjacent() {
         //given
-        Movement movement = new PalaceAdjacentMovement();
+        Movement movement = new PalaceMultipleMovement();
         Map<Position, Piece> board = Map.of();
 
         //when & then
         assertThatThrownBy(() -> movement.move(
-                new Position(Row.NINE, Column.FOUR),
-                new Position(Row.EIGHT, Column.FIVE)
+                        new Position(Row.NINE, Column.FOUR),
+                        new Position(Row.EIGHT, Column.FIVE)
                 ).findPiecesOn(board)
         ).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 경로로 이동할 수 없습니다.");
     }
 
-    @DisplayName("from이나 to가 같은 궁성 안에 없으면 예외가 발생한다.")
+    @DisplayName("from과 to가 같은 궁성 안에 없으면 예외가 발생한다.")
     @Test
     void move_out_of_palace() {
         //given
-        Movement movement = new PalaceAdjacentMovement();
+        Movement movement = new PalaceMultipleMovement();
         Map<Position, Piece> board = Map.of();
 
         //when & then

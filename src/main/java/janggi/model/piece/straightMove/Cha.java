@@ -12,10 +12,7 @@ public class Cha extends StraightMovePiece {
     }
 
     public Cha(Team team) {
-        this(
-                team,
-                PieceType.CHA
-        );
+        this(team, PieceType.CHA);
     }
 
     @Override
