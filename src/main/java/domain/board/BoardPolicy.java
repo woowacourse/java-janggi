@@ -11,11 +11,11 @@ public class BoardPolicy {
         return isOutBoundRow(row) || isOutBoundColumn(col);
     }
 
-    private static boolean isOutBoundRow(int row){
+    public static boolean isOutBoundRow(int row){
         return row < MIN_ROW || row > MAX_ROW ;
     }
 
-    private static boolean isOutBoundColumn(int col){
+    public static boolean isOutBoundColumn(int col){
         return col < MIN_COLUMN || col > MAX_COLUMN;
     }
 }

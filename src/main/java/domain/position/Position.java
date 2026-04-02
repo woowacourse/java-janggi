@@ -1,7 +1,9 @@
 package domain.position;
 
 import static domain.board.BoardPolicy.MAX_COLUMN;
+import static domain.board.BoardPolicy.MAX_ROW;
 import static domain.board.BoardPolicy.MIN_COLUMN;
+import static domain.board.BoardPolicy.MIN_ROW;
 
 import domain.board.BoardPolicy;
 import domain.place.moveStrategy.Direction;
@@ -36,6 +38,7 @@ public class Position {
 
         return Optional.of(new Position(currentRow, currentColumn));
     }
+
 
     @Override
     public boolean equals(Object o) {
