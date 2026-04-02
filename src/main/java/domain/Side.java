@@ -1,5 +1,6 @@
 package domain;
 
+import domain.strategy.Direction;
 import java.util.List;
 
 public enum Side {
@@ -28,6 +29,11 @@ public enum Side {
         public List<Integer> formationX() {
             return List.of(1, 2, 6, 7);
         }
+
+        @Override
+        public Direction soldierForward() {
+            return Direction.N;
+        }
     },
     HAN("한") {
         @Override
@@ -54,6 +60,11 @@ public enum Side {
         public List<Integer> formationX() {
             return List.of(7, 6, 2, 1);
         }
+
+        @Override
+        public Direction soldierForward() {
+            return Direction.S;
+        }
     };
 
     private final String name;
@@ -67,13 +78,10 @@ public enum Side {
     public abstract int cannonY();
     public abstract int soldierY();
     public abstract List<Integer> formationX();
+    public abstract Direction soldierForward();
 
     public boolean isAlly(Side other) {
         return this.equals(other);
-    }
-
-    public boolean isCho() {
-        return this.equals(Side.CHO);
     }
 
     public String getName() {
