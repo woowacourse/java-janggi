@@ -1,5 +1,6 @@
 package domain.board;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -8,6 +9,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DisplayName("Palace 클래스 테스트")
 class PalaceTest {
@@ -134,5 +136,60 @@ class PalaceTest {
 
         assertThat(Palace.HAN.contains(choCenter)).isFalse();
         assertThat(Palace.CHO.contains(hanCenter)).isFalse();
+    }
+
+    @Test
+    @DisplayName("validateContains: 궁성 안 위치이면 예외를 던지지 않는다")
+    void validateContainsDoesNotThrowForPalacePosition() {
+        Assertions.assertDoesNotThrow(
+                () -> Palace.HAN.validateContains(pos(Column.E, Row.ONE)));
+        Assertions.assertDoesNotThrow(
+                () -> Palace.CHO.validateContains(pos(Column.E, Row.EIGHT)));
+    }
+
+    @ParameterizedTest(name = "한 궁성 밖 ({0}, {1}) → 예외")
+    @CsvSource({"C, ZERO", "G, TWO", "E, THREE", "E, NINE"})
+    @DisplayName("validateContains: 한 궁성 밖 위치이면 예외를 던진다")
+    void validateContainsThrowsForOutsideHanPalace(Column column, Row row) {
+        assertThatThrownBy(() -> Palace.HAN.validateContains(pos(column, row)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR]")
+                .hasMessageContaining("궁성 밖");
+    }
+
+    @ParameterizedTest(name = "초 궁성 밖 ({0}, {1}) → 예외")
+    @CsvSource({"C, NINE", "G, SEVEN", "E, SIX", "E, ZERO"})
+    @DisplayName("validateContains: 초 궁성 밖 위치이면 예외를 던진다")
+    void validateContainsThrowsForOutsideChoPalace(Column column, Row row) {
+        assertThatThrownBy(() -> Palace.CHO.validateContains(pos(column, row)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR]")
+                .hasMessageContaining("궁성 밖");
+    }
+
+    @ParameterizedTest(name = "대각선 위 ({0}, {1}) → 예외 없음")
+    @CsvSource({"D, ZERO", "F, ZERO", "E, ONE", "D, TWO", "F, TWO"})
+    @DisplayName("validateOnDiagonal: 한 궁성 대각선 위 위치이면 예외를 던지지 않는다")
+    void validateOnDiagonalDoesNotThrowForDiagonalPosition(Column column, Row row) {
+        Assertions.assertDoesNotThrow(
+                () -> Palace.HAN.validateOnDiagonal(pos(column, row)));
+    }
+
+    @ParameterizedTest(name = "대각선 아님 ({0}, {1}) → 예외")
+    @CsvSource({"E, ZERO", "D, ONE", "F, ONE", "E, TWO"})
+    @DisplayName("validateOnDiagonal: 한 궁성 대각선 아닌 위치이면 예외를 던진다")
+    void validateOnDiagonalThrowsForNonDiagonalPosition(Column column, Row row) {
+        assertThatThrownBy(() -> Palace.HAN.validateOnDiagonal(pos(column, row)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR]")
+                .hasMessageContaining("대각선");
+    }
+
+    @Test
+    @DisplayName("validateOnDiagonal: 궁성 밖 위치이면 예외를 던진다")
+    void validateOnDiagonalThrowsForOutsidePalace() {
+        assertThatThrownBy(() -> Palace.HAN.validateOnDiagonal(pos(Column.A, Row.ZERO)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR]");
     }
 }

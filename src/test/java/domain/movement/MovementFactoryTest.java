@@ -18,7 +18,7 @@ class MovementFactoryTest {
 
         Movement movement = MovementFactory.create(piece);
 
-        assertThat(movement).isInstanceOf(FourDirectionMovement.class);
+        assertThat(movement).isInstanceOf(PalaceMovement.class);
     }
 
     @Test
@@ -28,7 +28,7 @@ class MovementFactoryTest {
 
         Movement movement = MovementFactory.create(piece);
 
-        assertThat(movement).isInstanceOf(FourDirectionMovement.class);
+        assertThat(movement).isInstanceOf(PalaceMovement.class);
     }
 
     @Test

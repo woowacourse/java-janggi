@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("GeneralMovement 클래스 테스트")
-class FourDirectionMovementTest {
+class PalaceMovementTest {
 
     private Position pos(Column column, Row row) {
         return new Position(column, row);
@@ -20,41 +20,44 @@ class FourDirectionMovementTest {
     }
 
     @Test
-    @DisplayName("기물이 보드 중앙에 위치한다 가정, 후보 경로를 정상적으로 생성한다")
-    void fromCenterHasFourCandidatePaths() {
-        FourDirectionMovement movement = new FourDirectionMovement();
-        Position center = pos(Column.E, Row.FOUR);
+    @DisplayName("궁성 중앙(e1)에서 상하좌우 4 + 대각선 4 = 총 8개 경로를 생성한다")
+    void fromPalaceCenterHasEightCandidatePaths() {
+        PalaceMovement movement = new PalaceMovement();
+        Position palaceCenter = pos(Column.E, Row.ONE);
 
-        Paths paths = movement.candidatePaths(center);
+        Paths paths = movement.candidatePaths(palaceCenter);
 
-        assertThat(paths.asList()).hasSize(4);
-        assertThat(canReach(paths, pos(Column.E, Row.THREE))).isTrue();
-        assertThat(canReach(paths, pos(Column.E, Row.FIVE))).isTrue();
-        assertThat(canReach(paths, pos(Column.D, Row.FOUR))).isTrue();
-        assertThat(canReach(paths, pos(Column.F, Row.FOUR))).isTrue();
+        assertThat(paths.asList()).hasSize(8);
+        assertThat(canReach(paths, pos(Column.E, Row.ZERO))).isTrue();
+        assertThat(canReach(paths, pos(Column.E, Row.TWO))).isTrue();
+        assertThat(canReach(paths, pos(Column.D, Row.ONE))).isTrue();
+        assertThat(canReach(paths, pos(Column.F, Row.ONE))).isTrue();
+        assertThat(canReach(paths, pos(Column.D, Row.ZERO))).isTrue();
+        assertThat(canReach(paths, pos(Column.F, Row.ZERO))).isTrue();
+        assertThat(canReach(paths, pos(Column.D, Row.TWO))).isTrue();
+        assertThat(canReach(paths, pos(Column.F, Row.TWO))).isTrue();
     }
 
     @Test
-    @DisplayName("보드 범위를 벗어나는 경로를 제외하고, 후보 경로를 정상적으로 생성한다")
-    void fromTopLeftCornerHasTwoPaths() {
-        FourDirectionMovement movement = new FourDirectionMovement();
-        Position topLeft = pos(Column.A, Row.ZERO);
+    @DisplayName("궁성 코너(d0)에서 궁성 안 이동 가능 경로만 생성한다")
+    void fromPalaceCornerHasThreeCandidatePaths() {
+        PalaceMovement movement = new PalaceMovement();
+        Position corner = pos(Column.D, Row.ZERO);
 
-        Paths paths = movement.candidatePaths(topLeft);
+        Paths paths = movement.candidatePaths(corner);
 
-        assertThat(paths.asList()).hasSize(2);
-        assertThat(canReach(paths, pos(Column.A, Row.ONE))).isTrue();  // down
-        assertThat(canReach(paths, pos(Column.B, Row.ZERO))).isTrue(); // right
+        assertThat(paths.asList()).hasSize(3);
+        assertThat(canReach(paths, pos(Column.E, Row.ZERO))).isTrue();
+        assertThat(canReach(paths, pos(Column.D, Row.ONE))).isTrue();
+        assertThat(canReach(paths, pos(Column.E, Row.ONE))).isTrue();
     }
 
     @Test
-    @DisplayName("궁의 각 이동 경로는 1개의 좌표를 갖는다")
-    void eachCandidatePathHasOnePosition() {
-        FourDirectionMovement movement = new FourDirectionMovement();
-        Paths paths = movement.candidatePaths(pos(Column.E, Row.FOUR));
+    @DisplayName("궁성 밖에 위치하면 후보 경로를 생성하지 않는다")
+    void fromOutsidePalaceHasNoPaths() {
+        PalaceMovement movement = new PalaceMovement();
 
-        paths.asList().forEach(path ->
-                assertThat(path.intermediates()).isEmpty()
-        );
+        assertThat(movement.candidatePaths(pos(Column.E, Row.FOUR)).asList()).isEmpty();
+        assertThat(movement.candidatePaths(pos(Column.A, Row.ZERO)).asList()).isEmpty();
     }
 }

@@ -267,44 +267,44 @@ class MovementValidatorTest {
     class PalacePieceMovementValidation {
 
         @Test
-        @DisplayName("궁은 인접한 빈 위치로 이동할 수 있다")
+        @DisplayName("궁은 궁성 내 인접한 빈 위치로 이동할 수 있다")
         void generalCanMoveToAdjacentEmptyPosition() {
             Map<Position, Piece> map = pieces();
-            map.put(pos(Column.E, Row.FOUR), new Piece(Team.HAN, PieceType.GENERAL));
+            map.put(pos(Column.E, Row.ONE), new Piece(Team.HAN, PieceType.GENERAL));
             Board board = boardWith(map);
             Turn turn = new Turn(Team.HAN);
 
-            Board moved = board.move(coord("e4 e5"), turn);
+            Board moved = board.move(coord("e1 e0"), turn);
 
-            assertThat(moved.isEmpty(pos(Column.E, Row.FOUR))).isTrue();
-            assertThat(moved.pieceAt(pos(Column.E, Row.FIVE))).isPresent();
+            assertThat(moved.isEmpty(pos(Column.E, Row.ONE))).isTrue();
+            assertThat(moved.pieceAt(pos(Column.E, Row.ZERO))).isPresent();
         }
 
         @Test
         @DisplayName("궁은 인접한 아군 기물이 있는 위치로 이동할 수 없다")
         void generalCannotCaptureFriendly() {
             Map<Position, Piece> map = pieces();
-            map.put(pos(Column.E, Row.FOUR), new Piece(Team.HAN, PieceType.GENERAL));
-            map.put(pos(Column.E, Row.FIVE), new Piece(Team.HAN, PieceType.GUARD));
+            map.put(pos(Column.E, Row.ONE), new Piece(Team.HAN, PieceType.GENERAL));
+            map.put(pos(Column.E, Row.ZERO), new Piece(Team.HAN, PieceType.GUARD));
             Board board = boardWith(map);
             Turn turn = new Turn(Team.HAN);
 
-            assertThatThrownBy(() -> board.move(coord("e4 e5"), turn))
+            assertThatThrownBy(() -> board.move(coord("e1 e0"), turn))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test
-        @DisplayName("사는 궁과 동일하게 인접한 빈 위치로 이동할 수 있다")
+        @DisplayName("사는 궁과 동일하게 궁성 내 인접한 빈 위치로 이동할 수 있다")
         void guardCanMoveToAdjacentEmptyPosition() {
             Map<Position, Piece> map = pieces();
-            map.put(pos(Column.D, Row.THREE), new Piece(Team.HAN, PieceType.GUARD));
+            map.put(pos(Column.D, Row.ONE), new Piece(Team.HAN, PieceType.GUARD));
             Board board = boardWith(map);
             Turn turn = new Turn(Team.HAN);
 
-            Board moved = board.move(coord("d3 d4"), turn);
+            Board moved = board.move(coord("d1 e1"), turn);
 
-            assertThat(moved.isEmpty(pos(Column.D, Row.THREE))).isTrue();
-            assertThat(moved.pieceAt(pos(Column.D, Row.FOUR))).isPresent();
+            assertThat(moved.isEmpty(pos(Column.D, Row.ONE))).isTrue();
+            assertThat(moved.pieceAt(pos(Column.E, Row.ONE))).isPresent();
         }
     }
 
