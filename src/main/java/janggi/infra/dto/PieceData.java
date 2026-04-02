@@ -4,6 +4,6 @@ public record PieceData(
         String pieceName,
         String teamName,
         int row,
-        int col
+        int column
 ) {
 }

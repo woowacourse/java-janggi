@@ -81,7 +81,7 @@ public class JdbcBoardRepository implements BoardRepository {
             pieceDatas.forEach(pieceData -> {
                 PieceType type = PieceType.valueOf(pieceData.pieceName());
                 Team team = Team.valueOf(pieceData.teamName());
-                Point point = Point.of(pieceData.col(), pieceData.row());
+                Point point = Point.of(pieceData.column(), pieceData.row());
                 Piece piece = PieceFactory.createPiece(team, type);
                 pieces.put(point, piece);
             });

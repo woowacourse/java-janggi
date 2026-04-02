@@ -18,7 +18,7 @@ public class PiecesDao {
             pieceStatement.setString(2, piece.pieceName());
             pieceStatement.setString(3, piece.teamName());
             pieceStatement.setInt(4, piece.row());
-            pieceStatement.setInt(5, piece.col());
+            pieceStatement.setInt(5, piece.column());
             pieceStatement.executeUpdate();
         }
     }
