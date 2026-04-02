@@ -25,7 +25,7 @@ public enum InitialFormationFormatter {
         return findBy(index).message;
     }
 
-    public static InitialFormationType fromIndex(int index) {
+    public static InitialFormationType from(int index) {
         return findBy(index).formation;
     }
 

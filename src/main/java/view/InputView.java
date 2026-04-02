@@ -1,18 +1,20 @@
 package view;
 
-import domain.board.formation.InitialFormation;
+import domain.board.formation.InitialFormationType;
 import domain.coordinate.Position;
 import domain.board.Side;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.PatternSyntaxException;
+
 import dto.PossibleMovesDto;
 import view.message.InitialFormationFormatter;
 import view.message.SideView;
 
 public class InputView {
 
+    private static final int INDEX_OFFSET = 1;
     private static final int INIT_INDEX_COUNT = 1;
     private static final int MAX_INDEX = 4;
     private static final String COMMA_DELIMITER = ",";
@@ -27,7 +29,7 @@ public class InputView {
         this.sc = sc;
     }
 
-    public InitialFormation requestInitialType(Side side) {
+    public InitialFormationType requestInitialType(Side side) {
         try {
             int index = INIT_INDEX_COUNT;
             System.out.printf(REQUEST_INIT_FORMAT_STRATEGY, SideView.from(side));
@@ -39,9 +41,7 @@ public class InputView {
             System.out.println("번호를 입력해주세요.");
             int userInput = Integer.parseInt(userInput());
             validateIndex(userInput, MAX_INDEX);
-            return InitialFormationFormatter
-                    .fromIndex(userInput)
-                    .create(side);
+            return InitialFormationFormatter.from(userInput);
 
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("\n잘못된 입력입니다. 다시 입력 해주세요.");
@@ -73,7 +73,7 @@ public class InputView {
             System.out.println(REQUEST_PIECE_DESTINATION);
             int userInput = Integer.parseInt(userInput());
             validateIndex(userInput, possibleMovesDto.possibleMoveCount());
-            return userInput;
+            return userInput - INDEX_OFFSET;
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("\n잘못된 입력입니다. 다시 입력 해주세요.");
         }
