@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.domain.Team;
+import janggi.domain.path.Path;
 import janggi.domain.position.Position;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -36,7 +37,7 @@ public class ElephantTest {
     void 직선으로_먼저_한_칸_직선_방향의_대각선으로_연속_두_칸_이동시키면_경로를_반환한다() {
         Elephant elephant = new Elephant(Team.HAN);
 
-        List<Position> path = elephant.getPath(Position.from("13"), Position.from("45"));
+        Path path = elephant.getPath(Position.from("13"), Position.from("45"));
 
         assertThat(path).containsExactly(Position.from("23"), Position.from("34"));
     }

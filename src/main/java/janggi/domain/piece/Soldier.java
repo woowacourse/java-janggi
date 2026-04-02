@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.Team;
+import janggi.domain.path.Path;
 import janggi.domain.position.Position;
 import java.util.List;
 
@@ -22,10 +23,10 @@ public class Soldier extends MoveablePiece {
     }
 
     @Override
-    public List<Position> getPath(Position from, Position to) {
+    public Path getPath(Position from, Position to) {
         validateMove(from, to);
         validateBackStep(from, to);
-        return List.of();
+        return new Path();
     }
 
     @Override

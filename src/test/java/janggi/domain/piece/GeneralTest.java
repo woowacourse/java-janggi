@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.domain.Team;
+import janggi.domain.path.Path;
 import janggi.domain.position.Position;
 
 import java.util.List;
@@ -38,7 +39,7 @@ public class GeneralTest {
     void 직선_한_칸을_이동시키면_경로를_반환한다() {
         General general = new General(Team.HAN);
 
-        List<Position> path = general.getPath(Position.from("11"), Position.from("12"));
+        Path path = general.getPath(Position.from("11"), Position.from("12"));
 
         assertThat(path).hasSize(0);
     }
@@ -47,7 +48,7 @@ public class GeneralTest {
     void 대각선_한_칸을_이동시키면_경로를_반환한다() {
         General general = new General(Team.HAN);
 
-        List<Position> path = general.getPath(Position.from("11"), Position.from("22"));
+        Path path = general.getPath(Position.from("11"), Position.from("22"));
 
         assertThat(path).hasSize(0);
     }

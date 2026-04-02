@@ -1,8 +1,8 @@
 package janggi.domain.piece;
 
 import janggi.domain.Team;
+import janggi.domain.path.Path;
 import janggi.domain.position.Position;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Cannon extends MoveablePiece {
@@ -22,7 +22,7 @@ public class Cannon extends MoveablePiece {
     }
 
     @Override
-    public List<Position> getPath(Position from, Position to) {
+    public Path getPath(Position from, Position to) {
         validateMove(from, to);
         return findPath(from, to);
     }
@@ -45,8 +45,8 @@ public class Cannon extends MoveablePiece {
         }
     }
 
-    private List<Position> findPath(Position from, Position to) {
-        List<Position> path = new ArrayList<>();
+    private Path findPath(Position from, Position to) {
+        Path path = new Path();
         Position target = from.nextStraight(to);
         while (!target.equals(to)) {
             path.add(target);

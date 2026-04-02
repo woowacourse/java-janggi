@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.domain.Team;
+import janggi.domain.path.Path;
 import janggi.domain.position.Position;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -36,7 +37,7 @@ public class ChariotTest {
     void 한_방향으로_된_좌표로_경로를_요청하면_경로를_반환한다() {
         Chariot chariot = new Chariot(Team.HAN);
 
-        List<Position> path = chariot.getPath(Position.from("22"), Position.from("26"));
+        Path path = chariot.getPath(Position.from("22"), Position.from("26"));
 
         assertThat(path).containsExactly(
                 Position.from("23"),

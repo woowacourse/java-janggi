@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.Team;
+import janggi.domain.path.Path;
 import janggi.domain.position.Position;
 import java.util.List;
 
@@ -14,7 +15,7 @@ public interface Piece {
 
     Team getTeam();
 
-    List<Position> getPath(Position from, Position to);
+    Path getPath(Position from, Position to);
 
     boolean canMove(List<Piece> piecesOnPath, Piece endPiece);
 }

@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.domain.Team;
+import janggi.domain.path.Path;
 import janggi.domain.position.Position;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -36,7 +37,7 @@ public class SoldierTest {
     void 뒷_방향이_아닌_직선_한_칸을_이동시키면_경로를_반환한다() {
         Soldier soldier = new Soldier(Team.HAN);
 
-        List<Position> path = soldier.getPath(Position.from("43"), Position.from("53"));
+        Path path = soldier.getPath(Position.from("43"), Position.from("53"));
 
         assertThat(path).hasSize(0);
     }

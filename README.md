@@ -77,7 +77,7 @@ Position을 불변으로 작성하였습니다.
 
 ## 이동 규칙 구현
 Board.move(from, to)
-→ piece.getPath(from, to) : List<Position> // 경로
+→ piece.getPath(from, to) : Path // 경로
 → 경로의 Piece들 추출
 → piece.canMove(List<Piece> /* 경로 */, toPiece) : void (예외)
 → 이동 실행

@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.Team;
+import janggi.domain.path.Path;
 import janggi.domain.position.Position;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class EmptyPiece implements Piece {
     }
 
     @Override
-    public List<Position> getPath(Position from, Position to) {
+    public Path getPath(Position from, Position to) {
         throw new IllegalArgumentException("[ERROR] 선택된 기물이 없습니다.");
     }
 
