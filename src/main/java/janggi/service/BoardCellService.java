@@ -19,4 +19,12 @@ public class BoardCellService {
         return boardCellRepository.save(boardCellEntity);
     }
 
+    public long modifyBoardCell(final long boardId, final Position position, final Piece piece) {
+        final BoardCellEntity boardCellEntity = BoardCellEntity.from(boardId, position, piece);
+        if (!boardCellRepository.existsByPosition(position)) {
+            return boardCellRepository.save(boardCellEntity);
+        }
+        return boardCellRepository.updateByPosition(position, piece);
+    }
+
 }
