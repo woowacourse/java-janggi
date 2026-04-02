@@ -21,11 +21,12 @@ public class Board {
     }
 
     public void move(Position from, Position to) {
+        Offset offset = Offset.of(from, to);
+        validateActualMove(offset);
+
         Piece fromPiece = getRequiredPiece(from);
         Optional<Piece> toPiece = getPiece(to);
-        Offset offset = Offset.of(from, to);
 
-        validateActualMove(offset);
         validateSameTeam(fromPiece, toPiece);
 
         List<Offset> pathOffset = fromPiece.getPathOffset(offset);
