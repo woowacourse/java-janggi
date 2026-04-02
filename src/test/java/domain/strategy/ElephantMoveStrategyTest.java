@@ -31,7 +31,7 @@ class ElephantMoveStrategyTest {
     }
 
     @ParameterizedTest
-    @MethodSource("blockedPaths")
+    @MethodSource("blockedElephantPaths")
     @DisplayName("상 기물은 이동 경로에 기물 위치가 포함되는 여부를 반환할 수 있어야 한다.(막힘)")
     void elephant_cannot_move_blocked_route_test(Position current, Position destination, List<Position> obstacles) {
         ElephantMoveStrategy moveStrategy = new ElephantMoveStrategy();
@@ -40,7 +40,7 @@ class ElephantMoveStrategyTest {
     }
 
     @ParameterizedTest
-    @MethodSource("clearHorsePath")
+    @MethodSource("clearElephantPath")
     @DisplayName("상 기물은 이동 경로에 기물 위치가 포함되는 여부를 반환할 수 있어야 한다.(안 막힘)")
     void elephant_can_move_hasValidPathTo_non_blocked_route_test(Position current, Position destination, List<Position> obstacles) {
         ElephantMoveStrategy moveStrategy = new ElephantMoveStrategy();
@@ -79,7 +79,7 @@ class ElephantMoveStrategyTest {
         );
     }
 
-    private static Stream<Arguments> blockedPaths() {
+    private static Stream<Arguments> blockedElephantPaths() {
         Position midPosition = new Position(4, 4);
 
         return Stream.of(
@@ -90,7 +90,7 @@ class ElephantMoveStrategyTest {
         );
     }
 
-    private static Stream<Arguments> clearHorsePath() {
+    private static Stream<Arguments> clearElephantPath() {
         Position midPosition = new Position(4, 4);
 
         return Stream.of(
