@@ -7,11 +7,11 @@ import domain.movement.Vector;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ForwardAndDiagonalMovement implements MoveStrategy {
+public class ForwardAndDiagonal implements MoveStrategy {
 
     private final MoveAmount diagonalMovementAmount;
 
-    public ForwardAndDiagonalMovement(MoveAmount diagonalMovementAmount) {
+    public ForwardAndDiagonal(MoveAmount diagonalMovementAmount) {
         this.diagonalMovementAmount = diagonalMovementAmount;
     }
 

@@ -6,7 +6,7 @@ import domain.movement.MoveAmount;
 import domain.movement.Route;
 import domain.movement.Vector;
 import domain.movement.strategy.MoveStrategy;
-import domain.movement.strategy.StraightMovement;
+import domain.movement.strategy.Straight;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +16,7 @@ public final class Chariot extends StaticPositionedPiece {
     private static final List<Integer> INITIAL_FILES = List.of(1, 9);
     private static final MoveAmount FORWARDABLE_AMOUNT = MoveAmount.maximum();
 
-    private final MoveStrategy moveStrategy = new StraightMovement(FORWARDABLE_AMOUNT);
+    private final MoveStrategy moveStrategy = new Straight(FORWARDABLE_AMOUNT);
 
     public Chariot(Side side) {
         super(side);

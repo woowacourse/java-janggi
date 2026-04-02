@@ -5,7 +5,7 @@ import domain.game.Side;
 import domain.movement.MoveAmount;
 import domain.movement.Route;
 import domain.movement.Vector;
-import domain.movement.strategy.ForwardAndDiagonalMovement;
+import domain.movement.strategy.ForwardAndDiagonal;
 import domain.movement.strategy.MoveStrategy;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ public final class Elephant extends Piece {
 
     private static final MoveAmount DIAGONAL_MOVE_AMOUNT = new MoveAmount(2);
 
-    private final MoveStrategy moveStrategy = new ForwardAndDiagonalMovement(DIAGONAL_MOVE_AMOUNT);
+    private final MoveStrategy moveStrategy = new ForwardAndDiagonal(DIAGONAL_MOVE_AMOUNT);
 
     public Elephant(Side side) {
         super(side);

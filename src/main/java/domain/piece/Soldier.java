@@ -6,7 +6,7 @@ import domain.movement.MoveAmount;
 import domain.movement.Route;
 import domain.movement.Vector;
 import domain.movement.strategy.MoveStrategy;
-import domain.movement.strategy.StraightMovement;
+import domain.movement.strategy.Straight;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -18,7 +18,7 @@ public final class Soldier extends StaticPositionedPiece {
     private static final List<Integer> INITIAL_FILES = List.of(1, 3, 5, 7, 9);
     private static final MoveAmount MOVE_AMOUNT = new MoveAmount(1);
 
-    private final MoveStrategy moveStrategy = new StraightMovement(MOVE_AMOUNT);
+    private final MoveStrategy moveStrategy = new Straight(MOVE_AMOUNT);
 
     public Soldier(Side side) {
         super(side);

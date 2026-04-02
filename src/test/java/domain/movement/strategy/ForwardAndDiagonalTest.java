@@ -12,7 +12,7 @@ import java.util.Set;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-class ForwardAndDiagonalMovementTest {
+class ForwardAndDiagonalTest {
 
     private static final Intersection START_INTERSECTION = new Intersection(5, 5);
 
@@ -23,7 +23,7 @@ class ForwardAndDiagonalMovementTest {
     void 직진_후_지정된_만큼_대각선으로_이동한_경로를_반환한다(int diagonalAmount) {
         // given
         MoveAmount moveAmount = new MoveAmount(diagonalAmount);
-        ForwardAndDiagonalMovement forwardAndDiagonalMovement = new ForwardAndDiagonalMovement(moveAmount);
+        ForwardAndDiagonal forwardAndDiagonal = new ForwardAndDiagonal(moveAmount);
 
         Vector forward = new Vector(1, 0);
         Intersection forwardNode = forward.next(START_INTERSECTION);
@@ -36,7 +36,7 @@ class ForwardAndDiagonalMovementTest {
         );
 
         // when
-        List<Route> actual = forwardAndDiagonalMovement.getRoutes(START_INTERSECTION, forward);
+        List<Route> actual = forwardAndDiagonal.getRoutes(START_INTERSECTION, forward);
 
         // then
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);

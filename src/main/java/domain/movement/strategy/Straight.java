@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class StraightMovement implements MoveStrategy {
+public class Straight implements MoveStrategy {
 
     private final MoveAmount moveAmount;
 
-    public StraightMovement(MoveAmount moveAmount) {
+    public Straight(MoveAmount moveAmount) {
         this.moveAmount = moveAmount;
     }
 
