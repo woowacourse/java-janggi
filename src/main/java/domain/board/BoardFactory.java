@@ -57,18 +57,18 @@ public class BoardFactory {
 
     private static void placeFormationPieces(Map<Position, Piece> pieces, Side side, Formation formation) {
         List<Integer> formationX = side.formationX();
-        List<FormationPiece> orders = formation.getOrders();
+        List<PieceType> orders = formation.getOrders();
         for (int i = 0; i < orders.size(); i++) {
             Position position = Position.of(formationX.get(i), side.baseY());
             pieces.put(position, createFormationPiece(orders.get(i), side));
         }
     }
 
-    private static Piece createFormationPiece(FormationPiece piece, Side side) {
-        if (piece == FormationPiece.HORSE) {
+    private static Piece createFormationPiece(PieceType piece, Side side) {
+        if (piece == PieceType.HORSE) {
             return PieceFactory.createHorse(side);
         }
-        if (piece == FormationPiece.ELEPHANT) {
+        if (piece == PieceType.ELEPHANT) {
             return PieceFactory.createElephant(side);
         }
         throw new IllegalArgumentException("지원하지 않는 포메이션 기물입니다.");
