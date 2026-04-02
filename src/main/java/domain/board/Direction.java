@@ -66,38 +66,35 @@ public enum Direction {
 
     private static Queue<Direction> calculateDirections(int row, int column) {
         Queue<Direction> directions = new ArrayDeque<>();
-        // 절댓값이 큰 값의 실제 값 - 절대 값이 작은 실제값
-        if (Math.abs(row) > Math.abs(column)) {
-            row = updateRowBasedOnDirection(Math.abs(row), directions, row, column);
-        }
-        if (Math.abs(column) > Math.abs(row)) {
-            column = updateColumnBasedOnDirection(Math.abs(column), directions, row, column);
-        }
-        addDiagonalDirection(directions, row, column);
+
+        int rowAbs = Math.abs(row);
+        int columnAbs = Math.abs(column);
+        int rowSign = Integer.signum(row);
+        int columnSign = Integer.signum(column);
+        int diagonalCount = Math.min(rowAbs, columnAbs);
+        int straightRowCount = rowAbs - diagonalCount;
+        int straightColumnCount = columnAbs - diagonalCount;
+
+        addStraightRowDirections(straightRowCount, directions, rowSign);
+        addStraightColumnDirections(straightColumnCount, directions, columnSign);
+        addDiagonalDirections(diagonalCount, directions, rowSign, columnSign);
+
         return directions;
     }
 
-    private static int updateRowBasedOnDirection(int rowAbs, Queue<Direction> directions, int row, int column) {
-        for (int i = rowAbs; i > Math.abs(column); i--) {
-            directions.add(from((row - column) / Math.abs(row - column), 0));
-            row = (i - 1) * (row / i);
+    private static void addDiagonalDirections(int diagonalCount, Queue<Direction> directions, int rowSign, int columnSign) {
+        for (int i = 0; i < diagonalCount; i++) {
+            directions.add(from(rowSign, columnSign));
         }
-
-        return row;
     }
 
-    private static int updateColumnBasedOnDirection(int columnAbs, Queue<Direction> directions, int row, int column) {
-        for (int i = columnAbs; i > Math.abs(row); i--) {
-            directions.add(from(0, (column - row) / Math.abs(column - row)));
-            column = (i - 1) * (column / i);
-        }
-        return column;
+    private static void addStraightColumnDirections(int straightColumnCount, Queue<Direction> directions, int columnSign) {
+        addDiagonalDirections(straightColumnCount, directions, 0, columnSign);
     }
 
-    private static void addDiagonalDirection(Queue<Direction> directions, int row, int column) {
-        if (row == 0 || column == 0) return;
-        for (int i = 0; i < Math.abs(row); i++) {
-            directions.add(from(row / Math.abs(row), column / Math.abs(column)));
+    private static void addStraightRowDirections(int straightRowCount, Queue<Direction> directions, int rowSign) {
+        for (int i = 0; i < straightRowCount; i++) {
+            directions.add(from(rowSign, 0));
         }
     }
 }
