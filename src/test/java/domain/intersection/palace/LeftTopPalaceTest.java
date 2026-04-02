@@ -1,7 +1,6 @@
-package domain.move;
+package domain.intersection.palace;
 
 import domain.intersection.Intersection;
-import domain.intersection.palace.LeftTopPalace;
 import domain.move.directions.Directions;
 import domain.move.directions.Vector;
 import domain.piece.Piece;
