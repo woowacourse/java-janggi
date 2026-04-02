@@ -3,6 +3,11 @@ package domain.position;
 import domain.board.Direction;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -24,147 +29,39 @@ public class PositionTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
-    @Test
-    @DisplayName("(5,5)에서 단위 방향(UP)이 들어오면 (6,5)를 반환한다")
-    void 기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트_1(){
-        Position position = Position.of(5, 5);
-        Direction direction = Direction.UP;
-
+    @ParameterizedTest
+    @MethodSource("appendCases")
+    void 기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트(Position position, Direction direction, Position expected) {
         Position newPosition = position.append(direction);
-
-        assertThat(newPosition.getRow()).isEqualTo(6);
-        assertThat(newPosition.getColumn()).isEqualTo(5);
+        assertThat(newPosition).isEqualTo(expected);
     }
 
-    @Test
-    @DisplayName("(5,5)에서 단위 방향(UP_RIGHT)이 들어오면 (6,6)를 반환한다")
-    void 기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트_2(){
-        Position position = Position.of(5, 5);
-        Direction direction = Direction.UP_RIGHT;
-
-        Position newPosition = position.append(direction);
-
-        assertThat(newPosition.getRow()).isEqualTo(6);
-        assertThat(newPosition.getColumn()).isEqualTo(6);
+    @ParameterizedTest
+    @MethodSource("distanceCases")
+    void 출발지_좌표에서_목적지_좌표까지의_거리_구하기_테스트(Position startPosition, Position endPosition, Coordinate expected) {
+        Coordinate coordinate = startPosition.minus(endPosition);
+        assertThat(coordinate).isEqualTo(expected);
+    }
+    
+    static Stream<Arguments> appendCases() {
+        return Stream.of(
+                Arguments.of(Position.of(5, 5), Direction.UP, Position.of(6,5)),
+                Arguments.of(Position.of(5, 5), Direction.UP_RIGHT, Position.of(6,6)),
+                Arguments.of(Position.of(5, 5), Direction.RIGHT, Position.of(5,6)),
+                Arguments.of(Position.of(5, 5), Direction.DOWN_RIGHT, Position.of(4,6)),
+                Arguments.of(Position.of(5, 5), Direction.DOWN, Position.of(4,5)),
+                Arguments.of(Position.of(5, 5), Direction.DOWN_LEFT, Position.of(4,4)),
+                Arguments.of(Position.of(5, 5), Direction.LEFT, Position.of(5,4)),
+                Arguments.of(Position.of(5, 5), Direction.UP_LEFT, Position.of(6,4))
+        );
     }
 
-    @Test
-    @DisplayName("(5,5)에서 단위 방향(RIGHT)이 들어오면 (5,6)를 반환한다")
-    void 기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트_3(){
-        Position position = Position.of(5, 5);
-        Direction direction = Direction.RIGHT;
-
-        Position newPosition = position.append(direction);
-
-        assertThat(newPosition.getRow()).isEqualTo(5);
-        assertThat(newPosition.getColumn()).isEqualTo(6);
-    }
-
-    @Test
-    @DisplayName("(5,5)에서 단위 방향(DOWN_RIGHT)이 들어오면 (4,6)를 반환한다")
-    void 기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트_4(){
-        Position position = Position.of(5, 5);
-        Direction direction = Direction.DOWN_RIGHT;
-
-        Position newPosition = position.append(direction);
-
-        assertThat(newPosition.getRow()).isEqualTo(4);
-        assertThat(newPosition.getColumn()).isEqualTo(6);
-    }
-
-    @Test
-    @DisplayName("(5,5)에서 단위 방향(DOWN)이 들어오면 (4,5)를 반환한다")
-    void 기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트_5(){
-        Position position = Position.of(5, 5);
-        Direction direction = Direction.DOWN;
-
-        Position newPosition = position.append(direction);
-
-        assertThat(newPosition.getRow()).isEqualTo(4);
-        assertThat(newPosition.getColumn()).isEqualTo(5);
-    }
-
-    @Test
-    @DisplayName("(5,5)에서 단위 방향(DOWN_LEFT)이 들어오면 (4,4)를 반환한다")
-    void 기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트_6(){
-        Position position = Position.of(5, 5);
-        Direction direction = Direction.DOWN_LEFT;
-
-        Position newPosition = position.append(direction);
-
-        assertThat(newPosition.getRow()).isEqualTo(4);
-        assertThat(newPosition.getColumn()).isEqualTo(4);
-    }
-
-    @Test
-    @DisplayName("(5,5)에서 단위 방향(LEFT)이 들어오면 (5,4)를 반환한다")
-    void 기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트_7(){
-        Position position = Position.of(5, 5);
-        Direction direction = Direction.LEFT;
-
-        Position newPosition = position.append(direction);
-
-        assertThat(newPosition.getRow()).isEqualTo(5);
-        assertThat(newPosition.getColumn()).isEqualTo(4);
-    }
-
-    @Test
-    @DisplayName("(5,5)에서 단위 방향(UP_LEFT)이 들어오면 (6,4)를 반환한다")
-    void 기존좌표에서_단위방향을_더한_새로운_좌표_결과_테스트_8(){
-        Position position = Position.of(5, 5);
-        Direction direction = Direction.UP_LEFT;
-
-        Position newPosition = position.append(direction);
-
-        assertThat(newPosition.getRow()).isEqualTo(6);
-        assertThat(newPosition.getColumn()).isEqualTo(4);
-    }
-
-    @Test
-    @DisplayName("(4,4)와 (5,5)의 거리를 구할 수 있다.")
-    void 출발지_좌표에서_목적지_좌표까지의_거리_구하기_테스트_1(){
-        Position startPosition = Position.of(4, 4);
-        Position endPosition = Position.of(5, 5);
-
-        Coordinate distance = endPosition.minus(startPosition);
-
-        assertThat(distance.row()).isEqualTo(1);
-        assertThat(distance.column()).isEqualTo(1);
-    }
-
-    @Test
-    @DisplayName("(4,6)와 (5,5)의 거리를 구할 수 있다.")
-    void 출발지_좌표에서_목적지_좌표까지의_거리_구하기_테스트_2(){
-        Position startPosition = Position.of(4, 6);
-        Position endPosition = Position.of(5, 5);
-
-        Coordinate distance = endPosition.minus(startPosition);
-
-        assertThat(distance.row()).isEqualTo(1);
-        assertThat(distance.column()).isEqualTo(-1);
-    }
-
-    @Test
-    @DisplayName("(6,4)와 (5,5)의 거리를 구할 수 있다.")
-    void 출발지_좌표에서_목적지_좌표까지의_거리_구하기_테스트_3(){
-        Position startPosition = Position.of(6, 4);
-        Position endPosition = Position.of(5, 5);
-
-        Coordinate distance = endPosition.minus(startPosition);
-
-        assertThat(distance.row()).isEqualTo(-1);
-        assertThat(distance.column()).isEqualTo(1);
-    }
-
-    @Test
-    @DisplayName("(6,6)와 (5,5)의 거리를 구할 수 있다.")
-    void 출발지_좌표에서_목적지_좌표까지의_거리_구하기_테스트_4(){
-        Position startPosition = Position.of(6, 6);
-        Position endPosition = Position.of(5, 5);
-
-        Coordinate distance = endPosition.minus(startPosition);
-
-        assertThat(distance.row()).isEqualTo(-1);
-        assertThat(distance.column()).isEqualTo(-1);
+    static Stream<Arguments> distanceCases() {
+        return Stream.of(
+                Arguments.of(Position.of(4,4), Position.of(5,5), new Coordinate(-1,-1)),
+                Arguments.of(Position.of(4,6), Position.of(5,5), new Coordinate(-1,1)),
+                Arguments.of(Position.of(6,4), Position.of(5,5), new Coordinate(1,-1)),
+                Arguments.of(Position.of(6,6), Position.of(5,5), new Coordinate(1,1))
+        );
     }
 }
