@@ -25,6 +25,16 @@ public class JanggiController {
         processMove(game);
     }
 
+    private Game initGame() {
+        Formation choformation = readChoFormation();
+        Formation hanformation = readHanFormation();
+
+        Board board = BoardFactory.createBoard(choformation, hanformation);
+        Game game = new Game(board);
+        outputView.printBoardStatus(game.getBoard());
+        return game;
+    }
+
     private void processMove(Game game) {
         while (!game.isGameEnd()) {
             Side currentTurn = game.getCurrentTurn();
@@ -40,18 +50,6 @@ public class JanggiController {
         }
     }
 
-    private Position readTargetPosition() {
-        while (true) {
-            try {
-                int x = Parser.parseInput(inputView.readTargetXPosition());
-                int y = Parser.parseInput(inputView.readTargetYPosition());
-                return Position.of(x, y);
-            } catch (IllegalArgumentException e) {
-                outputView.printErrorMessage(e.getMessage());
-            }
-        }
-    }
-
     private Position readSourcePosition() {
         while (true) {
             try {
@@ -64,14 +62,16 @@ public class JanggiController {
         }
     }
 
-    private Game initGame() {
-        Formation choformation = readChoFormation();
-        Formation hanformation = readHanFormation();
-
-        Board board = BoardFactory.createBoard(choformation, hanformation);
-        Game game = new Game(board);
-        outputView.printBoardStatus(game.getBoard());
-        return game;
+    private Position readTargetPosition() {
+        while (true) {
+            try {
+                int x = Parser.parseInput(inputView.readTargetXPosition());
+                int y = Parser.parseInput(inputView.readTargetYPosition());
+                return Position.of(x, y);
+            } catch (IllegalArgumentException e) {
+                outputView.printErrorMessage(e.getMessage());
+            }
+        }
     }
 
     private Formation readChoFormation() {

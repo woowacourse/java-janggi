@@ -18,7 +18,6 @@ public class Cannon extends Piece {
         super(side, movementStrategy);
     }
 
-
     @Override
     public List<Position> findRoute(Position sourcePosition, Position targetPosition) {
         return movementStrategy.findRoute(paths, sourcePosition, targetPosition);

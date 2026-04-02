@@ -20,8 +20,8 @@ public class Board {
         board.put(sourcePosition, new Empty());
     }
 
-    public Map<Position, Piece> getBoard() {
-        return Map.copyOf(board);
+    public Piece getPiece(Position position) {
+        return board.get(position);
     }
 
     public List<Piece> findPiecesOnRoute(List<Position> route, Position targetPosition) {
@@ -34,10 +34,6 @@ public class Board {
         return pieces;
     }
 
-    public Piece getPiece(Position position) {
-        return board.get(position);
-    }
-
     public boolean hasKing(Side side) {
         for (Piece piece : board.values()) {
             if (piece instanceof King && piece.isSameSide(side)) {
@@ -45,5 +41,9 @@ public class Board {
             }
         }
         return true;
+    }
+
+    public Map<Position, Piece> getBoard() {
+        return Map.copyOf(board);
     }
 }

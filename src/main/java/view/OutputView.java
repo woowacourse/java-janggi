@@ -42,6 +42,10 @@ public class OutputView {
         System.out.println(HAN_TURN_MESSAGE);
     }
 
+    public void printErrorMessage(String errorMessage) {
+        System.out.println(ERROR_PREFIX + errorMessage);
+    }
+
     private void printRowNumber(int y) {
         if (y < BoardSpec.MAX_Y) {
             System.out.printf(SINGLE_DIGIT_ROW_FORMAT, y);
@@ -63,9 +67,5 @@ public class OutputView {
             return BLUE;
         }
         return RESET;
-    }
-
-    public void printErrorMessage(String errorMessage) {
-        System.out.println(ERROR_PREFIX + errorMessage);
     }
 }

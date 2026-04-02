@@ -21,15 +21,6 @@ public class Game {
         turn.next();
     }
 
-    private void validateMovement(Position sourcePosition, Position targetPosition) {
-        Piece sourcePiece = board.getPiece(sourcePosition);
-        Piece targetPiece = board.getPiece(targetPosition);
-        sourcePiece.validateMovement(turn.current(), targetPiece);
-        List<Position> route = sourcePiece.findRoute(sourcePosition, targetPosition);
-        List<Piece> pieces = board.findPiecesOnRoute(route, targetPosition);
-        sourcePiece.checkRoute(pieces);
-    }
-
     public boolean isGameEnd() {
         return board.hasKing(Side.CHO) || board.hasKing(Side.HAN);
     }
@@ -40,5 +31,14 @@ public class Game {
 
     public Map<Position, Piece> getBoard() {
         return board.getBoard();
+    }
+
+    private void validateMovement(Position sourcePosition, Position targetPosition) {
+        Piece sourcePiece = board.getPiece(sourcePosition);
+        Piece targetPiece = board.getPiece(targetPosition);
+        sourcePiece.validateMovement(turn.current(), targetPiece);
+        List<Position> route = sourcePiece.findRoute(sourcePosition, targetPosition);
+        List<Piece> pieces = board.findPiecesOnRoute(route, targetPosition);
+        sourcePiece.checkRoute(pieces);
     }
 }

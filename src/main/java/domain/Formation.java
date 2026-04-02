@@ -1,7 +1,6 @@
 package domain;
 
 import domain.piece.PieceType;
-
 import java.util.List;
 
 public enum Formation {
@@ -21,8 +20,8 @@ public enum Formation {
     }
 
     public static Formation from(String input) {
-        for(Formation formation : Formation.values()) {
-            if(formation.option.equals(input)) {
+        for (Formation formation : Formation.values()) {
+            if (formation.option.equals(input)) {
                 return formation;
             }
         }

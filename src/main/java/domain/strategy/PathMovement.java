@@ -2,11 +2,10 @@ package domain.strategy;
 
 import domain.Direction;
 import domain.Position;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class PathMovement extends MovementStrategy{
+public class PathMovement extends MovementStrategy {
 
     @Override
     protected List<Position> buildRoute(List<Direction> path, Position source, Position target) {
