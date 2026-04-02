@@ -4,7 +4,6 @@ import domain.coordination.Coordination;
 import domain.coordination.MoveDelta;
 import domain.piece.error.PieceException;
 import java.util.List;
-import java.util.Map;
 
 public class Guard extends Piece {
 
@@ -20,9 +19,20 @@ public class Guard extends Piece {
     }
 
     @Override
-    public void validateMovable(Coordination from, Coordination to, Map<Coordination, Piece> board) {
+    public void validateRule(Coordination from, Coordination to) {
         validateLocation(from, to);
-        validateSameTeam(from, to, board);
+    }
+
+    @Override
+    public List<Coordination> resolvePath(Coordination from, Coordination to) {
+        return List.of();
+    }
+
+    @Override
+    public void validatePath(List<Piece> piecesOnPath) {
+        if (!piecesOnPath.isEmpty()) {
+            throw new PieceException(IMPOSSIBLE_MOVE);
+        }
     }
 
     private void validateLocation(Coordination from, Coordination to) {

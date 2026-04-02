@@ -3,7 +3,6 @@ package domain.piece;
 import domain.coordination.Coordination;
 import domain.piece.error.PieceException;
 import java.util.List;
-import java.util.Map;
 
 public class Chariot extends Piece {
 
@@ -12,10 +11,8 @@ public class Chariot extends Piece {
     }
 
     @Override
-    public void validateMovable(Coordination from, Coordination to, Map<Coordination, Piece> board) {
+    public void validateRule(Coordination from, Coordination to) {
         validateLocation(from, to);
-        validatePathClear(from, to, board);
-        validateSameTeam(from, to, board);
     }
 
     private void validateLocation(Coordination from, Coordination to) {
@@ -25,19 +22,18 @@ public class Chariot extends Piece {
         }
     }
 
-    private void validatePathClear(Coordination from, Coordination to, Map<Coordination, Piece> board) {
-        List<Coordination> path = resolvePath(from, to);
-        for (Coordination coordination : path) {
-            if (!board.get(coordination).isEmpty()) {
-                throw new PieceException(IMPOSSIBLE_MOVE);
-            }
-        }
-    }
-
-    private List<Coordination> resolvePath(Coordination from, Coordination to) {
+    @Override
+    public List<Coordination> resolvePath(Coordination from, Coordination to) {
         if (from.isSameColumnDifferentRow(to)) {
             return from.betweenRowCoordination(to);
         }
         return from.betweenColumnCoordination(to);
+    }
+
+    @Override
+    public void validatePath(List<Piece> piecesOnPath) {
+        if (!piecesOnPath.isEmpty()) {
+            throw new PieceException(IMPOSSIBLE_MOVE);
+        }
     }
 }

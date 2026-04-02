@@ -2,6 +2,7 @@ package domain.piece;
 
 import domain.coordination.Coordination;
 import domain.piece.error.PieceException;
+import java.util.List;
 import java.util.Map;
 
 public abstract class Piece {
@@ -26,13 +27,7 @@ public abstract class Piece {
         return this.team.equals(team);
     }
 
-    protected void validateSameTeam(Coordination from, Coordination to, Map<Coordination, Piece> board) {
-        Piece fromPiece = board.get(from);
-        Piece toPiece = board.get(to);
-        fromPiece.validateNotSameTeam(toPiece);
-    }
-
-    private void validateNotSameTeam(Piece piece) {
+    public void validateNotSameTeam(Piece piece) {
         if (!isEmptyPiece(piece) && piece.isSameTeam(this.team)) {
             throw new PieceException(IMPOSSIBLE_MOVE);
         }
@@ -46,5 +41,19 @@ public abstract class Piece {
         return false;
     }
 
-    public abstract void validateMovable(Coordination from, Coordination to, Map<Coordination, Piece> board);
+    public abstract void validateRule(Coordination from, Coordination to);
+
+    public abstract List<Coordination> resolvePath(Coordination from, Coordination to);
+
+    public abstract void validatePath(List<Piece> piecesOnPath);
+
+    public void validateMovable(Coordination from, Coordination to, Map<Coordination, Piece> board) {
+        validateRule(from, to);
+        List<Piece> piecesOnPath = resolvePath(from, to).stream()
+                .map(board::get)
+                .filter(piece -> !piece.isEmpty())
+                .toList();
+        validatePath(piecesOnPath);
+        validateNotSameTeam(board.get(to));
+    }
 }

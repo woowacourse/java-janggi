@@ -3,7 +3,6 @@ package domain.piece;
 import domain.coordination.Coordination;
 import domain.piece.error.PieceException;
 import java.util.List;
-import java.util.Map;
 
 public class Cannon extends Piece {
 
@@ -12,17 +11,8 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public void validateMovable(Coordination from, Coordination to, Map<Coordination, Piece> board) {
+    public void validateRule(Coordination from, Coordination to) {
         validateLocation(from, to);
-        validateOnlyOnePieceNotCannon(from, to, board);
-        validateCanon(to, board);
-        validateSameTeam(from, to, board);
-    }
-
-    private void validateCanon(Coordination to, Map<Coordination, Piece> board) {
-        if (board.get(to) instanceof Cannon) {
-            throw new PieceException(IMPOSSIBLE_MOVE);
-        }
     }
 
     private void validateLocation(Coordination from, Coordination to) {
@@ -32,19 +22,8 @@ public class Cannon extends Piece {
         }
     }
 
-    private void validateOnlyOnePieceNotCannon(Coordination from, Coordination to, Map<Coordination, Piece> board) {
-        List<Piece> piecesOnPath = getPieces(from, to, board);
-        validateJumpRule(piecesOnPath);
-    }
-
-    private List<Piece> getPieces(Coordination from, Coordination to, Map<Coordination, Piece> board) {
-        return resolvePath(from, to).stream()
-                .map(board::get)
-                .filter(piece -> !piece.isEmpty())
-                .toList();
-    }
-
-    private void validateJumpRule(List<Piece> pieces) {
+    @Override
+    public void validatePath(List<Piece> pieces) {
         validateExactlyOneBridge(pieces);
         validateBridgeIsNotCannon(pieces);
     }
@@ -63,10 +42,19 @@ public class Cannon extends Piece {
         }
     }
 
-    private List<Coordination> resolvePath(Coordination from, Coordination to) {
+    @Override
+    public List<Coordination> resolvePath(Coordination from, Coordination to) {
         if (from.isSameColumnDifferentRow(to)) {
             return from.betweenRowCoordination(to);
         }
         return from.betweenColumnCoordination(to);
+    }
+
+    @Override
+    public void validateNotSameTeam(Piece piece) {
+        if (piece instanceof Cannon) {
+            throw new PieceException(IMPOSSIBLE_MOVE);
+        }
+        super.validateNotSameTeam(piece);
     }
 }

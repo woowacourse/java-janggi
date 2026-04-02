@@ -2,7 +2,7 @@ package domain.piece;
 
 import domain.coordination.Coordination;
 import domain.piece.error.PieceException;
-import java.util.Map;
+import java.util.List;
 
 public class EmptyPiece extends Piece {
 
@@ -18,7 +18,17 @@ public class EmptyPiece extends Piece {
     }
 
     @Override
-    public void validateMovable(Coordination from, Coordination to, Map<Coordination, Piece> board) {
+    public void validateRule(Coordination from, Coordination to) {
+        throw new PieceException(NOT_EXISTS_PIECE);
+    }
+
+    @Override
+    public List<Coordination> resolvePath(Coordination from, Coordination to) {
+        return List.of();
+    }
+
+    @Override
+    public void validatePath(List<Piece> piecesOnPath) {
         throw new PieceException(NOT_EXISTS_PIECE);
     }
 }

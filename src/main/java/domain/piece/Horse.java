@@ -4,7 +4,6 @@ import domain.coordination.Coordination;
 import domain.coordination.MoveDelta;
 import domain.piece.error.PieceException;
 import java.util.List;
-import java.util.Map;
 
 public class Horse extends Piece {
 
@@ -20,22 +19,11 @@ public class Horse extends Piece {
     }
 
     @Override
-    public void validateMovable(Coordination from, Coordination to, Map<Coordination, Piece> board) {
+    public void validateRule(Coordination from, Coordination to) {
         MoveDelta different = MoveDelta.between(from, to);
         MoveDelta absDifferent = different.absolute();
 
         validateLocation(absDifferent);
-
-        int colDifferent = different.deltaColumn();
-        int rowDifferent = different.deltaRow();
-        int absColumnDifferent = absDifferent.deltaColumn();
-        int absRowDifferent = absDifferent.deltaRow();
-
-        Coordination intermediateColumn = from.plus(colDifferent / MAX_STEP, 0);
-        Coordination intermediateRow = from.plus(0, rowDifferent / MAX_STEP);
-
-        validateDirection(board, absColumnDifferent, intermediateColumn, absRowDifferent, intermediateRow);
-        validateSameTeam(from, to, board);
     }
 
     private void validateLocation(MoveDelta absDifferent) {
@@ -44,21 +32,37 @@ public class Horse extends Piece {
         }
     }
 
-    private void validateDirection(Map<Coordination, Piece> board, int absColumnDifferent,
-                                   Coordination intermediateColumn, int absRowDifferent, Coordination intermediateRow) {
-        validateDirection(absColumnDifferent, board, intermediateColumn);
-        validateDirection(absRowDifferent, board, intermediateRow);
+    @Override
+    public List<Coordination> resolvePath(Coordination from, Coordination to) {
+        MoveDelta different = MoveDelta.between(from, to);
+        MoveDelta absDifferent = different.absolute();
+        int colDifferent = different.deltaColumn();
+        int rowDifferent = different.deltaRow();
+        int absColumnDifferent = absDifferent.deltaColumn();
+        int absRowDifferent = absDifferent.deltaRow();
+
+        Coordination intermediateColumn = from.plus(colDifferent / MAX_STEP, 0);
+        Coordination intermediateRow = from.plus(0, rowDifferent / MAX_STEP);
+
+        return resolvePath(absColumnDifferent, intermediateColumn, absRowDifferent, intermediateRow);
     }
 
-    private void validateDirection(int absDifferent, Map<Coordination, Piece> board,
-                                   Coordination intermediateCoordination) {
-        if (absDifferent == 2) {
-            validatePathClear(board, intermediateCoordination);
+    private List<Coordination> resolvePath(int absColumnDifferent,
+                                           Coordination intermediateColumn,
+                                           int absRowDifferent,
+                                           Coordination intermediateRow) {
+        if (absColumnDifferent == MAX_STEP) {
+            return List.of(intermediateColumn);
         }
+        if (absRowDifferent == MAX_STEP) {
+            return List.of(intermediateRow);
+        }
+        return List.of();
     }
 
-    private void validatePathClear(Map<Coordination, Piece> board, Coordination intermediateCoordination) {
-        if (!board.get(intermediateCoordination).isEmpty()) {
+    @Override
+    public void validatePath(List<Piece> piecesOnPath) {
+        if (!piecesOnPath.isEmpty()) {
             throw new PieceException(IMPOSSIBLE_MOVE);
         }
     }

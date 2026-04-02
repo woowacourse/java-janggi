@@ -4,7 +4,6 @@ import domain.coordination.Coordination;
 import domain.coordination.MoveDelta;
 import domain.piece.error.PieceException;
 import java.util.List;
-import java.util.Map;
 
 public class Elephant extends Piece {
 
@@ -21,27 +20,29 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public void validateMovable(Coordination from, Coordination to, Map<Coordination, Piece> board) {
+    public void validateRule(Coordination from, Coordination to) {
         MoveDelta different = MoveDelta.between(from, to);
         MoveDelta absDifferent = different.absolute();
 
         validateLocation(absDifferent);
-
-        List<Coordination> intermediateCoordinations = createIntermediateCoordinations(
-                from,
-                different.deltaColumn(),
-                different.deltaRow(),
-                absDifferent.deltaColumn()
-        );
-
-        validatePathClear(board, intermediateCoordinations);
-        validateSameTeam(from, to, board);
     }
 
     private void validateLocation(MoveDelta absDifferent) {
         if (!MOVABLE_ABSOLUTE_LOCATION.contains(absDifferent)) {
             throw new PieceException(IMPOSSIBLE_MOVE);
         }
+    }
+
+    @Override
+    public List<Coordination> resolvePath(Coordination from, Coordination to) {
+        MoveDelta different = MoveDelta.between(from, to);
+        MoveDelta absDifferent = different.absolute();
+        return createIntermediateCoordinations(
+                from,
+                different.deltaColumn(),
+                different.deltaRow(),
+                absDifferent.deltaColumn()
+        );
     }
 
     private List<Coordination> createIntermediateCoordinations(
@@ -76,14 +77,9 @@ public class Elephant extends Piece {
         return List.of(firstIntermediate, secondIntermediate);
     }
 
-    private void validatePathClear(Map<Coordination, Piece> board, List<Coordination> intermediateCoordinations) {
-        for (Coordination intermediateCoordination : intermediateCoordinations) {
-            validateEmpty(board, intermediateCoordination);
-        }
-    }
-
-    private void validateEmpty(Map<Coordination, Piece> board, Coordination intermediateCoordination) {
-        if (!board.get(intermediateCoordination).isEmpty()) {
+    @Override
+    public void validatePath(List<Piece> piecesOnPath) {
+        if (!piecesOnPath.isEmpty()) {
             throw new PieceException(IMPOSSIBLE_MOVE);
         }
     }
