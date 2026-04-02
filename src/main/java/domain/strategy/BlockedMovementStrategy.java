@@ -4,7 +4,7 @@ import domain.board.PathPieces;
 
 public class BlockedMovementStrategy implements MovementStrategy {
     @Override
-    public boolean validatePath(PathPieces pathPieces) {
+    public boolean isValidPath(PathPieces pathPieces) {
         if (pathPieces.hasPieceInWaypoint()) {
             return false;
         }

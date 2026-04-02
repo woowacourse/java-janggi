@@ -23,7 +23,7 @@ class PoMovementStrategyTest {
         Piece sourcePiece = new Po(Team.CHO);
 
         PathPieces pathPieces = new PathPieces(sourcePiece, List.of(), new None());
-        assertFalse(poMovementStrategy.validatePath(pathPieces));
+        assertFalse(poMovementStrategy.isValidPath(pathPieces));
     }
 
     @ParameterizedTest
@@ -32,7 +32,7 @@ class PoMovementStrategyTest {
         Piece sourcePiece = new Po(Team.CHO);
 
         PathPieces pathPieces = new PathPieces(sourcePiece, List.of(new Cha(team)), new None());
-        assertTrue(poMovementStrategy.validatePath(pathPieces));
+        assertTrue(poMovementStrategy.isValidPath(pathPieces));
     }
 
     @ParameterizedTest
@@ -41,7 +41,7 @@ class PoMovementStrategyTest {
         Piece sourcePiece = new Po(Team.CHO);
 
         PathPieces pathPieces = new PathPieces(sourcePiece, List.of(new Po(team)), new None());
-        assertFalse(poMovementStrategy.validatePath(pathPieces));
+        assertFalse(poMovementStrategy.isValidPath(pathPieces));
     }
 
     @Test
@@ -50,7 +50,7 @@ class PoMovementStrategyTest {
         Piece destinationPiece = new Cha(Team.CHO);
         PathPieces pathPieces = new PathPieces(sourcePiece, List.of(new Cha(Team.CHO)), destinationPiece);
 
-        assertFalse(poMovementStrategy.validatePath(pathPieces));
+        assertFalse(poMovementStrategy.isValidPath(pathPieces));
     }
 
     @Test
@@ -59,7 +59,7 @@ class PoMovementStrategyTest {
         Piece destinationPiece = new Cha(Team.HAN);
         PathPieces pathPieces = new PathPieces(sourcePiece, List.of(new Cha(Team.CHO)), destinationPiece);
 
-        assertTrue(poMovementStrategy.validatePath(pathPieces));
+        assertTrue(poMovementStrategy.isValidPath(pathPieces));
     }
 
     @ParameterizedTest
@@ -69,6 +69,6 @@ class PoMovementStrategyTest {
         Piece destinationPiece = new Po(team);
 
         PathPieces pathPieces = new PathPieces(sourcePiece, List.of(new Cha(team)), destinationPiece);
-        assertFalse(poMovementStrategy.validatePath(pathPieces));
+        assertFalse(poMovementStrategy.isValidPath(pathPieces));
     }
 }

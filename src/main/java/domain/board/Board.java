@@ -64,7 +64,7 @@ public class Board {
             Piece piece = findPiece(source);
             Path path = piece.calculatePath(source, destination);
             PathPieces pathPieces = createPathPieces(path);
-            return piece.validatePath(pathPieces);
+            return piece.isValidPath(pathPieces);
         } catch (JanggiException exception) {
             return false;
         }

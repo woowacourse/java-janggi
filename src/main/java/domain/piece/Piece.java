@@ -26,8 +26,8 @@ public abstract class Piece {
         return this.getPathGenerator().calculatePath(source, destination);
     }
 
-    public boolean validatePath(PathPieces pathPieces) {
-        return this.getMovementStrategy().validatePath(pathPieces);
+    public boolean isValidPath(PathPieces pathPieces) {
+        return this.getMovementStrategy().isValidPath(pathPieces);
     }
 
     public String getPieceString() {

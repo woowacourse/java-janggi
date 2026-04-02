@@ -23,7 +23,7 @@ class BlockedMovementStrategyTest {
         Piece sourcePiece = new Ma(Team.CHO);
 
         PathPieces pathPieces = new PathPieces(sourcePiece, List.of(), new None());
-        assertTrue(blockedMovementStrategy.validatePath(pathPieces));
+        assertTrue(blockedMovementStrategy.isValidPath(pathPieces));
     }
 
     @ParameterizedTest
@@ -32,7 +32,7 @@ class BlockedMovementStrategyTest {
         Piece sourcePiece = new Ma(Team.CHO);
 
         PathPieces pathPieces = new PathPieces(sourcePiece, List.of(new Cha(team)), new None());
-        assertFalse(blockedMovementStrategy.validatePath(pathPieces));
+        assertFalse(blockedMovementStrategy.isValidPath(pathPieces));
     }
 
     @Test
@@ -41,7 +41,7 @@ class BlockedMovementStrategyTest {
         Piece destinationPiece = new Cha(Team.CHO);
         PathPieces pathPieces = new PathPieces(sourcePiece, List.of(), destinationPiece);
 
-        assertFalse(blockedMovementStrategy.validatePath(pathPieces));
+        assertFalse(blockedMovementStrategy.isValidPath(pathPieces));
     }
 
     @Test
@@ -50,6 +50,6 @@ class BlockedMovementStrategyTest {
         Piece destinationPiece = new Cha(Team.HAN);
         PathPieces pathPieces = new PathPieces(sourcePiece, List.of(), destinationPiece);
 
-        assertTrue(blockedMovementStrategy.validatePath(pathPieces));
+        assertTrue(blockedMovementStrategy.isValidPath(pathPieces));
     }
 }

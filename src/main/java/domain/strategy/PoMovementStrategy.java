@@ -4,7 +4,7 @@ import domain.board.PathPieces;
 
 public class PoMovementStrategy implements MovementStrategy {
     @Override
-    public boolean validatePath(PathPieces pathPieces) {
+    public boolean isValidPath(PathPieces pathPieces) {
         if (!pathPieces.hasOnePieceInWaypoint()) {
             return false;
         }
