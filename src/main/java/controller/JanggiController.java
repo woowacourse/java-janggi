@@ -7,10 +7,12 @@ import domain.HorseElephantFormation;
 import domain.Team;
 import exception.GameExceptionHandler;
 import exception.custom.GameException;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import strategy.InitializeStrategy;
+
 import view.InputView;
 import view.OutputView;
 

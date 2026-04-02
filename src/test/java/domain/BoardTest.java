@@ -10,8 +10,10 @@ import domain.piece.Piece;
 import domain.piece.Rook;
 import domain.strategy.NoInitializeStrategy;
 import domain.stub.StubBoard;
+
 import exception.GameErrorMessage;
 import exception.custom.InvalidGameInputException;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +45,7 @@ class BoardTest {
                                                           InitializeStrategy hanInitializeStrategy){
         return Map.of(Team.CHO, choInitializeStrategy, Team.HAN, hanInitializeStrategy);
     }
-
+  
     /**
      * 1. 한나라 기본 기물이 올바르게 배치된다.(상,마 제외)
      */
