@@ -31,7 +31,16 @@ public class DirectionalMovePath implements MovePathStrategy {
     }
 
     @Override
-    public List<Position> createRoute(Position start, Position end) {
+    public List<Position> intermediatePositions(Position start, Position end) {
+        List<Position> route = createRoute(start, end);
+        if (route.isEmpty()) {
+            return route;
+        }
+        route.removeLast();
+        return route;
+    }
+
+    private List<Position> createRoute(Position start, Position end) {
         List<Position> route = new ArrayList<>();
         Position current = start;
         if (path.size() == 1) {
@@ -41,16 +50,6 @@ public class DirectionalMovePath implements MovePathStrategy {
             current = current.move(delta);
             route.add(current);
         }
-        return route;
-    }
-
-    @Override
-    public List<Position> intermediatePositions(Position start, Position end) {
-        List<Position> route = createRoute(start, end);
-        if (route.isEmpty()) {
-            return route;
-        }
-        route.removeLast();
         return route;
     }
 

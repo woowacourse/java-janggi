@@ -7,7 +7,5 @@ public interface MovePathStrategy {
 
     boolean matches(int dx, int dy);
 
-    List<Position> createRoute(Position start, Position end);
-
     List<Position> intermediatePositions(Position start, Position end);
 }
