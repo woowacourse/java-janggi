@@ -123,4 +123,29 @@ public class ChariotTest {
         assertThat(board.createRoute(path).hasPiece()).isFalse();
     }
 
+    @ParameterizedTest
+    @MethodSource("model.fixture.PieceTestFixture#차_궁성_대각선_이동_가능")
+    void 차는_궁성_내에서_대각선으로_이동할_수_있다(Position current, Position next) {
+        // given
+        Piece chariot = new Chariot(Team.HAN);
+        // when
+        boolean canMove = chariot.canMove(current, next);
+        // then
+        assertThat(canMove).isTrue();
+    }
+
+    @Test
+    void 차는_궁성_내_대각선_이동시_경로를_반환한다() {
+        // given
+        Piece chariot = new Chariot(Team.HAN);
+        Position current = new Position(0, 3);
+        Position next = new Position(2, 5);
+
+        // when
+        List<Position> path = chariot.extractPath(current, next);
+
+        // then
+        assertThat(path).containsExactly(new Position(1, 4));
+    }
+
 }
