@@ -471,4 +471,52 @@ class BoardTest {
         assertThatCode(() -> board.move(from, to, PieceType.ELEPHANT, Team.CHO))
                 .doesNotThrowAnyException();
     }
+
+    /**
+     * 보드에 궁 존재 여부 확인 테스트(게임 종료 조건에서 활용)
+     */
+    @Test
+    void 초나라의_궁이_보드판에_존재하는_경우_정상테스트() {
+        StubBoard board = new StubBoard(noInitializeStrategy);
+
+        // when
+        Position position = Position.from(9, 5);
+
+        Map<Position, Piece> testPiece = new HashMap<>();
+        testPiece.put(position, new King(Team.CHO));
+        board.putPieces(testPiece);
+
+        // then
+        assertThat(board.isExistPiece(PieceType.KING, Team.CHO)).isEqualTo(true);
+    }
+
+    @Test
+    void 한나라의_궁이_보드판에_존재하는_경우_정상테스트() {
+        StubBoard board = new StubBoard(noInitializeStrategy);
+
+        // when
+        Position position = Position.from(2, 5);
+
+        Map<Position, Piece> testPiece = new HashMap<>();
+        testPiece.put(position, new King(Team.HAN));
+        board.putPieces(testPiece);
+
+        // then
+        assertThat(board.isExistPiece(PieceType.KING, Team.HAN)).isEqualTo(true);
+    }
+
+    @Test
+    void 초나라의_궁이_보드판에_존재하지_않는_경우_정상테스트() {
+        StubBoard board = new StubBoard(noInitializeStrategy);
+
+        // then
+        assertThat(board.isExistPiece(PieceType.KING, Team.CHO)).isEqualTo(false);
+    }
+
+    @Test
+    void 한나라의_궁이_보드판에_존재하지_않는_경우_정상테스트() {
+        StubBoard board = new StubBoard(noInitializeStrategy);
+
+        assertThat(board.isExistPiece(PieceType.KING, Team.HAN)).isEqualTo(false);
+    }
 }

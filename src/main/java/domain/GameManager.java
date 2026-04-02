@@ -9,10 +9,10 @@ import strategy.InitializeStrategy;
 public class GameManager {
     private final Board board;
 
-    public GameManager(Map<Team, String> formationInput) {
+    public GameManager(Map<Team, InitializeStrategy> initializeStrategies) {
         this.board = new Board(
-                getBoardInitializeStrategy(formationInput.get(Team.CHO)),
-                getBoardInitializeStrategy(formationInput.get(Team.HAN))
+                initializeStrategies.get(Team.CHO),
+                initializeStrategies.get(Team.HAN)
         );
     }
 
@@ -27,10 +27,7 @@ public class GameManager {
                 team);
     }
 
-    /**
-     * 헬퍼 메서드
-     */
-    private InitializeStrategy getBoardInitializeStrategy(String formationInput) {
-        return HorseElephantFormation.getStrategy(formationInput);
+    public boolean isGameFinished(Team currentTeam) {
+        return !board.isExistPiece(PieceType.KING, currentTeam);
     }
 }

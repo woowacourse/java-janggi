@@ -4,6 +4,7 @@ import controller.dto.CurrentBoardStatus;
 import java.util.List;
 
 public class OutputView {
+    private static final String GAME_WINNER_GUIDE = "장기 게임이 종료되었습니다. 게임의 우승자는 %s나라 입니다.";
     private static final int BOARD_ROW_SIZE = 10;
     private static final int BOARD_COLUMN_SIZE = 9;
     private static final String EMPTY_CELL = "   ";
@@ -27,6 +28,10 @@ public class OutputView {
 
     public void printErrorMessage(String message){
         System.out.println(message);
+    }
+
+    public void printGameWinner(String winner) {
+        System.out.println(String.format(GAME_WINNER_GUIDE, winner));
     }
 
     /**

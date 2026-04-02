@@ -97,6 +97,11 @@ public class Board {
         return HAN_PALACE_CENTER.isSamePosition(target);
     }
 
+    public boolean isExistPiece(PieceType target, Team team) {
+        return pieces.values().stream()
+                .anyMatch(piece -> piece.getType() == target && piece.getTeam() == team);
+    }
+
     /**
      * 헬퍼 메서드
      */

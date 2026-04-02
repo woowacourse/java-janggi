@@ -3,12 +3,14 @@ package controller;
 import controller.dto.CurrentBoardStatus;
 import controller.dto.MovedPieceRequest;
 import domain.GameManager;
+import domain.HorseElephantFormation;
 import domain.Team;
 import exception.GameExceptionHandler;
 import exception.custom.GameException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import strategy.InitializeStrategy;
 import view.InputView;
 import view.OutputView;
 
@@ -26,8 +28,9 @@ public class JanggiController {
 
     public void start() {
         Map<Team, String> horseElephantFormations = readHorseElephantFormation();
-        startJanggiGame(horseElephantFormations);
-        playJanggiGame();
+        initializeJanggiGame(horseElephantFormations);
+        Team winnerTeam = playJanggiGame();
+        printGameWinner(winnerTeam);
     }
 
     private Map<Team, String> readHorseElephantFormation() {
@@ -38,9 +41,24 @@ public class JanggiController {
         return horseElephantInputs;
     }
 
-    private void startJanggiGame(Map<Team, String> horseElephantFormations) {
-        this.gameManager = new GameManager(horseElephantFormations);
+    /**
+     * 1. 장기 게임 초기화
+     */
+    private void initializeJanggiGame(Map<Team, String> horseElephantFormations) {
+        this.gameManager = new GameManager(toInitializeStrategies(horseElephantFormations));
         printCurrentBoardStatus();
+    }
+
+    private Map<Team, InitializeStrategy> toInitializeStrategies(Map<Team, String> horseElephantFormations) {
+        Map<Team, InitializeStrategy> initializeStrategies = new HashMap<>();
+        horseElephantFormations.forEach(
+                (team, formation) -> initializeStrategies.put(team, getBoardInitializeStrategy(formation))
+        );
+        return initializeStrategies;
+    }
+
+    private InitializeStrategy getBoardInitializeStrategy(String formationInput) {
+        return HorseElephantFormation.getStrategy(formationInput);
     }
 
     private void printCurrentBoardStatus() {
@@ -48,14 +66,15 @@ public class JanggiController {
         outputView.printCurrentBoard(statuses);
     }
 
-    private void playJanggiGame() {
-        /**
-         * TODO: 2차 사이클 - 게임 종료 조건 추가 예정
-         */
-        while (true) {
-            playTurn(Team.CHO);
-            playTurn(Team.HAN);
+    private Team playJanggiGame() {
+        Team currentTeam = Team.CHO;
+
+        while (!gameManager.isGameFinished(currentTeam)) {
+            playTurn(currentTeam);
+            currentTeam = switchTeam(currentTeam);
         }
+
+        return switchTeam(currentTeam);
     }
 
     private void playTurn(Team team) {
@@ -67,6 +86,17 @@ public class JanggiController {
                 gameExceptionHandler.handle(e);
             }
         }
+    }
+
+    private Team switchTeam(Team team) {
+        if (team == Team.CHO) {
+            return Team.HAN;
+        }
+        return Team.CHO;
+    }
+
+    private void printGameWinner(Team team) {
+        outputView.printGameWinner(team.getKoreanName());
     }
 
     private void movePiece(Team team) {
