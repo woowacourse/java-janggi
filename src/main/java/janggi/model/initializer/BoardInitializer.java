@@ -1,6 +1,6 @@
 package janggi.model.initializer;
 
-import janggi.model.board.Board;
+import janggi.model.Board;
 
 public interface BoardInitializer {
 

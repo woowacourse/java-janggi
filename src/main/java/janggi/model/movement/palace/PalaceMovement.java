@@ -1,11 +1,13 @@
-package janggi.model.board.palace;
+package janggi.model.movement.palace;
 
+import janggi.model.movement.Movement;
 import janggi.model.position.absolute.Column;
 import janggi.model.position.absolute.Position;
 import janggi.model.position.absolute.Row;
+import janggi.model.position.absolute.UndirectedLine;
 import java.util.Set;
 
-public final class Palace {
+public abstract class PalaceMovement implements Movement {
 
     private static final Set<Position> CHO_AREA = Set.of(
             new Position(Row.ZERO, Column.FOUR),
@@ -79,17 +81,18 @@ public final class Palace {
             new UndirectedLine(new Position(Row.TWO, Column.SIX), new Position(Row.THREE, Column.SIX))
     );
 
-    private Palace() {
+    protected boolean isAllInPalace(Position position1, Position position2) {
+        return isInPalace(position1) && isInPalace(position2);
     }
 
-    public static boolean isInPalace(Position position) {
+    private boolean isInPalace(Position position) {
         return CHO_AREA.contains(position) || HAN_AREA.contains(position);
     }
 
-    public static boolean isNotAdjacent(Position from, Position to) {
+    protected boolean isAdjacent(Position from, Position to) {
         UndirectedLine line = new UndirectedLine(from, to);
 
-        return !CHO_LINES.contains(line)
-                && !HAN_LINES.contains(line);
+        return CHO_LINES.contains(line)
+                || HAN_LINES.contains(line);
     }
 }

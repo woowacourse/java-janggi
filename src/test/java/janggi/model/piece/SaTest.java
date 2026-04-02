@@ -17,12 +17,26 @@ import org.junit.jupiter.api.Test;
 
 class SaTest {
 
-    @DisplayName("이동 거리가 1칸 초과이면 예외가 발생한다.")
+    @DisplayName("from이나 to가 궁성 밖에 위치하면 예외가 발생한다.")
     @Test
     void getLegalPath_invalid() {
         //given
         Position from = new Position(Row.SEVEN, Column.FIVE);
         Position to = new Position(Row.SEVEN, Column.SEVEN);
+        Sa sa = new Sa(Team.HAN);
+
+        //when & then
+        assertThatThrownBy(() -> sa.getLegalPath(from, to))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("궁성 밖의 위치가 포함돼 있습니다.");
+    }
+
+    @DisplayName("궁성 안의 선을 따라 이동하지 않으면 예외가 발생한다.")
+    @Test
+    void getLegalPath_not_on_line() {
+        //given
+        Position from = new Position(Row.EIGHT, Column.FIVE);
+        Position to = new Position(Row.NINE, Column.FOUR);
         Sa sa = new Sa(Team.HAN);
 
         //when & then
@@ -35,9 +49,9 @@ class SaTest {
     @Test
     void getLegalPath_moveSouth() {
         //given
-        Position from = new Position(Row.SEVEN, Column.FIVE);
-        Position to = new Position(Row.SIX, Column.FIVE);
-        Sa sa = new Sa(Team.HAN);
+        Position from = new Position(Row.NINE, Column.FIVE);
+        Position to = new Position(Row.ZERO, Column.FIVE);
+        Sa sa = new Sa(Team.CHO);
 
         Cha cha = new Cha(Team.CHO);
 
@@ -57,9 +71,9 @@ class SaTest {
     @Test
     void getLegalPath_moveNorth() {
         //given
-        Position from = new Position(Row.SEVEN, Column.FIVE);
+        Position from = new Position(Row.NINE, Column.FIVE);
         Position to = new Position(Row.EIGHT, Column.FIVE);
-        Sa sa = new Sa(Team.HAN);
+        Sa sa = new Sa(Team.CHO);
 
         Cha cha = new Cha(Team.CHO);
 
@@ -75,14 +89,14 @@ class SaTest {
                 .isEmpty();
     }
 
-
     @DisplayName("동쪽으로 한칸 이동한다.")
     @Test
     void getLegalPath_moveEast() {
         //given
-        Position from = new Position(Row.SEVEN, Column.FIVE);
-        Position to = new Position(Row.SEVEN, Column.SIX);
+        Position from = new Position(Row.NINE, Column.FIVE);
+        Position to = new Position(Row.NINE, Column.SIX);
         Sa sa = new Sa(Team.CHO);
+
         Cha cha = new Cha(Team.CHO);
 
         Map<Position, Piece> board =Map.of(
@@ -101,9 +115,9 @@ class SaTest {
     @Test
     void getLegalPath_moveWest() {
         //given
-        Position from = new Position(Row.SEVEN, Column.FIVE);
-        Position to = new Position(Row.SEVEN, Column.FOUR);
-        Sa sa = new Sa(Team.HAN);
+        Position from = new Position(Row.NINE, Column.FIVE);
+        Position to = new Position(Row.ZERO, Column.FOUR);
+        Sa sa = new Sa(Team.CHO);
 
         Cha cha = new Cha(Team.CHO);
 
@@ -118,7 +132,6 @@ class SaTest {
         assertThat(path.findPiecesOn(board))
                 .isEmpty();
     }
-
 
     @DisplayName("경로 상에 다른 기물이 존재하면 false를 반환한다.")
     @Test

@@ -1,6 +1,4 @@
-package janggi.model.board.palace;
-
-import janggi.model.position.absolute.Position;
+package janggi.model.position.absolute;
 
 public record UndirectedLine(
         Position endPoint1,
