@@ -2,18 +2,24 @@ package domain.move.rule;
 
 import domain.board.JanggiBoard;
 import domain.intersection.Intersection;
+import domain.intersection.palace.*;
+import domain.move.directions.Vector;
+import domain.move.directions.exception.DirectionException;
 import domain.move.path.Path;
 import domain.move.path.exception.PathException;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Team;
 import domain.point.Point;
+
 import java.util.List;
+
 import fixture.TestIntersectionGenerator;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static domain.move.directions.exception.DirectionError.INVALID_DIRECTION;
 import static domain.move.path.exception.PathError.CANNOT_MOVE_DESTINATION_IS_SAME_TEAM;
 import static domain.move.path.exception.PathError.CANNOT_MOVE_PATH_HAS_OBSTACLE;
 
@@ -161,6 +167,160 @@ class ChariotMoveRuleTest {
         // then
         Assertions.assertThat(actual)
                 .isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("차가 좌하궁성 안에 있으면, 오른쪽 위(↗,↗)로 두칸 움직일 수 있다.")
+    void chariotCanMoveRightUpTwiceWhenChariotInLeftBottomPalace() {
+        // given
+        Piece chariot = new Piece(Team.CHO, PieceType.CHARIOT);
+
+        Point leftBottomPoint = new Point(9, 3);
+        Point centerPoint = leftBottomPoint.next(Vector.RIGHT_UP);
+        Point rightTopPoint = centerPoint.next(Vector.RIGHT_UP);
+
+        Intersection leftBottomPalace = new LeftBottomPalace(leftBottomPoint, chariot);
+        Intersection centerPalace = RightTopPalace.empty(centerPoint);
+        Intersection rightTopPalace = RightTopPalace.empty(rightTopPoint);
+        Intersection expected = new RightTopPalace(rightTopPoint, chariot);
+
+        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
+                leftBottomPalace,
+                centerPalace,
+                rightTopPalace
+        )));
+
+        // when
+        janggiBoard.tryToMove(leftBottomPoint, rightTopPoint, Team.CHO);
+
+        // then
+        Assertions.assertThat(janggiBoard.findIntersection(rightTopPoint))
+                .isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("차가 좌하궁성 안에 있으면, 오른쪽 위(↗)로 한 칸 움직일 수 있다.")
+    void chariotCanMoveRightUpWhenChariotInLeftBottomPalace() {
+        // given
+        Piece chariot = new Piece(Team.CHO, PieceType.CHARIOT);
+
+        Point leftBottomPoint = new Point(9, 3);
+        Point centerPoint = new Point(8, 4);
+
+        Intersection leftBottomPalace = new LeftBottomPalace(leftBottomPoint, chariot);
+        Intersection centerPalace = RightTopPalace.empty(centerPoint);
+        Intersection expected = new RightTopPalace(centerPoint, chariot);
+
+        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
+                leftBottomPalace,
+                centerPalace
+        )));
+
+        // when
+        janggiBoard.tryToMove(leftBottomPoint, centerPoint, Team.CHO);
+
+        // then
+        Assertions.assertThat(janggiBoard.findIntersection(centerPoint))
+                .isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("차가 가운데 궁성 안에 있으면, 오른쪽 위(↗)로 한 칸 움직일 수 있다.")
+    void chariotCanMoveRightUpWhenChariotInCenterPalace() {
+        // given
+        Piece chariot = new Piece(Team.CHO, PieceType.CHARIOT);
+
+        Point centerPoint = new Point(8, 4);
+        Point rightTopPoint = centerPoint.next(Vector.RIGHT_UP);
+
+        Intersection centerPalace = new CenterPalace(centerPoint, chariot);
+        Intersection rightTopPalace = RightTopPalace.empty(rightTopPoint);
+        Intersection expected = new RightTopPalace(rightTopPoint, chariot);
+
+        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
+                centerPalace,
+                rightTopPalace
+        )));
+
+        // when
+        janggiBoard.tryToMove(centerPoint, rightTopPoint, Team.CHO);
+
+        // then
+        Assertions.assertThat(janggiBoard.findIntersection(rightTopPoint))
+                .isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("차가 가운데 궁성 안에서 대각선으로 두 칸 움직이려 하면 예외가 발생한다. 테스트 방향(↗,↗)")
+    void shouldThrowExceptionTryToMoveChariotToRightTopFromCenterPalace() {
+        // given
+        Piece chariot = new Piece(Team.CHO, PieceType.CHARIOT);
+
+        Point centerPoint = new Point(8, 4);
+        Point rightTopPoint = centerPoint.next(Vector.RIGHT_UP);
+        Point twiceLeftUpPoint = rightTopPoint.next(Vector.RIGHT_UP);
+
+        Intersection centerPalace = new CenterPalace(centerPoint, chariot);
+        Intersection rightTopPalace = RightTopPalace.empty(rightTopPoint);
+        Intersection twiceLeftTopIntersection = NormalIntersection.empty(twiceLeftUpPoint);
+
+        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
+                centerPalace,
+                rightTopPalace,
+                twiceLeftTopIntersection
+        )));
+
+        // when & then
+        Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(centerPoint, twiceLeftUpPoint, Team.CHO))
+                .isInstanceOf(DirectionException.class)
+                .hasMessage(INVALID_DIRECTION.getMessage());
+    }
+
+    @Test
+    @DisplayName("차가 좌하궁성에 있을 때, 왼쪽 위(↖)로 움직이려하면 예외가 발생한다. ")
+    void shouldThrowExceptionTryToMoveChariotFromLeftBottomToLeftUp() {
+        // given
+        Piece chariot = new Piece(Team.CHO, PieceType.CHARIOT);
+
+        Point leftBottomPoint = new Point(9, 3);
+        Point leftUpPoint = leftBottomPoint.next(Vector.LEFT_UP);
+
+        Intersection leftBottomPalace = new LeftBottomPalace(leftBottomPoint, chariot);
+        Intersection leftUpNormalIntersection = new Intersection(leftUpPoint, Piece.none());
+
+        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
+                leftBottomPalace,
+                leftUpNormalIntersection
+        )));
+
+        // when & then
+        Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(leftBottomPoint, leftUpPoint, Team.CHO))
+                .isInstanceOf(DirectionException.class)
+                .hasMessage(INVALID_DIRECTION.getMessage());
+    }
+
+    @Test
+    @DisplayName("차가 일반 궁성에 있을때, 대각선으로 움직이려 하면 예외가 발생한다. 테스트 방향 (↗)")
+    void shouldThrowExceptionTryToMoveChariotToDiagonalFromNormalPalace() {
+        // given
+        Piece chariot = new Piece(Team.CHO, PieceType.CHARIOT);
+
+        Point normalLeftPalacePoint = new Point(8, 3);
+        Point normalTopPalacePoint = normalLeftPalacePoint.next(Vector.RIGHT_UP);
+
+        Intersection normalLeftPalace = new NormalPalace(normalLeftPalacePoint, chariot);
+        Intersection normalTopPalace = new NormalPalace(normalTopPalacePoint, Piece.none());
+
+        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
+                normalLeftPalace,
+                normalTopPalace
+        )));
+
+        // when & then
+        Assertions.assertThatThrownBy(() -> {
+                    janggiBoard.tryToMove(normalLeftPalacePoint, normalTopPalacePoint, Team.CHO);
+                }).isInstanceOf(DirectionException.class)
+                .hasMessage(INVALID_DIRECTION.getMessage());
     }
 
 }
