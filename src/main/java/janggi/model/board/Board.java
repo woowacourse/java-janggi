@@ -1,19 +1,17 @@
-package janggi.model.turn;
+package janggi.model.board;
 
 import janggi.model.Team;
 import janggi.model.piece.Piece;
 import janggi.model.position.absolute.Position;
 import java.util.Map;
 
-public interface Turn {
+public interface Board {
 
-    Turn play(Position from, Position to);
+    Board move(Team team, Position from, Position to);
 
     boolean isGameOver();
 
     Map<Position, Piece> getBoard();
 
-    boolean isChoTurn();
-
-    Team getWinner();
+    Team winner();
 }

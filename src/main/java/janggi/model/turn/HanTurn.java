@@ -1,17 +1,13 @@
 package janggi.model.turn;
 
-import janggi.model.Board;
 import janggi.model.Team;
-import janggi.model.piece.Piece;
+import janggi.model.board.Board;
 import janggi.model.position.absolute.Position;
-import java.util.Map;
 
-public class HanTurn implements Turn {
-
-    private final Board board;
+public class HanTurn extends PlayingTurn {
 
     public HanTurn(Board board) {
-        this.board = board;
+        super(board);
     }
 
     @Override
@@ -23,20 +19,10 @@ public class HanTurn implements Turn {
         );
 
         if (movedBoard.isGameOver()) {
-            return new GameOver();
+            return new GameOver(board);
         }
 
         return new ChoTurn(movedBoard);
-    }
-
-    @Override
-    public boolean isGameOver() {
-        return false;
-    }
-
-    @Override
-    public Map<Position, Piece> getBoard() {
-        return board.board();
     }
 
     @Override

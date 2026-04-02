@@ -1,5 +1,6 @@
 package janggi.model;
 
+import janggi.model.board.Board;
 import janggi.model.piece.Piece;
 import janggi.model.position.absolute.Position;
 import janggi.model.turn.ChoTurn;
@@ -19,7 +20,6 @@ public class Janggi {
     }
 
     public Janggi play(Position from, Position to) {
-
         return new Janggi(turn.play(from, to));
     }
 
@@ -33,5 +33,9 @@ public class Janggi {
 
     public boolean isChoTurn() {
         return turn.isChoTurn();
+    }
+
+    public Team getWinner() {
+        return turn.getWinner();
     }
 }
