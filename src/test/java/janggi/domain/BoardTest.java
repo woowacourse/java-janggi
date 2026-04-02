@@ -157,6 +157,28 @@ public class BoardTest {
         assertThat(boardStatus.size()).isEqualTo(2);
     }
 
+    @Test
+    @DisplayName("팀별 현재 기물 점수 계산")
+    void score_of_team() {
+        // given
+        Board board = initBoard(
+                PositionInfo.from(Team.CHO, "JANG", 4, 1),
+                PositionInfo.from(Team.CHO, "CHA", 0, 0),
+                PositionInfo.from(Team.CHO, "JOL", 0, 3),
+                PositionInfo.from(Team.HAN, "JANG", 4, 8),
+                PositionInfo.from(Team.HAN, "MA", 1, 9),
+                PositionInfo.from(Team.HAN, "SA", 3, 9)
+        );
+
+        // when
+        int choScore = board.scoreOf(Team.CHO);
+        int hanScore = board.scoreOf(Team.HAN);
+
+        // then
+        assertThat(choScore).isEqualTo(9);
+        assertThat(hanScore).isEqualTo(9);
+    }
+
     private Board initBoard(PositionInfo... positionInfos) {
         Board board = new Board();
         board.init(List.of(positionInfos));
