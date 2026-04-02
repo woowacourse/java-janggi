@@ -1,47 +1,47 @@
 package janggi.domain.side;
 
-import janggi.domain.Pieces;
 import janggi.domain.Position;
 import janggi.domain.piece.Piece;
-import janggi.dto.BoardSpot;
 
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
-public class Chu implements Team {
+public class Chu extends Team {
 
-    private final Pieces pieces;
-
-    private Chu(Pieces pieces) {
-        this.pieces = pieces;
+    public Chu(Map<Position, Piece> pieces) {
+        super(pieces);
     }
 
     public static Chu createInitialChu() {
-        return new Chu(Pieces.createChu());
-    }
-
-    @Override
-    public Map<Position, BoardSpot> makeSnapShot() {
-        return pieces.makeSnapShot();
-    }
-
-    @Override
-    public boolean isPieceExists(Position position) {
-        return pieces.isPieceExists(position);
-    }
-
-    @Override
-    public Optional<Piece> findPiece(Position position) {
-        return pieces.findPiece(position);
+        return new Chu(initializePieces());
     }
 
     @Override
     public Team move(Position start, Position end) {
-        return new Chu(pieces.move(start, end));
+        Map<Position, Piece> pieces = getPieces();
+        Piece piece = pieces.get(start);
+        Map<Position, Piece> updatedPieces = new HashMap<>(pieces);
+        updatedPieces.remove(start);
+        updatedPieces.put(end, piece);
+        return new Chu(updatedPieces);
     }
 
     @Override
     public Team remove(Position position) {
-        return new Chu(pieces.remove(position));
+        Map<Position, Piece> updatedPieces = new HashMap<>(getPieces());
+        updatedPieces.remove(position);
+        return new Chu(updatedPieces);
+    }
+
+    private static Map<Position, Piece> initializePieces() {
+        Map<Position, Piece> pieces = new HashMap<>();
+        createChas(pieces, 1, TeamType.CHU);
+        createMas(pieces, 1, TeamType.CHU);
+        createSangs(pieces, 1, TeamType.CHU);
+        createSas(pieces, 1, TeamType.CHU);
+        createGung(pieces, 2, TeamType.CHU);
+        createPos(pieces, 3, TeamType.CHU);
+        createJols(pieces, 4, TeamType.CHU);
+        return pieces;
     }
 }
