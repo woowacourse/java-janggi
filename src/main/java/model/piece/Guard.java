@@ -10,8 +10,6 @@ import java.util.List;
 
 public class Guard extends Piece {
 
-    private static final ReachStrategy DEFAULT = new GuardKingReach();
-
     public Guard(Team team) {
         super(team, PieceType.GUARD);
     }
@@ -23,21 +21,6 @@ public class Guard extends Piece {
 
     @Override
     protected ReachStrategy determineReachStrategy(Position current, Position next) {
-        if (isMovableOnPalace(current, next)) {
-            return DEFAULT;
-        }
-        return (r, c) -> false;
-    }
-
-    private static boolean isMovableOnPalace(Position current, Position next) {
-        return isMovementInPalace(current, next) && notOnPalaceDiagonal(current, next);
-    }
-
-    private static boolean isMovementInPalace(Position current, Position next) {
-        return PalacePositions.inPalace(current) && PalacePositions.inPalace(next);
-    }
-
-    private static boolean notOnPalaceDiagonal(Position current, Position next) {
-        return PalacePositions.onPalaceDiagonal(current) || PalacePositions.onPalaceDiagonal(next);
+        return new GuardKingReach(current, next);
     }
 }
