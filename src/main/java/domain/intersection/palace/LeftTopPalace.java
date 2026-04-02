@@ -6,9 +6,9 @@ import domain.move.directions.Vector;
 import domain.piece.Piece;
 import domain.point.Point;
 
-public class TopLeftPalace extends Intersection {
+public class LeftTopPalace extends Intersection {
 
-    public TopLeftPalace(Point point, Piece piece) {
+    public LeftTopPalace(Point point, Piece piece) {
         super(point, piece);
     }
 
