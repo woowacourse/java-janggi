@@ -1,44 +1,28 @@
 package strategy.move;
 
+import domain.Direction;
 import domain.MovePath;
 import domain.Piece;
-import domain.Position;
 import domain.Route;
 import domain.TeamColor;
-import domain.palace.Palace;
 import java.util.List;
 
 public class GuardMoveStrategy extends MoveStrategy {
 
-    private final Palace hanPalace;
-    private final Palace choPalace;
-
-    public GuardMoveStrategy() {
-        this(Palace.createHanPalace(), Palace.createChoPalace());
-    }
-
-    GuardMoveStrategy(Palace hanPalace, Palace choPalace) {
-        this.hanPalace = hanPalace;
-        this.choPalace = choPalace;
-    }
+    private static final List<MovePath> PATHS = List.of(
+            new MovePath(List.of(Direction.NORTH)),
+            new MovePath(List.of(Direction.SOUTH)),
+            new MovePath(List.of(Direction.EAST)),
+            new MovePath(List.of(Direction.WEST)),
+            new MovePath(List.of(Direction.NORTH_EAST)),
+            new MovePath(List.of(Direction.NORTH_WEST)),
+            new MovePath(List.of(Direction.SOUTH_EAST)),
+            new MovePath(List.of(Direction.SOUTH_WEST))
+    );
 
     @Override
     public List<MovePath> getPaths(Piece piece) {
-        return List.of();
-    }
-
-    @Override
-    public List<Route> makeRoutes(Position curPos, Piece piece) {
-        return palaceFor(piece.getTeamColor()).getAdjacentPositions(curPos).stream()
-                .map(destination -> new Route(curPos, destination, List.of()))
-                .toList();
-    }
-
-    private Palace palaceFor(TeamColor teamColor) {
-        if (teamColor == TeamColor.HAN) {
-            return hanPalace;
-        }
-        return choPalace;
+        return PATHS;
     }
 
     @Override
@@ -49,5 +33,4 @@ public class GuardMoveStrategy extends MoveStrategy {
 
         return pieceAtDestination == null || !pieceAtDestination.isOnTeam(myTeam);
     }
-
 }
