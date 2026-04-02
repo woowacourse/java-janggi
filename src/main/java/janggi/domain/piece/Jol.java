@@ -2,8 +2,9 @@ package janggi.domain.piece;
 
 import janggi.domain.Board;
 import janggi.domain.Delta;
-import janggi.domain.MovePath;
 import janggi.domain.Position;
+import janggi.domain.movepath.MovePathStrategy;
+import janggi.domain.movepath.FixedMovePath;
 import janggi.domain.team.TeamType;
 import java.util.List;
 import java.util.Optional;
@@ -12,7 +13,7 @@ public class Jol implements Piece {
 
     private final TeamType teamType;
     private final PieceType pieceType;
-    private final List<MovePath> paths;
+    private final List<MovePathStrategy> paths;
 
     public Jol(TeamType teamType) {
         this.teamType = teamType;
@@ -26,7 +27,7 @@ public class Jol implements Piece {
     }
 
     @Override
-    public Optional<MovePath> findMovePath(int startX, int startY, int endX, int endY) {
+    public Optional<MovePathStrategy> findMovePath(int startX, int startY, int endX, int endY) {
         int dx = endX - startX;
         int dy = endY - startY;
         if (isSamePosition(dx, dy)) {
@@ -46,18 +47,18 @@ public class Jol implements Piece {
         return distanceX == 0 && distanceY == 0;
     }
 
-    private List<MovePath> createPaths() {
+    private List<MovePathStrategy> createPaths() {
         if (teamType == TeamType.HAN) {
             return List.of(
-                new MovePath(List.of(Delta.createDown())),
-                new MovePath(List.of(Delta.createLeft())),
-                new MovePath(List.of(Delta.createRight()))
+                new FixedMovePath(List.of(Delta.createDown())),
+                new FixedMovePath(List.of(Delta.createLeft())),
+                new FixedMovePath(List.of(Delta.createRight()))
             );
         }
         return List.of(
-            new MovePath(List.of(Delta.createUp())),
-            new MovePath(List.of(Delta.createLeft())),
-            new MovePath(List.of(Delta.createRight()))
+            new FixedMovePath(List.of(Delta.createUp())),
+            new FixedMovePath(List.of(Delta.createLeft())),
+            new FixedMovePath(List.of(Delta.createRight()))
         );
     }
 

@@ -2,8 +2,9 @@ package janggi.domain.piece;
 
 import janggi.domain.Board;
 import janggi.domain.Delta;
-import janggi.domain.MovePath;
 import janggi.domain.Position;
+import janggi.domain.movepath.MovePathStrategy;
+import janggi.domain.movepath.DirectionalMovePath;
 import janggi.domain.team.TeamType;
 import java.util.List;
 import java.util.Optional;
@@ -12,16 +13,16 @@ public class Cha implements Piece {
 
     private final TeamType teamType;
     private final PieceType pieceType;
-    private final List<MovePath> paths;
+    private final List<MovePathStrategy> paths;
 
     public Cha(TeamType teamType) {
         this.teamType = teamType;
         pieceType = PieceType.CHA;
         paths = List.of(
-            new MovePath(List.of(Delta.createUp())),
-            new MovePath(List.of(Delta.createDown())),
-            new MovePath(List.of(Delta.createLeft())),
-            new MovePath(List.of(Delta.createRight()))
+            new DirectionalMovePath(List.of(Delta.createUp())),
+            new DirectionalMovePath(List.of(Delta.createDown())),
+            new DirectionalMovePath(List.of(Delta.createLeft())),
+            new DirectionalMovePath(List.of(Delta.createRight()))
         );
     }
 
@@ -31,7 +32,7 @@ public class Cha implements Piece {
     }
 
     @Override
-    public Optional<MovePath> findMovePath(int startX, int startY, int endX, int endY) {
+    public Optional<MovePathStrategy> findMovePath(int startX, int startY, int endX, int endY) {
         if (isSamePosition(startX, startY, endX, endY)) {
             return Optional.empty();
         }
@@ -41,13 +42,13 @@ public class Cha implements Piece {
         int dx = endX - startX;
         int dy = endY - startY;
         return paths.stream()
-            .filter(path -> path.matchesDirection(dx, dy))
+            .filter(path -> path.matches(dx, dy))
             .findFirst();
     }
 
     @Override
     public boolean isObstaclesNotExist(Position start, Position end, Board board) {
-        Optional<MovePath> movePath = findMovePath(start.getX(), start.getY(), end.getX(), end.getY());
+        Optional<MovePathStrategy> movePath = findMovePath(start.getX(), start.getY(), end.getX(), end.getY());
         if (movePath.isEmpty()) {
             return false;
         }

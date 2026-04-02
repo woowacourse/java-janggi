@@ -2,8 +2,9 @@ package janggi.domain.piece;
 
 import janggi.domain.Board;
 import janggi.domain.Delta;
-import janggi.domain.MovePath;
 import janggi.domain.Position;
+import janggi.domain.movepath.MovePathStrategy;
+import janggi.domain.movepath.FixedMovePath;
 import janggi.domain.team.TeamType;
 import java.util.List;
 import java.util.Optional;
@@ -12,20 +13,20 @@ public class Sa implements Piece {
 
     private final TeamType teamType;
     private final PieceType pieceType;
-    private final List<MovePath> paths;
+    private final List<MovePathStrategy> paths;
 
     public Sa(TeamType teamType) {
         this.teamType = teamType;
         pieceType = PieceType.SA;
         paths = List.of(
-            new MovePath(List.of(Delta.createUp())),
-            new MovePath(List.of(Delta.createDown())),
-            new MovePath(List.of(Delta.createLeft())),
-            new MovePath(List.of(Delta.createRight())),
-            new MovePath(List.of(Delta.createRightUp())),
-            new MovePath(List.of(Delta.createRightDown())),
-            new MovePath(List.of(Delta.createLeftUp())),
-            new MovePath(List.of(Delta.createLeftDown()))
+            new FixedMovePath(List.of(Delta.createUp())),
+            new FixedMovePath(List.of(Delta.createDown())),
+            new FixedMovePath(List.of(Delta.createLeft())),
+            new FixedMovePath(List.of(Delta.createRight())),
+            new FixedMovePath(List.of(Delta.createRightUp())),
+            new FixedMovePath(List.of(Delta.createRightDown())),
+            new FixedMovePath(List.of(Delta.createLeftUp())),
+            new FixedMovePath(List.of(Delta.createLeftDown()))
         );
     }
 
@@ -35,7 +36,7 @@ public class Sa implements Piece {
     }
 
     @Override
-    public Optional<MovePath> findMovePath(int startX, int startY, int endX, int endY) {
+    public Optional<MovePathStrategy> findMovePath(int startX, int startY, int endX, int endY) {
         int dx = endX - startX;
         int dy = endY - startY;
         int distanceX = Math.abs(dx);

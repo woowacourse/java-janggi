@@ -1,21 +1,20 @@
-package janggi.domain;
+package janggi.domain.movepath;
 
+import janggi.domain.Delta;
+import janggi.domain.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MovePath {
+public class DirectionalMovePath implements MovePathStrategy {
 
     private final List<Delta> path;
 
-    public MovePath(List<Delta> path) {
+    public DirectionalMovePath(List<Delta> path) {
         this.path = path;
     }
 
+    @Override
     public boolean matches(int dx, int dy) {
-        return totalDx() == dx && totalDy() == dy;
-    }
-
-    public boolean matchesDirection(int dx, int dy) {
         if (path.size() != 1) {
             return false;
         }
@@ -31,6 +30,7 @@ public class MovePath {
             && Integer.signum(dy) == Integer.signum(delta.dy());
     }
 
+    @Override
     public List<Position> createRoute(Position start, Position end) {
         List<Position> route = new ArrayList<>();
         Position current = start;
@@ -44,6 +44,7 @@ public class MovePath {
         return route;
     }
 
+    @Override
     public List<Position> intermediatePositions(Position start, Position end) {
         List<Position> route = createRoute(start, end);
         if (route.isEmpty()) {
@@ -51,18 +52,6 @@ public class MovePath {
         }
         route.removeLast();
         return route;
-    }
-
-    private int totalDx() {
-        return path.stream()
-            .mapToInt(Delta::dx)
-            .sum();
-    }
-
-    private int totalDy() {
-        return path.stream()
-            .mapToInt(Delta::dy)
-            .sum();
     }
 
     private List<Position> createStraightRoute(Position end, List<Position> route, Position current) {
