@@ -7,4 +7,6 @@ public interface BoardRepository {
     long save(BoardEntity boardEntity);
 
     BoardEntity findById(long id);
+
+    boolean deleteById(long id);
 }

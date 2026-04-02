@@ -2,7 +2,6 @@ package janggi.repository;
 
 import janggi.config.DBConnection;
 import janggi.entity.BoardEntity;
-import janggi.entity.GameStateEntity;
 import janggi.global.EntityMapper;
 
 public class BoardRepositoryImpl implements BoardRepository {
@@ -37,5 +36,11 @@ public class BoardRepositoryImpl implements BoardRepository {
         };
 
         return dbConnection.executeSelect(sql, mapper);
+    }
+
+    @Override
+    public boolean deleteById(final long id) {
+        final String sql = String.format("DELETE FROM %s WHERE id = %d", TABLE_NAME, id);
+        return dbConnection.executeDelete(sql);
     }
 }

@@ -16,4 +16,8 @@ public class BoardService {
 
         return boardRepository.save(boardEntity);
     }
+
+    public boolean removeBoard(final long id) {
+        return boardRepository.deleteById(id);
+    }
 }
