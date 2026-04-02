@@ -4,7 +4,7 @@ import janggi.domain.board.coordination.BoardCoordination;
 import janggi.domain.board.coordination.Coordination;
 import janggi.domain.board.coordination.PalaceCoordination;
 import janggi.domain.board.coordination.PalaceMovements;
-import janggi.domain.board.point.Point;
+import janggi.domain.point.Point;
 import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.path.CandidatePath;
 import janggi.domain.path.Movement;

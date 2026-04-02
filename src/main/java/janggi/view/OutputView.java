@@ -1,6 +1,6 @@
 package janggi.view;
 
-import janggi.domain.board.point.Point;
+import janggi.domain.point.Point;
 import janggi.domain.piece.unit.Piece;
 import janggi.domain.side.Side;
 import java.util.Map;

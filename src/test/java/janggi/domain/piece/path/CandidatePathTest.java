@@ -2,7 +2,7 @@ package janggi.domain.piece.path;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.board.point.Point;
+import janggi.domain.point.Point;
 import janggi.domain.path.CandidatePath;
 import janggi.domain.path.Direction;
 import java.util.List;

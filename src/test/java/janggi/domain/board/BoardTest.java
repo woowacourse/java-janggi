@@ -4,7 +4,7 @@ package janggi.domain.board;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.domain.board.point.Point;
+import janggi.domain.point.Point;
 import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.piece.unit.Soldier;
 import janggi.domain.side.Side;

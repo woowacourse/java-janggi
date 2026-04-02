@@ -1,6 +1,6 @@
 package janggi.domain.board.coordination;
 
-import janggi.domain.board.point.Point;
+import janggi.domain.point.Point;
 import janggi.domain.path.Direction;
 import janggi.domain.path.Movement;
 import java.util.List;

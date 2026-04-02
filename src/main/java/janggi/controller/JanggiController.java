@@ -1,6 +1,6 @@
 package janggi.controller;
 
-import janggi.domain.board.point.Point;
+import janggi.domain.point.Point;
 import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.game.Game;
 import janggi.domain.piece.unit.Piece;

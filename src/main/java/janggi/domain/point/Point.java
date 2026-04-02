@@ -1,4 +1,4 @@
-package janggi.domain.board.point;
+package janggi.domain.point;
 
 public record Point(int x, int y) {
     public Point add(int x, int y) {

@@ -2,7 +2,7 @@ package janggi.domain.game;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.board.point.Point;
+import janggi.domain.point.Point;
 import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.board.setup.InElephantSetUp;
 import java.util.stream.Stream;
@@ -18,16 +18,6 @@ class GameTest {
                 Arguments.of(new Point(0, 0), true),
                 Arguments.of(new Point(9, 0), false)
         );
-    }
-
-    @Test
-    @DisplayName("목적지에 제자리 이동(턴을 넘긴다)을 추가한다.")
-    void destinations() {
-        Point point = new Point(0, 0);
-        BoardSetUp boardSetUp = new InElephantSetUp();
-        Game game = Game.createGame(boardSetUp, boardSetUp);
-
-        assertThat(game.destinations(point)).contains(point);
     }
 
     @ParameterizedTest

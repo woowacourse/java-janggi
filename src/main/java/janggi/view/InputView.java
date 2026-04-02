@@ -1,6 +1,6 @@
 package janggi.view;
 
-import janggi.domain.board.point.Point;
+import janggi.domain.point.Point;
 import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.side.Side;
 import java.io.InputStream;

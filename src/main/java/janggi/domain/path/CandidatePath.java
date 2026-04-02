@@ -1,7 +1,7 @@
 package janggi.domain.path;
 
 import janggi.domain.board.coordination.Coordination;
-import janggi.domain.board.point.Point;
+import janggi.domain.point.Point;
 import janggi.domain.path.generator.PathStrategy;
 import java.util.ArrayList;
 import java.util.List;
