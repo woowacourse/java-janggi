@@ -9,14 +9,18 @@ import position.Position;
 
 public class JanggiGame {
 
-    private Board board;
-    private Turn turn;
-    private boolean isOver;
+    private final Board board;
+    private final Turn turn;
+    private final boolean isOver;
 
-    public JanggiGame(Board board, Turn turn) {
+    public JanggiGame(Board board, Turn turn, boolean isOver) {
         this.board = board;
         this.turn = turn;
-        this.isOver = false;
+        this.isOver = isOver;
+    }
+
+    public JanggiGame(Board board, Turn turn) {
+        this(board, turn, false);
     }
 
     public JanggiGame(Board board) {
@@ -40,10 +44,21 @@ public class JanggiGame {
     }
 
     public JanggiGame move(Position departure, Position destination) {
+        if (isOver) {
+            throw new IllegalArgumentException("게임이 종료되어 더 이상 말을 이동시킬 수 없습니다.");
+        }
         board.validateDeparturePiece(departure, turn);
-        board = board.move(departure, destination);
-        turn = turn.move();
-        // TODO: 장군이 잡히면 isOver = true 초기화 (사이클2)
-        return new JanggiGame(board, turn);
+
+        Board updatedBoard = board.move(departure, destination);
+        Turn nextTurn = turn.next();
+        boolean isOver = !updatedBoard.hasGung(nextTurn.getSide());
+        return new JanggiGame(updatedBoard, nextTurn, isOver);
+    }
+
+    public Side getWinnerSide() {
+        if (!isOver) {
+            throw new IllegalArgumentException("게임이 종료되지 않아 승리 진영을 조회할 수 없습니다.");
+        }
+        return turn.prev().getSide();
     }
 }

@@ -1,5 +1,6 @@
 package core;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -63,13 +64,10 @@ class JanggiGameTest {
         );
 
         Turn choTurn = Turn.CHO_TURN;
-        JanggiGame janggiGame = new JanggiGame(new Board(pieces), choTurn);
+        JanggiGame game = new JanggiGame(new Board(pieces), choTurn);
         // when & then
-        janggiGame.move(choDeparture, choDestination);
-        assertThatCode(() -> janggiGame.move(hanDeparture, hanDestination))
-            .doesNotThrowAnyException();
-        assertThatCode(() -> janggiGame.move(choDestination, choDeparture))
-            .doesNotThrowAnyException();
+        game = game.move(choDeparture, choDestination);
+        assertThat(game.getTurnSide()).isEqualTo(Side.HAN);
     }
 
     @Test
@@ -86,5 +84,86 @@ class JanggiGameTest {
         // then
         assertThatCode(() -> janggiGame.move(departure, destination))
             .doesNotThrowAnyException();
+    }
+
+    @Test
+    void 궁이_잡히면_게임이_종료된다() {
+        // given
+        Position departure = new Position(3, 4);
+        Position destination = new Position(8, 4);
+        Piece choPiece = new Piece(Side.CHO, PieceType.CHA);
+        Piece hanGung = new Piece(Side.HAN, PieceType.GUNG);
+        Map<Position, Piece> pieces = Map.of(
+            departure, choPiece,
+            destination, hanGung
+        );
+        JanggiGame game = new JanggiGame(new Board(pieces));
+        // when
+        game = game.move(departure, destination);
+        // then
+        assertThat(game.isOver()).isTrue();
+    }
+
+    @Test
+    void 궁이_잡히지_않으면_게임이_계속_진행된다() {
+        // given
+        Position departure = new Position(1, 4);
+        Position destination = new Position(1, 5);
+        Piece choPiece = new Piece(Side.CHO, PieceType.CHA);
+        Piece hanGung = new Piece(Side.HAN, PieceType.GUNG);
+        Map<Position, Piece> pieces = Map.of(
+            departure, choPiece,
+            new Position(8, 4), hanGung
+        );
+        JanggiGame game = new JanggiGame(new Board(pieces));
+        // when
+        game = game.move(departure, destination);
+        // then
+        assertThat(game.isOver()).isFalse();
+    }
+
+    @Test
+    void 게임이_종료된_상태에_기물을_움직일_경우_예외를_던진다() {
+        // given
+        boolean isOver = true;
+        Position departure = new Position(1, 4);
+        Position destination = new Position(1, 5);
+        Piece choPiece = new Piece(Side.CHO, PieceType.CHA);
+        Map<Position, Piece> pieces = Map.of(
+            departure, choPiece
+        );
+        JanggiGame game = new JanggiGame(new Board(pieces), Turn.CHO_TURN, isOver);
+        // when & then
+        assertThatThrownBy(() -> game.move(departure, destination))
+            .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void 게임이_종료되면_승리_진영을_조회할_수_있다() {
+        // given
+        Position departure = new Position(3, 4);
+        Position destination = new Position(8, 4);
+        Piece choPiece = new Piece(Side.CHO, PieceType.CHA);
+        Piece hanGung = new Piece(Side.HAN, PieceType.GUNG);
+        Map<Position, Piece> pieces = Map.of(
+            departure, choPiece,
+            destination, hanGung
+        );
+        JanggiGame game = new JanggiGame(new Board(pieces));
+        // when
+        game = game.move(departure, destination);
+        // then
+        assertThat(game.getWinnerSide()).isEqualTo(Side.CHO);
+    }
+
+    @Test
+    void 게임이_진행중일_때_승리_진영을_조회하는_경우_예외를_던진다() {
+        // given
+        boolean isOver = false;
+        Map<Position, Piece> pieces = Map.of();
+        JanggiGame game = new JanggiGame(new Board(pieces), Turn.CHO_TURN, isOver);
+        // when & then
+        assertThatThrownBy(game::getWinnerSide)
+            .isInstanceOf(IllegalArgumentException.class);
     }
 }

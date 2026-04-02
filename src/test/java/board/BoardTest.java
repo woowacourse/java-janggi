@@ -5,6 +5,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Map;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import pieces.Piece;
 import pieces.PieceType;
 import pieces.Side;
@@ -72,13 +74,41 @@ class BoardTest {
         assertThat(deletedPiece.isEmpty()).isTrue();
     }
 
-    @Test
-    void 궁() {
+    @ParameterizedTest
+    @EnumSource(Side.class)
+    void 해당_진영의_궁이_살아있다면_TRUE를_반환한다(Side side) {
         // given
-
+        Piece piece = new Piece(side, PieceType.GUNG);
+        Map<Position, Piece> pieces = Map.of(
+            new Position(0, 0), piece
+        );
+        Board board = new Board(pieces);
         // when
-
+        boolean hasGung = board.hasGung(side);
         // then
+        assertThat(hasGung).isTrue();
+    }
 
+    @ParameterizedTest
+    @EnumSource(Side.class)
+    void 다른_진영의_궁만_있으면_FALSE를_반환한다(Side side) {
+        // given
+        Side other = getOtherSide(side);
+        Piece piece = new Piece(other, PieceType.GUNG);
+        Map<Position, Piece> pieces = Map.of(
+            new Position(0, 0), piece
+        );
+        Board board = new Board(pieces);
+        // when
+        boolean hasGung = board.hasGung(side);
+        // then
+        assertThat(hasGung).isFalse();
+    }
+
+    private Side getOtherSide(Side side) {
+        if (side.isCho()) {
+            return Side.HAN;
+        }
+        return Side.CHO;
     }
 }

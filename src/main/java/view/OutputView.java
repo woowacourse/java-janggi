@@ -34,4 +34,8 @@ public class OutputView {
     public void askDestination() {
         System.out.println("기물의 도착지 좌표를 입력해주세요. (형식: row, column)");
     }
+
+    public void printGameIsOver(Side winner) {
+        System.out.println("게임이 종료되었습니다.");
+    }
 }

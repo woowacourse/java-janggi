@@ -51,6 +51,10 @@ public class Piece {
         return type.isPo();
     }
 
+    public final boolean isGung() {
+        return type == PieceType.GUNG;
+    }
+
     public final PieceType getType() {
         return type;
     }

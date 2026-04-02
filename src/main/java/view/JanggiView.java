@@ -38,4 +38,8 @@ public class JanggiView {
     private Position readPositionUntilSuccess() {
         return Retry.untilSuccess(in::readPosition);
     }
+
+    public void printGameIsOver(Side winner) {
+        out.printGameIsOver(winner);
+    }
 }

@@ -12,7 +12,7 @@ class TurnTest {
         // given
         Turn turn = Turn.CHO_TURN;
         // when
-        Turn movedTurn = turn.move();
+        Turn movedTurn = turn.next();
         // then
         assertThat(movedTurn.getSide()).isEqualTo(Side.HAN);
     }
@@ -22,7 +22,7 @@ class TurnTest {
         // given
         Turn turn = Turn.HAN_TURN;
         // when
-        Turn movedTurn = turn.move();
+        Turn movedTurn = turn.next();
         // then
         assertThat(movedTurn.getSide()).isEqualTo(Side.CHO);
     }

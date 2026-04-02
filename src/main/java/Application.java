@@ -29,6 +29,7 @@ public class Application {
         while (!game.isOver()) {
             moveUntilSuccess();
         }
+        view.printGameIsOver(game.getWinnerSide());
     }
 
     private void moveUntilSuccess() {

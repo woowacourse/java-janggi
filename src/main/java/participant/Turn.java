@@ -13,11 +13,15 @@ public enum Turn {
         this.side = side;
     }
 
-    public Turn move() {
+    public Turn next() {
         if (this == CHO_TURN) {
             return HAN_TURN;
         }
         return CHO_TURN;
+    }
+
+    public Turn prev() {
+        return next();
     }
 
     public Side getSide() {

@@ -7,6 +7,7 @@ import java.util.Objects;
 import movepolicy.rule.MoveTrace;
 import participant.Turn;
 import pieces.Piece;
+import pieces.Side;
 import position.Position;
 
 public record Board(Map<Position, Piece> pieces) {
@@ -14,6 +15,11 @@ public record Board(Map<Position, Piece> pieces) {
     @Override
     public Map<Position, Piece> pieces() {
         return Map.copyOf(pieces);
+    }
+
+    public boolean hasGung(Side side) {
+        return pieces.values().stream()
+            .anyMatch(piece -> piece.isGung() && piece.isSameSide(side));
     }
 
     public void validateDeparturePiece(Position departure, Turn turn) {
