@@ -26,8 +26,8 @@ public class JanggiGame {
 
     public void run() {
         selectSide();
-        hanPlayerPlacement();
-        choPlayerPlacement();
+        hanPlayerPlaceBoard();
+        choPlayerPlaceBoard();
         playGame();
     }
 
@@ -63,7 +63,7 @@ public class JanggiGame {
         return sides.get(sideCode - 1);
     }
 
-    private void hanPlayerPlacement() {
+    private void hanPlayerPlaceBoard() {
         retry(() -> {
             String input = InputView.inputHanPlacementCode();
             int code = Parser.parseToPlacementCode(input);
@@ -72,7 +72,7 @@ public class JanggiGame {
         });
     }
 
-    private void choPlayerPlacement() {
+    private void choPlayerPlaceBoard() {
         retry(() -> {
             String input = InputView.inputChoPlacementCode();
             int code = Parser.parseToPlacementCode(input);
