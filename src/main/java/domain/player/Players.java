@@ -36,8 +36,9 @@ public class Players {
     }
 
     public Players add(Player player) {
-        players.add(player);
-        return new Players(this.players);
+        List<Player> newPlayers = new ArrayList<>(players);
+        newPlayers.add(player);
+        return new Players(newPlayers);
     }
 
     public Player getByTeam(Team team) {

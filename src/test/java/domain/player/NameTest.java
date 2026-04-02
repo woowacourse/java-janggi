@@ -3,6 +3,7 @@ package domain.player;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import common.exception.JanggiException;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -18,6 +19,6 @@ class NameTest {
     @ParameterizedTest
     @ValueSource(strings = {"일", "일이삼사오육칠팔구", "a", "abcdefghi", "봉구!", "po bi"})
     void 조건에_맞지_않는_입력인_경우에는_에러를_던진다(String value) {
-        assertThrows(IllegalArgumentException.class, () -> new Name(value));
+        assertThrows(JanggiException.class, () -> new Name(value));
     }
 }

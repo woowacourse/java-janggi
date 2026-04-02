@@ -16,9 +16,10 @@ class PlayersTest {
         Player player2 = createPlayer("봉구스", Team.HAN);
 
         Players players = new Players();
-        players.add(player1);
+        players = players.add(player1);
+        Players currentPlayers = players;
 
-        assertThatThrownBy(() -> players.add(player2))
+        assertThatThrownBy(() -> currentPlayers.add(player2))
                 .isInstanceOf(JanggiException.class)
                 .hasMessageContaining(PLAYER_DUPLICATED);
     }
@@ -30,12 +31,12 @@ class PlayersTest {
         Player player3 = createPlayer("봉구스3", Team.HAN);
 
         Players players = new Players();
-        players.add(player1);
-        players.add(player2);
+        players = players.add(player1);
+        players = players.add(player2);
+        Players currentPlayers = players;
 
-        assertThatThrownBy(() -> players.add(player3))
+        assertThatThrownBy(() -> currentPlayers.add(player3))
                 .isInstanceOf(JanggiException.class)
                 .hasMessageContaining(PLAYER_LIMIT_EXCEEDED);
     }
-
 }
