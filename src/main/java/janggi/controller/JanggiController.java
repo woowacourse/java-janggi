@@ -3,7 +3,7 @@ package janggi.controller;
 import janggi.domain.Position;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardGenerator;
-import janggi.domain.command.SetupCommand;
+import janggi.domain.command.SetupStrategy;
 import janggi.domain.piece.Piece;
 import janggi.domain.setup.ElephantFormation;
 import janggi.domain.team.BlueTeam;
@@ -22,9 +22,7 @@ public class JanggiController {
     }
 
     public void run() {
-        Team redTeam = setupRedTeam();
-        Team blueTeam = setupBlueTeam();
-        Board board = BoardGenerator.generate(redTeam, blueTeam);
+        Board board = BoardGenerator.generate(setupRedTeam(), setupBlueTeam());
         TurnManager turnManager = new TurnManager();
         while (board.hasTwoGeneral()) {
             OutputView.printBoard(BoardDto.from(board), turnManager.currentTeamType());
@@ -41,21 +39,21 @@ public class JanggiController {
 
     private Team setupRedTeam() {
         OutputView.printSetupGuide(TeamType.RED);
-        final SetupCommand setupCommand = RetryExecutor.retry(this::readSetupCommand);
-        final ElephantFormation elephantFormation = setupCommand.toPolicy();
+        final SetupStrategy setupStrategyCommand = RetryExecutor.retry(this::readSetupCommand);
+        final ElephantFormation elephantFormation = setupStrategyCommand.toPolicy();
         return new RedTeam(elephantFormation);
     }
 
     private Team setupBlueTeam() {
         OutputView.printSetupGuide(TeamType.BLUE);
-        final SetupCommand setupCommand = RetryExecutor.retry(this::readSetupCommand);
-        final ElephantFormation elephantFormation = setupCommand.toPolicy();
+        final SetupStrategy setupStrategyCommand = RetryExecutor.retry(this::readSetupCommand);
+        final ElephantFormation elephantFormation = setupStrategyCommand.toPolicy();
         return new BlueTeam(elephantFormation);
     }
 
-    private SetupCommand readSetupCommand() {
+    private SetupStrategy readSetupCommand() {
         int inputCommand = InputView.readSetupCommand();
-        return SetupCommand.values()[inputCommand - 1];
+        return SetupStrategy.from(inputCommand);
     }
 
     private Position findFromPosition(Board board, TurnManager turnManager) {
