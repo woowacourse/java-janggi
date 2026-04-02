@@ -10,6 +10,15 @@ public class Point {
     private static final int BOARD_HEIGHT = 10;
     private static final List<List<Point>> CACHE;
 
+    private static final int PALACE_MIN_X = 3;
+    private static final int PALACE_MAX_X = 5;
+
+    private static final int CHO_PALACE_MIN_Y = 0;
+    private static final int CHO_PALACE_MAX_Y = 2;
+
+    private static final int HAN_PALACE_MIN_Y = 7;
+    private static final int HAN_PALACE_MAX_Y = 9;
+
     private final int x;
     private final int y;
 
@@ -52,6 +61,24 @@ public class Point {
 
     public int getPathY(Point from) {
         return this.y - from.y;
+    }
+
+    public boolean isInSamePalace(Point other) {
+        return (isInChoPalace() && other.isInChoPalace())
+                || (isInHanPalace() && other.isInHanPalace());
+    }
+
+    private boolean isInChoPalace() {
+        return isInRange(CHO_PALACE_MIN_Y, CHO_PALACE_MAX_Y);
+    }
+
+    private boolean isInHanPalace() {
+        return isInRange(HAN_PALACE_MIN_Y, HAN_PALACE_MAX_Y);
+    }
+
+    private boolean isInRange(int minY, int maxY) {
+        return x >= PALACE_MIN_X && x <= PALACE_MAX_X
+                && y >= minY && y <= maxY;
     }
 
     private static void addX(List<Point> row, int y) {
