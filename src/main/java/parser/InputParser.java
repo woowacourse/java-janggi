@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public class InputParser {
-    private static final Pattern POSITION_PATTERN = Pattern.compile(" *\\( *\\d+ *, *\\d+ *\\) *");
+    private static final Pattern COORDINATE_CSV_PATTERN = Pattern.compile(" *\\d+ *, *\\d+ *");
 
     public static Name parseName(String input) {
         validateNullOrBlank(input);
@@ -23,7 +23,7 @@ public class InputParser {
    }
 
     private static Position getPosition(String input) {
-        List<Integer> coordinate = Arrays.stream(input.strip().substring(1, input.length() - 1).split(","))
+        List<Integer> coordinate = Arrays.stream(input.strip().split(","))
                 .map(String::strip)
                 .map(Integer::parseInt)
                 .toList();
@@ -38,7 +38,7 @@ public class InputParser {
     }
 
     private static void validateInputFormat(String input) {
-        if (!POSITION_PATTERN.matcher(input).matches()) {
+        if (!COORDINATE_CSV_PATTERN.matcher(input).matches()) {
             throw new IllegalArgumentException("질못된 입력 형식입니다.");
         }
     }
