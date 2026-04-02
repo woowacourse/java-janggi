@@ -3,12 +3,17 @@ package repository.jdbc;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import repository.RepositoryErrorMessage;
+import repository.dao.PieceFindDao;
 import repository.dao.PieceSaveDao;
 import repository.entity.PieceEntity;
 
-public class PieceJdbcRepository implements PieceSaveDao {
+public class PieceJdbcRepository implements PieceSaveDao, PieceFindDao {
 
     private static final String INSERT_PIECE_SQL = "INSERT INTO piece(piece_row, piece_col, team, type ) values(?, ?, ?, ?)";
+    private static final String SELECT_PIECE_SQL = "SELECT * FROM piece WHERE piece_row = ? AND piece_col = ?";
+    private static final String SELECT_PIECES_SQL = "SELECT * FROM piece";
+
     private static final String CREATE_PIECE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS piece (" +
             "piece_id BIGINT PRIMARY KEY AUTO_INCREMENT, " +
             "piece_row INT NOT NULL, " +
@@ -53,5 +58,41 @@ public class PieceJdbcRepository implements PieceSaveDao {
         }
 
         template.executeBatchCommand(INSERT_PIECE_SQL, totalEntityValues);
+    }
+
+    @Override
+    public PieceEntity find(int row, int column) throws SQLException {
+        List<PieceEntity> pieceEntities = template.executeRead(
+                SELECT_PIECE_SQL,
+                (rs) -> new PieceEntity(
+                        rs.getLong("piece_id"),
+                        rs.getInt("piece_row"),
+                        rs.getInt("piece_col"),
+                        rs.getString("team"),
+                        rs.getString("type")
+                ),
+                row,
+                column
+        );
+
+        if (pieceEntities.size() != 1) {
+            throw new IllegalStateException(RepositoryErrorMessage.NOT_SINGLE_RESULT.getMessage());
+        }
+
+        return pieceEntities.getFirst();
+    }
+
+    @Override
+    public List<PieceEntity> findAll() throws SQLException {
+        return template.executeRead(
+                SELECT_PIECES_SQL,
+                (rs) -> new PieceEntity(
+                        rs.getLong("piece_id"),
+                        rs.getInt("piece_row"),
+                        rs.getInt("piece_col"),
+                        rs.getString("team"),
+                        rs.getString("type")
+                )
+        );
     }
 }

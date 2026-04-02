@@ -63,4 +63,35 @@ class PieceJdbcRepositoryTest {
                 () -> repository.saveAll(pieceEntities)
         );
     }
+
+    @Test
+    @DisplayName("하나의 PieceEntity를 잘 찾아온다")
+    void find_single_success() throws SQLException {
+        int targetRow = 1;
+        int targetColumn = 1;
+        List<PieceEntity> pieceEntities = List.of(
+                new PieceEntity(null, 1, 1, "CHO", "JOL"),
+                new PieceEntity(null, 2, 2, "CHO", "CHA"),
+                new PieceEntity(null, 3, 3, "CHO", "PO")
+        );
+        repository.saveAll(pieceEntities);
+
+        PieceEntity findResult = repository.find(targetRow, targetColumn);
+
+        Assertions.assertNotNull(findResult.pieceId());
+    }
+
+    @Test
+    @DisplayName("다수의 PieceEntity들을 잘 찾아온다")
+    void find_all_success() throws SQLException {
+        List<PieceEntity> pieceEntities = List.of(
+                new PieceEntity(null, 1, 1, "CHO", "JOL"),
+                new PieceEntity(null, 2, 2, "CHO", "CHA"),
+                new PieceEntity(null, 3, 3, "CHO", "PO")
+        );
+        repository.saveAll(pieceEntities);
+
+        List<PieceEntity> result = repository.findAll();
+        Assertions.assertEquals(3, result.size());
+    }
 }
