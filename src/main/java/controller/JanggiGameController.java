@@ -1,6 +1,7 @@
 package controller;
 
 import domain.JanggiGame;
+import domain.JanggiScore;
 import domain.SettingType;
 import domain.board.BoardStatus;
 import domain.piece.Piece;
@@ -12,6 +13,7 @@ import java.util.function.Supplier;
 import view.ActionType;
 import view.BoardStatusDto;
 import view.InputView;
+import view.JanggiScoreDto;
 import view.PositionDto;
 import view.ResultView;
 import view.TeamDto;
@@ -41,6 +43,7 @@ public class JanggiGameController {
             }
             BoardStatus currentBoardStatus = game.getJanggiGameStatus();
             printBoardStatus(currentBoardStatus);
+            printGameScore(game, currentBoardStatus);
         }
         resultView.printWinner(TeamDto.toDto(game.getWinner()));
     }
@@ -69,6 +72,11 @@ public class JanggiGameController {
         BoardStatusDto statusDto = BoardStatusDto.from(boardStatus);
 
         resultView.printBoard(statusDto);
+    }
+
+    private void printGameScore(JanggiGame game, BoardStatus currentBoardStatus) {
+        JanggiScore currentGameScore = game.getGameScore(currentBoardStatus);
+        resultView.printGameScore(JanggiScoreDto.toDto(currentGameScore));
     }
 
     private <T> T retry(Supplier<T> supplier) {

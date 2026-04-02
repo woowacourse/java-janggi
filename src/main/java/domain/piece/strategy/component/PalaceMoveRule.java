@@ -56,7 +56,6 @@ public class PalaceMoveRule {
         return !isRowInRange || !isColumnInRange;
     }
 
-
     private boolean isEqualToDestination(Position start, Position destination, int i) {
         Position changedPosition = start.go(D_ROW[i], D_COLUMN[i]);
         return changedPosition.equals(destination);
