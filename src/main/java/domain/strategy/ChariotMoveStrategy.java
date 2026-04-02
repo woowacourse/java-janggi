@@ -10,15 +10,15 @@ public class ChariotMoveStrategy implements MoveStrategy {
         if (isNotStraightPath(from, to))
             return false;
 
-        int nx = Integer.compare(to.getRow(), from.getRow());
-        int ny = Integer.compare(to.getCol(), from.getCol());
+        int dx = Integer.compare(to.getRow(), from.getRow());
+        int dy = Integer.compare(to.getCol(), from.getCol());
 
         int row = from.getRow();
         int col = from.getCol();
 
         while (row != to.getRow() || col != to.getCol()) {
-            row += nx;
-            col += ny;
+            row += dx;
+            col += dy;
 
             if (row == to.getRow() && col == to.getCol()) {
                 break;
