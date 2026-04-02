@@ -1,6 +1,5 @@
 package janggi.domain.piece.unit;
 
-import janggi.domain.board.Dimension;
 import janggi.domain.board.point.Point;
 import janggi.domain.piece.Movement;
 import janggi.domain.piece.PieceName;
@@ -50,18 +49,7 @@ public abstract class Piece {
         return !candidatePath.isEmpty();
     }
 
-    public final List<CandidatePath> createCandidatePaths(Point from, Dimension dimension) {
-        return convertToPaths(createCandidateMovement(), from, pathStrategy, dimension);
-    }
-
-    private List<CandidatePath> convertToPaths(List<Movement> movements, Point from, PathStrategy pathStrategy,
-                                               Dimension dimension) {
-        return movements.stream()
-                .map(movement -> new CandidatePath(movement, from, pathStrategy, dimension))
-                .toList();
-    }
-
-    protected abstract List<Movement> createCandidateMovement();
+    public abstract List<Movement> createCandidateMovement();
 
     protected abstract CandidatePath refinePath(CandidatePath candidatePath, Map<Point, Piece> piecesOnPaths);
 

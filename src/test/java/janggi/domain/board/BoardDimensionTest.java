@@ -24,14 +24,10 @@ class BoardDimensionTest {
     // HAN 진영
     @ParameterizedTest
     @CsvSource({
-            "9,2,false",
-            "9,6,false",
-            "7,2,false",
-            "7,6,false",
-            "10,3,false",
-            "10,5,false",
-            "6,3,false",
-            "6,5,false",
+            "0,-1,false",
+            "0,9,false",
+            "-1,0,false",
+            "10,0,false",
     })
     @DisplayName("Han 진영 궁성 바깥에 있다면 false를 리턴한다.")
     void isNotInRange(int nx, int ny, boolean expected) {

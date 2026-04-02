@@ -2,7 +2,9 @@ package janggi.domain.board;
 
 import janggi.domain.board.point.Point;
 import janggi.domain.board.setup.BoardSetUp;
+import janggi.domain.piece.Movement;
 import janggi.domain.piece.path.CandidatePath;
+import janggi.domain.piece.path.PathStrategy;
 import janggi.domain.piece.unit.Piece;
 import janggi.domain.side.Side;
 import java.util.HashMap;
@@ -38,7 +40,8 @@ public class Board {
     public Set<Point> destinations(Point from) {
         Piece piece = getPieceAt(from)
                 .orElseThrow(() -> new IllegalArgumentException("해당 Point에 기물이 없어, 목적지가 없습니다."));
-        List<CandidatePath> candidatePaths = piece.createCandidatePaths(from, BOARD_DIMENSION);
+        List<CandidatePath> candidatePaths = convertToCandidatePaths(
+                piece.createCandidateMovement(), from, piece.pathStrategy(), BOARD_DIMENSION);
         Map<Point, Piece> piecesOnPaths = findPiecesOnPaths(candidatePaths);
 
         return piece.availablePoints(candidatePaths, piecesOnPaths)
@@ -46,6 +49,20 @@ public class Board {
                 .filter(point -> isDestinationOtherSide(piece, point))
                 .collect(Collectors.toSet());
     }
+
+    private List<CandidatePath> convertToCandidatePaths(List<Movement> movements,
+                                                        Point from,
+                                                        PathStrategy pathStrategy,
+                                                        Dimension dimension) {
+        return movements.stream()
+                .map(movement -> convertToPath(movement, from, pathStrategy, dimension))
+                .toList();
+    }
+
+    private CandidatePath convertToPath(Movement movement, Point from, PathStrategy pathStrategy, Dimension dimension) {
+        return new CandidatePath(movement, from, pathStrategy, dimension);
+    }
+
 
     public void moveTo(Point from, Point to) {
         Piece fromPiece = getPieceAt(from).orElseThrow(

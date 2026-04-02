@@ -33,7 +33,7 @@ public class Horse extends Piece {
     }
 
     @Override
-    protected List<Movement> createCandidateMovement() {
+    public List<Movement> createCandidateMovement() {
         List<Movement> directions = new ArrayList<>();
 
         directions.add(new Movement(List.of(Direction.NORTH, Direction.NORTH_WEST)));

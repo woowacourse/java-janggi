@@ -21,7 +21,7 @@ public class Advisor extends Piece {
     }
 
     @Override
-    protected List<Movement> createCandidateMovement() {
+    public List<Movement> createCandidateMovement() {
         List<Movement> paths = new ArrayList<>();
         for (Direction value : Direction.values()) {
             Movement movement = new Movement(List.of(value));

@@ -21,7 +21,7 @@ public class General extends Piece {
     }
 
     @Override
-    protected List<Movement> createCandidateMovement() {
+    public List<Movement> createCandidateMovement() {
         List<Movement> movements = new ArrayList<>();
         for (Direction value : Direction.values()) {
             Movement path = new Movement(List.of(value));
