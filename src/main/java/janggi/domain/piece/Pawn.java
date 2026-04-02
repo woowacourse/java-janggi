@@ -21,12 +21,10 @@ public class Pawn extends SingleLinearPiece {
     @Override
     public Route findRoute(Position start, Position end) {
         try {
-            Movement direction = start.getLinearDirection(end);
+            Movement direction = getLinearDirection(start, end);
             validateDirection(direction);
 
-            int distance = start.calculateLinearDistance(end);
-
-            return calculatePath(start, direction, distance);
+            return super.findRoute(start, end);
         } catch (IllegalStateException e) {
             throw new IllegalArgumentException(INVALID_DESTINATION_MESSAGE);
         }

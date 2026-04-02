@@ -16,11 +16,10 @@ public class SingleLinearPiece extends LinearPiece {
     @Override
     public Route findRoute(Position start, Position end) {
         try {
-            Movement direction = start.getLinearDirection(end);
-            int distance = start.calculateLinearDistance(end);
+            int distance = calculateLinearDistance(start, end);
             validateDistance(distance);
 
-            return calculatePath(start, direction, distance);
+            return super.findRoute(start, end);
         } catch (IllegalStateException e) {
             throw new IllegalArgumentException(INVALID_DESTINATION_MESSAGE);
         }

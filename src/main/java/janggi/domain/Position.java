@@ -12,23 +12,9 @@ public class Position {
 
     public static final int POSITION_COMPONENTS_SIZE = 2;
 
-    private static final Integer GUNG_SUNG_COL_START = 4;
-    private static final Integer GUNG_SUNG_COL_END = 6;
-    private static final Integer HAN_GUNG_SUNG_ROW_START = 1;
-    private static final Integer HAN_GUNG_SUNG_ROW_END = 3;
-    private static final Integer CHO_GUNG_SUNG_ROW_START = 8;
-    private static final Integer CHO_GUNG_SUNG_ROW_END = 10;
-
-    private static final Set<Position> GungSungM = Set.of(
-            new Position(1, 5), new Position(2, 4), new Position(2, 6), new Position(3,5),
-            new Position(8, 5), new Position(9, 4), new Position(9, 6), new Position(10,5)
-    );
-
     private static final String INVALID_POSITION_SIZE = "행과 열 두 개의 값만 입력하세요.";
     private static final String INVALID_ROW_RANGE = "유효하지 않은 위치입니다. 행은 1부터 10까지 가능합니다.";
     private static final String INVALID_COL_RANGE = "유효하지 않은 위치입니다. 열은 1부터 9까지 가능합니다.";
-
-    private static final String INVALID_LINEAR_POSITION = "직선이 아닙니다.";
 
     private final int x;
     private final int y;
@@ -91,49 +77,23 @@ public class Position {
         return new Position(x + movement.getDx(), y + movement.getDy());
     }
 
-    public Movement getLinearDirection(Position position) {
-        if(!isLinear(position)) {
-            throw new IllegalStateException(INVALID_LINEAR_POSITION);
-        }
-
-        int dx = Integer.compare(position.x, x);
-        int dy = Integer.compare(position.y, y);
-
-        return Movement.of(dx, dy);
+    public int getDeltaX(Position position) {
+        return Math.abs(position.x - x);
     }
 
-    public int calculateLinearDistance(Position position) {
-        if(!isLinear(position)) {
-            throw new IllegalStateException(INVALID_LINEAR_POSITION);
-        }
-
-        int dx = Math.abs(position.x - x);
-        int dy = Math.abs(position.y - y);
-
-        return Math.max(dx, dy);
+    public int getDeltaY(Position position) {
+        return Math.abs(position.y - y);
     }
 
-    private boolean isLinear(Position position) {
-        if(position.x == x && position.y == y) {
-            return false;
-        }
-
-        int dx = Math.abs(position.x - x);
-        int dy = Math.abs(position.y - y);
-
-        return dx == 0 || dy == 0 || isGungSungDiagonal(position);
+    public int compareX(Position position) {
+        return Integer.compare(position.x, x);
     }
 
-    private boolean isGungSungDiagonal(Position position) {
-        return isGungSung(this) && isGungSung(position) && (!GungSungM.contains(this) && !GungSungM.contains(position));
+    public int compareY(Position position) {
+        return Integer.compare(position.y, y);
     }
 
-    public static boolean isGungSung(Position position) {
-        if(position.y < GUNG_SUNG_COL_START || position.y > GUNG_SUNG_COL_END) {
-            return false;
-        }
-
-        return (position.x >= HAN_GUNG_SUNG_ROW_START && position.x <= HAN_GUNG_SUNG_ROW_END)
-                || (position.x >= CHO_GUNG_SUNG_ROW_START && position.x <= CHO_GUNG_SUNG_ROW_END);
+    public boolean isRange(int startX, int endX, int startY, int endY) {
+        return x >= startX && x <= endX && y >= startY && y <= endY;
     }
 }

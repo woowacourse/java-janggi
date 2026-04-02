@@ -8,14 +8,6 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 public class RouteTest {
-    private boolean isLinear(Position point, Position position) {
-        try {
-            point.getLinearDirection(position);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
     @Test
     void 시작과_종료_사이_칸이_없는_경우_모든_조건은_항상_참으로_리턴한다() {
         Route route = new Route(List.of(new Position(1,1), new Position(1,2)));
@@ -32,7 +24,7 @@ public class RouteTest {
            new Position(1, 5)
         ));
 
-        assertThat(route.isEveryBetween(position -> isLinear(new Position(1, 1), position))).isTrue();
+        assertThat(route.isEveryBetween(position -> position.compareX(new Position(1, 6)) == 0)).isTrue();
     }
 
     @Test
@@ -45,7 +37,7 @@ public class RouteTest {
                 new Position(1, 5)
         ));
 
-        assertThat(route.isEveryBetween(position -> isLinear(new Position(1, 1), position))).isFalse();
+        assertThat(route.isEveryBetween(position -> position.compareX(new Position(1, 1)) == 0)).isFalse();
     }
 
     @Test
@@ -58,7 +50,7 @@ public class RouteTest {
                 new Position(5, 5)
         ));
 
-        assertThat(route.isAnyBetween(position -> isLinear(new Position(1, 1), position))).isTrue();
+        assertThat(route.isAnyBetween(position -> position.compareX(new Position(1, 1)) == 0)).isTrue();
     }
 
     @Test
@@ -71,7 +63,7 @@ public class RouteTest {
                 new Position(5, 5)
         ));
 
-        assertThat(route.isAnyBetween(position -> isLinear(new Position(1, 1), position))).isFalse();
+        assertThat(route.isAnyBetween(position -> position.compareX(new Position(1, 1)) == 0)).isFalse();
     }
 
     @Test
@@ -84,7 +76,7 @@ public class RouteTest {
                 new Position(3, 5)
         ));
 
-        assertThat(route.countBetween(position -> isLinear(new Position(1, 1), position))).isEqualTo(2);
+        assertThat(route.countBetween(position -> position.compareX(new Position(1, 1)) == 0)).isEqualTo(2);
     }
 
     @Test
@@ -111,7 +103,7 @@ public class RouteTest {
                 new Position(5, 5)
         ));
 
-        assertThat(route.isDestinationSatisfied(position -> isLinear(new Position(2, 5), position))).isTrue();
-        assertThat(route.isDestinationSatisfied(position -> isLinear(new Position(6, 7), position))).isFalse();
+        assertThat(route.isDestinationSatisfied(position -> position.compareY(new Position(2, 5)) == 0)).isTrue();
+        assertThat(route.isDestinationSatisfied(position -> position.compareX(new Position(6, 7)) == 0)).isFalse();
     }
 }
