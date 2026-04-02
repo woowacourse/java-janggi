@@ -37,7 +37,7 @@ public class JanggiController {
     }
 
     private Camp playTurn(Janggi janggi, Camp currentCamp) {
-        outputView.printBoard(janggi.getBoard(), currentCamp);
+        outputView.printBoard(janggi.piecesStatus(), currentCamp);
         return selectAndMove(janggi, currentCamp);
     }
 

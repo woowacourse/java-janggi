@@ -19,36 +19,36 @@ public class BoardTest {
     @Test
     void initializeToBoard_Always_ReturnCorrectBoard() {
         Board board = Board.initializeToBoard(new ElephantHorseElephantHorse(), new ElephantHorseElephantHorse());
-        Map<Position, Piece> janggiBoard = board.janggiBoard();
-        assertThat(janggiBoard.get(Position.of(1, 4))).isInstanceOf(General.class);
-        assertThat(janggiBoard.get(Position.of(0, 0))).isInstanceOf(Chariot.class);
-        assertThat(janggiBoard.get(Position.of(0, 8))).isInstanceOf(Chariot.class);
-        assertThat(janggiBoard.get(Position.of(0, 3))).isInstanceOf(Advisor.class);
-        assertThat(janggiBoard.get(Position.of(0, 5))).isInstanceOf(Advisor.class);
-        assertThat(janggiBoard.get(Position.of(2, 1))).isInstanceOf(Cannon.class);
-        assertThat(janggiBoard.get(Position.of(2, 7))).isInstanceOf(Cannon.class);
+        Map<Position, String> janggiBoard = board.displayBoard();
+        assertThat(janggiBoard.get(Position.of(1, 4))).isEqualTo("楚");
+        assertThat(janggiBoard.get(Position.of(0, 0))).isEqualTo("車");
+        assertThat(janggiBoard.get(Position.of(0, 8))).isEqualTo("車");
+        assertThat(janggiBoard.get(Position.of(0, 3))).isEqualTo("士");
+        assertThat(janggiBoard.get(Position.of(0, 5))).isEqualTo("士");
+        assertThat(janggiBoard.get(Position.of(2, 1))).isEqualTo("包");
+        assertThat(janggiBoard.get(Position.of(2, 7))).isEqualTo("包");
         for (int i = 0; i <= 8; i += 2) {
-            assertThat(janggiBoard.get(Position.of(3, i))).isInstanceOf(Soldier.class);
+            assertThat(janggiBoard.get(Position.of(3, i))).isEqualTo("卒");
         }
-        assertThat(janggiBoard.get(Position.of(Camp.CHO.initRowPosition(), 1))).isInstanceOf(Elephant.class);
-        assertThat(janggiBoard.get(Position.of(Camp.CHO.initRowPosition(), 2))).isInstanceOf(Horse.class);
-        assertThat(janggiBoard.get(Position.of(Camp.CHO.initRowPosition(), 6))).isInstanceOf(Elephant.class);
-        assertThat(janggiBoard.get(Position.of(Camp.CHO.initRowPosition(), 7))).isInstanceOf(Horse.class);
+        assertThat(janggiBoard.get(Position.of(Camp.CHO.initRowPosition(), 1))).isEqualTo("象");
+        assertThat(janggiBoard.get(Position.of(Camp.CHO.initRowPosition(), 2))).isEqualTo("馬");
+        assertThat(janggiBoard.get(Position.of(Camp.CHO.initRowPosition(), 6))).isEqualTo("象");
+        assertThat(janggiBoard.get(Position.of(Camp.CHO.initRowPosition(), 7))).isEqualTo("馬");
 
-        assertThat(janggiBoard.get(Position.of(8, 4))).isInstanceOf(General.class);
-        assertThat(janggiBoard.get(Position.of(9, 0))).isInstanceOf(Chariot.class);
-        assertThat(janggiBoard.get(Position.of(9, 8))).isInstanceOf(Chariot.class);
-        assertThat(janggiBoard.get(Position.of(9, 3))).isInstanceOf(Advisor.class);
-        assertThat(janggiBoard.get(Position.of(9, 5))).isInstanceOf(Advisor.class);
-        assertThat(janggiBoard.get(Position.of(7, 1))).isInstanceOf(Cannon.class);
-        assertThat(janggiBoard.get(Position.of(7, 7))).isInstanceOf(Cannon.class);
+        assertThat(janggiBoard.get(Position.of(8, 4))).isEqualTo("漢");
+        assertThat(janggiBoard.get(Position.of(9, 0))).isEqualTo("車");
+        assertThat(janggiBoard.get(Position.of(9, 8))).isEqualTo("車");
+        assertThat(janggiBoard.get(Position.of(9, 3))).isEqualTo("士");
+        assertThat(janggiBoard.get(Position.of(9, 5))).isEqualTo("士");
+        assertThat(janggiBoard.get(Position.of(7, 1))).isEqualTo("包");
+        assertThat(janggiBoard.get(Position.of(7, 7))).isEqualTo("包");
         for (int i = 0; i <= 8; i += 2) {
-            assertThat(janggiBoard.get(Position.of(6, i))).isInstanceOf(Soldier.class);
+            assertThat(janggiBoard.get(Position.of(6, i))).isEqualTo("兵");
         }
-        assertThat(janggiBoard.get(Position.of(Camp.HAN.initRowPosition(), 1))).isInstanceOf(Elephant.class);
-        assertThat(janggiBoard.get(Position.of(Camp.HAN.initRowPosition(), 2))).isInstanceOf(Horse.class);
-        assertThat(janggiBoard.get(Position.of(Camp.HAN.initRowPosition(), 6))).isInstanceOf(Elephant.class);
-        assertThat(janggiBoard.get(Position.of(Camp.HAN.initRowPosition(), 7))).isInstanceOf(Horse.class);
+        assertThat(janggiBoard.get(Position.of(Camp.HAN.initRowPosition(), 1))).isEqualTo("象");
+        assertThat(janggiBoard.get(Position.of(Camp.HAN.initRowPosition(), 2))).isEqualTo("馬");
+        assertThat(janggiBoard.get(Position.of(Camp.HAN.initRowPosition(), 6))).isEqualTo("象");
+        assertThat(janggiBoard.get(Position.of(Camp.HAN.initRowPosition(), 7))).isEqualTo("馬");
     }
 
     @Test
@@ -113,8 +113,8 @@ public class BoardTest {
 
         board.movePiece(Position.of(3, 0), Position.of(4, 0));
 
-        assertThat(board.janggiBoard().get(Position.of(4, 0))).isNotNull();
-        assertThat(board.janggiBoard().get(Position.of(3, 0))).isNull();
+        assertThat(board.displayBoard().get(Position.of(4, 0))).isNotNull();
+        assertThat(board.displayBoard().get(Position.of(3, 0))).isNull();
     }
 
     @Test
@@ -126,8 +126,8 @@ public class BoardTest {
         board.movePiece(Position.of(4, 4), Position.of(5, 4));
         board.movePiece(Position.of(5, 4), Position.of(6, 4));
 
-        Piece movedPiece = board.janggiBoard().get(Position.of(6, 4));
-        assertThat(movedPiece.isSameCamp(Camp.CHO)).isTrue();
-        assertThat(board.janggiBoard()).hasSize(31);
+        String movedPiece = board.displayBoard().get(Position.of(6, 4));
+        assertThat(movedPiece).isEqualTo("卒");
+        assertThat(movedPiece).isNotEqualTo("兵");
     }
 }

@@ -1,13 +1,10 @@
 package janggi.view;
 
 import janggi.domain.Camp;
-import janggi.domain.Position;
-import janggi.domain.piece.*;
+import janggi.view.dto.PieceStatus;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -23,30 +20,21 @@ public class OutputView {
             false, HAN_COLOR
     );
 
-    private static final Map<Boolean, String> SOLDIER_SYMBOL = Map.of(
-            true, "兵",
-            false, "卒"
-    );
-
-    private static final Map<Class<?>, Function<Piece, String>> SYMBOL_MAP = Map.of(
-            General.class, p -> "將",
-            Advisor.class, p -> "士",
-            Chariot.class, p -> "車",
-            Cannon.class, p -> "包",
-            Horse.class, p -> "馬",
-            Elephant.class, p -> "象",
-            Soldier.class, p -> SOLDIER_SYMBOL.get(p.isSameCamp(Camp.CHO))
-    );
-
     public void printError(String message) {
         System.out.println(message);
     }
 
-    public void printBoard(Map<Position, Piece> board, Camp currentCamp) {
+    public void printBoard(List<PieceStatus> piecesStatus, Camp currentCamp) {
         System.out.println();
 
         int rowStart = 9 - currentCamp.initRowPosition();
         int rowStep = -currentCamp.direction();
+
+        Map<String, PieceStatus> boardMap = piecesStatus.stream()
+                .collect(Collectors.toMap(
+                        p -> p.getRow() + "," + p.getColumn(),
+                        p -> p
+                ));
 
         List<Integer> rows = IntStream.iterate(rowStart, r -> r + rowStep)
                 .limit(10)
@@ -56,7 +44,7 @@ public class OutputView {
         String verticalSeparator = "\n   " + verticalRow() + "\n";
 
         String boardStr = rows.stream()
-                .map(row -> row + "  " + intersectionRow(row, board))
+                .map(row -> row + "  " + intersectionRow(row, boardMap))
                 .collect(Collectors.joining(verticalSeparator));
 
         System.out.println(boardStr);
@@ -64,16 +52,19 @@ public class OutputView {
         System.out.println();
     }
 
-    private String intersectionRow(int row, Map<Position, Piece> board) {
+    private String intersectionRow(int row,  Map<String, PieceStatus> boardMap) {
         return IntStream.range(0, COL_SIZE)
-                .mapToObj(col -> renderCell(row, col, board))
+                .mapToObj(col -> renderCell(row, col, boardMap))
                 .collect(Collectors.joining("－"));
     }
 
-    private String renderCell(int row, int col, Map<Position, Piece> board) {
-        return Optional.ofNullable(board.get(Position.of(row, col)))
-                .map(piece -> COLOR_MAP.get(piece.isSameCamp(Camp.CHO)) + SYMBOL_MAP.get(piece.getClass()).apply(piece) + RESET)
-                .orElse("＋");
+    private String renderCell(int row, int col, Map<String, PieceStatus> boardMap) {
+        PieceStatus pieceStatus = boardMap.get(row + "," + col);
+        if (pieceStatus == null) {
+            return "＋";
+        }
+        String color = COLOR_MAP.get(pieceStatus.isCho());
+        return color + pieceStatus.getDisplayName() + RESET;
     }
 
     private String verticalRow() {

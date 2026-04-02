@@ -3,6 +3,7 @@ package janggi.domain;
 import janggi.domain.board.Board;
 import janggi.domain.board.strategy.*;
 import janggi.domain.piece.Piece;
+import janggi.view.dto.PieceStatus;
 
 import java.util.List;
 import java.util.Map;
@@ -48,8 +49,14 @@ public class Janggi {
         }
     }
 
-    public Map<Position, Piece> getBoard() {
-        return board.janggiBoard();
+    public List<PieceStatus> piecesStatus() {
+        Map<Position, String> displayBoard = board.displayBoard();
+        return displayBoard.keySet()
+                .stream()
+                .map(position -> PieceStatus.from(position,
+                        board.checkCampOfThePiece(position),
+                        displayBoard.get(position)))
+                .toList();
     }
 
     public boolean isOnGoing() {

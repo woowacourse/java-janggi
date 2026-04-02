@@ -98,7 +98,17 @@ public class Board {
         janggiBoard.put(to, piece);
     }
 
-    public Map<Position, Piece> janggiBoard() {
-        return Collections.unmodifiableMap(janggiBoard);
+    public Map<Position, String> displayBoard() {
+        Map<Position, String> board = new HashMap<>();
+        for (Position position : janggiBoard.keySet()) {
+            Piece piece = janggiBoard.get(position);
+            board.put(position, piece.displayName());
+        }
+        return Collections.unmodifiableMap(board);
+    }
+
+    public Camp checkCampOfThePiece(Position position) {
+        return janggiBoard.get(position)
+                .getCamp();
     }
 }
