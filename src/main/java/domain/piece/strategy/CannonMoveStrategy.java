@@ -24,7 +24,7 @@ public class CannonMoveStrategy implements MoveStrategy {
     }
 
     @Override
-    public void validateBlockingPiece(List<PathInfo> pathInfos, Position departure, Position destination) {
+    public void validateBlockingPiece(List<PathInfo> pathInfos, Position destination) {
         if (pathInfos.stream().anyMatch(path -> path.isSamePieceType(PieceType.CANNON))) {
             throw new IllegalArgumentException("포는 포를 넘거나 잡을 수 없습니다.");
         }

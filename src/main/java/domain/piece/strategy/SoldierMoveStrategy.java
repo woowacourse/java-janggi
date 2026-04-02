@@ -38,7 +38,7 @@ public class SoldierMoveStrategy implements MoveStrategy {
     }
 
     @Override
-    public void validateBlockingPiece(List<PathInfo> pathInfos, Position departure, Position destination) {
+    public void validateBlockingPiece(List<PathInfo> pathInfos, Position destination) {
         boolean hasBlockingPiece = pathInfos.stream()
                 .filter(path -> !path.position().equals(destination))
                 .anyMatch(PathInfo::hasPiece);

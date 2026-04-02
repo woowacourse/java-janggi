@@ -35,7 +35,7 @@ public class Piece {
     }
 
     public void validateBlockingPiece(List<PathInfo> pathInfos, Position departure, Position destination) {
-        moveStrategy.validateBlockingPiece(pathInfos, departure, destination);
+        moveStrategy.validateBlockingPiece(pathInfos, destination);
     }
 
     @Override

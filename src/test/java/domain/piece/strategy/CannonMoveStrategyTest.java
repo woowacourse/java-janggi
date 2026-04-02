@@ -52,7 +52,7 @@ class CannonMoveStrategyTest {
         List<PathInfo> pathInfos = new ArrayList<>();
         pathInfos.add(new PathInfo(new Position(8, 2), Piece.of(Camp.CHO, PieceType.CHARIOT)));
 
-        assertThatThrownBy(() -> chariotMoveStrategy.validateBlockingPiece(pathInfos, to, from)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> chariotMoveStrategy.validateBlockingPiece(pathInfos, from)).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -63,7 +63,7 @@ class CannonMoveStrategyTest {
         List<PathInfo> pathInfos = new ArrayList<>();
         pathInfos.add(new PathInfo(new Position(8, 2), Piece.of(Camp.CHO, PieceType.CANNON)));
 
-        assertThatThrownBy(() -> chariotMoveStrategy.validateBlockingPiece(pathInfos, to, from)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> chariotMoveStrategy.validateBlockingPiece(pathInfos, from)).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -75,6 +75,6 @@ class CannonMoveStrategyTest {
         pathInfos.add(new PathInfo(new Position(8, 1), Piece.of(Camp.CHO, PieceType.CANNON)));
         pathInfos.add(new PathInfo(new Position(8, 2), Piece.of(Camp.CHO, PieceType.CHARIOT)));
 
-        assertThatThrownBy(() -> chariotMoveStrategy.validateBlockingPiece(pathInfos, to, from)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> chariotMoveStrategy.validateBlockingPiece(pathInfos, from)).isInstanceOf(IllegalArgumentException.class);
     }
 }

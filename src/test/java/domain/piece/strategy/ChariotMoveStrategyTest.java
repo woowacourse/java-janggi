@@ -52,6 +52,6 @@ class ChariotMoveStrategyTest {
         List<PathInfo> pathInfos = new ArrayList<>();
         pathInfos.add(new PathInfo(new Position(8, 1), Piece.of(Camp.CHO, PieceType.CHARIOT)));
 
-        assertThatThrownBy(() -> chariotMoveStrategy.validateBlockingPiece(pathInfos, to, from)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> chariotMoveStrategy.validateBlockingPiece(pathInfos, from)).isInstanceOf(IllegalArgumentException.class);
     }
 }
