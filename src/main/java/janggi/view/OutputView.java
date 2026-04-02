@@ -1,7 +1,7 @@
 package janggi.view;
 
-import janggi.domain.point.Point;
 import janggi.domain.piece.unit.Piece;
+import janggi.domain.point.Point;
 import janggi.domain.side.Side;
 import java.util.Map;
 import java.util.Set;
@@ -59,6 +59,13 @@ public class OutputView {
         String color = Side.CHO.equals(side) ? ANSI_GREEN : ANSI_RED;
         System.out.println(color + side.getName() + " 차례입니다." + ANSI_RESET);
     }
+
+
+    public void printWinner(Side side) {
+        String color = Side.CHO.equals(side) ? ANSI_GREEN : ANSI_RED;
+        System.out.println("승자는 " + side.getName() + " 입니다! 축하합니다" + ANSI_RESET);
+    }
+
 
     public void printError(String message) {
         System.out.println("[ERROR] " + message);

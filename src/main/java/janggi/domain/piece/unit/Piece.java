@@ -1,10 +1,10 @@
 package janggi.domain.piece.unit;
 
-import janggi.domain.point.Point;
 import janggi.domain.path.CandidatePath;
 import janggi.domain.path.Movement;
 import janggi.domain.path.generator.PathStrategy;
 import janggi.domain.piece.PieceName;
+import janggi.domain.point.Point;
 import janggi.domain.side.Side;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +15,7 @@ public abstract class Piece {
     protected Side side;
     protected PathStrategy pathStrategy;
 
-    public Piece(PieceName name, Side side, PathStrategy pathStrategy) {
+    protected Piece(PieceName name, Side side, PathStrategy pathStrategy) {
         this.name = name;
         this.side = side;
         this.pathStrategy = pathStrategy;

@@ -13,6 +13,10 @@ public class Rules {
         this.rules = rules;
     }
 
+    public static Rules createWithDefaultRules() {
+        return new Rules(List.of(new GeneralDeadRule()));
+    }
+
     public Side winner(Collection<Piece> pieces) {
         Rule endRule = findEndedRule(pieces)
                 .orElseThrow(() -> new IllegalStateException("게임이 끝나지 않았습니다."));

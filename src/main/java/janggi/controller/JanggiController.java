@@ -1,9 +1,9 @@
 package janggi.controller;
 
-import janggi.domain.point.Point;
 import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.game.Game;
 import janggi.domain.piece.unit.Piece;
+import janggi.domain.point.Point;
 import janggi.domain.side.Side;
 import janggi.view.InputView;
 import janggi.view.OutputView;
@@ -37,6 +37,7 @@ public class JanggiController {
             outputView.printBoardWithPath(board, game.destinations(from));
             retry(() -> movePath(game, from));
         }
+        outputView.printWinner(game.winnerSide());
     }
 
     private Point getPoint(Game game) {

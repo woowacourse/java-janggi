@@ -5,8 +5,6 @@ import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.piece.unit.Piece;
 import janggi.domain.point.Point;
 import janggi.domain.side.Side;
-import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -15,7 +13,6 @@ public class Game {
 
     private final Rules rules;
     private final Board board;
-    public Collection<Piece> getPieces;
     private Side turn;
 
     protected Game(Rules rules, Board board) {
@@ -25,7 +22,7 @@ public class Game {
     }
 
     public static Game createGame(BoardSetUp choBoardSetUp, BoardSetUp hanBoardSetUp) {
-        return new Game(new Rules(List.of(new GeneralDeadRule())), Board.setUp(choBoardSetUp, hanBoardSetUp));
+        return new Game(Rules.createWithDefaultRules(), Board.setUp(choBoardSetUp, hanBoardSetUp));
     }
 
     public Side getTurn() {
@@ -33,8 +30,7 @@ public class Game {
     }
 
     public Set<Point> destinations(Point from) {
-        Set<Point> destinations = board.destinations(from);
-        return destinations;
+        return board.destinations(from);
     }
 
     public boolean canMove(Point from) {
@@ -68,10 +64,7 @@ public class Game {
     }
 
     public boolean canPlay() {
-        if (rules.isEnd(board.getPieces().values())) {
-            return false;
-        }
-        return true;
+        return !rules.isEnd(board.getPieces().values());
     }
 
     public Side winnerSide() {
