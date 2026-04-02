@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public class InputParser {
-    public static final Pattern POSITION_PATTERN = Pattern.compile(" *\\( *\\d+ *, *\\d+ *\\) *");
+    private static final Pattern POSITION_PATTERN = Pattern.compile(" *\\( *\\d+ *, *\\d+ *\\) *");
 
     public static Name parseName(String input) {
         validateNullOrBlank(input);
