@@ -1,10 +1,5 @@
-package janggi.domain.command;
+package janggi.domain.setup;
 
-import janggi.domain.setup.ElephantFormation;
-import janggi.domain.setup.InnerElephantElephantFormation;
-import janggi.domain.setup.LeftElephantElephantFormation;
-import janggi.domain.setup.OuterElephantElephantFormation;
-import janggi.domain.setup.RightElephantElephantFormation;
 import java.util.function.Supplier;
 
 public enum SetupStrategy {
