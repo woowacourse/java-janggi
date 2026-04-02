@@ -30,9 +30,9 @@ public enum TableSetting {
                 .orElseThrow(() -> new IllegalArgumentException(NOT_FOUND_TABLE_SETTING));
     }
 
-    public List<PieceType> getFormation(Country country) {
+    public List<PieceType> getFormation(CountryType countryType) {
         List<PieceType> pieceTypes = new ArrayList<>(this.formation);
-        if (country == Country.HAN) {
+        if (countryType == CountryType.HAN) {
             Collections.reverse(pieceTypes);
             return pieceTypes;
         }

@@ -1,9 +1,10 @@
 package controller;
 
-import domain.Country;
+import domain.CountryType;
 import domain.Position;
 import domain.TableSetting;
 import domain.board.Board;
+import domain.board.BoardFactory;
 import java.util.List;
 import view.CountryFormatter;
 import view.InputParser;
@@ -21,33 +22,34 @@ public class JanggiController {
 
     public void run() {
         Board board = makeBoard();
-        List<Country> playOrders = List.of(Country.CHO, Country.HAN);
+        List<CountryType> playOrders = List.of(CountryType.CHO, CountryType.HAN);
 
         playTurn(board, playOrders);
     }
 
     private Board makeBoard() {
-        TableSetting choTableSetting = readTableSetting(Country.CHO);
-        TableSetting hanTableSetting = readTableSetting(Country.HAN);
-        return new Board(choTableSetting, hanTableSetting);
+        TableSetting choTableSetting = readTableSetting(CountryType.CHO);
+        TableSetting hanTableSetting = readTableSetting(CountryType.HAN);
+        BoardFactory boardFactory = new BoardFactory();
+        return boardFactory.create(choTableSetting, hanTableSetting);
     }
 
-    private void playTurn(Board board, List<Country> playOrders) {
+    private void playTurn(Board board, List<CountryType> playOrders) {
         int turnIndex = 0;
         while (true) {
-            Country country = playOrders.get(turnIndex);
-            outputView.printTurn(CountryFormatter.from(country));
+            CountryType countryType = playOrders.get(turnIndex);
+            outputView.printTurn(CountryFormatter.from(countryType));
             outputView.printBoard(board.getPieceInfos());
 
-            movePiece(board, country);
+            movePiece(board, countryType);
             turnIndex = (turnIndex + 1) % 2;
         }
     }
 
-    private TableSetting readTableSetting(Country country) {
+    private TableSetting readTableSetting(CountryType countryType) {
         while (true) {
             try {
-                String input = inputView.readTableSetting(CountryFormatter.from(country));
+                String input = inputView.readTableSetting(CountryFormatter.from(countryType));
                 String tableNames = InputParser.parseTableSetting(input);
 
                 return TableSetting.from(tableNames);
@@ -57,11 +59,11 @@ public class JanggiController {
         }
     }
 
-    private void movePiece(Board board, Country country) {
+    private void movePiece(Board board, CountryType countryType) {
         while (true) {
             try {
                 Position from = makeFromPosition();
-                board.validateFromPosition(from, country);
+                board.validateFromPosition(from, countryType);
                 Position to = makeToPosition();
 
                 board.move(from, to);

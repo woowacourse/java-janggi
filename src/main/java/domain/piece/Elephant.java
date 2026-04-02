@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.Country;
+import domain.CountryType;
 import domain.Direction;
 import domain.Position;
 import java.util.List;
@@ -12,8 +12,8 @@ public class Elephant extends Piece {
     private static final String MUST_SAME_DIRECTION = "[ERROR] 상의 2번째 방향과 3번째 방향은 동일해야 합니다.";
     private static final String FIXED_DIRECTION = "[ERROR] 상의 1번째 방향은 직선이고, 2, 3번째 방향은 대각선이어야 합니다.";
 
-    public Elephant(Country country) {
-        super(new PieceInfo(PieceType.ELEPHANT, country));
+    public Elephant(CountryType countryType) {
+        super(new PieceInfo(PieceType.ELEPHANT, countryType));
     }
 
     @Override

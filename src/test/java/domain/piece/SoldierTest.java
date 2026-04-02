@@ -3,7 +3,7 @@ package domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import domain.Country;
+import domain.CountryType;
 import domain.Path;
 import domain.Position;
 import domain.state.FullState;
@@ -19,7 +19,7 @@ public class SoldierTest {
     @Test
     @DisplayName("초나라 졸병의 위 목적지까지의 경로를 정확히 계산한다.")
     void choSoldierDownPathTest() {
-        Piece choSoldier = new Soldier(Country.CHO);
+        Piece choSoldier = new Soldier(CountryType.CHO);
 
         Position from = new Position(2, 3);
         Position to = new Position(2, 4);
@@ -33,7 +33,7 @@ public class SoldierTest {
     @Test
     @DisplayName("한나라 졸병의 아래 목적지까지의 경로를 정확히 계산한다.")
     void soldierUpPathTest() {
-        Piece hanSoldier = new Soldier(Country.HAN);
+        Piece hanSoldier = new Soldier(CountryType.HAN);
 
         Position from = new Position(2, 6);
         Position to = new Position(2, 5);
@@ -47,7 +47,7 @@ public class SoldierTest {
     @Test
     @DisplayName("졸병의 왼쪽 목적지까지의 경로를 정확히 계산한다.")
     void soldierLeftPathTest() {
-        Piece soldier = new Soldier(Country.CHO);
+        Piece soldier = new Soldier(CountryType.CHO);
 
         Position from = new Position(2, 3);
         Position to = new Position(1, 3);
@@ -61,7 +61,7 @@ public class SoldierTest {
     @Test
     @DisplayName("졸병의 오른쪽 목적지까지의 경로를 정확히 계산한다.")
     void soldierRightPathTest() {
-        Piece soldier = new Soldier(Country.CHO);
+        Piece soldier = new Soldier(CountryType.CHO);
 
         Position from = new Position(2, 3);
         Position to = new Position(3, 3);
@@ -75,7 +75,7 @@ public class SoldierTest {
     @Test
     @DisplayName("초나라 졸병의 상대 궁성 내부 오른쪽 위 목적지까지의 경로를 정확히 계산한다.")
     void soldierRightUpPathInsidePalaceTest() {
-        Piece soldier = new Soldier(Country.CHO);
+        Piece soldier = new Soldier(CountryType.CHO);
 
         Position from = new Position(4, 8);
         Position to = new Position(5, 9);
@@ -89,7 +89,7 @@ public class SoldierTest {
     @Test
     @DisplayName("초나라 졸병의 상대 궁성 내부 왼쪽 위 목적지까지의 경로를 정확히 계산한다.")
     void soldierLeftUpPathInsidePalaceTest() {
-        Piece soldier = new Soldier(Country.CHO);
+        Piece soldier = new Soldier(CountryType.CHO);
 
         Position from = new Position(4, 8);
         Position to = new Position(3, 9);
@@ -103,7 +103,7 @@ public class SoldierTest {
     @Test
     @DisplayName("한나라 졸병의 상대 궁성 내부 오른쪽 아래 목적지까지의 경로를 정확히 계산한다.")
     void soldierRightDownPathInsidePalaceTest() {
-        Piece soldier = new Soldier(Country.HAN);
+        Piece soldier = new Soldier(CountryType.HAN);
 
         Position from = new Position(4, 1);
         Position to = new Position(5, 0);
@@ -117,7 +117,7 @@ public class SoldierTest {
     @Test
     @DisplayName("한나라 졸병의 궁성 내부 왼쪽 아래 목적지까지의 경로를 정확히 계산한다.")
     void soldierLeftDownPathInsidePalaceTest() {
-        Piece soldier = new Soldier(Country.HAN);
+        Piece soldier = new Soldier(CountryType.HAN);
 
         Position from = new Position(4, 1);
         Position to = new Position(3, 0);
@@ -131,7 +131,7 @@ public class SoldierTest {
     @Test
     @DisplayName("초나라 졸병이 후진할 경우 예외가 발생한다.")
     void choSoldierDownExceptionTest() {
-        Piece soldier = new Soldier(Country.CHO);
+        Piece soldier = new Soldier(CountryType.CHO);
 
         Position from = new Position(4, 1);
         Position straightTo = new Position(4, 0);
@@ -148,7 +148,7 @@ public class SoldierTest {
     @Test
     @DisplayName("한나라 졸병이 후진할 경우 예외가 발생한다.")
     void hanSoldierDownExceptionTest() {
-        Piece soldier = new Soldier(Country.HAN);
+        Piece soldier = new Soldier(CountryType.HAN);
 
         Position from = new Position(4, 8);
         Position straightTo = new Position(4, 9);
@@ -166,7 +166,7 @@ public class SoldierTest {
     @Test
     @DisplayName("졸병의 방향의 크기가 1이 아닌 경우 예외가 발생한다.")
     void soldierDirectionSizeExceptionTest() {
-        Piece soldier = new Soldier(Country.CHO);
+        Piece soldier = new Soldier(CountryType.CHO);
 
         Position from = new Position(1, 1);
         Position to = new Position(1, 3);
@@ -179,7 +179,7 @@ public class SoldierTest {
     @Test
     @DisplayName("졸병이 궁성 내부에서 바깥까지 대각선으로 이동할 경우 예외가 발생한다.")
     void soliderDiagonalOutsidePalaceExceptionTest() {
-        Piece solider = new Soldier(Country.CHO);
+        Piece solider = new Soldier(CountryType.CHO);
 
         Position from = new Position(3, 7);
         Position to = new Position(2, 6);
@@ -192,8 +192,8 @@ public class SoldierTest {
     @Test
     @DisplayName("졸병이 대각선 이동이 불가한 위치에서 대각선으로 이동할 경우 예외가 발생한다.")
     void soldierDiagonalExceptionTest() {
-        Piece choSoldier = new Soldier(Country.CHO);
-        Piece hanSoldier = new Soldier(Country.HAN);
+        Piece choSoldier = new Soldier(CountryType.CHO);
+        Piece hanSoldier = new Soldier(CountryType.HAN);
 
         Position from = new Position(1, 1);
         Position choTo = new Position(2, 2);
@@ -210,11 +210,11 @@ public class SoldierTest {
     @Test
     @DisplayName("도착 위치에 같은 진영의 기물이 있을 경우 예외가 발생한다.")
     void soldierMoveSameCountryPieceExceptionTest() {
-        Piece soldier = new Soldier(Country.CHO);
+        Piece soldier = new Soldier(CountryType.CHO);
 
         Map<Position, State> pathStates = new LinkedHashMap<>();
         pathStates.put(new Position(1, 1), new FullState(soldier));
-        pathStates.put(new Position(1, 2), new FullState(new Soldier(Country.CHO)));
+        pathStates.put(new Position(1, 2), new FullState(new Soldier(CountryType.CHO)));
 
         assertThatThrownBy(() -> soldier.validateMove(pathStates))
                 .isInstanceOf(IllegalArgumentException.class)

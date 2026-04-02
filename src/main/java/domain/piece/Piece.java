@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.Country;
+import domain.CountryType;
 import domain.Direction;
 import domain.Path;
 import domain.Position;
@@ -57,7 +57,7 @@ public abstract class Piece {
     }
 
     void validateToStateWithFromState(State fromState, State toState) {
-        if (fromState.getPieceCountry() == toState.getPieceCountry()) {
+        if (fromState.getPieceCountryType() == toState.getPieceCountryType()) {
             throw new IllegalArgumentException(CANNOT_MOVE_SAME_COUNTRY_POSITION);
         }
     }
@@ -83,7 +83,11 @@ public abstract class Piece {
         return pieceInfo.pieceType();
     }
 
-    public Country getPieceCountry() {
-        return pieceInfo.country();
+    public CountryType getPieceCountryType() {
+        return pieceInfo.countryType();
+    }
+
+    public double getPieceScore() {
+        return pieceInfo.pieceType().getScore();
     }
 }

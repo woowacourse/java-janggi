@@ -3,7 +3,7 @@ package domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import domain.Country;
+import domain.CountryType;
 import domain.Path;
 import domain.Position;
 import domain.state.EmptyState;
@@ -20,7 +20,7 @@ public class ElephantTest {
     @Test
     @DisplayName("상의 위쪽-왼쪽위대각선 목적지까지의 경로를 정확히 계산한다.")
     void elephantUpAndLeftUpPathTest() {
-        Piece elephant = new Elephant(Country.CHO);
+        Piece elephant = new Elephant(CountryType.CHO);
 
         Position from = new Position(4, 4);
         Position to = new Position(2, 7);
@@ -36,7 +36,7 @@ public class ElephantTest {
     @Test
     @DisplayName("상의 위쪽-오른쪽위대각선 목적지까지의 경로를 정확히 계산한다.")
     void elephantUpAndRightUpPathTest() {
-        Piece elephant = new Elephant(Country.CHO);
+        Piece elephant = new Elephant(CountryType.CHO);
 
         Position from = new Position(4, 4);
         Position to = new Position(6, 7);
@@ -52,7 +52,7 @@ public class ElephantTest {
     @Test
     @DisplayName("상의 오른쪽-오른쪽위대각선 목적지까지의 경로를 정확히 계산한다.")
     void elephantRightAndRightUpPathTest() {
-        Piece elephant = new Elephant(Country.CHO);
+        Piece elephant = new Elephant(CountryType.CHO);
 
         Position from = new Position(4, 4);
         Position to = new Position(7, 6);
@@ -68,7 +68,7 @@ public class ElephantTest {
     @Test
     @DisplayName("상의 오른쪽-오른쪽아래대각선 목적지까지의 경로를 정확히 계산한다.")
     void elephantRightAndRightDownPathTest() {
-        Piece elephant = new Elephant(Country.CHO);
+        Piece elephant = new Elephant(CountryType.CHO);
 
         Position from = new Position(4, 4);
         Position to = new Position(7, 2);
@@ -84,7 +84,7 @@ public class ElephantTest {
     @Test
     @DisplayName("상의 아래쪽-오른쪽아래대각선 목적지까지의 경로를 정확히 계산한다.")
     void elephantDownAndRightDownPathTest() {
-        Piece elephant = new Elephant(Country.CHO);
+        Piece elephant = new Elephant(CountryType.CHO);
 
         Position from = new Position(4, 4);
         Position to = new Position(6, 1);
@@ -100,7 +100,7 @@ public class ElephantTest {
     @Test
     @DisplayName("상의 아래쪽-왼쪽아래대각선 목적지까지의 경로를 정확히 계산한다.")
     void elephantDownAndLeftDownPathTest() {
-        Piece elephant = new Elephant(Country.CHO);
+        Piece elephant = new Elephant(CountryType.CHO);
 
         Position from = new Position(4, 4);
         Position to = new Position(2, 1);
@@ -116,7 +116,7 @@ public class ElephantTest {
     @Test
     @DisplayName("상의 왼쪽-왼쪽아래대각선 목적지까지의 경로를 정확히 계산한다.")
     void elephantLeftAndLeftDownPathTest() {
-        Piece elephant = new Elephant(Country.CHO);
+        Piece elephant = new Elephant(CountryType.CHO);
 
         Position from = new Position(4, 4);
         Position to = new Position(1, 2);
@@ -132,7 +132,7 @@ public class ElephantTest {
     @Test
     @DisplayName("상의 왼쪽-왼쪽위대각선 목적지까지의 경로를 정확히 계산한다.")
     void elephantLeftAndLeftUpPathTest() {
-        Piece elephant = new Elephant(Country.CHO);
+        Piece elephant = new Elephant(CountryType.CHO);
 
         Position from = new Position(4, 4);
         Position to = new Position(1, 6);
@@ -148,7 +148,7 @@ public class ElephantTest {
     @Test
     @DisplayName("상의 방향의 크기가 3이 아닌 경우 예외가 발생한다.")
     void elephantDirectionSizeExceptionTest() {
-        Piece elephant = new Elephant(Country.CHO);
+        Piece elephant = new Elephant(CountryType.CHO);
 
         Position from = new Position(1, 0);
         Position to = new Position(4, 4);
@@ -161,7 +161,7 @@ public class ElephantTest {
     @Test
     @DisplayName("상의 2번째, 3번째 방향이 같지 않을 경우 예외가 발생한다.")
     void elephantDirectionNotSameExceptionTest() {
-        Piece elephant = new Elephant(Country.CHO);
+        Piece elephant = new Elephant(CountryType.CHO);
 
         Position from = new Position(1, 3);
         Position to = new Position(2, 0);
@@ -174,7 +174,7 @@ public class ElephantTest {
     @Test
     @DisplayName("상의 1번째 방향이 대각선이거나, 2번째, 3번째 방향이 모두 대각선이 아닐 경우 예외가 발생한다.")
     void elephantDiagonalExceptionTest() {
-        Piece elephant = new Elephant(Country.CHO);
+        Piece elephant = new Elephant(CountryType.CHO);
 
         Position from = new Position(1, 1);
         Position allDiagonalTo = new Position(4, 4);
@@ -191,13 +191,13 @@ public class ElephantTest {
     @Test
     @DisplayName("상의 직선 경로에 다른 기물이 존재하면 예외가 발생한다.")
     void elephantOtherPieceExistStraightPathExceptionTest() {
-        Piece elephant = new Elephant(Country.CHO);
+        Piece elephant = new Elephant(CountryType.CHO);
 
         Map<Position, State> pathStates = new LinkedHashMap<>();
         pathStates.put(new Position(1, 1), new FullState(elephant));
-        pathStates.put(new Position(1, 2), new FullState(new Soldier(Country.HAN)));
+        pathStates.put(new Position(1, 2), new FullState(new Soldier(CountryType.HAN)));
         pathStates.put(new Position(2, 3), new EmptyState());
-        pathStates.put(new Position(3, 4), new FullState(new Soldier(Country.HAN)));
+        pathStates.put(new Position(3, 4), new FullState(new Soldier(CountryType.HAN)));
 
         assertThatThrownBy(() -> elephant.validateMove(pathStates))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -207,13 +207,13 @@ public class ElephantTest {
     @Test
     @DisplayName("상의 대각선 경로에 다른 기물이 존재하면 예외가 발생한다.")
     void elephantOtherPieceExistDiagonalPathExceptionTest() {
-        Piece elephant = new Elephant(Country.CHO);
+        Piece elephant = new Elephant(CountryType.CHO);
 
         Map<Position, State> pathStates = new LinkedHashMap<>();
         pathStates.put(new Position(1, 1), new FullState(elephant));
         pathStates.put(new Position(1, 2), new EmptyState());
-        pathStates.put(new Position(2, 3), new FullState(new Soldier(Country.HAN)));
-        pathStates.put(new Position(3, 4), new FullState(new Soldier(Country.HAN)));
+        pathStates.put(new Position(2, 3), new FullState(new Soldier(CountryType.HAN)));
+        pathStates.put(new Position(3, 4), new FullState(new Soldier(CountryType.HAN)));
 
         assertThatThrownBy(() -> elephant.validateMove(pathStates))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -223,13 +223,13 @@ public class ElephantTest {
     @Test
     @DisplayName("도착 위치에 같은 진영의 기물이 있을 경우 예외가 발생한다.")
     void elephantMoveSameCountryPieceExceptionTest() {
-        Piece elephant = new Elephant(Country.CHO);
+        Piece elephant = new Elephant(CountryType.CHO);
 
         Map<Position, State> pathStates = new LinkedHashMap<>();
         pathStates.put(new Position(1, 1), new FullState(elephant));
         pathStates.put(new Position(1, 2), new EmptyState());
         pathStates.put(new Position(2, 3), new EmptyState());
-        pathStates.put(new Position(3, 4), new FullState(new Soldier(Country.CHO)));
+        pathStates.put(new Position(3, 4), new FullState(new Soldier(CountryType.CHO)));
 
         assertThatThrownBy(() -> elephant.validateMove(pathStates))
                 .isInstanceOf(IllegalArgumentException.class)

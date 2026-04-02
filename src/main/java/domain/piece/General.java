@@ -1,9 +1,9 @@
 package domain.piece;
 
-import domain.Country;
+import domain.CountryType;
 
 public class General extends MoveInsidePalacePiece {
-    public General(Country country) {
-        super(new PieceInfo(PieceType.GENERAL, country));
+    public General(CountryType countryType) {
+        super(new PieceInfo(PieceType.GENERAL, countryType));
     }
 }

@@ -22,7 +22,7 @@ public class MoveInsidePalacePiece extends MoveOneStepPiece {
     }
 
     private void validatePosition(Position position) {
-        Palace palace = Palace.from(this.getPieceCountry());
+        Palace palace = Palace.from(this.getPieceCountryType());
         List<Position> positions = palace.getPositions();
         if (!positions.contains(position)) {
             throw new IllegalArgumentException(ONLY_MOVE_INSIDE_PALACE);

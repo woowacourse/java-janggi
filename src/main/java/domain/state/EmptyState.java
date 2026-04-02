@@ -1,6 +1,6 @@
 package domain.state;
 
-import domain.Country;
+import domain.CountryType;
 import domain.piece.Piece;
 import domain.piece.PieceInfo;
 import domain.piece.PieceType;
@@ -34,7 +34,12 @@ public class EmptyState implements State {
     }
 
     @Override
-    public Country getPieceCountry() {
+    public double getPieceScore() {
+        throw new IllegalArgumentException(NOT_FOUNT_PIECE_FROM_POSITION);
+    }
+
+    @Override
+    public CountryType getPieceCountryType() {
         throw new IllegalArgumentException(NOT_FOUNT_PIECE_FROM_POSITION);
     }
 }

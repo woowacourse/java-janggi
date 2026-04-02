@@ -1,9 +1,10 @@
 package domain.board;
 
+import domain.Countries;
 import domain.Country;
+import domain.CountryType;
 import domain.Path;
 import domain.Position;
-import domain.TableSetting;
 import domain.piece.PieceInfo;
 import java.util.Map;
 
@@ -12,13 +13,15 @@ public class Board {
     private static final String CANNOT_MOVE_SAME_POSITION = "[ERROR] 기물을 동일한 위치로 이동시킬 수 없습니다.";
 
     private final BoardStates boardStates;
+    private final Countries countries;
 
-    public Board(TableSetting choTableSetting, TableSetting hanTableSetting) {
-        this.boardStates = new BoardStates(choTableSetting, hanTableSetting);
+    public Board(BoardStates boardStates) {
+        this.boardStates = boardStates;
+        this.countries = new Countries();
     }
 
-    public void validateFromPosition(Position from, Country country) {
-        if (boardStates.getPieceCountry(from) != country) {
+    public void validateFromPosition(Position from, CountryType countryType) {
+        if (boardStates.getPieceCountryType(from) != countryType) {
             throw new IllegalArgumentException(NOT_MY_PIECE);
         }
     }
@@ -28,6 +31,11 @@ public class Board {
         Path path = boardStates.getPiecePath(from, to);
 
         boardStates.validatePieceMove(from, path);
+        if (!boardStates.isEmpty(to)) {
+            CountryType countryType = boardStates.getPieceCountryType(to);
+            Country country = countries.findCountryByCountryType(countryType);
+            boardStates.adjustScore(to, country);
+        }
         boardStates.changeState(from, to);
     }
 
@@ -39,5 +47,9 @@ public class Board {
 
     public Map<Position, PieceInfo> getPieceInfos() {
         return boardStates.getPieceInfos();
+    }
+
+    public Map<CountryType, Double> getScores() {
+        return countries.getScores();
     }
 }

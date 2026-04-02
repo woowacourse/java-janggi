@@ -1,14 +1,23 @@
 package domain;
 
-public enum Country {
-    HAN,
-    CHO,
-    ;
+public class Country {
+    private final CountryType countryType;
+    private double score;
 
-    public static Country anotherCountry(Country country) {
-        if (country == HAN) {
-            return CHO;
-        }
-        return HAN;
+    public Country(CountryType countryType, double score) {
+        this.countryType = countryType;
+        this.score = score;
+    }
+
+    public void minusScore(double pieceScore) {
+        score -= pieceScore;
+    }
+
+    public CountryType getCountryType() {
+        return countryType;
+    }
+
+    public double getScore() {
+        return score;
     }
 }

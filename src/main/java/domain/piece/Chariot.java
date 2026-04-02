@@ -1,9 +1,9 @@
 package domain.piece;
 
-import domain.Country;
+import domain.CountryType;
 
 public class Chariot extends MoveStraightPiece {
-    public Chariot(Country country) {
-        super(new PieceInfo(PieceType.CHARIOT, country));
+    public Chariot(CountryType countryType) {
+        super(new PieceInfo(PieceType.CHARIOT, countryType));
     }
 }

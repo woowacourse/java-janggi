@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.Country;
+import domain.CountryType;
 import domain.state.State;
 import java.util.List;
 
@@ -11,8 +11,8 @@ public class Cannon extends MoveStraightPiece {
 
     private static final int CANNON_JUMP_PIECE_COUNT = 1;
 
-    public Cannon(Country country) {
-        super(new PieceInfo(PieceType.CANNON, country));
+    public Cannon(CountryType countryType) {
+        super(new PieceInfo(PieceType.CANNON, countryType));
     }
 
     @Override

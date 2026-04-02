@@ -47,7 +47,7 @@ public class OutputView {
             System.out.print(EmptyStateFormatter.getEmptyState(position));
             return;
         }
-        String pieceName = PieceTypeFormatter.from(pieceInfo.pieceType(), pieceInfo.country());
+        String pieceName = PieceTypeFormatter.from(pieceInfo.pieceType(), pieceInfo.countryType());
         System.out.print(pieceName);
     }
 

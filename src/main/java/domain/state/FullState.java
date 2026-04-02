@@ -1,6 +1,6 @@
 package domain.state;
 
-import domain.Country;
+import domain.CountryType;
 import domain.piece.Piece;
 import domain.piece.PieceInfo;
 import domain.piece.PieceType;
@@ -32,7 +32,12 @@ public record FullState(Piece piece) implements State {
     }
 
     @Override
-    public Country getPieceCountry() {
-        return piece.getPieceCountry();
+    public double getPieceScore() {
+        return piece.getPieceScore();
+    }
+
+    @Override
+    public CountryType getPieceCountryType() {
+        return piece.getPieceCountryType();
     }
 }

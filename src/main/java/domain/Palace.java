@@ -22,8 +22,8 @@ public enum Palace {
         this.normalPositions = normalPositions;
     }
 
-    public static Palace from(Country country) {
-        if (country == Country.CHO) {
+    public static Palace from(CountryType countryType) {
+        if (countryType == CountryType.CHO) {
             return CHO_PALACE;
         }
         return HAN_PALACE;

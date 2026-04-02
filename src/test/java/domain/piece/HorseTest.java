@@ -3,7 +3,7 @@ package domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import domain.Country;
+import domain.CountryType;
 import domain.Path;
 import domain.Position;
 import domain.state.EmptyState;
@@ -20,7 +20,7 @@ public class HorseTest {
     @Test
     @DisplayName("마의 위쪽-왼쪽위대각선 목적지까지의 경로를 정확히 계산한다.")
     void horseUpAndLeftUpPathTest() {
-        Piece horse = new Horse(Country.CHO);
+        Piece horse = new Horse(CountryType.CHO);
 
         Position from = new Position(4, 4);
         Position to = new Position(3, 6);
@@ -35,7 +35,7 @@ public class HorseTest {
     @Test
     @DisplayName("마의 위쪽-오른쪽위대각선 목적지까지의 경로를 정확히 계산한다.")
     void horseUpAndRightUpPathTest() {
-        Piece horse = new Horse(Country.CHO);
+        Piece horse = new Horse(CountryType.CHO);
 
         Position from = new Position(4, 4);
         Position to = new Position(5, 6);
@@ -50,7 +50,7 @@ public class HorseTest {
     @Test
     @DisplayName("마의 오른쪽-오른쪽위대각선 목적지까지의 경로를 정확히 계산한다.")
     void horseRightAndRightUpPathTest() {
-        Piece horse = new Horse(Country.CHO);
+        Piece horse = new Horse(CountryType.CHO);
 
         Position from = new Position(4, 4);
         Position to = new Position(6, 5);
@@ -65,7 +65,7 @@ public class HorseTest {
     @Test
     @DisplayName("마의 오른쪽-오른쪽아래대각선 목적지까지의 경로를 정확히 계산한다.")
     void horseRightAndRightDownPathTest() {
-        Piece horse = new Horse(Country.CHO);
+        Piece horse = new Horse(CountryType.CHO);
 
         Position from = new Position(4, 4);
         Position to = new Position(6, 3);
@@ -80,7 +80,7 @@ public class HorseTest {
     @Test
     @DisplayName("마의 아래쪽-오른쪽아래대각선 목적지까지의 경로를 정확히 계산한다.")
     void horseDownAndRightDownPathTest() {
-        Piece horse = new Horse(Country.CHO);
+        Piece horse = new Horse(CountryType.CHO);
 
         Position from = new Position(4, 4);
         Position to = new Position(5, 2);
@@ -95,7 +95,7 @@ public class HorseTest {
     @Test
     @DisplayName("마의 아래쪽-왼쪽아래대각선 목적지까지의 경로를 정확히 계산한다.")
     void horseDownAndLeftDownPathTest() {
-        Piece horse = new Horse(Country.CHO);
+        Piece horse = new Horse(CountryType.CHO);
 
         Position from = new Position(4, 4);
         Position to = new Position(3, 2);
@@ -110,7 +110,7 @@ public class HorseTest {
     @Test
     @DisplayName("마의 왼쪽-왼쪽아래대각선 목적지까지의 경로를 정확히 계산한다.")
     void horseLeftAndLeftDownPathTest() {
-        Piece horse = new Horse(Country.CHO);
+        Piece horse = new Horse(CountryType.CHO);
 
         Position from = new Position(4, 4);
         Position to = new Position(2, 3);
@@ -125,7 +125,7 @@ public class HorseTest {
     @Test
     @DisplayName("마의 왼쪽-왼쪽위대각선 목적지까지의 경로를 정확히 계산한다.")
     void horseLeftAndLeftUpPathTest() {
-        Piece horse = new Horse(Country.CHO);
+        Piece horse = new Horse(CountryType.CHO);
 
         Position from = new Position(4, 4);
         Position to = new Position(2, 5);
@@ -140,7 +140,7 @@ public class HorseTest {
     @Test
     @DisplayName("마의 방향의 크기가 2가 아닌 경우 예외가 발생한다.")
     void horseDirectionSizeExceptionTest() {
-        Piece horse = new Horse(Country.CHO);
+        Piece horse = new Horse(CountryType.CHO);
 
         Position from = new Position(1, 0);
         Position to = new Position(4, 4);
@@ -153,7 +153,7 @@ public class HorseTest {
     @Test
     @DisplayName("마의 1번째 방향이 대각선이거나, 2번째 방향이 대각선이 아닐 경우 예외가 발생한다.")
     void horseDiagonalExceptionTest() {
-        Piece horse = new Horse(Country.CHO);
+        Piece horse = new Horse(CountryType.CHO);
 
         Position from = new Position(1, 1);
         Position allDiagonalTo = new Position(3, 3);
@@ -170,11 +170,11 @@ public class HorseTest {
     @Test
     @DisplayName("말의 경로에 다른 기물이 존재하면 예외가 발생한다.")
     void horseOtherPieceExistPathExceptionTest() {
-        Piece horse = new Horse(Country.CHO);
+        Piece horse = new Horse(CountryType.CHO);
 
         Map<Position, State> pathStates = new LinkedHashMap<>();
         pathStates.put(new Position(1, 1), new FullState(horse));
-        pathStates.put(new Position(1, 2), new FullState(new Soldier(Country.HAN)));
+        pathStates.put(new Position(1, 2), new FullState(new Soldier(CountryType.HAN)));
         pathStates.put(new Position(2, 3), new EmptyState());
 
         assertThatThrownBy(() -> horse.validateMove(pathStates))
@@ -185,12 +185,12 @@ public class HorseTest {
     @Test
     @DisplayName("도착 위치에 같은 진영의 기물이 있을 경우 예외가 발생한다.")
     void horseMoveSameCountryPieceExceptionTest() {
-        Piece horse = new Horse(Country.CHO);
+        Piece horse = new Horse(CountryType.CHO);
 
         Map<Position, State> pathStates = new LinkedHashMap<>();
         pathStates.put(new Position(1, 1), new FullState(horse));
         pathStates.put(new Position(1, 2), new EmptyState());
-        pathStates.put(new Position(2, 3), new FullState(new Soldier(Country.CHO)));
+        pathStates.put(new Position(2, 3), new FullState(new Soldier(CountryType.CHO)));
 
         assertThatThrownBy(() -> horse.validateMove(pathStates))
                 .isInstanceOf(IllegalArgumentException.class)
