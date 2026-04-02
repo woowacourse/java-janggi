@@ -1,24 +1,23 @@
-package testDouble;
+package fixture;
 
 import domain.board.formation.PlacementOption;
 import domain.coordination.Coordination;
 import domain.piece.EmptyPiece;
 import domain.piece.Piece;
 import domain.piece.Team;
-
 import java.util.HashMap;
 import java.util.Map;
 
-public class TestBoardFactory {
+public class BoardFixtureFactory {
 
-    public static TestBoard create(String choOption, String hanOption) {
+    public static BoardFixture create(String choOption, String hanOption) {
         Map<Coordination, Piece> board = new HashMap<>();
 
         placeEmpty(board);
         board.putAll(PlacementOption.hanFrom(hanOption).place());
         board.putAll(PlacementOption.choFrom(choOption).place());
 
-        return new TestBoard(board);
+        return new BoardFixture(board);
     }
 
     private static void placeEmpty(Map<Coordination, Piece> map) {

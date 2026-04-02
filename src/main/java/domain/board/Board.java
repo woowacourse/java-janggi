@@ -11,7 +11,7 @@ public class Board {
 
     private static final int TOTAL_GENERAL_COUNT = 2;
 
-    protected final Map<Coordination, Piece> board;
+    private final Map<Coordination, Piece> board;
 
     public Board(Map<Coordination, Piece> board) {
         this.board = board;
