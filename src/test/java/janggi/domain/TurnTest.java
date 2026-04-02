@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.domain.piece.Jol;
 import janggi.domain.piece.Piece;
+import janggi.domain.team.TeamType;
 import janggi.dto.BoardSpot;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,10 +21,10 @@ class TurnTest {
         Turn turn = Turn.createInitialTurn();
 
         // when
-        String nextTurnTeam = turn.nextTurnTeam();
+        TeamType nextTurnTeam = turn.nextTurnTeam();
 
         // then
-        assertThat(nextTurnTeam).isEqualTo("초나라");
+        assertThat(nextTurnTeam).isEqualTo(TeamType.CHU);
     }
 
     @Test
@@ -95,8 +96,8 @@ class TurnTest {
 
         // then
         assertAll(
-            () -> assertThat(turn.nextTurnTeam()).isEqualTo("초나라"),
-            () -> assertThat(movedTurn.nextTurnTeam()).isEqualTo("한나라"),
+            () -> assertThat(turn.nextTurnTeam()).isEqualTo(TeamType.CHU),
+            () -> assertThat(movedTurn.nextTurnTeam()).isEqualTo(TeamType.HAN),
             () -> assertThat(originSpot).isNotNull(),
             () -> assertThat(originSpot.position()).isEqualTo(new Position(1, 4)),
             () -> assertThat(originSpot.pieceName()).isEqualTo("졸"),

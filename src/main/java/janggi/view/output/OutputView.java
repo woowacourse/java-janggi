@@ -1,5 +1,6 @@
 package janggi.view.output;
 
+import janggi.domain.team.TeamType;
 import janggi.dto.BoardSpots;
 
 public interface OutputView {
@@ -14,7 +15,7 @@ public interface OutputView {
 
     void printBoard(BoardSpots boardSpots);
 
-    void printTurnNotice(String currentTurnTeamName);
+    void printTurnNotice(TeamType currentTurnTeam);
 
     void printAskPiecePosition();
 

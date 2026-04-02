@@ -142,6 +142,6 @@ public class Board {
         if (teams.containsKey(teamType)) {
             return teams.get(teamType);
         }
-        throw new IllegalArgumentException(String.format("%s 팀이 존재하지 않습니다.", teamType.getName()));
+        throw new IllegalArgumentException("존재하지 않는 팀입니다.");
     }
 }

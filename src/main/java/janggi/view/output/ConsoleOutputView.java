@@ -55,8 +55,8 @@ public class ConsoleOutputView implements OutputView {
     }
 
     @Override
-    public void printTurnNotice(String nowTurn) {
-        printMessage(nowTurn + "의 차례입니다.");
+    public void printTurnNotice(TeamType currentTurnTeam) {
+        printMessage(formatTeamType(currentTurnTeam) + "의 차례입니다.");
     }
 
     @Override
@@ -124,5 +124,12 @@ public class ConsoleOutputView implements OutputView {
             return RED;
         }
         return RESET;
+    }
+
+    private String formatTeamType(TeamType teamType) {
+        if (teamType == TeamType.CHU) {
+            return "초나라";
+        }
+        return "한나라";
     }
 }

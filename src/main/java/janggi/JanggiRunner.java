@@ -35,7 +35,7 @@ public class JanggiRunner {
     }
 
     private Position readValidStartPosition(JanggiGame janggiGame) {
-        outputView.printTurnNotice(janggiGame.getCurrentTurnTeamName());
+        outputView.printTurnNotice(janggiGame.getCurrentTurnTeam());
         outputView.printAskPiecePosition();
         String rawPiecePosition = inputView.readLine();
         List<String> parsedPiecePosition = DelimiterParser.parse(rawPiecePosition);

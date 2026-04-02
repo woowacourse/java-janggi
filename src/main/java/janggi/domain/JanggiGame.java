@@ -1,6 +1,7 @@
 package janggi.domain;
 
 import janggi.domain.piece.Piece;
+import janggi.domain.team.TeamType;
 import janggi.dto.BoardSpots;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +48,7 @@ public class JanggiGame {
         turns.add(newTurn);
     }
 
-    public String getCurrentTurnTeamName() {
+    public TeamType getCurrentTurnTeam() {
         Turn lastTurn = getLastTurn();
         return lastTurn.nextTurnTeam();
     }

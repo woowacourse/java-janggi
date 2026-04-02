@@ -36,9 +36,8 @@ public class Turn {
         board.canMove(startPosition, endPosition, playingTeamType());
     }
 
-    public String nextTurnTeam() {
-        TeamType teamType = playingTeamType();
-        return teamType.getName();
+    public TeamType nextTurnTeam() {
+        return playingTeamType();
     }
 
     public BoardSpots makeBoardSnapShot() {
