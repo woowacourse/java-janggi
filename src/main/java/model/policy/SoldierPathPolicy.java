@@ -14,11 +14,9 @@ public class SoldierPathPolicy extends PathPolicy {
     }
 
     @Override
-    public boolean validateDestination(Move move, Board board) {
+    public boolean validateDestination(Move move, Board board, Country country) {
         Piece fromPiece = board.findPiece(move.from());
-
-        Country country = fromPiece.country();
-        if (country.forbidden() == move.direction()) {
+        if (country.forbidden().contains(move.direction())) {
             throw new IllegalArgumentException("[ERROR] 병사는 뒤로 갈 수 없습니다.");
         }
 

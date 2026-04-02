@@ -3,6 +3,8 @@ package model.move;
 import java.util.ArrayList;
 import java.util.List;
 import model.board.Board;
+import model.board.Country;
+import model.board.Palace;
 import model.policy.PathPolicy;
 import model.position.Position;
 
@@ -15,7 +17,7 @@ public class MovePattern {
         this.pathPolicy = pathPolicy;
     }
 
-    public boolean matches(Move move, Board board) {
+    public boolean matches(Move move, Board board, Country country) {
         List<Position> path = positionsOnPath(move);
         if (!checkBoardRange(path, board) || !checkPathPolicy(path, board)) {
             return false;
@@ -28,7 +30,7 @@ public class MovePattern {
             return false;
         }
 
-        return checkDestination(move, board);
+        return checkDestination(move, board, country);
     }
 
     private List<Position> positionsOnPath(Move move) {
@@ -50,7 +52,7 @@ public class MovePattern {
         return pathPolicy.validatePath(path, board);
     }
 
-    private boolean checkDestination(Move move, Board board) {
-        return pathPolicy.validateDestination(move, board);
+    private boolean checkDestination(Move move, Board board, Country country) {
+        return pathPolicy.validateDestination(move, board, country);
     }
 }

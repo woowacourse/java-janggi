@@ -19,7 +19,7 @@ public abstract class Piece {
     }
 
     public boolean canMove(Move move, Board board) {
-        return pieceType.rule().matches(move, board);
+        return pieceType.rule().matches(move, board, this.country);
     }
 
     @Override
