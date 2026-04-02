@@ -42,11 +42,7 @@ public abstract class Piece {
         return piece.isEmpty();
     }
 
-    public boolean isCannon() {
-        return false;
-    }
-
-    public boolean isGeneral() {
+    public boolean isAliveGeneral() {
         return false;
     }
 

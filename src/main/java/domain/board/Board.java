@@ -30,7 +30,7 @@ public class Board {
 
     public boolean hasTwoGenerals() {
         return board.keySet().stream()
-                .filter(key -> board.get(key).isGeneral())
+                .filter(key -> board.get(key).isAliveGeneral())
                 .count() == TOTAL_GENERAL_COUNT;
     }
 

@@ -26,7 +26,7 @@ public class General extends Piece {
     }
 
     @Override
-    public boolean isGeneral() {
+    public boolean isAliveGeneral() {
         return true;
     }
 

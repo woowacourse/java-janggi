@@ -20,14 +20,9 @@ public class Cannon extends Piece {
     }
 
     private void validateCanon(Coordination to, Map<Coordination, Piece> board) {
-        if (board.get(to).isCannon()) {
+        if (board.get(to) instanceof Cannon) {
             throw new PieceException(IMPOSSIBLE_MOVE);
         }
-    }
-
-    @Override
-    public boolean isCannon() {
-        return true;
     }
 
     private void validateLocation(Coordination from, Coordination to) {
@@ -56,7 +51,7 @@ public class Cannon extends Piece {
 
     private void validateBridgeIsNotCannon(List<Piece> pieces) {
         boolean hasCannon = pieces.stream()
-                .anyMatch(Piece::isCannon);
+                .anyMatch(Piece -> Piece instanceof Cannon);
         if (hasCannon) {
             throw new PieceException(IMPOSSIBLE_MOVE);
         }
