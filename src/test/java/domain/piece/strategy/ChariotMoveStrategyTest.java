@@ -1,9 +1,10 @@
-package domain.piece;
+package domain.piece.strategy;
 
 import domain.board.Position;
 import domain.path.PathInfo;
-import domain.piece.strategy.ChariotMoveStrategy;
-import domain.piece.strategy.MoveStrategy;
+import domain.piece.Camp;
+import domain.piece.Piece;
+import domain.piece.PieceType;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

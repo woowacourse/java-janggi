@@ -5,10 +5,21 @@ import domain.board.Position;
 import domain.piece.strategy.MoveStrategy;
 
 import java.util.List;
+import java.util.Objects;
 
-public record Piece(Camp camp, PieceType pieceType, MoveStrategy moveStrategy) {
+public class Piece {
+    private final Camp camp;
+    private final PieceType pieceType;
+    private final MoveStrategy moveStrategy;
+
+    public Piece(Camp camp, PieceType pieceType, MoveStrategy moveStrategy) {
+        this.camp = camp;
+        this.pieceType = pieceType;
+        this.moveStrategy = moveStrategy;
+    }
+
     public static Piece of(Camp camp, PieceType pieceType) {
-        return new Piece(camp, pieceType, pieceType.moveStrategy());
+        return new Piece(camp, pieceType, pieceType.moveStrategy(camp));
     }
 
     public boolean isSameCamp(Piece otherPiece) {
@@ -25,5 +36,16 @@ public record Piece(Camp camp, PieceType pieceType, MoveStrategy moveStrategy) {
 
     public void validateBlockingPiece(List<PathInfo> pathInfos, Position departure, Position destination) {
         moveStrategy.validateBlockingPiece(pathInfos, departure, destination);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Piece piece)) return false;
+        return camp == piece.camp && pieceType == piece.pieceType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(camp, pieceType);
     }
 }

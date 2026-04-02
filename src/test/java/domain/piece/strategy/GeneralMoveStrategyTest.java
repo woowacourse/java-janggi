@@ -1,8 +1,6 @@
-package domain.piece;
+package domain.piece.strategy;
 
 import domain.board.Position;
-import domain.piece.strategy.GeneralMoveStrategy;
-import domain.piece.strategy.MoveStrategy;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

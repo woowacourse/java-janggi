@@ -33,7 +33,7 @@ public class GeneralMoveStrategy implements MoveStrategy {
                 .anyMatch(PathInfo::hasPiece);
 
         if (hasBlockingPiece) {
-            throw new IllegalArgumentException("이동 경로에 다른 기물을 뛰어넘을 수 없습니다.");
+            throw new IllegalArgumentException("이동 경로에 있는 다른 기물을 뛰어넘을 수 없습니다.");
         }
     }
 }
