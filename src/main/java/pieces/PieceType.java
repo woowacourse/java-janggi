@@ -17,19 +17,18 @@ import movepolicy.move.PoRouteMovement;
 import movepolicy.move.Route;
 import movepolicy.rule.EmptyPathMoveRule;
 import movepolicy.rule.MoveRule;
-import movepolicy.rule.OtherSideTargetMoveRule;
 import movepolicy.rule.PoMoveRule;
 
 public enum PieceType {
 
     CHA(
         new LinearRouteMovement(),
-        new EmptyPathMoveRule(new OtherSideTargetMoveRule())
+        EmptyPathMoveRule.withOtherSideTargetRule()
     ),
 
     PO(
-        new PoRouteMovement(new LinearRouteMovement()),
-        new PoMoveRule(new OtherSideTargetMoveRule())
+        new PoRouteMovement(),
+        PoMoveRule.withOtherSideTargetRule()
     ),
 
     MA(
@@ -43,7 +42,7 @@ public enum PieceType {
             new Route(List.of(RIGHT, RIGHT_FORWARD)),
             new Route(List.of(RIGHT, RIGHT_BACK))
         )),
-        new EmptyPathMoveRule(new OtherSideTargetMoveRule())
+        EmptyPathMoveRule.withOtherSideTargetRule()
     ),
 
     SANG(
@@ -57,7 +56,7 @@ public enum PieceType {
             new Route(List.of(RIGHT, RIGHT_FORWARD, RIGHT_FORWARD)),
             new Route(List.of(RIGHT, RIGHT_BACK, RIGHT_BACK))
         )),
-        new EmptyPathMoveRule(new OtherSideTargetMoveRule())
+        EmptyPathMoveRule.withOtherSideTargetRule()
     ),
 
     SA(
@@ -67,7 +66,7 @@ public enum PieceType {
             new Route(List.of(RIGHT)),
             new Route(List.of(LEFT))
         )),
-        new EmptyPathMoveRule(new OtherSideTargetMoveRule())
+        EmptyPathMoveRule.withOtherSideTargetRule()
     ),
 
     GUNG(
@@ -77,7 +76,7 @@ public enum PieceType {
             new Route(List.of(RIGHT)),
             new Route(List.of(LEFT))
         )),
-        new EmptyPathMoveRule(new OtherSideTargetMoveRule())
+        EmptyPathMoveRule.withOtherSideTargetRule()
     ),
 
     JOL_BYEONG(
@@ -86,7 +85,7 @@ public enum PieceType {
             new Route(List.of(RIGHT)),
             new Route(List.of(LEFT))
         )),
-        new EmptyPathMoveRule(new OtherSideTargetMoveRule())
+        EmptyPathMoveRule.withOtherSideTargetRule()
     );
 
     public final Movement movement;

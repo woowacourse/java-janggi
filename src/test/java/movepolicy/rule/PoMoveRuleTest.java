@@ -15,7 +15,7 @@ class PoMoveRuleTest {
     private static final Piece TARGET_PIECE = PieceType.CHA.create(Side.HAN);
     private static final List<Piece> INTERVENING_PIECES = List.of(PieceType.CHA.create(Side.HAN));
 
-    private final MoveRule moveRule = new PoMoveRule(new OtherSideTargetMoveRule());
+    private final MoveRule moveRule = PoMoveRule.withOtherSideTargetRule();
 
     @Test
     void 이동경로에_기물이_없으면_예외를_던진다() {

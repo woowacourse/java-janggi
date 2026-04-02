@@ -4,18 +4,22 @@ public class PoMoveRule implements MoveRule {
 
     private static final int PATH_PIECES_COUNT = 1;
 
-    private final MoveRule moveRule;
+    private final MoveRule origin;
 
-    public PoMoveRule(MoveRule moveRule) {
-        this.moveRule = moveRule;
+    private PoMoveRule(MoveRule moveRule) {
+        this.origin = moveRule;
+    }
+
+    public static PoMoveRule withOtherSideTargetRule() {
+        return new PoMoveRule(new OtherSideTargetMoveRule());
     }
 
     @Override
     public void validate(MoveTrace moveTrace) {
-        moveRule.validate(moveTrace);
         validateMovingPieceIsPo(moveTrace);
         validatePathPiecesCount(moveTrace);
         validatePieceBetweenIsNotPo(moveTrace);
+        origin.validate(moveTrace);
         validateTargetIsNotPo(moveTrace);
     }
 

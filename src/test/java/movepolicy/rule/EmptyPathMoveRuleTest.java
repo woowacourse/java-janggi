@@ -15,7 +15,7 @@ class EmptyPathMoveRuleTest {
     private static final List<Piece> EMPTY_PATH_PIECES = List.of();
     private static final Piece EMPTY_TARGET = null;
 
-    private final MoveRule moveRule = new EmptyPathMoveRule(new OtherSideTargetMoveRule());
+    private final MoveRule moveRule = EmptyPathMoveRule.withOtherSideTargetRule();
 
     @Test
     void 이동_경로가_비었으면_TRUE를_반환한다() {

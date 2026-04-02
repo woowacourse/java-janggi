@@ -4,8 +4,12 @@ public class EmptyPathMoveRule implements MoveRule {
 
     private final MoveRule moveRule;
 
-    public EmptyPathMoveRule(MoveRule moveRule) {
+    private EmptyPathMoveRule(MoveRule moveRule) {
         this.moveRule = moveRule;
+    }
+
+    public static EmptyPathMoveRule withOtherSideTargetRule() {
+        return new EmptyPathMoveRule(new OtherSideTargetMoveRule());
     }
 
     @Override
