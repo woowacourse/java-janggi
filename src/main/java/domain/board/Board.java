@@ -20,6 +20,21 @@ public class Board {
         this.pieces = new HashMap<>(pieces);
     }
 
+    public void move(Position from, Position to) {
+        Piece fromPiece = getRequiredPiece(from);
+        Optional<Piece> toPiece = getPiece(to);
+        Offset offset = Offset.of(from, to);
+
+        validateActualMove(offset);
+        validateSameTeam(fromPiece, toPiece);
+
+        List<Offset> pathOffset = fromPiece.getPathOffset(offset);
+        List<Piece> blockedPieces = getBlockedPieces(from, pathOffset);
+
+        fromPiece.validateMove(blockedPieces, toPiece);
+        pieces.put(to, pieces.remove(from));
+    }
+
     public Optional<Piece> getPiece(Position position) {
         return Optional.ofNullable(pieces.get(position));
     }
@@ -29,18 +44,10 @@ public class Board {
                 .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.EMPTY_SOURCE.getMessage()));
     }
 
-    public void move(Position from, Position to) {
-
-        Piece fromPiece = getRequiredPiece(from);
-        Optional<Piece> toPiece = getPiece(to);
-
-        validateSameTeam(fromPiece, toPiece);
-
-        List<Offset> pathOffset = fromPiece.getPathOffset(Offset.of(from, to));
-        List<Piece> blockedPieces = getBlockedPieces(from, pathOffset);
-
-        fromPiece.validateMove(blockedPieces, toPiece);
-        pieces.put(to, pieces.remove(from));
+    private void validateActualMove(Offset offset) {
+        if(offset.dx() == 0 && offset.dy() == 0) {
+            throw new IllegalArgumentException(ErrorMessage.NOT_MOVE.getMessage());
+        }
     }
 
     private void validateSameTeam(Piece fromPiece, Optional<Piece> toPiece) {
@@ -49,7 +56,7 @@ public class Board {
         }
     }
 
-    public List<Piece> getBlockedPieces(Position from, List<Offset> offsets) {
+    private List<Piece> getBlockedPieces(Position from, List<Offset> offsets) {
         return offsets.stream()
                 .map(offset -> offset.applyTo(from))
                 .map(this::getPiece)

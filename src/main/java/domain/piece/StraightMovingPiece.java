@@ -15,7 +15,7 @@ public abstract class StraightMovingPiece extends Piece {
     @Override
     public List<Offset> getPathOffset(Offset offset) {
         validateMoveRule(offset);
-        Direction mainDirection = getMainDirection(offset);
+        Direction mainDirection = offset.getMainDirection();
         int distance = calculateStraightDistance(offset);
 
         return generateRoute(mainDirection, distance);
@@ -47,13 +47,5 @@ public abstract class StraightMovingPiece extends Piece {
             throw new IllegalStateException("직선 이동이 아닐 때는 직선 거리를 계산할 수 없습니다.");
         }
         return Math.max(offset.absX(), offset.absY());
-    }
-
-
-    public Direction getMainDirection(Offset offset) {
-        if (offset.absX() > offset.absY()) {
-            return Direction.decideXDirection(offset.dx());
-        }
-        return Direction.decideYDirection(offset.dy());
     }
 }
