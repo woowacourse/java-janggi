@@ -7,6 +7,7 @@ import static domain.Position.Y_MAXIMUM_POSITION;
 import domain.Position;
 import domain.country.CountryType;
 import domain.piece.PieceInfo;
+import domain.piece.PieceInfos;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +27,7 @@ public class OutputView {
         System.out.printf(LINE_SEPARATOR + PRINT_TURN + LINE_SEPARATOR, countryName);
     }
 
-    public void printBoard(Map<Position, PieceInfo> pieceInfos) {
+    public void printBoard(PieceInfos pieceInfos) {
         System.out.println();
 
         for (int y = Y_MAXIMUM_POSITION; y >= INITIAL_POSITION; y--) {
@@ -36,7 +37,7 @@ public class OutputView {
         printXPositionNumbers();
     }
 
-    private void printRow(Map<Position, PieceInfo> pieceInfos, int y) {
+    private void printRow(PieceInfos pieceInfos, int y) {
         for (int x = INITIAL_POSITION; x <= X_MAXIMUM_POSITION; x++) {
             Position position = new Position(x, y);
             PieceInfo pieceInfo = pieceInfos.get(position);

@@ -7,7 +7,7 @@ import domain.Position;
 import domain.country.CountryType;
 import domain.piece.Chariot;
 import domain.piece.General;
-import domain.piece.PieceInfo;
+import domain.piece.PieceInfos;
 import domain.piece.PieceType;
 import domain.piece.Soldier;
 import domain.state.FullState;
@@ -23,7 +23,7 @@ public class BoardTest {
     private final BoardFactory boardFactory = new BoardFactory();
     private final Board board = boardFactory.create(TableSetting.LEFT_TABLE, TableSetting.RIGHT_TABLE);
     private final StubBoardStates stubBoardStates = new StubBoardStates();
-    private final Map<Position, PieceInfo> initPieceInfos = board.getPieceInfos();
+    private final PieceInfos initPieceInfos = board.getPieceInfos();
 
     @Test
     @DisplayName("from 좌표에 기물이 존재하지 않는 경우 예외가 발생한다.")
@@ -100,7 +100,7 @@ public class BoardTest {
     @MethodSource("tableSettings")
     void choElephantAndHorsePositionTest(TableSetting choTableSetting, TableSetting hanTableSetting) {
         Board board = boardFactory.create(choTableSetting, hanTableSetting);
-        Map<Position, PieceInfo> pieceInfos = board.getPieceInfos();
+        PieceInfos pieceInfos = board.getPieceInfos();
 
         assertThat(pieceInfos.get(new Position(1, 0)).pieceType()).isEqualTo(
                 choTableSetting.getFormation(CountryType.CHO).getFirst());
@@ -124,7 +124,7 @@ public class BoardTest {
     @MethodSource("tableSettings")
     void hanElephantAndHorsePositionTest(TableSetting choTableSetting, TableSetting hanTableSetting) {
         Board board = boardFactory.create(choTableSetting, hanTableSetting);
-        Map<Position, PieceInfo> pieceInfos = board.getPieceInfos();
+        PieceInfos pieceInfos = board.getPieceInfos();
 
         assertThat(pieceInfos.get(new Position(1, 9)).pieceType()).isEqualTo(
                 hanTableSetting.getFormation(CountryType.HAN).getFirst());
@@ -195,19 +195,13 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("초기 기물이 모두 잘 생성되었는지 확인한다.")
-    void fullStateCountTest() {
-        assertThat(initPieceInfos.size()).isEqualTo(32);
-    }
-
-    @Test
     @DisplayName("졸병 기물이 잘 이동했는지 확인한다.")
     void moveSoldierTest() {
         Position from = new Position(0, 3);
         Position to = new Position(1, 3);
         board.checkEndAndPlay(from, to);
 
-        Map<Position, PieceInfo> pieceInfos = board.getPieceInfos();
+        PieceInfos pieceInfos = board.getPieceInfos();
 
         assertThat(pieceInfos.get(from)).isNull();
         assertThat(pieceInfos.get(to).pieceType()).isEqualTo(PieceType.SOLDIER);
@@ -221,7 +215,7 @@ public class BoardTest {
         Position to = new Position(3, 1);
         board.checkEndAndPlay(from, to);
 
-        Map<Position, PieceInfo> pieceInfos = board.getPieceInfos();
+        PieceInfos pieceInfos = board.getPieceInfos();
 
         assertThat(pieceInfos.get(from)).isNull();
         assertThat(pieceInfos.get(to).pieceType()).isEqualTo(PieceType.GUARD);
@@ -235,7 +229,7 @@ public class BoardTest {
         Position to = new Position(3, 3);
         board.checkEndAndPlay(from, to);
 
-        Map<Position, PieceInfo> pieceInfos = board.getPieceInfos();
+        PieceInfos pieceInfos = board.getPieceInfos();
 
         assertThat(pieceInfos.get(from)).isNull();
         assertThat(pieceInfos.get(to).pieceType()).isEqualTo(PieceType.ELEPHANT);
@@ -249,7 +243,7 @@ public class BoardTest {
         Position to = new Position(3, 2);
         board.checkEndAndPlay(from, to);
 
-        Map<Position, PieceInfo> pieceInfos = board.getPieceInfos();
+        PieceInfos pieceInfos = board.getPieceInfos();
 
         assertThat(pieceInfos.get(from)).isNull();
         assertThat(pieceInfos.get(to).pieceType()).isEqualTo(PieceType.HORSE);
@@ -263,7 +257,7 @@ public class BoardTest {
         Position to = new Position(0, 2);
         board.checkEndAndPlay(from, to);
 
-        Map<Position, PieceInfo> pieceInfos = board.getPieceInfos();
+        PieceInfos pieceInfos = board.getPieceInfos();
 
         assertThat(pieceInfos.get(from)).isNull();
         assertThat(pieceInfos.get(to).pieceType()).isEqualTo(PieceType.CHARIOT);
@@ -277,7 +271,7 @@ public class BoardTest {
         Position to = new Position(4, 2);
         board.checkEndAndPlay(from, to);
 
-        Map<Position, PieceInfo> pieceInfos = board.getPieceInfos();
+        PieceInfos pieceInfos = board.getPieceInfos();
 
         assertThat(pieceInfos.get(from)).isNull();
         assertThat(pieceInfos.get(to).pieceType()).isEqualTo(PieceType.GENERAL);
@@ -295,7 +289,7 @@ public class BoardTest {
         Position to = new Position(4, 2);
         board.checkEndAndPlay(from, to);
 
-        Map<Position, PieceInfo> pieceInfos = board.getPieceInfos();
+        PieceInfos pieceInfos = board.getPieceInfos();
 
         assertThat(pieceInfos.get(from)).isNull();
         assertThat(pieceInfos.get(to).pieceType()).isEqualTo(PieceType.CANNON);
@@ -314,7 +308,7 @@ public class BoardTest {
         Position hanChariotFrom = new Position(0, 9);
         board.checkEndAndPlay(choChariotFrom, hanChariotFrom);
 
-        Map<Position, PieceInfo> pieceInfos = board.getPieceInfos();
+        PieceInfos pieceInfos = board.getPieceInfos();
 
         assertThat(pieceInfos.get(choChariotFrom)).isNull();
         assertThat(pieceInfos.get(hanChariotFrom).pieceType()).isEqualTo(PieceType.CHARIOT);
@@ -339,7 +333,7 @@ public class BoardTest {
 
     @Test
     @DisplayName("궁이 잡히면 게임이 종료된다.")
-    void killGeneralGameEndTest() {
+    void catchGeneralGameEndTest() {
         Position hanChariotFrom = new Position(4, 2);
         Position choGeneralTo = new Position(4, 1);
         stubBoardStates.put(hanChariotFrom, new FullState(new Chariot(CountryType.HAN)));

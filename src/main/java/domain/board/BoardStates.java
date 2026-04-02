@@ -5,6 +5,7 @@ import domain.Position;
 import domain.country.Country;
 import domain.country.CountryType;
 import domain.piece.PieceInfo;
+import domain.piece.PieceInfos;
 import domain.piece.PieceType;
 import domain.state.EmptyState;
 import domain.state.State;
@@ -65,12 +66,12 @@ public class BoardStates {
         return boardStates.get(position).getPieceCountryType();
     }
 
-    public Map<Position, PieceInfo> getPieceInfos() {
+    public PieceInfos getPieceInfos() {
         Map<Position, PieceInfo> pieceInfos = new HashMap<>();
         for (Entry<Position, State> entry : boardStates.entrySet()) {
             adjustPieceInfo(pieceInfos, entry);
         }
-        return pieceInfos;
+        return new PieceInfos(pieceInfos);
     }
 
     private void adjustPieceInfo(Map<Position, PieceInfo> pieceInfos, Entry<Position, State> entry) {

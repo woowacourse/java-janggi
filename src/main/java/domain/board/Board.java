@@ -5,7 +5,7 @@ import domain.Position;
 import domain.country.Countries;
 import domain.country.Country;
 import domain.country.CountryType;
-import domain.piece.PieceInfo;
+import domain.piece.PieceInfos;
 import java.util.Map;
 
 public class Board {
@@ -51,7 +51,7 @@ public class Board {
         }
     }
 
-    public Map<Position, PieceInfo> getPieceInfos() {
+    public PieceInfos getPieceInfos() {
         return boardStates.getPieceInfos();
     }
 
