@@ -78,6 +78,34 @@ class PhoTest {
                 .isEqualTo(new Position(Row.EIGHT, Column.THREE));
     }
 
+    @DisplayName("현재 기물이 궁성 영역에 있을때, 간선 경로를 가져 올 수 있다.")
+    @Test
+    void getLegalPath_inPalace_cho() {
+        //given
+        Position from = new Position(Row.EIGHT, Column.SIX);
+        Position middle = new Position(Row.NINE, Column.FIVE);
+        Position to = new Position(Row.ZERO, Column.FOUR);
+        Pho pho = new Pho(Team.HAN);
+
+        //when & then
+        PositionPath positionPath = pho.getLegalPath(from, to);
+        assertThat(positionPath.getDestination()).isEqualTo(middle);
+    }
+
+    @DisplayName("현재 기물이 궁성 영역에 있을때, 간선 경로를 가져 올 수 있다.")
+    @Test
+    void getLegalPath_inPalace_han() {
+        //given
+        Position from = new Position(Row.THREE, Column.SIX);
+        Position middle = new Position(Row.TWO, Column.FIVE);
+        Position to = new Position(Row.ONE, Column.FOUR);
+        Pho pho = new Pho(Team.CHO);
+
+        //when & then
+        PositionPath positionPath = pho.getLegalPath(from, to);
+        assertThat(positionPath.getDestination()).isEqualTo(middle);
+    }
+
     @DisplayName("경로 상에 포가 아닌 기물이 1개 있다면 true를 반환한다.")
     @Test
     void canPassThrough_true() {

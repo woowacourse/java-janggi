@@ -44,6 +44,34 @@ class ChaTest {
                 .hasMessage("해당 경로로는 이동할 수 없습니다.");
     }
 
+    @DisplayName("현재 기물이 궁성 영역에 있을때, 간선 경로를 가져 올 수 있다.")
+    @Test
+    void getLegalPath_inPalace_cho() {
+        //given
+        Position from = new Position(Row.EIGHT, Column.SIX);
+        Position middle = new Position(Row.NINE, Column.FIVE);
+        Position to = new Position(Row.ZERO, Column.FOUR);
+        Cha cha = new Cha(Team.HAN);
+
+        //when & then
+        PositionPath positionPath = cha.getLegalPath(from, to);
+        assertThat(positionPath.getDestination()).isEqualTo(middle);
+    }
+
+    @DisplayName("현재 기물이 궁성 영역에 있을때, 간선 경로를 가져 올 수 있다.")
+    @Test
+    void getLegalPath_inPalace_han() {
+        //given
+        Position from = new Position(Row.THREE, Column.SIX);
+        Position middle = new Position(Row.TWO, Column.FIVE);
+        Position to = new Position(Row.ONE, Column.FOUR);
+        Cha cha = new Cha(Team.CHO);
+
+        //when & then
+        PositionPath positionPath = cha.getLegalPath(from, to);
+        assertThat(positionPath.getDestination()).isEqualTo(middle);
+    }
+
     @DisplayName("같은 행이면 이동할 수 있다.")
     @Test
     void getLegalPath_sameRow() {
