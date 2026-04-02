@@ -6,9 +6,14 @@ public class PalaceMovementStrategy implements MovementStrategy{
 
     @Override
     public boolean validatePath(PathPieces pathPieces) {
-        if(pathPieces.isSourceInPalace() && pathPieces.isDestinationInPalace() && pathPieces.isValidPalaceDiagonalMove()) {
-            return pathPieces.isMovableDestination();
+        if (!pathPieces.isSourceInPalace() || !pathPieces.isDestinationInPalace()) {
+            return false;
         }
-        return false;
+
+        if (!pathPieces.isOrthogonalMove() && !pathPieces.isValidPalaceDiagonalMove()) {
+            return false;
+        }
+
+        return pathPieces.isMovableDestination();
     }
 }

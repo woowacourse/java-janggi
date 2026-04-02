@@ -69,5 +69,26 @@ class PalaceMovementStrategyTest {
         PathPieces pathPieces = new PathPieces(sourcePiece, List.of(), destinationPiece, moveMeta);
         assertFalse(palaceMovementStrategy.validatePath(pathPieces));
     }
-}
 
+    @Test
+    void 궁성_내_직선_이동은_palaceDiagonalReachable이_false여도_가능하다() {
+        MovablePiece sourcePiece = new Cha(Team.CHO);
+        MovablePiece destinationPiece = new Cha(Team.HAN);
+
+        MoveMeta moveMeta = new MoveMeta(true, true, false, false);
+
+        PathPieces pathPieces = new PathPieces(sourcePiece, List.of(), destinationPiece, moveMeta);
+        assertTrue(palaceMovementStrategy.validatePath(pathPieces));
+    }
+
+    @Test
+    void 궁성_내_비연결_대각선_이동은_불가능하다() {
+        MovablePiece sourcePiece = new Cha(Team.CHO);
+        MovablePiece destinationPiece = new Cha(Team.HAN);
+
+        MoveMeta moveMeta = new MoveMeta(true, true, true, false);
+
+        PathPieces pathPieces = new PathPieces(sourcePiece, List.of(), destinationPiece, moveMeta);
+        assertFalse(palaceMovementStrategy.validatePath(pathPieces));
+    }
+}

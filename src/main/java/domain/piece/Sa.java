@@ -16,7 +16,6 @@ import domain.pathgenerator.PathGenerator;
 import domain.player.Team;
 import domain.position.Path;
 import domain.position.Position;
-import domain.strategy.BlockedMovementStrategy;
 import domain.strategy.MovementStrategy;
 import domain.strategy.PalaceMovementStrategy;
 import java.util.List;
