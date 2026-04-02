@@ -68,7 +68,7 @@ public class JanggiController {
         return doRetry(() -> {
             outputView.printCountry(Country.CHO);
             int choMaSangChoice = inputView.requestMaSangPosition();
-            return janggiService.createMasang(choMaSangChoice);
+            return janggiService.createMaSang(choMaSangChoice);
         });
     }
 
@@ -76,7 +76,7 @@ public class JanggiController {
         return doRetry(() -> {
             outputView.printCountry(Country.HAN);
             int hanMaSangChoice = inputView.requestMaSangPosition();
-            return janggiService.createMasang(hanMaSangChoice);
+            return janggiService.createMaSang(hanMaSangChoice);
         });
     }
 

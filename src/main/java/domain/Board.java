@@ -8,8 +8,8 @@ import java.util.Map;
 public class Board {
     private final Map<Position, Piece> board;
 
-    public Board(List<PieceType> choHan) {
-        this.board = BoardFactory.createInitBoard(choHan);
+    public Board(List<PieceType> choMaSang, List<PieceType> hanMaSang) {
+        this.board = BoardFactory.createInitBoard(choMaSang, hanMaSang);
     }
 
     public void move(Position start, Position end) {
