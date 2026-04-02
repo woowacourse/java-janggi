@@ -40,7 +40,7 @@ public class OutputView {
 
                     System.out.print(color + type + RESET_COLOR + " ");
                 } else {
-                    System.out.print("·  ");
+                    System.out.print("＋ ");
                 }
             }
             System.out.println();

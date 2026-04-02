@@ -3,6 +3,9 @@ package domain;
 import domain.strategy.MoveStrategy;
 import domain.vo.Position;
 
+import java.util.List;
+import java.util.Map;
+
 public class Piece {
 
     private final Team team;
@@ -21,9 +24,14 @@ public class Piece {
         return this.team != anotherPiece.team;
     }
 
-    public boolean canMovePiece(Position from, Position to, Board board) {
+    public List<Position> getPathPositions(final Position from, final Position to) {
         MoveStrategy strategy = type.getStrategy();
-        return strategy.canMove(from, to, board);
+        return strategy.getPath(from, to);
+    }
+
+    public boolean canMovePiece(final Position from, final Position to, final Map<Position, Piece> piecesOnPath) {
+        MoveStrategy strategy = type.getStrategy();
+        return strategy.canMove(this, from, to, piecesOnPath);
     }
 
     public Type getType() {

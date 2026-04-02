@@ -7,63 +7,51 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
 import java.util.Map;
 
 class GeneralMoveStrategyTest {
 
     MoveStrategy strategy;
-    Map<Position, Piece> boardMapper;
+    Piece mover;
 
     @BeforeEach
     void setUp() {
         strategy = new GeneralMoveStrategy();
-        boardMapper = new HashMap<>();
-        boardMapper.put(Position.of(1, 4), Piece.of(Team.CHU, Type.GENERAL));
+        mover = Piece.of(Team.CHU, Type.GENERAL);
     }
 
     @Test
     @DisplayName("궁의 목적지에 기물이 없으면 이동한다.")
     void 궁_정상_이동() {
         // given
-        Board board = BoardFactory.of(boardMapper);
-
-        // when
         Position from = Position.of(1, 4);
         Position to = Position.of(1, 5);
 
-        // then
-        Assertions.assertTrue(strategy.canMove(from, to, board));
+        // when & then
+        Assertions.assertTrue(strategy.canMove(mover, from, to, Map.of()));
     }
 
     @Test
     @DisplayName("궁의 목적지에 같은 팀 기물이 있으면 이동하지 않는다.")
     void 궁_목적지에_같은_팀_기물이_있으면_이동_불가() {
         // given
-        boardMapper.put(Position.of(1, 5), Piece.of(Team.CHU, Type.SOLDIER));
-        Board board = BoardFactory.of(boardMapper);
-
-        // when
         Position from = Position.of(1, 4);
         Position to = Position.of(1, 5);
+        Piece target = Piece.of(Team.CHU, Type.SOLDIER);
 
-        // then
-        Assertions.assertFalse(strategy.canMove(from, to, board));
+        // when & then
+        Assertions.assertFalse(strategy.canMove(mover, from, to, Map.of(to, target)));
     }
-
 
     @Test
     @DisplayName("궁의 목적지에 다른 팀 기물이 있으면 이동한다.")
     void 궁_목적지에_다른_팀_기물이_있으면_정상_이동() {
         // given
-        boardMapper.put(Position.of(1, 5), Piece.of(Team.HAN, Type.SOLDIER));
-        Board board = BoardFactory.of(boardMapper);
-
-        // when
         Position from = Position.of(1, 4);
         Position to = Position.of(1, 5);
+        Piece target = Piece.of(Team.HAN, Type.SOLDIER);
 
-        // then
-        Assertions.assertTrue(strategy.canMove(from, to, board));
+        // when & then
+        Assertions.assertTrue(strategy.canMove(mover, from, to, Map.of(to, target)));
     }
 }

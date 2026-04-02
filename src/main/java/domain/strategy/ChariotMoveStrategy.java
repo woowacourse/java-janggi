@@ -1,48 +1,52 @@
 package domain.strategy;
 
-import domain.Board;
+import domain.Piece;
 import domain.vo.Position;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class ChariotMoveStrategy implements MoveStrategy {
 
     @Override
-    public boolean canMove(final Position from, final Position to, final Board board) {
-
-        if (isNotCorrectPath(from, to))
-            return false;
-
-        int nx = 0, ny = 0;
-        if (from.getRow() == to.getRow()) {
-            if (from.getCol() < to.getCol()) {
-                ny = 1;
-            }
-            if (from.getCol() > to.getCol()) {
-                ny = -1;
-            }
+    public List<Position> getPath(final Position from, final Position to) {
+        if (isNotCorrectPath(from, to)) {
+            return List.of();
         }
 
-        if (from.getCol() == to.getCol()) {
-            if (from.getRow() < to.getRow()) {
-                nx = 1;
-            }
-            if (from.getRow() > to.getRow()) {
-                nx = -1;
-            }
-        }
+        List<Position> path = new ArrayList<>();
+        int nx = Integer.compare(to.getRow(), from.getRow());
+        int ny = Integer.compare(to.getCol(), from.getCol());
 
-        int row = from.getRow();
-        int col = from.getCol();
-        while (true) {
+        int row = from.getRow() + nx;
+        int col = from.getCol() + ny;
+        while (row != to.getRow() || col != to.getCol()) {
+            path.add(Position.of(row, col));
             row += nx;
             col += ny;
+        }
+        path.add(to);
+        return path;
+    }
 
-            if (row == to.getRow() && col == to.getCol()) {
-                return board.isAnotherTeam(from, to);
-            }
-            if (board.isExistPosition(Position.of(row, col))) {
+    @Override
+    public boolean canMove(final Piece mover, final Position from, final Position to, final Map<Position, Piece> piecesOnPath) {
+        if (isNotCorrectPath(from, to)) {
+            return false;
+        }
+
+        for (Position pos : piecesOnPath.keySet()) {
+            if (!pos.equals(to)) {
                 return false;
             }
         }
+
+        Piece target = piecesOnPath.get(to);
+        if (target == null) {
+            return true;
+        }
+        return mover.isAnotherTeam(target);
     }
 
     private boolean isNotCorrectPath(final Position from, final Position to) {

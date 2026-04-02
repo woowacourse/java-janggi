@@ -1,19 +1,32 @@
 package domain.strategy;
 
-import domain.Board;
+import domain.Piece;
 import domain.vo.Position;
+
+import java.util.List;
+import java.util.Map;
 
 public class GeneralMoveStrategy implements MoveStrategy {
 
     @Override
-    public boolean canMove(final Position from, final Position to, final Board board) {
-        if (isNotCorrectPath(from, to))
-            return false;
+    public List<Position> getPath(final Position from, final Position to) {
+        if (isNotCorrectPath(from, to)) {
+            return List.of();
+        }
+        return List.of(to);
+    }
 
-        if (board.isAnotherTeam(from, to)) {
+    @Override
+    public boolean canMove(final Piece mover, final Position from, final Position to, final Map<Position, Piece> piecesOnPath) {
+        if (isNotCorrectPath(from, to)) {
+            return false;
+        }
+
+        Piece target = piecesOnPath.get(to);
+        if (target == null) {
             return true;
         }
-        return false;
+        return mover.isAnotherTeam(target);
     }
 
     private boolean isNotCorrectPath(final Position from, final Position to) {

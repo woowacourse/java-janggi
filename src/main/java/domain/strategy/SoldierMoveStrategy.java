@@ -1,32 +1,41 @@
 package domain.strategy;
 
-import domain.Board;
+import domain.Piece;
 import domain.Team;
 import domain.vo.Position;
+
+import java.util.List;
+import java.util.Map;
 
 public class SoldierMoveStrategy implements MoveStrategy {
 
     @Override
-    public boolean canMove(final Position from, final Position to, final Board board) {
-        if (isNotCorrectPath(from, to))
-            return false;
-
-        if (isWithdraw(from, to, board))
-            return false;
-
-        if (board.isAnotherTeam(from, to)) {
-            return true;
+    public List<Position> getPath(final Position from, final Position to) {
+        if (isNotCorrectPath(from, to)) {
+            return List.of();
         }
-
-        if (!board.isExistPosition(to)) {
-            return true;
-        }
-
-        return false;
+        return List.of(to);
     }
 
-    private boolean isWithdraw(final Position from, final Position to, final Board board) {
-        Team team = board.findPieceByPosition(from).get().getTeam();
+    @Override
+    public boolean canMove(final Piece mover, final Position from, final Position to, final Map<Position, Piece> piecesOnPath) {
+        if (isNotCorrectPath(from, to)) {
+            return false;
+        }
+
+        if (isWithdraw(from, to, mover)) {
+            return false;
+        }
+
+        Piece target = piecesOnPath.get(to);
+        if (target == null) {
+            return true;
+        }
+        return mover.isAnotherTeam(target);
+    }
+
+    private boolean isWithdraw(final Position from, final Position to, final Piece mover) {
+        Team team = mover.getTeam();
         if (team == Team.CHU && from.getRow() - to.getRow() == 1) {
             return true;
         }

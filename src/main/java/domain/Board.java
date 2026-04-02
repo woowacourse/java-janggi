@@ -2,6 +2,8 @@ package domain;
 
 import domain.vo.Position;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -25,12 +27,23 @@ public class Board {
             throw new IllegalArgumentException("[ERROR] 상대편의 기물은 움직일 수 없습니다.");
         }
 
-        if (!fromPiece.canMovePiece(from, to, this)) {
+        List<Position> path = fromPiece.getPathPositions(from, to);
+        Map<Position, Piece> piecesOnPath = findPiecesAt(path);
+
+        if (!fromPiece.canMovePiece(from, to, piecesOnPath)) {
             throw new IllegalArgumentException("[ERROR] 해당 위치로 움직일 수 없습니다.");
         }
 
         board.remove(from);
         board.put(to, fromPiece);
+    }
+
+    private Map<Position, Piece> findPiecesAt(final List<Position> positions) {
+        Map<Position, Piece> result = new HashMap<>();
+        for (Position pos : positions) {
+            findPieceByPosition(pos).ifPresent(piece -> result.put(pos, piece));
+        }
+        return result;
     }
 
     public boolean isExistPosition(final Position tempPosition) {
@@ -39,16 +52,6 @@ public class Board {
 
     public Optional<Piece> findPieceByPosition(final Position position) {
         return Optional.ofNullable(board.get(position));
-    }
-
-    public boolean isAnotherTeam(final Position from, final Position to) {
-        if (findPieceByPosition(to).isEmpty()) {
-            return true;
-        }
-
-        Piece currentPiece = findPieceByPosition(from).get();
-        Piece targetPiece = findPieceByPosition(to).get();
-        return currentPiece.isAnotherTeam(targetPiece);
     }
 
     public Map<Position, Piece> getBoard() {

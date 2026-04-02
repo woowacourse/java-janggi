@@ -1,85 +1,67 @@
 package domain.strategy;
 
-import domain.Board;
+import domain.Piece;
 import domain.Type;
 import domain.vo.Position;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CannonMoveStrategy implements MoveStrategy {
 
     private static final int CANNON_REQUIRED_PIECE_COUNT = 1;
 
     @Override
-    public boolean canMove(final Position from, final Position to, final Board board) {
-        if (isNotCorrectPath(from, to)) 
-            return false;
+    public List<Position> getPath(final Position from, final Position to) {
+        if (isNotCorrectPath(from, to)) {
+            return List.of();
+        }
 
-        int nx = determineNx(from, to);
-        int ny = determineNy(from, to);
+        List<Position> path = new ArrayList<>();
+        int nx = Integer.compare(to.getRow(), from.getRow());
+        int ny = Integer.compare(to.getCol(), from.getCol());
 
-        int pieceCount = 0;
-        int row = from.getRow();
-        int col = from.getCol();
-        while (true) {
+        int row = from.getRow() + nx;
+        int col = from.getCol() + ny;
+        while (row != to.getRow() || col != to.getCol()) {
+            path.add(Position.of(row, col));
             row += nx;
             col += ny;
-
-            if (row == to.getRow() && col == to.getCol()) {
-                return isCannonValidTarget(from, to, board, pieceCount);
-            }
-
-            if (board.isExistPosition(Position.of(row, col))) {
-                if (isCannon(board, row, col)) {
-                    return false;
-                }
-
-                pieceCount += 1;
-            }
-
-            if (pieceCount > CANNON_REQUIRED_PIECE_COUNT) {
-                return false;
-            }
         }
+        path.add(to);
+        return path;
     }
 
-    private boolean isCannonValidTarget(final Position from, final Position to, final Board board, final int pieceCount) {
-        if (!isCannon(board, to.getRow(), to.getCol())
-                && board.isAnotherTeam(from, to)
-                && pieceCount == CANNON_REQUIRED_PIECE_COUNT) {
+    @Override
+    public boolean canMove(final Piece mover, final Position from, final Position to, final Map<Position, Piece> piecesOnPath) {
+        if (isNotCorrectPath(from, to)) {
+            return false;
+        }
+
+        Map<Position, Piece> intermediate = new HashMap<>(piecesOnPath);
+        Piece target = intermediate.remove(to);
+
+        if (intermediate.values().stream().anyMatch(piece -> piece.getType() == Type.CANNON)) {
+            return false;
+        }
+
+        if (intermediate.size() != CANNON_REQUIRED_PIECE_COUNT) {
+            return false;
+        }
+
+        if (target != null && target.getType() == Type.CANNON) {
+            return false;
+        }
+
+        if (target == null) {
             return true;
         }
-        return false;
+        return mover.isAnotherTeam(target);
     }
 
-    private boolean isCannon(Board board, int row, int col) {
-        if (board.findPieceByPosition(Position.of(row, col)).isEmpty()) return false;
-        return board.findPieceByPosition(Position.of(row, col)).get().getType() == Type.CANNON;
-    }
-
-    private int determineNx(Position from, Position to) {
-        if (from.getRow() < to.getRow()) {
-            return 1;
-        }
-        if (from.getRow() > to.getRow()) {
-            return -1;
-        }
-        return 0;
-    }
-
-    private int determineNy(Position from, Position to) {
-        if (from.getCol() < to.getCol()) {
-            return 1;
-        }
-        if (from.getCol() > to.getCol()) {
-            return -1;
-        }
-
-        return 0;
-    }
-
-    private boolean isNotCorrectPath(Position from, Position to) {
-        if (from.getRow() != to.getRow() && from.getCol() != to.getCol()) {
-            return true;
-        }
-        return false;
+    private boolean isNotCorrectPath(final Position from, final Position to) {
+        return from.getRow() != to.getRow() && from.getCol() != to.getCol();
     }
 }
