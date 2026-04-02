@@ -11,13 +11,10 @@ import janggi.domain.piece.Gung;
 import janggi.domain.piece.Pawn;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
-import janggi.domain.piece.Po;
 import janggi.initializer.BoardInitializer;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 
 class BoardTest {
     private Board board = new Board(BoardInitializer.createBoard(Arrangement.MA_SANG_MA_SANG, Arrangement.MA_SANG_MA_SANG), 72, 72);

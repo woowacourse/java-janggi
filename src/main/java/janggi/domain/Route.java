@@ -1,7 +1,6 @@
 package janggi.domain;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Predicate;
 
 public record Route(List<Position> route) {

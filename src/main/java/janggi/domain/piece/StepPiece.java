@@ -4,7 +4,6 @@ import janggi.domain.Movements;
 import janggi.domain.Position;
 import janggi.domain.Route;
 import janggi.domain.Side;
-import janggi.domain.board.BaseBoard;
 import janggi.domain.policy.RoutePolicy;
 import java.util.List;
 import java.util.Optional;

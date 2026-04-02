@@ -2,7 +2,6 @@ package janggi.domain;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 public class Position {
     public static final int BOARD_START_ROWS = 1;

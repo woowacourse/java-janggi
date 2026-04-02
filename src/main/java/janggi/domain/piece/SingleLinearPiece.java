@@ -1,6 +1,5 @@
 package janggi.domain.piece;
 
-import janggi.domain.Movement;
 import janggi.domain.Position;
 import janggi.domain.Route;
 import janggi.domain.Side;

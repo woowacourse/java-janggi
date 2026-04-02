@@ -1,7 +1,6 @@
 package janggi.domain.piece;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 import janggi.domain.Position;
 import janggi.domain.Route;
