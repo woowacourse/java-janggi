@@ -43,7 +43,7 @@ public class Board implements BaseBoard {
         return currentBoard.getValues();
     }
 
-    public void move(Position start, Position end, Side movableSide) {
+    public PieceAttribute move(Position start, Position end, Side movableSide) {
         Piece piece = board.get(start);
         if (!piece.isEqualSide(movableSide)) {
             throw new IllegalArgumentException(INVALID_PIECE_SIDE_MESSAGE);
@@ -53,6 +53,8 @@ public class Board implements BaseBoard {
         piece.validateRoute(route, this);
 
         movePiece(start, end, piece, movableSide);
+
+        return piece.getPieceInfo();
     }
 
     public boolean isEndGame() {

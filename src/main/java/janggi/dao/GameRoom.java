@@ -8,14 +8,22 @@ import java.util.List;
 
 
 public class GameRoom {
-    private final SQLManager sqlManager = new SQLManager("jdbc:sqlite:src/main/resources/game_room.db");
+    private final SQLManager sqlManager;
+
+    public GameRoom(SQLManager sqlManager) {
+        this.sqlManager = sqlManager;
+    }
 
     public void initTable() {
-        String sql = "CREATE TABLE IF NOT EXISTS GameRoom (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "name TEXT NOT NULL, " +
-                "created_date TEXT NOT NULL, " +
-                "recently_date TEXT NOT NULL)";
+        String sql =
+        """
+        CREATE TABLE IF NOT EXISTS GameRoom (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            created_at TEXT NOT NULL,
+            updated_at TEXT NOT NULL
+        )
+        """;
 
         try (Connection conn = sqlManager.ensureConnection();
              Statement stmt = conn.createStatement()) {
@@ -36,7 +44,7 @@ public class GameRoom {
 
             while (rs.next()) {
                 GameInfo game = new GameInfo(
-                        rs.getString("id"),
+                        rs.getInt("id"),
                         rs.getString("name"),
                         rs.getString("created_date"),
                         rs.getString("recently_date")
@@ -49,7 +57,8 @@ public class GameRoom {
         return gameInfos;
     }
 
-    public void insertGame(String name, String createdDate, String recentlyDate) {
+    public int insertGame(String name, String createdDate, String recentlyDate) {
+        int generatedId = -1;
         String sql = "INSERT INTO GameRoom (name, created_date, recently_date) VALUES (?, ?, ?)";
 
         try (Connection conn = sqlManager.ensureConnection();
@@ -63,9 +72,17 @@ public class GameRoom {
 
             if (!conn.getAutoCommit()) conn.commit();
 
+            try (ResultSet rs = pstmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    generatedId = rs.getInt(1); // 첫 번째 컬럼이 생성된 ID
+                }
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return generatedId;
     }
 
     public void removeGame(int id) {

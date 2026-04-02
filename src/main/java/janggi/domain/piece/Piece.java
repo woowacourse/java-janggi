@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import janggi.domain.PieceInitInfo;
 import janggi.domain.Position;
 import janggi.domain.Route;
 import janggi.domain.Side;
@@ -17,4 +18,6 @@ public interface Piece {
     int getPieceScore();
     
     PieceAttribute getPieceInfo();
+
+    PieceInitInfo getPieceInitInfo(Position position);
 }

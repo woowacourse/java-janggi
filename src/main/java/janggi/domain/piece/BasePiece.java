@@ -1,5 +1,7 @@
 package janggi.domain.piece;
 
+import janggi.domain.PieceInitInfo;
+import janggi.domain.Position;
 import janggi.domain.Side;
 
 public abstract class BasePiece implements Piece {
@@ -29,5 +31,10 @@ public abstract class BasePiece implements Piece {
     @Override
     public int getPieceScore() {
         return this.pieceType.getScore();
+    }
+
+    @Override
+    public PieceInitInfo getPieceInitInfo(Position position) {
+        return new PieceInitInfo(position, side, pieceType);
     }
 }

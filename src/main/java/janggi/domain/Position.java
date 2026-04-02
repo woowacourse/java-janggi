@@ -95,4 +95,12 @@ public class Position {
     public boolean isRange(int startX, int endX, int startY, int endY) {
         return x >= startX && x <= endX && y >= startY && y <= endY;
     }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 }

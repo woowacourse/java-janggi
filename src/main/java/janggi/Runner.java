@@ -4,9 +4,11 @@ import janggi.domain.Arrangement;
 import janggi.domain.Game;
 import janggi.domain.GameInfo;
 import janggi.domain.GameName;
+import janggi.domain.PieceInitInfo;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.SideScore;
+import janggi.domain.piece.PieceAttribute;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.time.LocalDateTime;
@@ -25,32 +27,29 @@ public class Runner {
     private static final Logger logger = Logger.getLogger(Runner.class.getName());
 
     private final JanggiService janggiService;
+    private final Game game;
 
-    public Runner(JanggiService janggiService) {
+    public Runner(JanggiService janggiService, Game game) {
         this.janggiService = janggiService;
+        this.game = game;
     }
 
     public void run() {
-        manageGameRoom();
-        Game game = initArrangeGame();
-        playGame(game);
+        int gameId = manageGameRoom();
+        playGame(gameId);
     }
 
-    public void manageGameRoom() {
+    public int manageGameRoom() {
         List<GameInfo> gameInfos = janggiService.getEntireGame();
         if(gameInfos.isEmpty()) {
-            addGame();
-            /* initialize new */
-            return;
+            return initArrangeGame();
         }
         OutputView.printGameRoom(gameInfos);
 
         Optional<Integer> input = InputView.askLoadGame();
 
         if(input.isEmpty()) {
-            addGame();
-            /* initialize new */
-            return;
+            return initArrangeGame();
         }
 
         GameInfo selectedGame = gameInfos.get(input.get() - 1);
@@ -59,49 +58,46 @@ public class Runner {
             throw new IllegalArgumentException("잘못된 값을 입력하셨습니다.");
         }
 
-        /* initialize info */
-
+        List<PieceInitInfo> pieceInitInfos = janggiService.getPieceInitInfos(selectedGame.id());
+        game.init(pieceInitInfos);
+        return selectedGame.id();
     }
 
-    private void addGame() {
+    private int initArrangeGame() {
         GameName gameName = new GameName(InputView.askGameName());
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String formattedNow = LocalDateTime.now().format(formatter);
-
-        System.out.println(formattedNow);
-
-        janggiService.addGameData(gameName.name(), formattedNow, formattedNow);
-    }
-
-    private Game initArrangeGame() {
         String hanArrangementInput = InputView.askHanArrangement();
         Arrangement hanArrangement = Arrangement.from(hanArrangementInput);
 
         String choArrangementInput = InputView.askChoArrangement();
         Arrangement choArrangement = Arrangement.from(choArrangementInput);
 
-        return new Game(choArrangement, hanArrangement);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedNow = LocalDateTime.now().format(formatter);
+
+        List<PieceInitInfo> pieceInitInfos = game.init(hanArrangement, choArrangement);
+
+        return janggiService.addGameData(gameName.name(), formattedNow, formattedNow, pieceInitInfos);
     }
 
-    private void playGame(Game game) {
-        while (playTurnGame(game)) {
+    private void playGame(int gameId) {
+        while (playTurnGame(gameId)) {
         }
 
         Side winnerSide = game.getWinnerSide();
 
         if(winnerSide == null) {
-            printCurrentScore(game);
-            printScoreWinner(game);
+            printCurrentScore();
+            printScoreWinner();
             return;
         }
         OutputView.printWinner(winnerSide);
     }
 
-    private boolean playTurnGame(Game game) {
+    private boolean playTurnGame(int gameId) {
         try {
-            printCurrentStatus(game);
-            return executeTurn(game);
+            printCurrentStatus();
+            return executeTurn(gameId);
         } catch (IllegalArgumentException e) {
             OutputView.printErrorMessage(e.getMessage());
             return true;
@@ -112,17 +108,17 @@ public class Runner {
         }
     }
 
-    private void printCurrentStatus(Game game) {
+    private void printCurrentStatus() {
         OutputView.printLine();
         OutputView.printBoard(game.getCurrentBoardDto());
         OutputView.printTurn(game.getCurrentSide());
     }
 
-    private boolean executeTurn(Game game) {
+    private boolean executeTurn(int gameId) {
         Optional<List<Integer>> startPositionInput = InputView.askStartPosition();
 
         if(startPositionInput.isEmpty()) {
-            return consentEndGame(game);
+            return consentEndGame(gameId);
         }
 
         Position startPosition = Position.from(startPositionInput.get());
@@ -131,23 +127,24 @@ public class Runner {
         Position endPosition = Position.from(endPositionInput);
         OutputView.printLine();
 
-        game.move(startPosition, endPosition);
+        PieceAttribute pieceAttribute = game.move(startPosition, endPosition);
+        janggiService.movePiece(gameId, startPosition, endPosition, pieceAttribute.side(), pieceAttribute.pieceType());
 
-        printCurrentScore(game);
+        printCurrentScore();
         return game.isFinished();
     }
 
-    private boolean consentEndGame(Game game) {
+    private boolean consentEndGame(int gameId) {
         String consentInput = InputView.consentEnd();
 
         if(consentInput.equals(END_TEXT)) {
             return false;
         }
 
-        return executeTurn(game);
+        return executeTurn(gameId);
     }
 
-    private void printScoreWinner(Game game) {
+    private void printScoreWinner() {
         SideScore score = game.getCurrentSideScore();
         if(score.cho() > score.han()) {
             OutputView.printWinner(Side.CHO);
@@ -157,7 +154,7 @@ public class Runner {
     }
 
 
-    private void printCurrentScore(Game game) {
+    private void printCurrentScore() {
         OutputView.printScore(game.getCurrentSideScore());
     }
 }

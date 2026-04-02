@@ -1,6 +1,7 @@
 package janggi.initializer;
 
 import janggi.domain.Arrangement;
+import janggi.domain.PieceInitInfo;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.piece.Cha;
@@ -82,6 +83,12 @@ public class BoardInitializer {
             board.put(choMaSangPosition.get(i), pieceMap.get(choMaSangPieceOrder.get(i)).apply(Side.CHO));
             board.put(hanMaSangPosition.get(i), pieceMap.get(hanMaSangPieceOrder.get(i)).apply(Side.HAN));
         }
+        return board;
+    }
+
+    public static Map<Position, Piece> createBoard(List<PieceInitInfo> pieceInitInfos) {
+        Map<Position, Piece> board = initBoard();
+        pieceInitInfos.forEach(pieceInitInfo -> initBoard().put(pieceInitInfo.position(), pieceMap.get(pieceInitInfo.pieceType()).apply(pieceInitInfo.side())));
         return board;
     }
 

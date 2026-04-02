@@ -1,15 +1,25 @@
 package janggi;
 
 import janggi.dao.GameRoom;
+import janggi.dao.Piece;
+import janggi.db.SQLManager;
+import janggi.domain.Game;
 
 public class Application {
     public static void main(String[] args) {
-        GameRoom gameRoom = new GameRoom();
+        SQLManager sqlManager = new SQLManager("jdbc:sqlite:src/main/resources/janggi.db");
+
+        GameRoom gameRoom = new GameRoom(sqlManager);
         gameRoom.initTable();
 
-        JanggiService janggiService = new JanggiService(gameRoom);
+        Piece piece = new Piece(sqlManager);
+        piece.initTable();
 
-        Runner runner = new Runner(janggiService);
+        JanggiService janggiService = new JanggiService(sqlManager, gameRoom, piece);
+
+        Game game = new Game();
+
+        Runner runner = new Runner(janggiService, game);
         runner.run();
     }
 }

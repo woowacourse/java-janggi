@@ -7,7 +7,7 @@ import janggi.domain.piece.PieceAttribute;
 import java.util.List;
 
 public interface PlayerTurn {
-    PlayerTurn move(Position start, Position end);
+    TurnState move(Position start, Position end);
 
     boolean isFinished();
 

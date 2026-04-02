@@ -15,7 +15,7 @@ public class FinishTurn extends BaseTurn {
     }
 
     @Override
-    public PlayerTurn move(Position start, Position end) {
+    public TurnState move(Position start, Position end) {
         throw new IllegalStateException(INVALID_MOVE);
     }
 
