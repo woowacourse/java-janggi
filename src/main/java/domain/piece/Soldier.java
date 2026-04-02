@@ -14,19 +14,7 @@ public class Soldier extends Piece {
 
     @Override
     protected List<Position> filterValidPositions(Position current, List<Path> paths, BoardReader board) {
-        return paths.stream()
-                .map(Path::getDestination)
-                .filter(destination -> isForwardOrSideways(current, destination))
-                .filter(destination -> isValidDestination(destination, board))
-                .toList();
-    }
-
-    private boolean isForwardOrSideways(Position current, Position destination) {
-        int deltaY = destination.getY() - current.getY();
-        if (getSide().isCho()) {
-            return deltaY >= 0;
-        }
-        return deltaY <= 0;
+        return filterStandardPaths(paths, board);
     }
 
     @Override
