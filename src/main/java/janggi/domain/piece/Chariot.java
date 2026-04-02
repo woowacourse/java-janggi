@@ -25,4 +25,9 @@ public class Chariot extends Piece {
     public boolean isCannon() {
         return false;
     }
+
+    @Override
+    protected String pieceDisplayName(Camp camp) {
+        return PieceDisplayName.CHARIOT.findDisplayName(camp);
+    }
 }

@@ -21,6 +21,10 @@ public abstract class Piece {
         return moveStrategy.findMovablePaths(current);
     }
 
+    public String displayName() {
+        return pieceDisplayName(camp);
+    }
+
     public boolean isSameCamp(Piece piece) {
         return this.camp.isSameCamp(piece.camp);
     }
@@ -29,9 +33,15 @@ public abstract class Piece {
         return this.camp.isSameCamp(camp);
     }
 
+    public Camp getCamp() {
+        return camp;
+    }
+
     abstract public boolean canPassRoute(Map<Position, Piece> piecesInPath);
 
     abstract public boolean canCatch(Piece piece);
 
     abstract public boolean isCannon();
+
+    abstract protected String pieceDisplayName(Camp camp);
 }

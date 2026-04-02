@@ -35,4 +35,9 @@ public class Cannon extends Piece {
     public boolean isCannon() {
         return true;
     }
+
+    @Override
+    protected String pieceDisplayName(Camp camp) {
+        return PieceDisplayName.CANNON.findDisplayName(camp);
+    }
 }

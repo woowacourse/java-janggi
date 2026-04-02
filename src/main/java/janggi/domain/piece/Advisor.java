@@ -25,4 +25,9 @@ public class Advisor extends Piece {
     public boolean isCannon() {
         return false;
     }
+
+    @Override
+    protected String pieceDisplayName(Camp camp) {
+        return PieceDisplayName.ADVISOR.findDisplayName(camp);
+    }
 }

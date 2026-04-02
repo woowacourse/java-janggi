@@ -25,4 +25,9 @@ public class General extends Piece {
     public boolean isCannon() {
         return false;
     }
+
+    @Override
+    protected String pieceDisplayName(Camp camp) {
+        return PieceDisplayName.GENERAL.findDisplayName(camp);
+    }
 }
