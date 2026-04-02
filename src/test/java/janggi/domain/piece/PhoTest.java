@@ -114,7 +114,7 @@ public class PhoTest {
     @DisplayName("궁성 안에서 대각선으로 이동하는 기능")
     void palace_diagonal_move() {
         // given
-        Piece cha = new Cha(Team.CHO);
+        Piece cha = new Pho(Team.CHO);
         Point from = Point.of(3, 0);
         Point to = Point.of(5, 2);
 
