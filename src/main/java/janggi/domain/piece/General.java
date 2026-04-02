@@ -37,7 +37,10 @@ public class General extends MoveablePiece {
         int absRowDiff = Math.abs(movement.calculateRowDiff());
         int absColumnDiff = Math.abs(movement.calculateColumnDiff());
 
-        if (absRowDiff > MAX_MOVE_DISTANCE || absColumnDiff > MAX_MOVE_DISTANCE) {
+        boolean isValidMove = (absRowDiff == MAX_MOVE_DISTANCE && absColumnDiff == 0)
+                || (absRowDiff == 0 && absColumnDiff == MAX_MOVE_DISTANCE);
+
+        if (!isValidMove) {
             throw new IllegalArgumentException("[ERROR] 장은 해당 위치로 이동할 수 없습니다.");
         }
     }

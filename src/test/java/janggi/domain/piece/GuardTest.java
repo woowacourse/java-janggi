@@ -48,9 +48,9 @@ class GuardTest {
         Guard guard = new Guard(Team.HAN);
         Movement movement = new Movement(Position.from("11"), Position.from("22"));
 
-        Path path = guard.getPath(movement);
-
-        assertThat(path).hasSize(0);
+        assertThatThrownBy(() -> guard.getPath(movement))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 사는 해당 위치로 이동할 수 없습니다.");
     }
 
     @Test

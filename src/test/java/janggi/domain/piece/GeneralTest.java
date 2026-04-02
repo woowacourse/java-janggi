@@ -44,14 +44,14 @@ class GeneralTest {
     }
 
     @Test
-    void 대각선_한_칸을_이동시키면_경로를_반환한다() {
+    void 대각선_한_칸을_이동시키면_예외가_발생한다() {
         General general = new General(Team.HAN);
         Movement movement = new Movement(Position.from("11"), Position.from("22"));
 
-        Path path = general.getPath(movement);
-
-        assertThat(path).hasSize(0);
-    }
+        assertThatThrownBy(() -> general.getPath(movement))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 장은 해당 위치로 이동할 수 없습니다.");
+        }
 
     @Test
     void 직선_한_칸보다_많이_이동시키면_예외를_발생한다() {
