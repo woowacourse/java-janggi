@@ -19,6 +19,8 @@ public class OutputView {
 
     private static final String PRINT_TURN = "%s의 차례입니다.";
     private static final String PRINT_SCORE = "%s: %.1f점";
+    private static final String PRINT_END_WITH_CATCH_GENERAL = "%s가 %s의 궁을 잡아서 게임을 종료합니다.";
+    private static final String PRINT_WINNER = "%s가 게임을 승리했습니다.";
 
     public void printTurn(String countryName) {
         System.out.printf(LINE_SEPARATOR + PRINT_TURN + LINE_SEPARATOR, countryName);
@@ -63,6 +65,17 @@ public class OutputView {
                 scores.get(CountryType.CHO));
         System.out.printf(PRINT_SCORE + LINE_SEPARATOR, CountryFormatter.from(CountryType.HAN),
                 scores.get(CountryType.HAN));
+    }
+
+    public void printEndWithCatchGeneral(CountryType winnerCountryType) {
+        String winner = CountryFormatter.from(winnerCountryType);
+        String loser = CountryFormatter.from(winnerCountryType.anotherCountryType());
+        System.out.printf(LINE_SEPARATOR + PRINT_END_WITH_CATCH_GENERAL + LINE_SEPARATOR, winner, loser);
+        printWinner(winnerCountryType);
+    }
+
+    private void printWinner(CountryType winnerCountryType) {
+        System.out.printf(LINE_SEPARATOR + PRINT_WINNER + LINE_SEPARATOR, CountryFormatter.from(winnerCountryType));
     }
 
     public void printErrorMessage(String message) {

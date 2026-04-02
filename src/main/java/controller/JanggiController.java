@@ -34,20 +34,6 @@ public class JanggiController {
         return boardFactory.create(choTableSetting, hanTableSetting);
     }
 
-    private void playTurn(Board board, List<CountryType> playOrders) {
-        int turnIndex = 0;
-        boolean isEnd = false;
-        while (!isEnd) {
-            CountryType countryType = playOrders.get(turnIndex);
-            outputView.printTurn(CountryFormatter.from(countryType));
-            outputView.printScore(board.getScores());
-            outputView.printBoard(board.getPieceInfos());
-
-            isEnd = movePiece(board, countryType);
-            turnIndex = (turnIndex + 1) % 2;
-        }
-    }
-
     private TableSetting readTableSetting(CountryType countryType) {
         while (true) {
             try {
@@ -59,6 +45,29 @@ public class JanggiController {
                 outputView.printErrorMessage(exception.getMessage());
             }
         }
+    }
+
+    private void playTurn(Board board, List<CountryType> playOrders) {
+        int turnIndex = 0;
+        boolean isEnd = false;
+        while (!isEnd) {
+            CountryType countryType = playOrders.get(turnIndex);
+            isEnd = checkEndAndMovePiece(board, countryType);
+
+            turnIndex = (turnIndex + 1) % 2;
+        }
+    }
+
+    private boolean checkEndAndMovePiece(Board board, CountryType countryType) {
+        outputView.printTurn(CountryFormatter.from(countryType));
+        outputView.printScore(board.getScores());
+        outputView.printBoard(board.getPieceInfos());
+
+        boolean isEnd = movePiece(board, countryType);
+        if (isEnd) {
+            outputView.printEndWithCatchGeneral(countryType);
+        }
+        return isEnd;
     }
 
     private boolean movePiece(Board board, CountryType countryType) {
