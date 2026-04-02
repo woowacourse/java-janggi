@@ -43,7 +43,7 @@ public class BoardServiceTest {
         String name = "게임 1";
         BoardEntity expected = BoardEntity.from(1, name);
 
-        long id = boardService.createBoard(name);
+        long id = boardService.createBoard(1, name);
         BoardEntity actual = boardRepository.findById(id);
 
         assertThat(actual).isEqualTo(expected);
@@ -54,7 +54,7 @@ public class BoardServiceTest {
     @DisplayName("보드 삭제 테스트")
     void removeBoard() {
         String name = "게임 1";
-        long id = boardRepository.save(BoardEntity.from(name));
+        long id = boardRepository.save(BoardEntity.from(1, name));
         boolean expected = true;
 
         boolean actual = boardService.removeBoard(id);

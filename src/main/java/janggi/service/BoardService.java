@@ -11,8 +11,8 @@ public class BoardService {
         this.boardRepository = boardRepository;
     }
 
-    public long createBoard(final String name) {
-        final BoardEntity boardEntity = BoardEntity.from(name);
+    public long createBoard(final long gameStateId, final String name) {
+        final BoardEntity boardEntity = BoardEntity.from(gameStateId, name);
 
         return boardRepository.save(boardEntity);
     }

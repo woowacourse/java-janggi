@@ -50,7 +50,7 @@ public class BoardCellServiceTest {
     }
 
     void addBoard() {
-        BoardEntity boardEntity = BoardEntity.from("게임 1");
+        BoardEntity boardEntity = BoardEntity.from(1, "게임 1");
         boardRepository.save(boardEntity);
     }
 
