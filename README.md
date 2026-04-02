@@ -47,14 +47,14 @@
 
 ### 궁성 이동 규칙
 
-- [ ] 장(궁)과 사는 자신의 궁성 안에서만 궁성의 선을 따라 한 칸 이동한다.
-    - [ ] `IllegalArgumentException`: 원래 위치가 궁성 밖인 경우
-    - [ ] `IllegalArgumentException`: 이동할 위치가 궁성 밖인 경우
-    - [ ] `IllegalArgumentException`: 궁성의 선을 따르지 않는 이동인 경우
-- [ ] 병(졸)은 상대 궁성 안에 있을 경우 궁성의 대각선을 따라 전진 대각 이동이 가능하다.
-    - [ ] 원래 위치가 상대 궁성 안인지 확인한다.
-    - [ ] 이동할 위치가 궁성의 대각선 상에 있는지 확인한다.
-    - [ ] `IllegalArgumentException`: 허용되지 않는 방향으로 이동하는 경우
+- [x] 장(궁)과 사는 자신의 궁성 안에서만 궁성의 선을 따라 한 칸 이동한다.
+    - [x] `IllegalArgumentException`: 원래 위치가 궁성 밖인 경우
+    - [x] `IllegalArgumentException`: 이동할 위치가 궁성 밖인 경우
+    - [x] `IllegalArgumentException`: 궁성의 선을 따르지 않는 이동인 경우
+- [x] 병(졸)은 상대 궁성 안에 있을 경우 궁성의 대각선을 따라 전진 대각 이동이 가능하다.
+    - [x] 원래 위치가 상대 궁성 안인지 확인한다.
+    - [x] 이동할 위치가 궁성의 대각선 상에 있는지 확인한다.
+    - [x] `IllegalArgumentException`: 허용되지 않는 방향으로 이동하는 경우
 - [ ] 차는 궁성의 간선을 따라 대각선으로 이동할 수 있다.
     - [ ] 원래 위치와 이동할 위치가 동일 궁성의 간선 위에 있는지 확인한다.
     - [ ] `IllegalArgumentException`: 궁성 간선을 따르지 않는 대각 이동인 경우

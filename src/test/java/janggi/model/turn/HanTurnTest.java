@@ -2,8 +2,8 @@ package janggi.model.turn;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import janggi.model.Board;
 import janggi.model.Team;
-import janggi.model.board.Board;
 import janggi.model.piece.Piece;
 import janggi.model.piece.diagonalMove.Ma;
 import janggi.model.position.absolute.Column;
