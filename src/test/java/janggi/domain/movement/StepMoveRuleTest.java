@@ -20,7 +20,7 @@ public class StepMoveRuleTest {
     void execute_1() {
         // given
         Map<Position, Piece> positionPieceMap = Map.of(
-                Position.valueOf(5, 3), new Elephant(TeamType.RED)
+                Position.valueOf(5, 6), new Elephant(TeamType.RED)
         );
         Board board = new Board(positionPieceMap);
         List<Movement> movementOrder = List.of(
@@ -29,13 +29,13 @@ public class StepMoveRuleTest {
                 new Movement(1, Direction.UP_RIGHT)
         );
         MoveRule stepMoveRule = new StepMoveRule(movementOrder);
-        Position from = Position.valueOf(5, 3);
+        Position from = Position.valueOf(5, 6);
 
         // when
         List<Position> actual = stepMoveRule.execute(from, board);
 
         // then
-        List<Position> expected = List.of(Position.valueOf(3, 6));
+        List<Position> expected = List.of(Position.valueOf(3, 9));
         assertThat(actual).hasSameElementsAs(expected);
     }
 
@@ -132,6 +132,30 @@ public class StepMoveRuleTest {
         );
         MoveRule stepMoveRule = new StepMoveRule(movementOrder);
         Position from = Position.valueOf(5, 3);
+
+        // when
+        List<Position> actual = stepMoveRule.execute(from, board);
+
+        // then
+        List<Position> expected = List.of();
+        assertThat(actual).hasSameElementsAs(expected);
+    }
+
+    @Test
+    @DisplayName("보드판의 경계를 나가게 되어 목적지로 이동할 수 없다")
+    void execute_6() {
+        // given
+        Map<Position, Piece> positionPieceMap = Map.of(
+                Position.valueOf(5, 7), new Elephant(TeamType.RED)
+        );
+        Board board = new Board(positionPieceMap);
+        List<Movement> movementOrder = List.of(
+                new Movement(1, Direction.RIGHT),
+                new Movement(1, Direction.UP_RIGHT),
+                new Movement(1, Direction.UP_RIGHT)
+        );
+        MoveRule stepMoveRule = new StepMoveRule(movementOrder);
+        Position from = Position.valueOf(5, 7);
 
         // when
         List<Position> actual = stepMoveRule.execute(from, board);
