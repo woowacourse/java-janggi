@@ -51,7 +51,6 @@ public final class OrthogonalThenDiagonalMovement extends Movement {
     private static List<Path> leftDirectionPaths(Intersection from, Side side) {
         List<Path> paths = new ArrayList<>();
 
-        // TODO 여기도 방향이 헷갈림
         Intersection left = side.moveLeft(from, MOVE_AMOUNT);
         Intersection forwardLeft = side.moveBackwardLeft(left, MOVE_AMOUNT);
         Intersection forwardRight = side.moveForwardLeft(left, MOVE_AMOUNT);

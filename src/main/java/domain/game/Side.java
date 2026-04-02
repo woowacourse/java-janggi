@@ -43,7 +43,6 @@ public enum Side {
     }
 
     public int getRowAt(MoveAmount distanceFromBaseRow) {
-        // TODO 이 부분도 명령하는 방식으로 바꿀 수 있을 듯
         final int defaultFile = 5;
         Intersection targetIntersection =
                 forwardDirection.moveForward(new Intersection(baseRow, defaultFile), distanceFromBaseRow);

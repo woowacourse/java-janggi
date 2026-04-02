@@ -33,7 +33,6 @@ public class AlivePieces {
     }
 
     public Piece placedAt(Intersection intersection) {
-//        return alivePieces.get(intersection);
         return alivePieces.getOrDefault(intersection, new Piece(PieceType.EMPTY, Side.NONE));
     }
 
