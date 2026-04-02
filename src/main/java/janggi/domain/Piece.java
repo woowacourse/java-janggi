@@ -7,18 +7,16 @@ import janggi.exception.business.InvalidMoveException;
 import java.util.Objects;
 
 public class Piece {
-    private final MoveStrategy moveStorage;
     private final Team team;
     private final PieceType pieceType;
 
-    public Piece(MoveStrategy moveStorage, Team team, PieceType pieceType) {
-        this.moveStorage = moveStorage;
+    public Piece(Team team, PieceType pieceType) {
         this.team = team;
         this.pieceType = pieceType;
     }
 
     public void verifyMove(Position from, Position to, BoardState boardState) {
-        if (!moveStorage.canMove(from, to, boardState)) {
+        if (!pieceType.canMove(from, to, boardState)) {
             throw new InvalidMoveException();
         }
 
@@ -30,7 +28,7 @@ public class Piece {
     }
 
     public MoveStrategy getMoveStorage() {
-        return moveStorage;
+        return pieceType.getMoveStrategy();
     }
 
     public Team getTeam() {
@@ -45,11 +43,11 @@ public class Piece {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Piece piece = (Piece) o;
-        return Objects.equals(moveStorage, piece.moveStorage) && team == piece.team && pieceType == piece.pieceType;
+        return team == piece.team && pieceType == piece.pieceType;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(moveStorage, team, pieceType);
+        return Objects.hash(team, pieceType);
     }
 }
