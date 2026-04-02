@@ -5,38 +5,30 @@ import domain.Position;
 import domain.pieces.Elephant;
 import domain.pieces.Horse;
 import domain.pieces.Piece;
-import java.util.Map;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.util.Map;
 
 public class PieceGeneratorTest {
 
     @Test
     void 한나라_말_16개_생성() {
-        PieceGenerator pieceGenerator = new PieceGenerator();
-
-        Map<Position, Piece> board = pieceGenerator.generatePieces(Camp.HAN,
-                ElephantFormation.RIGHT);
+        Map<Position, Piece> board = PieceGenerator.generatePieces(Camp.HAN, ElephantFormation.RIGHT);
 
         Assertions.assertEquals(board.size(), 16);
     }
 
     @Test
     void 초나라_말_16개_생성() {
-        PieceGenerator pieceGenerator = new PieceGenerator();
-
-        Map<Position, Piece> board = pieceGenerator.generatePieces(Camp.CHO,
-                ElephantFormation.RIGHT);
+        Map<Position, Piece> board = PieceGenerator.generatePieces(Camp.CHO, ElephantFormation.RIGHT);
 
         Assertions.assertEquals(board.size(), 16);
     }
 
     @Test
     void 한나라_오른상차림() {
-        PieceGenerator pieceGenerator = new PieceGenerator();
-
-        Map<Position, Piece> board = pieceGenerator.generatePieces(Camp.HAN,
-                ElephantFormation.RIGHT);
+        Map<Position, Piece> board = PieceGenerator.generatePieces(Camp.HAN, ElephantFormation.RIGHT);
 
         Assertions.assertEquals(board.get(new Position(1, 0)).getClass(), Elephant.class);
         Assertions.assertEquals(board.get(new Position(2, 0)).getClass(), Horse.class);
@@ -46,10 +38,7 @@ public class PieceGeneratorTest {
 
     @Test
     void 한나라_왼상차림() {
-        PieceGenerator pieceGenerator = new PieceGenerator();
-
-        Map<Position, Piece> board = pieceGenerator.generatePieces(Camp.HAN,
-                ElephantFormation.LEFT);
+        Map<Position, Piece> board = PieceGenerator.generatePieces(Camp.HAN, ElephantFormation.LEFT);
 
         Assertions.assertEquals(board.get(new Position(1, 0)).getClass(), Horse.class);
         Assertions.assertEquals(board.get(new Position(2, 0)).getClass(), Elephant.class);
@@ -59,10 +48,7 @@ public class PieceGeneratorTest {
 
     @Test
     void 한나라_안상차림() {
-        PieceGenerator pieceGenerator = new PieceGenerator();
-
-        Map<Position, Piece> board = pieceGenerator.generatePieces(Camp.HAN,
-                ElephantFormation.INNER);
+        Map<Position, Piece> board = PieceGenerator.generatePieces(Camp.HAN, ElephantFormation.INNER);
 
         Assertions.assertEquals(board.get(new Position(1, 0)).getClass(), Horse.class);
         Assertions.assertEquals(board.get(new Position(2, 0)).getClass(), Elephant.class);
@@ -72,10 +58,7 @@ public class PieceGeneratorTest {
 
     @Test
     void 한나라_바깥상차림() {
-        PieceGenerator pieceGenerator = new PieceGenerator();
-
-        Map<Position, Piece> board = pieceGenerator.generatePieces(Camp.HAN,
-                ElephantFormation.OUTER);
+        Map<Position, Piece> board = PieceGenerator.generatePieces(Camp.HAN, ElephantFormation.OUTER);
 
         Assertions.assertEquals(board.get(new Position(1, 0)).getClass(), Elephant.class);
         Assertions.assertEquals(board.get(new Position(2, 0)).getClass(), Horse.class);
@@ -86,10 +69,7 @@ public class PieceGeneratorTest {
 
     @Test
     void 초나라_오른상차림() {
-        PieceGenerator pieceGenerator = new PieceGenerator();
-
-        Map<Position, Piece> board = pieceGenerator.generatePieces(Camp.CHO,
-                ElephantFormation.RIGHT);
+        Map<Position, Piece> board = PieceGenerator.generatePieces(Camp.CHO, ElephantFormation.RIGHT);
 
         Assertions.assertEquals(board.get(new Position(1, 9)).getClass(), Horse.class);
         Assertions.assertEquals(board.get(new Position(2, 9)).getClass(), Elephant.class);
@@ -99,10 +79,7 @@ public class PieceGeneratorTest {
 
     @Test
     void 초나라_왼상차림() {
-        PieceGenerator pieceGenerator = new PieceGenerator();
-
-        Map<Position, Piece> board = pieceGenerator.generatePieces(Camp.CHO,
-                ElephantFormation.LEFT);
+        Map<Position, Piece> board = PieceGenerator.generatePieces(Camp.CHO, ElephantFormation.LEFT);
 
         Assertions.assertEquals(board.get(new Position(1, 9)).getClass(), Elephant.class);
         Assertions.assertEquals(board.get(new Position(2, 9)).getClass(), Horse.class);
@@ -112,10 +89,7 @@ public class PieceGeneratorTest {
 
     @Test
     void 초나라_안상차림() {
-        PieceGenerator pieceGenerator = new PieceGenerator();
-
-        Map<Position, Piece> board = pieceGenerator.generatePieces(Camp.CHO,
-                ElephantFormation.INNER);
+        Map<Position, Piece> board = PieceGenerator.generatePieces(Camp.CHO, ElephantFormation.INNER);
 
         Assertions.assertEquals(board.get(new Position(1, 9)).getClass(), Horse.class);
         Assertions.assertEquals(board.get(new Position(2, 9)).getClass(), Elephant.class);
@@ -125,10 +99,7 @@ public class PieceGeneratorTest {
 
     @Test
     void 초나라_바깥상차림() {
-        PieceGenerator pieceGenerator = new PieceGenerator();
-
-        Map<Position, Piece> board = pieceGenerator.generatePieces(Camp.CHO,
-                ElephantFormation.OUTER);
+        Map<Position, Piece> board = PieceGenerator.generatePieces(Camp.CHO, ElephantFormation.OUTER);
 
         Assertions.assertEquals(board.get(new Position(1, 9)).getClass(), Elephant.class);
         Assertions.assertEquals(board.get(new Position(2, 9)).getClass(), Horse.class);

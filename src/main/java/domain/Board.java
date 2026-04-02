@@ -13,8 +13,7 @@ public class Board implements ExistBoard {
     private final Map<Position, Piece> board = new HashMap<>();
 
     public void generatePiecesBy(Camp camp, ElephantFormation elephantFormation) {
-        PieceGenerator pieceGenerator = new PieceGenerator();
-        Map<Position, Piece> pieces = pieceGenerator.generatePieces(camp, elephantFormation);
+        Map<Position, Piece> pieces = PieceGenerator.generatePieces(camp, elephantFormation);
 
         board.putAll(pieces);
     }
