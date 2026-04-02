@@ -59,11 +59,11 @@ public class Board {
         return findPiece(position).isPresent();
     }
 
-    public void canMove(Position startPosition, Position endPosition, TeamType nowTeam) {
+    public void canMove(Position startPosition, Position endPosition, TeamType playingTeam) {
         validateRange(startPosition);
         validateRange(endPosition);
-        Piece piece = findTeamPiece(startPosition, currentTeam(nowTeam));
-        validateTargetPosition(currentTeam(nowTeam), endPosition);
+        Piece piece = findTeamPiece(startPosition, currentTeam(playingTeam));
+        validateTargetPosition(currentTeam(playingTeam), endPosition);
         validateCanMove(piece, startPosition, endPosition);
     }
 
@@ -72,6 +72,7 @@ public class Board {
         Position endPosition,
         TeamType playingTeam
     ) {
+        canMove(startPosition, endPosition, playingTeam);
         Team movedCurrentTeam = currentTeam(playingTeam).move(startPosition, endPosition);
         Team remainedOpponentTeam = removeOpponentPiece(playingTeam, endPosition);
         return createMovedBoard(playingTeam, movedCurrentTeam, remainedOpponentTeam);
