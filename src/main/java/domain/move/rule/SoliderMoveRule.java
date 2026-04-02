@@ -23,12 +23,22 @@ public class SoliderMoveRule implements MoveRule {
     @Override
     public List<Point> findPathOfPoints(Intersection origin, Intersection destination) {
         Directions forward = DEFAULT_SOLIDER_DIRECTIONS.toForward(origin);
+        if (origin.isPalace()) {
+            Directions forwardDiagonal = getForwardDiagonal(origin);
+            return forward.add(forwardDiagonal)
+                    .findPoints(origin, destination);
+        }
         return forward.findPoints(origin, destination);
     }
 
     @Override
     public void validateMoveRule(Path path) {
         path.validateIsSameTeam();
+    }
+
+    private Directions getForwardDiagonal(Intersection origin) {
+        return origin.getDiagonalDirections()
+                .toForward(origin);
     }
 
     public static Directions initializeDirections() {
