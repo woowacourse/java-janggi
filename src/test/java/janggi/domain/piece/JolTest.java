@@ -61,26 +61,37 @@ class JolTest {
     }
 
     @Test
-    @DisplayName("졸이 후진하거나, 대각선으로 움직이거나, 두 칸 이상 이동할 경우 예외 발생")
-    void validateCanMove_Fail_InvalidPattern() {
+    @DisplayName("제자리로 이동할 경우 예외 발생")
+    void validateCanMove_Fail_Same_Position() {
         // given
-        Position chuStart = new Position(1, 4);
-        Position hanStart = new Position(1, 7);
+        Position start = new Position(4, 4);
+        Position sameEnd = new Position(4, 4);
 
+        // when & then
+        assertThatThrownBy(() -> chuJol.validateCanMove(start, sameEnd, board))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("출발지와 목적지가 동일합니다.");
+    }
+
+    @Test
+    @DisplayName("졸이 이동할 수 없는 위치일 경우 예외 발생")
+    void validateCanMove_Fail_Invalid_Position() {
+        // given
+        Position chuJolStart = new Position(4, 4);
+        Position chuJolInvalidEnd = new Position(4, 3);
+        Position hanJolStart = new Position(4, 4);
+        Position hanJolInvalidEnd = new Position(4, 5);
+        Position diagonalEnd = new Position(5, 5);
+
+        /// when & then
         assertAll(
-                () -> assertThatThrownBy(() -> chuJol.validateCanMove(chuStart, new Position(1, 3), board))
+                () -> assertThatThrownBy(() -> chuJol.validateCanMove(chuJolStart, chuJolInvalidEnd, board))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("이동할 수 없는 위치입니다."),
-                () -> assertThatThrownBy(() -> hanJol.validateCanMove(hanStart, new Position(1, 8), board))
+                () -> assertThatThrownBy(() -> hanJol.validateCanMove(hanJolStart, hanJolInvalidEnd, board))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("이동할 수 없는 위치입니다."),
-                () -> assertThatThrownBy(() -> chuJol.validateCanMove(chuStart, new Position(2, 5), board))
-                        .isInstanceOf(IllegalArgumentException.class)
-                        .hasMessage("이동할 수 없는 위치입니다."),
-                () -> assertThatThrownBy(() -> chuJol.validateCanMove(chuStart, new Position(1, 6), board))
-                        .isInstanceOf(IllegalArgumentException.class)
-                        .hasMessage("이동할 수 없는 위치입니다."),
-                () -> assertThatThrownBy(() -> chuJol.validateCanMove(chuStart, chuStart, board))
+                () -> assertThatThrownBy(() -> chuJol.validateCanMove(chuJolStart, diagonalEnd, board))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("이동할 수 없는 위치입니다.")
         );

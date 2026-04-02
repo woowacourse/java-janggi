@@ -1,8 +1,5 @@
 package janggi.domain.piece;
 
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
 import janggi.domain.Board;
 import janggi.domain.Position;
 import janggi.domain.side.TeamType;
@@ -11,6 +8,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class GungTest {
 
@@ -46,23 +46,17 @@ class GungTest {
                 .doesNotThrowAnyException();
     }
 
-    @ParameterizedTest
-    @DisplayName("한 칸을 초과하거나 제자리인 경우 예외 발생")
-    @CsvSource({
-            "5, 9, 5, 9",
-            "5, 9, 5, 7",
-            "5, 9, 3, 9",
-            "5, 9, 3, 7"
-    })
-    void validateCanMove_Fail_InvalidDistance(int startX, int startY, int endX, int endY) {
+    @Test
+    @DisplayName("제자리로 이동할 경우 예외 발생")
+    void validateCanMove_Fail_Same_Position() {
         // given
-        Position start = createPosition(startX, startY);
-        Position invalidDistanceEnd = createPosition(endX, endY);
+        Position start = new Position(4, 4);
+        Position sameEnd = new Position(4, 4);
 
         // when & then
-        assertThatThrownBy(() -> gung.validateCanMove(start, invalidDistanceEnd, board))
+        assertThatThrownBy(() -> gung.validateCanMove(start, sameEnd, board))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("이동할 수 없는 위치입니다.");
+                .hasMessage("출발지와 목적지가 동일합니다.");
     }
 
     @Test

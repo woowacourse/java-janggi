@@ -23,23 +23,30 @@ public class Po extends Piece {
 
     @Override
     public void validateCanMove(Position start, Position end, Board board) {
-        if (!isValidMovePattern(start, end)) {
-            throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
-        }
-
-        validateObstacles(start, end, board);
+        MovePath movePath = findMovePath(start, end);
+        validateObstacles(movePath, start, end, board);
     }
 
-    private boolean isValidMovePattern(Position start, Position end) {
-        return findMovePath(start, end).isPresent();
+    private MovePath findMovePath(Position start, Position end) {
+        if (isSamePosition(start, end)) {
+            throw new IllegalArgumentException("출발지와 목적지가 동일합니다.");
+        }
+
+        int dx = start.deltaX(end);
+        int dy = start.deltaY(end);
+
+        return PATHS.stream()
+                .filter(path -> path.matchesDirection(dx, dy))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("이동할 수 없는 위치입니다."));
     }
 
-    private void validateObstacles(Position start, Position end, Board board) {
-        Optional<MovePath> movePath = findMovePath(start, end);
-        if (movePath.isEmpty()) {
-            throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
-        }
-        List<Position> intermediatePositions = movePath.get().intermediatePositions(start, end);
+    private boolean isSamePosition(Position start, Position end) {
+        return start.isSamePosition(end);
+    }
+
+    private void validateObstacles(MovePath movePath, Position start, Position end, Board board) {
+        List<Position> intermediatePositions = movePath.intermediatePositions(start, end);
         List<Piece> obstacles = intermediatePositions.stream()
                 .map(board::findPiece)
                 .filter(Optional::isPresent)
@@ -54,22 +61,5 @@ public class Po extends Piece {
         if (obstacles.getFirst().getPieceType() == PieceType.PO) {
             throw new IllegalArgumentException("포는 포를 넘을 수 없습니다.");
         }
-    }
-
-    private Optional<MovePath> findMovePath(Position start, Position end) {
-        if (isSamePosition(start, end)) {
-            return Optional.empty();
-        }
-
-        int dx = start.deltaX(end);
-        int dy = start.deltaY(end);
-
-        return PATHS.stream()
-            .filter(path -> path.matchesDirection(dx, dy))
-            .findFirst();
-    }
-
-    private boolean isSamePosition(Position start, Position end) {
-        return start.isSamePosition(end);
     }
 }

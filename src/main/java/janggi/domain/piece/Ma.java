@@ -5,8 +5,8 @@ import janggi.domain.Delta;
 import janggi.domain.MovePath;
 import janggi.domain.Position;
 import janggi.domain.side.TeamType;
+
 import java.util.List;
-import java.util.Optional;
 
 public class Ma extends Piece {
 
@@ -27,39 +27,30 @@ public class Ma extends Piece {
 
     @Override
     public void validateCanMove(Position start, Position end, Board board) {
-        if (!isValidMovePattern(start, end)) {
-            throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
-        }
-
-        if (!isObstaclesNotExist(start, end, board)) {
-            throw new IllegalArgumentException("이동 경로에 기물이 존재하여 이동할 수 없습니다.");
-        }
+        MovePath movePath = findMovePath(start, end);
+        validatePieceInPath(movePath, start, end, board);
     }
 
-    private boolean isValidMovePattern(Position start, Position end) {
-        return findMovePath(start, end).isPresent();
-    }
-
-    private boolean isObstaclesNotExist(Position startPosition, Position endPosition, Board board) {
-        Optional<MovePath> movePath = findMovePath(startPosition, endPosition);
-        if (movePath.isEmpty()) {
-            return false;
-        }
-        return movePath.get().intermediatePositions(startPosition, endPosition).stream()
-                .noneMatch(board::hasPiece);
-    }
-
-    private Optional<MovePath> findMovePath(Position start, Position end) {
+    private MovePath findMovePath(Position start, Position end) {
         if (isSamePosition(start, end)) {
-            return Optional.empty();
+            throw new IllegalArgumentException("출발지와 목적지가 동일합니다.");
         }
 
         int dx = start.deltaX(end);
         int dy = start.deltaY(end);
 
         return PATHS.stream()
-            .filter(path -> path.matches(dx, dy))
-            .findFirst();
+                .filter(path -> path.matches(dx, dy))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("이동할 수 없는 위치입니다."));
+
+    }
+
+    private void validatePieceInPath(MovePath movePath, Position start, Position end, Board board) {
+        if (movePath.intermediatePositions(start, end).stream()
+                .anyMatch(board::hasPiece)) {
+            throw new IllegalArgumentException("이동 경로에 기물이 존재하여 이동할 수 없습니다.");
+        }
     }
 
     private boolean isSamePosition(Position start, Position end) {

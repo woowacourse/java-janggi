@@ -1,9 +1,5 @@
 package janggi.domain.piece;
 
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertAll;
-
 import janggi.domain.Board;
 import janggi.domain.Position;
 import janggi.domain.side.TeamType;
@@ -12,6 +8,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class PoTest {
 
@@ -42,16 +41,28 @@ class PoTest {
     }
 
     @Test
-    @DisplayName("직선 경로가 아니거나 제자리 이동일 경우 예외 발생")
-    void validateCanMove_Fail_InvalidPattern() {
+    @DisplayName("제자리로 이동할 경우 예외 발생")
+    void validateCanMove_Fail_Same_Position() {
+        // given
         Position start = new Position(4, 4);
+        Position sameEnd = new Position(4, 4);
 
-        assertAll(
-                () -> assertThatThrownBy(() -> po.validateCanMove(start, new Position(5, 5), board))
-                        .isInstanceOf(IllegalArgumentException.class),
-                () -> assertThatThrownBy(() -> po.validateCanMove(start, start, board))
-                        .isInstanceOf(IllegalArgumentException.class)
-        );
+        // when & then
+        assertThatThrownBy(() -> po.validateCanMove(start, sameEnd, board))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("출발지와 목적지가 동일합니다.");
+    }
+
+    @Test
+    @DisplayName("포가 이동할 수 없는 위치일 경우 예외 발생")
+    void validateCanMove_Fail_InvalidPattern() {
+        // given
+        Position start = new Position(4, 4);
+        Position invalidEnd = new Position(5, 5);
+
+        // when & then
+        assertThatThrownBy(() -> po.validateCanMove(start, invalidEnd, board))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test

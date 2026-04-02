@@ -43,22 +43,35 @@ class SangTest {
     }
 
     @Test
-    @DisplayName("상의 행마 패턴(대형 L자)이 아닐 경우 예외 발생")
-    void validateCanMove_Fail_InvalidPattern() {
+    @DisplayName("제자리로 이동할 경우 예외 발생")
+    void validateCanMove_Fail_Same_Position() {
+        // given
+        Position start = new Position(4, 4);
+        Position sameEnd = new Position(4, 4);
+
+        // when & then
+        assertThatThrownBy(() -> sang.validateCanMove(start, sameEnd, board))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("출발지와 목적지가 동일합니다.");
+    }
+
+    @Test
+    @DisplayName("상이 이동할 수 없는 위치일 경우 예외 발생")
+    void validateCanMove_Fail_Invalid_Position() {
         Position start = new Position(4, 4);
 
         assertAll(
                 () -> assertThatThrownBy(() -> sang.validateCanMove(start, new Position(4, 7), board))
-                        .isInstanceOf(IllegalArgumentException.class),
-                () -> assertThatThrownBy(() -> sang.validateCanMove(start, new Position(5, 6), board))
-                        .isInstanceOf(IllegalArgumentException.class),
-                () -> assertThatThrownBy(() -> sang.validateCanMove(start, start, board))
                         .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("이동할 수 없는 위치입니다."),
+                () -> assertThatThrownBy(() -> sang.validateCanMove(start, new Position(5, 6), board))
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("이동할 수 없는 위치입니다.")
         );
     }
 
     @ParameterizedTest
-    @DisplayName("상 이동 경로의 첫 번째 멱(직선)이나 두 번째 멱(대각선)에 기물이 있을 경우 예외 발생")
+    @DisplayName("이동 경로 중간에 기물이 존재할 경우 예외 발생")
     @CsvSource({
             "4, 4, 7, 6",
             "4, 4, 1, 6",

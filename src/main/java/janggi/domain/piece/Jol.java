@@ -5,8 +5,8 @@ import janggi.domain.Delta;
 import janggi.domain.MovePath;
 import janggi.domain.Position;
 import janggi.domain.side.TeamType;
+
 import java.util.List;
-import java.util.Optional;
 
 public class Jol extends Piece {
 
@@ -28,26 +28,17 @@ public class Jol extends Piece {
 
     @Override
     public void validateCanMove(Position start, Position end, Board board) {
-        if (!isValidMovePattern(start, end)) {
-            throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
-        }
-    }
-
-    private boolean isValidMovePattern(Position start, Position end) {
-        return findMovePath(start, end).isPresent();
-    }
-
-    private Optional<MovePath> findMovePath(Position start, Position end) {
         if (isSamePosition(start, end)) {
-            return Optional.empty();
+            throw new IllegalArgumentException("출발지와 목적지가 동일합니다.");
         }
 
         int dx = start.deltaX(end);
         int dy = start.deltaY(end);
 
-        return selectPaths(getTeamType()).stream()
-            .filter(path -> path.matches(dx, dy))
-            .findFirst();
+        selectPaths(getTeamType()).stream()
+                .filter(path -> path.matches(dx, dy))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("이동할 수 없는 위치입니다."));
     }
 
     private boolean isSamePosition(Position start, Position end) {
