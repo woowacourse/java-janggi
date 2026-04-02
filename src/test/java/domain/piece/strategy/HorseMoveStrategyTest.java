@@ -21,7 +21,7 @@ class HorseMoveStrategyTest {
     }
 
     @Test
-    void 마가_정상적으로_이동하면_멱과_목적지_경로를_반환한다() {
+    void 마는_직선으로_한_칸_이동_후_대각선으로_한_칸_이동하는_경로를_가진다() {
         Position from = new Position(8, 0);
         Position to = new Position(7, 2);
 
