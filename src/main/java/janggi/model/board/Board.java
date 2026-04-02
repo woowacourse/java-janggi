@@ -9,7 +9,7 @@ public interface Board {
 
     Board move(Team team, Position from, Position to);
 
-    boolean isGameOver();
+    boolean isWinnerDetermined();
 
     Map<Position, Piece> getBoard();
 

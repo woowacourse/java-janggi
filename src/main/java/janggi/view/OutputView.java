@@ -20,4 +20,8 @@ public class OutputView {
     public void printToPositionMessage() {
         System.out.println("이동 시킬 위치를 입력하세요:");
     }
+
+    public void printInputContinuePrompt() {
+        System.out.println("게임을 계속 진행하시겠습니까? (y, n)");
+    }
 }

@@ -158,7 +158,7 @@ class PlayingBoardTest {
         Board moved = board.move(cho, from, to);
 
         //then
-        assertThat(moved.isGameOver())
+        assertThat(moved.isWinnerDetermined())
                 .isTrue();
         assertThat(moved.winner())
                 .isEqualTo(Team.CHO);

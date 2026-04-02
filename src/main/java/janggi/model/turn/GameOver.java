@@ -2,17 +2,9 @@ package janggi.model.turn;
 
 import janggi.model.Team;
 import janggi.model.board.Board;
-import janggi.model.piece.Piece;
 import janggi.model.position.absolute.Position;
-import java.util.Map;
 
-public class GameOver implements Turn {
-
-    private final Board board;
-
-    public GameOver(Board board) {
-        this.board = board;
-    }
+public record GameOver(Board board) implements Turn {
 
     @Override
     public Turn play(Position from, Position to) {
@@ -25,7 +17,7 @@ public class GameOver implements Turn {
     }
 
     @Override
-    public Map<Position, Piece> getBoard() {
+    public Board board() {
         throw new IllegalStateException("게임이 이미 종료됐습니다.");
     }
 
@@ -36,11 +28,21 @@ public class GameOver implements Turn {
 
     @Override
     public Team getWinner() {
-        return board.winner();
+        if (board.isWinnerDetermined()) {
+            return board.winner();
+        }
+
+        int scoreOfCho = getTotalScoreOf(Team.CHO);
+        int scoreOfHan = getTotalScoreOf(Team.HAN);
+
+        if (scoreOfCho <= scoreOfHan) {
+            return Team.HAN;
+        }
+
+        return Team.CHO;
     }
 
-    @Override
-    public int getTotalScoreOf(Team team) {
+    private int getTotalScoreOf(Team team) {
         return board.getBoard().values().stream()
                 .filter(value -> value.isSameTeam(team))
                 .mapToInt(value -> value.getPieceType().getScore())

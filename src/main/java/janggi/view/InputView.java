@@ -34,4 +34,18 @@ public class InputView {
                 Parser.parse(parts[COLUMN_INDEX].trim())
         );
     }
+
+    public boolean readYesOrNo() {
+        String input = scanner.nextLine();
+
+        if ("y".equals(input)) {
+            return true;
+        }
+
+        if ("n".equals(input)) {
+            return false;
+        }
+
+        throw new IllegalArgumentException("유효하지 않은 값이 입력됐스니다.");
+    }
 }

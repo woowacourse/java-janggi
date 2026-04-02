@@ -31,10 +31,17 @@ public class JanggiController {
                     readFromPosition(),
                     readToPosition()
             );
+
+            outputView.printInputContinuePrompt();
+            boolean isContinued = inputView.readYesOrNo();
+
+            if (!isContinued) {
+                janggi = janggi.draw();
+                break;
+            }
         }
 
         Team winner = janggi.getWinner();
-
     }
 
     private Janggi setUpJanggi() {
