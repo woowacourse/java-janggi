@@ -2,8 +2,8 @@ package janggi.domain.piece;
 
 import janggi.domain.board.Position;
 import janggi.domain.movestrategy.MoveStrategy;
+
 import java.util.List;
-import java.util.Map;
 
 public class Piece {
     private final Team team;
@@ -50,9 +50,5 @@ public class Piece {
 
     public boolean canCapture(Piece from, Piece to) {
         return moveStrategy.canCapture(from, to);
-    }
-
-    public boolean determineMovingRule(Map<Position, Piece> positionPieces, Position to) {
-        return moveStrategy.determineMovingRule(this, positionPieces, to);
     }
 }

@@ -36,16 +36,6 @@ public class SoliderStrategy implements MoveStrategy {
     }
 
     @Override
-    public boolean determineMovingRule(Piece sourcePiece, Map<Position, Piece> positionPieces, Position to) {
-        for (Piece piece : positionPieces.values()) {
-            if (piece.isSameTeam(sourcePiece)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    @Override
     public PieceType getIdentity() {
         return PieceType.SOLDIER;
     }

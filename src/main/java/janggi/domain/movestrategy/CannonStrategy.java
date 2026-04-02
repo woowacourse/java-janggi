@@ -6,7 +6,6 @@ import janggi.domain.piece.PieceType;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class CannonStrategy implements MoveStrategy {
 
@@ -24,29 +23,6 @@ public class CannonStrategy implements MoveStrategy {
             nextPosition = nextPosition.moveStraight(to);
         }
         return path;
-    }
-
-    @Override
-    public boolean determineMovingRule(Piece sourcePiece, Map<Position, Piece> positionPieces, Position to) {
-        if (positionPieces.size() >= 3) {
-            return false;
-        }
-        long count = positionPieces.values().stream()
-                .filter(piece -> sourcePiece.getPieceName().equals(piece.getPieceName()))
-                .count();
-        if (count != 0) {
-            return false;
-        }
-
-        if (positionPieces.size() == 2) {
-            if (positionPieces.containsKey(to)) {
-                Piece piece = positionPieces.get(to);
-                return !piece.isSameTeam(sourcePiece);
-            }
-            return false;
-        }
-
-        return !positionPieces.containsKey(to);
     }
 
     @Override

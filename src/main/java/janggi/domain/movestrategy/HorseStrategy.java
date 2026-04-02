@@ -5,7 +5,6 @@ import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 
 import java.util.List;
-import java.util.Map;
 
 public class HorseStrategy implements MoveStrategy{
 
@@ -18,20 +17,6 @@ public class HorseStrategy implements MoveStrategy{
     public List<Position> findPath(Position from, Position to) {
         Position mid = from.moveStraight(to);
         return List.of(mid);
-    }
-
-    @Override
-    public boolean determineMovingRule(Piece sourcePiece, Map<Position, Piece> positionPieces, Position to) {
-        if (positionPieces.size() >= 2) {
-            return false;
-        }
-        for (Position position : positionPieces.keySet()) {
-            if (position.equals(to)) {
-                return !sourcePiece.isSameTeam(positionPieces.get(position));
-            }
-            return false;
-        }
-        return true;
     }
 
     @Override

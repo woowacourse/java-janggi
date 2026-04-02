@@ -5,7 +5,6 @@ import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 
 import java.util.List;
-import java.util.Map;
 
 public class GuardStrategy implements MoveStrategy {
 
@@ -17,16 +16,6 @@ public class GuardStrategy implements MoveStrategy {
     @Override
     public List<Position> findPath(Position from, Position to) {
         return List.of();
-    }
-
-    @Override
-    public boolean determineMovingRule(Piece sourcePiece, Map<Position, Piece> positionPieces, Position to) {
-        for (Piece piece : positionPieces.values()) {
-            if (piece.isSameTeam(sourcePiece)) {
-                return false;
-            }
-        }
-        return true;
     }
 
     @Override

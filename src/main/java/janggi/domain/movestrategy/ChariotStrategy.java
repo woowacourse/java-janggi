@@ -6,7 +6,6 @@ import janggi.domain.piece.PieceType;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class ChariotStrategy implements MoveStrategy{
 
@@ -24,20 +23,6 @@ public class ChariotStrategy implements MoveStrategy{
             nextPosition = nextPosition.moveStraight(to);
         }
         return path;
-    }
-
-    @Override
-    public boolean determineMovingRule(Piece sourcePiece, Map<Position, Piece> positionPieces, Position to) {
-        if (positionPieces.size() >= 2) {
-            return false;
-        }
-        for (Position position : positionPieces.keySet()) {
-            if (position.equals(to)) {
-                return !sourcePiece.isSameTeam(positionPieces.get(position));
-            }
-            return false;
-        }
-        return true;
     }
 
     @Override
