@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static domain.move.directions.Vector.DOWN;
 import static domain.move.directions.Vector.UP;
 
 class DirectionTest {
@@ -111,6 +112,28 @@ class DirectionTest {
 
         // when
         Directions actual = Directions.cumulative(UP, 9);
+
+        // then
+        Assertions.assertThat(actual)
+                .isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("이동 방향에 새로운 이동 방향을 추가할 수 있다.")
+    void directionsCanAddAdditionalDirections() {
+        // given
+        Directions expected = new Directions(List.of(
+                new Direction(List.of(UP)),
+                new Direction(List.of(UP, UP)),
+                new Direction(List.of(DOWN)),
+                new Direction(List.of(DOWN, DOWN))
+        ));
+
+        Directions upDirections = Directions.cumulative(UP, 2);
+        Directions downDirections = Directions.cumulative(DOWN, 2);
+
+        // when
+        Directions actual = upDirections.add(downDirections);
 
         // then
         Assertions.assertThat(actual)
