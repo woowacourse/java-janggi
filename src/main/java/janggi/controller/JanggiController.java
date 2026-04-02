@@ -25,14 +25,7 @@ public class JanggiController {
         Board board = BoardGenerator.generate(setupRedTeam(), setupBlueTeam());
         TurnManager turnManager = new TurnManager();
         while (board.hasTwoGeneral()) {
-            OutputView.printBoard(BoardDto.from(board), turnManager.currentTeamType());
-            Position from = findFromPosition(board, turnManager);
-            Piece piece = board.getPieceInPosition(from);
-            List<Position> movable = piece.calculateMovablePositions(from, board);
-            OutputView.printBoardWithMovable(BoardDto.from(board, movable));
-            Position to = RetryExecutor.retry(() -> inputToPosition(movable));
-            board.changeBoard(from, to);
-            turnManager.changeTurn();
+            playTurn(board, turnManager);
         }
         OutputView.printGameOverMessage(turnManager.currentTeamType());
     }
@@ -54,6 +47,17 @@ public class JanggiController {
     private SetupStrategy readSetupCommand() {
         int inputCommand = InputView.readSetupCommand();
         return SetupStrategy.from(inputCommand);
+    }
+
+    private void playTurn(Board board, TurnManager turnManager) {
+        OutputView.printBoard(BoardDto.from(board), turnManager.currentTeamType());
+        Position from = findFromPosition(board, turnManager);
+        Piece piece = board.getPieceInPosition(from);
+        List<Position> movable = piece.calculateMovablePositions(from, board);
+        OutputView.printBoardWithMovable(BoardDto.from(board, movable));
+        Position to = RetryExecutor.retry(() -> inputToPosition(movable));
+        board.changeBoard(from, to);
+        turnManager.changeTurn();
     }
 
     private Position findFromPosition(Board board, TurnManager turnManager) {
