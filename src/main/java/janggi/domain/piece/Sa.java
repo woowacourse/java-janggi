@@ -38,6 +38,5 @@ public class Sa extends Piece {
                 .filter(path -> path.matches(dx, dy))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("이동할 수 없는 위치입니다."));
-
     }
 }

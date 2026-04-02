@@ -43,7 +43,6 @@ public class Ma extends Piece {
                 .filter(path -> path.matches(dx, dy))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("이동할 수 없는 위치입니다."));
-
     }
 
     private void validatePieceInPath(MovePath movePath, Position start, Position end, Board board) {
