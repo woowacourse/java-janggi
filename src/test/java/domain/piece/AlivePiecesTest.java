@@ -1,0 +1,229 @@
+package domain.piece;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+import domain.board.Intersection;
+import domain.game.Side;
+import java.util.Map;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+
+class AlivePiecesTest {
+
+    private static final Side SIDE = Side.HAN;
+    private static final Side OPPOSITE_SIDE = Side.CHO;
+    private static final Piece DEFAULT_PIECE = new Soldier(Side.HAN);
+    private static final Intersection DEFAULT_INTERSECTION = new Intersection(5, 5);
+
+    private Intersection emptyIntersection;
+    private Intersection notEmptyIntersection;
+    private Intersection sameSideIntersection;
+    private Intersection oppositeSideIntersection;
+    private AlivePieces alivePieces;
+
+    @BeforeEach
+    void setUpPieces() {
+        emptyIntersection = new Intersection(3, 3);
+        notEmptyIntersection = new Intersection(4, 4);
+        sameSideIntersection = new Intersection(5, 5);
+        oppositeSideIntersection = new Intersection(6, 6);
+
+        Map<Intersection, Piece> pieces = Map.of(
+                notEmptyIntersection, DEFAULT_PIECE,
+                sameSideIntersection, new Soldier(SIDE),
+                oppositeSideIntersection, new Soldier(OPPOSITE_SIDE)
+        );
+
+        alivePieces = new AlivePieces(pieces);
+    }
+
+    @Nested
+    class 기물을_이동시킨다 {
+
+        @Test
+        void 시작_위치에_있던_기물을_목적지로_이동시킨다() {
+            // given
+            Intersection startIntersection = new Intersection(3, 3);
+            Intersection destination = new Intersection(5, 5);
+
+            AlivePieces alivePieces = new AlivePieces(Map.of(
+                    startIntersection, DEFAULT_PIECE
+            ));
+
+            // when
+            alivePieces.replace(startIntersection, destination);
+
+            // then
+            Piece pieceAtDestination = alivePieces.placedAt(destination);
+            assertThat(pieceAtDestination).isEqualTo(DEFAULT_PIECE);
+        }
+
+        @Test
+        void 기존_위치에_있던_기물_정보는_제거한다() {
+            // given
+            Intersection existIntersection = new Intersection(3, 3);
+            Intersection destination = new Intersection(5, 5);
+
+            AlivePieces alivePieces = new AlivePieces(Map.of(
+                    existIntersection, DEFAULT_PIECE
+            ));
+
+            // when
+            alivePieces.replace(existIntersection, destination);
+
+            // then
+            Piece pieceAtExistIntersection = alivePieces.placedAt(existIntersection);
+            assertThat(pieceAtExistIntersection).isNull();
+        }
+
+        @Test
+        void 목적지에_존재하던_기물_정보는_제거한다() {
+            // given
+            Intersection startIntersection = new Intersection(3, 3);
+            Intersection destination = new Intersection(5, 5);
+
+            Piece pieceAtStart = new Soldier(Side.HAN);
+            Piece pieceAtDestination = new Soldier(Side.CHO);
+
+            AlivePieces alivePieces = new AlivePieces(Map.of(
+                    startIntersection, pieceAtStart,
+                    destination, pieceAtDestination
+            ));
+
+            // when
+            alivePieces.replace(startIntersection, destination);
+
+            // then
+            Piece currentPieceAtDestination = alivePieces.placedAt(destination);
+            assertThat(currentPieceAtDestination).isNotEqualTo(pieceAtDestination);
+        }
+
+        @Test
+        void 시작_위치에_기물이_없다면_아무_동작도_수행하지_않는다() {
+            Map<Intersection, Piece> piecesBeforeReplace = alivePieces.get();
+            alivePieces.replace(emptyIntersection, DEFAULT_INTERSECTION);
+            Map<Intersection, Piece> piecesAfterReplace = alivePieces.get();
+
+            assertThat(piecesAfterReplace).isEqualTo(piecesBeforeReplace);
+        }
+    }
+
+    @Nested
+    class 좌표가_비어_있는지를_판단한다 {
+
+        @Test
+        void 비어_있는_좌표라면_true를_반환한다() {
+            boolean result = alivePieces.isEmpty(emptyIntersection);
+
+            assertThat(result).isTrue();
+        }
+
+        @Test
+        void 상대_기물이_배치되어_있다면_false를_반환한다() {
+            boolean result = alivePieces.isEmpty(oppositeSideIntersection);
+
+            assertThat(result).isFalse();
+        }
+
+        @Test
+        void 아군_기물이_배치되어_있다면_true를_반환한다() {
+            boolean result = alivePieces.isEmpty(sameSideIntersection);
+
+            assertThat(result).isFalse();
+        }
+    }
+
+    @Nested
+    class 좌표에_배치된_기물을_반환한다 {
+
+        @Test
+        void 비어_있는_좌표라면_null을_반환한다() {
+            Piece piece = alivePieces.placedAt(emptyIntersection);
+
+            assertThat(piece).isNull();
+        }
+
+        @Test
+        void 비어_있지_않은_좌표라면_기물을_반환한다() {
+            Piece piece = alivePieces.placedAt(notEmptyIntersection);
+
+            assertThat(piece).isNotNull();
+        }
+    }
+
+    @Nested
+    class 같은_진영_기물이_배치되어_있는지를_판단한다 {
+
+        @Test
+        void 같은_진영_기물이_배치되어_있다면_true를_반환한다() {
+            boolean result = alivePieces.placedSameSide(sameSideIntersection, SIDE);
+
+            assertThat(result).isTrue();
+        }
+
+        @Test
+        void 상대_진영_기물이_배치되어_있다면_false를_반환한다() {
+            boolean result = alivePieces.placedSameSide(oppositeSideIntersection, SIDE);
+
+            assertThat(result).isFalse();
+        }
+
+        @Test
+        void 빈_좌표라면_false를_반환한다() {
+            boolean result = alivePieces.placedSameSide(emptyIntersection, SIDE);
+
+            assertThat(result).isFalse();
+        }
+    }
+
+    @Nested
+    class 같은_진영_기물이_안_배치되어_있는지를_판단한다 {
+
+        @Test
+        void 상대_진영_기물이_배치되어_있다면_true를_반환한다() {
+            boolean result = alivePieces.placedNotSameSide(oppositeSideIntersection, SIDE);
+
+            assertThat(result).isTrue();
+        }
+
+        @Test
+        void 빈_좌표라면_true를_반환한다() {
+            boolean result = alivePieces.placedNotSameSide(emptyIntersection, SIDE);
+
+            assertThat(result).isTrue();
+        }
+
+        @Test
+        void 같은_진영_기물이_배치되어_있다면_false를_반환한다() {
+            boolean result = alivePieces.placedNotSameSide(sameSideIntersection, SIDE);
+
+            assertThat(result).isFalse();
+        }
+    }
+
+    @Nested
+    class 상대_진영_기물이_배치되어_있는지를_판단한다 {
+
+        @Test
+        void 상대_진영_기물이_배치되어_있다면_true를_반환한다() {
+            boolean result = alivePieces.placedOppositeSide(oppositeSideIntersection, SIDE);
+
+            assertThat(result).isTrue();
+        }
+
+        @Test
+        void 같은_진영_기물이_배치되어_있다면_false를_반환한다() {
+            boolean result = alivePieces.placedOppositeSide(sameSideIntersection, SIDE);
+
+            assertThat(result).isFalse();
+        }
+
+        @Test
+        void 빈_좌표라면_false를_반환한다() {
+            boolean result = alivePieces.placedOppositeSide(emptyIntersection, SIDE);
+
+            assertThat(result).isFalse();
+        }
+    }
+}

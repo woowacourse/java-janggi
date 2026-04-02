@@ -1,0 +1,64 @@
+package domain.piece;
+
+import domain.board.Intersection;
+import domain.game.Side;
+import domain.movement.MoveAmount;
+import domain.movement.Route;
+import domain.movement.Vector;
+import domain.movement.strategy.ForwardAndDiagonal;
+import domain.movement.strategy.MoveStrategy;
+import java.util.ArrayList;
+import java.util.List;
+
+public final class Elephant extends Piece {
+
+    private static final MoveAmount DIAGONAL_MOVE_DISTANCE = new MoveAmount(2);
+
+    private final MoveStrategy moveStrategy = new ForwardAndDiagonal(DIAGONAL_MOVE_DISTANCE);
+
+    public Elephant(Side side) {
+        super(side);
+    }
+
+    @Override
+    public boolean canMove(
+            Intersection from,
+            Intersection to,
+            AlivePieces alivePieces
+    ) {
+        return movableIntersections(from, alivePieces)
+                .contains(to);
+    }
+
+    @Override
+    public List<Intersection> movableIntersections(
+            Intersection from,
+            AlivePieces alivePieces
+    ) {
+        List<Intersection> movableIntersections = new ArrayList<>();
+
+        for (Vector vector : Vector.cardinals()) {
+            List<Intersection> reachableDestinations = findReachableDestinations(from, vector, alivePieces);
+            movableIntersections.addAll(reachableDestinations);
+        }
+
+        return List.copyOf(movableIntersections);
+    }
+
+    @Override
+    public boolean canBelongToWing() {
+        return true;
+    }
+
+    private List<Intersection> findReachableDestinations(
+            Intersection from,
+            Vector vector,
+            AlivePieces alivePieces
+    ) {
+        return moveStrategy.getRoutes(from, vector)
+                .stream()
+                .filter(route -> route.canReachDestinationThroughPath(alivePieces, side))
+                .map(Route::getDestination)
+                .toList();
+    }
+}
