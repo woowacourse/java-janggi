@@ -1,7 +1,7 @@
 package janggi.model.initializer;
 
+import janggi.model.Board;
 import janggi.model.Team;
-import janggi.model.board.Board;
 import janggi.model.piece.Byeong;
 import janggi.model.piece.Piece;
 import janggi.model.piece.palace.Jang;
