@@ -8,6 +8,8 @@ public interface Piece {
 
     List<Position> searchRoute(Position source, Position target);
 
+    void validateRoute(List<Piece> piecesOnRoute, Piece destinationPiece);
+
     boolean isNotEmpty();
 
     boolean isAlly(Piece other);

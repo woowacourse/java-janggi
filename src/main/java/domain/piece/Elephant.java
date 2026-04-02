@@ -44,8 +44,4 @@ public class Elephant extends ActivePiece {
         return List.of(mid, mid.middlePosition(target));
     }
 
-    @Override
-    public boolean isCannon() {
-        return false;
-    }
 }

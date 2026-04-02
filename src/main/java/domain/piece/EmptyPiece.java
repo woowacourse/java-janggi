@@ -26,6 +26,10 @@ public class EmptyPiece implements Piece {
     }
 
     @Override
+    public void validateRoute(List<Piece> piecesOnRoute, Piece destinationPiece) {
+    }
+
+    @Override
     public boolean isNotEmpty() {
         return false;
     }

@@ -18,6 +18,27 @@ public abstract class ActivePiece implements Piece {
         return other instanceof ActivePiece activePiece && this.team == activePiece.team;
     }
 
+    @Override
+    public void validateRoute(List<Piece> piecesOnRoute, Piece destinationPiece) {
+        for (Piece piece : piecesOnRoute) {
+            if (piece.isNotEmpty()) {
+                throw new IllegalArgumentException("이동 경로에 기물이 있습니다.");
+            }
+        }
+        validateDestination(destinationPiece);
+    }
+
+    private void validateDestination(Piece destinationPiece) {
+        if (destinationPiece.isAlly(this)) {
+            throw new IllegalArgumentException("아군 기물이 있는 위치로 이동할 수 없습니다.");
+        }
+    }
+
+    @Override
+    public boolean isCannon() {
+        return false;
+    }
+
     protected int forwardDirection() {
         return team.forwardRowDirection();
     }

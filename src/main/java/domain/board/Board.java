@@ -1,12 +1,12 @@
 package domain.board;
 
-import domain.piece.ActivePiece;
 import domain.piece.EmptyPiece;
 import domain.piece.Piece;
 import domain.position.Position;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Board {
     private final Map<Position, Piece> pieces;
@@ -19,53 +19,16 @@ public class Board {
         Piece piece = pieceAt(source);
         validateCanMove(piece, source, destination);
         List<Position> route = piece.searchRoute(source, destination);
-        if (piece.isCannon()) {
-            validateCannonRoute(route, destination);
-        } else {
-            validateIntermediateRoute(route);
-        }
-        validateDestination(destination, piece);
+        List<Piece> piecesOnRoute = route.stream()
+                .map(this::pieceAt)
+                .collect(Collectors.toList());
+        piece.validateRoute(piecesOnRoute, pieceAt(destination));
         applyMove(source, destination, piece);
-    }
-
-    private void validateCannonRoute(List<Position> route, Position destination) {
-        int count = 0;
-        for (Position position : route) {
-            if (pieceAt(position).isCannon()) {
-                throw new IllegalArgumentException("포는 포를 넘지 못합니다.");
-            }
-
-            if (pieceAt(position).isNotEmpty()) {
-                count++;
-            }
-        }
-
-        if (count != 1) {
-            throw new IllegalArgumentException("포가 넘을 수 있는 기물의 개수는 하나입니다.");
-        }
-
-        if (pieceAt(destination).isCannon()) {
-            throw new IllegalArgumentException("포는 포를 잡을 수 없습니다.");
-        }
     }
 
     private void validateCanMove(Piece piece, Position source, Position destination) {
         if (!piece.canMove(source, destination)) {
             throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
-        }
-    }
-
-    private void validateIntermediateRoute(List<Position> route) {
-        for (Position position : route) {
-            if (pieceAt(position).isNotEmpty()) {
-                throw new IllegalArgumentException("이동 경로에 기물이 있습니다.");
-            }
-        }
-    }
-
-    private void validateDestination(Position destination, Piece movingPiece) {
-        if (pieceAt(destination).isAlly(movingPiece)) {
-            throw new IllegalArgumentException("아군 기물이 있는 위치로 이동할 수 없습니다.");
         }
     }
 
