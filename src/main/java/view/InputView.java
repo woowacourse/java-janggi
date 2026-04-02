@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.regex.PatternSyntaxException;
 
+import dto.PositionDto;
 import dto.PossibleMovesDto;
 import view.message.InitialFormationFormatter;
 import view.message.SideView;
@@ -66,8 +67,8 @@ public class InputView {
             int index = INIT_INDEX_COUNT;
 
             System.out.println();
-            for (Position possibleMove : possibleMovesDto.possibleMoves()) {
-                System.out.printf("%d. (%d, %d)\n", index++, possibleMove.col(), possibleMove.row());
+            for (PositionDto position : possibleMovesDto.possibleMoves()) {
+                System.out.printf("%d. (%d, %d)\n", index++, position.getCol(), position.getRow());
             }
 
             System.out.println(REQUEST_PIECE_DESTINATION);

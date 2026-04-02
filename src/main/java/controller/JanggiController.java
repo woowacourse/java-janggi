@@ -2,8 +2,8 @@ package controller;
 
 import domain.Game;
 import domain.board.BasicBoardInitializer;
-import domain.board.formation.InitialFormation;
 import domain.board.Side;
+import domain.board.formation.InitialFormationType;
 import domain.coordinate.Position;
 import dto.PossibleMovesDto;
 import mapper.BoardMapper;
@@ -11,6 +11,8 @@ import mapper.PossibleMovesMapper;
 import view.InputHandler;
 import view.InputView;
 import view.OutputView;
+
+import java.util.List;
 
 public class JanggiController {
 
@@ -28,12 +30,12 @@ public class JanggiController {
     }
 
     private Game initializeGame() {
-        InitialFormation hanInitialFormation = InputHandler.readUntilValid(() -> inputView.requestInitialType(Side.HAN));
-        InitialFormation chuInitialFormation = InputHandler.readUntilValid(() -> inputView.requestInitialType(Side.CHU));
+        InitialFormationType hanInitialFormation = InputHandler.readUntilValid(() -> inputView.requestInitialType(Side.HAN));
+        InitialFormationType chuInitialFormation = InputHandler.readUntilValid(() -> inputView.requestInitialType(Side.CHU));
         return new Game(
                 new BasicBoardInitializer(
-                        hanInitialFormation,
-                        chuInitialFormation
+                        hanInitialFormation.create(Side.HAN),
+                        chuInitialFormation.create(Side.CHU)
                 )
         );
     }
@@ -45,9 +47,9 @@ public class JanggiController {
                     game.getValidatedStartPosition(inputView.requestStartPiecePosition(game.getTurn()))
             );
 
-            PossibleMovesDto possibleMovesDto = PossibleMovesMapper.toDto(game.getPossibleMoves(startPosition));
+            List<Position> possibleMoves = game.getPossibleMoves(startPosition);
             Position endPosition = InputHandler.readUntilValid(() ->
-                    game.getEndPosition(inputView.requestPieceDestination(possibleMovesDto), possibleMovesDto)
+                    game.getEndPosition(inputView.requestPieceDestination(PossibleMovesMapper.toDto(possibleMoves)), possibleMoves)
             );
 
             game.movePiece(startPosition, endPosition);

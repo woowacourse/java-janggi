@@ -36,8 +36,8 @@ public class Game {
         return board.calculatePossibleMoves(start);
     }
 
-    public Position getEndPosition(int index, PossibleMovesDto possibleMovesDto) {
-        return possibleMovesDto.possibleMoves().get(index);
+    public Position getEndPosition(int index, List<Position> possibleMoves) {
+        return possibleMoves.get(index);
     }
 
     private void validateEnsureSameSidePiece(Position start) {
