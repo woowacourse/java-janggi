@@ -1,6 +1,7 @@
 package janggi.model;
 
 import janggi.model.gimul.AbstractGimul;
+import janggi.model.gimul.palace.Jang;
 import janggi.model.position.Column;
 import janggi.model.position.Position;
 import janggi.model.position.PositionPath;
@@ -49,6 +50,40 @@ public class Board {
         return new Board(movedBoard);
     }
 
+    public boolean isGameOver() {
+        return isGimulStalemate() || !isJangAlive();
+    }
+
+    private boolean isJangAlive() {
+        return board.values().stream()
+                .anyMatch(gimul -> gimul instanceof Jang);
+    }
+
+    private boolean isGimulStalemate() {
+        return !isHanAlive() || !isChoAlive();
+    }
+
+    private boolean isChoAlive() {
+        return board.values().stream().anyMatch(gimul -> gimul.isSameTeam(Team.CHO));
+    }
+
+    private boolean isHanAlive() {
+        return board.values().stream().anyMatch(gimul -> gimul.isSameTeam(Team.HAN));
+    }
+
+    private void validateMovePathAndDestination(Position to, AbstractGimul gimulAtFrom,
+                                                List<AbstractGimul> gimulsOnPath) {
+        if ((!board.containsKey(to) && gimulAtFrom.canPassThrough(gimulsOnPath))) {
+            return;
+        }
+
+        AbstractGimul gimulAtTo = board.get(to);
+        if (gimulAtFrom.canPassThrough(gimulsOnPath, gimulAtTo)) {
+            return;
+        }
+        throw new IllegalArgumentException("해당 경로로 기물을 움직일 수 없습니다.");
+    }
+
     public String render() {
         StringBuilder sb = new StringBuilder();
         sb.append("    1  2  3  4  5  6  7  8  9\n");
@@ -80,30 +115,5 @@ public class Board {
         Position position = new Position(Row.of(row), Column.of(col));
         String symbol = board.containsKey(position) ? board.get(position).getSymbol() : "·";
         return new StringBuilder().append(" ").append(String.format("%-2s", symbol));
-    }
-
-    public boolean isGameOver() {
-        return !isHanAlive() || !isChoAlive();
-    }
-
-    private boolean isChoAlive() {
-        return board.values().stream().anyMatch(gimul -> gimul.isSameTeam(Team.CHO));
-    }
-
-    private boolean isHanAlive() {
-        return board.values().stream().anyMatch(gimul -> gimul.isSameTeam(Team.HAN));
-    }
-
-    private void validateMovePathAndDestination(Position to, AbstractGimul gimulAtFrom,
-                                                List<AbstractGimul> gimulsOnPath) {
-        if ((!board.containsKey(to) && gimulAtFrom.canPassThrough(gimulsOnPath))) {
-            return;
-        }
-
-        AbstractGimul gimulAtTo = board.get(to);
-        if (gimulAtFrom.canPassThrough(gimulsOnPath, gimulAtTo)) {
-            return;
-        }
-        throw new IllegalArgumentException("해당 경로로 기물을 움직일 수 없습니다.");
     }
 }

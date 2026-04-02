@@ -7,6 +7,7 @@ import janggi.model.Board;
 import janggi.model.Team;
 import janggi.model.gimul.AbstractGimul;
 import janggi.model.gimul.diagonalMove.Ma;
+import janggi.model.gimul.palace.Jang;
 import janggi.model.position.Column;
 import janggi.model.position.Position;
 import janggi.model.position.Row;
@@ -140,5 +141,39 @@ class BoardTest {
 
         //when & then
         assertThat(board.isGameOver()).isTrue();
+    }
+
+    @DisplayName("장이 잡히면 게임이 종료된다.")
+    @Test
+    void isGameOver_jang_captured() {
+        Map<Position, AbstractGimul> gameOverBoard = new HashMap<>();
+
+        gameOverBoard.put(
+                new Position(Row.SEVEN, Column.FIVE),
+                new Jang(Team.CHO)
+        );
+
+        Board board = new Board(gameOverBoard);
+
+        assertThat(board.isGameOver()).isTrue();
+    }
+
+    @DisplayName("양쪽 장이 살아있으면 게임이 종료되지 않는다.")
+    @Test
+    void isGameOver_both_jang_alive() {
+        Map<Position, AbstractGimul> board = new HashMap<>();
+
+        board.put(
+                new Position(Row.NINE, Column.FIVE),
+                new Jang(Team.CHO)
+        );
+        board.put(
+                new Position(Row.TWO, Column.FIVE),
+                new Jang(Team.HAN)
+        );
+
+        Board board1 = new Board(board);
+
+        assertThat(board1.isGameOver()).isFalse();
     }
 }
