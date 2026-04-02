@@ -1,4 +1,4 @@
-import domain.GameManager;
+import application.GameManager;
 import java.util.Scanner;
 import view.InputView;
 import view.OutputView;

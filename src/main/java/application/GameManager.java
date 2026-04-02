@@ -1,5 +1,8 @@
-package domain;
+package application;
 
+import domain.Game;
+import domain.Position;
+import domain.Side;
 import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.Formation;
