@@ -3,6 +3,7 @@ package domain.piece;
 import domain.board.Position;
 import domain.path.PathInfo;
 import domain.piece.strategy.ChariotMoveStrategy;
+import domain.piece.strategy.MoveStrategy;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class ChariotMoveStrategyTest {
-    private final ChariotMoveStrategy chariotMoveStrategy = new ChariotMoveStrategy();
+    private final MoveStrategy chariotMoveStrategy = new ChariotMoveStrategy();
 
     @Test
     void 차는_세로_직선_방향으로_이동할_수_있다() {

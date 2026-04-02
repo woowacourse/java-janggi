@@ -1,11 +1,12 @@
 package domain.piece;
 
 import domain.piece.strategy.ChariotMoveStrategy;
+import domain.piece.strategy.GeneralMoveStrategy;
 import domain.piece.strategy.MoveStrategy;
 
 public enum PieceType {
-    GENERAL(new ChariotMoveStrategy()),
-    GUARD(new ChariotMoveStrategy()),
+    GENERAL(new GeneralMoveStrategy()),
+    GUARD(new GeneralMoveStrategy()),
     CHARIOT(new ChariotMoveStrategy()),
     CANNON(new ChariotMoveStrategy()),
     HORSE(new ChariotMoveStrategy()),
