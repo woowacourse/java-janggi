@@ -2,16 +2,16 @@ package domain.piece;
 
 public enum Side {
 
-    CHO("초", "\\u001B[34m") {
-        @Override
-        public Side next() {
-            return HAN;
-        }
-    },
     HAN("한", "\\u001B[31m") {
         @Override
         public Side next() {
             return CHO;
+        }
+    },
+    CHO("초", "\\u001B[34m") {
+        @Override
+        public Side next() {
+            return HAN;
         }
     };
 

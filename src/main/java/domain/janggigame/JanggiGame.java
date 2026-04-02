@@ -26,8 +26,7 @@ public class JanggiGame {
 
     public void run() {
         selectSide();
-        hanPlayerPlaceBoard();
-        choPlayerPlaceBoard();
+        placeBoardBySide();
         playGame();
     }
 
@@ -61,6 +60,11 @@ public class JanggiGame {
         List<Side> sides = Arrays.asList(Side.values());
         Collections.shuffle(sides);
         return sides.get(sideCode - 1);
+    }
+
+    private void placeBoardBySide() {
+        hanPlayerPlaceBoard();
+        choPlayerPlaceBoard();
     }
 
     private void hanPlayerPlaceBoard() {
