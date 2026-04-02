@@ -1,8 +1,8 @@
 package domain.strategy;
 
+import domain.MoveRoute;
 import domain.Position;
 import domain.moverule.GreenSoldierMoveRule;
-import java.util.Arrays;
 import java.util.List;
 
 public class GreenSoldierMoveStrategy extends MoveStrategy {
@@ -29,8 +29,8 @@ public class GreenSoldierMoveStrategy extends MoveStrategy {
     }
 
     private List<Position> setupDestinations() {
-        return Arrays.stream(GreenSoldierMoveRule.values())
-                .map(greenSoldierMoveRule -> greenSoldierMoveRule.destination(position))
+        return GreenSoldierMoveRule.moveRoutesOf(position).stream()
+                .map(MoveRoute::destination)
                 .toList();
     }
 }
