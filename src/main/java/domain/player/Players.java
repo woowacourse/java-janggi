@@ -51,4 +51,8 @@ public class Players {
     public void switchPlayer() {
         players.forEach(Player::toggleTurn);
     }
+
+    public String getWaitingPlayerName() {
+        return getWaitingPlayer().getName();
+    }
 }

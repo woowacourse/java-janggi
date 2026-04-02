@@ -48,7 +48,6 @@ public class Game {
     }
 
     public String getWinner() {
-        players.switchPlayer();
-        return players.getCurrentPlayer().getName();
+        return players.getWaitingPlayerName();
     }
 }
