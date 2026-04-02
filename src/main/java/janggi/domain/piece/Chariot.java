@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Chariot extends MoveablePiece {
-    private static final String PIECE_NAME = "차";
 
     public Chariot(Team team) {
         super(team);
@@ -19,8 +18,8 @@ public class Chariot extends MoveablePiece {
     }
 
     @Override
-    public String getDisplayName() {
-        return PIECE_NAME;
+    public PieceType getType() {
+        return PieceType.CHARIOT;
     }
 
     @Override

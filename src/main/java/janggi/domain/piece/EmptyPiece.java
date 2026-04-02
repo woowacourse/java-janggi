@@ -6,8 +6,6 @@ import java.util.List;
 
 public class EmptyPiece implements Piece {
 
-    private static final String PIECE_NAME = "빈";
-
     @Override
     public boolean isEmptyPiece() {
         return true;
@@ -19,8 +17,8 @@ public class EmptyPiece implements Piece {
     }
 
     @Override
-    public String getDisplayName() {
-        return PIECE_NAME;
+    public PieceType getType() {
+        return PieceType.EMPTY;
     }
 
     @Override

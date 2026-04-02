@@ -10,7 +10,7 @@ public interface Piece {
 
     boolean isSamePiece(Piece other);
 
-    String getDisplayName();
+    PieceType getType();
 
     Team getTeam();
 

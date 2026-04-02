@@ -25,11 +25,11 @@ public class CannonTest {
     }
 
     @Test
-    void 포의_이름은_포로_표현된다() {
+    void 포의_타입은_CANNON이다() {
         Cannon cannon = new Cannon(Team.HAN);
 
-        String displayName = cannon.getDisplayName();
-        assertThat(displayName).isEqualTo("포");
+        PieceType type = cannon.getType();
+        assertThat(type).isEqualTo(PieceType.CANNON);
     }
 
     @Test

@@ -2,11 +2,14 @@ package janggi.view;
 
 import janggi.domain.piece.Piece;
 import janggi.domain.Team;
+import janggi.domain.piece.PieceType;
 import janggi.domain.position.Column;
 import janggi.domain.position.Position;
 import janggi.domain.position.Row;
 
 import java.util.Map;
+
+import static janggi.domain.piece.PieceType.*;
 
 public class OutputView {
 
@@ -23,9 +26,9 @@ public class OutputView {
     private static final String H_LINE = "---";
     private static final String V_LINE = " | ";
 
-    private static final Map<String, String> PIECE_LABEL = Map.of(
-            "차", "CHA", "마", "HOR", "상", "ELE", "사", "GRD",
-            "장", "GEN", "포", "CAN", "졸", "SOL"
+    private static final Map<PieceType, String> PIECE_LABEL = Map.of(
+            CHARIOT, "CHA", HORSE, "HOR", ELEPHANT, "ELE", GUARD, "GRD",
+            GENERAL, "GEN", CANNON, "CAN", SOLDIER, "SOL"
     );
 
     public void printBoard(Map<Position, Piece> board) {
@@ -76,9 +79,9 @@ public class OutputView {
     private String formatPiece(Piece piece) {
         if (piece.isEmptyPiece()) return CROSS;
         if (piece.getTeam() == Team.HAN) {
-            return ANSI_RED + PIECE_LABEL.get(piece.getDisplayName()) + ANSI_RESET;
+            return ANSI_RED + PIECE_LABEL.get(piece.getType()) + ANSI_RESET;
         }
-        return ANSI_BLUE + PIECE_LABEL.get(piece.getDisplayName()) + ANSI_RESET;
+        return ANSI_BLUE + PIECE_LABEL.get(piece.getType()) + ANSI_RESET;
     }
 
     private void printLegend() {

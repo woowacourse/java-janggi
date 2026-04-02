@@ -27,11 +27,11 @@ public class HorseTest {
     }
 
     @Test
-    void 마의_이름은_마로_표현된다() {
+    void 마의_타입은_HORSE이다() {
         Horse horse = new Horse(Team.HAN);
 
-        String displayName = horse.getDisplayName();
-        assertThat(displayName).isEqualTo("마");
+        PieceType type = horse.getType();
+        assertThat(type).isEqualTo(PieceType.HORSE);
     }
 
     @Test

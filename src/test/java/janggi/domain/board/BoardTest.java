@@ -29,7 +29,7 @@ public class BoardTest {
         assertAll(
                 () -> assertThatThrownBy(() -> board.move(Position.from("101"), Position.from("11"), Team.HAN))
                         .isInstanceOf(IllegalArgumentException.class)
-                        .hasMessage("[ERROR] 좌표값 입력은 2자리 숫자여야 합니다."),
+                        .hasMessage("[ERROR] 올바른 좌표값이 아닙니다."),
                 () -> assertThatThrownBy(() -> board.move(Position.from("10"), Position.from("11"), Team.HAN))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 열 좌표는 1~9까지 사용 가능 합니다"),

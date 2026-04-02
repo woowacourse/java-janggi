@@ -25,11 +25,11 @@ public class ChariotTest {
     }
 
     @Test
-    void 차의_이름은_차로_표현된다() {
+    void 차의_타입은_CHARIOT이다() {
         Chariot chariot = new Chariot(Team.HAN);
 
-        String displayName = chariot.getDisplayName();
-        assertThat(displayName).isEqualTo("차");
+        PieceType type = chariot.getType();
+        assertThat(type).isEqualTo(PieceType.CHARIOT);
     }
 
     @Test

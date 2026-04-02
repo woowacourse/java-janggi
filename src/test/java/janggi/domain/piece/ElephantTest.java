@@ -25,11 +25,11 @@ public class ElephantTest {
     }
 
     @Test
-    void 상의_이름은_상로_표현된다() {
+    void 상의_타입은_ELEPHANT이다() {
         Elephant elephant = new Elephant(Team.HAN);
 
-        String displayName = elephant.getDisplayName();
-        assertThat(displayName).isEqualTo("상");
+        PieceType type = elephant.getType();
+        assertThat(type).isEqualTo(PieceType.ELEPHANT);
     }
 
     @Test

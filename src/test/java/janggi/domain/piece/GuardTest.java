@@ -25,11 +25,11 @@ public class GuardTest {
     }
 
     @Test
-    void 사의_이름은_사로_표현된다() {
+    void 사의_타입은_GUARD이다() {
         Guard guard = new Guard(Team.HAN);
 
-        String displayName = guard.getDisplayName();
-        assertThat(displayName).isEqualTo("사");
+        PieceType type = guard.getType();
+        assertThat(type).isEqualTo(PieceType.GUARD);
     }
 
     @Test

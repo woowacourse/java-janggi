@@ -5,13 +5,10 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.domain.Team;
-import janggi.domain.position.Column;
 import janggi.domain.position.Position;
-import janggi.domain.position.Row;
-import java.util.LinkedHashMap;
+
 import java.util.List;
-import java.util.Map;
-import org.junit.jupiter.api.BeforeEach;
+
 import org.junit.jupiter.api.Test;
 
 public class GeneralTest {
@@ -30,11 +27,11 @@ public class GeneralTest {
     }
 
     @Test
-    void 장의_이름은_장로_표현된다() {
+    void 장의_타입은_GENERAL이다() {
         General general = new General(Team.HAN);
 
-        String displayName = general.getDisplayName();
-        assertThat(displayName).isEqualTo("장");
+        PieceType type = general.getType();
+        assertThat(type).isEqualTo(PieceType.GENERAL);
     }
 
     @Test

@@ -5,7 +5,6 @@ import janggi.domain.position.Position;
 import java.util.List;
 
 public class General extends MoveablePiece {
-    private static final String PIECE_NAME = "장";
     private static final int MAX_MOVE_DISTANCE = 1;
 
     public General(Team team) {
@@ -18,8 +17,8 @@ public class General extends MoveablePiece {
     }
 
     @Override
-    public String getDisplayName() {
-        return PIECE_NAME;
+    public PieceType getType() {
+        return PieceType.GENERAL;
     }
 
     @Override

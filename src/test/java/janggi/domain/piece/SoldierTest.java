@@ -25,11 +25,11 @@ public class SoldierTest {
     }
 
     @Test
-    void 졸의_이름은_졸로_표현된다() {
+    void 졸의_타입은_SOLDIER이다() {
         Soldier soldier = new Soldier(Team.HAN);
 
-        String displayName = soldier.getDisplayName();
-        assertThat(displayName).isEqualTo("졸");
+        PieceType type = soldier.getType();
+        assertThat(type).isEqualTo(PieceType.SOLDIER);
     }
 
     @Test

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Cannon extends MoveablePiece {
-    private static final String PIECE_NAME = "포";
 
     public Cannon(Team team) {
         super(team);
@@ -18,8 +17,8 @@ public class Cannon extends MoveablePiece {
     }
 
     @Override
-    public String getDisplayName() {
-        return PIECE_NAME;
+    public PieceType getType() {
+        return PieceType.CANNON;
     }
 
     @Override

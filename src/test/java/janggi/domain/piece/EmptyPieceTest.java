@@ -38,11 +38,11 @@ public class EmptyPieceTest {
     }
 
     @Test
-    void 빈기물의_이름은_빈으로_표현된다() {
+    void 빈기물의_타입은_EMPTY다() {
         EmptyPiece emptyPiece = new EmptyPiece();
 
-        String displayName = emptyPiece.getDisplayName();
-        assertThat(displayName).isEqualTo("빈");
+        PieceType type = emptyPiece.getType();
+        assertThat(type).isEqualTo(PieceType.EMPTY);
     }
 
     @Test

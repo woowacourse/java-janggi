@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Horse extends MoveablePiece {
-
-    private static final String PIECE_NAME = "마";
     private static final int ONE_DIRECTION_MIN_DIFF = 1;
     private static final int ONE_DIRECTION_MAX_DIFF = 2;
 
@@ -21,8 +19,8 @@ public class Horse extends MoveablePiece {
     }
 
     @Override
-    public String getDisplayName() {
-        return PIECE_NAME;
+    public PieceType getType() {
+        return PieceType.HORSE;
     }
 
     @Override

@@ -6,7 +6,6 @@ import janggi.domain.position.Position;
 import java.util.List;
 
 public class Guard extends MoveablePiece {
-    private static final String PIECE_NAME = "사";
     private static final int MAX_MOVE_DISTANCE = 1;
 
     public Guard(Team team) {
@@ -19,8 +18,8 @@ public class Guard extends MoveablePiece {
     }
 
     @Override
-    public String getDisplayName() {
-        return PIECE_NAME;
+    public PieceType getType() {
+        return PieceType.GUARD;
     }
 
     @Override
