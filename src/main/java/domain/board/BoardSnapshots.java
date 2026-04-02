@@ -1,24 +1,13 @@
 package domain.board;
 
-import static java.util.stream.Collectors.counting;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class BoardSnapshots {
-    private final List<BoardSnapshot> snapshots = new ArrayList<>();
+    private final Map<BoardSnapshot, Long> snapshotCount = new HashMap<>();
 
-    public void addSnapshot(BoardSnapshot boardSnapshot) {
-        snapshots.add(boardSnapshot);
-    }
-
-    public boolean isSamePositionThreeTurnInGame() {
-        Map<BoardSnapshot, Long> sameCount = snapshots.stream()
-                .collect(Collectors.groupingBy(snapshot -> snapshot, counting()));
-
-        return sameCount.values().stream()
-                .anyMatch(count -> count >= 3);
+    public boolean appearSamePositionThreeTurn(BoardSnapshot boardSnapshot) {
+        snapshotCount.put(boardSnapshot, snapshotCount.getOrDefault(boardSnapshot, 0L) + 1);
+        return snapshotCount.get(boardSnapshot) >= 3;
     }
 }

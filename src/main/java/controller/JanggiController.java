@@ -64,11 +64,10 @@ public class JanggiController {
         outputView.printBoard(board.getBoardSnapshot(countryType), board.getScores());
 
         boolean isEndWithGeneralCaught = movePiece(board, countryType);
-        boardSnapshots.addSnapshot(board.getBoardSnapshot(countryType));
-        boolean isEndWithBoardRepeat = boardSnapshots.isSamePositionThreeTurnInGame();
         if (isEndWithGeneralCaught) {
             outputView.printEndWithCatchGeneral(countryType);
         }
+        boolean isEndWithBoardRepeat = boardSnapshots.appearSamePositionThreeTurn(board.getBoardSnapshot(countryType));
         if (isEndWithBoardRepeat) {
             outputView.printEndWithBoardRepeat(board.getScores());
         }

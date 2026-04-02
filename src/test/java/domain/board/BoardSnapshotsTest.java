@@ -28,34 +28,32 @@ public class BoardSnapshotsTest {
 
         // A 포지션
         board.checkEndAndPlay(choRight, choLeft);
-        boardSnapshots.addSnapshot(board.getBoardSnapshot(CountryType.CHO));
+        assertThat(boardSnapshots.appearSamePositionThreeTurn(board.getBoardSnapshot(CountryType.CHO))).isFalse();
         // B 포지션
         board.checkEndAndPlay(hanRight, hanLeft);
-        boardSnapshots.addSnapshot(board.getBoardSnapshot(CountryType.HAN));
+        assertThat(boardSnapshots.appearSamePositionThreeTurn(board.getBoardSnapshot(CountryType.HAN))).isFalse();
         // C 포지션
         board.checkEndAndPlay(choLeft, choRight);
-        boardSnapshots.addSnapshot(board.getBoardSnapshot(CountryType.CHO));
+        assertThat(boardSnapshots.appearSamePositionThreeTurn(board.getBoardSnapshot(CountryType.CHO))).isFalse();
         // D 포지션
         board.checkEndAndPlay(hanLeft, hanRight);
-        boardSnapshots.addSnapshot(board.getBoardSnapshot(CountryType.HAN));
+        assertThat(boardSnapshots.appearSamePositionThreeTurn(board.getBoardSnapshot(CountryType.HAN))).isFalse();
 
         // A 포지션 2
         board.checkEndAndPlay(choRight, choLeft);
-        boardSnapshots.addSnapshot(board.getBoardSnapshot(CountryType.CHO));
+        assertThat(boardSnapshots.appearSamePositionThreeTurn(board.getBoardSnapshot(CountryType.CHO))).isFalse();
         // B 포지션 2
         board.checkEndAndPlay(hanRight, hanLeft);
-        boardSnapshots.addSnapshot(board.getBoardSnapshot(CountryType.HAN));
+        assertThat(boardSnapshots.appearSamePositionThreeTurn(board.getBoardSnapshot(CountryType.HAN))).isFalse();
         // C 포지션 2
         board.checkEndAndPlay(choLeft, choRight);
-        boardSnapshots.addSnapshot(board.getBoardSnapshot(CountryType.CHO));
+        assertThat(boardSnapshots.appearSamePositionThreeTurn(board.getBoardSnapshot(CountryType.CHO))).isFalse();
         // D 포지션 2
         board.checkEndAndPlay(hanLeft, hanRight);
-        boardSnapshots.addSnapshot(board.getBoardSnapshot(CountryType.HAN));
+        assertThat(boardSnapshots.appearSamePositionThreeTurn(board.getBoardSnapshot(CountryType.HAN))).isFalse();
 
         // A 포지션 3
         board.checkEndAndPlay(choRight, choLeft);
-        boardSnapshots.addSnapshot(board.getBoardSnapshot(CountryType.CHO));
-
-        assertThat(boardSnapshots.isSamePositionThreeTurnInGame()).isTrue();
+        assertThat(boardSnapshots.appearSamePositionThreeTurn(board.getBoardSnapshot(CountryType.CHO))).isTrue();
     }
 }
