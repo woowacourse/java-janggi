@@ -10,7 +10,7 @@ public class ZolMoveRule implements MoveRule {
 
     @Override
     public List<Route> findRoutes(Team team) {
-        if(team == Team.CHO) {
+        if (team == Team.CHO) {
             Route route1 = new Route(List.of(Direction.UP));
             Route route2 = new Route(List.of(Direction.LEFT));
             Route route3 = new Route(List.of(Direction.RIGHT));
@@ -21,5 +21,4 @@ public class ZolMoveRule implements MoveRule {
         Route route3 = new Route(List.of(Direction.RIGHT));
         return List.of(route1, route2, route3);
     }
-
 }
