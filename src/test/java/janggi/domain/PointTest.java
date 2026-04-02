@@ -35,4 +35,18 @@ public class PointTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("올바르지 않은 위치 범위입니다.");
     }
+
+    @Test
+    @DisplayName("from, to의 위치가 궁성 내에 있는지 판단")
+    void is_in_palace() {
+        // given
+        Point from = Point.of(3, 1);
+        Point to = Point.of(4, 1);
+
+        // when
+        boolean result = from.isInSamePalace(to);
+
+        // then
+        assertThat(result).isTrue();
+    }
 }
