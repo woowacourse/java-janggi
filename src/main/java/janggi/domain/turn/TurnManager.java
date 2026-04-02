@@ -36,6 +36,10 @@ public class TurnManager {
         turnTaken++;
     }
 
+    public List<Team> getTeams() {
+        return teams.stream().toList();
+    }
+
     public int getTurnTaken() {
         return turnTaken;
     }

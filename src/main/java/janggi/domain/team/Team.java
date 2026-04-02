@@ -10,6 +10,8 @@ public interface Team {
 
     boolean hasPiece(Piece piece);
 
+    TeamType getTeamType();
+
     String getName();
 
 }

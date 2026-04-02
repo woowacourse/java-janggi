@@ -52,6 +52,6 @@ public class Horse implements Piece {
 
     @Override
     public double getScore() {
-        return 0;
+        return PIECE_SCORE;
     }
 }

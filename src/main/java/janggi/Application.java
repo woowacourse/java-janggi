@@ -9,6 +9,5 @@ public class Application {
         DBConnection.init();
         final JanggiController janggiController = new JanggiController();
         janggiController.run();
-        DBConnection.close();
     }
 }

@@ -34,6 +34,11 @@ public class RedTeam implements Team {
     }
 
     @Override
+    public TeamType getTeamType() {
+        return TEAM_TYPE;
+    }
+
+    @Override
     public String getName() {
         return TEAM_TYPE.getName();
     }
