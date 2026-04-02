@@ -24,6 +24,10 @@ public class ConsolePieceMapper {
     }
 
     public static String toViewString(BasicPiece piece) {
+        if (piece.isNone()) {
+            return toEmptyString();
+        }
+
         String symbol = SYMBOLS.getOrDefault(piece.getPieceType(), "  ");
 
         if (piece.getTeam().isCho()) {
