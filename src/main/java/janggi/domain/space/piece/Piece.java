@@ -57,6 +57,10 @@ public abstract class Piece implements Space {
         return this.pieceType == piece.pieceType;
     }
 
+    public boolean isSameType(PieceType pieceType) {
+        return this.pieceType == pieceType;
+    }
+
     protected void validateSpecificArrival(Piece piece) {
     }
 }
