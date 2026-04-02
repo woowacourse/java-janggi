@@ -119,10 +119,11 @@ public class BoardTest {
         board.placePieces(Side.CHO, Placement.INNER_ELEPHANT);
         board.placePieces(Side.HAN, Placement.INNER_ELEPHANT);
 
-        // when
-        board.move(Position.of(7, 1), Position.of(8, 1), Side.HAN);
+        // when, then
+        assertThatThrownBy(() -> {
+            board.move(Position.of(7, 1), Position.of(8, 1), Side.HAN);
 
-        // then
+        }).isInstanceOf(IllegalArgumentException.class);
         Piece piece = board.findBy(Position.of(8, 1));
         assertThat(piece).isNotEqualTo(Piece.of(Side.HAN, PieceType.PAWN));
     }
