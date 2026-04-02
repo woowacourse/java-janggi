@@ -1,5 +1,6 @@
 package janggi.domain.piece.unit;
 
+import janggi.domain.board.Palace;
 import janggi.domain.board.coordinate.Path;
 import janggi.domain.board.coordinate.Point;
 import janggi.domain.piece.Pattern;
@@ -17,17 +18,17 @@ public class Empty extends Piece {
     }
 
     @Override
-    public List<Point> availablePoints(List<Path> paths, Map<Point, Piece> piecesOnPaths) {
+    public List<Point> availablePoints(List<Path> paths, Map<Point, Piece> piecesOnPaths, Palace palace) {
         throw new IllegalStateException("Piece Empty 객체입니다.");
     }
 
     @Override
-    public List<Pattern> patterns() {
+    public List<Pattern> patterns(Point from, Palace palace) {
         throw new IllegalStateException("Piece Empty 객체입니다.");
     }
 
     @Override
-    protected Path cutPath(Path path, Map<Point, Piece> piecesOnPaths) {
+    protected Path cutPath(Path path, Map<Point, Piece> piecesOnPaths, Palace palace) {
         throw new IllegalStateException("Piece Empty 객체입니다.");
     }
 

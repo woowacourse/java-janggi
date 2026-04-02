@@ -1,5 +1,6 @@
 package janggi.domain.piece.unit;
 
+import janggi.domain.board.Palace;
 import janggi.domain.board.coordinate.FixedPathStrategy;
 import janggi.domain.board.coordinate.Path;
 import janggi.domain.board.coordinate.PathStrategy;
@@ -14,7 +15,7 @@ import java.util.Map;
 public class Elephant extends Piece {
     private static final PieceType TYPE = PieceType.ELEPHANT;
     private static final PathStrategy DEFAULT_STRATEGY = new FixedPathStrategy();
-    private static final List<Pattern> PATTERNS = List.of(
+    private static final List<Pattern> BASE_PATTERNS = List.of(
             new Pattern(List.of(Direction.NORTH, Direction.NORTH_WEST, Direction.NORTH_WEST)),
             new Pattern(List.of(Direction.NORTH, Direction.NORTH_EAST, Direction.NORTH_EAST)),
             new Pattern(List.of(Direction.EAST, Direction.NORTH_EAST, Direction.NORTH_EAST)),
@@ -30,21 +31,21 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public List<Point> availablePoints(List<Path> paths, Map<Point, Piece> piecesOnPaths) {
+    public List<Point> availablePoints(List<Path> paths, Map<Point, Piece> piecesOnPaths, Palace palace) {
         return paths.stream()
-                .map(path -> cutPath(path, piecesOnPaths))
+                .map(path -> cutPath(path, piecesOnPaths, palace))
                 .filter(path -> isValidPath(path, piecesOnPaths))
                 .map(path -> path.getPath().getLast())
                 .toList();
     }
 
     @Override
-    public List<Pattern> patterns() {
-        return PATTERNS;
+    public List<Pattern> patterns(Point from, Palace palace) {
+        return BASE_PATTERNS;
     }
 
     @Override
-    protected Path cutPath(Path path, Map<Point, Piece> piecesOnPaths) {
+    protected Path cutPath(Path path, Map<Point, Piece> piecesOnPaths, Palace palace) {
         return path;
     }
 

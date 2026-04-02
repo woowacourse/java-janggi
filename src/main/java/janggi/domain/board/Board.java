@@ -18,11 +18,12 @@ public class Board {
     public static final int X_SIZE = 9;
     public static final int Y_SIZE = 8;
 
-
     private final Map<Point, Piece> board;
+    private final Palace palace;
 
     private Board(Map<Point, Piece> board) {
         this.board = board;
+        this.palace = new Palace();
     }
 
     public static Board setUp(BoardSetUp choBoardSetUp, BoardSetUp hanBoardSetUp) {
@@ -43,10 +44,10 @@ public class Board {
 
     public Set<Point> destinations(Point from) {
         Piece piece = getPieceAtPoint(from);
-        List<Path> paths = convertToPaths(piece.patterns(), from, piece.pathStrategy());
+        List<Path> paths = convertToPaths(piece.patterns(from, palace), from, piece.pathStrategy());
         Map<Point, Piece> piecesOnPaths = findPiecesOnPaths(paths);
 
-        return piece.availablePoints(paths, piecesOnPaths)
+        return piece.availablePoints(paths, piecesOnPaths, palace)
                 .stream()
                 .filter(point -> isDestinationOtherSide(piece, point))
                 .collect(Collectors.toSet());

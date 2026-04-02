@@ -19,7 +19,7 @@ class PathTest {
                                 Point.of(0, 2),
                                 Point.of(0, 3),
                                 Point.of(0, 4),
-                                Point.of(0, 5))),
+                                Point.of(0, 5)), false),
                         Point.of(0, 4),
                         List.of(
                                 Point.of(0, 1),

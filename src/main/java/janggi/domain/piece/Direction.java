@@ -26,4 +26,9 @@ public enum Direction {
     public int getDy() {
         return dy;
     }
+
+    public boolean isDiagonal() {
+        return dx != 0 && dy != 0;
+    }
+
 }

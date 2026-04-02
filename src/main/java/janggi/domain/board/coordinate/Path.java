@@ -7,17 +7,23 @@ import java.util.List;
 
 public class Path {
     private final List<Point> path;
+    private final boolean diagonal;
 
-    public Path(List<Point> path) {
+    public Path(List<Point> path, boolean diagonal) {
         this.path = new ArrayList<>(path);
+        this.diagonal = diagonal;
     }
 
     public Path(Pattern pattern, Point from, PathStrategy pathStrategy) {
-        this(pathStrategy.calculate(pattern, from));
+        this(pathStrategy.calculate(pattern, from), pattern.isDiagonal());
     }
 
     public List<Point> getPath() {
         return Collections.unmodifiableList(path);
+    }
+
+    public boolean isDiagonal() {
+        return diagonal;
     }
 
     public boolean isEmpty() {
@@ -32,6 +38,6 @@ public class Path {
                 break;
             }
         }
-        return new Path(curPath);
+        return new Path(curPath, this.diagonal);
     }
 }

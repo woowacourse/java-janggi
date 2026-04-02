@@ -69,7 +69,6 @@ public class OutputView {
         return piece instanceof Empty;
     }
 
-    // 전각 문자는 모두 2컬럼이므로 뒤에 공백 1개만 붙이면 정렬됨
     private String cell(String value) {
         return value + " ";
     }

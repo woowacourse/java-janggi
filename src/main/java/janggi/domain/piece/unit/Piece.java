@@ -1,5 +1,6 @@
 package janggi.domain.piece.unit;
 
+import janggi.domain.board.Palace;
 import janggi.domain.board.coordinate.Path;
 import janggi.domain.board.coordinate.PathStrategy;
 import janggi.domain.board.coordinate.Point;
@@ -41,11 +42,11 @@ public abstract class Piece {
         return !path.isEmpty();
     }
 
-    public abstract List<Point> availablePoints(List<Path> paths, Map<Point, Piece> piecesOnPaths);
+    public abstract List<Point> availablePoints(List<Path> paths, Map<Point, Piece> piecesOnPaths, Palace palace);
 
-    public abstract List<Pattern> patterns();
+    public abstract List<Pattern> patterns(Point from, Palace palace);
 
-    protected abstract Path cutPath(Path path, Map<Point, Piece> piecesOnPaths);
+    protected abstract Path cutPath(Path path, Map<Point, Piece> piecesOnPaths, Palace palace);
 
 
     @Override
