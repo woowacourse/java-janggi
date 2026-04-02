@@ -37,7 +37,7 @@ public class Board {
             throw new DomainException(
                     String.format(INVALID_PIECE_OWNER_MESSAGE, from.row().row(), from.column().column()));
         }
-        return piece.canMovePosition(board, from);
+        return piece.findMovablePositions(board, from);
     }
 
     public void movePiece(Position from, Position to, Dynasty currentTurn) {
