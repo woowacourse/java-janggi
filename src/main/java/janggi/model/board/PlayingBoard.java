@@ -112,7 +112,7 @@ public class PlayingBoard implements Board {
     }
 
     @Override
-    public boolean isGameOver() {
+    public boolean isWinnerDetermined() {
         return false;
     }
 

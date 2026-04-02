@@ -1,11 +1,10 @@
 package janggi.model;
 
 import janggi.model.board.Board;
-import janggi.model.piece.Piece;
 import janggi.model.position.absolute.Position;
+import janggi.model.turn.GameOver;
 import janggi.model.turn.Turn;
 import janggi.model.turn.playing.ChoTurn;
-import java.util.Map;
 
 public class Janggi {
 
@@ -27,8 +26,8 @@ public class Janggi {
         return turn.isGameOver();
     }
 
-    public Map<Position, Piece> getBoard() {
-        return turn.getBoard();
+    public Board getBoard() {
+        return turn.board();
     }
 
     public boolean isChoTurn() {
@@ -37,5 +36,9 @@ public class Janggi {
 
     public Team getWinner() {
         return turn.getWinner();
+    }
+
+    public Janggi draw() {
+        return new Janggi(new GameOver(getBoard()));
     }
 }

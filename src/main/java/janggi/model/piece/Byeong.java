@@ -28,7 +28,7 @@ public class Byeong extends Piece {
     @Override
     public PositionPath getLegalPath(Position from, Position to) {
         if ((team == Team.CHO && isMovingSouth(from, to))
-                ||(team == Team.HAN && !isMovingSouth(from, to))) {
+                ||(team == Team.HAN && isMovingNorth(from, to))) {
             throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
         }
 
@@ -45,6 +45,10 @@ public class Byeong extends Piece {
 
     private boolean isMovingSouth(Position from, Position to) {
         return from.row().getValue() < to.row().getValue();
+    }
+
+    private boolean isMovingNorth(Position from, Position to) {
+        return from.row().getValue() > to.row().getValue();
     }
 
     @Override

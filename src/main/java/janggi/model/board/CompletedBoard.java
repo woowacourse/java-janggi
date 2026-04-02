@@ -13,7 +13,7 @@ public record CompletedBoard(Team winner) implements Board {
     }
 
     @Override
-    public boolean isGameOver() {
+    public boolean isWinnerDetermined() {
         return true;
     }
 
