@@ -76,7 +76,7 @@ public class OutputView {
         if (piece.isNone()) {
             String noneDisplay = "＋";
             if (isMovablePosition) {
-                return ANSI_BRIGHT_YELLOW + "O" + ANSI_RESET;
+                return ANSI_BRIGHT_YELLOW + "〇" + ANSI_RESET;
             }
             return noneDisplay;
         }
