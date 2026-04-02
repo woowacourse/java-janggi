@@ -1,9 +1,7 @@
-package janggi.domain;
+package janggi.domain.board;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import janggi.domain.board.Board;
-import janggi.domain.board.BoardGenerator;
 import janggi.domain.setup.InnerElephantElephantFormation;
 import janggi.domain.team.BlueTeam;
 import janggi.domain.team.RedTeam;

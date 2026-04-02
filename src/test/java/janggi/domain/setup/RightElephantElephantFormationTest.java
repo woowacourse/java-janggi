@@ -1,10 +1,10 @@
-package janggi.domain;
+package janggi.domain.setup;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+import janggi.domain.Position;
+import janggi.domain.fixture.SetupPolicyTestFixture;
 import janggi.domain.piece.PieceType;
-import janggi.domain.setup.RightElephantElephantFormation;
-import janggi.fixture.SetupPolicyTestFixture;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;

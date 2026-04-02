@@ -1,9 +1,7 @@
-package janggi.domain;
+package janggi.domain.piece;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import janggi.domain.piece.Cannon;
-import janggi.domain.piece.Piece;
 import janggi.domain.team.TeamType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

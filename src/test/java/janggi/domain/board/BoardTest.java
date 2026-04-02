@@ -1,9 +1,9 @@
-package janggi.domain;
+package janggi.domain.board;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import janggi.domain.board.Board;
+import janggi.domain.Position;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.General;
 import janggi.domain.piece.Piece;

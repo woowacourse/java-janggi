@@ -1,11 +1,9 @@
-package janggi.domain;
+package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import janggi.domain.Position;
 import janggi.domain.board.Board;
-import janggi.domain.piece.Cannon;
-import janggi.domain.piece.Piece;
-import janggi.domain.piece.Soldier;
 import janggi.domain.team.TeamType;
 import java.util.List;
 import java.util.Map;
