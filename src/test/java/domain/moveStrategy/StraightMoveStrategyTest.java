@@ -3,7 +3,7 @@ package domain.moveStrategy;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.place.Place;
-import domain.place.moveStrategy.ChariotMoveStrategy;
+import domain.place.moveStrategy.StraightMoveStrategy;
 import domain.place.moveStrategy.MoveStrategy;
 import domain.place.palaceMoveStrategy.PalaceMoveStrategy;
 import domain.place.palaceMoveStrategy.PalaceStraightMoveStrategy;
@@ -19,9 +19,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class ChariotMoveStrategyTest {
+class StraightMoveStrategyTest {
 
-    private final MoveStrategy moveStrategy = new ChariotMoveStrategy();
+    private final MoveStrategy moveStrategy = new StraightMoveStrategy();
     private final PalaceMoveStrategy palaceMoveStrategy = new PalaceStraightMoveStrategy();
 
     static Stream<Arguments> validMoves() {

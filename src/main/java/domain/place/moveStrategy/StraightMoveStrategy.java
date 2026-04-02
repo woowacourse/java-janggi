@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class ChariotMoveStrategy implements MoveStrategy {
+public class StraightMoveStrategy implements MoveStrategy {
     private static final List<Direction> ORTHOGONAL_DIRECTIONS = List.of(
             Direction.TOP, Direction.DOWN, Direction.LEFT, Direction.RIGHT
     );

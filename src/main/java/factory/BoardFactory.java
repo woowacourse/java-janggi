@@ -9,10 +9,9 @@ import domain.board.Board;
 import domain.board.HorseElephantFormation;
 import domain.place.Empty;
 import domain.place.Place;
-import domain.place.moveStrategy.CannonMoveStrategy;
-import domain.place.moveStrategy.ChariotMoveStrategy;
-import domain.place.moveStrategy.GeneralMoveStrategy;
-import domain.place.moveStrategy.GuardMoveStrategy;
+import domain.place.moveStrategy.JumpMoveStrategy;
+import domain.place.moveStrategy.OneStepMoveStrategy;
+import domain.place.moveStrategy.StraightMoveStrategy;
 import domain.place.moveStrategy.MoveStrategy;
 import domain.place.moveStrategy.SoldierMoveStrategy;
 import domain.place.palaceMoveStrategy.PalaceJumpMoveStrategy;
@@ -82,7 +81,7 @@ public class BoardFactory {
 
         startLine += setupDirection;
         board.put(new Position(startLine, GENERAL_COLS),
-                new General(side, new GeneralMoveStrategy(), new PalaceOneStepMoveStrategy()));
+                new General(side, new OneStepMoveStrategy(), new PalaceOneStepMoveStrategy()));
 
         startLine += setupDirection;
         cannonSetUpFormation(board, side, startLine);
@@ -93,14 +92,14 @@ public class BoardFactory {
 
     private static void firstSetUpFormation(Map<Position, Place> board, Side side, int startLine) {
         CHARIOT_COLS.forEach(c -> board.put(new Position(startLine, c),
-                new Chariot(side, new ChariotMoveStrategy(), new PalaceStraightMoveStrategy())));
+                new Chariot(side, new StraightMoveStrategy(), new PalaceStraightMoveStrategy())));
         GUARD_COLS.forEach(c -> board.put(new Position(startLine, c),
-                new Guard(side, new GuardMoveStrategy(), new PalaceOneStepMoveStrategy())));
+                new Guard(side, new OneStepMoveStrategy(), new PalaceOneStepMoveStrategy())));
     }
 
     private static void cannonSetUpFormation(Map<Position, Place> board, Side side, int startLine) {
         CANNON_COLS.forEach(c -> board.put(new Position(startLine, c),
-                new Cannon(side, new CannonMoveStrategy(), new PalaceJumpMoveStrategy())));
+                new Cannon(side, new JumpMoveStrategy(), new PalaceJumpMoveStrategy())));
     }
 
     private static void soldierSetUpFormation(Map<Position, Place> board, Side side, int startLine) {

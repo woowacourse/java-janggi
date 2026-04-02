@@ -3,8 +3,8 @@ package domain.board;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import domain.place.moveStrategy.ChariotMoveStrategy;
-import domain.place.moveStrategy.GeneralMoveStrategy;
+import domain.place.moveStrategy.OneStepMoveStrategy;
+import domain.place.moveStrategy.StraightMoveStrategy;
 import domain.place.moveStrategy.SoldierMoveStrategy;
 import domain.place.palaceMoveStrategy.PalaceOneStepMoveStrategy;
 import domain.place.palaceMoveStrategy.PalaceSoldierMoveStrategy;
@@ -36,10 +36,10 @@ class BoardTest {
                 new PalaceSoldierMoveStrategy(Side.CHO)));
 
         Position position3 = new Position(10, 9);
-        stubBoard.put(position3, new Chariot(Side.CHO, new ChariotMoveStrategy(),
+        stubBoard.put(position3, new Chariot(Side.CHO, new StraightMoveStrategy(),
                 new PalaceStraightMoveStrategy()));
 
-        stubBoard.put(new Position(2,5), new General(Side.CHO, new GeneralMoveStrategy(),
+        stubBoard.put(new Position(2,5), new General(Side.CHO, new OneStepMoveStrategy(),
                 new PalaceOneStepMoveStrategy()));
 
         Position position4 = new Position(6, 1);

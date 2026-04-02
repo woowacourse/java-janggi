@@ -8,7 +8,7 @@ import domain.position.Position;
 import java.util.List;
 import java.util.Map;
 
-public class GeneralMoveStrategy implements MoveStrategy {
+public class OneStepMoveStrategy implements MoveStrategy {
 
     private static final List<Direction> ORTHOGONAL_DIRECTIONS = List.of(
             Direction.DOWN, Direction.LEFT, Direction.RIGHT, Direction.TOP

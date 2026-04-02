@@ -1,11 +1,10 @@
 package factory;
 
 import domain.place.Place;
-import domain.place.moveStrategy.CannonMoveStrategy;
-import domain.place.moveStrategy.ChariotMoveStrategy;
+import domain.place.moveStrategy.JumpMoveStrategy;
+import domain.place.moveStrategy.OneStepMoveStrategy;
+import domain.place.moveStrategy.StraightMoveStrategy;
 import domain.place.moveStrategy.ElephantMoveStrategy;
-import domain.place.moveStrategy.GeneralMoveStrategy;
-import domain.place.moveStrategy.GuardMoveStrategy;
 import domain.place.moveStrategy.HorseMoveStrategy;
 import domain.place.moveStrategy.SoldierMoveStrategy;
 import domain.place.palaceMoveStrategy.PalaceRestrictedMoveStrategy;
@@ -26,12 +25,12 @@ import java.util.function.Function;
 
 public enum PieceFactory {
 
-    GENERAL("궁", side -> new General(side, new GeneralMoveStrategy(), new PalaceOneStepMoveStrategy())),
-    GUARD("사", side -> new Guard(side, new GuardMoveStrategy(), new PalaceOneStepMoveStrategy())),
+    GENERAL("궁", side -> new General(side, new OneStepMoveStrategy(), new PalaceOneStepMoveStrategy())),
+    GUARD("사", side -> new Guard(side, new OneStepMoveStrategy(), new PalaceOneStepMoveStrategy())),
     HORSE("마", side -> new Horse(side, new HorseMoveStrategy(), new PalaceRestrictedMoveStrategy())),
     ELEPHANT("상", side -> new Elephant(side, new ElephantMoveStrategy(), new PalaceRestrictedMoveStrategy())),
-    CHARIOT("차", side -> new Chariot(side, new ChariotMoveStrategy(), new PalaceStraightMoveStrategy())),
-    CANNON("포", side -> new Cannon(side, new CannonMoveStrategy(), new PalaceJumpMoveStrategy())),
+    CHARIOT("차", side -> new Chariot(side, new StraightMoveStrategy(), new PalaceStraightMoveStrategy())),
+    CANNON("포", side -> new Cannon(side, new JumpMoveStrategy(), new PalaceJumpMoveStrategy())),
     SOLDIER("졸", side -> new Soldier(side, new SoldierMoveStrategy(side), new PalaceSoldierMoveStrategy(side)));
 
     private final String code;

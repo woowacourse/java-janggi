@@ -3,7 +3,7 @@ package domain.palaceMoveStrategy;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.place.Place;
-import domain.place.moveStrategy.CannonMoveStrategy;
+import domain.place.moveStrategy.JumpMoveStrategy;
 import domain.place.moveStrategy.MoveStrategy;
 import domain.place.moveStrategy.SoldierMoveStrategy;
 import domain.place.palaceMoveStrategy.PalaceJumpMoveStrategy;
@@ -23,7 +23,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 public class PalaceJumpMoveStrategyTest {
-    private final MoveStrategy moveStrategy = new CannonMoveStrategy();
+    private final MoveStrategy moveStrategy = new JumpMoveStrategy();
     private final PalaceMoveStrategy palaceMoveStrategy = new PalaceJumpMoveStrategy();
 
     static Stream<Arguments> validJumpMoves() {

@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class CannonMoveStrategy implements MoveStrategy {
+public class JumpMoveStrategy implements MoveStrategy {
 
     private static final List<Direction> ORTHOGONAL_DIRECTIONS = List.of(
             Direction.TOP, Direction.DOWN, Direction.LEFT, Direction.RIGHT
