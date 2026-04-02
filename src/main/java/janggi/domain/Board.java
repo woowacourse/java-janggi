@@ -1,6 +1,7 @@
 package janggi.domain;
 
 import janggi.domain.position.Position;
+import janggi.exception.business.EmptyPieceException;
 import janggi.exception.business.EmptyPositionException;
 
 import java.util.HashMap;
@@ -20,6 +21,9 @@ public class Board implements BoardState{
 
     @Override
     public Piece getPieceAt(Position position) {
+        if (board.get(position) == null) {
+            throw new EmptyPieceException();
+        }
         return board.get(position);
     }
 
