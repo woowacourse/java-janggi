@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-public class PositionTest {
+class PositionTest {
 
     @Test
     void 문자열_09로_위치를_생성하면_좌표_10_9를_가지고_있다() {

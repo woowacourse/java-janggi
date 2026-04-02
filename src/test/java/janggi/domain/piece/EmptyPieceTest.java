@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-public class EmptyPieceTest {
+class EmptyPieceTest {
 
     @Test
     void 빈_기물의_팀을_확인하면_거짓을_반환한다() {

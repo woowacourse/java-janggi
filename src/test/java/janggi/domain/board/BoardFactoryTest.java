@@ -10,7 +10,7 @@ import java.util.Map;
 import static janggi.domain.board.PieceSetup.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class BoardFactoryTest {
+class BoardFactoryTest {
 
     @Test
     void 한나라_기물_차림_입력이_4면_한나라는_바깥상_차림이다() {

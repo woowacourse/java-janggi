@@ -12,7 +12,7 @@ import static janggi.domain.board.PieceSetup.OUTER_ELEPHANT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class BoardTest {
+class BoardTest {
 
     @Test
     void 출발_좌표와_도착_좌표를_입력하면_도착_좌표의_기물은_출발_좌표의_기물이_된다() {

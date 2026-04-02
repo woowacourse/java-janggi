@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-public class HorseTest {
+class HorseTest {
 
     @Test
     void 팀_확인_테스트() {
