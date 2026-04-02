@@ -19,5 +19,5 @@ CREATE TABLE IF NOT EXISTS board_cells
     piece_type varchar(30) NOT NULL,
     team       varchar(30) NOT NULL,
     board_id   int,
-    FOREIGN KEY (board_id) REFERENCES boards (id)
+    FOREIGN KEY (board_id) REFERENCES boards (id) ON DELETE CASCADE
 );
