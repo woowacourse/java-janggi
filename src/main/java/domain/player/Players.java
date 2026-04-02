@@ -26,9 +26,16 @@ public class Players {
         }
     }
 
-    public Player getCurrentPlayer() {
+    public Player getActiveTurnPlayer() {
         return players.stream()
                 .filter(Player::isCurrentTurn)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("현재 턴인 플레이어가 없습니다."));
+    }
+
+    public Player getInActiveTurnPlayer() {
+        return players.stream()
+                .filter(player -> !player.isCurrentTurn())
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("현재 턴인 플레이어가 없습니다."));
     }
