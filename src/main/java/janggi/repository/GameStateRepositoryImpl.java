@@ -50,10 +50,8 @@ public class GameStateRepositoryImpl implements GameStateRepository {
 
 
     @Override
-    public long deleteById(final long id) {
+    public boolean deleteById(final long id) {
         final String sql = String.format("DELETE FROM %s WHERE id = %d", TABLE_NAME, id);
-        return dbConnection.executeUpdate(sql);
+        return dbConnection.executeDelete(sql);
     }
-
-
 }

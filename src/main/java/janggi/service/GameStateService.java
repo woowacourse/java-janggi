@@ -23,4 +23,8 @@ public class GameStateService {
 
         return gameStateRepository.update(gameStateEntity);
     }
+
+    public boolean removeGameState(final long id) {
+        return gameStateRepository.deleteById(id);
+    }
 }

@@ -14,6 +14,7 @@ import janggi.entity.GameStateEntity;
 import janggi.repository.GameStateRepository;
 import janggi.repository.GameStateRepositoryImpl;
 import java.util.List;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -21,13 +22,13 @@ import org.junit.jupiter.api.Test;
 
 class GameStateServiceTest {
 
-    static DBConnection dbConnection;
-    static DBTableInitializer dbTableInitializer;
-    static GameStateRepository gameStateRepository;
-    static GameStateService gameStateService;
+    DBConnection dbConnection;
+    DBTableInitializer dbTableInitializer;
+    GameStateRepository gameStateRepository;
+    GameStateService gameStateService;
 
-    @BeforeAll
-    static void setConnection() {
+    @BeforeEach
+    void setUp() {
         dbConnection = new TestDBConnection();
         dbTableInitializer = new DBTableInitializer(dbConnection);
 
@@ -35,11 +36,12 @@ class GameStateServiceTest {
         gameStateService = new GameStateService(gameStateRepository);
 
         dbConnection.init();
+        dbTableInitializer.init();
     }
 
-    @BeforeEach
-    void setDBTable() {
-        dbTableInitializer.init();
+    @AfterEach
+    void cleanUp() {
+        dbConnection.closeConnection();
     }
 
     @Test
@@ -68,6 +70,20 @@ class GameStateServiceTest {
 
         gameStateService.modifyGameState(id, afterTurnManager);
         GameStateEntity actual = gameStateRepository.findById(id);
+
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("게임 상태 삭제 테스트")
+    void RemoveGameState() {
+        Team redTeam = new RedTeam(new InnerElephantSetupPolicy());
+        Team blueTeam = new BlueTeam(new InnerElephantSetupPolicy());
+        TurnManager turnManager = new TurnManager(4, List.of(blueTeam, redTeam));
+        long id = gameStateRepository.save(GameStateEntity.from(turnManager));
+        boolean expected = true;
+
+        boolean actual = gameStateService.removeGameState(id);
 
         assertThat(actual).isEqualTo(expected);
     }

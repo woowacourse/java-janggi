@@ -78,6 +78,20 @@ public class StandardDBConnection implements DBConnection {
     }
 
     @Override
+    public boolean executeDelete(final String sql) {
+        int affectedRowCount = 0;
+        try (
+            final Connection connection = DriverManager.getConnection(url, id, password);
+            final Statement preparedStatement = connection.createStatement();
+        ) {
+            affectedRowCount = preparedStatement.executeUpdate(sql);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return affectedRowCount != 0;
+    }
+
+    @Override
     public void closeConnection() {
 
     }

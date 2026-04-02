@@ -10,6 +10,8 @@ public interface DBConnection {
 
     long executeUpdate(String sql);
 
+    boolean executeDelete(String sql);
+
     void closeConnection();
 
 }
