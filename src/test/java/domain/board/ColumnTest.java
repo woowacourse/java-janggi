@@ -7,32 +7,32 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DisplayName("Col 열거형 테스트")
-class ColTest {
+class ColumnTest {
 
     @Test
     @DisplayName("toCol: 소문자 a-i를 올바른 Col로 변환한다")
-    void toColConvertsLowercaseChar() {
-        assertThat(Col.toCol('a')).isEqualTo(Col.A);
-        assertThat(Col.toCol('e')).isEqualTo(Col.E);
-        assertThat(Col.toCol('i')).isEqualTo(Col.I);
+    void toColumnConvertsLowercaseChar() {
+        assertThat(Column.toColumn('a')).isEqualTo(Column.A);
+        assertThat(Column.toColumn('e')).isEqualTo(Column.E);
+        assertThat(Column.toColumn('i')).isEqualTo(Column.I);
     }
 
     @Test
     @DisplayName("toCol: 대문자 A-I를 올바른 Col로 변환한다")
-    void toColConvertsUppercaseChar() {
-        assertThat(Col.toCol('A')).isEqualTo(Col.A);
-        assertThat(Col.toCol('E')).isEqualTo(Col.E);
-        assertThat(Col.toCol('I')).isEqualTo(Col.I);
+    void toColumnConvertsUppercaseChar() {
+        assertThat(Column.toColumn('A')).isEqualTo(Column.A);
+        assertThat(Column.toColumn('E')).isEqualTo(Column.E);
+        assertThat(Column.toColumn('I')).isEqualTo(Column.I);
     }
 
     @Test
     @DisplayName("toCol: 유효하지 않은 col은 예외를 던진다")
-    void toColThrowsForInvalidChar() {
-        assertThatThrownBy(() -> Col.toCol('j'))
+    void toColumnThrowsForInvalidChar() {
+        assertThatThrownBy(() -> Column.toColumn('j'))
                 .isInstanceOf(IllegalArgumentException.class);
-        assertThatThrownBy(() -> Col.toCol('z'))
+        assertThatThrownBy(() -> Column.toColumn('z'))
                 .isInstanceOf(IllegalArgumentException.class);
-        assertThatThrownBy(() -> Col.toCol('J'))
+        assertThatThrownBy(() -> Column.toColumn('J'))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

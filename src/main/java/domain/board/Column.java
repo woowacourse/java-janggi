@@ -1,6 +1,6 @@
 package domain.board;
 
-public enum Col {
+public enum Column {
     A,
     B,
     C,
@@ -13,16 +13,16 @@ public enum Col {
 
     public boolean canShift(int delta) {
         int next = this.ordinal() + delta;
-        return next >= 0 && next < Col.values().length;
+        return next >= 0 && next < Column.values().length;
     }
 
-    public Col shift(int delta) {
-        return Col.values()[this.ordinal() + delta];
+    public Column shift(int delta) {
+        return Column.values()[this.ordinal() + delta];
     }
 
-    public static Col toCol(char character) {
+    public static Column toColumn(char character) {
         String convertedCharacter = checkExistingColumn(character);
-        return Col.valueOf(convertedCharacter.toUpperCase());
+        return Column.valueOf(convertedCharacter.toUpperCase());
     }
 
     private static String checkExistingColumn(char character) {

@@ -7,7 +7,7 @@ import domain.game.Turn;
 import io.OutputView;
 
 public class PlayingState implements GameState {
-
+//    State = Playing;
     @Override
     public GameState handle(JanggiGame game, Command command) {
         game.move(command.toCoordinate());

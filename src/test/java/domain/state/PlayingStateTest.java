@@ -1,6 +1,6 @@
 package domain.state;
 
-import domain.board.Col;
+import domain.board.Column;
 import domain.board.Position;
 import domain.board.Row;
 import domain.game.JanggiGame;
@@ -36,8 +36,8 @@ class PlayingStateTest {
     void handleValidMoveCommandMovesPiece() {
         game.processCommand(new Command("e6 e5"));
 
-        assertThat(game.getBoard().isEmpty(new Position(Col.E, Row.SIX))).isTrue();
-        assertThat(game.getBoard().pieceAt(new Position(Col.E, Row.FIVE))).isPresent();
+        assertThat(game.getBoard().isEmpty(new Position(Column.E, Row.SIX))).isTrue();
+        assertThat(game.getBoard().pieceAt(new Position(Column.E, Row.FIVE))).isPresent();
     }
 
     @Test

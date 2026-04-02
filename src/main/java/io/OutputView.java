@@ -1,13 +1,13 @@
 package io;
 
 import domain.board.Board;
+import domain.board.Column;
 import domain.board.Position;
 import domain.game.Turn;
-import domain.board.Col;
 import domain.board.Row;
 
 public class OutputView {
-    public static final String RED   = "\u001B[31m";
+    public static final String RED = "\u001B[31m";
     public static final String GREEN = "\u001B[32m";
     public static final String RESET = "\u001B[0m";
     private static final String REQUEST_SETUP = """
@@ -36,7 +36,8 @@ public class OutputView {
 
     private void appendHeader(StringBuilder stringBuilder, Turn turn) {
         stringBuilder.append("--------------------------------------\n");
-        stringBuilder.append("현재 턴: [").append(turn.colorCode(RED, GREEN)).append(turn.display()).append(RESET).append(" 진영]\n\n");
+        stringBuilder.append("현재 턴: [").append(turn.colorCode(RED, GREEN)).append(turn.display()).append(RESET)
+                .append(" 진영]\n\n");
         stringBuilder.append("     a   b   c   d   e   f   g   h   i\n");
     }
 
@@ -48,8 +49,8 @@ public class OutputView {
 
     private void appendRow(StringBuilder stringBuilder, Board board, Row row) {
         stringBuilder.append(String.format("%2s  ", row.display()));
-        for (Col col : Col.values()) {
-            appendCell(stringBuilder, board, new Position(col, row));
+        for (Column column : Column.values()) {
+            appendCell(stringBuilder, board, new Position(column, row));
         }
         stringBuilder.append("\n");
     }
