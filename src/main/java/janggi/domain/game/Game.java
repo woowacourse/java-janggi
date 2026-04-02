@@ -34,17 +34,21 @@ public class Game {
         return positions;
     }
 
+    public void movePiece(Position from, Position to) {
+        board.movePiece(from, to, currentTurn.currentDynasty());
+        currentTurn.changeTurn();
+    }
+
+    public boolean isFinished() {
+        return board.hasNoGeneral();
+    }
+
     public Map<Position, Piece> boardMap() {
         return board.board();
     }
 
     public CurrentTurn currentTurn() {
         return currentTurn;
-    }
-
-    public void movePiece(Position from, Position to) {
-        board.movePiece(from, to, currentTurn.currentDynasty());
-        currentTurn.changeTurn();
     }
 
 }

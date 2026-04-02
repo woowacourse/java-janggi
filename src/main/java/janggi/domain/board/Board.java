@@ -2,6 +2,7 @@ package janggi.domain.board;
 
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
 import java.util.HashMap;
 import java.util.List;
@@ -34,6 +35,17 @@ public class Board {
 
         Piece fromPiece = board.remove(from);
         board.put(to, fromPiece);
+    }
+
+    public boolean hasNoGeneral() {
+        int generalCount = 0;
+        for (Piece piece : board.values()) {
+            if (piece.isSamePieceType(PieceType.GENERAL)) {
+                generalCount++;
+            }
+        }
+
+        return generalCount != 2;
     }
 
     public Map<Position, Piece> board() {
