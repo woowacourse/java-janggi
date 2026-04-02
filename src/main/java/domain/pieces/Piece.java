@@ -1,7 +1,7 @@
 package domain.pieces;
 
 import domain.Camp;
-import domain.ExistBoard;
+import domain.BoardReader;
 import domain.PieceType;
 import domain.Position;
 
@@ -75,7 +75,7 @@ public abstract class Piece {
         return new Position(++x, ++y);
     }
 
-    public abstract boolean canMove(Position from, Position to, ExistBoard existBoard);
+    public abstract boolean canMove(Position from, Position to, BoardReader boardReader);
 
     public PieceType getPieceType() {
         return this.pieceType;

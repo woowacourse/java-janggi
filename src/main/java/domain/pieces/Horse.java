@@ -1,7 +1,7 @@
 package domain.pieces;
 
 import domain.Camp;
-import domain.ExistBoard;
+import domain.BoardReader;
 import domain.PieceType;
 import domain.Position;
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ public class Horse extends Piece {
     }
 
     @Override
-    public boolean canMove(Position from, Position to, ExistBoard existBoard) {
+    public boolean canMove(Position from, Position to, BoardReader boardReader) {
         Map<Position, List<Position>> routeOfDestination = new HashMap<>();
 
         routeOfDestination.putAll(move_U_RU(from));
@@ -34,7 +34,7 @@ public class Horse extends Piece {
 
         List<Position> route = routeOfDestination.get(to);
         for (Position position : route) {
-            if (existBoard.isExist(position)) {
+            if (boardReader.isExist(position)) {
                 return false;
             }
         }

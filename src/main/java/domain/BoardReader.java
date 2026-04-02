@@ -2,7 +2,7 @@ package domain;
 
 import domain.pieces.Piece;
 
-public interface ExistBoard {
+public interface BoardReader {
 
     boolean isExist(Position position);
 

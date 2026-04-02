@@ -1,7 +1,7 @@
 package domain.pieces;
 
 import domain.Camp;
-import domain.ExistBoard;
+import domain.BoardReader;
 import domain.PieceType;
 import domain.Position;
 import java.util.HashSet;
@@ -14,25 +14,25 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public boolean canMove(Position from, Position to, ExistBoard existBoard) {
+    public boolean canMove(Position from, Position to, BoardReader boardReader) {
         Set<Position> movablePositions = new HashSet<>();
 
-        movablePositions.addAll(moveUp(from, existBoard));
-        movablePositions.addAll(moveLeft(from, existBoard));
-        movablePositions.addAll(moveRight(from, existBoard));
-        movablePositions.addAll(moveDown(from, existBoard));
+        movablePositions.addAll(moveUp(from, boardReader));
+        movablePositions.addAll(moveLeft(from, boardReader));
+        movablePositions.addAll(moveRight(from, boardReader));
+        movablePositions.addAll(moveDown(from, boardReader));
 
         return movablePositions.contains(to);
     }
 
-    private Set<Position> moveRight(Position position, ExistBoard existBoard) {
+    private Set<Position> moveRight(Position position, BoardReader boardReader) {
         Set<Position> movablePositions = new HashSet<>();
         boolean jumping = false;
 
         try {
             while (!jumping) {
                 position = right(position);
-                jumping = checkCannonJumping(position, existBoard);
+                jumping = checkCannonJumping(position, boardReader);
             }
         } catch (IllegalArgumentException e) {
 
@@ -41,10 +41,10 @@ public class Cannon extends Piece {
         try {
             do {
                 position = right(position);
-                if (existBoard.isDifferentPieceType(position, this)) {
+                if (boardReader.isDifferentPieceType(position, this)) {
                     movablePositions.add(position);
                 }
-            } while (!existBoard.isExist(position));
+            } while (!boardReader.isExist(position));
         } catch (IllegalArgumentException e) {
 
         }
@@ -52,14 +52,14 @@ public class Cannon extends Piece {
         return movablePositions;
     }
 
-    private Set<Position> moveLeft(Position position, ExistBoard existBoard) {
+    private Set<Position> moveLeft(Position position, BoardReader boardReader) {
         Set<Position> movablePositions = new HashSet<>();
         boolean jumping = false;
 
         try {
             while (!jumping) {
                 position = left(position);
-                jumping = checkCannonJumping(position, existBoard);
+                jumping = checkCannonJumping(position, boardReader);
             }
         } catch (IllegalArgumentException e) {
 
@@ -68,10 +68,10 @@ public class Cannon extends Piece {
         try {
             do {
                 position = left(position);
-                if (existBoard.isDifferentPieceType(position, this)) {
+                if (boardReader.isDifferentPieceType(position, this)) {
                     movablePositions.add(position);
                 }
-            } while (!existBoard.isExist(position));
+            } while (!boardReader.isExist(position));
         } catch (IllegalArgumentException e) {
 
         }
@@ -79,14 +79,14 @@ public class Cannon extends Piece {
         return movablePositions;
     }
 
-    private Set<Position> moveUp(Position position, ExistBoard existBoard) {
+    private Set<Position> moveUp(Position position, BoardReader boardReader) {
         Set<Position> movablePositions = new HashSet<>();
         boolean jumping = false;
 
         try {
             while (!jumping) {
                 position = up(position);
-                jumping = checkCannonJumping(position, existBoard);
+                jumping = checkCannonJumping(position, boardReader);
             }
         } catch (IllegalArgumentException e) {
 
@@ -95,10 +95,10 @@ public class Cannon extends Piece {
         try {
             do {
                 position = up(position);
-                if (existBoard.isDifferentPieceType(position, this)) {
+                if (boardReader.isDifferentPieceType(position, this)) {
                     movablePositions.add(position);
                 }
-            } while (!existBoard.isExist(position));
+            } while (!boardReader.isExist(position));
         } catch (IllegalArgumentException e) {
 
         }
@@ -106,14 +106,14 @@ public class Cannon extends Piece {
         return movablePositions;
     }
 
-    private Set<Position> moveDown(Position position, ExistBoard existBoard) {
+    private Set<Position> moveDown(Position position, BoardReader boardReader) {
         Set<Position> movablePositions = new HashSet<>();
         boolean jumping = false;
 
         try {
             while (!jumping) {
                 position = down(position);
-                jumping = checkCannonJumping(position, existBoard);
+                jumping = checkCannonJumping(position, boardReader);
             }
         } catch (IllegalArgumentException e) {
 
@@ -122,10 +122,10 @@ public class Cannon extends Piece {
         try {
             do {
                 position = down(position);
-                if (existBoard.isDifferentPieceType(position, this)) {
+                if (boardReader.isDifferentPieceType(position, this)) {
                     movablePositions.add(position);
                 }
-            } while (!existBoard.isExist(position));
+            } while (!boardReader.isExist(position));
         } catch (IllegalArgumentException e) {
 
         }
@@ -133,7 +133,7 @@ public class Cannon extends Piece {
         return movablePositions;
     }
 
-    private boolean checkCannonJumping(Position position, ExistBoard existBoard) {
-        return existBoard.isExist(position) && existBoard.isDifferentPieceType(position, this);
+    private boolean checkCannonJumping(Position position, BoardReader boardReader) {
+        return boardReader.isExist(position) && boardReader.isDifferentPieceType(position, this);
     }
 }

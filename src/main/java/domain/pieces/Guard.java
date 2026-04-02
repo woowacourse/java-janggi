@@ -1,7 +1,7 @@
 package domain.pieces;
 
 import domain.Camp;
-import domain.ExistBoard;
+import domain.BoardReader;
 import domain.PieceType;
 import domain.Position;
 import java.util.HashSet;
@@ -14,7 +14,7 @@ public class Guard extends Piece {
     }
 
     @Override
-    public boolean canMove(Position from, Position to, ExistBoard existBoard) {
+    public boolean canMove(Position from, Position to, BoardReader boardReader) {
 
         Set<Position> destination = new HashSet<>();
 
