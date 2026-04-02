@@ -7,12 +7,12 @@ import janggi.domain.position.Position;
 import janggi.domain.position.Row;
 import janggi.domain.Team;
 import janggi.dto.BoardDto;
+import janggi.dto.PositionInputDto;
+import janggi.dto.TeamInputDto;
 import janggi.exception.business.BusinessException;
 import janggi.exception.input.InputException;
 import janggi.view.InputView;
 import janggi.view.OutputView;
-
-import java.util.List;
 
 public class Controller {
     private final InputView inputView;
@@ -35,9 +35,11 @@ public class Controller {
         for (int i = 0; i < 10; i++) {
             while (true) {
                 try {
-                    List<Integer> positions = inputView.playTurn(currentTeam.getTeam());
-                    Position from = Position.of(Row.of(positions.get(0)), Column.of(positions.get(1)));
-                    Position to = Position.of(Row.of(positions.get(2)), Column.of(positions.get(3)));
+                    TeamInputDto teamInputDto = new TeamInputDto(currentTeam);
+                    PositionInputDto moveInputDto = inputView.playTurn(teamInputDto.getTeamName());
+
+                    Position from = Position.of(Row.of(moveInputDto.getFromRow()), Column.of(moveInputDto.getFromCol()));
+                    Position to = Position.of(Row.of(moveInputDto.getToRow()), Column.of(moveInputDto.getToCol()));
 
                     board.move(from, to);
                     outputView.printBoard(BoardDto.from(board));
