@@ -20,6 +20,8 @@ public class OutputView {
     private static final String VERTICAL = "│";
     private static final String ROW_LABEL_FORMAT = "%2d ";
 
+    private OutputView() {}
+
     public static void printBoard(BoardResponseDto nowBoardState) {
         Map<Position, PieceDto> state = nowBoardState.state();
         System.out.println();
