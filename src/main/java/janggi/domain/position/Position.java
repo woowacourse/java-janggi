@@ -25,14 +25,6 @@ public class Position {
         return new Position(new Row(extractRowValue(rowColumn)), new Column(extractColumnValue(rowColumn)));
     }
 
-    public int calculateRowDiff(Position other) {
-        return other.getRowValue() - getRowValue();
-    }
-
-    public int calculateColumnDiff(Position other) {
-        return other.getColumnValue() - getColumnValue();
-    }
-
     public Position nextStraight(Position to) {
         int diffRow = calculateRowDiff(to);
         int diffColumn = calculateColumnDiff(to);
@@ -74,6 +66,14 @@ public class Position {
 
     private static int extractColumnValue(String rowColumn) {
         return rowColumn.charAt(COLUMN_INDEX) - '0';
+    }
+
+    private int calculateRowDiff(Position other) {
+        return other.getRowValue() - getRowValue();
+    }
+
+    private int calculateColumnDiff(Position other) {
+        return other.getColumnValue() - getColumnValue();
     }
 
     @Override
