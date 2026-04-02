@@ -7,6 +7,9 @@ import java.util.List;
 
 public abstract class Piece {
 
+    private static final String PIECE_NOT_FOUND = "해당 위치에 기물이 존재하지 않습니다.";
+    private static final String NOT_OWN_PIECE = "선택한 기물은 아군 기물이 아닙니다.";
+
     protected static final String CANNOT_CAPTURE_OWN_PIECE = "아군 기물은 잡을 수 없습니다.";
     protected static final String INVALID_TARGET_POSITION = "이동할 수 없는 목적지입니다.";
 
@@ -40,6 +43,17 @@ public abstract class Piece {
                 throw new IllegalArgumentException(INVALID_TARGET_POSITION);
             }
         }
+    }
+
+    public void validateMovement(Side currentTurn, Piece targetPiece) {
+        if (this instanceof Empty) {
+            throw new IllegalArgumentException(PIECE_NOT_FOUND);
+        }
+        if (!side.equals(currentTurn)) {
+            throw new IllegalArgumentException(NOT_OWN_PIECE);
+        }
+
+        checkTarget(targetPiece);
     }
 
     public abstract String getName();

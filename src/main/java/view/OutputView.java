@@ -2,9 +2,7 @@ package view;
 
 import domain.Position;
 import domain.Side;
-import domain.Turn;
 import domain.piece.Piece;
-
 import java.util.Map;
 
 public class OutputView {
@@ -28,9 +26,9 @@ public class OutputView {
         }
     }
 
-    public void printCurrentTurn(Turn turn) {
+    public void printCurrentTurn(Side currentSide) {
         System.out.println();
-        if(turn.current() == Side.CHO) {
+        if (currentSide == Side.CHO) {
             System.out.println("초의 차례입니다.");
             return;
         }

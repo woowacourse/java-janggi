@@ -1,10 +1,9 @@
 package controller;
 
-import domain.Board;
 import domain.Formation;
+import domain.Game;
 import domain.Position;
 import domain.Side;
-import domain.Turn;
 import util.Parser;
 import view.InputView;
 import view.OutputView;
@@ -20,23 +19,22 @@ public class JanggiController {
     }
 
     public void run() {
-        Board board = initBoard();
-        processMove(board);
+        Game game = initGame();
+        processMove(game);
     }
 
-    private void processMove(Board board) {
-        Turn turn = new Turn(Side.CHO);
+    private void processMove(Game game) {
         while (true) {
-            outputView.printCurrentTurn(turn);
+            Side currentTurn = game.getCurrentTurn();
+            outputView.printCurrentTurn(currentTurn);
             Position sourcePosition = readSourcePosition();
             Position targetPosition = readTargetPosition();
             try {
-                board.movePiece(turn, sourcePosition, targetPosition);
-                turn.next();
+                game.move(sourcePosition, targetPosition);
             } catch (IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());
             }
-            outputView.printBoardStatus(board.getBoard());
+            outputView.printBoardStatus(game.getBoard());
         }
     }
 
@@ -64,12 +62,12 @@ public class JanggiController {
         }
     }
 
-    private Board initBoard() {
+    private Game initGame() {
         Formation choformation = readChoFormation();
         Formation hanformation = readHanFormation();
-        Board board = new Board(choformation, hanformation);
-        outputView.printBoardStatus(board.getBoard());
-        return board;
+        Game game = new Game(choformation, hanformation);
+        outputView.printBoardStatus(game.getBoard());
+        return game;
     }
 
     private Formation readChoFormation() {

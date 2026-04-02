@@ -1,7 +1,8 @@
 package domain;
 
-import domain.piece.*;
-
+import domain.piece.Empty;
+import domain.piece.Piece;
+import domain.piece.PieceType;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,20 +10,17 @@ import java.util.Map;
 
 public class Board {
 
-    private static final String PIECE_NOT_FOUND = "해당 위치에 기물이 존재하지 않습니다.";
-    private static final String NOT_OWN_PIECE = "선택한 기물은 아군 기물이 아닙니다.";
+    private static final int BACK_Y = 0;
+    private static final int KING_Y = 1;
+    private static final int CANNON_Y = 2;
+    private static final int SOLDIER_Y = 3;
 
-    private final int BACK_Y = 0;
-    private final int KING_Y = 1;
-    private final int CANNON_Y = 2;
-    private final int SOLDIER_Y = 3;
-
-    private final List<Integer> CANNON_X = List.of(2, 8);
-    private final List<Integer> CHARIOT_X = List.of(1, 9);
-    private final List<Integer> GUARD_X = List.of(4, 6);
-    private final List<Integer> KING_X = List.of(5);
-    private final List<Integer> SOLIDER_X = List.of(1, 3, 5, 7, 9);
-    private final List<Integer> FORMATION_X = List.of(2, 3, 7, 8);
+    private static final List<Integer> CANNON_X = List.of(2, 8);
+    private static final List<Integer> CHARIOT_X = List.of(1, 9);
+    private static final List<Integer> GUARD_X = List.of(4, 6);
+    private static final List<Integer> KING_X = List.of(5);
+    private static final List<Integer> SOLIDER_X = List.of(1, 3, 5, 7, 9);
+    private static final List<Integer> FORMATION_X = List.of(2, 3, 7, 8);
 
     private final Map<Position, Piece> board = new HashMap<>();
 
@@ -30,22 +28,13 @@ public class Board {
         createBoard(choFormation, hanFormation);
     }
 
-    public void movePiece(Turn turn, Position sourcePosition, Position targetPosition) {
-        Piece piece = board.get(sourcePosition);
-
-        validatePieceExists(piece);
-        validateOwnPiece(piece, turn);
-
-        List<Position> route = piece.findRoute(sourcePosition, targetPosition);
-        findPiecesOnRoute(piece, route, targetPosition);
-
-        validateAvailableTarget(piece, targetPosition);
+    public void movePiece(Position sourcePosition, Position targetPosition) {
         board.put(targetPosition, board.get(sourcePosition));
         board.put(sourcePosition, new Empty());
     }
 
     public Map<Position, Piece> getBoard() {
-        return board;
+        return Map.copyOf(board);
     }
 
     private void createBoard(Formation choFormation, Formation hanFormation) {
@@ -69,10 +58,10 @@ public class Board {
     }
 
     private List<Integer> getRowForSide(Side side) {
-        if(side == Side.HAN) {
-            return List.of(1,2,3,4);
+        if (side == Side.HAN) {
+            return List.of(1, 2, 3, 4);
         }
-        return List.of(10,9,8,7);
+        return List.of(10, 9, 8, 7);
     }
 
     private void placePiece(Position position, Piece piece) {
@@ -80,41 +69,29 @@ public class Board {
     }
 
     private void placePiece(List<Integer> xPositions, int y, PieceType pieceType, Side side) {
-        for(int x : xPositions) {
+        for (int x : xPositions) {
             board.put(Position.of(x, y), pieceType.create(side));
         }
     }
 
     private void placeFormationPiece(Formation formation, List<Integer> formationX, int y, Side side) {
         List<PieceType> pieceTypes = formation.getPieceTypes();
-        for(int i = 0; i < pieceTypes.size(); i++) {
+        for (int i = 0; i < pieceTypes.size(); i++) {
             board.put(Position.of(formationX.get(i), y), pieceTypes.get(i).create(side));
         }
     }
 
-    private void validatePieceExists(Piece piece) {
-        if(piece instanceof Empty) {
-            throw new IllegalArgumentException(PIECE_NOT_FOUND);
-        }
-    }
-
-    private void findPiecesOnRoute(Piece piece, List<Position> route, Position targetPosition) {
+    public List<Piece> findPiecesOnRoute(List<Position> route, Position targetPosition) {
         List<Piece> pieces = new ArrayList<>();
-        for(Position position : route) {
-            if(!position.equals(targetPosition)) {
+        for (Position position : route) {
+            if (!position.equals(targetPosition)) {
                 pieces.add(board.get(position));
             }
         }
-        piece.checkRoute(pieces);
+        return pieces;
     }
 
-    private void validateOwnPiece(Piece piece, Turn turn) {
-        if(!piece.getSide().equals(turn.current())) {
-            throw new IllegalArgumentException(NOT_OWN_PIECE);
-        }
-    }
-
-    private void validateAvailableTarget(Piece piece, Position targetPosition) {
-        piece.checkTarget(board.get(targetPosition));
+    public Piece getPiece(Position position) {
+        return board.get(position);
     }
 }
