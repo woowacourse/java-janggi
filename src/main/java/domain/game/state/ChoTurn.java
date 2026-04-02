@@ -4,24 +4,10 @@ import common.exception.JanggiException;
 import domain.game.Game;
 import domain.player.Team;
 import domain.position.Position;
-import java.util.Set;
 
 public class ChoTurn extends Running {
     public ChoTurn(Game game) {
         super(game);
-    }
-
-    @Override
-    public void move(Position source, Position destination) {
-        if (game.isHan(source)) {
-            throw new JanggiException("초 차례입니다. 한 기물이 선택되었습니다.");
-        }
-        game.movePiece(source, destination);
-        if (game.isJangCaught()) {
-            game.changeState(new Finished(game, Team.CHO));
-            return;
-        }
-        game.changeState(new HanTurn(game));
     }
 
     @Override
@@ -30,10 +16,19 @@ public class ChoTurn extends Running {
     }
 
     @Override
-    public Set<Position> selectPiece(Position source) {
-        if (game.isHan(source)) {
+    protected void validateTurn(Position source) {
+        if (game.isCho(source)) {
             throw new JanggiException("초 차례입니다. 한 기물이 선택되었습니다.");
         }
-        return game.findMovablePositions(source);
+    }
+
+    @Override
+    protected void changeTurn() {
+        game.changeState(new HanTurn(game));
+    }
+
+    @Override
+    protected void finishGame() {
+        game.changeState(new Finished(game, Team.CHO));
     }
 }
