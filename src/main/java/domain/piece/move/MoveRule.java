@@ -10,7 +10,7 @@ public abstract class MoveRule {
     protected final PieceType pieceType;
     protected final Directions directions;
 
-    public MoveRule(PieceType pieceType, Directions directions) {
+    protected MoveRule(PieceType pieceType, Directions directions) {
         this.pieceType = pieceType;
         this.directions = directions;
     }
