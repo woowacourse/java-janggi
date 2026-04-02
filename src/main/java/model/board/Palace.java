@@ -9,8 +9,8 @@ public class Palace {
     private static final int HAN_MAX_ROW = 3;
     private static final int CHO_MIN_ROW = 8;
     private static final int CHO_MAX_ROW = 10;
-    private static final int MIN_COL = 1;
-    private static final int MAX_COL = 9;
+    private static final int MIN_COL = 4;
+    private static final int MAX_COL = 6;
     private static final Map<Position, List<Position>> PALACE = Map.of(
             pos(1, 4), List.of(pos(2, 5), pos(3, 6)),
             pos(1, 6), List.of(pos(2, 5), pos(3, 4)),
