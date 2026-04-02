@@ -1,4 +1,4 @@
-package view;
+package ui.view;
 
 import static common.Constants.MAX_COLUMN;
 import static common.Constants.MAX_ROW;

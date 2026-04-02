@@ -1,4 +1,4 @@
-package view;
+package ui.view;
 
 import static common.exception.ErrorMessage.INVALID_NUMBER_INPUT;
 import static common.exception.ErrorMessage.INVALID_POSITION_INPUT;

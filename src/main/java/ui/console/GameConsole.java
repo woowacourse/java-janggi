@@ -1,4 +1,4 @@
-package domain.console;
+package ui.console;
 
 import static domain.player.Team.CHO;
 import static domain.player.Team.HAN;
@@ -16,8 +16,8 @@ import domain.position.Position;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
-import view.InputView;
-import view.OutputView;
+import ui.view.InputView;
+import ui.view.OutputView;
 
 public class GameConsole {
     InputView inputView = new InputView();
