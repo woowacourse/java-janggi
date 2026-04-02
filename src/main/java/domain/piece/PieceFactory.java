@@ -10,6 +10,8 @@ import java.util.Map;
 
 public class PieceFactory {
     private static final MovementStrategy LINEAR_ONE_STEP = new OneStepStrategy(Direction.linear());
+    private static final MovementStrategy CHO_SOLDIER_STRATEGY = new OneStepStrategy(Direction.choSoldier());
+    private static final MovementStrategy HAN_SOLDIER_STRATEGY = new OneStepStrategy(Direction.hanSoldier());
     private static final MovementStrategy HORSE_STRATEGY = new SequenceStrategy(Direction.horseSequences());
     private static final MovementStrategy ELEPHANT_STRATEGY = new SequenceStrategy(Direction.elephantSequences());
     private static final MovementStrategy CONTINUOUS_STRATEGY = new ContinuousStrategy(Direction.linear());
@@ -23,8 +25,8 @@ public class PieceFactory {
             Side.HAN, new Guard(Side.HAN, LINEAR_ONE_STEP)
     );
     private static final Map<Side, Soldier> SOLDIERS = Map.of(
-            Side.CHO, new Soldier(Side.CHO, LINEAR_ONE_STEP),
-            Side.HAN, new Soldier(Side.HAN, LINEAR_ONE_STEP)
+            Side.CHO, new Soldier(Side.CHO, CHO_SOLDIER_STRATEGY),
+            Side.HAN, new Soldier(Side.HAN, HAN_SOLDIER_STRATEGY)
     );
     private static final Map<Side, Horse> HORSES = Map.of(
             Side.CHO, new Horse(Side.CHO, HORSE_STRATEGY),

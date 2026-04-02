@@ -42,6 +42,14 @@ public enum Direction {
         );
     }
 
+    public static List<Direction> choSoldier() {
+        return List.of(N, E, W);
+    }
+
+    public static List<Direction> hanSoldier() {
+        return List.of(S, E, W);
+    }
+
     public int getDx() {
         return dx;
     }

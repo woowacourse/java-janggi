@@ -2,6 +2,7 @@ package domain.board;
 
 import domain.Destinations;
 import domain.Position;
+import domain.Side;
 import domain.piece.Piece;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,6 +43,14 @@ public class Board implements BoardReader{
     @Override
     public boolean isEmpty(Position position) {
         return !board.containsKey(position);
+    }
+
+    @Override
+    public boolean isAlly(Position position, Side side) {
+        if (isEmpty(position)) {
+            return false;
+        }
+        return getPiece(position).isAlly(side);
     }
 
     @Override

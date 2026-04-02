@@ -7,6 +7,7 @@ import domain.strategy.MovementStrategy;
 import domain.strategy.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Chariot extends Piece {
     public Chariot(Side side, MovementStrategy movementStrategy) {
@@ -15,39 +16,18 @@ public class Chariot extends Piece {
 
     @Override
     protected List<Position> filterValidPositions(Position current, List<Path> paths, BoardReader board) {
-        List<Position> valid = new ArrayList<>();
-        for (Path path : paths) {
-            collectPathPositions(valid, path, board);
-        }
-        return valid;
+        return paths.stream()
+                .flatMap(path -> getReachablePositions(path, board).stream())
+                .toList();
     }
 
-    private void collectPathPositions(List<Position> valid, Path path, BoardReader board) {
-        List<Position> positions = path.getPositions();
-        int obstacleIndex = findObstacleIndex(positions, board);
-        valid.addAll(positions.subList(0, obstacleIndex));
-        addCaptureIfPossible(valid, positions, obstacleIndex, board);
-    }
-
-    private int findObstacleIndex(List<Position> positions, BoardReader board) {
-        int index = 0;
-        while (index < positions.size() && board.isEmpty(positions.get(index))) {
-            index++;
-        }
-        return index;
-    }
-
-    private void addCaptureIfPossible(List<Position> valid, List<Position> positions, int index, BoardReader board) {
-        if (index < positions.size()) {
-            addIfEnemy(valid, positions.get(index), board);
-        }
-    }
-
-    private void addIfEnemy(List<Position> valid, Position position, BoardReader board) {
-        Piece target = board.getPiece(position);
-        if (!target.isAlly(getSide())) {
-            valid.add(position);
-        }
+    private List<Position> getReachablePositions(Path path, BoardReader board) {
+        Path emptyPath = path.takeWhile(board::isEmpty);
+        Optional<Position> obstacle = path.findFirst(pos -> !board.isEmpty(pos));
+        List<Position> reachable = new ArrayList<>(emptyPath.toList());
+        obstacle.filter(position -> !board.getPiece(position).isAlly(getSide()))
+                .ifPresent(reachable::add);
+        return reachable;
     }
 
     @Override

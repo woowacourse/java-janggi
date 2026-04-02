@@ -72,10 +72,6 @@ public enum Side {
         return this.equals(other);
     }
 
-    public boolean isCho() {
-        return this.equals(Side.CHO);
-    }
-
     public String getName() {
         return name;
     }
