@@ -27,17 +27,17 @@ public class Turn {
     }
 
     public Turn move(Position startPosition, Position endPosition) {
-        TeamType nowTurn = opponentTeamType();
+        TeamType nowTurn = playingTeamType();
         Board movedBoard = board.move(startPosition, endPosition, nowTurn);
         return new Turn(nowTurn, movedBoard);
     }
 
     public void canMove(Position startPosition, Position endPosition) {
-        board.canMove(startPosition, endPosition, opponentTeamType());
+        board.canMove(startPosition, endPosition, playingTeamType());
     }
 
     public String nextTurnTeam() {
-        TeamType teamType = opponentTeamType();
+        TeamType teamType = playingTeamType();
         return teamType.getName();
     }
 
@@ -45,7 +45,7 @@ public class Turn {
         return board.makeSnapShot();
     }
 
-    private TeamType opponentTeamType() {
+    private TeamType playingTeamType() {
         if (movedTeam == TeamType.CHU) {
             return TeamType.HAN;
         }
