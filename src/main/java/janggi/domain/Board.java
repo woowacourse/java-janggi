@@ -5,7 +5,9 @@ import janggi.domain.team.Team;
 import janggi.domain.team.TeamType;
 import janggi.dto.BoardSpot;
 import janggi.dto.BoardSpots;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 public class Board {
@@ -14,21 +16,24 @@ public class Board {
     private static final int LAST_X_INDEX = 9;
     private static final int LAST_Y_INDEX = 10;
 
-    private final Team chu;
-    private final Team han;
+    private final List<Team> teams;
 
-    private Board(Team chu, Team han) {
-        this.chu = chu;
-        this.han = han;
+    private Board(List<Team> teams) {
+        this.teams = new ArrayList<>(teams);
     }
 
     public static Board createInitialBoard() {
-        return new Board(Team.createInitialTeam(TeamType.CHU), Team.createInitialTeam(TeamType.HAN));
+        return new Board(List.of(
+            Team.createInitialTeam(TeamType.CHU),
+            Team.createInitialTeam(TeamType.HAN)
+        ));
     }
 
     public BoardSpots makeSnapShot() {
-        HashMap<Position, BoardSpot> boardSpots = new HashMap<>(chu.makeSnapShot().value());
-        boardSpots.putAll(han.makeSnapShot().value());
+        HashMap<Position, BoardSpot> boardSpots = new HashMap<>();
+        for (Team team : teams) {
+            boardSpots.putAll(team.makeSnapShot().value());
+        }
         return new BoardSpots(boardSpots);
     }
 
@@ -44,11 +49,10 @@ public class Board {
     }
 
     public Optional<Piece> findPiece(Position position) {
-        Optional<Piece> chuPiece = chu.findPiece(position);
-        if (chuPiece.isPresent()) {
-            return chuPiece;
-        }
-        return han.findPiece(position);
+        return teams.stream()
+            .map(team -> team.findPiece(position))
+            .flatMap(Optional::stream)
+            .findFirst();
     }
 
     public boolean hasPiece(Position position) {
@@ -64,9 +68,9 @@ public class Board {
     }
 
     public Board move(
-            Position startPosition,
-            Position endPosition,
-            TeamType nowTurn
+        Position startPosition,
+        Position endPosition,
+        TeamType nowTurn
     ) {
         Team movedCurrentTeam = currentTeam(nowTurn).move(startPosition, endPosition);
         Team remainedOpponentTeam = removeOpponentPiece(nowTurn, endPosition);
@@ -75,21 +79,15 @@ public class Board {
 
     private Piece findTeamPiece(Position position, Team nowTeam) {
         return nowTeam.findPiece(position)
-                .orElseThrow(() -> new IllegalArgumentException("입력한 위치에 기물이 없습니다."));
+            .orElseThrow(() -> new IllegalArgumentException("입력한 위치에 기물이 없습니다."));
     }
 
-    private Team currentTeam(TeamType nowTurn) {
-        if (nowTurn == TeamType.CHU) {
-            return chu;
-        }
-        return han;
+    private Team currentTeam(TeamType nowTurnTeamType) {
+        return findSpecificTeam(nowTurnTeamType);
     }
 
-    private Team opponentTeam(TeamType nowTurn) {
-        if (nowTurn == TeamType.CHU) {
-            return han;
-        }
-        return chu;
+    private Team opponentTeam(TeamType nowTurnTeamType) {
+        return findSpecificTeam(nowTurnTeamType.findOpponent());
     }
 
     private void validateCanMove(Piece piece, Position piecePosition, Position targetPosition) {
@@ -117,10 +115,25 @@ public class Board {
     }
 
     private Board createMovedBoard(TeamType nowTurn, Team movedCurrentTeam, Team remainedOpponentTeam) {
-        if (nowTurn == TeamType.CHU) {
-            return new Board(movedCurrentTeam, remainedOpponentTeam);
+        List<Team> movedTeams = teams.stream()
+            .map(team -> replaceMovedTeam(nowTurn, movedCurrentTeam, remainedOpponentTeam, team))
+            .toList();
+        return new Board(movedTeams);
+    }
+
+    private Team replaceMovedTeam(
+        TeamType nowTurn,
+        Team movedCurrentTeam,
+        Team remainedOpponentTeam,
+        Team team
+    ) {
+        if (team.isSameTeamType(nowTurn)) {
+            return movedCurrentTeam;
         }
-        return new Board(remainedOpponentTeam, movedCurrentTeam);
+        if (team.isSameTeamType(nowTurn.findOpponent())) {
+            return remainedOpponentTeam;
+        }
+        return team;
     }
 
     private void validateRange(Position inputPosition) {
@@ -137,5 +150,13 @@ public class Board {
 
     private boolean isNotInRange(int start, int last, int index) {
         return !isInRange(start, last, index);
+    }
+
+    private Team findSpecificTeam(TeamType teamType) {
+        return teams.stream()
+            .filter(team -> team.isSameTeamType(teamType))
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException(String.format("%s 팀이 존재하지 않습니다.", teamType.getName()))
+            );
     }
 }

@@ -11,6 +11,13 @@ public enum TeamType {
         this.name = name;
     }
 
+    public TeamType findOpponent() {
+        if (this == CHU) {
+            return HAN;
+        }
+        return CHU;
+    }
+
     public String getName() {
         return name;
     }
