@@ -48,15 +48,15 @@ public class CannonMoveStrategy extends MoveStrategy {
     }
 
     private List<Position> horizontalRoute(Position currentPosition, Position destination) {
-        List<Position> routePositons = new ArrayList<>();
+        List<Position> routePositions = new ArrayList<>();
 
         int startCol = Math.min(currentPosition.col(), destination.col()) + 1;
         int endCol = Math.max(currentPosition.col(), destination.col());
 
         for (int col = startCol; col < endCol; col++) {
-            routePositons.add(new Position(currentPosition.row(), col));
+            routePositions.add(new Position(currentPosition.row(), col));
         }
-        return routePositons;
+        return routePositions;
     }
 
     private List<Position> verticalRouteTo(Position currentPosition, Position destination) {
