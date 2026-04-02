@@ -36,4 +36,28 @@ class DirectionInformationTest {
         // then
         assertThat(result).isEqualTo(expectedResult);
     }
+
+    @ParameterizedTest
+    @CsvSource({
+            "2, 3, 2, 3, true",
+            "2, 3, 3, 2, true",
+            "-2, 3, 2, 3, true",
+            "2, -3, 3, 2, true",
+            "1, 2, 1, 2, true",
+            "1, 2, 2, 1, true",
+            "1, 2, 1, 3, false",
+            "1, 2, 3, 2, false"
+    })
+    void 두_차이값이_행열_절대_차이값과_일치하는지_확인한다(
+            int rowDifference, int colDifference,
+            int difference1, int difference2,
+            boolean expectedResult
+    ) {
+        // given
+        DirectionInformation direction = new DirectionInformation(rowDifference, colDifference);
+        // when
+        boolean result = direction.hasAbsDifferences(difference1, difference2);
+        // then
+        assertThat(result).isEqualTo(expectedResult);
+    }
 }

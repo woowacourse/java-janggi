@@ -5,6 +5,7 @@ import janggi.domain.piece.Camp;
 import janggi.exception.ExceptionMessage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiFunction;
 
 public class SlidingStrategy implements MoveStrategy {
 
@@ -12,48 +13,24 @@ public class SlidingStrategy implements MoveStrategy {
     public List<Position> findPath(Position source, Position destination, Camp camp) {
         DirectionInformation directionInformation = new DirectionInformation(source, destination);
 
-        validateStraightMove(directionInformation);
-
-        if (directionInformation.isRowBiggerThanCol()) {
-            return createRowPath(source, directionInformation.rowDifference());
+        if (directionInformation.isHorizontal()) {
+            return createPath(source, directionInformation.colDifference(), Position::moveCol);
         }
-        return createColumnPath(source, directionInformation.colDifference());
+        if (directionInformation.isVertical()) {
+            return createPath(source, directionInformation.rowDifference(), Position::moveRow);
+        }
+        throw new IllegalArgumentException(ExceptionMessage.ONLY_STRAIGHT_MOVE_ALLOWED.getMessage());
     }
 
-    private void validateStraightMove(DirectionInformation directionInformation) {
-        int sum = directionInformation.addAllDifference();
-        int rowDifference = directionInformation.rowDifference();
-        int colDifference = directionInformation.colDifference();
-
-        if (sum != rowDifference && sum != colDifference) {
-            throw new IllegalArgumentException(ExceptionMessage.ONLY_STRAIGHT_MOVE_ALLOWED.getMessage());
-        }
-
-        if (rowDifference == 0 && colDifference == 0) {
-            throw new IllegalArgumentException(ExceptionMessage.PIECE_MUST_MOVE.getMessage());
-        }
-    }
-
-    private List<Position> createRowPath(Position source, int rowDifference) {
+    private List<Position> createPath(Position source, int difference, BiFunction<Position, Integer, Position> move) {
         List<Position> path = new ArrayList<>();
 
-        int rowDirection = rowDifference / Math.abs(rowDifference);
-        while (rowDifference != 0) {
-            source = source.moveRow(rowDirection);
-            path.add(source);
-            rowDifference -= rowDirection;
-        }
-        return path;
-    }
+        int direction = Integer.signum(difference);
+        int distance = Math.abs(difference);
 
-    private List<Position> createColumnPath(Position source, int colDifference) {
-        List<Position> path = new ArrayList<>();
-
-        int columnDirection = colDifference / Math.abs(colDifference);
-        while (colDifference != 0) {
-            source = source.moveCol(columnDirection);
+        for (int i = 0; i < distance; i++) {
+            source = move.apply(source, direction);
             path.add(source);
-            colDifference -= columnDirection;
         }
         return path;
     }

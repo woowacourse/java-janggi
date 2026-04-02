@@ -8,18 +8,6 @@ public record DirectionInformation(int rowDifference, int colDifference) {
         this(destination.calculateRowDistance(source), destination.calculateColumnDistance(source));
     }
 
-    public int calculateDistance() {
-        return calculateAbsRowDifference() + calculateAbsColDifference();
-    }
-
-    public int calculateAbsRowDifference() {
-        return Math.abs(rowDifference);
-    }
-
-    public int calculateAbsColDifference() {
-        return Math.abs(colDifference);
-    }
-
     public int calculateRowDirection() {
         if (rowDifference == 0) {
             return 0;
@@ -34,11 +22,25 @@ public record DirectionInformation(int rowDifference, int colDifference) {
         return colDifference / Math.abs(colDifference);
     }
 
+    public int calculateDistance() {
+        return Math.abs(rowDifference) + Math.abs(colDifference);
+    }
+
     public boolean isRowBiggerThanCol() {
         return Math.abs(rowDifference) > Math.abs(colDifference);
     }
 
-    public int addAllDifference() {
-        return rowDifference + colDifference;
+    public boolean isHorizontal() {
+        return rowDifference == 0;
+    }
+
+    public boolean isVertical() {
+        return colDifference == 0;
+    }
+
+    public boolean hasAbsDifferences(int difference1, int difference2) {
+        int absRow = Math.abs(rowDifference);
+        int absCol = Math.abs(colDifference);
+        return (absRow == difference1 && absCol == difference2) || (absRow == difference2 && absCol == difference1);
     }
 }

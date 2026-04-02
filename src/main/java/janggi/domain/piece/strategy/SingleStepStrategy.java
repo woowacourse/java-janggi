@@ -17,19 +17,26 @@ public class SingleStepStrategy implements MoveStrategy {
 
     @Override
     public List<Position> findPath(Position source, Position destination, Camp camp) {
-        DirectionInformation directionInformation = new DirectionInformation(source, destination);
+        DirectionInformation direction = new DirectionInformation(source, destination);
+        validateMovement(direction);
 
         if (forwardOnly) {
-            camp.validateForwardDirection(directionInformation.calculateRowDirection());
-            validateMovement(directionInformation);
-            return List.of(destination);
+            validateForwardDirection(direction.calculateRowDirection(), camp);
         }
-        validateMovement(directionInformation);
         return List.of(destination);
     }
 
-    private void validateMovement(DirectionInformation directionInfo) {
-        if (directionInfo.calculateDistance() != SINGLE_STEP_DISTANCE) {
+    private void validateForwardDirection(int rowDirection, Camp camp) {
+        boolean isRowMove = rowDirection != 0;
+        boolean isForward = camp.matchesForwardDirection(rowDirection);
+
+        if (isRowMove && !isForward) {
+            throw new IllegalArgumentException(ExceptionMessage.INVALID_BACKWARD_MOVEMENT.getMessage());
+        }
+    }
+
+    private void validateMovement(DirectionInformation direction) {
+        if (direction.calculateDistance() != SINGLE_STEP_DISTANCE) {
             throw new IllegalArgumentException(ExceptionMessage.INVALID_SINGLE_STEP_MOVE.getMessage(SINGLE_STEP_DISTANCE));
         }
     }

@@ -1,7 +1,5 @@
 package janggi.domain.piece;
 
-import janggi.exception.ExceptionMessage;
-
 public enum Camp {
 
     HAN(-1, 9),
@@ -16,10 +14,8 @@ public enum Camp {
         this.startRowPosition = startRowPosition;
     }
 
-    public void validateForwardDirection(int rowDirection) {
-        if (forwardDirection != rowDirection && rowDirection != 0) {
-            throw new IllegalArgumentException(ExceptionMessage.INVALID_BACKWARD_MOVEMENT.getMessage());
-        }
+    public boolean matchesForwardDirection(int direction) {
+        return forwardDirection == direction;
     }
 
     public int getStartRowPosition() {

@@ -18,50 +18,40 @@ public class DiagonalStepStrategy implements MoveStrategy {
 
     @Override
     public List<Position> findPath(Position source, Position destination, Camp camp) {
-        DirectionInformation directionInfo = new DirectionInformation(source, destination);
+        DirectionInformation direction = new DirectionInformation(source, destination);
+        validateMovement(direction);
 
-        validateMovement(directionInfo);
+        Position first = moveStraightStep(source, direction);
 
-        if (directionInfo.isRowBiggerThanCol()) {
-            return createRowFirstPath(source, directionInfo);
-        }
-        return createColFirstPath(source, directionInfo);
-    }
-
-    private void validateMovement(DirectionInformation directionInfo) {
-        int absRowDiff = directionInfo.calculateAbsRowDifference();
-        int absColDiff = directionInfo.calculateAbsColDifference();
-        int longDistance = STRAIGHT_DISTANCE + diagonalDistance;
-        int shortDistance = diagonalDistance;
-
-        boolean isValid = (absRowDiff == shortDistance && absColDiff == longDistance)
-                || (absRowDiff == longDistance && absColDiff == shortDistance);
-
-        if (!isValid) {
-            throw new IllegalArgumentException(ExceptionMessage.INVALID_DIAGONAL_STEP_MOVE.getMessage(STRAIGHT_DISTANCE, diagonalDistance));
-        }
-    }
-
-    private List<Position> createRowFirstPath(Position source, DirectionInformation directionInfo) {
         List<Position> path = new ArrayList<>();
-        source = source.moveRow(directionInfo.calculateRowDirection());
-        path.add(source);
-        path.addAll(moveDiagonal(source, directionInfo));
+        path.add(first);
+        path.addAll(moveDiagonal(first, direction));
+
         return path;
     }
 
-    private List<Position> createColFirstPath(Position source, DirectionInformation directionInfo) {
-        List<Position> path = new ArrayList<>();
-        source = source.moveCol(directionInfo.calculateColDirection());
-        path.add(source);
-        path.addAll(moveDiagonal(source, directionInfo));
-        return path;
+    private void validateMovement(DirectionInformation direction) {
+        if (!direction.hasAbsDifferences(diagonalDistance, STRAIGHT_DISTANCE + diagonalDistance)) {
+            throw new IllegalArgumentException(
+                    ExceptionMessage.INVALID_DIAGONAL_STEP_MOVE.getMessage(STRAIGHT_DISTANCE, diagonalDistance)
+            );
+        }
     }
 
-    private List<Position> moveDiagonal(Position source, DirectionInformation directionInfo) {
+    private Position moveStraightStep(Position source, DirectionInformation direction) {
+        if (direction.isRowBiggerThanCol()) {
+            return source.moveRow(direction.calculateRowDirection());
+        }
+        return source.moveCol(direction.calculateColDirection());
+    }
+
+    private List<Position> moveDiagonal(Position source, DirectionInformation direction) {
         List<Position> path = new ArrayList<>();
+        int rowDirection = direction.calculateRowDirection();
+        int colDirection = direction.calculateColDirection();
+
         for (int i = 0; i < diagonalDistance; i++) {
-            source = source.moveDiagonal(directionInfo.calculateRowDirection(), directionInfo.calculateColDirection());
+            source = source.moveDiagonal(rowDirection, colDirection);
             path.add(source);
         }
         return path;
