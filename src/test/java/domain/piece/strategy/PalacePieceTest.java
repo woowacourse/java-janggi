@@ -1,3 +1,5 @@
+// TODO: 사이클 2 진입 시 구현예정
+
 //package domain.piece.strategy;
 //
 //import domain.piece.Piece;

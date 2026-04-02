@@ -101,17 +101,17 @@ class DirectionTest {
 
     @Test
     @DisplayName("(2, 2)를 넣으면 예외가 발생한다.")
-    void from_단위방향에_맞지_않는_값을_넣으면_예외가_발생한다(){
+    void from_단위방향에_맞지_않는_값을_넣으면_예외가_발생한다() {
         int row = 2;
         int column = 2;
 
-        assertThatThrownBy(()-> Direction.from(row, column))
+        assertThatThrownBy(() -> Direction.from(row, column))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     @DisplayName("(5,5), (7,5)를 넣으면 UP, UP을 반환한다")
-    void of_좌표에_맞는_올바른_방향을_리턴한다_1(){
+    void of_좌표에_맞는_올바른_방향을_리턴한다_1() {
         Position startPosition = Position.of(5, 5);
         Position endPosition = Position.of(7, 5);
 
@@ -124,7 +124,7 @@ class DirectionTest {
 
     @Test
     @DisplayName("(5,5), (3,5)를 넣으면 DOWN, DOWN을 반환한다")
-    void of_좌표에_맞는_올바른_방향을_리턴한다_2(){
+    void of_좌표에_맞는_올바른_방향을_리턴한다_2() {
         Position startPosition = Position.of(5, 5);
         Position endPosition = Position.of(3, 5);
 
@@ -137,7 +137,7 @@ class DirectionTest {
 
     @Test
     @DisplayName("(5,5), (5,3)를 넣으면 LEFT, LEFT을 반환한다")
-    void of_좌표에_맞는_올바른_방향을_리턴한다_3(){
+    void of_좌표에_맞는_올바른_방향을_리턴한다_3() {
         Position startPosition = Position.of(5, 5);
         Position endPosition = Position.of(5, 3);
 
@@ -150,7 +150,7 @@ class DirectionTest {
 
     @Test
     @DisplayName("(5,5), (5,7)를 넣으면 RIGHT, RIGHT 반환한다")
-    void of_좌표에_맞는_올바른_방향을_리턴한다_4(){
+    void of_좌표에_맞는_올바른_방향을_리턴한다_4() {
         Position startPosition = Position.of(5, 5);
         Position endPosition = Position.of(5, 7);
 
@@ -164,7 +164,7 @@ class DirectionTest {
 
     @Test
     @DisplayName("(5,5), (7,6)를 넣으면 UP, UP_RIGHT 반환한다")
-    void of_좌표에_맞는_올바른_방향을_리턴한다_5(){
+    void of_좌표에_맞는_올바른_방향을_리턴한다_5() {
         Position startPosition = Position.of(5, 5);
         Position endPosition = Position.of(7, 6);
 
@@ -177,7 +177,7 @@ class DirectionTest {
 
     @Test
     @DisplayName("(5,5), (7,4)를 넣으면 UP, UP_LEFT 반환한다")
-    void of_좌표에_맞는_올바른_방향을_리턴한다_6(){
+    void of_좌표에_맞는_올바른_방향을_리턴한다_6() {
         Position startPosition = Position.of(5, 5);
         Position endPosition = Position.of(7, 4);
 
@@ -191,7 +191,7 @@ class DirectionTest {
 
     @Test
     @DisplayName("(5,5), (6,7)를 넣으면 RIGHT, UP_RIGHT 반환한다")
-    void of_좌표에_맞는_올바른_방향을_리턴한다_7(){
+    void of_좌표에_맞는_올바른_방향을_리턴한다_7() {
         Position startPosition = Position.of(5, 5);
         Position endPosition = Position.of(6, 7);
 
@@ -205,7 +205,7 @@ class DirectionTest {
 
     @Test
     @DisplayName("(5,5), (4,7)를 넣으면 RIGHT, DOWN_RIGHT 반환한다")
-    void of_좌표에_맞는_올바른_방향을_리턴한다_8(){
+    void of_좌표에_맞는_올바른_방향을_리턴한다_8() {
         Position startPosition = Position.of(5, 5);
         Position endPosition = Position.of(4, 7);
 
@@ -218,7 +218,7 @@ class DirectionTest {
 
     @Test
     @DisplayName("(5,5), (3,6)를 넣으면 DOWN, DOWN_RIGHT 반환한다")
-    void of_좌표에_맞는_올바른_방향을_리턴한다_9(){
+    void of_좌표에_맞는_올바른_방향을_리턴한다_9() {
         Position startPosition = Position.of(5, 5);
         Position endPosition = Position.of(3, 6);
 
@@ -231,7 +231,7 @@ class DirectionTest {
 
     @Test
     @DisplayName("(5,5), (3,4)를 넣으면 DOWN, DOWN_LEFT 반환한다")
-    void of_좌표에_맞는_올바른_방향을_리턴한다_10(){
+    void of_좌표에_맞는_올바른_방향을_리턴한다_10() {
         Position startPosition = Position.of(5, 5);
         Position endPosition = Position.of(3, 4);
 
@@ -244,7 +244,7 @@ class DirectionTest {
 
     @Test
     @DisplayName("(5,5), (6,3)를 넣으면 LEFT, UP_LEFT 반환한다")
-    void of_좌표에_맞는_올바른_방향을_리턴한다_11(){
+    void of_좌표에_맞는_올바른_방향을_리턴한다_11() {
         Position startPosition = Position.of(5, 5);
         Position endPosition = Position.of(6, 3);
 
@@ -257,7 +257,7 @@ class DirectionTest {
 
     @Test
     @DisplayName("(5,5), (4,3)를 넣으면 LEFT, DOWN_LEFT 반환한다")
-    void of_좌표에_맞는_올바른_방향을_리턴한다_12(){
+    void of_좌표에_맞는_올바른_방향을_리턴한다_12() {
         Position startPosition = Position.of(5, 5);
         Position endPosition = Position.of(4, 3);
 
@@ -270,7 +270,7 @@ class DirectionTest {
 
     @Test
     @DisplayName("(5,5), (8,7)를 넣으면 UP, UP_RIGHT, UP_RIGHT  반환한다")
-    void of_좌표에_맞는_올바른_방향을_리턴한다_13(){
+    void of_좌표에_맞는_올바른_방향을_리턴한다_13() {
         Position startPosition = Position.of(5, 5);
         Position endPosition = Position.of(8, 7);
 
@@ -284,7 +284,7 @@ class DirectionTest {
 
     @Test
     @DisplayName("(5,5), (8,3)를 넣으면 UP, UP_LEFT, UP_LEFT  반환한다")
-    void of_좌표에_맞는_올바른_방향을_리턴한다_14(){
+    void of_좌표에_맞는_올바른_방향을_리턴한다_14() {
         Position startPosition = Position.of(5, 5);
         Position endPosition = Position.of(8, 3);
 
@@ -298,7 +298,7 @@ class DirectionTest {
 
     @Test
     @DisplayName("(5,5), (7,8)를 넣으면 RIGHT, UP_RIGHT, UP_RIGHT 반환한다")
-    void of_좌표에_맞는_올바른_방향을_리턴한다_15(){
+    void of_좌표에_맞는_올바른_방향을_리턴한다_15() {
         Position startPosition = Position.of(5, 5);
         Position endPosition = Position.of(7, 8);
 
@@ -312,7 +312,7 @@ class DirectionTest {
 
     @Test
     @DisplayName("(5,5), (3,8)를 넣으면 RIGHT, DOWN_RIGHT, DOWN_RIGHT 반환한다")
-    void of_좌표에_맞는_올바른_방향을_리턴한다_16(){
+    void of_좌표에_맞는_올바른_방향을_리턴한다_16() {
         Position startPosition = Position.of(5, 5);
         Position endPosition = Position.of(3, 8);
 
@@ -326,7 +326,7 @@ class DirectionTest {
 
     @Test
     @DisplayName("(5,5), (2,7)를 넣으면 DOWN, DOWN_RIGHT, DOWN_RIGHT 반환한다")
-    void of_좌표에_맞는_올바른_방향을_리턴한다_17(){
+    void of_좌표에_맞는_올바른_방향을_리턴한다_17() {
         Position startPosition = Position.of(5, 5);
         Position endPosition = Position.of(2, 7);
 
@@ -340,7 +340,7 @@ class DirectionTest {
 
     @Test
     @DisplayName("(5,5), (2,3)를 넣으면 DOWN, DOWN_LEFT, DOWN_LEFT 반환한다")
-    void of_좌표에_맞는_올바른_방향을_리턴한다_18(){
+    void of_좌표에_맞는_올바른_방향을_리턴한다_18() {
         Position startPosition = Position.of(5, 5);
         Position endPosition = Position.of(2, 3);
 
@@ -354,7 +354,7 @@ class DirectionTest {
 
     @Test
     @DisplayName("(5,5), (7,2)를 넣으면 LEFT, UP_LEFT, UP_LEFT 반환한다")
-    void of_좌표에_맞는_올바른_방향을_리턴한다_19(){
+    void of_좌표에_맞는_올바른_방향을_리턴한다_19() {
         Position startPosition = Position.of(5, 5);
         Position endPosition = Position.of(7, 2);
 
@@ -368,7 +368,7 @@ class DirectionTest {
 
     @Test
     @DisplayName("(5,5), (3,2)를 넣으면 LEFT, DOWN_LEFT, DOWN_LEFT 반환한다")
-    void of_좌표에_맞는_올바른_방향을_리턴한다_20(){
+    void of_좌표에_맞는_올바른_방향을_리턴한다_20() {
         Position startPosition = Position.of(5, 5);
         Position endPosition = Position.of(3, 2);
 
