@@ -1,6 +1,7 @@
 package model.move;
 
 import java.util.List;
+import model.board.Palace;
 import model.policy.DefaultPathPolicy;
 import model.policy.PathPolicy;
 
@@ -8,7 +9,7 @@ public class GeneralMoveRule extends MoveRule {
 
     @Override
     protected List<MovePattern> patterns(Move move) {
-        if (!move.isStraight()) {
+        if (!move.isStraight() || !Palace.isPalaceBound(move.to())) {
             return List.of();
         }
 
