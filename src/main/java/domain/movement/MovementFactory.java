@@ -13,8 +13,8 @@ public final class MovementFactory {
     static {
         MOVEMENT_SUPPLIERS.put(PieceType.GENERAL, piece -> new GeneralMovement());
         MOVEMENT_SUPPLIERS.put(PieceType.GUARD, piece -> new GuardMovement());
-        MOVEMENT_SUPPLIERS.put(PieceType.CHARIOT, piece -> new StepPieceMovement());
-        MOVEMENT_SUPPLIERS.put(PieceType.CANNON, piece -> new StepPieceMovement());
+        MOVEMENT_SUPPLIERS.put(PieceType.CHARIOT, piece -> new ChariotOrCannonMovement());
+        MOVEMENT_SUPPLIERS.put(PieceType.CANNON, piece -> new ChariotOrCannonMovement());
         MOVEMENT_SUPPLIERS.put(PieceType.ELEPHANT, piece -> new ElephantMovement());
         MOVEMENT_SUPPLIERS.put(PieceType.HORSE, piece -> new HorseMovement());
         MOVEMENT_SUPPLIERS.put(PieceType.SOLDIER, MovementFactory::soldierMovementFor);

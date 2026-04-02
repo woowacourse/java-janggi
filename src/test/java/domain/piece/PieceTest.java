@@ -1,9 +1,9 @@
 package domain.piece;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Piece 클래스 테스트")
 class PieceTest {
@@ -40,15 +40,15 @@ class PieceTest {
     }
 
     @Test
-    @DisplayName("isStepPiece : 마와 상 기물에만 true를 반환한다")
-    void isStepPieceReturnsTrueForHorseAndElephant() {
-        assertThat(new Piece(Team.HAN, PieceType.HORSE).isStepPiece()).isTrue();
-        assertThat(new Piece(Team.HAN, PieceType.ELEPHANT).isStepPiece()).isTrue();
-        assertThat(new Piece(Team.HAN, PieceType.CHARIOT).isStepPiece()).isFalse();
-        assertThat(new Piece(Team.HAN, PieceType.CANNON).isStepPiece()).isFalse();
-        assertThat(new Piece(Team.HAN, PieceType.GENERAL).isStepPiece()).isFalse();
-        assertThat(new Piece(Team.HAN, PieceType.GUARD).isStepPiece()).isFalse();
-        assertThat(new Piece(Team.HAN, PieceType.SOLDIER).isStepPiece()).isFalse();
+    @DisplayName("isHorseOrElephant : 마와 상 기물에만 true를 반환한다")
+    void isHorseOrElephantReturnsTrueForHorseAndElephant() {
+        assertThat(new Piece(Team.HAN, PieceType.HORSE).isHorseOrElephant()).isTrue();
+        assertThat(new Piece(Team.HAN, PieceType.ELEPHANT).isHorseOrElephant()).isTrue();
+        assertThat(new Piece(Team.HAN, PieceType.CHARIOT).isHorseOrElephant()).isFalse();
+        assertThat(new Piece(Team.HAN, PieceType.CANNON).isHorseOrElephant()).isFalse();
+        assertThat(new Piece(Team.HAN, PieceType.GENERAL).isHorseOrElephant()).isFalse();
+        assertThat(new Piece(Team.HAN, PieceType.GUARD).isHorseOrElephant()).isFalse();
+        assertThat(new Piece(Team.HAN, PieceType.SOLDIER).isHorseOrElephant()).isFalse();
     }
 
     @Test

@@ -1,12 +1,12 @@
 package domain.movement;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Team;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("MovementFactory 클래스 테스트")
 class MovementFactoryTest {
@@ -32,23 +32,23 @@ class MovementFactoryTest {
     }
 
     @Test
-    @DisplayName("CHARIOT 기물은 StepPieceMovement를 생성한다")
+    @DisplayName("CHARIOT 기물은 LinearMovement를 생성한다")
     void createChariotMovement() {
         Piece piece = new Piece(Team.HAN, PieceType.CHARIOT);
 
         Movement movement = MovementFactory.create(piece);
 
-        assertThat(movement).isInstanceOf(StepPieceMovement.class);
+        assertThat(movement).isInstanceOf(ChariotOrCannonMovement.class);
     }
 
     @Test
-    @DisplayName("CANNON 기물은 StepPieceMovement를 생성한다")
+    @DisplayName("CANNON 기물은 LinearMovement를 생성한다")
     void createCannonMovement() {
         Piece piece = new Piece(Team.CHO, PieceType.CANNON);
 
         Movement movement = MovementFactory.create(piece);
 
-        assertThat(movement).isInstanceOf(StepPieceMovement.class);
+        assertThat(movement).isInstanceOf(ChariotOrCannonMovement.class);
     }
 
     @Test

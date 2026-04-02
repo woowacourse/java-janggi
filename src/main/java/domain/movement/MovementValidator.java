@@ -1,8 +1,8 @@
 package domain.movement;
 
 import domain.board.Board;
-import domain.piece.Piece;
 import domain.board.Position;
+import domain.piece.Piece;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,8 +27,8 @@ public final class MovementValidator {
         if (piece.isCannon()) {
             return isValidCannon(piece, candidatePaths, to);
         }
-        if (piece.isStepPiece()) {
-            return isValidStepPiece(piece, candidatePaths, to);
+        if (piece.isHorseOrElephant()) {
+            return isValidHorseOrElephant(piece, candidatePaths, to);
         }
         return isValidPalacePiece(piece, candidatePaths, to);
     }
@@ -121,16 +121,16 @@ public final class MovementValidator {
         return !isCannon.orElse(false);
     }
 
-    private boolean isValidStepPiece(Piece piece, Paths candidatePaths, Position to) {
+    private boolean isValidHorseOrElephant(Piece piece, Paths candidatePaths, Position to) {
         for (Path path : candidatePaths.asList()) {
-            if (isStepPathValid(piece, path, to)) {
+            if (isHorseOrElephantPathValid(piece, path, to)) {
                 return true;
             }
         }
         return false;
     }
 
-    private boolean isStepPathValid(Piece piece, Path path, Position to) {
+    private boolean isHorseOrElephantPathValid(Piece piece, Path path, Position to) {
         if (!path.endsAt(to)) {
             return false;
         }
