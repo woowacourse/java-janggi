@@ -1,7 +1,7 @@
 package janggi.domain.movestrategy;
 
 import janggi.domain.BoardState;
-import janggi.domain.Position;
+import janggi.domain.position.Position;
 import janggi.domain.Team;
 
 public class JolMoveStrategy implements MoveStrategy {

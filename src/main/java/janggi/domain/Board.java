@@ -1,5 +1,6 @@
 package janggi.domain;
 
+import janggi.domain.position.Position;
 import janggi.exception.EmptyPositionException;
 
 import java.util.HashMap;

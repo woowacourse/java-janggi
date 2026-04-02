@@ -1,4 +1,4 @@
-package janggi.domain;
+package janggi.domain.position;
 
 import janggi.exception.RowOutOfRangeException;
 import org.assertj.core.api.Assertions;

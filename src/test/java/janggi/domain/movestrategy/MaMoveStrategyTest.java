@@ -1,10 +1,10 @@
 package janggi.domain.movestrategy;
 
 import janggi.domain.BoardState;
-import janggi.domain.Column;
+import janggi.domain.position.Column;
 import janggi.domain.Piece;
-import janggi.domain.Position;
-import janggi.domain.Row;
+import janggi.domain.position.Position;
+import janggi.domain.position.Row;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

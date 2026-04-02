@@ -2,7 +2,7 @@ package janggi.dto;
 
 import janggi.domain.Board;
 import janggi.domain.Piece;
-import janggi.domain.Position;
+import janggi.domain.position.Position;
 
 import java.util.ArrayList;
 import java.util.List;

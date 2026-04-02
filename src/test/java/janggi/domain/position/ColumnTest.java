@@ -1,4 +1,4 @@
-package janggi.domain;
+package janggi.domain.position;
 
 
 import janggi.exception.ColumnOutOfRangeException;

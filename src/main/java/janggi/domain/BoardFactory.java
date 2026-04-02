@@ -6,6 +6,9 @@ import janggi.domain.movestrategy.JolMoveStrategy;
 import janggi.domain.movestrategy.MaMoveStrategy;
 import janggi.domain.movestrategy.PoMoveStrategy;
 import janggi.domain.movestrategy.SangMoveStrategy;
+import janggi.domain.position.Column;
+import janggi.domain.position.Position;
+import janggi.domain.position.Row;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -2,9 +2,9 @@ package janggi.controller;
 
 import janggi.domain.Board;
 import janggi.domain.BoardFactory;
-import janggi.domain.Column;
-import janggi.domain.Position;
-import janggi.domain.Row;
+import janggi.domain.position.Column;
+import janggi.domain.position.Position;
+import janggi.domain.position.Row;
 import janggi.domain.Team;
 import janggi.dto.BoardDto;
 import janggi.exception.BusinessException;

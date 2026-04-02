@@ -1,39 +1,39 @@
-package janggi.domain;
+package janggi.domain.position;
 
-import janggi.exception.ColumnOutOfRangeException;
+import janggi.exception.RowOutOfRangeException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class Column {
+public class Row {
     private static final int MIN = 0;
-    private static final int MAX = 8;
-    private static final Map<Integer, Column> CACHE = new HashMap<>();
+    private static final int MAX = 9;
+    private static final Map<Integer, Row> CACHE = new HashMap<>();
 
     static {
         for (int i = MIN; i <= MAX; i++) {
-            CACHE.put(i, new Column(i));
+            CACHE.put(i, new Row(i));
         }
     }
 
     private final int value;
 
-    private Column(int value) {
+    private Row(int value) {
         this.value = value;
     }
-    public static Column of(int value) {
+    public static Row of(int value) {
         if (!CACHE.containsKey(value)) {
-            throw new ColumnOutOfRangeException();
+            throw new RowOutOfRangeException();
         }
         return CACHE.get(value);
     }
 
-    public static Collection<Column> values() {
+    public static Collection<Row> values() {
         return CACHE.values();
     }
 
-    public int getColumn() {
+    public int getRow() {
         return value;
     }
 
@@ -43,8 +43,8 @@ public class Column {
 
         if (o == null || getClass() != o.getClass()) return false;
 
-        Column column = (Column) o;
-        return this.value == column.value;
+        Row row = (Row) o;
+        return this.value == row.value;
     }
 
     @Override
