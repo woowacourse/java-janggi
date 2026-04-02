@@ -5,7 +5,6 @@ import domain.board.BoardInitializer;
 import domain.board.Side;
 import domain.coordinate.Position;
 import domain.piece.Piece;
-import dto.PossibleMovesDto;
 
 import java.util.List;
 import java.util.Map;

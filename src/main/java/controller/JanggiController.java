@@ -5,7 +5,6 @@ import domain.board.BasicBoardInitializer;
 import domain.board.Side;
 import domain.board.formation.InitialFormationType;
 import domain.coordinate.Position;
-import dto.PossibleMovesDto;
 import mapper.BoardMapper;
 import mapper.PossibleMovesMapper;
 import view.InputHandler;
