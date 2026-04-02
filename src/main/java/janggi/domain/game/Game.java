@@ -29,7 +29,6 @@ public class Game {
 
     public Set<Point> destinations(Point from) {
         Set<Point> destinations = board.destinations(from);
-        destinations.add(from);
         return destinations;
     }
 
@@ -64,7 +63,6 @@ public class Game {
     }
 
     public boolean canPlay() {
-        //TODO: Cycle2에 진행
         return true;
     }
 }
