@@ -26,8 +26,10 @@ public abstract class Piece {
         return teamType;
     }
 
-    public boolean isSamePosition(Position start, Position end) {
-        return start.isSamePosition(end);
+    public void checkSamePosition(Position start, Position end) {
+        if (start.isSamePosition(end)) {
+            throw new IllegalArgumentException("출발지와 목적지가 동일합니다.");
+        }
     }
 
     public abstract void validateCanMove(Position start, Position end, Board board);

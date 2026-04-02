@@ -27,15 +27,12 @@ public class Ma extends Piece {
 
     @Override
     public void validateCanMove(Position start, Position end, Board board) {
+        checkSamePosition(start, end);
         MovePath movePath = findMovePath(start, end);
         validatePieceInPath(movePath, start, end, board);
     }
 
     private MovePath findMovePath(Position start, Position end) {
-        if (isSamePosition(start, end)) {
-            throw new IllegalArgumentException("출발지와 목적지가 동일합니다.");
-        }
-
         int dx = start.deltaX(end);
         int dy = start.deltaY(end);
 

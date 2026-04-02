@@ -27,9 +27,7 @@ public class Sa extends Piece {
 
     @Override
     public void validateCanMove(Position start, Position end, Board board) {
-        if (isSamePosition(start, end)) {
-            throw new IllegalArgumentException("출발지와 목적지가 동일합니다.");
-        }
+        checkSamePosition(start, end);
 
         int dx = start.deltaX(end);
         int dy = start.deltaY(end);
