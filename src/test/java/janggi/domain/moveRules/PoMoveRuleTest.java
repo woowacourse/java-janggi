@@ -2,10 +2,11 @@ package janggi.domain.moveRules;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.Direction;
-import janggi.domain.MoveRule;
-import janggi.domain.Route;
-import janggi.domain.Team;
+import janggi.domain.common.Direction;
+import janggi.domain.common.Team;
+import janggi.domain.piece.moveRules.MoveRule;
+import janggi.domain.piece.moveRules.PoMoveRule;
+import janggi.domain.route.Route;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,7 @@ public class PoMoveRuleTest {
 
     @Test
     @DisplayName("포는 직선으로 갈 수 있다")
-    void 포의_이동규칙(){
+    void 포의_이동규칙() {
         //given
         MoveRule moveRule = new PoMoveRule();
         Team team = Team.CHO;

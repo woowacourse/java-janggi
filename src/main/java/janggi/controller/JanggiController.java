@@ -1,11 +1,11 @@
 package janggi.controller;
 
-import janggi.domain.Position;
-import janggi.domain.RouteChecker;
-import janggi.domain.Team;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardFormation;
 import janggi.domain.board.BoardInitiator;
+import janggi.domain.common.Position;
+import janggi.domain.common.Team;
+import janggi.domain.route.RouteChecker;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.List;

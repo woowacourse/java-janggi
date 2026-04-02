@@ -2,10 +2,10 @@ package janggi.domain.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.Piece;
-import janggi.domain.PieceType;
-import janggi.domain.Position;
-import janggi.domain.Team;
+import janggi.domain.common.Position;
+import janggi.domain.common.Team;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;

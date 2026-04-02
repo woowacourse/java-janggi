@@ -1,4 +1,4 @@
-package janggi.domain;
+package janggi.domain.common;
 
 import java.util.List;
 import java.util.Map;

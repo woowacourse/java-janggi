@@ -1,6 +1,8 @@
-package janggi.domain;
+package janggi.domain.route;
 
 import janggi.domain.board.Board;
+import janggi.domain.common.Position;
+import janggi.domain.piece.Piece;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +11,7 @@ public class RouteChecker {
     private final RouteConverter routeConverter = new RouteConverter();
 
     public List<Position> findAvailablePositions(Board board, Position position) {
-        Piece piece = board.placeAt(position);
+        Piece piece = board.pieceAt(position);
 
         Map<Position, List<Position>> routePositions = routeConverter.convertToPosition(board, position);
 
@@ -59,8 +61,8 @@ public class RouteChecker {
     }
 
     private boolean isDestinationIsMyTeam(Board board, Position destination, Piece piece) {
-        Piece destinationPiece = board.placeAt(destination);
-        if (board.isPiece(destination)) {
+        Piece destinationPiece = board.pieceAt(destination);
+        if (board.hasPiece(destination)) {
             return piece.isSameTeam(destinationPiece);
         }
         return false;
@@ -68,7 +70,7 @@ public class RouteChecker {
 
     private boolean hasObstacleOnRoute(Board board, List<Position> route) {
         for (int i = 0; i < route.size() - 1; i++) {
-            if (board.isPiece(route.get(i))) {
+            if (board.hasPiece(route.get(i))) {
                 return true;
             }
         }
@@ -76,8 +78,8 @@ public class RouteChecker {
     }
 
     private boolean isDestinationIsPo(Board board, Position destination) {
-        Piece destinationPiece = board.placeAt(destination);
-        if (board.isPiece(destination)) {
+        Piece destinationPiece = board.pieceAt(destination);
+        if (board.hasPiece(destination)) {
             return destinationPiece.isPo();
         }
         return false;
@@ -87,9 +89,9 @@ public class RouteChecker {
         int count = 0;
         List<Piece> obstacles = new ArrayList<>();
         for (int i = 0; i < route.size() - 1; i++) {
-            if (board.isPiece(route.get(i))) {
+            if (board.hasPiece(route.get(i))) {
                 count += 1;
-                obstacles.add(board.placeAt(route.get(i)));
+                obstacles.add(board.pieceAt(route.get(i)));
             }
         }
         return count == 1 && !obstacles.getFirst().isPo();

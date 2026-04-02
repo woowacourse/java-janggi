@@ -1,6 +1,8 @@
-package janggi.domain;
+package janggi.domain.route;
 
 import janggi.domain.board.Board;
+import janggi.domain.common.Position;
+import janggi.domain.piece.Piece;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,7 +10,7 @@ import java.util.Map;
 public class RouteConverter {
 
     public Map<Position, List<Position>> convertToPosition(Board board, Position position) {
-        Piece piece = board.placeAt(position);
+        Piece piece = board.pieceAt(position);
         if (piece.isCha() || piece.isPo()) {
             return convertToContinuousRoutes(position, piece.findRoutes());
         }

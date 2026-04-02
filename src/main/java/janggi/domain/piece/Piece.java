@@ -1,5 +1,7 @@
-package janggi.domain;
+package janggi.domain.piece;
 
+import janggi.domain.common.Team;
+import janggi.domain.route.Route;
 import java.util.List;
 import java.util.Objects;
 

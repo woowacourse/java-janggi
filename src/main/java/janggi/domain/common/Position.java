@@ -1,4 +1,4 @@
-package janggi.domain;
+package janggi.domain.common;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ public class Position {
     }
 
     public Optional<Position> applyDirection(int dx, int dy) {
-        if(isInsideBoundary(x + dx, y + dy)) {
+        if (isInsideBoundary(x + dx, y + dy)) {
             return Optional.of(new Position(x + dx, y + dy));
         }
         return Optional.empty();
@@ -32,7 +32,7 @@ public class Position {
         List<Position> result = new ArrayList<>();
         int nextX = x + dx;
         int nextY = y + dy;
-        while(isInsideBoundary(nextX, nextY)) {
+        while (isInsideBoundary(nextX, nextY)) {
             result.add(new Position(nextX, nextY));
             continuousRoute.put(new Position(nextX, nextY), new ArrayList<>(result));
             nextX += dx;

@@ -1,12 +1,11 @@
-package janggi.domain.moveRules;
+package janggi.domain.piece.moveRules;
 
-import janggi.domain.Direction;
-import janggi.domain.MoveRule;
-import janggi.domain.Route;
-import janggi.domain.Team;
+import janggi.domain.common.Direction;
+import janggi.domain.common.Team;
+import janggi.domain.route.Route;
 import java.util.List;
 
-public class KingMoveRule implements MoveRule {
+public class SaMoveRule implements MoveRule {
 
     @Override
     public List<Route> findRoutes(Team team) {

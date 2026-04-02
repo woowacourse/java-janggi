@@ -1,7 +1,7 @@
 package janggi.domain.board;
 
-import janggi.domain.Piece;
-import janggi.domain.Position;
+import janggi.domain.common.Position;
+import janggi.domain.piece.Piece;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,11 +23,11 @@ public class Board {
         board.put(destination, piece);
     }
 
-    public Piece placeAt(Position position) {
+    public Piece pieceAt(Position position) {
         return board.get(position);
     }
 
-    public boolean isPiece(Position position) {
+    public boolean hasPiece(Position position) {
         return board.containsKey(position);
     }
 }

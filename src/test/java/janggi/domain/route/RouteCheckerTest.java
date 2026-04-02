@@ -1,9 +1,13 @@
-package janggi.domain;
+package janggi.domain.route;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import janggi.domain.board.Board;
+import janggi.domain.common.Position;
+import janggi.domain.common.Team;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -18,7 +22,7 @@ public class RouteCheckerTest {
         //given
         Board board = new Board();
         Position position = new Position(5, 7);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.ZOL));
+        board.place(position, new Piece(Team.CHO, PieceType.ZOL));
         Position zolUp = new Position(5, 6);
         Position zolLeft = new Position(4, 7);
         Position zolRight = new Position(6, 7);
@@ -37,9 +41,9 @@ public class RouteCheckerTest {
         //given
         Board board = new Board();
         Position position = new Position(5, 7);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.ZOL));
+        board.place(position, new Piece(Team.CHO, PieceType.ZOL));
         Position zolUp = new Position(5, 6);
-        board.getBoard().put(zolUp, new Piece(Team.CHO, PieceType.ZOL));
+        board.place(zolUp, new Piece(Team.CHO, PieceType.ZOL));
         Position zolLeft = new Position(4, 7);
         Position zolRight = new Position(6, 7);
         List<Position> rightAnswer = List.of(zolRight, zolLeft);
@@ -57,7 +61,7 @@ public class RouteCheckerTest {
         //given
         Board board = new Board();
         Position position = new Position(4, 6);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.MA));
+        board.place(position, new Piece(Team.CHO, PieceType.MA));
         Position maPos1 = new Position(3, 4);
         Position maPos2 = new Position(5, 4);
         Position maPos3 = new Position(6, 5);
@@ -82,8 +86,8 @@ public class RouteCheckerTest {
         //given
         Board board = new Board();
         Position position = new Position(4, 6);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.MA));
-        board.getBoard().put(new Position(4, 5), new Piece(Team.HAN, PieceType.CHA));
+        board.place(position, new Piece(Team.CHO, PieceType.MA));
+        board.place(new Position(4, 5), new Piece(Team.HAN, PieceType.CHA));
         Position maPos1 = new Position(6, 5);
         Position maPos2 = new Position(6, 7);
         Position maPos3 = new Position(3, 8);
@@ -106,8 +110,8 @@ public class RouteCheckerTest {
         //given
         Board board = new Board();
         Position position = new Position(4, 6);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.MA));
-        board.getBoard().put(new Position(2, 7), new Piece(Team.CHO, PieceType.CHA));
+        board.place(position, new Piece(Team.CHO, PieceType.MA));
+        board.place(new Position(2, 7), new Piece(Team.CHO, PieceType.CHA));
         Position maPos1 = new Position(3, 4);
         Position maPos2 = new Position(5, 4);
         Position maPos3 = new Position(6, 5);
@@ -131,7 +135,7 @@ public class RouteCheckerTest {
         //given
         Board board = new Board();
         Position position = new Position(5, 7);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.SANG));
+        board.place(position, new Piece(Team.CHO, PieceType.SANG));
         Position maPos1 = new Position(3, 4);
         Position maPos2 = new Position(7, 4);
         Position maPos3 = new Position(8, 5);
@@ -156,8 +160,8 @@ public class RouteCheckerTest {
         //given
         Board board = new Board();
         Position position = new Position(5, 7);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.SANG));
-        board.getBoard().put(new Position(6, 5), new Piece(Team.CHO, PieceType.ZOL));
+        board.place(position, new Piece(Team.CHO, PieceType.SANG));
+        board.place(new Position(6, 5), new Piece(Team.CHO, PieceType.ZOL));
         Position maPos1 = new Position(3, 4);
         Position maPos2 = new Position(8, 5);
         Position maPos3 = new Position(8, 9);
@@ -181,8 +185,8 @@ public class RouteCheckerTest {
         //given
         Board board = new Board();
         Position position = new Position(5, 7);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.SANG));
-        board.getBoard().put(new Position(5, 6), new Piece(Team.HAN, PieceType.ZOL));
+        board.place(position, new Piece(Team.CHO, PieceType.SANG));
+        board.place(new Position(5, 6), new Piece(Team.HAN, PieceType.ZOL));
         Position maPos1 = new Position(8, 5);
         Position maPos2 = new Position(8, 9);
         Position maPos3 = new Position(3, 10);
@@ -205,8 +209,8 @@ public class RouteCheckerTest {
         //given
         Board board = new Board();
         Position position = new Position(5, 7);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.SANG));
-        board.getBoard().put(new Position(2, 9), new Piece(Team.CHO, PieceType.ZOL));
+        board.place(position, new Piece(Team.CHO, PieceType.SANG));
+        board.place(new Position(2, 9), new Piece(Team.CHO, PieceType.ZOL));
         Position maPos1 = new Position(3, 4);
         Position maPos2 = new Position(7, 4);
         Position maPos3 = new Position(8, 5);
@@ -230,7 +234,7 @@ public class RouteCheckerTest {
         //given
         Board board = new Board();
         Position position = new Position(4, 10);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.SA));
+        board.place(position, new Piece(Team.CHO, PieceType.SA));
         Position maPos1 = new Position(4, 9);
         Position maPos2 = new Position(5, 9);
         Position maPos3 = new Position(5, 10);
@@ -252,8 +256,8 @@ public class RouteCheckerTest {
         //given
         Board board = new Board();
         Position position = new Position(4, 10);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.SA));
-        board.getBoard().put(new Position(5, 9), new Piece(Team.CHO, PieceType.KING));
+        board.place(position, new Piece(Team.CHO, PieceType.SA));
+        board.place(new Position(5, 9), new Piece(Team.CHO, PieceType.KING));
         Position maPos1 = new Position(4, 9);
         Position maPos2 = new Position(5, 10);
         Position maPos3 = new Position(3, 9);
@@ -274,8 +278,8 @@ public class RouteCheckerTest {
         //given
         Board board = new Board();
         Position position = new Position(4, 10);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.SA));
-        board.getBoard().put(new Position(5, 9), new Piece(Team.HAN, PieceType.CHA));
+        board.place(position, new Piece(Team.CHO, PieceType.SA));
+        board.place(new Position(5, 9), new Piece(Team.HAN, PieceType.CHA));
         Position maPos1 = new Position(4, 9);
         Position maPos2 = new Position(5, 10);
         Position maPos3 = new Position(3, 9);
@@ -297,7 +301,7 @@ public class RouteCheckerTest {
         //given
         Board board = new Board();
         Position position = new Position(5, 9);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.KING));
+        board.place(position, new Piece(Team.CHO, PieceType.KING));
         Position maPos1 = new Position(4, 8);
         Position maPos2 = new Position(5, 8);
         Position maPos3 = new Position(6, 8);
@@ -322,9 +326,9 @@ public class RouteCheckerTest {
         //given
         Board board = new Board();
         Position position = new Position(5, 9);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.KING));
-        board.getBoard().put(new Position(4, 9), new Piece(Team.CHO, PieceType.SA));
-        board.getBoard().put(new Position(4, 10), new Piece(Team.CHO, PieceType.SA));
+        board.place(position, new Piece(Team.CHO, PieceType.KING));
+        board.place(new Position(4, 9), new Piece(Team.CHO, PieceType.SA));
+        board.place(new Position(4, 10), new Piece(Team.CHO, PieceType.SA));
         Position maPos1 = new Position(4, 8);
         Position maPos2 = new Position(5, 8);
         Position maPos3 = new Position(6, 8);
@@ -347,9 +351,9 @@ public class RouteCheckerTest {
         //given
         Board board = new Board();
         Position position = new Position(5, 9);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.KING));
-        board.getBoard().put(new Position(4, 9), new Piece(Team.HAN, PieceType.ZOL));
-        board.getBoard().put(new Position(4, 10), new Piece(Team.HAN, PieceType.CHA));
+        board.place(position, new Piece(Team.CHO, PieceType.KING));
+        board.place(new Position(4, 9), new Piece(Team.HAN, PieceType.ZOL));
+        board.place(new Position(4, 10), new Piece(Team.HAN, PieceType.CHA));
         Position maPos1 = new Position(4, 8);
         Position maPos2 = new Position(5, 8);
         Position maPos3 = new Position(6, 8);
@@ -374,7 +378,7 @@ public class RouteCheckerTest {
         //given
         Board board = new Board();
         Position position = new Position(1, 10);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.CHA));
+        board.place(position, new Piece(Team.CHO, PieceType.CHA));
         List<Position> upRoutes = List.of(
                 new Position(1, 9), new Position(1, 8), new Position(1, 7),
                 new Position(1, 6), new Position(1, 5), new Position(1, 4),
@@ -404,8 +408,8 @@ public class RouteCheckerTest {
         //given
         Board board = new Board();
         Position position = new Position(1, 10);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.CHA));
-        board.getBoard().put(new Position(1, 7), new Piece(Team.CHO, PieceType.ZOL));
+        board.place(position, new Piece(Team.CHO, PieceType.CHA));
+        board.place(new Position(1, 7), new Piece(Team.CHO, PieceType.ZOL));
         List<Position> upRoutes = List.of(
                 new Position(1, 9), new Position(1, 8)
         );
@@ -433,8 +437,8 @@ public class RouteCheckerTest {
         //given
         Board board = new Board();
         Position position = new Position(1, 10);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.CHA));
-        board.getBoard().put(new Position(1, 7), new Piece(Team.HAN, PieceType.CHA));
+        board.place(position, new Piece(Team.CHO, PieceType.CHA));
+        board.place(new Position(1, 7), new Piece(Team.HAN, PieceType.CHA));
         List<Position> upRoutes = List.of(
                 new Position(1, 9), new Position(1, 8), new Position(1, 7)
         );
@@ -462,8 +466,8 @@ public class RouteCheckerTest {
         //given
         Board board = new Board();
         Position position = new Position(5, 8);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.PO));
-        board.getBoard().put(new Position(5, 6), new Piece(Team.HAN, PieceType.CHA));
+        board.place(position, new Piece(Team.CHO, PieceType.PO));
+        board.place(new Position(5, 6), new Piece(Team.HAN, PieceType.CHA));
         List<Position> upRoutes = List.of(
                 new Position(5, 5), new Position(5, 4), new Position(5, 3),
                 new Position(5, 2), new Position(5, 1)
@@ -484,9 +488,9 @@ public class RouteCheckerTest {
     void 포_목적지에_다른_포가_있으면_포획_및_이동_불가() {
         Board board = new Board();
         Position position = new Position(5, 8);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.PO));
-        board.getBoard().put(new Position(5, 6), new Piece(Team.HAN, PieceType.CHA));
-        board.getBoard().put(new Position(5, 5), new Piece(Team.HAN, PieceType.PO));
+        board.place(position, new Piece(Team.CHO, PieceType.PO));
+        board.place(new Position(5, 6), new Piece(Team.HAN, PieceType.CHA));
+        board.place(new Position(5, 5), new Piece(Team.HAN, PieceType.PO));
         List<Position> upRoutes = List.of();
 
         List<Position> rightAnswer = new ArrayList<>(upRoutes);
@@ -502,9 +506,9 @@ public class RouteCheckerTest {
         //given
         Board board = new Board();
         Position position = new Position(5, 8);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.PO));
-        board.getBoard().put(new Position(5, 6), new Piece(Team.HAN, PieceType.CHA));
-        board.getBoard().put(new Position(5, 5), new Piece(Team.HAN, PieceType.ZOL));
+        board.place(position, new Piece(Team.CHO, PieceType.PO));
+        board.place(new Position(5, 6), new Piece(Team.HAN, PieceType.CHA));
+        board.place(new Position(5, 5), new Piece(Team.HAN, PieceType.ZOL));
         List<Position> upRoutes = List.of(new Position(5, 5));
 
         List<Position> rightAnswer = new ArrayList<>(upRoutes);

@@ -1,5 +1,7 @@
-package janggi.domain;
+package janggi.domain.route;
 
+import janggi.domain.common.Direction;
+import janggi.domain.common.Position;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -17,9 +19,9 @@ public class Route {
     public List<Position> applyDirections(Position position) {
         List<Position> routePositions = new ArrayList<>();
         Position startPosition = position;
-        for(Direction direction:routes) {
+        for (Direction direction : routes) {
             Optional<Position> nextPosition = direction.nextPosition(startPosition);
-            if(nextPosition.isEmpty()) {
+            if (nextPosition.isEmpty()) {
                 return new ArrayList<>();
             }
             startPosition = nextPosition.get();
@@ -30,7 +32,7 @@ public class Route {
 
     public void applyContinuousDirections(Position position, Map<Position, List<Position>> continuousRoutes) {
         Position startPosition = position;
-        for(Direction direction:routes) {
+        for (Direction direction : routes) {
             direction.nextContinuousPosition(startPosition, continuousRoutes);
         }
     }

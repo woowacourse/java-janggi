@@ -2,10 +2,11 @@ package janggi.domain.moveRules;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.Direction;
-import janggi.domain.MoveRule;
-import janggi.domain.Route;
-import janggi.domain.Team;
+import janggi.domain.common.Direction;
+import janggi.domain.common.Team;
+import janggi.domain.piece.moveRules.MoveRule;
+import janggi.domain.piece.moveRules.ZolMoveRule;
+import janggi.domain.route.Route;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,7 +23,7 @@ public class ZolMoveRuleTest {
         Route route2 = new Route(List.of(Direction.LEFT));
         Route route3 = new Route(List.of(Direction.RIGHT));
 
-        List<Route> routes = List.of(route1,route2,route3);
+        List<Route> routes = List.of(route1, route2, route3);
 
         //when
         List<Route> zolPaths = moveRule.findRoutes(cho);
@@ -41,7 +42,7 @@ public class ZolMoveRuleTest {
         Route route2 = new Route(List.of(Direction.LEFT));
         Route route3 = new Route(List.of(Direction.RIGHT));
 
-        List<Route> routes = List.of(route1,route2,route3);
+        List<Route> routes = List.of(route1, route2, route3);
 
         //when
         List<Route> zolPaths = moveRule.findRoutes(han);

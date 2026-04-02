@@ -1,4 +1,4 @@
-package janggi.domain;
+package janggi.domain.common;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -21,7 +21,7 @@ public class PositionTest {
         Optional<Position> result = position.applyDirection(0, 1);
 
         // then
-        assertThat(result).isPresent().contains(new Position(1,10));
+        assertThat(result).isPresent().contains(new Position(1, 10));
     }
 
     @Test
@@ -55,13 +55,13 @@ public class PositionTest {
     void 보드_범위_내에_연속_좌표() {
         // given
         Position position = new Position(1, 5);
-        Map<Position, List<Position>> continuousRoute  = new HashMap<>();
+        Map<Position, List<Position>> continuousRoute = new HashMap<>();
 
         // when
         position.applyContinuousDirection(0, 1, continuousRoute);
 
         // then
         assertThat(continuousRoute).hasSize(5)
-                .containsKey(new Position(1,10));
+                .containsKey(new Position(1, 10));
     }
 }

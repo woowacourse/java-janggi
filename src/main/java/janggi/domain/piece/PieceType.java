@@ -1,12 +1,15 @@
-package janggi.domain;
+package janggi.domain.piece;
 
-import janggi.domain.moveRules.ChaMoveRule;
-import janggi.domain.moveRules.KingMoveRule;
-import janggi.domain.moveRules.MaMoveRule;
-import janggi.domain.moveRules.PoMoveRule;
-import janggi.domain.moveRules.SaMoveRule;
-import janggi.domain.moveRules.SangMoveRule;
-import janggi.domain.moveRules.ZolMoveRule;
+import janggi.domain.common.Team;
+import janggi.domain.piece.moveRules.ChaMoveRule;
+import janggi.domain.piece.moveRules.KingMoveRule;
+import janggi.domain.piece.moveRules.MaMoveRule;
+import janggi.domain.piece.moveRules.MoveRule;
+import janggi.domain.piece.moveRules.PoMoveRule;
+import janggi.domain.piece.moveRules.SaMoveRule;
+import janggi.domain.piece.moveRules.SangMoveRule;
+import janggi.domain.piece.moveRules.ZolMoveRule;
+import janggi.domain.route.Route;
 import java.util.List;
 
 public enum PieceType {

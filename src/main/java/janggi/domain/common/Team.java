@@ -1,4 +1,4 @@
-package janggi.domain;
+package janggi.domain.common;
 
 public enum Team {
     CHO("초나라"),

@@ -1,9 +1,9 @@
 package janggi.view;
 
-import janggi.domain.Piece;
-import janggi.domain.Position;
-import janggi.domain.Team;
 import janggi.domain.board.BoardFormation;
+import janggi.domain.common.Position;
+import janggi.domain.common.Team;
+import janggi.domain.piece.Piece;
 import java.util.List;
 import java.util.Map;
 
