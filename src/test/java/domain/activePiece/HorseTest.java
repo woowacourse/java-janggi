@@ -7,7 +7,6 @@ import domain.piece.ActivePiece;
 import domain.piece.Horse;
 import domain.piece.Piece;
 import domain.position.Position;
-import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -37,13 +36,13 @@ class HorseTest {
     }
 
     @Test
-    void 마_비정상_경로_출력() {
+    void 마_열_방향_경로를_계산한다() {
         ActivePiece horse = new Horse(Team.HAN);
         Position source = new Position(3, 3);
-        Position mid = new Position(6, 3);
-        Position destination = new Position(7, 3);
-        List<Position> routes = new ArrayList<>(List.of(mid, destination));
+        Position mid = new Position(3, 4);
+        Position destination = new Position(4, 5);
+        List<Position> routes = List.of(mid);
 
-        assertThat(horse.calculateRoute(source, destination)).isNotEqualTo(routes);
+        assertThat(horse.calculateRoute(source, destination)).isEqualTo(routes);
     }
 }

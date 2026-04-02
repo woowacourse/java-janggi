@@ -37,14 +37,14 @@ class ElephantTest {
     }
 
     @Test
-    void 상_비정상_경로_출력() {
+    void 상_열_방향_경로를_계산한다() {
         ActivePiece elephant = new Elephant(Team.HAN);
         Position source = new Position(3, 3);
-        Position mid = new Position(5, 6);
-        Position mid2 = new Position(7, 7);
-        Position destination = new Position(8, 9);
-        List<Position> routes = List.of(mid, mid2, destination);
+        Position mid = new Position(3, 4);
+        Position mid2 = new Position(4, 5);
+        Position destination = new Position(5, 6);
+        List<Position> routes = List.of(mid, mid2);
 
-        assertThat(elephant.calculateRoute(source, destination)).isNotEqualTo(routes);
+        assertThat(elephant.calculateRoute(source, destination)).isEqualTo(routes);
     }
 }

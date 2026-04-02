@@ -38,15 +38,4 @@ class GuardTest {
         assertThat(guard.calculateRoute(source, destination)).isEqualTo(routes);
     }
 
-    @Test
-    void 사_비정상_경로_출력_한다() {
-        ActivePiece guard = new Guard(Team.HAN);
-
-        Position source = new Position(new Row(1), new Column(3));
-        Position destination = new Position(new Row(2), new Column(3));
-        List<Position> routes = new ArrayList<>(
-                List.of(new Position(new Row(3), new Column(3))));
-
-        assertThat(guard.calculateRoute(source, destination)).isNotEqualTo(routes);
-    }
 }

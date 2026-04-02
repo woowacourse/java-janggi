@@ -86,16 +86,4 @@ class SoldierTest {
         assertThat(soldier.calculateRoute(source, destination)).isEqualTo(routes);
     }
 
-    @Test
-    void 병_비정상_경로_출력_한다() {
-        ActivePiece soldier = new Soldier(Team.HAN);
-
-        Position source = new Position(new Row(5), new Column(5));
-        Position destination = new Position(new Row(4), new Column(5));
-        List<Position> routes = new ArrayList<>(
-                List.of(new Position(new Row(3), new Column(5))));
-
-        assertThat(soldier.calculateRoute(source, destination)).isNotEqualTo(routes);
-    }
-
 }
