@@ -85,7 +85,7 @@ public class JanggiController {
     private void processCommand(Janggi janggi) {
         int turn = 0;
         while (janggi.isPlaying() && turn++ < MAX_RETRY) {
-            CommandType commandType = retry(inputView::readCommand, processError());
+            CommandType commandType = retry(() -> inputView.readCommand(janggi.getTurn()), processError());
             retry(() -> commandMap.get(commandType).accept(janggi), processError());
         }
         if (janggi.isPlaying()) {

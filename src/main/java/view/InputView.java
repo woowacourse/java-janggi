@@ -48,8 +48,8 @@ public class InputView {
         return extractPosition();
     }
 
-    public CommandType readCommand() {
-        System.out.println("명령을 선택해주세요. (m/move: 이동, s/score: 게임 종료 후 점수 판정, q/quit: 저장 후 종료)");
+    public CommandType readCommand(Team turn) {
+        System.out.printf("[%s] 명령을 선택해주세요. (m/move: 이동, s/score: 게임 종료 후 점수 판정, q/quit: 저장 후 종료)%n", turn.getName());
         System.out.print("> ");
         return CommandType.from(SCANNER.nextLine());
     }
