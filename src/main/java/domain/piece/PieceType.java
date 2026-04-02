@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.board.BoardState;
 import domain.piece.strategy.CanonMovingCondition;
 import domain.piece.strategy.ChariotMovingCondition;
 import domain.piece.strategy.ElephantMovingCondition;
@@ -8,8 +9,6 @@ import domain.piece.strategy.MovingCondition;
 import domain.piece.strategy.PalacePieceMovingCondition;
 import domain.piece.strategy.PawnMovingCondition;
 import domain.position.Position;
-
-import java.util.Map;
 
 public enum PieceType {
     GENERAL("궁", new PalacePieceMovingCondition()),
@@ -32,7 +31,7 @@ public enum PieceType {
         return name;
     }
 
-    public boolean canMove(Map<Position, Piece> pieceMap, Position startPosition, Position endPosition) {
-        return movingCondition.canMove(pieceMap, startPosition, endPosition);
+    public boolean canMove(BoardState boardState, Position startPosition, Position endPosition) {
+        return movingCondition.canMove(boardState, startPosition, endPosition);
     }
 }

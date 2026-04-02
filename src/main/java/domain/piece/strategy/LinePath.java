@@ -1,11 +1,10 @@
 package domain.piece.strategy;
 
+import domain.board.BoardState;
 import domain.board.Direction;
 import domain.piece.Piece;
-import domain.piece.PieceType;
 import domain.position.Position;
-
-import java.util.Map;
+import domain.position.PositionCalculator;
 
 public class LinePath {
     private final Directions directions;
@@ -25,7 +24,7 @@ public class LinePath {
         if (!directions.keepsDirection(currentDirection)) {
             return false;
         }
-        currentPosition = currentPosition.append(currentDirection);
+        currentPosition = PositionCalculator.add(currentPosition, currentDirection);
         return true;
     }
 
@@ -33,18 +32,15 @@ public class LinePath {
         return currentPosition.equals(endPosition);
     }
 
-    public boolean isBlockedBy(Map<Position, Piece> state) {
-        return state.containsKey(currentPosition);
-    }
-
-    public boolean isBlockedByCanon(Map<Position, Piece> state) {
-        if (!isBlockedBy(state)) {
-            return false;
-        }
-        return state.get(currentPosition).isSamePieceType(PieceType.CANON);
+    public boolean isBlockedBy(BoardState boardState) {
+        return boardState.isBlocked(currentPosition);
     }
 
     public int size() {
         return directions.size();
+    }
+
+    public Piece findCurrentPiece(BoardState boardState) {
+        return boardState.findBy(currentPosition);
     }
 }

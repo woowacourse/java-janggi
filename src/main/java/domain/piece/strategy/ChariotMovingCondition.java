@@ -1,22 +1,20 @@
 package domain.piece.strategy;
 
-import domain.piece.Piece;
+import domain.board.BoardState;
 import domain.position.Position;
-
-import java.util.Map;
 
 public class ChariotMovingCondition implements MovingCondition {
 
     @Override
-    public boolean canMove(Map<Position, Piece> state, Position startPosition, Position endPosition) {
+    public boolean canMove(BoardState boardState, Position startPosition, Position endPosition) {
         Directions directions = Directions.between(startPosition, endPosition);
         if (!directions.checkAllDirectionIsStraight()) {
             return false;
         }
-        return hasValidChariotPath(state, endPosition, new LinePath(startPosition, directions));
+        return hasValidChariotPath(boardState, endPosition, new LinePath(startPosition, directions));
     }
 
-    private boolean hasValidChariotPath(Map<Position, Piece> state, Position endPosition, LinePath path) {
+    private boolean hasValidChariotPath(BoardState boardState, Position endPosition, LinePath path) {
         while (path.hasNext()) {
             if (!path.moveForward()) {
                 return false;
@@ -24,7 +22,7 @@ public class ChariotMovingCondition implements MovingCondition {
             if (path.isAt(endPosition)) {
                 return true;
             }
-            if (path.isBlockedBy(state)) {
+            if (path.isBlockedBy(boardState)) {
                 return false;
             }
         }

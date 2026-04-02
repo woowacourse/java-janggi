@@ -7,9 +7,8 @@ import domain.position.Position;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
-public class Board {
+public class Board implements BoardState {
 
     private final Map<Position, Piece> state;
 
@@ -17,6 +16,12 @@ public class Board {
         state = new LinkedHashMap<>();
     }
 
+    @Override
+    public boolean isBlocked(Position currentPosition) {
+        return state.containsKey(currentPosition);
+    }
+
+    @Override
     public Piece findBy(Position position) {
         return state.get(position);
     }
@@ -36,9 +41,20 @@ public class Board {
     }
 
     private void validatePieceCanMove(Position from, Position to, Side side, Piece fromPiece) {
-        if (!fromPiece.canMove(adjustStateBySide(side), adjustPositionBySide(side, from), adjustPositionBySide(side, to))) {
+        BoardState boardState = boardStateBySide(side);
+        Position adjustedFrom = adjustPositionBySide(side, from);
+        Position adjustedTo = adjustPositionBySide(side, to);
+
+        if (!fromPiece.canMove(boardState, adjustedFrom, adjustedTo)) {
             throw new IllegalArgumentException("해당 위치로 움직일 수 없습니다.");
         }
+    }
+
+    private BoardState boardStateBySide(Side side) {
+        if (side == Side.CHO) {
+            return this;
+        }
+        return new RotatedBoard(this);
     }
 
     public void placePieces(Side side, Placement placement) {
@@ -93,22 +109,11 @@ public class Board {
         state.put(adjustPositionBySide(side, Position.of(1, 8)), Piece.of(side, placement.getFourthPieceType()));
     }
 
-    private Position adjustPositionBySide(Side side, Position from) {
+    private Position adjustPositionBySide(Side side, Position position) {
         if (side == Side.HAN) {
-            return Position.rotate180from(from);
+            return Position.rotate180from(position);
         }
-        return from;
-    }
-
-    private Map<Position, Piece> adjustStateBySide(Side side) {
-        if (side == Side.HAN) {
-            return state.entrySet().stream()
-                    .collect(Collectors.toMap(
-                            entry -> Position.rotate180from(entry.getKey()),
-                            Map.Entry::getValue
-                    ));
-        }
-        return state;
+        return position;
     }
 
     private void validatePosition(Position from, Position to) {

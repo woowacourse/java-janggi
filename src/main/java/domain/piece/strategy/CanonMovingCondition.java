@@ -1,31 +1,31 @@
 package domain.piece.strategy;
 
+import domain.board.BoardState;
 import domain.piece.Piece;
+import domain.piece.PieceType;
 import domain.position.Position;
-
-import java.util.Map;
 
 public class CanonMovingCondition implements MovingCondition {
     private static final int MAX_PIECE_COUNT_ON_THE_PATH = 1;
 
     @Override
-    public boolean canMove(Map<Position, Piece> state, Position startPosition, Position endPosition) {
+    public boolean canMove(BoardState boardState, Position startPosition, Position endPosition) {
         Directions directions = Directions.between(startPosition, endPosition);
 
         if (!directions.checkAllDirectionIsStraight()) {
             return false;
         }
-        return hasValidCanonPath(state, endPosition, new LinePath(startPosition, directions));
+        return hasValidCanonPath(boardState, endPosition, new LinePath(startPosition, directions));
     }
 
-    private boolean hasValidCanonPath(Map<Position, Piece> state, Position endPosition, LinePath path) {
+    private boolean hasValidCanonPath(BoardState boardState, Position endPosition, LinePath path) {
         int pieceCount = 0;
 
         while (path.hasNext()) {
-            if (!isValidPath(state, path)) {
+            if (!isValidPath(boardState, path)) {
                 return false;
             }
-            if (isPieceInPath(state, endPosition, path)) {
+            if (isPieceInPath(boardState, endPosition, path)) {
                 pieceCount++;
             }
             if (pieceCount > MAX_PIECE_COUNT_ON_THE_PATH) {
@@ -35,14 +35,15 @@ public class CanonMovingCondition implements MovingCondition {
         return pieceCount == MAX_PIECE_COUNT_ON_THE_PATH;
     }
 
-    private boolean isValidPath(Map<Position, Piece> state, LinePath path) {
+    private boolean isValidPath(BoardState boardState, LinePath path) {
         if (!path.moveForward()) {
             return false;
         }
-        return !path.isBlockedByCanon(state);
+        Piece piece = path.findCurrentPiece(boardState);
+        return piece == null || !piece.isSamePieceType(PieceType.CANON);
     }
 
-    private boolean isPieceInPath(Map<Position, Piece> state, Position endPosition, LinePath path) {
-        return path.isBlockedBy(state) && !path.isAt(endPosition);
+    private boolean isPieceInPath(BoardState boardState, Position endPosition, LinePath path) {
+        return path.isBlockedBy(boardState) && !path.isAt(endPosition);
     }
 }
