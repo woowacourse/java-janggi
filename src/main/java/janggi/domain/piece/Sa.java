@@ -28,7 +28,10 @@ public class Sa extends Piece {
     @Override
     public void validateCanMove(Position start, Position end, Board board) {
         checkSamePosition(start, end);
+        checkMovePath(start, end);
+    }
 
+    private void checkMovePath(Position start, Position end) {
         int dx = start.deltaX(end);
         int dy = start.deltaY(end);
 
