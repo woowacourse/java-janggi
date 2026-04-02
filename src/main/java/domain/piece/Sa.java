@@ -18,6 +18,7 @@ import domain.position.Path;
 import domain.position.Position;
 import domain.strategy.BlockedMovementStrategy;
 import domain.strategy.MovementStrategy;
+import domain.strategy.PalaceMovementStrategy;
 import java.util.List;
 
 public class Sa extends Piece {
@@ -33,7 +34,7 @@ public class Sa extends Piece {
             DirectionPath.of(SOUTH_WEST)
     );
 
-    private static final MovementStrategy MOVEMENT_STRATEGY = new BlockedMovementStrategy();
+    private static final MovementStrategy MOVEMENT_STRATEGY = new PalaceMovementStrategy();
     private static final PathGenerator PATH_GENERATOR = new NonStraightPathGenerator(PATHS);
 
     public Sa(Team team) {
