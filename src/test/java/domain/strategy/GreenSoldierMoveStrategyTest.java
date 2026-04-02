@@ -14,8 +14,8 @@ class GreenSoldierMoveStrategyTest {
     @ParameterizedTest
     @MethodSource("moveablePositions")
     @DisplayName("초나라 졸은 현재 위치 기준 상, 좌우 한 칸 이동할 수 있다.")
-    void soldier_move_test(Position guardPosition, Position expectedTarget) {
-        GreenSoldierMoveStrategy moveStrategy = GreenSoldierMoveStrategy.of(guardPosition);
+    void soldier_move_test(Position greenSoldierPosition, Position expectedTarget) {
+        GreenSoldierMoveStrategy moveStrategy = GreenSoldierMoveStrategy.of(greenSoldierPosition);
 
         assertThat(moveStrategy.isMoveAble(expectedTarget)).isTrue();
     }
@@ -23,8 +23,8 @@ class GreenSoldierMoveStrategyTest {
     @ParameterizedTest
     @MethodSource("nonMovablePositions")
     @DisplayName("초나라 졸은 현재 위치 기준 상, 좌우 한 칸을 벗어난 곳으로 이동할 수 없다.")
-    void soldier_move_test_negative(Position guardPosition, Position wrongTarget) {
-        GreenSoldierMoveStrategy moveStrategy = GreenSoldierMoveStrategy.of(guardPosition);
+    void soldier_move_test_negative(Position greenSoldierPosition, Position wrongTarget) {
+        GreenSoldierMoveStrategy moveStrategy = GreenSoldierMoveStrategy.of(greenSoldierPosition);
 
         assertThat(moveStrategy.isMoveAble(wrongTarget)).isFalse();
     }
@@ -32,8 +32,8 @@ class GreenSoldierMoveStrategyTest {
     @ParameterizedTest
     @MethodSource("nonMovableDirectionsOfRedPalaceWestSide")
     @DisplayName("초나라 졸은 한나라 궁성 면에서는 대각선으로 이동할 수 없어야 한다.")
-    void palace_piece_side_move_test_negative(Position palacePiecePosition, Position wrongTarget) {
-        GreenSoldierMoveStrategy moveStrategy = GreenSoldierMoveStrategy.of(palacePiecePosition);
+    void palace_piece_side_move_test_negative(Position greenSoldierPosition, Position wrongTarget) {
+        GreenSoldierMoveStrategy moveStrategy = GreenSoldierMoveStrategy.of(greenSoldierPosition);
 
         assertThat(moveStrategy.isMoveAble(wrongTarget)).isFalse();
     }
@@ -41,8 +41,8 @@ class GreenSoldierMoveStrategyTest {
     @ParameterizedTest
     @MethodSource("nonMovableCrossDirectionsOutOfRedPalace")
     @DisplayName("초나라 졸은 한나라 궁 외에서 대각선으로 이동할 수 없어야 한다.")
-    void palace_piece_out_of_palace(Position palacePiecePosition, Position wrongTarget) {
-        GreenSoldierMoveStrategy moveStrategy = GreenSoldierMoveStrategy.of(palacePiecePosition);
+    void palace_piece_out_of_palace(Position greenSoldierPosition, Position wrongTarget) {
+        GreenSoldierMoveStrategy moveStrategy = GreenSoldierMoveStrategy.of(greenSoldierPosition);
 
         assertThat(moveStrategy.isMoveAble(wrongTarget)).isFalse();
     }
@@ -50,8 +50,8 @@ class GreenSoldierMoveStrategyTest {
     @ParameterizedTest
     @MethodSource("movableDirectionsOfRedPalaceSouthWestConner")
     @DisplayName("초나라 졸은 한나라 궁 내부 남서귀에서 동, 서, 북, 북동 쪽으로 이동할 수 있다.")
-    void palace_piece_move_south_west_conner_test(Position palacePiecePosition, Position expectedPosition) {
-        GreenSoldierMoveStrategy moveStrategy = GreenSoldierMoveStrategy.of(palacePiecePosition);
+    void palace_piece_move_south_west_conner_test(Position greenSoldierPosition, Position expectedPosition) {
+        GreenSoldierMoveStrategy moveStrategy = GreenSoldierMoveStrategy.of(greenSoldierPosition);
 
         assertThat(moveStrategy.isMoveAble(expectedPosition)).isTrue();
     }
@@ -59,8 +59,8 @@ class GreenSoldierMoveStrategyTest {
     @ParameterizedTest
     @MethodSource("movableDirectionsOfRedPalaceSouthEastConner")
     @DisplayName("초나라 졸은 한나라 궁 내부 남동귀에서 동, 서, 북, 북서 쪽으로 이동할 수 있다.")
-    void palace_piece_move_south_east_conner_test(Position palacePiecePosition, Position expectedPosition) {
-        GreenSoldierMoveStrategy moveStrategy = GreenSoldierMoveStrategy.of(palacePiecePosition);
+    void palace_piece_move_south_east_conner_test(Position greenSoldierPosition, Position expectedPosition) {
+        GreenSoldierMoveStrategy moveStrategy = GreenSoldierMoveStrategy.of(greenSoldierPosition);
 
         assertThat(moveStrategy.isMoveAble(expectedPosition)).isTrue();
     }
@@ -68,8 +68,8 @@ class GreenSoldierMoveStrategyTest {
     @ParameterizedTest
     @MethodSource("nonMovableDirectionsOfRedPalaceNorthWestConner")
     @DisplayName("초나라 졸은 한나라 궁 내부 북서귀에서 동서 방향을 제외한 방향으로 이동할 수 없다.")
-    void palace_piece_move_north_west_conner_test_negative(Position guardPosition, Position wrongTarget) {
-        GreenSoldierMoveStrategy moveStrategy = GreenSoldierMoveStrategy.of(guardPosition);
+    void palace_piece_move_north_west_conner_test_negative(Position greenSoldierPosition, Position wrongTarget) {
+        GreenSoldierMoveStrategy moveStrategy = GreenSoldierMoveStrategy.of(greenSoldierPosition);
 
         assertThat(moveStrategy.isMoveAble(wrongTarget)).isFalse();
     }
@@ -77,8 +77,8 @@ class GreenSoldierMoveStrategyTest {
     @ParameterizedTest
     @MethodSource("movableDirectionsOfRedPalaceCenter")
     @DisplayName("초나라 졸은 한나라 궁 내부 중앙에서 서, 서북, 북, 북동, 동 방향으로 이동할 수 있어야 한다.")
-    void palace_piece_move_center_test(Position palacePiecePosition, Position expectedPosition) {
-        GreenSoldierMoveStrategy moveStrategy = GreenSoldierMoveStrategy.of(palacePiecePosition);
+    void palace_piece_move_center_test(Position greenSoldierPosition, Position expectedPosition) {
+        GreenSoldierMoveStrategy moveStrategy = GreenSoldierMoveStrategy.of(greenSoldierPosition);
 
         assertThat(moveStrategy.isMoveAble(expectedPosition)).isTrue();
     }
@@ -102,7 +102,6 @@ class GreenSoldierMoveStrategyTest {
                 Arguments.arguments(Position.of(6, 2), Position.of(8, 3))
         );
     }
-
 
     private static Stream<Arguments> nonMovableDirectionsOfRedPalaceWestSide() {
         Position westSide = Position.of(1,3);

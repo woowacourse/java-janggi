@@ -1,8 +1,8 @@
 package domain.strategy;
 
+import domain.MoveRoute;
 import domain.Position;
 import domain.moverule.RedSoldierMoveRule;
-import java.util.Arrays;
 import java.util.List;
 
 public class RedSoldierMoveStrategy extends MoveStrategy {
@@ -29,8 +29,8 @@ public class RedSoldierMoveStrategy extends MoveStrategy {
     }
 
     private List<Position> setupDestinations() {
-        return Arrays.stream(RedSoldierMoveRule.values())
-                .map(redSoldierMoveRule -> redSoldierMoveRule.destination(position))
+        return RedSoldierMoveRule.moveRoutesOf(position).stream()
+                .map(MoveRoute::destination)
                 .toList();
     }
 }
