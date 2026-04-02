@@ -10,20 +10,13 @@ public class InputParser {
     public static final Pattern POSITION_PATTERN = Pattern.compile(" *\\( *\\d+ *, *\\d+ *\\) *");
 
     public static Name parseName(String input) {
-        if (input == null || input.isBlank()) {
-            throw new IllegalArgumentException("빈 값은 입력할 수 없습니다.");
-        }
+        validateNullOrBlank(input);
         return new Name(input.strip());
     }
 
     public static Position parsePosition(String input) {
-        if (input == null || input.isBlank()) {
-            throw new IllegalArgumentException("빈 값은 입력할 수 없습니다.");
-        }
-        
-        if (!POSITION_PATTERN.matcher(input).matches()) {
-            throw new IllegalArgumentException("질못된 입력 형식입니다.");
-        }
+        validateNullOrBlank(input);
+        validateInputFormat(input);
 
         return getPosition(input);
    }
@@ -35,5 +28,17 @@ public class InputParser {
                 .toList();
 
         return Position.of(coordinate.get(0), coordinate.get(1));
+    }
+
+    private static void validateNullOrBlank(String input) {
+        if (input == null || input.isBlank()) {
+            throw new IllegalArgumentException("빈 값은 입력할 수 없습니다.");
+        }
+    }
+
+    private static void validateInputFormat(String input) {
+        if (!POSITION_PATTERN.matcher(input).matches()) {
+            throw new IllegalArgumentException("질못된 입력 형식입니다.");
+        }
     }
 }
