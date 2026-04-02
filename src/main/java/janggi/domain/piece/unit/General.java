@@ -1,11 +1,11 @@
 package janggi.domain.piece.unit;
 
-import janggi.domain.point.Point;
 import janggi.domain.path.CandidatePath;
 import janggi.domain.path.Movement;
 import janggi.domain.path.generator.FixedPathStrategy;
 import janggi.domain.path.generator.PathStrategy;
 import janggi.domain.piece.PieceName;
+import janggi.domain.point.Point;
 import janggi.domain.side.Side;
 import java.util.Collections;
 import java.util.List;
@@ -22,13 +22,6 @@ public class General extends Piece {
     @Override
     public List<Movement> createCandidateMovement() {
         return Collections.EMPTY_LIST;
-//        List<Movement> movements = new ArrayList<>();
-//        for (Direction value : Direction.values()) {
-//            Movement path = new Movement(List.of(value));
-//            movements.add(path);
-//        }
-//
-//        return movements;
     }
 
 
