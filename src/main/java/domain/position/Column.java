@@ -18,8 +18,8 @@ public class Column {
         }
     }
 
-    public Column divide(Column col) {
-        return new Column((this.value + col.value) / 2);
+    public Column divide(Column column) {
+        return new Column((this.value + column.value) / 2);
     }
 
     public int min(Column other) {

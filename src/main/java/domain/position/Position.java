@@ -45,8 +45,8 @@ public class Position {
     public List<Position> makeColStraightRoute(Position other) {
         List<Position> routes = new ArrayList<>();
         int start = other.column.min(this.column);
-        int dest = other.column.max(this.column);
-        for (int i = start + 1; i < dest; i++) {
+        int end = other.column.max(this.column);
+        for (int i = start + 1; i < end; i++) {
             routes.add(new Position(other.row, new Column(i)));
         }
         return routes;
@@ -55,8 +55,8 @@ public class Position {
     public List<Position> makeRowStraightRoute(Position other) {
         List<Position> routes = new ArrayList<>();
         int start = other.row.min(this.row);
-        int dest = other.row.max(this.row);
-        for (int i = start + 1; i < dest; i++) {
+        int end = other.row.max(this.row);
+        for (int i = start + 1; i < end; i++) {
             routes.add(new Position(new Row(i), other.column));
         }
         return routes;

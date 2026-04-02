@@ -31,22 +31,22 @@ class GeneralTest {
     void 궁_정상_경로_출력_한다() {
         ActivePiece general = new General(Team.HAN);
 
-        Position src = new Position(new Row(1), new Column(3));
-        Position dest = new Position(new Row(2), new Column(3));
+        Position source = new Position(new Row(1), new Column(3));
+        Position destination = new Position(new Row(2), new Column(3));
         List<Position> routes = new ArrayList<>();
 
-        assertThat(general.searchRoute(src, dest)).isEqualTo(routes);
+        assertThat(general.searchRoute(source, destination)).isEqualTo(routes);
     }
 
     @Test
     void 궁_비정상_경로_출력_한다() {
         ActivePiece general = new General(Team.HAN);
 
-        Position src = new Position(new Row(1), new Column(3));
-        Position dest = new Position(new Row(2), new Column(3));
+        Position source = new Position(new Row(1), new Column(3));
+        Position destination = new Position(new Row(2), new Column(3));
         List<Position> routes = new ArrayList<>(
                 List.of(new Position(new Row(3), new Column(3))));
 
-        assertThat(general.searchRoute(src, dest)).isNotEqualTo(routes);
+        assertThat(general.searchRoute(source, destination)).isNotEqualTo(routes);
     }
 }

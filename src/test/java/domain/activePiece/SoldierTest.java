@@ -79,23 +79,23 @@ class SoldierTest {
     void 병은_빈_경로_출력_한다() {
         ActivePiece soldier = new Soldier(Team.HAN);
 
-        Position src = new Position(new Row(5), new Column(5));
-        Position dest = new Position(new Row(4), new Column(5));
+        Position source = new Position(new Row(5), new Column(5));
+        Position destination = new Position(new Row(4), new Column(5));
         List<Position> routes = new ArrayList<>();
 
-        assertThat(soldier.searchRoute(src, dest)).isEqualTo(routes);
+        assertThat(soldier.searchRoute(source, destination)).isEqualTo(routes);
     }
 
     @Test
     void 병_비정상_경로_출력_한다() {
         ActivePiece soldier = new Soldier(Team.HAN);
 
-        Position src = new Position(new Row(5), new Column(5));
-        Position dest = new Position(new Row(4), new Column(5));
+        Position source = new Position(new Row(5), new Column(5));
+        Position destination = new Position(new Row(4), new Column(5));
         List<Position> routes = new ArrayList<>(
                 List.of(new Position(new Row(3), new Column(5))));
 
-        assertThat(soldier.searchRoute(src, dest)).isNotEqualTo(routes);
+        assertThat(soldier.searchRoute(source, destination)).isNotEqualTo(routes);
     }
 
 }

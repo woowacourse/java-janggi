@@ -26,8 +26,8 @@ public class JanggiGame {
         return new JanggiGame(Turn.first(),new Board(pieces));
     }
 
-    public void move(Position src, Position dest) {
-        board.move(src, dest);
+    public void move(Position source, Position destination) {
+        board.move(source, destination);
         turn = turn.next();
     }
 

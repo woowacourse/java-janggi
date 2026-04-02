@@ -28,22 +28,22 @@ class HorseTest {
     @Test
     void 마_정상_경로_출력() {
         ActivePiece horse = new Horse(Team.HAN);
-        Position src = new Position(3, 3);
+        Position source = new Position(3, 3);
         Position mid = new Position(4, 3);
-        Position dest = new Position(5, 4);
+        Position destination = new Position(5, 4);
         List<Position> routes = List.of(mid);
 
-        assertThat(horse.searchRoute(src, dest)).isEqualTo(routes);
+        assertThat(horse.searchRoute(source, destination)).isEqualTo(routes);
     }
 
     @Test
     void 마_비정상_경로_출력() {
         ActivePiece horse = new Horse(Team.HAN);
-        Position src = new Position(3, 3);
+        Position source = new Position(3, 3);
         Position mid = new Position(6, 3);
-        Position dest = new Position(7, 3);
-        List<Position> routes = new ArrayList<>(List.of(mid, dest));
+        Position destination = new Position(7, 3);
+        List<Position> routes = new ArrayList<>(List.of(mid, destination));
 
-        assertThat(horse.searchRoute(src, dest)).isNotEqualTo(routes);
+        assertThat(horse.searchRoute(source, destination)).isNotEqualTo(routes);
     }
 }

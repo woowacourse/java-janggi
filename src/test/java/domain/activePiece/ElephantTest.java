@@ -27,24 +27,24 @@ class ElephantTest {
     @Test
     void 상_정상_경로_출력() {
         ActivePiece elephant = new Elephant(Team.HAN);
-        Position src = new Position(3, 3);
+        Position source = new Position(3, 3);
         Position mid = new Position(4, 3);
         Position mid2 = new Position(5, 4);
-        Position dest = new Position(6, 5);
+        Position destination = new Position(6, 5);
         List<Position> routes = List.of(mid, mid2);
 
-        assertThat(elephant.searchRoute(src, dest)).isEqualTo(routes);
+        assertThat(elephant.searchRoute(source, destination)).isEqualTo(routes);
     }
 
     @Test
     void 상_비정상_경로_출력() {
         ActivePiece elephant = new Elephant(Team.HAN);
-        Position src = new Position(3, 3);
+        Position source = new Position(3, 3);
         Position mid = new Position(5, 6);
         Position mid2 = new Position(7, 7);
-        Position dest = new Position(8, 9);
-        List<Position> routes = List.of(mid, mid2, dest);
+        Position destination = new Position(8, 9);
+        List<Position> routes = List.of(mid, mid2, destination);
 
-        assertThat(elephant.searchRoute(src, dest)).isNotEqualTo(routes);
+        assertThat(elephant.searchRoute(source, destination)).isNotEqualTo(routes);
     }
 }

@@ -31,15 +31,15 @@ public class OutputView {
 
     private void appendColumnHeader(StringBuilder sb) {
         sb.append(" \t");
-        for (int col = 1; col <= MAX_COLUMN; col++) {
-            sb.append(col).append("\t");
+        for (int column = 1; column <= MAX_COLUMN; column++) {
+            sb.append(column).append("\t");
         }
         sb.append(System.lineSeparator());
     }
 
     private void appendRow(StringBuilder sb, Board board, int row) {
-        for (int col = 1; col <= MAX_COLUMN; col++) {
-            Piece piece = board.pieceAt(new Position(row, col));
+        for (int column = 1; column <= MAX_COLUMN; column++) {
+            Piece piece = board.pieceAt(new Position(row, column));
             sb.append(piece.display(appearance)).append("\t");
         }
     }

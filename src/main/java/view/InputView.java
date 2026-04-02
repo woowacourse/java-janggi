@@ -40,9 +40,9 @@ public class InputView {
                         .map(String::trim)
                         .collect(Collectors.toList());
                 validatePositionFormat(inputs);
-                Position src = Position.from(inputs.get(0), inputs.get(1));
-                Position dest = Position.from(inputs.get(2), inputs.get(3));
-                return List.of(src, dest);
+                Position source = Position.from(inputs.get(0), inputs.get(1));
+                Position destination = Position.from(inputs.get(2), inputs.get(3));
+                return List.of(source, destination);
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }

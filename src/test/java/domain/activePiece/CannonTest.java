@@ -32,26 +32,26 @@ class CannonTest {
     @Test
     void 직선_방향_경로를_출력_한다() {
         ActivePiece cannon = new Cannon(Team.HAN);
-        Position src = new Position(new Row(1), new Column(3));
-        Position dest = new Position(new Row(4), new Column(3));
+        Position source = new Position(new Row(1), new Column(3));
+        Position destination = new Position(new Row(4), new Column(3));
         List<Position> routes = new ArrayList<>(
                 List.of(new Position(new Row(2), new Column(3)),
                         new Position(new Row(3), new Column(3))));
 
-        assertThat(cannon.searchRoute(src, dest)).isEqualTo(routes);
+        assertThat(cannon.searchRoute(source, destination)).isEqualTo(routes);
     }
 
     @Test
     void 잘못된_직선_방향_경로를_출력_한다() {
         ActivePiece cannon = new Cannon(Team.HAN);
-        Position src = new Position(new Row(1), new Column(3));
-        Position dest = new Position(new Row(4), new Column(3));
+        Position source = new Position(new Row(1), new Column(3));
+        Position destination = new Position(new Row(4), new Column(3));
 
         List<Position> routes = new ArrayList<>(
                 List.of(new Position(new Row(3), new Column(4)),
                         new Position(new Row(5), new Column(4)),
                         new Position(new Row(7), new Column(4))));
 
-        assertThat(cannon.searchRoute(src, dest)).isNotEqualTo(routes);
+        assertThat(cannon.searchRoute(source, destination)).isNotEqualTo(routes);
     }
 }
