@@ -1,5 +1,7 @@
 package domain;
 
+import domain.constant.Country;
+import domain.constant.PieceType;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

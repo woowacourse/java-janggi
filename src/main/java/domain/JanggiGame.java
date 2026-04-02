@@ -1,5 +1,9 @@
 package domain;
 
+import domain.constant.Country;
+import domain.constant.PieceType;
+import domain.state.ChoTurn;
+import domain.state.State;
 import java.util.List;
 
 public class JanggiGame {

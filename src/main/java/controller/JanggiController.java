@@ -5,9 +5,9 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 import domain.Board;
-import domain.Country;
+import domain.constant.Country;
 import domain.JanggiGame;
-import domain.PieceType;
+import domain.constant.PieceType;
 import domain.Position;
 import service.JanggiService;
 import service.dto.BoardDto;

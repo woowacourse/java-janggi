@@ -1,7 +1,7 @@
 package view;
 
-import domain.Country;
-import domain.PieceType;
+import domain.constant.Country;
+import domain.constant.PieceType;
 import java.util.List;
 import java.util.Map;
 import service.dto.BoardDto;

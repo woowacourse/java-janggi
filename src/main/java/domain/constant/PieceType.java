@@ -1,5 +1,7 @@
-package domain;
+package domain.constant;
 
+import domain.Piece;
+import domain.Position;
 import domain.strategy.ChaMoveRule;
 import domain.strategy.JangMoveRule;
 import domain.strategy.JolMoveRule;
@@ -11,21 +13,23 @@ import domain.strategy.SangMoveRule;
 import java.util.List;
 
 public enum PieceType {
-    CHA("차", new ChaMoveRule()),
-    MA("마", new MaMoveRule()),
-    SANG("상", new SangMoveRule()),
-    SA("사", new SaMoveRule()),
-    JANG("장", new JangMoveRule()),
-    PO("포", new PoMoveRule()),
-    JOL("졸", new JolMoveRule()),
-    NONE("", (start, end, piece) -> false);
+    CHA("차", new ChaMoveRule(), 13),
+    MA("마", new MaMoveRule(), 5),
+    SANG("상", new SangMoveRule(), 3),
+    SA("사", new SaMoveRule(), 3),
+    JANG("장", new JangMoveRule(), 0),
+    PO("포", new PoMoveRule(), 7),
+    JOL("졸", new JolMoveRule(), 2),
+    NONE("", (start, end, piece) -> false, 0);
 
     private final String name;
     private final MoveRule moveRule;
+    private final int score;
 
-    PieceType(String name, MoveRule moveRule) {
+    PieceType(String name, MoveRule moveRule, int score) {
         this.name = name;
         this.moveRule = moveRule;
+        this.score = score;
     }
 
     public static PieceType of(String name) {
@@ -47,5 +51,9 @@ public enum PieceType {
 
     public boolean isAvailableRoute(List<Piece> pieces, PieceType endPieceType) {
         return moveRule.isAvailableRoute(pieces, endPieceType);
+    }
+
+    public int getScore() {
+        return score;
     }
 }

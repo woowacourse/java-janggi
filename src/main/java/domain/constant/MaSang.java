@@ -1,4 +1,4 @@
-package domain;
+package domain.constant;
 
 import java.util.Arrays;
 import java.util.List;

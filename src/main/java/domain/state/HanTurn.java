@@ -1,6 +1,8 @@
-package domain;
+package domain.state;
 
-public class HanTurn implements State{
+import domain.constant.Country;
+
+public class HanTurn implements State {
     @Override
     public State changeTurn() {
         return new ChoTurn();

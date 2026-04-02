@@ -2,6 +2,8 @@ package domain;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+import domain.constant.Country;
+import domain.constant.PieceType;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;

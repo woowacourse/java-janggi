@@ -1,5 +1,6 @@
-package domain;
+package domain.constant;
 
+import domain.Position;
 import java.util.List;
 
 public enum InitPiecePosition {

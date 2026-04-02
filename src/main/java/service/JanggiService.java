@@ -1,12 +1,12 @@
 package service;
 
-import domain.MaSang;
+import domain.constant.MaSang;
 import java.util.ArrayList;
 import java.util.List;
 
 import domain.Board;
 import domain.JanggiGame;
-import domain.PieceType;
+import domain.constant.PieceType;
 import domain.Position;
 import java.util.Map;
 import java.util.stream.Collectors;

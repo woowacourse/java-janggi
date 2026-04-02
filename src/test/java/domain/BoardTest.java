@@ -3,6 +3,7 @@ package domain;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
+import domain.constant.PieceType;
 import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;

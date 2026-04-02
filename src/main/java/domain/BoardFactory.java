@@ -1,5 +1,9 @@
 package domain;
 
+import domain.constant.Country;
+import domain.constant.InitMaSangPosition;
+import domain.constant.InitPiecePosition;
+import domain.constant.PieceType;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

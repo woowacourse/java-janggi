@@ -1,6 +1,6 @@
 package domain.strategy;
 
-import domain.Country;
+import domain.constant.Country;
 import domain.Position;
 import domain.Piece;
 
