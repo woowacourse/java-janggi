@@ -21,6 +21,7 @@ import java.util.List;
 
 import static domain.move.directions.exception.DirectionError.INVALID_DIRECTION;
 import static domain.move.path.exception.PathError.CANNOT_MOVE_DESTINATION_IS_SAME_TEAM;
+import static domain.move.path.exception.PathError.GENERAL_CANNOT_GO_OUT_PALACE;
 
 class GeneralMoveRuleTest {
 
@@ -348,5 +349,30 @@ class GeneralMoveRuleTest {
                 .isInstanceOf(DirectionException.class)
                 .hasMessage(INVALID_DIRECTION.getMessage());
     }
+
+    @Test
+    @DisplayName("장군이 궁성을 나가려고 하는 경우, 예외가 발생한다.")
+    void shouldThrowExceptionWhenGeneralGoOutPalace() {
+        // given
+        Piece general = new Piece(Team.CHO, PieceType.GENERAL);
+
+        Point leftPalacePoint = new Point(8, 4);
+        Point outOfPalacePoint = leftPalacePoint.next(Vector.LEFT);
+
+
+        Intersection leftPalace = new NormalPalace(leftPalacePoint, general);
+        Intersection outOfPalace = NormalIntersection.empty(outOfPalacePoint);
+
+        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
+                leftPalace,
+                outOfPalace
+        )));
+
+        // when & then
+        Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(leftPalacePoint, outOfPalacePoint, Team.CHO))
+                .isInstanceOf(PathException.class)
+                .hasMessage(GENERAL_CANNOT_GO_OUT_PALACE.getMessage());
+    }
+
 
 }

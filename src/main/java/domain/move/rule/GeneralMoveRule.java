@@ -4,11 +4,13 @@ import static domain.move.directions.Vector.*;
 import static domain.move.directions.Vector.LEFT;
 import static domain.move.directions.Vector.RIGHT;
 import static domain.move.directions.Vector.UP;
+import static domain.move.path.exception.PathError.GENERAL_CANNOT_GO_OUT_PALACE;
 
 import domain.intersection.Intersection;
 import domain.move.directions.Direction;
 import domain.move.directions.Directions;
 import domain.move.path.Path;
+import domain.move.path.exception.PathException;
 import domain.point.Point;
 import java.util.List;
 
@@ -31,6 +33,13 @@ public class GeneralMoveRule implements MoveRule {
     @Override
     public void validateMoveRule(Path path) {
         path.validateIsSameTeam();
+        validateDestinationIsPalace(path.getDestination());
+    }
+
+    private void validateDestinationIsPalace(Intersection destination) {
+        if (!destination.isPalace()) {
+            throw new PathException(GENERAL_CANNOT_GO_OUT_PALACE.getMessage());
+        }
     }
 
     // NOTE 사이클 1에서는 궁성이 없으므로, 상하좌우만 설정
