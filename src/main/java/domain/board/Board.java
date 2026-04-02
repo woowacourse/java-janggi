@@ -45,8 +45,8 @@ public class Board {
     }
 
     private void validateCapture(Piece departurePiece, Piece destinationPiece) {
-        if (departurePiece.isSameCampe(destinationPiece)) {
-            throw new IllegalArgumentException("같은 팀끼리는 잡을 수 없습니다.");
+        if (departurePiece.isSameCamp(destinationPiece)) {
+            throw new IllegalArgumentException("같은 진영의 기물은 잡을 수 없습니다.");
         }
     }
 }

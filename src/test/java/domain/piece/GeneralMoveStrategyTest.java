@@ -22,7 +22,7 @@ class GeneralMoveStrategyTest {
     }
 
     @Test
-    void 궁과_사는_세로_직선_방향으로_한_칸_이동할_수_있다() {
+    void 궁과_사는_세로_직선_방향으로_한_칸_이동하는_경로를_가진다() {
         Position from = new Position(8, 0);
         Position to = new Position(8, 1);
 
@@ -32,7 +32,7 @@ class GeneralMoveStrategyTest {
     }
 
     @Test
-    void 궁과_사는_가로_직선_방향으로_한_칸_이동할_수_있다() {
+    void 궁과_사는_가로_직선_방향으로_한_칸_이동하는_경로를_가진다() {
         Position from = new Position(8, 0);
         Position to = new Position(7, 0);
 

@@ -86,5 +86,4 @@ class DirectionTest {
                         departure.calculateDeltaY(destination))).isInstanceOf(IllegalArgumentException.class);
 
     }
-
 }

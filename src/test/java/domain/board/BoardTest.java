@@ -39,7 +39,7 @@ class BoardTest {
     }
 
     @Test
-    void 도착지에_위치한_기물이_같은_팀의_기물일_경우_예외를_던진다() {
+    void 도착지에_위치한_기물이_같은_진영의_기물일_경우_예외를_던진다() {
         assertThatThrownBy(() -> board.move(new Position(8, 0), new Position(7, 0)))
                 .isInstanceOf(IllegalArgumentException.class);
     }

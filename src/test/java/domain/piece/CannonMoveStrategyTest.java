@@ -12,11 +12,11 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class ChariotMoveStrategyTest {
+class CannonMoveStrategyTest {
     private final MoveStrategy chariotMoveStrategy = new ChariotMoveStrategy();
 
     @Test
-    void 차는_세로_직선_방향의_이동_경로를_가진다() {
+    void 포는_세로_직선_방향의_이동_경로를_가진다() {
         Position from = new Position(8, 0);
         Position to = new Position(8, 2);
 
@@ -26,7 +26,7 @@ class ChariotMoveStrategyTest {
     }
 
     @Test
-    void 차는_가로_직선_방향의_이동_경로를_가진다() {
+    void 포는_가로_직선_방향의_이동_경로를_가진다() {
         Position from = new Position(8, 0);
         Position to = new Position(6, 0);
 
@@ -36,7 +36,7 @@ class ChariotMoveStrategyTest {
     }
 
     @Test
-    void 차는_대각선_방향으로_이동할_수_없다() {
+    void 포는_대각선_방향으로_이동할_수_없다() {
         Position from = new Position(8, 0);
         Position to = new Position(7, 1);
 
@@ -44,12 +44,35 @@ class ChariotMoveStrategyTest {
     }
 
     @Test
-    void 차는_경로에_다른_기물이_있으면_이동할_수_없다() {
+    void 포는_경로에_다른_기물이_없으면_이동할_수_없다() {
         Position from = new Position(8, 0);
         Position to = new Position(8, 2);
 
         List<PathInfo> pathInfos = new ArrayList<>();
-        pathInfos.add(new PathInfo(new Position(8, 1), Piece.of(Camp.CHO, PieceType.CHARIOT)));
+        pathInfos.add(new PathInfo(new Position(8, 2), Piece.of(Camp.CHO, PieceType.CHARIOT)));
+
+        assertThatThrownBy(() -> chariotMoveStrategy.validateBlockingPiece(pathInfos, to, from)).isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void 포는_포를_잡을_수_없다() {
+        Position from = new Position(8, 0);
+        Position to = new Position(8, 2);
+
+        List<PathInfo> pathInfos = new ArrayList<>();
+        pathInfos.add(new PathInfo(new Position(8, 2), Piece.of(Camp.CHO, PieceType.CANNON)));
+
+        assertThatThrownBy(() -> chariotMoveStrategy.validateBlockingPiece(pathInfos, to, from)).isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void 포는_포를_넘을_수_없다() {
+        Position from = new Position(8, 0);
+        Position to = new Position(8, 2);
+
+        List<PathInfo> pathInfos = new ArrayList<>();
+        pathInfos.add(new PathInfo(new Position(8, 1), Piece.of(Camp.CHO, PieceType.CANNON)));
+        pathInfos.add(new PathInfo(new Position(8, 2), Piece.of(Camp.CHO, PieceType.CHARIOT)));
 
         assertThatThrownBy(() -> chariotMoveStrategy.validateBlockingPiece(pathInfos, to, from)).isInstanceOf(IllegalArgumentException.class);
     }

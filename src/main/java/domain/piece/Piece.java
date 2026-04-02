@@ -11,8 +11,12 @@ public record Piece(Camp camp, PieceType pieceType, MoveStrategy moveStrategy) {
         return new Piece(camp, pieceType, pieceType.moveStrategy());
     }
 
-    public boolean isSameCampe(Piece otherPiece) {
+    public boolean isSameCamp(Piece otherPiece) {
         return otherPiece.camp.equals(camp);
+    }
+
+    public boolean isSameType(PieceType otherPieceType) {
+        return pieceType.equals(otherPieceType);
     }
 
     public List<Position> getPath(Position departure, Position destination) {
