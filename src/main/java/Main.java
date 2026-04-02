@@ -1,10 +1,8 @@
-import config.DiConfig;
 import janggigame.JanggiGame;
 
 public class Main {
     public static void main(String[] args) {
-        DiConfig diConfig = new DiConfig();
-        JanggiGame janggiGame = diConfig.janggiGame();
+        JanggiGame janggiGame = new JanggiGame();
         janggiGame.run();
     }
 }

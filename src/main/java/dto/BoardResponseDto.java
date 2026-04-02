@@ -1,5 +1,6 @@
 package dto;
 
+import domain.board.Board;
 import domain.piece.Piece;
 import domain.position.Position;
 
@@ -10,8 +11,8 @@ public record BoardResponseDto(
         Map<Position, PieceDto> state
 ) {
 
-    public static BoardResponseDto from(Map<Position, Piece> state) {
-        return new BoardResponseDto(state.entrySet().stream()
+    public static BoardResponseDto from(Board board) {
+        return new BoardResponseDto(board.getState().entrySet().stream()
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         entry -> PieceDto.from(entry.getValue()))

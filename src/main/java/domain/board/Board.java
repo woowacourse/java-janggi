@@ -21,7 +21,7 @@ public class Board {
         return state.get(position);
     }
 
-    public Map<Position, Piece> findState() {
+    public Map<Position, Piece> getState() {
         return Map.copyOf(state);
     }
 

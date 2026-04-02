@@ -14,15 +14,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class JanggiGame {
-    private final Board board;
-
-    public JanggiGame(Board board) {
-        this.board = board;
-    }
 
     public void run() {
         selectSide();
-        initBoard();
+        Board board = initBoard();
         gameStart(board);
     }
 
@@ -47,18 +42,21 @@ public class JanggiGame {
         return sides.get(sideCode - 1);
     }
 
-    private void initBoard() {
-        initPlacement(Side.CHO);
-        initPlacement(Side.HAN);
+    private Board initBoard() {
+        Board board = new Board();
+        initPlacement(Side.CHO, board);
+        initPlacement(Side.HAN, board);
+
+        return board;
     }
 
-    private void initPlacement(Side side) {
+    private void initPlacement(Side side, Board board) {
         while (true) {
             try {
                 String input = inputPlacementCode(side);
                 int code = Parser.parseToPlacementCode(input);
                 board.placePieces(side, Placement.from(code));
-                printBoard();
+                printBoard(board);
                 return;
             } catch (IllegalArgumentException e) {
                 OutputView.printErrorMessage(e.getMessage());
@@ -76,7 +74,7 @@ public class JanggiGame {
         while (true) {
             // TODO: 궁성을 구현하지 않아 다음 사이클에서 종료조건을 구현할 예정...
             try {
-                printBoard();
+                printBoard(board);
                 OutputView.printSide(attackerSide);
                 board.move(selectFromPosition(), selectToPosition(), attackerSide);
                 attackerSide = changeSide(attackerSide);
@@ -86,8 +84,8 @@ public class JanggiGame {
         }
     }
 
-    private void printBoard() {
-        BoardResponseDto nowBoardState = BoardResponseDto.from(board.findState());
+    private void printBoard(Board board) {
+        BoardResponseDto nowBoardState = BoardResponseDto.from(board);
         OutputView.printBoard(nowBoardState);
     }
 
