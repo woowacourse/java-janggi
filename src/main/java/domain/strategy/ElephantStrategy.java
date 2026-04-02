@@ -15,22 +15,22 @@ public class ElephantStrategy implements Strategy {
 
         for (Direction straight : straightDirections) {
             Position myeok1 = new Position(
-                    from.getRow() + straight.getRowOffset(),
-                    from.getColumn() + straight.getColOffset()
+                    from.row() + straight.getRowOffset(),
+                    from.col() + straight.getColOffset()
             );
 
             if (!board.isBlank(myeok1)) continue;
 
             for (Direction diag : getDiagonalsFor(straight)) {
                 Position myeok2 = new Position(
-                        myeok1.getRow() + diag.getRowOffset(),
-                        myeok1.getColumn() + diag.getColOffset()
+                        myeok1.row() + diag.getRowOffset(),
+                        myeok1.col() + diag.getColOffset()
                 );
 
                 if (!board.isBlank(myeok2)) continue;
 
-                Position target = new Position(myeok2.getRow() + diag.getRowOffset(),
-                        myeok2.getColumn() + diag.getColOffset()
+                Position target = new Position(myeok2.row() + diag.getRowOffset(),
+                        myeok2.col() + diag.getColOffset()
                 );
                 candidates.add(target);
             }

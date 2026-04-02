@@ -27,8 +27,8 @@ public class CarStrategy implements Strategy {
         Position next = currentPosition;
 
         while (true) {
-            int nextRows = next.getRow() + direction.getRowOffset();
-            int nextColumns = next.getColumn() + direction.getColOffset();
+            int nextRows = next.row() + direction.getRowOffset();
+            int nextColumns = next.col() + direction.getColOffset();
 
             if (nextRows < 0 || nextRows >= BOARD_ROWS.getIndex() || nextColumns < 0 || nextColumns >= BOARD_COLUMNS.getIndex()) {
                 break;

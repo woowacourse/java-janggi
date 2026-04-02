@@ -15,15 +15,15 @@ public class HorseStrategy implements Strategy {
 
         for (Direction straight : straightDirections) {
             // 1칸 직선 방향으로 가기
-            int myeokRow = from.getRow() + straight.getRowOffset();
-            int myeokCol = from.getColumn() + straight.getColOffset();
+            int myeokRow = from.row() + straight.getRowOffset();
+            int myeokCol = from.col() + straight.getColOffset();
             Position myeokPosition = new Position(myeokRow, myeokCol);
 
             if (board.isBlank(myeokPosition)) {
                 List<Direction> diagonals = getDiagonalsFor(straight);
                 for (Direction diag : diagonals) {
-                    int targetRow = myeokPosition.getRow() + diag.getRowOffset();
-                    int targetCol = myeokPosition.getColumn() + diag.getColOffset();
+                    int targetRow = myeokPosition.row() + diag.getRowOffset();
+                    int targetCol = myeokPosition.col() + diag.getColOffset();
                     Position targetPosition = new Position(targetRow, targetCol);
 
                     candidates.add(targetPosition);

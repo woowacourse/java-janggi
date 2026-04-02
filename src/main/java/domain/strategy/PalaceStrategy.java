@@ -16,8 +16,8 @@ public class PalaceStrategy implements Strategy {
                 Direction.NORTH_EAST, Direction.NORTH_WEST, Direction.SOUTH_EAST, Direction.SOUTH_WEST};
 
         for (Direction direction : directions) {
-            int targetRow = from.getRow() + direction.getRowOffset();
-            int targetColumns = from.getColumn() + direction.getColOffset();
+            int targetRow = from.row() + direction.getRowOffset();
+            int targetColumns = from.col() + direction.getColOffset();
 
             Position targetPosition = new Position(targetRow, targetColumns);
             candidates.add(targetPosition);

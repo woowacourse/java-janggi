@@ -14,8 +14,8 @@ public class PawnStrategy implements Strategy {
         Direction[] directions = {Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
 
         for (Direction direction : directions) {
-            int targetRow = from.getRow() + direction.getRowOffset();
-            int targetColumns = from.getColumn() + direction.getColOffset();
+            int targetRow = from.row() + direction.getRowOffset();
+            int targetColumns = from.col() + direction.getColOffset();
 
             Position targetPosition = new Position(targetRow, targetColumns);
             candidates.add(targetPosition);
