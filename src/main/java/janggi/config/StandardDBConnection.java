@@ -10,13 +10,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
-public final class TestDBConnection implements DBConnection {
+public class StandardDBConnection implements DBConnection {
 
     private static String driverClassName;
     private static String url;
     private static String id;
     private static String password;
-    private static Connection connection;
 
     static {
         final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
@@ -37,8 +36,7 @@ public final class TestDBConnection implements DBConnection {
     public void init() {
         try {
             Class.forName(driverClassName);
-            connection = DriverManager.getConnection(url, id, password);
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -47,9 +45,10 @@ public final class TestDBConnection implements DBConnection {
     public <R> R executeSelect(final String sql, EntityMapper<R> mapper) {
         R entity = null;
         try (
+            final Connection connection = DriverManager.getConnection(url, id, password);
             final Statement preparedStatement = connection.createStatement();
-            final ResultSet resultSet = preparedStatement.executeQuery(sql)
-        ) {
+            final ResultSet resultSet = preparedStatement.executeQuery(sql)) {
+
             entity = mapper.map(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -61,9 +60,12 @@ public final class TestDBConnection implements DBConnection {
     @Override
     public long executeUpdate(final String sql) {
         long generatedKey = -1;
-        try (final Statement preparedStatement = connection.createStatement()) {
+        try (
+            final Connection connection = DriverManager.getConnection(url, id, password);
+            final Statement preparedStatement = connection.createStatement();
+        ) {
             preparedStatement.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
-            try (final ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+            try (final ResultSet generatedKeys = preparedStatement.getGeneratedKeys();) {
                 if (generatedKeys.next()) {
                     generatedKey = generatedKeys.getInt(1);
                 }
@@ -77,11 +79,7 @@ public final class TestDBConnection implements DBConnection {
 
     @Override
     public void closeConnection() {
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
     }
 
 }

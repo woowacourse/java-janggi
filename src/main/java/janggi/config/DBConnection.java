@@ -1,126 +1,15 @@
 package janggi.config;
 
 import janggi.global.EntityMapper;
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Properties;
 
-public final class DBConnection {
+public interface DBConnection {
 
-    private static String driverClassName;
-    private static String url;
-    private static String id;
-    private static String password;
+    void init();
 
-    static {
-        final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        final Properties properties = new Properties();
-        try (final InputStream inputStream = classLoader.getResourceAsStream(
-            "application.properties")) {
-            properties.load(inputStream);
-            driverClassName = properties.getProperty("h2-db.driver-class-name");
-            url = properties.getProperty("h2-db.datasource.url");
-            id = properties.getProperty("h2-db.datasource.id");
-            password = properties.getProperty("h2-db.datasource.password");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    <R> R executeSelect(String sql, EntityMapper<R> entityMapper);
 
-    public static void init() {
-        try {
-            Class.forName(driverClassName);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
+    long executeUpdate(String sql);
 
-    public static <R> R executeSelect(final String sql, EntityMapper<R> mapper) {
-        R entity = null;
-        try (
-            final Connection connection = DriverManager.getConnection(url, id, password);
-            final Statement preparedStatement = connection.createStatement();
-            final ResultSet resultSet = preparedStatement.executeQuery(sql)) {
-
-            entity = mapper.map(resultSet);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return entity;
-    }
-
-    public static int executeUpdate(final String sql) {
-        int updateRecordCount = 0;
-        Connection connection = null;
-        Statement preparedStatement = null;
-        try {
-            connection = DriverManager.getConnection(url, id, password);
-            preparedStatement = connection.createStatement();
-            updateRecordCount = preparedStatement.executeUpdate(sql);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            closeAll(connection, preparedStatement);
-        }
-        return updateRecordCount;
-    }
-
-    public static long executeInsert(final String sql) {
-        long generatedKey = -1;
-        Connection connection = null;
-        Statement preparedStatement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = DriverManager.getConnection(url, id, password);
-            preparedStatement = connection.createStatement();
-            preparedStatement.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
-            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                generatedKey = generatedKeys.getInt(1) ;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            closeAll(connection, preparedStatement, resultSet);
-        }
-
-        return generatedKey;
-    }
-
-    private static void closeAll(final Connection connection, final Statement preparedStatement) {
-        try {
-            if (connection != null) {
-                connection.close();
-            }
-            if (preparedStatement != null) {
-                preparedStatement.close();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static void closeAll(final Connection connection, final Statement preparedStatement,
-        final ResultSet resultSet) {
-        try {
-            if (connection != null) {
-                connection.close();
-            }
-            if (preparedStatement != null) {
-                preparedStatement.close();
-            }
-            if (resultSet != null) {
-                resultSet.close();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    void closeConnection();
 
 }
