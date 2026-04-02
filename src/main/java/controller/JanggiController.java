@@ -3,6 +3,7 @@ package controller;
 import domain.Position;
 import domain.board.Board;
 import domain.board.BoardFactory;
+import domain.board.BoardSnapshots;
 import domain.board.TableSetting;
 import domain.country.CountryType;
 import java.util.List;
@@ -23,8 +24,9 @@ public class JanggiController {
     public void run() {
         Board board = makeBoard();
         List<CountryType> playOrders = List.of(CountryType.CHO, CountryType.HAN);
+        BoardSnapshots boardSnapshots = new BoardSnapshots();
 
-        playTurn(board, playOrders);
+        playTurn(board, playOrders, boardSnapshots);
     }
 
     private Board makeBoard() {
@@ -47,25 +49,29 @@ public class JanggiController {
         }
     }
 
-    private void playTurn(Board board, List<CountryType> playOrders) {
+    private void playTurn(Board board, List<CountryType> playOrders, BoardSnapshots boardSnapshots) {
         int turnIndex = 0;
         boolean isEnd = false;
         while (!isEnd) {
             CountryType countryType = playOrders.get(turnIndex);
-            isEnd = checkEndAndMovePiece(board, countryType);
+            isEnd = checkEndAndMovePiece(board, countryType, boardSnapshots);
 
             turnIndex = (turnIndex + 1) % 2;
         }
     }
 
-    private boolean checkEndAndMovePiece(Board board, CountryType countryType) {
+    private boolean checkEndAndMovePiece(Board board, CountryType countryType, BoardSnapshots boardSnapshots) {
         outputView.printBoard(board.getBoardSnapshot(countryType), board.getScores());
 
-        boolean isEnd = movePiece(board, countryType);
-        if (isEnd) {
+        boolean isEndWithGeneralCaught = movePiece(board, countryType);
+        boolean isEndWithBoardRepeat = boardSnapshots.isSamePositionThreeTurnInGame();
+        if (isEndWithGeneralCaught) {
             outputView.printEndWithCatchGeneral(countryType);
         }
-        return isEnd;
+        if (isEndWithBoardRepeat) {
+            outputView.printEndWithBoardRepeat(board.getScores());
+        }
+        return isEndWithGeneralCaught;
     }
 
     private boolean movePiece(Board board, CountryType countryType) {
