@@ -15,8 +15,8 @@ class BoardTest {
 
     @Test
     void 마상상마_마상상마_정상테스트(){
-        List<PieceType> pieces = BoardTestUtil.createMasangSangMa();
-        Board board = new Board(pieces);
+        List<PieceType> pieces = BoardTestUtil.createMaSangSangMa();
+        Board board = new Board(pieces, pieces);
 
         PieceType ma= PieceType.MA;
         PieceType sang= PieceType.SANG;
@@ -35,7 +35,7 @@ class BoardTest {
     @Test
     void 상마상마_상마상마_정상테스트(){
         List<PieceType> pieces = BoardTestUtil.createSangMaSangMa();
-        Board board = new Board(pieces);
+        Board board = new Board(pieces, pieces);
 
         PieceType ma= PieceType.MA;
         PieceType sang= PieceType.SANG;
@@ -54,7 +54,7 @@ class BoardTest {
     @Test
     void 도착_좌표_아무것도_없을때_이동_정상_테스트(){
         List<PieceType> pieces = BoardTestUtil.createSangMaSangMa();
-        Board board = new Board(pieces);
+        Board board = new Board(pieces, pieces);
 
         board.move(Position.create(1,3), Position.create(3,4));
 
@@ -65,7 +65,7 @@ class BoardTest {
     @Test
     void 이동_규칙_위반_예외_테스트(){
         List<PieceType> pieces = BoardTestUtil.createSangMaSangMa();
-        Board board = new Board(pieces);
+        Board board = new Board(pieces, pieces);
 
         assertThatThrownBy(() -> board.move(Position.create(1,3), Position.create(3,3)))
                 .isInstanceOf(IllegalArgumentException.class);
@@ -75,7 +75,7 @@ class BoardTest {
     @Test
     void 도착지에_같은_팀말_존재_예외_테스트(){
         List<PieceType> pieces = BoardTestUtil.createSangMaSangMa();
-        Board board = new Board(pieces);
+        Board board = new Board(pieces, pieces);
 
         assertThatThrownBy(() -> board.move(Position.create(1,1), Position.create(1,3)))
                 .isInstanceOf(IllegalArgumentException.class);
@@ -85,7 +85,7 @@ class BoardTest {
     @Test
     void 졸_뒤로_이동_초나라_예외_테스트(){
         List<PieceType> pieces = BoardTestUtil.createSangMaSangMa();
-        Board board = new Board(pieces);
+        Board board = new Board(pieces, pieces);
 
         assertThatThrownBy(() -> board.move(Position.create(4,1), Position.create(3,1)))
                 .isInstanceOf(IllegalArgumentException.class);
