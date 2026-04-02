@@ -44,19 +44,6 @@ public class Position {
         return x == position.getX() && y == position.getY();
     }
 
-    public boolean isOneStep(Position position) {
-        int dx = position.getX() - x;
-        int dy = position.getY() - y;
-        int distanceX = Math.abs(dx);
-        int distanceY = Math.abs(dy);
-
-        return distanceX <= 1 && distanceY <= 1;
-    }
-
-    public boolean isStraightDirection(Position position) {
-        return x == position.getX() || y == position.getY();
-    }
-
     public int deltaX(Position position) {
         return position.getX() - x;
     }
