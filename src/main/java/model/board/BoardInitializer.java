@@ -1,9 +1,5 @@
 package model.board;
 
-import view.InputHandler;
-import view.InputView;
-import view.OutputView;
-
 public class BoardInitializer {
 
     public void initialize(Board board, ArrangementType choType, ArrangementType hanType) {

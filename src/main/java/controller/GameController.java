@@ -1,9 +1,8 @@
 package controller;
 
-import java.awt.*;
 import java.util.List;
-
 import model.board.*;
+import model.game.JanggiGame;
 import model.move.Move;
 import model.position.Position;
 import view.InputHandler;
@@ -12,7 +11,6 @@ import view.OutputView;
 
 public class GameController {
     private final BoardInitializer boardInitializer;
-
     public GameController(BoardInitializer boardInitializer) {
         this.boardInitializer = boardInitializer;
     }
@@ -20,11 +18,11 @@ public class GameController {
     public void start() {
         Board board = new Board();
         init(board);
-        OutputView.printBoard(board);
+        JanggiGame game = new JanggiGame(board);
+        OutputView.printBoard(game.board());
 
         while (true) {
-            choGamePhase(board);
-            hanGamePhase(board);
+            runGame(game);
         }
     }
 
@@ -42,17 +40,8 @@ public class GameController {
                 ArrangementType.from(InputView.readArrangement(country)));
     }
 
-    private void choGamePhase(Board board) {
-        OutputView.printPositionCountry(Country.CHO);
-        gamePhase(board, Country.CHO);
-    }
-
-    private void hanGamePhase(Board board) {
-        OutputView.printPositionCountry(Country.HAN);
-        gamePhase(board, Country.HAN);
-    }
-
-    private void gamePhase(Board board, Country country) {
+    private void runGame(JanggiGame game) {
+        OutputView.printPositionCountry(game.turn());
 
         InputHandler.retry(() -> {
             List<Integer> startList = InputView.readStartPosition();
@@ -60,8 +49,8 @@ public class GameController {
             Position from = Position.of(startList.get(0), startList.get(1));
             Position to = Position.of(endList.get(0), endList.get(1));
             Move move = new Move(from, to);
-            board.move(country, move);
-            OutputView.printBoard(board);
+            game.move(move);
+            OutputView.printBoard(game.board());
             return null;
         });
     }
