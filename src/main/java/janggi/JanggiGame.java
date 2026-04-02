@@ -40,7 +40,7 @@ public class JanggiGame {
 
     private void play() {
         Team currentTeam = Team.CHO;
-        while (currentTeam != Team.NONE) {
+        while (!board.isGeneralCaptured(currentTeam)) {
             List<String> positions = inputView.readPosition(currentTeam.getDisplayName());
             if (isEndCommand(positions)) {
                 outputView.printGameEnd();
@@ -48,6 +48,7 @@ public class JanggiGame {
             }
             currentTeam = processTurn(positions, currentTeam);
         }
+        outputView.printWinner(currentTeam.convert());
     }
 
     private boolean isEndCommand(List<String> positions) {
@@ -58,12 +59,7 @@ public class JanggiGame {
         try {
             board.move(createMovement(positions), currentTeam);
             outputView.printBoard(board.showBoard());
-            Team nextTeam = currentTeam.convert();
-            if (board.isGeneralCaptured(nextTeam)) {
-                outputView.printWinner(currentTeam);
-                return Team.NONE;
-            }
-            return nextTeam;
+            return currentTeam.convert();
         } catch (IllegalArgumentException exception) {
             outputView.printError(exception.getMessage());
             return currentTeam;

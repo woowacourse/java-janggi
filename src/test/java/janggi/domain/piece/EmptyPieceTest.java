@@ -13,29 +13,12 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 class EmptyPieceTest {
 
     @Test
-    void 빈_기물의_팀을_확인하면_거짓을_반환한다() {
+    void 빈_기물의_팀은_NONE이다() {
         EmptyPiece emptyPiece = new EmptyPiece();
 
-        boolean hanResult = emptyPiece.getTeam() == Team.HAN;
-        boolean choResult = emptyPiece.getTeam() == Team.CHO;
+        Team result = emptyPiece.getTeam();
 
-        assertAll(
-                () -> assertThat(hanResult).isFalse(),
-                () -> assertThat(choResult).isFalse()
-        );
-    }
-
-    @Test
-    void 빈_기물은_두_나라에_소속되지_않는다() {
-        EmptyPiece emptyPiece = new EmptyPiece();
-
-        boolean hanResult = emptyPiece.getTeam() == Team.HAN;
-        boolean choResult = emptyPiece.getTeam() == Team.CHO;
-
-        assertAll(
-                () -> assertThat(hanResult).isFalse(),
-                () -> assertThat(choResult).isFalse()
-        );
+        assertThat(result).isEqualTo(Team.NONE);
     }
 
     @Test
