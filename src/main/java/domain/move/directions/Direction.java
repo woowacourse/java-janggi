@@ -10,6 +10,10 @@ public record Direction(
         List<Vector> vectors
 ) {
 
+    public Direction(List<Vector> vectors) {
+        this.vectors = List.copyOf(vectors);
+    }
+
     public boolean canReach(Point start, Point target) {
         int dy = vectors.stream().mapToInt(Vector::dy).sum();
         int dx = vectors.stream().mapToInt(Vector::dx).sum();
