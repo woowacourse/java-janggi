@@ -1,4 +1,4 @@
-package janggi.service;
+package janggi.repository;
 
 import janggi.dto.GameSnapshot;
 import janggi.dto.GameSummary;

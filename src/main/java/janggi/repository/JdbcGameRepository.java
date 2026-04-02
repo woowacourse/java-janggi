@@ -1,10 +1,10 @@
 package janggi.repository;
 
-import janggi.service.GameRepository;
 import janggi.dto.GameSnapshot;
 import janggi.dto.GameSummary;
 import janggi.domain.status.Team;
 import janggi.dto.PositionInfo;
+import janggi.util.JdbcConnectionManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

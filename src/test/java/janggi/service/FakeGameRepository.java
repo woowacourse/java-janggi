@@ -2,6 +2,7 @@ package janggi.service;
 
 import janggi.dto.GameSnapshot;
 import janggi.dto.GameSummary;
+import janggi.repository.GameRepository;
 import java.util.List;
 import java.util.Optional;
 

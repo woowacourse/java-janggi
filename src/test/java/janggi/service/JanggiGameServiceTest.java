@@ -9,6 +9,8 @@ import janggi.domain.JanggiGame;
 import janggi.domain.Point;
 import janggi.domain.status.Team;
 import janggi.dto.PositionInfo;
+import janggi.repository.GameRepository;
+import janggi.repository.InitialBoardProvider;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

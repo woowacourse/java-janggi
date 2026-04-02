@@ -2,12 +2,12 @@ package janggi.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.service.GameRepository;
 import janggi.dto.GameSnapshot;
 import janggi.dto.GameSummary;
 import janggi.domain.status.Team;
 import janggi.dto.PositionInfo;
 import janggi.util.DatabaseInitializer;
+import janggi.util.JdbcConnectionManager;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

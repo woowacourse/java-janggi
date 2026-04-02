@@ -1,6 +1,7 @@
 package janggi.service;
 
 import janggi.dto.PositionInfo;
+import janggi.repository.InitialBoardProvider;
 import java.util.List;
 
 public class FakeInitialBoardProvider implements InitialBoardProvider {

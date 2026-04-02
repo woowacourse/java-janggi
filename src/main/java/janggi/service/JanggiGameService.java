@@ -10,6 +10,8 @@ import janggi.domain.status.FinishedGame;
 import janggi.domain.status.GameStatus;
 import janggi.domain.status.HanTurn;
 import janggi.domain.status.Team;
+import janggi.repository.GameRepository;
+import janggi.repository.InitialBoardProvider;
 import java.util.List;
 
 public class JanggiGameService {
