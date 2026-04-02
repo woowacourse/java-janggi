@@ -36,10 +36,4 @@ public class Jang extends BasePiece {
         int pathY = abs(to.getPathY(from));
         return pathX == 1 && pathY == 1 && from.isPalaceDiagonalMove(to);
     }
-
-    @Override
-    public boolean canMove(List<Piece> route) {
-        return route.stream()
-                .noneMatch(piece -> piece.isSameTeam(team));
-    }
 }

@@ -15,31 +15,25 @@ public class Sa extends BasePiece {
     }
 
     @Override
-    public boolean isSameTeam(Team team) {
-        return this.team.equals(team);
-    }
-
-    @Override
     public List<Point> getRoute(Point from, Point to) {
-        int pathX = to.getPathX(from);
-        int pathY = to.getPathY(from);
-        int distanceX = abs(pathX);
-        int distanceY = abs(pathY);
-
-        validateOverMove(distanceX, distanceY);
-
-        return List.of(to);
-    }
-
-    @Override
-    public boolean canMove(List<Piece> route) {
-        return route.stream()
-                .noneMatch(piece -> piece.isSameTeam(team));
-    }
-
-    private void validateOverMove(int distanceX, int distanceY) {
-        if (distanceX + distanceY != MAX_DISTANCE) {
-            throw new IllegalArgumentException("한 칸만 이동할 수 있습니다.");
+        if (!from.isInSamePalace(to)) {
+            throw new IllegalArgumentException("사는 같은 궁성 안에서만 이동할 수 있습니다.");
         }
+        if (isNormalMove(from, to) || isPalaceDiagonalMove(from, to)) {
+            return List.of();
+        }
+        throw new IllegalArgumentException("사는 궁성 안에서 한 칸만 이동할 수 있습니다.");
+    }
+
+    private boolean isNormalMove(Point from, Point to) {
+        int pathX = abs(to.getPathX(from));
+        int pathY = abs(to.getPathY(from));
+        return pathX + pathY == MAX_DISTANCE;
+    }
+
+    private boolean isPalaceDiagonalMove(Point from, Point to) {
+        int pathX = abs(to.getPathX(from));
+        int pathY = abs(to.getPathY(from));
+        return pathX == 1 && pathY == 1 && from.isPalaceDiagonalMove(to);
     }
 }
