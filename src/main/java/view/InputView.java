@@ -28,12 +28,12 @@ public class InputView {
     }
 
     public String readSourcePosition(Side side) {
-        System.out.println(side.getName() + "나라 플레이어 차례입니다. 이동 시킬 기물의 위치를 입력하세요.");
+        System.out.println(side.getName() + "나라 플레이어 차례입니다. 이동 시킬 기물의 위치를 입력하세요. 예) 1,3");
         return scanner.nextLine();
     }
 
     public String readTargetPosition() {
-        System.out.println("선택한 기물이 이동할 수 있는 위치입니다. 이동할 위치를 입력하세요.");
+        System.out.println("선택한 기물이 이동할 수 있는 위치입니다. 이동할 위치를 입력하세요. 예) 1,3");
         return scanner.nextLine();
     }
 }
