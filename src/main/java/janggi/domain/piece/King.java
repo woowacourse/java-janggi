@@ -18,4 +18,9 @@ public class King extends Piece {
     public MoveRule moveRule() {
         return new KingMoveRule();
     }
+
+    @Override
+    public int score() {
+        return 0;
+    }
 }

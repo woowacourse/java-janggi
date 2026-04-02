@@ -19,4 +19,9 @@ public class Horse extends Piece {
         return new HorseMoveRule();
     }
 
+    @Override
+    public int score() {
+        return 5;
+    }
+
 }

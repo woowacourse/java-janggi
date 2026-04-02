@@ -18,4 +18,9 @@ public class Soldier extends Piece {
     public MoveRule moveRule() {
         return new SoldierMoveRule(findTeam());
     }
+
+    @Override
+    public int score() {
+        return 2;
+    }
 }

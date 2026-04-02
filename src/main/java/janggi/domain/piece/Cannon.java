@@ -18,4 +18,9 @@ public class Cannon extends Piece {
     public MoveRule moveRule() {
         return new CannonMoveRule();
     }
+
+    @Override
+    public int score() {
+        return 7;
+    }
 }

@@ -18,4 +18,9 @@ public class Tank extends Piece {
     public MoveRule moveRule() {
         return new TankMoveRule();
     }
+
+    @Override
+    public int score() {
+        return 13;
+    }
 }

@@ -3,6 +3,7 @@ package janggi.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import janggi.domain.piece.Cannon;
 import janggi.domain.piece.King;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Soldier;
@@ -59,5 +60,18 @@ public class BoardTest {
         assertThat(captured.isEmpty()).isTrue();
     }
 
+    //점수 계산
+    @Test
+    void 특정_진영의_점수를_계산한다() {
+        // 한나라: 차(13) + 졸(2) = 15
+        Board board = Board.of(Map.of(
+                new Position(0, 0), new Tank(Team.HAN),
+                new Position(3, 4), new Soldier(Team.HAN),
+                new Position(9, 0), new Cannon(Team.CHO)
+        ));
 
+        assertThat(board.calculateScore(Team.HAN)).isEqualTo(15);
+        assertThat(board.calculateScore(Team.CHO)).isEqualTo(7);
+    }
+    
 }

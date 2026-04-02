@@ -22,4 +22,9 @@ public class EmptyPosition extends Piece {
     public MoveRule moveRule() {
         return null;
     }
+
+    @Override
+    public int score() {
+        return 0;
+    }
 }

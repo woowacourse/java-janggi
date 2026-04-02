@@ -97,4 +97,18 @@ public class Board implements BoardView {
             throw new IllegalArgumentException("이미 도착지점에 플레이어님의 진영 기물이 있습니다.");
         }
     }
+
+    public int calculateScore(Team team) {
+        int totalScore = 0;
+        for (List<Piece> row : board) {
+            for (Piece piece : row) {
+                if (piece.isSameTeam(team)) {
+                    totalScore += piece.score();
+                }
+            }
+        }
+        return totalScore;
+    }
+
+
 }

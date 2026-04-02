@@ -18,4 +18,9 @@ public class Elephant extends Piece {
     public MoveRule moveRule() {
         return new ElephantMoveRule();
     }
+
+    @Override
+    public int score() {
+        return 3;
+    }
 }
