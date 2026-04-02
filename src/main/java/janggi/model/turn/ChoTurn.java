@@ -1,9 +1,9 @@
 package janggi.model.turn;
 
 import janggi.model.Team;
-import janggi.model.Board;
-import janggi.model.position.absolute.Position;
+import janggi.model.board.Board;
 import janggi.model.piece.Piece;
+import janggi.model.position.absolute.Position;
 import java.util.Map;
 
 public class ChoTurn implements Turn {
