@@ -20,7 +20,7 @@ public class Game {
 
     public Destinations selectSource(Position position) {
         Piece piece = board.getPiece(position);
-        players.getCurrentPlayer().validateAlly(piece);
+        players.getActiveTurnPlayer().validateAlly(piece);
         return findDestinations(position);
     }
 
@@ -48,7 +48,6 @@ public class Game {
     }
 
     public String getWinner() {
-        players.switchPlayer();
-        return players.getCurrentPlayer().getName();
+        return players.getInActiveTurnPlayer().getName();
     }
 }
