@@ -32,9 +32,10 @@ public class JanggiController {
         Game game = Game.initGame(new DefaultBoardDesignPolicy(horseElephantPositions));
         outputView.printBoard(BoardDto.from(game.boardMap()));
 
-        while (!game.isGameOver()) {
+        while (game.winner().isEmpty()) {
             moveProcess(game);
         }
+        outputView.printWinner(game.winner().get());
     }
 
     private Map<Dynasty, HorseElephantPosition> readDynastyHorseElephantPositionMap() {

@@ -2,6 +2,7 @@ package janggi.view;
 
 import janggi.domain.dynasty.Dynasty;
 import janggi.view.dto.PositionDto;
+import janggi.view.mapper.DynastyColorMapper;
 import janggi.view.mapper.DynastyMapper;
 
 import java.util.Arrays;
@@ -35,8 +36,7 @@ public class InputView {
     }
 
     public PositionDto readPieceWantToMove(Dynasty dynasty) {
-        String dynastyKorean = DynastyMapper.toKorean(dynasty);
-        System.out.printf("현재 턴은 %s입니다.\n", dynastyKorean);
+        System.out.printf("현재 턴은 %s입니다.\n", DynastyMapper.toKoreanWithColor(dynasty));
         System.out.println("움직이고 싶은 기물을 선택해주세요.(좌표로 입력해주세요. 예시: 1, 3)");
         return readPosition();
     }

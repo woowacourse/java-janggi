@@ -5,6 +5,7 @@ import janggi.view.dto.PieceDto;
 import janggi.view.dto.PositionDto;
 import janggi.view.mapper.DynastyColorMapper;
 import janggi.domain.dynasty.Dynasty;
+import janggi.view.mapper.DynastyMapper;
 
 import java.util.Arrays;
 import java.util.List;
@@ -44,7 +45,7 @@ public class OutputView {
     private static void printColorInfoByDynasty() {
         StringBuilder sb = new StringBuilder("나라별 색상: ");
         Arrays.stream(Dynasty.values()).forEach(dynasty -> {
-            sb.append(DynastyColorMapper.getColorInfoByDynasty(dynasty));
+            sb.append(DynastyMapper.toKoreanWithColor(dynasty));
         });
         System.out.println(sb);
     }
@@ -63,6 +64,10 @@ public class OutputView {
     public void printErrorMessage(String errorMessage) {
         System.out.println(ERROR_PREFIX + errorMessage);
         System.out.println();
+    }
+
+    public void printWinner(Dynasty winner) {
+        System.out.println("게임 종료. 승리: " + DynastyMapper.toKoreanWithColor(winner));
     }
 
 }
