@@ -2,14 +2,18 @@ package domain.board;
 
 import domain.piece.Piece;
 import domain.piece.PieceType;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 public class Board implements BoardChecker {
     private final Map<Position, Piece> board;
 
     public Board(Map<Position, Piece> board) {
-        this.board = board;
+        this.board = new HashMap<>(board);
     }
 
     public Optional<Piece> findPiece(Position position) {

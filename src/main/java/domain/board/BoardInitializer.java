@@ -37,7 +37,7 @@ public class BoardInitializer {
         setUpElephantAndHorse(initialBoard, HAN, hanSetUp);
         setUpOtherPieces(initialBoard);
 
-        return initialBoard;
+        return Map.copyOf(initialBoard);
     }
 
     private static void setUpOtherPieces(Map<Position, Piece> initialBoard) {
