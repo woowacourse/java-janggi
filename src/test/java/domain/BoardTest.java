@@ -39,12 +39,17 @@ class BoardTest {
         }
     }
 
+    public Map<Team, InitializeStrategy> createStrategies(InitializeStrategy choInitializeStrategy,
+                                                          InitializeStrategy hanInitializeStrategy){
+        return Map.of(Team.CHO, choInitializeStrategy, Team.HAN, hanInitializeStrategy);
+    }
+
     /**
      * 1. 한나라 기본 기물이 올바르게 배치된다.(상,마 제외)
      */
     @Test
     void 한나라_기본_기물들이_올바르게_배치된다() {
-        Board board = new Board(noElephantHorseStrategy, noElephantHorseStrategy);
+        Board board = new Board(createStrategies(noElephantHorseStrategy, noElephantHorseStrategy));
 
         assertThat(board.isExistSameType(Position.from(1, 1), new Rook(Team.HAN))).isEqualTo(true);
         assertThat(board.isExistSameType(Position.from(1, 9), new Rook(Team.HAN))).isEqualTo(true);
@@ -67,7 +72,7 @@ class BoardTest {
      */
     @Test
     void 초나라_기본_기물들이_올바르게_배치된다() {
-        Board board = new Board(noElephantHorseStrategy, noElephantHorseStrategy);
+        Board board = new Board(createStrategies(noElephantHorseStrategy, noElephantHorseStrategy));
 
         assertThat(board.isExistSameType(Position.from(10, 1), new Rook(Team.CHO))).isEqualTo(true);
         assertThat(board.isExistSameType(Position.from(10, 4), new Guard(Team.CHO))).isEqualTo(true);
@@ -97,7 +102,7 @@ class BoardTest {
         InitializeStrategy strategy = new LeftElephantFormationStrategy();
 
         // when
-        Board board = new Board(strategy, strategy);
+        Board board = new Board(createStrategies(strategy, strategy));
 
         // then
         Position choFirstElephant = Position.from(10, 2);
@@ -120,7 +125,7 @@ class BoardTest {
         InitializeStrategy strategy = new OuterElephantFormationStrategy();
 
         // when
-        Board board = new Board(strategy, strategy);
+        Board board = new Board(createStrategies(strategy, strategy));
 
         // then
         Position choFirstElephant = Position.from(10, 2);
@@ -143,7 +148,7 @@ class BoardTest {
         InitializeStrategy strategy = new RightElephantFormationStrategy();
 
         // when
-        Board board = new Board(strategy, strategy);
+        Board board = new Board(createStrategies(strategy, strategy));
 
         // then
         Position choFirstElephant = Position.from(10, 3);
@@ -166,7 +171,7 @@ class BoardTest {
         InitializeStrategy strategy = new InnerElephantFormationStrategy();
 
         // when
-        Board board = new Board(strategy, strategy);
+        Board board = new Board(createStrategies(strategy, strategy));
 
         // then
         Position choFirstElephant = Position.from(10, 3);
@@ -189,7 +194,7 @@ class BoardTest {
         InitializeStrategy strategy = new LeftElephantFormationStrategy();
 
         // when
-        Board board = new Board(strategy, strategy);
+        Board board = new Board(createStrategies(strategy, strategy));
 
         // then
         Position hanFirstElephant = Position.from(1, 3);
@@ -212,7 +217,7 @@ class BoardTest {
         InitializeStrategy strategy = new OuterElephantFormationStrategy();
 
         // when
-        Board board = new Board(strategy, strategy);
+        Board board = new Board(createStrategies(strategy, strategy));
 
         // then
         Position hanFirstElephant = Position.from(1, 2);
@@ -235,7 +240,7 @@ class BoardTest {
         InitializeStrategy strategy = new RightElephantFormationStrategy();
 
         // when
-        Board board = new Board(strategy, strategy);
+        Board board = new Board(createStrategies(strategy, strategy));
 
         // then
         Position hanFirstElephant = Position.from(1, 2);
@@ -258,7 +263,7 @@ class BoardTest {
         InitializeStrategy strategy = new InnerElephantFormationStrategy();
 
         // when
-        Board board = new Board(strategy, strategy);
+        Board board = new Board(createStrategies(strategy, strategy));
 
         // then
         Position hanFirstElephant = Position.from(1, 3);

@@ -28,9 +28,9 @@ public class Board {
 
     protected final Map<Position, Piece> pieces = new HashMap<>();
 
-    public Board(InitializeStrategy choInitializeStrategy, InitializeStrategy hanInitializeStrategy) {
-        initTeamBoard(choInitializeStrategy, Team.CHO);
-        initTeamBoard(hanInitializeStrategy, Team.HAN);
+    public Board(Map<Team, InitializeStrategy> initializeStrategies) {
+        initializeStrategies.forEach(((team, initializeStrategy) ->
+                initTeamBoard(initializeStrategy, team)));
     }
 
     public void move(Position from, Position to, PieceType pieceType, Team team) {

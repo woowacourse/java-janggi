@@ -10,10 +10,7 @@ public class GameManager {
     private final Board board;
 
     public GameManager(Map<Team, InitializeStrategy> initializeStrategies) {
-        this.board = new Board(
-                initializeStrategies.get(Team.CHO),
-                initializeStrategies.get(Team.HAN)
-        );
+        this.board = new Board(initializeStrategies);
     }
 
     public List<CurrentBoardStatus> getCurrentBoardStatus() {
