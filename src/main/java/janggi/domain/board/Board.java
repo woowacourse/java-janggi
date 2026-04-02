@@ -1,5 +1,8 @@
-package janggi.domain;
+package janggi.domain.board;
 
+import janggi.domain.Piece;
+import janggi.domain.Position;
+import janggi.domain.Route;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,13 +11,6 @@ import java.util.Map;
 public class Board {
 
     private final Map<Position, Piece> board = new HashMap<>();
-
-    public void initializeByFormation(BoardFormation boardFormation, Team team) {
-        for (PieceType pieceType : PieceType.values()) {
-            pieceType.changeXPositionsByFormation(boardFormation);
-            pieceType.placeOnBoard(this, team);
-        }
-    }
 
     public void place(Position position, Piece piece) {
         board.put(position, piece);

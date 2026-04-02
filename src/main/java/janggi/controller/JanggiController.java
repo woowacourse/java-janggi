@@ -1,9 +1,10 @@
 package janggi.controller;
 
-import janggi.domain.Board;
-import janggi.domain.BoardFormation;
 import janggi.domain.Position;
 import janggi.domain.Team;
+import janggi.domain.board.Board;
+import janggi.domain.board.BoardFormation;
+import janggi.domain.board.BoardInitiator;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.List;
@@ -13,6 +14,7 @@ public class JanggiController {
 
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();
+    private final BoardInitiator boardInitiator = new BoardInitiator();
 
     public void run() {
         Board board = new Board();
@@ -38,8 +40,8 @@ public class JanggiController {
     private void askBoardFormation(Board board, Team team) {
         outputView.printBoardFormation(team);
         int boardFormationChoice = inputView.readBoardFormationChoice();
-        BoardFormation hanFormation = BoardFormation.selectByChoice(boardFormationChoice);
-        board.initializeByFormation(hanFormation, team);
+        BoardFormation formation = BoardFormation.selectByChoice(boardFormationChoice);
+        boardInitiator.initializeByFormation(board, formation, team);
     }
 
     private void playGame(boolean isChoTurn, Board board) {
