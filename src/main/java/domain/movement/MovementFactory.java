@@ -5,28 +5,26 @@ import domain.piece.PieceType;
 import domain.piece.Team;
 import java.util.EnumMap;
 import java.util.Map;
-import java.util.function.Supplier;
+import java.util.function.Function;
 
 public final class MovementFactory {
-    private static final Map<PieceType, Supplier<Movement>> MOVEMENT_SUPPLIERS = new EnumMap<>(PieceType.class);
+    private static final Map<PieceType, Function<Piece, Movement>> MOVEMENT_SUPPLIERS = new EnumMap<>(PieceType.class);
 
     static {
-        MOVEMENT_SUPPLIERS.put(PieceType.GENERAL, GeneralMovement::new);
-        MOVEMENT_SUPPLIERS.put(PieceType.GUARD, GuardMovement::new);
-        MOVEMENT_SUPPLIERS.put(PieceType.CHARIOT, StepPieceMovement::new);
-        MOVEMENT_SUPPLIERS.put(PieceType.CANNON, StepPieceMovement::new);
-        MOVEMENT_SUPPLIERS.put(PieceType.ELEPHANT, ElephantMovement::new);
-        MOVEMENT_SUPPLIERS.put(PieceType.HORSE, HorseMovement::new);
+        MOVEMENT_SUPPLIERS.put(PieceType.GENERAL, piece -> new GeneralMovement());
+        MOVEMENT_SUPPLIERS.put(PieceType.GUARD, piece -> new GuardMovement());
+        MOVEMENT_SUPPLIERS.put(PieceType.CHARIOT, piece -> new StepPieceMovement());
+        MOVEMENT_SUPPLIERS.put(PieceType.CANNON, piece -> new StepPieceMovement());
+        MOVEMENT_SUPPLIERS.put(PieceType.ELEPHANT, piece -> new ElephantMovement());
+        MOVEMENT_SUPPLIERS.put(PieceType.HORSE, piece -> new HorseMovement());
+        MOVEMENT_SUPPLIERS.put(PieceType.SOLDIER, MovementFactory::soldierMovementFor);
     }
 
     private MovementFactory() {
     }
 
     public static Movement create(Piece piece) {
-        if (piece.isSoldier()) {
-            return soldierMovementFor(piece);
-        }
-        return MOVEMENT_SUPPLIERS.get(piece.getPieceType()).get();
+        return MOVEMENT_SUPPLIERS.get(piece.getPieceType()).apply(piece);
     }
 
     private static Movement soldierMovementFor(Piece piece) {
