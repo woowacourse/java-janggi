@@ -17,6 +17,7 @@ import domain.direction.MoveAmount;
 import domain.game.Side;
 import domain.piece.AlivePieces;
 import domain.piece.Piece;
+import domain.piece.PieceType;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,21 +31,21 @@ class InitialPiecesTest {
 
     private static final int INITIAL_PIECES_AMOUNT = 32;
 
-    private final WingPieces hanWing = new WingPieces(
-            new Piece(HORSE, HAN),
-            new Piece(ELEPHANT, HAN)
+    private static final Wings DEFAULT_HAN_WINGS = new Wings(
+            HAN,
+            new WingPieces(new Piece(HORSE, HAN), new Piece(ELEPHANT, HAN)),
+            new WingPieces(new Piece(HORSE, HAN), new Piece(ELEPHANT, HAN))
     );
-    private final WingPieces choWing = new WingPieces(
-            new Piece(HORSE, CHO),
-            new Piece(ELEPHANT, CHO)
+    private static final Wings DEFAULT_CHO_WINGS = new Wings(
+            CHO,
+            new WingPieces(new Piece(HORSE, CHO), new Piece(ELEPHANT, CHO)),
+            new WingPieces(new Piece(HORSE, CHO), new Piece(ELEPHANT, CHO))
     );
-    private final Wings hanWings = new Wings(HAN, hanWing, hanWing);
-    private final Wings choWings = new Wings(CHO, choWing, choWing);
 
     @Test
     void 초기화_된_기물의_개수_검증() {
         // given
-        InitialPieces initialPieces = new InitialPieces(hanWings, choWings);
+        InitialPieces initialPieces = new InitialPieces(DEFAULT_HAN_WINGS, DEFAULT_CHO_WINGS);
 
         // when and then
         assertThat(initialPieces.size()).isEqualTo(INITIAL_PIECES_AMOUNT);
@@ -53,17 +54,6 @@ class InitialPiecesTest {
     @DisplayName("고정된 위치에 놓이는 기물이 정상적으로 초기화되었는지 확인")
     @Nested
     class 고정_기물_위치_검증 {
-
-        private static final Wings DEFAULT_HAN_WINGS = new Wings(
-                HAN,
-                new WingPieces(new Piece(HORSE, HAN), new Piece(ELEPHANT, HAN)),
-                new WingPieces(new Piece(HORSE, HAN), new Piece(ELEPHANT, HAN))
-        );
-        private static final Wings DEFAULT_CHO_WINGS = new Wings(
-                CHO,
-                new WingPieces(new Piece(HORSE, CHO), new Piece(ELEPHANT, CHO)),
-                new WingPieces(new Piece(HORSE, CHO), new Piece(ELEPHANT, CHO))
-        );
 
         private InitialPieces initialPieces;
 
@@ -194,5 +184,132 @@ class InitialPiecesTest {
                         assertThat(piece.isSameSide(side)).isTrue();
                     });
         }
+    }
+
+    @DisplayName("좌진과 우진에 놓이는 기물이 정상적으로 초기화되었는지 확인")
+    @Nested
+    class 좌진과_우진_확인 {
+
+        @ParameterizedTest(name = "{0} 진영의 상마상마 차림이 올바른 위치에 초기화된다")
+        @EnumSource(value = Side.class, names = {"HAN", "CHO"})
+        void 상마상마_차림_위치_검증(Side side) {
+            // given
+            Wings sangMaSangMa = new Wings(
+                    side,
+                    createWingPieces(side, ELEPHANT, HORSE),
+                    createWingPieces(side, ELEPHANT, HORSE)
+            );
+
+            InitialPieces initialPieces = createInitialPieces(side, sangMaSangMa);
+            AlivePieces alivePieces = initialPieces.toAlivePieces();
+
+            int expectedRow = side.getRowAt(new MoveAmount(0));
+            List<Intersection> expectedPositions = createExpectedWingPositions(side, expectedRow);
+
+            List<PieceType> expectedTypes = List.of(ELEPHANT, HORSE, ELEPHANT, HORSE);
+
+            // when and then
+            assertThat(expectedPositions)
+                    .hasSize(expectedTypes.size())
+                    .extracting(alivePieces::placedAt)
+                    .zipSatisfy(expectedTypes, (piece, type) -> assertPiece(piece, type, side));
+        }
+
+        @ParameterizedTest(name = "{0} 진영의 상마마상 차림이 올바른 위치에 초기화된다")
+        @EnumSource(value = Side.class, names = {"HAN", "CHO"})
+        void 상마마상_차림_위치_검증(Side side) {
+            // given
+            Wings sangMaMaSang = new Wings(
+                    side,
+                    createWingPieces(side, ELEPHANT, HORSE),
+                    createWingPieces(side, HORSE, ELEPHANT)
+            );
+
+            InitialPieces initialPieces = createInitialPieces(side, sangMaMaSang);
+            AlivePieces alivePieces = initialPieces.toAlivePieces();
+
+            int expectedRow = side.getRowAt(new MoveAmount(0));
+            List<Intersection> expectedPositions = createExpectedWingPositions(side, expectedRow);
+
+            List<PieceType> expectedTypes = List.of(ELEPHANT, HORSE, HORSE, ELEPHANT);
+
+            // when and then
+            assertThat(expectedPositions)
+                    .hasSize(expectedTypes.size())
+                    .extracting(alivePieces::placedAt)
+                    .zipSatisfy(expectedTypes, (piece, type) -> assertPiece(piece, type, side));
+        }
+
+        @ParameterizedTest(name = "{0} 진영의 마상마상 차림이 올바른 위치에 초기화된다")
+        @EnumSource(value = Side.class, names = {"HAN", "CHO"})
+        void 마상마상_차림_위치_검증(Side side) {
+            // given
+            Wings MaSangMaSang = new Wings(
+                    side,
+                    createWingPieces(side, HORSE, ELEPHANT),
+                    createWingPieces(side, HORSE, ELEPHANT)
+            );
+
+            InitialPieces initialPieces = createInitialPieces(side, MaSangMaSang);
+            AlivePieces alivePieces = initialPieces.toAlivePieces();
+
+            int expectedRow = side.getRowAt(new MoveAmount(0));
+            List<Intersection> expectedPositions = createExpectedWingPositions(side, expectedRow);
+
+            List<PieceType> expectedTypes = List.of(HORSE, ELEPHANT, HORSE, ELEPHANT);
+
+            // when and then
+            assertThat(expectedPositions)
+                    .hasSize(expectedTypes.size())
+                    .extracting(alivePieces::placedAt)
+                    .zipSatisfy(expectedTypes, (piece, type) -> assertPiece(piece, type, side));
+        }
+
+        @ParameterizedTest(name = "{0} 진영의 마상상마 차림이 올바른 위치에 초기화된다")
+        @EnumSource(value = Side.class, names = {"HAN", "CHO"})
+        void 마상상마_차림_위치_검증(Side side) {
+            // given
+            Wings MaSangSangMa = new Wings(
+                    side,
+                    createWingPieces(side, HORSE, ELEPHANT),
+                    createWingPieces(side, ELEPHANT, HORSE)
+            );
+
+            InitialPieces initialPieces = createInitialPieces(side, MaSangSangMa);
+            AlivePieces alivePieces = initialPieces.toAlivePieces();
+
+            int expectedRow = side.getRowAt(new MoveAmount(0));
+            List<Intersection> expectedPositions = createExpectedWingPositions(side, expectedRow);
+
+            List<PieceType> expectedTypes = List.of(HORSE, ELEPHANT, ELEPHANT, HORSE);
+
+            // when and then
+            assertThat(expectedPositions)
+                    .hasSize(expectedTypes.size())
+                    .extracting(alivePieces::placedAt)
+                    .zipSatisfy(expectedTypes, (piece, type) -> assertPiece(piece, type, side));
+        }
+
+        private static List<Intersection> createExpectedWingPositions(Side side, int expectedRow) {
+            return Stream.of(1, 2, 6, 7)
+                    .map(expectedFile -> new Intersection(expectedRow, side.getFileAt(new MoveAmount(expectedFile))))
+                    .toList();
+        }
+    }
+
+    private WingPieces createWingPieces(Side side, PieceType first, PieceType second) {
+        return new WingPieces(new Piece(first, side), new Piece(second, side));
+    }
+
+    private InitialPieces createInitialPieces(Side side, Wings targetWings) {
+        if (side == Side.HAN) {
+            return new InitialPieces(targetWings, DEFAULT_CHO_WINGS);
+        }
+        return new InitialPieces(DEFAULT_HAN_WINGS, targetWings);
+    }
+
+    private void assertPiece(Piece piece, PieceType type, Side side) {
+        assertThat(piece.isSameType(type)).isTrue();
+        assertThat(piece.isSameSide(side)).isTrue();
     }
 }
