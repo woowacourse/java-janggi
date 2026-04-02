@@ -1,5 +1,7 @@
 package domain;
 
+import java.util.Optional;
+
 public enum Direction {
     NORTH(-1, 0),
     SOUTH(1, 0),
@@ -24,5 +26,24 @@ public enum Direction {
 
     public int dColumn() {
         return dColumn;
+    }
+
+    public static Optional<Direction> of(Position from, Position to) {
+        int deltaRow = to.row() - from.row();
+        int deltaColumn = to.column() - from.column();
+        return findWithDelta(deltaRow, deltaColumn);
+    }
+
+    private static Optional<Direction> findWithDelta(int deltaRow, int deltaColumn) {
+        for (Direction direction : values()) {
+            if (direction.hasDelta(deltaRow, deltaColumn)) {
+                return Optional.of(direction);
+            }
+        }
+        return Optional.empty();
+    }
+
+    private boolean hasDelta(int deltaRow, int deltaColumn) {
+        return dRow == deltaRow && dColumn == deltaColumn;
     }
 }
