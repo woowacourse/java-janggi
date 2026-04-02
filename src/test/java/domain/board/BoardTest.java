@@ -157,7 +157,7 @@ class BoardTest {
 
         @DisplayName("두 진영 모두 왕이 없는 경우")
         @ParameterizedTest(name = "{0} 진영의 왕이 잡혔음을 판단")
-        @EnumSource(Side.class)
+        @EnumSource(value = Side.class, names = "NONE", mode = EnumSource.Mode.EXCLUDE)
         void 두_진영_모두_왕이_없는_경우(Side side) {
             AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
             Board emptyBoard = new Board(emptyAlivePieces);

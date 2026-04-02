@@ -22,6 +22,14 @@ public enum PieceType {
     GUARD(new SingleStepMovement(), new BasicRule()),
     HORSE(new OrthogonalThenDiagonalMovement(), new BasicRule()),
     SOLDIER(new SingleStepExcludeBackwardMovement(), new BasicRule()),
+    EMPTY(
+            new Movement() {
+                @Override
+                protected List<Path> candidatePaths(Intersection from, Side side) {
+                    return List.of();
+                }
+            },
+            ((side, candidatePaths, alivePieces) -> List.of())),
     ;
 
     private final Movement movement;

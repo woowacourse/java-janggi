@@ -31,7 +31,7 @@ class OrthogonalThenTwoDiagonalMovementTest {
 
         @DisplayName("진영에 상관없이 동일하게 적용된다")
         @ParameterizedTest
-        @EnumSource(Side.class)
+        @EnumSource(value = Side.class, names = "NONE", mode = EnumSource.Mode.EXCLUDE)
         void 진영에_상관없이_동일하게_적용된다(Side side) {
             Intersection currentIntersection = new Intersection(5, 5);
 

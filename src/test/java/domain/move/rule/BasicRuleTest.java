@@ -29,7 +29,7 @@ class BasicRuleTest {
 
     @DisplayName("경유지에 기물이 있으면 해당 경로를 사용할 수 없다")
     @ParameterizedTest
-    @EnumSource(Side.class)
+    @EnumSource(value = Side.class, names = "NONE", mode = EnumSource.Mode.EXCLUDE)
     void 경유지에_기물이_있으면_해당_경로를_사용할_수_없다(Side sideOfBlockingPiece) {
         // given
         Side mySide = Side.CHO;
@@ -56,7 +56,7 @@ class BasicRuleTest {
 
         @DisplayName("목적지에 있는 기물이 아군이면 이동할 수 없다")
         @ParameterizedTest
-        @EnumSource(Side.class)
+        @EnumSource(value = Side.class, names = "NONE", mode = EnumSource.Mode.EXCLUDE)
         void 목적지에_있는_기물이_아군이면_이동할_수_없다(Side mySide) {
             // given
             Intersection destination = new Intersection(3, 3);

@@ -33,7 +33,7 @@ class JumpingRuleTest {
 
         @DisplayName("아예 존재하지 않는 경우")
         @ParameterizedTest(name = "경로 사용을 판단할 진영이 {0}")
-        @EnumSource(Side.class)
+        @EnumSource(value = Side.class, names = "NONE", mode = EnumSource.Mode.EXCLUDE)
         void 아예_존재하지_않는_경우(Side side) {
             // given
             Intersection destination = new Intersection(3, 3);
@@ -54,7 +54,7 @@ class JumpingRuleTest {
 
         @DisplayName("포라서 뛰어 넘을 수 없는 경우")
         @ParameterizedTest(name = "포의 진영이 {0}일 때")
-        @EnumSource(Side.class)
+        @EnumSource(value = Side.class, names = "NONE", mode = EnumSource.Mode.EXCLUDE)
         void 포라서_뛰어_넘을_수_없는_경우(Side sideOfCannon) {
             // given
             Side mySide = Side.CHO;
@@ -81,7 +81,7 @@ class JumpingRuleTest {
 
         @DisplayName("이후 경유지에 기물이 있으면 해당 경로를 사용할 수 없다")
         @ParameterizedTest(name = "뛰어 넘을 기물과 경유지 기물의 진영이 {0}")
-        @EnumSource(Side.class)
+        @EnumSource(value = Side.class, names = "NONE", mode = EnumSource.Mode.EXCLUDE)
         void 이후_경유지에_기물이_있으면_해당_경로를_사용할_수_없다(Side side) {
             // given
             Side mySide = Side.CHO;
@@ -108,7 +108,7 @@ class JumpingRuleTest {
 
         @DisplayName("이후 경유지에 기물이 없으면 해당 경로를 사용할 수 있다")
         @ParameterizedTest(name = "뛰어 넘을 기물의 진영이 {0}")
-        @EnumSource(Side.class)
+        @EnumSource(value = Side.class, names = "NONE", mode = EnumSource.Mode.EXCLUDE)
         void 이후_경유지에_기물이_없으면_해당_경로를_사용할_수_있다(Side sideOfScreen) {
             // given
             Side mySide = Side.CHO;
@@ -138,7 +138,7 @@ class JumpingRuleTest {
 
         @DisplayName("포이면 이동할 수 없다")
         @ParameterizedTest(name = "포의 진영이 {0}")
-        @EnumSource(Side.class)
+        @EnumSource(value = Side.class, names = "NONE", mode = EnumSource.Mode.EXCLUDE)
         void 포이면_이동할_수_없다(Side sideOfCannon) {
             // given
             Side mySide = Side.CHO;
@@ -164,7 +164,7 @@ class JumpingRuleTest {
 
         @DisplayName("아군이면 이동할 수 없다")
         @ParameterizedTest(name = "아군 진영이 {0}")
-        @EnumSource(Side.class)
+        @EnumSource(value = Side.class, names = "NONE", mode = EnumSource.Mode.EXCLUDE)
         void 아군이면_이동할_수_없다(Side mySide) {
             // given
             Intersection destination = new Intersection(3, 3);
@@ -215,7 +215,7 @@ class JumpingRuleTest {
 
         @DisplayName("비어 있으면 이동할 수 있다")
         @ParameterizedTest(name = "내 진영이 {0}일 때")
-        @EnumSource(Side.class)
+        @EnumSource(value = Side.class, names = "NONE", mode = EnumSource.Mode.EXCLUDE)
         void 비어_있으면_이동할_수_있다(Side mySide) {
             // given
             Intersection destination = new Intersection(3, 3);

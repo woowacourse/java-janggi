@@ -22,6 +22,12 @@ public enum Side {
             return HAN;
         }
     },
+    NONE(0, 0, new NoDirection(), new NoDirection()) {
+        @Override
+        public Side nextTurn() {
+            return NONE;
+        }
+    },
     ;
 
     private final int baseRow;
@@ -82,4 +88,36 @@ public enum Side {
     }
 
     public abstract Side nextTurn();
+
+    private static class NoDirection implements Direction {
+        @Override
+        public Intersection moveForward(Intersection current, MoveAmount amount) {
+            return current;
+        }
+
+        @Override
+        public Intersection moveLeft(Intersection current, MoveAmount amount) {
+            return current;
+        }
+
+        @Override
+        public Intersection moveRight(Intersection current, MoveAmount amount) {
+            return current;
+        }
+
+        @Override
+        public Intersection moveForwardLeft(Intersection current, MoveAmount amount) {
+            return current;
+        }
+
+        @Override
+        public Intersection moveForwardRight(Intersection current, MoveAmount amount) {
+            return current;
+        }
+
+        @Override
+        public Direction reverse() {
+            return this;
+        }
+    }
 }

@@ -18,6 +18,16 @@ class AlivePiecesTest {
     private static final Piece DEFAULT_PIECE = new Piece(PieceType.SOLDIER, Side.CHO);
     private static final Piece CHO_PIECE = new Piece(PieceType.SOLDIER, Side.CHO);
 
+    @DisplayName("기물이 없는 위치를 조회하면 EMPTY 타입과 NONE 진영을 가진 기물을 리턴한다")
+    @Test
+    void 기물이_없는_위치를_조회하면_EMPTY_타입과_NONE_진영을_가진_기물을_리턴한다() {
+        AlivePieces alivePieces = new AlivePieces(Map.of());
+        Piece piece = alivePieces.placedAt(new Intersection(1, 1));
+
+        assertThat(piece.isSameType(PieceType.EMPTY)).isTrue();
+        assertThat(piece.isSameSide(Side.NONE)).isTrue();
+    }
+
     @DisplayName("기물의 존재 여부 검증")
     @Nested
     class 기물의_존재_여부_검증 {

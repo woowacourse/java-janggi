@@ -107,7 +107,7 @@ class JanggiGameTest {
 
         @DisplayName("왕이 하나라도 존재하지 않으면 게임이 종료된 상태이다")
         @ParameterizedTest(name = "{0} 진영의 왕이 존재하지 않는 경우")
-        @EnumSource(Side.class)
+        @EnumSource(value = Side.class, names = "NONE", mode = EnumSource.Mode.EXCLUDE)
         void 왕이_하나라도_존재하지_않으면_게임이_종료된_상태이다(Side side) {
             AlivePieces piecesWithOnlyOneGeneral = new AlivePieces(Map.of(
                     new Intersection(5, 5), new Piece(PieceType.GENERAL, side)

@@ -40,7 +40,7 @@ public class WingsTest {
 
             @DisplayName("좌진과 우진의 기물 진영이 다르면 예외를 던진다")
             @ParameterizedTest
-            @EnumSource(Side.class)
+            @EnumSource(value = Side.class, names = "NONE", mode = EnumSource.Mode.EXCLUDE)
             void 죄진과_우진의_기물_진영이_다르면_예외를_던진다(Side side) {
                 assertThatThrownBy(() -> new Wings(side, choLeftWingPieces, hanWingPieces))
                         .isInstanceOf(IllegalArgumentException.class);
