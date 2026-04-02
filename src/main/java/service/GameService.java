@@ -1,6 +1,6 @@
 package service;
 
-import config.H2ConnectionManager;
+import config.ConnectionManager;
 import java.sql.Connection;
 import domain.place.Place;
 import domain.place.piece.Side;
@@ -19,12 +19,12 @@ public class GameService {
     private final BoardRepository boardRepository;
     private final GameRoomRepository gameRoomRepository;
     private final GameStateRepository gameStateRepository;
-    private final H2ConnectionManager connectionManager;
+    private final ConnectionManager connectionManager;
 
     public GameService(BoardRepository boardRepository,
                        GameRoomRepository gameRoomRepository,
                        GameStateRepository gameStateRepository,
-                       H2ConnectionManager connectionManager) {
+                       ConnectionManager connectionManager) {
         this.boardRepository = boardRepository;
         this.gameRoomRepository = gameRoomRepository;
         this.gameStateRepository = gameStateRepository;

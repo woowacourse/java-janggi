@@ -1,5 +1,6 @@
 package init;
 
+import config.ConnectionManager;
 import config.H2ConnectionManager;
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -12,9 +13,9 @@ public class DatabaseInitializer {
 
     private static final String SCHEMA_SQL = "schema.sql";
 
-    private final H2ConnectionManager connectionManager;
+    private final ConnectionManager connectionManager;
 
-    public DatabaseInitializer(H2ConnectionManager connectionManager) {
+    public DatabaseInitializer(ConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
     }
 
