@@ -71,8 +71,8 @@ public abstract class Team {
         }
     }
 
-    public abstract Team remove(Position position);
-
     public abstract Team move(Position start, Position end);
+
+    public abstract Team remove(Position position);
 
 }
