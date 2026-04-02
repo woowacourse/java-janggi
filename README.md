@@ -76,6 +76,8 @@
 
 ```
 
+# View
+
 ## InputView
 
 - [x] 차림을 입력받는다.
@@ -207,3 +209,15 @@
 ### PalaceMoveRule
 
 - [x] 대각선으로 이동 가능성, 직선 이동 가능 경로를 모두 탐색 후 이동 가능한 경로가 있는지 없는지에 대해 제공한다
+
+# Service
+
+# Repository
+
+## JdbcConnectionGenerator
+
+- [x] 설정 정보를 바탕으로 Database와의 Connection을 제공한다
+
+## JdbcTemplate
+
+- [x] Jdbc를 사용하는 과정에서 발생하는 공통된 로직을 공통으로 관리한다
