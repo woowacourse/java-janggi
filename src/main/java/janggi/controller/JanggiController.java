@@ -1,6 +1,7 @@
 package janggi.controller;
 
 import janggi.model.Janggi;
+import janggi.model.Team;
 import janggi.model.position.absolute.Column;
 import janggi.model.position.absolute.Position;
 import janggi.model.position.absolute.Row;
@@ -31,6 +32,9 @@ public class JanggiController {
                     readToPosition()
             );
         }
+
+        Team winner = janggi.getWinner();
+
     }
 
     private Janggi setUpJanggi() {

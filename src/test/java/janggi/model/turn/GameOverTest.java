@@ -3,17 +3,22 @@ package janggi.model.turn;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.model.board.Board;
+import janggi.model.board.PlayingBoard;
 import janggi.model.position.absolute.Column;
 import janggi.model.position.absolute.Position;
 import janggi.model.position.absolute.Row;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class GameOverTest {
+    Board emptyBoard =PlayingBoard.of(Map.of());
+
     @DisplayName("게임 종료 시 턴을 수행하고자 하면 예외 발생한다.")
     @Test
     void play() {
-        assertThatThrownBy(() -> new GameOver().play(new Position(Row.THREE, Column.EIGHT), new Position(Row.FIVE, Column.EIGHT)))
+        assertThatThrownBy(() -> new GameOver(emptyBoard).play(new Position(Row.THREE, Column.EIGHT), new Position(Row.FIVE, Column.EIGHT)))
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessage("게임 종료 후 턴을 수행할 수 없습니다.");
     }
@@ -21,9 +26,7 @@ class GameOverTest {
     @DisplayName("게임이 끝났다.")
     @Test
     void isGameOver() {
-        assertThat(new GameOver().isGameOver())
+        assertThat(new GameOver(emptyBoard).isGameOver())
                 .isTrue();
     }
-
-
 }
