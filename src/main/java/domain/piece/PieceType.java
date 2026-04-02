@@ -20,4 +20,12 @@ public enum PieceType {
         return this == CANNON;
     }
 
+    public boolean isLinearPiece() {
+        return this == CANNON || this == CHARIOT;
+    }
+
+    public boolean isDiagonalPiece() {
+        return this == HORSE || this == ELEPHANT;
+    }
+
 }
