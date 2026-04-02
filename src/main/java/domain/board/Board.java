@@ -60,8 +60,8 @@ public class Board {
     // ============= private method ==============
 
     private void placeDefaultPieceBy(Side side) {
-        if (side == Side.HAN) placeBySide(side, 10, -1);
-        if (side == Side.CHO) placeBySide(side, 1, 1);
+        if (side.isHan()) placeBySide(side, 10, -1);
+        if (side.isCho()) placeBySide(side, 1, 1);
     }
 
     private void placeBySide(Side side, int startRow, int dy) {
@@ -141,14 +141,14 @@ public class Board {
     }
 
     private Position adjustPositionBySide(Side side, Position from) {
-        if (side == Side.HAN) {
+        if (side.isHan()) {
             return Position.rotate180from(from);
         }
         return from;
     }
 
     private Map<Position, Piece> adjustStateBySide(Side side) {
-        if (side == Side.HAN) {
+        if (side.isHan()) {
             return state.entrySet().stream()
                     .collect(Collectors.toMap(
                             entry -> Position.rotate180from(entry.getKey()),

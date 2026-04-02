@@ -17,8 +17,8 @@ public class Players {
     }
 
     public void initPlacementBySide(Side side, int placementCode, Board board) {
-        if (side == Side.HAN) hanPlayer.initBoard(board, placementCode);
-        if (side == Side.CHO) choPlayer.initBoard(board, placementCode);
+        if (side.isHan()) hanPlayer.initBoard(board, placementCode);
+        if (side.isCho()) choPlayer.initBoard(board, placementCode);
     }
 
     public void playTurn(Board board, Move move) {
@@ -28,7 +28,7 @@ public class Players {
     }
 
     private Player getCurrentPlayer() {
-        if (currentTurn == Side.CHO) return choPlayer;
+        if (currentTurn.isCho()) return choPlayer;
         return hanPlayer;
     }
 }

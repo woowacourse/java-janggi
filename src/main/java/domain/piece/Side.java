@@ -31,5 +31,13 @@ public enum Side {
         return color;
     }
 
+    public boolean isHan() {
+        return this == HAN;
+    }
+
+    public boolean isCho() {
+        return this == CHO;
+    }
+
     public abstract Side next();
 }
