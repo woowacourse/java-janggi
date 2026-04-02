@@ -85,8 +85,7 @@ public class JdbcBoardRepository implements BoardRepository {
                 Piece piece = PieceFactory.createPiece(team, type);
                 pieces.put(point, piece);
             });
-            Board board = new Board();
-            board.init(pieces);
+            Board board = new Board(pieces);
             return new JanggiGame(board, GameStatusFactory.create(Team.valueOf(roomData.currentTurn())));
         } catch (SQLException e) {
             throw new RuntimeException(e);

@@ -20,13 +20,12 @@ public class HanTurnTest {
 
     @BeforeEach
     void setUp() {
-        board = new Board();
         Map<Point, Piece> pieces = new LinkedHashMap<>();
         pieces.put(Point.of(4, 1), new Jang(Team.HAN));
         pieces.put(Point.of(4, 8), new Jang(Team.CHO));
         pieces.put(Point.of(1, 1), new Cha(Team.HAN));
         pieces.put(Point.of(2, 3), new Cha(Team.CHO));
-        board.init(pieces);
+        board = new Board(pieces);
     }
 
     @Test
@@ -48,10 +47,9 @@ public class HanTurnTest {
     @DisplayName("초나라의 기물을 움직일 시 예외 발생")
     void unavailable_move() {
         // given
-        Board board = new Board();
         Map<Point, Piece> pieces = new LinkedHashMap<>();
         pieces.put(Point.of(1, 1), new Cha(Team.CHO));
-        board.init(pieces);
+        Board board = new Board(pieces);
         Point from = Point.of(1, 1);
         Point to = Point.of(2, 3);
 

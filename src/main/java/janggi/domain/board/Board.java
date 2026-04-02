@@ -6,7 +6,6 @@ import janggi.domain.point.Point;
 import janggi.domain.point.Points;
 import janggi.domain.point.Route;
 import janggi.domain.status.Team;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -19,11 +18,7 @@ public class Board {
 
     private Map<Point, Piece> pieces;
 
-    public Board() {
-        this.pieces = new LinkedHashMap<>();
-    }
-
-    public void init(Map<Point, Piece> pieces) {
+    public Board(Map<Point, Piece> pieces) {
         this.pieces = pieces;
     }
 

@@ -24,14 +24,13 @@ public class PhoTest {
 
     @BeforeEach
     void setUp() {
-        board = new Board();
         Map<Point, Piece> pieces = new LinkedHashMap<>();
         pieces.put(Point.of(1, 1), new Pho(Team.HAN));
         pieces.put(Point.of(1, 2), new Cha(Team.HAN));
         pieces.put(Point.of(1, 3), new Cha(Team.CHO));
         pieces.put(Point.of(1, 5), new Pho(Team.CHO));
         pieces.put(Point.of(1, 6), new Pho(Team.CHO));
-        board.init(pieces);
+        board = new Board(pieces);
     }
 
     @ParameterizedTest

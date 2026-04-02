@@ -65,8 +65,6 @@ public class JanggiGameController {
         Map<Point, Piece> pieces = new LinkedHashMap<>();
         List<PositionInfo> positionInfos = FileParser.readCsvFile("/janggi.csv");
         positionInfos.forEach(info -> pieces.put(info.point(), info.piece()));
-        Board board = new Board();
-        board.init(pieces);
-        return board;
+        return new Board(pieces);
     }
 }

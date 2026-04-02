@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 
 class BoardTest {
 
-    private final Board board = new Board();
+    private Board board;
 
     @Test
     @DisplayName("자신의 기물이 목적지에 있을 경우 예외 발생")
@@ -24,7 +24,7 @@ class BoardTest {
         Map<Point, Piece> pieces = new LinkedHashMap<>();
         pieces.put(Point.of(0, 0), new Cha(Team.CHO));
         pieces.put(Point.of(0, 1), new Ma(Team.CHO));
-        board.init(pieces);
+        board = new Board(pieces);
         Assertions.assertThatThrownBy(() -> board.move(Point.of(0,0), Point.of(0, 1), Team.CHO))
                .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 도착지에 본인의 기물이 있습니다.");
@@ -35,7 +35,7 @@ class BoardTest {
     void can_not_move_rule() {
         Map<Point, Piece> pieces = new LinkedHashMap<>();
         pieces.put(Point.of(0, 0), new Ma(Team.HAN));
-        board.init(pieces);
+        board = new Board(pieces);
         Assertions.assertThatThrownBy(() -> board.move(Point.of(0, 0), Point.of(1, 1), Team.HAN))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 마가 이동할 수 없는 방향입니다.");
@@ -46,7 +46,7 @@ class BoardTest {
     void can_not_move_other_piece() {
         Map<Point, Piece> pieces = new LinkedHashMap<>();
         pieces.put(Point.of(0, 0), new Jol(Team.CHO));
-        board.init(pieces);
+        board = new Board(pieces);
         Assertions.assertThatThrownBy(() -> board.move(Point.of(0, 0), Point.of(0, 1), Team.HAN))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 상대방의 기물은 움직일 수 없습니다.");
@@ -58,7 +58,7 @@ class BoardTest {
         Map<Point, Piece> pieces = new LinkedHashMap<>();
         pieces.put(Point.of(0, 0), new Sang(Team.CHO));
         pieces.put(Point.of(0, 1), new Ma(Team.HAN));
-        board.init(pieces);
+        board = new Board(pieces);
         Assertions.assertThatThrownBy(() -> board.move(Point.of(0, 0), Point.of(2, 3), Team.CHO))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 해당 기물의 이동 경로에 장애물이 있거나 규칙에 어긋납니다.");
@@ -71,7 +71,7 @@ class BoardTest {
         pieces.put(Point.of(0, 0), new Pho(Team.CHO));
         pieces.put(Point.of(0, 2), new Ma(Team.HAN));
         pieces.put(Point.of(0, 4), new Pho(Team.HAN));
-        board.init(pieces);
+        board = new Board(pieces);
         Assertions.assertThatThrownBy(() -> board.move(Point.of(0, 0), Point.of(0, 4), Team.CHO))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 이 기물은 해당 타겟을 잡을 수 없습니다.");
@@ -82,7 +82,7 @@ class BoardTest {
     void can_move_pho_diagonal() {
         Map<Point, Piece> pieces = new LinkedHashMap<>();
         pieces.put(Point.of(4, 0), new Cha(Team.HAN));
-        board.init(pieces);
+        board = new Board(pieces);
         Assertions.assertThatThrownBy(() -> board.move(Point.of(4, 0), Point.of(5, 1), Team.HAN))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 이동할 수 없는 방향입니다.");
@@ -94,7 +94,7 @@ class BoardTest {
         Map<Point, Piece> pieces = new LinkedHashMap<>();
         pieces.put(Point.of(0, 0), new Cha(Team.HAN));
         pieces.put(Point.of(1, 1), new Pho(Team.HAN));
-        board.init(pieces);
+        board = new Board(pieces);
         Assertions.assertThat(board.calculateScore(Team.HAN)).isEqualTo(21.5);
     }
 
@@ -104,7 +104,7 @@ class BoardTest {
         Map<Point, Piece> pieces = new LinkedHashMap<>();
         pieces.put(Point.of(0, 0), new Cha(Team.CHO));
         pieces.put(Point.of(1, 1), new Pho(Team.CHO));
-        board.init(pieces);
+        board = new Board(pieces);
         Assertions.assertThat(board.calculateScore(Team.CHO)).isEqualTo(20);
     }
 }
