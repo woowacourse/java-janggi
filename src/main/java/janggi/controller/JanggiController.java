@@ -33,9 +33,17 @@ public class JanggiController {
         outputView.printBoard(BoardDto.from(game.boardMap()));
 
         while (game.winner().isEmpty()) {
+            printScore(game);
             moveProcess(game);
         }
         outputView.printWinner(game.winner().get());
+    }
+
+    private void printScore(Game game) {
+        outputView.printScore(Map.of(
+                Dynasty.CHO, game.calculateScoreByDynasty(Dynasty.CHO),
+                Dynasty.HAN, game.calculateScoreByDynasty(Dynasty.HAN)
+        ));
     }
 
     private Map<Dynasty, HorseElephantPosition> readDynastyHorseElephantPositionMap() {

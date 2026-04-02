@@ -9,6 +9,7 @@ import janggi.view.mapper.DynastyMapper;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.StringJoiner;
 
 public class OutputView {
@@ -70,4 +71,10 @@ public class OutputView {
         System.out.println("게임 종료. 승리: " + DynastyMapper.toKoreanWithColor(winner));
     }
 
+    public void printScore(Map<Dynasty, Double> scoreMap) {
+        System.out.println("현재 점수: ");
+        for (Dynasty dynasty : scoreMap.keySet()) {
+            System.out.println(DynastyMapper.toKoreanWithColor(dynasty) + ": " + scoreMap.get(dynasty));
+        }
+    }
 }
