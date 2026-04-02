@@ -30,11 +30,19 @@ public class Piece {
         return pieceType.equals(otherPieceType);
     }
 
+    public Camp getCamp() {
+        return camp;
+    }
+
+    public PieceType getPieceType() {
+        return pieceType;
+    }
+
     public List<Position> getPath(Position departure, Position destination) {
         return moveStrategy.getPath(departure, destination);
     }
 
-    public void validateBlockingPiece(List<PathInfo> pathInfos, Position departure, Position destination) {
+    public void validateBlockingPiece(List<PathInfo> pathInfos, Position destination) {
         moveStrategy.validateBlockingPiece(pathInfos, destination);
     }
 

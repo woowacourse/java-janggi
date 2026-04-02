@@ -27,6 +27,9 @@ public class Board {
     }
 
     public void move(Position departure, Position destination) {
+        if (departure.equals(destination)){
+            throw new IllegalArgumentException("출발 위치와 도착 위치가 같습니다.");
+        }
         Piece departurePiece = pieceAt(departure);
 
         List<PathInfo> path = new ArrayList<>();
@@ -34,7 +37,7 @@ public class Board {
             path.add(new PathInfo(position, pieces.get(position)));
         }
 
-        departurePiece.validateBlockingPiece(path, departure, destination);
+        departurePiece.validateBlockingPiece(path, destination);
 
         if (isExistPieceAt(destination)) {
             validateCapture(departurePiece, pieceAt(destination));
