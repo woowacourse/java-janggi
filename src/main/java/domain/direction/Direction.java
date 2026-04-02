@@ -39,6 +39,19 @@ public enum Direction {
                 .formatted(rowDifference, columnDifference));
     }
 
+    public static Direction fromDiagonal(int rowDifference, int columnDifference) {
+        if (rowDifference < 0 && columnDifference > 0) {
+            return NORTH_EAST;
+        }
+        if (rowDifference < 0) {
+            return NORTH_WEST;
+        }
+        if (columnDifference > 0) {
+            return SOUTH_EAST;
+        }
+        return SOUTH_WEST;
+    }
+
     public Position calculateNextPosition(Position source) {
         return new Position(source.row() + this.offsetRow, source.column() + this.offsetColumn);
     }
