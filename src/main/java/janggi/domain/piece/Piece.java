@@ -3,7 +3,7 @@ package janggi.domain.piece;
 import janggi.domain.Team;
 import janggi.domain.path.Path;
 import janggi.domain.path.PieceOnPath;
-import janggi.domain.position.Position;
+import janggi.domain.position.Movement;
 
 public interface Piece {
 
@@ -15,7 +15,7 @@ public interface Piece {
 
     Team getTeam();
 
-    Path getPath(Position from, Position to);
+    Path getPath(Movement movement);
 
-    boolean canMove(PieceOnPath piecesOnPath, Piece endPiece);
+    void validateCanMove(PieceOnPath piecesOnPath, Piece endPiece);
 }

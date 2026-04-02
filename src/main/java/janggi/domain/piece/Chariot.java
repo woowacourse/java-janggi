@@ -3,6 +3,7 @@ package janggi.domain.piece;
 import janggi.domain.Team;
 import janggi.domain.path.Path;
 import janggi.domain.path.PieceOnPath;
+import janggi.domain.position.Movement;
 import janggi.domain.position.Position;
 
 public class Chariot extends MoveablePiece {
@@ -22,21 +23,20 @@ public class Chariot extends MoveablePiece {
     }
 
     @Override
-    public Path getPath(Position from, Position to) {
-        validateMove(from, to);
-        return findPath(from, to);
+    public Path getPath(Movement movement) {
+        validateMove(movement);
+        return findPath(movement.getFrom(), movement.getTo());
     }
 
     @Override
-    public boolean canMove(PieceOnPath piecesOnPath, Piece endPiece) {
+    public void validateCanMove(PieceOnPath piecesOnPath, Piece endPiece) {
         validateAllPieceEmpty(piecesOnPath);
         validateSameTeam(endPiece);
-        return true;
     }
 
-    private void validateMove(Position from, Position to) {
-        int rowDiff = from.calculateRowDiff(to);
-        int columnDiff = from.calculateColumnDiff(to);
+    private void validateMove(Movement movement) {
+        int rowDiff = movement.calculateRowDiff();
+        int columnDiff = movement.calculateColumnDiff();
 
         if (rowDiff != 0 && columnDiff != 0) {
             throw new IllegalArgumentException("[ERROR] 차는 직선으로만 이동할 수 있습니다.");

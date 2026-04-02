@@ -3,6 +3,7 @@ package janggi.domain.piece;
 import janggi.domain.Team;
 import janggi.domain.path.Path;
 import janggi.domain.path.PieceOnPath;
+import janggi.domain.position.Movement;
 import janggi.domain.position.Position;
 
 public class Elephant extends MoveablePiece {
@@ -24,21 +25,20 @@ public class Elephant extends MoveablePiece {
     }
 
     @Override
-    public Path getPath(Position from, Position to) {
-        validateMove(from, to);
-        return findPath(from, to);
+    public Path getPath(Movement movement) {
+        validateMove(movement);
+        return findPath(movement.getFrom(), movement.getTo());
     }
 
     @Override
-    public boolean canMove(PieceOnPath piecesOnPath, Piece endPiece) {
+    public void validateCanMove(PieceOnPath piecesOnPath, Piece endPiece) {
         validateAllPieceEmpty(piecesOnPath);
         validateSameTeam(endPiece);
-        return true;
     }
 
-    private void validateMove(Position from, Position to) {
-        int absRowDiff = Math.abs(from.calculateRowDiff(to));
-        int absColumnDiff = Math.abs(from.calculateColumnDiff(to));
+    private void validateMove(Movement movement) {
+        int absRowDiff = Math.abs(movement.calculateRowDiff());
+        int absColumnDiff = Math.abs(movement.calculateColumnDiff());
 
         boolean isValidMove = (absRowDiff == ONE_DIRECTION_MIN_DIFF && absColumnDiff == ONE_DIRECTION_MAX_DIFF)
                 || (absRowDiff == ONE_DIRECTION_MAX_DIFF && absColumnDiff == ONE_DIRECTION_MIN_DIFF);

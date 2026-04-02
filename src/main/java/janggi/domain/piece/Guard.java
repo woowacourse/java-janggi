@@ -3,7 +3,7 @@ package janggi.domain.piece;
 import janggi.domain.Team;
 import janggi.domain.path.Path;
 import janggi.domain.path.PieceOnPath;
-import janggi.domain.position.Position;
+import janggi.domain.position.Movement;
 
 public class Guard extends MoveablePiece {
     private static final int MAX_MOVE_DISTANCE = 1;
@@ -23,20 +23,19 @@ public class Guard extends MoveablePiece {
     }
 
     @Override
-    public Path getPath(Position from, Position to) {
-        validateMove(from, to);
+    public Path getPath(Movement movement) {
+        validateMove(movement);
         return new Path();
     }
 
     @Override
-    public boolean canMove(PieceOnPath piecesOnPath, Piece endPiece) {
+    public void validateCanMove(PieceOnPath piecesOnPath, Piece endPiece) {
         validateSameTeam(endPiece);
-        return true;
     }
 
-    private void validateMove(Position from, Position to) {
-        int absRowDiff = Math.abs(from.calculateRowDiff(to));
-        int absColumnDiff = Math.abs(from.calculateColumnDiff(to));
+    private void validateMove(Movement movement) {
+        int absRowDiff = Math.abs(movement.calculateRowDiff());
+        int absColumnDiff = Math.abs(movement.calculateColumnDiff());
 
         if (absRowDiff > MAX_MOVE_DISTANCE || absColumnDiff > MAX_MOVE_DISTANCE) {
             throw new IllegalArgumentException("[ERROR] 사는 해당 위치로 이동할 수 없습니다.");

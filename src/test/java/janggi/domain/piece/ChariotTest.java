@@ -3,11 +3,11 @@ package janggi.domain.piece;
 import janggi.domain.Team;
 import janggi.domain.path.Path;
 import janggi.domain.path.PieceOnPath;
+import janggi.domain.position.Movement;
 import janggi.domain.position.Position;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 public class ChariotTest {
@@ -36,8 +36,9 @@ public class ChariotTest {
     @Test
     void 한_방향으로_된_좌표로_경로를_요청하면_경로를_반환한다() {
         Chariot chariot = new Chariot(Team.HAN);
+        Movement movement = new Movement(Position.from("22"), Position.from("26"));
 
-        Path path = chariot.getPath(Position.from("22"), Position.from("26"));
+        Path path = chariot.getPath(movement);
 
         assertThat(path).containsExactly(
                 Position.from("23"),
@@ -48,8 +49,9 @@ public class ChariotTest {
     @Test
     void 차를_대각선으로_이동시키면_예외가_발생한다() {
         Chariot chariot = new Chariot(Team.HAN);
+        Movement movement = new Movement(Position.from("22"), Position.from("33"));
 
-        assertThatThrownBy(() -> chariot.getPath(Position.from("22"), Position.from("33")))
+        assertThatThrownBy(() -> chariot.getPath(movement))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 차는 직선으로만 이동할 수 있습니다.");
     }
@@ -57,8 +59,10 @@ public class ChariotTest {
     @Test
     void 차를_여러_방향으로_이동시키면_예외가_발생한다() {
         Chariot chariot = new Chariot(Team.HAN);
+        Movement movement = new Movement(Position.from("22"), Position.from("48"));
 
-        assertThatThrownBy(() -> chariot.getPath(Position.from("22"), Position.from("48")))
+
+        assertThatThrownBy(() -> chariot.getPath(movement))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 차는 직선으로만 이동할 수 있습니다.");
     }
@@ -69,7 +73,7 @@ public class ChariotTest {
         PieceOnPath pieceOnPath = new PieceOnPath();
         pieceOnPath.add(new Soldier(Team.HAN));
 
-        assertThatThrownBy(() -> chariot.canMove(pieceOnPath, new EmptyPiece()))
+        assertThatThrownBy(() -> chariot.validateCanMove(pieceOnPath, new EmptyPiece()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 차의 이동 경로에 기물이 있을 수 없습니다.");
     }
@@ -80,7 +84,7 @@ public class ChariotTest {
         PieceOnPath pieceOnPath = new PieceOnPath();
         pieceOnPath.add(new EmptyPiece());
 
-        assertThatThrownBy(() -> chariot.canMove(pieceOnPath, new Soldier(Team.HAN)))
+        assertThatThrownBy(() -> chariot.validateCanMove(pieceOnPath, new Soldier(Team.HAN)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 자신의 기물로 이동할 수 없습니다.");
     }
@@ -92,8 +96,7 @@ public class ChariotTest {
         pieceOnPath.add(new EmptyPiece());
         pieceOnPath.add(new EmptyPiece());
 
-        boolean result = chariot.canMove(pieceOnPath, new Chariot(Team.CHO));
-
-        assertThat(result).isTrue();
+        assertThatNoException().isThrownBy(
+                () -> chariot.validateCanMove(pieceOnPath, new Chariot(Team.CHO)));
     }
 }

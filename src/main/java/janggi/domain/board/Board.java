@@ -6,6 +6,7 @@ import janggi.domain.path.PieceOnPath;
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
+import janggi.domain.position.Movement;
 import janggi.domain.position.Position;
 
 import java.util.Map;
@@ -18,16 +19,18 @@ public class Board {
         this.piecesByPosition = base;
     }
 
-    public Map<Position, Piece> move(Position from, Position to, Team currentTeam) {
-        validate(from, to, currentTeam);
-        Piece fromPiece = piecesByPosition.get(from);
-        Path path = fromPiece.getPath(from, to);
+    public void move(Movement movement, Team currentTeam) {
+        Piece fromPiece = getPiece(movement.getFrom());
+        validate(fromPiece, currentTeam);
+        Path path = fromPiece.getPath(movement);
         PieceOnPath pieceOnPath = getPiecesOnPath(path);
-        if (fromPiece.canMove(pieceOnPath, piecesByPosition.get(to))) {
-            piecesByPosition.put(from, new EmptyPiece());
-            piecesByPosition.put(to, fromPiece);
-        }
-        return showBoard();
+        fromPiece.validateCanMove(pieceOnPath, getPiece(movement.getTo()));
+        executeMove(movement, fromPiece);
+    }
+
+    private void executeMove(Movement movement, Piece fromPiece) {
+        piecesByPosition.put(movement.getFrom(), new EmptyPiece());
+        piecesByPosition.put(movement.getTo(), fromPiece);
     }
 
     public boolean isGeneralCaptured(Team currentTeam) {
@@ -47,17 +50,13 @@ public class Board {
         return pieceOnPath;
     }
 
-    private void validate(Position from, Position to, Team currentTeam) {
-        validateSamePosition(from, to);
-        Piece fromPiece = piecesByPosition.get(from);
+    private void validate(Piece fromPiece, Team currentTeam) {
         validateEmptyPiece(fromPiece);
         validateCurrentTeamPiece(fromPiece, currentTeam);
     }
 
-    private void validateSamePosition(Position from, Position to) {
-        if (from.equals(to)) {
-            throw new IllegalArgumentException("[ERROR] 출발 좌표와 도착 좌표는 같을 수 없습니다.");
-        }
+    private Piece getPiece(Position position) {
+        return piecesByPosition.get(position);
     }
 
     private void validateEmptyPiece(Piece fromPiece) {

@@ -2,6 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.Team;
 import janggi.domain.path.PieceOnPath;
+import janggi.domain.position.Movement;
 import janggi.domain.position.Position;
 import org.junit.jupiter.api.Test;
 
@@ -48,18 +49,18 @@ public class EmptyPieceTest {
     @Test
     void 빈_기물에_이동_경로를_요청하면_예외가_발생한다() {
         EmptyPiece emptyPiece = new EmptyPiece();
+        Movement movement = new Movement(Position.from("11"), Position.from("22"));
 
-        assertThatThrownBy(() -> emptyPiece.getPath(Position.from("11"), Position.from("22")))
+        assertThatThrownBy(() -> emptyPiece.getPath(movement))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 선택된 기물이 없습니다.");
     }
 
     @Test
-    void 빈_기물에_이동할_수_있는지_확인하면_거짓을_반환한다() {
+    void 빈_기물에_이동할_수_있는지_확인하면_예외가_발생한다() {
         EmptyPiece emptyPiece = new EmptyPiece();
 
-        boolean result = emptyPiece.canMove(new PieceOnPath(), new EmptyPiece());
-
-        assertThat(result).isFalse();
+        assertThatThrownBy(
+                () -> emptyPiece.validateCanMove(new PieceOnPath(), new EmptyPiece()));
     }
 }

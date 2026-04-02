@@ -3,7 +3,7 @@ package janggi.domain.piece;
 import janggi.domain.Team;
 import janggi.domain.path.Path;
 import janggi.domain.path.PieceOnPath;
-import janggi.domain.position.Position;
+import janggi.domain.position.Movement;
 
 public class EmptyPiece implements Piece {
 
@@ -28,12 +28,12 @@ public class EmptyPiece implements Piece {
     }
 
     @Override
-    public Path getPath(Position from, Position to) {
+    public Path getPath(Movement movement) {
         throw new IllegalArgumentException("[ERROR] 선택된 기물이 없습니다.");
     }
 
     @Override
-    public boolean canMove(PieceOnPath piecesOnPath, Piece endPiece) {
-        return false;
+    public void validateCanMove(PieceOnPath piecesOnPath, Piece endPiece) {
+        throw new IllegalArgumentException("[ERROR] 빈 기물은 이동할 수 없습니다");
     }
 }

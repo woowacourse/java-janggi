@@ -4,13 +4,12 @@ import janggi.domain.Team;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardFactory;
 import janggi.domain.board.PieceSetup;
-import janggi.domain.piece.Piece;
+import janggi.domain.position.Movement;
 import janggi.domain.position.Position;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 
 import java.util.List;
-import java.util.Map;
 
 public class JanggiGame {
 
@@ -57,8 +56,8 @@ public class JanggiGame {
 
     private Team processTurn(List<String> positions, Team currentTeam) {
         try {
-            Map<Position, Piece> updatedBoard = movePiece(positions, currentTeam);
-            outputView.printBoard(updatedBoard);
+            board.move(createMovement(positions), currentTeam);
+            outputView.printBoard(board.showBoard());
             Team nextTeam = currentTeam.convert();
             if (board.isGeneralCaptured(nextTeam)) {
                 outputView.printWinner(currentTeam);
@@ -71,9 +70,9 @@ public class JanggiGame {
         }
     }
 
-    private Map<Position, Piece> movePiece(List<String> positions, Team currentTeam) {
+    private Movement createMovement(List<String> positions) {
         Position from = Position.from(positions.get(FROM_INDEX));
         Position to = Position.from(positions.get(TO_INDEX));
-        return board.move(from, to, currentTeam);
+        return new Movement(from, to);
     }
 }
