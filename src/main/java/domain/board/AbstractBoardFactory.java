@@ -9,15 +9,19 @@ import java.util.Map;
 
 public abstract class AbstractBoardFactory implements BoardFactory {
 
-    private static final Map<Integer, AbstractBoardFactory> factories = Map.of(
-            1, new LeftGwimaFactory(),
-            2, new RightGwimaFactory(),
-            3, new WonangmaFactory(),
-            4, new YanggwimaFactory()
+    private static final Map<FormationType, AbstractBoardFactory> factories = Map.of(
+            FormationType.LEFT_GIWMA, new LeftGwimaFactory(),
+            FormationType.RIGHT_GIWMA, new RightGwimaFactory(),
+            FormationType.WONANGMA, new WonangmaFactory(),
+            FormationType.YANGGWIMA, new YanggwimaFactory()
     );
 
-    public static AbstractBoardFactory from(int input) {
-        return factories.get(input);
+    public static AbstractBoardFactory from(FormationType type) {
+        AbstractBoardFactory factory = factories.get(type);
+        if (factory == null) {
+            throw new IllegalStateException("해당 타입의 팩토리가 등록되지 않았습니다.");
+        }
+        return factory;
     }
 
     @Override

@@ -49,8 +49,8 @@ public class Board {
         }
     }
 
-    private void validateCanMove(Piece piece, Position src, Position dest) {
-        if (!piece.canMove(src, dest)) {
+    private void validateCanMove(Piece piece, Position source, Position destination) {
+        if (!piece.canMove(source, destination)) {
             throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
         }
     }
@@ -69,9 +69,9 @@ public class Board {
         }
     }
 
-    private void applyMove(Position src, Position dest, Piece piece) {
-        pieces.put(dest, piece);
-        pieces.put(src, EmptyPiece.getInstance());
+    private void applyMove(Position source, Position destination, Piece piece) {
+        pieces.put(destination, piece);
+        pieces.put(source, EmptyPiece.getInstance());
     }
 
     public Piece pieceAt(Position position) {

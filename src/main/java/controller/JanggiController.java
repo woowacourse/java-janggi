@@ -1,5 +1,6 @@
 package controller;
 
+import domain.board.FormationType;
 import domain.game.JanggiGame;
 import domain.game.Team;
 import domain.position.Position;
@@ -25,8 +26,8 @@ public class JanggiController {
     }
 
     private JanggiGame createGame() {
-        int choFormation = inputView.initialFormation(Team.CHO);
-        int hanFormation = inputView.initialFormation(Team.HAN);
+        FormationType choFormation = FormationConverter.convert(inputView.initialFormation(Team.CHO));
+        FormationType hanFormation = FormationConverter.convert(inputView.initialFormation(Team.HAN));
         return JanggiGame.of(choFormation, hanFormation);
     }
 

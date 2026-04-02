@@ -2,6 +2,7 @@ package domain.game;
 
 import domain.board.AbstractBoardFactory;
 import domain.board.Board;
+import domain.board.FormationType;
 import domain.piece.Piece;
 import domain.position.Position;
 import java.util.HashMap;
@@ -16,7 +17,7 @@ public class JanggiGame {
         this.board = board;
     }
 
-    public static JanggiGame of(int choFormation, int hanFormation) {
+    public static JanggiGame of(FormationType choFormation, FormationType hanFormation) {
         Map<Position, Piece> pieces = new HashMap<>();
         pieces.putAll(AbstractBoardFactory.from(choFormation)
                 .createFormation(Team.CHO));
