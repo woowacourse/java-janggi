@@ -23,8 +23,8 @@ public class ElephantMoveStrategy implements MoveStrategy {
     }
 
     private void addElephantPaths(Position current, Direction baseDirection, Paths paths) {
-        for (Direction diagonalDir : baseDirection.getAdjacentDiagonals()) {
-            createAndAddSequence(current, baseDirection, diagonalDir, paths);
+        for (Direction diagonalDirection : baseDirection.getAdjacentDiagonals()) {
+            createAndAddSequence(current, baseDirection, diagonalDirection, paths);
         }
     }
 
@@ -56,19 +56,19 @@ public class ElephantMoveStrategy implements MoveStrategy {
     }
 
     private void validateElephantPath(Path route, Map<Position, Piece> state, List<Position> destinations, Piece me) {
-        Iterator<Position> it = route.iterator();
-        Position transit1 = it.next();
-        Position transit2 = it.next();
+        Iterator<Position> iterator = route.iterator();
+        Position transit1 = iterator.next();
+        Position transit2 = iterator.next();
 
         if (state.get(transit1) == null && state.get(transit2) == null) {
-            addIfValid(it.next(), state, destinations, me); // 최종 도착지
+            addIfValid(iterator.next(), state, destinations, me); // 최종 도착지
         }
     }
 
-    private void addIfValid(Position dest, Map<Position, Piece> state, List<Position> destinations, Piece me) {
-        Piece target = state.get(dest);
+    private void addIfValid(Position destination, Map<Position, Piece> state, List<Position> destinations, Piece me) {
+        Piece target = state.get(destination);
         if (target == null || !target.isSameSide(me)) {
-            destinations.add(dest);
+            destinations.add(destination);
         }
     }
 }
