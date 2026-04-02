@@ -22,11 +22,7 @@ public class Destinations {
 
     public void validateDestinations(Position target) {
         if (!positions.contains(target)) {
-            throw new IllegalArgumentException("선택할 수 없는 기물입니다.");
+            throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
         }
-    }
-
-    public boolean isEmpty() {
-        return positions.isEmpty();
     }
 }
