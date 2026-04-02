@@ -7,8 +7,10 @@ CREATE TABLE IF NOT EXISTS game_states
 
 CREATE TABLE IF NOT EXISTS boards
 (
-    id   int AUTO_INCREMENT PRIMARY KEY,
-    name varchar(255)
+    id            int AUTO_INCREMENT PRIMARY KEY,
+    game_state_id int,
+    name          varchar(255),
+    FOREIGN KEY (game_state_id) REFERENCES game_states (id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS board_cells
