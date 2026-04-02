@@ -48,4 +48,8 @@ public class JanggiGame {
     public List<PositionInfo> boardStatus() {
         return board.getBoardStatus();
     }
+
+    public int scoreOf(Team team) {
+        return board.scoreOf(team);
+    }
 }

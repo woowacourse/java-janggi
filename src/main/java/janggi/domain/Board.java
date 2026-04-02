@@ -69,8 +69,11 @@ public class Board {
         return PositionInfo.from(piecesByPoint);
     }
 
-    public Map<Point, Piece> getPiecesByPoint() {
-        return piecesByPoint;
+    public int scoreOf(Team team) {
+        return piecesByPoint.values().stream()
+                .filter(piece -> piece.isSameTeam(team))
+                .mapToInt(Piece::getScore)
+                .sum();
     }
 
     private void validateFromPoint(Point from, Team team) {

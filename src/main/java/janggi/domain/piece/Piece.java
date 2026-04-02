@@ -17,4 +17,8 @@ public interface Piece {
     default boolean canCapture(Piece targetPiece) {
         return true;
     }
+
+    default int getScore() {
+        return getType().getScore();
+    }
 }
