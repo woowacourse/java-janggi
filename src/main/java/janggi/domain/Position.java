@@ -55,4 +55,12 @@ public class Position {
     private static int calculateIndex(int row, int column) {
         return (row * COLUMN_SIZE) + column;
     }
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getColumn() {
+        return column;
+    }
 }
