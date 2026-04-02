@@ -4,13 +4,11 @@ import pieces.Side;
 import position.Position;
 import util.Retry;
 import view.DisplayBoard;
-import view.InputView;
 import view.JanggiView;
-import view.OutputView;
 
 public class Application {
     public static void main(String[] args) {
-        JanggiView view = new JanggiView(new InputView(), new OutputView());
+        JanggiView view = new JanggiView();
         SangSetupType choSangSetupType = view.askSangSetupUntilSuccess(Side.CHO);
         SangSetupType hanSangSetupType = view.askSangSetupUntilSuccess(Side.HAN);
         JanggiGame game = JanggiGame.of(choSangSetupType, hanSangSetupType);

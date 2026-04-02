@@ -7,13 +7,8 @@ import util.Retry;
 
 public class JanggiView {
 
-    private final InputView in;
-    private final OutputView out;
-
-    public JanggiView(InputView in, OutputView out) {
-        this.in = in;
-        this.out = out;
-    }
+    private final InputView in = new InputView();
+    private final OutputView out = new OutputView();
 
     public SangSetupType askSangSetupUntilSuccess(Side side) {
         return Retry.untilSuccess(() -> {
