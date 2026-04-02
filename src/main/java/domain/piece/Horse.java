@@ -1,11 +1,12 @@
 package domain.piece;
 
 import domain.board.Intersection;
+import domain.game.Side;
+import domain.movement.MoveAmount;
 import domain.movement.Route;
 import domain.movement.Vector;
-import domain.movement.MoveAmount;
-import domain.game.Side;
 import domain.movement.strategy.ForwardAndDiagonalMovement;
+import domain.movement.strategy.MoveStrategy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,7 @@ public final class Horse extends Piece {
 
     private static final MoveAmount DIAGONAL_MOVE_AMOUNT = new MoveAmount(1);
 
-    private final ForwardAndDiagonalMovement movementStrategy = new ForwardAndDiagonalMovement(DIAGONAL_MOVE_AMOUNT);
+    private final MoveStrategy moveStrategy = new ForwardAndDiagonalMovement(DIAGONAL_MOVE_AMOUNT);
 
     public Horse(Side side) {
         super(side);
@@ -54,7 +55,7 @@ public final class Horse extends Piece {
             Vector vector,
             AlivePieces alivePieces
     ) {
-        return movementStrategy.getRoutes(from, vector)
+        return moveStrategy.getRoutes(from, vector)
                 .stream()
                 .filter(route -> route.canReachDestinationThroughPath(alivePieces, side))
                 .map(Route::getDestination)

@@ -7,7 +7,7 @@ import domain.movement.Vector;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ForwardAndDiagonalMovement {
+public class ForwardAndDiagonalMovement implements MoveStrategy {
 
     private final MoveAmount diagonalMovementAmount;
 
@@ -15,6 +15,7 @@ public class ForwardAndDiagonalMovement {
         this.diagonalMovementAmount = diagonalMovementAmount;
     }
 
+    @Override
     public List<Route> getRoutes(
             Intersection from,
             Vector vector

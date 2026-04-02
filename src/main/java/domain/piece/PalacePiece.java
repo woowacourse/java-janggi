@@ -5,6 +5,7 @@ import domain.movement.Route;
 import domain.movement.Vector;
 import domain.movement.MoveAmount;
 import domain.game.Side;
+import domain.movement.strategy.MoveStrategy;
 import domain.movement.strategy.StraightMovement;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,7 @@ public abstract class PalacePiece extends StaticPositionedPiece {
 
     private static final MoveAmount FORWARD_AMOUNT = new MoveAmount(1);
 
-    private final StraightMovement movementStrategy = new StraightMovement(FORWARD_AMOUNT);
+    private final MoveStrategy moveStrategy = new StraightMovement(FORWARD_AMOUNT);
 
     public PalacePiece(Side side) {
         super(side);
@@ -49,7 +50,7 @@ public abstract class PalacePiece extends StaticPositionedPiece {
             Vector vector,
             AlivePieces alivePieces
     ) {
-        return movementStrategy.getRoutes(from, vector)
+        return moveStrategy.getRoutes(from, vector)
                 .stream()
                 .filter(route -> route.canReachDestinationThroughPath(alivePieces, side))
                 .map(Route::getDestination)

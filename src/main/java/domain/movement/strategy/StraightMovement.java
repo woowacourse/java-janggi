@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class StraightMovement {
+public class StraightMovement implements MoveStrategy {
 
     private final MoveAmount moveAmount;
 
@@ -16,6 +16,7 @@ public class StraightMovement {
         this.moveAmount = moveAmount;
     }
 
+    @Override
     public List<Route> getRoutes(
             Intersection from,
             Vector vector

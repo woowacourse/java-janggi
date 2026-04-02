@@ -1,10 +1,11 @@
 package domain.piece;
 
 import domain.board.Intersection;
+import domain.game.Side;
+import domain.movement.MoveAmount;
 import domain.movement.Route;
 import domain.movement.Vector;
-import domain.movement.MoveAmount;
-import domain.game.Side;
+import domain.movement.strategy.MoveStrategy;
 import domain.movement.strategy.StraightMovement;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ public final class Chariot extends StaticPositionedPiece {
     private static final List<Integer> INITIAL_FILES = List.of(1, 9);
     private static final MoveAmount FORWARDABLE_AMOUNT = MoveAmount.maximum();
 
-    private final StraightMovement movementStrategy = new StraightMovement(FORWARDABLE_AMOUNT);
+    private final MoveStrategy moveStrategy = new StraightMovement(FORWARDABLE_AMOUNT);
 
     public Chariot(Side side) {
         super(side);
@@ -65,7 +66,7 @@ public final class Chariot extends StaticPositionedPiece {
             Vector vector,
             AlivePieces alivePieces
     ) {
-        return movementStrategy.getRoutes(from, vector)
+        return moveStrategy.getRoutes(from, vector)
                 .stream()
                 .filter(route -> route.canReachDestinationThroughPath(alivePieces, side))
                 .map(Route::getDestination)
