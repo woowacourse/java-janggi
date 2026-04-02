@@ -9,4 +9,12 @@ public interface BoardView {
 
     boolean isEmptyPosition(Position position);
 
+    boolean isInsidePalace(Position position);
+
+    boolean canMoveDiagonallyInPalace(Position from, Position to);
+
+    boolean isDiagonalInPalace(Position from, Position to);
+
+    Position getDiagonalMidpointInPalace(Position from, Position to);
+
 }
