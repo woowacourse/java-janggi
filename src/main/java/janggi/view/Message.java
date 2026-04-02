@@ -8,8 +8,7 @@ public class Message {
     public static final String INPUT_PIECE_TO_MOVE_NOTICE = "이동할 기물의 좌표를 입력해주세요.";
     public static final String INPUT_TARGET_TO_MOVE_NOTICE = "기물을 이동할 좌표를 입력해주세요.";
     public static final String TARGET_POSITION_IS_NOT_MOVEABLE = "이동이 불가능한 좌표입니다";
-    public static final String PIECE_POSITION_NOTICE = "%s 의 현재 좌표는 %d %d 입니다.";
     public static final String MOVE_POSITION_ROW_NOTICE = "좌표의 행을 입력해주세요.";
     public static final String MOVE_POSITION_COLUMN_NOTICE = "좌표의 열을 입력해주세요.";
-    public static final String TARGET_PIECE_IS_NOT_OWNED = "해당 기물은 해당 플레이어의 진영이 아닙니다.";
+    public static final String TARGET_PIECE_IS_NOT_MOVEABLE = "이동이 불가능한 기물입니다.";
 }

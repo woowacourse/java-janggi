@@ -43,17 +43,21 @@ public class OutputView {
         printLine(COLUMN_INDEXES);
     }
 
-    private void renderRow(int row, Map<PositionDTO, PieceDTO> status, PositionDTO selected, List<PositionDTO> movables) {
+    private void renderRow(int row, Map<PositionDTO, PieceDTO> status, PositionDTO selected,
+                           List<PositionDTO> movables) {
         StringBuilder sb = new StringBuilder(toFullWidthRow(row) + "　║");
         for (int col = 0; col < 9; col++) {
             PositionDTO current = new PositionDTO(row, col);
             sb.append(getFormattedCell(status, current, selected, movables));
-            if (col < 8) sb.append("━");
+            if (col < 8) {
+                sb.append("━");
+            }
         }
         printLine(sb.toString());
     }
 
-    private String getFormattedCell(Map<PositionDTO, PieceDTO> status, PositionDTO current, PositionDTO selected, List<PositionDTO> movables) {
+    private String getFormattedCell(Map<PositionDTO, PieceDTO> status, PositionDTO current, PositionDTO selected,
+                                    List<PositionDTO> movables) {
         PieceDTO piece = status.get(current);
         String baseCell = createBaseCell(piece);
 
@@ -67,24 +71,37 @@ public class OutputView {
         return "［" + piece.label() + "］";
     }
 
-    private String applyColor(String cell, PieceDTO piece, PositionDTO current, PositionDTO selected, List<PositionDTO> movables) {
-        if (current.equals(selected)) return ANSI_BLUE + cell + ANSI_RESET;
-        if (movables.contains(current)) return ANSI_YELLOW + cell + ANSI_RESET; // null 체크 소거됨
+    private String applyColor(String cell, PieceDTO piece, PositionDTO current, PositionDTO selected,
+                              List<PositionDTO> movables) {
+        if (current.equals(selected)) {
+            return ANSI_BLUE + cell + ANSI_RESET;
+        }
+        if (movables.contains(current)) {
+            return ANSI_YELLOW + cell + ANSI_RESET; // null 체크 소거됨
+        }
 
         return applySideColor(cell, piece);
     }
 
     private String applySideColor(String cell, PieceDTO piece) {
-        if (piece == null) return cell; // 빈 칸은 기본색
+        if (piece == null) {
+            return cell; // 빈 칸은 기본색
+        }
 
-        if ("CHO".equals(piece.sideName())) return ANSI_GREEN + cell + ANSI_RESET;
-        if ("HAN".equals(piece.sideName())) return ANSI_RED + cell + ANSI_RESET;
+        if ("CHO".equals(piece.sideName())) {
+            return ANSI_GREEN + cell + ANSI_RESET;
+        }
+        if ("HAN".equals(piece.sideName())) {
+            return ANSI_RED + cell + ANSI_RESET;
+        }
 
         return cell;
     }
 
     private void renderVerticalLine(int row) {
-        if (row < 9) printLine(VERTICAL_LINE);
+        if (row < 9) {
+            printLine(VERTICAL_LINE);
+        }
     }
 
     private String toFullWidthRow(int i) {
@@ -124,6 +141,6 @@ public class OutputView {
     }
 
     public void printNotOwnPiece() {
-        printLine(Message.TARGET_PIECE_IS_NOT_OWNED);
+        printLine(Message.TARGET_PIECE_IS_NOT_MOVEABLE);
     }
 }

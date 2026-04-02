@@ -88,4 +88,9 @@ public class Board implements BoardInfo {
                         entry -> entry.getValue().map(pieceMapper)
                 ));
     }
+
+    public boolean isMoveablePiece(Position selectedPosition) {
+        Piece piece = piecePosition.get(selectedPosition);
+        return !piece.determineDestinations(selectedPosition, this).isEmpty();
+    }
 }

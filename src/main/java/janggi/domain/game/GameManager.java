@@ -35,7 +35,7 @@ public class GameManager {
     public boolean isThereMoveablePiece(Position selectedPosition) {
         if (board.isPieceExist(selectedPosition)) {
             Piece selectedPiece = board.findPieceBy(selectedPosition);
-            return players.isCurrentSidePiece(turn, selectedPiece);
+            return players.isCurrentSidePiece(turn, selectedPiece) && board.isMoveablePiece(selectedPosition);
         }
         return false;
     }
