@@ -24,6 +24,10 @@ public class GameController {
         OutputView.printBoard(board);
     }
 
+    public void printWinner(Board board) {
+        OutputView.printWinner(board.winner());
+    }
+
     private Position parsePosition(String value) {
         String[] tokens = value.split(",");
         if (tokens.length != 2) {

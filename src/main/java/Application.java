@@ -8,9 +8,12 @@ public class Application {
         Board board = new Board(BoardInitializer.init(BoardSetting.LEFT_ELEPHANT_SET_UP));
         GameController gameController = new GameController();
 
-        while (true) {
+        while (!board.isGameOver()) {
             gameController.printBoard(board);
             gameController.move(board);
         }
+
+        gameController.printBoard(board);
+        gameController.printWinner(board);
     }
 }

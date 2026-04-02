@@ -36,6 +36,11 @@ public class OutputView {
         System.out.println(message);
     }
 
+    public static void printWinner(Camp winner) {
+        String winnerName = (winner == Camp.CHO) ? "초" : "한";
+        System.out.println(winnerName + "의 승리입니다.");
+    }
+
     private static String symbolOf(PieceType pieceType, Camp camp) {
         return switch (pieceType) {
             case GENERAL -> "궁";
