@@ -7,6 +7,7 @@ import janggi.domain.piece.Team;
 import janggi.domain.vo.position.Position;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Board implements BoardView {
@@ -73,5 +74,9 @@ public class Board implements BoardView {
             board.place((Position) args[i], (Piece) args[i + 1]);
         }
         return board;
+    }
+
+    public Map<Position, Piece> getBoard() {
+        return Map.copyOf(board);
     }
 }
