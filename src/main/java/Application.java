@@ -10,7 +10,6 @@ public class Application {
 
         JanggiController janggiController = new JanggiController(inputView, outputView);
         janggiController.run();
-
     }
 
 }
