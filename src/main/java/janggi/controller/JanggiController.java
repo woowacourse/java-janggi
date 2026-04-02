@@ -33,6 +33,7 @@ public class JanggiController {
         while (!game.isFinished()) {
             moveProcess(game);
         }
+        outputView.printWinner(DynastyDto.from(game.judgeWinner()));
     }
 
     private Map<Dynasty, HorseElephantPosition> readDynastyHorseElephantPositionMap() {

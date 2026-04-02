@@ -37,15 +37,13 @@ public class Board {
         board.put(to, fromPiece);
     }
 
-    public boolean hasNoGeneral() {
-        int generalCount = 0;
+    public boolean hasGeneral(Dynasty dynasty) {
         for (Piece piece : board.values()) {
-            if (piece.isSamePieceType(PieceType.GENERAL)) {
-                generalCount++;
+            if (piece.isSamePieceType(PieceType.GENERAL) && piece.isSameDynasty(dynasty)) {
+                return true;
             }
         }
-
-        return generalCount != 2;
+        return false;
     }
 
     public Map<Position, Piece> board() {

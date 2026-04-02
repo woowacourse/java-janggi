@@ -1,6 +1,7 @@
 package janggi.domain.game;
 
 import static janggi.domain.dynasty.Dynasty.CHO;
+import static janggi.domain.dynasty.Dynasty.HAN;
 
 import janggi.domain.board.Board;
 import janggi.domain.board.DefaultBoardDesignPolicy;
@@ -39,8 +40,15 @@ public class Game {
         currentTurn.changeTurn();
     }
 
+    public Dynasty judgeWinner() {
+        if (board.hasGeneral(HAN)) {
+            return HAN;
+        }
+        return CHO;
+    }
+
     public boolean isFinished() {
-        return board.hasNoGeneral();
+        return !board.hasGeneral(HAN) || !board.hasGeneral(CHO);
     }
 
     public Map<Position, Piece> boardMap() {

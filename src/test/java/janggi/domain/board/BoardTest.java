@@ -50,7 +50,7 @@ class BoardTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("해당 위치에 기물이 존재하지 않습니다.");
     }
-    
+
     @Test
     public void 특정_위치에_있는_기물을_다른_위치로_옮긴다() {
         // given
@@ -94,7 +94,7 @@ class BoardTest {
     }
 
     @Test
-    public void 두_장_중_하나라도_잡히면_게임이_끝난다() {
+    public void 나라_별로_장이_있는지_확인할_수_있다() {
         // given
         Position generalPosition = Position.from(2, 5);
         Piece general = new Piece(HAN, PieceType.GENERAL);
@@ -108,10 +108,10 @@ class BoardTest {
 
         // when
         board.movePiece(enemy, generalPosition, CHO);
-        boolean hasNoGeneral = board.hasNoGeneral();
+        boolean hasGeneral = board.hasGeneral(HAN);
 
         // then
-        assertThat(hasNoGeneral).isTrue();
+        assertThat(hasGeneral).isFalse();
     }
 
 }

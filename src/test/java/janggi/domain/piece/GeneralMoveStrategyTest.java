@@ -16,19 +16,19 @@ class GeneralMoveStrategyTest {
         // given
         Map<Position, Piece> board = new HashMap<>();
         PieceType pieceType = PieceType.GENERAL;
-        Dynasty dynasty = Dynasty.CHO;
+        Dynasty dynasty = Dynasty.HAN;
         Position from = Position.from(9, 5);
         board.put(from, new Piece(dynasty, pieceType));
 
         // 궁성 상단
         board.put(Position.from(8, 6), new Piece(dynasty, PieceType.GUARD));
-        board.put(Position.from(8, 4), new Piece(Dynasty.HAN, PieceType.GUARD));
+        board.put(Position.from(8, 4), new Piece(Dynasty.CHO, PieceType.GUARD));
         // 궁성 중단
         board.put(Position.from(9, 6), new Piece(dynasty, PieceType.GUARD));
-        board.put(Position.from(9, 4), new Piece(Dynasty.HAN, PieceType.GUARD));
+        board.put(Position.from(9, 4), new Piece(Dynasty.CHO, PieceType.GUARD));
         // 궁성 하단
         board.put(Position.from(10, 6), new Piece(dynasty, PieceType.GUARD));
-        board.put(Position.from(10, 4), new Piece(Dynasty.HAN, PieceType.GUARD));
+        board.put(Position.from(10, 4), new Piece(Dynasty.CHO, PieceType.GUARD));
 
         // when
         List<Position> positions = pieceType.moveStrategy()
@@ -50,7 +50,7 @@ class GeneralMoveStrategyTest {
         // given
         Map<Position, Piece> board = new HashMap<>();
         PieceType pieceType = PieceType.GENERAL;
-        Dynasty dynasty = Dynasty.CHO;
+        Dynasty dynasty = Dynasty.HAN;
         Position from = Position.from(8, 6);
         board.put(from, new Piece(dynasty, pieceType));
 
