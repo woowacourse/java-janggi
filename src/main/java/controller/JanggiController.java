@@ -1,10 +1,10 @@
 package controller;
 
-import domain.country.CountryType;
 import domain.Position;
-import domain.board.TableSetting;
 import domain.board.Board;
 import domain.board.BoardFactory;
+import domain.board.TableSetting;
+import domain.country.CountryType;
 import java.util.List;
 import view.CountryFormatter;
 import view.InputParser;
@@ -39,6 +39,7 @@ public class JanggiController {
         while (true) {
             CountryType countryType = playOrders.get(turnIndex);
             outputView.printTurn(CountryFormatter.from(countryType));
+            outputView.printScore(board.getScores());
             outputView.printBoard(board.getPieceInfos());
 
             movePiece(board, countryType);

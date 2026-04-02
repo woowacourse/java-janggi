@@ -5,6 +5,7 @@ import static domain.Position.X_MAXIMUM_POSITION;
 import static domain.Position.Y_MAXIMUM_POSITION;
 
 import domain.Position;
+import domain.country.CountryType;
 import domain.piece.PieceInfo;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ public class OutputView {
     private static final String X_POSITION_START_BLANK = "   ";
 
     private static final String PRINT_TURN = "%s의 차례입니다.";
+    private static final String PRINT_SCORE = "%s: %.1f점";
 
     public void printTurn(String countryName) {
         System.out.printf(LINE_SEPARATOR + PRINT_TURN + LINE_SEPARATOR, countryName);
@@ -54,6 +56,13 @@ public class OutputView {
     private void printXPositionNumbers() {
         System.out.print(X_POSITION_START_BLANK);
         System.out.println(String.join(STATE_SEPARATOR, POSITION_NUMBERS.subList(0, 9)));
+    }
+
+    public void printScore(Map<CountryType, Double> scores) {
+        System.out.printf(LINE_SEPARATOR + PRINT_SCORE + LINE_SEPARATOR, CountryFormatter.from(CountryType.CHO),
+                scores.get(CountryType.CHO));
+        System.out.printf(PRINT_SCORE + LINE_SEPARATOR, CountryFormatter.from(CountryType.HAN),
+                scores.get(CountryType.HAN));
     }
 
     public void printErrorMessage(String message) {
