@@ -16,7 +16,7 @@ public class Player {
     }
 
     public void validateAlly(Piece piece) {
-        if (piece.getSide() != side) {
+        if (!piece.getSide().equals(side)) {
             throw new IllegalArgumentException("상대방의 기물은 움직일 수 없습니다.");
         }
     }
