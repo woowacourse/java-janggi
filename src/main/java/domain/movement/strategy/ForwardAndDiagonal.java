@@ -38,7 +38,7 @@ public class ForwardAndDiagonal implements MoveStrategy {
         intersections.add(from);
 
         Intersection currentIntersection = vector.next(from);
-        for (int i = 0; i < diagonalMovementAmount.amount(); i++) {
+        for (int length = 1; diagonalMovementAmount.isGreaterOrEqual(length); length++) {
             intersections.add(currentIntersection);
             currentIntersection = vector.next(currentIntersection);
         }

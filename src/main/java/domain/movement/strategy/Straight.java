@@ -23,7 +23,7 @@ public class Straight implements MoveStrategy {
     ) {
         List<Route> routes = new ArrayList<>();
 
-        for (int length = 1; length <= moveAmount.amount() && isInBoard(from, length, vector); length++) {
+        for (int length = 1; moveAmount.isGreaterOrEqual(length) && isInBoard(from, length, vector); length++) {
             routes.add(createLinearRoute(from, length, vector));
         }
 

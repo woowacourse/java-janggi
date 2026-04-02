@@ -15,4 +15,8 @@ public record MoveAmount(
     public static MoveAmount maximum() {
         return new MoveAmount(Integer.MAX_VALUE);
     }
+
+    public boolean isGreaterOrEqual(int comparisonAmount) {
+        return this.amount >= comparisonAmount;
+    }
 }
