@@ -77,6 +77,7 @@ public class JanggiController {
 
     private void findCanMovePosition(Game game, Position from) {
         List<Position> positions = game.canMovePosition(from);
+        outputView.printBoard(BoardDto.canMovePositionsFrom(game.boardMap(), positions));
         outputView.printCanMovePositions(PositionDto.fromPositions(positions));
     }
 

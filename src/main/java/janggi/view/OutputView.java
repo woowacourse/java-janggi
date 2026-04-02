@@ -18,7 +18,7 @@ public class OutputView {
     private static final String ANSI_RESET = "\u001B[0m";
     private static final String ERROR_PREFIX = "[ERROR] ";
 
-    private static final List<String> FULL_WIDTH_NUMBERS = List.of("-1", "１","２", "３", "４", "５", "６", "７", "８", "９", "０");
+    private static final List<String> FULL_WIDTH_NUMBERS = List.of("-1", "１","２", "３", "４", "５", "６", "７", "８", "９", "⑩");
 
     public void printBoard(BoardDto boardDto) {
         printRow();
@@ -62,7 +62,6 @@ public class OutputView {
             stringJoiner.add(" (" + position.row() + "," + position.column() + ")");
         }
         System.out.println(stringJoiner + "입니다.");
-        System.out.println();
     }
 
     public void printErrorMessage(String errorMessage) {
