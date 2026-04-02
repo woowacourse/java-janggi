@@ -1,5 +1,8 @@
 package model.coordinate;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static model.board.Board.BOARD_COL;
 import static model.board.Board.BOARD_ROW;
 

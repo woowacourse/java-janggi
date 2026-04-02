@@ -9,12 +9,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class Board {
+public record Board(Map<Position, Piece> board) {
 
     public static final int BOARD_ROW = 10;
     public static final int BOARD_COL = 9;
-
-    private final Map<Position, Piece> board;
 
     public Board(Map<Position, Piece> board) {
         this.board = new HashMap<>(board);
@@ -49,6 +47,7 @@ public class Board {
         }
     }
 
+    @Override
     public Map<Position, Piece> board() {
         return Map.copyOf(board);
     }

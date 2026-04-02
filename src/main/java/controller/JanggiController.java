@@ -39,30 +39,6 @@ public class JanggiController {
         );
     }
 
-    public void run() {
-        List<JanggiFormation> formations = Arrays.asList(JanggiFormation.values());
-        JanggiFormation hanFormation = retry(() -> inputView.readFormationNumber(HAN, formations), processError());
-        JanggiFormation choFormation = retry(() -> inputView.readFormationNumber(CHO, formations), processError());
-
-        Map<Position, Piece> pieceByFormation = FormationFactory.generateFormation(hanFormation, choFormation);
-        Board board = BoardFactory.generatePieces(pieceByFormation);
-        outputView.displayBoard(board.board());
-
-        Janggi janggi = new Janggi(board);
-        processCommand(janggi);
-    }
-
-    private void processCommand(Janggi janggi) {
-        int turn = 0;
-        while (!janggi.isFinished() && turn++ < MAX_RETRY) {
-            CommandType commandType = retry(inputView::readCommand, processError());
-            retry(() -> commandMap.get(commandType).accept(janggi), processError());
-        }
-        if (!janggi.isFinished()) {
-            handleScore(janggi);
-        }
-    }
-
     private void handleMove(Janggi janggi) {
         Team currentTurn = janggi.getTurn();
 
@@ -90,6 +66,30 @@ public class JanggiController {
     private void handleQuit(Janggi janggi) {
         janggi.quit();
         outputView.displaySaved();
+    }
+
+    public void run() {
+        List<JanggiFormation> formations = Arrays.asList(JanggiFormation.values());
+        JanggiFormation hanFormation = retry(() -> inputView.readFormationNumber(HAN, formations), processError());
+        JanggiFormation choFormation = retry(() -> inputView.readFormationNumber(CHO, formations), processError());
+
+        Map<Position, Piece> pieceByFormation = FormationFactory.generateFormation(hanFormation, choFormation);
+        Board board = BoardFactory.generatePieces(pieceByFormation);
+        outputView.displayBoard(board.board());
+
+        Janggi janggi = new Janggi(board);
+        processCommand(janggi);
+    }
+
+    private void processCommand(Janggi janggi) {
+        int turn = 0;
+        while (!janggi.isFinished() && turn++ < MAX_RETRY) {
+            CommandType commandType = retry(inputView::readCommand, processError());
+            retry(() -> commandMap.get(commandType).accept(janggi), processError());
+        }
+        if (!janggi.isFinished()) {
+            handleScore(janggi);
+        }
     }
 
     private Consumer<IllegalArgumentException> processError() {

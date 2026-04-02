@@ -2,6 +2,7 @@ package model.piece;
 
 import model.Team;
 import model.coordinate.Position;
+import model.piece.strategy.reach.ReachStrategy;
 
 import java.util.List;
 
@@ -17,8 +18,6 @@ public abstract class Piece {
 
     public abstract List<Position> extractPath(Position current, Position next);
 
-    protected abstract boolean isReachable(int rowDiff, int colDiff);
-
     public boolean isSameTeam(Piece other) {
         return !isEnemy(other.team);
     }
@@ -30,19 +29,21 @@ public abstract class Piece {
     public boolean canMove(Position current, Position next) {
         int rowDiff = next.calculateRowDiff(current);
         int colDiff = next.calculateColDiff(current);
-        return isReachable(rowDiff, colDiff);
+        return determineReachStrategy(current, next).isReachable(rowDiff, colDiff);
     }
+
+    protected abstract ReachStrategy determineReachStrategy(Position current, Position next);
 
     public boolean isCho() {
         return getTeam() == Team.CHO;
     }
 
-    public boolean isCannon() {
-        return getType() == PieceType.CANNON;
-    }
-
     public Team getTeam() {
         return team;
+    }
+
+    public boolean isCannon() {
+        return getType() == PieceType.CANNON;
     }
 
     public PieceType getType() {

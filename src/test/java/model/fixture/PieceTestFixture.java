@@ -170,6 +170,40 @@ public class PieceTestFixture {
     }
 
     // ============================
+    // 궁성 내 兵/卒 대각선 이동
+    // ============================
+
+    // 초나라 졸: 전진이 row- 방향, 적 궁성은 한나라 궁성 (0,3)~(2,5)
+    public static Stream<Arguments> 초나라_졸_궁성_대각선_전진_가능() {
+        return Stream.of(
+                Arguments.of(new Position(2, 3), new Position(1, 4)),  // 좌하 꼭짓점 → 중심 (전진 대각선)
+                Arguments.of(new Position(2, 5), new Position(1, 4))   // 우하 꼭짓점 → 중심 (전진 대각선)
+        );
+    }
+
+    public static Stream<Arguments> 초나라_졸_궁성_대각선_후진_불가() {
+        return Stream.of(
+                Arguments.of(new Position(1, 4), new Position(2, 3)),  // 중심 → 좌하 (후퇴 대각선)
+                Arguments.of(new Position(1, 4), new Position(2, 5))   // 중심 → 우하 (후퇴 대각선)
+        );
+    }
+
+    // 한나라 병: 전진이 row+ 방향, 적 궁성은 초나라 궁성 (7,3)~(9,5)
+    public static Stream<Arguments> 한나라_병_궁성_대각선_전진_가능() {
+        return Stream.of(
+                Arguments.of(new Position(7, 3), new Position(8, 4)),  // 좌상 꼭짓점 → 중심 (전진 대각선)
+                Arguments.of(new Position(7, 5), new Position(8, 4))   // 우상 꼭짓점 → 중심 (전진 대각선)
+        );
+    }
+
+    public static Stream<Arguments> 한나라_병_궁성_대각선_후진_불가() {
+        return Stream.of(
+                Arguments.of(new Position(8, 4), new Position(7, 3)),  // 중심 → 좌상 (후퇴 대각선)
+                Arguments.of(new Position(8, 4), new Position(7, 5))   // 중심 → 우상 (후퇴 대각선)
+        );
+    }
+
+    // ============================
     // 궁성 내 車 대각선 이동
     // ============================
 

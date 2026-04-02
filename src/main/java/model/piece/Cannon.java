@@ -2,12 +2,19 @@ package model.piece;
 
 import model.Team;
 import model.coordinate.Direction;
+import model.coordinate.PalacePositions;
 import model.coordinate.Position;
+import model.piece.strategy.reach.LinearReach;
+import model.piece.strategy.reach.PalaceLinearReach;
+import model.piece.strategy.reach.ReachStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Cannon extends Piece {
+
+    private static final ReachStrategy DEFAULT = new LinearReach();
+    private static final ReachStrategy PALACE = new PalaceLinearReach();
 
     public Cannon(Team team) {
         super(team, PieceType.CANNON);
@@ -26,9 +33,10 @@ public class Cannon extends Piece {
     }
 
     @Override
-    protected boolean isReachable(int rowDiff, int colDiff) {
-        int absRowDiff = Math.abs(rowDiff);
-        int absColDiff = Math.abs(colDiff);
-        return (absColDiff >= 1 && absRowDiff == 0) || (absColDiff == 0 && absRowDiff >= 1);
+    protected ReachStrategy determineReachStrategy(Position current, Position next) {
+        if (PalacePositions.onPalaceDiagonal(current) && PalacePositions.onPalaceDiagonal(next)) {
+            return PALACE;
+        }
+        return DEFAULT;
     }
 }

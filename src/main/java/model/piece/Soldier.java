@@ -1,14 +1,34 @@
 package model.piece;
 
 import model.Team;
+import model.coordinate.PalacePositions;
 import model.coordinate.Position;
+import model.piece.strategy.reach.PalaceSoldierReach;
+import model.piece.strategy.reach.ReachStrategy;
+import model.piece.strategy.reach.SoldierReach;
 
 import java.util.List;
 
 public class Soldier extends Piece {
 
+    private static final int CHO_FORWARD = -1;
+    private static final int HAN_FORWARD = 1;
+
+    private final ReachStrategy defaultReach;
+    private final ReachStrategy palaceReach;
+
     public Soldier(Team team) {
         super(team, PieceType.SOLDIER);
+        int forward = resolveForward(team);
+        this.defaultReach = new SoldierReach(forward);
+        this.palaceReach = new PalaceSoldierReach(forward);
+    }
+
+    private static int resolveForward(Team team) {
+        if (team == Team.CHO) {
+            return CHO_FORWARD;
+        }
+        return HAN_FORWARD;
     }
 
     @Override
@@ -17,11 +37,10 @@ public class Soldier extends Piece {
     }
 
     @Override
-    protected boolean isReachable(int rowDiff, int colDiff) {
-        int absColDiff = Math.abs(colDiff);
-        if (isCho()) {
-            return (rowDiff == -1 && absColDiff == 0) || (rowDiff == 0 && absColDiff == 1);
+    protected ReachStrategy determineReachStrategy(Position current, Position next) {
+        if (PalacePositions.onPalaceDiagonal(current) && PalacePositions.onPalaceDiagonal(next)) {
+            return palaceReach;
         }
-        return (rowDiff == 1 && absColDiff == 0) || (rowDiff == 0 && absColDiff == 1);
+        return defaultReach;
     }
 }

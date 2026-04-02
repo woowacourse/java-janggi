@@ -133,8 +133,8 @@ public class CannonTest {
     void 포가_궁성_대각선으로_기물을_넘어_이동한다() {
         // given
         Map<Position, Piece> pieces = new HashMap<>();
-        pieces.put(new Position(0, 3), new Cannon(Team.HAN));
-        pieces.put(new Position(1, 4), new Soldier(Team.CHO));  // 중심에 넘을 기물
+        pieces.put(new Position(0, 3), new Cannon(Team.CHO));
+        pieces.put(new Position(1, 4), new Soldier(Team.HAN));  // 중심에 넘을 기물
         Board board = new Board(pieces);
         Janggi janggi = new Janggi(board);
 
@@ -149,7 +149,7 @@ public class CannonTest {
     void 포가_궁성_대각선에서_넘을_기물이_없으면_예외가_발생한다() {
         // given
         Map<Position, Piece> pieces = new HashMap<>();
-        pieces.put(new Position(0, 3), new Cannon(Team.HAN));
+        pieces.put(new Position(0, 3), new Cannon(Team.CHO));
         Board board = new Board(pieces);
         Janggi janggi = new Janggi(board);
 

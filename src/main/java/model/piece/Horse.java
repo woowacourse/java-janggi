@@ -3,14 +3,23 @@ package model.piece;
 import model.Team;
 import model.coordinate.Direction;
 import model.coordinate.Position;
+import model.piece.strategy.reach.AnimalReach;
+import model.piece.strategy.reach.ReachStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Horse extends Piece {
 
+    private static final ReachStrategy DEFAULT = new AnimalReach(1);
+
     public Horse(Team team) {
         super(team, PieceType.HORSE);
+    }
+
+    @Override
+    protected ReachStrategy determineReachStrategy(Position current, Position next) {
+        return DEFAULT;
     }
 
     @Override
@@ -23,12 +32,5 @@ public class Horse extends Piece {
             path.add(step);
         }
         return path;
-    }
-
-    @Override
-    protected boolean isReachable(int rowDiff, int colDiff) {
-        int absRowDiff = Math.abs(rowDiff);
-        int absColDiff = Math.abs(colDiff);
-        return (absColDiff == 1 && absRowDiff == 2) || (absColDiff == 2 && absRowDiff == 1);
     }
 }
