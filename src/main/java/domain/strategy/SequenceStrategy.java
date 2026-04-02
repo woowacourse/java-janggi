@@ -3,7 +3,7 @@ package domain.strategy;
 import domain.Position;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 public class SequenceStrategy implements MovementStrategy {
     private final List<List<Direction>> sequences;
@@ -16,11 +16,11 @@ public class SequenceStrategy implements MovementStrategy {
     public List<Path> generatePaths(Position current) {
         return sequences.stream()
                 .map(sequence -> createPath(current, sequence))
-                .filter(path -> !path.isEmpty())
+                .flatMap(Optional::stream)
                 .toList();
     }
 
-    private Path createPath(Position current, List<Direction> sequence) {
+    private Optional<Path> createPath(Position current, List<Direction> sequence) {
         List<Position> positions = new ArrayList<>();
         Position position = current;
         int index = 0;
@@ -30,9 +30,9 @@ public class SequenceStrategy implements MovementStrategy {
             index++;
         }
         if (isInvalidPath(sequence, index)) {
-            return new Path(List.of());
+            return Optional.empty();
         }
-        return new Path(positions);
+        return Optional.of(new Path(positions));
     }
 
     private boolean isInvalidPath(List<Direction> sequence, int index) {
