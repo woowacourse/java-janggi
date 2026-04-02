@@ -25,9 +25,6 @@ public class Piece {
     }
 
     public boolean isSameSide(Piece other) {
-        if (other == null) {
-            return false;
-        }
         return this.side == other.side;
     }
 
