@@ -14,10 +14,6 @@ public record Piece(
         return pieceType.moveStrategy().findMovablePositions(board, from, dynasty);
     }
 
-    public PieceType pieceType() {
-        return pieceType;
-    }
-
     public boolean isAlly(Dynasty dynasty) {
         return this.dynasty.equals(dynasty);
     }

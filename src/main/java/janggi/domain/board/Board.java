@@ -68,7 +68,7 @@ public class Board {
     public boolean isGeneralCaughtByDynasty(Dynasty dynasty) {
         for (Position position : board.keySet()) {
             Piece piece = board.get(position);
-            if(GENERAL.equals(piece.pieceType()) && piece.dynasty().equals(dynasty)) {
+            if(GENERAL.equals(piece.pieceType()) && piece.isAlly(dynasty)) {
                 return false;
             }
         }
