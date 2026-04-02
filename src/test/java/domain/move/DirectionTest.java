@@ -12,6 +12,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static domain.move.directions.Vector.UP;
+
 class DirectionTest {
 
     @Test
@@ -29,7 +31,7 @@ class DirectionTest {
     @Test
     @DisplayName("주어진 경로의 좌표들을 최종적으로 반환하는지 확인한다.")
     void returnAllPointsAlongDestination(){
-        Direction direction1 = new Direction(List.of(Vector.UP, Vector.LEFT_UP));
+        Direction direction1 = new Direction(List.of(UP, Vector.LEFT_UP));
         Direction direction2 = new Direction(List.of(Vector.DOWN, Vector.RIGHT_DOWN));
         Point start = new Point(0, 0);
         Point end = new Point(2, 1);
@@ -52,12 +54,12 @@ class DirectionTest {
     void removeBackWordDirectionOfCho() {
         // given
         Direction allVector = new Direction(List.of(
-                Vector.UP, Vector.DOWN, Vector.LEFT, Vector.RIGHT,
+                UP, Vector.DOWN, Vector.LEFT, Vector.RIGHT,
                 Vector.LEFT_UP, Vector.LEFT_DOWN, Vector.RIGHT_UP, Vector.RIGHT_DOWN
         ));
 
         Direction expected = new Direction(List.of(
-                Vector.UP, Vector.LEFT, Vector.RIGHT,
+                UP, Vector.LEFT, Vector.RIGHT,
                 Vector.LEFT_UP, Vector.RIGHT_UP
         ));
 
@@ -74,7 +76,7 @@ class DirectionTest {
     void removeForwardDirectionOfHan() {
         // given
         Direction allVector = new Direction(List.of(
-                Vector.UP, Vector.DOWN, Vector.LEFT, Vector.RIGHT,
+                UP, Vector.DOWN, Vector.LEFT, Vector.RIGHT,
                 Vector.LEFT_UP, Vector.LEFT_DOWN, Vector.RIGHT_UP, Vector.RIGHT_DOWN
         ));
 
@@ -88,6 +90,30 @@ class DirectionTest {
 
         // then
         Assertions.assertThat(forward)
+                .isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("이동 방향은 누적하여 생성할 수 있다.")
+    void directionsCanGenerateByCumulative() {
+        // given
+        Directions expected = new Directions(List.of(
+                new Direction(List.of(UP)),
+                new Direction(List.of(UP, UP)),
+                new Direction(List.of(UP, UP, UP)),
+                new Direction(List.of(UP, UP, UP, UP)),
+                new Direction(List.of(UP, UP, UP, UP, UP)),
+                new Direction(List.of(UP, UP, UP, UP, UP, UP)),
+                new Direction(List.of(UP, UP, UP, UP, UP, UP, UP)),
+                new Direction(List.of(UP, UP, UP, UP, UP, UP, UP, UP)),
+                new Direction(List.of(UP, UP, UP, UP, UP, UP, UP, UP, UP))
+        ));
+
+        // when
+        Directions actual = Directions.cumulative(UP, 9);
+
+        // then
+        Assertions.assertThat(actual)
                 .isEqualTo(expected);
     }
 
