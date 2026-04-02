@@ -74,11 +74,31 @@ public class Point {
         if (!isInSamePalace(to)) {
             return false;
         }
-        int pathX = abs(to.getPathX(this));
-        int pathY = abs(to.getPathY(this));
-        return (pathX == 1 && pathY == 1)
-                || (pathX == 2 && pathY == 2);
+        return isChoPalaceDiagonalPair(to) || isHanPalaceDiagonalPair(to);
     }
+
+    private boolean isChoPalaceDiagonalPair(Point to) {
+        return isSamePointPair(to, Point.of(3, 0), Point.of(4, 1))
+                || isSamePointPair(to, Point.of(4, 1), Point.of(5, 2))
+                || isSamePointPair(to, Point.of(5, 0), Point.of(4, 1))
+                || isSamePointPair(to, Point.of(4, 1), Point.of(3, 2))
+                || isSamePointPair(to, Point.of(3, 0), Point.of(5, 2))
+                || isSamePointPair(to, Point.of(5, 0), Point.of(3, 2));
+    }
+
+    private boolean isHanPalaceDiagonalPair(Point to) {
+        return isSamePointPair(to, Point.of(3, 7), Point.of(4, 8))
+                || isSamePointPair(to, Point.of(4, 8), Point.of(5, 9))
+                || isSamePointPair(to, Point.of(5, 7), Point.of(4, 8))
+                || isSamePointPair(to, Point.of(4, 8), Point.of(3, 9))
+                || isSamePointPair(to, Point.of(3, 7), Point.of(5, 9))
+                || isSamePointPair(to, Point.of(5, 7), Point.of(3, 9));
+    }
+
+    private boolean isSamePointPair(Point to, Point first, Point second) {
+        return (this == first && to == second) || (this == second && to == first);
+    }
+
 
     private boolean isInChoPalace() {
         return isInRange(CHO_PALACE_MIN_Y, CHO_PALACE_MAX_Y);
