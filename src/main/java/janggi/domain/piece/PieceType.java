@@ -2,6 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.board.BoardInfo;
 import janggi.domain.board.Direction;
+import janggi.domain.board.PalacePosition;
 import janggi.domain.board.Position;
 import janggi.domain.game.Side;
 import janggi.domain.route.Destinations;
@@ -15,10 +16,6 @@ import java.util.EnumSet;
 import java.util.function.Function;
 
 public enum PieceType {
-
-    //    TODO 사이클 2 에서 궁성 구현 시
-    //    PALACE(EnumSet.allOf(Direction.class), new StepMoveStrategy()),
-    //    GUARD(EnumSet.allOf(Direction.class), new StepMoveStrategy()),
     PALACE(side -> Direction.cardinalDirections(), new StepMoveStrategy()),
     GUARD(side -> Direction.cardinalDirections(), new StepMoveStrategy()),
     CHARIOT(side -> Direction.cardinalDirections(), new SlideMoveStrategy()),
@@ -37,6 +34,8 @@ public enum PieceType {
     }
 
     public Destinations determineDestinations(Position currentPosition, Side side, BoardInfo boardInfo) {
-        return moveStrategy.findDestinations(currentPosition, directionProvider.apply(side), boardInfo);
+        EnumSet<Direction> directions = directionProvider.apply(side);
+        directions.addAll(PalacePosition.palaceDirections(currentPosition));
+        return moveStrategy.findDestinations(currentPosition, directions, boardInfo);
     }
 }
