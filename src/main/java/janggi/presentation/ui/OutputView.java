@@ -11,6 +11,10 @@ public class OutputView {
             Team.CHO, "초"
     );
 
+    public void printCurrentTurn(Team team) {
+        System.out.println("현재 " + DISPLAY_NAME.get(team) + "나라의 차례입니다.");
+    }
+
     public void printWinner(Team winner) {
         System.out.println("승자는 " + DISPLAY_NAME.get(winner));
     }

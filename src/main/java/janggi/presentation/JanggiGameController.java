@@ -43,7 +43,8 @@ public class JanggiGameController {
     private void playGame(Long roomId) {
         try {
             Team team = service.currentTurn();
-            MoveCommand points = inputView.readPoints(team);
+            outputView.printCurrentTurn(team);
+            MoveCommand points = inputView.readPoints();
             service.play(roomId, points.from(), points.to());
             outputView.printGameStatus(service.getBoardStatus());
             outputView.printCurrentScore(service.getHanScore(), service.getChoScore());
