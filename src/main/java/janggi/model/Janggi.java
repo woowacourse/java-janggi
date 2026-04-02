@@ -3,8 +3,8 @@ package janggi.model;
 import janggi.model.board.Board;
 import janggi.model.piece.Piece;
 import janggi.model.position.absolute.Position;
-import janggi.model.turn.ChoTurn;
 import janggi.model.turn.Turn;
+import janggi.model.turn.playing.ChoTurn;
 import java.util.Map;
 
 public class Janggi {

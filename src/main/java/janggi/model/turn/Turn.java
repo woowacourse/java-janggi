@@ -16,4 +16,6 @@ public interface Turn {
     boolean isChoTurn();
 
     Team getWinner();
+
+    int getTotalScoreOf(Team team);
 }

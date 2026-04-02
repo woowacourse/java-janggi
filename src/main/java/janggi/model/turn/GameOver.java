@@ -38,4 +38,12 @@ public class GameOver implements Turn {
     public Team getWinner() {
         return board.winner();
     }
+
+    @Override
+    public int getTotalScoreOf(Team team) {
+        return board.getBoard().values().stream()
+                .filter(value -> value.isSameTeam(team))
+                .mapToInt(value -> value.getPieceType().getScore())
+                .sum();
+    }
 }
