@@ -45,11 +45,6 @@ public class EmptyPiece implements Piece {
     }
 
     @Override
-    public boolean isCannon() {
-        return false;
-    }
-
-    @Override
     public String toString() {
         return PieceType.EMPTY.name();
     }

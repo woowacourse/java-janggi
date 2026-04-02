@@ -34,11 +34,6 @@ public abstract class ActivePiece implements Piece {
         }
     }
 
-    @Override
-    public boolean isCannon() {
-        return false;
-    }
-
     protected int forwardDirection() {
         return team.forwardRowDirection();
     }

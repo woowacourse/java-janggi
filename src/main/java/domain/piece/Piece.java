@@ -15,6 +15,4 @@ public interface Piece {
     boolean isAlly(Piece other);
 
     String display(PieceAppearance colorizer);
-
-    boolean isCannon();
 }
