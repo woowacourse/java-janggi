@@ -2,6 +2,7 @@ package domain;
 
 import domain.strategy.Direction;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -41,6 +42,19 @@ public class Position {
 
     public boolean canMove(Direction direction) {
         return isWithinRange(this.x + direction.getDx(), this.y + direction.getDy());
+    }
+
+    public boolean canMove(List<Direction> sequence) {
+        if (sequence.isEmpty()) {
+            return true;
+        }
+
+        Direction direction = sequence.getFirst();
+        if (!canMove(direction)) {
+            return false;
+        }
+
+        return move(direction).canMove(sequence.subList(1, sequence.size()));
     }
 
     public Position move(Direction direction) {

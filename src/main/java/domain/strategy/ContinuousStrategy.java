@@ -15,8 +15,8 @@ public class ContinuousStrategy implements MovementStrategy {
     @Override
     public List<Path> generatePaths(Position current) {
         return directions.stream()
+                .filter(current::canMove)
                 .map(direction -> createPath(current, direction))
-                .filter(path -> !path.isEmpty())
                 .toList();
     }
 
