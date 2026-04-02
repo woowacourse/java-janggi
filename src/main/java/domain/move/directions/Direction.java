@@ -1,9 +1,11 @@
 package domain.move.directions;
 
+import domain.piece.Team;
 import domain.point.Point;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Direction {
 
@@ -32,6 +34,25 @@ public class Direction {
             points.add(current);
         }
         return points;
+    }
+
+    public Direction toForward(Team team) {
+        List<Vector> forwardVector = vectors.stream()
+                .filter(vector -> vector.isForwardFor(team))
+                .toList();
+        return new Direction(forwardVector);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Direction direction = (Direction) o;
+        return Objects.equals(vectors, direction.vectors);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(vectors);
     }
 
 }

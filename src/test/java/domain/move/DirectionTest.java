@@ -4,6 +4,7 @@ import domain.intersection.Intersection;
 import domain.move.directions.Direction;
 import domain.move.directions.Directions;
 import domain.move.directions.Vector;
+import domain.piece.Team;
 import domain.point.Point;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -46,5 +47,48 @@ class DirectionTest {
         );
     }
 
+    @Test
+    @DisplayName("초의 전진 방향에서 아랫방향은 제거한다.")
+    void removeBackWordDirectionOfCho() {
+        // given
+        Direction allVector = new Direction(List.of(
+                Vector.UP, Vector.DOWN, Vector.LEFT, Vector.RIGHT,
+                Vector.LEFT_UP, Vector.LEFT_DOWN, Vector.RIGHT_UP, Vector.RIGHT_DOWN
+        ));
+
+        Direction expected = new Direction(List.of(
+                Vector.UP, Vector.LEFT, Vector.RIGHT,
+                Vector.LEFT_UP, Vector.RIGHT_UP
+        ));
+
+        // when
+        Direction forward = allVector.toForward(Team.CHO);
+
+        // then
+        Assertions.assertThat(forward)
+                .isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("한의 전진 방향에서 윗방향은 제거한다.")
+    void removeForwardDirectionOfHan() {
+        // given
+        Direction allVector = new Direction(List.of(
+                Vector.UP, Vector.DOWN, Vector.LEFT, Vector.RIGHT,
+                Vector.LEFT_UP, Vector.LEFT_DOWN, Vector.RIGHT_UP, Vector.RIGHT_DOWN
+        ));
+
+        Direction expected = new Direction(List.of(
+                Vector.DOWN, Vector.LEFT, Vector.RIGHT,
+                Vector.LEFT_DOWN, Vector.RIGHT_DOWN
+        ));
+
+        // when
+        Direction forward = allVector.toForward(Team.HAN);
+
+        // then
+        Assertions.assertThat(forward)
+                .isEqualTo(expected);
+    }
 
 }
