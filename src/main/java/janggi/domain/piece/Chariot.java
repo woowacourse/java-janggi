@@ -2,9 +2,8 @@ package janggi.domain.piece;
 
 import janggi.domain.Team;
 import janggi.domain.path.Path;
+import janggi.domain.path.PieceOnPath;
 import janggi.domain.position.Position;
-
-import java.util.List;
 
 public class Chariot extends MoveablePiece {
 
@@ -29,7 +28,7 @@ public class Chariot extends MoveablePiece {
     }
 
     @Override
-    public boolean canMove(List<Piece> piecesOnPath, Piece endPiece) {
+    public boolean canMove(PieceOnPath piecesOnPath, Piece endPiece) {
         validateAllPieceEmpty(piecesOnPath);
         validateSameTeam(endPiece);
         return true;
@@ -54,7 +53,7 @@ public class Chariot extends MoveablePiece {
         return path;
     }
 
-    private void validateAllPieceEmpty(List<Piece> piecesOnPath) {
+    private void validateAllPieceEmpty(PieceOnPath piecesOnPath) {
         if (!piecesOnPath.stream().allMatch(Piece::isEmptyPiece)) {
             throw new IllegalArgumentException("[ERROR] 차의 이동 경로에 기물이 있을 수 없습니다.");
         }

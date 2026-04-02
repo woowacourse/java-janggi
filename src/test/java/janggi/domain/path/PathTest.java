@@ -16,5 +16,4 @@ class PathTest {
 
         assertThat(path).containsExactly(position);
     }
-
 }

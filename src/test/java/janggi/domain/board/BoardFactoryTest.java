@@ -1,20 +1,14 @@
 package janggi.domain.board;
 
+import janggi.domain.Team;
+import janggi.domain.piece.*;
+import janggi.domain.position.Position;
+import org.junit.jupiter.api.Test;
+
+import java.util.Map;
+
 import static janggi.domain.board.PieceSetup.*;
 import static org.assertj.core.api.Assertions.assertThat;
-
-import janggi.domain.piece.Piece;
-import janggi.domain.Team;
-import janggi.domain.piece.Cannon;
-import janggi.domain.piece.Chariot;
-import janggi.domain.piece.Elephant;
-import janggi.domain.piece.General;
-import janggi.domain.piece.Guard;
-import janggi.domain.piece.Horse;
-import janggi.domain.piece.Soldier;
-import janggi.domain.position.Position;
-import java.util.Map;
-import org.junit.jupiter.api.Test;
 
 public class BoardFactoryTest {
 

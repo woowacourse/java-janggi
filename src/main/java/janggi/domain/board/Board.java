@@ -2,13 +2,12 @@ package janggi.domain.board;
 
 import janggi.domain.Team;
 import janggi.domain.path.Path;
+import janggi.domain.path.PieceOnPath;
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class Board {
@@ -23,7 +22,7 @@ public class Board {
         validate(from, to, currentTeam);
         Piece fromPiece = piecesByPosition.get(from);
         Path path = fromPiece.getPath(from, to);
-        List<Piece> pieceOnPath = getPiecesOnPath(path);
+        PieceOnPath pieceOnPath = getPiecesOnPath(path);
         if (fromPiece.canMove(pieceOnPath, piecesByPosition.get(to))) {
             piecesByPosition.put(from, new EmptyPiece());
             piecesByPosition.put(to, fromPiece);
@@ -40,8 +39,8 @@ public class Board {
         return Map.copyOf(piecesByPosition);
     }
 
-    private List<Piece> getPiecesOnPath(Path path) {
-        List<Piece> pieceOnPath = new ArrayList<>();
+    private PieceOnPath getPiecesOnPath(Path path) {
+        PieceOnPath pieceOnPath = new PieceOnPath();
         for (Position position : path) {
             pieceOnPath.add(piecesByPosition.get(position));
         }

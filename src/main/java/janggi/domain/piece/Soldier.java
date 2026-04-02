@@ -2,8 +2,8 @@ package janggi.domain.piece;
 
 import janggi.domain.Team;
 import janggi.domain.path.Path;
+import janggi.domain.path.PieceOnPath;
 import janggi.domain.position.Position;
-import java.util.List;
 
 public class Soldier extends MoveablePiece {
     private static final int MAX_MOVE_DISTANCE = 1;
@@ -30,7 +30,7 @@ public class Soldier extends MoveablePiece {
     }
 
     @Override
-    public boolean canMove(List<Piece> piecesOnPath, Piece endPiece) {
+    public boolean canMove(PieceOnPath piecesOnPath, Piece endPiece) {
         validateSameTeam(endPiece);
         return true;
     }

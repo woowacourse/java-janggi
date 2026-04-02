@@ -1,14 +1,14 @@
 package janggi.domain.piece;
 
+import janggi.domain.Team;
+import janggi.domain.path.Path;
+import janggi.domain.path.PieceOnPath;
+import janggi.domain.position.Position;
+import org.junit.jupiter.api.Test;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
-
-import janggi.domain.Team;
-import janggi.domain.path.Path;
-import janggi.domain.position.Position;
-import java.util.List;
-import org.junit.jupiter.api.Test;
 
 public class CannonTest {
 
@@ -45,8 +45,11 @@ public class CannonTest {
     @Test
     void 경로에_존재하는_기물_중_빈_기물이_아닌_기물이_2개_이상이면_예외가_발생한다() {
         Cannon cannon = new Cannon(Team.HAN);
+        PieceOnPath pieceOnPath = new PieceOnPath();
+        pieceOnPath.add(new Soldier(Team.HAN));
+        pieceOnPath.add(new Elephant(Team.HAN));
 
-        assertThatThrownBy(() -> cannon.canMove(List.of(new Soldier(Team.HAN), new Elephant(Team.HAN)), new EmptyPiece()))
+        assertThatThrownBy(() -> cannon.canMove(pieceOnPath, new EmptyPiece()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 포는 오직 1개의 기물을 뛰어넘고 이동할 수 있습니다.");
     }
@@ -54,8 +57,11 @@ public class CannonTest {
     @Test
     void 경로에_존재하는_기물이_모두_빈_기물이면_예외가_발생한다() {
         Cannon cannon = new Cannon(Team.HAN);
+        PieceOnPath pieceOnPath = new PieceOnPath();
+        pieceOnPath.add(new EmptyPiece());
+        pieceOnPath.add(new EmptyPiece());
 
-        assertThatThrownBy(() -> cannon.canMove(List.of(new EmptyPiece(), new EmptyPiece()), new EmptyPiece()))
+        assertThatThrownBy(() -> cannon.canMove(pieceOnPath, new EmptyPiece()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 포는 오직 1개의 기물을 뛰어넘고 이동할 수 있습니다.");
     }
@@ -64,7 +70,7 @@ public class CannonTest {
     void 오직_한_칸만_이동하면_예외가_발생한다() {
         Cannon cannon = new Cannon(Team.HAN);
 
-        assertThatThrownBy(() -> cannon.canMove(List.of(), new EmptyPiece()))
+        assertThatThrownBy(() -> cannon.canMove(new PieceOnPath(), new EmptyPiece()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 포는 오직 1개의 기물을 뛰어넘고 이동할 수 있습니다.");
     }
@@ -72,8 +78,11 @@ public class CannonTest {
     @Test
     void 경로에_존재하는_기물이_포면_예외가_발생한다() {
         Cannon cannon = new Cannon(Team.HAN);
+        PieceOnPath pieceOnPath = new PieceOnPath();
+        pieceOnPath.add(new EmptyPiece());
+        pieceOnPath.add(new Cannon(Team.HAN));
 
-        assertThatThrownBy(() -> cannon.canMove(List.of(new EmptyPiece(), new Cannon(Team.HAN)), new EmptyPiece()))
+        assertThatThrownBy(() -> cannon.canMove(pieceOnPath, new EmptyPiece()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 포는 포를 뛰어넘을 수 없습니다.");
     }
@@ -81,8 +90,10 @@ public class CannonTest {
     @Test
     void 이동할_위치에_같은_팀이_있으면_예외가_발생한다() {
         Cannon cannon = new Cannon(Team.HAN);
+        PieceOnPath pieceOnPath = new PieceOnPath();
+        pieceOnPath.add(new Guard(Team.HAN));
 
-        assertThatThrownBy(() -> cannon.canMove(List.of(new Guard(Team.HAN)), new Chariot(Team.HAN)))
+        assertThatThrownBy(() -> cannon.canMove(pieceOnPath, new Chariot(Team.HAN)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 자신의 기물로 이동할 수 없습니다.");
     }
@@ -90,8 +101,11 @@ public class CannonTest {
     @Test
     void 이동할_위치에_적의_포가_있으면_예외가_발생한다() {
         Cannon cannon = new Cannon(Team.HAN);
+        PieceOnPath pieceOnPath = new PieceOnPath();
+        pieceOnPath.add(new Guard(Team.HAN));
 
-        assertThatThrownBy(() -> cannon.canMove(List.of(new Guard(Team.HAN)), new Cannon(Team.CHO)))
+
+        assertThatThrownBy(() -> cannon.canMove(pieceOnPath, new Cannon(Team.CHO)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 포는 포를 잡을 수 없습니다.");
     }
@@ -111,8 +125,11 @@ public class CannonTest {
     @Test
     void 이동_가능_확인_성공_테스트() {
         Cannon cannon = new Cannon(Team.HAN);
+        PieceOnPath pieceOnPath = new PieceOnPath();
+        pieceOnPath.add(new EmptyPiece());
+        pieceOnPath.add(new Soldier(Team.HAN));
 
-        boolean result = cannon.canMove(List.of(new EmptyPiece(), new Soldier(Team.HAN)), new Chariot(Team.CHO));
+        boolean result = cannon.canMove(pieceOnPath, new Chariot(Team.CHO));
 
         assertThat(result).isTrue();
     }

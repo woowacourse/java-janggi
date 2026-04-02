@@ -1,16 +1,14 @@
 package janggi.domain.piece;
 
+import janggi.domain.Team;
+import janggi.domain.path.Path;
+import janggi.domain.path.PieceOnPath;
+import janggi.domain.position.Position;
+import org.junit.jupiter.api.Test;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
-
-import janggi.domain.Team;
-import janggi.domain.path.Path;
-import janggi.domain.position.Position;
-
-import java.util.List;
-
-import org.junit.jupiter.api.Test;
 
 public class GeneralTest {
 
@@ -66,7 +64,7 @@ public class GeneralTest {
     void 이동할_위치에_같은_팀이_있으면_예외가_발생한다() {
         General general = new General(Team.HAN);
 
-        assertThatThrownBy(() -> general.canMove(List.of(), new Chariot(Team.HAN)))
+        assertThatThrownBy(() -> general.canMove(new PieceOnPath(), new Chariot(Team.HAN)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 자신의 기물로 이동할 수 없습니다.");
     }
@@ -75,7 +73,7 @@ public class GeneralTest {
     void 이동할_위치에_다른_팀이_있으면_참을_반환한다() {
         General general = new General(Team.HAN);
 
-        boolean result = general.canMove(List.of(), new Chariot(Team.CHO));
+        boolean result = general.canMove(new PieceOnPath(), new Chariot(Team.CHO));
 
         assertThat(result).isTrue();
     }

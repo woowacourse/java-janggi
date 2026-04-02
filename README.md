@@ -79,7 +79,7 @@ Position을 불변으로 작성하였습니다.
 Board.move(from, to)
 → piece.getPath(from, to) : Path // 경로
 → 경로의 Piece들 추출
-→ piece.canMove(List<Piece> /* 경로 */, toPiece) : void (예외)
+→ piece.canMove(PieceOfPath /* 경로 */, toPiece) : void (예외)
 → 이동 실행
 
 ### 장 / 사

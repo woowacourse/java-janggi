@@ -2,8 +2,8 @@ package janggi.domain.piece;
 
 import janggi.domain.Team;
 import janggi.domain.path.Path;
+import janggi.domain.path.PieceOnPath;
 import janggi.domain.position.Position;
-import java.util.List;
 
 public class EmptyPiece implements Piece {
 
@@ -33,7 +33,7 @@ public class EmptyPiece implements Piece {
     }
 
     @Override
-    public boolean canMove(List<Piece> piecesOnPath, Piece endPiece) {
+    public boolean canMove(PieceOnPath piecesOnPath, Piece endPiece) {
         return false;
     }
 }

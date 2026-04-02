@@ -1,13 +1,13 @@
 package janggi.domain.piece;
 
+import janggi.domain.Team;
+import janggi.domain.path.PieceOnPath;
+import janggi.domain.position.Position;
+import org.junit.jupiter.api.Test;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
-
-import janggi.domain.Team;
-import janggi.domain.position.Position;
-import java.util.List;
-import org.junit.jupiter.api.Test;
 
 public class EmptyPieceTest {
 
@@ -58,7 +58,7 @@ public class EmptyPieceTest {
     void 빈_기물에_이동할_수_있는지_확인하면_거짓을_반환한다() {
         EmptyPiece emptyPiece = new EmptyPiece();
 
-        boolean result = emptyPiece.canMove(List.of(), new EmptyPiece());
+        boolean result = emptyPiece.canMove(new PieceOnPath(), new EmptyPiece());
 
         assertThat(result).isFalse();
     }

@@ -2,8 +2,8 @@ package janggi.domain.piece;
 
 import janggi.domain.Team;
 import janggi.domain.path.Path;
+import janggi.domain.path.PieceOnPath;
 import janggi.domain.position.Position;
-import java.util.List;
 
 public class Cannon extends MoveablePiece {
 
@@ -28,7 +28,7 @@ public class Cannon extends MoveablePiece {
     }
 
     @Override
-    public boolean canMove(List<Piece> piecesOnPath, Piece endPiece) {
+    public boolean canMove(PieceOnPath piecesOnPath, Piece endPiece) {
         validateJumpOnlyOnePiece(piecesOnPath);
         validateJumpCannon(piecesOnPath);
         validateSameTeam(endPiece);
@@ -55,23 +55,23 @@ public class Cannon extends MoveablePiece {
         return path;
     }
 
+    private void validateJumpOnlyOnePiece(PieceOnPath piecesOnPath) {
+        if (piecesOnPath.stream()
+                .filter(piece -> !piece.isEmptyPiece()).count() != 1) {
+            throw new IllegalArgumentException("[ERROR] 포는 오직 1개의 기물을 뛰어넘고 이동할 수 있습니다.");
+        }
+    }
+
     private void validateEndCannon(Piece endPiece) {
         if (isSamePiece(endPiece)) {
             throw new IllegalArgumentException("[ERROR] 포는 포를 잡을 수 없습니다.");
         }
     }
 
-    private void validateJumpCannon(List<Piece> piecesOnPath) {
+    private void validateJumpCannon(PieceOnPath piecesOnPath) {
         if (piecesOnPath.stream()
                 .anyMatch(this::isSamePiece)) {
             throw new IllegalArgumentException("[ERROR] 포는 포를 뛰어넘을 수 없습니다.");
-        }
-    }
-
-    private void validateJumpOnlyOnePiece(List<Piece> piecesOnPath) {
-        if (piecesOnPath.stream()
-                .filter(piece -> !piece.isEmptyPiece()).count() != 1) {
-            throw new IllegalArgumentException("[ERROR] 포는 오직 1개의 기물을 뛰어넘고 이동할 수 있습니다.");
         }
     }
 }
