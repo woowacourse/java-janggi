@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public class SlideMoveStrategy implements MoveStrategy {
 
@@ -23,20 +22,7 @@ public class SlideMoveStrategy implements MoveStrategy {
     }
 
     private void addSlidePath(Position current, Direction baseDirection, Paths paths) {
-        Path path = new Path();
-
-        // 첫 이동 시도
-        Optional<Position> nextCandidate = current.tryMove(baseDirection);
-
-        // 이동에 성공한 경우, 계속 반복
-        while (nextCandidate.isPresent()) {
-            Position currentSlide = nextCandidate.get();
-            path.add(currentSlide);
-
-            // 현재 위치에서 같은 방향으로 또 이동 시도
-            nextCandidate = currentSlide.tryMove(baseDirection);
-        }
-
+        Path path = Path.fromContinuousMove(current, baseDirection);
         if (!path.isEmpty()) {
             paths.addPath(path);
         }

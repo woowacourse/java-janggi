@@ -30,8 +30,8 @@ public class PathTest {
         );
     }
 
-    @Test
     @DisplayName("상의 경로를 생성한다.")
+    @Test
     void 상_경로_생성_테스트() {
         // given
         Position start = new Position(3, 3);
@@ -50,8 +50,8 @@ public class PathTest {
         );
     }
 
+    @DisplayName("이동 중간에 보드 밖으로 나가는 좌표가 포함되는 경우, 빈 경로를 반환한다.")
     @Test
-    @DisplayName("이동 중간에 보드 밖으로 나가는 좌표가 포함되는 경우, 빈 Optional을 반환한다.")
     void 경로_생성_실패_테스트() {
         // given
         Position start = new Position(0, 0);
@@ -61,6 +61,39 @@ public class PathTest {
         Optional<Path> path = Path.fromSequence(start, outSteps);
 
         // then
-        assertThat(path).isEmpty();
+        assertThat(path.isEmpty()).isTrue();
+    }
+
+    @DisplayName("연속 이동 경로를 생성한다.")
+    @Test
+    void 연속_이동_경로_생성_테스트() {
+        // given
+        Position start = new Position(7, 0);
+        Direction direction = Direction.N;
+
+        // when
+        Path path = Path.fromContinuousMove(start, direction);
+
+        // then
+        assertThat(path).hasSize(7);
+        assertThat(path).containsExactly(
+                new Position(6, 0), new Position(5, 0), new Position(4, 0),
+                new Position(3, 0), new Position(2, 0), new Position(1, 0),
+                new Position(0, 0)
+        );
+    }
+
+    @DisplayName("보드 끝에서 이동할 수 없는 방향으로 이동을 시도하는 경우, 빈 경로를 반환한다.")
+    @Test
+    void 보드_끝_이동_시도_빈_경로_반환_테스트() {
+        // given
+        Position start = new Position(0, 0);
+        Direction direction = Direction.N;
+
+        // when
+        Path path = Path.fromContinuousMove(start, direction);
+
+        // then
+        assertThat(path.isEmpty()).isTrue();
     }
 }

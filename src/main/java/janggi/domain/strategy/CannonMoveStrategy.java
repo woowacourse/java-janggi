@@ -10,7 +10,6 @@ import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public class CannonMoveStrategy implements MoveStrategy {
 
@@ -24,20 +23,7 @@ public class CannonMoveStrategy implements MoveStrategy {
     }
 
     private void addCannonPath(Position current, Direction baseDirection, Paths paths) {
-        Path path = new Path();
-
-        // 첫 이동 시도
-        Optional<Position> possibleNext = current.tryMove(baseDirection);
-
-        // 이동에 성공한 경우, 계속 반복
-        while (possibleNext.isPresent()) {
-            Position next = possibleNext.get();
-            path.add(next);
-
-            // 현재 위치에서 같은 방향으로 또 이동 시도
-            possibleNext = next.tryMove(baseDirection);
-        }
-
+        Path path = Path.fromContinuousMove(current, baseDirection);
         if (!path.isEmpty()) {
             paths.addPath(path);
         }

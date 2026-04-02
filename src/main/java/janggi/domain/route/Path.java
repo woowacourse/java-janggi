@@ -47,4 +47,17 @@ public class Path implements Iterable<Position> {
         }
         return Optional.of(path);
     }
+
+    public static Path fromContinuousMove(Position start, Direction direction) {
+        Path path = new Path();
+        Optional<Position> nextCandidate = start.tryMove(direction);
+
+        while (nextCandidate.isPresent()) {
+            Position current = nextCandidate.get();
+            path.add(current);
+            nextCandidate = current.tryMove(direction);
+        }
+
+        return path;
+    }
 }
