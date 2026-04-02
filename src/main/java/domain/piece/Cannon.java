@@ -14,9 +14,9 @@ public final class Cannon extends StaticPositionedPiece {
 
     private static final int FAR_FROM_BASE_ROW = 2;
     private static final List<Integer> INITIAL_FILES = List.of(2, 8);
-    private static final MoveAmount FORWARDABLE_AMOUNT = MoveAmount.maximum();
+    private static final MoveAmount MAX_MOVE_DISTANCE = MoveAmount.maximum();
 
-    private final MoveStrategy moveStrategy = new Straight(FORWARDABLE_AMOUNT);
+    private final MoveStrategy moveStrategy = new Straight(MAX_MOVE_DISTANCE);
 
     public Cannon(Side side) {
         super(side);

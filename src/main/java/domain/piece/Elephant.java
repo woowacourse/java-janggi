@@ -12,9 +12,9 @@ import java.util.List;
 
 public final class Elephant extends Piece {
 
-    private static final MoveAmount DIAGONAL_MOVE_AMOUNT = new MoveAmount(2);
+    private static final MoveAmount DIAGONAL_MOVE_DISTANCE = new MoveAmount(2);
 
-    private final MoveStrategy moveStrategy = new ForwardAndDiagonal(DIAGONAL_MOVE_AMOUNT);
+    private final MoveStrategy moveStrategy = new ForwardAndDiagonal(DIAGONAL_MOVE_DISTANCE);
 
     public Elephant(Side side) {
         super(side);

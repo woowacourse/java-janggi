@@ -12,9 +12,9 @@ import java.util.List;
 
 public abstract class PalacePiece extends StaticPositionedPiece {
 
-    private static final MoveAmount FORWARD_AMOUNT = new MoveAmount(1);
+    private static final MoveAmount MAX_MOVE_DISTANCE = new MoveAmount(1);
 
-    private final MoveStrategy moveStrategy = new Straight(FORWARD_AMOUNT);
+    private final MoveStrategy moveStrategy = new Straight(MAX_MOVE_DISTANCE);
 
     public PalacePiece(Side side) {
         super(side);

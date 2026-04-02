@@ -12,9 +12,9 @@ import java.util.List;
 
 public final class Horse extends Piece {
 
-    private static final MoveAmount DIAGONAL_MOVE_AMOUNT = new MoveAmount(1);
+    private static final MoveAmount DIAGONAL_MOVE_DISTANCE = new MoveAmount(1);
 
-    private final MoveStrategy moveStrategy = new ForwardAndDiagonal(DIAGONAL_MOVE_AMOUNT);
+    private final MoveStrategy moveStrategy = new ForwardAndDiagonal(DIAGONAL_MOVE_DISTANCE);
 
     public Horse(Side side) {
         super(side);

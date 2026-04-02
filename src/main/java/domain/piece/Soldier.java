@@ -16,9 +16,9 @@ public final class Soldier extends StaticPositionedPiece {
 
     private static final int FAR_FROM_BASE_ROW = 3;
     private static final List<Integer> INITIAL_FILES = List.of(1, 3, 5, 7, 9);
-    private static final MoveAmount FORWARDABLE_AMOUNT = new MoveAmount(1);
+    private static final MoveAmount MAX_MOVE_DISTANCE = new MoveAmount(1);
 
-    private final MoveStrategy moveStrategy = new Straight(FORWARDABLE_AMOUNT);
+    private final MoveStrategy moveStrategy = new Straight(MAX_MOVE_DISTANCE);
 
     public Soldier(Side side) {
         super(side);
