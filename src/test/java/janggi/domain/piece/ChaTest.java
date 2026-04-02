@@ -30,6 +30,21 @@ public class ChaTest {
     }
 
     @Test
+    @DisplayName("궁성 안에서 대각선으로 이동하는 기능")
+    void palace_diagonal_move() {
+        // given
+        Piece cha = new Cha(Team.CHO);
+        Point from = Point.of(3, 0);
+        Point to = Point.of(5, 2);
+
+        // when
+        List<Point> route = cha.getRoute(from, to);
+
+        // then
+        assertThat(route.size()).isEqualTo(1);
+    }
+
+    @Test
     @DisplayName("대각선으로 목적지로 할 경우 예외 발생")
     void destination_exception() {
         // given
