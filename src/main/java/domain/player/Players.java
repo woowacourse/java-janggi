@@ -6,10 +6,10 @@ import domain.state.InactiveTurn;
 import java.util.List;
 
 public class Players {
-    List<Player> players;
+    private final List<Player> players;
 
     private Players(Player cho, Player han) {
-        this.players = List.of(cho, han);
+        this.players = java.util.List.of(cho, han);
     }
 
     public static Players createInitial(Name choName, Name hanName) {
