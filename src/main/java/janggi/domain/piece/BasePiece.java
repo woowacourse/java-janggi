@@ -27,4 +27,9 @@ public abstract class BasePiece implements Piece {
     public PieceType getType() {
         return type;
     }
+
+    @Override
+    public Team getTeam() {
+        return team;
+    }
 }

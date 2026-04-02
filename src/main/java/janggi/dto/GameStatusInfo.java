@@ -30,13 +30,6 @@ public record GameStatusInfo(
         if (piece == null) {
             return new PieceInfo("+", null);
         }
-        return new PieceInfo(piece.getType().getName(), extractTeam(piece));
-    }
-
-    private static Team extractTeam(Piece piece) {
-        if (piece.isSameTeam(Team.HAN)) {
-            return Team.HAN;
-        }
-        return Team.CHO;
+        return new PieceInfo(piece.getType().getName(), piece.getTeam());
     }
 }
