@@ -22,8 +22,7 @@ public class BoardFactory {
         initializeEmpty(base);
         placeHan(base);
         placeCho(base);
-        applyHanSetUp(base, hanSetup);
-        applyChoSetUp(base, choSetup);
+        applySetUp(base, hanSetup, choSetup);
         return new Board(base);
     }
 
@@ -73,41 +72,8 @@ public class BoardFactory {
         base.put(Position.from("79"), new Soldier(Team.CHO));
     }
 
-    private static void applyHanSetUp(Map<Position, Piece> base, PieceSetup hanSetup) {
-        if (hanSetup == LEFT_ELEPHANT) {
-            swap(base, Position.from("12"), Position.from("13"));
-            return;
-        }
-        if (hanSetup == RIGHT_ELEPHANT) {
-            swap(base, Position.from("17"), Position.from("18"));
-            return;
-        }
-        if (hanSetup == INNER_ELEPHANT) {
-            swap(base, Position.from("17"), Position.from("18"));
-            swap(base, Position.from("12"), Position.from("13"));
-        }
-    }
-
-    private static void applyChoSetUp(Map<Position, Piece> base, PieceSetup choSetup) {
-        if (choSetup == LEFT_ELEPHANT) {
-            swap(base, Position.from("07"), Position.from("08"));
-            return;
-        }
-        if (choSetup == RIGHT_ELEPHANT) {
-            swap(base, Position.from("02"), Position.from("03"));
-            return;
-        }
-        if (choSetup == INNER_ELEPHANT) {
-            swap(base, Position.from("07"), Position.from("08"));
-            swap(base, Position.from("02"), Position.from("03"));
-        }
-    }
-
-    private static void swap(Map<Position, Piece> base, Position position1, Position position2) {
-        Piece piece1 = base.get(position1);
-        Piece piece2 = base.get(position2);
-
-        base.put(position1, piece2);
-        base.put(position2, piece1);
+    private static void applySetUp(Map<Position, Piece> base, PieceSetup hanSetup, PieceSetup choSetup) {
+        hanSetup.apply(base, Team.HAN);
+        choSetup.apply(base, Team.CHO);
     }
 }
