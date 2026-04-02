@@ -34,6 +34,6 @@ public class EmptyPiece implements Piece {
 
     @Override
     public void validateCanMove(PieceOnPath piecesOnPath, Piece endPiece) {
-        throw new IllegalArgumentException("[ERROR] 빈 기물은 이동할 수 없습니다");
+        throw new IllegalArgumentException("[ERROR] 빈 기물은 이동할 수 없습니다.");
     }
 }

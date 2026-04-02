@@ -35,41 +35,41 @@ public class BoardFactory {
     }
 
     private static void placeHan(Map<Position, Piece> base) {
-        base.put(Position.from("11"), new Chariot(Team.HAN));
-        base.put(Position.from("12"), new Elephant(Team.HAN));
-        base.put(Position.from("13"), new Horse(Team.HAN));
-        base.put(Position.from("14"), new Guard(Team.HAN));
-        base.put(Position.from("16"), new Guard(Team.HAN));
-        base.put(Position.from("17"), new Horse(Team.HAN));
-        base.put(Position.from("18"), new Elephant(Team.HAN));
-        base.put(Position.from("19"), new Chariot(Team.HAN));
-        base.put(Position.from("25"), new General(Team.HAN));
-        base.put(Position.from("32"), new Cannon(Team.HAN));
-        base.put(Position.from("38"), new Cannon(Team.HAN));
-        base.put(Position.from("41"), new Soldier(Team.HAN));
-        base.put(Position.from("43"), new Soldier(Team.HAN));
-        base.put(Position.from("45"), new Soldier(Team.HAN));
-        base.put(Position.from("47"), new Soldier(Team.HAN));
-        base.put(Position.from("49"), new Soldier(Team.HAN));
+        base.put(Position.of(1, 1), new Chariot(Team.HAN));
+        base.put(Position.of(1, 2), new Elephant(Team.HAN));
+        base.put(Position.of(1, 3), new Horse(Team.HAN));
+        base.put(Position.of(1, 4), new Guard(Team.HAN));
+        base.put(Position.of(1, 6), new Guard(Team.HAN));
+        base.put(Position.of(1, 7), new Horse(Team.HAN));
+        base.put(Position.of(1, 8), new Elephant(Team.HAN));
+        base.put(Position.of(1, 9), new Chariot(Team.HAN));
+        base.put(Position.of(2, 5), new General(Team.HAN));
+        base.put(Position.of(3, 2), new Cannon(Team.HAN));
+        base.put(Position.of(3, 8), new Cannon(Team.HAN));
+        base.put(Position.of(4, 1), new Soldier(Team.HAN));
+        base.put(Position.of(4, 3), new Soldier(Team.HAN));
+        base.put(Position.of(4, 5), new Soldier(Team.HAN));
+        base.put(Position.of(4, 7), new Soldier(Team.HAN));
+        base.put(Position.of(4, 9), new Soldier(Team.HAN));
     }
 
     private static void placeCho(Map<Position, Piece> base) {
-        base.put(Position.from("01"), new Chariot(Team.CHO));
-        base.put(Position.from("02"), new Elephant(Team.CHO));
-        base.put(Position.from("03"), new Horse(Team.CHO));
-        base.put(Position.from("04"), new Guard(Team.CHO));
-        base.put(Position.from("06"), new Guard(Team.CHO));
-        base.put(Position.from("07"), new Horse(Team.CHO));
-        base.put(Position.from("08"), new Elephant(Team.CHO));
-        base.put(Position.from("09"), new Chariot(Team.CHO));
-        base.put(Position.from("95"), new General(Team.CHO));
-        base.put(Position.from("82"), new Cannon(Team.CHO));
-        base.put(Position.from("88"), new Cannon(Team.CHO));
-        base.put(Position.from("71"), new Soldier(Team.CHO));
-        base.put(Position.from("73"), new Soldier(Team.CHO));
-        base.put(Position.from("75"), new Soldier(Team.CHO));
-        base.put(Position.from("77"), new Soldier(Team.CHO));
-        base.put(Position.from("79"), new Soldier(Team.CHO));
+        base.put(Position.of(10, 1), new Chariot(Team.CHO));
+        base.put(Position.of(10, 2), new Elephant(Team.CHO));
+        base.put(Position.of(10, 3), new Horse(Team.CHO));
+        base.put(Position.of(10, 4), new Guard(Team.CHO));
+        base.put(Position.of(10, 6), new Guard(Team.CHO));
+        base.put(Position.of(10, 7), new Horse(Team.CHO));
+        base.put(Position.of(10, 8), new Elephant(Team.CHO));
+        base.put(Position.of(10, 9), new Chariot(Team.CHO));
+        base.put(Position.of(9, 5), new General(Team.CHO));
+        base.put(Position.of(8, 2), new Cannon(Team.CHO));
+        base.put(Position.of(8, 8), new Cannon(Team.CHO));
+        base.put(Position.of(7, 1), new Soldier(Team.CHO));
+        base.put(Position.of(7, 3), new Soldier(Team.CHO));
+        base.put(Position.of(7, 5), new Soldier(Team.CHO));
+        base.put(Position.of(7, 7), new Soldier(Team.CHO));
+        base.put(Position.of(7, 9), new Soldier(Team.CHO));
     }
 
     private static void applySetUp(Map<Position, Piece> base, PieceSetup hanSetup, PieceSetup choSetup) {
