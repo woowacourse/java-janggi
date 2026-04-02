@@ -43,7 +43,7 @@ public class OutputView {
         if (piece == null) {
             return EMPTY + SPACE;
         }
-        return getColor(piece.getSide()) + piece + SPACE + RESET;
+        return getColor(piece.getSide()) + piece.getName() + SPACE + RESET;
     }
 
     private String getColor(Side side) {

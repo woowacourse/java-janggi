@@ -8,6 +8,8 @@ import domain.strategy.Path;
 import java.util.List;
 
 public class Horse extends Piece {
+    private final PieceType pieceType = PieceType.HORSE;
+
     public Horse(Side side, MovementStrategy movementStrategy) {
         super(side, movementStrategy);
     }
@@ -18,7 +20,7 @@ public class Horse extends Piece {
     }
 
     @Override
-    public String toString() {
-        return "마";
+    public String getName() {
+        return pieceType.getName();
     }
 }

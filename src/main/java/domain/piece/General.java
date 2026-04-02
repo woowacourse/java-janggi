@@ -8,6 +8,8 @@ import domain.strategy.Path;
 import java.util.List;
 
 public class General extends Piece {
+    private final PieceType pieceType = PieceType.GENERAL;
+
     public General(Side side, MovementStrategy movementStrategy) {
         super(side, movementStrategy);
     }
@@ -23,7 +25,7 @@ public class General extends Piece {
     }
 
     @Override
-    public String toString() {
-        return "궁";
+    public String getName() {
+        return pieceType.getName();
     }
 }

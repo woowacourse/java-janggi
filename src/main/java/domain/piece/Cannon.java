@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Cannon extends Piece {
+    private final PieceType pieceType = PieceType.CANNON;
+
     public Cannon(Side side, MovementStrategy movementStrategy) {
         super(side, movementStrategy);
     }
@@ -89,7 +91,7 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public String toString() {
-        return "포";
+    public String getName() {
+        return pieceType.getName();
     }
 }

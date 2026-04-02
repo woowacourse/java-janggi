@@ -8,6 +8,8 @@ import domain.strategy.Path;
 import java.util.List;
 
 public class Elephant extends Piece {
+    private final PieceType pieceType = PieceType.ELEPHANT;
+
     public Elephant(Side side, MovementStrategy movementStrategy) {
         super(side, movementStrategy);
     }
@@ -18,7 +20,7 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public String toString() {
-        return "상";
+    public String getName() {
+        return pieceType.getName();
     }
 }

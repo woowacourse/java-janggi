@@ -8,6 +8,8 @@ import domain.strategy.Path;
 import java.util.List;
 
 public class Soldier extends Piece {
+    private final PieceType pieceType = PieceType.SOLDIER;
+
     public Soldier(Side side, MovementStrategy movementStrategy) {
         super(side, movementStrategy);
     }
@@ -18,7 +20,7 @@ public class Soldier extends Piece {
     }
 
     @Override
-    public String toString() {
-        return "졸";
+    public String getName() {
+        return pieceType.getName();
     }
 }

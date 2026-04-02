@@ -1,5 +1,6 @@
 package domain.board;
 
+import domain.piece.PieceType;
 import java.util.Arrays;
 import java.util.List;
 import parser.Command;

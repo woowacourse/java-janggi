@@ -4,6 +4,7 @@ import domain.Position;
 import domain.Side;
 import domain.piece.Piece;
 import domain.piece.PieceFactory;
+import domain.piece.PieceType;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
