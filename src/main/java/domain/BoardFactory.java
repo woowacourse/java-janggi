@@ -1,5 +1,6 @@
 package domain;
 
+import constant.BoardSpec;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import java.util.HashMap;
@@ -22,8 +23,8 @@ public class BoardFactory {
 
     public static Board createBoard(Formation choFormation, Formation hanFormation) {
         Map<Position, Piece> board = new HashMap<>();
-        for (int x = 1; x <= 9; x++) {
-            for (int y = 1; y <= 10; y++) {
+        for (int x = BoardSpec.MIN_X; x <= BoardSpec.MAX_X; x++) {
+            for (int y = BoardSpec.MIN_Y; y <= BoardSpec.MAX_Y; y++) {
                 placePiece(board, Position.of(x, y), PieceType.EMPTY.create(Side.NONE));
             }
         }
@@ -62,8 +63,7 @@ public class BoardFactory {
     }
 
     private static void placeFormationPiece(Map<Position, Piece> board, Formation formation, List<Integer> xPositions,
-        int y,
-        Side side) {
+        int y, Side side) {
         List<PieceType> pieceTypes = formation.getPieceTypes();
         for (int i = 0; i < pieceTypes.size(); i++) {
             board.put(Position.of(xPositions.get(i), y), pieceTypes.get(i).create(side));

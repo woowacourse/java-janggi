@@ -1,5 +1,6 @@
 package domain;
 
+import constant.BoardSpec;
 import domain.piece.Piece;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +12,7 @@ public class Game {
 
     public Game(Board board) {
         this.board = board;
-        this.turn = new Turn(Side.CHO);
+        this.turn = new Turn(BoardSpec.DEFAULT_STARTING_SIDE);
     }
 
     public void move(Position sourcePosition, Position targetPosition) {

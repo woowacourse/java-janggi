@@ -1,11 +1,16 @@
 package view;
 
+import constant.BoardSpec;
 import domain.Formation;
 import java.util.Scanner;
 
 public class InputView {
 
-    private final String READ_FORMATION_MESSAGE = "[%s] 포진을 선택해주세요.";
+    private static final String READ_FORMATION_MESSAGE = "[%s] 포진을 선택해주세요.";
+    private static final String READ_SOURCE_X_POSITION = String.format("움직일 기물의 x 좌표를 입력해주세요. (x 범위 %d ~ %d)",
+        BoardSpec.MIN_X, BoardSpec.MAX_X);
+    private static final String READ_SOURCE_Y_POSITION = String.format("움직일 기물의 y 좌표를 입력해주세요. (y 범위 %d~ %d)",
+        BoardSpec.MIN_Y, BoardSpec.MAX_Y);
 
     private final Scanner scanner = new Scanner(System.in);
 
@@ -23,23 +28,23 @@ public class InputView {
 
     public String readSourceXPosition() {
         System.out.println();
-        System.out.println("움직일 기물의 x 좌표를 입력해주세요. (x 범위 1 ~ 9)");
+        System.out.println(READ_SOURCE_X_POSITION);
         return scanner.nextLine();
     }
 
     public String readSourceYPosition() {
-        System.out.println("움직일 기물의 y 좌표를 입력해주세요. (y 범위 1 ~ 10)");
+        System.out.println();
         return scanner.nextLine();
     }
 
     public String readTargetXPosition() {
         System.out.println();
-        System.out.println("목적지 x 좌표를 입력해주세요. (x 범위 1 ~ 9)");
+        System.out.println(READ_SOURCE_X_POSITION);
         return scanner.nextLine();
     }
 
     public String readTargetYPosition() {
-        System.out.println("목적지 y 좌표를 입력해주세요. (y 범위 1 ~ 10)");
+        System.out.println(READ_SOURCE_Y_POSITION);
         return scanner.nextLine();
     }
 

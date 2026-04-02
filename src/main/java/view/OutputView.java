@@ -1,5 +1,6 @@
 package view;
 
+import constant.BoardSpec;
 import domain.Position;
 import domain.Side;
 import domain.piece.Piece;
@@ -11,12 +12,18 @@ public class OutputView {
     private static final String BLUE = "\u001B[34m";
     private static final String RESET = "\u001B[0m";
     private static final String ERROR_PREFIX = "[ERROR] ";
+    private static final String BOARD_HEADER = "    1  2  3  4  5  6  7  8  9";
+    private static final String CHO_TURN_MESSAGE = "초의 차례입니다.";
+    private static final String HAN_TURN_MESSAGE = "한의 차례입니다.";
+    private static final String SINGLE_DIGIT_ROW_FORMAT = " %d  ";
+    private static final String DOUBLE_DIGIT_ROW_FORMAT = "%d  ";
+    private static final String PIECE_FORMAT = "%s%s ";
 
     public void printBoardStatus(Map<Position, Piece> board) {
         System.out.println();
-        System.out.println("    1  2  3  4  5  6  7  8  9");
+        System.out.println(BOARD_HEADER);
 
-        for (int y = 1; y <= 10; y++) {
+        for (int y = BoardSpec.MIN_Y; y <= BoardSpec.MAX_Y; y++) {
             printRowNumber(y);
             for (int x = 1; x <= 9; x++) {
                 Piece piece = board.get(Position.of(x, y));
@@ -29,23 +36,23 @@ public class OutputView {
     public void printCurrentTurn(Side currentSide) {
         System.out.println();
         if (currentSide == Side.CHO) {
-            System.out.println("초의 차례입니다.");
+            System.out.println(CHO_TURN_MESSAGE);
             return;
         }
-        System.out.println("한의 차례입니다.");
+        System.out.println(HAN_TURN_MESSAGE);
     }
 
     private void printRowNumber(int y) {
-        if (y < 10) {
-            System.out.print(" " + y + "  ");
+        if (y < BoardSpec.MAX_Y) {
+            System.out.printf(SINGLE_DIGIT_ROW_FORMAT, y);
         } else {
-            System.out.print(y + "  ");
+            System.out.printf(DOUBLE_DIGIT_ROW_FORMAT, y);
         }
     }
 
     private void printPiece(Piece piece) {
         String color = getColor(piece.getSide());
-        System.out.print(color + piece.getName() + " ");
+        System.out.printf(PIECE_FORMAT, color, piece.getName());
     }
 
     private String getColor(Side side) {
