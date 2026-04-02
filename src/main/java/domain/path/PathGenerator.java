@@ -18,7 +18,7 @@ public class PathGenerator {
         return paths;
     }
 
-    public static List<Position> generateComplexPath(Position departure, Position destination, List<Direction> directions) {
+    public static List<Position> generateComplexPath(Position departure, List<Direction> directions) {
         List<Position> paths = new ArrayList<>();
 
         Position current = departure;

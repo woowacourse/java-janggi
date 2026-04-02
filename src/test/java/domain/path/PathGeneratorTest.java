@@ -28,7 +28,7 @@ class PathGeneratorTest {
         Position destination = new Position(7, 2);
         List<Direction> directions = List.of(Direction.UP, Direction.NORTHWEST);
 
-        List<Position> path = PathGenerator.generateComplexPath(departure, destination, directions);
+        List<Position> path = PathGenerator.generateComplexPath(departure, directions);
 
         assertThat(path).containsExactly(
                 new Position(8, 1),

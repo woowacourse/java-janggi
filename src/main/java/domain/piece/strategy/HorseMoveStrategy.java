@@ -24,7 +24,7 @@ public class HorseMoveStrategy implements MoveStrategy {
                 node.calculateDeltaY(destination)
         );
 
-        return PathGenerator.generateComplexPath(departure, destination, List.of(firstDirection, secondDirection));
+        return PathGenerator.generateComplexPath(departure, List.of(firstDirection, secondDirection));
     }
 
     @Override

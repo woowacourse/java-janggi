@@ -24,7 +24,7 @@ public class ElephantMoveStrategy implements MoveStrategy {
                 firstNode.calculateDeltaY(destination)
         );
 
-        return PathGenerator.generateComplexPath(departure, destination, List.of(firstDirection, secondDirection, secondDirection));
+        return PathGenerator.generateComplexPath(departure, List.of(firstDirection, secondDirection, secondDirection));
     }
 
     @Override
