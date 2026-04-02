@@ -10,11 +10,8 @@ import java.util.List;
 
 public class Cannon extends Piece {
 
-    private final Strategy moveStrategy;
-
     public Cannon(Team team) {
-        super(team);
-        moveStrategy = new CannonStrategy();
+        super(team, new CannonStrategy());
     }
 
     @Override

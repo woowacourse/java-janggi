@@ -9,11 +9,9 @@ import domain.strategy.Strategy;
 import java.util.List;
 
 public class Car extends Piece {
-    private final Strategy moveStrategy;
 
     public Car(Team team) {
-        super(team);
-        this.moveStrategy = new CarStrategy();
+        super(team, new CarStrategy());
     }
 
     @Override

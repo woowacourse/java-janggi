@@ -9,11 +9,9 @@ import domain.strategy.PawnStrategy;
 import java.util.List;
 
 public class Pawn extends Piece{
-    private final Strategy moveStrategy;
 
     public Pawn(Team team) {
-        super(team);
-        this.moveStrategy = new PawnStrategy();
+        super(team, new PawnStrategy());
     }
 
     @Override

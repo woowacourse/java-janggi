@@ -9,11 +9,9 @@ import domain.strategy.Strategy;
 import java.util.List;
 
 public class Elephant extends Piece {
-    private final Strategy moveStrategy;
 
     public Elephant(Team team) {
-        super(team);
-        this.moveStrategy = new ElephantStrategy();
+        super(team, new ElephantStrategy());
     }
 
     @Override

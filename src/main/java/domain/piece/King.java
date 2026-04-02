@@ -10,11 +10,8 @@ import java.util.List;
 
 public class King extends Piece {
 
-    private final Strategy moveStrategy;
-
     public King(Team team) {
-        super(team);
-        this.moveStrategy = new PalaceStrategy();
+        super(team, new PalaceStrategy());
     }
 
     @Override

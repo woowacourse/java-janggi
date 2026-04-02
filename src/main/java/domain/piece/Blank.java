@@ -7,7 +7,7 @@ import domain.position.Position;
 public class Blank extends Piece {
 
     public Blank() {
-        super(Team.NONE);
+        super(Team.NONE,);
     }
 
     @Override

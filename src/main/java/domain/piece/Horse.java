@@ -10,11 +10,8 @@ import java.util.List;
 
 public class Horse extends Piece {
 
-    private final Strategy moveStrategy;
-
     public Horse(Team team) {
-        super(team);
-        this.moveStrategy = new HorseStrategy();
+        super(team, new HorseStrategy());
     }
 
     @Override
