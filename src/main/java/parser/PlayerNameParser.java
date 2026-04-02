@@ -22,8 +22,8 @@ public class PlayerNameParser {
         return name;
     }
 
-    private static void validateNameCount(List<String> names){
-        if(names.size() != PLAYER_NAME_COUNT){
+    private static void validateNameCount(List<String> names) {
+        if (names.size() != PLAYER_NAME_COUNT) {
             throw new IllegalArgumentException("[ERROR] 플레이어는 2명을 입력해야 합니다.");
         }
     }

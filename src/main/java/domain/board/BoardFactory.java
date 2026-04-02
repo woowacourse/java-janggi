@@ -1,10 +1,5 @@
 package domain.board;
 
-import static domain.common.Constant.MAX_COLUMN;
-import static domain.common.Constant.MAX_ROW;
-import static domain.common.Constant.MIN_COLUMN;
-import static domain.common.Constant.MIN_ROW;
-
 import domain.place.moveStrategy.CannonMoveStrategy;
 import domain.place.moveStrategy.ChariotMoveStrategy;
 import domain.place.moveStrategy.ChoSoldierMoveStrategy;
@@ -28,13 +23,13 @@ import java.util.function.Function;
 public class BoardFactory {
 
     private static final List<Integer> HORSE_ELEPHANT_COLS = List.of(2, 3, 7, 8);
-    private static final List<Integer> CHARIOT_COLS = List.of(1,9);
-    private static final List<Integer> GUARD_COLS = List.of(4,6);
+    private static final List<Integer> CHARIOT_COLS = List.of(1, 9);
+    private static final List<Integer> GUARD_COLS = List.of(4, 6);
     private static final int GENERAL_COLS = 5;
     private static final List<Integer> CANNON_COLS = List.of(2, 8);
     private static final List<Integer> SOLDIER_COLS = List.of(1, 3, 5, 7, 9);
 
-    public static Board create(HorseElephantFormation cho, HorseElephantFormation han){
+    public static Board create(HorseElephantFormation cho, HorseElephantFormation han) {
         Map<Position, Piece> board = new HashMap<>();
 
         setUpFormationHorseElephant(board, Side.CHO, cho);
@@ -46,18 +41,19 @@ public class BoardFactory {
         return new Board(board);
     }
 
-    private static void setUpFormationHorseElephant(Map<Position, Piece> board, Side side, HorseElephantFormation horseElephantFormation){
+    private static void setUpFormationHorseElephant(Map<Position, Piece> board, Side side,
+                                                    HorseElephantFormation horseElephantFormation) {
         int startLine = side.getStartLine();
         List<Function<Side, Piece>> formationMethod = horseElephantFormation.getFormationMethod();
 
-        for(int i = 0; i < HORSE_ELEPHANT_COLS.size(); i++){
+        for (int i = 0; i < HORSE_ELEPHANT_COLS.size(); i++) {
             Position position = new Position(startLine, HORSE_ELEPHANT_COLS.get(i));
             Piece piece = formationMethod.get(i).apply(side);
             board.put(position, piece);
         }
     }
 
-    private static void setUpFormation(Map<Position, Piece> board, Side side){
+    private static void setUpFormation(Map<Position, Piece> board, Side side) {
         int startLine = side.getStartLine();
         int direction = side.getDirection();
 
@@ -73,7 +69,7 @@ public class BoardFactory {
         soldierSetUpFormation(board, side, startLine);
     }
 
-    private static void firstSetUpFormation(Map<Position, Piece> board, Side side, int startLine){
+    private static void firstSetUpFormation(Map<Position, Piece> board, Side side, int startLine) {
         CHARIOT_COLS.forEach(c -> board.put(new Position(startLine, c), new Chariot(side, new ChariotMoveStrategy())));
         GUARD_COLS.forEach(c -> board.put(new Position(startLine, c), new Guard(side, new GuardMoveStrategy())));
     }

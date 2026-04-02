@@ -56,7 +56,9 @@ public class Board implements BoardView {
 
     @Override
     public boolean isSameTeam(Position from, Position to) {
-        if(findPiece(to).isEmpty()) return false;
+        if (findPiece(to).isEmpty()) {
+            return false;
+        }
 
         Piece fromPiece = getRequiredPiece(from);
         Piece toPiece = getRequiredPiece(to);

@@ -15,7 +15,7 @@ public class Player {
         return name.name();
     }
 
-    public Side getSide(){
+    public Side getSide() {
         return side;
     }
 }

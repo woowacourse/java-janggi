@@ -1,5 +1,7 @@
 package domain.moveStrategy;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import domain.board.Board;
 import domain.place.moveStrategy.GuardMoveStrategy;
 import domain.place.moveStrategy.HanSoldierMoveStrategy;
@@ -10,8 +12,6 @@ import domain.position.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 class GuardMoveStrategyTest {
 
     @Test
@@ -19,11 +19,11 @@ class GuardMoveStrategyTest {
     void 사_위로_이동_가능() {
         // given
         StubBoard stub = new StubBoard();
-        stub.put(new Position(5,5), new Guard(Side.CHO, new GuardMoveStrategy()));
+        stub.put(new Position(5, 5), new Guard(Side.CHO, new GuardMoveStrategy()));
         Board board = stub.create();
 
-        Position from = new Position(5,5);
-        Position to = new Position(6,5);
+        Position from = new Position(5, 5);
+        Position to = new Position(6, 5);
 
         // when
         boolean result = new GuardMoveStrategy().canMove(board, from, to);
@@ -37,11 +37,11 @@ class GuardMoveStrategyTest {
     void 사_아래로_이동_가능() {
         // given
         StubBoard stub = new StubBoard();
-        stub.put(new Position(5,5), new Guard(Side.CHO, new GuardMoveStrategy()));
+        stub.put(new Position(5, 5), new Guard(Side.CHO, new GuardMoveStrategy()));
         Board board = stub.create();
 
-        Position from = new Position(5,5);
-        Position to = new Position(4,5);
+        Position from = new Position(5, 5);
+        Position to = new Position(4, 5);
 
         // when
         boolean result = new GuardMoveStrategy().canMove(board, from, to);
@@ -55,11 +55,11 @@ class GuardMoveStrategyTest {
     void 사_좌측_이동_가능() {
         // given
         StubBoard stub = new StubBoard();
-        stub.put(new Position(5,5), new Guard(Side.CHO, new GuardMoveStrategy()));
+        stub.put(new Position(5, 5), new Guard(Side.CHO, new GuardMoveStrategy()));
         Board board = stub.create();
 
-        Position from = new Position(5,5);
-        Position to = new Position(5,4);
+        Position from = new Position(5, 5);
+        Position to = new Position(5, 4);
 
         // when
         boolean result = new GuardMoveStrategy().canMove(board, from, to);
@@ -73,11 +73,11 @@ class GuardMoveStrategyTest {
     void 사_우측_이동_가능() {
         // given
         StubBoard stub = new StubBoard();
-        stub.put(new Position(5,5), new Guard(Side.CHO, new GuardMoveStrategy()));
+        stub.put(new Position(5, 5), new Guard(Side.CHO, new GuardMoveStrategy()));
         Board board = stub.create();
 
-        Position from = new Position(5,5);
-        Position to = new Position(5,6);
+        Position from = new Position(5, 5);
+        Position to = new Position(5, 6);
 
         // when
         boolean result = new GuardMoveStrategy().canMove(board, from, to);
@@ -91,11 +91,11 @@ class GuardMoveStrategyTest {
     void 사_두칸_이동_불가() {
         // given
         StubBoard stub = new StubBoard();
-        stub.put(new Position(5,5), new Guard(Side.CHO, new GuardMoveStrategy()));
+        stub.put(new Position(5, 5), new Guard(Side.CHO, new GuardMoveStrategy()));
         Board board = stub.create();
 
-        Position from = new Position(5,5);
-        Position to = new Position(7,5);
+        Position from = new Position(5, 5);
+        Position to = new Position(7, 5);
 
         // when
         boolean result = new GuardMoveStrategy().canMove(board, from, to);
@@ -109,12 +109,12 @@ class GuardMoveStrategyTest {
     void 사_아군_이동_불가() {
         // given
         StubBoard stub = new StubBoard();
-        stub.put(new Position(5,5), new Guard(Side.CHO, new GuardMoveStrategy()));
-        stub.put(new Position(5,6), new Guard(Side.CHO, new GuardMoveStrategy()));
+        stub.put(new Position(5, 5), new Guard(Side.CHO, new GuardMoveStrategy()));
+        stub.put(new Position(5, 6), new Guard(Side.CHO, new GuardMoveStrategy()));
         Board board = stub.create();
 
-        Position from = new Position(5,5);
-        Position to = new Position(5,6);
+        Position from = new Position(5, 5);
+        Position to = new Position(5, 6);
 
         // when
         boolean result = new GuardMoveStrategy().canMove(board, from, to);
@@ -128,12 +128,12 @@ class GuardMoveStrategyTest {
     void 사_적군_공격_가능() {
         // given
         StubBoard stub = new StubBoard();
-        stub.put(new Position(5,5), new Guard(Side.CHO, new GuardMoveStrategy()));
-        stub.put(new Position(5,6), new Soldier(Side.HAN, new HanSoldierMoveStrategy()));
+        stub.put(new Position(5, 5), new Guard(Side.CHO, new GuardMoveStrategy()));
+        stub.put(new Position(5, 6), new Soldier(Side.HAN, new HanSoldierMoveStrategy()));
         Board board = stub.create();
 
-        Position from = new Position(5,5);
-        Position to = new Position(5,6);
+        Position from = new Position(5, 5);
+        Position to = new Position(5, 6);
 
         // when
         boolean result = new GuardMoveStrategy().canMove(board, from, to);

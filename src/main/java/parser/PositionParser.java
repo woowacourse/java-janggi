@@ -8,7 +8,8 @@ public class PositionParser {
     private static final String SEPARATOR = ",";
     private static final int COORDINATE_SIZE = 2;
 
-    private PositionParser() {}
+    private PositionParser() {
+    }
 
     public static Position parsePosition(String input) {
 

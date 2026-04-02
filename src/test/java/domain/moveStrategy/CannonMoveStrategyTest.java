@@ -18,11 +18,11 @@ class CannonMoveStrategyTest {
 
     @Test
     @DisplayName("포는 기물을 넘을 수 있다.")
-    void 포_정상_이동(){
+    void 포_정상_이동() {
         //given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(1,1), new Cannon(Side.CHO, new CannonMoveStrategy()));
-        stubBoard.put(new Position(1,5), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
+        stubBoard.put(new Position(1, 1), new Cannon(Side.CHO, new CannonMoveStrategy()));
+        stubBoard.put(new Position(1, 5), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
         Board board = stubBoard.create();
 
         Position from = new Position(1, 1);
@@ -38,12 +38,12 @@ class CannonMoveStrategyTest {
 
     @Test
     @DisplayName("포는 기물을 넘어 상대 기물을 먹을 수 있다.")
-    void 포_기물_넘어_이동(){
+    void 포_기물_넘어_이동() {
         //given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(1,1), new Cannon(Side.CHO, new CannonMoveStrategy()));
-        stubBoard.put(new Position(1,5), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
-        stubBoard.put(new Position(1,9), new Soldier(Side.HAN, new HanSoldierMoveStrategy()));
+        stubBoard.put(new Position(1, 1), new Cannon(Side.CHO, new CannonMoveStrategy()));
+        stubBoard.put(new Position(1, 5), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
+        stubBoard.put(new Position(1, 9), new Soldier(Side.HAN, new HanSoldierMoveStrategy()));
         Board board = stubBoard.create();
 
         Position from = new Position(1, 1);
@@ -79,10 +79,10 @@ class CannonMoveStrategyTest {
 
     @Test
     @DisplayName("포는 기물이 없을 때 넘을 수 없다")
-    void 포_기물_없음(){
+    void 포_기물_없음() {
         //given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(1,1), new Cannon(Side.CHO, new CannonMoveStrategy()));
+        stubBoard.put(new Position(1, 1), new Cannon(Side.CHO, new CannonMoveStrategy()));
         Board board = stubBoard.create();
 
         Position from = new Position(1, 1);
@@ -98,12 +98,12 @@ class CannonMoveStrategyTest {
 
     @Test
     @DisplayName("포는 기물이 여러 개일 때 넘을 수 없다")
-    void 포_기물_여러개(){
+    void 포_기물_여러개() {
         //given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(1,1), new Cannon(Side.CHO, new CannonMoveStrategy()));
-        stubBoard.put(new Position(1,5), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
-        stubBoard.put(new Position(1,6), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
+        stubBoard.put(new Position(1, 1), new Cannon(Side.CHO, new CannonMoveStrategy()));
+        stubBoard.put(new Position(1, 5), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
+        stubBoard.put(new Position(1, 6), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
         Board board = stubBoard.create();
 
         Position from = new Position(1, 1);
@@ -119,11 +119,11 @@ class CannonMoveStrategyTest {
 
     @Test
     @DisplayName("포는 자신의 포의 위치로 이동할 수 없다")
-    void 포_자신의_팀_위치로_이동불가(){
+    void 포_자신의_팀_위치로_이동불가() {
         //given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(1,1), new Cannon(Side.CHO, new CannonMoveStrategy()));
-        stubBoard.put(new Position(1,7), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
+        stubBoard.put(new Position(1, 1), new Cannon(Side.CHO, new CannonMoveStrategy()));
+        stubBoard.put(new Position(1, 7), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
         Board board = stubBoard.create();
 
         Position from = new Position(1, 1);
