@@ -12,7 +12,7 @@ import janggi.domain.status.Team;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AbstractStraightPiece implements Piece {
+public abstract class AbstractStraightPiece implements Piece {
 
     private final Team team;
     private final PieceType type;
@@ -45,9 +45,7 @@ public class AbstractStraightPiece implements Piece {
     }
 
     @Override
-    public boolean canMove(Route route) {
-        return route.isEmpty();
-    }
+    public abstract boolean canMove(Route route);
 
     @Override
     public boolean isSameTeam(Team team) {
