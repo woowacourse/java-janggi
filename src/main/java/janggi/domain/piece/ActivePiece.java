@@ -10,7 +10,6 @@ public abstract class ActivePiece extends BasePiece {
     protected static final String UNMOVABLE_ROUTE_MESSAGE = "이동할 수 없는 경로입니다.";
 
     protected final RoutePolicy routePolicy;
-    //
 
     public ActivePiece(RoutePolicy routePolicy, Side side, PieceType pieceType) {
         super(side, pieceType);
