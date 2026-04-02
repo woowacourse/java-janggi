@@ -22,7 +22,7 @@ class ChariotMoveRuleTest {
         ChariotMoveRule rule = new ChariotMoveRule();
 
         boolean actual = rule.patterns(move).stream()
-                        .anyMatch(pattern -> pattern.matches(move, board, Country.HAN));
+                .anyMatch(pattern -> pattern.matches(move, board, Country.HAN));
 
         assertEquals(expected, actual);
     }
@@ -41,7 +41,7 @@ class ChariotMoveRuleTest {
 
     @Test
     void 가운데에_기물이_있을_경우_대각선으로_이동하지_못한다() {
-        Move move = Move.of(Position.of(1, 4), Position.of(3,6));
+        Move move = Move.of(Position.of(1, 4), Position.of(3, 6));
         board.place(Position.of(2, 5), new Guard(Country.HAN));
         ChariotMoveRule rule = new ChariotMoveRule();
 
@@ -54,18 +54,19 @@ class ChariotMoveRuleTest {
 
     private static Stream<Arguments> provideStraight() {
         return Stream.of(
-                Arguments.arguments(Position.of(4,5), Position.of(6,5), true),
-                Arguments.arguments(Position.of(7,5), Position.of(7,3), true),
-                Arguments.arguments(Position.of(5,5), Position.of(4,4), false)
+                Arguments.arguments(Position.of(4, 5), Position.of(6, 5), true),
+                Arguments.arguments(Position.of(7, 5), Position.of(7, 3), true),
+                Arguments.arguments(Position.of(5, 5), Position.of(4, 4), false)
         );
     }
+
     private static Stream<Arguments> providePalaceDiagonal() {
         return Stream.of(
-                Arguments.arguments(Position.of(1,4), Position.of(2,5), true),
-                Arguments.arguments(Position.of(1,4), Position.of(3,6), true),
-                Arguments.arguments(Position.of(1,5), Position.of(2,4), false),
-                Arguments.arguments(Position.of(3,4), Position.of(1,4), true),
-                Arguments.arguments(Position.of(1,5), Position.of(3,5), true)
+                Arguments.arguments(Position.of(1, 4), Position.of(2, 5), true),
+                Arguments.arguments(Position.of(1, 4), Position.of(3, 6), true),
+                Arguments.arguments(Position.of(1, 5), Position.of(2, 4), false),
+                Arguments.arguments(Position.of(3, 4), Position.of(1, 4), true),
+                Arguments.arguments(Position.of(1, 5), Position.of(3, 5), true)
         );
     }
 
