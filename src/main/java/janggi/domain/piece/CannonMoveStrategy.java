@@ -27,7 +27,7 @@ public class CannonMoveStrategy implements MoveStrategy {
         List<Direction> defaultMovableDirections = List.of(Direction.valuesFourDirections());
         for (Direction dir : defaultMovableDirections) {
             List<Position> positions = from.findAllPositionsByDirection(dir);
-            movablePositions.addAll(filterMovablePositions(positions, board, dynasty));
+            movablePositions.addAll(filterMovablePositionsInNotPalace(positions, board, dynasty));
         }
 
         if(Palace.isPalace(from)) {
@@ -47,43 +47,20 @@ public class CannonMoveStrategy implements MoveStrategy {
         return newDirectionsOfPalace;
     }
 
-    private List<Position> filterMovablePositions(List<Position> positions, Map<Position, Piece> board, Dynasty dynasty) {
-        List<Position> movablePositions = new ArrayList<>();
-        boolean hasHopped = false;
-        for (Position to : positions) {
-
-            if (!hasHopped) {
-                if (!isPiecePresent(board, to)) {
-                    continue;
-                }
-                if (isCannon(board.get(to))) {
-                    return movablePositions;
-                }
-                hasHopped = true;
-                continue;
-            }
-
-            if (!isPiecePresent(board, to)) {
-                movablePositions.add(to);
-                continue;
-            }
-
-            Piece piece = board.get(to);
-            if (isEnemy(dynasty, piece) && !isCannon(piece)) {
-                movablePositions.add(to);
-            }
-            return movablePositions;
-        }
-
-        return movablePositions;
+    private List<Position> filterMovablePositionsInNotPalace(List<Position> positions, Map<Position, Piece> board, Dynasty dynasty) {
+        return filterMovablePositions(positions, board, dynasty, false);
     }
 
     private List<Position> filterMovablePositionsInPalace(List<Position> positions, Map<Position, Piece> board, Dynasty dynasty) {
+        return filterMovablePositions(positions, board, dynasty, true);
+    }
+
+    private List<Position> filterMovablePositions(List<Position> positions, Map<Position, Piece> board, Dynasty dynasty, boolean isPalaceRelated) {
         List<Position> movablePositions = new ArrayList<>();
         boolean hasHopped = false;
         for (Position to : positions) {
 
-            if(!Palace.isPalace(to)) {
+            if(isPalaceRelated && !Palace.isPalace(to)) {
                 break;
             }
 
