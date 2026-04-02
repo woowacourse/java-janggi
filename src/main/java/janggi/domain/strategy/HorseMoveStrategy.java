@@ -31,21 +31,15 @@ public class HorseMoveStrategy implements MoveStrategy {
     private void createAndAddSequence(Position current, Direction baseDirection, Direction diagonalDirection,
                                       Paths paths) {
         // 직선 이동이 가능한지 체크
-        if (!current.canMove(baseDirection)) {
-            return;
-        }
-        Position step1 = baseDirection.move(current);
-
-        // 꺾이는 대각선 이동이 가능한지 체크
-        if (!step1.canMove(diagonalDirection)) {
-            return;
-        }
-        Position step2 = diagonalDirection.move(step1);
-
-        Path path = new Path();
-        path.add(step1);
-        path.add(step2);
-        paths.addPath(path);
+        current.tryMove(baseDirection).ifPresent(step1 -> {
+            // 꺾이는 대각선 이동이 가능한지 체크
+            step1.tryMove(diagonalDirection).ifPresent(step2 -> {
+                Path path = new Path();
+                path.add(step1);
+                path.add(step2);
+                paths.addPath(path);
+            });
+        });
     }
 
     @Override

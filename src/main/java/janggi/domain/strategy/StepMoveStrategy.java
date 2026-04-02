@@ -22,11 +22,11 @@ public class StepMoveStrategy implements MoveStrategy {
     }
 
     private void addStepPath(Position current, Direction baseDirection, Paths paths) {
-        if (current.canMove(baseDirection)) {
+        current.tryMove(baseDirection).ifPresent(nextPosition -> {
             Path path = new Path();
-            path.add(baseDirection.move(current));
+            path.add(nextPosition);
             paths.addPath(path);
-        }
+        });
     }
 
     @Override

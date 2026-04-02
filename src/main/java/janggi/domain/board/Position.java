@@ -1,5 +1,7 @@
 package janggi.domain.board;
 
+import java.util.Optional;
+
 public record Position(int row, int column) {
     private static final String ERROR_OUT_OF_BOUNDS = "[ERROR] %d~%d행, %d~%d열 범위를 벗어날 수 없습니다.";
 
@@ -16,15 +18,15 @@ public record Position(int row, int column) {
         }
     }
 
-    public Position move(int row, int column) {
-        return new Position(this.row + row, this.column + column);
-    }
-
-    public boolean canMove(Direction direction) {
+    public Optional<Position> tryMove(Direction direction) {
         int nextRow = direction.getNextRow(this.row);
         int nextColumn = direction.getNextColumn(this.column);
 
-        return isWithinBoard(nextRow, nextColumn);
+        if (isWithinBoard(nextRow, nextColumn)) {
+            return Optional.of(new Position(nextRow, nextColumn));
+        }
+
+        return Optional.empty();
     }
 
     private static boolean isWithinBoard(int row, int column) {

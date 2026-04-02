@@ -30,29 +30,20 @@ public class ElephantMoveStrategy implements MoveStrategy {
 
     private void createAndAddSequence(Position current, Direction baseDirection, Direction diagonalDirection,
                                       Paths paths) {
-        // 직선 이동 가능한지 체크
-        if (!current.canMove(baseDirection)) {
-            return;
-        }
-        Position step1 = baseDirection.move(current);
-
-        // 첫 번째 대각선 이동 가능한지 체크
-        if (!step1.canMove(diagonalDirection)) {
-            return;
-        }
-        Position step2 = diagonalDirection.move(step1);
-
-        // 두 번째 대각선 이동 가능한지 체크
-        if (!step2.canMove(diagonalDirection)) {
-            return;
-        }
-        Position step3 = diagonalDirection.move(step2);
-
-        Path path = new Path();
-        path.add(step1);
-        path.add(step2);
-        path.add(step3);
-        paths.addPath(path);
+        // 직선 이동이 가능한지 체크
+        current.tryMove(baseDirection).ifPresent(step1 -> {
+            // 첫 번째 대각선 이동 가능한지 체크
+            step1.tryMove(diagonalDirection).ifPresent(step2 -> {
+                // 두 번째 대각선 이동 가능한지 체크
+                step2.tryMove(diagonalDirection).ifPresent(step3 -> {
+                    Path path = new Path();
+                    path.add(step1);
+                    path.add(step2);
+                    path.add(step3);
+                    paths.addPath(path);
+                });
+            });
+        });
     }
 
     @Override

@@ -3,7 +3,9 @@ package janggi.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.domain.board.Direction;
 import janggi.domain.board.Position;
+import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -33,39 +35,30 @@ public class PositionTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
-    @DisplayName("보드 범위 내로 이동하면, 이동된 좌표를 가진 새로운 Position 객체를 반환한다.")
-    @ParameterizedTest
-    @CsvSource(value = {
-            "4, 4, 1, 0, 5, 4",   // 아래로 1칸
-            "4, 4, -1, 0, 3, 4",  // 위로 1칸
-            "4, 4, 0, 1, 4, 5",   // 오른쪽으로 1칸
-            "4, 4, 0, -1, 4, 3",  // 왼쪽으로 1칸
-            "0, 0, 9, 8, 9, 8"    // 끝에서 끝으로 이동
-    })
-    void 이동_정상_테스트(int row, int column, int moveRow, int moveColumn, int expectedRow, int expectedColumn) {
+    @DisplayName("보드 범위 내로 이동하는 경우, 이동된 좌표가 담긴 Optional 객체를 반환한다.")
+    @Test
+    void 이동_정상_테스트() {
         // given
-        Position position = new Position(row, column);
+        Position position = new Position(4, 4);
 
         // when
-        Position movedPosition = position.move(moveRow, moveColumn);
+        Optional<Position> movedPosition = position.tryMove(Direction.E);
 
         // then
-        assertThat(movedPosition.row()).isEqualTo(expectedRow);
-        assertThat(movedPosition.column()).isEqualTo(expectedColumn);
+        assertThat(movedPosition).isPresent();
+        assertThat(movedPosition).contains(new Position(4, 5));
     }
 
-    @DisplayName("이동 결과가 보드 범위를 벗어나는 경우, IllegalArgumentException이 발생한다.")
-    @ParameterizedTest
-    @CsvSource(value = {
-            "0, 0, -1, 0",
-            "9, 8, 1, 0",
-            "0, 0, 0, -1",
-            "9, 8, 0, 1"
-    })
-    void 이동_범위_예외_테스트(int row, int column, int moveRow, int moveColumn) {
-        Position position = new Position(row, column);
+    @DisplayName("이동 결과가 보드 범위를 벗어나는 경우, 빈 Optional을 반환한다.")
+    @Test
+    void 이동_범위_예외_테스트() {
+        // given
+        Position position = new Position(0, 0);
 
-        assertThatThrownBy(() -> position.move(moveRow, moveColumn))
-                .isInstanceOf(IllegalArgumentException.class);
+        // when
+        Optional<Position> movedPosition = position.tryMove(Direction.N);
+
+        // then
+        assertThat(movedPosition).isEmpty();
     }
 }

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class SlideMoveStrategy implements MoveStrategy {
 
@@ -23,14 +24,22 @@ public class SlideMoveStrategy implements MoveStrategy {
 
     private void addSlidePath(Position current, Direction baseDirection, Paths paths) {
         Path path = new Path();
-        Position pointer = current;
 
-        while (pointer.canMove(baseDirection)) {
-            pointer = baseDirection.move(pointer);
-            path.add(pointer);
+        // 첫 이동 시도
+        Optional<Position> nextCandidate = current.tryMove(baseDirection);
+
+        // 이동에 성공한 경우, 계속 반복
+        while (nextCandidate.isPresent()) {
+            Position currentSlide = nextCandidate.get();
+            path.add(currentSlide);
+
+            // 현재 위치에서 같은 방향으로 또 이동 시도
+            nextCandidate = currentSlide.tryMove(baseDirection);
         }
 
-        paths.addPath(path);
+        if (!path.isEmpty()) {
+            paths.addPath(path);
+        }
     }
 
     @Override
@@ -43,19 +52,30 @@ public class SlideMoveStrategy implements MoveStrategy {
     }
 
     private void validateSlidePath(Path route, Map<Position, Piece> state, List<Position> destinations, Piece me) {
-        for (Position pos : route) {
-            if (processAndCheckBlocked(pos, state, destinations, me)) {
+        for (Position destination : route) {
+            if (isBlocked(destination, state, destinations, me)) {
                 break;
             }
         }
     }
 
-    private boolean processAndCheckBlocked(Position pos, Map<Position, Piece> state, List<Position> destinations,
-                                           Piece me) {
-        Piece target = state.get(pos);
-        if (target == null || !target.isSameSide(me)) {
-            destinations.add(pos);
+    private boolean isBlocked(Position destination, Map<Position, Piece> state, List<Position> destinations,
+                              Piece me) {
+        Piece target = state.get(destination);
+
+        // 빈 칸이면 경로에 추가하고, 계속 전진
+        if (target == null) {
+            destinations.add(destination);
+            return false;
         }
-        return target != null;
+
+        // 적군이면 경로에 추가하고, 멈춤
+        if (!target.isSameSide(me)) {
+            destinations.add(destination);
+        }
+
+        // 아군이면 경로에 추가하지 않고 멈춤
+        // 기물을 만났으므로 무조건 막힌 것(true)으로 반환
+        return true;
     }
 }

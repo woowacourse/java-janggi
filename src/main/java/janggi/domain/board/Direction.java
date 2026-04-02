@@ -34,10 +34,6 @@ public enum Direction {
         return ADJACENT_DIAGONALS.getOrDefault(this, Collections.emptyList());
     }
 
-    public Position move(Position currentPosition) {
-        return currentPosition.move(this.row, this.column);
-    }
-
     public int getNextRow(int currentRow) {
         return currentRow + this.row;
     }
