@@ -1,12 +1,13 @@
 package janggi.domain.piece.unit;
 
-import janggi.domain.point.Point;
 import janggi.domain.path.CandidatePath;
 import janggi.domain.path.Direction;
 import janggi.domain.path.Movement;
 import janggi.domain.path.generator.LinearPathStrategy;
 import janggi.domain.path.generator.PathStrategy;
 import janggi.domain.piece.PieceName;
+import janggi.domain.piece.Score;
+import janggi.domain.point.Point;
 import janggi.domain.side.Side;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +16,10 @@ import java.util.Map;
 public class Chariot extends Piece {
     private static final PieceName NAME = PieceName.CHARIOT;
     private static final PathStrategy DEFAULT_STRATEGY = new LinearPathStrategy();
+    private static final Score SCORE = new Score(13);
 
     public Chariot(Side side) {
-        super(NAME, side, DEFAULT_STRATEGY);
+        super(NAME, side, DEFAULT_STRATEGY, SCORE);
     }
 
     @Override

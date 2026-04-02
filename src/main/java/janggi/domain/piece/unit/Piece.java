@@ -4,6 +4,7 @@ import janggi.domain.path.CandidatePath;
 import janggi.domain.path.Movement;
 import janggi.domain.path.generator.PathStrategy;
 import janggi.domain.piece.PieceName;
+import janggi.domain.piece.Score;
 import janggi.domain.point.Point;
 import janggi.domain.side.Side;
 import java.util.List;
@@ -11,18 +12,24 @@ import java.util.Map;
 import java.util.Objects;
 
 public abstract class Piece {
-    protected PieceName name;
-    protected Side side;
-    protected PathStrategy pathStrategy;
+    protected final PieceName name;
+    protected final Side side;
+    protected final PathStrategy pathStrategy;
+    protected final Score score;
 
-    protected Piece(PieceName name, Side side, PathStrategy pathStrategy) {
+    protected Piece(PieceName name, Side side, PathStrategy pathStrategy, Score score) {
         this.name = name;
         this.side = side;
         this.pathStrategy = pathStrategy;
+        this.score = score;
     }
 
     public String getName() {
         return name.getNameFormat(side);
+    }
+
+    public final Score getScore() {
+        return score;
     }
 
     public final Side getSide() {

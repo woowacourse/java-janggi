@@ -42,7 +42,7 @@ public class JanggiController {
 
     private Point getPoint(Game game) {
         Point from = retry(inputView::readPoint);
-        if (!game.canMove(from)) {
+        if (!game.isTurnPiece(from)) {
             throw new IllegalArgumentException("움직일 수 없습니다.");
         }
         return from;

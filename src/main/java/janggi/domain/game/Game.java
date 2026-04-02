@@ -33,7 +33,7 @@ public class Game {
         return board.destinations(from);
     }
 
-    public boolean canMove(Point from) {
+    public boolean isTurnPiece(Point from) {
         return turn.equals(board.getSideAt(from));
     }
 
@@ -64,10 +64,10 @@ public class Game {
     }
 
     public boolean canPlay() {
-        return !rules.isEnd(board.getPieces().values());
+        return !rules.isEnd(board.getPieces());
     }
 
     public Side winnerSide() {
-        return rules.winner(board.getPieces().values());
+        return rules.winner(board.getPieces());
     }
 }

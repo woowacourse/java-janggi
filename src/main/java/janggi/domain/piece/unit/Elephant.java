@@ -1,12 +1,13 @@
 package janggi.domain.piece.unit;
 
-import janggi.domain.point.Point;
 import janggi.domain.path.CandidatePath;
 import janggi.domain.path.Direction;
 import janggi.domain.path.Movement;
 import janggi.domain.path.generator.FixedPathStrategy;
 import janggi.domain.path.generator.PathStrategy;
 import janggi.domain.piece.PieceName;
+import janggi.domain.piece.Score;
+import janggi.domain.point.Point;
 import janggi.domain.side.Side;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +17,10 @@ public class Elephant extends Piece {
     private static final PieceName NAME = PieceName.ELEPHANT;
     private static final PathStrategy DEFAULT_STRATEGY = new FixedPathStrategy();
     private static final int PATH_SIZE = 3;
+    private static final Score SCORE = new Score(3);
 
     public Elephant(Side side) {
-        super(NAME, side, DEFAULT_STRATEGY);
+        super(NAME, side, DEFAULT_STRATEGY, SCORE);
     }
 
     @Override

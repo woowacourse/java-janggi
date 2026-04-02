@@ -5,6 +5,7 @@ import janggi.domain.path.Movement;
 import janggi.domain.path.generator.FixedPathStrategy;
 import janggi.domain.path.generator.PathStrategy;
 import janggi.domain.piece.PieceName;
+import janggi.domain.piece.Score;
 import janggi.domain.point.Point;
 import janggi.domain.side.Side;
 import java.util.Collections;
@@ -14,9 +15,10 @@ import java.util.Map;
 public class General extends Piece {
     private static final PieceName NAME = PieceName.GENERAL;
     private static final PathStrategy DEFAULT_STRATEGY = new FixedPathStrategy();
+    private static final Score SCORE = Score.NONE;
 
     public General(Side side) {
-        super(NAME, side, DEFAULT_STRATEGY);
+        super(NAME, side, DEFAULT_STRATEGY, SCORE);
     }
 
     @Override
