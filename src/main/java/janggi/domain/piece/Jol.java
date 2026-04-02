@@ -21,22 +21,23 @@ public class Jol extends BasePiece {
         int distanceX = abs(pathX);
         int distanceY = abs(pathY);
 
-        validateOverMove(distanceX, distanceY);
         validateBackMove(pathY);
 
-        return List.of(to);
-    }
-
-    @Override
-    public boolean canMove(List<Piece> route) {
-        return route.stream()
-                .noneMatch(piece -> piece.isSameTeam(team));
-    }
-
-    private void validateOverMove(int distanceX, int distanceY) {
-        if (distanceX + distanceY != MAX_DISTANCE) {
-            throw new IllegalArgumentException("한 칸만 이동할 수 있습니다.");
+        if (isNormalMove(distanceX, distanceY) || isPalaceDiagonalMove(from, to, distanceX, distanceY)) {
+            return List.of();
         }
+
+        throw new IllegalArgumentException("졸은 앞으로, 좌우 한 칸 또는 궁성 안에서 대각선 한 칸만 이동할 수 있습니다.");
+    }
+
+    private boolean isNormalMove(int distanceX, int distanceY) {
+        return distanceX + distanceY == MAX_DISTANCE;
+    }
+
+    private boolean isPalaceDiagonalMove(Point from, Point to, int distanceX, int distanceY) {
+        return distanceX == 1
+                && distanceY == 1
+                && from.isPalaceDiagonalMove(to);
     }
 
     private void validateBackMove(int pathY) {
@@ -45,4 +46,3 @@ public class Jol extends BasePiece {
         }
     }
 }
-
