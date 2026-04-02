@@ -2,7 +2,7 @@ package janggi.domain.board;
 
 import janggi.domain.Piece;
 import janggi.domain.Position;
-import janggi.domain.Route;
+import janggi.domain.RouteConverter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +11,7 @@ import java.util.Map;
 public class Board {
 
     private final Map<Position, Piece> board = new HashMap<>();
+    private final RouteConverter routeConverter = new RouteConverter();
 
     public void place(Position position, Piece piece) {
         board.put(position, piece);
@@ -23,9 +24,7 @@ public class Board {
     public List<Position> findAvailablePositions(Position position) {
         Piece piece = board.get(position);
 
-        List<Route> routes = piece.findRoutes();
-
-        Map<Position, List<Position>> routePositions = convertToPositions(position, piece, routes);
+        Map<Position, List<Position>> routePositions = routeConverter.convertToPosition(this, position);
 
         List<Position> availablePositions = calculateAvailablePositions(piece, routePositions);
 
@@ -55,6 +54,10 @@ public class Board {
         }
     }
 
+    public Piece placeAt(Position position) {
+        return board.get(position);
+    }
+
     private boolean isDestinationIsMyTeam(Position destination, Piece piece) {
         Piece destinationPiece = board.get(destination);
         if (board.containsKey(destination)) {
@@ -70,33 +73,6 @@ public class Board {
             }
         }
         return false;
-    }
-
-    private Map<Position, List<Position>> convertToPositions(Position position, Piece piece, List<Route> routes) {
-        if (piece.isCha() || piece.isPo()) {
-            return convertToContinuousRoutes(position, routes);
-        }
-        return convertToFixedRoutes(position, routes);
-    }
-
-    private Map<Position, List<Position>> convertToFixedRoutes(Position position, List<Route> routes) {
-        Map<Position, List<Position>> result = new HashMap<>();
-        for (Route route : routes) {
-            List<Position> positionRoute = route.applyDirections(position);
-            if (positionRoute.isEmpty()) {
-                continue;
-            }
-            result.put(positionRoute.getLast(), positionRoute);
-        }
-        return result;
-    }
-
-    private Map<Position, List<Position>> convertToContinuousRoutes(Position position, List<Route> routes) {
-        Map<Position, List<Position>> result = new HashMap<>();
-        for (Route route : routes) {
-            route.applyContinuousDirections(position, result);
-        }
-        return result;
     }
 
     private boolean isDestinationIsPo(Position destination) {
