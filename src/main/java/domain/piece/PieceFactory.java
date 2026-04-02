@@ -23,8 +23,8 @@ public class PieceFactory {
             Side.HAN, new Guard(Side.HAN, LINEAR_ONE_STEP)
     );
     private static final Map<Side, Soldier> SOLDIERS = Map.of(
-            Side.CHO, new Soldier(Side.CHO, LINEAR_ONE_STEP),
-            Side.HAN, new Soldier(Side.HAN, LINEAR_ONE_STEP)
+            Side.CHO, new Soldier(Side.CHO, soldierStrategy(Side.CHO)),
+            Side.HAN, new Soldier(Side.HAN, soldierStrategy(Side.HAN))
     );
     private static final Map<Side, Horse> HORSES = Map.of(
             Side.CHO, new Horse(Side.CHO, HORSE_STRATEGY),
@@ -52,4 +52,8 @@ public class PieceFactory {
     public static Chariot createChariot(Side side) { return CHARIOTS.get(side); }
     public static Cannon createCannon(Side side) { return CANNONS.get(side); }
     public static Soldier createSoldier(Side side) { return SOLDIERS.get(side); }
+
+    private static MovementStrategy soldierStrategy(Side side) {
+        return new OneStepStrategy(Direction.soldier(side));
+    }
 }
