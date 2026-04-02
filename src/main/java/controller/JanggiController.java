@@ -1,5 +1,6 @@
 package controller;
 
+import model.GameStatus;
 import model.Janggi;
 import model.Team;
 import model.board.Board;
@@ -46,11 +47,11 @@ public class JanggiController {
         Piece piece = janggi.findPieceAt(current, currentTurn);
 
         Position next = inputView.readDestination(currentTurn, piece);
-        janggi.move(current, next);
+        GameStatus status = janggi.move(current, next);
 
         outputView.displayBoard(janggi.board());
 
-        if (janggi.isFinished()) {
+        if (status == GameStatus.WIN_BY_CAPTURE) {
             Team winner = janggi.getWinnerByCapture();
             outputView.displayWinner(winner.getName());
         }
@@ -83,11 +84,11 @@ public class JanggiController {
 
     private void processCommand(Janggi janggi) {
         int turn = 0;
-        while (!janggi.isFinished() && turn++ < MAX_RETRY) {
+        while (janggi.isPlaying() && turn++ < MAX_RETRY) {
             CommandType commandType = retry(inputView::readCommand, processError());
             retry(() -> commandMap.get(commandType).accept(janggi), processError());
         }
-        if (!janggi.isFinished()) {
+        if (janggi.isPlaying()) {
             handleScore(janggi);
         }
     }

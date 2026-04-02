@@ -17,23 +17,24 @@ public class Janggi {
 
     private final Board board;
     private Team turn;
-    private boolean finished;
+    private GameStatus status;
 
     public Janggi(Board board) {
         this.board = board;
         this.turn = Team.CHO;
-        this.finished = false;
+        this.status = GameStatus.PLAYING;
     }
 
-    public void move(Position current, Position next) {
+    public GameStatus move(Position current, Position next) {
         Piece piece = findPieceAt(current, turn);
         validateMovement(current, next, piece);
 
         Optional<Piece> capturedPiece = board.movePiece(current, next);
         if (capturedPiece.map(Piece::isGeneral).orElse(false)) {
-            this.finished = true;
+            this.status = GameStatus.WIN_BY_CAPTURE;
         }
         this.turn = turn.next();
+        return status;
     }
 
     public Piece findPieceAt(Position position, Team turn) {
@@ -73,8 +74,8 @@ public class Janggi {
         }
     }
 
-    public boolean isFinished() {
-        return finished;
+    public boolean isPlaying() {
+        return !status.isFinished();
     }
 
     public Team getWinnerByCapture() {
@@ -82,14 +83,14 @@ public class Janggi {
     }
 
     public ScoreResult calculateScoreResultOfTeams() {
-        this.finished = true;
+        this.status = GameStatus.WIN_BY_SCORE;
         double hanScore = board.calculateScore(Team.HAN);
         double choScore = board.calculateScore(Team.CHO);
         return new ScoreResult(hanScore, choScore);
     }
 
     public void quit() {
-        this.finished = true;
+        this.status = GameStatus.QUIT;
     }
 
     public Map<Position, Piece> board() {
