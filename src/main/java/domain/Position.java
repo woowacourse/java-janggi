@@ -155,11 +155,6 @@ public record Position(int row, int col) {
             this.predicate = predicate;
         }
 
-        private static boolean isInPalace(int row, int col) {
-            Position current = Position.of(row,col);
-            return Arrays.stream(Palace.values()).anyMatch(pos -> pos.predicate.test(current));
-        }
-
         private static boolean isRedEastNorth(int row, int col) {
             return RED_EAST_NORTH.predicate.test(Position.of(row, col));
         }

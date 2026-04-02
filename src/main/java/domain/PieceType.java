@@ -4,18 +4,17 @@ import domain.strategy.CannonMoveStrategy;
 import domain.strategy.ChariotMoveStrategy;
 import domain.strategy.GreenSoldierMoveStrategy;
 import domain.strategy.ElephantMoveStrategy;
-import domain.strategy.GeneralMoveStrategy;
-import domain.strategy.GuardMoveStrategy;
 import domain.strategy.HorseMoveStrategy;
 import domain.strategy.MoveStrategy;
 import domain.strategy.NoneMoveableStrategy;
+import domain.strategy.PalacePieceMoveStrategy;
 import domain.strategy.RedSoldierMoveStrategy;
 import java.util.function.Function;
 
 public enum PieceType {
 
-    GENERAL("將", GeneralMoveStrategy::of),
-    GUARD("士", GuardMoveStrategy::of),
+    GENERAL("將", PalacePieceMoveStrategy::of),
+    GUARD("士", PalacePieceMoveStrategy::of),
 
     HORSE("馬", HorseMoveStrategy::of),
     ELEPHANT("象", ElephantMoveStrategy::of),

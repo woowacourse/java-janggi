@@ -8,7 +8,7 @@ import java.util.function.UnaryOperator;
 
 public class CannonMoveStrategy extends MoveStrategy {
 
-    public CannonMoveStrategy(Position position) {
+    private CannonMoveStrategy(Position position) {
         super(position);
     }
 

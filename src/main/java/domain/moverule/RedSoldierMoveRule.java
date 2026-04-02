@@ -4,6 +4,7 @@ import domain.MoveRules;
 import domain.Position;
 import java.util.List;
 import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 public enum RedSoldierMoveRule implements MoveRules {
 
@@ -12,14 +13,14 @@ public enum RedSoldierMoveRule implements MoveRules {
     RIGHT(List.of(Position::right)),
     ;
 
-    private final List<Function<Position, Position>> moveSteps;
+    private final List<UnaryOperator<Position>> moveSteps;
 
-    RedSoldierMoveRule(List<Function<Position, Position>> moveSteps) {
+    RedSoldierMoveRule(List<UnaryOperator<Position>> moveSteps) {
         this.moveSteps = moveSteps;
     }
 
     @Override
-    public List<Function<Position, Position>> moveSteps() {
+    public List<UnaryOperator<Position>> moveSteps() {
         return this.moveSteps;
     }
 }
