@@ -27,7 +27,7 @@ class JangTest {
         //when & then
         assertThatThrownBy(() -> jang.getLegalPath(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("궁성 밖의 위치가 포함돼 있습니다.");
+                .hasMessage("from과 to는 같은 궁성 안에 있어야 합니다.");
     }
 
     @DisplayName("궁성 안의 선을 따라 이동하지 않으면 예외가 발생한다.")

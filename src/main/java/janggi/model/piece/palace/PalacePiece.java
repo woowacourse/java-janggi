@@ -11,28 +11,24 @@ import java.util.List;
 
 public abstract class PalacePiece extends Piece {
 
-    private final Movement movement;
-
     private PalacePiece(
             Team team,
             PieceType pieceType,
-            Movement movement
+            Movement defaultMovement
     ) {
-        super(team, pieceType);
-        this.movement = movement;
+        super(team, pieceType, defaultMovement);
     }
 
-    protected PalacePiece(Team team, PieceType pieceType) {
-        this (
-                team,
-                pieceType,
-                new PalaceAdjacentMovement()
-        );
+    protected PalacePiece(
+            Team team,
+            PieceType pieceType
+    ) {
+        this (team, pieceType, new PalaceAdjacentMovement());
     }
 
     @Override
     public PositionPath getLegalPath(Position from, Position to) {
-        return movement.move(from, to);
+        return defaultMovement.move(from, to);
     }
 
     @Override

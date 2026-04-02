@@ -117,4 +117,18 @@ class ChaTest {
         assertThat(cha.canPassThrough(gimulsOnPath, gimulAtTo))
                 .isFalse();
     }
+
+    @DisplayName("from과 to가 서로다른 팀의 궁성에 있으면 예외가 발생한다.")
+    @Test
+    void getLegalPath_different_palace() {
+        //given
+        Position from = new Position(Row.SIX, Column.THREE);
+        Position to = new Position(Row.TWO, Column.FIVE);
+        Cha cha = new Cha(Team.CHO);
+
+        //when & then
+        assertThatThrownBy(() -> cha.getLegalPath(from, to))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("직선 관계에 위치해 있지 않습니다.");
+    }
 }
