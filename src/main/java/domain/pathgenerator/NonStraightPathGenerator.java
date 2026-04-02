@@ -8,7 +8,7 @@ import domain.position.Path;
 import domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 
 public class NonStraightPathGenerator implements PathGenerator {
 
@@ -22,27 +22,34 @@ public class NonStraightPathGenerator implements PathGenerator {
     public Path calculatePath(Position source, Position destination) {
         return paths.stream()
                 .map(directionPath -> tryBuildPath(source, destination, directionPath))
-                .filter(Optional::isPresent)
-                .map(Optional::get)
+                .filter(Objects::nonNull)
                 .findFirst()
                 .orElseThrow(() -> new JanggiException(INVALID_PIECE_MOVEMENT.formatted(source, destination)));
     }
 
-    private Optional<Path> tryBuildPath(Position source, Position destination, List<Direction> directionPath) {
-        try {
-            List<Position> waypoints = new ArrayList<>();
-            Position current = source;
-            for (Direction direction : directionPath) {
-                current = direction.calculateNextPosition(current);
-                waypoints.add(current);
-            }
+    @Override
+    public boolean isPathPossible(Position source, Position destination) {
+        return paths.stream()
+                .anyMatch(directionPath -> tryBuildPath(source, destination, directionPath) != null);
+    }
 
-            if (destination.equals(current)) {
-                waypoints.removeLast();
-                return Optional.of(new Path(source, destination, waypoints));
+    private Path tryBuildPath(Position source, Position destination, List<Direction> directionPath) {
+        List<Position> waypoints = new ArrayList<>();
+        Position current = source;
+
+        for (Direction direction : directionPath) {
+            if (!direction.canCalculateNextPosition(current)) {
+                return null;
             }
-        } catch (JanggiException ignored) {
+            current = direction.calculateNextPosition(current);
+            waypoints.add(current);
         }
-        return Optional.empty();
+
+        if (!destination.equals(current)) {
+            return null;
+        }
+
+        waypoints.removeLast();
+        return new Path(source, destination, waypoints);
     }
 }
