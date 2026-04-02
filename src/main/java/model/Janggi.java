@@ -84,7 +84,7 @@ public class Janggi {
 
     public ScoreResult calculateScoreResultOfTeams() {
         this.status = GameStatus.WIN_BY_SCORE;
-        double hanScore = board.calculateScore(Team.HAN);
+        double hanScore = board.calculateScore(Team.HAN) + HAN_BONUS;
         double choScore = board.calculateScore(Team.CHO);
         return new ScoreResult(hanScore, choScore);
     }
