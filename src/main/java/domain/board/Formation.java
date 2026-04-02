@@ -7,9 +7,10 @@ import domain.piece.PieceFactory;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import parser.Command;
 
 public enum Formation {
-    LEFT_ELEPHANT(FormationCommand.FIRST) {
+    LEFT_ELEPHANT(Command.FIRST) {
         @Override
         public void placeElephant(Map<Position, Piece> pieces, Side side) {
             List<Piece> orders = List.of(
@@ -21,7 +22,7 @@ public enum Formation {
             place(pieces, side, orders);
         }
     },
-    RIGHT_ELEPHANT(FormationCommand.SECOND) {
+    RIGHT_ELEPHANT(Command.SECOND) {
         @Override
         public void placeElephant(Map<Position, Piece> pieces, Side side) {
             List<Piece> orders = List.of(
@@ -33,7 +34,7 @@ public enum Formation {
             place(pieces, side, orders);
         }
     },
-    OUTER_ELEPHANT(FormationCommand.THIRD) {
+    OUTER_ELEPHANT(Command.THIRD) {
         @Override
         public void placeElephant(Map<Position, Piece> pieces, Side side) {
             List<Piece> orders = List.of(
@@ -45,7 +46,7 @@ public enum Formation {
             place(pieces, side, orders);
         }
     },
-    INNER_ELEPHANT(FormationCommand.FOURTH) {
+    INNER_ELEPHANT(Command.FOURTH) {
         @Override
         public void placeElephant(Map<Position, Piece> pieces, Side side) {
             List<Piece> orders = List.of(
@@ -59,15 +60,15 @@ public enum Formation {
     },
     ;
 
-    private final FormationCommand formationCommand;
+    private final Command command;
 
-    Formation(FormationCommand formationCommand) {
-        this.formationCommand = formationCommand;
+    Formation(Command command) {
+        this.command = command;
     }
 
-    public static Formation from(FormationCommand formationCommand) {
+    public static Formation from(Command command) {
         return Arrays.stream(values())
-                .filter(formation -> formation.formationCommand.equals(formationCommand))
+                .filter(formation -> formation.command.equals(command))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("올바른 배치가 아닙니다."));
     }

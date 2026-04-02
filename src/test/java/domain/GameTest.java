@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.Formation;
-import domain.board.FormationCommand;
+import parser.Command;
 import domain.piece.Piece;
 import domain.piece.PieceFactory;
 import domain.player.Name;
@@ -22,7 +22,7 @@ class GameTest {
     @BeforeEach
     void setUp() {
         players = Players.createInitial(new Name("cho"), new Name("han"));
-        Board board = BoardFactory.create(Formation.from(FormationCommand.FIRST), Formation.from(FormationCommand.FIRST));
+        Board board = BoardFactory.create(Formation.from(Command.FIRST), Formation.from(Command.FIRST));
         game = new Game(board, players);
     }
 

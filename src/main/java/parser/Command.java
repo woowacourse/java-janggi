@@ -1,8 +1,8 @@
-package domain.board;
+package parser;
 
 import java.util.Arrays;
 
-public enum FormationCommand {
+public enum Command {
     FIRST("1"),
     SECOND("2"),
     THIRD("3"),
@@ -11,11 +11,11 @@ public enum FormationCommand {
     
     private final String input;
 
-    FormationCommand(String input) {
+    Command(String input) {
         this.input = input;
     }
 
-    public static FormationCommand from(String input) {
+    public static Command from(String input) {
         return Arrays.stream(values())
                 .filter(command -> command.input.equals(input.strip()))
                 .findFirst()

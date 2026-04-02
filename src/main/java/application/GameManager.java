@@ -6,7 +6,7 @@ import domain.Side;
 import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.Formation;
-import domain.board.FormationCommand;
+import parser.Command;
 import domain.player.Name;
 import domain.player.Players;
 import java.util.List;
@@ -48,7 +48,7 @@ public class GameManager {
     }
 
     private Formation getFormation(Side side) {
-        return retry(() -> Formation.from(FormationCommand.from(inputView.readFormation(side))));
+        return retry(() -> Formation.from(Command.from(inputView.readFormation(side))));
     }
 
     private void playTurn(Game game) {
