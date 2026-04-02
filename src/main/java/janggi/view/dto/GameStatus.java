@@ -19,7 +19,7 @@ public record GameStatus(
 
     public static GameStatus from(Janggi janggi) {
         return new GameStatus(
-                renderBoard(janggi.getBoard()),
+                renderBoard(janggi.getBoard().getBoard()),
                 renderTeam(janggi.isChoTurn())
         );
     }

@@ -20,7 +20,7 @@ public class ChoTurn extends PlayingTurn {
                 to
         );
 
-        if (movedBoard.isGameOver()) {
+        if (movedBoard.isWinnerDetermined()) {
             return new GameOver(board);
         }
 
