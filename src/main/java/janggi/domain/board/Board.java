@@ -1,9 +1,9 @@
 package janggi.domain.board;
 
 import janggi.domain.Team;
-import janggi.domain.piece.General;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.EmptyPiece;
+import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ public class Board {
 
     public boolean isGeneralCaptured(Team currentTeam) {
         return piecesByPosition.values().stream()
-                .noneMatch(piece -> piece instanceof General && piece.getTeam() == currentTeam);
+                .noneMatch(piece -> piece.getType() == PieceType.GENERAL && piece.getTeam() == currentTeam);
     }
 
     public Map<Position, Piece> showBoard() {
