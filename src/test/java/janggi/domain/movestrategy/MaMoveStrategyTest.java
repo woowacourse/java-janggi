@@ -1,4 +1,4 @@
-package janggi.domain.movestorage;
+package janggi.domain.movestrategy;
 
 import janggi.domain.BoardState;
 import janggi.domain.Column;
@@ -12,7 +12,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class MaMoveStorageTest {
+class MaMoveStrategyTest {
     private static class FakeBoard implements BoardState {
         @Override
         public boolean hasPieceAt(Position position) {

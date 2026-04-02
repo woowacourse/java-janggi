@@ -1,13 +1,11 @@
-package janggi.domain.movestorage;
+package janggi.domain.movestrategy;
 
 import janggi.domain.BoardState;
 import janggi.domain.Column;
-import janggi.domain.Piece;
-import janggi.domain.PieceType;
 import janggi.domain.Position;
 import janggi.domain.Row;
 
-public class PoMoveStrategy implements MoveStrategy {
+public class ChaMoveStrategy implements MoveStrategy {
 
     @Override
     public boolean canMove(Position from, Position to, BoardState boardState) {
@@ -20,8 +18,6 @@ public class PoMoveStrategy implements MoveStrategy {
             return false;
         }
 
-        int jumpCount = 0;
-
         if (fromRow == toRow) {
             int start = Math.min(fromCol, toCol) + 1;
             int end = Math.max(fromCol, toCol);
@@ -29,11 +25,7 @@ public class PoMoveStrategy implements MoveStrategy {
             for (int i = start; i < end; i++) {
                 Position position = Position.of(Row.of(fromRow), Column.of(i));
                 if (boardState.hasPieceAt(position)) {
-                    Piece jumpPiece = boardState.getPieceAt(position);
-                    if (jumpPiece.getPieceType() == PieceType.PO) {
-                        return false;
-                    }
-                    jumpCount++;
+                    return false;
                 }
             }
         }
@@ -45,23 +37,8 @@ public class PoMoveStrategy implements MoveStrategy {
             for (int i = start; i < end; i++) {
                 Position position = Position.of(Row.of(i), Column.of(fromCol));
                 if (boardState.hasPieceAt(position)) {
-                    Piece jumpPiece = boardState.getPieceAt(position);
-                    if (jumpPiece.getPieceType() == PieceType.PO) {
-                        return false;
-                    }
-                    jumpCount++;
+                    return false;
                 }
-            }
-        }
-
-        if (jumpCount != 1) {
-            return false;
-        }
-
-        if (boardState.hasPieceAt(to)) {
-            Piece targetPiece = boardState.getPieceAt(to);
-            if (targetPiece.getPieceType() == PieceType.PO) {
-                return false;
             }
         }
         return true;

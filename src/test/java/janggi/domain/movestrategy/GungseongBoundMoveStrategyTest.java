@@ -1,4 +1,4 @@
-package janggi.domain.movestorage;
+package janggi.domain.movestrategy;
 
 import janggi.domain.BoardState;
 import janggi.domain.Column;
@@ -14,7 +14,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class GungseongBoundMoveStorageTest {
+class GungseongBoundMoveStrategyTest {
     private static class ObstaclFakeBoard implements BoardState {
         private final Map<Position, Piece> obstacles;
 

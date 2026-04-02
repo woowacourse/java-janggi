@@ -1,4 +1,4 @@
-package janggi.domain.movestorage;
+package janggi.domain.movestrategy;
 
 import janggi.domain.BoardState;
 import janggi.domain.Position;

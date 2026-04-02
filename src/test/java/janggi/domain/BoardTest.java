@@ -1,6 +1,6 @@
 package janggi.domain;
 
-import janggi.domain.movestorage.JolMoveStrategy;
+import janggi.domain.movestrategy.JolMoveStrategy;
 import janggi.exception.EmptyPositionException;
 import org.junit.jupiter.api.Test;
 

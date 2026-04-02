@@ -1,7 +1,7 @@
 package janggi.domain;
 
-import janggi.domain.movestorage.JolMoveStrategy;
-import janggi.domain.movestorage.MoveStrategy;
+import janggi.domain.movestrategy.JolMoveStrategy;
+import janggi.domain.movestrategy.MoveStrategy;
 import janggi.exception.InvalidMoveException;
 import org.junit.jupiter.api.Test;
 

@@ -1,11 +1,11 @@
 package janggi.domain;
 
-import janggi.domain.movestorage.ChaMoveStrategy;
-import janggi.domain.movestorage.GungseongBoundMoveStrategy;
-import janggi.domain.movestorage.JolMoveStrategy;
-import janggi.domain.movestorage.MaMoveStrategy;
-import janggi.domain.movestorage.PoMoveStrategy;
-import janggi.domain.movestorage.SangMoveStrategy;
+import janggi.domain.movestrategy.ChaMoveStrategy;
+import janggi.domain.movestrategy.GungseongBoundMoveStrategy;
+import janggi.domain.movestrategy.JolMoveStrategy;
+import janggi.domain.movestrategy.MaMoveStrategy;
+import janggi.domain.movestrategy.PoMoveStrategy;
+import janggi.domain.movestrategy.SangMoveStrategy;
 
 import java.util.HashMap;
 import java.util.Map;

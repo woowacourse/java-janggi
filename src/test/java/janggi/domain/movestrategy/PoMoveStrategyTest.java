@@ -1,4 +1,4 @@
-package janggi.domain.movestorage;
+package janggi.domain.movestrategy;
 
 import janggi.domain.BoardState;
 import janggi.domain.Column;
@@ -14,7 +14,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class PoMoveStorageTest {
+class PoMoveStrategyTest {
 
     private static class FakeBoard implements BoardState {
         @Override
