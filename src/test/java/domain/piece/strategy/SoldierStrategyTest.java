@@ -75,6 +75,19 @@ public class SoldierStrategyTest {
     }
 
     @Test
+    @DisplayName("졸은 두 칸 이동할 수 없다.")
+    void throwException_When_ChoSoldierMovesTwoSteps() {
+        Position from = new Position(1, 7);
+        Position to = new Position(1, 5);
+
+        Piece soldier = dummyBoard.get(from);
+
+        assertThatThrownBy(() -> soldier.move(from, to, boardChecker))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 졸/병은 한 칸만그 움직일 수 있습니다.");
+    }
+
+    @Test
     @DisplayName("병은 경로상의 기물 리스트가 비어있는 경우 정상 이동한다.")
     void hanSoldier_moveSuccessfully_When_PiecesIsEmpty() {
         Position from = new Position(1, 4);
@@ -84,6 +97,19 @@ public class SoldierStrategyTest {
 
         assertThatCode(() -> soldier.move(from, to, boardChecker))
                 .doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("병은 두 칸 이동할 수 없다.")
+    void throwException_When_HanSoldierMovesTwoSteps() {
+        Position from = new Position(1, 4);
+        Position to = new Position(1, 6);
+
+        Piece soldier = dummyBoard.get(from);
+
+        assertThatThrownBy(() -> soldier.move(from, to, boardChecker))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 졸/병은 한 칸만그 움직일 수 있습니다.");
     }
 
     @Test
