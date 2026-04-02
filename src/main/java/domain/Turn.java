@@ -15,9 +15,11 @@ public class Turn {
     public Team change() {
         if (this.team == Team.HAN) {
             this.team = Team.CHU;
+            return this.team;
         }
         if (this.team == Team.CHU) {
             this.team = Team.HAN;
+            return this.team;
         }
         return this.team;
     }
