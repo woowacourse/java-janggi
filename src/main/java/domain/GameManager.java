@@ -8,6 +8,7 @@ import domain.player.Name;
 import domain.player.Players;
 import java.util.List;
 import java.util.function.Supplier;
+import parser.InputParser;
 import view.InputView;
 import view.OutputView;
 

@@ -1,6 +1,7 @@
-package domain;
+package parser;
 
 
+import domain.Position;
 import domain.player.Name;
 import java.util.Arrays;
 import java.util.List;
