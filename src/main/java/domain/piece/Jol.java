@@ -41,7 +41,8 @@ public class Jol extends Piece {
     private static final MovementStrategy MOVEMENT_STRATEGY =
             new ConditionalMovementStrategy(
                     new BlockedMovementStrategy(),
-                    pathPieces -> pathPieces.isOrthogonalMove() || pathPieces.isPalaceMove()
+                    pathPieces -> pathPieces.isOrthogonalMove()
+                            || (pathPieces.isPalaceMove() && pathPieces.isValidPalaceDiagonalMove())
             );
     private static final PathGenerator CHO_PATH_GENERATOR = new NonStraightPathGenerator(CHO_PATHS);
     private static final PathGenerator HAN_PATH_GENERATOR = new NonStraightPathGenerator(HAN_PATHS);

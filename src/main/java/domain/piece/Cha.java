@@ -1,9 +1,8 @@
 package domain.piece;
 
 import domain.board.PathPieces;
-import domain.pathgenerator.DiagonalStraightGenerator;
 import domain.pathgenerator.PathGenerator;
-import domain.pathgenerator.OrthogonalStraightPathGenerator;
+import domain.pathgenerator.StraightPathGenerator;
 import domain.player.Team;
 import domain.position.Path;
 import domain.position.Position;
@@ -15,10 +14,10 @@ public class Cha extends Piece {
     private static final MovementStrategy MOVEMENT_STRATEGY =
             new ConditionalMovementStrategy(
                     new BlockedMovementStrategy(),
-                    pathPieces -> pathPieces.isOrthogonalMove() || pathPieces.isPalaceMove()
+                    pathPieces -> pathPieces.isOrthogonalMove()
+                            || (pathPieces.isPalaceMove() && pathPieces.isValidPalaceDiagonalMove())
             );
-    private static final PathGenerator STRAIGHT_PATH_GENERATOR = new OrthogonalStraightPathGenerator();
-    private static final PathGenerator DIAGONAL_PATH_GENERATOR = new DiagonalStraightGenerator();
+    private static final PathGenerator PATH_GENERATOR = new StraightPathGenerator();
 
     public Cha(Team team) {
         super(team, PieceType.CHA);
@@ -26,10 +25,7 @@ public class Cha extends Piece {
 
     @Override
     public Path calculatePath(Position source, Position destination) {
-        if (source.row() == destination.row() || source.column() == destination.column()) {
-            return STRAIGHT_PATH_GENERATOR.calculatePath(source, destination);
-        }
-        return DIAGONAL_PATH_GENERATOR.calculatePath(source, destination);
+        return PATH_GENERATOR.calculatePath(source, destination);
     }
 
     @Override

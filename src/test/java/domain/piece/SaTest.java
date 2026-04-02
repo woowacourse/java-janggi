@@ -58,4 +58,30 @@ class SaTest {
 
         assertFalse(sa.validatePath(pathPieces));
     }
+
+    @Test
+    void 궁성_안_연결_대각선이면_사는_이동이_가능하다() {
+        Piece sa = new Sa(Team.HAN);
+        PathPieces pathPieces = new PathPieces(
+                new Sa(Team.HAN),
+                List.of(),
+                new Cha(Team.CHO),
+                new MoveMeta(true, true, true, true)
+        );
+
+        assertTrue(sa.validatePath(pathPieces));
+    }
+
+    @Test
+    void 궁성_안_비연결_대각선이면_사는_이동이_불가능하다() {
+        Piece sa = new Sa(Team.HAN);
+        PathPieces pathPieces = new PathPieces(
+                new Sa(Team.HAN),
+                List.of(),
+                new Cha(Team.CHO),
+                new MoveMeta(true, true, true, false)
+        );
+
+        assertFalse(sa.validatePath(pathPieces));
+    }
 }

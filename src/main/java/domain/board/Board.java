@@ -68,7 +68,8 @@ public class Board {
         return new MoveMeta(
                 source.isInPalace(),
                 destination.isInPalace(),
-                isDiagonalMove(source, destination)
+                isDiagonalMove(source, destination),
+                source.isPalaceDiagonalReachable(destination)
         );
     }
 

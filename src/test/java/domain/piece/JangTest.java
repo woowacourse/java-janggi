@@ -46,6 +46,32 @@ class JangTest {
         assertFalse(jang.validatePath(pathPieces));
     }
 
+    @Test
+    void 궁성_안_연결_대각선이면_장은_이동이_가능하다() {
+        Piece jang = new Jang(Team.HAN);
+        PathPieces pathPieces = new PathPieces(
+                new Jang(Team.HAN),
+                List.of(),
+                new Cha(Team.CHO),
+                new MoveMeta(true, true, true, true)
+        );
+
+        assertTrue(jang.validatePath(pathPieces));
+    }
+
+    @Test
+    void 궁성_안_비연결_대각선이면_장은_이동이_불가능하다() {
+        Piece jang = new Jang(Team.HAN);
+        PathPieces pathPieces = new PathPieces(
+                new Jang(Team.HAN),
+                List.of(),
+                new Cha(Team.CHO),
+                new MoveMeta(true, true, true, false)
+        );
+
+        assertFalse(jang.validatePath(pathPieces));
+    }
+
     private static Stream<Arguments> provideJangPaths() {
         return Stream.of(
                 Arguments.of(4, 4, 5, 4),

@@ -62,4 +62,17 @@ class ChaTest {
 
         assertTrue(cha.validatePath(pathPieces));
     }
+
+    @Test
+    void 차는_궁성_안_비연결_대각선_이동_검증에_실패한다() {
+        MovablePiece cha = new Cha(Team.CHO);
+        PathPieces pathPieces = new PathPieces(
+                cha,
+                List.of(),
+                None.getInstance(),
+                new MoveMeta(true, true, true, false)
+        );
+
+        assertFalse(cha.validatePath(pathPieces));
+    }
 }

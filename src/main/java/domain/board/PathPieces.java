@@ -64,4 +64,8 @@ public class PathPieces {
     public boolean isPalaceMove() {
         return moveMeta.isPalaceMove();
     }
+
+    public boolean isValidPalaceDiagonalMove() {
+        return moveMeta.palaceDiagonalReachable();
+    }
 }

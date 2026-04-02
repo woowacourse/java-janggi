@@ -70,4 +70,17 @@ class PoTest {
 
         assertTrue(po.validatePath(pathPieces));
     }
+
+    @Test
+    void 포는_궁성_안_비연결_대각선_이동은_검증에_실패한다() {
+        MovablePiece po = new Po(Team.CHO);
+        PathPieces pathPieces = new PathPieces(
+                po,
+                List.of(new Cha(Team.HAN)),
+                None.getInstance(),
+                new MoveMeta(true, true, true, false)
+        );
+
+        assertFalse(po.validatePath(pathPieces));
+    }
 }

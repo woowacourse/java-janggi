@@ -119,6 +119,20 @@ class JolTest {
         assertTrue(jol.validatePath(pathPieces));
     }
 
+    @org.junit.jupiter.api.Test
+    void 초의_졸은_궁성_안_비연결_대각선_이동_검증에_실패한다() {
+        MovablePiece jol = new Jol(Team.CHO);
+
+        PathPieces pathPieces = new PathPieces(
+                jol,
+                List.of(),
+                None.getInstance(),
+                new MoveMeta(true, true, true, false)
+        );
+
+        assertFalse(jol.validatePath(pathPieces));
+    }
+
     private static Stream<Arguments> provideChoJolPaths() {
         return Stream.of(
                 Arguments.of(6, 4, 5, 4),
