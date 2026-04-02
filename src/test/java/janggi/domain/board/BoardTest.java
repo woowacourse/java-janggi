@@ -30,10 +30,10 @@ public class BoardTest {
         for (int i = 0; i <= 8; i += 2) {
             assertThat(janggiBoard.get(Position.of(3, i))).isEqualTo("卒");
         }
-        assertThat(janggiBoard.get(Position.of(Camp.CHO.initRowPosition(), 1))).isEqualTo("象");
-        assertThat(janggiBoard.get(Position.of(Camp.CHO.initRowPosition(), 2))).isEqualTo("馬");
-        assertThat(janggiBoard.get(Position.of(Camp.CHO.initRowPosition(), 6))).isEqualTo("象");
-        assertThat(janggiBoard.get(Position.of(Camp.CHO.initRowPosition(), 7))).isEqualTo("馬");
+        assertThat(janggiBoard.get(Position.of(Camp.CHO.baselineRow(), 1))).isEqualTo("象");
+        assertThat(janggiBoard.get(Position.of(Camp.CHO.baselineRow(), 2))).isEqualTo("馬");
+        assertThat(janggiBoard.get(Position.of(Camp.CHO.baselineRow(), 6))).isEqualTo("象");
+        assertThat(janggiBoard.get(Position.of(Camp.CHO.baselineRow(), 7))).isEqualTo("馬");
 
         assertThat(janggiBoard.get(Position.of(8, 4))).isEqualTo("漢");
         assertThat(janggiBoard.get(Position.of(9, 0))).isEqualTo("車");
@@ -45,10 +45,10 @@ public class BoardTest {
         for (int i = 0; i <= 8; i += 2) {
             assertThat(janggiBoard.get(Position.of(6, i))).isEqualTo("兵");
         }
-        assertThat(janggiBoard.get(Position.of(Camp.HAN.initRowPosition(), 1))).isEqualTo("象");
-        assertThat(janggiBoard.get(Position.of(Camp.HAN.initRowPosition(), 2))).isEqualTo("馬");
-        assertThat(janggiBoard.get(Position.of(Camp.HAN.initRowPosition(), 6))).isEqualTo("象");
-        assertThat(janggiBoard.get(Position.of(Camp.HAN.initRowPosition(), 7))).isEqualTo("馬");
+        assertThat(janggiBoard.get(Position.of(Camp.HAN.baselineRow(), 1))).isEqualTo("象");
+        assertThat(janggiBoard.get(Position.of(Camp.HAN.baselineRow(), 2))).isEqualTo("馬");
+        assertThat(janggiBoard.get(Position.of(Camp.HAN.baselineRow(), 6))).isEqualTo("象");
+        assertThat(janggiBoard.get(Position.of(Camp.HAN.baselineRow(), 7))).isEqualTo("馬");
     }
 
     @Test

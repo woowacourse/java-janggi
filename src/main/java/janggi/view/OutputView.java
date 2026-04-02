@@ -24,22 +24,14 @@ public class OutputView {
         System.out.println(message);
     }
 
-    public void printBoard(List<PieceStatus> piecesStatus, Camp currentCamp) {
+    public void printBoard(List<PieceStatus> piecesStatus, List<Integer> rows) {
         System.out.println();
-
-        int rowStart = 9 - currentCamp.initRowPosition();
-        int rowStep = -currentCamp.direction();
 
         Map<String, PieceStatus> boardMap = piecesStatus.stream()
                 .collect(Collectors.toMap(
                         p -> p.getRow() + "," + p.getColumn(),
                         p -> p
                 ));
-
-        List<Integer> rows = IntStream.iterate(rowStart, r -> r + rowStep)
-                .limit(10)
-                .boxed()
-                .toList();
 
         String verticalSeparator = "\n   " + verticalRow() + "\n";
 

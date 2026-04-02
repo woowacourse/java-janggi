@@ -7,7 +7,9 @@ import janggi.view.InputView;
 import janggi.view.OutputView;
 import janggi.view.dto.PositionRequest;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 public class JanggiController {
     private final InputView inputView;
@@ -37,7 +39,11 @@ public class JanggiController {
     }
 
     private Camp playTurn(Janggi janggi, Camp currentCamp) {
-        outputView.printBoard(janggi.piecesStatus(), currentCamp);
+        List<Integer> displayRows = IntStream.rangeClosed(0, 9)
+                .map(i -> currentCamp.calculateRow(9 - i))
+                .boxed()
+                .toList();
+        outputView.printBoard(janggi.piecesStatus(), displayRows);
         return selectAndMove(janggi, currentCamp);
     }
 
