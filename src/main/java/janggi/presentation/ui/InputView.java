@@ -1,6 +1,7 @@
 package janggi.presentation.ui;
 
 import janggi.domain.status.Team;
+import janggi.presentation.dto.GameCommand;
 import janggi.presentation.dto.MoveCommand;
 import janggi.presentation.util.Console;
 import janggi.presentation.util.Parser;
@@ -16,9 +17,9 @@ public class InputView {
     private InputView() {
     }
 
-    public static String chooseNewGame() {
+    public static GameCommand chooseNewGame() {
         System.out.println("새로운 장기 게임을 시작하시겠습니까?(y,n)");
-        return Console.readLine();
+        return GameCommand.from(Console.readLine());
     }
 
     public static Long chooseExistsGame() {

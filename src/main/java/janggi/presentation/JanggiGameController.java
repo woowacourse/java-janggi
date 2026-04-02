@@ -5,6 +5,7 @@ import janggi.domain.board.Board;
 import janggi.domain.piece.Piece;
 import janggi.domain.point.Point;
 import janggi.domain.status.Team;
+import janggi.presentation.dto.GameCommand;
 import janggi.presentation.dto.MoveCommand;
 import janggi.presentation.dto.PositionInfo;
 import janggi.presentation.ui.InputView;
@@ -47,13 +48,13 @@ public class JanggiGameController {
         }
     }
 
-    private Long chooseBoard(String chosen) {
-        if (chosen.equals("n")) {
-            Long gameRoomId = InputView.chooseExistsGame();
-            service.loadExistsBoard(gameRoomId);
-            return gameRoomId;
+    private Long chooseBoard(GameCommand command) {
+        if (command.isNewGame()) {
+            return service.startNewGame(readInitBoard());
         }
-        return service.startNewGame(readInitBoard());
+        Long gameRoomId = InputView.chooseExistsGame();
+        service.loadExistsBoard(gameRoomId);
+        return gameRoomId;
     }
 
     private Board readInitBoard() {
