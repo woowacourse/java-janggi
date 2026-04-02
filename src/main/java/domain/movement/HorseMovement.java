@@ -5,28 +5,29 @@ import java.util.List;
 
 public final class HorseMovement implements Movement {
 
-    private record HorseMove(Delta orthogonalDelta, Delta firstDiagonalDelta, Delta secondDiagonalDelta) {}
+    private record HorseMove(Delta orthogonalDelta, Delta firstDiagonalDelta, Delta secondDiagonalDelta) {
+    }
 
     private static final List<HorseMove> MOVES = List.of(
             new HorseMove(
-                    new Delta(new ColDelta(0), new RowDelta(-1)),
-                    new Delta(new ColDelta(-1), new RowDelta(-1)),
-                    new Delta(new ColDelta(1), new RowDelta(-1))
+                    new Delta(new ColumnDelta(0), new RowDelta(-1)),
+                    new Delta(new ColumnDelta(-1), new RowDelta(-1)),
+                    new Delta(new ColumnDelta(1), new RowDelta(-1))
             ),
             new HorseMove(
-                    new Delta(new ColDelta(0), new RowDelta(1)),
-                    new Delta(new ColDelta(-1), new RowDelta(1)),
-                    new Delta(new ColDelta(1), new RowDelta(1))
+                    new Delta(new ColumnDelta(0), new RowDelta(1)),
+                    new Delta(new ColumnDelta(-1), new RowDelta(1)),
+                    new Delta(new ColumnDelta(1), new RowDelta(1))
             ),
             new HorseMove(
-                    new Delta(new ColDelta(-1), new RowDelta(0)),
-                    new Delta(new ColDelta(-1), new RowDelta(-1)),
-                    new Delta(new ColDelta(-1), new RowDelta(1))
+                    new Delta(new ColumnDelta(-1), new RowDelta(0)),
+                    new Delta(new ColumnDelta(-1), new RowDelta(-1)),
+                    new Delta(new ColumnDelta(-1), new RowDelta(1))
             ),
             new HorseMove(
-                    new Delta(new ColDelta(1), new RowDelta(0)),
-                    new Delta(new ColDelta(1), new RowDelta(-1)),
-                    new Delta(new ColDelta(1), new RowDelta(1))
+                    new Delta(new ColumnDelta(1), new RowDelta(0)),
+                    new Delta(new ColumnDelta(1), new RowDelta(-1)),
+                    new Delta(new ColumnDelta(1), new RowDelta(1))
             )
     );
 

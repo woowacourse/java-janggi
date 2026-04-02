@@ -5,28 +5,29 @@ import java.util.List;
 
 public class ElephantMovement implements Movement {
 
-    private record ElephantMove(Delta orthogonalDelta, Delta firstDiagonalDelta, Delta secondDiagonalDelta) {}
+    private record ElephantMove(Delta orthogonalDelta, Delta firstDiagonalDelta, Delta secondDiagonalDelta) {
+    }
 
     private static final List<ElephantMove> MOVES = List.of(
             new ElephantMove(
-                    new Delta(new ColDelta(0), new RowDelta(-1)),
-                    new Delta(new ColDelta(-1), new RowDelta(-1)),
-                    new Delta(new ColDelta(1), new RowDelta(-1))
+                    new Delta(new ColumnDelta(0), new RowDelta(-1)),
+                    new Delta(new ColumnDelta(-1), new RowDelta(-1)),
+                    new Delta(new ColumnDelta(1), new RowDelta(-1))
             ),
             new ElephantMove(
-                    new Delta(new ColDelta(0), new RowDelta(1)),
-                    new Delta(new ColDelta(-1), new RowDelta(1)),
-                    new Delta(new ColDelta(1), new RowDelta(1))
+                    new Delta(new ColumnDelta(0), new RowDelta(1)),
+                    new Delta(new ColumnDelta(-1), new RowDelta(1)),
+                    new Delta(new ColumnDelta(1), new RowDelta(1))
             ),
             new ElephantMove(
-                    new Delta(new ColDelta(-1), new RowDelta(0)),
-                    new Delta(new ColDelta(-1), new RowDelta(-1)),
-                    new Delta(new ColDelta(-1), new RowDelta(1))
+                    new Delta(new ColumnDelta(-1), new RowDelta(0)),
+                    new Delta(new ColumnDelta(-1), new RowDelta(-1)),
+                    new Delta(new ColumnDelta(-1), new RowDelta(1))
             ),
             new ElephantMove(
-                    new Delta(new ColDelta(1), new RowDelta(0)),
-                    new Delta(new ColDelta(1), new RowDelta(-1)),
-                    new Delta(new ColDelta(1), new RowDelta(1))
+                    new Delta(new ColumnDelta(1), new RowDelta(0)),
+                    new Delta(new ColumnDelta(1), new RowDelta(-1)),
+                    new Delta(new ColumnDelta(1), new RowDelta(1))
             )
     );
 

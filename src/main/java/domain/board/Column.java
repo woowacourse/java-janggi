@@ -1,5 +1,7 @@
 package domain.board;
 
+import java.util.Arrays;
+
 public enum Column {
     A,
     B,
@@ -21,15 +23,11 @@ public enum Column {
     }
 
     public static Column toColumn(char character) {
-        String convertedCharacter = checkExistingColumn(character);
-        return Column.valueOf(convertedCharacter.toUpperCase());
-    }
+        char upperChar = Character.toUpperCase(character);
 
-    private static String checkExistingColumn(char character) {
-        try {
-            return String.valueOf(character);
-        } catch (IllegalArgumentException exception) {
-            throw new IllegalArgumentException("[ERROR] 좌표 형식이 틀렸습니다.");
-        }
+        return Arrays.stream(values())
+                .filter(column -> column.name().charAt(0) == upperChar)
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 올바른 열 값이 아닙니다."));
     }
 }

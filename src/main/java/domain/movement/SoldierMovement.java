@@ -6,14 +6,14 @@ import java.util.List;
 
 public class SoldierMovement implements Movement {
     private static final List<Delta> MOVES_HAN = List.of(
-            new Delta(new ColDelta(0), new RowDelta(1)),
-            new Delta(new ColDelta(-1), new RowDelta(0)),
-            new Delta(new ColDelta(1), new RowDelta(0))
+            new Delta(new ColumnDelta(0), new RowDelta(1)),
+            new Delta(new ColumnDelta(-1), new RowDelta(0)),
+            new Delta(new ColumnDelta(1), new RowDelta(0))
     );
     private static final List<Delta> MOVES_CHO = List.of(
-            new Delta(new ColDelta(0), new RowDelta(-1)),
-            new Delta(new ColDelta(-1), new RowDelta(0)),
-            new Delta(new ColDelta(1), new RowDelta(0))
+            new Delta(new ColumnDelta(0), new RowDelta(-1)),
+            new Delta(new ColumnDelta(-1), new RowDelta(0)),
+            new Delta(new ColumnDelta(1), new RowDelta(0))
     );
 
     private final Team team;

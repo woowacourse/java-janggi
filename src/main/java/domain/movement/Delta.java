@@ -1,4 +1,4 @@
 package domain.movement;
 
-public record Delta(ColDelta columnDelta, RowDelta rowDelta) {
+public record Delta(ColumnDelta columnDelta, RowDelta rowDelta) {
 }

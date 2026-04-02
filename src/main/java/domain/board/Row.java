@@ -39,9 +39,11 @@ public enum Row {
     }
 
     public static Row toRow(char character) {
+        String upperChar = String.valueOf(character);
+
         return Arrays.stream(Row.values())
-                .filter(row -> row.value.equals(String.valueOf(character)))
-                .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 좌표 형식이 틀렸습니다."));
+                .filter(row -> row.value.equals(upperChar))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 올바른 행 값이 아닙니다."));
     }
 }

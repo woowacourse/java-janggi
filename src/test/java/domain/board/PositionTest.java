@@ -1,18 +1,18 @@
 package domain.board;
 
-import domain.movement.ColDelta;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import domain.movement.ColumnDelta;
 import domain.movement.Delta;
 import domain.movement.RowDelta;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 @DisplayName("Position 레코드 테스트")
 class PositionTest {
 
     private Delta delta(int col, int row) {
-        return new Delta(new ColDelta(col), new RowDelta(row));
+        return new Delta(new ColumnDelta(col), new RowDelta(row));
     }
 
     @Test

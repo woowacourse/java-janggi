@@ -5,10 +5,10 @@ import java.util.List;
 
 public class GuardMovement implements Movement {
     private static final List<Delta> MOVES = List.of(
-            new Delta(new ColDelta(0), new RowDelta(-1)),
-            new Delta(new ColDelta(0), new RowDelta(1)),
-            new Delta(new ColDelta(-1), new RowDelta(0)),
-            new Delta(new ColDelta(1), new RowDelta(0))
+            new Delta(new ColumnDelta(0), new RowDelta(-1)),
+            new Delta(new ColumnDelta(0), new RowDelta(1)),
+            new Delta(new ColumnDelta(-1), new RowDelta(0)),
+            new Delta(new ColumnDelta(1), new RowDelta(0))
     );
 
     @Override
