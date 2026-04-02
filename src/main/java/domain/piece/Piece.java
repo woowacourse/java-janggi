@@ -6,7 +6,6 @@ import domain.Side;
 import domain.board.BoardReader;
 import domain.strategy.MovementStrategy;
 import domain.strategy.Path;
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Piece {
@@ -27,17 +26,10 @@ public abstract class Piece {
     protected abstract List<Position> filterValidPositions(Position current, List<Path> paths, BoardReader board);
 
     protected List<Position> filterStandardPaths(List<Path> paths, BoardReader board) {
-        List<Position> valid = new ArrayList<>();
-        for (Path path : paths) {
-            addIfValidDestination(valid, path, board);
-        }
-        return valid;
-    }
-
-    private void addIfValidDestination(List<Position> valid, Path path, BoardReader board) {
-        if (isMovablePath(path, board)) {
-            valid.add(path.getDestination());
-        }
+        return paths.stream()
+                .filter(path -> isMovablePath(path, board))
+                .map(Path::getDestination)
+                .toList();
     }
 
     private boolean isMovablePath(Path path, BoardReader board) {
