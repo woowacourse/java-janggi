@@ -12,8 +12,6 @@ import java.util.Map;
 
 public class Game {
 
-    private static final int INDEX_OFFSET = 1;
-
     private final Board board;
     private Side turn;
 
@@ -39,7 +37,7 @@ public class Game {
     }
 
     public Position getEndPosition(int index, PossibleMovesDto possibleMovesDto) {
-        return possibleMovesDto.possibleMoves().get(index - INDEX_OFFSET);
+        return possibleMovesDto.possibleMoves().get(index);
     }
 
     private void validateEnsureSameSidePiece(Position start) {
