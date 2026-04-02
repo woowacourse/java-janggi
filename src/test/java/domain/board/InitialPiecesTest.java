@@ -13,23 +13,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.board.wing.WingPieces;
 import domain.board.wing.Wings;
-import domain.direction.MoveAmount;
 import domain.game.Side;
 import domain.piece.AlivePieces;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import java.util.List;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
 
+@DisplayName("기물 초기화 검증")
 class InitialPiecesTest {
-
-    private static final int INITIAL_PIECES_AMOUNT = 32;
 
     private static final Wings DEFAULT_HAN_WINGS = new Wings(
             HAN,
@@ -42,274 +37,259 @@ class InitialPiecesTest {
             new WingPieces(new Piece(HORSE, CHO), new Piece(ELEPHANT, CHO))
     );
 
+    @DisplayName("초기화된 기물의 총 개수는 32개여야 한다")
     @Test
     void 초기화_된_기물의_개수_검증() {
-        // given
         InitialPieces initialPieces = new InitialPieces(DEFAULT_HAN_WINGS, DEFAULT_CHO_WINGS);
-
-        // when and then
-        assertThat(initialPieces.size()).isEqualTo(INITIAL_PIECES_AMOUNT);
+        assertThat(initialPieces.size()).isEqualTo(32);
     }
 
-    @DisplayName("고정된 위치에 놓이는 기물이 정상적으로 초기화되었는지 확인")
+    @DisplayName("한 진영 기물 배치 검증")
     @Nested
-    class 고정_기물_위치_검증 {
+    class 한_진영_검증 {
 
-        private InitialPieces initialPieces;
+        private AlivePieces alivePieces;
 
         @BeforeEach
         void setUp() {
-            initialPieces = new InitialPieces(DEFAULT_HAN_WINGS, DEFAULT_CHO_WINGS);
+            InitialPieces initialPieces = new InitialPieces(DEFAULT_HAN_WINGS, DEFAULT_CHO_WINGS);
+            alivePieces = initialPieces.toAlivePieces();
         }
 
-        @DisplayName("차")
-        @ParameterizedTest(name = "{0} 진영의 차가 올바른 위치에 초기화된다")
-        @EnumSource(value = Side.class, names = {"HAN", "CHO"})
-        void 차(Side side) {
-            // given
-            AlivePieces alivePieces = initialPieces.toAlivePieces();
-            int expectedRow = side.getRowAt(new MoveAmount(0));
-            List<Intersection> expectedPositions = Stream.of(1, 9)
-                    .map(expectedFile -> new Intersection(expectedRow, expectedFile))
-                    .toList();
-
-            // when and then
-            assertThat(expectedPositions)
-                    .hasSize(2)
-                    .extracting(alivePieces::placedAt)
-                    .allSatisfy(piece -> {
-                        assertThat(piece.isSameType(CHARIOT)).isTrue();
-                        assertThat(piece.isSameSide(side)).isTrue();
-                    });
+        @DisplayName("차는 1행 1열, 9열에 배치된다")
+        @Test
+        void 차_배치() {
+            assertPieceAt(alivePieces, new Intersection(1, 1), CHARIOT, HAN);
+            assertPieceAt(alivePieces, new Intersection(1, 9), CHARIOT, HAN);
         }
 
-        @DisplayName("마")
-        @ParameterizedTest(name = "{0} 진영의 마가 올바른 위치에 초기화된다")
-        @EnumSource(value = Side.class, names = {"HAN", "CHO"})
-        void 마(Side side) {
-            // given
-            AlivePieces alivePieces = initialPieces.toAlivePieces();
-            int expectedRow = side.getRowAt(new MoveAmount(0));
-            List<Intersection> expectedPositions = Stream.of(1, 9)
-                    .map(expectedFile -> new Intersection(expectedRow, expectedFile))
-                    .toList();
-
-            // when and then
-            assertThat(expectedPositions)
-                    .hasSize(2)
-                    .extracting(alivePieces::placedAt)
-                    .allSatisfy(piece -> {
-                        assertThat(piece.isSameType(CHARIOT)).isTrue();
-                        assertThat(piece.isSameSide(side)).isTrue();
-                    });
+        @DisplayName("사는 1행 4열, 6열에 배치된다")
+        @Test
+        void 사_배치() {
+            assertPieceAt(alivePieces, new Intersection(1, 4), GUARD, HAN);
+            assertPieceAt(alivePieces, new Intersection(1, 6), GUARD, HAN);
         }
 
-        @DisplayName("사")
-        @ParameterizedTest(name = "{0} 진영의 사가 올바른 위치에 초기화된다")
-        @EnumSource(value = Side.class, names = {"HAN", "CHO"})
-        void 사(Side side) {
-            // given
-            AlivePieces alivePieces = initialPieces.toAlivePieces();
-            int expectedRow = side.getRowAt(new MoveAmount(0));
-            List<Intersection> expectedPositions = Stream.of(4, 6)
-                    .map(expectedFile -> new Intersection(expectedRow, expectedFile))
-                    .toList();
-
-            // when and then
-            assertThat(expectedPositions)
-                    .hasSize(2)
-                    .extracting(alivePieces::placedAt)
-                    .allSatisfy(piece -> {
-                        assertThat(piece.isSameType(GUARD)).isTrue();
-                        assertThat(piece.isSameSide(side)).isTrue();
-                    });
+        @DisplayName("궁은 2행 5열에 배치된다")
+        @Test
+        void 궁_배치() {
+            assertPieceAt(alivePieces, new Intersection(2, 5), GENERAL, HAN);
         }
 
-        @DisplayName("궁")
-        @ParameterizedTest(name = "{0} 진영의 궁이 올바른 위치에 초기화된다")
-        @EnumSource(value = Side.class, names = {"HAN", "CHO"})
-        void 궁(Side side) {
-            // given
-            AlivePieces alivePieces = initialPieces.toAlivePieces();
-            int expectedRow = side.getRowAt(new MoveAmount(1));
-            List<Intersection> expectedPositions = List.of(new Intersection(expectedRow, 5));
-
-            // when and then
-            assertThat(expectedPositions)
-                    .hasSize(1)
-                    .extracting(alivePieces::placedAt)
-                    .allSatisfy(piece -> {
-                        assertThat(piece.isSameType(GENERAL)).isTrue();
-                        assertThat(piece.isSameSide(side)).isTrue();
-                    });
+        @DisplayName("포는 3행 2열, 8열에 배치된다")
+        @Test
+        void 포_배치() {
+            assertPieceAt(alivePieces, new Intersection(3, 2), CANNON, HAN);
+            assertPieceAt(alivePieces, new Intersection(3, 8), CANNON, HAN);
         }
 
-        @DisplayName("포")
-        @ParameterizedTest(name = "{0} 진영의 포가 올바른 위치에 초기화된다")
-        @EnumSource(value = Side.class, names = {"HAN", "CHO"})
-        void 포(Side side) {
-            // given
-            AlivePieces alivePieces = initialPieces.toAlivePieces();
-            int expectedRow = side.getRowAt(new MoveAmount(2));
-            List<Intersection> expectedPositions = Stream.of(2, 8)
-                    .map(expectedFile -> new Intersection(expectedRow, expectedFile))
-                    .toList();
-
-            // when and then
-            assertThat(expectedPositions)
-                    .hasSize(2)
-                    .extracting(alivePieces::placedAt)
-                    .allSatisfy(piece -> {
-                        assertThat(piece.isSameType(CANNON)).isTrue();
-                        assertThat(piece.isSameSide(side)).isTrue();
-                    });
-        }
-
-        @ParameterizedTest(name = "{0} 진영의 졸/병이 올바른 위치에 초기화된다")
-        @EnumSource(value = Side.class, names = {"HAN", "CHO"})
-        void 졸_병(Side side) {
-            // given
-            AlivePieces alivePieces = initialPieces.toAlivePieces();
-            int expectedRow = side.getRowAt(new MoveAmount(3));
-            List<Intersection> expectedPositions = Stream.of(1, 3, 5, 7, 9)
-                    .map(expectedFile -> new Intersection(expectedRow, expectedFile))
-                    .toList();
-
-            // when and then
-            assertThat(expectedPositions)
-                    .hasSize(5)
-                    .extracting(alivePieces::placedAt)
-                    .allSatisfy(piece -> {
-                        assertThat(piece.isSameType(SOLDIER)).isTrue();
-                        assertThat(piece.isSameSide(side)).isTrue();
-                    });
+        @DisplayName("병은 4행 1, 3, 5, 7, 9열에 배치된다")
+        @Test
+        void 병_배치() {
+            for (int file : List.of(1, 3, 5, 7, 9)) {
+                assertPieceAt(alivePieces, new Intersection(4, file), SOLDIER, HAN);
+            }
         }
     }
 
-    @DisplayName("좌진과 우진에 놓이는 기물이 정상적으로 초기화되었는지 확인")
+    @DisplayName("초 진영 기물 배치 검증")
     @Nested
-    class 좌진과_우진_확인 {
+    class 초_진영_검증 {
 
-        @ParameterizedTest(name = "{0} 진영의 상마상마 차림이 올바른 위치에 초기화된다")
-        @EnumSource(value = Side.class, names = {"HAN", "CHO"})
-        void 상마상마_차림_위치_검증(Side side) {
-            // given
-            Wings sangMaSangMa = new Wings(
-                    side,
-                    createWingPieces(side, ELEPHANT, HORSE),
-                    createWingPieces(side, ELEPHANT, HORSE)
-            );
+        private AlivePieces alivePieces;
 
-            InitialPieces initialPieces = createInitialPieces(side, sangMaSangMa);
-            AlivePieces alivePieces = initialPieces.toAlivePieces();
-
-            int expectedRow = side.getRowAt(new MoveAmount(0));
-            List<Intersection> expectedPositions = createExpectedWingPositions(side, expectedRow);
-
-            List<PieceType> expectedTypes = List.of(ELEPHANT, HORSE, ELEPHANT, HORSE);
-
-            // when and then
-            assertThat(expectedPositions)
-                    .hasSize(expectedTypes.size())
-                    .extracting(alivePieces::placedAt)
-                    .zipSatisfy(expectedTypes, (piece, type) -> assertPiece(piece, type, side));
+        @BeforeEach
+        void setUp() {
+            InitialPieces initialPieces = new InitialPieces(DEFAULT_HAN_WINGS, DEFAULT_CHO_WINGS);
+            alivePieces = initialPieces.toAlivePieces();
         }
 
-        @ParameterizedTest(name = "{0} 진영의 상마마상 차림이 올바른 위치에 초기화된다")
-        @EnumSource(value = Side.class, names = {"HAN", "CHO"})
-        void 상마마상_차림_위치_검증(Side side) {
-            // given
-            Wings sangMaMaSang = new Wings(
-                    side,
-                    createWingPieces(side, ELEPHANT, HORSE),
-                    createWingPieces(side, HORSE, ELEPHANT)
-            );
-
-            InitialPieces initialPieces = createInitialPieces(side, sangMaMaSang);
-            AlivePieces alivePieces = initialPieces.toAlivePieces();
-
-            int expectedRow = side.getRowAt(new MoveAmount(0));
-            List<Intersection> expectedPositions = createExpectedWingPositions(side, expectedRow);
-
-            List<PieceType> expectedTypes = List.of(ELEPHANT, HORSE, HORSE, ELEPHANT);
-
-            // when and then
-            assertThat(expectedPositions)
-                    .hasSize(expectedTypes.size())
-                    .extracting(alivePieces::placedAt)
-                    .zipSatisfy(expectedTypes, (piece, type) -> assertPiece(piece, type, side));
+        @DisplayName("차는 10행 1열, 9열에 배치된다")
+        @Test
+        void 차_배치() {
+            assertPieceAt(alivePieces, new Intersection(10, 1), CHARIOT, CHO);
+            assertPieceAt(alivePieces, new Intersection(10, 9), CHARIOT, CHO);
         }
 
-        @ParameterizedTest(name = "{0} 진영의 마상마상 차림이 올바른 위치에 초기화된다")
-        @EnumSource(value = Side.class, names = {"HAN", "CHO"})
-        void 마상마상_차림_위치_검증(Side side) {
-            // given
-            Wings MaSangMaSang = new Wings(
-                    side,
-                    createWingPieces(side, HORSE, ELEPHANT),
-                    createWingPieces(side, HORSE, ELEPHANT)
-            );
-
-            InitialPieces initialPieces = createInitialPieces(side, MaSangMaSang);
-            AlivePieces alivePieces = initialPieces.toAlivePieces();
-
-            int expectedRow = side.getRowAt(new MoveAmount(0));
-            List<Intersection> expectedPositions = createExpectedWingPositions(side, expectedRow);
-
-            List<PieceType> expectedTypes = List.of(HORSE, ELEPHANT, HORSE, ELEPHANT);
-
-            // when and then
-            assertThat(expectedPositions)
-                    .hasSize(expectedTypes.size())
-                    .extracting(alivePieces::placedAt)
-                    .zipSatisfy(expectedTypes, (piece, type) -> assertPiece(piece, type, side));
+        @DisplayName("사는 10행 4열, 6열에 배치된다")
+        @Test
+        void 사_배치() {
+            assertPieceAt(alivePieces, new Intersection(10, 4), GUARD, CHO);
+            assertPieceAt(alivePieces, new Intersection(10, 6), GUARD, CHO);
         }
 
-        @ParameterizedTest(name = "{0} 진영의 마상상마 차림이 올바른 위치에 초기화된다")
-        @EnumSource(value = Side.class, names = {"HAN", "CHO"})
-        void 마상상마_차림_위치_검증(Side side) {
-            // given
-            Wings MaSangSangMa = new Wings(
-                    side,
-                    createWingPieces(side, HORSE, ELEPHANT),
-                    createWingPieces(side, ELEPHANT, HORSE)
-            );
-
-            InitialPieces initialPieces = createInitialPieces(side, MaSangSangMa);
-            AlivePieces alivePieces = initialPieces.toAlivePieces();
-
-            int expectedRow = side.getRowAt(new MoveAmount(0));
-            List<Intersection> expectedPositions = createExpectedWingPositions(side, expectedRow);
-
-            List<PieceType> expectedTypes = List.of(HORSE, ELEPHANT, ELEPHANT, HORSE);
-
-            // when and then
-            assertThat(expectedPositions)
-                    .hasSize(expectedTypes.size())
-                    .extracting(alivePieces::placedAt)
-                    .zipSatisfy(expectedTypes, (piece, type) -> assertPiece(piece, type, side));
+        @DisplayName("궁은 9행 5열에 배치된다")
+        @Test
+        void 궁_배치() {
+            assertPieceAt(alivePieces, new Intersection(9, 5), GENERAL, CHO);
         }
 
-        private static List<Intersection> createExpectedWingPositions(Side side, int expectedRow) {
-            return Stream.of(1, 2, 6, 7)
-                    .map(expectedFile -> new Intersection(expectedRow, side.getFileAt(new MoveAmount(expectedFile))))
-                    .toList();
+        @DisplayName("포는 8행 2열, 8열에 배치된다")
+        @Test
+        void 포_배치() {
+            assertPieceAt(alivePieces, new Intersection(8, 2), CANNON, CHO);
+            assertPieceAt(alivePieces, new Intersection(8, 8), CANNON, CHO);
         }
+
+        @DisplayName("졸은 7행 1, 3, 5, 7, 9열에 배치된다")
+        @Test
+        void 졸_배치() {
+            for (int file : List.of(1, 3, 5, 7, 9)) {
+                assertPieceAt(alivePieces, new Intersection(7, file), SOLDIER, CHO);
+            }
+        }
+    }
+
+    @DisplayName("상차림 위치 검증")
+    @Nested
+    class 상차림_검증 {
+
+        @DisplayName("초 진영 상차림")
+        @Nested
+        class 초_진영_상차림 {
+
+            @DisplayName("상마상마")
+            @Test
+            void 상마상마() {
+                Wings wings = new Wings(
+                        CHO,
+                        createWingPieces(CHO, ELEPHANT, HORSE),
+                        createWingPieces(CHO, ELEPHANT, HORSE)
+                );
+                AlivePieces alivePieces = new InitialPieces(DEFAULT_HAN_WINGS, wings).toAlivePieces();
+
+                assertPieceAt(alivePieces, new Intersection(10, 2), ELEPHANT, CHO);
+                assertPieceAt(alivePieces, new Intersection(10, 3), HORSE, CHO);
+                assertPieceAt(alivePieces, new Intersection(10, 7), ELEPHANT, CHO);
+                assertPieceAt(alivePieces, new Intersection(10, 8), HORSE, CHO);
+            }
+
+            @DisplayName("상마마상")
+            @Test
+            void 상마마상() {
+                Wings wings = new Wings(
+                        CHO,
+                        createWingPieces(CHO, ELEPHANT, HORSE),
+                        createWingPieces(CHO, HORSE, ELEPHANT)
+                );
+                AlivePieces alivePieces = new InitialPieces(DEFAULT_HAN_WINGS, wings).toAlivePieces();
+
+                assertPieceAt(alivePieces, new Intersection(10, 2), ELEPHANT, CHO);
+                assertPieceAt(alivePieces, new Intersection(10, 3), HORSE, CHO);
+                assertPieceAt(alivePieces, new Intersection(10, 7), HORSE, CHO);
+                assertPieceAt(alivePieces, new Intersection(10, 8), ELEPHANT, CHO);
+            }
+
+            @DisplayName("마상마상")
+            @Test
+            void 마상마상() {
+                Wings wings = new Wings(
+                        CHO,
+                        createWingPieces(CHO, HORSE, ELEPHANT),
+                        createWingPieces(CHO, HORSE, ELEPHANT)
+                );
+                AlivePieces alivePieces = new InitialPieces(DEFAULT_HAN_WINGS, wings).toAlivePieces();
+
+                assertPieceAt(alivePieces, new Intersection(10, 2), HORSE, CHO);
+                assertPieceAt(alivePieces, new Intersection(10, 3), ELEPHANT, CHO);
+                assertPieceAt(alivePieces, new Intersection(10, 7), HORSE, CHO);
+                assertPieceAt(alivePieces, new Intersection(10, 8), ELEPHANT, CHO);
+            }
+
+            @DisplayName("마상상마")
+            @Test
+            void 마상상마() {
+                Wings wings = new Wings(
+                        CHO,
+                        createWingPieces(CHO, HORSE, ELEPHANT),
+                        createWingPieces(CHO, ELEPHANT, HORSE)
+                );
+                AlivePieces alivePieces = new InitialPieces(DEFAULT_HAN_WINGS, wings).toAlivePieces();
+
+                assertPieceAt(alivePieces, new Intersection(10, 2), HORSE, CHO);
+                assertPieceAt(alivePieces, new Intersection(10, 3), ELEPHANT, CHO);
+                assertPieceAt(alivePieces, new Intersection(10, 7), ELEPHANT, CHO);
+                assertPieceAt(alivePieces, new Intersection(10, 8), HORSE, CHO);
+            }
+        }
+
+        @DisplayName("한 진영 상차림")
+        @Nested
+        class 한_진영_상차림 {
+
+            @DisplayName("상마상마")
+            @Test
+            void 상마상마() {
+                Wings wings = new Wings(
+                        HAN,
+                        createWingPieces(HAN, ELEPHANT, HORSE),
+                        createWingPieces(HAN, ELEPHANT, HORSE)
+                );
+                AlivePieces alivePieces = new InitialPieces(wings, DEFAULT_CHO_WINGS).toAlivePieces();
+
+                assertPieceAt(alivePieces, new Intersection(1, 8), ELEPHANT, HAN);
+                assertPieceAt(alivePieces, new Intersection(1, 7), HORSE, HAN);
+                assertPieceAt(alivePieces, new Intersection(1, 3), ELEPHANT, HAN);
+                assertPieceAt(alivePieces, new Intersection(1, 2), HORSE, HAN);
+            }
+
+            @Test
+            @DisplayName("상마마상")
+            void 상마마상() {
+                Wings wings = new Wings(
+                        HAN,
+                        createWingPieces(HAN, ELEPHANT, HORSE),
+                        createWingPieces(HAN, HORSE, ELEPHANT)
+                );
+                AlivePieces alivePieces = new InitialPieces(wings, DEFAULT_CHO_WINGS).toAlivePieces();
+
+                assertPieceAt(alivePieces, new Intersection(1, 8), ELEPHANT, HAN);
+                assertPieceAt(alivePieces, new Intersection(1, 7), HORSE, HAN);
+                assertPieceAt(alivePieces, new Intersection(1, 3), HORSE, HAN);
+                assertPieceAt(alivePieces, new Intersection(1, 2), ELEPHANT, HAN);
+            }
+
+            @DisplayName("마상마상")
+            @Test
+            void 마상마상() {
+                Wings wings = new Wings(
+                        HAN,
+                        createWingPieces(HAN, HORSE, ELEPHANT),
+                        createWingPieces(HAN, HORSE, ELEPHANT)
+                );
+                AlivePieces alivePieces = new InitialPieces(wings, DEFAULT_CHO_WINGS).toAlivePieces();
+
+                assertPieceAt(alivePieces, new Intersection(1, 8), HORSE, HAN);
+                assertPieceAt(alivePieces, new Intersection(1, 7), ELEPHANT, HAN);
+                assertPieceAt(alivePieces, new Intersection(1, 3), HORSE, HAN);
+                assertPieceAt(alivePieces, new Intersection(1, 2), ELEPHANT, HAN);
+            }
+
+            @DisplayName("마상상마")
+            @Test
+            void 마상상마() {
+                Wings wings = new Wings(
+                        HAN,
+                        createWingPieces(HAN, HORSE, ELEPHANT),
+                        createWingPieces(HAN, ELEPHANT, HORSE)
+                );
+                AlivePieces alivePieces = new InitialPieces(wings, DEFAULT_CHO_WINGS).toAlivePieces();
+
+                assertPieceAt(alivePieces, new Intersection(1, 8), HORSE, HAN);
+                assertPieceAt(alivePieces, new Intersection(1, 7), ELEPHANT, HAN);
+                assertPieceAt(alivePieces, new Intersection(1, 3), ELEPHANT, HAN);
+                assertPieceAt(alivePieces, new Intersection(1, 2), HORSE, HAN);
+            }
+        }
+    }
+
+    private void assertPieceAt(AlivePieces alivePieces, Intersection intersection, PieceType type, Side side) {
+        Piece piece = alivePieces.placedAt(intersection);
+        assertThat(piece.isSameType(type)).as("%s 위치의 기물 타입 확인", intersection).isTrue();
+        assertThat(piece.isSameSide(side)).as("%s 위치의 기물 진영 확인", intersection).isTrue();
     }
 
     private WingPieces createWingPieces(Side side, PieceType first, PieceType second) {
         return new WingPieces(new Piece(first, side), new Piece(second, side));
-    }
-
-    private InitialPieces createInitialPieces(Side side, Wings targetWings) {
-        if (side == Side.HAN) {
-            return new InitialPieces(targetWings, DEFAULT_CHO_WINGS);
-        }
-        return new InitialPieces(DEFAULT_HAN_WINGS, targetWings);
-    }
-
-    private void assertPiece(Piece piece, PieceType type, Side side) {
-        assertThat(piece.isSameType(type)).isTrue();
-        assertThat(piece.isSameSide(side)).isTrue();
     }
 }
