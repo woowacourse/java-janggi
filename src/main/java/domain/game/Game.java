@@ -38,11 +38,10 @@ public class Game {
         this.gameState = gameState;
     }
 
-    public Piece movePiece(Position source, Position destination) {
+    public void movePiece(Position source, Position destination) {
         Piece destinationPiece = board.findPiece(destination);
         board.move(source, destination);
         catchPiece(destinationPiece);
-        return destinationPiece;
     }
 
     public void catchPiece(Piece caughtPiece) {
@@ -83,5 +82,10 @@ public class Game {
 
     public Set<Position> findMovablePositions(Position source) {
         return board.findMovablePositions(source);
+    }
+
+    public boolean isJangCaught() {
+        return caughtPieces.stream()
+                .anyMatch(Piece::isJang);
     }
 }

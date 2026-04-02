@@ -2,7 +2,6 @@ package domain.game.state;
 
 import common.exception.JanggiException;
 import domain.game.Game;
-import domain.piece.Piece;
 import domain.player.Team;
 import domain.position.Position;
 import java.util.Set;
@@ -17,8 +16,8 @@ public class HanTurn extends Running {
         if (game.isCho(source)) {
             throw new JanggiException("한 차례입니다. 초 기물이 선택되었습니다.");
         }
-        Piece caughtPiece = game.movePiece(source, destination);
-        if (caughtPiece.isJang()) {
+        game.movePiece(source, destination);
+        if (game.isJangCaught()) {
             game.changeState(new Finished(game, Team.HAN));
             return;
         }
