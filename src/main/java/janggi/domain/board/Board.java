@@ -18,11 +18,11 @@ public class Board {
     private static final Dimension BOARD_DIMENSION = new BoardDimension();
     private static final Dimension PALACE_DIMENSION = new PalaceDimension();
 
-    private final Map<Point, Piece> board;
+    private final Map<Point, Piece> pieces;
 
-    protected Board(Map<Point, Piece> board) {
-        board.keySet().forEach(BOARD_DIMENSION::validateRange);
-        this.board = new HashMap<>(board);
+    protected Board(Map<Point, Piece> pieces) {
+        pieces.keySet().forEach(BOARD_DIMENSION::validateRange);
+        this.pieces = new HashMap<>(pieces);
     }
 
     public static Board setUp(BoardSetUp choBoardSetUp, BoardSetUp hanBoardSetUp) {
@@ -33,34 +33,52 @@ public class Board {
         return new Board(board);
     }
 
-    public final Map<Point, Piece> getBoard() {
-        return new HashMap<>(board);
+    public final Map<Point, Piece> getPieces() {
+        return new HashMap<>(pieces);
     }
 
+
     public Set<Point> destinations(Point from) {
+        Set<Point> destinations = pieceDestinations(from);
+        if (PALACE_DIMENSION.isInRange(from.x(), from.y())) {
+            destinations.addAll(palaceDestinations(from));
+        }
+
+        return destinations;
+    }
+
+    private Set<Point> palaceDestinations(Point from) {
         Piece piece = getPieceAt(from)
                 .orElseThrow(() -> new IllegalArgumentException("해당 Point에 기물이 없어, 목적지가 없습니다."));
         List<CandidatePath> candidatePaths = convertToCandidatePaths(
-                piece.createCandidateMovement(), from, piece.pathStrategy(), BOARD_DIMENSION);
-        Map<Point, Piece> piecesOnPaths = findPiecesOnPaths(candidatePaths);
+                PalaceMovements.getMovements(from), from, piece.pathStrategy(), PALACE_DIMENSION);
 
-        return piece.availablePoints(candidatePaths, piecesOnPaths)
+        return piece.availablePoints(candidatePaths, findPiecesOnPaths(candidatePaths))
                 .stream()
-                .filter(point -> isDestinationOtherSide(piece, point))
+                .filter(point -> canMove(piece, point))
                 .collect(Collectors.toSet());
     }
+
+    private Set<Point> pieceDestinations(Point from) {
+        Piece piece = getPieceAt(from)
+                .orElseThrow(() -> new IllegalArgumentException("해당 Point에 기물이 없어, 목적지가 없습니다."));
+        List<CandidatePath> candidatePaths = convertToCandidatePaths(piece.createCandidateMovement(), from,
+                piece.pathStrategy(), BOARD_DIMENSION);
+
+        return piece.availablePoints(candidatePaths, findPiecesOnPaths(candidatePaths))
+                .stream()
+                .filter(point -> canMove(piece, point))
+                .collect(Collectors.toSet());
+    }
+
 
     private List<CandidatePath> convertToCandidatePaths(List<Movement> movements,
                                                         Point from,
                                                         PathStrategy pathStrategy,
                                                         Dimension dimension) {
         return movements.stream()
-                .map(movement -> convertToPath(movement, from, pathStrategy, dimension))
+                .map(movement -> new CandidatePath(movement, from, pathStrategy, dimension))
                 .toList();
-    }
-
-    private CandidatePath convertToPath(Movement movement, Point from, PathStrategy pathStrategy, Dimension dimension) {
-        return new CandidatePath(movement, from, pathStrategy, dimension);
     }
 
 
@@ -73,8 +91,8 @@ public class Board {
             throw new IllegalArgumentException("%s의 이동 가능한 좌표가 아닙니다.".formatted(fromPiece.getName()));
         }
 
-        board.put(to, fromPiece);
-        board.remove(from);
+        pieces.put(to, fromPiece);
+        pieces.remove(from);
     }
 
     public Side getSideAt(Point point) {
@@ -83,7 +101,7 @@ public class Board {
         return piece.getSide();
     }
 
-    private boolean isDestinationOtherSide(Piece from, Point destination) {
+    private boolean canMove(Piece from, Point destination) {
         Piece to = getPieceAt(destination).orElse(null);
         if (to == null) {
             return true;
@@ -102,23 +120,23 @@ public class Board {
     }
 
     private Map<Point, Piece> findPiecesOnCandidatePath(CandidatePath candidatePath) {
-        Map<Point, Piece> pieces = new HashMap<>();
+        Map<Point, Piece> piecesOnPath = new HashMap<>();
 
         for (Point point : candidatePath.getPath()) {
             Piece piece = getPieceAt(point).orElse(null);
             if (piece == null) {
                 continue;
             }
-            pieces.put(point, piece);
+            piecesOnPath.put(point, piece);
         }
-        return pieces;
+        return piecesOnPath;
     }
 
     private Optional<Piece> getPieceAt(Point point) {
-        if (!board.containsKey(point)) {
+        if (!pieces.containsKey(point)) {
             return Optional.empty();
         }
-        return Optional.of(board.get(point));
+        return Optional.of(pieces.get(point));
     }
 
 }

@@ -54,8 +54,8 @@ class BoardTest {
 
         board.moveTo(new Point(0, 0), new Point(0, 1));
 
-        assertThat(board.getBoard().size()).isEqualTo(2);
-        assertThat(board.getBoard().containsKey(new Point(0, 0))).isFalse();
+        assertThat(board.getPieces().size()).isEqualTo(2);
+        assertThat(board.getPieces().containsKey(new Point(0, 0))).isFalse();
     }
 
     @Test

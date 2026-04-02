@@ -1,14 +1,13 @@
 package janggi.domain.piece.unit;
 
 import janggi.domain.board.point.Point;
-import janggi.domain.piece.Direction;
 import janggi.domain.piece.Movement;
 import janggi.domain.piece.PieceName;
 import janggi.domain.piece.path.CandidatePath;
 import janggi.domain.piece.path.FixedPathStrategy;
 import janggi.domain.piece.path.PathStrategy;
 import janggi.domain.side.Side;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -22,13 +21,7 @@ public class Advisor extends Piece {
 
     @Override
     public List<Movement> createCandidateMovement() {
-        List<Movement> paths = new ArrayList<>();
-        for (Direction value : Direction.values()) {
-            Movement movement = new Movement(List.of(value));
-            paths.add(movement);
-        }
-
-        return paths;
+        return Collections.EMPTY_LIST;
     }
 
     @Override

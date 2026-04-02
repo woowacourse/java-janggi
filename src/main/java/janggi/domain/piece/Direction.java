@@ -19,6 +19,15 @@ public enum Direction {
         this.dy = dy;
     }
 
+    public static Direction of(int dx, int dy) {
+        for (Direction value : values()) {
+            if (value.dx == dx && value.dy == dy) {
+                return value;
+            }
+        }
+        throw new IllegalStateException("Direction이 존재하지 않습니다. dx:%d, dy:%d".formatted(dx, dy));
+    }
+
     public int getDx() {
         return dx;
     }

@@ -12,11 +12,11 @@ public class LinearPathStrategy implements PathStrategy {
 
     @Override
     public List<Point> calculate(Movement movement, Point from, Dimension dimension) {
-        if (movement.pattern().size() != LINEAR_SIZE) {
+        if (movement.getDirections().size() != LINEAR_SIZE) {
             throw new IllegalArgumentException("방향은 %d개여야 합니다.".formatted(LINEAR_SIZE));
         }
 
-        return createLinearPoints(from, movement.pattern().getFirst(), dimension);
+        return createLinearPoints(from, movement.getDirections().getFirst(), dimension);
     }
 
     private List<Point> createLinearPoints(Point from, Direction direction, Dimension dimension) {

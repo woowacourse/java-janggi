@@ -15,6 +15,7 @@ import java.util.Map;
 public class Elephant extends Piece {
     private static final PieceName NAME = PieceName.ELEPHANT;
     private static final PathStrategy DEFAULT_STRATEGY = new FixedPathStrategy();
+    private static final int PATH_SIZE = 3;
 
     public Elephant(Side side) {
         super(NAME, side, DEFAULT_STRATEGY);
@@ -22,7 +23,7 @@ public class Elephant extends Piece {
 
     @Override
     protected boolean isValidPath(CandidatePath candidatePath, Map<Point, Piece> piecesOnPaths) {
-        if (candidatePath.isEmpty()) {
+        if (candidatePath.isEmpty() || candidatePath.getPath().size() != PATH_SIZE) {
             return false;
         }
         List<Point> points = candidatePath.getPath();

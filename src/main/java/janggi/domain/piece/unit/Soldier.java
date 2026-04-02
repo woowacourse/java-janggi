@@ -21,19 +21,29 @@ public class Soldier extends Piece {
     }
 
     @Override
+    protected boolean isValidPath(CandidatePath candidatePath, Map<Point, Piece> piecesOnPaths) {
+        if (candidatePath.isEmpty()) {
+            return false;
+        }
+        if (side.equals(Side.HAN) && candidatePath.isForward(Direction.NORTH)) {
+            return false;
+        }
+        if (side.equals(Side.CHO) && candidatePath.isForward(Direction.SOUTH)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
     public List<Movement> createCandidateMovement() {
-        List<Movement> directions = new ArrayList<>();
-        if (Side.CHO.equals(side)) {
-            directions.add(new Movement(List.of(Direction.NORTH)));
-            directions.add(new Movement(List.of(Direction.WEST)));
-            directions.add(new Movement(List.of(Direction.EAST)));
-        }
-        if (Side.HAN.equals(side)) {
-            directions.add(new Movement(List.of(Direction.SOUTH)));
-            directions.add(new Movement(List.of(Direction.WEST)));
-            directions.add(new Movement(List.of(Direction.EAST)));
-        }
-        return directions;
+        List<Movement> movements = new ArrayList<>();
+        movements.add(new Movement(List.of(Direction.NORTH)));
+        movements.add(new Movement(List.of(Direction.SOUTH)));
+        movements.add(new Movement(List.of(Direction.WEST)));
+        movements.add(new Movement(List.of(Direction.EAST)));
+
+        return movements;
     }
 
     @Override

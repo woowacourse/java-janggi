@@ -51,7 +51,7 @@ public class Game {
     }
 
     public Map<Point, Piece> getBoard() {
-        return board.getBoard();
+        return board.getPieces();
     }
 
     private void switchTurn() {
