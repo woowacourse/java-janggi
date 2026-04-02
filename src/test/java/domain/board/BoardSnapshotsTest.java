@@ -21,7 +21,7 @@ public class BoardSnapshotsTest {
         Position hanRight = new Position(4, 2);
         Position hanLeft = new Position(3, 2);
 
-        stubBoardStates.put(choRight, new FullState(new Chariot(CountryType.HAN)));
+        stubBoardStates.put(choRight, new FullState(new Chariot(CountryType.CHO)));
         stubBoardStates.put(hanRight, new FullState(new Chariot(CountryType.HAN)));
 
         Board board = new Board(stubBoardStates.create());
