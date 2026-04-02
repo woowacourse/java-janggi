@@ -10,11 +10,7 @@ public class Player {
         this.team = team;
     }
 
-    public static Player cho(final String name) {
-        return new Player(new Name(name), Team.CHO);
-    }
-
-    public static Player han(final String name) {
-        return new Player(new Name(name), Team.HAN);
+    public static Player of(final String name, final Team team) {
+        return new Player(new Name(name), team);
     }
 }

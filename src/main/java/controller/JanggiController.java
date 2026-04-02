@@ -3,6 +3,7 @@ package controller;
 import domain.board.Board;
 import domain.board.ElephantSetup;
 import domain.player.Player;
+import domain.player.Team;
 import view.InputView;
 import view.OutputView;
 
@@ -17,20 +18,33 @@ public class JanggiController {
     }
 
     public void run() {
-        outputView.printEnterChoPlayerNamePrompt();
-        String choPlayerName = inputView.readPlayerName();
-        Player choPlayer = Player.cho(choPlayerName);
+        Player choPlayer = generateChoPlayer();
+        Player hanPlayer = generateHanPlayer();
 
+        Board board = initializeBoard();
+    }
+
+
+    private Player generateHanPlayer() {
         outputView.printEnterHanPlayerNamePrompt();
         String hanPlayerName = inputView.readPlayerName();
-        Player hanPlayer = Player.han(hanPlayerName);
+        return Player.of(hanPlayerName, Team.HAN);
+    }
 
+    private Player generateChoPlayer() {
+        outputView.printEnterChoPlayerNamePrompt();
+        String choPlayerName = inputView.readPlayerName();
+        return Player.of(choPlayerName, Team.CHO);
+    }
+
+
+    private Board initializeBoard() {
         outputView.printChoiceChoElephantSetupPrompt();
-        ElephantSetup choElephantSetup = inputView.readElephantSetup();
+        int choElephantSetupNumber = inputView.readElephantSetup();
 
         outputView.printChoiceHanElephantSetupPrompt();
-        ElephantSetup hanElephantSetup = inputView.readElephantSetup();
+        int hanElephantSetupNumber = inputView.readElephantSetup();
 
-        Board board = Board.init(choElephantSetup, hanElephantSetup);
+        return Board.init(ElephantSetup.of(choElephantSetupNumber), ElephantSetup.of(hanElephantSetupNumber));
     }
 }
