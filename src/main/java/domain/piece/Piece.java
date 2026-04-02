@@ -37,6 +37,10 @@ public class Piece {
         return pieceType == PieceType.SOLDIER;
     }
 
+    public boolean isGeneral() {
+        return pieceType == PieceType.GENERAL;
+    }
+
     public boolean isPalacePiece() {
         return pieceType == PieceType.GENERAL || pieceType == PieceType.GUARD;
     }

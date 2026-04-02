@@ -6,8 +6,10 @@ import domain.movement.MovementFactory;
 import domain.movement.MovementValidator;
 import domain.movement.Paths;
 import domain.piece.Piece;
+import domain.piece.Team;
 import domain.setup.Arrangements;
 import domain.setup.Coordinate;
+import java.util.Map;
 import java.util.Optional;
 
 public class Board {
@@ -50,6 +52,14 @@ public class Board {
         return pieces.at(position)
                 .map(targetPiece -> !movingPiece.isSameTeamAs(targetPiece))
                 .orElse(false);
+    }
+
+    public Position findGeneral(Team team) {
+        return pieces.findGeneral(team);
+    }
+
+    public Map<Position, Piece> getAllPiecesOf(Team team) {
+        return pieces.getAllPiecesOf(team);
     }
 
     private void validateMove(Coordinate coordinate, Turn turn) {

@@ -3,8 +3,9 @@ package io;
 import domain.board.Board;
 import domain.board.Column;
 import domain.board.Position;
-import domain.game.Turn;
 import domain.board.Row;
+import domain.game.Turn;
+import domain.piece.Team;
 
 public class OutputView {
     public static final String RED   = "\u001B[31m";
@@ -66,5 +67,9 @@ public class OutputView {
 
     public void printPieceMovement(Turn turn) {
         System.out.printf((REQUEST_MOVE) + "%n", turn.display());
+    }
+
+    public void printCheckMessage(Team checkedTeam) {
+        System.out.println("\n[장군] " + checkedTeam.display());
     }
 }
