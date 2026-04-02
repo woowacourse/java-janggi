@@ -16,11 +16,22 @@ public class GameConsole {
     public void run() {
         while (true) {
             retryUntilSuccess(() -> {
-                janggiGame.displayRequestCommand(outputView);
+                displayRequestCommand();
                 janggiGame.processCommand(inputView.readCommand());
             });
         }
     }
+
+    public void displayRequestCommand() {
+        if (janggiGame.isReadyPhase()) {
+            outputView.printSetupTable(janggiGame.getTurn());
+        }
+        if (janggiGame.isPlayingPhase()) {
+            outputView.printBoard(janggiGame.getBoard(), janggiGame.getTurn());
+            outputView.printPieceMovement(janggiGame.getTurn());
+        }
+    }
+
 
     private void retryUntilSuccess(Runnable action) {
         boolean isSuccess = false;
@@ -39,5 +50,5 @@ public class GameConsole {
             return false;
         }
     }
-    
+
 }

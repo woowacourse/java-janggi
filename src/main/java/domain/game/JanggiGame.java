@@ -1,13 +1,13 @@
 package domain.game;
 
 import domain.board.Board;
+import domain.piece.Team;
+import domain.setup.Arrangements;
 import domain.setup.Command;
+import domain.setup.Coordinate;
+import domain.state.GamePhase;
 import domain.state.GameState;
 import domain.state.ReadyState;
-import domain.setup.Arrangements;
-import domain.setup.Coordinate;
-import domain.piece.Team;
-import io.OutputView;
 
 public class JanggiGame {
     private Turn turn;
@@ -44,7 +44,12 @@ public class JanggiGame {
         this.turn = turn.changeTeam();
     }
 
-    public void displayRequestCommand(OutputView outputView) {
-        gameState.display(this, outputView);
+    public boolean isReadyPhase() {
+        return gameState.phase() == GamePhase.READY;
     }
+
+    public boolean isPlayingPhase() {
+        return gameState.phase() == GamePhase.PLAYING;
+    }
+
 }

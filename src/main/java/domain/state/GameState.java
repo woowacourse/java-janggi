@@ -1,11 +1,11 @@
 package domain.state;
 
-import domain.setup.Command;
 import domain.game.JanggiGame;
-import io.OutputView;
+import domain.setup.Command;
 
 public interface GameState {
+    GamePhase phase();
+
     GameState handle(JanggiGame game, Command command);
-    void display(JanggiGame game, OutputView outputView);
 
 }

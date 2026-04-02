@@ -1,11 +1,10 @@
 package domain.state;
 
-import domain.setup.Command;
 import domain.game.JanggiGame;
+import domain.piece.Team;
 import domain.setup.Arrangement;
 import domain.setup.Arrangements;
-import domain.piece.Team;
-import io.OutputView;
+import domain.setup.Command;
 
 public class ReadyState implements GameState {
     private final Arrangements arrangements;
@@ -29,7 +28,7 @@ public class ReadyState implements GameState {
     }
 
     @Override
-    public void display(JanggiGame game, OutputView outputView) {
-        outputView.printSetupTable(game.getTurn());
+    public GamePhase phase() {
+        return GamePhase.READY;
     }
 }

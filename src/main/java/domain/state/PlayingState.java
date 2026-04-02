@@ -1,13 +1,9 @@
 package domain.state;
 
-import domain.setup.Command;
-import domain.board.Board;
 import domain.game.JanggiGame;
-import domain.game.Turn;
-import io.OutputView;
+import domain.setup.Command;
 
 public class PlayingState implements GameState {
-//    State = Playing;
     @Override
     public GameState handle(JanggiGame game, Command command) {
         game.move(command.toCoordinate());
@@ -16,10 +12,7 @@ public class PlayingState implements GameState {
     }
 
     @Override
-    public void display(JanggiGame game, OutputView outputView) {
-        Board board = game.getBoard();
-        Turn turn = game.getTurn();
-        outputView.printBoard(board, turn);
-        outputView.printPieceMovement(turn);
+    public GamePhase phase() {
+        return GamePhase.PLAYING;
     }
 }
