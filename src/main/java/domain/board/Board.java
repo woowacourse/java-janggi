@@ -31,7 +31,7 @@ public class Board {
 
         List<PathInfo> path = new ArrayList<>();
         for (Position position : departurePiece.getPath(departure, destination)) {
-            path.add(new PathInfo(position, pieceAt(position)));
+            path.add(new PathInfo(position, pieces.get(position)));
         }
 
         departurePiece.validateBlockingPiece(path, departure, destination);

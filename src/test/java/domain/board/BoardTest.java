@@ -39,16 +39,21 @@ class BoardTest {
     }
 
     @Test
-    void 출발지에서_도착지로_기물을_이동시킨다(){
-        Position from = new Position(0, 0);
-        Position to = new Position(0, 3);
+    void 출발지에서_도착지로_기물을_이동시킨다() {
+        Position from = new Position(8, 3);
         Piece movingPiece = board.pieceAt(from);
 
-        board.move(from, to);
+        Position first = new Position(8, 4);
+        board.move(from, first);
+
+        Position second = new Position(8, 5);
+        board.move(first, second);
+
+        Position to = new Position(8, 6);
+        board.move(second, to);
 
         assertThat(board.isExistPieceAt(from)).isFalse();
         assertThat(board.pieceAt(to)).isEqualTo(movingPiece);
-
     }
 
     @Test
