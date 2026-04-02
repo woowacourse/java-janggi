@@ -42,7 +42,7 @@ public class PoCollisionDetector implements CollisionDetector {
 
     private void validatePoExistence(List<Piece> piecesOnPath) {
         boolean hasPo = piecesOnPath.stream()
-                .anyMatch(piece -> piece.getType() == PieceType.PO);
+                .anyMatch(piece -> piece.isSame(PieceType.PO));
 
         if (hasPo) {
             throw new PieceOnPathException(PO_EXISTENCE_IN_PATH_ERROR);

@@ -17,4 +17,6 @@ public interface Piece {
     boolean isSameSide(Side side);
 
     PieceType getType();
+
+    boolean isSame(PieceType pieceType);
 }

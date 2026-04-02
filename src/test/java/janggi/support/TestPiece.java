@@ -43,4 +43,9 @@ public class TestPiece implements Piece {
     public PieceType getType() {
         return null;
     }
+
+    @Override
+    public boolean isSame(PieceType pieceType) {
+        return false;
+    }
 }
