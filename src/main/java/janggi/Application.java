@@ -21,5 +21,7 @@ public class Application {
 
         Runner runner = new Runner(janggiService, game);
         runner.run();
+
+        sqlManager.closeConnection();
     }
 }
