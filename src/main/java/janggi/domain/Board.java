@@ -70,11 +70,11 @@ public class Board {
     public Board move(
         Position startPosition,
         Position endPosition,
-        TeamType nowTurn
+        TeamType playingTeam
     ) {
-        Team movedCurrentTeam = currentTeam(nowTurn).move(startPosition, endPosition);
-        Team remainedOpponentTeam = removeOpponentPiece(nowTurn, endPosition);
-        return createMovedBoard(nowTurn, movedCurrentTeam, remainedOpponentTeam);
+        Team movedCurrentTeam = currentTeam(playingTeam).move(startPosition, endPosition);
+        Team remainedOpponentTeam = removeOpponentPiece(playingTeam, endPosition);
+        return createMovedBoard(playingTeam, movedCurrentTeam, remainedOpponentTeam);
     }
 
     private Piece findTeamPiece(Position position, Team nowTeam) {
