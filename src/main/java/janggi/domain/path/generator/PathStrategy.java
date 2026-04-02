@@ -1,8 +1,8 @@
-package janggi.domain.piece.path;
+package janggi.domain.path.generator;
 
-import janggi.domain.board.Coordination;
+import janggi.domain.board.coordination.Coordination;
 import janggi.domain.board.point.Point;
-import janggi.domain.piece.Movement;
+import janggi.domain.path.Movement;
 import java.util.List;
 
 public interface PathStrategy {

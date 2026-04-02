@@ -1,4 +1,4 @@
-package janggi.domain.board;
+package janggi.domain.board.coordination;
 
 public class BoardCoordination implements Coordination {
     private static final int MIN_X = 0;

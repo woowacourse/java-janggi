@@ -1,8 +1,8 @@
-package janggi.domain.board;
+package janggi.domain.board.coordination;
 
 import janggi.domain.board.point.Point;
-import janggi.domain.piece.Direction;
-import janggi.domain.piece.Movement;
+import janggi.domain.path.Direction;
+import janggi.domain.path.Movement;
 import java.util.List;
 
 public enum PalaceMovements {

@@ -1,4 +1,4 @@
-package janggi.domain.piece;
+package janggi.domain.path;
 
 public enum Direction {
     NORTH(1, 0),

@@ -3,7 +3,8 @@ package janggi.domain.piece.path;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.board.point.Point;
-import janggi.domain.piece.Direction;
+import janggi.domain.path.CandidatePath;
+import janggi.domain.path.Direction;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;

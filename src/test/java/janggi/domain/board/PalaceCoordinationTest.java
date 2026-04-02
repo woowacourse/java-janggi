@@ -2,6 +2,8 @@ package janggi.domain.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import janggi.domain.board.coordination.Coordination;
+import janggi.domain.board.coordination.PalaceCoordination;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;

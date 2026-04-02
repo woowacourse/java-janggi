@@ -1,4 +1,4 @@
-package janggi.domain.board;
+package janggi.domain.board.coordination;
 
 import janggi.domain.board.point.Point;
 

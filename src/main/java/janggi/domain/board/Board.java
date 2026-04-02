@@ -1,10 +1,14 @@
 package janggi.domain.board;
 
+import janggi.domain.board.coordination.BoardCoordination;
+import janggi.domain.board.coordination.Coordination;
+import janggi.domain.board.coordination.PalaceCoordination;
+import janggi.domain.board.coordination.PalaceMovements;
 import janggi.domain.board.point.Point;
 import janggi.domain.board.setup.BoardSetUp;
-import janggi.domain.piece.Movement;
-import janggi.domain.piece.path.CandidatePath;
-import janggi.domain.piece.path.PathStrategy;
+import janggi.domain.path.CandidatePath;
+import janggi.domain.path.Movement;
+import janggi.domain.path.generator.PathStrategy;
 import janggi.domain.piece.unit.Piece;
 import janggi.domain.side.Side;
 import java.util.HashMap;

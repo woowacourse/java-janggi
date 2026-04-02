@@ -1,4 +1,4 @@
-package janggi.domain.board;
+package janggi.domain.board.coordination;
 
 public class PalaceCoordination implements Coordination {
     private static final int CHO_MIN_X = 0;

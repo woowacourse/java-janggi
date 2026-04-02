@@ -1,11 +1,11 @@
 package janggi.domain.piece.unit;
 
 import janggi.domain.board.point.Point;
-import janggi.domain.piece.Movement;
+import janggi.domain.path.CandidatePath;
+import janggi.domain.path.Movement;
+import janggi.domain.path.generator.FixedPathStrategy;
+import janggi.domain.path.generator.PathStrategy;
 import janggi.domain.piece.PieceName;
-import janggi.domain.piece.path.CandidatePath;
-import janggi.domain.piece.path.FixedPathStrategy;
-import janggi.domain.piece.path.PathStrategy;
 import janggi.domain.side.Side;
 import java.util.Collections;
 import java.util.List;

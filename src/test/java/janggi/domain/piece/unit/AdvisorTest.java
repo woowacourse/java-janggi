@@ -1,9 +1,9 @@
 package janggi.domain.piece.unit;
 
 import janggi.domain.board.point.Point;
-import janggi.domain.piece.Direction;
-import janggi.domain.piece.Movement;
-import janggi.domain.piece.path.CandidatePath;
+import janggi.domain.path.CandidatePath;
+import janggi.domain.path.Direction;
+import janggi.domain.path.Movement;
 import janggi.domain.side.Side;
 import java.util.Collections;
 import java.util.List;

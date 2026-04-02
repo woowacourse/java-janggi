@@ -1,4 +1,4 @@
-package janggi.domain.piece;
+package janggi.domain.path;
 
 import java.util.List;
 import java.util.Objects;
