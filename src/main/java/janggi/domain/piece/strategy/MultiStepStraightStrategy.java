@@ -1,6 +1,7 @@
 package janggi.domain.piece.strategy;
 
 import janggi.domain.Position;
+import janggi.domain.board.Palace;
 import janggi.domain.piece.Camp;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,7 @@ public class MultiStepStraightStrategy implements MoveStrategy {
     }
 
     private boolean isPalace(Position source, Position destination) {
-        return Camp.isPalace(source) && Camp.isPalace(destination);
+        return Palace.isPalace(source) && Palace.isPalace(destination);
     }
 
     private boolean isDiagonalStep(DirectionInformation directionInformation) {
@@ -59,7 +60,7 @@ public class MultiStepStraightStrategy implements MoveStrategy {
 
     private void validatePalaceDiagonalPath(Position source, List<Position> path) {
         boolean passesPalaceCenter =
-                Camp.isPalaceCenter(source) || path.stream().anyMatch(Camp::isPalaceCenter);
+                Palace.isPalaceCenter(source) || path.stream().anyMatch(Palace::isPalaceCenter);
 
         if (!passesPalaceCenter) {
             throw new IllegalArgumentException(INVALID_PALACE_DIAGONAL_STEP_MOVE);

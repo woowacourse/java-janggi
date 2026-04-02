@@ -1,6 +1,7 @@
 package janggi.domain.piece.strategy;
 
 import janggi.domain.Position;
+import janggi.domain.board.Palace;
 import janggi.domain.piece.Camp;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public abstract class SingleStepStraightStrategy implements MoveStrategy {
     }
 
     private boolean isPalace(Position source, Position destination) {
-        return Camp.isPalace(source) && Camp.isPalace(destination);
+        return Palace.isPalace(source) && Palace.isPalace(destination);
     }
 
     private void validatePalaceSingleStepMovement(Position source, Position destination,
@@ -53,7 +54,7 @@ public abstract class SingleStepStraightStrategy implements MoveStrategy {
     }
 
     private void validateDiagonalMove(Position source, Position destination) {
-        if (!Camp.isPalaceCenter(source) && !Camp.isPalaceCenter(destination)) {
+        if (!Palace.isPalaceCenter(source) && !Palace.isPalaceCenter(destination)) {
             throw new IllegalArgumentException(INVALID_PALACE_DIAGONAL_STEP_MOVE);
         }
     }
