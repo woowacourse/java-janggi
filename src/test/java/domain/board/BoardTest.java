@@ -3,15 +3,16 @@ package domain.board;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import domain.country.CountryType;
 import domain.Position;
+import domain.country.CountryType;
+import domain.piece.Chariot;
+import domain.piece.General;
 import domain.piece.PieceInfo;
 import domain.piece.PieceType;
 import domain.piece.Soldier;
 import domain.state.FullState;
 import java.util.Map;
 import java.util.stream.Stream;
-import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -204,7 +205,7 @@ public class BoardTest {
     void moveSoldierTest() {
         Position from = new Position(0, 3);
         Position to = new Position(1, 3);
-        board.move(from, to);
+        board.checkEndAndPlay(from, to);
 
         Map<Position, PieceInfo> pieceInfos = board.getPieceInfos();
 
@@ -218,7 +219,7 @@ public class BoardTest {
     void moveGuardTest() {
         Position from = new Position(3, 0);
         Position to = new Position(3, 1);
-        board.move(from, to);
+        board.checkEndAndPlay(from, to);
 
         Map<Position, PieceInfo> pieceInfos = board.getPieceInfos();
 
@@ -232,7 +233,7 @@ public class BoardTest {
     void moveElephantTest() {
         Position from = new Position(1, 0);
         Position to = new Position(3, 3);
-        board.move(from, to);
+        board.checkEndAndPlay(from, to);
 
         Map<Position, PieceInfo> pieceInfos = board.getPieceInfos();
 
@@ -246,7 +247,7 @@ public class BoardTest {
     void moveHorseTest() {
         Position from = new Position(2, 0);
         Position to = new Position(3, 2);
-        board.move(from, to);
+        board.checkEndAndPlay(from, to);
 
         Map<Position, PieceInfo> pieceInfos = board.getPieceInfos();
 
@@ -260,7 +261,7 @@ public class BoardTest {
     void moveChariotTest() {
         Position from = new Position(0, 0);
         Position to = new Position(0, 2);
-        board.move(from, to);
+        board.checkEndAndPlay(from, to);
 
         Map<Position, PieceInfo> pieceInfos = board.getPieceInfos();
 
@@ -274,7 +275,7 @@ public class BoardTest {
     void moveGeneralTest() {
         Position from = new Position(4, 1);
         Position to = new Position(4, 2);
-        board.move(from, to);
+        board.checkEndAndPlay(from, to);
 
         Map<Position, PieceInfo> pieceInfos = board.getPieceInfos();
 
@@ -288,11 +289,11 @@ public class BoardTest {
     void moveCannonTest() {
         Position horseFrom = new Position(2, 0);
         Position horseTo = new Position(3, 2);
-        board.move(horseFrom, horseTo);
+        board.checkEndAndPlay(horseFrom, horseTo);
 
         Position from = new Position(1, 2);
         Position to = new Position(4, 2);
-        board.move(from, to);
+        board.checkEndAndPlay(from, to);
 
         Map<Position, PieceInfo> pieceInfos = board.getPieceInfos();
 
@@ -305,13 +306,13 @@ public class BoardTest {
     @DisplayName("상대 기물을 정상적으로 잡는지 확인한다.")
     void killAnotherCountryPieceTest() {
         // 초나라 졸병 오른쪽으로 이동
-        board.move(new Position(0, 3), new Position(1, 3));
+        board.checkEndAndPlay(new Position(0, 3), new Position(1, 3));
         // 한나라 졸병 오른쪽으로 이동
-        board.move(new Position(0, 6), new Position(1, 6));
+        board.checkEndAndPlay(new Position(0, 6), new Position(1, 6));
 
         Position choChariotFrom = new Position(0, 0);
         Position hanChariotFrom = new Position(0, 9);
-        board.move(choChariotFrom, hanChariotFrom);
+        board.checkEndAndPlay(choChariotFrom, hanChariotFrom);
 
         Map<Position, PieceInfo> pieceInfos = board.getPieceInfos();
 
@@ -329,11 +330,24 @@ public class BoardTest {
         stubBoardStates.put(choSoldierTo, new FullState(new Soldier(CountryType.CHO)));
 
         Board board = new Board(stubBoardStates.create());
-        board.move(hanSoldierFrom, choSoldierTo);
+        board.checkEndAndPlay(hanSoldierFrom, choSoldierTo);
         Map<CountryType, Double> scores = board.getScores();
 
-        AssertionsForClassTypes.assertThat(scores.get(CountryType.CHO)).isEqualTo(70);
-        AssertionsForClassTypes.assertThat(scores.get(CountryType.HAN)).isEqualTo(73.5);
+        assertThat(scores.get(CountryType.CHO)).isEqualTo(70);
+        assertThat(scores.get(CountryType.HAN)).isEqualTo(73.5);
+    }
+
+    @Test
+    @DisplayName("궁이 잡히면 게임이 종료된다.")
+    void killGeneralGameEndTest() {
+        Position hanChariotFrom = new Position(4, 2);
+        Position choGeneralTo = new Position(4, 1);
+        stubBoardStates.put(hanChariotFrom, new FullState(new Chariot(CountryType.HAN)));
+        stubBoardStates.put(choGeneralTo, new FullState(new General(CountryType.CHO)));
+
+        Board board = new Board(stubBoardStates.create());
+
+        assertThat(board.checkEndAndPlay(hanChariotFrom, choGeneralTo)).isTrue();
     }
 
     @Test
@@ -342,7 +356,7 @@ public class BoardTest {
         Position from = new Position(0, 3);
         Position to = new Position(0, 3);
 
-        assertThatThrownBy(() -> board.move(from, to))
+        assertThatThrownBy(() -> board.checkEndAndPlay(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 기물을 동일한 위치로 이동시킬 수 없습니다.");
     }

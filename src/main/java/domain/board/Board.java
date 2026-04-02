@@ -26,13 +26,15 @@ public class Board {
         }
     }
 
-    public void move(Position from, Position to) {
+    public boolean checkEndAndPlay(Position from, Position to) {
         validateMoveSamePosition(from, to);
         Path path = boardStates.getPiecePath(from, to);
 
         boardStates.validatePieceMove(from, path);
         adjustScore(to);
+        boolean isGeneralCaught = boardStates.isGeneralCaught(to);
         boardStates.changeState(from, to);
+        return isGeneralCaught;
     }
 
     private void adjustScore(Position to) {

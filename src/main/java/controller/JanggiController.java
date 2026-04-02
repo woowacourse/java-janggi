@@ -36,13 +36,14 @@ public class JanggiController {
 
     private void playTurn(Board board, List<CountryType> playOrders) {
         int turnIndex = 0;
-        while (true) {
+        boolean isEnd = false;
+        while (!isEnd) {
             CountryType countryType = playOrders.get(turnIndex);
             outputView.printTurn(CountryFormatter.from(countryType));
             outputView.printScore(board.getScores());
             outputView.printBoard(board.getPieceInfos());
 
-            movePiece(board, countryType);
+            isEnd = movePiece(board, countryType);
             turnIndex = (turnIndex + 1) % 2;
         }
     }
@@ -60,15 +61,14 @@ public class JanggiController {
         }
     }
 
-    private void movePiece(Board board, CountryType countryType) {
+    private boolean movePiece(Board board, CountryType countryType) {
         while (true) {
             try {
                 Position from = makeFromPosition();
                 board.validateFromPosition(from, countryType);
                 Position to = makeToPosition();
 
-                board.move(from, to);
-                return;
+                return board.checkEndAndPlay(from, to);
             } catch (IllegalArgumentException exception) {
                 outputView.printErrorMessage(exception.getMessage());
             }

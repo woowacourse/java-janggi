@@ -1,10 +1,11 @@
 package domain.board;
 
-import domain.country.Country;
-import domain.country.CountryType;
 import domain.Path;
 import domain.Position;
+import domain.country.Country;
+import domain.country.CountryType;
 import domain.piece.PieceInfo;
+import domain.piece.PieceType;
 import domain.state.EmptyState;
 import domain.state.State;
 import java.util.HashMap;
@@ -30,6 +31,13 @@ public class BoardStates {
             return;
         }
         country.minusScore(boardStates.get(to).getPieceScore());
+    }
+
+    public boolean isGeneralCaught(Position to) {
+        if (boardStates.get(to).isEmpty()) {
+            return false;
+        }
+        return boardStates.get(to).getPieceType() == PieceType.GENERAL;
     }
 
     public boolean isEmpty(Position position) {
