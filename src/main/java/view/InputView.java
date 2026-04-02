@@ -1,7 +1,9 @@
 package view;
 
 import domain.Camp;
+import domain.ElephantFormation;
 import domain.Position;
+
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -40,11 +42,11 @@ public class InputView {
         while (true) {
             try {
                 System.out.println(camp.getCampName() + " 상 차림을 결정해주세요.");
-                System.out.println("1. [마 상 마 상]");
-                System.out.println("2. [마 상 상 마]");
-                System.out.println("3. [상 마 상 마]");
-                System.out.println("4. [상 마 마 상]");
-                return Integer.parseInt(sc.nextLine());
+                System.out.println(ElephantFormation.RIGHT.ordinal() + 1 + ". [마 상 마 상]");
+                System.out.println(ElephantFormation.INNER.ordinal() + 1 + ". [마 상 상 마]");
+                System.out.println(ElephantFormation.LEFT.ordinal() + 1 + ". [상 마 상 마]");
+                System.out.println(ElephantFormation.OUTER.ordinal() + 1 + ". [상 마 마 상]");
+                return Integer.parseInt(sc.nextLine()) - 1;
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }

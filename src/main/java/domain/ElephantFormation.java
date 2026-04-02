@@ -6,16 +6,14 @@ import java.util.List;
 import java.util.Map;
 
 public enum ElephantFormation {
-    RIGHT(1, initRight()),
-    INNER(2, initInner()),
-    LEFT(3, initLeft()),
-    OUTER(4, initOuter());
+    RIGHT(initRight()),
+    INNER(initInner()),
+    LEFT(initLeft()),
+    OUTER(initOuter());
 
-    private final int formationNumber;
     private final Map<InitialPieceLocation, Map<Camp, List<Position>>> positions;
 
-    ElephantFormation(int formationNumber, Map<InitialPieceLocation, Map<Camp, List<Position>>> positions) {
-        this.formationNumber = formationNumber;
+    ElephantFormation(Map<InitialPieceLocation, Map<Camp, List<Position>>> positions) {
         this.positions = positions;
     }
 
@@ -145,7 +143,7 @@ public enum ElephantFormation {
 
     public static ElephantFormation getFormationType(int formationNumber) {
         return Arrays.stream(ElephantFormation.values())
-                .filter(n -> n.formationNumber == formationNumber)
+                .filter(n -> n.ordinal() == formationNumber)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("잘못된 타입 번호입니다." + formationNumber));
     }
