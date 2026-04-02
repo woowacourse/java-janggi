@@ -10,7 +10,6 @@ import domain.piece.Jang;
 import domain.piece.Jol;
 import domain.piece.None;
 import domain.piece.Piece;
-import domain.piece.PieceFactory;
 import domain.piece.PieceType;
 import domain.piece.Po;
 import domain.piece.Sa;
@@ -54,7 +53,7 @@ public class BoardFactory {
         for (int i = 0; i < formation.size(); i++) {
             PieceType pieceType = formation.get(i);
             int column = columnPositions.get(i);
-            Piece piece = PieceFactory.createPiece(team, pieceType);
+            Piece piece = pieceType.create(team);
             Position position = new Position(NORMAL_PIECE_ROWS.get(team), column);
             board.put(position, piece);
         }
