@@ -58,9 +58,23 @@ public class Board {
                 .toList();
 
         BasicPiece destinationPiece = findPiece(path.destination());
-        if (destinationPiece.isNone()) {
-            return new PathPieces(sourcePiece, pieces);
-        }
-        return new PathPieces(sourcePiece, pieces, destinationPiece);
+        MoveMeta moveMeta = createMoveMeta(path);
+        return new PathPieces(sourcePiece, pieces, destinationPiece, moveMeta);
+    }
+
+    private MoveMeta createMoveMeta(Path path) {
+        Position source = path.source();
+        Position destination = path.destination();
+        return new MoveMeta(
+                source.isInPalace(),
+                destination.isInPalace(),
+                isDiagonalMove(source, destination)
+        );
+    }
+
+    private boolean isDiagonalMove(Position source, Position destination) {
+        int rowDiff = Math.abs(source.row() - destination.row());
+        int columnDiff = Math.abs(source.column() - destination.column());
+        return rowDiff > 0 && rowDiff == columnDiff;
     }
 }
