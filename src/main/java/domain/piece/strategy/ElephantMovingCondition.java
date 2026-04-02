@@ -47,7 +47,7 @@ public class ElephantMovingCondition implements MovingCondition {
     }
 
     private boolean canSecondStep(Map<Position, Piece> state, Position firstPosition, Direction firstDirection, Direction secondDirection) {
-        if (!firstDirection.isSameAtLeastOne(secondDirection)) {
+        if (firstDirection.isNotSameAtLeastOne(secondDirection)) {
             return false;
         }
         Position secondPosition = firstPosition.append(secondDirection);

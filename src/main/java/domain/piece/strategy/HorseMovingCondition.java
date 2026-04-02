@@ -4,7 +4,6 @@ import domain.board.Direction;
 import domain.piece.Piece;
 import domain.position.Position;
 
-import java.util.ArrayDeque;
 import java.util.Map;
 import java.util.Queue;
 
@@ -31,7 +30,7 @@ public class HorseMovingCondition implements MovingCondition {
         }
 
         Direction secondDirection = directions.remove();
-        if (!secondDirection.isSameAtLeastOne(firstDirection) || secondDirection.isStraight()) {
+        if (secondDirection.isNotSameAtLeastOne(firstDirection) || secondDirection.isStraight()) {
             return false;
         }
 

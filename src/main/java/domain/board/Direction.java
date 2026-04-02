@@ -92,7 +92,7 @@ public enum Direction {
         return deltaColumn;
     }
 
-    public boolean isSameAtLeastOne(Direction direction) {
-        return (deltaRow == direction.deltaRow || deltaColumn == direction.deltaColumn);
+    public boolean isNotSameAtLeastOne(Direction direction) {
+        return (deltaRow != direction.deltaRow && deltaColumn != direction.deltaColumn);
     }
 }
