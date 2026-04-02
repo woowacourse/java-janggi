@@ -42,7 +42,7 @@ public class PositionTest {
         Coordinate coordinate = startPosition.minus(endPosition);
         assertThat(coordinate).isEqualTo(expected);
     }
-    
+
     static Stream<Arguments> appendCases() {
         return Stream.of(
                 Arguments.of(Position.of(5, 5), Direction.UP, Position.of(6,5)),

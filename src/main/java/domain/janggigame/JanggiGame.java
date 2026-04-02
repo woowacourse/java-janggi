@@ -5,7 +5,6 @@ import domain.piece.Side;
 import domain.players.Players;
 import domain.position.Move;
 import domain.position.Position;
-import util.Parser;
 import view.InputView;
 import view.OutputView;
 
@@ -41,10 +40,8 @@ public class JanggiGame {
     }
 
     private Move inputAndParseToMove() {
-        String inputStartPosition = InputView.inputStartPosition();
-        Position startPosition = Parser.parseToPosition(inputStartPosition);
-        String inputEndPosition = InputView.inputEndPosition();
-        Position endPosition = Parser.parseToPosition(inputEndPosition);
+        Position startPosition = InputView.inputStartPosition();
+        Position endPosition = InputView.inputEndPosition();
         return new Move(startPosition, endPosition);
     }
 
@@ -63,24 +60,14 @@ public class JanggiGame {
     }
 
     private void placeBoardBySide() {
-        hanPlayerPlaceBoard();
-        choPlayerPlaceBoard();
+        initPlacementBySide(Side.HAN);
+        initPlacementBySide(Side.CHO);
     }
 
-    private void hanPlayerPlaceBoard() {
+    private void initPlacementBySide(Side side) {
         retry(() -> {
-            String input = InputView.inputHanPlacementCode();
-            int code = Parser.parseToPlacementCode(input);
-            players.initPlacementBySide(Side.HAN, code, board);
-            OutputView.printBoard(board.findState());
-        });
-    }
-
-    private void choPlayerPlaceBoard() {
-        retry(() -> {
-            String input = InputView.inputChoPlacementCode();
-            int code = Parser.parseToPlacementCode(input);
-            players.initPlacementBySide(Side.CHO, code, board);
+            int placementCode = InputView.inputPlacementCodeBy(side);
+            players.initPlacementBySide(side, placementCode, board);
             OutputView.printBoard(board.findState());
         });
     }

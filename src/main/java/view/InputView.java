@@ -1,17 +1,15 @@
 package view;
 
+import domain.piece.Side;
+import domain.position.Position;
+
 import java.util.Scanner;
 
 public class InputView {
     private static final Scanner scanner = new Scanner(System.in);
 
     public static int inputSideChoice() {
-        System.out.println("연장자나 상급자가 양손에 색깔 하나씩을 숨겼습니다.");
-        System.out.println("하급자는 왼속, 오른손 중에서 하나 선택해주세요.");
-        System.out.println("1. 왼손");
-        System.out.println("2. 오른손");
-        System.out.println();
-
+        printSideChoiceMessage();
         String inputSideCode = scanner.nextLine();
         if (!inputSideCode.matches("^[1|2]$")) {
             throw new IllegalArgumentException("코드는 1, 2만 입력 가능합니다.");
@@ -19,28 +17,32 @@ public class InputView {
         return Integer.parseInt(inputSideCode);
     }
 
-    public static String inputHanPlacementCode() {
-        System.out.println("한 진영은 배치를 선택 해주세요");
+    public static int inputPlacementCodeBy(Side side) {
+        System.out.println(side.getName() + " 진영은 배치를 선택해주세요.");
         printPlacementChoice();
-
-        return scanner.nextLine();
+        String input = scanner.nextLine();
+        if (!input.matches("^[1|2|3|4]$")) {
+            throw new IllegalArgumentException("코드는 1, 2, 3, 4만 입력 가능합니다.");
+        }
+        return Integer.parseInt(input);
     }
 
-    public static String inputChoPlacementCode() {
-        System.out.println("초 진영은 배치를 선택 해주세요");
-        printPlacementChoice();
-
-        return scanner.nextLine();
-    }
-
-    public static String inputStartPosition() {
+    public static Position inputStartPosition() {
         System.out.println("시작 위치를 입력해주세요. ex) 1,2");
-        return scanner.nextLine();
+        return inputAndParseToPosition();
     }
 
-    public static String inputEndPosition() {
+    public static Position inputEndPosition() {
         System.out.println("도착 위치를 입력해주세요. ex) 1,2");
-        return scanner.nextLine();
+        return inputAndParseToPosition();
+    }
+
+    private static void printSideChoiceMessage() {
+        System.out.println("연장자나 상급자가 양손에 색깔 하나씩을 숨겼습니다.");
+        System.out.println("하급자는 왼속, 오른손 중에서 하나 선택해주세요.");
+        System.out.println("1. 왼손");
+        System.out.println("2. 오른손");
+        System.out.println();
     }
 
     private static void printPlacementChoice() {
@@ -49,5 +51,15 @@ public class InputView {
         System.out.println("3. 우측 코끼리 (마상마상)");
         System.out.println("4. 좌측 코끼리 (상마상마)");
         System.out.println();
+    }
+
+    private static Position inputAndParseToPosition() {
+        String input = scanner.nextLine();
+
+        if (!input.matches("^(10|[1-9]),[1-9]$")) {
+            throw new IllegalArgumentException("좌표를 row는 1-10, column은 1-9 까지만 가능합니다.");
+        }
+        String[] inputPosition = input.split(",");
+        return Position.of(Integer.parseInt(inputPosition[0]), Integer.parseInt(inputPosition[1]));
     }
 }
