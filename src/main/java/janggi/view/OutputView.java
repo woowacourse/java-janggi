@@ -22,19 +22,21 @@ public class OutputView {
 
     public void printStartMessage() {
         System.out.println("게임을 시작하겠습니다.");
-        System.out.println();
     }
 
     public void printBusinessErrorMessage(String errorMessage) {
         System.out.println("[ERROR] " + errorMessage);
+        System.out.println();
     }
 
     public void printInputErrorMessage(String errorMessage) {
         System.out.println("[WARNING] " + errorMessage);
+        System.out.println();
     }
 
     public void printUndefinedErrorMessage() {
         System.out.println("[FATAL] 예상치 못한 시스템 오류가 발생했습니다.");
+        System.out.println();
     }
 
     public void printBoard(BoardDto boardDto) {
