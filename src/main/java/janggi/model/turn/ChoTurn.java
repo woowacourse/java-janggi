@@ -1,6 +1,7 @@
 package janggi.model.turn;
 
 import janggi.model.Board;
+import janggi.model.Score;
 import janggi.model.Team;
 import janggi.model.position.Position;
 import java.util.function.BiConsumer;
@@ -17,7 +18,7 @@ public class ChoTurn implements Turn {
     public Turn play(Position from, Position to) {
         Board movedBoard = board.move(Team.CHO, from, to);
         if (movedBoard.isGameOver()) {
-            return new GameOver();
+            return new GameOver(movedBoard);
         }
         return new HanTurn(movedBoard);
     }
@@ -30,5 +31,10 @@ public class ChoTurn implements Turn {
     @Override
     public void accept(BiConsumer<Board, String> consumer) {
         consumer.accept(board, Team.CHO.getDisplayName());
+    }
+
+    @Override
+    public void acceptScore(BiConsumer<Score, Score> consumer) {
+        consumer.accept(board.calculateScore(Team.CHO), board.calculateScore(Team.HAN));
     }
 }

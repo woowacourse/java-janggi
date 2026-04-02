@@ -22,11 +22,14 @@ public class JanggiController {
     public void run() {
         BoardType boardType = readInitialBoardType();
         Janggi janggi = initializeBoard(boardType);
+        janggi.withScore(outputView::printScore);
 
         while (!janggi.isGameOver()) {
             janggi.withBoard(outputView::printBoard);
             janggi = readAndPlay(janggi);
         }
+
+        janggi.withScore(outputView::printScore);
     }
 
     private Janggi readAndPlay(Janggi janggi) {

@@ -1,11 +1,11 @@
 package janggi.model;
 
-public record Score(int value) {
+public record Score(double value) {
     public Score add(Score otherScore) {
         return new Score(this.value + otherScore.value);
     }
 
-    public int getValue() {
+    public double getValue() {
         return this.value;
     }
 

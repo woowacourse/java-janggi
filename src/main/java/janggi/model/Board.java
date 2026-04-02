@@ -85,10 +85,16 @@ public class Board {
     }
 
     public Score calculateScore(Team team) {
-        return board.values().stream()
+        double bonusScore = 1.5;
+        Score sumOfScore = board.values().stream()
                 .filter(gimul -> gimul.isSameTeam(team))
                 .map(AbstractGimul::getScore)
                 .reduce(Score.zero(), Score::add);
+
+        if (team.equals(Team.HAN)) {
+            sumOfScore = sumOfScore.add(new Score(bonusScore));
+        }
+        return sumOfScore;
     }
 
     public String render() {

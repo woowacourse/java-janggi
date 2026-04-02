@@ -1,6 +1,7 @@
 package janggi.view;
 
 import janggi.model.Board;
+import janggi.model.Score;
 
 public class OutputView {
 
@@ -23,5 +24,9 @@ public class OutputView {
 
     public void printErrorMessage(String message) {
         System.out.println("[ERROR] " + message);
+    }
+
+    public void printScore(Score choScore, Score hanScore) {
+        System.out.println("초: " + choScore.getValue() + "점 / 한: " + hanScore.getValue() + "점");
     }
 }

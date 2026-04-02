@@ -28,4 +28,8 @@ public class Janggi {
     public void withBoard(BiConsumer<Board, String> consumer) {
         turn.accept(consumer);
     }
+
+    public void withScore(BiConsumer<Score, Score> consumer) {
+        turn.acceptScore(consumer);
+    }
 }
