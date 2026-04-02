@@ -63,7 +63,7 @@ public class Board implements BoardView {
         return Palace.getDiagonalMidpoint(from, to);
     }
 
-    public void move(Position from, Position to, Team currentTeam) {
+    public Piece move(Position from, Position to, Team currentTeam) {
         Piece fromPiece = findByPosition(from);
         Piece toPiece = findByPosition(to);
 
@@ -75,6 +75,8 @@ public class Board implements BoardView {
 
         place(from, new EmptyPosition(Team.OTHER));
         place(to, fromPiece);
+
+        return toPiece;
     }
 
     private void place(Position position, Piece piece) {

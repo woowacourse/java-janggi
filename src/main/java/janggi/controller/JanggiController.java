@@ -19,7 +19,9 @@ public class JanggiController {
         while (!janggiGame.isFinished()) {
             Team currentTeam = janggiGame.findCurrentTeam();
             attemptMove(board, currentTeam);
-            janggiGame.changeTurn();
+            if (!janggiGame.isFinished()) {
+                janggiGame.changeTurn();
+            }
         }
     }
 

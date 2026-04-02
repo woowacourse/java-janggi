@@ -5,8 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import janggi.domain.piece.King;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.Soldier;
+import janggi.domain.piece.Tank;
 import janggi.domain.piece.Team;
 import janggi.domain.vo.Position;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 public class BoardTest {
@@ -29,5 +32,32 @@ public class BoardTest {
         Position position = new Position(1, 0);
         assertTrue(board.isEmptyPosition(position));
     }
+
+    @Test
+    void 이동시_잡힌_기물을_반환한다() {
+        Board board = Board.of(Map.of(
+                new Position(0, 0), new Tank(Team.HAN),
+                new Position(0, 3), new Soldier(Team.CHO)
+        ));
+
+        Piece captured = board.move(
+                new Position(0, 0), new Position(0, 3), Team.HAN);
+
+        assertThat(captured).isInstanceOf(Soldier.class);
+        assertThat(captured.findTeam()).isEqualTo(Team.CHO);
+    }
+
+    @Test
+    void 빈칸으로_이동시_빈칸을_반환한다() {
+        Board board = Board.of(Map.of(
+                new Position(0, 0), new Tank(Team.HAN)
+        ));
+
+        Piece captured = board.move(
+                new Position(0, 0), new Position(0, 3), Team.HAN);
+
+        assertThat(captured.isEmpty()).isTrue();
+    }
+
 
 }
