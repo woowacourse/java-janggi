@@ -17,10 +17,10 @@ public record GameStatusInfo(
         );
     }
 
-    private static List<PieceInfo> toPieceInfos(List<Piece> row) {
+    private static List<PieceInfo> toPieceInfos(List<Piece> piecesAtY) {
         List<PieceInfo> pieceInfos = new ArrayList<>();
 
-        for (Piece piece : row) {
+        for (Piece piece : piecesAtY) {
             pieceInfos.add(createPieceInfo(piece));
         }
         return pieceInfos;

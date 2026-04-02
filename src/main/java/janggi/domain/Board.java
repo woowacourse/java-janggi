@@ -50,7 +50,7 @@ public class Board {
         List<List<Piece>> pieces = new ArrayList<>();
         for (int i = 0; i < BOARD_HEIGHT; i++) {
             pieces.add(
-                    Point.getRow(i).stream()
+                    Point.getPointsAtY(i).stream()
                             .map(piecesByPoint::get)
                             .toList()
             );

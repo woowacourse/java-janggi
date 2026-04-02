@@ -30,7 +30,7 @@ public class OutputView {
     public static void printGameStatus(GameStatusInfo status) {
         System.out.println();
         printHeader();
-        printRows(status.pieces());
+        printLinesByY(status.pieces());
         System.out.println();
     }
 
@@ -44,14 +44,14 @@ public class OutputView {
         System.out.println("   " + List.of(0, 1, 2, 3, 4, 5, 6, 7, 8));
     }
 
-    private static void printRows(List<List<PieceInfo>> pieces) {
+    private static void printLinesByY(List<List<PieceInfo>> pieces) {
         for (int y = pieces.size() - 1; y >= 0; y--) {
-            System.out.println(y + " " + formatRow(pieces.get(y)));
+            System.out.println(y + " " + formatLineAtY(pieces.get(y)));
         }
     }
 
-    private static String formatRow(List<PieceInfo> row) {
-        return row.stream()
+    private static String formatLineAtY(List<PieceInfo> piecesAtY) {
+        return piecesAtY.stream()
                 .map(OutputView::formatPiece)
                 .toList()
                 .toString();

@@ -16,11 +16,11 @@ public class SangTest {
     @ParameterizedTest
     @CsvSource(value = {"8:7", "8:3", "2:7", "2:3", "7:8", "3:8", "7:2", "3:2"}, delimiter = ':')
     @DisplayName("상이 움직일 때, 경유지는 두 곳이다.")
-    void straight_back_route(int column, int row) {
+    void straight_back_route(int x, int y) {
         // given
         Piece sang = new Sang(Team.CHO);
         Point from = Point.of(5,5);
-        Point to = Point.of(column, row);
+        Point to = Point.of(x, y);
 
         // when
         List<Point> route = sang.getRoute(from, to);

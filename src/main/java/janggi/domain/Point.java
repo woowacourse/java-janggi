@@ -27,9 +27,9 @@ public class Point {
     static {
         List<List<Point>> points = new ArrayList<>();
         for (int i = 0; i < BOARD_HEIGHT; i++) {
-            List<Point> row = new ArrayList<>();
-            addX(row, i);
-            points.add(row);
+            List<Point> pointsAtY = new ArrayList<>();
+            addPointsInX(pointsAtY, i);
+            points.add(pointsAtY);
         }
         CACHE = Collections.unmodifiableList(points);
     }
@@ -45,7 +45,7 @@ public class Point {
         return CACHE.get(y).get(x);
     }
 
-    public static List<Point> getRow(int y) {
+    public static List<Point> getPointsAtY(int y) {
         return CACHE.get(y);
     }
 
@@ -112,9 +112,9 @@ public class Point {
                 && y >= minY && y <= maxY;
     }
 
-    private static void addX(List<Point> row, int y) {
+    private static void addPointsInX(List<Point> pointsAtY, int y) {
         for (int i = 0; i < BOARD_WIDTH; i++) {
-            row.add(new Point(i, y));
+            pointsAtY.add(new Point(i, y));
         }
     }
 
