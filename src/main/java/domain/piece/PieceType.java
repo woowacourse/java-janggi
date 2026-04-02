@@ -9,8 +9,8 @@ public enum PieceType {
     GUARD(camp -> new GeneralMoveStrategy()),
     CHARIOT(camp -> new ChariotMoveStrategy()),
     CANNON(camp -> new CannonMoveStrategy()),
-    HORSE(camp -> new ChariotMoveStrategy()),
-    ELEPHANT(camp -> new ChariotMoveStrategy()),
+    HORSE(camp -> new HorseMoveStrategy()),
+    ELEPHANT(camp -> new ElephantMoveStrategy()),
     SOLDIER(camp -> new SoldierMoveStrategy(camp.getForwardDirection()));
 
     private final Function<Camp, MoveStrategy> strategyFactory;
