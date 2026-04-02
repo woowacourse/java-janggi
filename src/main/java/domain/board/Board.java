@@ -9,6 +9,7 @@ import java.util.*;
 public class Board implements PathChecker {
 
     private static final String NO_PIECE_EXIST_ERROR_MESSAGE = "[ERROR] 해당 좌표에 기물이 없습니다.";
+    private static final Palace PALACE = new Palace();
     private final Map<Position, Piece> board;
 
     public Board(Map<Position, Piece> board) {
@@ -83,5 +84,15 @@ public class Board implements PathChecker {
         }
 
         return fromPiece.camp() == toPiece.camp();
+    }
+
+    @Override
+    public boolean isInPalace(Position position) {
+        return PALACE.isInPalace(position);
+    }
+
+    @Override
+    public boolean isOnPalaceCenter(Position position) {
+        return PALACE.isOnPalaceCenter(position);
     }
 }
