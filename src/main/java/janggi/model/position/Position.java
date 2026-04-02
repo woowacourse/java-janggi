@@ -1,5 +1,6 @@
 package janggi.model.position;
 
+import janggi.model.Team;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -29,6 +30,19 @@ public record Position(
             new Position(Row.TWO, Column.SIX),
             new Position(Row.THREE, Column.FOUR),
             new Position(Row.THREE, Column.FIVE),
+            new Position(Row.THREE, Column.SIX)
+    );
+
+    private static final Set<Position> PALACE_DIAGONALS = Set.of(
+            new Position(Row.EIGHT, Column.FOUR),
+            new Position(Row.EIGHT, Column.SIX),
+            new Position(Row.NINE, Column.FIVE),
+            new Position(Row.ZERO, Column.FOUR),
+            new Position(Row.ZERO, Column.SIX),
+            new Position(Row.ONE, Column.FOUR),
+            new Position(Row.ONE, Column.SIX),
+            new Position(Row.TWO, Column.FIVE),
+            new Position(Row.THREE, Column.FOUR),
             new Position(Row.THREE, Column.SIX)
     );
 
@@ -94,5 +108,16 @@ public record Position(
 
     public boolean isInPalace() {
         return CHO_PALACE.contains(this) || HAN_PALACE.contains(this);
+    }
+
+    public boolean isInPalaceOf(Team team) {
+        if (team == Team.CHO) {
+            return CHO_PALACE.contains(this);
+        }
+        return HAN_PALACE.contains(this);
+    }
+
+    public boolean isOnPalaceDiagonal() {
+        return PALACE_DIAGONALS.contains(this);
     }
 }

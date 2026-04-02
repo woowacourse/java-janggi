@@ -21,7 +21,7 @@ public abstract class AbstractLinearMoveGimul extends AbstractGimul {
     }
 
     private boolean isPalaceMove(Position from, Position to) {
-        return from.isInPalace() && to.isInPalace() && isDiagonal(from, to);
+        return from.isOnPalaceDiagonal() && to.isOnPalaceDiagonal() && isDiagonal(from, to);
     }
 
     private boolean isDiagonal(Position from, Position to) {
@@ -33,11 +33,6 @@ public abstract class AbstractLinearMoveGimul extends AbstractGimul {
     private PositionPath createPalacePath(Position from, Position to) {
         int rowDistance = to.getRowDistance(from);
         int columnDistance = to.getColumnDistance(from);
-
-        if (Math.abs(rowDistance) != Math.abs(columnDistance)) {
-            throw new IllegalArgumentException("해당 경로로는 이동할 수 없습니다.");
-        }
-
         return from.moveDiagonal(new DiagonalDelta(rowDistance, columnDistance)).getMiddlePath();
     }
 

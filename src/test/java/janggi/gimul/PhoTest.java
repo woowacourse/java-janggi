@@ -106,6 +106,18 @@ class PhoTest {
         assertThat(positionPath.getDestination()).isEqualTo(middle);
     }
 
+    @DisplayName("궁성 대각선 선 위에 있지 않으면 대각선으로 이동할 수 없다.")
+    @Test
+    void getLegalPath_palace_diagonal_invalid() {
+        Position from = new Position(Row.NINE, Column.FOUR);
+        Position to = new Position(Row.EIGHT, Column.FIVE);
+        Pho pho = new Pho(Team.CHO);
+
+        assertThatThrownBy(() -> pho.getLegalPath(from, to))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("해당 경로로는 이동할 수 없습니다.");
+    }
+
     @DisplayName("경로 상에 포가 아닌 기물이 1개 있다면 true를 반환한다.")
     @Test
     void canPassThrough_true() {

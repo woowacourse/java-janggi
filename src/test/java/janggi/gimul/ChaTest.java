@@ -72,6 +72,18 @@ class ChaTest {
         assertThat(positionPath.getDestination()).isEqualTo(middle);
     }
 
+    @DisplayName("궁성 대각선 선 위에 있지 않으면 대각선으로 이동할 수 없다.")
+    @Test
+    void getLegalPath_palace_diagonal_invalid() {
+        Position from = new Position(Row.NINE, Column.FOUR);
+        Position to = new Position(Row.EIGHT, Column.FIVE);
+        Cha cha = new Cha(Team.CHO);
+
+        assertThatThrownBy(() -> cha.getLegalPath(from, to))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("해당 경로로는 이동할 수 없습니다.");
+    }
+
     @DisplayName("같은 행이면 이동할 수 있다.")
     @Test
     void getLegalPath_sameRow() {
