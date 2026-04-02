@@ -39,10 +39,10 @@ public class CannonMoveStrategy implements MoveStrategy {
             }
         }
 
-        return isCannonValidTarget(from, to, board, pieceCount);
+        return isValidCannonTarget(from, to, board, pieceCount);
     }
 
-    private boolean isCannonValidTarget(final Position from, final Position to, final Board board, final int pieceCount) {
+    private boolean isValidCannonTarget(final Position from, final Position to, final Board board, final int pieceCount) {
         return !isCannon(board, to.getRow(), to.getCol())
                 && board.canOccupy(from, to)
                 && pieceCount == CANNON_REQUIRED_PIECE_COUNT;
