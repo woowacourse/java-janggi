@@ -1,69 +1,34 @@
 package domain.board;
 
-import domain.Position;
-import domain.Side;
-import domain.piece.Piece;
-import domain.piece.PieceFactory;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import parser.Command;
 
 public enum Formation {
-    LEFT_ELEPHANT(Command.FIRST) {
-        @Override
-        public void placeElephant(Map<Position, Piece> pieces, Side side) {
-            List<Piece> orders = List.of(
-                    PieceFactory.createElephant(side),
-                    PieceFactory.createHorse(side),
-                    PieceFactory.createElephant(side),
-                    PieceFactory.createHorse(side)
-            );
-            place(pieces, side, orders);
-        }
-    },
-    RIGHT_ELEPHANT(Command.SECOND) {
-        @Override
-        public void placeElephant(Map<Position, Piece> pieces, Side side) {
-            List<Piece> orders = List.of(
-                    PieceFactory.createHorse(side),
-                    PieceFactory.createElephant(side),
-                    PieceFactory.createHorse(side),
-                    PieceFactory.createElephant(side)
-            );
-            place(pieces, side, orders);
-        }
-    },
-    OUTER_ELEPHANT(Command.THIRD) {
-        @Override
-        public void placeElephant(Map<Position, Piece> pieces, Side side) {
-            List<Piece> orders = List.of(
-                    PieceFactory.createElephant(side),
-                    PieceFactory.createHorse(side),
-                    PieceFactory.createHorse(side),
-                    PieceFactory.createElephant(side)
-            );
-            place(pieces, side, orders);
-        }
-    },
-    INNER_ELEPHANT(Command.FOURTH) {
-        @Override
-        public void placeElephant(Map<Position, Piece> pieces, Side side) {
-            List<Piece> orders = List.of(
-                    PieceFactory.createHorse(side),
-                    PieceFactory.createElephant(side),
-                    PieceFactory.createElephant(side),
-                    PieceFactory.createHorse(side)
-            );
-            place(pieces, side, orders);
-        }
-    },
+    LEFT_ELEPHANT(
+            Command.FIRST,
+            List.of(FormationPiece.ELEPHANT, FormationPiece.HORSE, FormationPiece.ELEPHANT, FormationPiece.HORSE)
+    ),
+    RIGHT_ELEPHANT(
+            Command.SECOND,
+            List.of(FormationPiece.HORSE, FormationPiece.ELEPHANT, FormationPiece.HORSE, FormationPiece.ELEPHANT)
+    ),
+    OUTER_ELEPHANT(
+            Command.THIRD,
+            List.of(FormationPiece.ELEPHANT, FormationPiece.HORSE, FormationPiece.HORSE, FormationPiece.ELEPHANT)
+    ),
+    INNER_ELEPHANT(
+            Command.FOURTH,
+            List.of(FormationPiece.HORSE, FormationPiece.ELEPHANT, FormationPiece.ELEPHANT, FormationPiece.HORSE)
+    ),
     ;
 
     private final Command command;
+    private final List<FormationPiece> orders;
 
-    Formation(Command command) {
+    Formation(Command command, List<FormationPiece> orders) {
         this.command = command;
+        this.orders = List.copyOf(orders);
     }
 
     public static Formation from(Command command) {
@@ -73,12 +38,7 @@ public enum Formation {
                 .orElseThrow(() -> new IllegalArgumentException("올바른 배치가 아닙니다."));
     }
 
-    public abstract void placeElephant(Map<Position, Piece> pieces, Side side);
-
-    private static void place(Map<Position, Piece> pieces, Side side, List<Piece> orders) {
-        List<Integer> formationX = side.formationX();
-        for (int i = 0; i < orders.size(); i++) {
-            pieces.put(Position.of(formationX.get(i), side.baseY()), orders.get(i));
-        }
+    public List<FormationPiece> getOrders() {
+        return orders;
     }
 }
