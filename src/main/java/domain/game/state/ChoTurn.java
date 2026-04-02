@@ -17,7 +17,7 @@ public class ChoTurn extends Running {
 
     @Override
     protected void validateTurn(Position source) {
-        if (game.isCho(source)) {
+        if (game.isHan(source)) {
             throw new JanggiException("초 차례입니다. 한 기물이 선택되었습니다.");
         }
     }
