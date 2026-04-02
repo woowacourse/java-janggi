@@ -9,7 +9,7 @@ public record PathInfo(Position position, Piece piece) {
         return piece != null;
     }
 
-    public boolean isSamePieceType(PieceType pieceType){
-        return piece.isSameType(pieceType);
+    public boolean isPieceType(PieceType type) {
+        return hasPiece() && piece.isSameType(type);
     }
 }
