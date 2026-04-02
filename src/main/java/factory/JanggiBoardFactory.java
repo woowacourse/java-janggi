@@ -6,15 +6,6 @@ import domain.PieceProperty;
 import domain.PieceType;
 import domain.Position;
 import domain.Team;
-import domain.strategy.CannonMoveStrategy;
-import domain.strategy.ChariotMoveStrategy;
-import domain.strategy.DownwardSoldierMoveStrategy;
-import domain.strategy.ElephantMoveStrategy;
-import domain.strategy.GeneralMoveStrategy;
-import domain.strategy.GuardMoveStrategy;
-import domain.strategy.HorseMoveStrategy;
-import domain.strategy.NonMoveableStrategy;
-import domain.strategy.UpwardSoldierMoveStrategy;
 import java.util.HashMap;
 import java.util.Map;
 

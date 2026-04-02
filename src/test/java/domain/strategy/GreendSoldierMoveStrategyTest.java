@@ -10,13 +10,13 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class DownwardSoldierMoveStrategyTest {
+class GreendSoldierMoveStrategyTest {
 
     @ParameterizedTest
     @MethodSource("moveablePositions")
     @DisplayName("초나라 졸은 현재 위치 기준 상, 좌우 한 칸 이동할 수 있다.")
     void greenSoldier_can_move_test(Position guardPosition, Position destination) {
-        DownwardSoldierMoveStrategy moveStrategy = new DownwardSoldierMoveStrategy();
+        GreendSoldierMoveStrategy moveStrategy = new GreendSoldierMoveStrategy();
 
         assertThat(moveStrategy.canMoveTo(guardPosition, destination)).isTrue();
     }
@@ -25,7 +25,7 @@ class DownwardSoldierMoveStrategyTest {
     @MethodSource("nonMovablePositions")
     @DisplayName("초나라 졸은 현재 위치 기준 상, 좌우 한 칸을 벗어난 곳으로 이동할 수 없다.")
     void greenSoldier_cannot_move_test(Position guardPosition, Position wrongTarget) {
-        DownwardSoldierMoveStrategy moveStrategy = new DownwardSoldierMoveStrategy();
+        GreendSoldierMoveStrategy moveStrategy = new GreendSoldierMoveStrategy();
 
         assertThat(moveStrategy.canMoveTo(guardPosition, wrongTarget)).isFalse();
     }
@@ -34,7 +34,7 @@ class DownwardSoldierMoveStrategyTest {
     @MethodSource("nonMovablePositions")
     @DisplayName("졸은 한 칸만 이동하므로 이동 경로 규칙이 항상 true이다.")
     void greenSoldier_can_move_hasValidPathTo_always_true_test(Position guardPosition, Position destination) {
-        DownwardSoldierMoveStrategy moveStrategy = new DownwardSoldierMoveStrategy();
+        GreendSoldierMoveStrategy moveStrategy = new GreendSoldierMoveStrategy();
 
         assertThat(moveStrategy.hasValidPathTo(guardPosition, destination, List.of())).isTrue();
     }

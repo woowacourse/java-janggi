@@ -3,7 +3,7 @@ package domain.strategy;
 import domain.Position;
 import java.util.List;
 
-public class UpwardSoldierMoveStrategy extends MoveStrategy {
+public class RedSoldierMoveStrategy extends MoveStrategy {
 
     private List<Position> createDestinations(Position currentPosition) {
         return List.of(

@@ -5,13 +5,13 @@ import domain.PieceType;
 import domain.Team;
 import domain.strategy.CannonMoveStrategy;
 import domain.strategy.ChariotMoveStrategy;
-import domain.strategy.DownwardSoldierMoveStrategy;
+import domain.strategy.GreendSoldierMoveStrategy;
 import domain.strategy.ElephantMoveStrategy;
 import domain.strategy.GeneralMoveStrategy;
 import domain.strategy.GuardMoveStrategy;
 import domain.strategy.HorseMoveStrategy;
 import domain.strategy.MoveStrategy;
-import domain.strategy.UpwardSoldierMoveStrategy;
+import domain.strategy.RedSoldierMoveStrategy;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,7 +27,7 @@ class MoveStrategyFactoryTest {
 
         MoveStrategy downwardMoveStrategy = moveStrategyFactory.createMoveStrategy(greenSoldier);
 
-        Assertions.assertThat(downwardMoveStrategy).isInstanceOf(DownwardSoldierMoveStrategy.class);
+        Assertions.assertThat(downwardMoveStrategy).isInstanceOf(GreendSoldierMoveStrategy.class);
     }
 
     @Test
@@ -37,7 +37,7 @@ class MoveStrategyFactoryTest {
 
         MoveStrategy upwardMoveStrategy = moveStrategyFactory.createMoveStrategy(redSoldier);
 
-        Assertions.assertThat(upwardMoveStrategy).isInstanceOf(UpwardSoldierMoveStrategy.class);
+        Assertions.assertThat(upwardMoveStrategy).isInstanceOf(RedSoldierMoveStrategy.class);
     }
 
     @Test
