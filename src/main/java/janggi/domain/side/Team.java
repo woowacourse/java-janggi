@@ -4,9 +4,7 @@ import janggi.domain.Position;
 import janggi.domain.piece.*;
 import janggi.dto.BoardSpot;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public abstract class Team {
 
@@ -17,7 +15,7 @@ public abstract class Team {
     }
 
     public Map<Position, Piece> getPieces() {
-        return pieces;
+        return Collections.unmodifiableMap(pieces);
     }
 
     public Map<Position, BoardSpot> makeSnapShot() {
