@@ -13,15 +13,6 @@ public class Piece {
         this.pieceType = pieceType;
     }
 
-    public String getTeamName() {
-        return team.getName();
-    }
-
-    public String getPieceTypeName() {
-        return pieceType.getName();
-    }
-
-
     public PieceType getPieceType() {
         return pieceType;
     }

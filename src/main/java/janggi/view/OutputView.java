@@ -1,6 +1,7 @@
 package janggi.view;
 
 import janggi.domain.Piece;
+import janggi.domain.PieceType;
 import janggi.domain.Position;
 import janggi.domain.Team;
 import java.util.Collections;
@@ -56,19 +57,35 @@ public class OutputView {
         boolean hasPiece = board.containsKey(position);
 
         if (isAvailable && hasPiece) {
-            System.out.print(AVAILABLE_COLOR + board.get(position).getPieceTypeName() + RESET + " ");
+            Piece piece = board.get(position);
+            String pieceName = resolvePieceName(piece.getPieceType());
+            System.out.print(AVAILABLE_COLOR + pieceName + RESET + " ");
         } else if (isAvailable) {
             System.out.print(AVAILABLE_COLOR + AVAILABLE_MARK + RESET);
         } else if (hasPiece) {
             Piece piece = board.get(position);
-            System.out.print(getColorByTeam(piece) + piece.getPieceTypeName() + RESET + " ");
+            String pieceName = resolvePieceName(piece.getPieceType());
+            String color = getColorByTeam(piece.getTeam());
+            System.out.print(color + pieceName + RESET + " ");
         } else {
             System.out.print(EMPTY_MARK);
         }
     }
 
-    private String getColorByTeam(Piece piece) {
-        if (piece.getTeam() == Team.CHO) {
+    private String resolvePieceName(PieceType pieceType) {
+        return switch (pieceType) {
+            case KING -> "왕";
+            case SA -> "사";
+            case SANG -> "상";
+            case MA -> "마";
+            case CHA -> "차";
+            case PO -> "포";
+            case ZOL -> "졸";
+        };
+    }
+
+    private String getColorByTeam(Team team) {
+        if (team == Team.CHO) {
             return CHO_COLOR;
         }
         return HAN_COLOR;
