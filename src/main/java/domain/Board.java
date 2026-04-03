@@ -1,6 +1,7 @@
 package domain;
 
 import domain.constant.Country;
+import domain.constant.Palace;
 import domain.constant.PieceType;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,6 +19,13 @@ public class Board {
         Piece startPiece = board.getOrDefault(start, Piece.getEmptyPiece());
         Piece endPiece = board.getOrDefault(end, Piece.getEmptyPiece());
 
+        if (startPiece.isPalacePiece()) {
+            Palace palace = Palace.from(startPiece.getCountry());
+            if (!palace.isPalace(end)) {
+                throw new IllegalArgumentException("장과 사는 궁성 내부에서만 이동 가능합니다.");
+            }
+        }
+
         if (!(startPiece.canMovePosition(start, end) && startPiece.isDifferentCountry(endPiece.getCountry())
                 && startPiece.isAvailableRoute(getSameLine(startPiece, start, end), endPiece.getPieceType()))) {
             throw new IllegalArgumentException("말을 이동할 수 없습니다.");
@@ -29,32 +37,45 @@ public class Board {
     }
 
     private List<Piece> getSameLine(Piece startPiece, Position start, Position end) {
-        if (!startPiece.getPieceType().equals(PieceType.PO)) {
+        PieceType pieceType = startPiece.getPieceType();
+        if (!pieceType.equals(PieceType.PO) && !pieceType.equals(PieceType.CHA)) {
             return Collections.emptyList();
         }
 
         List<Piece> pieces = new ArrayList<>();
-        int startX = start.getX();
-        int startY = start.getY();
-        int endX = end.getX();
-        int endY = end.getY();
-        if (!(startX == endX || startY == endY)) {
-            throw new IllegalArgumentException("포는 같은 줄만 이동 가능합니다.");
-        }
-
-        if (startX == endX) {
-            int minY = Math.min(startY, endY);
-            int maxY = Math.max(startY, endY);
-            for (int i = minY + 1; i < maxY; i++) {
-                pieces.add(board.getOrDefault(Position.create(startX, i), Piece.getEmptyPiece()));
+        if (start.getX() == end.getX() || start.getY() == end.getY()) {
+            int startX = start.getX();
+            int startY = start.getY();
+            int endX = end.getX();
+            int endY = end.getY();
+            if (!(startX == endX || startY == endY)) {
+                throw new IllegalArgumentException("포는 같은 줄만 이동 가능합니다.");
             }
+
+            if (startX == endX) {
+                int minY = Math.min(startY, endY);
+                int maxY = Math.max(startY, endY);
+                for (int i = minY + 1; i < maxY; i++) {
+                    pieces.add(board.getOrDefault(Position.create(startX, i), Piece.getEmptyPiece()));
+                }
+            }
+
+            if (startY == endY) {
+                int minX = Math.min(startX, endX);
+                int maxX = Math.max(startX, endX);
+                for (int i = minX + 1; i < maxX; i++) {
+                    pieces.add(board.getOrDefault(Position.create(i, startY), Piece.getEmptyPiece()));
+                }
+            }
+
+            return pieces;
         }
 
-        if (startY == endY) {
-            int minX = Math.min(startX, endX);
-            int maxX = Math.max(startX, endX);
-            for (int i = minX + 1; i < maxX; i++) {
-                pieces.add(board.getOrDefault(Position.create(i, startY), Piece.getEmptyPiece()));
+        Palace palace = Palace.from(startPiece.getCountry());
+        if (palace.isDiagonalPath(start, end)) {
+            int diffX = Math.abs(end.getX() - start.getX());
+            if (diffX == 2) {
+                pieces.add(board.getOrDefault(palace.getCenter(), Piece.getEmptyPiece()));
             }
         }
 
@@ -92,7 +113,7 @@ public class Board {
     public double calculateScore(Country country) {
         return board.values().stream()
                 .filter(piece -> piece.getCountry() == country)
-                .mapToDouble(piece -> piece.getPieceType().getScore())
+                .mapToDouble(Piece::getScore)
                 .sum();
     }
 }

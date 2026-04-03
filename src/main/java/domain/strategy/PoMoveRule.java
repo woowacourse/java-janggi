@@ -1,5 +1,6 @@
 package domain.strategy;
 
+import domain.constant.Palace;
 import domain.constant.PieceType;
 import domain.Position;
 import domain.Piece;
@@ -9,7 +10,11 @@ public class PoMoveRule implements MoveRule {
 
     @Override
     public boolean canMovePosition(Position start, Position end, Piece piece) {
-        return start.getX() == end.getX() || start.getY() == end.getY();
+        if (start.getX() == end.getX() || start.getY() == end.getY()) {
+            return true;
+        }
+        Palace palace = Palace.from(piece.getCountry());
+        return palace.isDiagonalPath(start, end);
     }
 
     @Override

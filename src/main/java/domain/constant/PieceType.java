@@ -32,7 +32,7 @@ public enum PieceType {
         this.score = score;
     }
 
-    public static PieceType of(String name) {
+    public static PieceType from(String name) {
         for  (PieceType pieceType : PieceType.values()) {
             if(pieceType.name.equals(name)){
                 return pieceType;

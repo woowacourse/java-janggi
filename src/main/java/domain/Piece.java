@@ -48,6 +48,10 @@ public class Piece {
         return pieceType.getScore();
     }
 
+    public boolean isPalacePiece() {
+        return pieceType.equals(PieceType.SA) || pieceType.equals(PieceType.JANG);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
