@@ -19,6 +19,11 @@ public abstract class Piece {
         return another.team == team;
     }
 
+    public boolean isSameTeam(Team team) {
+        return this.team == team;
+    }
+
+
     public PieceType getPieceType() {
         return pieceType;
     }

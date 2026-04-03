@@ -5,8 +5,6 @@ import domain.board.Position;
 import domain.piece.Piece;
 import domain.piece.Team;
 
-import java.util.Optional;
-
 public class Game {
 
     private final Board board;
@@ -14,10 +12,6 @@ public class Game {
 
     public Board getBoard() {
         return board;
-    }
-
-    public Optional<Piece> getPiece(Position position) {
-        return board.getPiece(position);
     }
 
     public Game(Board board) {
@@ -44,7 +38,7 @@ public class Game {
     public void validateMoveAblePiece(Position from) {
         Piece piece = board.getRequiredPiece(from);
 
-        if (!this.turn.equals(piece.getTeam())) {
+        if (!piece.isSameTeam(turn)) {
             throw new IllegalStateException("본인 차례가 아닙니다.");
         }
     }

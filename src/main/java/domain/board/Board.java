@@ -4,6 +4,7 @@ import domain.ErrorMessage;
 import domain.Offset;
 import domain.piece.Cannon;
 import domain.piece.Piece;
+import domain.piece.Team;
 
 import java.util.HashMap;
 import java.util.List;
@@ -68,5 +69,12 @@ public class Board {
                 .map(this::getPiece)
                 .flatMap(Optional::stream)
                 .toList();
+    }
+
+    public double calculateScore(Team team) {
+        return team.getScore() + pieces.values().stream()
+                .filter(piece -> piece.isSameTeam(team))
+                .mapToInt(piece -> piece.getPieceType().getScore())
+                .sum();
     }
 }
