@@ -1,10 +1,7 @@
-INSERT INTO game_states(id, turns_taken, team_queue)
-VALUES (1, 15, 'RED,BLUE');
+INSERT INTO games(id, name, turns_taken, team_queue)
+VALUES (1, '게임 1', 15, 'RED,BLUE');
 
-INSERT INTO boards(id, game_state_id, name)
-VALUES (1, 1, '게임 1');
-
-INSERT INTO board_cells(row_pos, column_pos, piece_type, team, board_id)
+INSERT INTO board_cells(row_pos, column_pos, piece_type, team, game_id)
 VALUES (2, 5, 'GENERAL', 'RED', 1),
        (2, 6, 'GUARD', 'RED', 1),
        (3, 4, 'GUARD', 'RED', 1),

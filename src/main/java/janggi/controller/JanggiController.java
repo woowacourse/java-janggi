@@ -17,7 +17,6 @@ import janggi.dto.BoardDto;
 import janggi.dto.GameResultDto;
 import janggi.global.Pair;
 import janggi.mapper.TurnManagerMapper;
-import janggi.service.BoardCellService;
 import janggi.service.BoardService;
 import janggi.service.GameService;
 import janggi.utils.Parser;
@@ -30,16 +29,13 @@ public class JanggiController {
 
     private final GameService gameService;
     private final BoardService boardService;
-    private final BoardCellService boardCellService;
 
     public JanggiController(
         final GameService gameService,
-        final BoardService boardService,
-        final BoardCellService boardCellService
+        final BoardService boardService
     ) {
         this.gameService = gameService;
         this.boardService = boardService;
-        this.boardCellService = boardCellService;
     }
 
     public void run() {
@@ -64,7 +60,7 @@ public class JanggiController {
         Team redTeam = setupRedTeam();
         board = BoardGenerator.generate(redTeam, blueTeam);
         turnManager = new TurnManager(1, List.of(blueTeam, redTeam));
-        boardService.createBoard(gameStateId, "게임 1");
+        boardService.createBoard(gameStateId, board.getPositionPieceMap());
 
         return new Pair<>(board, turnManager);
     }

@@ -5,8 +5,7 @@ import janggi.config.DBTableInitializer;
 import janggi.config.StandardDBConnection;
 import janggi.controller.JanggiController;
 import janggi.repository.BoardCellRepositoryImpl;
-import janggi.repository.BoardRepositoryImpl;
-import janggi.repository.GameStateRepositoryImpl;
+import janggi.repository.GameRepositoryImpl;
 import janggi.service.BoardService;
 import janggi.service.GameService;
 
@@ -19,8 +18,8 @@ public class Application {
         dbTableInitializer.init();
 
         final GameService gameService =
-            new GameService(new GameStateRepositoryImpl(dbConnection));
-        final BoardService boardService = new BoardService(new BoardRepositoryImpl(dbConnection),
+            new GameService(new GameRepositoryImpl(dbConnection));
+        final BoardService boardService = new BoardService(new GameRepositoryImpl(dbConnection),
             new BoardCellRepositoryImpl(dbConnection));
         final JanggiController janggiController =
             new JanggiController(gameService, boardService);

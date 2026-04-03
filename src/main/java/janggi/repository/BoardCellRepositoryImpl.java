@@ -22,7 +22,7 @@ public class BoardCellRepositoryImpl implements BoardCellRepository {
     @Override
     public long save(final BoardCellEntity boardCellEntity) {
         final String sql = String.format(
-            "INSERT INTO %s (row_pos, column_pos, piece_type, team, board_id) VALUES (%d, %d, '%s', '%s', %d)",
+            "INSERT INTO %s (row_pos, column_pos, piece_type, team, game_id) VALUES (%d, %d, '%s', '%s', %d)",
             TABLE_NAME, boardCellEntity.row(), boardCellEntity.column(),
             boardCellEntity.piece_type(), boardCellEntity.team(), boardCellEntity.board_id());
         return dbConnection.executeUpdate(sql).getFirst();
@@ -31,7 +31,7 @@ public class BoardCellRepositoryImpl implements BoardCellRepository {
     @Override
     public List<Long> saveAll(final List<BoardCellEntity> boardCellEntities) {
         final String sql =
-            String.format("INSERT INTO %s (row_pos, column_pos, piece_type, team, board_id) VALUES",
+            String.format("INSERT INTO %s (row_pos, column_pos, piece_type, team, game_id) VALUES",
                 TABLE_NAME) + boardCellEntities.stream()
                 .map(boardCellEntity -> String.format("(%d, %d, '%s', '%s', %d)",
                     boardCellEntity.row(), boardCellEntity.column(), boardCellEntity.piece_type(),
@@ -43,7 +43,7 @@ public class BoardCellRepositoryImpl implements BoardCellRepository {
     @Override
     public boolean existsByPosition(final Position position) {
         final String sql = String.format(
-            "SELECT id, row_pos, column_pos, piece_type, team, board_id FROM %s WHERE row_pos = %d AND column_pos = %d",
+            "SELECT id, row_pos, column_pos, piece_type, team, game_id FROM %s WHERE row_pos = %d AND column_pos = %d",
             TABLE_NAME, position.getRow(),
             position.getColumn());
         final EntityMapper<BoardCellEntity> mapper = getBoardCellEntityEntityMapper();
@@ -54,16 +54,16 @@ public class BoardCellRepositoryImpl implements BoardCellRepository {
     @Override
     public Optional<BoardCellEntity> findById(final long targetId) {
         final String sql = String.format(
-            "SELECT id, row_pos, column_pos, piece_type, team, board_id "
+            "SELECT id, row_pos, column_pos, piece_type, team, game_id "
                 + "FROM %s WHERE id = %d", TABLE_NAME, targetId);
         final EntityMapper<BoardCellEntity> mapper = getBoardCellEntityEntityMapper();
         return dbConnection.executeSelect(sql, mapper);
     }
 
     @Override
-    public List<BoardCellEntity> findAllByBoardId(final long boardId) {
+    public List<BoardCellEntity> findAllByGameId(final long boardId) {
         final String sql = String.format(
-            "SELECT id, row_pos, column_pos, piece_type, team, board_id FROM %s WHERE board_id = %d",
+            "SELECT id, row_pos, column_pos, piece_type, team, game_id FROM %s WHERE game_id = %d",
             TABLE_NAME, boardId);
         final EntityMapper<BoardCellEntity> mapper = getBoardCellEntityEntityMapper();
 
