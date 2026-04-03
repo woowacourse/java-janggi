@@ -6,17 +6,13 @@ import janggi.domain.point.Point;
 import janggi.domain.point.Points;
 import janggi.domain.point.Route;
 import janggi.domain.status.Team;
-import java.util.List;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.IntStream;
 
 public class Board {
 
-    private static final int BOARD_HEIGHT = 10;
-    private static final int BOARD_WIDTH = 9;
-
-    private Map<Point, Piece> pieces;
+    private final Map<Point, Piece> pieces;
 
     public Board(Map<Point, Piece> pieces) {
         this.pieces = pieces;
@@ -44,13 +40,8 @@ public class Board {
                 .count() < 2;
     }
 
-    public List<List<Piece>> getPieces() {
-        return IntStream.range(0, BOARD_HEIGHT)
-                .mapToObj(row -> IntStream.range(0, BOARD_WIDTH)
-                        .mapToObj(col -> Point.of(col, row))
-                        .map(point -> this.pieces.get(point))
-                        .toList()
-                ).toList();
+    public Map<Point, Piece> getPieces() {
+        return Collections.unmodifiableMap(this.pieces);
     }
 
     public double calculateScore(Team team) {

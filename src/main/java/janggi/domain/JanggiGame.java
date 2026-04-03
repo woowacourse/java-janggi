@@ -5,7 +5,7 @@ import janggi.domain.piece.Piece;
 import janggi.domain.point.Point;
 import janggi.domain.status.GameStatus;
 import janggi.domain.status.Team;
-import java.util.List;
+import java.util.Map;
 
 public class JanggiGame {
 
@@ -29,7 +29,7 @@ public class JanggiGame {
         return gameStatus.getTeam();
     }
 
-    public List<List<Piece>> getBoardStatus() {
+    public Map<Point, Piece> getBoardStatus() {
         return board.getPieces();
     }
 
