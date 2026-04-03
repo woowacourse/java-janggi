@@ -6,23 +6,22 @@ import janggi.domain.path.PieceOnPath;
 import janggi.domain.position.Movement;
 import janggi.domain.position.Position;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 class SoldierTest {
 
-    @Test
-    void 팀_확인_테스트() {
-        Soldier soldier = new Soldier(Team.HAN);
+    @ParameterizedTest
+    @CsvSource({
+            "HAN, true",
+            "CHO, true"})
+    void 졸의_팀을_확인한다(Team team, boolean expected) {
+        Soldier soldier = new Soldier(team);
 
-        boolean hanResult = soldier.getTeam() == Team.HAN;
-        boolean choResult = soldier.getTeam() == Team.CHO;
-
-        assertAll(
-                () -> assertThat(hanResult).isTrue(),
-                () -> assertThat(choResult).isFalse()
-        );
+        assertThat(soldier.getTeam() == team).isEqualTo(expected);
     }
 
     @Test
@@ -30,37 +29,47 @@ class SoldierTest {
         Soldier soldier = new Soldier(Team.HAN);
 
         PieceType type = soldier.getType();
+
         assertThat(type).isEqualTo(PieceType.SOLDIER);
     }
 
-    @Test
-    void 뒷_방향이_아닌_직선_한_칸을_이동시키면_경로를_반환한다() {
+    @ParameterizedTest(name = "from={0}, to={1}")
+    @CsvSource({
+            "43, 53",
+            "43, 44"})
+    void 전진_방향으로_한_칸_이동시키면_빈_경로를_반환한다(String from, String to) {
         Soldier soldier = new Soldier(Team.HAN);
-        Movement movement = new Movement(Position.from("43"), Position.from("53"));
+        Movement movement = new Movement(Position.from(from), Position.from(to));
 
         Path path = soldier.getPath(movement);
 
-        assertThat(path).hasSize(0);
+        assertThat(path).isEmpty();
     }
 
-    @Test
-    void 대각선_이동시키면_예외가_발생한다() {
+    @ParameterizedTest(name = "from={0}, to={1}")
+    @CsvSource({
+            "43, 54",
+            "43, 63"})
+    void 올바르지_않은_경로로_이동시키면_예외가_발생한다(String from, String to) {
         Soldier soldier = new Soldier(Team.HAN);
-        Movement movement = new Movement(Position.from("43"), Position.from("54"));
+        Movement movement = new Movement(Position.from(from), Position.from(to));
 
         assertThatThrownBy(() -> soldier.getPath(movement))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 졸은 해당 위치로 이동할 수 없습니다.");
     }
 
-    @Test
-    void 직선_한_칸보다_많이_이동시키면_예외를_발생한다() {
-        Soldier soldier = new Soldier(Team.HAN);
-        Movement movement = new Movement(Position.from("43"), Position.from("63"));
+    @ParameterizedTest(name = "team={0}, from={1}, to={2}")
+    @CsvSource({
+            "HAN, 45, 35",
+            "CHO, 75, 85"})
+    void 뒷_방향으로_이동시키면_예외가_발생한다(Team team, String from, String to) {
+        Soldier soldier = new Soldier(team);
+        Movement movement = new Movement(Position.from(from), Position.from(to));
 
         assertThatThrownBy(() -> soldier.getPath(movement))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 졸은 해당 위치로 이동할 수 없습니다.");
+                .hasMessage("[ERROR] 졸은 뒷 방향으로 이동할 수 없습니다.");
     }
 
     @Test
@@ -78,25 +87,5 @@ class SoldierTest {
 
         assertThatNoException().isThrownBy(
                 () -> soldier.validateCanMove(new PieceOnPath(), new Chariot(Team.CHO)));
-    }
-
-    @Test
-    void 한나라일때_위_방향으로_한_칸_이동시키면_예외가_발생한다() {
-        Soldier soldier = new Soldier(Team.HAN);
-        Movement movement = new Movement(Position.from("45"), Position.from("35"));
-
-        assertThatThrownBy(() -> soldier.getPath(movement))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 졸은 뒷 방향으로 이동할 수 없습니다.");
-    }
-
-    @Test
-    void 초나라일때_아래_방향으로_한_칸_이동시키면_예외가_발생한다() {
-        Soldier soldier = new Soldier(Team.CHO);
-        Movement movement = new Movement(Position.from("75"), Position.from("85"));
-
-        assertThatThrownBy(() -> soldier.getPath(movement))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 졸은 뒷 방향으로 이동할 수 없습니다.");
     }
 }
