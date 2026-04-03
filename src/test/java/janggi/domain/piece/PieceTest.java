@@ -3,9 +3,9 @@ package janggi.domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import janggi.domain.Position;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardChecker;
+import janggi.domain.board.Position;
 import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

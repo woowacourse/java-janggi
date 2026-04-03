@@ -1,7 +1,7 @@
 package janggi.domain.piece;
 
-import janggi.domain.Position;
 import janggi.domain.board.BoardChecker;
+import janggi.domain.board.Position;
 import java.util.List;
 
 public record Piece(PieceType pieceType, Camp camp) {

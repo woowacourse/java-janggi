@@ -1,4 +1,4 @@
-package janggi.domain;
+package janggi.domain.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

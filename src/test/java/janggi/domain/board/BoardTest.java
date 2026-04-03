@@ -2,7 +2,6 @@ package janggi.domain.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.Position;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;

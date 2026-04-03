@@ -2,7 +2,7 @@ package janggi.view;
 
 import static java.util.stream.Collectors.joining;
 
-import janggi.domain.Position;
+import janggi.domain.board.Position;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
 import janggi.view.dto.CampDto;

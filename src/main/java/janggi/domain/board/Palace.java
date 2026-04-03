@@ -1,6 +1,5 @@
 package janggi.domain.board;
 
-import janggi.domain.Position;
 import janggi.domain.piece.Camp;
 import java.util.Arrays;
 

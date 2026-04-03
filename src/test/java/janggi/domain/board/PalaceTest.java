@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import janggi.domain.Position;
 import janggi.domain.piece.Camp;
 import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;

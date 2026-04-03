@@ -2,9 +2,9 @@ package janggi.domain.piece.condition;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.domain.Position;
 import janggi.domain.board.Board;
 import janggi.domain.board.EmptyConditionTestBoardInitializer;
+import janggi.domain.board.Position;
 import janggi.domain.board.initializer.BoardInitializer;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.PieceType;

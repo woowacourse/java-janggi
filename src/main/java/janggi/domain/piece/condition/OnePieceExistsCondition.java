@@ -1,7 +1,7 @@
 package janggi.domain.piece.condition;
 
-import janggi.domain.Position;
 import janggi.domain.board.BoardChecker;
+import janggi.domain.board.Position;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.PieceType;
 import java.util.List;

@@ -2,7 +2,6 @@ package janggi.domain.board;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.domain.Position;
 import janggi.domain.board.initializer.BoardInitializer;
 import janggi.domain.board.initializer.ElephantSetUp;
 import janggi.domain.board.initializer.StandardBoardInitializer;

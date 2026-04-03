@@ -1,7 +1,7 @@
 package janggi.domain.piece.strategy;
 
-import janggi.domain.Position;
 import janggi.domain.board.Palace;
+import janggi.domain.board.Position;
 import janggi.domain.piece.Camp;
 import java.util.ArrayList;
 import java.util.List;

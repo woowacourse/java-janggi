@@ -1,7 +1,7 @@
 package janggi.domain.piece;
 
-import janggi.domain.Position;
 import janggi.domain.board.BoardChecker;
+import janggi.domain.board.Position;
 import janggi.domain.piece.condition.EmptyCondition;
 import janggi.domain.piece.condition.MoveCondition;
 import janggi.domain.piece.condition.OnePieceExistsCondition;

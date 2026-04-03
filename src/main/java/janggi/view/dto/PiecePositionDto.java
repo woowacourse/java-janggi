@@ -1,6 +1,6 @@
 package janggi.view.dto;
 
-import janggi.domain.Position;
+import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
 import janggi.view.format.PieceFormat;
 

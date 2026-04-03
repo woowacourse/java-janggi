@@ -2,7 +2,7 @@ package janggi.domain.piece.strategy;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.domain.Position;
+import janggi.domain.board.Position;
 import janggi.domain.piece.Camp;
 import java.util.List;
 import java.util.stream.Stream;

@@ -1,6 +1,6 @@
 package janggi.domain.piece.strategy;
 
-import janggi.domain.Position;
+import janggi.domain.board.Position;
 
 public record DirectionInformation(int rowDifference, int columnDifference) {
 
