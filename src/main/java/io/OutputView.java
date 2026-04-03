@@ -6,7 +6,9 @@ import domain.board.Position;
 import domain.board.Row;
 import domain.game.Turn;
 import domain.piece.Team;
+import domain.room.GameRoom;
 import domain.state.GameResult;
+import java.util.List;
 
 public class OutputView {
     public static final String RED   = "\u001B[31m";
@@ -76,6 +78,33 @@ public class OutputView {
 
     public void printBikjangQuestion(Team team) {
         System.out.printf("%n[%s 진영] 빅장입니다. 무승부를 선언하시겠습니까? (y/n)%n", team.display());
+    }
+
+    public void printRoomMenu(List<GameRoom> rooms) {
+        System.out.println("\n--- 장기 게임방 ---");
+        if (rooms.isEmpty()) {
+            System.out.println("진행 중인 게임방이 없습니다.");
+        } else {
+            System.out.println("진행 중인 게임방:");
+            for (int i = 0; i < rooms.size(); i++) {
+                System.out.printf("  [%d] %s%n", i + 1, rooms.get(i).name());
+            }
+        }
+        System.out.println("\n1. 새 게임방 만들기");
+        System.out.println("2. 기존 게임방 입장");
+        System.out.print("선택: ");
+    }
+
+    public void printRoomNamePrompt() {
+        System.out.print("게임방 이름을 입력하세요: ");
+    }
+
+    public void printRoomNumberPrompt() {
+        System.out.print("입장할 게임방 번호를 입력하세요: ");
+    }
+
+    public void printRoomEntered(GameRoom room) {
+        System.out.printf("'%s' 게임방에 입장했습니다.%n", room.name());
     }
 
     public void printGameResult(GameResult result, Board board) {

@@ -1,4 +1,6 @@
 import infrastructure.DatabaseManager;
+import infrastructure.repository.GameRoomRepository;
+import infrastructure.repository.H2GameRoomRepository;
 import io.GameConsole;
 
 public class Application {
@@ -6,7 +8,8 @@ public class Application {
         DatabaseManager databaseManager = new DatabaseManager();
         databaseManager.initSchema();
 
-        GameConsole gameConsole = new GameConsole();
+        GameRoomRepository gameRoomRepository = new H2GameRoomRepository(databaseManager);
+        GameConsole gameConsole = new GameConsole(gameRoomRepository);
         gameConsole.run();
     }
 }

@@ -9,12 +9,22 @@ import java.sql.Statement;
 
 public class DatabaseManager {
 
-    private static final String URL = "jdbc:h2:./janggi_db";
+    private static final String DEFAULT_URL = "jdbc:h2:./janggi_db";
     private static final String USER = "sa";
     private static final String PASSWORD = "";
 
+    private final String url;
+
+    public DatabaseManager() {
+        this(DEFAULT_URL);
+    }
+
+    public DatabaseManager(String url) {
+        this.url = url;
+    }
+
     public Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USER, PASSWORD);
+        return DriverManager.getConnection(url, USER, PASSWORD);
     }
 
     public void initSchema() {
