@@ -4,8 +4,9 @@ import domain.Board;
 import domain.Country;
 import domain.Position;
 import domain.TableSetting;
-import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import view.CountryFormatter;
 import view.InputParser;
 import view.InputView;
@@ -21,18 +22,17 @@ public class JanggiController {
     }
 
     public void run() {
-        List<TableSetting> tableSettings = makeTableSetting();
-        Board board = Board.create(tableSettings.get(1), tableSettings.get(0));
+        Map<Country, TableSetting> tableSettings = makeTableSetting();
+        Board board = Board.create(tableSettings.get(Country.CHO), tableSettings.get(Country.HAN));
         List<Country> playOrders = List.of(Country.CHO, Country.HAN);
 
         playTurn(board, playOrders);
     }
 
-    private List<TableSetting> makeTableSetting() {
-        List<TableSetting> tableSettings = new ArrayList<>();
+    private Map<Country, TableSetting> makeTableSetting() {
+        Map<Country, TableSetting> tableSettings = new LinkedHashMap<>();
         for (Country country : Country.values()) {
-            TableSetting tableSetting = readTableSetting(country);
-            tableSettings.add(tableSetting);
+            tableSettings.put(country, readTableSetting(country));
         }
         return tableSettings;
     }
