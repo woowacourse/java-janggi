@@ -9,7 +9,6 @@ import infra.H2ConnectionManager;
 import domain.place.Place;
 import domain.place.piece.Side;
 import domain.position.Position;
-import dto.GameStateDto;
 import domain.board.BoardFactory;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,7 +16,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import repository.impl.BoardRepositoryImpl;
 import repository.impl.GameRoomRepositoryImpl;
-import repository.impl.GameStateRepositoryImpl;
 
 public class GameServiceTest {
 
@@ -37,7 +35,7 @@ public class GameServiceTest {
 
         gameService = new GameService(new BoardRepositoryImpl(),
                 new GameRoomRepositoryImpl(),
-                new GameStateRepositoryImpl(), dbExecutor);
+                dbExecutor);
     }
 
     @Test
@@ -73,34 +71,7 @@ public class GameServiceTest {
 
         // when & then
         assertThatThrownBy(() -> gameService.findBoardByRoomId(roomId))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("[ERROR] 없는 방 번호입니다.");
-
-    }
-
-    @Test
-    @DisplayName("게임룸 ID로 게임 상태를 조회할 수 있다")
-    void findGameStateByRoomId_shouldReturnGameState() {
-        // given
-        int roomId = 1;
-
-        // when
-        GameStateDto gameStateDto = gameService.findGameStateByRoomId(roomId);
-
-        // then
-        assertThat(gameStateDto.currentSide()).isEqualTo(Side.CHO);
-    }
-
-    @Test
-    @DisplayName("존재하지 않는 게임룸 ID 조회 시 게임 상태 조회에서 예외가 발생한다")
-    void findGameStateByRoomId_shouldThrowException_whenRoomNotFound() {
-        // given
-        int roomId = 2;
-
-        // when & then
-        assertThatThrownBy(() -> gameService.findGameStateByRoomId(roomId))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("[ERROR] 없는 방 번호입니다.");
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test

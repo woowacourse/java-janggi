@@ -1,15 +1,10 @@
 DELETE
 FROM board_piece;
 DELETE
-FROM game_state;
-DELETE
 FROM game_room;
 
-INSERT INTO game_room (name)
-VALUES ('기본 게임');
-
-INSERT INTO game_state (game_room_id, current_turn)
-VALUES (1, 'CHO');
+INSERT INTO game_room (name, current_turn)
+VALUES ('기본 게임', 'CHO');
 
 
 INSERT INTO board_piece (game_room_id, position_row, position_col, side, type)

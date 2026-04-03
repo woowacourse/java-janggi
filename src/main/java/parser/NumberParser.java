@@ -1,6 +1,7 @@
 package parser;
 
 public class NumberParser {
+
     private NumberParser() {
     }
 

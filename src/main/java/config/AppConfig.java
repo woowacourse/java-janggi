@@ -13,7 +13,6 @@ public class AppConfig {
         return serviceConfig.gameService(
                 repositoryConfig.boardRepository(),
                 repositoryConfig.gameRoomRepository(),
-                repositoryConfig.gameStateRepository(),
                 databaseConfig.dbExecutor()
         );
     }

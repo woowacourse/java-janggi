@@ -3,6 +3,7 @@ package util;
 import java.util.function.Supplier;
 
 public class RetryHandler {
+
     private RetryHandler() {
     }
 

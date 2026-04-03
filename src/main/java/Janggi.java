@@ -45,7 +45,7 @@ public class Janggi {
         if (roomId == 0) {
             return getNewBoard();
         }
-        turn = gameService.findGameStateByRoomId(roomId).currentSide();
+        turn = gameService.findGameRoomByRoomId(roomId).side();
 
         return new Board(gameService.findBoardByRoomId(roomId));
     }

@@ -1,5 +1,6 @@
 package repository.impl;
 
+import domain.place.piece.Side;
 import java.sql.Connection;
 import dto.GameRoomDto;
 import java.sql.PreparedStatement;
@@ -8,24 +9,26 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import repository.GameRoomRepository;
 
 public class GameRoomRepositoryImpl implements GameRoomRepository {
 
     private static final String INSERT_SQL =
-            "INSERT INTO game_room (name) VALUES (?)";
+            "INSERT INTO game_room (name, current_turn) VALUES (?,?)";
 
     private static final String SELECT_BY_ID_SQL =
-            "SELECT id, name, created_at FROM game_room WHERE id = ?";
+            "SELECT id, name, current_turn, created_at FROM game_room WHERE id = ?";
 
     private static final String SELECT_ALL =
-            "SELECT id, name, created_at FROM game_room";
+            "SELECT id, name, current_turn, created_at FROM game_room";
 
     @Override
-    public long save(String name, Connection conn) {
+    public long save(String name, String side,Connection conn) {
         try (PreparedStatement stmt = conn.prepareStatement(INSERT_SQL, Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setString(1, name);
+            stmt.setString(2, side);
             stmt.executeUpdate();
 
             return getGeneratedId(stmt);
@@ -51,16 +54,16 @@ public class GameRoomRepositoryImpl implements GameRoomRepository {
     }
 
     @Override
-    public boolean existsById(long id, Connection conn) {
+    public Optional<GameRoomDto> findById(long id, Connection conn) {
         try (PreparedStatement stmt = conn.prepareStatement(SELECT_BY_ID_SQL)) {
 
             stmt.setLong(1, id);
 
-            List<GameRoomDto> result;
             try (ResultSet rs = stmt.executeQuery()) {
-                result = extractList(rs);
+                if(rs.next())
+                    return Optional.of(toGameRoom(rs));
             }
-            return !result.isEmpty();
+            return Optional.empty();
 
         } catch (SQLException e) {
             throw new RuntimeException("[ERROR] 게임 룸 조회 중 오류가 발생했습니다.", e);
@@ -88,6 +91,7 @@ public class GameRoomRepositoryImpl implements GameRoomRepository {
         return GameRoomDto.of(
                 rs.getLong("id"),
                 rs.getString("name"),
+                Side.from(rs.getString("current_turn")),
                 rs.getTimestamp("created_at").toLocalDateTime()
         );
     }
