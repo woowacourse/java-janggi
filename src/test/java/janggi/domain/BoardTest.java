@@ -154,11 +154,11 @@ class BoardTest {
 
         Piece king = new King(Team.HAN);
 
-        Piece piece = (Piece) board.get(new Position(5, 1));
+        Piece piece = (Piece) board.get(new Position(4, 1));
         boolean actual = piece.isSameType(king);
         assertThat(actual).isTrue();
 
-        piece = (Piece) board.get(new Position(5, 8));
+        piece = (Piece) board.get(new Position(4, 8));
         actual = piece.isSameType(king);
         assertThat(actual).isTrue();
     }
