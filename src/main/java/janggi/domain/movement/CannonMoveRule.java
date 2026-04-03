@@ -19,7 +19,7 @@ public class CannonMoveRule implements MoveRule {
     @Override
     public List<Position> execute(Position from, final BoardMediator boardMediator) {
         final Piece piece = boardMediator.getPieceInPosition(from);
-        from = movement.findFirstOccupiedPositionOrMax(from, piece, boardMediator);  // 포다리 찾기
+        from = movement.findFirstOccupiedPositionOrMax(from, boardMediator);  // 포다리 찾기
         if (isInvalidBridge(from, boardMediator)) {
             return List.of();
         }

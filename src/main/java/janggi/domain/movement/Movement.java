@@ -64,7 +64,7 @@ public class Movement {
     }
 
     // 처음 만나는 기물 위치 반환, 만약 끝까지 가도 없으면 그 끝 위치 반환
-    public Position findFirstOccupiedPositionOrMax(final Position from, final Piece piece,
+    public Position findFirstOccupiedPositionOrMax(final Position from,
                                                    final BoardMediator boardMediator) {
         for (int distance = 1; distance <= maxDistance; distance++) {
             final Position to = calculateNextPosition(from, distance);

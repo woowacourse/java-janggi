@@ -46,7 +46,7 @@ public class StepMoveRule implements MoveRule {
         if (!lastMovement.canMove(from) || !lastMovement.hasReachablePosition(piece, from, boardMediator)) {
             return List.of();
         }
-        final Position destination = lastMovement.findFirstOccupiedPositionOrMax(from, piece, boardMediator);
+        final Position destination = lastMovement.findFirstOccupiedPositionOrMax(from, boardMediator);
         return List.of(destination);
     }
 }
