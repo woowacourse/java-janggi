@@ -45,16 +45,7 @@ public class Board {
         validateGameStatus();
         validateDepartureAndDestinationPosition(departure, destination);
 
-        Piece departurePiece = pieceAt(departure);
-        List<PathInfo> path = getPath(departure, destination, departurePiece);
-
-        departurePiece.validateBlockingPiece(path, destination);
-
-        if (isExistPieceAt(destination)) {
-            handleCapture(pieceAt(departure), destination);
-        }
-
-        executeMove(departure, destination, departurePiece);
+        executeMove(departure, destination);
     }
 
     private void validateGameStatus() {
@@ -94,8 +85,17 @@ public class Board {
         }
     }
 
-    private void executeMove(Position from, Position to, Piece piece) {
-        pieces.remove(from);
-        pieces.put(to, piece);
+    private void executeMove(Position departure, Position destination) {
+        Piece departurePiece = pieceAt(departure);
+        List<PathInfo> path = getPath(departure, destination, departurePiece);
+
+        departurePiece.validateBlockingPiece(path, destination);
+
+        if (isExistPieceAt(destination)) {
+            handleCapture(pieceAt(departure), destination);
+        }
+
+        pieces.remove(departure);
+        pieces.put(destination, departurePiece);
     }
 }
