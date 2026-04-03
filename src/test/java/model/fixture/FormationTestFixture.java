@@ -1,6 +1,6 @@
 package model.fixture;
 
-import model.Team;
+import model.game.Team;
 import model.formation.MaSangMaSangStrategy;
 import model.formation.MaSangSangMaStrategy;
 import model.formation.SangMaMaSangStrategy;

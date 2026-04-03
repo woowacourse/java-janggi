@@ -31,5 +31,10 @@ out/
 ### VS Code ###
 .vscode/
 
+# DB 정보
+db.properties
+app.mv.db
+app.trace.db
+
 ## 개인
 memo/

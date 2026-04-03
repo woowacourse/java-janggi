@@ -1,6 +1,6 @@
 package view;
 
-import model.Team;
+import model.game.Team;
 import model.coordinate.Position;
 import model.formation.JanggiFormation;
 import model.piece.Piece;

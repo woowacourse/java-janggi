@@ -1,6 +1,6 @@
 package model.piece;
 
-import model.Team;
+import model.game.Team;
 import model.board.Board;
 import model.coordinate.Position;
 import org.junit.jupiter.api.Test;

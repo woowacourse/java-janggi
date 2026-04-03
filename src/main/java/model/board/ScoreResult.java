@@ -1,6 +1,6 @@
 package model.board;
 
-import model.Team;
+import model.game.Team;
 
 public record ScoreResult(double hanScore, double choScore) {
 

@@ -1,4 +1,4 @@
-package model;
+package model.game;
 
 import model.board.Board;
 import model.board.Route;

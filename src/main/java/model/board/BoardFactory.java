@@ -11,8 +11,8 @@ import model.piece.Soldier;
 import java.util.HashMap;
 import java.util.Map;
 
-import static model.Team.CHO;
-import static model.Team.HAN;
+import static model.game.Team.CHO;
+import static model.game.Team.HAN;
 
 public class BoardFactory {
 

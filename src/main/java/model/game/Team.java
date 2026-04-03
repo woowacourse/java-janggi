@@ -1,4 +1,4 @@
-package model;
+package model.game;
 
 public enum Team {
     HAN("한나라"), CHO("초나라");

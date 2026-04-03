@@ -1,6 +1,6 @@
 package model.piece;
 
-import model.Team;
+import model.game.Team;
 import model.coordinate.PalacePositions;
 import model.coordinate.Position;
 import model.piece.strategy.PalaceSoldierReach;
@@ -32,7 +32,7 @@ public class Soldier extends Piece {
     }
 
     @Override
-    public List<Position> extractPath(Position current, Position next) {
+    public List<Position> extractPath(Position currentExcluded, Position nextExcluded) {
         return List.of();
     }
 

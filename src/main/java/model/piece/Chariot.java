@@ -1,6 +1,6 @@
 package model.piece;
 
-import model.Team;
+import model.game.Team;
 import model.coordinate.Direction;
 import model.coordinate.PalacePositions;
 import model.coordinate.Position;
@@ -21,11 +21,11 @@ public class Chariot extends Piece {
     }
 
     @Override
-    public List<Position> extractPath(Position current, Position next) {
-        Direction direction = Direction.from(current, next);
+    public List<Position> extractPath(Position current, Position nextExcluded) {
+        Direction direction = Direction.from(current, nextExcluded);
         List<Position> path = new ArrayList<>();
         Position step = current.move(direction);
-        while (!step.equals(next)) {
+        while (!step.equals(nextExcluded)) {
             path.add(step);
             step = step.move(direction);
         }

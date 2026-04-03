@@ -1,6 +1,6 @@
 package model.board;
 
-import model.Team;
+import model.game.Team;
 import model.coordinate.Position;
 import model.piece.Piece;
 

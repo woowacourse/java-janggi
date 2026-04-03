@@ -1,6 +1,6 @@
 package model.piece;
 
-import model.Team;
+import model.game.Team;
 import model.coordinate.Position;
 import model.piece.strategy.ReachStrategy;
 
@@ -16,7 +16,7 @@ public abstract class Piece {
         this.type = type;
     }
 
-    public abstract List<Position> extractPath(Position current, Position next);
+    public abstract List<Position> extractPath(Position currentExcluded, Position nextExcluded);
 
     public boolean isSameTeam(Piece other) {
         return !isEnemy(other.team);

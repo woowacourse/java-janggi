@@ -1,15 +1,12 @@
 package controller;
 
-import model.GameStatus;
-import model.Janggi;
-import model.Team;
-import model.board.Board;
-import model.board.BoardFactory;
 import model.board.ScoreResult;
 import model.coordinate.Position;
-import model.formation.FormationFactory;
 import model.formation.JanggiFormation;
+import model.game.GameStatus;
+import model.game.Team;
 import model.piece.Piece;
+import service.JanggiService;
 import view.InputView;
 import view.OutputView;
 import view.command.CommandType;
@@ -20,19 +17,21 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import static controller.Retrier.retry;
-import static model.Team.CHO;
-import static model.Team.HAN;
+import static model.game.Team.CHO;
+import static model.game.Team.HAN;
 
 public class JanggiController {
     private static final int MAX_RETRY = 200;
 
     private final InputView inputView;
     private final OutputView outputView;
-    private final Map<CommandType, Consumer<Janggi>> commandMap;
+    private final JanggiService janggiService;
+    private final Map<CommandType, Runnable> commandMap;
 
-    public JanggiController(InputView inputView, OutputView outputView) {
+    public JanggiController(InputView inputView, OutputView outputView, JanggiService janggiService) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.janggiService = janggiService;
         this.commandMap = Map.of(
                 CommandType.MOVE, this::handleMove,
                 CommandType.SCORE, this::handleScore,
@@ -40,32 +39,32 @@ public class JanggiController {
         );
     }
 
-    private void handleMove(Janggi janggi) {
-        Team currentTurn = janggi.getTurn();
+    private void handleMove() {
+        Team currentTurn = janggiService.getTurn();
 
         Position current = inputView.readSource(currentTurn);
-        Piece piece = janggi.findPieceAt(current, currentTurn);
+        Piece piece = janggiService.findPieceAt(current, currentTurn);
 
         Position next = inputView.readDestination(currentTurn, piece);
-        GameStatus status = janggi.move(current, next);
+        GameStatus status = janggiService.move(current, next);
 
-        outputView.displayBoard(janggi.board());
+        outputView.displayBoard(janggiService.board());
 
         if (status == GameStatus.WIN_BY_CAPTURE) {
-            Team winner = janggi.getWinnerByCapture();
+            Team winner = janggiService.getWinnerByCapture();
             outputView.displayWinner(winner.getName());
         }
     }
 
-    private void handleScore(Janggi janggi) {
-        ScoreResult scoreResult = janggi.calculateScoreResultOfTeams();
+    private void handleScore() {
+        ScoreResult scoreResult = janggiService.calculateScoreResult();
 
         outputView.displayScores(scoreResult.choScore(), scoreResult.hanScore());
         outputView.displayWinner(scoreResult.winner().getName());
     }
 
-    private void handleQuit(Janggi janggi) {
-        janggi.quit();
+    private void handleQuit() {
+        janggiService.quit();
         outputView.displaySaved();
     }
 
@@ -74,22 +73,20 @@ public class JanggiController {
         JanggiFormation hanFormation = retry(() -> inputView.readFormationNumber(HAN, formations), processError());
         JanggiFormation choFormation = retry(() -> inputView.readFormationNumber(CHO, formations), processError());
 
-        Map<Position, Piece> pieceByFormation = FormationFactory.generateFormation(hanFormation, choFormation);
-        Board board = BoardFactory.generatePieces(pieceByFormation);
-        outputView.displayBoard(board.board());
+        janggiService.startNewGame(hanFormation, choFormation);
+        outputView.displayBoard(janggiService.board());
 
-        Janggi janggi = new Janggi(board);
-        processCommand(janggi);
+        processCommand();
     }
 
-    private void processCommand(Janggi janggi) {
+    private void processCommand() {
         int turn = 0;
-        while (janggi.isPlaying() && turn++ < MAX_RETRY) {
-            CommandType commandType = retry(() -> inputView.readCommand(janggi.getTurn()), processError());
-            retry(() -> commandMap.get(commandType).accept(janggi), processError());
+        while (janggiService.isPlaying() && turn++ < MAX_RETRY) {
+            CommandType commandType = retry(() -> inputView.readCommand(janggiService.getTurn()), processError());
+            retry(() -> commandMap.get(commandType).run(), processError());
         }
-        if (janggi.isPlaying()) {
-            handleScore(janggi);
+        if (janggiService.isPlaying()) {
+            handleScore();
         }
     }
 

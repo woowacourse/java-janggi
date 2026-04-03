@@ -1,6 +1,6 @@
 package model.piece;
 
-import model.Team;
+import model.game.Team;
 import model.coordinate.Direction;
 import model.coordinate.Position;
 import model.piece.strategy.AnimalReach;
@@ -23,10 +23,10 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public List<Position> extractPath(Position current, Position next) {
-        List<Direction> directions = Direction.decomposePieceRoute(current, next);
+    public List<Position> extractPath(Position currentExcluded, Position nextExcluded) {
+        List<Direction> directions = Direction.decomposePieceRoute(currentExcluded, nextExcluded);
         List<Position> path = new ArrayList<>();
-        Position step = current;
+        Position step = currentExcluded;
         for (int i = 0; i < directions.size() - 1; i++) {
             step = step.move(directions.get(i));
             path.add(step);
