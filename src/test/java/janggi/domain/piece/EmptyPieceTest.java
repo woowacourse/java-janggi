@@ -22,11 +22,26 @@ class EmptyPieceTest {
     }
 
     @Test
-    void 빈기물의_타입은_EMPTY다() {
+    void 빈기물의_타입은_EMPTY이다() {
         EmptyPiece emptyPiece = new EmptyPiece();
 
         PieceType type = emptyPiece.getType();
+
         assertThat(type).isEqualTo(PieceType.EMPTY);
+    }
+
+    @Test
+    void 빈_기물은_빈_기물이다() {
+        EmptyPiece emptyPiece = new EmptyPiece();
+
+        assertThat(emptyPiece.isEmptyPiece()).isTrue();
+    }
+
+    @Test
+    void 빈_기물끼리는_같은_기물이다() {
+        EmptyPiece emptyPiece = new EmptyPiece();
+
+        assertThat(emptyPiece.isSamePiece(new EmptyPiece())).isTrue();
     }
 
     @Test
@@ -43,7 +58,8 @@ class EmptyPieceTest {
     void 빈_기물에_이동할_수_있는지_확인하면_예외가_발생한다() {
         EmptyPiece emptyPiece = new EmptyPiece();
 
-        assertThatThrownBy(
-                () -> emptyPiece.validateCanMove(new PieceOnPath(), new EmptyPiece()));
+        assertThatThrownBy(() -> emptyPiece.validateCanMove(new PieceOnPath(), new EmptyPiece()))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 빈 기물은 이동할 수 없습니다.");
     }
 }
