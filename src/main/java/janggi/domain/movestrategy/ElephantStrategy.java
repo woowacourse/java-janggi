@@ -2,7 +2,6 @@ package janggi.domain.movestrategy;
 
 import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceType;
 
 import java.util.List;
 
@@ -18,11 +17,6 @@ public class ElephantStrategy implements MoveStrategy {
         Position first = from.moveStraight(to);
         Position second = first.moveDiagonal(to);
         return List.of(first, second);
-    }
-
-    @Override
-    public PieceType getIdentity() {
-        return PieceType.ELEPHANT;
     }
 
     @Override

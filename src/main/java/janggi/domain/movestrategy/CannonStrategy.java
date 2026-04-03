@@ -26,11 +26,6 @@ public class CannonStrategy implements MoveStrategy {
     }
 
     @Override
-    public PieceType getIdentity() {
-        return PieceType.CANNON;
-    }
-
-    @Override
     public boolean checkPathRule(List<Piece> pathPieces) {
         return pathPieces.size() == 1 &&
                 !pathPieces.getFirst().isSameType(PieceType.CANNON);
