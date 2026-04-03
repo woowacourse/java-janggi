@@ -42,11 +42,16 @@ class CannonTest {
 
     @Test
     void 포는_위쪽_직선으로_가는_경로가_있다() {
-        Offset offset = new Offset(3, 0);
+        Offset offset = new Offset(0, 5);
 
         List<Offset> pathPositions = cannon.getPathOffset(offset);
 
-        assertThat(pathPositions).isEqualTo(List.of(new Offset(1, 0), new Offset(2, 0)));
+        assertThat(pathPositions).isEqualTo(
+                List.of(new Offset(0, 1),
+                        new Offset(0, 2),
+                        new Offset(0, 3),
+                        new Offset(0, 4))
+        );
     }
 
 

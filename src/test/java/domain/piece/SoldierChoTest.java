@@ -33,10 +33,9 @@ class SoldierChoTest {
     }
 
     @Test
-    void 졸은_우로_한칸_움직일_수_있는_경로가_있다() {
-        Offset offset = new Offset(1, 0);
-        List<Offset> pathPositions = soldier.getPathOffset(offset);
-        assertThat(pathPositions).isEqualTo(List.of());
+    void 졸은_아래로_가지_못한다() {
+        Offset offset = new Offset(0, -1);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> soldier.getPathOffset(offset));
     }
 
 }
