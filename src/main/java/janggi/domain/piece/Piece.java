@@ -6,14 +6,14 @@ import janggi.domain.movestrategy.MoveStrategy;
 import java.util.List;
 
 public class Piece {
+    private final PieceType pieceType;
     private final Team team;
     private final MoveStrategy moveStrategy;
-    private final PieceType pieceType;
 
-    public Piece(Team team, MoveStrategy moveStrategy) {
+    public Piece(PieceType pieceType, Team team, MoveStrategy moveStrategy) {
+        this.pieceType = pieceType;
         this.team = team;
         this.moveStrategy = moveStrategy;
-        this.pieceType = moveStrategy.getIdentity();
     }
 
     public String getPieceName() {
