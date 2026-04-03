@@ -1,8 +1,13 @@
 package domain.piece.strategy;
 
 import domain.board.Position;
+import domain.path.PathInfo;
+import domain.piece.Camp;
+import domain.piece.Piece;
+import domain.piece.PieceType;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -30,5 +35,16 @@ class HorseMoveStrategyTest {
         assertThat(path).containsExactly(
                 new Position(8, 1),
                 new Position(7, 2));
+    }
+
+    @Test
+    void 마는_경로에_다른_기물이_있으면_이동할_수_없다() {
+        Position from = new Position(8, 0);
+
+        List<PathInfo> pathInfos = new ArrayList<>();
+        pathInfos.add(new PathInfo(new Position(8, 1), Piece.of(Camp.CHO, PieceType.CHARIOT)));
+
+        assertThatThrownBy(() -> horseMoveStrategy.validateBlockingPiece(pathInfos, from))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }
