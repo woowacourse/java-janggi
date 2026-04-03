@@ -16,16 +16,19 @@ import janggi.infra.dto.PieceData;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import org.h2.jdbcx.JdbcConnectionPool;
 
 public class JdbcBoardRepository implements BoardRepository {
 
+    private static final int POOL_SIZE = 10;
+
+    private final JdbcConnectionPool connectionPool;
     private final GameRoomDao roomDao = new GameRoomDao();
     private final PiecesDao piecesDao = new PiecesDao();
     private final String url;
@@ -40,13 +43,15 @@ public class JdbcBoardRepository implements BoardRepository {
             url = properties.getProperty("db.url");
             username = properties.getProperty("db.username");
             password = properties.getProperty("db.password");
+            connectionPool = JdbcConnectionPool.create(url, username, password);
+            connectionPool.setMaxConnections(POOL_SIZE);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public Long save(JanggiGame game) {
+    public long save(JanggiGame game) {
         try (Connection connection = getConnection()) {
             Long roomId = roomDao.save(GameRoomData.from(game), connection);
             List<List<Piece>> pieces = game.getBoardStatus();
@@ -93,7 +98,7 @@ public class JdbcBoardRepository implements BoardRepository {
     }
 
     private Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(url, username, password);
+        return connectionPool.getConnection();
     }
 
     private static void addPieceData(List<List<Piece>> pieces, int i, List<PieceData> data) {
