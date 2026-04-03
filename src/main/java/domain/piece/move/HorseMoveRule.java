@@ -41,11 +41,10 @@ public class HorseMoveRule extends MoveRule {
         return directions.findPoints(from.getPoint(), to.getPoint());
     }
 
-    public boolean checkMoveRule(Intersection from, List<Intersection> path) {
+    public void validateMoveRule(Intersection from, List<Intersection> path) {
         Intersection to = path.getLast();
         validateIsSameTeam(from, to);
         validateObstacleCondition(path);
-        return true;
     }
 
     private void validateObstacleCondition(List<Intersection> path) {

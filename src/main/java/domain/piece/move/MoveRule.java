@@ -19,7 +19,7 @@ public abstract class MoveRule {
 
     public abstract List<Point> findPossiblePoints(Intersection from, Intersection to);
 
-    public abstract boolean checkMoveRule(Intersection from, List<Intersection> path);
+    public abstract void validateMoveRule(Intersection from, List<Intersection> path);
 
     protected void validateIsSameTeam(Intersection from, Intersection to) {
         if (from.isSameTeam(to)) {

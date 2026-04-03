@@ -45,7 +45,7 @@ class CannonMoveRuleTest {
         CannonMoveRule cannonMoveRule = new CannonMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    cannonMoveRule.checkMoveRule(from, List.of(intersection1,
+                    cannonMoveRule.validateMoveRule(from, List.of(intersection1,
                             intersection2,
                             intersection3,
                             intersection4,
@@ -71,7 +71,7 @@ class CannonMoveRuleTest {
         CannonMoveRule cannonMoveRule = new CannonMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    cannonMoveRule.checkMoveRule(from, List.of(intersection1,
+                    cannonMoveRule.validateMoveRule(from, List.of(intersection1,
                             intersection2,
                             intersection3,
                             intersection4,
@@ -98,7 +98,7 @@ class CannonMoveRuleTest {
         CannonMoveRule cannonMoveRule = new CannonMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    cannonMoveRule.checkMoveRule(from, List.of(intersection1,
+                    cannonMoveRule.validateMoveRule(from, List.of(intersection1,
                             intersection2,
                             intersection3,
                             intersection4,
@@ -122,7 +122,7 @@ class CannonMoveRuleTest {
         CannonMoveRule cannonMoveRule = new CannonMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    cannonMoveRule.checkMoveRule(from, List.of(intersection1,
+                    cannonMoveRule.validateMoveRule(from, List.of(intersection1,
                             intersection2,
                             intersection3,
                             intersection4,
@@ -148,7 +148,7 @@ class CannonMoveRuleTest {
         CannonMoveRule cannonMoveRule = new CannonMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    cannonMoveRule.checkMoveRule(from, List.of(intersection1,
+                    cannonMoveRule.validateMoveRule(from, List.of(intersection1,
                             intersection2,
                             intersection3,
                             intersection4,

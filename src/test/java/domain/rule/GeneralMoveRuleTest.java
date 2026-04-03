@@ -29,7 +29,7 @@ public class GeneralMoveRuleTest {
         GeneralMoveRule generalMoveRule = new GeneralMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    generalMoveRule.checkMoveRule(from, List.of(to));
+                    generalMoveRule.validateMoveRule(from, List.of(to));
                 }).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("같은 팀의 위치로 이동할 수 없습니다.");
     }
@@ -48,8 +48,8 @@ public class GeneralMoveRuleTest {
 
         GeneralMoveRule generalMoveRule = new GeneralMoveRule();
 
-        Assertions.assertThat(generalMoveRule.checkMoveRule(from, List.of(to)))
-                .isTrue();
+        Assertions.assertThatCode(() -> generalMoveRule.validateMoveRule(from, List.of(to)))
+                .doesNotThrowAnyException();
     }
 
     @Test
@@ -68,8 +68,8 @@ public class GeneralMoveRuleTest {
 
         GeneralMoveRule generalMoveRule = new GeneralMoveRule();
 
-        Assertions.assertThat(generalMoveRule.checkMoveRule(from, List.of(to)))
-                .isTrue();
+        Assertions.assertThatCode(() -> generalMoveRule.validateMoveRule(from, List.of(to)))
+                .doesNotThrowAnyException();
     }
 
 }

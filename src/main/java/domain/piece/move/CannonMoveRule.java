@@ -74,12 +74,11 @@ public class CannonMoveRule extends MoveRule {
         return directions.findPoints(from.getPoint(), to.getPoint());
     }
 
-    public boolean checkMoveRule(Intersection from, List<Intersection> path) {
+    public void validateMoveRule(Intersection from, List<Intersection> path) {
         Intersection to = path.getLast();
         validateIsSameTeam(from, to);
         validateObstacleCondition(from, path);
         validateDestinationIsNotCannon(from, to);
-        return true;
     }
 
     private void validateObstacleCondition(Intersection from, List<Intersection> path) {

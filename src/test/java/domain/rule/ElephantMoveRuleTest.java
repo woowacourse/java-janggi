@@ -31,7 +31,7 @@ public class ElephantMoveRuleTest {
         ElephantMoveRule elephantRule = new ElephantMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    elephantRule.checkMoveRule(from, List.of(middleIntersection1, middleIntersection2, to));
+                    elephantRule.validateMoveRule(from, List.of(middleIntersection1, middleIntersection2, to));
                 }).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("같은 팀의 위치로 이동할 수 없습니다.");
     }
@@ -55,7 +55,7 @@ public class ElephantMoveRuleTest {
         ElephantMoveRule elephantMoveRule = new ElephantMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    elephantMoveRule.checkMoveRule(from, List.of(middleIntersection1, middleIntersection2, to));
+                    elephantMoveRule.validateMoveRule(from, List.of(middleIntersection1, middleIntersection2, to));
                 }).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("이동 경로에 다른 기물이 있어 통과할 수 없습니다.");
     }
@@ -77,9 +77,9 @@ public class ElephantMoveRuleTest {
 
         ElephantMoveRule elephantMoveRule = new ElephantMoveRule();
 
-        Assertions.assertThat(
-                        elephantMoveRule.checkMoveRule(from, List.of(middleIntersection1, middleIntersection2, to)))
-                .isTrue();
+        Assertions.assertThatCode(
+                        () -> elephantMoveRule.validateMoveRule(from, List.of(middleIntersection1, middleIntersection2, to)))
+                .doesNotThrowAnyException();
     }
 
     @Test
@@ -100,9 +100,9 @@ public class ElephantMoveRuleTest {
 
         ElephantMoveRule elephantMoveRule = new ElephantMoveRule();
 
-        Assertions.assertThat(
-                        elephantMoveRule.checkMoveRule(from, List.of(middleIntersection1, middleIntersection2, to)))
-                .isTrue();
+        Assertions.assertThatCode(
+                        () -> elephantMoveRule.validateMoveRule(from, List.of(middleIntersection1, middleIntersection2, to)))
+                .doesNotThrowAnyException();
     }
 
 }

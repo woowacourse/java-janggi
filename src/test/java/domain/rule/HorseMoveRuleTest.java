@@ -29,7 +29,7 @@ public class HorseMoveRuleTest {
         HorseMoveRule horseRule = new HorseMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    horseRule.checkMoveRule(from, List.of(middleIntersection, to));
+                    horseRule.validateMoveRule(from, List.of(middleIntersection, to));
                 }).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("같은 팀의 위치로 이동할 수 없습니다.");
     }
@@ -51,7 +51,7 @@ public class HorseMoveRuleTest {
         HorseMoveRule horseRule = new HorseMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    horseRule.checkMoveRule(from, List.of(middleIntersection, to));
+                    horseRule.validateMoveRule(from, List.of(middleIntersection, to));
                 }).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("이동 경로에 다른 기물이 있어 통과할 수 없습니다.");
     }
@@ -71,8 +71,8 @@ public class HorseMoveRuleTest {
 
         HorseMoveRule horseRule = new HorseMoveRule();
 
-        Assertions.assertThat(horseRule.checkMoveRule(from, List.of(middleIntersection, to)))
-                .isTrue();
+        Assertions.assertThatCode(() -> horseRule.validateMoveRule(from, List.of(middleIntersection, to)))
+                .doesNotThrowAnyException();
     }
 
     @Test
@@ -91,8 +91,8 @@ public class HorseMoveRuleTest {
 
         HorseMoveRule horseRule = new HorseMoveRule();
 
-        Assertions.assertThat(horseRule.checkMoveRule(from, List.of(middleIntersection, to)))
-                .isTrue();
+        Assertions.assertThatCode(() -> horseRule.validateMoveRule(from, List.of(middleIntersection, to)))
+                .doesNotThrowAnyException();
     }
 
 

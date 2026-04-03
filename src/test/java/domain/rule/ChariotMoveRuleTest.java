@@ -43,7 +43,7 @@ public class ChariotMoveRuleTest {
         ChariotMoveRule chariotMoveRule = new ChariotMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    chariotMoveRule.checkMoveRule(from, List.of(intersection1,
+                    chariotMoveRule.validateMoveRule(from, List.of(intersection1,
                             intersection2,
                             intersection3,
                             intersection4,
@@ -68,7 +68,7 @@ public class ChariotMoveRuleTest {
         ChariotMoveRule chariotMoveRule = new ChariotMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    chariotMoveRule.checkMoveRule(from, List.of(intersection1,
+                    chariotMoveRule.validateMoveRule(from, List.of(intersection1,
                             intersection2,
                             intersection3,
                             intersection4,
@@ -89,8 +89,8 @@ public class ChariotMoveRuleTest {
 
         ChariotMoveRule chariotMoveRule = new ChariotMoveRule();
 
-        Assertions.assertThat(
-                        chariotMoveRule.checkMoveRule(from, List.of(intersection1,
+        Assertions.assertThatCode(
+                        () -> chariotMoveRule.validateMoveRule(from, List.of(intersection1,
                                 intersection2,
                                 intersection3,
                                 intersection4,
@@ -99,7 +99,7 @@ public class ChariotMoveRuleTest {
                                 intersection7,
                                 intersection8,
                                 to)))
-                .isTrue();
+                .doesNotThrowAnyException();
     }
 
     @Test
@@ -110,8 +110,8 @@ public class ChariotMoveRuleTest {
 
         ChariotMoveRule chariotMoveRule = new ChariotMoveRule();
 
-        Assertions.assertThat(
-                        chariotMoveRule.checkMoveRule(from, List.of(intersection1,
+        Assertions.assertThatCode(
+                        () -> chariotMoveRule.validateMoveRule(from, List.of(intersection1,
                                 intersection2,
                                 intersection3,
                                 intersection4,
@@ -120,7 +120,7 @@ public class ChariotMoveRuleTest {
                                 intersection7,
                                 intersection8,
                                 to)))
-                .isTrue();
+                .doesNotThrowAnyException();
     }
 
 }

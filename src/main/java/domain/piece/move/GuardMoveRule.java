@@ -33,10 +33,9 @@ public class GuardMoveRule extends MoveRule {
         return directions.findPoints(from.getPoint(), to.getPoint());
     }
 
-    public boolean checkMoveRule(Intersection from, List<Intersection> path) {
+    public void validateMoveRule(Intersection from, List<Intersection> path) {
         Intersection to = path.getLast();
         validateIsSameTeam(from, to);
-        return true;
     }
 
 }

@@ -29,7 +29,7 @@ public class SoldierMoveRuleTest {
         SoldierMoveRule soldierMoveRule = new SoldierMoveRule();
 
         Assertions.assertThatThrownBy(() -> {
-                    soldierMoveRule.checkMoveRule(from, List.of(to));
+                    soldierMoveRule.validateMoveRule(from, List.of(to));
                 }).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("같은 팀의 위치로 이동할 수 없습니다.");
     }
@@ -50,8 +50,8 @@ public class SoldierMoveRuleTest {
 
         SoldierMoveRule soldierMoveRule = new SoldierMoveRule();
 
-        Assertions.assertThat(soldierMoveRule.checkMoveRule(from, List.of(to)))
-                .isTrue();
+        Assertions.assertThatCode(() -> soldierMoveRule.validateMoveRule(from, List.of(to)))
+                .doesNotThrowAnyException();
 
     }
 
@@ -71,8 +71,8 @@ public class SoldierMoveRuleTest {
 
         SoldierMoveRule soldierMoveRule = new SoldierMoveRule();
 
-        Assertions.assertThat(soldierMoveRule.checkMoveRule(from, List.of(to)))
-                .isTrue();
+        Assertions.assertThatCode(() -> soldierMoveRule.validateMoveRule(from, List.of(to)))
+                .doesNotThrowAnyException();
 
     }
 
