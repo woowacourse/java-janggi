@@ -11,7 +11,7 @@ public class InputView {
     private static final int MOVE_INPUT_COUNT = 4;
     private final Scanner scanner = new Scanner(System.in);
 
-    public Integer initialFormation(Team team) {
+    public int initialFormation(Team team) {
         while (true) {
             System.out.println(team + " 진영 배치 전략을 입력 하세요.\n1. 왼상\n2. 오른상\n3. 원앙마\n4. 양귀마 ");
             try {
