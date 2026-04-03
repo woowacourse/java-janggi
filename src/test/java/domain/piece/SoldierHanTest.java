@@ -1,14 +1,13 @@
 package domain.piece;
 
-import domain.Direction;
 import domain.Offset;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 class SoldierHanTest {
 
@@ -44,7 +43,7 @@ class SoldierHanTest {
     @Test
     void 병은_위로_가지_못한다() {
         Offset offset = new Offset(0, 1);
-        Assertions.assertThrows(IllegalArgumentException.class, () -> soldier.getPathOffset(offset));
+        assertThrows(IllegalArgumentException.class, () -> soldier.getPathOffset(offset));
     }
 
 
