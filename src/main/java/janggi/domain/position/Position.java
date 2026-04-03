@@ -50,6 +50,28 @@ public class Position {
         return column.getValue();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Position position = (Position) o;
+        return Objects.equals(row, position.row) && Objects.equals(column, position.column);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(row, column);
+    }
+
+    @Override
+    public String toString() {
+        return row.toString() + column.toString();
+    }
+
     private static void validatePositionLength(String rowColumn) {
         if (rowColumn.length() != LENGTH_OF_POSITION_FORMAT) {
             throw new IllegalArgumentException("[ERROR] 올바른 좌표값이 아닙니다.");
@@ -74,27 +96,5 @@ public class Position {
 
     private int calculateColumnDiff(Position other) {
         return other.getColumnValue() - getColumnValue();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Position position = (Position) o;
-        return Objects.equals(row, position.row) && Objects.equals(column, position.column);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(row, column);
-    }
-
-    @Override
-    public String toString() {
-        return row.toString() + column.toString();
     }
 }

@@ -20,4 +20,11 @@ class PieceOnPathTest {
 
         assertThat(pieceOnPath).containsExactly(emptyPiece, general);
     }
+
+    @Test
+    void 빈_경로_위_기물을_순회하면_비어있다() {
+        PieceOnPath pieceOnPath = new PieceOnPath();
+
+        assertThat(pieceOnPath).isEmpty();
+    }
 }

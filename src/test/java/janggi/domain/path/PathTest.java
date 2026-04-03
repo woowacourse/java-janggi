@@ -16,4 +16,11 @@ class PathTest {
 
         assertThat(path).containsExactly(position);
     }
+
+    @Test
+    void 빈_경로를_순회하면_비어있다() {
+        Path path = new Path();
+
+        assertThat(path).isEmpty();
+    }
 }
