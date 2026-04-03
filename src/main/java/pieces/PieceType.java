@@ -18,17 +18,20 @@ import movepolicy.move.Route;
 import movepolicy.rule.EmptyPathMoveRule;
 import movepolicy.rule.MoveRule;
 import movepolicy.rule.PoMoveRule;
+import participant.Score;
 
 public enum PieceType {
 
     CHA(
         new LinearRouteMovement(),
-        EmptyPathMoveRule.withOtherSideTargetRule()
+        EmptyPathMoveRule.withOtherSideTargetRule(),
+        new Score(13)
     ),
 
     PO(
         new PoRouteMovement(),
-        PoMoveRule.withOtherSideTargetRule()
+        PoMoveRule.withOtherSideTargetRule(),
+        new Score(7)
     ),
 
     MA(
@@ -42,7 +45,8 @@ public enum PieceType {
             new Route(List.of(RIGHT, RIGHT_FORWARD)),
             new Route(List.of(RIGHT, RIGHT_BACK))
         )),
-        EmptyPathMoveRule.withOtherSideTargetRule()
+        EmptyPathMoveRule.withOtherSideTargetRule(),
+        new Score(5)
     ),
 
     SANG(
@@ -56,7 +60,8 @@ public enum PieceType {
             new Route(List.of(RIGHT, RIGHT_FORWARD, RIGHT_FORWARD)),
             new Route(List.of(RIGHT, RIGHT_BACK, RIGHT_BACK))
         )),
-        EmptyPathMoveRule.withOtherSideTargetRule()
+        EmptyPathMoveRule.withOtherSideTargetRule(),
+        new Score(3)
     ),
 
     SA(
@@ -66,7 +71,18 @@ public enum PieceType {
             new Route(List.of(RIGHT)),
             new Route(List.of(LEFT))
         )),
-        EmptyPathMoveRule.withOtherSideTargetRule()
+        EmptyPathMoveRule.withOtherSideTargetRule(),
+        new Score(3)
+    ),
+
+    JOL_BYEONG(
+        new FixedRouteMovement(List.of(
+            new Route(List.of(FORWARD)),
+            new Route(List.of(RIGHT)),
+            new Route(List.of(LEFT))
+        )),
+        EmptyPathMoveRule.withOtherSideTargetRule(),
+        new Score(2)
     ),
 
     GUNG(
@@ -76,24 +92,18 @@ public enum PieceType {
             new Route(List.of(RIGHT)),
             new Route(List.of(LEFT))
         )),
-        EmptyPathMoveRule.withOtherSideTargetRule()
-    ),
-
-    JOL_BYEONG(
-        new FixedRouteMovement(List.of(
-            new Route(List.of(FORWARD)),
-            new Route(List.of(RIGHT)),
-            new Route(List.of(LEFT))
-        )),
-        EmptyPathMoveRule.withOtherSideTargetRule()
+        EmptyPathMoveRule.withOtherSideTargetRule(),
+        new Score(0)
     );
 
     private final Movement movement;
     private final MoveRule moveRule;
+    private final Score score;
 
-    PieceType(Movement movement, MoveRule moveRule) {
+    PieceType(Movement movement, MoveRule moveRule, Score score) {
         this.movement = movement;
         this.moveRule = moveRule;
+        this.score = score;
     }
 
     public Movement getMovement() {
@@ -104,8 +114,16 @@ public enum PieceType {
         return moveRule;
     }
 
+    public Score getScore() {
+        return score;
+    }
+
     public boolean isPo() {
         return this == PO;
+    }
+
+    public boolean isGung() {
+        return this == GUNG;
     }
 
     public Piece create(Side side) {

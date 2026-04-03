@@ -34,12 +34,22 @@ public class Application {
 
     private void moveUntilSuccess() {
         game = Retry.untilSuccess(() -> {
-            view.printBoard(DisplayBoard.of(game.getBoard()));
+            printGameStatus();
 
-            view.printTurnSide(game.getTurnSide());
             Position departure = view.askDeparture();
             Position destination = view.askDestination();
             return game.move(departure, destination);
         });
+    }
+
+    private void printGameStatus() {
+        view.printBoard(DisplayBoard.of(game.getBoard()));
+
+        final Side turnSide = game.getTurnSide();
+        final Side otherTurnSide = turnSide.other();
+
+        view.printTurnSide(turnSide);
+        view.printScore(turnSide, game.calculateScoreOf(turnSide));
+        view.printScore(otherTurnSide, game.calculateScoreOf(otherTurnSide));
     }
 }

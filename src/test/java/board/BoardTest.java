@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
+import participant.Score;
 import pieces.Piece;
 import pieces.PieceType;
 import pieces.Side;
@@ -119,6 +120,23 @@ class BoardTest {
         PieceType pieceType = board.getPieceTypeAt(position).get();
         // then
         assertThat(pieceType).isEqualTo(expected);
+    }
+
+    @Test
+    void 남은_기물의_점수를_반환한다() {
+        // given
+        Side side = Side.CHO;
+        Position departure = new Position(5, 0);
+        Piece choPiece = new Piece(side, PieceType.JOL_BYEONG);
+        Map<Position, Piece> pieces = Map.of(
+            departure, choPiece
+        );
+        Board board = new Board(pieces);
+        // when
+        Score score = board.calculateScoreOf(side);
+        // then
+        Score expected = choPiece.getScore();
+        assertThat(score).isEqualTo(expected);
     }
 
     private Side getOtherSide(Side side) {

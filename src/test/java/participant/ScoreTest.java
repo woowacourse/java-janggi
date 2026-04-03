@@ -2,24 +2,32 @@ package participant;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
-import org.junit.jupiter.params.provider.EnumSource.Mode;
-import pieces.PieceScore;
-import pieces.PieceType;
+import org.junit.jupiter.api.Test;
 
 class ScoreTest {
 
-    @ParameterizedTest
-    @EnumSource(value = PieceType.class, mode = Mode.EXCLUDE, names = "GUNG")
-    void 기물에_따른_점수를_더한다(PieceType pieceType) {
+    private static final double HANDICAP_VALUE = 1.5;
+
+    @Test
+    void 점수를_더한다() {
         // given
-        long pieceScore = PieceScore.from(pieceType).value();
-        Score beforeScore = new Score(10L);
+        Score delta = new Score(20);
+        Score beforeScore = new Score(10);
         // when
-        Score afterScore = beforeScore.addScoreOf(pieceType);
+        Score afterScore = beforeScore.add(delta);
         // then
-        long expected = pieceScore + beforeScore.value();
+        double expected = beforeScore.value() + delta.value();
+        assertThat(afterScore.value()).isEqualTo(expected);
+    }
+
+    @Test
+    void 핸디캡을_부여하면_1_5점이_증가한다() {
+        // given
+        Score beforeScore = new Score(10);
+        // when
+        Score afterScore = beforeScore.addHandicap();
+        // then
+        double expected = beforeScore.value() + HANDICAP_VALUE;
         assertThat(afterScore.value()).isEqualTo(expected);
     }
 }

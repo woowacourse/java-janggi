@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import movepolicy.rule.MoveTrace;
+import participant.Score;
 import participant.Turn;
 import pieces.Piece;
 import pieces.PieceType;
@@ -22,6 +23,13 @@ public record Board(Map<Position, Piece> pieces) {
     public boolean hasGungOf(Side side) {
         return pieces.values().stream()
             .anyMatch(piece -> piece.isGung() && piece.isSameSide(side));
+    }
+
+    public Score calculateScoreOf(Side side) {
+        return pieces.values().stream()
+            .filter(piece -> piece.isSameSide(side))
+            .map(Piece::getScore)
+            .reduce(Score.zero(), Score::add);
     }
 
     public Optional<PieceType> getPieceTypeAt(Position position) {

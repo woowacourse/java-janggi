@@ -1,6 +1,7 @@
 package view;
 
 import board.SangSetupType;
+import participant.Score;
 import pieces.Side;
 import position.Position;
 import util.Retry;
@@ -41,5 +42,9 @@ public class JanggiView {
 
     public void printGameIsOver(Side winner) {
         out.printGameIsOver(winner);
+    }
+
+    public void printScore(Side side, Score score) {
+        out.printScore(side, score);
     }
 }

@@ -1,6 +1,7 @@
 package view;
 
 import java.util.Map;
+import participant.Score;
 import pieces.Side;
 
 public class OutputView {
@@ -38,5 +39,9 @@ public class OutputView {
     public void printGameIsOver(Side winner) {
         System.out.println(SIDE_SYMBOL.get(winner) + "나라의 승리입니다.");
         System.out.println("게임이 종료되었습니다.");
+    }
+
+    public void printScore(Side side, Score score) {
+        System.out.println(SIDE_SYMBOL.get(side) + "나라 점수: " + score.value());
     }
 }

@@ -64,4 +64,11 @@ public enum Side {
     public Delta leftBackDelta() {
         return left.add(back);
     }
+
+    public Side other() {
+        if (this.isCho()) {
+            return Side.HAN;
+        }
+        return Side.CHO;
+    }
 }

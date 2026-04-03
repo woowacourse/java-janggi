@@ -16,7 +16,7 @@ import position.Position;
 class JanggiGameTest {
 
     @Test
-    void 초의_턴일_때_한의_기물로_공격하는_경우_예외를_던진다() {
+    void 초의_턴으로_시작할_때_한의_기물로_공격하는_경우_예외를_던진다() {
         // given
         Position departure = new Position(0, 0);
         Position destination = new Position(1, 0);
@@ -24,9 +24,7 @@ class JanggiGameTest {
         Map<Position, Piece> pieces = Map.of(
             departure, hanPiece
         );
-
-        Turn choTurn = Turn.CHO_TURN;
-        JanggiGame janggiGame = new JanggiGame(new Board(pieces), choTurn);
+        JanggiGame janggiGame = new JanggiGame(new Board(pieces));
         // when & then
         assertThatThrownBy(() -> janggiGame.move(departure, destination))
             .isInstanceOf(IllegalArgumentException.class);
@@ -35,17 +33,16 @@ class JanggiGameTest {
     @Test
     void 한의_턴일_때_초의_기물로_공격하는_경우_예외를_던진다() {
         // given
-        Position departure = new Position(9, 0);
-        Position destination = new Position(8, 0);
+        Position choDeparture = new Position(9, 0);
+        Position choDestination = new Position(8, 0);
         Piece choPiece = new Piece(Side.CHO, PieceType.CHA);
         Map<Position, Piece> pieces = Map.of(
-            departure, choPiece
+            choDeparture, choPiece
         );
-
-        Turn hanTurn = Turn.HAN_TURN;
-        JanggiGame janggiGame = new JanggiGame(new Board(pieces), hanTurn);
+        JanggiGame game = new JanggiGame(new Board(pieces));
+        JanggiGame nextTurnGame = game.move(choDeparture, choDestination);
         // when & then
-        assertThatThrownBy(() -> janggiGame.move(departure, destination))
+        assertThatThrownBy(() -> nextTurnGame.move(choDestination, choDeparture))
             .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -55,16 +52,13 @@ class JanggiGameTest {
         Position choDeparture = new Position(0, 0);
         Position choDestination = new Position(1, 0);
         Position hanDeparture = new Position(9, 0);
-        Position hanDestination = new Position(8, 0);
         Piece choPiece = new Piece(Side.CHO, PieceType.CHA);
         Piece hanPiece = new Piece(Side.HAN, PieceType.CHA);
         Map<Position, Piece> pieces = Map.of(
             choDeparture, choPiece,
             hanDeparture, hanPiece
         );
-
-        Turn choTurn = Turn.CHO_TURN;
-        JanggiGame game = new JanggiGame(new Board(pieces), choTurn);
+        JanggiGame game = new JanggiGame(new Board(pieces));
         // when & then
         game = game.move(choDeparture, choDestination);
         assertThat(game.getTurnSide()).isEqualTo(Side.HAN);

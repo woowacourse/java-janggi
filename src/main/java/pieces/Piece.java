@@ -5,6 +5,7 @@ import java.util.Objects;
 import movepolicy.move.Movement;
 import movepolicy.rule.MoveRule;
 import movepolicy.rule.MoveTrace;
+import participant.Score;
 import position.Position;
 
 public class Piece {
@@ -57,6 +58,10 @@ public class Piece {
 
     public final PieceType getType() {
         return type;
+    }
+
+    public Score getScore() {
+        return type.getScore();
     }
 
     @Override
