@@ -39,12 +39,12 @@ public class JanggiBoard {
                 .collect(Collectors.toMap(point -> point, Intersection::empty));
     }
 
-    private static Stream<Point> getAllPoints() {
+    private Stream<Point> getAllPoints() {
         return range(MAX_ROW).boxed()
                 .flatMap(row -> range(MAX_FILE).mapToObj(f -> new Point(row, f)));
     }
 
-    private static IntStream range(int maxRange) {
+    private IntStream range(int maxRange) {
         return IntStream.range(0, maxRange);
     }
 
