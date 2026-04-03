@@ -1,0 +1,49 @@
+package janggi.domain.piece;
+
+import janggi.domain.Camp;
+import janggi.domain.Path;
+import janggi.domain.Position;
+import janggi.domain.piece.strategy.MoveStrategy;
+
+import java.util.List;
+import java.util.Map;
+
+public abstract class Piece {
+    private final Camp camp;
+    private final MoveStrategy moveStrategy;
+
+    Piece(Camp camp, MoveStrategy moveStrategy) {
+        this.camp = camp;
+        this.moveStrategy = moveStrategy;
+    }
+
+    public List<Path> findMovablePaths(Position current) {
+        return moveStrategy.findMovablePaths(current);
+    }
+
+    public String displayName() {
+        return pieceDisplayName(camp);
+    }
+
+    public boolean isSameCamp(Piece piece) {
+        return this.camp.isSameCamp(piece.camp);
+    }
+
+    public boolean isSameCamp(Camp camp) {
+        return this.camp.isSameCamp(camp);
+    }
+
+    public Camp getCamp() {
+        return camp;
+    }
+
+    abstract public boolean canPassRoute(Map<Position, Piece> piecesInPath);
+
+    abstract public boolean canCatch(Piece piece);
+
+    abstract public boolean canBeJumpedOver();
+
+    abstract public boolean canBeCapturedByCannon();
+
+    abstract protected String pieceDisplayName(Camp camp);
+}

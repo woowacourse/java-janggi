@@ -1,0 +1,29 @@
+package janggi.domain;
+
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+class CampTest {
+
+    @Test
+    void 기물이_같은_캠프이면_true를_반환한다() {
+        Camp cho = Camp.CHO;
+        boolean sameCamp = cho.isSameCamp(Camp.CHO);
+        assertThat(sameCamp).isEqualTo(true);
+    }
+
+    @Test
+    void 기물이_다른_캠프이면_false를_반환한다() {
+        Camp cho = Camp.CHO;
+        boolean sameCamp = cho.isSameCamp(Camp.HAN);
+        assertThat(sameCamp).isEqualTo(false);
+    }
+
+    @Test
+    void 기물이_초나라면_true를_반환한다() {
+        Camp cho = Camp.CHO;
+        boolean choCamp = cho.isCho();
+        assertThat(choCamp).isEqualTo(true);
+    }
+}
