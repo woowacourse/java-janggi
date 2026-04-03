@@ -38,7 +38,7 @@ public class GameRoom {
         }
     }
 
-    public int insertGame(Connection connection, GameDto gameDto) throws SQLException {
+    public int insertGame(Connection connection, GameDto gameDto){
         int generatedId = -1;
         String sql = "INSERT INTO GameRoom (name, created_at, updated_at, turn, side) VALUES (?, ?, ?, ?, ?)";
 
@@ -57,6 +57,8 @@ public class GameRoom {
                     generatedId = rs.getInt(1);
                 }
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         return generatedId;

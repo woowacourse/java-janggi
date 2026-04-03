@@ -46,7 +46,7 @@ public class SQLManager {
 
     public Connection ensureConnection() {
         try {
-            if (connection == null || connection.isClosed() || connection.isValid(OPT_VALID_TIMEOUT)) {
+            if (connection == null || connection.isClosed() || !connection.isValid(OPT_VALID_TIMEOUT)) {
                 createConnection();
             }
         } catch (SQLException e) {
