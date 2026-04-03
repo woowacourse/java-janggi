@@ -53,6 +53,7 @@ public class JdbcBoardRepository implements BoardRepository {
     @Override
     public long save(JanggiGame game) {
         try (Connection connection = getConnection()) {
+            connection.setAutoCommit(false);
             Long roomId = roomDao.save(GameRoomData.from(game), connection);
             List<List<Piece>> pieces = game.getBoardStatus();
             List<PieceData> data = new ArrayList<>();
@@ -60,6 +61,7 @@ public class JdbcBoardRepository implements BoardRepository {
                 addPieceData(pieces, i, data);
             }
             piecesDao.save(roomId, data, connection);
+            connection.commit();
             return roomId;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -69,9 +71,11 @@ public class JdbcBoardRepository implements BoardRepository {
     @Override
     public void update(Long roomId, Point from, Point to, JanggiGame game) {
         try (Connection connection = getConnection()) {
+            connection.setAutoCommit(false);
             roomDao.update(roomId, GameRoomData.from(game), connection);
             piecesDao.delete(roomId, to.getRow(), to.getColumn(), connection);
             piecesDao.update(roomId, from.getRow(), from.getColumn(), to.getRow(), to.getColumn(), connection);
+            connection.commit();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -80,6 +84,7 @@ public class JdbcBoardRepository implements BoardRepository {
     @Override
     public JanggiGame loadGame(Long gameRoomId) {
         try (Connection connection = getConnection()) {
+            connection.setAutoCommit(false);
             GameRoomData roomData = roomDao.findRoomById(gameRoomId, connection);
             List<PieceData> pieceDatas = piecesDao.findAllByRoomId(gameRoomId, connection);
             Map<Point, Piece> pieces = new LinkedHashMap<>();
@@ -91,6 +96,7 @@ public class JdbcBoardRepository implements BoardRepository {
                 pieces.put(point, piece);
             });
             Board board = new Board(pieces);
+            connection.commit();
             return new JanggiGame(board, GameStatusFactory.create(Team.valueOf(roomData.currentTurn())));
         } catch (SQLException e) {
             throw new RuntimeException(e);
