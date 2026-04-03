@@ -4,6 +4,7 @@ import domain.enums.Country;
 import domain.enums.Direction;
 import domain.enums.PieceType;
 import domain.Position;
+import domain.strategy.DiagonalMovement;
 import domain.strategy.StraightMovement;
 import domain.strategy.MoveStrategy;
 
@@ -26,16 +27,33 @@ public class Sang extends Piece {
     }
 
     @Override
-    public List<Position> getAvailableRoute(Position start,Direction direction){
+    public List<Position> getAvailableRoute(Position start, Direction direction) {
         List<Position> availableRoute = new ArrayList<>();
-        // TODO: 대각 구현 필요
+
+        Optional<Position> positionFirst = move(start, direction, getCountry());
+        for (Direction moveDirection : direction.getDiagonalDirections(direction)) {
+            if (positionFirst.isPresent()){
+                Optional<Position> position = move(positionFirst.get(), moveDirection,getCountry());
+                if (position.isPresent()){
+                    position = move(position.get(), moveDirection,getCountry());
+                    if(position.isPresent()){
+                        availableRoute.add(position.get());
+                    }
+                }
+            }
+        }
         return availableRoute;
     }
 
     @Override
     public Optional<Position> move(Position start, Direction direction, Country country) {
         MoveStrategy moveStraight = new StraightMovement();
-        return moveStraight.move(start, direction, country);
+        MoveStrategy moveDiagonal = new DiagonalMovement();
+        Optional<Position> position = moveStraight.move(start, direction, country);
+        if (position.isPresent()) {
+            return moveDiagonal.move(start, direction, country);
+        }
+        return Optional.empty();
     }
 
     @Override

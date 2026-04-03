@@ -45,11 +45,24 @@ public class Board {
 
     public List<Position> findAvailablePositions(Position start) {
         List<Position> positions = new ArrayList<>();
+        List<Position> possiblePosition = new ArrayList<>();
+        Piece startPiece = board.getOrDefault(start, None.INSTANCE);
+
         Piece piece=Objects.requireNonNull(board.get(start));
         for (Direction direction : Direction.getCardinalDirections()){
-            positions.addAll(piece.getAvailableRoute(start,direction));
+            for(Position end : piece.getAvailableRoute(start,direction)){
+                Piece endPiece = board.getOrDefault(end, None.INSTANCE);
+                if (!(startPiece.canMovePosition(start, end) && startPiece.isDifferentCountry(endPiece.getCountry())
+                        && startPiece.isAvailableRoute(getSameLine(start, end), endPiece.getPieceType()))) {
+                    break;
+                }
+                possiblePosition.add(end);
+            }
         }
-        return positions;
+
+
+
+        return possiblePosition;
     }
 
     public void move(Position start, Position end) {
@@ -67,10 +80,6 @@ public class Board {
     }
 
     private List<Piece> getSameLine(Position start, Position end) {
-//        if (!board.containsKey(end)){
-//            return Collections.emptyList();
-//        }
-
         List<Piece> pieces = new ArrayList<>();
         int startX = start.getX();
         int startY = start.getY();
