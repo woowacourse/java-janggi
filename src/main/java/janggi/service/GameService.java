@@ -7,11 +7,11 @@ import janggi.entity.GameStateEntity;
 import janggi.repository.GameStateRepository;
 import java.util.List;
 
-public class GameStateService {
+public class GameService {
 
     private final GameStateRepository gameStateRepository;
 
-    public GameStateService(final GameStateRepository gameStateRepository) {
+    public GameService(final GameStateRepository gameStateRepository) {
         this.gameStateRepository = gameStateRepository;
     }
 

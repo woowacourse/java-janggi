@@ -12,7 +12,6 @@ import janggi.domain.team.Team;
 import janggi.domain.team.TeamType;
 import janggi.domain.turn.TurnManager;
 import janggi.entity.GameStateEntity;
-import janggi.mapper.TurnManagerMapper;
 import janggi.repository.GameStateRepository;
 import janggi.repository.GameStateRepositoryImpl;
 import java.util.List;
@@ -22,12 +21,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-class GameStateServiceTest {
+class GameServiceTest {
 
     DBConnection dbConnection;
     DBTableInitializer dbTableInitializer;
     GameStateRepository gameStateRepository;
-    GameStateService gameStateService;
+    GameService gameService;
 
     @BeforeEach
     void setUp() {
@@ -35,7 +34,7 @@ class GameStateServiceTest {
         dbTableInitializer = new DBTableInitializer(dbConnection);
 
         gameStateRepository = new GameStateRepositoryImpl(dbConnection);
-        gameStateService = new GameStateService(gameStateRepository);
+        gameService = new GameService(gameStateRepository);
 
         dbConnection.init();
         dbTableInitializer.init();
@@ -57,7 +56,7 @@ class GameStateServiceTest {
             long id = generated.id();
             boolean expected = true;
 
-            boolean actual = gameStateService.hasGameState(id);
+            boolean actual = gameService.hasGameState(id);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -68,7 +67,7 @@ class GameStateServiceTest {
             long id = 1;
             boolean expected = false;
 
-            boolean actual = gameStateService.hasGameState(id);
+            boolean actual = gameService.hasGameState(id);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -79,7 +78,7 @@ class GameStateServiceTest {
     void loadOrSaveGameState() {
         GameStateEntity expected = GameStateEntity.from(1, 1, List.of(TeamType.BLUE, TeamType.RED));
 
-        GameStateEntity actual = gameStateService.loadOrSaveGameState(1);
+        GameStateEntity actual = gameService.loadOrSaveGameState(1);
 
         assertThat(actual).isEqualTo(expected);
     }
@@ -93,7 +92,7 @@ class GameStateServiceTest {
         GameStateEntity expected = new GameStateEntity(1, 2, "RED,BLUE");
         gameStateRepository.save(GameStateEntity.from(2, List.of(TeamType.RED, TeamType.BLUE)));
 
-        gameStateService.modifyGameState(1, afterTurnManager);
+        gameService.modifyGameState(1, afterTurnManager);
         GameStateEntity actual = gameStateRepository.findById(1).get();
 
         assertThat(actual).isEqualTo(expected);
@@ -105,7 +104,7 @@ class GameStateServiceTest {
         gameStateRepository.save(GameStateEntity.from(2, List.of(TeamType.RED, TeamType.BLUE)));
         boolean expected = true;
 
-        boolean actual = gameStateService.removeGameState(1);
+        boolean actual = gameService.removeGameState(1);
 
         assertThat(actual).isEqualTo(expected);
     }

@@ -15,9 +15,11 @@ import janggi.domain.team.TeamType;
 import janggi.domain.turn.TurnManager;
 import janggi.dto.BoardDto;
 import janggi.dto.GameResultDto;
+import janggi.global.Pair;
+import janggi.mapper.TurnManagerMapper;
 import janggi.service.BoardCellService;
 import janggi.service.BoardService;
-import janggi.service.GameStateService;
+import janggi.service.GameService;
 import janggi.utils.Parser;
 import janggi.utils.RetryExecutor;
 import janggi.view.InputView;
@@ -26,29 +28,45 @@ import java.util.List;
 
 public class JanggiController {
 
-    private final GameStateService gameStateService;
+    private final GameService gameService;
     private final BoardService boardService;
     private final BoardCellService boardCellService;
 
     public JanggiController(
-        final GameStateService gameStateService,
+        final GameService gameService,
         final BoardService boardService,
         final BoardCellService boardCellService
     ) {
-        this.gameStateService = gameStateService;
+        this.gameService = gameService;
         this.boardService = boardService;
         this.boardCellService = boardCellService;
     }
 
     public void run() {
         final long gameStateId = 1;
-        Team blueTeam = setupBlueTeam();
-        Team redTeam = setupRedTeam();
-        final Board board = BoardGenerator.generate(redTeam, blueTeam);
-        final TurnManager turnManager = new TurnManager(1, List.of(blueTeam, redTeam));
+        final Pair<Board, TurnManager> boardTurnManagerPair = loadOrSaveTurnManager(gameStateId);
+        final Board board = boardTurnManagerPair.left();
+        final TurnManager turnManager = boardTurnManagerPair.right();
         OutputView.printBoard(BoardDto.from(board, List.of()));
         playGame(turnManager, board);
         OutputView.printGameResult(GameResultDto.from(board));
+    }
+
+    public Pair<Board, TurnManager> loadOrSaveTurnManager(long gameStateId) {
+        TurnManager turnManager;
+        Board board;
+        if (gameService.hasGameState(gameStateId)) {
+            turnManager = TurnManagerMapper.toDomain(gameService.loadOrSaveGameState(1));
+            board = null;
+            return new Pair<>(board, turnManager);
+        }
+        Team blueTeam = setupBlueTeam();
+        Team redTeam = setupRedTeam();
+        board = BoardGenerator.generate(redTeam, blueTeam);
+        turnManager = new TurnManager(1, List.of(blueTeam, redTeam));
+        boardService.createBoard(gameStateId, "게임 1");
+
+        return new Pair<>(board, turnManager);
     }
 
     private Team setupBlueTeam() {

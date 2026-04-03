@@ -9,7 +9,7 @@ import janggi.repository.BoardRepositoryImpl;
 import janggi.repository.GameStateRepositoryImpl;
 import janggi.service.BoardCellService;
 import janggi.service.BoardService;
-import janggi.service.GameStateService;
+import janggi.service.GameService;
 
 public class Application {
 
@@ -19,14 +19,14 @@ public class Application {
         dbConnection.init();
         dbTableInitializer.init();
 
-        final GameStateService gameStateService =
-            new GameStateService(new GameStateRepositoryImpl(dbConnection));
+        final GameService gameService =
+            new GameService(new GameStateRepositoryImpl(dbConnection));
         final BoardService boardService =
             new BoardService(new BoardRepositoryImpl(dbConnection));
         final BoardCellService boardCellService =
             new BoardCellService(new BoardCellRepositoryImpl(dbConnection));
         final JanggiController janggiController =
-            new JanggiController(gameStateService, boardService, boardCellService);
+            new JanggiController(gameService, boardService, boardCellService);
         janggiController.run();
     }
 }
