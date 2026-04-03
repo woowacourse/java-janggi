@@ -30,7 +30,7 @@ public abstract class Piece {
 
     abstract public List<Offset> getPathOffset(Offset offset);
 
-    public void validateMove(List<Piece> blockedPieces, Optional<Piece> to) {
+    public void validateMove(List<Piece> blockedPieces) {
         if (!blockedPieces.isEmpty()) {
             throw new IllegalStateException(ErrorMessage.PATH_BLOCKED.getMessage());
         }

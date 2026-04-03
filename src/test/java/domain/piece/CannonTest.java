@@ -2,11 +2,13 @@ package domain.piece;
 
 import domain.Offset;
 
+import domain.board.Board;
+import domain.board.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -76,7 +78,7 @@ class CannonTest {
     void 포는_기물이_사이에_하나의_기물이_있으면_정상적으로_움직일_수_있다() {
         List<Piece> blockedPieces = List.of(new Horse(Team.HAN));
 
-        assertDoesNotThrow(() -> cannon.validateMove(blockedPieces, Optional.of(new Horse(Team.HAN))));
+        assertDoesNotThrow(() -> cannon.validateMove(blockedPieces));
     }
 
 
@@ -85,7 +87,7 @@ class CannonTest {
         List<Piece> blockedPieces = List.of();
 
         assertThrows(IllegalStateException.class,
-                () -> cannon.validateMove(blockedPieces, Optional.of(new Horse(Team.HAN)))
+                () -> cannon.validateMove(blockedPieces)
         );
     }
 
@@ -94,8 +96,7 @@ class CannonTest {
         List<Piece> blockedPieces = List.of(new Horse(Team.HAN), new Horse(Team.HAN));
 
         assertThrows(IllegalStateException.class,
-                () -> cannon.validateMove(blockedPieces, Optional.of(new Horse(Team.HAN)))
-        );
+                () -> cannon.validateMove(blockedPieces));
     }
 
     @Test
@@ -103,18 +104,19 @@ class CannonTest {
         List<Piece> blockedPieces = List.of(new Cannon(Team.HAN));
 
         assertThrows(IllegalStateException.class,
-                () -> cannon.validateMove(blockedPieces, Optional.of(new Horse(Team.HAN)))
-        );
+                () -> cannon.validateMove(blockedPieces));
     }
 
     @Test
     void 포는_목적지에_포가_존재하면_예외를_반환한다() {
-        List<Piece> blockedPieces = List.of(new Horse(Team.HAN));
+
+        Board board = new Board(Map.of(
+                new Position(5, 1), new Cannon(Team.CHO),
+                new Position(5, 3), new Horse(Team.CHO),
+                new Position(5, 7), new Cannon(Team.HAN)
+        ));
 
         assertThrows(IllegalStateException.class,
-                () -> cannon.validateMove(blockedPieces, Optional.of(new Cannon(Team.HAN)))
-        );
+                () -> board.move(new Position(5, 1), new Position(5, 7)));
     }
-
-
 }

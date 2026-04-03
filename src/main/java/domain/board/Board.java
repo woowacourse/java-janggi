@@ -2,6 +2,7 @@ package domain.board;
 
 import domain.ErrorMessage;
 import domain.Offset;
+import domain.piece.Cannon;
 import domain.piece.Piece;
 
 import java.util.HashMap;
@@ -32,7 +33,11 @@ public class Board {
         List<Offset> pathOffset = fromPiece.getPathOffset(offset);
         List<Piece> blockedPieces = getBlockedPieces(from, pathOffset);
 
-        fromPiece.validateMove(blockedPieces, toPiece);
+        if (fromPiece instanceof Cannon cannon) {
+            cannon.validateTarget(toPiece);
+        }
+
+        fromPiece.validateMove(blockedPieces);
         pieces.put(to, pieces.remove(from));
     }
 
@@ -46,7 +51,7 @@ public class Board {
     }
 
     private void validateActualMove(Offset offset) {
-        if(offset.dx() == 0 && offset.dy() == 0) {
+        if (offset.dx() == 0 && offset.dy() == 0) {
             throw new IllegalArgumentException(ErrorMessage.NOT_MOVE.getMessage());
         }
     }
