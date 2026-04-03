@@ -13,41 +13,22 @@ import janggi.infra.dao.GameRoomDao;
 import janggi.infra.dao.PiecesDao;
 import janggi.infra.dto.GameRoomData;
 import janggi.infra.dto.PieceData;
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
-import org.h2.jdbcx.JdbcConnectionPool;
 
 public class JdbcBoardRepository implements BoardRepository {
 
-    private static final int POOL_SIZE = 10;
-
-    private final JdbcConnectionPool connectionPool;
+    private final DataConnectionManager manager;
     private final GameRoomDao roomDao = new GameRoomDao();
     private final PiecesDao piecesDao = new PiecesDao();
-    private final String url;
-    private final String username;
-    private final String password;
 
-    public JdbcBoardRepository() {
-        try {
-            Properties properties = new Properties();
-            InputStream inputStream = getClass().getClassLoader().getResourceAsStream("application.properties");
-            properties.load(inputStream);
-            url = properties.getProperty("db.url");
-            username = properties.getProperty("db.username");
-            password = properties.getProperty("db.password");
-            connectionPool = JdbcConnectionPool.create(url, username, password);
-            connectionPool.setMaxConnections(POOL_SIZE);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+
+    public JdbcBoardRepository(DataConnectionManager manager) {
+        this.manager = manager;
     }
 
     @Override
@@ -76,6 +57,7 @@ public class JdbcBoardRepository implements BoardRepository {
 
     @Override
     public JanggiGame loadGame(Long gameRoomId) {
+        validateIsNull(gameRoomId);
         return executeInTransaction(connection -> {
             GameRoomData roomData = roomDao.findRoomById(gameRoomId, connection);
             List<PieceData> pieceDatas = piecesDao.findAllByRoomId(gameRoomId, connection);
@@ -93,10 +75,6 @@ public class JdbcBoardRepository implements BoardRepository {
         });
     }
 
-    private Connection getConnection() throws SQLException {
-        return connectionPool.getConnection();
-    }
-
     private static void addPieceData(List<List<Piece>> pieces, int i, List<PieceData> data) {
         for (int j = 0; j < pieces.get(i).size(); j++) {
             Piece piece = pieces.get(i).get(j);
@@ -108,7 +86,7 @@ public class JdbcBoardRepository implements BoardRepository {
     }
 
     private <T> T executeInTransaction(TransactionCallback<T> action) {
-        try (Connection connection = getConnection()) {
+        try (Connection connection = manager.getConnection()) {
             return processTransaction(connection, action);
         } catch (SQLException e) {
             throw new RuntimeException("[ERROR] DB 커넥션 에러", e);
@@ -126,6 +104,12 @@ public class JdbcBoardRepository implements BoardRepository {
             throw new RuntimeException("[ERROR] 게임 저장 중 트랜잭션 롤백됨", e);
         } finally {
             connection.setAutoCommit(true);
+        }
+    }
+
+    private void validateIsNull(Long roomId) {
+        if(roomId == null) {
+            throw new IllegalArgumentException("[ERROR] 잘못된 게임방 ID 입력입니다.");
         }
     }
 }
