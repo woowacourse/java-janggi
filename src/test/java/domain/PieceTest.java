@@ -14,8 +14,7 @@ public class PieceTest {
         Cannon cannonCho = new Cannon(Team.CHO);
         Cannon cannonHan = new Cannon(Team.HAN);
 
-        Assertions.assertThat(cannonCho)
-                .isEqualTo(cannonHan);
+        Assertions.assertThat(cannonCho.isSamePiece(cannonHan)).isTrue();
     }
 
 }

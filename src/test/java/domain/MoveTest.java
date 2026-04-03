@@ -33,8 +33,8 @@ public class MoveTest {
         Intersection expectedEmpty = Intersection.empty(start);
         Intersection expectedChariot = new Intersection(end, chariot);
 
-        Assertions.assertThat(from).isEqualTo(expectedEmpty);
-        Assertions.assertThat(to).isEqualTo(expectedChariot);
+        Assertions.assertThat(from.isSamePiece(expectedEmpty)).isTrue();
+        Assertions.assertThat(to.isSamePiece(expectedChariot)).isTrue();
     }
 
 }
