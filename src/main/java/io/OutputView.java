@@ -74,6 +74,10 @@ public class OutputView {
         System.out.println("\n[장군] " + checkedTeam.display());
     }
 
+    public void printBikjangQuestion(Team team) {
+        System.out.printf("%n[%s 진영] 빅장입니다. 무승부를 선언하시겠습니까? (y/n)%n", team.display());
+    }
+
     public void printGameResult(GameResult result) {
         System.out.println("\n게임 종료!");
         System.out.println(result.message());

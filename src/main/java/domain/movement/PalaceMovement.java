@@ -9,8 +9,7 @@ public class PalaceMovement implements Movement {
             new Delta(new ColDelta(0), new RowDelta(-1)),
             new Delta(new ColDelta(0), new RowDelta(1)),
             new Delta(new ColDelta(-1), new RowDelta(0)),
-            new Delta(new ColDelta(1), new RowDelta(0)),
-            new Delta(new ColDelta(0), new RowDelta(0))
+            new Delta(new ColDelta(1), new RowDelta(0))
     );
     private static final List<Delta> DIAGONAL_MOVES = List.of(
             new Delta(new ColDelta(-1), new RowDelta(-1)),

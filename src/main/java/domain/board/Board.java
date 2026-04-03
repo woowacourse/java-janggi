@@ -66,6 +66,18 @@ public class Board {
         return new Board(pieces.move(from, to));
     }
 
+    public boolean isColumnClearBetween(Position a, Position b) {
+        Column column = a.column();
+        int minRow = Math.min(a.row().ordinal(), b.row().ordinal());
+        int maxRow = Math.max(a.row().ordinal(), b.row().ordinal());
+        for (int r = minRow + 1; r < maxRow; r++) {
+            if (hasAnyPiece(new Position(column, Row.values()[r]))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     private void validateMove(Coordinate coordinate, Turn turn) {
         Position from = coordinate.from();
         Position to = coordinate.to();
