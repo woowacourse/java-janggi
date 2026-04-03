@@ -3,10 +3,13 @@ package controller;
 import domain.Position;
 import domain.board.Board;
 import domain.board.BoardFactory;
+import domain.board.BoardSnapshot;
 import domain.board.BoardSnapshots;
 import domain.board.TableSetting;
 import domain.country.CountryType;
+import domain.piece.PieceInfos;
 import java.util.List;
+import service.JanggiService;
 import view.CountryFormatter;
 import view.InputParser;
 import view.InputView;
@@ -22,7 +25,14 @@ public class JanggiController {
     }
 
     public void run() {
+        JanggiService.readAllBoard();
+        int boardId = 1;
+//        JanggiService.insertPositions();
+//        JanggiService.insertPieces();
+        JanggiService.readBoard(boardId);
         Board board = makeBoard();
+//        JanggiService.insertBoard(CountryType.CHO);
+//        initBoardState(board.getPieceInfos(), boardId);
         List<CountryType> playOrders = List.of(CountryType.CHO, CountryType.HAN);
         BoardSnapshots boardSnapshots = new BoardSnapshots();
 
@@ -49,11 +59,18 @@ public class JanggiController {
         }
     }
 
+    private void initBoardState(PieceInfos pieceInfos, int boardId) {
+        for (Position position : pieceInfos.getKeys()) {
+            JanggiService.insertBoardState(position, pieceInfos.get(position), boardId);
+        }
+    }
+
     private void playTurn(Board board, List<CountryType> playOrders, BoardSnapshots boardSnapshots) {
         int turnIndex = 0;
         boolean isEnd = false;
         while (!isEnd) {
             CountryType countryType = playOrders.get(turnIndex);
+            JanggiService.updateBoard(countryType, 1);
             isEnd = checkEndAndMovePiece(board, countryType, boardSnapshots);
 
             turnIndex = (turnIndex + 1) % 2;
@@ -61,13 +78,14 @@ public class JanggiController {
     }
 
     private boolean checkEndAndMovePiece(Board board, CountryType countryType, BoardSnapshots boardSnapshots) {
-        outputView.printBoard(board.getBoardSnapshot(countryType), board.getScores());
+        BoardSnapshot boardSnapshot = new BoardSnapshot(board.getPieceInfos(), countryType);
+        outputView.printBoard(boardSnapshot, board.getScores());
 
         boolean isEndWithGeneralCaught = movePiece(board, countryType);
         if (isEndWithGeneralCaught) {
             outputView.printEndWithCatchGeneral(countryType);
         }
-        boolean isEndWithBoardRepeat = boardSnapshots.appearSamePositionThreeTurn(board.getBoardSnapshot(countryType));
+        boolean isEndWithBoardRepeat = boardSnapshots.appearSamePositionThreeTurn(boardSnapshot);
         if (isEndWithBoardRepeat) {
             outputView.printEndWithBoardRepeat(board.getScores());
         }
