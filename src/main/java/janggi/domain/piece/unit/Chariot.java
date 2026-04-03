@@ -14,12 +14,12 @@ import java.util.List;
 import java.util.Map;
 
 public class Chariot extends Piece {
-    private static final PieceName NAME = PieceName.CHARIOT;
+    private static final PieceName PIECE_NAME = PieceName.CHARIOT;
     private static final PathStrategy DEFAULT_STRATEGY = new LinearPathStrategy();
-    private static final Score SCORE = new Score(13);
+    private static final Score PIECE_SCORE = new Score(13);
 
     public Chariot(Side side) {
-        super(NAME, side, DEFAULT_STRATEGY, SCORE);
+        super(PIECE_NAME, side, DEFAULT_STRATEGY, PIECE_SCORE);
     }
 
     @Override

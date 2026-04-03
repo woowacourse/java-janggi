@@ -13,17 +13,17 @@ import java.util.List;
 import java.util.Map;
 
 public class Advisor extends Piece {
-    private static final PieceName NAME = PieceName.ADVISOR;
+    private static final PieceName PIECE_NAME = PieceName.ADVISOR;
     private static final PathStrategy DEFAULT_STRATEGY = new FixedPathStrategy();
-    private static final Score SCORE = new Score(3);
+    private static final Score PIECE_SCORE = new Score(3);
 
     public Advisor(Side side) {
-        super(NAME, side, DEFAULT_STRATEGY, SCORE);
+        super(PIECE_NAME, side, DEFAULT_STRATEGY, PIECE_SCORE);
     }
 
     @Override
     public List<Movement> createCandidateMovement() {
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
     }
 
     @Override

@@ -3,7 +3,7 @@ package janggi.domain.board.coordination;
 import janggi.domain.point.Point;
 
 public interface Coordination {
-    public boolean isInRange(int nx, int ny);
+    boolean isInRange(int nx, int ny);
 
     default void validateRange(Point point) {
         if (!isInRange(point.x(), point.y())) {

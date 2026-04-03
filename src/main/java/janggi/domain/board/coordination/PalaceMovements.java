@@ -1,8 +1,8 @@
 package janggi.domain.board.coordination;
 
-import janggi.domain.point.Point;
 import janggi.domain.path.Direction;
 import janggi.domain.path.Movement;
+import janggi.domain.point.Point;
 import java.util.List;
 
 public enum PalaceMovements {
@@ -65,7 +65,7 @@ public enum PalaceMovements {
         this.movements = movements;
     }
 
-    public static final List<Movement> getMovements(Point point) {
+    public static List<Movement> getMovements(Point point) {
         for (PalaceMovements value : values()) {
             if (value.target.contains(point)) {
                 return value.movements;

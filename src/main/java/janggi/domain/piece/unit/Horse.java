@@ -14,13 +14,13 @@ import java.util.List;
 import java.util.Map;
 
 public class Horse extends Piece {
-    private static final PieceName NAME = PieceName.HORSE;
+    private static final PieceName PIECE_NAME = PieceName.HORSE;
     private static final PathStrategy DEFAULT_STRATEGY = new FixedPathStrategy();
     private static final int PATH_SIZE = 2;
-    private static final Score SCORE = new Score(5);
+    private static final Score PIECE_SCORE = new Score(5);
 
     public Horse(Side side) {
-        super(NAME, side, DEFAULT_STRATEGY, SCORE);
+        super(PIECE_NAME, side, DEFAULT_STRATEGY, PIECE_SCORE);
     }
 
     @Override

@@ -8,10 +8,10 @@ import java.util.Map;
 import java.util.Optional;
 
 public class Rules {
-    private final List<Rule> rules;
+    private final List<Rule> endRules;
 
-    public Rules(List<Rule> rules) {
-        this.rules = rules;
+    public Rules(List<Rule> endRules) {
+        this.endRules = endRules;
     }
 
     public static Rules createWithDefaultRules() {
@@ -25,12 +25,12 @@ public class Rules {
     }
 
     public boolean isEnd(Map<Point, Piece> pieces) {
-        return rules.stream()
+        return endRules.stream()
                 .anyMatch(rule -> rule.isEnd(pieces));
     }
 
     private Optional<Rule> findEndedRule(Map<Point, Piece> pieces) {
-        return rules.stream()
+        return endRules.stream()
                 .filter(rule -> rule.isEnd(pieces))
                 .findAny();
     }
