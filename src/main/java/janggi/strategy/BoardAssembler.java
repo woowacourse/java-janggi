@@ -2,6 +2,7 @@ package janggi.strategy;
 
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
+import java.util.Arrays;
 import java.util.List;
 
 public class BoardAssembler {
@@ -22,22 +23,18 @@ public class BoardAssembler {
     public Piece[][] assemble() {
         Piece[][] arrangement = new Piece[DEFAULT_ROWS][DEFAULT_COLS];
 
+        setupEmptyPieces(arrangement);
+
         for (ArrangementStrategy strategy : strategies) {
             strategy.place(arrangement);
         }
-
-        setupEmptyPieces(arrangement);
 
         return arrangement;
     }
 
     private void setupEmptyPieces(Piece[][] arrangement) {
-        for (int row = 0; row < DEFAULT_ROWS; row++) {
-            for (int col = 0; col < DEFAULT_COLS; col++) {
-                if (arrangement[row][col] == null) {
-                    arrangement[row][col] = EmptyPiece.getInstance();
-                }
-            }
+        for (Piece[] row : arrangement) {
+            Arrays.fill(row, EmptyPiece.getInstance());
         }
     }
 }
