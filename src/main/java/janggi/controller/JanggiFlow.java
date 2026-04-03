@@ -10,6 +10,7 @@ import janggi.strategy.BoardAssembler;
 import janggi.view.ApplicationView;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class JanggiFlow {
 
@@ -39,6 +40,16 @@ public class JanggiFlow {
         }
     }
 
+    private <T> T retry(Supplier<T> supplier) {
+        while (true) {
+            try {
+                return supplier.get();
+            } catch (IllegalArgumentException e) {
+                view.showErrorMessage(e.getMessage());
+            }
+        }
+    }
+
     private List<List<String>> convertBoardStatus(Board board) {
         List<List<Piece>> boardIn2D = board.to2DArray();
         return boardIn2D.stream()
@@ -51,12 +62,7 @@ public class JanggiFlow {
     }
 
     private ArrangementStrategy repeatAskStrategyUntilSuccess(Side side) {
-        try {
-            return askStrategy(side);
-        } catch (IllegalArgumentException e) {
-            view.showErrorMessage(e.getMessage());
-            return repeatAskStrategyUntilSuccess(side);
-        }
+        return retry(() -> askStrategy(side));
     }
 
     private ArrangementStrategy askStrategy(Side side) {
@@ -66,12 +72,7 @@ public class JanggiFlow {
     }
 
     private Location repeatAskLocationOfPieceUntilSuccess(Side turnSide, Board board) {
-        try {
-            return askLocationOfPiece(turnSide, board);
-        } catch (IllegalArgumentException e) {
-            view.showErrorMessage(e.getMessage());
-            return repeatAskLocationOfPieceUntilSuccess(turnSide, board);
-        }
+        return retry(() -> askLocationOfPiece(turnSide, board));
     }
 
     private Location askLocationOfPiece(Side current, Board board) {
@@ -82,12 +83,7 @@ public class JanggiFlow {
     }
 
     private Location repeatAskLocationToMoveUntilSuccess(Location from, Board board) {
-        try {
-            return askLocationToMove(from, board);
-        } catch (IllegalArgumentException e) {
-            view.showErrorMessage(e.getMessage());
-            return repeatAskLocationToMoveUntilSuccess(from, board);
-        }
+        return retry(() -> askLocationToMove(from, board));
     }
 
     private Location askLocationToMove(Location startingLocation, Board board) {
@@ -98,11 +94,13 @@ public class JanggiFlow {
     }
 
     private void retryUntilPieceIsSuccessfullyMoved(Runnable runnable) {
-        try {
-            runnable.run();
-        } catch (IllegalArgumentException e) {
-            view.showErrorMessage(e.getMessage());
-            retryUntilPieceIsSuccessfullyMoved(runnable);
+        while (true) {
+            try {
+                runnable.run();
+                break;
+            } catch (IllegalArgumentException e) {
+                view.showErrorMessage(e.getMessage());
+            }
         }
     }
 }
