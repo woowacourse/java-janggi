@@ -3,6 +3,7 @@ package janggi.domain.board;
 import janggi.domain.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
+import janggi.domain.team.TeamType;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -28,17 +29,15 @@ public class Board implements BoardMediator {
         return findPieceByPosition(position);
     }
 
+    @Override
+    public boolean hasGeneral(TeamType teamType) {
+        return positionPieceMap.values().stream()
+                .anyMatch(piece -> piece.getPieceType() == PieceType.GENERAL && piece.getTeamType() == teamType);
+    }
+
     public Map<Position, Piece> getPositionPieceMapForDTO() {
         return Map.copyOf(positionPieceMap);
     }
-
-    public boolean hasTwoGeneral() {
-        long generalCount = positionPieceMap.values().stream()
-                .filter(piece -> piece.getPieceType() == PieceType.GENERAL)
-                .count();
-        return generalCount == 2;
-    }
-
 
     private boolean hasPieceIn(final Position position) {
         return positionPieceMap.containsKey(position);

@@ -1,5 +1,6 @@
 package janggi.controller;
 
+import janggi.domain.GameManager;
 import janggi.domain.Position;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardGenerator;
@@ -18,16 +19,20 @@ import janggi.view.OutputView;
 import java.util.List;
 
 public class JanggiController {
+
+    private final GameManager gameManager;
+
     public JanggiController() {
+        gameManager = new GameManager();
     }
 
     public void run() {
         Board board = BoardGenerator.generate(setupRedTeam(), setupBlueTeam());
         TurnManager turnManager = new TurnManager();
-        while (board.hasTwoGeneral()) {
+        while (gameManager.isGeneralAlive(turnManager.currentTeamType(), board)) {
             playTurn(board, turnManager);
         }
-        OutputView.printGameOverMessage(turnManager.currentTeamType());
+        OutputView.printGameOverMessage(turnManager.currentTeamTypeToString());
     }
 
     private Team setupRedTeam() {
@@ -50,7 +55,7 @@ public class JanggiController {
     }
 
     private void playTurn(Board board, TurnManager turnManager) {
-        OutputView.printBoard(BoardDto.from(board), turnManager.currentTeamType());
+        OutputView.printBoard(BoardDto.from(board), turnManager.currentTeamTypeToString());
         Position from = findFromPosition(board, turnManager);
         Piece piece = board.getPieceInPosition(from);
         List<Position> movable = piece.calculateMovablePositions(from, board);

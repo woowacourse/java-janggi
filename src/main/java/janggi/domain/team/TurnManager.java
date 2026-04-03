@@ -15,7 +15,11 @@ public class TurnManager {
         return this.currentTurnTeamType == teamType;
     }
 
-    public String currentTeamType() {
+    public TeamType currentTeamType() {
+        return currentTurnTeamType;
+    }
+
+    public String currentTeamTypeToString() {
         return currentTurnTeamType.getName();
     }
 }
