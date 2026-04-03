@@ -2,6 +2,7 @@ package strategy.move;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import domain.Direction;
 import domain.MovePath;
@@ -22,6 +23,7 @@ public class CannonMoveStrategy extends MoveStrategy {
         paths.addAll(createStraightPaths(Direction.SOUTH));
         paths.addAll(createStraightPaths(Direction.EAST));
         paths.addAll(createStraightPaths(Direction.WEST));
+        addPalaceDiagonalPathsIfPossible(from, router, paths);
 
         return paths;
     }
@@ -36,6 +38,38 @@ public class CannonMoveStrategy extends MoveStrategy {
             paths.add(new MovePath(steps));
         }
         return List.copyOf(paths);
+    }
+
+    private void addPalaceDiagonalPathsIfPossible(Position from, PalaceRouter router, List<MovePath> paths) {
+        if (!router.isInsidePalace(from)) {
+            return;
+        }
+        for (Position adjacent : router.getDiagonalAdjacents(from)) {
+            addDiagonalPathsFromAdjacent(from, adjacent, router, paths);
+        }
+    }
+
+    private void addDiagonalPathsFromAdjacent(
+            Position from, Position adjacent, PalaceRouter router, List<MovePath> paths) {
+        Optional<Direction> optionalStep = Direction.of(from, adjacent);
+        if (optionalStep.isEmpty()) {
+            return;
+        }
+        Direction step = optionalStep.get();
+        paths.add(new MovePath(List.of(step)));
+        addTwoStepPalaceDiagonalIfValid(adjacent, step, router, paths);
+    }
+
+    private void addTwoStepPalaceDiagonalIfValid(
+            Position adjacent, Direction step, PalaceRouter router, List<MovePath> paths) {
+        Position oppositeCorner = adjacent.next(step);
+        if (!oppositeCorner.isInsideBoard()) {
+            return;
+        }
+        if (!router.isInsidePalace(oppositeCorner)) {
+            return;
+        }
+        paths.add(new MovePath(List.of(step, step)));
     }
 
     @Override
