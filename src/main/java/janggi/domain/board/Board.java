@@ -1,8 +1,8 @@
 package janggi.domain.board;
 
+import janggi.domain.Intersection;
 import janggi.domain.Location;
 import janggi.domain.Side;
-import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
 import janggi.exception.ErrorCode;
 import janggi.exception.JanggiException;
@@ -14,26 +14,26 @@ import java.util.Map;
 
 public class Board {
 
-    private final Map<Location, Piece> boardState;
+    private final Map<Location, Intersection> boardState;
     private final int height;
     private final int width;
 
-    private Board(Map<Location, Piece> boardState, int height, int width) {
+    private Board(Map<Location, Intersection> boardState, int height, int width) {
         this.boardState = boardState;
         this.height = height;
         this.width = width;
     }
 
     public static Board create(BoardAssembler assembler) {
-        Piece[][] pieces = assembler.assemble();
-        Map<Location, Piece> boardState = new HashMap<>();
+        Intersection[][] intersections = assembler.assemble();
+        Map<Location, Intersection> boardState = new HashMap<>();
 
-        int height = pieces.length;
-        int width = pieces[0].length;
+        int height = intersections.length;
+        int width = intersections[0].length;
 
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
-                boardState.put(new Location(row, col), pieces[row][col]);
+                boardState.put(Location.of(row, col), intersections[row][col]);
             }
         }
 
@@ -43,7 +43,7 @@ public class Board {
     public void move(Location from, Location to) {
         validateMove(from, to);
 
-        Piece piece = boardState.get(from);
+        Piece piece = boardState.get(from).getPiece();
         List<Piece> piecesOnPath = getPiecesOnRoute(piece, from, to);
 
         piece.detectCollision(piecesOnPath);
@@ -54,7 +54,7 @@ public class Board {
     public void validateLocationOfPiece(Side currentSide, Location locationOfPiece) {
         validateLocation(locationOfPiece);
         validatePieceExist(locationOfPiece);
-        Piece piece = boardState.get(locationOfPiece);
+        Piece piece = boardState.get(locationOfPiece).getPiece();
         if (isNotSameSide(piece, currentSide)) {
             throw new IllegalArgumentException("본인 팀의 기물만 선택할 수 있습니다.");
         }
@@ -62,7 +62,7 @@ public class Board {
 
     public void validateLocationToMove(Side currentSide, Location locationToMove) {
         validateLocation(locationToMove);
-        Piece target = boardState.get(locationToMove);
+        Piece target = boardState.get(locationToMove).getPiece();
         if (target.isSameSide(currentSide)) {
             throw new JanggiException(ErrorCode.DESTINATION_OCCUPIED_SAME_TEAM_ERROR);
         }
@@ -70,7 +70,7 @@ public class Board {
 
     public boolean isNotEmpty() {
         return !boardState.values().stream()
-                .allMatch(Piece::isEmpty);
+                .allMatch(Intersection::isEmpty);
     }
 
     public List<List<Piece>> to2DArray() {
@@ -78,7 +78,7 @@ public class Board {
         for (int row = 0; row < height; row++) {
             List<Piece> line = new ArrayList<>();
             for (int col = 0; col < width; col++) {
-                Piece piece = boardState.get(new Location(row, col));
+                Piece piece = boardState.get(Location.of(row, col)).getPiece();
                 line.add(piece);
             }
             pieces.add(List.copyOf(line));
@@ -87,8 +87,8 @@ public class Board {
     }
 
     private void executeMove(Location from, Location to, Piece piece) {
-        boardState.put(to, piece);
-        boardState.put(from, EmptyPiece.getInstance());
+        boardState.get(to).place(piece);
+        boardState.get(from).leave();
     }
 
     private boolean isNotSameSide(Piece piece, Side side) {
@@ -97,7 +97,7 @@ public class Board {
 
     private List<Piece> getPiecesOnRoute(Piece piece, Location from, Location to) {
         return piece.calculateRoute(from, to).stream()
-                .map(boardState::get)
+                .map(location -> boardState.get(location).getPiece())
                 .toList();
     }
 

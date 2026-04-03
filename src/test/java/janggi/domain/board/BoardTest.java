@@ -9,6 +9,8 @@ import janggi.domain.piece.Piece;
 import janggi.exception.JanggiException;
 import janggi.strategy.ArrangementStrategy;
 import janggi.strategy.BoardAssembler;
+import janggi.strategy.PalaceIntersectionInitializer;
+import janggi.strategy.IntersectionInitializer;
 import janggi.support.TestArrangementStrategy;
 import janggi.support.TestPiece;
 import java.util.List;
@@ -28,13 +30,14 @@ class BoardTest {
         Piece testPiece = new TestPiece(currentSide);
         Piece emptyPiece = EmptyPiece.getInstance();
         Map<Location, Piece> initialPieces = Map.of(
-                new Location(1, 1), testPiece,
-                new Location(2, 2), emptyPiece
+                Location.of(1, 1), testPiece,
+                Location.of(2, 2), emptyPiece
         );
         ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
+        IntersectionInitializer intersectionInitializer = new PalaceIntersectionInitializer();
 
         // when
-        BoardAssembler assembler = BoardAssembler.from(List.of(strategy));
+        BoardAssembler assembler = BoardAssembler.of(List.of(strategy), intersectionInitializer);
         Board board = Board.create(assembler);
         List<List<Piece>> pieces = board.to2DArray();
 
@@ -49,14 +52,16 @@ class BoardTest {
         // given
         Piece testPiece = new TestPiece(Side.HAN);
         Map<Location, Piece> initialPieces = Map.of(
-                new Location(1, 1), testPiece
+                Location.of(1, 1), testPiece
         );
-        ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
 
-        BoardAssembler assembler = BoardAssembler.from(List.of(strategy));
+        ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
+        IntersectionInitializer intersectionInitializer = new PalaceIntersectionInitializer();
+        BoardAssembler assembler = BoardAssembler.of(List.of(strategy), intersectionInitializer);
+
         Board board = Board.create(assembler);
-        Location from = new Location(1, 1);
-        Location to = new Location(0, 0);
+        Location from = Location.of(1, 1);
+        Location to = Location.of(0, 0);
 
         // when
         board.move(from, to);
@@ -72,11 +77,14 @@ class BoardTest {
     void shouldReturnTrueForNoneEmptyBoard() {
         // given
         Map<Location, Piece> initialPieces = Map.of(
-                new Location(1, 1), new TestPiece(Side.HAN),
-                new Location(1, 2), EmptyPiece.getInstance()
+                Location.of(1, 1), new TestPiece(Side.HAN),
+                Location.of(1, 2), EmptyPiece.getInstance()
         );
+
         ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
-        BoardAssembler assembler = BoardAssembler.from(List.of(strategy));
+        IntersectionInitializer intersectionInitializer = new PalaceIntersectionInitializer();
+        BoardAssembler assembler = BoardAssembler.of(List.of(strategy), intersectionInitializer);
+
         Board board = Board.create(assembler);
 
         // when & then
@@ -88,11 +96,14 @@ class BoardTest {
     void shouldReturnTrueForEmptyBoard() {
         // given
         Map<Location, Piece> initialPieces = Map.of(
-                new Location(1, 1), EmptyPiece.getInstance(),
-                new Location(1, 2), EmptyPiece.getInstance()
+                Location.of(1, 1), EmptyPiece.getInstance(),
+                Location.of(1, 2), EmptyPiece.getInstance()
         );
+
         ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
-        BoardAssembler assembler = BoardAssembler.from(List.of(strategy));
+        IntersectionInitializer intersectionInitializer = new PalaceIntersectionInitializer();
+        BoardAssembler assembler = BoardAssembler.of(List.of(strategy), intersectionInitializer);
+
         Board board = Board.create(assembler);
 
         // when & then
@@ -107,11 +118,13 @@ class BoardTest {
             // given
             Side currentSide = Side.HAN;
             Map<Location, Piece> initialPieces = Map.of(
-                    new Location(1, 1), new TestPiece(currentSide)
+                    Location.of(1, 1), new TestPiece(currentSide)
             );
-            ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
 
-            BoardAssembler assembler = BoardAssembler.from(List.of(strategy));
+            ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
+            IntersectionInitializer intersectionInitializer = new PalaceIntersectionInitializer();
+            BoardAssembler assembler = BoardAssembler.of(List.of(strategy), intersectionInitializer);
+
             Board board = Board.create(assembler);
             Location location = Location.from(List.of(1, 1));
 
@@ -125,11 +138,13 @@ class BoardTest {
             // given
             Side currentSide = Side.HAN;
             Map<Location, Piece> initialPieces = Map.of(
-                    new Location(1, 1), new TestPiece(currentSide)
+                    Location.of(1, 1), new TestPiece(currentSide)
             );
-            ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
 
-            BoardAssembler assembler = BoardAssembler.from(List.of(strategy));
+            ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
+            IntersectionInitializer intersectionInitializer = new PalaceIntersectionInitializer();
+            BoardAssembler assembler = BoardAssembler.of(List.of(strategy), intersectionInitializer);
+
             Board board = Board.create(assembler);
             Location location = Location.from(List.of(11, 11));
 
@@ -147,11 +162,13 @@ class BoardTest {
             // given
             Side currentSide = Side.HAN;
             Map<Location, Piece> initialPieces = Map.of(
-                    new Location(1, 1), new TestPiece(currentSide)
+                    Location.of(1, 1), new TestPiece(currentSide)
             );
-            ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
 
-            BoardAssembler assembler = BoardAssembler.from(List.of(strategy));
+            ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
+            IntersectionInitializer intersectionInitializer = new PalaceIntersectionInitializer();
+            BoardAssembler assembler = BoardAssembler.of(List.of(strategy), intersectionInitializer);
+
             Board board = Board.create(assembler);
             Location location = Location.from(List.of(1, 1));
 
@@ -166,11 +183,13 @@ class BoardTest {
             Side currentSide = Side.HAN;
             Side otherSide = Side.CHO;
             Map<Location, Piece> initialPieces = Map.of(
-                    new Location(1, 1), new TestPiece(currentSide)
+                    Location.of(1, 1), new TestPiece(currentSide)
             );
-            ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
 
-            BoardAssembler assembler = BoardAssembler.from(List.of(strategy));
+            ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
+            IntersectionInitializer intersectionInitializer = new PalaceIntersectionInitializer();
+            BoardAssembler assembler = BoardAssembler.of(List.of(strategy), intersectionInitializer);
+
             Board board = Board.create(assembler);
             Location location = Location.from(List.of(1, 1));
 
@@ -184,11 +203,13 @@ class BoardTest {
         void shouldThrowExceptionWhenPieceDoesNotExistsAtLocation() {
             // given
             Map<Location, Piece> initialPieces = Map.of(
-                    new Location(5, 5), EmptyPiece.getInstance()
+                    Location.of(5, 5), EmptyPiece.getInstance()
             );
-            ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
 
-            BoardAssembler assembler = BoardAssembler.from(List.of(strategy));
+            ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
+            IntersectionInitializer intersectionInitializer = new PalaceIntersectionInitializer();
+            BoardAssembler assembler = BoardAssembler.of(List.of(strategy), intersectionInitializer);
+
             Board board = Board.create(assembler);
             Location location = Location.from(List.of(5, 5));
 
@@ -205,11 +226,13 @@ class BoardTest {
         void shouldNotThrowExceptionWhenPieceDoesNotExistsAtLocation() {
             // given
             Map<Location, Piece> initialPieces = Map.of(
-                    new Location(1, 1), EmptyPiece.getInstance()
+                    Location.of(1, 1), EmptyPiece.getInstance()
             );
-            ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
 
-            BoardAssembler assembler = BoardAssembler.from(List.of(strategy));
+            ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
+            IntersectionInitializer intersectionInitializer = new PalaceIntersectionInitializer();
+            BoardAssembler assembler = BoardAssembler.of(List.of(strategy), intersectionInitializer);
+
             Board board = Board.create(assembler);
             Location location = Location.from(List.of(1, 1));
 
@@ -225,11 +248,13 @@ class BoardTest {
             Side currentSide = Side.HAN;
             Side otherSide = Side.CHO;
             Map<Location, Piece> initialPieces = Map.of(
-                    new Location(1, 1), new TestPiece(otherSide)
+                    Location.of(1, 1), new TestPiece(otherSide)
             );
-            ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
 
-            BoardAssembler assembler = BoardAssembler.from(List.of(strategy));
+            ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
+            IntersectionInitializer intersectionInitializer = new PalaceIntersectionInitializer();
+            BoardAssembler assembler = BoardAssembler.of(List.of(strategy), intersectionInitializer);
+
             Board board = Board.create(assembler);
             Location location = Location.from(List.of(1, 1));
 
@@ -244,11 +269,13 @@ class BoardTest {
             // given
             Side currentSide = Side.HAN;
             Map<Location, Piece> initialPieces = Map.of(
-                    new Location(1, 1), new TestPiece(currentSide)
+                    Location.of(1, 1), new TestPiece(currentSide)
             );
-            ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
 
-            BoardAssembler assembler = BoardAssembler.from(List.of(strategy));
+            ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
+            IntersectionInitializer intersectionInitializer = new PalaceIntersectionInitializer();
+            BoardAssembler assembler = BoardAssembler.of(List.of(strategy), intersectionInitializer);
+
             Board board = Board.create(assembler);
             Location location = Location.from(List.of(1, 1));
 
