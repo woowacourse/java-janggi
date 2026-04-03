@@ -22,13 +22,13 @@ public class Movement {
 
     // 마지막 movement에서만 사용
     // 현재 기물이 다음으로 가는 곳에서 갈 수 있는 칸이 있는지
-    public boolean hasReachablePosition(Position from, TeamType teamType, final BoardMediator boardMediator) {
+    public boolean hasReachablePosition(Position from, final TeamType teamType, final BoardMediator boardMediator) {
         for (int distance = 1; distance <= maxDistance; distance++) {
-            from = calculateNextPosition(from, distance);
-            if (!hasPieceAt(from, boardMediator)) {
+            Position to = calculateNextPosition(from, distance);
+            if (!hasPieceAt(to, boardMediator)) {
                 return true;
             }
-            if (!boardMediator.isSameTeamType(from, teamType)) {
+            if (!boardMediator.isSameTeamType(to, teamType)) {
                 return true;
             }
         }
