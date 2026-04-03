@@ -1,10 +1,12 @@
 package janggi.view;
 
 import janggi.domain.PieceInfo;
+import janggi.domain.ScoreStatus;
 import janggi.domain.Side;
 import janggi.domain.piece.PieceType;
 
 public class OutputView {
+    private static final String SCORE_FORMAT = "한 점수: %d, 초 점수: %d%n";
     private static final int CELL_WIDTH = 5;
     private static final String EMPTY_CELL = ".";
     private static final String ANSI_RESET = "\u001B[0m";
@@ -23,6 +25,10 @@ public class OutputView {
 
     public static void printTurn(Side side) {
         System.out.println(TURN_PREFIX + side.getName());
+    }
+
+    public static void printScoreStatus(ScoreStatus scoreStatus) {
+        System.out.printf(SCORE_FORMAT, scoreStatus.hanScore(), scoreStatus.choScore());
     }
 
     public static void printWinner(Side winnerSide) {

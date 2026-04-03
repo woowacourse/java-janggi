@@ -128,6 +128,14 @@ class BoardInitializerTest {
         }
     }
 
+    @Test
+    void 진영별_초기_점수는_0으로_설정된다(){
+        Map<Side, Integer> scoresBySide = BoardInitializer.createScoresBySide();
+
+        assertThat(scoresBySide).containsEntry(Side.HAN, 0);
+        assertThat(scoresBySide).containsEntry(Side.CHO, 0);
+    }
+
     private static Stream<Arguments> choArrangementCases() {
         return Stream.of(
                 Arguments.of(Arrangement.MA_SANG_MA_SANG, List.of(Ma.class, Sang.class, Ma.class, Sang.class)),

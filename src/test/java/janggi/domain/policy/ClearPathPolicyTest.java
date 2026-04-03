@@ -1,6 +1,7 @@
 package janggi.domain.policy;
 
 import janggi.domain.PieceInfo;
+import janggi.domain.ScoreStatus;
 import janggi.domain.board.BaseBoard;
 import janggi.domain.Position;
 import janggi.domain.Side;
@@ -20,7 +21,7 @@ class ClearPathPolicyTest {
             }
 
             @Override
-            public boolean isEqualPieceType(Position position, PieceType pieceType){
+            public boolean isEqualPieceType(Position position, PieceType pieceType) {
                 return false;
             }
 
@@ -32,6 +33,11 @@ class ClearPathPolicyTest {
             @Override
             public PieceInfo[][] getCurrentBoard() {
                 return new PieceInfo[0][];
+            }
+
+            @Override
+            public ScoreStatus getScoreStatus() {
+                throw new UnsupportedOperationException("이 테스트에서는 getScoreStatus()를 호출하면 안 됩니다.");
             }
         };
     }

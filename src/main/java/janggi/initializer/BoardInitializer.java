@@ -87,6 +87,13 @@ public class BoardInitializer {
         return board;
     }
 
+    public static Map<Side, Integer> createScoresBySide(){
+        Map<Side, Integer> scoresBySide = new HashMap<>();
+        scoresBySide.put(Side.HAN, 0);
+        scoresBySide.put(Side.CHO, 0);
+        return scoresBySide;
+    }
+
     private static Map<Position, Piece> initBoard() {
         Map<Position, Piece> pieces = new HashMap<>();
         for (int i = Board.BOARD_START_ROWS; i <= Board.BOARD_END_ROWS; i++) {

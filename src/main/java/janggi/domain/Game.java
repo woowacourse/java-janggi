@@ -9,7 +9,9 @@ public class Game {
     private PlayerTurn playerTurn;
 
     public Game(Arrangement choArrangement, Arrangement hanArrangement) {
-        this.playerTurn = new ChoTurn(new Board(BoardInitializer.createBoard(choArrangement, hanArrangement)));
+        this.playerTurn = new ChoTurn(new Board(
+                BoardInitializer.createBoard(choArrangement, hanArrangement),
+                BoardInitializer.createScoresBySide()));
     }
 
     public void move(Position start, Position end) {
@@ -26,5 +28,9 @@ public class Game {
 
     public Side getCurrentSide() {
         return playerTurn.getCurrentSide();
+    }
+
+    public ScoreStatus getCurrentScoreStatus() {
+        return playerTurn.getCurrentScoreStatus();
     }
 }

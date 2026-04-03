@@ -2,6 +2,7 @@ package janggi.domain.turn;
 
 import janggi.domain.PieceInfo;
 import janggi.domain.Position;
+import janggi.domain.ScoreStatus;
 import janggi.domain.Side;
 
 public interface PlayerTurn {
@@ -12,4 +13,6 @@ public interface PlayerTurn {
     PieceInfo[][] getCurrentBoard();
 
     Side getCurrentSide();
+
+    ScoreStatus getCurrentScoreStatus();
 }

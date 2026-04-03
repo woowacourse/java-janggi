@@ -3,6 +3,7 @@ package janggi.domain.board;
 import janggi.domain.MoveResult;
 import janggi.domain.PieceInfo;
 import janggi.domain.Position;
+import janggi.domain.ScoreStatus;
 import janggi.domain.Side;
 import janggi.domain.piece.None;
 import janggi.domain.piece.Piece;
@@ -20,9 +21,11 @@ public class Board implements BaseBoard {
 
     private static final String INVALID_PIECE_SIDE_MESSAGE = "자기 진영의 기물만 움직일 수 있습니다.";
     private final Map<Position, Piece> board;
+    private final Map<Side, Integer> scoresBySide;
 
-    public Board(Map<Position, Piece> board) {
+    public Board(Map<Position, Piece> board, Map<Side, Integer> scoresBySide) {
         this.board = board;
+        this.scoresBySide = scoresBySide;
     }
 
     @Override
@@ -31,7 +34,7 @@ public class Board implements BaseBoard {
     }
 
     @Override
-    public boolean isEqualPieceType(Position position, PieceType pieceType){
+    public boolean isEqualPieceType(Position position, PieceType pieceType) {
         return board.get(position).isEqualPieceType(pieceType);
     }
 
@@ -53,6 +56,11 @@ public class Board implements BaseBoard {
         return currentBoard;
     }
 
+    @Override
+    public ScoreStatus getScoreStatus() {
+        return new ScoreStatus(scoresBySide.get(Side.HAN), scoresBySide.get(Side.CHO));
+    }
+
     public MoveResult move(Position start, Position end, Side side) {
         Piece startPiece = board.get(start);
         Piece targetPiece = board.get(end);
@@ -62,13 +70,19 @@ public class Board implements BaseBoard {
 
         List<Position> route = startPiece.findRoute(start, end);
         startPiece.validateRoute(route, this);
-
         movePiece(start, end, startPiece);
-        return targetPiece.capturedResult();
+
+        MoveResult moveResult = targetPiece.capturedResult();
+        updateScore(moveResult, side);
+        return moveResult;
     }
 
     private void movePiece(Position start, Position end, Piece startPiece) {
         board.put(end, startPiece);
         board.put(start, new None());
+    }
+
+    private void updateScore(MoveResult moveResult, Side side) {
+        scoresBySide.put(side, moveResult.getCapturedPieceScore());
     }
 }
