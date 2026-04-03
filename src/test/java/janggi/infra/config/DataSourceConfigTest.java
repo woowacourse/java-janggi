@@ -1,17 +1,17 @@
-package janggi.infra.util;
+package janggi.infra.config;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class DBConnectionUtilTest {
+class DataSourceConfigTest {
     
     @Test
     @DisplayName("DB Connection Test")
     public void getConnection() {
 
         // when then
-        Assertions.assertThatCode(DBConnectionUtil::getConnection)
+        Assertions.assertThatCode(() -> new DataSourceConfig().dataSource().getConnection())
                 .doesNotThrowAnyException();
 
     }

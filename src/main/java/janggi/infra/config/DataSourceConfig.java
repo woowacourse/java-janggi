@@ -1,13 +1,13 @@
-package janggi.infra.util;
+package janggi.infra.config;
 
+import org.h2.jdbcx.JdbcDataSource;
+
+import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.Properties;
 
-public class DBConnectionUtil {
+public class DataSourceConfig {
 
     private static final String URL;
     private static final String USERNAME;
@@ -15,7 +15,7 @@ public class DBConnectionUtil {
 
     static {
         Properties properties = new Properties();
-        InputStream inputStream = DBConnectionUtil.class.getClassLoader()
+        InputStream inputStream = DataSourceConfig.class.getClassLoader()
                 .getResourceAsStream("application.properties");
         try {
             properties.load(inputStream);
@@ -27,11 +27,12 @@ public class DBConnectionUtil {
         }
     }
 
-    public static Connection getConnection() {
-        try {
-            return DriverManager.getConnection(URL, USERNAME, PASSWORD);
-        } catch (SQLException e) {
-            throw new IllegalStateException(e);
-        }
+    public DataSource dataSource() {
+        JdbcDataSource jdbcDataSource = new JdbcDataSource();
+        jdbcDataSource.setURL(URL);
+        jdbcDataSource.setUser(USERNAME);
+        jdbcDataSource.setPassword(PASSWORD);
+
+        return jdbcDataSource;
     }
 }
