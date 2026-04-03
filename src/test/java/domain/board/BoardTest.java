@@ -21,11 +21,7 @@ class BoardTest {
         Position before = new Position(1, 1);
         Position after = new Position(2, 1);
         FullPiece piece = new Cha(Side.HAN);
-
-        Map<Position, Piece> beforePieces = new HashMap<>();
-        beforePieces.put(before, piece);
-        beforePieces.put(after, new EmptyPiece());
-        Board beforeBoard = new Board(beforePieces);
+        Board beforeBoard = boardWith(before, piece, after, new EmptyPiece());
         // when
         Board afterBoard = beforeBoard.move(before, after);
         // then
@@ -39,11 +35,7 @@ class BoardTest {
         Position before = new Position(1, 1);
         Position after = new Position(2, 1);
         FullPiece piece = new Cha(Side.HAN);
-
-        Map<Position, Piece> beforePieces = new HashMap<>();
-        beforePieces.put(before, piece);
-        beforePieces.put(after, new EmptyPiece());
-        Board beforeBoard = new Board(beforePieces);
+        Board beforeBoard = boardWith(before, piece, after, new EmptyPiece());
         // when
         Board afterBoard = beforeBoard.move(before, after);
         // then
@@ -58,18 +50,14 @@ class BoardTest {
         Position destination = new Position(2, 1);
         FullPiece departurePiece = new Cha(Side.HAN);
         FullPiece destinationPiece = new Cha(Side.CHO);
-
-        Map<Position, Piece> beforePieces = new HashMap<>();
-        beforePieces.put(departure, departurePiece);
-        beforePieces.put(destination, destinationPiece);
-        Board beforeBoard = new Board(beforePieces);
+        Board beforeBoard = boardWith(departure, departurePiece, destination, destinationPiece);
         // when
         Board afterBoard = beforeBoard.move(departure, destination);
         // then
         Map<Position, Piece> afterPieces = afterBoard.pieces();
         Optional<Piece> deletedPiece = afterPieces.values().stream()
-            .filter(piece -> piece.equals(destinationPiece))
-            .findAny();
+                .filter(piece -> piece.equals(destinationPiece))
+                .findAny();
         assertThat(deletedPiece.isEmpty()).isTrue();
     }
 
@@ -88,5 +76,13 @@ class BoardTest {
         expected.putAll(choPieces);
         expected.putAll(hanPieces);
         assertThat(mergedBoard.pieces()).isEqualTo(expected);
+    }
+
+    private Board boardWith(Position firstPosition, Piece firstPiece,
+                            Position secondPosition, Piece secondPiece) {
+        Map<Position, Piece> pieces = new HashMap<>();
+        pieces.put(firstPosition, firstPiece);
+        pieces.put(secondPosition, secondPiece);
+        return new Board(pieces);
     }
 }
