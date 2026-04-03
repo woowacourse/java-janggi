@@ -5,7 +5,8 @@ public enum RepositoryErrorMessage {
     ERROR_ON_CONFIG_FILE_READING("DB 정보를 읽어오는데 실패하였습니다"),
     NOT_FOUND("일치하는 Entity가 존재하지 않습니다"),
     NOT_SINGLE_RESULT("조회 값이 1개가 아닙니다"),
-    BATCH_ERROR("배치 쿼리 실행 중 오류가 발생했습니다.");
+    BATCH_ERROR("배치 쿼리 실행 중 오류가 발생했습니다."),
+    FAIL_SAVE_ENTITY("Entity 저장에 실패하였습니다");
 
     private final String message;
 
