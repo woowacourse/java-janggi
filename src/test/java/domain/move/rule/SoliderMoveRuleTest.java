@@ -11,7 +11,7 @@ import domain.piece.PieceType;
 import domain.piece.Team;
 import domain.move.directions.Vector;
 import domain.point.Point;
-import fixture.TestIntersectionGenerator;
+import fixture.JanggiBoardFixture;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -24,6 +24,36 @@ import static domain.move.path.exception.PathError.CANNOT_MOVE_DESTINATION_IS_SA
 
 class SoliderMoveRuleTest {
 
+    final Team teamHan = Team.HAN;
+    final Team teamCho = Team.CHO;
+
+    final Piece soliderHan = new Piece(Team.HAN, PieceType.SOLDIER);
+    final Piece soliderCho = new Piece(Team.CHO, PieceType.SOLDIER);
+
+    final Point centerPointHan = new Point(1, 4);
+    final Point leftTopPointHan = new Point(0, 3);
+    final Point leftBottomPointHan = new Point(2, 3);
+    final Point rightTopPointHan = new Point(0, 5);
+    final Point rightBottomPointHan = new Point(2, 5);
+
+    final Point centerPointCho = new Point(8, 4);
+    final Point leftTopPointCho = new Point(7, 3);
+    final Point leftBottomPointCho = new Point(9, 3);
+    final Point rightTopPointCho = new Point(7, 5);
+    final Point rightBottomPointCho = new Point(9, 5);
+
+    final Intersection centerHan = CenterPalace.empty(centerPointHan);
+    final Intersection leftTopHan = LeftTopPalace.empty(leftTopPointHan);
+    final Intersection leftBottomHan = LeftBottomPalace.empty(leftBottomPointHan);
+    final Intersection rightTopHan = RightTopPalace.empty(rightTopPointHan);
+    final Intersection rightBottomHan = RightBottomPalace.empty(rightBottomPointHan);
+
+    final Intersection centerCho = CenterPalace.empty(centerPointCho);
+    final Intersection leftTopCho = LeftTopPalace.empty(leftTopPointCho);
+    final Intersection leftBottomCho = LeftBottomPalace.empty(leftBottomPointCho);
+    final Intersection rightTopCho = RightTopPalace.empty(rightTopPointCho);
+    final Intersection rightBottomCho = RightBottomPalace.empty(rightBottomPointCho);
+
     @Test
     @DisplayName("도착지에 같은 팀이 있는 경우 예외가 발생한다.")
     void shouldThrowExceptionWhenDestinationIsSameTeam() {
@@ -31,9 +61,8 @@ class SoliderMoveRuleTest {
         Point start = new Point(0, 0);
         Point end = new Point(1, 0);
 
-        Team sameTeam = Team.HAN;
-        Piece soldier = new Piece(sameTeam, PieceType.SOLDIER);
-        Piece sameTeamPiece = new Piece(sameTeam, PieceType.SOLDIER);
+        Piece soldier = new Piece(teamHan, PieceType.SOLDIER);
+        Piece sameTeamPiece = new Piece(teamHan, PieceType.SOLDIER);
 
         Intersection origin = new Intersection(start, soldier);
         Intersection sameTeamDestination = new Intersection(end, sameTeamPiece);
@@ -59,18 +88,16 @@ class SoliderMoveRuleTest {
         Point start = new Point(0, 0);
         Point end = start.next(Vector.DOWN);
 
-        Team sameTeam = Team.HAN;
-        Team anotherTeam = Team.CHO;
-        Piece soldier = new Piece(sameTeam, PieceType.SOLDIER);
-        Piece anotherTeamPiece = new Piece(anotherTeam, PieceType.SOLDIER);
+        Piece soldier = new Piece(teamHan, PieceType.SOLDIER);
+        Piece anotherTeamPiece = new Piece(teamCho, PieceType.SOLDIER);
 
         Intersection origin = new Intersection(start, soldier);
         Intersection destination = new Intersection(end, anotherTeamPiece);
         Intersection expected = new Intersection(end, soldier);
-        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(origin, destination)));
+        JanggiBoard janggiBoard = JanggiBoardFixture.generate(origin, destination);
 
         // when
-        janggiBoard.tryToMove(start, end, Team.HAN);
+        janggiBoard.tryToMove(start, end, teamHan);
         Intersection actual = janggiBoard.findIntersection(end);
 
         // then
@@ -85,19 +112,17 @@ class SoliderMoveRuleTest {
         Point start = new Point(1, 0);
         Point end = start.next(Vector.UP);
 
-        Team sameTeam = Team.CHO;
-        Team anotherTeam = Team.HAN;
-        Piece soldier = new Piece(sameTeam, PieceType.SOLDIER);
-        Piece anotherTeamPiece = new Piece(anotherTeam, PieceType.SOLDIER);
+        Piece soldier = new Piece(teamCho, PieceType.SOLDIER);
+        Piece anotherTeamPiece = new Piece(teamHan, PieceType.SOLDIER);
 
         Intersection origin = new Intersection(start, soldier);
         Intersection destination = new Intersection(end, anotherTeamPiece);
         Intersection expected = new Intersection(end, soldier);
 
-        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(origin, destination)));
+        JanggiBoard janggiBoard = JanggiBoardFixture.generate(origin, destination);
 
         // when
-        janggiBoard.tryToMove(start, end, Team.CHO);
+        janggiBoard.tryToMove(start, end, teamCho);
         Intersection actual = janggiBoard.findIntersection(end);
 
         // then
@@ -111,20 +136,14 @@ class SoliderMoveRuleTest {
         // given
         Point start = new Point(1, 0);
         Point end = start.next(Vector.DOWN);
-
-        Team sameTeam = Team.CHO;
-        Piece soldier = new Piece(sameTeam, PieceType.SOLDIER);
+        Piece soldier = new Piece(teamCho, PieceType.SOLDIER);
 
         Intersection origin = new NormalIntersection(start, soldier);
         Intersection destination = NormalIntersection.empty(end);
-
-        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
-                origin,
-                destination))
-        );
+        JanggiBoard janggiBoard = JanggiBoardFixture.generate(origin, destination);
 
         // when & then
-        Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(start, end, sameTeam))
+        Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(start, end, teamCho))
                 .isInstanceOf(DirectionException.class)
                 .hasMessage(INVALID_DIRECTION.getMessage());
     }
@@ -135,20 +154,14 @@ class SoliderMoveRuleTest {
         // given
         Point start = new Point(1, 0);
         Point end = start.next(Vector.UP);
-
-        Team sameTeam = Team.HAN;
-        Piece soldier = new Piece(sameTeam, PieceType.SOLDIER);
+        Piece soldier = new Piece(teamHan, PieceType.SOLDIER);
 
         Intersection origin = new NormalIntersection(start, soldier);
         Intersection destination = NormalIntersection.empty(end);
-
-        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
-                origin,
-                destination))
-        );
+        JanggiBoard janggiBoard = JanggiBoardFixture.generate(origin, destination);
 
         // when & then
-        Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(start, end, sameTeam))
+        Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(start, end, teamHan))
                 .isInstanceOf(DirectionException.class)
                 .hasMessage(INVALID_DIRECTION.getMessage());
     }
@@ -161,26 +174,15 @@ class SoliderMoveRuleTest {
         @DisplayName("졸병(한)은 좌상(7, 3)에서 가운데(8, 4)로 이동할 수 있다.")
         void soliderOfHanCanMoveRightDownOnceWhenSoliderInLeftTopPalace() {
             // given
-            Team han = Team.HAN;
-            Piece solider = new Piece(han, PieceType.SOLDIER);
-
-            Point leftTopPoint = new Point(7, 3);
-            Point centerPoint = leftTopPoint.next(Vector.RIGHT_DOWN);
-
-            Intersection leftBottomPalace = new LeftTopPalace(leftTopPoint, solider);
-            Intersection centerPalace = CenterPalace.empty(centerPoint);
-            Intersection expected = new CenterPalace(centerPoint, solider);
-
-            JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
-                    leftBottomPalace,
-                    centerPalace
-            )));
+            Intersection leftTopPalace = new LeftTopPalace(leftTopPointCho, soliderHan);
+            Intersection expected = new CenterPalace(centerPointCho, soliderHan);
+            JanggiBoard janggiBoard = JanggiBoardFixture.generate(leftTopPalace, centerCho);
 
             // when
-            janggiBoard.tryToMove(leftTopPoint, centerPoint, han);
+            janggiBoard.tryToMove(leftTopPointCho, centerPointCho, teamHan);
 
             // then
-            Assertions.assertThat(janggiBoard.findIntersection(centerPoint))
+            Assertions.assertThat(janggiBoard.findIntersection(centerPointCho))
                     .isEqualTo(expected);
         }
 
@@ -188,26 +190,15 @@ class SoliderMoveRuleTest {
         @DisplayName("졸병(한)은 우상(7, 5)에서 가운데(8, 4)로 이동할 수 있다.")
         void soliderOfHanCanMoveLeftDownOnceWhenSoliderInRightTopPalace() {
             // given
-            Team han = Team.HAN;
-            Piece solider = new Piece(han, PieceType.SOLDIER);
-
-            Point rightTopPoint = new Point(7, 5);
-            Point centerPoint = rightTopPoint.next(Vector.LEFT_DOWN);
-
-            Intersection leftBottomPalace = new RightTopPalace(rightTopPoint, solider);
-            Intersection centerPalace = CenterPalace.empty(centerPoint);
-            Intersection expected = new CenterPalace(centerPoint, solider);
-
-            JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
-                    leftBottomPalace,
-                    centerPalace
-            )));
+            Intersection rightTopPalace = new RightTopPalace(rightTopPointCho, soliderHan);
+            Intersection expected = new CenterPalace(centerPointCho, soliderHan);
+            JanggiBoard janggiBoard = JanggiBoardFixture.generate(rightTopPalace, centerCho);
 
             // when
-            janggiBoard.tryToMove(rightTopPoint, centerPoint, han);
+            janggiBoard.tryToMove(rightTopPointCho, centerPointCho, teamHan);
 
             // then
-            Assertions.assertThat(janggiBoard.findIntersection(centerPoint))
+            Assertions.assertThat(janggiBoard.findIntersection(centerPointCho))
                     .isEqualTo(expected);
         }
 
@@ -215,26 +206,15 @@ class SoliderMoveRuleTest {
         @DisplayName("졸병(한)은 가운데(8, 4)에서 좌하(9, 3)로 이동할 수 있다.")
         void soliderOfHanCanMoveLeftDownOnceWhenSoliderInCenterPalace() {
             // given
-            Team han = Team.HAN;
-            Piece solider = new Piece(han, PieceType.SOLDIER);
-
-            Point centerPoint = new Point(8, 4);
-            Point leftBottomPoint = centerPoint.next(Vector.LEFT_DOWN);
-
-            Intersection centerPalace = new CenterPalace(centerPoint, solider);
-            Intersection leftBottomPalace = LeftBottomPalace.empty(leftBottomPoint);
-            Intersection expected = new LeftBottomPalace(leftBottomPoint, solider);
-
-            JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
-                    centerPalace,
-                    leftBottomPalace
-            )));
+            Intersection centerPalace = new CenterPalace(centerPointCho, soliderHan);
+            Intersection expected = new LeftBottomPalace(leftBottomPointCho, soliderHan);
+            JanggiBoard janggiBoard = JanggiBoardFixture.generate(centerPalace, leftBottomCho);
 
             // when
-            janggiBoard.tryToMove(centerPoint, leftBottomPoint, han);
+            janggiBoard.tryToMove(centerPointCho, leftBottomPointCho, teamHan);
 
             // then
-            Assertions.assertThat(janggiBoard.findIntersection(leftBottomPoint))
+            Assertions.assertThat(janggiBoard.findIntersection(leftBottomPointCho))
                     .isEqualTo(expected);
         }
 
@@ -242,26 +222,15 @@ class SoliderMoveRuleTest {
         @DisplayName("졸병(한)은 가운데(8, 4)에서 우하(9, 5)에서 으로 이동할 수 있다.")
         void soliderOfHanCanMoveRightDownOnceWhenSoliderInCenterPalace() {
             // given
-            Team han = Team.HAN;
-            Piece solider = new Piece(han, PieceType.SOLDIER);
-
-            Point centerPoint = new Point(8, 4);
-            Point rightBottomPoint = centerPoint.next(Vector.RIGHT_DOWN);
-
-            Intersection centerPalace = new CenterPalace(centerPoint, solider);
-            Intersection leftBottomPalace = RightBottomPalace.empty(rightBottomPoint);
-            Intersection expected = new RightBottomPalace(rightBottomPoint, solider);
-
-            JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
-                    centerPalace,
-                    leftBottomPalace
-            )));
+            Intersection centerPalace = new CenterPalace(centerPointCho, soliderHan);
+            Intersection expected = new RightBottomPalace(rightBottomPointCho, soliderHan);
+            JanggiBoard janggiBoard = JanggiBoardFixture.generate(centerPalace, rightBottomCho);
 
             // when
-            janggiBoard.tryToMove(centerPoint, rightBottomPoint, han);
+            janggiBoard.tryToMove(centerPointCho, rightBottomPointCho, teamHan);
 
             // then
-            Assertions.assertThat(janggiBoard.findIntersection(rightBottomPoint))
+            Assertions.assertThat(janggiBoard.findIntersection(rightBottomPointCho))
                     .isEqualTo(expected);
         }
 
@@ -275,22 +244,11 @@ class SoliderMoveRuleTest {
         @DisplayName("졸병(한)이 좌하(9, 3)에서 가운데(8, 4)으로 이동할 경우 예외가 발생한다.")
         void shouldThrowExceptionWhenSoliderOfHanMoveFromLeftBottomPalaceToCenterPalace() {
             // given
-            Team han = Team.HAN;
-            Piece solider = new Piece(han, PieceType.SOLDIER);
-
-            Point leftBottomPoint = new Point(9, 3);
-            Point centerPoint = leftBottomPoint.next(Vector.RIGHT_UP);
-
-            Intersection leftBottomPalace = new LeftBottomPalace(leftBottomPoint, solider);
-            Intersection centerPalace = CenterPalace.empty(centerPoint);
-
-            JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
-                    leftBottomPalace,
-                    centerPalace
-            )));
+            Intersection leftBottomPalace = new LeftBottomPalace(leftBottomPointCho, soliderHan);
+            JanggiBoard janggiBoard = JanggiBoardFixture.generate(leftBottomPalace, centerCho);
 
             // when & then
-            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(leftBottomPoint, centerPoint, han))
+            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(leftBottomPointCho, centerPointCho, teamHan))
                     .isInstanceOf(DirectionException.class)
                     .hasMessage(INVALID_DIRECTION.getMessage());
         }
@@ -299,22 +257,11 @@ class SoliderMoveRuleTest {
         @DisplayName("졸병(한)이 우하(9, 5)에서 가운데(8, 4)으로 이동할 경우 예외가 발생한다.")
         void shouldThrowExceptionWhenSoliderOfHanMoveFromRightBottomPalaceToCenterPalace() {
             // given
-            Team han = Team.HAN;
-            Piece solider = new Piece(han, PieceType.SOLDIER);
-
-            Point rightBottomPoint = new Point(9, 5);
-            Point centerPoint = rightBottomPoint.next(Vector.LEFT_UP);
-
-            Intersection rightBottomPalace = new RightBottomPalace(rightBottomPoint, solider);
-            Intersection centerPalace = CenterPalace.empty(centerPoint);
-
-            JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
-                    rightBottomPalace,
-                    centerPalace
-            )));
+            Intersection rightBottomPalace = new RightBottomPalace(rightBottomPointCho, soliderHan);
+            JanggiBoard janggiBoard = JanggiBoardFixture.generate(rightBottomPalace, centerCho);
 
             // when & then
-            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(rightBottomPoint, centerPoint, han))
+            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(rightBottomPointCho, centerPointCho, teamHan))
                     .isInstanceOf(DirectionException.class)
                     .hasMessage(INVALID_DIRECTION.getMessage());
         }
@@ -323,22 +270,11 @@ class SoliderMoveRuleTest {
         @DisplayName("졸병(한)이 가운데(8, 4)에서 좌상(7, 3)으로 이동할 경우 예외가 발생한다.")
         void shouldThrowExceptionWhenSoliderOfHanMoveFromCenterPalaceToLeftTopPalace() {
             // given
-            Team han = Team.HAN;
-            Piece solider = new Piece(han, PieceType.SOLDIER);
-
-            Point centerPoint = new Point(8, 4);
-            Point leftTopPoint = centerPoint.next(Vector.LEFT_UP);
-
-            Intersection centerPalace = new CenterPalace(centerPoint, solider);
-            Intersection leftTopPalace = LeftTopPalace.empty(leftTopPoint);
-
-            JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
-                    centerPalace,
-                    leftTopPalace
-            )));
+            Intersection centerPalace = new CenterPalace(centerPointCho, soliderHan);
+            JanggiBoard janggiBoard = JanggiBoardFixture.generate(centerPalace, leftTopCho);
 
             // when & then
-            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(centerPoint, leftTopPoint, han))
+            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(centerPointCho, leftTopPointCho, teamHan))
                     .isInstanceOf(DirectionException.class)
                     .hasMessage(INVALID_DIRECTION.getMessage());
         }
@@ -347,22 +283,11 @@ class SoliderMoveRuleTest {
         @DisplayName("졸병(한)이 가운데(8, 4)에서 우상(7, 5)으로 이동할 경우 예외가 발생한다.")
         void shouldThrowExceptionWhenSoliderOfHanMoveFromCenterPalaceToRightTopPalace() {
             // given
-            Team han = Team.HAN;
-            Piece solider = new Piece(han, PieceType.SOLDIER);
-
-            Point centerPoint = new Point(8, 4);
-            Point rightUpPoint = centerPoint.next(Vector.RIGHT_UP);
-
-            Intersection centerPalace = new CenterPalace(centerPoint, solider);
-            Intersection rightTopPalace = RightTopPalace.empty(rightUpPoint);
-
-            JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
-                    centerPalace,
-                    rightTopPalace
-            )));
+            Intersection centerPalace = new CenterPalace(centerPointCho, soliderHan);
+            JanggiBoard janggiBoard = JanggiBoardFixture.generate(centerPalace, rightTopCho);
 
             // when & then
-            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(centerPoint, rightUpPoint, han))
+            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(centerPointCho, rightTopPointCho, teamHan))
                     .isInstanceOf(DirectionException.class)
                     .hasMessage(INVALID_DIRECTION.getMessage());
         }
@@ -377,26 +302,15 @@ class SoliderMoveRuleTest {
         @DisplayName("졸병(초)은 좌하(2, 3)에서 가운데(1, 4)로 이동할 수 있다.")
         void soliderOfChoCanMoveRightUpOnceWhenSoliderInLeftTopPalace() {
             // given
-            Team cho = Team.CHO;
-            Piece solider = new Piece(cho, PieceType.SOLDIER);
-
-            Point leftBottomPoint = new Point(2, 3);
-            Point centerPoint = leftBottomPoint.next(Vector.RIGHT_UP);
-
-            Intersection leftBottomPalace = new LeftBottomPalace(leftBottomPoint, solider);
-            Intersection centerPalace = CenterPalace.empty(centerPoint);
-            Intersection expected = new CenterPalace(centerPoint, solider);
-
-            JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
-                    leftBottomPalace,
-                    centerPalace
-            )));
+            Intersection leftBottomPalace = new LeftBottomPalace(leftBottomPointHan, soliderCho);
+            Intersection expected = new CenterPalace(centerPointHan, soliderCho);
+            JanggiBoard janggiBoard = JanggiBoardFixture.generate(leftBottomPalace, centerHan);
 
             // when
-            janggiBoard.tryToMove(leftBottomPoint, centerPoint, cho);
+            janggiBoard.tryToMove(leftBottomPointHan, centerPointHan, teamCho);
 
             // then
-            Assertions.assertThat(janggiBoard.findIntersection(centerPoint))
+            Assertions.assertThat(janggiBoard.findIntersection(centerPointHan))
                     .isEqualTo(expected);
         }
 
@@ -404,26 +318,15 @@ class SoliderMoveRuleTest {
         @DisplayName("졸병(초)은 우하(2, 5)에서 가운데(1, 4)로 이동할 수 있다.")
         void soliderOfChoCanMoveLeftDownOnceWhenSoliderInRightTopPalace() {
             // given
-            Team cho = Team.CHO;
-            Piece solider = new Piece(cho, PieceType.SOLDIER);
-
-            Point rightBottomPoint = new Point(2, 5);
-            Point centerPoint = rightBottomPoint.next(Vector.LEFT_UP);
-
-            Intersection rightBottomPalace = new RightBottomPalace(rightBottomPoint, solider);
-            Intersection centerPalace = CenterPalace.empty(centerPoint);
-            Intersection expected = new CenterPalace(centerPoint, solider);
-
-            JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
-                    rightBottomPalace,
-                    centerPalace
-            )));
+            Intersection rightBottomPalace = new RightBottomPalace(rightBottomPointHan, soliderCho);
+            Intersection expected = new CenterPalace(centerPointHan, soliderCho);
+            JanggiBoard janggiBoard = JanggiBoardFixture.generate(rightBottomPalace, centerHan);
 
             // when
-            janggiBoard.tryToMove(rightBottomPoint, centerPoint, cho);
+            janggiBoard.tryToMove(rightBottomPointHan, centerPointHan, teamCho);
 
             // then
-            Assertions.assertThat(janggiBoard.findIntersection(centerPoint))
+            Assertions.assertThat(janggiBoard.findIntersection(centerPointHan))
                     .isEqualTo(expected);
         }
 
@@ -431,26 +334,15 @@ class SoliderMoveRuleTest {
         @DisplayName("졸병(초)은 가운데(1, 4)에서 좌상(0, 3)로 이동할 수 있다.")
         void soliderOfChoCanMoveLeftDownOnceWhenSoliderInCenterPalace() {
             // given
-            Team cho = Team.CHO;
-            Piece solider = new Piece(cho, PieceType.SOLDIER);
-
-            Point centerPoint = new Point(1, 4);
-            Point leftTopPoint = centerPoint.next(Vector.LEFT_UP);
-
-            Intersection centerPalace = new CenterPalace(centerPoint, solider);
-            Intersection leftTopPalace = LeftTopPalace.empty(leftTopPoint);
-            Intersection expected = new LeftTopPalace(leftTopPoint, solider);
-
-            JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
-                    centerPalace,
-                    leftTopPalace
-            )));
+            Intersection centerPalace = new CenterPalace(centerPointHan, soliderCho);
+            Intersection expected = new LeftTopPalace(leftTopPointHan, soliderCho);
+            JanggiBoard janggiBoard = JanggiBoardFixture.generate(centerPalace, leftTopHan);
 
             // when
-            janggiBoard.tryToMove(centerPoint, leftTopPoint, cho);
+            janggiBoard.tryToMove(centerPointHan, leftTopPointHan, teamCho);
 
             // then
-            Assertions.assertThat(janggiBoard.findIntersection(leftTopPoint))
+            Assertions.assertThat(janggiBoard.findIntersection(leftTopPointHan))
                     .isEqualTo(expected);
         }
 
@@ -458,26 +350,15 @@ class SoliderMoveRuleTest {
         @DisplayName("졸병(초)은 가운데(1, 4)에서 우상(0, 5)에서 으로 이동할 수 있다.")
         void soliderOfChoCanMoveRightDownOnceWhenSoliderInCenterPalace() {
             // given
-            Team cho = Team.CHO;
-            Piece solider = new Piece(cho, PieceType.SOLDIER);
-
-            Point centerPoint = new Point(1, 4);
-            Point rightTopPoint = centerPoint.next(Vector.RIGHT_UP);
-
-            Intersection centerPalace = new CenterPalace(centerPoint, solider);
-            Intersection rightTopPalace = RightTopPalace.empty(rightTopPoint);
-            Intersection expected = new RightTopPalace(rightTopPoint, solider);
-
-            JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
-                    centerPalace,
-                    rightTopPalace
-            )));
+            Intersection centerPalace = new CenterPalace(centerPointHan, soliderCho);
+            Intersection expected = new RightTopPalace(rightTopPointHan, soliderCho);
+            JanggiBoard janggiBoard = JanggiBoardFixture.generate(centerPalace, rightTopHan);
 
             // when
-            janggiBoard.tryToMove(centerPoint, rightTopPoint, cho);
+            janggiBoard.tryToMove(centerPointHan, rightTopPointHan, teamCho);
 
             // then
-            Assertions.assertThat(janggiBoard.findIntersection(rightTopPoint))
+            Assertions.assertThat(janggiBoard.findIntersection(rightTopPointHan))
                     .isEqualTo(expected);
         }
 
@@ -491,22 +372,11 @@ class SoliderMoveRuleTest {
         @DisplayName("졸병(초)은 좌상(0, 3)에서 가운데(1, 4)로 이동하면 예외가 발생한다.")
         void shouldThrowExceptionWhenSoliderOfChoMoveFromLeftTopToCenter() {
             // given
-            Team cho = Team.CHO;
-            Piece solider = new Piece(cho, PieceType.SOLDIER);
-
-            Point leftTopPoint = new Point(0, 3);
-            Point centerPoint = leftTopPoint.next(Vector.RIGHT_DOWN);
-
-            Intersection leftTopPalace = new LeftTopPalace(leftTopPoint, solider);
-            Intersection centerPalace = CenterPalace.empty(centerPoint);
-
-            JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
-                    leftTopPalace,
-                    centerPalace
-            )));
+            Intersection leftTopPalace = new LeftTopPalace(leftTopPointHan, soliderCho);
+            JanggiBoard janggiBoard = JanggiBoardFixture.generate(leftTopPalace, centerHan);
 
             // when & then
-            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(leftTopPoint, centerPoint, cho))
+            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(leftTopPointHan, centerPointHan, teamCho))
                     .isInstanceOf(DirectionException.class)
                     .hasMessage(INVALID_DIRECTION.getMessage());
         }
@@ -515,22 +385,11 @@ class SoliderMoveRuleTest {
         @DisplayName("졸병(초)은 우상(0, 5)에서 가운데(1, 4)로 이동하면 예외가 발생한다.")
         void shouldThrowExceptionWhenSoliderOfChoMoveFromRightTopToCenter() {
             // given
-            Team cho = Team.CHO;
-            Piece solider = new Piece(cho, PieceType.SOLDIER);
-
-            Point rightTopPoint = new Point(0, 5);
-            Point centerPoint = rightTopPoint.next(Vector.LEFT_DOWN);
-
-            Intersection rightTopPalace = new RightTopPalace(rightTopPoint, solider);
-            Intersection centerPalace = CenterPalace.empty(centerPoint);
-
-            JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
-                    rightTopPalace,
-                    centerPalace
-            )));
+            Intersection rightTopPalace = new RightTopPalace(rightTopPointHan, soliderCho);
+            JanggiBoard janggiBoard = JanggiBoardFixture.generate(rightTopPalace, centerHan);
 
             // when & then
-            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(rightTopPoint, centerPoint, cho))
+            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(rightTopPointHan, centerPointHan, teamCho))
                     .isInstanceOf(DirectionException.class)
                     .hasMessage(INVALID_DIRECTION.getMessage());
         }
@@ -539,22 +398,11 @@ class SoliderMoveRuleTest {
         @DisplayName("졸병(초)은 가운데(1, 4)에서 좌하(0, 3)로 이동하면 예외가 발생한다.")
         void soliderOfChoCanMoveLeftDownOnceWhenSoliderInCenterPalace() {
             // given
-            Team cho = Team.CHO;
-            Piece solider = new Piece(cho, PieceType.SOLDIER);
-
-            Point centerPoint = new Point(1, 4);
-            Point leftBottomPoint = centerPoint.next(Vector.LEFT_DOWN);
-
-            Intersection centerPalace = new CenterPalace(centerPoint, solider);
-            Intersection leftBottomPalace = LeftBottomPalace.empty(leftBottomPoint);
-
-            JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
-                    centerPalace,
-                    leftBottomPalace
-            )));
+            Intersection centerPalace = new CenterPalace(centerPointHan, soliderCho);
+            JanggiBoard janggiBoard = JanggiBoardFixture.generate(centerPalace, leftBottomHan);
 
             // when & then
-            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(centerPoint, leftBottomPoint, cho))
+            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(centerPointHan, leftBottomPointHan, teamCho))
                     .isInstanceOf(DirectionException.class)
                     .hasMessage(INVALID_DIRECTION.getMessage());
         }
@@ -563,22 +411,11 @@ class SoliderMoveRuleTest {
         @DisplayName("졸병(초)은 가운데(1, 4)에서 우하(2, 5)로 이동하면 예외가 발생한다.")
         void soliderOfChoCanMoveRightDownOnceWhenSoliderInCenterPalace() {
             // given
-            Team cho = Team.CHO;
-            Piece solider = new Piece(cho, PieceType.SOLDIER);
-
-            Point centerPoint = new Point(1, 4);
-            Point rightBottomPoint = centerPoint.next(Vector.RIGHT_DOWN);
-
-            Intersection centerPalace = new CenterPalace(centerPoint, solider);
-            Intersection rightBottomPalace = RightBottomPalace.empty(rightBottomPoint);
-
-            JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
-                    centerPalace,
-                    rightBottomPalace
-            )));
+            Intersection centerPalace = new CenterPalace(centerPointHan, soliderCho);
+            JanggiBoard janggiBoard = JanggiBoardFixture.generate(centerPalace, rightBottomHan);
 
             // when & then
-            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(centerPoint, rightBottomPoint, cho))
+            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(centerPointHan, rightBottomPointHan, teamCho))
                     .isInstanceOf(DirectionException.class)
                     .hasMessage(INVALID_DIRECTION.getMessage());
         }
