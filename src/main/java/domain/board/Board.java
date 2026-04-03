@@ -134,6 +134,11 @@ public class Board {
                 .max()
                 .orElse(MIN_POSITION);
 
+
+        return getBoard(mapper, maxRow, maxCol);
+    }
+
+    private <T> List<List<T>> getBoard(Function<Place, T> mapper, int maxRow, int maxCol) {
         List<List<T>> result = new ArrayList<>();
 
         for (int row = MIN_POSITION; row <= maxRow; row++) {
