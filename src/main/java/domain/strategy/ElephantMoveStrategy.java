@@ -1,15 +1,15 @@
 package domain.strategy;
 
-import domain.moverule.ElephantMoveRule;
+import domain.MoveRoute;
 import domain.Position;
-import java.util.Arrays;
+import domain.moverule.ElephantMoveRule;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ElephantMoveStrategy extends MoveStrategy {
 
-    private Map<Position, List<Position>> moves;
+    private final Map<Position, List<Position>> moves;
 
     public ElephantMoveStrategy(Position position) {
         super(position);
@@ -33,11 +33,8 @@ public class ElephantMoveStrategy extends MoveStrategy {
     }
 
     private Map<Position, List<Position>> setupDestinationAndRoutes() {
-        return Arrays.stream(ElephantMoveRule.values())
-                .collect(Collectors.toMap(
-                                elephantMoveRule -> elephantMoveRule.destination(position),
-                                elephantMoveRule -> elephantMoveRule.route(position)
-                        )
-                );
+        return ElephantMoveRule.moveRoutesOf(position)
+                .stream()
+                .collect(Collectors.toMap(MoveRoute::destination, MoveRoute::route));
     }
 }

@@ -1,15 +1,15 @@
 package domain.strategy;
 
-import domain.moverule.HorseMoveRule;
+import domain.MoveRoute;
 import domain.Position;
-import java.util.Arrays;
+import domain.moverule.HorseMoveRule;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class HorseMoveStrategy extends MoveStrategy {
 
-    private Map<Position, List<Position>> moves;
+    private final Map<Position, List<Position>> moves;
 
     HorseMoveStrategy(Position position) {
         super(position);
@@ -33,11 +33,8 @@ public class HorseMoveStrategy extends MoveStrategy {
     }
 
     private Map<Position, List<Position>> setupDestinationAndRoutes() {
-        return Arrays.stream(HorseMoveRule.values())
-                .collect(Collectors.toMap(
-                        horseMoveRule -> horseMoveRule.destination(position),
-                        horseMoveRule -> horseMoveRule.route(position)
-                        )
-                );
+        return HorseMoveRule.moveRoutesOf(position)
+                .stream()
+                .collect(Collectors.toMap(MoveRoute::destination, MoveRoute::route));
     }
 }

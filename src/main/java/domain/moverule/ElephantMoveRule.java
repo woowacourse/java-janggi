@@ -1,7 +1,9 @@
 package domain.moverule;
 
+import domain.MoveRoute;
 import domain.MoveRules;
 import domain.Position;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.UnaryOperator;
 
@@ -24,6 +26,16 @@ public enum ElephantMoveRule implements MoveRules {
 
     ElephantMoveRule(List<UnaryOperator<Position>> moveSteps) {
         this.moveSteps = moveSteps;
+    }
+
+    public static List<MoveRoute> moveRoutesOf(Position currentPosition) {
+        return Arrays.stream(ElephantMoveRule.values())
+                .map(rule -> moveRoutesFrom(currentPosition, rule))
+                .toList();
+    }
+
+    private static MoveRoute moveRoutesFrom(Position currentPosition, ElephantMoveRule rule) {
+        return new MoveRoute(rule.destination(currentPosition), rule.route(currentPosition));
     }
 
     @Override
