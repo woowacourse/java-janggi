@@ -1,5 +1,6 @@
 package janggi.view;
 
+import janggi.model.Team;
 import janggi.view.dto.GameStatus;
 
 public class OutputView {
@@ -21,7 +22,20 @@ public class OutputView {
         System.out.println("이동 시킬 위치를 입력하세요:");
     }
 
+    public void printInputDrawAcceptPrompt() {
+        System.out.println("무승부 처리하시겠습니까? (y, n)");
+    }
+
+    public void printWinner(Team winner) {
+        String winnerDisplayName = "한나라";
+        if (winner == Team.CHO) {
+            winnerDisplayName = "초나라";
+        }
+
+        System.out.println("승리한 팀은 " + winnerDisplayName + "입니다.");
+    }
+
     public void printInputContinuePrompt() {
-        System.out.println("게임을 계속 진행하시겠습니까? (y, n)");
+        System.out.println("프로그램을 계속하시겠습니까? (y, n)");
     }
 }
