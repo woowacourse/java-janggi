@@ -8,24 +8,25 @@ import domain.Team;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 
 class KingTest {
     /**
-     * 왕 규칙 : 앞, 뒤, 양옆 한 칸씩 이동 가능
+     * 왕 규칙 : 궁성 내에서 앞, 뒤, 양옆 한 칸씩 이동 가능
      * 1. 도착 지점이 한칸 앞뒤, 혹은 양옆인지 검증
      */
     @ParameterizedTest
     @MethodSource("validDirectionsPositions")
-    void 도착_지점이_한칸거리이면서_양쪽_옆_혹은_앞뒤인_경우_정상_테스트(Position to){
+    void 도착_지점이_궁성_내_한칸거리인_경우_정상_테스트(Position to){
         // given
         Board board = new Board();
         Piece king = new King(Team.CHO);
 
         // when
-        Position from = Position.from(10, 5);
+        Position from = Position.from(9, 5);
 
         // then
         assertThat(king.canMove(from, to, board)).isEqualTo(true);
@@ -33,10 +34,29 @@ class KingTest {
 
     static Stream<Position> validDirectionsPositions() {
         return Stream.of(
-                Position.from(10, 4),
-                Position.from(10, 6),
-                Position.from(9, 5)
+                Position.from(9, 4), // 왼쪽 한칸
+                Position.from(9, 6), // 오른쪽 한칸
+                Position.from(10, 5),  // 아래 한칸
+                Position.from(8, 5),  // 위로 한칸
+                Position.from(8, 6),  // 오른쪽 위 대각선
+                Position.from(8, 4),  // 왼쪽 위 대각선
+                Position.from(10, 6),  // 오른쪽 아래 대각선
+                Position.from(10, 4)  // 왼쪽 아래 대각선
         );
+    }
+
+    @Test
+    void 도착_지점이_궁성이_아닌_경우_테스트(){
+        // given
+        Board board = new Board();
+        Piece king = new King(Team.CHO);
+
+        // when
+        Position from = Position.from(8, 5);
+        Position to = Position.from(7, 5);
+
+        // then
+        assertThat(king.canMove(from, to, board)).isEqualTo(false);
     }
 
     /**
@@ -52,7 +72,7 @@ class KingTest {
         // given
         Piece king = new King(Team.CHO);
 
-        Position from = Position.from(7, 1);
+        Position from = Position.from(9, 5);
 
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, new King(Team.CHO));
@@ -66,9 +86,9 @@ class KingTest {
 
     static Stream<Position> blockedBySameTeamProvider() {
         return Stream.of(
-                Position.from(6, 3),
-                Position.from(7, 2),
-                Position.from(7, 4)
+                Position.from(9, 4),
+                Position.from(8, 6),
+                Position.from(10, 5)
         );
     }
 }
