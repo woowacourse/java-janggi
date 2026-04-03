@@ -75,12 +75,6 @@ public class ChariotMoveRule extends MoveRule {
         return true;
     }
 
-    private void validateIsSameTeam(Intersection from, Intersection to) {
-        if (from.isSameTeam(to)) {
-            throw new IllegalArgumentException("같은 팀의 위치로 이동할 수 없습니다.");
-        }
-    }
-
     private void validateObstacleCondition(List<Intersection> path) {
         List<Intersection> routeWithoutTarget = path.subList(0, path.size() - 1);
 

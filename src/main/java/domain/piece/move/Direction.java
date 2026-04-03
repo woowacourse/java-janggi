@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Direction {
 
-    List<Vector> vectors;
+    private final List<Vector> vectors;
 
     public Direction(List<Vector> vectors) {
         this.vectors = vectors;

@@ -21,4 +21,10 @@ public abstract class MoveRule {
 
     public abstract boolean checkMoveRule(Intersection from, List<Intersection> path);
 
+    protected void validateIsSameTeam(Intersection from, Intersection to) {
+        if (from.isSameTeam(to)) {
+            throw new IllegalArgumentException("같은 팀의 위치로 이동할 수 없습니다.");
+        }
+    }
+
 }

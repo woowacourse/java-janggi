@@ -39,12 +39,6 @@ public class SoldierMoveRule extends MoveRule {
         return true;
     }
 
-    private void validateIsSameTeam(Intersection from, Intersection to) {
-        if (from.isSameTeam(to)) {
-            throw new IllegalArgumentException("같은 팀의 위치로 이동할 수 없습니다.");
-        }
-    }
-
     public Directions getDirections(Intersection from) {
         if (from.isChoIntersection()) {
             return new Directions(List.of(
