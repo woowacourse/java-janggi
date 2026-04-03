@@ -15,7 +15,7 @@ public class Board {
         this.board = BoardFactory.createInitBoard(choMaSang, hanMaSang);
     }
 
-    public void move(Position start, Position end) {
+    public boolean move(Position start, Position end) {
         Piece startPiece = board.getOrDefault(start, Piece.getEmptyPiece());
         Piece endPiece = board.getOrDefault(end, Piece.getEmptyPiece());
 
@@ -31,9 +31,12 @@ public class Board {
             throw new IllegalArgumentException("말을 이동할 수 없습니다.");
         }
 
+        boolean isEnd = checkJangRemove(end);
         removePiece(start);
         removePiece(end);
         board.put(end, startPiece);
+
+        return isEnd;
     }
 
     private List<Piece> getSameLine(Piece startPiece, Position start, Position end) {
@@ -115,5 +118,10 @@ public class Board {
                 .filter(piece -> piece.getCountry() == country)
                 .mapToDouble(Piece::getScore)
                 .sum();
+    }
+
+    private boolean checkJangRemove(Position end) {
+        Piece piece = board.getOrDefault(end, Piece.getEmptyPiece());
+        return piece.getPieceType() == PieceType.JANG;
     }
 }

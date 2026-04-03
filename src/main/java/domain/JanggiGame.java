@@ -3,6 +3,7 @@ package domain;
 import domain.constant.Country;
 import domain.constant.PieceType;
 import domain.state.ChoTurn;
+import domain.state.Finished;
 import domain.state.State;
 import java.util.List;
 
@@ -18,7 +19,10 @@ public class JanggiGame {
     }
 
     public void play(Position start, Position end) {
-        board.move(start, end);
+        if (board.move(start, end)) {
+            this.state = new Finished(state.getCountry());
+            return;
+        }
         this.state = state.changeTurn();
     }
 
@@ -36,5 +40,9 @@ public class JanggiGame {
             return board.calculateScore(country);
         }
         return board.calculateScore(country) + HAN_BONUS_SCORE;
+    }
+
+    public boolean isFinished() {
+        return state instanceof Finished;
     }
 }
