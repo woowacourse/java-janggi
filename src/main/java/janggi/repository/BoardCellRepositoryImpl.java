@@ -20,7 +20,7 @@ public class BoardCellRepositoryImpl implements BoardCellRepository {
     @Override
     public long save(final BoardCellEntity boardCellEntity) {
         final String sql = String.format(
-            "INSERT INTO %s (\"row\", \"column\", piece_type, team, board_id) VALUES (%d, %d, '%s', '%s', %d)",
+            "INSERT INTO %s (row_pos, column_pos, piece_type, team, board_id) VALUES (%d, %d, '%s', '%s', %d)",
             TABLE_NAME, boardCellEntity.row(), boardCellEntity.column(),
             boardCellEntity.piece_type(), boardCellEntity.team(), boardCellEntity.board_id());
         return dbConnection.executeUpdate(sql);
@@ -29,7 +29,7 @@ public class BoardCellRepositoryImpl implements BoardCellRepository {
     @Override
     public boolean existsByPosition(final Position position) {
         final String sql = String.format(
-            "SELECT id, \"row\", \"column\", piece_type, team, board_id FROM %s WHERE \"row\" = %d AND \"column\" = %d",
+            "SELECT id, row_pos, column_pos, piece_type, team, board_id FROM %s WHERE row_pos = %d AND column_pos = %d",
             TABLE_NAME, position.getRow(),
             position.getColumn());
         final EntityMapper<BoardCellEntity> mapper = getBoardCellEntityEntityMapper();
@@ -40,7 +40,7 @@ public class BoardCellRepositoryImpl implements BoardCellRepository {
     @Override
     public Optional<BoardCellEntity> findById(final long targetId) {
         final String sql = String.format(
-            "SELECT id, \"row\", \"column\", piece_type, team, board_id "
+            "SELECT id, row_pos, column_pos, piece_type, team, board_id "
                 + "FROM %s WHERE id = %d", TABLE_NAME, targetId);
         final EntityMapper<BoardCellEntity> mapper = getBoardCellEntityEntityMapper();
         return dbConnection.executeSelect(sql, mapper);
@@ -61,7 +61,7 @@ public class BoardCellRepositoryImpl implements BoardCellRepository {
     @Override
     public long updateByPosition(final Position position, final Piece piece) {
         final String sql = String.format(
-            "UPDATE %s SET piece_type = '%s', team = '%s' WHERE \"row\" = %d AND \"column\" = %d",
+            "UPDATE %s SET piece_type = '%s', team = '%s' WHERE row_pos = %d AND column_pos = %d",
             TABLE_NAME, piece.getPieceType(), piece.getTeamType(), position.getRow(),
             position.getColumn());
 

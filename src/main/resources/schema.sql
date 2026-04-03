@@ -16,8 +16,8 @@ CREATE TABLE IF NOT EXISTS boards
 CREATE TABLE IF NOT EXISTS board_cells
 (
     id         int AUTO_INCREMENT PRIMARY KEY,
-    "row"      int,
-    "column"   int,
+    row_pos    int,
+    column_pos int,
     piece_type varchar(30) NOT NULL,
     team       varchar(30) NOT NULL,
     board_id   int,
