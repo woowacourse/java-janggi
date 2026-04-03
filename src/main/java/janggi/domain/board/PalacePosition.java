@@ -1,6 +1,5 @@
 package janggi.domain.board;
 
-import janggi.domain.route.Destinations;
 import java.util.Arrays;
 import java.util.EnumSet;
 

@@ -1,11 +1,11 @@
 package janggi.domain.piece;
 
 import janggi.domain.board.BoardInfo;
+import janggi.domain.board.Destinations;
 import janggi.domain.board.Direction;
 import janggi.domain.board.PalacePosition;
 import janggi.domain.board.Position;
 import janggi.domain.game.Side;
-import janggi.domain.route.Destinations;
 import janggi.domain.strategy.CannonMoveStrategy;
 import janggi.domain.strategy.ElephantMoveStrategy;
 import janggi.domain.strategy.HorseMoveStrategy;

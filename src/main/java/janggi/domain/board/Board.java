@@ -2,7 +2,6 @@ package janggi.domain.board;
 
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceMapper;
-import janggi.domain.route.Destinations;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;

@@ -3,12 +3,12 @@ package janggi.domain.strategy;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.board.Board;
+import janggi.domain.board.Destinations;
 import janggi.domain.board.Direction;
 import janggi.domain.board.Position;
 import janggi.domain.game.Side;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
-import janggi.domain.route.Destinations;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;

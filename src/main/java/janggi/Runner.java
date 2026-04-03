@@ -1,9 +1,9 @@
 package janggi;
 
+import janggi.domain.board.Destinations;
 import janggi.domain.board.Position;
 import janggi.domain.game.GameManager;
 import janggi.domain.game.Player;
-import janggi.domain.route.Destinations;
 import janggi.dto.BoardDTO;
 import janggi.dto.PieceDTO;
 import janggi.dto.PlayerDTO;
@@ -88,7 +88,8 @@ public class Runner {
         outputView.printBoardStatus(mapToBoardDTO(), target.map(PositionDTO::new));
     }
 
-    private Position movePieceToMoveablePosition(Position selected, Destinations destinations, List<PositionDTO> positionDTOS) {
+    private Position movePieceToMoveablePosition(Position selected, Destinations destinations,
+                                                 List<PositionDTO> positionDTOS) {
         return retry(() -> {
             outputView.printBoardStatus(mapToBoardDTO(), selected.map(PositionDTO::new), positionDTOS);
             Position target = selectTargetPosition();

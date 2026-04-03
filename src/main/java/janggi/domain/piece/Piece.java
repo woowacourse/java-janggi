@@ -1,9 +1,9 @@
 package janggi.domain.piece;
 
 import janggi.domain.board.BoardInfo;
+import janggi.domain.board.Destinations;
 import janggi.domain.board.Position;
 import janggi.domain.game.Side;
-import janggi.domain.route.Destinations;
 
 public class Piece {
 

@@ -1,10 +1,10 @@
 package janggi.domain.game;
 
 import janggi.domain.board.Board;
+import janggi.domain.board.Destinations;
 import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceMapper;
-import janggi.domain.route.Destinations;
 import java.util.Map;
 import java.util.function.BiFunction;
 
