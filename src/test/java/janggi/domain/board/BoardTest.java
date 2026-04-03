@@ -20,7 +20,7 @@ class BoardTest {
     public void 특정_위치에_있는_기물이_움직일_수_있는_위치들을_올바르게_반환한다() {
         // given
         DefaultBoardDesignPolicy policy = new DefaultBoardDesignPolicy(Map.of(CHO, HEHE, HAN, HEHE));
-        Board board = new Board(policy);
+        Board board = Board.from(policy);
 
         // when & then
         assertThatCode(() -> board.canMovePosition(Position.from(4, 5), CHO))
@@ -31,7 +31,7 @@ class BoardTest {
     public void 상대_팀의_기물을_움직이려하는_경우에는_오류를_일으킨다() {
         // given
         DefaultBoardDesignPolicy policy = new DefaultBoardDesignPolicy(Map.of(CHO, HEHE, HAN, HEHE));
-        Board board = new Board(policy);
+        Board board = Board.from(policy);
 
         // when & then
         assertThatThrownBy(() -> board.canMovePosition(Position.from(4, 5), HAN))
@@ -43,7 +43,7 @@ class BoardTest {
     public void 해당_위치에_기물이_없는_경우에는_오류를_일으킨다() {
         // given
         DefaultBoardDesignPolicy policy = new DefaultBoardDesignPolicy(Map.of(CHO, HEHE, HAN, HEHE));
-        Board board = new Board(policy);
+        Board board = Board.from(policy);
 
         // when & then
         assertThatThrownBy(() -> board.canMovePosition(Position.from(5, 5), CHO))
@@ -63,7 +63,7 @@ class BoardTest {
                 from, fromPiece,
                 toCanEat, new Piece(CHO, PieceType.CHARIOT)
         ));
-        Board board = new Board(policy);
+        Board board = Board.from(policy);
 
         // when
         board.movePiece(from, toCanEat, HAN);
@@ -84,7 +84,7 @@ class BoardTest {
         BoardDesignPolicy policy = () -> new HashMap<>(Map.of(
                 from, fromPiece
         ));
-        Board board = new Board(policy);
+        Board board = Board.from(policy);
         Position to = Position.from(4, 4);
 
         // when & then
@@ -104,7 +104,7 @@ class BoardTest {
                 generalPosition, general,
                 enemy, new Piece(CHO, PieceType.CHARIOT)
         ));
-        Board board = new Board(policy);
+        Board board = Board.from(policy);
 
         // when
         board.movePiece(enemy, generalPosition, CHO);
@@ -118,7 +118,7 @@ class BoardTest {
     public void 나라_별로_기물의_점수를_계산할_수_있다() {
         // given
         DefaultBoardDesignPolicy policy = new DefaultBoardDesignPolicy(Map.of(CHO, HEHE, HAN, HEHE));
-        Board board = new Board(policy);
+        Board board = Board.from(policy);
 
         // when
         int pointsOfCho = board.sumPointsOf(CHO);

@@ -24,7 +24,11 @@ public class Game {
 
     public static Game initGame(Map<Dynasty, HorseElephantPosition> horseElephantPositions) {
         DefaultBoardDesignPolicy policy = new DefaultBoardDesignPolicy(horseElephantPositions);
-        return new Game(new Board(policy), new CurrentTurn(CHO));
+        return new Game(Board.from(policy), new CurrentTurn(CHO));
+    }
+
+    public static Game restore(Board board, CurrentTurn currentTurn) {
+        return new Game(board, currentTurn);
     }
 
     public List<Position> canMovePosition(Position from) {

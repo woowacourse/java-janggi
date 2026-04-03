@@ -4,7 +4,6 @@ import janggi.domain.dynasty.Dynasty;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,8 +11,16 @@ public class Board {
 
     private final Map<Position, Piece> board;
 
-    public Board(BoardDesignPolicy boardDesignPolicy) {
-        this.board = new HashMap<>(boardDesignPolicy.initBoard());
+    public Board(Map<Position, Piece> board) {
+        this.board = board;
+    }
+
+    public static Board from(BoardDesignPolicy boardDesignPolicy) {
+        return new Board(boardDesignPolicy.initBoard());
+    }
+
+    public static Board restore(Map<Position, Piece> boardMap) {
+        return new Board(boardMap);
     }
 
     public List<Position> canMovePosition(Position from, Dynasty currentTurn) {
