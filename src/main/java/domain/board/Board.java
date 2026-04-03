@@ -3,6 +3,7 @@ package domain.board;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Side;
+import domain.piece.strategy.MovingCondition;
 import domain.position.Position;
 
 import java.util.LinkedHashMap;
@@ -35,19 +36,30 @@ public class Board implements BoardState {
         Piece fromPiece = state.get(from);
         Piece toPiece = state.get(to);
         validateMoveBySide(side, fromPiece, toPiece);
-        validatePieceCanMove(from, to, side, fromPiece);
+        validatePieceCanMove(from, to, fromPiece);
         state.put(to, fromPiece);
         state.remove(from);
     }
 
-    private void validatePieceCanMove(Position from, Position to, Side side, Piece fromPiece) {
-        BoardState boardState = boardStateBySide(side);
-        Position adjustedFrom = adjustPositionBySide(side, from);
-        Position adjustedTo = adjustPositionBySide(side, to);
+    private void validatePieceCanMove(Position from, Position to, Piece fromPiece) {
+        Position adjustedFrom = adjustPositionBySide(fromPiece.getSide(), from);
+        Position adjustedTo = adjustPositionBySide(fromPiece.getSide(), to);
 
-        if (!fromPiece.canMove(boardState, adjustedFrom, adjustedTo)) {
+        if (!canMove(fromPiece, adjustedFrom, adjustedTo)) {
             throw new IllegalArgumentException("해당 위치로 움직일 수 없습니다.");
         }
+    }
+
+    private Position adjustPositionBySide(Side side, Position position) {
+        if (side == Side.HAN) {
+            return Position.rotate180from(position);
+        }
+        return position;
+    }
+
+    private boolean canMove(Piece piece, Position from, Position to) {
+        MovingCondition movingCondition = piece.getMovingCondition();
+        return movingCondition.canMove(boardStateBySide(piece.getSide()), from, to);
     }
 
     private BoardState boardStateBySide(Side side) {
@@ -55,6 +67,40 @@ public class Board implements BoardState {
             return this;
         }
         return new RotatedBoard(this);
+    }
+
+    private void validatePosition(Position from, Position to) {
+        validateSamePosition(from, to);
+        validateExistPiece(from);
+    }
+
+    private void validateSamePosition(Position from, Position to) {
+        if (from.equals(to)) {
+            throw new IllegalArgumentException("출발지와 목적지가 같을 수 없습니다.");
+        }
+    }
+
+    private void validateExistPiece(Position from) {
+        if (!state.containsKey(from)) {
+            throw new IllegalArgumentException("해당 위치에 기물이 없습니다.");
+        }
+    }
+
+    private void validateMoveBySide(Side side, Piece fromPiece, Piece toPiece) {
+        validateCanMoveSameSidePiece(side, fromPiece);
+        validateDestinationIsNotSameSide(side, toPiece);
+    }
+
+    private void validateCanMoveSameSidePiece(Side side, Piece fromPiece) {
+        if (!fromPiece.isSameSide(side)) {
+            throw new IllegalArgumentException("본인 진영의 말만 이동할 수 있습니다.");
+        }
+    }
+
+    private void validateDestinationIsNotSameSide(Side side, Piece toPiece) {
+        if (toPiece != null && toPiece.isSameSide(side)) {
+            throw new IllegalArgumentException("본인 진영의 말이 위치한 곳으로는 갈 수 없습니다.");
+        }
     }
 
     public void placePieces(Side side, Placement placement) {
@@ -107,46 +153,5 @@ public class Board implements BoardState {
         state.put(adjustPositionBySide(side, Position.of(1, 3)), Piece.of(side, placement.getSecondPieceType()));
         state.put(adjustPositionBySide(side, Position.of(1, 7)), Piece.of(side, placement.getThirdPieceType()));
         state.put(adjustPositionBySide(side, Position.of(1, 8)), Piece.of(side, placement.getFourthPieceType()));
-    }
-
-    private Position adjustPositionBySide(Side side, Position position) {
-        if (side == Side.HAN) {
-            return Position.rotate180from(position);
-        }
-        return position;
-    }
-
-    private void validatePosition(Position from, Position to) {
-        validateSamePosition(from, to);
-        validateExistPiece(from);
-    }
-
-    private void validateExistPiece(Position from) {
-        if (!state.containsKey(from)) {
-            throw new IllegalArgumentException("해당 위치에 기물이 없습니다.");
-        }
-    }
-
-    private static void validateSamePosition(Position from, Position to) {
-        if (from.equals(to)) {
-            throw new IllegalArgumentException("출발지와 목적지가 같을 수 없습니다.");
-        }
-    }
-
-    private static void validateMoveBySide(Side side, Piece fromPiece, Piece toPiece) {
-        validateCanMoveSameSidePiece(side, fromPiece);
-        validateDestinationIsNotSameSide(side, toPiece);
-    }
-
-    private static void validateCanMoveSameSidePiece(Side side, Piece fromPiece) {
-        if (!fromPiece.isSameSide(side)) {
-            throw new IllegalArgumentException("본인 진영의 말만 이동할 수 있습니다.");
-        }
-    }
-
-    private static void validateDestinationIsNotSameSide(Side side, Piece toPiece) {
-        if (toPiece != null && toPiece.isSameSide(side)) {
-            throw new IllegalArgumentException("본인 진영의 말이 위치한 곳으로는 갈 수 없습니다.");
-        }
     }
 }

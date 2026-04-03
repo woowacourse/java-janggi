@@ -5,6 +5,7 @@ import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Side;
 import domain.position.Position;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -12,12 +13,19 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class CanonTest {
 
+    FakeBoard fakeBoard;
+    MovingCondition movingCondition;
+
+    @BeforeEach
+    void setUp() {
+        fakeBoard = new FakeBoard();
+        movingCondition = new CanonMovingCondition();
+    }
+
     @Test
     @DisplayName("본인 진영의 기물을 띄어넘어 빈칸으로 이동")
     void canMove_이동성공_포_기물_움직임_여부_판단_1() {
         // given
-        FakeBoard fakeBoard = new FakeBoard();
-
         Piece choCanon = Piece.of(Side.CHO, PieceType.CANON);
         Piece choPawn = Piece.of(Side.CHO, PieceType.PAWN);
         fakeBoard.put(Position.of(3, 8), choCanon);
@@ -26,15 +34,16 @@ public class CanonTest {
         Position startPosition = Position.of(3, 8);
         Position endPosition = Position.of(6, 8);
 
-        // when, then
-        assertThat(choCanon.canMove(fakeBoard, startPosition, endPosition)).isTrue();
+        // when
+        boolean result = movingCondition.canMove(fakeBoard, startPosition, endPosition);
+        // then
+        assertThat(result).isTrue();
     }
 
     @Test
     @DisplayName("본인 진영의 기물을 띄어넘어 상대방 말로 이동")
     void canMove_이동성공_포_기물_움직임_여부_판단_2() {
         // given
-        FakeBoard fakeBoard = new FakeBoard();
         Piece choCanon = Piece.of(Side.CHO, PieceType.CANON);
         Piece choPawn = Piece.of(Side.CHO, PieceType.PAWN);
         Piece hanHorse = Piece.of(Side.HAN, PieceType.PAWN);
@@ -45,8 +54,10 @@ public class CanonTest {
         Position startPosition = Position.of(3, 8);
         Position endPosition = Position.of(10, 8);
 
-        // when, then
-        assertThat(choCanon.canMove(fakeBoard, startPosition, endPosition)).isTrue();
+        // when
+        boolean result = movingCondition.canMove(fakeBoard, startPosition, endPosition);
+        // then
+        assertThat(result).isTrue();
     }
 
     @Test
@@ -62,8 +73,10 @@ public class CanonTest {
         Position startPosition = Position.of(3, 8);
         Position endPosition = Position.of(10, 8);
 
-        // when, then
-        assertThat(choCanon.canMove(fakeBoard, startPosition, endPosition)).isTrue();
+        // when
+        boolean result = movingCondition.canMove(fakeBoard, startPosition, endPosition);
+        // then
+        assertThat(result).isTrue();
     }
 
     @Test
@@ -81,8 +94,10 @@ public class CanonTest {
         Position startPosition = Position.of(3, 8);
         Position endPosition = Position.of(10, 8);
 
-        // when, then
-        assertThat(choCanon.canMove(fakeBoard, startPosition, endPosition)).isTrue();
+        // when
+        boolean result = movingCondition.canMove(fakeBoard, startPosition, endPosition);
+        // then
+        assertThat(result).isTrue();
     }
 
     @Test
@@ -96,8 +111,10 @@ public class CanonTest {
         Position startPosition = Position.of(3, 8);
         Position endPosition = Position.of(5, 7);
 
-        // when, then
-        assertThat(choCanon.canMove(fakeBoard, startPosition, endPosition)).isFalse();
+        // when
+        boolean result = movingCondition.canMove(fakeBoard, startPosition, endPosition);
+        // then
+        assertThat(result).isFalse();
     }
 
     @Test
@@ -115,8 +132,10 @@ public class CanonTest {
         Position startPosition = Position.of(3, 8);
         Position endPosition = Position.of(7, 8);
 
-        // when, then
-        assertThat(choCanon.canMove(fakeBoard, startPosition, endPosition)).isFalse();
+        // when
+        boolean result = movingCondition.canMove(fakeBoard, startPosition, endPosition);
+        // then
+        assertThat(result).isFalse();
     }
 
     @Test
@@ -132,8 +151,10 @@ public class CanonTest {
         Position startPosition = Position.of(3, 8);
         Position endPosition = Position.of(10, 8);
 
-        // when, then
-        assertThat(choCanon.canMove(fakeBoard, startPosition, endPosition)).isFalse();
+        // when
+        boolean result = movingCondition.canMove(fakeBoard, startPosition, endPosition);
+        // then
+        assertThat(result).isFalse();
     }
 
     @Test
@@ -151,8 +172,10 @@ public class CanonTest {
         Position startPosition = Position.of(3, 8);
         Position endPosition = Position.of(8, 8);
 
-        // when, then
-        assertThat(choCanon.canMove(fakeBoard, startPosition, endPosition)).isFalse();
+        // when
+        boolean result = movingCondition.canMove(fakeBoard, startPosition, endPosition);
+        // then
+        assertThat(result).isFalse();
     }
 
     @Test
@@ -166,7 +189,9 @@ public class CanonTest {
         Position startPosition = Position.of(3, 8);
         Position endPosition = Position.of(4, 8);
 
-        // when, then
-        assertThat(choCanon.canMove(fakeBoard, startPosition, endPosition)).isFalse();
+        // when
+        boolean result = movingCondition.canMove(fakeBoard, startPosition, endPosition);
+        // then
+        assertThat(result).isFalse();
     }
 }

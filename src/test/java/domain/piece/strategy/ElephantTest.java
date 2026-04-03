@@ -5,12 +5,22 @@ import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Side;
 import domain.position.Position;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class ElephantTest {
+
+    FakeBoard fakeBoard;
+    MovingCondition movingCondition;
+
+    @BeforeEach
+    void setUp() {
+        fakeBoard = new FakeBoard();
+        movingCondition = new ElephantMovingCondition();
+    }
 
     @Test
     @DisplayName("초 진영 상 기물의 움직임의 여부(UP, UP_LEFT, UP_LEFT)를 판단할 수 있다.")
@@ -23,8 +33,10 @@ public class ElephantTest {
         Position startPosition = Position.of(1, 8);
         Position endPosition = Position.of(4, 6);
 
-        // when, then
-        assertThat(choElephant.canMove(fakeBoard, startPosition, endPosition)).isTrue();
+        // when
+        boolean result = movingCondition.canMove(fakeBoard, startPosition, endPosition);
+        // then
+        assertThat(result).isTrue();
     }
 
     @Test
@@ -38,8 +50,10 @@ public class ElephantTest {
         Position startPosition = Position.of(8, 8);
         Position endPosition = Position.of(5, 6);
 
-        // when, then
-        assertThat(choElephant.canMove(fakeBoard, startPosition, endPosition)).isTrue();
+        // when
+        boolean result = movingCondition.canMove(fakeBoard, startPosition, endPosition);
+        // then
+        assertThat(result).isTrue();
     }
 
     @Test
@@ -53,8 +67,10 @@ public class ElephantTest {
         Position startPosition = Position.of(3, 6);
         Position endPosition = Position.of(6, 8);
 
-        // when, then
-        assertThat(choElephant.canMove(fakeBoard, startPosition, endPosition)).isTrue();
+        // when
+        boolean result = movingCondition.canMove(fakeBoard, startPosition, endPosition);
+        // then
+        assertThat(result).isTrue();
     }
 
     @Test
@@ -70,8 +86,10 @@ public class ElephantTest {
         Position startPosition = Position.of(1, 8);
         Position endPosition = Position.of(4, 6);
 
-        // when, then
-        assertThat(choElephant.canMove(fakeBoard, startPosition, endPosition)).isFalse();
+        // when
+        boolean result = movingCondition.canMove(fakeBoard, startPosition, endPosition);
+        // then
+        assertThat(result).isFalse();
     }
 
     @Test
@@ -85,7 +103,9 @@ public class ElephantTest {
         Position startPosition = Position.of(1, 8);
         Position endPosition = Position.of(3, 8);
 
-        // when, then
-        assertThat(choElephant.canMove(fakeBoard, startPosition, endPosition)).isFalse();
+        // when
+        boolean result = movingCondition.canMove(fakeBoard, startPosition, endPosition);
+        // then
+        assertThat(result).isFalse();
     }
 }

@@ -5,12 +5,23 @@ import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Side;
 import domain.position.Position;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class HorseTest {
+
+    FakeBoard fakeBoard;
+    MovingCondition movingCondition;
+
+    @BeforeEach
+    void setUp() {
+        fakeBoard = new FakeBoard();
+        movingCondition = new HorseMovingCondition();
+    }
+
     @Test
     @DisplayName("마 기물의 움직임의 여부를 판단할 수 있다.")
     void canMove_이동성공_마_기물_움직임_여부_판단_1() {
@@ -22,8 +33,10 @@ public class HorseTest {
         Position startPosition = Position.of(1, 7);
         Position endPosition = Position.of(3, 6);
 
-        // when, then
-        assertThat(choHorse.canMove(fakeBoard, startPosition, endPosition)).isTrue();
+        // when
+        boolean result = movingCondition.canMove(fakeBoard, startPosition, endPosition);
+        // then
+        assertThat(result).isTrue();
     }
 
 
@@ -38,8 +51,10 @@ public class HorseTest {
         Position startPosition = Position.of(3, 6);
         Position endPosition = Position.of(4, 4);
 
-        // when, then
-        assertThat(choHorse.canMove(fakeBoard, startPosition, endPosition)).isTrue();
+        // when
+        boolean result = movingCondition.canMove(fakeBoard, startPosition, endPosition);
+        // then
+        assertThat(result).isTrue();
     }
 
     @Test
@@ -55,8 +70,10 @@ public class HorseTest {
         Position startPosition = Position.of(1, 7);
         Position endPosition = Position.of(3, 6);
 
-        // when, then
-        assertThat(choHorse.canMove(fakeBoard, startPosition, endPosition)).isFalse();
+        // when
+        boolean result = movingCondition.canMove(fakeBoard, startPosition, endPosition);
+        // then
+        assertThat(result).isFalse();
     }
 
     @Test
@@ -70,7 +87,9 @@ public class HorseTest {
         Position startPosition = Position.of(1, 7);
         Position endPosition = Position.of(3, 7);
 
-        // when, then
-        assertThat(choHorse.canMove(fakeBoard, startPosition, endPosition)).isFalse();
+        // when
+        boolean result = movingCondition.canMove(fakeBoard, startPosition, endPosition);
+        // then
+        assertThat(result).isFalse();
     }
 }

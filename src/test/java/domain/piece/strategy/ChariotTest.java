@@ -5,12 +5,22 @@ import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Side;
 import domain.position.Position;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class ChariotTest {
+
+    FakeBoard fakeBoard;
+    MovingCondition movingCondition;
+
+    @BeforeEach
+    void setUp() {
+        fakeBoard = new FakeBoard();
+        movingCondition = new ChariotMovingCondition();
+    }
 
     @Test
     @DisplayName("차 기물이 움직임의 여부를 판단할 수 있다.")
@@ -23,8 +33,10 @@ public class ChariotTest {
         Position startPosition = Position.of(1, 9);
         Position endPosition = Position.of(10, 9);
 
-        // when, then
-        assertThat(choChariot.canMove(fakeBoard, startPosition, endPosition)).isTrue();
+        // when
+        boolean result = movingCondition.canMove(fakeBoard, startPosition, endPosition);
+        // then
+        assertThat(result).isTrue();
     }
 
     @Test
@@ -38,8 +50,10 @@ public class ChariotTest {
         Position startPosition = Position.of(4, 9);
         Position endPosition = Position.of(2, 9);
 
-        // when, then
-        assertThat(choChariot.canMove(fakeBoard, startPosition, endPosition)).isTrue();
+        // when
+        boolean result = movingCondition.canMove(fakeBoard, startPosition, endPosition);
+        // then
+        assertThat(result).isTrue();
     }
 
     @Test
@@ -55,8 +69,10 @@ public class ChariotTest {
         Position startPosition = Position.of(1, 9);
         Position endPosition = Position.of(10, 9);
 
-        // when, then
-        assertThat(choChariot.canMove(fakeBoard, startPosition, endPosition)).isFalse();
+        // when
+        boolean result = movingCondition.canMove(fakeBoard, startPosition, endPosition);
+        // then
+        assertThat(result).isFalse();
     }
 
     @Test
@@ -70,7 +86,9 @@ public class ChariotTest {
         Position startPosition = Position.of(1, 9);
         Position endPosition = Position.of(2, 8);
 
-        // when, then
-        assertThat(choChariot.canMove(fakeBoard, startPosition, endPosition)).isFalse();
+        // when
+        boolean result = movingCondition.canMove(fakeBoard, startPosition, endPosition);
+        // then
+        assertThat(result).isFalse();
     }
 }

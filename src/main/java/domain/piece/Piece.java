@@ -1,7 +1,6 @@
 package domain.piece;
 
-import domain.board.BoardState;
-import domain.position.Position;
+import domain.piece.strategy.MovingCondition;
 
 import java.util.Objects;
 
@@ -31,8 +30,8 @@ public final class Piece {
         return pieceType.getName();
     }
 
-    public boolean canMove(BoardState boardState, Position startPosition, Position endPosition) {
-        return pieceType.canMove(boardState, startPosition, endPosition);
+    public MovingCondition getMovingCondition() {
+        return pieceType.getMovingCondition();
     }
 
     public boolean isSameSide(Side side) {
