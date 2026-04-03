@@ -33,3 +33,6 @@ out/
 
 REFACTORING.md
 design-step2.md
+design-step2-db.md
+/src/main/resources/localhost:9092/
+*.db
