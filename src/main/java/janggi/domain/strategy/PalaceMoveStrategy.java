@@ -15,7 +15,6 @@ public class PalaceMoveStrategy extends PieceStrategy {
             return Destinations.empty();
         }
         Position target = baseDir.move(current);
-        System.out.println(PalacePosition.isPalacePosition(target));
         if (!PalacePosition.isPalacePosition(target) || boardInfo.isAlly(current, target)) {
             return Destinations.empty();
         }

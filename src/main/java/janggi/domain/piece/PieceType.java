@@ -35,8 +35,13 @@ public enum PieceType {
     }
 
     public Destinations determineDestinations(Position currentPosition, Side side, BoardInfo boardInfo) {
-        EnumSet<Direction> directions = directionProvider.apply(side);
-        directions.addAll(PalacePosition.palaceDirections(currentPosition));
-        return moveStrategy.findDestinations(currentPosition, directions, boardInfo);
+        EnumSet<Direction> normalDirections = directionProvider.apply(side);
+        EnumSet<Direction> palaceDirections = PalacePosition.palaceDirections(currentPosition);
+
+        Destinations normalDestinations = moveStrategy.findDestinations(currentPosition, normalDirections, boardInfo);
+        Destinations palaceDestinations = moveStrategy.findDestinations(currentPosition, palaceDirections, boardInfo);
+
+        palaceDestinations = palaceDestinations.retainDestination(PalacePosition.palacePositions());
+        return normalDestinations.addDestinations(palaceDestinations);
     }
 }

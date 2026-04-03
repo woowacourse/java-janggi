@@ -1,5 +1,6 @@
 package janggi.domain.board;
 
+import janggi.domain.route.Destinations;
 import java.util.Arrays;
 import java.util.EnumSet;
 
@@ -37,5 +38,9 @@ public enum PalacePosition {
     public static boolean isPalacePosition(Position position) {
         Position hanPalacePosition = position.moduloRow(PALACE_DISTANCE);
         return Arrays.stream(values()).anyMatch(palacePosition -> palacePosition.position.equals(hanPalacePosition));
+    }
+
+    public static Destinations palacePositions() {
+        return Destinations.of(Arrays.stream(values()).map(palacePosition -> palacePosition.position).toList());
     }
 }
