@@ -64,6 +64,11 @@ public class Jol implements Piece {
     }
 
     @Override
+    public Team getTeam() {
+        return team;
+    }
+
+    @Override
     public int getScore() {
         return SCORE;
     }

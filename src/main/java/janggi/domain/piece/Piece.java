@@ -11,6 +11,7 @@ public interface Piece {
     boolean isSameType(PieceType type);
     Points getRoutePoints(Point from, Point to);
     PieceType getType();
+    Team getTeam();
     int getScore();
 
     default boolean canCapture(Piece piece) {

@@ -65,6 +65,11 @@ public abstract class AbstractNormalPiece implements Piece {
         return score;
     }
 
+    @Override
+    public Team getTeam() {
+        return team;
+    }
+
     private void validateDistance(int distanceCol, int distanceRow) {
         if (distanceCol > MAX_DISTANCE || distanceRow > MAX_DISTANCE || (distanceCol == 0 && distanceRow == 0)) {
             throw new IllegalArgumentException("[ERROR] 해당 기물의 이동 규칙에 어긋납니다.");

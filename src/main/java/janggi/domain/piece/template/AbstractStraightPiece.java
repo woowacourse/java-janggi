@@ -67,6 +67,11 @@ public abstract class AbstractStraightPiece implements Piece {
         return score;
     }
 
+    @Override
+    public Team getTeam() {
+        return team;
+    }
+
     private void validateDirection(Point from, Point to, int signCol, int signRow, int pathCol, int pathRow) {
         if (from.inSameCastle(to)) {
             CastleDirection.find(from, signCol, signRow);

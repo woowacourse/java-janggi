@@ -22,22 +22,32 @@ public abstract class AbstractFixedStepPiece implements Piece {
     @Override
     public abstract Points getRoutePoints(Point from, Point to);
 
+    @Override
     public boolean canMove(Route route) {
         return route.isEmpty();
     }
 
+    @Override
     public boolean isSameTeam(Team team) {
         return this.team.equals(team);
     }
 
+    @Override
     public boolean isSameType(PieceType type) {
         return this.type.equals(type);
     }
 
+    @Override
     public PieceType getType() {
         return type;
     }
 
+    @Override
+    public Team getTeam() {
+        return team;
+    }
+
+    @Override
     public int getScore() {
         return score;
     }

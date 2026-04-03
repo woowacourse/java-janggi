@@ -103,8 +103,7 @@ public class JdbcBoardRepository implements BoardRepository {
             if (piece == null) {
                 continue;
             }
-            data.add(new PieceData(piece.getType().name(),
-                    piece.isSameTeam(Team.HAN) ? Team.HAN.name() : Team.CHO.name(), i, j));
+            data.add(new PieceData(piece.getType().name(), piece.getTeam().name(), i, j));
         }
     }
 
