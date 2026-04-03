@@ -1,7 +1,7 @@
 package domain.move.rule;
 
 import static domain.move.directions.Vector.*;
-import static domain.move.path.exception.PathError.GENERAL_CANNOT_GO_OUT_PALACE;
+import static domain.move.path.exception.PathError.GUARD_CANNOT_GO_OUT_PALACE;
 
 import domain.intersection.Intersection;
 import domain.move.directions.Direction;
@@ -35,7 +35,7 @@ public class GuardMoveRule implements MoveRule {
 
     private void validateDestinationIsPalace(Intersection destination) {
         if (!destination.isPalace()) {
-            throw new PathException(GENERAL_CANNOT_GO_OUT_PALACE.getMessage());
+            throw new PathException(GUARD_CANNOT_GO_OUT_PALACE.getMessage());
         }
     }
 

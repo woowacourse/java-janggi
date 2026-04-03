@@ -9,6 +9,7 @@ public enum PathError {
     CANNON_CANNOT_ATTACK_CANNON("포는 포를 공격할 수 없습니다."),
 
     GENERAL_CANNOT_GO_OUT_PALACE("장군은 궁성을 벗어날 수 없습니다."),
+    GUARD_CANNOT_GO_OUT_PALACE("사는 궁성을 벗어날 수 없습니다."),
     ;
 
     private final String message;
