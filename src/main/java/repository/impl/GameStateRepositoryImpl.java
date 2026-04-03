@@ -2,7 +2,7 @@ package repository.impl;
 
 import java.sql.Connection;
 import domain.place.piece.Side;
-import entity.GameStateEntity;
+import dto.GameStateDto;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,7 +30,7 @@ public class GameStateRepositoryImpl implements GameStateRepository {
     }
 
     @Override
-    public GameStateEntity findByRoomId(long roomId, Connection conn) {
+    public GameStateDto findByRoomId(long roomId, Connection conn) {
         try (PreparedStatement stmt = conn.prepareStatement(SELECT_BY_ID_SQL)) {
 
             stmt.setLong(1, roomId);
@@ -48,9 +48,9 @@ public class GameStateRepositoryImpl implements GameStateRepository {
         }
     }
 
-    private GameStateEntity toGameState(ResultSet rs) throws SQLException {
+    private GameStateDto toGameState(ResultSet rs) throws SQLException {
         String currentTurn = rs.getString("current_turn");
-        return GameStateEntity.of(
+        return GameStateDto.of(
                 rs.getLong("game_room_id"),
                 Side.from(currentTurn));
     }

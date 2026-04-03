@@ -1,7 +1,5 @@
-package factory;
+package domain.board;
 
-import domain.board.Board;
-import domain.board.HorseElephantFormation;
 import domain.place.Empty;
 import domain.place.Place;
 import domain.place.moveStrategy.JumpMoveStrategy;

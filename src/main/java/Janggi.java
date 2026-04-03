@@ -2,7 +2,7 @@ import domain.board.Board;
 import domain.board.HorseElephantFormation;
 import domain.place.piece.Side;
 import domain.position.Position;
-import factory.BoardFactory;
+import domain.board.BoardFactory;
 import parser.AnswerParser;
 import parser.CommandParser;
 import parser.NumberParser;

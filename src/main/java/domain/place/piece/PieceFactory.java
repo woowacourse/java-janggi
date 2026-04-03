@@ -1,4 +1,4 @@
-package factory;
+package domain.place.piece;
 
 import domain.place.Place;
 import domain.place.moveStrategy.JumpMoveStrategy;
@@ -12,14 +12,6 @@ import domain.place.palaceMoveStrategy.PalaceJumpMoveStrategy;
 import domain.place.palaceMoveStrategy.PalaceOneStepMoveStrategy;
 import domain.place.palaceMoveStrategy.PalaceSoldierMoveStrategy;
 import domain.place.palaceMoveStrategy.PalaceStraightMoveStrategy;
-import domain.place.piece.Cannon;
-import domain.place.piece.Chariot;
-import domain.place.piece.Elephant;
-import domain.place.piece.General;
-import domain.place.piece.Guard;
-import domain.place.piece.Horse;
-import domain.place.piece.Side;
-import domain.place.piece.Soldier;
 import java.util.Arrays;
 import java.util.function.Function;
 

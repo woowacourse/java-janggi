@@ -1,7 +1,7 @@
 package repository.impl;
 
 import java.sql.Connection;
-import entity.GameRoomEntity;
+import dto.GameRoomDto;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -36,10 +36,10 @@ public class GameRoomRepositoryImpl implements GameRoomRepository {
     }
 
     @Override
-    public List<GameRoomEntity> findAll(Connection conn) {
+    public List<GameRoomDto> findAll(Connection conn) {
         try (PreparedStatement stmt = conn.prepareStatement(SELECT_ALL)) {
 
-            List<GameRoomEntity> result;
+            List<GameRoomDto> result;
             try (ResultSet rs = stmt.executeQuery()) {
                 result = extractList(rs);
             }
@@ -56,7 +56,7 @@ public class GameRoomRepositoryImpl implements GameRoomRepository {
 
             stmt.setLong(1, id);
 
-            List<GameRoomEntity> result;
+            List<GameRoomDto> result;
             try (ResultSet rs = stmt.executeQuery()) {
                 result = extractList(rs);
             }
@@ -67,8 +67,8 @@ public class GameRoomRepositoryImpl implements GameRoomRepository {
         }
     }
 
-    private List<GameRoomEntity> extractList(ResultSet rs) throws SQLException {
-        List<GameRoomEntity> result = new ArrayList<>();
+    private List<GameRoomDto> extractList(ResultSet rs) throws SQLException {
+        List<GameRoomDto> result = new ArrayList<>();
         while (rs.next()) {
             result.add(toGameRoom(rs));
         }
@@ -84,8 +84,8 @@ public class GameRoomRepositoryImpl implements GameRoomRepository {
         throw new RuntimeException("[ERROR] ID 생성에 실패했습니다.");
     }
 
-    private GameRoomEntity toGameRoom(ResultSet rs) throws SQLException {
-        return GameRoomEntity.of(
+    private GameRoomDto toGameRoom(ResultSet rs) throws SQLException {
+        return GameRoomDto.of(
                 rs.getLong("id"),
                 rs.getString("name"),
                 rs.getTimestamp("created_at").toLocalDateTime()

@@ -3,7 +3,6 @@ package domain.board;
 import domain.place.Place;
 import domain.place.piece.Piece;
 import domain.position.Position;
-import factory.BoardFactory;
 import java.util.HashMap;
 import java.util.Map;
 

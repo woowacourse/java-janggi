@@ -1,7 +1,7 @@
 package view;
 
 import domain.place.piece.Side;
-import entity.GameRoomEntity;
+import dto.GameRoomDto;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -48,7 +48,7 @@ public class OutputView {
         System.out.println(BOARD_MENU);
     }
 
-    public static void printSaveRoomList(List<GameRoomEntity> gameRoomEntities) {
+    public static void printSaveRoomList(List<GameRoomDto> gameRoomEntities) {
         System.out.println(GAME_ROOM_INFO_MESSAGE);
         gameRoomEntities
                 .forEach(g -> System.out.printf(GAME_ROOM_INFO, g.id(), g.name(), LocalDate.from(g.createdAt())));

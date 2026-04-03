@@ -9,8 +9,8 @@ import infra.H2ConnectionManager;
 import domain.place.Place;
 import domain.place.piece.Side;
 import domain.position.Position;
-import entity.GameStateEntity;
-import factory.BoardFactory;
+import dto.GameStateDto;
+import domain.board.BoardFactory;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -85,10 +85,10 @@ public class GameServiceTest {
         int roomId = 1;
 
         // when
-        GameStateEntity gameStateEntity = gameService.findGameStateByRoomId(roomId);
+        GameStateDto gameStateDto = gameService.findGameStateByRoomId(roomId);
 
         // then
-        assertThat(gameStateEntity.currentSide()).isEqualTo(Side.CHO);
+        assertThat(gameStateDto.currentSide()).isEqualTo(Side.CHO);
     }
 
     @Test

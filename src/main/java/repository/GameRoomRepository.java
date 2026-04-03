@@ -1,13 +1,13 @@
 package repository;
 
-import entity.GameRoomEntity;
+import dto.GameRoomDto;
 import java.sql.Connection;
 import java.util.List;
 
 public interface GameRoomRepository {
     long save(String name, Connection conn);
 
-    List<GameRoomEntity> findAll(Connection conn);
+    List<GameRoomDto> findAll(Connection conn);
 
     boolean existsById(long id, Connection conn);
 }

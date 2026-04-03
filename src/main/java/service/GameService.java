@@ -5,8 +5,8 @@ import java.sql.Connection;
 import domain.place.Place;
 import domain.place.piece.Side;
 import domain.position.Position;
-import entity.GameRoomEntity;
-import entity.GameStateEntity;
+import dto.GameRoomDto;
+import dto.GameStateDto;
 import java.util.List;
 import java.util.Map;
 import repository.BoardRepository;
@@ -45,7 +45,7 @@ public class GameService {
         });
     }
 
-    public GameStateEntity findGameStateByRoomId(long roomId) {
+    public GameStateDto findGameStateByRoomId(long roomId) {
         return dbExecutor.transaction(connection -> {
             existsById(roomId, connection);
             return gameStateRepository.findByRoomId(roomId, connection);
@@ -53,7 +53,7 @@ public class GameService {
 
     }
 
-    public List<GameRoomEntity> findGameRoomAll() {
+    public List<GameRoomDto> findGameRoomAll() {
             return dbExecutor.transaction(gameRoomRepository::findAll);
     }
 
