@@ -52,39 +52,31 @@ public class JdbcBoardRepository implements BoardRepository {
 
     @Override
     public long save(JanggiGame game) {
-        try (Connection connection = getConnection()) {
-            connection.setAutoCommit(false);
-            Long roomId = roomDao.save(GameRoomData.from(game), connection);
+        return executeInTransaction(connection -> {
+            long roomId = roomDao.save(GameRoomData.from(game), connection);
             List<List<Piece>> pieces = game.getBoardStatus();
             List<PieceData> data = new ArrayList<>();
             for (int i = 0; i < pieces.size(); i++) {
                 addPieceData(pieces, i, data);
             }
             piecesDao.save(roomId, data, connection);
-            connection.commit();
             return roomId;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        });
     }
 
     @Override
     public void update(Long roomId, Point from, Point to, JanggiGame game) {
-        try (Connection connection = getConnection()) {
-            connection.setAutoCommit(false);
+        executeInTransaction(connection -> {
             roomDao.update(roomId, GameRoomData.from(game), connection);
             piecesDao.delete(roomId, to.getRow(), to.getColumn(), connection);
             piecesDao.update(roomId, from.getRow(), from.getColumn(), to.getRow(), to.getColumn(), connection);
-            connection.commit();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+            return null;
+        });
     }
 
     @Override
     public JanggiGame loadGame(Long gameRoomId) {
-        try (Connection connection = getConnection()) {
-            connection.setAutoCommit(false);
+        return executeInTransaction(connection -> {
             GameRoomData roomData = roomDao.findRoomById(gameRoomId, connection);
             List<PieceData> pieceDatas = piecesDao.findAllByRoomId(gameRoomId, connection);
             Map<Point, Piece> pieces = new LinkedHashMap<>();
@@ -98,9 +90,7 @@ public class JdbcBoardRepository implements BoardRepository {
             Board board = new Board(pieces);
             connection.commit();
             return new JanggiGame(board, GameStatusFactory.create(Team.valueOf(roomData.currentTurn())));
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        });
     }
 
     private Connection getConnection() throws SQLException {
@@ -115,6 +105,28 @@ public class JdbcBoardRepository implements BoardRepository {
             }
             data.add(new PieceData(piece.getType().name(),
                     piece.isSameTeam(Team.HAN) ? Team.HAN.name() : Team.CHO.name(), i, j));
+        }
+    }
+
+    private <T> T executeInTransaction(TransactionCallback<T> action) {
+        try (Connection connection = getConnection()) {
+            return processTransaction(connection, action);
+        } catch (SQLException e) {
+            throw new RuntimeException("[ERROR] DB 커넥션 에러", e);
+        }
+    }
+
+    private <T> T processTransaction(Connection connection, TransactionCallback<T> action) throws SQLException {
+        try {
+            connection.setAutoCommit(false);
+            T result = action.doInTransaction(connection);
+            connection.commit();
+            return result;
+        } catch (SQLException e) {
+            connection.rollback();
+            throw new RuntimeException("[ERROR] 게임 저장 중 트랜잭션 롤백됨", e);
+        } finally {
+            connection.setAutoCommit(true);
         }
     }
 }
