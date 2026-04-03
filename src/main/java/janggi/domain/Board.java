@@ -4,6 +4,7 @@ import janggi.domain.piece.EmptyPosition;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Team;
 import janggi.domain.vo.Position;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -108,6 +109,23 @@ public class Board implements BoardView {
             }
         }
         return totalScore;
+    }
+
+
+    // 빈곳은 db에 따로 저장안하려는데....
+    // board 자료구조 자체가 map이었으면.....
+    public Map<Position, Piece> findAllPieces() {
+        Map<Position, Piece> pieces = new HashMap<>();
+        for (int row = 0; row < board.size(); row++) {
+            for (int col = 0; col < board.get(row).size(); col++) {
+                Position position = new Position(row, col);
+                Piece piece = findByPosition(position);
+                if (!piece.isEmpty()) {
+                    pieces.put(position, piece);
+                }
+            }
+        }
+        return pieces;
     }
 
 
