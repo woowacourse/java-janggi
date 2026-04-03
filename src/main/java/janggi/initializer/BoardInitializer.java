@@ -1,6 +1,7 @@
 package janggi.initializer;
 
 import janggi.domain.Arrangement;
+import janggi.domain.PalaceTopology;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.board.Board;
@@ -18,7 +19,7 @@ import janggi.domain.piece.Sang;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
+import java.util.function.BiFunction;
 
 public class BoardInitializer {
     private static final String UTILITY_CLASS_INSTANTIATION_MESSAGE = "BoardInitializer는 유틸리티 클래스이므로 인스턴스화할 수 없습니다.";
@@ -38,11 +39,11 @@ public class BoardInitializer {
             new Position(1, 2), new Position(1, 3), new Position(1, 7), new Position(1, 8)
     );
 
-    private static final Map<PieceType, Function<Side, Piece>> pieceMap = Map.of(
+    private static final Map<PieceType, BiFunction<Side, PalaceTopology, Piece>> pieceMap = Map.of(
             PieceType.CHA, Cha::new,
             PieceType.GUNG, Gung::new,
             PieceType.MA, Ma::new,
-            PieceType.NONE, (side) -> new None(),
+            PieceType.NONE, (side, palaceTopology) -> new None(),
             PieceType.PAWN, Pawn::new,
             PieceType.PO, Po::new,
             PieceType.SA, Sa::new,
@@ -70,17 +71,18 @@ public class BoardInitializer {
     }
 
     public static Map<Position, Piece> createBoard(Arrangement choArrangement, Arrangement hanArrangement) {
+        PalaceTopology palaceTopology = PalaceTopology.from();
         Map<Position, Piece> board = initBoard();
 
-        initHanPosition.forEach((key, value) -> value.forEach(position -> board.put(position, pieceMap.get(key).apply(Side.HAN))));
-        initChoPosition.forEach((key, value) -> value.forEach(position -> board.put(position, pieceMap.get(key).apply(Side.CHO))));
+        initHanPosition.forEach((key, value) -> value.forEach(position -> board.put(position, pieceMap.get(key).apply(Side.HAN, palaceTopology))));
+        initChoPosition.forEach((key, value) -> value.forEach(position -> board.put(position, pieceMap.get(key).apply(Side.CHO, palaceTopology))));
 
         List<PieceType> choMaSangPieceOrder = arrangeMap.get(choArrangement);
         List<PieceType> hanMaSangPieceOrder = arrangeMap.get(hanArrangement);
 
         for (int i = 0; i < 4; i++) {
-            board.put(choMaSangPosition.get(i), pieceMap.get(choMaSangPieceOrder.get(i)).apply(Side.CHO));
-            board.put(hanMaSangPosition.get(i), pieceMap.get(hanMaSangPieceOrder.get(i)).apply(Side.HAN));
+            board.put(choMaSangPosition.get(i), pieceMap.get(choMaSangPieceOrder.get(i)).apply(Side.CHO, palaceTopology));
+            board.put(hanMaSangPosition.get(i), pieceMap.get(hanMaSangPieceOrder.get(i)).apply(Side.HAN, palaceTopology));
         }
         return board;
     }

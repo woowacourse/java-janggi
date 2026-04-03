@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import janggi.domain.PalaceTopology;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -24,7 +25,7 @@ public class GungTest {
         Position startPosition = new Position(startX, startY);
         Position endPosition = new Position(endX, endY);
 
-        Gung gung = new Gung(Side.HAN);
+        Gung gung = new Gung(Side.HAN, PalaceTopology.from());
 
         List<Position> actual = gung.findRoute(startPosition, endPosition);
 
@@ -44,7 +45,7 @@ public class GungTest {
         Position startPosition = new Position(startX, startY);
         Position endPosition = new Position(endX, endY);
 
-        Gung gung = new Gung(Side.CHO);
+        Gung gung = new Gung(Side.CHO, PalaceTopology.from());
 
         List<Position> actual = gung.findRoute(startPosition, endPosition);
 
@@ -61,7 +62,7 @@ public class GungTest {
         Position startPosition = new Position(startX, startY);
         Position endPosition = new Position(endX, endY);
 
-        Gung gung = new Gung(Side.HAN);
+        Gung gung = new Gung(Side.HAN, PalaceTopology.from());
 
         assertThatThrownBy(() -> gung.findRoute(startPosition, endPosition))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -79,7 +80,7 @@ public class GungTest {
         Position startPosition = new Position(startX, startY);
         Position endPosition = new Position(endX, endY);
 
-        Gung gung = new Gung(Side.HAN);
+        Gung gung = new Gung(Side.HAN, PalaceTopology.from());
 
         assertThatThrownBy(() -> gung.findRoute(startPosition, endPosition))
                 .isInstanceOf(IllegalArgumentException.class)

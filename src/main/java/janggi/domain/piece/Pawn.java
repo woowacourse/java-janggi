@@ -1,10 +1,12 @@
 package janggi.domain.piece;
 
 import janggi.domain.Movement;
+import janggi.domain.PalaceTopology;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.policy.ClearPathPolicy;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Pawn extends StepPiece {
@@ -16,8 +18,8 @@ public class Pawn extends StepPiece {
             List.of(Movement.RIGHT)
     );
 
-    public Pawn(Side side) {
-        super(MOVE_RANGE, new ClearPathPolicy(), side, PieceType.PAWN);
+    public Pawn(Side side, PalaceTopology palaceTopology) {
+        super(MOVE_RANGE, new ClearPathPolicy(), palaceTopology, side, PieceType.PAWN);
     }
 
     @Override

@@ -1,10 +1,12 @@
 package janggi.domain.piece;
 
 import janggi.domain.Movement;
+import janggi.domain.PalaceTopology;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.policy.ClearPathPolicy;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Sa extends StepPiece {
@@ -16,8 +18,8 @@ public class Sa extends StepPiece {
             List.of(Movement.RIGHT)
     );
 
-    public Sa(Side side) {
-        super(MOVE_RANGE, new ClearPathPolicy(), side, PieceType.SA);
+    public Sa(Side side, PalaceTopology palaceTopology) {
+        super(MOVE_RANGE, new ClearPathPolicy(), palaceTopology, side, PieceType.SA);
     }
 
     @Override

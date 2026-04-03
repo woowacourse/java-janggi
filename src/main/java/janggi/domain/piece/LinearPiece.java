@@ -1,7 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.Movement;
-import janggi.domain.PalaceRoutes;
+import janggi.domain.PalaceTopology;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.policy.RoutePolicy;
@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public abstract class LinearPiece extends ActivePiece {
-    public LinearPiece(RoutePolicy routePolicy, Side side, PieceType pieceType) {
-        super(routePolicy, side, pieceType);
+    public LinearPiece(RoutePolicy routePolicy, PalaceTopology palaceTopology, Side side, PieceType pieceType) {
+        super(routePolicy, palaceTopology, side, pieceType);
     }
 
     @Override
@@ -25,20 +25,20 @@ public abstract class LinearPiece extends ActivePiece {
         return calculatePalacePath(start, end);
     }
 
-    private List<Position> calculatePalacePath(Position start, Position end) {
-        return PalaceRoutes.diagonalLineMovements(start).stream()
-                .map(movements -> calculateMovementPath(start, movements))
-                .filter(path -> path.getLast().equals(end))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(INVALID_DESTINATION_MESSAGE));
-    }
-
     private List<Position> calculateStraightPath(Position start, Position end, boolean isVertical){
         int dist = start.calculateDistance(end, isVertical);
         Movement movement = resolveMovement(isVertical, dist);
         return Stream.iterate(start, current -> current.move(movement))
                 .limit(Math.abs(dist) + 1)
                 .toList();
+    }
+
+    private List<Position> calculatePalacePath(Position start, Position end) {
+        return palaceTopology.diagonalLineMovements(start).stream()
+                .map(movements -> calculateMovementPath(start, movements))
+                .filter(path -> path.getLast().equals(end))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(INVALID_DESTINATION_MESSAGE));
     }
 
     private List<Position> calculateMovementPath(Position start, List<Movement> movements) {

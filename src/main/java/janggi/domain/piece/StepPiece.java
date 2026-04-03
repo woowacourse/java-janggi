@@ -1,7 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.Movement;
-import janggi.domain.PalaceRoutes;
+import janggi.domain.PalaceTopology;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.policy.RoutePolicy;
@@ -12,8 +12,8 @@ import java.util.List;
 public abstract class StepPiece extends ActivePiece {
     private final List<List<Movement>> baseMoveRange;
 
-    public StepPiece(List<List<Movement>> baseMoveRange, RoutePolicy routePolicy, Side side, PieceType pieceType) {
-        super(routePolicy, side, pieceType);
+    public StepPiece(List<List<Movement>> baseMoveRange, RoutePolicy routePolicy, PalaceTopology palaceTopology, Side side, PieceType pieceType) {
+        super(routePolicy, palaceTopology, side, pieceType);
         this.baseMoveRange = baseMoveRange;
     }
 
@@ -37,7 +37,7 @@ public abstract class StepPiece extends ActivePiece {
 
     private List<List<Movement>> candidateMoves(Position position){
         List<List<Movement>> moves = new ArrayList<>(baseMoveRange);
-        moves.addAll(PalaceRoutes.diagonalOneStepMovements(position));
+        moves.addAll(palaceTopology.diagonalOneStepMovements(position));
         return moves;
     }
 }

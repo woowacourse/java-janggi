@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import janggi.domain.PalaceTopology;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -21,7 +22,7 @@ class PawnTest {
         Position startPosition = new Position(startX, startY);
         Position endPosition = new Position(endX, endY);
 
-        Pawn pawn = new Pawn(Side.HAN);
+        Pawn pawn = new Pawn(Side.HAN, PalaceTopology.from());
 
         List<Position> actual = pawn.findRoute(startPosition, endPosition);
 
@@ -38,7 +39,7 @@ class PawnTest {
         Position startPosition = new Position(startX, startY);
         Position endPosition = new Position(endX, endY);
 
-        Pawn pawn = new Pawn(Side.CHO);
+        Pawn pawn = new Pawn(Side.CHO, PalaceTopology.from());
 
         List<Position> actual = pawn.findRoute(startPosition, endPosition);
 
@@ -56,7 +57,7 @@ class PawnTest {
         Position startPosition = new Position(startX, startY);
         Position endPosition = new Position(endX, endY);
 
-        Pawn pawn = new Pawn(Side.HAN);
+        Pawn pawn = new Pawn(Side.HAN, PalaceTopology.from());
 
         assertThatThrownBy(() -> pawn.findRoute(startPosition, endPosition))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -74,7 +75,7 @@ class PawnTest {
         Position startPosition = new Position(startX, startY);
         Position endPosition = new Position(endX, endY);
 
-        Pawn pawn = new Pawn(Side.CHO);
+        Pawn pawn = new Pawn(Side.CHO, PalaceTopology.from());
 
         assertThatThrownBy(() -> pawn.findRoute(startPosition, endPosition))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -91,7 +92,7 @@ class PawnTest {
         Position startPosition = new Position(startX, startY);
         Position endPosition = new Position(endX, endY);
 
-        Pawn pawn = new Pawn(Side.HAN);
+        Pawn pawn = new Pawn(Side.HAN, PalaceTopology.from());
 
         assertThatThrownBy(() -> pawn.findRoute(startPosition, endPosition))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -108,7 +109,7 @@ class PawnTest {
         Position startPosition = new Position(startX, startY);
         Position endPosition = new Position(endX, endY);
 
-        Pawn pawn = new Pawn(Side.CHO);
+        Pawn pawn = new Pawn(Side.CHO, PalaceTopology.from());
 
         assertThatThrownBy(() -> pawn.findRoute(startPosition, endPosition))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -126,7 +127,7 @@ class PawnTest {
         Position startPosition = new Position(startX, startY);
         Position endPosition = new Position(endX, endY);
 
-        Pawn pawn = new Pawn(Side.HAN);
+        Pawn pawn = new Pawn(Side.HAN, PalaceTopology.from());
 
         List<Position> actual = pawn.findRoute(startPosition, endPosition);
 
@@ -144,7 +145,7 @@ class PawnTest {
         Position startPosition = new Position(startX, startY);
         Position endPosition = new Position(endX, endY);
 
-        Pawn pawn = new Pawn(Side.CHO);
+        Pawn pawn = new Pawn(Side.CHO, PalaceTopology.from());
 
         List<Position> actual = pawn.findRoute(startPosition, endPosition);
 
