@@ -31,7 +31,7 @@ public class InputView {
     }
 
     public Position readSourcePosition() {
-        System.out.println("\n움직일 기물의 좌표를 입력하세요. (예: A0, a,0)");
+        System.out.println("움직일 기물의 좌표를 입력하세요. (예: A0, a,0)");
         System.out.print("출발지: ");
         return parsePosition(scanner.nextLine());
     }
@@ -42,7 +42,6 @@ public class InputView {
     }
 
     private Position parsePosition(String input) {
-
         String cleaned = input.replaceAll("[^a-zA-Z0-9]", "").toUpperCase();
 
         if (cleaned.length() != 2) {

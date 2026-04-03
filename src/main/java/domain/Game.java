@@ -43,4 +43,11 @@ public class Game {
         }
     }
 
+    public double getCurrentScore(Team team) {
+        return board.calculateScore(team);
+    }
+
+    public Team getTurn() {
+        return turn;
+    }
 }

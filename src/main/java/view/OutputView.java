@@ -10,8 +10,8 @@ import java.util.Optional;
 public class OutputView {
 
     private static final String RESET = "\u001B[0m";
-    private static final String RED = "\u001B[31m";   // 한(HAN)나라
-    private static final String BLUE = "\u001B[34m";  // 초(CHO)나라
+    private static final String RED = "\u001B[31m";
+    private static final String BLUE = "\u001B[34m";
 
     private static final String EMPTY_MARK = "＋";
 
@@ -21,7 +21,6 @@ public class OutputView {
         for (int y = 9; y >= 0; y--) {
             printRow(board, y);
         }
-        System.out.println();
     }
 
     private void printRow(Board board, int y) {
@@ -30,9 +29,8 @@ public class OutputView {
             Position position = new Position(x, y);
             Optional<Piece> piece = board.getPiece(position);
 
-            // null 없이 우아하게 처리
             String symbol = piece.map(this::getPieceSymbol).orElse(EMPTY_MARK);
-            System.out.print(symbol + " "); // 기호(2칸) + 간격용 공백(1칸)
+            System.out.print(symbol + " ");
         }
         System.out.println();
     }
@@ -54,5 +52,19 @@ public class OutputView {
         };
 
         return teamColor + typeName + RESET;
+    }
+
+    public void printChoScore(double choScore) {
+        System.out.printf("\n초(CHO): %.1f\n", choScore);
+    }
+
+    public void printHanScore(double hanScore) {
+        System.out.printf("\n한(HAN): %.1f\n", hanScore);
+    }
+
+    public void printCurrentTurn(Team turn) {
+        String teamName = turn == Team.CHO ? "초(CHO)" : "한(HAN)";
+        String color = turn == Team.CHO ? BLUE : RED;
+        System.out.printf(color + "\n▶ [" + teamName + "의 차례입니다]  " + RESET);
     }
 }

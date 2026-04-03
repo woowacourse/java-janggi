@@ -5,6 +5,7 @@ import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.InitializeSetting;
 import domain.board.Position;
+import domain.piece.Team;
 import view.InputView;
 import view.OutputView;
 
@@ -30,7 +31,10 @@ public class Controller {
 
     private void play(Game game) {
         while (true) {
+            outputView.printHanScore(game.getCurrentScore(Team.HAN));
             outputView.printBoard(game.getBoard());
+            outputView.printChoScore(game.getCurrentScore(Team.CHO));
+            outputView.printCurrentTurn(game.getTurn());
             executeMove(game);
         }
     }
@@ -39,14 +43,10 @@ public class Controller {
         while (true) {
             try {
                 Position from = inputView.readSourcePosition();
-
                 game.validateMoveAblePiece(from);
-
                 Position to = inputView.readTargetPosition();
-
                 game.move(from, to);
-
-                break;
+                return;
             } catch (IllegalArgumentException | IllegalStateException e) {
                 outputView.printError(e);
             }
