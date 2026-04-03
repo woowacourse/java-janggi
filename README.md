@@ -110,49 +110,49 @@
 
 ### 1. DB 연결 설정
 
-- [ ] SQLite JDBC 의존성 추가
-- [ ] DB 연결 관리 클래스 생성
+- [x] SQLite JDBC 의존성 추가
+- [x] DB 연결 관리 클래스 생성
 
 ### 2. 테이블 설계 및 적용
 
-- [ ] game 테이블 — 게임 메타 정보
-- [ ] piece 테이블 — 기물 배치 정보
+- [x] game 테이블 — 게임 메타 정보
+- [x] piece 테이블 — 기물 배치 정보
 
 ### 3. GameRepository 구현
 
-- [ ] save
+- [x] save
     - 새 게임 생성
     - 생성된 gameID 반환
-- [ ] findById
+- [x] findById
     - 특정 게임 조회
-- [ ] findPlayingGames
+- [x] findPlayingGames
     - 진행 중인 게임 목록 조회
-- [ ] updateTurn
+- [x] updateTurn
     - 턴 변경 시 갱신
-- [ ] updateFinished
+- [x] updateFinished
     - 게임 종료 시 갱신
 
 ### 4. PieceRepository 구현
 
-- [ ] saveAll
+- [x] saveAll
     - 게임의 모든 기물을 DB에 일괄 저장
 
-- [ ] findByGameId
+- [x] findByGameId
     - 특정 게임의 모든 기물 조회
 
-- [ ] movePiece
+- [x] movePiece
     - 기물 이동 반영
         - 도착 칸 기물 삭제
         - 출발 칸 기물 좌표 갱신
 
 ### 5. Controller 흐름 변경 (새 게임 / 이어하기)
 
-- [ ] 프로그램 시작 시
+- [x] 프로그램 시작 시
     - DB에서 진행 중인 게임 목록 조회
         - 존재하면 → 이어하기 / 새 게임 선택
         - 없으면 → 새 게임 시작
-- [ ] 매 턴 이동 후
+- [x] 매 턴 이동 후
     - DB에 기물 이동 반영
     - DB에 턴 변경 반영
-- [ ] 게임 종료 시
+- [x] 게임 종료 시
     - DB에 게임 종료 상태 반영  
