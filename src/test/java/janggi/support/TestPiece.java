@@ -1,0 +1,46 @@
+package janggi.support;
+
+import janggi.domain.Location;
+import janggi.domain.Side;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
+import java.util.List;
+
+public class TestPiece implements Piece {
+
+    private final Side side;
+
+    public TestPiece(Side side) {
+        this.side = side;
+    }
+
+    @Override
+    public List<Location> calculateRoute(Location from, Location to) {
+        return List.of();
+    }
+
+    @Override
+    public void detectCollision(List<Piece> piecesOnPath) {
+        return;
+    }
+
+    @Override
+    public boolean isSameSide(Piece piece) {
+        return piece.isSameSide(side);
+    }
+
+    @Override
+    public boolean isSameSide(Side side) {
+        return this.side.equals(side);
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return false;
+    }
+
+    @Override
+    public PieceType getType() {
+        return null;
+    }
+}
