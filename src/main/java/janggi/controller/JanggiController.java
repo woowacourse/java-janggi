@@ -39,8 +39,8 @@ public class JanggiController {
     }
 
     public void run() {
-        final long gameStateId = 1;
-        final Pair<Board, TurnManager> boardTurnManagerPair = loadOrSaveTurnManager(gameStateId);
+        final long gameId = 1;
+        final Pair<Board, TurnManager> boardTurnManagerPair = loadOrSaveTurnManager(gameId);
         final Board board = boardTurnManagerPair.left();
         final TurnManager turnManager = boardTurnManagerPair.right();
         OutputView.printBoard(BoardDto.from(board, List.of()));
@@ -48,19 +48,20 @@ public class JanggiController {
         OutputView.printGameResult(GameResultDto.from(board));
     }
 
-    public Pair<Board, TurnManager> loadOrSaveTurnManager(long gameStateId) {
+    public Pair<Board, TurnManager> loadOrSaveTurnManager(long gameId) {
         TurnManager turnManager;
         Board board;
-        if (gameService.hasGameState(gameStateId)) {
+        if (gameService.hasGameState(gameId)) {
             turnManager = TurnManagerMapper.toDomain(gameService.loadOrSaveGameState(1));
-            board = null;
+            board = new Board(boardService.loadBoard(gameId));
             return new Pair<>(board, turnManager);
         }
         Team blueTeam = setupBlueTeam();
         Team redTeam = setupRedTeam();
         board = BoardGenerator.generate(redTeam, blueTeam);
         turnManager = new TurnManager(1, List.of(blueTeam, redTeam));
-        boardService.createBoard(gameStateId, board.getPositionPieceMap());
+        gameService.loadOrSaveGameState(gameId);
+        boardService.createBoard(gameId, board.getPositionPieceMap());
 
         return new Pair<>(board, turnManager);
     }
@@ -77,10 +78,6 @@ public class JanggiController {
         final SetupCommand setupCommand = RetryExecutor.retry(this::readSetupCommand);
         final SetupPolicy setupPolicy = setupCommand.toPolicy();
         return new RedTeam(setupPolicy);
-    }
-
-    private void loadOrSaveTurnManager(Team redTeam, Team blueTeam) {
-
     }
 
     private SetupCommand readSetupCommand() {
