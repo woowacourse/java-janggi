@@ -15,6 +15,7 @@ import janggi.repository.BoardCellRepository;
 import janggi.repository.BoardCellRepositoryImpl;
 import janggi.repository.BoardRepository;
 import janggi.repository.BoardRepositoryImpl;
+import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -64,7 +65,7 @@ public class BoardCellServiceTest {
         BoardCellEntity expected = BoardCellEntity.from(1, boardId, position, piece);
 
         long id = boardCellService.createBoardCell(boardId, position, piece);
-        BoardCellEntity actual = boardCellRepository.findById(id);
+        BoardCellEntity actual = boardCellRepository.findById(id).get();
 
         assertThat(actual).isEqualTo(expected);
     }
@@ -84,7 +85,7 @@ public class BoardCellServiceTest {
             BoardCellEntity expected = BoardCellEntity.from(originEntityId, boardId, to, me);
 
             long modifiedEntityId = boardCellService.modifyBoardCell(boardId, to, me);
-            BoardCellEntity actual = boardCellRepository.findById(modifiedEntityId);
+            BoardCellEntity actual = boardCellRepository.findById(modifiedEntityId).get();
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -98,7 +99,7 @@ public class BoardCellServiceTest {
             BoardCellEntity expected = BoardCellEntity.from(1, boardId, to, me);
 
             long modifiedEntityId = boardCellService.modifyBoardCell(boardId, to, me);
-            BoardCellEntity actual = boardCellRepository.findById(modifiedEntityId);
+            BoardCellEntity actual = boardCellRepository.findById(modifiedEntityId).get();
 
             assertThat(actual).isEqualTo(expected);
         }

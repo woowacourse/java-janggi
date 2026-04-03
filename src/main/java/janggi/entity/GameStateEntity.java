@@ -1,7 +1,8 @@
 package janggi.entity;
 
 import janggi.domain.team.Team;
-import janggi.domain.turn.TurnManager;
+import janggi.domain.team.TeamType;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public record GameStateEntity(
@@ -10,21 +11,18 @@ public record GameStateEntity(
     String team_queue
 ) {
 
-    public static GameStateEntity from(final TurnManager turnManager) {
-        final String teamQueue = turnManager.getTeams()
-            .stream()
-            .map(Team::getTeamType)
-            .map(Enum::name)
+    public static GameStateEntity from(final int turnsTaken, final List<TeamType> teams) {
+        final String teamQueue = teams.stream()
+            .map(TeamType::name)
             .collect(Collectors.joining(","));
-        return new GameStateEntity(0, turnManager.getTurnTaken(), teamQueue);
+        return new GameStateEntity(0, turnsTaken, teamQueue);
     }
 
-    public static GameStateEntity from(final long id, final TurnManager turnManager) {
-        final String teamQueue = turnManager.getTeams()
-            .stream()
-            .map(Team::getTeamType)
-            .map(Enum::name)
+    public static GameStateEntity from(final long id, final int turnsTaken,
+        final List<TeamType> teams) {
+        final String teamQueue = teams.stream()
+            .map(TeamType::name)
             .collect(Collectors.joining(","));
-        return new GameStateEntity(id, turnManager.getTurnTaken(), teamQueue);
+        return new GameStateEntity(id, turnsTaken, teamQueue);
     }
 }

@@ -3,10 +3,9 @@ package janggi.repository;
 import janggi.config.DBConnection;
 import janggi.domain.Position;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceType;
-import janggi.domain.team.TeamType;
 import janggi.entity.BoardCellEntity;
 import janggi.global.EntityMapper;
+import java.util.Optional;
 
 public class BoardCellRepositoryImpl implements BoardCellRepository {
 
@@ -34,32 +33,12 @@ public class BoardCellRepositoryImpl implements BoardCellRepository {
             TABLE_NAME, position.getRow(),
             position.getColumn());
         final EntityMapper<BoardCellEntity> mapper = getBoardCellEntityEntityMapper();
-        final BoardCellEntity boardCellEntity = dbConnection.executeSelect(sql, mapper);
-        return boardCellEntity.id() != 0;
-    }
-
-    private static EntityMapper<BoardCellEntity> getBoardCellEntityEntityMapper() {
-        return resultSet -> {
-            int id = 0;
-            int row = 0;
-            int column = 0;
-            String piece_type = "";
-            String team = "";
-            int board_id = 0;
-            while (resultSet.next()) {
-                id = resultSet.getInt(1);
-                row = resultSet.getInt(2);
-                column = resultSet.getInt(3);
-                piece_type = resultSet.getString(4);
-                team = resultSet.getString(5);
-                board_id = resultSet.getInt(6);
-            }
-            return new BoardCellEntity(id, row, column, piece_type, team, board_id);
-        };
+        final Optional<BoardCellEntity> boardCellEntity = dbConnection.executeSelect(sql, mapper);
+        return boardCellEntity.isPresent();
     }
 
     @Override
-    public BoardCellEntity findById(final long targetId) {
+    public Optional<BoardCellEntity> findById(final long targetId) {
         final String sql = String.format(
             "SELECT id, \"row\", \"column\", piece_type, team, board_id "
                 + "FROM %s WHERE id = %d", TABLE_NAME, targetId);
@@ -67,10 +46,24 @@ public class BoardCellRepositoryImpl implements BoardCellRepository {
         return dbConnection.executeSelect(sql, mapper);
     }
 
+    private static EntityMapper<BoardCellEntity> getBoardCellEntityEntityMapper() {
+        return resultSet -> {
+            long id = resultSet.getInt(1);
+            int row = resultSet.getInt(2);
+            int column = resultSet.getInt(3);
+            String piece_type = resultSet.getString(4);
+            String team = resultSet.getString(5);
+            int board_id = resultSet.getInt(6);
+            return new BoardCellEntity(id, row, column, piece_type, team, board_id);
+        };
+    }
+
     @Override
     public long updateByPosition(final Position position, final Piece piece) {
-        final String sql = String.format("UPDATE %s SET piece_type = '%s', team = '%s' WHERE \"row\" = %d AND \"column\" = %d",
-            TABLE_NAME, piece.getPieceType(), piece.getTeamType(), position.getRow(), position.getColumn());
+        final String sql = String.format(
+            "UPDATE %s SET piece_type = '%s', team = '%s' WHERE \"row\" = %d AND \"column\" = %d",
+            TABLE_NAME, piece.getPieceType(), piece.getTeamType(), position.getRow(),
+            position.getColumn());
 
         return dbConnection.executeUpdate(sql);
     }

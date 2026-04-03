@@ -44,7 +44,7 @@ public class BoardServiceTest {
         BoardEntity expected = BoardEntity.from(1, name);
 
         long id = boardService.createBoard(1, name);
-        BoardEntity actual = boardRepository.findById(id);
+        BoardEntity actual = boardRepository.findById(id).get();
 
         assertThat(actual).isEqualTo(expected);
 

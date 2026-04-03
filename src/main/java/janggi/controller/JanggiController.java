@@ -15,6 +15,9 @@ import janggi.domain.team.TeamType;
 import janggi.domain.turn.TurnManager;
 import janggi.dto.BoardDto;
 import janggi.dto.GameResultDto;
+import janggi.service.BoardCellService;
+import janggi.service.BoardService;
+import janggi.service.GameStateService;
 import janggi.utils.Parser;
 import janggi.utils.RetryExecutor;
 import janggi.view.InputView;
@@ -23,12 +26,24 @@ import java.util.List;
 
 public class JanggiController {
 
-    public JanggiController() {
+    private final GameStateService gameStateService;
+    private final BoardService boardService;
+    private final BoardCellService boardCellService;
+
+    public JanggiController(
+        final GameStateService gameStateService,
+        final BoardService boardService,
+        final BoardCellService boardCellService
+    ) {
+        this.gameStateService = gameStateService;
+        this.boardService = boardService;
+        this.boardCellService = boardCellService;
     }
 
     public void run() {
-        final Team blueTeam = setupBlueTeam();
-        final Team redTeam = setupRedTeam();
+        final long gameStateId = 1;
+        Team blueTeam = setupBlueTeam();
+        Team redTeam = setupRedTeam();
         final Board board = BoardGenerator.generate(redTeam, blueTeam);
         final TurnManager turnManager = new TurnManager(1, List.of(blueTeam, redTeam));
         OutputView.printBoard(BoardDto.from(board, List.of()));
@@ -48,6 +63,10 @@ public class JanggiController {
         final SetupCommand setupCommand = RetryExecutor.retry(this::readSetupCommand);
         final SetupPolicy setupPolicy = setupCommand.toPolicy();
         return new RedTeam(setupPolicy);
+    }
+
+    private void loadOrSaveTurnManager(Team redTeam, Team blueTeam) {
+
     }
 
     private SetupCommand readSetupCommand() {

@@ -3,6 +3,7 @@ package janggi.repository;
 import janggi.domain.Position;
 import janggi.domain.piece.Piece;
 import janggi.entity.BoardCellEntity;
+import java.util.Optional;
 
 public interface BoardCellRepository {
 
@@ -10,7 +11,7 @@ public interface BoardCellRepository {
 
     boolean existsByPosition(Position position);
 
-    BoardCellEntity findById(long id);
+    Optional<BoardCellEntity> findById(long id);
 
     long updateByPosition(Position position, Piece piece);
 

@@ -3,6 +3,7 @@ package janggi.repository;
 import janggi.config.DBConnection;
 import janggi.entity.BoardEntity;
 import janggi.global.EntityMapper;
+import java.util.Optional;
 
 public class BoardRepositoryImpl implements BoardRepository {
 
@@ -21,16 +22,12 @@ public class BoardRepositoryImpl implements BoardRepository {
     }
 
     @Override
-    public BoardEntity findById(final long targetId) {
+    public Optional<BoardEntity> findById(final long targetId) {
         final String sql = String.format("SELECT id, name FROM %s WHERE id = %d",
             TABLE_NAME, targetId);
         final EntityMapper<BoardEntity> mapper = resultSet -> {
-            int id = 0;
-            String name = "";
-            while (resultSet.next()) {
-                id = resultSet.getInt(1);
-                name = resultSet.getString(2);
-            }
+            int id = resultSet.getInt(1);
+            String name = resultSet.getString(2);
             return BoardEntity.from(id, name);
 
         };

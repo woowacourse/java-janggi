@@ -1,8 +1,12 @@
 package janggi.service;
 
+import janggi.domain.team.Team;
+import janggi.domain.team.TeamType;
 import janggi.domain.turn.TurnManager;
 import janggi.entity.GameStateEntity;
+import janggi.mapper.TurnManagerMapper;
 import janggi.repository.GameStateRepository;
+import java.util.List;
 
 public class GameStateService {
 
@@ -12,14 +16,18 @@ public class GameStateService {
         this.gameStateRepository = gameStateRepository;
     }
 
-    public long createGameState(final TurnManager turnManager) {
-        final GameStateEntity gameStateEntity = GameStateEntity.from(turnManager);
-
-        return gameStateRepository.save(gameStateEntity);
+    public GameStateEntity loadOrSaveGameState(final long id) {
+        return gameStateRepository.findById(id)
+            .orElseGet(() -> gameStateRepository.save(
+                GameStateEntity.from(1, List.of(TeamType.BLUE, TeamType.RED))));
     }
 
     public long modifyGameState(final long id, final TurnManager turnManager) {
-        final GameStateEntity gameStateEntity = GameStateEntity.from(id, turnManager);
+        final List<TeamType> teamQueue = turnManager.getTeams().stream()
+            .map(Team::getTeamType)
+            .toList();
+        final GameStateEntity gameStateEntity = GameStateEntity.from(id, turnManager.getTurnTaken(),
+            teamQueue);
 
         return gameStateRepository.update(gameStateEntity);
     }

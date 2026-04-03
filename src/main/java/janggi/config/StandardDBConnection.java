@@ -8,6 +8,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Optional;
 import java.util.Properties;
 
 public class StandardDBConnection implements DBConnection {
@@ -42,19 +43,19 @@ public class StandardDBConnection implements DBConnection {
     }
 
     @Override
-    public <R> R executeSelect(final String sql, EntityMapper<R> mapper) {
-        R entity = null;
+    public <R> Optional<R> executeSelect(final String sql, EntityMapper<R> mapper) {
         try (
             final Connection connection = DriverManager.getConnection(url, id, password);
             final Statement preparedStatement = connection.createStatement();
             final ResultSet resultSet = preparedStatement.executeQuery(sql)) {
-
-            entity = mapper.map(resultSet);
+            if (resultSet.next()) {
+                return Optional.of(mapper.map(resultSet));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return entity;
+        return Optional.empty();
     }
 
     @Override

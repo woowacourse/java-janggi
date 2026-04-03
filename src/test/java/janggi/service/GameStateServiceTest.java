@@ -9,8 +9,10 @@ import janggi.domain.setup.InnerElephantSetupPolicy;
 import janggi.domain.team.BlueTeam;
 import janggi.domain.team.RedTeam;
 import janggi.domain.team.Team;
+import janggi.domain.team.TeamType;
 import janggi.domain.turn.TurnManager;
 import janggi.entity.GameStateEntity;
+import janggi.mapper.TurnManagerMapper;
 import janggi.repository.GameStateRepository;
 import janggi.repository.GameStateRepositoryImpl;
 import java.util.List;
@@ -45,14 +47,10 @@ class GameStateServiceTest {
 
     @Test
     @DisplayName("게임 상태 생성 테스트")
-    void createGameState() {
-        Team redTeam = new RedTeam(new InnerElephantSetupPolicy());
-        Team blueTeam = new BlueTeam(new InnerElephantSetupPolicy());
-        TurnManager turnManager = new TurnManager(1, List.of(blueTeam, redTeam));
-        GameStateEntity expected = GameStateEntity.from(1, turnManager);
+    void loadOrSaveGameState() {
+        GameStateEntity expected = GameStateEntity.from(1, 1, List.of(TeamType.BLUE, TeamType.RED));
 
-        long id = gameStateService.createGameState(turnManager);
-        GameStateEntity actual = gameStateRepository.findById(id);
+        GameStateEntity actual = gameStateService.loadOrSaveGameState(1);
 
         assertThat(actual).isEqualTo(expected);
     }
@@ -62,13 +60,12 @@ class GameStateServiceTest {
     void modifyGameState() {
         Team redTeam = new RedTeam(new InnerElephantSetupPolicy());
         Team blueTeam = new BlueTeam(new InnerElephantSetupPolicy());
-        TurnManager beforeTurnManager = new TurnManager(1, List.of(blueTeam, redTeam));
         TurnManager afterTurnManager = new TurnManager(2, List.of(redTeam, blueTeam));
         GameStateEntity expected = new GameStateEntity(1, 2, "RED,BLUE");
-        long id = gameStateRepository.save(GameStateEntity.from(beforeTurnManager));
+        gameStateRepository.save(GameStateEntity.from(2, List.of(TeamType.RED, TeamType.BLUE)));
 
-        gameStateService.modifyGameState(id, afterTurnManager);
-        GameStateEntity actual = gameStateRepository.findById(id);
+        gameStateService.modifyGameState(1, afterTurnManager);
+        GameStateEntity actual = gameStateRepository.findById(1).get();
 
         assertThat(actual).isEqualTo(expected);
     }
@@ -76,13 +73,10 @@ class GameStateServiceTest {
     @Test
     @DisplayName("게임 상태 삭제 테스트")
     void removeGameState() {
-        Team redTeam = new RedTeam(new InnerElephantSetupPolicy());
-        Team blueTeam = new BlueTeam(new InnerElephantSetupPolicy());
-        TurnManager turnManager = new TurnManager(4, List.of(blueTeam, redTeam));
-        long id = gameStateRepository.save(GameStateEntity.from(turnManager));
+        gameStateRepository.save(GameStateEntity.from(2, List.of(TeamType.RED, TeamType.BLUE)));
         boolean expected = true;
 
-        boolean actual = gameStateService.removeGameState(id);
+        boolean actual = gameStateService.removeGameState(1);
 
         assertThat(actual).isEqualTo(expected);
     }

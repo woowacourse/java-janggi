@@ -1,12 +1,13 @@
 package janggi.repository;
 
 import janggi.entity.GameStateEntity;
+import java.util.Optional;
 
 public interface GameStateRepository {
 
-    long save(GameStateEntity gameStateEntity);
+    GameStateEntity save(GameStateEntity gameStateEntity);
 
-    GameStateEntity findById(long id);
+    Optional<GameStateEntity> findById(long id);
 
     long update(GameStateEntity gameStateEntity);
 
