@@ -30,7 +30,18 @@ public class PieceInfos {
 
     public void deleteFromAndTo(Position from, Position to) {
         pieceInfos.remove(from);
+        if (isEmptyPosition(to)) {
+            return;
+        }
         pieceInfos.remove(to);
+    }
+
+    public boolean isEmptyPosition(Position position) {
+        return !pieceInfos.containsKey(position);
+    }
+
+    public int getSize() {
+        return pieceInfos.size();
     }
 
     @Override

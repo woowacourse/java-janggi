@@ -10,7 +10,6 @@ public enum PieceType {
     CANNON("cannon", 7d),
     CHARIOT("chariot", 13d),
     GENERAL("general", 0d),
-    NONE("none", 0d),
     ;
 
     private static final String NOT_FOUND_PIECE_TYPE = "[ERROR] 존재하지 않는 기물입니다.";

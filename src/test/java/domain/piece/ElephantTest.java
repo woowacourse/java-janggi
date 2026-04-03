@@ -196,7 +196,7 @@ public class ElephantTest {
         Map<Position, PieceInfo> pathPieceInfos = new LinkedHashMap<>();
         pathPieceInfos.put(from, elephant.getPieceInfo());
         pathPieceInfos.put(new Position(1, 2), new PieceInfo(PieceType.SOLDIER, CountryType.HAN));
-        pathPieceInfos.put(new Position(2, 3), new PieceInfo(PieceType.NONE, CountryType.NONE));
+        // (2, 3)은 비어있음
         pathPieceInfos.put(to, new PieceInfo(PieceType.SOLDIER, CountryType.HAN));
         PieceInfos pieceInfos = new PieceInfos(pathPieceInfos);
 
@@ -215,7 +215,7 @@ public class ElephantTest {
 
         Map<Position, PieceInfo> pathPieceInfos = new LinkedHashMap<>();
         pathPieceInfos.put(from, elephant.getPieceInfo());
-        pathPieceInfos.put(new Position(1, 2), new PieceInfo(PieceType.NONE, CountryType.NONE));
+        // (1, 2)는 비어있음
         pathPieceInfos.put(new Position(2, 3), new PieceInfo(PieceType.SOLDIER, CountryType.HAN));
         pathPieceInfos.put(to, new PieceInfo(PieceType.SOLDIER, CountryType.HAN));
         PieceInfos pieceInfos = new PieceInfos(pathPieceInfos);
@@ -235,8 +235,7 @@ public class ElephantTest {
 
         Map<Position, PieceInfo> pathPieceInfos = new LinkedHashMap<>();
         pathPieceInfos.put(from, elephant.getPieceInfo());
-        pathPieceInfos.put(new Position(1, 2), new PieceInfo(PieceType.NONE, CountryType.NONE));
-        pathPieceInfos.put(new Position(2, 3), new PieceInfo(PieceType.NONE, CountryType.NONE));
+        // (1, 2), (2, 3)은 비어있음
         pathPieceInfos.put(to, new PieceInfo(PieceType.SOLDIER, CountryType.CHO));
         PieceInfos pieceInfos = new PieceInfos(pathPieceInfos);
 

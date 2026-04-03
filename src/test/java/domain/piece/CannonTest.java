@@ -193,8 +193,7 @@ public class CannonTest {
         pathPieceInfos.put(from, cannon.getPieceInfo());
         pathPieceInfos.put(new Position(1, 2), new PieceInfo(PieceType.SOLDIER, CountryType.HAN));
         pathPieceInfos.put(new Position(1, 3), new PieceInfo(PieceType.SOLDIER, CountryType.HAN));
-        pathPieceInfos.put(to, new PieceInfo(PieceType.NONE, CountryType.NONE));
-
+        // to(1, 4)는 비어있음
         PieceInfos pieceInfos = new PieceInfos(pathPieceInfos);
 
         assertThatThrownBy(() -> cannon.validateMove(pieceInfos, from, to))
@@ -213,7 +212,7 @@ public class CannonTest {
         Map<Position, PieceInfo> pathPieceInfos = new LinkedHashMap<>();
         pathPieceInfos.put(from, cannon.getPieceInfo());
         pathPieceInfos.put(new Position(1, 2), new PieceInfo(PieceType.CANNON, CountryType.HAN));
-        pathPieceInfos.put(to, new PieceInfo(PieceType.NONE, CountryType.NONE));
+        // to(1, 4)는 비어있음
         PieceInfos pieceInfos = new PieceInfos(pathPieceInfos);
 
         assertThatThrownBy(() -> cannon.validateMove(pieceInfos, from, to))

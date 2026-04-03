@@ -13,16 +13,14 @@ public class MoveInsidePalacePiece extends MoveOneStepPiece {
 
     @Override
     public void validateMove(PieceInfos pieceInfos, Position from, Position to) {
-        for (Position position : pieceInfos.getKeys()) {
-            validatePosition(position);
-        }
+        validateInPalace(from, to);
         super.validateMove(pieceInfos, from, to);
     }
 
-    private void validatePosition(Position position) {
+    private void validateInPalace(Position from, Position to) {
         Palace palace = Palace.from(this.getPieceCountryType());
         List<Position> positions = palace.getPositions();
-        if (!positions.contains(position)) {
+        if (!positions.contains(from) || !positions.contains(to)) {
             throw new IllegalArgumentException(ONLY_MOVE_INSIDE_PALACE);
         }
     }

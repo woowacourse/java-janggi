@@ -5,7 +5,6 @@ import java.util.Arrays;
 public enum CountryType {
     HAN("han"),
     CHO("cho"),
-    NONE("none"),
     ;
 
     private static final String NOT_FOUND_COUNTRY_TYPE = "[ERROR] 존재하지 않는 나라입니다.";

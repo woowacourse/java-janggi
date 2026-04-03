@@ -175,7 +175,7 @@ public class HorseTest {
         Map<Position, PieceInfo> pathPieceInfos = new LinkedHashMap<>();
         pathPieceInfos.put(from, horse.getPieceInfo());
         pathPieceInfos.put(new Position(1, 2), new PieceInfo(PieceType.SOLDIER, CountryType.HAN));
-        pathPieceInfos.put(to, new PieceInfo(PieceType.NONE, CountryType.NONE));
+        // to(2, 3)은 비어있음
         PieceInfos pieceInfos = new PieceInfos(pathPieceInfos);
 
         assertThatThrownBy(() -> horse.validateMove(pieceInfos, from, to))
@@ -193,7 +193,7 @@ public class HorseTest {
 
         Map<Position, PieceInfo> pathPieceInfos = new LinkedHashMap<>();
         pathPieceInfos.put(from, horse.getPieceInfo());
-        pathPieceInfos.put(new Position(1, 2), new PieceInfo(PieceType.NONE, CountryType.NONE));
+        // (1, 2)는 비어있음
         pathPieceInfos.put(to, new PieceInfo(PieceType.SOLDIER, CountryType.CHO));
         PieceInfos pieceInfos = new PieceInfos(pathPieceInfos);
 

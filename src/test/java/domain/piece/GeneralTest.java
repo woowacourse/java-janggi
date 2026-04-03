@@ -180,7 +180,7 @@ public class GeneralTest {
 
         Map<Position, PieceInfo> pathPieceInfos = new LinkedHashMap<>();
         pathPieceInfos.put(from, general.getPieceInfo());
-        pathPieceInfos.put(to, new PieceInfo(PieceType.NONE, CountryType.NONE));
+        // to(2, 0)는 비어있음
         PieceInfos pieceInfos = new PieceInfos(pathPieceInfos);
 
         assertThatThrownBy(() -> general.validateMove(pieceInfos, from, to))
@@ -198,7 +198,7 @@ public class GeneralTest {
 
         Map<Position, PieceInfo> pathPieceInfos = new LinkedHashMap<>();
         pathPieceInfos.put(from, general.getPieceInfo());
-        pathPieceInfos.put(to, new PieceInfo(PieceType.NONE, CountryType.NONE));
+        // to(2, 7)는 비어있음
         PieceInfos pieceInfos = new PieceInfos(pathPieceInfos);
 
         assertThatThrownBy(() -> general.validateMove(pieceInfos, from, to))

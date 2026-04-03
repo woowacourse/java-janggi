@@ -40,29 +40,25 @@ public abstract class Piece {
     abstract void validateDirections(List<Direction> directions, Position from, Position to);
 
     public void validateMove(PieceInfos pathPieceInfos, Position from, Position to) {
-        validateToPiece(pathPieceInfos.get(from), pathPieceInfos.get(to));
+        validateToPiece(pathPieceInfos, from, to);
         // from, to Piece 제외한 path 검사
         pathPieceInfos.deleteFromAndTo(from, to);
-        validatePath(pathPieceInfos.getValues());
+        validatePath(pathPieceInfos);
     }
 
-    void validateToPiece(PieceInfo fromPiece, PieceInfo toPiece) {
-        if (toPiece.pieceType() == PieceType.NONE) {
+    void validateToPiece(PieceInfos pathPieceInfos, Position from, Position to) {
+        if (pathPieceInfos.isEmptyPosition(to)) {
             return;
         }
+        PieceInfo fromPiece = pathPieceInfos.get(from);
+        PieceInfo toPiece = pathPieceInfos.get(to);
         if (fromPiece.countryType() == toPiece.countryType()) {
             throw new IllegalArgumentException(CANNOT_MOVE_SAME_COUNTRY_POSITION);
         }
     }
 
-    void validatePath(List<PieceInfo> pieceInfos) {
-        for (PieceInfo pieceInfo : pieceInfos) {
-            validatePathPiece(pieceInfo);
-        }
-    }
-
-    void validatePathPiece(PieceInfo pieceInfo) {
-        if (pieceInfo.pieceType() != PieceType.NONE) {
+    void validatePath(PieceInfos pathPieceInfos) {
+        if (pathPieceInfos.getSize() > 0) {
             throw new IllegalArgumentException(NOT_EMPTY_PATH);
         }
     }

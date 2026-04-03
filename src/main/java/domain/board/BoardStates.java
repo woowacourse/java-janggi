@@ -50,21 +50,34 @@ public class BoardStates {
         boardStates.get(from).validateMove(wayPointPieceInfos, from, to);
     }
 
+    public PieceInfos getBoardStates() {
+        List<Position> positions = boardStates.keySet().stream()
+                .toList();
+        return getPieceInfos(positions);
+    }
+
     private PieceInfos getPieceInfos(List<Position> positions) {
         Map<Position, PieceInfo> pieceInfos = new HashMap<>();
         for (Position position : positions) {
-            addPathPieceInfo(pieceInfos, position);
+            adjustPieceInfo(position, pieceInfos);
         }
         return new PieceInfos(pieceInfos);
     }
 
-    private void addPathPieceInfo(Map<Position, PieceInfo> pathPieceInfos, Position position) {
-        if (!boardStates.containsKey(position)) {
-            pathPieceInfos.put(position, new PieceInfo(PieceType.NONE, CountryType.NONE));
+    private void adjustPieceInfo(Position position, Map<Position, PieceInfo> pieceInfos) {
+        if (isEmpty(position)) {
             return;
         }
-        pathPieceInfos.put(position, boardStates.get(position).getPieceInfo());
+        pieceInfos.put(position, boardStates.get(position).getPieceInfo());
     }
+
+//    private void addPieceInfo(Map<Position, PieceInfo> pathPieceInfos, Position position) {
+//        if (!boardStates.containsKey(position)) {
+//            pathPieceInfos.put(position, new PieceInfo(PieceType.NONE, CountryType.NONE));
+//            return;
+//        }
+//        pathPieceInfos.put(position, boardStates.get(position).getPieceInfo());
+//    }
 
     public Path getPiecePath(Position from, Position to) {
         return boardStates.get(from).path(from, to);
@@ -75,11 +88,5 @@ public class BoardStates {
             throw new IllegalArgumentException(NOT_FOUNT_PIECE_FROM_POSITION);
         }
         return boardStates.get(position).getPieceCountryType();
-    }
-
-    public BoardSnapshot getBoardSnapshot(CountryType countryType) {
-        List<Position> positions = boardStates.keySet().stream()
-                .toList();
-        return new BoardSnapshot(getPieceInfos(positions), countryType);
     }
 }

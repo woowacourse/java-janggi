@@ -5,6 +5,7 @@ import domain.Position;
 import domain.country.Countries;
 import domain.country.Country;
 import domain.country.CountryType;
+import domain.piece.PieceInfos;
 import java.util.Map;
 
 public class Board {
@@ -50,8 +51,8 @@ public class Board {
         }
     }
 
-    public BoardSnapshot getBoardSnapshot(CountryType countryType) {
-        return boardStates.getBoardSnapshot(countryType);
+    public PieceInfos getPieceInfos() {
+        return boardStates.getBoardStates();
     }
 
     public Map<CountryType, Double> getScores() {
