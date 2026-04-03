@@ -1,6 +1,7 @@
 package domain.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -12,20 +13,50 @@ public class PalaceTest {
     @Test
     @DisplayName("궁성 내 대각선으로 양 끝에서 이동하는 경우 중앙 경로를 반환한다.")
     void findDiagonalPath_When_OppositeCorners() {
-        Position from = new Position(4, 1);
-        Position to = new Position(6, 3);
-
-        assertThat(palace.findDiagonalPath(from, to))
-                .contains(List.of(new Position(5, 2)));
+        assertAll(
+                () -> assertThat(palace.findDiagonalPath(new Position(4, 1), new Position(6, 3)))
+                        .contains(List.of(new Position(5, 2))),
+                () -> assertThat(palace.findDiagonalPath(new Position(6, 1), new Position(4, 3)))
+                        .contains(List.of(new Position(5, 2))),
+                () -> assertThat(palace.findDiagonalPath(new Position(4, 8), new Position(6, 10)))
+                        .contains(List.of(new Position(5, 9))),
+                () -> assertThat(palace.findDiagonalPath(new Position(6, 8), new Position(4, 10)))
+                        .contains(List.of(new Position(5, 9)))
+        );
     }
 
     @Test
     @DisplayName("궁성 꼭짓점과 중앙 사이 이동이면 빈 경로를 반환한다.")
     void findDiagonalPath_When_MoveCornerAndCenter() {
-        Position from = new Position(4, 1);
-        Position to = new Position(5, 2);
+        assertAll(
+                () -> assertThat(palace.findDiagonalPath(new Position(4, 1), new Position(5, 2)))
+                        .contains(List.of()),
+                () -> assertThat(palace.findDiagonalPath(new Position(5, 2), new Position(6, 3)))
+                        .contains(List.of()),
+                () -> assertThat(palace.findDiagonalPath(new Position(6, 1), new Position(5, 2)))
+                        .contains(List.of()),
+                () -> assertThat(palace.findDiagonalPath(new Position(5, 2), new Position(4, 3)))
+                        .contains(List.of()),
+                () -> assertThat(palace.findDiagonalPath(new Position(4, 8), new Position(5, 9)))
+                        .contains(List.of()),
+                () -> assertThat(palace.findDiagonalPath(new Position(5, 9), new Position(6, 10)))
+                        .contains(List.of()),
+                () -> assertThat(palace.findDiagonalPath(new Position(6, 8), new Position(5, 9)))
+                        .contains(List.of()),
+                () -> assertThat(palace.findDiagonalPath(new Position(5, 9), new Position(4, 10)))
+                        .contains(List.of())
+        );
+    }
 
-        assertThat(palace.findDiagonalPath(from, to))
-                .contains(List.of());
+    @Test
+    @DisplayName("궁성 안의 대각선 경로가 아니면 빈 값을 반환한다.")
+    void findDiagonalPath_When_NotPalaceDiagonal() {
+        assertAll(
+                () -> assertThat(palace.findDiagonalPath(new Position(4, 1), new Position(5, 3))).isEmpty(),
+                () -> assertThat(palace.findDiagonalPath(new Position(4, 1), new Position(4, 3))).isEmpty(),
+                () -> assertThat(palace.findDiagonalPath(new Position(1, 1), new Position(2, 2))).isEmpty(),
+                () -> assertThat(palace.findDiagonalPath(new Position(4, 1), new Position(6, 10))).isEmpty()
+        );
+
     }
 }
