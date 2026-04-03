@@ -25,18 +25,19 @@ public class JanggiController {
     }
 
     public void run() {
-        JanggiService.readAllBoard();
         int boardId = 1;
-//        JanggiService.insertPositions();
-//        JanggiService.insertPieces();
-        JanggiService.readBoard(boardId);
+        JanggiService.deleteAll();
+        JanggiService.insertPositions();
+        JanggiService.insertPieces();
+        JanggiService.readAllBoard();
         Board board = makeBoard();
-//        JanggiService.insertBoard(CountryType.CHO);
-//        initBoardState(board.getPieceInfos(), boardId);
+        JanggiService.insertBoard(CountryType.CHO);
+        JanggiService.readBoard(1);
+        initBoardState(board.getPieceInfos(), boardId);
         List<CountryType> playOrders = List.of(CountryType.CHO, CountryType.HAN);
         BoardSnapshots boardSnapshots = new BoardSnapshots();
 
-        playTurn(board, playOrders, boardSnapshots);
+        playTurn(board, playOrders, boardSnapshots, boardId);
     }
 
     private Board makeBoard() {
@@ -65,23 +66,24 @@ public class JanggiController {
         }
     }
 
-    private void playTurn(Board board, List<CountryType> playOrders, BoardSnapshots boardSnapshots) {
+    private void playTurn(Board board, List<CountryType> playOrders, BoardSnapshots boardSnapshots, int boardId) {
         int turnIndex = 0;
         boolean isEnd = false;
         while (!isEnd) {
             CountryType countryType = playOrders.get(turnIndex);
             JanggiService.updateBoard(countryType, 1);
-            isEnd = checkEndAndMovePiece(board, countryType, boardSnapshots);
+            isEnd = checkEndAndMovePiece(board, countryType, boardSnapshots, boardId);
 
             turnIndex = (turnIndex + 1) % 2;
         }
     }
 
-    private boolean checkEndAndMovePiece(Board board, CountryType countryType, BoardSnapshots boardSnapshots) {
+    private boolean checkEndAndMovePiece(Board board, CountryType countryType, BoardSnapshots boardSnapshots,
+                                         int boardId) {
         BoardSnapshot boardSnapshot = new BoardSnapshot(board.getPieceInfos(), countryType);
         outputView.printBoard(boardSnapshot, board.getScores());
 
-        boolean isEndWithGeneralCaught = movePiece(board, countryType);
+        boolean isEndWithGeneralCaught = movePiece(board, countryType, boardId);
         if (isEndWithGeneralCaught) {
             outputView.printEndWithCatchGeneral(countryType);
         }
@@ -92,17 +94,26 @@ public class JanggiController {
         return isEndWithGeneralCaught || isEndWithBoardRepeat;
     }
 
-    private boolean movePiece(Board board, CountryType countryType) {
+    private boolean movePiece(Board board, CountryType countryType, int boardId) {
         while (true) {
             try {
                 Position from = makeFromPosition();
                 board.validateFromPosition(from, countryType);
                 Position to = makeToPosition();
 
-                return board.checkEndAndPlay(from, to);
+                boolean isEnd = board.checkEndAndPlay(from, to);
+                JanggiService.changeBoardStateToAndFrom(from, to, board.getPieceInfos(), boardId);
+                addBoardSnapshot(board.getPieceInfos(), boardId);
+                return isEnd;
             } catch (IllegalArgumentException exception) {
                 outputView.printErrorMessage(exception.getMessage());
             }
+        }
+    }
+
+    private void addBoardSnapshot(PieceInfos pieceInfos, int boardId) {
+        for (Position position : pieceInfos.getKeys()) {
+            JanggiService.insertBoardSnapshot(position, pieceInfos.get(position), boardId);
         }
     }
 
