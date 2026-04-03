@@ -13,6 +13,21 @@ public class StepMoveRule implements MoveRule {
         this.movementOrder = movementOrder;
     }
 
+    public static StepMoveRule elephantShape(Direction straight, Direction diagonal) {
+        return new StepMoveRule(List.of(
+                new Movement(1, straight),
+                new Movement(1, diagonal),
+                new Movement(1, diagonal)
+        ));
+    }
+
+    public static StepMoveRule horseShape(Direction straight, Direction diagonal) {
+        return new StepMoveRule(List.of(
+                new Movement(1, straight),
+                new Movement(1, diagonal)
+        ));
+    }
+
     @Override
     public List<Position> execute(Position from, final BoardMediator boardMediator) {
         final Piece piece = boardMediator.getPieceInPosition(from);

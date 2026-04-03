@@ -4,7 +4,6 @@ import janggi.domain.Position;
 import janggi.domain.board.BoardMediator;
 import janggi.domain.movement.Direction;
 import janggi.domain.movement.MoveRule;
-import janggi.domain.movement.Movement;
 import janggi.domain.movement.StepMoveRule;
 import janggi.domain.team.TeamType;
 import java.util.List;
@@ -16,32 +15,14 @@ public class Horse implements Piece {
 
     static {
         final List<MoveRule> movementStrategies = List.of(
-                new StepMoveRule(List.of(
-                        new Movement(1, Direction.RIGHT),
-                        new Movement(1, Direction.UP_RIGHT))),
-                new StepMoveRule(List.of(
-                        new Movement(1, Direction.RIGHT),
-                        new Movement(1, Direction.DOWN_RIGHT))),
-                new StepMoveRule(List.of(
-                        new Movement(1, Direction.UP),
-                        new Movement(1, Direction.UP_RIGHT))),
-                new StepMoveRule(List.of(
-                        new Movement(1, Direction.UP),
-                        new Movement(1, Direction.UP_LEFT))),
-                new StepMoveRule(List.of(
-                        new Movement(1, Direction.LEFT),
-                        new Movement(1, Direction.UP_LEFT))),
-                new StepMoveRule(List.of(
-                        new Movement(1, Direction.LEFT),
-                        new Movement(1, Direction.DOWN_LEFT))),
-                new StepMoveRule(List.of(
-                        new Movement(1, Direction.DOWN),
-                        new Movement(1, Direction.DOWN_LEFT))),
-                new StepMoveRule(List.of(
-                        new Movement(1, Direction.DOWN),
-                        new Movement(1, Direction.DOWN_RIGHT)))
-        );
-
+                StepMoveRule.horseShape(Direction.UP, Direction.UP_LEFT),
+                StepMoveRule.horseShape(Direction.UP, Direction.UP_RIGHT),
+                StepMoveRule.horseShape(Direction.RIGHT, Direction.UP_RIGHT),
+                StepMoveRule.horseShape(Direction.RIGHT, Direction.DOWN_RIGHT),
+                StepMoveRule.horseShape(Direction.DOWN, Direction.DOWN_LEFT),
+                StepMoveRule.horseShape(Direction.DOWN, Direction.DOWN_RIGHT),
+                StepMoveRule.horseShape(Direction.LEFT, Direction.DOWN_LEFT),
+                StepMoveRule.horseShape(Direction.LEFT, Direction.UP_LEFT));
         PIECE_ACTION = new PieceAction(movementStrategies);
     }
 
