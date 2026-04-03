@@ -18,7 +18,7 @@ public class Cannon extends Piece {
     @Override
     public boolean canMove(Position from, Position to, Board board) {
         // 1. 도착 지점이 같은 열 또는 행이 아닌 경우 이동 불가
-        if (!isCorrectMoveDistanceAndDirection(from, to)) {
+        if (!isCorrectMoveDistanceAndDirection(from, to, board)) {
             return false;
         }
 
@@ -33,7 +33,7 @@ public class Cannon extends Piece {
         }
 
         // 4. 도착지와 출발지 사이의 말 하나가 포인 경우 이동 불가
-        if (hasCannonTypeInList(from, to, board)) {
+        if (hasCannonTypeInList(from, to, board) || middlePositionTypeIsCannon(from, to, board)) {
             return false;
         }
 
@@ -53,12 +53,30 @@ public class Cannon extends Piece {
         return board.isExistSameType(to, this);
     }
 
-    private boolean isCorrectMoveDistanceAndDirection(Position from, Position to) {
+    private boolean isCorrectMoveDistanceAndDirection(Position from, Position to, Board board) {
+        if (board.isPalaceCorner(from)) {
+            return board.isPalaceCorner(to)  || board.isPalaceCorner(to) || from.isSameColumn(to) || from.isSameRow(to);
+        }
+
         return from.isSameColumn(to) || from.isSameRow(to);
     }
 
     private boolean hasOnePieceInPath(Position from, Position to, Board board) {
+        // 대각선 끝과 끝 이동시 궁성 중앙에 기물이 있는지 확인
+        if (isDiagonalCornerToCorner(from, to)) {
+            Position middlePosition = from.getMiddlePosition(to);
+            // 길이 비어 있어야 이동 가능
+            return !board.isEmpty(middlePosition);
+        }
+
         if (board.findPiecesInLinePath(from, to).size() == 1) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isDiagonalCornerToCorner(Position from, Position to) {
+        if (Math.abs(from.rowDistanceTo(to)) == 2 && Math.abs(from.columnDistanceTo(to)) == 2) {
             return true;
         }
         return false;
@@ -70,5 +88,13 @@ public class Cannon extends Piece {
         List<Piece> result = board.findPiecesInLinePath(from, to);
         return result.stream()
                 .anyMatch(piece -> piece.isSameType(PieceType.CANNON));
+    }
+
+    private boolean middlePositionTypeIsCannon(Position from, Position to, Board board) {
+        if (isDiagonalCornerToCorner(from, to)) {
+            Position middlePosition = from.getMiddlePosition(to);
+            return board.isExistSameType(middlePosition, this);
+        }
+        return false;
     }
 }
