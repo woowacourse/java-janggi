@@ -44,7 +44,7 @@ public class Path {
         return new Path(candidates);
     }
 
-    public static Path straightPathBetween(Position from, Position to) {
+    public static Path between(Position from, Position to) {
         List<Position> path = new ArrayList<>();
         Direction direction = Direction.between(from, to);
         Position pathPosition = from;
@@ -55,6 +55,10 @@ public class Path {
         }
 
         return new Path(path);
+    }
+
+    public static int countOfPositionBetween(Position from, Position to) {
+        return Path.between(from, to).size();
     }
 
     public List<Position> getPositions() {

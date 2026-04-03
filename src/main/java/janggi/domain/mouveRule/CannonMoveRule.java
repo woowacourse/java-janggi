@@ -32,7 +32,7 @@ public class CannonMoveRule implements MoveRule {
 
     private List<PieceType> findPieceTypesBetween(Position from, Position to, BoardView board) {
         List<PieceType> pieces = new ArrayList<>();
-        Path path = Path.straightPathBetween(from, to);
+        Path path = Path.between(from, to);
 
         for (int i = 0; i < path.size(); i++) {
             pieces.add(board.findTypeByPosition(path.positionAt(i)));
