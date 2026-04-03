@@ -226,10 +226,8 @@
 
 - [x] 단일 Piece를 잘 저장한다
 - [x] 여러 Piece들을 잘 저장한다
-- [x] 하나의 Piece를 row와 column으로 잘 찾아온다
+- [x] 하나의 Piece를 id로 잘 찾아온다
 - [x] 모든 Piece들을 잘 찾아온다
-- [x] 하나의 piece를 row와 column으로 찾아 새로운 위치의 값으로 업데이트 한다
-- [x] 하나의 piece를 row와 column으로 찾아 삭제한다
 
 ## GameContextJdbcRepository
 

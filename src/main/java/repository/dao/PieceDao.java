@@ -2,18 +2,14 @@ package repository.dao;
 
 import java.sql.SQLException;
 import java.util.List;
-import repository.entity.PieceEntity;
+import repository.entity.Piece;
 
 public interface PieceDao {
-    Long save(PieceEntity entity) throws SQLException;
+    Long save(Piece entity) throws SQLException;
 
-    List<Long> saveAll(List<PieceEntity> entities) throws SQLException;
+    List<Long> saveAll(List<Piece> entities) throws SQLException;
 
-    PieceEntity find(int targetRow, int targetColumn) throws SQLException;
+    Piece find(Long id) throws SQLException;
 
-    List<PieceEntity> findAll() throws SQLException;
-
-    void update(int targetRow, int targetColumn, int newRow, int newColumn) throws SQLException;
-
-    void delete(int targetRow, int targetColumn) throws SQLException;
+    List<Piece> findAll() throws SQLException;
 }

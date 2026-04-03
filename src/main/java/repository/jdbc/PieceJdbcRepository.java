@@ -5,20 +5,16 @@ import java.util.ArrayList;
 import java.util.List;
 import repository.RepositoryErrorMessage;
 import repository.dao.PieceDao;
-import repository.entity.PieceEntity;
+import repository.entity.Piece;
 
 public class PieceJdbcRepository implements PieceDao {
 
-    private static final String INSERT_PIECE_SQL = "INSERT INTO piece(piece_row, piece_col, team, type ) values(?, ?, ?, ?)";
-    private static final String SELECT_PIECE_SQL = "SELECT * FROM piece WHERE piece_row = ? AND piece_col = ?";
+    private static final String INSERT_PIECE_SQL = "INSERT INTO piece(team, type) values(?, ?)";
+    private static final String SELECT_PIECE_SQL = "SELECT * FROM piece WHERE piece_id = ?";
     private static final String SELECT_PIECES_SQL = "SELECT * FROM piece";
-    private static final String UPDATE_PIECE_SQL = "UPDATE piece SET piece_row = ?, piece_col = ? WHERE piece_row = ? AND piece_col = ?";
-    private static final String DELETE_PIECE_SQL = "DELETE FROM piece WHERE piece_row = ? AND piece_col = ?";
 
     private static final String CREATE_PIECE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS piece (" +
             "piece_id BIGINT PRIMARY KEY AUTO_INCREMENT, " +
-            "piece_row INT NOT NULL, " +
-            "piece_col INT NOT NULL, " +
             "team VARCHAR(10) NOT NULL, " +
             "type VARCHAR(10) NOT NULL)";
 
@@ -35,11 +31,9 @@ public class PieceJdbcRepository implements PieceDao {
 
 
     @Override
-    public Long save(PieceEntity entity) throws SQLException {
+    public Long save(Piece entity) throws SQLException {
         Object generatedId = template.executeSave(
                 INSERT_PIECE_SQL,
-                entity.row(),
-                entity.col(),
                 entity.pieceType(),
                 entity.team()
         );
@@ -47,12 +41,10 @@ public class PieceJdbcRepository implements PieceDao {
     }
 
     @Override
-    public List<Long> saveAll(List<PieceEntity> entities) throws SQLException {
+    public List<Long> saveAll(List<Piece> entities) throws SQLException {
         List<List<Object>> totalEntityValues = new ArrayList<>();
-        for (PieceEntity entity : entities) {
+        for (Piece entity : entities) {
             List<Object> rowValues = new ArrayList<>();
-            rowValues.add(entity.row());
-            rowValues.add(entity.col());
             rowValues.add(entity.team());
             rowValues.add(entity.pieceType());
 
@@ -66,25 +58,22 @@ public class PieceJdbcRepository implements PieceDao {
     }
 
     @Override
-    public PieceEntity find(int targetRow, int targetColumn) throws SQLException {
-        List<PieceEntity> pieceEntities = template.executeRead(
+    public Piece find(Long id) throws SQLException {
+        List<Piece> pieceEntities = template.executeRead(
                 SELECT_PIECE_SQL,
-                (rs) -> new PieceEntity(
+                (rs) -> new Piece(
                         rs.getLong("piece_id"),
-                        rs.getInt("piece_row"),
-                        rs.getInt("piece_col"),
                         rs.getString("team"),
                         rs.getString("type")
                 ),
-                targetRow,
-                targetColumn
+                id
         );
 
         validateSinglePieceEntity(pieceEntities);
         return pieceEntities.getFirst();
     }
 
-    private void validateSinglePieceEntity(List<PieceEntity> pieceEntities) {
+    private void validateSinglePieceEntity(List<Piece> pieceEntities) {
         if (pieceEntities.isEmpty()) {
             throw new IllegalStateException(RepositoryErrorMessage.NOT_FOUND.getMessage());
         }
@@ -94,36 +83,14 @@ public class PieceJdbcRepository implements PieceDao {
     }
 
     @Override
-    public List<PieceEntity> findAll() throws SQLException {
+    public List<Piece> findAll() throws SQLException {
         return template.executeRead(
                 SELECT_PIECES_SQL,
-                (rs) -> new PieceEntity(
+                (rs) -> new Piece(
                         rs.getLong("piece_id"),
-                        rs.getInt("piece_row"),
-                        rs.getInt("piece_col"),
                         rs.getString("team"),
                         rs.getString("type")
                 )
-        );
-    }
-
-    @Override
-    public void update(int targetRow, int targetColumn, int newRow, int newColumn) throws SQLException {
-        template.executeCommand(
-                UPDATE_PIECE_SQL,
-                newRow,
-                newColumn,
-                targetRow,
-                targetColumn
-        );
-    }
-
-    @Override
-    public void delete(int targetRow, int targetColumn) throws SQLException {
-        template.executeCommand(
-                DELETE_PIECE_SQL,
-                targetRow,
-                targetColumn
         );
     }
 }
