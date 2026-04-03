@@ -88,6 +88,10 @@ public class Board {
                 .allMatch(piece -> piece.isGeneral() || piece.isGuard());
     }
 
+    public Map<Position, Piece> getAllPieces() {
+        return pieces.getAll();
+    }
+
     public boolean isColumnClearBetween(Position a, Position b) {
         Column column = a.column();
         int minRow = Math.min(a.row().ordinal(), b.row().ordinal());

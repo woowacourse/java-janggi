@@ -32,4 +32,14 @@ public class ReadyState implements GameState {
     public void display(JanggiGame game, OutputView outputView) {
         outputView.printSetupTable(game.getTurn());
     }
+
+    @Override
+    public String stateName() {
+        return arrangements.hasArrangementFor(Team.HAN) ? "READY_CHO" : "READY_HAN";
+    }
+
+    @Override
+    public Arrangement getArrangementOf(Team team) {
+        return arrangements.hasArrangementFor(team) ? arrangements.arrangeFor(team) : null;
+    }
 }

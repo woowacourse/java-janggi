@@ -30,4 +30,9 @@ public class BikjangState implements GameState {
         outputView.printBoard(game.getBoard(), game.getTurn());
         outputView.printBikjangQuestion(game.getCurrentTeam());
     }
+
+    @Override
+    public String stateName() {
+        return "BIKJANG";
+    }
 }

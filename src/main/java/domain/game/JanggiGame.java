@@ -1,6 +1,7 @@
 package domain.game;
 
 import domain.board.Board;
+import domain.setup.Arrangement;
 import domain.setup.Command;
 import domain.state.GameState;
 import domain.state.ReadyState;
@@ -17,6 +18,12 @@ public class JanggiGame {
     public JanggiGame() {
         this.turn = new Turn(Team.HAN);
         this.gameState = new ReadyState(new Arrangements());
+    }
+
+    public JanggiGame(Board board, Turn turn, GameState gameState) {
+        this.board = board;
+        this.turn = turn;
+        this.gameState = gameState;
     }
 
     public void processCommand(Command command) {
@@ -59,5 +66,13 @@ public class JanggiGame {
 
     public void displayRequestCommand(OutputView outputView) {
         gameState.display(this, outputView);
+    }
+
+    public String getStateName() {
+        return gameState.stateName();
+    }
+
+    public Arrangement getArrangementOf(Team team) {
+        return gameState.getArrangementOf(team);
     }
 }

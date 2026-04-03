@@ -3,6 +3,7 @@ package domain.board;
 import domain.piece.Piece;
 import domain.piece.Team;
 import domain.setup.Arrangements;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -46,5 +47,9 @@ public class Pieces {
         return pieces.entrySet().stream()
                 .filter(e -> e.getValue().isOwnedBy(team))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
+    public Map<Position, Piece> getAll() {
+        return Collections.unmodifiableMap(pieces);
     }
 }

@@ -25,4 +25,9 @@ public class EndGameState implements GameState {
     public boolean isFinished() {
         return true;
     }
+
+    @Override
+    public String stateName() {
+        return "END";
+    }
 }

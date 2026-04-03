@@ -53,6 +53,10 @@ public class Piece {
         return pieceType.score();
     }
 
+    public Team getTeam() {
+        return team;
+    }
+
     public boolean isOwnedBy(Team targetTeam) {
         return this.team == targetTeam;
     }
