@@ -6,23 +6,26 @@ import janggi.domain.path.PieceOnPath;
 import janggi.domain.position.Movement;
 import janggi.domain.position.Position;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 class ElephantTest {
 
-    @Test
-    void 팀_확인_테스트() {
-        Elephant elephant = new Elephant(Team.HAN);
+    @ParameterizedTest
+    @CsvSource({
+            "HAN, true",
+            "CHO, true"})
+    void 상의_팀을_확인한다(Team team, boolean expected) {
+        Elephant elephant = new Elephant(team);
 
-        boolean hanResult = elephant.getTeam() == Team.HAN;
-        boolean choResult = elephant.getTeam() == Team.CHO;
-
-        assertAll(
-                () -> assertThat(hanResult).isTrue(),
-                () -> assertThat(choResult).isFalse()
-        );
+        assertThat(elephant.getTeam() == team).isEqualTo(expected);
     }
 
     @Test
@@ -30,37 +33,38 @@ class ElephantTest {
         Elephant elephant = new Elephant(Team.HAN);
 
         PieceType type = elephant.getType();
+
         assertThat(type).isEqualTo(PieceType.ELEPHANT);
     }
 
-    @Test
-    void 직선으로_먼저_한_칸_직선_방향의_대각선으로_연속_두_칸_이동시키면_경로를_반환한다() {
+    @ParameterizedTest(name = "from={0}, to={1}, path1={2}, path2={3}")
+    @CsvSource({
+            "13, 45, 23, 34",
+            "13, 41, 23, 32"})
+    void 올바른_경로로_이동시키면_경로를_반환한다(String from, String to, String path1, String path2) {
         Elephant elephant = new Elephant(Team.HAN);
-        Movement movement = new Movement(Position.from("13"), Position.from("45"));
+        Movement movement = new Movement(Position.from(from), Position.from(to));
 
         Path path = elephant.getPath(movement);
 
-        assertThat(path).containsExactly(Position.from("23"), Position.from("34"));
+        assertThat(path).containsExactly(Position.from(path1), Position.from(path2));
     }
 
-    @Test
-    void 직선으로_먼저_한_칸_직선_방향의_대각선으로_연속_두_칸_이외의_경로로_이동시키면_예외가_발생한다() {
+    @ParameterizedTest(name = "from={0}, to={1}")
+    @CsvSource({
+            "35, 65",
+            "11, 33"})
+    void 올바르지_않은_경로로_이동시키면_예외가_발생한다(String from, String to) {
         Elephant elephant = new Elephant(Team.HAN);
-        Movement movement1 = new Movement(Position.from("35"), Position.from("65"));
-        Movement movement2 = new Movement(Position.from("11"), Position.from("33"));
+        Movement movement = new Movement(Position.from(from), Position.from(to));
 
-        assertAll(
-                () -> assertThatThrownBy(() -> elephant.getPath(movement1))
-                        .isInstanceOf(IllegalArgumentException.class)
-                        .hasMessage("[ERROR] 상은 해당 경로로 이동할 수 없습니다."),
-                () -> assertThatThrownBy(() -> elephant.getPath(movement2))
-                        .isInstanceOf(IllegalArgumentException.class)
-                        .hasMessage("[ERROR] 상은 해당 경로로 이동할 수 없습니다.")
-        );
+        assertThatThrownBy(() -> elephant.getPath(movement))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 상은 해당 경로로 이동할 수 없습니다.");
     }
 
     @Test
-    void 경로에_존재하는_기물_중_빈_기물이_아닌_기물이_있으면_예외가_발생한다() {
+    void 경로에_기물이_있으면_예외가_발생한다() {
         Elephant elephant = new Elephant(Team.HAN);
         PieceOnPath pieceOnPath = new PieceOnPath();
         pieceOnPath.add(new EmptyPiece());
@@ -84,7 +88,7 @@ class ElephantTest {
     }
 
     @Test
-    void 이동_가능_하면_예외가_발생하지_않는다() {
+    void 이동_가능하면_예외가_발생하지_않는다() {
         Elephant elephant = new Elephant(Team.HAN);
         PieceOnPath pieceOnPath = new PieceOnPath();
         pieceOnPath.add(new EmptyPiece());
