@@ -8,6 +8,11 @@ public class Palace {
         if (isSamePair(from, to, new Position(4, 1), new Position(6, 3))) {
             return Optional.of(List.of(new Position(5, 2)));
         }
+
+        if (isSamePair(from, to, new Position(4, 1), new Position(5, 2))) {
+            return Optional.of(List.of());
+        }
+
         return Optional.empty();
     }
 

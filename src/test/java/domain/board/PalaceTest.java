@@ -18,4 +18,14 @@ public class PalaceTest {
         assertThat(palace.findDiagonalPath(from, to))
                 .contains(List.of(new Position(5, 2)));
     }
+
+    @Test
+    @DisplayName("궁성 꼭짓점과 중앙 사이 이동이면 빈 경로를 반환한다.")
+    void findDiagonalPath_When_MoveCornerAndCenter() {
+        Position from = new Position(4, 1);
+        Position to = new Position(5, 2);
+
+        assertThat(palace.findDiagonalPath(from, to))
+                .contains(List.of());
+    }
 }
