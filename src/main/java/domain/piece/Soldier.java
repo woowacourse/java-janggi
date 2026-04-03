@@ -68,6 +68,11 @@ public final class Soldier extends StaticPositionedPiece {
         return false;
     }
 
+    @Override
+    protected boolean isScreenable() {
+        return true;
+    }
+
     @SafeVarargs
     private Stream<Route> concatRoutes(List<Route>... routesCollection) {
         return Arrays.stream(routesCollection)

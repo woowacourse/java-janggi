@@ -34,6 +34,8 @@ public abstract class Piece {
 
     public abstract boolean canBelongToWing();
 
+    protected abstract boolean isScreenable();
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Piece piece)) {

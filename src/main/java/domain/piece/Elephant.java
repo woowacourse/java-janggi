@@ -50,6 +50,11 @@ public final class Elephant extends Piece {
         return true;
     }
 
+    @Override
+    protected boolean isScreenable() {
+        return true;
+    }
+
     private List<Intersection> findReachableDestinations(
             Intersection from,
             Vector vector,

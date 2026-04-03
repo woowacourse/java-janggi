@@ -23,4 +23,9 @@ public class General extends PalacePiece {
     public boolean canBelongToWing() {
         return false;
     }
+
+    @Override
+    protected boolean isScreenable() {
+        return true;
+    }
 }

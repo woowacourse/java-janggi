@@ -61,6 +61,11 @@ public final class Cannon extends StaticPositionedPiece {
         return false;
     }
 
+    @Override
+    protected boolean isScreenable() {
+        return false;
+    }
+
     private List<Intersection> findReachableDestinations(
             Intersection from,
             Vector vector,
@@ -87,23 +92,27 @@ public final class Cannon extends StaticPositionedPiece {
 
     private boolean isDestinationAvailable(Route route, AlivePieces alivePieces) {
         Intersection destination = route.getDestination();
+        if (alivePieces.isEmpty(destination)) {
+            return true;
+        }
+
         Piece destinationPiece = alivePieces.placedAt(destination);
 
         return route.isDestinationAvailable(alivePieces, side)
-                && isNotCannon(destinationPiece);
+                && destinationPiece.isScreenable();
     }
 
     private boolean isScreen(
             Intersection intersection,
             AlivePieces alivePieces
     ) {
+        if (alivePieces.isEmpty(intersection)) {
+            return false;
+        }
+
         Piece piece = alivePieces.placedAt(intersection);
 
         return intersection.isInBoard()
-                && isNotCannon(piece);
-    }
-
-    private boolean isNotCannon(Piece piece) {
-        return !(piece instanceof Cannon);
+                && piece.isScreenable();
     }
 }

@@ -50,6 +50,11 @@ public final class Horse extends Piece {
         return true;
     }
 
+    @Override
+    protected boolean isScreenable() {
+        return true;
+    }
+
     private List<Intersection> findReachableDestinations(
             Intersection from,
             Vector vector,

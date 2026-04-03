@@ -61,6 +61,11 @@ public final class Chariot extends StaticPositionedPiece {
         return false;
     }
 
+    @Override
+    protected boolean isScreenable() {
+        return true;
+    }
+
     private List<Intersection> findReachableDestinations(
             Intersection from,
             Vector vector,
