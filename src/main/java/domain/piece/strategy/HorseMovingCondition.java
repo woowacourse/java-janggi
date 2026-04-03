@@ -1,0 +1,39 @@
+package domain.piece.strategy;
+
+import domain.board.Direction;
+import domain.piece.Piece;
+import domain.position.Position;
+
+import java.util.Map;
+import java.util.Queue;
+
+public class HorseMovingCondition implements MovingCondition {
+
+    private static final int MAX_DIRECTION = 2;
+
+    @Override
+    public boolean canMove(Map<Position, Piece> state, Position startPosition, Position endPosition) {
+        Queue<Direction> directions = Direction.of(startPosition, endPosition);
+
+        if (directions.size() != MAX_DIRECTION) {
+            return false;
+        }
+
+        Direction firstDirection = directions.remove();
+        if (!firstDirection.isStraight()) {
+            return false;
+        }
+
+        Position nextPosition = startPosition.append(firstDirection);
+        if (state.containsKey(nextPosition)) {
+            return false;
+        }
+
+        Direction secondDirection = directions.remove();
+        if (secondDirection.isNotSameAtLeastOne(firstDirection) || secondDirection.isStraight()) {
+            return false;
+        }
+
+        return true;
+    }
+}
