@@ -98,16 +98,29 @@ public class Board {
     }
 
     public Team judgeResult() {
-        if (!isFinished()) {
-            throw new IllegalArgumentException(GAME_DOSE_NOT_FINISHED);
+        if (!isAnyJangDead()) {
+            return judgeByScore();
         }
+        return findAnyJang();
+    }
+
+    private Team findAnyJang() {
         return pieces.values().stream()
                 .filter(piece -> piece.getPieceType() == PieceType.JANG)
                 .findAny()
                 .get().getTeam();
     }
 
-    public boolean isFinished() {
+    private Team judgeByScore() {
+        double hanScore = getScoreByTeam(Team.HAN);
+        double choScore = getScoreByTeam(Team.CHO);
+        if (hanScore > choScore) {
+            return Team.HAN;
+        }
+        return Team.CHO;
+    }
+
+    public boolean isAnyJangDead() {
         return getJangAmount() != NORAML_JANG_AMOUNT;
     }
 
@@ -131,5 +144,25 @@ public class Board {
                 .filter(piece -> piece.isSameTeam(team))
                 .mapToDouble(piece -> piece.getScore())
                 .sum();
+    }
+
+    public boolean isBikjang() {
+        Position jangOfCho = findJangByTeam(Team.CHO);
+        Position jangOfHan = findJangByTeam(Team.HAN);
+
+        List<Position> path = jangOfCho.getVerticalPathExcludeDestination(jangOfHan);
+        for (Position position : path) {
+            if (pieces.get(position) != null) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private Position findJangByTeam(Team team) {
+        return pieces.keySet().stream()
+                .filter(position -> pieces.get(position).getPieceType() == PieceType.JANG)
+                .filter(position -> pieces.get(position).isSameTeam(team))
+                .findAny().get();
     }
 }

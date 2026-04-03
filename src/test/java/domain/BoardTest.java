@@ -61,9 +61,10 @@ public class BoardTest {
     }
 
     @Test
-    void 왕이_둘_다_살아있는_경우_예외가_발생해야_한다() {
+    void 왕이_둘_다_살아있는_경우_점수로_승패를_판단한다() {
         Board board = Board.of(SettingType.LEFT, SettingType.LEFT);
-        Assertions.assertThatThrownBy(() -> board.judgeResult()).isInstanceOf(IllegalArgumentException.class);
+        Team team = board.judgeResult();
+        Assertions.assertThat(team).isEqualTo(Team.HAN);
     }
 
     @Test
@@ -74,13 +75,13 @@ public class BoardTest {
         board.move(Team.HAN, Position.of(7, 5), Position.of(7, 6));
         board.move(Team.CHO, Position.of(3, 5), Position.of(9, 5));
 
-        Assertions.assertThat(board.isFinished()).isTrue();
+        Assertions.assertThat(board.isAnyJangDead()).isTrue();
     }
 
     @Test
     void 왕이_둘_다_살아남은_경우_거짓을_반환해야_한다() {
         Board board = Board.of(SettingType.LEFT, SettingType.LEFT);
-        Assertions.assertThat(board.isFinished()).isFalse();
+        Assertions.assertThat(board.isAnyJangDead()).isFalse();
     }
 
 
@@ -99,6 +100,20 @@ public class BoardTest {
         board.move(Team.CHO, Position.of(3, 2), Position.of(3, 5));
         board.move(Team.CHO, Position.of(3, 5), Position.of(7, 5));
         Assertions.assertThat(board.getScoreByTeam(Team.HAN)).isEqualTo(HAN_BASE_SCORE - BYEONG_SCORE);
+    }
+
+    @Test
+    void 장_사이에_아무런_기물이_없으면_빅장으로_처리한다() {
+        Board board = Board.of(SettingType.LEFT, SettingType.LEFT);
+        board.move(Team.CHO, Position.of(4, 5), Position.of(4, 6));
+        board.move(Team.HAN, Position.of(7, 5), Position.of(7, 6));
+        Assertions.assertThat(board.isBikjang()).isTrue();
+    }
+
+    @Test
+    void 장_사이에_기물이_있으면_빅장으로_처리하지_않는다() {
+        Board board = Board.of(SettingType.LEFT, SettingType.LEFT);
+        Assertions.assertThat(board.isBikjang()).isFalse();
     }
 }
 
