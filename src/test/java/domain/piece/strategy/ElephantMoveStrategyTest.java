@@ -40,12 +40,13 @@ class ElephantMoveStrategyTest {
 
     @Test
     void 상은_경로에_다른_기물이_있으면_이동할_수_없다() {
-        Position from = new Position(8, 0);
+        Position to = new Position(8, 1);
 
         List<PathInfo> pathInfos = new ArrayList<>();
-        pathInfos.add(new PathInfo(new Position(8, 1), Piece.of(Camp.CHO, PieceType.CHARIOT)));
+        pathInfos.add(new PathInfo(new Position(8, 0), Piece.of(Camp.CHO, PieceType.CHARIOT)));
+        pathInfos.add(new PathInfo(to, Piece.of(Camp.HAN, PieceType.CHARIOT)));
 
-        assertThatThrownBy(() -> elephantMoveStrategy.validateBlockingPiece(pathInfos, from))
+        assertThatThrownBy(() -> elephantMoveStrategy.validateBlockingPiece(pathInfos, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

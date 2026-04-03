@@ -51,12 +51,13 @@ class ChariotMoveStrategyTest {
 
     @Test
     void 차는_경로에_다른_기물이_있으면_이동할_수_없다() {
-        Position from = new Position(8, 0);
+        Position to = new Position(8, 2);
 
         List<PathInfo> pathInfos = new ArrayList<>();
         pathInfos.add(new PathInfo(new Position(8, 1), Piece.of(Camp.CHO, PieceType.CHARIOT)));
+        pathInfos.add(new PathInfo(new Position(8, 2), Piece.of(Camp.CHO, PieceType.HORSE)));
 
-        assertThatThrownBy(() -> chariotMoveStrategy.validateBlockingPiece(pathInfos, from))
+        assertThatThrownBy(() -> chariotMoveStrategy.validateBlockingPiece(pathInfos, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

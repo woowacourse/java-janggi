@@ -58,5 +58,4 @@ class SoldierMoveStrategyTest {
         assertThatThrownBy(() -> soldierMoveStrategy.getPath(from, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
-
 }
