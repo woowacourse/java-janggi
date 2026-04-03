@@ -41,34 +41,34 @@ public class JanggiGenerator implements IntersectionGenerator {
     public List<Intersection> makeIntersection() {
         return Stream.of(Team.values())
                 .flatMap(team -> Stream.of(
-                        createDefaultSoldierIntersectionV2(team),
-                        createDefaultCannonIntersectionV2(team),
-                        createDefaultGeneralIntersectionV2(team),
-                        createDefaultGuardIntersectionV2(team),
-                        createDefaultChariotIntersectionV2(team),
+                        createDefaultSoldierIntersection(team),
+                        createDefaultCannonIntersection(team),
+                        createDefaultGeneralIntersection(team),
+                        createDefaultGuardIntersection(team),
+                        createDefaultChariotIntersection(team),
                         createElephantAndHorseByFormation(team, getFormationByTeam(team))
                 ))
                 .flatMap(List::stream)
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
-    private List<Intersection> createDefaultSoldierIntersectionV2(Team team) {
+    private List<Intersection> createDefaultSoldierIntersection(Team team) {
         return createIntersections(getRow(team, DEFAULT_SOLDIER_ROW), DEFAULT_SOLDIER_FILES, new Soldier(team));
     }
 
-    private List<Intersection> createDefaultCannonIntersectionV2(Team team) {
+    private List<Intersection> createDefaultCannonIntersection(Team team) {
         return createIntersections(getRow(team, DEFAULT_CANNON_ROW), DEFAULT_CANNON_FILES, new Cannon(team));
     }
 
-    private List<Intersection> createDefaultGeneralIntersectionV2(Team team) {
+    private List<Intersection> createDefaultGeneralIntersection(Team team) {
         return createIntersections(getRow(team, DEFAULT_GENERAL_ROW), DEFAULT_GENERAL_FILES, new General(team));
     }
 
-    private List<Intersection> createDefaultGuardIntersectionV2(Team team) {
+    private List<Intersection> createDefaultGuardIntersection(Team team) {
         return createIntersections(getRow(team, DEFAULT_BACK_ROW), DEFAULT_GUARD_FILES, new Guard(team));
     }
 
-    private List<Intersection> createDefaultChariotIntersectionV2(Team team) {
+    private List<Intersection> createDefaultChariotIntersection(Team team) {
         return createIntersections(getRow(team, DEFAULT_BACK_ROW), DEFAULT_CHARIOT_FILES, new Chariot(team));
     }
 
