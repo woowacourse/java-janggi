@@ -3,6 +3,7 @@ package janggi.domain.movement;
 import janggi.domain.Position;
 import janggi.domain.board.BoardMediator;
 import janggi.domain.piece.Piece;
+import janggi.domain.team.TeamType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,11 +26,10 @@ public class Movement {
     public boolean hasReachablePosition(final Piece me, final Position from, final BoardMediator boardMediator) {
         for (int distance = 1; distance <= maxDistance; distance++) {
             final Position to = calculateNextPosition(from, distance);
-            if (!hasPieceAt(to, boardMediator)) {
+            if (!hasPieceAt(calculateNextPosition(from, distance), boardMediator)) {
                 return true;
             }
-            final Piece target = findPieceAt(to, boardMediator);
-            if (me.canKill(target)) {
+            if (me.canKill(findPieceAt(to, boardMediator))) {
                 return true;
             }
         }
@@ -48,14 +48,14 @@ public class Movement {
     }
 
     // 처음 만나는 기물 찾기(그 기물이 적군이라면 기물의 위치 반환, 아군이라면 이전 위치 반환)
-    public Position calculateDestination(final Position from, final Piece piece, final BoardMediator boardMediator) {
+    public Position calculateDestination(final Position from, final TeamType teamType,
+                                         final BoardMediator boardMediator) {
         for (int distance = 1; distance <= maxDistance; distance++) {
             final Position to = calculateNextPosition(from, distance);
             if (!hasPieceAt(to, boardMediator)) {
                 continue;
             }
-            final Piece target = findPieceAt(to, boardMediator);
-            if (target.belongsToTeam(piece.getTeamType())) {
+            if (boardMediator.isSameTeamType(to, teamType)) {
                 return calculateNextPosition(from, distance - 1);
             }
             return to;
@@ -77,7 +77,8 @@ public class Movement {
 
     // 이동 가능한 경로의 자취 위치 리스트를 반환한다.
     // 경로에 장애물을 만나면 그때까지의 리스트를 반환하고, 적을 만난다면 적의 좌표를 포함하여 반환한다.
-    public List<Position> calculateTraces(final Position from, final Piece piece, final BoardMediator boardMediator) {
+    public List<Position> calculateTraces(final Position from, final Piece piece, final TeamType teamType,
+                                          final BoardMediator boardMediator) {
         final List<Position> traces = new ArrayList<>();
         Position prev = from;
         for (int distance = 1; distance <= maxDistance; distance++) {
@@ -91,7 +92,7 @@ public class Movement {
                 continue;
             }
             final Piece target = findPieceAt(to, boardMediator);
-            if (!target.belongsToTeam(piece.getTeamType()) && piece.canKill(target)) {
+            if (!boardMediator.isSameTeamType(to, teamType) && piece.canKill(target)) {
                 traces.add(to);
             }
             return traces;

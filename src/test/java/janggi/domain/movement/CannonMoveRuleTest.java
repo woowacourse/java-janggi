@@ -35,7 +35,7 @@ public class CannonMoveRuleTest {
             MoveRule moveRuleOfCannon = new CannonMoveRule(Direction.RIGHT);
 
             // when
-            List<Position> actual = moveRuleOfCannon.execute(from, board);
+            List<Position> actual = moveRuleOfCannon.execute(from, TeamType.BLUE, board);
 
             // then
             List<Position> expected = List.of(Position.valueOf(6, 5), Position.valueOf(6, 6));
@@ -55,7 +55,7 @@ public class CannonMoveRuleTest {
             MoveRule moveRuleOfCannon = new CannonMoveRule(Direction.RIGHT);
 
             // when
-            List<Position> actual = moveRuleOfCannon.execute(from, board);
+            List<Position> actual = moveRuleOfCannon.execute(from, TeamType.BLUE, board);
 
             // then
             List<Position> expected = List.of(Position.valueOf(6, 5), Position.valueOf(6, 6), Position.valueOf(6, 7));
@@ -75,7 +75,7 @@ public class CannonMoveRuleTest {
             MoveRule moveRuleOfCannon = new CannonMoveRule(Direction.RIGHT);
 
             // when
-            List<Position> actual = moveRuleOfCannon.execute(from, board);
+            List<Position> actual = moveRuleOfCannon.execute(from, TeamType.BLUE, board);
 
             // then
             List<Position> expected = List.of();
@@ -93,7 +93,7 @@ public class CannonMoveRuleTest {
             MoveRule moveRuleOfCannon = new CannonMoveRule(Direction.RIGHT);
 
             // when
-            List<Position> actual = moveRuleOfCannon.execute(from, board);
+            List<Position> actual = moveRuleOfCannon.execute(from, TeamType.BLUE, board);
 
             // then
             List<Position> expected = List.of();
@@ -113,7 +113,7 @@ public class CannonMoveRuleTest {
             MoveRule moveRuleOfCannon = new CannonMoveRule(Direction.RIGHT);
 
             // when
-            List<Position> actual = moveRuleOfCannon.execute(from, board);
+            List<Position> actual = moveRuleOfCannon.execute(from, TeamType.BLUE, board);
 
             // then
             List<Position> expected = List.of(Position.valueOf(6, 5), Position.valueOf(6, 6));
@@ -132,7 +132,7 @@ public class CannonMoveRuleTest {
             MoveRule moveRuleOfCannon = new CannonMoveRule(Direction.RIGHT);
 
             // when
-            List<Position> actual = moveRuleOfCannon.execute(from, board);
+            List<Position> actual = moveRuleOfCannon.execute(from, TeamType.BLUE, board);
 
             // then
             List<Position> expected = List.of(Position.valueOf(6, 5), Position.valueOf(6, 6), Position.valueOf(6, 7),

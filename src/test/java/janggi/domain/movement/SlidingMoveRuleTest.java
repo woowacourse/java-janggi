@@ -31,7 +31,7 @@ public class SlidingMoveRuleTest {
         Position from = Position.valueOf(5, 3);
 
         // when
-        List<Position> actual = moveRuleWithTraces.execute(from, board);
+        List<Position> actual = moveRuleWithTraces.execute(from, TeamType.RED, board);
 
         // then
         List<Position> expected = List.of(
@@ -56,7 +56,7 @@ public class SlidingMoveRuleTest {
         Position from = Position.valueOf(5, 3);
 
         // when
-        List<Position> actual = moveRuleWithTraces.execute(from, board);
+        List<Position> actual = moveRuleWithTraces.execute(from, TeamType.RED, board);
 
         // then
         List<Position> expected = List.of(
@@ -77,7 +77,7 @@ public class SlidingMoveRuleTest {
         Position from = Position.valueOf(5, 3);
 
         // when
-        List<Position> actual = moveRuleWithTraces.execute(from, board);
+        List<Position> actual = moveRuleWithTraces.execute(from, TeamType.RED, board);
 
         // then
         List<Position> expected = List.of(
@@ -100,7 +100,7 @@ public class SlidingMoveRuleTest {
         Position from = Position.valueOf(1, 3);
 
         // when
-        List<Position> actual = moveRuleWithTraces.execute(from, board);
+        List<Position> actual = moveRuleWithTraces.execute(from, TeamType.RED, board);
 
         // then
         List<Position> expected = List.of();

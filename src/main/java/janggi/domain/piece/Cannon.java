@@ -45,7 +45,7 @@ public class Cannon implements Piece {
 
     @Override
     public List<Position> calculateMovablePositions(final Position from, final BoardMediator boardMediator) {
-        return PIECE_ACTION.calculateMovablePositions(from, boardMediator);
+        return PIECE_ACTION.calculateMovablePositions(from, teamType, boardMediator);
     }
 
     @Override

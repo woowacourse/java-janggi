@@ -40,6 +40,12 @@ public class Board implements BoardMediator {
         return findPieceByPosition(position).getPieceType() == PieceType.CANNON;
     }
 
+    @Override
+    public boolean isSameTeamType(Position position, TeamType teamType) {
+        Piece piece = findPieceByPosition(position);
+        return piece.getTeamType() == teamType;
+    }
+
     public Map<Position, Piece> getPositionPieceMapForDTO() {
         return Map.copyOf(positionPieceMap);
     }

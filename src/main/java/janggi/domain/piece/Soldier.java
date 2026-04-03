@@ -52,9 +52,9 @@ public class Soldier implements Piece {
     @Override
     public List<Position> calculateMovablePositions(Position from, BoardMediator boardMediator) {
         if (teamType == TeamType.RED) {
-            return RED_PIECE_ACTION.calculateMovablePositions(from, boardMediator);
+            return RED_PIECE_ACTION.calculateMovablePositions(from, teamType, boardMediator);
         }
-        return BLUE_PIECE_ACTION.calculateMovablePositions(from, boardMediator);
+        return BLUE_PIECE_ACTION.calculateMovablePositions(from, teamType, boardMediator);
     }
 
     @Override

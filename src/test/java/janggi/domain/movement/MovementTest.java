@@ -159,7 +159,7 @@ class MovementTest {
             Position expected = Position.valueOf(5, 5);
 
             // when
-            Position actual = Movement.calculateDestination(from, board.getPieceInPosition(from), board);
+            Position actual = Movement.calculateDestination(from, TeamType.RED, board);
 
             // then
             assertThat(actual).isEqualTo(expected);
@@ -178,7 +178,7 @@ class MovementTest {
             Position expected = Position.valueOf(5, 6);
 
             // when
-            Position actual = Movement.calculateDestination(from, board.getPieceInPosition(from), board);
+            Position actual = Movement.calculateDestination(from, TeamType.RED, board);
 
             // then
             assertThat(actual).isEqualTo(expected);
@@ -196,7 +196,7 @@ class MovementTest {
             Position expected = Position.valueOf(5, 7);
 
             // when
-            Position actual = Movement.calculateDestination(from, board.getPieceInPosition(from), board);
+            Position actual = Movement.calculateDestination(from, TeamType.RED, board);
 
             // then
             assertThat(actual).isEqualTo(expected);
@@ -229,7 +229,8 @@ class MovementTest {
             List<Position> expected = List.of(Position.valueOf(5, 4), Position.valueOf(5, 5));
 
             // when
-            List<Position> actual = Movement.calculateTraces(from, board.getPieceInPosition(from), board);
+            List<Position> actual = Movement.calculateTraces(from, board.getPieceInPosition(from), TeamType.RED,
+                    board);
 
             // then
             assertThat(actual).hasSameElementsAs(expected);
@@ -249,7 +250,7 @@ class MovementTest {
                     Position.valueOf(5, 6));
 
             // when
-            List<Position> actual = Movement.calculateTraces(from, board.getPieceInPosition(from), board);
+            List<Position> actual = Movement.calculateTraces(from, board.getPieceInPosition(from), TeamType.RED, board);
 
             // then
             assertThat(actual).hasSameElementsAs(expected);
@@ -268,7 +269,7 @@ class MovementTest {
                     Position.valueOf(5, 6), Position.valueOf(5, 7));
 
             // when
-            List<Position> actual = Movement.calculateTraces(from, board.getPieceInPosition(from), board);
+            List<Position> actual = Movement.calculateTraces(from, board.getPieceInPosition(from), TeamType.RED, board);
 
             // then
             assertThat(actual).hasSameElementsAs(expected);

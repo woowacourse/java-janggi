@@ -3,6 +3,7 @@ package janggi.domain.movement;
 import janggi.domain.Position;
 import janggi.domain.board.BoardMediator;
 import janggi.domain.piece.Piece;
+import janggi.domain.team.TeamType;
 import java.util.List;
 
 public class StepMoveRule implements MoveRule {
@@ -29,14 +30,14 @@ public class StepMoveRule implements MoveRule {
     }
 
     @Override
-    public List<Position> execute(Position from, final BoardMediator boardMediator) {
+    public List<Position> execute(Position from, final TeamType teamType, final BoardMediator boardMediator) {
         final Piece piece = boardMediator.getPieceInPosition(from);
         for (int index = 0; index < movementOrder.size() - 1; index++) {
             final Movement movement = movementOrder.get(index);
             if (!movement.canMove(from) || movement.isBlocked(from, boardMediator)) {
                 return List.of();
             }
-            from = movement.calculateDestination(from, piece, boardMediator);
+            from = movement.calculateDestination(from, teamType, boardMediator);
         }
         return findLastPosition(from, piece, boardMediator);
     }

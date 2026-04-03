@@ -32,7 +32,7 @@ public class StepMoveRuleTest {
         Position from = Position.valueOf(5, 6);
 
         // when
-        List<Position> actual = stepMoveRule.execute(from, board);
+        List<Position> actual = stepMoveRule.execute(from, TeamType.RED, board);
 
         // then
         List<Position> expected = List.of(Position.valueOf(3, 9));
@@ -57,7 +57,7 @@ public class StepMoveRuleTest {
         Position from = Position.valueOf(5, 3);
 
         // when
-        List<Position> actual = stepMoveRule.execute(from, board);
+        List<Position> actual = stepMoveRule.execute(from, TeamType.RED, board);
 
         // then
         List<Position> expected = List.of();
@@ -82,7 +82,7 @@ public class StepMoveRuleTest {
         Position from = Position.valueOf(5, 3);
 
         // when
-        List<Position> actual = stepMoveRule.execute(from, board);
+        List<Position> actual = stepMoveRule.execute(from, TeamType.RED, board);
 
         // then
         List<Position> expected = List.of(Position.valueOf(3, 6));
@@ -108,7 +108,7 @@ public class StepMoveRuleTest {
         Position from = Position.valueOf(5, 3);
 
         // when
-        List<Position> actual = stepMoveRule.execute(from, board);
+        List<Position> actual = stepMoveRule.execute(from, TeamType.RED, board);
 
         // then
         List<Position> expected = List.of();
@@ -134,7 +134,7 @@ public class StepMoveRuleTest {
         Position from = Position.valueOf(5, 3);
 
         // when
-        List<Position> actual = stepMoveRule.execute(from, board);
+        List<Position> actual = stepMoveRule.execute(from, TeamType.RED, board);
 
         // then
         List<Position> expected = List.of();
@@ -158,7 +158,7 @@ public class StepMoveRuleTest {
         Position from = Position.valueOf(5, 7);
 
         // when
-        List<Position> actual = stepMoveRule.execute(from, board);
+        List<Position> actual = stepMoveRule.execute(from, TeamType.RED, board);
 
         // then
         List<Position> expected = List.of();

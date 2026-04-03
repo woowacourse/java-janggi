@@ -49,7 +49,7 @@ public class Horse implements Piece {
 
     @Override
     public List<Position> calculateMovablePositions(Position from, BoardMediator boardMediator) {
-        return PIECE_ACTION.calculateMovablePositions(from, boardMediator);
+        return PIECE_ACTION.calculateMovablePositions(from, teamType, boardMediator);
     }
 
     @Override

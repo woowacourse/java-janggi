@@ -12,4 +12,6 @@ public interface BoardMediator {
     Piece getPieceInPosition(Position position);
 
     boolean isCannon(Position position);
+
+    boolean isSameTeamType(Position position, TeamType teamType);
 }
