@@ -3,6 +3,7 @@ package domain.board.dto;
 import domain.board.JanggiBoard;
 import domain.intersection.Intersection;
 import domain.point.Point;
+
 import java.util.HashMap;
 import java.util.Map;
 

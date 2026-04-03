@@ -5,6 +5,7 @@ import domain.move.path.Path;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.point.Point;
+
 import java.util.List;
 import java.util.Map;
 

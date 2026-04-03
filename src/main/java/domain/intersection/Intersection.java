@@ -16,14 +16,10 @@ public abstract class Intersection {
     private final Point point;
     private Piece piece;
 
-    public Intersection(Point point, Piece piece) {
+    protected Intersection(Point point, Piece piece) {
         this.point = point;
         this.piece = piece;
     }
-
-//    public static Intersection empty(Point point) {
-//        return new NormalIntersection(point, Piece.none());
-//    }
 
     public void move(Intersection destination) {
         destination.arrive(this);

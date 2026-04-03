@@ -23,7 +23,7 @@ public class LeftTopPalace extends Intersection {
 
     @Override
     public Directions getDiagonalDirections() {
-        if(hasLinearPiece()){
+        if (hasLinearPiece()) {
             return Directions.cumulative(Vector.RIGHT_DOWN, 2);
         }
 

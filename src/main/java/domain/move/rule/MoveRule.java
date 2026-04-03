@@ -3,6 +3,7 @@ package domain.move.rule;
 import domain.intersection.Intersection;
 import domain.move.path.Path;
 import domain.point.Point;
+
 import java.util.List;
 
 public interface MoveRule {

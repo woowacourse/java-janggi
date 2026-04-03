@@ -9,6 +9,7 @@ import domain.move.directions.Directions;
 import domain.move.path.Path;
 import domain.move.path.exception.PathException;
 import domain.point.Point;
+
 import java.util.List;
 
 public class GuardMoveRule implements MoveRule {

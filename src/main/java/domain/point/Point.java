@@ -29,7 +29,7 @@ public record Point(
         }
     }
 
-    public boolean canMake(int y, int x){
+    public boolean canMake(int y, int x) {
         return checkPointRange(this.y + y, this.x + x);
     }
 

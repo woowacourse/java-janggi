@@ -36,7 +36,7 @@ public record Directions(
         return new Directions(combined);
     }
 
-    public List<Point> findPoints(Intersection origin, Intersection destination){
+    public List<Point> findPoints(Intersection origin, Intersection destination) {
         Point start = origin.getPoint();
         Point end = destination.getPoint();
         return directions.stream()

@@ -4,8 +4,7 @@ public enum Team {
 
     CHO,
     HAN,
-    NONE
-    ;
+    NONE;
 
     public Team nextTurn() {
         if (this == CHO) {
