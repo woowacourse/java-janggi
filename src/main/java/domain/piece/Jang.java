@@ -12,12 +12,13 @@ import static domain.direction.Direction.WEST;
 import domain.board.PathPieces;
 import domain.pathgenerator.DirectionPath;
 import domain.pathgenerator.NonStraightPathGenerator;
+import domain.pathgenerator.PalaceBoundPathGenerator;
 import domain.pathgenerator.PathGenerator;
 import domain.player.Team;
 import domain.position.Path;
 import domain.position.Position;
+import domain.strategy.BlockedMovementStrategy;
 import domain.strategy.MovementStrategy;
-import domain.strategy.PalaceMovementStrategy;
 import java.util.List;
 
 public class Jang extends Piece {
@@ -33,8 +34,9 @@ public class Jang extends Piece {
             DirectionPath.of(SOUTH_WEST)
     );
 
-    private static final MovementStrategy MOVEMENT_STRATEGY = new PalaceMovementStrategy();
-    private static final PathGenerator PATH_GENERATOR = new NonStraightPathGenerator(PATHS);
+    private static final MovementStrategy MOVEMENT_STRATEGY = new BlockedMovementStrategy();
+    private static final PathGenerator PATH_GENERATOR =
+            new PalaceBoundPathGenerator(new NonStraightPathGenerator(PATHS));
 
     public Jang(Team team) {
         super(team, PieceType.JANG);

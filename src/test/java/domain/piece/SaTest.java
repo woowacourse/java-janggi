@@ -1,26 +1,25 @@
 package domain.piece;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import domain.board.MoveMeta;
-import domain.board.PathPieces;
+import common.exception.JanggiException;
 import domain.player.Team;
 import domain.position.Path;
 import domain.position.Position;
-import java.util.List;
 import java.util.stream.Stream;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.api.Test;
 
 class SaTest {
     @ParameterizedTest
     @MethodSource("provideSaPaths")
-    void 사는_모든방향을_한칸_이동한다(int sourceRow, int sourceColumn, int destinationRow, int destinationColumn) {
+    void 사는_궁성_안에서_모든방향을_한칸_이동한다(int sourceRow, int sourceColumn, int destinationRow, int destinationColumn) {
         Piece sa = new Sa(Team.HAN);
         Position source = new Position(sourceRow, sourceColumn);
         Position destination = new Position(destinationRow, destinationColumn);
@@ -35,53 +34,37 @@ class SaTest {
 
     private static Stream<Arguments> provideSaPaths() {
         return Stream.of(
-                Arguments.of(4, 4, 5, 4),
-                Arguments.of(4, 4, 3, 4),
-                Arguments.of(4, 4, 4, 5),
-                Arguments.of(4, 4, 4, 3),
-                Arguments.of(4, 4, 5, 5),
-                Arguments.of(4, 4, 5, 3),
-                Arguments.of(4, 4, 3, 5),
-                Arguments.of(4, 4, 3, 3)
+                Arguments.of(1, 4, 2, 4),
+                Arguments.of(1, 4, 0, 4),
+                Arguments.of(1, 4, 1, 5),
+                Arguments.of(1, 4, 1, 3),
+                Arguments.of(1, 4, 2, 5),
+                Arguments.of(1, 4, 2, 3),
+                Arguments.of(1, 4, 0, 5),
+                Arguments.of(1, 4, 0, 3)
         );
     }
 
     @Test
-    void 궁성_여부가_false면_사는_이동이_불가능하다() {
+    void 궁성_밖_이동은_경로_생성에_실패한다() {
         Piece sa = new Sa(Team.HAN);
-        PathPieces pathPieces = new PathPieces(
-                new Sa(Team.HAN),
-                List.of(),
-                new Cha(Team.CHO),
-                new MoveMeta(false, false, false)
-        );
 
-        assertFalse(sa.validatePath(pathPieces));
+        assertThrows(JanggiException.class,
+                () -> sa.calculatePath(new Position(4, 4), new Position(5, 4)));
     }
 
     @Test
-    void 궁성_안_연결_대각선이면_사는_이동이_가능하다() {
+    void 궁성_안_연결_대각선_이동은_경로_생성에_성공한다() {
         Piece sa = new Sa(Team.HAN);
-        PathPieces pathPieces = new PathPieces(
-                new Sa(Team.HAN),
-                List.of(),
-                new Cha(Team.CHO),
-                new MoveMeta(true, true, true, true)
-        );
 
-        assertTrue(sa.validatePath(pathPieces));
+        assertDoesNotThrow(() -> sa.calculatePath(new Position(0, 3), new Position(1, 4)));
     }
 
     @Test
-    void 궁성_안_비연결_대각선이면_사는_이동이_불가능하다() {
+    void 궁성_안_비연결_대각선_이동은_경로_생성에_실패한다() {
         Piece sa = new Sa(Team.HAN);
-        PathPieces pathPieces = new PathPieces(
-                new Sa(Team.HAN),
-                List.of(),
-                new Cha(Team.CHO),
-                new MoveMeta(true, true, true, false)
-        );
 
-        assertFalse(sa.validatePath(pathPieces));
+        assertThrows(JanggiException.class,
+                () -> sa.calculatePath(new Position(0, 4), new Position(1, 5)));
     }
 }

@@ -1,12 +1,11 @@
 package domain.piece;
 
 import static domain.TestUtil.createPosition;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import domain.board.MoveMeta;
-import domain.board.PathPieces;
+import common.exception.JanggiException;
 import domain.player.Team;
 import domain.position.Path;
 import domain.position.Position;
@@ -38,49 +37,25 @@ class PoTest {
     }
 
     @Test
-    void 포는_궁성_밖_대각선_이동은_검증에_실패한다() {
+    void 포는_궁성_밖_대각선_이동_경로_생성에_실패한다() {
         MovablePiece po = new Po(Team.CHO);
-        Position source = new Position(6, 0);
-        Position destination = new Position(4, 2);
 
-        po.calculatePath(source, destination);
-        PathPieces pathPieces = new PathPieces(
-                po,
-                List.of(new Cha(Team.HAN)),
-                None.getInstance(),
-                new MoveMeta(source.isInPalace(), destination.isInPalace(), true)
-        );
-
-        assertFalse(po.validatePath(pathPieces));
+        assertThrows(JanggiException.class,
+                () -> po.calculatePath(new Position(6, 0), new Position(4, 2)));
     }
 
     @Test
-    void 포는_궁성_안_대각선_이동은_검증에_성공한다() {
+    void 포는_궁성_안_대각선_이동_경로_생성에_성공한다() {
         MovablePiece po = new Po(Team.CHO);
-        Position source = new Position(0, 3);
-        Position destination = new Position(2, 5);
 
-        po.calculatePath(source, destination);
-        PathPieces pathPieces = new PathPieces(
-                po,
-                List.of(new Cha(Team.HAN)),
-                None.getInstance(),
-                new MoveMeta(source.isInPalace(), destination.isInPalace(), true)
-        );
-
-        assertTrue(po.validatePath(pathPieces));
+        assertDoesNotThrow(() -> po.calculatePath(new Position(0, 3), new Position(2, 5)));
     }
 
     @Test
-    void 포는_궁성_안_비연결_대각선_이동은_검증에_실패한다() {
+    void 포는_궁성_안_비연결_대각선_이동_경로_생성에_실패한다() {
         MovablePiece po = new Po(Team.CHO);
-        PathPieces pathPieces = new PathPieces(
-                po,
-                List.of(new Cha(Team.HAN)),
-                None.getInstance(),
-                new MoveMeta(true, true, true, false)
-        );
 
-        assertFalse(po.validatePath(pathPieces));
+        assertThrows(JanggiException.class,
+                () -> po.calculatePath(new Position(0, 4), new Position(1, 5)));
     }
 }
