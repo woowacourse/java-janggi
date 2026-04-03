@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class SlideMoveStrategy implements MoveStrategy {
 
@@ -18,6 +19,7 @@ public class SlideMoveStrategy implements MoveStrategy {
         for (Direction baseDirection : baseDirections) {
             addSlidePath(current, baseDirection, paths);
         }
+
         return paths;
     }
 
@@ -34,6 +36,7 @@ public class SlideMoveStrategy implements MoveStrategy {
         for (Path route : routes) {
             validateSlidePath(route, boardState, destinations, movingPiece);
         }
+
         return destinations;
     }
 
@@ -47,16 +50,16 @@ public class SlideMoveStrategy implements MoveStrategy {
 
     private boolean isBlocked(Position destination, Map<Position, Piece> state, List<Position> destinations,
                               Piece me) {
-        Piece target = state.get(destination);
+        Optional<Piece> target = Optional.ofNullable(state.get(destination));
 
         // 빈 칸이면 경로에 추가하고, 계속 전진
-        if (target == null) {
+        if (target.isEmpty()) {
             destinations.add(destination);
             return false;
         }
 
         // 적군이면 경로에 추가하고, 멈춤
-        if (!target.isSameSide(me)) {
+        if (!target.get().isSameSide(me)) {
             destinations.add(destination);
         }
 
