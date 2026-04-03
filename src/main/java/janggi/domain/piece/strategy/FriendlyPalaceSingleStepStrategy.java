@@ -5,7 +5,7 @@ import janggi.domain.board.Position;
 import janggi.domain.piece.Camp;
 import java.util.List;
 
-public class PalaceStrategy extends SingleStepStraightStrategy {
+public class FriendlyPalaceSingleStepStrategy extends SingleStepStraightStrategy {
 
     @Override
     public List<Position> findPath(Position source, Position destination, Camp camp) {

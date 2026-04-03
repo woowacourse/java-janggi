@@ -14,9 +14,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class PalaceStrategyTest {
+class FriendlyPalaceSingleStepStrategyTest {
 
-    private final MoveStrategy strategy = new PalaceStrategy();
+    private final MoveStrategy strategy = new FriendlyPalaceSingleStepStrategy();
 
     @DisplayName("정상 경우")
     @Nested
