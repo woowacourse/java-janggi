@@ -5,7 +5,6 @@ import domain.Offset;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 public abstract class Piece {
     private final PieceType pieceType;

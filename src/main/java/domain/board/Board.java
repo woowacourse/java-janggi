@@ -45,9 +45,9 @@ public class Board {
         return Optional.ofNullable(pieces.get(position));
     }
 
-    private Piece getRequiredPiece(Position position) {
+    public Piece getRequiredPiece(Position position) {
         return getPiece(position)
-                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.EMPTY_SOURCE.getMessage()));
+                .orElseThrow(() -> new IllegalStateException(ErrorMessage.EMPTY_SOURCE.getMessage()));
     }
 
     private void validateActualMove(Offset offset) {

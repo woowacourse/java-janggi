@@ -1,5 +1,6 @@
 package controller;
 
+import domain.Game;
 import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.InitializeSetting;
@@ -21,32 +22,30 @@ public class Controller {
     public void run() {
         InitializeSetting choSetting = retry(() -> inputView.readInitialSetting("초(CHO)"));
         InitializeSetting hanSetting = retry(() -> inputView.readInitialSetting("한(HAN)"));
-
         Board board = BoardFactory.createBoard(choSetting, hanSetting);
+        Game game = new Game(board);
 
-        play(board);
+        play(game);
     }
 
-    private void play(Board board) {
+    private void play(Game game) {
         while (true) {
-            outputView.printBoard(board);
-            executeMove(board);
+            outputView.printBoard(game.getBoard());
+            executeMove(game);
         }
     }
 
-    private void executeMove(Board board) {
+    private void executeMove(Game game) {
         while (true) {
             try {
                 Position from = inputView.readSourcePosition();
 
-                if (board.getPiece(from).isEmpty()) {
-                    outputView.printError(new IllegalArgumentException("해당 위치에 움직일 기물이 없습니다. 다시 선택해주세요."));
-                    continue;
-                }
+                game.validateMoveAblePiece(from);
 
                 Position to = inputView.readTargetPosition();
 
-                board.move(from, to);
+                game.move(from, to);
+
                 break;
             } catch (IllegalArgumentException | IllegalStateException e) {
                 outputView.printError(e);
