@@ -3,6 +3,8 @@ package janggi.domain;
 import janggi.domain.piece.Team;
 import janggi.domain.vo.position.Position;
 
+import java.util.Arrays;
+
 public enum Direction {
     NORTH(-1, 0), SOUTH(1, 0), EAST(0, 1), WEST(0, -1),
     NORTH_EAST(-1, 1), NORTH_WEST(-1, -1), SOUTH_EAST(1, 1), SOUTH_WEST(1, -1);
@@ -16,19 +18,17 @@ public enum Direction {
     }
 
     public static Direction between(Position from, Position to) {
-        if (from.isOnSameCol(to) && from.getRow() < to.getRow()) {
-            return SOUTH;
-        }
+        int rowDifference = Integer.signum(to.getRow() - from.getRow());
+        int colDifference = Integer.signum(to.getCol() - from.getCol());
 
-        if (from.isOnSameCol(to) && from.getRow() > to.getRow()) {
-            return NORTH;
-        }
+        return Arrays.stream(values())
+                .filter(direction -> direction.match(rowDifference, colDifference))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 방향입니다."));
+    }
 
-        if (from.isOnSameRow(to) && from.getCol() < to.getCol()) {
-            return EAST;
-        }
-
-        return WEST;
+    private boolean match(int rowDifference, int colDifference){
+        return this.getDx() == rowDifference && this.getDy() == colDifference;
     }
 
     public static Direction forwardDirection(Team team) {
