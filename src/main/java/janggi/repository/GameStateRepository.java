@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public final class GameStateRepository {
 
-    private static final String SELECT_GAME_STATE = """
+    private static final String SELECT_CURRENT_TURN = """
             select current_turn
             from game_state
             where game_id = ?

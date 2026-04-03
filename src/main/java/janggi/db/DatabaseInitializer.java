@@ -13,8 +13,14 @@ public final class DatabaseInitializer {
     private static final String SCHEMA_LOAD_FAILED = "[ERROR] DB 스키마를 읽을 수 없습니다.";
     private static final String SCHEMA_INIT_FAILED = "[ERROR] DB 스키마를 초기화할 수 없습니다.";
 
+    private final H2ConnectionManager connectionManager;
+
+    public DatabaseInitializer(H2ConnectionManager connectionManager) {
+        this.connectionManager = connectionManager;
+    }
+
     public void initialize() {
-        try (Connection connection = H2ConnectionManager.getConnection()) {
+        try (Connection connection = connectionManager.createConnection()) {
             String schema = loadSchema();
             for (String statement : schema.split(";")) {
                 String sql = statement.trim();

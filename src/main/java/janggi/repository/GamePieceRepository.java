@@ -40,7 +40,7 @@ public final class GamePieceRepository {
         return boardSnapshot;
     }
 
-    public void replaceByGameId(Connection connection, long gameId, Map<Position, Piece> boardSnapshot)
+    public void saveGameByBoard(Connection connection, long gameId, Map<Position, Piece> boardSnapshot)
             throws SQLException {
         deleteByGameId(connection, gameId);
 

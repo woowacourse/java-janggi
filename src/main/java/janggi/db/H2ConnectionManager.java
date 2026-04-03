@@ -12,10 +12,7 @@ public final class H2ConnectionManager {
 
     private static final String UNABLE_TO_ACCESS_DATABASE = "[ERROR] H2 데이터베이스에 연결할 수 없습니다.";
 
-    private H2ConnectionManager() {
-    }
-
-    public static Connection getConnection() {
+    public Connection createConnection() {
         try {
             return DriverManager.getConnection(URL, USER, PASSWORD);
         } catch (SQLException e) {
