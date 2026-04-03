@@ -32,7 +32,7 @@ public class Path {
         return positions.contains(position);
     }
 
-    public static Path candidatePositions(Position from, List<Direction> directions) {
+    public static Path createByDirections(Position from, List<Direction> directions) {
         List<Position> candidates = new ArrayList<>();
 
         for (Direction direction : directions) {
@@ -44,7 +44,7 @@ public class Path {
         return new Path(candidates);
     }
 
-    public static Path between(Position from, Position to) {
+    public static Path straightPathBetween(Position from, Position to) {
         List<Position> path = new ArrayList<>();
         Direction direction = Direction.between(from, to);
         Position pathPosition = from;

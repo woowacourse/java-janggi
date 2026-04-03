@@ -18,10 +18,10 @@ public class CannonMoveRule implements MoveRule {
 
         List<PieceType> pieceTypesBetween = findPieceTypesBetween(from, to, board);
 
-        return hasOneBridgeNotCannon(pieceTypesBetween, board) && !isTargetCannon(to, board);
+        return hasOneBridgeNotCannon(pieceTypesBetween) && !isTargetCannon(to, board);
     }
 
-    private boolean hasOneBridgeNotCannon(List<PieceType> types, BoardView board) {
+    private boolean hasOneBridgeNotCannon(List<PieceType> types) {
 
         return types.size() == 1 && types.get(0) != PieceType.CANNON;
     }
@@ -32,7 +32,7 @@ public class CannonMoveRule implements MoveRule {
 
     private List<PieceType> findPieceTypesBetween(Position from, Position to, BoardView board) {
         List<PieceType> pieces = new ArrayList<>();
-        Path path = Path.between(from, to);
+        Path path = Path.straightPathBetween(from, to);
 
         for (int i = 0; i < path.size(); i++) {
             pieces.add(board.findTypeByPosition(path.positionAt(i)));

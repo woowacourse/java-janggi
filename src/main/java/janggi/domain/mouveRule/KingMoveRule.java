@@ -5,7 +5,6 @@ import janggi.domain.board.BoardView;
 import janggi.domain.vo.position.Path;
 import janggi.domain.vo.position.Position;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class KingMoveRule implements MoveRule {
@@ -13,6 +12,6 @@ public class KingMoveRule implements MoveRule {
 
     @Override
     public boolean canMove(Position from, Position to, BoardView board) {
-        return Path.candidatePositions(from, KING_PATHS).contains(to);
+        return Path.createByDirections(from, KING_PATHS).contains(to);
     }
 }
