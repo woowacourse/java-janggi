@@ -11,7 +11,7 @@ import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Team;
 import domain.point.Point;
-import fixture.TestIntersectionGenerator;
+import fixture.JanggiBoardFixture;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -24,6 +24,24 @@ import static domain.move.path.exception.PathError.CANNOT_MOVE_DESTINATION_IS_SA
 import static domain.move.path.exception.PathError.GENERAL_CANNOT_GO_OUT_PALACE;
 
 class GeneralMoveRuleTest {
+
+    final Team teamHan = Team.HAN;
+    final Team teamCho = Team.CHO;
+
+    final Piece general = new Piece(teamCho, PieceType.GENERAL);
+
+    final Point centerPointCho = new Point(8, 4);
+    final Point leftTopPointCho = new Point(7, 3);
+    final Point leftBottomPointCho = new Point(9, 3);
+    final Point rightTopPointCho = new Point(7, 5);
+    final Point rightBottomPointCho = new Point(9, 5);
+
+    final Intersection centerCho = CenterPalace.empty(centerPointCho);
+    final Intersection leftTopCho = LeftTopPalace.empty(leftTopPointCho);
+    final Intersection leftBottomCho = LeftBottomPalace.empty(leftBottomPointCho);
+    final Intersection rightTopCho = RightTopPalace.empty(rightTopPointCho);
+    final Intersection rightBottomCho = RightBottomPalace.empty(rightBottomPointCho);
+
 
     @Test
     @DisplayName("도착지에 같은 팀이 있는 경우 예외가 발생한다.")
@@ -56,23 +74,16 @@ class GeneralMoveRuleTest {
     @DisplayName("장군은 도착지에 상대팀이 있으면 이동할 수 있다.")
     void canMoveGeneralWhenDestinationIsEmpty() {
         // given
-        Point start = new Point(1, 4);
-        Point end = new Point(2, 4);
+        Point end = centerPointCho.next(Vector.DOWN);
+        Piece general = new Piece(teamHan, PieceType.GENERAL);
 
-        Team sameTeam = Team.HAN;
-        Piece general = new Piece(sameTeam, PieceType.GENERAL);
-
-        Intersection origin = new Intersection(start, general);
-        Intersection emptyDestination = Intersection.empty(end);
-        Intersection expected = new Intersection(end, general);
-
-        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
-                origin,
-                emptyDestination
-        )));
+        Intersection origin = new CenterPalace(centerPointCho, general);
+        Intersection emptyDestination = NormalPalace.empty(end);
+        Intersection expected = new NormalPalace(end, general);
+        JanggiBoard janggiBoard = JanggiBoardFixture.generate(origin, emptyDestination);
 
         // when
-        janggiBoard.tryToMove(start, end, sameTeam);
+        janggiBoard.tryToMove(centerPointCho, end, teamHan);
         Intersection actual = janggiBoard.findIntersection(end);
 
         // then
@@ -84,25 +95,18 @@ class GeneralMoveRuleTest {
     @DisplayName("장군은 도착지에 상대팀이 있으면 이동할 수 있다.")
     void canMoveGeneralWhenDestinationIsOpponent() {
         // given
-        Point start = new Point(1, 4);
-        Point end = new Point(2, 4);
+        Point end = centerPointCho.next(Vector.DOWN);
 
-        Team sameTeam = Team.HAN;
-        Team anotherTeam = Team.CHO;
-        Piece general = new Piece(sameTeam, PieceType.GENERAL);
-        Piece opponent = new Piece(anotherTeam, PieceType.SOLDIER);
+        Piece general = new Piece(teamHan, PieceType.GENERAL);
+        Piece opponent = new Piece(teamCho, PieceType.SOLDIER);
 
-        Intersection origin = new Intersection(start, general);
-        Intersection opponentDestination = new Intersection(end, opponent);
-        Intersection expected = new Intersection(end, general);
-
-        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
-                origin,
-                opponentDestination
-        )));
+        Intersection origin = new CenterPalace(centerPointCho, general);
+        Intersection opponentDestination = new NormalPalace(end, opponent);
+        Intersection expected = new NormalPalace(end, general);
+        JanggiBoard janggiBoard = JanggiBoardFixture.generate(origin, opponentDestination);
 
         // when
-        janggiBoard.tryToMove(start, end, sameTeam);
+        janggiBoard.tryToMove(centerPointCho, end, teamHan);
         Intersection actual = janggiBoard.findIntersection(end);
 
         // then
@@ -118,25 +122,15 @@ class GeneralMoveRuleTest {
         @DisplayName("장군은 좌하(9, 3)에서 가운데(8, 4)으로 이동할 수 있다.")
         void generalCanMoveRightUpOnceWhenGeneralInLeftBottomPalace() {
             // given
-            Piece general = new Piece(Team.CHO, PieceType.GENERAL);
-
-            Point leftBottomPoint = new Point(9, 3);
-            Point centerPoint = leftBottomPoint.next(Vector.RIGHT_UP);
-
-            Intersection leftBottomPalace = new LeftBottomPalace(leftBottomPoint, general);
-            Intersection centerPalace = CenterPalace.empty(centerPoint);
-            Intersection expected = new CenterPalace(centerPoint, general);
-
-            JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
-                    leftBottomPalace,
-                    centerPalace
-            )));
+            Intersection leftBottomPalace = new LeftBottomPalace(leftBottomPointCho, general);
+            Intersection expected = new CenterPalace(centerPointCho, general);
+            JanggiBoard janggiBoard = JanggiBoardFixture.generate(leftBottomPalace, centerCho);
 
             // when
-            janggiBoard.tryToMove(leftBottomPoint, centerPoint, Team.CHO);
+            janggiBoard.tryToMove(leftBottomPointCho, centerPointCho, Team.CHO);
 
             // then
-            Assertions.assertThat(janggiBoard.findIntersection(centerPoint))
+            Assertions.assertThat(janggiBoard.findIntersection(centerPointCho))
                     .isEqualTo(expected);
         }
 
@@ -144,25 +138,15 @@ class GeneralMoveRuleTest {
         @DisplayName("장군은 좌상(7, 3)에서 가운데(8, 4)으로 이동할 수 있다.")
         void generalCanMoveRightDownOnceWhenGeneralInLeftTopPalace() {
             // given
-            Piece general = new Piece(Team.CHO, PieceType.GENERAL);
-
-            Point leftTopPoint = new Point(7, 3);
-            Point centerPoint = leftTopPoint.next(Vector.RIGHT_DOWN);
-
-            Intersection leftBottomPalace = new LeftTopPalace(leftTopPoint, general);
-            Intersection centerPalace = CenterPalace.empty(centerPoint);
-            Intersection expected = new CenterPalace(centerPoint, general);
-
-            JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
-                    leftBottomPalace,
-                    centerPalace
-            )));
+            Intersection leftTopPalace = new LeftTopPalace(leftTopPointCho, general);
+            Intersection expected = new CenterPalace(centerPointCho, general);
+            JanggiBoard janggiBoard = JanggiBoardFixture.generate(leftTopPalace, centerCho);
 
             // when
-            janggiBoard.tryToMove(leftTopPoint, centerPoint, Team.CHO);
+            janggiBoard.tryToMove(leftTopPointCho, centerPointCho, Team.CHO);
 
             // then
-            Assertions.assertThat(janggiBoard.findIntersection(centerPoint))
+            Assertions.assertThat(janggiBoard.findIntersection(centerPointCho))
                     .isEqualTo(expected);
         }
 
@@ -170,25 +154,15 @@ class GeneralMoveRuleTest {
         @DisplayName("장군은 우하(9, 5)에서 가운데(8, 4)으로 이동할 수 있다.")
         void generalCanMoveLeftUpOnceWhenGeneralInRightBottomPalace() {
             // given
-            Piece general = new Piece(Team.CHO, PieceType.GENERAL);
-
-            Point rightBottomPoint = new Point(7, 3);
-            Point centerPoint = rightBottomPoint.next(Vector.LEFT_UP);
-
-            Intersection leftBottomPalace = new RightBottomPalace(rightBottomPoint, general);
-            Intersection centerPalace = CenterPalace.empty(centerPoint);
-            Intersection expected = new CenterPalace(centerPoint, general);
-
-            JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
-                    leftBottomPalace,
-                    centerPalace
-            )));
+            Intersection rightBottomPalace = new RightBottomPalace(rightBottomPointCho, general);
+            Intersection expected = new CenterPalace(centerPointCho, general);
+            JanggiBoard janggiBoard = JanggiBoardFixture.generate(rightBottomPalace, centerCho);
 
             // when
-            janggiBoard.tryToMove(rightBottomPoint, centerPoint, Team.CHO);
+            janggiBoard.tryToMove(rightBottomPointCho, centerPointCho, Team.CHO);
 
             // then
-            Assertions.assertThat(janggiBoard.findIntersection(centerPoint))
+            Assertions.assertThat(janggiBoard.findIntersection(centerPointCho))
                     .isEqualTo(expected);
         }
 
@@ -196,25 +170,15 @@ class GeneralMoveRuleTest {
         @DisplayName("장군은 우상(7, 5)에서 가운데(8, 4)으로 이동할 수 있다.")
         void generalCanMoveLeftDownOnceWhenGeneralInRightTopPalace() {
             // given
-            Piece general = new Piece(Team.CHO, PieceType.GENERAL);
-
-            Point rightTopPoint = new Point(7, 5);
-            Point centerPoint = rightTopPoint.next(Vector.LEFT_DOWN);
-
-            Intersection leftBottomPalace = new RightTopPalace(rightTopPoint, general);
-            Intersection centerPalace = CenterPalace.empty(centerPoint);
-            Intersection expected = new CenterPalace(centerPoint, general);
-
-            JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
-                    leftBottomPalace,
-                    centerPalace
-            )));
+            Intersection rightTopPalace = new RightTopPalace(rightTopPointCho, general);
+            Intersection expected = new CenterPalace(centerPointCho, general);
+            JanggiBoard janggiBoard = JanggiBoardFixture.generate(rightTopPalace, centerCho);
 
             // when
-            janggiBoard.tryToMove(rightTopPoint, centerPoint, Team.CHO);
+            janggiBoard.tryToMove(rightTopPointCho, centerPointCho, Team.CHO);
 
             // then
-            Assertions.assertThat(janggiBoard.findIntersection(centerPoint))
+            Assertions.assertThat(janggiBoard.findIntersection(centerPointCho))
                     .isEqualTo(expected);
         }
 
@@ -222,25 +186,15 @@ class GeneralMoveRuleTest {
         @DisplayName("장군은 가운데(8, 4)에서 좌하(9, 3)에서 으로 이동할 수 있다.")
         void generalCanMoveLeftDownOnceWhenGeneralInCenterPalace() {
             // given
-            Piece general = new Piece(Team.CHO, PieceType.GENERAL);
-
-            Point centerPoint = new Point(8, 4);
-            Point rightTopPoint = centerPoint.next(Vector.LEFT_DOWN);
-
-            Intersection centerPalace = new CenterPalace(centerPoint, general);
-            Intersection leftBottomPalace = LeftBottomPalace.empty(rightTopPoint);
-            Intersection expected = new LeftBottomPalace(rightTopPoint, general);
-
-            JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
-                    centerPalace,
-                    leftBottomPalace
-            )));
+            Intersection centerPalace = new CenterPalace(centerPointCho, general);
+            Intersection expected = new LeftBottomPalace(leftBottomPointCho, general);
+            JanggiBoard janggiBoard = JanggiBoardFixture.generate(centerPalace, leftBottomCho);
 
             // when
-            janggiBoard.tryToMove(centerPoint, rightTopPoint, Team.CHO);
+            janggiBoard.tryToMove(centerPointCho, leftBottomPointCho, Team.CHO);
 
             // then
-            Assertions.assertThat(janggiBoard.findIntersection(rightTopPoint))
+            Assertions.assertThat(janggiBoard.findIntersection(leftBottomPointCho))
                     .isEqualTo(expected);
         }
 
@@ -248,25 +202,15 @@ class GeneralMoveRuleTest {
         @DisplayName("장군은 가운데(8, 4)에서 좌상(7, 3)에서 으로 이동할 수 있다.")
         void generalCanMoveLeftUpOnceWhenGeneralInCenterPalace() {
             // given
-            Piece general = new Piece(Team.CHO, PieceType.GENERAL);
-
-            Point centerPoint = new Point(8, 4);
-            Point rightTopPoint = centerPoint.next(Vector.LEFT_UP);
-
-            Intersection centerPalace = new CenterPalace(centerPoint, general);
-            Intersection leftTopPalace = LeftTopPalace.empty(rightTopPoint);
-            Intersection expected = new LeftTopPalace(rightTopPoint, general);
-
-            JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
-                    centerPalace,
-                    leftTopPalace
-            )));
+            Intersection centerPalace = new CenterPalace(centerPointCho, general);
+            Intersection expected = new LeftTopPalace(leftTopPointCho, general);
+            JanggiBoard janggiBoard = JanggiBoardFixture.generate(centerPalace, leftTopCho);
 
             // when
-            janggiBoard.tryToMove(centerPoint, rightTopPoint, Team.CHO);
+            janggiBoard.tryToMove(centerPointCho, leftTopPointCho, Team.CHO);
 
             // then
-            Assertions.assertThat(janggiBoard.findIntersection(rightTopPoint))
+            Assertions.assertThat(janggiBoard.findIntersection(leftTopPointCho))
                     .isEqualTo(expected);
         }
 
@@ -274,26 +218,15 @@ class GeneralMoveRuleTest {
         @DisplayName("장군은 가운데(8, 4)에서 우하(9, 5)에서 으로 이동할 수 있다.")
         void generalCanMoveRightDownOnceWhenGeneralInCenterPalace() {
             // given
-            Piece general = new Piece(Team.CHO, PieceType.GENERAL);
-
-            Point centerPoint = new Point(8, 4);
-            Point rightDownPoint = centerPoint.next(Vector.RIGHT_DOWN);
-
-
-            Intersection centerPalace = new CenterPalace(centerPoint, general);
-            Intersection rightBottomPalace = RightBottomPalace.empty(rightDownPoint);
-            Intersection expected = new RightBottomPalace(rightDownPoint, general);
-
-            JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
-                    centerPalace,
-                    rightBottomPalace
-            )));
+            Intersection centerPalace = new CenterPalace(centerPointCho, general);
+            Intersection expected = new RightBottomPalace(rightBottomPointCho, general);
+            JanggiBoard janggiBoard = JanggiBoardFixture.generate(centerPalace, rightBottomCho);
 
             // when
-            janggiBoard.tryToMove(centerPoint, rightDownPoint, Team.CHO);
+            janggiBoard.tryToMove(centerPointCho, rightBottomPointCho, Team.CHO);
 
             // then
-            Assertions.assertThat(janggiBoard.findIntersection(rightDownPoint))
+            Assertions.assertThat(janggiBoard.findIntersection(rightBottomPointCho))
                     .isEqualTo(expected);
         }
 
@@ -301,78 +234,59 @@ class GeneralMoveRuleTest {
         @DisplayName("장군은 가운데(8, 4)에서 우상(7, 5)에서 으로 이동할 수 있다.")
         void generalCanMoveRightUpOnceWhenGeneralInCenterPalace() {
             // given
-            Piece general = new Piece(Team.CHO, PieceType.GENERAL);
-
-            Point centerPoint = new Point(8, 4);
-            Point rightDownPoint = centerPoint.next(Vector.RIGHT_UP);
-
-
-            Intersection centerPalace = new CenterPalace(centerPoint, general);
-            Intersection rightTopPalace = RightTopPalace.empty(rightDownPoint);
-            Intersection expected = new RightTopPalace(rightDownPoint, general);
-
-            JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
-                    centerPalace,
-                    rightTopPalace
-            )));
+            Intersection centerPalace = new CenterPalace(centerPointCho, general);
+            Intersection expected = new RightTopPalace(rightTopPointCho, general);
+            JanggiBoard janggiBoard = JanggiBoardFixture.generate(centerPalace, rightTopCho);
 
             // when
-            janggiBoard.tryToMove(centerPoint, rightDownPoint, Team.CHO);
+            janggiBoard.tryToMove(centerPointCho, rightTopPointCho, Team.CHO);
 
             // then
-            Assertions.assertThat(janggiBoard.findIntersection(rightDownPoint))
+            Assertions.assertThat(janggiBoard.findIntersection(rightTopPointCho))
                     .isEqualTo(expected);
         }
 
     }
 
-    @Test
-    @DisplayName("장군이 왼쪽 일반 궁성(8,3)에서 위쪽 일반 궁성(7,4)으로 이동 하려 할 경우 예외가 발생한다.")
-    void shouldThrowExceptionWhenGeneralMoveFromLeftNormalPalaceToTopNormalPalace() {
-        // given
-        Piece general = new Piece(Team.CHO, PieceType.GENERAL);
+    @Nested
+    @DisplayName("장군의 궁성 내 대각선 이동 예외 테스트")
+    class GeneralMoveExceptionInPalaceTest {
 
-        Point leftPalacePoint = new Point(8, 4);
-        Point topPalacePoint = leftPalacePoint.next(Vector.RIGHT_UP);
+        @Test
+        @DisplayName("장군이 왼쪽 일반 궁성(8,3)에서 위쪽 일반 궁성(7,4)으로 이동 하려 할 경우 예외가 발생한다.")
+        void shouldThrowExceptionWhenGeneralMoveFromLeftNormalPalaceToTopNormalPalace() {
+            // given
+            Point leftPalacePoint = new Point(8, 4);
+            Point topPalacePoint = leftPalacePoint.next(Vector.RIGHT_UP);
 
+            Intersection leftPalace = new NormalPalace(leftPalacePoint, general);
+            Intersection topPalace = NormalPalace.empty(topPalacePoint);
+            JanggiBoard janggiBoard = JanggiBoardFixture.generate(leftPalace, topPalace);
 
-        Intersection leftPalace = new NormalPalace(leftPalacePoint, general);
-        Intersection topPalace = NormalPalace.empty(topPalacePoint);
+            // when & then
+            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(leftPalacePoint, topPalacePoint, Team.CHO))
+                    .isInstanceOf(DirectionException.class)
+                    .hasMessage(INVALID_DIRECTION.getMessage());
+        }
 
-        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
-                leftPalace,
-                topPalace
-        )));
+        @Test
+        @DisplayName("장군이 궁성을 나가려고 하는 경우, 예외가 발생한다.")
+        void shouldThrowExceptionWhenGeneralGoOutPalace() {
+            // given
 
-        // when & then
-        Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(leftPalacePoint, topPalacePoint, Team.CHO))
-                .isInstanceOf(DirectionException.class)
-                .hasMessage(INVALID_DIRECTION.getMessage());
+            Point leftPalacePoint = new Point(8, 4);
+            Point outOfPalacePoint = leftPalacePoint.next(Vector.LEFT);
+
+            Intersection leftPalace = new NormalPalace(leftPalacePoint, general);
+            Intersection outOfPalace = NormalIntersection.empty(outOfPalacePoint);
+            JanggiBoard janggiBoard = JanggiBoardFixture.generate(leftPalace, outOfPalace);
+
+            // when & then
+            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(leftPalacePoint, outOfPalacePoint, Team.CHO))
+                    .isInstanceOf(PathException.class)
+                    .hasMessage(GENERAL_CANNOT_GO_OUT_PALACE.getMessage());
+        }
+
     }
-
-    @Test
-    @DisplayName("장군이 궁성을 나가려고 하는 경우, 예외가 발생한다.")
-    void shouldThrowExceptionWhenGeneralGoOutPalace() {
-        // given
-        Piece general = new Piece(Team.CHO, PieceType.GENERAL);
-
-        Point leftPalacePoint = new Point(8, 4);
-        Point outOfPalacePoint = leftPalacePoint.next(Vector.LEFT);
-
-
-        Intersection leftPalace = new NormalPalace(leftPalacePoint, general);
-        Intersection outOfPalace = NormalIntersection.empty(outOfPalacePoint);
-
-        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
-                leftPalace,
-                outOfPalace
-        )));
-
-        // when & then
-        Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(leftPalacePoint, outOfPalacePoint, Team.CHO))
-                .isInstanceOf(PathException.class)
-                .hasMessage(GENERAL_CANNOT_GO_OUT_PALACE.getMessage());
-    }
-
 
 }
