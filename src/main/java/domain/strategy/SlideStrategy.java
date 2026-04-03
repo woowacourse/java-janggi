@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.Optional;
 
 public class SlideStrategy implements MovementStrategy {
-    private final List<Direction> directions;
+    private final List<Direction> defaultDirections;
 
-    public SlideStrategy(List<Direction> directions) {
-        this.directions = directions;
+    public SlideStrategy(List<Direction> defaultDirections) {
+        this.defaultDirections = defaultDirections;
     }
 
     @Override
@@ -23,7 +23,7 @@ public class SlideStrategy implements MovementStrategy {
 
     @Override
     public List<Path> generatePaths(Position current) {
-        return directions.stream()
+        return defaultDirections.stream()
                 .filter(current::canMove)
                 .map(direction -> createPath(current, direction))
                 .toList();

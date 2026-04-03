@@ -40,7 +40,7 @@ public class Position {
     }
 
     public boolean canMove(Direction direction) {
-        return isWithinRange(this.x + direction.getDx(), this.y + direction.getDy());
+        return isWithinRange(this.x + direction.getDeltaX(), this.y + direction.getDeltaY());
     }
 
     public boolean canMove(List<Direction> sequence) {
@@ -57,7 +57,7 @@ public class Position {
     }
 
     public Position move(Direction direction) {
-        return Position.of(this.x + direction.getDx(), this.y + direction.getDy());
+        return Position.of(this.x + direction.getDeltaX(), this.y + direction.getDeltaY());
     }
 
     public static boolean isWithinRange(int x, int y) {

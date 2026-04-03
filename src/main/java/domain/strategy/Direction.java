@@ -1,60 +1,28 @@
 package domain.strategy;
 
-import java.util.List;
-
 public enum Direction {
-    N(0, 1),
-    S(0, -1),
-    E(1, 0),
-    W(-1, 0),
-    NE(1, 1),
-    NW(-1, 1),
-    SE(1, -1),
-    SW(-1, -1);
+    NORTH(0, 1),
+    SOUTH(0, -1),
+    EAST(1, 0),
+    WEST(-1, 0),
+    NORTH_EAST(1, 1),
+    NORTH_WEST(-1, 1),
+    SOUTH_EAST(1, -1),
+    SOUTH_WEST(-1, -1);
 
-    private final int dx;
-    private final int dy;
+    private final int deltaX;
+    private final int deltaY;
 
-    Direction(int dx, int dy) {
-        this.dx = dx;
-        this.dy = dy;
+    Direction(int deltaX, int deltaY) {
+        this.deltaX = deltaX;
+        this.deltaY = deltaY;
     }
 
-    public static List<Direction> linear() {
-        return List.of(N, S, E, W);
+    public int getDeltaX() {
+        return deltaX;
     }
 
-    public static List<List<Direction>> horseSequences() {
-        return List.of(
-                List.of(N, NW), List.of(N, NE),
-                List.of(S, SW), List.of(S, SE),
-                List.of(E, NE), List.of(E, SE),
-                List.of(W, NW), List.of(W, SW)
-        );
-    }
-
-    public static List<List<Direction>> elephantSequences() {
-        return List.of(
-                List.of(N, NW, NW), List.of(N, NE, NE),
-                List.of(S, SW, SW), List.of(S, SE, SE),
-                List.of(E, NE, NE), List.of(E, SE, SE),
-                List.of(W, NW, NW), List.of(W, SW, SW)
-        );
-    }
-
-    public static List<Direction> choSoldier() {
-        return List.of(N, E, W);
-    }
-
-    public static List<Direction> hanSoldier() {
-        return List.of(S, E, W);
-    }
-
-    public int getDx() {
-        return dx;
-    }
-
-    public int getDy() {
-        return dy;
+    public int getDeltaY() {
+        return deltaY;
     }
 }

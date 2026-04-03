@@ -2,21 +2,21 @@ package domain.piece;
 
 import domain.Side;
 import domain.strategy.JumpStrategy;
-import domain.strategy.SlideStrategy;
-import domain.strategy.Direction;
+import domain.strategy.MovePattern;
 import domain.strategy.MovementStrategy;
 import domain.strategy.OneStepStrategy;
 import domain.strategy.SequenceStrategy;
+import domain.strategy.SlideStrategy;
 import java.util.Map;
 
 public class PieceFactory {
-    private static final MovementStrategy LINEAR_ONE_STEP = new OneStepStrategy(Direction.linear());
-    private static final MovementStrategy CHO_SOLDIER_STRATEGY = new OneStepStrategy(Direction.choSoldier());
-    private static final MovementStrategy HAN_SOLDIER_STRATEGY = new OneStepStrategy(Direction.hanSoldier());
-    private static final MovementStrategy HORSE_STRATEGY = new SequenceStrategy(Direction.horseSequences());
-    private static final MovementStrategy ELEPHANT_STRATEGY = new SequenceStrategy(Direction.elephantSequences());
-    private static final MovementStrategy CONTINUOUS_STRATEGY = new SlideStrategy(Direction.linear());
-    private static final MovementStrategy JUMP_STRATEGY = new JumpStrategy(Direction.linear());
+    private static final MovementStrategy LINEAR_ONE_STEP = new OneStepStrategy(MovePattern.LINEAR);
+    private static final MovementStrategy CHO_SOLDIER_STRATEGY = new OneStepStrategy(MovePattern.CHO_SOLDIER);
+    private static final MovementStrategy HAN_SOLDIER_STRATEGY = new OneStepStrategy(MovePattern.HAN_SOLDIER);
+    private static final MovementStrategy HORSE_STRATEGY = new SequenceStrategy(MovePattern.HORSE);
+    private static final MovementStrategy ELEPHANT_STRATEGY = new SequenceStrategy(MovePattern.ELEPHANT);
+    private static final MovementStrategy CONTINUOUS_STRATEGY = new SlideStrategy(MovePattern.LINEAR);
+    private static final MovementStrategy JUMP_STRATEGY = new JumpStrategy(MovePattern.LINEAR);
 
     private static final Map<Side, General> GENERALS = Map.of(
             Side.CHO, new General(Side.CHO, LINEAR_ONE_STEP),

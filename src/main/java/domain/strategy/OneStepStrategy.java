@@ -4,13 +4,12 @@ import domain.Position;
 import domain.Side;
 import domain.board.BoardReader;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class OneStepStrategy implements MovementStrategy {
-    private final List<Direction> directions;
+    private final List<Direction> defaultDirections;
 
-    public OneStepStrategy(List<Direction> directions) {
-        this.directions = directions;
+    public OneStepStrategy(List<Direction> defaultDirections) {
+        this.defaultDirections = defaultDirections;
     }
 
     @Override
@@ -23,7 +22,7 @@ public class OneStepStrategy implements MovementStrategy {
 
     @Override
     public List<Path> generatePaths(Position current) {
-        return directions.stream()
+        return defaultDirections.stream()
                 .filter(current::canMove)
                 .map(direction -> new Path(List.of(current.move(direction))))
                 .toList();

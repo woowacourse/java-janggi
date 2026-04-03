@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SequenceStrategy implements MovementStrategy {
-    private final List<List<Direction>> sequences;
+    private final List<List<Direction>> defaultSequences;
 
-    public SequenceStrategy(List<List<Direction>> sequences) {
-        this.sequences = sequences;
+    public SequenceStrategy(List<List<Direction>> defaultSequences) {
+        this.defaultSequences = defaultSequences;
     }
 
     @Override
@@ -24,7 +24,7 @@ public class SequenceStrategy implements MovementStrategy {
 
     @Override
     public List<Path> generatePaths(Position current) {
-        return sequences.stream()
+        return defaultSequences.stream()
                 .filter(current::canMove)
                 .map(sequence -> createPath(current, sequence))
                 .toList();

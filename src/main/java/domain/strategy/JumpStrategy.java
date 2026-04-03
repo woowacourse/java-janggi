@@ -9,15 +9,15 @@ import java.util.List;
 import java.util.Optional;
 
 public class JumpStrategy implements MovementStrategy {
-    private final List<Direction> directions;
+    private final List<Direction> defaultDirections;
 
-    public JumpStrategy(List<Direction> directions) {
-        this.directions = directions;
+    public JumpStrategy(List<Direction> defaultDirections) {
+        this.defaultDirections = defaultDirections;
     }
 
     @Override
     public List<Path> generatePaths(Position current) {
-        return directions.stream()
+        return defaultDirections.stream()
                 .filter(current::canMove)
                 .map(direction -> createPath(current, direction))
                 .toList();
