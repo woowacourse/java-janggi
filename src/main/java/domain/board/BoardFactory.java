@@ -5,6 +5,7 @@ import domain.Side;
 import domain.piece.Piece;
 import domain.piece.PieceFactory;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class BoardFactory {
@@ -13,44 +14,52 @@ public class BoardFactory {
     }
 
     public static Board create(Formation choFormation, Formation hanFormation) {
-        Map<Position, Piece> pieces = new HashMap<>();
-        placeFixedPieces(pieces, Side.CHO);
-        choFormation.placeElephant(pieces, Side.CHO);
-        placeFixedPieces(pieces, Side.HAN);
-        hanFormation.placeElephant(pieces, Side.HAN);
-        return new Board(pieces);
+        Map<Position, Piece> allPieces = new HashMap<>();
+        allPieces.putAll(createSidePieces(Side.CHO, choFormation));
+        allPieces.putAll(createSidePieces(Side.HAN, hanFormation));
+        return new Board(allPieces);
     }
 
-    private static void placeFixedPieces(Map<Position, Piece> pieces, Side side) {
-        placeGeneral(pieces, side);
-        placeChariots(pieces, side);
-        placeCannons(pieces, side);
-        placeGuards(pieces, side);
-        placeSoldiers(pieces, side);
+    private static Map<Position, Piece> createSidePieces(Side side, Formation formation) {
+        SideLayout layout = SideLayout.from(side);
+        Map<Position, Piece> sidePieces = new HashMap<>();
+
+        sidePieces.putAll(getFixedPieces(side, layout));
+        sidePieces.putAll(getFormationPieces(side, formation, layout));
+
+        return sidePieces;
     }
 
-    private static void placeGeneral(Map<Position, Piece> pieces, Side side) {
-        pieces.put(Position.of(4, side.generalY()), PieceFactory.createGeneral(side));
-    }
+    private static Map<Position, Piece> getFixedPieces(Side side, SideLayout layout) {
+        Map<Position, Piece> fixedPieces = new HashMap<>();
+        fixedPieces.put(Position.of(4, layout.getGeneralY()), PieceFactory.createGeneral(side));
 
-    private static void placeChariots(Map<Position, Piece> pieces, Side side) {
-        pieces.put(Position.of(0, side.baseY()), PieceFactory.createChariot(side));
-        pieces.put(Position.of(8, side.baseY()), PieceFactory.createChariot(side));
-    }
+        int baseY = layout.getBaseY();
+        fixedPieces.put(Position.of(0, baseY), PieceFactory.createChariot(side));
+        fixedPieces.put(Position.of(8, baseY), PieceFactory.createChariot(side));
+        fixedPieces.put(Position.of(3, baseY), PieceFactory.createGuard(side));
+        fixedPieces.put(Position.of(5, baseY), PieceFactory.createGuard(side));
 
-    private static void placeCannons(Map<Position, Piece> pieces, Side side) {
-        pieces.put(Position.of(1, side.cannonY()), PieceFactory.createCannon(side));
-        pieces.put(Position.of(7, side.cannonY()), PieceFactory.createCannon(side));
-    }
+        int cannonY = layout.getCannonY();
+        fixedPieces.put(Position.of(1, cannonY), PieceFactory.createCannon(side));
+        fixedPieces.put(Position.of(7, cannonY), PieceFactory.createCannon(side));
 
-    private static void placeGuards(Map<Position, Piece> pieces, Side side) {
-        pieces.put(Position.of(3, side.baseY()), PieceFactory.createGuard(side));
-        pieces.put(Position.of(5, side.baseY()), PieceFactory.createGuard(side));
-    }
-
-    private static void placeSoldiers(Map<Position, Piece> pieces, Side side) {
+        int soldierY = layout.getSoldierY();
         for (int x = 0; x <= 8; x += 2) {
-            pieces.put(Position.of(x, side.soldierY()), PieceFactory.createSoldier(side));
+            fixedPieces.put(Position.of(x, soldierY), PieceFactory.createSoldier(side));
         }
+        return fixedPieces;
+    }
+
+    private static Map<Position, Piece> getFormationPieces(Side side, Formation formation, SideLayout layout) {
+        List<Piece> orders = formation.getPieceOrders(side);
+        List<Integer> xCoordinates = layout.getFormationX();
+        int y = layout.getBaseY();
+
+        Map<Position, Piece> formationPieces = new HashMap<>();
+        for (int i = 0; i < orders.size(); i++) {
+            formationPieces.put(Position.of(xCoordinates.get(i), y), orders.get(i));
+        }
+        return formationPieces;
     }
 }
