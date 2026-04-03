@@ -3,6 +3,7 @@ package janggi;
 import janggi.domain.Arrangement;
 import janggi.domain.Game;
 import janggi.domain.GameInfo;
+import janggi.domain.GameInfos;
 import janggi.domain.GameName;
 import janggi.domain.MoveResult;
 import janggi.domain.PieceInitInfo;
@@ -41,7 +42,7 @@ public class Runner {
 
     public int initBoard() {
         Optional<Integer> previousBoard = getPreviousBoard();
-        return previousBoard.orElseGet(this::createNewBoard);
+        return previousBoard.orElseGet(() -> createNewBoard().id());
     }
 
     public void runJanggi(int gameId) {
@@ -51,9 +52,10 @@ public class Runner {
     }
 
     private Optional<Integer> getPreviousBoard() {
-        List<GameInfo> gameInfos = janggiService.getEntireGame().stream()
+        GameInfos gameInfos = new GameInfos(janggiService.getEntireGame().stream()
                 .map(gameResponseDto -> new GameInfo(gameResponseDto.id(), gameResponseDto.name(), gameResponseDto.createdAt(), gameResponseDto.updatedAt(), Side.from(gameResponseDto.side()), gameResponseDto.turn()))
-                .toList();
+                .toList());
+
 
         if(gameInfos.isEmpty()) {
             return Optional.empty();
@@ -68,19 +70,17 @@ public class Runner {
         return Optional.of(selectedGame.id());
     }
 
-    private GameInfo getSelectedGame(List<GameInfo> gameInfos) {
-        OutputView.printGameRoom(gameInfos);
+    private GameInfo getSelectedGame(GameInfos gameInfos) {
+        OutputView.printGameRoom(gameInfos.getGameInfos());
         Optional<Integer> input = InputView.askLoadGame();
 
-        if(input.isEmpty() || (input.get() - 1 > gameInfos.size()) && (input.get() < 0)) {
-            throw new IllegalArgumentException("잘못된 값을 입력하셨습니다.");
+        if(input.isEmpty()) {
+            return createNewBoard();
         }
-
-        GameInfo selectedGame = gameInfos.get(input.get() - 1);
-        return selectedGame;
+        return gameInfos.getGameInfo(input.get());
     }
 
-    private int createNewBoard() {
+    private GameInfo createNewBoard() {
         GameName gameName = new GameName(InputView.askGameName());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String formattedNow = LocalDateTime.now().format(formatter);
@@ -95,7 +95,8 @@ public class Runner {
                 .map(pieceInitInfo -> new PieceDto(pieceInitInfo.position().getX(), pieceInitInfo.position().getY(), pieceInitInfo.pieceType().getName(), pieceInitInfo.side().getName()))
                 .toList();
 
-        return janggiService.addGameData(new GameDto(gameName.name(), formattedNow, formattedNow, Side.CHO.getName(), 1), pieceDtos);
+        int id = janggiService.addGameData(new GameDto(gameName.name(), formattedNow, formattedNow, Side.CHO.getName(), 1), pieceDtos);
+        return new GameInfo(id, gameName.name(), formattedNow, formattedNow, Side.CHO, 1);
     }
 
     private boolean playTurnGame(int gameId) {
