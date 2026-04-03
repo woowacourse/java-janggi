@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import janggi.domain.Palace;
 import janggi.domain.Path;
 import janggi.domain.Position;
 import janggi.domain.Team;
@@ -31,7 +32,16 @@ public class Byeong extends Piece {
         int dx = from.deltaX(to);
         int dy = from.deltaY(to);
 
-        return xMoveStrategy(dx, dy) || HanYMoveStrategy(dx, dy) || ChoYMoveStrategy(dx, dy);
+        // 병 기본 움직임 검증
+        if (xMoveStrategy(dx, dy) || HanYMoveStrategy(dx, dy) || ChoYMoveStrategy(dx, dy)) {
+            return true;
+        }
+        // 병 궁성 내 대각선 움직임 검증
+        if ((this.isEqualTeam(Team.HAN) && Math.abs(dx) == STEP && dy == HAN_STEP) ||
+            (this.isEqualTeam(Team.CHO) && Math.abs(dx) == STEP && dy == CHO_STEP)) {
+            return Palace.isPalaceCenter(from) || Palace.isPalaceCenter(to);
+        }
+        return false;
     }
 
     private boolean xMoveStrategy(int dx, int dy) {
