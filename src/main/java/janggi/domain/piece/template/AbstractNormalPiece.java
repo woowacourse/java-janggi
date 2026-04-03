@@ -2,6 +2,7 @@ package janggi.domain.piece.template;
 
 import static java.lang.Math.abs;
 
+import janggi.domain.board.Castle;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.direction.CastleDirection;
@@ -27,7 +28,7 @@ public abstract class AbstractNormalPiece implements Piece {
 
     @Override
     public Points getRoutePoints(Point from, Point to) {
-        if (!from.inSameCastle(to)) {
+        if (!Castle.inSameCastle(from, to)) {
             throw new IllegalArgumentException("[ERROR] 궁성 밖으로 나갈 수 없습니다.");
         }
         int pathCol = to.calculatePathColumn(from);

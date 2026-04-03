@@ -2,6 +2,7 @@ package janggi.domain.piece.Implementation;
 
 import static java.lang.Math.abs;
 
+import janggi.domain.board.Castle;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.direction.CastleDirection;
@@ -33,7 +34,7 @@ public class Jol implements Piece {
         validateForward(signRow);
         int distanceCol = abs(pathCol);
         int distanceRow = abs(pathRow);
-        if (from.inSameCastle(to)) {
+        if (Castle.inSameCastle(from, to)) {
             CastleDirection direction = CastleDirection.find(from, signCol, signRow);
             Point point = Point.of(from.getColumn() + direction.getTargetCol(),
                     from.getRow() + direction.getTargetRow());
@@ -74,7 +75,7 @@ public class Jol implements Piece {
     }
 
     private void validateForward(int signRow) {
-        if ((team.equals(Team.CHO) && signRow < 0) || (team.equals(Team.HAN) && signRow > 0)) {
+        if (team.isBackward(signRow)) {
             throw new IllegalArgumentException("[ERROR] 해당 기물의 이동 규칙에 어긋납니다.");
         }
     }

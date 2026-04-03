@@ -2,6 +2,7 @@ package janggi.domain.piece.template;
 
 import static java.lang.Math.abs;
 
+import janggi.domain.board.Castle;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.direction.CastleDirection;
@@ -73,7 +74,7 @@ public abstract class AbstractStraightPiece implements Piece {
     }
 
     private void validateDirection(Point from, Point to, int signCol, int signRow, int pathCol, int pathRow) {
-        if (from.inSameCastle(to)) {
+        if (Castle.inSameCastle(from, to)) {
             CastleDirection.find(from, signCol, signRow);
             return;
         }
