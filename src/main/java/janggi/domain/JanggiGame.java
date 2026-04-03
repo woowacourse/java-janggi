@@ -9,6 +9,7 @@ import java.util.List;
 
 public class JanggiGame {
 
+    private static final double BONUS_SCORE = 1.5;
     private final Board board;
     private GameStatus gameStatus;
 
@@ -45,6 +46,6 @@ public class JanggiGame {
     }
 
     public double getHanScore() {
-        return board.calculateScore(Team.HAN);
+        return board.calculateScore(Team.HAN) + BONUS_SCORE;
     }
 }

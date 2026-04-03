@@ -54,15 +54,11 @@ public class Board {
     }
 
     public double calculateScore(Team team) {
-        int sum = pieces.values()
+        return pieces.values()
                 .stream()
                 .filter(piece -> piece.isSameTeam(team))
                 .mapToInt(Piece::getScore)
                 .sum();
-        if (team.equals(Team.HAN)) {
-            return sum + 1.5;
-        }
-        return sum;
     }
 
     public Route getRoute(Points points) {
