@@ -36,10 +36,11 @@ public class JdbcBoardRepository implements BoardRepository {
     public long save(JanggiGame game) {
         return executeInTransaction(connection -> {
             long roomId = roomDao.save(GameRoomData.from(game), connection);
-            List<List<Piece>> pieces = game.getBoardStatus();
+            Map<Point, Piece> pieces = game.getBoardStatus();
             List<PieceData> data = new ArrayList<>();
-            for (int i = 0; i < pieces.size(); i++) {
-                addPieceData(pieces, i, data);
+            for (Point point : pieces.keySet()) {
+                Piece piece = pieces.get(point);
+                data.add(new PieceData(piece.getType().name(), piece.getTeam().name(), point.getRow(), point.getColumn()));
             }
             piecesDao.save(roomId, data, connection);
             return roomId;
@@ -75,16 +76,6 @@ public class JdbcBoardRepository implements BoardRepository {
             connection.commit();
             return new JanggiGame(board, GameStatusFactory.create(Team.valueOf(roomData.currentTurn())));
         });
-    }
-
-    private static void addPieceData(List<List<Piece>> pieces, int i, List<PieceData> data) {
-        for (int j = 0; j < pieces.get(i).size(); j++) {
-            Piece piece = pieces.get(i).get(j);
-            if (piece == null) {
-                continue;
-            }
-            data.add(new PieceData(piece.getType().name(), piece.getTeam().name(), i, j));
-        }
     }
 
     private <T> T executeInTransaction(TransactionCallback<T> action) {
