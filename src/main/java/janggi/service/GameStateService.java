@@ -4,7 +4,6 @@ import janggi.domain.team.Team;
 import janggi.domain.team.TeamType;
 import janggi.domain.turn.TurnManager;
 import janggi.entity.GameStateEntity;
-import janggi.mapper.TurnManagerMapper;
 import janggi.repository.GameStateRepository;
 import java.util.List;
 
@@ -14,6 +13,10 @@ public class GameStateService {
 
     public GameStateService(final GameStateRepository gameStateRepository) {
         this.gameStateRepository = gameStateRepository;
+    }
+
+    public boolean hasGameState(final long id) {
+        return gameStateRepository.findById(id).isPresent();
     }
 
     public GameStateEntity loadOrSaveGameState(final long id) {

@@ -19,6 +19,7 @@ import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class GameStateServiceTest {
@@ -43,6 +44,34 @@ class GameStateServiceTest {
     @AfterEach
     void cleanUp() {
         dbConnection.closeConnection();
+    }
+
+    @Nested
+    @DisplayName("게임 상태 존재 여부 판정 테스트")
+    class HasGameState {
+
+        @Test
+        @DisplayName("게임 상태가 존재하는 경우")
+        void success_1() {
+            GameStateEntity generated = gameStateRepository.save(GameStateEntity.from(1, List.of(TeamType.BLUE, TeamType.RED)));
+            long id = generated.id();
+            boolean expected = true;
+
+            boolean actual = gameStateService.hasGameState(id);
+
+            assertThat(actual).isEqualTo(expected);
+        }
+
+        @Test
+        @DisplayName("게임 상태가 존재하지 않는 경우")
+        void success_2() {
+            long id = 1;
+            boolean expected = false;
+
+            boolean actual = gameStateService.hasGameState(id);
+
+            assertThat(actual).isEqualTo(expected);
+        }
     }
 
     @Test
