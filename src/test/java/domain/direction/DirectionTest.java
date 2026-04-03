@@ -1,10 +1,8 @@
-package domain.board;
+package domain.direction;
 
 import domain.position.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.util.Queue;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -115,11 +113,11 @@ class DirectionTest {
         Position startPosition = Position.of(5, 5);
         Position endPosition = Position.of(7, 5);
 
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
+        Directions directions = Directions.of(startPosition, endPosition);
 
         assertThat(directions.size()).isEqualTo(2);
-        assertThat(directions.poll()).isEqualTo(Direction.UP);
-        assertThat(directions.poll()).isEqualTo(Direction.UP);
+        assertThat(directions.next()).isEqualTo(Direction.UP);
+        assertThat(directions.next()).isEqualTo(Direction.UP);
     }
 
     @Test
@@ -128,11 +126,11 @@ class DirectionTest {
         Position startPosition = Position.of(5, 5);
         Position endPosition = Position.of(3, 5);
 
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
+        Directions directions = Directions.of(startPosition, endPosition);
 
         assertThat(directions.size()).isEqualTo(2);
-        assertThat(directions.poll()).isEqualTo(Direction.DOWN);
-        assertThat(directions.poll()).isEqualTo(Direction.DOWN);
+        assertThat(directions.next()).isEqualTo(Direction.DOWN);
+        assertThat(directions.next()).isEqualTo(Direction.DOWN);
     }
 
     @Test
@@ -141,11 +139,11 @@ class DirectionTest {
         Position startPosition = Position.of(5, 5);
         Position endPosition = Position.of(5, 3);
 
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
+        Directions directions = Directions.of(startPosition, endPosition);
 
         assertThat(directions.size()).isEqualTo(2);
-        assertThat(directions.poll()).isEqualTo(Direction.LEFT);
-        assertThat(directions.poll()).isEqualTo(Direction.LEFT);
+        assertThat(directions.next()).isEqualTo(Direction.LEFT);
+        assertThat(directions.next()).isEqualTo(Direction.LEFT);
     }
 
     @Test
@@ -154,11 +152,11 @@ class DirectionTest {
         Position startPosition = Position.of(5, 5);
         Position endPosition = Position.of(5, 7);
 
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
+        Directions directions = Directions.of(startPosition, endPosition);
 
         assertThat(directions.size()).isEqualTo(2);
-        assertThat(directions.poll()).isEqualTo(Direction.RIGHT);
-        assertThat(directions.poll()).isEqualTo(Direction.RIGHT);
+        assertThat(directions.next()).isEqualTo(Direction.RIGHT);
+        assertThat(directions.next()).isEqualTo(Direction.RIGHT);
     }
 
 
@@ -168,11 +166,11 @@ class DirectionTest {
         Position startPosition = Position.of(5, 5);
         Position endPosition = Position.of(7, 6);
 
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
+        Directions directions = Directions.of(startPosition, endPosition);
 
         assertThat(directions.size()).isEqualTo(2);
-        assertThat(directions.poll()).isEqualTo(Direction.UP);
-        assertThat(directions.poll()).isEqualTo(Direction.UP_RIGHT);
+        assertThat(directions.next()).isEqualTo(Direction.UP);
+        assertThat(directions.next()).isEqualTo(Direction.UP_RIGHT);
     }
 
     @Test
@@ -181,11 +179,11 @@ class DirectionTest {
         Position startPosition = Position.of(5, 5);
         Position endPosition = Position.of(7, 4);
 
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
+        Directions directions = Directions.of(startPosition, endPosition);
 
         assertThat(directions.size()).isEqualTo(2);
-        assertThat(directions.poll()).isEqualTo(Direction.UP);
-        assertThat(directions.poll()).isEqualTo(Direction.UP_LEFT);
+        assertThat(directions.next()).isEqualTo(Direction.UP);
+        assertThat(directions.next()).isEqualTo(Direction.UP_LEFT);
     }
 
 
@@ -195,11 +193,11 @@ class DirectionTest {
         Position startPosition = Position.of(5, 5);
         Position endPosition = Position.of(6, 7);
 
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
+        Directions directions = Directions.of(startPosition, endPosition);
 
         assertThat(directions.size()).isEqualTo(2);
-        assertThat(directions.poll()).isEqualTo(Direction.RIGHT);
-        assertThat(directions.poll()).isEqualTo(Direction.UP_RIGHT);
+        assertThat(directions.next()).isEqualTo(Direction.RIGHT);
+        assertThat(directions.next()).isEqualTo(Direction.UP_RIGHT);
     }
 
 
@@ -209,11 +207,11 @@ class DirectionTest {
         Position startPosition = Position.of(5, 5);
         Position endPosition = Position.of(4, 7);
 
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
+        Directions directions = Directions.of(startPosition, endPosition);
 
         assertThat(directions.size()).isEqualTo(2);
-        assertThat(directions.poll()).isEqualTo(Direction.RIGHT);
-        assertThat(directions.poll()).isEqualTo(Direction.DOWN_RIGHT);
+        assertThat(directions.next()).isEqualTo(Direction.RIGHT);
+        assertThat(directions.next()).isEqualTo(Direction.DOWN_RIGHT);
     }
 
     @Test
@@ -222,11 +220,11 @@ class DirectionTest {
         Position startPosition = Position.of(5, 5);
         Position endPosition = Position.of(3, 6);
 
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
+        Directions directions = Directions.of(startPosition, endPosition);
 
         assertThat(directions.size()).isEqualTo(2);
-        assertThat(directions.poll()).isEqualTo(Direction.DOWN);
-        assertThat(directions.poll()).isEqualTo(Direction.DOWN_RIGHT);
+        assertThat(directions.next()).isEqualTo(Direction.DOWN);
+        assertThat(directions.next()).isEqualTo(Direction.DOWN_RIGHT);
     }
 
     @Test
@@ -235,11 +233,11 @@ class DirectionTest {
         Position startPosition = Position.of(5, 5);
         Position endPosition = Position.of(3, 4);
 
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
+        Directions directions = Directions.of(startPosition, endPosition);
 
         assertThat(directions.size()).isEqualTo(2);
-        assertThat(directions.poll()).isEqualTo(Direction.DOWN);
-        assertThat(directions.poll()).isEqualTo(Direction.DOWN_LEFT);
+        assertThat(directions.next()).isEqualTo(Direction.DOWN);
+        assertThat(directions.next()).isEqualTo(Direction.DOWN_LEFT);
     }
 
     @Test
@@ -248,11 +246,11 @@ class DirectionTest {
         Position startPosition = Position.of(5, 5);
         Position endPosition = Position.of(6, 3);
 
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
+        Directions directions = Directions.of(startPosition, endPosition);
 
         assertThat(directions.size()).isEqualTo(2);
-        assertThat(directions.poll()).isEqualTo(Direction.LEFT);
-        assertThat(directions.poll()).isEqualTo(Direction.UP_LEFT);
+        assertThat(directions.next()).isEqualTo(Direction.LEFT);
+        assertThat(directions.next()).isEqualTo(Direction.UP_LEFT);
     }
 
     @Test
@@ -261,11 +259,11 @@ class DirectionTest {
         Position startPosition = Position.of(5, 5);
         Position endPosition = Position.of(4, 3);
 
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
+        Directions directions = Directions.of(startPosition, endPosition);
 
         assertThat(directions.size()).isEqualTo(2);
-        assertThat(directions.poll()).isEqualTo(Direction.LEFT);
-        assertThat(directions.poll()).isEqualTo(Direction.DOWN_LEFT);
+        assertThat(directions.next()).isEqualTo(Direction.LEFT);
+        assertThat(directions.next()).isEqualTo(Direction.DOWN_LEFT);
     }
 
     @Test
@@ -274,12 +272,12 @@ class DirectionTest {
         Position startPosition = Position.of(5, 5);
         Position endPosition = Position.of(8, 7);
 
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
+        Directions directions = Directions.of(startPosition, endPosition);
 
         assertThat(directions.size()).isEqualTo(3);
-        assertThat(directions.poll()).isEqualTo(Direction.UP);
-        assertThat(directions.poll()).isEqualTo(Direction.UP_RIGHT);
-        assertThat(directions.poll()).isEqualTo(Direction.UP_RIGHT);
+        assertThat(directions.next()).isEqualTo(Direction.UP);
+        assertThat(directions.next()).isEqualTo(Direction.UP_RIGHT);
+        assertThat(directions.next()).isEqualTo(Direction.UP_RIGHT);
     }
 
     @Test
@@ -288,12 +286,12 @@ class DirectionTest {
         Position startPosition = Position.of(5, 5);
         Position endPosition = Position.of(8, 3);
 
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
+        Directions directions = Directions.of(startPosition, endPosition);
 
         assertThat(directions.size()).isEqualTo(3);
-        assertThat(directions.poll()).isEqualTo(Direction.UP);
-        assertThat(directions.poll()).isEqualTo(Direction.UP_LEFT);
-        assertThat(directions.poll()).isEqualTo(Direction.UP_LEFT);
+        assertThat(directions.next()).isEqualTo(Direction.UP);
+        assertThat(directions.next()).isEqualTo(Direction.UP_LEFT);
+        assertThat(directions.next()).isEqualTo(Direction.UP_LEFT);
     }
 
     @Test
@@ -302,12 +300,12 @@ class DirectionTest {
         Position startPosition = Position.of(5, 5);
         Position endPosition = Position.of(7, 8);
 
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
+        Directions directions = Directions.of(startPosition, endPosition);
 
         assertThat(directions.size()).isEqualTo(3);
-        assertThat(directions.poll()).isEqualTo(Direction.RIGHT);
-        assertThat(directions.poll()).isEqualTo(Direction.UP_RIGHT);
-        assertThat(directions.poll()).isEqualTo(Direction.UP_RIGHT);
+        assertThat(directions.next()).isEqualTo(Direction.RIGHT);
+        assertThat(directions.next()).isEqualTo(Direction.UP_RIGHT);
+        assertThat(directions.next()).isEqualTo(Direction.UP_RIGHT);
     }
 
     @Test
@@ -316,12 +314,12 @@ class DirectionTest {
         Position startPosition = Position.of(5, 5);
         Position endPosition = Position.of(3, 8);
 
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
+        Directions directions = Directions.of(startPosition, endPosition);
 
         assertThat(directions.size()).isEqualTo(3);
-        assertThat(directions.poll()).isEqualTo(Direction.RIGHT);
-        assertThat(directions.poll()).isEqualTo(Direction.DOWN_RIGHT);
-        assertThat(directions.poll()).isEqualTo(Direction.DOWN_RIGHT);
+        assertThat(directions.next()).isEqualTo(Direction.RIGHT);
+        assertThat(directions.next()).isEqualTo(Direction.DOWN_RIGHT);
+        assertThat(directions.next()).isEqualTo(Direction.DOWN_RIGHT);
     }
 
     @Test
@@ -330,12 +328,12 @@ class DirectionTest {
         Position startPosition = Position.of(5, 5);
         Position endPosition = Position.of(2, 7);
 
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
+        Directions directions = Directions.of(startPosition, endPosition);
 
         assertThat(directions.size()).isEqualTo(3);
-        assertThat(directions.poll()).isEqualTo(Direction.DOWN);
-        assertThat(directions.poll()).isEqualTo(Direction.DOWN_RIGHT);
-        assertThat(directions.poll()).isEqualTo(Direction.DOWN_RIGHT);
+        assertThat(directions.next()).isEqualTo(Direction.DOWN);
+        assertThat(directions.next()).isEqualTo(Direction.DOWN_RIGHT);
+        assertThat(directions.next()).isEqualTo(Direction.DOWN_RIGHT);
     }
 
     @Test
@@ -344,12 +342,12 @@ class DirectionTest {
         Position startPosition = Position.of(5, 5);
         Position endPosition = Position.of(2, 3);
 
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
+        Directions directions = Directions.of(startPosition, endPosition);
 
         assertThat(directions.size()).isEqualTo(3);
-        assertThat(directions.poll()).isEqualTo(Direction.DOWN);
-        assertThat(directions.poll()).isEqualTo(Direction.DOWN_LEFT);
-        assertThat(directions.poll()).isEqualTo(Direction.DOWN_LEFT);
+        assertThat(directions.next()).isEqualTo(Direction.DOWN);
+        assertThat(directions.next()).isEqualTo(Direction.DOWN_LEFT);
+        assertThat(directions.next()).isEqualTo(Direction.DOWN_LEFT);
     }
 
     @Test
@@ -358,12 +356,12 @@ class DirectionTest {
         Position startPosition = Position.of(5, 5);
         Position endPosition = Position.of(7, 2);
 
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
+        Directions directions = Directions.of(startPosition, endPosition);
 
         assertThat(directions.size()).isEqualTo(3);
-        assertThat(directions.poll()).isEqualTo(Direction.LEFT);
-        assertThat(directions.poll()).isEqualTo(Direction.UP_LEFT);
-        assertThat(directions.poll()).isEqualTo(Direction.UP_LEFT);
+        assertThat(directions.next()).isEqualTo(Direction.LEFT);
+        assertThat(directions.next()).isEqualTo(Direction.UP_LEFT);
+        assertThat(directions.next()).isEqualTo(Direction.UP_LEFT);
     }
 
     @Test
@@ -372,11 +370,11 @@ class DirectionTest {
         Position startPosition = Position.of(5, 5);
         Position endPosition = Position.of(3, 2);
 
-        Queue<Direction> directions = Direction.of(startPosition, endPosition);
+        Directions directions = Directions.of(startPosition, endPosition);
 
         assertThat(directions.size()).isEqualTo(3);
-        assertThat(directions.poll()).isEqualTo(Direction.LEFT);
-        assertThat(directions.poll()).isEqualTo(Direction.DOWN_LEFT);
-        assertThat(directions.poll()).isEqualTo(Direction.DOWN_LEFT);
+        assertThat(directions.next()).isEqualTo(Direction.LEFT);
+        assertThat(directions.next()).isEqualTo(Direction.DOWN_LEFT);
+        assertThat(directions.next()).isEqualTo(Direction.DOWN_LEFT);
     }
 }

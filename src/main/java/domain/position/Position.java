@@ -1,5 +1,7 @@
 package domain.position;
 
+import domain.direction.Direction;
+
 import java.util.Objects;
 
 public final class Position {
@@ -32,8 +34,8 @@ public final class Position {
         return new PositionDelta(this.getRow() - position.getRow(), this.getColumn() - position.getColumn());
     }
 
-    public Position append(int dRow, int dColumn) {
-        return Position.of(this.row + dRow, this.column + dColumn);
+    public Position append(Direction direction) {
+        return Position.of(this.row + direction.getdRow(), this.column + direction.getdColumn());
     }
 
     public int getRow() {

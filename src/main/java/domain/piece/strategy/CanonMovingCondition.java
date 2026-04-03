@@ -1,6 +1,7 @@
 package domain.piece.strategy;
 
 import domain.board.BoardState;
+import domain.direction.Directions;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.position.Position;
@@ -10,7 +11,7 @@ public class CanonMovingCondition implements MovingCondition {
 
     @Override
     public boolean canMove(BoardState boardState, Position startPosition, Position endPosition) {
-        Directions directions = Directions.between(startPosition, endPosition);
+        Directions directions = Directions.of(startPosition, endPosition);
 
         if (!directions.checkAllDirectionIsStraight()) {
             return false;

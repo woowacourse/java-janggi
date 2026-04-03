@@ -1,6 +1,6 @@
 package domain.position;
 
-import domain.board.Direction;
+import domain.direction.Direction;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -30,7 +30,7 @@ public class PositionTest {
         Position position = Position.of(5, 5);
         Direction direction = Direction.UP;
 
-        Position newPosition = PositionCalculator.add(position, direction);
+        Position newPosition = position.append(direction);
 
         assertThat(newPosition.getRow()).isEqualTo(6);
         assertThat(newPosition.getColumn()).isEqualTo(5);
@@ -42,7 +42,7 @@ public class PositionTest {
         Position position = Position.of(5, 5);
         Direction direction = Direction.UP_RIGHT;
 
-        Position newPosition = PositionCalculator.add(position, direction);
+        Position newPosition = position.append(direction);
 
         assertThat(newPosition.getRow()).isEqualTo(6);
         assertThat(newPosition.getColumn()).isEqualTo(6);
@@ -54,7 +54,7 @@ public class PositionTest {
         Position position = Position.of(5, 5);
         Direction direction = Direction.RIGHT;
 
-        Position newPosition = PositionCalculator.add(position, direction);
+        Position newPosition = position.append(direction);
 
         assertThat(newPosition.getRow()).isEqualTo(5);
         assertThat(newPosition.getColumn()).isEqualTo(6);
@@ -66,7 +66,7 @@ public class PositionTest {
         Position position = Position.of(5, 5);
         Direction direction = Direction.DOWN_RIGHT;
 
-        Position newPosition = PositionCalculator.add(position, direction);
+        Position newPosition = position.append(direction);
 
         assertThat(newPosition.getRow()).isEqualTo(4);
         assertThat(newPosition.getColumn()).isEqualTo(6);
@@ -78,7 +78,7 @@ public class PositionTest {
         Position position = Position.of(5, 5);
         Direction direction = Direction.DOWN;
 
-        Position newPosition = PositionCalculator.add(position, direction);
+        Position newPosition = position.append(direction);
 
         assertThat(newPosition.getRow()).isEqualTo(4);
         assertThat(newPosition.getColumn()).isEqualTo(5);
@@ -90,7 +90,7 @@ public class PositionTest {
         Position position = Position.of(5, 5);
         Direction direction = Direction.DOWN_LEFT;
 
-        Position newPosition = PositionCalculator.add(position, direction);
+        Position newPosition = position.append(direction);
 
         assertThat(newPosition.getRow()).isEqualTo(4);
         assertThat(newPosition.getColumn()).isEqualTo(4);
@@ -102,7 +102,7 @@ public class PositionTest {
         Position position = Position.of(5, 5);
         Direction direction = Direction.LEFT;
 
-        Position newPosition = PositionCalculator.add(position, direction);
+        Position newPosition = position.append(direction);
 
         assertThat(newPosition.getRow()).isEqualTo(5);
         assertThat(newPosition.getColumn()).isEqualTo(4);
@@ -114,7 +114,7 @@ public class PositionTest {
         Position position = Position.of(5, 5);
         Direction direction = Direction.UP_LEFT;
 
-        Position newPosition = PositionCalculator.add(position, direction);
+        Position newPosition = position.append(direction);
 
         assertThat(newPosition.getRow()).isEqualTo(6);
         assertThat(newPosition.getColumn()).isEqualTo(4);
@@ -126,7 +126,7 @@ public class PositionTest {
         Position startPosition = Position.of(4, 4);
         Position endPosition = Position.of(5, 5);
 
-        PositionDelta distance = PositionCalculator.subtract(endPosition, startPosition);
+        PositionDelta distance = endPosition.minus(startPosition);
 
         assertThat(distance.row()).isEqualTo(1);
         assertThat(distance.column()).isEqualTo(1);
@@ -138,7 +138,7 @@ public class PositionTest {
         Position startPosition = Position.of(4, 6);
         Position endPosition = Position.of(5, 5);
 
-        PositionDelta distance = PositionCalculator.subtract(endPosition, startPosition);
+        PositionDelta distance = endPosition.minus(startPosition);
 
         assertThat(distance.row()).isEqualTo(1);
         assertThat(distance.column()).isEqualTo(-1);
@@ -150,7 +150,7 @@ public class PositionTest {
         Position startPosition = Position.of(6, 4);
         Position endPosition = Position.of(5, 5);
 
-        PositionDelta distance = PositionCalculator.subtract(endPosition, startPosition);
+        PositionDelta distance = endPosition.minus(startPosition);
 
         assertThat(distance.row()).isEqualTo(-1);
         assertThat(distance.column()).isEqualTo(1);
@@ -162,7 +162,7 @@ public class PositionTest {
         Position startPosition = Position.of(6, 6);
         Position endPosition = Position.of(5, 5);
 
-        PositionDelta distance = PositionCalculator.subtract(endPosition, startPosition);
+        PositionDelta distance = endPosition.minus(startPosition);
 
         assertThat(distance.row()).isEqualTo(-1);
         assertThat(distance.column()).isEqualTo(-1);

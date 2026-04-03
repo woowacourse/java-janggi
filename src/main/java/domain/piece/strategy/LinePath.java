@@ -1,10 +1,10 @@
 package domain.piece.strategy;
 
 import domain.board.BoardState;
-import domain.board.Direction;
+import domain.direction.Direction;
+import domain.direction.Directions;
 import domain.piece.Piece;
 import domain.position.Position;
-import domain.position.PositionCalculator;
 
 public class LinePath {
     private final Directions directions;
@@ -24,7 +24,7 @@ public class LinePath {
         if (!directions.keepsDirection(currentDirection)) {
             return false;
         }
-        currentPosition = PositionCalculator.add(currentPosition, currentDirection);
+        currentPosition = currentPosition.append(currentDirection);
         return true;
     }
 
