@@ -7,57 +7,56 @@ import janggi.domain.point.Point;
 import janggi.domain.status.ChoTurn;
 import janggi.domain.status.Team;
 import janggi.presentation.dto.GameStatusInfo;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class JanggiGameService {
 
     private final BoardRepository repository;
-    private final Map<Long, JanggiGame> games;
 
     public JanggiGameService(BoardRepository repository) {
         this.repository = repository;
-        this.games = new ConcurrentHashMap<>();
     }
 
     public long startNewGame(Board initBoard) {
         JanggiGame game = new JanggiGame(initBoard, new ChoTurn());
-        long roomId = repository.save(game);
-        games.put(roomId, game);
-        return roomId;
+        return repository.save(game);
     }
 
     public void loadExistsBoard(Long roomId) {
-        this.games.put(roomId, repository.loadGame(roomId));
+        repository.loadGame(roomId);
     }
 
     public GameStatusInfo getBoardStatus(Long roomId) {
-        return GameStatusInfo.from(games.get(roomId).getBoardStatus());
+        return GameStatusInfo.from(repository.loadGame(roomId).getBoardStatus());
     }
 
     public boolean isFinished(Long roomId) {
-        return games.get(roomId).isFinished();
+        return repository.loadGame(roomId)
+                .isFinished();
     }
 
     public void play(Long roomId, Point from, Point to) {
-        JanggiGame game = games.get(roomId);
+        JanggiGame game = repository.loadGame(roomId);
         game.play(from, to);
         repository.update(roomId, from, to, game);
     }
 
     public Team winner(Long roomId) {
-        return games.get(roomId).getWinner();
+        return repository.loadGame(roomId)
+                .getWinner();
     }
 
     public Team currentTurn(Long roomId) {
-        return games.get(roomId).getTeam();
+        return repository.loadGame(roomId)
+                .getTeam();
     }
 
     public double getHanScore(Long roomId) {
-        return games.get(roomId).getHanScore();
+        return repository.loadGame(roomId)
+                .getHanScore();
     }
 
     public double getChoScore(Long roomId) {
-        return games.get(roomId).getChoScore();
+        return repository.loadGame(roomId)
+                .getChoScore();
     }
 }
