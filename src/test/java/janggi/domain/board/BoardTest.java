@@ -65,7 +65,7 @@ class BoardTest {
         // given
         Map<Position, Piece> pieces = new LinkedHashMap<>();
         pieces.put(new Position(1, 1), new Piece(Team.HAN, new ChariotStrategy()));
-        pieces.put(new Position(1, 3), new Piece(Team.CHO, new SoliderStrategy(Team.CHO)));
+        pieces.put(new Position(1, 3), new Piece(Team.CHO, new SoliderStrategy(BoardDirection.DOWN)));
         Board board = new Board(pieces);
 
         // when & then
@@ -93,7 +93,7 @@ class BoardTest {
         // given
         Map<Position, Piece> pieces = new LinkedHashMap<>();
         pieces.put(new Position(1, 1), new Piece(Team.HAN, new ChariotStrategy()));
-        pieces.put(new Position(1, 5), new Piece(Team.CHO, new SoliderStrategy(Team.CHO)));
+        pieces.put(new Position(1, 5), new Piece(Team.CHO, new SoliderStrategy(BoardDirection.DOWN)));
         Board board = new Board(pieces);
 
         // when & then

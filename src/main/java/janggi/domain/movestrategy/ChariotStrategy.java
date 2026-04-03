@@ -7,7 +7,7 @@ import janggi.domain.piece.PieceType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChariotStrategy implements MoveStrategy{
+public class ChariotStrategy implements MoveStrategy {
 
     @Override
     public boolean canMove(Position from, Position to) {
