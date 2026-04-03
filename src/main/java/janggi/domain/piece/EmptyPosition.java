@@ -27,4 +27,9 @@ public class EmptyPosition extends Piece {
     public int score() {
         return 0;
     }
+
+    @Override
+    public String display() {
+        return "  ";
+    }
 }

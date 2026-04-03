@@ -3,45 +3,111 @@ package janggi.controller;
 import janggi.domain.Board;
 import janggi.domain.JanggiGame;
 import janggi.domain.dto.MoveCommand;
+import janggi.domain.piece.Piece;
 import janggi.domain.piece.Team;
 import janggi.domain.vo.Position;
+import janggi.repository.GameRepository;
+import janggi.repository.PieceRepository;
 import janggi.view.InputView;
+import janggi.view.OutputView;
+import java.util.List;
 
 public class JanggiController {
 
     private final InputView inputView = new InputView();
+    private final OutputView outputView = new OutputView();
+    private final GameRepository gameRepository = new GameRepository();
+    private final PieceRepository pieceRepository = new PieceRepository();
+
+    private JanggiGame janggiGame;
+    private Board board;
 
     public void run() {
-        Board board = new Board();
+        initialize();
+        playGame();
+        printResult();
+    }
 
-        JanggiGame janggiGame = new JanggiGame();
+    private void initialize() {
+        List<JanggiGame> playingGames = gameRepository.findPlayingGames();
 
+        if (playingGames.isEmpty()) {
+            startNewGame();
+            return;
+        }
+
+        int choice = inputView.readGameChoice(playingGames);
+        if (choice == playingGames.size() + 1) {
+            startNewGame();
+            return;
+        }
+
+        resumeGame(playingGames.get(choice - 1));
+    }
+
+    private void startNewGame() {
+        janggiGame = new JanggiGame();
+        Long gameId = gameRepository.save(janggiGame);
+        janggiGame.assignId(gameId);
+
+        board = new Board();
+        pieceRepository.saveAll(gameId, board);
+
+        outputView.printGameStart(gameId);
+    }
+
+    private void resumeGame(JanggiGame game) {
+        janggiGame = game;
+        board = pieceRepository.findByGameId(game.findGameId());
+
+        outputView.printResume(game.findGameId(), game.findCurrentTeam());
+    }
+
+    private void playGame() {
         while (!janggiGame.isFinished()) {
             Team currentTeam = janggiGame.findCurrentTeam();
-            attemptMove(board, currentTeam);
+            outputView.printCurrentTurn(currentTeam);
+            outputView.printBoard(board);
+            attemptMove(currentTeam);
+
             if (!janggiGame.isFinished()) {
                 janggiGame.changeTurn();
+                gameRepository.updateTurn(janggiGame);
             }
         }
     }
 
-    private void attemptMove(Board board, Team currentTeam) {
+    private void attemptMove(Team currentTeam) {
         boolean moved = false;
         while (!moved) {
-            moved = tryMove(board, currentTeam);
+            moved = tryMove(currentTeam);
         }
     }
 
-    private boolean tryMove(Board board, Team currentTeam) {
+    private boolean tryMove(Team currentTeam) {
         try {
             MoveCommand moveCommand = inputView.readMovePositions();
             Position from = moveCommand.getFrom();
             Position to = moveCommand.getTo();
-            board.move(from, to, currentTeam);
+
+            Piece captured = board.move(from, to, currentTeam);
+            pieceRepository.movePiece(janggiGame.findGameId(), from, to);
+
+            janggiGame.processCaptured(captured);
+            if (janggiGame.isFinished()) {
+                gameRepository.updateFinished(janggiGame);
+            }
+
             return true;
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             return false;
         }
+    }
+
+    private void printResult() {
+        outputView.printGameEnd(janggiGame.findWinner());
+        outputView.printScore(Team.CHO, board.calculateScore(Team.CHO));
+        outputView.printScore(Team.HAN, board.calculateScore(Team.HAN));
     }
 }

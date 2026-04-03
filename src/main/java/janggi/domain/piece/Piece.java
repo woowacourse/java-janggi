@@ -29,6 +29,11 @@ public abstract class Piece {
 
     protected abstract MoveRule moveRule();
 
+    public String display() {
+        return team.findPrefix() + toString();
+    }
+
+
     @Override
     public abstract String toString();
 
