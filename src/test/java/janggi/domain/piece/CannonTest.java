@@ -6,23 +6,26 @@ import janggi.domain.path.PieceOnPath;
 import janggi.domain.position.Movement;
 import janggi.domain.position.Position;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 class CannonTest {
 
-    @Test
-    void 팀_확인_테스트() {
-        Cannon cannon = new Cannon(Team.HAN);
+    @ParameterizedTest
+    @CsvSource({
+            "HAN, true",
+            "CHO, true"})
+    void 포의_팀을_확인한다(Team team, boolean expected) {
+        Cannon cannon = new Cannon(team);
 
-        boolean hanResult = cannon.getTeam() == Team.HAN;
-        boolean choResult = cannon.getTeam() == Team.CHO;
-
-        assertAll(
-                () -> assertThat(hanResult).isTrue(),
-                () -> assertThat(choResult).isFalse()
-        );
+        assertThat(cannon.getTeam() == team).isEqualTo(expected);
     }
 
     @Test
@@ -30,7 +33,21 @@ class CannonTest {
         Cannon cannon = new Cannon(Team.HAN);
 
         PieceType type = cannon.getType();
+
         assertThat(type).isEqualTo(PieceType.CANNON);
+    }
+
+    @Test
+    void 한_방향으로만_이동시키면_경로를_반환한다() {
+        Cannon cannon = new Cannon(Team.HAN);
+        Movement movement = new Movement(Position.from("22"), Position.from("26"));
+
+        Path path = cannon.getPath(movement);
+
+        assertThat(path).containsExactly(
+                Position.from("23"),
+                Position.from("24"),
+                Position.from("25"));
     }
 
     @Test
@@ -38,10 +55,20 @@ class CannonTest {
         Cannon cannon = new Cannon(Team.HAN);
         Movement movement = new Movement(Position.from("22"), Position.from("33"));
 
-
         assertThatThrownBy(() -> cannon.getPath(movement))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 포는 직선으로만 이동할 수 있습니다.");
+    }
+
+    @Test
+    void 이동_가능하면_예외가_발생하지_않는다() {
+        Cannon cannon = new Cannon(Team.HAN);
+        PieceOnPath pieceOnPath = new PieceOnPath();
+        pieceOnPath.add(new EmptyPiece());
+        pieceOnPath.add(new Soldier(Team.HAN));
+
+        assertThatNoException().isThrownBy(
+                () -> cannon.validateCanMove(pieceOnPath, new Chariot(Team.CHO)));
     }
 
     @Test
@@ -106,33 +133,8 @@ class CannonTest {
         PieceOnPath pieceOnPath = new PieceOnPath();
         pieceOnPath.add(new Guard(Team.HAN));
 
-
         assertThatThrownBy(() -> cannon.validateCanMove(pieceOnPath, new Cannon(Team.CHO)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 포는 포를 잡을 수 없습니다.");
-    }
-
-    @Test
-    void 한_방향으로만_이동시키면_경로를_반환한다() {
-        Cannon cannon = new Cannon(Team.HAN);
-        Movement movement = new Movement(Position.from("22"), Position.from("26"));
-
-        Path path = cannon.getPath(movement);
-
-        assertThat(path).containsExactly(
-                Position.from("23"),
-                Position.from("24"),
-                Position.from("25"));
-    }
-
-    @Test
-    void 이동_가능_하면_예외가_발생하지_않는다() {
-        Cannon cannon = new Cannon(Team.HAN);
-        PieceOnPath pieceOnPath = new PieceOnPath();
-        pieceOnPath.add(new EmptyPiece());
-        pieceOnPath.add(new Soldier(Team.HAN));
-
-        assertThatNoException().isThrownBy(
-                () -> cannon.validateCanMove(pieceOnPath, new Chariot(Team.CHO)));
     }
 }
