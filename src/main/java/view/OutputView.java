@@ -3,7 +3,9 @@ package view;
 import domain.Piece;
 import domain.vo.Position;
 
+import java.util.Comparator;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class OutputView {
 
@@ -19,9 +21,16 @@ public class OutputView {
     private static final int MAX_COL = 8;
     private static final int MAX_ROW = 9;
 
-    public void printBoard(Map<Position, Piece> board) {
+    public void printBoard(Map<Position, Piece> board2) {
         System.out.println();
         String[] rowLabels = {"영", "일", "이", "삼", "사", "오", "육", "칠", "팔", "구"};
+
+        Map<Position, Piece> board = new TreeMap<>(Comparator
+                .comparingInt(Position::getRow).reversed()
+                .thenComparingInt(Position::getCol));
+        for (Position position : board2.keySet()) {
+            board.put(position, board2.get(position));
+        }
 
         for (int row = MAX_ROW; row >= 0; row--) {
             System.out.print(rowLabels[row] + " ");
