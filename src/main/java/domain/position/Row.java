@@ -3,7 +3,7 @@ package domain.position;
 public class Row {
 
     private static final int MIN_ROW_NUMBER = 1;
-    private static final int MAX_ROW_NUMBER = 9;
+    private static final int MAX_ROW_NUMBER = 10;
 
     private final int value;
 
@@ -13,7 +13,7 @@ public class Row {
     }
 
     private void validate(int value) {
-        if (value <= 0 || value > 10) {
+        if (value < MIN_ROW_NUMBER || value > MAX_ROW_NUMBER) {
             throw new IllegalArgumentException("행의 위치는 1-10 사이에 있어야 합니다.");
         }
     }
