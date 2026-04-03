@@ -13,19 +13,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 class BoardTest {
 
     private Board board;
-    private Piece choPawn;
-    private Piece hanHorse;
-    private Piece choCannon;
 
     @BeforeEach
     void setUp() {
-        choPawn = Piece.of(TeamColor.CHO, PieceType.PAWN);
-        hanHorse = Piece.of(TeamColor.HAN, PieceType.HORSE);
-        choCannon = Piece.of(TeamColor.CHO, PieceType.CANNON);
         board = new Board(Map.of(
-                Position.of(3, 4), choPawn,
-                Position.of(2, 4), hanHorse,
-                Position.of(1, 4), choCannon
+                Position.of(3, 4), Piece.of(TeamColor.CHO, PieceType.PAWN),
+                Position.of(2, 4), Piece.of(TeamColor.HAN, PieceType.HORSE),
+                Position.of(1, 4), Piece.of(TeamColor.CHO, PieceType.CANNON)
         ));
     }
 
@@ -69,5 +63,4 @@ class BoardTest {
         }
     }
 }
-
 
