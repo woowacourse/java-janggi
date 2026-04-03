@@ -35,7 +35,7 @@ class CannonMoveRuleTest {
 
     @Test
     @DisplayName("도착지에 같은 팀이 있는 경우 예외가 발생한다.")
-    void shouldThrowExceptionWhenDestinationIsSameTeam() {
+    void should_throw_exception_when_destination_is_same_team() {
         Team sameTeam = Team.CHO;
 
         Intersection from = new Intersection(start, new Cannon(sameTeam));
@@ -60,7 +60,7 @@ class CannonMoveRuleTest {
 
     @Test
     @DisplayName("포의 이동경로 장애물이 포이면 예외가 발생한다.")
-    void shouldThrowExceptionWhenObstacleIsCannon() {
+    void should_throw_exception_when_obstacle_is_cannon() {
         Team sameTeam = Team.CHO;
         Team anotherTeam = Team.HAN;
 
@@ -86,7 +86,7 @@ class CannonMoveRuleTest {
 
     @Test
     @DisplayName("포는 두개의 장애물을 넘어갈 때 예외가 발생한다.")
-    void shouldThrowExceptionWhenCannonJumpTwoObstacle() {
+    void should_throw_exception_when_cannon_jumps_two_obstacles() {
         Team sameTeam = Team.CHO;
         Team anotherTeam = Team.HAN;
 
@@ -113,7 +113,7 @@ class CannonMoveRuleTest {
 
     @Test
     @DisplayName("포의 경로에 장애물이 없을 때 예외가 발생한다.")
-    void shouldThrowExceptionWhenCannonPathDoesntObstacle() {
+    void should_throw_exception_when_cannon_path_has_no_obstacle() {
         Team sameTeam = Team.CHO;
 
         Intersection from = new Intersection(start, new Cannon(sameTeam));
@@ -137,7 +137,7 @@ class CannonMoveRuleTest {
 
     @Test
     @DisplayName("포가 포를 공격할때 예외가 발생한다.")
-    void shouldThrowExceptionWhenCannonAttackCannon() {
+    void should_throw_exception_when_cannon_attacks_cannon() {
         Team sameTeam = Team.CHO;
         Team anotherTeam = Team.HAN;
 

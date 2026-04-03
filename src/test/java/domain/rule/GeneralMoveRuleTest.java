@@ -15,7 +15,7 @@ public class GeneralMoveRuleTest {
 
     @Test
     @DisplayName("도착지에 같은 팀이 있는 경우 예외가 발생한다.")
-    void shouldThrowExceptionWhenDestinationIsSameTeam() {
+    void should_throw_exception_when_destination_is_same_team() {
         Point start = new Point(0, 0);
         Point end = new Point(1, 0);
 
@@ -36,7 +36,7 @@ public class GeneralMoveRuleTest {
 
     @Test
     @DisplayName("장군은 도착지에 상대팀이 있으면 이동할 수 있다.")
-    void canMoveGeneralWhenDestinationIsEmpty() {
+    void should_move_general_when_destination_is_empty() {
         Point start = new Point(1, 4);
         Point end = new Point(2, 4);
 
@@ -54,7 +54,7 @@ public class GeneralMoveRuleTest {
 
     @Test
     @DisplayName("장군은 도착지에 상대팀이 있으면 이동할 수 있다.")
-    void canMoveGeneralWhenDestinationIsOpponent() {
+    void should_move_general_when_destination_is_opponent() {
         Point start = new Point(1, 4);
         Point end = new Point(2, 4);
 

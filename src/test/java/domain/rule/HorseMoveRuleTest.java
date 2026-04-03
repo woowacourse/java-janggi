@@ -14,7 +14,7 @@ public class HorseMoveRuleTest {
 
     @Test
     @DisplayName("도착지에 같은 팀이 있는 경우 예외가 발생한다.")
-    void shouldThrowExceptionWhenDestinationIsSameTeam() {
+    void should_throw_exception_when_destination_is_same_team() {
         Point start = new Point(0, 0);
         Point middlePoint = new Point(1, 0);
         Point end = new Point(2, 1);
@@ -36,7 +36,7 @@ public class HorseMoveRuleTest {
 
     @Test
     @DisplayName("마의 이동 경로에 장애물이 있으면 예외가 발생한다.")
-    void shouldThrowExceptionWhenPathHasObstacle() {
+    void should_throw_exception_when_path_has_obstacle() {
         Point start = new Point(0, 0);
         Point middlePoint = new Point(1, 0);
         Point end = new Point(2, 1);
@@ -58,7 +58,7 @@ public class HorseMoveRuleTest {
 
     @Test
     @DisplayName("마는 경로에 장애물이 없고 도착지가 비어 있으면 이동한다.")
-    void horseCanMove_WhenNoObstacle_AndDestinationIsEmpty() {
+    void should_move_horse_when_no_obstacle_and_destination_is_empty() {
         Point start = new Point(0, 0);
         Point middlePoint = new Point(1, 0);
         Point end = new Point(2, 1);
@@ -77,7 +77,7 @@ public class HorseMoveRuleTest {
 
     @Test
     @DisplayName("마는 경로에 장애물이 없고 도착지에 상대팀이 있으면 이동한다.")
-    void horseCanMoveWhenNoObstacleAndDestinationIsOpponent() {
+    void should_move_horse_when_no_obstacle_and_destination_is_opponent() {
         Point start = new Point(0, 0);
         Point middlePoint = new Point(1, 0);
         Point end = new Point(2, 1);

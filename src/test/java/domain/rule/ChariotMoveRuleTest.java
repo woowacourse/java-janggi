@@ -34,7 +34,7 @@ public class ChariotMoveRuleTest {
 
     @Test
     @DisplayName("도착지에 같은 팀이 있는 경우 예외가 발생한다.")
-    void shouldThrowExceptionWhenDestinationIsSameTeam() {
+    void should_throw_exception_when_destination_is_same_team() {
         Team sameTeam = Team.CHO;
 
         Intersection from = new Intersection(start, new Chariot(sameTeam));
@@ -58,7 +58,7 @@ public class ChariotMoveRuleTest {
 
     @Test
     @DisplayName("차의 이동 경로에 장애물이 있으면 예외가 발생한다.")
-    void shouldThrowExceptionWhenPathHasObstacle() {
+    void should_throw_exception_when_path_has_obstacle() {
         Team sameTeam = Team.CHO;
 
         Intersection from = new Intersection(start, new Chariot(sameTeam));
@@ -83,7 +83,7 @@ public class ChariotMoveRuleTest {
 
     @Test
     @DisplayName("차는 경로에 장애물이 없고 도착지가 비어 있으면 이동한다.")
-    void chariotCanMove_WhenNoObstacle_AndDestinationIsEmpty() {
+    void should_move_chariot_when_no_obstacle_and_destination_is_empty() {
         Intersection from = new Intersection(start, new Chariot(Team.CHO));
         Intersection to = Intersection.empty(end);
 
@@ -104,7 +104,7 @@ public class ChariotMoveRuleTest {
 
     @Test
     @DisplayName("차는 경로에 장애물이 없고 도착지에 상대팀이 있으면 이동한다.")
-    void chariotCanMoveWhenNoObstacleAndDestinationIsOpponent() {
+    void should_move_chariot_when_no_obstacle_and_destination_is_opponent() {
         Intersection from = new Intersection(start, new Chariot(Team.CHO));
         Intersection to = new Intersection(end, new Chariot(Team.HAN));
 

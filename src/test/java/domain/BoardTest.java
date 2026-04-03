@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class BoardTest {
@@ -19,7 +20,8 @@ public class BoardTest {
     public static final int DEFAULT_ELEPHANT_AND_HORSE_ROW = 0;
 
     @Test
-    void 장기판_기물_배치를_테스트한다() {
+    @DisplayName("장기판 기물 배치를 테스트한다.")
+    void should_place_pieces_on_board() {
         Point point = new Point(1, 4);
         General general = new General(Team.HAN);
         Intersection actualIntersection = new Intersection(point, general);
@@ -34,7 +36,8 @@ public class BoardTest {
     }
 
     @Test
-    void 차림이_선택되었을_때_상과_마를_정확한_위치에_배치해야_한다() {
+    @DisplayName("차림이 선택되었을 때 상과 마를 정확한 위치에 배치해야 한다.")
+    void should_place_elephant_and_horse_positions_by_selected_formation() {
         Formation elephantHorseHorseElephant = Formation.ELEPHANT_HORSE_HORSE_ELEPHANT;
         JanggiGenerator janggiGenerator = new JanggiGenerator(
                 elephantHorseHorseElephant, elephantHorseHorseElephant

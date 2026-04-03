@@ -13,7 +13,7 @@ public class DirectionTest {
 
     @Test
     @DisplayName("주어진 경로를 순차적으로 이동했을 때 최종 목적지에 도달하는지 확인한다.")
-    void shouldReachTargetWhenFollowingDirections() {
+    void should_reach_target_when_following_directions() {
         Point current = new Point(0, 0);
         Point target = new Point(2, 1);
 
@@ -25,7 +25,7 @@ public class DirectionTest {
 
     @Test
     @DisplayName("주어진 경로의 좌표들을 최종적으로 반환하는지 확인한다.")
-    void returnAllPointsAlongDestination() {
+    void should_return_all_points_along_destination() {
         Direction direction1 = new Direction(List.of(Vector.UP, Vector.LEFT_UP));
         Direction direction2 = new Direction(List.of(Vector.DOWN, Vector.RIGHT_DOWN));
         Point from = new Point(0, 0);

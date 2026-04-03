@@ -3,12 +3,14 @@ package domain;
 import domain.piece.Cannon;
 import domain.team.Team;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class PieceTest {
 
     @Test
-    void 소속팀이_달라도_기물은_동등하다() {
+    @DisplayName("소속팀이 달라도 기물은 동등하다.")
+    void should_be_equal_even_if_team_is_different() {
         Cannon cannonCho = new Cannon(Team.CHO);
         Cannon cannonHan = new Cannon(Team.HAN);
 

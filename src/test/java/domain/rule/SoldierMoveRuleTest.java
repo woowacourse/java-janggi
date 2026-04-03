@@ -15,7 +15,7 @@ public class SoldierMoveRuleTest {
 
     @Test
     @DisplayName("도착지에 같은 팀이 있는 경우 예외가 발생한다.")
-    void shouldThrowExceptionWhenDestinationIsSameTeam() {
+    void should_throw_exception_when_destination_is_same_team() {
         Point start = new Point(0, 0);
         Point end = new Point(1, 0);
 
@@ -36,7 +36,7 @@ public class SoldierMoveRuleTest {
 
     @Test
     @DisplayName("한 진영인 졸의 직진 방향은 내려감이다.")
-    void straightOfHanSoldierIsDown() {
+    void should_move_down_for_han_soldier() {
         Point start = new Point(0, 0);
         Point end = start.next(Vector.DOWN);
 
@@ -57,7 +57,7 @@ public class SoldierMoveRuleTest {
 
     @Test
     @DisplayName("한 진영인 졸의 직진 방향은 올라감이다.")
-    void straightOfHanSoldierIsUp() {
+    void should_move_up_for_cho_soldier() {
         Point start = new Point(1, 0);
         Point end = start.next(Vector.UP);
 

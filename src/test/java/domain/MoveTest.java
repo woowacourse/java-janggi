@@ -16,7 +16,7 @@ public class MoveTest {
 
     @Test
     @DisplayName("이동이 끝난 뒤 출발지는 비어있고, 도착지는 기물이 존재한다.")
-    void shouldMovePieceToDestinationAndLeaveSourceEmpty() {
+    void should_move_piece_to_destination_and_leave_source_empty() {
         Point start = new Point(0, 0);
         Point end = new Point(3, 0);
 
