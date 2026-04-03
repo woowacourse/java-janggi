@@ -2,8 +2,8 @@ package domain.position;
 
 public class Column {
 
-    private static final int MIN_COLUMNS_NUMBER = 1;
-    private static final int MAX_COLUMNS_NUMBER = 9;
+    private static final int MIN_COLUMN_NUMBER = 1;
+    private static final int MAX_COLUMN_NUMBER = 9;
 
     private final int value;
 
@@ -13,7 +13,7 @@ public class Column {
     }
 
     private void validate(int value) {
-        if (value < MIN_COLUMNS_NUMBER || value > MAX_COLUMNS_NUMBER) {
+        if (value < MIN_COLUMN_NUMBER || value > MAX_COLUMN_NUMBER) {
             throw new IllegalArgumentException("열의 위치는 1-9 사이에 있어야 합니다.");
         }
     }

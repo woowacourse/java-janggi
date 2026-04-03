@@ -6,8 +6,8 @@ import java.util.List;
 
 public class Horse extends ActivePiece {
 
-    private static final List<Integer> rowOffsets = List.of(1, 2, 2, 1, -1, -2, -2, -1);
-    private static final List<Integer> columnOffsets = List.of(2, 1, -1, -2, -2, -1, 1, 2);
+    private static final List<Integer> ROW_OFFSETS = List.of(1, 2, 2, 1, -1, -2, -2, -1);
+    private static final List<Integer> COLUMN_OFFSETS = List.of(2, 1, -1, -2, -2, -1, 1, 2);
 
     public Horse(Team team) {
         super(team, PieceType.MA);
@@ -18,8 +18,8 @@ public class Horse extends ActivePiece {
         int rowDiff = target.rowDiff(source);
         int colDiff = target.columnDiff(source);
 
-        for (int i = 0; i < rowOffsets.size(); i++) {
-            if (rowOffsets.get(i) == rowDiff && columnOffsets.get(i) == colDiff) {
+        for (int i = 0; i < ROW_OFFSETS.size(); i++) {
+            if (ROW_OFFSETS.get(i) == rowDiff && COLUMN_OFFSETS.get(i) == colDiff) {
                 return true;
             }
         }
