@@ -3,7 +3,6 @@ package janggi.repository;
 import janggi.config.DBConnection;
 import janggi.entity.GameStateEntity;
 import janggi.global.EntityMapper;
-import janggi.mapper.TurnManagerMapper;
 import java.util.Optional;
 
 public class GameStateRepositoryImpl implements GameStateRepository {
@@ -21,8 +20,9 @@ public class GameStateRepositoryImpl implements GameStateRepository {
         final String sql = String.format(
             "INSERT INTO %s (turns_taken, team_queue) VALUES (%d, '%s')",
             TABLE_NAME, gameStateEntity.turns_taken(), gameStateEntity.team_queue());
-        final long generatedId = dbConnection.executeUpdate(sql);
-        return new GameStateEntity(generatedId, gameStateEntity.turns_taken(), gameStateEntity.team_queue());
+        final long generatedId = dbConnection.executeUpdate(sql).getFirst();
+        return new GameStateEntity(generatedId, gameStateEntity.turns_taken(),
+            gameStateEntity.team_queue());
     }
 
     @Override
@@ -30,7 +30,7 @@ public class GameStateRepositoryImpl implements GameStateRepository {
         final String sql = String.format("SELECT id, turns_taken, team_queue FROM %s WHERE id = %d",
             TABLE_NAME, targetId);
         final EntityMapper<GameStateEntity> mapper = resultSet -> {
-            long id = resultSet.getInt(1);
+            long id = resultSet.getLong(1);
             int turnsTaken = resultSet.getInt(2);
             String teamQueue = resultSet.getString(3);
             return new GameStateEntity(id, turnsTaken, teamQueue);
@@ -40,10 +40,12 @@ public class GameStateRepositoryImpl implements GameStateRepository {
 
     @Override
     public long update(final GameStateEntity gameStateEntity) {
-        final String sql = String.format("UPDATE %s SET turns_taken = %d, team_queue = '%s' WHERE id = %d",
-            TABLE_NAME, gameStateEntity.turns_taken(), gameStateEntity.team_queue(), gameStateEntity.id());
+        final String sql = String.format(
+            "UPDATE %s SET turns_taken = %d, team_queue = '%s' WHERE id = %d",
+            TABLE_NAME, gameStateEntity.turns_taken(), gameStateEntity.team_queue(),
+            gameStateEntity.id());
 
-        return dbConnection.executeUpdate(sql);
+        return dbConnection.executeUpdate(sql).getFirst();
     }
 
 

@@ -18,7 +18,12 @@ public class BoardRepositoryImpl implements BoardRepository {
     public long save(final BoardEntity boardEntity) {
         final String sql = String.format("INSERT INTO %s (name) VALUES ('%s')",
             TABLE_NAME, boardEntity.name());
-        return dbConnection.executeUpdate(sql);
+        return dbConnection.executeUpdate(sql).getFirst();
+    }
+
+    @Override
+    public boolean existsById(final long id) {
+        return findById(id).isPresent();
     }
 
     @Override
@@ -26,7 +31,7 @@ public class BoardRepositoryImpl implements BoardRepository {
         final String sql = String.format("SELECT id, name FROM %s WHERE id = %d",
             TABLE_NAME, targetId);
         final EntityMapper<BoardEntity> mapper = resultSet -> {
-            int id = resultSet.getInt(1);
+            long id = resultSet.getLong(1);
             String name = resultSet.getString(2);
             return BoardEntity.from(id, name);
 

@@ -8,6 +8,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
@@ -59,23 +61,41 @@ public class StandardDBConnection implements DBConnection {
     }
 
     @Override
-    public long executeUpdate(final String sql) {
-        long generatedKey = -1;
+    public <R> List<R> executeSelectAll(final String sql, final EntityMapper<R> entityMapper) {
+        final List<R> result = new ArrayList<>();
+        try (
+            final Connection connection = DriverManager.getConnection(url, id, password);
+            final Statement preparedStatement = connection.createStatement();
+            final ResultSet resultSet = preparedStatement.executeQuery(sql)
+        ) {
+            while (resultSet.next()) {
+                result.add(entityMapper.map(resultSet));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    @Override
+    public List<Long> executeUpdate(final String sql) {
+        final List<Long> generatedKeys = new ArrayList<>();
         try (
             final Connection connection = DriverManager.getConnection(url, id, password);
             final Statement preparedStatement = connection.createStatement();
         ) {
             preparedStatement.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
-            try (final ResultSet generatedKeys = preparedStatement.getGeneratedKeys();) {
-                if (generatedKeys.next()) {
-                    generatedKey = generatedKeys.getInt(1);
+            try (final ResultSet resultSet = preparedStatement.getGeneratedKeys();) {
+                while (resultSet.next()) {
+                    generatedKeys.add(resultSet.getLong(1));
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return generatedKey;
+        return generatedKeys;
     }
 
     @Override

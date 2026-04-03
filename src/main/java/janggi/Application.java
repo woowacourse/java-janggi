@@ -7,7 +7,6 @@ import janggi.controller.JanggiController;
 import janggi.repository.BoardCellRepositoryImpl;
 import janggi.repository.BoardRepositoryImpl;
 import janggi.repository.GameStateRepositoryImpl;
-import janggi.service.BoardCellService;
 import janggi.service.BoardService;
 import janggi.service.GameService;
 
@@ -21,12 +20,10 @@ public class Application {
 
         final GameService gameService =
             new GameService(new GameStateRepositoryImpl(dbConnection));
-        final BoardService boardService =
-            new BoardService(new BoardRepositoryImpl(dbConnection));
-        final BoardCellService boardCellService =
-            new BoardCellService(new BoardCellRepositoryImpl(dbConnection));
+        final BoardService boardService = new BoardService(new BoardRepositoryImpl(dbConnection),
+            new BoardCellRepositoryImpl(dbConnection));
         final JanggiController janggiController =
-            new JanggiController(gameService, boardService, boardCellService);
+            new JanggiController(gameService, boardService);
         janggiController.run();
     }
 }
