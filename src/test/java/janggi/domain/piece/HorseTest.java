@@ -6,23 +6,22 @@ import janggi.domain.path.PieceOnPath;
 import janggi.domain.position.Movement;
 import janggi.domain.position.Position;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 class HorseTest {
 
-    @Test
-    void 팀_확인_테스트() {
-        Horse horse = new Horse(Team.HAN);
+    @ParameterizedTest
+    @CsvSource({
+            "HAN, true",
+            "CHO, true"})
+    void 마의_팀을_확인한다(Team team, boolean expected) {
+        Horse horse = new Horse(team);
 
-        boolean hanResult = horse.getTeam() == Team.HAN;
-        boolean choResult = horse.getTeam() == Team.CHO;
-
-        assertAll(
-                () -> assertThat(hanResult).isTrue(),
-                () -> assertThat(choResult).isFalse()
-        );
+        assertThat(horse.getTeam() == team).isEqualTo(expected);
     }
 
     @Test
@@ -30,37 +29,38 @@ class HorseTest {
         Horse horse = new Horse(Team.HAN);
 
         PieceType type = horse.getType();
+
         assertThat(type).isEqualTo(PieceType.HORSE);
     }
 
-    @Test
-    void 직선으로_먼저_한_칸_직선_방향의_대각선으로_한_칸_이동시키면_경로를_반환한다() {
+    @ParameterizedTest(name = "from={0}, to={1}, path1={2}")
+    @CsvSource({
+            "36, 57, 46",
+            "23, 42, 33"})
+    void 올바른_경로로_이동시키면_경로를_반환한다(String from, String to, String path1) {
         Horse horse = new Horse(Team.HAN);
-        Movement movement = new Movement(Position.from("36"), Position.from("57"));
+        Movement movement = new Movement(Position.from(from), Position.from(to));
 
         Path path = horse.getPath(movement);
 
-        assertThat(path).containsExactly(Position.from("46"));
+        assertThat(path).containsExactly(Position.from(path1));
     }
 
-    @Test
-    void 직선으로_먼저_한_칸_직선_방향의_대각선으로_한_칸_이외의_경로로_이동시키면_예외가_발생한다() {
+    @ParameterizedTest(name = "from={0}, to={1}")
+    @CsvSource({
+            "35, 65",
+            "11, 22"})
+    void 올바르지_않은_경로로_이동시키면_예외가_발생한다(String from, String to) {
         Horse horse = new Horse(Team.HAN);
-        Movement movement1 = new Movement(Position.from("35"), Position.from("65"));
-        Movement movement2 = new Movement(Position.from("11"), Position.from("22"));
+        Movement movement = new Movement(Position.from(from), Position.from(to));
 
-        assertAll(
-                () -> assertThatThrownBy(() -> horse.getPath(movement1))
-                        .isInstanceOf(IllegalArgumentException.class)
-                        .hasMessage("[ERROR] 마는 해당 경로로 이동할 수 없습니다."),
-                () -> assertThatThrownBy(() -> horse.getPath(movement2))
-                        .isInstanceOf(IllegalArgumentException.class)
-                        .hasMessage("[ERROR] 마는 해당 경로로 이동할 수 없습니다.")
-        );
+        assertThatThrownBy(() -> horse.getPath(movement))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 마는 해당 경로로 이동할 수 없습니다.");
     }
 
     @Test
-    void 경로에_존재하는_기물_중_빈_기물이_아닌_기물이_있으면_예외가_발생한다() {
+    void 경로에_기물이_있으면_예외가_발생한다() {
         Horse horse = new Horse(Team.HAN);
         PieceOnPath pieceOnPath = new PieceOnPath();
         pieceOnPath.add(new Soldier(Team.HAN));
