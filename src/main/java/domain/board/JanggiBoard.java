@@ -118,5 +118,4 @@ public class JanggiBoard {
                 .collect(Collectors.toMap(point -> point, Intersection::empty));
     }
 
-
 }
