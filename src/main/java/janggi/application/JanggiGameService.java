@@ -20,26 +20,23 @@ public class JanggiGameService {
         this.games = new ConcurrentHashMap<>();
     }
 
-    public Long startNewGame(Board initBoard) {
+    public long startNewGame(Board initBoard) {
         JanggiGame game = new JanggiGame(initBoard, new ChoTurn());
-        Long roomId = repository.save(game);
+        long roomId = repository.save(game);
         games.put(roomId, game);
         return roomId;
     }
 
-    public void loadExistsBoard(Long gameRoomId) {
-        if(gameRoomId == null) {
-            throw new IllegalArgumentException("[ERROR] 잘못된 게임방 ID 입력입니다.");
-        }
-        this.games.put(gameRoomId, repository.loadGame(gameRoomId));
+    public void loadExistsBoard(Long roomId) {
+        this.games.put(roomId, repository.loadGame(roomId));
     }
 
-    public GameStatusInfo getBoardStatus(Long gameRoomId) {
-        return GameStatusInfo.from(games.get(gameRoomId).getBoardStatus());
+    public GameStatusInfo getBoardStatus(Long roomId) {
+        return GameStatusInfo.from(games.get(roomId).getBoardStatus());
     }
 
-    public boolean isFinished(Long gameRoomId) {
-        return games.get(gameRoomId).isFinished();
+    public boolean isFinished(Long roomId) {
+        return games.get(roomId).isFinished();
     }
 
     public void play(Long roomId, Point from, Point to) {
