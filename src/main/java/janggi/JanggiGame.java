@@ -1,12 +1,13 @@
 package janggi;
 
-import janggi.domain.Position;
-import janggi.domain.Turn;
+import janggi.domain.Game;
 import janggi.domain.board.Board;
+import janggi.domain.board.Position;
 import janggi.domain.board.initializer.BoardInitializer;
 import janggi.domain.board.initializer.ElephantSetUp;
 import janggi.domain.board.initializer.StandardBoardInitializer;
 import janggi.domain.piece.Camp;
+import janggi.service.GameService;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import janggi.view.dto.CampDto;
@@ -16,18 +17,34 @@ import java.util.function.Supplier;
 
 public class JanggiGame {
 
+    private static final long SINGLE_GAME_ID = 1L;
+
     private final InputView inputView;
     private final OutputView outputView;
+    private final GameService gameService;
 
-    public JanggiGame(InputView inputView, OutputView outputView) {
+    public JanggiGame(InputView inputView, OutputView outputView, GameService gameService) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.gameService = gameService;
     }
 
     public void run() {
+        Game game = loadOrCreateGame();
+        outputView.printBoard(game.boardSnapshot());
+        play(game);
+    }
+
+    private Game loadOrCreateGame() {
+        return gameService.findById(SINGLE_GAME_ID)
+                .orElseGet(this::createNewGame);
+    }
+
+    private Game createNewGame() {
         Board board = createBoard();
-        outputView.printBoard(board.getBoard());
-        play(board);
+        Game game = Game.start(SINGLE_GAME_ID, board);
+        gameService.save(game);
+        return game;
     }
 
     private Board createBoard() {
@@ -46,34 +63,34 @@ public class JanggiGame {
         elephantSetUps.put(camp, elephantSetUp);
     }
 
-    private void play(Board board) {
-        Turn turn = new Turn();
+    private void play(Game game) {
         boolean continueGame = true;
         while (continueGame) {
-            outputView.printScore(board.calculateScore());
-            continueGame = retryOnInvalidInput(() -> playTurn(board, turn));
-            outputView.printBoard(board.getBoard());
+            outputView.printScore(game.calculateScore());
+            continueGame = retryOnInvalidInput(() -> playTurn(game));
+            outputView.printBoard(game.boardSnapshot());
         }
-        outputView.printWinner(turn.currentTurn());
+        outputView.printWinner(game.currentTurn());
     }
 
-    private boolean playTurn(Board board, Turn turn) {
-        Camp camp = turn.currentTurn();
+    private boolean playTurn(Game game) {
+        Camp currentTurn = game.currentTurn();
 
-        Position source = retryOnInvalidInput(() -> readSource(board, camp));
+        Position source = retryOnInvalidInput(() -> readSource(game, currentTurn));
         Position destination = retryOnInvalidInput(inputView::readDestination);
 
-        boolean gameEnded = board.movePiece(source, destination, camp);
+        boolean gameEnded = game.play(source, destination);
         if (gameEnded) {
+            gameService.deleteById(game.id());
             return false;
         }
-        turn.finishTurn();
+        gameService.save(game);
         return true;
     }
 
-    private Position readSource(Board board, Camp camp) {
-        Position source = inputView.readSource(CampDto.from(camp));
-        board.validateCampTurn(source, camp);
+    private Position readSource(Game game, Camp currentTurn) {
+        Position source = inputView.readSource(CampDto.from(currentTurn));
+        game.validateSourceForCurrentTurn(source);
         return source;
     }
 
