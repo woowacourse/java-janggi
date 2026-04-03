@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import domain.Position;
 import domain.enums.Country;
+import domain.enums.Direction;
 
 class JangTest {
 
@@ -23,7 +24,10 @@ class JangTest {
                 Position.create(2,6)
         );
 
-        List<Position> result = jang.getAvailableRoute(start);
+        List<Position> result = jang.getAvailableRoute(start, Direction.UP);
+        result.addAll(jang.getAvailableRoute(start, Direction.DOWN)) ;
+        result.addAll(jang.getAvailableRoute(start, Direction.LEFT)) ;
+        result.addAll(jang.getAvailableRoute(start, Direction.RIGHT)) ;
         assertThat(result).containsExactlyInAnyOrderElementsOf(expected);
     }
 

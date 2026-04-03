@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import domain.Position;
 import domain.enums.Country;
+import domain.enums.Direction;
 
 class MaTest {
 
@@ -28,7 +29,10 @@ class MaTest {
                 Position.create(5,5)
         );
 
-        List<Position> result = ma.getAvailableRoute(start);
+        List<Position> result = ma.getAvailableRoute(start, Direction.UP);
+        result.addAll(ma.getAvailableRoute(start, Direction.DOWN)) ;
+        result.addAll(ma.getAvailableRoute(start, Direction.LEFT)) ;
+        result.addAll(ma.getAvailableRoute(start, Direction.RIGHT)) ;
         assertThat(result).containsExactlyInAnyOrderElementsOf(expected);
     }
 

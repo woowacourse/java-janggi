@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import domain.Position;
 import domain.enums.Country;
+import domain.enums.Direction;
 
 class ChaTest {
 
@@ -38,7 +39,10 @@ class ChaTest {
                 Position.create(1,9)
         );
 
-        List<Position> result = cha.getAvailableRoute(start);
+        List<Position> result = cha.getAvailableRoute(start, Direction.UP);
+        result.addAll(cha.getAvailableRoute(start, Direction.DOWN)) ;
+        result.addAll(cha.getAvailableRoute(start, Direction.LEFT)) ;
+        result.addAll(cha.getAvailableRoute(start, Direction.RIGHT)) ;
         assertThat(result).containsExactlyInAnyOrderElementsOf(expected);
     }
 
@@ -68,7 +72,10 @@ class ChaTest {
                 Position.create(2,9)
         );
 
-        List<Position> result = cha.getAvailableRoute(start);
+        List<Position> result = cha.getAvailableRoute(start, Direction.UP);
+        result.addAll(cha.getAvailableRoute(start, Direction.DOWN)) ;
+        result.addAll(cha.getAvailableRoute(start, Direction.LEFT)) ;
+        result.addAll(cha.getAvailableRoute(start, Direction.RIGHT)) ;
         assertThat(result).containsExactlyInAnyOrderElementsOf(expected);
     }
 }

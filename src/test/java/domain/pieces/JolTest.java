@@ -2,6 +2,8 @@ package domain.pieces;
 
 import domain.Position;
 import domain.enums.Country;
+import domain.enums.Direction;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -22,7 +24,10 @@ class JolTest {
                 Position.create(4,4)
         );
 
-        List<Position> result = jol.getAvailableRoute(start);
+        List<Position> result = jol.getAvailableRoute(start, Direction.UP);
+        result.addAll(jol.getAvailableRoute(start, Direction.DOWN)) ;
+        result.addAll(jol.getAvailableRoute(start, Direction.LEFT)) ;
+        result.addAll(jol.getAvailableRoute(start, Direction.RIGHT)) ;
         assertThat(result).containsExactlyInAnyOrderElementsOf(expected);
     }
 
@@ -37,7 +42,10 @@ class JolTest {
                 Position.create(7,4)
         );
 
-        List<Position> result = jol.getAvailableRoute(start);
+        List<Position> result = jol.getAvailableRoute(start, Direction.UP);
+        result.addAll(jol.getAvailableRoute(start, Direction.DOWN)) ;
+        result.addAll(jol.getAvailableRoute(start, Direction.LEFT)) ;
+        result.addAll(jol.getAvailableRoute(start, Direction.RIGHT)) ;
 
         assertThat(result).containsExactlyInAnyOrderElementsOf(expected);
     }
@@ -53,7 +61,10 @@ class JolTest {
                 Position.create(7,2)
         );
 
-        List<Position> result = jol.getAvailableRoute(start);
+        List<Position> result = jol.getAvailableRoute(start, Direction.UP);
+        result.addAll(jol.getAvailableRoute(start, Direction.DOWN)) ;
+        result.addAll(jol.getAvailableRoute(start, Direction.LEFT)) ;
+        result.addAll(jol.getAvailableRoute(start, Direction.RIGHT)) ;
 
         assertThat(result).containsExactlyInAnyOrderElementsOf(expected);
     }
