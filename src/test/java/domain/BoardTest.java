@@ -45,4 +45,38 @@ public class BoardTest {
 
         Assertions.assertThatNoException().isThrownBy(() -> board.getPieceOrThrowException(destination));
     }
+
+    @Test
+    void 왕이_하나만_남은_경우_살아남은_왕의_팀이_반환되어야_한다() {
+        Board board = Board.of(SettingType.LEFT, SettingType.LEFT);
+        board.move(Team.CHO, Position.of(1, 2), Position.of(3, 3));
+        board.move(Team.CHO, Position.of(3, 2), Position.of(3, 5));
+        board.move(Team.HAN, Position.of(7, 5), Position.of(7, 6));
+        board.move(Team.CHO, Position.of(3, 5), Position.of(9, 5));
+
+        Assertions.assertThat(board.judgeResult()).isEqualTo(Team.CHO);
+    }
+
+    @Test
+    void 왕이_둘_다_살아있는_경우_예외가_발생해야_한다() {
+        Board board = Board.of(SettingType.LEFT, SettingType.LEFT);
+        Assertions.assertThatThrownBy(() -> board.judgeResult()).isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void 왕이_하나만_살아남은_경우_참을_반환해야_한다() {
+        Board board = Board.of(SettingType.LEFT, SettingType.LEFT);
+        board.move(Team.CHO, Position.of(1, 2), Position.of(3, 3));
+        board.move(Team.CHO, Position.of(3, 2), Position.of(3, 5));
+        board.move(Team.HAN, Position.of(7, 5), Position.of(7, 6));
+        board.move(Team.CHO, Position.of(3, 5), Position.of(9, 5));
+
+        Assertions.assertThat(board.isFinished()).isTrue();
+    }
+
+    @Test
+    void 왕이_둘_다_살아남은_경우_거짓을_반환해야_한다() {
+        Board board = Board.of(SettingType.LEFT, SettingType.LEFT);
+        Assertions.assertThat(board.isFinished()).isFalse();
+    }
 }

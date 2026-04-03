@@ -1,6 +1,7 @@
 package domain;
 
 import domain.piece.Piece;
+import domain.piece.PieceType;
 import domain.piece.Team;
 import domain.position.Position;
 import domain.settingType.SettingType;
@@ -13,6 +14,8 @@ import java.util.stream.Collectors;
 public class Board {
     private static final String SHOULD_CHOOSE_CORRECT_TEAM_PIECE = "자신의 아군 기물만 이동할 수 있습니다.";
     private static final String EMPTY_POSITION = "해당 위치에 기물이 존재하지 않습니다.";
+    public static final int NORAML_JANG_AMOUNT = 2;
+    public static final String GAME_DOSE_NOT_FINISHED = "아직 게임이 종료되지 않아 결과를 집계할 수 없습니다";
     private final Map<Position, Piece> pieces;
 
     private Board(Map<Position, Piece> pieces) {
@@ -91,5 +94,25 @@ public class Board {
 
     public Map<Position, Piece> getPieces() {
         return Collections.unmodifiableMap(pieces);
+    }
+
+    public Team judgeResult() {
+        if (!isFinished()) {
+            throw new IllegalArgumentException(GAME_DOSE_NOT_FINISHED);
+        }
+        return pieces.values().stream()
+                .filter(piece -> piece.getPieceType() == PieceType.JANG)
+                .findAny()
+                .get().getTeam();
+    }
+
+    public boolean isFinished() {
+        return getJangAmount() != NORAML_JANG_AMOUNT;
+    }
+
+    private long getJangAmount() {
+        return pieces.values().stream()
+                .filter(piece -> piece.getPieceType() == PieceType.JANG)
+                .count();
     }
 }
