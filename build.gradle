@@ -14,7 +14,7 @@ dependencies {
     testImplementation('org.junit.jupiter:junit-jupiter')
     testImplementation('org.assertj:assertj-core')
 
-    testImplementation('com.h2database:h2:2.4.240')
+    implementation('com.h2database:h2:2.4.240')
 }
 
 java {
