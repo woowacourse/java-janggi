@@ -8,7 +8,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class GameRoom {
     private final SQLManager sqlManager;
 
