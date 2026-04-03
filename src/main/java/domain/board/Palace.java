@@ -3,31 +3,42 @@ package domain.board;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 public class Palace {
-    private static final int MIN_X = 4;
-    private static final int MAX_X = 6;
+    private final Map<PositionPair, List<Position>> diagonalPaths = Map.ofEntries(
+            Map.entry(makePair(4, 1, 5, 2), path()),
+            Map.entry(makePair(5, 2, 6, 3), path()),
+            Map.entry(makePair(4, 1, 6, 3), path(5, 2)),
 
-    private final Map<Set<Position>, List<Position>> diagonalPaths = Map.ofEntries(
-            Map.entry(Set.of(new Position(4, 1), new Position(5, 2)), List.of()),
-            Map.entry(Set.of(new Position(5, 2), new Position(6, 3)), List.of()),
-            Map.entry(Set.of(new Position(4, 1), new Position(6, 3)), List.of(new Position(5, 2))),
+            Map.entry(makePair(6, 1, 5, 2), path()),
+            Map.entry(makePair(5, 2, 4, 3), path()),
+            Map.entry(makePair(6, 1, 4, 3), path(5, 2)),
 
-            Map.entry(Set.of(new Position(6, 1), new Position(5, 2)), List.of()),
-            Map.entry(Set.of(new Position(5, 2), new Position(4, 3)), List.of()),
-            Map.entry(Set.of(new Position(6, 1), new Position(4, 3)), List.of(new Position(5, 2))),
+            Map.entry(makePair(4, 8, 5, 9), path()),
+            Map.entry(makePair(5, 9, 6, 10), path()),
+            Map.entry(makePair(4, 8, 6, 10), path(5, 9)),
 
-            Map.entry(Set.of(new Position(4, 8), new Position(5, 9)), List.of()),
-            Map.entry(Set.of(new Position(5, 9), new Position(6, 10)), List.of()),
-            Map.entry(Set.of(new Position(4, 8), new Position(6, 10)), List.of(new Position(5, 9))),
-
-            Map.entry(Set.of(new Position(6, 8), new Position(5, 9)), List.of()),
-            Map.entry(Set.of(new Position(5, 9), new Position(4, 10)), List.of()),
-            Map.entry(Set.of(new Position(6, 8), new Position(4, 10)), List.of(new Position(5, 9)))
+            Map.entry(makePair(6, 8, 5, 9), path()),
+            Map.entry(makePair(5, 9, 4, 10), path()),
+            Map.entry(makePair(6, 8, 4, 10), path(5, 9))
     );
 
     public Optional<List<Position>> findDiagonalPath(Position from, Position to) {
-        return Optional.ofNullable(diagonalPaths.get(Set.of(from, to)));
+        return Optional.ofNullable(diagonalPaths.get(new PositionPair(from, to)));
+    }
+
+    private PositionPair makePair(int fromX, int fromY, int toX, int toY) {
+        return new PositionPair(
+                new Position(fromX, fromY),
+                new Position(toX, toY)
+        );
+    }
+
+    private List<Position> path() {
+        return List.of();
+    }
+
+    private List<Position> path(int x, int y) {
+        return List.of(new Position(x, y));
     }
 }
