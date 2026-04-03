@@ -1,0 +1,128 @@
+package view;
+
+import domain.board.Board;
+import domain.board.Intersection;
+import domain.game.Side;
+import domain.piece.Piece;
+import domain.piece.PieceType;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
+public final class OutputView {
+
+    private static final String ERROR_MESSAGE_PREFIX = "[ERROR] ";
+    private static final String RESET = "\u001B[0m";
+    private static final String RED = "\u001B[31m";
+    private static final String GREEN = "\u001B[32m";
+
+    private static final Map<PieceType, Map<Side, String>> SYMBOLS = Map.of(
+            PieceType.GENERAL, Map.of(Side.HAN, "漢", Side.CHO, "楚"),
+            PieceType.GUARD, Map.of(Side.HAN, "士", Side.CHO, "士"),
+            PieceType.HORSE, Map.of(Side.HAN, "馬", Side.CHO, "馬"),
+            PieceType.ELEPHANT, Map.of(Side.HAN, "象", Side.CHO, "象"),
+            PieceType.CHARIOT, Map.of(Side.HAN, "車", Side.CHO, "車"),
+            PieceType.CANNON, Map.of(Side.HAN, "包", Side.CHO, "包"),
+            PieceType.SOLDIER, Map.of(Side.HAN, "兵", Side.CHO, "卒")
+    );
+
+    public void printError(String message) {
+        System.out.println(ERROR_MESSAGE_PREFIX + message);
+        System.out.println();
+    }
+
+    public void printGameStart() {
+        System.out.println("장기 게임을 시작합니다." + System.lineSeparator());
+    }
+
+    public void printBoard(Board board) {
+        printBoardWithMovable(board, Collections.emptyList());
+    }
+
+    public void printBoardWithMovable(Board board, List<Intersection> movableIntersections) {
+        System.out.println("　 　　　１　　２　　３　　４　　５　　６　　７　　８　　９　");
+        for (int row = 1; row <= 10; row++) {
+            printRow(board, row, movableIntersections);
+            System.out.println();
+        }
+        System.out.println();
+    }
+
+    public void printWinner(Side side) {
+        System.out.println("--- 게임이 종료되었습니다 ---");
+        System.out.printf("%s의 승리!", side.name());
+    }
+
+    private void printRow(Board board, int row, List<Intersection> movableIntersections) {
+        printRowHeader(row);
+        for (int file = 1; file <= 9; file++) {
+            Intersection current = new Intersection(row, file);
+            boolean isMovable = movableIntersections.contains(current);
+            printCell(board, current, isMovable);
+        }
+    }
+
+    private void printRowHeader(int row) {
+        if (row < 10) {
+            System.out.print("　　" + getFullWidthNumber(row) + "　");
+            return;
+        }
+        System.out.print("　１０　");
+    }
+
+    private void printCell(Board board, Intersection current, boolean isMovable) {
+        if (board.getAlivePieces().isEmpty(current)) {
+            printEmptyCell(isMovable);
+            return;
+        }
+        printPieceCell(board, current, isMovable);
+    }
+
+    private void printEmptyCell(boolean isMovable) {
+        if (isMovable) {
+            System.out.print("［＊］");
+            return;
+        }
+        System.out.print("　．　");
+    }
+
+    private void printPieceCell(Board board, Intersection current, boolean isMovable) {
+        Piece piece = board.getAlivePieces().placedAt(current);
+        String coloredSymbol = getColoredPieceSymbol(piece);
+        if (isMovable) {
+            System.out.print("［" + coloredSymbol + "］");
+            return;
+        }
+        System.out.print("　" + coloredSymbol + "　");
+    }
+
+    private String getColoredPieceSymbol(Piece piece) {
+        String color = GREEN;
+        if (piece.isSameSide(Side.HAN)) {
+            color = RED;
+        }
+        return color + getSymbol(piece) + RESET;
+    }
+
+    private String getSymbol(Piece piece) {
+        return Arrays.stream(PieceType.values())
+                .filter(piece::isSameType)
+                .findFirst()
+                .map(type -> getSideSymbol(type, piece))
+                .orElse("？");
+    }
+
+    private String getSideSymbol(PieceType type, Piece piece) {
+        return Arrays.stream(Side.values())
+                .filter(piece::isSameSide)
+                .findFirst()
+                .map(side -> SYMBOLS.get(type).get(side))
+                .orElse("？");
+    }
+
+    private String getFullWidthNumber(int number) {
+        String[] fullWidth = {"０", "１", "２", "３", "４", "５", "６", "７", "８", "９"};
+        return fullWidth[number];
+    }
+}
