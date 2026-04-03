@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import movepolicy.rule.MoveTrace;
 import participant.Turn;
 import pieces.Piece;
+import pieces.PieceType;
 import pieces.Side;
 import position.Position;
 
@@ -17,9 +19,17 @@ public record Board(Map<Position, Piece> pieces) {
         return Map.copyOf(pieces);
     }
 
-    public boolean hasGung(Side side) {
+    public boolean hasGungOf(Side side) {
         return pieces.values().stream()
             .anyMatch(piece -> piece.isGung() && piece.isSameSide(side));
+    }
+
+    public Optional<PieceType> getPieceTypeAt(Position position) {
+        Piece piece = pieceAt(position);
+        if (piece == null) {
+            return Optional.empty();
+        }
+        return Optional.of(piece.getType());
     }
 
     public void validateDeparturePiece(Position departure, Turn turn) {
@@ -46,18 +56,6 @@ public record Board(Map<Position, Piece> pieces) {
         return new MoveTrace(movingPiece, pathPieces, targetPiece);
     }
 
-    private Piece pieceAt(Position position) {
-        return pieces.get(position);
-    }
-
-    private Piece requirePieceAt(Position position) {
-        Piece piece = pieceAt(position);
-        if (piece == null) {
-            throw new IllegalArgumentException("해당 위치에 기물이 없습니다.");
-        }
-        return piece;
-    }
-
     private List<Piece> findPathPieces(List<Position> pathPieces) {
         return pathPieces.stream()
             .map(this::pieceAt)
@@ -70,5 +68,17 @@ public record Board(Map<Position, Piece> pieces) {
         moved.remove(departure);
         moved.put(destination, movingPiece);
         return new Board(moved);
+    }
+
+    private Piece pieceAt(Position position) {
+        return pieces.get(position);
+    }
+
+    private Piece requirePieceAt(Position position) {
+        Piece piece = pieceAt(position);
+        if (piece == null) {
+            throw new IllegalArgumentException("해당 위치에 기물이 없습니다.");
+        }
+        return piece;
     }
 }

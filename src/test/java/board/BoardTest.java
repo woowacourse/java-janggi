@@ -84,7 +84,7 @@ class BoardTest {
         );
         Board board = new Board(pieces);
         // when
-        boolean hasGung = board.hasGung(side);
+        boolean hasGung = board.hasGungOf(side);
         // then
         assertThat(hasGung).isTrue();
     }
@@ -100,9 +100,25 @@ class BoardTest {
         );
         Board board = new Board(pieces);
         // when
-        boolean hasGung = board.hasGung(side);
+        boolean hasGung = board.hasGungOf(side);
         // then
         assertThat(hasGung).isFalse();
+    }
+
+    @ParameterizedTest
+    @EnumSource(PieceType.class)
+    void 특정_위치의_기물_타입을_반환한다(PieceType expected) {
+        // given
+        Position position = new Position(0, 0);
+        Piece piece = new Piece(Side.HAN, expected);
+        Map<Position, Piece> pieces = Map.of(
+            position, piece
+        );
+        Board board = new Board(pieces);
+        // when
+        PieceType pieceType = board.getPieceTypeAt(position).get();
+        // then
+        assertThat(pieceType).isEqualTo(expected);
     }
 
     private Side getOtherSide(Side side) {
