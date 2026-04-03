@@ -35,6 +35,11 @@ public class Row {
         return Objects.hash(value);
     }
 
+    @Override
+    public String toString() {
+        return String.valueOf(value);
+    }
+
     private void validateRange(int value) {
         if (value < ROW_LOWER_THRESH_HOLD || value > ROW_UPPER_THRESH_HOLD) {
             throw new IllegalArgumentException("[ERROR] 행 좌표는 1~10까지 사용 가능 합니다");

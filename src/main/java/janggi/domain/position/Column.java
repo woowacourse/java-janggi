@@ -35,6 +35,11 @@ public class Column {
         return Objects.hash(value);
     }
 
+    @Override
+    public String toString() {
+        return String.valueOf(value);
+    }
+
     private void validateRange(int value) {
         if (value < COLUMN_LOWER_THRESH_HOLD || value > COLUMN_UPPER_THRESH_HOLD) {
             throw new IllegalArgumentException("[ERROR] 열 좌표는 1~9까지 사용 가능 합니다");
