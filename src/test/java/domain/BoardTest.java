@@ -11,6 +11,9 @@ public class BoardTest {
     private static final Position ALLY_JOL = Position.of(4, 1);
     private static final Position ENEMY_JOL = Position.of(7, 1);
     private static final Position EMPTY_SPACE = Position.of(5, 1);
+    public static final double CHO_BASE_SCORE = 72.0;
+    public static final double HAN_BASE_SCORE = 73.5;
+    public static final int BYEONG_SCORE = 2;
 
 
     @Test
@@ -79,4 +82,23 @@ public class BoardTest {
         Board board = Board.of(SettingType.LEFT, SettingType.LEFT);
         Assertions.assertThat(board.isFinished()).isFalse();
     }
+
+
+    @Test
+    void 서로_아무_기물도_잡히지_않았다면_기본_점수여야_한다() {
+        Board board = Board.of(SettingType.LEFT, SettingType.LEFT);
+        Assertions.assertThat(board.getScoreByTeam(Team.CHO)).isEqualTo(CHO_BASE_SCORE);
+        Assertions.assertThat(board.getScoreByTeam(Team.HAN)).isEqualTo(HAN_BASE_SCORE);
+    }
+
+
+    @Test
+    void 특정_기물이_잡혔다면_그_점수만큼_차감되어야_한다() {
+        Board board = Board.of(SettingType.LEFT, SettingType.LEFT);
+        board.move(Team.CHO, Position.of(1, 2), Position.of(3, 3));
+        board.move(Team.CHO, Position.of(3, 2), Position.of(3, 5));
+        board.move(Team.CHO, Position.of(3, 5), Position.of(7, 5));
+        Assertions.assertThat(board.getScoreByTeam(Team.HAN)).isEqualTo(HAN_BASE_SCORE - BYEONG_SCORE);
+    }
 }
+

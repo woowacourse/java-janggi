@@ -13,12 +13,15 @@ public abstract class Piece {
     protected final MovementPolicy movementPolicy;
     private final Team team;
     private final PieceType pieceType;
+    private final double score;
 
-    public Piece(MoveStrategy moveStrategy, MovementPolicy movementPolicy, PieceType pieceType, Team team) {
+    public Piece(MoveStrategy moveStrategy, MovementPolicy movementPolicy, PieceType pieceType, Team team,
+                 double score) {
         this.moveStrategy = moveStrategy;
         this.movementPolicy = movementPolicy;
         this.pieceType = pieceType;
         this.team = team;
+        this.score = score;
     }
 
     public void movePolicy(PathContext pathContext) {
@@ -70,5 +73,9 @@ public abstract class Piece {
 
     public Team getTeam() {
         return team;
+    }
+
+    public double getScore() {
+        return score;
     }
 }

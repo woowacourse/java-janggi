@@ -16,6 +16,7 @@ public class Board {
     private static final String EMPTY_POSITION = "해당 위치에 기물이 존재하지 않습니다.";
     public static final int NORAML_JANG_AMOUNT = 2;
     public static final String GAME_DOSE_NOT_FINISHED = "아직 게임이 종료되지 않아 결과를 집계할 수 없습니다";
+    public static final double HAN_ADVANTAGE_SCORE = 1.5;
     private final Map<Position, Piece> pieces;
 
     private Board(Map<Position, Piece> pieces) {
@@ -114,5 +115,21 @@ public class Board {
         return pieces.values().stream()
                 .filter(piece -> piece.getPieceType() == PieceType.JANG)
                 .count();
+    }
+
+    public double getScoreByTeam(Team team) {
+        double sum = getScore(team);
+        if (team.isHan()) {
+            sum += HAN_ADVANTAGE_SCORE;
+        }
+        return sum;
+
+    }
+
+    private double getScore(Team team) {
+        return pieces.values().stream()
+                .filter(piece -> piece.isSameTeam(team))
+                .mapToDouble(piece -> piece.getScore())
+                .sum();
     }
 }
