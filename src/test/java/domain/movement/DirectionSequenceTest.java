@@ -1,11 +1,9 @@
-package domain.position;
+package domain.movement;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import domain.movement.Direction;
-import domain.movement.DirectionSequence;
-import domain.movement.DirectionSequenceResult;
+import domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;

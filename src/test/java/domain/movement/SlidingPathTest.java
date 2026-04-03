@@ -1,9 +1,8 @@
-package domain.position;
+package domain.movement;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.movement.Direction;
-import domain.movement.SlidingPath;
+import domain.position.Position;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
