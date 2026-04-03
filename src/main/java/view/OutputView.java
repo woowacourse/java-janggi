@@ -13,11 +13,9 @@ public class OutputView {
     private static final String RED = "\u001B[31m";   // 한(HAN)나라
     private static final String BLUE = "\u001B[34m";  // 초(CHO)나라
 
-    // 일반 '+' 기호(1칸) 대신 전각 문자 '＋'(2칸) 사용
     private static final String EMPTY_MARK = "＋";
 
     public void printBoard(Board board) {
-        // 🌟 X축 알파벳도 전각 문자(Ａ, Ｂ, Ｃ...)를 사용하여 한자와 폭을 완벽하게 일치시킴!
         System.out.println("\n  Ａ Ｂ Ｃ Ｄ Ｅ Ｆ Ｇ Ｈ Ｉ");
 
         for (int y = 9; y >= 0; y--) {
