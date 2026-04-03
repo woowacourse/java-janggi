@@ -1,14 +1,39 @@
 package janggi.domain;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
-public record Location(int row, int col) {
-
+public class Location {
     private static final int COORDINATE_COUNT = 2;
+    private static final int CACHE_RANGE = 10;
+
+    private final int row;
+    private final int col;
+
+    private static final Map<String, Location> CACHE = new HashMap<>();
+
+    static {
+        for (int row = 0; row < CACHE_RANGE; row++) {
+            for (int col = 0; col < CACHE_RANGE; col++) {
+                CACHE.put(createKey(row, col), new Location(row, col));
+            }
+        }
+    }
+
+    private Location(int row, int col) {
+        this.row = row;
+        this.col = col;
+    }
+
+    public static Location of(int row, int col) {
+        return CACHE.computeIfAbsent(createKey(row, col), key -> new Location(row, col));
+    }
 
     public static Location from(List<Integer> position) {
         validateCount(position);
-        return new Location(position.get(0), position.get(1));
+        return Location.of(position.get(0), position.get(1));
     }
 
     private static void validateCount(List<Integer> position) {
@@ -18,7 +43,7 @@ public record Location(int row, int col) {
     }
 
     public Location add(int dy, int dx) {
-        return new Location(row + dy, col + dx);
+        return Location.of(row + dy, col + dx);
     }
 
     public int calculateHorizontalDiff(Location to) {
@@ -29,8 +54,33 @@ public record Location(int row, int col) {
         return to.row - this.row;
     }
 
+    private static String createKey(int row, int col) {
+        return row + "," + col;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Location location = (Location) o;
+        return row == location.row && col == location.col;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(row, col);
+    }
+
     @Override
     public String toString() {
         return "(" + row + ", " + col + ")";
+    }
+
+    public int row() {
+        return row;
+    }
+
+    public int col() {
+        return col;
     }
 }

@@ -20,12 +20,12 @@ public class SangTest {
         static Stream<Arguments> provideListsForTesting() {
             return Stream.of(
                     Arguments.of(
-                            new Location(2, 3),
-                            List.of(new Location(0, 1), new Location(1, 2), new Location(2, 3))
+                            Location.of(2, 3),
+                            List.of(Location.of(0, 1), Location.of(1, 2), Location.of(2, 3))
                     ),
                     Arguments.of(
-                            new Location(3, 2),
-                            List.of(new Location(1, 0), new Location(2, 1), new Location(3, 2))
+                            Location.of(3, 2),
+                            List.of(Location.of(1, 0), Location.of(2, 1), Location.of(3, 2))
                     )
             );
         }
@@ -43,7 +43,7 @@ public class SangTest {
         @MethodSource("provideListsForTesting")
         void shouldReturnRouteForReachableLocation(Location destination, List<Location> expected) {
             // given
-            Location from = Location.from(List.of(0, 0));
+            Location from = Location.of(0, 0);
             Piece piece = new Sang(Side.HAN);
 
             // when & then
@@ -56,7 +56,7 @@ public class SangTest {
         @MethodSource("provideUnreachableCoordination")
         void shouldThrowExceptionForUnReachableLocation(List<Integer> destination) {
             // given
-            Location from = Location.from(List.of(0, 0));
+            Location from = Location.of(0, 0);
             Location to = Location.from(destination);
             Piece piece = new Sang(Side.CHO);
 
