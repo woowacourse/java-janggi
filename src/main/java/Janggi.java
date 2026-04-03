@@ -3,6 +3,7 @@ import domain.board.HorseElephantFormation;
 import domain.place.piece.Side;
 import domain.position.Position;
 import domain.board.BoardFactory;
+import dto.GameRoomDto;
 import parser.AnswerParser;
 import parser.CommandParser;
 import parser.NumberParser;
@@ -45,15 +46,15 @@ public class Janggi {
         if (roomId == 0) {
             return getNewBoard();
         }
-        turn = gameService.findGameRoomByRoomId(roomId).side();
 
+        GameRoomDto gameRoomDto = gameService.findGameRoomByRoomId(roomId);
+        turn = gameRoomDto.side();
         return new Board(gameService.findBoardByRoomId(roomId));
     }
 
     private Board getNewBoard() {
         HorseElephantFormation cho = getHorseElephantFormation(Side.CHO);
         HorseElephantFormation han = getHorseElephantFormation(Side.HAN);
-
         return BoardFactory.create(cho, han);
     }
 

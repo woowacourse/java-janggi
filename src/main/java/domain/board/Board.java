@@ -18,6 +18,7 @@ public class Board {
 
     public static final int MIN_POSITION = 1;
     private static final double HAN_PIECE_BONUS_SCORE = 1.5;
+
     private final Map<Position, Place> board;
 
     public Board(Map<Position, Place> board) {

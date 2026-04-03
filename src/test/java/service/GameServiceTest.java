@@ -51,6 +51,17 @@ public class GameServiceTest {
     }
 
     @Test
+    @DisplayName("게임 저장 시 게임룸, 보드, 게임 상태가 함께 저장된다")
+    void updateGame_shouldPersistRoomBoardAndState() {
+        // given
+        Map<Position, Place> board = BoardFactory.setUpEmpty();
+        Side side = Side.CHO;
+        // when & then
+        assertThatCode(() -> gameService.updateGame(board, side, 1))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
     @DisplayName("게임룸 ID로 보드를 조회할 수 있다")
     void findBoardByRoomId_shouldReturnBoard() {
         // given

@@ -22,6 +22,8 @@ public class GameRoomRepositoryImpl implements GameRoomRepository {
 
     private static final String SELECT_ALL =
             "SELECT id, name, current_turn, created_at FROM game_room";
+    private static final String UPDATE_BY_ID =
+            "UPDATE game_room SET current_turn = ? WHERE id = ?";
 
     @Override
     public long save(String name, String side,Connection conn) {
@@ -67,6 +69,17 @@ public class GameRoomRepositoryImpl implements GameRoomRepository {
 
         } catch (SQLException e) {
             throw new RuntimeException("[ERROR] 게임 룸 조회 중 오류가 발생했습니다.", e);
+        }
+    }
+
+    @Override
+    public void update(long roomId, String side, Connection conn) {
+        try (PreparedStatement stmt = conn.prepareStatement(UPDATE_BY_ID)) {
+            stmt.setString(1, side);
+            stmt.setLong(2, roomId);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("[ERROR] 게임 룸 업데이트 중 오류가 발생했습니다.", e);
         }
     }
 
