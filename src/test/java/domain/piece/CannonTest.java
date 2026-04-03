@@ -1,0 +1,147 @@
+package domain.piece;
+
+import domain.coordination.Coordination;
+import domain.piece.error.PieceException;
+import java.util.Map;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import fixture.BoardFixtureFactory;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+
+class CannonTest {
+
+    @ParameterizedTest
+    @CsvSource(value = {
+            "4,7",
+            "2,7",
+            "4,6",
+    })
+    void 출발점을_기준으로_도착점이_수직_수평_위치에_있지_않다면_에러를_반환한다(int column, int row) {
+         Map<Coordination, Piece> board = BoardFixtureFactory.create("1", "1")
+                 .moveIgnoringValidation(Coordination.of(2,8), Coordination.of(3,8))
+                 .map();
+
+        Cannon cannon = new Cannon(Team.CHO);
+        Coordination from = Coordination.of(3, 8);
+        Coordination to = Coordination.of(column, row);
+
+        assertThatThrownBy(() -> cannon.validateMovable(from, to, board))
+                .isInstanceOf(PieceException.class);
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {
+            "2,7",
+            "6,7",
+            "4,9",
+    })
+    void 출발점을_기준으로_도착점이_수직_수평_위치에_있다면_에러를_반환하지_않는다(int column, int row) {
+        Map<Coordination, Piece> board = BoardFixtureFactory.create("1", "1")
+                .moveIgnoringValidation(Coordination.of(2, 8), Coordination.of(4, 7))
+                .moveIgnoringValidation(Coordination.of(3,10), Coordination.of(4,8))
+                .map();
+
+        Cannon cannon = new Cannon(Team.CHO);
+        Coordination from = Coordination.of(4, 7);
+        Coordination to = Coordination.of(column, row);
+
+        assertThatCode(() -> cannon.validateMovable(from, to, board))
+                .doesNotThrowAnyException();
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {
+            "6,4",
+            "8,4"
+    })
+    void 움직이는_위치_사이에_기물이_1개가_아니라면_에러를_반환한다(int column, int row) {
+        Map<Coordination, Piece> board = BoardFixtureFactory.create("1", "1")
+                .moveIgnoringValidation(Coordination.of(2, 3), Coordination.of(2, 4))
+                .map();
+
+        Cannon cannon = new Cannon(Team.HAN);
+        Coordination from = Coordination.of(2, 4);
+        Coordination to = Coordination.of(column, row);
+
+        assertThatThrownBy(() -> cannon.validateMovable(from, to, board))
+                .isInstanceOf(PieceException.class);
+        ;
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {
+            "2,4",
+            "6,4",
+            "4,2",
+    })
+    void 움직이는_위치_사이에_기물이_1개라면_에러를_반환하지_않는다(int column, int row) {
+        Map<Coordination, Piece> board = BoardFixtureFactory.create("1", "1")
+                .moveIgnoringValidation(Coordination.of(2,3), Coordination.of(4,4))
+                .moveIgnoringValidation(Coordination.of(3,1), Coordination.of(4,3))
+                .map();
+
+        Cannon cannon = new Cannon(Team.HAN);
+        Coordination from = Coordination.of(4, 4);
+        Coordination to = Coordination.of(column, row);
+
+        assertThatCode(() -> cannon.validateMovable(from, to, board))
+                .doesNotThrowAnyException();
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {
+            "2,9",
+            "9,3",
+    })
+    void 움직이는_위치_사이에_포라면_에러를_반환한다(int column, int row) {
+        Map<Coordination, Piece> board = BoardFixtureFactory.create("1", "1")
+                .map();
+
+        Cannon cannon = new Cannon(Team.HAN);
+        Coordination from = Coordination.of(2, 3);
+        Coordination to = Coordination.of(column, row);
+
+        assertThatThrownBy(() -> cannon.validateMovable(from, to, board))
+                .isInstanceOf(PieceException.class);
+
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {
+            "5,7",
+    })
+    void 도착지의_기물이_아군이라면_에러를_반환한다(int column, int row) {
+        Map<Coordination, Piece> board = BoardFixtureFactory.create("1", "1")
+                .moveIgnoringValidation(Coordination.of(2, 8), Coordination.of(2, 7))
+                .map();
+
+        Cannon cannon = new Cannon(Team.CHO);
+        Coordination from = Coordination.of(2, 8);
+        Coordination to = Coordination.of(column, row);
+
+        assertThatThrownBy(() -> cannon.validateMovable(from, to, board))
+                .isInstanceOf(PieceException.class);
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {
+            "2,3",
+            "8,8",
+    })
+    void 도착지의_기물이_포라면_에러를_반환한다(int column, int row) {
+        Map<Coordination, Piece> board = BoardFixtureFactory.create("1", "1")
+                .moveIgnoringValidation(Coordination.of(1,7), Coordination.of(2,7))
+                .moveIgnoringValidation(Coordination.of(3,7), Coordination.of(3,8))
+                .map();
+
+
+        Cannon cannon = new Cannon(Team.CHO);
+        Coordination from = Coordination.of(2, 8);
+        Coordination to = Coordination.of(column, row);
+
+        assertThatThrownBy(() -> cannon.validateMovable(from, to, board))
+                .isInstanceOf(PieceException.class);
+    }
+}
