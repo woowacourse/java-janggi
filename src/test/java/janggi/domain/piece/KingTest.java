@@ -29,7 +29,7 @@ class KingTest {
 
         assertThatIllegalArgumentException()
             .isThrownBy(() -> piece.validateMove(from, to))
-            .withMessage("[ERROR] 해당 위치로 궁이 이동할 수 없습니다.");
+            .withMessage("[ERROR] 궁은 궁성 내부에서만 이동할 수 있습니다.");
     }
 
 
