@@ -45,8 +45,4 @@ public abstract class Piece {
         return this.pieceType != PieceType.NONE;
     }
 
-    public String getChineseCharacter() {
-        return pieceType.getChineseCharacter(team);
-    }
-
 }

@@ -57,10 +57,6 @@ public class Intersection {
         return piece.isCho();
     }
 
-    public String getChineseCharacter() {
-        return piece.getChineseCharacter();
-    }
-
     public IntersectionState toIntersectionState() {
         return new IntersectionState(point, piece.pieceType(), piece.getTeam());
     }

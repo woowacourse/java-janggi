@@ -32,16 +32,11 @@ public class Game {
         if (janggiBoard.findIntersection(point).getTeam().equals(turn)) {
             return;
         }
-        throw new IllegalArgumentException(
-                turn.getKoreanTeamName() + "(" + turn.getChineseTeamName() + ")" + "의 기물만 움직일 수 있습니다.");
+        throw new IllegalArgumentException("현재 턴에 해당하는 팀의 기물만 움직일 수 있습니다.");
     }
 
     public Team currentTurn() {
         return turn;
-    }
-
-    public Team getWinnerTeam() {
-        return turn.nextTurn();
     }
 
     public BoardState boardStatus() {
