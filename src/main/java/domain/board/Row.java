@@ -19,6 +19,10 @@ public record Row(
         return !isOutOfBoard();
     }
 
+    public boolean isDifferent(int value) {
+        return this.value != value;
+    }
+
     public Row nextRow() {
         return new Row(value + 1);
     }

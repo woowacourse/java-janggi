@@ -19,6 +19,10 @@ public record File(
         return !isOutOfBoard();
     }
 
+    public boolean isDifferent(int value) {
+        return this.value != value;
+    }
+
     public File nextFile() {
         return new File(value + 1);
     }
