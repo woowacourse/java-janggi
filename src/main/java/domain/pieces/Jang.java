@@ -26,19 +26,17 @@ public class Jang extends Piece{
     }
 
     @Override
-    public List<Position> getAvailableRoute(Position start) {
+    public List<Position> getAvailableRoute(Position start,Direction direction) {
         List<Position> availableRoute = new ArrayList<>();
         int startX = start.getX();
         int startY = start.getY();
 
-        for (Direction direction : List.of(Direction.UP,Direction.RIGHT,Direction.LEFT,Direction.DOWN)){
-            try {
-                int forward = getCountry().getForward();
-                int dx = direction.getDx();
-                int dy = direction.getDy();
-                availableRoute.add(Position.create(startX + dx * forward, startY + dy * forward));
-            }catch (IllegalArgumentException e){
-            }
+        try {
+            int forward = getCountry().getForward();
+            int dx = direction.getDx();
+            int dy = direction.getDy();
+            availableRoute.add(Position.create(startX + dx * forward, startY + dy * forward));
+        }catch (IllegalArgumentException e){
         }
         return availableRoute;
     }

@@ -24,7 +24,7 @@ public class None extends Piece {
     }
 
     @Override
-    public List<Position> getAvailableRoute(Position start){
+    public List<Position> getAvailableRoute(Position start,Direction direction){
         return Collections.emptyList();
     }
 

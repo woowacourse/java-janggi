@@ -1,5 +1,8 @@
 package domain.enums;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public enum Direction {
     UP(1, 0),
     DOWN(-1, 0),
@@ -21,6 +24,26 @@ public enum Direction {
     Direction(int dx, int dy) {
         this.dx = dx;
         this.dy = dy;
+    }
+
+    public static List<Direction> getCardinalDirections(){
+        return List.of(UP,DOWN,LEFT,RIGHT);
+    }
+
+    public List<Direction> getDiagonalDirections(Direction direction){
+        if (direction==Direction.UP){
+            return List.of(UP_LEFT, UP_RIGHT);
+        }
+        if (direction==Direction.DOWN){
+            return List.of(DOWN_LEFT, DOWN_RIGHT);
+        }
+        if (direction==Direction.LEFT){
+            return List.of(LEFT_UP, LEFT_DOWN);
+        }
+        if (direction==Direction.RIGHT){
+            return List.of(RIGHT_UP, RIGHT_DOWN);
+        }
+        throw new IllegalArgumentException("Invalid direction");
     }
 
     public int getDx() {

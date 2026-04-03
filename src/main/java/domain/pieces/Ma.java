@@ -26,43 +26,13 @@ public class Ma extends Piece {
         return (Math.abs(diffX) == 2 && Math.abs(diffY) == 1) || (Math.abs(diffX) == 1 && Math.abs(diffY) == 2);
     }
     @Override
-    public List<Position> getAvailableRoute(Position start) {
+    public List<Position> getAvailableRoute(Position start, Direction direction) {
         List<Position> availableRoute = new ArrayList<>();
 
-        Optional<Position> positionFirst = move(start, Direction.UP,getCountry());
-        for (Direction direction : List.of(Direction.UP_LEFT, Direction.UP_RIGHT)) {
+        Optional<Position> positionFirst = move(start, direction, getCountry());
+        for (Direction moveDirection : direction.getDiagonalDirections(direction)) {
             if (positionFirst.isPresent()){
-                Optional<Position> position = move(positionFirst.get(), direction,getCountry());
-                if (position.isPresent()){
-                    availableRoute.add(position.get());
-                }
-            }
-        }
-
-        positionFirst = move(start, Direction.DOWN,getCountry());
-        for (Direction direction : List.of(Direction.DOWN_LEFT, Direction.DOWN_RIGHT)) {
-            if (positionFirst.isPresent()){
-                Optional<Position> position = move(positionFirst.get(), direction,getCountry());
-                if (position.isPresent()){
-                    availableRoute.add(position.get());
-                }
-            }
-        }
-
-        positionFirst = move(start, Direction.RIGHT,getCountry());
-        for (Direction direction : List.of(Direction.RIGHT_DOWN, Direction.RIGHT_UP)) {
-            if (positionFirst.isPresent()){
-                Optional<Position> position = move(positionFirst.get(), direction,getCountry());
-                if (position.isPresent()){
-                    availableRoute.add(position.get());
-                }
-            }
-        }
-
-        positionFirst = move(start, Direction.LEFT,getCountry());
-        for (Direction direction : List.of(Direction.LEFT_UP, Direction.LEFT_DOWN)) {
-            if (positionFirst.isPresent()){
-                Optional<Position> position = move(positionFirst.get(), direction,getCountry());
+                Optional<Position> position = move(positionFirst.get(), moveDirection,getCountry());
                 if (position.isPresent()){
                     availableRoute.add(position.get());
                 }

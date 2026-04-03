@@ -1,6 +1,7 @@
 package domain.pieces;
 
 import domain.enums.Country;
+import domain.enums.Direction;
 import domain.enums.PieceType;
 import domain.Position;
 import domain.strategy.MoveStrategy;
@@ -25,7 +26,7 @@ public abstract class Piece implements MoveStrategy {
 
     public abstract boolean isAvailableRoute(List<Piece> pieces, PieceType endPieceType);
 
-    public abstract List<Position> getAvailableRoute(Position start);
+    public abstract List<Position> getAvailableRoute(Position start, Direction direction);
 
     public boolean isDifferentCountry(Country endCountry) {
         return !country.equals(endCountry);

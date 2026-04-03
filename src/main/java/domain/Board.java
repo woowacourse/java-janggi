@@ -5,13 +5,16 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import domain.enums.Country;
+import domain.enums.Direction;
 import domain.enums.MaSangPosition;
 import domain.enums.PieceType;
 import domain.pieces.None;
 import domain.pieces.Piece;
 import domain.pieces.PieceFactory;
+import domain.pieces.Po;
 
 public class Board {
     private final Map<Position, Piece> board;
@@ -38,6 +41,15 @@ public class Board {
         }
 
         this.board = pieces;
+    }
+
+    public List<Position> findAvailablePositions(Position start) {
+        List<Position> positions = new ArrayList<>();
+        Piece piece=Objects.requireNonNull(board.get(start));
+        for (Direction direction : Direction.getCardinalDirections()){
+            positions.addAll(piece.getAvailableRoute(start,direction));
+        }
+        return positions;
     }
 
     public void move(Position start, Position end) {

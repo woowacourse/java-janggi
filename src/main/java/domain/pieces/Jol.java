@@ -1,6 +1,7 @@
 package domain.pieces;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,13 +32,14 @@ public class Jol extends Piece {
     }
 
     @Override
-    public List<Position> getAvailableRoute(Position start) {
+    public List<Position> getAvailableRoute(Position start,Direction direction) {
         List<Position> availableRoute = new ArrayList<>();
-        for (Direction direction : List.of(Direction.UP, Direction.RIGHT, Direction.LEFT)) {
-            Optional<Position> position = move(start, direction,getCountry());
-            if (position.isPresent()){
-                availableRoute.add(position.get());
-            }
+        if (direction.equals(Direction.DOWN)) {
+            return Collections.emptyList();
+        }
+        Optional<Position> position = move(start, direction,getCountry());
+        if (position.isPresent()){
+            availableRoute.add(position.get());
         }
         return availableRoute;
     }

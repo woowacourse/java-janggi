@@ -26,7 +26,7 @@ public class Sang extends Piece {
     }
 
     @Override
-    public List<Position> getAvailableRoute(Position start){
+    public List<Position> getAvailableRoute(Position start,Direction direction){
         List<Position> availableRoute = new ArrayList<>();
         // TODO: 대각 구현 필요
         return availableRoute;

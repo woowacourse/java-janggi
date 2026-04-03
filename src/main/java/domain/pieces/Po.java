@@ -23,20 +23,18 @@ public class Po extends Piece {
     }
 
     @Override
-    public List<Position> getAvailableRoute(Position start){
+    public List<Position> getAvailableRoute(Position start,Direction direction){
         List<Position> availableRoute = new ArrayList<>();
-        for (Direction direction : List.of(Direction.UP, Direction.RIGHT, Direction.LEFT, Direction.DOWN)) {
-            int i = Position.MAX_ROW;
-            Position now = start;
-            while (i-- > 0) {
-                Optional<Position> position = move(now, direction, getCountry());
-                if (position.isPresent()) {
-                    availableRoute.add(position.get());
-                    now = position.get();
-                    continue;
-                }
-                break;
+        int i = Position.MAX_ROW;
+        Position now = start;
+        while (i-- > 0) {
+            Optional<Position> position = move(now, direction, getCountry());
+            if (position.isPresent()) {
+                availableRoute.add(position.get());
+                now = position.get();
+                continue;
             }
+            break;
         }
         return availableRoute;
     }
