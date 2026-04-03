@@ -26,7 +26,7 @@ public class JanggiController {
 
         Game game = new Game(new JanggiBoard(janggiGenerator));
 
-        while (true) {
+        while (game.isRunning()) {
             try {
                 outputView.printCurrentBoardStatus(game.boardStatus());
                 final Team turn = game.currentTurn();
@@ -37,5 +37,7 @@ public class JanggiController {
                 outputView.printErrorMessage(e.getMessage());
             }
         }
+        final Team winnerTeam = game.currentTurn();
+        outputView.printWinnerTeam(winnerTeam);
     }
 }

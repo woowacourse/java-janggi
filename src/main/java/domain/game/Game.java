@@ -9,10 +9,12 @@ import dto.MoveDTO;
 public class Game {
 
     private final JanggiBoard janggiBoard;
+    private Boolean isGameRunning;
     private Team turn;
 
     public Game(JanggiBoard janggiBoard) {
         this.janggiBoard = janggiBoard;
+        this.isGameRunning = true;
         this.turn = Team.CHO;
     }
 
@@ -22,21 +24,32 @@ public class Game {
 
         checkCurrentTurnTeam(from);
         janggiBoard.tryToMove(from, to);
+        isGameRunning = janggiBoard.isGameRunning();
         turn = turn.nextTurn();
     }
 
     private void checkCurrentTurnTeam(Point point) {
-        if(janggiBoard.findIntersection(point).getTeam().equals(turn)) {
-            throw new IllegalArgumentException(turn.getKoreanTeamName() + "(" + turn.getChineseTeamName() + ")" + "의 기물만 움직일 수 있습니다.");
+        if (janggiBoard.findIntersection(point).getTeam().equals(turn)) {
+            return;
         }
+        throw new IllegalArgumentException(
+                turn.getKoreanTeamName() + "(" + turn.getChineseTeamName() + ")" + "의 기물만 움직일 수 있습니다.");
     }
 
     public Team currentTurn() {
         return turn;
     }
 
+    public Team getWinnerTeam() {
+        return turn.nextTurn();
+    }
+
     public BoardState boardStatus() {
         return janggiBoard.boardStatus();
+    }
+
+    public boolean isRunning() {
+        return isGameRunning;
     }
 
 }

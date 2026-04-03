@@ -33,7 +33,7 @@ public class Intersection {
         return point;
     }
 
-    public Team getTeam(){
+    public Team getTeam() {
         return piece.getTeam();
     }
 

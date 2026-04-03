@@ -1,6 +1,7 @@
 package domain.board;
 
 import domain.intersection.Intersection;
+import domain.piece.PieceType;
 import domain.piece.move.CannonMoveRule;
 import domain.piece.move.ChariotMoveRule;
 import domain.piece.move.ElephantMoveRule;
@@ -48,6 +49,19 @@ public class JanggiBoard {
 
         validateMoveRule(from, to);
         move(to, from);
+    }
+
+    public boolean isGameRunning() {
+        int generalCount = 0;
+        for (Intersection intersection : intersections.values()) {
+            if (intersection.isSamePiece(PieceType.GENERAL)) {
+                generalCount++;
+            }
+        }
+        if (generalCount == 2) {
+            return true;
+        }
+        return false;
     }
 
     private void move(Intersection to, Intersection from) {

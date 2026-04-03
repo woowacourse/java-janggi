@@ -55,4 +55,9 @@ public class OutputView {
         System.out.println(message);
     }
 
+    public void printWinnerTeam(Team winnerTeam) {
+        System.out.println("게임이 종료되었습니다.");
+        System.out.println(winnerTeam.getKoreanTeamName() + "(" + winnerTeam.getChineseTeamName() + ")의 승리입니다.\n");
+    }
+
 }
