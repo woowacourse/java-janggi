@@ -6,17 +6,12 @@ import domain.pathgenerator.StraightPathGenerator;
 import domain.player.Team;
 import domain.position.Path;
 import domain.position.Position;
-import domain.strategy.ConditionalMovementStrategy;
 import domain.strategy.MovementStrategy;
+import domain.strategy.PalaceMoveConstraintStrategy;
 import domain.strategy.PoMovementStrategy;
 
 public class Po extends Piece {
-    private static final MovementStrategy MOVEMENT_STRATEGY =
-            new ConditionalMovementStrategy(
-                    new PoMovementStrategy(),
-                    pathPieces -> pathPieces.isOrthogonalMove()
-                            || (pathPieces.isPalaceMove() && pathPieces.isValidPalaceDiagonalMove())
-            );
+    private static final MovementStrategy MOVEMENT_STRATEGY = new PalaceMoveConstraintStrategy(new PoMovementStrategy());
     private static final PathGenerator PATH_GENERATOR = new StraightPathGenerator();
 
     public Po(Team team) {

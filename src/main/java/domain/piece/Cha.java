@@ -7,16 +7,11 @@ import domain.player.Team;
 import domain.position.Path;
 import domain.position.Position;
 import domain.strategy.BlockedMovementStrategy;
-import domain.strategy.ConditionalMovementStrategy;
 import domain.strategy.MovementStrategy;
+import domain.strategy.PalaceMoveConstraintStrategy;
 
 public class Cha extends Piece {
-    private static final MovementStrategy MOVEMENT_STRATEGY =
-            new ConditionalMovementStrategy(
-                    new BlockedMovementStrategy(),
-                    pathPieces -> pathPieces.isOrthogonalMove()
-                            || (pathPieces.isPalaceMove() && pathPieces.isValidPalaceDiagonalMove())
-            );
+    private static final MovementStrategy MOVEMENT_STRATEGY = new PalaceMoveConstraintStrategy(new BlockedMovementStrategy());
     private static final PathGenerator PATH_GENERATOR = new StraightPathGenerator();
 
     public Cha(Team team) {

@@ -17,7 +17,7 @@ import domain.player.Team;
 import domain.position.Path;
 import domain.position.Position;
 import domain.strategy.BlockedMovementStrategy;
-import domain.strategy.ConditionalMovementStrategy;
+import domain.strategy.PalaceMoveConstraintStrategy;
 import domain.strategy.MovementStrategy;
 import java.util.List;
 
@@ -38,12 +38,7 @@ public class Jol extends Piece {
             DirectionPath.of(SOUTH_WEST)
     );
 
-    private static final MovementStrategy MOVEMENT_STRATEGY =
-            new ConditionalMovementStrategy(
-                    new BlockedMovementStrategy(),
-                    pathPieces -> pathPieces.isOrthogonalMove()
-                            || (pathPieces.isPalaceMove() && pathPieces.isValidPalaceDiagonalMove())
-            );
+    private static final MovementStrategy MOVEMENT_STRATEGY = new PalaceMoveConstraintStrategy(new BlockedMovementStrategy());
     private static final PathGenerator CHO_PATH_GENERATOR = new NonStraightPathGenerator(CHO_PATHS);
     private static final PathGenerator HAN_PATH_GENERATOR = new NonStraightPathGenerator(HAN_PATHS);
 
