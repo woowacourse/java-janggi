@@ -12,5 +12,6 @@ CREATE TABLE IF NOT EXISTS piece(
     team VARCHAR(10) NOT NULL,
     row_pos INT NOT NULL,
     col_pos INT NOT NULL,
-    FOREIGN KEY (game_room_id) REFERENCES game_room(id) ON DELETE CASCADE
+    FOREIGN KEY (game_room_id) REFERENCES game_room(id) ON DELETE CASCADE,
+    UNIQUE (game_room_id, row_pos, col_pos)
 );
