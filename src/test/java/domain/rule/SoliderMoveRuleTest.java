@@ -57,7 +57,7 @@ public class SoliderMoveRuleTest {
 
     @Test
     @DisplayName("한 진영인 졸의 직진 방향은 올라감이다.")
-    void straightOfCHOSoliderIsUp() {
+    void straightOfHANSoliderIsUp() {
         Point start = new Point(1, 0);
         Point end = start.next(Vector.UP);
 
