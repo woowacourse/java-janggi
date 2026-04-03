@@ -35,18 +35,19 @@ public class PieceJdbcRepository implements PieceDao {
 
 
     @Override
-    public void save(PieceEntity entity) throws SQLException {
-        template.executeCommand(
+    public Long save(PieceEntity entity) throws SQLException {
+        Object generatedId = template.executeSave(
                 INSERT_PIECE_SQL,
                 entity.row(),
                 entity.col(),
                 entity.pieceType(),
                 entity.team()
         );
+        return (Long) generatedId;
     }
 
     @Override
-    public void saveAll(List<PieceEntity> entities) throws SQLException {
+    public List<Long> saveAll(List<PieceEntity> entities) throws SQLException {
         List<List<Object>> totalEntityValues = new ArrayList<>();
         for (PieceEntity entity : entities) {
             List<Object> rowValues = new ArrayList<>();
@@ -58,7 +59,10 @@ public class PieceJdbcRepository implements PieceDao {
             totalEntityValues.add(rowValues);
         }
 
-        template.executeBatchCommand(INSERT_PIECE_SQL, totalEntityValues);
+        List<Object> generatedKeys = template.executeBatchSave(INSERT_PIECE_SQL, totalEntityValues);
+        return generatedKeys.stream()
+                .map(id -> (Long) id)
+                .toList();
     }
 
     @Override

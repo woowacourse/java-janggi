@@ -41,20 +41,22 @@ class PieceJdbcRepositoryTest {
 
     @Test
     @DisplayName("단일 PieceEntity에 대해 잘 저장한다")
-    void save_single() {
+    void save_single() throws SQLException {
         //given
         PieceEntity testPieceEntity = new PieceEntity(null, 1, 1, "CHO", "JOL");
 
         //when
-        Assertions.assertDoesNotThrow(
-                () -> pieceRepository.save(testPieceEntity)
-        );
+        Long savedEntityId = pieceRepository.save(testPieceEntity);
+
+        //then
+        assertNotNull(savedEntityId);
     }
 
     @Test
     @DisplayName("복수의 PieceEntity에 대해서도 저장이 잘 된다")
-    void save_multiple() {
+    void save_multiple() throws SQLException {
         //given
+        int expectCreatedIdSize = 3;
         List<PieceEntity> pieceEntities = List.of(
                 new PieceEntity(null, 1, 1, "CHO", "JOL"),
                 new PieceEntity(null, 2, 2, "CHO", "JOL"),
@@ -62,9 +64,10 @@ class PieceJdbcRepositoryTest {
         );
 
         //when
-        Assertions.assertDoesNotThrow(
-                () -> pieceRepository.saveAll(pieceEntities)
-        );
+        List<Long> savedEntitiesIds = pieceRepository.saveAll(pieceEntities);
+
+        //then
+        Assertions.assertEquals(expectCreatedIdSize, savedEntitiesIds.size());
     }
 
     @Test
@@ -124,9 +127,8 @@ class PieceJdbcRepositoryTest {
 
         pieceRepository.delete(origin.row(), origin.col());
 
-        assertThatThrownBy(
-                () -> pieceRepository.find(testRow, testColumn)
-        ).isInstanceOf(IllegalStateException.class)
+        assertThatThrownBy(() -> pieceRepository.find(testRow, testColumn))
+                .isInstanceOf(IllegalStateException.class)
                 .hasMessage(RepositoryErrorMessage.NOT_FOUND.getMessage());
     }
 }

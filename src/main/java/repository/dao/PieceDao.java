@@ -5,9 +5,9 @@ import java.util.List;
 import repository.entity.PieceEntity;
 
 public interface PieceDao {
-    void save(PieceEntity entity) throws SQLException;
+    Long save(PieceEntity entity) throws SQLException;
 
-    void saveAll(List<PieceEntity> entities) throws SQLException;
+    List<Long> saveAll(List<PieceEntity> entities) throws SQLException;
 
     PieceEntity find(int targetRow, int targetColumn) throws SQLException;
 

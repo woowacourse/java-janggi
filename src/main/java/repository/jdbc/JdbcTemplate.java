@@ -4,8 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import repository.RepositoryErrorMessage;
 
 public class JdbcTemplate {
 
@@ -35,6 +37,59 @@ public class JdbcTemplate {
             return results;
         } finally {
             close(preparedStatement, connection, resultSet);
+        }
+    }
+
+    public Object executeSave(String sql, Object... parameters) throws SQLException {
+        try (Connection connection = jdbcConnectionGenerator.getDBConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            try {
+                for (int i = 0; i < parameters.length; i++) {
+                    preparedStatement.setObject(i + 1, parameters[i]);
+                }
+
+                preparedStatement.executeUpdate();
+
+                try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        return generatedKeys.getObject(1);
+
+                    }
+                }
+            } finally {
+                close(preparedStatement, connection, resultSet);
+            }
+        }
+        throw new IllegalStateException(RepositoryErrorMessage.FAIL_SAVE_ENTITY.getMessage());
+    }
+
+    public List<Object> executeBatchSave(String sql, List<List<Object>> parameters) throws SQLException {
+        List<Object> keys = new ArrayList<>();
+
+        try (Connection connection = jdbcConnectionGenerator.getDBConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            try {
+                for (List<Object> params : parameters) {
+                    for (int i = 0; i < params.size(); i++) {
+                        preparedStatement.setObject(i + 1, params.get(i));
+                    }
+                    preparedStatement.addBatch();
+                }
+
+                preparedStatement.executeBatch();
+
+                try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                    while (generatedKeys.next()) {
+                        keys.add(generatedKeys.getObject(1));
+                    }
+                }
+            } finally {
+                close(preparedStatement, connection, resultSet);
+            }
+
+            return keys;
         }
     }
 
