@@ -31,23 +31,23 @@ public class JanggiGameController {
     public void run() {
         Long roomId = chooseBoard(inputView.chooseNewGame());
         outputView.printStartGame();
-        outputView.printGameStatus(service.getBoardStatus());
-        outputView.printCurrentScore(service.getHanScore(), service.getChoScore());
-        while (!service.isFinished()) {
+        outputView.printGameStatus(service.getBoardStatus(roomId));
+        outputView.printCurrentScore(service.getHanScore(roomId), service.getChoScore(roomId));
+        while (!service.isFinished(roomId)) {
             playGame(roomId);
         }
-        outputView.printWinner(service.winner());
+        outputView.printWinner(service.winner(roomId));
         Console.close();
     }
 
     private void playGame(Long roomId) {
         try {
-            Team team = service.currentTurn();
+            Team team = service.currentTurn(roomId);
             outputView.printCurrentTurn(team);
             MoveCommand points = inputView.readPoints();
             service.play(roomId, points.from(), points.to());
-            outputView.printGameStatus(service.getBoardStatus());
-            outputView.printCurrentScore(service.getHanScore(), service.getChoScore());
+            outputView.printGameStatus(service.getBoardStatus(roomId));
+            outputView.printCurrentScore(service.getHanScore(roomId), service.getChoScore(roomId));
         } catch (IllegalArgumentException e) {
             outputView.printError(e.getMessage());
         }
