@@ -1,7 +1,8 @@
 package domain.piece;
 
 import domain.Side;
-import domain.strategy.ContinuousStrategy;
+import domain.strategy.JumpStrategy;
+import domain.strategy.SlideStrategy;
 import domain.strategy.Direction;
 import domain.strategy.MovementStrategy;
 import domain.strategy.OneStepStrategy;
@@ -14,7 +15,8 @@ public class PieceFactory {
     private static final MovementStrategy HAN_SOLDIER_STRATEGY = new OneStepStrategy(Direction.hanSoldier());
     private static final MovementStrategy HORSE_STRATEGY = new SequenceStrategy(Direction.horseSequences());
     private static final MovementStrategy ELEPHANT_STRATEGY = new SequenceStrategy(Direction.elephantSequences());
-    private static final MovementStrategy CONTINUOUS_STRATEGY = new ContinuousStrategy(Direction.linear());
+    private static final MovementStrategy CONTINUOUS_STRATEGY = new SlideStrategy(Direction.linear());
+    private static final MovementStrategy JUMP_STRATEGY = new JumpStrategy(Direction.linear());
 
     private static final Map<Side, General> GENERALS = Map.of(
             Side.CHO, new General(Side.CHO, LINEAR_ONE_STEP),
@@ -41,8 +43,8 @@ public class PieceFactory {
             Side.HAN, new Chariot(Side.HAN, CONTINUOUS_STRATEGY)
     );
     private static final Map<Side, Cannon> CANNONS = Map.of(
-            Side.CHO, new Cannon(Side.CHO, CONTINUOUS_STRATEGY),
-            Side.HAN, new Cannon(Side.HAN, CONTINUOUS_STRATEGY)
+            Side.CHO, new Cannon(Side.CHO, JUMP_STRATEGY),
+            Side.HAN, new Cannon(Side.HAN, JUMP_STRATEGY)
     );
 
     private PieceFactory() {}

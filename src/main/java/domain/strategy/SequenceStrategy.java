@@ -1,6 +1,8 @@
 package domain.strategy;
 
 import domain.Position;
+import domain.Side;
+import domain.board.BoardReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +11,15 @@ public class SequenceStrategy implements MovementStrategy {
 
     public SequenceStrategy(List<List<Direction>> sequences) {
         this.sequences = sequences;
+    }
+
+    @Override
+    public List<Position> getMovablePositions(Position current, BoardReader board, Side side) {
+        return generatePaths(current).stream()
+                .filter(path -> !path.isBlocked(board))
+                .map(Path::getDestination)
+                .filter(dest -> board.isEmpty(dest) || !board.isAlly(dest, side))
+                .toList();
     }
 
     @Override

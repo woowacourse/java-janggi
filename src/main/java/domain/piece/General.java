@@ -1,11 +1,7 @@
 package domain.piece;
 
-import domain.Position;
 import domain.Side;
-import domain.board.BoardReader;
 import domain.strategy.MovementStrategy;
-import domain.strategy.Path;
-import java.util.List;
 
 public class General extends Piece {
     public General(Side side, MovementStrategy movementStrategy) {
@@ -13,12 +9,7 @@ public class General extends Piece {
     }
 
     @Override
-    protected List<Position> filterValidPositions(Position current, List<Path> paths, BoardReader board) {
-        return filterStandardPaths(paths, board);
-    }
-
-    @Override
-    public boolean isGeneral() {
+    public boolean isVital() {
         return true;
     }
 

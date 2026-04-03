@@ -18,12 +18,8 @@ public abstract class Piece {
     }
 
     public Destinations findDestinations(Position current, BoardReader board) {
-        List<Path> paths = movementStrategy.generatePaths(current);
-        List<Position> validDestinations = filterValidPositions(current, paths, board);
-        return new Destinations(validDestinations);
+        return new Destinations(movementStrategy.getMovablePositions(current, board, side));
     }
-
-    protected abstract List<Position> filterValidPositions(Position current, List<Path> paths, BoardReader board);
 
     protected List<Position> filterStandardPaths(List<Path> paths, BoardReader board) {
         return paths.stream()
@@ -41,12 +37,16 @@ public abstract class Piece {
         return this.side.isAlly(other);
     }
 
-    public boolean isGeneral() {
+    public boolean isVital() {
         return false;
     }
 
-    public boolean isCannon() {
-        return false;
+    public boolean canBeBridge() {
+        return true;
+    }
+
+    public boolean canBeCapturedByJump() {
+        return true;
     }
 
     public Side getSide() {

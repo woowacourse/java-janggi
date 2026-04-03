@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Board implements BoardReader{
+    public static final int REQUIRED_VITAL_PIECES_COUNT = 2;
     private final Map<Position, Piece> board;
 
     public Board(Map<Position, Piece> board) {
@@ -36,8 +37,8 @@ public class Board implements BoardReader{
 
     public boolean isGameOver() {
         return board.values().stream()
-                .filter(Piece::isGeneral)
-                .count() < 2;
+                .filter(Piece::isVital)
+                .count() < REQUIRED_VITAL_PIECES_COUNT;
     }
 
     @Override
