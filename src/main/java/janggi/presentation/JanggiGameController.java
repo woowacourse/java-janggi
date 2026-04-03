@@ -29,7 +29,7 @@ public class JanggiGameController {
     }
 
     public void run() {
-        Long roomId = chooseBoard(inputView.chooseNewGame());
+        long roomId = chooseBoard(inputView.chooseNewGame());
         outputView.printStartGame();
         outputView.printGameStatus(service.getBoardStatus(roomId));
         outputView.printCurrentScore(service.getHanScore(roomId), service.getChoScore(roomId));
@@ -53,13 +53,14 @@ public class JanggiGameController {
         }
     }
 
-    private Long chooseBoard(GameCommand command) {
+    private long chooseBoard(GameCommand command) {
         if (command.isNewGame()) {
             return service.startNewGame(readInitBoard());
         }
-        Long gameRoomId = inputView.chooseExistsGame();
-        service.loadExistsBoard(gameRoomId);
-        return gameRoomId;
+        Long roomId = inputView.chooseExistsGame();
+        validateIsNull(roomId);
+        service.loadExistsBoard(roomId);
+        return roomId;
     }
 
     private Board readInitBoard() {
@@ -67,5 +68,11 @@ public class JanggiGameController {
         List<PositionInfo> positionInfos = FileParser.readCsvFile("/janggi.csv");
         positionInfos.forEach(info -> pieces.put(info.point(), info.piece()));
         return new Board(pieces);
+    }
+
+    private void validateIsNull(Long roomId) {
+        if(roomId == null) {
+            throw new IllegalArgumentException("[ERROR] 잘못된 게임방 ID 입력입니다.");
+        }
     }
 }
