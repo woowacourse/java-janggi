@@ -52,9 +52,4 @@ public class Guard implements Piece {
     public List<Position> calculateMovablePositions(Position from, BoardMediator boardMediator) {
         return PIECE_ACTION.calculateMovablePositions(from, teamType, boardMediator);
     }
-
-    @Override
-    public boolean canKill(final Piece target) {
-        return !target.belongsToTeam(teamType);
-    }
 }

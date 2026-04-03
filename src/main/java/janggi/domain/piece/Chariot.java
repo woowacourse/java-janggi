@@ -51,9 +51,4 @@ public class Chariot implements Piece {
     public List<Position> calculateMovablePositions(final Position from, final BoardMediator boardMediator) {
         return PIECE_ACTION.calculateMovablePositions(from, teamType, boardMediator);
     }
-
-    @Override
-    public boolean canKill(final Piece target) {
-        return !target.belongsToTeam(teamType);
-    }
 }
