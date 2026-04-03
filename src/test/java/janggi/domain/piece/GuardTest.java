@@ -6,23 +6,22 @@ import janggi.domain.path.PieceOnPath;
 import janggi.domain.position.Movement;
 import janggi.domain.position.Position;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 class GuardTest {
 
-    @Test
-    void 팀_확인_테스트() {
-        Guard guard = new Guard(Team.HAN);
+    @ParameterizedTest
+    @CsvSource({
+            "HAN, true",
+            "CHO, true"})
+    void 사의_팀을_확인한다(Team team, boolean expected) {
+        Guard guard = new Guard(team);
 
-        boolean hanResult = guard.getTeam() == Team.HAN;
-        boolean choResult = guard.getTeam() == Team.CHO;
-
-        assertAll(
-                () -> assertThat(hanResult).isTrue(),
-                () -> assertThat(choResult).isFalse()
-        );
+        assertThat(guard.getTeam() == team).isEqualTo(expected);
     }
 
     @Test
@@ -30,33 +29,30 @@ class GuardTest {
         Guard guard = new Guard(Team.HAN);
 
         PieceType type = guard.getType();
+
         assertThat(type).isEqualTo(PieceType.GUARD);
     }
 
-    @Test
-    void 직선_한_칸을_이동시키면_경로를_반환한다() {
+    @ParameterizedTest(name = "from={0}, to={1}")
+    @CsvSource({
+            "11, 12",
+            "11, 21"})
+    void 직선_한_칸을_이동시키면_빈_경로를_반환한다(String from, String to) {
         Guard guard = new Guard(Team.HAN);
-        Movement movement = new Movement(Position.from("11"), Position.from("12"));
+        Movement movement = new Movement(Position.from(from), Position.from(to));
 
         Path path = guard.getPath(movement);
 
-        assertThat(path).hasSize(0);
+        assertThat(path).isEmpty();
     }
 
-    @Test
-    void 대각선_한_칸을_이동시키면_경로를_반환한다() {
+    @ParameterizedTest(name = "from={0}, to={1}")
+    @CsvSource({
+            "11, 22",
+            "43, 54"})
+    void 올바르지_않은_경로로_이동시키면_예외가_발생한다(String from, String to) {
         Guard guard = new Guard(Team.HAN);
-        Movement movement = new Movement(Position.from("11"), Position.from("22"));
-
-        assertThatThrownBy(() -> guard.getPath(movement))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 사는 해당 위치로 이동할 수 없습니다.");
-    }
-
-    @Test
-    void 직선_한_칸보다_많이_이동시키면_예외를_발생한다() {
-        Guard guard = new Guard(Team.HAN);
-        Movement movement = new Movement(Position.from("43"), Position.from("54"));
+        Movement movement = new Movement(Position.from(from), Position.from(to));
 
         assertThatThrownBy(() -> guard.getPath(movement))
                 .isInstanceOf(IllegalArgumentException.class)
