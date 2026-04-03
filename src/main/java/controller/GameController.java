@@ -18,10 +18,12 @@ public class GameController {
         Board board = new Board();
         init(board);
         OutputView.printBoard(board);
-        while (true) {
+        while (board.endCondition()) {
             choGamePhase(board);
             hanGamePhase(board);
         }
+
+        endGamePhase(board);
     }
 
     private void init(Board board) {
@@ -78,8 +80,11 @@ public class GameController {
         return Position.of(startList.get(0), startList.get(1));
     }
 
-    private void endGamePhase() {
-//        OutputView.printScore();
-//        OutputView.printWinner();
+    private void endGamePhase(Board board) {
+        board.winnerCountry().ifPresent(country -> {
+            OutputView.printWinner(country);
+        });
+
+        OutputView.printScore();
     }
 }

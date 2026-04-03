@@ -3,7 +3,6 @@ package model.board;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import model.move.Move;
 import model.pieces.Piece;
@@ -78,7 +77,11 @@ public class Board {
                 .anyMatch(piece -> piece.pieceType() == type);
     }
 
-    public boolean countGeneral() {
+    public boolean endCondition() {
+        return countGeneral();
+    }
+
+    private boolean countGeneral() {
         int generalCount = (int) board.values().stream()
                 .filter(piece -> piece.pieceType() == PieceType.GENERAL).count();
         return generalCount == GENERAL_COUNT;

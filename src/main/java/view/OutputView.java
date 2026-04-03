@@ -61,6 +61,14 @@ public class OutputView {
         System.out.println(error);
     }
 
+    public static void printWinner(Country country) {
+        System.out.printf("%s나라 우승입니다.%n", country.title());
+    }
+
+    public static void printScore() {
+
+    }
+
     private static void printColumn(int row, Board board) {
         for (int col = MIN_COL_RANGE; col <= MAX_COL_RANGE; col++) {
             Position position = Position.of(row, col);
