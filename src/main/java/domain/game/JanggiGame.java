@@ -18,23 +18,15 @@ public final class JanggiGame {
         this.currentTurn = FIRST_TURN;
     }
 
-    public List<Intersection> getMovableIntersections(
-            Intersection startIntersection,
-            Side requestingSide
-    ) {
-        validateSide(requestingSide);
-
-        return board.getMovableIntersections(startIntersection, requestingSide);
+    public List<Intersection> getMovableIntersections(Intersection startIntersection) {
+        return board.getMovableIntersections(startIntersection, currentTurn);
     }
 
     public void movePiece(
             Intersection startIntersection,
-            Intersection destination,
-            Side requestingSide
+            Intersection destination
     ) {
-        validateSide(requestingSide);
-
-        board.movePiece(startIntersection, destination, requestingSide);
+        board.movePiece(startIntersection, destination, currentTurn);
 
         currentTurn = currentTurn.nextTurn();
     }
@@ -45,11 +37,5 @@ public final class JanggiGame {
 
     public Map<Intersection, Piece> getBoard() {
         return board.getPieces();
-    }
-
-    private void validateSide(Side requestingSide) {
-        if (requestingSide != currentTurn) {
-            throw new IllegalArgumentException("지금은 " + currentTurn + "의 차례입니다.");
-        }
     }
 }

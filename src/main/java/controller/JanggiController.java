@@ -43,10 +43,10 @@ public class JanggiController {
         Side currentTurn = game.getCurrentTurn();
 
         Intersection startIntersection = view.readSelectPieceToMove(board, currentTurn);
-        List<Intersection> movableIntersections = game.getMovableIntersections(startIntersection, currentTurn);
+        List<Intersection> movableIntersections = game.getMovableIntersections(startIntersection);
         Intersection destination = view.readMovePiece(board, movableIntersections);
 
-        game.movePiece(startIntersection, destination, currentTurn);
+        game.movePiece(startIntersection, destination);
     }
 
     private <T> T retryOnIllegalArgument(Supplier<T> retryableAction) {
