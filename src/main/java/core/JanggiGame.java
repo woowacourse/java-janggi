@@ -27,8 +27,12 @@ public class JanggiGame {
         this(board, Turn.CHO_TURN);
     }
 
+    public static JanggiGame of(SangSetupType choSangSetup, SangSetupType hanSangSetup) {
+        return new JanggiGame(SangSetup.initialize(choSangSetup, hanSangSetup));
+    }
+
     public Board getBoard() {
-        return new Board(board.pieces());
+        return board;
     }
 
     public boolean isOver() {
@@ -39,11 +43,8 @@ public class JanggiGame {
         return turn.getSide();
     }
 
-    public static JanggiGame of(SangSetupType choSangSetup, SangSetupType hanSangSetup) {
-        return new JanggiGame(SangSetup.initialize(choSangSetup, hanSangSetup));
-    }
-
     public JanggiGame move(Position departure, Position destination) {
+        // TODO: 게임 진행 상태 객체화 고민해보기 (과한지? 합리적인지?)
         if (isOver) {
             throw new IllegalArgumentException("게임이 종료되어 더 이상 말을 이동시킬 수 없습니다.");
         }
