@@ -2,6 +2,8 @@ package janggi.domain.Turn;
 
 import janggi.domain.board.Board;
 import janggi.domain.position.Position;
+import janggi.domain.space.Space;
+import java.util.Map;
 
 public class HanTurn implements GameState {
     private final Board board;
@@ -20,4 +22,16 @@ public class HanTurn implements GameState {
 
         return new ChoTurn(board);
     }
+
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
+
+    @Override
+    public Map<Position, Space> captureBoard() {
+        return board.getPiecesInfo();
+    }
+
+
 }
