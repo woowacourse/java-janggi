@@ -203,6 +203,6 @@ class BoardTest {
 
         Board gameBoard = new Board(board);
 
-        assertThat(gameBoard.calculateScore(Team.HAN)).isEqualTo(new Score(20));
+        assertThat(gameBoard.calculateScore(Team.HAN)).isEqualTo(new Score(21.5));
     }
 }

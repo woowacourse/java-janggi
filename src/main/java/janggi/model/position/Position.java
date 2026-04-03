@@ -3,49 +3,14 @@ package janggi.model.position;
 import janggi.model.Team;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public record Position(
         Row row,
         Column column
 ) {
-    private static final Set<Position> CHO_PALACE = Set.of(
-            new Position(Row.EIGHT, Column.FOUR),
-            new Position(Row.EIGHT, Column.FIVE),
-            new Position(Row.EIGHT, Column.SIX),
-            new Position(Row.NINE, Column.FOUR),
-            new Position(Row.NINE, Column.FIVE),
-            new Position(Row.NINE, Column.SIX),
-            new Position(Row.ZERO, Column.FOUR),
-            new Position(Row.ZERO, Column.FIVE),
-            new Position(Row.ZERO, Column.SIX)
-    );
-
-    private static final Set<Position> HAN_PALACE = Set.of(
-            new Position(Row.ONE, Column.FOUR),
-            new Position(Row.ONE, Column.FIVE),
-            new Position(Row.ONE, Column.SIX),
-            new Position(Row.TWO, Column.FOUR),
-            new Position(Row.TWO, Column.FIVE),
-            new Position(Row.TWO, Column.SIX),
-            new Position(Row.THREE, Column.FOUR),
-            new Position(Row.THREE, Column.FIVE),
-            new Position(Row.THREE, Column.SIX)
-    );
-
-    private static final Set<Position> PALACE_DIAGONALS = Set.of(
-            new Position(Row.EIGHT, Column.FOUR),
-            new Position(Row.EIGHT, Column.SIX),
-            new Position(Row.NINE, Column.FIVE),
-            new Position(Row.ZERO, Column.FOUR),
-            new Position(Row.ZERO, Column.SIX),
-            new Position(Row.ONE, Column.FOUR),
-            new Position(Row.ONE, Column.SIX),
-            new Position(Row.TWO, Column.FIVE),
-            new Position(Row.THREE, Column.FOUR),
-            new Position(Row.THREE, Column.SIX)
-    );
-
+    private static final Position CHO_PALACE_CENTER = new Position(Row.NINE, Column.FIVE);
+    private static final Position HAN_PALACE_CENTER = new Position(Row.TWO, Column.FIVE);
+    
     public PositionPath moveDiagonal(DiagonalDelta diagonalDelta) {
         List<Position> positions = new ArrayList<>();
         positions.add(this);
@@ -107,17 +72,28 @@ public record Position(
     }
 
     public boolean isInPalace() {
-        return CHO_PALACE.contains(this) || HAN_PALACE.contains(this);
+        return isInPalaceOf(CHO_PALACE_CENTER) || isInPalaceOf(HAN_PALACE_CENTER);
     }
 
     public boolean isInPalaceOf(Team team) {
         if (team == Team.CHO) {
-            return CHO_PALACE.contains(this);
+            return isInPalaceOf(CHO_PALACE_CENTER);
         }
-        return HAN_PALACE.contains(this);
+        return isInPalaceOf(HAN_PALACE_CENTER);
+    }
+
+    private boolean isInPalaceOf(Position center) {
+        return Math.abs(this.row.getDistance(center.row)) <= 1
+                && Math.abs(this.column.getDistance(center.column)) <= 1;
     }
 
     public boolean isOnPalaceDiagonal() {
-        return PALACE_DIAGONALS.contains(this);
+        return isOnDiagonalOf(CHO_PALACE_CENTER) || isOnDiagonalOf(HAN_PALACE_CENTER);
+    }
+
+    private boolean isOnDiagonalOf(Position center) {
+        int rowDistance = Math.abs(this.row.getDistance(center.row));
+        int columnDistance = Math.abs(this.column.getDistance(center.column));
+        return (rowDistance == columnDistance) && rowDistance <= 1;
     }
 }
