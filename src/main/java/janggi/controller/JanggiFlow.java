@@ -54,7 +54,7 @@ public class JanggiFlow {
         try {
             return askStrategy(side);
         } catch (IllegalArgumentException e) {
-            view.showErrorMessage(e);
+            view.showErrorMessage(e.getMessage());
             return repeatAskStrategyUntilSuccess(side);
         }
     }
@@ -69,7 +69,7 @@ public class JanggiFlow {
         try {
             return askLocationOfPiece(turnSide, board);
         } catch (IllegalArgumentException e) {
-            view.showErrorMessage(e);
+            view.showErrorMessage(e.getMessage());
             return repeatAskLocationOfPieceUntilSuccess(turnSide, board);
         }
     }
@@ -85,7 +85,7 @@ public class JanggiFlow {
         try {
             return askLocationToMove(from, board);
         } catch (IllegalArgumentException e) {
-            view.showErrorMessage(e);
+            view.showErrorMessage(e.getMessage());
             return repeatAskLocationToMoveUntilSuccess(from, board);
         }
     }
@@ -101,7 +101,7 @@ public class JanggiFlow {
         try {
             runnable.run();
         } catch (IllegalArgumentException e) {
-            view.showErrorMessage(e);
+            view.showErrorMessage(e.getMessage());
             retryUntilPieceIsSuccessfullyMoved(runnable);
         }
     }

@@ -10,8 +10,8 @@ public class ConsoleWriter implements Output {
     }
 
     @Override
-    public void printErrorMessage(RuntimeException e) {
-        System.out.println("[ERROR] " + e.getMessage());
+    public void printErrorMessage(String errorMessage) {
+        System.out.println("[ERROR] " + errorMessage);
         System.out.println();
     }
 

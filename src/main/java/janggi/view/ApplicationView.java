@@ -45,7 +45,7 @@ public class ApplicationView {
         return inputReader.readIntegers();
     }
 
-    public void showErrorMessage(RuntimeException e) {
-        outputWriter.printErrorMessage(e);
+    public void showErrorMessage(String errorMessage) {
+        outputWriter.printErrorMessage(errorMessage);
     }
 }
