@@ -2,7 +2,7 @@ package domain.strategy;
 
 import domain.board.PathPieces;
 
-public class PalaceMovementStrategy implements MovementStrategy{
+public class PalaceMovementStrategy implements MovementStrategy {
 
     @Override
     public boolean validatePath(PathPieces pathPieces) {
