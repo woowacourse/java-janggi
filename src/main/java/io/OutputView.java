@@ -78,8 +78,11 @@ public class OutputView {
         System.out.printf("%n[%s 진영] 빅장입니다. 무승부를 선언하시겠습니까? (y/n)%n", team.display());
     }
 
-    public void printGameResult(GameResult result) {
+    public void printGameResult(GameResult result, Board board) {
         System.out.println("\n게임 종료!");
         System.out.println(result.message());
+        System.out.printf("최종 점수 - 한: %.1f점 / 초: %.1f점%n",
+                board.calculateScore(Team.HAN),
+                board.calculateScore(Team.CHO));
     }
 }

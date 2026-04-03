@@ -1,6 +1,8 @@
 package domain.state;
 
+import domain.board.Board;
 import domain.game.JanggiGame;
+import domain.piece.Team;
 import domain.setup.Command;
 import io.OutputView;
 
@@ -9,7 +11,12 @@ public class BikjangState implements GameState {
     @Override
     public GameState handle(JanggiGame game, Command command) {
         if (command.isYes()) {
-            return new EndGameState(GameResult.DRAW);
+            Board board = game.getBoard();
+            GameResult result = GameResult.fromScore(
+                    board.calculateScore(Team.HAN),
+                    board.calculateScore(Team.CHO)
+            );
+            return new EndGameState(result);
         }
         if (command.isNo()) {
             game.nextTurn();

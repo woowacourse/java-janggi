@@ -13,6 +13,8 @@ import java.util.Map;
 import java.util.Optional;
 
 public class Board {
+    private static final double DUM_POINT = 1.5;
+
     private final Pieces pieces;
 
     public Board(Pieces pieces) {
@@ -58,12 +60,32 @@ public class Board {
         return pieces.findGeneral(team);
     }
 
+    public boolean hasGeneral(Team team) {
+        return pieces.getAllPiecesOf(team).values().stream()
+                .anyMatch(Piece::isGeneral);
+    }
+
     public Map<Position, Piece> getAllPiecesOf(Team team) {
         return pieces.getAllPiecesOf(team);
     }
 
     public Board simulateMove(Position from, Position to) {
         return new Board(pieces.move(from, to));
+    }
+
+    public double calculateScore(Team team) {
+        double base = getAllPiecesOf(team).values().stream()
+                .mapToInt(Piece::score)
+                .sum();
+        if (team == Team.HAN) {
+            return base + DUM_POINT;
+        }
+        return base;
+    }
+
+    public boolean hasInsufficientPieces(Team team) {
+        return getAllPiecesOf(team).values().stream()
+                .allMatch(piece -> piece.isGeneral() || piece.isGuard());
     }
 
     public boolean isColumnClearBetween(Position a, Position b) {

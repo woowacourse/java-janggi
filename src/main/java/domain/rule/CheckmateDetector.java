@@ -13,11 +13,12 @@ public class CheckmateDetector {
     private final CheckDetector checkDetector = new CheckDetector();
 
     public boolean isCheckmate(Board board, Team checkedTeam) {
-        if (!checkDetector.isInCheck(board, checkedTeam)) {
-            return false;
-        }
-        return board.getAllPiecesOf(checkedTeam).entrySet().stream()
-                .allMatch(entry -> hasNoLegalMove(board, entry.getKey(), entry.getValue(), checkedTeam));
+        return checkDetector.isInCheck(board, checkedTeam) && hasNoLegalMoves(board, checkedTeam);
+    }
+
+    public boolean hasNoLegalMoves(Board board, Team team) {
+        return board.getAllPiecesOf(team).entrySet().stream()
+                .allMatch(entry -> hasNoLegalMove(board, entry.getKey(), entry.getValue(), team));
     }
 
     private boolean hasNoLegalMove(Board board, Position from, Piece piece, Team team) {

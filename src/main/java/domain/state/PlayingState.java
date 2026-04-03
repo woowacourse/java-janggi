@@ -19,14 +19,47 @@ public class PlayingState implements GameState {
     @Override
     public GameState handle(JanggiGame game, Command command) {
         game.move(command.toCoordinate());
+        return resolveAfterMove(game);
+    }
+
+    private GameState resolveAfterMove(JanggiGame game) {
+        Board board = game.getBoard();
+        Team current = game.getCurrentTeam();
         Team opponent = game.getEnemy();
-        if (checkmateDetector.isCheckmate(game.getBoard(), opponent)) {
-            return new EndGameState(GameResult.winOf(game.getCurrentTeam()));
+
+        if (!board.hasGeneral(opponent)) {
+            return new EndGameState(GameResult.winOf(current));
         }
-        if (bikjangDetector.isBikjang(game.getBoard())) {
+        if (checkmateDetector.isCheckmate(board, opponent)) {
+            return new EndGameState(GameResult.winOf(current));
+        }
+        if (bikjangDetector.isBikjang(board)) {
             return new BikjangState();
         }
+        if (isBothInsufficient(board)) {
+            return endByScore(board);
+        }
+        return resolveNoLegalMoves(game, board, current, opponent);
+    }
+
+    private GameState resolveNoLegalMoves(JanggiGame game, Board board, Team current, Team opponent) {
+        if (!checkmateDetector.hasNoLegalMoves(board, opponent)) {
+            return this;
+        }
+        if (checkmateDetector.hasNoLegalMoves(board, current)) {
+            return endByScore(board);
+        }
+        game.nextTurn();
         return this;
+    }
+
+    private boolean isBothInsufficient(Board board) {
+        return board.hasInsufficientPieces(Team.HAN) && board.hasInsufficientPieces(Team.CHO);
+    }
+
+    private EndGameState endByScore(Board board) {
+        return new EndGameState(GameResult.fromScore(
+                board.calculateScore(Team.HAN), board.calculateScore(Team.CHO)));
     }
 
     @Override

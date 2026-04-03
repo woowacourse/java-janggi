@@ -23,4 +23,10 @@ public enum GameResult {
         }
         return WIN_CHO;
     }
+
+    public static GameResult fromScore(double hanScore, double choScore) {
+        if (hanScore > choScore) return WIN_HAN;
+        if (choScore > hanScore) return WIN_CHO;
+        return DRAW;
+    }
 }

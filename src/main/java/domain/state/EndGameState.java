@@ -18,7 +18,7 @@ public class EndGameState implements GameState {
 
     @Override
     public void display(JanggiGame game, OutputView outputView) {
-        outputView.printGameResult(result);
+        outputView.printGameResult(result, game.getBoard());
     }
 
     @Override
