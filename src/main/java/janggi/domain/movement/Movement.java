@@ -2,7 +2,6 @@ package janggi.domain.movement;
 
 import janggi.domain.Position;
 import janggi.domain.board.BoardMediator;
-import janggi.domain.piece.Piece;
 import janggi.domain.team.TeamType;
 import java.util.ArrayList;
 import java.util.List;
@@ -99,15 +98,35 @@ public class Movement {
         return traces;
     }
 
+    // 이동 가능한 경로의 자취 위치 리스트를 반환한다.
+    // 경로에 장애물을 만나면 그때까지의 리스트를 반환하고, 적을 만난다면 적의 좌표를 포함하여 반환한다.
+    public List<Position> calculateTracesForCannon(final Position from, final TeamType teamType,
+                                                   final BoardMediator boardMediator) {
+        final List<Position> traces = new ArrayList<>();
+        Position prev = from;
+        for (int distance = 1; distance <= maxDistance; distance++) {
+            Position to = calculateNextPosition(from, distance);
+            if (prev.equals(to)) {
+                return traces;
+            }
+            if (!hasPieceAt(to, boardMediator)) {
+                traces.add(to);
+                prev = to;
+                continue;
+            }
+            if (!boardMediator.isSameTeamType(to, teamType) && !boardMediator.isCannon(to)) {
+                traces.add(to);
+            }
+            return traces;
+        }
+        return traces;
+    }
+
     private Position calculateNextPosition(final Position from, final int distance) {
         return from.calculateNext(distance, direction);
     }
 
     private boolean hasPieceAt(final Position position, final BoardMediator boardMediator) {
         return boardMediator.hasPieceAt(position);
-    }
-
-    private Piece findPieceAt(final Position position, final BoardMediator boardMediator) {
-        return boardMediator.getPieceInPosition(position);
     }
 }
