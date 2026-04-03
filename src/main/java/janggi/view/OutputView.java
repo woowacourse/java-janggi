@@ -129,6 +129,11 @@ public class OutputView {
         System.out.println(colored(side.getName() + "차례입니다.", color));
     }
 
+    public void printScore(Side side, double score) {
+        String color = Side.CHO.equals(side) ? GREEN : RED;
+        System.out.println(colored(side.getName() + " 점수 : " + score, color));
+    }
+
     public void printGameResult(Side side) {
         String color = Side.CHO.equals(side) ? GREEN : RED;
         System.out.println(colored(side.getName() + " 진영이 승리하였습니다.", color));

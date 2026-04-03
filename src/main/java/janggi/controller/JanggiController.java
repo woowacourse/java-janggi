@@ -35,11 +35,14 @@ public class JanggiController {
             outputView.printBoard(board);
             outputView.printSide(game.getTurn());
 
-            Side winSide = selectMove(game, board);
+            Side side = selectMove(game, board);
 
-            if (winSide != Side.NONE) {
+            outputView.printScore(Side.CHO, game.getScore(Side.CHO));
+            outputView.printScore(Side.HAN, game.getScore(Side.HAN));
+
+            if (side != Side.NONE) {
                 outputView.printBoard(game.getBoard());
-                outputView.printGameResult(winSide);
+                outputView.printGameResult(side);
                 break;
             }
         }

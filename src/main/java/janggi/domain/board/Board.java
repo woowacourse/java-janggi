@@ -77,6 +77,9 @@ public class Board {
         return false;
     }
 
+    public Piece getPieceAtPoint(Point point) {
+        return board.getOrDefault(point, Empty.INSTANCE);
+    }
 
     public Side getPointPieceSide(Point point) {
         if (!board.containsKey(point)) {
@@ -132,8 +135,5 @@ public class Board {
         return !board.containsKey(point);
     }
 
-    private Piece getPieceAtPoint(Point point) {
-        return board.getOrDefault(point, Empty.INSTANCE);
-    }
 
 }

@@ -26,6 +26,10 @@ public abstract class Piece {
         return type.getNameFormat(side);
     }
 
+    public double getScore() {
+        return type.getScore();
+    }
+
     public final Side getSide() {
         return side;
     }

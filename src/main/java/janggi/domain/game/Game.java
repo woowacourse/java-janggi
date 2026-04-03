@@ -53,6 +53,22 @@ public class Game {
         return board.getBoard();
     }
 
+    public double getScore(Side side) {
+        double totalScore = 0;
+
+        for (Point point : board.getBoard().keySet()) {
+            Side pieceSide = board.getPointPieceSide(point);
+
+            if (side == pieceSide) {
+                totalScore += board.getPieceAtPoint(point).getScore();
+            }
+        }
+
+        totalScore += side.getBonusScore();
+
+        return totalScore;
+    }
+
     private void switchTurn() {
         Side switchTurn = Side.NONE;
         if (turn.equals(Side.HAN)) {

@@ -14,9 +14,9 @@ public enum PieceType {
 
     private final String hanName;
     private final String choName;
-    private final int score;
+    private final double score;
 
-    PieceType(String hanName, String choName, int score) {
+    PieceType(String hanName, String choName, double score) {
         this.hanName = hanName;
         this.choName = choName;
         this.score = score;
@@ -32,7 +32,7 @@ public enum PieceType {
         throw new IllegalStateException("Side는 Han 또는 Cho를 넣어주세요");
     }
 
-    public int getScore() {
+    public double getScore() {
         return score;
     }
 }
