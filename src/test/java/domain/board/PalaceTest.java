@@ -73,6 +73,4 @@ public class PalaceTest {
         assertThat(palace.contains(Camp.CHO, new Position(5, 9))).isTrue();
         assertThat(palace.contains(Camp.CHO, new Position(5, 7))).isFalse();
     }
-
-
 }

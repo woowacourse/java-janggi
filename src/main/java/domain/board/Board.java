@@ -11,9 +11,12 @@ import java.util.stream.Collectors;
 
 public class Board implements BoardChecker {
     private final Map<Position, Piece> board;
+    private final Palace palace;
+
 
     public Board(Map<Position, Piece> board) {
         this.board = new HashMap<>(board);
+        this.palace = new Palace();
     }
 
     public Optional<Piece> findPiece(Position position) {
@@ -56,5 +59,18 @@ public class Board implements BoardChecker {
         return findPiece(to)
                 .map(toPiece -> fromPiece.camp() == toPiece.camp())
                 .orElse(false);
+    }
+
+    @Override
+    public Optional<List<Position>> findMovePath(Position from, Position to) {
+        if (isSamePosition(from, to)) {
+            return Optional.of(from.findPath(to));
+        }
+
+        return palace.findDiagonalPath(from, to);
+    }
+
+    private boolean isSamePosition(Position from, Position to) {
+        return from.x() == to.x() || from.y() == to.y();
     }
 }

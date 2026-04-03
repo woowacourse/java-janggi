@@ -1,22 +1,21 @@
 package domain.board;
 
-import domain.piece.Camp;
-import domain.piece.Piece;
-import domain.piece.PieceType;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import domain.piece.Camp;
+import domain.piece.Piece;
+import domain.piece.PieceType;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 
 public class BoardTest {
     Board board;
@@ -156,7 +155,6 @@ public class BoardTest {
             Position from = new Position(1, 1);
             Position to = new Position(1, 4);
 
-
             assertTrue(boardChecker.isSameCamp(from, to));
         }
 
@@ -168,5 +166,32 @@ public class BoardTest {
 
             assertFalse(boardChecker.isSameCamp(from, to));
         }
+    }
+
+    @Test
+    @DisplayName("직선 이동이면 일반 경로를 반환한다.")
+    void findMovePath_When_StraightMove() {
+        Board board = new Board(new HashMap<>());
+
+        assertThat(board.findMovePath(new Position(1, 1), new Position(1, 4)))
+                .contains(List.of(new Position(1, 2), new Position(1, 3)));
+    }
+
+    @Test
+    @DisplayName("궁성 대각선 이동이면 궁성 경로를 반환한다.")
+    void findMovePath_When_PalaceDiagonalMove() {
+        Board board = new Board(new HashMap<>());
+
+        assertThat(board.findMovePath(new Position(4, 1), new Position(6, 3)))
+                .contains(List.of(new Position(5, 2)));
+    }
+
+    @Test
+    @DisplayName("직선 이동도 궁성 대각선 이동도 아니면 빈 값을 반환한다.")
+    void findMovePath_When_InvalidMove() {
+        Board board = new Board(new HashMap<>());
+
+        assertThat(board.findMovePath(new Position(1, 1), new Position(2, 2)))
+                .isEmpty();
     }
 }
