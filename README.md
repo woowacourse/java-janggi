@@ -230,3 +230,9 @@
 - [x] 모든 Piece들을 잘 찾아온다
 - [x] 하나의 piece를 row와 column으로 찾아 새로운 위치의 값으로 업데이트 한다
 - [x] 하나의 piece를 row와 column으로 찾아 삭제한다
+
+## GameContextJdbcRepository
+
+- [x] 단일 GameContextEntity를 잘 저장한다
+- [x] id 기반으로 GameContextEntity를 잘 찾는다
+- [x] id 와 새로운 엔티티를 통해 기존의 값을 업데이트 잘 한다
