@@ -11,4 +11,6 @@ public interface GameRepository {
 
     void update(Long gameId, Game game);
 
+    Optional<Long> findRecentlyGameId();
+
 }

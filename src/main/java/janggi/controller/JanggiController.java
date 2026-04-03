@@ -27,17 +27,23 @@ public class JanggiController {
         this.outputView = outputView;
     }
 
-    // TODO: 불러오기와 새 게임 분리
     public void run() {
-        Map<Dynasty, HorseElephantPosition> horseElephantPositions = readDynastyHorseElephantPositionMap();
-        Long gameId = janggiService.makeGame(horseElephantPositions);
+        Long gameId = initGame();
         Game game = janggiService.findGame(gameId);
         outputView.printBoard(BoardDto.from(game.boardMap()));
 
         while (!game.isFinished()) {
-            moveProcess(game);
+            moveProcess(gameId);
         }
         outputView.printWinner(DynastyDto.from(game.judgeWinner()));
+    }
+
+    private Long initGame() {
+        if (inputView.readWantToRestore()) {
+            return janggiService.findRecentlyGameId();
+        }
+        Map<Dynasty, HorseElephantPosition> horseElephantPositions = readDynastyHorseElephantPositionMap();
+        return janggiService.makeGame(horseElephantPositions);
     }
 
     private Map<Dynasty, HorseElephantPosition> readDynastyHorseElephantPositionMap() {
@@ -50,7 +56,9 @@ public class JanggiController {
         return horseElephantPositions;
     }
 
-    private void moveProcess(Game game) {
+    private void moveProcess(Long gameId) {
+        Game game = janggiService.findGame(gameId);
+
         Position from = getUntilValid(() -> {
             Position wantToMove = readPieceWantToMove(game);
             findCanMovePosition(game, wantToMove);
@@ -59,7 +67,8 @@ public class JanggiController {
 
         runUntilValid(() -> {
             Position to = readPositionToMove();
-            movePiece(game, from, to);
+            janggiService.movePiece(gameId, from, to);
+            outputView.printBoard(BoardDto.from(janggiService.findGame(gameId).boardMap()));
         });
     }
 
@@ -77,11 +86,6 @@ public class JanggiController {
     private Position readPositionToMove() {
         PositionDto toDto = getUntilValid(inputView::readPositionToMove);
         return Position.from(toDto.row(), toDto.column());
-    }
-
-    private void movePiece(Game game, Position from, Position to) {
-        game.movePiece(from, to);
-        outputView.printBoard(BoardDto.from(game.boardMap()));
     }
 
     private <T> T getUntilValid(Supplier<T> supplier) {

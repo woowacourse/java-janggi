@@ -15,6 +15,11 @@ public class JanggiService {
         this.gameRepository = gameRepository;
     }
 
+    public Long findRecentlyGameId() {
+        return gameRepository.findRecentlyGameId()
+                .orElseThrow(() -> new IllegalArgumentException("불러올 최근 게임이 없습니다."));
+    }
+
     public Long makeGame(Map<Dynasty, HorseElephantPosition> horseElephantPositions) {
         Game game = Game.initGame(horseElephantPositions);
         return gameRepository.save(game);

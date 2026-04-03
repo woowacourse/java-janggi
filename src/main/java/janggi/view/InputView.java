@@ -10,7 +10,14 @@ import java.util.List;
 
 public class InputView {
 
+    private static final String YES = "Y";
+
     public InputView() {
+    }
+
+    public boolean readWantToRestore() {
+        System.out.println("저장된 게임을 실행하시겠습니까? (Y/N)");
+        return YES.equals(Console.readLine());
     }
 
     public int readHorseElephantPosition(DynastyDto dynastyDto) {

@@ -99,6 +99,23 @@ public class JdbcGameRepository implements GameRepository {
         }
     }
 
+    @Override
+    public Optional<Long> findRecentlyGameId() {
+        String sql = "SELECT id FROM janggi_game ORDER BY id DESC LIMIT 1";
+
+        try (Connection connection = DatabaseManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            if (!resultSet.next()) {
+                return Optional.empty();
+            }
+            return Optional.of(resultSet.getLong("id"));
+        } catch (SQLException e) {
+            throw new RuntimeException("최근 게임 조회 실패", e);
+        }
+    }
+
     private Dynasty findCurrentTurn(Connection connection, String sql, Long gameId) throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, gameId);
