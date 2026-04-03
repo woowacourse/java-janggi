@@ -1,8 +1,7 @@
 package janggi.domain.board;
 
-import janggi.domain.movestrategy.ChariotStrategy;
-import janggi.domain.movestrategy.SoliderStrategy;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceFactory;
 import janggi.domain.piece.Team;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,7 +19,7 @@ class BoardTest {
     void testStartMoveFromEmptyPosition() {
         // given
         Map<Position, Piece> pieces = new LinkedHashMap<>();
-        pieces.put(new Position(1, 1), new Piece(Team.HAN, new ChariotStrategy()));
+        pieces.put(new Position(1, 1), PieceFactory.createChariot(Team.HAN));
         Board board = new Board(pieces);
 
         // when & then
@@ -34,7 +33,7 @@ class BoardTest {
     void testStartMoveFromOtherSideTeamPiece() {
         // given
         Map<Position, Piece> pieces = new LinkedHashMap<>();
-        pieces.put(new Position(1, 10), new Piece(Team.CHO, new ChariotStrategy()));
+        pieces.put(new Position(1, 10), PieceFactory.createChariot(Team.CHO));
         Board board = new Board(pieces);
 
         // when & then
@@ -48,7 +47,7 @@ class BoardTest {
     void testChangesPosition() {
         // given
         Map<Position, Piece> pieces = new LinkedHashMap<>();
-        pieces.put(new Position(1, 1), new Piece(Team.HAN, new ChariotStrategy()));
+        pieces.put(new Position(1, 1), PieceFactory.createChariot(Team.HAN));
         Board board = new Board(pieces);
 
         // when
@@ -64,8 +63,8 @@ class BoardTest {
     void testChariotBlockedByPieceInPath() {
         // given
         Map<Position, Piece> pieces = new LinkedHashMap<>();
-        pieces.put(new Position(1, 1), new Piece(Team.HAN, new ChariotStrategy()));
-        pieces.put(new Position(1, 3), new Piece(Team.CHO, new SoliderStrategy(BoardDirection.DOWN)));
+        pieces.put(new Position(1, 1), PieceFactory.createChariot(Team.HAN));
+        pieces.put(new Position(1, 3), PieceFactory.createSolider(Team.CHO, BoardDirection.DOWN));
         Board board = new Board(pieces);
 
         // when & then
@@ -78,8 +77,8 @@ class BoardTest {
     void testNotMoveSameSidePieceAtDestination() {
         // given
         Map<Position, Piece> pieces = new LinkedHashMap<>();
-        pieces.put(new Position(1, 1), new Piece(Team.HAN, new ChariotStrategy()));
-        pieces.put(new Position(1, 5), new Piece(Team.HAN, new ChariotStrategy()));
+        pieces.put(new Position(1, 1), PieceFactory.createChariot(Team.HAN));
+        pieces.put(new Position(1, 5), PieceFactory.createChariot(Team.HAN));
         Board board = new Board(pieces);
 
         // when & then
@@ -92,8 +91,8 @@ class BoardTest {
     void testChangePositionWhenOtherSidePieceAtDestination() {
         // given
         Map<Position, Piece> pieces = new LinkedHashMap<>();
-        pieces.put(new Position(1, 1), new Piece(Team.HAN, new ChariotStrategy()));
-        pieces.put(new Position(1, 5), new Piece(Team.CHO, new SoliderStrategy(BoardDirection.DOWN)));
+        pieces.put(new Position(1, 1), PieceFactory.createChariot(Team.HAN));
+        pieces.put(new Position(1, 5), PieceFactory.createSolider(Team.CHO, BoardDirection.DOWN));
         Board board = new Board(pieces);
 
         // when & then

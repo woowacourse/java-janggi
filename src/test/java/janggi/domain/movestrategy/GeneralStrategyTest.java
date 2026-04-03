@@ -2,6 +2,7 @@ package janggi.domain.movestrategy;
 
 import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceFactory;
 import janggi.domain.piece.Team;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,9 +24,9 @@ class GeneralStrategyTest {
     @BeforeEach
     void setUp() {
         generalStrategy = new GeneralStrategy();
-        general = new Piece(Team.HAN, generalStrategy);
-        otherTeamPiece = new Piece(Team.CHO, new CannonStrategy());
-        sameTeamPiece = new Piece(Team.HAN, new CannonStrategy());
+        general = PieceFactory.createGeneral(Team.HAN);
+        otherTeamPiece = PieceFactory.createCannon(Team.CHO);
+        sameTeamPiece = PieceFactory.createCannon(Team.HAN);
     }
 
     @ParameterizedTest
@@ -37,7 +38,7 @@ class GeneralStrategyTest {
             "5,2,5,1"
     })
     void testMoveGeneral(int preX, int preY, int nextX, int nextY) {
-        Piece generalPiece = new Piece(Team.HAN, new GeneralStrategy());
+        Piece generalPiece = PieceFactory.createGeneral(Team.HAN);
         assertThat(generalPiece.canMove(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
     }
 
@@ -51,7 +52,7 @@ class GeneralStrategyTest {
             "5,2,3,2"
     })
     void testNotMovableGeneral(int preX, int preY, int nextX, int nextY) {
-        Piece generalPiece = new Piece(Team.HAN, new GeneralStrategy());
+        Piece generalPiece = PieceFactory.createGeneral(Team.HAN);
         assertThat(generalPiece.canMove(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
     }
 
@@ -64,7 +65,7 @@ class GeneralStrategyTest {
             "5,2,5,1"
     })
     void testFindDestinationPath(int preX, int preY, int nextX, int nextY) {
-        Piece generalPiece = new Piece(Team.HAN, new GeneralStrategy());
+        Piece generalPiece = PieceFactory.createGeneral(Team.HAN);
         List<Position> path = generalPiece.findPath(new Position(preX, preY), new Position(nextX, nextY));
 
         assertThat(path).isEmpty();

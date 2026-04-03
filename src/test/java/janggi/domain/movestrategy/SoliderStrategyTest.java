@@ -3,6 +3,7 @@ package janggi.domain.movestrategy;
 import janggi.domain.board.BoardDirection;
 import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceFactory;
 import janggi.domain.piece.Team;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -28,10 +29,10 @@ class SoliderStrategyTest {
         hanSoliderStrategy = new SoliderStrategy(BoardDirection.UP);
         choSoliderStrategy = new SoliderStrategy(BoardDirection.DOWN);
 
-        solider = new Piece(Team.HAN, hanSoliderStrategy);
+        solider = PieceFactory.createSolider(Team.HAN, BoardDirection.UP);
 
-        otherTeamPiece = new Piece(Team.CHO, new ChariotStrategy());
-        sameTeamPiece = new Piece(Team.HAN, new ChariotStrategy());
+        otherTeamPiece = PieceFactory.createChariot(Team.CHO);
+        sameTeamPiece = PieceFactory.createChariot(Team.HAN);
     }
 
     @ParameterizedTest
@@ -42,7 +43,7 @@ class SoliderStrategyTest {
             "3, 5, 3, 6"
     })
     void testMoveSoliderWhenTeamIsHAN(int preX, int preY, int nextX, int nextY) {
-        Piece soliderPiece = new Piece(Team.HAN, new SoliderStrategy(BoardDirection.UP));
+        Piece soliderPiece = PieceFactory.createSolider(Team.HAN, BoardDirection.UP);
         assertThat(soliderPiece.canMove(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
     }
 
@@ -54,7 +55,7 @@ class SoliderStrategyTest {
             "3, 5, 3, 4"
     })
     void testNotMoveSoliderWhenTeamIsHAN(int preX, int preY, int nextX, int nextY) {
-        Piece soliderPiece = new Piece(Team.HAN, new SoliderStrategy(BoardDirection.UP));
+        Piece soliderPiece = PieceFactory.createSolider(Team.HAN, BoardDirection.UP);
         assertThat(soliderPiece.canMove(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
     }
 
@@ -66,7 +67,7 @@ class SoliderStrategyTest {
             "3, 5, 3, 4"
     })
     void testMoveSoliderWhenTeamIsCHO(int preX, int preY, int nextX, int nextY) {
-        Piece soliderPiece = new Piece(Team.CHO, new SoliderStrategy(BoardDirection.DOWN));
+        Piece soliderPiece = PieceFactory.createSolider(Team.CHO, BoardDirection.DOWN);
         assertThat(soliderPiece.canMove(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
     }
 
@@ -79,7 +80,7 @@ class SoliderStrategyTest {
             "3, 5, 3, 6"
     })
     void testNotMoveSoliderWhenTeamIsCHO(int preX, int preY, int nextX, int nextY) {
-        Piece soliderPiece = new Piece(Team.CHO, new SoliderStrategy(BoardDirection.DOWN));
+        Piece soliderPiece = PieceFactory.createSolider(Team.CHO, BoardDirection.DOWN);
         assertThat(soliderPiece.canMove(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
     }
 
@@ -92,8 +93,8 @@ class SoliderStrategyTest {
             "3, 5, 2, 5"
     })
     void testMoveSoliderHorizontally(int preX, int preY, int nextX, int nextY) {
-        Piece soliderPiece1 = new Piece(Team.CHO, new SoliderStrategy(BoardDirection.DOWN));
-        Piece soliderPiece2 = new Piece(Team.HAN, new SoliderStrategy(BoardDirection.UP));
+        Piece soliderPiece1 = PieceFactory.createSolider(Team.CHO, BoardDirection.DOWN);
+        Piece soliderPiece2 = PieceFactory.createSolider(Team.HAN, BoardDirection.UP);
         assertThat(soliderPiece1.canMove(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
         assertThat(soliderPiece2.canMove(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
     }
@@ -107,8 +108,8 @@ class SoliderStrategyTest {
             "3, 5, 3, 3"
     })
     void testNotMoveSoliderTwoStepMore(int preX, int preY, int nextX, int nextY) {
-        Piece soliderPiece1 = new Piece(Team.CHO, new SoliderStrategy(BoardDirection.DOWN));
-        Piece soliderPiece2 = new Piece(Team.HAN, new SoliderStrategy(BoardDirection.UP));
+        Piece soliderPiece1 = PieceFactory.createSolider(Team.CHO, BoardDirection.DOWN);
+        Piece soliderPiece2 = PieceFactory.createSolider(Team.HAN, BoardDirection.UP);
         assertThat(soliderPiece1.canMove(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
         assertThat(soliderPiece2.canMove(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
     }

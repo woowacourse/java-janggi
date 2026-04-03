@@ -2,6 +2,7 @@ package janggi.domain.movestrategy;
 
 import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceFactory;
 import janggi.domain.piece.Team;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -24,10 +25,10 @@ class CannonStrategyTest {
     @BeforeEach
     void setUp() {
         cannonMoveStrategy = new CannonStrategy();
-        cannon = new Piece(Team.HAN, cannonMoveStrategy);
-        otherSideCannon = new Piece(Team.CHO, cannonMoveStrategy);
-        notCannon = new Piece(Team.HAN, new ChariotStrategy());
-        otherSideNotCannon = new Piece(Team.CHO, new ChariotStrategy());
+        cannon = PieceFactory.createCannon(Team.HAN);
+        otherSideCannon = PieceFactory.createCannon(Team.CHO);
+        notCannon = PieceFactory.createChariot(Team.HAN);
+        otherSideNotCannon = PieceFactory.createChariot(Team.CHO);
     }
 
     @ParameterizedTest

@@ -2,6 +2,7 @@ package janggi.domain.movestrategy;
 
 import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceFactory;
 import janggi.domain.piece.Team;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,9 +24,9 @@ class HorseStrategyTest {
     @BeforeEach
     void setUp() {
         horseStrategy = new HorseStrategy();
-        horse = new Piece(Team.HAN, horseStrategy);
-        otherTeamPiece = new Piece(Team.CHO, new CannonStrategy());
-        sameTeamPiece = new Piece(Team.HAN, new CannonStrategy());
+        horse = PieceFactory.createHorse(Team.HAN);
+        otherTeamPiece = PieceFactory.createCannon(Team.CHO);
+        sameTeamPiece = PieceFactory.createCannon(Team.HAN);
     }
 
     @ParameterizedTest
@@ -37,7 +38,7 @@ class HorseStrategyTest {
             "5, 4, 4, 6", "5, 4, 6, 6",
     })
     void testMovableHorse(int preX, int preY, int nextX, int nextY) {
-        Piece horsePiece = new Piece(Team.HAN, new HorseStrategy());
+        Piece horsePiece = PieceFactory.createHorse(Team.HAN);
         assertThat(horsePiece.canMove(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
     }
 
@@ -51,7 +52,7 @@ class HorseStrategyTest {
             "5, 4, 4, 7", "5, 4, 6, 5",
     })
     void testNotMovableHorse(int preX, int preY, int nextX, int nextY) {
-        Piece horsePiece = new Piece(Team.HAN, new HorseStrategy());
+        Piece horsePiece = PieceFactory.createHorse(Team.HAN);
         assertThat(horsePiece.canMove(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
     }
 
@@ -69,7 +70,7 @@ class HorseStrategyTest {
     })
     void testFindDestinationPath(int preX, int preY, int nextX, int nextY,
                                  int pathX1, int pathY1) {
-        Piece horsePiece = new Piece(Team.HAN, new HorseStrategy());
+        Piece horsePiece = PieceFactory.createHorse(Team.HAN);
         List<Position> path = horsePiece.findPath(new Position(preX, preY), new Position(nextX, nextY));
         assertThat(path).containsExactly(new Position(pathX1, pathY1));
     }

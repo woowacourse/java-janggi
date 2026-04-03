@@ -2,6 +2,7 @@ package janggi.domain.movestrategy;
 
 import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceFactory;
 import janggi.domain.piece.Team;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,9 +24,9 @@ class ElephantStrategyTest {
     @BeforeEach
     void setUp() {
         elephantStrategy = new ElephantStrategy();
-        elephant = new Piece(Team.HAN, elephantStrategy);
-        otherTeamPiece = new Piece(Team.CHO, new CannonStrategy());
-        sameTeamPiece = new Piece(Team.HAN, new CannonStrategy());
+        elephant = PieceFactory.createElephant(Team.HAN);
+        otherTeamPiece = PieceFactory.createCannon(Team.CHO);
+        sameTeamPiece = PieceFactory.createCannon(Team.HAN);
     }
 
     @ParameterizedTest
@@ -37,7 +38,7 @@ class ElephantStrategyTest {
             "5, 4, 7, 7", "5, 4, 8, 6",
     })
     void testMovableElephant(int preX, int preY, int nextX, int nextY) {
-        Piece elephantPiece = new Piece(Team.HAN, new ElephantStrategy());
+        Piece elephantPiece = PieceFactory.createElephant(Team.HAN);
         assertThat(elephantPiece.canMove(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
     }
 
@@ -51,7 +52,7 @@ class ElephantStrategyTest {
             "5, 4, 4, 7", "5, 4, 6, 5",
     })
     void testNotMovableElephant(int preX, int preY, int nextX, int nextY) {
-        Piece elephantPiece = new Piece(Team.HAN, new ElephantStrategy());
+        Piece elephantPiece = PieceFactory.createElephant(Team.HAN);
         assertThat(elephantPiece.canMove(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
     }
 
@@ -69,7 +70,7 @@ class ElephantStrategyTest {
     })
     void testFindDestinationPath(int preX, int preY, int nextX, int nextY,
                                  int pathX1, int pathY1, int pathX2, int pathY2) {
-        Piece elephantPiece = new Piece(Team.HAN, new ElephantStrategy());
+        Piece elephantPiece = PieceFactory.createElephant(Team.HAN);
         List<Position> path = elephantPiece.findPath(new Position(preX, preY), new Position(nextX, nextY));
         assertThat(path).containsExactly(new Position(pathX1, pathY1), new Position(pathX2, pathY2));
     }

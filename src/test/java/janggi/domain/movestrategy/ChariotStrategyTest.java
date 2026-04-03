@@ -2,6 +2,7 @@ package janggi.domain.movestrategy;
 
 import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceFactory;
 import janggi.domain.piece.Team;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,9 +25,9 @@ class ChariotStrategyTest {
     @BeforeEach
     void setUp() {
         chariotMoveStrategy = new ChariotStrategy();
-        chariot = new Piece(Team.HAN, chariotMoveStrategy);
-        otherTeamPiece = new Piece(Team.CHO, new CannonStrategy());
-        sameTeamPiece = new Piece(Team.HAN, new CannonStrategy());
+        chariot = PieceFactory.createChariot(Team.HAN);
+        otherTeamPiece = PieceFactory.createCannon(Team.CHO);
+        sameTeamPiece = PieceFactory.createCannon(Team.HAN);
     }
 
     @ParameterizedTest
@@ -38,7 +39,7 @@ class ChariotStrategyTest {
             "8, 3, 2, 4",
     })
     void testNotMovableChariot(int preX, int preY, int nextX, int nextY) {
-        Piece chariotPiece = new Piece(Team.HAN, new ChariotStrategy());
+        Piece chariotPiece = PieceFactory.createChariot(Team.HAN);
 
         Assertions.assertThat(chariotPiece.canMove(new Position(preX, preY), new Position(nextX, nextY)))
                 .isFalse();
@@ -53,7 +54,7 @@ class ChariotStrategyTest {
             "8, 3, 8, 1",
     })
     void testMoveChariot(int preX, int preY, int nextX, int nextY) {
-        Piece chariotPiece = new Piece(Team.HAN, new ChariotStrategy());
+        Piece chariotPiece = PieceFactory.createChariot(Team.HAN);
 
         Assertions.assertThat(chariotPiece.canMove(new Position(preX, preY), new Position(nextX, nextY)))
                 .isTrue();
@@ -64,7 +65,7 @@ class ChariotStrategyTest {
     void testFindDestinationPath() {
         Position from = new Position(2, 3);
         Position to = new Position(5, 3);
-        Piece chariotPiece = new Piece(Team.HAN, new ChariotStrategy());
+        Piece chariotPiece = PieceFactory.createChariot(Team.HAN);
 
         List<Position> result = chariotPiece.findPath(from, to);
         assertThat(result).containsExactly(new Position(3, 3), new Position(4, 3));
