@@ -19,13 +19,13 @@ class GuardTest {
      */
     @ParameterizedTest
     @MethodSource("validDirectionsProvider")
-    void 도착_지점이_한칸거리이면서_양쪽_옆_혹은_앞뒤인_경우_정상_테스트(Position to) {
+    void 도착_지점이_궁성_내_한칸거리인_경우_정상_테스트(Position to) {
         // given
         Board board = new Board();
         Piece guard = new Guard(Team.CHO);
 
         // when
-        Position from = Position.from(7, 1);
+        Position from = Position.from(10, 4);
 
         // then
         assertThat(guard.canMove(from, to, board)).isEqualTo(true);
@@ -33,10 +33,9 @@ class GuardTest {
 
     static Stream<Position> validDirectionsProvider() {
         return Stream.of(
-                Position.from(6, 1),
-                Position.from(8, 1),
-                Position.from(7, 0),
-                Position.from(7, 2)
+                Position.from(10, 5), // 오른쪽 한칸
+                Position.from(9, 4),  // 위로 한칸
+                Position.from(9, 5)  // 오른쪽 대각선으로 한칸
         );
     }
 
@@ -50,7 +49,7 @@ class GuardTest {
         // given
         Piece guard = new Guard(Team.CHO);
 
-        Position from = Position.from(7, 1);
+        Position from = Position.from(10, 6);
 
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, guard);
@@ -64,20 +63,19 @@ class GuardTest {
 
     static Stream<Position> blockedBySameTeamProvider() {
         return Stream.of(
-                Position.from(6, 1),
-                Position.from(8, 1),
-                Position.from(7, 0),
-                Position.from(7, 2)
+                Position.from(10, 5),
+                Position.from(9, 6),
+                Position.from(9, 5)
         );
     }
 
     @Test
-    void 대각선_이동은_불가능하다() {
+    void 궁성_외부_이동은_불가능하다() {
         Board board = new Board();
         Piece guard = new Guard(Team.CHO);
 
-        Position from = Position.from(7, 1);
-        Position to = Position.from(6, 2);
+        Position from = Position.from(10, 4);
+        Position to = Position.from(10, 3);
 
         assertThat(guard.canMove(from, to, board)).isFalse();
     }
