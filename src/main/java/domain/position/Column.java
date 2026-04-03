@@ -9,7 +9,7 @@ public record Column(int column) {
         validateColumn(column);
     }
 
-    public boolean isOutBoundColumn(int column){
+    public boolean isOutBoundColumn(int column) {
         return column < MIN_COLUMN || column > MAX_COLUMN;
     }
 

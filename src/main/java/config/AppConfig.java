@@ -1,6 +1,5 @@
 package config;
 
-
 import infra.DatabaseInitializer;
 import service.GameService;
 
@@ -19,7 +18,7 @@ public class AppConfig {
         );
     }
 
-    public DatabaseInitializer databaseInitializer(){
+    public DatabaseInitializer databaseInitializer() {
         return databaseConfig.databaseInitializer();
     }
 }

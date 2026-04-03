@@ -47,7 +47,8 @@ public class HorseMoveStrategy implements MoveStrategy {
                 .flatMap(firstStepPosition -> firstStepPosition.moveIfInBounds(secondStepDirection));
     }
 
-    private boolean canFollowSequence(Map<Position, Place> board, Position from, Position to, List<Direction> sequence) {
+    private boolean canFollowSequence(Map<Position, Place> board, Position from, Position to,
+                                      List<Direction> sequence) {
         Direction firstStepDirection = sequence.get(0);
         Direction secondStepDirection = sequence.get(1);
 

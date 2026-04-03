@@ -8,6 +8,7 @@ import repository.impl.GameRoomRepositoryImpl;
 import repository.impl.GameStateRepositoryImpl;
 
 public class RepositoryConfig {
+
     public BoardRepository boardRepository() {
         return new BoardRepositoryImpl();
     }

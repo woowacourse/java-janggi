@@ -1,6 +1,5 @@
 package service;
 
-import infra.ConnectionManager;
 import infra.DBExecutor;
 import java.sql.Connection;
 import domain.place.Place;
@@ -8,10 +7,8 @@ import domain.place.piece.Side;
 import domain.position.Position;
 import entity.GameRoomEntity;
 import entity.GameStateEntity;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import repository.BoardRepository;
 import repository.GameRoomRepository;
 import repository.GameStateRepository;

@@ -9,7 +9,7 @@ public record Row(int row) {
         validateRange(row);
     }
 
-    public boolean isOutBoundRow(int row){
+    public boolean isOutBoundRow(int row) {
         return row < MIN_ROW || row > MAX_ROW;
     }
 

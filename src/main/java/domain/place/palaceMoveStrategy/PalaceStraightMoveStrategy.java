@@ -65,11 +65,11 @@ public class PalaceStraightMoveStrategy implements PalaceMoveStrategy {
         return isAtDestination(current, to);
     }
 
-    private boolean isAtDestination(Optional<Position> current, Position to){
+    private boolean isAtDestination(Optional<Position> current, Position to) {
         return current.isPresent() && current.get().equals(to);
     }
 
-    private boolean isNotAtDestination(Optional<Position> current, Position to){
+    private boolean isNotAtDestination(Optional<Position> current, Position to) {
         return current.isPresent() && !current.get().equals(to);
     }
 

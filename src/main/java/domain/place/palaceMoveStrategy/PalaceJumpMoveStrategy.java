@@ -67,11 +67,11 @@ public class PalaceJumpMoveStrategy implements PalaceMoveStrategy {
         return isValidMiddlePlace(middlePlace) && isAtDestination(current, to);
     }
 
-    private boolean isValidMiddlePlace(Place middlePlace){
+    private boolean isValidMiddlePlace(Place middlePlace) {
         return !isTargetCannon(middlePlace) && !middlePlace.isEmpty();
     }
 
-    private boolean isAtDestination(Optional<Position> current, Position to){
+    private boolean isAtDestination(Optional<Position> current, Position to) {
         return current.isPresent() && current.get().equals(to);
     }
 

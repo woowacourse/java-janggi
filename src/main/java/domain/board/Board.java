@@ -16,9 +16,8 @@ import java.util.stream.Collectors;
 
 public class Board {
 
-    private static final double HAN_PIECE_BONUS_SCORE = 1.5;
     public static final int MIN_POSITION = 1;
-
+    private static final double HAN_PIECE_BONUS_SCORE = 1.5;
     private final Map<Position, Place> board;
 
     public Board(Map<Position, Place> board) {
@@ -107,8 +106,9 @@ public class Board {
                 .filter(place -> place.hasSide(side))
                 .mapToDouble(Place::getScore)
                 .sum();
-        if(side == Side.HAN)
+        if (side == Side.HAN) {
             sum += HAN_PIECE_BONUS_SCORE;
+        }
         return sum;
     }
 
@@ -134,7 +134,6 @@ public class Board {
                 .max()
                 .orElse(MIN_POSITION);
 
-
         return getBoard(mapper, maxRow, maxCol);
     }
 
@@ -143,15 +142,12 @@ public class Board {
 
         for (int row = MIN_POSITION; row <= maxRow; row++) {
             List<T> rowResult = new ArrayList<>();
-
             for (int col = MIN_POSITION; col <= maxCol; col++) {
                 Place place = board.get(new Position(row, col));
                 rowResult.add(mapper.apply(place));
             }
-
             result.add(rowResult);
         }
-
         return result;
     }
 

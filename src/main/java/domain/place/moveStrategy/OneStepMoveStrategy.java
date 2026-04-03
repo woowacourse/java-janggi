@@ -1,8 +1,8 @@
 package domain.place.moveStrategy;
 
 import domain.place.Empty;
-import domain.place.Place;
 import domain.place.PalaceArea;
+import domain.place.Place;
 import domain.place.piece.Side;
 import domain.position.Position;
 import java.util.List;

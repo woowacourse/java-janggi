@@ -17,8 +17,11 @@ public class DatabaseConfig {
         this.connectionManager = new H2ConnectionManager(URL, USER, PASSWORD);
     }
 
-    public DBExecutor dbExecutor() { return new DBExecutor(connectionManager);}
-    public DatabaseInitializer databaseInitializer(){
+    public DBExecutor dbExecutor() {
+        return new DBExecutor(connectionManager);
+    }
+
+    public DatabaseInitializer databaseInitializer() {
         return new DatabaseInitializer(connectionManager);
     }
 }

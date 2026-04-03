@@ -69,7 +69,7 @@ public class JumpMoveStrategy implements MoveStrategy {
             current = current.get().moveIfInBounds(direction);
         }
 
-        return isAtDestination(current,to) && isWithinObstacleLimit(count);
+        return isAtDestination(current, to) && isWithinObstacleLimit(count);
     }
 
     private boolean canContinueTraversal(Optional<Position> current, Position to, int count) {
@@ -77,12 +77,13 @@ public class JumpMoveStrategy implements MoveStrategy {
     }
 
     private int increaseIfObstacle(Place place, int count) {
-        if (place.isEmpty())
+        if (place.isEmpty()) {
             return count;
+        }
         return count + 1;
     }
 
-    private boolean isAtDestination(Optional<Position> current, Position to){
+    private boolean isAtDestination(Optional<Position> current, Position to) {
         return current.isPresent() && current.get().equals(to);
     }
 
@@ -90,13 +91,14 @@ public class JumpMoveStrategy implements MoveStrategy {
         return count == REQUIRED_OBSTACLE_COUNT;
     }
 
-    private boolean isNotAtDestination(Optional<Position> current, Position to){
+    private boolean isNotAtDestination(Optional<Position> current, Position to) {
         return current.isPresent() && !current.get().equals(to);
     }
 
     private boolean isNotWithinObstacleLimit(int count) {
         return count <= REQUIRED_OBSTACLE_COUNT;
     }
+
     private Place getPlace(Map<Position, Place> board, Position pos) {
         return board.getOrDefault(pos, new Empty());
     }
