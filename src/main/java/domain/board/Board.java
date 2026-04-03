@@ -77,6 +77,10 @@ public class Board {
             throw new IllegalArgumentException("[ERROR] 출발 좌표의 기물이 상대 기물입니다.");
         }
 
+        if (from.equals(to) && piece.isGeneral()) {
+            return;
+        }
+
         if (piece.isPalacePiece()) {
             validatePalaceMove(from, to);
         }
