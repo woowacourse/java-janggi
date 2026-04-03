@@ -17,7 +17,7 @@ public record Point(
         if (checkPointRange(y, x)) {
             return;
         }
-        throw new IllegalArgumentException();
+        throw new IllegalArgumentException("잘못된 좌표 입력입니다.");
     }
 
     public boolean canMake(int y, int x) {
