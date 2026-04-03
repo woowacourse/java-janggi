@@ -15,18 +15,18 @@ public class Board {
         this.pieces = new HashMap<>(pieces);
     }
 
-    public List<Piece> getBlockingPieces(Route route) {
+    private List<Piece> getBlockingPieces(Route route) {
         return route.intermediatePositions().stream()
                 .map(this::findPiece)
                 .flatMap(Optional::stream)
                 .toList();
     }
 
-    public Optional<Piece> getDestinationPiece(Route route) {
+    private Optional<Piece> getDestinationPiece(Route route) {
         return Optional.ofNullable(pieces.get(route.endPos()));
     }
 
-    public Optional<Position> findPositionOf(Piece piece) {
+    private Optional<Position> findPositionOf(Piece piece) {
         return pieces.entrySet().stream()
                 .filter(entry -> entry.getValue() == piece)
                 .map(Map.Entry::getKey)
@@ -80,6 +80,5 @@ public class Board {
         pieces.put(destination, piece);
     }
 }
-
 
 
