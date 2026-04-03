@@ -22,7 +22,9 @@ public class Application {
         Game game = new Game();
 
         Runner runner = new Runner(janggiService, game);
-        runner.run();
+
+        int gameId = runner.initBoard();
+        runner.runJanggi(gameId);
 
         sqlManager.closeConnection();
     }
