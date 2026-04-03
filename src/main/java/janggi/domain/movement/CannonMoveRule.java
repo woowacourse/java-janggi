@@ -5,7 +5,6 @@ import static janggi.domain.Position.MAXIMUM_ROW;
 import janggi.domain.Position;
 import janggi.domain.board.BoardMediator;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +28,6 @@ public class CannonMoveRule implements MoveRule {
 
     // 포다리가 안되는 경우 검증(빈 공간인지 or 포다리가 포 인지)
     private boolean isInvalidBridge(final Position bridge, final BoardMediator boardMediator) {
-        return !boardMediator.hasPieceAt(bridge)
-                || boardMediator.getPieceInPosition(bridge).getPieceType() == PieceType.CANNON;
+        return !boardMediator.hasPieceAt(bridge) || boardMediator.isCannon(bridge);
     }
 }

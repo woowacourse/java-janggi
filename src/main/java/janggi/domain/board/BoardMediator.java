@@ -10,4 +10,6 @@ public interface BoardMediator {
     boolean hasGeneral(TeamType teamType);
 
     Piece getPieceInPosition(Position position);
+
+    boolean isCannon(Position position);
 }

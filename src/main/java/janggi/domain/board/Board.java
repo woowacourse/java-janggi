@@ -35,6 +35,11 @@ public class Board implements BoardMediator {
                 .anyMatch(piece -> piece.getPieceType() == PieceType.GENERAL && piece.getTeamType() == teamType);
     }
 
+    @Override
+    public boolean isCannon(Position position) {
+        return findPieceByPosition(position).getPieceType() == PieceType.CANNON;
+    }
+
     public Map<Position, Piece> getPositionPieceMapForDTO() {
         return Map.copyOf(positionPieceMap);
     }
