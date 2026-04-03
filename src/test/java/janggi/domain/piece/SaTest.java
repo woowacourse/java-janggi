@@ -1,6 +1,8 @@
+/**
+ * SteppingPiece에서 테스트
+ */
 package janggi.domain.piece;
 
-import janggi.domain.Board;
 import janggi.domain.Position;
 import janggi.domain.side.TeamType;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,11 +18,9 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 class SaTest {
 
     private Sa sa;
-    private Board board;
 
     @BeforeEach
     void setUp() {
-        board = Board.createInitialBoard();
         sa = new Sa(TeamType.HAN);
     }
 
@@ -39,22 +39,25 @@ class SaTest {
         Position end = new Position(endX, endY);
 
         // when & then
-        assertThatCode(() -> sa.validateCanMove(start, end, board))
+        assertThatCode(() -> sa.getPiecePositionsInPath(start, end))
                 .doesNotThrowAnyException();
     }
 
-    @Test
-    @DisplayName("제자리로 이동할 경우 예외 발생")
-    void validateCanMove_Fail_Same_Position() {
-        // given
-        Position start = new Position(4, 4);
-        Position sameEnd = new Position(4, 4);
-
-        // when & then
-        assertThatThrownBy(() -> sa.validateCanMove(start, sameEnd, board))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("출발지와 목적지가 동일합니다.");
-    }
+    /**
+     * 제자리 테스트는 Board에서
+     */
+//    @Test
+//    @DisplayName("제자리로 이동할 경우 예외 발생")
+//    void validateCanMove_Fail_Same_Position() {
+//        // given
+//        Position start = new Position(4, 4);
+//        Position sameEnd = new Position(4, 4);
+//
+//        // when & then
+//        assertThatThrownBy(() -> sa.validateCanMove(start, sameEnd, board))
+//                .isInstanceOf(IllegalArgumentException.class)
+//                .hasMessage("출발지와 목적지가 동일합니다.");
+//    }
 
     @Test
     @DisplayName("사가 이동할 수 없는 위치일 경우 예외 발생")
@@ -67,13 +70,13 @@ class SaTest {
 
         // when & then
         assertAll(
-                () -> assertThatThrownBy(() -> sa.validateCanMove(start, moveTwoSteps, board))
+                () -> assertThatThrownBy(() -> sa.getPiecePositionsInPath(start, moveTwoSteps))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("이동할 수 없는 위치입니다."),
-                () -> assertThatThrownBy(() -> sa.validateCanMove(start, moveLongDiagonal, board))
+                () -> assertThatThrownBy(() -> sa.getPiecePositionsInPath(start, moveLongDiagonal))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("이동할 수 없는 위치입니다."),
-                () -> assertThatThrownBy(() -> sa.validateCanMove(start, knightMove, board))
+                () -> assertThatThrownBy(() -> sa.getPiecePositionsInPath(start, knightMove))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("이동할 수 없는 위치입니다.")
         );

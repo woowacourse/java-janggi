@@ -1,6 +1,5 @@
 package janggi.domain.piece;
 
-import janggi.domain.Board;
 import janggi.domain.MovePath;
 import janggi.domain.Position;
 import janggi.domain.side.TeamType;
@@ -29,13 +28,9 @@ public abstract class Piece {
         return teamType;
     }
 
-    public void checkSamePosition(Position start, Position end) {
-        if (start.isSamePosition(end)) {
-            throw new IllegalArgumentException("출발지와 목적지가 동일합니다.");
-        }
-    }
-
-    public abstract void validateCanMove(Position start, Position end, Board board);
+    public abstract void validateCanMove(List<Piece> piecesInPath);
 
     protected abstract List<MovePath> getPaths();
+
+    public abstract List<Position> getPiecePositionsInPath(Position start, Position end);
 }

@@ -8,6 +8,7 @@ import janggi.domain.side.TeamType;
 import janggi.dto.BoardSpots;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -48,9 +49,9 @@ public class Board {
 
     public void validateCanMove(Position start, Position end, TeamType currentTeamType) {
         validateRange(end);
+        checkSamePosition(start, end);
         validateTeamPieceExistsAtEnd(currentTeam(currentTeamType), end);
-        Piece piece = findTeamPiece(start, currentTeam(currentTeamType));
-        piece.validateCanMove(start, end, this);
+        validatePiecesInPath(start, end, currentTeam(currentTeamType));
     }
 
     public Optional<Piece> findPiece(Position position) {
@@ -59,10 +60,6 @@ public class Board {
             return chuPiece;
         }
         return han.findPiece(position);
-    }
-
-    public boolean hasPiece(Position position) {
-        return findPiece(position).isPresent();
     }
 
     public Board move(Position start, Position end, TeamType currentTeamType) {
@@ -87,6 +84,18 @@ public class Board {
         return index >= start && index <= last;
     }
 
+    private void checkSamePosition(Position start, Position end) {
+        if (start.isSamePosition(end)) {
+            throw new IllegalArgumentException("출발지와 목적지가 동일합니다.");
+        }
+    }
+
+    private void validateTeamPieceExistsAtEnd(Team team, Position end) {
+        if (team.isPieceExists(end)) {
+            throw new IllegalArgumentException("아군이 존재하는 좌표로는 이동할 수 없습니다.");
+        }
+    }
+
     private Team currentTeam(TeamType currentTeamType) {
         if (currentTeamType == TeamType.CHU) {
             return chu;
@@ -94,15 +103,20 @@ public class Board {
         return han;
     }
 
+    private void validatePiecesInPath(Position start, Position end, Team currentTeam) {
+        Piece piece = findTeamPiece(start, currentTeam);
+        List<Position> piecePositionsInPath = piece.getPiecePositionsInPath(start, end);
+        List<Piece> piecesInPath = piecePositionsInPath.stream()
+                .map(this::findPiece)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .toList();
+        piece.validateCanMove(piecesInPath);
+    }
+
     private Piece findTeamPiece(Position position, Team currentTeam) {
         return currentTeam.findPiece(position)
                 .orElseThrow(() -> new IllegalArgumentException("입력한 위치에 기물이 없습니다."));
-    }
-
-    private void validateTeamPieceExistsAtEnd(Team team, Position end) {
-        if (team.isPieceExists(end)) {
-            throw new IllegalArgumentException("아군이 존재하는 좌표로는 이동할 수 없습니다.");
-        }
     }
 
     private Team removeOpponentPiece(TeamType currentTeamType, Position end) {

@@ -1,9 +1,10 @@
 package janggi.domain.piece;
 
-import janggi.domain.Board;
 import janggi.domain.MovePath;
 import janggi.domain.Position;
 import janggi.domain.side.TeamType;
+
+import java.util.List;
 
 public abstract class LeapingPiece extends Piece{
 
@@ -12,10 +13,16 @@ public abstract class LeapingPiece extends Piece{
     }
 
     @Override
-    public void validateCanMove(Position start, Position end, Board board) {
-        checkSamePosition(start, end);
+    public void validateCanMove(List<Piece> piecesInPath) {
+        if (!piecesInPath.isEmpty()) {
+            throw new IllegalArgumentException("이동 경로에 기물이 존재하여 이동할 수 없습니다.");
+        }
+    }
+
+    @Override
+    public List<Position> getPiecePositionsInPath(Position start, Position end) {
         MovePath movePath = findMovePath(start, end);
-        validatePieceInPath(movePath, start, end, board);
+        return movePath.intermediatePositions(start, end);
     }
 
     private MovePath findMovePath(Position start, Position end) {
@@ -26,12 +33,5 @@ public abstract class LeapingPiece extends Piece{
                 .filter(path -> path.matches(dx, dy))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("이동할 수 없는 위치입니다."));
-    }
-
-    private void validatePieceInPath(MovePath movePath, Position start, Position end, Board board) {
-        if (movePath.intermediatePositions(start, end).stream()
-                .anyMatch(board::hasPiece)) {
-            throw new IllegalArgumentException("이동 경로에 기물이 존재하여 이동할 수 없습니다.");
-        }
     }
 }

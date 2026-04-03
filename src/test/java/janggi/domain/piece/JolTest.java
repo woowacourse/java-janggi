@@ -1,10 +1,10 @@
+/**
+ * 졸은 steppingPiece에서 테스트 가능
+ * 다만 이동 경로에 대해서는 검증 필요할지도
+ * 기물마다 다른 것은 각각 테스트해줘야 할듯
+ */
 package janggi.domain.piece;
 
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertAll;
-
-import janggi.domain.Board;
 import janggi.domain.Position;
 import janggi.domain.side.TeamType;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,15 +13,17 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
+
 class JolTest {
 
-    private Board board;
     private Jol chuJol;
     private Jol hanJol;
 
     @BeforeEach
     void setUp() {
-        board = Board.createInitialBoard();
         chuJol = new Jol(TeamType.CHU);
         hanJol = new Jol(TeamType.HAN);
     }
@@ -39,7 +41,7 @@ class JolTest {
         Position end = new Position(endX, endY);
 
         // when & then
-        assertThatCode(() -> chuJol.validateCanMove(start, end, board))
+        assertThatCode(() -> chuJol.getPiecePositionsInPath(start, end))
                 .doesNotThrowAnyException();
     }
 
@@ -56,22 +58,25 @@ class JolTest {
         Position end = new Position(endX, endY);
 
         // when & then
-        assertThatCode(() -> hanJol.validateCanMove(start, end, board))
+        assertThatCode(() -> hanJol.getPiecePositionsInPath(start, end))
                 .doesNotThrowAnyException();
     }
 
-    @Test
-    @DisplayName("제자리로 이동할 경우 예외 발생")
-    void validateCanMove_Fail_Same_Position() {
-        // given
-        Position start = new Position(4, 4);
-        Position sameEnd = new Position(4, 4);
-
-        // when & then
-        assertThatThrownBy(() -> chuJol.validateCanMove(start, sameEnd, board))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("출발지와 목적지가 동일합니다.");
-    }
+    /**
+     * 제자리는 Board에서
+     */
+//    @Test
+//    @DisplayName("제자리로 이동할 경우 예외 발생")
+//    void validateCanMove_Fail_Same_Position() {
+//        // given
+//        Position start = new Position(4, 4);
+//        Position sameEnd = new Position(4, 4);
+//
+//        // when & then
+//        assertThatThrownBy(() -> chuJol.validateCanMove(start, sameEnd, board))
+//                .isInstanceOf(IllegalArgumentException.class)
+//                .hasMessage("출발지와 목적지가 동일합니다.");
+//    }
 
     @Test
     @DisplayName("졸이 이동할 수 없는 위치일 경우 예외 발생")
@@ -83,15 +88,15 @@ class JolTest {
         Position hanJolInvalidEnd = new Position(4, 5);
         Position diagonalEnd = new Position(5, 5);
 
-        /// when & then
+        // when & then
         assertAll(
-                () -> assertThatThrownBy(() -> chuJol.validateCanMove(chuJolStart, chuJolInvalidEnd, board))
+                () -> assertThatThrownBy(() -> chuJol.getPiecePositionsInPath(chuJolStart, chuJolInvalidEnd))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("이동할 수 없는 위치입니다."),
-                () -> assertThatThrownBy(() -> hanJol.validateCanMove(hanJolStart, hanJolInvalidEnd, board))
+                () -> assertThatThrownBy(() -> hanJol.getPiecePositionsInPath(hanJolStart, hanJolInvalidEnd))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("이동할 수 없는 위치입니다."),
-                () -> assertThatThrownBy(() -> chuJol.validateCanMove(chuJolStart, diagonalEnd, board))
+                () -> assertThatThrownBy(() -> chuJol.getPiecePositionsInPath(chuJolStart, diagonalEnd))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("이동할 수 없는 위치입니다.")
         );

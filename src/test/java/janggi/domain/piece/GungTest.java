@@ -1,6 +1,8 @@
+/**
+ * gung은 steppingPiece 테스트로 검증 가능
+ */
 package janggi.domain.piece;
 
-import janggi.domain.Board;
 import janggi.domain.Position;
 import janggi.domain.side.TeamType;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,13 +17,10 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class GungTest {
 
     private Gung gung;
-    private Board board;
 
     @BeforeEach
     void setUp() {
-        // 한나라(HAN) 궁으로 설정
         gung = new Gung(TeamType.HAN);
-        board = createBoard();
     }
 
     @ParameterizedTest
@@ -42,22 +41,31 @@ class GungTest {
         Position end = createPosition(endX, endY);
 
         // when & then
-        assertThatCode(() -> gung.validateCanMove(start, end, board))
+        assertThatCode(() -> gung.getPiecePositionsInPath(start, end))
                 .doesNotThrowAnyException();
     }
 
-    @Test
-    @DisplayName("제자리로 이동할 경우 예외 발생")
-    void validateCanMove_Fail_Same_Position() {
-        // given
-        Position start = new Position(4, 4);
-        Position sameEnd = new Position(4, 4);
+//    @Test
+//    @DisplayName("이동 경로에 기물이 존재하는 경우 예외 발생")
+//    void validateCanMove_Fail_Piece_Exists_In_Path() {
+//        List<Piece> = new ArrayList<>(new Gung(TeamType.CHU));
+//    }
 
-        // when & then
-        assertThatThrownBy(() -> gung.validateCanMove(start, sameEnd, board))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("출발지와 목적지가 동일합니다.");
-    }
+    /**
+     * 제자리 이동은 Board로 이전
+     */
+//    @Test
+//    @DisplayName("제자리로 이동할 경우 예외 발생")
+//    void validateCanMove_Fail_Same_Position() {
+//        // given
+//        Position start = new Position(4, 4);
+//        Position sameEnd = new Position(4, 4);
+//
+//        // when & then
+//        assertThatThrownBy(() -> gung.validateCanMove(start, sameEnd, board))
+//                .isInstanceOf(IllegalArgumentException.class)
+//                .hasMessage("출발지와 목적지가 동일합니다.");
+//    }
 
     @Test
     @DisplayName("궁이 이동할 수 없는 패턴(예: 마의 행마)인 경우 예외 발생")
@@ -67,13 +75,9 @@ class GungTest {
         Position knightEnd = createPosition(6, 7);
 
         // when & then
-        assertThatThrownBy(() -> gung.validateCanMove(start, knightEnd, board))
+        assertThatThrownBy(() -> gung.getPiecePositionsInPath(start, knightEnd))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("이동할 수 없는 위치입니다.");
-    }
-
-    private Board createBoard() {
-        return Board.createInitialBoard();
     }
 
     private Position createPosition(int x, int y) {
