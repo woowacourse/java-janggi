@@ -5,9 +5,22 @@ import janggi.domain.piece.Piece;
 import janggi.domain.piece.Team;
 
 public class JanggiGame {
+    private Long gameId;
     private Team currentTurn = Team.CHO;
     private boolean isFinished = false;
     private Team winner = null;
+
+    // 기본 생성자 - 새게임
+    public JanggiGame() {
+    }
+
+    // DB 복원용
+    public JanggiGame(Long gameId, Team currentTurn, boolean isFinished, Team winner) {
+        this.gameId = gameId;
+        this.currentTurn = currentTurn;
+        this.isFinished = isFinished;
+        this.winner = winner;
+    }
 
     public boolean isFinished() {
         return isFinished;
@@ -24,6 +37,15 @@ public class JanggiGame {
         }
         currentTurn = Team.CHO;
     }
+
+    public Long findGameId() {
+        return gameId;
+    }
+
+    public void assignId(Long gameId) {
+        this.gameId = gameId;
+    }
+
 
     public Team findWinner() {
         return winner;
