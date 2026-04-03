@@ -64,12 +64,12 @@ public class OutputView {
     private static void printColumn(int row, Board board) {
         for (int col = MIN_COL_RANGE; col <= MAX_COL_RANGE; col++) {
             Position position = Position.of(row, col);
-            Piece piece = board.findPiece(position);
-            if (piece == null) {
-                printBoardLine(row, col);
-                continue;
-            }
-            printMark(piece);
+
+            board.findPiece(position)
+                    .ifPresentOrElse(
+                            OutputView::printMark,
+                            () -> printBoardLine(position)
+                    );
         }
     }
 
@@ -77,7 +77,9 @@ public class OutputView {
         System.out.printf(String.format("%s ", piece.mark()));
     }
 
-    private static void printBoardLine(int row, int col) {
+    private static void printBoardLine(Position position) {
+        int row = position.row().value();
+        int col = position.column().value();
         if (col == MIN_COL_RANGE) {
             System.out.printf(String.format("%-2s", leftLine(row)));
             return;

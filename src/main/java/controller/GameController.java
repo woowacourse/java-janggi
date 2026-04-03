@@ -24,7 +24,7 @@ public class GameController {
         }
     }
 
-    public void init(Board board) {
+    private void init(Board board) {
         OutputView.printArrangeCountry(Country.CHO);
         Army cho = initArmy(Country.CHO);
         cho.deployTo(board, Country.CHO);
@@ -76,5 +76,10 @@ public class GameController {
     private Position selectEndPosition() {
         List<Integer> startList = InputView.readEndPosition();
         return Position.of(startList.get(0), startList.get(1));
+    }
+
+    private void endGamePhase() {
+//        OutputView.printScore();
+//        OutputView.printWinner();
     }
 }

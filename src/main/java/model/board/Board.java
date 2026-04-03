@@ -15,6 +15,7 @@ public class Board {
     private static final int MAX_ROW = 10;
     private static final int MIN_COL = 1;
     private static final int MAX_COL = 9;
+    private static final int GENERAL_COUNT = 2;
     private final Map<Position, Piece> board;
 
     public Board() {
@@ -37,43 +38,57 @@ public class Board {
     }
 
     public void checkTurn(Position from, Country country) {
-        Piece fromPiece = findPiece(from);
-        validatePieceExists(fromPiece);
-        if (!country.myTurn(fromPiece.country())) {
-            throw new IllegalArgumentException("[ERROR] 아군 기물이 아닙니다.");
-        }
+        findPiece(from).ifPresent(fromPiece -> {
+            validatePieceExists(fromPiece);
+            if (!country.myTurn(fromPiece.country())) {
+                throw new IllegalArgumentException("[ERROR] 아군 기물이 아닙니다.");
+            }
+        });
     }
 
     public void move(Move move) {
-        Piece piece = findPiece(move.from());
+        findPiece(move.from()).ifPresent(piece -> {
+            if (!piece.canMove(move, this)) {
+                throw new IllegalArgumentException("[ERROR] 이동할 수 없습니다.");
+            }
 
-        if (!piece.canMove(move, this)) {
-            throw new IllegalArgumentException("[ERROR] 이동할 수 없습니다.");
-        }
-
-        executeMove(move, piece);
+            executeMove(move, piece);
+        });
     }
 
     public boolean isPieceAt(Position position, Piece piece) {
         return piece.equals(board.get(position));
     }
 
-    public Piece findPiece(Position position) {
-        Optional<Piece> piece = Optional.ofNullable(board.get(position));
-        return piece.orElse(null);
+    public Optional<Piece> findPiece(Position position) {
+        return Optional.ofNullable(board.get(position));
     }
 
     public int countPiecesOnPath(List<Position> path) {
         return (int) path.stream()
-                .filter(pos -> findPiece(pos) != null)
+                .map(this::findPiece)
+                .flatMap(Optional::stream)
                 .count();
     }
 
     public boolean hasPieceTypeOnPath(List<Position> path, PieceType type) {
         return path.stream()
                 .map(this::findPiece)
-                .filter(Objects::nonNull)
+                .flatMap(Optional::stream)
                 .anyMatch(piece -> piece.pieceType() == type);
+    }
+
+    public boolean countGeneral() {
+        int generalCount = (int) board.values().stream()
+                .filter(piece -> piece.pieceType() == PieceType.GENERAL).count();
+        return generalCount == GENERAL_COUNT;
+    }
+
+    public Optional<Country> winnerCountry() {
+        return board.values().stream()
+                .filter(piece -> piece.pieceType() == PieceType.GENERAL)
+                .findFirst()
+                .map(Piece::country);
     }
 
     private void executeMove(Move move, Piece piece) {

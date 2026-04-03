@@ -26,12 +26,13 @@ public class CannonPathPolicy extends PathPolicy {
 
     @Override
     public boolean validateDestination(Move move, Board board, Country country) {
-        Piece toPiece = board.findPiece(move.to());
+        board.findPiece(move.to())
+                .ifPresent(piece -> validatePiece(piece, country));
 
-        if (toPiece == null) {
-            return true;
-        }
+        return true;
+    }
 
+    void validatePiece(Piece toPiece, Country country) {
         if ((country != toPiece.country()
                 && toPiece.pieceType() == PieceType.CANNON)) {
             throw new IllegalArgumentException("[ERROR] 포는 포를 먹을 수 없습니다.");
@@ -40,7 +41,5 @@ public class CannonPathPolicy extends PathPolicy {
         if (country == toPiece.country()) {
             throw new IllegalArgumentException("[ERROR] 아군 기물입니다.");
         }
-
-        return true;
     }
 }
