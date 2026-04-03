@@ -37,7 +37,7 @@ public class JanggiController {
                 outputView.printErrorMessage(e.getMessage());
             }
         }
-        final Team winnerTeam = game.currentTurn();
+        final Team winnerTeam = game.currentTurn().nextTurn();
         outputView.printWinnerTeam(winnerTeam);
     }
 }
