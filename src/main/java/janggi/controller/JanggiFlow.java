@@ -7,6 +7,8 @@ import janggi.exception.JanggiException;
 import janggi.strategy.ArrangementStrategy;
 import janggi.strategy.ArrangementStrategyFactory;
 import janggi.strategy.BoardAssembler;
+import janggi.strategy.IntersectionInitializer;
+import janggi.strategy.PalaceIntersectionInitializer;
 import janggi.strategy.StrategyLabel;
 import janggi.view.ApplicationView;
 import janggi.view.resolver.PieceViewResolver;
@@ -19,10 +21,12 @@ public class JanggiFlow {
 
     private final ApplicationView view;
     private final ArrangementStrategyFactory arrangementFactory;
+    private final IntersectionInitializer intersectionInitializer;
 
     public JanggiFlow(ApplicationView view) {
         this.view = view;
         this.arrangementFactory = new ArrangementStrategyFactory();
+        this.intersectionInitializer = new PalaceIntersectionInitializer();
     }
 
     public void process() {
@@ -54,7 +58,7 @@ public class JanggiFlow {
 
     private Board initializeBoard() {
         List<ArrangementStrategy> strategies = Stream.of(Side.values()).map(this::askStrategy).toList();
-        return Board.create(BoardAssembler.from(strategies));
+        return Board.create(BoardAssembler.of(strategies, intersectionInitializer));
     }
 
     private Location askLocationOfPiece(Side current, Board board) {
