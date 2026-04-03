@@ -17,17 +17,21 @@ import java.util.function.Supplier;
 
 public class JanggiController {
 
+    private final JanggiService janggiService;
     private final InputView inputView;
     private final OutputView outputView;
 
-    public JanggiController(InputView inputView, OutputView outputView) {
+    public JanggiController(JanggiService janggiService, InputView inputView, OutputView outputView) {
+        this.janggiService = janggiService;
         this.inputView = inputView;
         this.outputView = outputView;
     }
 
+    // TODO: 불러오기와 새 게임 분리
     public void run() {
         Map<Dynasty, HorseElephantPosition> horseElephantPositions = readDynastyHorseElephantPositionMap();
-        Game game = Game.initGame(horseElephantPositions);
+        Long gameId = janggiService.makeGame(horseElephantPositions);
+        Game game = janggiService.findGame(gameId);
         outputView.printBoard(BoardDto.from(game.boardMap()));
 
         while (!game.isFinished()) {
