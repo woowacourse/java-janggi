@@ -1,5 +1,6 @@
 package domain.position;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -29,6 +30,33 @@ class RowTest {
                 .doesNotThrowAnyException();
         assertThatCode(() -> new Row(10))
                 .doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("row이 최소값보다 작으면 false를 반환한다")
+    void should_return_false_when_row_is_less_than_minimum() {
+        // given
+        Row row = new Row(5);
+        // when & then
+        assertThat(row.isOutBoundRow(0)).isTrue();
+    }
+
+    @Test
+    @DisplayName("row이 최대값보다 크면 false를 반환한다")
+    void should_return_false_when_row_is_greater_than_maximum() {
+        // given
+        Row row = new Row(5);
+        // when & then
+        assertThat(row.isOutBoundRow(11)).isTrue();
+    }
+
+    @Test
+    @DisplayName("row이 유효 범위 내이면 true를 반환한다")
+    void should_return_true_when_row_is_within_valid_range() {
+        // given
+        Row row = new Row(5);
+        // when & then
+        assertThat(row.isOutBoundRow(5)).isFalse();
     }
 
 }
