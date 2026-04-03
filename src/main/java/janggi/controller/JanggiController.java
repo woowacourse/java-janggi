@@ -32,6 +32,7 @@ public class JanggiController {
         while (gameManager.isGeneralAlive(turnManager.currentTeamType(), board)) {
             playTurn(board, turnManager);
         }
+        turnManager.changeTurn();
         OutputView.printGameOverMessage(turnManager.currentTeamTypeToString());
     }
 
