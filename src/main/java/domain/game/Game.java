@@ -4,7 +4,7 @@ import domain.board.BoardState;
 import domain.board.JanggiBoard;
 import domain.point.Point;
 import domain.team.Team;
-import dto.MoveDTO;
+import dto.MoveDto;
 
 public class Game {
 
@@ -18,7 +18,7 @@ public class Game {
         this.turn = Team.CHO;
     }
 
-    public void processTurn(MoveDTO move) {
+    public void processTurn(MoveDto move) {
         Point from = move.getFrom();
         Point to = move.getTo();
 

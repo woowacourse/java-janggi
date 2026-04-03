@@ -1,6 +1,6 @@
 package view;
 
-import dto.InputPointDTO;
+import dto.InputPointDto;
 import java.util.Scanner;
 
 public class InputView {
@@ -30,13 +30,13 @@ public class InputView {
         return Integer.parseInt(scanner.nextLine().trim());
     }
 
-    public InputPointDTO inputMovePiecePoint() {
+    public InputPointDto inputMovePiecePoint() {
         System.out.print(INPUT_MOVE_PIECE_POINT_MESSAGE);
-        return new InputPointDTO(scanner.nextLine());
+        return new InputPointDto(scanner.nextLine());
     }
 
-    public InputPointDTO inputDestinationPoint() {
+    public InputPointDto inputDestinationPoint() {
         System.out.print(INPUT_DESTINATION_POINT_MESSAGE);
-        return new InputPointDTO(scanner.nextLine());
+        return new InputPointDto(scanner.nextLine());
     }
 }

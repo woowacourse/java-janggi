@@ -2,11 +2,11 @@ package dto;
 
 import domain.point.Point;
 
-public class InputPointDTO {
+public class InputPointDto {
 
     private final Point point;
 
-    public InputPointDTO(String input) {
+    public InputPointDto(String input) {
         validate(input);
         this.point = parsePoint(input);
     }
