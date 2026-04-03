@@ -23,13 +23,13 @@ public class Movement {
 
     // 마지막 movement에서만 사용
     // 현재 기물이 다음으로 가는 곳에서 갈 수 있는 칸이 있는지
-    public boolean hasReachablePosition(final Piece me, final Position from, final BoardMediator boardMediator) {
+    public boolean hasReachablePosition(Position from, TeamType teamType, final BoardMediator boardMediator) {
         for (int distance = 1; distance <= maxDistance; distance++) {
-            final Position to = calculateNextPosition(from, distance);
-            if (!hasPieceAt(calculateNextPosition(from, distance), boardMediator)) {
+            from = calculateNextPosition(from, distance);
+            if (!hasPieceAt(from, boardMediator)) {
                 return true;
             }
-            if (me.canKill(findPieceAt(to, boardMediator))) {
+            if (!boardMediator.isSameTeamType(from, teamType)) {
                 return true;
             }
         }
@@ -77,7 +77,7 @@ public class Movement {
 
     // 이동 가능한 경로의 자취 위치 리스트를 반환한다.
     // 경로에 장애물을 만나면 그때까지의 리스트를 반환하고, 적을 만난다면 적의 좌표를 포함하여 반환한다.
-    public List<Position> calculateTraces(final Position from, final Piece piece, final TeamType teamType,
+    public List<Position> calculateTraces(final Position from, final TeamType teamType,
                                           final BoardMediator boardMediator) {
         final List<Position> traces = new ArrayList<>();
         Position prev = from;
@@ -91,8 +91,7 @@ public class Movement {
                 prev = to;
                 continue;
             }
-            final Piece target = findPieceAt(to, boardMediator);
-            if (!boardMediator.isSameTeamType(to, teamType) && piece.canKill(target)) {
+            if (!boardMediator.isSameTeamType(to, teamType)) {
                 traces.add(to);
             }
             return traces;

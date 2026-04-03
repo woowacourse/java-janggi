@@ -2,7 +2,6 @@ package janggi.domain.movement;
 
 import janggi.domain.Position;
 import janggi.domain.board.BoardMediator;
-import janggi.domain.piece.Piece;
 import janggi.domain.team.TeamType;
 import java.util.List;
 
@@ -31,7 +30,6 @@ public class StepMoveRule implements MoveRule {
 
     @Override
     public List<Position> execute(Position from, final TeamType teamType, final BoardMediator boardMediator) {
-        final Piece piece = boardMediator.getPieceInPosition(from);
         for (int index = 0; index < movementOrder.size() - 1; index++) {
             final Movement movement = movementOrder.get(index);
             if (!movement.canMove(from) || movement.isBlocked(from, boardMediator)) {
@@ -39,12 +37,12 @@ public class StepMoveRule implements MoveRule {
             }
             from = movement.calculateDestination(from, teamType, boardMediator);
         }
-        return findLastPosition(from, piece, boardMediator);
+        return findLastPosition(from, teamType, boardMediator);
     }
 
-    private List<Position> findLastPosition(final Position from, final Piece piece, final BoardMediator boardMediator) {
+    private List<Position> findLastPosition(final Position from, TeamType teamType, final BoardMediator boardMediator) {
         final Movement lastMovement = movementOrder.getLast();
-        if (!lastMovement.canMove(from) || !lastMovement.hasReachablePosition(piece, from, boardMediator)) {
+        if (!lastMovement.canMove(from) || !lastMovement.hasReachablePosition(from, teamType, boardMediator)) {
             return List.of();
         }
         final Position destination = lastMovement.findFirstOccupiedPositionOrMax(from, boardMediator);
