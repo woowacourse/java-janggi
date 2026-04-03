@@ -9,6 +9,8 @@ repositories {
 }
 
 dependencies {
+
+    implementation 'com.zaxxer:HikariCP:7.0.2'
     testImplementation platform('org.junit:junit-bom:5.11.4')
     testImplementation platform('org.assertj:assertj-bom:3.27.3')
     testImplementation('org.junit.jupiter:junit-jupiter')

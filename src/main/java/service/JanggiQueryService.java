@@ -1,5 +1,6 @@
 package service;
 
+import domain.JanggiGame;
 import domain.Position;
 import dto.PieceInfo;
 import java.util.List;
@@ -14,22 +15,26 @@ public class JanggiQueryService {
     }
 
     public boolean isInProgress() {
-        return janggiRepository.isInProgress();
+        return !findJanggiGame().isGameFinished();
     }
 
     public List<PieceInfo> allFactors() {
-        return janggiRepository.allFactors();
+        return findJanggiGame().allFactors();
     }
 
     public String currentPlayerTurn() {
-        return janggiRepository.currentPlayerTurn();
+        return findJanggiGame().currentPlayerTurn();
     }
 
     public PieceInfo findPieceInfoAt(Position selected) {
-        return janggiRepository.findPieceInfoAt(selected);
+        return findJanggiGame().findPieceInfoAt(selected);
     }
 
     public String gameStatus() {
-        return janggiRepository.gameStatus();
+        return findJanggiGame().gameStatus();
+    }
+
+    private JanggiGame findJanggiGame() {
+        return janggiRepository.findJanggiGame();
     }
 }
