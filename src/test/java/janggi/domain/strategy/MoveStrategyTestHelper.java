@@ -1,4 +1,4 @@
-package janggi.strategy;
+package janggi.domain.strategy;
 
 import janggi.domain.board.Position;
 import janggi.domain.route.Path;

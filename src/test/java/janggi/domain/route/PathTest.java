@@ -1,10 +1,9 @@
-package janggi.domain;
+package janggi.domain.route;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.board.Direction;
 import janggi.domain.board.Position;
-import janggi.domain.route.Path;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
