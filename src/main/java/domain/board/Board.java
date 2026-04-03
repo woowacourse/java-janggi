@@ -1,9 +1,5 @@
 package domain.board;
 
-import static common.Constants.MAX_COLUMN;
-import static common.Constants.MAX_ROW;
-import static common.Constants.MIN_COLUMN;
-import static common.Constants.MIN_ROW;
 import static common.exception.ErrorMessage.EMPTY_SOURCE_POSITION;
 import static common.exception.ErrorMessage.INVALID_PIECE_MOVEMENT;
 
@@ -21,6 +17,10 @@ import java.util.Objects;
 import java.util.Set;
 
 public class Board {
+    public static final int MIN_ROW = 0;
+    public static final int MAX_ROW = 9;
+    public static final int MIN_COLUMN = 0;
+    public static final int MAX_COLUMN = 8;
 
     private final Map<Position, Piece> board;
 
@@ -34,13 +34,11 @@ public class Board {
         executeMove(source, destination);
     }
 
-    private Piece executeMove(Position source, Position destination) {
+    private void executeMove(Position source, Position destination) {
         Piece movePiece = findPiece(source);
-        Piece destinationPiece = findPiece(destination);
 
         board.put(source, new None());
         board.put(destination, movePiece);
-        return destinationPiece;
     }
 
     public Set<Position> findMovablePositions(Position source) {

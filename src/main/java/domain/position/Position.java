@@ -1,11 +1,11 @@
 package domain.position;
 
-import static common.Constants.MAX_COLUMN;
-import static common.Constants.MAX_ROW;
-import static common.Constants.MIN_COLUMN;
-import static common.Constants.MIN_ROW;
 import static common.exception.ErrorMessage.INVALID_COLUMN_RANGE;
 import static common.exception.ErrorMessage.INVALID_ROW_RANGE;
+import static domain.board.Board.MAX_COLUMN;
+import static domain.board.Board.MAX_ROW;
+import static domain.board.Board.MIN_COLUMN;
+import static domain.board.Board.MIN_ROW;
 
 import common.exception.JanggiException;
 
