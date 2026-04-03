@@ -27,7 +27,7 @@ public class Players {
 
     private void validateDuplicate(List<Player> players) {
         long distinctPlayerNameCount = players.stream()
-                .map(Player::getName)
+                .map(Player::name)
                 .distinct()
                 .count();
         if (players.size() != distinctPlayerNameCount) {
@@ -43,7 +43,7 @@ public class Players {
 
     public Player getByTeam(Team team) {
         return players.stream()
-                .filter(player -> player.getTeam() == team)
+                .filter(player -> player.team() == team)
                 .findAny()
                 .orElseThrow(() -> new JanggiException("해당 팀의 플레이어가 없습니다."));
     }

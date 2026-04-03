@@ -69,7 +69,7 @@ public class Game {
     public String getCurrentPlayerName() {
         Team currentTeam = gameState.getCurrentTeam();
         Player player = players.getByTeam(currentTeam);
-        return player.getName();
+        return player.name().value();
     }
 
     public Team getCurrentTeam() {
