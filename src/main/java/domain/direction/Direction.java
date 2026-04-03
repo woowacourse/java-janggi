@@ -1,8 +1,6 @@
 package domain.direction;
 
-import static common.exception.ErrorMessage.INVALID_DIRECTION;
-
-import common.exception.JanggiException;
+import common.JanggiException;
 import domain.position.Position;
 
 public enum Direction {
@@ -16,6 +14,7 @@ public enum Direction {
     SOUTH_EAST(1, 1),
     SOUTH_WEST(1, -1);
 
+    private static final String INVALID_DIRECTION = "동서남북 방향이 아닙니다.";
     private final int offsetRow;
     private final int offsetColumn;
 
@@ -37,7 +36,7 @@ public enum Direction {
         if (columnDifference > 0) {
             return EAST;
         }
-        throw new JanggiException(INVALID_DIRECTION.formatted(rowDifference, columnDifference));
+        throw new JanggiException(INVALID_DIRECTION);
     }
 
     public Position calculateNextPosition(Position source) {

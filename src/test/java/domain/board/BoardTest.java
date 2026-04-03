@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import common.exception.JanggiException;
+import common.JanggiException;
 import domain.piece.Cha;
 import domain.piece.Jol;
 import domain.piece.None;

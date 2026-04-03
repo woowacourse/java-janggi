@@ -1,4 +1,4 @@
-package common.exception;
+package common;
 
 public class JanggiException extends IllegalArgumentException {
     public JanggiException(String message) {

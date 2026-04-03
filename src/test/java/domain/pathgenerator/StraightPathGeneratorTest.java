@@ -4,7 +4,7 @@ import static domain.TestUtil.createPosition;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import common.exception.JanggiException;
+import common.JanggiException;
 import domain.position.Path;
 import domain.position.Position;
 import java.util.List;

@@ -3,7 +3,7 @@ package ui.console;
 import static domain.player.Team.CHO;
 import static domain.player.Team.HAN;
 
-import common.exception.JanggiException;
+import common.JanggiException;
 import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.Formation;

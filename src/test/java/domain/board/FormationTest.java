@@ -1,15 +1,15 @@
 package domain.board;
 
-import static domain.board.Formation.INVALID_FORMATION_INPUT;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import common.exception.JanggiException;
+import common.JanggiException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class FormationTest {
+    private static final String INVALID_FORMATION_INPUT = "1에서 4까지 숫자만 입력해주세요. 입력값 : ";
 
     @ParameterizedTest
     @CsvSource(value = {

@@ -1,8 +1,6 @@
 package domain.pathgenerator;
 
-import static common.exception.ErrorMessage.INVALID_PIECE_MOVEMENT;
-
-import common.exception.JanggiException;
+import common.JanggiException;
 import domain.direction.Direction;
 import domain.position.Path;
 import domain.position.Position;
@@ -12,6 +10,7 @@ import java.util.Objects;
 
 public class NonStraightPathGenerator implements PathGenerator {
 
+    private static final String INVALID_MOVEMENT = "기물의 이동규칙에 어긋납니다.";
     private final List<List<Direction>> paths;
 
     public NonStraightPathGenerator(List<List<Direction>> paths) {
@@ -24,7 +23,7 @@ public class NonStraightPathGenerator implements PathGenerator {
                 .map(directionPath -> tryBuildPath(source, destination, directionPath))
                 .filter(Objects::nonNull)
                 .findFirst()
-                .orElseThrow(() -> new JanggiException(INVALID_PIECE_MOVEMENT.formatted(source, destination)));
+                .orElseThrow(() -> new JanggiException(INVALID_MOVEMENT));
     }
 
     @Override

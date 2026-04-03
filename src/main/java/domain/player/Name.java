@@ -1,7 +1,7 @@
 package domain.player;
 
 
-import common.exception.JanggiException;
+import common.JanggiException;
 
 public record Name(String value) {
     private static final int MIN_NAME_LENGTH = 2;
