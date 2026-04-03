@@ -29,6 +29,8 @@ public final class OutputView {
 
     private static final String SCORE = "%s나라 점수: %.1f";
     private static final String WINNER = "%s나라가 승리하였습니다!! 축하드립니다!!";
+    private static final String GAME_ROOM = "현재 게임방: ";
+    private static final String EMPTY_GAME = "현재 게임방이 존재하지 않습니다.";
 
     public void printError(String errorMessage) {
         System.out.println(errorMessage);
@@ -104,5 +106,13 @@ public final class OutputView {
     private String toCampName(Camp camp) {
         CampDto campDto = CampDto.from(camp);
         return campDto.color() + campDto.name() + RESET;
+    }
+
+    public void printExistGameRoom(List<Long> gameIds) {
+        if (gameIds.isEmpty()) {
+            System.out.println(LINE_SEPARATOR + EMPTY_GAME);
+            return;
+        }
+        System.out.println(LINE_SEPARATOR + GAME_ROOM + gameIds);
     }
 }

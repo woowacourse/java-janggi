@@ -5,9 +5,9 @@ import java.sql.SQLException;
 
 public final class TransactionManager {
 
-    private final H2ConnectionManager connectionManager;
+    private final ConnectionManager connectionManager;
 
-    public TransactionManager(H2ConnectionManager connectionManager) {
+    public TransactionManager(ConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
     }
 

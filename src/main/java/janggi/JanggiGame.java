@@ -16,8 +16,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public class JanggiGame {
-
-    private static final long SINGLE_GAME_ID = 1L;
+    private static final String INVALID_GAME_ROOM = "[ERROR] 존재하지 않는 게임방 번호입니다.";
 
     private final InputView inputView;
     private final OutputView outputView;
@@ -30,21 +29,26 @@ public class JanggiGame {
     }
 
     public void run() {
-        Game game = loadOrCreateGame();
+        Game game = retryOnInvalidInput(this::loadOrCreateGame);
         outputView.printBoard(game.boardSnapshot());
         play(game);
     }
 
     private Game loadOrCreateGame() {
-        return gameService.findById(SINGLE_GAME_ID)
-                .orElseGet(this::createNewGame);
+        outputView.printExistGameRoom(gameService.findAllIds());
+        long gameId = inputView.readSelectedGameRoom();
+
+        if (gameId == 0L) {
+            return createNewGame();
+        }
+
+        return gameService.findById(gameId)
+                .orElseThrow(() -> new IllegalArgumentException(INVALID_GAME_ROOM));
     }
 
     private Game createNewGame() {
         Board board = createBoard();
-        Game game = Game.start(SINGLE_GAME_ID, board);
-        gameService.save(game);
-        return game;
+        return gameService.create(board);
     }
 
     private Board createBoard() {

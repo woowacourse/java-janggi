@@ -34,6 +34,10 @@ public final class GameService {
         this.gamePieceRepository = gamePieceRepository;
     }
 
+    public List<Long> findAllIds() {
+        return readOnly(gameStateRepository::findAllIds);
+    }
+
     public Optional<Game> findById(long gameId) {
         return readOnly(connection -> {
             Optional<Camp> currentTurn = gameStateRepository.findCurrentTurnByGameId(connection, gameId);
@@ -45,9 +49,21 @@ public final class GameService {
             Board board = new Board(new SnapshotBoardInitializer(boardSnapshot));
 
             return Optional.of(Game.restore(gameId, board, currentTurn.orElseThrow()));
-        } catch (SQLException e) {
-            throw new IllegalStateException(GAME_ACCESS_FAILED);
-        }
+        });
+    }
+
+    public Game create(Board board) {
+        return inTransaction(connection -> {
+            long gameId = gameStateRepository.createGame(connection, Camp.CHO);
+            Game game = Game.start(gameId, board);
+
+            gamePieceRepository.saveGameByBoard(
+                    connection,
+                    gameId,
+                    game.boardSnapshot()
+            );
+            return game;
+        });
     }
 
     public void save(Game game) {

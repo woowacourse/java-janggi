@@ -24,4 +24,12 @@ public final class Parser {
             throw new IllegalArgumentException(ONLY_NUMBERS_ALLOWED);
         }
     }
+
+    public static long parseToLong(String number) {
+        try {
+            return Long.parseLong(number);
+        } catch (NumberFormatException numberFormatException) {
+            throw new IllegalArgumentException(ONLY_NUMBERS_ALLOWED);
+        }
+    }
 }
