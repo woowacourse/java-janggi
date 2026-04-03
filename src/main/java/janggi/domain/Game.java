@@ -46,7 +46,7 @@ public final class Game {
     }
 
     public boolean play(Position source, Position destination) {
-        boolean gameEnded = board.movePiece(source, destination, currentTurn());
+        boolean gameEnded = board.movePieceAndCheckGameEnd(source, destination, currentTurn());
         if (!gameEnded) {
             currentTurn = currentTurn.next();
         }

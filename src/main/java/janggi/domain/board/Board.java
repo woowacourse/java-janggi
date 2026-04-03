@@ -39,7 +39,7 @@ public class Board implements BoardChecker {
         return foundPiece.isSamePieceType(pieceType);
     }
 
-    public boolean movePiece(Position source, Position destination, Camp turn) {
+    public boolean movePieceAndCheckGameEnd(Position source, Position destination, Camp turn) {
         validateCampTurn(source, turn);
         Piece movingPiece = board.get(source);
         movingPiece.validateMove(source, destination, this);
