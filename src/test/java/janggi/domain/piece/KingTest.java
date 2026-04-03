@@ -14,8 +14,8 @@ class KingTest {
     void 궁_움직임_경로_정상_판정_테스트() {
         Piece piece = new King(Team.CHO);
 
-        Position from = new Position(5, 1);
-        Position to = new Position(6, 1);
+        Position from = new Position(4, 1);
+        Position to = new Position(5, 1);
 
         assertDoesNotThrow(() -> piece.validateMove(from, to));
     }
@@ -24,7 +24,7 @@ class KingTest {
     void 궁_움직임_예외_처리_테스트() {
         Piece piece = new King(Team.CHO);
 
-        Position from = new Position(5, 1);
+        Position from = new Position(4, 1);
         Position to = new Position(8, 1);
 
         assertThatIllegalArgumentException()
