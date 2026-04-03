@@ -12,7 +12,7 @@ public class Pawn extends Piece {
 
     @Override
     public boolean canMove(Position from, Position to, Board board) {
-        if (!isCorrectMoveDistanceAndDirection(from, to)) {
+        if (!isCorrectMoveDistanceAndDirection(from, to, board)) {
             return false;
         }
 
@@ -27,10 +27,26 @@ public class Pawn extends Piece {
         return board.isEmpty(to);
     }
 
-    private boolean isCorrectMoveDistanceAndDirection(Position from, Position to) {
+    private boolean isCorrectMoveDistanceAndDirection(Position from, Position to, Board board) {
+        int rowDifference = from.rowDistanceTo(to);
+        int columnDifference = from.columnDistanceTo(to);
+        int forward = forwardDirection();
+
+        boolean isStraightMove = (Math.abs(from.columnDistanceTo(to)) == 1 && from.rowDistanceTo(to) == 0)
+                || (from.rowDistanceTo(to) == forward && from.columnDistanceTo(to) == 0);
+
+        boolean isDiagonalMove = board.isPalace(from)
+                && board.isPalace(to)
+                && rowDifference == forward
+                && Math.abs(columnDifference) == 1;
+
+        return isDiagonalMove || isStraightMove ;
+    }
+
+    private int forwardDirection() {
         if (isSameTeam(Team.CHO)) {
-            return (Math.abs(from.columnDistanceTo(to)) == 1 && from.rowDistanceTo(to) == 0) || (from.rowDistanceTo(to) == -1 && from.columnDistanceTo(to) == 0) ;
+            return -1;
         }
-        return (Math.abs(from.columnDistanceTo(to)) == 1 && from.rowDistanceTo(to) == 0) || (from.rowDistanceTo(to) == 1 && from.columnDistanceTo(to) == 0) ;
+        return 1;
     }
 }

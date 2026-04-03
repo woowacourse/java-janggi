@@ -87,4 +87,46 @@ class PawnTest {
                 Position.from(8, 3)
         );
     }
+
+    @ParameterizedTest
+    @MethodSource("validDirectionProvider")
+    void 궁성내_뒤를_제외한_대각선_이동이_가능하다(Position to) {
+        Piece pawn = new Pawn(Team.CHO);
+
+        Position from = Position.from(9, 5);
+        Map<Position, Piece> testPiece = new HashMap<>();
+        testPiece.put(from, new Pawn(Team.CHO));
+
+        Board board = new Board(testPiece);
+
+        assertThat(pawn.canMove(from, to, board)).isEqualTo(true);
+    }
+
+    static Stream<Position> validDirectionProvider() {
+        return Stream.of(
+                Position.from(8, 4),
+                Position.from(8, 6)
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("invalidDiagonalDirectionProvider")
+    void 궁성내_뒤로_향하는_대각선_이동은_불가능하다(Position to) {
+        Piece pawn = new Pawn(Team.CHO);
+
+        Position from = Position.from(9, 5);
+        Map<Position, Piece> testPiece = new HashMap<>();
+        testPiece.put(from, new Pawn(Team.CHO));
+
+        Board board = new Board(testPiece);
+
+        assertThat(pawn.canMove(from, to, board)).isEqualTo(false);
+    }
+
+    static Stream<Position> invalidDiagonalDirectionProvider() {
+        return Stream.of(
+                Position.from(10, 4),
+                Position.from(10, 6)
+        );
+    }
 }

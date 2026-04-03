@@ -41,6 +41,6 @@ public class PlayerTest {
 
         // then
         assertThat(testBoard.calculateScore(Team.CHO)).isEqualTo(2);
-        assertThat(testBoard.calculateScore(Team.HAN)).isEqualTo(0);
+        assertThat(testBoard.calculateScore(Team.HAN)).isEqualTo(1.5);
     }
 }

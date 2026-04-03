@@ -384,8 +384,8 @@ class BoardTest {
 
     @Test
     void 사가_한칸_앞으로_올바른_위치에_이동된다() {
-        Position from = Position.from(7, 4);
-        Position to = Position.from(6, 4);
+        Position from = Position.from(10, 4);
+        Position to = Position.from(9, 4);
 
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, new Guard(Team.CHO));
@@ -399,8 +399,8 @@ class BoardTest {
 
     @Test
     void 궁이_한칸_앞으로_올바른_위치에_이동된다() {
-        Position from = Position.from(7, 1);
-        Position to = Position.from(6, 1);
+        Position from = Position.from(9, 5);
+        Position to = Position.from(8, 5);
 
         Map<Position, Piece> testPiece = new HashMap<>();
         testPiece.put(from, new King(Team.CHO));
