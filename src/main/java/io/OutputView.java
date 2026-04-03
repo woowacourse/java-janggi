@@ -1,12 +1,13 @@
 package io;
 
+import java.util.List;
+import java.util.Map;
+
 import domain.Board;
 import domain.Piece;
 import domain.Position;
 import domain.Route;
 import domain.TeamColor;
-import java.util.List;
-import java.util.Map;
 
 public class OutputView {
 
@@ -57,8 +58,9 @@ public class OutputView {
             StringBuilder line = new StringBuilder();
             line.append(String.format("%2d │", row));
             for (int column = 0; column <= 8; column++) {
-                Piece piece = board.findPiece(Position.of(row, column)).orElse(null);
-                line.append(" ").append(formatBoardCell(piece)).append(" │");
+                Position position = Position.of(row, column);
+                Piece piece = board.findPiece(position).orElse(null);
+                line.append(" ").append(formatBoardCell(board, position, piece)).append(" │");
             }
             System.out.println(line);
             if (row < 9) {
@@ -76,16 +78,66 @@ public class OutputView {
         System.out.println("[ERROR] " + message);
     }
 
-    private String formatBoardCell(Piece piece) {
-        if (piece == null) {
-            return "  ";
+    private String formatBoardCell(Board board, Position position, Piece piece) {
+        if (piece != null) {
+            return formatOccupiedCell(piece);
         }
-        String symbol = piece.getPieceType().getDisplayName();
+        if (board.isInsidePalace(position)) {
+            return formatEmptyPalaceCell(position);
+        }
+        return "  ";
+    }
 
+    private String formatOccupiedCell(Piece piece) {
+        String symbol = piece.getPieceType().getDisplayName();
         if (piece.isOnTeam(TeamColor.CHO)) {
             return CHO_COLOR + symbol + RESET;
         }
         return HAN_COLOR + symbol + RESET;
+    }
+
+    private String formatEmptyPalaceCell(Position position) {
+        if (isPalaceCenterTile(position)) {
+            return "\u00B7\u00B7";
+        }
+        return diagonalCornerMarkRelativeToPalaceCenter(position);
+    }
+
+    private boolean isPalaceCenterTile(Position position) {
+        if (position.equals(Position.of(1, 4))) {
+            return true;
+        }
+        return position.equals(Position.of(8, 4));
+    }
+
+    private String diagonalCornerMarkRelativeToPalaceCenter(Position position) {
+        Position center = palaceCenterNear(position);
+        int rowDiff = position.row() - center.row();
+        int colDiff = position.column() - center.column();
+        if (rowDiff == 0 || colDiff == 0) {
+            return "  ";
+        }
+        return cornerSlashFromQuadrant(rowDiff, colDiff);
+    }
+
+    private Position palaceCenterNear(Position position) {
+        if (position.row() <= 2) {
+            return Position.of(1, 4);
+        }
+        return Position.of(8, 4);
+    }
+
+    private String cornerSlashFromQuadrant(int rowDiff, int colDiff) {
+        if (rowDiff < 0 && colDiff < 0) {
+            return "\u2572 ";
+        }
+        if (rowDiff < 0 && colDiff > 0) {
+            return "\u2571 ";
+        }
+        if (rowDiff > 0 && colDiff < 0) {
+            return "\u2571 ";
+        }
+        return "\u2572 ";
     }
 
     private String formatPiece(Piece piece) {
