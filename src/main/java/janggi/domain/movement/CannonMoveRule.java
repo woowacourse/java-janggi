@@ -22,7 +22,7 @@ public class CannonMoveRule implements MoveRule {
         if (isInvalidBridge(from, boardMediator)) {
             return List.of();
         }
-        return new ArrayList<>(movement.calculateTraces(from, teamType, boardMediator));
+        return new ArrayList<>(movement.calculateTracesForCannon(from, teamType, boardMediator));
     }
 
     // 포다리가 안되는 경우 검증(빈 공간인지 or 포다리가 포 인지)
