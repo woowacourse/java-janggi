@@ -14,12 +14,6 @@ public class Row {
         this.value = value;
     }
 
-    private void validateRange(int value) {
-        if (value < ROW_LOWER_THRESH_HOLD || value > ROW_UPPER_THRESH_HOLD) {
-            throw new IllegalArgumentException("[ERROR] 행 좌표는 1~10까지 사용 가능 합니다");
-        }
-    }
-
     public int getValue() {
         return value;
     }
@@ -39,5 +33,11 @@ public class Row {
     @Override
     public int hashCode() {
         return Objects.hash(value);
+    }
+
+    private void validateRange(int value) {
+        if (value < ROW_LOWER_THRESH_HOLD || value > ROW_UPPER_THRESH_HOLD) {
+            throw new IllegalArgumentException("[ERROR] 행 좌표는 1~10까지 사용 가능 합니다");
+        }
     }
 }
