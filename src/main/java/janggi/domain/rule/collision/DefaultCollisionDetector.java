@@ -1,5 +1,6 @@
 package janggi.domain.rule.collision;
 
+import janggi.domain.Side;
 import janggi.domain.piece.Piece;
 import java.util.List;
 
@@ -16,9 +17,9 @@ public class DefaultCollisionDetector implements CollisionDetector {
     }
 
     @Override
-    public void check(Piece piece, List<Piece> piecesOnPath) {
+    public void check(Side side, List<Piece> piecesOnPath) {
         validateMiddlePath(piecesOnPath);
-        validateDestination(piece, piecesOnPath);
+        validateDestination(side, piecesOnPath);
     }
 
     private void validateMiddlePath(List<Piece> piecesOnPath) {
@@ -34,9 +35,12 @@ public class DefaultCollisionDetector implements CollisionDetector {
         }
     }
 
-    private void validateDestination(Piece piece, List<Piece> piecesOnPath) {
+    private void validateDestination(Side side, List<Piece> piecesOnPath) {
         Piece destinationPiece = piecesOnPath.getLast();
-        if (destinationPiece.isSameSide(piece)) {
+        if (destinationPiece.isEmpty()) {
+            return;
+        }
+        if (destinationPiece.isSameSide(side)) {
             throw new IllegalArgumentException("도착 위치에 같은 팀이 존재합니다");
         }
     }

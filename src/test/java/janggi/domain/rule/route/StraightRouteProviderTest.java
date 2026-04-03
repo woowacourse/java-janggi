@@ -1,7 +1,6 @@
 package janggi.domain.rule.route;
 
 import janggi.domain.Location;
-import janggi.domain.piece.PieceType;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
@@ -15,15 +14,14 @@ class StraightRouteProviderTest {
     private static final StraightRouteProvider STRAIGHT_ROUTE_PROVIDER = StraightRouteProvider.getInstance();
 
     @ParameterizedTest
-    @DisplayName("직선으로 이동할 위치를 파라미터로 받으면 이동 경로를 반환한다.")
+    @DisplayName("직선으로 이동할 위치로 경로를 계산하면, 이동 경로를 반환한다.")
     @MethodSource("provideReachableCoordination")
     void shouldReturnRouteForReachableLocation(Location destination, List<Location> route) {
         // given
         Location from = Location.from(List.of(2, 2));
 
         // when & then
-        Assertions.assertThat(STRAIGHT_ROUTE_PROVIDER.calculateRoute(PieceType.CHA, from, destination))
-                .isEqualTo(route);
+        Assertions.assertThat(STRAIGHT_ROUTE_PROVIDER.calculateRoute(from, destination)).hasValue(route);
     }
 
     static Stream<Arguments> provideReachableCoordination() {
@@ -48,16 +46,15 @@ class StraightRouteProviderTest {
     }
 
     @ParameterizedTest
-    @DisplayName("직선으로 이동이 불가능한 위치를 파라미터로 받으면 예외가 발생한다.")
+    @DisplayName("직선으로 이동이 불가능한 위치로 경로를 계산하면, 빈 결과를 반환한다.")
     @MethodSource("provideUnreachableCoordination")
-    void shouldThrowExceptionForUnReachableLocation(List<Integer> coordination) {
+    void shouldReturnEmptyForUnReachableLocation(List<Integer> coordination) {
         // given
         Location from = Location.from(List.of(1, 1));
         Location to = Location.from(coordination);
 
         // when & then
-        Assertions.assertThatThrownBy(() -> STRAIGHT_ROUTE_PROVIDER.calculateRoute(PieceType.CHA, from, to))
-                .isInstanceOf(IllegalArgumentException.class);
+        Assertions.assertThat(STRAIGHT_ROUTE_PROVIDER.calculateRoute(from, to)).isEmpty();
     }
 
     static List<List<Integer>> provideUnreachableCoordination() {

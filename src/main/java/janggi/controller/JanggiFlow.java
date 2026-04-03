@@ -22,7 +22,7 @@ public class JanggiFlow {
     public void process() {
         ArrangementStrategy hanStrategy = repeatAskStrategyUntilSuccess(Side.HAN);
         ArrangementStrategy choStrategy = repeatAskStrategyUntilSuccess(Side.CHO);
-        Board board = Board.create(BoardAssembler.of(hanStrategy, choStrategy));
+        Board board = Board.create(BoardAssembler.from(List.of(hanStrategy, choStrategy)));
 
         Side current = Side.HAN;
         while (board.isNotEmpty()) {
@@ -60,9 +60,9 @@ public class JanggiFlow {
     }
 
     private ArrangementStrategy askStrategy(Side side) {
-        Map<Integer, String> strategyInfos = ArrangementStrategyResolver.getStrategyOptions();
+        Map<Integer, String> strategyInfos = ArrangementOption.getStrategyOptions();
         int decisionNumber = view.promptForArrangementStrategyDecision(side.getName(), strategyInfos);
-        return ArrangementStrategyResolver.resolve(decisionNumber);
+        return ArrangementOption.createStrategyOf(side, decisionNumber);
     }
 
     private Location repeatAskLocationOfPieceUntilSuccess(Side turnSide, Board board) {

@@ -1,31 +1,30 @@
 package janggi.strategy;
 
-import janggi.domain.Side;
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
+import java.util.List;
 
 public class BoardAssembler {
 
     private static final int DEFAULT_ROWS = 10;
     private static final int DEFAULT_COLS = 9;
 
-    private final ArrangementStrategy hanStrategy;
-    private final ArrangementStrategy choStrategy;
+    private final List<ArrangementStrategy> strategies;
 
-    private BoardAssembler(ArrangementStrategy hanStrategy, ArrangementStrategy choStrategy) {
-        this.hanStrategy = hanStrategy;
-        this.choStrategy = choStrategy;
+    private BoardAssembler(List<ArrangementStrategy> strategies) {
+        this.strategies = strategies;
     }
 
-    public static BoardAssembler of(ArrangementStrategy hanStrategy, ArrangementStrategy choStrategy) {
-        return new BoardAssembler(hanStrategy, choStrategy);
+    public static BoardAssembler from(List<ArrangementStrategy> strategies) {
+        return new BoardAssembler(strategies);
     }
 
     public Piece[][] assemble() {
         Piece[][] arrangement = new Piece[DEFAULT_ROWS][DEFAULT_COLS];
 
-        hanStrategy.place(arrangement, Side.HAN);
-        choStrategy.place(arrangement, Side.CHO);
+        for (ArrangementStrategy strategy : strategies) {
+            strategy.place(arrangement);
+        }
 
         setupEmptyPieces(arrangement);
 

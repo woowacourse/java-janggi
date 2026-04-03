@@ -6,9 +6,10 @@ import janggi.domain.Location;
 import janggi.domain.Side;
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
-import janggi.strategy.MaSangArrangementTemplate;
+import janggi.domain.piece.PieceType;
+import janggi.strategy.ArrangementStrategy;
 import janggi.strategy.BoardAssembler;
-import janggi.support.TestMaSangArrangementTemplate;
+import janggi.support.TestArrangementStrategy;
 import janggi.support.TestPiece;
 import java.util.List;
 import java.util.Map;
@@ -18,28 +19,29 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class BoardTest {
+    
+    private static final Piece EMPTY = EmptyPiece.getInstance();
 
     @Test
     @DisplayName("보드가 전략에 맞춰 정상적으로 생성된다.")
     void shouldReturnBoardWithSelectedArrangementStrategy() {
         // given
         Side currentSide = Side.HAN;
-        Piece testPiece = new TestPiece(currentSide);
-        Piece emptyPiece = EmptyPiece.getInstance();
+        Piece testPiece = new TestPiece(PieceType.CHA, currentSide);
         Map<Location, Piece> initialPieces = Map.of(
                 new Location(1, 1), testPiece,
-                new Location(2, 2), emptyPiece
+                new Location(2, 2), EMPTY
         );
-        MaSangArrangementTemplate strategy = new TestMaSangArrangementTemplate(initialPieces);
+        ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
 
         // when
-        BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
+        BoardAssembler assembler = BoardAssembler.from(List.of(strategy, strategy));
         Board board = Board.create(assembler);
         List<List<Piece>> pieces = board.to2DArray();
 
         // then
         Assertions.assertThat(pieces.get(1).get(1)).isEqualTo(testPiece);
-        Assertions.assertThat(pieces.get(2).get(2)).isEqualTo(emptyPiece);
+        Assertions.assertThat(pieces.get(2).get(2)).isEqualTo(EMPTY);
     }
 
     @Nested
@@ -50,11 +52,11 @@ class BoardTest {
             // given
             Side currentSide = Side.HAN;
             Map<Location, Piece> initialPieces = Map.of(
-                    new Location(1, 1), new TestPiece(currentSide)
+                    new Location(1, 1), new TestPiece(PieceType.CHA, currentSide)
             );
-            MaSangArrangementTemplate strategy = new TestMaSangArrangementTemplate(initialPieces);
+            ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
 
-            BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
+            BoardAssembler assembler = BoardAssembler.from(List.of(strategy, strategy));
             Board board = Board.create(assembler);
             Location location = Location.from(List.of(1, 1));
 
@@ -68,11 +70,11 @@ class BoardTest {
             // given
             Side currentSide = Side.HAN;
             Map<Location, Piece> initialPieces = Map.of(
-                    new Location(1, 1), new TestPiece(currentSide)
+                    new Location(1, 1), new TestPiece(PieceType.CHA, currentSide)
             );
-            MaSangArrangementTemplate strategy = new TestMaSangArrangementTemplate(initialPieces);
+            ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
 
-            BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
+            BoardAssembler assembler = BoardAssembler.from(List.of(strategy, strategy));
             Board board = Board.create(assembler);
             Location location = Location.from(List.of(11, 11));
 
@@ -90,11 +92,11 @@ class BoardTest {
             // given
             Side currentSide = Side.HAN;
             Map<Location, Piece> initialPieces = Map.of(
-                    new Location(1, 1), new TestPiece(currentSide)
+                    new Location(1, 1), new TestPiece(PieceType.CHA, currentSide)
             );
-            MaSangArrangementTemplate strategy = new TestMaSangArrangementTemplate(initialPieces);
+            ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
 
-            BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
+            BoardAssembler assembler = BoardAssembler.from(List.of(strategy, strategy));
             Board board = Board.create(assembler);
             Location location = Location.from(List.of(1, 1));
 
@@ -109,11 +111,11 @@ class BoardTest {
             Side currentSide = Side.HAN;
             Side otherSide = Side.CHO;
             Map<Location, Piece> initialPieces = Map.of(
-                    new Location(1, 1), new TestPiece(currentSide)
+                    new Location(1, 1), new TestPiece(PieceType.CHA, currentSide)
             );
-            MaSangArrangementTemplate strategy = new TestMaSangArrangementTemplate(initialPieces);
+            ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
 
-            BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
+            BoardAssembler assembler = BoardAssembler.from(List.of(strategy, strategy));
             Board board = Board.create(assembler);
             Location location = Location.from(List.of(1, 1));
 
@@ -127,11 +129,11 @@ class BoardTest {
         void shouldThrowExceptionWhenPieceDoesNotExistsAtLocation() {
             // given
             Map<Location, Piece> initialPieces = Map.of(
-                    new Location(5, 5), EmptyPiece.getInstance()
+                    new Location(5, 5), EMPTY
             );
-            MaSangArrangementTemplate strategy = new TestMaSangArrangementTemplate(initialPieces);
+            ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
 
-            BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
+            BoardAssembler assembler = BoardAssembler.from(List.of(strategy, strategy));
             Board board = Board.create(assembler);
             Location location = Location.from(List.of(5, 5));
 
@@ -148,11 +150,11 @@ class BoardTest {
         void shouldNotThrowExceptionWhenPieceDoesNotExistsAtLocation() {
             // given
             Map<Location, Piece> initialPieces = Map.of(
-                    new Location(1, 1), EmptyPiece.getInstance()
+                    new Location(1, 1), EMPTY
             );
-            MaSangArrangementTemplate strategy = new TestMaSangArrangementTemplate(initialPieces);
+            ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
 
-            BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
+            BoardAssembler assembler = BoardAssembler.from(List.of(strategy, strategy));
             Board board = Board.create(assembler);
             Location from = new Location(0, 0);
             Location to = new Location(1, 1);
@@ -168,11 +170,11 @@ class BoardTest {
             // given
             Side otherSide = Side.CHO;
             Map<Location, Piece> initialPieces = Map.of(
-                    new Location(1, 1), new TestPiece(otherSide)
+                    new Location(1, 1), new TestPiece(PieceType.CHA, otherSide)
             );
-            MaSangArrangementTemplate strategy = new TestMaSangArrangementTemplate(initialPieces);
+            ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
 
-            BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
+            BoardAssembler assembler = BoardAssembler.from(List.of(strategy, strategy));
             Board board = Board.create(assembler);
             Location from = new Location(0, 0);
             Location to = new Location(1, 1);
@@ -187,13 +189,13 @@ class BoardTest {
     @DisplayName("이동할 기물의 위치와 도착지 좌표를 받아 기물을 이동시킨다.")
     void shouldMovePieceToDestination() {
         // given
-        Piece testPiece = new TestPiece(Side.HAN);
+        Piece testPiece = new TestPiece(PieceType.CHA, Side.HAN);
         Map<Location, Piece> initialPieces = Map.of(
                 new Location(1, 1), testPiece
         );
-        MaSangArrangementTemplate strategy = new TestMaSangArrangementTemplate(initialPieces);
+        ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
 
-        BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
+        BoardAssembler assembler = BoardAssembler.from(List.of(strategy, strategy));
         Board board = Board.create(assembler);
         Location from = new Location(1, 1);
         Location to = new Location(0, 0);
@@ -212,11 +214,11 @@ class BoardTest {
     void shouldReturnTrueForNoneEmptyBoard() {
         // given
         Map<Location, Piece> initialPieces = Map.of(
-                new Location(1, 1), new TestPiece(Side.HAN),
-                new Location(1, 2), EmptyPiece.getInstance()
+                new Location(1, 1), new TestPiece(PieceType.CHA, Side.HAN),
+                new Location(1, 2), EMPTY
         );
-        MaSangArrangementTemplate strategy = new TestMaSangArrangementTemplate(initialPieces);
-        BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
+        ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
+        BoardAssembler assembler = BoardAssembler.from(List.of(strategy, strategy));
         Board board = Board.create(assembler);
 
         // when & then
@@ -228,11 +230,11 @@ class BoardTest {
     void shouldReturnTrueForEmptyBoard() {
         // given
         Map<Location, Piece> initialPieces = Map.of(
-                new Location(1, 1), EmptyPiece.getInstance(),
-                new Location(1, 2), EmptyPiece.getInstance()
+                new Location(1, 1), EMPTY,
+                new Location(1, 2), EMPTY
         );
-        MaSangArrangementTemplate strategy = new TestMaSangArrangementTemplate(initialPieces);
-        BoardAssembler assembler = BoardAssembler.of(strategy, strategy);
+        ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
+        BoardAssembler assembler = BoardAssembler.from(List.of(strategy, strategy));
         Board board = Board.create(assembler);
 
         // when & then

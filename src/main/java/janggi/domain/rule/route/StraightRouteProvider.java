@@ -6,11 +6,11 @@ import static janggi.domain.rule.route.Direction.LEFT;
 import static janggi.domain.rule.route.Direction.RIGHT;
 
 import janggi.domain.Location;
-import janggi.domain.piece.PieceType;
 import java.util.List;
+import java.util.Optional;
 
 @SuppressWarnings("java:S6548")
-public class StraightRouteProvider implements RouteProvider {
+public class StraightRouteProvider extends RouteProvider {
 
     private static final StraightRouteProvider INSTANCE = new StraightRouteProvider();
 
@@ -22,7 +22,7 @@ public class StraightRouteProvider implements RouteProvider {
     }
 
     @Override
-    public List<Location> calculateRoute(PieceType pieceType, Location from, Location to) {
+    public Optional<List<Location>> calculateRoute(Location from, Location to) {
         int maxDistance = calculateMaxDistance(from, to);
 
         List<Route> possibleRoutes = List.of(
@@ -32,7 +32,7 @@ public class StraightRouteProvider implements RouteProvider {
                 Route.of(RIGHT, maxDistance)
         );
 
-        return RouteProvider.findValidPath(pieceType, from, to, possibleRoutes);
+        return findValidPath(from, to, possibleRoutes);
     }
 
     private int calculateMaxDistance(Location from, Location to) {

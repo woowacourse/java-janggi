@@ -10,11 +10,11 @@ import static janggi.domain.rule.route.Direction.LEFT;
 import static janggi.domain.rule.route.Direction.RIGHT;
 
 import janggi.domain.Location;
-import janggi.domain.piece.PieceType;
 import java.util.List;
+import java.util.Optional;
 
 @SuppressWarnings("java:S6548")
-public class GungSeongRouteProvider implements RouteProvider {
+public class GungSeongRouteProvider extends RouteProvider {
 
     private static final GungSeongRouteProvider INSTANCE = new GungSeongRouteProvider();
     private static final List<Route> POSSIBLE_ROUTES = List.of(
@@ -36,7 +36,7 @@ public class GungSeongRouteProvider implements RouteProvider {
     }
 
     @Override
-    public List<Location> calculateRoute(PieceType pieceType, Location from, Location to) {
-        return RouteProvider.findValidPath(pieceType, from, to, POSSIBLE_ROUTES);
+    public Optional<List<Location>> calculateRoute(Location from, Location to) {
+        return findValidPath(from, to, POSSIBLE_ROUTES);
     }
 }

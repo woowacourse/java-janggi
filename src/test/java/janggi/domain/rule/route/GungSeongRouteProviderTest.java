@@ -1,7 +1,6 @@
 package janggi.domain.rule.route;
 
 import janggi.domain.Location;
-import janggi.domain.piece.PieceType;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -13,7 +12,7 @@ class GungSeongRouteProviderTest {
     private static final GungSeongRouteProvider GUNG_SEONG_ROUTE_PROVIDER = GungSeongRouteProvider.getInstance();
 
     @ParameterizedTest
-    @DisplayName("궁성 안에서 이동할 수 있는 위치를 파라미터로 받으면 이동 경로를 반환한다.")
+    @DisplayName("궁성 안에서 이동할 수 있는 위치로 경로를 계산하면, 이동 경로를 반환한다.")
     @MethodSource("provideReachableCoordination")
     void shouldReturnRouteForReachableLocation(List<Integer> destination) {
         // given
@@ -21,8 +20,7 @@ class GungSeongRouteProviderTest {
         Location to = Location.from(destination);
 
         // when & then
-        Assertions.assertThat(GUNG_SEONG_ROUTE_PROVIDER.calculateRoute(PieceType.GUNG, from, to))
-                .isEqualTo(List.of(to));
+        Assertions.assertThat(GUNG_SEONG_ROUTE_PROVIDER.calculateRoute(from, to)).hasValue(List.of(to));
     }
 
     static List<List<Integer>> provideReachableCoordination() {
@@ -37,16 +35,15 @@ class GungSeongRouteProviderTest {
     }
 
     @ParameterizedTest
-    @DisplayName("궁성을 벗어난 위치를 파라미터로 받으면 예외가 발생한다.")
+    @DisplayName("궁성을 벗어난 위치로 경로를 계산하면, 빈 결과를 반환한다.")
     @MethodSource("provideUnreachableCoordination")
-    void shouldThrowExceptionForUnReachableLocation(List<Integer> coordination) {
+    void shouldReturnEmptyForUnReachableLocation(List<Integer> coordination) {
         // given
         Location from = Location.from(List.of(3, 2));
         Location to = Location.from(coordination);
 
         // when & then
-        Assertions.assertThatThrownBy(() -> GUNG_SEONG_ROUTE_PROVIDER.calculateRoute(PieceType.GUNG, from, to))
-                .isInstanceOf(IllegalArgumentException.class);
+        Assertions.assertThat(GUNG_SEONG_ROUTE_PROVIDER.calculateRoute(from, to)).isEmpty();
     }
 
     static List<List<Integer>> provideUnreachableCoordination() {

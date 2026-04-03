@@ -19,6 +19,6 @@ public enum PieceType {
     }
 
     public String getNameFormat() {
-        return nameFormat;
+        return this.nameFormat;
     }
 }
