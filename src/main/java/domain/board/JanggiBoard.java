@@ -34,6 +34,11 @@ public class JanggiBoard {
         }
     }
 
+    private Map<Point, Intersection> fillEmptyIntersections() {
+        return getAllPoints()
+                .collect(Collectors.toMap(point -> point, Intersection::empty));
+    }
+
     private static Stream<Point> getAllPoints() {
         return range(MAX_ROW).boxed()
                 .flatMap(row -> range(MAX_FILE).mapToObj(f -> new Point(row, f)));
@@ -43,12 +48,55 @@ public class JanggiBoard {
         return IntStream.range(0, maxRange);
     }
 
+    private List<MoveRule> setMoveRules() {
+        return List.of(
+                new ChariotMoveRule(),
+                new GeneralMoveRule(),
+                new GuardMoveRule(),
+                new ElephantMoveRule(),
+                new SoldierMoveRule(),
+                new CannonMoveRule(),
+                new HorseMoveRule()
+        );
+    }
+
     public void tryToMove(Point start, Point end) {
         Intersection from = findIntersection(start);
         Intersection to = findIntersection(end);
 
         validateMoveRule(from, to);
         move(to, from);
+    }
+
+    public Intersection findIntersection(Point point) {
+        return intersections.get(point);
+    }
+
+    private void validateMoveRule(Intersection from, Intersection to) {
+        MoveRule moveRule = findMoveRule(from);
+        List<Point> possiblePoints = moveRule.findPossiblePoints(from, to);
+        List<Intersection> path = findPath(possiblePoints);
+        moveRule.checkMoveRule(from, path);
+    }
+
+    private void move(Intersection to, Intersection from) {
+        to.arrive(from);
+        from.leave();
+    }
+
+    public MoveRule findMoveRule(Intersection from) {
+        return moveRules.stream()
+                .filter(moveRule -> moveRule.support(from))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("선택한 좌표에 이동 가능한 기물이 없습니다."));
+    }
+
+    public BoardState boardStatus() {
+        final List<IntersectionState> intersectionStates = new ArrayList<>();
+        for (Intersection intersection : intersections.values()) {
+            intersectionStates.add(intersection.toIntersectionState());
+        }
+        return new BoardState(intersectionStates);
     }
 
     public boolean isGameRunning() {
@@ -64,58 +112,10 @@ public class JanggiBoard {
         return false;
     }
 
-    private void move(Intersection to, Intersection from) {
-        to.arrive(from);
-        from.leave();
-    }
-
-    private void validateMoveRule(Intersection from, Intersection to) {
-        MoveRule moveRule = findMoveRule(from);
-        List<Point> possiblePoints = moveRule.findPossiblePoints(from, to);
-        List<Intersection> path = findPath(possiblePoints);
-        moveRule.checkMoveRule(from, path);
-    }
-
-    public MoveRule findMoveRule(Intersection from) {
-        return moveRules.stream()
-                .filter(moveRule -> moveRule.support(from))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("선택한 좌표에 이동 가능한 기물이 없습니다."));
-    }
-
     private List<Intersection> findPath(List<Point> possiblePoints) {
         return possiblePoints.stream()
                 .map(this::findIntersection)
                 .toList();
-    }
-
-    public BoardState boardStatus() {
-        final List<IntersectionState> intersectionStates = new ArrayList<>();
-        for (Intersection intersection : intersections.values()) {
-            intersectionStates.add(intersection.toIntersectionState());
-        }
-        return new BoardState(intersectionStates);
-    }
-
-    public Intersection findIntersection(Point point) {
-        return intersections.get(point);
-    }
-
-    private List<MoveRule> setMoveRules() {
-        return List.of(
-                new ChariotMoveRule(),
-                new GeneralMoveRule(),
-                new GuardMoveRule(),
-                new ElephantMoveRule(),
-                new SoldierMoveRule(),
-                new CannonMoveRule(),
-                new HorseMoveRule()
-        );
-    }
-
-    private Map<Point, Intersection> fillEmptyIntersections() {
-        return getAllPoints()
-                .collect(Collectors.toMap(point -> point, Intersection::empty));
     }
 
 }

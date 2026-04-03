@@ -33,12 +33,12 @@ public abstract class Piece {
         return this.team == Team.CHO;
     }
 
-    public boolean isSamePiece(PieceType pieceType) {
-        return this.pieceType == pieceType;
-    }
-
     public boolean isSamePiece(Piece piece) {
         return isSamePiece(piece.pieceType);
+    }
+
+    public boolean isSamePiece(PieceType pieceType) {
+        return this.pieceType == pieceType;
     }
 
     public boolean hasPiece() {

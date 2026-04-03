@@ -13,14 +13,6 @@ public record Point(
         this.x = x;
     }
 
-    public boolean canMake(int y, int x) {
-        return checkPointRange(this.y + y, this.x + x);
-    }
-
-    public Point movePoint(int y, int x) {
-        return new Point(this.y + y, this.x + x);
-    }
-
     private void validate(int y, int x) {
         if (checkPointRange(y, x)) {
             return;
@@ -28,8 +20,16 @@ public record Point(
         throw new IllegalArgumentException();
     }
 
+    public boolean canMake(int y, int x) {
+        return checkPointRange(this.y + y, this.x + x);
+    }
+
     private boolean checkPointRange(int y, int x) {
         return 0 <= y && y <= 9 && 0 <= x && x <= 8;
+    }
+
+    public Point movePoint(int y, int x) {
+        return new Point(this.y + y, this.x + x);
     }
 
     public boolean isSameFile(Point other) {
