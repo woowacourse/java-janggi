@@ -12,6 +12,8 @@ import java.util.Map;
 
 public class Board {
 
+    private static final int FIRST_ROW_INDEX = 0;
+
     private final Map<Location, Piece> boardState;
     private final int height;
     private final int width;
@@ -27,7 +29,7 @@ public class Board {
         Map<Location, Piece> boardState = new HashMap<>();
 
         int height = pieces.length;
-        int width = pieces[0].length;
+        int width = pieces[FIRST_ROW_INDEX].length;
 
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
