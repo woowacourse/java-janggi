@@ -1,15 +1,16 @@
 package domain.pieces;
 
-import domain.Camp;
-import domain.BoardReader;
-import domain.PieceType;
-import domain.Position;
-import java.util.ArrayList;
-import java.util.HashMap;
+import domain.*;
+
 import java.util.List;
-import java.util.Map;
 
 public class Horse extends Piece {
+    private final List<List<Direction>> horseDirections = List.of(
+            List.of(Direction.NORTH, Direction.NORTHEAST), List.of(Direction.NORTH, Direction.NORTHWEST),
+            List.of(Direction.SOUTH, Direction.SOUTHEAST), List.of(Direction.SOUTH, Direction.SOUTHWEST),
+            List.of(Direction.EAST, Direction.NORTHEAST), List.of(Direction.EAST, Direction.SOUTHEAST),
+            List.of(Direction.WEST, Direction.NORTHWEST), List.of(Direction.WEST, Direction.SOUTHWEST)
+    );
 
     public Horse(Camp camp) {
         super(camp, PieceType.HORSE);
@@ -17,157 +18,21 @@ public class Horse extends Piece {
 
     @Override
     public boolean canMove(Position from, Position to, BoardReader boardReader) {
-        Map<Position, List<Position>> routeOfDestination = new HashMap<>();
-
-        routeOfDestination.putAll(move_U_RU(from));
-        routeOfDestination.putAll(move_U_LU(from));
-        routeOfDestination.putAll(move_R_RU(from));
-        routeOfDestination.putAll(move_R_RD(from));
-        routeOfDestination.putAll(move_L_LU(from));
-        routeOfDestination.putAll(move_L_LD(from));
-        routeOfDestination.putAll(move_D_RD(from));
-        routeOfDestination.putAll(move_D_LD(from));
-
-        if (!routeOfDestination.containsKey(to)) {
-            return false;
+        for (List<Direction> directions : horseDirections) {
+            List<Position> path = Route.path(from, directions);
+            if (path.size() == 2 && path.getLast().equals(to)) {
+                return checkPositionExist(boardReader, path);
+            }
         }
+        return false;
+    }
 
-        List<Position> route = routeOfDestination.get(to);
-        for (Position position : route) {
-            if (boardReader.isExist(position)) {
+    private static boolean checkPositionExist(BoardReader boardReader, List<Position> path) {
+        for (int i = 0; i < path.size() - 1; i++) {
+            if (boardReader.isExist(path.get(i))) {
                 return false;
             }
         }
-
         return true;
-    }
-
-    private Map<Position, List<Position>> move_U_RU(Position position) {
-        Map<Position, List<Position>> routeOfDestination = new HashMap<>();
-        List<Position> route = new ArrayList<>();
-        try {
-            position = up(position);
-            route.add(position);
-
-            position = rightUpDiagonal(position);
-
-            routeOfDestination.put(position, route);
-        } catch (IllegalArgumentException e) {
-            // 생성할 수 없는 Position이면 무시
-        }
-
-        return routeOfDestination;
-    }
-
-    private Map<Position, List<Position>> move_U_LU(Position position) {
-        Map<Position, List<Position>> routeOfDestination = new HashMap<>();
-        List<Position> route = new ArrayList<>();
-        try {
-            position = up(position);
-            route.add(position);
-
-            position = leftUpDiagonal(position);
-
-            routeOfDestination.put(position, route);
-        } catch (IllegalArgumentException e) {
-            // 생성할 수 없는 Position이면 무시
-        }
-        return routeOfDestination;
-    }
-
-    private Map<Position, List<Position>> move_R_RU(Position position) {
-        Map<Position, List<Position>> routeOfDestination = new HashMap<>();
-        List<Position> route = new ArrayList<>();
-        try {
-            position = right(position);
-            route.add(position);
-
-            position = rightUpDiagonal(position);
-
-            routeOfDestination.put(position, route);
-        } catch (IllegalArgumentException e) {
-            // 생성할 수 없는 Position이면 무시
-        }
-        return routeOfDestination;
-    }
-
-    private Map<Position, List<Position>> move_R_RD(Position position) {
-        Map<Position, List<Position>> routeOfDestination = new HashMap<>();
-        List<Position> route = new ArrayList<>();
-        try {
-            position = right(position);
-            route.add(position);
-
-            position = rightDownDiagonal(position);
-
-            routeOfDestination.put(position, route);
-        } catch (IllegalArgumentException e) {
-            // 생성할 수 없는 Position이면 무시
-        }
-        return routeOfDestination;
-    }
-
-    private Map<Position, List<Position>> move_L_LU(Position position) {
-        Map<Position, List<Position>> routeOfDestination = new HashMap<>();
-        List<Position> route = new ArrayList<>();
-        try {
-            position = left(position);
-            route.add(position);
-
-            position = leftUpDiagonal(position);
-
-            routeOfDestination.put(position, route);
-        } catch (IllegalArgumentException e) {
-            // 생성할 수 없는 Position이면 무시
-        }
-        return routeOfDestination;
-    }
-
-    private Map<Position, List<Position>> move_L_LD(Position position) {
-        Map<Position, List<Position>> routeOfDestination = new HashMap<>();
-        List<Position> route = new ArrayList<>();
-        try {
-            position = left(position);
-            route.add(position);
-
-            position = leftDownDiagonal(position);
-
-            routeOfDestination.put(position, route);
-        } catch (IllegalArgumentException e) {
-            // 생성할 수 없는 Position이면 무시
-        }
-        return routeOfDestination;
-    }
-
-    private Map<Position, List<Position>> move_D_RD(Position position) {
-        Map<Position, List<Position>> routeOfDestination = new HashMap<>();
-        List<Position> route = new ArrayList<>();
-        try {
-            position = down(position);
-            route.add(position);
-
-            position = rightDownDiagonal(position);
-
-            routeOfDestination.put(position, route);
-        } catch (IllegalArgumentException e) {
-            // 생성할 수 없는 Position이면 무시
-        }
-        return routeOfDestination;
-    }
-
-    private Map<Position, List<Position>> move_D_LD(Position position) {
-        Map<Position, List<Position>> routeOfDestination = new HashMap<>();
-        List<Position> route = new ArrayList<>();
-        try {
-            position = down(position);
-            route.add(position);
-
-            position = leftDownDiagonal(position);
-
-            routeOfDestination.put(position, route);
-        } catch (IllegalArgumentException e) {
-            // 생성할 수 없는 Position이면 무시
-        }
-        return routeOfDestination;
     }
 }

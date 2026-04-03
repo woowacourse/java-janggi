@@ -1,11 +1,9 @@
 package domain.pieces;
 
-import domain.Camp;
-import domain.BoardReader;
-import domain.PieceType;
-import domain.Position;
-import java.util.HashSet;
-import java.util.Set;
+import domain.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Soldier extends Piece {
 
@@ -15,52 +13,32 @@ public class Soldier extends Piece {
 
     @Override
     public boolean canMove(Position from, Position to, BoardReader boardReader) {
+        List<List<Direction>> soliderDirections = initSoliderDirections();
 
-        Set<Position> destination = new HashSet<>();
+        for (List<Direction> directions : soliderDirections) {
+            List<Position> path = Route.path(from, directions);
+            if (path.size() == 1 && path.getLast().equals(to)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-        destination.add(move_L(from));
-        destination.add(move_R(from));
+    private List<List<Direction>> initSoliderDirections() {
+        List<List<Direction>> soliderDirections = new ArrayList<>(
+                List.of(
+                        List.of(Direction.WEST),
+                        List.of(Direction.EAST)
+                )
+        );
+        if(this.isSameCamp(Camp.CHO)) {
+            soliderDirections.add(List.of(Direction.NORTH));
+        }
 
         if (this.isSameCamp(Camp.HAN)) {
-            destination.add(move_D(from));
+            soliderDirections.add(List.of(Direction.SOUTH));
         }
 
-        if (this.isSameCamp(Camp.CHO)) {
-            destination.add(move_U(from));
-        }
-
-        return destination.contains(to);
-    }
-
-    private Position move_U(Position position) {
-        try {
-            return up(position);
-        } catch (IllegalArgumentException e) {
-            return position;
-        }
-    }
-
-    private Position move_L(Position position) {
-        try {
-            return left(position);
-        } catch (IllegalArgumentException e) {
-            return position;
-        }
-    }
-
-    private Position move_R(Position position) {
-        try {
-            return right(position);
-        } catch (IllegalArgumentException e) {
-            return position;
-        }
-    }
-
-    private Position move_D(Position position) {
-        try {
-            return down(position);
-        } catch (IllegalArgumentException e) {
-            return position;
-        }
+        return soliderDirections;
     }
 }

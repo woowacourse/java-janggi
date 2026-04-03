@@ -1,13 +1,14 @@
 package domain.pieces;
 
-import domain.Camp;
-import domain.BoardReader;
-import domain.PieceType;
-import domain.Position;
-import java.util.HashSet;
-import java.util.Set;
+import domain.*;
+
+import java.util.List;
+import java.util.Optional;
 
 public class Cannon extends Piece {
+    private final List<Direction> linearDirections = List.of(
+            Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST
+    );
 
     public Cannon(Camp camp) {
         super(camp, PieceType.CANNON);
@@ -15,125 +16,47 @@ public class Cannon extends Piece {
 
     @Override
     public boolean canMove(Position from, Position to, BoardReader boardReader) {
-        Set<Position> movablePositions = new HashSet<>();
-
-        movablePositions.addAll(moveUp(from, boardReader));
-        movablePositions.addAll(moveLeft(from, boardReader));
-        movablePositions.addAll(moveRight(from, boardReader));
-        movablePositions.addAll(moveDown(from, boardReader));
-
-        return movablePositions.contains(to);
-    }
-
-    private Set<Position> moveRight(Position position, BoardReader boardReader) {
-        Set<Position> movablePositions = new HashSet<>();
-        boolean jumping = false;
-
-        try {
-            while (!jumping) {
-                position = right(position);
-                jumping = checkCannonJumping(position, boardReader);
+        for (Direction direction : linearDirections) {
+            if (canJumpToTarget(from, to, boardReader, direction)) {
+                return true;
             }
-        } catch (IllegalArgumentException e) {
-
         }
-
-        try {
-            do {
-                position = right(position);
-                if (boardReader.isDifferentPieceType(position, this)) {
-                    movablePositions.add(position);
-                }
-            } while (!boardReader.isExist(position));
-        } catch (IllegalArgumentException e) {
-
-        }
-
-        return movablePositions;
+        return false;
     }
 
-    private Set<Position> moveLeft(Position position, BoardReader boardReader) {
-        Set<Position> movablePositions = new HashSet<>();
-        boolean jumping = false;
+    private boolean canJumpToTarget(Position from, Position to, BoardReader boardReader, Direction direction) {
+        Optional<Position> bridge = findBridge(from, direction, boardReader);
+        if (bridge.isEmpty()) {
+            return false;
+        }
 
-        try {
-            while (!jumping) {
-                position = left(position);
-                jumping = checkCannonJumping(position, boardReader);
+        return checkAfterBridge(bridge.get(), to, boardReader, direction);
+    }
+
+    private Optional<Position> findBridge(Position current, Direction direction, BoardReader boardReader) {
+        while (current.canMove(direction)) {
+            current = current.move(direction);
+            if (boardReader.isExist(current) && boardReader.isDifferentPieceType(current, this)) {
+                return Optional.of(current);
             }
-        } catch (IllegalArgumentException e) {
-
-        }
-
-        try {
-            do {
-                position = left(position);
-                if (boardReader.isDifferentPieceType(position, this)) {
-                    movablePositions.add(position);
-                }
-            } while (!boardReader.isExist(position));
-        } catch (IllegalArgumentException e) {
-
-        }
-
-        return movablePositions;
-    }
-
-    private Set<Position> moveUp(Position position, BoardReader boardReader) {
-        Set<Position> movablePositions = new HashSet<>();
-        boolean jumping = false;
-
-        try {
-            while (!jumping) {
-                position = up(position);
-                jumping = checkCannonJumping(position, boardReader);
+            if (boardReader.isExist(current)) {
+                break;
             }
-        } catch (IllegalArgumentException e) {
-
         }
-
-        try {
-            do {
-                position = up(position);
-                if (boardReader.isDifferentPieceType(position, this)) {
-                    movablePositions.add(position);
-                }
-            } while (!boardReader.isExist(position));
-        } catch (IllegalArgumentException e) {
-
-        }
-
-        return movablePositions;
+        return Optional.empty();
     }
 
-    private Set<Position> moveDown(Position position, BoardReader boardReader) {
-        Set<Position> movablePositions = new HashSet<>();
-        boolean jumping = false;
-
-        try {
-            while (!jumping) {
-                position = down(position);
-                jumping = checkCannonJumping(position, boardReader);
+    private boolean checkAfterBridge(Position bridge, Position to, BoardReader boardReader, Direction direction) {
+        Position current = bridge;
+        while (current.canMove(direction)) {
+            current = current.move(direction);
+            if (current.equals(to)) {
+                return boardReader.isDifferentPieceType(to, this);
             }
-        } catch (IllegalArgumentException e) {
-
+            if (boardReader.isExist(current)) {
+                break;
+            }
         }
-
-        try {
-            do {
-                position = down(position);
-                if (boardReader.isDifferentPieceType(position, this)) {
-                    movablePositions.add(position);
-                }
-            } while (!boardReader.isExist(position));
-        } catch (IllegalArgumentException e) {
-
-        }
-
-        return movablePositions;
-    }
-
-    private boolean checkCannonJumping(Position position, BoardReader boardReader) {
-        return boardReader.isExist(position) && boardReader.isDifferentPieceType(position, this);
+        return false;
     }
 }

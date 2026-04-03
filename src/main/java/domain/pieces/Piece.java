@@ -1,7 +1,7 @@
 package domain.pieces;
 
-import domain.Camp;
 import domain.BoardReader;
+import domain.Camp;
 import domain.PieceType;
 import domain.Position;
 
@@ -25,54 +25,6 @@ public abstract class Piece {
 
     public boolean isDifferentPieceType(Piece piece) {
         return this.getPieceType()!= piece.getPieceType();
-    }
-
-    Position up(Position position) {
-        int x = position.getX();
-        int y = position.getY();
-        return new Position(x, --y);
-    }
-
-    Position down(Position position) {
-        int x = position.getX();
-        int y = position.getY();
-        return new Position(x, ++y);
-    }
-
-    Position left(Position position) {
-        int x = position.getX();
-        int y = position.getY();
-        return new Position(--x, y);
-    }
-
-    Position right(Position position) {
-        int x = position.getX();
-        int y = position.getY();
-        return new Position(++x, y);
-    }
-
-    Position leftUpDiagonal(Position position) {
-        int x = position.getX();
-        int y = position.getY();
-        return new Position(--x, --y);
-    }
-
-    Position rightUpDiagonal(Position position) {
-        int x = position.getX();
-        int y = position.getY();
-        return new Position(++x, --y);
-    }
-
-    Position leftDownDiagonal(Position position) {
-        int x = position.getX();
-        int y = position.getY();
-        return new Position(--x, ++y);
-    }
-
-    Position rightDownDiagonal(Position position) {
-        int x = position.getX();
-        int y = position.getY();
-        return new Position(++x, ++y);
     }
 
     public abstract boolean canMove(Position from, Position to, BoardReader boardReader);

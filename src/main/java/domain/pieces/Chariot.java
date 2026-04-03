@@ -1,13 +1,13 @@
 package domain.pieces;
 
-import domain.Camp;
-import domain.BoardReader;
-import domain.PieceType;
-import domain.Position;
-import java.util.HashSet;
-import java.util.Set;
+import domain.*;
+
+import java.util.List;
 
 public class Chariot extends Piece {
+    private final List<Direction> linearDirections = List.of(
+            Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST
+    );
 
     public Chariot(Camp camp) {
         super(camp, PieceType.CHARIOT);
@@ -15,65 +15,26 @@ public class Chariot extends Piece {
 
     @Override
     public boolean canMove(Position from, Position to, BoardReader boardReader) {
-        Set<Position> movablePositions = new HashSet<>();
-
-        movablePositions.addAll(moveUp(from, boardReader));
-        movablePositions.addAll(moveDown(from, boardReader));
-        movablePositions.addAll(moveLeft(from, boardReader));
-        movablePositions.addAll(moveRight(from, boardReader));
-
-        return movablePositions.contains(to);
+        for (Direction direction : linearDirections) {
+            if (canReachTarget(from, to, boardReader, direction)) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    private Set<Position> moveUp(Position position, BoardReader boardReader) {
-        Set<Position> movablePositions = new HashSet<>();
-        try {
-            do {
-                position = up(position);
-                movablePositions.add(position);
-            } while (!boardReader.isExist(position));
-        } catch (IllegalArgumentException e) {
+    private boolean canReachTarget(Position from, Position to, BoardReader boardReader, Direction direction) {
+        Position current = from;
+        while (current.canMove(direction)) {
+            current = current.move(direction);
+            if (current.equals(to)) {
+                return true;
+            }
 
+            if (boardReader.isExist(current)) {
+                break;
+            }
         }
-        return movablePositions;
-    }
-
-    private Set<Position> moveLeft(Position position, BoardReader boardReader) {
-        Set<Position> movablePositions = new HashSet<>();
-        try {
-            do {
-                position = left(position);
-                movablePositions.add(position);
-            } while (!boardReader.isExist(position));
-        } catch (IllegalArgumentException e) {
-
-        }
-        return movablePositions;
-    }
-
-    private Set<Position> moveRight(Position position, BoardReader boardReader) {
-        Set<Position> movablePositions = new HashSet<>();
-        try {
-            do {
-                position = right(position);
-                movablePositions.add(position);
-            } while (!boardReader.isExist(position));
-        } catch (IllegalArgumentException e) {
-
-        }
-        return movablePositions;
-    }
-
-    private Set<Position> moveDown(Position position, BoardReader boardReader) {
-        Set<Position> movablePositions = new HashSet<>();
-        try {
-            do {
-                position = down(position);
-                movablePositions.add(position);
-            } while (!boardReader.isExist(position));
-        } catch (IllegalArgumentException e) {
-
-        }
-        return movablePositions;
+        return false;
     }
 }

@@ -19,12 +19,17 @@ public class Position {
         this.y = y;
     }
 
-    public int getX() {
-        return x;
+    public boolean canMove(Direction direction) {
+        int dx = direction.getDx();
+        int dy = direction.getDy();
+        return ((MIN_X_VALUE <= x + dx && x + dx <= MAX_X_VALUE)
+                && (MIN_Y_VALUE <= y + dy && y + dy <= MAX_Y_VALUE));
     }
 
-    public int getY() {
-        return y;
+    public Position move(Direction direction) {
+        int dx = direction.getDx();
+        int dy = direction.getDy();
+        return new Position(x + dx, y + dy);
     }
 
     private void validatePosX(int x) {
