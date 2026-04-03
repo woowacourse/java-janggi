@@ -20,7 +20,7 @@ public class GuardMoveStrategyTest {
     class 이동경로 {
         @Test
         public void 초나라_사는_8방향으로_이동_가능하다() {
-            MoveStrategy strategy = new KingMoveStrategy();
+            MoveStrategy strategy = new GuardMoveStrategy();
             List<MovePath> paths = strategy.getPaths(TeamColor.CHO);
 
             assertThat(paths).hasSize(8);
@@ -38,7 +38,7 @@ public class GuardMoveStrategyTest {
 
         @Test
         public void 한나라_사는_8방향으로_이동_가능하다() {
-            MoveStrategy strategy = new KingMoveStrategy();
+            MoveStrategy strategy = new GuardMoveStrategy();
             List<MovePath> paths = strategy.getPaths(TeamColor.HAN);
 
             assertThat(paths).hasSize(8);
@@ -59,7 +59,7 @@ public class GuardMoveStrategyTest {
     class 차단검사 {
         @Test
         public void 사는_장애물이_없으면_지나갈수_있다(){
-            MoveStrategy moveStrategy = new PawnMoveStrategy();
+            MoveStrategy moveStrategy = new GuardMoveStrategy();
             Route route = new Route(Position.of(1, 4), Position.of(0, 4), List.of());
 
             boolean canMove = moveStrategy.canMove(route, List.of(), Optional.empty(), TeamColor.CHO);
@@ -69,7 +69,7 @@ public class GuardMoveStrategyTest {
 
         @Test
         public void 사는_장애물이_하나라도_있으면_지나갈수_없다(){
-            MoveStrategy moveStrategy = new PawnMoveStrategy();
+            MoveStrategy moveStrategy = new GuardMoveStrategy();
             Route route = new Route(Position.of(1, 4), Position.of(0, 4), List.of());
 
             boolean canMove = moveStrategy.canMove(
@@ -104,5 +104,4 @@ public class GuardMoveStrategyTest {
         }
     }
 }
-
 

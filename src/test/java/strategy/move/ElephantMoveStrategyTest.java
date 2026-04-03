@@ -49,7 +49,7 @@ public class ElephantMoveStrategyTest {
     class 차단검사 {
         @Test
         public void 상은_장애물이_없으면_지나갈수_있다(){
-            MoveStrategy moveStrategy = new PawnMoveStrategy();
+            MoveStrategy moveStrategy = new ElephantMoveStrategy();
             Route route = new Route(Position.of(4, 4), Position.of(1, 2), List.of(Position.of(3, 4), Position.of(2, 3)));
 
             boolean canMove = moveStrategy.canMove(route, List.of(), Optional.empty(), TeamColor.CHO);
@@ -59,7 +59,7 @@ public class ElephantMoveStrategyTest {
 
         @Test
         public void 상은_장애물이_하나라도_있으면_지나갈수_없다(){
-            MoveStrategy moveStrategy = new PawnMoveStrategy();
+            MoveStrategy moveStrategy = new ElephantMoveStrategy();
             Route route = new Route(Position.of(4, 4), Position.of(1, 2), List.of(Position.of(3, 4), Position.of(2, 3)));
 
             boolean canMove = moveStrategy.canMove(
@@ -94,5 +94,4 @@ public class ElephantMoveStrategyTest {
         }
     }
 }
-
 

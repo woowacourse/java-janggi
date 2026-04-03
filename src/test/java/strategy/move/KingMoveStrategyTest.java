@@ -59,7 +59,7 @@ public class KingMoveStrategyTest {
     class 차단검사 {
         @Test
         public void 왕은_장애물이_없으면_지나갈수_있다(){
-            MoveStrategy moveStrategy = new PawnMoveStrategy();
+            MoveStrategy moveStrategy = new KingMoveStrategy();
             Route route = new Route(Position.of(1, 4), Position.of(0, 4), List.of());
 
             boolean canMove = moveStrategy.canMove(route, List.of(), Optional.empty(), TeamColor.CHO);
@@ -69,7 +69,7 @@ public class KingMoveStrategyTest {
 
         @Test
         public void 왕은_장애물이_하나라도_있으면_지나갈수_없다(){
-            MoveStrategy moveStrategy = new PawnMoveStrategy();
+            MoveStrategy moveStrategy = new KingMoveStrategy();
             Route route = new Route(Position.of(1, 4), Position.of(0, 4), List.of());
 
             boolean canMove = moveStrategy.canMove(
@@ -104,5 +104,4 @@ public class KingMoveStrategyTest {
         }
     }
 }
-
 
