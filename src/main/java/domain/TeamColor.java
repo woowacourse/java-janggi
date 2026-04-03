@@ -13,4 +13,11 @@ public enum TeamColor {
     public String getDisplayName() {
         return displayName;
     }
+
+    public MaterialPoints startingScore() {
+        if (this == CHO) {
+            return MaterialPoints.of(72);
+        }
+        return MaterialPoints.of(73.5);
+    }
 }

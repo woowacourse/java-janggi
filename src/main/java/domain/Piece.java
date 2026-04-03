@@ -25,4 +25,8 @@ public class Piece {
     public boolean isOnTeam(TeamColor teamColor) {
         return this.teamColor == teamColor;
     }
+
+    public MaterialPoints materialPoints() {
+        return pieceType.materialPoints();
+    }
 }
