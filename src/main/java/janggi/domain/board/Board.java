@@ -32,12 +32,16 @@ public class Board {
         int width = pieces[FIRST_ROW_INDEX].length;
 
         for (int row = 0; row < height; row++) {
-            for (int col = 0; col < width; col++) {
-                boardState.put(new Location(row, col), pieces[row][col]);
-            }
+            mapRowToBoardState(boardState, pieces[row], row);
         }
 
         return new Board(boardState, height, width);
+    }
+
+    private static void mapRowToBoardState(Map<Location, Piece> boardState, Piece[] rowPieces, int row) {
+        for (int col = 0; col < rowPieces.length; col++) {
+            boardState.put(new Location(row, col), rowPieces[col]);
+        }
     }
 
     public void validateLocationOfPiece(Side currentSide, Location locationOfPiece) {
@@ -100,14 +104,18 @@ public class Board {
     public List<List<Piece>> to2DArray() {
         List<List<Piece>> pieces = new ArrayList<>();
         for (int row = 0; row < height; row++) {
-            List<Piece> line = new ArrayList<>();
-            for (int col = 0; col < width; col++) {
-                Piece piece = boardState.get(new Location(row, col));
-                line.add(piece);
-            }
-            pieces.add(List.copyOf(line));
+            pieces.add(createRows(row)); // 메서드 분리
         }
         return List.copyOf(pieces);
+    }
+
+    private List<Piece> createRows(int row) {
+        List<Piece> line = new ArrayList<>();
+        for (int col = 0; col < width; col++) {
+            Piece piece = boardState.get(new Location(row, col));
+            line.add(piece);
+        }
+        return List.copyOf(line);
     }
 
     private boolean isNotSameSide(Piece piece, Side side) {
