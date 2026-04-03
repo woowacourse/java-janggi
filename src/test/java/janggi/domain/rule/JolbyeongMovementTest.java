@@ -53,21 +53,20 @@ class JolbyeongMovementTest {
         @ParameterizedTest
         @DisplayName("초팀 졸병이 이동할 수 없는 위치로 경로를 계산하면, 빈 결과를 반환한다.")
         @MethodSource("provideUnreachableCoordination")
-        void shouldReturnEmptyForUnReachableLocationWhenTeamCho(List<Integer> coordination) {
+        void shouldReturnEmptyForUnReachableLocationWhenTeamCho(Location destination) {
             // given
             Location from = new Location(0, 0);
-            Location to = Location.from(coordination);
             JolbyeongMovement movement = JolbyeongMovement.getInstanceBySide(Side.CHO);
 
             // when & then
-            Assertions.assertThat(movement.calculateRoute(from, to)).isEmpty();
+            Assertions.assertThat(movement.calculateRoute(from, destination)).isEmpty();
         }
 
-        static List<List<Integer>> provideUnreachableCoordination() {
+        static List<Location> provideUnreachableCoordination() {
             return List.of(
-                    List.of(0,2), // 거리가 멀어서 도달할 수 없는 경우
-                    List.of(1,1), // 대각선으로 이동하는 경우
-                    List.of(0,1) // 뒤로 이동하는 경우
+                    new Location(0,2), // 거리가 멀어서 도달할 수 없는 경우
+                    new Location(1,1), // 대각선으로 이동하는 경우
+                    new Location(0,1) // 뒤로 이동하는 경우
             );
         }
     }

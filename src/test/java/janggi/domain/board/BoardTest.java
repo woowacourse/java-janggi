@@ -58,7 +58,7 @@ class BoardTest {
 
             BoardAssembler assembler = BoardAssembler.from(List.of(strategy, strategy));
             Board board = Board.create(assembler);
-            Location location = Location.from(List.of(1, 1));
+            Location location = new Location(1, 1);
 
             // when & then
             assertDoesNotThrow(() -> board.validateLocationOfPiece(currentSide, location));
@@ -76,7 +76,7 @@ class BoardTest {
 
             BoardAssembler assembler = BoardAssembler.from(List.of(strategy, strategy));
             Board board = Board.create(assembler);
-            Location location = Location.from(List.of(11, 11));
+            Location location = new Location(11, 11);
 
             // when & then
             Assertions.assertThatThrownBy(() -> board.validateLocationOfPiece(currentSide, location))
@@ -98,7 +98,7 @@ class BoardTest {
 
             BoardAssembler assembler = BoardAssembler.from(List.of(strategy, strategy));
             Board board = Board.create(assembler);
-            Location location = Location.from(List.of(1, 1));
+            Location location = new Location(1, 1);
 
             // when & then
             assertDoesNotThrow(() -> board.validateLocationOfPiece(currentSide, location));
@@ -117,7 +117,7 @@ class BoardTest {
 
             BoardAssembler assembler = BoardAssembler.from(List.of(strategy, strategy));
             Board board = Board.create(assembler);
-            Location location = Location.from(List.of(1, 1));
+            Location location = new Location(1, 1);
 
             // when & then
             Assertions.assertThatThrownBy(() -> board.validateLocationOfPiece(otherSide, location))
@@ -135,7 +135,7 @@ class BoardTest {
 
             BoardAssembler assembler = BoardAssembler.from(List.of(strategy, strategy));
             Board board = Board.create(assembler);
-            Location location = Location.from(List.of(5, 5));
+            Location location = new Location(5, 5);
 
             // when & then
             Assertions.assertThatThrownBy(() -> board.validateLocationOfPiece(Side.HAN, location))

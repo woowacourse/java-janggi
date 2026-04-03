@@ -18,7 +18,7 @@ class StraightRouteProviderTest {
     @MethodSource("provideReachableCoordination")
     void shouldReturnRouteForReachableLocation(Location destination, List<Location> route) {
         // given
-        Location from = Location.from(List.of(2, 2));
+        Location from = new Location(2, 2);
 
         // when & then
         Assertions.assertThat(STRAIGHT_ROUTE_PROVIDER.calculateRoute(from, destination)).hasValue(route);
@@ -48,20 +48,19 @@ class StraightRouteProviderTest {
     @ParameterizedTest
     @DisplayName("직선으로 이동이 불가능한 위치로 경로를 계산하면, 빈 결과를 반환한다.")
     @MethodSource("provideUnreachableCoordination")
-    void shouldReturnEmptyForUnReachableLocation(List<Integer> coordination) {
+    void shouldReturnEmptyForUnReachableLocation(Location destination) {
         // given
-        Location from = Location.from(List.of(1, 1));
-        Location to = Location.from(coordination);
+        Location from = new Location(1, 1);
 
         // when & then
-        Assertions.assertThat(STRAIGHT_ROUTE_PROVIDER.calculateRoute(from, to)).isEmpty();
+        Assertions.assertThat(STRAIGHT_ROUTE_PROVIDER.calculateRoute(from, destination)).isEmpty();
     }
 
-    static List<List<Integer>> provideUnreachableCoordination() {
+    static List<Location> provideUnreachableCoordination() {
         return List.of(
-                List.of(3, 3),
-                List.of(3, 2),
-                List.of(2, 2)
+                new Location(3, 3),
+                new Location(3, 2),
+                new Location(2, 2)
         );
     }
 }

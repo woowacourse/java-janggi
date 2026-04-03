@@ -8,7 +8,9 @@ public record Location(int x, int y) {
 
     public static Location from(List<Integer> coordination) {
         validateCount(coordination);
-        return new Location(coordination.get(0), coordination.get(1));
+        int row = coordination.get(0) - 1;
+        int col = coordination.get(1) - 1;
+        return new Location(row, col);
     }
 
     private static void validateCount(List<Integer> coordination) {
