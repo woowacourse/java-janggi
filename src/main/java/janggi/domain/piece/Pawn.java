@@ -6,7 +6,6 @@ import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.policy.ClearPathPolicy;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Pawn extends StepPiece {
