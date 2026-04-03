@@ -16,7 +16,7 @@ public class JanggiApplication {
         new DatabaseInitializer(connectionManager).initialize();
         TransactionManager transactionManager = new TransactionManager(connectionManager);
 
-        JanggiGame janggi = new JanggiGame(
+        GameRunner janggi = new GameRunner(
                 new InputView(new Scanner(System.in)),
                 new OutputView(),
                 new GameService(transactionManager, new GameStateRepository(), new GamePieceRepository())

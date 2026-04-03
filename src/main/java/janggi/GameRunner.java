@@ -15,14 +15,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public class JanggiGame {
+public class GameRunner {
     private static final String INVALID_GAME_ROOM = "[ERROR] 존재하지 않는 게임방 번호입니다.";
 
     private final InputView inputView;
     private final OutputView outputView;
     private final GameService gameService;
 
-    public JanggiGame(InputView inputView, OutputView outputView, GameService gameService) {
+    public GameRunner(InputView inputView, OutputView outputView, GameService gameService) {
         this.inputView = inputView;
         this.outputView = outputView;
         this.gameService = gameService;
