@@ -81,6 +81,19 @@ public class ElephantTest {
         @Test
         @DisplayName("상은 장기판 밖으로 이동할 수 없다.")
         void test3() {
+            positionPieceMap.put(Position.valueOf(5, 2), elephant);
+            List<Position> expected = List.of(Position.valueOf(3, 5), Position.valueOf(2, 4), Position.valueOf(7, 5),
+                    Position.valueOf(8, 4));
+
+            Board board = new Board(positionPieceMap);
+            List<Position> actual = elephant.calculateMovablePositions(Position.valueOf(5, 2), board);
+
+            assertThat(actual).hasSameElementsAs(expected);
+        }
+
+        @Test
+        @DisplayName("상은 장기판 밖으로 이동할 수 없다.")
+        void test4() {
             positionPieceMap.put(Position.valueOf(1, 1), elephant);
             positionPieceMap.put(Position.valueOf(1, 2), ally1);
             positionPieceMap.put(Position.valueOf(2, 1), ally3);
