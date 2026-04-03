@@ -57,9 +57,7 @@ public class JanggiGameController {
         if (command.isNewGame()) {
             return service.startNewGame(readInitBoard());
         }
-        Long roomId = inputView.chooseExistsGame();
-        service.loadExistsBoard(roomId);
-        return roomId;
+        return inputView.chooseExistsGame();
     }
 
     private Board readInitBoard() {

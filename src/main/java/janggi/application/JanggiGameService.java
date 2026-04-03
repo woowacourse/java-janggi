@@ -21,10 +21,6 @@ public class JanggiGameService {
         return repository.save(game);
     }
 
-    public void loadExistsBoard(Long roomId) {
-        repository.loadGame(roomId);
-    }
-
     public GameStatusInfo getBoardStatus(Long roomId) {
         return GameStatusInfo.from(repository.loadGame(roomId).getBoardStatus());
     }
