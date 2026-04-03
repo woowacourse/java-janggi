@@ -3,6 +3,7 @@ package janggi.domain;
 import janggi.domain.board.Board;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceAttribute;
+import janggi.domain.piece.PieceType;
 import janggi.domain.turn.ChoTurn;
 import janggi.domain.turn.HanTurn;
 import janggi.domain.turn.PlayerTurn;
@@ -73,7 +74,11 @@ public class Game {
 
     private List<PieceInitInfo> getPieceInitInfo(Map<Position, Piece> board) {
         List<PieceInitInfo> pieceInitInfos = new ArrayList<>();
-        board.forEach(((position, piece) -> pieceInitInfos.add(piece.getPieceInitInfo(position))));
+        board.forEach(((position, piece) -> {
+            if(!piece.isEqualPieceType(PieceType.NONE)) {
+                pieceInitInfos.add(piece.getPieceInitInfo(position));
+            }
+        }));
         return pieceInitInfos;
     }
 
