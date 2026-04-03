@@ -3,11 +3,13 @@ package janggi.domain.board;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+import janggi.domain.GameManager;
 import janggi.domain.Position;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.General;
 import janggi.domain.piece.Piece;
 import janggi.domain.team.TeamType;
+import janggi.domain.team.TurnManager;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
@@ -17,33 +19,33 @@ import org.junit.jupiter.api.Test;
 public class BoardTest {
 
     @Test
-    @DisplayName("보드에 왕이 2개 경우")
+    @DisplayName("현재 차례 플레이어의 장이 살아있다")
     void generalIsTwo() {
-        Map<Position, Piece> positionPieceMap = Map.of();
+        Map<Position, Piece> positionPieceMap;
         Position position1 = Position.valueOf(9, 5);
-        Position position2 = Position.valueOf(2, 5);
-        positionPieceMap = Map.of(
-                position1, new General(TeamType.BLUE),
-                position2, new General(TeamType.RED));
+        TurnManager turnManager = new TurnManager();
+        positionPieceMap = Map.of(position1, new General(TeamType.RED));
         Board board = new Board(positionPieceMap);
         boolean expected = true;
 
-        boolean actual = board.hasTwoGeneral();
+        GameManager gameManager = new GameManager();
+        boolean actual = gameManager.isGeneralAlive(turnManager.currentTeamType(), board);
 
         assertThat(actual).isEqualTo(expected);
     }
 
     @Test
-    @DisplayName("보드에 왕이 2개 미만인 경우")
+    @DisplayName("현재 차례 플레이어의 장이 없다")
     void generalIsOne() {
-        Map<Position, Piece> positionPieceMap = Map.of();
+        Map<Position, Piece> positionPieceMap;
         Position position1 = Position.valueOf(9, 5);
-        positionPieceMap = Map.of(
-                position1, new General(TeamType.BLUE));
+        TurnManager turnManager = new TurnManager();
+        positionPieceMap = Map.of(position1, new General(TeamType.BLUE));
         Board board = new Board(positionPieceMap);
         boolean expected = false;
 
-        boolean actual = board.hasTwoGeneral();
+        GameManager gameManager = new GameManager();
+        boolean actual = gameManager.isGeneralAlive(turnManager.currentTeamType(), board);
 
         assertThat(actual).isEqualTo(expected);
     }
