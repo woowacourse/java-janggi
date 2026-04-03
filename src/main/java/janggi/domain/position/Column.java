@@ -14,12 +14,6 @@ public class Column {
         this.value = value;
     }
 
-    private void validateRange(int value) {
-        if (value < COLUMN_LOWER_THRESH_HOLD || value > COLUMN_UPPER_THRESH_HOLD) {
-            throw new IllegalArgumentException("[ERROR] 열 좌표는 1~9까지 사용 가능 합니다");
-        }
-    }
-
     public int getValue() {
         return value;
     }
@@ -39,5 +33,11 @@ public class Column {
     @Override
     public int hashCode() {
         return Objects.hash(value);
+    }
+
+    private void validateRange(int value) {
+        if (value < COLUMN_LOWER_THRESH_HOLD || value > COLUMN_UPPER_THRESH_HOLD) {
+            throw new IllegalArgumentException("[ERROR] 열 좌표는 1~9까지 사용 가능 합니다");
+        }
     }
 }
