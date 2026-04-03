@@ -22,6 +22,7 @@ public class GameRoomRepositoryImpl implements GameRoomRepository {
 
     private static final String SELECT_ALL =
             "SELECT id, name, current_turn, created_at FROM game_room";
+
     private static final String UPDATE_BY_ID =
             "UPDATE game_room SET current_turn = ? WHERE id = ?";
 

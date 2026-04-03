@@ -17,6 +17,7 @@ public class Janggi {
 
     private final GameService gameService;
     private Side turn = Side.CHO;
+    private Long currentRoomId;
 
     public Janggi(GameService gameService) {
         this.gameService = gameService;
@@ -47,6 +48,7 @@ public class Janggi {
             return getNewBoard();
         }
 
+        this.currentRoomId = roomId;
         GameRoomDto gameRoomDto = gameService.findGameRoomByRoomId(roomId);
         turn = gameRoomDto.side();
         return new Board(gameService.findBoardByRoomId(roomId));
@@ -55,6 +57,7 @@ public class Janggi {
     private Board getNewBoard() {
         HorseElephantFormation cho = getHorseElephantFormation(Side.CHO);
         HorseElephantFormation han = getHorseElephantFormation(Side.HAN);
+        this.currentRoomId = null;
         return BoardFactory.create(cho, han);
     }
 
@@ -102,7 +105,7 @@ public class Janggi {
             String input = InputView.readLine();
 
             if (CommandParser.parse(input)) {
-                saveGame(board);
+                save(board);
                 continue;
             }
 
@@ -110,11 +113,28 @@ public class Janggi {
         }
     }
 
-    private void saveGame(Board board) {
+    private void save(Board board) {
         OutputView.printGameName();
+        if(isNewGame()){
+            saveGame(board);
+            return;
+        }
+        updateGame(board);
+    }
+
+    private boolean isNewGame() {
+        return currentRoomId == null;
+    }
+
+    private void saveGame(Board board){
         String name = InputView.readLine();
         gameService.saveGame(board.board(), name, turn);
         OutputView.printSaveComplete();
+    }
+
+    private void updateGame(Board board){
+        gameService.updateGame(board.board(), turn, currentRoomId);
+        OutputView.printUpdateComplete();
     }
 
     private Position getTo() {
@@ -134,4 +154,5 @@ public class Janggi {
 
         OutputView.printScore(Side.CHO, choScore, Side.HAN, hanScore);
     }
+
 }

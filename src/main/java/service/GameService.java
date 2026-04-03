@@ -31,7 +31,7 @@ public class GameService {
         });
     }
 
-    public void updateGame(Map<Position, Place> board, Side side, int roomId) {
+    public void updateGame(Map<Position, Place> board, Side side, long roomId) {
         dbExecutor.transaction(connection -> {
             gameRoomRepository.update(roomId, side.getName() ,connection);
             boardRepository.saveBoard(roomId, board, connection);

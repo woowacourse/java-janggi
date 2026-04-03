@@ -29,6 +29,8 @@ public class OutputView {
 
     private static final String SAVE_COMPLETE_MESSAGE = "게임이 저장되었습니다.";
 
+    private static final String UPDATE_COMPLETE_MESSAGE = "게임을 갱신하였습니다.";
+
     private static final String INPUT_POSITION_MOVE =
             "%s가 이동할 위치를 입력해주세요. (예: 3,5)\n";
 
@@ -60,6 +62,10 @@ public class OutputView {
 
     public static void printSaveComplete() {
         System.out.println(SAVE_COMPLETE_MESSAGE);
+    }
+
+    public static void printUpdateComplete() {
+        System.out.println(UPDATE_COMPLETE_MESSAGE);
     }
 
     public static void printErrorMessage(String message) {
