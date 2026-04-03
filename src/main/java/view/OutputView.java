@@ -5,7 +5,6 @@ import domain.board.IntersectionState;
 import domain.piece.PieceType;
 import domain.point.Point;
 import domain.team.Team;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -82,14 +81,14 @@ public class OutputView {
         System.out.println(getTeamName(winnerTeam) + "의 승리입니다.\n");
     }
 
-    private String getTeamName(Team team){
-        if(team == Team.CHO){
+    private String getTeamName(Team team) {
+        if (team == Team.CHO) {
             return "초(楚)";
         }
         return "한(漢)";
     }
 
-    private String getPieceChineseCharacter (PieceType pieceType, Team team){
+    private String getPieceChineseCharacter(PieceType pieceType, Team team) {
         if (pieceType == PieceType.NONE || team == null) {
             return CHO_PIECE_CHINESE_CHARACTER_MAP.get(PieceType.NONE);
         }

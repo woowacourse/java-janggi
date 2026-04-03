@@ -2,14 +2,14 @@ package dto;
 
 import domain.point.Point;
 
-public class MoveDto {
+public class Move {
 
     private final Point from;
     private final Point to;
 
-    public MoveDto(InputPointDto from, InputPointDto to) {
-        this.from = from.getPoint();
-        this.to = to.getPoint();
+    public Move(Point from, Point to) {
+        this.from = from;
+        this.to = to;
     }
 
     public Point getFrom() {

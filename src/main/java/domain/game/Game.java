@@ -4,7 +4,6 @@ import domain.board.BoardState;
 import domain.board.JanggiBoard;
 import domain.point.Point;
 import domain.team.Team;
-import dto.MoveDto;
 
 public class Game {
 
@@ -18,10 +17,7 @@ public class Game {
         this.turn = Team.CHO;
     }
 
-    public void processTurn(MoveDto move) {
-        Point from = move.getFrom();
-        Point to = move.getTo();
-
+    public void processTurn(Point from, Point to) {
         checkCurrentTurnTeam(from);
         janggiBoard.tryToMove(from, to);
         isGameRunning = janggiBoard.isGameRunning();

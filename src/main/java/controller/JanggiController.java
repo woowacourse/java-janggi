@@ -5,7 +5,10 @@ import domain.board.JanggiBoard;
 import domain.board.JanggiGenerator;
 import domain.game.Game;
 import domain.team.Team;
-import dto.MoveDto;
+import dto.InputMoveDto;
+import dto.Move;
+import parser.MoveInputParser;
+import parser.MoveMapper;
 import view.InputView;
 import view.OutputView;
 
@@ -31,8 +34,10 @@ public class JanggiController {
                 outputView.printCurrentBoardStatus(game.boardStatus());
                 final Team turn = game.currentTurn();
                 outputView.printCurrentTurn(turn);
-                MoveDto move = new MoveDto(inputView.inputMovePiecePoint(), inputView.inputDestinationPoint());
-                game.processTurn(move);
+                InputMoveDto inputMoveDto = MoveInputParser.parse(inputView.inputMovePiecePoint(),
+                        inputView.inputDestinationPoint());
+                Move move = MoveMapper.toMove(inputMoveDto);
+                game.processTurn(move.getFrom(), move.getTo());
             } catch (IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());
             }
