@@ -6,6 +6,7 @@ import janggi.domain.board.coordinate.Point;
 import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.piece.Pattern;
 import janggi.domain.piece.unit.Empty;
+import janggi.domain.piece.unit.General;
 import janggi.domain.piece.unit.Piece;
 import janggi.domain.side.Side;
 import java.util.HashMap;
@@ -53,11 +54,13 @@ public class Board {
                 .collect(Collectors.toSet());
     }
 
-    public void moveTo(Point from, Point to) {
+    public boolean moveTo(Point from, Point to) {
         if (isNotTherePiece(from)) {
             throw new IllegalArgumentException("빈 공간은 선택 할 수 없습니다.");
         }
         Piece fromPiece = getPieceAtPoint(from);
+        Piece toPiece = getPieceAtPoint(to);
+
         Set<Point> destinations = destinations(from);
 
         if (!destinations.contains(to)) {
@@ -66,7 +69,14 @@ public class Board {
 
         board.put(to, fromPiece);
         board.remove(from);
+
+        if (toPiece instanceof General) {
+            return true;
+        }
+
+        return false;
     }
+
 
     public Side getPointPieceSide(Point point) {
         if (!board.containsKey(point)) {

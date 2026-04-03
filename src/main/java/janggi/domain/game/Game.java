@@ -35,14 +35,19 @@ public class Game {
         return board.destinations(from);
     }
 
-    public void move(Point from, Point to) {
+    public Side move(Point from, Point to) {
         Side pointPieceSide = board.getPointPieceSide(from);
         if (!turn.equals(pointPieceSide)) {
             throw new IllegalArgumentException("%s 사이드의 차례가 아닙니다.".formatted(turn.getName()));
         }
-        board.moveTo(from, to);
+        if (board.moveTo(from, to)) {
+            return turn;
+        }
         switchTurn();
+
+        return Side.NONE;
     }
+
 
     public Map<Point, Piece> getBoard() {
         return board.getBoard();

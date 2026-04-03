@@ -7,8 +7,8 @@ import janggi.domain.piece.unit.Piece;
 import janggi.domain.side.Side;
 import janggi.view.InputView;
 import janggi.view.OutputView;
-import janggi.view.PieceCancelException;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Supplier;
 
@@ -26,7 +26,7 @@ public class JanggiController {
         BoardSetUp hanBoardSetUp = retry(() -> inputView.readBoardSetup(Side.HAN));
 
         Game game = Game.createGame(choBoardSetUp, hanBoardSetUp);
-        retry(() -> play(game));
+        play(game);
     }
 
     private void play(Game game) {
@@ -35,33 +35,37 @@ public class JanggiController {
             outputView.printBoard(board);
             outputView.printSide(game.getTurn());
 
-            Point from = retry(() -> printPath(inputView.readPoint(), game, board));
-            retry(() -> move(game, from, inputView.readDestination()));
+            Side winSide = selectMove(game, board);
+
+            if (winSide != Side.NONE) {
+                outputView.printBoard(game.getBoard());
+                outputView.printGameResult(winSide);
+                break;
+            }
         }
     }
 
-    private void move(Game game, Point from, Point to) {
-        game.move(from, to);
+    private Side selectMove(Game game, Map<Point, Piece> board) {
+        while (true) {
+            Point from = retry(() -> printPath(inputView.readPoint(), game, board));
+            Optional<Point> to = retry(() -> inputView.readDestination());
+
+            if (to.isEmpty()) {
+                continue;
+            }
+
+            return retry(() -> move(game, from, to.get()));
+        }
     }
 
+    private Side move(Game game, Point from, Point to) {
+        return game.move(from, to);
+    }
 
     private Point printPath(Point from, Game game, Map<Point, Piece> board) {
         Set<Point> destinations = game.destinations(from);
         outputView.printBoardWithPath(board, destinations);
         return from;
-    }
-
-    private void retry(Runnable runnable) {
-        while (true) {
-            try {
-                runnable.run();
-                break;
-            } catch (PieceCancelException e) {
-                break;
-            } catch (IllegalArgumentException e) {
-                outputView.printError(e.getMessage());
-            }
-        }
     }
 
     private <T> T retry(Supplier<T> supplier) {

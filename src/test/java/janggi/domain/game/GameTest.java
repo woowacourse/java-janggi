@@ -1,9 +1,11 @@
 package janggi.domain.game;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.board.coordinate.Point;
 import janggi.domain.board.setup.BoardSetUp;
+import janggi.domain.piece.unit.General;
 import janggi.domain.piece.unit.Soldier;
 import janggi.domain.side.Side;
 import java.util.Map;
@@ -18,10 +20,12 @@ class GameTest {
     @BeforeEach
     void setUp() {
         BoardSetUp choSetUp = (side) -> Map.of(
-                Point.of(0, 0), new Soldier(Side.CHO)
+                Point.of(0, 0), new Soldier(Side.CHO),
+                Point.of(5, 0), new Soldier(Side.CHO)
         );
         BoardSetUp hanSetUp = (side) -> Map.of(
-                Point.of(3, 0), new Soldier(Side.HAN)
+                Point.of(3, 0), new Soldier(Side.HAN),
+                Point.of(6, 0), new General(Side.HAN)
         );
         game = Game.createGame(choSetUp, hanSetUp);
     }
@@ -39,5 +43,11 @@ class GameTest {
         game.move(Point.of(0, 0), Point.of(1, 0));
         assertThatThrownBy(() -> game.move(Point.of(1, 0), Point.of(2, 0)))
                 .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("move(): 적 진영의 궁을 잡으면 이긴다.")
+    void checkGeneral() {
+        assertThat(game.move(Point.of(5, 0), Point.of(6, 0))).isEqualTo(Side.CHO);
     }
 }
