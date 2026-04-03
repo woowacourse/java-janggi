@@ -5,21 +5,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import domain.enums.Country;
 import domain.enums.MaSangPosition;
 import domain.enums.PieceType;
-import domain.pieces.Cha;
-import domain.pieces.Jang;
-import domain.pieces.Jol;
-import domain.pieces.Ma;
 import domain.pieces.None;
 import domain.pieces.Piece;
 import domain.pieces.PieceFactory;
-import domain.pieces.Po;
-import domain.pieces.Sa;
-import domain.pieces.Sang;
 
 public class Board {
     private final Map<Position, Piece> board;

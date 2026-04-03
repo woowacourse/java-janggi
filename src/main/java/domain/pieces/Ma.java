@@ -25,8 +25,6 @@ public class Ma extends Piece {
 
         return (Math.abs(diffX) == 2 && Math.abs(diffY) == 1) || (Math.abs(diffX) == 1 && Math.abs(diffY) == 2);
     }
-//Direction.DOWN_LEFT,Direction.DOWN_RIGHT,
-//            Direction.LEFT_UP, Direction.LEFT_DOWN,Direction.RIGHT_UP,Direction.RIGHT_DOWN
     @Override
     public List<Position> getAvailableRoute(Position start) {
         List<Position> availableRoute = new ArrayList<>();
