@@ -28,6 +28,9 @@ public class JanggiGameService {
     }
 
     public void loadExistsBoard(Long gameRoomId) {
+        if(gameRoomId == null) {
+            throw new IllegalArgumentException("[ERROR] 잘못된 게임방 ID 입력입니다.");
+        }
         this.games.put(gameRoomId, repository.loadGame(gameRoomId));
     }
 
