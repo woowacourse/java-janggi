@@ -92,6 +92,10 @@ public record Position(int row, int col) {
         return Palace.isGreenCenter(this.row, this.col);
     }
 
+    public boolean isPalaceSide() {
+        return PalaceRange.isInPalace(this.row, this.col) && Palace.isNotConnerOrCenter(this.row, this.col);
+    }
+
     private enum BoardRange {
         ROW(0, 9),
         COL(0, 8),
@@ -153,6 +157,11 @@ public record Position(int row, int col) {
 
         Palace(Predicate<Position> predicate) {
             this.predicate = predicate;
+        }
+
+        private static boolean isNotConnerOrCenter (int row, int col) {
+            return Arrays.stream(Palace.values()).map(palace -> palace.predicate)
+                    .anyMatch(positionPredicate -> positionPredicate.test(Position.of(row, col)));
         }
 
         private static boolean isRedEastNorth(int row, int col) {

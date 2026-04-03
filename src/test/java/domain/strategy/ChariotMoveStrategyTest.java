@@ -83,6 +83,16 @@ class ChariotMoveStrategyTest {
         assertThat(moveStrategy.isMoveAble(expected)).isFalse();
     }
 
+    @ParameterizedTest
+    @MethodSource("nonMovableConnerDestinationsOfRedPalaceByBlocked")
+    @DisplayName("차 기물은 이동 경로에 기물 위치가 포함되는 여부를 반환할 수 있어야 한다.(막힘)")
+    void chariot_blocked_route_palace_test(Position current, Position target) {
+        List<Position> piecePositions = List.of(Position.of(1, 4));
+        ChariotMoveStrategy moveStrategy = ChariotMoveStrategy.of(current);
+
+        assertThat(moveStrategy.isPathRestricted(target, piecePositions)).isTrue();
+    }
+
     private static Stream<Arguments> moveablePositionsInPalaceCenter() {
         Position redPalaceCenter = Position.of(1, 4);
         Position greenPlaceCenter = Position.of(8, 4);
@@ -130,17 +140,16 @@ class ChariotMoveStrategyTest {
         );
     }
 
-    private static Stream<Arguments> nonMovableDirectionsOutOfRange() {
-        Position redWestSide = Position.of(1, 3);
-        Position redNorthWestConner = Position.of(0, 3);
-
+    private static Stream<Arguments> nonMovableConnerDestinationsOfRedPalaceByBlocked() {
+        Position redNorthEast = Position.of(0, 5);
+        Position redNorthWest = Position.of(0,3);
+        Position redSouthEast = Position.of(2,5);
+        Position redSouthWest = Position.of(2,3);
         return Stream.of(
-                Arguments.arguments(redWestSide, redWestSide.downCrossLeft()),
-                Arguments.arguments(redWestSide, redWestSide.left()),
-                Arguments.arguments(redWestSide, redWestSide.upCrossLeft()),
-                Arguments.arguments(redNorthWestConner, redNorthWestConner.left()),
-                Arguments.arguments(redWestSide, redNorthWestConner.down()),
-                Arguments.arguments(redWestSide, redNorthWestConner.downCrossLeft())
+                Arguments.arguments(redNorthEast, redNorthEast.downCrossLeft().downCrossLeft()),
+                Arguments.arguments(redNorthWest, redNorthWest.downCrossRight().downCrossRight()),
+                Arguments.arguments(redSouthEast, redSouthEast.upCrossLeft().upCrossLeft()),
+                Arguments.arguments(redSouthWest, redSouthWest.upCrossRight().upCrossRight())
         );
     }
 }
