@@ -58,7 +58,6 @@ public class JanggiGameController {
             return service.startNewGame(readInitBoard());
         }
         Long roomId = inputView.chooseExistsGame();
-        validateIsNull(roomId);
         service.loadExistsBoard(roomId);
         return roomId;
     }
@@ -68,11 +67,5 @@ public class JanggiGameController {
         List<PositionInfo> positionInfos = FileParser.readCsvFile("/janggi.csv");
         positionInfos.forEach(info -> pieces.put(info.point(), info.piece()));
         return new Board(pieces);
-    }
-
-    private void validateIsNull(Long roomId) {
-        if(roomId == null) {
-            throw new IllegalArgumentException("[ERROR] 잘못된 게임방 ID 입력입니다.");
-        }
     }
 }
