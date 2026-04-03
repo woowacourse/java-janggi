@@ -12,12 +12,12 @@ public class Rook extends Piece{
 
     @Override
     public boolean canMove(Position from, Position to, Board board) {
-        // 1. 도착 지점이 같은 열 또는 행이 아닌 경우 이동 불가
-        if (!isCorrectMoveDistanceAndDirection(from, to)) {
+        // 1. 도착 지점이 같은 열 또는 행 or 궁성 내 간선 아닌 경우 이동 불가
+        if (!isCorrectMoveDistanceAndDirection(from, to, board)) {
             return false;
         }
 
-        // 2. 도착지에 같은 팀이 존재하는 경우 이동 불가
+        // 2. 직선 이동 시 도착지에 같은 팀이 존재하는 경우 이동 불가
         if (board.hasSameTeamOn(to, this)) {
             return false;
         }
@@ -30,12 +30,30 @@ public class Rook extends Piece{
         return true;
     }
 
-    private boolean isCorrectMoveDistanceAndDirection(Position from, Position to) {
+    private boolean isCorrectMoveDistanceAndDirection(Position from, Position to, Board board) {
+        if (board.isPalaceCorner(from)) {
+            return board.isPalaceCorner(to)  || board.isPalaceCorner(to) || from.isSameColumn(to) || from.isSameRow(to);
+        }
         return from.isSameColumn(to) || from.isSameRow(to);
     }
 
     private boolean hasOnePieceInPath(Position from, Position to, Board board) {
+        // 대각선 끝과 끝 이동시 궁성 중앙에 기물이 있는지 확인
+        if (isDiagonalCornerToCorner(from, to)) {
+            Position middlePosition = from.getMiddlePosition(to);
+            // 길이 비어 있어야 이동 가능
+            return board.isEmpty(middlePosition);
+        }
+
         if (board.findPiecesInLinePath(from, to).isEmpty()) {
+            return true;
+        }
+        return false;
+    }
+
+    // 대각선 끝과 끝 이동인지 확인
+    private boolean isDiagonalCornerToCorner(Position from, Position to) {
+        if (Math.abs(from.rowDistanceTo(to)) == 2 && Math.abs(from.columnDistanceTo(to)) == 2) {
             return true;
         }
         return false;

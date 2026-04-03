@@ -2,8 +2,7 @@ package domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.piece.Elephant;
-import domain.piece.Horse;
+
 import domain.piece.Pawn;
 import domain.piece.Piece;
 import java.util.HashMap;

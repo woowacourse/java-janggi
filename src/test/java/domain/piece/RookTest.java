@@ -83,7 +83,64 @@ class RookTest {
     }
 
     /**
+     * 궁성 내 대각선 이동 테스트
+     * 1. 궁성 내 이동 경로에 장애물이 없다면 대각선으로 이동 가능하다
+     * 2. 장애물이 있다면 이동 불가능 하다.
+     * 3. 도착지에 같은 팀 말이 있다면 이동 불가능 하다
+     */
+
+    @Test
+    void 궁성_내_이동_경로에_장애물이_없다면_대각선으로_이동가능하다() {
+        Piece rook = new Rook(Team.CHO);
+
+        Position from = Position.from(8, 4);
+        Position to = Position.from(10, 6);
+
+        Map<Position, Piece> testPiece = new HashMap<>();
+        testPiece.put(from, new Rook(Team.CHO));
+
+        Board board = new Board(testPiece);
+
+        assertThat(rook.canMove(from, to, board)).isEqualTo(true);
+    }
+
+    @Test
+    void 궁성_내_이동_경로에_장애물이_있다면_대각선으로_이동_불가능하다() {
+        Piece rook = new Rook(Team.CHO);
+
+        Position from = Position.from(8, 4);
+        Position between = Position.from(9, 5);
+        Position to = Position.from(10, 6);
+
+        Map<Position, Piece> testPiece = new HashMap<>();
+        testPiece.put(from, new Rook(Team.CHO));
+        testPiece.put(between, new Pawn(Team.CHO));
+
+        Board board = new Board(testPiece);
+
+        assertThat(rook.canMove(from, to, board)).isEqualTo(false);
+    }
+
+    @Test
+    void 궁도착지에_같은_팀_말이_있다면_이동_불가능하다() {
+        Piece rook = new Rook(Team.CHO);
+
+        Position from = Position.from(8, 4);
+        Position to = Position.from(10, 6);
+
+        Map<Position, Piece> testPiece = new HashMap<>();
+        testPiece.put(from, new Rook(Team.CHO));
+        testPiece.put(to, new Pawn(Team.CHO));
+
+        Board board = new Board(testPiece);
+
+        assertThat(rook.canMove(from, to, board)).isEqualTo(false);
+    }
+
+
+    /**
      * 정상 테스트
+     * TODO : 대각선 이동 테스트 추가하기
      */
     @ParameterizedTest
     @MethodSource("validDirectionsPositions")
