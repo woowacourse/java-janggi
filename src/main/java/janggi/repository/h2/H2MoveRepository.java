@@ -15,19 +15,18 @@ import java.util.List;
 public class H2MoveRepository implements MoveRepository {
     @Override
     public void save(MoveEntity move) {
-        String sql = "INSERT INTO MOVE (ID,GAME_ID,MOVE_NUMBER,SIDE,FROM_X,FROM_Y,TO_X,TO_Y) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO MOVE (ID,GAME_ID,SIDE,FROM_X,FROM_Y,TO_X,TO_Y) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, move.id());
             stmt.setInt(2, move.gameId());
-            stmt.setInt(3, move.moveNumber());
-            stmt.setString(4, move.side().getName());
-            stmt.setInt(5, move.fromX());
-            stmt.setInt(6, move.fromY());
-            stmt.setInt(7, move.toX());
-            stmt.setInt(8, move.toY());
+            stmt.setString(3, move.side().getName());
+            stmt.setInt(4, move.fromX());
+            stmt.setInt(5, move.fromY());
+            stmt.setInt(6, move.toX());
+            stmt.setInt(7, move.toY());
 
             stmt.executeUpdate();
         } catch (SQLException e) {
@@ -55,9 +54,9 @@ public class H2MoveRepository implements MoveRepository {
     }
 
     @Override
-    public List<MoveEntity> findByGameId(int gameId) {
+    public List<MoveEntity> findByGameIdOrderByMoveNumber(int gameId) {
         String sql = "SELECT ID, GAME_ID, MOVE_NUMBER, SIDE, FROM_X, FROM_Y, TO_X, TO_Y FROM MOVE "
-                + "WHERE GAME_ID = ?";
+                + "WHERE GAME_ID = ? ORDER BY MOVE_NUMBER";
 
         List<MoveEntity> moveEntities = new ArrayList<>();
         try (Connection connection = getConnection();
@@ -79,7 +78,6 @@ public class H2MoveRepository implements MoveRepository {
         return new MoveEntity(
                 rs.getInt("id"),
                 rs.getInt("game_id"),
-                rs.getInt("move_number"),
                 Side.valueOf(rs.getString("side")),
                 rs.getInt("from_x"),
                 rs.getInt("from_y"),

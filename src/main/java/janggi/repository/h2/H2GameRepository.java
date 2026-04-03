@@ -4,6 +4,7 @@ import static janggi.repository.h2.DataSource.getConnection;
 
 import janggi.domain.side.Side;
 import janggi.entity.GameEntity;
+import janggi.entity.SetUpEntity;
 import janggi.entity.Status;
 import janggi.repository.GameRepository;
 import java.sql.Connection;
@@ -21,8 +22,8 @@ public class H2GameRepository implements GameRepository {
         try (Connection connection = getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, game.name());
-            stmt.setString(2, game.choSetUp());
-            stmt.setString(3, game.hanSetUp());
+            stmt.setString(2, game.choSetUp().name());
+            stmt.setString(3, game.hanSetUp().name());
             stmt.setString(4, game.status().name());
             stmt.setString(5, getWinnerName(game));
 
@@ -86,8 +87,8 @@ public class H2GameRepository implements GameRepository {
         return new GameEntity(
                 resultSet.getInt("id"),
                 resultSet.getString("name"),
-                resultSet.getString("cho_set_up"),
-                resultSet.getString("han_set_up"),
+                SetUpEntity.valueOf(resultSet.getString("cho_set_up")),
+                SetUpEntity.valueOf(resultSet.getString("han_set_up")),
                 Status.valueOf(resultSet.getString("status")),
                 getWinner(resultSet)
         );

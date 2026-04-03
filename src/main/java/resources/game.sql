@@ -22,16 +22,16 @@ CREATE TABLE game
 CREATE TABLE move
 (
     id          BIGINT AUTO_INCREMENT PRIMARY KEY,
-    game_id     BIGINT      NOT NULL,
-    move_number INT         NOT NULL,
-
-    side        VARCHAR(10) NOT NULL
+    move_number INT AUTO_INCREMENT NOT NULL,
+    game_id     BIGINT             NOT NULL,
+    
+    side        VARCHAR(10)        NOT NULL
         CHECK (side IN ('CHO', 'HAN')),
 
-    from_x      INT         NOT NULL,
-    from_y      INT         NOT NULL,
-    to_x        INT         NOT NULL,
-    to_y        INT         NOT NULL,
+    from_x      INT                NOT NULL,
+    from_y      INT                NOT NULL,
+    to_x        INT                NOT NULL,
+    to_y        INT                NOT NULL,
 
     timestamp   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 

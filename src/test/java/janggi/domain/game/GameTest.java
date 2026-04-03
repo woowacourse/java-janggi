@@ -24,7 +24,7 @@ class GameTest {
     @DisplayName("from에 있는 기물이 turn과 같은 Side라면 기물을 움직일 수 있다.")
     @MethodSource
     void isTurnPiece(Point point, boolean expected) {
-        BoardSetUp boardSetUp = new InElephantSetUp();
+        BoardSetUp boardSetUp = InElephantSetUp.INSTANCE;
         Game game = Game.createGame(boardSetUp, boardSetUp);
 
         assertThat(game.isTurnPiece(point)).isEqualTo(expected);
@@ -34,7 +34,7 @@ class GameTest {
     @DisplayName("제자리 이동을 하면 턴을 넘긴다.")
     void move() {
         Point choPoint = new Point(0, 0);
-        BoardSetUp boardSetUp = new InElephantSetUp();
+        BoardSetUp boardSetUp = InElephantSetUp.INSTANCE;
         Game game = Game.createGame(boardSetUp, boardSetUp);
 
         game.move(choPoint, choPoint);

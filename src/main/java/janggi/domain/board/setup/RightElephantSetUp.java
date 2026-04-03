@@ -8,6 +8,11 @@ import janggi.domain.side.Side;
 import java.util.Map;
 
 public class RightElephantSetUp implements BoardSetUp {
+    public static final BoardSetUp INSTANCE = new RightElephantSetUp();
+
+    private RightElephantSetUp() {
+    }
+
     @Override
     public Map<Point, Piece> generate(Side side) {
         Map<Point, Piece> setup = createCommonBoard(side);
