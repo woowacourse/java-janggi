@@ -5,6 +5,7 @@ import janggi.model.Team;
 import janggi.model.position.absolute.Column;
 import janggi.model.position.absolute.Position;
 import janggi.model.position.absolute.Row;
+import janggi.repository.BoardRepository;
 import janggi.view.BoardType;
 import janggi.view.InputView;
 import janggi.view.OutputView;
@@ -15,50 +16,71 @@ public class JanggiController {
 
     private final OutputView outputView;
     private final InputView inputView;
+    private final BoardRepository boardRepository;
 
-    public JanggiController(OutputView outputView, InputView inputView) {
+    public JanggiController(
+            OutputView outputView,
+            InputView inputView,
+            BoardRepository boardRepository
+    ) {
         this.outputView = outputView;
         this.inputView = inputView;
+        this.boardRepository = boardRepository;
     }
 
     public void run() {
-        Janggi janggi = setUpJanggi();
+        Janggi janggi = boardRepository
+                .findInProgressGame()
+                .orElseGet(this::startNewGame);
 
         while (!janggi.isGameOver()) {
-            outputView.printGameStatus(GameStatus.from(janggi));
+            janggi = movePiece(janggi);
 
-            janggi = janggi.play(
-                    readFromPosition(),
-                    readToPosition()
-            );
+            if (janggi.isGameOver()) {
+                break;
+            }
 
-            outputView.printInputContinuePrompt();
-            boolean isContinued = inputView.readYesOrNo();
-
-            if (!isContinued) {
+            boolean isDrawAccepted = readDrawAccept();
+            if (isDrawAccepted) {
                 janggi = janggi.draw();
+                break;
+            }
+
+            if (!readIsContinued()) {
                 break;
             }
         }
 
-        Team winner = janggi.getWinner();
+        if (janggi.isGameOver()) {
+            Team winner = janggi.getWinner();
+            outputView.printWinner(winner);
+            boardRepository.deleteGame();
+        }
     }
 
-    private Janggi setUpJanggi() {
+    private Janggi startNewGame() {
         outputView.printBoardInitialTypeMessage();
         BoardType boarType = inputView.readBoardInitializeType();
         return Janggi.of(boarType.getBoard());
     }
 
-    private Position readFromPosition() {
+    private Janggi movePiece(Janggi janggi) {
+        outputView.printGameStatus(GameStatus.from(janggi));
+
+        Position from = readPosition();
+        Position to = readPosition();
+
+        janggi = janggi.play(from, to);
+
+        boardRepository.updateBoardWith(from, to);
+        return janggi;
+    }
+
+    private Position readPosition() {
         outputView.printFromPositionMessage();
         return convertPositionInfoToPosition(inputView.readPosition());
     }
 
-    private Position readToPosition() {
-        outputView.printToPositionMessage();
-        return convertPositionInfoToPosition(inputView.readPosition());
-    }
 
     private Position convertPositionInfoToPosition(List<Integer> positionInfo) {
         int rowIndex = 0;
@@ -77,4 +99,13 @@ public class JanggiController {
         return new Position(row, column);
     }
 
+    private boolean readDrawAccept() {
+        outputView.printInputDrawAcceptPrompt();
+        return inputView.readYesOrNo();
+    }
+
+    private boolean readIsContinued() {
+        outputView.printInputContinuePrompt();
+        return inputView.readYesOrNo();
+    }
 }
