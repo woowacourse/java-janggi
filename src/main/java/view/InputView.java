@@ -21,7 +21,7 @@ public final class InputView {
         return SelectPositionRequest.of(readLine());
     }
 
-    public static SelectPositionRequest selectTargetPositionOf(PieceInfo pieceInfo) {
+    public static SelectPositionRequest selectTargetPositionWith(PieceInfo pieceInfo) {
         String message = String.format("선택한 %s 기물을 이동시킬 위치를 선택해주세요.", colorize(pieceInfo));
         System.out.println(message);
 

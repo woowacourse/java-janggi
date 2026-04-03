@@ -9,9 +9,17 @@ public class JanggiGame {
     private final Board board;
     private GameStatus gameStatus;
 
+    private JanggiGame(Board board) {
+        this(board, GameStatus.GREEN_PLAYER_TURN);
+    }
+
     public JanggiGame(Board board, GameStatus gameStatus) {
         this.board = board;
         this.gameStatus = gameStatus;
+    }
+
+    public static JanggiGame initGame(Board board) {
+        return new JanggiGame(board);
     }
 
     public PieceInfo findPieceInfoAt(Position selectPosition) {
