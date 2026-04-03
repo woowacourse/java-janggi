@@ -10,6 +10,7 @@ import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class CannonMoveStrategy implements MoveStrategy {
 
@@ -46,36 +47,40 @@ public class CannonMoveStrategy implements MoveStrategy {
     }
 
     private boolean findBridge(Iterator<Position> iterator, Map<Position, Piece> state) {
-        Piece firstPiece = findFirstPiece(iterator, state);
-        return isValidBridge(firstPiece);
+        Optional<Piece> firstPiece = findFirstPiece(iterator, state);
+
+        return firstPiece
+                .map(this::isValidBridge)
+                .orElse(false);
     }
 
-    private Piece findFirstPiece(Iterator<Position> iterator, Map<Position, Piece> state) {
+    private Optional<Piece> findFirstPiece(Iterator<Position> iterator, Map<Position, Piece> state) {
         while (iterator.hasNext()) {
-            Piece piece = state.get(iterator.next());
-            if (piece != null) {
+            Optional<Piece> piece = Optional.ofNullable(state.get(iterator.next()));
+
+            if (piece.isPresent()) {
                 return piece;
             }
         }
-        return null;
+        return Optional.empty();
     }
 
     private boolean isValidBridge(Piece piece) {
-        return (piece != null) && !piece.isCannon();
+        return !piece.isCannon();
     }
 
     private void findDestinationsAfterJump(Iterator<Position> iterator, Map<Position, Piece> state,
                                            List<Position> destinations, Piece me) {
         while (iterator.hasNext()) {
             Position position = iterator.next();
-            Piece target = state.get(position);
+            Optional<Piece> target = Optional.ofNullable(state.get(position));
 
-            if (target == null) {
+            if (target.isEmpty()) {
                 destinations.add(position);
                 continue;
             }
 
-            addTargetIfCapturable(position, target, destinations, me);
+            addTargetIfCapturable(position, target.get(), destinations, me);
             return;
         }
     }
