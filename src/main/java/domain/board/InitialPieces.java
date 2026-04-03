@@ -1,6 +1,7 @@
 package domain.board;
 
 import domain.game.Side;
+import domain.piece.AlivePieces;
 import domain.piece.Cannon;
 import domain.piece.Chariot;
 import domain.piece.General;
@@ -46,7 +47,7 @@ public class InitialPieces {
         }
     }
 
-    public Map<Intersection, Piece> get() {
-        return Map.copyOf(initialPieces);
+    public AlivePieces get() {
+        return new AlivePieces(initialPieces);
     }
 }

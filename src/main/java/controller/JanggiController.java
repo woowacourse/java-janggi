@@ -33,7 +33,7 @@ public class JanggiController {
         HanWings hanWings = retryOnIllegalArgument(view::readHanWings);
 
         InitialPieces initialPieces = new InitialPieces(hanWings, choWings);
-        AlivePieces alivePieces = new AlivePieces(initialPieces.get());
+        AlivePieces alivePieces = initialPieces.get();
 
         return new Board(alivePieces);
     }

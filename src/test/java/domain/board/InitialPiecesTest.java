@@ -1,11 +1,11 @@
 package domain.board;
 
 import domain.game.Side;
+import domain.piece.AlivePieces;
 import domain.piece.Elephant;
 import domain.piece.Horse;
 import domain.piece.Piece;
 import java.util.List;
-import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -24,9 +24,9 @@ class InitialPiecesTest {
         InitialPieces initialPieces = new InitialPieces(hanWings, choWings);
 
         // when
-        Map<Intersection, Piece> initializedPieces = initialPieces.get();
+        AlivePieces initializedPieces = initialPieces.get();
 
         // then
-        Assertions.assertThat(initializedPieces).hasSize(INITIAL_PIECES_AMOUNT);
+        Assertions.assertThat(initializedPieces.get()).hasSize(INITIAL_PIECES_AMOUNT);
     }
 }
