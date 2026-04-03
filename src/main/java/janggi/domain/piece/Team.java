@@ -1,4 +1,4 @@
-package janggi.domain;
+package janggi.domain.piece;
 
 public enum Team {
     CHO(),

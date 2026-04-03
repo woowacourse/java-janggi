@@ -1,5 +1,6 @@
-package janggi.domain;
+package janggi.domain.board;
 
+import janggi.domain.piece.Piece;
 import janggi.domain.position.Position;
 import janggi.exception.business.EmptyPieceException;
 import janggi.exception.business.EmptyPositionException;
@@ -7,7 +8,7 @@ import janggi.exception.business.EmptyPositionException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Board implements BoardState{
+public class Board implements BoardState {
     private final Map<Position, Piece> board;
 
     public Board(Map<Position, Piece> initialPieces) {

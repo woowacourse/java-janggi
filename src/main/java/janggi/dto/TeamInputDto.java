@@ -1,6 +1,6 @@
 package janggi.dto;
 
-import janggi.domain.Team;
+import janggi.domain.piece.Team;
 
 import java.util.EnumMap;
 import java.util.Map;

@@ -1,5 +1,6 @@
-package janggi.domain;
+package janggi.domain.piece;
 
+import janggi.domain.board.BoardState;
 import janggi.domain.movestrategy.ChaMoveStrategy;
 import janggi.domain.movestrategy.GungseongBoundMoveStrategy;
 import janggi.domain.movestrategy.JolMoveStrategy;

@@ -1,8 +1,8 @@
 package janggi.domain.movestrategy;
 
-import janggi.domain.BoardState;
+import janggi.domain.board.BoardState;
 import janggi.domain.position.Position;
-import janggi.domain.Team;
+import janggi.domain.piece.Team;
 
 public class GungseongBoundMoveStrategy implements MoveStrategy {
     @Override

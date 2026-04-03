@@ -1,5 +1,6 @@
-package janggi.domain;
+package janggi.domain.board;
 
+import janggi.domain.piece.Piece;
 import janggi.domain.position.Position;
 
 public interface BoardState {

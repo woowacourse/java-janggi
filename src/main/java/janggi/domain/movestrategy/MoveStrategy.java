@@ -1,6 +1,6 @@
 package janggi.domain.movestrategy;
 
-import janggi.domain.BoardState;
+import janggi.domain.board.BoardState;
 import janggi.domain.position.Position;
 
 public interface MoveStrategy {

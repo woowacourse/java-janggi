@@ -1,5 +1,6 @@
-package janggi.domain;
+package janggi.domain.piece;
 
+import janggi.domain.board.BoardState;
 import janggi.domain.movestrategy.MoveStrategy;
 import janggi.domain.position.Position;
 import janggi.exception.business.InvalidMoveException;

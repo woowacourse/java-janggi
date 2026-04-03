@@ -1,9 +1,9 @@
 package janggi.domain.movestrategy;
 
-import janggi.domain.BoardState;
+import janggi.domain.board.BoardState;
 import janggi.domain.position.Column;
-import janggi.domain.Piece;
-import janggi.domain.PieceType;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
 import janggi.domain.position.Row;
 

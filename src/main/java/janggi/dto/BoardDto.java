@@ -1,7 +1,7 @@
 package janggi.dto;
 
-import janggi.domain.Board;
-import janggi.domain.PieceType;
+import janggi.domain.board.Board;
+import janggi.domain.piece.PieceType;
 
 import java.util.EnumMap;
 import java.util.List;
