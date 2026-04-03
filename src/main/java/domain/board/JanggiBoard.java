@@ -9,7 +9,7 @@ import domain.piece.move.GeneralMoveRule;
 import domain.piece.move.GuardMoveRule;
 import domain.piece.move.HorseMoveRule;
 import domain.piece.move.MoveRule;
-import domain.piece.move.SoliderMoveRule;
+import domain.piece.move.SoldierMoveRule;
 import domain.point.Point;
 import java.util.ArrayList;
 import java.util.List;
@@ -107,7 +107,7 @@ public class JanggiBoard {
                 new GeneralMoveRule(),
                 new GuardMoveRule(),
                 new ElephantMoveRule(),
-                new SoliderMoveRule(),
+                new SoldierMoveRule(),
                 new CannonMoveRule(),
                 new HorseMoveRule()
         );

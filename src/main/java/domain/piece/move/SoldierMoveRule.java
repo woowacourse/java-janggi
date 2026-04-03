@@ -10,9 +10,9 @@ import domain.piece.PieceType;
 import domain.point.Point;
 import java.util.List;
 
-public class SoliderMoveRule extends MoveRule {
+public class SoldierMoveRule extends MoveRule {
 
-    public SoliderMoveRule() {
+    public SoldierMoveRule() {
         super(PieceType.SOLDIER, initializeDirections());
     }
 
