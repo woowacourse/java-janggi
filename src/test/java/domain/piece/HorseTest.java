@@ -3,12 +3,9 @@ package domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import domain.country.CountryType;
 import domain.Path;
 import domain.Position;
-import domain.state.EmptyState;
-import domain.state.FullState;
-import domain.state.State;
+import domain.country.CountryType;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
@@ -172,12 +169,16 @@ public class HorseTest {
     void horseOtherPieceExistPathExceptionTest() {
         Piece horse = new Horse(CountryType.CHO);
 
-        Map<Position, State> pathStates = new LinkedHashMap<>();
-        pathStates.put(new Position(1, 1), new FullState(horse));
-        pathStates.put(new Position(1, 2), new FullState(new Soldier(CountryType.HAN)));
-        pathStates.put(new Position(2, 3), new EmptyState());
+        Position from = new Position(1, 1);
+        Position to = new Position(2, 3);
 
-        assertThatThrownBy(() -> horse.validateMove(pathStates))
+        Map<Position, PieceInfo> pathPieceInfos = new LinkedHashMap<>();
+        pathPieceInfos.put(from, horse.getPieceInfo());
+        pathPieceInfos.put(new Position(1, 2), new PieceInfo(PieceType.SOLDIER, CountryType.HAN));
+        pathPieceInfos.put(to, new PieceInfo(PieceType.NONE, CountryType.NONE));
+        PieceInfos pieceInfos = new PieceInfos(pathPieceInfos);
+
+        assertThatThrownBy(() -> horse.validateMove(pieceInfos, from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동 경로에 다른 기물이 존재해 이동시킬 수 없습니다.");
     }
@@ -187,12 +188,16 @@ public class HorseTest {
     void horseMoveSameCountryPieceExceptionTest() {
         Piece horse = new Horse(CountryType.CHO);
 
-        Map<Position, State> pathStates = new LinkedHashMap<>();
-        pathStates.put(new Position(1, 1), new FullState(horse));
-        pathStates.put(new Position(1, 2), new EmptyState());
-        pathStates.put(new Position(2, 3), new FullState(new Soldier(CountryType.CHO)));
+        Position from = new Position(1, 1);
+        Position to = new Position(2, 3);
 
-        assertThatThrownBy(() -> horse.validateMove(pathStates))
+        Map<Position, PieceInfo> pathPieceInfos = new LinkedHashMap<>();
+        pathPieceInfos.put(from, horse.getPieceInfo());
+        pathPieceInfos.put(new Position(1, 2), new PieceInfo(PieceType.NONE, CountryType.NONE));
+        pathPieceInfos.put(to, new PieceInfo(PieceType.SOLDIER, CountryType.CHO));
+        PieceInfos pieceInfos = new PieceInfos(pathPieceInfos);
+
+        assertThatThrownBy(() -> horse.validateMove(pieceInfos, from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 같은 진영의 기물이 있는 위치로 이동시킬 수 없습니다.");
     }

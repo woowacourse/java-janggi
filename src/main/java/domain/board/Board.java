@@ -29,10 +29,10 @@ public class Board {
         validateMoveSamePosition(from, to);
         Path path = boardStates.getPiecePath(from, to);
 
-        boardStates.validatePieceMove(from, path);
+        boardStates.validatePieceMove(from, to, path);
         adjustScore(to);
         boolean isGeneralCaught = boardStates.isGeneralCaught(to);
-        boardStates.changeState(from, to);
+        boardStates.changePiecePosition(from, to);
         return isGeneralCaught;
     }
 

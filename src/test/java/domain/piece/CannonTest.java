@@ -3,12 +3,9 @@ package domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import domain.country.CountryType;
 import domain.Path;
 import domain.Position;
-import domain.state.EmptyState;
-import domain.state.FullState;
-import domain.state.State;
+import domain.country.CountryType;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
@@ -189,13 +186,18 @@ public class CannonTest {
     void cannonJumpPieceCountExceptionTest() {
         Cannon cannon = new Cannon(CountryType.CHO);
 
-        Map<Position, State> pathStates = new LinkedHashMap<>();
-        pathStates.put(new Position(1, 1), new FullState(cannon));
-        pathStates.put(new Position(1, 2), new FullState(new Soldier(CountryType.HAN)));
-        pathStates.put(new Position(1, 3), new FullState(new Soldier(CountryType.HAN)));
-        pathStates.put(new Position(1, 4), new EmptyState());
+        Position from = new Position(1, 1);
+        Position to = new Position(1, 4);
 
-        assertThatThrownBy(() -> cannon.validateMove(pathStates))
+        Map<Position, PieceInfo> pathPieceInfos = new LinkedHashMap<>();
+        pathPieceInfos.put(from, cannon.getPieceInfo());
+        pathPieceInfos.put(new Position(1, 2), new PieceInfo(PieceType.SOLDIER, CountryType.HAN));
+        pathPieceInfos.put(new Position(1, 3), new PieceInfo(PieceType.SOLDIER, CountryType.HAN));
+        pathPieceInfos.put(to, new PieceInfo(PieceType.NONE, CountryType.NONE));
+
+        PieceInfos pieceInfos = new PieceInfos(pathPieceInfos);
+
+        assertThatThrownBy(() -> cannon.validateMove(pieceInfos, from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 포는 하나의 기물만 뛰어 넘을 수 있습니다.");
     }
@@ -205,12 +207,16 @@ public class CannonTest {
     void cannonJumpCannonExceptionTest() {
         Cannon cannon = new Cannon(CountryType.CHO);
 
-        Map<Position, State> pathStates = new LinkedHashMap<>();
-        pathStates.put(new Position(1, 1), new FullState(cannon));
-        pathStates.put(new Position(1, 2), new FullState(new Cannon(CountryType.HAN)));
-        pathStates.put(new Position(1, 3), new EmptyState());
+        Position from = new Position(1, 1);
+        Position to = new Position(1, 3);
 
-        assertThatThrownBy(() -> cannon.validateMove(pathStates))
+        Map<Position, PieceInfo> pathPieceInfos = new LinkedHashMap<>();
+        pathPieceInfos.put(from, cannon.getPieceInfo());
+        pathPieceInfos.put(new Position(1, 2), new PieceInfo(PieceType.CANNON, CountryType.HAN));
+        pathPieceInfos.put(to, new PieceInfo(PieceType.NONE, CountryType.NONE));
+        PieceInfos pieceInfos = new PieceInfos(pathPieceInfos);
+
+        assertThatThrownBy(() -> cannon.validateMove(pieceInfos, from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 포는 포를 뛰어 넘을 수 없습니다.");
     }
@@ -220,12 +226,16 @@ public class CannonTest {
     void cannonKillCannonExceptionTest() {
         Piece cannon = new Cannon(CountryType.CHO);
 
-        Map<Position, State> pathStates = new LinkedHashMap<>();
-        pathStates.put(new Position(1, 1), new FullState(cannon));
-        pathStates.put(new Position(1, 2), new FullState(new Soldier(CountryType.HAN)));
-        pathStates.put(new Position(1, 3), new FullState(new Cannon(CountryType.HAN)));
+        Position from = new Position(1, 1);
+        Position to = new Position(1, 3);
 
-        assertThatThrownBy(() -> cannon.validateMove(pathStates))
+        Map<Position, PieceInfo> pathPieceInfos = new LinkedHashMap<>();
+        pathPieceInfos.put(from, cannon.getPieceInfo());
+        pathPieceInfos.put(new Position(1, 2), new PieceInfo(PieceType.SOLDIER, CountryType.HAN));
+        pathPieceInfos.put(to, new PieceInfo(PieceType.CANNON, CountryType.HAN));
+        PieceInfos pieceInfos = new PieceInfos(pathPieceInfos);
+
+        assertThatThrownBy(() -> cannon.validateMove(pieceInfos, from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 포는 포를 잡을 수 없습니다.");
     }
@@ -235,12 +245,16 @@ public class CannonTest {
     void cannonMoveSameCountryPieceExceptionTest() {
         Piece cannon = new Cannon(CountryType.CHO);
 
-        Map<Position, State> pathStates = new LinkedHashMap<>();
-        pathStates.put(new Position(1, 1), new FullState(cannon));
-        pathStates.put(new Position(1, 2), new FullState(new Soldier(CountryType.HAN)));
-        pathStates.put(new Position(1, 3), new FullState(new Soldier(CountryType.CHO)));
+        Position from = new Position(1, 1);
+        Position to = new Position(1, 3);
 
-        assertThatThrownBy(() -> cannon.validateMove(pathStates))
+        Map<Position, PieceInfo> pathPieceInfos = new LinkedHashMap<>();
+        pathPieceInfos.put(from, cannon.getPieceInfo());
+        pathPieceInfos.put(new Position(1, 2), new PieceInfo(PieceType.SOLDIER, CountryType.HAN));
+        pathPieceInfos.put(to, new PieceInfo(PieceType.SOLDIER, CountryType.CHO));
+        PieceInfos pieceInfos = new PieceInfos(pathPieceInfos);
+
+        assertThatThrownBy(() -> cannon.validateMove(pieceInfos, from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 같은 진영의 기물이 있는 위치로 이동시킬 수 없습니다.");
     }

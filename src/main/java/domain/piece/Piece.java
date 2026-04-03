@@ -1,12 +1,10 @@
 package domain.piece;
 
-import domain.country.CountryType;
 import domain.Direction;
 import domain.Path;
 import domain.Position;
-import domain.state.State;
+import domain.country.CountryType;
 import java.util.List;
-import java.util.Map;
 
 public abstract class Piece {
     private static final String NOT_EMPTY_PATH = "[ERROR] 이동 경로에 다른 기물이 존재해 이동시킬 수 없습니다.";
@@ -41,36 +39,30 @@ public abstract class Piece {
 
     abstract void validateDirections(List<Direction> directions, Position from, Position to);
 
-    public void validateMove(Map<Position, State> pathStates) {
-        List<State> states = pathStates.values().stream()
-                .toList();
-        validateToState(states.getFirst(), states.getLast());
-        // from, to State 제외한 Position 검사
-        validatePath(states);
+    public void validateMove(PieceInfos pathPieceInfos, Position from, Position to) {
+        validateToPiece(pathPieceInfos.get(from), pathPieceInfos.get(to));
+        // from, to Piece 제외한 path 검사
+        pathPieceInfos.deleteFromAndTo(from, to);
+        validatePath(pathPieceInfos.getValues());
     }
 
-    void validateToState(State fromState, State toState) {
-        if (toState.isEmpty()) {
+    void validateToPiece(PieceInfo fromPiece, PieceInfo toPiece) {
+        if (toPiece.pieceType() == PieceType.NONE) {
             return;
         }
-        validateToStateWithFromState(fromState, toState);
-    }
-
-    void validateToStateWithFromState(State fromState, State toState) {
-        if (fromState.getPieceCountryType() == toState.getPieceCountryType()) {
+        if (fromPiece.countryType() == toPiece.countryType()) {
             throw new IllegalArgumentException(CANNOT_MOVE_SAME_COUNTRY_POSITION);
         }
     }
 
-    void validatePath(List<State> states) {
-        for (int index = 1; index < states.size() - 1; index++) {
-            State state = states.get(index);
-            validatePathState(state);
+    void validatePath(List<PieceInfo> pieceInfos) {
+        for (PieceInfo pieceInfo : pieceInfos) {
+            validatePathPiece(pieceInfo);
         }
     }
 
-    void validatePathState(State state) {
-        if (!state.isEmpty()) {
+    void validatePathPiece(PieceInfo pieceInfo) {
+        if (pieceInfo.pieceType() != PieceType.NONE) {
             throw new IllegalArgumentException(NOT_EMPTY_PATH);
         }
     }

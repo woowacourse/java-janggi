@@ -2,9 +2,7 @@ package domain.piece;
 
 import domain.Palace;
 import domain.Position;
-import domain.state.State;
 import java.util.List;
-import java.util.Map;
 
 public class MoveInsidePalacePiece extends MoveOneStepPiece {
     private static final String ONLY_MOVE_INSIDE_PALACE = "[ERROR] 해당 기물은 궁성 외부로 이동할 수 없습니다.";
@@ -14,11 +12,11 @@ public class MoveInsidePalacePiece extends MoveOneStepPiece {
     }
 
     @Override
-    public void validateMove(Map<Position, State> pathStates) {
-        for (Position position : pathStates.keySet()) {
+    public void validateMove(PieceInfos pieceInfos, Position from, Position to) {
+        for (Position position : pieceInfos.getKeys()) {
             validatePosition(position);
         }
-        super.validateMove(pathStates);
+        super.validateMove(pieceInfos, from, to);
     }
 
     private void validatePosition(Position position) {

@@ -3,12 +3,9 @@ package domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import domain.country.CountryType;
 import domain.Path;
 import domain.Position;
-import domain.state.EmptyState;
-import domain.state.FullState;
-import domain.state.State;
+import domain.country.CountryType;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
@@ -193,13 +190,17 @@ public class ElephantTest {
     void elephantOtherPieceExistStraightPathExceptionTest() {
         Piece elephant = new Elephant(CountryType.CHO);
 
-        Map<Position, State> pathStates = new LinkedHashMap<>();
-        pathStates.put(new Position(1, 1), new FullState(elephant));
-        pathStates.put(new Position(1, 2), new FullState(new Soldier(CountryType.HAN)));
-        pathStates.put(new Position(2, 3), new EmptyState());
-        pathStates.put(new Position(3, 4), new FullState(new Soldier(CountryType.HAN)));
+        Position from = new Position(1, 1);
+        Position to = new Position(3, 4);
 
-        assertThatThrownBy(() -> elephant.validateMove(pathStates))
+        Map<Position, PieceInfo> pathPieceInfos = new LinkedHashMap<>();
+        pathPieceInfos.put(from, elephant.getPieceInfo());
+        pathPieceInfos.put(new Position(1, 2), new PieceInfo(PieceType.SOLDIER, CountryType.HAN));
+        pathPieceInfos.put(new Position(2, 3), new PieceInfo(PieceType.NONE, CountryType.NONE));
+        pathPieceInfos.put(to, new PieceInfo(PieceType.SOLDIER, CountryType.HAN));
+        PieceInfos pieceInfos = new PieceInfos(pathPieceInfos);
+
+        assertThatThrownBy(() -> elephant.validateMove(pieceInfos, from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동 경로에 다른 기물이 존재해 이동시킬 수 없습니다.");
     }
@@ -209,13 +210,17 @@ public class ElephantTest {
     void elephantOtherPieceExistDiagonalPathExceptionTest() {
         Piece elephant = new Elephant(CountryType.CHO);
 
-        Map<Position, State> pathStates = new LinkedHashMap<>();
-        pathStates.put(new Position(1, 1), new FullState(elephant));
-        pathStates.put(new Position(1, 2), new EmptyState());
-        pathStates.put(new Position(2, 3), new FullState(new Soldier(CountryType.HAN)));
-        pathStates.put(new Position(3, 4), new FullState(new Soldier(CountryType.HAN)));
+        Position from = new Position(1, 1);
+        Position to = new Position(3, 4);
 
-        assertThatThrownBy(() -> elephant.validateMove(pathStates))
+        Map<Position, PieceInfo> pathPieceInfos = new LinkedHashMap<>();
+        pathPieceInfos.put(from, elephant.getPieceInfo());
+        pathPieceInfos.put(new Position(1, 2), new PieceInfo(PieceType.NONE, CountryType.NONE));
+        pathPieceInfos.put(new Position(2, 3), new PieceInfo(PieceType.SOLDIER, CountryType.HAN));
+        pathPieceInfos.put(to, new PieceInfo(PieceType.SOLDIER, CountryType.HAN));
+        PieceInfos pieceInfos = new PieceInfos(pathPieceInfos);
+
+        assertThatThrownBy(() -> elephant.validateMove(pieceInfos, from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동 경로에 다른 기물이 존재해 이동시킬 수 없습니다.");
     }
@@ -225,13 +230,17 @@ public class ElephantTest {
     void elephantMoveSameCountryPieceExceptionTest() {
         Piece elephant = new Elephant(CountryType.CHO);
 
-        Map<Position, State> pathStates = new LinkedHashMap<>();
-        pathStates.put(new Position(1, 1), new FullState(elephant));
-        pathStates.put(new Position(1, 2), new EmptyState());
-        pathStates.put(new Position(2, 3), new EmptyState());
-        pathStates.put(new Position(3, 4), new FullState(new Soldier(CountryType.CHO)));
+        Position from = new Position(1, 1);
+        Position to = new Position(3, 4);
 
-        assertThatThrownBy(() -> elephant.validateMove(pathStates))
+        Map<Position, PieceInfo> pathPieceInfos = new LinkedHashMap<>();
+        pathPieceInfos.put(from, elephant.getPieceInfo());
+        pathPieceInfos.put(new Position(1, 2), new PieceInfo(PieceType.NONE, CountryType.NONE));
+        pathPieceInfos.put(new Position(2, 3), new PieceInfo(PieceType.NONE, CountryType.NONE));
+        pathPieceInfos.put(to, new PieceInfo(PieceType.SOLDIER, CountryType.CHO));
+        PieceInfos pieceInfos = new PieceInfos(pathPieceInfos);
+
+        assertThatThrownBy(() -> elephant.validateMove(pieceInfos, from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 같은 진영의 기물이 있는 위치로 이동시킬 수 없습니다.");
     }

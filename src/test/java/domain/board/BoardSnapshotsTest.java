@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import domain.Position;
 import domain.country.CountryType;
 import domain.piece.Chariot;
-import domain.state.FullState;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -21,8 +20,8 @@ public class BoardSnapshotsTest {
         Position hanRight = new Position(4, 2);
         Position hanLeft = new Position(3, 2);
 
-        stubBoardStates.put(choRight, new FullState(new Chariot(CountryType.CHO)));
-        stubBoardStates.put(hanRight, new FullState(new Chariot(CountryType.HAN)));
+        stubBoardStates.put(choRight, new Chariot(CountryType.CHO));
+        stubBoardStates.put(hanRight, new Chariot(CountryType.HAN));
 
         Board board = new Board(stubBoardStates.create());
 

@@ -4,83 +4,82 @@ import domain.Path;
 import domain.Position;
 import domain.country.Country;
 import domain.country.CountryType;
+import domain.piece.Piece;
 import domain.piece.PieceInfo;
 import domain.piece.PieceInfos;
 import domain.piece.PieceType;
-import domain.state.EmptyState;
-import domain.state.State;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 public class BoardStates {
-    private final Map<Position, State> boardStates;
+    private static final String NOT_FOUNT_PIECE_FROM_POSITION = "[ERROR] 해당 좌표에 기물이 존재하지 않습니다.";
 
-    public BoardStates(Map<Position, State> boardStates) {
-        this.boardStates = new HashMap<>(boardStates);
+    private final Map<Position, Piece> boardStates;
+
+    public BoardStates(Map<Position, Piece> boardPieces) {
+        this.boardStates = new HashMap<>(boardPieces);
     }
 
-    public void changeState(Position from, Position to) {
-        State fromState = boardStates.get(from);
-        boardStates.put(from, new EmptyState());
-        boardStates.put(to, fromState);
+    public void changePiecePosition(Position from, Position to) {
+        Piece fromPiece = boardStates.get(from);
+        boardStates.remove(from);
+        boardStates.put(to, fromPiece);
     }
 
     public void adjustScore(Position to, Country country) {
-        if (boardStates.get(to).isEmpty()) {
+        if (!boardStates.containsKey(to)) {
             return;
         }
         country.minusScore(boardStates.get(to).getPieceScore());
     }
 
     public boolean isGeneralCaught(Position to) {
-        if (boardStates.get(to).isEmpty()) {
+        if (!boardStates.containsKey(to)) {
             return false;
         }
         return boardStates.get(to).getPieceType() == PieceType.GENERAL;
     }
 
     public boolean isEmpty(Position position) {
-        return boardStates.get(position).isEmpty();
+        return !boardStates.containsKey(position);
     }
 
-    public void validatePieceMove(Position from, Path path) {
-        Map<Position, State> wayPointStates = getPathStates(path);
-        boardStates.get(from).getPiece().validateMove(wayPointStates);
+    public void validatePieceMove(Position from, Position to, Path path) {
+        PieceInfos wayPointPieceInfos = getPieceInfos(path.getPath());
+        boardStates.get(from).validateMove(wayPointPieceInfos, from, to);
     }
 
-    private Map<Position, State> getPathStates(Path path) {
-        Map<Position, State> pathStates = new LinkedHashMap<>();
-        for (Position position : path.getPath()) {
-            pathStates.put(position, boardStates.get(position).copy());
-        }
-        return pathStates;
-    }
-
-    public Path getPiecePath(Position from, Position to) {
-        return boardStates.get(from).getPiece().path(from, to);
-    }
-
-    public CountryType getPieceCountryType(Position position) {
-        return boardStates.get(position).getPieceCountryType();
-    }
-
-    public BoardSnapshot getBoardSnapshot(CountryType countryType) {
-        return new BoardSnapshot(makePieceInfos(), countryType);
-    }
-
-    private PieceInfos makePieceInfos() {
+    private PieceInfos getPieceInfos(List<Position> positions) {
         Map<Position, PieceInfo> pieceInfos = new HashMap<>();
-        for (Entry<Position, State> entry : boardStates.entrySet()) {
-            adjustPieceInfo(pieceInfos, entry);
+        for (Position position : positions) {
+            addPathPieceInfo(pieceInfos, position);
         }
         return new PieceInfos(pieceInfos);
     }
 
-    private void adjustPieceInfo(Map<Position, PieceInfo> pieceInfos, Entry<Position, State> entry) {
-        if (!entry.getValue().isEmpty()) {
-            pieceInfos.put(entry.getKey(), entry.getValue().getPieceInfo());
+    private void addPathPieceInfo(Map<Position, PieceInfo> pathPieceInfos, Position position) {
+        if (!boardStates.containsKey(position)) {
+            pathPieceInfos.put(position, new PieceInfo(PieceType.NONE, CountryType.NONE));
+            return;
         }
+        pathPieceInfos.put(position, boardStates.get(position).getPieceInfo());
+    }
+
+    public Path getPiecePath(Position from, Position to) {
+        return boardStates.get(from).path(from, to);
+    }
+
+    public CountryType getPieceCountryType(Position position) {
+        if (!boardStates.containsKey(position)) {
+            throw new IllegalArgumentException(NOT_FOUNT_PIECE_FROM_POSITION);
+        }
+        return boardStates.get(position).getPieceCountryType();
+    }
+
+    public BoardSnapshot getBoardSnapshot(CountryType countryType) {
+        List<Position> positions = boardStates.keySet().stream()
+                .toList();
+        return new BoardSnapshot(getPieceInfos(positions), countryType);
     }
 }

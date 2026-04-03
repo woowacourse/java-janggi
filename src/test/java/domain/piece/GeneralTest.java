@@ -3,12 +3,9 @@ package domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import domain.country.CountryType;
 import domain.Path;
 import domain.Position;
-import domain.state.EmptyState;
-import domain.state.FullState;
-import domain.state.State;
+import domain.country.CountryType;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
@@ -160,11 +157,15 @@ public class GeneralTest {
     void generalMoveSameCountryPieceExceptionTest() {
         Piece general = new General(CountryType.CHO);
 
-        Map<Position, State> pathStates = new LinkedHashMap<>();
-        pathStates.put(new Position(4, 1), new FullState(general));
-        pathStates.put(new Position(4, 2), new FullState(new Soldier(CountryType.CHO)));
+        Position from = new Position(4, 1);
+        Position to = new Position(4, 2);
 
-        assertThatThrownBy(() -> general.validateMove(pathStates))
+        Map<Position, PieceInfo> pathPieceInfos = new LinkedHashMap<>();
+        pathPieceInfos.put(from, general.getPieceInfo());
+        pathPieceInfos.put(to, new PieceInfo(PieceType.SOLDIER, CountryType.CHO));
+        PieceInfos pieceInfos = new PieceInfos(pathPieceInfos);
+
+        assertThatThrownBy(() -> general.validateMove(pieceInfos, from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 같은 진영의 기물이 있는 위치로 이동시킬 수 없습니다.");
     }
@@ -174,11 +175,15 @@ public class GeneralTest {
     void choGeneralMoveOutsidePalaceExceptionTest() {
         Piece general = new General(CountryType.CHO);
 
-        Map<Position, State> pathStates = new LinkedHashMap<>();
-        pathStates.put(new Position(3, 0), new FullState(general));
-        pathStates.put(new Position(2, 0), new EmptyState());
+        Position from = new Position(3, 0);
+        Position to = new Position(2, 0);
 
-        assertThatThrownBy(() -> general.validateMove(pathStates))
+        Map<Position, PieceInfo> pathPieceInfos = new LinkedHashMap<>();
+        pathPieceInfos.put(from, general.getPieceInfo());
+        pathPieceInfos.put(to, new PieceInfo(PieceType.NONE, CountryType.NONE));
+        PieceInfos pieceInfos = new PieceInfos(pathPieceInfos);
+
+        assertThatThrownBy(() -> general.validateMove(pieceInfos, from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 해당 기물은 궁성 외부로 이동할 수 없습니다.");
     }
@@ -188,11 +193,15 @@ public class GeneralTest {
     void hanGeneralMoveOutsidePalaceExceptionTest() {
         Piece general = new General(CountryType.HAN);
 
-        Map<Position, State> pathStates = new LinkedHashMap<>();
-        pathStates.put(new Position(3, 7), new FullState(general));
-        pathStates.put(new Position(2, 7), new EmptyState());
+        Position from = new Position(3, 7);
+        Position to = new Position(2, 7);
 
-        assertThatThrownBy(() -> general.validateMove(pathStates))
+        Map<Position, PieceInfo> pathPieceInfos = new LinkedHashMap<>();
+        pathPieceInfos.put(from, general.getPieceInfo());
+        pathPieceInfos.put(to, new PieceInfo(PieceType.NONE, CountryType.NONE));
+        PieceInfos pieceInfos = new PieceInfos(pathPieceInfos);
+
+        assertThatThrownBy(() -> general.validateMove(pieceInfos, from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 해당 기물은 궁성 외부로 이동할 수 없습니다.");
     }

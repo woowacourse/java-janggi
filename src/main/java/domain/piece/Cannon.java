@@ -1,7 +1,6 @@
 package domain.piece;
 
 import domain.country.CountryType;
-import domain.state.State;
 import java.util.List;
 
 public class Cannon extends MoveStraightPiece {
@@ -16,36 +15,32 @@ public class Cannon extends MoveStraightPiece {
     }
 
     @Override
-    void validateToStateWithFromState(State fromState, State toState) {
-        super.validateToStateWithFromState(fromState, toState);
-        if (fromState.getPieceType() == toState.getPieceType()) {
+    void validateToPiece(PieceInfo fromPiece, PieceInfo toPiece) {
+        super.validateToPiece(fromPiece, toPiece);
+        if (fromPiece.pieceType() == toPiece.pieceType()) {
             throw new IllegalArgumentException(CANNOT_KILL_CANNON);
         }
     }
 
     @Override
-    void validatePath(List<State> states) {
+    void validatePath(List<PieceInfo> pieceInfos) {
         int pieceCount = 0;
-        for (int index = 1; index < states.size() - 1; index++) {
-            State state = states.get(index);
-            validatePathState(state);
-            pieceCount = adjustPieceCount(state, pieceCount);
+        for (PieceInfo pieceInfo : pieceInfos) {
+            validatePathPiece(pieceInfo);
+            pieceCount = adjustPieceCount(pieceInfo, pieceCount);
         }
         validatePieceCount(pieceCount);
     }
 
     @Override
-    void validatePathState(State state) {
-        if (state.isEmpty()) {
-            return;
-        }
-        if (state.getPieceType() == PieceType.CANNON) {
+    void validatePathPiece(PieceInfo pieceInfo) {
+        if (pieceInfo.pieceType() == PieceType.CANNON) {
             throw new IllegalArgumentException(CANNOT_JUMP_CANNON);
         }
     }
 
-    private int adjustPieceCount(State state, int pieceCount) {
-        if (!state.isEmpty()) {
+    private int adjustPieceCount(PieceInfo pieceInfo, int pieceCount) {
+        if (pieceInfo.pieceType() != PieceType.NONE) {
             return ++pieceCount;
         }
         return pieceCount;
