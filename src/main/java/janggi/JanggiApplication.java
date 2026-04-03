@@ -1,6 +1,7 @@
 package janggi;
 
 import janggi.controller.JanggiController;
+import janggi.repository.JdbcBoardRepository;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 
@@ -10,7 +11,8 @@ public class JanggiApplication {
 
         JanggiController controller = new JanggiController(
                 new OutputView(),
-                new InputView()
+                new InputView(),
+                new JdbcBoardRepository()
         );
 
         controller.run();
