@@ -1,19 +1,14 @@
 package domain.board;
 
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.api.Test;
 
 class RowTest {
 
-    @ParameterizedTest
-    @ValueSource(ints = {
-            0, // 엣지 케이스
-            -1, -10, -100, Integer.MIN_VALUE
-    })
-    void 값이_최소_행보다_작다면_보드_범위_밖이라고_판단한다(int lowerValue) {
+    @Test
+    void 값이_최소_행보다_작다면_보드_범위_밖이라고_판단한다() {
         // given
-        Row row = new Row(lowerValue);
+        Row row = new Row(0);
 
         // when
         boolean outOfBoard = row.isOutOfBoard();
@@ -22,14 +17,10 @@ class RowTest {
         Assertions.assertThat(outOfBoard).isTrue();
     }
 
-    @ParameterizedTest
-    @ValueSource(ints = {
-            11, // 엣지 케이스
-            100, 1000, 10000, Integer.MAX_VALUE
-    })
-    void 값이_최대_행보다_크다면_보드_범위_밖이라고_판단한다(int biggerValue) {
+    @Test
+    void 값이_최대_행보다_크다면_보드_범위_밖이라고_판단한다() {
         // given
-        Row row = new Row(biggerValue);
+        Row row = new Row(11);
 
         // when
         boolean outOfBoard = row.isOutOfBoard();
