@@ -6,23 +6,26 @@ import janggi.domain.path.PieceOnPath;
 import janggi.domain.position.Movement;
 import janggi.domain.position.Position;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 class ChariotTest {
 
-    @Test
-    void 팀_확인_테스트() {
-        Chariot chariot = new Chariot(Team.HAN);
+    @ParameterizedTest
+    @CsvSource({
+            "HAN, true",
+            "CHO, true"})
+    void 차의_팀을_확인한다(Team team, boolean expected) {
+        Chariot chariot = new Chariot(team);
 
-        boolean hanResult = chariot.getTeam() == Team.HAN;
-        boolean choResult = chariot.getTeam() == Team.CHO;
-
-        assertAll(
-                () -> assertThat(hanResult).isTrue(),
-                () -> assertThat(choResult).isFalse()
-        );
+        assertThat(chariot.getTeam() == team).isEqualTo(expected);
     }
 
     @Test
@@ -30,11 +33,12 @@ class ChariotTest {
         Chariot chariot = new Chariot(Team.HAN);
 
         PieceType type = chariot.getType();
+
         assertThat(type).isEqualTo(PieceType.CHARIOT);
     }
 
     @Test
-    void 한_방향으로_된_좌표로_경로를_요청하면_경로를_반환한다() {
+    void 한_방향으로_이동시키면_경로를_반환한다() {
         Chariot chariot = new Chariot(Team.HAN);
         Movement movement = new Movement(Position.from("22"), Position.from("26"));
 
@@ -47,9 +51,22 @@ class ChariotTest {
     }
 
     @Test
-    void 차를_대각선으로_이동시키면_예외가_발생한다() {
+    void 한_칸을_이동시키면_빈_경로를_반환한다() {
         Chariot chariot = new Chariot(Team.HAN);
-        Movement movement = new Movement(Position.from("22"), Position.from("33"));
+        Movement movement = new Movement(Position.from("22"), Position.from("23"));
+
+        Path path = chariot.getPath(movement);
+
+        assertThat(path).isEmpty();
+    }
+
+    @ParameterizedTest(name = "from={0}, to={1}")
+    @CsvSource({
+            "22, 33",
+            "22, 48"})
+    void 직선이_아닌_방향으로_이동시키면_예외가_발생한다(String from, String to) {
+        Chariot chariot = new Chariot(Team.HAN);
+        Movement movement = new Movement(Position.from(from), Position.from(to));
 
         assertThatThrownBy(() -> chariot.getPath(movement))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -57,18 +74,7 @@ class ChariotTest {
     }
 
     @Test
-    void 차를_여러_방향으로_이동시키면_예외가_발생한다() {
-        Chariot chariot = new Chariot(Team.HAN);
-        Movement movement = new Movement(Position.from("22"), Position.from("48"));
-
-
-        assertThatThrownBy(() -> chariot.getPath(movement))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 차는 직선으로만 이동할 수 있습니다.");
-    }
-
-    @Test
-    void 경로에_존재하는_기물_중_빈_기물이_아닌_기물이_있으면_예외가_발생한다() {
+    void 경로에_기물이_있으면_예외가_발생한다() {
         Chariot chariot = new Chariot(Team.HAN);
         PieceOnPath pieceOnPath = new PieceOnPath();
         pieceOnPath.add(new Soldier(Team.HAN));
@@ -90,7 +96,7 @@ class ChariotTest {
     }
 
     @Test
-    void 이동_가능_확인_성공_테스트() {
+    void 이동_가능하면_예외가_발생하지_않는다() {
         Chariot chariot = new Chariot(Team.HAN);
         PieceOnPath pieceOnPath = new PieceOnPath();
         pieceOnPath.add(new EmptyPiece());
