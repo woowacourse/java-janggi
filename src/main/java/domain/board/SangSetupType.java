@@ -1,46 +1,45 @@
 package domain.board;
 
+import java.util.Arrays;
+
 public enum SangSetupType {
-    LEFT {
+    LEFT(1) {
         @Override
         public SangSetup create() {
             return new LeftSangSetup();
         }
     },
-    RIGHT {
+    RIGHT(2) {
         @Override
         public SangSetup create() {
             return new RightSangSetup();
         }
     },
-    INNER {
+    INNER(3) {
         @Override
         public SangSetup create() {
             return new InnerSangSetup();
         }
     },
-    OUTER {
+    OUTER(4) {
         @Override
         public SangSetup create() {
             return new OuterSangSetup();
         }
     };
 
+    private final int number;
+
+    SangSetupType(int number) {
+        this.number = number;
+    }
+
     public abstract SangSetup create();
 
     public static SangSetupType from(int number) {
-        if (number == 1) {
-            return LEFT;
-        }
-        if (number == 2) {
-            return RIGHT;
-        }
-        if (number == 3) {
-            return INNER;
-        }
-        if (number == 4) {
-            return OUTER;
-        }
-        throw new IllegalArgumentException("잘못된 상차림 번호입니다.");
+        return Arrays.stream(values())
+                .filter(sangSetupType -> sangSetupType.number == number)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 상차림 번호입니다."));
     }
 }
