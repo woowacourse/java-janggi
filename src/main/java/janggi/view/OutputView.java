@@ -27,6 +27,10 @@ public final class OutputView {
         System.out.println(ERROR_PREFIX + message);
     }
 
+    public static void printGameLoadedMessage() {
+        System.out.println("이전에 저장된 게임을 불러옵니다.");
+    }
+
     public static void printBoard(final BoardDto boardDto) {
         final List<String> rowStatuses = boardDto.rowStatuses();
 

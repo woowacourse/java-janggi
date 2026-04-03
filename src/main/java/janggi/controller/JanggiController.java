@@ -52,6 +52,7 @@ public class JanggiController {
         TurnManager turnManager;
         Board board;
         if (gameService.hasGameState(gameId)) {
+            OutputView.printGameLoadedMessage();
             turnManager = TurnManagerMapper.toDomain(gameService.loadOrSaveGameState(1));
             board = new Board(boardService.loadBoard(gameId));
             return new Pair<>(board, turnManager);
@@ -94,7 +95,7 @@ public class JanggiController {
                 this::readPositionOfMovingPiece, currentTeam, boardMediator);
             final List<Position> movablePositions = displayMovablePositions(positionOfMovingPiece,
                 board, boardMediator);
-            proceedMovement(movablePositions, board, positionOfMovingPiece);
+            final Position targetPosition = proceedMovement(movablePositions, board, positionOfMovingPiece);
             turnManager.progressToNext();
         }
     }
@@ -110,12 +111,14 @@ public class JanggiController {
         return movablePositions;
     }
 
-    private void proceedMovement(final List<Position> movablePositions, final Board board,
+    private Position proceedMovement(final List<Position> movablePositions, final Board board,
         final Position positionOfMovingPiece) {
         final Position targetPosition = RetryExecutor.retry(this::readTargetPosition,
             movablePositions);
         board.movePiece(positionOfMovingPiece, targetPosition);
         OutputView.printBoard(BoardDto.from(board, List.of()));
+
+        return targetPosition;
     }
 
     private Position readPositionOfMovingPiece(final Team team, final BoardMediator boardMediator) {
