@@ -6,10 +6,10 @@ import domain.position.Position;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TestBoard implements BoardState {
+public class FakeBoard implements BoardState {
     private final Map<Position, Piece> state = new HashMap<>();
 
-    public TestBoard put(Position position, Piece piece) {
+    public FakeBoard put(Position position, Piece piece) {
         state.put(position, piece);
         return this;
     }
