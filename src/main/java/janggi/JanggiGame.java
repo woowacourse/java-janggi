@@ -41,7 +41,7 @@ public class JanggiGame {
     private void play() {
         Team currentTeam = Team.CHO;
         while (!board.isGeneralCaptured(currentTeam)) {
-            List<String> positions = inputView.readPosition(currentTeam.getDisplayName());
+            List<String> positions = inputView.readPosition(currentTeam);
             if (isEndCommand(positions)) {
                 outputView.printGameEnd();
                 return;

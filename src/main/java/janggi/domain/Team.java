@@ -19,12 +19,14 @@ public enum Team {
     }
 
     public Team convert() {
-        if (this == Team.HAN) return Team.CHO;
-        if (this == Team.CHO) return Team.HAN;
-        return Team.NONE;
-    }
+        if (this == Team.HAN) {
+            return Team.CHO;
+        }
 
-    public String getDisplayName() {
-        return displayName;
+        if (this == Team.CHO) {
+            return Team.HAN;
+        }
+
+        throw new IllegalArgumentException("[ERROR] 한나라, 초나라만 선택 가능합니다.");
     }
 }

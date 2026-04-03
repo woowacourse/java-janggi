@@ -1,5 +1,7 @@
 package janggi.view;
 
+import janggi.domain.Team;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -25,18 +27,18 @@ public class InputView {
         return scanner.nextLine().trim();
     }
 
-    public List<String> readPosition(String teamName) {
-        System.out.printf("%s의 차례입니다. 이동할 좌표를 입력하세요 (예: 11 21, 종료: end)%n", toDisplayName(teamName));
+    public List<String> readPosition(Team currentTeam) {
+        System.out.printf("%s의 차례입니다. 이동할 좌표를 입력하세요 (예: 11 21, 종료: end)%n", toDisplayName(currentTeam));
         System.out.print("> ");
         String input = scanner.nextLine().trim();
 
         return List.of(input.split("\\s+"));
     }
 
-    private String toDisplayName(String teamName) {
-        if (teamName.equals("한")) {
-            return "\u001B[1;31m" + teamName + "(漢)\u001B[0m";
+    private String toDisplayName(Team team) {
+        if (team == Team.HAN) {
+            return "\u001B[1;31m한(漢)\u001B[0m";
         }
-        return "\u001B[1;34m" + teamName + "(楚)\u001B[0m";
+        return "\u001B[1;34m초(楚)\u001B[0m";
     }
 }
