@@ -28,7 +28,7 @@ public class Game {
                 .mapToInt(Piece::getPieceScore)
                 .sum();
 
-        this.playerTurn = new ChoTurn(new Board(initBoard, hanScore, choScore), 1);
+        this.playerTurn = new ChoTurn(new Board(initBoard, hanScore, choScore), 0);
         return getPieceInitInfo(initBoard);
     }
 
