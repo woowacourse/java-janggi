@@ -23,4 +23,8 @@ public enum Side {
     public Direction forwardDirection() {
         return forwardDirection;
     }
+
+    public boolean hasAdvantage() {
+        return this.equals(CHO);
+    }
 }

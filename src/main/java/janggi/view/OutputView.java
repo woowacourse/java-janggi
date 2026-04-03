@@ -116,8 +116,8 @@ public class OutputView {
         printLine(String.format(Message.PLAYER_NAME_NOTICE, displayName));
     }
 
-    public void printPlayerTurnNotice(String playerName, String sideName) {
-        printLine(String.format(Message.PLAYER_TURN_NOTICE, sideName, playerName));
+    public void printPlayerTurnNotice(String playerName, String sideName, double playerScore) {
+        printLine(String.format(Message.PLAYER_TURN_NOTICE, sideName, playerName, playerScore));
     }
 
     public void printMovePositionRowNotice() {

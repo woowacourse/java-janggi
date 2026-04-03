@@ -17,21 +17,27 @@ import java.util.EnumSet;
 import java.util.function.Function;
 
 public enum PieceType {
-    PALACE(side -> Direction.cardinalDirections(), new PalaceMoveStrategy()),
-    GUARD(side -> Direction.cardinalDirections(), new PalaceMoveStrategy()),
-    CHARIOT(side -> Direction.cardinalDirections(), new SlideMoveStrategy()),
-    CANNON(side -> Direction.cardinalDirections(), new CannonMoveStrategy()),
-    HORSE(side -> Direction.cardinalDirections(), new HorseMoveStrategy()),
-    ELEPHANT(side -> Direction.cardinalDirections(), new ElephantMoveStrategy()),
-    SOLDIER(side -> EnumSet.of(side.forwardDirection(), Direction.E, Direction.W), new StepMoveStrategy()),
+    PALACE(side -> Direction.cardinalDirections(), new PalaceMoveStrategy(), 0),
+    GUARD(side -> Direction.cardinalDirections(), new PalaceMoveStrategy(), 3),
+    CHARIOT(side -> Direction.cardinalDirections(), new SlideMoveStrategy(), 13),
+    CANNON(side -> Direction.cardinalDirections(), new CannonMoveStrategy(), 7),
+    HORSE(side -> Direction.cardinalDirections(), new HorseMoveStrategy(), 5),
+    ELEPHANT(side -> Direction.cardinalDirections(), new ElephantMoveStrategy(), 3),
+    SOLDIER(side -> EnumSet.of(side.forwardDirection(), Direction.E, Direction.W), new StepMoveStrategy(), 2),
     ;
 
     private final Function<Side, EnumSet<Direction>> directionProvider;
     private final MoveStrategy moveStrategy;
+    private final int score;
 
-    PieceType(Function<Side, EnumSet<Direction>> directionProvider, MoveStrategy moveStrategy) {
+    PieceType(Function<Side, EnumSet<Direction>> directionProvider, MoveStrategy moveStrategy, int score) {
         this.directionProvider = directionProvider;
         this.moveStrategy = moveStrategy;
+        this.score = score;
+    }
+
+    public int getScore() {
+        return score;
     }
 
     public Destinations determineDestinations(Position currentPosition, Side side, BoardInfo boardInfo) {

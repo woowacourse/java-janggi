@@ -56,4 +56,8 @@ public class GameManager {
     public void movePiece(Position selected, Position target, Destinations destinations) {
         board.movePiece(selected, target, destinations);
     }
+
+    public double currentPlayerScore() {
+        return board.calculateScore(turn.getCurrentSide());
+    }
 }

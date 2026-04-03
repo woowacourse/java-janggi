@@ -54,4 +54,8 @@ public class Piece {
     public <T> T map(PieceMapper<T> mapper) {
         return mapper.apply(this.side, this.type, this.pieceNumber);
     }
+
+    public int getScore() {
+        return type.getScore();
+    }
 }

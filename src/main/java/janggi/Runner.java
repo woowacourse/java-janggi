@@ -35,14 +35,15 @@ public class Runner {
         while (!gameManager.isFinished()) {
             Player currentPlayer = gameManager.currentPlayer();
             PlayerDTO currentPlayerDTO = currentPlayer.map(PlayerDTO::new);
-            printPlayerTurnNotice(currentPlayerDTO);
+            double currentPlayerScore = gameManager.currentPlayerScore();
+            printPlayerTurnNotice(currentPlayerDTO, currentPlayerScore);
             playerTurn();
             gameManager.switchTurn();
         }
     }
 
-    private void printPlayerTurnNotice(PlayerDTO currentPlayer) {
-        outputView.printPlayerTurnNotice(currentPlayer.name(), currentPlayer.sideName());
+    private void printPlayerTurnNotice(PlayerDTO currentPlayer, double currentPlayerScore) {
+        outputView.printPlayerTurnNotice(currentPlayer.name(), currentPlayer.sideName(), currentPlayerScore);
     }
 
     private void playerTurn() {

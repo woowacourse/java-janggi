@@ -1,7 +1,9 @@
 package janggi.domain.board;
 
+import janggi.domain.game.Side;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceMapper;
+import janggi.domain.piece.PieceScoreCalculator;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -91,5 +93,9 @@ public class Board implements BoardInfo {
     public boolean isMoveablePiece(Position selectedPosition) {
         Piece piece = piecePosition.get(selectedPosition);
         return !piece.determineDestinations(selectedPosition, this).isEmpty();
+    }
+
+    public double calculateScore(Side side) {
+        return PieceScoreCalculator.calculateScore(side, piecePosition.values());
     }
 }

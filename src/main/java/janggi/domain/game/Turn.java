@@ -13,13 +13,14 @@ public class Turn {
     }
 
     public Turn next() {
-        if (this.currentSide == Side.CHO) {
-            return new Turn(Side.HAN);
-        }
-        return new Turn(Side.CHO);
+        return new Turn(currentSide.opposite());
     }
 
     public boolean isTurnOf(Side side) {
         return this.currentSide == side;
+    }
+
+    public Side getCurrentSide() {
+        return currentSide;
     }
 }
