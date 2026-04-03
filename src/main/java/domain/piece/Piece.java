@@ -21,7 +21,7 @@ public abstract class Piece {
         return pieceType;
     }
 
-    public Team team() {
+    public Team getTeam() {
         return team;
     }
 

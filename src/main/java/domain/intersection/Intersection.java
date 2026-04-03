@@ -5,6 +5,7 @@ import domain.piece.NonePiece;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.point.Point;
+import domain.team.Team;
 
 public class Intersection {
 
@@ -32,6 +33,10 @@ public class Intersection {
         return point;
     }
 
+    public Team getTeam(){
+        return piece.getTeam();
+    }
+
     public boolean isSamePiece(Intersection intersection) {
         return this.piece.isSamePiece(intersection.piece);
     }
@@ -57,7 +62,7 @@ public class Intersection {
     }
 
     public IntersectionState toIntersectionState() {
-        return new IntersectionState(point, piece.pieceType(), piece.team());
+        return new IntersectionState(point, piece.pieceType(), piece.getTeam());
     }
 
 }

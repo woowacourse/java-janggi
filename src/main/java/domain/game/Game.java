@@ -19,9 +19,16 @@ public class Game {
     public void processTurn(MoveDTO move) {
         Point from = move.getFrom();
         Point to = move.getTo();
-        janggiBoard.tryToMove(from, to);
 
+        checkCurrentTurnTeam(from);
+        janggiBoard.tryToMove(from, to);
         turn = turn.nextTurn();
+    }
+
+    private void checkCurrentTurnTeam(Point point) {
+        if(janggiBoard.findIntersection(point).getTeam().equals(turn)) {
+            throw new IllegalArgumentException(turn.getKoreanTeamName() + "(" + turn.getChineseTeamName() + ")" + "의 기물만 움직일 수 있습니다.");
+        }
     }
 
     public Team currentTurn() {

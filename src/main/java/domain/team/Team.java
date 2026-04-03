@@ -14,6 +14,10 @@ public enum Team {
         this.chineseTeamName = chineseTeamName;
     }
 
+    public boolean isSameTeam(Team team) {
+        return this == team;
+    }
+
     public Team nextTurn() {
         if (this == CHO) {
             return HAN;
