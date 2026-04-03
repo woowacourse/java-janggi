@@ -31,11 +31,7 @@ public class Runner {
             playTurn();
         }
 
-        if (gameManager.isDraw()) {
-            outputView.printResult(gameManager.calculateWinnerWhenBigJang());
-            return;
-        }
-        outputView.printResult(gameManager.getCurrentPlayer().getProfile());
+        outputView.printResult(gameManager.calculateFinalScore());
     }
 
     private void playTurn() {

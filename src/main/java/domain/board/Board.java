@@ -32,8 +32,28 @@ public class Board {
         return caughtPiece;
     }
 
+    public Position findJangPosition(Team team) {
+        return board.entrySet().stream()
+                .filter(entry -> {
+                    BasicPiece piece = entry.getValue();
+                    return !piece.isNone()
+                            && piece.isType(PieceType.JANG)
+                            && piece.getTeam() == team;
+                })
+                .map(Map.Entry::getKey)
+                .findFirst()
+                .orElse(null);
+    }
+
     public BasicPiece findPiece(Position position) {
         return board.get(position);
+    }
+
+    public double calculateRawScore(Team team) {
+        return board.values().stream()
+                .filter(piece -> !piece.isDifferentTeam(team))
+                .mapToDouble(piece -> piece.getPieceType().score())
+                .sum();
     }
 
     public void validateSource(Position source, Player player) {
@@ -84,36 +104,4 @@ public class Board {
         return rowDiff > 0 && rowDiff == columnDiff;
     }
 
-    public boolean isBigJang() {
-        Position choJangPosition = findJangPosition(Team.CHO);
-        Position hanJangPosition = findJangPosition(Team.HAN);
-
-        if (choJangPosition.column() != hanJangPosition.column()) {
-            return false;
-        }
-
-        int startRow = Math.min(choJangPosition.row(), hanJangPosition.row()) + 1;
-        int endRow = Math.max(choJangPosition.row(), hanJangPosition.row());
-        int column = choJangPosition.column();
-
-        for (int row = startRow; row < endRow; row++) {
-            if (!findPiece(new Position(row, column)).isNone()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private Position findJangPosition(Team team) {
-        return board.entrySet().stream()
-                .filter(entry -> {
-                    BasicPiece piece = entry.getValue();
-                    return !piece.isNone()
-                            && piece.isType(PieceType.JANG)
-                            && piece.getTeam() == team;
-                })
-                .map(Map.Entry::getKey)
-                .findFirst()
-                .orElse(null);
-    }
 }

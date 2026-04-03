@@ -52,28 +52,5 @@ class PlayerTest {
         assertFalse(player.hasName("다른이름"));
     }
 
-    @Test
-    void 플레이어_점수를_계산한다() {
-        Player choPlayer = new Player(new Name("cho"), Team.CHO);
-        choPlayer.addPiece(new Cha(Team.CHO));
-        choPlayer.addPiece(new Po(Team.CHO));
-        choPlayer.addPiece(new Jol(Team.CHO));
 
-        assertEquals(22.0, choPlayer.calculateScore());
-    }
-
-    @Test
-    void 한팀_점수는_덤_1_5를_포함한다() {
-        Player hanPlayer = new Player(new Name("han"), Team.HAN);
-        hanPlayer.addPiece(new Cha(Team.HAN));
-
-        assertEquals(14.5, hanPlayer.calculateScore());
-    }
-
-    @Test
-    void 플레이어와_다른팀_기물은_추가할_수_없다() {
-        Player choPlayer = new Player(new Name("cho"), Team.CHO);
-
-        assertThrows(JanggiException.class, () -> choPlayer.addPiece(new Cha(Team.HAN)));
-    }
 }

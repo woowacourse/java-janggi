@@ -4,15 +4,20 @@ import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.Formation;
 import domain.piece.BasicPiece;
-import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.player.Player;
 import domain.player.PlayerProfile;
+import domain.player.Team;
 import domain.position.Position;
+import domain.rule.BigJangDrawRule;
+import domain.rule.RuleEngine;
+import java.util.List;
 
 public class GameManager {
+    private static final double HAN_SCORE_INCREASE = 1.5;
 
     private final Board board;
+    private final RuleEngine ruleEngine;
     private Player currentPlayer;
     private Player standbyPlayer;
     private boolean isGameRunning;
@@ -22,22 +27,20 @@ public class GameManager {
         this.currentPlayer = choPlayer;
         this.standbyPlayer = hanPlayer;
         this.board = BoardFactory.createWithFormation(choFormation, hanFormation);
+        this.ruleEngine = new RuleEngine(List.of(new BigJangDrawRule()));
         this.isGameRunning = true;
         this.isDraw = false;
     }
 
     public void move(Position source, Position destination) {
         BasicPiece caughtPiece = board.move(source, destination, currentPlayer);
-        if (!caughtPiece.isNone()) {
-            standbyPlayer.removePiece((Piece) caughtPiece);
-        }
 
         if (caughtPiece.isType(PieceType.JANG)) {
             isGameRunning = false;
             return;
         }
 
-        if (board.isBigJang()) {
+        if (ruleEngine.isDraw(board)) {
             isDraw = true;
             isGameRunning = false;
             return;
@@ -50,14 +53,6 @@ public class GameManager {
         board.validateSource(source, currentPlayer);
     }
 
-    public PlayerProfile calculateWinnerWhenBigJang() {
-        if(currentPlayer.calculateScore() > standbyPlayer.calculateScore()) {
-            return currentPlayer.getProfile();
-        }
-
-        return standbyPlayer.getProfile();
-    }
-
     public void switchTurn() {
         Player temp = currentPlayer;
         currentPlayer = standbyPlayer;
@@ -68,6 +63,27 @@ public class GameManager {
         isGameRunning = false;
     }
 
+    public PlayerProfile calculateFinalScore() {
+        if (!isDraw) {
+            return currentPlayer.getProfile();
+        }
+
+        double choScore = board.calculateRawScore(Team.CHO);
+        double hanScore = board.calculateRawScore(Team.HAN) + HAN_SCORE_INCREASE;
+
+        if (choScore > hanScore) {
+            return findPlayerProfileByTeam(Team.CHO);
+        }
+        return findPlayerProfileByTeam(Team.HAN);
+    }
+
+    private PlayerProfile findPlayerProfileByTeam(Team team) {
+        if (currentPlayer.getProfile().team() == team) {
+            return currentPlayer.getProfile();
+        }
+        return standbyPlayer.getProfile();
+    }
+
     public boolean isGameRunning() {
         return isGameRunning;
     }
@@ -76,8 +92,5 @@ public class GameManager {
     }
     public Board getBoard() {
         return board;
-    }
-    public boolean isDraw() {
-        return isDraw;
     }
 }
