@@ -1,6 +1,13 @@
 package janggi.strategy;
 
-import static janggi.domain.rule.route.Direction.*;
+import static janggi.domain.rule.route.Direction.BACK;
+import static janggi.domain.rule.route.Direction.BACK_LEFT;
+import static janggi.domain.rule.route.Direction.BACK_RIGHT;
+import static janggi.domain.rule.route.Direction.FRONT;
+import static janggi.domain.rule.route.Direction.FRONT_LEFT;
+import static janggi.domain.rule.route.Direction.FRONT_RIGHT;
+import static janggi.domain.rule.route.Direction.LEFT;
+import static janggi.domain.rule.route.Direction.RIGHT;
 
 import janggi.domain.Intersection;
 import janggi.domain.Location;
@@ -13,6 +20,10 @@ import java.util.List;
 import java.util.Map;
 
 public class PalaceIntersectionInitializer implements IntersectionInitializer {
+
+    private static int getLength(Intersection[][] intersections) {
+        return intersections.length;
+    }
 
     @Override
     public void initialize(Intersection[][] intersections) {
@@ -46,10 +57,6 @@ public class PalaceIntersectionInitializer implements IntersectionInitializer {
                 new Vector(LEFT, boardWidth),
                 new Vector(RIGHT, boardWidth)
         );
-    }
-
-    private static int getLength(Intersection[][] intersections) {
-        return intersections.length;
     }
 
     private enum PalaceConfiguration {

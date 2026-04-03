@@ -1,8 +1,8 @@
 package janggi.strategy;
 
+import janggi.domain.Intersection;
 import janggi.domain.Side;
 import janggi.domain.piece.Cha;
-import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Gung;
 import janggi.domain.piece.Jolbyeong;
 import janggi.domain.piece.Ma;
@@ -19,24 +19,40 @@ public class BoardAssembler {
     private static final int DEFAULT_COLS = 9;
 
     private final List<ArrangementStrategy> strategies;
+    private final IntersectionInitializer intersectionInitializer;
 
-    private BoardAssembler(List<ArrangementStrategy> strategies) {
+    private BoardAssembler(List<ArrangementStrategy> strategies, IntersectionInitializer intersectionInitializer) {
         this.strategies = strategies;
+        this.intersectionInitializer = intersectionInitializer;
     }
 
-    public static BoardAssembler from(List<ArrangementStrategy> strategies) {
-        return new BoardAssembler(strategies);
+    public static BoardAssembler of(List<ArrangementStrategy> strategies,
+                                    IntersectionInitializer intersectionInitializer) {
+        return new BoardAssembler(strategies, intersectionInitializer);
     }
 
-    public Piece[][] assemble() {
+    public Intersection[][] assemble() {
         Piece[][] arrangement = new Piece[DEFAULT_ROWS][DEFAULT_COLS];
-
         setupCommonPieces(arrangement);
         applyStrategies(arrangement);
 
-        setupEmptyPieces(arrangement);
+        Intersection[][] intersections = new Intersection[DEFAULT_ROWS][DEFAULT_COLS];
+        intersectionInitializer.initialize(intersections);
 
-        return arrangement;
+        placePiecesOnIntersection(intersections, arrangement);
+
+        return intersections;
+    }
+
+    private void placePiecesOnIntersection(Intersection[][] intersections, Piece[][] arrangement) {
+        for (int row = 0; row < DEFAULT_ROWS; row++) {
+            for (int col = 0; col < DEFAULT_COLS; col++) {
+                Piece piece = arrangement[row][col];
+                if (piece != null) {
+                    intersections[row][col].place(piece);
+                }
+            }
+        }
     }
 
     private void setupCommonPieces(Piece[][] arrangement) {
@@ -46,16 +62,6 @@ public class BoardAssembler {
 
     private void applyStrategies(Piece[][] arrangement) {
         strategies.forEach(strategy -> strategy.place(arrangement));
-    }
-
-    private void setupEmptyPieces(Piece[][] arrangement) {
-        for (int row = 0; row < DEFAULT_ROWS; row++) {
-            for (int col = 0; col < DEFAULT_COLS; col++) {
-                if (arrangement[row][col] == null) {
-                    arrangement[row][col] = EmptyPiece.getInstance();
-                }
-            }
-        }
     }
 
     private void setUpOneSide(Piece[][] arrangement, Side side) {
