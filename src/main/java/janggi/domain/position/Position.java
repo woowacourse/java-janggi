@@ -13,6 +13,10 @@ public record Position(
         validateCoordinate(x, y);
     }
 
+    public static Position of(String rawX, String rawY) {
+        return new Position(Integer.parseInt(rawX), Integer.parseInt(rawY));
+    }
+
     public int deltaX(Position other) {
         return other.x - x;
     }
