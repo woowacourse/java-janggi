@@ -11,6 +11,7 @@ import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 public class JanggiGame {
@@ -111,19 +112,19 @@ public class JanggiGame {
     }
 
     private <T> T retry(Supplier<T> supplier) {
-        T result = null;
-        while (result == null) {
+        Optional<T> result = Optional.empty();
+        while (result.isEmpty()) {
             result = tryOnce(supplier);
         }
-        return result;
+        return result.get();
     }
 
-    private <T> T tryOnce(Supplier<T> supplier) {
+    private <T> Optional<T> tryOnce(Supplier<T> supplier) {
         try {
-            return supplier.get();
+            return Optional.ofNullable(supplier.get());
         } catch (IllegalArgumentException e) {
             outputView.printLine(e.getMessage());
-            return null;
+            return Optional.empty();
         }
     }
 }
