@@ -129,11 +129,11 @@ class BoardInitializerTest {
     }
 
     @Test
-    void 진영별_초기_점수는_0으로_설정된다(){
-        Map<Side, Integer> scoresBySide = BoardInitializer.createScoresBySide();
+    void 장기판은_진영별_초기_기물_점수를_갖는다(){
+        Map<Side, Double> scoresBySide = BoardInitializer.createScoresBySide();
 
-        assertThat(scoresBySide).containsEntry(Side.HAN, 0);
-        assertThat(scoresBySide).containsEntry(Side.CHO, 0);
+        assertThat(scoresBySide).containsEntry(Side.HAN, 73.5);
+        assertThat(scoresBySide).containsEntry(Side.CHO, 72.0);
     }
 
     private static Stream<Arguments> choArrangementCases() {

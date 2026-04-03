@@ -87,10 +87,10 @@ public class BoardInitializer {
         return board;
     }
 
-    public static Map<Side, Integer> createScoresBySide(){
-        Map<Side, Integer> scoresBySide = new HashMap<>();
-        scoresBySide.put(Side.HAN, 0);
-        scoresBySide.put(Side.CHO, 0);
+    public static Map<Side, Double> createScoresBySide(){
+        Map<Side, Double> scoresBySide = new HashMap<>();
+        scoresBySide.put(Side.HAN, 73.5);
+        scoresBySide.put(Side.CHO, 72.0);
         return scoresBySide;
     }
 

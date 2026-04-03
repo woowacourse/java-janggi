@@ -21,9 +21,9 @@ public class Board implements BaseBoard {
 
     private static final String INVALID_PIECE_SIDE_MESSAGE = "자기 진영의 기물만 움직일 수 있습니다.";
     private final Map<Position, Piece> board;
-    private final Map<Side, Integer> scoresBySide;
+    private final Map<Side, Double> scoresBySide;
 
-    public Board(Map<Position, Piece> board, Map<Side, Integer> scoresBySide) {
+    public Board(Map<Position, Piece> board, Map<Side, Double> scoresBySide) {
         this.board = board;
         this.scoresBySide = scoresBySide;
     }
@@ -58,7 +58,7 @@ public class Board implements BaseBoard {
 
     @Override
     public ScoreStatus getScoreStatus() {
-        return new ScoreStatus(scoresBySide.get(Side.HAN), scoresBySide.get(Side.CHO));
+        return new ScoreStatus(scoresBySide.get(Side.CHO), scoresBySide.get(Side.HAN));
     }
 
     public MoveResult move(Position start, Position end, Side side) {
@@ -73,7 +73,7 @@ public class Board implements BaseBoard {
         movePiece(start, end, startPiece);
 
         MoveResult moveResult = targetPiece.capturedResult();
-        updateScore(moveResult, side);
+        updateScore(moveResult, side.reverse());
         return moveResult;
     }
 
@@ -83,6 +83,6 @@ public class Board implements BaseBoard {
     }
 
     private void updateScore(MoveResult moveResult, Side side) {
-        scoresBySide.put(side, moveResult.getCapturedPieceScore());
+        scoresBySide.put(side, scoresBySide.get(side) - moveResult.getCapturedPieceScore());
     }
 }
