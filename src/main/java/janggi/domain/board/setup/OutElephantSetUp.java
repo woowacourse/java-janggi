@@ -1,9 +1,9 @@
 package janggi.domain.board.setup;
 
-import janggi.domain.point.Point;
 import janggi.domain.piece.unit.Elephant;
 import janggi.domain.piece.unit.Horse;
 import janggi.domain.piece.unit.Piece;
+import janggi.domain.point.Point;
 import janggi.domain.side.Side;
 import java.util.Map;
 
@@ -26,5 +26,10 @@ public class OutElephantSetUp implements BoardSetUp {
             setup.put(new Point(9, 1), new Elephant(side));
         }
         return setup;
+    }
+
+    @Override
+    public String toString() {
+        return "바깥상차림";
     }
 }

@@ -5,6 +5,7 @@ import janggi.domain.game.Game;
 import janggi.domain.piece.unit.Piece;
 import janggi.domain.point.Point;
 import janggi.domain.side.Side;
+import janggi.service.GameService;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.Map;
@@ -13,17 +14,19 @@ import java.util.function.Supplier;
 public class JanggiController {
     private final InputView inputView;
     private final OutputView outputView;
+    private final GameService gameService;
 
-    public JanggiController(InputView inputView, OutputView outputView) {
+    public JanggiController(InputView inputView, OutputView outputView, GameService gameService) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.gameService = gameService;
     }
 
     public void run() {
         BoardSetUp choBoardSetUp = retry(() -> inputView.readBoardSetup(Side.CHO));
         BoardSetUp hanBoardSetUp = retry(() -> inputView.readBoardSetup(Side.HAN));
-
-        Game game = Game.createGame(choBoardSetUp, hanBoardSetUp);
+        String gameName = retry(inputView::readGameName);
+        Game game = gameService.createGame(gameName, choBoardSetUp, hanBoardSetUp);
         play(game);
     }
 

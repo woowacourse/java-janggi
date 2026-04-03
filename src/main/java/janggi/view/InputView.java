@@ -1,7 +1,7 @@
 package janggi.view;
 
-import janggi.domain.point.Point;
 import janggi.domain.board.setup.BoardSetUp;
+import janggi.domain.point.Point;
 import janggi.domain.side.Side;
 import java.io.InputStream;
 import java.util.Scanner;
@@ -15,6 +15,11 @@ public class InputView {
 
     public InputView(InputStream inputStream) {
         sc = new Scanner(inputStream);
+    }
+
+    public String readGameName() {
+        System.out.println("생성할 게임의 이름을 입력해 주세요!");
+        return sc.nextLine();
     }
 
     public BoardSetUp readBoardSetup(Side side) {
@@ -63,7 +68,6 @@ public class InputView {
         return new Point(x, y);
     }
 
-
     private void validateBlank(String input) {
         if (input.isBlank()) {
             throw new IllegalArgumentException("공백은 입력할 수 없습니다.");
@@ -77,6 +81,4 @@ public class InputView {
             throw new IllegalArgumentException("숫자만 입력 가능합니다.");
         }
     }
-
-
 }
