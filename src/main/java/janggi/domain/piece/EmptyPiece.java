@@ -20,6 +20,6 @@ public class EmptyPiece extends Piece {
 
     @Override
     public MoveRule moveRule() {
-        return null;
+        throw new UnsupportedOperationException("'빈 공간'은 이동할 수 없습니다.");
     }
 }
