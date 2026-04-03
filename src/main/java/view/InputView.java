@@ -17,8 +17,16 @@ public class InputView {
         }
     }
 
-    public Position readPosition(String target) {
-        System.out.printf("%s 좌표를 입력하세요. (row,column)%n", target);
+    public Position readDeparturePosition() {
+        return readPosition("출발지 좌표를 입력하세요. (row,column)");
+    }
+
+    public Position readDestinationPosition() {
+        return readPosition("도착지 좌표를 입력하세요. (row,column)");
+    }
+
+    private Position readPosition(String message) {
+        System.out.println(message);
         String[] values = splitPositionInput(scanner.nextLine());
         return parsePosition(values);
     }

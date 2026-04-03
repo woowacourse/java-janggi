@@ -32,8 +32,8 @@ public class GameController {
                 outputView.printTurn(currentTurn);
                 outputView.printMoveGuide();
 
-                Position departure = inputView.readPosition("출발지");
-                Position destination = inputView.readPosition("도착지");
+                Position departure = inputView.readDeparturePosition();
+                Position destination = inputView.readDestinationPosition();
 
                 game.move(departure, destination, currentTurn);
                 outputView.printBoard(boardViewMapper.map(game.board()));
