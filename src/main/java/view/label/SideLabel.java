@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 public enum SideLabel {
     CHO(Side.CHO, "초"),
-    Han(Side.HAN, "한"),
+    HAN(Side.HAN, "한"),
     ;
 
     private final Side side;
