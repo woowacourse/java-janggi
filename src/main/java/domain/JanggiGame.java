@@ -45,4 +45,8 @@ public class JanggiGame {
     public boolean isFinished() {
         return state instanceof Finished;
     }
+
+    public String getWinnerCountry() {
+        return state.getCountry().getName();
+    }
 }

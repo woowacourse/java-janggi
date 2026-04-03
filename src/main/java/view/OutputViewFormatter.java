@@ -56,4 +56,8 @@ public class OutputViewFormatter {
     public String formatRightVerticalLine() {
         return "|\n";
     }
+
+    public String formatGameWinner(String countryName) {
+        return String.format("승리 : %s%n", countryName);
+    }
 }

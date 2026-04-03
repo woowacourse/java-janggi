@@ -37,6 +37,8 @@ public class JanggiController {
             List<PositionDto> positionDtos = requestMovePiece(janggiGame);
             playTurn(positionDtos, janggiGame, board);
         }
+
+        outputView.printGameResult(janggiGame.getWinnerCountry());
     }
 
     private void playTurn(List<PositionDto> positionDtos, JanggiGame janggiGame, Board board) {

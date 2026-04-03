@@ -78,4 +78,14 @@ public class OutputView {
 
         System.out.print(result);
     }
+
+    public void printGameResult(String countryName) {
+        System.out.println("\n---\n");
+        System.out.println("게임이 종료되었습니다.");
+        printGameWinner(countryName);
+    }
+
+    private void printGameWinner(String countryName) {
+        System.out.print(formatter.formatGameWinner(countryName));
+    }
 }
