@@ -1,5 +1,6 @@
 package domain.board;
 
+import domain.intersection.palace.NormalIntersection;
 import fixture.TestIntersectionGenerator;
 import domain.intersection.Intersection;
 import domain.piece.Piece;
@@ -22,7 +23,7 @@ class BoardTest {
         // given
         Point point = new Point(1, 4);
         Piece general = new Piece(Team.HAN, PieceType.GENERAL);
-        Intersection actualIntersection = new Intersection(point, general);
+        Intersection actualIntersection = new NormalIntersection(point, general);
         TestIntersectionGenerator testIntersectionGenerator = new TestIntersectionGenerator(
                 List.of(actualIntersection));
         JanggiBoard janggiBoard = new JanggiBoard(testIntersectionGenerator);
@@ -50,7 +51,7 @@ class BoardTest {
                 .map(janggiBoard::findIntersection)
                 .toList();
 
-        List<Intersection> expected =
+        List<NormalIntersection> expected =
                 janggiIntersectionGenerator.createElephantAndHorseByFormation(Team.HAN, Formation.ELEPHANT_HORSE_HORSE_ELEPHANT);
 
         // then
@@ -72,8 +73,8 @@ class BoardTest {
 
         Piece hanGeneral = new Piece(Team.HAN, PieceType.GENERAL);
 
-        Intersection origin = new Intersection(start, hanGeneral);
-        Intersection destination = Intersection.empty(end);
+        Intersection origin = new NormalIntersection(start, hanGeneral);
+        Intersection destination = NormalIntersection.empty(end);
 
         // when
         JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(origin, destination)));
@@ -93,8 +94,8 @@ class BoardTest {
         Piece hanGeneral = new Piece(Team.HAN, PieceType.GENERAL);
         Piece choGeneral = new Piece(Team.CHO, PieceType.GENERAL);
 
-        Intersection origin = new Intersection(start, hanGeneral);
-        Intersection destination = new Intersection(end, choGeneral);
+        Intersection origin = new NormalIntersection(start, hanGeneral);
+        Intersection destination = new NormalIntersection(end, choGeneral);
 
         // when
         JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(origin, destination)));
@@ -115,8 +116,8 @@ class BoardTest {
         Team expectedWinner = Team.HAN;
         Piece hanGeneral = new Piece(expectedWinner, PieceType.GENERAL);
 
-        Intersection origin = new Intersection(start, hanGeneral);
-        Intersection destination = Intersection.empty(end);
+        Intersection origin = new NormalIntersection(start, hanGeneral);
+        Intersection destination = NormalIntersection.empty(end);
 
         // when
         JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(origin, destination)));

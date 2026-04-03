@@ -38,14 +38,14 @@ class CannonMoveRuleTest {
     final Point middlePoint8 = new Point(8, 0);
     final Point end = new Point(9, 0);
 
-    final Intersection intersection1 = Intersection.empty(middlePoint1);
-    final Intersection intersection2 = Intersection.empty(middlePoint2);
-    final Intersection intersection3 = Intersection.empty(middlePoint3);
-    final Intersection intersection4 = Intersection.empty(middlePoint4);
-    final Intersection intersection5 = Intersection.empty(middlePoint5);
-    final Intersection intersection6 = Intersection.empty(middlePoint6);
-    final Intersection intersection7 = Intersection.empty(middlePoint7);
-    final Intersection intersection8 = Intersection.empty(middlePoint8);
+    final Intersection intersection1 = NormalIntersection.empty(middlePoint1);
+    final Intersection intersection2 = NormalIntersection.empty(middlePoint2);
+    final Intersection intersection3 = NormalIntersection.empty(middlePoint3);
+    final Intersection intersection4 = NormalIntersection.empty(middlePoint4);
+    final Intersection intersection5 = NormalIntersection.empty(middlePoint5);
+    final Intersection intersection6 = NormalIntersection.empty(middlePoint6);
+    final Intersection intersection7 = NormalIntersection.empty(middlePoint7);
+    final Intersection intersection8 = NormalIntersection.empty(middlePoint8);
 
     final Point centerPointCho = new Point(8, 4);
     final Point leftTopPointCho = new Point(7, 3);
@@ -65,9 +65,9 @@ class CannonMoveRuleTest {
         // given
         Team sameTeam = Team.CHO;
 
-        Intersection origin = new Intersection(start, new Piece(sameTeam, PieceType.CANNON));
-        Intersection onlyObstacleIntersection = new Intersection(middlePoint5, new Piece(sameTeam, PieceType.CANNON));
-        Intersection sameTeamDestination = new Intersection(end, new Piece(sameTeam, PieceType.CHARIOT));
+        Intersection origin = new NormalIntersection(start, new Piece(sameTeam, PieceType.CANNON));
+        Intersection onlyObstacleIntersection = new NormalIntersection(middlePoint5, new Piece(sameTeam, PieceType.CANNON));
+        Intersection sameTeamDestination = new NormalIntersection(end, new Piece(sameTeam, PieceType.CHARIOT));
 
         // when
         CannonMoveRule cannonMoveRule = new CannonMoveRule();
@@ -97,9 +97,9 @@ class CannonMoveRuleTest {
         Team sameTeam = Team.CHO;
         Team anotherTeam = Team.HAN;
 
-        Intersection origin = new Intersection(start, new Piece(sameTeam, PieceType.CANNON));
-        Intersection cannonObstacle = new Intersection(middlePoint7, new Piece(anotherTeam, PieceType.CANNON));
-        Intersection destination = Intersection.empty(end);
+        Intersection origin = new NormalIntersection(start, new Piece(sameTeam, PieceType.CANNON));
+        Intersection cannonObstacle = new NormalIntersection(middlePoint7, new Piece(anotherTeam, PieceType.CANNON));
+        Intersection destination = NormalIntersection.empty(end);
 
         // when
         CannonMoveRule cannonMoveRule = new CannonMoveRule();
@@ -129,10 +129,10 @@ class CannonMoveRuleTest {
         Team sameTeam = Team.CHO;
         Team anotherTeam = Team.HAN;
 
-        Intersection origin = new Intersection(start, new Piece(sameTeam, PieceType.CANNON));
-        Intersection obstacle1 = new Intersection(middlePoint5, new Piece(anotherTeam, PieceType.CHARIOT));
-        Intersection obstacle2 = new Intersection(middlePoint6, new Piece(anotherTeam, PieceType.CHARIOT));
-        Intersection destination = Intersection.empty(end);
+        Intersection origin = new NormalIntersection(start, new Piece(sameTeam, PieceType.CANNON));
+        Intersection obstacle1 = new NormalIntersection(middlePoint5, new Piece(anotherTeam, PieceType.CHARIOT));
+        Intersection obstacle2 = new NormalIntersection(middlePoint6, new Piece(anotherTeam, PieceType.CHARIOT));
+        Intersection destination = NormalIntersection.empty(end);
 
         // when
         CannonMoveRule cannonMoveRule = new CannonMoveRule();
@@ -161,8 +161,8 @@ class CannonMoveRuleTest {
         // given
         Team sameTeam = Team.CHO;
 
-        Intersection origin = new Intersection(start, new Piece(sameTeam, PieceType.CANNON));
-        Intersection destination = Intersection.empty(end);
+        Intersection origin = new NormalIntersection(start, new Piece(sameTeam, PieceType.CANNON));
+        Intersection destination = NormalIntersection.empty(end);
 
         // when
         CannonMoveRule cannonMoveRule = new CannonMoveRule();
@@ -192,9 +192,9 @@ class CannonMoveRuleTest {
         Team sameTeam = Team.CHO;
         Team anotherTeam = Team.HAN;
 
-        Intersection origin = new Intersection(start, new Piece(sameTeam, PieceType.CANNON));
-        Intersection obstacle = new Intersection(middlePoint6, new Piece(sameTeam, PieceType.CHARIOT));
-        Intersection cannonDestination = new Intersection(end, new Piece(anotherTeam, PieceType.CANNON));
+        Intersection origin = new NormalIntersection(start, new Piece(sameTeam, PieceType.CANNON));
+        Intersection obstacle = new NormalIntersection(middlePoint6, new Piece(sameTeam, PieceType.CHARIOT));
+        Intersection cannonDestination = new NormalIntersection(end, new Piece(anotherTeam, PieceType.CANNON));
 
         // when
         CannonMoveRule cannonMoveRule = new CannonMoveRule();
@@ -223,10 +223,10 @@ class CannonMoveRuleTest {
         // given
         Piece obstacle = new Piece(Team.HAN, PieceType.CHARIOT);
 
-        Intersection origin = new Intersection(start, cannon);
-        Intersection obstacleIntersection = new Intersection(middlePoint4, obstacle);
-        Intersection opponentDestination = new Intersection(end, obstacle);
-        Intersection expected = new Intersection(end, cannon);
+        Intersection origin = new NormalIntersection(start, cannon);
+        Intersection obstacleIntersection = new NormalIntersection(middlePoint4, obstacle);
+        Intersection opponentDestination = new NormalIntersection(end, obstacle);
+        Intersection expected = new NormalIntersection(end, cannon);
 
         JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
                 origin,
@@ -255,10 +255,10 @@ class CannonMoveRuleTest {
         // given
         Piece obstacle = new Piece(Team.HAN, PieceType.CHARIOT);
 
-        Intersection origin = new Intersection(start, cannon);
-        Intersection obstacleIntersection = new Intersection(middlePoint4, obstacle);
-        Intersection opponentDestination = Intersection.empty(end);
-        Intersection expected = new Intersection(end, cannon);
+        Intersection origin = new NormalIntersection(start, cannon);
+        Intersection obstacleIntersection = new NormalIntersection(middlePoint4, obstacle);
+        Intersection opponentDestination = NormalIntersection.empty(end);
+        Intersection expected = new NormalIntersection(end, cannon);
 
         JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
                 origin,

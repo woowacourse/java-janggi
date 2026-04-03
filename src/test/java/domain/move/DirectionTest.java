@@ -1,6 +1,7 @@
 package domain.move;
 
 import domain.intersection.Intersection;
+import domain.intersection.palace.NormalIntersection;
 import domain.move.directions.Direction;
 import domain.move.directions.Directions;
 import domain.move.directions.Vector;
@@ -37,8 +38,8 @@ class DirectionTest {
         Point start = new Point(0, 0);
         Point end = new Point(2, 1);
 
-        Intersection origin = Intersection.empty(start);
-        Intersection destination = Intersection.empty(end);
+        Intersection origin = NormalIntersection.empty(start);
+        Intersection destination = NormalIntersection.empty(end);
 
         Directions directions = new Directions(List.of(direction1, direction2));
 

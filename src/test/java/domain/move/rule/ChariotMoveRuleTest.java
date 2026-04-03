@@ -40,14 +40,14 @@ class ChariotMoveRuleTest {
     final Point middlePoint8 = new Point(8, 0);
     final Point end = new Point(9, 0);
 
-    final Intersection intersection1 = Intersection.empty(middlePoint1);
-    final Intersection intersection2 = Intersection.empty(middlePoint2);
-    final Intersection intersection3 = Intersection.empty(middlePoint3);
-    final Intersection intersection4 = Intersection.empty(middlePoint4);
-    final Intersection intersection5 = Intersection.empty(middlePoint5);
-    final Intersection intersection6 = Intersection.empty(middlePoint6);
-    final Intersection intersection7 = Intersection.empty(middlePoint7);
-    final Intersection intersection8 = Intersection.empty(middlePoint8);
+    final Intersection intersection1 = NormalIntersection.empty(middlePoint1);
+    final Intersection intersection2 = NormalIntersection.empty(middlePoint2);
+    final Intersection intersection3 = NormalIntersection.empty(middlePoint3);
+    final Intersection intersection4 = NormalIntersection.empty(middlePoint4);
+    final Intersection intersection5 = NormalIntersection.empty(middlePoint5);
+    final Intersection intersection6 = NormalIntersection.empty(middlePoint6);
+    final Intersection intersection7 = NormalIntersection.empty(middlePoint7);
+    final Intersection intersection8 = NormalIntersection.empty(middlePoint8);
 
     final Point centerPointCho = new Point(8, 4);
     final Point leftTopPointCho = new Point(7, 3);
@@ -67,8 +67,8 @@ class ChariotMoveRuleTest {
         // given
         Team sameTeam = Team.CHO;
 
-        Intersection origin = new Intersection(start, new Piece(sameTeam, PieceType.CHARIOT));
-        Intersection sameTeamDestination = new Intersection(end, new Piece(sameTeam, PieceType.CHARIOT));
+        Intersection origin = new NormalIntersection(start, new Piece(sameTeam, PieceType.CHARIOT));
+        Intersection sameTeamDestination = new NormalIntersection(end, new Piece(sameTeam, PieceType.CHARIOT));
 
         // when
         ChariotMoveRule chariotMoveRule = new ChariotMoveRule();
@@ -97,9 +97,9 @@ class ChariotMoveRuleTest {
         // given
         Team sameTeam = Team.CHO;
 
-        Intersection origin = new Intersection(start, new Piece(sameTeam, PieceType.CHARIOT));
-        Intersection obstacle = new Intersection(middlePoint7, new Piece(sameTeam, PieceType.CHARIOT));
-        Intersection destination = Intersection.empty(end);
+        Intersection origin = new NormalIntersection(start, new Piece(sameTeam, PieceType.CHARIOT));
+        Intersection obstacle = new NormalIntersection(middlePoint7, new Piece(sameTeam, PieceType.CHARIOT));
+        Intersection destination = NormalIntersection.empty(end);
 
         // when
         ChariotMoveRule chariotMoveRule = new ChariotMoveRule();
@@ -126,11 +126,9 @@ class ChariotMoveRuleTest {
     @DisplayName("차는 경로에 장애물이 없고 도착지가 비어 있으면 이동한다.")
     void chariotCanMoveWhenNoObstacleAndDestinationIsEmpty() {
         // given
-        Piece chariot = new Piece(Team.CHO, PieceType.CHARIOT);
-
-        Intersection origin = new Intersection(start, chariot);
-        Intersection emptyDestination = Intersection.empty(end);
-        Intersection expected = new Intersection(end, chariot);
+        Intersection origin = new NormalIntersection(start, chariot);
+        Intersection emptyDestination = NormalIntersection.empty(end);
+        Intersection expected = new NormalIntersection(end, chariot);
 
         JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
                 origin,
@@ -157,12 +155,11 @@ class ChariotMoveRuleTest {
     @DisplayName("차는 경로에 장애물이 없고 도착지에 상대팀이 있으면 이동한다.")
     void chariotCanMoveWhenNoObstacleAndDestinationIsOpponent() {
         // given
-        Piece chariot = new Piece(Team.CHO, PieceType.CHARIOT);
         Piece opponentChariot = new Piece(Team.HAN, PieceType.CHARIOT);
 
-        Intersection origin = new Intersection(start, chariot);
-        Intersection opponentDestination = new Intersection(end, opponentChariot);
-        Intersection expected = new Intersection(end, chariot);
+        Intersection origin = new NormalIntersection(start, chariot);
+        Intersection opponentDestination = new NormalIntersection(end, opponentChariot);
+        Intersection expected = new NormalIntersection(end, chariot);
 
         JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
                 origin,
@@ -267,7 +264,7 @@ class ChariotMoveRuleTest {
             Point leftUpPoint = leftBottomPoint.next(Vector.LEFT_UP);
 
             Intersection leftBottomPalace = new LeftBottomPalace(leftBottomPoint, chariot);
-            Intersection leftUpNormalIntersection = new Intersection(leftUpPoint, Piece.none());
+            Intersection leftUpNormalIntersection = new NormalIntersection(leftUpPoint, Piece.none());
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(leftBottomPalace, rightTopCho, leftUpNormalIntersection);
 
             // when & then

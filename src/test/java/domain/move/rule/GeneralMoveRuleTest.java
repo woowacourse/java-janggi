@@ -51,11 +51,10 @@ class GeneralMoveRuleTest {
         Point end = new Point(1, 0);
 
         Team sameTeam = Team.HAN;
-        Piece general = new Piece(sameTeam, PieceType.GENERAL);
         Piece sameTeamPiece = new Piece(sameTeam, PieceType.SOLDIER);
 
-        Intersection origin = new Intersection(start, general);
-        Intersection sameTeamDestination = new Intersection(end, sameTeamPiece);
+        Intersection origin = new NormalIntersection(start, general);
+        Intersection sameTeamDestination = new NormalIntersection(end, sameTeamPiece);
 
         // when
         GeneralMoveRule generalMoveRule = new GeneralMoveRule();
@@ -75,7 +74,6 @@ class GeneralMoveRuleTest {
     void canMoveGeneralWhenDestinationIsEmpty() {
         // given
         Point end = centerPointCho.next(Vector.DOWN);
-        Piece general = new Piece(teamHan, PieceType.GENERAL);
 
         Intersection origin = new CenterPalace(centerPointCho, general);
         Intersection emptyDestination = NormalPalace.empty(end);
@@ -97,7 +95,6 @@ class GeneralMoveRuleTest {
         // given
         Point end = centerPointCho.next(Vector.DOWN);
 
-        Piece general = new Piece(teamHan, PieceType.GENERAL);
         Piece opponent = new Piece(teamCho, PieceType.SOLDIER);
 
         Intersection origin = new CenterPalace(centerPointCho, general);

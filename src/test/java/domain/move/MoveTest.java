@@ -2,6 +2,7 @@ package domain.move;
 
 import domain.board.JanggiBoard;
 import domain.intersection.exception.IntersectionException;
+import domain.intersection.palace.NormalIntersection;
 import fixture.TestIntersectionGenerator;
 import domain.intersection.Intersection;
 import domain.piece.Piece;
@@ -31,10 +32,10 @@ class MoveTest {
         Piece chariot = new Piece(currentTurn, PieceType.CHARIOT);
         Piece soldier = new Piece(Team.HAN, PieceType.SOLDIER);
 
-        Intersection origin = new Intersection(start, chariot);
-        Intersection destination = new Intersection(end, soldier);
-        Intersection expectedEmpty = Intersection.empty(start);
-        Intersection expectedChariot = new Intersection(end, chariot);
+        Intersection origin = new NormalIntersection(start, chariot);
+        Intersection destination = new NormalIntersection(end, soldier);
+        Intersection expectedEmpty = NormalIntersection.empty(start);
+        Intersection expectedChariot = new NormalIntersection(end, chariot);
 
         JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(origin, destination)));
 
@@ -62,8 +63,8 @@ class MoveTest {
         Team opponentTeam = Team.HAN;
         Piece choPiece = new Piece(team, PieceType.SOLDIER);
 
-        Intersection opponentIntersection = new Intersection(start, choPiece);
-        Intersection destination = Intersection.empty(end);
+        Intersection opponentIntersection = new NormalIntersection(start, choPiece);
+        Intersection destination = NormalIntersection.empty(end);
 
         // when
         JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
@@ -84,8 +85,8 @@ class MoveTest {
         Point start = new Point(0, 0);
         Point end = new Point(1, 0);
 
-        Intersection emptyIntersection = Intersection.empty(start);
-        Intersection destination = Intersection.empty(end);
+        Intersection emptyIntersection = NormalIntersection.empty(start);
+        Intersection destination = NormalIntersection.empty(end);
 
         // when
         JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(

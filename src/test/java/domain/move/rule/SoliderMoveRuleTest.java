@@ -64,8 +64,8 @@ class SoliderMoveRuleTest {
         Piece soldier = new Piece(teamHan, PieceType.SOLDIER);
         Piece sameTeamPiece = new Piece(teamHan, PieceType.SOLDIER);
 
-        Intersection origin = new Intersection(start, soldier);
-        Intersection sameTeamDestination = new Intersection(end, sameTeamPiece);
+        Intersection origin = new NormalIntersection(start, soldier);
+        Intersection sameTeamDestination = new NormalIntersection(end, sameTeamPiece);
 
         SoliderMoveRule soliderMoveRule = new SoliderMoveRule();
 
@@ -91,9 +91,9 @@ class SoliderMoveRuleTest {
         Piece soldier = new Piece(teamHan, PieceType.SOLDIER);
         Piece anotherTeamPiece = new Piece(teamCho, PieceType.SOLDIER);
 
-        Intersection origin = new Intersection(start, soldier);
-        Intersection destination = new Intersection(end, anotherTeamPiece);
-        Intersection expected = new Intersection(end, soldier);
+        Intersection origin = new NormalIntersection(start, soldier);
+        Intersection destination = new NormalIntersection(end, anotherTeamPiece);
+        Intersection expected = new NormalIntersection(end, soldier);
         JanggiBoard janggiBoard = JanggiBoardFixture.generate(origin, destination);
 
         // when
@@ -115,9 +115,9 @@ class SoliderMoveRuleTest {
         Piece soldier = new Piece(teamCho, PieceType.SOLDIER);
         Piece anotherTeamPiece = new Piece(teamHan, PieceType.SOLDIER);
 
-        Intersection origin = new Intersection(start, soldier);
-        Intersection destination = new Intersection(end, anotherTeamPiece);
-        Intersection expected = new Intersection(end, soldier);
+        Intersection origin = new NormalIntersection(start, soldier);
+        Intersection destination = new NormalIntersection(end, anotherTeamPiece);
+        Intersection expected = new NormalIntersection(end, soldier);
 
         JanggiBoard janggiBoard = JanggiBoardFixture.generate(origin, destination);
 

@@ -53,8 +53,8 @@ class GuardMoveRuleTest {
         Piece guard = new Piece(sameTeam, PieceType.GUARD);
         Piece sameTeamPiece = new Piece(sameTeam, PieceType.SOLDIER);
 
-        Intersection origin = new Intersection(start, guard);
-        Intersection sameTeamDestination = new Intersection(end, sameTeamPiece);
+        Intersection origin = new NormalIntersection(start, guard);
+        Intersection sameTeamDestination = new NormalIntersection(end, sameTeamPiece);
 
         // when
         GuardMoveRule guardMoveRule = new GuardMoveRule();

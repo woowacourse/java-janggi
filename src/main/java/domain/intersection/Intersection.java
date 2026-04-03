@@ -11,7 +11,7 @@ import java.util.Objects;
 import static domain.intersection.exception.IntersectionError.ORIGIN_INTERSECTION_IS_EMPTY;
 import static domain.intersection.exception.IntersectionError.ORIGIN_INTERSECTION_IS_NOT_OPPONENT;
 
-public class Intersection {
+public abstract class Intersection {
 
     private final Point point;
     private Piece piece;
@@ -21,9 +21,9 @@ public class Intersection {
         this.piece = piece;
     }
 
-    public static Intersection empty(Point point) {
-        return new Intersection(point, Piece.none());
-    }
+//    public static Intersection empty(Point point) {
+//        return new NormalIntersection(point, Piece.none());
+//    }
 
     public void move(Intersection destination) {
         destination.arrive(this);
@@ -60,10 +60,6 @@ public class Intersection {
 
     public boolean hasPiece() {
         return piece.hasPiece();
-    }
-
-    public boolean isChoIntersection() {
-        return piece.isCho();
     }
 
     public Piece readPiece() {

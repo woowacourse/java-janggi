@@ -1,6 +1,7 @@
 package domain.board;
 
 import domain.intersection.Intersection;
+import domain.intersection.palace.NormalIntersection;
 import domain.move.rule.MoveRuleManager;
 import domain.move.path.Path;
 import domain.piece.Team;
@@ -87,7 +88,7 @@ public class JanggiBoard {
 
     private Map<Point, Intersection> fillEmptyIntersections() {
         return getAllPoints()
-                .collect(Collectors.toMap(point -> point, Intersection::empty));
+                .collect(Collectors.toMap(point -> point, NormalIntersection::empty));
     }
 
     private Stream<Point> getAllPoints() {
