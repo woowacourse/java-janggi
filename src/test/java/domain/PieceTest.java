@@ -13,4 +13,11 @@ class PieceTest {
         assertThat(piece.getTeamColor()).isEqualTo(TeamColor.CHO);
         assertThat(piece.getPieceType()).isEqualTo(PieceType.KING);
     }
+
+    @Test
+    void materialPoints는_기물_종류의_장기력을_반환한다() {
+        Piece piece = Piece.of(TeamColor.HAN, PieceType.ROOK);
+
+        assertThat(piece.materialPoints()).isEqualTo(MaterialPoints.of(13));
+    }
 }
