@@ -109,4 +109,26 @@ public class GameRepository {
         }
         return game.findWinner().name();
     }
+
+    public JanggiGame findById(Long gameId) { // PR
+        String sql = "SELECT game_id, current_turn, game_status, winner FROM game WHERE game_id = ?";
+
+        try (Connection conn = DBConnectionManager.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setLong(1, gameId);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (!rs.next()) {
+                throw new IllegalArgumentException("존재하지 않는 게임입니다. id=" + gameId);
+            }
+
+            return toJanggiGame(rs);
+
+        } catch (SQLException e) {
+            throw new RuntimeException("게임 조회에 실패했습니다.", e);
+        }
+    }
+
+
 }

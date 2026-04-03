@@ -54,4 +54,14 @@ class JanggiGameTest {
     }
 
 
+    @Test
+    void DB에서_복원한_게임_상태가_유지된다() {
+        JanggiGame game = new JanggiGame(1L, Team.HAN, false, null);
+
+        assertThat(game.findGameId()).isEqualTo(1L);
+        assertThat(game.findCurrentTeam()).isEqualTo(Team.HAN);
+        assertThat(game.isFinished()).isFalse();
+        assertThat(game.findWinner()).isNull();
+    }
+
 }
