@@ -58,7 +58,7 @@ class BoardTest {
         Optional<Piece> deletedPiece = afterPieces.values().stream()
                 .filter(piece -> piece.equals(destinationPiece))
                 .findAny();
-        assertThat(deletedPiece.isEmpty()).isTrue();
+        assertThat(deletedPiece).isEmpty();
     }
 
     @Test

@@ -26,10 +26,11 @@ public abstract class GeneralSangSetup implements SangSetup {
         if (side.isCho()) {
             board.putAll(emptyChoBoard());
             board.putAll(putChoPieces());
-        } else {
-            board.putAll(emptyHanBoard());
-            board.putAll(putHanPieces());
+            board.putAll(getSangAndMaPositions(side));
+            return board;
         }
+        board.putAll(emptyHanBoard());
+        board.putAll(putHanPieces());
         board.putAll(getSangAndMaPositions(side));
         return board;
     }

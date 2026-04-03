@@ -1,10 +1,10 @@
 package view;
 
 import domain.board.Board;
-import domain.pieces.Side;
-import java.util.Map;
 import domain.pieces.Piece;
+import domain.pieces.Side;
 import domain.position.Position;
+import java.util.Map;
 import view.dto.PieceDto;
 
 public class BoardViewMapper {
