@@ -121,7 +121,7 @@ public class JanggiGame {
 
     private <T> Optional<T> tryOnce(Supplier<T> supplier) {
         try {
-            return Optional.ofNullable(supplier.get());
+            return Optional.of(supplier.get());
         } catch (IllegalArgumentException e) {
             outputView.printLine(e.getMessage());
             return Optional.empty();
