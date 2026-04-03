@@ -1,9 +1,10 @@
 package domain.place;
 
-import domain.board.BoardView;
 import domain.place.piece.PieceSymbol;
 import domain.place.piece.Side;
 import domain.position.Position;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class Empty implements Place {
@@ -11,11 +12,6 @@ public class Empty implements Place {
     @Override
     public boolean isEmpty() {
         return true;
-    }
-
-    @Override
-    public boolean isSameSide(Place place) {
-        return false;
     }
 
     @Override
@@ -29,6 +25,11 @@ public class Empty implements Place {
     }
 
     @Override
+    public int getScore() {
+        return 0;
+    }
+
+    @Override
     public Optional<Side> getSide() {
         return Optional.empty();
     }
@@ -39,7 +40,23 @@ public class Empty implements Place {
     }
 
     @Override
-    public boolean canMove(BoardView board, Position from, Position to) {
+    public List<Position> getNormalPath(Position from) {
+        return List.of();
+    }
+
+    @Override
+    public List<Position> getPalacePath(Position from) {
+        return List.of();
+    }
+
+    @Override
+    public boolean canNormalMove(Map<Position, Place> obstacles, Position from, Position to) {
         return false;
     }
+
+    @Override
+    public boolean canPalaceMove(Map<Position, Place> obstacles, Position from, Position to) {
+        return false;
+    }
+
 }

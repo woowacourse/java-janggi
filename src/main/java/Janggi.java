@@ -1,67 +1,91 @@
 import domain.board.Board;
-import domain.board.BoardFactory;
 import domain.board.HorseElephantFormation;
 import domain.place.piece.Side;
-import domain.player.Player;
-import domain.player.Players;
 import domain.position.Position;
-import java.util.List;
-import parser.PlayerNameParser;
+import domain.board.BoardFactory;
+import dto.GameRoomDto;
+import parser.AnswerParser;
+import parser.CommandParser;
+import parser.NumberParser;
 import parser.PositionParser;
+import service.GameService;
+import util.RetryHandler;
 import view.InputView;
 import view.OutputView;
 
 public class Janggi {
 
-    public void run() {
-        Players players = getPlayer();
-        Board board = getBoard();
+    private final GameService gameService;
+    private Side turn = Side.CHO;
+    private Long currentRoomId;
 
-        play(players, board);
+    public Janggi(GameService gameService) {
+        this.gameService = gameService;
     }
 
-    private Players getPlayer() {
-        OutputView.printInputPlayerNames();
-        String input = InputView.readLine();
-        List<String> names = PlayerNameParser.splitNames(input);
+    public void run() {
+        Board board = getBoard();
+        play(board);
 
-        return Players.from(names);
+        OutputView.printWinner(turn.opposite());
     }
 
     private Board getBoard() {
+        OutputView.printStartMenu();
+        boolean answer = RetryHandler.retryInput(() -> AnswerParser.parse(InputView.readLine()));
+
+        if (answer) {
+            return getSaveBoard();
+        }
+        return getNewBoard();
+    }
+
+    private Board getSaveBoard() {
+        OutputView.printSaveRoomList(gameService.findGameRoomAll());
+        long roomId = RetryHandler.retryInput(() -> NumberParser.parse(InputView.readLine()));
+
+        if (roomId == 0) {
+            return getNewBoard();
+        }
+
+        this.currentRoomId = roomId;
+        GameRoomDto gameRoomDto = gameService.findGameRoomByRoomId(roomId);
+        turn = gameRoomDto.side();
+        return new Board(gameService.findBoardByRoomId(roomId));
+    }
+
+    private Board getNewBoard() {
         HorseElephantFormation cho = getHorseElephantFormation(Side.CHO);
         HorseElephantFormation han = getHorseElephantFormation(Side.HAN);
-
+        this.currentRoomId = null;
         return BoardFactory.create(cho, han);
+    }
+
+    private void play(Board board) {
+        while (board.isAliveGeneral(turn)) {
+            processTurn(board);
+            turn = turn.opposite();
+        }
     }
 
     private HorseElephantFormation getHorseElephantFormation(Side side) {
         OutputView.printHorseElephantFormation(side);
         String input = InputView.readLine();
-
         return HorseElephantFormation.from(input);
     }
 
-    private void play(Players players, Board board) {
-        while (isGameRunning(board)) {
-            players.forEachPlayer(player -> turn(player, board));
-        }
+    private void processTurn(Board board) {
+        OutputView.printBoard(board.getFormatBoard(), board.getSideBoard());
+        printScore(board);
+
+        executeTurn(board);
+        printCheckIfNeeded(board);
     }
 
-    private boolean isGameRunning(Board board) {
-        //todo: 게임이 끝났는지 판단하는 로직 추가
-        return true;
-    }
-
-    private void turn(Player player, Board board) {
-        OutputView.printBoard(board.getFormatBoard());
-        executeTurn(player, board);
-    }
-
-    private void executeTurn(Player player, Board board) {
+    private void executeTurn(Board board) {
         while (true) {
             try {
-                move(player, board);
+                executeMove(board);
                 return;
             } catch (IllegalArgumentException e) {
                 OutputView.printErrorMessage(e.getMessage());
@@ -69,19 +93,66 @@ public class Janggi {
         }
     }
 
-    private void move(Player player, Board board) {
-        Position from = getFrom(player);
-        Position to = getTo(player);
-        board.move(from, to, player.getSide());
+    private void executeMove(Board board) {
+        Position from = getFrom(board);
+        Position to = getTo();
+        board.move(from, to, turn);
     }
 
-    private Position getFrom(Player player) {
-        OutputView.printPieceMove(player.getName(), player.getSide());
+    private Position getFrom(Board board) {
+        while (true) {
+            OutputView.printPieceMove(turn);
+            String input = InputView.readLine();
+
+            if (CommandParser.parse(input)) {
+                save(board);
+                continue;
+            }
+
+            return PositionParser.parsePosition(input);
+        }
+    }
+
+    private void save(Board board) {
+        OutputView.printGameName();
+        if(isNewGame()){
+            saveGame(board);
+            return;
+        }
+        updateGame(board);
+    }
+
+    private boolean isNewGame() {
+        return currentRoomId == null;
+    }
+
+    private void saveGame(Board board){
+        String name = InputView.readLine();
+        gameService.saveGame(board.board(), name, turn);
+        OutputView.printSaveComplete();
+    }
+
+    private void updateGame(Board board){
+        gameService.updateGame(board.board(), turn, currentRoomId);
+        OutputView.printUpdateComplete();
+    }
+
+    private Position getTo() {
+        OutputView.printPositionMove(turn);
         return PositionParser.parsePosition(InputView.readLine());
     }
 
-    private Position getTo(Player player) {
-        OutputView.printPositionMove(player.getName(), player.getSide());
-        return PositionParser.parsePosition(InputView.readLine());
+    private void printCheckIfNeeded(Board board) {
+        if (board.isCheck(turn)) {
+            OutputView.printCheck(turn.opposite());
+        }
     }
+
+    private void printScore(Board board) {
+        double choScore = board.getSideScore(Side.CHO);
+        double hanScore = board.getSideScore(Side.HAN);
+
+        OutputView.printScore(Side.CHO, choScore, Side.HAN, hanScore);
+    }
+
 }

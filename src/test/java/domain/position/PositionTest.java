@@ -34,4 +34,5 @@ class PositionTest {
         //then
         assertThat(result).isFalse();
     }
+
 }

@@ -1,18 +1,16 @@
 package domain.board;
 
-import static domain.common.Constant.MAX_COLUMN;
-import static domain.common.Constant.MAX_ROW;
-import static domain.common.Constant.MIN_COLUMN;
-import static domain.common.Constant.MIN_ROW;
-
 import domain.place.Empty;
 import domain.place.Place;
-import domain.place.moveStrategy.CannonMoveStrategy;
-import domain.place.moveStrategy.ChariotMoveStrategy;
-import domain.place.moveStrategy.GeneralMoveStrategy;
-import domain.place.moveStrategy.GuardMoveStrategy;
+import domain.place.moveStrategy.JumpMoveStrategy;
+import domain.place.moveStrategy.OneStepMoveStrategy;
+import domain.place.moveStrategy.StraightMoveStrategy;
 import domain.place.moveStrategy.MoveStrategy;
 import domain.place.moveStrategy.SoldierMoveStrategy;
+import domain.place.palaceMoveStrategy.PalaceJumpMoveStrategy;
+import domain.place.palaceMoveStrategy.PalaceOneStepMoveStrategy;
+import domain.place.palaceMoveStrategy.PalaceSoldierMoveStrategy;
+import domain.place.palaceMoveStrategy.PalaceStraightMoveStrategy;
 import domain.place.piece.Cannon;
 import domain.place.piece.Chariot;
 import domain.place.piece.General;
@@ -34,10 +32,13 @@ public class BoardFactory {
     private static final List<Integer> CANNON_COLS = List.of(2, 8);
     private static final List<Integer> SOLDIER_COLS = List.of(1, 3, 5, 7, 9);
 
-    public static Board create(HorseElephantFormation cho, HorseElephantFormation han) {
-        Map<Position, Place> board = new HashMap<>();
+    public static final int MIN_ROW = 1;
+    public static final int MAX_ROW = 10;
+    public static final int MIN_COLUMN = 1;
+    public static final int MAX_COLUMN = 9;
 
-        setUpEmpty(board);
+    public static Board create(HorseElephantFormation cho, HorseElephantFormation han) {
+        Map<Position, Place> board = setUpEmpty();
 
         setUpFormationHorseElephant(board, Side.CHO, cho);
         setUpFormationHorseElephant(board, Side.HAN, han);
@@ -48,12 +49,14 @@ public class BoardFactory {
         return new Board(board);
     }
 
-    private static void setUpEmpty(Map<Position, Place> board) {
+    public static Map<Position, Place> setUpEmpty() {
+        Map<Position, Place> board = new HashMap<>();
         for (int row = MIN_ROW; row <= MAX_ROW; row++) {
             for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
                 board.put(new Position(row, column), new Empty());
             }
         }
+        return board;
     }
 
     private static void setUpFormationHorseElephant(Map<Position, Place> board, Side side,
@@ -75,7 +78,8 @@ public class BoardFactory {
         firstSetUpFormation(board, side, startLine);
 
         startLine += setupDirection;
-        board.put(new Position(startLine, GENERAL_COLS), new General(side, new GeneralMoveStrategy()));
+        board.put(new Position(startLine, GENERAL_COLS),
+                new General(side, new OneStepMoveStrategy(), new PalaceOneStepMoveStrategy()));
 
         startLine += setupDirection;
         cannonSetUpFormation(board, side, startLine);
@@ -85,17 +89,22 @@ public class BoardFactory {
     }
 
     private static void firstSetUpFormation(Map<Position, Place> board, Side side, int startLine) {
-        CHARIOT_COLS.forEach(c -> board.put(new Position(startLine, c), new Chariot(side, new ChariotMoveStrategy())));
-        GUARD_COLS.forEach(c -> board.put(new Position(startLine, c), new Guard(side, new GuardMoveStrategy())));
+        CHARIOT_COLS.forEach(c -> board.put(new Position(startLine, c),
+                new Chariot(side, new StraightMoveStrategy(), new PalaceStraightMoveStrategy())));
+        GUARD_COLS.forEach(c -> board.put(new Position(startLine, c),
+                new Guard(side, new OneStepMoveStrategy(), new PalaceOneStepMoveStrategy())));
     }
 
     private static void cannonSetUpFormation(Map<Position, Place> board, Side side, int startLine) {
-        CANNON_COLS.forEach(c -> board.put(new Position(startLine, c), new Cannon(side, new CannonMoveStrategy())));
+        CANNON_COLS.forEach(c -> board.put(new Position(startLine, c),
+                new Cannon(side, new JumpMoveStrategy(), new PalaceJumpMoveStrategy())));
     }
 
     private static void soldierSetUpFormation(Map<Position, Place> board, Side side, int startLine) {
         MoveStrategy soldierMoveStrategy = new SoldierMoveStrategy(side);
 
-        SOLDIER_COLS.forEach(c -> board.put(new Position(startLine, c), new Soldier(side, soldierMoveStrategy)));
+        SOLDIER_COLS.forEach(c -> board.put(new Position(startLine, c),
+                new Soldier(side, soldierMoveStrategy, new PalaceSoldierMoveStrategy(side))));
     }
+
 }

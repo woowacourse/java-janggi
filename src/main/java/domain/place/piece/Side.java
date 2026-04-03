@@ -1,8 +1,10 @@
 package domain.place.piece;
 
+import java.util.Arrays;
+
 public enum Side {
-    CHO("C", 10, -1),
-    HAN("H", 1, 1);
+    CHO("CHO", 10, -1),
+    HAN("HAN", 1, 1);
 
     private final String name;
     private final int startLine;
@@ -12,6 +14,13 @@ public enum Side {
         this.name = name;
         this.startLine = startLine;
         this.setupDirection = setupDirection;
+    }
+
+    public static Side from(String side) {
+        return Arrays.stream(Side.values())
+                .filter(side1 -> side1.name.equals(side))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 진영을 찾을 수 없습니다."));
     }
 
     public String getName() {
@@ -24,6 +33,13 @@ public enum Side {
 
     public int getSetupDirection() {
         return setupDirection;
+    }
+
+    public Side opposite() {
+        if (this == CHO) {
+            return HAN;
+        }
+        return CHO;
     }
 
 }

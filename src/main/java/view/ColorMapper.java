@@ -1,4 +1,4 @@
-package util;
+package view;
 
 import domain.place.piece.Side;
 import java.util.Map;
@@ -17,4 +17,5 @@ public class ColorMapper {
         String code = COLOR_CODES.getOrDefault(side, "");
         return code + text + RESET;
     }
+
 }

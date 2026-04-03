@@ -1,21 +1,28 @@
 package domain.place.piece;
 
 public enum PieceSymbol {
-    GENERAL("궁"),
-    CHARIOT("차"),
-    CANNON("포"),
-    HORSE("마"),
-    ELEPHANT("상"),
-    GUARD("사"),
-    SOLDIER("졸");
+    GENERAL("궁", 0),
+    CHARIOT("차", 13),
+    CANNON("포", 7),
+    HORSE("마", 5),
+    ELEPHANT("상", 3),
+    GUARD("사", 3),
+    SOLDIER("졸", 2);
 
     private final String display;
+    private final int score;
 
-    PieceSymbol(String display) {
+    PieceSymbol(String display, int score) {
         this.display = display;
+        this.score = score;
     }
 
     public String display() {
         return display;
     }
+
+    public int getScore() {
+        return score;
+    }
+
 }

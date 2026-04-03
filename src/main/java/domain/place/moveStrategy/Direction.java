@@ -1,6 +1,5 @@
 package domain.place.moveStrategy;
 
-
 public enum Direction {
     TOP(1, 0),
     DOWN(-1, 0),

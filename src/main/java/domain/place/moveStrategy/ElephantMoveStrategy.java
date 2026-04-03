@@ -1,55 +1,66 @@
 package domain.place.moveStrategy;
 
-import domain.board.BoardView;
+import domain.place.Empty;
+import domain.place.Place;
+import domain.place.piece.Side;
 import domain.position.Position;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class ElephantMoveStrategy implements MoveStrategy {
 
-    private static final List<Direction> ORTHOGONAL_DIRECTIONS = List.of(
-            Direction.RIGHT, Direction.DOWN, Direction.LEFT, Direction.TOP
-    );
-
-    private static final List<Direction> DIAGONAL_DIRECTIONS = List.of(
-            Direction.LEFT_DOWN, Direction.LEFT_TOP, Direction.RIGHT_DOWN, Direction.RIGHT_TOP
+    public static final List<List<Direction>> ELEPHANT_MOVE_SEQUENCES = List.of(
+            List.of(Direction.TOP, Direction.LEFT_TOP, Direction.LEFT_TOP),
+            List.of(Direction.TOP, Direction.RIGHT_TOP, Direction.RIGHT_TOP),
+            List.of(Direction.DOWN, Direction.LEFT_DOWN, Direction.LEFT_DOWN),
+            List.of(Direction.DOWN, Direction.RIGHT_DOWN, Direction.RIGHT_DOWN),
+            List.of(Direction.LEFT, Direction.LEFT_TOP, Direction.LEFT_TOP),
+            List.of(Direction.LEFT, Direction.LEFT_DOWN, Direction.LEFT_DOWN),
+            List.of(Direction.RIGHT, Direction.RIGHT_TOP, Direction.RIGHT_TOP),
+            List.of(Direction.RIGHT, Direction.RIGHT_DOWN, Direction.RIGHT_DOWN)
     );
 
     @Override
-    public boolean canMove(BoardView board, Position from, Position to) {
-        if (board.isSameSide(from, to)) {
+    public List<Position> getPath(Position from) {
+        return ELEPHANT_MOVE_SEQUENCES.stream()
+                .flatMap(sequence -> getTargetPositionIfPathClear(from, sequence).stream())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean canMove(Map<Position, Place> board, Position from, Position to, Side fromSide) {
+        Place toPlace = board.getOrDefault(to, new Empty());
+        if (toPlace.hasSide(fromSide)) {
             return false;
         }
-
-        return ORTHOGONAL_DIRECTIONS.stream()
-                .filter(d -> isFirstStepClear(board, from, d))
-                .anyMatch(d -> canReachViaDiagonalPath(board, from, to, d));
+        return ELEPHANT_MOVE_SEQUENCES.stream()
+                .anyMatch(sequence -> canFollowSequence(board, from, to, sequence));
     }
 
-    private boolean isAlignedWith(Direction straight, Direction diagonal) {
-        return straight.getRow() == diagonal.getRow()
-                || straight.getColumn() == diagonal.getColumn();
+    private Optional<Position> getTargetPositionIfPathClear(Position from, List<Direction> sequence) {
+        Direction firstStepDirection = sequence.get(0);
+        Direction secondStepDirection = sequence.get(1);
+        Direction thirdStepDirection = sequence.get(2);
+
+        return from.moveIfInBounds(firstStepDirection)
+                .flatMap(firstStepPosition -> firstStepPosition.moveIfInBounds(secondStepDirection))
+                .flatMap(secondStepPosition -> secondStepPosition.moveIfInBounds(thirdStepDirection));
     }
 
-    private boolean isFirstStepClear(BoardView board, Position from, Direction direction) {
-        return from.moveIfInBounds(direction)
-                .map(board::isEmpty)
-                .orElse(false);
-    }
+    private boolean canFollowSequence(Map<Position, Place> path, Position from, Position to, List<Direction> sequence) {
+        Direction firstStepDirection = sequence.get(0);
+        Direction secondStepDirection = sequence.get(1);
+        Direction thirdStepDirection = sequence.get(2);
 
-    private boolean canReachViaDiagonalPath(BoardView board, Position from, Position to, Direction direction) {
-        return from.moveIfInBounds(direction)
-                .map(firstStep -> DIAGONAL_DIRECTIONS.stream()
-                        .filter(d -> isAlignedWith(direction, d))
-                        .anyMatch(d -> isValidElephantPath(board, firstStep, to, d)))
-                .orElse(false);
-    }
-
-    private boolean isValidElephantPath(BoardView board, Position current, Position to, Direction direction) {
-        return current.moveIfInBounds(direction)
-                .filter(board::isEmpty)
-                .flatMap(step1 -> step1.moveIfInBounds(direction))
-                .map(to::equals)
-                .orElse(false);
+        return from.moveIfInBounds(firstStepDirection)
+                .filter(firstStepPosition -> !path.containsKey(firstStepPosition))
+                .flatMap(firstStepPosition -> firstStepPosition.moveIfInBounds(secondStepDirection))
+                .filter(secondStepPosition -> !path.containsKey(secondStepPosition))
+                .flatMap(secondStepPosition -> secondStepPosition.moveIfInBounds(thirdStepDirection))
+                .filter(to::equals)
+                .isPresent();
     }
 
 }

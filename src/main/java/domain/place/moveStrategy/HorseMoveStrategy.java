@@ -1,54 +1,62 @@
 package domain.place.moveStrategy;
 
-import domain.board.BoardView;
+import domain.place.Empty;
+import domain.place.Place;
+import domain.place.piece.Side;
 import domain.position.Position;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class HorseMoveStrategy implements MoveStrategy {
 
-    private static final List<Direction> ORTHOGONAL_DIRECTIONS = List.of(
-            Direction.RIGHT, Direction.DOWN, Direction.LEFT, Direction.TOP
-    );
-
-    private static final List<Direction> DIAGONAL_DIRECTIONS = List.of(
-            Direction.LEFT_DOWN, Direction.LEFT_TOP, Direction.RIGHT_DOWN, Direction.RIGHT_TOP
+    private static final List<List<Direction>> HORSE_MOVE_SEQUENCES = List.of(
+            List.of(Direction.TOP, Direction.LEFT_TOP),
+            List.of(Direction.TOP, Direction.RIGHT_TOP),
+            List.of(Direction.DOWN, Direction.LEFT_DOWN),
+            List.of(Direction.DOWN, Direction.RIGHT_DOWN),
+            List.of(Direction.LEFT, Direction.LEFT_TOP),
+            List.of(Direction.LEFT, Direction.LEFT_DOWN),
+            List.of(Direction.RIGHT, Direction.RIGHT_TOP),
+            List.of(Direction.RIGHT, Direction.RIGHT_DOWN)
     );
 
     @Override
-    public boolean canMove(BoardView board, Position from, Position to) {
-        if (board.isSameSide(from, to)) {
+    public List<Position> getPath(Position from) {
+        return HORSE_MOVE_SEQUENCES.stream()
+                .flatMap(sequence -> getTargetPositionIfPathClear(from, sequence).stream())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean canMove(Map<Position, Place> board, Position from, Position to, Side fromSide) {
+        Place toPlace = board.getOrDefault(to, new Empty());
+        if (toPlace.hasSide(fromSide)) {
             return false;
         }
-
-        return ORTHOGONAL_DIRECTIONS.stream()
-                .filter(d -> isFirstStepClear(board, from, d))
-                .anyMatch(d -> isPathClear(from, to, d));
+        return HORSE_MOVE_SEQUENCES.stream()
+                .anyMatch(sequence -> canFollowSequence(board, from, to, sequence));
     }
 
-    private boolean isAlignedWith(Direction straight, Direction diagonal) {
-        return straight.getRow() == diagonal.getRow()
-                || straight.getColumn() == diagonal.getColumn();
+    private Optional<Position> getTargetPositionIfPathClear(Position from, List<Direction> sequence) {
+        Direction firstStepDirection = sequence.get(0);
+        Direction secondStepDirection = sequence.get(1);
+
+        return from.moveIfInBounds(firstStepDirection)
+                .flatMap(firstStepPosition -> firstStepPosition.moveIfInBounds(secondStepDirection));
     }
 
-    private boolean isFirstStepClear(BoardView board, Position from, Direction direction) {
-        return from.moveIfInBounds(direction)
-                .map(board::isEmpty)
-                .orElse(false);
+    private boolean canFollowSequence(Map<Position, Place> board, Position from, Position to,
+                                      List<Direction> sequence) {
+        Direction firstStepDirection = sequence.get(0);
+        Direction secondStepDirection = sequence.get(1);
+
+        return from.moveIfInBounds(firstStepDirection)
+                .filter(firstStepPosition -> !board.containsKey(firstStepPosition))
+                .flatMap(firstStepPosition -> firstStepPosition.moveIfInBounds(secondStepDirection))
+                .filter(to::equals)
+                .isPresent();
     }
 
-    private boolean isPathClear(Position from, Position to, Direction direction) {
-        return from.moveIfInBounds(direction)
-                .map(step1 -> isStep2Clear(step1, to, direction))
-                .orElse(false);
-    }
-
-    private boolean isStep2Clear(Position step1, Position to, Direction direction) {
-        List<Direction> diagonal = DIAGONAL_DIRECTIONS.stream()
-                .filter(dig -> isAlignedWith(direction, dig))
-                .toList();
-
-        return diagonal.stream()
-                .flatMap(dig -> step1.moveIfInBounds(dig).stream())
-                .anyMatch(to::equals);
-    }
 }

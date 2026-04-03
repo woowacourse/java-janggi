@@ -1,17 +1,22 @@
 package domain.position;
 
-import static domain.common.Constant.MAX_ROW;
-import static domain.common.Constant.MIN_ROW;
-
 public record Row(int row) {
+
+    public static final int MIN_ROW = 1;
+    public static final int MAX_ROW = 10;
 
     public Row {
         validateRange(row);
     }
 
+    public boolean isOutBoundRow(int row) {
+        return row < MIN_ROW || row > MAX_ROW;
+    }
+
     private void validateRange(int row) {
-        if (row > MAX_ROW || row < MIN_ROW) {
+        if (isOutBoundRow(row)) {
             throw new IllegalArgumentException("[ERROR] 좌표 범위를 초과했습니다.");
         }
     }
+
 }

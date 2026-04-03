@@ -1,10 +1,5 @@
 package domain.board;
 
-import static domain.common.Constant.MAX_COLUMN;
-import static domain.common.Constant.MAX_ROW;
-import static domain.common.Constant.MIN_COLUMN;
-import static domain.common.Constant.MIN_ROW;
-
 import domain.place.Empty;
 import domain.place.Place;
 import domain.place.piece.PieceSymbol;
@@ -14,8 +9,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
-public class Board implements BoardView {
+public class Board {
+
+    public static final int MIN_POSITION = 1;
+    private static final double HAN_PIECE_BONUS_SCORE = 1.5;
 
     private final Map<Position, Place> board;
 
@@ -23,51 +25,50 @@ public class Board implements BoardView {
         this.board = new HashMap<>(board);
     }
 
-    public List<List<String>> getFormatBoard() {
-        List<List<String>> result = new ArrayList<>();
-        for (int row = MIN_ROW; row <= MAX_ROW; row++) {
-            result.add(getFormatRow(row));
-        }
-
-        return result;
-    }
-
-    private List<String> getFormatRow(int row) {
-        List<String> rowFormats = new ArrayList<>();
-        for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
-            Position position = new Position(row, column);
-            Place place = board.get(position);
-            rowFormats.add(place.getFormat());
-        }
-        return rowFormats;
-    }
-
     public void move(Position from, Position to, Side side) {
-        validateNotSamePosition(from, to);
+        validateMove(from, to, side);
 
-        Place place = board.get(from);
-        validateSourcePiece(place, side);
+        Place fromPlace = board.get(from);
 
-        if (!place.canMove(this, from, to)) {
+        if (!moveValid(from, to, fromPlace)) {
             throw new IllegalArgumentException("[ERROR] 기물이 가지 못하는 자리입니다.");
         }
-
         movePiece(from, to);
     }
 
-    private void validateNotSamePosition(Position from, Position to) {
-        if (from.equals(to)) {
-            throw new IllegalArgumentException("[ERROR] 같은 위치로는 이동할 수 없습니다.");
-        }
+    private boolean moveValid(Position from, Position to, Place fromPlace) {
+        boolean normalMoveFlag = normalMoveValid(from, to, fromPlace);
+        boolean palaceMoveFlag = palaceMoveValid(from, to, fromPlace);
+
+        return normalMoveFlag || palaceMoveFlag;
     }
 
-    private void validateSourcePiece(Place place, Side side) {
-        if (place.isEmpty()) {
-            throw new IllegalArgumentException("[ERROR] 선택한 위치에 기물이 없습니다.");
+    private boolean normalMoveValid(Position from, Position to, Place fromPlace) {
+        Map<Position, Place> obstacles = getObstacles(fromPlace.getNormalPath(from));
+        return fromPlace.canNormalMove(obstacles, from, to);
+    }
+
+    private boolean palaceMoveValid(Position from, Position to, Place fromPlace) {
+        Map<Position, Place> obstacles = getObstacles(fromPlace.getPalacePath(from));
+        return fromPlace.canPalaceMove(obstacles, from, to);
+    }
+
+    private Map<Position, Place> getObstacles(List<Position> path) {
+        return path.stream()
+                .map(position -> Map.entry(position, board.get(position)))
+                .filter(entry -> !entry.getValue().isEmpty())
+                .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
+    }
+
+    private void validateMove(Position from, Position to, Side side) {
+        if (from.equals(to)) {
+            throw new IllegalArgumentException("[ERROR] 같은 위치로 이동 불가합니다.");
         }
 
-        if (!place.hasSide(side)) {
-            throw new IllegalArgumentException("[ERROR] 본인의 기물을 선택해야 합니다.");
+        Place fromPlace = board.get(from);
+
+        if (fromPlace.isEmpty() || !fromPlace.hasSide(side)) {
+            throw new IllegalArgumentException("[ERROR] 잘못된 기물 선택입니다.");
         }
     }
 
@@ -77,22 +78,78 @@ public class Board implements BoardView {
         board.put(to, piece);
     }
 
-    @Override
-    public boolean isEmpty(Position position) {
-        Place place = board.get(position);
-        return place.isEmpty();
+    public boolean isCheck(Side side) {
+        Position generalPos = getGeneral(side);
+        Side attackingSide = side.opposite();
+
+        return board.entrySet().stream()
+                .filter(e -> e.getValue().hasSide(attackingSide))
+                .anyMatch(e -> moveValid(e.getKey(), generalPos, e.getValue()));
     }
 
-    @Override
-    public boolean isSameSide(Position from, Position to) {
-        Place fromPlace = board.get(from);
-        Place toPlace = board.get(to);
-        return fromPlace.isSameSide(toPlace);
+    private Position getGeneral(Side side) {
+        return board.entrySet().stream()
+                .filter(e -> e.getValue().hasSide(side))
+                .filter(e -> e.getValue().isSameSymbol(PieceSymbol.GENERAL))
+                .map(Entry::getKey)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 장군이 없습니다."));
     }
 
-    @Override
-    public boolean isSameSymbol(Position position, PieceSymbol pieceSymbol) {
-        Place place = board.get(position);
-        return place.isSameSymbol(pieceSymbol);
+    public boolean isAliveGeneral(Side side) {
+        return board.values().stream()
+                .filter(p -> p.hasSide(side))
+                .anyMatch(p -> p.isSameSymbol(PieceSymbol.GENERAL));
     }
+
+    public double getSideScore(Side side) {
+        double sum = board.values().stream()
+                .filter(place -> place.hasSide(side))
+                .mapToDouble(Place::getScore)
+                .sum();
+        if (side == Side.HAN) {
+            sum += HAN_PIECE_BONUS_SCORE;
+        }
+        return sum;
+    }
+
+    public Map<Position, Place> board() {
+        return Map.copyOf(board);
+    }
+
+    public List<List<String>> getFormatBoard() {
+        return getBoard(Place::getFormat);
+    }
+
+    public List<List<Optional<Side>>> getSideBoard() {
+        return getBoard(Place::getSide);
+    }
+
+    private <T> List<List<T>> getBoard(Function<Place, T> mapper) {
+        int maxRow = board.keySet().stream()
+                .mapToInt(Position::getRow)
+                .max()
+                .orElse(MIN_POSITION);
+        int maxCol = board.keySet().stream()
+                .mapToInt(Position::getColumn)
+                .max()
+                .orElse(MIN_POSITION);
+
+        return getBoard(mapper, maxRow, maxCol);
+    }
+
+    private <T> List<List<T>> getBoard(Function<Place, T> mapper, int maxRow, int maxCol) {
+        List<List<T>> result = new ArrayList<>();
+
+        for (int row = MIN_POSITION; row <= maxRow; row++) {
+            List<T> rowResult = new ArrayList<>();
+            for (int col = MIN_POSITION; col <= maxCol; col++) {
+                Place place = board.get(new Position(row, col));
+                rowResult.add(mapper.apply(place));
+            }
+            result.add(rowResult);
+        }
+        return result;
+    }
+
 }

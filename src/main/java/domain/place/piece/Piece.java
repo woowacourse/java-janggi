@@ -1,39 +1,40 @@
 package domain.place.piece;
 
-import domain.board.BoardView;
 import domain.place.Place;
 import domain.place.moveStrategy.MoveStrategy;
+import domain.place.palaceMoveStrategy.PalaceMoveStrategy;
 import domain.position.Position;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-import util.ColorMapper;
 
 public abstract class Piece implements Place {
 
-    protected final Side side;
-    protected final MoveStrategy moveStrategy;
+    private final Side side;
+    private final MoveStrategy moveStrategy;
+    private final PalaceMoveStrategy palaceMoveStrategy;
 
-    public Piece(Side side, MoveStrategy moveStrategy) {
+    public Piece(Side side, MoveStrategy moveStrategy, PalaceMoveStrategy palaceMoveStrategy) {
         this.side = side;
         this.moveStrategy = moveStrategy;
+        this.palaceMoveStrategy = palaceMoveStrategy;
     }
 
     public abstract PieceSymbol getSymbol();
 
     @Override
     public String getFormat() {
-        return ColorMapper.colorize(getSymbol().display(), side);
+        return getSymbol().display();
+    }
+
+    @Override
+    public int getScore() {
+        return getSymbol().getScore();
     }
 
     @Override
     public boolean isEmpty() {
         return false;
-    }
-
-    @Override
-    public boolean isSameSide(Place other) {
-        return other.getSide()
-                .map(this.side::equals)
-                .orElse(false);
     }
 
     @Override
@@ -52,7 +53,23 @@ public abstract class Piece implements Place {
     }
 
     @Override
-    public boolean canMove(BoardView board, Position from, Position to) {
-        return moveStrategy.canMove(board, from, to);
+    public List<Position> getNormalPath(Position from) {
+        return moveStrategy.getPath(from);
     }
+
+    @Override
+    public boolean canNormalMove(Map<Position, Place> obstacles, Position from, Position to) {
+        return moveStrategy.canMove(obstacles, from, to, side);
+    }
+
+    @Override
+    public List<Position> getPalacePath(Position from) {
+        return palaceMoveStrategy.getPath(from);
+    }
+
+    @Override
+    public boolean canPalaceMove(Map<Position, Place> obstacles, Position from, Position to) {
+        return palaceMoveStrategy.canMove(obstacles, from, to, side);
+    }
+
 }

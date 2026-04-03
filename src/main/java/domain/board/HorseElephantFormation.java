@@ -3,6 +3,7 @@ package domain.board;
 import domain.place.Place;
 import domain.place.moveStrategy.ElephantMoveStrategy;
 import domain.place.moveStrategy.HorseMoveStrategy;
+import domain.place.palaceMoveStrategy.PalaceRestrictedMoveStrategy;
 import domain.place.piece.Elephant;
 import domain.place.piece.Horse;
 import domain.place.piece.Side;
@@ -44,14 +45,15 @@ public enum HorseElephantFormation {
     }
 
     private static Place horse(Side side) {
-        return new Horse(side, new HorseMoveStrategy());
+        return new Horse(side, new HorseMoveStrategy(), new PalaceRestrictedMoveStrategy());
     }
 
     private static Place elephant(Side side) {
-        return new Elephant(side, new ElephantMoveStrategy());
+        return new Elephant(side, new ElephantMoveStrategy(), new PalaceRestrictedMoveStrategy());
     }
 
     public List<Function<Side, Place>> getFormationMethod() {
         return formationMethod;
     }
+
 }
