@@ -1,5 +1,7 @@
 package domain.strategy;
 
+import domain.MoveRoute;
+import domain.MoveRules;
 import domain.Position;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +19,20 @@ public class ChariotMoveStrategy extends MoveStrategy {
 
     @Override
     public boolean isMoveAble(Position destination) {
+        if(position.isInPalace() && destination.isInPalace()) {
+            return isOrthogonal(destination) || isOnSameLine(destination);
+        }
+        return isOrthogonal(destination);
+    }
+
+    private boolean isOnSameLine(Position destination) {
+        int dr = Math.abs(position.row() - destination.row());
+        int dc = Math.abs(position.col() - destination.col());
+
+        return dr / dc == 1 || dr % dc == 0;
+    }
+
+    private boolean isOrthogonal(Position destination) {
         return isSameCol(destination) || isSameRow(destination);
     }
 
