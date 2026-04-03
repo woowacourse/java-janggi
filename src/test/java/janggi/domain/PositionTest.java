@@ -1,6 +1,7 @@
 package janggi.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNoException;
 
 import janggi.exception.ExceptionMessage;
 import java.util.List;
@@ -16,6 +17,11 @@ public class PositionTest {
     private static final int MIN_POSITION_INDEX = 0;
     private static final int MAX_ROW_INDEX = 9;
     private static final int MAX_COLUMN_INDEX = 8;
+
+    @Test
+    void 행과_열을_통해_객체를_생성한다() {
+        assertThatNoException().isThrownBy(() -> Position.from(List.of(9, 8)));
+    }
 
     static Stream<List<Integer>> createPositionFormat() {
         return Stream.of(
