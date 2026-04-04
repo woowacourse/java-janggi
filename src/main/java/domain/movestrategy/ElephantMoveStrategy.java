@@ -34,13 +34,12 @@ public class ElephantMoveStrategy implements MoveStrategy {
 
     private boolean isBlocked(final Board board, final Position from, final List<Delta> paths) {
         Position current = from;
+        boolean blocked = false;
 
-        for (Delta delta : paths) {
-            current = current.move(delta);
-            if (!board.isEmpty(current)) {
-                return true;
-            }
+        for (int index = 0; index < paths.size() && !blocked; index++) {
+            current = current.move(paths.get(index));
+            blocked = !board.isEmpty(current);
         }
-        return false;
+        return blocked;
     }
 }
