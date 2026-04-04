@@ -23,13 +23,14 @@ import janggi.utils.RetryExecutor;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.List;
+import java.util.Optional;
 
 public class JanggiController {
 
-    private static final long GAME_ID = 1;
-
     private final GameService gameService;
     private final BoardService boardService;
+
+    private long gameId;
 
     public JanggiController(
         final GameService gameService,
@@ -45,29 +46,31 @@ public class JanggiController {
         OutputView.printBoard(BoardDto.from(board, List.of()));
         playGame(turnManager, board);
         OutputView.printGameResult(GameResultDto.from(board));
-        gameService.removeGame(GAME_ID);
+        gameService.removeGame(gameId);
     }
 
     public TurnManager loadOrSaveTurnManager() {
-        if (gameService.hasGame(GAME_ID)) {
+        final Optional<Long> latestGameId = gameService.getLatestGameId();
+        if (latestGameId.isPresent()) {
+            gameId = latestGameId.get();
             OutputView.printGameLoadedMessage();
-            return TurnManagerMapper.toDomain(gameService.loadOrSaveGame(1));
+            return TurnManagerMapper.toDomain(gameService.loadGame(gameId));
         }
         Team blueTeam = setupBlueTeam();
         Team redTeam = setupRedTeam();
-        gameService.loadOrSaveGame(GAME_ID);
+        gameId = gameService.createNewGame("게임 1");
 
         return new TurnManager(1, List.of(blueTeam, redTeam));
     }
 
     public Board loadOrSaveBoard(final List<Team> teams) {
         Board board;
-        if (boardService.hasBoard(GAME_ID)) {
-            board = new Board(boardService.loadBoard(GAME_ID));
+        if (boardService.hasBoard(gameId)) {
+            board = new Board(boardService.loadBoard(gameId));
             return board;
         }
         board = BoardGenerator.generate(teams.get(0), teams.get(1));
-        boardService.createBoard(GAME_ID, board.getPositionPieceMap());
+        boardService.createBoard(gameId, board.getPositionPieceMap());
         return board;
     }
 
@@ -119,7 +122,7 @@ public class JanggiController {
         final Position positionOfMovingPiece) {
         final Position targetPosition = RetryExecutor.retry(this::readTargetPosition,
             movablePositions);
-        boardService.movePiece(GAME_ID, positionOfMovingPiece, targetPosition,
+        boardService.movePiece(gameId, positionOfMovingPiece, targetPosition,
             board.findPieceByPosition(positionOfMovingPiece));
         board.movePiece(positionOfMovingPiece, targetPosition);
         OutputView.printBoard(BoardDto.from(board, List.of()));
@@ -127,7 +130,7 @@ public class JanggiController {
 
     private void proceedNextTurn(final TurnManager turnManager) {
         turnManager.progressToNext();
-        gameService.updateGame(GAME_ID, turnManager);
+        gameService.updateGame(gameId, turnManager);
     }
 
     private Position readFromPosition(final Team team, final BoardMediator boardMediator) {

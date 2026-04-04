@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -44,6 +45,28 @@ public final class TestDBConnection implements DBConnection {
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<Long> executeSelectForIds(String sql, Object... parameters) {
+        final List<Long> ids = new ArrayList<>();
+        try (
+            final PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        ) {
+            for (int parameterIndex = 0; parameterIndex < parameters.length; parameterIndex++) {
+                preparedStatement.setObject(parameterIndex + 1, parameters[parameterIndex]);
+            }
+            try (final ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    ids.add(resultSet.getLong("id"));
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return ids;
     }
 
     @Override

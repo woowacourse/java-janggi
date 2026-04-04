@@ -6,6 +6,7 @@ import janggi.entity.GameEntity;
 import janggi.mapper.TurnManagerMapper;
 import janggi.repository.GameRepository;
 import java.util.List;
+import java.util.Optional;
 
 public class GameService {
 
@@ -15,14 +16,25 @@ public class GameService {
         this.gameRepository = gameRepository;
     }
 
-    public boolean hasGame(final long id) {
-        return gameRepository.findById(id).isPresent();
+    public Optional<Long> getLatestGameId() {
+        final List<Long> ids = gameRepository.findAllIdsOrderByLatest(1);
+        if (ids.isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.of(ids.getFirst());
     }
 
-    public GameEntity loadOrSaveGame(final long id) {
+    public long createNewGame(final String name) {
+        final GameEntity gameEntity = GameEntity.from(name, 1,
+            List.of(TeamType.BLUE, TeamType.RED));
+
+        return gameRepository.save(gameEntity).id();
+    }
+
+    public GameEntity loadGame(final long id) {
         return gameRepository.findById(id)
-            .orElseGet(() -> gameRepository.save(
-                GameEntity.from("게임 1", 1, List.of(TeamType.BLUE, TeamType.RED))));
+            .orElseThrow(() -> new IllegalArgumentException("해당 id를 가진 게임이 존재하지 않습니다."));
     }
 
     public void updateGame(final long id, final TurnManager turnManager) {

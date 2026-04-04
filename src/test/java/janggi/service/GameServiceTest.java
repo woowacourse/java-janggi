@@ -1,7 +1,9 @@
 package janggi.service;
 
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import janggi.config.DBConnection;
 import janggi.config.DBTableInitializer;
@@ -47,43 +49,38 @@ class GameServiceTest {
         dbConnection.closeConnection();
     }
 
-    @Nested
-    @DisplayName("게임 상태 존재 여부 판정 테스트")
-    class HasGameState {
+    @Test
+    @DisplayName("새 게임 생성 테스트")
+    void CreateNewGame() {
+        String name = "게임 1";
 
-        @Test
-        @DisplayName("게임 상태가 존재하는 경우")
-        void success_1() {
-            GameEntity generated = gameRepository.save(
-                GameEntity.from("게임 1", 1, List.of(TeamType.BLUE, TeamType.RED)));
-            long id = generated.id();
-            boolean expected = true;
-
-            boolean actual = gameService.hasGame(id);
-
-            assertThat(actual).isEqualTo(expected);
-        }
-
-        @Test
-        @DisplayName("게임 상태가 존재하지 않는 경우")
-        void success_2() {
-            long id = 1;
-            boolean expected = false;
-
-            boolean actual = gameService.hasGame(id);
-
-            assertThat(actual).isEqualTo(expected);
-        }
+        assertDoesNotThrow(() -> gameService.createNewGame(name));
     }
 
-    @Test
-    @DisplayName("게임 상태 생성 테스트")
-    void loadOrSaveGameState() {
-        GameEntity expected = GameEntity.from(1, "게임 1", 1, List.of(TeamType.BLUE, TeamType.RED));
+    @Nested
+    @DisplayName("게임 로드 테스트")
+    class LoadGame {
 
-        GameEntity actual = gameService.loadOrSaveGame(1);
+        @Test
+        @DisplayName("정상 테스트")
+        void success() {
+            long id = gameRepository.save(
+                GameEntity.from("게임 1", 1, List.of(TeamType.BLUE, TeamType.RED))).id();
+            GameEntity expected = GameEntity.from(id, "게임 1", 1,
+                List.of(TeamType.BLUE, TeamType.RED));
 
-        assertThat(actual).isEqualTo(expected);
+            GameEntity actual = gameService.loadGame(id);
+
+            assertThat(actual).isEqualTo(expected);
+        }
+
+        @Test
+        @DisplayName("요청된 id를 가진 게임이 없는 경우 예외가 발생한다.")
+        void failure() {
+            long id = 100;
+
+            assertThatIllegalArgumentException().isThrownBy(() -> gameService.loadGame(id));
+        }
     }
 
     @Test

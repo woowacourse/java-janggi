@@ -3,6 +3,7 @@ package janggi.repository;
 import janggi.config.DBConnection;
 import janggi.entity.GameEntity;
 import janggi.global.EntityMapper;
+import java.util.List;
 import java.util.Optional;
 
 public class GameRepositoryImpl implements GameRepository {
@@ -28,6 +29,14 @@ public class GameRepositoryImpl implements GameRepository {
     @Override
     public boolean existsById(final long id) {
         return findById(id).isPresent();
+    }
+
+    @Override
+    public List<Long> findAllIdsOrderByLatest(final int limit) {
+        final String sql = String.format("SELECT id FROM %s ORDER BY created_at DESC LIMIT ?",
+            TABLE_NAME);
+
+        return dbConnection.executeSelectForIds(sql, limit);
     }
 
     @Override
