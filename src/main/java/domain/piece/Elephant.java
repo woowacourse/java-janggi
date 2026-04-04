@@ -3,6 +3,7 @@ package domain.piece;
 import domain.position.Position;
 import domain.game.Team;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class Elephant extends Piece {
 
@@ -18,30 +19,23 @@ public class Elephant extends Piece {
         int rowDiff = target.rowDiff(source);
         int colDiff = target.columnDiff(source);
 
-        for (int i = 0; i < ROW_OFFSETS.size(); i++) {
-            if (ROW_OFFSETS.get(i) == rowDiff && COLUMN_OFFSETS.get(i) == colDiff) {
-                return true;
-            }
-        }
-        return false;
+        return IntStream.range(0, ROW_OFFSETS.size())
+                .anyMatch(i -> ROW_OFFSETS.get(i) == rowDiff && COLUMN_OFFSETS.get(i) == colDiff);
     }
 
     @Override
     public List<Position> calculateRoute(Position source, Position target) {
-        if (source.columnDiff(target) == -3) {
-            Position mid = source.addPosition(0, 1);
-            return List.of(mid, mid.middlePosition(target));
+        int rowDiff = source.rowDiff(target);
+        int colDiff = source.columnDiff(target);
+        Position firstStep = calculateFirstStep(source, rowDiff, colDiff);
+        return List.of(firstStep, firstStep.middlePosition(target));
+    }
+
+    private Position calculateFirstStep(Position source, int rowDiff, int colDiff) {
+        if (Math.abs(colDiff) == 3) {
+            return source.addPosition(0, -Integer.signum(colDiff));
         }
-        if (source.columnDiff(target) == 3) {
-            Position mid = source.addPosition(0, -1);
-            return List.of(mid, mid.middlePosition(target));
-        }
-        if (source.rowDiff(target) == -3) {
-            Position mid = source.addPosition(1, 0);
-            return List.of(mid, mid.middlePosition(target));
-        }
-        Position mid = source.addPosition(-1, 0);
-        return List.of(mid, mid.middlePosition(target));
+        return source.addPosition(-Integer.signum(rowDiff), 0);
     }
 
 }

@@ -24,19 +24,16 @@ public class Horse extends Piece {
 
     @Override
     public List<Position> calculateRoute(Position source, Position target) {
-        if (source.columnDiff(target) == -2) {
-            return List.of(source.addPosition(0, 1));
-        }
+        int rowDiff = source.rowDiff(target);
+        int colDiff = source.columnDiff(target);
+        return List.of(calculateFirstStep(source, rowDiff, colDiff));
+    }
 
-        if (source.columnDiff(target) == 2) {
-            return List.of(source.addPosition(0, -1));
+    private Position calculateFirstStep(Position source, int rowDiff, int colDiff) {
+        if (Math.abs(colDiff) == 2) {
+            return source.addPosition(0, -Integer.signum(colDiff));
         }
-
-        if (source.rowDiff(target) == -2) {
-            return List.of(source.addPosition(1, 0));
-        }
-
-        return List.of(source.addPosition(-1, 0));
+        return source.addPosition(-Integer.signum(rowDiff), 0);
     }
 
 }
