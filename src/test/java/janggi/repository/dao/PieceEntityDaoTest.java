@@ -2,11 +2,13 @@ package janggi.repository.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import janggi.model.board.Board;
 import janggi.model.position.absolute.Column;
 import janggi.model.position.absolute.Position;
 import janggi.model.position.absolute.Row;
 import janggi.repository.DatabaseTest;
 import janggi.repository.entity.PieceEntity;
+import janggi.view.BoardType;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,6 +47,20 @@ class PieceEntityDaoTest extends DatabaseTest {
         assertThat(first.pieceType()).isEqualTo("BYEONG");
         assertThat(second.pieceType()).isEqualTo("JANG");
         assertThat(third.pieceType()).isEqualTo("SA");
+    }
+
+    @DisplayName("보드 전체를 저장한다.")
+    @Test
+    void saveBoard() {
+        //given
+        Board board = BoardType.FIRST.getBoard();
+
+        //when
+        pieceEntityDao.saveBoard(con, board.getBoardInfo(), gameId);
+
+        //then
+        assertThat(pieceEntityDao.findAllByGameId(con, gameId).size())
+                .isEqualTo(32);
     }
 
     @DisplayName("해당 게임 아이디의 기물이 없으면 빈 리스트를 반환한다.")

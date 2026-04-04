@@ -77,7 +77,12 @@ public class JanggiController {
         }
 
         Janggi newGame = startNewGame();
-        Long gameId = gameRepository.save(connectionProvider.getConnection(), newGame.getCurrentTeam());
+
+        Long gameId = gameRepository.saveBoard(
+                connectionProvider.getConnection(),
+                newGame.getCurrentTeam().name(),
+                newGame.getBoard().getBoardInfo()
+        );
 
         return new LatestInProgressGameResponse(
                 gameId,
@@ -99,8 +104,7 @@ public class JanggiController {
 
         janggi = janggi.play(from, to);
 
-        Connection con = null;
-        gameRepository.updateBoardWith(con, from, to);
+        gameRepository.updateBoardWith(connectionProvider.getConnection(), from, to);
 
         return janggi;
     }
