@@ -3,11 +3,13 @@ package domain.game;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import domain.board.Board;
 import domain.board.Position;
 import domain.board.SetUp;
 import domain.piece.Camp;
 import domain.piece.Piece;
 import domain.piece.PieceType;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -69,5 +71,20 @@ public class GameTest {
         Piece movedPiece = game.board().findBy(to);
         assertThat(movedPiece.camp()).isEqualTo(Camp.HAN);
         assertThat(movedPiece.type()).isEqualTo(PieceType.SOLDIER);
+    }
+
+
+    @Test
+    @DisplayName("장군(궁)이 잡히면 게임이 종료된다.")
+    void finishGame_When_GeneralCaptured() {
+        Board board = new Board(Map.of(
+                new Position(5, 5), new Piece(Camp.CHO, PieceType.CHARIOT),
+                new Position(5, 2), new Piece(Camp.HAN, PieceType.GENERAL)
+        ));
+        Game game = Game.of(board, Camp.CHO);
+
+        game.move(new Position(5, 5), new Position(5, 2));
+
+        assertThat(game.isFinished()).isTrue();
     }
 }

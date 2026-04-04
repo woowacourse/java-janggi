@@ -1,5 +1,6 @@
 package domain.board;
 
+import domain.piece.Camp;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import java.util.HashMap;
@@ -30,13 +31,16 @@ public class Board implements BoardChecker {
                 .orElse(false);
     }
 
-    public void move(Position from, Position to) {
+    public Optional<Piece> move(Position from, Position to) {
         Piece targetPiece = findBy(from);
+        Optional<Piece> capturedPiece = findPiece(to);
 
         targetPiece.move(from, to, this);
 
         board.remove(from);
         board.put(to, targetPiece);
+
+        return capturedPiece;
     }
 
     public Piece findBy(Position position) {

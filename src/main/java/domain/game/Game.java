@@ -6,14 +6,27 @@ import domain.board.Position;
 import domain.board.SetUp;
 import domain.piece.Camp;
 import domain.piece.Piece;
+import domain.piece.PieceType;
+import java.util.Optional;
 
 public class Game {
     private final Board board;
     private Camp currentTurn;
+    private boolean finished;
+
 
     public Game(SetUp choSetUp, SetUp hanSetUp) {
-        this.board = new Board(BoardInitializer.init(choSetUp, hanSetUp));
-        this.currentTurn = Camp.CHO;
+        this(new Board(BoardInitializer.init(choSetUp, hanSetUp)), Camp.CHO);
+    }
+
+    public static Game of(Board board, Camp currentTurn) {
+        return new Game(board, currentTurn);
+    }
+
+    private Game(Board board, Camp currentTurn) {
+        this.board = board;
+        this.currentTurn = currentTurn;
+        this.finished = false;
     }
 
     public Board board() {
@@ -28,7 +41,16 @@ public class Game {
         Piece piece = board.findBy(from);
         validateTurn(piece);
 
-        board.move(from, to);
+        Optional<Piece> capturedPiece = board.move(from, to);
+
+        finished = capturedPiece
+                .map(target -> target.type() == PieceType.GENERAL)
+                .orElse(false);
+
+        if (finished) {
+            return;
+        }
+
         changeTurn();
     }
 
@@ -44,5 +66,9 @@ public class Game {
 
     private void changeTurn() {
         currentTurn = currentTurn.opponent();
+    }
+
+    public boolean isFinished() {
+        return finished;
     }
 }

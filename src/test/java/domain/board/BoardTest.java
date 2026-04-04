@@ -53,6 +53,21 @@ public class BoardTest {
                 .hasMessage("[ERROR] 해당 좌표에 기물이 없습니다.");
     }
 
+    @Test
+    @DisplayName("상대 기물이 있는 위치로 이동하면 잡힌 기물을 반환한다.")
+    void returnCapturedPiece_When_MoveToOpponentPiece() {
+        Board board = new Board(Map.of(
+                new Position(5, 5), new Piece(Camp.CHO, PieceType.CHARIOT),
+                new Position(5, 2), new Piece(Camp.HAN, PieceType.GENERAL)
+        ));
+
+        Piece capturedPiece = board.move(new Position(5, 5), new Position(5, 2))
+                .orElseThrow();
+
+        assertThat(capturedPiece.camp()).isEqualTo(Camp.HAN);
+        assertThat(capturedPiece.type()).isEqualTo(PieceType.GENERAL);
+    }
+
     @Nested
     class FindPiecesInPath {
         @Test
