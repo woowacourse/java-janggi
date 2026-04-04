@@ -1,6 +1,6 @@
 package janggi.controller;
 
-import janggi.infra.ConnectionProvider;
+import janggi.infra.transaction.TransactionExecutor;
 import janggi.model.Janggi;
 import janggi.model.Team;
 import janggi.model.position.absolute.Column;
@@ -12,7 +12,6 @@ import janggi.view.BoardType;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import janggi.view.dto.GameStatus;
-import java.sql.Connection;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,19 +19,19 @@ public class JanggiController {
 
     private final OutputView outputView;
     private final InputView inputView;
-    private final ConnectionProvider connectionProvider;
     private final gameRepository gameRepository;
+    private final TransactionExecutor transactionExecutor;
 
     public JanggiController(
             OutputView outputView,
             InputView inputView,
-            ConnectionProvider connectionProvider,
-            gameRepository gameRepository
+            gameRepository gameRepository,
+            TransactionExecutor transactionExecutor
     ) {
         this.outputView = outputView;
         this.inputView = inputView;
-        this.connectionProvider = connectionProvider;
         this.gameRepository = gameRepository;
+        this.transactionExecutor = transactionExecutor;
     }
 
     public void run() {
@@ -62,15 +61,16 @@ public class JanggiController {
         if (janggi.isGameOver()) {
             Team winner = janggi.getWinner();
             outputView.printWinner(winner);
-            gameRepository.deleteByGameId(connectionProvider.getConnection(), gameId);
+
+            transactionExecutor.executeWithoutResult(con ->
+                    gameRepository.deleteByGameId(con, gameId)
+            );
         }
     }
 
     private LatestInProgressGameResponse setUpJanggi() {
-        Connection con = connectionProvider.getConnection();
-
-        Optional<LatestInProgressGameResponse> response = gameRepository
-                .findLatestInProgressGame(con);
+        Optional<LatestInProgressGameResponse> response = transactionExecutor.execute(
+                gameRepository::findLatestInProgressGame);
 
         if (response.isPresent()) {
             return response.get();
@@ -78,10 +78,12 @@ public class JanggiController {
 
         Janggi newGame = startNewGame();
 
-        Long gameId = gameRepository.saveBoard(
-                connectionProvider.getConnection(),
-                newGame.getCurrentTeam().name(),
-                newGame.getBoard().getBoardInfo()
+        Long gameId = transactionExecutor.execute(con ->
+                gameRepository.saveBoard(
+                        con,
+                        newGame.getCurrentTeam().name(),
+                        newGame.getBoard().getBoardInfo()
+                )
         );
 
         return new LatestInProgressGameResponse(
@@ -104,7 +106,9 @@ public class JanggiController {
 
         janggi = janggi.play(from, to);
 
-        gameRepository.updateBoardWith(connectionProvider.getConnection(), from, to);
+        transactionExecutor.executeWithoutResult(con ->
+                gameRepository.updateBoardWith(con, from, to)
+        );
 
         return janggi;
     }

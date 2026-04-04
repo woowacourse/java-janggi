@@ -76,6 +76,29 @@ class JdbcGameRepositoryTest extends DatabaseTest{
                 .isEqualTo(PieceType.BYEONG);
     }
 
+    @DisplayName("원래 to에 있던 기물을 삭제한다..")
+    @Test
+    void updateBoardWith_success_to_exist() {
+        //given
+        Long gameId = gameEntityDao.save(con, "CHO");
+
+        pieceEntityDao.save(con, gameId, "BYEONG", 1, 1, "CHO");
+        pieceEntityDao.save(con, gameId, "BYEONG", 2, 1, "HAN");
+
+        //when
+        gameRepository.updateBoardWith(
+                con,
+                new Position(Row.ONE, Column.ONE),
+                new Position(Row.TWO, Column.ONE)
+        );
+
+        //then
+        Janggi game = gameRepository.findLatestInProgressGame(con).get().janggi();
+
+        Map<Position, Piece> boardInfo = game.getBoard().getBoardInfo();
+        assertThat(boardInfo.size()).isEqualTo(1);
+    }
+
     @DisplayName("from에 기물이 없으면 예외가 발생한다.")
     @Test
     void updateBoardWith_fail() {
