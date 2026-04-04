@@ -38,6 +38,9 @@ public class JanggiController {
                 return false;
             }
             Position currentPosition = parsePosition(currentInput);
+            Piece piece = board.findPieceByPosition(currentPosition)
+                    .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 위치에 기물이 존재하지 않습니다."));
+            game.checkTurn(piece.getTeam());
 
             String targetInput = inputView.readTargetPosition();
             if (targetInput.equals("n")) {
