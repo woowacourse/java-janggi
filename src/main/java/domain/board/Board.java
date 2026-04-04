@@ -14,7 +14,6 @@ public class Board implements BoardChecker {
     private final Map<Position, Piece> board;
     private final Palace palace;
 
-
     public Board(Map<Position, Piece> board) {
         this.board = new HashMap<>(board);
         this.palace = new Palace();

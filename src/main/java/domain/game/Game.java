@@ -14,7 +14,6 @@ public class Game {
     private Camp currentTurn;
     private boolean finished;
 
-
     public Game(SetUp choSetUp, SetUp hanSetUp) {
         this(new Board(BoardInitializer.init(choSetUp, hanSetUp)), Camp.CHO);
     }
