@@ -75,7 +75,7 @@ public class GameDao {
                 ResultSet rs = pstmt.executeQuery();
                 while (rs.next()) {
                     Position pos = Position.of(rs.getInt("col_pos"), rs.getInt("row_pos"));
-                    Piece piece = createPiece(rs.getString("piece_type"), rs.getString("side"));
+                    Piece piece = PieceFactory.create(rs.getString("piece_type"), rs.getString("side"));
                     pieceMap.put(pos, piece);
                 }
             }
@@ -106,21 +106,5 @@ public class GameDao {
                 map.putIfAbsent(Position.of(i, j), EmptyPiece.getInstance());
             }
         }
-    }
-
-    private Piece createPiece(String typeName, String sideName) {
-        PieceType type = PieceType.valueOf(typeName);
-        Side side = Side.valueOf(sideName);
-
-        return switch (type) {
-            case CHARIOT -> new Chariot(side);
-            case CANNON -> new Cannon(side);
-            case HORSE -> new Horse(side);
-            case ELEPHANT -> new Elephant(side);
-            case GUARD -> new Guard(side);
-            case KING -> new King(side);
-            case PAWN -> new Pawn(side);
-            case EMPTY -> EmptyPiece.getInstance();
-        };
     }
 }
