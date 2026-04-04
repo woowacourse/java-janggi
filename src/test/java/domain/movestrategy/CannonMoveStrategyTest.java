@@ -24,7 +24,7 @@ class CannonMoveStrategyTest {
 
     @Test
     @DisplayName("포는 장애물이 없으면 이동할 수 없다")
-    void shouldNotMove_whenNoScreenExists() {
+    void cannonCantMoveWhenNoScreenExists() {
         // given
         Position from = Position.of(5, 5);
 
@@ -41,7 +41,7 @@ class CannonMoveStrategyTest {
 
     @Test
     @DisplayName("포는 하나의 기물을 넘은 이후부터 이동할 수 있다")
-    void shouldMoveAfterJumpingOverOnePiece() {
+    void cannonMoveAfterJumpingOverOnePiece() {
         // given
         Position from = Position.of(5, 5);
 
@@ -65,7 +65,7 @@ class CannonMoveStrategyTest {
 
     @Test
     @DisplayName("포는 두 번째 기물 위치까지 이동할 수 있지만 그 이후로는 불가능하다")
-    void shouldStopAfterSecondPiece() {
+    void cannonStopAfterSecondPiece() {
         // given
         Position from = Position.of(5, 5);
         Map<Position, Piece> pieces = new HashMap<>();
@@ -89,7 +89,7 @@ class CannonMoveStrategyTest {
 
     @Test
     @DisplayName("포는 다른 포를 넘을 수 없다")
-    void shouldNotJumpOverAnotherCannon() {
+    void cannonCantJumpOverAnotherCannon() {
         // given
         Position from = Position.of(5, 5);
 

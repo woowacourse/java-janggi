@@ -24,7 +24,7 @@ class HorseMoveStrategyTest {
 
     @Test
     @DisplayName("말은 경유지가 막히지 않으면 8방향 이동 가능")
-    void horse_moves_all_when_not_blocked() {
+    void horseMoveTest() {
         // given
         Position from = Position.of(5, 5);
 
@@ -51,7 +51,7 @@ class HorseMoveStrategyTest {
 
     @Test
     @DisplayName("말은 경유지가 막히면 해당 방향으로 이동 불가")
-    void horse_blocked_by_path() {
+    void horseCantMoveWhenBlocked() {
         // given
         Position from = Position.of(5, 5);
         Map<Position, Piece> pieces = new HashMap<>();
@@ -81,15 +81,15 @@ class HorseMoveStrategyTest {
     }
 
     @Test
-    @DisplayName("여러 경유지가 막히면 해당 방향들만 제외된다")
-    void horse_multiple_blocks() {
+    @DisplayName("말은 이동할 위치에 아군 있으면 이동 불가")
+    void horseCantMoveAllyPosition() {
         // given
         Position from = Position.of(5, 5);
-        Map<Position, Piece> pieces = new HashMap<>();
 
+        Map<Position, Piece> pieces = new HashMap<>();
         pieces.put(from, Piece.choPieceOf(PieceType.HORSE));
-        pieces.put(Position.of(4, 5), Piece.choPieceOf(PieceType.SOLDIER));
-        pieces.put(Position.of(5, 6), Piece.choPieceOf(PieceType.SOLDIER));
+        pieces.put(Position.of(3, 4), Piece.choPieceOf(PieceType.HORSE));
+        pieces.put(Position.of(6, 3), Piece.choPieceOf(PieceType.HORSE));
 
         Board board = Board.init(pieces);
 
@@ -97,11 +97,13 @@ class HorseMoveStrategyTest {
         List<Position> result = strategy.getMovablePositions(board, from);
 
         // then
-        assertThat(result).doesNotContain(
-                Position.of(3, 4),
+        assertThat(result).containsExactlyInAnyOrder(
                 Position.of(3, 6),
                 Position.of(4, 7),
-                Position.of(6, 7)
+                Position.of(6, 7),
+                Position.of(7, 4),
+                Position.of(7, 6),
+                Position.of(4, 3)
         );
     }
 }

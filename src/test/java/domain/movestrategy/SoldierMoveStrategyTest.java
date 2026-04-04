@@ -3,9 +3,9 @@ package domain.movestrategy;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.board.Board;
+import domain.board.Position;
 import domain.piece.Piece;
 import domain.piece.PieceType;
-import domain.board.Position;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +24,7 @@ class SoldierMoveStrategyTest {
 
     @Test
     @DisplayName("초나라의 졸은 상, 좌, 우로 이동 가능하다")
-    public void moveTest() {
+    public void choSoldierMoveTest() {
         // given
         Map<Position, Piece> pieces = new HashMap<>();
         Position from = Position.of(4, 3);
@@ -67,5 +67,26 @@ class SoldierMoveStrategyTest {
 
         // then
         assertThat(result).containsAll(expected);
+    }
+
+    @Test
+    @DisplayName("졸, 병은 이동할 위치에 아군이 있으면 이동할 수 없다.")
+    void soldierCantMoveAllyPosition() {
+        Map<Position, Piece> pieces = new HashMap<>();
+        Position from = Position.of(4, 3);
+
+        pieces.put(from, Piece.hanPieceOf(PieceType.SOLDIER));
+        pieces.put(Position.of(4, 2), Piece.hanPieceOf(PieceType.SOLDIER));
+
+        Board board = Board.init(pieces);
+
+        // when
+        List<Position> result = strategy.getMovablePositions(board, from);
+
+        // then
+        assertThat(result).containsExactlyInAnyOrder(
+                Position.of(4, 4),
+                Position.of(5, 3)
+        );
     }
 }

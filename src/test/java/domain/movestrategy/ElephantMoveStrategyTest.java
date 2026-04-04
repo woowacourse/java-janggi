@@ -24,7 +24,7 @@ class ElephantMoveStrategyTest {
 
     @Test
     @DisplayName("코끼리는 막힘이 없으면 8방향으로 이동할 수 있다")
-    void shouldMoveInAllDirections_whenNoBlockExists() {
+    void elephantMoveTest() {
         // given
         Position from = Position.of(5, 5);
 
@@ -51,7 +51,7 @@ class ElephantMoveStrategyTest {
 
     @Test
     @DisplayName("코끼리는 첫 번째 경유지가 막히면 해당 방향으로 이동할 수 없다")
-    void shouldNotMove_whenFirstPathBlocked() {
+    void elephantCantMoveWhenFirstPathBlocked() {
         // given
         Position from = Position.of(5, 5);
 
@@ -73,7 +73,7 @@ class ElephantMoveStrategyTest {
 
     @Test
     @DisplayName("코끼리는 두 번째 경유지가 막히면 해당 방향으로 이동할 수 없다")
-    void shouldNotMove_whenSecondPathBlocked() {
+    void elephantCantMoveWhenSecondPathBlocked() {
         // given
         Position from = Position.of(5, 5);
 
