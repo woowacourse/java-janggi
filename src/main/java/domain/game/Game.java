@@ -71,4 +71,8 @@ public class Game {
     public boolean isFinished() {
         return finished;
     }
+
+    public int scoreOf(Camp camp) {
+        return board.scoreOf(camp);
+    }
 }

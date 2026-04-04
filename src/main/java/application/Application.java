@@ -38,19 +38,22 @@ public class Application {
     }
 
     private void playJanggi(Game game) {
-        while (true) {
+        while (!game.isFinished()) {
             outputView.printTurnPrompt(game.currentTurn());
 
             try {
                 GameCommand command = inputView.readCommand();
                 command.execute(game);
                 outputView.printBoard(game.board());
+                outputView.printScore(game.scoreOf(Camp.CHO), game.scoreOf(Camp.HAN));
             } catch (IllegalArgumentException | NoSuchElementException exception) {
                 outputView.printError(exception.getMessage());
             } catch (IllegalStateException exception) {
                 return;
             }
         }
+
+        outputView.printWinner(game.currentTurn());
     }
 
     private SetUp readSetUp(Camp camp) {

@@ -87,4 +87,19 @@ public class GameTest {
 
         assertThat(game.isFinished()).isTrue();
     }
+
+    @Test
+    @DisplayName("기물을 잡은 뒤 상대 진영의 남아 있는 점수가 줄어든다.")
+    void decreaseOpponentScore_When_CapturePiece() {
+        Board board = new Board(Map.of(
+                new Position(5, 5), new Piece(Camp.CHO, PieceType.CHARIOT),
+                new Position(5, 2), new Piece(Camp.HAN, PieceType.SOLDIER),
+                new Position(4, 2), new Piece(Camp.HAN, PieceType.GUARD)
+        ));
+        Game game = Game.of(board, Camp.CHO);
+
+        game.move(new Position(5, 5), new Position(5, 2));
+
+        assertThat(game.scoreOf(Camp.HAN)).isEqualTo(3);
+    }
 }

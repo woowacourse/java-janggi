@@ -82,4 +82,11 @@ public class Board implements BoardChecker {
     public boolean isInsidePalace(Position position) {
         return palace.contains(position);
     }
+
+    public int scoreOf(Camp camp) {
+        return board.values().stream()
+                .filter(piece -> piece.camp() == camp)
+                .mapToInt(Piece::score)
+                .sum();
+    }
 }

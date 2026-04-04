@@ -16,6 +16,8 @@ public class OutputView {
     private static final String ELEPHANT_SETUP_MESSAGE = "%s 상차림 번호를 입력하세요.%n";
     private static final String CHO_CAMP = "초나라";
     private static final String HAN_CAMP = "한나라";
+    public static final String GAME_WINNER_MESSAGE = "게임이 종료되었습니다. 승자는 %s 입니다!";
+    public static final String EACH_CAMP_SCORE = "초나라 점수: %d, 한나라 점수: %d%n";
 
     private final BoardRenderer boardRenderer;
 
@@ -47,6 +49,15 @@ public class OutputView {
         if (camp == Camp.CHO) {
             return CHO_CAMP;
         }
+
         return HAN_CAMP;
+    }
+
+    public void printWinner(Camp camp) {
+        System.out.printf(GAME_WINNER_MESSAGE, campName(camp));
+    }
+
+    public void printScore(int choScore, int hanScore) {
+        System.out.printf(EACH_CAMP_SCORE, choScore, hanScore);
     }
 }

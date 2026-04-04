@@ -209,4 +209,18 @@ public class BoardTest {
         assertThat(board.findMovePath(new Position(1, 1), new Position(2, 2)))
                 .isEmpty();
     }
+
+    @Test
+    @DisplayName("특정 진영의 남아 있는 기물 점수 합을 반환한다.")
+    void returnScoreOfCamp_When_CalculateRemainingPieceScore() {
+        Board board = new Board(Map.of(
+                new Position(1, 1), new Piece(Camp.CHO, PieceType.CHARIOT),
+                new Position(2, 1), new Piece(Camp.CHO, PieceType.SOLDIER),
+                new Position(5, 2), new Piece(Camp.HAN, PieceType.GENERAL),
+                new Position(4, 2), new Piece(Camp.HAN, PieceType.GUARD)
+        ));
+
+        assertThat(board.scoreOf(Camp.CHO)).isEqualTo(15);
+        assertThat(board.scoreOf(Camp.HAN)).isEqualTo(3);
+    }
 }
