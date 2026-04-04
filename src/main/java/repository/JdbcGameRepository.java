@@ -1,4 +1,4 @@
-package persistence;
+package repository;
 
 import domain.Game;
 import domain.board.Board;
@@ -8,6 +8,9 @@ import domain.state.ChuSide;
 import domain.state.HanSide;
 import domain.state.Side;
 import domain.state.State;
+import persistence.DatabaseConnector;
+import persistence.DatabaseInitializer;
+import domain.piece.PieceFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,11 +19,12 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GameDao {
+public class JdbcGameRepository implements GameRepository{
 
     private static final int COL_SIZE = 10;
     private static final int ROW_SIZE = 9;
 
+    @Override
     public void save(Game game) {
         String saveGameSql = "INSERT INTO game_room (id, current_turn, is_finished) VALUES (?, ?, ?) " +
                 "ON DUPLICATE KEY UPDATE current_turn = VALUES(current_turn), is_finished = VALUES(is_finished)";
@@ -64,6 +68,7 @@ public class GameDao {
         }
     }
 
+    @Override
     public Game load(Long gameId) {
         Map<Position, Piece> pieceMap = new HashMap<>();
         String boardSql = "SELECT * FROM board_state WHERE game_id = ?";
@@ -88,7 +93,7 @@ public class GameDao {
                 if (rs.next()) {
                     Side turnSide = Side.valueOf(rs.getString("current_turn"));
                     State state = turnSide == Side.CHU ? new ChuSide() : new HanSide();
-                    Game game = new Game(new Board(new DbInitializer(pieceMap).initialize()), state);
+                    Game game = new Game(new Board(new DatabaseInitializer(pieceMap).initialize()), state);
                     game.assignId(gameId);
                     return game;
                 }

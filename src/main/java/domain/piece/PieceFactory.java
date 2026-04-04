@@ -1,6 +1,5 @@
-package persistence;
+package domain.piece;
 
-import domain.piece.*;
 import domain.state.Side;
 
 public class PieceFactory {

@@ -8,7 +8,7 @@ import domain.coordinate.Position;
 import mapper.BoardMapper;
 import mapper.PossibleMovesMapper;
 import mapper.ScoreMapper;
-import persistence.GameDao;
+import service.JanggiService;
 import view.InputHandler;
 import view.InputView;
 import view.OutputView;
@@ -17,14 +17,16 @@ import java.util.List;
 
 public class JanggiController {
 
-    private final InputView inputView;
-    private final OutputView outputView;
-    private final GameDao gameDao = new GameDao();
     private static final Long DEFAULT_GAME_ID = 1L;
 
-    public JanggiController(InputView inputView, OutputView outputView) {
+    private final InputView inputView;
+    private final OutputView outputView;
+    private final JanggiService janggiService;
+
+    public JanggiController(InputView inputView, OutputView outputView, JanggiService janggiService) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.janggiService = janggiService;
     }
 
     public void run() {
@@ -34,28 +36,28 @@ public class JanggiController {
 
     private void play(Game game) {
         while (!game.isFinished()) {
-            gameDao.save(game);
+            janggiService.save(game);
             outputView.printBoard(BoardMapper.toDto(game.getBoard()));
             outputView.printScore(ScoreMapper.toDto(game.calculateScore(Side.CHU), game.calculateScore(Side.HAN)));
             GameCommand command = InputHandler.readUntilValid(() -> inputView.requestGameCommand(game.getSide()));
 
             if (command == GameCommand.MOVE) {
                 handleMove(game);
-                gameDao.save(game);
+                janggiService.save(game);
                 continue;
             }
 
             if (command == GameCommand.PASS) {
                 outputView.printTurnPassMessage(game.getSide());
                 game.pass();
-                gameDao.save(game);
+                janggiService.save(game);
                 continue;
             }
 
             if (command == GameCommand.SURRENDER) {
                 outputView.printSurrenderMessage(game.getSide());
                 game.end();
-                gameDao.save(game);
+                janggiService.save(game);
             }
         }
 
@@ -88,7 +90,7 @@ public class JanggiController {
     }
 
     private Game loadOrInitializeGame() {
-        Game savedGame = gameDao.load(DEFAULT_GAME_ID);
+        Game savedGame = janggiService.load(DEFAULT_GAME_ID);
 
         if (savedGame != null && !savedGame.isFinished()) {
             outputView.printLoadGameMessage();

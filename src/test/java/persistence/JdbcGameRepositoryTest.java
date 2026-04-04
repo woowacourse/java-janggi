@@ -11,6 +11,7 @@ import domain.state.Side;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import repository.JdbcGameRepository;
 
 import java.sql.Connection;
 import java.sql.Statement;
@@ -19,9 +20,9 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class GameDaoTest {
+class JdbcGameRepositoryTest {
 
-    private final GameDao gameDao = new GameDao();
+    private final JdbcGameRepository jdbcGameRepository = new JdbcGameRepository();
     private static final Long TEST_GAME_ID = 999L;
 
     @BeforeEach
@@ -53,8 +54,8 @@ class GameDaoTest {
         originalGame.assignId(TEST_GAME_ID);
 
         // when
-        gameDao.save(originalGame);
-        Game loadedGame = gameDao.load(TEST_GAME_ID);
+        jdbcGameRepository.save(originalGame);
+        Game loadedGame = jdbcGameRepository.load(TEST_GAME_ID);
 
         // then
         assertThat(loadedGame.getId()).isEqualTo(originalGame.getId());
@@ -71,15 +72,15 @@ class GameDaoTest {
         // given
         Game game = new Game(new Board(new HashMap<>()), new ChuSide());
         game.assignId(TEST_GAME_ID);
-        gameDao.save(game);
+        jdbcGameRepository.save(game);
 
         // when
         Game updatedGame = new Game(new Board(game.getBoard()), new domain.state.HanSide());
         updatedGame.assignId(TEST_GAME_ID);
-        gameDao.save(updatedGame);
+        jdbcGameRepository.save(updatedGame);
 
         // then
-        Game loadedGame = gameDao.load(TEST_GAME_ID);
+        Game loadedGame = jdbcGameRepository.load(TEST_GAME_ID);
         assertThat(loadedGame.getSide()).isEqualTo(Side.HAN);
     }
 }

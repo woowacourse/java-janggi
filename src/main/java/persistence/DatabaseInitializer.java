@@ -6,11 +6,11 @@ import domain.piece.Piece;
 
 import java.util.Map;
 
-public class DbInitializer implements BoardInitializer {
+public class DatabaseInitializer implements BoardInitializer {
 
     private final Map<Position, Piece> pieceMap;
 
-    public DbInitializer(Map<Position, Piece> pieceMap) {
+    public DatabaseInitializer(Map<Position, Piece> pieceMap) {
         this.pieceMap = pieceMap;
     }
 
