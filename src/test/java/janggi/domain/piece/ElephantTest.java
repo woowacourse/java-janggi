@@ -1,20 +1,15 @@
 package janggi.domain.piece;
 
-import janggi.domain.Team;
+import janggi.domain.team.Team;
 import janggi.domain.path.Path;
 import janggi.domain.path.PieceOnPath;
 import janggi.domain.position.Movement;
 import janggi.domain.position.Position;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.MethodSource;
-
-import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 class ElephantTest {
 

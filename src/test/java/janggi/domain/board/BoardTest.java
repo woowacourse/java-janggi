@@ -1,6 +1,6 @@
 package janggi.domain.board;
 
-import janggi.domain.Team;
+import janggi.domain.team.Team;
 import janggi.domain.piece.General;
 import janggi.domain.piece.Piece;
 import janggi.domain.position.Movement;

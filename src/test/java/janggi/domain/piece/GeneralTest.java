@@ -1,6 +1,6 @@
 package janggi.domain.piece;
 
-import janggi.domain.Team;
+import janggi.domain.team.Team;
 import janggi.domain.path.Path;
 import janggi.domain.path.PieceOnPath;
 import janggi.domain.position.Movement;
@@ -8,9 +8,9 @@ import janggi.domain.position.Position;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.EnumSource;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 class GeneralTest {
 
@@ -31,6 +31,16 @@ class GeneralTest {
         PieceType type = general.getType();
 
         assertThat(type).isEqualTo(PieceType.GENERAL);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "HAN, true",
+            "CHO, false"})
+    void 자신의_팀과_같은_팀인지_판별한다(Team team, boolean expected) {
+        General general = new General(Team.HAN);
+
+        assertThat(general.isSameTeam(team)).isEqualTo(expected);
     }
 
     @ParameterizedTest(name = "from={0}, to={1}")

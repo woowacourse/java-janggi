@@ -1,6 +1,6 @@
 package janggi.view;
 
-import janggi.domain.Team;
+import janggi.domain.team.Team;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.position.Column;
@@ -13,16 +13,16 @@ import static janggi.domain.piece.PieceType.*;
 
 public class OutputView {
 
-    private static final String ANSI_RED   = "\u001B[1;31m";
-    private static final String ANSI_BLUE  = "\u001B[1;34m";
+    private static final String ANSI_RED = "\u001B[1;31m";
+    private static final String ANSI_BLUE = "\u001B[1;34m";
     private static final String ANSI_RESET = "\u001B[0m";
 
     private static final int FIRST_ROW = Row.ROW_LOWER_THRESH_HOLD;
-    private static final int LAST_ROW  = Row.ROW_UPPER_THRESH_HOLD;
+    private static final int LAST_ROW = Row.ROW_UPPER_THRESH_HOLD;
     private static final int FIRST_COL = Column.COLUMN_LOWER_THRESH_HOLD;
-    private static final int LAST_COL  = Column.COLUMN_UPPER_THRESH_HOLD;
+    private static final int LAST_COL = Column.COLUMN_UPPER_THRESH_HOLD;
 
-    private static final String CROSS  = " + ";
+    private static final String CROSS = " + ";
     private static final String H_LINE = "---";
     private static final String V_LINE = " | ";
 
@@ -78,7 +78,7 @@ public class OutputView {
 
     private String formatPiece(Piece piece) {
         if (piece.isEmptyPiece()) return CROSS;
-        if (piece.getTeam() == Team.HAN) {
+        if (piece.isSameTeam(Team.HAN)) {
             return ANSI_RED + PIECE_LABEL.get(piece.getType()) + ANSI_RESET;
         }
         return ANSI_BLUE + PIECE_LABEL.get(piece.getType()) + ANSI_RESET;

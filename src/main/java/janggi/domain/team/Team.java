@@ -1,4 +1,4 @@
-package janggi.domain;
+package janggi.domain.team;
 
 public enum Team {
     HAN("한", -1),

@@ -1,6 +1,6 @@
 package janggi.domain.piece;
 
-import janggi.domain.Team;
+import janggi.domain.team.Team;
 import janggi.domain.path.Path;
 import janggi.domain.path.PieceOnPath;
 import janggi.domain.position.Movement;
@@ -13,8 +13,8 @@ public class EmptyPiece implements Piece {
     }
 
     @Override
-    public boolean isSamePiece(Piece other) {
-        return other instanceof EmptyPiece;
+    public boolean isSameTeam(Team team) {
+        return false;
     }
 
     @Override

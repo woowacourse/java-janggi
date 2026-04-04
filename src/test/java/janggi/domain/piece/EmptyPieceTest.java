@@ -1,14 +1,15 @@
 package janggi.domain.piece;
 
-import janggi.domain.Team;
+import janggi.domain.team.Team;
 import janggi.domain.path.PieceOnPath;
 import janggi.domain.position.Movement;
 import janggi.domain.position.Position;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 class EmptyPieceTest {
 
@@ -37,11 +38,13 @@ class EmptyPieceTest {
         assertThat(emptyPiece.isEmptyPiece()).isTrue();
     }
 
-    @Test
-    void 빈_기물끼리는_같은_기물이다() {
+
+    @ParameterizedTest
+    @EnumSource(value = Team.class, names = "NONE", mode = EnumSource.Mode.EXCLUDE)
+    void 빈_기물은_어떤_팀과도_같은_팀이_아니다(Team expected) {
         EmptyPiece emptyPiece = new EmptyPiece();
 
-        assertThat(emptyPiece.isSamePiece(new EmptyPiece())).isTrue();
+        assertThat(emptyPiece.isSameTeam(expected)).isFalse();
     }
 
     @Test

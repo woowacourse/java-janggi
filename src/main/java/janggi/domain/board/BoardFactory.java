@@ -1,6 +1,6 @@
 package janggi.domain.board;
 
-import janggi.domain.Team;
+import janggi.domain.team.Team;
 import janggi.domain.piece.*;
 import janggi.domain.position.Column;
 import janggi.domain.position.Position;
@@ -8,8 +8,6 @@ import janggi.domain.position.Row;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import static janggi.domain.board.PieceSetup.*;
 
 public class BoardFactory {
 

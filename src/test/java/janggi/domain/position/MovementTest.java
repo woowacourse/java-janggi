@@ -9,7 +9,6 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 class MovementTest {
 
@@ -32,9 +31,9 @@ class MovementTest {
 
     private static Stream<Arguments> rowDiffArguments() {
         return Stream.of(
-                Arguments.of(Position.of(3,3), Position.of(3,6), 0),
-                Arguments.of(Position.of(1,7), Position.of(5,4), 4),
-                Arguments.of(Position.of(7,7), Position.of(2,4), -5));
+                Arguments.of(Position.of(3, 3), Position.of(3, 6), 0),
+                Arguments.of(Position.of(1, 7), Position.of(5, 4), 4),
+                Arguments.of(Position.of(7, 7), Position.of(2, 4), -5));
     }
 
     @ParameterizedTest(name = "from={0}, to={1}, diff={2}")
@@ -46,8 +45,8 @@ class MovementTest {
 
     private static Stream<Arguments> columnDiffArguments() {
         return Stream.of(
-                Arguments.of(Position.of(4,3), Position.of(3,3), 0),
-                Arguments.of(Position.of(1,2), Position.of(5,4), 2),
-                Arguments.of(Position.of(7,7), Position.of(2,4), -3));
+                Arguments.of(Position.of(4, 3), Position.of(3, 3), 0),
+                Arguments.of(Position.of(1, 2), Position.of(5, 4), 2),
+                Arguments.of(Position.of(7, 7), Position.of(2, 4), -3));
     }
 }

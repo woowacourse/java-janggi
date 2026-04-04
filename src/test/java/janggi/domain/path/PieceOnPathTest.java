@@ -1,6 +1,6 @@
 package janggi.domain.path;
 
-import janggi.domain.Team;
+import janggi.domain.team.Team;
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.General;
 import org.junit.jupiter.api.Test;

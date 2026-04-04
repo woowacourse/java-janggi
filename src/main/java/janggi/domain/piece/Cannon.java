@@ -1,6 +1,6 @@
 package janggi.domain.piece;
 
-import janggi.domain.Team;
+import janggi.domain.team.Team;
 import janggi.domain.path.Path;
 import janggi.domain.path.PieceOnPath;
 import janggi.domain.position.Movement;
@@ -58,14 +58,14 @@ public class Cannon extends MoveablePiece {
     }
 
     private void validateEndCannon(Piece endPiece) {
-        if (isSamePiece(endPiece)) {
+        if (endPiece.getType() == PieceType.CANNON) {
             throw new IllegalArgumentException("[ERROR] 포는 포를 잡을 수 없습니다.");
         }
     }
 
     private void validateJumpCannon(PieceOnPath piecesOnPath) {
         if (piecesOnPath.stream()
-                .anyMatch(this::isSamePiece)) {
+                .anyMatch(piece -> piece.getType() == PieceType.CANNON)) {
             throw new IllegalArgumentException("[ERROR] 포는 포를 뛰어넘을 수 없습니다.");
         }
     }

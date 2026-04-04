@@ -1,6 +1,6 @@
 package janggi.domain.piece;
 
-import janggi.domain.Team;
+import janggi.domain.team.Team;
 import janggi.domain.path.Path;
 import janggi.domain.path.PieceOnPath;
 import janggi.domain.position.Movement;
@@ -9,7 +9,7 @@ public interface Piece {
 
     boolean isEmptyPiece();
 
-    boolean isSamePiece(Piece other);
+    boolean isSameTeam(Team team);
 
     PieceType getType();
 
