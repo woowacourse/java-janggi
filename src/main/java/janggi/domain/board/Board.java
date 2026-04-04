@@ -39,7 +39,11 @@ public class Board {
         return nx >= 0 && nx <= Board.X_SIZE && ny >= 0 && ny <= Board.Y_SIZE;
     }
 
-    public final Map<Point, Piece> getBoard() {
+    public static Board load(Map<Point, Piece> saveBoard) {
+        return new Board(new HashMap<>(saveBoard));
+    }
+
+    public Map<Point, Piece> getBoard() {
         return new HashMap<>(board);
     }
 

@@ -18,6 +18,20 @@ public class InputView {
         sc = new Scanner(inputStream);
     }
 
+    public boolean readContinueGame() {
+        System.out.println("진행 중인 게임이 있습니다. 이어서 플레이하시겠습니까? (Y / N)");
+        while (true) {
+            String input = sc.nextLine().trim().toUpperCase();
+            if (input.equals("Y")) {
+                return true;
+            }
+            if (input.equals("N")) {
+                return false;
+            }
+            System.out.println("Y 또는 N을 입력해주세요.");
+        }
+    }
+
     public BoardSetUp readBoardSetup(Side side) {
         System.out.println(side + "의 차림을 선택해주세요.");
         for (BoardSetUpFormat value : BoardSetUpFormat.values()) {

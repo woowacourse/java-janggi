@@ -5,6 +5,7 @@ import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.game.Game;
 import janggi.domain.piece.unit.Piece;
 import janggi.domain.side.Side;
+import janggi.repository.GameRepository;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.Map;
@@ -15,27 +16,42 @@ import java.util.function.Supplier;
 public class JanggiController {
     private final InputView inputView;
     private final OutputView outputView;
+    private final GameRepository gameRepository;
 
-    public JanggiController(InputView inputView, OutputView outputView) {
+    public JanggiController(InputView inputView, OutputView outputView, GameRepository gameRepository) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.gameRepository = gameRepository;
     }
 
     public void run() {
+
+        Optional<Integer> activeGameId = gameRepository.findActiveGameId();
+
+        if (activeGameId.isPresent() && inputView.readContinueGame()) {
+            int gameId = activeGameId.get();
+            Map<Point, Piece> board = gameRepository.loadPieces(gameId);
+            Side turn = gameRepository.loadTurn(gameId);
+            play(Game.loadGame(board, turn), gameId);
+            return;
+        }
+
         BoardSetUp choBoardSetUp = retry(() -> inputView.readBoardSetup(Side.CHO));
         BoardSetUp hanBoardSetUp = retry(() -> inputView.readBoardSetup(Side.HAN));
-
         Game game = Game.createGame(choBoardSetUp, hanBoardSetUp);
-        play(game);
+        int gameId = gameRepository.saveGame(game.getTurn(), game.getBoard());
+        play(game, gameId);
     }
 
-    private void play(Game game) {
+    private void play(Game game, int gameId) {
         while (true) {
             Map<Point, Piece> board = game.getBoard();
             outputView.printBoard(board);
             outputView.printSide(game.getTurn());
 
             Side side = selectMove(game, board);
+
+            gameRepository.updateGame(gameId, game.getTurn(), game.getBoard());
 
             outputView.printScore(Side.CHO, game.getScore(Side.CHO));
             outputView.printScore(Side.HAN, game.getScore(Side.HAN));

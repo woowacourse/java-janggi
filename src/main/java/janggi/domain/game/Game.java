@@ -23,6 +23,12 @@ public class Game {
         return new Game(Board.setUp(choBoardSetUp, hanBoardSetUp));
     }
 
+    public static Game loadGame(Map<Point, Piece> saveBoard, Side turn) {
+        Game game = new Game(Board.load(saveBoard));
+        game.turn = turn;
+        return game;
+    }
+
     public Side getTurn() {
         return turn;
     }

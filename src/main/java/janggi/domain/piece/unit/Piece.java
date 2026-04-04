@@ -22,6 +22,10 @@ public abstract class Piece {
         this.pathStrategy = pathStrategy;
     }
 
+    public PieceType getType() {
+        return type;
+    }
+
     public String getName() {
         return type.getNameFormat(side);
     }
