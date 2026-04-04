@@ -3,8 +3,8 @@ package janggi.entity;
 import janggi.domain.side.Side;
 
 public record MoveEntity(
-        int id,
-        int gameId,
+        Integer id,
+        Integer gameId,
         Side side,
         int fromX,
         int fromY,

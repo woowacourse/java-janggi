@@ -10,10 +10,10 @@ import java.util.Set;
 
 public class Game {
     private static final Side INIT_TURN = Side.CHO;
-
     private final Rules rules;
     private final Board board;
     private Side turn;
+    private Integer id;
 
     protected Game(Rules rules, Board board) {
         this.rules = rules;
@@ -69,5 +69,13 @@ public class Game {
 
     public Side winnerSide() {
         return rules.winner(board.getPieces());
+    }
+
+    public void assignId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getId() {
+        return id;
     }
 }

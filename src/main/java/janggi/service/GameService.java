@@ -19,8 +19,9 @@ public class GameService {
     }
 
     public Game createGame(String gameName, BoardSetUp choSetUp, BoardSetUp hanSetUp) {
+        Integer id = gameRepository.save(GameEntity.of(gameName, choSetUp, hanSetUp));
         Game game = Game.createGame(choSetUp, hanSetUp);
-        gameRepository.save(GameEntity.of(gameName, choSetUp, hanSetUp));
+        game.assignId(id);
         return game;
     }
 

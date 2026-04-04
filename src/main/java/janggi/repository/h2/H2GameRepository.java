@@ -11,16 +11,17 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class H2GameRepository implements GameRepository {
 
     @Override
-    public void save(GameEntity game) {
+    public Integer save(GameEntity game) {
         String sql = "INSERT INTO game (name, CHO_SET_UP, HAN_SET_UP, status, winner) " +
                 "VALUES (?, ?, ?, ?, ?)";
 
         try (Connection connection = getConnection();
-             PreparedStatement stmt = connection.prepareStatement(sql)) {
+             PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, game.name());
             stmt.setString(2, game.choSetUp().name());
             stmt.setString(3, game.hanSetUp().name());
@@ -28,6 +29,11 @@ public class H2GameRepository implements GameRepository {
             stmt.setString(5, getWinnerName(game));
 
             stmt.executeUpdate();
+            ResultSet generatedKeys = stmt.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                return generatedKeys.getInt(1);
+            }
+            throw new IllegalStateException("ID 생성 실패");
         } catch (SQLException e) {
             throw new IllegalStateException("게임 저장에 실패했습니다.", e);
         }

@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DataSource {
-    private static final String URL = "jdbc:h2:tcp://localhost/~/java-janggi";
+    private static final String URL = "jdbc:h2:~/janggi";
     private static final String USER = "sa";
     private static final String PASSWORD = "";
 

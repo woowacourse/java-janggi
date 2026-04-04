@@ -3,7 +3,7 @@ package janggi.repository;
 import janggi.entity.GameEntity;
 
 public interface GameRepository {
-    void save(GameEntity game);
+    Integer save(GameEntity game);
 
     // Read
     GameEntity findById(int id);

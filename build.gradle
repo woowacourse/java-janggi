@@ -15,6 +15,7 @@ dependencies {
     testImplementation('org.assertj:assertj-core')
 
     // H2 Database
+    implementation 'com.h2database:h2:2.2.220'
     runtimeOnly 'com.h2database:h2'
 }
 

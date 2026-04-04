@@ -1,13 +1,13 @@
 -- Game 테이블
-CREATE TABLE game
+CREATE TABLE IF NOT EXISTS game
 (
     id         BIGINT AUTO_INCREMENT PRIMARY KEY,
     name       VARCHAR(100) NOT NULL UNIQUE,
     cho_set_up VARCHAR(255) NOT NULL
-        CHECK (status IN ('왼상차림', '오른상차림', '안상차림', '바깥상차림')),
+        CHECK (cho_set_up IN ('LEFT_ELEPHANT', 'RIGHT_ELEPHANT', 'IN_ELEPHANT', 'OUT_ELEPHANT')),
 
     han_set_up VARCHAR(255) NOT NULL
-        CHECK (status IN ('왼상차림', '오른상차림', '안상차림', '바깥상차림')),
+        CHECK (han_set_up IN ('LEFT_ELEPHANT', 'RIGHT_ELEPHANT', 'IN_ELEPHANT', 'OUT_ELEPHANT')),
 
     status     VARCHAR(20)  NOT NULL
         CHECK (status IN ('IN_PROGRESS', 'FINISHED')),
@@ -19,19 +19,19 @@ CREATE TABLE game
 );
 
 -- Move 테이블
-CREATE TABLE move
+CREATE TABLE IF NOT EXISTS move
 (
     id          BIGINT AUTO_INCREMENT PRIMARY KEY,
-    move_number INT AUTO_INCREMENT NOT NULL,
-    game_id     BIGINT             NOT NULL,
-    
-    side        VARCHAR(10)        NOT NULL
+    move_number INT         NOT NULL,
+    game_id     BIGINT      NOT NULL,
+
+    side        VARCHAR(10) NOT NULL
         CHECK (side IN ('CHO', 'HAN')),
 
-    from_x      INT                NOT NULL,
-    from_y      INT                NOT NULL,
-    to_x        INT                NOT NULL,
-    to_y        INT                NOT NULL,
+    from_x      INT         NOT NULL,
+    from_y      INT         NOT NULL,
+    to_x        INT         NOT NULL,
+    to_y        INT         NOT NULL,
 
     timestamp   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 

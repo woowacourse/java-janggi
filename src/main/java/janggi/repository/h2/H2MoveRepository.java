@@ -15,22 +15,33 @@ import java.util.List;
 public class H2MoveRepository implements MoveRepository {
     @Override
     public void save(MoveEntity move) {
-        String sql = "INSERT INTO MOVE (ID,GAME_ID,SIDE,FROM_X,FROM_Y,TO_X,TO_Y) " +
+        String sql = "INSERT INTO MOVE (MOVE_NUMBER,GAME_ID,SIDE,FROM_X,FROM_Y,TO_X,TO_Y) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection connection = getConnection();
-             PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, move.id());
-            stmt.setInt(2, move.gameId());
-            stmt.setString(3, move.side().getName());
-            stmt.setInt(4, move.fromX());
-            stmt.setInt(5, move.fromY());
-            stmt.setInt(6, move.toX());
-            stmt.setInt(7, move.toY());
+        String nextMoveSql = "SELECT COALESCE(MAX(move_number), 0) + 1 FROM move WHERE game_id = ?";
 
-            stmt.executeUpdate();
+        int nextMoveNumber;
+        try (Connection connection = getConnection()) {
+            try (PreparedStatement stmt = connection.prepareStatement(nextMoveSql)) {
+                stmt.setInt(1, move.gameId());
+                var rs = stmt.executeQuery();
+                rs.next();
+                nextMoveNumber = rs.getInt(1);
+            }
+
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                stmt.setInt(1, nextMoveNumber);
+                stmt.setInt(2, move.gameId());
+                stmt.setString(3, move.side().name());
+                stmt.setInt(4, move.fromX());
+                stmt.setInt(5, move.fromY());
+                stmt.setInt(6, move.toX());
+                stmt.setInt(7, move.toY());
+
+                stmt.executeUpdate();
+            }
         } catch (SQLException e) {
-            throw new IllegalStateException("게임 저장에 실패했습니다.", e);
+            throw new IllegalStateException("이동 저장에 실패했습니다.", e);
         }
     }
 
