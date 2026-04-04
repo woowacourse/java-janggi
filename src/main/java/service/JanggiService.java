@@ -83,14 +83,14 @@ public class JanggiService {
         }
     }
 
-    public static int insertBoard(double choScore, double hanScore) {
+    public static int insertBoard() {
         String sql = "INSERT INTO board(turn, cho_score, han_score) VALUES (?, ?, ?)";
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             preparedStatement.setString(1, CountryType.CHO.toString());
-            preparedStatement.setDouble(2, choScore);
-            preparedStatement.setDouble(3, hanScore);
+            preparedStatement.setDouble(2, CountryType.CHO.getInitScore());
+            preparedStatement.setDouble(3, CountryType.HAN.getInitScore());
             preparedStatement.executeUpdate();
 
             ResultSet resultSet = preparedStatement.getGeneratedKeys();

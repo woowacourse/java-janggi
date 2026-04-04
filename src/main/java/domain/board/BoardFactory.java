@@ -11,8 +11,9 @@ import java.util.List;
 import java.util.Map;
 
 public class BoardFactory {
-    public Board create(TableSetting choTableSetting, TableSetting hanTableSetting, double choScore, double hanScore) {
-        return new Board(new BoardStates(initialize(choTableSetting, hanTableSetting)), choScore, hanScore);
+    public Board create(TableSetting choTableSetting, TableSetting hanTableSetting) {
+        return new Board(new BoardStates(initialize(choTableSetting, hanTableSetting)), CountryType.CHO.getInitScore(),
+                CountryType.HAN.getInitScore());
     }
 
     private Map<Position, Piece> initialize(TableSetting choTableSetting, TableSetting hanTableSetting) {

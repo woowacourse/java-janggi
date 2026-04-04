@@ -9,7 +9,6 @@ import domain.board.TableSetting;
 import domain.country.CountryType;
 import domain.piece.PieceInfos;
 import java.util.List;
-import java.util.Scanner;
 import service.JanggiService;
 import view.CountryFormatter;
 import view.InputParser;
@@ -37,13 +36,11 @@ public class JanggiController {
     }
 
     private int askLoadOrCreate() {
-        Scanner scanner = new Scanner(System.in);
         while (true) {
             try {
-                System.out.println("보드를 불러오시겠습니까? 예: 1번, 아니오: 2번");
-                String answer = scanner.nextLine();
-                if (answer.equals("1")) {
-                    return loadBoard(scanner);
+                String input = inputView.readLoadOrCreateBoard();
+                if (InputParser.parseLoad(input)) {
+                    return loadBoard();
                 }
                 return makeBoard();
             } catch (IllegalArgumentException e) {
@@ -52,10 +49,10 @@ public class JanggiController {
         }
     }
 
-    private int loadBoard(Scanner scanner) {
+    private int loadBoard() {
         JanggiService.readAllBoard();
-        System.out.println("불러올 보드를 선택해 주세요.");
-        int boardId = Integer.parseInt(scanner.nextLine());
+        String input = inputView.readBoardSelect();
+        int boardId = InputParser.parseBoardId(input);
         JanggiService.readBoard(boardId);
         return boardId;
     }
@@ -64,8 +61,8 @@ public class JanggiController {
         TableSetting choTableSetting = readTableSetting(CountryType.CHO);
         TableSetting hanTableSetting = readTableSetting(CountryType.HAN);
         BoardFactory boardFactory = new BoardFactory();
-        Board board = boardFactory.create(choTableSetting, hanTableSetting, 72, 73.5);
-        int boardId = JanggiService.insertBoard(72, 73.5);
+        Board board = boardFactory.create(choTableSetting, hanTableSetting);
+        int boardId = JanggiService.insertBoard();
         initBoardState(board.getPieceInfos(), boardId);
         return boardId;
     }
