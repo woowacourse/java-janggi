@@ -28,9 +28,13 @@ public class JanggiGameService {
 
     public GameStatusInfo getBoardStatus(long roomId) {
         return template.executeInTransaction(connection -> {
-                 return GameStatusInfo.from(repository.loadGame(roomId, connection)
-                        .getBoardStatus());
-                }
+            JanggiGame game = repository.loadGame(roomId, connection);
+            return GameStatusInfo.from(
+                    game.getHanScore(),
+                    game.getChoScore(),
+                    game.getBoardStatus()
+                );
+            }
         );
     }
 
@@ -42,11 +46,12 @@ public class JanggiGameService {
         );
     }
 
-    public void play(long roomId, Point from, Point to) {
-        template.executeInTransaction(connection -> {
+    public GameStatusInfo play(long roomId, Point from, Point to) {
+        return template.executeInTransaction(connection -> {
                 JanggiGame game = repository.loadGame(roomId, connection);
                 game.play(from, to);
                 repository.update(roomId, from, to, game, connection);
+                return GameStatusInfo.from(game.getHanScore(), game.getChoScore(), game.getBoardStatus());
             }
         );
     }
@@ -63,22 +68,6 @@ public class JanggiGameService {
         return template.executeInTransaction(connection -> {
             return repository.loadGame(roomId, connection)
                     .getTeam();
-            }
-        );
-    }
-
-    public double getHanScore(long roomId) {
-        return template.executeInTransaction(connection -> {
-            return repository.loadGame(roomId, connection)
-                    .getHanScore();
-            }
-        );
-    }
-
-    public double getChoScore(long roomId) {
-        return template.executeInTransaction(connection -> {
-            return repository.loadGame(roomId, connection)
-                    .getChoScore();
             }
         );
     }

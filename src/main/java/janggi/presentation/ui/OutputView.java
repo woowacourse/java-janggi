@@ -22,10 +22,7 @@ public class OutputView {
     public void printGameStatus(GameStatusInfo status) {
         status.pieces()
                 .forEach(System.out::println);
-    }
-
-    public void printCurrentScore(double hanScore, double choScore) {
-        System.out.printf("한 : %.1f, 초 : %.1f\n", hanScore, choScore);
+        System.out.printf("한 : %.1f, 초 : %.1f\n", status.hanScore(), status.choScore());
     }
 
     public void printStartGame() {

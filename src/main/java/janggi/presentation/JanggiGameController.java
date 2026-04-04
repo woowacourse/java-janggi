@@ -6,6 +6,7 @@ import janggi.domain.piece.Piece;
 import janggi.domain.point.Point;
 import janggi.domain.status.Team;
 import janggi.presentation.dto.GameCommand;
+import janggi.presentation.dto.GameStatusInfo;
 import janggi.presentation.dto.MoveCommand;
 import janggi.presentation.dto.PositionInfo;
 import janggi.presentation.ui.InputView;
@@ -32,7 +33,6 @@ public class JanggiGameController {
         long roomId = chooseBoard(inputView.chooseNewGame());
         outputView.printStartGame();
         outputView.printGameStatus(service.getBoardStatus(roomId));
-        outputView.printCurrentScore(service.getHanScore(roomId), service.getChoScore(roomId));
         while (!service.isFinished(roomId)) {
             playGame(roomId);
         }
@@ -45,9 +45,8 @@ public class JanggiGameController {
             Team team = service.currentTurn(roomId);
             outputView.printCurrentTurn(team);
             MoveCommand points = inputView.readPoints();
-            service.play(roomId, points.from(), points.to());
-            outputView.printGameStatus(service.getBoardStatus(roomId));
-            outputView.printCurrentScore(service.getHanScore(roomId), service.getChoScore(roomId));
+            GameStatusInfo play = service.play(roomId, points.from(), points.to());
+            outputView.printGameStatus(play);
         } catch (IllegalArgumentException e) {
             outputView.printError(e.getMessage());
         }

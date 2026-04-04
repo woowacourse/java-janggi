@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.stream.IntStream;
 
 public record GameStatusInfo(
+        double hanScore,
+        double choScore,
         List<List<String>> pieces
 ) {
     private static final int BOARD_HEIGHT = 10;
@@ -23,8 +25,10 @@ public record GameStatusInfo(
             PieceType.JANG, "장"
     );
 
-    public static GameStatusInfo from(Map<Point, Piece> board) {
+    public static GameStatusInfo from(double hanScore, double choScore, Map<Point, Piece> board) {
         return new GameStatusInfo(
+                hanScore,
+                choScore,
                 getPieces(board).stream()
                         .map(GameStatusInfo::getPieceNames)
                         .toList()
