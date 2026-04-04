@@ -1,16 +1,25 @@
 import domain.Board;
 import domain.Camp;
 import domain.ElephantFormation;
+import domain.InvalidMoveException;
 import domain.Position;
 import dto.BoardStatusDto;
+import java.util.HashMap;
+import java.util.Map;
 import view.InputView;
 import view.OutputView;
 
 public class JanggiController {
 
-    InputView inputView;
-    OutputView outputView;
+    private final InputView inputView;
+    private final OutputView outputView;
 
+    private final Map<Integer, ElephantFormation> INPUT_FORMATION_MAPPER = new HashMap<>(Map.of(
+            1, ElephantFormation.RIGHT,
+            2, ElephantFormation.INNER,
+            3, ElephantFormation.LEFT,
+            4, ElephantFormation.OUTER
+    ));
 
     JanggiController(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
@@ -36,11 +45,11 @@ public class JanggiController {
     private void playJanggi(Board board) {
         Camp camp = Camp.CHO;
         while (true) {
-            try{
+            try {
                 Position fromPosition = askFromPosition(camp, board);
-                Position toPosition = inputView.askToPosition(camp);
+                Position toPosition = askToPosition(camp);
                 board.move(fromPosition, toPosition);
-            } catch (IllegalArgumentException e) {
+            } catch (InvalidMoveException e) {
                 outputView.printErrorMessage(e);
                 continue;
             }
@@ -60,7 +69,7 @@ public class JanggiController {
 
     private Position askFromPosition(Camp camp, Board board) {
         while (true) {
-            Position fromPosition = inputView.askFromPosition(camp);
+            Position fromPosition = inputView.readFromPosition(camp);
             if (!board.isPieceOfCamp(fromPosition, camp)) {
                 outputView.printWrongChoice();
                 continue;
@@ -69,12 +78,16 @@ public class JanggiController {
         }
     }
 
+    private Position askToPosition(Camp camp) {
+        return inputView.readToPosition(camp);
+    }
+
     private void printBoard(Board board) {
         BoardStatusDto boardStatus = board.getBoardStatus();
         outputView.printBoardStatus(boardStatus);
     }
 
     private ElephantFormation mappingElephantFormation(int userInput) {
-        return ElephantFormation.getFormationType(userInput);
+        return INPUT_FORMATION_MAPPER.get(userInput);
     }
 }

@@ -1,6 +1,7 @@
 package view;
 
 import domain.Camp;
+import domain.ElephantFormation;
 import domain.Position;
 import java.util.Arrays;
 import java.util.EnumMap;
@@ -9,9 +10,19 @@ import java.util.Scanner;
 
 public class InputView {
 
-    private final Scanner sc = new Scanner(System.in);
     private static final Map<Camp, String> CAMP_NAMES = new EnumMap<>(
             Map.of(Camp.CHO, "초나라", Camp.HAN, "한나라"));
+    private static final Map<ElephantFormation, String> FORMATION_NAMES = new EnumMap<>(
+            ElephantFormation.class);
+
+    static {
+        FORMATION_NAMES.put(ElephantFormation.RIGHT, "1. [마 상 마 상]");
+        FORMATION_NAMES.put(ElephantFormation.INNER, "2. [마 상 상 마]");
+        FORMATION_NAMES.put(ElephantFormation.LEFT, "3. [상 마 상 마]");
+        FORMATION_NAMES.put(ElephantFormation.OUTER, "4. [상 마 마 상]");
+    }
+
+    private final Scanner sc = new Scanner(System.in);
 
     public int askElephantFormation(Camp camp) {
         return readElephantFormation(camp);
@@ -20,7 +31,8 @@ public class InputView {
     public Position readFromPosition(Camp camp) {
         while (true) {
             try {
-                System.out.println(CAMP_NAMES.get(camp) + " 플레이어는 움직일 말의 위치를 column, row 형식으로 입력해 주세요. (입력좌표 예시 column, row: 0, 9)");
+                System.out.println(CAMP_NAMES.get(camp)
+                        + " 플레이어는 움직일 말의 위치를 column, row 형식으로 입력해 주세요. (입력좌표 예시 column, row: 0, 9)");
                 return readPosition();
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
@@ -32,7 +44,8 @@ public class InputView {
         while (true) {
             try {
                 System.out.println(
-                        CAMP_NAMES.get(camp) + " 플레이어는 선택한 말을 움직일 위치를 column, row 형식으로 입력해 주세요.(입력좌표 예시 column, row: 0, 7)");
+                        CAMP_NAMES.get(camp)
+                                + " 플레이어는 선택한 말을 움직일 위치를 column, row 형식으로 입력해 주세요.(입력좌표 예시 column, row: 0, 7)");
                 return readPosition();
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
@@ -44,10 +57,9 @@ public class InputView {
         while (true) {
             try {
                 System.out.println(CAMP_NAMES.get(camp) + " 상 차림을 결정해주세요.");
-                System.out.println("1. [마 상 마 상]");
-                System.out.println("2. [마 상 상 마]");
-                System.out.println("3. [상 마 상 마]");
-                System.out.println("4. [상 마 마 상]");
+                for (String name : FORMATION_NAMES.values()) {
+                    System.out.println(name);
+                }
                 return Integer.parseInt(sc.nextLine());
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
