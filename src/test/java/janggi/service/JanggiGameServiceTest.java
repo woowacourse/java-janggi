@@ -171,4 +171,18 @@ public class JanggiGameServiceTest {
         assertThat(gameRepository.savedGameSnapshot().winner()).isNull();
         assertThat(gameRepository.savedGameSnapshot().positions()).hasSize(2);
     }
+
+    @Test
+    @DisplayName("저장된 게임 목록이 없을 때 예외 발생")
+    void no_saved_games_error() {
+        // given
+        FakeGameRepository gameRepository = new FakeGameRepository(List.of(),null);
+        InitialBoardProvider initialBoardProvider = new FakeInitialBoardProvider(List.of());
+        JanggiGameService janggiGameService = new JanggiGameService(gameRepository, initialBoardProvider);
+
+        // when & then
+        assertThatThrownBy(janggiGameService::findAllGames)
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("저장된");
+    }
 }
