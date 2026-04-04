@@ -68,9 +68,10 @@ public class CannonTest {
     @Test
     @DisplayName("포가 포를 잡을 경우 예외가 발생한다.")
     void cannonCatchCannonExceptionTest() {
-        Board board = Board.create(TableSetting.RIGHT_TABLE, TableSetting.LEFT_TABLE);
-        board.move(new Position(0, 3), new Position(0, 4));
-        board.move(new Position(0, 4), new Position(1, 4));
+        Board board = Board.create(TableSetting.LEFT_TABLE, TableSetting.RIGHT_TABLE);
+        board.move(new Position(0, 3), new Position(1, 3));
+//        board.move(new Position(0, 4), new Position(1, 3));
+//        board.move(new Position(1, 3), new Position(1, 4));
 
         Position from = new Position(1, 2);
         Position to = new Position(1, 7);

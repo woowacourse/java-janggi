@@ -52,7 +52,14 @@ public class Board {
             }
         }
 
-        piece.validateClearPath(paths, this);
+        Map<Position, PieceType> piecesOnPath = new LinkedHashMap<>();
+        for (Position position : paths) {
+            if (!isEmpty(position)) {
+                piecesOnPath.put(position, board.get(position).getPiece().getPieceType());
+            }
+        }
+        boolean isDestinationEmpty = board.get(paths.getLast()).isEmpty();
+        piece.validateClearPath(piecesOnPath, isDestinationEmpty);
 
         board.put(to, new FullState(piece));
         board.put(from, new EmptyState());
@@ -70,13 +77,5 @@ public class Board {
 
     public boolean isEmpty(Position position) {
         return board.get(position).isEmpty();
-    }
-
-    public boolean isCannon(Position position) {
-        State state = board.get(position);
-        if (state.isEmpty()) {
-            return false;
-        }
-        return state.getPiece().getPieceType() == PieceType.CANNON;
     }
 }
