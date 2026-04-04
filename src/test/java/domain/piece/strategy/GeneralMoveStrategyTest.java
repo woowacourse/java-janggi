@@ -7,7 +7,6 @@ import domain.piece.Piece;
 import domain.piece.PieceType;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;

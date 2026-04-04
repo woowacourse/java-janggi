@@ -31,7 +31,7 @@ class BoardTest {
     }
 
     @Test
-    void 이동을_선택한_좌표에_기물이_없을_경우_예외를_던진다() {
+    void 이동시키려는_좌표에_기물이_없을_경우_예외를_던진다() {
         assertThatThrownBy(() -> board.pieceAt(new Position(5, 5))).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -48,39 +48,71 @@ class BoardTest {
     }
 
     @Test
-    void 왕이_잡히면_게임이_종료되고_승자를_반환한다() {
+    void 도착지가_비어있을_경우_해당_좌표로_이동한다() {
+        Position from = new Position(4, 0);
+        Position to = new Position(4, 1);
+
+        Piece departurePiece = Piece.of(Camp.CHO, PieceType.SOLDIER);
+
         Map<Position, Piece> pieces = new HashMap<>();
-        pieces.put(new Position(4, 8), Piece.of(Camp.CHO, PieceType.CHARIOT));
-        pieces.put(new Position(4, 9), Piece.of(Camp.HAN, PieceType.GENERAL));
-        Board emptyBoard = new Board(pieces);
+        pieces.put(from, departurePiece);
+        Board fakeBoard = new Board(pieces);
 
-        emptyBoard.move(new Position(4, 8), new Position(4, 9));
+        fakeBoard.move(from, to);
 
-        assertThat(emptyBoard.isGameOver()).isTrue();
-        assertThat(emptyBoard.winner()).isEqualTo(Camp.CHO);
+        assertThat(fakeBoard.isExistPieceAt(from)).isFalse();
+        assertThat(fakeBoard.pieceAt(to)).isEqualTo(departurePiece);
+    }
+
+
+    @Test
+    void 도착지에_위치한_기물이_다른_진영의_기물일_경우_해당_기물을_잡고_해당_좌표로_이동한다() {
+        Position from = new Position(4, 0);
+        Position to = new Position(4, 1);
+
+        Piece departurePiece = Piece.of(Camp.CHO, PieceType.SOLDIER);
+
+        Map<Position, Piece> pieces = new HashMap<>();
+        pieces.put(from, departurePiece);
+        pieces.put(to, Piece.of(Camp.HAN, PieceType.SOLDIER));
+        Board fakeBoard = new Board(pieces);
+
+        fakeBoard.move(from, to);
+
+        assertThat(fakeBoard.isExistPieceAt(from)).isFalse();
+        assertThat(fakeBoard.pieceAt(to)).isEqualTo(departurePiece);
+    }
+
+
+    @Test
+    void 왕이_잡히면_게임이_종료되고_승자를_반환한다() {
+        Position from = new Position(4, 8);
+        Position to = new Position(4, 9);
+
+        Map<Position, Piece> pieces = new HashMap<>();
+        pieces.put(from, Piece.of(Camp.CHO, PieceType.CHARIOT));
+        pieces.put(to, Piece.of(Camp.HAN, PieceType.GENERAL));
+        Board fakeBoard = new Board(pieces);
+
+        fakeBoard.move(from, to);
+
+        assertThat(fakeBoard.isGameOver()).isTrue();
+        assertThat(fakeBoard.winner()).isEqualTo(Camp.CHO);
     }
 
     @Test
     void 게임이_종료되면_더_이상_기물을_이동할_수_없다() {
+        Position from = new Position(4, 7);
+        Position to = new Position(4, 8);
+
         Map<Position, Piece> pieces = new HashMap<>();
-        pieces.put(new Position(4, 8), Piece.of(Camp.CHO, PieceType.CHARIOT));
-        pieces.put(new Position(4, 9), Piece.of(Camp.HAN, PieceType.GENERAL));
-        Board emptyBoard = new Board(pieces);
+        pieces.put(from, Piece.of(Camp.CHO, PieceType.CHARIOT));
+        pieces.put(to, Piece.of(Camp.HAN, PieceType.GENERAL));
+        Board fakeBoard = new Board(pieces);
 
-        emptyBoard.move(new Position(4, 8), new Position(4, 9));
+        fakeBoard.move(from, to);
 
-        assertThatThrownBy(() -> emptyBoard.move(new Position(4, 9), new Position(4, 8)))
+        assertThatThrownBy(() -> fakeBoard.move(to, new Position(4, 9)))
                 .isInstanceOf(IllegalStateException.class);
-    }
-
-    @Test
-    void 같은_진영의_기물은_잡을_수_없다() {
-        Map<Position, Piece> pieces = new HashMap<>();
-        pieces.put(new Position(4, 0), Piece.of(Camp.CHO, PieceType.CHARIOT));
-        pieces.put(new Position(4, 1), Piece.of(Camp.CHO, PieceType.SOLDIER));
-        Board board = new Board(pieces);
-
-        assertThatThrownBy(() -> board.move(new Position(4, 0), new Position(4, 1)))
-                .isInstanceOf(IllegalArgumentException.class);
     }
 }

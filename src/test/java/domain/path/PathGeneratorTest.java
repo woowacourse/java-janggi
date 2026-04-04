@@ -25,7 +25,6 @@ class PathGeneratorTest {
     @Test
     void 복합_경로를_정상적으로_생성한다() {
         Position departure = new Position(8, 0);
-        Position destination = new Position(7, 2);
         List<Direction> directions = List.of(Direction.UP, Direction.NORTHWEST);
 
         List<Position> path = PathGenerator.generateComplexPath(departure, directions);
