@@ -16,17 +16,19 @@ import java.util.Optional;
 public class Game {
 
     private final Board board;
+    private final RoomName roomName;
     private final CurrentTurn currentTurn;
 
     public static final String NO_AVAILABLE_MOVES_MESSAGE = "해당 위치(%d, %d)의 기물이 이동할 수 있는 위치가 없습니다.";
 
-    private Game(Board board, CurrentTurn currentTurn) {
+    private Game(Board board, RoomName roomName, CurrentTurn currentTurn) {
         this.board = board;
+        this.roomName = roomName;
         this.currentTurn = currentTurn;
     }
 
-    public static Game initGame(BoardDesignPolicy boardDesignPolicy) {
-        return new Game(new Board(boardDesignPolicy), new CurrentTurn(CHO));
+    public static Game initGame(BoardDesignPolicy boardDesignPolicy, String roomName) {
+        return new Game(new Board(boardDesignPolicy), new RoomName(roomName), new CurrentTurn(CHO));
     }
 
     public List<Position> findMovablePositions(Position from) {

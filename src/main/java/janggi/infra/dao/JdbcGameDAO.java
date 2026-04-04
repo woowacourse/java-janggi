@@ -13,7 +13,7 @@ public class JdbcGameDAO implements GameDAO {
 
     private final DataSource dataSource;
 
-    private static final String SAVE_SQL = "INSERT INTO game_room(room_name, last_turn, last_played_at) VALUES(?, ?, ?)";
+    private static final String SAVE_SQL = "INSERT INTO game(room_name, last_turn, last_played_at) VALUES(?, ?, ?)";
 
     public JdbcGameDAO(DataSource dataSource) {
         this.dataSource = dataSource;
@@ -26,7 +26,7 @@ public class JdbcGameDAO implements GameDAO {
                 PreparedStatement pstmt = connection.prepareStatement(SAVE_SQL, RETURN_GENERATED_KEYS)
         ) {
 
-            pstmt.setString(1, gameEntity.roomName());
+            pstmt.setString(1, gameEntity.roomName().name());
             pstmt.setString(2, gameEntity.lastTurn().name());
             pstmt.setTimestamp(3, Timestamp.valueOf(gameEntity.lastPlayedAt()));
             pstmt.executeUpdate();

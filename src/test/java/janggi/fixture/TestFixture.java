@@ -1,6 +1,7 @@
 package janggi.fixture;
 
 import janggi.domain.dynasty.Dynasty;
+import janggi.domain.game.RoomName;
 import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
 import janggi.infra.entity.GameEntity;
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 
 public class TestFixture {
 
-    public static GameEntity createGameRoomEntity(String roomName, Dynasty lastTurn, LocalDateTime lastPlayedAt) {
+    public static GameEntity createGameRoomEntity(RoomName roomName, Dynasty lastTurn, LocalDateTime lastPlayedAt) {
         return new GameEntity(roomName, lastTurn, lastPlayedAt);
     }
 
@@ -21,16 +22,16 @@ public class TestFixture {
         return new PiecePositionEntity(from, pieceType, dynasty, gameEntity);
     }
 
-    public static GameEntity saveGameRoomEntity(String roomName, Dynasty lastTurn, LocalDateTime lastPlayedAt, DataSource dataSource) throws SQLException {
+    public static GameEntity saveGameRoomEntity(RoomName roomName, Dynasty lastTurn, LocalDateTime lastPlayedAt, DataSource dataSource) throws SQLException {
         GameEntity gameEntity = createGameRoomEntity(roomName, lastTurn, lastPlayedAt);
         try (
                 Connection conn = dataSource.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(
-                        "INSERT INTO game_room(room_name, last_turn, last_played_at) VALUES(?, ?, ?)",
+                        "INSERT INTO game(room_name, last_turn, last_played_at) VALUES(?, ?, ?)",
                         Statement.RETURN_GENERATED_KEYS
                 );
         ) {
-            pstmt.setString(1, gameEntity.roomName());
+            pstmt.setString(1, gameEntity.roomName().name());
             pstmt.setString(2, gameEntity.lastTurn().name());
             pstmt.setTimestamp(3, Timestamp.valueOf(gameEntity.lastPlayedAt()));
             pstmt.executeUpdate();

@@ -1,24 +1,25 @@
 package janggi.infra.entity;
 
 import janggi.domain.dynasty.Dynasty;
+import janggi.domain.game.RoomName;
 
 import java.time.LocalDateTime;
 
 public class GameEntity {
 
     private Long id;
-    private String roomName;
+    private RoomName roomName;
     private Dynasty lastTurn;
     private LocalDateTime lastPlayedAt;
 
-    public GameEntity(Long id, String roomName, Dynasty lastTurn, LocalDateTime lastPlayedAt) {
+    public GameEntity(Long id, RoomName roomName, Dynasty lastTurn, LocalDateTime lastPlayedAt) {
         this.id = id;
         this.roomName = roomName;
         this.lastTurn = lastTurn;
         this.lastPlayedAt = lastPlayedAt;
     }
 
-    public GameEntity(String roomName, Dynasty lastTurn, LocalDateTime lastPlayedAt) {
+    public GameEntity(RoomName roomName, Dynasty lastTurn, LocalDateTime lastPlayedAt) {
         this.roomName = roomName;
         this.lastTurn = lastTurn;
         this.lastPlayedAt = lastPlayedAt;
@@ -28,7 +29,7 @@ public class GameEntity {
         return id;
     }
 
-    public String roomName() {
+    public RoomName roomName() {
         return roomName;
     }
 

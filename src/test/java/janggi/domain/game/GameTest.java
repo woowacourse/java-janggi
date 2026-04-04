@@ -28,7 +28,7 @@ class GameTest {
                 Position.from(1, 2), new Piece(CHO, HORSE),
                 Position.from(2, 1), new Piece(CHO, SOLDIER)
         );
-        Game game = Game.initGame(boardDesignPolicy);
+        Game game = Game.initGame(boardDesignPolicy, "room");
 
         // when & then
         assertThatThrownBy(() -> game.findMovablePositions(from))
@@ -45,7 +45,7 @@ class GameTest {
                 from, new Piece(CHO, CHARIOT)
         );
 
-        Game game = Game.initGame(boardDesignPolicy);
+        Game game = Game.initGame(boardDesignPolicy, "room");
         Dynasty currentTurn = game.currentTurn();
 
         // when

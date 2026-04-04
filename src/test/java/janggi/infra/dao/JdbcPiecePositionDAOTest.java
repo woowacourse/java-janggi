@@ -1,6 +1,7 @@
 package janggi.infra.dao;
 
 import janggi.domain.dynasty.Dynasty;
+import janggi.domain.game.RoomName;
 import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
 import janggi.infra.config.TestDataSourceConfig;
@@ -29,7 +30,7 @@ class JdbcPiecePositionDAOTest {
     public void saveAll_success() throws Exception {
         // given
         GameEntity gameEntity = saveGameRoomEntity(
-                "room1",
+                new RoomName("room1"),
                 Dynasty.CHO,
                 LocalDateTime.of(2026, 4, 3, 15, 30),
                 dataSource
