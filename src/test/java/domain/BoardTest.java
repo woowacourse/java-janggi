@@ -41,7 +41,7 @@ class BoardTest {
         // when
         Position from = Position.of(0, 0);
         Position to = Position.of(1, 0);
-        board.tryToMove(from, to, Team.CHU);
+        board.tryToMove(from, to);
 
         // then
         Piece findPiece = board.findPieceByPosition(to).get();

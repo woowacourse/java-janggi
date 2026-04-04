@@ -38,6 +38,7 @@ public class JanggiController {
                 return false;
             }
             Position currentPosition = parsePosition(currentInput);
+            
             Piece piece = board.findPieceByPosition(currentPosition)
                     .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 위치에 기물이 존재하지 않습니다."));
             game.checkTurn(piece.getTeam());
@@ -48,7 +49,7 @@ public class JanggiController {
             }
             Position targetPosition = parsePosition(targetInput);
 
-            board.tryToMove(currentPosition, targetPosition, game.getTeam());
+            board.tryToMove(currentPosition, targetPosition);
             game.nextTurn();
             outputView.printBoard(board.getBoard());
             return true;

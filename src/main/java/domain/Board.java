@@ -18,12 +18,9 @@ public class Board {
         return new Board(board);
     }
 
-    public void tryToMove(final Position from, final Position to, final Team team) {
+    public void tryToMove(final Position from, final Position to) {
         Piece fromPiece = findPieceByPosition(from)
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 위치에 기물이 존재하지 않습니다."));
-        if (fromPiece.getTeam() != team) {
-            throw new IllegalArgumentException("[ERROR] 해당 기물은 상대편 기물이기 떄문에 움직일 수 없습니다.");
-        }
 
         if (!fromPiece.canMovePiece(from, to, Board.of(new HashMap<>(this.board)))) {
             throw new IllegalArgumentException("[ERROR] 해당 위치로 움직일 수 없습니다.");
