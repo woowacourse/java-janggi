@@ -6,7 +6,7 @@ import domain.piece.PieceType;
 import domain.game.Team;
 import java.util.Map;
 
-public class LeftGwimaFactory extends AbstractBoardFactory {
+public class LeftGwimaFactory extends AbstractFormationFactory {
     @Override
     protected void setVariablePieces(Map<Position, Piece> pieces, Team team) {
         pieces.put(new Position(team.getBackRow(), PieceType.SANG.getInitialColumns().get(0)),

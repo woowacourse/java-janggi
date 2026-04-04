@@ -3,6 +3,7 @@ package domain.position;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 public class Position {
     private final Row row;
@@ -11,6 +12,17 @@ public class Position {
     public Position(int row, int column) {
         this.row = new Row(row);
         this.column = new Column(column);
+    }
+
+    public static List<Position> allPositions() {
+        return Row.allRows().stream()
+                .flatMap(Position::positionsInRow)
+                .toList();
+    }
+
+    private static Stream<Position> positionsInRow(Row row) {
+        return Column.allColumns().stream()
+                .map(col -> new Position(row, col));
     }
 
     public static Position from(String row, String column) {

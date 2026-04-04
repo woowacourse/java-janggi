@@ -7,24 +7,23 @@ import domain.position.Position;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class AbstractBoardFactory implements BoardFactory {
+public abstract class AbstractFormationFactory {
 
-    private static final Map<FormationType, AbstractBoardFactory> factories = Map.of(
+    private static final Map<FormationType, AbstractFormationFactory> factories = Map.of(
             FormationType.LEFT_GIWMA, new LeftGwimaFactory(),
             FormationType.RIGHT_GIWMA, new RightGwimaFactory(),
             FormationType.WONANGMA, new WonangmaFactory(),
             FormationType.YANGGWIMA, new YanggwimaFactory()
     );
 
-    public static AbstractBoardFactory from(FormationType type) {
-        AbstractBoardFactory factory = factories.get(type);
+    public static AbstractFormationFactory from(FormationType type) {
+        AbstractFormationFactory factory = factories.get(type);
         if (factory == null) {
             throw new IllegalStateException("해당 타입의 팩토리가 등록되지 않았습니다.");
         }
         return factory;
     }
 
-    @Override
     public Map<Position, Piece> createFormation(Team team) {
         Map<Position, Piece> pieces = new HashMap<>();
         setFixedPieces(pieces, team);

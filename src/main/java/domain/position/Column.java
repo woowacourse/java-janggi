@@ -1,11 +1,20 @@
 package domain.position;
 
+import java.util.List;
+import java.util.stream.IntStream;
+
 public class Column {
 
     private static final int MIN_COLUMN_NUMBER = 1;
     private static final int MAX_COLUMN_NUMBER = 9;
 
     private final int value;
+
+    public static List<Column> allColumns() {
+        return IntStream.rangeClosed(MIN_COLUMN_NUMBER, MAX_COLUMN_NUMBER)
+                .mapToObj(Column::new)
+                .toList();
+    }
 
     public Column(int value) {
         validate(value);

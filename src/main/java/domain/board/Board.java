@@ -13,6 +13,12 @@ public class Board {
 
     public Board(Map<Position, Piece> pieces) {
         this.pieces = new HashMap<>(pieces);
+        fillEmptyPositions();
+    }
+
+    private void fillEmptyPositions() {
+        Position.allPositions()
+                .forEach(pos -> pieces.putIfAbsent(pos, EmptyPiece.getInstance()));
     }
 
     public void move(Position source, Position destination) {
@@ -38,6 +44,6 @@ public class Board {
     }
 
     public Piece pieceAt(Position position) {
-        return pieces.getOrDefault(position, EmptyPiece.getInstance());
+        return pieces.get(position);
     }
 }

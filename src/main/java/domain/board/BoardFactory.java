@@ -1,10 +1,19 @@
 package domain.board;
 
-import domain.position.Position;
-import domain.piece.Piece;
 import domain.game.Team;
+import domain.piece.Piece;
+import domain.position.Position;
+import java.util.HashMap;
 import java.util.Map;
 
-public interface BoardFactory {
-    Map<Position, Piece> createFormation(Team team);
+public class BoardFactory {
+
+    public static Board create(FormationType choFormation, FormationType hanFormation) {
+        Map<Position, Piece> pieces = new HashMap<>();
+        pieces.putAll(AbstractFormationFactory.from(choFormation)
+                .createFormation(Team.CHO));
+        pieces.putAll(AbstractFormationFactory.from(hanFormation)
+                .createFormation(Team.HAN));
+        return new Board(pieces);
+    }
 }

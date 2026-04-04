@@ -1,11 +1,20 @@
 package domain.position;
 
+import java.util.List;
+import java.util.stream.IntStream;
+
 public class Row {
 
     private static final int MIN_ROW_NUMBER = 1;
     private static final int MAX_ROW_NUMBER = 10;
 
     private final int value;
+
+    public static List<Row> allRows() {
+        return IntStream.rangeClosed(MIN_ROW_NUMBER, MAX_ROW_NUMBER)
+                .mapToObj(Row::new)
+                .toList();
+    }
 
     public Row(int value) {
         validate(value);
