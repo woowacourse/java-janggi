@@ -22,6 +22,7 @@ public class JanggiController {
         outputView.printBoard(game.getBoard());
         while (game.isRunning()) {
             playTurn(game);
+            outputView.printBoard(game.getBoard());
         }
     }
 
@@ -32,15 +33,20 @@ public class JanggiController {
     }
 
     private void playTurn(JanggiGame game) {
-        while (true) {
-            try {
-                List<Position> positions = inputView.askMovePiecePosition(game.currentTurn());
-                game.move(positions.get(0), positions.get(1));
-                outputView.printBoard(game.getBoard());
-                return;
-            } catch (IllegalArgumentException e) {
-                outputView.printError(e.getMessage());
-            }
+        boolean isTurnCompleted = false;
+        while (!isTurnCompleted) {
+            isTurnCompleted = executeMove(game);
+        }
+    }
+
+    private boolean executeMove(JanggiGame game) {
+        try {
+            List<Position> positions = inputView.askMovePiecePosition(game.currentTurn());
+            game.move(positions.get(0), positions.get(1));
+            return true;
+        } catch (IllegalArgumentException e) {
+            outputView.printError(e.getMessage());
+            return false;
         }
     }
 }
