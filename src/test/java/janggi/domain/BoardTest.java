@@ -126,9 +126,10 @@ public class BoardTest {
                 PositionInfo.from(Team.CHO, "JANG", 4, 1),
                 PositionInfo.from(Team.HAN, "JANG", 4, 8)
         );
+        Boards boards = new Boards(board);
 
-        assertThat(board.isKingDie(Team.CHO)).isFalse();
-        assertThat(board.isKingDie(Team.HAN)).isFalse();
+        assertThat(boards.isKingDie(Team.CHO)).isFalse();
+        assertThat(boards.isKingDie(Team.HAN)).isFalse();
     }
 
     @Test
@@ -137,8 +138,9 @@ public class BoardTest {
         Board board = initBoard(
                 PositionInfo.from(Team.CHO, "JANG", 4, 1)
         );
+        Boards boards = new Boards(board);
 
-        assertThat(board.isKingDie(Team.HAN)).isTrue();
+        assertThat(boards.isKingDie(Team.HAN)).isTrue();
     }
 
     @Test
@@ -149,9 +151,10 @@ public class BoardTest {
                 PositionInfo.from(Team.CHO, "JANG", 4, 1),
                 PositionInfo.from(Team.HAN, "JANG", 4, 8)
         );
+        Boards boards = new Boards(board);
 
         // when
-        List<PositionInfo> boardStatus = board.getBoardStatus();
+        List<PositionInfo> boardStatus = boards.getBoardStatus();
 
         // then
         assertThat(boardStatus.size()).isEqualTo(2);
@@ -169,10 +172,11 @@ public class BoardTest {
                 PositionInfo.from(Team.HAN, "MA", 1, 9),
                 PositionInfo.from(Team.HAN, "SA", 3, 9)
         );
+        Boards boards = new Boards(board);
 
         // when
-        int choScore = board.scoreOf(Team.CHO);
-        int hanScore = board.scoreOf(Team.HAN);
+        int choScore = boards.scoreOf(Team.CHO);
+        int hanScore = boards.scoreOf(Team.HAN);
 
         // then
         assertThat(choScore).isEqualTo(9);
@@ -186,6 +190,6 @@ public class BoardTest {
     }
 
     private Piece pieceAt(Board board, int x, int y) {
-        return board.getPoints().get(y).get(x);
+        return board.getPiecesByPoint().get(Point.of(x, y));
     }
 }
