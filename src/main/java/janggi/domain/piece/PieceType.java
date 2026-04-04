@@ -43,17 +43,19 @@ public enum PieceType {
     }
 
     private static MoveStrategy createChaStrategy() {
-        return new SlidingMoveStrategy(List.of(
-                new StraightLineRule(),
-                new EmptyPathRule()
-        ));
+        MoveRule normalCha = new AndRule(new StraightLineRule(), new EmptyPathRule());
+        MoveRule palaceCha = new PalaceChaDiagonalRule();
+        MoveRule finalRule = new OrRule(normalCha, palaceCha);
+
+        return new SlidingMoveStrategy(List.of(finalRule));
     }
 
     private static MoveStrategy createPoStrategy() {
-        return new SlidingMoveStrategy(List.of(
-                new StraightLineRule(),
-                new SingleJumpRule()
-        ));
+        MoveRule normalPo = new AndRule(new StraightLineRule(), new SingleJumpRule());
+        MoveRule palacePo = new PalacePoDiagonalRule();
+        MoveRule finalRule = new OrRule(normalPo, palacePo);
+
+        return new SlidingMoveStrategy(List.of(finalRule));
     }
 
     private static MoveStrategy createMaStrategy() {

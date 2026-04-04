@@ -1,0 +1,79 @@
+package janggi.domain.movestrategy.rule;
+
+import janggi.domain.board.BoardState;
+import janggi.domain.piece.PieceType;
+import janggi.domain.position.Column;
+import janggi.domain.position.Position;
+import janggi.domain.position.Row;
+
+public class PalacePoDiagonalRule implements MoveRule {
+
+    @Override
+    public boolean isValid(Position from, Position to, BoardState boardState) {
+        if (!isBothInPalace(from, to)) {
+            return false;
+        }
+        if (!isDiagonalShape(from, to)) {
+            return false;
+        }
+        if (!isOnPalaceLines(from, to)) {
+            return false;
+        }
+        if (!isLongJump(from, to)) {
+            return false;
+        }
+        if (!hasValidObstacleToJump(from, to, boardState)) {
+            return false;
+        }
+        if (isTargetPositionPo(to, boardState)) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isBothInPalace(Position from, Position to) {
+        return isInPalace(from) && isInPalace(to);
+    }
+
+    private boolean isDiagonalShape(Position from, Position to) {
+        int rowDiff = Math.abs(from.getRow() - to.getRow());
+        int colDiff = Math.abs(from.getColumn() - to.getColumn());
+        return rowDiff == colDiff && rowDiff > 0;
+    }
+
+    private boolean isOnPalaceLines(Position from, Position to) {
+        boolean isCenterConnected = isCenter(from) || isCenter(to);
+        return isCenterConnected || isLongJump(from, to);
+    }
+
+    private boolean isLongJump(Position from, Position to) {
+        return Math.abs(from.getRow() - to.getRow()) == 2;
+    }
+
+    private boolean hasValidObstacleToJump(Position from, Position to, BoardState boardState) {
+        int midRow = (from.getRow() + to.getRow()) / 2;
+        int midCol = (from.getColumn() + to.getColumn()) / 2;
+        Position midPos = Position.of(Row.of(midRow), Column.of(midCol));
+
+        if (!boardState.hasPieceAt(midPos)) {
+            return false;
+        }
+        return boardState.getPieceAt(midPos).getPieceType() != PieceType.PO;
+    }
+
+    private boolean isTargetPositionPo(Position to, BoardState boardState) {
+        return boardState.hasPieceAt(to) && boardState.getPieceAt(to).getPieceType() == PieceType.PO;
+    }
+
+    private boolean isInPalace(Position p) {
+        boolean inColumn = (p.getColumn() >= 3 && p.getColumn() <= 5);
+        boolean inHanPalace = (p.getRow() >= 0 && p.getRow() <= 2);
+        boolean inChoPalace = (p.getRow() >= 7 && p.getRow() <= 9);
+        return inColumn && (inHanPalace || inChoPalace);
+    }
+
+    private boolean isCenter(Position pos) {
+        return (pos.getRow() == 1 && pos.getColumn() == 4)
+                || (pos.getRow() == 8 && pos.getColumn() == 4);
+    }
+}
