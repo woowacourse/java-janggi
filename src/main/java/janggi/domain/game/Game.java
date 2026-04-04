@@ -2,6 +2,7 @@ package janggi.domain.game;
 
 import janggi.domain.board.Board;
 import janggi.domain.board.setup.BoardSetUp;
+import janggi.domain.game.rule.Rules;
 import janggi.domain.piece.unit.Piece;
 import janggi.domain.point.Point;
 import janggi.domain.side.Side;

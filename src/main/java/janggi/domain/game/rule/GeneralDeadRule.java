@@ -1,4 +1,4 @@
-package janggi.domain.game;
+package janggi.domain.game.rule;
 
 import janggi.domain.piece.unit.General;
 import janggi.domain.piece.unit.Piece;

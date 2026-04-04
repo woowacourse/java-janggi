@@ -2,6 +2,8 @@ package janggi.domain.game;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import janggi.domain.game.rule.GeneralDeadRule;
+import janggi.domain.game.rule.Rule;
 import janggi.domain.piece.unit.General;
 import janggi.domain.piece.unit.Piece;
 import janggi.domain.point.Point;
