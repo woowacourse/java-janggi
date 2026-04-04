@@ -6,6 +6,8 @@ import java.util.List;
 
 public final class Piece {
 
+    public static final Piece EMPTY = new Piece(PieceType.EMPTY, Side.NONE);
+
     private final PieceType type;
     private final Side side;
 

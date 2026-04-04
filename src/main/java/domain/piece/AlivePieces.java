@@ -33,7 +33,7 @@ public class AlivePieces {
     }
 
     public Piece placedAt(Intersection intersection) {
-        return alivePieces.getOrDefault(intersection, new Piece(PieceType.EMPTY, Side.NONE));
+        return alivePieces.getOrDefault(intersection, Piece.EMPTY);
     }
 
     public boolean placedSameSide(Intersection intersection, Side side) {
