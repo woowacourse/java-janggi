@@ -11,7 +11,7 @@ public interface Board {
 
     boolean isWinnerDetermined();
 
-    Map<Position, Piece> getBoard();
+    Map<Position, Piece> getBoardInfo();
 
     Team winner();
 }

@@ -1,9 +1,11 @@
-package janggi.model;
+package janggi.model.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.model.Board;
+import janggi.model.Team;
 import janggi.model.piece.Piece;
 import janggi.model.piece.diagonalMove.Ma;
 import janggi.model.piece.palace.Sa;
@@ -18,7 +20,7 @@ import org.junit.jupiter.api.Test;
 
 class BoardTest {
 
-    Board board;
+    janggi.model.Board board;
 
     @BeforeEach
     void beforeEach() {
@@ -58,7 +60,7 @@ class BoardTest {
                 new Sa(Team.CHO)
         );
 
-        this.board = new Board(board);
+        this.board = new janggi.model.Board(board);
     }
 
     @DisplayName("from에 기물이 없으면 예외가 발생한다.")
@@ -165,7 +167,7 @@ class BoardTest {
                 new Ma(Team.CHO)
         );
 
-        Board board = new Board(gameOverBoard);
+        janggi.model.Board board = new Board(gameOverBoard);
 
         //when & then
         assertThat(board.isGameOver()).isTrue();

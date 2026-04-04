@@ -6,18 +6,24 @@ import java.util.Properties;
 
 public class AppConfig {
 
+    private static final String DEFAULT_PROPERTIES_FILE = "application.properties";
+
     private final Properties properties;
 
     public AppConfig() {
-        this.properties = readProperties();
+        this.properties = readProperties(DEFAULT_PROPERTIES_FILE);
     }
 
-    private Properties readProperties() {
+    public AppConfig(String fileName) {
+        this.properties = readProperties(fileName);
+    }
+
+    private Properties readProperties(String filename) {
         Properties properties = new Properties();
 
         try(InputStream inputStream = getClass()
                 .getClassLoader()
-                .getResourceAsStream("application.properties")) {
+                .getResourceAsStream(filename)) {
 
             if (inputStream == null) {
                 throw new IllegalStateException("application.properties 파일이 없습니다.");

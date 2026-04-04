@@ -18,7 +18,7 @@ public record CompletedBoard(Team winner) implements Board {
     }
 
     @Override
-    public Map<Position, Piece> getBoard() {
+    public Map<Position, Piece> getBoardInfo() {
         throw new IllegalArgumentException("이미 게임이 종료되었습니다.");
     }
 }

@@ -43,7 +43,7 @@ public record GameOver(Board board) implements Turn {
     }
 
     private int getTotalScoreOf(Team team) {
-        return board.getBoard().values().stream()
+        return board.getBoardInfo().values().stream()
                 .filter(value -> value.isSameTeam(team))
                 .mapToInt(value -> value.getPieceType().getScore())
                 .sum();

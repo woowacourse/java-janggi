@@ -1,37 +1,45 @@
 package janggi.controller;
 
+import janggi.infra.ConnectionProvider;
 import janggi.model.Janggi;
 import janggi.model.Team;
 import janggi.model.position.absolute.Column;
 import janggi.model.position.absolute.Position;
 import janggi.model.position.absolute.Row;
-import janggi.repository.BoardRepository;
+import janggi.repository.dto.LatestInProgressGameResponse;
+import janggi.repository.gameRepository;
 import janggi.view.BoardType;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import janggi.view.dto.GameStatus;
+import java.sql.Connection;
 import java.util.List;
+import java.util.Optional;
 
 public class JanggiController {
 
     private final OutputView outputView;
     private final InputView inputView;
-    private final BoardRepository boardRepository;
+    private final ConnectionProvider connectionProvider;
+    private final gameRepository gameRepository;
 
     public JanggiController(
             OutputView outputView,
             InputView inputView,
-            BoardRepository boardRepository
+            ConnectionProvider connectionProvider,
+            gameRepository gameRepository
     ) {
         this.outputView = outputView;
         this.inputView = inputView;
-        this.boardRepository = boardRepository;
+        this.connectionProvider = connectionProvider;
+        this.gameRepository = gameRepository;
     }
 
     public void run() {
-        Janggi janggi = boardRepository
-                .findInProgressGame()
-                .orElseGet(this::startNewGame);
+        LatestInProgressGameResponse response = setUpJanggi();
+
+        Long gameId = response.gameId();
+        Janggi janggi = response.janggi();
 
         while (!janggi.isGameOver()) {
             janggi = movePiece(janggi);
@@ -54,8 +62,27 @@ public class JanggiController {
         if (janggi.isGameOver()) {
             Team winner = janggi.getWinner();
             outputView.printWinner(winner);
-            boardRepository.deleteGame();
+            gameRepository.deleteByGameId(connectionProvider.getConnection(), gameId);
         }
+    }
+
+    private LatestInProgressGameResponse setUpJanggi() {
+        Connection con = connectionProvider.getConnection();
+
+        Optional<LatestInProgressGameResponse> response = gameRepository
+                .findLatestInProgressGame(con);
+
+        if (response.isPresent()) {
+            return response.get();
+        }
+
+        Janggi newGame = startNewGame();
+        Long gameId = gameRepository.save(connectionProvider.getConnection(), newGame.getCurrentTeam());
+
+        return new LatestInProgressGameResponse(
+                gameId,
+                newGame
+        );
     }
 
     private Janggi startNewGame() {
@@ -72,7 +99,9 @@ public class JanggiController {
 
         janggi = janggi.play(from, to);
 
-        boardRepository.updateBoardWith(from, to);
+        Connection con = null;
+        gameRepository.updateBoardWith(con, from, to);
+
         return janggi;
     }
 
