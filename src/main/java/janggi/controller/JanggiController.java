@@ -54,7 +54,7 @@ public class JanggiController {
         OutputView.printBoard(BoardDto.from(board), turnManager.currentTeamTypeToString());
         Position from = findFromPosition(board, turnManager);
         List<Position> movable = board.calculateMovablePositions(from);
-        OutputView.printBoardWithMovable(BoardDto.from(board, movable));
+        OutputView.printBoardWithMovable(BoardDto.from(board), movable);
         Position to = RetryExecutor.retry(() -> inputToPosition(movable));
         board.movePiece(from, to);
         turnManager.changeTurn();
