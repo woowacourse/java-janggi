@@ -66,6 +66,14 @@ public class AlivePieces {
         return screens.size() == 1 && screens.getFirst().isNotSameType(excludedType);
     }
 
+    public int calculatePiecePointOf(Side side) {
+        return alivePieces.values()
+                .stream()
+                .filter(piece -> piece.isSameSide(side))
+                .mapToInt(Piece::toPoint)
+                .sum();
+    }
+
     public List<Piece> toList() {
         return alivePieces.values()
                 .stream()

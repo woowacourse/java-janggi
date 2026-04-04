@@ -48,6 +48,10 @@ public final class Piece {
         return !isSameType(pieceType);
     }
 
+    public int toPoint() {
+        return type.point();
+    }
+
     @Override
     public String toString() {
         return "Piece{" +

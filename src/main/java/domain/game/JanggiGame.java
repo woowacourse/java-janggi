@@ -44,4 +44,10 @@ public final class JanggiGame {
     public boolean isFinished() {
         return board.isGeneralCaptured(currentTurn) || board.isGeneralCaptured(currentTurn.nextTurn());
     }
+
+    public double calculatePointOf(Side side) {
+        double sideBonusPoint = side.bonusPoint();
+
+        return sideBonusPoint + board.calculatePiecePointOf(side);
+    }
 }

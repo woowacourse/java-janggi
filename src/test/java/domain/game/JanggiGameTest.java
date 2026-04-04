@@ -135,4 +135,21 @@ class JanggiGameTest {
             assertThat(gameFinished).isFalse();
         }
     }
+
+    @DisplayName("진영별 점수 합계를 계산한다")
+    @Test
+    void 진영별_점수_합계를_계산한다() {
+        // given
+        JanggiGame janggiGame = new JanggiGame(new Board(alivePieces));
+        int expectedPointWithOnlyPieces = 2;
+        double expectedBonusPointOfHan = 1.5;
+
+        // when
+        double pointOfCho = janggiGame.calculatePointOf(Side.CHO);
+        double pointOfHan = janggiGame.calculatePointOf(Side.HAN);
+
+        // then
+        assertThat(pointOfCho).isEqualTo(expectedPointWithOnlyPieces);
+        assertThat(pointOfHan).isEqualTo(expectedPointWithOnlyPieces + expectedBonusPointOfHan);
+    }
 }

@@ -51,4 +51,8 @@ public final class Board {
                 .filter(piece -> piece.isSameSide(side))
                 .noneMatch(piece -> piece.isSameType(PieceType.GENERAL));
     }
+
+    public int calculatePiecePointOf(Side side) {
+        return alivePieces.calculatePiecePointOf(side);
+    }
 }

@@ -15,14 +15,14 @@ import domain.move.strategy.StraightLineMovement;
 import java.util.List;
 
 public enum PieceType {
-    CANNON(new StraightLineMovement(), new JumpingRule()),
-    CHARIOT(new StraightLineMovement(), new BasicRule()),
-    ELEPHANT(new OrthogonalThenTwoDiagonalMovement(), new BasicRule()),
-    GENERAL(new SingleStepMovement(), new BasicRule()),
-    GUARD(new SingleStepMovement(), new BasicRule()),
-    HORSE(new OrthogonalThenDiagonalMovement(), new BasicRule()),
-    SOLDIER(new SingleStepExcludeBackwardMovement(), new BasicRule()),
-    EMPTY(
+    CANNON(7, new StraightLineMovement(), new JumpingRule()),
+    CHARIOT(13, new StraightLineMovement(), new BasicRule()),
+    ELEPHANT(3, new OrthogonalThenTwoDiagonalMovement(), new BasicRule()),
+    GENERAL(0, new SingleStepMovement(), new BasicRule()),
+    GUARD(3, new SingleStepMovement(), new BasicRule()),
+    HORSE(5, new OrthogonalThenDiagonalMovement(), new BasicRule()),
+    SOLDIER(2, new SingleStepExcludeBackwardMovement(), new BasicRule()),
+    EMPTY(0,
             new Movement() {
                 @Override
                 protected List<Path> candidatePaths(Intersection from, Side side) {
@@ -32,10 +32,12 @@ public enum PieceType {
             ((side, candidatePaths, alivePieces) -> List.of())),
     ;
 
+    private final int point;
     private final Movement movement;
     private final MoveRule moveRule;
 
-    PieceType(Movement movement, MoveRule moveRule) {
+    PieceType(int point, Movement movement, MoveRule moveRule) {
+        this.point = point;
         this.movement = movement;
         this.moveRule = moveRule;
     }
@@ -54,5 +56,9 @@ public enum PieceType {
 
     private List<Path> movablePaths(Intersection from, Side side) {
         return movement.movablePaths(from, side);
+    }
+
+    public int point() {
+        return point;
     }
 }

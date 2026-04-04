@@ -198,4 +198,22 @@ class BoardTest {
             assertThat(board.isGeneralCaptured(han)).isFalse();
         }
     }
+
+    @DisplayName("진영별 기물 점수 합계를 계산한다")
+    @Test
+    void 진영별_기물_점수_합계를_계산한다() {
+        // given
+        AlivePieces alivePieces = new AlivePieces(Map.of(
+                new Intersection(5, 5), Piece.of(PieceType.CHARIOT, Side.HAN)
+        ));
+        Board board = new Board(alivePieces);
+
+        // when
+        int totalPointOfHan = board.calculatePiecePointOf(Side.HAN);
+        int totalPointOfCho = board.calculatePiecePointOf(Side.CHO);
+
+        // then
+        assertThat(totalPointOfHan).isEqualTo(13);
+        assertThat(totalPointOfCho).isEqualTo(0);
+    }
 }

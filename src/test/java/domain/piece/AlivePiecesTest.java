@@ -7,9 +7,14 @@ import domain.game.Side;
 import domain.move.Path;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class AlivePiecesTest {
 
@@ -173,5 +178,54 @@ class AlivePiecesTest {
 
             assertThat(emptyAlivePieces.isPassable(path)).isTrue();
         }
+    }
+
+    @DisplayName("진영별로 살아있는 기물들의 점수를 계산한다")
+    @ParameterizedTest(name = "초(CHO): {1}점, 한(HAN): {2}점")
+    @MethodSource("piecesAndPoint")
+    void 진영별로_기물_점수의_합을_계산한다(Map<Intersection, Piece> pieces, int expectedPointCho, int expectedPointHan) {
+        // given
+        AlivePieces alivePieces = new AlivePieces(Map.copyOf(pieces));
+
+        // when
+        int totalPointOfCho = alivePieces.calculatePiecePointOf(Side.CHO);
+        int totalPointOfHan = alivePieces.calculatePiecePointOf(Side.HAN);
+
+        // then
+        assertThat(totalPointOfCho).isEqualTo(expectedPointCho);
+        assertThat(totalPointOfHan).isEqualTo(expectedPointHan);
+    }
+
+    private static Stream<Arguments> piecesAndPoint() {
+        return Stream.of(
+                Arguments.of(
+                        Map.of(),
+                        0, 0),
+                Arguments.of(
+                        Map.of(
+                                pos(1, 1), Piece.of(PieceType.SOLDIER, Side.CHO)
+                        ),
+                        2, 0
+                ),
+                Arguments.of(
+                        Map.of(
+                                pos(1, 1), Piece.of(PieceType.SOLDIER, Side.HAN)
+                        ),
+                        0, 2
+                ), Arguments.of(
+                        Map.of(
+                                pos(1, 1), Piece.of(PieceType.CHARIOT, Side.CHO),
+                                pos(1, 2), Piece.of(PieceType.CANNON, Side.CHO),
+                                pos(1, 3), Piece.of(PieceType.HORSE, Side.HAN),
+                                pos(1, 4), Piece.of(PieceType.ELEPHANT, Side.HAN),
+                                pos(1, 5), Piece.of(PieceType.GUARD, Side.HAN)
+                        ),
+                        20, 11
+                )
+        );
+    }
+
+    private static Intersection pos(int row, int file) {
+        return new Intersection(row, file);
     }
 }

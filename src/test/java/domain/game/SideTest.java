@@ -6,9 +6,13 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 import domain.board.Intersection;
 import domain.direction.MoveAmount;
 import java.util.List;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 @DisplayName("Side 테스트")
 class SideTest {
@@ -224,5 +228,20 @@ class SideTest {
                         .isEqualTo(new Intersection(4, 4));
             }
         }
+    }
+
+    @DisplayName("진영별 기본 점수 계산")
+    @ParameterizedTest(name = "{0} 진영의 기본 점수는 {1}점이다")
+    @MethodSource("sideAndPoint")
+    void 진영별_기본_점수_계산(Side side, double expectedPoint) {
+        assertThat(side.bonusPoint()).isEqualTo(expectedPoint);
+    }
+
+    private static Stream<Arguments> sideAndPoint() {
+        return Stream.of(
+                Arguments.of(Side.HAN, 1.5),
+                Arguments.of(Side.CHO, 0.0),
+                Arguments.of(Side.NONE, 0.0)
+        );
     }
 }
