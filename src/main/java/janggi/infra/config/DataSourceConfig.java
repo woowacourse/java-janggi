@@ -9,9 +9,7 @@ import java.util.Properties;
 
 public class DataSourceConfig {
 
-    private static final String URL;
-    private static final String USERNAME;
-    private static final String PASSWORD;
+    private static final DataSource dataSource;
 
     static {
         Properties properties = new Properties();
@@ -19,20 +17,21 @@ public class DataSourceConfig {
                 .getResourceAsStream("application.properties");
         try {
             properties.load(inputStream);
-            URL = properties.getProperty("db.url");
-            USERNAME = properties.getProperty("db.username");
-            PASSWORD = properties.getProperty("db.password");
+            String URL = properties.getProperty("db.url");
+            String USERNAME = properties.getProperty("db.username");
+            String PASSWORD = properties.getProperty("db.password");
+
+            JdbcDataSource jdbcDataSource = new JdbcDataSource();
+            jdbcDataSource.setURL(URL);
+            jdbcDataSource.setUser(USERNAME);
+            jdbcDataSource.setPassword(PASSWORD);
+            dataSource = jdbcDataSource;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     public DataSource dataSource() {
-        JdbcDataSource jdbcDataSource = new JdbcDataSource();
-        jdbcDataSource.setURL(URL);
-        jdbcDataSource.setUser(USERNAME);
-        jdbcDataSource.setPassword(PASSWORD);
-
-        return jdbcDataSource;
+        return dataSource;
     }
 }
