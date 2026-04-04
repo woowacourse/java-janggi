@@ -42,7 +42,7 @@ public class JanggiController {
                 InputMoveDto inputMoveDto = MoveInputParser.parse(inputView.inputMovePiecePoint(),
                         inputView.inputDestinationPoint());
                 Move move = MoveMapper.toMove(inputMoveDto);
-                game.processTurn(move.getFrom(), move.getTo());
+                game.processTurn(move);
             } catch (IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());
             }
