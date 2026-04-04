@@ -48,7 +48,7 @@ public class JdbcBoardRepository implements BoardRepository {
     }
 
     @Override
-    public void update(Long roomId, Point from, Point to, JanggiGame game) {
+    public void update(long roomId, Point from, Point to, JanggiGame game) {
         executeInTransaction(connection -> {
             roomDao.update(roomId, GameRoomData.from(game), connection);
             piecesDao.delete(roomId, to.getRow(), to.getColumn(), connection);
@@ -58,12 +58,11 @@ public class JdbcBoardRepository implements BoardRepository {
     }
 
     @Override
-    public JanggiGame loadGame(Long gameRoomId) {
-        validateIsNull(gameRoomId);
+    public JanggiGame loadGame(long roomId) {
         return executeInTransaction(connection -> {
-            GameRoomData roomData = roomDao.findRoomById(gameRoomId, connection)
+            GameRoomData roomData = roomDao.findRoomById(roomId, connection)
                     .orElseThrow(() -> new IllegalArgumentException("[ERROR] 존재하지 않는 게임방 입니다."));
-            List<PieceData> pieceDatas = piecesDao.findAllByRoomId(gameRoomId, connection);
+            List<PieceData> pieceDatas = piecesDao.findAllByRoomId(roomId, connection);
             Map<Point, Piece> pieces = new LinkedHashMap<>();
             pieceDatas.forEach(pieceData -> {
                 PieceType type = PieceType.valueOf(pieceData.pieceName());
@@ -92,17 +91,14 @@ public class JdbcBoardRepository implements BoardRepository {
             T result = action.doInTransaction(connection);
             connection.commit();
             return result;
+        } catch (RuntimeException e) {
+            connection.rollback();
+            throw e;
         } catch (SQLException e) {
             connection.rollback();
             throw new RuntimeException("[ERROR] 게임 저장 중 트랜잭션 롤백됨", e);
         } finally {
             connection.setAutoCommit(true);
-        }
-    }
-
-    private void validateIsNull(Long roomId) {
-        if(roomId == null) {
-            throw new IllegalArgumentException("[ERROR] 잘못된 게임방 ID 입력입니다.");
         }
     }
 }
