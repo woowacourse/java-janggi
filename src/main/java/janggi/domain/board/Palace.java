@@ -9,6 +9,7 @@ import java.util.Map;
 public final class Palace {
 
     private static final Map<Position, List<Direction>> PALACE_DIRECTIONS_MAP;
+    public static final int PALACE_SIDE_LENGTH = 2;
 
     static {
         PALACE_DIRECTIONS_MAP = new LinkedHashMap<>();

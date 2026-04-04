@@ -2,6 +2,7 @@ package janggi.domain.pieceaction;
 
 import static janggi.domain.Position.MAXIMUM_COLUMN;
 import static janggi.domain.Position.MAXIMUM_ROW;
+import static janggi.domain.board.Palace.PALACE_SIDE_LENGTH;
 
 import janggi.domain.Position;
 import janggi.domain.board.BoardMediator;
@@ -19,13 +20,13 @@ public class ChariotAction implements PieceAction {
     static {
         RULES = List.of(
             OnLineRule.of(new OnLineMovement(MAXIMUM_ROW, Direction.SOUTH)),
-            OnLineRule.of(new OnLineMovement(2, Direction.SOUTH_EAST)),
+            OnLineRule.of(new OnLineMovement(PALACE_SIDE_LENGTH, Direction.SOUTH_EAST)),
             OnLineRule.of(new OnLineMovement(MAXIMUM_COLUMN, Direction.EAST)),
-            OnLineRule.of(new OnLineMovement(2, Direction.NORTH_EAST)),
+            OnLineRule.of(new OnLineMovement(PALACE_SIDE_LENGTH, Direction.NORTH_EAST)),
             OnLineRule.of(new OnLineMovement(MAXIMUM_ROW, Direction.NORTH)),
-            OnLineRule.of(new OnLineMovement(2, Direction.NORTH_WEST)),
+            OnLineRule.of(new OnLineMovement(PALACE_SIDE_LENGTH, Direction.NORTH_WEST)),
             OnLineRule.of(new OnLineMovement(MAXIMUM_COLUMN, Direction.WEST)),
-            OnLineRule.of(new OnLineMovement(2, Direction.SOUTH_WEST)));
+            OnLineRule.of(new OnLineMovement(PALACE_SIDE_LENGTH, Direction.SOUTH_WEST)));
     }
 
     @Override
