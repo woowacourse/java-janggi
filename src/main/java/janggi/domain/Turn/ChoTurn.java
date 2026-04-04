@@ -5,6 +5,7 @@ import janggi.domain.position.Position;
 import janggi.domain.space.Space;
 import janggi.domain.space.piece.Team;
 import java.util.Map;
+import java.util.Optional;
 
 public class ChoTurn implements GameState {
     private final Team team;
@@ -19,7 +20,7 @@ public class ChoTurn implements GameState {
     public GameState move(Position from, Position to) {
         board.move(from, to, team);
 
-        if(board.isGameOver()) {
+        if (board.isGameOver()) {
             return new GameOver(board);
         }
         return new HanTurn(board);
@@ -33,5 +34,10 @@ public class ChoTurn implements GameState {
     @Override
     public Map<Position, Space> captureBoard() {
         return board.getPiecesInfo();
+    }
+
+    @Override
+    public Optional<Team> getTeam() {
+        return Optional.of(team);
     }
 }
