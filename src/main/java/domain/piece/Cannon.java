@@ -20,26 +20,16 @@ public class Cannon extends Piece {
         if (source.isSameCol(target)) {
             return source.makeRowStraightRoute(target);
         }
-
         return source.makeColStraightRoute(target);
     }
 
     @Override
     public void validateRoute(List<Piece> piecesOnRoute, Piece destinationPiece) {
-        int count = 0;
-        for (Piece piece : piecesOnRoute) {
-            if (piece.isSameType(PieceType.PHO)) {
-                throw new IllegalArgumentException("포는 포를 넘지 못합니다.");
-            }
-            if (piece.isNotEmpty()) {
-                count++;
-            }
-        }
+        validateDestinationPiece(destinationPiece);
+        validateJumpPiece(piecesOnRoute);
+    }
 
-        if (count != 1) {
-            throw new IllegalArgumentException("포가 넘을 수 있는 기물의 개수는 하나입니다.");
-        }
-
+    private void validateDestinationPiece(Piece destinationPiece) {
         if (destinationPiece.isSameType(PieceType.PHO)) {
             throw new IllegalArgumentException("포는 포를 잡을 수 없습니다.");
         }
@@ -48,4 +38,32 @@ public class Cannon extends Piece {
         }
     }
 
+    private void validateJumpPiece(List<Piece> piecesOnRoute) {
+        int jumpPiecesCount = countJumpPieces(piecesOnRoute);
+        if (jumpPiecesCount != 1) {
+            throw new IllegalArgumentException("포가 넘을 수 있는 기물의 개수는 하나입니다.");
+        }
+    }
+
+    private int countJumpPieces(List<Piece> piecesOnRoute) {
+        int count = 0;
+        for (Piece piece : piecesOnRoute) {
+            validateNotPho(piece);
+            count += addIfNotEmpty(piece);
+        }
+        return count;
+    }
+
+    private void validateNotPho(Piece piece) {
+        if (piece.isSameType(PieceType.PHO)) {
+            throw new IllegalArgumentException("포는 포를 넘지 못합니다.");
+        }
+    }
+
+    private int addIfNotEmpty(Piece piece) {
+        if (piece.isNotEmpty()) {
+            return 1;
+        }
+        return 0;
+    }
 }
