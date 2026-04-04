@@ -24,6 +24,15 @@ public class Position {
         return columns;
     }
 
+    public Position toRelative() {
+        if (isInsideHanPalace()) {
+            return new Position(rows, columns - 3);
+        } else if (isInsideChoPalace()) {
+            return new Position(rows - 7, columns - 3);
+        }
+        throw new IllegalArgumentException("[ERROR] 좌표가 궁성 내에 위치해 있지 않습니다.");
+    }
+
     public boolean isInsidePalace() {
         return isInsideHanPalace() || isInsideChoPalace();
     }
