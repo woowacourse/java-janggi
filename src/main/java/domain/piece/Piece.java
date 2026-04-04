@@ -30,4 +30,8 @@ public class Piece {
 
         strategy.move(from, to, boardChecker);
     }
+
+    public int score() {
+        return pieceType.score();
+    }
 }
