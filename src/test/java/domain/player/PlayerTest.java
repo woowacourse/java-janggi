@@ -1,5 +1,6 @@
 package domain.player;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -48,6 +49,7 @@ class PlayerTest {
         Piece choPiece = PieceFactory.createSoldier(Side.CHO);
 
         // When & Then: 예외 없이 통과해야 함
-        choPlayer.validateAlly(choPiece);
+        assertThatCode(() -> choPlayer.validateAlly(choPiece))
+                .doesNotThrowAnyException();
     }
 }

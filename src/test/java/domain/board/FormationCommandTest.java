@@ -4,15 +4,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class FormationCommandTest {
 
-    @Test
-    void 포메이션_입력이_1_2_3_4_일때_정상_동작한다() {
-        assertThat(FormationCommand.from("1")).isEqualTo(FormationCommand.FIRST);
-        assertThat(FormationCommand.from("2")).isEqualTo(FormationCommand.SECOND);
-        assertThat(FormationCommand.from("3")).isEqualTo(FormationCommand.THIRD);
-        assertThat(FormationCommand.from("4")).isEqualTo(FormationCommand.FOURTH);
+    @ParameterizedTest
+    @CsvSource(value = {"1:FIRST", "2:SECOND", "3:THIRD", "4:FOURTH"}, delimiter = ':')
+    void 포메이션_입력_정상_동작(String input, FormationCommand expected) {
+        assertThat(FormationCommand.from(input)).isEqualTo(expected);
     }
 
     @Test
