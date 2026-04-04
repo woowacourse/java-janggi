@@ -61,7 +61,7 @@ public class JanggiBoard implements PieceProvider {
         janggiBoard.put(new Position(baseRow, 3), new Guard(team, new PalaceStrategy()));
         janggiBoard.put(new Position(baseRow, 5), new Guard(team, new PalaceStrategy()));
         // 궁
-        janggiBoard.put(new Position(kingRow, 4), new King(team, new PawnStrategy()));
+        janggiBoard.put(new Position(kingRow, 4), new King(team, new PalaceStrategy()));
         // 포
         janggiBoard.put(new Position(cannonRow, 1), new Cannon(team, new CannonStrategy()));
         janggiBoard.put(new Position(cannonRow, 7), new Cannon(team, new CannonStrategy()));
