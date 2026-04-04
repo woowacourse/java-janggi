@@ -39,12 +39,8 @@ public class SoldierMoveStrategy implements MoveStrategy {
 
     @Override
     public void validateBlockingPiece(List<PathInfo> pathInfos, Position destination) {
-        boolean hasBlockingPiece = pathInfos.stream()
-                .filter(path -> !path.position().equals(destination))
-                .anyMatch(PathInfo::hasPiece);
-
-        if (hasBlockingPiece) {
-            throw new IllegalArgumentException("이동 경로에 있는 다른 기물을 뛰어넘을 수 없습니다.");
+        if (pathInfos.size() > 1) {
+            throw new IllegalStateException("졸은 한 칸만 이동 가능합니다.");
         }
     }
 }
