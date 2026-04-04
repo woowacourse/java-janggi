@@ -24,12 +24,14 @@ import java.util.Optional;
 public class JdbcBoardRepository implements BoardRepository {
 
     private final DataConnectionManager manager;
-    private final GameRoomDao roomDao = new GameRoomDao();
-    private final PiecesDao piecesDao = new PiecesDao();
+    private final GameRoomDao roomDao;
+    private final PiecesDao piecesDao;
 
 
-    public JdbcBoardRepository(DataConnectionManager manager) {
+    public JdbcBoardRepository(DataConnectionManager manager, GameRoomDao roomDao, PiecesDao piecesDao) {
         this.manager = manager;
+        this.roomDao = roomDao;
+        this.piecesDao = piecesDao;
     }
 
     @Override
