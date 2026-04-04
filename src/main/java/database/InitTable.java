@@ -7,7 +7,7 @@ public class InitTable {
     public static void schemaInit(Connection connection) {
         try (Statement stmt = connection.createStatement()){
             stmt.execute("""
-                CREATE TABLE game (
+                CREATE TABLE IF NOT EXISTS game (
                     id BIGINT AUTO_INCREMENT PRIMARY KEY,
                     turn varchar(10) NOT NULL,
                     is_finished boolean NOT NULL
@@ -15,7 +15,7 @@ public class InitTable {
             """);
 
             stmt.execute("""
-                CREATE TABLE piece (
+                CREATE TABLE IF NOT EXISTS piece (
                     id BIGINT AUTO_INCREMENT PRIMARY KEY,
                     game_id BIGINT NOT NULL ,
                     row_index INT NOT NULL,

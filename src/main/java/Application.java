@@ -12,6 +12,6 @@ public class Application {
 
         GameRepository gameRepository = new GameRepository(connection);
         GameController gameController = new GameController(gameRepository);
-        gameController.run();
+        gameController.start();
     }
 }

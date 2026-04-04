@@ -11,16 +11,31 @@ import view.OutputView;
 
 public class GameController {
     private final GameRepository gameRepository;
-    private final Board board;
-    private final Game game;
-    private final String choPlayer;
-    private final String hanPlayer;
-
+    private Game game;
+    private String choPlayer;
+    private String hanPlayer;
 
     public GameController(GameRepository gameRepository) {
         this.gameRepository = gameRepository;
-        game = new Game();
+    }
 
+    public void start() {
+        int choice = InputView.choiceGame();
+
+        if (choice == 1) {
+            startNewGame();
+            return;
+        }
+
+        if (choice == 2) {
+            resumeGame();
+            return;
+        }
+
+        throw new IllegalArgumentException("잘못된 입력값입니다.");
+    }
+
+    private void startNewGame() {
         this.choPlayer = InputView.readPlayerName("초나라");
         this.hanPlayer = InputView.readPlayerName("한나라");
 
@@ -33,28 +48,40 @@ public class GameController {
         InitializeStrategy choStrategy = choFormation.createStrategy();
         InitializeStrategy hanStrategy = hanFormation.createStrategy();
 
-        this.board = new Board(choStrategy, hanStrategy);
-
+        Board board = new Board(choStrategy, hanStrategy);
+        game = new Game(board);
         gameRepository.save(game, board);
 
-        OutputView.printBoard(this.board);
+        OutputView.printBoard(board);
+
+        run();
     }
 
-    public void run() {
+    private void resumeGame() {
+        this.game = gameRepository.findLatest();
 
+        OutputView.printBoard(game.board());
+
+        run();
+    }
+
+
+    public void run() {
         while (true) {
-            if (!board.canNextTurn()) {
+            if (!game.board().canNextTurn()) {
+                OutputView.printGameOver();
+                start();
                 break;
             }
             try {
-                playTurn();
+                playTurn(game.board());
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
         }
     }
 
-    public void playTurn() {
+    public void playTurn(Board board) {
         String team = "초나라";
         Team teamType = game.turn();
         String player = choPlayer;

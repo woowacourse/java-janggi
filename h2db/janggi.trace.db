@@ -1,0 +1,14 @@
+2026-04-04 23:17:42.270854+09:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "GAME" already exists; SQL statement:
+    CREATE TABLE game (
+        id BIGINT AUTO_INCREMENT PRIMARY KEY,
+        turn varchar(10) NOT NULL,
+        is_finished boolean NOT NULL
+  [42101-224]
+2026-04-04 23:17:49.850933+09:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "GAME" already exists; SQL statement:
+    CREATE TABLE game (
+        id BIGINT AUTO_INCREMENT PRIMARY KEY,
+        turn varchar(10) NOT NULL,
+        is_finished boolean NOT NULL
+  [42101-224]

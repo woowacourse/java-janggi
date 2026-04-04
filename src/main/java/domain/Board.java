@@ -35,6 +35,12 @@ public class Board {
     public Board() {
     }
 
+    // db에서 기존 게임 가져올 시 사용
+    public Board(Map<Position, Piece> pieces, boolean isGameOver) {
+        this.pieces.putAll(pieces);
+        this.isGameOver = isGameOver;
+    }
+
     public void move(Position from, Position to, PieceType pieceType, Team team) {
         Piece piece = validateMovablePiece(from, to, pieceType, team);
         validateCanMove(from, to, piece);

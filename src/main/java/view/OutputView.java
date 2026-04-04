@@ -10,6 +10,10 @@ public class OutputView {
     private static final String RED = "\u001B[31m";
     private static final String GREEN = "\u001B[32m";
 
+    public static void printGameOver() {
+        System.out.println("GAME OVER");
+    }
+
     public static void printBoard(Board board) {
         System.out.println();
         System.out.println("==== 장기판 =====");

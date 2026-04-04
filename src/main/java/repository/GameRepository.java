@@ -2,10 +2,14 @@ package repository;
 
 import domain.Board;
 import domain.Game;
+import domain.Position;
+import domain.Team;
+import domain.piece.Piece;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Map;
 
 public class GameRepository {
 
@@ -29,6 +33,46 @@ public class GameRepository {
         pieceRepository.updatePieces(game.id(), board);
     }
 
+    public Game findByGameId(Long gameId) {
+        String sql = "SELECT turn, is_finished FROM game WHERE id = ?";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setLong(1, gameId);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (!rs.next()) {
+                throw new RuntimeException("게임 없음");
+            }
+
+            Team team = Team.valueOf(rs.getString("turn"));
+            boolean isFinished = rs.getBoolean("is_finished");
+
+            Map<Position, Piece> pieces = pieceRepository.findByGameId(gameId);
+            Board board = new Board(pieces, isFinished);
+            return new Game(gameId, team, board);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Game findLatest() {
+        String sql = "SELECT id FROM game ORDER BY id DESC LIMIT 1";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            ResultSet rs = pstmt.executeQuery();
+
+            if (!rs.next()) {
+                throw new RuntimeException("저장된 게임 없음");
+            }
+
+            Long gameId = rs.getLong("id");
+            return findByGameId(gameId);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     private void updateGame(Game game, Board board) {
         String sql = "UPDATE game SET turn = ?, is_finished = ? WHERE id = ?";
@@ -55,10 +99,11 @@ public class GameRepository {
             pstmt.execute();
 
             ResultSet rs = pstmt.getGeneratedKeys();
-            rs.next();
 
-            return rs.getLong(1);
-
+            if (rs.next()) {
+                return rs.getLong(1);
+            }
+            throw new RuntimeException("ID 생성 실패");
         } catch (Exception e) {
             System.out.println("테이블을 생성하지 못했습니다" + e.getMessage());
             throw new RuntimeException(e);

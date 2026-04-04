@@ -3,20 +3,29 @@ package domain;
 public class Game {
     private Long id;
     private Team turn;
+    private Board board;
 
-    public Game() {
+    public Game(Board board) {
         this.turn = Team.CHO;
+        this.board = board;
+    }
+
+    public Game(Long id, Team turn, Board board) {
+        this.id = id;
+        this.turn = turn;
+        this.board = board;
     }
 
     public void assignId(Long id) {
         this.id = id;
     }
 
-    public Team changeTurn() {
+    public void changeTurn() {
         if (this.turn == Team.CHO) {
-            return this.turn = Team.HAN;
+            this.turn = Team.HAN;
+            return;
         }
-        return this.turn = Team.HAN;
+        this.turn = Team.CHO;
     }
 
     public Team turn () {
@@ -25,5 +34,9 @@ public class Game {
 
     public Long id () {
         return this.id;
+    }
+
+    public Board board () {
+        return this.board;
     }
 }
