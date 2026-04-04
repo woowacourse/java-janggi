@@ -14,7 +14,7 @@ public class ChariotMovingCondition implements MovingCondition {
     public boolean canMove(Map<Position, Piece> state, Position startPosition, Position endPosition) {
         Queue<Direction> directions = Direction.of(startPosition, endPosition);
 
-        if (!isInPalaceEdgePath(startPosition, endPosition) && !isStraightDirection(directions)) return false;
+        if (!isInPalaceEdgePathAtLeastOne(startPosition, endPosition) && !isStraightDirection(directions)) return false;
         return hasValidChariotPath(state, startPosition, endPosition, directions);
     }
 
@@ -39,8 +39,8 @@ public class ChariotMovingCondition implements MovingCondition {
         return true;
     }
 
-    private boolean isInPalaceEdgePath(Position startPosition, Position endPosition) {
-        return startPosition.isPalaceEdge() && endPosition.isPalaceEdge();
+    private boolean isInPalaceEdgePathAtLeastOne(Position startPosition, Position endPosition) {
+        return startPosition.isPalaceEdge() || endPosition.isPalaceEdge();
     }
 
     private boolean isStraightDirection(Queue<Direction> directions) {
