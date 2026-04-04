@@ -3,9 +3,9 @@ package janggi.domain.pieceaction;
 import janggi.domain.Position;
 import janggi.domain.board.BoardMediator;
 import janggi.domain.movement.Direction;
-import janggi.domain.movement.UnconstrainedMovement;
+import janggi.domain.movement.OffLineMovement;
+import janggi.domain.movement.OffLineRule;
 import janggi.domain.movement.Rule;
-import janggi.domain.movement.RuleWithNoTraces;
 import java.util.Collection;
 import java.util.List;
 
@@ -15,38 +15,38 @@ public class ElephantAction implements PieceAction {
 
     static {
         RULES = List.of(
-            new RuleWithNoTraces(List.of(
-                new UnconstrainedMovement(1, Direction.EAST),
-                new UnconstrainedMovement(1, Direction.NORTH_EAST),
-                new UnconstrainedMovement(1, Direction.NORTH_EAST))),
-            new RuleWithNoTraces(List.of(
-                new UnconstrainedMovement(1, Direction.EAST),
-                new UnconstrainedMovement(1, Direction.SOUTH_EAST),
-                new UnconstrainedMovement(1, Direction.SOUTH_EAST))),
-            new RuleWithNoTraces(List.of(
-                new UnconstrainedMovement(1, Direction.NORTH),
-                new UnconstrainedMovement(1, Direction.NORTH_EAST),
-                new UnconstrainedMovement(1, Direction.NORTH_EAST))),
-            new RuleWithNoTraces(List.of(
-                new UnconstrainedMovement(1, Direction.NORTH),
-                new UnconstrainedMovement(1, Direction.NORTH_WEST),
-                new UnconstrainedMovement(1, Direction.NORTH_WEST))),
-            new RuleWithNoTraces(List.of(
-                new UnconstrainedMovement(1, Direction.WEST),
-                new UnconstrainedMovement(1, Direction.NORTH_WEST),
-                new UnconstrainedMovement(1, Direction.NORTH_WEST))),
-            new RuleWithNoTraces(List.of(
-                new UnconstrainedMovement(1, Direction.WEST),
-                new UnconstrainedMovement(1, Direction.SOUTH_WEST),
-                new UnconstrainedMovement(1, Direction.SOUTH_WEST))),
-            new RuleWithNoTraces(List.of(
-                new UnconstrainedMovement(1, Direction.SOUTH),
-                new UnconstrainedMovement(1, Direction.SOUTH_WEST),
-                new UnconstrainedMovement(1, Direction.SOUTH_WEST))),
-            new RuleWithNoTraces(List.of(
-                new UnconstrainedMovement(1, Direction.SOUTH),
-                new UnconstrainedMovement(1, Direction.SOUTH_EAST),
-                new UnconstrainedMovement(1, Direction.SOUTH_EAST))));
+            new OffLineRule(List.of(
+                new OffLineMovement(1, Direction.EAST),
+                new OffLineMovement(1, Direction.NORTH_EAST),
+                new OffLineMovement(1, Direction.NORTH_EAST))),
+            new OffLineRule(List.of(
+                new OffLineMovement(1, Direction.EAST),
+                new OffLineMovement(1, Direction.SOUTH_EAST),
+                new OffLineMovement(1, Direction.SOUTH_EAST))),
+            new OffLineRule(List.of(
+                new OffLineMovement(1, Direction.NORTH),
+                new OffLineMovement(1, Direction.NORTH_EAST),
+                new OffLineMovement(1, Direction.NORTH_EAST))),
+            new OffLineRule(List.of(
+                new OffLineMovement(1, Direction.NORTH),
+                new OffLineMovement(1, Direction.NORTH_WEST),
+                new OffLineMovement(1, Direction.NORTH_WEST))),
+            new OffLineRule(List.of(
+                new OffLineMovement(1, Direction.WEST),
+                new OffLineMovement(1, Direction.NORTH_WEST),
+                new OffLineMovement(1, Direction.NORTH_WEST))),
+            new OffLineRule(List.of(
+                new OffLineMovement(1, Direction.WEST),
+                new OffLineMovement(1, Direction.SOUTH_WEST),
+                new OffLineMovement(1, Direction.SOUTH_WEST))),
+            new OffLineRule(List.of(
+                new OffLineMovement(1, Direction.SOUTH),
+                new OffLineMovement(1, Direction.SOUTH_WEST),
+                new OffLineMovement(1, Direction.SOUTH_WEST))),
+            new OffLineRule(List.of(
+                new OffLineMovement(1, Direction.SOUTH),
+                new OffLineMovement(1, Direction.SOUTH_EAST),
+                new OffLineMovement(1, Direction.SOUTH_EAST))));
     }
 
     @Override

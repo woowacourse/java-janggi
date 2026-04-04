@@ -8,25 +8,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class RuleWithTraces implements Rule {
+public class OnLineRule implements Rule {
 
-    private final List<ConstrainedMovement> movementOrder;
+    private final List<OnLineMovement> movementOrder;
 
-    public RuleWithTraces(final List<ConstrainedMovement> movementOrder) {
+    public OnLineRule(final List<OnLineMovement> movementOrder) {
         this.movementOrder = movementOrder;
     }
 
-    public static RuleWithTraces of(final ConstrainedMovement movement) {
-        return new RuleWithTraces(List.of(movement));
+    public static OnLineRule of(final OnLineMovement movement) {
+        return new OnLineRule(List.of(movement));
     }
 
     @Override
     public List<Position> execute(Position from, final BoardMediator boardMediator) {
         final List<Position> traces = new ArrayList<>();
-        final List<ConstrainedMovement> movementOrderExceptLast = Lists.exceptLast(movementOrder);
+        final List<OnLineMovement> movementOrderExceptLast = Lists.exceptLast(movementOrder);
         final Movement lastMovement = movementOrder.getLast();
         final Piece piece = boardMediator.getPieceInPosition(from);
-        for (final ConstrainedMovement movement : movementOrderExceptLast) {
+        for (final OnLineMovement movement : movementOrderExceptLast) {
             traces.addAll(movement.calculateTraces(from, piece, boardMediator));
             final Optional<Position> destination = movement.calculateDestination(from,
                 boardMediator);

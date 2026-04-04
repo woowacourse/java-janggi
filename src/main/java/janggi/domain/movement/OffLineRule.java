@@ -6,25 +6,25 @@ import janggi.domain.piece.Piece;
 import janggi.utils.Lists;
 import java.util.List;
 
-public class RuleWithNoTraces implements Rule {
+public class OffLineRule implements Rule {
 
-    private final List<UnconstrainedMovement> movementOrder;
+    private final List<OffLineMovement> movementOrder;
 
-    public RuleWithNoTraces(final List<UnconstrainedMovement> movementOrder) {
+    public OffLineRule(final List<OffLineMovement> movementOrder) {
         this.movementOrder = movementOrder;
     }
 
-    public static RuleWithNoTraces of(final UnconstrainedMovement movement) {
-        return new RuleWithNoTraces(List.of(movement));
+    public static OffLineRule of(final OffLineMovement movement) {
+        return new OffLineRule(List.of(movement));
     }
 
 
     @Override
     public List<Position> execute(Position from, final BoardMediator boardMediator) {
         final Piece piece = boardMediator.getPieceInPosition(from);
-        final List<UnconstrainedMovement> movementOrderExceptLast = Lists.exceptLast(movementOrder);
-        final UnconstrainedMovement lastMovement = movementOrder.getLast();
-        for (final UnconstrainedMovement movement : movementOrderExceptLast) {
+        final List<OffLineMovement> movementOrderExceptLast = Lists.exceptLast(movementOrder);
+        final OffLineMovement lastMovement = movementOrder.getLast();
+        for (final OffLineMovement movement : movementOrderExceptLast) {
             if (!movement.canMove(from) || movement.isBlocked(from, boardMediator)) {
                 return List.of();
             }

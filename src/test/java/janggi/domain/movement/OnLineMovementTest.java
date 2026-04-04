@@ -19,7 +19,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-class ConstrainedMovementTest {
+class OnLineMovementTest {
 
     @Nested
     @DisplayName("잡기 여부 판정 테스트")
@@ -36,10 +36,10 @@ class ConstrainedMovementTest {
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             Direction direction = Direction.EAST;
-            ConstrainedMovement constrainedMovement = new ConstrainedMovement(1, direction);
+            OnLineMovement onLineMovement = new OnLineMovement(1, direction);
             boolean expected = true;
 
-            boolean actual = constrainedMovement.canCatch(me, from, boardMediator);
+            boolean actual = onLineMovement.canCatch(me, from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -55,10 +55,10 @@ class ConstrainedMovementTest {
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             Direction direction = Direction.EAST;
-            ConstrainedMovement constrainedMovement = new ConstrainedMovement(1, direction);
+            OnLineMovement onLineMovement = new OnLineMovement(1, direction);
             boolean expected = false;
 
-            boolean actual = constrainedMovement.canCatch(me, from, boardMediator);
+            boolean actual = onLineMovement.canCatch(me, from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -73,10 +73,10 @@ class ConstrainedMovementTest {
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             Direction direction = Direction.EAST;
-            ConstrainedMovement constrainedMovement = new ConstrainedMovement(1, direction);
+            OnLineMovement onLineMovement = new OnLineMovement(1, direction);
             boolean expected = true;
 
-            boolean actual = constrainedMovement.canCatch(me, from, boardMediator);
+            boolean actual = onLineMovement.canCatch(me, from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -91,10 +91,10 @@ class ConstrainedMovementTest {
             positionPieceMap.put(Position.valueOf(7, 7), new Soldier(TeamType.RED));
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
-            ConstrainedMovement constrainedMovement = new ConstrainedMovement(2, Direction.NORTH_EAST);
+            OnLineMovement onLineMovement = new OnLineMovement(2, Direction.NORTH_EAST);
             boolean expected = true;
 
-            boolean actual = constrainedMovement.canCatch(me, from, boardMediator);
+            boolean actual = onLineMovement.canCatch(me, from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
 
@@ -111,10 +111,10 @@ class ConstrainedMovementTest {
             Board board = new Board(new LinkedHashMap<>());
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             Position from = Position.valueOf(10, 4);
-            ConstrainedMovement constrainedMovement = new ConstrainedMovement(2, Direction.NORTH_EAST);
+            OnLineMovement onLineMovement = new OnLineMovement(2, Direction.NORTH_EAST);
             boolean expected = true;
 
-            boolean actual = constrainedMovement.isValid(from, boardMediator);
+            boolean actual = onLineMovement.isValid(from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -125,10 +125,10 @@ class ConstrainedMovementTest {
             Board board = new Board(new LinkedHashMap<>());
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             Position from = Position.valueOf(9, 5);
-            ConstrainedMovement constrainedMovement = new ConstrainedMovement(2, Direction.NORTH_EAST);
+            OnLineMovement onLineMovement = new OnLineMovement(2, Direction.NORTH_EAST);
             boolean expected = false;
 
-            boolean actual = constrainedMovement.isValid(from, boardMediator);
+            boolean actual = onLineMovement.isValid(from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -148,10 +148,10 @@ class ConstrainedMovementTest {
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             Direction direction = Direction.EAST;
-            ConstrainedMovement constrainedMovement = new ConstrainedMovement(1, direction);
+            OnLineMovement onLineMovement = new OnLineMovement(1, direction);
             boolean expected = false;
 
-            boolean actual = constrainedMovement.isBlocked(from, boardMediator);
+            boolean actual = onLineMovement.isBlocked(from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -167,10 +167,10 @@ class ConstrainedMovementTest {
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             Direction direction = Direction.EAST;
-            ConstrainedMovement constrainedMovement = new ConstrainedMovement(1, direction);
+            OnLineMovement onLineMovement = new OnLineMovement(1, direction);
             boolean expected = true;
 
-            boolean actual = constrainedMovement.isBlocked(from, boardMediator);
+            boolean actual = onLineMovement.isBlocked(from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -185,10 +185,10 @@ class ConstrainedMovementTest {
             positionPieceMap.put(Position.valueOf(7, 7), new Soldier(TeamType.RED));
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
-            ConstrainedMovement constrainedMovement = new ConstrainedMovement(2, Direction.NORTH_EAST);
+            OnLineMovement onLineMovement = new OnLineMovement(2, Direction.NORTH_EAST);
             boolean expected = false;
 
-            boolean actual = constrainedMovement.isBlocked(from, boardMediator);
+            boolean actual = onLineMovement.isBlocked(from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -214,10 +214,10 @@ class ConstrainedMovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
             Direction direction = Direction.EAST;
-            ConstrainedMovement constrainedMovement = new ConstrainedMovement(maxDistance, direction);
+            OnLineMovement onLineMovement = new OnLineMovement(maxDistance, direction);
             Optional<Position> expected = Optional.of(Position.valueOf(5, 5));
 
-            Optional<Position> actual = constrainedMovement.calculateDestination(from, boardMediator);
+            Optional<Position> actual = onLineMovement.calculateDestination(from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -230,10 +230,10 @@ class ConstrainedMovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
             Direction direction = Direction.EAST;
-            ConstrainedMovement constrainedMovement = new ConstrainedMovement(maxDistance, direction);
+            OnLineMovement onLineMovement = new OnLineMovement(maxDistance, direction);
             Optional<Position> expected = Optional.of(Position.valueOf(5, 6));
 
-            Optional<Position> actual = constrainedMovement.calculateDestination(from, boardMediator);
+            Optional<Position> actual = onLineMovement.calculateDestination(from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -245,10 +245,10 @@ class ConstrainedMovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
             Direction direction = Direction.EAST;
-            ConstrainedMovement constrainedMovement = new ConstrainedMovement(maxDistance, direction);
+            OnLineMovement onLineMovement = new OnLineMovement(maxDistance, direction);
             Optional<Position> expected = Optional.of(Position.valueOf(5, 7));
 
-            Optional<Position> actual = constrainedMovement.calculateDestination(from, boardMediator);
+            Optional<Position> actual = onLineMovement.calculateDestination(from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -260,10 +260,10 @@ class ConstrainedMovementTest {
             Position from = Position.valueOf(9, 5);
             int maxDistance = 4;
             Direction direction = Direction.NORTH_EAST;
-            ConstrainedMovement constrainedMovement = new ConstrainedMovement(maxDistance, direction);
+            OnLineMovement onLineMovement = new OnLineMovement(maxDistance, direction);
             Optional<Position> expected = Optional.of(Position.valueOf(8, 6));
 
-            Optional<Position> actual = constrainedMovement.calculateDestination(from, boardMediator);
+            Optional<Position> actual = onLineMovement.calculateDestination(from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -275,10 +275,10 @@ class ConstrainedMovementTest {
             Position from = Position.valueOf(8, 6);
             int maxDistance = 4;
             Direction direction = Direction.NORTH_EAST;
-            ConstrainedMovement constrainedMovement = new ConstrainedMovement(maxDistance, direction);
+            OnLineMovement onLineMovement = new OnLineMovement(maxDistance, direction);
             Optional<Position> expected = Optional.empty();
 
-            Optional<Position> actual = constrainedMovement.calculateDestination(from, boardMediator);
+            Optional<Position> actual = onLineMovement.calculateDestination(from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -305,10 +305,10 @@ class ConstrainedMovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
             Direction direction = Direction.EAST;
-            ConstrainedMovement constrainedMovement = new ConstrainedMovement(maxDistance, direction);
+            OnLineMovement onLineMovement = new OnLineMovement(maxDistance, direction);
             List<Position> expected = List.of(Position.valueOf(5, 4), Position.valueOf(5, 5));
 
-            List<Position> actual = constrainedMovement.calculateTraces(from,
+            List<Position> actual = onLineMovement.calculateTraces(from,
                 boardMediator.getPieceInPosition(from), boardMediator);
 
             assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
@@ -322,11 +322,11 @@ class ConstrainedMovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
             Direction direction = Direction.EAST;
-            ConstrainedMovement constrainedMovement = new ConstrainedMovement(maxDistance, direction);
+            OnLineMovement onLineMovement = new OnLineMovement(maxDistance, direction);
             List<Position> expected = List.of(Position.valueOf(5, 4), Position.valueOf(5, 5),
                 Position.valueOf(5, 6));
 
-            List<Position> actual = constrainedMovement.calculateTraces(from,
+            List<Position> actual = onLineMovement.calculateTraces(from,
                 boardMediator.getPieceInPosition(from), boardMediator);
 
             assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
@@ -339,11 +339,11 @@ class ConstrainedMovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
             Direction direction = Direction.EAST;
-            ConstrainedMovement ConstrainedMovement = new ConstrainedMovement(maxDistance, direction);
+            OnLineMovement OnLineMovement = new OnLineMovement(maxDistance, direction);
             List<Position> expected = List.of(Position.valueOf(5, 4), Position.valueOf(5, 5),
                 Position.valueOf(5, 6), Position.valueOf(5, 7));
 
-            List<Position> actual = ConstrainedMovement.calculateTraces(from,
+            List<Position> actual = OnLineMovement.calculateTraces(from,
                 boardMediator.getPieceInPosition(from), boardMediator);
 
             assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
@@ -357,10 +357,10 @@ class ConstrainedMovementTest {
             Position from = Position.valueOf(9, 5);
             int maxDistance = 4;
             Direction direction = Direction.NORTH_EAST;
-            ConstrainedMovement constrainedMovement = new ConstrainedMovement(maxDistance, direction);
+            OnLineMovement onLineMovement = new OnLineMovement(maxDistance, direction);
             List<Position> expected = List.of(Position.valueOf(8, 6));
 
-            List<Position> actual = constrainedMovement.calculateTraces(from,
+            List<Position> actual = onLineMovement.calculateTraces(from,
                 boardMediator.getPieceInPosition(from), boardMediator);
 
             assertThat(actual).isEqualTo(expected);

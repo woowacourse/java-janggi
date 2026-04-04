@@ -8,12 +8,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
-public class ConstrainedMovement implements Movement {
+public class OnLineMovement implements Movement {
 
     private final int maxDistance;
     private final Direction direction;
 
-    public ConstrainedMovement(final int maxDistance, final Direction direction) {
+    public OnLineMovement(final int maxDistance, final Direction direction) {
         this.maxDistance = maxDistance;
         this.direction = direction;
     }

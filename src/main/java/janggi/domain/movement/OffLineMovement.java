@@ -5,15 +5,14 @@ import janggi.domain.board.BoardMediator;
 import janggi.domain.piece.Piece;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.IntStream;
 
-public class UnconstrainedMovement implements Movement {
+public class OffLineMovement implements Movement {
 
     private final int maxDistance;
     private final Direction direction;
 
-    public UnconstrainedMovement(final int maxDistance, final Direction direction) {
+    public OffLineMovement(final int maxDistance, final Direction direction) {
         this.maxDistance = maxDistance;
         this.direction = direction;
     }

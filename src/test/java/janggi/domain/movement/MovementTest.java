@@ -43,7 +43,7 @@ class MovementTest {
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             Direction direction = Direction.EAST;
-            UnconstrainedMovement Movement = new UnconstrainedMovement(1, direction);
+            OffLineMovement Movement = new OffLineMovement(1, direction);
             boolean expected = true;
 
             boolean actual = Movement.canCatch(me, from, boardMediator);
@@ -58,7 +58,7 @@ class MovementTest {
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             Direction direction = Direction.EAST;
-            UnconstrainedMovement Movement = new UnconstrainedMovement(1, direction);
+            OffLineMovement Movement = new OffLineMovement(1, direction);
             boolean expected = false;
 
             boolean actual = Movement.canCatch(me, from, boardMediator);
@@ -72,7 +72,7 @@ class MovementTest {
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             Direction direction = Direction.EAST;
-            UnconstrainedMovement Movement = new UnconstrainedMovement(1, direction);
+            OffLineMovement Movement = new OffLineMovement(1, direction);
             boolean expected = true;
 
             boolean actual = Movement.canCatch(me, from, boardMediator);
@@ -91,7 +91,7 @@ class MovementTest {
             Board board = new Board(new LinkedHashMap<>());
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             Position from = Position.valueOf(10, 4);
-            UnconstrainedMovement movement = new UnconstrainedMovement(2, Direction.NORTH_EAST);
+            OffLineMovement movement = new OffLineMovement(2, Direction.NORTH_EAST);
             boolean expected = true;
 
             boolean actual = movement.isValid(from, boardMediator);
@@ -105,7 +105,7 @@ class MovementTest {
             Board board = new Board(new LinkedHashMap<>());
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             Position from = Position.valueOf(9, 5);
-            UnconstrainedMovement movement = new UnconstrainedMovement(2, Direction.NORTH_EAST);
+            OffLineMovement movement = new OffLineMovement(2, Direction.NORTH_EAST);
             boolean expected = false;
 
             boolean actual = movement.isValid(from, boardMediator);
@@ -136,7 +136,7 @@ class MovementTest {
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             Direction direction = Direction.EAST;
-            UnconstrainedMovement Movement = new UnconstrainedMovement(1, direction);
+            OffLineMovement Movement = new OffLineMovement(1, direction);
             boolean expected = false;
 
             boolean actual = Movement.isBlocked(from, boardMediator);
@@ -151,7 +151,7 @@ class MovementTest {
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             Direction direction = Direction.EAST;
-            UnconstrainedMovement Movement = new UnconstrainedMovement(1, direction);
+            OffLineMovement Movement = new OffLineMovement(1, direction);
             boolean expected = true;
 
             boolean actual = Movement.isBlocked(from, boardMediator);
@@ -180,7 +180,7 @@ class MovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
             Direction direction = Direction.EAST;
-            UnconstrainedMovement Movement = new UnconstrainedMovement(maxDistance, direction);
+            OffLineMovement Movement = new OffLineMovement(maxDistance, direction);
             Position expected = Position.valueOf(5, 5);
 
             Position actual = Movement.calculateDestination(from, boardMediator);
@@ -196,7 +196,7 @@ class MovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
             Direction direction = Direction.EAST;
-            UnconstrainedMovement Movement = new UnconstrainedMovement(maxDistance, direction);
+            OffLineMovement Movement = new OffLineMovement(maxDistance, direction);
             Position expected = Position.valueOf(5, 6);
 
             Position actual = Movement.calculateDestination(from, boardMediator);
@@ -211,7 +211,7 @@ class MovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
             Direction direction = Direction.EAST;
-            UnconstrainedMovement Movement = new UnconstrainedMovement(maxDistance, direction);
+            OffLineMovement Movement = new OffLineMovement(maxDistance, direction);
             Position expected = Position.valueOf(5, 7);
 
             Position actual = Movement.calculateDestination(from, boardMediator);
@@ -241,7 +241,7 @@ class MovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
             Direction direction = Direction.EAST;
-            UnconstrainedMovement Movement = new UnconstrainedMovement(maxDistance, direction);
+            OffLineMovement Movement = new OffLineMovement(maxDistance, direction);
             List<Position> expected = List.of(Position.valueOf(5, 4), Position.valueOf(5, 5));
 
             List<Position> actual = Movement.calculateTraces(from,
@@ -258,7 +258,7 @@ class MovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
             Direction direction = Direction.EAST;
-            UnconstrainedMovement Movement = new UnconstrainedMovement(maxDistance, direction);
+            OffLineMovement Movement = new OffLineMovement(maxDistance, direction);
             List<Position> expected = List.of(Position.valueOf(5, 4), Position.valueOf(5, 5),
                 Position.valueOf(5, 6));
 
@@ -275,7 +275,7 @@ class MovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
             Direction direction = Direction.EAST;
-            UnconstrainedMovement Movement = new UnconstrainedMovement(maxDistance, direction);
+            OffLineMovement Movement = new OffLineMovement(maxDistance, direction);
             List<Position> expected = List.of(Position.valueOf(5, 4), Position.valueOf(5, 5),
                 Position.valueOf(5, 6), Position.valueOf(5, 7));
 

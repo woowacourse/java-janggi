@@ -2,11 +2,10 @@ package janggi.domain.pieceaction;
 
 import janggi.domain.Position;
 import janggi.domain.board.BoardMediator;
-import janggi.domain.movement.ConstrainedMovement;
 import janggi.domain.movement.Direction;
-import janggi.domain.movement.UnconstrainedMovement;
+import janggi.domain.movement.OnLineMovement;
+import janggi.domain.movement.OnLineRule;
 import janggi.domain.movement.Rule;
-import janggi.domain.movement.RuleWithTraces;
 import janggi.domain.team.TeamType;
 import java.util.Collection;
 import java.util.EnumMap;
@@ -19,17 +18,17 @@ public class SoldierAction implements PieceAction {
     static {
         TEAM_RULES_MAP = new EnumMap<>(TeamType.class);
         TEAM_RULES_MAP.put(TeamType.RED, List.of(
-            RuleWithTraces.of(new ConstrainedMovement(1, Direction.WEST)),
-            RuleWithTraces.of(new ConstrainedMovement(1, Direction.SOUTH_WEST)),
-            RuleWithTraces.of(new ConstrainedMovement(1, Direction.SOUTH)),
-            RuleWithTraces.of(new ConstrainedMovement(1, Direction.SOUTH_EAST)),
-            RuleWithTraces.of(new ConstrainedMovement(1, Direction.EAST))));
+            OnLineRule.of(new OnLineMovement(1, Direction.WEST)),
+            OnLineRule.of(new OnLineMovement(1, Direction.SOUTH_WEST)),
+            OnLineRule.of(new OnLineMovement(1, Direction.SOUTH)),
+            OnLineRule.of(new OnLineMovement(1, Direction.SOUTH_EAST)),
+            OnLineRule.of(new OnLineMovement(1, Direction.EAST))));
         TEAM_RULES_MAP.put(TeamType.BLUE, List.of(
-            RuleWithTraces.of(new ConstrainedMovement(1, Direction.WEST)),
-            RuleWithTraces.of(new ConstrainedMovement(1, Direction.NORTH_WEST)),
-            RuleWithTraces.of(new ConstrainedMovement(1, Direction.NORTH)),
-            RuleWithTraces.of(new ConstrainedMovement(1, Direction.NORTH_EAST)),
-            RuleWithTraces.of(new ConstrainedMovement(1, Direction.EAST))));
+            OnLineRule.of(new OnLineMovement(1, Direction.WEST)),
+            OnLineRule.of(new OnLineMovement(1, Direction.NORTH_WEST)),
+            OnLineRule.of(new OnLineMovement(1, Direction.NORTH)),
+            OnLineRule.of(new OnLineMovement(1, Direction.NORTH_EAST)),
+            OnLineRule.of(new OnLineMovement(1, Direction.EAST))));
     }
 
     private final List<Rule> rules;

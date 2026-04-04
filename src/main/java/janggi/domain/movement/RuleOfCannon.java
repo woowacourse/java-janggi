@@ -10,22 +10,22 @@ import java.util.Optional;
 
 public class RuleOfCannon implements Rule {
 
-    private final List<ConstrainedMovement> movementOrder;
+    private final List<OnLineMovement> movementOrder;
 
     public RuleOfCannon(final Direction direction) {
         this.movementOrder = generateMovementOrder(direction);
     }
 
-    private List<ConstrainedMovement> generateMovementOrder(final Direction direction) {
+    private List<OnLineMovement> generateMovementOrder(final Direction direction) {
         return List.of(
-            new ConstrainedMovement(MAXIMUM_ROW, direction),
-            new ConstrainedMovement(MAXIMUM_ROW, direction));
+            new OnLineMovement(MAXIMUM_ROW, direction),
+            new OnLineMovement(MAXIMUM_ROW, direction));
     }
 
     @Override
     public List<Position> execute(Position from, final BoardMediator boardMediator) {
-        final ConstrainedMovement firstMovement = movementOrder.getFirst();
-        final ConstrainedMovement secondMovement = movementOrder.getLast();
+        final OnLineMovement firstMovement = movementOrder.getFirst();
+        final OnLineMovement secondMovement = movementOrder.getLast();
         final Piece piece = boardMediator.getPieceInPosition(from);
         final Optional<Position> blockedPosition = firstMovement.calculateBlockedPosition(from,
             boardMediator);
