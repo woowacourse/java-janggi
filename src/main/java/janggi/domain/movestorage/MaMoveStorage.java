@@ -17,7 +17,7 @@ public class MaMoveStorage implements MoveStorage{
 
     @Override
     public boolean canMove(Position from, Position to, BoardState boardState) {
-        List<Integer> fromPosition = from.getPosition();
+        List<Integer> fromPosition = from.getPosition(); //Row, Col을 사용하지 않고, int를 사용하고 있음
         List<Integer> toPosition = to.getPosition();
 
         int fromX = fromPosition.getFirst();

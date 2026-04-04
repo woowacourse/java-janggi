@@ -9,7 +9,7 @@ import java.util.Objects;
 public class Column {
     private static final int MIN = 0;
     private static final int MAX = 9;
-    private static final Map<Integer, Column> CACHE = new HashMap<>();
+    private static final Map<Integer, Column> CACHE = new HashMap<>();  // 직접 실험해서 성능 차이 확인
 
     static {
         for (int i = MIN; i <= MAX; i++) {

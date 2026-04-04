@@ -34,9 +34,9 @@ public class Position {
         return x.getRow() + "," + y.getColumn();
     }
 
-    public List<Integer> getPosition() {
+    public List<Integer> getPosition() {    // Position을 활용
         List<Integer> position = new ArrayList<>();
-        position.add(x.getRow());
+        position.add(x.getRow());   // 캡슐화 깨짐
         position.add(y.getColumn());
         return position;
     }
