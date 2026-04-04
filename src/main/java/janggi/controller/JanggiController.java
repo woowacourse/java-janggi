@@ -61,6 +61,7 @@ public class JanggiController {
         }
         janggi.withScore((choScore, hanScore) ->
                 outputView.printScore(choScore.getValue(), hanScore.getValue()));
+        janggiService.deleteGame(gameId);
     }
 
     private Janggi readAndPlay(Janggi janggi, Long gameId) {

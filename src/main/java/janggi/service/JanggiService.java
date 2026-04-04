@@ -46,4 +46,9 @@ public class JanggiService {
         return gameRepository.findIdByName(name)
                 .orElseThrow(() -> new IllegalArgumentException("게임을 찾을 수 없습니다."));
     }
+
+    public void deleteGame(Long gameId) {
+        gimulRepository.deleteAll(gameId);
+        gameRepository.delete(gameId);
+    }
 }

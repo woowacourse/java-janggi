@@ -14,4 +14,6 @@ public interface GameRepository {
     Optional<Team> findCurrentTurn(Long gameId);
 
     void updateCurrentTurn(Long gameId, Team currentTurn);
+
+    void delete(Long gameId);
 }

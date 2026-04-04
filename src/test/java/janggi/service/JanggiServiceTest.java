@@ -60,4 +60,14 @@ class JanggiServiceTest {
         assertThat(janggi).isNotNull();
         assertThat(janggi.isGameOver()).isFalse();
     }
+
+    @DisplayName("게임을 삭제하면 게임 목록에서 사라진다.")
+    @Test
+    void deleteGame() {
+        Long gameId = janggiService.createGame("테스트게임", Team.CHO);
+        janggiService.deleteGame(gameId);
+
+        assertThat(janggiService.findAllGameNames())
+                .doesNotContain("테스트게임");
+    }
 }

@@ -42,4 +42,10 @@ public class InMemoryGameRepository implements GameRepository {
     public void updateCurrentTurn(Long gameId, Team currentTurn) {
         turns.put(gameId, currentTurn);
     }
+
+    @Override
+    public void delete(Long gameId) {
+        names.remove(gameId);
+        turns.remove(gameId);
+    }
 }

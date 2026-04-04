@@ -87,4 +87,16 @@ public class GameDao implements GameRepository {
             throw new IllegalStateException("DB 오류가 발생했습니다.", e);
         }
     }
+
+    @Override
+    public void delete(Long gameId) {
+        String sql = "DELETE FROM game WHERE id = ?";
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setLong(1, gameId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new IllegalStateException("DB 오류가 발생했습니다.", e);
+        }
+    }
 }
