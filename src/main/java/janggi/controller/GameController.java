@@ -8,7 +8,6 @@ import janggi.domain.side.Side;
 import janggi.service.GameService;
 import janggi.view.InputView;
 import janggi.view.OutputView;
-import java.util.List;
 import java.util.Map;
 
 public class GameController {
@@ -39,11 +38,6 @@ public class GameController {
         String gameName = inputView.readGameName();
         Game game = gameService.findByName(gameName);
         playGame(game);
-    }
-
-    public void findAll() {
-        List<String> allGameNames = gameService.findAllGameNames();
-        outputView.printAllGameNames(allGameNames);
     }
 
     private void playGame(Game game) {

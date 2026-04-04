@@ -1,15 +1,12 @@
 package janggi.domain.board;
 
-import janggi.domain.board.coordination.BoardCoordination;
 import janggi.domain.board.coordination.Coordination;
-import janggi.domain.board.coordination.PalaceCoordination;
-import janggi.domain.board.coordination.PalaceMovements;
-import janggi.domain.point.Point;
 import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.path.CandidatePath;
 import janggi.domain.path.Movement;
 import janggi.domain.path.generator.PathStrategy;
 import janggi.domain.piece.unit.Piece;
+import janggi.domain.point.Point;
 import janggi.domain.side.Side;
 import java.util.HashMap;
 import java.util.List;
@@ -19,13 +16,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Board {
-    private static final Coordination BOARD_COORDINATION = new BoardCoordination();
-    private static final Coordination PALACE_COORDINATION = new PalaceCoordination();
-
     private final Map<Point, Piece> pieces;
 
     protected Board(Map<Point, Piece> pieces) {
-        pieces.keySet().forEach(BOARD_COORDINATION::validateRange);
         this.pieces = new HashMap<>(pieces);
     }
 
@@ -37,25 +30,15 @@ public class Board {
         return new Board(board);
     }
 
-    public final Map<Point, Piece> getPieces() {
+    public Map<Point, Piece> getPieces() {
         return new HashMap<>(pieces);
     }
 
-
-    public Set<Point> destinations(Point from) {
-        Set<Point> destinations = pieceDestinations(from);
-        if (PALACE_COORDINATION.isInRange(from.x(), from.y())) {
-            destinations.addAll(palaceDestinations(from));
-        }
-
-        return destinations;
-    }
-
-    private Set<Point> palaceDestinations(Point from) {
+    public Set<Point> destinations(List<Movement> movements, Point from, Coordination coordination) {
         Piece piece = getPieceAt(from)
                 .orElseThrow(() -> new IllegalArgumentException("해당 Point에 기물이 없어, 목적지가 없습니다."));
         List<CandidatePath> candidatePaths = convertToCandidatePaths(
-                PalaceMovements.getMovements(from), from, piece.pathStrategy(), PALACE_COORDINATION);
+                movements, from, piece.pathStrategy(), coordination);
 
         return piece.availablePoints(candidatePaths, findPiecesOnPaths(candidatePaths))
                 .stream()
@@ -63,18 +46,11 @@ public class Board {
                 .collect(Collectors.toSet());
     }
 
-    private Set<Point> pieceDestinations(Point from) {
-        Piece piece = getPieceAt(from)
-                .orElseThrow(() -> new IllegalArgumentException("해당 Point에 기물이 없어, 목적지가 없습니다."));
-        List<CandidatePath> candidatePaths = convertToCandidatePaths(piece.createCandidateMovement(), from,
-                piece.pathStrategy(), BOARD_COORDINATION);
-
-        return piece.availablePoints(candidatePaths, findPiecesOnPaths(candidatePaths))
-                .stream()
-                .filter(point -> canMove(piece, point))
-                .collect(Collectors.toSet());
+    public List<Movement> getPieceMovements(Point from) {
+        return getPieceAt(from)
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 포인트에 Piece가 존재하지 않아 Movement를 생성할 수 없습니다."))
+                .createMovements();
     }
-
 
     private List<CandidatePath> convertToCandidatePaths(List<Movement> movements,
                                                         Point from,
@@ -89,11 +65,6 @@ public class Board {
     public void moveTo(Point from, Point to) {
         Piece fromPiece = getPieceAt(from).orElseThrow(
                 () -> new IllegalArgumentException("해당 Point에 기물이 없어, 움직일 수 없습니다."));
-        Set<Point> destinations = destinations(from);
-
-        if (!destinations.contains(to)) {
-            throw new IllegalArgumentException("%s의 이동 가능한 좌표가 아닙니다.".formatted(fromPiece.getName()));
-        }
 
         pieces.put(to, fromPiece);
         pieces.remove(from);

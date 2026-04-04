@@ -22,7 +22,7 @@ public class Advisor extends Piece {
     }
 
     @Override
-    public List<Movement> createCandidateMovement() {
+    public List<Movement> createMovements() {
         return Collections.emptyList();
     }
 

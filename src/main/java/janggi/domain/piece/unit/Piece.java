@@ -56,7 +56,7 @@ public abstract class Piece {
         return !candidatePath.isEmpty();
     }
 
-    public abstract List<Movement> createCandidateMovement();
+    public abstract List<Movement> createMovements();
 
     protected abstract CandidatePath refinePath(CandidatePath candidatePath, Map<Point, Piece> piecesOnPaths);
 

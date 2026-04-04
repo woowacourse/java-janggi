@@ -2,10 +2,10 @@ package janggi.domain.piece.unit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.point.Point;
 import janggi.domain.path.CandidatePath;
 import janggi.domain.path.Direction;
 import janggi.domain.path.Movement;
+import janggi.domain.point.Point;
 import janggi.domain.side.Side;
 import java.util.List;
 import java.util.Map;
@@ -82,7 +82,7 @@ class ChariotTest {
     void movements(Side side, List<Movement> expected) {
         Piece piece = new Chariot(side);
 
-        List<Movement> movements = piece.createCandidateMovement();
+        List<Movement> movements = piece.createMovements();
 
         assertThat(expected.containsAll(movements)).isTrue();
         assertThat(movements.size()).isEqualTo(expected.size());

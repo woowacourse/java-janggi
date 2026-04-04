@@ -36,7 +36,7 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public List<Movement> createCandidateMovement() {
+    public List<Movement> createMovements() {
         List<Movement> movements = new ArrayList<>();
 
         movements.add(new Movement(List.of(Direction.NORTH, Direction.NORTH_WEST, Direction.NORTH_WEST)));
