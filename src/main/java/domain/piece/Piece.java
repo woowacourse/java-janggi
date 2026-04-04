@@ -18,11 +18,10 @@ public abstract class Piece {
     public abstract List<Position> calculateRoute(Position source, Position target);
 
     public void validateRoute(List<Piece> piecesOnRoute, Piece destinationPiece) {
-        for (Piece piece : piecesOnRoute) {
-            if (piece.isNotEmpty()) {
-                throw new IllegalArgumentException("이동 경로에 기물이 있습니다.");
-            }
+        if (piecesOnRoute.stream().anyMatch(Piece::isNotEmpty)) {
+            throw new IllegalArgumentException("이동 경로에 기물이 있습니다.");
         }
+
         if (destinationPiece.isAlly(this)) {
             throw new IllegalArgumentException("아군 기물이 있는 위치로 이동할 수 없습니다.");
         }
