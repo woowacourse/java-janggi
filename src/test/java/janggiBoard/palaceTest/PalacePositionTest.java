@@ -1,5 +1,6 @@
 package janggiBoard.palaceTest;
 
+import domain.PalacePosition;
 import domain.Position;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -42,5 +43,22 @@ public class PalacePositionTest {
         Position currentPosition = new Position(7, 3);
         Position relativePosition = new Position(0, 0);
         Assertions.assertThat(currentPosition.toRelative()).isEqualTo(relativePosition);
+    }
+
+    @Test
+    void 특정_상대_좌표를_넣으면_해당하는_궁성_위치를_찾는다() {
+        Position relativePosition = new Position(1, 1);
+
+        Assertions.assertThat(PalacePosition.findBy(relativePosition)).isEqualTo(PalacePosition.CENTER);
+    }
+
+    @Test
+    void 정중앙에서는_총_8가지_방향으로_갈_수_있다() {
+        Position relativePosition = new Position(1, 1);
+
+        PalacePosition center = PalacePosition.findBy(relativePosition);
+
+        Assertions.assertThat(center).isEqualTo(PalacePosition.CENTER);
+        Assertions.assertThat(center.getDirections).hasSize(8);
     }
 }
