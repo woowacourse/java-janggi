@@ -3,7 +3,7 @@ package janggi.domain.piece;
 import janggi.domain.movement.Direction;
 import janggi.domain.movement.MoveRule;
 import janggi.domain.movement.Movement;
-import janggi.domain.movement.SlidingMoveRule;
+import janggi.domain.movement.SingleMoveRule;
 import janggi.domain.team.TeamType;
 import java.util.List;
 
@@ -14,13 +14,13 @@ public class Soldier extends AbstractPiece {
 
     static {
         final List<MoveRule> redMovementStrategies = List.of(
-                new SlidingMoveRule(new Movement(1, Direction.LEFT)),
-                new SlidingMoveRule(new Movement(1, Direction.RIGHT)),
-                new SlidingMoveRule(new Movement(1, Direction.DOWN)));
+                new SingleMoveRule(new Movement(Direction.LEFT)),
+                new SingleMoveRule(new Movement(Direction.RIGHT)),
+                new SingleMoveRule(new Movement(Direction.DOWN)));
         final List<MoveRule> blueMovementStrategies = List.of(
-                new SlidingMoveRule(new Movement(1, Direction.LEFT)),
-                new SlidingMoveRule(new Movement(1, Direction.RIGHT)),
-                new SlidingMoveRule(new Movement(1, Direction.UP)));
+                new SingleMoveRule(new Movement(Direction.LEFT)),
+                new SingleMoveRule(new Movement(Direction.RIGHT)),
+                new SingleMoveRule(new Movement(Direction.UP)));
         RED_PIECE_ACTION = new PieceAction(redMovementStrategies);
         BLUE_PIECE_ACTION = new PieceAction(blueMovementStrategies);
     }

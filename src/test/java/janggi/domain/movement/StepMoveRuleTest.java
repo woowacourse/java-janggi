@@ -24,9 +24,9 @@ public class StepMoveRuleTest {
         );
         Board board = new Board(positionPieceMap);
         List<Movement> movementOrder = List.of(
-                new Movement(1, Direction.RIGHT),
-                new Movement(1, Direction.UP_RIGHT),
-                new Movement(1, Direction.UP_RIGHT)
+                new Movement(Direction.RIGHT),
+                new Movement(Direction.UP_RIGHT),
+                new Movement(Direction.UP_RIGHT)
         );
         MoveRule stepMoveRule = new StepMoveRule(movementOrder);
         Position from = Position.valueOf(5, 6);
@@ -49,9 +49,9 @@ public class StepMoveRuleTest {
         );
         Board board = new Board(positionPieceMap);
         List<Movement> movementOrder = List.of(
-                new Movement(1, Direction.RIGHT),
-                new Movement(1, Direction.UP_RIGHT),
-                new Movement(1, Direction.UP_RIGHT)
+                new Movement(Direction.RIGHT),
+                new Movement(Direction.UP_RIGHT),
+                new Movement(Direction.UP_RIGHT)
         );
         MoveRule stepMoveRule = new StepMoveRule(movementOrder);
         Position from = Position.valueOf(5, 3);
@@ -74,9 +74,9 @@ public class StepMoveRuleTest {
         );
         Board board = new Board(positionPieceMap);
         List<Movement> movementOrder = List.of(
-                new Movement(1, Direction.RIGHT),
-                new Movement(1, Direction.UP_RIGHT),
-                new Movement(1, Direction.UP_RIGHT)
+                new Movement(Direction.RIGHT),
+                new Movement(Direction.UP_RIGHT),
+                new Movement(Direction.UP_RIGHT)
         );
         MoveRule stepMoveRule = new StepMoveRule(movementOrder);
         Position from = Position.valueOf(5, 3);
@@ -100,9 +100,9 @@ public class StepMoveRuleTest {
         );
         Board board = new Board(positionPieceMap);
         List<Movement> movementOrder = List.of(
-                new Movement(1, Direction.RIGHT),
-                new Movement(1, Direction.UP_RIGHT),
-                new Movement(1, Direction.UP_RIGHT)
+                new Movement(Direction.RIGHT),
+                new Movement(Direction.UP_RIGHT),
+                new Movement(Direction.UP_RIGHT)
         );
         MoveRule stepMoveRule = new StepMoveRule(movementOrder);
         Position from = Position.valueOf(5, 3);
@@ -126,9 +126,9 @@ public class StepMoveRuleTest {
         );
         Board board = new Board(positionPieceMap);
         List<Movement> movementOrder = List.of(
-                new Movement(1, Direction.RIGHT),
-                new Movement(1, Direction.UP_RIGHT),
-                new Movement(1, Direction.UP_RIGHT)
+                new Movement(Direction.RIGHT),
+                new Movement(Direction.UP_RIGHT),
+                new Movement(Direction.UP_RIGHT)
         );
         MoveRule stepMoveRule = new StepMoveRule(movementOrder);
         Position from = Position.valueOf(5, 3);
@@ -150,9 +150,9 @@ public class StepMoveRuleTest {
         );
         Board board = new Board(positionPieceMap);
         List<Movement> movementOrder = List.of(
-                new Movement(1, Direction.RIGHT),
-                new Movement(1, Direction.UP_RIGHT),
-                new Movement(1, Direction.UP_RIGHT)
+                new Movement(Direction.RIGHT),
+                new Movement(Direction.UP_RIGHT),
+                new Movement(Direction.UP_RIGHT)
         );
         MoveRule stepMoveRule = new StepMoveRule(movementOrder);
         Position from = Position.valueOf(5, 7);

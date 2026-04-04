@@ -1,7 +1,5 @@
 package janggi.domain.movement;
 
-import static janggi.domain.Position.MAXIMUM_ROW;
-
 import janggi.domain.Position;
 import janggi.domain.board.BoardMediator;
 import janggi.domain.team.TeamType;
@@ -12,7 +10,7 @@ public class CannonMoveRule implements MoveRule {
     private final Movement movement;
 
     public CannonMoveRule(final Direction direction) {
-        this.movement = new Movement(MAXIMUM_ROW, direction);
+        this.movement = new Movement(direction);
     }
 
     @Override
@@ -21,8 +19,7 @@ public class CannonMoveRule implements MoveRule {
         if (isInvalidBridge(from, boardMediator)) {
             return List.of();
         }
-        return removeCannonFromPositions(
-                movement.calculateTraces(from, teamType, boardMediator), boardMediator);
+        return removeCannonFromPositions(movement.calculateTraces(from, teamType, boardMediator), boardMediator);
     }
 
     // 포다리가 안되는 경우 검증(빈 공간인지 or 포다리가 포 인지)
