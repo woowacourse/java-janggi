@@ -45,7 +45,7 @@ public class JanggiGame {
     }
 
     private void progressGame(JanggiBoard janggiBoard, Team currentTeam) {
-        while (!janggiBoard.isGameOver()) {
+        while (!janggiBoard.isGameOver() || janggiBoard.isDraw()) {
             progressTurn(janggiBoard, currentTeam);
             currentTeam = currentTeam.nextTurn();
         }

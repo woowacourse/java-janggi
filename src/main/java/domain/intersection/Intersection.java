@@ -3,6 +3,7 @@ package domain.intersection;
 import domain.intersection.exception.IntersectionException;
 import domain.move.directions.Directions;
 import domain.piece.Piece;
+import domain.piece.PieceScore;
 import domain.piece.Team;
 import domain.point.Point;
 
@@ -79,10 +80,6 @@ public abstract class Intersection {
         }
     }
 
-    public boolean isPalace() {
-        return false;
-    }
-
     public Team getTeam() {
         return piece.team();
     }
@@ -91,8 +88,12 @@ public abstract class Intersection {
         return piece.isLinearPiece();
     }
 
-    public Directions getDiagonalDirections() {
-        return Directions.empty();
+    public abstract boolean isPalace();
+
+    public abstract Directions getDiagonalDirections();
+
+    public int getScore() {
+        return PieceScore.getScore(piece);
     }
 
     @Override

@@ -74,6 +74,18 @@ public class JanggiBoard {
                 .noneMatch(Intersection::hasGeneral);
     }
 
+    public boolean isDraw() {
+        return calculateTeamScore(Team.HAN) < 30 && calculateTeamScore(Team.CHO) < 30;
+    }
+
+    public int calculateTeamScore(Team team) {
+        return intersections.values().stream()
+                .filter(intersection -> intersection.isSameTeam(team))
+                .filter(Intersection::hasPiece)
+                .map(Intersection::getScore)
+                .reduce(0, Integer::sum);
+    }
+
     public Map<Point, Intersection> getJanggiBoard() {
         return Collections.unmodifiableMap(intersections);
     }

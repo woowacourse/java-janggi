@@ -1,6 +1,7 @@
 package domain.board;
 
 import domain.intersection.palace.NormalIntersection;
+import fixture.JanggiBoardFixture;
 import fixture.TestIntersectionGenerator;
 import domain.intersection.Intersection;
 import domain.piece.Piece;
@@ -13,6 +14,8 @@ import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import static domain.board.Formation.ELEPHANT_HORSE_ELEPHANT_HORSE;
 
 class BoardTest {
 
@@ -126,6 +129,46 @@ class BoardTest {
         // then
         Assertions.assertThat(actualWinner)
                 .isEqualTo(expectedWinner);
+    }
+
+    @Test
+    @DisplayName("양 팀의 기물 점수가 모두 30점 미만이면 장기는 무승부가 된다.")
+    void shouldDrawBothOfTeamScoreIsLessThan30() {
+        // given
+        Point hanChariotPoint = new Point(0, 0);
+        Point choChariotPoint = new Point(9, 0);
+        Team teamHan = Team.HAN;
+        Team teamCho = Team.CHO;
+
+        Piece chariotHan = new Piece(teamHan, PieceType.CHARIOT);
+        Piece chariotCho = new Piece(teamCho, PieceType.CHARIOT);
+
+        Intersection hanIntersection = new NormalIntersection(hanChariotPoint, chariotHan);
+        Intersection choIntersection = new NormalIntersection(choChariotPoint, chariotCho);
+        JanggiBoard janggiBoard = JanggiBoardFixture.generate(hanIntersection, choIntersection);
+
+        // when
+        boolean actual = janggiBoard.isDraw();
+
+        // then
+        Assertions.assertThat(actual)
+                .isTrue();
+    }
+
+    @Test
+    @DisplayName("한 팀이라도 기물 점수가 30점 이상이면 장기는 진행된다.")
+    void shouldPlayOneOfTeamScoreIsMoreThan30() {
+        // given
+        JanggiBoard janggiBoard = new JanggiBoard(new JanggiIntersectionGenerator(
+                ELEPHANT_HORSE_ELEPHANT_HORSE, ELEPHANT_HORSE_ELEPHANT_HORSE)
+        );
+
+        // when
+        boolean actual = janggiBoard.isDraw();
+
+        // then
+        Assertions.assertThat(actual)
+                .isFalse();
     }
 
     private static List<Point> getFormationPoints(Formation elephantHorseHorseElephant) {
