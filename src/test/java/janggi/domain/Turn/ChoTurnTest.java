@@ -38,9 +38,8 @@ class ChoTurnTest {
         Position to = new Position(2, 5);
 
         GameState state = new ChoTurn(board);
-        GameState actual = state.move(from, to);
 
-        assertThatThrownBy(() -> actual.move(from, to))
-                .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> state.move(from, to))
+                .isInstanceOf(IllegalStateException.class);
     }
 }

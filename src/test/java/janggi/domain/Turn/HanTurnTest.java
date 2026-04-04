@@ -34,13 +34,12 @@ class HanTurnTest {
 
     @Test
     void 다른_진영의_기물을_움직이는_예외_테스트() {
-        Position from = new Position(2, 6);
-        Position to = new Position(2, 5);
+        Position from = new Position(2, 3);
+        Position to = new Position(2, 4);
 
         GameState state = new HanTurn(board);
-        GameState actual = state.move(from, to);
 
-        assertThatThrownBy(() -> actual.move(from, to))
-                .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> state.move(from, to))
+                .isInstanceOf(IllegalStateException.class);
     }
 }

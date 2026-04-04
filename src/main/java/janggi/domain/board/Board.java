@@ -28,11 +28,12 @@ public class Board {
         return Collections.unmodifiableMap(piecesInfo);
     }
 
-    public void move(Position from, Position to) {
+    public void move(Position from, Position to, Team team) {
         Space spaceFrom = piecesInfo.get(from);
         validateBlankSpace(spaceFrom);
 
         Piece selectedPiece = (Piece) spaceFrom;
+        validateTurn(team, selectedPiece);
         validatePieceRule(from, to, selectedPiece);
 
         applyMove(from, to, selectedPiece);
@@ -73,6 +74,12 @@ public class Board {
     private void putHorizontally(Map<Position, Space> blankBoard, int y) {
         for (int x = 0; x < VERTICAL_LENGTH; x++) {
             blankBoard.put(new Position(x, y), new Blank());
+        }
+    }
+
+    private static void validateTurn(Team team, Piece selectedPiece) {
+        if(!selectedPiece.isEqualTeam(team)) {
+            throw new IllegalStateException("상대 진영의 말은 움직일 수 없습니다.");
         }
     }
 
