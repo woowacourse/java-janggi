@@ -57,47 +57,23 @@ class MoveStrategyTest {
             boolean canMove = strategy.canMove(
                     new Route(Position.of(4, 4), Position.of(4, 5), List.of()),
                     List.of(Piece.of(TeamColor.CHO, PieceType.PAWN)),
-                    Optional.empty(),
-                    TeamColor.CHO
+                    Optional.empty()
             );
 
             assertThat(canMove).isFalse();
         }
 
         @Test
-        void 도착지에_같은_팀_기물이_있으면_이동할_수_없다() {
+        void 중간_장애물이_없으면_도착지_상태와_무관하게_전략_공통_검사는_통과한다() {
             MoveStrategy strategy = new TestMoveStrategy(List.of());
 
             boolean canMove = strategy.canMove(
                     new Route(Position.of(4, 4), Position.of(4, 5), List.of()),
                     List.of(),
-                    Optional.of(Piece.of(TeamColor.CHO, PieceType.GUARD)),
-                    TeamColor.CHO
+                    Optional.of(Piece.of(TeamColor.CHO, PieceType.GUARD))
             );
 
-            assertThat(canMove).isFalse();
-        }
-
-        @Test
-        void 도착지가_비어있거나_적군이면_이동할_수_있다() {
-            MoveStrategy strategy = new TestMoveStrategy(List.of());
-
-            boolean canMoveToEmpty = strategy.canMove(
-                    new Route(Position.of(4, 4), Position.of(4, 5), List.of()),
-                    List.of(),
-                    Optional.empty(),
-                    TeamColor.CHO
-            );
-
-            boolean canCaptureEnemy = strategy.canMove(
-                    new Route(Position.of(4, 4), Position.of(4, 5), List.of()),
-                    List.of(),
-                    Optional.of(Piece.of(TeamColor.HAN, PieceType.GUARD)),
-                    TeamColor.CHO
-            );
-
-            assertThat(canMoveToEmpty).isTrue();
-            assertThat(canCaptureEnemy).isTrue();
+            assertThat(canMove).isTrue();
         }
     }
 

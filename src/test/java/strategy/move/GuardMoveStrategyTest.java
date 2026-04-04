@@ -62,7 +62,7 @@ public class GuardMoveStrategyTest {
             MoveStrategy moveStrategy = new GuardMoveStrategy();
             Route route = new Route(Position.of(1, 4), Position.of(0, 4), List.of());
 
-            boolean canMove = moveStrategy.canMove(route, List.of(), Optional.empty(), TeamColor.CHO);
+            boolean canMove = moveStrategy.canMove(route, List.of(), Optional.empty());
 
             assertThat(canMove).isTrue();
         }
@@ -75,8 +75,7 @@ public class GuardMoveStrategyTest {
             boolean canMove = moveStrategy.canMove(
                     route,
                     List.of(Piece.of(TeamColor.CHO, PieceType.CANNON)),
-                    Optional.empty(),
-                    TeamColor.CHO
+                    Optional.empty()
             );
 
             assertThat(canMove).isFalse();

@@ -41,7 +41,24 @@ public class Piece {
     }
 
     public boolean canMove(Route route, List<Piece> blockingPieces, Optional<Piece> destinationPiece) {
-        return moveStrategy.canMove(route, blockingPieces, destinationPiece, teamColor);
+        return moveStrategy.canMove(route, blockingPieces, destinationPiece)
+                && canOccupy(destinationPiece);
+    }
+
+    public boolean isSameTeam(Piece other) {
+        return teamColor == other.teamColor;
+    }
+
+    public boolean isEnemy(Piece other) {
+        return !isSameTeam(other);
+    }
+
+    public boolean canOccupy(Optional<Piece> destinationPiece) {
+        return destinationPiece.isEmpty() || isEnemy(destinationPiece.get());
+    }
+
+    public boolean isSameType(PieceType pieceType) {
+        return this.pieceType == pieceType;
     }
 
     public static Piece of(TeamColor teamColor, PieceType pieceType) {

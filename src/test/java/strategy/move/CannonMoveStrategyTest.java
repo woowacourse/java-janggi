@@ -2,10 +2,10 @@ package strategy.move;
 
 import domain.board.Direction;
 import domain.board.MovePath;
-import domain.piece.Piece;
-import domain.piece.PieceType;
 import domain.board.Position;
 import domain.board.Route;
+import domain.piece.Piece;
+import domain.piece.PieceType;
 import domain.piece.TeamColor;
 import java.util.List;
 import java.util.Optional;
@@ -59,7 +59,7 @@ public class CannonMoveStrategyTest {
             MoveStrategy moveStrategy = new CannonMoveStrategy();
             Route route = new Route(Position.of(4, 4), Position.of(1, 4), List.of(Position.of(3, 4), Position.of(2, 4)));
 
-            boolean canMove = moveStrategy.canMove(route, List.of(), Optional.empty(), TeamColor.CHO);
+            boolean canMove = moveStrategy.canMove(route, List.of(), Optional.empty());
             assertThat(canMove).isFalse();
         }
 
@@ -71,8 +71,7 @@ public class CannonMoveStrategyTest {
             boolean canMove = moveStrategy.canMove(
                     route,
                     List.of(Piece.of(TeamColor.CHO, PieceType.CANNON)),
-                    Optional.empty(),
-                    TeamColor.CHO
+                    Optional.empty()
             );
             assertThat(canMove).isFalse();
         }
@@ -88,8 +87,7 @@ public class CannonMoveStrategyTest {
                             Piece.of(TeamColor.CHO, PieceType.PAWN),
                             Piece.of(TeamColor.HAN, PieceType.HORSE)
                     ),
-                    Optional.empty(),
-                    TeamColor.CHO
+                    Optional.empty()
             );
 
             assertThat(canMove).isFalse();
@@ -105,14 +103,13 @@ public class CannonMoveStrategyTest {
             boolean canMove = moveStrategy.canMove(
                     new Route(Position.of(4, 4), Position.of(1, 4), List.of(Position.of(3, 4), Position.of(2, 4))),
                     List.of(bridgePawn),
-                    Optional.of(targetCannon),
-                    TeamColor.CHO
+                    Optional.of(targetCannon)
             );
             assertThat(canMove).isFalse();
         }
 
         @Test
-        public void 포는_도착지에_같은팀_기물이_있으면_이동할수_없다(){
+        public void 포전략은_도착지의_같은팀_여부와_무관하게_포가_아니면_전략검사를_통과한다(){
             MoveStrategy moveStrategy = new CannonMoveStrategy();
 
             Piece bridgeRook = Piece.of(TeamColor.HAN, PieceType.ROOK);
@@ -121,10 +118,9 @@ public class CannonMoveStrategyTest {
             boolean canMove = moveStrategy.canMove(
                     new Route(Position.of(4, 4), Position.of(1, 4), List.of(Position.of(3, 4), Position.of(2, 4))),
                     List.of(bridgeRook),
-                    Optional.of(targetHorse),
-                    TeamColor.CHO
+                    Optional.of(targetHorse)
             );
-            assertThat(canMove).isFalse();
+            assertThat(canMove).isTrue();
         }
 
         @Test
@@ -136,8 +132,7 @@ public class CannonMoveStrategyTest {
             boolean canMove = moveStrategy.canMove(
                     new Route(Position.of(4, 4), Position.of(1, 4), List.of(Position.of(3, 4), Position.of(2, 4))),
                     List.of(bridgePawn),
-                    Optional.empty(),
-                    TeamColor.CHO
+                    Optional.empty()
             );
             assertThat(canMove).isTrue();
         }
@@ -152,8 +147,7 @@ public class CannonMoveStrategyTest {
             boolean canMove = moveStrategy.canMove(
                     new Route(Position.of(4, 4), Position.of(1, 4), List.of(Position.of(3, 4), Position.of(2, 4))),
                     List.of(bridgeHorse),
-                    Optional.of(targetRook),
-                    TeamColor.CHO
+                    Optional.of(targetRook)
             );
             assertThat(canMove).isTrue();
         }
@@ -163,7 +157,7 @@ public class CannonMoveStrategyTest {
             MoveStrategy moveStrategy = new CannonMoveStrategy();
             Route route = new Route(Position.of(4, 4), Position.of(3, 4), List.of());
 
-            boolean canMove = moveStrategy.canMove(route, List.of(), Optional.empty(), TeamColor.CHO);
+            boolean canMove = moveStrategy.canMove(route, List.of(), Optional.empty());
 
             assertThat(canMove).isFalse();
         }

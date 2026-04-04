@@ -59,7 +59,7 @@ public class RookMoveStrategyTest {
             MoveStrategy moveStrategy = new RookMoveStrategy();
             Route route = new Route(Position.of(4, 4), Position.of(1, 4), List.of(Position.of(3, 4), Position.of(2, 4)));
 
-            boolean canMove = moveStrategy.canMove(route, List.of(), Optional.empty(), TeamColor.CHO);
+            boolean canMove = moveStrategy.canMove(route, List.of(), Optional.empty());
 
             assertThat(canMove).isTrue();
         }
@@ -72,26 +72,24 @@ public class RookMoveStrategyTest {
             boolean canMove = moveStrategy.canMove(
                     route,
                     List.of(Piece.of(TeamColor.CHO, PieceType.CANNON)),
-                    Optional.empty(),
-                    TeamColor.CHO
+                    Optional.empty()
             );
 
             assertThat(canMove).isFalse();
         }
 
         @Test
-        public void 차는_도착지에_같은팀_기물이_있으면_이동할수_없다() {
+        public void 차전략은_도착지_점유_여부와_무관하게_경로만_검사한다() {
             MoveStrategy moveStrategy = new RookMoveStrategy();
             Route route = new Route(Position.of(4, 4), Position.of(1, 4), List.of(Position.of(3, 4), Position.of(2, 4)));
 
             boolean canMove = moveStrategy.canMove(
                     route,
                     List.of(),
-                    Optional.of(Piece.of(TeamColor.CHO, PieceType.GUARD)),
-                    TeamColor.CHO
+                    Optional.of(Piece.of(TeamColor.CHO, PieceType.GUARD))
             );
 
-            assertThat(canMove).isFalse();
+            assertThat(canMove).isTrue();
         }
     }
 }

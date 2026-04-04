@@ -83,7 +83,7 @@ public class PawnMoveStrategyTest {
             MoveStrategy moveStrategy = new PawnMoveStrategy();
             Route route = new Route(Position.of(4, 4), Position.of(3, 4), List.of());
 
-            boolean canMove = moveStrategy.canMove(route, List.of(), Optional.empty(), TeamColor.CHO);
+            boolean canMove = moveStrategy.canMove(route, List.of(), Optional.empty());
 
             assertThat(canMove).isTrue();
         }
@@ -96,8 +96,7 @@ public class PawnMoveStrategyTest {
             boolean canMove = moveStrategy.canMove(
                     route,
                     List.of(Piece.of(TeamColor.CHO,PieceType.CANNON)),
-                    Optional.empty(),
-                    TeamColor.CHO
+                    Optional.empty()
             );
 
             assertThat(canMove).isFalse();

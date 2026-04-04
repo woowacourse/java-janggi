@@ -12,6 +12,36 @@ import static org.assertj.core.api.Assertions.assertThat;
 class PieceTest {
 
     @Nested
+    class 기물판단 {
+        @Test
+        void 같은_팀인지_판단한다() {
+            final Piece choPawn = Piece.of(TeamColor.CHO, PieceType.PAWN);
+            final Piece choGuard = Piece.of(TeamColor.CHO, PieceType.GUARD);
+            final Piece hanHorse = Piece.of(TeamColor.HAN, PieceType.HORSE);
+
+            assertThat(choPawn.isSameTeam(choGuard)).isTrue();
+            assertThat(choPawn.isEnemy(hanHorse)).isTrue();
+        }
+
+        @Test
+        void 도착지_점유_가능_여부를_판단한다() {
+            final Piece choPawn = Piece.of(TeamColor.CHO, PieceType.PAWN);
+
+            assertThat(choPawn.canOccupy(Optional.empty())).isTrue();
+            assertThat(choPawn.canOccupy(Optional.of(Piece.of(TeamColor.HAN, PieceType.HORSE)))).isTrue();
+            assertThat(choPawn.canOccupy(Optional.of(Piece.of(TeamColor.CHO, PieceType.GUARD)))).isFalse();
+        }
+
+        @Test
+        void 같은_기물_타입인지_응답한다() {
+            final Piece piece = Piece.of(TeamColor.CHO, PieceType.PAWN);
+
+            assertThat(piece.isSameType(PieceType.PAWN)).isTrue();
+            assertThat(piece.isSameType(PieceType.HORSE)).isFalse();
+        }
+    }
+
+    @Nested
     class 전략위임 {
         @Test
         void 기물은_자기_전략으로_후보_경로를_생성한다() {
@@ -36,6 +66,20 @@ class PieceTest {
             );
 
             assertThat(canMove).isTrue();
+        }
+
+        @Test
+        void 기물은_공통_규칙으로_도착지의_아군을_점유할_수_없다() {
+            final Piece piece = Piece.of(TeamColor.CHO, PieceType.PAWN);
+            final Route route = new Route(Position.of(2, 3), Position.of(1, 3), List.of());
+
+            final boolean canMove = piece.canMove(
+                    route,
+                    List.of(),
+                    Optional.of(Piece.of(TeamColor.CHO, PieceType.GUARD))
+            );
+
+            assertThat(canMove).isFalse();
         }
     }
 }

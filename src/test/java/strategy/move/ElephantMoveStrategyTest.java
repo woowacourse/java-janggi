@@ -52,7 +52,7 @@ public class ElephantMoveStrategyTest {
             MoveStrategy moveStrategy = new ElephantMoveStrategy();
             Route route = new Route(Position.of(4, 4), Position.of(1, 2), List.of(Position.of(3, 4), Position.of(2, 3)));
 
-            boolean canMove = moveStrategy.canMove(route, List.of(), Optional.empty(), TeamColor.CHO);
+            boolean canMove = moveStrategy.canMove(route, List.of(), Optional.empty());
 
             assertThat(canMove).isTrue();
         }
@@ -65,8 +65,7 @@ public class ElephantMoveStrategyTest {
             boolean canMove = moveStrategy.canMove(
                     route,
                     List.of(Piece.of(TeamColor.CHO, PieceType.CANNON)),
-                    Optional.empty(),
-                    TeamColor.CHO
+                    Optional.empty()
             );
 
             assertThat(canMove).isFalse();

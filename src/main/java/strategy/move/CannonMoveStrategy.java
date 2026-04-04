@@ -38,13 +38,13 @@ public class CannonMoveStrategy implements MoveStrategy {
     }
 
     @Override
-    public boolean canMove(Route route, List<Piece> blockingPieces, Optional<Piece> destinationPiece, TeamColor myTeam) {
+    public boolean canMove(Route route, List<Piece> blockingPieces, Optional<Piece> destinationPiece) {
         if (blockingPieces.size() != REQUIRED_BRIDGE_COUNT) {
             return false;
         }
 
         final Piece bridgePiece = blockingPieces.getFirst();
-        if (bridgePiece.getPieceType() == PieceType.CANNON) {
+        if (bridgePiece.isSameType(PieceType.CANNON)) {
             return false;
         }
 
@@ -53,11 +53,7 @@ public class CannonMoveStrategy implements MoveStrategy {
         }
 
         final Piece targetPiece = destinationPiece.get();
-        if (targetPiece.getPieceType() == PieceType.CANNON) {
-            return false;
-        }
-
-        return targetPiece.getTeamColor() != myTeam;
+        return !targetPiece.isSameType(PieceType.CANNON);
     }
 }
 

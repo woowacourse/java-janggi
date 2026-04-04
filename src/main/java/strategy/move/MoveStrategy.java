@@ -56,12 +56,8 @@ public interface MoveStrategy {
         return stepIndex < totalSteps - 1;
     }
 
-    default boolean canMove(Route route, List<Piece> blockingPieces, Optional<Piece> destinationPiece, TeamColor myTeam) {
-        if (!blockingPieces.isEmpty()) {
-            return false;
-        }
-
-        return destinationPiece.isEmpty() || destinationPiece.get().getTeamColor() != myTeam;
+    default boolean canMove(Route route, List<Piece> blockingPieces, Optional<Piece> destinationPiece) {
+        return blockingPieces.isEmpty();
     }
 
 }
