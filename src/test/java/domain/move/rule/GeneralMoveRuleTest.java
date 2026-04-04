@@ -47,14 +47,10 @@ class GeneralMoveRuleTest {
     @DisplayName("도착지에 같은 팀이 있는 경우 예외가 발생한다.")
     void shouldThrowExceptionWhenDestinationIsSameTeam() {
         // given
-        Point start = new Point(0, 0);
-        Point end = new Point(1, 0);
+        Piece sameTeamPiece = new Piece(teamCho, PieceType.SOLDIER);
 
-        Team sameTeam = Team.HAN;
-        Piece sameTeamPiece = new Piece(sameTeam, PieceType.SOLDIER);
-
-        Intersection origin = new NormalIntersection(start, general);
-        Intersection sameTeamDestination = new NormalIntersection(end, sameTeamPiece);
+        Intersection origin = new CenterPalace(centerPointCho, general);
+        Intersection sameTeamDestination = new LeftTopPalace(leftTopPointCho, sameTeamPiece);
 
         // when
         GeneralMoveRule generalMoveRule = new GeneralMoveRule();
@@ -81,7 +77,7 @@ class GeneralMoveRuleTest {
         JanggiBoard janggiBoard = JanggiBoardFixture.generate(origin, emptyDestination);
 
         // when
-        janggiBoard.tryToMove(centerPointCho, end, teamHan);
+        janggiBoard.tryToMove(centerPointCho, end, teamCho);
         Intersection actual = janggiBoard.findIntersection(end);
 
         // then
@@ -95,7 +91,7 @@ class GeneralMoveRuleTest {
         // given
         Point end = centerPointCho.next(Vector.DOWN);
 
-        Piece opponent = new Piece(teamCho, PieceType.SOLDIER);
+        Piece opponent = new Piece(teamHan, PieceType.SOLDIER);
 
         Intersection origin = new CenterPalace(centerPointCho, general);
         Intersection opponentDestination = new NormalPalace(end, opponent);
@@ -103,7 +99,7 @@ class GeneralMoveRuleTest {
         JanggiBoard janggiBoard = JanggiBoardFixture.generate(origin, opponentDestination);
 
         // when
-        janggiBoard.tryToMove(centerPointCho, end, teamHan);
+        janggiBoard.tryToMove(centerPointCho, end, teamCho);
         Intersection actual = janggiBoard.findIntersection(end);
 
         // then
