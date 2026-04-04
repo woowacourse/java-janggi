@@ -33,9 +33,10 @@ public class TurnManagerTest {
         void changeTurn_BackToRed() {
             // when
             turnManager.changeTurn();
+            turnManager.changeTurn();
 
             // then
-            assertThat(turnManager.isCurrentTurnOf(TeamType.BLUE)).isTrue();
+            assertThat(turnManager.isCurrentTurnOf(TeamType.RED)).isTrue();
         }
     }
 }

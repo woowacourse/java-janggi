@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.Position;
 import janggi.domain.board.Board;
+import janggi.domain.board.BoardMediator;
 import janggi.domain.team.TeamType;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -49,11 +50,8 @@ public class BlueSoldierTest {
                     Position.valueOf(6, 5)
             );
 
-            Board board = new Board(positionPieceMap);
-
-            List<Position> actual = blueSoldier.calculateMovablePositions(
-                    Position.valueOf(6, 4), board
-            );
+            BoardMediator boardMediator = new Board(positionPieceMap);
+            List<Position> actual = blueSoldier.calculateMovablePositions(Position.valueOf(6, 4), boardMediator);
 
             assertThat(actual).hasSameElementsAs(expected);
         }
@@ -64,16 +62,10 @@ public class BlueSoldierTest {
             positionPieceMap.put(Position.valueOf(6, 4), blueSoldier);
             positionPieceMap.put(Position.valueOf(5, 4), ally1);
             positionPieceMap.put(Position.valueOf(6, 5), ally2);
+            List<Position> expected = List.of(Position.valueOf(6, 3));
 
-            List<Position> expected = List.of(
-                    Position.valueOf(6, 3)
-            );
-
-            Board board = new Board(positionPieceMap);
-
-            List<Position> actual = blueSoldier.calculateMovablePositions(
-                    Position.valueOf(6, 4), board
-            );
+            BoardMediator boardMediator = new Board(positionPieceMap);
+            List<Position> actual = blueSoldier.calculateMovablePositions(Position.valueOf(6, 4), boardMediator);
 
             assertThat(actual).hasSameElementsAs(expected);
         }
@@ -83,14 +75,10 @@ public class BlueSoldierTest {
         void test3() {
             positionPieceMap.put(Position.valueOf(1, 1), blueSoldier);
             positionPieceMap.put(Position.valueOf(1, 2), ally1);
-
             List<Position> expected = List.of();
 
-            Board board = new Board(positionPieceMap);
-
-            List<Position> actual = blueSoldier.calculateMovablePositions(
-                    Position.valueOf(1, 1), board
-            );
+            BoardMediator boardMediator = new Board(positionPieceMap);
+            List<Position> actual = blueSoldier.calculateMovablePositions(Position.valueOf(1, 1), boardMediator);
 
             assertThat(actual).hasSameElementsAs(expected);
         }

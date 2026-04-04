@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.Position;
 import janggi.domain.board.Board;
+import janggi.domain.board.BoardMediator;
 import janggi.domain.team.TeamType;
 import java.util.List;
 import java.util.Map;
@@ -18,12 +19,12 @@ class CannonTest {
     @DisplayName("이동 가능한 위치 계산 테스트")
     class CalculateMovablePositions {
 
-        static Piece cannon;
-        static Piece allySoldier;
-        static Piece allyCannon;
-        static Piece enemySoldier;
-        static Piece enemyCannon;
-        static Map<Position, Piece> positionPieceMap;
+        private Piece cannon;
+        private Piece allySoldier;
+        private Piece allyCannon;
+        private Piece enemySoldier;
+        private Piece enemyCannon;
+        private Map<Position, Piece> positionPieceMap;
 
         @BeforeEach
         void setUp() {
@@ -41,7 +42,6 @@ class CannonTest {
                     Position.valueOf(6, 7), cannon,
                     Position.valueOf(6, 5), enemySoldier,
                     Position.valueOf(7, 7), allySoldier);
-            Board board = new Board(positionPieceMap);
             List<Position> expected = List.of(
                     Position.valueOf(6, 1),
                     Position.valueOf(6, 2),
@@ -50,8 +50,8 @@ class CannonTest {
                     Position.valueOf(8, 7),
                     Position.valueOf(9, 7),
                     Position.valueOf(10, 7));
-
-            List<Position> actual = cannon.calculateMovablePositions(Position.valueOf(6, 7), board);
+            BoardMediator boardMediator = new Board(positionPieceMap);
+            List<Position> actual = cannon.calculateMovablePositions(Position.valueOf(6, 7), boardMediator);
 
             assertThat(actual).hasSameElementsAs(expected);
         }
@@ -64,14 +64,13 @@ class CannonTest {
                     Position.valueOf(4, 7), enemySoldier,
                     Position.valueOf(6, 5), enemyCannon,
                     Position.valueOf(9, 7), allyCannon);
-            Board board = new Board(positionPieceMap);
             List<Position> expected = List.of(
                     Position.valueOf(1, 7),
                     Position.valueOf(2, 7),
                     Position.valueOf(3, 7));
 
-            List<Position> actual = cannon.calculateMovablePositions(Position.valueOf(6, 7),
-                    board);
+            BoardMediator boardMediator = new Board(positionPieceMap);
+            List<Position> actual = cannon.calculateMovablePositions(Position.valueOf(6, 7), boardMediator);
 
             assertThat(actual).hasSameElementsAs(expected);
         }
@@ -83,11 +82,10 @@ class CannonTest {
                     Position.valueOf(6, 7), cannon,
                     Position.valueOf(6, 3), enemyCannon,
                     Position.valueOf(6, 4), allySoldier);
-            Board board = new Board(positionPieceMap);
             List<Position> expected = List.of();
 
-            List<Position> actual = cannon.calculateMovablePositions(Position.valueOf(6, 7),
-                    board);
+            BoardMediator boardMediator = new Board(positionPieceMap);
+            List<Position> actual = cannon.calculateMovablePositions(Position.valueOf(6, 7), boardMediator);
 
             assertThat(actual).hasSameElementsAs(expected);
         }

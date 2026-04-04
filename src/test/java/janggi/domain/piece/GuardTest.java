@@ -20,16 +20,16 @@ public class GuardTest {
     @DisplayName("이동 가능한 위치 계산 테스트")
     class CalculateMovablePositions {
 
-        static Piece guard;
-        static Piece enemy1;
-        static Piece enemy2;
-        static Piece enemy3;
-        static Piece enemy4;
-        static Piece ally1;
-        static Piece ally2;
-        static Piece ally3;
-        static Piece ally4;
-        static Map<Position, Piece> positionPieceMap;
+        private Piece guard;
+        private Piece enemy1;
+        private Piece enemy2;
+        private Piece enemy3;
+        private Piece enemy4;
+        private Piece ally1;
+        private Piece ally2;
+        private Piece ally3;
+        private Piece ally4;
+        private Map<Position, Piece> positionPieceMap;
 
         @BeforeEach
         void setUp() {
@@ -42,7 +42,7 @@ public class GuardTest {
             ally2 = new Soldier(TeamType.RED);
             ally3 = new Soldier(TeamType.RED);
             ally4 = new Soldier(TeamType.RED);
-            positionPieceMap = new LinkedHashMap<Position, Piece>();
+            positionPieceMap = new LinkedHashMap<>();
         }
 
         @Test
@@ -57,14 +57,14 @@ public class GuardTest {
             positionPieceMap.put(Position.valueOf(7, 3), enemy2);
             positionPieceMap.put(Position.valueOf(7, 4), enemy3);
             positionPieceMap.put(Position.valueOf(7, 5), enemy4);
+            List<Position> expected = List.of(
+                    Position.valueOf(6, 5),
+                    Position.valueOf(7, 3),
+                    Position.valueOf(7, 4),
+                    Position.valueOf(7, 5));
 
-            List<Position> expected = List.of(Position.valueOf(6, 5), Position.valueOf(7, 3),
-                    Position.valueOf(7, 4), Position.valueOf(7, 5));
-
-            Board board = new Board(positionPieceMap);
-            BoardMediator boardMediator = board;
-            List<Position> actual = guard.calculateMovablePositions(Position.valueOf(6, 4),
-                    boardMediator);
+            BoardMediator boardMediator = new Board(positionPieceMap);
+            List<Position> actual = guard.calculateMovablePositions(Position.valueOf(6, 4), boardMediator);
 
             assertThat(actual).hasSameElementsAs(expected);
         }
@@ -75,12 +75,18 @@ public class GuardTest {
             positionPieceMap.put(Position.valueOf(6, 4), guard);
             positionPieceMap.put(Position.valueOf(6, 5), enemy1);
             positionPieceMap.put(Position.valueOf(7, 3), enemy2);
-            List<Position> expected = List.of(Position.valueOf(5, 3), Position.valueOf(5, 4),
-                    Position.valueOf(5, 5), Position.valueOf(6, 3), Position.valueOf(6, 5), Position.valueOf(7, 3),
-                    Position.valueOf(7, 4), Position.valueOf(7, 5));
+            List<Position> expected = List.of(
+                    Position.valueOf(5, 3),
+                    Position.valueOf(5, 4),
+                    Position.valueOf(5, 5),
+                    Position.valueOf(6, 3),
+                    Position.valueOf(6, 5),
+                    Position.valueOf(7, 3),
+                    Position.valueOf(7, 4),
+                    Position.valueOf(7, 5));
 
-            Board board = new Board(positionPieceMap);
-            List<Position> actual = guard.calculateMovablePositions(Position.valueOf(6, 4), board);
+            BoardMediator boardMediator = new Board(positionPieceMap);
+            List<Position> actual = guard.calculateMovablePositions(Position.valueOf(6, 4), boardMediator);
 
             assertThat(actual).hasSameElementsAs(expected);
         }
@@ -94,8 +100,8 @@ public class GuardTest {
             positionPieceMap.put(Position.valueOf(2, 2), ally3);
             List<Position> expected = List.of();
 
-            Board board = new Board(positionPieceMap);
-            List<Position> actual = guard.calculateMovablePositions(Position.valueOf(1, 1), board);
+            BoardMediator boardMediator = new Board(positionPieceMap);
+            List<Position> actual = guard.calculateMovablePositions(Position.valueOf(1, 1), boardMediator);
 
             assertThat(actual).hasSameElementsAs(expected);
         }
