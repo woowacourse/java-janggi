@@ -1,7 +1,6 @@
 package repository.jdbc;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import repository.RepositoryErrorMessage;
@@ -28,9 +27,6 @@ public class GamePieceJdbcRepository implements GamePieceDao {
                     "SET position_row = ?, position_col = ?, is_active = ? " +
                     "WHERE game_piece_id = ?";
 
-    private static final String DELETE_SQL =
-            "DELETE FROM game_pieces WHERE game_piece_id = ?";
-
     private static final String CREATE_TABLE_SQL =
             "CREATE TABLE IF NOT EXISTS game_pieces (" +
                     "game_piece_id BIGINT PRIMARY KEY AUTO_INCREMENT, " +
@@ -50,76 +46,60 @@ public class GamePieceJdbcRepository implements GamePieceDao {
     }
 
     public void initTable(Connection connection) {
-        try {
-            template.executeCommand(connection, CREATE_TABLE_SQL);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        template.executeCommand(connection, CREATE_TABLE_SQL);
     }
 
     @Override
     public Long save(Connection connection, GamePiece entity) {
-        try {
-            Object generatedId = template.executeSave(
-                    connection,
-                    INSERT_SQL,
-                    entity.gameId(),
-                    entity.pieceId(),
-                    entity.row(),
-                    entity.col(),
-                    entity.isActive()
-            );
-            return (Long) generatedId;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        Object generatedId = template.executeSave(
+                connection,
+                INSERT_SQL,
+                entity.gameId(),
+                entity.pieceId(),
+                entity.row(),
+                entity.col(),
+                entity.isActive()
+        );
+        return (Long) generatedId;
     }
 
     @Override
     public List<Long> saveAll(Connection connection, List<GamePiece> entities) {
-        try {
-            List<List<Object>> totalEntityValues = new ArrayList<>();
-            for (GamePiece entity : entities) {
-                List<Object> rowValues = new ArrayList<>();
-                rowValues.add(entity.gameId());
-                rowValues.add(entity.pieceId());
-                rowValues.add(entity.row());
-                rowValues.add(entity.col());
-                rowValues.add(entity.isActive());
-                totalEntityValues.add(rowValues);
-            }
+        List<List<Object>> totalEntityValues = new ArrayList<>();
+        for (GamePiece entity : entities) {
+            List<Object> rowValues = new ArrayList<>();
+            rowValues.add(entity.gameId());
+            rowValues.add(entity.pieceId());
+            rowValues.add(entity.row());
+            rowValues.add(entity.col());
+            rowValues.add(entity.isActive());
+            totalEntityValues.add(rowValues);
+        }
 
-            List<Object> generatedKeys = template.executeBatchSave(connection, INSERT_SQL, totalEntityValues);
-            return generatedKeys.stream()
+        List<Object> generatedKeys = template.executeBatchSave(connection, INSERT_SQL, totalEntityValues);
+        return generatedKeys.stream()
                 .map(id -> (Long) id)
                 .toList();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     @Override
     public GamePiece find(Connection connection, Long id) {
-        try {
-            List<GamePiece> entities = template.executeRead(
-                    connection,
-                    FIND_BY_ID_SQL,
-                    (rs) -> new GamePiece(
-                            rs.getLong("game_piece_id"),
-                            rs.getLong("game_id"),
-                            rs.getLong("piece_id"),
-                            rs.getInt("position_row"),
-                            rs.getInt("position_col"),
-                            rs.getBoolean("is_active")
-                    ),
-                    id
-            );
+        List<GamePiece> entities = template.executeRead(
+                connection,
+                FIND_BY_ID_SQL,
+                (rs) -> new GamePiece(
+                        rs.getLong("game_piece_id"),
+                        rs.getLong("game_id"),
+                        rs.getLong("piece_id"),
+                        rs.getInt("position_row"),
+                        rs.getInt("position_col"),
+                        rs.getBoolean("is_active")
+                ),
+                id
+        );
 
-            validateSingleEntity(entities);
-            return entities.getFirst();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        validateSingleEntity(entities);
+        return entities.getFirst();
     }
 
     private void validateSingleEntity(List<GamePiece> entities) {
@@ -133,37 +113,29 @@ public class GamePieceJdbcRepository implements GamePieceDao {
 
     @Override
     public List<GamePiece> findAll(Connection connection) {
-        try {
-            return template.executeRead(
-                    connection,
-                    FIND_ALL_SQL,
-                    (rs) -> new GamePiece(
-                            rs.getLong("game_piece_id"),
-                            rs.getLong("game_id"),
-                            rs.getLong("piece_id"),
-                            rs.getInt("position_row"),
-                            rs.getInt("position_col"),
-                            rs.getBoolean("is_active")
-                    )
-            );
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        return template.executeRead(
+                connection,
+                FIND_ALL_SQL,
+                (rs) -> new GamePiece(
+                        rs.getLong("game_piece_id"),
+                        rs.getLong("game_id"),
+                        rs.getLong("piece_id"),
+                        rs.getInt("position_row"),
+                        rs.getInt("position_col"),
+                        rs.getBoolean("is_active")
+                )
+        );
     }
 
     @Override
     public void update(Connection connection, GamePiece newEntity) {
-        try {
-            template.executeCommand(
-                    connection,
-                    UPDATE_SQL,
-                    newEntity.row(),
-                    newEntity.col(),
-                    newEntity.isActive(),
-                    newEntity.gamePieceId()
-            );
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        template.executeCommand(
+                connection,
+                UPDATE_SQL,
+                newEntity.row(),
+                newEntity.col(),
+                newEntity.isActive(),
+                newEntity.gamePieceId()
+        );
     }
 }

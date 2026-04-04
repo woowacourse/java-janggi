@@ -1,7 +1,6 @@
 package repository.jdbc;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 import repository.RepositoryErrorMessage;
 import repository.dao.GameDao;
@@ -25,12 +24,12 @@ public class GameJdbcRepository implements GameDao {
         this.template = template;
     }
 
-    public void initTable(Connection connection) throws SQLException {
+    public void initTable(Connection connection) {
         template.executeCommand(connection, CREATE_TABLE_SQL);
     }
 
     @Override
-    public Long save(Connection connection, Game entity) throws SQLException {
+    public Long save(Connection connection, Game entity) {
         Object generatedId = template.executeSave(
                 connection,
                 INSERT_SQL,
@@ -40,7 +39,7 @@ public class GameJdbcRepository implements GameDao {
     }
 
     @Override
-    public Game find(Connection connection, Long entityId) throws SQLException {
+    public Game find(Connection connection, Long entityId) {
         List<Game> entities = template.executeRead(
                 connection,
                 SELECT_BY_ID_SQL,
@@ -66,7 +65,7 @@ public class GameJdbcRepository implements GameDao {
     }
 
     @Override
-    public void update(Connection connection, Long entityId, GameContext newEntity) throws SQLException {
+    public void update(Connection connection, Long entityId, GameContext newEntity) {
         template.executeCommand(
                 connection,
                 UPDATE_SQL,

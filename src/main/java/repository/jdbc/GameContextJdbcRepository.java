@@ -1,7 +1,7 @@
 package repository.jdbc;
 
 import java.sql.Connection;
-import java.sql.SQLException;
+
 import java.util.List;
 import repository.RepositoryErrorMessage;
 import repository.dao.GameContextDao;
@@ -24,12 +24,12 @@ public class GameContextJdbcRepository implements GameContextDao {
         this.template = template;
     }
 
-    public void initTable(Connection connection) throws SQLException {
+    public void initTable(Connection connection) {
         template.executeCommand(connection, CREATE_TABLE_SQL);
     }
 
     @Override
-    public Long save(Connection connection, GameContext entity) throws SQLException {
+    public Long save(Connection connection, GameContext entity) {
         Object generatedId = template.executeSave(
                 connection,
                 INSERT_SQL,
@@ -40,7 +40,7 @@ public class GameContextJdbcRepository implements GameContextDao {
     }
 
     @Override
-    public GameContext find(Connection connection, Long entityId) throws SQLException {
+    public GameContext find(Connection connection, Long entityId) {
         List<GameContext> entities = template.executeRead(
                 connection,
                 SELECT_BY_ID_SQL,
@@ -66,7 +66,7 @@ public class GameContextJdbcRepository implements GameContextDao {
     }
 
     @Override
-    public void update(Connection connection, Long entityId, GameContext newEntity) throws SQLException {
+    public void update(Connection connection, Long entityId, GameContext newEntity) {
         template.executeCommand(
                 connection,
                 UPDATE_SQL,
