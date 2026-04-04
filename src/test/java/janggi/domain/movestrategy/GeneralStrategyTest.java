@@ -1,6 +1,7 @@
 package janggi.domain.movestrategy;
 
 import janggi.domain.board.Position;
+import janggi.domain.movestrategy.rule.StraightOneStepMoveRule;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceFactory;
 import janggi.domain.piece.Team;
@@ -23,7 +24,7 @@ class GeneralStrategyTest {
 
     @BeforeEach
     void setUp() {
-        generalStrategy = new GeneralStrategy();
+        generalStrategy = new GeneralStrategy(List.of(new StraightOneStepMoveRule()));
         general = PieceFactory.createGeneral(Team.HAN);
         otherTeamPiece = PieceFactory.createCannon(Team.CHO);
         sameTeamPiece = PieceFactory.createCannon(Team.HAN);
