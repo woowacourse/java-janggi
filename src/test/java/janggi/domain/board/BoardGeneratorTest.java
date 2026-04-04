@@ -2,7 +2,7 @@ package janggi.domain.board;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import janggi.domain.setup.InnerElephantElephantFormation;
+import janggi.domain.board.setup.InnerElephantElephantFormation;
 import janggi.domain.team.BlueTeam;
 import janggi.domain.team.RedTeam;
 import org.assertj.core.api.InstanceOfAssertFactories;

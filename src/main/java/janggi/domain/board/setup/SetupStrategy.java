@@ -1,4 +1,4 @@
-package janggi.domain.setup;
+package janggi.domain.board.setup;
 
 import java.util.function.Supplier;
 

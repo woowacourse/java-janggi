@@ -3,6 +3,7 @@ package janggi.domain.setup;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import janggi.domain.Position;
+import janggi.domain.board.setup.OuterElephantElephantFormation;
 import janggi.domain.fixture.SetupPolicyTestFixture;
 import janggi.domain.piece.PieceType;
 import java.util.LinkedHashMap;

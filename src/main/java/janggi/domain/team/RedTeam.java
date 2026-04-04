@@ -1,9 +1,9 @@
 package janggi.domain.team;
 
 import janggi.domain.Position;
+import janggi.domain.board.setup.ElephantFormation;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
-import janggi.domain.setup.ElephantFormation;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
