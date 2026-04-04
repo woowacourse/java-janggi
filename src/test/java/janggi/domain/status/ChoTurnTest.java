@@ -55,6 +55,6 @@ public class ChoTurnTest {
 
         //then
         assertThatThrownBy(() -> status.move(from, to, board))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalStateException.class);
     }
 }

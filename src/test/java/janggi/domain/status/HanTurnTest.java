@@ -59,6 +59,6 @@ public class HanTurnTest {
 
         //then
         assertThatThrownBy(() -> status.move(from, to, board))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalStateException.class);
     }
 }

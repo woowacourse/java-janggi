@@ -22,7 +22,7 @@ public class BoardTest {
         );
 
         assertThatThrownBy(() -> board.move(Point.of(0, 0), Point.of(0, 1), Team.CHO))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(IllegalStateException.class)
                 .hasMessageContaining("출발지에 이동할 기물이 없습니다.");
     }
 
@@ -36,7 +36,7 @@ public class BoardTest {
         );
 
         assertThatThrownBy(() -> board.move(Point.of(0, 0), Point.of(0, 1), Team.CHO))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(IllegalStateException.class)
                 .hasMessageContaining("상대방의 기물은 움직일 수 없습니다.");
     }
 
@@ -51,7 +51,7 @@ public class BoardTest {
         );
 
         assertThatThrownBy(() -> board.move(Point.of(0, 0), Point.of(0, 1), Team.CHO))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(IllegalStateException.class)
                 .hasMessageContaining("도착지에 본인의 기물이 있습니다.");
     }
 
@@ -66,7 +66,7 @@ public class BoardTest {
         );
 
         assertThatThrownBy(() -> board.move(Point.of(0, 0), Point.of(0, 3), Team.CHO))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(IllegalStateException.class)
                 .hasMessageContaining("이동 경로에 장애물이 있거나 규칙에 어긋납니다.");
     }
 
@@ -82,7 +82,7 @@ public class BoardTest {
         );
 
         assertThatThrownBy(() -> board.move(Point.of(1, 2), Point.of(1, 6), Team.CHO))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(IllegalStateException.class)
                 .hasMessageContaining("해당 타겟을 잡을 수 없습니다.");
     }
 
