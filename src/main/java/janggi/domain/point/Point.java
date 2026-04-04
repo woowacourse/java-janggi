@@ -10,21 +10,21 @@ public class Point {
     private static final int ROW_RANGE = 10;
     private static final int COLUMN_RANGE = 9;
 
-    private final int col;
+    private final int column;
     private final int row;
 
     static {
         List<List<Point>> temp = new ArrayList<>();
         for(int i = 0; i < ROW_RANGE; i++) {
             List<Point> rows = new ArrayList<>();
-            addColumn(rows, i);
+            addColumn(i, rows);
             temp.add(rows);
         }
         CACHE = Collections.unmodifiableList(temp);
     }
 
-    private Point(int col, int row) {
-        this.col = col;
+    private Point(int column, int row) {
+        this.column = column;
         this.row = row;
     }
 
@@ -36,7 +36,7 @@ public class Point {
     }
 
     public int calculatePathColumn(Point from) {
-        return this.col - from.col;
+        return this.column - from.column;
     }
 
     public int calculatePathRow(Point from) {
@@ -44,18 +44,16 @@ public class Point {
     }
 
     public int getColumn() {
-        return col;
+        return column;
     }
 
     public int getRow() {
         return row;
     }
 
-    private static void addColumn(List<Point> row, int col) {
+    private static void addColumn(int column, List<Point> row) {
         for(int i = 0; i < COLUMN_RANGE; i++) {
-            row.add(new Point(i, col));
+            row.add(new Point(i, column));
         }
     }
-
-
 }
