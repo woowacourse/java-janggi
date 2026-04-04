@@ -42,7 +42,7 @@ public class GameEntity {
     }
 
     public void bindId(Long id) {
-        if(this.id != null) {
+        if(this.id == null) {
             this.id = id;
         }
     }

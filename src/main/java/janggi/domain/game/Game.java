@@ -6,7 +6,6 @@ import static janggi.domain.dynasty.Dynasty.HAN;
 import janggi.domain.DomainException;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardDesignPolicy;
-import janggi.domain.board.DefaultBoardDesignPolicy;
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.piece.Piece;
 import janggi.domain.position.Position;
@@ -36,20 +35,28 @@ public class Game {
         return new Game(new Board(boardDesignPolicy), new RoomName(roomName), new CurrentTurn(CHO), lastPlayedAt);
     }
 
+    public Map<Position, Piece> boardMap() {
+        return board.board();
+    }
+
+    public String roomName() {
+        return roomName.roomName();
+    }
+
+    public Dynasty currentTurn() {
+        return currentTurn.currentDynasty();
+    }
+
+    public LocalDateTime lastPlayedAt() {
+        return lastPlayedAt;
+    }
+
     public List<Position> findMovablePositions(Position from) {
         List<Position> positions = board.canMovePosition(from, currentTurn.currentDynasty());
         if (positions.isEmpty()) {
             throw new DomainException(String.format(NO_AVAILABLE_MOVES_MESSAGE, from.row().row(), from.column().column()));
         }
         return positions;
-    }
-
-    public Map<Position, Piece> boardMap() {
-        return board.board();
-    }
-
-    public Dynasty currentTurn() {
-        return currentTurn.currentDynasty();
     }
 
     public void movePiece(Position from, Position to) {

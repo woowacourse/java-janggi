@@ -1,8 +1,8 @@
 package janggi.infra.dao;
 
 import janggi.infra.entity.GameEntity;
+import janggi.infra.transaction.ConnectionProvider;
 
-import javax.sql.DataSource;
 import java.sql.*;
 import java.util.Optional;
 
@@ -11,22 +11,22 @@ import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 public class JdbcGameDAO implements GameDAO {
 
-    private final DataSource dataSource;
+    private final ConnectionProvider connectionProvider;
 
     private static final String SAVE_SQL = "INSERT INTO game(room_name, last_turn, last_played_at) VALUES(?, ?, ?)";
 
-    public JdbcGameDAO(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public JdbcGameDAO(ConnectionProvider connectionProvider) {
+        this.connectionProvider = connectionProvider;
     }
 
     @Override
     public Long save(GameEntity gameEntity) {
+        Connection connection = connectionProvider.getConnection();
         try (
-                Connection connection = dataSource.getConnection();
                 PreparedStatement pstmt = connection.prepareStatement(SAVE_SQL, RETURN_GENERATED_KEYS)
         ) {
 
-            pstmt.setString(1, gameEntity.roomName().name());
+            pstmt.setString(1, gameEntity.roomName().roomName());
             pstmt.setString(2, gameEntity.lastTurn().name());
             pstmt.setTimestamp(3, Timestamp.valueOf(gameEntity.lastPlayedAt()));
             pstmt.executeUpdate();
@@ -38,7 +38,7 @@ public class JdbcGameDAO implements GameDAO {
 
     private static long getGeneratedKey(PreparedStatement pstmt) throws SQLException {
         ResultSet resultSet = pstmt.getGeneratedKeys();
-        if(resultSet.next()) {
+        if (resultSet.next()) {
             return resultSet.getLong(1);
         }
         throw new SQLException("생성된 GameRoom Id를 가져오지 못했습니다.");

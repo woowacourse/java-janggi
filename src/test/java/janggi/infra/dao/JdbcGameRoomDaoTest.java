@@ -4,10 +4,10 @@ import janggi.domain.dynasty.Dynasty;
 import janggi.domain.game.RoomName;
 import janggi.infra.config.TestDataSourceConfig;
 import janggi.infra.entity.GameEntity;
+import janggi.infra.transaction.ConnectionProvider;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import javax.sql.DataSource;
 import java.sql.*;
 import java.time.LocalDateTime;
 
@@ -16,8 +16,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class JdbcGameRoomDaoTest {
 
-    private final DataSource dataSource = new TestDataSourceConfig().dataSource();
-    private final JdbcGameDAO jdbcGameRoomDao = new JdbcGameDAO(dataSource);
+    private final ConnectionProvider connectionProvider = new ConnectionProvider(new TestDataSourceConfig().dataSource());
+    private final JdbcGameDAO jdbcGameRoomDao = new JdbcGameDAO(connectionProvider);
 
 
     @Test
@@ -31,7 +31,7 @@ class JdbcGameRoomDaoTest {
 
         // then
         try (
-                Connection conn = dataSource.getConnection();
+                Connection conn = connectionProvider.getConnection();
                 PreparedStatement preparedStatement = conn.prepareStatement("SELECT COUNT(*) FROM game WHERE game_id = ?");
         ) {
             preparedStatement.setLong(1, generatedKey);

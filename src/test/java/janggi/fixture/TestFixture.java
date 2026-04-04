@@ -31,7 +31,7 @@ public class TestFixture {
                         Statement.RETURN_GENERATED_KEYS
                 );
         ) {
-            pstmt.setString(1, gameEntity.roomName().name());
+            pstmt.setString(1, gameEntity.roomName().roomName());
             pstmt.setString(2, gameEntity.lastTurn().name());
             pstmt.setTimestamp(3, Timestamp.valueOf(gameEntity.lastPlayedAt()));
             pstmt.executeUpdate();

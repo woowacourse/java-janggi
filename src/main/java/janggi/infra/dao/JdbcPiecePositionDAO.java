@@ -2,8 +2,8 @@ package janggi.infra.dao;
 
 import janggi.domain.position.Position;
 import janggi.infra.entity.PiecePositionEntity;
+import janggi.infra.transaction.ConnectionProvider;
 
-import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +14,10 @@ public class JdbcPiecePositionDAO implements PiecePositionDAO {
 
     private static final String SAVE_ALL_SQL = "INSERT INTO piece_position(janggi_game_id, piece_row, piece_column, piece_type, dynasty) VALUES";
 
-    private final DataSource dataSource;
+    private final ConnectionProvider connectionProvider;
 
-    public JdbcPiecePositionDAO(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public JdbcPiecePositionDAO(ConnectionProvider connectionProvider) {
+        this.connectionProvider = connectionProvider;
     }
 
     @Override
@@ -25,8 +25,9 @@ public class JdbcPiecePositionDAO implements PiecePositionDAO {
         if(piecePositionEntities == null || piecePositionEntities.isEmpty()) {
             throw new IllegalArgumentException("저장할 데이터가 존재하지 않습니다.");
         }
+
+        Connection con = connectionProvider.getConnection();
         try (
-                Connection con = dataSource.getConnection();
                 PreparedStatement pstmt = con.prepareStatement(createSaveAllQuery(piecePositionEntities), RETURN_GENERATED_KEYS);
         ) {
             bindParameter(piecePositionEntities, pstmt);

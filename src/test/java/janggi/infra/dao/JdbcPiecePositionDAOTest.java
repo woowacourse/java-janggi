@@ -7,10 +7,9 @@ import janggi.domain.position.Position;
 import janggi.infra.config.TestDataSourceConfig;
 import janggi.infra.entity.GameEntity;
 import janggi.infra.entity.PiecePositionEntity;
+import janggi.infra.transaction.ConnectionProvider;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import javax.sql.DataSource;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -22,8 +21,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class JdbcPiecePositionDAOTest {
 
-    private final DataSource dataSource = new TestDataSourceConfig().dataSource();
-    private final JdbcPiecePositionDAO jdbcBoardDAO = new JdbcPiecePositionDAO(dataSource);
+    private final ConnectionProvider connectionProvider = new ConnectionProvider(new TestDataSourceConfig().dataSource());
+    private final JdbcPiecePositionDAO jdbcBoardDAO = new JdbcPiecePositionDAO(connectionProvider);
 
     @Test
     @DisplayName("기물 위치목록을 저장한다.")
@@ -33,7 +32,7 @@ class JdbcPiecePositionDAOTest {
                 new RoomName("room1"),
                 Dynasty.CHO,
                 LocalDateTime.of(2026, 4, 3, 15, 30),
-                dataSource
+                new TestDataSourceConfig().dataSource()
         );
 
         List<PiecePositionEntity> positionEntities = List.of(
@@ -47,7 +46,7 @@ class JdbcPiecePositionDAOTest {
 
         // then
         try (
-                Connection conn = dataSource.getConnection();
+                Connection conn = connectionProvider.getConnection();
                 PreparedStatement preparedStatement = conn.prepareStatement(createFindByGeneratedKeysQuery(generatedKeys));
         ) {
             bindGeneratedKeysParameter(generatedKeys, preparedStatement);
