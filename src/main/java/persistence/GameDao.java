@@ -95,7 +95,7 @@ public class GameDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("로드 실패", e);
+            throw new RuntimeException("로드 실패: " + e.getMessage(), e);
         }
         return null;
     }
