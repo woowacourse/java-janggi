@@ -10,12 +10,12 @@ import org.junit.jupiter.params.provider.CsvSource;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-class TeamPalaceMovementTest {
+class ForwardPalaceMovementTest {
 
     @Nested
     class HAN_진영의_궁성인_경우 {
 
-        private final TeamPalaceMovement teamPalaceMovement = new TeamPalaceMovement(Team.HAN);
+        private final ForwardPalaceMovement forwardPalaceMovement = new ForwardPalaceMovement(Team.HAN);
 
         @ParameterizedTest
         @CsvSource(value = {
@@ -81,17 +81,17 @@ class TeamPalaceMovementTest {
                 "4,2,5,3"
         })
         public void 궁성_내_이동_불가능한_경로이면_에러를_반환한다(int fromColumn, int fromRow, int toColumn, int toRow) {
-            assertThatCode(() -> validateRule(fromColumn, fromRow, toColumn, toRow)).isInstanceOf(PieceException.class).hasMessage(TeamPalaceMovement.IMPOSSIBLE_PALACE_MOVE_MESSAGE);
+            assertThatCode(() -> validateRule(fromColumn, fromRow, toColumn, toRow)).isInstanceOf(PieceException.class).hasMessage(ForwardPalaceMovement.IMPOSSIBLE_PALACE_MOVE_MESSAGE);
         }
 
         private boolean isPalace(int fromColumn, int fromRow, int toColumn, int toRow) {
-            return teamPalaceMovement.isPalace(
+            return forwardPalaceMovement.isPalace(
                     Coordination.of(fromColumn, fromRow),
                     Coordination.of(toColumn, toRow));
         }
 
         private void validateRule(int fromColumn, int fromRow, int toColumn, int toRow) {
-            teamPalaceMovement.validateRule(
+            forwardPalaceMovement.validateRule(
                     Coordination.of(fromColumn, fromRow),
                     Coordination.of(toColumn, toRow));
         }
@@ -100,7 +100,7 @@ class TeamPalaceMovementTest {
     @Nested
     class CHO_진영의_궁성인_경우 {
 
-        private final TeamPalaceMovement teamPalaceMovement = new TeamPalaceMovement(Team.CHO);
+        private final ForwardPalaceMovement forwardPalaceMovement = new ForwardPalaceMovement(Team.CHO);
 
         @ParameterizedTest
         @CsvSource(value = {
@@ -165,17 +165,17 @@ class TeamPalaceMovementTest {
                 "4,9,5,8"
         })
         public void 궁성_내_이동_불가능한_경로이면_에러를_반환한다(int fromColumn, int fromRow, int toColumn, int toRow) {
-            assertThatCode(() -> validateRule(fromColumn, fromRow, toColumn, toRow)).isInstanceOf(PieceException.class).hasMessage(TeamPalaceMovement.IMPOSSIBLE_PALACE_MOVE_MESSAGE);
+            assertThatCode(() -> validateRule(fromColumn, fromRow, toColumn, toRow)).isInstanceOf(PieceException.class).hasMessage(ForwardPalaceMovement.IMPOSSIBLE_PALACE_MOVE_MESSAGE);
         }
 
         private boolean isPalace(int fromColumn, int fromRow, int toColumn, int toRow) {
-            return teamPalaceMovement.isPalace(
+            return forwardPalaceMovement.isPalace(
                     Coordination.of(fromColumn, fromRow),
                     Coordination.of(toColumn, toRow));
         }
 
         private void validateRule(int fromColumn, int fromRow, int toColumn, int toRow) {
-            teamPalaceMovement.validateRule(
+            forwardPalaceMovement.validateRule(
                     Coordination.of(fromColumn, fromRow),
                     Coordination.of(toColumn, toRow));
         }

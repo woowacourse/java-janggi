@@ -5,7 +5,7 @@ import domain.piece.error.PieceException;
 
 import java.util.List;
 
-public class Soldier extends PalaceMovementPiece {
+public class Soldier extends ForwardMovementPiece {
 
     private static final List<List<Integer>> CHO_MOVABLE_LOCATION = List.of(List.of(-1, 0), List.of(0, -1), List.of(1, 0));
     private static final List<List<Integer>> HAN_MOVABLE_LOCATION = List.of(List.of(-1, 0), List.of(0, 1), List.of(1, 0));

@@ -7,7 +7,7 @@ import domain.piece.error.PieceException;
 import java.util.List;
 import java.util.Map;
 
-public class TeamPalaceMovement implements PalaceMovement {
+public class ForwardPalaceMovement implements PalaceMovement {
 
     private static final Map<Coordination, List<Coordination>> CHO_PALACE = Map.of(
             Coordination.of(4, 8), List.of(Coordination.of(4, 9), Coordination.of(5, 8), Coordination.of(5, 9)),
@@ -34,7 +34,7 @@ public class TeamPalaceMovement implements PalaceMovement {
 
     private final Map<Coordination, List<Coordination>> palace;
 
-    public TeamPalaceMovement(Team team) {
+    public ForwardPalaceMovement(Team team) {
         if (team == Team.CHO) {
             this.palace = CHO_PALACE;
             return;
