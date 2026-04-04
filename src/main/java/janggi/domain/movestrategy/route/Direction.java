@@ -1,6 +1,5 @@
 package janggi.domain.movestrategy.route;
 
-import janggi.domain.piece.Team;
 import janggi.domain.position.Column;
 import janggi.domain.position.Position;
 import janggi.domain.position.Row;
