@@ -18,6 +18,12 @@ public class PathBasedMoveStrategy implements MoveStrategy {
     public List<List<Direction>> calculatePotentialPaths(Position start) {
         List<List<Direction>> paths = new ArrayList<>();
 
+        addBasicPotentialPaths(start, paths);
+
+        return paths;
+    }
+
+    private void addBasicPotentialPaths(Position start, List<List<Direction>> paths) {
         for (List<Direction> movePath : movePaths) {
             List<Direction> directionPath = new ArrayList<>();
 
@@ -34,7 +40,5 @@ public class PathBasedMoveStrategy implements MoveStrategy {
 
             paths.add(directionPath);
         }
-
-        return List.copyOf(paths);
     }
 }

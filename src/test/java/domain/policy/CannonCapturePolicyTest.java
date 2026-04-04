@@ -2,7 +2,7 @@ package domain.policy;
 
 import domain.board.Board;
 import domain.board.BoardInitializer;
-import domain.board.Side;
+import domain.state.Side;
 import domain.coordinate.Direction;
 import domain.coordinate.Position;
 import domain.piece.Cannon;
@@ -43,11 +43,6 @@ class CannonCapturePolicyTest {
                     pieceInitPlacements.putIfAbsent(new Position(i, j), EmptyPiece.getInstance());
                 }
             }
-        }
-
-        @Override
-        public Side getFirstTurnSide() {
-            return Side.CHU;
         }
     }
 

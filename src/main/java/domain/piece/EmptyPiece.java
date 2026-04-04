@@ -2,7 +2,7 @@ package domain.piece;
 
 import domain.coordinate.Direction;
 import domain.coordinate.Position;
-import domain.board.Side;
+import domain.state.Side;
 
 import java.util.List;
 
@@ -24,5 +24,10 @@ public class EmptyPiece extends Piece {
     @Override
     public List<List<Direction>> getPotentialPaths(Position start) {
         return List.of();
+    }
+
+    @Override
+    public int getScore() {
+        return 0;
     }
 }

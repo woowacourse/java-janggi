@@ -25,8 +25,4 @@ public enum GameCommandFormatter {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 명령 번호입니다: " + index));
     }
-
-    public int getIndex() {
-        return index;
-    }
 }

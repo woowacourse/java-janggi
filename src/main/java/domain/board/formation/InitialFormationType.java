@@ -1,6 +1,6 @@
 package domain.board.formation;
 
-import domain.board.Side;
+import domain.state.Side;
 import java.util.function.Function;
 
 public enum InitialFormationType {

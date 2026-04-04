@@ -1,6 +1,6 @@
 package domain.coordinate;
 
-import domain.board.Side;
+import domain.state.Side;
 
 public enum Direction {
 
@@ -21,6 +21,18 @@ public enum Direction {
         }
 
         return Direction.UP;
+    }
+
+    public boolean isForward(Direction forward) {
+        if (forward == Direction.UP) {
+            return this == Direction.UP_LEFT || this == Direction.UP_RIGHT;
+        }
+
+        if (forward == Direction.DOWN) {
+            return this == Direction.DOWN_LEFT || this == Direction.DOWN_RIGHT;
+        }
+
+        return false;
     }
 
     public int getRow() {

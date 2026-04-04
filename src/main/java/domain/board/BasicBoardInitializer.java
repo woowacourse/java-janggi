@@ -3,6 +3,7 @@ package domain.board;
 import domain.board.formation.InitialFormation;
 import domain.coordinate.Position;
 import domain.piece.*;
+import domain.state.Side;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -64,9 +65,5 @@ public class BasicBoardInitializer implements BoardInitializer {
         }
 
         return ROW_SIZE - row;
-    }
-
-    public Side getFirstTurnSide() {
-        return Side.CHU;
     }
 }

@@ -2,11 +2,12 @@ package controller;
 
 import domain.Game;
 import domain.board.BasicBoardInitializer;
-import domain.board.Side;
+import domain.state.Side;
 import domain.board.formation.InitialFormationType;
 import domain.coordinate.Position;
 import mapper.BoardMapper;
 import mapper.PossibleMovesMapper;
+import mapper.ScoreMapper;
 import view.InputHandler;
 import view.InputView;
 import view.OutputView;
@@ -28,6 +29,57 @@ public class JanggiController {
         play(game);
     }
 
+    private void play(Game game) {
+        while (!game.isFinished()) {
+            outputView.printBoard(BoardMapper.toDto(game.getBoard()));
+            outputView.printScore(ScoreMapper.toDto(game.calculateScore(Side.CHU), game.calculateScore(Side.HAN)));
+            GameCommand command = InputHandler.readUntilValid(() -> inputView.requestGameCommand(game.getSide()));
+
+            if (command == GameCommand.MOVE) {
+                handleMove(game);
+                continue;
+            }
+
+            if (command == GameCommand.PASS) {
+                outputView.printTurnPassMessage(game.getSide());
+                game.pass();
+                continue;
+            }
+
+            if (command == GameCommand.SURRENDER) {
+                outputView.printSurrenderMessage(game.getSide());
+                game.end();
+            }
+        }
+
+        outputView.printVictoryMessage(game.getSide());
+    }
+
+    private void handleMove(Game game) {
+        Position start = InputHandler.readUntilValid(() ->
+                game.validateMoveable(createPosition(
+                        inputView.requestStartPiecePosition(game.getSide())))
+        );
+
+        List<Position> possibleMoves = game.getPossibleMoves(start);
+        Position dest = InputHandler.readUntilValid(() ->
+                game.getEndPosition(
+                        inputView.requestPieceDestination(PossibleMovesMapper.toDto(possibleMoves)),
+                        possibleMoves)
+        );
+
+        game.movePiece(start, dest);
+
+        if (game.isCheckMate()) {
+            outputView.printCheckMateMessage();
+            game.end();
+        }
+
+        if (game.isCheck()) {
+            outputView.printCheckMessage();
+        }
+    }
+
     private Game initializeGame() {
         InitialFormationType hanInitialFormation = InputHandler.readUntilValid(() -> inputView.requestInitialType(Side.HAN));
         InitialFormationType chuInitialFormation = InputHandler.readUntilValid(() -> inputView.requestInitialType(Side.CHU));
@@ -37,22 +89,6 @@ public class JanggiController {
                         chuInitialFormation.create(Side.CHU)
                 )
         );
-    }
-
-    private void play(Game game) {
-        while (true) {
-            outputView.printBoard(BoardMapper.toDto(game.getBoard()));
-            Position startPosition = InputHandler.readUntilValid(() ->
-                    game.validateMoveable(createPosition(inputView.requestStartPiecePosition(game.getTurn())))
-            );
-
-            List<Position> possibleMoves = game.getPossibleMoves(startPosition);
-            Position endPosition = InputHandler.readUntilValid(() ->
-                    game.getEndPosition(inputView.requestPieceDestination(PossibleMovesMapper.toDto(possibleMoves)), possibleMoves)
-            );
-
-            game.movePiece(startPosition, endPosition);
-        }
     }
 
     private Position createPosition(List<Integer> inputs) {

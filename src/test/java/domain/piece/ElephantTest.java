@@ -2,7 +2,7 @@ package domain.piece;
 
 import domain.board.Board;
 import domain.coordinate.Position;
-import domain.board.Side;
+import domain.state.Side;
 import domain.board.BoardInitializer;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -46,11 +46,6 @@ class ElephantTest {
                     pieceInitPlacements.putIfAbsent(new Position(i, j), EmptyPiece.getInstance());
                 }
             }
-        }
-
-        @Override
-        public Side getFirstTurnSide() {
-            return Side.HAN;
         }
     }
 

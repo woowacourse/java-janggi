@@ -1,6 +1,6 @@
 package domain.board.formation;
 
-import domain.board.Side;
+import domain.state.Side;
 import domain.coordinate.Position;
 import domain.piece.Elephant;
 import domain.piece.Horse;

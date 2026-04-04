@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.board.Board;
 import domain.coordinate.Position;
-import domain.board.Side;
+import domain.state.Side;
 import domain.board.BoardInitializer;
 import java.util.HashMap;
 import java.util.List;
@@ -43,12 +43,6 @@ class HorseTest {
                     pieceInitPlacements.putIfAbsent(new Position(i, j), EmptyPiece.getInstance());
                 }
             }
-        }
-
-
-        @Override
-        public Side getFirstTurnSide() {
-            return Side.HAN;
         }
     }
 
