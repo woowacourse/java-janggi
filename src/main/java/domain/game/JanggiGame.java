@@ -2,17 +2,24 @@ package domain.game;
 
 import domain.board.Board;
 import domain.board.Intersection;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public final class JanggiGame {
 
     private static final Side FIRST_TURN = Side.CHO;
+    private static final int MINIMUM_POINT_FOR_CONTINUE = 30;
 
     private final Board board;
     private Side currentTurn;
 
-    public JanggiGame(Board board) {
+    JanggiGame(Board board, Side currentTurn) {
         this.board = board;
-        this.currentTurn = FIRST_TURN;
+        this.currentTurn = currentTurn;
+    }
+
+    public JanggiGame(Board board) {
+        this(board, FIRST_TURN);
     }
 
     public void movePiece(
@@ -37,17 +44,71 @@ public final class JanggiGame {
         return currentTurn;
     }
 
-    public Side previousTurn() {
+    private Side previousTurn() {
         return currentTurn.nextTurn();
     }
 
     public boolean isFinished() {
-        return board.isGeneralCaptured(currentTurn) || board.isGeneralCaptured(currentTurn.nextTurn());
+        return isGeneralCaptured() || !hasEnoughPointsToContinue();
     }
 
-    public double calculatePointOf(Side side) {
+    private boolean isGeneralCaptured() {
+        return board.isGeneralCaptured(currentTurn) || board.isGeneralCaptured(previousTurn());
+    }
+
+    private boolean hasEnoughPointsToContinue() {
+        double pointOfCho = board.calculatePiecePointOf(Side.CHO);
+        double pointOfHan = board.calculatePiecePointOf(Side.HAN);
+
+        return pointOfCho >= MINIMUM_POINT_FOR_CONTINUE
+                || pointOfHan >= MINIMUM_POINT_FOR_CONTINUE;
+    }
+
+    public double calculateScoreOf(Side side) {
         double sideBonusPoint = side.bonusPoint();
 
         return sideBonusPoint + board.calculatePiecePointOf(side);
+    }
+
+    public GameResult determineResult() {
+        if (!isFinished()) {
+            throw new IllegalStateException("승자는 게임이 종료되었을 때 판단할 수 있습니다.");
+        }
+
+        if (isGeneralCaptured()) {
+            return new GameResult(
+                    previousTurn(),
+                    true,
+                    calculateTotalPointBySide()
+            );
+        }
+
+        return new GameResult(
+                findSideWithHigherScore(),
+                false,
+                calculateTotalPointBySide()
+        );
+    }
+
+    private Side findSideWithHigherScore() {
+        double choPoint = calculateScoreOf(Side.CHO);
+        double hanPoint = calculateScoreOf(Side.HAN);
+
+        if (choPoint > hanPoint) {
+            return Side.CHO;
+        }
+
+        return Side.HAN;
+    }
+
+    private Map<Side, Double> calculateTotalPointBySide() {
+        Map<Side, Double> totalPointBySide = new LinkedHashMap<>();
+        final Side cho = Side.CHO;
+        final Side han = Side.HAN;
+
+        totalPointBySide.put(cho, calculateScoreOf(cho));
+        totalPointBySide.put(han, calculateScoreOf(han));
+
+        return totalPointBySide;
     }
 }

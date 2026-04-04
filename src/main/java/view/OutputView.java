@@ -2,6 +2,7 @@ package view;
 
 import domain.board.Board;
 import domain.board.Intersection;
+import domain.game.GameResult;
 import domain.game.Side;
 import domain.piece.Piece;
 import domain.piece.PieceType;
@@ -50,20 +51,24 @@ public final class OutputView {
         System.out.println();
     }
 
-    public void printWinner(Map<Side, Double> totalPointBySide, String winner) {
-        final String header = ""
-                + "--- 게임이 종료되었습니다 ---" + System.lineSeparator()
-                + winner + "의 승리!" + System.lineSeparator();
-        String output = totalPointBySide.entrySet()
-                .stream()
-                .map(entry -> entry.getKey() + "의 점수: " + entry.getValue())
-                .collect(Collectors.joining(
-                        System.lineSeparator(),
-                        header,
-                        ""
-                ));
+    public void printWinner(GameResult gameResult) {
+        System.out.printf("--- 게임이 종료되었습니다 ---%n%s의 승리!%n", gameResult.winnerName());
+        printWinningReason(gameResult);
+    }
 
-        System.out.println(output);
+    private void printWinningReason(GameResult gameResult) {
+        String winnerName = gameResult.winnerName();
+
+        if (gameResult.generalCaptured()) {
+            System.out.printf("%s가 상대방의 왕을 잡았습니다.%n", winnerName);
+            return;
+        }
+
+        Map<Side, Double> totalPointBySide = gameResult.totalPointBySide();
+        System.out.printf("%s의 점수가 상대방보다 높습니다.%n", winnerName);
+        totalPointBySide.forEach((side, point) ->
+                System.out.printf("%s의 점수: %.1f%n", side.name(), point)
+        );
     }
 
     private void printRow(Board board, int row, List<Intersection> movableIntersections) {

@@ -7,8 +7,6 @@ import domain.board.wing.Wings;
 import domain.game.JanggiGame;
 import domain.game.Side;
 import domain.piece.AlivePieces;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import view.InputView;
 import view.OutputView;
 
@@ -40,10 +38,7 @@ public final class JanggiController {
             readValidDestinationAndPrintBoard(janggiGame, board, startPosition, currentTurn);
         }
 
-        outputView.printWinner(
-                calculateTotalPointBySide(janggiGame),
-                findWinner(janggiGame)
-        );
+        outputView.printWinner(janggiGame.determineResult());
     }
 
     private InitialPieces setUpInitialPieces() {
@@ -93,30 +88,5 @@ public final class JanggiController {
                 outputView.printError(e.getMessage());
             }
         }
-    }
-
-    private Map<Side, Double> calculateTotalPointBySide(JanggiGame janggiGame) {
-        Map<Side, Double> totalPointBySide = new LinkedHashMap<>();
-        final Side cho = Side.CHO;
-        final Side han = Side.HAN;
-
-        totalPointBySide.put(cho, janggiGame.calculatePointOf(cho));
-        totalPointBySide.put(han, janggiGame.calculatePointOf(han));
-
-        return totalPointBySide;
-    }
-
-    private String findWinner(JanggiGame janggiGame) {
-        Map<Side, Double> totalPointBySide = calculateTotalPointBySide(janggiGame);
-        final Side cho = Side.CHO;
-        final Side han = Side.HAN;
-
-        String winner = cho.name();
-
-        if (totalPointBySide.get(cho) < totalPointBySide.get(han)) {
-            winner = han.name();
-        }
-
-        return winner;
     }
 }
