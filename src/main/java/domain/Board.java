@@ -8,9 +8,13 @@ import java.util.Optional;
 
 public class Board {
 
+    private final Palace chuPalace;
+    private final Palace hanPalace;
     private final Map<Position, Piece> board;
 
     private Board(final Map<Position, Piece> board) {
+        this.chuPalace = Palace.of(Team.CHU);
+        this.hanPalace = Palace.of(Team.HAN);
         this.board = board;
     }
 
@@ -48,6 +52,13 @@ public class Board {
 
         Piece targetPiece = target.get();
         return currentPiece.isAnotherTeam(targetPiece);
+    }
+
+    public boolean isInOwnPalace(Position position, Team team) {
+        if (team == Team.CHU) {
+            return chuPalace.isInPalace(position);
+        }
+        return hanPalace.isInPalace(position);
     }
 
     public Map<Position, Piece> getBoard() {
