@@ -39,6 +39,6 @@ public class GeneralMoveStrategy implements MoveStrategy {
 
         return IntStream.range(lowerGeneralColumn, upperGeneralColumn)
                 .mapToObj(column -> Position.of(column, row))
-                .anyMatch(board::isEmpty);
+                .allMatch(board::isEmpty);
     }
 }
