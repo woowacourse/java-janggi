@@ -5,9 +5,9 @@ public record Position(
         int y
 ) {
     private static final int MIN_X = 0;
-    private static final int MAX_X = 9;
+    private static final int MAX_X = 8;
     private static final int MIN_Y = 0;
-    private static final int MAX_Y = 10;
+    private static final int MAX_Y = 9;
 
     public Position {
         validateCoordinate(x, y);
