@@ -30,7 +30,8 @@ public class OffLineRule implements Rule {
             }
             from = movement.calculateDestination(from, boardMediator);
         }
-        if (lastMovement.canMove(from) && lastMovement.canCatch(piece, from, boardMediator)) {
+        if (lastMovement.canMove(from) && lastMovement.canCatchAnyOnPath(piece, from,
+            boardMediator)) {
             return List.of(lastMovement.calculateBlockedPosition(from, boardMediator));
         }
         return List.of();

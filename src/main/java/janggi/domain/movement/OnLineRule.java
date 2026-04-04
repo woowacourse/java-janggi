@@ -22,18 +22,18 @@ public class OnLineRule implements Rule {
 
     @Override
     public List<Position> execute(Position from, final BoardMediator boardMediator) {
-        final List<Position> traces = new ArrayList<>();
+        final List<Position> path = new ArrayList<>();
         final List<OnLineMovement> movementOrderExceptLast = Lists.exceptLast(movementOrder);
         final OnLineMovement lastMovement = movementOrder.getLast();
         final Piece piece = boardMediator.getPieceInPosition(from);
         for (final OnLineMovement movement : movementOrderExceptLast) {
-            traces.addAll(movement.calculateTraces(from, piece, boardMediator));
+            path.addAll(movement.calculatePath(from, piece, boardMediator));
             final Optional<Position> destination = movement.calculateDestination(from,
                 boardMediator);
-            destination.ifPresent(traces::add);
-            from = traces.getLast();
+            destination.ifPresent(path::add);
+            from = path.getLast();
         }
-        traces.addAll(lastMovement.calculateTraces(from, piece, boardMediator));
-        return traces;
+        path.addAll(lastMovement.calculatePath(from, piece, boardMediator));
+        return path;
     }
 }

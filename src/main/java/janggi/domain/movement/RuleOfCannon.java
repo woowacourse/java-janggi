@@ -33,7 +33,7 @@ public class RuleOfCannon implements Rule {
         if (blockedPosition.isEmpty() || !canJump(piece, blockedPosition.get(), boardMediator)) {
             return List.of();
         }
-        return secondMovement.calculateTraces(blockedPosition.get(), piece, boardMediator)
+        return secondMovement.calculatePath(blockedPosition.get(), piece, boardMediator)
             .stream()
             .distinct().toList();
     }

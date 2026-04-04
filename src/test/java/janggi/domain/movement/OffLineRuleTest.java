@@ -27,10 +27,10 @@ public class OffLineRuleTest {
             new OffLineMovement(1, Direction.EAST),
             new OffLineMovement(1, Direction.NORTH_EAST),
             new OffLineMovement(1, Direction.NORTH_EAST));
-        Rule ruleWithNoTraces = new OffLineRule(movementOrder);
+        Rule offLineRule = new OffLineRule(movementOrder);
         List<Position> expected = List.of(Position.valueOf(3, 6));
 
-        List<Position> actual = ruleWithNoTraces.execute(Position.valueOf(5, 3), boardMediator);
+        List<Position> actual = offLineRule.execute(Position.valueOf(5, 3), boardMediator);
 
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
     }

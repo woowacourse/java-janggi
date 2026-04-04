@@ -38,7 +38,7 @@ class OffLineMovementTest {
             OffLineMovement offLineMovement = new OffLineMovement(1, direction);
             boolean expected = true;
 
-            boolean actual = offLineMovement.canCatch(me, from, boardMediator);
+            boolean actual = offLineMovement.canCatchAnyOnPath(me, from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -57,7 +57,7 @@ class OffLineMovementTest {
             OffLineMovement offLineMovement = new OffLineMovement(1, direction);
             boolean expected = false;
 
-            boolean actual = offLineMovement.canCatch(me, from, boardMediator);
+            boolean actual = offLineMovement.canCatchAnyOnPath(me, from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -75,7 +75,7 @@ class OffLineMovementTest {
             OffLineMovement offLineMovement = new OffLineMovement(1, direction);
             boolean expected = true;
 
-            boolean actual = offLineMovement.canCatch(me, from, boardMediator);
+            boolean actual = offLineMovement.canCatchAnyOnPath(me, from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -93,7 +93,7 @@ class OffLineMovementTest {
             OffLineMovement offLineMovement = new OffLineMovement(2, Direction.NORTH_EAST);
             boolean expected = true;
 
-            boolean actual = offLineMovement.canCatch(me, from, boardMediator);
+            boolean actual = offLineMovement.canCatchAnyOnPath(me, from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
 
@@ -205,7 +205,7 @@ class OffLineMovementTest {
 
     @Nested
     @DisplayName("경로 자취 계산 테스트")
-    class CalculateTraces {
+    class CalculatePath {
 
         Map<Position, Piece> positionPieceMap = new LinkedHashMap<>();
         BoardMediator boardMediator;
@@ -226,7 +226,7 @@ class OffLineMovementTest {
             OffLineMovement offLineMovement = new OffLineMovement(maxDistance, direction);
             List<Position> expected = List.of(Position.valueOf(5, 4), Position.valueOf(5, 5));
 
-            List<Position> actual = offLineMovement.calculateTraces(from,
+            List<Position> actual = offLineMovement.calculatePath(from,
                 boardMediator.getPieceInPosition(from), boardMediator);
 
             assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
@@ -244,7 +244,7 @@ class OffLineMovementTest {
             List<Position> expected = List.of(Position.valueOf(5, 4), Position.valueOf(5, 5),
                 Position.valueOf(5, 6));
 
-            List<Position> actual = offLineMovement.calculateTraces(from,
+            List<Position> actual = offLineMovement.calculatePath(from,
                 boardMediator.getPieceInPosition(from), boardMediator);
 
             assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
@@ -261,7 +261,7 @@ class OffLineMovementTest {
             List<Position> expected = List.of(Position.valueOf(5, 4), Position.valueOf(5, 5),
                 Position.valueOf(5, 6), Position.valueOf(5, 7));
 
-            List<Position> actual = OffLineMovement.calculateTraces(from,
+            List<Position> actual = OffLineMovement.calculatePath(from,
                 boardMediator.getPieceInPosition(from), boardMediator);
 
             assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);

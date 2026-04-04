@@ -23,7 +23,7 @@ public class OffLineMovement implements Movement {
     }
 
     @Override
-    public boolean canCatch(final Piece me, final Position from,
+    public boolean canCatchAnyOnPath(final Piece me, final Position from,
         final BoardMediator boardMediator) {
         return IntStream.rangeClosed(1, maxDistance)
             .mapToObj(distance -> from.calculateNext(distance, direction))
@@ -76,17 +76,17 @@ public class OffLineMovement implements Movement {
     }
 
     @Override
-    public List<Position> calculateTraces(final Position from, final Piece me,
+    public List<Position> calculatePath(final Position from, final Piece me,
         final BoardMediator boardMediator) {
-        final List<Position> traces = new ArrayList<>(IntStream.rangeClosed(1, maxDistance)
+        final List<Position> path = new ArrayList<>(IntStream.rangeClosed(1, maxDistance)
             .mapToObj(distance -> from.calculateNext(distance, direction))
             .takeWhile(position -> !boardMediator.existsInPosition(position)).toList());
-        final Position blockedPosition = from.calculateNext(traces.size() + 1, direction);
+        final Position blockedPosition = from.calculateNext(path.size() + 1, direction);
 
         if (boardMediator.existsInPosition(blockedPosition) &&
             me.canCatch(boardMediator.getPieceInPosition(blockedPosition))) {
-            traces.add(blockedPosition);
+            path.add(blockedPosition);
         }
-        return traces;
+        return path;
     }
 }

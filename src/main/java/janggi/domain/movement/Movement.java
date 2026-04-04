@@ -9,9 +9,9 @@ public interface Movement {
 
     boolean canMove(Position from);
 
-    boolean canCatch(Piece me, Position from, BoardMediator boardMediator);
+    boolean canCatchAnyOnPath(Piece me, Position from, BoardMediator boardMediator);
 
     boolean isBlocked(Position from, BoardMediator boardMediator);
 
-    List<Position> calculateTraces(Position from, Piece me, BoardMediator boardMediator);
+    List<Position> calculatePath(Position from, Piece me, BoardMediator boardMediator);
 }

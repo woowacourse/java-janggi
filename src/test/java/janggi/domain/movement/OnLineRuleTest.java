@@ -27,12 +27,12 @@ public class OnLineRuleTest {
         Board board = new Board(positionPieceMap);
         BoardMediator boardMediator = new BoardMediatorImpl(board);
         Direction direction = Direction.SOUTH;
-        Rule ruleWithTraces = new OnLineRule(
+        Rule onLineRule = new OnLineRule(
             List.of(new OnLineMovement(MAXIMUM_ROW, direction)));
         List<Position> expected = List.of(Position.valueOf(6, 3), Position.valueOf(7, 3),
             Position.valueOf(8, 3));
 
-        List<Position> actual = ruleWithTraces.execute(Position.valueOf(5, 3), boardMediator);
+        List<Position> actual = onLineRule.execute(Position.valueOf(5, 3), boardMediator);
 
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
     }
