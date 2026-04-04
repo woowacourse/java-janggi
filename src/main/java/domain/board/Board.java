@@ -12,15 +12,19 @@ import domain.position.Position;
 
 public record Board(Map<Position, Piece> pieces) {
 
+    public Board {
+        pieces = Map.copyOf(pieces);
+    }
+
     @Override
     public Map<Position, Piece> pieces() {
-        return Map.copyOf(pieces);
+        return pieces;
     }
 
     public Board merge(Board other) {
         Map<Position, Piece> merged = new HashMap<>();
-        pieces.forEach(merged::put);
-        other.pieces.forEach(merged::put);
+        merged.putAll(pieces);
+        merged.putAll(other.pieces);
         return new Board(merged);
     }
 
@@ -31,9 +35,8 @@ public record Board(Map<Position, Piece> pieces) {
 
         validatePathPieces(moveContext.pathPositions(), moveContext.pathRule());
         validateDestination(departurePiece, destinationPiece, moveContext.destinationRule());
-        movePiece(departure, destination, departurePiece);
 
-        return new Board(pieces);
+        return new Board(movePiece(departure, destination, departurePiece));
     }
 
     private void validatePathPieces(List<Position> pathPositions, PathRule pathRule) {
@@ -52,8 +55,10 @@ public record Board(Map<Position, Piece> pieces) {
                 .toList();
     }
 
-    private void movePiece(Position departure, Position destination, Piece departurePiece) {
-        pieces.put(departure, new EmptyPiece());
-        pieces.put(destination, departurePiece);
+    private Map<Position, Piece> movePiece(Position departure, Position destination, Piece departurePiece) {
+        Map<Position, Piece> temp = new HashMap<>(pieces);
+        temp.put(departure, new EmptyPiece());
+        temp.put(destination, departurePiece);
+        return temp;
     }
 }
