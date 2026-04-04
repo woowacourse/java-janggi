@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class BigJangRuleTest {
-    private static Rule RULE = new BigJangRule();
+    private static final Rule RULE = new BigJangRule();
 
     @Nested
     class GetWinSide {
@@ -48,13 +48,34 @@ class BigJangRuleTest {
     @Nested
     class IsEnd {
         @Test
-        @DisplayName("왕 중간에 아무 기물도 없다면 끝난다.")
+        @DisplayName("왕 중간에 아무 기물도 없고, 다음차례에 왕이 움직이지 않으면 게임이 끝난다.")
         void isEnd() {
             Map<Point, Piece> pieces = Map.of(
                     new Point(1, 4), new General(Side.CHO),
                     new Point(8, 4), new General(Side.HAN),
                     new Point(1, 3), new Advisor(Side.CHO),
                     new Point(0, 4), new Advisor(Side.CHO));
+            assertThat(RULE.isEnd(pieces)).isFalse();
+            assertThat(RULE.isEnd(pieces)).isTrue();
+        }
+
+        @Test
+        @DisplayName("왕이 계속 움직인다면 게임이 끝나지 않는다.")
+        void isEndWhen() {
+            Map<Point, Piece> pieces = Map.of(
+                    new Point(1, 4), new General(Side.CHO),
+                    new Point(8, 4), new General(Side.HAN)
+            );
+            Map<Point, Piece> movePieces = Map.of(
+                    new Point(1, 3), new General(Side.CHO),
+                    new Point(8, 4), new General(Side.HAN)
+            );
+
+            assertThat(RULE.isEnd(pieces)).isFalse();
+            assertThat(RULE.isEnd(movePieces)).isFalse();
+            assertThat(RULE.isEnd(pieces)).isFalse();
+            assertThat(RULE.isEnd(movePieces)).isFalse();
+            assertThat(RULE.isEnd(pieces)).isFalse();
             assertThat(RULE.isEnd(pieces)).isTrue();
         }
 

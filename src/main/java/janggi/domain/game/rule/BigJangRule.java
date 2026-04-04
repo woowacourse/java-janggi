@@ -12,17 +12,28 @@ public class BigJangRule implements Rule {
     private static final Piece CHO_GENERAL = new General(Side.CHO);
     private static final Piece HAN_GENERAL = new General(Side.HAN);
     private static final Score CHO_ADVANTAGE = new Score(1);
+    private boolean otherPlayerIsEnd = false;
 
     @Override
     public boolean isEnd(Map<Point, Piece> pieces) {
         if (!pieces.containsValue(CHO_GENERAL) || !pieces.containsValue(HAN_GENERAL)) {
+            otherPlayerIsEnd = false;
             return false;
         }
         Point choGeneralPoint = findPoint(pieces, CHO_GENERAL);
         Point hanGeneralPoint = findPoint(pieces, HAN_GENERAL);
 
-        return choGeneralPoint.y() == hanGeneralPoint.y()
-                && isThereNonePieceInCol(pieces, choGeneralPoint, hanGeneralPoint);
+        if (choGeneralPoint.y() == hanGeneralPoint.y()
+                && isThereNonePieceInCol(pieces, choGeneralPoint, hanGeneralPoint) && otherPlayerIsEnd) {
+            return true;
+        }
+        if (choGeneralPoint.y() == hanGeneralPoint.y()
+                && isThereNonePieceInCol(pieces, choGeneralPoint, hanGeneralPoint)) {
+            otherPlayerIsEnd = true;
+            return false;
+        }
+        otherPlayerIsEnd = false;
+        return false;
     }
 
     @Override
