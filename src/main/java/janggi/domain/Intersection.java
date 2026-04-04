@@ -8,22 +8,21 @@ import java.util.List;
 
 public class Intersection {
 
+    private final Location location;
     private final List<Vector> vectors;
     private final boolean isPalace;
+
     private Piece piece;
 
-    private Intersection(List<Vector> vectors, Piece piece, boolean isPalace) {
+    private Intersection(Location location, List<Vector> vectors, Piece piece, boolean isPalace) {
+        this.location = location;
         this.vectors = vectors;
         this.piece = piece;
         this.isPalace = isPalace;
     }
 
-    public static Intersection of(List<Vector> vectors, Piece piece, boolean isPalace) {
-        return new Intersection(vectors, piece, isPalace);
-    }
-
-    public boolean isPalace() {
-        return isPalace;
+    public static Intersection of(Location location, List<Vector> vectors, Piece piece, boolean isPalace) {
+        return new Intersection(location, vectors, piece, isPalace);
     }
 
     public boolean hasPiece(PieceType pieceType) {
@@ -38,15 +37,27 @@ public class Intersection {
         this.piece = EmptyPiece.getInstance();
     }
 
+    public List<Location> calculateRoute(Intersection destination) {
+        return piece.calculateRoute(this, destination);
+    }
+
     public boolean isEmpty() {
         return piece.isEmpty();
     }
 
-    public Piece getPiece() {
-        return piece;
+    public Location getLocation() {
+        return location;
     }
 
     public List<Vector> getVectors() {
         return vectors;
+    }
+
+    public boolean isPalace() {
+        return isPalace;
+    }
+
+    public Piece getPiece() {
+        return piece;
     }
 }

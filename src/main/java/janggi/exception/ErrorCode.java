@@ -11,8 +11,10 @@ public enum ErrorCode {
 
     //po
     PO_REQUIRED_SCREEN_COUNT_ERROR("포는 반드시 하나의 기물을 넘어야 합니다."),
-    PO_EXISTENCE_IN_PATH_ERROR("이동 경로 또는 도착지에 포가 존재할 수 없습니다.");
+    PO_EXISTENCE_IN_PATH_ERROR("이동 경로 또는 도착지에 포가 존재할 수 없습니다."),
 
+    //jolbyeong
+    JOLBYEONG_MOVE_BACK_ERROR("졸병은 뒤로 이동할 수 없습니다.");
     private final String message;
 
     ErrorCode(String message) {
