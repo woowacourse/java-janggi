@@ -98,6 +98,7 @@ public class JanggiController {
                 board, boardMediator);
             proceedMovement(movablePositions, board, positionOfMovingPiece);
             turnManager.progressToNext();
+            gameService.updateGame(GAME_ID, turnManager);
         }
     }
 
