@@ -7,6 +7,7 @@ import janggi.domain.rule.collision.CollisionDetector;
 import janggi.domain.rule.collision.DefaultCollisionDetector;
 import janggi.domain.rule.route.RouteProvider;
 import janggi.domain.rule.route.StraightRouteProvider;
+import janggi.exception.ErrorCode;
 import janggi.exception.RouteResolveException;
 import java.util.List;
 

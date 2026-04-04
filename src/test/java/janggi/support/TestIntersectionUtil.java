@@ -16,13 +16,13 @@ public class TestIntersectionUtil {
         return Intersection.of(location, createDefaultVectors(), piece, false);
     }
 
-    public static Intersection getGungSeongCenterIntersection(Location location, Piece piece) {
+    public static Intersection getPalaceCenterIntersection(Location location, Piece piece) {
         List<Vector> vectors = new ArrayList<>(createDefaultVectors());
         vectors.addAll(createCenterVectors());
         return Intersection.of(location, vectors, piece, true);
     }
 
-    public static Intersection getGungSeongLeftTopIntersection(Location location, Piece piece) {
+    public static Intersection getPalaceLeftTopIntersection(Location location, Piece piece) {
         List<Vector> vectors = new ArrayList<>(createDefaultVectors());
         vectors.add(new Vector(FRONT_RIGHT, 2));
         return Intersection.of(location, vectors, piece, true);
@@ -32,6 +32,9 @@ public class TestIntersectionUtil {
         return Intersection.of(location, createDefaultVectors(), EmptyPiece.getInstance(), false);
     }
 
+    public static Intersection getPalaceEmptyPieceIntersection(Location location) {
+        return Intersection.of(location, createDefaultVectors(), EmptyPiece.getInstance(), false);
+    }
     private static List<Vector> createDefaultVectors() {
         int defaultVectorDistance = 10;
         return List.of(
