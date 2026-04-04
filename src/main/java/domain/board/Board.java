@@ -2,6 +2,7 @@ package domain.board;
 
 import domain.piece.Piece;
 import domain.piece.Team;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -62,6 +63,6 @@ public class Board {
     }
 
     public Map<Position, Piece> getPieces() {
-        return pieces;
+        return Collections.unmodifiableMap(pieces);
     }
 }
