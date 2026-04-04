@@ -14,8 +14,8 @@ public class OutputView {
 
     private static final String ERROR_PREFIX = "[ERROR] ";
     private static final String WARNING_PREFIX = "[WARNING] ";
-    private static final int CELL_WIDTH = 3;
     private static final Pattern ANSI_PATTERN = Pattern.compile("\u001B\\[[;\\d]*m");
+    private static final int CELL_WIDTH = 3;
 
     public void printBoard(BoardDto boardDto) {
         String[][] board = initBoard();
@@ -82,7 +82,9 @@ public class OutputView {
     }
 
     private int visibleLength(String value) {
-        return ANSI_PATTERN.matcher(value).replaceAll("").length();
+        return ANSI_PATTERN.matcher(value)
+                .replaceAll("")
+                .length();
     }
 
 }

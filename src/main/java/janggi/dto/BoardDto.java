@@ -16,9 +16,11 @@ public record BoardDto(
         List<PieceDto> pieces = new ArrayList<>();
         for (Position position : board.keySet()) {
             Piece piece = board.get(position);
-            pieces.add(PieceDto.from(PieceMapper.from(piece), DynastyColorMapper.from(piece.dynasty()),
-                    PositionDto.from(position))
-            );
+            pieces.add(PieceDto.from(
+                    PieceMapper.from(piece),
+                    DynastyColorMapper.from(piece.dynasty()),
+                    PositionDto.from(position)
+            ));
         }
         return new BoardDto(pieces);
     }

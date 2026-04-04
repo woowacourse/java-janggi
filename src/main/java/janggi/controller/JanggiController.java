@@ -42,11 +42,10 @@ public class JanggiController {
         if (inputView.readWantToRestore()) {
             return janggiService.findRecentlyGameId();
         }
-        Map<Dynasty, HorseElephantPosition> horseElephantPositions = readDynastyHorseElephantPositionMap();
-        return janggiService.makeGame(horseElephantPositions);
+        return janggiService.makeGame(readDynastyHorseElephantPositions());
     }
 
-    private Map<Dynasty, HorseElephantPosition> readDynastyHorseElephantPositionMap() {
+    private Map<Dynasty, HorseElephantPosition> readDynastyHorseElephantPositions() {
         Map<Dynasty, HorseElephantPosition> horseElephantPositions = new EnumMap<>(Dynasty.class);
         for (Dynasty dynasty : Dynasty.values()) {
             int ordinal = getUntilValid(() -> inputView.readHorseElephantPosition(DynastyDto.from(dynasty)));
@@ -66,7 +65,7 @@ public class JanggiController {
         });
 
         runUntilValid(() -> {
-            Position to = readPositionToMove();
+            Position to = readDestinationPosition();
             janggiService.movePiece(gameId, from, to);
             outputView.printBoard(BoardDto.from(janggiService.findGame(gameId).boardMap()));
         });
@@ -74,7 +73,7 @@ public class JanggiController {
 
     private Position readPieceWantToMove(Game game) {
         PositionDto fromDto = getUntilValid(
-                () -> inputView.readPieceWantToMove(DynastyDto.from(game.currentTurn().currentDynasty())));
+                () -> inputView.readPieceWantToMove(DynastyDto.from(game.currentDynasty())));
         return Position.from(fromDto.row(), fromDto.column());
     }
 
@@ -83,9 +82,9 @@ public class JanggiController {
         outputView.printCanMovePositions(PositionDto.fromPositions(positions));
     }
 
-    private Position readPositionToMove() {
-        PositionDto toDto = getUntilValid(inputView::readPositionToMove);
-        return Position.from(toDto.row(), toDto.column());
+    private Position readDestinationPosition() {
+        PositionDto position = getUntilValid(inputView::readDestinationPosition);
+        return Position.from(position.row(), position.column());
     }
 
     private <T> T getUntilValid(Supplier<T> supplier) {

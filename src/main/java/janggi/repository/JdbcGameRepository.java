@@ -28,7 +28,7 @@ public class JdbcGameRepository implements GameRepository {
             connection.setAutoCommit(false);
 
             try (PreparedStatement gameStatement = connection.prepareStatement(gameSql, RETURN_GENERATED_KEYS)) {
-                gameStatement.setString(1, game.currentTurn().currentDynasty().name());
+                gameStatement.setString(1, game.currentDynasty().name());
                 gameStatement.executeUpdate();
 
                 ResultSet keys = gameStatement.getGeneratedKeys();
@@ -80,7 +80,7 @@ public class JdbcGameRepository implements GameRepository {
                     PreparedStatement updateGameStatement = connection.prepareStatement(updateGameSql);
                     PreparedStatement deletePieceStatement = connection.prepareStatement(deletePieceSql)
             ) {
-                updateGameStatement.setString(1, game.currentTurn().currentDynasty().name());
+                updateGameStatement.setString(1, game.currentDynasty().name());
                 updateGameStatement.setLong(2, gameId);
                 updateGameStatement.executeUpdate();
 

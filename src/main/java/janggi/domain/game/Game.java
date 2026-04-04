@@ -14,6 +14,11 @@ import java.util.Map;
 
 public class Game {
 
+    private static final Dynasty FIRST_DYNASTY = CHO;
+    private static final double DEOM = 1.5;
+    private static final double SCORE_COMPARISON_THRESHOLD = 30;
+
+
     private final Board board;
     private final CurrentTurn currentTurn;
 
@@ -24,7 +29,7 @@ public class Game {
 
     public static Game initGame(Map<Dynasty, HorseElephantPosition> horseElephantPositions) {
         DefaultBoardDesignPolicy policy = new DefaultBoardDesignPolicy(horseElephantPositions);
-        return new Game(Board.from(policy), new CurrentTurn(CHO));
+        return new Game(Board.from(policy), new CurrentTurn(FIRST_DYNASTY));
     }
 
     public static Game restore(Board board, CurrentTurn currentTurn) {
@@ -46,7 +51,7 @@ public class Game {
 
     public Dynasty judgeWinner() {
         if (isLessThan30()) {
-            return findWinner();
+            return findPointWinner();
         }
         if (board.hasGeneral(HAN)) {
             return HAN;
@@ -62,8 +67,8 @@ public class Game {
         return board.board();
     }
 
-    public CurrentTurn currentTurn() {
-        return currentTurn;
+    public Dynasty currentDynasty() {
+        return currentTurn.currentDynasty();
     }
 
     private boolean isGeneralCaptured() {
@@ -71,14 +76,15 @@ public class Game {
     }
 
     private boolean isLessThan30() {
-        double pointsOfHan = board.sumPointsOf(HAN) + 1.5;
+        double pointsOfHan = board.sumPointsOf(HAN) + DEOM;
         double pointsOfCho = board.sumPointsOf(CHO);
 
-        return pointsOfHan < 30 && pointsOfCho < 30;
+        return pointsOfHan < SCORE_COMPARISON_THRESHOLD
+                && pointsOfCho < SCORE_COMPARISON_THRESHOLD;
     }
 
-    private Dynasty findWinner() {
-        double pointsOfHan = board.sumPointsOf(HAN) + 1.5;
+    private Dynasty findPointWinner() {
+        double pointsOfHan = board.sumPointsOf(HAN) + DEOM;
         double pointsOfCho = board.sumPointsOf(CHO);
 
         if (pointsOfHan < pointsOfCho) {
