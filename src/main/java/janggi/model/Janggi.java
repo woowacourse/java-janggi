@@ -5,6 +5,7 @@ import janggi.model.position.absolute.Position;
 import janggi.model.turn.GameOver;
 import janggi.model.turn.Turn;
 import janggi.model.turn.playing.ChoTurn;
+import janggi.model.turn.playing.HanTurn;
 
 public class Janggi {
 
@@ -16,6 +17,14 @@ public class Janggi {
 
     public static Janggi of(Board board) {
         return new Janggi(new ChoTurn(board));
+    }
+
+    public static Janggi continueFrom(Turn turn) {
+        if (turn.isChoTurn()) {
+            return new Janggi(new HanTurn(turn.board()));
+        }
+
+        return new Janggi(new ChoTurn(turn.board()));
     }
 
     public Janggi play(Position from, Position to) {
@@ -30,8 +39,12 @@ public class Janggi {
         return turn.board();
     }
 
-    public boolean isChoTurn() {
-        return turn.isChoTurn();
+    public Team getCurrentTeam() {
+        if (turn.isChoTurn()) {
+            return Team.CHO;
+        }
+
+        return Team.HAN;
     }
 
     public Team getWinner() {

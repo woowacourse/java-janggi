@@ -31,7 +31,7 @@ public class ConnectionProvider {
         try {
             Files.createDirectories(DB_DIRECTORY);
         } catch (IOException e) {
-            throw new IllegalStateException("DB 디렉토리 생성에 실패했습니다.");
+            throw new IllegalStateException("DB 디렉토리 생성에 실패했습니다.", e);
         }
     }
 
@@ -39,11 +39,11 @@ public class ConnectionProvider {
         try {
             return connectionPool.getConnection();
         } catch (SQLException e) {
-            throw new IllegalArgumentException("DB 연결에 실패했습니다.");
+            throw new IllegalArgumentException("DB 연결에 실패했습니다.", e);
         }
     }
 
-    public void close() {
+    public void dispose() {
         connectionPool.dispose();
     }
 }

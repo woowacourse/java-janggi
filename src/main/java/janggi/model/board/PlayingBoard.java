@@ -11,10 +11,10 @@ import java.util.Optional;
 
 public class PlayingBoard implements Board {
 
-    private final Map<Position, Piece> board;
+    private final Map<Position, Piece> boardInfo;
 
-    private PlayingBoard(Map<Position, Piece> board) {
-        this.board = board;
+    private PlayingBoard(Map<Position, Piece> boardInfo) {
+        this.boardInfo = boardInfo;
     }
 
     public static PlayingBoard of(Map<Position, Piece> board) {
@@ -35,7 +35,7 @@ public class PlayingBoard implements Board {
 
         List<Piece> piecesOnPath = pieceAtFrom
                 .getLegalPath(from, to)
-                .findPiecesOn(board);
+                .findPiecesOn(boardInfo);
 
         Optional<Piece> target = findPieceAt(to);
         validateMovable(
@@ -71,7 +71,7 @@ public class PlayingBoard implements Board {
     }
 
     private Optional<Piece> findPieceAt(Position position) {
-        return Optional.ofNullable(board.get(position));
+        return Optional.ofNullable(boardInfo.get(position));
     }
 
     private void validateMovable(
@@ -97,7 +97,7 @@ public class PlayingBoard implements Board {
             Position to,
             Piece pieceAtFrom
     ) {
-        Map<Position, Piece> movedBoard = new HashMap<>(board);
+        Map<Position, Piece> movedBoard = new HashMap<>(boardInfo);
         movedBoard.put(to, pieceAtFrom);
         movedBoard.remove(from);
         return movedBoard;
@@ -117,8 +117,8 @@ public class PlayingBoard implements Board {
     }
 
     @Override
-    public Map<Position, Piece> getBoard() {
-        return Map.copyOf(board);
+    public Map<Position, Piece> getBoardInfo() {
+        return Map.copyOf(boardInfo);
     }
 
     @Override
