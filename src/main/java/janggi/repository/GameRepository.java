@@ -11,7 +11,7 @@ public interface GameRepository {
 
     Optional<GameEntity> findById(long id);
 
-    long update(GameEntity gameEntity);
+    long updateById(long id, GameEntity gameEntity);
 
     boolean deleteById(long id);
 }

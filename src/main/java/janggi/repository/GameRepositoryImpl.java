@@ -32,7 +32,8 @@ public class GameRepositoryImpl implements GameRepository {
 
     @Override
     public Optional<GameEntity> findById(final long targetId) {
-        final String sql = String.format("SELECT id, name, turns_taken, team_queue FROM %s WHERE id = %d",
+        final String sql = String.format(
+            "SELECT id, name, turns_taken, team_queue FROM %s WHERE id = %d",
             TABLE_NAME, targetId);
         final EntityMapper<GameEntity> mapper = resultSet -> {
             long id = resultSet.getLong(1);
@@ -45,11 +46,10 @@ public class GameRepositoryImpl implements GameRepository {
     }
 
     @Override
-    public long update(final GameEntity gameEntity) {
+    public long updateById(final long id, final GameEntity gameEntity) {
         final String sql = String.format(
             "UPDATE %s SET turns_taken = %d, team_queue = '%s' WHERE id = %d",
-            TABLE_NAME, gameEntity.turns_taken(), gameEntity.team_queue(),
-            gameEntity.id());
+            TABLE_NAME, gameEntity.turns_taken(), gameEntity.team_queue(), id);
 
         return dbConnection.executeUpdate(sql).getFirst();
     }

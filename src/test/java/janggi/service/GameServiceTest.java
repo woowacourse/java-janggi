@@ -1,6 +1,7 @@
 package janggi.service;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.config.DBConnection;
 import janggi.config.DBTableInitializer;
@@ -15,6 +16,7 @@ import janggi.entity.GameEntity;
 import janggi.repository.GameRepository;
 import janggi.repository.GameRepositoryImpl;
 import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -85,18 +87,22 @@ class GameServiceTest {
     }
 
     @Test
-    @DisplayName("게임 상태 변경 테스트")
-    void modifyGameState() {
-        Team redTeam = new RedTeam(new InnerElephantSetupPolicy());
+    @DisplayName("게임 상태 업데이트 테스트")
+    void updateGame() {
+        long gameId = 1;
+        gameRepository.save(GameEntity.from("게임 1", 3, List.of(TeamType.RED, TeamType.BLUE)));
         Team blueTeam = new BlueTeam(new InnerElephantSetupPolicy());
-        TurnManager afterTurnManager = new TurnManager(2, List.of(redTeam, blueTeam));
-        GameEntity expected = new GameEntity(1, "게임 1", 2, "RED,BLUE");
-        gameRepository.save(GameEntity.from("게임 1", 2, List.of(TeamType.RED, TeamType.BLUE)));
+        Team redTeam = new RedTeam(new InnerElephantSetupPolicy());
+        TurnManager updatedTurnManager = new TurnManager(4, List.of(blueTeam, redTeam));
+        GameEntity expected = GameEntity.from(1, "게임 1", 4, List.of(TeamType.BLUE, TeamType.RED));
 
-        gameService.modifyGameState(1, "게임 1", afterTurnManager);
-        GameEntity actual = gameRepository.findById(1).get();
+        gameService.updateGame(gameId, updatedTurnManager);
+        Optional<GameEntity> actual = gameRepository.findById(gameId);
 
-        assertThat(actual).isEqualTo(expected);
+        assertAll(
+            () -> assertThat(actual).isPresent(),
+            () -> assertThat(actual.get()).isEqualTo(expected)
+        );
     }
 
     @Test
