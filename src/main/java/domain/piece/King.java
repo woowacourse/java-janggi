@@ -1,12 +1,14 @@
 package domain.piece;
 
-import domain.board.Side;
+import domain.state.Side;
 import domain.coordinate.Direction;
 import domain.strategy.SingleStepStrategy;
 
 import java.util.List;
 
 public final class King extends Piece {
+
+    private static final int SCORE = 0;
 
     private static final List<Direction> KING_DIRECTIONS = List.of(
             Direction.UP,
@@ -21,5 +23,10 @@ public final class King extends Piece {
                 side,
                 new SingleStepStrategy(KING_DIRECTIONS)
         );
+    }
+
+    @Override
+    public int getScore() {
+        return SCORE;
     }
 }

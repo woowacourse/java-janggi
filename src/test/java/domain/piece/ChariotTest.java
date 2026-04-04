@@ -2,7 +2,7 @@ package domain.piece;
 
 import domain.board.Board;
 import domain.coordinate.Position;
-import domain.board.Side;
+import domain.state.Side;
 import domain.board.BoardInitializer;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -45,11 +45,26 @@ class ChariotTest {
                 }
             }
         }
+    }
 
+    static class ChariotPalaceTestInitializer implements BoardInitializer {
 
         @Override
-        public Side getFirstTurnSide() {
-            return Side.HAN;
+        public Map<Position, Piece> initialize() {
+            Map<Position, Piece> piecesPosition = new HashMap<>();
+            piecesPosition.put(new Position(8, 4), new Chariot(Side.CHU));
+            piecesPosition.put(new Position(2, 3), new Chariot(Side.HAN));
+
+            initializeEmptyPiece(piecesPosition);
+            return piecesPosition;
+        }
+
+        private void initializeEmptyPiece(Map<Position, Piece> pieceInitPlacements) {
+            for (int i = 0; i < 10; i++) {
+                for (int j = 0; j < 9; j++) {
+                    pieceInitPlacements.putIfAbsent(new Position(i, j), EmptyPiece.getInstance());
+                }
+            }
         }
     }
 
@@ -111,5 +126,45 @@ class ChariotTest {
         // then
         assertThat(possibleMoves).contains(new Position(5, 8), new Position(6, 8));
         assertThat(possibleMoves).doesNotContain(new Position(7, 8));
+    }
+
+    @Test
+    @DisplayName("차는 궁성 영역 내의 중앙 좌표에서 4가지 방향 대각선 이동이 가능하다.")
+    void palaceCenterTest() {
+        // given
+        Board board = new Board(new ChariotPalaceTestInitializer().initialize());
+        Position start = new Position(8, 4);
+
+        // when
+        List<Position> possibleMoves = board.calculatePossibleMoves(start);
+
+        // then
+        assertThat(possibleMoves).contains(
+                new Position(8, 3),
+                new Position(8, 5),
+                new Position(9, 4),
+                new Position(7, 4),
+                new Position(7, 3),
+                new Position(7, 5),
+                new Position(9, 3),
+                new Position(9, 5)
+        );
+    }
+
+    @Test
+    @DisplayName("차는 궁성 영역 내의 대각 끝 좌표에서 1 방향 대각선 이동이 가능하다.")
+    void palaceEdgeTest() {
+        // given
+        Board board = new Board(new ChariotPalaceTestInitializer().initialize());
+        Position start = new Position(2, 3);
+
+        // when
+        List<Position> possibleMoves = board.calculatePossibleMoves(start);
+
+        // then
+        assertThat(possibleMoves).contains(
+                new Position(1, 4),
+                new Position(0, 5)
+        );
     }
 }

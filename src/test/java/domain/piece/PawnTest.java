@@ -2,7 +2,7 @@ package domain.piece;
 
 import domain.board.Board;
 import domain.coordinate.Position;
-import domain.board.Side;
+import domain.state.Side;
 import domain.board.BoardInitializer;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -43,12 +43,6 @@ class PawnTest {
                 }
             }
         }
-
-
-        @Override
-        public Side getFirstTurnSide() {
-            return Side.HAN;
-        }
     }
 
     static class ChuSidePawnInitializer implements BoardInitializer {
@@ -74,13 +68,30 @@ class PawnTest {
                 }
             }
         }
+    }
 
+    static class PalacePawnInitializer implements BoardInitializer {
 
         @Override
-        public Side getFirstTurnSide() {
-            return Side.CHU;
+        public Map<Position, Piece> initialize() {
+            Map<Position, Piece> piecesPosition = new HashMap<>();
+
+            piecesPosition.put(new Position(8, 4), new Pawn(Side.HAN));
+            piecesPosition.put(new Position(1, 4), new Pawn(Side.CHU));
+
+            initializeEmptyPiece(piecesPosition);
+            return piecesPosition;
+        }
+
+        private void initializeEmptyPiece(Map<Position, Piece> pieceInitPlacements) {
+            for (int i = 0; i < 10; i++) {
+                for (int j = 0; j < 9; j++) {
+                    pieceInitPlacements.putIfAbsent(new Position(i, j), EmptyPiece.getInstance());
+                }
+            }
         }
     }
+
 
     @Test
     @DisplayName("한나라 진영에서 졸은 하/좌/우 3가지 방향으로 1 칸 이동 가능하다.")
@@ -136,5 +147,62 @@ class PawnTest {
 
         // then
         assertThat(possibleMoves).contains(new Position(4, 7));
+    }
+
+    @Test
+    @DisplayName("졸은 궁성 영역 내의 중앙 좌표에서 전진 2가지 방향 대각선 이동이 가능하다.")
+    void palaceCenterHanSideTest() {
+        // given
+        Board board = new Board(new PalacePawnInitializer().initialize());
+        Position start = new Position(8, 4);
+
+        // when
+        List<Position> possibleMoves = board.calculatePossibleMoves(start);
+
+        // then
+        assertThat(possibleMoves).containsOnly(
+                new Position(8, 3),
+                new Position(8, 5),
+                new Position(9, 3),
+                new Position(9, 4),
+                new Position(9, 5)
+        );
+    }
+
+    @Test
+    @DisplayName("졸은 궁성 영역 내의 중앙 좌표에서 전진 2가지 방향 대각선 이동이 가능하다.")
+    void palaceCenterChuSideTest() {
+        // given
+        Board board = new Board(new PalacePawnInitializer().initialize());
+        Position start = new Position(1, 4);
+
+        // when
+        List<Position> possibleMoves = board.calculatePossibleMoves(start);
+
+        // then
+        assertThat(possibleMoves).containsOnly(
+                new Position(1, 3),
+                new Position(1, 5),
+                new Position(0, 3),
+                new Position(0, 4),
+                new Position(0, 5)
+        );
+    }
+
+    @Test
+    @DisplayName("차는 궁성 영역 내의 대각 끝 좌표에서 1 방향 대각선 이동이 가능하다.")
+    void palaceEdgeTest() {
+        // given
+        Board board = new Board(new ChariotTest.ChariotPalaceTestInitializer().initialize());
+        Position start = new Position(2, 3);
+
+        // when
+        List<Position> possibleMoves = board.calculatePossibleMoves(start);
+
+        // then
+        assertThat(possibleMoves).contains(
+                new Position(1, 4),
+                new Position(0, 5)
+        );
     }
 }
