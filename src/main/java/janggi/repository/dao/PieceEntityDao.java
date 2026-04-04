@@ -171,7 +171,26 @@ public class PieceEntityDao {
 
             psmt.executeUpdate();
         } catch (SQLException e) {
-            throw new IllegalStateException("기물 조회에 실패했습니다.", e);
+            throw new IllegalStateException("기물 업데이트에 실패했습니다.", e);
+        }
+    }
+
+    public void deleteByPosition(
+            Connection con,
+            Position position
+    ) {
+        String sql = """
+                DELETE FROM piece
+                WHERE position_row = (?) AND position_column = (?)
+                """;
+
+        try(PreparedStatement psmt = con.prepareStatement(sql)) {
+            psmt.setInt(1, position.row().getValue());
+            psmt.setInt(2, position.column().getValue());
+
+            psmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }
