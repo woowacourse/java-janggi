@@ -1,4 +1,4 @@
-package janggi.infra;
+package janggi.infra.datasource;
 
 import java.sql.Connection;
 import java.sql.SQLException;

@@ -6,7 +6,7 @@ import janggi.domain.JanggiGame;
 import janggi.domain.point.Point;
 import janggi.domain.status.ChoTurn;
 import janggi.domain.status.Team;
-import janggi.infra.TransactionTemplate;
+import janggi.infra.transaction.TransactionTemplate;
 import janggi.presentation.dto.GameStatusInfo;
 
 public class JanggiGameService {

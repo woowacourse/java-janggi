@@ -2,10 +2,10 @@ package janggi;
 
 import janggi.application.JanggiGameService;
 import janggi.domain.board.BoardRepository;
-import janggi.infra.DataConnectionManager;
-import janggi.infra.H2DataSourceFactory;
+import janggi.infra.datasource.DataConnectionManager;
+import janggi.infra.datasource.H2DataSourceFactory;
 import janggi.infra.JdbcBoardRepository;
-import janggi.infra.TransactionTemplate;
+import janggi.infra.transaction.TransactionTemplate;
 import janggi.infra.dao.GameRoomDao;
 import janggi.infra.dao.PiecesDao;
 import janggi.presentation.JanggiGameController;
