@@ -39,7 +39,6 @@ public enum Direction {
         Coordinate differentCoordinate = endPosition.minus(startPosition);
         int row = differentCoordinate.row();
         int column = differentCoordinate.column();
-
         return calculateDirections(row, column);
     }
 
@@ -61,7 +60,6 @@ public enum Direction {
             directions.add(from((row - column) / Math.abs(row - column), 0));
             row = (i - 1) * (row / i);
         }
-
         return row;
     }
 
