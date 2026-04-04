@@ -3,6 +3,7 @@ package repository.jdbc;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,23 +16,27 @@ class GameContextJdbcRepositoryTest {
 
     private static final String CONFIG_FILE_NAME = "database.properties";
 
+    private static final JdbcConnectionGenerator CONNECTION_GENERATOR = JdbcConnectionGenerator.create(
+            CONFIG_FILE_NAME);
+    private static final Connection DB_CONNECTION = CONNECTION_GENERATOR.getDBConnection();
+
     private static final String CREATE_GAME_CONTEXT_TABLE_SQL = "CREATE TABLE IF NOT EXISTS game_contexts (" +
             "game_context_id BIGINT PRIMARY KEY AUTO_INCREMENT, " +
             "current_turn_own_team VARCHAR(10) NOT NULL, " +
             "game_state VARCHAR(10) NOT NULL)";
 
-    private JdbcTemplate template = new JdbcTemplate(JdbcConnectionGenerator.create(CONFIG_FILE_NAME));
-    private GameContextJdbcRepository gameContextRepository = new GameContextJdbcRepository(template);
+    private final JdbcTemplate template = new JdbcTemplate();
+    private final GameContextJdbcRepository gameContextRepository = new GameContextJdbcRepository(template);
 
     @BeforeEach
     void setUp() throws SQLException {
-        template.executeCommand(CREATE_GAME_CONTEXT_TABLE_SQL);
+        template.executeCommand(DB_CONNECTION, CREATE_GAME_CONTEXT_TABLE_SQL);
     }
 
     @AfterEach
     void clearAll() throws SQLException {
         String sql = "DROP ALL OBJECTS";
-        template.executeCommand(sql);
+        template.executeCommand(DB_CONNECTION, sql);
     }
 
     @Test
@@ -41,7 +46,7 @@ class GameContextJdbcRepositoryTest {
         GameContext testEntity = new GameContext(null, "CHO", "PLAYING");
 
         //when
-        Long savedEntityDatabaseId = gameContextRepository.save(testEntity);
+        Long savedEntityDatabaseId = gameContextRepository.save(DB_CONNECTION, testEntity);
 
         assertNotNull(savedEntityDatabaseId);
     }
@@ -53,13 +58,13 @@ class GameContextJdbcRepositoryTest {
         String testCurrentTurnOwnTeam = "CHO";
         String testGameState = "PLAYING";
         GameContext testEntity = new GameContext(null, testCurrentTurnOwnTeam, testGameState);
-        Long savedEntityDatabaseId = gameContextRepository.save(testEntity);
+        Long savedEntityDatabaseId = gameContextRepository.save(DB_CONNECTION, testEntity);
 
         GameContext expectResult = new GameContext(savedEntityDatabaseId, testCurrentTurnOwnTeam,
                 testGameState);
 
         //when
-        GameContext result = gameContextRepository.find(savedEntityDatabaseId);
+        GameContext result = gameContextRepository.find(DB_CONNECTION, savedEntityDatabaseId);
 
         assertEquals(expectResult, result);
     }
@@ -75,12 +80,12 @@ class GameContextJdbcRepositoryTest {
         GameContext originEntity = new GameContext(null, originCurrentTurnOwnTeam, testGameState);
         GameContext updateEntity = new GameContext(null, expectCurrentTurnOwnTeam, testGameState);
 
-        Long savedEntityDatabaseId = gameContextRepository.save(originEntity);
+        Long savedEntityDatabaseId = gameContextRepository.save(DB_CONNECTION, originEntity);
 
         //when
 
-        gameContextRepository.update(savedEntityDatabaseId, updateEntity);
-        GameContext result = gameContextRepository.find(savedEntityDatabaseId);
+        gameContextRepository.update(DB_CONNECTION, savedEntityDatabaseId, updateEntity);
+        GameContext result = gameContextRepository.find(DB_CONNECTION, savedEntityDatabaseId);
 
         assertEquals(expectCurrentTurnOwnTeam, result.currentTurnOwnTeam());
     }

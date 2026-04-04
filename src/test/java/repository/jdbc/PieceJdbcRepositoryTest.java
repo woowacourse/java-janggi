@@ -2,6 +2,7 @@ package repository.jdbc;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
@@ -15,24 +16,29 @@ class PieceJdbcRepositoryTest {
 
     private static final String CONFIG_FILE_NAME = "database.properties";
 
+    private static final JdbcConnectionGenerator CONNECTION_GENERATOR = JdbcConnectionGenerator.create(
+            CONFIG_FILE_NAME);
+    private static final Connection DB_CONNECTION = CONNECTION_GENERATOR.getDBConnection();
+
+    private final JdbcTemplate template = new JdbcTemplate();
+
 
     private static final String CREATE_PIECE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS pieces (" +
             "piece_id BIGINT PRIMARY KEY AUTO_INCREMENT, " +
             "team VARCHAR(10) NOT NULL, " +
             "type VARCHAR(10) NOT NULL)";
 
-    private JdbcTemplate template = new JdbcTemplate(JdbcConnectionGenerator.create(CONFIG_FILE_NAME));
     private PieceJdbcRepository pieceRepository = new PieceJdbcRepository(template);
 
     @BeforeEach
     void setUp() throws SQLException {
-        template.executeCommand(CREATE_PIECE_TABLE_SQL);
+        template.executeCommand(DB_CONNECTION, CREATE_PIECE_TABLE_SQL);
     }
 
     @AfterEach
     void clearAll() throws SQLException {
         String sql = "DROP ALL OBJECTS";
-        template.executeCommand(sql);
+        template.executeCommand(DB_CONNECTION, sql);
     }
 
     @Test
@@ -42,7 +48,7 @@ class PieceJdbcRepositoryTest {
         Piece testPiece = new Piece(null, "CHO", "JOL");
 
         //when
-        Long savedEntityId = pieceRepository.save(testPiece);
+        Long savedEntityId = pieceRepository.save(DB_CONNECTION, testPiece);
 
         //then
         assertNotNull(savedEntityId);
@@ -60,7 +66,7 @@ class PieceJdbcRepositoryTest {
         );
 
         //when
-        List<Long> savedEntitiesIds = pieceRepository.saveAll(pieceEntities);
+        List<Long> savedEntitiesIds = pieceRepository.saveAll(DB_CONNECTION, pieceEntities);
 
         //then
         Assertions.assertEquals(expectCreatedIdSize, savedEntitiesIds.size());
@@ -74,9 +80,9 @@ class PieceJdbcRepositoryTest {
                 new Piece(null, "CHO", "CHA"),
                 new Piece(null, "CHO", "PO")
         );
-        List<Long> savedEntitiesIds = pieceRepository.saveAll(pieceEntities);
+        List<Long> savedEntitiesIds = pieceRepository.saveAll(DB_CONNECTION, pieceEntities);
 
-        Piece findResult = pieceRepository.find(savedEntitiesIds.getFirst());
+        Piece findResult = pieceRepository.find(DB_CONNECTION, savedEntitiesIds.getFirst());
 
         assertNotNull(findResult.pieceId());
     }
@@ -89,9 +95,9 @@ class PieceJdbcRepositoryTest {
                 new Piece(null, "CHO", "CHA"),
                 new Piece(null, "CHO", "PO")
         );
-        pieceRepository.saveAll(pieceEntities);
+        pieceRepository.saveAll(DB_CONNECTION, pieceEntities);
 
-        List<Piece> result = pieceRepository.findAll();
+        List<Piece> result = pieceRepository.findAll(DB_CONNECTION);
         Assertions.assertEquals(3, result.size());
     }
 }

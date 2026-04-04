@@ -1,5 +1,6 @@
 package repository.jdbc;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,21 +19,20 @@ public class PieceJdbcRepository implements PieceDao {
             "team VARCHAR(10) NOT NULL, " +
             "type VARCHAR(10) NOT NULL)";
 
-
     private final JdbcTemplate template;
 
     public PieceJdbcRepository(JdbcTemplate template) {
         this.template = template;
     }
 
-    private void initTable() throws SQLException {
-        template.executeCommand(CREATE_PIECE_TABLE_SQL);
+    public void initTable(Connection connection) throws SQLException {
+        template.executeCommand(connection, CREATE_PIECE_TABLE_SQL);
     }
 
-
     @Override
-    public Long save(Piece entity) throws SQLException {
+    public Long save(Connection connection, Piece entity) throws SQLException {
         Object generatedId = template.executeSave(
+                connection,
                 INSERT_PIECE_SQL,
                 entity.pieceType(),
                 entity.team()
@@ -41,7 +41,7 @@ public class PieceJdbcRepository implements PieceDao {
     }
 
     @Override
-    public List<Long> saveAll(List<Piece> entities) throws SQLException {
+    public List<Long> saveAll(Connection connection, List<Piece> entities) throws SQLException {
         List<List<Object>> totalEntityValues = new ArrayList<>();
         for (Piece entity : entities) {
             List<Object> rowValues = new ArrayList<>();
@@ -51,15 +51,16 @@ public class PieceJdbcRepository implements PieceDao {
             totalEntityValues.add(rowValues);
         }
 
-        List<Object> generatedKeys = template.executeBatchSave(INSERT_PIECE_SQL, totalEntityValues);
+        List<Object> generatedKeys = template.executeBatchSave(connection, INSERT_PIECE_SQL, totalEntityValues);
         return generatedKeys.stream()
                 .map(id -> (Long) id)
                 .toList();
     }
 
     @Override
-    public Piece find(Long id) throws SQLException {
+    public Piece find(Connection connection, Long id) throws SQLException {
         List<Piece> pieceEntities = template.executeRead(
+                connection,
                 SELECT_PIECE_SQL,
                 (rs) -> new Piece(
                         rs.getLong("piece_id"),
@@ -83,8 +84,9 @@ public class PieceJdbcRepository implements PieceDao {
     }
 
     @Override
-    public List<Piece> findAll() throws SQLException {
+    public List<Piece> findAll(Connection connection) throws SQLException {
         return template.executeRead(
+                connection,
                 SELECT_PIECES_SQL,
                 (rs) -> new Piece(
                         rs.getLong("piece_id"),

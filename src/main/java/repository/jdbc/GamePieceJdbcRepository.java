@@ -1,5 +1,6 @@
 package repository.jdbc;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,18 +49,19 @@ public class GamePieceJdbcRepository implements GamePieceDao {
         this.template = template;
     }
 
-    public void initTable() {
+    public void initTable(Connection connection) {
         try {
-            template.executeCommand(CREATE_TABLE_SQL);
+            template.executeCommand(connection, CREATE_TABLE_SQL);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public Long save(GamePiece entity) {
+    public Long save(Connection connection, GamePiece entity) {
         try {
             Object generatedId = template.executeSave(
+                    connection,
                     INSERT_SQL,
                     entity.gameId(),
                     entity.pieceId(),
@@ -74,7 +76,7 @@ public class GamePieceJdbcRepository implements GamePieceDao {
     }
 
     @Override
-    public List<Long> saveAll(List<GamePiece> entities) {
+    public List<Long> saveAll(Connection connection, List<GamePiece> entities) {
         try {
             List<List<Object>> totalEntityValues = new ArrayList<>();
             for (GamePiece entity : entities) {
@@ -87,7 +89,7 @@ public class GamePieceJdbcRepository implements GamePieceDao {
                 totalEntityValues.add(rowValues);
             }
 
-            List<Object> generatedKeys = template.executeBatchSave(INSERT_SQL, totalEntityValues);
+            List<Object> generatedKeys = template.executeBatchSave(connection, INSERT_SQL, totalEntityValues);
             return generatedKeys.stream()
                 .map(id -> (Long) id)
                 .toList();
@@ -97,9 +99,10 @@ public class GamePieceJdbcRepository implements GamePieceDao {
     }
 
     @Override
-    public GamePiece find(Long id) {
+    public GamePiece find(Connection connection, Long id) {
         try {
             List<GamePiece> entities = template.executeRead(
+                    connection,
                     FIND_BY_ID_SQL,
                     (rs) -> new GamePiece(
                             rs.getLong("game_piece_id"),
@@ -129,9 +132,10 @@ public class GamePieceJdbcRepository implements GamePieceDao {
     }
 
     @Override
-    public List<GamePiece> findAll() {
+    public List<GamePiece> findAll(Connection connection) {
         try {
             return template.executeRead(
+                    connection,
                     FIND_ALL_SQL,
                     (rs) -> new GamePiece(
                             rs.getLong("game_piece_id"),
@@ -148,9 +152,10 @@ public class GamePieceJdbcRepository implements GamePieceDao {
     }
 
     @Override
-    public void update(GamePiece newEntity) {
+    public void update(Connection connection, GamePiece newEntity) {
         try {
             template.executeCommand(
+                    connection,
                     UPDATE_SQL,
                     newEntity.row(),
                     newEntity.col(),

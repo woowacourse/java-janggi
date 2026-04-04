@@ -10,13 +10,6 @@ import java.util.List;
 import repository.RepositoryErrorMessage;
 
 public class JdbcTemplate {
-
-    private final JdbcConnectionGenerator jdbcConnectionGenerator;
-
-    public JdbcTemplate(JdbcConnectionGenerator jdbcConnectionGenerator) {
-        this.jdbcConnectionGenerator = jdbcConnectionGenerator;
-    }
-
     /**
      * Statement 실행을 위한 콜백 인터페이스
      */
@@ -27,11 +20,12 @@ public class JdbcTemplate {
     /**
      * 자원 할당/해제를 책임지는 기본 실행 메서드 (try-with-resources 활용)
      */
-    private <T> T execute(String sql, boolean returnGeneratedKeys, PreparedStatementCallback<T> action) throws SQLException {
-        try (Connection connection = jdbcConnectionGenerator.getDBConnection();
-             PreparedStatement preparedStatement = returnGeneratedKeys ?
-                     connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS) :
-                     connection.prepareStatement(sql)) {
+    private <T> T execute(Connection connection, String sql, boolean returnGeneratedKeys,
+                          PreparedStatementCallback<T> action)
+            throws SQLException {
+        try (PreparedStatement preparedStatement = returnGeneratedKeys ?
+                connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS) :
+                connection.prepareStatement(sql)) {
             return action.doInPreparedStatement(preparedStatement);
         }
     }
@@ -42,15 +36,17 @@ public class JdbcTemplate {
         }
     }
 
-    private void setBatchParameters(PreparedStatement preparedStatement, List<List<Object>> parameterBatch) throws SQLException {
+    private void setBatchParameters(PreparedStatement preparedStatement, List<List<Object>> parameterBatch)
+            throws SQLException {
         for (List<Object> params : parameterBatch) {
             setParameters(preparedStatement, params.toArray());
             preparedStatement.addBatch();
         }
     }
 
-    public <T> List<T> executeRead(String sql, RowMapper<T> rowMapper, Object... parameters) throws SQLException {
-        return execute(sql, false, ps -> {
+    public <T> List<T> executeRead(Connection connection, String sql, RowMapper<T> rowMapper, Object... parameters)
+            throws SQLException {
+        return execute(connection, sql, false, ps -> {
             setParameters(ps, parameters);
             try (ResultSet resultSet = ps.executeQuery()) {
                 List<T> results = new ArrayList<>();
@@ -62,8 +58,8 @@ public class JdbcTemplate {
         });
     }
 
-    public Object executeSave(String sql, Object... parameters) throws SQLException {
-        return execute(sql, true, ps -> {
+    public Object executeSave(Connection connection, String sql, Object... parameters) throws SQLException {
+        return execute(connection, sql, true, ps -> {
             setParameters(ps, parameters);
             ps.executeUpdate();
             try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
@@ -75,8 +71,9 @@ public class JdbcTemplate {
         });
     }
 
-    public List<Object> executeBatchSave(String sql, List<List<Object>> parameters) throws SQLException {
-        return execute(sql, true, ps -> {
+    public List<Object> executeBatchSave(Connection connection, String sql, List<List<Object>> parameters)
+            throws SQLException {
+        return execute(connection, sql, true, ps -> {
             setBatchParameters(ps, parameters);
             ps.executeBatch();
             List<Object> keys = new ArrayList<>();
@@ -89,15 +86,16 @@ public class JdbcTemplate {
         });
     }
 
-    public int executeCommand(String sql, Object... parameters) throws SQLException {
-        return execute(sql, false, ps -> {
+    public int executeCommand(Connection connection, String sql, Object... parameters) throws SQLException {
+        return execute(connection, sql, false, ps -> {
             setParameters(ps, parameters);
             return ps.executeUpdate();
         });
     }
 
-    public void executeBatchCommand(String sql, List<List<Object>> parameterBatch) throws SQLException {
-        execute(sql, false, ps -> {
+    public void executeBatchCommand(Connection connection, String sql, List<List<Object>> parameterBatch)
+            throws SQLException {
+        execute(connection, sql, false, ps -> {
             setBatchParameters(ps, parameterBatch);
             ps.executeBatch();
             return null;

@@ -1,17 +1,23 @@
 package repository.jdbc;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class JdbcTemplateTest {
 
     private static final String CONFIG_FILE_NAME = "database.properties";
+
+    private static final JdbcConnectionGenerator CONNECTION_GENERATOR = JdbcConnectionGenerator.create(
+            CONFIG_FILE_NAME);
+    private static final Connection DB_CONNECTION = CONNECTION_GENERATOR.getDBConnection();
+
+    private final JdbcTemplate template = new JdbcTemplate();
     private static final String CREATE_TEST_PIECE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS piece (" +
             "piece_id BIGINT PRIMARY KEY AUTO_INCREMENT, " +
             "piece_row INT NOT NULL, " +
@@ -19,19 +25,10 @@ class JdbcTemplateTest {
             "team VARCHAR(10) NOT NULL, " +
             "type VARCHAR(10) NOT NULL)";
 
-    private JdbcConnectionGenerator generator;
-    private JdbcTemplate template;
-
-    @BeforeEach
-    void setUp() {
-        generator = JdbcConnectionGenerator.create(CONFIG_FILE_NAME);
-        template = new JdbcTemplate(generator);
-    }
-
     @AfterEach
     void clearAll() throws SQLException {
         String sql = "DROP ALL OBJECTS";
-        template.executeCommand(sql);
+        template.executeCommand(DB_CONNECTION, sql);
     }
 
     @Test
@@ -41,7 +38,7 @@ class JdbcTemplateTest {
         String testSql = "SELECT *";
 
         Assertions.assertDoesNotThrow(
-                () -> template.executeRead(testSql, (resultSet) -> null)
+                () -> template.executeRead(DB_CONNECTION, testSql, (resultSet) -> null)
         );
     }
 
@@ -50,7 +47,7 @@ class JdbcTemplateTest {
     void executeCommand_good() {
 
         Assertions.assertDoesNotThrow(
-                () -> template.executeCommand(CREATE_TEST_PIECE_TABLE_SQL)
+                () -> template.executeCommand(DB_CONNECTION, CREATE_TEST_PIECE_TABLE_SQL)
         );
     }
 
@@ -58,7 +55,7 @@ class JdbcTemplateTest {
     @DisplayName("batch 잘 수행한다")
     void executeBatch_good() throws SQLException {
         int expectedResultSize = 3;
-        template.executeCommand(CREATE_TEST_PIECE_TABLE_SQL);
+        template.executeCommand(DB_CONNECTION, CREATE_TEST_PIECE_TABLE_SQL);
 
         String sql = "INSERT INTO piece(piece_row, piece_col, team, type) VALUES (?, ?, ?, ?)";
         List<List<Object>> tempPieces = new ArrayList<>();
@@ -66,9 +63,10 @@ class JdbcTemplateTest {
         tempPieces.add(List.of(2, 1, "HAN", "JOL"));
         tempPieces.add(List.of(3, 2, "CHO", "JANG"));
 
-        template.executeBatchCommand(sql, tempPieces);
+        template.executeBatchCommand(DB_CONNECTION, sql, tempPieces);
 
-        int count = template.executeRead("SELECT COUNT(*) AS cnt FROM piece", rs -> rs.getInt("cnt")).get(0);
+        int count = template.executeRead(DB_CONNECTION, "SELECT COUNT(*) AS cnt FROM piece", rs -> rs.getInt("cnt"))
+                .get(0);
         Assertions.assertEquals(expectedResultSize, count);
     }
 }
