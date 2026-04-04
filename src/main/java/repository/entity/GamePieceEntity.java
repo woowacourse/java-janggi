@@ -1,9 +1,10 @@
 package repository.entity;
 
 public record GamePieceEntity(
-        Long gamePieceId,
+        Long id,
         Long gameId,
-        Long pieceId,
+        String pieceType,
+        String team,
         int row,
         int col,
         boolean isActive
