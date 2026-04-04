@@ -14,7 +14,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class GeneralDeadRuleTest {
-
     private static final Rule RULE = new GeneralDeadRule();
 
     public static Stream<Arguments> isEnd() {

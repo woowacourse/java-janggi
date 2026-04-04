@@ -11,7 +11,7 @@ import java.util.Map.Entry;
 public class BigJangRule implements Rule {
     private static final Piece CHO_GENERAL = new General(Side.CHO);
     private static final Piece HAN_GENERAL = new General(Side.HAN);
-    private static final Score CHO_ADVANTAGE = new Score(1);
+    private static final Score CHO_ADVANTAGE = new Score(1.5);
     private boolean otherPlayerIsEnd = false;
 
     @Override

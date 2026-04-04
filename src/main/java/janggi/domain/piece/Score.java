@@ -1,7 +1,7 @@
 package janggi.domain.piece;
 
 public record Score(
-        int value
+        double value
 ) {
     public static final Score NONE = new Score(0);
 
