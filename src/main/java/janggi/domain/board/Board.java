@@ -23,15 +23,14 @@ public class Board implements BoardMediator {
         return findPieceByPosition(from).calculateMovablePositions(from, this);
     }
 
-    @Override
-    public boolean hasPieceAt(final Position position) {
-        return hasPieceIn(position);
-    }
-
-    @Override
     public boolean hasGeneral(TeamType teamType) {
         return positionPieceMap.values().stream()
                 .anyMatch(piece -> piece.isGeneral() && piece.isSameTeamType(teamType));
+    }
+
+    @Override
+    public boolean hasPieceAt(final Position position) {
+        return hasPieceIn(position);
     }
 
     @Override
