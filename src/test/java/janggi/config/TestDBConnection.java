@@ -70,13 +70,16 @@ public final class TestDBConnection implements DBConnection {
     }
 
     @Override
-    public <R> Optional<R> executeSelect(final String sql, EntityMapper<R> mapper) {
-        try (
-            final Statement preparedStatement = connection.createStatement();
-            final ResultSet resultSet = preparedStatement.executeQuery(sql)
-        ) {
-            if (resultSet.next()) {
-                return Optional.of(mapper.map(resultSet));
+    public <R> Optional<R> executeSelect(final String sql, final EntityMapper<R> mapper,
+        final Object... parameters) {
+        try (final PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            for (int parameterIndex = 0; parameterIndex < parameters.length; parameterIndex++) {
+                preparedStatement.setObject(parameterIndex + 1, parameters[parameterIndex]);
+            }
+            try (final ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return Optional.of(mapper.map(resultSet));
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -86,14 +89,17 @@ public final class TestDBConnection implements DBConnection {
     }
 
     @Override
-    public <R> List<R> executeSelectAll(final String sql, final EntityMapper<R> entityMapper) {
+    public <R> List<R> executeSelectAll(final String sql, final EntityMapper<R> entityMapper,
+        final Object... parameters) {
         final List<R> result = new ArrayList<>();
-        try (
-            final Statement preparedStatement = connection.createStatement();
-            final ResultSet resultSet = preparedStatement.executeQuery(sql)
-        ) {
-            while (resultSet.next()) {
-                result.add(entityMapper.map(resultSet));
+        try (final PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            for (int parameterIndex = 0; parameterIndex < parameters.length; parameterIndex++) {
+                preparedStatement.setObject(parameterIndex + 1, parameters[parameterIndex]);
+            }
+            try (final ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    result.add(entityMapper.map(resultSet));
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -103,36 +109,67 @@ public final class TestDBConnection implements DBConnection {
     }
 
     @Override
-    public List<Long> executeUpdate(final String sql) {
-        final List<Long> generatedKeys = new ArrayList<>();
-        try (
-            final Statement preparedStatement = connection.createStatement();
-        ) {
-            preparedStatement.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+    public long executeUpdate(final String sql, Object... parameters) {
+        long generatedKey = 0;
+        try (final PreparedStatement preparedStatement = connection.prepareStatement(sql,
+            Statement.RETURN_GENERATED_KEYS)) {
+            for (int parameterIndex = 0; parameterIndex < parameters.length; parameterIndex++) {
+                preparedStatement.setObject(parameterIndex + 1, parameters[parameterIndex]);
+            }
+
+            preparedStatement.executeUpdate();
             try (final ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
-                while (resultSet.next()) {
-                    generatedKeys.add(resultSet.getLong(1));
+                if (resultSet.next()) {
+                    generatedKey = resultSet.getLong(1);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+        return generatedKey;
+    }
+
+    @Override
+    public List<Long> executeBatchUpdate(String sql, List<Object[]> parametersList) {
+        final List<Long> generatedKeys = new ArrayList<>();
+        try (final PreparedStatement preparedStatement =
+            connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
+        ) {
+            for (final Object[] parameters : parametersList) {
+                for (int parameterIndex = 0; parameterIndex < parameters.length; parameterIndex++) {
+                    preparedStatement.setObject(parameterIndex + 1, parameters[parameterIndex]);
+                }
+                preparedStatement.addBatch();
+            }
+            preparedStatement.executeBatch();
+            try (final ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
+                while (resultSet.next()) {
+                    generatedKeys.add(resultSet.getLong(1));
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
         return generatedKeys;
     }
 
     @Override
-    public boolean executeDelete(final String sql) {
+    public boolean executeDelete(final String sql, final Object... parameters) {
         int affectedRowCount = 0;
-        try (
-            final Statement preparedStatement = connection.createStatement();
-        ) {
-            affectedRowCount = preparedStatement.executeUpdate(sql);
+        try (final PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            for (int parameterIndex = 0; parameterIndex < parameters.length; parameterIndex++) {
+                preparedStatement.setObject(parameterIndex + 1, parameters[parameterIndex]);
+            }
+            affectedRowCount = preparedStatement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return affectedRowCount != 0;
     }
+
 
     @Override
     public void closeConnection() {

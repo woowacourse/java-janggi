@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface GameRepository {
 
-    GameEntity save(GameEntity gameEntity);
+    long save(GameEntity gameEntity);
 
     boolean existsById(long id);
 

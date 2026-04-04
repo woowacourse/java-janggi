@@ -69,13 +69,19 @@ public class StandardDBConnection implements DBConnection {
     }
 
     @Override
-    public <R> Optional<R> executeSelect(final String sql, EntityMapper<R> mapper) {
+    public <R> Optional<R> executeSelect(final String sql, final EntityMapper<R> mapper,
+        final Object... parameters) {
         try (
             final Connection connection = DriverManager.getConnection(url, id, password);
-            final Statement preparedStatement = connection.createStatement();
-            final ResultSet resultSet = preparedStatement.executeQuery(sql)) {
-            if (resultSet.next()) {
-                return Optional.of(mapper.map(resultSet));
+            final PreparedStatement preparedStatement = connection.prepareStatement(sql)
+        ) {
+            for (int parameterIndex = 0; parameterIndex < parameters.length; parameterIndex++) {
+                preparedStatement.setObject(parameterIndex + 1, parameters[parameterIndex]);
+            }
+            try (final ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return Optional.of(mapper.map(resultSet));
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -85,15 +91,20 @@ public class StandardDBConnection implements DBConnection {
     }
 
     @Override
-    public <R> List<R> executeSelectAll(final String sql, final EntityMapper<R> entityMapper) {
+    public <R> List<R> executeSelectAll(final String sql, final EntityMapper<R> entityMapper,
+        final Object... parameters) {
         final List<R> result = new ArrayList<>();
         try (
             final Connection connection = DriverManager.getConnection(url, id, password);
-            final Statement preparedStatement = connection.createStatement();
-            final ResultSet resultSet = preparedStatement.executeQuery(sql)
+            final PreparedStatement preparedStatement = connection.prepareStatement(sql);
         ) {
-            while (resultSet.next()) {
-                result.add(entityMapper.map(resultSet));
+            for (int parameterIndex = 0; parameterIndex < parameters.length; parameterIndex++) {
+                preparedStatement.setObject(parameterIndex + 1, parameters[parameterIndex]);
+            }
+            try (final ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    result.add(entityMapper.map(resultSet));
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -103,33 +114,69 @@ public class StandardDBConnection implements DBConnection {
     }
 
     @Override
-    public List<Long> executeUpdate(final String sql) {
-        final List<Long> generatedKeys = new ArrayList<>();
+    public long executeUpdate(final String sql, Object... parameters) {
+        long generatedKey = 0;
         try (
             final Connection connection = DriverManager.getConnection(url, id, password);
-            final Statement preparedStatement = connection.createStatement();
+            final PreparedStatement preparedStatement = connection.prepareStatement(sql,
+                Statement.RETURN_GENERATED_KEYS)
         ) {
-            preparedStatement.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
-            try (final ResultSet resultSet = preparedStatement.getGeneratedKeys();) {
-                while (resultSet.next()) {
-                    generatedKeys.add(resultSet.getLong(1));
+            for (int parameterIndex = 0; parameterIndex < parameters.length; parameterIndex++) {
+                preparedStatement.setObject(parameterIndex + 1, parameters[parameterIndex]);
+            }
+
+            preparedStatement.executeUpdate();
+            try (final ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
+                if (resultSet.next()) {
+                    generatedKey = resultSet.getLong(1);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+        return generatedKey;
+    }
+
+    @Override
+    public List<Long> executeBatchUpdate(String sql, List<Object[]> parametersList) {
+        final List<Long> generatedKeys = new ArrayList<>();
+        try (
+            final Connection connection = DriverManager.getConnection(url, id, password);
+            final PreparedStatement preparedStatement = connection.prepareStatement(sql,
+                Statement.RETURN_GENERATED_KEYS)
+        ) {
+            for (final Object[] parameters : parametersList) {
+                for (int parameterIndex = 0; parameterIndex < parameters.length; parameterIndex++) {
+                    preparedStatement.setObject(parameterIndex + 1, parameters[parameterIndex]);
+                }
+                preparedStatement.addBatch();
+            }
+            preparedStatement.executeBatch();
+            try (final ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
+                while (resultSet.next()) {
+                    generatedKeys.add(resultSet.getLong(1));
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
         return generatedKeys;
     }
 
     @Override
-    public boolean executeDelete(final String sql) {
+    public boolean executeDelete(final String sql, final Object... parameters) {
         int affectedRowCount = 0;
         try (
             final Connection connection = DriverManager.getConnection(url, id, password);
-            final Statement preparedStatement = connection.createStatement();
+            final PreparedStatement preparedStatement = connection.prepareStatement(sql);
         ) {
-            affectedRowCount = preparedStatement.executeUpdate(sql);
+            for (int parameterIndex = 0; parameterIndex < parameters.length; parameterIndex++) {
+                preparedStatement.setObject(parameterIndex + 1, parameters[parameterIndex]);
+            }
+            affectedRowCount = preparedStatement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }

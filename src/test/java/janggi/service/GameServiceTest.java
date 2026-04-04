@@ -65,7 +65,7 @@ class GameServiceTest {
         @DisplayName("정상 테스트")
         void success() {
             long id = gameRepository.save(
-                GameEntity.from("게임 1", 1, List.of(TeamType.BLUE, TeamType.RED))).id();
+                GameEntity.from("게임 1", 1, List.of(TeamType.BLUE, TeamType.RED)));
             GameEntity expected = GameEntity.from(id, "게임 1", 1,
                 List.of(TeamType.BLUE, TeamType.RED));
 

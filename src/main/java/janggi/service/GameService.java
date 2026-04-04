@@ -29,7 +29,7 @@ public class GameService {
         final GameEntity gameEntity = GameEntity.from(name, 1,
             List.of(TeamType.BLUE, TeamType.RED));
 
-        return gameRepository.save(gameEntity).id();
+        return gameRepository.save(gameEntity);
     }
 
     public GameEntity loadGame(final long id) {

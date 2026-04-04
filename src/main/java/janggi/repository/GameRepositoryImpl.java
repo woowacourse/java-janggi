@@ -17,12 +17,11 @@ public class GameRepositoryImpl implements GameRepository {
     }
 
     @Override
-    public GameEntity save(final GameEntity gameEntity) {
+    public long save(final GameEntity gameEntity) {
         final String sql = String.format(
-            "INSERT INTO %s (name, turns_taken, team_queue) VALUES ('%s', %d, '%s')",
-            TABLE_NAME, gameEntity.name(), gameEntity.turns_taken(), gameEntity.team_queue());
-        final long generatedId = dbConnection.executeUpdate(sql).getFirst();
-        return new GameEntity(generatedId, gameEntity.name(), gameEntity.turns_taken(),
+            "INSERT INTO %s (name, turns_taken, team_queue) VALUES (?, ?, ?)",
+            TABLE_NAME);
+        return dbConnection.executeUpdate(sql, gameEntity.name(), gameEntity.turns_taken(),
             gameEntity.team_queue());
     }
 
@@ -42,8 +41,8 @@ public class GameRepositoryImpl implements GameRepository {
     @Override
     public Optional<GameEntity> findById(final long targetId) {
         final String sql = String.format(
-            "SELECT id, name, turns_taken, team_queue FROM %s WHERE id = %d",
-            TABLE_NAME, targetId);
+            "SELECT id, name, turns_taken, team_queue FROM %s WHERE id = ?",
+            TABLE_NAME);
         final EntityMapper<GameEntity> mapper = resultSet -> {
             long id = resultSet.getLong(1);
             String name = resultSet.getString(2);
@@ -51,22 +50,23 @@ public class GameRepositoryImpl implements GameRepository {
             String teamQueue = resultSet.getString(4);
             return new GameEntity(id, name, turnsTaken, teamQueue);
         };
-        return dbConnection.executeSelect(sql, mapper);
+        return dbConnection.executeSelect(sql, mapper, targetId);
     }
 
     @Override
     public long updateById(final long id, final GameEntity gameEntity) {
         final String sql = String.format(
-            "UPDATE %s SET turns_taken = %d, team_queue = '%s' WHERE id = %d",
-            TABLE_NAME, gameEntity.turns_taken(), gameEntity.team_queue(), id);
+            "UPDATE %s SET turns_taken = ?, team_queue = ? WHERE id = ?",
+            TABLE_NAME);
 
-        return dbConnection.executeUpdate(sql).getFirst();
+        return dbConnection.executeUpdate(sql, gameEntity.turns_taken(), gameEntity.team_queue(),
+            id);
     }
 
 
     @Override
     public boolean deleteById(final long id) {
-        final String sql = String.format("DELETE FROM %s WHERE id = %d", TABLE_NAME, id);
-        return dbConnection.executeDelete(sql);
+        final String sql = String.format("DELETE FROM %s WHERE id = ?", TABLE_NAME);
+        return dbConnection.executeDelete(sql, id);
     }
 }
