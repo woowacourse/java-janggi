@@ -5,6 +5,6 @@ import janggi.domain.point.Point;
 
 public interface BoardRepository {
     long save(JanggiGame game);
-    void update(Long roomId, Point from, Point to, JanggiGame game);
-    JanggiGame loadGame(Long gameRoomId);
+    void update(long roomId, Point from, Point to, JanggiGame game);
+    JanggiGame loadGame(long roomId);
 }
