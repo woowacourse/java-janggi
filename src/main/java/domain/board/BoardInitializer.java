@@ -8,5 +8,4 @@ import java.util.Map;
 public interface BoardInitializer {
 
     Map<Position, Piece> initialize();
-    Side getFirstTurnSide();
 }
