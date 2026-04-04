@@ -34,7 +34,7 @@ class ChariotMoveStrategyTest {
     }
 
     @Test
-    @DisplayName("차는 궁성 내부에서 대각선으로 한 칸 이동할 수 있다")
+    @DisplayName("차는 궁성 내부에서 대각선으로 이동할 수 있다")
     void chariotShouldMoveWhenMovesDiagonallyInPalace() {
         // given
         MoveStrategy strategy = new ChariotMoveStrategy();

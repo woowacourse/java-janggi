@@ -31,6 +31,24 @@ class CannonMoveStrategyTest {
     }
 
     @Test
+    @DisplayName("포는 궁성 내부에서 대각선으로 이동할 수 있다")
+    void cannonShouldMoveWhenMovesDiagonallyInPalace() {
+        // given
+        MoveStrategy strategy = new CannonMoveStrategy();
+        Map<Position, Piece> boardMapper = new HashMap<>();
+        boardMapper.put(Position.of(0, 3), Piece.of(Team.CHU, Type.CANNON, strategy));
+        boardMapper.put(Position.of(1, 4), Piece.of(Team.CHU, Type.SOLDIER, new FixedMoveStrategy()));
+        Board board = Board.of(boardMapper);
+
+        // when
+        Position position = Position.of(0, 3);
+        Position targetPosition = Position.of(2, 5);
+
+        // then
+        Assertions.assertTrue(strategy.canMove(position, targetPosition, board));
+    }
+
+    @Test
     @DisplayName("포의 이동 경로에 다른 기물이 없으면 이동하지 못한다.")
     void cannonShouldNotMoveWhenNoPieceInPath() {
         // given
