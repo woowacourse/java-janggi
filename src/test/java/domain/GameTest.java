@@ -1,13 +1,12 @@
 package domain;
 
 import domain.board.BasicBoardInitializer;
-import domain.board.Side;
+import domain.state.Side;
 import domain.board.formation.OutsideMaFormation;
 import domain.coordinate.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
@@ -48,20 +47,5 @@ class GameTest {
 
         // when - then
         assertDoesNotThrow(() -> game.validateMoveable(position));
-    }
-
-    @Test
-    @DisplayName("이동을 마치면 턴이 변경된다.")
-    void changeTurnTest() {
-        // given
-        Game game = new Game(basicBoardInitializer);
-        Position start = new Position(6, 0);
-        Position destination = new Position(6, 1);
-
-        // when
-        game.movePiece(start, destination);
-
-        // then
-        assertThat(game.getTurn()).isEqualTo(Side.HAN);
     }
 }

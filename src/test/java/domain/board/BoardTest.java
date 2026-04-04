@@ -6,13 +6,45 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import domain.board.formation.OutsideMaFormation;
 import domain.coordinate.Position;
+import domain.piece.*;
+import domain.state.Side;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 class BoardTest {
 
     BasicBoardInitializer basicBoardInitializer = new BasicBoardInitializer(new OutsideMaFormation(Side.HAN), new OutsideMaFormation(Side.CHU));
+
+    static class CheckTest implements BoardInitializer {
+
+        @Override
+        public Map<Position, Piece> initialize() {
+            Map<Position, Piece> piecesPosition = new HashMap<>();
+
+            piecesPosition.put(new Position(1, 4), new King(Side.HAN));
+            piecesPosition.put(new Position(1, 3), new Guard(Side.HAN));
+            piecesPosition.put(new Position(0, 3), new Cannon(Side.HAN));
+            piecesPosition.put(new Position(4, 4), new Chariot(Side.HAN));
+
+            piecesPosition.put(new Position(1, 0), new Chariot(Side.CHU));
+            piecesPosition.put(new Position(8, 3), new King(Side.CHU));
+            initializeEmptyPiece(piecesPosition);
+            return piecesPosition;
+        }
+
+        private void initializeEmptyPiece(Map<Position, Piece> pieceInitPlacements) {
+            for (int i = 0; i < 10; i++) {
+                for (int j = 0; j < 9; j++) {
+                    pieceInitPlacements.putIfAbsent(new Position(i, j), EmptyPiece.getInstance());
+                }
+            }
+        }
+    }
 
     @Test
     @DisplayName("장기판을 생성한다.")
@@ -92,5 +124,69 @@ class BoardTest {
 
         // when - then
         assertThat(board.isEmpty(notEmptyPosition)).isFalse();
+    }
+
+    @Test
+    @DisplayName("장기판에 장이 없으면 false를 반환한다.")
+    void hasKingTest() {
+        // given
+        Board board = new Board(basicBoardInitializer.initialize());
+
+        // when - then
+        assertThat(board.hasKing(Side.HAN)).isTrue();
+    }
+
+    @Test
+    @DisplayName("장이 공격받고 있지 않다면 false를 반환한다")
+    void isCheck_False_Test() {
+        // given
+        Board board = new Board(new CheckTest().initialize());
+
+        // when - then
+        assertThat(board.isCheck(Side.HAN)).isFalse();
+    }
+
+    @Test
+    @DisplayName("장이 공격당하고 있다면 true를 반환한다")
+    void isCheck_True_Test() {
+        // given
+        Board board = new Board(new CheckTest().initialize());
+
+        // when - then
+        assertThat(board.isCheck(Side.CHU)).isTrue();
+    }
+
+    @Test
+    @DisplayName("왕이 공격받고 있으며, 다음 수에 장군을 피할 수 없다면 true를 반환한다.")
+    void isCheckMate_True_Test() {
+        // given
+        Board board = new Board(new CheckTest().initialize());
+
+        // when - then
+        assertThat(board.isCheckmate(Side.CHU)).isTrue();
+    }
+
+    @Test
+    @DisplayName("왕이 공격받고 있지 않으며, 다음 수에 장군을 피할 수 있다면 false를 반환한다.")
+    void isCheckMate_False_Test() {
+        // given
+        Board board = new Board(new CheckTest().initialize());
+
+        // when - then
+        assertThat(board.isCheckmate(Side.HAN)).isFalse();
+    }
+
+    @Test
+    @DisplayName("현재의 움직임으로 인해 장군이 되는 경우 이동을 제한한다.")
+    void calculateLegalMovesTest() {
+        // given
+        Board board = new Board(new CheckTest().initialize());
+        Position position = new Position(1, 3);
+
+        // when
+        List<Position> possibleMoves = board.calculateLegalMoves(position);
+
+        // then
+        assertThat(possibleMoves.size()).isEqualTo(0);
     }
 }
