@@ -96,6 +96,10 @@ public class OutputView {
         System.out.println("\n!!! 외통수 !!!");
     }
 
+    public void printLoadGameMessage() {
+        System.out.println("이전 게임을 불러옵니다.");
+    }
+
     private void printPieceBySide(PieceDto pieceDto) {
         Side side = pieceDto.getSide();
 

@@ -13,6 +13,7 @@ import java.util.Map;
 
 public class Game {
 
+    private Long id;
     private static final double FIRST_MOVE_BONUS = 1.5;
     private final Board board;
     private State state;
@@ -20,6 +21,11 @@ public class Game {
     public Game(BoardInitializer boardInitializer) {
         this.board = new Board(boardInitializer.initialize());
         this.state = createFirstTurnSide();
+    }
+
+    public Game(Board board, State state) {
+        this.board = board;
+        this.state = state;
     }
 
     public void end() {
@@ -38,10 +44,6 @@ public class Game {
 
     public List<Position> getPossibleMoves(Position start) {
         return board.calculateLegalMoves(start);
-    }
-
-    public Position getEndPosition(int index, List<Position> possibleMoves) {
-        return possibleMoves.get(index);
     }
 
     public void movePiece(Position start, Position dest) {
@@ -67,7 +69,7 @@ public class Game {
         return board.isCheck(state.getSide());
     }
 
-    public boolean isCheckMate() {
+    public boolean isCheckmate() {
         return board.isCheckmate(state.getSide());
     }
 
@@ -77,6 +79,10 @@ public class Game {
 
     public State createFirstTurnSide() {
         return new ChuSide();
+    }
+
+    public Position getEndPosition(int index, List<Position> possibleMoves) {
+        return possibleMoves.get(index);
     }
 
     public Side getSide() {
@@ -97,5 +103,13 @@ public class Game {
         if (getPossibleMoves(position).isEmpty()) {
             throw new IllegalArgumentException("\n해당 기물은 움직일 수 있는 좌표가 없습니다. 다른 기물을 선택해주세요.");
         }
+    }
+
+    public void assignId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
     }
 }
