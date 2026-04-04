@@ -124,8 +124,8 @@
 
 ### 2.3단계 - DB 적용
 
-- [ ] Application을 재시작하더라도 이전에 하던 장기를 다시 시작할 수 있어야 한다.
-- [ ] DB를 적용할 때 도메인 객체의 변경을 최소화해야 한다.
+- [x] Application을 재시작하더라도 이전에 하던 장기를 다시 시작할 수 있어야 한다.
+- [x] DB를 적용할 때 도메인 객체의 변경을 최소화해야 한다.
 
 ## 게임 흐름 세부 조건 사항
 
@@ -145,10 +145,12 @@
 - [x] 선택된 Position에 있는 Piece가 도착할 수 있는 Positions를 출력한다.
     - [x] 도착할 수 없는 Position을 입력하면 오류를 일으킨다.
 
-- [ ] General이 잡힐 때까지 위 과정을 Dynasty가 Turn을 반복한다.
+- [x] General이 잡힐 때까지 위 과정을 Dynasty가 Turn을 반복한다.
     - [x] Turn의 시작은 CHO부터 한다.
-    - [ ] General이 사라진 Dynasty가 있으면 종료한다.
+    - [x] General이 사라진 Dynasty가 있으면 종료한다.
 
 ### 게임 종료 (종료 및 승패 판단)
 
-- [ ] General이 없는 Dynasty는 패배처리 된다. (반대 Dynasty는 승리한다.)
+- 승패 판단은 아래와 같은 두 가지 방식으로 진행된다.
+    - [x] General이 잡힌 Dynasty는 패배처리 된다. (반대 Dynasty는 승리한다.)
+    - [x] 또는 두 Dynasty가 30점 미만이 된 순간 점수를 비교하여 승패를 결정한다.
