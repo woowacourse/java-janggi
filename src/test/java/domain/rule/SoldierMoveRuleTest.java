@@ -35,45 +35,75 @@ public class SoldierMoveRuleTest {
     }
 
     @Test
-    @DisplayName("한 진영인 졸의 직진 방향은 내려감이다.")
-    void should_move_down_for_han_soldier() {
+    @DisplayName("한 진영 졸은 아래쪽으로 한 칸 전진할 수 있다.")
+    void should_allow_downward_move_for_han_soldier() {
         Point start = new Point(0, 0);
         Point end = start.next(Vector.DOWN);
 
-        Team sameTeam = Team.HAN;
-        Team anotherTeam = Team.CHO;
-        Soldier soldier = new Soldier(sameTeam);
-        Soldier anotherTeamPiece = new Soldier(anotherTeam);
+        Soldier soldier = new Soldier(Team.HAN);
+        Soldier anotherTeamPiece = new Soldier(Team.CHO);
 
         Intersection from = new Intersection(start, soldier);
         Intersection to = new Intersection(end, anotherTeamPiece);
 
         SoldierMoveRule soldierMoveRule = new SoldierMoveRule();
 
-        Assertions.assertThatCode(() -> soldierMoveRule.validateMoveRule(from, List.of(to)))
-                .doesNotThrowAnyException();
-
+        List<Point> possiblePoints = soldierMoveRule.findPossiblePoints(from, to);
+        Assertions.assertThat(possiblePoints).containsExactly(end);
     }
 
     @Test
-    @DisplayName("한 진영인 졸의 직진 방향은 올라감이다.")
-    void should_move_up_for_cho_soldier() {
+    @DisplayName("초 진영 졸은 위쪽으로 한 칸 전진할 수 있다.")
+    void should_allow_upward_move_for_cho_soldier() {
         Point start = new Point(1, 0);
         Point end = start.next(Vector.UP);
 
-        Team sameTeam = Team.HAN;
-        Team anotherTeam = Team.CHO;
-        Soldier soldier = new Soldier(sameTeam);
-        Soldier anotherTeamPiece = new Soldier(anotherTeam);
+        Soldier soldier = new Soldier(Team.CHO);
+        Soldier anotherTeamPiece = new Soldier(Team.HAN);
 
         Intersection from = new Intersection(start, soldier);
         Intersection to = new Intersection(end, anotherTeamPiece);
 
         SoldierMoveRule soldierMoveRule = new SoldierMoveRule();
 
-        Assertions.assertThatCode(() -> soldierMoveRule.validateMoveRule(from, List.of(to)))
-                .doesNotThrowAnyException();
+        List<Point> possiblePoints = soldierMoveRule.findPossiblePoints(from, to);
+        Assertions.assertThat(possiblePoints).containsExactly(end);
+    }
 
+    @Test
+    @DisplayName("한 진영 졸은 위쪽으로 전진할 수 없다.")
+    void should_reject_upward_move_for_han_soldier() {
+        Point start = new Point(1, 0);
+        Point end = start.next(Vector.UP);
+
+        Soldier soldier = new Soldier(Team.HAN);
+        Soldier anotherTeamPiece = new Soldier(Team.CHO);
+
+        Intersection from = new Intersection(start, soldier);
+        Intersection to = new Intersection(end, anotherTeamPiece);
+
+        SoldierMoveRule soldierMoveRule = new SoldierMoveRule();
+
+        Assertions.assertThatThrownBy(() -> soldierMoveRule.findPossiblePoints(from, to))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("초 진영 졸은 아래쪽으로 전진할 수 없다.")
+    void should_reject_downward_move_for_cho_soldier() {
+        Point start = new Point(0, 0);
+        Point end = start.next(Vector.DOWN);
+
+        Soldier soldier = new Soldier(Team.CHO);
+        Soldier anotherTeamPiece = new Soldier(Team.HAN);
+
+        Intersection from = new Intersection(start, soldier);
+        Intersection to = new Intersection(end, anotherTeamPiece);
+
+        SoldierMoveRule soldierMoveRule = new SoldierMoveRule();
+
+        Assertions.assertThatThrownBy(() -> soldierMoveRule.findPossiblePoints(from, to))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
 }
