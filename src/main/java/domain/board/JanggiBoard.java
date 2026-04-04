@@ -91,7 +91,7 @@ public class JanggiBoard {
                 .orElseThrow(() -> new IllegalArgumentException("선택한 좌표에 이동 가능한 기물이 없습니다."));
     }
 
-    public BoardState boardStatus() {
+    public BoardState boardState() {
         final List<IntersectionState> intersectionStates = new ArrayList<>();
         for (Intersection intersection : intersections.values()) {
             intersectionStates.add(intersection.toIntersectionState());

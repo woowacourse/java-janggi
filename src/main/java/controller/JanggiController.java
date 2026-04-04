@@ -1,5 +1,6 @@
 package controller;
 
+import domain.board.BoardState;
 import domain.board.Formation;
 import domain.board.JanggiBoard;
 import domain.board.JanggiGenerator;
@@ -7,8 +8,9 @@ import domain.game.Game;
 import domain.team.Team;
 import dto.InputMoveDto;
 import dto.Move;
+import mapper.BoardOutputMapper;
+import mapper.MoveMapper;
 import parser.MoveInputParser;
-import parser.MoveMapper;
 import view.InputView;
 import view.OutputView;
 
@@ -16,10 +18,12 @@ public class JanggiController {
 
     private final InputView inputView;
     private final OutputView outputView;
+    private final BoardOutputMapper boardOutputMapper;
 
-    public JanggiController(InputView inputView, OutputView outputView) {
+    public JanggiController(InputView inputView, OutputView outputView, BoardOutputMapper boardOutputMapper) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.boardOutputMapper = boardOutputMapper;
     }
 
     public void run() {
@@ -31,7 +35,8 @@ public class JanggiController {
 
         while (game.isRunning()) {
             try {
-                outputView.printCurrentBoardStatus(game.boardStatus());
+                BoardState boardState = game.getBoardState();
+                outputView.printCurrentBoardStatus(boardOutputMapper.toDto(boardState));
                 final Team turn = game.currentTurn();
                 outputView.printCurrentTurn(turn);
                 InputMoveDto inputMoveDto = MoveInputParser.parse(inputView.inputMovePiecePoint(),

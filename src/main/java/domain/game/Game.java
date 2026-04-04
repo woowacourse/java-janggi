@@ -35,12 +35,12 @@ public class Game {
         return turn;
     }
 
-    public BoardState boardStatus() {
-        return janggiBoard.boardStatus();
-    }
-
     public boolean isRunning() {
         return isGameRunning;
+    }
+
+    public BoardState getBoardState() {
+        return janggiBoard.boardState();
     }
 
 }
