@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface GameRoomDAO {
 
-    void save(GameRoomEntity gameRoomEntity);
+    Long save(GameRoomEntity gameRoomEntity);
 
     Optional<GameRoomEntity> findById(Long id);
 

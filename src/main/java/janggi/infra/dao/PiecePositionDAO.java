@@ -5,9 +5,9 @@ import janggi.infra.entity.PiecePositionEntity;
 
 import java.util.List;
 
-public interface BoardDAO {
+public interface PiecePositionDAO {
 
-    void saveAll(List<PiecePositionEntity> piecePositionEntities);
+    List<Long> saveAll(List<PiecePositionEntity> piecePositionEntities);
 
     List<PiecePositionEntity> findAllPieceByGameRoomId(Long gameRoomId);
 
