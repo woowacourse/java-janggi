@@ -23,4 +23,8 @@ public enum Turn {
     public Side getSide() {
         return this.side;
     }
+
+    public boolean isCho() {
+        return this.side.isCho();
+    }
 }

@@ -13,4 +13,8 @@ public record Score(double value) {
     public Score addHandicap() {
         return add(new Score(1.5));
     }
+
+    public boolean isGreaterThan(Score other) {
+        return value > other.value;
+    }
 }

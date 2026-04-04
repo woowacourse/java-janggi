@@ -14,20 +14,20 @@ public class JanggiGame {
 
     private final Board board;
     private final Turn turn;
-    private final boolean isOver;
+    private final GameStatus status;
 
-    public JanggiGame(Board board, Turn turn, boolean isOver) {
+    public JanggiGame(Board board, Turn turn, GameStatus status) {
         this.board = board;
         this.turn = turn;
-        this.isOver = isOver;
+        this.status = status;
     }
 
-    public JanggiGame(Board board) {
-        this(board, Turn.CHO_TURN, false);
+    public static JanggiGame startWith(Board board) {
+        return new JanggiGame(board, Turn.CHO_TURN, GameStatus.PLAYING);
     }
 
     public static JanggiGame of(SangSetupType choSangSetup, SangSetupType hanSangSetup) {
-        return new JanggiGame(SangSetup.initialize(choSangSetup, hanSangSetup));
+        return JanggiGame.startWith(SangSetup.initialize(choSangSetup, hanSangSetup));
     }
 
     public Board getBoard() {
@@ -35,7 +35,7 @@ public class JanggiGame {
     }
 
     public boolean isOver() {
-        return isOver;
+        return status.isOver();
     }
 
     public Side getTurnSide() {
@@ -51,11 +51,22 @@ public class JanggiGame {
     }
 
     public Side getWinnerSide() {
-        if (!isOver) {
+        if (!status.isOver()) {
             throw new IllegalArgumentException("게임이 종료되지 않아 승리 진영을 조회할 수 없습니다.");
         }
-        // TODO: 점수비교
-        return getTurnSide();
+        if (status.isChoWinByGung()) {
+            return Side.CHO;
+        }
+        if (status.isHanWinByGung()) {
+            return Side.HAN;
+        }
+
+        Score choScore = board.calculateScoreOf(Side.CHO);
+        Score hanScore = board.calculateScoreOf(Side.HAN);
+        if (choScore.isGreaterThan(hanScore)) {
+            return Side.CHO;
+        }
+        return Side.HAN;
     }
 
     public JanggiGame move(Position departure, Position destination) {
@@ -71,7 +82,7 @@ public class JanggiGame {
 
     private void validateMoveRequest(Position departure) {
         // TODO: 게임 진행 상태 객체화 고민해보기 (과한지? 합리적인지?)
-        if (isOver) {
+        if (status.isOver()) {
             throw new IllegalArgumentException("게임이 종료되어 더 이상 말을 이동시킬 수 없습니다.");
         }
         board.validateDeparturePiece(departure, turn);
@@ -79,16 +90,19 @@ public class JanggiGame {
 
     private JanggiGame createNextGame(Board updatedBoard, PieceType targetPieceType) {
         if (targetPieceType.isGung()) {
-            return gameOver(updatedBoard);
+            return gameOverByGung(updatedBoard);
         }
         return nextTurn(updatedBoard);
     }
 
     private JanggiGame nextTurn(Board updatedBoard) {
-        return new JanggiGame(updatedBoard, turn.other(), false);
+        return new JanggiGame(updatedBoard, turn.other(), GameStatus.PLAYING);
     }
 
-    private JanggiGame gameOver(Board updatedBoard) {
-        return new JanggiGame(updatedBoard, turn, true);
+    private JanggiGame gameOverByGung(Board updatedBoard) {
+        if (turn.isCho()) {
+            return new JanggiGame(updatedBoard, turn, GameStatus.CHO_WIN_BY_GUNG);
+        }
+        return new JanggiGame(updatedBoard, turn, GameStatus.HAN_WIN_BY_GUNG);
     }
 }
