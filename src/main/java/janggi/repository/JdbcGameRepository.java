@@ -90,8 +90,15 @@ public class JdbcGameRepository implements gameRepository {
 
 
     @Override
-    public Long save(Connection con, Team team) {
-        return gameEntityDao.save(con, team.name());
+    public Long saveBoard(
+            Connection con,
+            String team,
+            Map<Position, Piece> boardInfo
+    ) {
+        Long gameId = gameEntityDao.save(con, team);
+        pieceEntityDao.saveBoard(con, boardInfo, gameId);
+
+        return gameId;
     }
 
     @Override
