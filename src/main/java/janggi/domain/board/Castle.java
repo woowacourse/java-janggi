@@ -11,7 +11,7 @@ public class Castle {
     private static final int CASTLE_ZONE_COLUMN_MIN = 3;
     private static final int CASTLE_ZONE_COLUMN_MAX = 5;
 
-    public static boolean inSameCastle(Point to, Point from) {
+    public static boolean inSameCastle(Point from, Point to) {
         if (isCastle(from.getColumn(), from.getRow()) && isCastle(to.getColumn(), to.getRow())) {
             return (from.getRow() <= CHO_CASTLE_ZONE_ROW_MAX) == (to.getRow() <= CHO_CASTLE_ZONE_ROW_MAX);
         }
