@@ -18,12 +18,8 @@ public enum Direction {
         this.dColumn = dColumn;
     }
 
-    public int dRow() {
-        return dRow;
-    }
-
-    public int dColumn() {
-        return dColumn;
+    public Position move(Position position) {
+        return Position.of(position.row() + dRow, position.column() + dColumn);
     }
 }
 

@@ -20,10 +20,7 @@ public class Position {
     }
 
     public Position next(Direction direction) {
-        final int nextRow = this.row.value() + direction.dRow();
-        final int nextCol = this.column.value() + direction.dColumn();
-
-        return Position.of(nextRow, nextCol);
+        return direction.move(this);
     }
 
     public static Position of(int row, int column) {
