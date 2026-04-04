@@ -1,4 +1,4 @@
-package parser;
+package mapper;
 
 import domain.point.Point;
 import dto.InputMoveDto;
