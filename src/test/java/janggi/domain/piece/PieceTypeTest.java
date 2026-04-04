@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 class PieceTypeTest {
     private static final Side DEFAULT_SIDE = Side.CHO;
 
-    @DisplayName("마(HORSE)는 보드 중앙에서 장애물이 없을 때, 8개의 이동 경로를 생성한다.")
+    @DisplayName("마(HORSE)는 보드 중앙에서 장애물이 없는 경우, 8개의 이동 경로를 생성한다.")
     @Test
     void 마_중앙_경로_생성_테스트() {
         // given
@@ -28,7 +28,7 @@ class PieceTypeTest {
         assertThat(paths).hasSize(8);
     }
 
-    @DisplayName("마(HORSE)는 진행 방향의 멱이 막히면, 해당 목적지로 이동할 수 없다.")
+    @DisplayName("마(HORSE)는 진행 방향의 멱이 막히는 경우, 해당 목적지로 이동할 수 없다.")
     @Test
     void 마_멱_차단_이동_검증_테스트() {
         // given
@@ -71,7 +71,7 @@ class PieceTypeTest {
         assertThat(destinations).hasSize(17);
     }
 
-    @DisplayName("차(CHARIOT)가 보드 구석(0, 0)에 있을 때, 판 안쪽으로만 경로를 생성한다.")
+    @DisplayName("차(CHARIOT)가 보드 구석(0, 0)에 있는 경우, 판 안쪽으로만 경로를 생성한다.")
     @Test
     void 차_구석_경계_경로_테스트() {
         // given
@@ -102,7 +102,7 @@ class PieceTypeTest {
         assertThat(destinations).contains(new Position(3, 4), new Position(4, 5), new Position(4, 3));
     }
 
-    @DisplayName("졸(SOLDIER)은 이동하려는 칸에 아군 기물이 있으면, 이동할 수 없다.")
+    @DisplayName("졸(SOLDIER)은 이동하려는 칸에 아군 기물이 있는 경우, 이동할 수 없다.")
     @Test
     void 졸_아군_차단_검증_테스트() {
         // given
@@ -144,7 +144,7 @@ class PieceTypeTest {
     }
 
     @Test
-    @DisplayName("포(CANNON)는 뛰어넘을 다리가 없으면, 이동할 수 없다.")
+    @DisplayName("포(CANNON)는 뛰어넘을 다리가 없는 경우, 이동할 수 없다.")
     void 포_다리_없음_이동_불가_검증_테스트() {
         // given
         Position current = new Position(0, 0);
@@ -204,6 +204,112 @@ class PieceTypeTest {
                 () -> assertThat(destinations).contains(enemyPos), // 적군 자리는 갈 수 있음
                 () -> assertThat(destinations).doesNotContain(new Position(0, 4)) // 적군 너머로는 못 감
         );
+    }
+
+    @DisplayName("상(ELEPHANT)은 보드 중앙에서 장애물이 없는 경우, 8개의 이동 경로를 생성한다.")
+    @Test
+    void 상_정상_이동_테스트() {
+        // given
+        Position current = new Position(4, 4);
+        PieceType elephantType = PieceType.ELEPHANT;
+        Paths paths = elephantType.calculatePaths(current, Side.CHO);
+
+        Map<Position, Piece> boardState = new HashMap<>();
+        Piece movingPiece = createPiece(Side.CHO, PieceType.ELEPHANT);
+
+        // when
+        List<Position> destinations = elephantType.determineDestinations(paths, boardState, movingPiece);
+
+        // then
+        assertThat(destinations).hasSize(8);
+    }
+
+    @DisplayName("궁(PALACE)은 궁성 중앙에서 장애물이 없는 경우, 8개의 이동 경로를 생성한다.")
+    @Test
+    void 궁_정상_이동_테스트() {
+        // given
+        Position current = new Position(1, 4);
+        PieceType palaceType = PieceType.PALACE;
+        Paths paths = palaceType.calculatePaths(current, Side.HAN);
+
+        Map<Position, Piece> boardState = new HashMap<>();
+        Piece movingPiece = createPiece(Side.HAN, PieceType.PALACE);
+
+        // when
+        List<Position> destinations = palaceType.determineDestinations(paths, boardState, movingPiece);
+
+        // then
+        // 상하좌우 + 대각선 4곳
+        assertThat(destinations).hasSize(8)
+                .containsExactlyInAnyOrder(
+                        new Position(0, 4), new Position(2, 4), new Position(1, 3), new Position(1, 5),
+                        new Position(0, 3), new Position(0, 5), new Position(2, 3), new Position(2, 5)
+                );
+    }
+
+    @DisplayName("궁(PALACE)은 궁성 내에서 아군 기물이 있는 곳으로는 이동할 수 없다.")
+    @Test
+    void 궁_아군_차단_검증_테스트() {
+        // given
+        Position current = new Position(1, 4);
+        PieceType palaceType = PieceType.PALACE;
+        Paths paths = palaceType.calculatePaths(current, Side.HAN);
+
+        // 북쪽(0, 4)에 아군(사) 배치
+        Map<Position, Piece> boardState = new HashMap<>();
+        boardState.put(new Position(0, 4), createPiece(Side.HAN, PieceType.GUARD));
+
+        Piece movingPiece = createPiece(Side.HAN, PieceType.PALACE);
+
+        // when
+        List<Position> destinations = palaceType.determineDestinations(paths, boardState, movingPiece);
+
+        // then
+        assertThat(destinations).doesNotContain(new Position(0, 4));
+        assertThat(destinations).hasSize(7); // 아군 제외 나머지 7방향 가능
+    }
+
+    @DisplayName("사(GUARD)는 궁성 꼭짓점에서 장애물이 없는 경우, 3방향으로 정상 이동한다.")
+    @Test
+    void 사_정상_이동_테스트() {
+        // given
+        Position current = new Position(9, 3);
+        PieceType guardType = PieceType.GUARD;
+        Paths paths = guardType.calculatePaths(current, Side.CHO);
+
+        Map<Position, Piece> boardState = new HashMap<>();
+        Piece movingPiece = createPiece(Side.CHO, PieceType.GUARD);
+
+        // when
+        List<Position> destinations = guardType.determineDestinations(paths, boardState, movingPiece);
+
+        // then
+        assertThat(destinations).hasSize(3)
+                .containsExactlyInAnyOrder(
+                        new Position(8, 3), new Position(9, 4), new Position(8, 4)
+                );
+    }
+
+    @DisplayName("사(GUARD)는 궁성 내에서 적군 기물이 있는 곳으로 이동하여 포획할 수 있다.")
+    @Test
+    void 사_적군_포획_검증_테스트() {
+        // given
+        Position current = new Position(8, 4);
+        PieceType guardType = PieceType.GUARD;
+        Paths paths = guardType.calculatePaths(current, Side.CHO);
+
+        // 동쪽(8, 5)에 적군(차) 배치
+        Map<Position, Piece> boardState = new HashMap<>();
+        Position enemyPos = new Position(8, 5);
+        boardState.put(enemyPos, createPiece(Side.HAN, PieceType.CHARIOT));
+
+        Piece movingPiece = createPiece(Side.CHO, PieceType.GUARD);
+
+        // when
+        List<Position> destinations = guardType.determineDestinations(paths, boardState, movingPiece);
+
+        // then
+        assertThat(destinations).contains(enemyPos);
     }
 
     private Piece createPiece(Side side, PieceType type) {

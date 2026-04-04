@@ -9,6 +9,7 @@ import janggi.domain.strategy.ElephantMoveStrategy;
 import janggi.domain.strategy.EmptyMoveStrategy;
 import janggi.domain.strategy.HorseMoveStrategy;
 import janggi.domain.strategy.MoveStrategy;
+import janggi.domain.strategy.PalaceMoveStrategy;
 import janggi.domain.strategy.SlideMoveStrategy;
 import janggi.domain.strategy.StepMoveStrategy;
 import java.util.EnumSet;
@@ -18,15 +19,12 @@ import java.util.function.Function;
 
 public enum PieceType {
 
-//    TODO: 사이클 2 에서 궁성 구현 시
-//    PALACE(EnumSet.allOf(Direction.class), new StepMoveStrategy()),
-//    GUARD(EnumSet.allOf(Direction.class), new StepMoveStrategy()),
-    PALACE(side -> EnumSet.of(Direction.N, Direction.S, Direction.E, Direction.W), new StepMoveStrategy()),
-    GUARD(side -> EnumSet.of(Direction.N, Direction.S, Direction.E, Direction.W), new StepMoveStrategy()),
-    CHARIOT(side -> EnumSet.of(Direction.N, Direction.S, Direction.E, Direction.W), new SlideMoveStrategy()),
-    CANNON(side -> EnumSet.of(Direction.N, Direction.S, Direction.E, Direction.W), new CannonMoveStrategy()),
-    HORSE(side -> EnumSet.of(Direction.N, Direction.S, Direction.E, Direction.W), new HorseMoveStrategy()),
-    ELEPHANT(side -> EnumSet.of(Direction.N, Direction.S, Direction.E, Direction.W), new ElephantMoveStrategy()),
+    PALACE(side -> eightDirections(), new PalaceMoveStrategy()),
+    GUARD(side -> eightDirections(), new PalaceMoveStrategy()),
+    CHARIOT(side -> fourDirections(), new SlideMoveStrategy()),
+    CANNON(side -> fourDirections(), new CannonMoveStrategy()),
+    HORSE(side -> fourDirections(), new HorseMoveStrategy()),
+    ELEPHANT(side -> fourDirections(), new ElephantMoveStrategy()),
     SOLDIER(Side::getSoldierDirections, new StepMoveStrategy()),
     EMPTY(side -> EnumSet.noneOf(Direction.class), new EmptyMoveStrategy()),
     ;
@@ -37,6 +35,15 @@ public enum PieceType {
     PieceType(Function<Side, EnumSet<Direction>> directionProvider, MoveStrategy moveStrategy) {
         this.moveStrategy = moveStrategy;
         this.directionProvider = directionProvider;
+    }
+
+    private static EnumSet<Direction> eightDirections() {
+        return EnumSet.of(Direction.N, Direction.S, Direction.E, Direction.W,
+                Direction.NE, Direction.NW, Direction.SE, Direction.SW);
+    }
+
+    private static EnumSet<Direction> fourDirections() {
+        return EnumSet.of(Direction.N, Direction.S, Direction.E, Direction.W);
     }
 
     public Paths calculatePaths(Position current, Side side) {

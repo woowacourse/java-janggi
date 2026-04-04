@@ -42,4 +42,8 @@ public enum Direction {
     public int getNextColumn(int currentColumn) {
         return currentColumn + this.column;
     }
+
+    public boolean isDiagonal() {
+        return (this == NE) || (this == NW) || (this == SE) || (this == SW);
+    }
 }
