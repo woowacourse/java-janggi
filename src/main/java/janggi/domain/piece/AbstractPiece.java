@@ -17,22 +17,22 @@ public abstract class AbstractPiece implements Piece {
     protected abstract PieceAction getPieceAction();
 
     @Override
-    public boolean isSameTeamType(final TeamType teamType) {
+    public final boolean isSameTeamType(final TeamType teamType) {
         return this.teamType == teamType;
     }
 
     @Override
-    public List<Position> calculateMovablePositions(final Position from, final BoardMediator boardMediator) {
+    public final List<Position> calculateMovablePositions(final Position from, final BoardMediator boardMediator) {
         return getPieceAction().calculateMovablePositions(from, this.teamType, boardMediator);
     }
 
     @Override
-    public TeamType getTeamTypeForDTO() {
+    public final TeamType getTeamTypeForDTO() {
         return this.teamType;
     }
 
     @Override
-    public PieceType getPieceTypeForDTO() {
+    public final PieceType getPieceTypeForDTO() {
         return getPieceType();
     }
 }
