@@ -27,15 +27,15 @@ public class Position {
     }
 
     public int getRow() {
-        return row.row();
+        return row.getRow();
     }
 
     public int getColumn() {
-        return column.column();
+        return column.getColumn();
     }
 
     public Position move(Direction direction) {
-        return new Position(row.row() + direction.getRow(), column.column() + direction.getColumn());
+        return new Position(row.getRow() + direction.getRow(), column.getColumn() + direction.getColumn());
     }
 
     @Override

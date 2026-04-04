@@ -5,16 +5,17 @@ import static domain.common.Constant.MIN_COLUMN;
 
 import java.util.Objects;
 
-public record Column(int column) {
+public class Column {
 
-    public Column {
+    private final int column;
+
+    public Column(int column) {
         validateColumn(column);
+        this.column = column;
     }
 
-    private void validateColumn(int column) {
-        if (column > MAX_COLUMN || column < MIN_COLUMN) {
-            throw new IllegalArgumentException("[ERROR] 좌표 범위를 초과했습니다.");
-        }
+    public int getColumn() {
+        return column;
     }
 
     @Override
@@ -28,5 +29,11 @@ public record Column(int column) {
     @Override
     public int hashCode() {
         return Objects.hashCode(column);
+    }
+
+    private void validateColumn(int column) {
+        if (column > MAX_COLUMN || column < MIN_COLUMN) {
+            throw new IllegalArgumentException("[ERROR] 좌표 범위를 초과했습니다.");
+        }
     }
 }

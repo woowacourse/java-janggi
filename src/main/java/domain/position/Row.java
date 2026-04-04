@@ -5,16 +5,17 @@ import static domain.common.Constant.MIN_ROW;
 
 import java.util.Objects;
 
-public record Row(int row) {
+public class Row {
 
-    public Row {
+    private final int row;
+
+    public Row(int row) {
         validateRange(row);
+        this.row = row;
     }
 
-    private void validateRange(int row) {
-        if (row > MAX_ROW || row < MIN_ROW) {
-            throw new IllegalArgumentException("[ERROR] 좌표 범위를 초과했습니다.");
-        }
+    public int getRow() {
+        return row;
     }
 
     @Override
@@ -22,11 +23,17 @@ public record Row(int row) {
         if (!(o instanceof Row obejectToRow)) {
             return false;
         }
-        return row == obejectToRow.row();
+        return row == obejectToRow.row;
     }
 
     @Override
     public int hashCode() {
         return Objects.hashCode(row);
+    }
+
+    private void validateRange(int row) {
+        if (row > MAX_ROW || row < MIN_ROW) {
+            throw new IllegalArgumentException("[ERROR] 좌표 범위를 초과했습니다.");
+        }
     }
 }
