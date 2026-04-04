@@ -150,13 +150,13 @@ class MovementTest {
         @DisplayName("경로에 아군이 있는 경우")
         void success_1() {
             // given
-            positionPieceMap.put(Position.valueOf(5, 6), new Soldier(TeamType.RED));
+            positionPieceMap.put(Position.valueOf(5, 4), new Soldier(TeamType.RED));
             Board board = new Board(positionPieceMap);
             Position from = Position.valueOf(5, 3);
-            int maxDistance = 4;
+            int maxDistance = 1;
             Direction direction = Direction.RIGHT;
             Movement Movement = new Movement(maxDistance, direction);
-            Position expected = Position.valueOf(5, 5);
+            Position expected = Position.valueOf(5, 3);
 
             // when
             Position actual = Movement.calculateDestination(from, TeamType.RED, board);
@@ -169,13 +169,13 @@ class MovementTest {
         @DisplayName("경로에 적군이 있는 경우")
         void success_2() {
             // given
-            positionPieceMap.put(Position.valueOf(5, 6), new Soldier(TeamType.BLUE));
+            positionPieceMap.put(Position.valueOf(5, 4), new Soldier(TeamType.BLUE));
             Board board = new Board(positionPieceMap);
             Position from = Position.valueOf(5, 3);
-            int maxDistance = 4;
+            int maxDistance = 1;
             Direction direction = Direction.RIGHT;
             Movement Movement = new Movement(maxDistance, direction);
-            Position expected = Position.valueOf(5, 6);
+            Position expected = Position.valueOf(5, 4);
 
             // when
             Position actual = Movement.calculateDestination(from, TeamType.RED, board);
@@ -190,10 +190,10 @@ class MovementTest {
             // given
             Board board = new Board(positionPieceMap);
             Position from = Position.valueOf(5, 3);
-            int maxDistance = 4;
+            int maxDistance = 1;
             Direction direction = Direction.RIGHT;
             Movement Movement = new Movement(maxDistance, direction);
-            Position expected = Position.valueOf(5, 7);
+            Position expected = Position.valueOf(5, 4);
 
             // when
             Position actual = Movement.calculateDestination(from, TeamType.RED, board);

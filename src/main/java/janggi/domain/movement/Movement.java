@@ -8,6 +8,7 @@ import java.util.List;
 
 public class Movement {
 
+    private static final int ONE_STEP = 1;
     private final int maxDistance;
     private final Direction direction;
 
@@ -20,46 +21,29 @@ public class Movement {
         return from.checkNextBound(maxDistance, direction);
     }
 
-    // 마지막 movement에서만 사용
-    // 현재 기물이 다음으로 가는 곳에서 갈 수 있는 칸이 있는지
+    // 마지막 movement에서만 사용, 1칸 이동으로 고정
     public boolean hasReachablePosition(Position from, final TeamType teamType, final BoardMediator boardMediator) {
-        for (int distance = 1; distance <= maxDistance; distance++) {
-            Position to = calculateNextPosition(from, distance);
-            if (!hasPieceAt(to, boardMediator)) {
-                return true;
-            }
-            if (!boardMediator.isSameTeamType(to, teamType)) {
-                return true;
-            }
-        }
-        return false;
+        Position to = calculateNextPosition(from, ONE_STEP);
+        return !hasPieceAt(to, boardMediator) || !boardMediator.isSameTeamType(to, teamType);
     }
 
-    // 이동 경로 중 막히는지
+    // 이동 경로 중 막히는지, 1칸 이동으로 고정
     public boolean isBlocked(final Position from, final BoardMediator boardMediator) {
-        for (int distance = 1; distance <= maxDistance; distance++) {
-            final Position to = calculateNextPosition(from, distance);
-            if (hasPieceAt(to, boardMediator)) {
-                return true;
-            }
-        }
-        return false;
+        final Position to = calculateNextPosition(from, ONE_STEP);
+        return hasPieceAt(to, boardMediator);
     }
 
-    // 처음 만나는 기물 찾기(그 기물이 적군이라면 기물의 위치 반환, 아군이라면 이전 위치 반환)
+    // 1칸 움직였을 때, 갈 수 있는 위치 반환
     public Position calculateDestination(final Position from, final TeamType teamType,
                                          final BoardMediator boardMediator) {
-        for (int distance = 1; distance <= maxDistance; distance++) {
-            final Position to = calculateNextPosition(from, distance);
-            if (!hasPieceAt(to, boardMediator)) {
-                continue;
-            }
-            if (boardMediator.isSameTeamType(to, teamType)) {
-                return calculateNextPosition(from, distance - 1);
-            }
+        final Position to = calculateNextPosition(from, ONE_STEP);
+        if (!hasPieceAt(to, boardMediator)) {
             return to;
         }
-        return calculateNextPosition(from, maxDistance);
+        if (boardMediator.isSameTeamType(to, teamType)) {
+            return from;
+        }
+        return to;
     }
 
     // 처음 만나는 기물 위치 반환, 만약 끝까지 가도 없으면 그 끝 위치 반환
@@ -79,23 +63,28 @@ public class Movement {
     public List<Position> calculateTraces(final Position from, final TeamType teamType,
                                           final BoardMediator boardMediator) {
         final List<Position> traces = new ArrayList<>();
-        Position prev = from;
         for (int distance = 1; distance <= maxDistance; distance++) {
+            if (!from.checkNextBound(distance, direction)) {
+                break;
+            }
             Position to = calculateNextPosition(from, distance);
-            if (prev.equals(to)) {
+            if (processPosition(to, traces, teamType, boardMediator)) {
                 return traces;
             }
-            if (!hasPieceAt(to, boardMediator)) {
-                traces.add(to);
-                prev = to;
-                continue;
-            }
-            if (!boardMediator.isSameTeamType(to, teamType)) {
-                traces.add(to);
-            }
-            return traces;
         }
         return traces;
+    }
+
+    private boolean processPosition(final Position to, final List<Position> traces, TeamType teamType,
+                                    BoardMediator boardMediator) {
+        if (!hasPieceAt(to, boardMediator)) {
+            traces.add(to);
+            return false;
+        }
+        if (!boardMediator.isSameTeamType(to, teamType)) {
+            traces.add(to);
+        }
+        return true;
     }
 
     private Position calculateNextPosition(final Position from, final int distance) {
