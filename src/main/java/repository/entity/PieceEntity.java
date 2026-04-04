@@ -1,6 +1,6 @@
 package repository.entity;
 
-public record Piece(
+public record PieceEntity(
         Long pieceId,
         String team,
         String pieceType

@@ -1,6 +1,6 @@
 package repository.entity;
 
-public record GameContext(
+public record GameContextEntity(
         Long gameContextId,
         String currentTurnOwnTeam,
         String gameState

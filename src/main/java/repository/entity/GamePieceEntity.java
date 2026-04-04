@@ -1,6 +1,6 @@
 package repository.entity;
 
-public record GamePiece(
+public record GamePieceEntity(
         Long gamePieceId,
         Long gameId,
         Long pieceId,
