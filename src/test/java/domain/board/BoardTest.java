@@ -223,4 +223,20 @@ public class BoardTest {
         assertThat(board.scoreOf(Camp.CHO)).isEqualTo(15);
         assertThat(board.scoreOf(Camp.HAN)).isEqualTo(3);
     }
+
+    @Test
+    @DisplayName("현재 보드 위에 있는 기물들의 상태를 반환한다.")
+    void returnBoardPieces() {
+        Board board = new Board(Map.of(
+                new Position(5, 5), new Piece(Camp.CHO, PieceType.CHARIOT),
+                new Position(5, 2), new Piece(Camp.HAN, PieceType.GENERAL)
+        ));
+
+        List<BoardPiece> boardPieces = board.pieces();
+
+        assertThat(boardPieces).contains(
+                new BoardPiece(new Position(5, 2), Camp.HAN, PieceType.GENERAL),
+                new BoardPiece(new Position(5, 5), Camp.CHO, PieceType.CHARIOT)
+        );
+    }
 }

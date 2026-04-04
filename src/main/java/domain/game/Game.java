@@ -15,17 +15,21 @@ public class Game {
     private boolean finished;
 
     public Game(SetUp choSetUp, SetUp hanSetUp) {
-        this(new Board(BoardInitializer.init(choSetUp, hanSetUp)), Camp.CHO);
+        this(new Board(BoardInitializer.init(choSetUp, hanSetUp)), Camp.CHO, false);
     }
 
     public static Game of(Board board, Camp currentTurn) {
-        return new Game(board, currentTurn);
+        return new Game(board, currentTurn, false);
     }
 
-    private Game(Board board, Camp currentTurn) {
+    public static Game of(Board board, Camp currentTurn, boolean finished) {
+        return new Game(board, currentTurn, finished);
+    }
+
+    private Game(Board board, Camp currentTurn, boolean finished) {
         this.board = board;
         this.currentTurn = currentTurn;
-        this.finished = false;
+        this.finished = finished;
     }
 
     public Board board() {

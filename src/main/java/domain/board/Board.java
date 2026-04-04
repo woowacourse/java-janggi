@@ -3,6 +3,7 @@ package domain.board;
 import domain.piece.Camp;
 import domain.piece.Piece;
 import domain.piece.PieceType;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,19 @@ public class Board implements BoardChecker {
 
     public Optional<Piece> findPiece(Position position) {
         return Optional.ofNullable(board.get(position));
+    }
+
+    public List<BoardPiece> pieces() {
+        List<BoardPiece> boardPieces = new ArrayList<>();
+
+        for (Map.Entry<Position, Piece> entry : board.entrySet()) {
+            Position position = entry.getKey();
+            Piece piece = entry.getValue();
+
+            boardPieces.add(new BoardPiece(position, piece.camp(), piece.type()));
+        }
+
+        return boardPieces;
     }
 
     @Override
