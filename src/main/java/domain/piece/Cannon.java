@@ -11,6 +11,16 @@ public class Cannon extends Piece {
     }
 
     @Override
+    public boolean canBeTargetedByCannon() {
+        return false;
+    }
+
+    @Override
+    public boolean canBeJumpedByCannon() {
+        return false;
+    }
+
+    @Override
     public boolean canMove(Position source, Position target) {
         return source.isSameCol(target) || source.isSameRow(target);
     }
@@ -30,7 +40,7 @@ public class Cannon extends Piece {
     }
 
     private void validateDestinationPiece(Piece destinationPiece) {
-        if (destinationPiece.isSameType(PieceType.PHO)) {
+        if (!destinationPiece.canBeTargetedByCannon()) {
             throw new IllegalArgumentException("포는 포를 잡을 수 없습니다.");
         }
         if (destinationPiece.isAlly(this)) {
@@ -55,7 +65,7 @@ public class Cannon extends Piece {
     }
 
     private void validateNotPho(Piece piece) {
-        if (piece.isSameType(PieceType.PHO)) {
+        if (!piece.canBeJumpedByCannon()) {
             throw new IllegalArgumentException("포는 포를 넘지 못합니다.");
         }
     }

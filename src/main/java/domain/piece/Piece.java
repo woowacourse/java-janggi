@@ -39,8 +39,12 @@ public abstract class Piece {
         return this.team == team;
     }
 
-    public boolean isSameType(PieceType pieceType) {
-        return this.type == pieceType;
+    public boolean canBeTargetedByCannon() {
+        return true;
+    }
+
+    public boolean canBeJumpedByCannon() {
+        return true;
     }
 
     public String display(PieceAppearance colorizer) {
