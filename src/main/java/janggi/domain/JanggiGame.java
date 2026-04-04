@@ -9,16 +9,16 @@ import java.util.List;
 
 public class JanggiGame {
 
-    private final Board board;
     private GameStatus gameStatus;
+    private final Boards boards;
 
     public JanggiGame(Board board) {
-        this.board = board;
         this.gameStatus = new ChoTurn();
+        this.boards = new Boards(board);
     }
 
     public JanggiGame(Board board, GameStatus gameStatus) {
-        this.board = board;
+        this.boards = new Boards(board);
         this.gameStatus = gameStatus;
     }
 
@@ -34,11 +34,11 @@ public class JanggiGame {
     }
 
     public List<List<Piece>> getBoardStatus() {
-        return board.getPoints();
+        return boards.getPoints();
     }
 
     public void play(Point from, Point to) {
-        this.gameStatus = gameStatus.move(from, to, board);
+        this.gameStatus = gameStatus.move(from, to, boards);
     }
 
     public Team currentTurn() {
@@ -46,10 +46,10 @@ public class JanggiGame {
     }
 
     public List<PositionInfo> boardStatus() {
-        return board.getBoardStatus();
+        return boards.getBoardStatus();
     }
 
     public int scoreOf(Team team) {
-        return board.scoreOf(team);
+        return boards.scoreOf(team);
     }
 }

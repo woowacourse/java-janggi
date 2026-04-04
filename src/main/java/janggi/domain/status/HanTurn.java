@@ -1,6 +1,6 @@
 package janggi.domain.status;
 
-import janggi.domain.Board;
+import janggi.domain.Boards;
 import janggi.domain.Point;
 
 public class HanTurn implements GameStatus {
@@ -17,9 +17,9 @@ public class HanTurn implements GameStatus {
     }
 
     @Override
-    public GameStatus move(Point from, Point to, Board board) {
-        board.move(from, to, team);
-        if (board.isKingDie(Team.CHO)) {
+    public GameStatus move(Point from, Point to, Boards boards) {
+        boards.move(from, to, team);
+        if (boards.isKingDie(Team.CHO)) {
             return new FinishedGame(team);
         }
         return new ChoTurn();
