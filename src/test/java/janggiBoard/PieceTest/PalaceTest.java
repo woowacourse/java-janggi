@@ -32,68 +32,60 @@ public class PalaceTest {
 
     @Test
     void 궁이_목적지에_갈_수_있다() {
-        Position currentPosition = new Position(5, 5);
-        Position targetPosition = new Position(4, 5);
+        Position currentPosition = new Position(8, 4);
+        Position targetPosition = new Position(7, 4);
 
-        testBoard.setAllBlank();
+        testBoard.setPiece(currentPosition, king);
         boolean isKingMove = king.canMove(currentPosition, targetPosition, testBoard);
         assertThat(isKingMove).isTrue();
-
     }
 
     @Test
     void 궁이_목적지에_갈_수_없다() {
-        Position currentPosition = new Position(5, 5);
-        Position targetPosition = new Position(4, 5);
+        Position currentPosition = new Position(8, 3);
+        Position targetPosition = new Position(7, 4);
 
-        testBoard.setAllBlank();
-        testBoard.setBlank(new Position(4, 5));
+        testBoard.setPiece(currentPosition, king);
         boolean isKingMove = king.canMove(currentPosition, targetPosition, testBoard);
         assertThat(isKingMove).isFalse();
     }
 
     @Test
     void 사가_목적지에_갈_수_있다() {
-        Position currentPosition = new Position(5, 5);
-        Position targetPosition = new Position(4, 5);
+        Position currentPosition = new Position(9, 5);
+        Position targetPosition = new Position(8, 5);
 
-        testBoard.setAllBlank();
+        testBoard.setPiece(currentPosition, guard);
         boolean isGuardMove = guard.canMove(currentPosition, targetPosition, testBoard);
         assertThat(isGuardMove).isTrue();
     }
 
     @Test
     void 사가_목적지에_갈_수_없다() {
-        Position currentPosition = new Position(5, 5);
-        Position targetPosition = new Position(4, 5);
+        Position currentPosition = new Position(9, 3);
+        Position targetPosition = new Position(7, 5);
 
-        testBoard.setAllBlank();
-        testBoard.setBlank(new Position(4, 5));
+        testBoard.setPiece(currentPosition, guard);
         boolean isGuardMove = guard.canMove(currentPosition, targetPosition, testBoard);
         assertThat(isGuardMove).isFalse();
     }
 
 
     private static class TestPieceProvider implements PieceProvider {
-        private final Map<Position, Boolean> boardState = new HashMap<>();
-        private boolean defaultState = true;
+        private final Map<Position, Piece> boardState = new HashMap<>();
 
-        void setBlank(Position pos) {
-            boardState.put(pos, false);
-        }
-
-        void setAllBlank() {
-            this.defaultState = true;
+        void setPiece(Position position, Piece piece) {
+            boardState.put(position, piece);
         }
 
         @Override
         public boolean isBlank(Position position) {
-            return boardState.getOrDefault(position, defaultState);
+            return !boardState.containsKey(position) || boardState.get(position).isBlank();
         }
 
         @Override
         public Piece getPiece(Position position) {
-            return new Blank();
+            return boardState.getOrDefault(position, new Blank());
         }
     }
 }

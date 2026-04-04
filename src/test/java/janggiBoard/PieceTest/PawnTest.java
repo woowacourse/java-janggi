@@ -22,7 +22,7 @@ public class PawnTest {
 
     @BeforeEach
     public void setUp() {
-        pawn = new Pawn(Team.CHO, new PalaceStrategy());
+        pawn = new Pawn(Team.CHO, new PawnStrategy());
         testBoard = new TestPieceProvider();
     }
 
