@@ -3,6 +3,8 @@ package domain.movepolicy.destination;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import domain.movepolicy.exception.InvalidDestinationException;
+import domain.movepolicy.exception.MovePolicyErrorMessage;
 import org.junit.jupiter.api.Test;
 import domain.pieces.EmptyPiece;
 import domain.pieces.Gung;
@@ -20,7 +22,8 @@ class BasicDestinationRuleTest {
         // when & then
         assertThatThrownBy(() ->
             destinationRule.validateDestination(departurePiece, destinationPiece))
-            .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(InvalidDestinationException.class)
+            .hasMessage(MovePolicyErrorMessage.SAME_SIDE_ATTACK.message());
     }
 
     @Test

@@ -2,6 +2,8 @@ package domain.game;
 
 import domain.board.Board;
 import domain.board.SangSetup;
+import domain.game.exception.GameErrorMessage;
+import domain.game.exception.InvalidTurnException;
 import domain.pieces.Side;
 import domain.position.Position;
 
@@ -21,10 +23,10 @@ public class JanggiGame {
 
     public void move(Position departure, Position destination, Side side) {
         if (isChoTurn && side.isHan()) {
-            throw new IllegalArgumentException("현재는 초의 공격 차례 입니다.");
+            throw new InvalidTurnException(GameErrorMessage.CHO_TURN);
         }
         if (!isChoTurn && side.isCho()) {
-            throw new IllegalArgumentException("현재는 한의 공격 차례 입니다.");
+            throw new InvalidTurnException(GameErrorMessage.HAN_TURN);
         }
         board.move(departure, destination);
         isChoTurn = !isChoTurn;

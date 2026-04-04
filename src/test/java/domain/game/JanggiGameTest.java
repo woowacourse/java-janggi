@@ -3,6 +3,8 @@ package domain.game;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.board.Board;
+import domain.game.exception.GameErrorMessage;
+import domain.game.exception.InvalidTurnException;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
@@ -26,7 +28,8 @@ class JanggiGameTest {
         JanggiGame janggiGame = new JanggiGame(new Board(pieces));
         // when & then
         assertThatThrownBy(() -> janggiGame.move(choChaDeparture, choChaDestination, Side.HAN))
-            .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(InvalidTurnException.class)
+            .hasMessage(GameErrorMessage.CHO_TURN.message());
     }
 
     @Test
@@ -47,6 +50,7 @@ class JanggiGameTest {
         janggiGame.move(choChaDeparture, choChaDestination, Side.CHO);
         // when & then
         assertThatThrownBy(() -> janggiGame.move(hanDeparture, hanDestination, Side.CHO))
-            .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(InvalidTurnException.class)
+            .hasMessage(GameErrorMessage.HAN_TURN.message());
     }
 }

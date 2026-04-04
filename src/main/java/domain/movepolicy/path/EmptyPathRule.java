@@ -1,5 +1,7 @@
 package domain.movepolicy.path;
 
+import domain.movepolicy.exception.InvalidPathRuleException;
+import domain.movepolicy.exception.MovePolicyErrorMessage;
 import java.util.List;
 import domain.pieces.FullPiece;
 import domain.pieces.Piece;
@@ -17,7 +19,7 @@ public class EmptyPathRule implements PathRule {
 
     private void validateFullPieces(List<FullPiece> pathFullPieces) {
         if (!pathFullPieces.isEmpty()) {
-            throw new IllegalArgumentException("이동 경로엔 기물이 있을 수 없습니다.");
+            throw new InvalidPathRuleException(MovePolicyErrorMessage.PATH_MUST_BE_EMPTY);
         }
     }
 }

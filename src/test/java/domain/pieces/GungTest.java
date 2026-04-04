@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import domain.pieces.exception.InvalidMoveException;
+import domain.pieces.exception.PieceErrorMessage;
 import domain.movepolicy.MoveContext;
 import domain.movepolicy.destination.BasicDestinationRule;
 import domain.movepolicy.path.EmptyPathRule;
@@ -15,82 +17,155 @@ import domain.position.Position;
 class GungTest {
 
     private static final Position DEFAULT = new Position(1, 1);
+    private Piece gung() {
+        return new Gung(Side.HAN);
+    }
 
     @Nested
-    @DisplayName("궁의 행마법 기준으로 도착지에 이동 가능한지 검증한다")
-    class CanMove {
+    @DisplayName("궁의 행마법")
+    class GungMove {
 
-        @Test
-        void 상_1칸_이동할_수_있다() {
-            // given
-            Piece hanGung = new Gung(Side.HAN);
-            Position departure = DEFAULT;
-            Position destination = departure.moveUp();
-            // when & then
-            assertThatCode(() -> hanGung.askMoveContext(departure, destination))
-                    .doesNotThrowAnyException();
+        @Nested
+        @DisplayName("이동 가능한 경우")
+        class ValidMove {
+
+            @Test
+            void 상_1칸_이동할_수_있다() {
+                // given
+                Piece hanGung = gung();
+                Position departure = DEFAULT;
+                Position destination = departure.moveUp();
+                // when & then
+                assertThatCode(() -> hanGung.askMoveContext(departure, destination))
+                        .doesNotThrowAnyException();
+            }
+
+            @Test
+            void 하_1칸_이동할_수_있다() {
+                // given
+                Piece hanGung = gung();
+                Position departure = DEFAULT;
+                Position destination = departure.moveDown();
+                // when & then
+                assertThatCode(() -> hanGung.askMoveContext(departure, destination))
+                        .doesNotThrowAnyException();
+            }
+
+            @Test
+            void 좌_1칸_이동할_수_있다() {
+                // given
+                Piece hanGung = gung();
+                Position departure = DEFAULT;
+                Position destination = departure.moveLeft();
+                // when & then
+                assertThatCode(() -> hanGung.askMoveContext(departure, destination))
+                        .doesNotThrowAnyException();
+            }
+
+            @Test
+            void 우_1칸_이동할_수_있다() {
+                // given
+                Piece hanGung = gung();
+                Position departure = DEFAULT;
+                Position destination = departure.moveRight();
+                // when & then
+                assertThatCode(() -> hanGung.askMoveContext(departure, destination))
+                        .doesNotThrowAnyException();
+            }
+
+            @Test
+            void 맨_아래_행의_궁도_위로_한_칸_이동할_수_있다() {
+                // given
+                Piece hanGung = gung();
+                Position departure = new Position(0, 4);
+                Position destination = departure.moveUp();
+                // when & then
+                assertThatCode(() -> hanGung.askMoveContext(departure, destination))
+                        .doesNotThrowAnyException();
+            }
+
+            @Test
+            void 맨_위_행의_궁도_아래로_한_칸_이동할_수_있다() {
+                // given
+                Piece hanGung = gung();
+                Position departure = new Position(9, 4);
+                Position destination = departure.moveDown();
+                // when & then
+                assertThatCode(() -> hanGung.askMoveContext(departure, destination))
+                        .doesNotThrowAnyException();
+            }
         }
 
-        @Test
-        void 하_1칸_이동할_수_있다() {
-            // given
-            Piece hanGung = new Gung(Side.HAN);
-            Position departure = DEFAULT;
-            Position destination = departure.moveDown();
-            // when & then
-            assertThatCode(() -> hanGung.askMoveContext(departure, destination))
-                    .doesNotThrowAnyException();
-        }
+        @Nested
+        @DisplayName("이동 불가능한 경우")
+        class InvalidMove {
 
-        @Test
-        void 좌_1칸_이동할_수_있다() {
-            // given
-            Piece hanGung = new Gung(Side.HAN);
-            Position departure = DEFAULT;
-            Position destination = departure.moveLeft();
-            // when & then
-            assertThatCode(() -> hanGung.askMoveContext(departure, destination))
-                    .doesNotThrowAnyException();
-        }
+            @Test
+            void 궁의_제자리_이동은_예외를_던진다() {
+                // given
+                Piece hanGung = gung();
+                Position departure = DEFAULT;
+                Position destination = departure;
+                // when & then
+                assertThatThrownBy(() -> hanGung.askMoveContext(departure, destination))
+                        .isInstanceOf(InvalidMoveException.class)
+                        .hasMessage(PieceErrorMessage.GUNG_INVALID_MOVE.message());
+            }
 
-        @Test
-        void 우_1칸_이동할_수_있다() {
-            // given
-            Piece hanGung = new Gung(Side.HAN);
-            Position departure = DEFAULT;
-            Position destination = departure.moveRight();
-            // when & then
-            assertThatCode(() -> hanGung.askMoveContext(departure, destination))
-                    .doesNotThrowAnyException();
-        }
+            @Test
+            void 맨_아래_행의_궁도_제자리_이동이면_예외를_던진다() {
+                // given
+                Piece hanGung = gung();
+                Position departure = new Position(0, 4);
+                Position destination = departure;
+                // when & then
+                assertThatThrownBy(() -> hanGung.askMoveContext(departure, destination))
+                        .isInstanceOf(InvalidMoveException.class)
+                        .hasMessage(PieceErrorMessage.GUNG_INVALID_MOVE.message());
+            }
 
-        @Test
-        void 상_2칸이_도착지인_경우_예외를_던진다() {
-            // given
-            Piece hanGung = new Gung(Side.HAN);
-            Position departure = DEFAULT;
-            Position destination = departure.moveUp().moveUp();
-            // when & then
-            assertThatThrownBy(() -> hanGung.askMoveContext(departure, destination))
-                    .isInstanceOf(IllegalArgumentException.class);
-        }
+            @Test
+            void 맨_위_행의_궁도_제자리_이동이면_예외를_던진다() {
+                // given
+                Piece hanGung = gung();
+                Position departure = new Position(9, 4);
+                Position destination = departure;
+                // when & then
+                assertThatThrownBy(() -> hanGung.askMoveContext(departure, destination))
+                        .isInstanceOf(InvalidMoveException.class)
+                        .hasMessage(PieceErrorMessage.GUNG_INVALID_MOVE.message());
+            }
 
-        @Test
-        void 우상향이_도착지인_경우_예외를_던진다() {
-            // given
-            Piece hanGung = new Gung(Side.HAN);
-            Position departure = DEFAULT;
-            Position destination = departure.moveUp().moveRight();
-            // when & then
-            assertThatThrownBy(() -> hanGung.askMoveContext(departure, destination))
-                    .isInstanceOf(IllegalArgumentException.class);
+            @Test
+            void 상_2칸이_도착지인_경우_예외를_던진다() {
+                // given
+                Piece hanGung = gung();
+                Position departure = DEFAULT;
+                Position destination = departure.moveUp().moveUp();
+                // when & then
+                assertThatThrownBy(() -> hanGung.askMoveContext(departure, destination))
+                        .isInstanceOf(InvalidMoveException.class)
+                        .hasMessage(PieceErrorMessage.GUNG_INVALID_MOVE.message());
+            }
+
+            @Test
+            void 우상향이_도착지인_경우_예외를_던진다() {
+                // given
+                Piece hanGung = gung();
+                Position departure = DEFAULT;
+                Position destination = departure.moveUp().moveRight();
+                // when & then
+                assertThatThrownBy(() -> hanGung.askMoveContext(departure, destination))
+                        .isInstanceOf(InvalidMoveException.class)
+                        .hasMessage(PieceErrorMessage.GUNG_INVALID_MOVE.message());
+            }
         }
     }
 
     @Test
     void 출발지와_도착지_사이에는_이동경로가_존재하지_않는다() {
         // given
-        Piece hanGung = new Gung(Side.HAN);
+        Piece hanGung = gung();
         Position departure = DEFAULT;
         Position destination = departure.moveUp();
         // when
@@ -102,7 +177,7 @@ class GungTest {
     @Test
     void 궁은_다른_진영의_기물만_공격할_수_있다() {
         // given
-        Piece hanGung = new Gung(Side.HAN);
+        Piece hanGung = gung();
         Position departure = DEFAULT;
         Position destination = departure.moveUp();
         // when
@@ -115,7 +190,7 @@ class GungTest {
     @Test
     void 궁은_이동_경로에_기물이_없을_때_이동할_수_있다() {
         // given
-        Piece hanGung = new Gung(Side.HAN);
+        Piece hanGung = gung();
         Position departure = DEFAULT;
         Position destination = departure.moveUp();
         // when
@@ -128,7 +203,7 @@ class GungTest {
     @Test
     void 궁은_본인의_식별자를_반환한다() {
         // given
-        Piece gung = new Gung(Side.HAN);
+        Piece gung = gung();
         // when & then
         assertThat(gung.getType()).isEqualTo(PieceType.GUNG);
     }

@@ -25,6 +25,22 @@ public class Position {
         return column.index();
     }
 
+    public boolean canMoveUp() {
+        return row() < 9;
+    }
+
+    public boolean canMoveDown() {
+        return row() > 0;
+    }
+
+    public boolean canMoveLeft() {
+        return column() > 0;
+    }
+
+    public boolean canMoveRight() {
+        return column() < 8;
+    }
+
     public Position moveUp() {
         return new Position(row.up(), column);
     }
@@ -75,7 +91,7 @@ public class Position {
 
     public boolean isGapBiggerThanOne(Position destination) {
         return row.isGapBiggerThanOne(destination.row) || column.isGapBiggerThanOne(
-            destination.column);
+                destination.column);
     }
 
     @Override

@@ -1,5 +1,8 @@
 package domain.pieces;
 
+import domain.pieces.exception.InvalidMoveException;
+import domain.pieces.exception.InvalidPathException;
+import domain.pieces.exception.PieceErrorMessage;
 import java.util.List;
 import domain.movepolicy.destination.BasicDestinationRule;
 import domain.movepolicy.destination.DestinationRule;
@@ -30,7 +33,7 @@ public class Ma extends FullPiece {
     @Override
     protected void validateDestination(Position departure, Position destination) {
         if (findDirectionSequenceResult(departure, destination).isEmpty()) {
-            throw new IllegalArgumentException("마의 행마법으로는 해당 위치로 이동할 수 없습니다.");
+            throw new InvalidMoveException(PieceErrorMessage.MA_INVALID_MOVE);
         }
     }
 
@@ -38,7 +41,7 @@ public class Ma extends FullPiece {
     protected List<Position> getPathPositions(Position departure, Position destination) {
         return findDirectionSequenceResult(departure, destination)
                 .map(DirectionSequenceResult::pathPositions)
-                .orElseThrow(() -> new IllegalArgumentException("출발지와 도착지의 좌표가 유효하지 않습니다."));
+                .orElseThrow(() -> new InvalidPathException(PieceErrorMessage.INVALID_PATH));
     }
 
     @Override
@@ -64,8 +67,18 @@ public class Ma extends FullPiece {
     private java.util.Optional<DirectionSequenceResult> findDirectionSequenceResult(Position departure,
                                                                                     Position destination) {
         return DIRECTION_SEQUENCES.stream()
-                .map(sequence -> sequence.positionsFrom(departure))
+                .map(sequence -> safePositionsFrom(sequence, departure))
+                .flatMap(java.util.Optional::stream)
                 .filter(result -> result.lastPosition().equals(destination))
                 .findFirst();
+    }
+
+    private java.util.Optional<DirectionSequenceResult> safePositionsFrom(DirectionSequence sequence,
+                                                                          Position departure) {
+        try {
+            return java.util.Optional.of(sequence.positionsFrom(departure));
+        } catch (IllegalArgumentException e) {
+            return java.util.Optional.empty();
+        }
     }
 }

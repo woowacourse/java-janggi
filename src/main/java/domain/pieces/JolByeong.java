@@ -1,10 +1,13 @@
 package domain.pieces;
 
+import domain.pieces.exception.InvalidMoveException;
+import domain.pieces.exception.PieceErrorMessage;
 import domain.movepolicy.destination.BasicDestinationRule;
 import domain.movepolicy.destination.DestinationRule;
 import domain.movepolicy.path.EmptyPathRule;
 import domain.movepolicy.path.PathRule;
 import domain.position.Position;
+import java.util.ArrayList;
 import java.util.List;
 
 public class JolByeong extends FullPiece {
@@ -18,23 +21,36 @@ public class JolByeong extends FullPiece {
         List<Position> movableDestinations = movableDestinations(departure);
 
         if (!movableDestinations.contains(destination)) {
-            throw new IllegalArgumentException("졸병의 행마법으로는 해당 위치로 이동할 수 없습니다.");
+            throw new InvalidMoveException(PieceErrorMessage.JOL_BYEONG_INVALID_MOVE);
         }
     }
 
     private List<Position> movableDestinations(Position departure) {
+        List<Position> destinations = new ArrayList<>();
+
         if (isCho()) {
-            return List.of(
-                    departure.moveUp(),
-                    departure.moveLeft(),
-                    departure.moveRight()
-            );
+            if (departure.canMoveUp()) {
+                destinations.add(departure.moveUp());
+            }
+            if (departure.canMoveLeft()) {
+                destinations.add(departure.moveLeft());
+            }
+            if (departure.canMoveRight()) {
+                destinations.add(departure.moveRight());
+            }
+            return destinations;
         }
-        return List.of(
-                departure.moveDown(),
-                departure.moveLeft(),
-                departure.moveRight()
-        );
+
+        if (departure.canMoveDown()) {
+            destinations.add(departure.moveDown());
+        }
+        if (departure.canMoveLeft()) {
+            destinations.add(departure.moveLeft());
+        }
+        if (departure.canMoveRight()) {
+            destinations.add(departure.moveRight());
+        }
+        return destinations;
     }
 
     @Override

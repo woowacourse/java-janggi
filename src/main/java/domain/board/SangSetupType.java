@@ -1,5 +1,7 @@
 package domain.board;
 
+import domain.board.exception.BoardErrorMessage;
+import domain.board.exception.InvalidSangSetupException;
 import java.util.Arrays;
 
 public enum SangSetupType {
@@ -40,6 +42,6 @@ public enum SangSetupType {
         return Arrays.stream(values())
                 .filter(sangSetupType -> sangSetupType.number == number)
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("잘못된 상차림 번호입니다."));
+                .orElseThrow(() -> new InvalidSangSetupException(BoardErrorMessage.INVALID_SANG_SETUP));
     }
 }

@@ -1,5 +1,7 @@
 package domain.pieces;
 
+import domain.pieces.exception.InvalidMoveException;
+import domain.pieces.exception.PieceErrorMessage;
 import java.util.List;
 import domain.movepolicy.destination.BasicDestinationRule;
 import domain.movepolicy.destination.DestinationRule;
@@ -15,13 +17,21 @@ public class Sa extends FullPiece {
 
     @Override
     protected void validateDestination(Position departure, Position destination) {
-        List<Position> movableDestinations = List.of(
-                departure.moveUp(),
-                departure.moveDown(),
-                departure.moveLeft(),
-                departure.moveRight());
+        java.util.ArrayList<Position> movableDestinations = new java.util.ArrayList<>();
+        if (departure.canMoveUp()) {
+            movableDestinations.add(departure.moveUp());
+        }
+        if (departure.canMoveDown()) {
+            movableDestinations.add(departure.moveDown());
+        }
+        if (departure.canMoveLeft()) {
+            movableDestinations.add(departure.moveLeft());
+        }
+        if (departure.canMoveRight()) {
+            movableDestinations.add(departure.moveRight());
+        }
         if (!movableDestinations.contains(destination)) {
-            throw new IllegalArgumentException("사의 행마법으로는 해당 위치로 이동할 수 없습니다.");
+            throw new InvalidMoveException(PieceErrorMessage.SA_INVALID_MOVE);
         }
     }
 

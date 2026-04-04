@@ -3,6 +3,8 @@ package domain.pieces;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import domain.pieces.exception.NoPieceException;
+import domain.pieces.exception.PieceErrorMessage;
 import org.junit.jupiter.api.Test;
 import domain.position.Position;
 
@@ -16,7 +18,8 @@ class EmptyPieceTest {
         Piece emptyPiece = new EmptyPiece();
         // when & then
         assertThatThrownBy(() -> emptyPiece.askMoveContext(departure, destination))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(NoPieceException.class)
+                .hasMessage(PieceErrorMessage.NO_PIECE.message());
     }
 
     @Test

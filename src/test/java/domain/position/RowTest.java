@@ -3,6 +3,8 @@ package domain.position;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import domain.position.exception.InvalidPositionException;
+import domain.position.exception.PositionErrorMessage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -16,13 +18,15 @@ class RowTest {
     @Test
     void ROW의_범위가_9를_넘을_경우_예외를_던진다() {
         assertThatThrownBy(() -> new Row(10))
-            .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(InvalidPositionException.class)
+            .hasMessage(PositionErrorMessage.INVALID_ROW.message());
     }
 
     @Test
     void ROW의_범위가_0보다_작을_경우_예외를_던진다() {
         assertThatThrownBy(() -> new Row(-1))
-            .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(InvalidPositionException.class)
+            .hasMessage(PositionErrorMessage.INVALID_ROW.message());
     }
 
     @Nested
@@ -55,7 +59,8 @@ class RowTest {
             Row prev = new Row(MAXIMUM_BOUNDARY);
             // when & then
             assertThatThrownBy(prev::up)
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(InvalidPositionException.class)
+                .hasMessage(PositionErrorMessage.INVALID_ROW.message());
         }
 
         @Test
@@ -64,7 +69,8 @@ class RowTest {
             Row prev = new Row(MINIMUM_BOUNDARY);
             // when & then
             assertThatThrownBy(prev::down)
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(InvalidPositionException.class)
+                .hasMessage(PositionErrorMessage.INVALID_ROW.message());
         }
     }
 

@@ -1,5 +1,7 @@
 package domain.movepolicy.path;
 
+import domain.movepolicy.exception.InvalidPathRuleException;
+import domain.movepolicy.exception.MovePolicyErrorMessage;
 import java.util.List;
 import domain.pieces.Piece;
 
@@ -17,13 +19,13 @@ public class PoPathRule implements PathRule {
 
     private void validateFullPieces(List<Piece> pathFullPieces) {
         if (pathFullPieces.isEmpty()) {
-            throw new IllegalArgumentException("이동 경로엔 기물이 존재해야 합니다.");
+            throw new InvalidPathRuleException(MovePolicyErrorMessage.PATH_MUST_CONTAIN_PIECE);
         }
         if (pathFullPieces.size() != PATH_PIECES_SIZE_THRESHOLD) {
-            throw new IllegalArgumentException("이동 경로엔 기물이 1개만 존재해야 합니다.");
+            throw new InvalidPathRuleException(MovePolicyErrorMessage.PATH_MUST_CONTAIN_ONE_PIECE);
         }
         if (isFirstPiecePo(pathFullPieces)) {
-            throw new IllegalArgumentException("포는 포를 뛰어 넘을 수 없습니다.");
+            throw new InvalidPathRuleException(MovePolicyErrorMessage.PO_CANNOT_JUMP_OVER_PO);
         }
     }
 

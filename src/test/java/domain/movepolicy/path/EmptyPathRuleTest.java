@@ -3,6 +3,8 @@ package domain.movepolicy.path;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import domain.movepolicy.exception.InvalidPathRuleException;
+import domain.movepolicy.exception.MovePolicyErrorMessage;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import domain.pieces.Gung;
@@ -28,6 +30,7 @@ class EmptyPathRuleTest {
         PathRule emptyPathRule = new EmptyPathRule();
         // when & then
         assertThatThrownBy(() -> emptyPathRule.validatePathPieces(pathPieces))
-            .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(InvalidPathRuleException.class)
+            .hasMessage(MovePolicyErrorMessage.PATH_MUST_BE_EMPTY.message());
     }
 }

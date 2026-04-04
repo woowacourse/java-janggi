@@ -1,5 +1,8 @@
 package domain.pieces;
 
+import domain.pieces.exception.InvalidMoveException;
+import domain.pieces.exception.InvalidPathException;
+import domain.pieces.exception.PieceErrorMessage;
 import java.util.List;
 import java.util.Optional;
 import domain.movepolicy.destination.BasicDestinationRule;
@@ -31,7 +34,7 @@ public class Sang extends FullPiece {
     @Override
     protected void validateDestination(Position departure, Position destination) {
         if (findDirectionSequenceResult(departure, destination).isEmpty()) {
-            throw new IllegalArgumentException("상의 행마법으로는 해당 위치로 이동할 수 없습니다.");
+            throw new InvalidMoveException(PieceErrorMessage.SANG_INVALID_MOVE);
         }
     }
 
@@ -39,7 +42,7 @@ public class Sang extends FullPiece {
     protected List<Position> getPathPositions(Position departure, Position destination) {
         return findDirectionSequenceResult(departure, destination)
                 .map(DirectionSequenceResult::pathPositions)
-                .orElseThrow(() -> new IllegalArgumentException("출발지와 도착지의 좌표가 유효하지 않습니다."));
+                .orElseThrow(() -> new InvalidPathException(PieceErrorMessage.INVALID_PATH));
     }
 
     @Override
@@ -64,8 +67,17 @@ public class Sang extends FullPiece {
 
     private Optional<DirectionSequenceResult> findDirectionSequenceResult(Position departure, Position destination) {
         return DIRECTION_SEQUENCES.stream()
-                .map(sequence -> sequence.positionsFrom(departure))
+                .map(sequence -> safePositionsFrom(sequence, departure))
+                .flatMap(Optional::stream)
                 .filter(result -> result.lastPosition().equals(destination))
                 .findFirst();
+    }
+
+    private Optional<DirectionSequenceResult> safePositionsFrom(DirectionSequence sequence, Position departure) {
+        try {
+            return Optional.of(sequence.positionsFrom(departure));
+        } catch (IllegalArgumentException e) {
+            return Optional.empty();
+        }
     }
 }

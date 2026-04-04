@@ -1,5 +1,7 @@
 package domain.pieces;
 
+import domain.pieces.exception.InvalidMoveException;
+import domain.pieces.exception.PieceErrorMessage;
 import java.util.List;
 import domain.movepolicy.destination.BasicDestinationRule;
 import domain.movepolicy.destination.DestinationRule;
@@ -19,8 +21,11 @@ public class Cha extends FullPiece {
 
     @Override
     protected void validateDestination(Position departure, Position destination) {
+        if (departure.equals(destination)) {
+            throw new InvalidMoveException(PieceErrorMessage.CHA_INVALID_MOVE);
+        }
         if (!departure.isSameRow(destination) && !departure.isSameColumn(destination)) {
-            throw new IllegalArgumentException("차의 행마법으로는 해당 위치로 이동할 수 없습니다.");
+            throw new InvalidMoveException(PieceErrorMessage.CHA_INVALID_MOVE);
         }
     }
 

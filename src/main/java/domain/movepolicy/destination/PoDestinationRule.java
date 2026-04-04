@@ -1,5 +1,7 @@
 package domain.movepolicy.destination;
 
+import domain.movepolicy.exception.InvalidDestinationException;
+import domain.movepolicy.exception.MovePolicyErrorMessage;
 import domain.pieces.Piece;
 
 public class PoDestinationRule implements DestinationRule {
@@ -10,10 +12,10 @@ public class PoDestinationRule implements DestinationRule {
             return;
         }
         if (departurePiece.isSameSide(destinationPiece)) {
-            throw new IllegalArgumentException("같은 진영의 말은 공격할 수 없습니다.");
+            throw new InvalidDestinationException(MovePolicyErrorMessage.SAME_SIDE_ATTACK);
         }
         if (departurePiece.isPo() && destinationPiece.isPo()) {
-            throw new IllegalArgumentException("포는 포를 공격할 수 없습니다.");
+            throw new InvalidDestinationException(MovePolicyErrorMessage.PO_CANNOT_ATTACK_PO);
         }
     }
 }
