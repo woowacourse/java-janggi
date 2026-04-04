@@ -24,6 +24,22 @@ public class Position {
         return columns;
     }
 
+    public boolean isInsidePalace() {
+        return isInsideHanPalace() || isInsideChoPalace();
+    }
+
+    private boolean isInsideHanPalace() {
+        return rows >= 0 && rows <= 2 && isInsidePalaceColumns();
+    }
+
+    private boolean isInsideChoPalace() {
+        return rows >= 7 && rows <= 9 && isInsidePalaceColumns();
+    }
+
+    private boolean isInsidePalaceColumns() {
+        return columns >= 3 && columns <= 5;
+    }
+
     private static void validatePosition(int rows, int columns) {
         if (rows < 0 || rows >= MAX_ROWS || columns < 0 || columns >= MAX_COLUMNS) {
             throw new IllegalArgumentException("[ERROR] 존재하지 않은 위치입니다." + rows + ", " + columns);
