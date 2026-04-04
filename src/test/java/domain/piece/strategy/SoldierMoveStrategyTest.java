@@ -1,7 +1,10 @@
 package domain.piece.strategy;
 
 import domain.board.Position;
+import domain.path.PathInfo;
 import domain.piece.Camp;
+import domain.piece.Piece;
+import domain.piece.PieceType;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -57,5 +60,17 @@ class SoldierMoveStrategyTest {
 
         assertThatThrownBy(() -> soldierMoveStrategy.getPath(from, to))
                 .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void 졸의_이동_제약_검증_시_도착지_외의_경로가_포함되어_있으면_예외를_던진다() {
+        Position to = new Position(7, 0);
+
+        List<PathInfo> pathInfos = List.of(
+                new PathInfo(new Position(8,0), Piece.of(Camp.CHO, PieceType.CHARIOT)),
+                new PathInfo(to, Piece.of(Camp.CHO, PieceType.HORSE)));
+
+        assertThatThrownBy(() -> soldierMoveStrategy.validateBlockingPiece(pathInfos, to))
+                .isInstanceOf(IllegalStateException.class);
     }
 }
