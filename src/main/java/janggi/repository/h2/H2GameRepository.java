@@ -12,6 +12,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class H2GameRepository implements GameRepository {
 
@@ -58,7 +61,7 @@ public class H2GameRepository implements GameRepository {
     }
 
     @Override
-    public GameEntity findByName(String name) {
+    public Optional<GameEntity> findByName(String name) {
         String sql = "SELECT id, name, CHO_SET_UP, HAN_SET_UP, status, winner FROM game WHERE NAME = ?";
 
         try (Connection connection = getConnection();
@@ -67,9 +70,27 @@ public class H2GameRepository implements GameRepository {
 
             ResultSet resultSet = stmt.executeQuery();
             if (resultSet.next()) {
-                return mapResultSetToGame(resultSet);
+                return Optional.of(mapResultSetToGame(resultSet));
             }
-            return null;
+            return Optional.empty();
+        } catch (SQLException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
+    @Override
+    public List<String> findAllNames() {
+        String sql = "SELECT name FROM game";
+
+        try (Connection connection = getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            ResultSet resultSet = stmt.executeQuery();
+            List<String> gameNames = new ArrayList<>();
+            while (resultSet.next()) {
+                gameNames.add(resultSet.getString("name"));
+            }
+            return gameNames;
         } catch (SQLException e) {
             throw new IllegalStateException(e);
         }

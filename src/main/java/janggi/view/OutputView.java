@@ -1,8 +1,11 @@
 package janggi.view;
 
+import janggi.controller.GameSelect;
 import janggi.domain.piece.unit.Piece;
 import janggi.domain.point.Point;
 import janggi.domain.side.Side;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -85,8 +88,17 @@ public class OutputView {
     }
 
     public void printSelectGame() {
-        System.out.println("1. 게임 생성");
-        System.out.println("2. 게임 로드");
+        Arrays.stream(GameSelect.values())
+                .map(GameSelect::getFormatMessage)
+                .forEach(System.out::println);
+
         System.out.println("선택지를 입력해 주세요");
+    }
+
+    public void printAllGameNames(List<String> allGameNames) {
+        System.out.println("게임 이름 목록");
+        System.out.println("------------");
+        allGameNames.forEach(gameName -> System.out.println(gameName));
+        System.out.println("------------");
     }
 }

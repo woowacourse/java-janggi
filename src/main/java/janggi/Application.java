@@ -21,10 +21,12 @@ public class Application {
         MoveService moveService = new MoveService(moveRepository);
         MoveController moveController = new MoveController(inputView, outputView, moveService);
         GameController gameController = new GameController(inputView, outputView, gameService, moveController);
-        
+
         DatabaseInitializer.init();
 
         JanggiController janggiController = new JanggiController(inputView, outputView, gameController);
         janggiController.run();
     }
+
+
 }

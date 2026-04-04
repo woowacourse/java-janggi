@@ -25,8 +25,13 @@ public class GameService {
         return game;
     }
 
+    public List<String> findAllGameNames() {
+        return gameRepository.findAllNames();
+    }
+
     public Game findByName(String gameName) {
-        GameEntity gameEntity = gameRepository.findByName(gameName);
+        GameEntity gameEntity = gameRepository.findByName(gameName)
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 게임 이름이 없습니다. : " + gameName));
         BoardSetUp choBoardSetUp = gameEntity.choSetUp().getBoardSetUp();
         BoardSetUp hanBoardSetUp = gameEntity.hanSetUp().getBoardSetUp();
 

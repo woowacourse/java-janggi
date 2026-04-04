@@ -70,9 +70,7 @@ public class InputView {
     }
 
     public GameSelect readGameSelect() {
-        Integer select = parseToInt(sc.nextLine());
-
-        return GameSelect.from(select);
+        return GameSelect.from(sc.nextLine());
     }
 
     private void validateBlank(String input) {
