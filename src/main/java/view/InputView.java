@@ -53,7 +53,7 @@ public final class InputView {
         List<Piece> pieces = wingInput.chars()
                 .mapToObj(c -> (char) c)
                 .filter(WING_TYPES::containsKey)
-                .map(symbol -> new Piece(WING_TYPES.get(symbol), side))
+                .map(symbol -> Piece.of(WING_TYPES.get(symbol), side))
                 .toList();
 
         return WingPieces.of(pieces);

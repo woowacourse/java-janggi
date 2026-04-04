@@ -20,8 +20,22 @@ class PieceTest {
     private static final Side MY_SIDE = Side.HAN;
     private static final Side OPPOSITE_SIDE = Side.CHO;
 
-    private static final Piece SAME_SIDE_PIECE = new Piece(PieceType.SOLDIER, MY_SIDE);
-    private static final Piece OPPOSITE_SIDE_PIECE = new Piece(PieceType.SOLDIER, OPPOSITE_SIDE);
+    private static final Piece SAME_SIDE_PIECE = Piece.of(PieceType.SOLDIER, MY_SIDE);
+    private static final Piece OPPOSITE_SIDE_PIECE = Piece.of(PieceType.SOLDIER, OPPOSITE_SIDE);
+
+    @DisplayName("빈 기물은 항상 같은 인스턴스이다.")
+    @Nested
+    class 빈_기물은_항상_같은_인스턴스만_리턴 {
+
+        @DisplayName("빈 기물을 새로 생성해도, 기존의 다른 빈 기물과 동일한 인스턴스이다")
+        @Test
+        void 빈_기물을_새로_생성해도_기존_빈_기물과_동일() {
+            Piece emptyPiece = Piece.EMPTY;
+            Piece otherEmptyPiece = Piece.of(PieceType.EMPTY, Side.NONE);
+
+            assertThat(otherEmptyPiece).isSameAs(emptyPiece);
+        }
+    }
 
     @DisplayName("행마법 테스트")
     @Nested
@@ -31,7 +45,7 @@ class PieceTest {
         @Nested
         class 졸_병 {
 
-            private static final Piece SOLDIER = new Piece(PieceType.SOLDIER, MY_SIDE);
+            private static final Piece SOLDIER = Piece.of(PieceType.SOLDIER, MY_SIDE);
 
             @DisplayName("전진 및 좌우로 1칸 이동은 가능하나 뒤로는 이동할 수 없다")
             @Test
@@ -72,7 +86,7 @@ class PieceTest {
         @Nested
         class 차 {
 
-            private static final Piece CHARIOT = new Piece(PieceType.CHARIOT, MY_SIDE);
+            private static final Piece CHARIOT = Piece.of(PieceType.CHARIOT, MY_SIDE);
 
             @DisplayName("경로에 기물이 없다면 직선으로 끝까지 이동할 수 있다")
             @Test
@@ -137,7 +151,7 @@ class PieceTest {
         @Nested
         class 마 {
 
-            private static final Piece HORSE = new Piece(PieceType.HORSE, MY_SIDE);
+            private static final Piece HORSE = Piece.of(PieceType.HORSE, MY_SIDE);
 
             @DisplayName("직선으로 1칸 이동 후 대각선으로 1칸 이동할 수 있다(날일자)")
             @Test
@@ -174,7 +188,7 @@ class PieceTest {
         @Nested
         class 상 {
 
-            private static final Piece ELEPHANT = new Piece(PieceType.ELEPHANT, MY_SIDE);
+            private static final Piece ELEPHANT = Piece.of(PieceType.ELEPHANT, MY_SIDE);
 
             @DisplayName("직선 1칸 앞(첫 경로) 또는 첫 대각선(두 번째 경로)에 기물이 있으면 이동할 수 없다")
             @Test
@@ -201,7 +215,7 @@ class PieceTest {
         @Nested
         class 포 {
 
-            private static final Piece CANNON = new Piece(PieceType.CANNON, MY_SIDE);
+            private static final Piece CANNON = Piece.of(PieceType.CANNON, MY_SIDE);
 
             @DisplayName("반드시 다른 기물(스크린)을 하나 뛰어넘어야 이동할 수 있다")
             @Nested
@@ -241,7 +255,7 @@ class PieceTest {
                 void 포를_뛰어넘을_수_없다() {
                     Intersection placedCannonIntersection = new Intersection(DEFAULT_ROW - 1, DEFAULT_FILE); // 스크린이 포
                     AlivePieces blockedByCannon = new AlivePieces(Map.of(
-                            placedCannonIntersection, new Piece(PieceType.CANNON, OPPOSITE_SIDE)
+                            placedCannonIntersection, Piece.of(PieceType.CANNON, OPPOSITE_SIDE)
                     ));
 
                     assertThat(CANNON.movableDestinations(CURRENT_INTERSECTION, blockedByCannon)).isEmpty();
@@ -254,7 +268,7 @@ class PieceTest {
                     Intersection placedCannonDestination = new Intersection(DEFAULT_ROW, DEFAULT_FILE + 3);
                     AlivePieces targetIsCannon = new AlivePieces(Map.of(
                             placedScreenIntersection, SAME_SIDE_PIECE,
-                            placedCannonDestination, new Piece(PieceType.CANNON, OPPOSITE_SIDE)
+                            placedCannonDestination, Piece.of(PieceType.CANNON, OPPOSITE_SIDE)
                     ));
 
                     List<Intersection> movableDestinations =
@@ -272,8 +286,8 @@ class PieceTest {
             @DisplayName("한 칸씩 모든 방향으로 이동할 수 있다")
             @Test
             void 한_칸씩_모든_방향으로_이동할_수_있다() {
-                Piece general = new Piece(PieceType.GENERAL, MY_SIDE);
-                Piece guard = new Piece(PieceType.GUARD, MY_SIDE);
+                Piece general = Piece.of(PieceType.GENERAL, MY_SIDE);
+                Piece guard = Piece.of(PieceType.GUARD, MY_SIDE);
                 AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
                 List<Intersection> expected = createOneStepIntersectionsToAllDirection(CURRENT_INTERSECTION);
 

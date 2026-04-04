@@ -15,8 +15,8 @@ class AlivePiecesTest {
 
     private static final Intersection NON_EMPTY_INTERSECTION = new Intersection(5, 5);
     private static final Intersection EMPTY_INTERSECTION = new Intersection(3, 3);
-    private static final Piece DEFAULT_PIECE = new Piece(PieceType.SOLDIER, Side.CHO);
-    private static final Piece CHO_PIECE = new Piece(PieceType.SOLDIER, Side.CHO);
+    private static final Piece DEFAULT_PIECE = Piece.of(PieceType.SOLDIER, Side.CHO);
+    private static final Piece CHO_PIECE = Piece.of(PieceType.SOLDIER, Side.CHO);
 
     @DisplayName("기물이 없는 위치를 조회하면 EMPTY 타입과 NONE 진영을 가진 기물을 리턴한다")
     @Test
@@ -96,7 +96,7 @@ class AlivePiecesTest {
         @DisplayName("같은 진영 검증")
         @Test
         void 같은_진영_검증() {
-            Piece choPiece = new Piece(PieceType.SOLDIER, Side.CHO);
+            Piece choPiece = Piece.of(PieceType.SOLDIER, Side.CHO);
             Intersection targetIntersection = new Intersection(5, 5);
             AlivePieces alivePieces = new AlivePieces(Map.of(
                     targetIntersection, choPiece
@@ -112,7 +112,7 @@ class AlivePiecesTest {
         @DisplayName("상대 진영 검증")
         @Test
         void 상대_진영_검증() {
-            Piece choPiece = new Piece(PieceType.SOLDIER, Side.CHO);
+            Piece choPiece = Piece.of(PieceType.SOLDIER, Side.CHO);
             Intersection targetIntersection = new Intersection(5, 5);
             AlivePieces alivePieces = new AlivePieces(Map.of(
                     targetIntersection, choPiece
@@ -129,7 +129,7 @@ class AlivePiecesTest {
     @DisplayName("기물의 위치 이동 검증")
     @Test
     void 기물의_위치_이동_검증() {
-        Piece targetPiece = new Piece(PieceType.SOLDIER, Side.CHO);
+        Piece targetPiece = Piece.of(PieceType.SOLDIER, Side.CHO);
         Intersection startIntersection = NON_EMPTY_INTERSECTION;
         Intersection destination = EMPTY_INTERSECTION;
         AlivePieces alivePieces = new AlivePieces(Map.of(
@@ -152,7 +152,7 @@ class AlivePiecesTest {
             Intersection passingIntersection = new Intersection(5, 5);
             Intersection destination = new Intersection(6, 5);
             AlivePieces alivePieces = new AlivePieces(Map.of(
-                    passingIntersection, new Piece(PieceType.SOLDIER, Side.CHO)
+                    passingIntersection, Piece.of(PieceType.SOLDIER, Side.CHO)
             ));
             Path path = new Path(destination, List.of(passingIntersection));
 

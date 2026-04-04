@@ -11,9 +11,17 @@ public final class Piece {
     private final PieceType type;
     private final Side side;
 
-    public Piece(PieceType type, Side side) {
+    private Piece(PieceType type, Side side) {
         this.type = type;
         this.side = side;
+    }
+
+    public static Piece of(PieceType type, Side side) {
+        if (type == PieceType.EMPTY) {
+            return EMPTY;
+        }
+
+        return new Piece(type, side);
     }
 
     public List<Intersection> movableDestinations(Intersection from, AlivePieces alivePieces) {

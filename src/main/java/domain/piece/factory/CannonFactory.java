@@ -8,6 +8,6 @@ public final class CannonFactory implements PieceFactory {
 
     @Override
     public Piece create(Side side) {
-        return new Piece(PieceType.CANNON, side);
+        return Piece.of(PieceType.CANNON, side);
     }
 }

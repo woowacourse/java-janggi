@@ -8,6 +8,6 @@ public final class HorseFactory implements PieceFactory {
 
     @Override
     public Piece create(Side side) {
-        return new Piece(PieceType.HORSE, side);
+        return Piece.of(PieceType.HORSE, side);
     }
 }

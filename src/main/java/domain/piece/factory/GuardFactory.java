@@ -8,6 +8,6 @@ public final class GuardFactory implements PieceFactory {
 
     @Override
     public Piece create(Side side) {
-        return new Piece(PieceType.GUARD, side);
+        return Piece.of(PieceType.GUARD, side);
     }
 }

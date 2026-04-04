@@ -19,12 +19,12 @@ import org.junit.jupiter.params.provider.EnumSource;
 
 class JanggiGameTest {
 
-    private static final Piece CHO_PIECE = new Piece(PieceType.SOLDIER, Side.CHO);
+    private static final Piece CHO_PIECE = Piece.of(PieceType.SOLDIER, Side.CHO);
     private static final Intersection CHO_START_INTERSECTION = new Intersection(5, 5);
     private static final Intersection CHO_FIRST_DESTINATION = new Intersection(4, 5);
     private static final Intersection CHO_SECOND_DESTINATION = new Intersection(3, 5);
 
-    private static final Piece HAN_PIECE = new Piece(PieceType.SOLDIER, Side.HAN);
+    private static final Piece HAN_PIECE = Piece.of(PieceType.SOLDIER, Side.HAN);
     private static final Intersection HAN_START_INTERSECTION = new Intersection(3, 3);
     private static final Intersection HAN_FIRST_DESTINATION = new Intersection(4, 3);
 
@@ -110,7 +110,7 @@ class JanggiGameTest {
         @EnumSource(value = Side.class, names = "NONE", mode = EnumSource.Mode.EXCLUDE)
         void 왕이_하나라도_존재하지_않으면_게임이_종료된_상태이다(Side side) {
             AlivePieces piecesWithOnlyOneGeneral = new AlivePieces(Map.of(
-                    new Intersection(5, 5), new Piece(PieceType.GENERAL, side)
+                    new Intersection(5, 5), Piece.of(PieceType.GENERAL, side)
             ));
             Board board = new Board(piecesWithOnlyOneGeneral);
             JanggiGame janggiGame = new JanggiGame(board);
@@ -124,8 +124,8 @@ class JanggiGameTest {
         @Test
         void 왕이_모두_존재하면_게임이_종료되지_않은_상태이다() {
             AlivePieces piecesWithBothGenerals = new AlivePieces(Map.of(
-                    new Intersection(5, 5), new Piece(PieceType.GENERAL, Side.CHO),
-                    new Intersection(3, 3), new Piece(PieceType.GENERAL, Side.HAN)
+                    new Intersection(5, 5), Piece.of(PieceType.GENERAL, Side.CHO),
+                    new Intersection(3, 3), Piece.of(PieceType.GENERAL, Side.HAN)
             ));
             Board board = new Board(piecesWithBothGenerals);
             JanggiGame janggiGame = new JanggiGame(board);

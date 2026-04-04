@@ -26,16 +26,16 @@ public class WingsTest {
         @Nested
         class 생성할_때_기물의_진영을_검증한다 {
             private final WingPieces choLeftWingPieces = new WingPieces(
-                    new Piece(PieceType.HORSE, Side.CHO),
-                    new Piece(PieceType.ELEPHANT, Side.CHO)
+                    Piece.of(PieceType.HORSE, Side.CHO),
+                    Piece.of(PieceType.ELEPHANT, Side.CHO)
             );
             private final WingPieces choRightWingPieces = new WingPieces(
-                    new Piece(PieceType.HORSE, Side.CHO),
-                    new Piece(PieceType.ELEPHANT, Side.CHO)
+                    Piece.of(PieceType.HORSE, Side.CHO),
+                    Piece.of(PieceType.ELEPHANT, Side.CHO)
             );
             private final WingPieces hanWingPieces = new WingPieces(
-                    new Piece(PieceType.HORSE, Side.HAN),
-                    new Piece(PieceType.ELEPHANT, Side.HAN)
+                    Piece.of(PieceType.HORSE, Side.HAN),
+                    Piece.of(PieceType.ELEPHANT, Side.HAN)
             );
 
             @DisplayName("좌진과 우진의 기물 진영이 다르면 예외를 던진다")
@@ -56,10 +56,10 @@ public class WingsTest {
         @Test
         void 초의_좌진과_우진_기물의_초기_위치를_반환한다() {
             // given
-            Piece first = new Piece(PieceType.HORSE, Side.CHO);
-            Piece second = new Piece(PieceType.ELEPHANT, Side.CHO);
-            Piece third = new Piece(PieceType.HORSE, Side.CHO);
-            Piece fourth = new Piece(PieceType.ELEPHANT, Side.CHO);
+            Piece first = Piece.of(PieceType.HORSE, Side.CHO);
+            Piece second = Piece.of(PieceType.ELEPHANT, Side.CHO);
+            Piece third = Piece.of(PieceType.HORSE, Side.CHO);
+            Piece fourth = Piece.of(PieceType.ELEPHANT, Side.CHO);
 
             Wings choWings = new Wings(
                     CHO,
@@ -89,10 +89,10 @@ public class WingsTest {
         @Test
         void 한의_초기_위치() {
             // given
-            Piece first = new Piece(PieceType.HORSE, Side.HAN);
-            Piece second = new Piece(PieceType.ELEPHANT, Side.HAN);
-            Piece third = new Piece(PieceType.HORSE, Side.HAN);
-            Piece fourth = new Piece(PieceType.ELEPHANT, Side.HAN);
+            Piece first = Piece.of(PieceType.HORSE, Side.HAN);
+            Piece second = Piece.of(PieceType.ELEPHANT, Side.HAN);
+            Piece third = Piece.of(PieceType.HORSE, Side.HAN);
+            Piece fourth = Piece.of(PieceType.ELEPHANT, Side.HAN);
 
             Wings hanWings = new Wings(
                     Side.HAN,
@@ -117,10 +117,10 @@ public class WingsTest {
         @Test
         void 초의_초기_위치() {
             // given
-            Piece first = new Piece(PieceType.HORSE, Side.CHO);
-            Piece second = new Piece(PieceType.ELEPHANT, Side.CHO);
-            Piece third = new Piece(PieceType.HORSE, Side.CHO);
-            Piece fourth = new Piece(PieceType.ELEPHANT, Side.CHO);
+            Piece first = Piece.of(PieceType.HORSE, Side.CHO);
+            Piece second = Piece.of(PieceType.ELEPHANT, Side.CHO);
+            Piece third = Piece.of(PieceType.HORSE, Side.CHO);
+            Piece fourth = Piece.of(PieceType.ELEPHANT, Side.CHO);
 
             Wings choWings = new Wings(
                     Side.CHO,

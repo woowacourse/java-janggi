@@ -8,6 +8,6 @@ public final class SoldierFactory implements PieceFactory {
 
     @Override
     public Piece create(Side side) {
-        return new Piece(PieceType.SOLDIER, side);
+        return Piece.of(PieceType.SOLDIER, side);
     }
 }

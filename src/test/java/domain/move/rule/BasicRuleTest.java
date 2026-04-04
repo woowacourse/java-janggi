@@ -109,6 +109,6 @@ class BasicRuleTest {
     }
 
     private static Piece createDefaultPiece(Side side) {
-        return new Piece(PieceType.SOLDIER, side);
+        return Piece.of(PieceType.SOLDIER, side);
     }
 }

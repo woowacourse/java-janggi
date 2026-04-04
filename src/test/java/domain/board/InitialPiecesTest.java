@@ -28,13 +28,13 @@ class InitialPiecesTest {
 
     private static final Wings DEFAULT_HAN_WINGS = new Wings(
             HAN,
-            new WingPieces(new Piece(HORSE, HAN), new Piece(ELEPHANT, HAN)),
-            new WingPieces(new Piece(HORSE, HAN), new Piece(ELEPHANT, HAN))
+            new WingPieces(Piece.of(HORSE, HAN), Piece.of(ELEPHANT, HAN)),
+            new WingPieces(Piece.of(HORSE, HAN), Piece.of(ELEPHANT, HAN))
     );
     private static final Wings DEFAULT_CHO_WINGS = new Wings(
             CHO,
-            new WingPieces(new Piece(HORSE, CHO), new Piece(ELEPHANT, CHO)),
-            new WingPieces(new Piece(HORSE, CHO), new Piece(ELEPHANT, CHO))
+            new WingPieces(Piece.of(HORSE, CHO), Piece.of(ELEPHANT, CHO)),
+            new WingPieces(Piece.of(HORSE, CHO), Piece.of(ELEPHANT, CHO))
     );
 
     @DisplayName("초기화된 기물의 총 개수는 32개여야 한다")
@@ -290,6 +290,6 @@ class InitialPiecesTest {
     }
 
     private WingPieces createWingPieces(Side side, PieceType first, PieceType second) {
-        return new WingPieces(new Piece(first, side), new Piece(second, side));
+        return new WingPieces(Piece.of(first, side), Piece.of(second, side));
     }
 }

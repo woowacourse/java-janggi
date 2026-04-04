@@ -18,7 +18,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class WingPiecesTest {
 
-    private static final Piece DEFAULT_PIECE = new Piece(PieceType.SOLDIER, Side.CHO);
+    private static final Piece DEFAULT_PIECE = Piece.of(PieceType.SOLDIER, Side.CHO);
 
     @DisplayName("기물 전체 개수 검증")
     @Nested
@@ -42,7 +42,7 @@ class WingPiecesTest {
             return Stream.of(
                     Arguments.of(EMPTY_LIST),
                     Arguments.of(List.of(
-                            new Piece(PieceType.HORSE, Side.CHO)
+                            Piece.of(PieceType.HORSE, Side.CHO)
                     ))
             );
         }
@@ -50,21 +50,21 @@ class WingPiecesTest {
         private static Stream<Arguments> morePieces() {
             return Stream.of(
                     Arguments.of(List.of(
-                            new Piece(PieceType.HORSE, Side.CHO),
-                            new Piece(PieceType.ELEPHANT, Side.CHO),
-                            new Piece(PieceType.HORSE, Side.CHO)
+                            Piece.of(PieceType.HORSE, Side.CHO),
+                            Piece.of(PieceType.ELEPHANT, Side.CHO),
+                            Piece.of(PieceType.HORSE, Side.CHO)
                     )),
                     Arguments.of(List.of(
-                            new Piece(PieceType.HORSE, Side.CHO),
-                            new Piece(PieceType.ELEPHANT, Side.CHO),
-                            new Piece(PieceType.HORSE, Side.CHO),
-                            new Piece(PieceType.ELEPHANT, Side.CHO)
+                            Piece.of(PieceType.HORSE, Side.CHO),
+                            Piece.of(PieceType.ELEPHANT, Side.CHO),
+                            Piece.of(PieceType.HORSE, Side.CHO),
+                            Piece.of(PieceType.ELEPHANT, Side.CHO)
                     )),
                     Arguments.of(List.of(
-                            new Piece(PieceType.HORSE, Side.CHO),
-                            new Piece(PieceType.ELEPHANT, Side.CHO),
-                            new Piece(PieceType.HORSE, Side.CHO),
-                            new Piece(PieceType.ELEPHANT, Side.CHO),
+                            Piece.of(PieceType.HORSE, Side.CHO),
+                            Piece.of(PieceType.ELEPHANT, Side.CHO),
+                            Piece.of(PieceType.HORSE, Side.CHO),
+                            Piece.of(PieceType.ELEPHANT, Side.CHO),
                             DEFAULT_PIECE
                     ))
             );
@@ -83,8 +83,8 @@ class WingPiecesTest {
             @Test
             void 상의_개수가_0개() {
                 assertThatThrownBy(() -> new WingPieces(
-                        new Piece(PieceType.HORSE, Side.CHO),
-                        new Piece(PieceType.HORSE, Side.CHO)
+                        Piece.of(PieceType.HORSE, Side.CHO),
+                        Piece.of(PieceType.HORSE, Side.CHO)
                 )).isInstanceOf(IllegalArgumentException.class);
             }
 
@@ -92,8 +92,8 @@ class WingPiecesTest {
             @Test
             void 상의_개수가_2개() {
                 assertThatThrownBy(() -> new WingPieces(
-                        new Piece(PieceType.ELEPHANT, Side.CHO),
-                        new Piece(PieceType.ELEPHANT, Side.CHO)
+                        Piece.of(PieceType.ELEPHANT, Side.CHO),
+                        Piece.of(PieceType.ELEPHANT, Side.CHO)
                 )).isInstanceOf(IllegalArgumentException.class);
             }
         }
@@ -106,8 +106,8 @@ class WingPiecesTest {
             @Test
             void 마의_개수가_0개() {
                 assertThatThrownBy(() -> new WingPieces(
-                        new Piece(PieceType.ELEPHANT, Side.CHO),
-                        new Piece(PieceType.ELEPHANT, Side.CHO)
+                        Piece.of(PieceType.ELEPHANT, Side.CHO),
+                        Piece.of(PieceType.ELEPHANT, Side.CHO)
                 )).isInstanceOf(IllegalArgumentException.class);
             }
 
@@ -115,8 +115,8 @@ class WingPiecesTest {
             @Test
             void 마의_개수가_2개() {
                 assertThatThrownBy(() -> new WingPieces(
-                        new Piece(PieceType.HORSE, Side.CHO),
-                        new Piece(PieceType.HORSE, Side.CHO)
+                        Piece.of(PieceType.HORSE, Side.CHO),
+                        Piece.of(PieceType.HORSE, Side.CHO)
                 )).isInstanceOf(IllegalArgumentException.class);
             }
         }
@@ -130,8 +130,8 @@ class WingPiecesTest {
         @Test
         void 진영이_동일하지_않으면_예외를_던진다() {
             assertThatThrownBy(() -> new WingPieces(
-                    new Piece(PieceType.HORSE, Side.HAN),
-                    new Piece(PieceType.ELEPHANT, Side.CHO)
+                    Piece.of(PieceType.HORSE, Side.HAN),
+                    Piece.of(PieceType.ELEPHANT, Side.CHO)
             )).isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -139,8 +139,8 @@ class WingPiecesTest {
         @Test
         void 진영이_동일하면_정상적으로_생성된다() {
             assertThatNoException().isThrownBy(() -> new WingPieces(
-                    new Piece(PieceType.HORSE, Side.HAN),
-                    new Piece(PieceType.ELEPHANT, Side.HAN)
+                    Piece.of(PieceType.HORSE, Side.HAN),
+                    Piece.of(PieceType.ELEPHANT, Side.HAN)
             ));
         }
     }
