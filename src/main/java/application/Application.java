@@ -8,33 +8,70 @@ import domain.game.Game;
 import domain.piece.Camp;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Optional;
+import repository.GameRepository;
+import repository.JdbcGameRepository;
 import view.GameCommand;
 import view.InputView;
 import view.OutputView;
 
 public class Application {
+    private static final String DB_URL = "jdbc:h2:./janggi-db";
     private static final Map<Integer, SetUp> INPUT_MAP = Map.of(
             1, SetUp.LEFT_ELEPHANT,
             2, SetUp.RIGHT_ELEPHANT,
             3, SetUp.INNER_ELEPHANT,
             4, SetUp.OUTER_ELEPHANT
     );
+
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();
+    private final GameRepository gameRepository = new JdbcGameRepository(DB_URL);
 
     public static void main(String[] args) {
         new Application().run();
     }
 
     public void run() {
+        Game game = loadGame();
+        outputView.printBoard(game.board());
+        playJanggi(game);
+    }
+
+    private Game loadGame() {
+        Optional<Game> savedGame = gameRepository.findInProgressGame();
+
+        if (savedGame.isEmpty()) {
+            return createNewGame();
+        }
+
+        if (askContinue()) {
+            return savedGame.get();
+        }
+
+        return createNewGame();
+    }
+
+    private boolean askContinue() {
+        while (true) {
+            outputView.printResumePrompt();
+
+            try {
+                return inputView.readContinueAnswer();
+            } catch (IllegalArgumentException exception) {
+                outputView.printError(exception.getMessage());
+            }
+        }
+    }
+
+    private Game createNewGame() {
         outputView.printSetUpOptions();
         SetUp hanSetUp = readSetUp(HAN);
         SetUp choSetUp = readSetUp(CHO);
 
         Game game = new Game(choSetUp, hanSetUp);
-        outputView.printBoard(game.board());
-
-        playJanggi(game);
+        gameRepository.save(game);
+        return game;
     }
 
     private void playJanggi(Game game) {
@@ -44,6 +81,7 @@ public class Application {
             try {
                 GameCommand command = inputView.readCommand();
                 command.execute(game);
+                gameRepository.save(game);
                 outputView.printBoard(game.board());
                 outputView.printScore(game.scoreOf(Camp.CHO), game.scoreOf(Camp.HAN));
             } catch (IllegalArgumentException | NoSuchElementException exception) {

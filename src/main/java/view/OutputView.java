@@ -18,6 +18,7 @@ public class OutputView {
     private static final String HAN_CAMP = "한나라";
     public static final String GAME_WINNER_MESSAGE = "게임이 종료되었습니다. 승자는 %s 입니다!";
     public static final String EACH_CAMP_SCORE = "초나라 점수: %d, 한나라 점수: %d%n";
+    private static final String RESUME_MESSAGE = "진행중인 게임이 있습니다. 이어서 하시겠습니까? (y/n)%n";
 
     private final BoardRenderer boardRenderer;
 
@@ -59,5 +60,9 @@ public class OutputView {
 
     public void printScore(int choScore, int hanScore) {
         System.out.printf(EACH_CAMP_SCORE, choScore, hanScore);
+    }
+
+    public void printResumePrompt() {
+        System.out.printf(RESUME_MESSAGE);
     }
 }
