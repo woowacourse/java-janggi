@@ -62,7 +62,8 @@ public class ConstrainedMovement implements Movement {
 
         return IntStream.rangeClosed(1, maxDistance)
             .boxed()
-            .takeWhile(dist -> valid || boardMediator.canMove(from.calculateNext(dist, direction), direction.flip()))
+            .takeWhile(dist -> valid || boardMediator.canMove(from.calculateNext(dist, direction),
+                direction.flip()))
             .filter(dist -> boardMediator.existsInPosition(from.calculateNext(dist, direction)))
             .findFirst()
             .map(dist -> decideFinalDestination(from, dist, boardMediator))
@@ -80,7 +81,8 @@ public class ConstrainedMovement implements Movement {
         return from.calculateNext(distance, direction);
     }
 
-    private Optional<Position> fallbackPosition(final Position from, final Direction direction, final BoardMediator boardMediator) {
+    private Optional<Position> fallbackPosition(final Position from, final Direction direction,
+        final BoardMediator boardMediator) {
         if (isValid(from, boardMediator)) {
             return Optional.of(from.calculateNext(maxDistance, direction));
         }
@@ -108,9 +110,8 @@ public class ConstrainedMovement implements Movement {
         final BoardMediator boardMediator) {
         final List<Position> traces = new ArrayList<>(IntStream.rangeClosed(1, maxDistance)
             .mapToObj(distance -> from.calculateNext(distance, direction))
-            .takeWhile(
-                position -> !boardMediator.existsInPosition(position) && boardMediator.canMove(
-                    position, direction.flip()))
+            .takeWhile(position -> !boardMediator.existsInPosition(position))
+            .takeWhile(position -> boardMediator.canMove(position, direction.flip()))
             .toList());
         final Position blockedPosition = from.calculateNext(traces.size() + 1, direction);
 

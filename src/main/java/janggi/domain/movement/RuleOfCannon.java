@@ -27,8 +27,8 @@ public class RuleOfCannon implements Rule {
         final ConstrainedMovement firstMovement = movementOrder.getFirst();
         final ConstrainedMovement secondMovement = movementOrder.getLast();
         final Piece piece = boardMediator.getPieceInPosition(from);
-
-        final Optional<Position> blockedPosition = firstMovement.calculateBlockedPosition(from, boardMediator);
+        final Optional<Position> blockedPosition = firstMovement.calculateBlockedPosition(from,
+            boardMediator);
 
         if (blockedPosition.isEmpty() || !canJump(piece, blockedPosition.get(), boardMediator)) {
             return List.of();
