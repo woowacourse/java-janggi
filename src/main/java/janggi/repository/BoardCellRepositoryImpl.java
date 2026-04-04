@@ -105,4 +105,11 @@ public class BoardCellRepositoryImpl implements BoardCellRepository {
 
         return dbConnection.executeUpdate(sql).getFirst();
     }
+
+    @Override
+    public void deleteByPosition(Position position) {
+        final String sql = String.format("DELETE FROM %s WHERE row_pos = %d AND column_pos = %d",
+            TABLE_NAME, position.getRow(), position.getColumn());
+        dbConnection.executeDelete(sql);
+    }
 }

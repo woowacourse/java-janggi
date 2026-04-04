@@ -30,7 +30,9 @@ public class BoardService {
         return BoardMapper.toDomain(boardCellRepository.findAllByGameId(gameId));
     }
 
-    public void movePiece(final long gameId, final Position to, final Piece target) {
+    public void movePiece(final long gameId, final Position from, final Position to,
+        final Piece target) {
         boardCellRepository.upsertByPosition(gameId, to, target);
+        boardCellRepository.deleteByPosition(from);
     }
 }

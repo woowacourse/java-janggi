@@ -1,6 +1,7 @@
 package janggi.service;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.config.DBConnection;
 import janggi.config.DBTableInitializer;
@@ -95,12 +96,16 @@ public class BoardServiceTest {
         Piece target = board.findPieceByPosition(from);
         BoardCellEntity expected = BoardCellEntity.from(gameId, to, target);
 
-        boardService.movePiece(gameId, to, target);
+        boardService.movePiece(gameId, from, to, target);
         BoardCellEntity actual = boardCellRepository.findByPosition(to).get();
 
-        assertThat(actual).usingRecursiveComparison()
-            .ignoringFields("id")
-            .isEqualTo(expected);
+        assertAll(
+            () -> assertThat(actual).usingRecursiveComparison()
+                .ignoringFields("id")
+                .isEqualTo(expected),
+            () -> assertThat(boardCellRepository.findByPosition(from)).isEmpty()
+        );
+
     }
 
     private void initTableData() {

@@ -22,4 +22,6 @@ public interface BoardCellRepository {
 
     long upsertByPosition(long gameId, Position position, Piece piece);
 
+    void deleteByPosition(Position position);
+
 }
