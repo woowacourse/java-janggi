@@ -33,7 +33,7 @@ public class TestIntersectionUtil {
     }
 
     public static Intersection getPalaceEmptyPieceIntersection(Location location) {
-        return Intersection.of(location, createDefaultVectors(), EmptyPiece.getInstance(), false);
+        return Intersection.of(location, createDefaultVectors(), EmptyPiece.getInstance(), true);
     }
     private static List<Vector> createDefaultVectors() {
         int defaultVectorDistance = 10;
