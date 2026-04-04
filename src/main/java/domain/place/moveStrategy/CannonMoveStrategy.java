@@ -17,7 +17,7 @@ public class CannonMoveStrategy implements MoveStrategy {
             return false;
         }
 
-        if (from.isNotStrategyLine(to)) {
+        if (from.isNotStraightLine(to)) {
             return false;
         }
 

@@ -12,7 +12,7 @@ public class ChariotMoveStrategy implements MoveStrategy {
 
     @Override
     public boolean canMove(BoardView board, Position from, Position to) {
-        if (from.isNotStrategyLine(to)) {
+        if (from.isNotStraightLine(to)) {
             return false;
         }
 
