@@ -30,59 +30,6 @@ public class JanggiService {
     private static final String USER = "root";
     private static final String PASSWORD = "0502";
 
-    public static void deleteAll() {
-        String deleteBoardState = "TRUNCATE TABLE board_state";
-        String deleteBoardSnapshot = "TRUNCATE TABLE board_snapshot";
-        String deletePosition = "TRUNCATE TABLE position";
-        String deletePiece = "TRUNCATE TABLE piece";
-        String deleteBoard = "DELETE FROM board";
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             Statement statement = connection.createStatement()) {
-            statement.executeUpdate(deleteBoardState);
-            statement.executeUpdate(deleteBoardSnapshot);
-            statement.executeUpdate(deletePosition);
-            statement.executeUpdate(deletePiece);
-            statement.executeUpdate(deleteBoard);
-            statement.executeUpdate("ALTER TABLE board AUTO_INCREMENT = 1");
-        } catch (SQLException e) {
-            System.out.println("에러: " + e);
-        }
-    }
-
-    // 포지션 초기화용
-    public static void insertPositions() {
-        String sql = "INSERT INTO `position` (`x`, `y`) VALUES (?, ?)";
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            for (int y = INITIAL_POSITION; y <= Y_MAXIMUM_POSITION; y++) {
-                for (int x = INITIAL_POSITION; x <= X_MAXIMUM_POSITION; x++) {
-                    preparedStatement.setInt(1, x);
-                    preparedStatement.setInt(2, y);
-                    preparedStatement.executeUpdate();
-                }
-            }
-        } catch (SQLException e) {
-            System.out.println("에러: " + e);
-        }
-    }
-
-    // 기물 초기화용
-    public static void insertPieces() {
-        String sql = "INSERT INTO `piece` (type, country) VALUES (?, ?)";
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            for (PieceType pieceType : PieceType.values()) {
-                for (CountryType countryType : CountryType.values()) {
-                    preparedStatement.setString(1, pieceType.toString());
-                    preparedStatement.setString(2, countryType.toString());
-                    preparedStatement.executeUpdate();
-                }
-            }
-        } catch (SQLException e) {
-            System.out.println("에러: " + e);
-        }
-    }
-
     public static int insertBoard() {
         String sql = "INSERT INTO board(turn, cho_score, han_score) VALUES (?, ?, ?)";
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
@@ -415,5 +362,58 @@ public class JanggiService {
             System.out.println("에러: " + e);
         }
         return new BoardStates(pieceInfos);
+    }
+
+    public static void deleteAll() {
+        String deleteBoardState = "TRUNCATE TABLE board_state";
+        String deleteBoardSnapshot = "TRUNCATE TABLE board_snapshot";
+        String deletePosition = "TRUNCATE TABLE position";
+        String deletePiece = "TRUNCATE TABLE piece";
+        String deleteBoard = "DELETE FROM board";
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             Statement statement = connection.createStatement()) {
+            statement.executeUpdate(deleteBoardState);
+            statement.executeUpdate(deleteBoardSnapshot);
+            statement.executeUpdate(deletePosition);
+            statement.executeUpdate(deletePiece);
+            statement.executeUpdate(deleteBoard);
+            statement.executeUpdate("ALTER TABLE board AUTO_INCREMENT = 1");
+        } catch (SQLException e) {
+            System.out.println("에러: " + e);
+        }
+    }
+
+    // 포지션 초기화용
+    public static void insertPositions() {
+        String sql = "INSERT INTO `position` (`x`, `y`) VALUES (?, ?)";
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            for (int y = INITIAL_POSITION; y <= Y_MAXIMUM_POSITION; y++) {
+                for (int x = INITIAL_POSITION; x <= X_MAXIMUM_POSITION; x++) {
+                    preparedStatement.setInt(1, x);
+                    preparedStatement.setInt(2, y);
+                    preparedStatement.executeUpdate();
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("에러: " + e);
+        }
+    }
+
+    // 기물 초기화용
+    public static void insertPieces() {
+        String sql = "INSERT INTO `piece` (type, country) VALUES (?, ?)";
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            for (PieceType pieceType : PieceType.values()) {
+                for (CountryType countryType : CountryType.values()) {
+                    preparedStatement.setString(1, pieceType.toString());
+                    preparedStatement.setString(2, countryType.toString());
+                    preparedStatement.executeUpdate();
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("에러: " + e);
+        }
     }
 }
