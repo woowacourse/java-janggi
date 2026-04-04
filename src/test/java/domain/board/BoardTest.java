@@ -19,7 +19,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 public class BoardTest {
     private final BoardFactory boardFactory = new BoardFactory();
-    private final Board board = boardFactory.create(TableSetting.LEFT_TABLE, TableSetting.RIGHT_TABLE);
+    private final Board board = boardFactory.create(TableSetting.LEFT_TABLE, TableSetting.RIGHT_TABLE, 72, 73.5);
     private final StubBoardStates stubBoardStates = new StubBoardStates();
     private final PieceInfos initPieceInfos = board.getPieceInfos();
 
@@ -97,7 +97,7 @@ public class BoardTest {
     @DisplayName("초나라의 상(象)과 마(馬) 기물이 자신의 초기 위치에 정확히 존재하는지 확인한다.")
     @MethodSource("tableSettings")
     void choElephantAndHorsePositionTest(TableSetting choTableSetting, TableSetting hanTableSetting) {
-        Board board = boardFactory.create(choTableSetting, hanTableSetting);
+        Board board = boardFactory.create(choTableSetting, hanTableSetting, 72, 73.5);
         PieceInfos pieceInfos = board.getPieceInfos();
 
         assertThat(pieceInfos.get(new Position(1, 0)).pieceType()).isEqualTo(
@@ -121,7 +121,7 @@ public class BoardTest {
     @DisplayName("한나라의 상(象)과 마(馬) 기물이 자신의 초기 위치에 정확히 존재하는지 확인한다.")
     @MethodSource("tableSettings")
     void hanElephantAndHorsePositionTest(TableSetting choTableSetting, TableSetting hanTableSetting) {
-        Board board = boardFactory.create(choTableSetting, hanTableSetting);
+        Board board = boardFactory.create(choTableSetting, hanTableSetting, 72, 73.5);
         PieceInfos pieceInfos = board.getPieceInfos();
 
         assertThat(pieceInfos.get(new Position(1, 9)).pieceType()).isEqualTo(
@@ -285,7 +285,7 @@ public class BoardTest {
         stubBoardStates.put(new Position(3, 2), new Piece(new PieceInfo(PieceType.SOLDIER, CountryType.HAN)));
         stubBoardStates.put(from, new Piece(new PieceInfo(PieceType.CANNON, CountryType.CHO)));
 
-        Board board = new Board(stubBoardStates.create());
+        Board board = new Board(stubBoardStates.create(), 72, 73.5);
         board.checkEndAndPlay(from, to);
         PieceInfos pieceInfos = board.getPieceInfos();
 
@@ -321,7 +321,7 @@ public class BoardTest {
         stubBoardStates.put(hanSoldierFrom, new Piece(new PieceInfo(PieceType.SOLDIER, CountryType.HAN)));
         stubBoardStates.put(choSoldierTo, new Piece(new PieceInfo(PieceType.SOLDIER, CountryType.CHO)));
 
-        Board board = new Board(stubBoardStates.create());
+        Board board = new Board(stubBoardStates.create(), 72, 73.5);
         board.checkEndAndPlay(hanSoldierFrom, choSoldierTo);
         Map<CountryType, Double> scores = board.getScores();
 
@@ -337,7 +337,7 @@ public class BoardTest {
         stubBoardStates.put(hanChariotFrom, new Piece(new PieceInfo(PieceType.CHARIOT, CountryType.HAN)));
         stubBoardStates.put(choGeneralTo, new Piece(new PieceInfo(PieceType.GENERAL, CountryType.CHO)));
 
-        Board board = new Board(stubBoardStates.create());
+        Board board = new Board(stubBoardStates.create(), 72, 73.5);
 
         assertThat(board.checkEndAndPlay(hanChariotFrom, choGeneralTo)).isTrue();
     }

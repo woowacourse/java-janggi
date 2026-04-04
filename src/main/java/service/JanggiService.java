@@ -5,6 +5,7 @@ import static domain.Position.X_MAXIMUM_POSITION;
 import static domain.Position.Y_MAXIMUM_POSITION;
 
 import domain.Position;
+import domain.board.Board;
 import domain.board.BoardSnapshot;
 import domain.board.BoardSnapshots;
 import domain.board.BoardStates;
@@ -82,14 +83,14 @@ public class JanggiService {
         }
     }
 
-    public static int insertBoard() {
+    public static int insertBoard(double choScore, double hanScore) {
         String sql = "INSERT INTO board(turn, cho_score, han_score) VALUES (?, ?, ?)";
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             preparedStatement.setString(1, CountryType.CHO.toString());
-            preparedStatement.setDouble(2, 72d);
-            preparedStatement.setDouble(3, 73.5d);
+            preparedStatement.setDouble(2, choScore);
+            preparedStatement.setDouble(3, hanScore);
             preparedStatement.executeUpdate();
 
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
@@ -111,13 +112,15 @@ public class JanggiService {
         return 0;
     }
 
-    public static void updateBoard(CountryType countryType, int id) {
-        String sql = "UPDATE board SET turn = ? WHERE id = ?";
+    public static void updateBoard(CountryType countryType, Map<CountryType, Double> scores, int id) {
+        String sql = "UPDATE board SET turn = ?, cho_score = ?, han_score = ? WHERE id = ?";
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setString(1, countryType.toString());
-            preparedStatement.setInt(2, id);
+            preparedStatement.setDouble(2, scores.get(CountryType.CHO));
+            preparedStatement.setDouble(3, scores.get(CountryType.HAN));
+            preparedStatement.setInt(4, id);
 
             int result = preparedStatement.executeUpdate();
 
@@ -175,7 +178,7 @@ public class JanggiService {
         throw new IllegalArgumentException("[ERROR] 진영 턴을 불러오지 못했습니다.");
     }
 
-    public static void readBoard(int id) {
+    public static Board readBoard(int id) {
         String sql = "SELECT * FROM board WHERE id = ?";
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -186,10 +189,14 @@ public class JanggiService {
                 throw new IllegalArgumentException("해당 번호의 board가 없습니다.");
             }
             System.out.println(resultSet.getString("turn"));
+            Board board = new Board(loadBoardState(id), resultSet.getDouble("cho_score"),
+                    resultSet.getDouble("han_score"));
             resultSet.close();
+            return board;
         } catch (SQLException e) {
             System.out.println("에러: " + e);
         }
+        throw new IllegalArgumentException("board 불러오기에 실패했습니다.");
     }
 
     public static void deleteBoard(int id) {
@@ -476,7 +483,7 @@ public class JanggiService {
         }
     }
 
-    public static BoardStates loadBoardState(int boardId) {
+    private static BoardStates loadBoardState(int boardId) {
         Map<Position, Piece> pieceInfos = new HashMap<>();
         String sql = "SELECT * FROM board_state WHERE board_id = ?";
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);

@@ -10,9 +10,9 @@ public class Countries {
 
     private final List<Country> countries = new ArrayList<>();
 
-    public Countries() {
-        countries.add(new Country(CountryType.CHO, 72d));
-        countries.add(new Country(CountryType.HAN, 73.5d));
+    public Countries(double choScore, double hanScore) {
+        countries.add(new Country(CountryType.CHO, choScore));
+        countries.add(new Country(CountryType.HAN, hanScore));
     }
 
     public Country findCountryByCountryType(CountryType countryType) {

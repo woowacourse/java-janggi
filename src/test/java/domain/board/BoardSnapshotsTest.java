@@ -1,5 +1,7 @@
 package domain.board;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
 import domain.Position;
 import domain.country.CountryType;
 import domain.piece.Piece;
@@ -23,45 +25,38 @@ public class BoardSnapshotsTest {
         stubBoardStates.put(choRight, new Piece(new PieceInfo(PieceType.CHARIOT, CountryType.CHO)));
         stubBoardStates.put(hanRight, new Piece(new PieceInfo(PieceType.CHARIOT, CountryType.HAN)));
 
-        Board board = new Board(stubBoardStates.create());
+        Board board = new Board(stubBoardStates.create(), 72, 73.5);
 
         // A 포지션
         board.checkEndAndPlay(choRight, choLeft);
-        assertThat(boardSnapshots.init(
-                new BoardSnapshot(board.getPieceInfos(), CountryType.CHO))).isFalse();
+        boardSnapshots.addBoardSnapshot(new BoardSnapshot(board.getPieceInfos(), CountryType.CHO));
         // B 포지션
         board.checkEndAndPlay(hanRight, hanLeft);
-        assertThat(boardSnapshots.init(
-                new BoardSnapshot(board.getPieceInfos(), CountryType.HAN))).isFalse();
+        boardSnapshots.addBoardSnapshot(new BoardSnapshot(board.getPieceInfos(), CountryType.HAN));
         // C 포지션
         board.checkEndAndPlay(choLeft, choRight);
-        assertThat(boardSnapshots.init(
-                new BoardSnapshot(board.getPieceInfos(), CountryType.CHO))).isFalse();
+        boardSnapshots.addBoardSnapshot(new BoardSnapshot(board.getPieceInfos(), CountryType.CHO));
         // D 포지션
         board.checkEndAndPlay(hanLeft, hanRight);
-        assertThat(boardSnapshots.init(
-                new BoardSnapshot(board.getPieceInfos(), CountryType.HAN))).isFalse();
+        boardSnapshots.addBoardSnapshot(new BoardSnapshot(board.getPieceInfos(), CountryType.HAN));
 
         // A 포지션 2
         board.checkEndAndPlay(choRight, choLeft);
-        assertThat(boardSnapshots.init(
-                new BoardSnapshot(board.getPieceInfos(), CountryType.CHO))).isFalse();
+        boardSnapshots.addBoardSnapshot(new BoardSnapshot(board.getPieceInfos(), CountryType.CHO));
         // B 포지션 2
         board.checkEndAndPlay(hanRight, hanLeft);
-        assertThat(boardSnapshots.init(
-                new BoardSnapshot(board.getPieceInfos(), CountryType.HAN))).isFalse();
+        boardSnapshots.addBoardSnapshot(new BoardSnapshot(board.getPieceInfos(), CountryType.HAN));
         // C 포지션 2
         board.checkEndAndPlay(choLeft, choRight);
-        assertThat(boardSnapshots.init(
-                new BoardSnapshot(board.getPieceInfos(), CountryType.CHO))).isFalse();
+        boardSnapshots.addBoardSnapshot(new BoardSnapshot(board.getPieceInfos(), CountryType.CHO));
         // D 포지션 2
         board.checkEndAndPlay(hanLeft, hanRight);
-        assertThat(boardSnapshots.init(
-                new BoardSnapshot(board.getPieceInfos(), CountryType.HAN))).isFalse();
+        boardSnapshots.addBoardSnapshot(new BoardSnapshot(board.getPieceInfos(), CountryType.HAN));
+        assertThat(boardSnapshots.appearSamePositionThreeTurn()).isFalse();
 
         // A 포지션 3
         board.checkEndAndPlay(choRight, choLeft);
-        assertThat(boardSnapshots.init(
-                new BoardSnapshot(board.getPieceInfos(), CountryType.CHO))).isTrue();
+        boardSnapshots.addBoardSnapshot(new BoardSnapshot(board.getPieceInfos(), CountryType.CHO));
+        assertThat(boardSnapshots.appearSamePositionThreeTurn()).isTrue();
     }
 }

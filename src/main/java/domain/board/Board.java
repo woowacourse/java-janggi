@@ -15,9 +15,9 @@ public class Board {
     private final BoardStates boardStates;
     private final Countries countries;
 
-    public Board(BoardStates boardStates) {
+    public Board(BoardStates boardStates, double choScore, double hanScore) {
         this.boardStates = boardStates;
-        this.countries = new Countries();
+        this.countries = new Countries(choScore, hanScore);
     }
 
     public void validateFromPosition(Position from, CountryType countryType) {

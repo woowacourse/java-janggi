@@ -30,7 +30,7 @@ public class JanggiController {
 //        JanggiService.insertPositions();
 //        JanggiService.insertPieces();
         int boardId = askLoadOrCreate();
-        Board board = new Board(JanggiService.loadBoardState(boardId));
+        Board board = JanggiService.readBoard(boardId);
         BoardSnapshots boardSnapshots = JanggiService.loadBoardSnapshot(boardId);
 
         playTurn(board, boardSnapshots, boardId);
@@ -64,8 +64,8 @@ public class JanggiController {
         TableSetting choTableSetting = readTableSetting(CountryType.CHO);
         TableSetting hanTableSetting = readTableSetting(CountryType.HAN);
         BoardFactory boardFactory = new BoardFactory();
-        Board board = boardFactory.create(choTableSetting, hanTableSetting);
-        int boardId = JanggiService.insertBoard();
+        Board board = boardFactory.create(choTableSetting, hanTableSetting, 72, 73.5);
+        int boardId = JanggiService.insertBoard(72, 73.5);
         initBoardState(board.getPieceInfos(), boardId);
         return boardId;
     }
@@ -94,7 +94,7 @@ public class JanggiController {
         while (!isEnd) {
             CountryType countryType = JanggiService.readCountryTurn(boardId);
             isEnd = checkEndAndMovePiece(board, countryType, boardSnapshots, boardId);
-            JanggiService.updateBoard(countryType.anotherCountryType(), boardId);
+            JanggiService.updateBoard(countryType.anotherCountryType(), board.getScores(), boardId);
         }
         JanggiService.deleteAllBoardStateInBoard(boardId);
         JanggiService.deleteAllBoardSnapshotInBoard(boardId);
