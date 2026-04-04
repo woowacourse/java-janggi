@@ -18,12 +18,8 @@ public class Horse extends Piece {
         int rowDiff = target.rowDiff(source);
         int colDiff = target.columnDiff(source);
 
-        for (int i = 0; i < ROW_OFFSETS.size(); i++) {
-            if (ROW_OFFSETS.get(i) == rowDiff && COLUMN_OFFSETS.get(i) == colDiff) {
-                return true;
-            }
-        }
-        return false;
+        return java.util.stream.IntStream.range(0, ROW_OFFSETS.size())
+                .anyMatch(i -> ROW_OFFSETS.get(i) == rowDiff && COLUMN_OFFSETS.get(i) == colDiff);
     }
 
     @Override
