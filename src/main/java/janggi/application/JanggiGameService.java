@@ -39,10 +39,9 @@ public class JanggiGameService {
     }
 
     public boolean isFinished(long roomId) {
-        return template.executeInTransaction(connection -> {
-            return repository.loadGame(roomId, connection)
-                    .isFinished();
-            }
+        return template.executeInTransaction(connection ->
+                repository.loadGame(roomId, connection)
+                    .isFinished()
         );
     }
 
@@ -57,18 +56,16 @@ public class JanggiGameService {
     }
 
     public Team winner(long roomId) {
-        return template.executeInTransaction(connection -> {
-            return repository.loadGame(roomId, connection)
-                    .getWinner();
-            }
+        return template.executeInTransaction(connection ->
+                repository.loadGame(roomId, connection)
+                        .getWinner()
         );
     }
 
     public Team currentTurn(long roomId) {
-        return template.executeInTransaction(connection -> {
-            return repository.loadGame(roomId, connection)
-                    .getTeam();
-            }
+        return template.executeInTransaction(connection ->
+                repository.loadGame(roomId, connection)
+                        .getTeam()
         );
     }
 }
