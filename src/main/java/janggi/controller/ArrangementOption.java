@@ -18,7 +18,8 @@ public enum ArrangementOption {
     MA_SANG_MA_SANG(1, "마상마상", List.of(MA, SANG, MA, SANG)),
     SANG_MA_SANG_MA(2, "상마상마", List.of(SANG, MA, SANG, MA)),
     SANG_MA_MA_SANG(3, "상마마상", List.of(SANG, MA, MA, SANG)),
-    MA_SANG_SANG_MA(4, "마상상마", List.of(MA, SANG, SANG, MA));
+    MA_SANG_SANG_MA(4, "마상상마", List.of(MA, SANG, SANG, MA)),
+    ;
 
     private static final Map<Integer, String> STRATEGY_OPTIONS =
             Collections.unmodifiableMap(

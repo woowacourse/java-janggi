@@ -11,7 +11,8 @@ public enum Direction {
     FRONT_LEFT(1, -1),
     FRONT_RIGHT(1, 1),
     BACK_LEFT(-1, -1),
-    BACK_RIGHT(-1, 1);
+    BACK_RIGHT(-1, 1),
+    ;
 
     private final int rowDiff;
     private final int colDiff;

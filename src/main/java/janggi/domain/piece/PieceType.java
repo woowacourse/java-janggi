@@ -10,7 +10,8 @@ public enum PieceType {
     CHA("차"),
     PO("포"),
     JOL("졸"),
-    BYEONG("병");
+    BYEONG("병"),
+    ;
 
     private final String nameFormat;
 
