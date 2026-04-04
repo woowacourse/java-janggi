@@ -11,19 +11,19 @@ import java.util.List;
 import java.util.function.Function;
 
 public enum HorseElephantFormation {
-    SANG_MA_SANG_MA("상마상마", List.of(HorseElephantFormation::elephant,
+    SANG_MA_SANG_MA("1", List.of(HorseElephantFormation::elephant,
             HorseElephantFormation::horse,
             HorseElephantFormation::elephant,
             HorseElephantFormation::horse)),
-    MA_SANG_MA_SANG("마상마상", List.of(HorseElephantFormation::horse,
+    MA_SANG_MA_SANG("2", List.of(HorseElephantFormation::horse,
             HorseElephantFormation::elephant,
             HorseElephantFormation::horse,
             HorseElephantFormation::elephant)),
-    SANG_MA_MA_SANG("상마마상", List.of(HorseElephantFormation::elephant,
+    SANG_MA_MA_SANG("3", List.of(HorseElephantFormation::elephant,
             HorseElephantFormation::horse,
             HorseElephantFormation::horse,
             HorseElephantFormation::elephant)),
-    MA_SANG_SANG_MA("마상상마", List.of(HorseElephantFormation::horse,
+    MA_SANG_SANG_MA("4", List.of(HorseElephantFormation::horse,
             HorseElephantFormation::elephant,
             HorseElephantFormation::elephant,
             HorseElephantFormation::horse));
@@ -40,7 +40,7 @@ public enum HorseElephantFormation {
         return Arrays.stream(values())
                 .filter(h -> h.name.equals(input))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 잘못된 배치 입력입니다."));
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 잘못된 배치 번호입니다."));
     }
 
     private static Piece horse(Side side) {

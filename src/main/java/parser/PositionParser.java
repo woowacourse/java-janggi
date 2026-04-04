@@ -12,7 +12,6 @@ public class PositionParser {
     }
 
     public static Position parsePosition(String input) {
-
         int[] coordinates = Arrays.stream(input.split(SEPARATOR))
                 .map(String::trim)
                 .mapToInt(PositionParser::parseInt)
