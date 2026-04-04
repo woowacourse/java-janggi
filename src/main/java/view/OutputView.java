@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public final class OutputView {
 
@@ -49,9 +50,20 @@ public final class OutputView {
         System.out.println();
     }
 
-    public void printWinner(Side side) {
-        System.out.println("--- 게임이 종료되었습니다 ---");
-        System.out.printf("%s의 승리!", side.name());
+    public void printWinner(Map<Side, Double> totalPointBySide, String winner) {
+        final String header = ""
+                + "--- 게임이 종료되었습니다 ---" + System.lineSeparator()
+                + winner + "의 승리!" + System.lineSeparator();
+        String output = totalPointBySide.entrySet()
+                .stream()
+                .map(entry -> entry.getKey() + "의 점수: " + entry.getValue())
+                .collect(Collectors.joining(
+                        System.lineSeparator(),
+                        header,
+                        ""
+                ));
+
+        System.out.println(output);
     }
 
     private void printRow(Board board, int row, List<Intersection> movableIntersections) {
