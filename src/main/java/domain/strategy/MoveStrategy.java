@@ -39,7 +39,6 @@ public abstract class MoveStrategy {
 
     public void validateMove(PieceInfos pathPieceInfos, Position from, Position to) {
         validateToPiece(pathPieceInfos, from, to);
-        validateSoldierMove(from, to, pathPieceInfos.get(from).countryType());
         // from, to Piece 제외한 path 검사
         pathPieceInfos.deleteFromAndTo(from, to);
         validatePath(pathPieceInfos);
