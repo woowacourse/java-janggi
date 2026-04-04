@@ -28,7 +28,7 @@ public class JanggiController {
             playTurn(board, turnManager);
         }
         turnManager.changeTurn();
-        OutputView.printGameOverMessage(turnManager.currentTeamTypeToName());
+        OutputView.printGameOverMessage(turnManager.currentTeamTypeToString());
     }
 
     private Team setupRedTeam() {
@@ -51,7 +51,7 @@ public class JanggiController {
     }
 
     private void playTurn(Board board, TurnManager turnManager) {
-        OutputView.printBoard(BoardDto.from(board), turnManager.currentTeamTypeToName());
+        OutputView.printBoard(BoardDto.from(board), turnManager.currentTeamTypeToString());
         Position from = findFromPosition(board, turnManager);
         List<Position> movable = board.calculateMovablePositions(from);
         OutputView.printBoardWithMovable(BoardDto.from(board), movable);

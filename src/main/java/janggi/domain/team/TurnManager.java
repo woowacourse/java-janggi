@@ -19,7 +19,7 @@ public class TurnManager {
         return currentTurnTeamType;
     }
 
-    public String currentTeamTypeToName() {
+    public String currentTeamTypeToString() {
         return currentTurnTeamType.getName();
     }
 }
