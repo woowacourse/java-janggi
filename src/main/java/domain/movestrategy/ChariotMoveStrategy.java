@@ -3,7 +3,6 @@ package domain.movestrategy;
 import domain.board.Board;
 import domain.board.Position;
 import domain.piece.Delta;
-import domain.piece.Piece;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,11 +10,10 @@ public class ChariotMoveStrategy implements MoveStrategy {
 
     @Override
     public List<Position> getMovablePositions(final Board board, final Position from) {
-        Piece chariot = board.getPieceAt(from);
         List<Position> movable = new ArrayList<>();
 
         for (Delta direction : Delta.ORTHOGONAL_DELTAS) {
-            collectMovablePositions(board, chariot, from, direction, movable);
+            collectMovablePositions(board, from, direction, movable);
         }
 
         return movable;
@@ -23,30 +21,19 @@ public class ChariotMoveStrategy implements MoveStrategy {
 
     private void collectMovablePositions(
             final Board board,
-            final Piece chariot,
             final Position from,
             final Delta direction,
             final List<Position> movable
     ) {
-        Position current = from;
+        Position current = from.move(direction);
 
-        while (current.canMove(direction)) {
+        while (current.isInside() && board.isEmpty(current)) {
+            movable.add(current);
             current = current.move(direction);
-
-            if (board.isEmpty(current)) {
-                movable.add(current);
-                continue;
-            }
-
-            Piece target = board.getPieceAt(current);
-            if (canCapture(chariot, target)) {
-                movable.add(current);
-            }
-            return;
         }
-    }
 
-    private boolean canCapture(Piece chariot, Piece target) {
-        return chariot.isOpposite(target);
+        if (current.isInside() && board.isOpposite(from, current)) {
+            movable.add(current);
+        }
     }
 }

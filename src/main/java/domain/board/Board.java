@@ -31,11 +31,19 @@ public class Board {
                 .toList();
     }
 
-    public boolean isEmptyOrOpposite(final Position from, final Position to) {
-        if (!pieces.containsKey(from)) {
-            throw new IllegalArgumentException("해당 좌표에 기물이 존재하지 않음");
+    public boolean isEmpty(final Position position) {
+        return !pieces.containsKey(position);
+    }
+
+    public boolean isOpposite(Position position1, Position position2) {
+        if (!pieces.containsKey(position1) || !pieces.containsKey(position2)) {
+            throw new IllegalArgumentException("해당 좌표에 기물이 존재하지 않습니다.");
         }
-        return !pieces.containsKey(to) || pieces.get(from).isOpposite(pieces.get(to));
+        return pieces.get(position1).isOpposite(pieces.get(position2));
+    }
+
+    public boolean isEmptyOrOpposite(final Position from, final Position to) {
+        return isEmpty(to) || isOpposite(from, to);
     }
 
     public Position getAnotherGeneralPosition(final Position generalPosition) {
@@ -53,13 +61,9 @@ public class Board {
 
     public Team getTeam(final Position position) {
         if (!pieces.containsKey(position)) {
-            throw new IllegalArgumentException("해당 좌표에 기물이 존재하지 않음");
+            throw new IllegalArgumentException("해당 좌표에 기물이 존재하지 않습니다.");
         }
         return pieces.get(position).getTeam();
-    }
-
-    public boolean isEmpty(final Position position) {
-        return !pieces.containsKey(position);
     }
 
     public Map<Position, Piece> getPieces() {
