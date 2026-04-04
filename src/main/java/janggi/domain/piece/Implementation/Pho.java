@@ -8,10 +8,8 @@ import janggi.domain.status.Team;
 
 public class Pho extends AbstractStraightPiece {
 
-    private static final int SCORE = 7;
-
     public Pho(Team team) {
-        super(SCORE, team, PieceType.PHO);
+        super(team, PieceType.PHO);
     }
 
     @Override

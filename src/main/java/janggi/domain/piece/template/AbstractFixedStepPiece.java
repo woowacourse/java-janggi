@@ -11,10 +11,8 @@ public abstract class AbstractFixedStepPiece implements Piece {
 
     private final Team team;
     private final PieceType type;
-    private final int score;
 
-    public AbstractFixedStepPiece(int score, Team team, PieceType type) {
-        this.score = score;
+    public AbstractFixedStepPiece(Team team, PieceType type) {
         this.team = team;
         this.type = type;
     }
@@ -49,6 +47,6 @@ public abstract class AbstractFixedStepPiece implements Piece {
 
     @Override
     public int getScore() {
-        return score;
+        return type.getScore();
     }
 }

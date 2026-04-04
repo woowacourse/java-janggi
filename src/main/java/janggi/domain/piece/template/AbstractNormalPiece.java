@@ -18,12 +18,10 @@ public abstract class AbstractNormalPiece implements Piece {
 
     private final Team team;
     private final PieceType type;
-    private final int score;
 
-    public AbstractNormalPiece(int score, Team team, PieceType type) {
+    public AbstractNormalPiece(Team team, PieceType type) {
         this.team = team;
         this.type = type;
-        this.score = score;
     }
 
     @Override
@@ -63,7 +61,7 @@ public abstract class AbstractNormalPiece implements Piece {
 
     @Override
     public int getScore() {
-        return score;
+        return type.getScore();
     }
 
     @Override

@@ -17,12 +17,10 @@ public abstract class AbstractStraightPiece implements Piece {
 
     private final Team team;
     private final PieceType type;
-    private final int score;
 
-    public AbstractStraightPiece(int score, Team team, PieceType type) {
+    public AbstractStraightPiece(Team team, PieceType type) {
         this.team = team;
         this.type = type;
-        this.score = score;
     }
 
     @Override
@@ -65,7 +63,7 @@ public abstract class AbstractStraightPiece implements Piece {
 
     @Override
     public int getScore() {
-        return score;
+        return type.getScore();
     }
 
     @Override

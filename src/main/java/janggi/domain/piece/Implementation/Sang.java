@@ -12,10 +12,8 @@ import java.util.List;
 
 public class Sang extends AbstractFixedStepPiece {
 
-    private static final int SCORE = 3;
-
     public Sang(Team team) {
-        super(SCORE, team, PieceType.SANG);
+        super(team, PieceType.SANG);
     }
 
     @Override

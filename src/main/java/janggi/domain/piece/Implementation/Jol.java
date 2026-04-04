@@ -15,7 +15,6 @@ import java.util.List;
 public class Jol implements Piece {
 
     private static final int MAX_DISTANCE = 1;
-    private static final int SCORE = 2;
 
     private final Team team;
     private final PieceType type;
@@ -71,7 +70,7 @@ public class Jol implements Piece {
 
     @Override
     public int getScore() {
-        return SCORE;
+        return type.getScore();
     }
 
     private void validateForward(int signRow) {
