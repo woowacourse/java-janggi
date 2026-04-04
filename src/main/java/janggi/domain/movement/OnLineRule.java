@@ -24,7 +24,7 @@ public class OnLineRule implements Rule {
     public List<Position> execute(Position from, final BoardMediator boardMediator) {
         final List<Position> traces = new ArrayList<>();
         final List<OnLineMovement> movementOrderExceptLast = Lists.exceptLast(movementOrder);
-        final Movement lastMovement = movementOrder.getLast();
+        final OnLineMovement lastMovement = movementOrder.getLast();
         final Piece piece = boardMediator.getPieceInPosition(from);
         for (final OnLineMovement movement : movementOrderExceptLast) {
             traces.addAll(movement.calculateTraces(from, piece, boardMediator));

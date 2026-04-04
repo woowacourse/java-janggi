@@ -40,13 +40,6 @@ public class OffLineMovement implements Movement {
     }
 
     @Override
-    public boolean isValid(final Position from, final BoardMediator boardMediator) {
-        return IntStream.rangeClosed(1, maxDistance - 1)
-            .mapToObj(distance -> from.calculateNext(distance, direction))
-            .allMatch(position -> boardMediator.canMove(position, direction));
-    }
-
-    @Override
     public boolean isBlocked(final Position from, final BoardMediator boardMediator) {
         return IntStream.rangeClosed(1, maxDistance)
             .mapToObj(distance -> from.calculateNext(distance, direction))

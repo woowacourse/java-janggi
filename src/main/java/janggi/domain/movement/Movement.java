@@ -11,8 +11,6 @@ public interface Movement {
 
     boolean canCatch(Piece me, Position from, BoardMediator boardMediator);
 
-    boolean isValid(Position from, BoardMediator boardMediator);
-
     boolean isBlocked(Position from, BoardMediator boardMediator);
 
     List<Position> calculateTraces(Position from, Piece me, BoardMediator boardMediator);

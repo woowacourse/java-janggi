@@ -102,39 +102,6 @@ class OnLineMovementTest {
     }
 
     @Nested
-    @DisplayName("이동 유효성 판정 테스트")
-    class IsValid {
-
-        @Test
-        @DisplayName("최대 거리까지 이동할 경로가 존재하는 경우")
-        void success_1() {
-            Board board = new Board(new LinkedHashMap<>());
-            BoardMediator boardMediator = new BoardMediatorImpl(board);
-            Position from = Position.valueOf(10, 4);
-            OnLineMovement onLineMovement = new OnLineMovement(2, Direction.NORTH_EAST);
-            boolean expected = true;
-
-            boolean actual = onLineMovement.isValid(from, boardMediator);
-
-            assertThat(actual).isEqualTo(expected);
-        }
-
-        @Test
-        @DisplayName("최대 거리까지 이동할 경로가 존재하지 않는 경우")
-        void success_2() {
-            Board board = new Board(new LinkedHashMap<>());
-            BoardMediator boardMediator = new BoardMediatorImpl(board);
-            Position from = Position.valueOf(9, 5);
-            OnLineMovement onLineMovement = new OnLineMovement(2, Direction.NORTH_EAST);
-            boolean expected = false;
-
-            boolean actual = onLineMovement.isValid(from, boardMediator);
-
-            assertThat(actual).isEqualTo(expected);
-        }
-    }
-
-    @Nested
     @DisplayName("장애물 여부 판정 테스트")
     class IsBlocked {
 
