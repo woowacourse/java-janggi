@@ -28,14 +28,14 @@ class PositionTest {
     @Test
     void 초의_궁성_영역인지_확인한다(){
         Position position = new Position(4, 0);
-        boolean inChoPalace = position.isInChoPalace();
+        boolean inChoPalace = Palace.isInPalace(position);
         assertThat(inChoPalace).isTrue();
     }
 
     @Test
     void 한의_궁성_영역인지_확인한다(){
         Position position = new Position(4, 9);
-        boolean isHanPalace = position.isInHanPalace();
+        boolean isHanPalace = Palace.isInPalace(position);
         assertThat(isHanPalace).isTrue();
     }
 }

@@ -16,7 +16,7 @@ public abstract class StraightMovingPiece extends Piece {
     @Override
     protected void validateMoveRule(Position from, Position to) {
         Offset offset = Offset.of(from, to);
-        if (!isStraightMoving(offset)) {
+        if (!offset.isStraightMoving()) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_MOVE_RULE.getMessage());
         }
     }
@@ -24,7 +24,7 @@ public abstract class StraightMovingPiece extends Piece {
     @Override
     protected List<Offset> generatePaths(Offset offset) {
         Direction mainDirection = offset.getMainDirection();
-        int distance = calculateStraightDistance(offset);
+        int distance = offset.calculateStraightDistance();
         return generateRoute(mainDirection, distance);
     }
 
@@ -37,16 +37,5 @@ public abstract class StraightMovingPiece extends Piece {
             route.add(step);
         }
         return route;
-    }
-
-    private boolean isStraightMoving(Offset offset) {
-        return (offset.absX() != 0 && offset.absY() == 0) || (offset.absX() == 0 && offset.absY() != 0);
-    }
-
-    private int calculateStraightDistance(Offset offset) {
-        if (!isStraightMoving(offset)) {
-            throw new IllegalStateException("직선 이동이 아닐 때는 직선 거리를 계산할 수 없습니다.");
-        }
-        return Math.max(offset.absX(), offset.absY());
     }
 }

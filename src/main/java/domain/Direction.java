@@ -1,5 +1,7 @@
     package domain;
 
+    import java.util.Arrays;
+
     public enum Direction {
         UP(0, 1),
         DOWN(0, -1),
@@ -19,6 +21,13 @@
 
         public Offset getOffset() {
             return offset;
+        }
+
+        public static Direction of(Offset offset) {
+            return Arrays.stream(values())
+                    .filter(direction -> direction.offset.equals(offset))
+                    .findFirst()
+                    .orElseThrow(() -> new IllegalArgumentException("해당하는 방향이 없습니다. (offset: " + offset + ")"));
         }
 
         public static Direction decideXDirection(int dx) {
