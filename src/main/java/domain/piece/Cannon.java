@@ -30,7 +30,7 @@ public final class Cannon extends StraightMovingPiece {
 
     public void validateTarget(Optional<Piece> target) {
         target.ifPresent(piece -> {
-            if (piece instanceof Cannon) {
+            if (piece.isSameType(PieceType.CANNON)) {
                 throw new IllegalStateException(ErrorMessage.CANNON_CANNOT_TAKE_CANNON.getMessage());
             }
         });

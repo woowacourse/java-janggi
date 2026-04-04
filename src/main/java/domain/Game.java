@@ -39,7 +39,7 @@ public class Game {
         Piece piece = board.getRequiredPiece(from);
 
         if (!piece.isSameTeam(turn)) {
-            throw new IllegalStateException("본인 차례가 아닙니다.");
+            throw new IllegalStateException("본인 기물이 아닙니다.");
         }
     }
 
@@ -49,5 +49,20 @@ public class Game {
 
     public Team getTurn() {
         return turn;
+    }
+
+    public boolean isGameEnd() {
+        return !(board.isAliveGeneral(Team.CHO) && board.isAliveGeneral(Team.HAN));
+    }
+
+
+    public Team getWinnerTeam() {
+        if(!isGameEnd()) {
+            throw new IllegalStateException("게임이 아직 끝나지 않았습니다");
+        }
+        if(board.isAliveGeneral(Team.CHO)) {
+            return Team.CHO;
+        }
+        return Team.HAN;
     }
 }

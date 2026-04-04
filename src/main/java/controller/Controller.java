@@ -30,13 +30,15 @@ public class Controller {
     }
 
     private void play(Game game) {
-        while (true) {
+        while (!game.isGameEnd()) {
             outputView.printHanScore(game.getCurrentScore(Team.HAN));
             outputView.printBoard(game.getBoard());
             outputView.printChoScore(game.getCurrentScore(Team.CHO));
             outputView.printCurrentTurn(game.getTurn());
             executeMove(game);
         }
+
+        outputView.printGameResult(game.getWinnerTeam());
     }
 
     private void executeMove(Game game) {

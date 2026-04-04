@@ -4,6 +4,7 @@ import domain.ErrorMessage;
 import domain.Offset;
 import domain.piece.Cannon;
 import domain.piece.Piece;
+import domain.piece.PieceType;
 import domain.piece.Team;
 
 import java.util.HashMap;
@@ -76,5 +77,11 @@ public class Board {
                 .filter(piece -> piece.isSameTeam(team))
                 .mapToInt(piece -> piece.getPieceType().getScore())
                 .sum();
+    }
+
+    public boolean isAliveGeneral(Team team) {
+        return pieces.values().stream()
+                .filter(piece -> piece.isSameTeam(team))
+                .anyMatch(piece -> piece.isSameType(PieceType.GENERAL));
     }
 }

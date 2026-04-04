@@ -67,4 +67,10 @@ public class OutputView {
         String color = turn == Team.CHO ? BLUE : RED;
         System.out.printf(color + "\n▶ [" + teamName + "의 차례입니다]  " + RESET);
     }
+
+    public void printGameResult(Team winner) {
+        String winnerName = winner == Team.CHO ? "초(CHO)" : "한(HAN)";
+        String color = winner == Team.CHO ? BLUE : RED;
+        System.out.println(color + "\n🎉 " + winnerName + "가 승리했습니다! 게임을 종료합니다." + RESET);
+    }
 }

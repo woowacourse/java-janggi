@@ -24,6 +24,10 @@ public abstract class Piece {
     }
 
 
+    public boolean isSameType(PieceType type) {
+        return this.pieceType == type;
+    }
+
     public PieceType getPieceType() {
         return pieceType;
     }

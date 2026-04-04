@@ -2,6 +2,7 @@ package domain.board;
 
 import domain.piece.Cannon;
 import domain.piece.Chariot;
+import domain.piece.General;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 
@@ -119,4 +120,30 @@ public class BoardTest {
             assertThat(hanScore).isEqualTo(21.5);
         }
     }
+
+    @Test
+    void 궁이_살아있는지_확인한다() {
+        board = new Board(Map.of(
+                new Position(0, 0), new Chariot(Team.HAN),
+                new Position(1, 0), new Cannon(Team.HAN),
+                new Position(4, 9), new General(Team.HAN)
+        ));
+
+        boolean aliveGeneral = board.isAliveGeneral(Team.HAN);
+        assertThat(aliveGeneral).isTrue();
+    }
+
+    @Test
+    void 궁이_살아있지_않은지_확인한다() {
+        board = new Board(Map.of(
+                new Position(0, 0), new Chariot(Team.HAN),
+                new Position(1, 0), new Cannon(Team.HAN),
+                new Position(4, 9), new General(Team.HAN)
+        ));
+
+        boolean aliveGeneral = board.isAliveGeneral(Team.CHO);
+        assertThat(aliveGeneral).isFalse();
+    }
+
+
 }
