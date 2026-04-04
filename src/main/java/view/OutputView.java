@@ -1,10 +1,7 @@
 package view;
 
-import domain.board.BoardState;
-import domain.board.IntersectionState;
-import domain.piece.PieceType;
-import domain.point.Point;
 import domain.team.Team;
+import dto.IntersectionsDto;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -16,36 +13,19 @@ public class OutputView {
     private static final int MAX_FILE = 9;
     private static final String FULL_SPACE = "　";
     private static final String HALF_SPACE = " ";
-    private static final Map<PieceType, String> CHO_PIECE_CHINESE_CHARACTER_MAP = Map.of(
-            PieceType.GENERAL, "楚",
-            PieceType.CHARIOT, "車",
-            PieceType.CANNON, "包",
-            PieceType.HORSE, "馬",
-            PieceType.ELEPHANT, "象",
-            PieceType.GUARD, "士",
-            PieceType.SOLDIER, "卒",
-            PieceType.NONE, "＋"
-    );
-    private static final Map<PieceType, String> HAN_PIECE_CHINESE_CHARACTER_MAP = Map.of(
-            PieceType.GENERAL, "漢",
-            PieceType.CHARIOT, "車",
-            PieceType.CANNON, "包",
-            PieceType.HORSE, "馬",
-            PieceType.ELEPHANT, "象",
-            PieceType.GUARD, "士",
-            PieceType.SOLDIER, "兵",
-            PieceType.NONE, "＋"
-    );
+    private static final String ANSI_RESET = "\u001B[0m";
+    private static final String ANSI_GREEN = "\u001B[32m";
+    private static final String ANSI_RED = "\u001B[31m";
 
     public void printCurrentTurn(Team turn) {
         System.out.print(getTeamName(turn) + "의 차례입니다.\n");
     }
 
-    public void printCurrentBoardStatus(final BoardState boardState) {
-        final Map<Point, String> board = boardState.intersectionStates().stream()
+    public void printCurrentBoardStatus(final IntersectionsDto intersectionsDto) {
+        final Map<String, String> board = intersectionsDto.getIntersections().stream()
                 .collect(Collectors.toMap(
-                        IntersectionState::point,
-                        state -> getPieceChineseCharacter(state.pieceType(), state.team())
+                        dto -> toPositionKey(dto.getY(), dto.getX()),
+                        dto -> colorizePieceLabel(dto.getPieceLabel(), dto.getTeam())
                 ));
 
         final String header = IntStream.range(MIN_INDEX, MAX_FILE)
@@ -55,7 +35,7 @@ public class OutputView {
         final String rows = IntStream.range(MIN_INDEX, MAX_ROW)
                 .mapToObj(row -> {
                     final String rowCells = IntStream.range(MIN_INDEX, MAX_FILE)
-                            .mapToObj(file -> board.getOrDefault(new Point(row, file), "＋"))
+                            .mapToObj(file -> board.getOrDefault(toPositionKey(row, file), "＋"))
                             .collect(Collectors.joining(HALF_SPACE));
                     return toFullWidthNumber(row) + HALF_SPACE + rowCells;
                 })
@@ -88,14 +68,18 @@ public class OutputView {
         return "한(漢)";
     }
 
-    private String getPieceChineseCharacter(PieceType pieceType, Team team) {
-        if (pieceType == PieceType.NONE || team == null) {
-            return CHO_PIECE_CHINESE_CHARACTER_MAP.get(PieceType.NONE);
+    private String toPositionKey(int y, int x) {
+        return y + "," + x;
+    }
+
+    private String colorizePieceLabel(String pieceLabel, String team) {
+        if ("CHO".equals(team)) {
+            return ANSI_GREEN + pieceLabel + ANSI_RESET;
         }
-        if (team == Team.CHO) {
-            return CHO_PIECE_CHINESE_CHARACTER_MAP.get(pieceType);
+        if ("HAN".equals(team)) {
+            return ANSI_RED + pieceLabel + ANSI_RESET;
         }
-        return HAN_PIECE_CHINESE_CHARACTER_MAP.get(pieceType);
+        return pieceLabel;
     }
 
 }
