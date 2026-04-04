@@ -1,14 +1,14 @@
-import domain.GameManager;
+import controller.JanggiConsoleController;
 import java.util.Scanner;
 import view.InputView;
 import view.OutputView;
 
 public class Application {
     public static void main(String[] args) {
-        GameManager gameManager = new GameManager(
+        JanggiConsoleController janggiConsoleController = new JanggiConsoleController(
                 new InputView(new Scanner(System.in)),
                 new OutputView()
         );
-        gameManager.play();
+        janggiConsoleController.play();
     }
 }

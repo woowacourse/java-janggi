@@ -9,7 +9,7 @@ public class Soldier extends Piece {
     }
 
     @Override
-    public String toString() {
-        return "졸";
+    public PieceType getType() {
+        return PieceType.SOLDIER;
     }
 }

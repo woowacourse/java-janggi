@@ -19,7 +19,7 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public String toString() {
-        return "포";
+    public PieceType getType() {
+        return PieceType.CANNON;
     }
 }

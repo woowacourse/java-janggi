@@ -7,11 +7,9 @@ import java.util.Map;
 
 public class Position {
     private static final Map<Integer, Position> CACHE = new HashMap<>();
-
     public static final int MIN = 0;
     public static final int MAX_X = 8;
     public static final int MAX_Y = 9;
-
     private final int x;
     private final int y;
 
@@ -68,8 +66,11 @@ public class Position {
         return x * 31 + y;
     }
 
-    @Override
-    public String toString() {
-        return String.format("(%d, %d)", x, y);
+    public int getY() {
+        return y;
+    }
+
+    public int getX() {
+        return x;
     }
 }

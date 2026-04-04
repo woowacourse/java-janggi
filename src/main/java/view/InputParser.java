@@ -1,29 +1,42 @@
 package view;
 
 import domain.Position;
+import domain.board.FormationCommand;
 import domain.player.Name;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class InputParser {
     private static final Pattern COMMA_SEPARATED_COORDINATES = Pattern.compile("^\\s*\\d+\\s*,\\s*\\d+\\s*$");
     private static final String DELIMITER = ",";
+    private static final Map<String, FormationCommand> FORMATION_MAP = Map.of(
+            "1", FormationCommand.FIRST,
+            "2", FormationCommand.SECOND,
+            "3", FormationCommand.THIRD,
+            "4", FormationCommand.FOURTH
+    );
 
     public static Name parseName(String input) {
-        if (input == null || input.isBlank()) {
-            throw new IllegalArgumentException("빈 값은 입력할 수 없습니다.");
-        }
+        validateBlank(input);
         return new Name(input.strip());
     }
 
-    public static Position parsePosition(String input) {
-        if (input == null || input.isBlank()) {
-            throw new IllegalArgumentException("빈 값은 입력할 수 없습니다.");
-        }
+    public static FormationCommand parseFormation(String input) {
+        validateBlank(input);
+        String strippedInput = input.strip();
 
+        if (!FORMATION_MAP.containsKey(strippedInput)) {
+            throw new IllegalArgumentException("올바른 포메이션 입력이 아닙니다. (1~4 사이의 숫자)");
+        }
+        return FORMATION_MAP.get(strippedInput);
+    }
+
+    public static Position parsePosition(String input) {
+        validateBlank(input);
         if (!COMMA_SEPARATED_COORDINATES.matcher(input).matches()) {
-            throw new IllegalArgumentException("잘못된 입력 형식입니다. (예: 0,3)");
+            throw new IllegalArgumentException("잘못된 입력 형식입니다. ex) 0,3");
         }
 
         return getPosition(input);
@@ -36,5 +49,11 @@ public class InputParser {
                 .toList();
 
         return Position.of(coordinate.get(0), coordinate.get(1));
+    }
+
+    private static void validateBlank(String input) {
+        if (input == null || input.isBlank()) {
+            throw new IllegalArgumentException("빈 값은 입력할 수 없습니다.");
+        }
     }
 }

@@ -14,7 +14,7 @@ public class General extends Piece {
     }
 
     @Override
-    public String toString() {
-        return "궁";
+    public PieceType getType() {
+        return PieceType.GENERAL;
     }
 }

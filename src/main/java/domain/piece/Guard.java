@@ -9,7 +9,7 @@ public class Guard extends Piece {
     }
 
     @Override
-    public String toString() {
-        return "사";
+    public PieceType getType() {
+        return PieceType.GUARD;
     }
 }

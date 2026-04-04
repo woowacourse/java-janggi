@@ -15,12 +15,10 @@ public abstract class Piece {
         this.movementStrategy = movementStrategy;
     }
 
+    public abstract PieceType getType();
+
     public Destinations findDestinations(Position current, BoardReader board) {
         return new Destinations(movementStrategy.getMovablePositions(current, board, side));
-    }
-
-    protected boolean isCatchableOrEmpty(Position destination, BoardReader board) {
-        return board.isEmpty(destination) || board.isAlly(destination, side);
     }
 
     public boolean isAlly(Side other) {

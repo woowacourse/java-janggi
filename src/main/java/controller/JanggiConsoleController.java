@@ -1,29 +1,36 @@
-package domain;
+package controller;
 
+import domain.Game;
+import domain.MoveCandidate;
+import domain.Position;
+import domain.Side;
 import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.Formation;
 import domain.board.FormationCommand;
 import domain.player.Name;
 import domain.player.Players;
+import dto.BoardDto;
+import dto.DestinationDto;
+import dto.PositionDto;
 import java.util.List;
 import java.util.function.Supplier;
 import view.InputParser;
 import view.InputView;
 import view.OutputView;
 
-public class GameManager {
+public class JanggiConsoleController {
     private final InputView inputView;
     private final OutputView outputView;
 
-    public GameManager(InputView inputView, OutputView outputView) {
+    public JanggiConsoleController(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
     }
 
     public void play() {
         Game game = initializeGame();
-        outputView.printBoard(game.getBoard());
+        outputView.printBoard(BoardDto.from(game.getBoard()));
         while (!game.isOver()) {
             playTurn(game);
         }
@@ -45,24 +52,24 @@ public class GameManager {
     }
 
     private Formation getFormation(Side side) {
-        return retry(() -> Formation.from(FormationCommand.from(inputView.readFormation(side))));
+        return retry(() -> Formation.from(InputParser.parseFormation(inputView.readFormation(side))));
     }
 
     private void playTurn(Game game) {
-        Position source = selectPiecePosition(game);
+        MoveCandidate moveCandidate = selectPiecePosition(game);
         retry(() -> {
             Position target = InputParser.parsePosition(inputView.readTargetPosition());
-            game.move(source, target);
+            game.move(moveCandidate, target);
         });
-        outputView.printBoard(game.getBoard());
+        outputView.printBoard(BoardDto.from(game.getBoard()));
     }
 
-    private Position selectPiecePosition(Game game) {
+    private MoveCandidate selectPiecePosition(Game game) {
         return retry(() -> {
             Position position = InputParser.parsePosition(inputView.readSourcePosition(game.getCurrentSide()));
-            List<Position> destinations = game.selectSource(position).getPositions();
-            outputView.printDestinations(destinations);
-            return position;
+            MoveCandidate moveCandidate = game.selectSource(position);
+            outputView.printDestinations(DestinationDto.from(moveCandidate));
+            return moveCandidate;
         });
     }
 

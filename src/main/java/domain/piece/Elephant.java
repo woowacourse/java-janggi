@@ -9,7 +9,7 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public String toString() {
-        return "상";
+    public PieceType getType() {
+        return PieceType.ELEPHANT;
     }
 }

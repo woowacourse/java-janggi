@@ -9,7 +9,7 @@ public class Horse extends Piece {
     }
 
     @Override
-    public String toString() {
-        return "마";
+    public PieceType getType() {
+        return PieceType.HORSE;
     }
 }

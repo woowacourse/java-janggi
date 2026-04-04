@@ -9,7 +9,7 @@ public class Chariot extends Piece {
     }
 
     @Override
-    public String toString() {
-        return "차";
+    public PieceType getType() {
+        return PieceType.CHARIOT;
     }
 }
