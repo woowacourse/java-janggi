@@ -1,6 +1,7 @@
 package domain;
 
 import domain.piece.Piece;
+import domain.piece.strategy.Direction;
 import domain.position.Position;
 import java.util.Collections;
 import java.util.Map;
@@ -23,5 +24,16 @@ public class PathContext {
     public boolean hasPo() {
         return context.values().stream()
                 .anyMatch(piece -> !piece.canBeJumpedOver());
+    }
+
+    public Direction getDirection(Position start) {
+        for (Position position : context.keySet()) {
+            try {
+                return Direction.getDirectionByPosition(position, start);
+            } catch (IllegalArgumentException e) {
+                continue;
+            }
+        }
+        return null;
     }
 }

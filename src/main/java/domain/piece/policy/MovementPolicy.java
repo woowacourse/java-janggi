@@ -1,7 +1,9 @@
 package domain.piece.policy;
 
-import domain.PathContext;
+import domain.Board;
+import domain.position.Position;
+import java.util.List;
 
 public interface MovementPolicy {
-    void validate(PathContext pathContext);
+    void validate(Board board, List<Position> path, Position start, Position destination);
 }

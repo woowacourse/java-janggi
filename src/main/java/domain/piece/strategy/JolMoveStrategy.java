@@ -1,33 +1,18 @@
 package domain.piece.strategy;
 
-import domain.PieceExceptionMessage;
-import domain.position.Position;
+import static domain.piece.strategy.Direction.DOWN;
+import static domain.piece.strategy.Direction.LEFT;
+import static domain.piece.strategy.Direction.LEFT_DOWN;
+import static domain.piece.strategy.Direction.RIGHT;
+import static domain.piece.strategy.Direction.RIGHT_DOWN;
+
 import java.util.List;
 
-public class JolMoveStrategy implements MoveStrategy {
-    private final int[] dRow = {1, 0, 0};
-    private final int[] dColumn = {0, -1, 1};
+public class JolMoveStrategy extends SingleStepMoveStrategy {
+    private static final List<Direction> DIRECTIONS = List.of(DOWN, LEFT, RIGHT, LEFT_DOWN, RIGHT_DOWN);
 
     @Override
-    public List<Position> findMovablePath(Position start, Position destination) {
-        for (int direction = 0; direction < dColumn.length; direction++) {
-            Position changedPosition;
-            try {
-                changedPosition = start.go(dRow[direction], dColumn[direction]);
-            } catch (IllegalArgumentException e) {
-                continue;
-            }
-
-            if (changedPosition.equals(destination)) {
-                return getIntermediatePositions();
-            }
-
-
-        }
-        throw new IllegalArgumentException(PieceExceptionMessage.INVALID_POSITION.getMessage());
-    }
-
-    private static List<Position> getIntermediatePositions() {
-        return List.of();
+    protected List<Direction> getDirections() {
+        return DIRECTIONS;
     }
 }

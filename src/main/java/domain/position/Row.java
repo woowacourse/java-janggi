@@ -23,6 +23,10 @@ public class Row {
         return new Row(this.value + value);
     }
 
+    public Row add(Row value) {
+        return new Row(this.value + value.getValue());
+    }
+
     public Row getUpper(Row row) {
         if (value > row.value) {
             return this;

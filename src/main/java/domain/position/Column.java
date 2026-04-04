@@ -23,6 +23,12 @@ public class Column {
         return new Column(this.value + value);
     }
 
+
+    public Column add(Column value) {
+        return new Column(this.value + value.getValue());
+    }
+
+
     public Column getUpper(Column target) {
         if (value > target.value) {
             return this;

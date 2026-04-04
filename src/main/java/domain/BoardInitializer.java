@@ -1,24 +1,9 @@
 package domain;
 
-import domain.piece.Byeong;
-import domain.piece.Cha;
-import domain.piece.Jang;
-import domain.piece.Jol;
-import domain.piece.Ma;
 import domain.piece.Piece;
+import domain.piece.PieceFactory;
 import domain.piece.PieceType;
-import domain.piece.Po;
-import domain.piece.Sa;
-import domain.piece.Sang;
 import domain.piece.Team;
-import domain.piece.policy.NormalMovementPolicy;
-import domain.piece.policy.PoMovementPolicy;
-import domain.piece.strategy.ByeongMoveStrategy;
-import domain.piece.strategy.JolMoveStrategy;
-import domain.piece.strategy.MaMoveStrategy;
-import domain.piece.strategy.SangMoveStrategy;
-import domain.piece.strategy.SingleStepMoveStrategy;
-import domain.piece.strategy.SlidingMoveStrategy;
 import domain.position.Position;
 import domain.settingType.SettingInfo;
 import domain.settingType.SettingType;
@@ -36,14 +21,14 @@ public class BoardInitializer {
 
     private Map<PieceType, Piece> initPieceByTeam(Team team) {
         Map<PieceType, Piece> pieces = new HashMap<>();
-        pieces.put(PieceType.PO, new Po(new SlidingMoveStrategy(), new PoMovementPolicy(), team));
-        pieces.put(PieceType.MA, new Ma(new MaMoveStrategy(), new NormalMovementPolicy(), team));
-        pieces.put(PieceType.SANG, new Sang(new SangMoveStrategy(), new NormalMovementPolicy(), team));
-        pieces.put(PieceType.SA, new Sa(new SingleStepMoveStrategy(), new NormalMovementPolicy(), team));
-        pieces.put(PieceType.JANG, new Jang(new SingleStepMoveStrategy(), new NormalMovementPolicy(), team));
-        pieces.put(PieceType.CHA, new Cha(new SlidingMoveStrategy(), new NormalMovementPolicy(), team));
-        pieces.put(PieceType.JOL, new Jol(new JolMoveStrategy(), new NormalMovementPolicy(), team));
-        pieces.put(PieceType.BYEONG, new Byeong(new ByeongMoveStrategy(), new NormalMovementPolicy(), team));
+        pieces.put(PieceType.PO, PieceFactory.create(PieceType.PO, team));
+        pieces.put(PieceType.MA, PieceFactory.create(PieceType.MA, team));
+        pieces.put(PieceType.SANG, PieceFactory.create(PieceType.SANG, team));
+        pieces.put(PieceType.SA, PieceFactory.create(PieceType.SA, team));
+        pieces.put(PieceType.JANG, PieceFactory.create(PieceType.JANG, team));
+        pieces.put(PieceType.CHA, PieceFactory.create(PieceType.CHA, team));
+        pieces.put(PieceType.JOL, PieceFactory.create(PieceType.JOL, team));
+        pieces.put(PieceType.BYEONG, PieceFactory.create(PieceType.BYEONG, team));
         return pieces;
     }
 

@@ -2,29 +2,29 @@ package domain.piece.strategy;
 
 import domain.PieceExceptionMessage;
 import domain.position.Position;
+import java.util.ArrayList;
 import java.util.List;
 
-public class SingleStepMoveStrategy implements MoveStrategy {
-    private final int[] dRow = {1, -1, 0, 0};
-    private final int[] dColumn = {0, 0, -1, 1};
-
+public abstract class SingleStepMoveStrategy implements MoveStrategy {
     @Override
     public List<Position> findMovablePath(Position start, Position destination) {
-        for (int direction = 0; direction < dColumn.length; direction++) {
-            Position changedPosition;
-            try {
-                changedPosition = start.go(dRow[direction], dColumn[direction]);
-            } catch (IllegalArgumentException e) {
+        for (Direction direction : getDirections()) {
+            if (!direction.isMovable(start)) {
                 continue;
             }
-            if (changedPosition.equals(destination)) {
-                return getIntermediatePositions();
+            Position movedPosition = direction.getMovedPosition(start);
+            if (movedPosition.equals(destination)) {
+                return getPath(start, direction);
             }
         }
         throw new IllegalArgumentException(PieceExceptionMessage.INVALID_POSITION.getMessage());
     }
 
-    private static List<Position> getIntermediatePositions() {
-        return List.of();
+    private List<Position> getPath(Position start, Direction direction) {
+        List<Position> path = new ArrayList<>();
+        path.add(direction.getMovedPosition(start));
+        return path;
     }
+
+    abstract List<Direction> getDirections();
 }

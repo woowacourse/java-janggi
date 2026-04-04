@@ -1,5 +1,8 @@
 package domain.position;
 
+import domain.PieceExceptionMessage;
+import domain.piece.strategy.Direction;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.IntStream;
@@ -25,12 +28,46 @@ public class Position {
         return new Position(this.row.add(row), this.column.add(column));
     }
 
+    public Position go(Row row, Column column) {
+        return new Position(this.row.add(row), this.column.add(column));
+    }
+
     public boolean isSameRow(Position destination) {
         return row.equals(destination.row);
     }
 
     public boolean isSameColumn(Position destination) {
         return column.equals(destination.column);
+    }
+
+    public boolean isReachableByDirection(List<Direction> directions, Position destination) {
+        for (Direction diagonal : directions) {
+            Position current = this;
+            while (diagonal.isMovable(current)) {
+                current = diagonal.getMovedPosition(current);
+
+                if (current.equals(destination)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public List<Position> getPathToDestination(List<Direction> direction, Position destination) {
+        for (Direction dir : direction) {
+            Position current = this;
+            List<Position> path = new ArrayList<>();
+
+            while (dir.isMovable(current)) {
+                current = dir.getMovedPosition(current);
+                path.add(current);
+                if (current.equals(destination)) {
+                    return path;
+                }
+            }
+        }
+        throw new IllegalArgumentException(PieceExceptionMessage.INVALID_POSITION.getMessage());
     }
 
     public List<Position> getVerticalPathExcludeDestination(Position destination) {
@@ -73,5 +110,13 @@ public class Position {
 
     public Column getColumn() {
         return column;
+    }
+
+    @Override
+    public String toString() {
+        return "Position{" +
+                "row=" + row.getValue() +
+                ", column=" + column.getValue() +
+                '}';
     }
 }

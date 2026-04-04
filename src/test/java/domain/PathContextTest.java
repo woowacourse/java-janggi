@@ -4,19 +4,23 @@ import domain.piece.Cha;
 import domain.piece.Piece;
 import domain.piece.Po;
 import domain.piece.Team;
+import domain.piece.policy.GungseongMovementPolicy;
 import domain.piece.policy.NormalMovementPolicy;
 import domain.piece.policy.PoMovementPolicy;
 import domain.piece.strategy.SlidingMoveStrategy;
 import domain.position.Position;
+import java.util.List;
 import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class PathContextTest {
     private static final Position PO_POSITION = Position.of(1, 1);
-    private static final Piece PO = new Po(new SlidingMoveStrategy(), new PoMovementPolicy(), Team.CHO);
+    private static final Piece PO = new Po(new SlidingMoveStrategy(),
+            List.of(new PoMovementPolicy(), new GungseongMovementPolicy()), Team.CHO);
     private static final Position CHA_POSITION = Position.of(1, 2);
-    private static final Piece CHA = new Cha(new SlidingMoveStrategy(), new NormalMovementPolicy(), Team.CHO);
+    private static final Piece CHA = new Cha(new SlidingMoveStrategy(),
+            List.of(new NormalMovementPolicy(), new GungseongMovementPolicy()), Team.CHO);
 
     @Test
     void 포가_포함되었다면_true를_반환해야_한다() {

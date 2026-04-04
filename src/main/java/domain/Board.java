@@ -59,8 +59,7 @@ public class Board {
         Piece startPiece = getPieceOrThrowException(start);
 
         List<Position> movablePath = startPiece.findMovablePath(start, destination);
-        Map<Position, Piece> pathMap = toPathMap(movablePath);
-        startPiece.movePolicy(PathContext.from(pathMap));
+        startPiece.movePolicy(this, movablePath, start, destination);
     }
 
     private Map<Position, Piece> toPathMap(List<Position> movablePath) {
