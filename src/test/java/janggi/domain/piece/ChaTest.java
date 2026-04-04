@@ -82,10 +82,10 @@ public class ChaTest {
         @ParameterizedTest
         @DisplayName("차는 궁성 중앙에 있는 경우 궁성 내 모든 좌표로 이동할 수 있다.")
         @MethodSource("provideReachableCoordination")
-        void returnRoute_WhenAtGungSeongCenter(Location to) {
+        void returnRoute_WhenAtPalaceCenter(Location to) {
             // given
             Piece piece = new Cha(Side.HAN);
-            Intersection base = TestIntersectionUtil.getGungSeongCenterIntersection(Location.of(2, 5), piece);
+            Intersection base = TestIntersectionUtil.getPalaceCenterIntersection(Location.of(2, 5), piece);
             Intersection destination = TestIntersectionUtil.getDefaultEmptyPieceIntersection(to);
 
             List<Location> expected = List.of(to);
@@ -97,10 +97,10 @@ public class ChaTest {
 
         @Test
         @DisplayName("차는 궁성 안에서 대각선 길이 있는 경우 대각선으로 이동할 수 있다.")
-        void returnRoute_WhenMovingDiagonallyInGungSeong() {
+        void returnRoute_WhenMovingDiagonallyInPalace() {
             // given
             Piece piece = new Cha(Side.CHO);
-            Intersection base = TestIntersectionUtil.getGungSeongLeftTopIntersection(Location.of(1, 4), piece);
+            Intersection base = TestIntersectionUtil.getPalaceLeftTopIntersection(Location.of(1, 4), piece);
             Intersection destination = TestIntersectionUtil.getDefaultEmptyPieceIntersection(Location.of(3, 6));
 
             List<Location> expected = List.of(Location.of(2, 5), Location.of(3, 6));
@@ -112,10 +112,10 @@ public class ChaTest {
 
         @Test
         @DisplayName("차는 궁성 밖으로 대각선 이동을 시도하면 예외가 발생한다.")
-        void throwException_WhenMovingDiagonallyOutOfGungSeong() {
+        void throwException_WhenMovingDiagonallyOutOfPalace() {
             // given
             Piece piece = new Cha(Side.CHO);
-            Intersection base = TestIntersectionUtil.getGungSeongLeftTopIntersection(Location.of(1, 4), piece);
+            Intersection base = TestIntersectionUtil.getPalaceLeftTopIntersection(Location.of(1, 4), piece);
             Intersection destination = TestIntersectionUtil.getDefaultEmptyPieceIntersection(Location.of(4, 7));
 
             // when & then
