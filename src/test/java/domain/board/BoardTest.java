@@ -137,6 +137,26 @@ class BoardTest {
     }
 
     @Test
+    @DisplayName("장기의 시작 기물 점수는 72 점이다.")
+    void calculateScoreChuSideTest() {
+        // given
+        Board board = new Board(basicBoardInitializer.initialize());
+
+        // when - then
+        assertThat(board.calculateScore(Side.CHU)).isEqualTo(72);
+    }
+
+    @Test
+    @DisplayName("장기의 시작 기물 점수는 72 점이다.")
+    void calculateScoreHanSideTest() {
+        // given
+        Board board = new Board(basicBoardInitializer.initialize());
+
+        // when - then
+        assertThat(board.calculateScore(Side.HAN)).isEqualTo(72);
+    }
+
+    @Test
     @DisplayName("장이 공격받고 있지 않다면 false를 반환한다")
     void isCheck_False_Test() {
         // given
