@@ -2,15 +2,9 @@ package domain.board;
 
 import domain.Position;
 import domain.country.CountryType;
-import domain.piece.Cannon;
-import domain.piece.Chariot;
-import domain.piece.Elephant;
-import domain.piece.General;
-import domain.piece.Guard;
-import domain.piece.Horse;
 import domain.piece.Piece;
+import domain.piece.PieceInfo;
 import domain.piece.PieceType;
-import domain.piece.Soldier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,47 +28,47 @@ public class BoardFactory {
     }
 
     private void initializeSoldierPosition(Map<Position, Piece> boardStates) {
-        boardStates.put(new Position(0, 3), new Soldier(CountryType.CHO));
-        boardStates.put(new Position(2, 3), new Soldier(CountryType.CHO));
-        boardStates.put(new Position(4, 3), new Soldier(CountryType.CHO));
-        boardStates.put(new Position(6, 3), new Soldier(CountryType.CHO));
-        boardStates.put(new Position(8, 3), new Soldier(CountryType.CHO));
+        boardStates.put(new Position(0, 3), new Piece(new PieceInfo(PieceType.SOLDIER, CountryType.CHO)));
+        boardStates.put(new Position(2, 3), new Piece(new PieceInfo(PieceType.SOLDIER, CountryType.CHO)));
+        boardStates.put(new Position(4, 3), new Piece(new PieceInfo(PieceType.SOLDIER, CountryType.CHO)));
+        boardStates.put(new Position(6, 3), new Piece(new PieceInfo(PieceType.SOLDIER, CountryType.CHO)));
+        boardStates.put(new Position(8, 3), new Piece(new PieceInfo(PieceType.SOLDIER, CountryType.CHO)));
 
-        boardStates.put(new Position(0, 6), new Soldier(CountryType.HAN));
-        boardStates.put(new Position(2, 6), new Soldier(CountryType.HAN));
-        boardStates.put(new Position(4, 6), new Soldier(CountryType.HAN));
-        boardStates.put(new Position(6, 6), new Soldier(CountryType.HAN));
-        boardStates.put(new Position(8, 6), new Soldier(CountryType.HAN));
+        boardStates.put(new Position(0, 6), new Piece(new PieceInfo(PieceType.SOLDIER, CountryType.HAN)));
+        boardStates.put(new Position(2, 6), new Piece(new PieceInfo(PieceType.SOLDIER, CountryType.HAN)));
+        boardStates.put(new Position(4, 6), new Piece(new PieceInfo(PieceType.SOLDIER, CountryType.HAN)));
+        boardStates.put(new Position(6, 6), new Piece(new PieceInfo(PieceType.SOLDIER, CountryType.HAN)));
+        boardStates.put(new Position(8, 6), new Piece(new PieceInfo(PieceType.SOLDIER, CountryType.HAN)));
     }
 
     private void initializeGuardPosition(Map<Position, Piece> boardStates) {
-        boardStates.put(new Position(3, 0), new Guard(CountryType.CHO));
-        boardStates.put(new Position(5, 0), new Guard(CountryType.CHO));
+        boardStates.put(new Position(3, 0), new Piece(new PieceInfo(PieceType.GUARD, CountryType.CHO)));
+        boardStates.put(new Position(5, 0), new Piece(new PieceInfo(PieceType.GUARD, CountryType.CHO)));
 
-        boardStates.put(new Position(3, 9), new Guard(CountryType.HAN));
-        boardStates.put(new Position(5, 9), new Guard(CountryType.HAN));
+        boardStates.put(new Position(3, 9), new Piece(new PieceInfo(PieceType.GUARD, CountryType.HAN)));
+        boardStates.put(new Position(5, 9), new Piece(new PieceInfo(PieceType.GUARD, CountryType.HAN)));
     }
 
     private void initializeCannonPosition(Map<Position, Piece> boardStates) {
-        boardStates.put(new Position(1, 2), new Cannon(CountryType.CHO));
-        boardStates.put(new Position(7, 2), new Cannon(CountryType.CHO));
+        boardStates.put(new Position(1, 2), new Piece(new PieceInfo(PieceType.CANNON, CountryType.CHO)));
+        boardStates.put(new Position(7, 2), new Piece(new PieceInfo(PieceType.CANNON, CountryType.CHO)));
 
-        boardStates.put(new Position(1, 7), new Cannon(CountryType.HAN));
-        boardStates.put(new Position(7, 7), new Cannon(CountryType.HAN));
+        boardStates.put(new Position(1, 7), new Piece(new PieceInfo(PieceType.CANNON, CountryType.HAN)));
+        boardStates.put(new Position(7, 7), new Piece(new PieceInfo(PieceType.CANNON, CountryType.HAN)));
     }
 
     private void initializeChariotPosition(Map<Position, Piece> boardStates) {
-        boardStates.put(new Position(0, 0), new Chariot(CountryType.CHO));
-        boardStates.put(new Position(8, 0), new Chariot(CountryType.CHO));
+        boardStates.put(new Position(0, 0), new Piece(new PieceInfo(PieceType.CHARIOT, CountryType.CHO)));
+        boardStates.put(new Position(8, 0), new Piece(new PieceInfo(PieceType.CHARIOT, CountryType.CHO)));
 
-        boardStates.put(new Position(0, 9), new Chariot(CountryType.HAN));
-        boardStates.put(new Position(8, 9), new Chariot(CountryType.HAN));
+        boardStates.put(new Position(0, 9), new Piece(new PieceInfo(PieceType.CHARIOT, CountryType.HAN)));
+        boardStates.put(new Position(8, 9), new Piece(new PieceInfo(PieceType.CHARIOT, CountryType.HAN)));
     }
 
     private void initializeGeneralPosition(Map<Position, Piece> boardStates) {
-        boardStates.put(new Position(4, 1), new General(CountryType.CHO));
+        boardStates.put(new Position(4, 1), new Piece(new PieceInfo(PieceType.GENERAL, CountryType.CHO)));
 
-        boardStates.put(new Position(4, 8), new General(CountryType.HAN));
+        boardStates.put(new Position(4, 8), new Piece(new PieceInfo(PieceType.GENERAL, CountryType.HAN)));
     }
 
     private void initializeChoTableSetting(Map<Position, Piece> boardStates, TableSetting choTableSetting) {
@@ -105,8 +99,8 @@ public class BoardFactory {
 
     private Piece makeElephantOrHorse(PieceType pieceType, CountryType countryType) {
         if (pieceType == PieceType.ELEPHANT) {
-            return new Elephant(countryType);
+            return new Piece(new PieceInfo(PieceType.ELEPHANT, countryType));
         }
-        return new Horse(countryType);
+        return new Piece(new PieceInfo(PieceType.HORSE, countryType));
     }
 }

@@ -1,21 +1,19 @@
-package domain.piece;
+package domain.strategy;
 
 import domain.Position;
-import domain.country.CountryType;
+import domain.piece.PieceInfo;
+import domain.piece.PieceInfos;
+import domain.piece.PieceType;
 
-public class Cannon extends MoveStraightPiece {
+public class CannonMoveStrategy extends StraightMoveStrategy {
     private static final String INVALID_JUMP_PIECE_COUNT = "[ERROR] 포는 하나의 기물만 뛰어 넘을 수 있습니다.";
     private static final String CANNOT_JUMP_CANNON = "[ERROR] 포는 포를 뛰어 넘을 수 없습니다.";
     private static final String CANNOT_KILL_CANNON = "[ERROR] 포는 포를 잡을 수 없습니다.";
 
     private static final int CANNON_JUMP_PIECE_COUNT = 1;
 
-    public Cannon(CountryType countryType) {
-        super(new PieceInfo(PieceType.CANNON, countryType));
-    }
-
     @Override
-    void validateToPiece(PieceInfos pieceInfos, Position from, Position to) {
+    public void validateToPiece(PieceInfos pieceInfos, Position from, Position to) {
         super.validateToPiece(pieceInfos, from, to);
         if (pieceInfos.isEmptyPosition(to)) {
             return;
@@ -28,7 +26,7 @@ public class Cannon extends MoveStraightPiece {
     }
 
     @Override
-    void validatePath(PieceInfos pieceInfos) {
+    public void validatePath(PieceInfos pieceInfos) {
         if (pieceInfos.getSize() != CANNON_JUMP_PIECE_COUNT) {
             throw new IllegalArgumentException(INVALID_JUMP_PIECE_COUNT);
         }

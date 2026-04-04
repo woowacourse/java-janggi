@@ -68,7 +68,7 @@ public class BoardStates {
         if (isEmpty(position)) {
             return;
         }
-        pieceInfos.put(position, boardStates.get(position).getPieceInfo());
+        pieceInfos.put(position, boardStates.get(position).pieceInfo());
     }
 
 //    private void addPieceInfo(Map<Position, PieceInfo> pathPieceInfos, Position position) {
