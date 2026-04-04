@@ -32,17 +32,17 @@ public class OutputView {
         System.out.println("한나라 플레이어의 이름을 입력하세요(2~5자의 영문):");
     }
 
-    public void printChooseChoElephantSetupPrompt(List<String> elephantSetupNames) {
+    public void printChooseChoElephantSetupPrompt(final List<String> elephantSetupNames) {
         System.out.println("초나라 플레이어가 사용할 상차림 번호를 입력하세요");
         printElephantSetups(elephantSetupNames);
     }
 
-    public void printChooseHanElephantSetupPrompt(List<String> elephantSetupNames) {
+    public void printChooseHanElephantSetupPrompt(final List<String> elephantSetupNames) {
         System.out.println("한나라 플레이어가 사용할 상차림 번호를 입력하세요");
         printElephantSetups(elephantSetupNames);
     }
 
-    private void printElephantSetups(List<String> elephantSetupNames) {
+    private void printElephantSetups(final List<String> elephantSetupNames) {
         StringBuilder promptBuilder = new StringBuilder();
 
         for (int index = 0; index < elephantSetupNames.size(); index++) {

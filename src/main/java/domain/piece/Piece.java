@@ -34,10 +34,6 @@ public class Piece {
         return this.team == team;
     }
 
-    public boolean isChoPiece() {
-        return team == Team.CHO;
-    }
-
     public Team getTeam() {
         return team;
     }

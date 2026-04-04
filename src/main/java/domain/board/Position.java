@@ -30,8 +30,4 @@ public record Position(
         int mirroredRow = MAX_ROW_RANGE - row + 1;
         return Position.of(mirroredColumn, mirroredRow);
     }
-
-    public boolean canMove(final Delta delta) {
-        return move(delta).isInside();
-    }
 }

@@ -21,6 +21,7 @@ public class Board {
     }
 
     public void move(final Position from, final Position to) {
+        validateExistPiece(from);
         Piece piece = pieces.remove(from);
         pieces.put(to, piece);
     }
@@ -36,10 +37,9 @@ public class Board {
         return !pieces.containsKey(position);
     }
 
-    public boolean isOpposite(Position position1, Position position2) {
-        if (!pieces.containsKey(position1) || !pieces.containsKey(position2)) {
-            throw new IllegalArgumentException("해당 좌표에 기물이 존재하지 않습니다.");
-        }
+    public boolean isOpposite(final Position position1, final Position position2) {
+        validateExistPiece(position1);
+        validateExistPiece(position2);
         return pieces.get(position1).isOpposite(pieces.get(position2));
     }
 
@@ -56,28 +56,30 @@ public class Board {
                 .orElseThrow(() -> new IllegalStateException("다른 왕이 존재하지 않습니다."));
     }
 
-    public boolean isCannon(Position position) {
-        if (!pieces.containsKey(position)) {
+    public boolean isCannon(final Position position) {
+        if (isEmpty(position)) {
             return false;
         }
         return pieces.get(position).isCannon();
     }
 
-    public PieceType getPieceType(Position position) {
-        if (!pieces.containsKey(position)) {
-            throw new IllegalArgumentException("해당 좌표에 기물이 존재하지 않습니다.");
-        }
+    public PieceType getPieceType(final Position position) {
+        validateExistPiece(position);
         return pieces.get(position).getPieceType();
     }
 
     public Team getTeam(final Position position) {
-        if (!pieces.containsKey(position)) {
-            throw new IllegalArgumentException("해당 좌표에 기물이 존재하지 않습니다.");
-        }
+        validateExistPiece(position);
         return pieces.get(position).getTeam();
     }
 
     public Map<Position, Piece> getPieces() {
         return Collections.unmodifiableMap(pieces);
+    }
+
+    private void validateExistPiece(Position position) {
+        if (!isEmpty(position)) {
+            throw new IllegalArgumentException("해당 좌표에 기물이 존재하지 않습니다.");
+        }
     }
 }

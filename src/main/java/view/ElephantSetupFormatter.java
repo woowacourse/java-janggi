@@ -25,10 +25,9 @@ public final class ElephantSetupFormatter {
     }
 
     public static String format(final String elephantSetup) {
-        String displayName = ELEPHANT_SETUP_DISPLAY_NAMES.get(elephantSetup);
-        if (displayName != null) {
-            return displayName;
+        if (!ELEPHANT_SETUP_DISPLAY_NAMES.containsKey(elephantSetup)) {
+            throw new IllegalArgumentException("정의되지 않은 상차림입니다. elephantSetup: " + elephantSetup);
         }
-        throw new IllegalArgumentException("정의되지 않은 상차림입니다. elephantSetup: " + elephantSetup);
+        return ELEPHANT_SETUP_DISPLAY_NAMES.get(elephantSetup);
     }
 }
