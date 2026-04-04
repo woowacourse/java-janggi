@@ -18,7 +18,7 @@ import org.junit.jupiter.params.provider.EnumSource;
 class BoardTest {
 
     private static final Intersection DEFAULT_INTERSECTION = new Intersection(5, 5);
-    private static final Intersection DEFAULT_START_POINT = new Intersection(6, 6);
+    private static final Intersection DEFAULT_START_Position = new Intersection(6, 6);
     private static final Intersection DEFAULT_DESTINATION = new Intersection(7, 7);
     private static final Side DEFAULT_SIDE = Side.HAN;
     private static final Side SAME_SIDE = Side.HAN;
@@ -77,7 +77,7 @@ class BoardTest {
             // when and then
             assertThatThrownBy(() -> {
                 emptyBoard.movePiece(
-                        DEFAULT_START_POINT,
+                        DEFAULT_START_Position,
                         DEFAULT_DESTINATION,
                         DEFAULT_SIDE
                 );

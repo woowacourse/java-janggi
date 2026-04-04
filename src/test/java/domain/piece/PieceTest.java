@@ -172,8 +172,8 @@ class PieceTest {
             @DisplayName("직선 1칸 앞(첫 경로)에 기물이 있으면 이동할 수 없다")
             @Test
             void 직선_1칸_앞에_기물이_있으면_이동할_수_없다() {
-                Intersection blockPoint = new Intersection(DEFAULT_ROW - 1, DEFAULT_FILE);
-                AlivePieces alivePieces = new AlivePieces(Map.of(blockPoint, SAME_SIDE_PIECE));
+                Intersection blockPosition = new Intersection(DEFAULT_ROW - 1, DEFAULT_FILE);
+                AlivePieces alivePieces = new AlivePieces(Map.of(blockPosition, SAME_SIDE_PIECE));
 
                 List<Intersection> movableDestinations = HORSE.movableDestinations(CURRENT_INTERSECTION, alivePieces);
 
