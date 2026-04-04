@@ -27,4 +27,12 @@ public final class TurnManagerMapper {
             }).toList();
         return new TurnManager(gameEntity.turns_taken(), teams);
     }
+
+    public static GameEntity toEntity(final int turnsTaken, final List<Team> teams) {
+        final List<TeamType> teamQueue = teams.stream()
+            .map(Team::getTeamType)
+            .toList();
+
+        return GameEntity.from("", turnsTaken, teamQueue);
+    }
 }

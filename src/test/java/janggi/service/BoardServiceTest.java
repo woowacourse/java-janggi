@@ -25,6 +25,7 @@ import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 public class BoardServiceTest {
@@ -69,49 +70,55 @@ public class BoardServiceTest {
             .hasSize(expectedSize);
     }
 
-    @Test
-    @DisplayName("보드 로드 테스트")
-    void loadBoard() {
-        initTableData();
-        long boardId = 1;
-        List<BoardCellEntity> boardCellEntities = boardCellRepository.findAllByGameId(boardId);
-        Map<Position, Piece> expected = BoardMapper.toDomain(boardCellEntities);
+    @Nested
+    @DisplayName("초기 데이터 필요 테스트")
+    class TestWithInitialData {
 
-        Map<Position, Piece> actual = boardService.loadBoard(boardId);
-
-        assertThat(actual).usingRecursiveComparison()
-            .isEqualTo(expected);
-    }
-
-    @Test
-    @DisplayName("기물 이동 결과 저장 테스트")
-    void movePiece() {
-        initTableData();
-        long gameId = 1;
-        Map<Position, Piece> positionPieceMap = BoardMapper.toDomain(
-            boardCellRepository.findAllByGameId(gameId));
-        Board board = new Board(positionPieceMap);
-        Position from = Position.valueOf(5, 3);
-        Position to = Position.valueOf(6, 3);
-        Piece target = board.findPieceByPosition(from);
-        BoardCellEntity expected = BoardCellEntity.from(gameId, to, target);
-
-        boardService.movePiece(gameId, from, to, target);
-        BoardCellEntity actual = boardCellRepository.findByPosition(to).get();
-
-        assertAll(
-            () -> assertThat(actual).usingRecursiveComparison()
-                .ignoringFields("id")
-                .isEqualTo(expected),
-            () -> assertThat(boardCellRepository.findByPosition(from)).isEmpty()
-        );
-
-    }
-
-    private void initTableData() {
         String testDataFilePath = "./src/test/resources/testdata.sql";
-        TestDataInitializer testDataInitializer = new TestDataInitializer(new TestDBConnection());
-        testDataInitializer.init(testDataFilePath);
+        TestDataInitializer testDataInitializer;
+
+        @BeforeEach
+        void setUp() {
+            testDataInitializer = new TestDataInitializer(dbConnection);
+            testDataInitializer.init(testDataFilePath);
+        }
+
+        @Test
+        @DisplayName("보드 로드 테스트")
+        void loadBoard() {
+            long boardId = 1;
+            List<BoardCellEntity> boardCellEntities = boardCellRepository.findAllByGameId(boardId);
+            Map<Position, Piece> expected = BoardMapper.toDomain(boardCellEntities);
+
+            Map<Position, Piece> actual = boardService.loadBoard(boardId);
+
+            assertThat(actual).usingRecursiveComparison()
+                .isEqualTo(expected);
+        }
+
+        @Test
+        @DisplayName("기물 이동 결과 저장 테스트")
+        void movePiece() {
+            long gameId = 1;
+            Map<Position, Piece> positionPieceMap = BoardMapper.toDomain(
+                boardCellRepository.findAllByGameId(gameId));
+            Board board = new Board(positionPieceMap);
+            Position from = Position.valueOf(5, 3);
+            Position to = Position.valueOf(6, 3);
+            Piece target = board.findPieceByPosition(from);
+            BoardCellEntity expected = BoardCellEntity.from(gameId, to, target);
+
+            boardService.movePiece(gameId, from, to, target);
+            BoardCellEntity actual = boardCellRepository.findByPosition(to).get();
+
+            assertAll(
+                () -> assertThat(actual).usingRecursiveComparison()
+                    .ignoringFields("id")
+                    .isEqualTo(expected),
+                () -> assertThat(boardCellRepository.findByPosition(from)).isEmpty()
+            );
+
+        }
     }
 
 }

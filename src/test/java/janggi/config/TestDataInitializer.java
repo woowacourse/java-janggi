@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class TestDataInitializer {
 
-    private static boolean executed;
+    private boolean executed = false;
 
     private final DBConnection dbConnection;
 
