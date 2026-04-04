@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public class BoardFactory {
+    private static final BoardLayoutMapper BOARD_LAYOUT_MAPPER = new BoardLayoutMapper();
 
     private BoardFactory() {
     }
@@ -32,35 +33,41 @@ public class BoardFactory {
     }
 
     private static void placeGeneral(Map<Position, Piece> pieces, Side side) {
-        pieces.put(Position.of(4, side.generalY()), PieceFactory.createGeneral(side));
+        BoardLayout boardLayout = BOARD_LAYOUT_MAPPER.get(side);
+        pieces.put(Position.of(4, boardLayout.generalY()), PieceFactory.createGeneral(side));
     }
 
     private static void placeChariots(Map<Position, Piece> pieces, Side side) {
-        pieces.put(Position.of(0, side.baseY()), PieceFactory.createChariot(side));
-        pieces.put(Position.of(8, side.baseY()), PieceFactory.createChariot(side));
+        BoardLayout boardLayout = BOARD_LAYOUT_MAPPER.get(side);
+        pieces.put(Position.of(0, boardLayout.baseY()), PieceFactory.createChariot(side));
+        pieces.put(Position.of(8, boardLayout.baseY()), PieceFactory.createChariot(side));
     }
 
     private static void placeCannons(Map<Position, Piece> pieces, Side side) {
-        pieces.put(Position.of(1, side.cannonY()), PieceFactory.createCannon(side));
-        pieces.put(Position.of(7, side.cannonY()), PieceFactory.createCannon(side));
+        BoardLayout boardLayout = BOARD_LAYOUT_MAPPER.get(side);
+        pieces.put(Position.of(1, boardLayout.cannonY()), PieceFactory.createCannon(side));
+        pieces.put(Position.of(7, boardLayout.cannonY()), PieceFactory.createCannon(side));
     }
 
     private static void placeGuards(Map<Position, Piece> pieces, Side side) {
-        pieces.put(Position.of(3, side.baseY()), PieceFactory.createGuard(side));
-        pieces.put(Position.of(5, side.baseY()), PieceFactory.createGuard(side));
+        BoardLayout boardLayout = BOARD_LAYOUT_MAPPER.get(side);
+        pieces.put(Position.of(3, boardLayout.baseY()), PieceFactory.createGuard(side));
+        pieces.put(Position.of(5, boardLayout.baseY()), PieceFactory.createGuard(side));
     }
 
     private static void placeSoldiers(Map<Position, Piece> pieces, Side side) {
+        BoardLayout boardLayout = BOARD_LAYOUT_MAPPER.get(side);
         for (int x = 0; x <= 8; x += 2) {
-            pieces.put(Position.of(x, side.soldierY()), PieceFactory.createSoldier(side));
+            pieces.put(Position.of(x, boardLayout.soldierY()), PieceFactory.createSoldier(side));
         }
     }
 
     private static void placeFormationPieces(Map<Position, Piece> pieces, Side side, Formation formation) {
-        List<Integer> formationX = side.formationX();
+        BoardLayout boardLayout = BOARD_LAYOUT_MAPPER.get(side);
+        List<Integer> formationX = boardLayout.formationX();
         List<PieceType> orders = formation.getOrders();
         for (int i = 0; i < orders.size(); i++) {
-            Position position = Position.of(formationX.get(i), side.baseY());
+            Position position = Position.of(formationX.get(i), boardLayout.baseY());
             pieces.put(position, createFormationPiece(orders.get(i), side));
         }
     }

@@ -2,6 +2,7 @@ package parser;
 
 
 import domain.Position;
+import domain.board.Formation;
 import domain.player.Name;
 import java.util.Arrays;
 import java.util.List;
@@ -21,6 +22,11 @@ public class InputParser {
 
         return getPosition(input);
    }
+
+    public static Formation parseFormation(String input) {
+        validateNullOrBlank(input);
+        return FormationCommand.from(input).toFormation();
+    }
 
     private static Position getPosition(String input) {
         List<Integer> coordinate = Arrays.stream(input.strip().split(","))
