@@ -10,4 +10,22 @@ public class GameRoomEntity {
     private String roomName;
     private Dynasty lastTurn;
     private LocalDateTime lastPlayedAt;
+
+    public GameRoomEntity(String roomName, Dynasty lastTurn, LocalDateTime lastPlayedAt) {
+        this.roomName = roomName;
+        this.lastTurn = lastTurn;
+        this.lastPlayedAt = lastPlayedAt;
+    }
+
+    public String roomName() {
+        return roomName;
+    }
+
+    public Dynasty lastTurn() {
+        return lastTurn;
+    }
+
+    public LocalDateTime lastPlayedAt() {
+        return lastPlayedAt;
+    }
 }

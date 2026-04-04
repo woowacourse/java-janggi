@@ -1,20 +1,17 @@
-DROP TABLE IF EXISTS piece_position;
-DROP TABLE IF EXISTS game_room;
-
-CREATE TABLE game_room
+CREATE TABLE IF NOT EXISTS game_room
 (
     janggi_game_id INT AUTO_INCREMENT PRIMARY KEY,
     room_name      VARCHAR(10) NOT NULL,
     last_turn      VARCHAR(5)  NOT NULL CHECK (last_turn IN ('CHO', 'HAN')),
-    last_played_at DATE        NOT NULL
+    last_played_at TIMESTAMP   NOT NULL
 );
 
-CREATE TABLE piece_position
+CREATE TABLE IF NOT EXISTS piece_position
 (
     piece_position INT AUTO_INCREMENT PRIMARY KEY,
     janggi_game_id INT         NOT NULL,
-    piece_row            INT         NOT NULL,
-    piece_column         INT         NOT NULL,
+    piece_row      INT         NOT NULL,
+    piece_column   INT         NOT NULL,
     piece_type     VARCHAR(10) NOT NULL CHECK (piece_type IN
                                                ('CHARIOT', 'CANNON', 'HORSE', 'ELEPHANT', 'GUARD', 'SOLDIER',
                                                 'GENERAL')),
