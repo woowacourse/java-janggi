@@ -1,6 +1,7 @@
 package domain.state;
 
 public class InactiveTurn implements TurnState {
+    public static final TurnState INSTANCE = new InactiveTurn();
 
     @Override
     public boolean isCurrent() {
@@ -9,6 +10,6 @@ public class InactiveTurn implements TurnState {
 
     @Override
     public TurnState next() {
-        return new ActiveTurn();
+        return TurnState.ACTIVE;
     }
 }
