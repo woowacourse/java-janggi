@@ -1,6 +1,6 @@
 package dto;
 
-import domain.board.Side;
+import domain.state.Side;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 

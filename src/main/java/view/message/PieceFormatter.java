@@ -11,7 +11,7 @@ public enum PieceFormatter {
     CANNON(PieceType.CANNON, "包"),
     GUARD(PieceType.GUARD, "士"),
     KING(PieceType.KING, "將"),
-    EMPTY(PieceType.EMPTY, "ㅁ");
+    EMPTY(PieceType.EMPTY, "ㅡ");
 
     private final PieceType type;
     private final String name;

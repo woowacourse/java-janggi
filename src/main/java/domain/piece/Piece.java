@@ -2,7 +2,7 @@ package domain.piece;
 
 import domain.coordinate.Direction;
 import domain.coordinate.Position;
-import domain.board.Side;
+import domain.state.Side;
 import domain.strategy.MoveStrategy;
 
 import java.util.List;
@@ -42,4 +42,6 @@ public abstract class Piece {
     public PieceType getType() {
         return type;
     }
+
+    public abstract int getScore();
 }

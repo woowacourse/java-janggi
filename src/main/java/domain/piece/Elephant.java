@@ -1,12 +1,14 @@
 package domain.piece;
 
-import domain.board.Side;
+import domain.state.Side;
 import domain.coordinate.Direction;
 import domain.strategy.PathBasedMoveStrategy;
 
 import java.util.List;
 
 public final class Elephant extends Piece {
+
+    private static final int SCORE = 3;
 
     private static final List<List<Direction>> ELEPHANT_PATHS = List.of(
             List.of(Direction.UP, Direction.UP_LEFT, Direction.UP_LEFT),
@@ -25,5 +27,10 @@ public final class Elephant extends Piece {
                 side,
                 new PathBasedMoveStrategy(ELEPHANT_PATHS)
         );
+    }
+
+    @Override
+    public int getScore() {
+        return SCORE;
     }
 }
