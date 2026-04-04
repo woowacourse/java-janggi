@@ -44,6 +44,16 @@ public class Board {
         state.remove(from);
     }
 
+    public double calculateScoreBy(Side side) {
+        double score = state.values().stream()
+                .filter(piece -> piece.isSameSide(side))
+                .mapToDouble(Piece::getPieceScore)
+                .sum();
+
+        if (side.isHan()) return score + 1.5;
+        return score;
+    }
+
     public void placePieces(Side side, Placement placement) {
         placeDefaultPieceBy(side);
         placeHorseAndElephant(side, placement);

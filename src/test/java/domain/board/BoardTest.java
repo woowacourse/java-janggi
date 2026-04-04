@@ -257,4 +257,17 @@ public class BoardTest {
         Piece piece = board.findBy(Position.of(10, 8));
         assertThat(piece).isEqualTo(Piece.of(Side.CHO, PieceType.CANON));
     }
+
+    @Test
+    @DisplayName("초기 장기판 초기화 후 해당 진영에 대한 점수 계산할 수 있다.")
+    void 진영_점수_계산_테스트() {
+        // given
+        Board board = new Board();
+        board.placePieces(Side.CHO, Placement.LEFT_ELEPHANT);
+        board.placePieces(Side.HAN, Placement.LEFT_ELEPHANT);
+
+        // when then
+        assertThat(board.calculateScoreBy(Side.CHO)).isEqualTo(72);
+        assertThat(board.calculateScoreBy(Side.HAN)).isEqualTo(73.5);
+    }
 }

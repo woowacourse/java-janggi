@@ -46,6 +46,10 @@ public final class Piece {
         return this.pieceType == pieceType;
     }
 
+    public int getPieceScore() {
+        return pieceType.getScore();
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
