@@ -66,12 +66,12 @@ public class CannonStrategy implements MoveStrategy {
     }
 
     private void validateDifferentPieceRule(List<Position> path, BoardChecker board, PieceStrategy pieceStrategy) {
-        if (hasDifferentPieceType(path, board, pieceStrategy)) {
+        if (hasSamePieceType(path, board, pieceStrategy)) {
             throw new IllegalArgumentException(ExceptionMessage.SAME_PIECE_TYPE_IN_PATH.getMessage());
         }
     }
 
-    private boolean hasDifferentPieceType(List<Position> path, BoardChecker board, PieceStrategy pieceStrategy) {
+    private boolean hasSamePieceType(List<Position> path, BoardChecker board, PieceStrategy pieceStrategy) {
         return path.stream()
                 .anyMatch(position -> board.hasSamePieceRuleAt(position, pieceStrategy));
     }
