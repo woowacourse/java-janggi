@@ -25,9 +25,6 @@ class SaMovementTest {
     private static final Position CHO_CENTER_BOTTOM = new Position(0, 4);
     private static final Position CHO_RIGHT_BOTTOM = new Position(0, 5);
 
-    private static final Position DEFAULT = new Position(3, 3);
-
-
     private final Movement movement = PieceType.SA.getMovement();
 
     @ParameterizedTest
@@ -210,7 +207,7 @@ class SaMovementTest {
         // given
         Side side = Side.CHO;
         Piece piece = new Piece(side, PieceType.SA);
-        Position departure = DEFAULT;
+        Position departure = new Position(1, 4);
         Position destination = departure.move(side.forwardDelta());
         // when
         List<Position> positions = piece.findPathPositions(departure, destination);

@@ -10,16 +10,16 @@ import static movepolicy.move.Step.RIGHT_BACK;
 import static movepolicy.move.Step.RIGHT_FORWARD;
 
 import java.util.List;
-import movepolicy.move.GungsungConstrainedMovement;
 import movepolicy.move.FixedRouteMovement;
+import movepolicy.move.GungsungConstrainedMovement;
 import movepolicy.move.GungsungDiagonalRouteMovement;
+import movepolicy.move.GungsungExtendedMovement;
 import movepolicy.move.GungsungForwardDiagonalMovement;
+import movepolicy.move.GungsungStepMovement;
 import movepolicy.move.LinearRouteMovement;
 import movepolicy.move.Movement;
 import movepolicy.move.PoRouteMovement;
 import movepolicy.move.Route;
-import movepolicy.move.GungsungStepMovement;
-import movepolicy.move.GungsungExtendedMovement;
 import movepolicy.rule.EmptyPathMoveRule;
 import movepolicy.rule.MoveRule;
 import movepolicy.rule.PoMoveRule;
@@ -37,7 +37,10 @@ public enum PieceType {
     ),
 
     PO(
-        new PoRouteMovement(),
+        new GungsungExtendedMovement(
+            new PoRouteMovement(),
+            new GungsungDiagonalRouteMovement()
+        ),
         PoMoveRule.withOtherSideTargetRule(),
         new Score(7)
     ),

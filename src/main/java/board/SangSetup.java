@@ -33,7 +33,7 @@ public final class SangSetup {
 
     private static Map<Position, Piece> createCha(Side side) {
         return Map.of(
-            toPosition(side, 7, 3), PieceType.CHA.create(side),
+            toPosition(side, 0, 0), PieceType.CHA.create(side),
             toPosition(side, 0, 8), PieceType.CHA.create(side)
         );
     }
@@ -47,7 +47,7 @@ public final class SangSetup {
 
     private static Map<Position, Piece> createGung(Side side) {
         return Map.of(
-//            toPosition(side, 1, 4), PieceType.GUNG.create(side)
+            toPosition(side, 1, 4), PieceType.GUNG.create(side)
         );
     }
 
