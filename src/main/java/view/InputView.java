@@ -1,11 +1,10 @@
 package view;
 
-import domain.board.ElephantSetup;
 import java.util.Scanner;
 
 public class InputView {
 
-    private static final int USER_INPUT_START_INDEX = 1;
+    private static final int BASE_INDEX = 1;
 
     private static final Scanner SCANNER = new Scanner(System.in);
 
@@ -13,21 +12,24 @@ public class InputView {
         return SCANNER.nextLine();
     }
 
-    public ElephantSetup readElephantSetup() {
-        String setup = SCANNER.nextLine();
-        return ElephantSetup.of(Integer.parseInt(setup));
+    public int readElephantSetupIndex() {
+        return readZeroBasedIndex();
     }
 
     public int readPieceIndex() {
-        return Integer.parseInt(SCANNER.nextLine().trim());
+        return readZeroBasedIndex();
     }
 
     public int readPositionIndex() {
-        int positionIndex = Integer.parseInt(SCANNER.nextLine().trim());
-        return toZeroBasedIndex(positionIndex);
+        return readZeroBasedIndex();
     }
 
-    private int toZeroBasedIndex(final int userInputNumber) {
-        return userInputNumber - USER_INPUT_START_INDEX;
+    private int readZeroBasedIndex() {
+        int oneBasedIndex = Integer.parseInt(SCANNER.nextLine().trim());
+        return toZeroBasedIndex(oneBasedIndex);
+    }
+
+    private int toZeroBasedIndex(final int oneBasedIndex) {
+        return oneBasedIndex - BASE_INDEX;
     }
 }

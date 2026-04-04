@@ -1,6 +1,5 @@
 package view;
 
-import domain.board.ElephantSetup;
 import dto.PieceInfoDto;
 import dto.PiecePositionDto;
 import dto.PiecesDto;
@@ -33,24 +32,24 @@ public class OutputView {
         System.out.println("한나라 플레이어의 이름을 입력하세요(2~5자의 영문):");
     }
 
-    public void printChooseChoElephantSetupPrompt() {
+    public void printChooseChoElephantSetupPrompt(List<String> elephantSetupNames) {
         System.out.println("초나라 플레이어가 사용할 상차림 번호를 입력하세요");
-        printElephantSetups();
+        printElephantSetups(elephantSetupNames);
     }
 
-    public void printChooseHanElephantSetupPrompt() {
+    public void printChooseHanElephantSetupPrompt(List<String> elephantSetupNames) {
         System.out.println("한나라 플레이어가 사용할 상차림 번호를 입력하세요");
-        printElephantSetups();
+        printElephantSetups(elephantSetupNames);
     }
 
-    private void printElephantSetups() {
-        List<String> descriptions = ElephantSetup.descriptions();
+    private void printElephantSetups(List<String> elephantSetupNames) {
         StringBuilder promptBuilder = new StringBuilder();
 
-        for (int index = 0; index < descriptions.size(); index++) {
-            promptBuilder.append(index + 1)
+        for (int index = 0; index < elephantSetupNames.size(); index++) {
+            String elephantSetup = ElephantSetupFormatter.format(elephantSetupNames.get(index));
+            promptBuilder.append(toOneBasedIndex(index))
                     .append(". ")
-                    .append(descriptions.get(index))
+                    .append(elephantSetup)
                     .append(" ");
         }
 
@@ -133,11 +132,11 @@ public class OutputView {
             String formattedPiece = PieceFormatter.format(piecePosition.pieceType(), piecePosition.team());
             PositionDto position = piecePosition.position();
 
-            promptBuilder.append(index + 1).append(". ")
+            promptBuilder.append(toOneBasedIndex(index)).append(". ")
                     .append(formattedPiece).append("(")
                     .append(position.column()).append(", ").append(position.row()).append(")  ");
 
-            appendPromptLineSeparator(promptBuilder, index + 1);
+            appendPromptLineSeparator(promptBuilder, toOneBasedIndex(index));
         }
 
         System.out.println(promptBuilder);
@@ -150,11 +149,11 @@ public class OutputView {
 
         for (int index = 0; index < movablePositions.size(); index++) {
             PositionDto position = movablePositions.get(index);
-            promptBuilder.append(index + 1).append(". (")
+            promptBuilder.append(toOneBasedIndex(index)).append(". (")
                     .append(position.column()).append(", ")
                     .append(position.row()).append(") ");
 
-            appendPromptLineSeparator(promptBuilder, index + 1);
+            appendPromptLineSeparator(promptBuilder, toOneBasedIndex(index));
         }
 
         System.out.println(promptBuilder);
@@ -168,5 +167,9 @@ public class OutputView {
 
     public void printExceptionMessage(final String exceptionMessage) {
         System.out.println(EXCEPTION_PREFIX + exceptionMessage);
+    }
+
+    private int toOneBasedIndex(int index) {
+        return index + 1;
     }
 }

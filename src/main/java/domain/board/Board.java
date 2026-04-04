@@ -63,10 +63,6 @@ public class Board {
         return pieces.get(position).isCannon();
     }
 
-    public Piece getPieceAt(final Position position) {
-        return pieces.get(position);
-    }
-
     public PieceType getPieceType(Position position) {
         if (!pieces.containsKey(position)) {
             throw new IllegalArgumentException("해당 좌표에 기물이 존재하지 않습니다.");

@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.piece.Piece;
 import domain.piece.PieceType;
-import domain.piece.Team;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
@@ -17,7 +16,7 @@ class BoardTest {
     @DisplayName("보드 초기화 테스트")
     public void boardInitTest() {
         // given & when
-        Board board = BoardInitializer.init(ElephantSetup.INNER_ELEPHANT_SETUP, ElephantSetup.INNER_ELEPHANT_SETUP);
+        Board board = BoardInitializer.init(ElephantSetup.INNER, ElephantSetup.INNER);
 
         // then
         Map<Position, PieceType> pieces = board.getPieces().entrySet().stream()
@@ -68,7 +67,7 @@ class BoardTest {
     @Test
     @DisplayName("기물 이동 테스트")
     public void moveTest() {
-        Board board = BoardInitializer.init(ElephantSetup.INNER_ELEPHANT_SETUP, ElephantSetup.INNER_ELEPHANT_SETUP);
+        Board board = BoardInitializer.init(ElephantSetup.INNER, ElephantSetup.INNER);
         Position from = Position.of(7, 1); // 초나라 병
         Position to = Position.of(6, 1); // 한 칸 전진
 

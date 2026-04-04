@@ -56,13 +56,29 @@ public class JanggiController {
     }
 
     private ElephantSetup initChoElephantSetup() {
-        outputView.printChooseChoElephantSetupPrompt();
-        return inputView.readElephantSetup();
+        List<ElephantSetup> elephantSetups = ElephantSetup.all();
+        List<String> elephantSetupNames = elephantSetups.stream()
+                .map(Enum::toString)
+                .toList();
+        outputView.printChooseChoElephantSetupPrompt(elephantSetupNames);
+        int index = inputView.readElephantSetupIndex();
+
+        validateIndexRange(index, elephantSetups.size());
+
+        return elephantSetups.get(index);
     }
 
     private ElephantSetup initHanElephantSetup() {
-        outputView.printChooseHanElephantSetupPrompt();
-        return inputView.readElephantSetup();
+        List<ElephantSetup> elephantSetups = ElephantSetup.all();
+        List<String> elephantSetupNames = elephantSetups.stream()
+                .map(Enum::toString)
+                .toList();
+        outputView.printChooseHanElephantSetupPrompt(elephantSetupNames);
+        int index = inputView.readElephantSetupIndex();
+
+        validateIndexRange(index, elephantSetups.size());
+
+        return elephantSetups.get(index);
     }
 
     private void printJanggiBoard(final JanggiGame janggiGame) {
@@ -123,9 +139,9 @@ public class JanggiController {
         return movablePositions.get(positionIndex);
     }
 
-    private void validateIndexRange(int index, int count) {
+    private void validateIndexRange(final int index, final int count) {
         if (index < 0 || index >= count) {
-            throw new IllegalArgumentException("선택 가능한 범위를 벗어났습니다. 1 ~ " + count + "까지 입력 가능합니다.");
+            throw new IllegalArgumentException("선택 가능한 범위를 벗어났습니다. 1 ~ " + count + 1 + "까지 입력 가능합니다.");
         }
     }
 
