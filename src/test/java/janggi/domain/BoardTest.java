@@ -18,10 +18,10 @@ public class BoardTest {
     @DisplayName("초나라 졸은 경로에 장애물이 없으면 위쪽, 왼쪽, 오른쪽으로 이동할 수 있다")
     void 초나라_졸_장애물_없을때_이동_성공() {
         //given
-        Map<Position, Piece> emptyBoard = new HashMap<>();
-        Board board = new Board(emptyBoard);
+        Map<Position, Piece> customBoard = new HashMap<>();
         Position position = new Position(5, 7);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.ZOL));
+        customBoard.put(position, new Piece(Team.CHO, PieceType.ZOL));
+        Board board = new Board(customBoard);
         Position zolUp = new Position(5, 6);
         Position zolLeft = new Position(4, 7);
         Position zolRight = new Position(6, 7);
@@ -38,10 +38,10 @@ public class BoardTest {
     @DisplayName("초나라 졸의 이동 방향에 아군 기물이 있으면 해당 방향으로는 이동할 수 없다")
     void 초나라_졸_아군이_막고있을때_이동_불가() {
         //given
-        Map<Position, Piece> emptyBoard = new HashMap<>();
-        Board board = new Board(emptyBoard);
+        Map<Position, Piece> customBoard = new HashMap<>();
         Position position = new Position(5, 7);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.ZOL));
+        customBoard.put(position, new Piece(Team.CHO, PieceType.ZOL));
+        Board board = new Board(customBoard);
         Position zolUp = new Position(5, 6);
         board.getBoard().put(zolUp, new Piece(Team.CHO, PieceType.ZOL));
         Position zolLeft = new Position(4, 7);
@@ -85,11 +85,11 @@ public class BoardTest {
     @DisplayName("마는 이동 경로(멱)에 다른 기물이 있으면 해당 방향으로 이동할 수 없다")
     void 마_멱이_막혀있을때_해당_방향_이동_불가() {
         //given
-        Map<Position, Piece> emptyBoard = new HashMap<>();
-        Board board = new Board(emptyBoard);
+        Map<Position, Piece> customBoard = new HashMap<>();
         Position position = new Position(4, 6);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.MA));
-        board.getBoard().put(new Position(4, 5), new Piece(Team.HAN, PieceType.CHA));
+        customBoard.put(position, new Piece(Team.CHO, PieceType.MA));
+        customBoard.put(new Position(4, 5), new Piece(Team.HAN, PieceType.CHA));
+        Board board = new Board(customBoard);
         Position maPos1 = new Position(6, 5);
         Position maPos2 = new Position(6, 7);
         Position maPos3 = new Position(3, 8);
@@ -162,11 +162,11 @@ public class BoardTest {
     @DisplayName("상은 대각선 경로(멱)에 다른 기물이 있으면 해당 방향으로 이동할 수 없다")
     void 상_대각선_멱이_막혀있을때_이동_불가() {
         //given
-        Map<Position, Piece> emptyBoard = new HashMap<>();
-        Board board = new Board(emptyBoard);
+        Map<Position, Piece> customBoard = new HashMap<>();
         Position position = new Position(5, 7);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.SANG));
-        board.getBoard().put(new Position(6, 5), new Piece(Team.CHO, PieceType.ZOL));
+        customBoard.put(position, new Piece(Team.CHO, PieceType.SANG));
+        customBoard.put(new Position(6, 5), new Piece(Team.CHO, PieceType.ZOL));
+        Board board = new Board(customBoard);
         Position maPos1 = new Position(3, 4);
         Position maPos2 = new Position(8, 5);
         Position maPos3 = new Position(8, 9);
@@ -188,11 +188,11 @@ public class BoardTest {
     @DisplayName("상은 직선 경로(멱)에 다른 기물이 있으면 해당 방향으로 이동할 수 없다")
     void 상_직선_멱이_막혀있을때_이동_불가() {
         //given
-        Map<Position, Piece> emptyBoard = new HashMap<>();
-        Board board = new Board(emptyBoard);
+        Map<Position, Piece> customBoard = new HashMap<>();
         Position position = new Position(5, 7);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.SANG));
-        board.getBoard().put(new Position(5, 6), new Piece(Team.HAN, PieceType.ZOL));
+        customBoard.put(position, new Piece(Team.CHO, PieceType.SANG));
+        customBoard.put(new Position(5, 6), new Piece(Team.HAN, PieceType.ZOL));
+        Board board = new Board(customBoard);
         Position maPos1 = new Position(8, 5);
         Position maPos2 = new Position(8, 9);
         Position maPos3 = new Position(3, 10);
@@ -213,11 +213,11 @@ public class BoardTest {
     @DisplayName("상의 최종 목적지에 아군 기물이 있으면 해당 좌표로 이동할 수 없다")
     void 상_목적지에_아군_존재시_이동_불가() {
         //given
-        Map<Position, Piece> emptyBoard = new HashMap<>();
-        Board board = new Board(emptyBoard);
+        Map<Position, Piece> customBoard = new HashMap<>();
         Position position = new Position(5, 7);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.SANG));
-        board.getBoard().put(new Position(2, 9), new Piece(Team.CHO, PieceType.ZOL));
+        customBoard.put(position, new Piece(Team.CHO, PieceType.SANG));
+        customBoard.put(new Position(2, 9), new Piece(Team.CHO, PieceType.ZOL));
+        Board board = new Board(customBoard);
         Position maPos1 = new Position(3, 4);
         Position maPos2 = new Position(7, 4);
         Position maPos3 = new Position(8, 5);
@@ -239,10 +239,10 @@ public class BoardTest {
     @DisplayName("사는 이동경로에 장애물이 없는 곳으로 이동할 수 있다 (사이클1 규칙)")
     void 사_장애물_없을때_이동_성공() {
         //given
-        Map<Position, Piece> emptyBoard = new HashMap<>();
-        Board board = new Board(emptyBoard);
+        Map<Position, Piece> customBoard = new HashMap<>();
         Position position = new Position(4, 10);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.SA));
+        customBoard.put(position, new Piece(Team.CHO, PieceType.SA));
+        Board board = new Board(customBoard);
         Position maPos1 = new Position(4, 9);
         Position maPos2 = new Position(5, 9);
         Position maPos3 = new Position(5, 10);
@@ -262,11 +262,11 @@ public class BoardTest {
     @DisplayName("사의 목적지에 아군 기물이 있으면 이동할 수 없다 (사이클1 규칙)")
     void 사_목적지에_아군_존재시_이동_불가() {
         //given
-        Map<Position, Piece> emptyBoard = new HashMap<>();
-        Board board = new Board(emptyBoard);
+        Map<Position, Piece> customBoard = new HashMap<>();
         Position position = new Position(4, 10);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.SA));
-        board.getBoard().put(new Position(5, 9), new Piece(Team.CHO, PieceType.KING));
+        customBoard.put(position, new Piece(Team.CHO, PieceType.SA));
+        customBoard.put(new Position(5, 9), new Piece(Team.CHO, PieceType.KING));
+        Board board = new Board(customBoard);
         Position maPos1 = new Position(4, 9);
         Position maPos2 = new Position(5, 10);
         Position maPos3 = new Position(3, 9);
@@ -285,11 +285,11 @@ public class BoardTest {
     @DisplayName("사의 목적지에 적군 기물이 있으면 이동할 수 있다 (사이클1 규칙)")
     void 사_목적지에_적군_존재시_이동_가능() {
         //given
-        Map<Position, Piece> emptyBoard = new HashMap<>();
-        Board board = new Board(emptyBoard);
+        Map<Position, Piece> customBoard = new HashMap<>();
         Position position = new Position(4, 10);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.SA));
-        board.getBoard().put(new Position(5, 9), new Piece(Team.HAN, PieceType.CHA));
+        customBoard.put(position, new Piece(Team.CHO, PieceType.SA));
+        customBoard.put(new Position(5, 9), new Piece(Team.HAN, PieceType.CHA));
+        Board board = new Board(customBoard);
         Position maPos1 = new Position(4, 9);
         Position maPos2 = new Position(5, 10);
         Position maPos3 = new Position(3, 9);
@@ -309,10 +309,10 @@ public class BoardTest {
     @DisplayName("왕은 이동경로에 장애물이 없는 곳으로 이동할 수 있다 (사이클1 규칙)")
     void 왕_장애물_없을때_이동_성공() {
         //given
-        Map<Position, Piece> emptyBoard = new HashMap<>();
-        Board board = new Board(emptyBoard);
+        Map<Position, Piece> customBoard = new HashMap<>();
         Position position = new Position(5, 9);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.KING));
+        Board board = new Board(customBoard);
+        customBoard.put(position, new Piece(Team.CHO, PieceType.KING));
         Position maPos1 = new Position(4, 8);
         Position maPos2 = new Position(5, 8);
         Position maPos3 = new Position(6, 8);
@@ -335,12 +335,12 @@ public class BoardTest {
     @DisplayName("왕의 이동하려는 목적지에 아군 기물이 있으면 이동할 수 없다(사이클1 규칙)")
     void 왕_목적지에_아군_존재시_이동_불가() {
         //given
-        Map<Position, Piece> emptyBoard = new HashMap<>();
-        Board board = new Board(emptyBoard);
+        Map<Position, Piece> customBoard = new HashMap<>();
         Position position = new Position(5, 9);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.KING));
-        board.getBoard().put(new Position(4, 9), new Piece(Team.CHO, PieceType.SA));
-        board.getBoard().put(new Position(4, 10), new Piece(Team.CHO, PieceType.SA));
+        customBoard.put(position, new Piece(Team.CHO, PieceType.KING));
+        customBoard.put(new Position(4, 9), new Piece(Team.CHO, PieceType.SA));
+        customBoard.put(new Position(4, 10), new Piece(Team.CHO, PieceType.SA));
+        Board board = new Board(customBoard);
         Position maPos1 = new Position(4, 8);
         Position maPos2 = new Position(5, 8);
         Position maPos3 = new Position(6, 8);
@@ -361,12 +361,12 @@ public class BoardTest {
     @DisplayName("왕의 목적지에 적군 기물이 있으면 이동할 수 있다 (사이클1 규칙)")
     void 왕_목적있지에_적군_존재시_이동_가능() {
         //given
-        Map<Position, Piece> emptyBoard = new HashMap<>();
-        Board board = new Board(emptyBoard);
+        Map<Position, Piece> customBoard = new HashMap<>();
         Position position = new Position(5, 9);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.KING));
-        board.getBoard().put(new Position(4, 9), new Piece(Team.HAN, PieceType.ZOL));
-        board.getBoard().put(new Position(4, 10), new Piece(Team.HAN, PieceType.CHA));
+        customBoard.put(position, new Piece(Team.CHO, PieceType.KING));
+        customBoard.put(new Position(4, 9), new Piece(Team.HAN, PieceType.ZOL));
+        customBoard.put(new Position(4, 10), new Piece(Team.HAN, PieceType.CHA));
+        Board board = new Board(customBoard);
         Position maPos1 = new Position(4, 8);
         Position maPos2 = new Position(5, 8);
         Position maPos3 = new Position(6, 8);
@@ -389,10 +389,10 @@ public class BoardTest {
     @DisplayName("차는 직선 경로상에 장애물이 없으면 끝까지 이동할 수 있다")
     void 차_장애물_없을때_직선_끝까지_이동_성공() {
         //given
-        Map<Position, Piece> emptyBoard = new HashMap<>();
-        Board board = new Board(emptyBoard);
+        Map<Position, Piece> customBoard = new HashMap<>();
         Position position = new Position(1, 10);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.CHA));
+        customBoard.put(position, new Piece(Team.CHO, PieceType.CHA));
+        Board board = new Board(customBoard);
         List<Position> upRoutes = List.of(
                 new Position(1, 9), new Position(1, 8), new Position(1, 7),
                 new Position(1, 6), new Position(1, 5), new Position(1, 4),
@@ -420,11 +420,11 @@ public class BoardTest {
     @DisplayName("차는 직선 경로상에 아군 기물이 있으면 아군 기물 직전까지만 이동할 수 있다")
     void 차_경로에_아군_존재시_아군_직전까지_이동_가능() {
         //given
-        Map<Position, Piece> emptyBoard = new HashMap<>();
-        Board board = new Board(emptyBoard);
+        Map<Position, Piece> customBoard = new HashMap<>();
         Position position = new Position(1, 10);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.CHA));
-        board.getBoard().put(new Position(1, 7), new Piece(Team.CHO, PieceType.ZOL));
+        customBoard.put(position, new Piece(Team.CHO, PieceType.CHA));
+        customBoard.put(new Position(1, 7), new Piece(Team.CHO, PieceType.ZOL));
+        Board board = new Board(customBoard);
         List<Position> upRoutes = List.of(
                 new Position(1, 9), new Position(1, 8)
         );
@@ -450,11 +450,11 @@ public class BoardTest {
     @DisplayName("차는 직선 경로상에 적군 기물이 있으면 포획할 수 있는 적군 기물 위치까지만 이동할 수 있다")
     void 차_경로에_적군_존재시_적군_위치까지_이동_가능() {
         //given
-        Map<Position, Piece> emptyBoard = new HashMap<>();
-        Board board = new Board(emptyBoard);
+        Map<Position, Piece> customBoard = new HashMap<>();
+        Board board = new Board(customBoard);
         Position position = new Position(1, 10);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.CHA));
-        board.getBoard().put(new Position(1, 7), new Piece(Team.HAN, PieceType.CHA));
+        customBoard.put(position, new Piece(Team.CHO, PieceType.CHA));
+        customBoard.put(new Position(1, 7), new Piece(Team.HAN, PieceType.CHA));
         List<Position> upRoutes = List.of(
                 new Position(1, 9), new Position(1, 8), new Position(1, 7)
         );
@@ -480,11 +480,11 @@ public class BoardTest {
     @DisplayName("포는 이동 경로상에 일반 기물(포다리)이 딱 1개 존재하면 그 너머로 이동할 수 있다")
     void 포_경로에_일반_기물_포다리가_1개_있을때_이동_성공() {
         //given
-        Map<Position, Piece> emptyBoard = new HashMap<>();
-        Board board = new Board(emptyBoard);
+        Map<Position, Piece> customBoard = new HashMap<>();
         Position position = new Position(5, 8);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.PO));
-        board.getBoard().put(new Position(5, 6), new Piece(Team.HAN, PieceType.CHA));
+        customBoard.put(position, new Piece(Team.CHO, PieceType.PO));
+        customBoard.put(new Position(5, 6), new Piece(Team.HAN, PieceType.CHA));
+        Board board = new Board(customBoard);
         List<Position> upRoutes = List.of(
                 new Position(5, 5), new Position(5, 4), new Position(5, 3),
                 new Position(5, 2), new Position(5, 1)
@@ -504,12 +504,12 @@ public class BoardTest {
     @DisplayName("포는 넘어가려는 목적지에 또 다른 포가 있으면, 포는 포를 포획할 수 없으므로 이동할 수 없다")
     void 포_목적지에_다른_포가_있으면_포획_및_이동_불가() {
         //given
-        Map<Position, Piece> zeroBoard = new HashMap<>();
-        Board board = new Board(zeroBoard);
+        Map<Position, Piece> customBoard = new HashMap<>();
         Position position = new Position(5, 8);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.PO));
-        board.getBoard().put(new Position(5, 6), new Piece(Team.HAN, PieceType.CHA));
-        board.getBoard().put(new Position(5, 5), new Piece(Team.HAN, PieceType.PO));
+        customBoard.put(position, new Piece(Team.CHO, PieceType.PO));
+        customBoard.put(new Position(5, 6), new Piece(Team.HAN, PieceType.CHA));
+        customBoard.put(new Position(5, 5), new Piece(Team.HAN, PieceType.PO));
+        Board board = new Board(customBoard);
 
         //when & then
         assertThatThrownBy(() -> board.findAvailablePositions(position))
@@ -521,12 +521,12 @@ public class BoardTest {
     @DisplayName("포는 포다리 너머에 일반 적군 기물이 존재하면 해당 기물을 포획하며 이동할 수 있다")
     void 포_목적지에_일반_적군_기물이_있을때_이동_성공() {
         //given
-        Map<Position, Piece> emptyBoard = new HashMap<>();
-        Board board = new Board(emptyBoard);
+        Map<Position, Piece> customBoard = new HashMap<>();
         Position position = new Position(5, 8);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.PO));
-        board.getBoard().put(new Position(5, 6), new Piece(Team.HAN, PieceType.CHA));
-        board.getBoard().put(new Position(5, 5), new Piece(Team.HAN, PieceType.ZOL));
+        customBoard.put(position, new Piece(Team.CHO, PieceType.PO));
+        customBoard.put(new Position(5, 6), new Piece(Team.HAN, PieceType.CHA));
+        customBoard.put(new Position(5, 5), new Piece(Team.HAN, PieceType.ZOL));
+        Board board = new Board(customBoard);
         List<Position> upRoutes = List.of(new Position(5, 5));
 
         List<Position> rightAnswer = new ArrayList<>(upRoutes);
