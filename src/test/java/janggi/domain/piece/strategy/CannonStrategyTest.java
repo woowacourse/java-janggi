@@ -8,16 +8,16 @@ import janggi.domain.board.Board;
 import janggi.domain.board.BoardChecker;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceRule;
+import janggi.domain.piece.PieceStrategy;
 import janggi.exception.ExceptionMessage;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 
-class JumpingSlidingRuleTest {
+class CannonStrategyTest {
 
-    private static final int REQUIRED_PIECE_COUNT = 1;
+    private static final long REQUIRED_PIECE_COUNT = 1;
 
-    private final MoveRule rule = new JumpingSlidingRule();
+    private final MoveStrategy moveStrategy = new CannonStrategy();
 
     @Test
     void 직선_방향으로_하나의_기물을_넘어_이동한다() {
@@ -25,10 +25,23 @@ class JumpingSlidingRuleTest {
         Position source = new Position(0, 0);
         Position destination = new Position(0, 5);
         BoardChecker board = new Board(Map.of(
-                new Position(0, 3), new Piece(PieceRule.SOLDIER, Camp.CHO)
+                new Position(0, 3), new Piece(PieceStrategy.SOLDIER, Camp.CHO)
         ));
         //when & then
-        assertThatNoException().isThrownBy(() -> rule.validate(source, destination, Camp.CHO, board, PieceRule.CANNON));
+        assertThatNoException().isThrownBy(() ->
+                moveStrategy.validate(source, destination, Camp.CHO, board, PieceStrategy.CANNON));
+    }
+
+    @Test
+    void 목적지까지_직선_방향으로_이동하지_않으면_예외가_발생한다() {
+        //given
+        Position source = new Position(0, 0);
+        Position destination = new Position(1, 1);
+        BoardChecker board = new Board(Map.of());
+        //when & then
+        assertThatThrownBy(() -> moveStrategy.validate(source, destination, Camp.CHO, board, PieceStrategy.CANNON))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(ExceptionMessage.ONLY_STRAIGHT_MOVE_ALLOWED.getMessage());
     }
 
     @Test
@@ -38,7 +51,7 @@ class JumpingSlidingRuleTest {
         Position destination = new Position(0, 5);
         BoardChecker board = new Board(Map.of());
         //when & then
-        assertThatThrownBy(() -> rule.validate(source, destination, Camp.CHO, board, PieceRule.CANNON))
+        assertThatThrownBy(() -> moveStrategy.validate(source, destination, Camp.CHO, board, PieceStrategy.CANNON))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.INVALID_JUMPED_PIECE_COUNT.getMessage(REQUIRED_PIECE_COUNT));
     }
@@ -49,13 +62,13 @@ class JumpingSlidingRuleTest {
         Position source = new Position(0, 0);
         Position destination = new Position(0, 5);
         BoardChecker board = new Board(Map.of(
-                new Position(0, 3), new Piece(PieceRule.CHARIOT, Camp.CHO),
-                new Position(0, 4), new Piece(PieceRule.ELEPHANT, Camp.CHO)
+                new Position(0, 3), new Piece(PieceStrategy.CHARIOT, Camp.CHO),
+                new Position(0, 4), new Piece(PieceStrategy.ELEPHANT, Camp.CHO)
         ));
         //when & then
-        assertThatThrownBy(() -> rule.validate(source, destination, Camp.CHO, board, PieceRule.CANNON))
+        assertThatThrownBy(() -> moveStrategy.validate(source, destination, Camp.CHO, board, PieceStrategy.CANNON))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(ExceptionMessage.INVALID_JUMPED_PIECE_COUNT.getMessage(REQUIRED_PIECE_COUNT));
+                .hasMessage(ExceptionMessage.INVALID_JUMPED_PIECE_COUNT.getMessage(1));
     }
 
     @Test
@@ -64,10 +77,10 @@ class JumpingSlidingRuleTest {
         Position source = new Position(0, 0);
         Position destination = new Position(0, 5);
         BoardChecker board = new Board(Map.of(
-                new Position(0, 4), new Piece(PieceRule.CANNON, Camp.CHO)
+                new Position(0, 4), new Piece(PieceStrategy.CANNON, Camp.CHO)
         ));
         //when & then
-        assertThatThrownBy(() -> rule.validate(source, destination, Camp.CHO, board, PieceRule.CANNON))
+        assertThatThrownBy(() -> moveStrategy.validate(source, destination, Camp.CHO, board, PieceStrategy.CANNON))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.SAME_PIECE_TYPE_IN_PATH.getMessage());
     }
@@ -78,11 +91,11 @@ class JumpingSlidingRuleTest {
         Position source = new Position(0, 0);
         Position destination = new Position(0, 5);
         BoardChecker board = new Board(Map.of(
-                new Position(0, 3), new Piece(PieceRule.SOLDIER, Camp.CHO),
-                new Position(0, 5), new Piece(PieceRule.CANNON, Camp.CHO)
+                new Position(0, 3), new Piece(PieceStrategy.SOLDIER, Camp.CHO),
+                new Position(0, 5), new Piece(PieceStrategy.CANNON, Camp.CHO)
         ));
         //when & then
-        assertThatThrownBy(() -> rule.validate(source, destination, Camp.CHO, board, PieceRule.CANNON))
+        assertThatThrownBy(() -> moveStrategy.validate(source, destination, Camp.CHO, board, PieceStrategy.CANNON))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.SAME_PIECE_TYPE_AT_DESTINATION.getMessage());
     }

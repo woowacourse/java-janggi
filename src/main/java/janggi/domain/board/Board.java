@@ -3,7 +3,7 @@ package janggi.domain.board;
 import janggi.domain.Position;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceRule;
+import janggi.domain.piece.PieceStrategy;
 import janggi.exception.ExceptionMessage;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,20 +21,12 @@ public class Board implements BoardChecker {
         return board.containsKey(position);
     }
 
-    @Override
-    public boolean hasSameCampPieceAt(Position position, Camp camp) {
-        if (hasPieceAt(position)) {
-            Piece piece = board.get(position);
-            return piece.isSameCamp(camp);
-        }
-        return false;
-    }
 
     @Override
-    public boolean hasSamePieceRuleAt(Position position, PieceRule pieceRule) {
+    public boolean hasSamePieceRuleAt(Position position, PieceStrategy pieceStrategy) {
         if (hasPieceAt(position)) {
             Piece piece = board.get(position);
-            return piece.isSamePieceRule(pieceRule);
+            return piece.isSamePieceRule(pieceStrategy);
         }
         return false;
     }
@@ -59,6 +51,8 @@ public class Board implements BoardChecker {
         }
     }
 
+    // TODO: 테스트 코드 추가
+
     public void validateDestination(Position destination, Position source, Camp camp) {
         if (destination.equals(source)) {
             throw new IllegalArgumentException(ExceptionMessage.PIECE_MUST_MOVE.getMessage());
@@ -66,6 +60,14 @@ public class Board implements BoardChecker {
         if (hasSameCampPieceAt(destination, camp)) {
             throw new IllegalArgumentException(ExceptionMessage.SAME_CAMP_PIECE_AT_DESTINATION.getMessage());
         }
+    }
+
+    private boolean hasSameCampPieceAt(Position position, Camp camp) {
+        if (hasPieceAt(position)) {
+            Piece piece = board.get(position);
+            return piece.isSameCamp(camp);
+        }
+        return false;
     }
 
     public Map<Position, Piece> getBoard() {

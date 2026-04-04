@@ -1,14 +1,11 @@
 package janggi.domain.board;
 
 import janggi.domain.Position;
-import janggi.domain.piece.Camp;
-import janggi.domain.piece.PieceRule;
+import janggi.domain.piece.PieceStrategy;
 
 public interface BoardChecker {
 
     boolean hasPieceAt(Position position);
 
-    boolean hasSameCampPieceAt(Position position, Camp camp);
-
-    boolean hasSamePieceRuleAt(Position position, PieceRule pieceRule);
+    boolean hasSamePieceRuleAt(Position position, PieceStrategy pieceStrategy);
 }

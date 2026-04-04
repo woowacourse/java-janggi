@@ -8,23 +8,35 @@ import janggi.domain.board.Board;
 import janggi.domain.board.BoardChecker;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceRule;
+import janggi.domain.piece.PieceStrategy;
 import janggi.exception.ExceptionMessage;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 
-class EmptySlidingRuleTest {
+class ChariotStrategyTest {
 
-    private final MoveRule rule = new EmptySlidingRule();
+    private final MoveStrategy moveStrategy = new ChariotStrategy();
 
     @Test
-    void 직선으로_여러_칸_이동한다() {
+    void 세로_방향_직선으로_여러_칸_이동한다() {
         //given
         Position source = new Position(0, 0);
         Position destination = new Position(9, 0);
         BoardChecker board = new Board(Map.of());
         //when & then
-        assertThatNoException().isThrownBy(() -> rule.validate(source, destination, Camp.CHO, board, PieceRule.CHARIOT));
+        assertThatNoException().isThrownBy(() ->
+                moveStrategy.validate(source, destination, Camp.CHO, board, PieceStrategy.CHARIOT));
+    }
+
+    @Test
+    void 가로_방향_직선으로_여러_칸_이동한다() {
+        //given
+        Position source = new Position(0, 0);
+        Position destination = new Position(0, 8);
+        BoardChecker board = new Board(Map.of());
+        //when & then
+        assertThatNoException().isThrownBy(() ->
+                moveStrategy.validate(source, destination, Camp.CHO, board, PieceStrategy.CHARIOT));
     }
 
     @Test
@@ -34,7 +46,7 @@ class EmptySlidingRuleTest {
         Position destination = new Position(3, 3);
         BoardChecker board = new Board(Map.of());
         //when & then
-        assertThatThrownBy(() -> rule.validate(source, destination, Camp.CHO, board, PieceRule.CHARIOT))
+        assertThatThrownBy(() -> moveStrategy.validate(source, destination, Camp.CHO, board, PieceStrategy.CHARIOT))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.ONLY_STRAIGHT_MOVE_ALLOWED.getMessage());
     }
@@ -45,9 +57,9 @@ class EmptySlidingRuleTest {
         Position source = new Position(0, 0);
         Position destination = new Position(5, 0);
         Position blockingPosition = new Position(3, 0);
-        BoardChecker board = new Board(Map.of(blockingPosition, new Piece(PieceRule.SOLDIER, Camp.CHO)));
+        BoardChecker board = new Board(Map.of(blockingPosition, new Piece(PieceStrategy.SOLDIER, Camp.CHO)));
         //when & then
-        assertThatThrownBy(() -> rule.validate(source, destination, Camp.CHO, board, PieceRule.CHARIOT))
+        assertThatThrownBy(() -> moveStrategy.validate(source, destination, Camp.CHO, board, PieceStrategy.CHARIOT))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.PATH_NOT_EMPTY.getMessage());
     }

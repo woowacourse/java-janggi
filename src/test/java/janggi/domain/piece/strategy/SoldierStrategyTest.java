@@ -1,0 +1,68 @@
+package janggi.domain.piece.strategy;
+
+import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import janggi.domain.Position;
+import janggi.domain.piece.Camp;
+import janggi.domain.piece.PieceStrategy;
+import janggi.exception.ExceptionMessage;
+import java.util.stream.Stream;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+class SoldierStrategyTest {
+
+    private static final int DISTANCE = 1;
+
+    private final MoveStrategy moveStrategy = new SoldierStrategy();
+
+    private static Stream<Arguments> successMovePositions() {
+        return Stream.of(
+                Arguments.of(Camp.HAN, new Position(6, 0), new Position(5, 0)),
+                Arguments.of(Camp.HAN, new Position(6, 0), new Position(6, 1)),
+                Arguments.of(Camp.HAN, new Position(6, 1), new Position(6, 0)),
+                Arguments.of(Camp.CHO, new Position(3, 0), new Position(4, 0)),
+                Arguments.of(Camp.CHO, new Position(3, 0), new Position(3, 1)),
+                Arguments.of(Camp.CHO, new Position(3, 1), new Position(3, 0))
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("successMovePositions")
+    void 전진_또는_좌우_방향으로_1칸만_이동한다(Camp camp, Position source, Position destination) {
+        assertThatNoException().isThrownBy(() ->
+                moveStrategy.validate(source, destination, camp, null, PieceStrategy.SOLDIER));
+    }
+
+    private static Stream<Arguments> invalidDistancePositions() {
+        return Stream.of(
+                Arguments.of(Camp.HAN, new Position(6, 0), new Position(4, 0)),
+                Arguments.of(Camp.CHO, new Position(3, 0), new Position(3, 6))
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("invalidDistancePositions")
+    void 직선_방향으로_1칸만_이동하지_않으면_예외가_발생한다(Camp camp, Position source, Position destination) {
+        assertThatThrownBy(() -> moveStrategy.validate(source, destination, camp, null, PieceStrategy.SOLDIER))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(ExceptionMessage.INVALID_SINGLE_STEP_MOVE.getMessage(DISTANCE));
+    }
+
+    private static Stream<Arguments> backwardMovePositions() {
+        return Stream.of(
+                Arguments.of(Camp.HAN, new Position(6, 0), new Position(7, 0)),
+                Arguments.of(Camp.CHO, new Position(3, 0), new Position(2, 0))
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("backwardMovePositions")
+    void 후진하는_경우_예외가_발생한다(Camp camp, Position source, Position destination) {
+        assertThatThrownBy(() -> moveStrategy.validate(source, destination, camp, null, PieceStrategy.SOLDIER))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(ExceptionMessage.INVALID_BACKWARD_MOVEMENT.getMessage());
+    }
+}

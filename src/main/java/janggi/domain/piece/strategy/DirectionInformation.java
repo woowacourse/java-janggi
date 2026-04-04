@@ -38,9 +38,11 @@ public record DirectionInformation(int rowDistance, int colDistance) {
         return colDistance == 0;
     }
 
-    public boolean hasAbsDifferences(int distance1, int distance2) {
+    public boolean isInvalidMoveDistance(int firstDistance, int secondDistance) {
         int absRow = Math.abs(rowDistance);
         int absCol = Math.abs(colDistance);
-        return (absRow == distance1 && absCol == distance2) || (absRow == distance2 && absCol == distance1);
+
+        return !((absRow == firstDistance && absCol == secondDistance)
+                || (absRow == secondDistance && absCol == firstDistance));
     }
 }

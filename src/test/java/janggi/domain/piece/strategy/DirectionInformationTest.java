@@ -39,16 +39,16 @@ class DirectionInformationTest {
 
     @ParameterizedTest
     @CsvSource({
-            "2, 3, 2, 3, true",
-            "2, 3, 3, 2, true",
-            "-2, 3, 2, 3, true",
-            "2, -3, 3, 2, true",
-            "1, 2, 1, 2, true",
-            "1, 2, 2, 1, true",
-            "1, 2, 1, 3, false",
-            "1, 2, 3, 2, false"
+            "2, 3, 2, 3, false",
+            "2, 3, 3, 2, false",
+            "-2, 3, 2, 3, false",
+            "2, -3, 3, 2, false",
+            "1, 2, 1, 2, false",
+            "1, 2, 2, 1, false",
+            "1, 2, 1, 3, true",
+            "1, 2, 3, 2, true"
     })
-    void 두_차이값이_행열_절대_차이값과_일치하는지_확인한다(
+    void 두_차이값이_행열_절대_차이값과_일치하지_않는지_확인한다(
             int rowDifference, int colDifference,
             int difference1, int difference2,
             boolean expectedResult
@@ -56,7 +56,7 @@ class DirectionInformationTest {
         // given
         DirectionInformation direction = new DirectionInformation(rowDifference, colDifference);
         // when
-        boolean result = direction.hasAbsDifferences(difference1, difference2);
+        boolean result = direction.isInvalidMoveDistance(difference1, difference2);
         // then
         assertThat(result).isEqualTo(expectedResult);
     }
