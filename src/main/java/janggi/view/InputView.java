@@ -1,5 +1,6 @@
 package janggi.view;
 
+import janggi.controller.GameSelect;
 import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.point.Point;
 import janggi.domain.side.Side;
@@ -66,6 +67,12 @@ public class InputView {
         int x = XPointFormat.convertToInt(matcher.group(1));
         int y = parseToInt(matcher.group(2));
         return new Point(x, y);
+    }
+
+    public GameSelect readGameSelect() {
+        Integer select = parseToInt(sc.nextLine());
+
+        return GameSelect.from(select);
     }
 
     private void validateBlank(String input) {

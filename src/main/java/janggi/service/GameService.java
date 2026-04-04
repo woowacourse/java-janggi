@@ -31,11 +31,11 @@ public class GameService {
 
         Game game = Game.createGame(choBoardSetUp, hanBoardSetUp);
         List<MoveEntity> moveEntities = moveRepository.findByGameIdOrderByMoveNumber(gameEntity.id());
-        moveEntities.forEach(moveEntity -> move(game, moveEntity));
+        moveEntities.forEach(moveEntity -> loadGame(game, moveEntity));
         return game;
     }
 
-    private void move(Game game, MoveEntity moveEntity) {
+    private void loadGame(Game game, MoveEntity moveEntity) {
         game.move(new Point(moveEntity.fromX(), moveEntity.fromY()), new Point(moveEntity.toX(), moveEntity.toY()));
     }
 }

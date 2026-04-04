@@ -1,62 +1,32 @@
 package janggi.controller;
 
-import janggi.domain.board.setup.BoardSetUp;
-import janggi.domain.game.Game;
-import janggi.domain.piece.unit.Piece;
-import janggi.domain.point.Point;
-import janggi.domain.side.Side;
-import janggi.service.GameService;
 import janggi.view.InputView;
 import janggi.view.OutputView;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Supplier;
 
 public class JanggiController {
     private final InputView inputView;
     private final OutputView outputView;
-    private final GameService gameService;
+    private final Map<GameSelect, Runnable> selectAction = new HashMap<>();
+    private final GameController gameController;
 
-    public JanggiController(InputView inputView, OutputView outputView, GameService gameService) {
+    public JanggiController(InputView inputView, OutputView outputView, GameController gameController) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.gameService = gameService;
+        this.gameController = gameController;
+        initSelect();
+    }
+
+    private void initSelect() {
+        selectAction.put(GameSelect.CREATE, gameController::createGame);
+        selectAction.put(GameSelect.LOAD, gameController::loadGame);
     }
 
     public void run() {
-        BoardSetUp choBoardSetUp = retry(() -> inputView.readBoardSetup(Side.CHO));
-        BoardSetUp hanBoardSetUp = retry(() -> inputView.readBoardSetup(Side.HAN));
-        String gameName = retry(inputView::readGameName);
-        Game game = gameService.createGame(gameName, choBoardSetUp, hanBoardSetUp);
-        play(game);
-    }
-
-    private void play(Game game) {
-        while (game.canPlay()) {
-            Map<Point, Piece> board = game.getBoard();
-            outputView.printBoard(board);
-            outputView.printSide(game.getTurn());
-
-            Point from = retry(() -> getPoint(game));
-            outputView.printBoardWithPath(board, game.destinations(from));
-            retry(() -> movePath(game, from));
-        }
-        outputView.printWinner(game.winnerSide());
-    }
-
-    private Point getPoint(Game game) {
-        Point from = retry(inputView::readPoint);
-        if (!game.isTurnPiece(from)) {
-            throw new IllegalArgumentException("움직일 수 없습니다.");
-        }
-        return from;
-    }
-
-    private void movePath(Game game, Point from) {
-        Point to = inputView.readDestination();
-        if (to == null) {
-            return;
-        }
-        game.move(from, to);
+        outputView.printSelectGame();
+        GameSelect gameSelect = inputView.readGameSelect();
+        retry(() -> selectAction.get(gameSelect).run());
     }
 
     private void retry(Runnable runnable) {
@@ -64,16 +34,6 @@ public class JanggiController {
             try {
                 runnable.run();
                 break;
-            } catch (IllegalArgumentException e) {
-                outputView.printError(e.getMessage());
-            }
-        }
-    }
-
-    private <T> T retry(Supplier<T> supplier) {
-        while (true) {
-            try {
-                return supplier.get();
             } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
             }

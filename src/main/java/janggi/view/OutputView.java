@@ -83,4 +83,10 @@ public class OutputView {
     private String colored(String text, String color) {
         return color + text + ANSI_RESET;
     }
+
+    public void printSelectGame() {
+        System.out.println("1. 게임 생성");
+        System.out.println("2. 게임 로드");
+        System.out.println("선택지를 입력해 주세요");
+    }
 }
