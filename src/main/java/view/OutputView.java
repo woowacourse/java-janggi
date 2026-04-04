@@ -2,6 +2,7 @@ package view;
 
 import domain.pieces.PieceType;
 import domain.pieces.Side;
+import java.util.List;
 import view.dto.PieceDto;
 
 public class OutputView {
@@ -34,11 +35,11 @@ public class OutputView {
         System.out.println("[ERROR] " + message);
     }
 
-    public void printBoard(PieceDto[][] board) {
+    public void printBoard(List<List<PieceDto>> board) {
         for (int row = 9; row >= 0; row--) {
             System.out.printf("%2d ", row);
             for (int column = 0; column <= 8; column++) {
-                System.out.print("|" + displayPiece(board[row][column]));
+                System.out.print("|" + displayPiece(board.get(row).get(column)));
             }
             System.out.println("|");
             System.out.println("   ---------------------------------------------");
