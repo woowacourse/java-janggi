@@ -25,7 +25,7 @@ public class JanggiGameService {
     }
 
     public List<GameSummary> findAllGames() {
-        return gameRepository.findAll();
+        return validateGameList(gameRepository.findAll());
     }
 
     public JanggiGame startNewGame() {
@@ -78,5 +78,12 @@ public class JanggiGameService {
             return null;
         }
         return janggiGame.getWinner();
+    }
+
+    private List<GameSummary> validateGameList(List<GameSummary> gameSummaries) {
+        if (gameSummaries.isEmpty()) {
+            throw new IllegalStateException("[ERROR] 저장된 게임이 없습니다.");
+        }
+        return gameSummaries;
     }
 }
