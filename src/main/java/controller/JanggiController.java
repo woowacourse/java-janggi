@@ -9,6 +9,7 @@ import domain.board.TableSetting;
 import domain.country.CountryType;
 import domain.piece.PieceInfos;
 import java.util.List;
+import java.util.Scanner;
 import service.JanggiService;
 import view.CountryFormatter;
 import view.InputParser;
@@ -25,26 +26,54 @@ public class JanggiController {
     }
 
     public void run() {
-        int boardId = 1;
-        JanggiService.deleteAll();
-        JanggiService.insertPositions();
-        JanggiService.insertPieces();
-        JanggiService.readAllBoard();
-        Board board = makeBoard();
-        JanggiService.insertBoard(CountryType.CHO);
-        JanggiService.readBoard(1);
-        initBoardState(board.getPieceInfos(), boardId);
-        List<CountryType> playOrders = List.of(CountryType.CHO, CountryType.HAN);
+//        JanggiService.deleteAll();
+//        JanggiService.insertPositions();
+//        JanggiService.insertPieces();
+        int boardId = askLoadOrCreate();
+        Board board = new Board(JanggiService.loadBoardState(boardId));
         BoardSnapshots boardSnapshots = new BoardSnapshots();
 
-        playTurn(board, playOrders, boardSnapshots, boardId);
+        playTurn(board, boardSnapshots, boardId);
     }
 
-    private Board makeBoard() {
+    private int askLoadOrCreate() {
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            try {
+                System.out.println("보드를 불러오시겠습니까? 예: 1번, 아니오: 2번");
+                String answer = scanner.nextLine();
+                if (answer.equals("1")) {
+                    return loadBoard(scanner);
+                }
+                return makeBoard();
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    private int loadBoard(Scanner scanner) {
+        JanggiService.readAllBoard();
+        System.out.println("불러올 보드를 선택해 주세요.");
+        int boardId = Integer.parseInt(scanner.nextLine());
+        JanggiService.readBoard(boardId);
+        return boardId;
+    }
+
+    private int makeBoard() {
         TableSetting choTableSetting = readTableSetting(CountryType.CHO);
         TableSetting hanTableSetting = readTableSetting(CountryType.HAN);
         BoardFactory boardFactory = new BoardFactory();
-        return boardFactory.create(choTableSetting, hanTableSetting);
+        Board board = boardFactory.create(choTableSetting, hanTableSetting);
+        int boardId = JanggiService.insertBoard();
+        initBoardState(board.getPieceInfos(), boardId);
+        return boardId;
+    }
+
+    private void initBoardState(PieceInfos pieceInfos, int boardId) {
+        for (Position position : pieceInfos.getKeys()) {
+            JanggiService.insertBoardState(position, pieceInfos.get(position), boardId);
+        }
     }
 
     private TableSetting readTableSetting(CountryType countryType) {
@@ -60,21 +89,12 @@ public class JanggiController {
         }
     }
 
-    private void initBoardState(PieceInfos pieceInfos, int boardId) {
-        for (Position position : pieceInfos.getKeys()) {
-            JanggiService.insertBoardState(position, pieceInfos.get(position), boardId);
-        }
-    }
-
-    private void playTurn(Board board, List<CountryType> playOrders, BoardSnapshots boardSnapshots, int boardId) {
-        int turnIndex = 0;
+    private void playTurn(Board board, BoardSnapshots boardSnapshots, int boardId) {
         boolean isEnd = false;
         while (!isEnd) {
-            CountryType countryType = playOrders.get(turnIndex);
-            JanggiService.updateBoard(countryType, 1);
+            CountryType countryType = JanggiService.readCountryTurn(boardId);
             isEnd = checkEndAndMovePiece(board, countryType, boardSnapshots, boardId);
-
-            turnIndex = (turnIndex + 1) % 2;
+            JanggiService.updateBoard(countryType.anotherCountryType(), boardId);
         }
     }
 

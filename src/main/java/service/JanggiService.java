@@ -5,7 +5,9 @@ import static domain.Position.X_MAXIMUM_POSITION;
 import static domain.Position.Y_MAXIMUM_POSITION;
 
 import domain.Position;
+import domain.board.BoardStates;
 import domain.country.CountryType;
+import domain.piece.Piece;
 import domain.piece.PieceInfo;
 import domain.piece.PieceInfos;
 import domain.piece.PieceType;
@@ -15,6 +17,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
 
 public class JanggiService {
     private static final String URL = "jdbc:mysql://localhost:3306/janggi";
@@ -64,8 +68,8 @@ public class JanggiService {
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             for (PieceType pieceType : PieceType.values()) {
                 for (CountryType countryType : CountryType.values()) {
-                    preparedStatement.setString(1, pieceType.getName());
-                    preparedStatement.setString(2, countryType.getName());
+                    preparedStatement.setString(1, pieceType.toString());
+                    preparedStatement.setString(2, countryType.toString());
                     preparedStatement.executeUpdate();
                 }
             }
@@ -74,28 +78,33 @@ public class JanggiService {
         }
     }
 
-    public static void insertBoard(CountryType countryType) {
+    public static int insertBoard() {
         String sql = "INSERT INTO board(turn, cho_score, han_score) VALUES (?, ?, ?)";
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            preparedStatement.setString(1, countryType.getName());
+            preparedStatement.setString(1, CountryType.CHO.toString());
             preparedStatement.setDouble(2, 72d);
             preparedStatement.setDouble(3, 73.5d);
-            int result = preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate();
 
-            // Query가 제대로 실행된 경우
-            if (result >= 1) {
-                System.out.println("보드 추가 완료");
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            if (resultSet.next()) {
+                return resultSet.getInt(1);
             }
-
-            // Query가 제대로 실행되지 않은 경우
-            else {
-                System.out.println("보드 추가 실패");
-            }
+//            // Query가 제대로 실행된 경우
+//            if (result >= 1) {
+//                System.out.println("보드 추가 완료");
+//            }
+//
+//            // Query가 제대로 실행되지 않은 경우
+//            else {
+//                System.out.println("보드 추가 실패");
+//            }
         } catch (SQLException e) {
             System.out.println("에러: " + e);
         }
+        return 0;
     }
 
     public static void updateBoard(CountryType countryType, int id) {
@@ -103,7 +112,7 @@ public class JanggiService {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
-            preparedStatement.setString(1, countryType.getName());
+            preparedStatement.setString(1, countryType.toString());
             preparedStatement.setInt(2, id);
 
             int result = preparedStatement.executeUpdate();
@@ -128,14 +137,38 @@ public class JanggiService {
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(sql)) {
 
+            boolean isEmpty = true;
+
             while (resultSet.next()) {
+                isEmpty = false;
                 int id = resultSet.getInt("id");
                 System.out.println("board id: " + id);
             }
 
+            if (isEmpty) {
+                throw new IllegalArgumentException("[ERROR] 저장된 보드가 없습니다.");
+            }
         } catch (SQLException e) {
             System.out.println("에러: " + e);
         }
+    }
+
+    public static CountryType readCountryTurn(int id) {
+        String sql = "SELECT `turn` FROM board WHERE id = ?";
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return CountryType.valueOf(resultSet.getString("turn"));
+            }
+            resultSet.close();
+        } catch (SQLException e) {
+            System.out.println("에러: " + e);
+        }
+        throw new IllegalArgumentException("[ERROR] 진영 턴을 불러오지 못했습니다.");
     }
 
     public static void readBoard(int id) {
@@ -149,6 +182,7 @@ public class JanggiService {
                 throw new IllegalArgumentException("해당 번호의 board가 없습니다.");
             }
             System.out.println(resultSet.getString("turn"));
+            resultSet.close();
         } catch (SQLException e) {
             System.out.println("에러: " + e);
         }
@@ -161,8 +195,8 @@ public class JanggiService {
 
             preparedStatement.setInt(1, position.x());
             preparedStatement.setInt(2, position.y());
-            preparedStatement.setString(3, pieceInfo.pieceType().getName());
-            preparedStatement.setString(4, pieceInfo.countryType().getName());
+            preparedStatement.setString(3, pieceInfo.pieceType().toString());
+            preparedStatement.setString(4, pieceInfo.countryType().toString());
             preparedStatement.setInt(5, boardId);
 
             int result = preparedStatement.executeUpdate();
@@ -216,8 +250,8 @@ public class JanggiService {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
-            preparedStatement.setString(1, pieceInfo.pieceType().getName());
-            preparedStatement.setString(2, pieceInfo.countryType().getName());
+            preparedStatement.setString(1, pieceInfo.pieceType().toString());
+            preparedStatement.setString(2, pieceInfo.countryType().toString());
             preparedStatement.setInt(3, position.x());
             preparedStatement.setInt(4, position.y());
             preparedStatement.setInt(5, boardId);
@@ -270,8 +304,8 @@ public class JanggiService {
 
             preparedStatement.setInt(1, position.x());
             preparedStatement.setInt(2, position.y());
-            preparedStatement.setString(3, pieceInfo.pieceType().getName());
-            preparedStatement.setString(4, pieceInfo.countryType().getName());
+            preparedStatement.setString(3, pieceInfo.pieceType().toString());
+            preparedStatement.setString(4, pieceInfo.countryType().toString());
             preparedStatement.setInt(5, boardId);
 
             int result = preparedStatement.executeUpdate();
@@ -288,5 +322,27 @@ public class JanggiService {
         } catch (SQLException e) {
             System.out.println("에러: " + e);
         }
+    }
+
+    public static BoardStates loadBoardState(int boardId) {
+        Map<Position, Piece> pieceInfos = new HashMap<>();
+        String sql = "SELECT * FROM board_state WHERE board_id = ?";
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, boardId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int x = resultSet.getInt("position_x");
+                int y = resultSet.getInt("position_y");
+                String pieceType = resultSet.getString("piece_type");
+                String pieceCountry = resultSet.getString("piece_country");
+                Piece piece = new Piece(new PieceInfo(PieceType.valueOf(pieceType), CountryType.valueOf(pieceCountry)));
+                pieceInfos.put(new Position(x, y), piece);
+            }
+        } catch (SQLException e) {
+            System.out.println("에러: " + e);
+        }
+        return new BoardStates(pieceInfos);
     }
 }
