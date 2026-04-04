@@ -8,6 +8,7 @@ import db.jdbc.JdbcBoardPieceDao;
 import db.jdbc.JdbcGameDao;
 import db.repository.JanggiGameRepository;
 import db.repository.JdbcJanggiGameRepository;
+import java.util.Optional;
 import pieces.Side;
 import position.Position;
 import util.Retry;
@@ -17,20 +18,35 @@ import view.JanggiView;
 public class Application {
 
     public static void main(String[] args) {
-        ConnectionManager connectionManager = new ConnectionManager();
-        DatabaseInitializer databaseInitializer = new DatabaseInitializer(connectionManager);
-        databaseInitializer.initialize();
+        ConnectionManager connectionManager = getConnectionManager();
+        JanggiGameRepository repository = getRepository(connectionManager);
 
         JanggiView view = new JanggiView();
 
+        Optional<JanggiGame> savedGame = repository.findLatest();
+        JanggiGame game = savedGame
+            .filter(foundGame -> !foundGame.isOver())
+            .orElseGet(() -> {
+                JanggiGame newGame = createNewGame(view);
+                repository.saveLatest(newGame);
+                return newGame;
+            });
+
+        new Application(game, view, repository).run();
+    }
+
+    private static JanggiGameRepository getRepository(ConnectionManager connectionManager) {
         GameDao gameDao = new JdbcGameDao(connectionManager);
         BoardPieceDao boardPieceDao = new JdbcBoardPieceDao(connectionManager);
         JanggiGameRepository repository = new JdbcJanggiGameRepository(gameDao, boardPieceDao);
+        return repository;
+    }
 
-        JanggiGame game = repository.findLatest()
-            .orElseGet(() -> createNewGame(view));
-
-        new Application(game, view, repository).run();
+    private static ConnectionManager getConnectionManager() {
+        ConnectionManager connectionManager = new ConnectionManager();
+        DatabaseInitializer databaseInitializer = new DatabaseInitializer(connectionManager);
+        databaseInitializer.initialize();
+        return connectionManager;
     }
 
     private static JanggiGame createNewGame(final JanggiView view) {
