@@ -87,9 +87,7 @@ public class JanggiController {
         outputView.printChoosePieceToMovePrompt(pieceInfos);
         int pieceIndex = inputView.readPieceIndex();
 
-        if (pieceIndex < 0 || pieceIndex >= pieceInfos.size()) {
-            throw new IllegalArgumentException("범위 벗어난 입력");
-        }
+        validateIndexRange(pieceIndex, pieceInfos.size());
 
         return piecePositions.get(pieceIndex);
     }
@@ -103,11 +101,15 @@ public class JanggiController {
 
         int positionIndex = inputView.readPositionIndex();
 
-        if (positionIndex < 0 || positionIndex >= movablePositions.size()) {
-            throw new IllegalArgumentException("범위 벗어난 입력");
-        }
+        validateIndexRange(positionIndex, movablePositions.size());
 
         return movablePositions.get(positionIndex);
+    }
+
+    private void validateIndexRange(int index, int count) {
+        if (index < 0 || index >= count) {
+            throw new IllegalArgumentException("선택 가능한 범위를 벗어났습니다. 1 ~ " + count + "까지 입력 가능합니다.");
+        }
     }
 
     private void retry(final Runnable callback) {
