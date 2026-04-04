@@ -2,7 +2,6 @@ package domain.piece;
 
 import domain.board.Intersection;
 import domain.game.Side;
-import domain.move.Path;
 import java.util.List;
 
 public final class Piece {
@@ -15,10 +14,8 @@ public final class Piece {
         this.side = side;
     }
 
-    public List<Intersection> movablePaths(Intersection from, AlivePieces alivePieces) {
-        List<Path> movablePaths = type.movablePaths(from, side);
-
-        return type.movableDestinations(side, movablePaths, alivePieces);
+    public List<Intersection> movableDestinations(Intersection from, AlivePieces alivePieces) {
+        return type.movableDestinations(side, from, alivePieces);
     }
 
     public boolean isSameSide(Side side) {

@@ -38,7 +38,7 @@ public final class Board {
         }
 
         return alivePieces.placedAt(selectedIntersection)
-                .movablePaths(selectedIntersection, alivePieces);
+                .movableDestinations(selectedIntersection, alivePieces);
     }
 
     public AlivePieces getAlivePieces() {

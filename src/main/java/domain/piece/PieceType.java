@@ -40,15 +40,19 @@ public enum PieceType {
         this.moveRule = moveRule;
     }
 
-    public final List<Path> movablePaths(Intersection from, Side side) {
-        return movement.movablePaths(from, side);
-    }
-
     public final List<Intersection> movableDestinations(
             Side side,
-            List<Path> candidatePaths,
+            Intersection from,
             AlivePieces alivePieces
     ) {
-        return moveRule.movableDestinations(side, candidatePaths, alivePieces);
+        return moveRule.movableDestinations(
+                side,
+                movablePaths(from, side),
+                alivePieces
+        );
+    }
+
+    private List<Path> movablePaths(Intersection from, Side side) {
+        return movement.movablePaths(from, side);
     }
 }

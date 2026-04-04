@@ -37,9 +37,10 @@ class PieceTest {
             @Test
             void 전진_및_좌우로_1칸_이동은_가능하나_뒤로는_이동할_수_없다() {
                 AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
-                List<Intersection> movablePaths = SOLDIER.movablePaths(CURRENT_INTERSECTION, emptyAlivePieces);
+                List<Intersection> movableDestinations =
+                        SOLDIER.movableDestinations(CURRENT_INTERSECTION, emptyAlivePieces);
 
-                assertThat(movablePaths).containsExactlyInAnyOrder(
+                assertThat(movableDestinations).containsExactlyInAnyOrder(
                         new Intersection(DEFAULT_ROW + 1, DEFAULT_FILE),
                         new Intersection(DEFAULT_ROW, DEFAULT_FILE - 1),
                         new Intersection(DEFAULT_ROW, DEFAULT_FILE + 1)
@@ -57,9 +58,9 @@ class PieceTest {
                         placedSameSidePieceIntersection, OPPOSITE_SIDE_PIECE
                 ));
 
-                List<Intersection> movablePaths = SOLDIER.movablePaths(CURRENT_INTERSECTION, alivePieces);
+                List<Intersection> movableDestinations = SOLDIER.movableDestinations(CURRENT_INTERSECTION, alivePieces);
 
-                assertThat(movablePaths)
+                assertThat(movableDestinations)
                         .as("아군이 있는 곳으로는 이동할 수 없다")
                         .doesNotContain(placedOppositeSidePieceIntersection)
                         .as("적군이 있는 곳으로는 이동할 수 있다")
@@ -77,12 +78,13 @@ class PieceTest {
             @Test
             void 경로에_기물이_없다면_직선으로_끝까지_이동할_수_있다() {
                 AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
-                List<Intersection> movablePaths = CHARIOT.movablePaths(CURRENT_INTERSECTION, emptyAlivePieces);
+                List<Intersection> movableDestinations =
+                        CHARIOT.movableDestinations(CURRENT_INTERSECTION, emptyAlivePieces);
 
                 List<Intersection> expected =
                         createAllStraightIntersectionExcludeTargetPosition(DEFAULT_ROW, DEFAULT_FILE);
 
-                assertThat(movablePaths).containsExactlyInAnyOrderElementsOf(expected);
+                assertThat(movableDestinations).containsExactlyInAnyOrderElementsOf(expected);
             }
 
             @DisplayName("경로에 기물이 있으면 통과할 수 없으며, 적군일 경우 해당 위치까지만 이동 가능하다")
@@ -96,9 +98,9 @@ class PieceTest {
                         placedOppositePieceIntersection, OPPOSITE_SIDE_PIECE
                 ));
 
-                List<Intersection> movablePaths = CHARIOT.movablePaths(CURRENT_INTERSECTION, alivePieces);
+                List<Intersection> movableDestinations = CHARIOT.movableDestinations(CURRENT_INTERSECTION, alivePieces);
 
-                assertThat(movablePaths)
+                assertThat(movableDestinations)
                         .as("아군 기물이 있으면 그 직전까지 이동 가능하다")
                         .contains(new Intersection(DEFAULT_ROW + 1, DEFAULT_FILE))
                         .doesNotContain(placedSameSidePieceIntersection)
@@ -142,9 +144,10 @@ class PieceTest {
             void 직선으로_1칸_이동_후_대각선으로_1칸_이동할_수_있다() {
                 AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
 
-                List<Intersection> movablePaths = HORSE.movablePaths(CURRENT_INTERSECTION, emptyAlivePieces);
+                List<Intersection> movableDestinations =
+                        HORSE.movableDestinations(CURRENT_INTERSECTION, emptyAlivePieces);
 
-                assertThat(movablePaths).containsExactlyInAnyOrder(
+                assertThat(movableDestinations).containsExactlyInAnyOrder(
                         new Intersection(3, 4), new Intersection(3, 6),
                         new Intersection(7, 4), new Intersection(7, 6),
                         new Intersection(4, 3), new Intersection(6, 3),
@@ -158,9 +161,9 @@ class PieceTest {
                 Intersection blockPoint = new Intersection(DEFAULT_ROW - 1, DEFAULT_FILE);
                 AlivePieces alivePieces = new AlivePieces(Map.of(blockPoint, SAME_SIDE_PIECE));
 
-                List<Intersection> movablePaths = HORSE.movablePaths(CURRENT_INTERSECTION, alivePieces);
+                List<Intersection> movableDestinations = HORSE.movableDestinations(CURRENT_INTERSECTION, alivePieces);
 
-                assertThat(movablePaths).doesNotContain(
+                assertThat(movableDestinations).doesNotContain(
                         new Intersection(3, 4),
                         new Intersection(3, 6)
                 );
@@ -186,10 +189,10 @@ class PieceTest {
                         secondBlockedIntersection, OPPOSITE_SIDE_PIECE)
                 );
 
-                assertThat(ELEPHANT.movablePaths(CURRENT_INTERSECTION, blockedAtFirstPassingIntersection))
+                assertThat(ELEPHANT.movableDestinations(CURRENT_INTERSECTION, blockedAtFirstPassingIntersection))
                         .doesNotContain(new Intersection(2, 3), new Intersection(2, 7));
 
-                assertThat(ELEPHANT.movablePaths(CURRENT_INTERSECTION, blockedAtSecondPassingIntersection))
+                assertThat(ELEPHANT.movableDestinations(CURRENT_INTERSECTION, blockedAtSecondPassingIntersection))
                         .doesNotContain(new Intersection(2, 3));
             }
         }
@@ -209,7 +212,7 @@ class PieceTest {
                 void 뛰어넘을_기물이_없는_경우() {
                     AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
 
-                    assertThat(CANNON.movablePaths(CURRENT_INTERSECTION, emptyAlivePieces)).isEmpty();
+                    assertThat(CANNON.movableDestinations(CURRENT_INTERSECTION, emptyAlivePieces)).isEmpty();
                 }
 
                 @DisplayName("뛰어넘을 기물이 있는 경우")
@@ -219,9 +222,10 @@ class PieceTest {
                     AlivePieces alivePiecesWithScreen = new AlivePieces(
                             Map.of(screen, SAME_SIDE_PIECE));
 
-                    List<Intersection> movablePaths = CANNON.movablePaths(CURRENT_INTERSECTION, alivePiecesWithScreen);
+                    List<Intersection> movableDestinations =
+                            CANNON.movableDestinations(CURRENT_INTERSECTION, alivePiecesWithScreen);
 
-                    assertThat(movablePaths).contains(
+                    assertThat(movableDestinations).contains(
                             new Intersection(DEFAULT_ROW - 2, DEFAULT_FILE),
                             new Intersection(DEFAULT_ROW - 3, DEFAULT_FILE)
                     );
@@ -240,7 +244,7 @@ class PieceTest {
                             placedCannonIntersection, new Piece(PieceType.CANNON, OPPOSITE_SIDE)
                     ));
 
-                    assertThat(CANNON.movablePaths(CURRENT_INTERSECTION, blockedByCannon)).isEmpty();
+                    assertThat(CANNON.movableDestinations(CURRENT_INTERSECTION, blockedByCannon)).isEmpty();
                 }
 
                 @DisplayName("적군의 포를 잡을 수 없다")
@@ -253,9 +257,10 @@ class PieceTest {
                             placedCannonDestination, new Piece(PieceType.CANNON, OPPOSITE_SIDE)
                     ));
 
-                    List<Intersection> movablePaths = CANNON.movablePaths(CURRENT_INTERSECTION, targetIsCannon);
+                    List<Intersection> movableDestinations =
+                            CANNON.movableDestinations(CURRENT_INTERSECTION, targetIsCannon);
 
-                    assertThat(movablePaths).doesNotContain(placedCannonDestination);
+                    assertThat(movableDestinations).doesNotContain(placedCannonDestination);
                 }
             }
         }
@@ -272,9 +277,9 @@ class PieceTest {
                 AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
                 List<Intersection> expected = createOneStepIntersectionsToAllDirection(CURRENT_INTERSECTION);
 
-                List<Intersection> generalPaths = general.movablePaths(CURRENT_INTERSECTION,
+                List<Intersection> generalPaths = general.movableDestinations(CURRENT_INTERSECTION,
                         emptyAlivePieces);
-                List<Intersection> guardPaths = guard.movablePaths(CURRENT_INTERSECTION, emptyAlivePieces);
+                List<Intersection> guardPaths = guard.movableDestinations(CURRENT_INTERSECTION, emptyAlivePieces);
 
                 assertThat(generalPaths).containsAll(expected);
                 assertThat(guardPaths).containsAll(expected);
