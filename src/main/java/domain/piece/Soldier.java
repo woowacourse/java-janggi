@@ -5,7 +5,7 @@ import domain.piece.error.PieceException;
 
 import java.util.List;
 
-public class Soldier extends Piece {
+public class Soldier extends PalaceMovementPiece {
 
     private static final List<List<Integer>> CHO_MOVABLE_LOCATION = List.of(List.of(-1, 0), List.of(0, -1), List.of(1, 0));
     private static final List<List<Integer>> HAN_MOVABLE_LOCATION = List.of(List.of(-1, 0), List.of(0, 1), List.of(1, 0));
@@ -21,6 +21,14 @@ public class Soldier extends Piece {
 
     @Override
     public void validateRule(Coordination from, Coordination to) {
+        if (palaceMovement.isPalace(from, to)) {
+            palaceMovement.validateRule(from, to);
+            return;
+        }
+        validateNormalRule(from, to);
+    }
+
+    private void validateNormalRule(Coordination from, Coordination to) {
         List<Integer> diff = List.of(from.differentColumn(to), from.differentRow(to));
         List<List<Integer>> movable = team == Team.CHO ? CHO_MOVABLE_LOCATION : HAN_MOVABLE_LOCATION;
         if (!movable.contains(diff)) {
