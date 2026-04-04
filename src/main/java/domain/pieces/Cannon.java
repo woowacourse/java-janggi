@@ -2,10 +2,14 @@ package domain.pieces;
 
 import domain.Camp;
 import domain.ExistBoard;
+import domain.MovingFunction;
 import domain.PieceType;
 import domain.Position;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 public class Cannon extends Piece {
 
@@ -15,130 +19,59 @@ public class Cannon extends Piece {
 
     @Override
     public boolean canMove(Position from, Position to, ExistBoard existBoard) {
-        Set<Position> movablePositions = new HashSet<>();
+        Map<Position, List<Position>> routeOfDestination = new HashMap<>();
 
-        movablePositions.addAll(moveUp(from, existBoard));
-        movablePositions.addAll(moveLeft(from, existBoard));
-        movablePositions.addAll(moveRight(from, existBoard));
-        movablePositions.addAll(moveDown(from, existBoard));
+        routeOfDestination.putAll(move(from, existBoard, this::north));
+        routeOfDestination.putAll(move(from, existBoard, this::south));
+        routeOfDestination.putAll(move(from, existBoard, this::west));
+        routeOfDestination.putAll(move(from, existBoard, this::east));
 
-        return movablePositions.contains(to);
+        return routeOfDestination.containsKey(to);
     }
 
-    private Set<Position> moveRight(Position position, ExistBoard existBoard) {
-        Set<Position> movablePositions = new HashSet<>();
-        boolean jumping = false;
-
-        try {
-            while (!jumping) {
-                position = right(position);
-                jumping = checkCannonJumping(position, existBoard);
+    private Map<Position, List<Position>> move(Position position, ExistBoard existBoard,
+            MovingFunction movement) {
+        Map<Position, List<Position>> movablePositions = new HashMap<>();
+        Optional<Position> next = movement.move(position);
+        while (next.isPresent()) {
+            Position currentPosition = next.get();
+            if (checkCannonJumping(currentPosition, existBoard)) {
+                return collectMovablePositions(currentPosition, existBoard, movement);
             }
-        } catch (IllegalArgumentException e) {
-
+            next = movement.move(currentPosition);
         }
-
-        try {
-            do {
-                position = right(position);
-                if (existBoard.isDifferentPieceType(position, this)) {
-                    movablePositions.add(position);
-                }
-            } while (!existBoard.isExist(position));
-        } catch (IllegalArgumentException e) {
-
-        }
-
         return movablePositions;
     }
 
-    private Set<Position> moveLeft(Position position, ExistBoard existBoard) {
-        Set<Position> movablePositions = new HashSet<>();
-        boolean jumping = false;
+    private Map<Position, List<Position>> collectMovablePositions(Position position,
+            ExistBoard existBoard, MovingFunction movement) {
+        Map<Position, List<Position>> movablePositions = new HashMap<>();
+        List<Position> collectedMovablePositions = new ArrayList<>();
+        Optional<Position> next = movement.move(position);
 
-        try {
-            while (!jumping) {
-                position = left(position);
-                jumping = checkCannonJumping(position, existBoard);
+        while (next.isPresent() && !existBoard.isExist(next.get())) {
+            Position currentPosition = next.get();
+            collectedMovablePositions.add(currentPosition);
+            movablePositions.put(currentPosition, new ArrayList<>(collectedMovablePositions));
+            next = movement.move(currentPosition);
+        }
+        next.ifPresent(pos -> {
+            if (checkCannonJumping(pos, existBoard)) {
+                collectedMovablePositions.add(pos);
+                movablePositions.put(pos, new ArrayList<>(collectedMovablePositions));
+
             }
-        } catch (IllegalArgumentException e) {
-
-        }
-
-        try {
-            do {
-                position = left(position);
-                if (existBoard.isDifferentPieceType(position, this)) {
-                    movablePositions.add(position);
-                }
-            } while (!existBoard.isExist(position));
-        } catch (IllegalArgumentException e) {
-
-        }
-
-        return movablePositions;
-    }
-
-    private Set<Position> moveUp(Position position, ExistBoard existBoard) {
-        Set<Position> movablePositions = new HashSet<>();
-        boolean jumping = false;
-
-        try {
-            while (!jumping) {
-                position = up(position);
-                jumping = checkCannonJumping(position, existBoard);
-            }
-        } catch (IllegalArgumentException e) {
-
-        }
-
-        try {
-            do {
-                position = up(position);
-                if (existBoard.isDifferentPieceType(position, this)) {
-                    movablePositions.add(position);
-                }
-            } while (!existBoard.isExist(position));
-        } catch (IllegalArgumentException e) {
-
-        }
-
-        return movablePositions;
-    }
-
-    private Set<Position> moveDown(Position position, ExistBoard existBoard) {
-        Set<Position> movablePositions = new HashSet<>();
-        boolean jumping = false;
-
-        try {
-            while (!jumping) {
-                position = down(position);
-                jumping = checkCannonJumping(position, existBoard);
-            }
-        } catch (IllegalArgumentException e) {
-
-        }
-
-        try {
-            do {
-                position = down(position);
-                if (existBoard.isDifferentPieceType(position, this)) {
-                    movablePositions.add(position);
-                }
-            } while (!existBoard.isExist(position));
-        } catch (IllegalArgumentException e) {
-
-        }
-
+        });
         return movablePositions;
     }
 
     private boolean checkCannonJumping(Position position, ExistBoard existBoard) {
-        return existBoard.isExist(position) && existBoard.isDifferentPieceType(position, this);
+        return existBoard.isExist(position) && existBoard.isNotCannon(position);
     }
 
     @Override
     public PieceType getPieceType() {
-        return this.pieceType;
+        return PieceType.CANNON;
     }
+
 }

@@ -4,6 +4,7 @@ import domain.Camp;
 import domain.ExistBoard;
 import domain.PieceType;
 import domain.Position;
+import java.util.Optional;
 
 public abstract class Piece {
 
@@ -27,5 +28,37 @@ public abstract class Piece {
 
     public Camp getCamp() {
         return this.camp;
+    }
+
+    public Optional<Position> north(Position position) {
+        return Position.of(position.getCol(), position.getRow() - 1);
+    }
+
+    public Optional<Position> south(Position position) {
+        return Position.of(position.getCol(), position.getRow() + 1);
+    }
+
+    public Optional<Position> west(Position position) {
+        return Position.of(position.getCol() - 1, position.getRow());
+    }
+
+    public Optional<Position> east(Position position) {
+        return Position.of(position.getCol() + 1, position.getRow());
+    }
+
+    public Optional<Position> northWest(Position position) {
+        return Position.of(position.getCol() - 1, position.getRow() - 1);
+    }
+
+    public Optional<Position> northEast(Position position) {
+        return Position.of(position.getCol() + 1, position.getRow() - 1);
+    }
+
+    public Optional<Position> southWest(Position position) {
+        return Position.of(position.getCol() - 1, position.getRow() + 1);
+    }
+
+    public Optional<Position> southEast(Position position) {
+        return Position.of(position.getCol() + 1, position.getRow() + 1);
     }
 }

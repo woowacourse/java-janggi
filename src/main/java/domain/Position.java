@@ -19,8 +19,11 @@ public class Position {
         this.y = y;
     }
 
-    public int getX() {
-        return x;
+    public static Optional<Position> of(int col, int row) {
+        if (col < 0 || col > MAX_COL_VALUE || row < 0 || row > MAX_ROW_VALUE) {
+            return Optional.empty();
+        }
+        return Optional.of(new Position(col, row));
     }
 
     public int getY() {
@@ -39,6 +42,10 @@ public class Position {
             throw new IllegalArgumentException(
                     "[ERROR] y 좌표는 " + MIN_Y_VALUE + "~" + MAX_Y_VALUE + "사이어야합니다.");
         }
+    }
+
+    public Position reverseRow() {
+        return new Position(this.col, MAX_ROW_VALUE - this.row);
     }
 
     @Override

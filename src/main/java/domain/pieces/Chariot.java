@@ -2,10 +2,14 @@ package domain.pieces;
 
 import domain.Camp;
 import domain.ExistBoard;
+import domain.MovingFunction;
 import domain.PieceType;
 import domain.Position;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 public class Chariot extends Piece {
 
@@ -15,70 +19,36 @@ public class Chariot extends Piece {
 
     @Override
     public boolean canMove(Position from, Position to, ExistBoard existBoard) {
-        Set<Position> movablePositions = new HashSet<>();
+        Map<Position, List<Position>> routeOfDestination = new HashMap<>();
 
-        movablePositions.addAll(moveUp(from, existBoard));
-        movablePositions.addAll(moveDown(from, existBoard));
-        movablePositions.addAll(moveLeft(from, existBoard));
-        movablePositions.addAll(moveRight(from, existBoard));
+        routeOfDestination.putAll(move(from, existBoard, this::north));
+        routeOfDestination.putAll(move(from, existBoard, this::south));
+        routeOfDestination.putAll(move(from, existBoard, this::west));
+        routeOfDestination.putAll(move(from, existBoard, this::east));
 
-        return movablePositions.contains(to);
+        return routeOfDestination.containsKey(to);
     }
 
-    private Set<Position> moveUp(Position position, ExistBoard existBoard) {
-        Set<Position> movablePositions = new HashSet<>();
-        try {
-            do {
-                position = up(position);
-                movablePositions.add(position);
-            } while (!existBoard.isExist(position));
-        } catch (IllegalArgumentException e) {
+    private Map<Position, List<Position>> move(Position position, ExistBoard existBoard,
+            MovingFunction movement) {
+        Map<Position, List<Position>> movablePositions = new HashMap<>();
+        List<Position> collectedMovablePositions = new ArrayList<>();
+        Optional<Position> next = movement.move(position);
+        while (next.isPresent()) {
+            Position currentPosition = next.get();
+            collectedMovablePositions.add(currentPosition);
+            movablePositions.put(currentPosition, collectedMovablePositions);
 
-        }
-        return movablePositions;
-    }
-
-    private Set<Position> moveLeft(Position position, ExistBoard existBoard) {
-        Set<Position> movablePositions = new HashSet<>();
-        try {
-            do {
-                position = left(position);
-                movablePositions.add(position);
-            } while (!existBoard.isExist(position));
-        } catch (IllegalArgumentException e) {
-
-        }
-        return movablePositions;
-    }
-
-    private Set<Position> moveRight(Position position, ExistBoard existBoard) {
-        Set<Position> movablePositions = new HashSet<>();
-        try {
-            do {
-                position = right(position);
-                movablePositions.add(position);
-            } while (!existBoard.isExist(position));
-        } catch (IllegalArgumentException e) {
-
-        }
-        return movablePositions;
-    }
-
-    private Set<Position> moveDown(Position position, ExistBoard existBoard) {
-        Set<Position> movablePositions = new HashSet<>();
-        try {
-            do {
-                position = down(position);
-                movablePositions.add(position);
-            } while (!existBoard.isExist(position));
-        } catch (IllegalArgumentException e) {
-
+            if (existBoard.isExist(currentPosition)) {
+                return movablePositions;
+            }
+            next = movement.move(currentPosition);
         }
         return movablePositions;
     }
 
     @Override
     public PieceType getPieceType() {
-        return this.pieceType;
+        return PieceType.CHARIOT;
     }
 }

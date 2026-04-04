@@ -2,9 +2,11 @@ package domain.pieces;
 
 import domain.Camp;
 import domain.ExistBoard;
+import domain.MovingFunction;
 import domain.PieceType;
 import domain.Position;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 public class Soldier extends Piece {
@@ -18,54 +20,25 @@ public class Soldier extends Piece {
 
         Set<Position> destination = new HashSet<>();
 
-        destination.add(move_L(from));
-        destination.add(move_R(from));
+        moveSoldier(from, this::west).ifPresent(destination::add);
+        moveSoldier(from, this::east).ifPresent(destination::add);
 
         if (this.isSameCamp(Camp.HAN)) {
-            destination.add(move_D(from));
+            moveSoldier(from, this::south).ifPresent(destination::add);
         }
-
         if (this.isSameCamp(Camp.CHO)) {
-            destination.add(move_U(from));
+            moveSoldier(from, this::north).ifPresent(destination::add);
         }
 
         return destination.contains(to);
     }
 
-    private Position move_U(Position position) {
-        try {
-            return up(position);
-        } catch (IllegalArgumentException e) {
-            return position;
-        }
-    }
-
-    private Position move_L(Position position) {
-        try {
-            return left(position);
-        } catch (IllegalArgumentException e) {
-            return position;
-        }
-    }
-
-    private Position move_R(Position position) {
-        try {
-            return right(position);
-        } catch (IllegalArgumentException e) {
-            return position;
-        }
-    }
-
-    private Position move_D(Position position) {
-        try {
-            return down(position);
-        } catch (IllegalArgumentException e) {
-            return position;
-        }
+    private Optional<Position> moveSoldier(Position position, MovingFunction movement) {
+        return movement.move(position);
     }
 
     @Override
     public PieceType getPieceType() {
-        return this.pieceType;
+        return PieceType.SOLDIER;
     }
 }

@@ -2,12 +2,14 @@ package domain.pieces;
 
 import domain.Camp;
 import domain.ExistBoard;
+import domain.MovingFunction;
 import domain.PieceType;
 import domain.Position;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class Elephant extends Piece {
 
@@ -19,189 +21,44 @@ public class Elephant extends Piece {
     public boolean canMove(Position from, Position to, ExistBoard existBoard) {
         Map<Position, List<Position>> routeOfDestination = new HashMap<>();
 
-        routeOfDestination.putAll(move_U_RU(from));
-        routeOfDestination.putAll(move_U_LU(from));
-        routeOfDestination.putAll(move_D_RD(from));
-        routeOfDestination.putAll(move_D_LD(from));
-        routeOfDestination.putAll(move_R_RU(from));
-        routeOfDestination.putAll(move_R_RD(from));
-        routeOfDestination.putAll(move_L_LU(from));
-        routeOfDestination.putAll(move_L_LD(from));
+        routeOfDestination.putAll(move(from, this::north, this::northEast, existBoard));
+        routeOfDestination.putAll(move(from, this::north, this::northWest, existBoard));
+        routeOfDestination.putAll(move(from, this::south, this::southEast, existBoard));
+        routeOfDestination.putAll(move(from, this::south, this::southWest, existBoard));
+        routeOfDestination.putAll(move(from, this::east, this::northEast, existBoard));
+        routeOfDestination.putAll(move(from, this::east, this::southEast, existBoard));
+        routeOfDestination.putAll(move(from, this::west, this::northWest, existBoard));
+        routeOfDestination.putAll(move(from, this::west, this::southWest, existBoard));
 
-        if (!routeOfDestination.containsKey(to)) {
-            return false;
-        }
-
-        List<Position> route = routeOfDestination.get(to);
-        for (Position position : route) {
-            if (existBoard.isExist(position)) {
-                return false;
-            }
-        }
-
-        return true;
+        return routeOfDestination.containsKey(to);
     }
 
-    private Map<Position, List<Position>> move_U_RU(Position position) {
-        Map<Position, List<Position>> routeOfDestination = new HashMap<>();
-        List<Position> route = new ArrayList<>();
-        try {
-            position = up(position);
-            route.add(position);
-
-            position = rightUpDiagonal(position);
-            route.add(position);
-
-            position = rightUpDiagonal(position);
-
-            routeOfDestination.put(position, route);
-        } catch (IllegalArgumentException e) {
-            // 생성할 수 없는 Position이면 무시
+    private Map<Position, List<Position>> move(Position position, MovingFunction firstMovement,
+            MovingFunction secondMovement, ExistBoard existBoard) {
+        Map<Position, List<Position>> movablePositions = new HashMap<>();
+        List<Position> collectedMovablePositions = new ArrayList<>();
+        Optional<Position> next1 = firstMovement.move(position);
+        if (next1.isEmpty() || existBoard.isExist(next1.get())) {
+            return movablePositions;
         }
-        return routeOfDestination;
-    }
-
-    private Map<Position, List<Position>> move_U_LU(Position position) {
-        Map<Position, List<Position>> routeOfDestination = new HashMap<>();
-        List<Position> route = new ArrayList<>();
-        try {
-            position = up(position);
-            route.add(position);
-
-            position = leftUpDiagonal(position);
-            route.add(position);
-
-            position = leftUpDiagonal(position);
-
-            routeOfDestination.put(position, route);
-        } catch (IllegalArgumentException e) {
-            // 생성할 수 없는 Position이면 무시
+        Optional<Position> next2 = secondMovement.move(next1.get());
+        if (next2.isEmpty() || existBoard.isExist(next2.get())) {
+            return movablePositions;
         }
-
-        return routeOfDestination;
-    }
-
-    private Map<Position, List<Position>> move_D_RD(Position position) {
-        Map<Position, List<Position>> routeOfDestination = new HashMap<>();
-        List<Position> route = new ArrayList<>();
-        try {
-            position = down(position);
-            route.add(position);
-
-            position = rightDownDiagonal(position);
-            route.add(position);
-
-            position = rightDownDiagonal(position);
-
-            routeOfDestination.put(position, route);
-        } catch (IllegalArgumentException e) {
-            // 생성할 수 없는 Position이면 무시
+        Optional<Position> next3 = secondMovement.move(next2.get());
+        if (next3.isEmpty() || existBoard.isExist(next3.get())) {
+            return movablePositions;
         }
-        return routeOfDestination;
-    }
+        collectedMovablePositions.add(next1.get());
+        collectedMovablePositions.add(next2.get());
+        collectedMovablePositions.add(next3.get());
 
-    private Map<Position, List<Position>> move_D_LD(Position position) {
-        Map<Position, List<Position>> routeOfDestination = new HashMap<>();
-        List<Position> route = new ArrayList<>();
-        try {
-            position = down(position);
-            route.add(position);
-
-            position = leftDownDiagonal(position);
-            route.add(position);
-
-            position = leftDownDiagonal(position);
-
-            routeOfDestination.put(position, route);
-        } catch (IllegalArgumentException e) {
-            // 생성할 수 없는 Position이면 무시
-        }
-
-        return routeOfDestination;
-    }
-
-    private Map<Position, List<Position>> move_R_RU(Position position) {
-        Map<Position, List<Position>> routeOfDestination = new HashMap<>();
-        List<Position> route = new ArrayList<>();
-        try {
-            position = right(position);
-            route.add(position);
-
-            position = rightUpDiagonal(position);
-            route.add(position);
-
-            position = rightUpDiagonal(position);
-
-            routeOfDestination.put(position, route);
-        } catch (IllegalArgumentException e) {
-            // 생성할 수 없는 Position이면 무시
-        }
-
-        return routeOfDestination;
-    }
-
-    private Map<Position, List<Position>> move_R_RD(Position position) {
-        Map<Position, List<Position>> routeOfDestination = new HashMap<>();
-        List<Position> route = new ArrayList<>();
-        try {
-            position = right(position);
-            route.add(position);
-
-            position = rightDownDiagonal(position);
-            route.add(position);
-
-            position = rightDownDiagonal(position);
-
-            routeOfDestination.put(position, route);
-        } catch (IllegalArgumentException e) {
-            // 생성할 수 없는 Position이면 무시
-        }
-
-        return routeOfDestination;
-    }
-
-    private Map<Position, List<Position>> move_L_LU(Position position) {
-        Map<Position, List<Position>> routeOfDestination = new HashMap<>();
-        List<Position> route = new ArrayList<>();
-        try {
-            position = left(position);
-            route.add(position);
-
-            position = leftUpDiagonal(position);
-            route.add(position);
-
-            position = leftUpDiagonal(position);
-
-            routeOfDestination.put(position, route);
-        } catch (IllegalArgumentException e) {
-            // 생성할 수 없는 Position이면 무시
-        }
-
-        return routeOfDestination;
-    }
-
-    private Map<Position, List<Position>> move_L_LD(Position position) {
-        Map<Position, List<Position>> routeOfDestination = new HashMap<>();
-        List<Position> route = new ArrayList<>();
-        try {
-            position = left(position);
-            route.add(position);
-
-            position = leftDownDiagonal(position);
-            route.add(position);
-
-            position = leftDownDiagonal(position);
-
-            routeOfDestination.put(position, route);
-        } catch (IllegalArgumentException e) {
-            // 생성할 수 없는 Position이면 무시
-        }
-
-        return routeOfDestination;
+        movablePositions.put(next3.get(), collectedMovablePositions);
+        return movablePositions;
     }
 
     @Override
     public PieceType getPieceType() {
-        return this.pieceType;
+        return PieceType.ELEPHANT;
     }
 }
