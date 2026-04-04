@@ -8,14 +8,14 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import repository.entity.GameContextEntity;
+import repository.entity.GameContext;
 
 class GameContextJdbcRepositoryTest {
 
 
     private static final String CONFIG_FILE_NAME = "database.properties";
 
-    private static final String CREATE_GAME_CONTEXT_TABLE_SQL = "CREATE TABLE IF NOT EXISTS game_context (" +
+    private static final String CREATE_GAME_CONTEXT_TABLE_SQL = "CREATE TABLE IF NOT EXISTS game_contexts (" +
             "game_context_id BIGINT PRIMARY KEY AUTO_INCREMENT, " +
             "current_turn_own_team VARCHAR(10) NOT NULL, " +
             "game_state VARCHAR(10) NOT NULL)";
@@ -38,7 +38,7 @@ class GameContextJdbcRepositoryTest {
     @DisplayName("단일 GameContext에 대해 잘 저장한다")
     void save_success() throws SQLException {
         //given
-        GameContextEntity testEntity = new GameContextEntity(null, "CHO", "PLAYING");
+        GameContext testEntity = new GameContext(null, "CHO", "PLAYING");
 
         //when
         Long savedEntityDatabaseId = gameContextRepository.save(testEntity);
@@ -52,14 +52,14 @@ class GameContextJdbcRepositoryTest {
         //given
         String testCurrentTurnOwnTeam = "CHO";
         String testGameState = "PLAYING";
-        GameContextEntity testEntity = new GameContextEntity(null, testCurrentTurnOwnTeam, testGameState);
+        GameContext testEntity = new GameContext(null, testCurrentTurnOwnTeam, testGameState);
         Long savedEntityDatabaseId = gameContextRepository.save(testEntity);
 
-        GameContextEntity expectResult = new GameContextEntity(savedEntityDatabaseId, testCurrentTurnOwnTeam,
+        GameContext expectResult = new GameContext(savedEntityDatabaseId, testCurrentTurnOwnTeam,
                 testGameState);
 
         //when
-        GameContextEntity result = gameContextRepository.find(savedEntityDatabaseId);
+        GameContext result = gameContextRepository.find(savedEntityDatabaseId);
 
         assertEquals(expectResult, result);
     }
@@ -72,15 +72,15 @@ class GameContextJdbcRepositoryTest {
         String expectCurrentTurnOwnTeam = "HAN";
         String testGameState = "PLAYING";
 
-        GameContextEntity originEntity = new GameContextEntity(null, originCurrentTurnOwnTeam, testGameState);
-        GameContextEntity updateEntity = new GameContextEntity(null, expectCurrentTurnOwnTeam, testGameState);
+        GameContext originEntity = new GameContext(null, originCurrentTurnOwnTeam, testGameState);
+        GameContext updateEntity = new GameContext(null, expectCurrentTurnOwnTeam, testGameState);
 
         Long savedEntityDatabaseId = gameContextRepository.save(originEntity);
 
         //when
 
         gameContextRepository.update(savedEntityDatabaseId, updateEntity);
-        GameContextEntity result = gameContextRepository.find(savedEntityDatabaseId);
+        GameContext result = gameContextRepository.find(savedEntityDatabaseId);
 
         assertEquals(expectCurrentTurnOwnTeam, result.currentTurnOwnTeam());
     }

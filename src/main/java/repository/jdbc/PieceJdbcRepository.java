@@ -9,11 +9,11 @@ import repository.entity.Piece;
 
 public class PieceJdbcRepository implements PieceDao {
 
-    private static final String INSERT_PIECE_SQL = "INSERT INTO piece(team, type) values(?, ?)";
-    private static final String SELECT_PIECE_SQL = "SELECT * FROM piece WHERE piece_id = ?";
-    private static final String SELECT_PIECES_SQL = "SELECT * FROM piece";
+    private static final String INSERT_PIECE_SQL = "INSERT INTO pieces(team, type) values(?, ?)";
+    private static final String SELECT_PIECE_SQL = "SELECT * FROM pieces WHERE piece_id = ?";
+    private static final String SELECT_PIECES_SQL = "SELECT * FROM pieces";
 
-    private static final String CREATE_PIECE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS piece (" +
+    private static final String CREATE_PIECE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS pieces (" +
             "piece_id BIGINT PRIMARY KEY AUTO_INCREMENT, " +
             "team VARCHAR(10) NOT NULL, " +
             "type VARCHAR(10) NOT NULL)";

@@ -1,12 +1,12 @@
 package repository.dao;
 
 import java.sql.SQLException;
-import repository.entity.GameContextEntity;
+import repository.entity.GameContext;
 
 public interface GameContextDao {
-    Long save(GameContextEntity entity) throws SQLException;
+    Long save(GameContext entity) throws SQLException;
 
-    GameContextEntity find(Long entityId) throws SQLException;
+    GameContext find(Long entityId) throws SQLException;
 
-    void update(Long entityId, GameContextEntity newEntity) throws SQLException;
+    void update(Long entityId, GameContext newEntity) throws SQLException;
 }

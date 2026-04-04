@@ -16,7 +16,7 @@ class PieceJdbcRepositoryTest {
     private static final String CONFIG_FILE_NAME = "database.properties";
 
 
-    private static final String CREATE_PIECE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS piece (" +
+    private static final String CREATE_PIECE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS pieces (" +
             "piece_id BIGINT PRIMARY KEY AUTO_INCREMENT, " +
             "team VARCHAR(10) NOT NULL, " +
             "type VARCHAR(10) NOT NULL)";

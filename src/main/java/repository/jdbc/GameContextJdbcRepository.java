@@ -4,19 +4,18 @@ import java.sql.SQLException;
 import java.util.List;
 import repository.RepositoryErrorMessage;
 import repository.dao.GameContextDao;
-import repository.entity.GameContextEntity;
+import repository.entity.GameContext;
 
 public class GameContextJdbcRepository implements GameContextDao {
 
-    private static final String INSERT_GAME_CONTEXT_SQL = "INSERT INTO game_context(current_turn_own_team, game_state) values(?, ?)";
-    private static final String SELECT_GAME_CONTEXT_SQL = "SELECT * FROM game_context WHERE game_context_id = ?";
-    private static final String UPDATE_GAME_CONTEXT_SQL = "UPDATE game_context SET current_turn_own_team = ?, game_state = ? WHERE game_context_id = ?";
-
-    private static final String CREATE_GAME_CONTEXT_TABLE_SQL = "CREATE TABLE IF NOT EXISTS game_context (" +
+    private static final String CREATE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS game_contexts (" +
             "game_context_id BIGINT PRIMARY KEY AUTO_INCREMENT, " +
-            "current_turn_own_team VARCHAR(10) NOT NULL, " +
-            "game_state VARCHAR(10) NOT NULL)";
+            "current_turn_own_team VARCHAR(255), " +
+            "game_state VARCHAR(255))";
 
+    private static final String INSERT_SQL = "INSERT INTO game_contexts (current_turn_own_team, game_state) VALUES (?, ?)";
+    private static final String SELECT_BY_ID_SQL = "SELECT game_context_id, current_turn_own_team, game_state FROM game_contexts WHERE game_context_id = ?";
+    private static final String UPDATE_SQL = "UPDATE game_contexts SET current_turn_own_team = ?, game_state = ? WHERE game_context_id = ?";
 
     private final JdbcTemplate template;
 
@@ -24,21 +23,25 @@ public class GameContextJdbcRepository implements GameContextDao {
         this.template = template;
     }
 
-    @Override
-    public Long save(GameContextEntity entity) throws SQLException {
-        Object generatedKey = template.executeSave(
-                INSERT_GAME_CONTEXT_SQL,
-                entity.currentTurnOwnTeam(),
-                entity.gameState()
-        );
-        return (Long) generatedKey;
+    private void initTable() throws SQLException {
+        template.executeCommand(CREATE_TABLE_SQL);
     }
 
     @Override
-    public GameContextEntity find(Long entityId) throws SQLException {
-        List<Object> results = template.executeRead(
-                SELECT_GAME_CONTEXT_SQL,
-                (rs) -> new GameContextEntity(
+    public Long save(GameContext entity) throws SQLException {
+        Object generatedId = template.executeSave(
+                INSERT_SQL,
+                entity.currentTurnOwnTeam(),
+                entity.gameState()
+        );
+        return (Long) generatedId;
+    }
+
+    @Override
+    public GameContext find(Long entityId) throws SQLException {
+        List<GameContext> entities = template.executeRead(
+                SELECT_BY_ID_SQL,
+                (rs) -> new GameContext(
                         rs.getLong("game_context_id"),
                         rs.getString("current_turn_own_team"),
                         rs.getString("game_state")
@@ -46,23 +49,23 @@ public class GameContextJdbcRepository implements GameContextDao {
                 entityId
         );
 
-        validateFindResult(results);
-        return (GameContextEntity) results.getFirst();
+        validateSingleEntity(entities);
+        return entities.getFirst();
     }
 
-    private void validateFindResult(List<Object> results) {
-        if (results.isEmpty()) {
+    private void validateSingleEntity(List<GameContext> entities) {
+        if (entities.isEmpty()) {
             throw new IllegalStateException(RepositoryErrorMessage.NOT_FOUND.getMessage());
         }
-        if (results.size() > 1) {
+        if (entities.size() > 1) {
             throw new IllegalStateException(RepositoryErrorMessage.NOT_SINGLE_RESULT.getMessage());
         }
     }
 
     @Override
-    public void update(Long entityId, GameContextEntity newEntity) throws SQLException {
+    public void update(Long entityId, GameContext newEntity) throws SQLException {
         template.executeCommand(
-                UPDATE_GAME_CONTEXT_SQL,
+                UPDATE_SQL,
                 newEntity.currentTurnOwnTeam(),
                 newEntity.gameState(),
                 entityId
