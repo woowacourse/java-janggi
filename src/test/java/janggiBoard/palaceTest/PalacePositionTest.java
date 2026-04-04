@@ -29,4 +29,18 @@ public class PalacePositionTest {
         Position currentPosition = new Position(8, 6);
         Assertions.assertThat(currentPosition.isInsidePalace()).isFalse();
     }
+
+    @Test
+    void 한나라_상대좌표를_반환한다() {
+        Position currentPosition = new Position(0, 3);
+        Position relativePosition = new Position(0, 0);
+        Assertions.assertThat(currentPosition.toRelative()).isEqualTo(relativePosition);
+    }
+
+    @Test
+    void 초나라_상대좌표를_반환한다() {
+        Position currentPosition = new Position(7, 3);
+        Position relativePosition = new Position(0, 0);
+        Assertions.assertThat(currentPosition.toRelative()).isEqualTo(relativePosition);
+    }
 }
