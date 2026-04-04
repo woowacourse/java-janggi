@@ -37,11 +37,11 @@ public class Position {
         return isInsideHanPalace() || isInsideChoPalace();
     }
 
-    private boolean isInsideHanPalace() {
+    public boolean isInsideHanPalace() {
         return rows >= 0 && rows <= 2 && isInsidePalaceColumns();
     }
 
-    private boolean isInsideChoPalace() {
+    public boolean isInsideChoPalace() {
         return rows >= 7 && rows <= 9 && isInsidePalaceColumns();
     }
 

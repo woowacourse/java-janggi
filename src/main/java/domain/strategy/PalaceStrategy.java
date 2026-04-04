@@ -1,7 +1,9 @@
 package domain.strategy;
 
+import domain.PalacePosition;
 import domain.Position;
 import domain.Team;
+import domain.piece.Piece;
 import domain.piece.PieceProvider;
 import util.CollisionValidator;
 
@@ -10,22 +12,36 @@ import java.util.List;
 
 public class PalaceStrategy implements MoveStrategy {
 
-    private static final List<Direction> directions = List.of(Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST,
-            Direction.NORTH_EAST, Direction.NORTH_WEST, Direction.SOUTH_EAST, Direction.SOUTH_WEST);
-
     @Override
     public List<Position> getMoveCandidates(Position currentPosition, PieceProvider board) {
         List<Position> candidates = new ArrayList<>();
-        Team team = board.getPiece(currentPosition).getTeam();
-        for (Direction direction : directions) {
-            int targetRow = currentPosition.getRows() + direction.getRowOffset();
-            int targetColumns = currentPosition.getColumns() + direction.getColOffset();
+        Piece piece = board.getPiece(currentPosition);
+        Team team = piece.getTeam();
+        if (!currentPosition.isInsidePalace()) {
+            return candidates;
+        }
+        Position relativePosition = currentPosition.toRelative();
+        PalacePosition palacePosition = PalacePosition.findByPosition(relativePosition);
 
-            Position targetPosition = new Position(targetRow, targetColumns);
-            if (CollisionValidator.canMoveToTarget(targetPosition, board, team)) {
+        for (Direction palaceDirection : palacePosition.getDirections()) {
+            int targetRow = currentPosition.getRows() + palaceDirection.getRowOffset();
+            int targetColumn = currentPosition.getColumns() + palaceDirection.getColOffset();
+
+            Position targetPosition = new Position(targetRow, targetColumn);
+            if (CollisionValidator.canMoveToTarget(targetPosition, board, team) && isStayInPalace(targetPosition, team)) {
                 candidates.add(targetPosition);
             }
         }
         return candidates;
+    }
+
+    private boolean isStayInPalace(Position targetPosition, Team team) {
+        if (team == Team.HAN) {
+            return targetPosition.isInsideHanPalace();
+        }
+        if (team == Team.CHO) {
+            return targetPosition.isInsideChoPalace();
+        }
+        return false;
     }
 }
