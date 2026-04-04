@@ -50,6 +50,17 @@ public class BoardTest {
         assertThat(actual).isEqualTo(expected);
     }
 
+    @Test
+    @DisplayName("빈 칸의 기물을 이동하려고 한 경우")
+    void failure() {
+        Map<Position, Piece> positionPieceMap = new LinkedHashMap<>();
+        Board board = new Board(positionPieceMap);
+        Position position = Position.valueOf(9, 5);
+
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> board.calculateMovablePositions(position));
+    }
+
     @Nested
     @DisplayName("빈칸 여부 테스트")
     class isBlank {
@@ -77,35 +88,6 @@ public class BoardTest {
             boolean actual = board.hasPieceAt(position);
 
             assertThat(actual).isEqualTo(expected);
-        }
-    }
-
-    @Nested
-    @DisplayName("기물 획득 테스트")
-    class FindPieceByPosition {
-
-        @Test
-        @DisplayName("정상 테스트")
-        void success() {
-            Position position = Position.valueOf(1, 1);
-            Piece expected = new Cannon(TeamType.RED);
-            Map<Position, Piece> positionPieceMap = Map.of(position, expected);
-            Board board = new Board(positionPieceMap);
-
-            Piece actual = board.getPieceInPosition(position);
-
-            assertThat(actual).usingRecursiveComparison()
-                    .isEqualTo(expected);
-        }
-
-        @Test
-        @DisplayName("빈칸인 경우 예외가 발생한다.")
-        void failure() {
-            Position position = Position.valueOf(1, 1);
-            Board board = new Board(new LinkedHashMap<>());
-
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> board.getPieceInPosition(position));
         }
     }
 }
