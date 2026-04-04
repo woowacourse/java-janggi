@@ -36,6 +36,10 @@ public abstract class Piece {
         return this.team != Team.NONE && this.team == other.team;
     }
 
+    public boolean belongsTo(Team team) {
+        return this.team == team;
+    }
+
     public boolean isSameType(PieceType pieceType) {
         return this.type == pieceType;
     }

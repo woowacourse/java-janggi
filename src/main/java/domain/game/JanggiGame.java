@@ -19,8 +19,15 @@ public class JanggiGame {
     }
 
     public void move(Position source, Position destination) {
+        validateTurn(source);
         board.move(source, destination);
         turn = turn.next();
+    }
+
+    private void validateTurn(Position source) {
+        if (!board.pieceAt(source).belongsTo(turn.current())) {
+            throw new IllegalArgumentException("현재 턴의 기물이 아닙니다.");
+        }
     }
 
     public boolean isRunning() {
