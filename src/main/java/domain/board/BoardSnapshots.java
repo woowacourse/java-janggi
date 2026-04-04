@@ -1,13 +1,21 @@
 package domain.board;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class BoardSnapshots {
-    private final Map<BoardSnapshot, Long> snapshotCount = new HashMap<>();
+    private final List<BoardSnapshot> boardSnapshots = new ArrayList<>();
 
-    public boolean appearSamePositionThreeTurn(BoardSnapshot boardSnapshot) {
-        snapshotCount.put(boardSnapshot, snapshotCount.getOrDefault(boardSnapshot, 0L) + 1);
-        return snapshotCount.get(boardSnapshot) >= 3;
+    public void addBoardSnapshot(BoardSnapshot boardSnapshot) {
+        boardSnapshots.add(boardSnapshot);
+    }
+
+    public boolean appearSamePositionThreeTurn() {
+        Map<BoardSnapshot, Long> snapshotCount = boardSnapshots.stream()
+                .collect(Collectors.groupingBy(boardSnapshot -> boardSnapshot, Collectors.counting()));
+        return snapshotCount.values().stream()
+                .anyMatch(count -> count >= 3);
     }
 }

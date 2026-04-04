@@ -5,6 +5,8 @@ import static domain.Position.X_MAXIMUM_POSITION;
 import static domain.Position.Y_MAXIMUM_POSITION;
 
 import domain.Position;
+import domain.board.BoardSnapshot;
+import domain.board.BoardSnapshots;
 import domain.board.BoardStates;
 import domain.country.CountryType;
 import domain.piece.Piece;
@@ -17,7 +19,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class JanggiService {
@@ -342,31 +346,111 @@ public class JanggiService {
         }
     }
 
-    public static void insertBoardSnapshot(Position position, PieceInfo pieceInfo, int boardId) {
-        String sql = "INSERT INTO board_snapshot (`position_x`, `position_y`, `piece_type`, `piece_country`, `board_id`) VALUES (?, ?, ?, ?, ?)";
+    public static void insertBoardSnapshot(PieceInfos pieceInfos, int boardId, CountryType turn) {
+        String sql = "INSERT INTO board_snapshot (`id`, `position_x`, `position_y`, `piece_type`, `piece_country`, `board_id`, `turn`) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        int snapshotId = getNextSnapshotId();
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
-            preparedStatement.setInt(1, position.x());
-            preparedStatement.setInt(2, position.y());
-            preparedStatement.setString(3, pieceInfo.pieceType().toString());
-            preparedStatement.setString(4, pieceInfo.countryType().toString());
-            preparedStatement.setInt(5, boardId);
+            for (Position position : pieceInfos.getKeys()) {
+                PieceInfo pieceInfo = pieceInfos.get(position);
+                preparedStatement.setInt(1, snapshotId);
+                preparedStatement.setInt(2, position.x());
+                preparedStatement.setInt(3, position.y());
+                preparedStatement.setString(4, pieceInfo.pieceType().toString());
+                preparedStatement.setString(5, pieceInfo.countryType().toString());
+                preparedStatement.setInt(6, boardId);
+                preparedStatement.setString(7, turn.toString());
+                int result = preparedStatement.executeUpdate();
+                // Query가 제대로 실행된 경우
+                if (result >= 1) {
+                    System.out.println("보드 스냅샷 추가 완료");
+                }
 
-            int result = preparedStatement.executeUpdate();
-
-            // Query가 제대로 실행된 경우
-            if (result >= 1) {
-                System.out.println("보드 스냅샷 추가 완료");
-            }
-
-            // Query가 제대로 실행되지 않은 경우
-            else {
-                System.out.println("보드 스냅샷 추가 실패");
+                // Query가 제대로 실행되지 않은 경우
+                else {
+                    System.out.println("보드 스냅샷 추가 실패");
+                }
             }
         } catch (SQLException e) {
             System.out.println("에러: " + e);
         }
+    }
+
+    private static int getNextSnapshotId() {
+        String sql = "SELECT MAX(id) FROM board_snapshot";
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            if (resultSet.next()) {
+                int maxId = resultSet.getInt(1);
+                return maxId + 1;
+            }
+        } catch (SQLException e) {
+            System.out.println("에러: " + e);
+        }
+        return 1;
+    }
+
+    public static BoardSnapshots loadBoardSnapshot(int boardId) {
+        BoardSnapshots boardSnapshots = new BoardSnapshots();
+        List<BoardSnapshot> snapshots = new ArrayList<>();
+        String sql = "SELECT * FROM board_snapshot WHERE id = ? AND board_id = ?";
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            List<Integer> ids = getBoardSnapshotIds();
+            Map<Position, PieceInfo> pieceInfos;
+            for (int id : ids) {
+                String turn = "";
+                pieceInfos = new HashMap<>();
+                preparedStatement.setInt(1, id);
+                preparedStatement.setInt(2, boardId);
+                ResultSet resultSet = preparedStatement.executeQuery();
+
+                while (resultSet.next()) {
+                    int x = resultSet.getInt("position_x");
+                    int y = resultSet.getInt("position_y");
+                    String pieceType = resultSet.getString("piece_type");
+                    String pieceCountry = resultSet.getString("piece_country");
+                    PieceInfo pieceInfo = new PieceInfo(PieceType.valueOf(pieceType),
+                            CountryType.valueOf(pieceCountry));
+                    pieceInfos.put(new Position(x, y), pieceInfo);
+                    turn = resultSet.getString("turn");
+                }
+                if (turn.isEmpty()) {
+                    continue;
+                }
+                snapshots.add(new BoardSnapshot(new PieceInfos(pieceInfos), CountryType.valueOf(turn)));
+            }
+
+            for (BoardSnapshot boardSnapshot : snapshots) {
+                boardSnapshots.addBoardSnapshot(boardSnapshot);
+            }
+
+            System.out.println("스냅샷 로드 완료");
+            return boardSnapshots;
+        } catch (SQLException e) {
+            System.out.println("에러: " + e);
+        }
+        throw new IllegalStateException("스냅샷 로드 실패");
+    }
+
+    private static List<Integer> getBoardSnapshotIds() {
+        String sql = "SELECT DISTINCT id FROM board_snapshot";
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            List<Integer> ids = new ArrayList<>();
+            while (resultSet.next()) {
+                ids.add(resultSet.getInt("id"));
+            }
+            return ids;
+        } catch (SQLException e) {
+            System.out.println("에러: " + e);
+        }
+        throw new IllegalStateException("snapshot id 찾기 실패");
     }
 
     public static void deleteAllBoardSnapshotInBoard(int boardId) {
