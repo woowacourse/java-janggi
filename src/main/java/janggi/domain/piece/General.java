@@ -1,7 +1,5 @@
 package janggi.domain.piece;
 
-import janggi.domain.Position;
-import janggi.domain.board.BoardMediator;
 import janggi.domain.movement.Direction;
 import janggi.domain.movement.MoveRule;
 import janggi.domain.movement.Movement;
@@ -9,8 +7,7 @@ import janggi.domain.movement.SlidingMoveRule;
 import janggi.domain.team.TeamType;
 import java.util.List;
 
-public class General implements Piece {
-
+public class General extends AbstractPiece {
     private static final PieceType PIECE_TYPE = PieceType.GENERAL;
     private static final PieceAction PIECE_ACTION;
 
@@ -27,20 +24,8 @@ public class General implements Piece {
         PIECE_ACTION = new PieceAction(movementStrategies);
     }
 
-    private final TeamType teamType;
-
-    public General(final TeamType teamType) {
-        this.teamType = teamType;
-    }
-
-    @Override
-    public boolean isSameTeamType(final TeamType teamType) {
-        return this.teamType == teamType;
-    }
-
-    @Override
-    public List<Position> calculateMovablePositions(Position from, BoardMediator boardMediator) {
-        return PIECE_ACTION.calculateMovablePositions(from, teamType, boardMediator);
+    public General(TeamType teamType) {
+        super(teamType);
     }
 
     @Override
@@ -49,12 +34,12 @@ public class General implements Piece {
     }
 
     @Override
-    public TeamType getTeamTypeForDTO() {
-        return teamType;
+    protected PieceType getPieceType() {
+        return PIECE_TYPE;
     }
 
     @Override
-    public PieceType getPieceTypeForDTO() {
-        return PIECE_TYPE;
+    protected PieceAction getPieceAction() {
+        return PIECE_ACTION;
     }
 }
