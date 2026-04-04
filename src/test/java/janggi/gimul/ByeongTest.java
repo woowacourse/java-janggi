@@ -13,6 +13,7 @@ import janggi.model.position.Position;
 import janggi.model.position.PositionPath;
 import janggi.model.position.Row;
 import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -179,7 +180,7 @@ class ByeongTest {
         Byeong byeong = new Byeong(Team.CHO);
 
         //when & then
-        assertThat(byeong.canPassThrough(gimulsOnPath))
+        assertThat(byeong.canPassThrough(gimulsOnPath, Optional.empty()))
                 .isTrue();
     }
 
@@ -192,7 +193,7 @@ class ByeongTest {
         Byeong byeong = new Byeong(Team.CHO);
 
         //when & then
-        assertThat(byeong.canPassThrough(gimulsOnPath, gimulAtTo))
+        assertThat(byeong.canPassThrough(gimulsOnPath, Optional.of(gimulAtTo)))
                 .isTrue();
     }
 
@@ -207,7 +208,7 @@ class ByeongTest {
         Byeong byeong = new Byeong(Team.CHO);
 
         //when & then
-        assertThat(byeong.canPassThrough(gimulsOnPath, gimulAtTo))
+        assertThat(byeong.canPassThrough(gimulsOnPath, Optional.of(gimulAtTo)))
                 .isFalse();
     }
 
@@ -222,7 +223,7 @@ class ByeongTest {
         Byeong byeong = new Byeong(Team.CHO);
 
         //when & then
-        assertThat(byeong.canPassThrough(gimulsOnPath, gimulAtTo))
+        assertThat(byeong.canPassThrough(gimulsOnPath, Optional.of(gimulAtTo)))
                 .isFalse();
     }
 

@@ -5,6 +5,7 @@ import janggi.model.Team;
 import janggi.model.position.Position;
 import janggi.model.position.PositionPath;
 import java.util.List;
+import java.util.Optional;
 
 public abstract class AbstractGimul {
     protected final Team team;
@@ -15,9 +16,7 @@ public abstract class AbstractGimul {
 
     public abstract PositionPath getLegalPath(Position from, Position to);
 
-    public abstract boolean canPassThrough(List<AbstractGimul> gimulsOnPath, AbstractGimul abstractGimulAtTo);
-
-    public abstract boolean canPassThrough(List<AbstractGimul> gimulsOnPath);
+    public abstract boolean canPassThrough(List<AbstractGimul> gimulsOnPath, Optional<AbstractGimul> gimulAtTo);
 
     public boolean isSameTeam(AbstractGimul other) {
         return this.team.equals(other.team);

@@ -12,6 +12,7 @@ import janggi.model.position.Position;
 import janggi.model.position.PositionPath;
 import janggi.model.position.Row;
 import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -125,7 +126,7 @@ class ChaTest {
         Cha cha = new Cha(Team.CHO);
 
         //when & then
-        assertThat(cha.canPassThrough(gimulsOnPath))
+        assertThat(cha.canPassThrough(gimulsOnPath, Optional.empty()))
                 .isTrue();
     }
 
@@ -138,7 +139,7 @@ class ChaTest {
         Cha cha = new Cha(Team.CHO);
 
         //when & then
-        assertThat(cha.canPassThrough(gimulsOnPath, gimulAtTo))
+        assertThat(cha.canPassThrough(gimulsOnPath, Optional.of(gimulAtTo)))
                 .isTrue();
     }
 
@@ -153,7 +154,7 @@ class ChaTest {
         Cha cha = new Cha(Team.CHO);
 
         //when & then
-        assertThat(cha.canPassThrough(gimulsOnPath, gimulAtTo))
+        assertThat(cha.canPassThrough(gimulsOnPath, Optional.of(gimulAtTo)))
                 .isFalse();
     }
 
@@ -168,7 +169,7 @@ class ChaTest {
         Cha cha = new Cha(Team.CHO);
 
         //when & then
-        assertThat(cha.canPassThrough(gimulsOnPath, gimulAtTo))
+        assertThat(cha.canPassThrough(gimulsOnPath, Optional.of(gimulAtTo)))
                 .isFalse();
     }
 

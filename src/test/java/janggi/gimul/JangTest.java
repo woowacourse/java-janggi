@@ -13,6 +13,7 @@ import janggi.model.position.Position;
 import janggi.model.position.PositionPath;
 import janggi.model.position.Row;
 import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -40,7 +41,7 @@ class JangTest {
         Jang jang = new Jang(Team.CHO);
 
         //when & then
-        assertThat(jang.canPassThrough(gimulsOnPath))
+        assertThat(jang.canPassThrough(gimulsOnPath, Optional.empty()))
                 .isTrue();
     }
 
@@ -53,7 +54,7 @@ class JangTest {
         Jang jang = new Jang(Team.CHO);
 
         //when & then
-        assertThat(jang.canPassThrough(gimulsOnPath, gimulAtTo))
+        assertThat(jang.canPassThrough(gimulsOnPath, Optional.of(gimulAtTo)))
                 .isTrue();
     }
 
@@ -68,7 +69,7 @@ class JangTest {
         Jang jang = new Jang(Team.CHO);
 
         //when & then
-        assertThat(jang.canPassThrough(gimulsOnPath, gimulAtTo))
+        assertThat(jang.canPassThrough(gimulsOnPath, Optional.of(gimulAtTo)))
                 .isFalse();
     }
 
@@ -83,7 +84,7 @@ class JangTest {
         Jang jang = new Jang(Team.CHO);
 
         //when & then
-        assertThat(jang.canPassThrough(gimulsOnPath, gimulAtTo))
+        assertThat(jang.canPassThrough(gimulsOnPath, Optional.of(gimulAtTo)))
                 .isFalse();
     }
 

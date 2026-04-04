@@ -14,6 +14,7 @@ import janggi.model.position.Position;
 import janggi.model.position.PositionPath;
 import janggi.model.position.Row;
 import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -129,7 +130,7 @@ class PhoTest {
         Pho pho = new Pho(Team.CHO);
 
         //when & then
-        assertThat(pho.canPassThrough(gimulsOnPath))
+        assertThat(pho.canPassThrough(gimulsOnPath, Optional.empty()))
                 .isTrue();
     }
 
@@ -144,7 +145,7 @@ class PhoTest {
         Cha gimulAtTo = new Cha(Team.HAN);
 
         //when & then
-        assertThat(pho.canPassThrough(gimulsOnPath, gimulAtTo))
+        assertThat(pho.canPassThrough(gimulsOnPath, Optional.of(gimulAtTo)))
                 .isTrue();
     }
 
@@ -155,7 +156,7 @@ class PhoTest {
         Pho pho = new Pho(Team.CHO);
 
         //when & then
-        assertThat(pho.canPassThrough(List.of()))
+        assertThat(pho.canPassThrough(List.of(), Optional.empty()))
                 .isFalse();
     }
 
@@ -166,7 +167,7 @@ class PhoTest {
         Pho pho = new Pho(Team.CHO);
 
         //when & then
-        assertThat(pho.canPassThrough(List.of(new Pho(Team.CHO))))
+        assertThat(pho.canPassThrough(List.of(new Pho(Team.CHO)), Optional.empty()))
                 .isFalse();
     }
 
@@ -181,7 +182,7 @@ class PhoTest {
         Pho pho = new Pho(Team.CHO);
 
         //when & then
-        assertThat(pho.canPassThrough(gimulsOnPath, gimulAtTo))
+        assertThat(pho.canPassThrough(gimulsOnPath, Optional.of(gimulAtTo)))
                 .isFalse();
     }
 
@@ -194,7 +195,7 @@ class PhoTest {
         Pho pho = new Pho(Team.CHO);
 
         //when & then
-        assertThat(pho.canPassThrough(gimulsOnPath, gimulAtTo))
+        assertThat(pho.canPassThrough(gimulsOnPath, Optional.of(gimulAtTo)))
                 .isFalse();
     }
 
@@ -206,7 +207,7 @@ class PhoTest {
         Pho pho = new Pho(Team.CHO);
 
         //when & then
-        assertThat(pho.canPassThrough(gimulsOnPath))
+        assertThat(pho.canPassThrough(gimulsOnPath, Optional.empty()))
                 .isTrue();
     }
 

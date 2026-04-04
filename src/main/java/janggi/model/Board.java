@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class Board {
 
@@ -55,51 +56,30 @@ public class Board {
         return new Board(movedBoard);
     }
 
-    public boolean isGameOver() {
-        return isGimulStalemate() || !isJangAlive();
-    }
-
-    private boolean isJangAlive() {
-        return board.values().stream()
-                .anyMatch(gimul -> gimul instanceof Jang);
-    }
-
-    private boolean isGimulStalemate() {
-        return !isHanAlive() || !isChoAlive();
-    }
-
-    private boolean isChoAlive() {
-        return board.values().stream().anyMatch(gimul -> gimul.isSameTeam(Team.CHO));
-    }
-
-    private boolean isHanAlive() {
-        return board.values().stream().anyMatch(gimul -> gimul.isSameTeam(Team.HAN));
-    }
-
     private void validateMovePathAndDestination(Position to, AbstractGimul gimulAtFrom,
                                                 List<AbstractGimul> gimulsOnPath) {
-        if ((!board.containsKey(to) && gimulAtFrom.canPassThrough(gimulsOnPath))) {
-            return;
-        }
-
-        AbstractGimul gimulAtTo = board.get(to);
+        Optional<AbstractGimul> gimulAtTo = Optional.ofNullable(board.get(to));
         if (gimulAtFrom.canPassThrough(gimulsOnPath, gimulAtTo)) {
             return;
         }
         throw new IllegalArgumentException("해당 경로로 기물을 움직일 수 없습니다.");
     }
 
+    public boolean isGameOver() {
+        return !isJangAlive(Team.CHO) || !isJangAlive(Team.HAN);
+    }
+
+    private boolean isJangAlive(Team team) {
+        return board.values().stream()
+                .anyMatch(gimul -> gimul instanceof Jang && gimul.isSameTeam(team));
+    }
+
     public Score calculateScore(Team team) {
-        double bonusScore = 1.5;
         Score sumOfScore = board.values().stream()
                 .filter(gimul -> gimul.isSameTeam(team))
                 .map(AbstractGimul::getScore)
                 .reduce(Score.zero(), Score::add);
-
-        if (team.equals(Team.HAN)) {
-            sumOfScore = sumOfScore.add(new Score(bonusScore));
-        }
-        return sumOfScore;
+        return sumOfScore.add(team.bonusScore());
     }
 
     public String render() {
@@ -121,7 +101,8 @@ public class Board {
 
     private StringBuilder renderBoardRow(int row) {
         StringBuilder sb = new StringBuilder();
-        sb.append(Row.of(row).getDisplayName()).append(" │");
+        Row currentRow = Row.of(row);
+        sb.append(currentRow.getDisplayName()).append(" │");
         for (int col = 1; col <= 9; col++) {
             sb.append(renderBoardColumn(row, col));
         }
@@ -131,7 +112,14 @@ public class Board {
 
     private StringBuilder renderBoardColumn(int row, int col) {
         Position position = new Position(Row.of(row), Column.of(col));
-        String symbol = board.containsKey(position) ? board.get(position).getSymbol() : "·";
+        String symbol = getSymbol(position);
         return new StringBuilder().append(" ").append(String.format("%-2s", symbol));
+    }
+
+    private String getSymbol(Position position) {
+        if (board.containsKey(position)) {
+            return board.get(position).getSymbol();
+        }
+        return "·";
     }
 }
