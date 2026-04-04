@@ -1,0 +1,49 @@
+package janggi.service;
+
+import janggi.model.Board;
+import janggi.model.Janggi;
+import janggi.model.Team;
+import janggi.model.gimul.AbstractGimul;
+import janggi.model.position.Position;
+import janggi.repository.GameRepository;
+import janggi.repository.GimulRepository;
+import java.util.List;
+import java.util.Map;
+
+public class JanggiService {
+    private final GameRepository gameRepository;
+    private final GimulRepository gimulRepository;
+
+    public JanggiService(GameRepository gameRepository, GimulRepository gimulRepository) {
+        this.gameRepository = gameRepository;
+        this.gimulRepository = gimulRepository;
+    }
+
+    public Long createGame(String name, Team currentTurn) {
+        return gameRepository.save(currentTurn, name);
+    }
+
+    public List<String> findAllGameNames() {
+        return gameRepository.findAllNames();
+    }
+
+    public Janggi loadGameByName(String name) {
+        Long gameId = gameRepository.findIdByName(name)
+                .orElseThrow(() -> new IllegalArgumentException("게임을 찾을 수 없습니다."));
+        Team currentTurn = gameRepository.findCurrentTurn(gameId)
+                .orElseThrow(() -> new IllegalArgumentException("게임을 찾을 수 없습니다."));
+        Map<Position, AbstractGimul> board = gimulRepository.findAll(gameId);
+        return Janggi.of(new Board(board), currentTurn);
+    }
+
+    public void save(Long gameId, Board board, Team currentTurn) {
+        gameRepository.updateCurrentTurn(gameId, currentTurn);
+        gimulRepository.deleteAll(gameId);
+        gimulRepository.saveAll(gameId, board.snapshot());
+    }
+
+    public Long findIdByName(String name) {
+        return gameRepository.findIdByName(name)
+                .orElseThrow(() -> new IllegalArgumentException("게임을 찾을 수 없습니다."));
+    }
+}
