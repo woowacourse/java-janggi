@@ -2,12 +2,16 @@ package domain.board;
 
 import java.util.List;
 
-public record BoardState(
-        List<IntersectionState> intersectionStates
-) {
+public class BoardState {
 
-    public BoardState {
-        intersectionStates = List.copyOf(intersectionStates);
+    private final List<IntersectionState> boardState;
+
+    public BoardState(List<IntersectionState> boardState) {
+        this.boardState = boardState;
+    }
+
+    public List<IntersectionState> getBoardState() {
+        return List.copyOf(boardState);
     }
 
 }
