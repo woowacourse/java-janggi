@@ -1,6 +1,5 @@
 package janggi.controller;
 
-import janggi.domain.GameManager;
 import janggi.domain.Position;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardGenerator;
@@ -19,16 +18,13 @@ import java.util.List;
 
 public class JanggiController {
 
-    private final GameManager gameManager;
-
     public JanggiController() {
-        gameManager = new GameManager();
     }
 
     public void run() {
         Board board = BoardGenerator.generate(setupRedTeam(), setupBlueTeam());
         TurnManager turnManager = new TurnManager();
-        while (gameManager.isGeneralAlive(turnManager.currentTeamType(), board)) {
+        while (board.hasGeneral(turnManager.currentTeamType())) {
             playTurn(board, turnManager);
         }
         turnManager.changeTurn();

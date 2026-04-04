@@ -3,7 +3,6 @@ package janggi.domain.board;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import janggi.domain.GameManager;
 import janggi.domain.Position;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.General;
@@ -28,8 +27,7 @@ public class BoardTest {
         Board board = new Board(positionPieceMap);
         boolean expected = true;
 
-        GameManager gameManager = new GameManager();
-        boolean actual = gameManager.isGeneralAlive(turnManager.currentTeamType(), board);
+        boolean actual = board.hasGeneral(turnManager.currentTeamType());
 
         assertThat(actual).isEqualTo(expected);
     }
@@ -44,8 +42,7 @@ public class BoardTest {
         Board board = new Board(positionPieceMap);
         boolean expected = false;
 
-        GameManager gameManager = new GameManager();
-        boolean actual = gameManager.isGeneralAlive(turnManager.currentTeamType(), board);
+        boolean actual = board.hasGeneral(turnManager.currentTeamType());
 
         assertThat(actual).isEqualTo(expected);
     }

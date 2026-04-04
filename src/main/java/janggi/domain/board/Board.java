@@ -53,9 +53,9 @@ public class Board implements BoardMediator {
     }
 
     private Piece findPieceByPosition(final Position position) {
-        if (!hasPieceIn(position)) {
-            throw new IllegalArgumentException("요청된 위치에는 기물이 존재하지 않습니다.");
+        if (hasPieceIn(position)) {
+            return positionPieceMap.get(position);
         }
-        return positionPieceMap.get(position);
+        throw new IllegalArgumentException("요청된 위치에는 기물이 존재하지 않습니다.");
     }
 }
