@@ -18,16 +18,16 @@ public class Game {
         return players.getCurrentSide();
     }
 
-    public Destinations selectSource(Position position) {
-        Piece piece = board.getPiece(position);
-        players.getCurrentPlayer().validateAlly(piece);
-        return findDestinations(position);
+    public MoveCandidate selectSource(Position source) {
+        Piece selectedPiece = board.getPiece(source);
+        players.validateAlly(selectedPiece);
+        Destinations destinations = findDestinations(source);
+        return new MoveCandidate(source, destinations);
     }
 
-    public void move(Position source, Position target) {
-        Destinations destinations = selectSource(source);
-        destinations.validateDestinations(target);
-        movePiece(source, target);
+    public void move(MoveCandidate moveCandidate, Position target) {
+        moveCandidate.validate(target);
+        movePiece(moveCandidate.source(), target);
         players.switchPlayer();
     }
 
@@ -48,6 +48,7 @@ public class Game {
     }
 
     public String getWinner() {
-        return players.getWaitingPlayerName();
+        Side winnerSide = board.getWinnerSide();
+        return players.getPlayerNameBySide(winnerSide);
     }
 }

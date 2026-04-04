@@ -1,6 +1,7 @@
 package domain.player;
 
 import domain.Side;
+import domain.piece.Piece;
 import domain.state.ActiveTurn;
 import domain.state.InactiveTurn;
 import java.util.List;
@@ -52,7 +53,15 @@ public class Players {
         players.forEach(Player::toggleTurn);
     }
 
-    public String getWaitingPlayerName() {
-        return getWaitingPlayer().getName();
+    public String getPlayerNameBySide(Side side) {
+        return players.stream()
+                .filter(player -> player.getSide() == side)
+                .map(Player::getName)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("해당 진영의 플레이어가 없습니다."));
+    }
+
+    public void validateAlly(Piece piece) {
+        getCurrentPlayer().validateAlly(piece);
     }
 }
