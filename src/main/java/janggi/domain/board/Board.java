@@ -51,8 +51,6 @@ public class Board implements BoardChecker {
         }
     }
 
-    // TODO: 테스트 코드 추가
-
     public void validateDestination(Position destination, Position source, Camp camp) {
         if (destination.equals(source)) {
             throw new IllegalArgumentException(ExceptionMessage.PIECE_MUST_MOVE.getMessage());
