@@ -68,4 +68,71 @@ class GeneralTest {
 
         assertThrows(IllegalArgumentException.class, () -> general.getPathOffset(from, to));
     }
+
+    @Test
+    void 궁은_궁성_중앙에서_대각선으로_이동할_수_있다() {
+        Offset offset = new Offset(1, 1);
+
+        Position from = new Position(4, 1);
+        Position to = offset.applyTo(from);
+
+        List<Offset> pathPositions = general.getPathOffset(from, to);
+        assertThat(pathPositions).isEqualTo(List.of());
+    }
+
+    @Test
+    void 궁은_궁성_코너에서_오른쪽_위로_이동할_수_있다() {
+        Offset offset = new Offset(1, 1);
+
+        Position from = new Position(3, 0);
+        Position to = offset.applyTo(from);
+
+        List<Offset> pathPositions = general.getPathOffset(from, to);
+        assertThat(pathPositions).isEqualTo(List.of());
+    }
+
+    @Test
+    void 궁은_궁성_코너에서_오른쪽_아래로_이동할_수_있다() {
+        Offset offset = new Offset(1, -1);
+
+        Position from = new Position(3, 2);
+        Position to = offset.applyTo(from);
+
+        List<Offset> pathPositions = general.getPathOffset(from, to);
+        assertThat(pathPositions).isEqualTo(List.of());
+    }
+
+    @Test
+    void 궁은_궁성_코너에서_왼쪽_위로_이동할_수_있다() {
+        Offset offset = new Offset(-1, 1);
+
+        Position from = new Position(5, 0);
+        Position to = offset.applyTo(from);
+
+        List<Offset> pathPositions = general.getPathOffset(from, to);
+        assertThat(pathPositions).isEqualTo(List.of());
+    }
+
+
+    @Test
+    void 궁은_궁성_코너에서_왼쪽_아래로_이동할_수_있다() {
+        Offset offset = new Offset(-1, -1);
+
+        Position from = new Position(5, 2);
+        Position to = offset.applyTo(from);
+
+        List<Offset> pathPositions = general.getPathOffset(from, to);
+        assertThat(pathPositions).isEqualTo(List.of());
+    }
+
+
+    @Test
+    void 궁은_궁성_밖으로_이동할_수_없다() {
+        Offset offset = new Offset(-1, 0);
+
+        Position from = new Position(3, 0);
+        Position to = offset.applyTo(from);
+
+        assertThrows(IllegalArgumentException.class, () -> general.getPathOffset(from, to));
+    }
 }

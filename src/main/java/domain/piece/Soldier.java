@@ -17,8 +17,9 @@ public final class Soldier extends SingleStepPiece {
     protected void validateMoveRule(Position from, Position to) {
         super.validateMoveRule(from, to);
         Offset offset = Offset.of(from, to);
+        Direction direction = Direction.of(offset);
 
-        if (offset.equals(backwardDirection.getOffset())) {
+        if (direction.containsBackWardDirection(backwardDirection)) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_MOVE_RULE.getMessage());
         }
     }

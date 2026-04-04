@@ -43,4 +43,7 @@
             }
             return Direction.DOWN;
         }
+        public boolean containsBackWardDirection(Direction direction) {
+            return (offset.dy() == direction.offset.dy());
+        }
     }
