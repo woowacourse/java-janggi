@@ -66,17 +66,6 @@ public enum PieceType {
         new Score(3)
     ),
 
-    SA(
-        new FixedRouteMovement(List.of(
-            new Route(List.of(FORWARD)),
-            new Route(List.of(BACK)),
-            new Route(List.of(RIGHT)),
-            new Route(List.of(LEFT))
-        )),
-        EmptyPathMoveRule.withOtherSideTargetRule(),
-        new Score(3)
-    ),
-
     JOL_BYEONG(
         new FixedRouteMovement(List.of(
             new Route(List.of(FORWARD)),
@@ -85,6 +74,24 @@ public enum PieceType {
         )),
         EmptyPathMoveRule.withOtherSideTargetRule(),
         new Score(2)
+    ),
+
+    SA(
+        new GunsungDiagonalMovement(
+            new FixedRouteMovement(List.of(
+                new Route(List.of(FORWARD)),
+                new Route(List.of(BACK)),
+                new Route(List.of(RIGHT)),
+                new Route(List.of(LEFT)),
+                new Route(List.of(RIGHT_FORWARD)),
+                new Route(List.of(LEFT_FORWARD)),
+                new Route(List.of(RIGHT_BACK)),
+                new Route(List.of(LEFT_BACK))
+            )),
+            new SingleStepGungsungMovement()
+        ),
+        EmptyPathMoveRule.withOtherSideTargetRule(),
+        new Score(3)
     ),
 
     GUNG(

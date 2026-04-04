@@ -24,18 +24,21 @@ public class Piece {
         return isSameSide(piece.side);
     }
 
-    public final void validateDestination(Position departure, Position destination) {
+    public final void validate(Position departure, Position destination) {
         if (!type.getMovement().canReach(departure, destination, side)) {
             throw new IllegalArgumentException("행마법으로는 해당 위치로 이동할 수 없습니다.");
         }
     }
 
-    public final List<Position> findPathPositions(Position departure, Position destination) {
-        return type.getMovement().findPathPositions(departure, destination, side);
+    public final void validate(Position departure, Position destination, MoveTrace moveTrace) {
+        if (!type.getMovement().canReach(departure, destination, side)) {
+            throw new IllegalArgumentException("행마법으로는 해당 위치로 이동할 수 없습니다.");
+        }
+        type.getMoveRule().validate(moveTrace);
     }
 
-    public final void validate(MoveTrace moveTrace) {
-        type.getMoveRule().validate(moveTrace);
+    public final List<Position> findPathPositions(Position departure, Position destination) {
+        return type.getMovement().findPathPositions(departure, destination, side);
     }
 
     public final PieceType getType() {

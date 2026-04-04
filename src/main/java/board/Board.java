@@ -51,7 +51,7 @@ public record Board(Map<Position, Piece> pieces) {
         Piece movingPiece = requirePieceAt(departure);
         MoveTrace moveTrace = findMoveTrace(movingPiece, departure, destination);
 
-        movingPiece.validate(moveTrace);
+        movingPiece.validate(departure, destination, moveTrace);
 
         return replace(departure, destination, movingPiece);
     }

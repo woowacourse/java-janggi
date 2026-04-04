@@ -27,7 +27,7 @@ class JolByeongTest {
             Position departure = DEFAULT;
             Position destination = departure.move(side.forwardDelta());
             // when & then
-            assertThatCode(() -> piece.validateDestination(departure, destination))
+            assertThatCode(() -> piece.validate(departure, destination))
                 .doesNotThrowAnyException();
         }
 
@@ -39,7 +39,7 @@ class JolByeongTest {
             Position departure = DEFAULT;
             Position destination = departure.move(side.leftDelta());
             // when & then
-            assertThatCode(() -> piece.validateDestination(departure, destination))
+            assertThatCode(() -> piece.validate(departure, destination))
                 .doesNotThrowAnyException();
         }
 
@@ -51,7 +51,7 @@ class JolByeongTest {
             Position departure = DEFAULT;
             Position destination = departure.move(side.rightDelta());
             // when & then
-            assertThatCode(() -> piece.validateDestination(departure, destination))
+            assertThatCode(() -> piece.validate(departure, destination))
                 .doesNotThrowAnyException();
         }
 
@@ -65,7 +65,7 @@ class JolByeongTest {
                 .move(side.forwardDelta())
                 .move(side.forwardDelta());
             // when & then
-            assertThatThrownBy(() -> piece.validateDestination(departure, destination))
+            assertThatThrownBy(() -> piece.validate(departure, destination))
                 .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -77,7 +77,7 @@ class JolByeongTest {
             Position departure = DEFAULT;
             Position destination = departure.move(side.rightForwardDelta());
             // when & then
-            assertThatThrownBy(() -> piece.validateDestination(departure, destination))
+            assertThatThrownBy(() -> piece.validate(departure, destination))
                 .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -89,7 +89,7 @@ class JolByeongTest {
             Position departure = DEFAULT;
             Position destination = departure.move(side.backDelta());
             // when & then
-            assertThatThrownBy(() -> piece.validateDestination(departure, destination))
+            assertThatThrownBy(() -> piece.validate(departure, destination))
                 .isInstanceOf(IllegalArgumentException.class);
         }
     }
