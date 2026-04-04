@@ -12,8 +12,7 @@ public class PiecesDao {
 
     public void save(Long roomId, List<PieceData> data, Connection connection) {
         String sql = "INSERT INTO piece (game_room_id, piece_name, team, row_pos, col_pos) VALUES (?, ?, ?, ?, ?)";
-        try {
-            PreparedStatement pieceStatement = connection.prepareStatement(sql);
+        try (PreparedStatement pieceStatement = connection.prepareStatement(sql)) {
             for (PieceData piece : data) {
                 pieceStatement.setLong(1, roomId);
                 pieceStatement.setString(2, piece.pieceName());
@@ -29,8 +28,7 @@ public class PiecesDao {
 
     public void delete(Long roomId, int row, int col, Connection connection) {
         String sql = "DELETE FROM piece WHERE game_room_id = ? AND row_pos = ? AND col_pos = ?";
-        try {
-            PreparedStatement killStatement = connection.prepareStatement(sql);
+        try (PreparedStatement killStatement = connection.prepareStatement(sql)) {
             killStatement.setLong(1, roomId);
             killStatement.setInt(2, row);
             killStatement.setInt(3, col);
@@ -42,8 +40,7 @@ public class PiecesDao {
 
     public void update(Long roomId, int fromRow, int fromCol, int toRow, int toCol, Connection connection) {
         String movePieceSql = "UPDATE piece SET row_pos = ?, col_pos = ? WHERE game_room_id = ? AND row_pos = ? AND col_pos = ?";
-        try {
-            PreparedStatement moveStatement = connection.prepareStatement(movePieceSql);
+        try (PreparedStatement moveStatement = connection.prepareStatement(movePieceSql)) {
             moveStatement.setInt(1, toRow);
             moveStatement.setInt(2, toCol);
             moveStatement.setLong(3, roomId);
@@ -57,9 +54,8 @@ public class PiecesDao {
 
     public List<PieceData> findAllByRoomId(Long roomId, Connection connection) {
         String sql = "SELECT piece_name, team, row_pos, col_pos FROM piece WHERE game_room_id = ?";
-        try {
+        try (PreparedStatement pieceStatement = connection.prepareStatement(sql)) {
             List<PieceData> piecesData = new ArrayList<>();
-            PreparedStatement pieceStatement = connection.prepareStatement(sql);
             pieceStatement.setLong(1, roomId);
             ResultSet resultSet = pieceStatement.executeQuery();
             while (resultSet.next()) {
