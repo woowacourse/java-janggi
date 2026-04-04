@@ -1,6 +1,7 @@
 package janggi.domain.movestrategy;
 
 import janggi.domain.board.Position;
+import janggi.domain.movestrategy.rule.StraightForwardMoveRule;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceFactory;
 import janggi.domain.piece.Team;
@@ -24,7 +25,7 @@ class CannonStrategyTest {
 
     @BeforeEach
     void setUp() {
-        cannonMoveStrategy = new CannonStrategy();
+        cannonMoveStrategy = new CannonStrategy(List.of(new StraightForwardMoveRule()));
         cannon = PieceFactory.createCannon(Team.HAN);
         otherSideCannon = PieceFactory.createCannon(Team.CHO);
         notCannon = PieceFactory.createChariot(Team.HAN);
