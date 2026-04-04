@@ -116,4 +116,79 @@ class ChariotTest {
         Piece piece = board.getPiece(new Position(5, 0)).get();
         assertThat(piece).isEqualTo(new Chariot(Team.CHO));
     }
+
+
+    @Test
+    void 차는_궁성에서_왼쪽_아래_대각선으로_이동할_수_있다() {
+        Offset offset = new Offset(-2, -2);
+
+        Position from = new Position(5, 2);
+        Position to = offset.applyTo(from);
+
+        List<Offset> pathPositions = chariot.getPathOffset(from, to);
+
+        assertThat(pathPositions).isEqualTo(
+                List.of(
+                        new Offset(-1, -1)
+                ));
+    }
+
+    @Test
+    void 차는_궁성에서_오른쪽_아래_대각선으로_이동할_수_있다() {
+        Offset offset = new Offset(2, -2);
+
+        Position from = new Position(3, 2);
+        Position to = offset.applyTo(from);
+
+        List<Offset> pathPositions = chariot.getPathOffset(from, to);
+
+        assertThat(pathPositions).isEqualTo(
+                List.of(
+                        new Offset(1, -1)
+                ));
+    }
+
+    @Test
+    void 차는_궁성에서_왼쪽_위_대각선으로_이동할_수_있다() {
+        Offset offset = new Offset(-2, 2);
+
+        Position from = new Position(5, 0);
+        Position to = offset.applyTo(from);
+
+        List<Offset> pathPositions = chariot.getPathOffset(from, to);
+
+        assertThat(pathPositions).isEqualTo(
+                List.of(
+                        new Offset(-1, 1)
+                ));
+    }
+
+
+    @Test
+    void 차는_궁성에서_오른쪽_위_대각선으로_이동할_수_있다() {
+        Offset offset = new Offset(-2, -2);
+
+        Position from = new Position(5, 2);
+        Position to = offset.applyTo(from);
+
+        List<Offset> pathPositions = chariot.getPathOffset(from, to);
+
+        assertThat(pathPositions).isEqualTo(
+                List.of(
+                        new Offset(-1, -1)
+                ));
+    }
+
+    @Test
+    void 차가_대각선으로_이동하는지_확인한다() {
+        Board board = new Board(Map.of(
+                new Position(4, 1), new Chariot(Team.CHO),
+                new Position(3, 1), new General(Team.CHO)
+        ));
+
+        board.move(new Position(4, 1), new Position(5, 2));
+        Piece piece = board.getRequiredPiece(new Position(5, 2));
+
+        assertThat(piece).isEqualTo(new Chariot(Team.CHO));
+    }
 }

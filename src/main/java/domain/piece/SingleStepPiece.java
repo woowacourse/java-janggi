@@ -14,7 +14,7 @@ public abstract class SingleStepPiece extends Piece {
     }
 
     @Override
-    protected List<Offset> generatePaths(Offset offset) {
+    protected List<Offset> generatePaths(Position from, Position to) {
         return List.of();
     }
 

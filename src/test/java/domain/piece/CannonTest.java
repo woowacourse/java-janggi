@@ -4,11 +4,13 @@ import domain.Offset;
 
 import domain.board.Board;
 import domain.board.Position;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -129,5 +131,79 @@ class CannonTest {
 
         assertThrows(IllegalStateException.class,
                 () -> board.move(new Position(5, 1), new Position(5, 7)));
+    }
+
+    @Test
+    void 포는_궁성에서_왼쪽_아래_대각선으로_이동할_수_있다() {
+        Offset offset = new Offset(-2, -2);
+
+        Position from = new Position(5, 2);
+        Position to = offset.applyTo(from);
+
+        List<Offset> pathPositions = cannon.getPathOffset(from, to);
+
+        assertThat(pathPositions).isEqualTo(
+                List.of(
+                        new Offset(-1, -1)
+                ));
+    }
+
+    @Test
+    void 포는_궁성에서_오른쪽_아래_대각선으로_이동할_수_있다() {
+        Offset offset = new Offset(2, -2);
+
+        Position from = new Position(3, 2);
+        Position to = offset.applyTo(from);
+
+        List<Offset> pathPositions = cannon.getPathOffset(from, to);
+
+        assertThat(pathPositions).isEqualTo(
+                List.of(
+                        new Offset(1, -1)
+                ));
+    }
+
+    @Test
+    void 포는_궁성에서_왼쪽_위_대각선으로_이동할_수_있다() {
+        Offset offset = new Offset(-2, 2);
+
+        Position from = new Position(5, 0);
+        Position to = offset.applyTo(from);
+
+        List<Offset> pathPositions = cannon.getPathOffset(from, to);
+
+        assertThat(pathPositions).isEqualTo(
+                List.of(
+                        new Offset(-1, 1)
+                ));
+    }
+
+
+    @Test
+    void 포는_궁성에서_오른쪽_위_대각선으로_이동할_수_있다() {
+        Offset offset = new Offset(-2, -2);
+
+        Position from = new Position(5, 2);
+        Position to = offset.applyTo(from);
+
+        List<Offset> pathPositions = cannon.getPathOffset(from, to);
+
+        assertThat(pathPositions).isEqualTo(
+                List.of(
+                        new Offset(-1, -1)
+                ));
+    }
+
+    @Test
+    void 포가_대각선으로_이동하는지_확인한다() {
+        Board board = new Board(Map.of(
+                new Position(5, 2), new Cannon(Team.CHO),
+                new Position(4, 1), new General(Team.CHO)
+        ));
+
+        board.move(new Position(5, 2), new Position(3, 0));
+        Piece piece = board.getRequiredPiece(new Position(3, 0));
+
+        assertThat(piece).isEqualTo(new Cannon(Team.CHO));
     }
 }

@@ -18,8 +18,7 @@ public abstract class Piece {
 
     public final List<Offset> getPathOffset(Position from, Position to) {
         validateMoveRule(from, to);
-        Offset offset = Offset.of(from, to);
-        return generatePaths(offset);
+        return generatePaths(from, to);
     }
 
     public void validateMove(List<Piece> blockedPieces) {
@@ -30,7 +29,7 @@ public abstract class Piece {
 
     protected abstract void validateMoveRule(Position from, Position to);
 
-    protected abstract List<Offset> generatePaths(Offset offset);
+    protected abstract List<Offset> generatePaths(Position from, Position to);
 
     public boolean isSameTeam(Team team) {
         return this.team == team;
