@@ -81,10 +81,11 @@ public class Board {
         return countGeneral();
     }
 
-    private boolean countGeneral() {
-        int generalCount = (int) board.values().stream()
-                .filter(piece -> piece.pieceType() == PieceType.GENERAL).count();
-        return generalCount == GENERAL_COUNT;
+    public int sumScore(Country country) {
+        return board.values().stream()
+                .filter(piece -> piece.country() == country)
+                .map(Piece::pieceType)
+                .mapToInt(PieceType::score).sum();
     }
 
     public Optional<Country> winnerCountry() {
@@ -92,6 +93,12 @@ public class Board {
                 .filter(piece -> piece.pieceType() == PieceType.GENERAL)
                 .findFirst()
                 .map(Piece::country);
+    }
+
+    private boolean countGeneral() {
+        int generalCount = (int) board.values().stream()
+                .filter(piece -> piece.pieceType() == PieceType.GENERAL).count();
+        return generalCount == GENERAL_COUNT;
     }
 
     private void executeMove(Move move, Piece piece) {

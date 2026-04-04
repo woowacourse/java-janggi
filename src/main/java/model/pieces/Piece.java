@@ -37,10 +37,6 @@ public abstract class Piece {
         return Objects.hash(country, pieceType);
     }
 
-    public boolean isSameCountry(Country country) {
-        return this.country == country;
-    }
-
     public Country country() {
         return country;
     }

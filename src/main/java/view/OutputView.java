@@ -65,8 +65,8 @@ public class OutputView {
         System.out.printf("%s나라 우승입니다.%n", country.title());
     }
 
-    public static void printScore() {
-
+    public static void printScore(Country country, int sumScore) {
+        System.out.printf("%s나라 점수: %d%n", country.title(), sumScore);
     }
 
     private static void printColumn(int row, Board board) {
