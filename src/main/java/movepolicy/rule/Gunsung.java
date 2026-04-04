@@ -23,4 +23,14 @@ public class Gunsung {
         boolean isColumnInRange = reversedPosition.isColumnInRange(CHO_MIN_COLUMN, CHO_MAX_COLUMN);
         return isRowInRange && isColumnInRange;
     }
+
+    public boolean isDiagonalOneStepInside(Position departure, Position destination) {
+        return isSameRange(departure, destination)
+            && departure.getMovableOneStepDiagonals().contains(destination);
+    }
+
+    private boolean isSameRange(Position departure, Position destination) {
+        return (isChoRange(departure) && isChoRange(destination))
+            || (isHanRange(departure) && isHanRange(destination));
+    }
 }

@@ -1,5 +1,6 @@
 package position;
 
+import java.util.List;
 import pieces.Side;
 
 public record Position(Row row, Column column) {
@@ -55,5 +56,12 @@ public record Position(Row row, Column column) {
 
     public Position reverse() {
         return new Position(row.reverse(), column.reverse());
+    }
+
+    public List<Position> getMovableOneStepDiagonals() {
+        return Delta.getDiagonals().stream()
+            .filter(this::canMove)
+            .map(this::move)
+            .toList();
     }
 }
