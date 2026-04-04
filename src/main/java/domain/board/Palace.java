@@ -1,11 +1,17 @@
 package domain.board;
 
-import domain.piece.Camp;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 public class Palace {
+    private static final int PALACE_MIN_X = 4;
+    private static final int PALACE_MAX_X = 6;
+    private static final int HAN_PALACE_MIN_Y = 1;
+    private static final int HAN_PALACE_MAX_Y = 3;
+    private static final int CHO_PALACE_MIN_Y = 8;
+    private static final int CHO_PALACE_MAX_Y = 10;
+
     private final Map<PositionPair, List<Position>> diagonalPaths = Map.ofEntries(
             Map.entry(makePair(4, 1, 5, 2), path()),
             Map.entry(makePair(5, 2, 6, 3), path()),
@@ -24,15 +30,23 @@ public class Palace {
             Map.entry(makePair(6, 8, 4, 10), path(5, 9))
     );
 
-    public boolean contains(Camp camp, Position position) {
-        if (position.x() < 4 || position.x() > 6) {
-            return false;
-        }
+    public boolean contains(Position position) {
+        return isInsidePalaceX(position) && isInsidePalaceY(position);
+    }
 
-        if (camp == Camp.HAN) {
-            return position.y() >= 1 && position.y() <= 3;
-        }
+    private boolean isInsidePalaceX(Position position) {
+        return position.x() >= 4 && position.x() <= 6;
+    }
 
+    private boolean isInsidePalaceY(Position position) {
+        return isInsideHanPalaceY(position) || isInsideChoPalaceY(position);
+    }
+
+    private boolean isInsideHanPalaceY(Position position) {
+        return position.y() >= 1 && position.y() <= 3;
+    }
+
+    private boolean isInsideChoPalaceY(Position position) {
         return position.y() >= 8 && position.y() <= 10;
     }
 

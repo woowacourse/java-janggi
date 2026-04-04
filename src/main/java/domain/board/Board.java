@@ -1,5 +1,6 @@
 package domain.board;
 
+import domain.piece.Camp;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import java.util.HashMap;
@@ -72,5 +73,10 @@ public class Board implements BoardChecker {
 
     private boolean isSamePosition(Position from, Position to) {
         return from.x() == to.x() || from.y() == to.y();
+    }
+
+    @Override
+    public boolean isInsidePalace(Position position) {
+        return palace.contains(position);
     }
 }

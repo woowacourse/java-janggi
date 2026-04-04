@@ -25,7 +25,7 @@ public class GeneralAndGuardStrategyTest {
         dummyBoard = new HashMap<>();
 
         dummyBoard.put(
-                new Position(1, 1),
+                new Position(4, 1),
                 new Piece(Camp.HAN, PieceType.GENERAL)
         );
 
@@ -35,8 +35,8 @@ public class GeneralAndGuardStrategyTest {
     @Test
     @DisplayName("x좌표 상 이동할 거리가 1칸 초과면 예외가 발생한다.")
     void throwException_When_X_ForwardOverOne() {
-        Position from = new Position(1, 1);
-        Position to = new Position(3, 1);
+        Position from = new Position(4, 1);
+        Position to = new Position(6, 1);
 
         Piece generalAndGuard = dummyBoard.get(from);
 
@@ -48,21 +48,8 @@ public class GeneralAndGuardStrategyTest {
     @Test
     @DisplayName("y좌표 상 이동할 거리가 1칸 초과면 예외가 발생한다.")
     void throwException_When_Y_ForwardOverOne() {
-        Position from = new Position(1, 1);
-        Position to = new Position(1, 3);
-
-        Piece generalAndGuard = dummyBoard.get(from);
-
-        assertThatThrownBy(() -> generalAndGuard.move(from, to, boardChecker))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 장군/사는 한 칸 직선 또는 궁 내부 대각선 이동만 가능합니다.");
-    }
-
-    @Test
-    @DisplayName("궁성 외 영역에서 대각선으로 이동하는 경우 예외가 발생한다.")
-    void throwException_When_Diagonal_Forward() {
-        Position from = new Position(1, 1);
-        Position to = new Position(2, 2);
+        Position from = new Position(4, 1);
+        Position to = new Position(4, 3);
 
         Piece generalAndGuard = dummyBoard.get(from);
 
@@ -74,8 +61,8 @@ public class GeneralAndGuardStrategyTest {
     @Test
     @DisplayName("경로상의 기물 리스트가 비어있는 경우 정상 이동한다.")
     void moveSuccess_When_PiecesIsEmpty() {
-        Position from = new Position(1, 1);
-        Position to = new Position(1, 2);
+        Position from = new Position(4, 1);
+        Position to = new Position(4, 2);
 
         Piece generalAndGuard = dummyBoard.get(from);
 
@@ -101,9 +88,21 @@ public class GeneralAndGuardStrategyTest {
 
     @Test
     @DisplayName("장군과 사는 궁성 내에서 두 칸 이상 움직일 수 없다.")
-    void moveFail_When_DiagonalMoveTwoStep() {
+    void throwException_When_DiagonalMoveTwoStep() {
         Position from = new Position(4, 1);
         Position to = new Position(6, 3);
+
+        Piece general = dummyBoard.get(from);
+
+        assertThatThrownBy(() -> general.move(from, to, boardChecker))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("장군과 사는 궁성 외부 영역으로 이동할 수 없다.")
+    void throwException_When_MoveOutPalace() {
+        Position from = new Position(5, 3);
+        Position to = new Position(5, 4);
 
         dummyBoard.clear();
         dummyBoard.put(from, new Piece(Camp.HAN, PieceType.GENERAL));
@@ -112,6 +111,7 @@ public class GeneralAndGuardStrategyTest {
         Piece general = dummyBoard.get(from);
 
         assertThatThrownBy(() -> general.move(from, to, boardChecker))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 장군/사는 궁성 밖으로 이동할 수 없습니다.");
     }
 }

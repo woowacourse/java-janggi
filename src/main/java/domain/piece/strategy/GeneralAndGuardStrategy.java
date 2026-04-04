@@ -6,6 +6,9 @@ import domain.board.Position;
 public class GeneralAndGuardStrategy implements MoveStrategy {
     @Override
     public void move(Position from, Position to, BoardChecker checker) {
+        if (!checker.isInsidePalace(from) || !checker.isInsidePalace(to)) {
+            throw new IllegalArgumentException("[ERROR] 장군/사는 궁성 밖으로 이동할 수 없습니다.");
+        }
 
         if (isOneStepOrthogonalMove(from, to)) {
             return;

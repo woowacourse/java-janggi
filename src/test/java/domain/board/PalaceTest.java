@@ -3,7 +3,6 @@ package domain.board;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import domain.piece.Camp;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -63,14 +62,14 @@ public class PalaceTest {
     @Test
     @DisplayName("한나라 궁성 내부 좌표면 true를 반환한다.")
     void contains_When_HanPalacePosition() {
-        assertThat(palace.contains(Camp.HAN, new Position(5, 2))).isTrue();
-        assertThat(palace.contains(Camp.HAN, new Position(3, 2))).isFalse();
+        assertThat(palace.contains(new Position(5, 2))).isTrue();
+        assertThat(palace.contains(new Position(3, 2))).isFalse();
     }
 
     @Test
     @DisplayName("초나라 궁성 내부 좌표면 true를 반환한다.")
     void contains_When_ChoPalacePosition() {
-        assertThat(palace.contains(Camp.CHO, new Position(5, 9))).isTrue();
-        assertThat(palace.contains(Camp.CHO, new Position(5, 7))).isFalse();
+        assertThat(palace.contains(new Position(5, 9))).isTrue();
+        assertThat(palace.contains(new Position(5, 7))).isFalse();
     }
 }

@@ -13,4 +13,6 @@ public interface BoardChecker {
     boolean isTargetType(Position position, PieceType pieceType);
 
     Optional<List<Position>> findMovePath(Position from, Position to);
+
+    boolean isInsidePalace(Position position);
 }
