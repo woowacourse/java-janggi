@@ -27,6 +27,7 @@ public class Controller {
         Game game = new Game(board);
 
         play(game);
+        outputView.printGameResult(game.getWinnerTeam());
     }
 
     private void play(Game game) {
@@ -37,8 +38,6 @@ public class Controller {
             outputView.printCurrentTurn(game.getTurn());
             executeMove(game);
         }
-
-        outputView.printGameResult(game.getWinnerTeam());
     }
 
     private void executeMove(Game game) {

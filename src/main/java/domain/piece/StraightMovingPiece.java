@@ -13,18 +13,17 @@ public abstract class StraightMovingPiece extends Piece {
     }
 
     @Override
-    public List<Offset> getPathOffset(Offset offset) {
-        validateMoveRule(offset);
-        Direction mainDirection = offset.getMainDirection();
-        int distance = calculateStraightDistance(offset);
-
-        return generateRoute(mainDirection, distance);
-    }
-
-    private void validateMoveRule(Offset offset) {
+    protected void validateMoveRule(Offset offset) {
         if (!isStraightMoving(offset)) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_MOVE_RULE.getMessage());
         }
+    }
+
+    @Override
+    protected List<Offset> generatePaths(Offset offset) {
+        Direction mainDirection = offset.getMainDirection();
+        int distance = calculateStraightDistance(offset);
+        return generateRoute(mainDirection, distance);
     }
 
     private List<Offset> generateRoute(Direction mainDirection, int distance) {

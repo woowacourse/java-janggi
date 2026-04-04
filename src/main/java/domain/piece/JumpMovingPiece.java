@@ -11,16 +11,14 @@ public abstract class JumpMovingPiece extends Piece {
     }
 
     @Override
-    public List<Offset> getPathOffset(Offset offset) {
+    public List<Offset> generatePaths(Offset offset) {
         validateMoveRule(offset);
 
         Direction mainDirection = offset.getMainDirection();
         Direction subDirection = offset.getSubDirection();
 
-        return generatePaths(mainDirection, subDirection);
+        return generateRoute(mainDirection, subDirection);
     }
 
-    protected abstract void validateMoveRule(Offset offset);
-
-    protected abstract List<Offset> generatePaths(Direction main, Direction sub);
+    protected abstract List<Offset> generateRoute(Direction main, Direction sub);
 }

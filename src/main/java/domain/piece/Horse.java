@@ -20,7 +20,7 @@ public final class Horse extends JumpMovingPiece {
     }
 
     @Override
-    protected List<Offset> generatePaths(Direction main, Direction sub) {
+    protected List<Offset> generateRoute(Direction main, Direction sub) {
         Offset step1 = new Offset(0, 0).move(main);
         return List.of(step1);
     }

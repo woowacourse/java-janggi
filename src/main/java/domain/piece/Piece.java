@@ -36,7 +36,13 @@ public abstract class Piece {
         return team;
     }
 
-    abstract public List<Offset> getPathOffset(Offset offset);
+    public final List<Offset> getPathOffset(Offset offset) {
+        validateMoveRule(offset);
+        return generatePaths(offset);
+    }
+
+    protected abstract void validateMoveRule(Offset offset);
+    protected abstract List<Offset> generatePaths(Offset offset);
 
     public void validateMove(List<Piece> blockedPieces) {
         if (!blockedPieces.isEmpty()) {

@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class GuardTest {
     private Piece guard;
@@ -42,5 +43,11 @@ class GuardTest {
         Offset offset = new Offset(1, 0);
         List<Offset> pathPositions = guard.getPathOffset(offset);
         assertThat(pathPositions).isEqualTo(List.of());
+    }
+
+    @Test
+    void 사는_두칸을_이동할_수_없다() {
+        Offset offset = new Offset(2, 0);
+        assertThrows(IllegalArgumentException.class, () -> guard.getPathOffset(offset));
     }
 }

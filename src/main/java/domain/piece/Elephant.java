@@ -20,12 +20,10 @@ public final class Elephant extends JumpMovingPiece {
     }
 
     @Override
-    protected List<Offset> generatePaths(Direction main, Direction sub) {
+    protected List<Offset> generateRoute(Direction main, Direction sub) {
         Offset start = new Offset(0, 0);
-
         Offset step1 = start.move(main);
         Offset step2 = step1.move(main).move(sub);
-
         return List.of(step1, step2);
     }
 

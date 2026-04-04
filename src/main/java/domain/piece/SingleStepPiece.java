@@ -5,18 +5,19 @@ import domain.Offset;
 
 import java.util.List;
 
+
 public abstract class SingleStepPiece extends Piece {
     public SingleStepPiece(PieceType pieceType, Team team) {
         super(pieceType, team);
     }
 
     @Override
-    public List<Offset> getPathOffset(Offset offset) {
-        validateMoveRule(offset);
+    protected List<Offset> generatePaths(Offset offset) {
         return List.of();
     }
 
-    private void validateMoveRule(Offset offset) {
+    @Override
+    protected void validateMoveRule(Offset offset) {
         if (!isSingleStep(offset)) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_MOVE_RULE.getMessage());
         }
@@ -25,5 +26,4 @@ public abstract class SingleStepPiece extends Piece {
     private boolean isSingleStep(Offset offset) {
         return (offset.absX() == 1 && offset.absY() == 0) || (offset.absX() == 0 && offset.absY() == 1);
     }
-
 }

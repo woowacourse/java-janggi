@@ -38,4 +38,10 @@ class SoldierChoTest {
         assertThrows(IllegalArgumentException.class, () -> soldier.getPathOffset(offset));
     }
 
+    @Test
+    void 졸은_두칸을_가지_못한다() {
+        Offset offset = new Offset(0, 2);
+        assertThrows(IllegalArgumentException.class, () -> soldier.getPathOffset(offset));
+    }
+
 }
