@@ -51,4 +51,8 @@ public record Delta(int rowDelta, int columnDelta) {
             Delta.leftDown()
         );
     }
+
+    public boolean isOneStepDiagonal() {
+        return Math.abs(rowDelta) == ONE_STEP && Math.abs(columnDelta) == ONE_STEP;
+    }
 }

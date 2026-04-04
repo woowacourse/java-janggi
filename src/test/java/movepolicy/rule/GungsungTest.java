@@ -9,111 +9,113 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import position.Position;
 
-class GunsungTest {
+class GungsungTest {
 
-    private static final Position CHO_LEFT_TOP = new Position(0, 3);
-    private static final Position CHO_CENTER_TOP = new Position(0, 4);
-    private static final Position CHO_RIGHT_TOP = new Position(0, 5);
+    private static final String METHOD_SOURCE_PREFIX = "movepolicy.rule.GungsungTest#";
+
+    private static final Position CHO_LEFT_TOP = new Position(2, 3);
+    private static final Position CHO_CENTER_TOP = new Position(2, 4);
+    private static final Position CHO_RIGHT_TOP = new Position(2, 5);
     private static final Position CHO_LEFT_MIDDLE = new Position(1, 3);
     private static final Position CHO_CENTER = new Position(1, 4);
     private static final Position CHO_RIGHT_MIDDLE = new Position(1, 5);
-    private static final Position CHO_LEFT_BOTTOM = new Position(2, 3);
-    private static final Position CHO_CENTER_BOTTOM = new Position(2, 4);
-    private static final Position CHO_RIGHT_BOTTOM = new Position(2, 5);
+    private static final Position CHO_LEFT_BOTTOM = new Position(0, 3);
+    private static final Position CHO_CENTER_BOTTOM = new Position(0, 4);
+    private static final Position CHO_RIGHT_BOTTOM = new Position(0, 5);
 
     private static final Position OUTSIDE_TOP = new Position(3, 4);
     private static final Position OUTSIDE_LEFT = new Position(1, 2);
     private static final Position OUTSIDE_RIGHT = new Position(1, 6);
     private static final Position OUTSIDE_BOTTOM = new Position(6, 4);
 
-    private final Gunsung gunsung = new Gunsung();
+    private final Gungsung gungsung = new Gungsung();
 
     @Nested
-    @DisplayName("초 궁성 범위 검증")
+    @DisplayName("초 궁성 범위를 검증한다")
     class IsChoRange {
 
         @ParameterizedTest
-        @MethodSource("movepolicy.rule.GunsungTest#choGungsungPositions")
-        void 초_궁성_내부_좌표를_포함한다(final Position position) {
+        @MethodSource(METHOD_SOURCE_PREFIX + "choGungsungPositions")
+        void 초_궁성_내부_좌표를_포함하는_경우_TRUE를_반환한다(final Position position) {
             // when
-            boolean contains = gunsung.isChoRange(position);
+            boolean contains = gungsung.isChoRange(position);
             // then
             assertThat(contains).isTrue();
         }
 
         @ParameterizedTest
-        @MethodSource("movepolicy.rule.GunsungTest#outsideChoGungsungPositions")
-        void 초_궁성_범위를_벗어나면_false를_반환한다(final Position position) {
+        @MethodSource(METHOD_SOURCE_PREFIX + "outsideChoGungsungPositions")
+        void 초_궁성_범위를_벗어나면_FALSE를_반환한다(final Position position) {
             // when
-            boolean contains = gunsung.isChoRange(position);
+            boolean contains = gungsung.isChoRange(position);
             // then
             assertThat(contains).isFalse();
         }
     }
 
     @Nested
-    @DisplayName("한 궁성 범위 검증")
+    @DisplayName("한 궁성 범위를 검증한다")
     class IsHanRange {
 
         @ParameterizedTest
-        @MethodSource("movepolicy.rule.GunsungTest#choGungsungPositions")
-        void 한_궁성_내부_좌표를_포함한다(final Position choPosition) {
+        @MethodSource(METHOD_SOURCE_PREFIX + "choGungsungPositions")
+        void 한_궁성_내부_좌표인_경우_TRUE를_반환한다(final Position choPosition) {
             // given
             Position hanPosition = choPosition.reverse();
             // when
-            boolean contains = gunsung.isHanRange(hanPosition);
+            boolean contains = gungsung.isHanRange(hanPosition);
             // then
             assertThat(contains).isTrue();
         }
 
         @ParameterizedTest
-        @MethodSource("movepolicy.rule.GunsungTest#outsideChoGungsungPositions")
-        void 한_궁성_범위를_벗어나면_false를_반환한다(final Position choPosition) {
+        @MethodSource(METHOD_SOURCE_PREFIX + "outsideChoGungsungPositions")
+        void 한_궁성_범위를_벗어나는_경우_false를_반환한다(final Position choPosition) {
             // given
             Position hanPosition = choPosition.reverse();
             // when
-            boolean contains = gunsung.isHanRange(hanPosition);
+            boolean contains = gungsung.isHanRange(hanPosition);
             // then
             assertThat(contains).isFalse();
         }
     }
 
     @Nested
-    @DisplayName("궁성 내 대각선 관계 검증")
+    @DisplayName("궁성 내 대각선 한 칸 관계인지 검증한다")
     class IsDiagonalInside {
 
         @ParameterizedTest
-        @MethodSource("movepolicy.rule.GunsungTest#diagonalCornersFromCenter")
+        @MethodSource(METHOD_SOURCE_PREFIX + "diagonalCornersFromCenter")
         void 궁성_가운데와_모서리는_대각선_한_칸_관계이다(final Position corner) {
             // when
-            boolean isDiagonalInside = gunsung.isDiagonalOneStepInside(CHO_CENTER, corner);
+            boolean isDiagonalInside = gungsung.isDiagonalOneStepInside(CHO_CENTER, corner);
             // then
             assertThat(isDiagonalInside).isTrue();
         }
 
         @ParameterizedTest
-        @MethodSource("movepolicy.rule.GunsungTest#oneStepStraightFromCenter")
-        void 궁성_안이라도_직선_한_칸이면_false를_반환한다(final Position position) {
+        @MethodSource(METHOD_SOURCE_PREFIX + "oneStepStraightFromCenter")
+        void 궁성_안이라도_직선_한_칸인_경우_FALSE를_반환한다(final Position position) {
             // when
-            boolean isDiagonalInside = gunsung.isDiagonalOneStepInside(CHO_CENTER, position);
+            boolean isDiagonalInside = gungsung.isDiagonalOneStepInside(CHO_CENTER, position);
             // then
             assertThat(isDiagonalInside).isFalse();
         }
 
         @ParameterizedTest
-        @MethodSource("movepolicy.rule.GunsungTest#twoStepDiagonalInside")
-        void 궁성_안이라도_대각선_두_칸이면_false를_반환한다(final Position position) {
+        @MethodSource(METHOD_SOURCE_PREFIX + "twoStepDiagonalInside")
+        void 궁성_안이라도_대각선_두_칸인_경우_FALSE를_반환한다(final Position position) {
             // when
-            boolean isDiagonalInside = gunsung.isDiagonalOneStepInside(CHO_LEFT_TOP, position);
+            boolean isDiagonalInside = gungsung.isDiagonalOneStepInside(CHO_LEFT_TOP, position);
             // then
             assertThat(isDiagonalInside).isFalse();
         }
 
         @ParameterizedTest
-        @MethodSource("movepolicy.rule.GunsungTest#outsidePositionsAroundCenter")
-        void 궁성_밖_좌표를_포함하면_false를_반환한다(final Position outside) {
+        @MethodSource(METHOD_SOURCE_PREFIX + "outsidePositionsAroundCenter")
+        void 궁성_밖_좌표인_경우_FALSE를_반환한다(final Position outside) {
             // when
-            boolean isDiagonalInside = gunsung.isDiagonalOneStepInside(CHO_CENTER, outside);
+            boolean isDiagonalInside = gungsung.isDiagonalOneStepInside(CHO_CENTER, outside);
             // then
             assertThat(isDiagonalInside).isFalse();
         }

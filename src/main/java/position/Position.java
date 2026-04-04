@@ -46,12 +46,12 @@ public record Position(Row row, Column column) {
             column.isGapBiggerThanOne(destination.column);
     }
 
-    public boolean isRowInRange(Row minRow, Row maxRow) {
-        return row.isInRange(minRow, maxRow);
+    public boolean isRowInRange(Row min, Row max) {
+        return row.isInRange(min, max);
     }
 
-    public boolean isColumnInRange(Column minColumn, Column maxColumn) {
-        return column.isInRange(minColumn, maxColumn);
+    public boolean isColumnInRange(Column min, Column max) {
+        return column.isInRange(min, max);
     }
 
     public Position reverse() {
@@ -63,5 +63,11 @@ public record Position(Row row, Column column) {
             .filter(this::canMove)
             .map(this::move)
             .toList();
+    }
+
+    public Delta calucalteDelta(Position destination) {
+        Delta rowDelta = destination.row.calculateDelta(row);
+        Delta columnDelta = destination.column.calculateDelta(column);
+        return rowDelta.add(columnDelta);
     }
 }

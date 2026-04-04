@@ -11,10 +11,12 @@ import static movepolicy.move.Step.RIGHT_FORWARD;
 
 import java.util.List;
 import movepolicy.move.FixedRouteMovement;
+import movepolicy.move.GunsungDiagonalMovement;
 import movepolicy.move.LinearRouteMovement;
 import movepolicy.move.Movement;
 import movepolicy.move.PoRouteMovement;
 import movepolicy.move.Route;
+import movepolicy.move.SingleStepGungsungMovement;
 import movepolicy.rule.EmptyPathMoveRule;
 import movepolicy.rule.MoveRule;
 import movepolicy.rule.PoMoveRule;
@@ -86,12 +88,19 @@ public enum PieceType {
     ),
 
     GUNG(
-        new FixedRouteMovement(List.of(
-            new Route(List.of(FORWARD)),
-            new Route(List.of(BACK)),
-            new Route(List.of(RIGHT)),
-            new Route(List.of(LEFT))
-        )),
+        new GunsungDiagonalMovement(
+            new FixedRouteMovement(List.of(
+                new Route(List.of(FORWARD)),
+                new Route(List.of(BACK)),
+                new Route(List.of(RIGHT)),
+                new Route(List.of(LEFT)),
+                new Route(List.of(RIGHT_FORWARD)),
+                new Route(List.of(LEFT_FORWARD)),
+                new Route(List.of(RIGHT_BACK)),
+                new Route(List.of(LEFT_BACK))
+            )),
+            new SingleStepGungsungMovement()
+        ),
         EmptyPathMoveRule.withOtherSideTargetRule(),
         new Score(0)
     );

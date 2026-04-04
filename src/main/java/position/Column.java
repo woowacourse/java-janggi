@@ -28,8 +28,8 @@ public record Column(int index) {
         return this.index > column.index;
     }
 
-    public boolean isInRange(Column minColumn, Column maxColumn) {
-        return minColumn.index <= index && index <= maxColumn.index;
+    public boolean isInRange(Column min, Column max) {
+        return min.index <= index && index <= max.index;
     }
 
     public boolean isGapBiggerThanOne(Column other) {
@@ -47,5 +47,9 @@ public record Column(int index) {
 
     public Column reverse() {
         return new Column(MAXIMUM_BOUNDARY - index);
+    }
+
+    public Delta calculateDelta(Column column) {
+        return new Delta(0, index - column.index);
     }
 }
