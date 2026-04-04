@@ -53,7 +53,7 @@ public enum MaDirection {
         )
     );
 
-    List<Offset> routes;
+    private final List<Offset> routes;
 
     MaDirection(List<Offset> routes) {
         this.routes = routes;
