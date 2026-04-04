@@ -1,11 +1,6 @@
-package janggi.domain.movestrategy.piece;
+package janggi.domain.piece;
 
 import janggi.domain.board.BoardState;
-import janggi.domain.movestrategy.JolMoveStrategy;
-import janggi.domain.movestrategy.MoveStrategy;
-import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceType;
-import janggi.domain.piece.Team;
 import janggi.domain.position.Column;
 import janggi.domain.position.Position;
 import janggi.domain.position.Row;
@@ -39,8 +34,6 @@ class PieceTest {
 
     @Test
     void 다른_진영의_기물을_잡았을_경우_예외가_발생하지_않는다() {
-        // given
-        MoveStrategy moveStorage = new JolMoveStrategy();
         Position from = Position.of(Row.of(4), Column.of(3));
         Position to = Position.of(Row.of(4), Column.of(4));
 

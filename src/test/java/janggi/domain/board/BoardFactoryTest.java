@@ -1,13 +1,9 @@
-package janggi.domain.movestrategy.board;
+package janggi.domain.board;
 
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardFactory;
-import janggi.domain.movestrategy.ChaMoveStrategy;
-import janggi.domain.movestrategy.GungseongBoundMoveStrategy;
-import janggi.domain.movestrategy.JolMoveStrategy;
-import janggi.domain.movestrategy.MaMoveStrategy;
-import janggi.domain.movestrategy.PoMoveStrategy;
-import janggi.domain.movestrategy.SangMoveStrategy;
+import janggi.domain.movestrategy.FixedStepMoveStrategy;
+import janggi.domain.movestrategy.SlidingMoveStrategy;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Team;
 import janggi.domain.position.Column;
@@ -22,81 +18,81 @@ class BoardFactoryTest {
     @Test
     void 한나라_차_기물이_정상적으로_초기화되는지_확인한다() {
         Board board = new Board(BoardFactory.generate());
-        Position position = Position.of(Row.of(0), Column.of(0)); // 맨 윗줄 왼쪽 끝
+        Position position = Position.of(Row.of(0), Column.of(0));
         Piece piece = board.getPieceAt(position);
 
         assertThat(piece.getTeam()).isEqualTo(Team.HAN);
-        assertThat(piece.getMoveStorage()).isInstanceOf(ChaMoveStrategy.class);
+        assertThat(piece.getMoveStorage()).isInstanceOf(SlidingMoveStrategy.class);
     }
 
     @Test
     void 한나라_상_기물이_정상적으로_초기화되는지_확인한다() {
         Board board = new Board(BoardFactory.generate());
-        Position position = Position.of(Row.of(0), Column.of(1)); // 차 옆
+        Position position = Position.of(Row.of(0), Column.of(1));
         Piece piece = board.getPieceAt(position);
 
         assertThat(piece.getTeam()).isEqualTo(Team.HAN);
-        assertThat(piece.getMoveStorage()).isInstanceOf(SangMoveStrategy.class);
+        assertThat(piece.getMoveStorage()).isInstanceOf(FixedStepMoveStrategy.class);
     }
 
     @Test
     void 한나라_마_기물이_정상적으로_초기화되는지_확인한다() {
         Board board = new Board(BoardFactory.generate());
-        Position position = Position.of(Row.of(0), Column.of(2)); // 상 옆
+        Position position = Position.of(Row.of(0), Column.of(2));
         Piece piece = board.getPieceAt(position);
 
         assertThat(piece.getTeam()).isEqualTo(Team.HAN);
-        assertThat(piece.getMoveStorage()).isInstanceOf(MaMoveStrategy.class);
+        assertThat(piece.getMoveStorage()).isInstanceOf(FixedStepMoveStrategy.class);
     }
 
     @Test
     void 한나라_사_기물이_정상적으로_초기화되는지_확인한다() {
         Board board = new Board(BoardFactory.generate());
-        Position position = Position.of(Row.of(0), Column.of(3)); // 궁성 왼쪽 위
+        Position position = Position.of(Row.of(0), Column.of(3));
         Piece piece = board.getPieceAt(position);
 
         assertThat(piece.getTeam()).isEqualTo(Team.HAN);
-        assertThat(piece.getMoveStorage()).isInstanceOf(GungseongBoundMoveStrategy.class);
+        assertThat(piece.getMoveStorage()).isInstanceOf(FixedStepMoveStrategy.class);
     }
 
     @Test
     void 한나라_궁_기물이_정상적으로_초기화되는지_확인한다() {
         Board board = new Board(BoardFactory.generate());
-        Position position = Position.of(Row.of(1), Column.of(4)); // 궁성 정중앙
+        Position position = Position.of(Row.of(1), Column.of(4));
         Piece piece = board.getPieceAt(position);
 
         assertThat(piece.getTeam()).isEqualTo(Team.HAN);
-        assertThat(piece.getMoveStorage()).isInstanceOf(GungseongBoundMoveStrategy.class);
+        assertThat(piece.getMoveStorage()).isInstanceOf(FixedStepMoveStrategy.class);
     }
 
     @Test
     void 한나라_포_기물이_정상적으로_초기화되는지_확인한다() {
         Board board = new Board(BoardFactory.generate());
-        Position position = Position.of(Row.of(2), Column.of(1)); // 포 위치
+        Position position = Position.of(Row.of(2), Column.of(1));
         Piece piece = board.getPieceAt(position);
 
         assertThat(piece.getTeam()).isEqualTo(Team.HAN);
-        assertThat(piece.getMoveStorage()).isInstanceOf(PoMoveStrategy.class);
+        assertThat(piece.getMoveStorage()).isInstanceOf(SlidingMoveStrategy.class);
     }
 
     @Test
     void 한나라_졸_기물이_정상적으로_초기화되는지_확인한다() {
         Board board = new Board(BoardFactory.generate());
-        Position position = Position.of(Row.of(3), Column.of(0)); // 맨 왼쪽 졸
+        Position position = Position.of(Row.of(3), Column.of(0));
         Piece piece = board.getPieceAt(position);
 
         assertThat(piece.getTeam()).isEqualTo(Team.HAN);
-        assertThat(piece.getMoveStorage()).isInstanceOf(JolMoveStrategy.class);
+        assertThat(piece.getMoveStorage()).isInstanceOf(FixedStepMoveStrategy.class);
     }
 
     @Test
     void 초나라_차_기물이_정상적으로_초기화되는지_확인한다() {
         Board board = new Board(BoardFactory.generate());
-        Position position = Position.of(Row.of(9), Column.of(0)); // 맨 아랫줄 왼쪽 끝
+        Position position = Position.of(Row.of(9), Column.of(0));
         Piece piece = board.getPieceAt(position);
 
         assertThat(piece.getTeam()).isEqualTo(Team.CHO);
-        assertThat(piece.getMoveStorage()).isInstanceOf(ChaMoveStrategy.class);
+        assertThat(piece.getMoveStorage()).isInstanceOf(SlidingMoveStrategy.class);
     }
 
     @Test
@@ -106,7 +102,7 @@ class BoardFactoryTest {
         Piece piece = board.getPieceAt(position);
 
         assertThat(piece.getTeam()).isEqualTo(Team.CHO);
-        assertThat(piece.getMoveStorage()).isInstanceOf(SangMoveStrategy.class);
+        assertThat(piece.getMoveStorage()).isInstanceOf(FixedStepMoveStrategy.class);
     }
 
     @Test
@@ -116,27 +112,27 @@ class BoardFactoryTest {
         Piece piece = board.getPieceAt(position);
 
         assertThat(piece.getTeam()).isEqualTo(Team.CHO);
-        assertThat(piece.getMoveStorage()).isInstanceOf(MaMoveStrategy.class);
+        assertThat(piece.getMoveStorage()).isInstanceOf(FixedStepMoveStrategy.class);
     }
 
     @Test
     void 초나라_사_기물이_정상적으로_초기화되는지_확인한다() {
         Board board = new Board(BoardFactory.generate());
-        Position position = Position.of(Row.of(9), Column.of(3)); // 궁성 왼쪽 아래
+        Position position = Position.of(Row.of(9), Column.of(3));
         Piece piece = board.getPieceAt(position);
 
         assertThat(piece.getTeam()).isEqualTo(Team.CHO);
-        assertThat(piece.getMoveStorage()).isInstanceOf(GungseongBoundMoveStrategy.class);
+        assertThat(piece.getMoveStorage()).isInstanceOf(FixedStepMoveStrategy.class);
     }
 
     @Test
     void 초나라_궁_기물이_정상적으로_초기화되는지_확인한다() {
         Board board = new Board(BoardFactory.generate());
-        Position position = Position.of(Row.of(8), Column.of(4)); // 궁성 정중앙
+        Position position = Position.of(Row.of(8), Column.of(4));
         Piece piece = board.getPieceAt(position);
 
         assertThat(piece.getTeam()).isEqualTo(Team.CHO);
-        assertThat(piece.getMoveStorage()).isInstanceOf(GungseongBoundMoveStrategy.class);
+        assertThat(piece.getMoveStorage()).isInstanceOf(FixedStepMoveStrategy.class);
     }
 
     @Test
@@ -146,7 +142,7 @@ class BoardFactoryTest {
         Piece piece = board.getPieceAt(position);
 
         assertThat(piece.getTeam()).isEqualTo(Team.CHO);
-        assertThat(piece.getMoveStorage()).isInstanceOf(PoMoveStrategy.class);
+        assertThat(piece.getMoveStorage()).isInstanceOf(SlidingMoveStrategy.class);
     }
 
     @Test
@@ -156,6 +152,6 @@ class BoardFactoryTest {
         Piece piece = board.getPieceAt(position);
 
         assertThat(piece.getTeam()).isEqualTo(Team.CHO);
-        assertThat(piece.getMoveStorage()).isInstanceOf(JolMoveStrategy.class);
+        assertThat(piece.getMoveStorage()).isInstanceOf(FixedStepMoveStrategy.class);
     }
 }

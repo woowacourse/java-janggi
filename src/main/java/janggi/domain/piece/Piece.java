@@ -21,10 +21,11 @@ public class Piece {
             throw new InvalidMoveException();
         }
 
-        Piece pieceTo = boardState.getPieceAt(to);
-
-        if (pieceTo != null && getTeam() == pieceTo.getTeam()) {
-            throw new InvalidMoveException();
+        if (boardState.hasPieceAt(to)) {
+            Piece pieceTo = boardState.getPieceAt(to);
+            if (getTeam() == pieceTo.getTeam()) {
+                throw new InvalidMoveException();
+            }
         }
     }
 

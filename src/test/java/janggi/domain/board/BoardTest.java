@@ -1,4 +1,4 @@
-package janggi.domain.movestrategy.board;
+package janggi.domain.board;
 
 import janggi.domain.board.Board;
 import janggi.domain.piece.Piece;
