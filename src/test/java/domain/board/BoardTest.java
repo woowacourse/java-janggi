@@ -15,8 +15,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static domain.board.Formation.ELEPHANT_HORSE_ELEPHANT_HORSE;
-
 class BoardTest {
 
     public static final int DEFAULT_ELEPHANT_AND_HORSE_ROW = 0;
@@ -132,43 +130,44 @@ class BoardTest {
     }
 
     @Test
-    @DisplayName("양 팀의 기물 점수가 모두 30점 미만이면 장기는 무승부가 된다.")
+    @DisplayName("양 팀의 기물 점수가 모두 30점 미만(ex 29점)이면 장기는 무승부가 된다.")
     void shouldDrawBothOfTeamScoreIsLessThan30() {
         // given
-        Point hanChariotPoint = new Point(0, 0);
-        Point choChariotPoint = new Point(9, 0);
-        Team teamHan = Team.HAN;
-        Team teamCho = Team.CHO;
+        JanggiBoard janggiBoard = JanggiBoardFixture.generate(
+                //  13 + 13 + 3 = 29점
+                generateIntersection(0, 0, Team.HAN, PieceType.CHARIOT),
+                generateIntersection(0, 8, Team.HAN, PieceType.CHARIOT),
+                generateIntersection(0, 1, Team.HAN, PieceType.ELEPHANT),
 
-        Piece chariotHan = new Piece(teamHan, PieceType.CHARIOT);
-        Piece chariotCho = new Piece(teamCho, PieceType.CHARIOT);
+                // 13 + 13 + 3 = 29점
+                generateIntersection(9, 0, Team.CHO, PieceType.CHARIOT),
+                generateIntersection(9, 8, Team.CHO, PieceType.CHARIOT),
+                generateIntersection(9, 1, Team.CHO, PieceType.ELEPHANT)
+        );
 
-        Intersection hanIntersection = new NormalIntersection(hanChariotPoint, chariotHan);
-        Intersection choIntersection = new NormalIntersection(choChariotPoint, chariotCho);
-        JanggiBoard janggiBoard = JanggiBoardFixture.generate(hanIntersection, choIntersection);
-
-        // when
-        boolean actual = janggiBoard.isDraw();
-
-        // then
-        Assertions.assertThat(actual)
-                .isTrue();
+        // when & then
+        Assertions.assertThat(janggiBoard.isDraw()).isTrue();
     }
 
     @Test
     @DisplayName("한 팀이라도 기물 점수가 30점 이상이면 장기는 진행된다.")
     void shouldPlayOneOfTeamScoreIsMoreThan30() {
         // given
-        JanggiBoard janggiBoard = new JanggiBoard(new JanggiIntersectionGenerator(
-                ELEPHANT_HORSE_ELEPHANT_HORSE, ELEPHANT_HORSE_ELEPHANT_HORSE)
+        JanggiBoard janggiBoard = JanggiBoardFixture.generate(
+                //  13 + 13 + 3 + 2= 31점
+                generateIntersection(0, 0, Team.HAN, PieceType.CHARIOT),
+                generateIntersection(0, 8, Team.HAN, PieceType.CHARIOT),
+                generateIntersection(0, 1, Team.HAN, PieceType.ELEPHANT),
+                generateIntersection(3, 0, Team.HAN, PieceType.SOLDIER),
+
+                // 13 + 13 + 3 = 29점
+                generateIntersection(9, 0, Team.CHO, PieceType.CHARIOT),
+                generateIntersection(9, 8, Team.CHO, PieceType.CHARIOT),
+                generateIntersection(9, 1, Team.CHO, PieceType.ELEPHANT)
         );
 
-        // when
-        boolean actual = janggiBoard.isDraw();
-
-        // then
-        Assertions.assertThat(actual)
-                .isFalse();
+        // when & then
+        Assertions.assertThat(janggiBoard.isDraw()).isFalse();
     }
 
     private static List<Point> getFormationPoints(Formation elephantHorseHorseElephant) {
@@ -178,6 +177,10 @@ class BoardTest {
                 elephantHorseHorseElephant.horseFormations().stream()
                         .map(x -> new Point(DEFAULT_ELEPHANT_AND_HORSE_ROW, x))
         ).toList();
+    }
+
+    private Intersection generateIntersection(int row, int col, Team team, PieceType type) {
+        return new NormalIntersection(new Point(row, col), new Piece(team, type));
     }
 
 }
