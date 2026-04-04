@@ -89,4 +89,26 @@ class SoldierMoveStrategyTest {
                 Position.of(5, 3)
         );
     }
+
+    @Test
+    @DisplayName("졸, 병은 이동할 위치에 상대 기물이 있으면 잡을 수 있다.")
+    void soldierCanCaptureOpposite() {
+        Map<Position, Piece> pieces = new HashMap<>();
+        Position from = Position.of(4, 3);
+
+        pieces.put(from, Piece.hanPieceOf(PieceType.SOLDIER));
+        pieces.put(Position.of(4, 2), Piece.choPieceOf(PieceType.SOLDIER));
+
+        Board board = Board.init(pieces);
+
+        // when
+        List<Position> result = strategy.getMovablePositions(board, from);
+
+        // then
+        assertThat(result).containsExactlyInAnyOrder(
+                Position.of(4, 2),
+                Position.of(4, 4),
+                Position.of(5, 3)
+        );
+    }
 }

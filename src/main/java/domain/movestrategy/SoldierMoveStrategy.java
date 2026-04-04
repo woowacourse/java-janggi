@@ -24,7 +24,6 @@ public class SoldierMoveStrategy implements MoveStrategy {
         return paths.stream()
                 .map(from::move)
                 .filter(Position::isInside)
-                .filter(board::isEmpty)
                 .filter(position -> board.isEmptyOrOpposite(from, position))
                 .toList();
     }
