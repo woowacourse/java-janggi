@@ -10,21 +10,21 @@ import org.junit.jupiter.params.provider.CsvSource;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-class ForwardPalaceMovementTest {
+class FullPalaceMovementTest {
 
     @Nested
     class HAN_진영의_궁성인_경우 {
 
-        private final ForwardPalaceMovement forwardPalaceMovement = new ForwardPalaceMovement(Team.HAN);
+        private final FullPalaceMovement fullPalaceMovement = new FullPalaceMovement(Team.HAN);
 
         @ParameterizedTest
         @CsvSource(value = {
-                "4,3,4,1",
-                "4,3,6,1",
-                "6,3,6,1",
+                "4,1,4,2",
+                "4,1,5,2",
                 "5,2,4,1",
-                "5,2,6,1",
-                "4,2,5,2"
+                "5,2,6,3",
+                "6,3,5,2",
+                "6,3,6,2"
         })
         public void 두_좌표가_모두_같은_궁성_안에_있으면_true를_반환한다(int fromColumn, int fromRow, int toColumn, int toRow) {
             assertThat(isPalace(fromColumn, fromRow, toColumn, toRow)).isTrue();
@@ -35,8 +35,6 @@ class ForwardPalaceMovementTest {
                 "4,4,5,2",
                 "3,2,5,2",
                 "7,1,5,1",
-                "4,4,4,3",
-                "6,4,6,3",
                 "5,2,4,4",
                 "5,2,3,2",
                 "5,1,7,1",
@@ -50,10 +48,12 @@ class ForwardPalaceMovementTest {
 
         @ParameterizedTest
         @CsvSource(value = {
-                "4,3,4,2",
-                "5,3,6,3",
+                "4,1,4,2",
+                "4,2,5,2",
                 "5,2,4,1",
-                "5,2,6,1"
+                "5,2,6,3",
+                "6,3,5,3",
+                "4,3,4,2"
         })
         public void 궁성_내의_이동_규칙을_지킬_경우_에러를_반환하지_않는다(int fromColumn, int fromRow, int toColumn, int toRow) {
             assertThatCode(() -> validateRule(fromColumn, fromRow, toColumn, toRow)).doesNotThrowAnyException();
@@ -62,29 +62,25 @@ class ForwardPalaceMovementTest {
         @ParameterizedTest
         @CsvSource(value = {
                 "4,1,6,1",
-                "4,2,6,2",
-                "4,3,6,3",
                 "4,1,4,3",
+                "4,1,6,3",
                 "5,1,5,3",
-                "4,2,4,3",
-                "6,2,6,3",
-                "5,1,5,2",
-                "4,2,5,1",
-                "6,2,5,3",
-                "4,2,5,3"
+                "4,3,6,1"
         })
         public void 궁성_내_이동_불가능한_경로이면_에러를_반환한다(int fromColumn, int fromRow, int toColumn, int toRow) {
-            assertThatCode(() -> validateRule(fromColumn, fromRow, toColumn, toRow)).isInstanceOf(PieceException.class).hasMessage(ForwardPalaceMovement.IMPOSSIBLE_PALACE_MOVE_MESSAGE);
+            assertThatCode(() -> validateRule(fromColumn, fromRow, toColumn, toRow))
+                    .isInstanceOf(PieceException.class)
+                    .hasMessage(AbstractPalaceMovement.IMPOSSIBLE_PALACE_MOVE_MESSAGE);
         }
 
         private boolean isPalace(int fromColumn, int fromRow, int toColumn, int toRow) {
-            return forwardPalaceMovement.isPalace(
+            return fullPalaceMovement.isPalace(
                     Coordination.of(fromColumn, fromRow),
                     Coordination.of(toColumn, toRow));
         }
 
         private void validateRule(int fromColumn, int fromRow, int toColumn, int toRow) {
-            forwardPalaceMovement.validateRule(
+            fullPalaceMovement.validateRule(
                     Coordination.of(fromColumn, fromRow),
                     Coordination.of(toColumn, toRow));
         }
@@ -93,16 +89,16 @@ class ForwardPalaceMovementTest {
     @Nested
     class CHO_진영의_궁성인_경우 {
 
-        private final ForwardPalaceMovement forwardPalaceMovement = new ForwardPalaceMovement(Team.CHO);
+        private final FullPalaceMovement fullPalaceMovement = new FullPalaceMovement(Team.CHO);
 
         @ParameterizedTest
         @CsvSource(value = {
-                "4,8,6,10",
-                "4,10,5,10",
-                "4,9,6,9",
-                "5,8,5,9",
-                "6,8,4,10",
-                "4,10,6,10"
+                "4,8,4,9",
+                "4,8,5,9",
+                "5,9,4,8",
+                "5,9,6,10",
+                "6,10,5,9",
+                "6,10,6,9"
         })
         public void 두_좌표가_모두_같은_궁성_안에_있으면_true를_반환한다(int fromColumn, int fromRow, int toColumn, int toRow) {
             assertThat(isPalace(fromColumn, fromRow, toColumn, toRow)).isTrue();
@@ -116,7 +112,6 @@ class ForwardPalaceMovementTest {
                 "5,9,4,7",
                 "5,9,3,8",
                 "5,10,7,10",
-                "4,7,4,8",
                 "4,1,5,2",
                 "5,2,6,3",
                 "4,3,5,3",
@@ -128,9 +123,11 @@ class ForwardPalaceMovementTest {
         @ParameterizedTest
         @CsvSource(value = {
                 "4,8,4,9",
-                "5,8,6,8",
-                "5,9,4,10",
-                "5,9,6,10"
+                "4,9,5,9",
+                "5,9,4,8",
+                "5,9,6,10",
+                "6,10,5,10",
+                "4,10,4,9"
         })
         public void 궁성_내의_이동_규칙을_지킬_경우_에러를_반환하지_않는다(int fromColumn, int fromRow, int toColumn, int toRow) {
             assertThatCode(() -> validateRule(fromColumn, fromRow, toColumn, toRow)).doesNotThrowAnyException();
@@ -139,29 +136,25 @@ class ForwardPalaceMovementTest {
         @ParameterizedTest
         @CsvSource(value = {
                 "4,8,6,8",
-                "4,9,6,9",
-                "4,10,6,10",
                 "4,8,4,10",
+                "4,8,6,10",
                 "5,8,5,10",
-                "4,9,4,8",
-                "6,9,6,8",
-                "5,10,5,9",
-                "4,9,5,10",
-                "6,9,5,8",
-                "4,9,5,8"
+                "4,10,6,8"
         })
         public void 궁성_내_이동_불가능한_경로이면_에러를_반환한다(int fromColumn, int fromRow, int toColumn, int toRow) {
-            assertThatCode(() -> validateRule(fromColumn, fromRow, toColumn, toRow)).isInstanceOf(PieceException.class).hasMessage(ForwardPalaceMovement.IMPOSSIBLE_PALACE_MOVE_MESSAGE);
+            assertThatCode(() -> validateRule(fromColumn, fromRow, toColumn, toRow))
+                    .isInstanceOf(PieceException.class)
+                    .hasMessage(AbstractPalaceMovement.IMPOSSIBLE_PALACE_MOVE_MESSAGE);
         }
 
         private boolean isPalace(int fromColumn, int fromRow, int toColumn, int toRow) {
-            return forwardPalaceMovement.isPalace(
+            return fullPalaceMovement.isPalace(
                     Coordination.of(fromColumn, fromRow),
                     Coordination.of(toColumn, toRow));
         }
 
         private void validateRule(int fromColumn, int fromRow, int toColumn, int toRow) {
-            forwardPalaceMovement.validateRule(
+            fullPalaceMovement.validateRule(
                     Coordination.of(fromColumn, fromRow),
                     Coordination.of(toColumn, toRow));
         }

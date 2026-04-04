@@ -1,6 +1,7 @@
 package domain.piece;
 
 import domain.coordination.Coordination;
+import domain.movement.AbstractPalaceMovement;
 import domain.movement.ForwardPalaceMovement;
 import domain.piece.error.PieceException;
 import org.junit.jupiter.api.Nested;
@@ -90,7 +91,7 @@ class SoldierTest {
             Soldier soldier = new Soldier(Team.CHO);
             assertThatThrownBy(() -> soldier.validateRule(Coordination.of(fromColumn, fromRow), Coordination.of(toColumn, toRow)))
                     .isInstanceOf(PieceException.class)
-                    .hasMessageContaining(ForwardPalaceMovement.IMPOSSIBLE_PALACE_MOVE_MESSAGE);
+                    .hasMessageContaining(AbstractPalaceMovement.IMPOSSIBLE_PALACE_MOVE_MESSAGE);
         }
     }
 

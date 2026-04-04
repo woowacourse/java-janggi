@@ -48,8 +48,4 @@ public abstract class Piece {
     public abstract void validateRule(Coordination from, Coordination to);
 
     public abstract List<Coordination> resolvePath(Coordination from, Coordination to);
-
-    public boolean isGeneral() {
-        return false;
-    }
 }

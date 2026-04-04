@@ -3,6 +3,7 @@ package domain.board;
 import domain.coordination.Coordination;
 import domain.game.Turn;
 import domain.piece.EmptyPiece;
+import domain.piece.General;
 import domain.piece.Piece;
 import domain.piece.Team;
 
@@ -33,7 +34,7 @@ public class Board {
 
     public boolean hasTwoGenerals() {
         return board.keySet().stream()
-                .filter(key -> board.get(key).isGeneral())
+                .filter(key -> board.get(key) instanceof General)
                 .count() == 2;
     }
 
