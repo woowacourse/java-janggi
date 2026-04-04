@@ -15,9 +15,10 @@ public class Pawn extends Piece{
     }
 
     @Override
-    public boolean canMove(Position from, Position to, PieceProvider pieceProvider) {
+    public boolean canMove(Position from, Position to, Team team, PieceProvider pieceProvider) {
         List<Position> moveCandidates = moveStrategy.getMoveCandidates(from, pieceProvider);
         boolean isTargetPositionBlank = pieceProvider.isBlank(to);
+
         for (Position candidatePosition : moveCandidates) {
             if (candidatePosition.equals(to) && isTargetPositionBlank) {
                 return true;

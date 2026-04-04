@@ -19,7 +19,7 @@ public abstract class Piece {
         return team;
     }
 
-    public abstract boolean canMove(Position from, Position to, PieceProvider pieceProvider);
+    public abstract boolean canMove(Position from, Position to, Team team, PieceProvider pieceProvider);
 
     public List<Position> getMoveCandidates(Position from, PieceProvider board) {
         return moveStrategy.getMoveCandidates(from, board);

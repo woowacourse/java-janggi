@@ -12,7 +12,7 @@ public class Blank extends Piece {
     }
 
     @Override
-    public boolean canMove(Position from, Position to, PieceProvider pieceProvider) {
+    public boolean canMove(Position from, Position to, Team team, PieceProvider pieceProvider) {
         return false;
     }
 }

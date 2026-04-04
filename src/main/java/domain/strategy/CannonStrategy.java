@@ -23,8 +23,8 @@ public class CannonStrategy implements Strategy {
                 .collect(Collectors.toList());
     }
 
-    private List<Position> addCannonCandidates(Position currentPosition, Direction direction, PieceProvider board) {
-        Position bridge = findFirstPiece(currentPosition, direction, board);
+    private List<Position> addCannonCandidates(Position from, Direction direction, PieceProvider board) {
+        Position bridge = findFirstPiece(from, direction, board);
         boolean isCannon = board.isCannon(bridge);
 
         if (!isWithinBoard(bridge) || isCannon) {
@@ -34,17 +34,17 @@ public class CannonStrategy implements Strategy {
         return collectTargets(bridge, direction, board);
     }
 
-    private Position findFirstPiece(Position position, Direction direction, PieceProvider board) {
-        Position nextPosition = getNext(position, direction);
+    private Position findFirstPiece(Position from, Direction direction, PieceProvider board) {
+        Position nextPosition = getNext(from, direction);
         while (isWithinBoard(nextPosition) && board.isBlank(nextPosition)) {
             nextPosition = getNext(nextPosition, direction);
         }
         return nextPosition;
     }
 
-    private Position getNext(Position position, Direction direction) {
-        int nextRows = position.row() + direction.getRowOffset();
-        int nextColumns = position.col() + direction.getColOffset();
+    private Position getNext(Position from, Direction direction) {
+        int nextRows = from.row() + direction.getRowOffset();
+        int nextColumns = from.col() + direction.getColOffset();
         return new Position(nextRows, nextColumns);
     }
 
@@ -65,8 +65,8 @@ public class CannonStrategy implements Strategy {
         return candidates;
     }
 
-    private boolean isWithinBoard(Position position) {
-        return position.row() >= 0 && position.row() < BOARD_ROWS.getIndex() &&
-                position.col() >= 0 && position.col() < BOARD_COLUMNS.getIndex();
+    private boolean isWithinBoard(Position from) {
+        return from.row() >= 0 && from.row() < BOARD_ROWS.getIndex() &&
+                from.col() >= 0 && from.col() < BOARD_COLUMNS.getIndex();
     }
 }
