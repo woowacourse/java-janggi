@@ -13,7 +13,6 @@ public record GameStatusInfo(
                 board.stream()
                         .map(GameStatusInfo::toPieceInfos)
                         .toList()
-                        .reversed()
         );
     }
 
