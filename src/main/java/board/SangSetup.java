@@ -85,13 +85,6 @@ public final class SangSetup {
         if (side.isCho()) {
             return position;
         }
-        return reverse(position);
-    }
-
-    private static Position reverse(Position position) {
-        return new Position(
-            BOARD_ROW_SIZE - position.row().index(),
-            BOARD_COLUMN_SIZE - position.column().index()
-        );
+        return position.reverse();
     }
 }
