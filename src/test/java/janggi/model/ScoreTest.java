@@ -21,4 +21,10 @@ class ScoreTest {
         //then
         assertThat(actual.getValue()).isEqualTo(expected);
     }
+
+    @DisplayName("zero()는 0점을 반환한다.")
+    @Test
+    void zero() {
+        assertThat(Score.zero()).isEqualTo(new Score(0));
+    }
 }
