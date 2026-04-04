@@ -456,4 +456,19 @@ class BoardTest {
         assertThatCode(() -> board.move(from, to, PieceType.ELEPHANT, Team.CHO))
                 .doesNotThrowAnyException();
     }
+
+    @Test
+    void 킹이_잡힐경우_게임이_종료된다() {
+        Position from = Position.from(10, 4);
+        Position to = Position.from(10, 5);
+
+        Map<Position, Piece> testPiece = new HashMap<>();
+        testPiece.put(from, new Pawn(Team.HAN));
+        testPiece.put(to, new King(Team.CHO));
+
+        Board board = new Board(testPiece);
+        board.move(from, to, PieceType.PAWN, Team.HAN);
+
+        assertThat(board.canNextTurn()).isFalse();
+    }
 }

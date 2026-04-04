@@ -1,5 +1,6 @@
 package domain;
 
+import domain.piece.King;
 import domain.piece.Piece;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,6 +16,7 @@ public class Board {
     private static final int MIN_COLUMN = 1;
 
     private final Map<Position, Piece> pieces = new HashMap<>();
+    private boolean isGameOver = false;
 
     public Board(InitializeStrategy choInitializeStrategy, InitializeStrategy hanInitializeStrategy) {
         initTeamBoard(choInitializeStrategy, Team.CHO);
@@ -49,6 +51,10 @@ public class Board {
             score += 1.5;
         }
         return score;
+    }
+
+    public boolean canNextTurn() {
+        return !isGameOver;
     }
 
     /**
@@ -108,6 +114,11 @@ public class Board {
 
     private void movePiece(Position from, Position to, Piece piece) {
         pieces.remove(from);
+
+        if (!isEmpty(to) && isKing(to)) {
+            isGameOver = true;
+        }
+
         pieces.put(to, piece);
     }
 
@@ -120,8 +131,21 @@ public class Board {
         return false;
     }
 
+    public boolean isExistSameType(Position position, PieceType pieceType) {
+        if (hasPieceInPosition(position)) {
+            return pieces.get(position).getType()
+                    .equals(pieceType);
+        }
+
+        return false;
+    }
+
     public boolean isEmpty(Position position) {
         return !pieces.containsKey(position);
+    }
+
+    private boolean isKing(Position position) {
+        return isExistSameType(position, PieceType.KING);
     }
 
     public boolean hasSameTeamOn(Position position, Piece piece) {

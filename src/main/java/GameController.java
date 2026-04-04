@@ -35,6 +35,9 @@ public class GameController {
     public void run() {
 
         while (true) {
+            if (!board.canNextTurn()) {
+                break;
+            }
             try {
                 playTurn();
             } catch (Exception e) {
