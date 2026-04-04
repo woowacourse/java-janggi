@@ -14,7 +14,8 @@ import java.util.Optional;
 public class OutputView {
     private static final int BOARD_LAST_ROW = 9;
     private static final int BOARD_LAST_COLUMN = 8;
-    private static final String EMPTY_CELL = "  ";
+    private static final int INNER_CELL_WIDTH = 3;
+    private static final String FULL_WIDTH_SPACE = "　";
     private static final String GAME_START_MESSAGE = "장기 게임을 시작합니다.";
     private static final String FORMATION_SELECTION_MESSAGE = " 상차림을 선택하세요.";
     private static final String INNER_FORMATION_OPTION = "1. 안상차림";
@@ -26,12 +27,9 @@ public class OutputView {
     private static final String ROUTE_SELECTION_MESSAGE = "이동 가능한 경로:";
     private static final String BACK_OPTION_MESSAGE = "0. 뒤로가기";
     private static final String CURRENT_BOARD_MESSAGE = "현재 장기판";
-    private static final String BOARD_HEADER = "      0    1    2    3    4    5    6    7    8";
-    private static final String BOARD_TOP_BORDER = "   ┌────┬────┬────┬────┬────┬────┬────┬────┬────┐";
-    private static final String BOARD_MIDDLE_BORDER = "   ├────┼────┼────┼────┼────┼────┼────┼────┼────┤";
-    private static final String BOARD_BOTTOM_BORDER = "   └────┴────┴────┴────┴────┴────┴────┴────┴────┘";
-    private static final String ROW_PREFIX_FORMAT = "%2d │";
-    private static final String CELL_SEPARATOR = " │";
+    private static final String BOARD_PREFIX = "　　｜";
+    private static final String ROW_SEPARATOR = "｜";
+    private static final String DIVIDER_SYMBOL = "＝";
     private static final String ROUTE_FORMAT = "%d. %s -> %s";
     private static final String PIECE_OPTION_FORMAT = "%d. %s%s";
     private static final String MOVE_RESULT_FORMAT = "%s 가 %s 로 이동했습니다.";
@@ -78,21 +76,25 @@ public class OutputView {
     public void printBoard(Board board) {
         System.out.println();
         System.out.println(CURRENT_BOARD_MESSAGE);
-        System.out.println(BOARD_HEADER);
-        System.out.println(BOARD_TOP_BORDER);
+        System.out.println(createBoardHeader());
+        System.out.println(createBoardDivider());
         for (int row = 0; row <= BOARD_LAST_ROW; row++) {
             final StringBuilder line = new StringBuilder();
-            line.append(ROW_PREFIX_FORMAT.formatted(row));
+            line.append(toFullWidthNumber(row)).append(FULL_WIDTH_SPACE).append(ROW_SEPARATOR);
             for (int column = 0; column <= BOARD_LAST_COLUMN; column++) {
                 final Optional<Piece> piece = board.findPiece(Position.of(row, column));
-                line.append(" ").append(formatBoardCell(piece)).append(CELL_SEPARATOR);
+                line.append(formatBoardCell(piece));
+                if (column < BOARD_LAST_COLUMN) {
+                    line.append(ROW_SEPARATOR);
+                }
             }
             System.out.println(line);
             if (row < BOARD_LAST_ROW) {
-                System.out.println(BOARD_MIDDLE_BORDER);
+                System.out.println(createBoardDivider());
             }
         }
-        System.out.println(BOARD_BOTTOM_BORDER);
+        System.out.println(createBoardDivider());
+        System.out.println(createBoardHeader());
     }
 
     public void printMoveResult(Piece piece, Position destination) {
@@ -105,15 +107,15 @@ public class OutputView {
 
     private String formatBoardCell(Optional<Piece> piece) {
         if (piece.isEmpty()) {
-            return EMPTY_CELL;
+            return createCell("");
         }
         final Piece actualPiece = piece.get();
-        final String symbol = formatBoardSymbol(actualPiece);
+        final String cell = createCell(formatBoardSymbol(actualPiece));
 
         if (actualPiece.getTeamColor() == TeamColor.CHO) {
-            return CHO_COLOR + symbol + RESET;
+            return CHO_COLOR + cell + RESET;
         }
-        return HAN_COLOR + symbol + RESET;
+        return HAN_COLOR + cell + RESET;
     }
 
     private String formatPiece(Piece piece) {
@@ -129,6 +131,37 @@ public class OutputView {
                 .orElseThrow(() -> new IllegalArgumentException("지원하지 않는 기물 타입입니다."));
     }
 
+    private String createBoardHeader() {
+        final StringBuilder header = new StringBuilder(BOARD_PREFIX);
+        for (int column = 0; column <= BOARD_LAST_COLUMN; column++) {
+            header.append(createCell(toFullWidthNumber(column)));
+            if (column < BOARD_LAST_COLUMN) {
+                header.append(ROW_SEPARATOR);
+            }
+        }
+        return header.toString();
+    }
+
+    private String createBoardDivider() {
+        final int contentWidth = (BOARD_LAST_COLUMN + 1) * createCell("").length() + BOARD_LAST_COLUMN * ROW_SEPARATOR.length();
+        return BOARD_PREFIX + DIVIDER_SYMBOL.repeat(contentWidth);
+    }
+
+    private String createCell(String content) {
+        return "［" + center(content, INNER_CELL_WIDTH) + "］";
+    }
+
+    private String center(String content, int width) {
+        final int padding = Math.max(0, width - content.length());
+        final int leftPadding = padding / 2;
+        final int rightPadding = padding - leftPadding;
+        return FULL_WIDTH_SPACE.repeat(leftPadding) + content + FULL_WIDTH_SPACE.repeat(rightPadding);
+    }
+
+    private String toFullWidthNumber(int number) {
+        return String.valueOf((char) ('０' + number));
+    }
+
     private static Map<PieceType, String> createPieceSymbols() {
         final Map<PieceType, String> pieceSymbols = new EnumMap<>(PieceType.class);
         pieceSymbols.put(PieceType.ROOK, "차");
@@ -141,5 +174,3 @@ public class OutputView {
         return pieceSymbols;
     }
 }
-
-
