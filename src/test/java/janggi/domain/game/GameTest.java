@@ -11,6 +11,8 @@ import janggi.domain.board.BoardDesignPolicy;
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.piece.*;
 import janggi.domain.position.Position;
+
+import java.time.LocalDateTime;
 import java.util.Map;
 
 import org.junit.jupiter.api.DisplayName;
@@ -28,7 +30,7 @@ class GameTest {
                 Position.from(1, 2), new Piece(CHO, HORSE),
                 Position.from(2, 1), new Piece(CHO, SOLDIER)
         );
-        Game game = Game.initGame(boardDesignPolicy, "room");
+        Game game = Game.initGame(boardDesignPolicy, "room", LocalDateTime.now());
 
         // when & then
         assertThatThrownBy(() -> game.findMovablePositions(from))
@@ -45,7 +47,7 @@ class GameTest {
                 from, new Piece(CHO, CHARIOT)
         );
 
-        Game game = Game.initGame(boardDesignPolicy, "room");
+        Game game = Game.initGame(boardDesignPolicy, "room", LocalDateTime.now());
         Dynasty currentTurn = game.currentTurn();
 
         // when
