@@ -83,12 +83,17 @@ public enum PieceType {
     }
 
     private static MoveStrategy createGungSaStrategy() {
-        return new FixedStepMoveStrategy(List.of(
+        MoveStrategy fixedStepMoveStrategy = new FixedStepMoveStrategy(List.of(
                 new Route(List.of(NORTH)),
                 new Route(List.of(SOUTH)),
                 new Route(List.of(WEST)),
-                new Route(List.of(EAST))
+                new Route(List.of(EAST)),
+                new Route(List.of(NORTH_WEST)),
+                new Route(List.of(NORTH_EAST)),
+                new Route(List.of(SOUTH_WEST)),
+                new Route(List.of(SOUTH_EAST))
         ));
+        return new PalaceBoundStrategy(fixedStepMoveStrategy);
     }
 
     private static MoveStrategy createJolStrategy(Direction forward) {
