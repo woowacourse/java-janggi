@@ -16,7 +16,7 @@ public class OneStepStrategy implements MovementStrategy {
     public List<Position> getMovablePositions(Position current, BoardReader board, Side side) {
         return generatePaths(current).stream()
                 .map(Path::getDestination)
-                .filter(dest -> board.isEmpty(dest) || !board.isAlly(dest, side))
+                .filter(destination -> board.isEmpty(destination) || !board.isAlly(destination, side))
                 .toList();
     }
 

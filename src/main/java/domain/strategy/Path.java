@@ -7,6 +7,10 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 public class Path {
+    public static final int NOT_FOUND = -1;
+    private static final int SINGLE_STEP_SIZE = 1;
+    public static final int START_INDEX = 0;
+    public static final int LAST_INDEX_OFFSET = 1;
     private final List<Position> steps;
 
     public Path(List<Position> steps) {
@@ -28,17 +32,17 @@ public class Path {
 
     public Path after(Position target) {
         int index = steps.indexOf(target);
-        if (index == -1 || index == steps.size() - 1) {
+        if (index == NOT_FOUND || index == getLastIndex()) {
             return new Path(List.of());
         }
-        return new Path(steps.subList(index + 1, steps.size()));
+        return new Path(steps.subList(index + LAST_INDEX_OFFSET, steps.size()));
     }
 
     public boolean isBlocked(BoardReader board) {
-        if (steps.size() <= 1) {
+        if (steps.size() <= SINGLE_STEP_SIZE) {
             return false;
         }
-        return steps.subList(0, steps.size() - 1).stream()
+        return steps.subList(START_INDEX, getLastIndex()).stream()
                 .anyMatch(pos -> !board.isEmpty(pos));
     }
 
@@ -48,5 +52,9 @@ public class Path {
 
     public List<Position> toList() {
         return steps;
+    }
+
+    private int getLastIndex() {
+        return steps.size() - LAST_INDEX_OFFSET;
     }
 }

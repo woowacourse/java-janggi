@@ -5,10 +5,11 @@ import domain.Position;
 import domain.Side;
 import domain.piece.Piece;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Board implements BoardReader{
-    public static final int REQUIRED_VITAL_PIECES_COUNT = 2;
+    public static final int MINIMUM_VITAL_PIECES_COUNT = 2;
     private final Map<Position, Piece> board;
 
     public Board(Map<Position, Piece> board) {
@@ -16,29 +17,42 @@ public class Board implements BoardReader{
     }
 
     public Destinations findDestinations(Position position) {
-        validatePieceExists(position);
-        Piece piece = board.get(position);
+        Piece piece = getPiece(position);
         return piece.findDestinations(position, this);
     }
 
     public Board movePiece(Position source, Position target) {
-        validatePieceExists(source);
         Map<Position, Piece> nextBoardMap = new HashMap<>(this.board);
         Piece movingPiece = nextBoardMap.remove(source);
+        if (movingPiece == null) {
+            throw new IllegalArgumentException("출발지에 기물이 존재하지 않습니다.");
+        }
         nextBoardMap.put(target, movingPiece);
         return new Board(nextBoardMap);
     }
 
-    private void validatePieceExists(Position position) {
-        if (isEmpty(position)) {
-            throw new IllegalArgumentException("기물이 존재하지 않는 위치입니다.");
-        }
+    public boolean isGameOver() {
+        return getVitalSides().size() < MINIMUM_VITAL_PIECES_COUNT;
     }
 
-    public boolean isGameOver() {
+    public Side getWinnerSide() {
+        List<Side> vitalSides = getVitalSides();
+        if (vitalSides.size() != 1) {
+            throw new IllegalStateException("승리한 진영을 확정할 수 없는 상태입니다.");
+        }
+        return vitalSides.getFirst();
+    }
+
+    private List<Side> getVitalSides() {
         return board.values().stream()
                 .filter(Piece::isVital)
-                .count() < REQUIRED_VITAL_PIECES_COUNT;
+                .map(Piece::getSide)
+                .distinct()
+                .toList();
+    }
+
+    public Map<Position, Piece> getBoard() {
+        return board;
     }
 
     @Override
@@ -48,19 +62,15 @@ public class Board implements BoardReader{
 
     @Override
     public boolean isAlly(Position position, Side side) {
-        if (isEmpty(position)) {
-            return false;
-        }
         return getPiece(position).isAlly(side);
     }
 
     @Override
     public Piece getPiece(Position position) {
-        validatePieceExists(position);
-        return board.get(position);
-    }
-
-    public Map<Position, Piece> getBoard() {
-        return board;
+        Piece piece = board.get(position);
+        if (piece == null) {
+            throw new IllegalArgumentException("기물이 존재하지 않는 위치입니다.");
+        }
+        return piece;
     }
 }

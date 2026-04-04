@@ -18,7 +18,7 @@ public class SequenceStrategy implements MovementStrategy {
         return generatePaths(current).stream()
                 .filter(path -> !path.isBlocked(board))
                 .map(Path::getDestination)
-                .filter(dest -> board.isEmpty(dest) || !board.isAlly(dest, side))
+                .filter(dest -> board.isEmpty(dest) || board.isAlly(dest, side))
                 .toList();
     }
 
