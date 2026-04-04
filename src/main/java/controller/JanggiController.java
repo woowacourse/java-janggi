@@ -1,18 +1,24 @@
 package controller;
 
+import domain.Position;
+import domain.Team;
 import domain.board.JanggiBoard;
 import domain.dto.BoardDto;
 import domain.dto.BoardMapper;
 import game.JanggiGame;
+import view.InputView;
 import view.OutputView;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class JanggiController {
 
+    private final InputView inputView;
     private final OutputView outputView;
 
-    public JanggiController(OutputView outputView) {
+    public JanggiController(InputView inputView, OutputView outputView) {
+        this.inputView = inputView;
         this.outputView = outputView;
     }
 
@@ -20,7 +26,33 @@ public class JanggiController {
         JanggiBoard janggiBoard = new JanggiBoard(new HashMap<>());
         JanggiGame janggiGame = new JanggiGame(janggiBoard);
 
-        BoardDto boardDto = BoardMapper.from(janggiBoard);
-        outputView.printJanggiBoard(boardDto);
+        while(true) {
+            try {
+                playTurn(janggiBoard, janggiGame);
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+    }
+
+    private void playTurn(JanggiBoard janggiBoard, JanggiGame janggiGame) {
+        outputView.printJanggiBoard(BoardMapper.from(janggiBoard));
+
+        Team currentTeam = janggiGame.getCurrentTeam();
+        String currentTeamName = currentTeam.getName();
+
+        String movePiecePosition = inputView.readMovePiecePosition(currentTeamName);
+        String targetPiecePosition = inputView.readTargetPiecePosition();
+
+        Position currentPosition = parsePosition(movePiecePosition);
+        Position targetPosition = parsePosition(targetPiecePosition);
+
+        janggiGame.progress(currentPosition, targetPosition);
+    }
+
+    private static Position parsePosition(String input) {
+        String[] split = input.split(",");
+        return new Position(Integer.parseInt(split[0].trim()), Integer.parseInt(split[1].trim()));
     }
 }
