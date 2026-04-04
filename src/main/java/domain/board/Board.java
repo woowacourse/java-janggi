@@ -24,15 +24,13 @@ public class Board {
     }
 
     public void move(Position from, Position to) {
-        Offset offset = Offset.of(from, to);
-        validateActualMove(offset);
+        validateActualMove(from, to);
 
         Piece fromPiece = getRequiredPiece(from);
         Optional<Piece> toPiece = getPiece(to);
-
         validateSameTeam(fromPiece, toPiece);
 
-        List<Offset> pathOffset = fromPiece.getPathOffset(offset);
+        List<Offset> pathOffset = fromPiece.getPathOffset(from, to);
         List<Piece> blockedPieces = getBlockedPieces(from, pathOffset);
 
         if (fromPiece instanceof Cannon cannon) {
@@ -40,6 +38,7 @@ public class Board {
         }
 
         fromPiece.validateMove(blockedPieces);
+
         pieces.put(to, pieces.remove(from));
     }
 
@@ -52,8 +51,8 @@ public class Board {
                 .orElseThrow(() -> new IllegalStateException(ErrorMessage.EMPTY_SOURCE.getMessage()));
     }
 
-    private void validateActualMove(Offset offset) {
-        if (offset.dx() == 0 && offset.dy() == 0) {
+    private void validateActualMove(Position from, Position to) {
+        if (from.equals(to)) {
             throw new IllegalArgumentException(ErrorMessage.NOT_MOVE.getMessage());
         }
     }

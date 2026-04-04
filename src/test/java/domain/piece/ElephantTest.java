@@ -24,7 +24,10 @@ class ElephantTest {
     void 상은_위로_세칸_왼쪽으로_두칸_움직일_수_있는_경로가_있다() {
         Offset offset = new Offset(-2, 3);
 
-        List<Offset> pathPositions = elephant.getPathOffset(offset);
+        Position from = new Position(4, 5);
+        Position to = offset.applyTo(from);
+
+        List<Offset> pathPositions = elephant.getPathOffset(from, to);
 
         assertThat(pathPositions).isEqualTo(List.of(new Offset(0, 1), new Offset(-1, 2)));
     }
@@ -33,7 +36,10 @@ class ElephantTest {
     void 상은_위로_세칸_오른쪽으로_두칸_움직일_수_있는_경로가_있다() {
         Offset offset = new Offset(2, 3);
 
-        List<Offset> pathPositions = elephant.getPathOffset(offset);
+        Position from = new Position(4, 5);
+        Position to = offset.applyTo(from);
+
+        List<Offset> pathPositions = elephant.getPathOffset(from, to);
 
         assertThat(pathPositions).isEqualTo(List.of(new Offset(0, 1), new Offset(1, 2)));
     }
@@ -43,7 +49,10 @@ class ElephantTest {
     void 상은_위로_두칸_왼쪽으로_세칸_움직일_수_있는_경로가_있다() {
         Offset offset = new Offset(-3, 2);
 
-        List<Offset> pathPositions = elephant.getPathOffset(offset);
+        Position from = new Position(4, 5);
+        Position to = offset.applyTo(from);
+
+        List<Offset> pathPositions = elephant.getPathOffset(from, to);
 
         assertThat(pathPositions).isEqualTo(List.of(new Offset(-1, 0), new Offset(-2, 1)));
     }
@@ -53,7 +62,10 @@ class ElephantTest {
     void 상은_아래로_두칸_왼쪽으로_세칸_움직일_수_있는_경로가_있다() {
         Offset offset = new Offset(-3, -2);
 
-        List<Offset> pathPositions = elephant.getPathOffset(offset);
+        Position from = new Position(4, 5);
+        Position to = offset.applyTo(from);
+
+        List<Offset> pathPositions = elephant.getPathOffset(from, to);
 
         assertThat(pathPositions).isEqualTo(List.of(new Offset(-1, 0), new Offset(-2, -1)));
     }
@@ -63,7 +75,10 @@ class ElephantTest {
     void 상은_아래로_세칸_왼쪽으로_두칸_움직일_수_있는_경로가_있다() {
         Offset offset = new Offset(-2, -3);
 
-        List<Offset> pathPositions = elephant.getPathOffset(offset);
+        Position from = new Position(4, 5);
+        Position to = offset.applyTo(from);
+
+        List<Offset> pathPositions = elephant.getPathOffset(from, to);
 
         assertThat(pathPositions).isEqualTo(List.of(new Offset(0, -1), new Offset(-1, -2)));
     }
@@ -73,7 +88,10 @@ class ElephantTest {
     void 상은_아래로_세칸_오른쪽으로_두칸_움직일_수_있는_경로가_있다() {
         Offset offset = new Offset(2, -3);
 
-        List<Offset> pathPositions = elephant.getPathOffset(offset);
+        Position from = new Position(4, 5);
+        Position to = offset.applyTo(from);
+
+        List<Offset> pathPositions = elephant.getPathOffset(from, to);
 
         assertThat(pathPositions).isEqualTo(List.of(new Offset(0, -1), new Offset(1, -2)));
     }
@@ -83,7 +101,10 @@ class ElephantTest {
     void 상은_위로_두칸_오른쪽으로_세칸_움직일_수_있는_경로가_있다() {
         Offset offset = new Offset(3, 2);
 
-        List<Offset> pathPositions = elephant.getPathOffset(offset);
+        Position from = new Position(4, 5);
+        Position to = offset.applyTo(from);
+
+        List<Offset> pathPositions = elephant.getPathOffset(from, to);
 
         assertThat(pathPositions).isEqualTo(List.of(new Offset(1, 0), new Offset(2, 1)));
     }
@@ -93,7 +114,10 @@ class ElephantTest {
     void 상은_아래로_두칸_오른쪽으로_세칸_움직일_수_있는_경로가_있다() {
         Offset offset = new Offset(3, -2);
 
-        List<Offset> pathPositions = elephant.getPathOffset(offset);
+        Position from = new Position(3, 5);
+        Position to = offset.applyTo(from);
+
+        List<Offset> pathPositions = elephant.getPathOffset(from, to);
 
         assertThat(pathPositions).isEqualTo(List.of(new Offset(1, 0), new Offset(2, -1)));
     }

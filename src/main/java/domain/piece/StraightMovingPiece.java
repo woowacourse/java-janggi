@@ -3,6 +3,7 @@ package domain.piece;
 import domain.Direction;
 import domain.ErrorMessage;
 import domain.Offset;
+import domain.board.Position;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,8 @@ public abstract class StraightMovingPiece extends Piece {
     }
 
     @Override
-    protected void validateMoveRule(Offset offset) {
+    protected void validateMoveRule(Position from, Position to) {
+        Offset offset = Offset.of(from, to);
         if (!isStraightMoving(offset)) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_MOVE_RULE.getMessage());
         }

@@ -2,6 +2,7 @@ package domain.piece;
 
 import domain.ErrorMessage;
 import domain.Offset;
+import domain.board.Position;
 
 import java.util.List;
 import java.util.Objects;
@@ -15,14 +16,29 @@ public abstract class Piece {
         this.team = team;
     }
 
-    public boolean isSameTeam(Piece another) {
-        return another.team == team;
+    public final List<Offset> getPathOffset(Position from, Position to) {
+        validateMoveRule(from, to);
+        Offset offset = Offset.of(from, to);
+        return generatePaths(offset);
     }
+
+    public void validateMove(List<Piece> blockedPieces) {
+        if (!blockedPieces.isEmpty()) {
+            throw new IllegalStateException(ErrorMessage.PATH_BLOCKED.getMessage());
+        }
+    }
+
+    protected abstract void validateMoveRule(Position from, Position to);
+
+    protected abstract List<Offset> generatePaths(Offset offset);
 
     public boolean isSameTeam(Team team) {
         return this.team == team;
     }
 
+    public boolean isSameTeam(Piece another) {
+        return isSameTeam(another.team);
+    }
 
     public boolean isSameType(PieceType type) {
         return this.pieceType == type;
@@ -34,20 +50,6 @@ public abstract class Piece {
 
     public Team getTeam() {
         return team;
-    }
-
-    public final List<Offset> getPathOffset(Offset offset) {
-        validateMoveRule(offset);
-        return generatePaths(offset);
-    }
-
-    protected abstract void validateMoveRule(Offset offset);
-    protected abstract List<Offset> generatePaths(Offset offset);
-
-    public void validateMove(List<Piece> blockedPieces) {
-        if (!blockedPieces.isEmpty()) {
-            throw new IllegalStateException(ErrorMessage.PATH_BLOCKED.getMessage());
-        }
     }
 
     @Override

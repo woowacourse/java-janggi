@@ -3,6 +3,7 @@ package domain.piece;
 import domain.Direction;
 import domain.ErrorMessage;
 import domain.Offset;
+import domain.board.Position;
 
 public final class Soldier extends SingleStepPiece {
     private final Direction backwardDirection; // 🌟 금지된 방향을 상태로 가짐
@@ -13,8 +14,10 @@ public final class Soldier extends SingleStepPiece {
     }
 
     @Override
-    protected void validateMoveRule(Offset offset) {
-        super.validateMoveRule(offset);
+    protected void validateMoveRule(Position from, Position to) {
+        super.validateMoveRule(from, to);
+        Offset offset = Offset.of(from, to);
+
         if (offset.equals(backwardDirection.getOffset())) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_MOVE_RULE.getMessage());
         }

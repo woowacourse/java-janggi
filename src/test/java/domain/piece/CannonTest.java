@@ -27,7 +27,10 @@ class CannonTest {
     void 포는_왼쪽_직선으로_가는_경로가_있다() {
         Offset offset = new Offset(-3, 0);
 
-        List<Offset> pathPositions = cannon.getPathOffset(offset);
+        Position from = new Position(4, 5);
+        Position to = offset.applyTo(from);
+
+        List<Offset> pathPositions = cannon.getPathOffset(from, to);
 
         assertThat(pathPositions).isEqualTo(List.of(new Offset(-1, 0), new Offset(-2, 0)));
     }
@@ -36,7 +39,10 @@ class CannonTest {
     void 포는_오른쪽_직선으로_가는_경로가_있다() {
         Offset offset = new Offset(3, 0);
 
-        List<Offset> pathPositions = cannon.getPathOffset(offset);
+        Position from = new Position(4, 5);
+        Position to = offset.applyTo(from);
+
+        List<Offset> pathPositions = cannon.getPathOffset(from, to);
 
         assertThat(pathPositions).isEqualTo(List.of(new Offset(1, 0), new Offset(2, 0)));
     }
@@ -46,8 +52,10 @@ class CannonTest {
     void 포는_위쪽_직선으로_가는_경로가_있다() {
         Offset offset = new Offset(0, 5);
 
-        List<Offset> pathPositions = cannon.getPathOffset(offset);
+        Position from = new Position(4, 1);
+        Position to = offset.applyTo(from);
 
+        List<Offset> pathPositions = cannon.getPathOffset(from, to);
         assertThat(pathPositions).isEqualTo(
                 List.of(new Offset(0, 1),
                         new Offset(0, 2),
@@ -61,7 +69,10 @@ class CannonTest {
     void 포는_아래쪽_직선으로_가는_경로가_있다() {
         Offset offset = new Offset(0, -6);
 
-        List<Offset> pathPositions = cannon.getPathOffset(offset);
+        Position from = new Position(4, 8);
+        Position to = offset.applyTo(from);
+
+        List<Offset> pathPositions = cannon.getPathOffset(from, to);
 
         assertThat(pathPositions).isEqualTo(
                 List.of(

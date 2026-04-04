@@ -2,6 +2,7 @@ package domain.piece;
 
 import domain.ErrorMessage;
 import domain.Offset;
+import domain.board.Position;
 
 import java.util.List;
 
@@ -17,7 +18,8 @@ public abstract class SingleStepPiece extends Piece {
     }
 
     @Override
-    protected void validateMoveRule(Offset offset) {
+    protected void validateMoveRule(Position from, Position to) {
+        Offset offset = Offset.of(from, to);
         if (!isSingleStep(offset)) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_MOVE_RULE.getMessage());
         }
