@@ -12,7 +12,7 @@ public final class InputView {
         return Parser.parseInteger(Console.readLine());
     }
 
-    public static String readPositionOfMovingPiece() {
+    public static String readFromPosition() {
         System.out.println("움직일 기물의 위치를 입력하세요. (형식: 행,열)");
         return Console.readLine();
     }

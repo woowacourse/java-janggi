@@ -70,6 +70,18 @@ public class BoardServiceTest {
             .hasSize(expectedSize);
     }
 
+    @Test
+    @DisplayName("보드 생성 여부 판정 테스트: 보드가 존재하지 않는 경우")
+    void hasBoard() {
+        long gameId = 1;
+        gameRepository.save(GameEntity.from("게임 1", 3, List.of(TeamType.RED, TeamType.BLUE)));
+        boolean expected = false;
+
+        boolean actual = boardService.hasBoard(gameId);
+
+        assertThat(actual).isEqualTo(expected);
+    }
+
     @Nested
     @DisplayName("초기 데이터 필요 테스트")
     class TestWithInitialData {
@@ -81,6 +93,17 @@ public class BoardServiceTest {
         void setUp() {
             testDataInitializer = new TestDataInitializer(dbConnection);
             testDataInitializer.init(testDataFilePath);
+        }
+
+        @Test
+        @DisplayName("보드 생성 여부 판정 테스트: 보드가 존재하는 경우")
+        void hasBoard() {
+            long gameId = 1;
+            boolean expected = true;
+
+            boolean actual = boardService.hasBoard(gameId);
+
+            assertThat(actual).isEqualTo(expected);
         }
 
         @Test

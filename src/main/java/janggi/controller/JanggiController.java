@@ -15,7 +15,6 @@ import janggi.domain.team.TeamType;
 import janggi.domain.turn.TurnManager;
 import janggi.dto.BoardDto;
 import janggi.dto.GameResultDto;
-import janggi.global.Pair;
 import janggi.mapper.TurnManagerMapper;
 import janggi.service.BoardService;
 import janggi.service.GameService;
@@ -41,31 +40,34 @@ public class JanggiController {
     }
 
     public void run() {
-        final Pair<Board, TurnManager> boardTurnManagerPair = loadOrSaveTurnManager();
-        final Board board = boardTurnManagerPair.left();
-        final TurnManager turnManager = boardTurnManagerPair.right();
+        final TurnManager turnManager = loadOrSaveTurnManager();
+        final Board board = loadOrSaveBoard(turnManager.getTeams());
         OutputView.printBoard(BoardDto.from(board, List.of()));
         playGame(turnManager, board);
         OutputView.printGameResult(GameResultDto.from(board));
     }
 
-    public Pair<Board, TurnManager> loadOrSaveTurnManager() {
-        TurnManager turnManager;
-        Board board;
+    public TurnManager loadOrSaveTurnManager() {
         if (gameService.hasGameState(GAME_ID)) {
             OutputView.printGameLoadedMessage();
-            turnManager = TurnManagerMapper.toDomain(gameService.loadOrSaveGameState(1));
-            board = new Board(boardService.loadBoard(GAME_ID));
-            return new Pair<>(board, turnManager);
+            return TurnManagerMapper.toDomain(gameService.loadOrSaveGameState(1));
         }
         Team blueTeam = setupBlueTeam();
         Team redTeam = setupRedTeam();
-        board = BoardGenerator.generate(redTeam, blueTeam);
-        turnManager = new TurnManager(1, List.of(blueTeam, redTeam));
         gameService.loadOrSaveGameState(GAME_ID);
-        boardService.createBoard(GAME_ID, board.getPositionPieceMap());
 
-        return new Pair<>(board, turnManager);
+        return new TurnManager(1, List.of(blueTeam, redTeam));
+    }
+
+    public Board loadOrSaveBoard(final List<Team> teams) {
+        Board board;
+        if (boardService.hasBoard(GAME_ID)) {
+            board = new Board(boardService.loadBoard(GAME_ID));
+            return board;
+        }
+        board = BoardGenerator.generate(teams.get(0), teams.get(1));
+        boardService.createBoard(GAME_ID, board.getPositionPieceMap());
+        return board;
     }
 
     private Team setupBlueTeam() {
@@ -92,13 +94,12 @@ public class JanggiController {
         while (!board.isGameOver()) {
             final Team currentTeam = turnManager.getCurrentTeam();
             OutputView.printTurnStatus(currentTeam);
-            final Position positionOfMovingPiece = RetryExecutor.retry(
-                this::readPositionOfMovingPiece, currentTeam, boardMediator);
-            final List<Position> movablePositions = displayMovablePositions(positionOfMovingPiece,
+            final Position from = RetryExecutor.retry(this::readFromPosition, currentTeam,
+                boardMediator);
+            final List<Position> movablePositions = displayMovablePositions(from,
                 board, boardMediator);
-            proceedMovement(movablePositions, board, positionOfMovingPiece);
-            turnManager.progressToNext();
-            gameService.updateGame(GAME_ID, turnManager);
+            proceedMovement(movablePositions, board, from);
+            proceedNextTurn(turnManager);
         }
     }
 
@@ -123,8 +124,13 @@ public class JanggiController {
         OutputView.printBoard(BoardDto.from(board, List.of()));
     }
 
-    private Position readPositionOfMovingPiece(final Team team, final BoardMediator boardMediator) {
-        final String rawPosition = InputView.readPositionOfMovingPiece();
+    private void proceedNextTurn(final TurnManager turnManager) {
+        turnManager.progressToNext();
+        gameService.updateGame(GAME_ID, turnManager);
+    }
+
+    private Position readFromPosition(final Team team, final BoardMediator boardMediator) {
+        final String rawPosition = InputView.readFromPosition();
         final Position selectedPosition = Position.from(Parser.parsePosition(rawPosition));
         validateSelectedPosition(selectedPosition, team, boardMediator);
 

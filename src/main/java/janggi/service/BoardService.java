@@ -22,6 +22,10 @@ public class BoardService {
         boardCellRepository.saveAll(BoardMapper.toEntity(gameStateId, positionPieceMap));
     }
 
+    public boolean hasBoard(final long gameId) {
+        return !boardCellRepository.findAllByGameId(gameId).isEmpty();
+    }
+
     public Map<Position, Piece> loadBoard(final long gameId) {
         if (!gameRepository.existsById(gameId)) {
             throw new IllegalArgumentException("저장된 게임이 없습니다.");
