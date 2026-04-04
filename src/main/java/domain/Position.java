@@ -1,22 +1,23 @@
 package domain;
 
 import java.util.Objects;
+import java.util.Optional;
 
 public class Position {
 
-    public static int MAX_X_VALUE = 8;
-    public static int MIN_X_VALUE = 0;
-    public static int MAX_Y_VALUE = 9;
-    public static int MIN_Y_VALUE = 0;
+    public static int MAX_COL_VALUE = 8;
+    public static int MIN_COL_VALUE = 0;
+    public static int MAX_ROW_VALUE = 9;
+    public static int MIN_ROW_VALUE = 0;
 
-    private final int x;
-    private final int y;
+    private final int col;
+    private final int row;
 
-    public Position(int x, int y) {
-        validatePosX(x);
-        validatePosY(y);
-        this.x = x;
-        this.y = y;
+    public Position(int col, int row) {
+        validatePosCol(col);
+        validatePosRow(row);
+        this.col = col;
+        this.row = row;
     }
 
     public static Optional<Position> of(int col, int row) {
@@ -26,21 +27,25 @@ public class Position {
         return Optional.of(new Position(col, row));
     }
 
-    public int getY() {
-        return y;
+    public int getCol() {
+        return col;
     }
 
-    private void validatePosX(int x) {
-        if (x < MIN_X_VALUE || x > MAX_X_VALUE) {
+    public int getRow() {
+        return row;
+    }
+
+    private void validatePosCol(int col) {
+        if (col < MIN_COL_VALUE || col > MAX_COL_VALUE) {
             throw new IllegalArgumentException(
-                    "[ERROR] x 좌표는 " + MIN_X_VALUE + "~" + MAX_X_VALUE + "사이어야합니다.");
+                    "[ERROR] col 좌표는 0 ~ 8 사이어야합니다.");
         }
     }
 
-    private void validatePosY(int y) {
-        if (y < MIN_Y_VALUE || y > MAX_Y_VALUE) {
+    private void validatePosRow(int row) {
+        if (row < MIN_ROW_VALUE || row > MAX_ROW_VALUE) {
             throw new IllegalArgumentException(
-                    "[ERROR] y 좌표는 " + MIN_Y_VALUE + "~" + MAX_Y_VALUE + "사이어야합니다.");
+                    "[ERROR] row 좌표는 0 ~ 9 사이어야합니다.");
         }
     }
 
@@ -57,11 +62,11 @@ public class Position {
             return false;
         }
         Position position = (Position) o;
-        return x == position.x && y == position.y;
+        return col == position.col && row == position.row;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(x, y);
+        return Objects.hash(col, row);
     }
 }

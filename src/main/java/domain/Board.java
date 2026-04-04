@@ -14,7 +14,7 @@ public class Board implements ExistBoard {
 
     public void generatePiecesBy(Camp camp, ElephantFormation elephantFormation) {
         PieceGenerator pieceGenerator = new PieceGenerator();
-        Map<Position, Piece> pieces = pieceGenerator.generatePieces(camp, elephantFormation);
+        Map<Position, Piece> pieces = pieceGenerator.generateInitialPieces(camp, elephantFormation);
 
         board.putAll(pieces);
     }
@@ -41,9 +41,14 @@ public class Board implements ExistBoard {
         return board.containsKey(position);
     }
 
+    @Override
+    public boolean isNotCannon(Position position) {
+        return board.get(position).getPieceType() != PieceType.CANNON;
+    }
+
     public void move(Position fromPosition, Position toPosition) {
         if (fromPosition.equals(toPosition)) {
-            throw new IllegalArgumentException("[ERROR] 제자리 이동은 불가능합니다.");
+            throw new InvalidMoveException("[ERROR] 제자리 이동은 불가능합니다.");
         }
 
         Piece piece = board.get(fromPosition);
@@ -54,24 +59,15 @@ public class Board implements ExistBoard {
             return;
         }
 
-        throw new IllegalArgumentException("[ERROR] 이동할 수 없습니다");
-    }
-
-    @Override
-    public boolean isDifferentPieceType(Position position, Piece piece) {
-        if (!board.containsKey(position)) {
-            return true;
-        }
-
-        return board.get(position).isDifferentPieceType(piece);
+        throw new InvalidMoveException("[ERROR] 이동할 수 없습니다");
     }
 
     public BoardStatusDto getBoardStatus() {
         List<List<PositionStatusDto>> boardStatusDto = new ArrayList<>();
-        for (int y = Position.MIN_Y_VALUE; y <= Position.MAX_Y_VALUE; y++) {
+        for (int row = Position.MIN_ROW_VALUE; row <= Position.MAX_ROW_VALUE; row++) {
             List<PositionStatusDto> xPositionStatus = new ArrayList<>();
-            for (int x = Position.MIN_X_VALUE; x <= Position.MAX_X_VALUE; x++) {
-                Position position = new Position(x, y);
+            for (int col = Position.MIN_COL_VALUE; col <= Position.MAX_COL_VALUE; col++) {
+                Position position = new Position(col, row);
 
                 PositionStatusDto positionStatusDto = getPositionStatusDto(position);
                 xPositionStatus.add(positionStatusDto);
@@ -83,7 +79,7 @@ public class Board implements ExistBoard {
 
     private PositionStatusDto getPositionStatusDto(Position position) {
         if (!board.containsKey(position)) {
-            return new PositionStatusDto(position, PieceType.NONE, Camp.CHO);
+            return new PositionStatusDto(position, PieceType.NONE, Camp.NONE);
         }
 
         Piece piece = board.get(position);
