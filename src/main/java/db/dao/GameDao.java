@@ -5,9 +5,11 @@ import java.util.Optional;
 
 public interface GameDao {
 
-    Long save(Game gameRecord);
+    Long save(Game game);
 
-    void update(Game gameRecord);
+    void update(Game game);
 
     Optional<Game> findById(Long id);
+
+    Optional<Game> findLatest();
 }

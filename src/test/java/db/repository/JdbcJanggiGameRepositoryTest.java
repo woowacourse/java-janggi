@@ -40,8 +40,8 @@ class JdbcJanggiGameRepositoryTest {
         // given
         JanggiGame game = JanggiGame.of(SangSetupType.LEFT_SANG_SETUP, SangSetupType.RIGHT_SANG_SETUP);
         // when
-        Long gameId = repository.save(game);
-        Optional<JanggiGame> found = repository.findById(gameId);
+        repository.saveLatest(game);
+        Optional<JanggiGame> found = repository.findLatest();
         // then
         assertThat(found).isPresent();
         JanggiGame foundGame = found.orElseThrow();
@@ -54,12 +54,12 @@ class JdbcJanggiGameRepositoryTest {
     void 게임을_수정하면_변경된_보드와_턴이_반영된다() {
         // given
         JanggiGame game = JanggiGame.of(SangSetupType.LEFT_SANG_SETUP, SangSetupType.RIGHT_SANG_SETUP);
-        Long gameId = repository.save(game);
+        repository.saveLatest(game);
 
         // when
         JanggiGame movedGame = game.move(new Position(3, 0), new Position(4, 0));
-        repository.update(gameId, movedGame);
-        JanggiGame foundGame = repository.findById(gameId).orElseThrow();
+        repository.saveLatest(movedGame);
+        JanggiGame foundGame = repository.findLatest().orElseThrow();
 
         // then
         assertThat(foundGame.getTurnSide()).isEqualTo(movedGame.getTurnSide());
@@ -70,7 +70,7 @@ class JdbcJanggiGameRepositoryTest {
     @Test
     void 존재하지_않는_게임은_조회할_수_없다() {
         // when
-        Optional<JanggiGame> found = repository.findById(99999L);
+        Optional<JanggiGame> found = repository.findLatest();
         // then
         assertThat(found).isEmpty();
     }

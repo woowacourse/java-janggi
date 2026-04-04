@@ -94,6 +94,29 @@ public class JdbcGameDao implements GameDao {
         }
     }
 
+    @Override
+    public Optional<Game> findLatest() {
+        final String sql = """
+            SELECT id, turn_side, status
+            FROM game
+            ORDER BY id DESC
+            LIMIT 1
+            """;
+
+        try (Connection connection = connectionManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return Optional.of(parseGame(resultSet));
+                }
+                return Optional.empty();
+            }
+        } catch (SQLException e) {
+            throw new IllegalStateException("마지막 게임 조회에 실패했습니다.", e);
+        }
+    }
+
     private void validateId(final Game game) {
         if (game.id() == null) {
             throw new IllegalArgumentException("수정할 게임 ID가 필요합니다.");

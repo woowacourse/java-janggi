@@ -10,6 +10,7 @@ import db.model.Game;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import participant.Turn;
 import pieces.Piece;
 import position.Position;
@@ -25,38 +26,31 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
     }
 
     @Override
-    public Long save(final JanggiGame janggiGame) {
-        Long gameId = gameDao.save(toGame(janggiGame));
-        boardPieceDao.saveAll(gameId, toBoardPieces(janggiGame.getBoard()));
-        return gameId;
-    }
-
-    @Override
-    public void update(final Long gameId, final JanggiGame janggiGame) {
-        validateGameId(gameId);
-
-        gameDao.update(toGame(gameId, janggiGame));
-        boardPieceDao.deleteByGameId(gameId);
-        boardPieceDao.saveAll(gameId, toBoardPieces(janggiGame.getBoard()));
-    }
-
-    @Override
-    public Optional<JanggiGame> findById(final Long gameId) {
-        validateGameId(gameId);
-
-        Optional<Game> gameRecord = gameDao.findById(gameId);
-        if (gameRecord.isEmpty()) {
+    public Optional<JanggiGame> findLatest() {
+        Optional<Game> latestGame = gameDao.findLatest();
+        if (latestGame.isEmpty()) {
             return Optional.empty();
         }
 
-        List<BoardPiece> boardPieceRecords = boardPieceDao.findByGameId(gameId);
-        return Optional.of(toJanggiGame(gameRecord.get(), boardPieceRecords));
+        Game gameRecord = latestGame.get();
+        List<BoardPiece> boardPieceRecords = boardPieceDao.findByGameId(gameRecord.id());
+        return Optional.of(toJanggiGame(gameRecord, boardPieceRecords));
     }
 
-    private void validateGameId(final Long gameId) {
-        if (gameId == null) {
-            throw new IllegalArgumentException("게임 ID가 필요합니다.");
+    @Override
+    public void saveLatest(final JanggiGame janggiGame) {
+        Optional<Game> latestGame = gameDao.findLatest();
+
+        if (latestGame.isEmpty()) {
+            Long gameId = gameDao.save(toGame(janggiGame));
+            boardPieceDao.saveAll(gameId, toBoardPieces(janggiGame.getBoard()));
+            return;
         }
+
+        Long gameId = latestGame.get().id();
+        gameDao.update(toGame(gameId, janggiGame));
+        boardPieceDao.deleteByGameId(gameId);
+        boardPieceDao.saveAll(gameId, toBoardPieces(janggiGame.getBoard()));
     }
 
     private Game toGame(final JanggiGame janggiGame) {
@@ -93,21 +87,19 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
         );
     }
 
-    private JanggiGame toJanggiGame(final Game game, final List<BoardPiece> boardPieceRecords) {
+    private JanggiGame toJanggiGame(final Game gameRecord, final List<BoardPiece> boardPieceRecords) {
         Board board = toBoard(boardPieceRecords);
-        Turn turn = Turn.from(game.turnSide());
-        GameStatus status = game.status();
-
+        Turn turn = Turn.from(gameRecord.turnSide());
+        GameStatus status = gameRecord.status();
         return new JanggiGame(board, turn, status);
     }
 
     private Board toBoard(final List<BoardPiece> boardPieceRecords) {
         Map<Position, Piece> pieces = boardPieceRecords.stream()
-            .collect(java.util.stream.Collectors.toMap(
+            .collect(Collectors.toMap(
                 this::toPosition,
                 this::toPiece
             ));
-
         return new Board(pieces);
     }
 

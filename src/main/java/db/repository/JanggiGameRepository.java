@@ -5,9 +5,7 @@ import java.util.Optional;
 
 public interface JanggiGameRepository {
 
-    Long save(JanggiGame janggiGame);
+    Optional<JanggiGame> findLatest();
 
-    void update(Long gameId, JanggiGame janggiGame);
-
-    Optional<JanggiGame> findById(Long gameId);
+    void saveLatest(JanggiGame game);
 }
