@@ -20,14 +20,18 @@ public class JanggiBoard implements PieceProvider {
         turn = Team.CHO;
     }
 
-    public Map<Position, Piece> getJanggiBoard() {
-        return Collections.unmodifiableMap(janggiBoard);
-    }
-
     public void move(Position from, Position to, Piece currentPiece) {
         janggiBoard.put(to, currentPiece);
         janggiBoard.put(from, new Blank());
         changeTurn();
+    }
+
+    public Map<Position, Piece> getJanggiBoard() {
+        return Collections.unmodifiableMap(janggiBoard);
+    }
+
+    public Team getTurn() {
+        return turn;
     }
 
     private void changeTurn() {
