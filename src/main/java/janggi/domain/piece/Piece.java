@@ -10,7 +10,15 @@ public interface Piece {
 
     TeamType getTeamType();
 
-    boolean belongsToTeam(TeamType teamType);
+    boolean isSameTeamType(TeamType teamType);
 
     List<Position> calculateMovablePositions(Position from, BoardMediator boardMediator);
+
+    default boolean isGeneral() {
+        return false;
+    }
+
+    default boolean isCannon() {
+        return false;
+    }
 }

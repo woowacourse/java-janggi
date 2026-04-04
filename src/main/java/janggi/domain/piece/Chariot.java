@@ -43,7 +43,7 @@ public class Chariot implements Piece {
     }
 
     @Override
-    public boolean belongsToTeam(final TeamType teamType) {
+    public boolean isSameTeamType(final TeamType teamType) {
         return this.teamType == teamType;
     }
 

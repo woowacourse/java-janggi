@@ -21,7 +21,7 @@ public class PieceTest {
             Piece cannon = new Cannon(teamType);
             boolean expected = true;
 
-            boolean actual = cannon.belongsToTeam(teamType);
+            boolean actual = cannon.isSameTeamType(teamType);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -34,7 +34,7 @@ public class PieceTest {
             Piece cannon = new Cannon(otherTeamType);
             boolean expected = false;
 
-            boolean actual = cannon.belongsToTeam(teamType);
+            boolean actual = cannon.isSameTeamType(teamType);
 
             assertThat(actual).isEqualTo(expected);
         }

@@ -39,12 +39,17 @@ public class Cannon implements Piece {
     }
 
     @Override
-    public boolean belongsToTeam(final TeamType teamType) {
+    public boolean isSameTeamType(final TeamType teamType) {
         return this.teamType == teamType;
     }
 
     @Override
     public List<Position> calculateMovablePositions(final Position from, final BoardMediator boardMediator) {
         return PIECE_ACTION.calculateMovablePositions(from, teamType, boardMediator);
+    }
+
+    @Override
+    public boolean isCannon() {
+        return true;
     }
 }

@@ -24,20 +24,6 @@ public final class Position {
     private final int row;
     private final int column;
 
-    @Override
-    public boolean equals(final Object object) {
-        if (object == null || getClass() != object.getClass()) {
-            return false;
-        }
-        final Position position = (Position) object;
-        return row == position.row && column == position.column;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(row, column);
-    }
-
     private Position(final int row, final int column) {
         this.row = row;
         this.column = column;
@@ -53,10 +39,6 @@ public final class Position {
         return secondaryMap.get(column);
     }
 
-    public Position flipAroundMiddleRow() {
-        return Position.valueOf(ROW_FLIP_VALUE - row, column);
-    }
-
     private static void validateRowRange(final int row) {
         if (row < MINIMUM_ROW || row > MAXIMUM_ROW) {
             throw new IllegalArgumentException("행 입력은 1~10을 입력해야 합니다.");
@@ -69,12 +51,16 @@ public final class Position {
         }
     }
 
+    public Position flipAroundMiddleRow() {
+        return Position.valueOf(ROW_FLIP_VALUE - row, column);
+    }
+
     public boolean checkNextBound(final int distance, final Direction direction) {
         final int nextRow = row + direction.getRowDirection() * distance;
         final int nextColumn = column + direction.getColumnDirection() * distance;
 
         return nextRow >= MINIMUM_ROW && nextRow <= MAXIMUM_ROW && nextColumn >= MINIMUM_COLUMN
-            && nextColumn <= MAXIMUM_COLUMN;
+                && nextColumn <= MAXIMUM_COLUMN;
     }
 
     public Position calculateNext(final int distance, final Direction direction) {
@@ -82,6 +68,20 @@ public final class Position {
         final int nextColumn = column + direction.getColumnDirection() * distance;
 
         return Position.valueOf(Math.clamp(nextRow, MINIMUM_ROW, MAXIMUM_ROW),
-            Math.clamp(nextColumn, MINIMUM_COLUMN, MAXIMUM_COLUMN));
+                Math.clamp(nextColumn, MINIMUM_COLUMN, MAXIMUM_COLUMN));
+    }
+
+    @Override
+    public boolean equals(final Object object) {
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+        final Position position = (Position) object;
+        return row == position.row && column == position.column;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(row, column);
     }
 }
