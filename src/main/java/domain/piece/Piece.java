@@ -16,10 +16,6 @@ public record Piece(PieceInfo pieceInfo) {
         moveStrategy.validateMove(pathPieceInfos, from, to);
     }
 
-    public PieceInfo getPieceInfo() {
-        return pieceInfo;
-    }
-
     public PieceType getPieceType() {
         return pieceInfo.pieceType();
     }

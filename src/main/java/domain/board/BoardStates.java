@@ -71,14 +71,6 @@ public class BoardStates {
         pieceInfos.put(position, boardStates.get(position).pieceInfo());
     }
 
-//    private void addPieceInfo(Map<Position, PieceInfo> pathPieceInfos, Position position) {
-//        if (!boardStates.containsKey(position)) {
-//            pathPieceInfos.put(position, new PieceInfo(PieceType.NONE, CountryType.NONE));
-//            return;
-//        }
-//        pathPieceInfos.put(position, boardStates.get(position).getPieceInfo());
-//    }
-
     public Path getPiecePath(Position from, Position to) {
         return boardStates.get(from).path(from, to);
     }
