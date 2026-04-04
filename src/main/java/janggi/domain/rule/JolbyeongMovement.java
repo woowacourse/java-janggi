@@ -36,10 +36,10 @@ public class JolbyeongMovement implements Movement {
 
     private static Direction getFrontDirection(Side side) {
         if (side == Side.HAN) {
-            return Direction.FRONT;
+            return Direction.BACK;
         }
         if (side == Side.CHO) {
-            return Direction.BACK;
+            return Direction.FRONT;
         }
         throw new IllegalStateException("진영이 존재하지 않아 전진 방향을 정할 수 없습니다.");
     }

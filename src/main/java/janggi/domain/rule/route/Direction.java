@@ -4,24 +4,24 @@ import janggi.domain.Location;
 
 public enum Direction {
 
-    FRONT(0, 1),
-    LEFT(-1, 0),
-    RIGHT(1, 0),
-    BACK(0, -1),
-    FRONT_LEFT(-1, 1),
+    FRONT(-1, 0),
+    LEFT(0, -1),
+    RIGHT(0, 1),
+    BACK(1, 0),
+    FRONT_LEFT(1, -1),
     FRONT_RIGHT(1, 1),
     BACK_LEFT(-1, -1),
-    BACK_RIGHT(1, -1);
+    BACK_RIGHT(-1, 1);
 
-    private final int dx;
-    private final int dy;
+    private final int rowDiff;
+    private final int colDiff;
 
-    Direction(int dx, int dy) {
-        this.dx = dx;
-        this.dy = dy;
+    Direction(int rowDiff, int colDiff) {
+        this.rowDiff = rowDiff;
+        this.colDiff = colDiff;
     }
 
     public Location apply(Location location) {
-        return location.add(dx, dy);
+        return location.add(rowDiff, colDiff);
     }
 }

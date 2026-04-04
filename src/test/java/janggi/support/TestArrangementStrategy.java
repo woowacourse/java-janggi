@@ -19,7 +19,7 @@ public class TestArrangementStrategy implements ArrangementStrategy {
 
     protected void placeVariablePieces(Piece[][] arrangement) {
         customPieces.forEach((loc, piece) -> {
-            arrangement[loc.x()][loc.y()] = piece;
+            arrangement[loc.row()][loc.col()] = piece;
         });
     }
 }

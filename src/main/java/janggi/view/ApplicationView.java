@@ -34,13 +34,13 @@ public class ApplicationView {
     }
 
     public List<Integer> promptForLocationOfPiece() {
-        outputWriter.printPromptMessage("이동시킬 기물의 좌표를 입력해주세요. (,로 구분)");
+        outputWriter.printPromptMessage("이동시킬 기물의 좌표(행 번호, 열 번호)를 입력해주세요. (,로 구분)");
 
         return inputReader.readIntegers();
     }
 
     public List<Integer> promptForLocationToMove() {
-        outputWriter.printPromptMessage("해당 기물이 이동할 좌표를 입력해주세요. (,로 구분)");
+        outputWriter.printPromptMessage("해당 기물이 이동할 좌표(행 번호, 열 번호)를 입력해주세요. (,로 구분)");
 
         return inputReader.readIntegers();
     }

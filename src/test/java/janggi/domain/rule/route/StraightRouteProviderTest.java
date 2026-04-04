@@ -31,8 +31,8 @@ class StraightRouteProviderTest {
                         List.of(new Location(1, 2), new Location(0, 2))
                 ),
                 Arguments.of(
-                        new Location(5, 2), // 하
-                        List.of(new Location(3, 2), new Location(4, 2), new Location(5, 2))
+                        new Location(4, 2), // 하
+                        List.of(new Location(3, 2), new Location(4, 2))
                 ),
                 Arguments.of(
                         new Location(2, 0), // 좌

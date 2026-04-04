@@ -12,20 +12,20 @@ class RouteTest {
     @DisplayName("현재 위치에서 주어진 Direction 들을 적용했을 때 지나는 경로를 반환한다.")
     void shouldReturnRouteLocationsCalculatedByCurrentLocation() {
         // given
-        Location current = Location.from(List.of(0,0));
+        Location current = new Location(0, 0);
         Route route = Route.from(
                 List.of(
-                        Direction.FRONT, // 0,1
-                        Direction.FRONT_LEFT, // -1, 2
-                        Direction.FRONT_RIGHT, // 0, 3
-                        Direction.BACK // 0, 2
+                        Direction.FRONT, // + (-1, 0)
+                        Direction.FRONT_LEFT, // + (1, -1)
+                        Direction.FRONT_RIGHT, // + (1, 1)
+                        Direction.BACK // + (1, 0)
                 )
         );
         List<Location> expected = List.of(
-                Location.from(List.of(0,1)),
-                Location.from(List.of(-1,2)),
-                Location.from(List.of(0,3)),
-                Location.from(List.of(0,2))
+                new Location(-1, 0),
+                new Location(0, -1),
+                new Location(1, 0),
+                new Location(2, 0)
         );
 
         // when

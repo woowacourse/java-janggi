@@ -14,43 +14,41 @@ class GungSeongRouteProviderTest {
     @ParameterizedTest
     @DisplayName("궁성 안에서 이동할 수 있는 위치로 경로를 계산하면, 이동 경로를 반환한다.")
     @MethodSource("provideReachableCoordination")
-    void shouldReturnRouteForReachableLocation(List<Integer> destination) {
+    void shouldReturnRouteForReachableLocation(Location to) {
         // given
-        Location from = Location.from(List.of(4, 1));
-        Location to = Location.from(destination);
+        Location from = new Location(1, 4);
 
         // when & then
         Assertions.assertThat(GUNG_SEONG_ROUTE_PROVIDER.calculateRoute(from, to)).hasValue(List.of(to));
     }
 
-    static List<List<Integer>> provideReachableCoordination() {
+    static List<Location> provideReachableCoordination() {
         return List.of(
-                List.of(4, 2), //상
-                List.of(4, 0), //하
-                List.of(3, 1), //좌
-                List.of(5, 1), //우
-                List.of(5, 2), //우대각
-                List.of(3, 2) //좌대각
+                new Location(0, 4), // 상
+                new Location(2, 4), // 하
+                new Location(1, 3), // 좌
+                new Location(1, 5), // 우
+                new Location(2, 5), // 우대각
+                new Location(2, 3) // 좌대각
         );
     }
 
     @ParameterizedTest
     @DisplayName("궁성을 벗어난 위치로 경로를 계산하면, 빈 결과를 반환한다.")
     @MethodSource("provideUnreachableCoordination")
-    void shouldReturnEmptyForUnReachableLocation(List<Integer> coordination) {
+    void shouldReturnEmptyForUnReachableLocation(Location to) {
         // given
-        Location from = Location.from(List.of(3, 2));
-        Location to = Location.from(coordination);
+        Location from = new Location(2, 3);
 
         // when & then
         Assertions.assertThat(GUNG_SEONG_ROUTE_PROVIDER.calculateRoute(from, to)).isEmpty();
     }
 
-    static List<List<Integer>> provideUnreachableCoordination() {
+    static List<Location> provideUnreachableCoordination() {
         return List.of(
-                List.of(3, 4),
-                List.of(5, 2),
-                List.of(3, 5)
+                new Location(4, 3),
+                new Location(2, 5),
+                new Location(3, 5)
         );
     }
 }
