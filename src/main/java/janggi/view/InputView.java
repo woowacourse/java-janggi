@@ -8,7 +8,7 @@ import java.util.function.Predicate;
 
 public class InputView {
 
-    public long askGameId() {
+    public static long askGameId() {
         System.out.println("게임 ID를 입력해주세요. (새로운 게임을 시작하려면 0을 입력해주세요.) : ");
         String rawGameId = Console.readLine();
         try {
@@ -18,12 +18,12 @@ public class InputView {
         }
     }
 
-    public Position askSelectPiece() {
+    public static Position askSelectPiece() {
         System.out.println("움직일 기물의 좌표를 입력해주세요.(e.g. 1,2) : ");
         return readPosition();
     }
 
-    public Position askTargetPosition() {
+    public static Position askTargetPosition() {
         System.out.println("목적지 좌표를 입력해주세요.(e.g. 1,2) : ");
         return readPosition();
     }
