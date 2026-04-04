@@ -1,10 +1,10 @@
 package janggi.domain.board;
 
-import janggi.domain.team.Team;
 import janggi.domain.piece.*;
 import janggi.domain.position.Column;
 import janggi.domain.position.Position;
 import janggi.domain.position.Row;
+import janggi.domain.team.Team;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

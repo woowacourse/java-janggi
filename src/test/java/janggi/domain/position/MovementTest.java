@@ -14,9 +14,11 @@ class MovementTest {
 
     @Test
     void 출발_좌표와_도착_좌표가_같으면_예외가_발생한다() {
+        // given
         Position from = Position.of(1, 1);
         Position to = Position.of(1, 1);
 
+        // when & then
         assertThatThrownBy(() -> new Movement(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 출발 좌표와 도착 좌표는 같을 수 없습니다.");
@@ -25,7 +27,10 @@ class MovementTest {
     @ParameterizedTest(name = "from={0}, to={1}, diff={2}")
     @MethodSource("rowDiffArguments")
     void from과_to의_행_좌표_차이를_계산한다(Position from, Position to, int diff) {
+        // given
         Movement movement = new Movement(from, to);
+
+        // when & then
         assertThat(movement.calculateRowDiff()).isEqualTo(diff);
     }
 
@@ -39,7 +44,10 @@ class MovementTest {
     @ParameterizedTest(name = "from={0}, to={1}, diff={2}")
     @MethodSource("columnDiffArguments")
     void from과_to의_열_좌표_차이를_계산한다(Position from, Position to, int diff) {
+        // given
         Movement movement = new Movement(from, to);
+
+        // when & then
         assertThat(movement.calculateColumnDiff()).isEqualTo(diff);
     }
 

@@ -1,9 +1,9 @@
 package janggi.domain.piece;
 
-import janggi.domain.team.Team;
 import janggi.domain.path.Path;
 import janggi.domain.path.PieceOnPath;
 import janggi.domain.position.Movement;
+import janggi.domain.team.Team;
 
 public class Guard extends MoveablePiece {
     private static final int MAX_MOVE_DISTANCE = 1;

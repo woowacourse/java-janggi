@@ -1,11 +1,11 @@
 package janggi.view;
 
-import janggi.domain.team.Team;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.position.Column;
 import janggi.domain.position.Position;
 import janggi.domain.position.Row;
+import janggi.domain.team.Team;
 
 import java.util.Map;
 

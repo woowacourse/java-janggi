@@ -1,6 +1,5 @@
-package janggi.domain;
+package janggi.domain.team;
 
-import janggi.domain.team.Team;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.EnumSource;
@@ -17,8 +16,10 @@ class TeamTest {
             "0, false",
             "1, false"})
     void 한나라의_후진_여부를_확인한다(int rowDiff, boolean expected) {
+        // when
         boolean result = Team.HAN.isBackward(rowDiff);
 
+        // then
         assertThat(result).isEqualTo(expected);
     }
 
@@ -29,8 +30,10 @@ class TeamTest {
             "0, false",
             "1, true"})
     void 초나라의_후진_여부를_확인한다(int rowDiff, boolean expected) {
+        // when
         boolean result = Team.CHO.isBackward(rowDiff);
 
+        // then
         assertThat(result).isEqualTo(expected);
     }
 
@@ -39,14 +42,17 @@ class TeamTest {
             "HAN, CHO",
             "CHO, HAN"})
     void 한나라와_초나라는_서로_변환된다(Team target, Team expected) {
+        // when
         Team result = target.convert();
 
+        // then
         assertThat(result).isEqualTo(expected);
     }
 
     @ParameterizedTest()
     @EnumSource(value = Team.class, names = {"HAN", "CHO"}, mode = EnumSource.Mode.EXCLUDE)
     void 한나라와_초나라를_제외한_팀은_변환될_수_없다(Team team) {
+        // when & then
         assertThatThrownBy(team::convert)
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 한나라, 초나라만 선택 가능합니다.");

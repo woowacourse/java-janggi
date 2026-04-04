@@ -1,24 +1,30 @@
 package janggi.domain.board;
 
-import janggi.domain.team.Team;
-import janggi.domain.piece.*;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
+import janggi.domain.team.Team;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
 import static janggi.domain.board.PieceSetup.*;
 import static janggi.domain.piece.PieceType.*;
-import static janggi.domain.team.Team.*;
+import static janggi.domain.team.Team.CHO;
+import static janggi.domain.team.Team.HAN;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class BoardFactoryTest {
 
     @Test
     void 한나라_기물_차림_입력이_4면_한나라는_바깥상_차림이다() {
+        // given
         Board board = BoardFactory.create(OUTER_ELEPHANT, OUTER_ELEPHANT);
+
+        // when
         Map<Position, Piece> boardState = board.showBoard();
 
+        // then
         assertPiece(boardState, "11", CHARIOT, HAN);
         assertPiece(boardState, "12", ELEPHANT, HAN);
         assertPiece(boardState, "13", HORSE, HAN);
@@ -39,9 +45,13 @@ class BoardFactoryTest {
 
     @Test
     void 초나라_기물_차림_입력이_4면_초나라는_바깥상_차림이다() {
+        // given
         Board board = BoardFactory.create(OUTER_ELEPHANT, OUTER_ELEPHANT);
+
+        // when
         Map<Position, Piece> boardState = board.showBoard();
 
+        // then
         assertPiece(boardState, "01", CHARIOT, CHO);
         assertPiece(boardState, "02", ELEPHANT, CHO);
         assertPiece(boardState, "03", HORSE, CHO);
@@ -62,9 +72,13 @@ class BoardFactoryTest {
 
     @Test
     void 차림_번호가_1번이면_왼상차림이다() {
+        // given
         Board board = BoardFactory.create(LEFT_ELEPHANT, LEFT_ELEPHANT);
+
+        // when
         Map<Position, Piece> boardState = board.showBoard();
 
+        // then
         assertPiece(boardState, "12", HORSE, HAN);
         assertPiece(boardState, "13", ELEPHANT, HAN);
         assertPiece(boardState, "17", HORSE, HAN);
@@ -77,9 +91,13 @@ class BoardFactoryTest {
 
     @Test
     void 차림_번호가_2번이면_오른상차림이다() {
+        // given
         Board board = BoardFactory.create(RIGHT_ELEPHANT, RIGHT_ELEPHANT);
+
+        // when
         Map<Position, Piece> boardState = board.showBoard();
 
+        // then
         assertPiece(boardState, "12", ELEPHANT, HAN);
         assertPiece(boardState, "13", HORSE, HAN);
         assertPiece(boardState, "17", ELEPHANT, HAN);
@@ -92,9 +110,13 @@ class BoardFactoryTest {
 
     @Test
     void 차림_번호가_3번이면_안상차림이다() {
+        // given
         Board board = BoardFactory.create(INNER_ELEPHANT, INNER_ELEPHANT);
+
+        // when
         Map<Position, Piece> boardState = board.showBoard();
 
+        // then
         assertPiece(boardState, "12", HORSE, HAN);
         assertPiece(boardState, "13", ELEPHANT, HAN);
         assertPiece(boardState, "17", ELEPHANT, HAN);
@@ -107,9 +129,13 @@ class BoardFactoryTest {
 
     @Test
     void 차림_번호가_4번이면_바깥상차림이다() {
+        // given
         Board board = BoardFactory.create(OUTER_ELEPHANT, OUTER_ELEPHANT);
+
+        // when
         Map<Position, Piece> boardState = board.showBoard();
 
+        // then
         assertPiece(boardState, "12", ELEPHANT, HAN);
         assertPiece(boardState, "13", HORSE, HAN);
         assertPiece(boardState, "17", HORSE, HAN);

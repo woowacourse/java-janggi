@@ -1,11 +1,11 @@
 package janggi;
 
-import janggi.domain.team.Team;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardFactory;
 import janggi.domain.board.PieceSetup;
 import janggi.domain.position.Movement;
 import janggi.domain.position.Position;
+import janggi.domain.team.Team;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 

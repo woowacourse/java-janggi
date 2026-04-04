@@ -10,6 +10,7 @@ class PieceSetupTest {
     @ParameterizedTest(name = "입력={0}")
     @ValueSource(strings = {"0", "5", "a"})
     void 올바르지_않은_차림_번호를_입력하면_예외가_발생한다(String setupNumber) {
+        // when & then
         assertThatThrownBy(() -> PieceSetup.from(setupNumber))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 올바른 차림 번호를 입력해주세요.");

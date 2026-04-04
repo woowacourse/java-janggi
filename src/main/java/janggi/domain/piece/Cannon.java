@@ -1,10 +1,10 @@
 package janggi.domain.piece;
 
-import janggi.domain.team.Team;
 import janggi.domain.path.Path;
 import janggi.domain.path.PieceOnPath;
 import janggi.domain.position.Movement;
 import janggi.domain.position.Position;
+import janggi.domain.team.Team;
 
 public class Cannon extends MoveablePiece {
 
