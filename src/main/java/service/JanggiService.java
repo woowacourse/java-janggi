@@ -188,6 +188,29 @@ public class JanggiService {
         }
     }
 
+    public static void deleteBoard(int id) {
+        String sql = "DELETE FROM board WHERE `id` = ?";
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setInt(1, id);
+
+            int result = preparedStatement.executeUpdate();
+
+            // Query가 제대로 실행된 경우
+            if (result >= 1) {
+                System.out.println("board 삭제 완료");
+            }
+
+            // Query가 제대로 실행되지 않은 경우
+            else {
+                System.out.println("board 삭제 실패");
+            }
+        } catch (SQLException e) {
+            System.out.println("에러: " + e);
+        }
+    }
+
     public static void insertBoardState(Position position, PieceInfo pieceInfo, int boardId) {
         String sql = "INSERT INTO `board_state` (`position_x`, `position_y`, `piece_type`, `piece_country`, `board_id`) VALUES (?, ?, ?, ?, ?)";
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
@@ -244,7 +267,6 @@ public class JanggiService {
         return false;
     }
 
-
     public static void updateBoardState(Position position, PieceInfo pieceInfo, int boardId) {
         String sql = "UPDATE board_state SET `piece_type` = ?, `piece_country` = ? WHERE `position_x` = ? AND `position_y` = ? AND `board_id` = ?";
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
@@ -297,6 +319,29 @@ public class JanggiService {
         }
     }
 
+    public static void deleteAllBoardStateInBoard(int boardId) {
+        String sql = "DELETE FROM board_state WHERE `board_id` = ?";
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setInt(1, boardId);
+
+            int result = preparedStatement.executeUpdate();
+
+            // Query가 제대로 실행된 경우
+            if (result >= 1) {
+                System.out.println("board state 삭제 완료");
+            }
+
+            // Query가 제대로 실행되지 않은 경우
+            else {
+                System.out.println("board state 삭제 실패");
+            }
+        } catch (SQLException e) {
+            System.out.println("에러: " + e);
+        }
+    }
+
     public static void insertBoardSnapshot(Position position, PieceInfo pieceInfo, int boardId) {
         String sql = "INSERT INTO board_snapshot (`position_x`, `position_y`, `piece_type`, `piece_country`, `board_id`) VALUES (?, ?, ?, ?, ?)";
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
@@ -318,6 +363,29 @@ public class JanggiService {
             // Query가 제대로 실행되지 않은 경우
             else {
                 System.out.println("보드 스냅샷 추가 실패");
+            }
+        } catch (SQLException e) {
+            System.out.println("에러: " + e);
+        }
+    }
+
+    public static void deleteAllBoardSnapshotInBoard(int boardId) {
+        String sql = "DELETE FROM board_snapshot WHERE `board_id` = ?";
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setInt(1, boardId);
+
+            int result = preparedStatement.executeUpdate();
+
+            // Query가 제대로 실행된 경우
+            if (result >= 1) {
+                System.out.println("board snapshot 삭제 완료");
+            }
+
+            // Query가 제대로 실행되지 않은 경우
+            else {
+                System.out.println("board snapshot 삭제 실패");
             }
         } catch (SQLException e) {
             System.out.println("에러: " + e);

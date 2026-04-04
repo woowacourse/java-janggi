@@ -96,6 +96,9 @@ public class JanggiController {
             isEnd = checkEndAndMovePiece(board, countryType, boardSnapshots, boardId);
             JanggiService.updateBoard(countryType.anotherCountryType(), boardId);
         }
+        JanggiService.deleteAllBoardStateInBoard(boardId);
+        JanggiService.deleteAllBoardSnapshotInBoard(boardId);
+        JanggiService.deleteBoard(boardId);
     }
 
     private boolean checkEndAndMovePiece(Board board, CountryType countryType, BoardSnapshots boardSnapshots,
