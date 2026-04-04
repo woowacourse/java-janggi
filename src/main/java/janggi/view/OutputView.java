@@ -44,7 +44,7 @@ public class OutputView {
         if(piece.isEqualTeam(Team.HAN))  {
             color = ANSI_RED;
         }
-        return color + FULL_WIDTH_SPACE + piece.toString() + ANSI_RESET; //
+        return color + FULL_WIDTH_SPACE + piece + ANSI_RESET; //
     }
 
     private static void printXCoordinates() {
