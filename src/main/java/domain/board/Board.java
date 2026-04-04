@@ -22,6 +22,10 @@ public class Board {
         return new Board(setup);
     }
 
+    public static Board reconstruct(Map<Position, Piece> pieces) {
+        return new Board(pieces);
+    }
+
     public void move(Turn turn, Position start, Position destination) {
         Piece startPiece = selectNotEmptyPiece(start);
         Piece destinationPiece = findTargetPiece(destination);

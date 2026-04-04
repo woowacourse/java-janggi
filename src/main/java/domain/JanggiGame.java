@@ -5,15 +5,35 @@ import domain.board.BoardStatus;
 import domain.piece.Team;
 import domain.position.Position;
 
+import domain.GameId;
+
 public class JanggiGame {
+    private final GameId id;
     private final Board board;
     private final GameContext context;
     private final ScoreCalculator scoreCalculator;
 
-    private JanggiGame(Board board, GameContext context, ScoreCalculator scoreCalculator) {
+    public JanggiGame(GameId id, Board board, GameContext context, ScoreCalculator scoreCalculator) {
+        this.id = id;
         this.board = board;
         this.context = context;
         this.scoreCalculator = scoreCalculator;
+    }
+
+    private JanggiGame(Board board, GameContext context, ScoreCalculator scoreCalculator) {
+        this(null, board, context, scoreCalculator);
+    }
+
+    public GameId getId() {
+        return id;
+    }
+
+    public GameContext getContext() {
+        return context;
+    }
+
+    public Board getBoard() {
+        return board;
     }
 
     public static JanggiGame init(SettingType choSetting, SettingType hanSetting) {
