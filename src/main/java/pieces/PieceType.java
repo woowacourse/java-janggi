@@ -10,15 +10,15 @@ import static movepolicy.move.Step.RIGHT_BACK;
 import static movepolicy.move.Step.RIGHT_FORWARD;
 
 import java.util.List;
-import movepolicy.move.AlwaysGungsungMovement;
+import movepolicy.move.GungsungConstrainedMovement;
 import movepolicy.move.FixedRouteMovement;
-import movepolicy.move.ForwardOneStepGungsungMovement;
+import movepolicy.move.GungsungForwardDiagonalMovement;
 import movepolicy.move.LinearRouteMovement;
 import movepolicy.move.Movement;
 import movepolicy.move.PoRouteMovement;
 import movepolicy.move.Route;
-import movepolicy.move.OneStepGungsungMovement;
-import movepolicy.move.SpecialGungsungMovement;
+import movepolicy.move.GungsungStepMovement;
+import movepolicy.move.GungsungExtendedMovement;
 import movepolicy.rule.EmptyPathMoveRule;
 import movepolicy.rule.MoveRule;
 import movepolicy.rule.PoMoveRule;
@@ -27,7 +27,10 @@ import participant.Score;
 public enum PieceType {
 
     CHA(
-        new LinearRouteMovement(),
+        new GungsungExtendedMovement(
+            new LinearRouteMovement(),
+            new LinearGungsungMovement()
+        ),
         EmptyPathMoveRule.withOtherSideTargetRule(),
         new Score(13)
     ),
@@ -69,20 +72,20 @@ public enum PieceType {
     ),
 
     JOL_BYEONG(
-        new SpecialGungsungMovement(
+        new GungsungExtendedMovement(
             new FixedRouteMovement(List.of(
                 new Route(List.of(FORWARD)),
                 new Route(List.of(RIGHT)),
                 new Route(List.of(LEFT))
             )),
-            new ForwardOneStepGungsungMovement()
+            new GungsungForwardDiagonalMovement()
         ),
         EmptyPathMoveRule.withOtherSideTargetRule(),
         new Score(2)
     ),
 
     SA(
-        new AlwaysGungsungMovement(
+        new GungsungConstrainedMovement(
             new FixedRouteMovement(List.of(
                 new Route(List.of(FORWARD)),
                 new Route(List.of(BACK)),
@@ -93,14 +96,14 @@ public enum PieceType {
                 new Route(List.of(RIGHT_BACK)),
                 new Route(List.of(LEFT_BACK))
             )),
-            new OneStepGungsungMovement()
+            new GungsungStepMovement()
         ),
         EmptyPathMoveRule.withOtherSideTargetRule(),
         new Score(3)
     ),
 
     GUNG(
-        new AlwaysGungsungMovement(
+        new GungsungConstrainedMovement(
             new FixedRouteMovement(List.of(
                 new Route(List.of(FORWARD)),
                 new Route(List.of(BACK)),
@@ -111,7 +114,7 @@ public enum PieceType {
                 new Route(List.of(RIGHT_BACK)),
                 new Route(List.of(LEFT_BACK))
             )),
-            new OneStepGungsungMovement()
+            new GungsungStepMovement()
         ),
         EmptyPathMoveRule.withOtherSideTargetRule(),
         new Score(0)

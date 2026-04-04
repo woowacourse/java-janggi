@@ -4,12 +4,12 @@ import java.util.List;
 import pieces.Side;
 import position.Position;
 
-public class AlwaysGungsungMovement implements Movement {
+public class GungsungConstrainedMovement implements Movement {
 
     private final Movement baseMovement;
     private final Movement gungsungMovement;
 
-    public AlwaysGungsungMovement(Movement baseMovement, Movement gungsungMovement) {
+    public GungsungConstrainedMovement(Movement baseMovement, Movement gungsungMovement) {
         this.baseMovement = baseMovement;
         this.gungsungMovement = gungsungMovement;
     }

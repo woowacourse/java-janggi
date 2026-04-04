@@ -9,9 +9,6 @@ import position.Position;
 
 public final class SangSetup {
 
-    private static final int BOARD_ROW_SIZE = 9;
-    private static final int BOARD_COLUMN_SIZE = 8;
-
     public static Board initialize(SangSetupType choSetupType, SangSetupType hanSetupType) {
         Map<Position, Piece> merged = new HashMap<>();
         merged.putAll(initialize(choSetupType, Side.CHO));

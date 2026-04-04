@@ -6,7 +6,7 @@ import pieces.Side;
 import position.Delta;
 import position.Position;
 
-public class OneStepGungsungMovement implements Movement {
+public class GungsungStepMovement implements Movement {
 
     private final Gungsung gungsung = new Gungsung();
 

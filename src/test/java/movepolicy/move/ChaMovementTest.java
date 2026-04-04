@@ -3,13 +3,25 @@ package movepolicy.move;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
+import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.provider.MethodSource;
 import pieces.PieceType;
 import pieces.Side;
 import position.Position;
 
 class ChaMovementTest {
+
+    private static final Position CHO_LEFT_TOP = new Position(2, 3);
+    private static final Position CHO_CENTER_TOP = new Position(2, 4);
+    private static final Position CHO_RIGHT_TOP = new Position(2, 5);
+    private static final Position CHO_LEFT_MIDDLE = new Position(1, 3);
+    private static final Position CHO_CENTER = new Position(1, 4);
+    private static final Position CHO_RIGHT_MIDDLE = new Position(1, 5);
+    private static final Position CHO_LEFT_BOTTOM = new Position(0, 3);
+    private static final Position CHO_CENTER_BOTTOM = new Position(0, 4);
+    private static final Position CHO_RIGHT_BOTTOM = new Position(0, 5);
 
     private static final Position DEFAULT = new Position(3, 3);
 
@@ -73,6 +85,16 @@ class ChaMovementTest {
             .move(side.rightDelta());
         // when & then
         assertThat(movement.canReach(departure, destination, side)).isFalse();
+    }
+
+    @ParameterizedTest
+    @MethodSource("choGungsungPositionsForDiagonalStep")
+    void 초나라는_궁성_중앙에서_모서리로_대각_1칸_이동할_수_있다(final Position destination) {
+        // given
+        Side side = Side.CHO;
+        Position departure = CHO_CENTER;
+        // when & then
+        assertThat(movement.canReach(departure, destination, side)).isTrue();
     }
 
     @ParameterizedTest
@@ -222,6 +244,13 @@ class ChaMovementTest {
             departure
                 .move(side.rightDelta())
                 .move(side.rightDelta())
+        );
+    }
+
+    private static Stream<Position> choGungsungPositionsForDiagonalStep() {
+        return Stream.of(
+            CHO_LEFT_TOP, CHO_RIGHT_TOP,
+            CHO_LEFT_BOTTOM, CHO_RIGHT_BOTTOM
         );
     }
 }
