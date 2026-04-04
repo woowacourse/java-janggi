@@ -1,5 +1,7 @@
 package janggi.repository.dao;
 
+import janggi.model.Team;
+import janggi.model.piece.Piece;
 import janggi.model.position.absolute.Position;
 import janggi.repository.entity.PieceEntity;
 import java.sql.Connection;
@@ -9,6 +11,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 
 public class PieceEntityDao {
@@ -20,6 +24,41 @@ public class PieceEntityDao {
     private static final String POSITION_COLUMN = "position_column";
     private static final String TEAM = "team";
 
+    private static final String INSERT_SQL = """
+        INSERT INTO piece(game_id, piece_type, position_row, position_column, team)      
+        VALUES (?, ?, ?, ?, ?)
+        """;
+
+    public void saveBoard(
+            Connection con,
+            Map<Position, Piece> boardInfo,
+            Long gameId
+    ) {
+        try(PreparedStatement psmt = con.prepareStatement(INSERT_SQL)) {
+            for (Entry<Position, Piece> entry : boardInfo.entrySet()) {
+                Position position = entry.getKey();
+                Piece piece = entry.getValue();
+                String team = Team.HAN.name();
+
+                if (piece.isSameTeam(Team.CHO)) {
+                    team = Team.CHO.name();
+                }
+
+                psmt.setLong(1, gameId);
+                psmt.setString(2, piece.getPieceType().name());
+                psmt.setInt(3,  position.row().getValue());
+                psmt.setInt(4, position.column().getValue());
+                psmt.setString(5, team);
+
+                psmt.addBatch();
+            }
+
+            psmt.executeBatch();
+        } catch (SQLException e) {
+            throw new IllegalStateException("대규모 piece 데이터 삽입에 실패했습니다.", e);
+        }
+    }
+
     public Long save(
             Connection con,
             Long gameId,
@@ -28,12 +67,7 @@ public class PieceEntityDao {
             int positionColumn,
             String team
     ) {
-        String sql = """
-        INSERT INTO piece(game_id, piece_type, position_row, position_column, team)      
-        VALUES (?, ?, ?, ?, ?)
-        """;
-
-        try (PreparedStatement psmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement psmt = con.prepareStatement(INSERT_SQL, Statement.RETURN_GENERATED_KEYS)) {
             psmt.setLong(1, gameId);
             psmt.setString(2, pieceType);
             psmt.setLong(3, positionRow);
