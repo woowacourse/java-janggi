@@ -18,10 +18,10 @@ public class OutputView {
     private static final String FULL_WIDTH_SPACE = "　";
     private static final String GAME_START_MESSAGE = "장기 게임을 시작합니다.";
     private static final String FORMATION_SELECTION_MESSAGE = " 상차림을 선택하세요.";
-    private static final String INNER_FORMATION_OPTION = "1. 안상차림";
-    private static final String OUTER_FORMATION_OPTION = "2. 바깥상차림";
-    private static final String LEFT_FORMATION_OPTION = "3. 좌상차림";
-    private static final String RIGHT_FORMATION_OPTION = "4. 우상차림";
+    private static final String INNER_FORMATION_OPTION = "1. 안상차림 (마상상마)";
+    private static final String OUTER_FORMATION_OPTION = "2. 바깥상차림 (상마마상)";
+    private static final String LEFT_FORMATION_OPTION = "3. 좌상차림 (마상마상)";
+    private static final String RIGHT_FORMATION_OPTION = "4. 우상차림 (상마상마)";
     private static final String CURRENT_TURN_MESSAGE = "현재 턴: ";
     private static final String PIECE_SELECTION_MESSAGE = "선택 가능한 기물:";
     private static final String ROUTE_SELECTION_MESSAGE = "이동 가능한 경로:";
