@@ -1,34 +1,20 @@
 package domain.board;
 
-import domain.piece.PieceType;
-
 import java.util.Arrays;
 
 public enum Placement {
 
-    INNER_ELEPHANT(1, PieceType.HORSE, PieceType.ELEPHANT, PieceType.ELEPHANT, PieceType.HORSE),
-    OUTER_ELEPHANT(2, PieceType.ELEPHANT, PieceType.HORSE, PieceType.HORSE, PieceType.ELEPHANT),
-    RIGHT_ELEPHANT(3, PieceType.HORSE, PieceType.ELEPHANT, PieceType.HORSE, PieceType.ELEPHANT),
-    LEFT_ELEPHANT(4, PieceType.ELEPHANT, PieceType.HORSE, PieceType.ELEPHANT, PieceType.HORSE);
+    INNER_ELEPHANT(1, new InnerElephantSetup()),
+    OUTER_ELEPHANT(2, new OuterElephantSetup()),
+    RIGHT_ELEPHANT(3, new RightElephantSetup()),
+    LEFT_ELEPHANT(4, new LeftElephantSetup());
 
     private final int code;
-    private final PieceType firstPieceType;
-    private final PieceType secondPieceType;
-    private final PieceType thirdPieceType;
-    private final PieceType fourthPieceType;
+    private final Setup setup;
 
-    Placement(
-            int code,
-            PieceType firstPieceType,
-            PieceType secondPieceType,
-            PieceType thirdPieceType,
-            PieceType fourthPieceType
-    ) {
+    Placement(int code, Setup setup) {
         this.code = code;
-        this.firstPieceType = firstPieceType;
-        this.secondPieceType = secondPieceType;
-        this.thirdPieceType = thirdPieceType;
-        this.fourthPieceType = fourthPieceType;
+        this.setup = setup;
     }
 
     public static Placement from(int code) {
@@ -38,19 +24,7 @@ public enum Placement {
                 .orElseThrow(() -> new IllegalArgumentException("올바르지 않은 코드값 입니다."));
     }
 
-    public PieceType getFirstPieceType() {
-        return firstPieceType;
-    }
-
-    public PieceType getSecondPieceType() {
-        return secondPieceType;
-    }
-
-    public PieceType getThirdPieceType() {
-        return thirdPieceType;
-    }
-
-    public PieceType getFourthPieceType() {
-        return fourthPieceType;
+    public Setup getSetup() {
+        return setup;
     }
 }

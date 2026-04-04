@@ -17,9 +17,13 @@ public class BoardTest {
     void 한진영_코끼리_상차림_테스트_1() {
         // given
         Board board = new Board();
+        BoardStateFactory boardStateFactory = new BoardStateFactory(
+                new OuterElephantSetup(),
+                new OuterElephantSetup()
+        );
 
         // when
-        board.placePieces(Side.HAN, Placement.OUTER_ELEPHANT);
+        board.initialState(boardStateFactory.create());
 
         // then
         assertThat(board.findBy(Position.of(10, 8))).isEqualTo(Piece.of(Side.HAN, PieceType.ELEPHANT));
@@ -34,8 +38,13 @@ public class BoardTest {
         // given
         Board board = new Board();
 
+        BoardStateFactory boardStateFactory = new BoardStateFactory(
+                new InnerElephantSetup(),
+                new OuterElephantSetup()
+        );
+
         // when
-        board.placePieces(Side.HAN, Placement.INNER_ELEPHANT);
+        board.initialState(boardStateFactory.create());
 
         // then
         assertThat(board.findBy(Position.of(10, 8))).isEqualTo(Piece.of(Side.HAN, PieceType.HORSE));
@@ -49,9 +58,13 @@ public class BoardTest {
     void 한진영_코끼리_상차림_테스트_3() {
         // given
         Board board = new Board();
+        BoardStateFactory boardStateFactory = new BoardStateFactory(
+                new RightElephantSetup(),
+                new OuterElephantSetup()
+        );
 
         // when
-        board.placePieces(Side.HAN, Placement.RIGHT_ELEPHANT);
+        board.initialState(boardStateFactory.create());
 
         // then
         assertThat(board.findBy(Position.of(10, 8))).isEqualTo(Piece.of(Side.HAN, PieceType.HORSE));
@@ -65,9 +78,13 @@ public class BoardTest {
     void 한진영_코끼리_상차림_테스트_4() {
         // given
         Board board = new Board();
+        BoardStateFactory boardStateFactory = new BoardStateFactory(
+                new LeftElephantSetup(),
+                new OuterElephantSetup()
+        );
 
         // when
-        board.placePieces(Side.HAN, Placement.LEFT_ELEPHANT);
+        board.initialState(boardStateFactory.create());
 
         // then
         assertThat(board.findBy(Position.of(10, 8))).isEqualTo(Piece.of(Side.HAN, PieceType.ELEPHANT));
@@ -81,7 +98,13 @@ public class BoardTest {
     void 장기판_포지션의_기물_조회_테스트() {
         // given
         Board board = new Board();
-        board.placePieces(Side.HAN, Placement.OUTER_ELEPHANT);
+        BoardStateFactory boardStateFactory = new BoardStateFactory(
+                new OuterElephantSetup(),
+                new OuterElephantSetup()
+        );
+
+        // when
+        board.initialState(boardStateFactory.create());
 
         // when
         Piece piece = board.findBy(Position.of(10, 2));
@@ -96,8 +119,13 @@ public class BoardTest {
     void 졸_기물_포획_성공() {
         // given
         Board board = new Board();
-        board.placePieces(Side.CHO, Placement.INNER_ELEPHANT);
-        board.placePieces(Side.HAN, Placement.INNER_ELEPHANT);
+        BoardStateFactory boardStateFactory = new BoardStateFactory(
+                new InnerElephantSetup(),
+                new InnerElephantSetup()
+        );
+        board.initialState(boardStateFactory.create());
+
+        // when
         board.move(Position.of(7, 1), Position.of(6, 1), Side.HAN);
         board.move(Position.of(6, 1), Position.of(5, 1), Side.HAN);
 
@@ -116,8 +144,11 @@ public class BoardTest {
     void 졸_뒤로_이동_실패() {
         // given
         Board board = new Board();
-        board.placePieces(Side.CHO, Placement.INNER_ELEPHANT);
-        board.placePieces(Side.HAN, Placement.INNER_ELEPHANT);
+        BoardStateFactory boardStateFactory = new BoardStateFactory(
+                new InnerElephantSetup(),
+                new InnerElephantSetup()
+        );
+        board.initialState(boardStateFactory.create());
 
         // when, then
         assertThatThrownBy(() -> {
@@ -133,8 +164,11 @@ public class BoardTest {
     void 기물_포획_성공() {
         // given
         Board board = new Board();
-        board.placePieces(Side.CHO, Placement.INNER_ELEPHANT);
-        board.placePieces(Side.HAN, Placement.INNER_ELEPHANT);
+        BoardStateFactory boardStateFactory = new BoardStateFactory(
+                new InnerElephantSetup(),
+                new InnerElephantSetup()
+        );
+        board.initialState(boardStateFactory.create());
         board.move(Position.of(7, 9), Position.of(7, 8), Side.HAN);
 
         // when
@@ -151,8 +185,11 @@ public class BoardTest {
     void 기물_이동_실패() {
         // given
         Board board = new Board();
-        board.placePieces(Side.CHO, Placement.INNER_ELEPHANT);
-        board.placePieces(Side.HAN, Placement.INNER_ELEPHANT);
+        BoardStateFactory boardStateFactory = new BoardStateFactory(
+                new InnerElephantSetup(),
+                new InnerElephantSetup()
+        );
+        board.initialState(boardStateFactory.create());
 
         // when, then
         assertThatThrownBy(() -> {
@@ -165,8 +202,11 @@ public class BoardTest {
     void 마_기물_이동_성공() {
         // given
         Board board = new Board();
-        board.placePieces(Side.CHO, Placement.RIGHT_ELEPHANT);
-        board.placePieces(Side.HAN, Placement.RIGHT_ELEPHANT);
+        BoardStateFactory boardStateFactory = new BoardStateFactory(
+                new RightElephantSetup(),
+                new RightElephantSetup()
+        );
+        board.initialState(boardStateFactory.create());
 
         board.move(Position.of(7, 5), Position.of(6, 5), Side.HAN);
         board.move(Position.of(1, 7), Position.of(3, 6), Side.CHO);
@@ -183,8 +223,11 @@ public class BoardTest {
     void 상_포획_성공_테스트() {
         // given
         Board board = new Board();
-        board.placePieces(Side.CHO, Placement.RIGHT_ELEPHANT);
-        board.placePieces(Side.HAN, Placement.RIGHT_ELEPHANT);
+        BoardStateFactory boardStateFactory = new BoardStateFactory(
+                new RightElephantSetup(),
+                new RightElephantSetup()
+        );
+        board.initialState(boardStateFactory.create());
         board.move(Position.of(7, 5), Position.of(7, 4), Side.HAN);
         board.move(Position.of(1, 8), Position.of(4, 6), Side.CHO);
 
@@ -201,8 +244,11 @@ public class BoardTest {
     void 사_포획_성공_테스트() {
         // given
         Board board = new Board();
-        board.placePieces(Side.CHO, Placement.RIGHT_ELEPHANT);
-        board.placePieces(Side.HAN, Placement.RIGHT_ELEPHANT);
+        BoardStateFactory boardStateFactory = new BoardStateFactory(
+                new RightElephantSetup(),
+                new RightElephantSetup()
+        );
+        board.initialState(boardStateFactory.create());
         board.move(Position.of(7, 5), Position.of(7, 4), Side.HAN);
         board.move(Position.of(7, 4), Position.of(6, 4), Side.HAN);
         board.move(Position.of(6, 4), Position.of(5, 4), Side.HAN);
@@ -223,8 +269,11 @@ public class BoardTest {
     void 장_포획_성공_테스트() {
         // given
         Board board = new Board();
-        board.placePieces(Side.CHO, Placement.RIGHT_ELEPHANT);
-        board.placePieces(Side.HAN, Placement.RIGHT_ELEPHANT);
+        BoardStateFactory boardStateFactory = new BoardStateFactory(
+                new RightElephantSetup(),
+                new RightElephantSetup()
+        );
+        board.initialState(boardStateFactory.create());
         board.move(Position.of(4, 5), Position.of(4, 4), Side.CHO);
         board.move(Position.of(7, 5), Position.of(6, 5), Side.HAN);
         board.move(Position.of(6, 5), Position.of(5, 5), Side.HAN);
@@ -244,8 +293,11 @@ public class BoardTest {
     void 포_포획_성공_테스트() {
         // given
         Board board = new Board();
-        board.placePieces(Side.CHO, Placement.LEFT_ELEPHANT);
-        board.placePieces(Side.HAN, Placement.LEFT_ELEPHANT);
+        BoardStateFactory boardStateFactory = new BoardStateFactory(
+                new LeftElephantSetup(),
+                new LeftElephantSetup()
+        );
+        board.initialState(boardStateFactory.create());
         board.move(Position.of(10, 7), Position.of(8, 6), Side.HAN);
         board.move(Position.of(8, 8), Position.of(8, 5), Side.HAN);
         board.move(Position.of(7, 9), Position.of(7, 8), Side.HAN);
@@ -263,8 +315,11 @@ public class BoardTest {
     void 진영_점수_계산_테스트() {
         // given
         Board board = new Board();
-        board.placePieces(Side.CHO, Placement.LEFT_ELEPHANT);
-        board.placePieces(Side.HAN, Placement.LEFT_ELEPHANT);
+        BoardStateFactory boardStateFactory = new BoardStateFactory(
+                new LeftElephantSetup(),
+                new LeftElephantSetup()
+        );
+        board.initialState(boardStateFactory.create());
 
         // when then
         assertThat(board.calculateScoreBy(Side.CHO)).isEqualTo(72);

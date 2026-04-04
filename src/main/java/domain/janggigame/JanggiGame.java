@@ -1,6 +1,9 @@
 package domain.janggigame;
 
 import domain.board.Board;
+import domain.board.BoardStateFactory;
+import domain.board.Placement;
+import domain.board.Setup;
 import domain.piece.Side;
 import domain.players.Players;
 import domain.position.Move;
@@ -33,7 +36,9 @@ public class JanggiGame {
         retry(() -> {
             while (!board.isFinished()) {
                 Move move = inputAndParseToMove();
-                players.playTurn(board, move);
+                Side currentTurn = players.getWhoseTurn();
+                board.move(move.startPosition(), move.endPosition(), currentTurn);
+                players.switchTurn();
                 OutputView.printBoard(board.findState());
             }
         });
@@ -66,9 +71,16 @@ public class JanggiGame {
 
     private void initPlacementBySide(Side side) {
         retry(() -> {
-            int placementCode = InputView.inputPlacementCodeBy(side);
-            players.initPlacementBySide(side, placementCode, board);
+            Setup hanSetup = getSetup(side);
+            Setup choSetup = getSetup(side);
+            BoardStateFactory boardStateFactory = new BoardStateFactory(hanSetup, choSetup);
+            board.initialState(boardStateFactory.create());
             OutputView.printBoard(board.findState());
         });
+    }
+
+    private Setup getSetup(Side side) {
+        int hanPlacementCode = InputView.inputPlacementCodeBy(side);
+        return Placement.from(hanPlacementCode).getSetup();
     }
 }
