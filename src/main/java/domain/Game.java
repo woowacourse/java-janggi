@@ -1,0 +1,44 @@
+package domain;
+
+import constant.BoardSpec;
+import domain.piece.Piece;
+import java.util.List;
+import java.util.Map;
+
+public class Game {
+
+    private final Board board;
+    private final Turn turn;
+
+    public Game(Board board) {
+        this.board = board;
+        this.turn = new Turn(BoardSpec.DEFAULT_STARTING_SIDE);
+    }
+
+    public void move(Position sourcePosition, Position targetPosition) {
+        validateMovement(sourcePosition, targetPosition);
+        board.movePiece(sourcePosition, targetPosition);
+        turn.next();
+    }
+
+    public boolean isGameEnd() {
+        return board.hasKing(Side.CHO) || board.hasKing(Side.HAN);
+    }
+
+    public Side getCurrentTurn() {
+        return turn.current();
+    }
+
+    public Map<Position, Piece> getBoard() {
+        return board.getBoard();
+    }
+
+    private void validateMovement(Position sourcePosition, Position targetPosition) {
+        Piece sourcePiece = board.getPiece(sourcePosition);
+        Piece targetPiece = board.getPiece(targetPosition);
+        sourcePiece.validateMovement(turn.current(), targetPiece);
+        List<Position> route = sourcePiece.findRoute(sourcePosition, targetPosition);
+        List<Piece> pieces = board.findPiecesOnRoute(route, targetPosition);
+        sourcePiece.checkRoute(pieces);
+    }
+}
