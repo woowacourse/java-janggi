@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-class DirectionInformationTest {
+class MovementTest {
 
     @ParameterizedTest
     @CsvSource({
@@ -15,7 +15,7 @@ class DirectionInformationTest {
     })
     void 목적지와의_행_차이에_따라_행_방향을_결정한다(int rowDifference, int expectedResult) {
         // given
-        DirectionInformation direction = new DirectionInformation(rowDifference, 0);
+        Movement direction = new Movement(rowDifference, 0);
         // when
         int result = direction.calculateRowDirection();
         // then
@@ -30,7 +30,7 @@ class DirectionInformationTest {
     })
     void 목적지와의_열_차이에_따라_열_방향을_결정한다(int colDifference, int expectedResult) {
         // given
-        DirectionInformation direction = new DirectionInformation(0, colDifference);
+        Movement direction = new Movement(0, colDifference);
         // when
         int result = direction.calculateColDirection();
         // then
@@ -54,7 +54,7 @@ class DirectionInformationTest {
             boolean expectedResult
     ) {
         // given
-        DirectionInformation direction = new DirectionInformation(rowDifference, colDifference);
+        Movement direction = new Movement(rowDifference, colDifference);
         // when
         boolean result = direction.isInvalidMoveDistance(difference1, difference2);
         // then

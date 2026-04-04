@@ -13,11 +13,11 @@ public class GuardStrategy implements MoveStrategy {
 
     @Override
     public void validate(Position source, Position destination, Camp camp, BoardChecker board, PieceStrategy pieceStrategy) {
-        DirectionInformation direction = new DirectionInformation(source, destination);
+        Movement direction = new Movement(source, destination);
         validateDistance(direction);
     }
 
-    private void validateDistance(DirectionInformation direction) {
+    private void validateDistance(Movement direction) {
         if (direction.isInvalidMoveDistance(0, DISTANCE)) {
             throw new IllegalArgumentException(ExceptionMessage.INVALID_SINGLE_STEP_MOVE.getMessage(DISTANCE));
         }

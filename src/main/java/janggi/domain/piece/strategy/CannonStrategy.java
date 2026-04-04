@@ -15,18 +15,18 @@ public class CannonStrategy implements MoveStrategy {
 
     @Override
     public void validate(Position source, Position destination, Camp camp, BoardChecker board, PieceStrategy pieceStrategy) {
-        DirectionInformation directionInformation = new DirectionInformation(source, destination);
-        List<Position> path = findPath(source, directionInformation);
+        Movement movement = new Movement(source, destination);
+        List<Position> path = findPath(source, movement);
         List<Position> pathBeforeDestination = path.subList(0, path.size() - 1);
         validatePath(pathBeforeDestination, destination, board, pieceStrategy);
     }
 
-    private List<Position> findPath(Position source, DirectionInformation directionInformation) {
-        if (directionInformation.isHorizontal()) {
-            return createPath(source, directionInformation.colDistance(), Position::moveCol);
+    private List<Position> findPath(Position source, Movement movement) {
+        if (movement.isHorizontal()) {
+            return createPath(source, movement.colDistance(), Position::moveCol);
         }
-        if (directionInformation.isVertical()) {
-            return createPath(source, directionInformation.rowDistance(), Position::moveRow);
+        if (movement.isVertical()) {
+            return createPath(source, movement.rowDistance(), Position::moveRow);
         }
         throw new IllegalArgumentException(ExceptionMessage.ONLY_STRAIGHT_MOVE_ALLOWED.getMessage());
     }

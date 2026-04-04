@@ -13,20 +13,20 @@ public class SoldierStrategy implements MoveStrategy {
 
     @Override
     public void validate(Position source, Position destination, Camp camp, BoardChecker board, PieceStrategy pieceStrategy) {
-        DirectionInformation direction = new DirectionInformation(source, destination);
-        validateDistance(direction);
-        validateForwardDirection(direction.calculateRowDirection(), camp);
+        Movement movement = new Movement(source, destination);
+        validateDistance(movement);
+        validateForwardMovement(movement.calculateRowDirection(), camp);
     }
 
-    private void validateDistance(DirectionInformation direction) {
-        if (direction.isInvalidMoveDistance(0, DISTANCE)) {
+    private void validateDistance(Movement movement) {
+        if (movement.isInvalidMoveDistance(0, DISTANCE)) {
             throw new IllegalArgumentException(ExceptionMessage.INVALID_SINGLE_STEP_MOVE.getMessage(DISTANCE));
         }
     }
 
-    private void validateForwardDirection(int rowDirection, Camp camp) {
-        boolean isRowMove = rowDirection != 0;
-        boolean isForward = camp.matchesForwardDirection(rowDirection);
+    private void validateForwardMovement(int rowDistance, Camp camp) {
+        boolean isRowMove = rowDistance != 0;
+        boolean isForward = camp.matchesForwardDirection(rowDistance);
 
         if (isRowMove && !isForward) {
             throw new IllegalArgumentException(ExceptionMessage.INVALID_BACKWARD_MOVEMENT.getMessage());

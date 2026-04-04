@@ -2,9 +2,9 @@ package janggi.domain.piece.strategy;
 
 import janggi.domain.Position;
 
-public record DirectionInformation(int rowDistance, int colDistance) {
+public record Movement(int rowDistance, int colDistance) {
 
-    public DirectionInformation(Position source, Position destination) {
+    public Movement(Position source, Position destination) {
         this(destination.calculateRowDistance(source), destination.calculateColumnDistance(source));
     }
 
@@ -20,10 +20,6 @@ public record DirectionInformation(int rowDistance, int colDistance) {
             return 0;
         }
         return colDistance / Math.abs(colDistance);
-    }
-
-    public int calculateDistance() {
-        return Math.abs(rowDistance) + Math.abs(colDistance);
     }
 
     public boolean isRowBiggerThanCol() {
