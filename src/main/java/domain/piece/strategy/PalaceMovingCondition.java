@@ -22,6 +22,10 @@ public class PalaceMovingCondition implements MovingCondition {
             return false;
         }
 
-        return !endPosition.isPalaceEdgeCenter() || directions.remove().isStraight();
+        return !isEndToEdgeCenterByDiagonal(endPosition, directions.remove());
+    }
+
+    private boolean isEndToEdgeCenterByDiagonal(Position endPoint, Direction direction) {
+        return endPoint.isPalaceEdgeCenter() && direction.isDiagonal();
     }
 }
