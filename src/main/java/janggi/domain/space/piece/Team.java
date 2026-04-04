@@ -19,4 +19,9 @@ public enum Team {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("적절하지 않은 진영입니다."));
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

@@ -65,6 +65,10 @@ public abstract class Piece implements Space {
         return pieceType.getScore();
     }
 
+    public Team getTeam() {
+        return team;
+    }
+
     @Override
     public String toString() {
         return pieceType.toString();
