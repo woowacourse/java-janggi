@@ -35,7 +35,8 @@ public class Palace {
     }
 
     private boolean isInsidePalaceX(Position position) {
-        return position.x() >= 4 && position.x() <= 6;
+        return position.x() >= PALACE_MIN_X
+                && position.x() <= PALACE_MAX_X;
     }
 
     private boolean isInsidePalaceY(Position position) {
@@ -43,11 +44,13 @@ public class Palace {
     }
 
     private boolean isInsideHanPalaceY(Position position) {
-        return position.y() >= 1 && position.y() <= 3;
+        return position.y() >= HAN_PALACE_MIN_Y
+                && position.y() <= HAN_PALACE_MAX_Y;
     }
 
     private boolean isInsideChoPalaceY(Position position) {
-        return position.y() >= 8 && position.y() <= 10;
+        return position.y() >= CHO_PALACE_MIN_Y
+                && position.y() <= CHO_PALACE_MAX_Y;
     }
 
     public Optional<List<Position>> findDiagonalPath(Position from, Position to) {

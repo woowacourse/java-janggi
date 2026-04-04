@@ -1,6 +1,5 @@
 package domain.board;
 
-import domain.piece.Camp;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import java.util.HashMap;
@@ -65,7 +64,7 @@ public class Board implements BoardChecker {
     @Override
     public Optional<List<Position>> findMovePath(Position from, Position to) {
         if (isSamePosition(from, to)) {
-            return Optional.of(from.findPath(to));
+            return Optional.of(from.findStraightPath(to));
         }
 
         return palace.findDiagonalPath(from, to);

@@ -9,7 +9,7 @@ import java.util.List;
 public class CannonStrategy implements MoveStrategy {
     @Override
     public void move(Position from, Position to, BoardChecker boardChecker) {
-        List<Position> path = from.findPath(to);
+        List<Position> path = from.findStraightPath(to);
         List<Piece> piecesInPath = boardChecker.findPiecesInPath(path);
         boolean targetPieceType = boardChecker.isTargetType(to, PieceType.CANNON);
 
