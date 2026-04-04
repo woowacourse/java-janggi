@@ -19,8 +19,8 @@ public enum PieceType {
     SA(createGungSaStrategy(), 3),
     HAN_GUNG(createGungSaStrategy(), 0),
     CHO_GUNG(createGungSaStrategy(), 0),
-    HAN_JOL(createJolStrategy(SOUTH), 2),
-    CHO_JOL(createJolStrategy(NORTH), 2);
+    HAN_JOL(createJolStrategy(SOUTH, SOUTH_WEST, SOUTH_EAST), 2),
+    CHO_JOL(createJolStrategy(NORTH, NORTH_WEST, NORTH_EAST), 2);
 
     private final MoveStrategy moveStrategy;
     private final int score;
@@ -98,11 +98,18 @@ public enum PieceType {
         return new PalaceBoundStrategy(fixedStepMoveStrategy);
     }
 
-    private static MoveStrategy createJolStrategy(Direction forward) {
-        return new FixedStepMoveStrategy(List.of(
+    private static MoveStrategy createJolStrategy(Direction forward, Direction diagLeft, Direction diagRight) {
+        MoveStrategy normalStrategy = new FixedStepMoveStrategy(List.of(
                 new Route(List.of(forward)),
                 new Route(List.of(WEST)),
                 new Route(List.of(EAST))
         ));
+        MoveStrategy diagonalStrategy = new PalaceBoundStrategy(
+                new FixedStepMoveStrategy(List.of(
+                        new Route(List.of(diagLeft)),
+                        new Route(List.of(diagRight))
+                ))
+        );
+        return new OrStrategy(normalStrategy, diagonalStrategy);
     }
 }
