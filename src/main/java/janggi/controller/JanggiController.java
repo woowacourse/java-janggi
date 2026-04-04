@@ -27,6 +27,8 @@ import java.util.List;
 
 public class JanggiController {
 
+    private static final long GAME_ID = 1;
+
     private final GameService gameService;
     private final BoardService boardService;
 
@@ -39,8 +41,7 @@ public class JanggiController {
     }
 
     public void run() {
-        final long gameId = 1;
-        final Pair<Board, TurnManager> boardTurnManagerPair = loadOrSaveTurnManager(gameId);
+        final Pair<Board, TurnManager> boardTurnManagerPair = loadOrSaveTurnManager();
         final Board board = boardTurnManagerPair.left();
         final TurnManager turnManager = boardTurnManagerPair.right();
         OutputView.printBoard(BoardDto.from(board, List.of()));
@@ -48,21 +49,21 @@ public class JanggiController {
         OutputView.printGameResult(GameResultDto.from(board));
     }
 
-    public Pair<Board, TurnManager> loadOrSaveTurnManager(long gameId) {
+    public Pair<Board, TurnManager> loadOrSaveTurnManager() {
         TurnManager turnManager;
         Board board;
-        if (gameService.hasGameState(gameId)) {
+        if (gameService.hasGameState(GAME_ID)) {
             OutputView.printGameLoadedMessage();
             turnManager = TurnManagerMapper.toDomain(gameService.loadOrSaveGameState(1));
-            board = new Board(boardService.loadBoard(gameId));
+            board = new Board(boardService.loadBoard(GAME_ID));
             return new Pair<>(board, turnManager);
         }
         Team blueTeam = setupBlueTeam();
         Team redTeam = setupRedTeam();
         board = BoardGenerator.generate(redTeam, blueTeam);
         turnManager = new TurnManager(1, List.of(blueTeam, redTeam));
-        gameService.loadOrSaveGameState(gameId);
-        boardService.createBoard(gameId, board.getPositionPieceMap());
+        gameService.loadOrSaveGameState(GAME_ID);
+        boardService.createBoard(GAME_ID, board.getPositionPieceMap());
 
         return new Pair<>(board, turnManager);
     }
@@ -95,7 +96,7 @@ public class JanggiController {
                 this::readPositionOfMovingPiece, currentTeam, boardMediator);
             final List<Position> movablePositions = displayMovablePositions(positionOfMovingPiece,
                 board, boardMediator);
-            final Position targetPosition = proceedMovement(movablePositions, board, positionOfMovingPiece);
+            proceedMovement(movablePositions, board, positionOfMovingPiece);
             turnManager.progressToNext();
         }
     }
@@ -111,14 +112,14 @@ public class JanggiController {
         return movablePositions;
     }
 
-    private Position proceedMovement(final List<Position> movablePositions, final Board board,
+    private void proceedMovement(final List<Position> movablePositions, final Board board,
         final Position positionOfMovingPiece) {
         final Position targetPosition = RetryExecutor.retry(this::readTargetPosition,
             movablePositions);
+        boardService.movePiece(GAME_ID, positionOfMovingPiece, targetPosition,
+            board.findPieceByPosition(positionOfMovingPiece));
         board.movePiece(positionOfMovingPiece, targetPosition);
         OutputView.printBoard(BoardDto.from(board, List.of()));
-
-        return targetPosition;
     }
 
     private Position readPositionOfMovingPiece(final Team team, final BoardMediator boardMediator) {
