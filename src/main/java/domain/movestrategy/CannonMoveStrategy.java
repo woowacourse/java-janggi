@@ -3,7 +3,6 @@ package domain.movestrategy;
 import domain.board.Board;
 import domain.board.Position;
 import domain.piece.Delta;
-import domain.piece.Piece;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -12,11 +11,10 @@ public class CannonMoveStrategy implements MoveStrategy {
 
     @Override
     public List<Position> getMovablePositions(final Board board, final Position from) {
-        Piece cannon = board.getPieceAt(from);
         List<Position> movable = new ArrayList<>();
 
         for (Delta delta : Delta.ORTHOGONAL_DELTAS) {
-            collectMovablePositions(board, cannon, from, delta, movable);
+            collectMovablePositions(board, from, delta, movable);
         }
 
         return movable;
@@ -24,7 +22,6 @@ public class CannonMoveStrategy implements MoveStrategy {
 
     private void collectMovablePositions(
             final Board board,
-            final Piece cannon,
             final Position from,
             final Delta direction,
             final List<Position> movable
@@ -34,60 +31,39 @@ public class CannonMoveStrategy implements MoveStrategy {
             return;
         }
 
-        collectLandingPositions(board, cannon, bridge.get(), direction, movable);
+        collectLandingPositions(board, from, bridge.get(), direction, movable);
     }
 
     private Optional<Position> findBridge(final Board board, final Position from, final Delta direction) {
-        Position current = from;
+        Position current = from.move(direction);
 
-        while (current.canMove(direction)) {
+        while (current.isInside() && board.isEmpty(current)) {
             current = current.move(direction);
-
-            if (board.isEmpty(current)) {
-                continue;
-            }
-
-            Piece piece = board.getPieceAt(current);
-            if (!isBridge(piece)) {
-                return Optional.empty();
-            }
-
-            return Optional.of(current);
         }
 
-        return Optional.empty();
+        if (board.isCannon(current)) {
+            return Optional.empty();
+        }
+
+        return Optional.of(current);
     }
 
     private void collectLandingPositions(
             final Board board,
-            final Piece cannon,
+            final Position from,
             final Position bridge,
             final Delta direction,
             final List<Position> movable
     ) {
-        Position current = bridge;
+        Position current = bridge.move(direction);
 
-        while (current.canMove(direction)) {
+        while (current.isInside() && board.isEmpty(current)) {
+            movable.add(current);
             current = current.move(direction);
-
-            if (board.isEmpty(current)) {
-                movable.add(current);
-                continue;
-            }
-
-            Piece target = board.getPieceAt(current);
-            if (canCapture(cannon, target)) {
-                movable.add(current);
-            }
-            return;
         }
-    }
 
-    private boolean isBridge(Piece piece) {
-        return !piece.isCannon();
-    }
-
-    private boolean canCapture(Piece cannon, Piece target) {
-        return !target.isCannon() && cannon.isOpposite(target);
+        if (current.isInside() && board.isOpposite(from, current) && !board.isCannon(current)) {
+            movable.add(current);
+        }
     }
 }
