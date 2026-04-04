@@ -1,20 +1,19 @@
 package domain.piece.strategy;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
+
 import domain.board.Board;
 import domain.board.BoardChecker;
 import domain.board.Position;
 import domain.piece.Camp;
 import domain.piece.Piece;
 import domain.piece.PieceType;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
 public class SoldierStrategyTest {
     Map<Position, Piece> dummyBoard;
@@ -84,7 +83,7 @@ public class SoldierStrategyTest {
 
         assertThatThrownBy(() -> soldier.move(from, to, boardChecker))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 졸/병은 한 칸만그 움직일 수 있습니다.");
+                .hasMessage("[ERROR] 졸/병은 좌우 또는 전진으로 한 칸만 이동할 수 있습니다.");
     }
 
     @Test
@@ -109,7 +108,7 @@ public class SoldierStrategyTest {
 
         assertThatThrownBy(() -> soldier.move(from, to, boardChecker))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 졸/병은 한 칸만그 움직일 수 있습니다.");
+                .hasMessage("[ERROR] 졸/병은 좌우 또는 전진으로 한 칸만 이동할 수 있습니다.");
     }
 
     @Test
@@ -170,5 +169,53 @@ public class SoldierStrategyTest {
 
         assertThatCode(() -> soldier.move(from, to, boardChecker))
                 .doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("병은 궁성 안에서 전방 대각선으로 한 칸 이동할 수 있다.")
+    void moveSuccess_When_HanSoldierMovesForwardDiagonalInsidePalace() {
+        Position from = new Position(4, 1);
+        Position to = new Position(5, 2);
+
+        dummyBoard.clear();
+        dummyBoard.put(from, new Piece(Camp.HAN, PieceType.SOLDIER));
+        boardChecker = new Board(dummyBoard);
+
+        Piece soldier = dummyBoard.get(from);
+
+        assertThatCode(() -> soldier.move(from, to, boardChecker))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("졸은 궁성 안에서 전방 대각선으로 한 칸 이동할 수 있다.")
+    void moveSuccess_When_ChoSoldierMovesForwardDiagonalInsidePalace() {
+        Position from = new Position(4, 10);
+        Position to = new Position(5, 9);
+
+        dummyBoard.clear();
+        dummyBoard.put(from, new Piece(Camp.CHO, PieceType.SOLDIER));
+        boardChecker = new Board(dummyBoard);
+
+        Piece soldier = dummyBoard.get(from);
+
+        assertThatCode(() -> soldier.move(from, to, boardChecker))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("병은 궁성 안에서도 후방 대각선으로 이동할 수 없다.")
+    void throwException_When_HanSoldierMovesBackwardDiagonalInsidePalace() {
+        Position from = new Position(5, 2);
+        Position to = new Position(4, 1);
+
+        dummyBoard.clear();
+        dummyBoard.put(from, new Piece(Camp.HAN, PieceType.SOLDIER));
+        boardChecker = new Board(dummyBoard);
+
+        Piece soldier = dummyBoard.get(from);
+
+        assertThatThrownBy(() -> soldier.move(from, to, boardChecker))
+                .hasMessage("[ERROR] 졸/병은 후퇴가 불가능합니다.");
     }
 }
