@@ -10,6 +10,11 @@ public class Guard extends Piece {
     }
 
     @Override
+    public PieceType getPieceType() {
+        return PieceType.GUARD;
+    }
+
+    @Override
     public boolean isBridge() {
         return true;
     }

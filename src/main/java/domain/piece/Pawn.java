@@ -11,6 +11,11 @@ public class Pawn extends Piece {
     }
 
     @Override
+    public PieceType getPieceType() {
+        return  PieceType.PAWN;
+    }
+
+    @Override
     public boolean isBridge() {
         return true;
     }

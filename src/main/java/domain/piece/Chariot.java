@@ -10,6 +10,11 @@ public class Chariot extends Piece {
     }
 
     @Override
+    public PieceType getPieceType() {
+        return PieceType.CHARIOT;
+    }
+
+    @Override
     public boolean isBridge() {
         return true;
     }

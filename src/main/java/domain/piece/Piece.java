@@ -20,6 +20,8 @@ public abstract class Piece {
         return team;
     }
 
+    public abstract PieceType getPieceType();
+
     public boolean canMove(Position currentPosition, Position targetPosition, PieceProvider pieceProvider) {
         if (currentPosition.equals(targetPosition)) {
             return false;

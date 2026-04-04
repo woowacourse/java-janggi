@@ -12,6 +12,11 @@ public class Blank extends Piece {
     }
 
     @Override
+    public PieceType getPieceType() {
+        return PieceType.BLANK;
+    }
+
+    @Override
     public boolean canMove(Position currentPosition, Position targetPosition, PieceProvider pieceProvider) {
         throw new IllegalArgumentException("[ERROR] 빈 공간이므로 이동할 수 없습니다.");
     }
