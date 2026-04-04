@@ -14,6 +14,7 @@ public class GameController {
     private boolean choTurn = true;
 
     public GameController() {
+        // 보드판 초기화까지 수행
         this.choPlayer = InputView.readPlayerName("초나라");
         this.hanPlayer = InputView.readPlayerName("한나라");
 

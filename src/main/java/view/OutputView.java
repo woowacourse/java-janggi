@@ -2,6 +2,7 @@ package view;
 
 import domain.Board;
 import domain.Position;
+import domain.Team;
 import domain.piece.Piece;
 
 public class OutputView {
@@ -35,6 +36,9 @@ public class OutputView {
             }
             System.out.println();
         }
+        System.out.println();
+        System.out.println("초나라 점수: " + board.calculateScore(Team.CHO));
+        System.out.println("한나라 점수: " + board.calculateScore(Team.HAN));
         System.out.println();
     }
 
