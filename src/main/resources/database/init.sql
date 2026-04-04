@@ -1,0 +1,13 @@
+CREATE TABLE IF NOT EXISTS game_list(
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    game_id VARCHAR(50) UNIQUE NOT NULL,
+    current_turn VARCHAR(5) NOT NULL
+);
+CREATE TABLE IF NOT EXISTS piece(
+    game_id      VARCHAR(50) NOT NULL,
+    x            INT NOT NULL,
+    y            INT NOT NULL,
+    piece_type   VARCHAR(20) NOT NULL,
+    team         VARCHAR(5) NOT NULL,
+    CONSTRAINT fk_game_list FOREIGN KEY (game_id) REFERENCES game_list(game_id) ON DELETE CASCADE
+);
