@@ -50,4 +50,18 @@ class GameTest {
     void checkGeneral() {
         assertThat(game.move(Point.of(5, 0), Point.of(6, 0))).isEqualTo(Side.CHO);
     }
+
+    @Test
+    @DisplayName("getScore(): 기물 점수의 합을 반환한다.")
+    void getScore_CHO_Side() {
+        // CHO : 졸(2) + 졸(2) = 4.0
+        assertThat(game.getScore(Side.CHO)).isEqualTo(4.0);
+    }
+
+    @Test
+    @DisplayName("getScore(): 기물 점수의 합을 반환한다. (HAN 진영은 보너스 1.5점)")
+    void getScore_HAN_Side() {
+        // HAN : 병(2) + 궁(0) + 보너스(1.5) = 3.5
+        assertThat(game.getScore(Side.HAN)).isEqualTo(3.5);
+    }
 }
