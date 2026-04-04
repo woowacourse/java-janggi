@@ -3,7 +3,7 @@ package domain.activePiece;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.game.Team;
-import domain.piece.ActivePiece;
+import domain.piece.Piece;
 import domain.piece.Elephant;
 import domain.piece.Piece;
 import domain.position.Position;
@@ -26,7 +26,7 @@ class ElephantTest {
 
     @Test
     void 상_정상_경로_출력() {
-        ActivePiece elephant = new Elephant(Team.HAN);
+        Piece elephant = new Elephant(Team.HAN);
         Position source = new Position(3, 3);
         Position mid = new Position(4, 3);
         Position mid2 = new Position(5, 4);
@@ -38,7 +38,7 @@ class ElephantTest {
 
     @Test
     void 상_열_방향_경로를_계산한다() {
-        ActivePiece elephant = new Elephant(Team.HAN);
+        Piece elephant = new Elephant(Team.HAN);
         Position source = new Position(3, 3);
         Position mid = new Position(3, 4);
         Position mid2 = new Position(4, 5);

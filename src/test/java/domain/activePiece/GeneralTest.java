@@ -3,7 +3,7 @@ package domain.activePiece;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.game.Team;
-import domain.piece.ActivePiece;
+import domain.piece.Piece;
 import domain.piece.General;
 import domain.piece.Piece;
 import domain.position.Column;
@@ -29,7 +29,7 @@ class GeneralTest {
 
     @Test
     void 궁_정상_경로_출력_한다() {
-        ActivePiece general = new General(Team.HAN);
+        Piece general = new General(Team.HAN);
 
         Position source = new Position(new Row(1), new Column(3));
         Position destination = new Position(new Row(2), new Column(3));

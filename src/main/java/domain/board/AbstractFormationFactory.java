@@ -32,11 +32,12 @@ public abstract class AbstractFormationFactory {
     }
 
     private void setFixedPieces(Map<Position, Piece> pieces, Team team) {
-        placePieces(pieces, team, team.getBackRow(), PieceType.CHA);
-        placePieces(pieces, team, team.getBackRow(), PieceType.SA);
-        placePieces(pieces, team, team.getGeneralRow(), PieceType.GENERAL);
-        placePieces(pieces, team, team.getCannonRow(), PieceType.PHO);
-        placePieces(pieces, team, team.getSoldierRow(), PieceType.BYEONG);
+        TeamLayout layout = TeamLayout.of(team);
+        placePieces(pieces, team, layout.backRow(), PieceType.CHA);
+        placePieces(pieces, team, layout.backRow(), PieceType.SA);
+        placePieces(pieces, team, layout.generalRow(), PieceType.GENERAL);
+        placePieces(pieces, team, layout.cannonRow(), PieceType.PHO);
+        placePieces(pieces, team, layout.soldierRow(), PieceType.BYEONG);
     }
 
     private void placePieces(Map<Position, Piece> pieces, Team team, int row, PieceType type) {

@@ -1,11 +1,14 @@
 package domain.piece;
 
+import domain.game.Team;
 import domain.position.Position;
 import java.util.List;
 
-public class EmptyPiece implements Piece {
+public class EmptyPiece extends Piece {
 
-    private EmptyPiece() {}
+    private EmptyPiece() {
+        super(Team.NONE, PieceType.EMPTY);
+    }
 
     private static class LazyHolder {
         private static final EmptyPiece INSTANCE = new EmptyPiece();
@@ -30,22 +33,7 @@ public class EmptyPiece implements Piece {
     }
 
     @Override
-    public boolean isNotEmpty() {
-        return false;
-    }
-
-    @Override
-    public boolean isAlly(Piece other) {
-        return false;
-    }
-
-    @Override
     public String display(PieceAppearance colorizer) {
         return colorizer.colorizeEmpty();
-    }
-
-    @Override
-    public String toString() {
-        return PieceType.EMPTY.name();
     }
 }

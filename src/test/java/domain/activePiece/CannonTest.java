@@ -3,7 +3,7 @@ package domain.activePiece;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.game.Team;
-import domain.piece.ActivePiece;
+import domain.piece.Piece;
 import domain.piece.Cannon;
 import domain.piece.Piece;
 import domain.position.Column;
@@ -31,7 +31,7 @@ class CannonTest {
 
     @Test
     void 같은_열의_행_방향_경로를_계산한다() {
-        ActivePiece cannon = new Cannon(Team.HAN);
+        Piece cannon = new Cannon(Team.HAN);
         Position source = new Position(new Row(1), new Column(3));
         Position destination = new Position(new Row(4), new Column(3));
         List<Position> routes = new ArrayList<>(
@@ -43,7 +43,7 @@ class CannonTest {
 
     @Test
     void 같은_행의_열_방향_경로를_계산한다() {
-        ActivePiece cannon = new Cannon(Team.HAN);
+        Piece cannon = new Cannon(Team.HAN);
         Position source = new Position(new Row(1), new Column(3));
         Position destination = new Position(new Row(1), new Column(7));
         List<Position> routes = new ArrayList<>(

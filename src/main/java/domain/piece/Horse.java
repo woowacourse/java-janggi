@@ -4,7 +4,7 @@ import domain.position.Position;
 import domain.game.Team;
 import java.util.List;
 
-public class Horse extends ActivePiece {
+public class Horse extends Piece {
 
     private static final List<Integer> ROW_OFFSETS = List.of(1, 2, 2, 1, -1, -2, -2, -1);
     private static final List<Integer> COLUMN_OFFSETS = List.of(2, 1, -1, -2, -2, -1, 1, 2);

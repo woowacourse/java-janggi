@@ -4,7 +4,7 @@ import domain.game.Team;
 import domain.position.Position;
 import java.util.List;
 
-public class Cannon extends ActivePiece {
+public class Cannon extends Piece {
 
     public Cannon(Team team) {
         super(team, PieceType.PHO);
@@ -28,7 +28,7 @@ public class Cannon extends ActivePiece {
     public void validateRoute(List<Piece> piecesOnRoute, Piece destinationPiece) {
         int count = 0;
         for (Piece piece : piecesOnRoute) {
-            if (piece instanceof Cannon) {
+            if (piece.isSameType(PieceType.PHO)) {
                 throw new IllegalArgumentException("포는 포를 넘지 못합니다.");
             }
             if (piece.isNotEmpty()) {
@@ -40,7 +40,7 @@ public class Cannon extends ActivePiece {
             throw new IllegalArgumentException("포가 넘을 수 있는 기물의 개수는 하나입니다.");
         }
 
-        if (destinationPiece instanceof Cannon) {
+        if (destinationPiece.isSameType(PieceType.PHO)) {
             throw new IllegalArgumentException("포는 포를 잡을 수 없습니다.");
         }
         if (destinationPiece.isAlly(this)) {

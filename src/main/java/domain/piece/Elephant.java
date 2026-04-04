@@ -4,7 +4,7 @@ import domain.position.Position;
 import domain.game.Team;
 import java.util.List;
 
-public class Elephant extends ActivePiece {
+public class Elephant extends Piece {
 
     private static final List<Integer> ROW_OFFSETS = List.of(2, 3, -2, -3, -3, -2, 2, 3);
     private static final List<Integer> COLUMN_OFFSETS = List.of(3, 2, 3, 2, -2, -3, -3, -2);

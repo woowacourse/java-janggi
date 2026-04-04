@@ -4,7 +4,7 @@ import domain.position.Position;
 import domain.game.Team;
 import java.util.List;
 
-public class Soldier extends ActivePiece {
+public class Soldier extends Piece {
     public Soldier(Team team) {
         super(team, PieceType.BYEONG);
     }

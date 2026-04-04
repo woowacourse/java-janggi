@@ -5,7 +5,7 @@ import domain.position.Position;
 import domain.game.Team;
 import java.util.List;
 
-public class Chariot extends ActivePiece {
+public class Chariot extends Piece {
 
     public Chariot(Team team) {
         super(team, PieceType.CHA);

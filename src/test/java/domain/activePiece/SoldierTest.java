@@ -3,7 +3,7 @@ package domain.activePiece;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.game.Team;
-import domain.piece.ActivePiece;
+import domain.piece.Piece;
 import domain.piece.Piece;
 import domain.piece.Soldier;
 import domain.position.Column;
@@ -77,7 +77,7 @@ class SoldierTest {
 
     @Test
     void 병은_빈_경로_출력_한다() {
-        ActivePiece soldier = new Soldier(Team.HAN);
+        Piece soldier = new Soldier(Team.HAN);
 
         Position source = new Position(new Row(5), new Column(5));
         Position destination = new Position(new Row(4), new Column(5));

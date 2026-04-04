@@ -1,18 +1,55 @@
 package domain.piece;
 
+import domain.game.Team;
 import domain.position.Position;
 import java.util.List;
 
-public interface Piece {
-    boolean canMove(Position source, Position target);
+public abstract class Piece {
+    private final Team team;
+    private final PieceType type;
 
-    List<Position> calculateRoute(Position source, Position target);
+    protected Piece(Team team, PieceType type) {
+        this.team = team;
+        this.type = type;
+    }
 
-    void validateRoute(List<Piece> piecesOnRoute, Piece destinationPiece);
+    public abstract boolean canMove(Position source, Position target);
 
-    boolean isNotEmpty();
+    public abstract List<Position> calculateRoute(Position source, Position target);
 
-    boolean isAlly(Piece other);
+    public void validateRoute(List<Piece> piecesOnRoute, Piece destinationPiece) {
+        for (Piece piece : piecesOnRoute) {
+            if (piece.isNotEmpty()) {
+                throw new IllegalArgumentException("이동 경로에 기물이 있습니다.");
+            }
+        }
+        if (destinationPiece.isAlly(this)) {
+            throw new IllegalArgumentException("아군 기물이 있는 위치로 이동할 수 없습니다.");
+        }
+    }
 
-    String display(PieceAppearance colorizer);
+    public boolean isNotEmpty() {
+        return this.type != PieceType.EMPTY;
+    }
+
+    public boolean isAlly(Piece other) {
+        return this.team != Team.NONE && this.team == other.team;
+    }
+
+    public boolean isSameType(PieceType pieceType) {
+        return this.type == pieceType;
+    }
+
+    public String display(PieceAppearance colorizer) {
+        return colorizer.colorize(team, type);
+    }
+
+    protected int forwardDirection() {
+        return team.forwardRowDirection();
+    }
+
+    @Override
+    public String toString() {
+        return type.name();
+    }
 }
