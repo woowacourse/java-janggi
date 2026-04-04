@@ -52,11 +52,11 @@ public class InputView {
     }
 
     public Point readDestination() {
-        System.out.println("기물 이동[초록색] - {한글}{숫자} (e.g. 가0) (취소 - Q 입력, 제자리에 놓으면 턴을 넘깁니다.)");
+        System.out.println("기물 이동[초록색] - {한글}{숫자} (e.g. 가0) (취소 - C 입력, 제자리에 놓으면 턴을 넘깁니다.)");
         String input = sc.nextLine();
         Matcher matcher = pattern.matcher(input);
 
-        if (input.equals("Q")) {
+        if (input.equals("C")) {
             return null;
         }
 

@@ -18,6 +18,9 @@ public class MoveController {
     }
 
     public void move(Game game) {
+        outputView.printBoard(game.getBoard());
+        outputView.printSide(game.getTurn());
+
         Point from = readPoint(game);
         outputView.printBoardWithPath(game.getBoard(), game.destinations(from));
 

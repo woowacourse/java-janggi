@@ -19,7 +19,7 @@ public enum GameSelect {
                 return gameSelect;
             }
         }
-        throw new IllegalArgumentException("해당하는 선택지가 없습니다!");
+        throw new IllegalArgumentException("해당하는 선택지가 없습니다! 숫자만 입력해주세요");
     }
 
     public String getFormatMessage() {

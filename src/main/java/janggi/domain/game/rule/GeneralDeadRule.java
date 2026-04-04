@@ -8,8 +8,8 @@ import java.util.Collection;
 import java.util.Map;
 
 public class GeneralDeadRule implements Rule {
-    private static final General CHO_GENERAL = new General(Side.CHO);
-    private static final General HAN_GENERAL = new General(Side.HAN);
+    private static final Piece CHO_GENERAL = new General(Side.CHO);
+    private static final Piece HAN_GENERAL = new General(Side.HAN);
 
     @Override
     public boolean isEnd(Map<Point, Piece> piecesWithPoint) {

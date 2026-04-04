@@ -2,13 +2,10 @@ package janggi.controller;
 
 import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.game.Game;
-import janggi.domain.piece.unit.Piece;
-import janggi.domain.point.Point;
 import janggi.domain.side.Side;
 import janggi.service.GameService;
 import janggi.view.InputView;
 import janggi.view.OutputView;
-import java.util.Map;
 
 public class GameController {
     private final InputView inputView;
@@ -42,10 +39,6 @@ public class GameController {
 
     private void playGame(Game game) {
         while (game.canPlay()) {
-            Map<Point, Piece> board = game.getBoard();
-            outputView.printBoard(board);
-            outputView.printSide(game.getTurn());
-
             retry(() -> moveController.move(game));
         }
         outputView.printWinner(game.winnerSide());
