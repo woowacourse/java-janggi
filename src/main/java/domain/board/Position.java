@@ -36,9 +36,12 @@ public class Position {
         return column.value();
     }
 
-    public boolean isInsideBoard() {
-        return row() >= BOARD_MIN_INDEX && row() <= BOARD_MAX_ROW
-                && column() >= BOARD_MIN_INDEX && column() <= BOARD_MAX_COLUMN;
+    public int compareBoardOrder(Position other) {
+        final int rowCompare = Integer.compare(row(), other.row());
+        if (rowCompare != 0) {
+            return rowCompare;
+        }
+        return Integer.compare(column(), other.column());
     }
 
     @Override

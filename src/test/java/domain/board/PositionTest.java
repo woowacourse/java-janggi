@@ -19,6 +19,33 @@ class PositionTest {
     }
 
     @Nested
+    class 비교 {
+        @Test
+        void 행이_작으면_앞선_좌표로_판단한다() {
+            final Position current = Position.of(3, 4);
+            final Position other = Position.of(4, 1);
+
+            assertThat(current.compareBoardOrder(other)).isNegative();
+        }
+
+        @Test
+        void 행이_같으면_열로_좌표_순서를_판단한다() {
+            final Position current = Position.of(3, 4);
+            final Position other = Position.of(3, 5);
+
+            assertThat(current.compareBoardOrder(other)).isNegative();
+        }
+
+        @Test
+        void 같은_좌표면_같은_순서로_판단한다() {
+            final Position current = Position.of(3, 4);
+            final Position other = Position.of(3, 4);
+
+            assertThat(current.compareBoardOrder(other)).isZero();
+        }
+    }
+
+    @Nested
     class 예외 {
         @Test
         void 행이_범위를_벗어나면_예외를_발생한다() {
