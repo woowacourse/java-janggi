@@ -45,16 +45,17 @@ public class JanggiController {
         OutputView.printBoard(BoardDto.from(board, List.of()));
         playGame(turnManager, board);
         OutputView.printGameResult(GameResultDto.from(board));
+        gameService.removeGame(GAME_ID);
     }
 
     public TurnManager loadOrSaveTurnManager() {
-        if (gameService.hasGameState(GAME_ID)) {
+        if (gameService.hasGame(GAME_ID)) {
             OutputView.printGameLoadedMessage();
-            return TurnManagerMapper.toDomain(gameService.loadOrSaveGameState(1));
+            return TurnManagerMapper.toDomain(gameService.loadOrSaveGame(1));
         }
         Team blueTeam = setupBlueTeam();
         Team redTeam = setupRedTeam();
-        gameService.loadOrSaveGameState(GAME_ID);
+        gameService.loadOrSaveGame(GAME_ID);
 
         return new TurnManager(1, List.of(blueTeam, redTeam));
     }

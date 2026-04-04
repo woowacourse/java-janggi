@@ -59,7 +59,7 @@ class GameServiceTest {
             long id = generated.id();
             boolean expected = true;
 
-            boolean actual = gameService.hasGameState(id);
+            boolean actual = gameService.hasGame(id);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -70,7 +70,7 @@ class GameServiceTest {
             long id = 1;
             boolean expected = false;
 
-            boolean actual = gameService.hasGameState(id);
+            boolean actual = gameService.hasGame(id);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -81,7 +81,7 @@ class GameServiceTest {
     void loadOrSaveGameState() {
         GameEntity expected = GameEntity.from(1, "게임 1", 1, List.of(TeamType.BLUE, TeamType.RED));
 
-        GameEntity actual = gameService.loadOrSaveGameState(1);
+        GameEntity actual = gameService.loadOrSaveGame(1);
 
         assertThat(actual).isEqualTo(expected);
     }
@@ -107,11 +107,11 @@ class GameServiceTest {
 
     @Test
     @DisplayName("게임 상태 삭제 테스트")
-    void removeGameState() {
+    void removeGame() {
         gameRepository.save(GameEntity.from("게임 1", 2, List.of(TeamType.RED, TeamType.BLUE)));
         boolean expected = true;
 
-        boolean actual = gameService.removeGameState(1);
+        boolean actual = gameService.removeGame(1);
 
         assertThat(actual).isEqualTo(expected);
     }

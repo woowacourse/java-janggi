@@ -15,11 +15,11 @@ public class GameService {
         this.gameRepository = gameRepository;
     }
 
-    public boolean hasGameState(final long id) {
+    public boolean hasGame(final long id) {
         return gameRepository.findById(id).isPresent();
     }
 
-    public GameEntity loadOrSaveGameState(final long id) {
+    public GameEntity loadOrSaveGame(final long id) {
         return gameRepository.findById(id)
             .orElseGet(() -> gameRepository.save(
                 GameEntity.from("게임 1", 1, List.of(TeamType.BLUE, TeamType.RED))));
@@ -30,7 +30,7 @@ public class GameService {
             TurnManagerMapper.toEntity(turnManager.getTurnTaken(), turnManager.getTeams()));
     }
 
-    public boolean removeGameState(final long id) {
+    public boolean removeGame(final long id) {
         return gameRepository.deleteById(id);
     }
 }
