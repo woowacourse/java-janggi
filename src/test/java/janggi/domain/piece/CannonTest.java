@@ -51,8 +51,7 @@ class CannonTest {
                     Position.valueOf(9, 7),
                     Position.valueOf(10, 7));
 
-            List<Position> actual = cannon.calculateMovablePositions(Position.valueOf(6, 7),
-                    board);
+            List<Position> actual = cannon.calculateMovablePositions(Position.valueOf(6, 7), board);
 
             assertThat(actual).hasSameElementsAs(expected);
         }
