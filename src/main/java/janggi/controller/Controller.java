@@ -1,5 +1,6 @@
 package janggi.controller;
 
+import janggi.domain.JanggiGame;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardFactory;
 import janggi.domain.position.Column;
@@ -24,36 +25,37 @@ public class Controller {
     }
 
     public void run() {
-        outputView.printStartMessage();
         Board board = new Board(BoardFactory.generate());
-        outputView.printBoard(BoardDto.from(board));
+        JanggiGame janggiGame = new JanggiGame(board);
 
         outputView.printStartMessage();
+        outputView.printBoard(BoardDto.from(janggiGame.getBoard()));
 
-        Team currentTeam = Team.CHO;
+        while (true) {
+            playSingleTurn(janggiGame);
+        }
+    }
 
-        for (int i = 0; i < 10; i++) {
-            while (true) {
-                try {
-                    TeamInputDto teamInputDto = new TeamInputDto(currentTeam);
-                    PositionInputDto moveInputDto = inputView.playTurn(teamInputDto.getTeamName());
+    private void playSingleTurn(JanggiGame janggiGame) {
+        while (true) {
+            try {
+                TeamInputDto teamInputDto = new TeamInputDto(janggiGame.getCurrentTeam());
+                PositionInputDto moveInputDto = inputView.playTurn(teamInputDto.getTeamName());
 
-                    Position from = Position.of(Row.of(moveInputDto.getFromRow()), Column.of(moveInputDto.getFromCol()));
-                    Position to = Position.of(Row.of(moveInputDto.getToRow()), Column.of(moveInputDto.getToCol()));
+                Position from = Position.of(Row.of(moveInputDto.getFromRow()), Column.of(moveInputDto.getFromCol()));
+                Position to = Position.of(Row.of(moveInputDto.getToRow()), Column.of(moveInputDto.getToCol()));
 
-                    board.move(from, to);
-                    outputView.printBoard(BoardDto.from(board));
+                janggiGame.move(from, to);
 
-                    currentTeam = currentTeam.switchTeam();
-                    break;
+                outputView.printBoard(BoardDto.from(janggiGame.getBoard()));
+                break;
 
-                } catch (InputException e) {
-                    outputView.printInputErrorMessage(e.getMessage());
-                } catch (BusinessException e) {
-                    outputView.printBusinessErrorMessage(e.getMessage());
-                } catch (Exception e) {
-                    outputView.printUndefinedErrorMessage();
-                }
+            } catch (InputException e) {
+                outputView.printInputErrorMessage(e.getMessage());
+            } catch (BusinessException e) {
+                outputView.printBusinessErrorMessage(e.getMessage());
+            } catch (Exception e) {
+                outputView.printUndefinedErrorMessage();
             }
         }
     }
