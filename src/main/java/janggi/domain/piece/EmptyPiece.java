@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import janggi.domain.Intersection;
 import janggi.domain.Location;
 import janggi.domain.Side;
 import java.util.List;
@@ -21,7 +22,7 @@ public class EmptyPiece implements Piece {
     }
 
     @Override
-    public List<Location> calculateRoute(Location from, Location to) {
+    public List<Location> calculateRoute(Intersection from, Intersection to) {
         throw new UnsupportedOperationException("빈 객체는 이동할 수 없습니다.");
     }
 

@@ -1,7 +1,12 @@
 package janggi.domain.rule.route;
 
+import janggi.domain.Intersection;
 import janggi.domain.Location;
+import janggi.domain.Side;
+import janggi.domain.piece.Piece;
 import janggi.exception.RouteResolveException;
+import janggi.support.TestIntersectionUtil;
+import janggi.support.TestPiece;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
@@ -33,38 +38,43 @@ class StraightRouteProviderTest {
         );
     }
 
-    static List<List<Integer>> provideUnreachableCoordination() {
+    static List<Location> provideUnreachableCoordination() {
         return List.of(
-                List.of(3, 3),
-                List.of(3, 2),
-                List.of(2, 2)
+                Location.of(3, 3),
+                Location.of(3, 2),
+                Location.of(2, 2)
         );
     }
 
     @ParameterizedTest
     @DisplayName("직선으로 이동할 위치를 파라미터로 받으면 이동 경로를 반환한다.")
     @MethodSource("provideReachableCoordination")
-    void shouldReturnRouteForReachableLocation(Location destination, List<Location> route) {
+    void shouldReturnRouteForReachableLocation(Location to, List<Location> route) {
         // given
-        Location from = Location.of(2, 2);
+        Piece piece = new TestPiece(Side.CHO);
+        Intersection base = TestIntersectionUtil.getDefaultIntersection(Location.of(2, 2), piece);
+        Intersection destination = TestIntersectionUtil.getDefaultEmptyPieceIntersection(to);
+
         RouteProvider routeProvider = StraightRouteProvider.getInstance();
 
         // when & then
-        Assertions.assertThat(routeProvider.calculateRoute(from, destination))
+        Assertions.assertThat(routeProvider.calculateRoute(base, destination))
                 .isEqualTo(route);
     }
 
     @ParameterizedTest
     @DisplayName("직선으로 이동이 불가능한 위치를 파라미터로 받으면 예외가 발생한다.")
     @MethodSource("provideUnreachableCoordination")
-    void shouldThrowExceptionForUnReachableLocation(List<Integer> coordination) {
+    void shouldThrowExceptionForUnReachableLocation(Location to) {
         // given
-        Location from = Location.of(1, 1);
-        Location to = Location.from(coordination);
+        Piece piece = new TestPiece(Side.CHO);
+        Intersection base = TestIntersectionUtil.getDefaultIntersection(Location.of(1,1), piece);
+        Intersection destination = TestIntersectionUtil.getDefaultEmptyPieceIntersection(to);
+
         RouteProvider routeProvider = StraightRouteProvider.getInstance();
 
         // when & then
-        Assertions.assertThatThrownBy(() -> routeProvider.calculateRoute(from, to))
+        Assertions.assertThatThrownBy(() -> routeProvider.calculateRoute(base, destination))
                 .isInstanceOf(RouteResolveException.class);
     }
 }

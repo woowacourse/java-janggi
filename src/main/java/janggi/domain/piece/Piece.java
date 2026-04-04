@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import janggi.domain.Intersection;
 import janggi.domain.Location;
 import janggi.domain.Side;
 import java.util.List;
@@ -8,7 +9,7 @@ public interface Piece {
 
     boolean isEmpty();
 
-    List<Location> calculateRoute(Location from, Location to);
+    List<Location> calculateRoute(Intersection from, Intersection to);
 
     void detectCollision(List<Piece> piecesOnPath);
 

@@ -19,7 +19,7 @@ class IntersectionTest {
         Piece piece = new TestPiece(Side.CHO);
 
         // when
-        Intersection intersection = Intersection.of(vectors, piece, true);
+        Intersection intersection = Intersection.of(Location.of(1,1), vectors, piece, true);
 
         // then
         Assertions.assertThat(intersection.isPalace()).isTrue();
@@ -33,7 +33,7 @@ class IntersectionTest {
         Piece piece = new TestPiece(Side.CHO);
 
         // when
-        Intersection intersection = Intersection.of(vectors, piece, false);
+        Intersection intersection = Intersection.of(Location.of(1,1), vectors, piece, false);
 
         // then
         Assertions.assertThat(intersection.isPalace()).isFalse();
@@ -47,7 +47,7 @@ class IntersectionTest {
         Piece piece = new TestPiece(Side.CHO);
 
         // when
-        Intersection intersection = Intersection.of(vectors, piece, false);
+        Intersection intersection = Intersection.of(Location.of(1,1), vectors, piece, false);
 
         // then
         Assertions.assertThat(intersection.getVectors()).isEqualTo(vectors);

@@ -1,11 +1,11 @@
 package janggi.domain.rule.route;
 
-import static janggi.domain.rule.route.Direction.BACK;
-import static janggi.domain.rule.route.Direction.FRONT;
-import static janggi.domain.rule.route.Direction.LEFT;
-import static janggi.domain.rule.route.Direction.RIGHT;
 
+import static java.lang.Math.min;
+
+import janggi.domain.Intersection;
 import janggi.domain.Location;
+import janggi.domain.location.Vector;
 import janggi.exception.RouteResolveException;
 import java.util.List;
 
@@ -21,24 +21,21 @@ public class StraightRouteProvider implements RouteProvider {
     }
 
     @Override
-    public List<Location> calculateRoute(Location from, Location to) {
-        int maxDistance = calculateMaxDistance(from, to);
-
-        List<Route> moveRoutes = List.of(
-                Route.create(FRONT, maxDistance),
-                Route.create(BACK, maxDistance),
-                Route.create(LEFT, maxDistance),
-                Route.create(RIGHT, maxDistance)
-        );
+    public List<Location> calculateRoute(Intersection base, Intersection destination) {
+        List<Vector> vectors = base.getVectors();
+        int maxDistance = calculateMaxDistance(base.getLocation(), destination.getLocation());
+        List<Route> moveRoutes = vectors.stream().map(vector ->
+                        Route.create(vector.direction(), min(vector.distance(), maxDistance)))
+                .toList();
 
         for (Route route : moveRoutes) {
-            List<Location> locations = route.apply(from);
-            if (locations.contains(to)) {
+            List<Location> locations = route.apply(base.getLocation());
+            if (locations.contains(destination.getLocation())) {
                 return locations;
             }
         }
 
-        throw new RouteResolveException(from, to);
+        throw new RouteResolveException(base.getLocation(), destination.getLocation());
     }
 
     private int calculateMaxDistance(Location from, Location to) {

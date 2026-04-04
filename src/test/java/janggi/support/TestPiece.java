@@ -1,5 +1,6 @@
 package janggi.support;
 
+import janggi.domain.Intersection;
 import janggi.domain.Location;
 import janggi.domain.Side;
 import janggi.domain.piece.Piece;
@@ -15,7 +16,7 @@ public class TestPiece implements Piece {
     }
 
     @Override
-    public List<Location> calculateRoute(Location from, Location to) {
+    public List<Location> calculateRoute(Intersection from, Intersection to) {
         return List.of();
     }
 

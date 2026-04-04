@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import janggi.domain.Intersection;
 import janggi.domain.Location;
 import janggi.domain.Side;
 import janggi.domain.rule.collision.CollisionDetector;
@@ -20,11 +21,11 @@ public class Cha extends ActivePiece {
     }
 
     @Override
-    public List<Location> calculateRoute(Location from, Location to) {
+    public List<Location> calculateRoute(Intersection from, Intersection to) {
         try {
             return ROUTE_PROVIDER.calculateRoute(from, to);
         } catch (RouteResolveException e) {
-            throw new RouteResolveException(pieceType, from, to);
+            throw new RouteResolveException(pieceType, from.getLocation(), to.getLocation());
         }
     }
 

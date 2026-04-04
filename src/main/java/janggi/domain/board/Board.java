@@ -43,9 +43,11 @@ public class Board {
     public void move(Location from, Location to) {
         validateMove(from, to);
 
-        Piece piece = boardState.get(from).getPiece();
-        List<Piece> piecesOnPath = getPiecesOnRoute(piece, from, to);
+        Intersection base = boardState.get(from);
+        Intersection destination = boardState.get(to);
+        List<Piece> piecesOnPath = getPiecesOnRoute(base, destination);
 
+        Piece piece = base.getPiece();
         piece.detectCollision(piecesOnPath);
 
         executeMove(from, to, piece);
@@ -95,8 +97,8 @@ public class Board {
         return !piece.isSameSide(side);
     }
 
-    private List<Piece> getPiecesOnRoute(Piece piece, Location from, Location to) {
-        return piece.calculateRoute(from, to).stream()
+    private List<Piece> getPiecesOnRoute(Intersection base, Intersection destination) {
+        return base.calculateRoute(destination).stream()
                 .map(location -> boardState.get(location).getPiece())
                 .toList();
     }

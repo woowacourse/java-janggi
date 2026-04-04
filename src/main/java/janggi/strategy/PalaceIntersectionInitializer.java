@@ -33,16 +33,14 @@ public class PalaceIntersectionInitializer implements IntersectionInitializer {
             for (int col = 0; col < intersections[row].length; col++) {
                 Location currentLocation = Location.of(row, col);
 
-                // 1. Enum 에서 해당 좌표의 추가 벡터 및 궁성 여부 조회
                 List<Vector> additionalVectors = PalaceConfiguration.getVectorsFor(currentLocation);
-                boolean isPalace = PalaceConfiguration.isPalace(currentLocation);
-
-                // 2. 기본 벡터와 추가 벡터 병합
                 List<Vector> allVectors = new ArrayList<>(defaultVectors);
                 allVectors.addAll(additionalVectors);
 
-                // 3. 한 번의 호출로 불변 객체 생성
-                intersections[row][col] = Intersection.of(allVectors, EmptyPiece.getInstance(), isPalace);
+                boolean isPalace = PalaceConfiguration.isPalace(currentLocation);
+
+                intersections[row][col] = Intersection.of(Location.of(row, col), allVectors, EmptyPiece.getInstance(),
+                        isPalace);
             }
         }
     }

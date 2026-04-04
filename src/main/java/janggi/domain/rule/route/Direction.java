@@ -1,6 +1,7 @@
 package janggi.domain.rule.route;
 
 import janggi.domain.Location;
+import java.util.Arrays;
 
 public enum Direction {
 
@@ -23,5 +24,19 @@ public enum Direction {
 
     public Location apply(Location location) {
         return location.add(dy, dx);
+    }
+
+    public static Direction getDirection(Location from, Location to) {
+        int dx = Integer.compare(to.col(), from.col());
+        int dy = Integer.compare(to.row(), from.row());
+
+        return Arrays.stream(values())
+                .filter(direction -> direction.dx == dx && direction.dy == dy)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("올바른 방향을 계산할 수 없습니다."));
+    }
+
+    public boolean isSameDirection(Direction direction) {
+        return this == direction;
     }
 }
