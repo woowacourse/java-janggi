@@ -53,6 +53,10 @@ public class Piece {
         return type.isGung();
     }
 
+    public Side getSide() {
+        return side;
+    }
+
     public Score getScore() {
         return type.getScore();
     }

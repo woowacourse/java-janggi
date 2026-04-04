@@ -1,5 +1,7 @@
 import board.SangSetupType;
 import core.JanggiGame;
+import db.jdbc.ConnectionManager;
+import db.jdbc.DatabaseInitializer;
 import pieces.Side;
 import position.Position;
 import util.Retry;
@@ -9,6 +11,10 @@ import view.JanggiView;
 public class Application {
 
     public static void main(String[] args) {
+        ConnectionManager connectionManager = new ConnectionManager();
+        DatabaseInitializer databaseInitializer = new DatabaseInitializer(connectionManager);
+        databaseInitializer.initialize();
+
         JanggiView view = new JanggiView();
         SangSetupType choSangSetupType = view.askSangSetupUntilSuccess(Side.CHO);
         SangSetupType hanSangSetupType = view.askSangSetupUntilSuccess(Side.HAN);

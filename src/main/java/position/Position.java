@@ -70,4 +70,12 @@ public record Position(Row row, Column column) {
         Delta columnDelta = destination.column.calculateDelta(column);
         return rowDelta.add(columnDelta);
     }
+
+    public int getRowValue() {
+        return row.index();
+    }
+
+    public int getColumnValue() {
+        return column.index();
+    }
 }

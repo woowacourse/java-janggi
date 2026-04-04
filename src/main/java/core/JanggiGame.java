@@ -42,6 +42,10 @@ public class JanggiGame {
         return turn.getSide();
     }
 
+    public GameStatus getStatus() {
+        return status;
+    }
+
     public Score calculateScoreOf(Side side) {
         Score score = board.calculateScoreOf(side);
         if (side.isCho()) {
