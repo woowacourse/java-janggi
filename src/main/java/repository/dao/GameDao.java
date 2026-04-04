@@ -1,15 +1,19 @@
 package repository.dao;
 
+import domain.JanggiGame;
+import domain.GameId;
+import domain.GameContextId;
+import domain.GameContext;
 import java.sql.Connection;
-import repository.entity.Game;
-import repository.entity.GameContext;
 
 public interface GameDao {
     void initTable(Connection connection);
 
-    Long save(Connection connection, Game entity);
+    GameId save(Connection connection, JanggiGame entity);
 
-    Game find(Connection connection, Long entityId);
+    JanggiGame find(Connection connection, GameId entityId);
 
-    void update(Connection connection, Long entityId, GameContext newEntity);
+    JanggiGame findByGameContextId(Connection connection, GameContextId gameContextId);
+
+    void update(Connection connection, GameId entityId, GameContext newEntity);
 }

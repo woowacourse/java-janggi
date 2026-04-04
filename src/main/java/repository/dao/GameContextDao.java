@@ -1,17 +1,18 @@
 package repository.dao;
 
+import domain.GameContext;
+import domain.GameContextId;
 import java.sql.Connection;
 import java.util.List;
-import repository.entity.GameContext;
 
 public interface GameContextDao {
     void initTable(Connection connection);
 
-    Long save(Connection connection, GameContext entity);
+    GameContextId save(Connection connection, GameContext entity);
 
-    GameContext findById(Connection connection, Long entityId);
+    GameContext findById(Connection connection, GameContextId entityId);
 
     List<GameContext> findByGameState(Connection connection, String gameState);
 
-    void update(Connection connection, Long entityId, GameContext newEntity);
+    void update(Connection connection, GameContextId entityId, GameContext newEntity);
 }
