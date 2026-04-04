@@ -28,6 +28,10 @@ public record Column(int index) {
         return this.index > column.index;
     }
 
+    public boolean isInRange(Column minColumn, Column maxColumn) {
+        return minColumn.index <= index && index <= maxColumn.index;
+    }
+
     public boolean isGapBiggerThanOne(Column other) {
         return Math.abs(this.index - other.index) > ONE_SPACE;
     }
@@ -39,5 +43,9 @@ public record Column(int index) {
 
     public Column move(Delta delta) {
         return new Column(index + delta.columnDelta());
+    }
+
+    public Column reverse() {
+        return new Column(MAXIMUM_BOUNDARY - index);
     }
 }

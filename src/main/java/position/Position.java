@@ -44,4 +44,16 @@ public record Position(Row row, Column column) {
         return row.isGapBiggerThanOne(destination.row) ||
             column.isGapBiggerThanOne(destination.column);
     }
+
+    public boolean isRowInRange(Row minRow, Row maxRow) {
+        return row.isInRange(minRow, maxRow);
+    }
+
+    public boolean isColumnInRange(Column minColumn, Column maxColumn) {
+        return column.isInRange(minColumn, maxColumn);
+    }
+
+    public Position reverse() {
+        return new Position(row.reverse(), column.reverse());
+    }
 }

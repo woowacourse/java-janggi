@@ -76,4 +76,15 @@ class RowTest {
                 .isInstanceOf(IllegalArgumentException.class);
         }
     }
+
+    @Test
+    void 최소_최대값을_기준으로_상하_반전_위치를_반환한다() {
+        // given
+        Row row = new Row(3);
+        // when
+        Row reversed = row.reverse();
+        // then
+        int expected = MAXIMUM_BOUNDARY - row.index();
+        assertThat(reversed.index()).isEqualTo(expected);
+    }
 }

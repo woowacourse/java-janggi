@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -47,5 +48,16 @@ class ColumnTest {
             assertThatThrownBy(() -> before.move(delta))
                 .isInstanceOf(IllegalArgumentException.class);
         }
+    }
+
+    @Test
+    void 최소_최대값을_기준으로_좌우_반전_위치를_반환한다() {
+        // given
+        Column column = new Column(3);
+        // when
+        Column reversed = column.reverse();
+        // then
+        int expected = MAXIMUM_BOUNDARY - column.index();
+        assertThat(reversed.index()).isEqualTo(expected);
     }
 }
