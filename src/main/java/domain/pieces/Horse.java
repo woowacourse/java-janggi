@@ -11,8 +11,6 @@ import java.util.Map;
 
 public class Horse extends Piece {
 
-    private final PieceType pieceType = PieceType.HORSE;
-
     public Horse(Camp camp) {
         super(camp);
     }

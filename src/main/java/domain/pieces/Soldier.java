@@ -9,8 +9,6 @@ import java.util.Set;
 
 public class Soldier extends Piece {
 
-    private final PieceType pieceType = PieceType.SOLDIER;
-
     public Soldier(Camp camp) {
         super(camp);
     }

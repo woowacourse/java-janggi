@@ -12,7 +12,7 @@ public class CannonTest {
     void 다른_기물을_넘고_이동_가능() {
         Board board = new Board();
         Cannon cannon = new Cannon(Camp.HAN);
-        Piece piece = new Piece(Camp.HAN);
+        Horse piece = new Horse(Camp.HAN);
 
         Position fromPosition = new Position(3, 5);
         Position anotherPiecePosition = new Position(5, 5);
@@ -52,8 +52,8 @@ public class CannonTest {
     void 기물을_넘고_다른_기물을_만나기_전까지_이동_가능() {
         Board board = new Board();
         Cannon cannon = new Cannon(Camp.HAN);
-        Piece pieceA = new Piece(Camp.HAN);
-        Piece pieceB = new Piece(Camp.HAN);
+        Horse pieceA = new Horse(Camp.HAN);
+        Horse pieceB = new Horse(Camp.HAN);
 
         Position fromPosition = new Position(3, 5);
         Position anotherPieceAPosition = new Position(5, 5);
@@ -75,7 +75,7 @@ public class CannonTest {
     void 기물을_넘고_다른_기물을_만나기_전까지_이동_가능_포는_못잡음() {
         Board board = new Board();
         Cannon cannon = new Cannon(Camp.HAN);
-        Piece pieceA = new Piece(Camp.CHO);
+        Horse pieceA = new Horse(Camp.CHO);
         Cannon pieceB = new Cannon(Camp.CHO);
 
         Position fromPosition = new Position(3, 5);

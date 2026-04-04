@@ -9,8 +9,6 @@ import java.util.Set;
 
 public class Chariot extends Piece {
 
-    private final PieceType pieceType = PieceType.CHARIOT;
-
     public Chariot(Camp camp) {
         super(camp);
     }

@@ -11,8 +11,6 @@ import java.util.Map;
 
 public class Elephant extends Piece {
 
-    private final PieceType pieceType = PieceType.ELEPHANT;
-
     public Elephant(Camp camp) {
         super(camp);
     }

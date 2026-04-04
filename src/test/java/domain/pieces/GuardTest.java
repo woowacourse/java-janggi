@@ -38,7 +38,7 @@ public class GuardTest {
     void 아래로_오른대각선_경로_막힘() {
         Board board = new Board();
         Guard guard = new Guard(Camp.HAN);
-        Piece piece = new Piece(Camp.HAN);
+        Horse piece = new Horse(Camp.HAN);
         Position fromPosition = new Position(3, 0);
         Position toPosition = new Position(4, 1);
 

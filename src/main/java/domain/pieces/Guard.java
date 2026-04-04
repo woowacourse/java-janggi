@@ -9,8 +9,6 @@ import java.util.Set;
 
 public class Guard extends Piece {
 
-    private final PieceType pieceType = PieceType.GUARD;
-
     public Guard(Camp camp) {
         super(camp);
     }

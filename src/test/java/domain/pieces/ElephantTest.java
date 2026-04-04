@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.Board;
 import domain.Camp;
+import domain.InvalidMoveException;
 import domain.Position;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -38,7 +39,7 @@ public class ElephantTest {
     void 위로_오른대각선_경로_막힘() {
         Board board = new Board();
         Elephant elephant = new Elephant(Camp.HAN);
-        Piece piece = new Piece(Camp.HAN);
+        Horse piece = new Horse(Camp.HAN);
         Position fromPosition = new Position(2, 9);
         Position toPosition = new Position(4, 6);
 
@@ -46,7 +47,7 @@ public class ElephantTest {
         board.locatePiece(new Position(2, 8), piece);
 
         assertThatThrownBy(() -> board.move(fromPosition, toPosition)).isInstanceOf(
-                IllegalArgumentException.class).hasMessageContaining("[ERROR]", "이동할");
+                InvalidMoveException.class).hasMessageContaining("[ERROR]", "이동할");
     }
 
     @Test

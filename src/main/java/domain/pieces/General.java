@@ -9,8 +9,6 @@ import java.util.Set;
 
 public class General extends Piece {
 
-    private final PieceType pieceType = PieceType.GENERAL;
-
     public General(Camp camp) {
         super(camp);
     }

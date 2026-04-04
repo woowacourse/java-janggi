@@ -3,7 +3,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import domain.Board;
 import domain.Camp;
 import domain.Position;
-import domain.pieces.Piece;
+import domain.pieces.Cannon;
+import domain.pieces.Horse;
+import domain.pieces.Soldier;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +15,7 @@ public class BoardTest {
     void 특정_위치에_기물을_놓을_수_있다() {
         Board board = new Board();
         Position position = new Position(1, 2);
-        Piece piece = new Piece(Camp.HAN);
+        Horse piece = new Horse(Camp.HAN);
         board.locatePiece(position, piece);
 
         Assertions.assertEquals(board.getPieceFrom(position), piece);
@@ -23,8 +25,8 @@ public class BoardTest {
     void 같은_팀_기물은_잡을_수_없다() {
         Board board = new Board();
         Position position = new Position(1, 2);
-        Piece locatedPiece = new Piece(Camp.HAN);
-        Piece anotherPiece = new Piece(Camp.HAN);
+        Horse locatedPiece = new Horse(Camp.HAN);
+        Horse anotherPiece = new Horse(Camp.HAN);
         board.locatePiece(position, locatedPiece);
 
         assertThatThrownBy(() -> board.locatePiece(position, anotherPiece)).isInstanceOf(
@@ -37,10 +39,10 @@ public class BoardTest {
         Position fromPosition = new Position(1, 2);
         Position toPosition = new Position(1, 3);
 
-        Piece piece = new Piece(Camp.HAN);
-        board.locatePiece(fromPosition, piece); //초기 배치
+        Soldier piece = new Soldier(Camp.HAN);
+        board.locatePiece(fromPosition, piece);
 
-        board.move(fromPosition, toPosition); // A위치의 기물을 B로 옮긴다.
+        board.move(fromPosition, toPosition);
 
         Assertions.assertFalse(board.isExist(fromPosition));
         Assertions.assertEquals(board.getPieceFrom(toPosition).getClass(), piece.getClass());

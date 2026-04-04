@@ -9,8 +9,6 @@ import java.util.Set;
 
 public class Cannon extends Piece {
 
-    private final PieceType pieceType = PieceType.CANNON;
-
     public Cannon(Camp camp) {
         super(camp);
     }
