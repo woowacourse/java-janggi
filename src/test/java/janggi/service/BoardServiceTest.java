@@ -7,6 +7,7 @@ import janggi.config.DBTableInitializer;
 import janggi.config.TestDBConnection;
 import janggi.config.TestDataInitializer;
 import janggi.domain.Position;
+import janggi.domain.board.Board;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Soldier;
 import janggi.domain.team.TeamType;
@@ -70,9 +71,7 @@ public class BoardServiceTest {
     @Test
     @DisplayName("보드 로드 테스트")
     void loadBoard() {
-        String testDataFilePath = "./src/test/resources/testdata.sql";
-        TestDataInitializer testDataInitializer = new TestDataInitializer(new TestDBConnection());
-        testDataInitializer.init(testDataFilePath);
+        initTableData();
         long boardId = 1;
         List<BoardCellEntity> boardCellEntities = boardCellRepository.findAllByGameId(boardId);
         Map<Position, Piece> expected = BoardMapper.toDomain(boardCellEntities);
@@ -81,6 +80,33 @@ public class BoardServiceTest {
 
         assertThat(actual).usingRecursiveComparison()
             .isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("기물 이동 결과 저장 테스트")
+    void movePiece() {
+        initTableData();
+        long gameId = 1;
+        Map<Position, Piece> positionPieceMap = BoardMapper.toDomain(
+            boardCellRepository.findAllByGameId(gameId));
+        Board board = new Board(positionPieceMap);
+        Position from = Position.valueOf(5, 3);
+        Position to = Position.valueOf(6, 3);
+        Piece target = board.findPieceByPosition(from);
+        BoardCellEntity expected = BoardCellEntity.from(gameId, to, target);
+
+        boardService.movePiece(gameId, to, target);
+        BoardCellEntity actual = boardCellRepository.findByPosition(to).get();
+
+        assertThat(actual).usingRecursiveComparison()
+            .ignoringFields("id")
+            .isEqualTo(expected);
+    }
+
+    private void initTableData() {
+        String testDataFilePath = "./src/test/resources/testdata.sql";
+        TestDataInitializer testDataInitializer = new TestDataInitializer(new TestDBConnection());
+        testDataInitializer.init(testDataFilePath);
     }
 
 }

@@ -86,7 +86,7 @@ public final class TestDBConnection implements DBConnection {
             final Statement preparedStatement = connection.createStatement();
         ) {
             preparedStatement.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
-            try (final ResultSet resultSet = preparedStatement.getGeneratedKeys();) {
+            try (final ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
                 while (resultSet.next()) {
                     generatedKeys.add(resultSet.getLong(1));
                 }

@@ -12,7 +12,8 @@ public class BoardService {
     private final GameRepository gameRepository;
     private final BoardCellRepository boardCellRepository;
 
-    public BoardService(final GameRepository gameRepository, final BoardCellRepository boardCellRepository) {
+    public BoardService(final GameRepository gameRepository,
+        final BoardCellRepository boardCellRepository) {
         this.gameRepository = gameRepository;
         this.boardCellRepository = boardCellRepository;
     }
@@ -27,5 +28,9 @@ public class BoardService {
         }
 
         return BoardMapper.toDomain(boardCellRepository.findAllByGameId(gameId));
+    }
+
+    public void movePiece(final long gameId, final Position to, final Piece target) {
+        boardCellRepository.upsertByPosition(gameId, to, target);
     }
 }

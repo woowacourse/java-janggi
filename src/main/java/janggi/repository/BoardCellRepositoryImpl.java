@@ -24,7 +24,7 @@ public class BoardCellRepositoryImpl implements BoardCellRepository {
         final String sql = String.format(
             "INSERT INTO %s (row_pos, column_pos, piece_type, team, game_id) VALUES (%d, %d, '%s', '%s', %d)",
             TABLE_NAME, boardCellEntity.row(), boardCellEntity.column(),
-            boardCellEntity.piece_type(), boardCellEntity.team(), boardCellEntity.board_id());
+            boardCellEntity.piece_type(), boardCellEntity.team(), boardCellEntity.game_id());
         return dbConnection.executeUpdate(sql).getFirst();
     }
 
@@ -35,7 +35,7 @@ public class BoardCellRepositoryImpl implements BoardCellRepository {
                 TABLE_NAME) + boardCellEntities.stream()
                 .map(boardCellEntity -> String.format("(%d, %d, '%s', '%s', %d)",
                     boardCellEntity.row(), boardCellEntity.column(), boardCellEntity.piece_type(),
-                    boardCellEntity.team(), boardCellEntity.board_id()))
+                    boardCellEntity.team(), boardCellEntity.game_id()))
                 .collect(Collectors.joining(","));
         return dbConnection.executeUpdate(sql);
     }
@@ -61,10 +61,21 @@ public class BoardCellRepositoryImpl implements BoardCellRepository {
     }
 
     @Override
-    public List<BoardCellEntity> findAllByGameId(final long boardId) {
+    public Optional<BoardCellEntity> findByPosition(Position position) {
+        final String sql = String.format(
+            "SELECT id, row_pos, column_pos, piece_type, team, game_id "
+                + "FROM %s WHERE row_pos = %d AND column_pos = %d", TABLE_NAME, position.getRow(),
+            position.getColumn());
+        final EntityMapper<BoardCellEntity> mapper = getBoardCellEntityEntityMapper();
+
+        return dbConnection.executeSelect(sql, mapper);
+    }
+
+    @Override
+    public List<BoardCellEntity> findAllByGameId(final long gameId) {
         final String sql = String.format(
             "SELECT id, row_pos, column_pos, piece_type, team, game_id FROM %s WHERE game_id = %d",
-            TABLE_NAME, boardId);
+            TABLE_NAME, gameId);
         final EntityMapper<BoardCellEntity> mapper = getBoardCellEntityEntityMapper();
 
         return dbConnection.executeSelectAll(sql, mapper);
@@ -83,7 +94,10 @@ public class BoardCellRepositoryImpl implements BoardCellRepository {
     }
 
     @Override
-    public long updateByPosition(final Position position, final Piece piece) {
+    public long upsertByPosition(final long gameId, final Position position, final Piece piece) {
+        if (!existsByPosition(position)) {
+            return save(BoardCellEntity.from(gameId, position, piece));
+        }
         final String sql = String.format(
             "UPDATE %s SET piece_type = '%s', team = '%s' WHERE row_pos = %d AND column_pos = %d",
             TABLE_NAME, piece.getPieceType(), piece.getTeamType(), position.getRow(),

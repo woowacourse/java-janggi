@@ -16,8 +16,10 @@ public interface BoardCellRepository {
 
     Optional<BoardCellEntity> findById(long id);
 
+    Optional<BoardCellEntity> findByPosition(Position position);
+
     List<BoardCellEntity> findAllByGameId(long id);
 
-    long updateByPosition(Position position, Piece piece);
+    long upsertByPosition(long gameId, Position position, Piece piece);
 
 }

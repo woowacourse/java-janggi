@@ -9,19 +9,19 @@ public record BoardCellEntity(
     int column,
     String piece_type,
     String team,
-    long board_id
+    long game_id
 ) {
 
-    public static BoardCellEntity from(final long boardId,
+    public static BoardCellEntity from(final long gameId,
         final Position position, final Piece piece) {
         return new BoardCellEntity(0, position.getRow(), position.getColumn(),
-            piece.getPieceType().name(), piece.getTeamType().name(), boardId);
+            piece.getPieceType().name(), piece.getTeamType().name(), gameId);
     }
 
-    public static BoardCellEntity from(final long id, final long boardId,
+    public static BoardCellEntity from(final long id, final long gameId,
         final Position position, final Piece piece) {
         return new BoardCellEntity(id, position.getRow(), position.getColumn(),
-            piece.getPieceType().name(), piece.getTeamType().name(), boardId);
+            piece.getPieceType().name(), piece.getTeamType().name(), gameId);
     }
 
 }
