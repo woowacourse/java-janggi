@@ -5,6 +5,8 @@ import janggi.domain.piece.Team;
 import janggi.domain.position.Position;
 import janggi.exception.business.InvalidTurnException;
 
+import java.util.Optional;
+
 public class JanggiGame {
     private final Board board;
     private Team currentTeam;
@@ -21,6 +23,21 @@ public class JanggiGame {
         board.move(from, to);
 
         this.currentTeam = currentTeam.switchTeam();
+    }
+
+    public Optional<Team> getWinner() {
+        boolean isChoKingAlive = board.getPieces().stream()
+                .anyMatch(piece -> piece.getTeam() == Team.CHO && piece.isKing());
+        boolean isHanKingAlive = board.getPieces().stream()
+                .anyMatch(piece -> piece.getTeam() == Team.HAN && piece.isKing());
+
+        if (!isChoKingAlive) {
+            return Optional.of(Team.HAN);
+        }
+        if (!isHanKingAlive) {
+            return Optional.of(Team.CHO);
+        }
+        return Optional.empty();
     }
 
     public Board getBoard() {

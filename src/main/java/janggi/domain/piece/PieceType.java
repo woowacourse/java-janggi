@@ -42,6 +42,10 @@ public enum PieceType {
         return score;
     }
 
+    public boolean isKing() {
+        return this == HAN_GUNG || this == CHO_GUNG;
+    }
+
     private static MoveStrategy createChaStrategy() {
         MoveRule normalCha = new AndRule(new StraightLineRule(), new EmptyPathRule());
         MoveRule palaceCha = new PalaceChaDiagonalRule();

@@ -31,9 +31,11 @@ public class Controller {
         outputView.printStartMessage();
         outputView.printBoard(BoardDto.from(janggiGame.getBoard()));
 
-        while (true) {
+        while (janggiGame.getWinner().isEmpty()) {
             playSingleTurn(janggiGame);
         }
+        TeamInputDto teamInputDto = new TeamInputDto(janggiGame.getWinner().get());
+        outputView.printGameOver(teamInputDto.getTeamName());
     }
 
     private void playSingleTurn(JanggiGame janggiGame) {

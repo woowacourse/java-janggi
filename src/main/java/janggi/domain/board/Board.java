@@ -5,6 +5,8 @@ import janggi.domain.position.Position;
 import janggi.exception.business.EmptyPieceException;
 import janggi.exception.business.EmptyPositionException;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,6 +40,10 @@ public class Board implements BoardState {
         movingPiece.verifyMove(from, to, this);
         board.remove(from);
         board.put(to, movingPiece);
+    }
+
+    public Collection<Piece> getPieces() {
+        return Collections.unmodifiableCollection(board.values());
     }
 
     public Map<Position, Piece> getBoard() {

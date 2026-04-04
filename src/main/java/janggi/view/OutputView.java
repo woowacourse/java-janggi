@@ -2,6 +2,7 @@ package janggi.view;
 
 import janggi.dto.BoardDto;
 import janggi.dto.PieceDto;
+import janggi.dto.TeamInputDto;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -55,6 +56,10 @@ public class OutputView {
             }
         }
         System.out.println();
+    }
+
+    public void printGameOver(String teamName) {
+        System.out.println("게임이 종료되었습니다. " + teamName + "의 승리입니다!");
     }
 
     private List<String> generateRowView(int row, List<PieceDto> allPieces) {

@@ -29,6 +29,10 @@ public class Piece {
         }
     }
 
+    public boolean isKing() {
+        return pieceType.isKing();
+    }
+
     public MoveStrategy getMoveStorage() {
         return pieceType.getMoveStrategy();
     }
