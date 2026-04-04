@@ -38,6 +38,9 @@ public final class OutputView {
         for (int row = 1; row <= MAXIMUM_ROW; row++) {
             System.out.printf("%2d %s\n", row, rowStatuses.get(row - 1));
         }
+
+        boardDto.teamScoreMap().forEach((team, score) ->
+            System.out.printf("%s 점수: %.1f\n", team, score));
     }
 
     public static void printTurnStatus(final Team team) {

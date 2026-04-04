@@ -12,6 +12,8 @@ import janggi.domain.piece.PieceType;
 import janggi.domain.team.TeamType;
 import janggi.utils.Characters;
 import janggi.view.ConsoleColor;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -21,7 +23,8 @@ import java.util.stream.IntStream;
 public record BoardDto(
     List<Integer> rows,
     String columns,
-    List<String> rowStatuses
+    List<String> rowStatuses,
+    Map<String, Double> teamScoreMap
 ) {
 
     private static final Map<TeamType, Map<PieceType, String>> PIECE_NOTATION_MAP;
@@ -60,8 +63,12 @@ public record BoardDto(
             .mapToObj(column -> Character.forDigit(column, 10))
             .map(column -> String.valueOf(Characters.toFullWidth(column)))
             .collect(Collectors.joining(DELIMITER));
+        final Map<String, Double> teamScoreMap = new LinkedHashMap<>();
+        Arrays.stream(TeamType.values())
+            .forEach(teamType -> teamScoreMap.put(teamType.getName(),
+                board.calculateScoreByTeam(teamType)));
 
-        return new BoardDto(rows, columns, rowStatuses);
+        return new BoardDto(rows, columns, rowStatuses, teamScoreMap);
     }
 
     private static String composeRowStatus(final int row,
