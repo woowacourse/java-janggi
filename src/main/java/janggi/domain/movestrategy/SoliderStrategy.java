@@ -1,29 +1,32 @@
 package janggi.domain.movestrategy;
 
-import janggi.domain.board.BoardDirection;
 import janggi.domain.board.Position;
+import janggi.domain.movestrategy.rule.MoveRule;
 import janggi.domain.piece.Piece;
 
 import java.util.List;
 
 public class SoliderStrategy implements MoveStrategy {
-    private final BoardDirection direction;
 
-    public SoliderStrategy(BoardDirection direction) {
-        this.direction = direction;
+    private final List<MoveRule> moveRules;
+
+    public SoliderStrategy(List<MoveRule> moveRules) {
+        this.moveRules = moveRules;
     }
 
     @Override
     public boolean canMove(Position from, Position to) {
-        int xDistance = from.calculateX(to);
-        int yDistance = from.calculateY(to);
-        return (xDistance == 0 && direction.isForward(yDistance))
-                || (Math.abs(xDistance) == 1 && yDistance == 0);
+        return moveRules.stream()
+                .anyMatch(rule -> rule.canMove(from, to));
     }
 
     @Override
     public List<Position> findPath(Position from, Position to) {
-        return List.of();
+        return moveRules.stream()
+                .filter(rule -> rule.canMove(from, to))
+                .map(rule -> rule.findPath(from, to))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("이동 경로를 찾을 수 없습니다."));
     }
 
     @Override

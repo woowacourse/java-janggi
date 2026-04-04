@@ -2,6 +2,7 @@ package janggi.domain.movestrategy;
 
 import janggi.domain.board.BoardDirection;
 import janggi.domain.board.Position;
+import janggi.domain.movestrategy.rule.DirectionalOneStepMoveRule;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceFactory;
 import janggi.domain.piece.Team;
@@ -26,8 +27,8 @@ class SoliderStrategyTest {
 
     @BeforeEach
     void setUp() {
-        hanSoliderStrategy = new SoliderStrategy(BoardDirection.UP);
-        choSoliderStrategy = new SoliderStrategy(BoardDirection.DOWN);
+        hanSoliderStrategy = new SoliderStrategy(List.of(new DirectionalOneStepMoveRule(BoardDirection.UP)));
+        choSoliderStrategy = new SoliderStrategy(List.of(new DirectionalOneStepMoveRule(BoardDirection.DOWN)));
 
         solider = PieceFactory.createSolider(Team.HAN, BoardDirection.UP);
 
