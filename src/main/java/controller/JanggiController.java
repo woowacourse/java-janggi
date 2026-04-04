@@ -43,9 +43,9 @@ public class JanggiController {
         String currentTeamName = currentTeam.getName();
 
         String movePiecePosition = inputView.readMovePiecePosition(currentTeamName);
-        String targetPiecePosition = inputView.readTargetPiecePosition();
-
         Position currentPosition = parsePosition(movePiecePosition);
+
+        String targetPiecePosition = inputView.readTargetPiecePosition();
         Position targetPosition = parsePosition(targetPiecePosition);
 
         janggiGame.progress(currentPosition, targetPosition);
