@@ -123,4 +123,19 @@ class PieceEntityDaoTest extends DatabaseTest {
 
         assertThat(updated.id()).isEqualTo(pieceId);
     }
+
+    @DisplayName("해당 위치의 기물을 삭제한다.")
+    @Test
+    void deleteByPosition() {
+        //given
+        pieceEntityDao.save(con, gameId, "BYEONG", 1, 1, "CHO");
+        Position position = new Position(Row.ONE, Column.ONE);
+
+        //when
+       pieceEntityDao.deleteByPosition(con, position);
+
+        //then
+        Optional<PieceEntity> result = pieceEntityDao.findByPosition(con, position);
+        assertThat(result).isEmpty();
+    }
 }

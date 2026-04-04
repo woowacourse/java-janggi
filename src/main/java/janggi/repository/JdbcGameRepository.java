@@ -116,6 +116,10 @@ public class JdbcGameRepository implements gameRepository {
 
         PieceEntity piece = found.get();
 
+        if (pieceEntityDao.findByPosition(con, to).isPresent()) {
+            pieceEntityDao.deleteByPosition(con, to);
+        }
+
         pieceEntityDao.updatePosition(
                 con,
                 piece.id(),

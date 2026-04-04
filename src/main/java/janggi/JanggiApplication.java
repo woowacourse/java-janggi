@@ -3,6 +3,7 @@ package janggi;
 import janggi.config.AppConfig;
 import janggi.controller.JanggiController;
 import janggi.infra.ConnectionProvider;
+import janggi.infra.transaction.TransactionExecutor;
 import janggi.repository.JdbcGameRepository;
 import janggi.view.InputView;
 import janggi.view.OutputView;
@@ -18,8 +19,8 @@ public class JanggiApplication {
         JanggiController controller = new JanggiController(
                 new OutputView(),
                 new InputView(),
-                provider,
-                JdbcGameRepository.of()
+                JdbcGameRepository.of(),
+                new TransactionExecutor(provider)
         );
 
         controller.run();
