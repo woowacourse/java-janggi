@@ -55,6 +55,7 @@ public class GameController {
             retry(() -> moveController.move(game));
         }
         outputView.printWinner(game.winnerSide());
+        gameService.updateWinner(game);
     }
 
     private void retry(Runnable runnable) {

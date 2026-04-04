@@ -110,6 +110,24 @@ public class H2GameRepository implements GameRepository {
         }
     }
 
+    @Override
+    public void updateWinner(Integer id, Side side) {
+        String sql = "UPDATE game SET WINNER = ? WHERE ID = ?";
+
+        try (Connection connection = getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, side.name());
+            stmt.setInt(2, id);
+
+            int updated = stmt.executeUpdate();
+            if (updated == 0) {
+                throw new IllegalStateException("해당 id의 게임이 존재하지 않습니다. id= " + id);
+            }
+        } catch (SQLException e) {
+            throw new IllegalStateException("게임 승자 업데이트 실패 id=" + id, e);
+        }
+    }
+
     private GameEntity mapResultSetToGame(ResultSet resultSet) throws SQLException {
         return new GameEntity(
                 resultSet.getInt("id"),

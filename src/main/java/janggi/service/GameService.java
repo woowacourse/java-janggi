@@ -44,4 +44,8 @@ public class GameService {
     private void loadGame(Game game, MoveEntity moveEntity) {
         game.move(new Point(moveEntity.fromX(), moveEntity.fromY()), new Point(moveEntity.toX(), moveEntity.toY()));
     }
+
+    public void updateWinner(Game game) {
+        gameRepository.updateWinner(game.getId(), game.winnerSide());
+    }
 }
