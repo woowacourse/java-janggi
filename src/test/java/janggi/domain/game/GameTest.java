@@ -41,8 +41,7 @@ class GameTest {
     @DisplayName("move(): 이동을 시킨 후 차례가 변경된다.")
     void switchTurn() {
         game.move(Point.of(0, 0), Point.of(1, 0));
-        assertThatThrownBy(() -> game.move(Point.of(1, 0), Point.of(2, 0)))
-                .isInstanceOf(IllegalArgumentException.class);
+        assertThat(game.getTurn()).isEqualTo(Side.HAN);
     }
 
     @Test
