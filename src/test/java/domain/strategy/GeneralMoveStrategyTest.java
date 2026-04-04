@@ -30,7 +30,7 @@ class GeneralMoveStrategyTest {
 
     @Test
     @DisplayName("궁은 궁성 내부에서 대각선으로 한 칸 이동할 수 있다")
-    void generalShouldMoveWhenGeneralMovesDiagonallyInPalace() {
+    void generalShouldMoveWhenMovesDiagonallyInPalace() {
     // given
         MoveStrategy strategy = new GeneralMoveStrategy();
         Map<Position, Piece> boardMapper = new HashMap<>();

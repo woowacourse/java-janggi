@@ -31,7 +31,7 @@ class SoldierMoveStrategyTest {
 
     @Test
     @DisplayName("졸/병은 궁성 내부에서 대각선으로 한 칸 이동할 수 있다")
-    void soldierShouldMoveWhenGeneralMovesDiagonallyInPalace() {
+    void soldierShouldMoveWhenMovesDiagonallyInPalace() {
         // given
         MoveStrategy strategy = new SoldierMoveStrategy();
         Map<Position, Piece> boardMapper = new HashMap<>();

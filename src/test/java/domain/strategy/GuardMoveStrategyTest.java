@@ -28,7 +28,7 @@ class GuardMoveStrategyTest {
 
     @Test
     @DisplayName("사는 궁성 내부에서 대각선으로 한 칸 이동할 수 있다")
-    void guardShouldMoveWhenGeneralMovesDiagonallyInPalace() {
+    void guardShouldMoveWhenMovesDiagonallyInPalace() {
         // given
         MoveStrategy strategy = new GuardMoveStrategy();
         Map<Position, Piece> boardMapper = new HashMap<>();

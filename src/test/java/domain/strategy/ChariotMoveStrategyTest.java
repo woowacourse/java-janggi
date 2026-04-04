@@ -34,8 +34,25 @@ class ChariotMoveStrategyTest {
     }
 
     @Test
+    @DisplayName("차는 궁성 내부에서 대각선으로 한 칸 이동할 수 있다")
+    void chariotShouldMoveWhenMovesDiagonallyInPalace() {
+        // given
+        MoveStrategy strategy = new ChariotMoveStrategy();
+        Map<Position, Piece> boardMapper = new HashMap<>();
+        boardMapper.put(Position.of(0, 3), Piece.of(Team.CHU, Type.CHARIOT, strategy));
+        Board board = Board.of(boardMapper);
+
+        // when
+        Position position = Position.of(0, 3);
+        Position targetPosition = Position.of(2, 5);
+
+        // then
+        Assertions.assertTrue(strategy.canMove(position, targetPosition, board));
+    }
+
+    @Test
     @DisplayName("차의 직선 이동 경로에 기물이 있으면 직선 이동하지 않는다.")
-    void chariotShoulNotdMoveWhenPieceInPath() {
+    void chariotShouldNotMoveWhenPieceInPath() {
         // given
         MoveStrategy strategy = new ChariotMoveStrategy();
 
