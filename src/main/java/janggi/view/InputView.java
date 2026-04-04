@@ -28,6 +28,11 @@ public class InputView {
         return readPosition();
     }
 
+    public static String askSaveGame() {
+        System.out.println("저장하시겠습니까? (y: 저장, n: 저장안함)");
+        return Console.readLine();
+    }
+
     private static Position readPosition() {
         String rawPosition = Console.readLine();
         try {
