@@ -1,6 +1,7 @@
 package domain.board;
 
 import domain.piece.Piece;
+import domain.piece.PieceType;
 import domain.piece.Team;
 import java.util.Collections;
 import java.util.List;
@@ -24,7 +25,7 @@ public class Board {
         pieces.put(to, piece);
     }
 
-    public List<Position> getPiecePositionsFor(final Team team) {
+    public List<Position> getPositionsByTeam(final Team team) {
         return pieces.entrySet().stream()
                 .filter(entry -> entry.getValue().isSameTeam(team))
                 .map(Entry::getKey)
@@ -55,8 +56,22 @@ public class Board {
                 .orElseThrow(() -> new IllegalStateException("다른 왕이 존재하지 않습니다."));
     }
 
+    public boolean isCannon(Position position) {
+        if (!pieces.containsKey(position)) {
+            return false;
+        }
+        return pieces.get(position).isCannon();
+    }
+
     public Piece getPieceAt(final Position position) {
         return pieces.get(position);
+    }
+
+    public PieceType getPieceType(Position position) {
+        if (!pieces.containsKey(position)) {
+            throw new IllegalArgumentException("해당 좌표에 기물이 존재하지 않습니다.");
+        }
+        return pieces.get(position).getPieceType();
     }
 
     public Team getTeam(final Position position) {

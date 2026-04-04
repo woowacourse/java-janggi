@@ -1,11 +1,11 @@
 package dto;
 
-import domain.piece.Piece;
-import domain.board.Position;
+import domain.piece.PieceType;
+import domain.piece.Team;
 
-public record PieceInfoDto(PieceNameDto pieceName, PositionDto position) {
+public record PieceInfoDto(String pieceType, String team) {
 
-    public static PieceInfoDto of(final Piece piece, final Position position) {
-        return new PieceInfoDto(PieceNameDto.from(piece), PositionDto.of(position));
+    public static PieceInfoDto of(PieceType pieceType, Team team) {
+        return new PieceInfoDto(pieceType.toString(), team.toString());
     }
 }

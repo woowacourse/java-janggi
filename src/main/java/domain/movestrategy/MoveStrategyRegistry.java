@@ -1,6 +1,5 @@
 package domain.movestrategy;
 
-import domain.piece.Piece;
 import domain.piece.PieceType;
 import java.util.EnumMap;
 import java.util.Map;
@@ -27,10 +26,10 @@ public final class MoveStrategyRegistry {
         return new MoveStrategyRegistry(moveStrategies);
     }
 
-    public MoveStrategy getMoveStrategyBy(final Piece piece) {
-        if(!moveStrategies.containsKey(piece.getPieceType())) {
+    public MoveStrategy getMoveStrategy(final PieceType pieceType) {
+        if (!moveStrategies.containsKey(pieceType)) {
             throw new IllegalArgumentException("행마법이 존재하지 않습니다.");
         }
-        return moveStrategies.get(piece.getPieceType());
+        return moveStrategies.get(pieceType);
     }
 }

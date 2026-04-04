@@ -6,10 +6,13 @@ import domain.game.JanggiGame;
 import domain.piece.Team;
 import domain.player.Player;
 import dto.PieceInfoDto;
-import dto.PieceInfosDto;
+import dto.PiecePositionDto;
+import dto.PiecesDto;
 import dto.PositionDto;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import view.InputView;
 import view.OutputView;
 
@@ -32,7 +35,7 @@ public class JanggiController {
 
         JanggiGame janggiGame = JanggiGame.init(choElephantSetup, hanElephantSetup);
 
-        outputView.printBoardWithPieces(PieceInfosDto.from(janggiGame));
+        printJanggiBoard(janggiGame);
 
         while (true) {
             processTurn(janggiGame, Team.CHO);
@@ -62,34 +65,49 @@ public class JanggiController {
         return inputView.readElephantSetup();
     }
 
+    private void printJanggiBoard(final JanggiGame janggiGame) {
+        PiecesDto pieceInfos = getPieceInfos(janggiGame);
+        outputView.printJanggiBoard(pieceInfos);
+    }
+
+    private PiecesDto getPieceInfos(final JanggiGame janggiGame) {
+        Map<PositionDto, PieceInfoDto> pieces = janggiGame.getPieces().entrySet().stream()
+                .collect(Collectors.toMap(
+                        entry -> PositionDto.of(entry.getKey()),
+                        entry -> PieceInfoDto.of(entry.getValue().getPieceType(), entry.getValue().getTeam())
+                ));
+        return PiecesDto.of(pieces);
+    }
+
     private void processTurn(final JanggiGame janggiGame, final Team team) {
         retry(() -> process(janggiGame, team));
     }
 
     private void process(final JanggiGame janggiGame, final Team team) {
-        List<Position> piecePositions = janggiGame.getPiecePositionsFor(team);
-
+        List<Position> piecePositions = janggiGame.getPositionsBy(team);
         Position from = selectPieceToMove(janggiGame, piecePositions);
-        List<Position> movablePositions = janggiGame.getMovablePositions(from);
 
+        List<Position> movablePositions = janggiGame.getMovablePositions(from);
         Position to = selectPositionToMove(movablePositions);
 
         janggiGame.move(from, to);
-
-        outputView.printBoardWithPieces(PieceInfosDto.from(janggiGame));
+        printJanggiBoard(janggiGame);
     }
 
-    private Position selectPieceToMove(final JanggiGame janggiGame, final List<Position> piecePositions) {
-        List<PieceInfoDto> pieceInfos = piecePositions.stream()
-                .map(position -> PieceInfoDto.of(janggiGame.getPieceAt(position), position))
+    private Position selectPieceToMove(final JanggiGame janggiGame, final List<Position> positions) {
+        List<PiecePositionDto> piecePositions = positions.stream()
+                .map(position -> PiecePositionDto.of(
+                        janggiGame.getPieceType(position),
+                        janggiGame.getTeam(position),
+                        position))
                 .toList();
 
-        outputView.printChoosePieceToMovePrompt(pieceInfos);
+        outputView.printChoosePieceToMovePrompt(piecePositions);
         int pieceIndex = inputView.readPieceIndex();
 
-        validateIndexRange(pieceIndex, pieceInfos.size());
+        validateIndexRange(pieceIndex, piecePositions.size());
 
-        return piecePositions.get(pieceIndex);
+        return positions.get(pieceIndex);
     }
 
     private Position selectPositionToMove(final List<Position> movablePositions) {
@@ -98,7 +116,6 @@ public class JanggiController {
                 .toList();
 
         outputView.printChoosePositionToMovePrompt(movablePositionsDto);
-
         int positionIndex = inputView.readPositionIndex();
 
         validateIndexRange(positionIndex, movablePositions.size());

@@ -7,8 +7,10 @@ import domain.board.Position;
 import domain.movestrategy.MoveStrategy;
 import domain.movestrategy.MoveStrategyRegistry;
 import domain.piece.Piece;
+import domain.piece.PieceType;
 import domain.piece.Team;
 import java.util.List;
+import java.util.Map;
 
 public class JanggiGame {
 
@@ -30,13 +32,13 @@ public class JanggiGame {
         );
     }
 
-    public List<Position> getPiecePositionsFor(final Team team) {
-        return board.getPiecePositionsFor(team);
+    public List<Position> getPositionsBy(final Team team) {
+        return board.getPositionsByTeam(team);
     }
 
     public List<Position> getMovablePositions(final Position from) {
-        Piece piece = board.getPieceAt(from);
-        MoveStrategy moveStrategy = moveStrategyRegistry.getMoveStrategyBy(piece);
+        PieceType pieceType = board.getPieceType(from);
+        MoveStrategy moveStrategy = moveStrategyRegistry.getMoveStrategy(pieceType);
         return moveStrategy.getMovablePositions(board, from);
     }
 
@@ -44,11 +46,15 @@ public class JanggiGame {
         board.move(from, to);
     }
 
-    public Board getBoard() {
-        return board;
+    public PieceType getPieceType(final Position position) {
+        return board.getPieceType(position);
     }
 
-    public Piece getPieceAt(final Position position) {
-        return board.getPieceAt(position);
+    public Team getTeam(final Position position) {
+        return board.getTeam(position);
+    }
+
+    public Map<Position, Piece> getPieces() {
+        return board.getPieces();
     }
 }

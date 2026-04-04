@@ -2,17 +2,15 @@ package view;
 
 import domain.board.ElephantSetup;
 import dto.PieceInfoDto;
-import dto.PieceInfosDto;
-import dto.PieceNameDto;
+import dto.PiecePositionDto;
+import dto.PiecesDto;
 import dto.PositionDto;
 import java.util.List;
 import java.util.Map;
 
 public class OutputView {
 
-    private static final String BLUE_CODE = "\u001B[34m";
-    private static final String RED_CODE = "\u001B[31m";
-    private static final String COLOR_RESET_CODE = "\u001B[0m";
+    private static final String EXCEPTION_PREFIX = "[ERROR] ";
 
     private static final String EMPTY_CELL_SYMBOL = "口";
     private static final String HEADER_PREFIX = "    ";
@@ -47,132 +45,128 @@ public class OutputView {
 
     private void printElephantSetups() {
         List<String> descriptions = ElephantSetup.descriptions();
-        StringBuilder builder = new StringBuilder();
+        StringBuilder promptBuilder = new StringBuilder();
 
         for (int index = 0; index < descriptions.size(); index++) {
-            builder.append(index + 1)
+            promptBuilder.append(index + 1)
                     .append(". ")
                     .append(descriptions.get(index))
                     .append(" ");
         }
 
-        System.out.println(builder);
+        System.out.println(promptBuilder);
     }
 
-    public void printBoardWithPieces(final PieceInfosDto pieceInfos) {
-        StringBuilder builder = new StringBuilder();
-        Map<PositionDto, PieceNameDto> pieceByPosition = pieceInfos.pieceInfos();
+    public void printJanggiBoard(final PiecesDto piecesDto) {
+        StringBuilder promptBuilder = new StringBuilder();
 
-        appendRowHeader(builder);
-        appendBoardRows(builder, pieceByPosition);
+        appendRowHeader(promptBuilder);
+        appendBoard(promptBuilder, piecesDto.pieces());
 
-        System.out.println(builder);
+        System.out.println(promptBuilder);
     }
 
-    private void appendRowHeader(final StringBuilder builder) {
-        builder.append(HEADER_PREFIX);
+    private void appendRowHeader(final StringBuilder promptBuilder) {
+        promptBuilder.append(HEADER_PREFIX);
 
         for (int row = MIN_ROW_RANGE; row <= MAX_ROW_RANGE; row++) {
-            builder.append(row)
+            promptBuilder.append(row)
                     .append(HEADER_GAP);
         }
 
-        builder.append(LINE_SEPARATOR);
+        promptBuilder.append(LINE_SEPARATOR);
     }
 
-    private void appendBoardRows(final StringBuilder builder, final Map<PositionDto, PieceNameDto> pieceByPosition) {
+    private void appendBoard(
+            final StringBuilder promptBuilder,
+            final Map<PositionDto, PieceInfoDto> pieces
+    ) {
         for (int column = MIN_COLUMN_RANGE; column <= MAX_COLUMN_RANGE; column++) {
-            appendBoardRow(builder, column, pieceByPosition);
+            appendBoardRow(promptBuilder, column, pieces);
         }
     }
 
     private void appendBoardRow(
-            final StringBuilder builder,
+            final StringBuilder promptBuilder,
             final int column,
-            final Map<PositionDto, PieceNameDto> pieceByPosition
+            final Map<PositionDto, PieceInfoDto> pieceInfos
     ) {
-        builder.append(String.format("%2d ", column));
+        promptBuilder.append(String.format("%2d ", column));
 
         for (int row = MIN_ROW_RANGE; row <= MAX_ROW_RANGE; row++) {
-            appendRenderedCell(builder, column, row, pieceByPosition);
+            appendRenderedCell(promptBuilder, column, row, pieceInfos);
         }
 
-        builder.append(LINE_SEPARATOR);
+        promptBuilder.append(LINE_SEPARATOR);
     }
 
     private void appendRenderedCell(
-            final StringBuilder builder,
+            final StringBuilder promptBuilder,
             final int column,
             final int row,
-            final Map<PositionDto, PieceNameDto> pieceByPosition
+            final Map<PositionDto, PieceInfoDto> pieceInfos
     ) {
-        PositionDto position = new PositionDto(column, row);
-        builder.append(CELL_PADDING)
-                .append(renderCell(position, pieceByPosition))
+        promptBuilder.append(CELL_PADDING)
+                .append(renderCell(new PositionDto(column, row), pieceInfos))
                 .append(CELL_PADDING);
     }
 
     private String renderCell(
             final PositionDto position,
-            final Map<PositionDto, PieceNameDto> pieceByPosition
+            final Map<PositionDto, PieceInfoDto> pieceInfos
     ) {
-        PieceNameDto pieceInfo = pieceByPosition.get(position);
-
+        PieceInfoDto pieceInfo = pieceInfos.get(position);
         if (pieceInfo == null) {
             return EMPTY_CELL_SYMBOL;
         }
 
-        return colorize(pieceInfo);
+        return PieceFormatter.format(pieceInfo.pieceType(), pieceInfo.team());
     }
 
-    private String colorize(final PieceNameDto pieceInfo) {
-        if (pieceInfo.isCho()) {
-            return BLUE_CODE + pieceInfo.displayName() + COLOR_RESET_CODE;
-        }
-        return RED_CODE + pieceInfo.displayName() + COLOR_RESET_CODE;
-    }
-
-    public void printChoosePieceToMovePrompt(final List<PieceInfoDto> pieceInfos) {
-        StringBuilder prompt = new StringBuilder();
-        prompt.append("움직일 기물을 선택하세요:")
+    public void printChoosePieceToMovePrompt(final List<PiecePositionDto> piecePositions) {
+        StringBuilder promptBuilder = new StringBuilder();
+        promptBuilder.append("움직일 기물을 선택하세요:")
                 .append(LINE_SEPARATOR);
 
-        for (int index = 0; index < pieceInfos.size(); index++) {
-            String pieceName = pieceInfos.get(index).pieceName().displayName();
-            PositionDto position = pieceInfos.get(index).position();
-            prompt.append(index + 1).append(". ")
-                    .append(pieceName).append("(")
+        for (int index = 0; index < piecePositions.size(); index++) {
+            PiecePositionDto piecePosition = piecePositions.get(index);
+            String formattedPiece = PieceFormatter.format(piecePosition.pieceType(), piecePosition.team());
+            PositionDto position = piecePosition.position();
+
+            promptBuilder.append(index + 1).append(". ")
+                    .append(formattedPiece).append("(")
                     .append(position.column()).append(", ").append(position.row()).append(")  ");
 
-            appendPromptLineSeparator(prompt, index + 1);
+            appendPromptLineSeparator(promptBuilder, index + 1);
         }
 
-        System.out.println(prompt);
+        System.out.println(promptBuilder);
     }
 
     public void printChoosePositionToMovePrompt(final List<PositionDto> movablePositions) {
-        StringBuilder prompt = new StringBuilder();
-        prompt.append("이동할 위치를 선택하세요:")
+        StringBuilder promptBuilder = new StringBuilder();
+        promptBuilder.append("이동할 위치를 선택하세요:")
                 .append(LINE_SEPARATOR);
 
         for (int index = 0; index < movablePositions.size(); index++) {
             PositionDto position = movablePositions.get(index);
-            prompt.append(index + 1).append(". (")
+            promptBuilder.append(index + 1).append(". (")
                     .append(position.column()).append(", ")
                     .append(position.row()).append(") ");
 
-            appendPromptLineSeparator(prompt, index + 1);
+            appendPromptLineSeparator(promptBuilder, index + 1);
         }
-        System.out.println(prompt);
+
+        System.out.println(promptBuilder);
+    }
+
+    private void appendPromptLineSeparator(final StringBuilder promptBuilder, final int itemCount) {
+        if (itemCount % PROMPT_ITEMS_PER_LINE == 0) {
+            promptBuilder.append(LINE_SEPARATOR);
+        }
     }
 
     public void printExceptionMessage(final String exceptionMessage) {
-        System.out.println("[ERROR] " + exceptionMessage);
-    }
-
-    private void appendPromptLineSeparator(final StringBuilder prompt, final int itemCount) {
-        if (itemCount % PROMPT_ITEMS_PER_LINE == 0) {
-            prompt.append(LINE_SEPARATOR);
-        }
+        System.out.println(EXCEPTION_PREFIX + exceptionMessage);
     }
 }
