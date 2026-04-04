@@ -31,4 +31,9 @@ public enum PieceType {
     public int getScore() {
         return score;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

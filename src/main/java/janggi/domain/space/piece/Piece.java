@@ -65,6 +65,11 @@ public abstract class Piece implements Space {
         return pieceType.getScore();
     }
 
+    @Override
+    public String toString() {
+        return pieceType.toString();
+    }
+
     protected void validateSpecificArrival(Piece piece) {
     }
 }
