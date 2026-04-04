@@ -6,7 +6,6 @@ import janggi.domain.board.Board;
 import janggi.domain.board.BoardGenerator;
 import janggi.domain.board.setup.ElephantFormation;
 import janggi.domain.board.setup.SetupStrategy;
-import janggi.domain.piece.Piece;
 import janggi.domain.team.BlueTeam;
 import janggi.domain.team.RedTeam;
 import janggi.domain.team.Team;
@@ -58,8 +57,7 @@ public class JanggiController {
     private void playTurn(Board board, TurnManager turnManager) {
         OutputView.printBoard(BoardDto.from(board), turnManager.currentTeamTypeToString());
         Position from = findFromPosition(board, turnManager);
-        Piece piece = board.getPieceInPosition(from);
-        List<Position> movable = piece.calculateMovablePositions(from, board);
+        List<Position> movable = board.calculateMovablePositions(from);
         OutputView.printBoardWithMovable(BoardDto.from(board, movable));
         Position to = RetryExecutor.retry(() -> inputToPosition(movable));
         board.movePiece(from, to);
@@ -69,8 +67,7 @@ public class JanggiController {
     private Position findFromPosition(Board board, TurnManager turnManager) {
         while (true) {
             Position from = RetryExecutor.retry(() -> inputFromPosition(board, turnManager));
-            Piece piece = board.getPieceInPosition(from);
-            List<Position> movable = piece.calculateMovablePositions(from, board);
+            List<Position> movable = board.calculateMovablePositions(from);
             if (!movable.isEmpty()) {
                 return from;
             }
@@ -83,8 +80,7 @@ public class JanggiController {
             try {
                 OutputView.printInputFromPosition();
                 Position from = InputView.readPosition();
-                Piece piece = board.getPieceInPosition(from);
-                if (!turnManager.isCurrentTurnOf(piece.getTeamType())) {
+                if (!board.isSameTeamType(from, turnManager.currentTeamType())) {
                     throw new IllegalArgumentException("자신의 기물을 선택하세요.");
                 }
                 return from;

@@ -4,6 +4,7 @@ import janggi.domain.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.team.TeamType;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Board implements BoardMediator {
@@ -18,14 +19,13 @@ public class Board implements BoardMediator {
         positionPieceMap.put(to, positionPieceMap.remove(from));
     }
 
-    @Override
-    public boolean hasPieceAt(final Position position) {
-        return hasPieceIn(position);
+    public List<Position> calculateMovablePositions(Position from) {
+        return findPieceByPosition(from).calculateMovablePositions(from, this);
     }
 
     @Override
-    public Piece getPieceInPosition(final Position position) {
-        return findPieceByPosition(position);
+    public boolean hasPieceAt(final Position position) {
+        return hasPieceIn(position);
     }
 
     @Override
