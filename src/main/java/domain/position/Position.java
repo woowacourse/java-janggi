@@ -65,6 +65,14 @@ public final class Position {
         );
     }
 
+    public boolean isPalaceEdge() {
+        return (Objects.equals(coordinate, new Coordinate(1, 4)) ||
+                Objects.equals(coordinate, new Coordinate(1, 6)) ||
+                Objects.equals(coordinate, new Coordinate(3,4)) ||
+                Objects.equals(coordinate, new Coordinate(3,6))
+        );
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
