@@ -6,14 +6,14 @@ import view.InputView;
 public class Application {
     public static void main(String[] args) {
         Board board = new Board(BoardInitializer.init(InputView.readBoardSetting()));
-        GameController gameController = new GameController();
+        GameController gameController = new GameController(board);
 
         while (!board.isGameOver()) {
-            gameController.printBoard(board);
-            gameController.move(board);
+            gameController.printBoard();
+            gameController.move();
         }
 
-        gameController.printBoard(board);
-        gameController.printWinner(board);
+        gameController.printBoard();
+        gameController.printWinner();
     }
 }

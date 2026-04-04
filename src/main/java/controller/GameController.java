@@ -7,7 +7,13 @@ import view.InputView;
 import view.OutputView;
 
 public class GameController {
-    public void move(Board board) {
+    private final Board board;
+
+    public GameController(Board board) {
+        this.board = board;
+    }
+
+    public void move() {
         while (true) {
             try {
                 Position departure = parsePosition(InputView.readDeparturePosition());
@@ -20,11 +26,11 @@ public class GameController {
         }
     }
 
-    public void printBoard(Board board) {
+    public void printBoard() {
         OutputView.printBoard(board);
     }
 
-    public void printWinner(Board board) {
+    public void printWinner() {
         OutputView.printWinner(board.winner());
     }
 
