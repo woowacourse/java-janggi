@@ -45,16 +45,16 @@ public abstract class MoveStrategy {
     }
 
     void validateToPiece(PieceInfos pathPieceInfos, Position from, Position to) {
+        PieceInfo fromPiece = pathPieceInfos.get(from);
+        PieceInfo toPiece = pathPieceInfos.get(to);
+        if (fromPiece.pieceType() == PieceType.SOLDIER) {
+            validateSoldierMove(from, to, fromPiece.countryType());
+        }
         if (pathPieceInfos.isEmptyPosition(to)) {
             return;
         }
-        PieceInfo fromPiece = pathPieceInfos.get(from);
-        PieceInfo toPiece = pathPieceInfos.get(to);
         if (fromPiece.countryType() == toPiece.countryType()) {
             throw new IllegalArgumentException(CANNOT_MOVE_SAME_COUNTRY_POSITION);
-        }
-        if (fromPiece.pieceType() == PieceType.SOLDIER) {
-            validateSoldierMove(from, to, fromPiece.countryType());
         }
     }
 
