@@ -12,8 +12,6 @@ import java.util.Objects;
 
 public class Board {
 
-    private static final int BOARD_HEIGHT = 10;
-
     private final Map<Point, Piece> piecesByPoint;
 
     public Board() {
@@ -40,24 +38,6 @@ public class Board {
         piecesByPoint.put(to, piece);
     }
 
-    public boolean isKingDie(Team team) {
-        return piecesByPoint.values().stream()
-                .noneMatch(piece -> piece.isSameType(PieceType.JANG) &&
-                        piece.isSameTeam(team));
-    }
-
-    public List<List<Piece>> getPoints() {
-        List<List<Piece>> pieces = new ArrayList<>();
-        for (int i = 0; i < BOARD_HEIGHT; i++) {
-            pieces.add(
-                    Point.getPointsAtY(i).stream()
-                            .map(piecesByPoint::get)
-                            .toList()
-            );
-        }
-        return pieces;
-    }
-
     public List<Piece> getPieces(List<Point> point) {
         return point.stream()
                 .map(piecesByPoint::get)
@@ -65,15 +45,8 @@ public class Board {
                 .toList();
     }
 
-    public List<PositionInfo> getBoardStatus() {
-        return PositionInfo.from(piecesByPoint);
-    }
-
-    public int scoreOf(Team team) {
-        return piecesByPoint.values().stream()
-                .filter(piece -> piece.isSameTeam(team))
-                .mapToInt(Piece::getScore)
-                .sum();
+    public Map<Point, Piece> getPiecesByPoint() {
+        return piecesByPoint;
     }
 
     private void validateFromPoint(Point from, Team team) {
