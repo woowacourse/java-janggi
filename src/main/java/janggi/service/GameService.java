@@ -36,12 +36,13 @@ public class GameService {
         BoardSetUp hanBoardSetUp = gameEntity.hanSetUp().getBoardSetUp();
 
         Game game = Game.createGame(choBoardSetUp, hanBoardSetUp);
+        game.assignId(gameEntity.id());
         List<MoveEntity> moveEntities = moveRepository.findByGameIdOrderByMoveNumber(gameEntity.id());
-        moveEntities.forEach(moveEntity -> loadGame(game, moveEntity));
+        moveEntities.forEach(moveEntity -> loadMove(game, moveEntity));
         return game;
     }
 
-    private void loadGame(Game game, MoveEntity moveEntity) {
+    private void loadMove(Game game, MoveEntity moveEntity) {
         game.move(new Point(moveEntity.fromX(), moveEntity.fromY()), new Point(moveEntity.toX(), moveEntity.toY()));
     }
 
