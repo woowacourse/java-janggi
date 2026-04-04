@@ -26,5 +26,4 @@ class RowTest {
             new Row(index);
         }).isInstanceOf(IllegalArgumentException.class);
     }
-
 }
