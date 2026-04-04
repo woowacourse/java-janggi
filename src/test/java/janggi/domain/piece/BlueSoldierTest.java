@@ -28,16 +28,16 @@ public class BlueSoldierTest {
         }
 
         @Test
-        @DisplayName("앞, 좌, 우로 이동할 수 있고 적이 있으면 잡을 수 있다.")
+        @DisplayName("앞, 좌, 우로 1칸 이동할 수 있고 적이 있으면 잡을 수 있다.")
         void success_1() {
             Map<Position, Piece> positionPieceMap = Map.of(
                 Position.valueOf(6, 4), blueSoldier,
-                Position.valueOf(5, 4), new Soldier(TeamType.RED),
-                Position.valueOf(6, 3), new Soldier(TeamType.RED));
+                Position.valueOf(5, 4), new Soldier(TeamType.BLUE),
+                Position.valueOf(6, 3), new Soldier(TeamType.RED),
+                Position.valueOf(6, 6), new Soldier(TeamType.RED));
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             List<Position> expected = List.of(
-                Position.valueOf(5, 4),
                 Position.valueOf(6, 3),
                 Position.valueOf(6, 5)
             );

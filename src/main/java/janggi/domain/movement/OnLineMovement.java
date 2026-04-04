@@ -113,6 +113,9 @@ public class OnLineMovement implements Movement {
             .takeWhile(position -> !boardMediator.existsInPosition(position))
             .takeWhile(position -> boardMediator.canMove(position, direction.flip()))
             .toList());
+        if (traces.size() == maxDistance) {
+            return traces;
+        }
         final Position blockedPosition = from.calculateNext(traces.size() + 1, direction);
 
         if (boardMediator.existsInPosition(blockedPosition) &&
