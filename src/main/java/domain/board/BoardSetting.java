@@ -25,11 +25,11 @@ public enum BoardSetting {
 
     public static BoardSetting from(String value) {
         return switch (value.trim()) {
-            case "1", "왼상차림" -> LEFT_ELEPHANT_SET_UP;
-            case "2", "오른상차림" -> RIGHT_ELEPHANT_SET_UP;
-            case "3", "바깥상차림" -> OUTER_ELEPHANT_SET_UP;
-            case "4", "안상차림" -> INNER_ELEPHANT_SET_UP;
-            default -> throw new IllegalArgumentException("상차림은 1~4 또는 이름으로 입력해야 합니다.");
+            case "1" -> LEFT_ELEPHANT_SET_UP;
+            case "2" -> RIGHT_ELEPHANT_SET_UP;
+            case "3" -> OUTER_ELEPHANT_SET_UP;
+            case "4" -> INNER_ELEPHANT_SET_UP;
+            default -> throw new IllegalArgumentException("올바른 상차림 번호를 입력해야 합니다.");
         };
     }
 }

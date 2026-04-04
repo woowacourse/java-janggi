@@ -8,7 +8,7 @@ public class InputView {
     private static final Scanner scanner = new Scanner(System.in);
 
     public static BoardSetting readBoardSetting() {
-        System.out.println("장기판 상차림을 선택해주세요.");
+        System.out.println("장기판 상차림 번호를 선택해주세요.");
         System.out.println("1. 왼상차림  2. 오른상차림  3. 바깥상차림  4. 안상차림");
         return BoardSetting.from(scanner.nextLine());
     }

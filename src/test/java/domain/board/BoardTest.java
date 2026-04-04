@@ -101,6 +101,21 @@ class BoardTest {
     }
 
     @Test
+    void 게임이_종료되지_않은_상태에서_승자를_조회하면_예외를_던진다() {
+        Position from = new Position(4, 8);
+        Position to = new Position(4, 9);
+
+        Map<Position, Piece> pieces = new HashMap<>();
+        pieces.put(from, Piece.of(Camp.CHO, PieceType.CHARIOT));
+        pieces.put(to, Piece.of(Camp.HAN, PieceType.SOLDIER));
+        Board fakeBoard = new Board(pieces);
+
+        fakeBoard.move(from, to);
+
+        assertThatThrownBy(fakeBoard::winner).isInstanceOf(IllegalStateException.class);
+    }
+
+    @Test
     void 게임이_종료되면_더_이상_기물을_이동할_수_없다() {
         Position from = new Position(4, 7);
         Position to = new Position(4, 8);
