@@ -82,6 +82,14 @@ public enum Direction {
         return isStraight;
     }
 
+    public boolean isDiagonal() {
+        return !isStraight;
+    }
+
+    public boolean isDownForward() {
+        return deltaRow == -1;
+    }
+
     public int getDeltaRow() {
         return deltaRow;
     }
