@@ -15,8 +15,8 @@ public class InputView {
         return scanner.nextLine();
     }
 
-    public static String readMoveCommand(String teamName, String playerName) {
-        System.out.println(teamName + " " + playerName + " 이동 입력 (예: 졸 7,1 -> 6,1) : ");
+    public static String readMoveCommand(String teamName) {
+        System.out.println(teamName + " 이동 입력 (예: 졸 7,1 -> 6,1) : ");
         return scanner.nextLine();
     }
 }

@@ -57,6 +57,10 @@ public class Board {
         return !isGameOver;
     }
 
+    public Map<Position, Piece> getPieces() {
+        return new HashMap<>(pieces);
+    }
+
     /**
      * 플레이어가 입력한 기물의 이동 가능 여부를 판단한다
      *

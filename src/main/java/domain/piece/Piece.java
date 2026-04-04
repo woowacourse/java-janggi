@@ -18,6 +18,8 @@ public abstract class Piece {
         return this.type;
     }
 
+    public Team getTeam() {return this.team;}
+
     public boolean isSameTeam(Piece other) {
         return this.team == other.team;
     }

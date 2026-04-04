@@ -1,20 +1,26 @@
 import domain.Board;
+import domain.Game;
 import domain.HorseElephantFormation;
 import domain.Team;
 import dto.MoveCommand;
+import repository.GameRepository;
 import strategy.InitializeStrategy;
 import util.Parser;
 import view.InputView;
 import view.OutputView;
 
 public class GameController {
+    private final GameRepository gameRepository;
     private final Board board;
+    private final Game game;
     private final String choPlayer;
     private final String hanPlayer;
-    private boolean choTurn = true;
 
-    public GameController() {
-        // 보드판 초기화까지 수행
+
+    public GameController(GameRepository gameRepository) {
+        this.gameRepository = gameRepository;
+        game = new Game();
+
         this.choPlayer = InputView.readPlayerName("초나라");
         this.hanPlayer = InputView.readPlayerName("한나라");
 
@@ -28,6 +34,8 @@ public class GameController {
         InitializeStrategy hanStrategy = hanFormation.createStrategy();
 
         this.board = new Board(choStrategy, hanStrategy);
+
+        gameRepository.save(game, board);
 
         OutputView.printBoard(this.board);
     }
@@ -48,16 +56,15 @@ public class GameController {
 
     public void playTurn() {
         String team = "초나라";
-        Team teamType = Team.CHO;
+        Team teamType = game.turn();
         String player = choPlayer;
 
-        if (!choTurn) {
+        if (teamType == Team.HAN) {
             team = "한나라";
             player = hanPlayer;
-            teamType = Team.HAN;
         }
 
-        String moveCommand = InputView.readMoveCommand(team, player);
+        String moveCommand = InputView.readMoveCommand(team);
 
         MoveCommand command = Parser.parse(moveCommand);
 
@@ -65,6 +72,8 @@ public class GameController {
 
         OutputView.printBoard(board);
 
-        choTurn = !choTurn;
+        game.changeTurn();
+
+        gameRepository.update(game, board);
     }
 }
