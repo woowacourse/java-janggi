@@ -59,12 +59,12 @@ public class HorseStrategy implements MoveStrategy {
     }
 
     private void validatePath(List<Position> path, BoardChecker board) {
-        if (isEmptyPath(path, board)) {
+        if (isNotEmptyPath(path, board)) {
             throw new IllegalArgumentException(ExceptionMessage.PATH_NOT_EMPTY.getMessage());
         }
     }
 
-    private boolean isEmptyPath(List<Position> path, BoardChecker board) {
+    private boolean isNotEmptyPath(List<Position> path, BoardChecker board) {
         return path.stream()
                 .anyMatch(board::hasPieceAt);
     }

@@ -31,12 +31,11 @@ public class CannonStrategy implements MoveStrategy {
         throw new IllegalArgumentException(ExceptionMessage.ONLY_STRAIGHT_MOVE_ALLOWED.getMessage());
     }
 
-    private List<Position> createPath(Position source, int difference, BiFunction<Position, Integer, Position> move) {
+    private List<Position> createPath(Position source, int distance, BiFunction<Position, Integer, Position> move) {
         List<Position> path = new ArrayList<>();
-        int direction = Integer.signum(difference);
-        int distance = Math.abs(difference);
+        int direction = Integer.signum(distance);
 
-        for (int i = 0; i < distance; i++) {
+        for (int i = 0; i < Math.abs(distance); i++) {
             source = move.apply(source, direction);
             path.add(source);
         }
