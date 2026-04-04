@@ -33,16 +33,6 @@ public class Chariot implements Piece {
     }
 
     @Override
-    public PieceType getPieceType() {
-        return PIECE_TYPE;
-    }
-
-    @Override
-    public TeamType getTeamType() {
-        return teamType;
-    }
-
-    @Override
     public boolean isSameTeamType(final TeamType teamType) {
         return this.teamType == teamType;
     }
@@ -50,5 +40,15 @@ public class Chariot implements Piece {
     @Override
     public List<Position> calculateMovablePositions(final Position from, final BoardMediator boardMediator) {
         return PIECE_ACTION.calculateMovablePositions(from, teamType, boardMediator);
+    }
+
+    @Override
+    public TeamType getTeamTypeForDTO() {
+        return teamType;
+    }
+
+    @Override
+    public PieceType getPieceTypeForDTO() {
+        return PIECE_TYPE;
     }
 }

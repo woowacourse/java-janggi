@@ -6,10 +6,6 @@ import janggi.domain.team.TeamType;
 import java.util.List;
 
 public interface Piece {
-    PieceType getPieceType();
-
-    TeamType getTeamType();
-
     boolean isSameTeamType(TeamType teamType);
 
     List<Position> calculateMovablePositions(Position from, BoardMediator boardMediator);
@@ -21,4 +17,8 @@ public interface Piece {
     default boolean isCannon() {
         return false;
     }
+
+    TeamType getTeamTypeForDTO();
+
+    PieceType getPieceTypeForDTO();
 }

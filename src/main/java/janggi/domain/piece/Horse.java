@@ -33,16 +33,6 @@ public class Horse implements Piece {
     }
 
     @Override
-    public PieceType getPieceType() {
-        return PIECE_TYPE;
-    }
-
-    @Override
-    public TeamType getTeamType() {
-        return teamType;
-    }
-
-    @Override
     public boolean isSameTeamType(final TeamType teamType) {
         return this.teamType == teamType;
     }
@@ -50,5 +40,15 @@ public class Horse implements Piece {
     @Override
     public List<Position> calculateMovablePositions(Position from, BoardMediator boardMediator) {
         return PIECE_ACTION.calculateMovablePositions(from, teamType, boardMediator);
+    }
+
+    @Override
+    public TeamType getTeamTypeForDTO() {
+        return teamType;
+    }
+
+    @Override
+    public PieceType getPieceTypeForDTO() {
+        return PIECE_TYPE;
     }
 }

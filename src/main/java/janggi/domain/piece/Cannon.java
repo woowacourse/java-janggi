@@ -29,16 +29,6 @@ public class Cannon implements Piece {
     }
 
     @Override
-    public PieceType getPieceType() {
-        return PIECE_TYPE;
-    }
-
-    @Override
-    public TeamType getTeamType() {
-        return teamType;
-    }
-
-    @Override
     public boolean isSameTeamType(final TeamType teamType) {
         return this.teamType == teamType;
     }
@@ -51,5 +41,15 @@ public class Cannon implements Piece {
     @Override
     public boolean isCannon() {
         return true;
+    }
+
+    @Override
+    public TeamType getTeamTypeForDTO() {
+        return teamType;
+    }
+
+    @Override
+    public PieceType getPieceTypeForDTO() {
+        return PIECE_TYPE;
     }
 }

@@ -127,7 +127,7 @@ public record BoardDto(
     }
 
     private static String getChineseOf(final Piece piece) {
-        final Map<PieceType, String> secondaryMap = CHINESE_MAP.get(piece.getTeamType());
-        return secondaryMap.get(piece.getPieceType());
+        final Map<PieceType, String> secondaryMap = CHINESE_MAP.get(piece.getTeamTypeForDTO());
+        return secondaryMap.get(piece.getPieceTypeForDTO());
     }
 }
