@@ -30,6 +30,23 @@ class SoldierMoveStrategyTest {
     }
 
     @Test
+    @DisplayName("졸/병은 궁성 내부에서 대각선으로 한 칸 이동할 수 있다")
+    void soldierShouldMoveWhenGeneralMovesDiagonallyInPalace() {
+        // given
+        MoveStrategy strategy = new SoldierMoveStrategy();
+        Map<Position, Piece> boardMapper = new HashMap<>();
+        boardMapper.put(Position.of(1, 4), Piece.of(Team.CHU, Type.SOLDIER, strategy));
+        Board board = Board.of(boardMapper);
+
+        // when
+        Position position = Position.of(1, 4);
+        Position targetPosition = Position.of(2, 5);
+
+        // then
+        Assertions.assertTrue(strategy.canMove(position, targetPosition, board));
+    }
+
+    @Test
     @DisplayName("졸의 목적지에 같은 팀 기물이 있으면 이동하지 않는다.")
     void soldierShouldNotMoveWhenDestinationHasAlly() {
         // given
