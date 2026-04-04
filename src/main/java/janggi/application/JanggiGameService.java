@@ -26,7 +26,7 @@ public class JanggiGameService {
         });
     }
 
-    public GameStatusInfo getBoardStatus(Long roomId) {
+    public GameStatusInfo getBoardStatus(long roomId) {
         return template.executeInTransaction(connection -> {
                  return GameStatusInfo.from(repository.loadGame(roomId, connection)
                         .getBoardStatus());
@@ -34,7 +34,7 @@ public class JanggiGameService {
         );
     }
 
-    public boolean isFinished(Long roomId) {
+    public boolean isFinished(long roomId) {
         return template.executeInTransaction(connection -> {
             return repository.loadGame(roomId, connection)
                     .isFinished();
@@ -42,7 +42,7 @@ public class JanggiGameService {
         );
     }
 
-    public void play(Long roomId, Point from, Point to) {
+    public void play(long roomId, Point from, Point to) {
         template.executeInTransaction(connection -> {
                 JanggiGame game = repository.loadGame(roomId, connection);
                 game.play(from, to);
@@ -51,7 +51,7 @@ public class JanggiGameService {
         );
     }
 
-    public Team winner(Long roomId) {
+    public Team winner(long roomId) {
         return template.executeInTransaction(connection -> {
             return repository.loadGame(roomId, connection)
                     .getWinner();
@@ -59,7 +59,7 @@ public class JanggiGameService {
         );
     }
 
-    public Team currentTurn(Long roomId) {
+    public Team currentTurn(long roomId) {
         return template.executeInTransaction(connection -> {
             return repository.loadGame(roomId, connection)
                     .getTeam();
@@ -67,7 +67,7 @@ public class JanggiGameService {
         );
     }
 
-    public double getHanScore(Long roomId) {
+    public double getHanScore(long roomId) {
         return template.executeInTransaction(connection -> {
             return repository.loadGame(roomId, connection)
                     .getHanScore();
@@ -75,7 +75,7 @@ public class JanggiGameService {
         );
     }
 
-    public double getChoScore(Long roomId) {
+    public double getChoScore(long roomId) {
         return template.executeInTransaction(connection -> {
             return repository.loadGame(roomId, connection)
                     .getChoScore();

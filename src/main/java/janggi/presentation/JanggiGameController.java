@@ -40,7 +40,7 @@ public class JanggiGameController {
         Console.close();
     }
 
-    private void playGame(Long roomId) {
+    private void playGame(long roomId) {
         try {
             Team team = service.currentTurn(roomId);
             outputView.printCurrentTurn(team);
