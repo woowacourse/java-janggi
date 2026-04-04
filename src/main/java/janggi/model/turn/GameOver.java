@@ -24,12 +24,12 @@ public class GameOver implements Turn {
     }
 
     @Override
-    public void accept(BiConsumer<Board, String> consumer) {
+    public void withBoard(BiConsumer<Board, Team> consumer) {
         throw new IllegalStateException("이미 게임이 종료됐습니다.");
     }
 
     @Override
-    public void acceptScore(BiConsumer<Score, Score> consumer) {
+    public void withScore(BiConsumer<Score, Score> consumer) {
         consumer.accept(board.calculateScore(Team.CHO), board.calculateScore(Team.HAN));
     }
 }

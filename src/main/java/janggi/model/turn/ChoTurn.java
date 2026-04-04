@@ -29,12 +29,12 @@ public class ChoTurn implements Turn {
     }
 
     @Override
-    public void accept(BiConsumer<Board, String> consumer) {
-        consumer.accept(board, Team.CHO.getDisplayName());
+    public void withBoard(BiConsumer<Board, Team> consumer) {
+        consumer.accept(board, Team.CHO);
     }
 
     @Override
-    public void acceptScore(BiConsumer<Score, Score> consumer) {
+    public void withScore(BiConsumer<Score, Score> consumer) {
         consumer.accept(board.calculateScore(Team.CHO), board.calculateScore(Team.HAN));
     }
 }

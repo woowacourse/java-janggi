@@ -19,15 +19,19 @@ public abstract class AbstractGimul {
 
     public abstract boolean canPassThrough(List<AbstractGimul> gimulsOnPath);
 
-    public abstract String getSymbol();
-
-    public abstract Score getScore();
-
     public boolean isSameTeam(AbstractGimul other) {
         return this.team.equals(other.team);
     }
 
     public boolean isSameTeam(Team other) {
         return this.team.equals(other);
+    }
+
+    public abstract String getSymbol();
+
+    public abstract Score getScore();
+
+    public Team getTeam() {
+        return team;
     }
 }

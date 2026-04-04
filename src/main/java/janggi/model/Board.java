@@ -6,6 +6,7 @@ import janggi.model.position.Column;
 import janggi.model.position.Position;
 import janggi.model.position.PositionPath;
 import janggi.model.position.Row;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +26,10 @@ public class Board {
         List<AbstractGimul> gimulsOnPath = getGimulsOnPath(legalPath);
         validateMovePathAndDestination(to, gimulAtFrom, gimulsOnPath);
         return createMovedBoard(from, to, gimulAtFrom);
+    }
+
+    public Map<Position, AbstractGimul> snapshot() {
+        return Collections.unmodifiableMap(board);
     }
 
     private void validateFrom(Team team, Position from) {
