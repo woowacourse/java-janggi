@@ -97,15 +97,6 @@ public class JanggiService {
             if (resultSet.next()) {
                 return resultSet.getInt(1);
             }
-//            // Query가 제대로 실행된 경우
-//            if (result >= 1) {
-//                System.out.println("보드 추가 완료");
-//            }
-//
-//            // Query가 제대로 실행되지 않은 경우
-//            else {
-//                System.out.println("보드 추가 실패");
-//            }
         } catch (SQLException e) {
             System.out.println("에러: " + e);
         }
@@ -122,17 +113,7 @@ public class JanggiService {
             preparedStatement.setDouble(3, scores.get(CountryType.HAN));
             preparedStatement.setInt(4, id);
 
-            int result = preparedStatement.executeUpdate();
-
-            // Query가 제대로 실행된 경우
-            if (result >= 1) {
-                System.out.println("보드 턴 업데이트 완료");
-            }
-
-            // Query가 제대로 실행되지 않은 경우
-            else {
-                System.out.println("보드 턴 업데이트 실패");
-            }
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("에러: " + e);
         }
@@ -206,17 +187,7 @@ public class JanggiService {
 
             preparedStatement.setInt(1, id);
 
-            int result = preparedStatement.executeUpdate();
-
-            // Query가 제대로 실행된 경우
-            if (result >= 1) {
-                System.out.println("board 삭제 완료");
-            }
-
-            // Query가 제대로 실행되지 않은 경우
-            else {
-                System.out.println("board 삭제 실패");
-            }
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("에러: " + e);
         }
@@ -233,17 +204,7 @@ public class JanggiService {
             preparedStatement.setString(4, pieceInfo.countryType().toString());
             preparedStatement.setInt(5, boardId);
 
-            int result = preparedStatement.executeUpdate();
-
-            // Query가 제대로 실행된 경우
-            if (result >= 1) {
-                System.out.println("보드 상태 추가 완료");
-            }
-
-            // Query가 제대로 실행되지 않은 경우
-            else {
-                System.out.println("보드 상태 추가 실패");
-            }
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("에러: " + e);
         }
@@ -289,17 +250,7 @@ public class JanggiService {
             preparedStatement.setInt(4, position.y());
             preparedStatement.setInt(5, boardId);
 
-            int result = preparedStatement.executeUpdate();
-
-            // Query가 제대로 실행된 경우
-            if (result >= 1) {
-                System.out.println("to 좌표 상태 업데이트 완료");
-            }
-
-            // Query가 제대로 실행되지 않은 경우
-            else {
-                System.out.println("to 좌표 상태 업데이트 실패");
-            }
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("에러: " + e);
         }
@@ -314,17 +265,7 @@ public class JanggiService {
             preparedStatement.setInt(2, position.y());
             preparedStatement.setInt(3, boardId);
 
-            int result = preparedStatement.executeUpdate();
-
-            // Query가 제대로 실행된 경우
-            if (result >= 1) {
-                System.out.println("from 좌표 상태 삭제 완료");
-            }
-
-            // Query가 제대로 실행되지 않은 경우
-            else {
-                System.out.println("from 좌표 상태 삭제 실패");
-            }
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("에러: " + e);
         }
@@ -337,17 +278,7 @@ public class JanggiService {
 
             preparedStatement.setInt(1, boardId);
 
-            int result = preparedStatement.executeUpdate();
-
-            // Query가 제대로 실행된 경우
-            if (result >= 1) {
-                System.out.println("board state 삭제 완료");
-            }
-
-            // Query가 제대로 실행되지 않은 경우
-            else {
-                System.out.println("board state 삭제 실패");
-            }
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("에러: " + e);
         }
@@ -368,16 +299,7 @@ public class JanggiService {
                 preparedStatement.setString(5, pieceInfo.countryType().toString());
                 preparedStatement.setInt(6, boardId);
                 preparedStatement.setString(7, turn.toString());
-                int result = preparedStatement.executeUpdate();
-                // Query가 제대로 실행된 경우
-                if (result >= 1) {
-                    System.out.println("보드 스냅샷 추가 완료");
-                }
-
-                // Query가 제대로 실행되지 않은 경우
-                else {
-                    System.out.println("보드 스냅샷 추가 실패");
-                }
+                preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
             System.out.println("에러: " + e);
@@ -467,17 +389,7 @@ public class JanggiService {
 
             preparedStatement.setInt(1, boardId);
 
-            int result = preparedStatement.executeUpdate();
-
-            // Query가 제대로 실행된 경우
-            if (result >= 1) {
-                System.out.println("board snapshot 삭제 완료");
-            }
-
-            // Query가 제대로 실행되지 않은 경우
-            else {
-                System.out.println("board snapshot 삭제 실패");
-            }
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("에러: " + e);
         }
