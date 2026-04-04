@@ -41,15 +41,15 @@ public class JanggiController {
     }
 
     private Player initChoPlayer() {
-        outputView.printEnterHanPlayerNamePrompt();
-        String hanPlayerName = inputView.readPlayerName();
-        return Player.han(hanPlayerName);
-    }
-
-    private Player initHanPlayer() {
         outputView.printEnterChoPlayerNamePrompt();
         String choPlayerName = inputView.readPlayerName();
         return Player.cho(choPlayerName);
+    }
+
+    private Player initHanPlayer() {
+        outputView.printEnterHanPlayerNamePrompt();
+        String hanPlayerName = inputView.readPlayerName();
+        return Player.han(hanPlayerName);
     }
 
     private ElephantSetup initChoElephantSetup() {
