@@ -45,4 +45,26 @@ public class BoardTest {
         Assertions.assertFalse(board.isExist(fromPosition));
         Assertions.assertEquals(board.getPieceFrom(toPosition).getClass(), piece.getClass());
     }
+
+    @Test
+    void 보드_특정_포지션에_기물이_있다() {
+        Board board = new Board();
+        Position position = new Position(1, 2);
+        Soldier piece = new Soldier(Camp.HAN);
+
+        board.locatePiece(position, piece);
+
+        Assertions.assertTrue(board.isExist(position));
+    }
+
+    @Test
+    void 보드_특정_포지션에_기물이_Cannon이_아니다() {
+        Board board = new Board();
+        Position position = new Position(1, 2);
+        Cannon piece = new Cannon(Camp.HAN);
+
+        board.locatePiece(position, piece);
+
+        Assertions.assertFalse(board.isNotCannon(position));
+    }
 }
