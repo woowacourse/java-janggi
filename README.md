@@ -144,7 +144,7 @@
 - Docker를 통해 별도의 복잡한 설치 과정 없이 MySQL 환경을 구축하였습니다.
 
 
-- [ ] 스키마 설계: game_room (메타 데이터) 및 board_state (기물 스냅샷) 테이블을 분리한다.
+- [x] 스키마 설계: game_room (메타 데이터) 및 board_state (기물 스냅샷) 테이블을 분리한다.
 - [ ] JDBC 연결: DatabaseConnector를 통한 Docker 기반 MySQL 서버를 연동한다.
 - [ ] 실시간 저장(Save): 3가지 선택지(기물 이동, 한수 쉼, 항복)의 상태 변화가 일어날 때마다 DB 업데이트한다.
 - [ ] 상태 복구(Load): 
