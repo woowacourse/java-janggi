@@ -4,12 +4,12 @@ import java.util.List;
 import pieces.Side;
 import position.Position;
 
-public class GunsungDiagonalMovement implements Movement {
+public class SpecialGungsungMovement implements Movement {
 
     private final Movement baseMovement;
     private final Movement gungsungMovement;
 
-    public GunsungDiagonalMovement(Movement baseMovement, Movement gungsungMovement) {
+    public SpecialGungsungMovement(Movement baseMovement, Movement gungsungMovement) {
         this.baseMovement = baseMovement;
         this.gungsungMovement = gungsungMovement;
     }
@@ -17,7 +17,7 @@ public class GunsungDiagonalMovement implements Movement {
     @Override
     public boolean canReach(Position departure, Position destination, Side side) {
         return baseMovement.canReach(departure, destination, side)
-            && gungsungMovement.canReach(departure, destination, side);
+            || gungsungMovement.canReach(departure, destination, side);
     }
 
     @Override

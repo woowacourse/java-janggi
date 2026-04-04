@@ -10,13 +10,15 @@ import static movepolicy.move.Step.RIGHT_BACK;
 import static movepolicy.move.Step.RIGHT_FORWARD;
 
 import java.util.List;
+import movepolicy.move.AlwaysGungsungMovement;
 import movepolicy.move.FixedRouteMovement;
-import movepolicy.move.GunsungDiagonalMovement;
+import movepolicy.move.ForwardOneStepGungsungMovement;
 import movepolicy.move.LinearRouteMovement;
 import movepolicy.move.Movement;
 import movepolicy.move.PoRouteMovement;
 import movepolicy.move.Route;
-import movepolicy.move.SingleStepGungsungMovement;
+import movepolicy.move.OneStepGungsungMovement;
+import movepolicy.move.SpecialGungsungMovement;
 import movepolicy.rule.EmptyPathMoveRule;
 import movepolicy.rule.MoveRule;
 import movepolicy.rule.PoMoveRule;
@@ -67,17 +69,20 @@ public enum PieceType {
     ),
 
     JOL_BYEONG(
-        new FixedRouteMovement(List.of(
-            new Route(List.of(FORWARD)),
-            new Route(List.of(RIGHT)),
-            new Route(List.of(LEFT))
-        )),
+        new SpecialGungsungMovement(
+            new FixedRouteMovement(List.of(
+                new Route(List.of(FORWARD)),
+                new Route(List.of(RIGHT)),
+                new Route(List.of(LEFT))
+            )),
+            new ForwardOneStepGungsungMovement()
+        ),
         EmptyPathMoveRule.withOtherSideTargetRule(),
         new Score(2)
     ),
 
     SA(
-        new GunsungDiagonalMovement(
+        new AlwaysGungsungMovement(
             new FixedRouteMovement(List.of(
                 new Route(List.of(FORWARD)),
                 new Route(List.of(BACK)),
@@ -88,14 +93,14 @@ public enum PieceType {
                 new Route(List.of(RIGHT_BACK)),
                 new Route(List.of(LEFT_BACK))
             )),
-            new SingleStepGungsungMovement()
+            new OneStepGungsungMovement()
         ),
         EmptyPathMoveRule.withOtherSideTargetRule(),
         new Score(3)
     ),
 
     GUNG(
-        new GunsungDiagonalMovement(
+        new AlwaysGungsungMovement(
             new FixedRouteMovement(List.of(
                 new Route(List.of(FORWARD)),
                 new Route(List.of(BACK)),
@@ -106,7 +111,7 @@ public enum PieceType {
                 new Route(List.of(RIGHT_BACK)),
                 new Route(List.of(LEFT_BACK))
             )),
-            new SingleStepGungsungMovement()
+            new OneStepGungsungMovement()
         ),
         EmptyPathMoveRule.withOtherSideTargetRule(),
         new Score(0)
