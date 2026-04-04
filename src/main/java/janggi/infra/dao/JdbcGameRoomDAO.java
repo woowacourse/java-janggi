@@ -10,13 +10,13 @@ import java.sql.Timestamp;
 import java.util.Optional;
 
 
-public class JdbcGameRoomDao implements GameRoomDAO {
+public class JdbcGameRoomDAO implements GameRoomDAO {
 
     private final DataSource dataSource;
 
     private static final String SAVE_SQL = "INSERT INTO game_room(room_name, last_turn, last_played_at) VALUES(?, ?, ?)";
 
-    public JdbcGameRoomDao(DataSource dataSource) {
+    public JdbcGameRoomDAO(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 

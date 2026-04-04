@@ -10,20 +10,20 @@ import javax.sql.DataSource;
 import java.sql.*;
 import java.time.LocalDateTime;
 
+import static janggi.fixture.TestFixture.createGameRoomEntity;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class JdbcGameRoomDaoTest {
 
     private final DataSource dataSource = new TestDataSourceConfig().dataSource();
-    private final JdbcGameRoomDao jdbcGameRoomDao = new JdbcGameRoomDao(dataSource);
+    private final JdbcGameRoomDAO jdbcGameRoomDao = new JdbcGameRoomDAO(dataSource);
 
 
     @Test
     @DisplayName("게임방을 데이터베이스에 저장한다.")
     public void save_success() throws Exception {
         // given
-        GameRoomEntity gameRoomEntity = new GameRoomEntity("room1", Dynasty.HAN,
-                LocalDateTime.of(2026, 4, 3, 15, 30));
+        GameRoomEntity gameRoomEntity = createGameRoomEntity();
 
         // when
         jdbcGameRoomDao.save(gameRoomEntity);
