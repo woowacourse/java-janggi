@@ -39,24 +39,23 @@ class MovementTest {
 
     @ParameterizedTest
     @CsvSource({
-            "2, 3, 2, 3, false",
-            "2, 3, 3, 2, false",
-            "-2, 3, 2, 3, false",
-            "2, -3, 3, 2, false",
             "1, 2, 1, 2, false",
-            "1, 2, 2, 1, false",
-            "1, 2, 1, 3, true",
-            "1, 2, 3, 2, true"
+            "2, 1, 1, 2, false",
+            "1, 3, 1, 2, true",
+            "1, 2, 3, 2, true",
+            "2, 1, 2, 1, false",
+            "3, 1, 1, 3, false",
+            "3, 3, 1, 2, true"
     })
-    void 두_차이값이_행열_절대_차이값과_일치하지_않는지_확인한다(
+    void 행과_열_이동_거리가_제공된_거리와_일치하지_않는지_확인한다(
             int rowDifference, int colDifference,
-            int difference1, int difference2,
+            int firstDistance, int secondDistance,
             boolean expectedResult
     ) {
         // given
         Movement direction = new Movement(rowDifference, colDifference);
         // when
-        boolean result = direction.isInvalidMoveDistance(difference1, difference2);
+        boolean result = direction.isInvalidMoveDistance(firstDistance, secondDistance);
         // then
         assertThat(result).isEqualTo(expectedResult);
     }
