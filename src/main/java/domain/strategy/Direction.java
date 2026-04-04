@@ -1,5 +1,7 @@
 package domain.strategy;
 
+import domain.Team;
+
 public enum Direction {
     NORTH(-1, 0),
     SOUTH(1, 0),
@@ -18,11 +20,17 @@ public enum Direction {
         this.colOffset = colOffset;
     }
 
-    public int getRowOffset() {
+    public int getRowOffset(Team turn) {
+        if (turn == Team.HAN) {
+            return rowOffset * -1;
+        }
         return rowOffset;
     }
 
-    public int getColOffset() {
+    public int getColOffset(Team turn) {
+        if (turn == Team.HAN) {
+            return colOffset * -1;
+        }
         return colOffset;
     }
 }
