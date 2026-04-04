@@ -1,5 +1,7 @@
 package controller;
 
+import database.MysqlConnectionManager;
+import java.sql.Connection;
 import java.util.List;
 import java.util.function.Supplier;
 import model.board.Army;
@@ -13,10 +15,16 @@ import view.InputView;
 import view.OutputView;
 
 public class GameController {
+    private final MysqlConnectionManager manager;
+
+    public GameController(MysqlConnectionManager manager) {
+        this.manager = manager;
+    }
 
     public void start() {
         Board board = new Board();
-        init(board);
+        Connection conn = manager.getConnection();
+        initBoard(board);
         OutputView.printBoard(board);
 
         while (board.endCondition()) {
@@ -27,7 +35,7 @@ public class GameController {
         endGamePhase(board);
     }
 
-    private void init(Board board) {
+    private void initBoard(Board board) {
         OutputView.printArrangeCountry(Country.CHO);
         Army cho = initArmy(Country.CHO);
         cho.deployTo(board, Country.CHO);
