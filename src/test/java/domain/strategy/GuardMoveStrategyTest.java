@@ -27,6 +27,23 @@ class GuardMoveStrategyTest {
     }
 
     @Test
+    @DisplayName("사는 궁성 내부에서 대각선으로 한 칸 이동할 수 있다")
+    void guardShouldMoveWhenGeneralMovesDiagonallyInPalace() {
+        // given
+        MoveStrategy strategy = new GuardMoveStrategy();
+        Map<Position, Piece> boardMapper = new HashMap<>();
+        boardMapper.put(Position.of(1, 4), Piece.of(Team.CHU, Type.GUARD, strategy));
+        Board board = Board.of(boardMapper);
+
+        // when
+        Position position = Position.of(1, 4);
+        Position targetPosition = Position.of(0, 3);
+
+        // then
+        Assertions.assertTrue(strategy.canMove(position, targetPosition, board));
+    }
+
+    @Test
     @DisplayName("사의 목적지에 같은 팀 기물이 있으면 이동하지 않는다.")
     void guardShouldNotMoveToAllyPiece() {
         // given
@@ -40,7 +57,6 @@ class GuardMoveStrategyTest {
         // then
         Assertions.assertFalse(strategy.canMove(position, targetPosition, board));
     }
-
 
     @Test
     @DisplayName("사의 목적지에 다른 팀 기물이 있으면 이동한다.")
