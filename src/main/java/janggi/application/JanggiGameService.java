@@ -6,53 +6,80 @@ import janggi.domain.JanggiGame;
 import janggi.domain.point.Point;
 import janggi.domain.status.ChoTurn;
 import janggi.domain.status.Team;
+import janggi.infra.TransactionTemplate;
 import janggi.presentation.dto.GameStatusInfo;
 
 public class JanggiGameService {
 
+    private final TransactionTemplate template;
     private final BoardRepository repository;
 
-    public JanggiGameService(BoardRepository repository) {
+    public JanggiGameService(TransactionTemplate template, BoardRepository repository) {
+        this.template = template;
         this.repository = repository;
     }
 
     public long startNewGame(Board initBoard) {
-        JanggiGame game = new JanggiGame(initBoard, new ChoTurn());
-        return repository.save(game);
+        return template.executeInTransaction(connection -> {
+            JanggiGame game = new JanggiGame(initBoard, new ChoTurn());
+            return repository.save(game, connection);
+        });
     }
 
     public GameStatusInfo getBoardStatus(Long roomId) {
-        return GameStatusInfo.from(repository.loadGame(roomId).getBoardStatus());
+        return template.executeInTransaction(connection -> {
+                 return GameStatusInfo.from(repository.loadGame(roomId, connection)
+                        .getBoardStatus());
+                }
+        );
     }
 
     public boolean isFinished(Long roomId) {
-        return repository.loadGame(roomId)
-                .isFinished();
+        return template.executeInTransaction(connection -> {
+            return repository.loadGame(roomId, connection)
+                    .isFinished();
+            }
+        );
     }
 
     public void play(Long roomId, Point from, Point to) {
-        JanggiGame game = repository.loadGame(roomId);
-        game.play(from, to);
-        repository.update(roomId, from, to, game);
+        template.executeInTransaction(connection -> {
+                JanggiGame game = repository.loadGame(roomId, connection);
+                game.play(from, to);
+                repository.update(roomId, from, to, game, connection);
+            }
+        );
     }
 
     public Team winner(Long roomId) {
-        return repository.loadGame(roomId)
-                .getWinner();
+        return template.executeInTransaction(connection -> {
+            return repository.loadGame(roomId, connection)
+                    .getWinner();
+            }
+        );
     }
 
     public Team currentTurn(Long roomId) {
-        return repository.loadGame(roomId)
-                .getTeam();
+        return template.executeInTransaction(connection -> {
+            return repository.loadGame(roomId, connection)
+                    .getTeam();
+            }
+        );
     }
 
     public double getHanScore(Long roomId) {
-        return repository.loadGame(roomId)
-                .getHanScore();
+        return template.executeInTransaction(connection -> {
+            return repository.loadGame(roomId, connection)
+                    .getHanScore();
+            }
+        );
     }
 
     public double getChoScore(Long roomId) {
-        return repository.loadGame(roomId)
-                .getChoScore();
+        return template.executeInTransaction(connection -> {
+            return repository.loadGame(roomId, connection)
+                    .getChoScore();
+            }
+        );
     }
 }

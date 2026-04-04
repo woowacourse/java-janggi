@@ -14,93 +14,55 @@ import janggi.infra.dao.PiecesDao;
 import janggi.infra.dto.GameRoomData;
 import janggi.infra.dto.PieceData;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public class JdbcBoardRepository implements BoardRepository {
 
-    private final DataConnectionManager manager;
     private final GameRoomDao roomDao;
     private final PiecesDao piecesDao;
 
-
-    public JdbcBoardRepository(DataConnectionManager manager, GameRoomDao roomDao, PiecesDao piecesDao) {
-        this.manager = manager;
+    public JdbcBoardRepository(GameRoomDao roomDao, PiecesDao piecesDao) {
         this.roomDao = roomDao;
         this.piecesDao = piecesDao;
     }
 
     @Override
-    public long save(JanggiGame game) {
-        return executeInTransaction(connection -> {
-            long roomId = roomDao.save(GameRoomData.from(game), connection);
-            Map<Point, Piece> pieces = game.getBoardStatus();
-            List<PieceData> data = new ArrayList<>();
-            for (Point point : pieces.keySet()) {
-                Piece piece = pieces.get(point);
-                data.add(new PieceData(piece.getType().name(), piece.getTeam().name(), point.getRow(), point.getColumn()));
-            }
-            piecesDao.save(roomId, data, connection);
-            return roomId;
-        });
+    public long save(JanggiGame game, Connection connection) {
+        long roomId = roomDao.save(GameRoomData.from(game), connection);
+        Map<Point, Piece> pieces = game.getBoardStatus();
+        List<PieceData> data = new ArrayList<>();
+        for (Point point : pieces.keySet()) {
+            Piece piece = pieces.get(point);
+            data.add(new PieceData(piece.getType().name(), piece.getTeam().name(), point.getRow(), point.getColumn()));
+        }
+        piecesDao.save(roomId, data, connection);
+        return roomId;
     }
 
     @Override
-    public void update(long roomId, Point from, Point to, JanggiGame game) {
-        executeInTransaction(connection -> {
-            roomDao.update(roomId, GameRoomData.from(game), connection);
-            piecesDao.delete(roomId, to.getRow(), to.getColumn(), connection);
-            piecesDao.update(roomId, from.getRow(), from.getColumn(), to.getRow(), to.getColumn(), connection);
-            return Optional.empty();
-        });
+    public void update(long roomId, Point from, Point to, JanggiGame game, Connection connection) {
+        roomDao.update(roomId, GameRoomData.from(game), connection);
+        piecesDao.delete(roomId, to.getRow(), to.getColumn(), connection);
+        piecesDao.update(roomId, from.getRow(), from.getColumn(), to.getRow(), to.getColumn(), connection);
     }
 
     @Override
-    public JanggiGame loadGame(long roomId) {
-        return executeInTransaction(connection -> {
-            GameRoomData roomData = roomDao.findRoomById(roomId, connection)
-                    .orElseThrow(() -> new IllegalArgumentException("[ERROR] 존재하지 않는 게임방 입니다."));
-            List<PieceData> pieceDatas = piecesDao.findAllByRoomId(roomId, connection);
-            Map<Point, Piece> pieces = new LinkedHashMap<>();
-            pieceDatas.forEach(pieceData -> {
-                PieceType type = PieceType.valueOf(pieceData.pieceName());
-                Team team = Team.valueOf(pieceData.teamName());
-                Point point = Point.of(pieceData.column(), pieceData.row());
-                Piece piece = PieceFactory.createPiece(team, type);
-                pieces.put(point, piece);
-            });
-            Board board = new Board(pieces);
-            connection.commit();
-            return new JanggiGame(board, GameStatusFactory.create(Team.valueOf(roomData.currentTurn())));
+    public JanggiGame loadGame(long roomId, Connection connection) {
+        GameRoomData roomData = roomDao.findRoomById(roomId, connection)
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 존재하지 않는 게임방 입니다."));
+        List<PieceData> pieceDatas = piecesDao.findAllByRoomId(roomId, connection);
+        Map<Point, Piece> pieces = new LinkedHashMap<>();
+        pieceDatas.forEach(pieceData -> {
+            PieceType type = PieceType.valueOf(pieceData.pieceName());
+            Team team = Team.valueOf(pieceData.teamName());
+            Point point = Point.of(pieceData.column(), pieceData.row());
+            Piece piece = PieceFactory.createPiece(team, type);
+        pieces.put(point, piece);
         });
-    }
-
-    private <T> T executeInTransaction(TransactionCallback<T> action) {
-        try (Connection connection = manager.getConnection()) {
-            return processTransaction(connection, action);
-        } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] DB 커넥션 에러", e);
-        }
-    }
-
-    private <T> T processTransaction(Connection connection, TransactionCallback<T> action) throws SQLException {
-        try {
-            connection.setAutoCommit(false);
-            T result = action.doInTransaction(connection);
-            connection.commit();
-            return result;
-        } catch (RuntimeException e) {
-            connection.rollback();
-            throw e;
-        } catch (SQLException e) {
-            connection.rollback();
-            throw new RuntimeException("[ERROR] 게임 저장 중 트랜잭션 롤백됨", e);
-        } finally {
-            connection.setAutoCommit(true);
-        }
+        Board board = new Board(pieces);
+        return new JanggiGame(board, GameStatusFactory.create(Team.valueOf(roomData.currentTurn())));
     }
 }
