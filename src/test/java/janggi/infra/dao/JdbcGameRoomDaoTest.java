@@ -2,7 +2,7 @@ package janggi.infra.dao;
 
 import janggi.domain.dynasty.Dynasty;
 import janggi.infra.config.TestDataSourceConfig;
-import janggi.infra.entity.GameRoomEntity;
+import janggi.infra.entity.GameEntity;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -16,17 +16,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 class JdbcGameRoomDaoTest {
 
     private final DataSource dataSource = new TestDataSourceConfig().dataSource();
-    private final JdbcGameRoomDAO jdbcGameRoomDao = new JdbcGameRoomDAO(dataSource);
+    private final JdbcGameDAO jdbcGameRoomDao = new JdbcGameDAO(dataSource);
 
 
     @Test
     @DisplayName("게임방을 데이터베이스에 저장한다.")
     public void save_success() throws Exception {
         // given
-        GameRoomEntity gameRoomEntity = createGameRoomEntity("room1", Dynasty.HAN, LocalDateTime.of(2026, 4, 3, 15, 30));
+        GameEntity gameEntity = createGameRoomEntity("room1", Dynasty.HAN, LocalDateTime.of(2026, 4, 3, 15, 30));
 
         // when
-        Long generatedKey = jdbcGameRoomDao.save(gameRoomEntity);
+        Long generatedKey = jdbcGameRoomDao.save(gameEntity);
 
         // then
         try (

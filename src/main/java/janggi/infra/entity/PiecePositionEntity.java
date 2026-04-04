@@ -11,13 +11,13 @@ public class PiecePositionEntity {
     private PieceType pieceType;
     private Dynasty dynasty;
 
-    private GameRoomEntity gameRoomEntity;
+    private GameEntity gameEntity;
 
-    public PiecePositionEntity(Position position, PieceType pieceType, Dynasty dynasty, GameRoomEntity gameRoomEntity) {
+    public PiecePositionEntity(Position position, PieceType pieceType, Dynasty dynasty, GameEntity gameEntity) {
         this.position = position;
         this.pieceType = pieceType;
         this.dynasty = dynasty;
-        this.gameRoomEntity = gameRoomEntity;
+        this.gameEntity = gameEntity;
     }
 
     public Long id() {
@@ -36,7 +36,7 @@ public class PiecePositionEntity {
         return dynasty;
     }
 
-    public GameRoomEntity gameRoomEntity() {
-        return gameRoomEntity;
+    public GameEntity gameRoomEntity() {
+        return gameEntity;
     }
 }

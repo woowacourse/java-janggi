@@ -3,7 +3,7 @@ package janggi.fixture;
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
-import janggi.infra.entity.GameRoomEntity;
+import janggi.infra.entity.GameEntity;
 import janggi.infra.entity.PiecePositionEntity;
 
 import javax.sql.DataSource;
@@ -12,17 +12,17 @@ import java.time.LocalDateTime;
 
 public class TestFixture {
 
-    public static GameRoomEntity createGameRoomEntity(String roomName, Dynasty lastTurn, LocalDateTime lastPlayedAt) {
-        return new GameRoomEntity(roomName, lastTurn, lastPlayedAt);
+    public static GameEntity createGameRoomEntity(String roomName, Dynasty lastTurn, LocalDateTime lastPlayedAt) {
+        return new GameEntity(roomName, lastTurn, lastPlayedAt);
     }
 
     public static PiecePositionEntity createPiecePositionEntity(
-            Position from, PieceType pieceType, Dynasty dynasty, GameRoomEntity gameRoomEntity) {
-        return new PiecePositionEntity(from, pieceType, dynasty, gameRoomEntity);
+            Position from, PieceType pieceType, Dynasty dynasty, GameEntity gameEntity) {
+        return new PiecePositionEntity(from, pieceType, dynasty, gameEntity);
     }
 
-    public static GameRoomEntity saveGameRoomEntity(String roomName, Dynasty lastTurn, LocalDateTime lastPlayedAt, DataSource dataSource) throws SQLException {
-        GameRoomEntity gameRoomEntity = createGameRoomEntity(roomName, lastTurn, lastPlayedAt);
+    public static GameEntity saveGameRoomEntity(String roomName, Dynasty lastTurn, LocalDateTime lastPlayedAt, DataSource dataSource) throws SQLException {
+        GameEntity gameEntity = createGameRoomEntity(roomName, lastTurn, lastPlayedAt);
         try (
                 Connection conn = dataSource.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(
@@ -30,19 +30,19 @@ public class TestFixture {
                         Statement.RETURN_GENERATED_KEYS
                 );
         ) {
-            pstmt.setString(1, gameRoomEntity.roomName());
-            pstmt.setString(2, gameRoomEntity.lastTurn().name());
-            pstmt.setTimestamp(3, Timestamp.valueOf(gameRoomEntity.lastPlayedAt()));
+            pstmt.setString(1, gameEntity.roomName());
+            pstmt.setString(2, gameEntity.lastTurn().name());
+            pstmt.setTimestamp(3, Timestamp.valueOf(gameEntity.lastPlayedAt()));
             pstmt.executeUpdate();
 
             try (ResultSet rs = pstmt.getGeneratedKeys()) {
                 if (rs.next()) {
                     long generatedId = rs.getLong(1);
-                    return new GameRoomEntity(
+                    return new GameEntity(
                             generatedId,
-                            gameRoomEntity.roomName(),
-                            gameRoomEntity.lastTurn(),
-                            gameRoomEntity.lastPlayedAt()
+                            gameEntity.roomName(),
+                            gameEntity.lastTurn(),
+                            gameEntity.lastPlayedAt()
                     );
                 }
             }

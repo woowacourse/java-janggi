@@ -4,21 +4,21 @@ import janggi.domain.dynasty.Dynasty;
 
 import java.time.LocalDateTime;
 
-public class GameRoomEntity {
+public class GameEntity {
 
     private Long id;
     private String roomName;
     private Dynasty lastTurn;
     private LocalDateTime lastPlayedAt;
 
-    public GameRoomEntity(Long id, String roomName, Dynasty lastTurn, LocalDateTime lastPlayedAt) {
+    public GameEntity(Long id, String roomName, Dynasty lastTurn, LocalDateTime lastPlayedAt) {
         this.id = id;
         this.roomName = roomName;
         this.lastTurn = lastTurn;
         this.lastPlayedAt = lastPlayedAt;
     }
 
-    public GameRoomEntity(String roomName, Dynasty lastTurn, LocalDateTime lastPlayedAt) {
+    public GameEntity(String roomName, Dynasty lastTurn, LocalDateTime lastPlayedAt) {
         this.roomName = roomName;
         this.lastTurn = lastTurn;
         this.lastPlayedAt = lastPlayedAt;
@@ -38,5 +38,11 @@ public class GameRoomEntity {
 
     public LocalDateTime lastPlayedAt() {
         return lastPlayedAt;
+    }
+
+    public void bindId(Long id) {
+        if(this.id != null) {
+            this.id = id;
+        }
     }
 }

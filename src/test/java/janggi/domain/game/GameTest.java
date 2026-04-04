@@ -20,7 +20,7 @@ class GameTest {
 
     @Test
     @DisplayName("선택된 기물이 움직일 수 있는 위치가 없다면 오류를 일으킨다")
-    public void canMovePositions_fail_no_position() {
+    public void findMovablePositions() {
         // given
         Position from = Position.from(1, 1);
         BoardDesignPolicy boardDesignPolicy = () -> Map.of(
@@ -31,7 +31,7 @@ class GameTest {
         Game game = Game.initGame(boardDesignPolicy);
 
         // when & then
-        assertThatThrownBy(() -> game.canMovePosition(from))
+        assertThatThrownBy(() -> game.findMovablePositions(from))
                 .isInstanceOf(DomainException.class)
                 .hasMessage(String.format(NO_AVAILABLE_MOVES_MESSAGE, from.row().row(), from.column().column()));
     }

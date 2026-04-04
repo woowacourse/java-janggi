@@ -29,7 +29,7 @@ public class Game {
         return new Game(new Board(boardDesignPolicy), new CurrentTurn(CHO));
     }
 
-    public List<Position> canMovePosition(Position from) {
+    public List<Position> findMovablePositions(Position from) {
         List<Position> positions = board.canMovePosition(from, currentTurn.currentDynasty());
         if (positions.isEmpty()) {
             throw new DomainException(String.format(NO_AVAILABLE_MOVES_MESSAGE, from.row().row(), from.column().column()));

@@ -4,7 +4,7 @@ import janggi.domain.dynasty.Dynasty;
 import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
 import janggi.infra.config.TestDataSourceConfig;
-import janggi.infra.entity.GameRoomEntity;
+import janggi.infra.entity.GameEntity;
 import janggi.infra.entity.PiecePositionEntity;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,7 +28,7 @@ class JdbcPiecePositionDAOTest {
     @DisplayName("기물 위치목록을 저장한다.")
     public void saveAll_success() throws Exception {
         // given
-        GameRoomEntity gameRoomEntity = saveGameRoomEntity(
+        GameEntity gameEntity = saveGameRoomEntity(
                 "room1",
                 Dynasty.CHO,
                 LocalDateTime.of(2026, 4, 3, 15, 30),
@@ -36,9 +36,9 @@ class JdbcPiecePositionDAOTest {
         );
 
         List<PiecePositionEntity> positionEntities = List.of(
-                createPiecePositionEntity(Position.from(1, 1), PieceType.CHARIOT, Dynasty.CHO, gameRoomEntity),
-                createPiecePositionEntity(Position.from(2, 5), PieceType.GENERAL, Dynasty.CHO, gameRoomEntity),
-                createPiecePositionEntity(Position.from(9, 5), PieceType.GENERAL, Dynasty.HAN, gameRoomEntity)
+                createPiecePositionEntity(Position.from(1, 1), PieceType.CHARIOT, Dynasty.CHO, gameEntity),
+                createPiecePositionEntity(Position.from(2, 5), PieceType.GENERAL, Dynasty.CHO, gameEntity),
+                createPiecePositionEntity(Position.from(9, 5), PieceType.GENERAL, Dynasty.HAN, gameEntity)
         );
 
         // when

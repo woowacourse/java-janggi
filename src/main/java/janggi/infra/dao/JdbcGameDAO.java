@@ -1,6 +1,6 @@
 package janggi.infra.dao;
 
-import janggi.infra.entity.GameRoomEntity;
+import janggi.infra.entity.GameEntity;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -9,26 +9,26 @@ import java.util.Optional;
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 
-public class JdbcGameRoomDAO implements GameRoomDAO {
+public class JdbcGameDAO implements GameDAO {
 
     private final DataSource dataSource;
 
     private static final String SAVE_SQL = "INSERT INTO game_room(room_name, last_turn, last_played_at) VALUES(?, ?, ?)";
 
-    public JdbcGameRoomDAO(DataSource dataSource) {
+    public JdbcGameDAO(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
     @Override
-    public Long save(GameRoomEntity gameRoomEntity) {
+    public Long save(GameEntity gameEntity) {
         try (
                 Connection connection = dataSource.getConnection();
                 PreparedStatement pstmt = connection.prepareStatement(SAVE_SQL, RETURN_GENERATED_KEYS)
         ) {
 
-            pstmt.setString(1, gameRoomEntity.roomName());
-            pstmt.setString(2, gameRoomEntity.lastTurn().name());
-            pstmt.setTimestamp(3, Timestamp.valueOf(gameRoomEntity.lastPlayedAt()));
+            pstmt.setString(1, gameEntity.roomName());
+            pstmt.setString(2, gameEntity.lastTurn().name());
+            pstmt.setTimestamp(3, Timestamp.valueOf(gameEntity.lastPlayedAt()));
             pstmt.executeUpdate();
             return getGeneratedKey(pstmt);
         } catch (SQLException e) {
@@ -45,7 +45,7 @@ public class JdbcGameRoomDAO implements GameRoomDAO {
     }
 
     @Override
-    public Optional<GameRoomEntity> findById(Long id) {
+    public Optional<GameEntity> findById(Long id) {
         return Optional.empty();
     }
 }
