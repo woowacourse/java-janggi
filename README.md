@@ -234,3 +234,52 @@
 - [x] 단일 GameContextEntity를 잘 저장한다
 - [x] id 기반으로 GameContextEntity를 잘 찾는다
 - [x] id 와 새로운 엔티티를 통해 기존의 값을 업데이트 잘 한다
+
+## GameJdbcRepository
+
+- [x] 단일 Game을 잘 저장한다
+- [x] 하나의 Game을 id로 잘 찾아온다
+- [x] Game 정보를 잘 수정한다
+
+## GamePieceJdbcRepository
+
+- [x] 하나의 GamePiece를 잘 저장한다
+- [x] 여러 GamePiece들을 잘 저장한다
+- [x] 하나의 GamePiece를 id로 잘 찾아온다
+- [x] 전체 GamePiece들을 잘 찾아온다
+- [x] GamePiece 수정이 잘 된다
+
+# Database ERD
+
+```mermaid
+erDiagram
+    game_contexts ||--o{ games : "has"
+    games ||--o{ game_pieces : "contains"
+    pieces ||--o{ game_pieces : "references"
+
+    game_contexts {
+        BIGINT game_context_id PK
+        VARCHAR current_turn_own_team
+        VARCHAR game_state
+    }
+    
+    games {
+        BIGINT game_id PK
+        BIGINT game_context_id FK
+    }
+    
+    pieces {
+        BIGINT piece_id PK
+        VARCHAR team
+        VARCHAR type
+    }
+    
+    game_pieces {
+        BIGINT game_piece_id PK
+        BIGINT game_id FK
+        BIGINT piece_id FK
+        INT position_row
+        INT position_col
+        BOOLEAN is_active
+    }
+```
