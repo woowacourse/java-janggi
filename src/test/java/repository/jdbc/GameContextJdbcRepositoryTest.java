@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -53,7 +54,7 @@ class GameContextJdbcRepositoryTest {
 
     @Test
     @DisplayName("단일 GameContext에 대해 ID로 잘 가져온다")
-    void find_success() throws SQLException {
+    void find_ById_success() {
         //given
         String testCurrentTurnOwnTeam = "CHO";
         String testGameState = "PLAYING";
@@ -64,14 +65,30 @@ class GameContextJdbcRepositoryTest {
                 testGameState);
 
         //when
-        GameContext result = gameContextRepository.find(DB_CONNECTION, savedEntityDatabaseId);
+        GameContext result = gameContextRepository.findById(DB_CONNECTION, savedEntityDatabaseId);
 
         assertEquals(expectResult, result);
     }
 
     @Test
+    @DisplayName("단일 GameContext에 대해 ID로 잘 가져온다")
+    void find_ByGameState_success() {
+        //given
+        int expectResultSize = 1;
+        String testCurrentTurnOwnTeam = "CHO";
+        String testGameState = "PLAYING";
+        GameContext testEntity = new GameContext(null, testCurrentTurnOwnTeam, testGameState);
+        Long savedEntityDatabaseId = gameContextRepository.save(DB_CONNECTION, testEntity);
+
+        //when
+        List<GameContext> result = gameContextRepository.findByGameState(DB_CONNECTION, testGameState);
+
+        assertEquals(expectResultSize, result.size());
+    }
+
+    @Test
     @DisplayName("단일 GameContext에 대해 Update를 잘한다 : 현재 턴 소유 팀 변경")
-    void updateCurrentTurnOwnTeam_success() throws SQLException {
+    void updateCurrentTurnOwnTeam_success() {
         //given
         String originCurrentTurnOwnTeam = "CHO";
         String expectCurrentTurnOwnTeam = "HAN";
@@ -85,7 +102,7 @@ class GameContextJdbcRepositoryTest {
         //when
 
         gameContextRepository.update(DB_CONNECTION, savedEntityDatabaseId, updateEntity);
-        GameContext result = gameContextRepository.find(DB_CONNECTION, savedEntityDatabaseId);
+        GameContext result = gameContextRepository.findById(DB_CONNECTION, savedEntityDatabaseId);
 
         assertEquals(expectCurrentTurnOwnTeam, result.currentTurnOwnTeam());
     }

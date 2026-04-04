@@ -1,6 +1,7 @@
 package repository.dao;
 
 import java.sql.Connection;
+import java.util.List;
 import repository.entity.GameContext;
 
 public interface GameContextDao {
@@ -8,7 +9,9 @@ public interface GameContextDao {
 
     Long save(Connection connection, GameContext entity);
 
-    GameContext find(Connection connection, Long entityId);
+    GameContext findById(Connection connection, Long entityId);
+
+    List<GameContext> findByGameState(Connection connection, String gameState);
 
     void update(Connection connection, Long entityId, GameContext newEntity);
 }

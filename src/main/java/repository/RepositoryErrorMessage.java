@@ -7,7 +7,9 @@ public enum RepositoryErrorMessage {
     NOT_SINGLE_RESULT("조회 값이 1개가 아닙니다"),
     BATCH_ERROR("배치 쿼리 실행 중 오류가 발생했습니다."),
     FAIL_SAVE_ENTITY("Entity 저장에 실패하였습니다"),
-    SQL_EXCEPTION("DB 관련된 문제가 발생하였습니다.");
+    SQL_EXCEPTION("DB 관련된 문제가 발생하였습니다."),
+    FAIL_TO_GET_CONNECTION("DB 커넥션 획득에 실패하였습니다"),
+    ROLL_BACK("비즈니스 로직으로 인한 롤백이 발생하였습니다.");
 
     private final String message;
 

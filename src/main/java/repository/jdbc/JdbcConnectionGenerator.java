@@ -43,7 +43,7 @@ public class JdbcConnectionGenerator {
             return new JdbcConnectionGenerator(dbUrl, dbUsername, dbPassword);
 
         } catch (IOException e) {
-            throw new RuntimeException(RepositoryErrorMessage.ERROR_ON_CONFIG_FILE_READING.getMessage());
+            throw new IllegalStateException(RepositoryErrorMessage.ERROR_ON_CONFIG_FILE_READING.getMessage());
         }
     }
 
@@ -51,7 +51,7 @@ public class JdbcConnectionGenerator {
         try {
             return DriverManager.getConnection(URL, NAME, PASSWORD);
         } catch (SQLException e) {
-            throw new IllegalStateException(e);
+            throw new IllegalStateException(RepositoryErrorMessage.FAIL_TO_GET_CONNECTION.getMessage());
         }
     }
 }

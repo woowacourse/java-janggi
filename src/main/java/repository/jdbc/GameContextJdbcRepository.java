@@ -1,7 +1,8 @@
 package repository.jdbc;
 
 import java.sql.Connection;
-
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import repository.RepositoryErrorMessage;
 import repository.dao.GameContextDao;
@@ -16,6 +17,7 @@ public class GameContextJdbcRepository implements GameContextDao {
 
     private static final String INSERT_SQL = "INSERT INTO game_contexts (current_turn_own_team, game_state) VALUES (?, ?)";
     private static final String SELECT_BY_ID_SQL = "SELECT game_context_id, current_turn_own_team, game_state FROM game_contexts WHERE game_context_id = ?";
+    private static final String SELECT_BY_GAME_STATE_SQL = "SELECT game_context_id, current_turn_own_team, game_state FROM game_contexts WHERE game_state = ?";
     private static final String UPDATE_SQL = "UPDATE game_contexts SET current_turn_own_team = ?, game_state = ? WHERE game_context_id = ?";
 
     private final JdbcTemplate template;
@@ -40,20 +42,34 @@ public class GameContextJdbcRepository implements GameContextDao {
     }
 
     @Override
-    public GameContext find(Connection connection, Long entityId) {
+    public GameContext findById(Connection connection, Long entityId) {
         List<GameContext> entities = template.executeRead(
                 connection,
                 SELECT_BY_ID_SQL,
-                (rs) -> new GameContext(
-                        rs.getLong("game_context_id"),
-                        rs.getString("current_turn_own_team"),
-                        rs.getString("game_state")
-                ),
+                GameContextJdbcRepository::convertToGameContext,
                 entityId
         );
 
         validateSingleEntity(entities);
         return entities.getFirst();
+    }
+
+    @Override
+    public List<GameContext> findByGameState(Connection connection, String gameState) {
+        return template.executeRead(
+                connection,
+                SELECT_BY_GAME_STATE_SQL,
+                GameContextJdbcRepository::convertToGameContext,
+                gameState
+        );
+    }
+
+    private static GameContext convertToGameContext(ResultSet rs) throws SQLException {
+        return new GameContext(
+                rs.getLong("game_context_id"),
+                rs.getString("current_turn_own_team"),
+                rs.getString("game_state")
+        );
     }
 
     private void validateSingleEntity(List<GameContext> entities) {
