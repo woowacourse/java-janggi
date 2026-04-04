@@ -48,8 +48,11 @@ public class Controller {
                 Position to = Position.of(Row.of(moveInputDto.getToRow()), Column.of(moveInputDto.getToCol()));
 
                 janggiGame.move(from, to);
-
                 outputView.printBoard(BoardDto.from(janggiGame.getBoard()));
+
+                int choScore = janggiGame.calculateScore(Team.CHO);
+                int hanScore = janggiGame.calculateScore(Team.HAN);
+                outputView.printScore(choScore, hanScore);
                 break;
 
             } catch (InputException e) {

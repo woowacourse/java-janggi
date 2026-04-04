@@ -62,6 +62,12 @@ public class OutputView {
         System.out.println("게임이 종료되었습니다. " + teamName + "의 승리입니다!");
     }
 
+    public void printScore(int hanScore, int choScore) {
+        System.out.println("초나라 현재 점수 : " + hanScore);
+        System.out.println("한나라 현재 점수 : " + choScore);
+        System.out.println();
+    }
+
     private List<String> generateRowView(int row, List<PieceDto> allPieces) {
         List<String> rowNodes = new ArrayList<>(Collections.nCopies(BOARD_WIDTH, EMPTY_NODE));
 

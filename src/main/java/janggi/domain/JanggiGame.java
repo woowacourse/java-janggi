@@ -25,6 +25,13 @@ public class JanggiGame {
         this.currentTeam = currentTeam.switchTeam();
     }
 
+    public int calculateScore(Team team) {
+        return board.getPieces().stream()
+                .filter(piece -> piece.getTeam() == team)
+                .mapToInt(piece -> piece.getPieceType().getScore())
+                .sum();
+    }
+
     public Optional<Team> getWinner() {
         boolean isChoKingAlive = board.getPieces().stream()
                 .anyMatch(piece -> piece.getTeam() == Team.CHO && piece.isKing());
