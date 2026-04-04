@@ -7,7 +7,7 @@ import java.util.List;
 public class EmptyPiece extends Piece {
 
     private EmptyPiece() {
-        super(Team.NONE, PieceType.EMPTY);
+        super(Team.NONE);
     }
 
     private static class LazyHolder {
@@ -30,6 +30,11 @@ public class EmptyPiece extends Piece {
 
     @Override
     public void validateRoute(List<Piece> piecesOnRoute, Piece destinationPiece) {
+    }
+
+    @Override
+    public boolean isNotEmpty() {
+        return false;
     }
 
     @Override

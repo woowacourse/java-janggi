@@ -13,6 +13,11 @@ public abstract class Piece {
         this.type = type;
     }
 
+    protected Piece(Team team) {
+        this.team = team;
+        this.type = null;
+    }
+
     public abstract boolean canMove(Position source, Position target);
 
     public abstract List<Position> calculateRoute(Position source, Position target);
@@ -28,7 +33,7 @@ public abstract class Piece {
     }
 
     public boolean isNotEmpty() {
-        return this.type != PieceType.EMPTY;
+        return true;
     }
 
     public boolean isAlly(Piece other) {
