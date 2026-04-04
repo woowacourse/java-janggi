@@ -28,7 +28,7 @@ public class JanggiController {
         int turnCount = 0;
         turnCount = movePosition(board, turnCount);
 
-        while (inputView.readRetryCommand()) {
+        while (true) {
             turnCount = movePosition(board, turnCount);
         }
     }
