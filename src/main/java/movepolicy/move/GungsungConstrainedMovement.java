@@ -22,9 +22,9 @@ public class GungsungConstrainedMovement implements Movement {
 
     @Override
     public List<Position> findPathPositions(Position departure, Position destination, Side side) {
-        if (baseMovement.canReach(departure, destination, side)) {
-            return baseMovement.findPathPositions(departure, destination, side);
+        if (!canReach(departure, destination, side)) {
+            throw new IllegalArgumentException("유효하지 않은 이동입니다.");
         }
-        return gungsungMovement.findPathPositions(departure, destination, side);
+        return baseMovement.findPathPositions(departure, destination, side);
     }
 }

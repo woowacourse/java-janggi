@@ -60,4 +60,8 @@ public record Delta(int rowDelta, int columnDelta) {
     public boolean isForwardOneStepDiagonal(Side side) {
         return rowDelta == side.forwardDelta().rowDelta && Math.abs(columnDelta) == ONE_STEP;
     }
+
+    public boolean isDiagonal() {
+        return Math.abs(rowDelta) == Math.abs(columnDelta);
+    }
 }

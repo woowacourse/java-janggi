@@ -20,11 +20,11 @@ public record Position(Row row, Column column) {
     }
 
     public boolean isSameRow(Position departure) {
-        return this.row.equals(departure.row);
+        return row.equals(departure.row);
     }
 
     public boolean isSameColumn(Position departure) {
-        return this.column.equals(departure.column);
+        return column.equals(departure.column);
     }
 
     public boolean isBackRow(Position destination, Side side) {
@@ -41,7 +41,7 @@ public record Position(Row row, Column column) {
         return this.column.isRight(destination.column);
     }
 
-    public boolean isGapBiggerThanOne(Position destination) {
+    public boolean isGapBiggerThanOneStep(Position destination) {
         return row.isGapBiggerThanOne(destination.row) ||
             column.isGapBiggerThanOne(destination.column);
     }
@@ -65,7 +65,7 @@ public record Position(Row row, Column column) {
             .toList();
     }
 
-    public Delta calucalteDelta(Position destination) {
+    public Delta calculateDelta(Position destination) {
         Delta rowDelta = destination.row.calculateDelta(row);
         Delta columnDelta = destination.column.calculateDelta(column);
         return rowDelta.add(columnDelta);

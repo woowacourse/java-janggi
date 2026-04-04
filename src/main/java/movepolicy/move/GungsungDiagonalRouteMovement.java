@@ -3,20 +3,15 @@ package movepolicy.move;
 import java.util.List;
 import movepolicy.rule.Gungsung;
 import pieces.Side;
-import position.Delta;
 import position.Position;
 
-public class GungsungStepMovement implements Movement {
+public class GungsungDiagonalRouteMovement implements Movement {
 
     private final Gungsung gungsung = new Gungsung();
 
     @Override
     public boolean canReach(Position departure, Position destination, Side side) {
-        Delta delta = departure.calculateDelta(destination);
-        if (delta.isOneStepDiagonal()) {
-            return gungsung.isOneStepDiagonalInside(departure, destination);
-        }
-        return gungsung.isInsideSameGungsung(departure, destination);
+        return gungsung.isDiagonalInside(departure, destination);
     }
 
     @Override
@@ -24,6 +19,6 @@ public class GungsungStepMovement implements Movement {
         if (!canReach(departure, destination, side)) {
             throw new IllegalArgumentException("유효하지 않은 이동입니다.");
         }
-        return List.of();
+        return List.of(gungsung.getCenterPosition(side));
     }
 }

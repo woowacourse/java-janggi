@@ -1,6 +1,7 @@
 package movepolicy.rule;
 
 import java.util.List;
+import pieces.Side;
 import position.Column;
 import position.Position;
 import position.Row;
@@ -13,16 +14,14 @@ public class Gungsung {
     private static final Position CHO_LEFT_BOTTOM = new Position(0, 3);
     private static final Position CHO_RIGHT_BOTTOM = new Position(0, 5);
 
-    private static final Position CHO_CENTER_TOP = new Position(2, 4);
-    private static final Position CHO_LEFT_MIDDLE = new Position(1, 3);
-    private static final Position CHO_RIGHT_MIDDLE = new Position(1, 5);
-    private static final Position CHO_CENTER_BOTTOM = new Position(0, 4);
-
-    private static final List<Position> DIAGONAL_MOVABLE_DEPARTURE = List.of(
+    private static final List<Position> CHO_DIAGONAL_POINTS = List.of(
         CHO_LEFT_TOP, CHO_RIGHT_TOP,
         CHO_CENTER,
         CHO_LEFT_BOTTOM, CHO_RIGHT_BOTTOM
     );
+    private static final List<Position> HAN_DIAGONAL_POINTS = CHO_DIAGONAL_POINTS.stream()
+        .map(Position::reverse)
+        .toList();
 
     private static final Row CHO_MIN_ROW = new Row(0);
     private static final Row CHO_MAX_ROW = new Row(2);
@@ -30,35 +29,47 @@ public class Gungsung {
     private static final Column CHO_MAX_COLUMN = new Column(5);
 
     public boolean isChoRange(Position position) {
-        boolean isRowInRange = position.isRowInRange(CHO_MIN_ROW, CHO_MAX_ROW);
-        boolean isColumnInRange = position.isColumnInRange(CHO_MIN_COLUMN, CHO_MAX_COLUMN);
-        return isRowInRange && isColumnInRange;
+        return position.isRowInRange(CHO_MIN_ROW, CHO_MAX_ROW)
+            && position.isColumnInRange(CHO_MIN_COLUMN, CHO_MAX_COLUMN);
     }
 
     public boolean isHanRange(Position position) {
-        Position reversedPosition = position.reverse();
-        boolean isRowInRange = reversedPosition.isRowInRange(CHO_MIN_ROW, CHO_MAX_ROW);
-        boolean isColumnInRange = reversedPosition.isColumnInRange(CHO_MIN_COLUMN, CHO_MAX_COLUMN);
-        return isRowInRange && isColumnInRange;
+        return isChoRange(position.reverse());
     }
 
-    public boolean isDiagonalOneStepInside(Position departure, Position destination) {
-        if (!isSameRange(departure, destination) || !isDiagonalMovableDeparture(departure)) {
+    public boolean isOneStepDiagonalInside(Position departure, Position destination) {
+        if (!isDiagonalReachableRange(departure, destination)) {
             return false;
         }
-        List<Position> movableOneStepDiagonals = departure.getMovableOneStepDiagonals();
-        return movableOneStepDiagonals.contains(destination);
+        return departure.getMovableOneStepDiagonals().contains(destination);
     }
 
-    private boolean isDiagonalMovableDeparture(Position departure) {
-        return DIAGONAL_MOVABLE_DEPARTURE.contains(departure)
-            || DIAGONAL_MOVABLE_DEPARTURE.stream()
-            .map(Position::reverse)
-            .anyMatch(position -> position.equals(departure));
+    public boolean isDiagonalInside(Position departure, Position destination) {
+        if (!isDiagonalReachableRange(departure, destination)) {
+            return false;
+        }
+        return departure.calculateDelta(destination).isDiagonal();
     }
 
-    public boolean isSameRange(Position departure, Position destination) {
+    private boolean isDiagonalReachableRange(Position departure, Position destination) {
+        return isInsideSameGungsung(departure, destination)
+            && isDepartureDiagonalMovable(departure);
+    }
+
+    private boolean isDepartureDiagonalMovable(Position departure) {
+        return CHO_DIAGONAL_POINTS.contains(departure)
+            || HAN_DIAGONAL_POINTS.contains(departure);
+    }
+
+    public boolean isInsideSameGungsung(Position departure, Position destination) {
         return (isChoRange(departure) && isChoRange(destination))
             || (isHanRange(departure) && isHanRange(destination));
+    }
+
+    public Position getCenterPosition(Side side) {
+        if (side.isCho()) {
+            return CHO_CENTER;
+        }
+        return CHO_CENTER.reverse();
     }
 }

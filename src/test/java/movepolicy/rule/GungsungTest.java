@@ -88,7 +88,7 @@ class GungsungTest {
         @MethodSource(METHOD_SOURCE_PREFIX + "diagonalCornersFromCenter")
         void 궁성_가운데와_모서리는_대각선_한_칸_관계이다(final Position corner) {
             // when
-            boolean isDiagonalInside = gungsung.isDiagonalOneStepInside(CHO_CENTER, corner);
+            boolean isDiagonalInside = gungsung.isOneStepDiagonalInside(CHO_CENTER, corner);
             // then
             assertThat(isDiagonalInside).isTrue();
         }
@@ -97,7 +97,7 @@ class GungsungTest {
         @MethodSource(METHOD_SOURCE_PREFIX + "oneStepStraightFromCenter")
         void 궁성_안이라도_직선_한_칸인_경우_FALSE를_반환한다(final Position position) {
             // when
-            boolean isDiagonalInside = gungsung.isDiagonalOneStepInside(CHO_CENTER, position);
+            boolean isDiagonalInside = gungsung.isOneStepDiagonalInside(CHO_CENTER, position);
             // then
             assertThat(isDiagonalInside).isFalse();
         }
@@ -106,7 +106,7 @@ class GungsungTest {
         @MethodSource(METHOD_SOURCE_PREFIX + "twoStepDiagonalInside")
         void 궁성_안이라도_대각선_두_칸인_경우_FALSE를_반환한다(final Position position) {
             // when
-            boolean isDiagonalInside = gungsung.isDiagonalOneStepInside(CHO_LEFT_TOP, position);
+            boolean isDiagonalInside = gungsung.isOneStepDiagonalInside(CHO_LEFT_TOP, position);
             // then
             assertThat(isDiagonalInside).isFalse();
         }
@@ -115,7 +115,7 @@ class GungsungTest {
         @MethodSource(METHOD_SOURCE_PREFIX + "outsidePositionsAroundCenter")
         void 궁성_밖_좌표인_경우_FALSE를_반환한다(final Position outside) {
             // when
-            boolean isDiagonalInside = gungsung.isDiagonalOneStepInside(CHO_CENTER, outside);
+            boolean isDiagonalInside = gungsung.isOneStepDiagonalInside(CHO_CENTER, outside);
             // then
             assertThat(isDiagonalInside).isFalse();
         }

@@ -12,6 +12,7 @@ import static movepolicy.move.Step.RIGHT_FORWARD;
 import java.util.List;
 import movepolicy.move.GungsungConstrainedMovement;
 import movepolicy.move.FixedRouteMovement;
+import movepolicy.move.GungsungDiagonalRouteMovement;
 import movepolicy.move.GungsungForwardDiagonalMovement;
 import movepolicy.move.LinearRouteMovement;
 import movepolicy.move.Movement;
@@ -29,7 +30,7 @@ public enum PieceType {
     CHA(
         new GungsungExtendedMovement(
             new LinearRouteMovement(),
-            new LinearGungsungMovement()
+            new GungsungDiagonalRouteMovement()
         ),
         EmptyPathMoveRule.withOtherSideTargetRule(),
         new Score(13)

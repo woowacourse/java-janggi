@@ -70,7 +70,7 @@ public class JanggiGame {
     }
 
     public JanggiGame move(Position departure, Position destination) {
-        validateMoveRequest(departure);
+        validateMoveRequest(departure, destination);
         Optional<PieceType> capturedPieceType = board.getPieceTypeAt(destination);
 
         Board updatedBoard = board.move(departure, destination);
@@ -80,10 +80,13 @@ public class JanggiGame {
         return createNextGame(updatedBoard, capturedPieceType.get());
     }
 
-    private void validateMoveRequest(Position departure) {
+    private void validateMoveRequest(Position departure, Position destination) {
         // TODO: 게임 진행 상태 객체화 고민해보기 (과한지? 합리적인지?)
         if (status.isOver()) {
             throw new IllegalArgumentException("게임이 종료되어 더 이상 말을 이동시킬 수 없습니다.");
+        }
+        if (departure.equals(destination)) {
+            throw new IllegalArgumentException("출발지와 도착지는 동일할 수 없습니다.");
         }
         board.validateDeparturePiece(departure, turn);
     }

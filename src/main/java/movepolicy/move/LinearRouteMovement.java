@@ -19,7 +19,7 @@ public class LinearRouteMovement implements Movement {
         Step step = decideDirection(departure, destination, side);
         List<Position> positions = new ArrayList<>();
         Position current = departure;
-        while (!step.move(current, side).equals(destination)) {
+        while (step.canMove(current, side) && !step.move(current, side).equals(destination)) {
             current = step.move(current, side);
             positions.add(current);
         }
