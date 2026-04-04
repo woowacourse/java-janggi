@@ -1,7 +1,8 @@
 package view;
 
+import controller.GameCommand;
 import domain.board.formation.InitialFormationType;
-import domain.board.Side;
+import domain.state.Side;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -9,6 +10,7 @@ import java.util.regex.PatternSyntaxException;
 
 import dto.PositionDto;
 import dto.PossibleMovesDto;
+import view.message.GameCommandFormatter;
 import view.message.InitialFormationFormatter;
 import view.message.SideView;
 
@@ -22,6 +24,12 @@ public class InputView {
     private static final String REQUEST_INIT_FORMAT_STRATEGY = "\n%s는 초기 (상·마) 포진을 선택해주세요.\n";
     private static final String REQUEST_MOVING_START_PIECE_POSITION = "\n%s 턴! 이동할 기물의 좌표를 입력해주세요. (e.g. 2,3)\n";
     private static final String REQUEST_PIECE_DESTINATION = "움직일 좌표의 번호를 선택해주세요.";
+    private static final String REQUEST_GAME_COMMAND =
+            "\n%s 턴입니다.\n" +
+            "1. 기물 이동하기\n" +
+            "2. 한수 쉼\n" +
+            "3. 기권\n" +
+            "번호를 입력해주세요.\n";
 
     private final Scanner sc;
 
@@ -29,10 +37,21 @@ public class InputView {
         this.sc = sc;
     }
 
+    public GameCommand requestGameCommand(Side side) {
+        try {
+            System.out.printf(REQUEST_GAME_COMMAND, SideView.from(side));
+            int index = Integer.parseInt(userInput());
+            return GameCommandFormatter.from(index);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("\n잘못된 입력입니다. 다시 입력 해주세요.");
+        }
+    }
+
     public InitialFormationType requestInitialType(Side side) {
         try {
             int index = INIT_INDEX_COUNT;
             System.out.printf(REQUEST_INIT_FORMAT_STRATEGY, SideView.from(side));
+
             for (int i = 0; i < MAX_INDEX; i++) {
                 System.out.printf("%d. %s\n", index, InitialFormationFormatter.format(index));
                 index++;
@@ -41,8 +60,8 @@ public class InputView {
             System.out.println("번호를 입력해주세요.");
             int userInput = Integer.parseInt(userInput());
             validateIndex(userInput, MAX_INDEX);
-            return InitialFormationFormatter.from(userInput);
 
+            return InitialFormationFormatter.from(userInput);
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("\n잘못된 입력입니다. 다시 입력 해주세요.");
         }
@@ -73,6 +92,7 @@ public class InputView {
             System.out.println(REQUEST_PIECE_DESTINATION);
             int userInput = Integer.parseInt(userInput());
             validateIndex(userInput, possibleMovesDto.possibleMoveCount());
+
             return userInput - INDEX_OFFSET;
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("\n잘못된 입력입니다. 다시 입력 해주세요.");
