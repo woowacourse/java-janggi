@@ -53,8 +53,9 @@ class BigJangRuleTest {
             Map<Point, Piece> pieces = Map.of(
                     new Point(1, 4), new General(Side.CHO),
                     new Point(8, 4), new General(Side.HAN),
-                    new Point(1, 3), new Advisor(Side.CHO));
-            assertThat(RULE.isEnd(pieces)).isEqualTo(true);
+                    new Point(1, 3), new Advisor(Side.CHO),
+                    new Point(0, 4), new Advisor(Side.CHO));
+            assertThat(RULE.isEnd(pieces)).isTrue();
         }
 
         @Test
@@ -64,7 +65,7 @@ class BigJangRuleTest {
                     new Point(1, 4), new General(Side.CHO),
                     new Point(8, 4), new General(Side.HAN),
                     new Point(3, 4), new Soldier(Side.CHO));
-            assertThat(RULE.isEnd(pieces)).isEqualTo(false);
+            assertThat(RULE.isEnd(pieces)).isFalse();
         }
 
         @Test
@@ -73,7 +74,7 @@ class BigJangRuleTest {
             Map<Point, Piece> pieces = Map.of(
                     new Point(1, 4), new General(Side.CHO),
                     new Point(8, 3), new General(Side.HAN));
-            assertThat(RULE.isEnd(pieces)).isEqualTo(false);
+            assertThat(RULE.isEnd(pieces)).isFalse();
         }
 
         @Test
@@ -81,7 +82,7 @@ class BigJangRuleTest {
         void notEndWhenGeneralAbsence() {
             Map<Point, Piece> pieces = Map.of(
                     new Point(1, 4), new General(Side.CHO));
-            assertThat(RULE.isEnd(pieces)).isEqualTo(false);
+            assertThat(RULE.isEnd(pieces)).isFalse();
         }
     }
 }

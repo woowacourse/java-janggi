@@ -9,10 +9,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 public class BigJangRule implements Rule {
-    private static final General CHO_GENERAL = new General(Side.CHO);
-    private static final General HAN_GENERAL = new General(Side.HAN);
+    private static final Piece CHO_GENERAL = new General(Side.CHO);
+    private static final Piece HAN_GENERAL = new General(Side.HAN);
     private static final Score CHO_ADVANTAGE = new Score(1);
-    private static final int GENERAL_LINE_SIZE = 2;
 
     @Override
     public boolean isEnd(Map<Point, Piece> pieces) {
@@ -23,7 +22,7 @@ public class BigJangRule implements Rule {
         Point hanGeneralPoint = findPoint(pieces, HAN_GENERAL);
 
         return choGeneralPoint.y() == hanGeneralPoint.y()
-                && isThereNonePieceInCol(pieces, choGeneralPoint.y());
+                && isThereNonePieceInCol(pieces, choGeneralPoint, hanGeneralPoint);
     }
 
     @Override
@@ -37,20 +36,18 @@ public class BigJangRule implements Rule {
         return Side.HAN;
     }
 
+    private boolean isThereNonePieceInCol(Map<Point, Piece> pieces, Point choGeneralPoint, Point hanGeneralPoint) {
+        return pieces.keySet().stream()
+                .filter(point -> point.y() == hanGeneralPoint.y())
+                .noneMatch(point -> point.x() > choGeneralPoint.x() && point.x() < hanGeneralPoint.x());
+    }
+
     private Score getScore(Map<Point, Piece> pieces, Side side) {
         return pieces.values().stream()
                 .filter(piece -> !piece.isDifferentSide(side))
                 .map(Piece::getScore)
                 .reduce(Score::add)
                 .orElse(Score.NONE);
-    }
-
-    private boolean isThereNonePieceInCol(Map<Point, Piece> pieces, int y) {
-        return pieces.keySet().stream()
-                .filter(point -> point.y() == y)
-                .toList()
-                .size() == GENERAL_LINE_SIZE;
-
     }
 
     private Point findPoint(Map<Point, Piece> pieces, Piece piece) {
