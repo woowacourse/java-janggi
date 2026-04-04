@@ -28,7 +28,8 @@ public class RuleWithTraces implements Rule {
         final Piece piece = boardMediator.getPieceInPosition(from);
         for (final ConstrainedMovement movement : movementOrderExceptLast) {
             traces.addAll(movement.calculateTraces(from, piece, boardMediator));
-            final Optional<Position> destination = movement.calculateDestination(from, boardMediator);
+            final Optional<Position> destination = movement.calculateDestination(from,
+                boardMediator);
             destination.ifPresent(traces::add);
             from = traces.getLast();
         }

@@ -11,7 +11,8 @@ public record GameEntity(
     String team_queue
 ) {
 
-    public static GameEntity from(final String name, final int turnsTaken, final List<TeamType> teams) {
+    public static GameEntity from(final String name, final int turnsTaken,
+        final List<TeamType> teams) {
         final String teamQueue = teams.stream()
             .map(TeamType::name)
             .collect(Collectors.joining(","));

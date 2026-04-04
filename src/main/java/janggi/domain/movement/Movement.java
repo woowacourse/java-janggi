@@ -6,6 +6,7 @@ import janggi.domain.piece.Piece;
 import java.util.List;
 
 public interface Movement {
+
     boolean canMove(Position from);
 
     boolean canCatch(Piece me, Position from, BoardMediator boardMediator);

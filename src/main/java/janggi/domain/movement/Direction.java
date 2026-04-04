@@ -28,7 +28,8 @@ public enum Direction {
     private static Direction pick(final int row, final int column) {
         return Arrays.stream(values())
             .filter(direction -> direction.row == row && direction.column == column)
-            .findFirst().orElseThrow(() -> new IllegalArgumentException("요청된 행과 열 방향 쌍과 일치하는 방향이 없습니다."));
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException("요청된 행과 열 방향 쌍과 일치하는 방향이 없습니다."));
     }
 
     public int getRow() {
