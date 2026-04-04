@@ -13,9 +13,11 @@ import java.util.Map;
 public class JanggiBoard implements PieceProvider {
 
     private final Map<Position, Piece> janggiBoard;
+    private Team turn;
 
     public JanggiBoard(JanggiBoardInitializer initializer) {
         this.janggiBoard = initializer.init();
+        turn = Team.CHO;
     }
 
     public Map<Position, Piece> getJanggiBoard() {
@@ -25,7 +27,16 @@ public class JanggiBoard implements PieceProvider {
     public void move(Position from, Position to, Piece currentPiece) {
         janggiBoard.put(to, currentPiece);
         janggiBoard.put(from, new Blank());
+        changeTurn();
     }
+
+    private void changeTurn() {
+        if (turn == Team.CHO) {
+            turn = Team.HAN;
+        }
+        turn = Team.CHO;
+    }
+
 
     @Override
     public boolean isBlank(Position position) {
