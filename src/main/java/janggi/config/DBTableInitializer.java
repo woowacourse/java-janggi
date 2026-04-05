@@ -19,9 +19,8 @@ public class DBTableInitializer {
             final Scanner scanner = new Scanner(new FileInputStream(ABSOLUTE_SQL_FILE_PATH))
                 .useDelimiter(";")
         ) {
-            String statement;
             while (scanner.hasNext()) {
-                statement = scanner.next();
+                final String statement = scanner.next();
                 dbConnection.executeUpdate(statement);
             }
         } catch (IOException e) {
