@@ -65,6 +65,10 @@ public class Board implements BaseBoard {
         return materialScore.getCurrentScore();
     }
 
+    public Side getHighestScoreSide() {
+        return materialScore.getHighestSide();
+    }
+
     private void movePiece(Position start, Position end, Piece piece, Side side) {
         Piece destinationPiece = board.get(end);
 

@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Map;
 
 public class Game {
+    private static final String WINNER_NOT_DETERMINED_YET = "아직 게임이 끝나지 않아 승자가 없습니다.";
+
     private PlayerTurn playerTurn;
 
     public List<PieceInitInfo> init(Arrangement choArrangement, Arrangement hanArrangement) {
@@ -69,7 +71,12 @@ public class Game {
     }
 
     public Side getWinnerSide() {
-        return playerTurn.getWinnerSide();
+        Side side = playerTurn.getWinnerSide();
+
+        if(side.equals(Side.EMPTY)) {
+            throw new IllegalStateException(WINNER_NOT_DETERMINED_YET);
+        }
+        return side;
     }
 
     private List<PieceInitInfo> getPieceInitInfo(Map<Position, Piece> board) {

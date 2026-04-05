@@ -77,7 +77,7 @@ public class Runner {
         if(input.isEmpty()) {
             return createNewBoard();
         }
-        return gameInfos.getGameInfo(input.get());
+        return gameInfos.getGameInfo(input.get() - 1);
     }
 
     private GameInfo createNewBoard() {
@@ -141,14 +141,7 @@ public class Runner {
 
     private void endGame(int gameId) {
         janggiService.removeGame(gameId);
-
         Side winnerSide = game.getWinnerSide();
-
-        if(winnerSide == null) {
-            OutputView.printScore(game.getCurrentSideScore());
-            printScoreWinner();
-            return;
-        }
         OutputView.printWinner(winnerSide);
     }
 
@@ -160,15 +153,6 @@ public class Runner {
         }
 
         return executeTurn(gameId);
-    }
-
-    private void printScoreWinner() {
-        SideScore score = game.getCurrentSideScore();
-        if(score.cho() > score.han()) {
-            OutputView.printWinner(Side.CHO);
-            return;
-        }
-        OutputView.printWinner(Side.HAN);
     }
 
     private static <T> T askUntilValid(Supplier<T> supplier) {

@@ -26,6 +26,9 @@ public class FinishTurn extends BaseTurn {
 
     @Override
     public Side getWinnerSide() {
+        if(winnerSide.equals(Side.EMPTY)) {
+            return board.getHighestScoreSide();
+        }
         return winnerSide;
     }
 

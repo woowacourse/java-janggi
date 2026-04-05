@@ -2,6 +2,7 @@ package janggi.domain.board;
 
 import janggi.domain.Side;
 import janggi.domain.SideScore;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,5 +43,9 @@ public class MaterialScore {
         }
 
         score.put(side, currentScore - pieceScore);
+    }
+
+    public Side getHighestSide() {
+        return Collections.max(score.entrySet(),Map.Entry.comparingByValue()).getKey();
     }
 }
