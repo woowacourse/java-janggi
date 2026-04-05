@@ -83,7 +83,7 @@ public class JanggiController {
             try {
                 return inputFunction.get();
             } catch (IllegalArgumentException e) {
-                OutputView.printErrorMessage(e.getMessage());
+                outputView.printErrorMessage(e.getMessage());
             }
         }
     }
