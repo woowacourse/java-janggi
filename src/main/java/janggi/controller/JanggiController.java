@@ -29,13 +29,14 @@ public class JanggiController {
 
     public void run() {
         Long gameId = initGame();
-        Game game = janggiService.findGame(gameId);
-        outputView.printBoard(BoardDto.from(game.boardMap()));
+        printBoard(gameId);
 
+        Game game = janggiService.findGame(gameId);
         while (!game.isFinished()) {
             moveProcess(gameId);
+            game = janggiService.findGame(gameId);
         }
-        outputView.printWinner(DynastyDto.from(game.judgeWinner()));
+        printWinner(gameId);
     }
 
     private Long initGame() {
@@ -67,7 +68,7 @@ public class JanggiController {
         runUntilValid(() -> {
             Position to = readDestinationPosition();
             janggiService.movePiece(gameId, from, to);
-            outputView.printBoard(BoardDto.from(janggiService.findGame(gameId).boardMap()));
+            printBoard(gameId);
         });
     }
 
@@ -85,6 +86,16 @@ public class JanggiController {
     private Position readDestinationPosition() {
         PositionDto position = getUntilValid(inputView::readDestinationPosition);
         return Position.from(position.row(), position.column());
+    }
+
+    private void printBoard(Long gameId) {
+        Game game = janggiService.findGame(gameId);
+        outputView.printBoard(BoardDto.from(game.boardMap()));
+    }
+
+    private void printWinner(Long gameId) {
+        Game game = janggiService.findGame(gameId);
+        outputView.printWinner(DynastyDto.from(game.judgeWinner()));
     }
 
     private <T> T getUntilValid(Supplier<T> supplier) {
