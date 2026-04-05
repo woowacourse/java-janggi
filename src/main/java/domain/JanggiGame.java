@@ -17,8 +17,16 @@ public class JanggiGame {
     }
 
     public void play(Position start, Position end) {
-        board.move(start, end);
+        PieceType killPieceType = board.move(start, end);
+        if (killPieceType==PieceType.JANG){
+            this.state = state.exitGame();
+            return;
+        }
         this.state = state.changeTurn();
+    }
+
+    public boolean isGameOver() {
+        return state.getCountry()==Country.NONE;
     }
 
     public List<Position> getPiecesNowPosition(PieceType pieceType){

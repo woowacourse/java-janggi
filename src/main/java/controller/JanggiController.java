@@ -34,7 +34,7 @@ public class JanggiController {
         JanggiGame janggiGame = initJanggiGame(board);
 
         boolean isGameContinue = true;
-        while (isGameContinue) {
+        while (!janggiGame.isGameOver() && isGameContinue) {
             outputView.printChangeTurnMessage(janggiGame.getCountry().getName());
             playTurn(janggiGame, board);
             isGameContinue= isGameContinue();

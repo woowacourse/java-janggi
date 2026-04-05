@@ -14,7 +14,6 @@ import domain.enums.PieceType;
 import domain.pieces.None;
 import domain.pieces.Piece;
 import domain.pieces.PieceFactory;
-import domain.pieces.Po;
 
 public class Board {
     private final Map<Position, Piece> board;
@@ -60,12 +59,10 @@ public class Board {
             }
         }
 
-
-
         return possiblePosition;
     }
 
-    public void move(Position start, Position end) {
+    public PieceType move(Position start, Position end) {
         Piece startPiece = board.getOrDefault(start, None.INSTANCE);
         Piece endPiece = board.getOrDefault(end, None.INSTANCE);
 
@@ -75,8 +72,9 @@ public class Board {
         }
 
         killPiece(start);
-        killPiece(end);
+        PieceType pieceType=killPiece(end);
         board.put(end, startPiece);
+        return pieceType;
     }
 
     private List<Piece> getSameLine(Position start, Position end) {
@@ -109,8 +107,10 @@ public class Board {
         return pieces;
     }
 
-    private void killPiece(Position endPosition) {
+    private PieceType killPiece(Position endPosition) {
+        PieceType pieceType = board.getOrDefault(endPosition, None.INSTANCE).getPieceType();
         board.remove(endPosition);
+        return pieceType;
     }
 
     public PieceType getPiece(Position position) {
