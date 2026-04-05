@@ -1,5 +1,6 @@
 package domain.strategy;
 
+import domain.Team;
 import domain.position.Position;
 import domain.PieceProvider;
 
@@ -9,28 +10,28 @@ import java.util.List;
 public class ElephantStrategy implements Strategy {
 
     @Override
-    public List<Position> getMoveCandidates(Position from, PieceProvider board) {
+    public List<Position> getMoveCandidates(Position from, Team team, PieceProvider board) {
         List<Position> candidates = new ArrayList<>();
         Direction[] straightDirections = {Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
 
         for (Direction straight : straightDirections) {
             Position myeok1 = new Position(
-                    from.row() + straight.getRowOffset(),
-                    from.col() + straight.getColOffset()
+                    from.row() + straight.getRowOffset(team),
+                    from.col() + straight.getColOffset(team)
             );
 
             if (!board.isBlank(myeok1)) continue;
 
             for (Direction diag : getDiagonalsFor(straight)) {
                 Position myeok2 = new Position(
-                        myeok1.row() + diag.getRowOffset(),
-                        myeok1.col() + diag.getColOffset()
+                        myeok1.row() + diag.getRowOffset(team),
+                        myeok1.col() + diag.getColOffset(team)
                 );
 
                 if (!board.isBlank(myeok2)) continue;
 
-                Position target = new Position(myeok2.row() + diag.getRowOffset(),
-                        myeok2.col() + diag.getColOffset()
+                Position target = new Position(myeok2.row() + diag.getRowOffset(team),
+                        myeok2.col() + diag.getColOffset(team)
                 );
                 candidates.add(target);
             }

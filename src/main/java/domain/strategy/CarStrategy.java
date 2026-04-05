@@ -19,7 +19,7 @@ public class CarStrategy implements Strategy {
 
         Direction[] straightDirections = {Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
 
-        return Arrays.stream(Direction.values()) // 모든 방향 혹은 특정 방향 배열
+        return Arrays.stream(straightDirections)
                 .flatMap(direction -> addPathCandidates(from, team, direction, board).stream())
                 .collect(Collectors.toList());
     }

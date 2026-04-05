@@ -15,8 +15,8 @@ public class Guard extends Piece {
     }
 
     @Override
-    public boolean canMove(Position from, Position to, Team team, PieceProvider pieceProvider) {
-        List<Position> moveCandidates = moveStrategy.getMoveCandidates(from, pieceProvider);
+    public boolean canMove(Position from, Position to, PieceProvider pieceProvider) {
+        List<Position> moveCandidates = moveStrategy.getMoveCandidates(from, team, pieceProvider);
         boolean isTargetPositionBlank = pieceProvider.isBlank(to);
         for (Position candidatePosition : moveCandidates) {
             if (candidatePosition.equals(to) && isTargetPositionBlank) {
