@@ -19,7 +19,7 @@ public class OutputView {
         for (int x = 0; x < board.getBoardHeight(); x++) {
             System.out.print(x + " ");
         }
-        System.out.println();
+        printLine();
     }
 
     private static void printRow(Board board, int y) {
@@ -28,10 +28,14 @@ public class OutputView {
             Space space = board.getSpace(new Position(x, y));
             System.out.print(formatSpace(space) + " ");
         }
-        System.out.println();
+        printLine();
     }
 
     private static String formatSpace(Space space) {
         return space.displayValue();
+    }
+
+    private static void printLine() {
+        System.out.println();
     }
 }
