@@ -6,6 +6,9 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class TransactionManager {
+    private static final String FAILED_TRANSACTION_MESSAGE = "트랜잭션 실행 중 오류 발생";
+    private static final String FAILED_ROLLBACK_MESSAGE = "롤백 중 오류 발생";
+
     private final SQLManager sqlManager;
 
     public TransactionManager(SQLManager sqlManager) {
@@ -20,7 +23,7 @@ public class TransactionManager {
             return result;
         } catch (Exception e) {
             rollback(connection);
-            throw new RuntimeException("트랜잭션 실행 중 오류 발생", e);
+            throw new RuntimeException(FAILED_TRANSACTION_MESSAGE, e);
         }
     }
 
@@ -31,7 +34,7 @@ public class TransactionManager {
             connection.commit();
         } catch (Exception e) {
             rollback(connection);
-            throw new RuntimeException("트랜잭션 실행 중 오류 발생", e);
+            throw new RuntimeException(FAILED_TRANSACTION_MESSAGE, e);
         }
     }
 
@@ -41,7 +44,7 @@ public class TransactionManager {
                 connection.rollback();
             }
         } catch (SQLException e) {
-            throw new RuntimeException("트랜잭션 실행 중 오류 발생", e);
+            throw new RuntimeException(FAILED_ROLLBACK_MESSAGE, e);
         }
     }
 }
