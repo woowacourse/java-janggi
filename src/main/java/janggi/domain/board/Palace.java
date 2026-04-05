@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 public class Palace {
-    private static final List<PalaceRange> RANGES = List.of(
+    private static final Set<PalaceRange> RANGES = Set.of(
             new PalaceRange(1, 3, 4, 6),
             new PalaceRange(8, 10, 4, 6)
     );
