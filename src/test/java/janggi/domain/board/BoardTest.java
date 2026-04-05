@@ -1,7 +1,9 @@
 package janggi.domain.board;
 
 import janggi.domain.piece.General;
+import janggi.domain.piece.Palace;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.Soldier;
 import janggi.domain.position.Movement;
 import janggi.domain.position.Position;
 import janggi.domain.team.Team;
@@ -82,10 +84,10 @@ class BoardTest {
     void 장이_잡히면_참을_반환한다() {
         // given
         Map<Position, Piece> base = new LinkedHashMap<>();
-        base.put(Position.of(1, 1), new General(Team.HAN));
-        base.put(Position.of(2, 1), new General(Team.CHO));
+        base.put(Position.of(2, 5), new General(Team.HAN, new Palace()));
+        base.put(Position.of(3, 5), new Soldier(Team.CHO));
         board = new Board(base);
-        Movement movement = new Movement(Position.of(2, 1), Position.of(1, 1));
+        Movement movement = new Movement(Position.of(3, 5), Position.of(2, 5));
 
         // when
         board.move(movement, Team.CHO);

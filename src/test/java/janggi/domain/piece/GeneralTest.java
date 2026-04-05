@@ -19,7 +19,7 @@ class GeneralTest {
             "CHO, true"})
     void 장의_팀을_확인한다(Team team, boolean expected) {
         // given
-        General general = new General(team);
+        General general = new General(team, new Palace());
 
         // when
         boolean result = general.isSameTeam(team);
@@ -31,7 +31,7 @@ class GeneralTest {
     @Test
     void 장의_타입은_GENERAL이다() {
         // given
-        General general = new General(Team.HAN);
+        General general = new General(Team.HAN, new Palace());
 
         // when
         boolean result = general.isSameType(PieceType.GENERAL);
@@ -46,7 +46,7 @@ class GeneralTest {
             "CHO, false"})
     void 자신의_팀과_같은_팀인지_판별한다(Team team, boolean expected) {
         // given
-        General general = new General(Team.HAN);
+        General general = new General(Team.HAN, new Palace());
 
         // when & then
         assertThat(general.isSameTeam(team)).isEqualTo(expected);
@@ -54,11 +54,11 @@ class GeneralTest {
 
     @ParameterizedTest(name = "from={0}, to={1}")
     @CsvSource({
-            "11, 12",
-            "11, 21"})
-    void 직선_한_칸을_이동시키면_빈_경로를_반환한다(String from, String to) {
+            "25, 35",
+            "25, 14"})
+    void 궁성_내에서_직선_한_칸_또는_궁성_길로_이동시키면_빈_경로를_반환한다(String from, String to) {
         // given
-        General general = new General(Team.HAN);
+        General general = new General(Team.HAN, new Palace());
         Movement movement = new Movement(Position.from(from), Position.from(to));
 
         // when
@@ -70,11 +70,11 @@ class GeneralTest {
 
     @ParameterizedTest(name = "from={0}, to={1}")
     @CsvSource({
-            "11, 22",
-            "11, 15"})
-    void 올바르지_않은_경로로_이동시키면_예외가_발생한다(String from, String to) {
+            "14, 36",
+            "15, 24"})
+    void 궁성_내에서_두_칸을_이동하거나_궁성_길이_아닌_길로_이동하면_예외가_발생한다(String from, String to) {
         // given
-        General general = new General(Team.HAN);
+        General general = new General(Team.HAN, new Palace());
         Movement movement = new Movement(Position.from(from), Position.from(to));
 
         // when & then
@@ -84,9 +84,21 @@ class GeneralTest {
     }
 
     @Test
+    void 궁성_밖으로_이동하면_예외가_발생한다() {
+        // given
+        General general = new General(Team.CHO, new Palace());
+        Movement movement = new Movement(Position.from("85"), Position.from("75"));
+
+        // when & then
+        assertThatThrownBy(() -> general.getPath(movement))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 장은 궁성 내에서만 움직일 수 있습니다.");
+    }
+
+    @Test
     void 이동할_위치에_같은_팀이_있으면_예외가_발생한다() {
         // given
-        General general = new General(Team.HAN);
+        General general = new General(Team.HAN, new Palace());
 
         // when & then
         assertThatThrownBy(() -> general.validateCanMove(new PieceOnPath(), new Chariot(Team.HAN)))
@@ -97,7 +109,7 @@ class GeneralTest {
     @Test
     void 이동할_위치에_다른_팀이_있으면_예외가_발생하지_않는다() {
         // given
-        General general = new General(Team.HAN);
+        General general = new General(Team.HAN, new Palace());
 
         // when & then
         assertThatNoException().isThrownBy(

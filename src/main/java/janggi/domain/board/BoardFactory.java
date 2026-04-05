@@ -41,7 +41,7 @@ public class BoardFactory {
         base.put(Position.of(1, 7), new Horse(Team.HAN));
         base.put(Position.of(1, 8), new Elephant(Team.HAN));
         base.put(Position.of(1, 9), new Chariot(Team.HAN));
-        base.put(Position.of(2, 5), new General(Team.HAN));
+        base.put(Position.of(2, 5), new General(Team.HAN, new Palace()));
         base.put(Position.of(3, 2), new Cannon(Team.HAN));
         base.put(Position.of(3, 8), new Cannon(Team.HAN));
         base.put(Position.of(4, 1), new Soldier(Team.HAN));
@@ -60,7 +60,7 @@ public class BoardFactory {
         base.put(Position.of(10, 7), new Horse(Team.CHO));
         base.put(Position.of(10, 8), new Elephant(Team.CHO));
         base.put(Position.of(10, 9), new Chariot(Team.CHO));
-        base.put(Position.of(9, 5), new General(Team.CHO));
+        base.put(Position.of(9, 5), new General(Team.CHO, new Palace()));
         base.put(Position.of(8, 2), new Cannon(Team.CHO));
         base.put(Position.of(8, 8), new Cannon(Team.CHO));
         base.put(Position.of(7, 1), new Soldier(Team.CHO));
