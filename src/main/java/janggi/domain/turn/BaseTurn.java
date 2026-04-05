@@ -10,11 +10,9 @@ public abstract class BaseTurn implements PlayerTurn {
     protected static final int MAX_TURN = 200;
 
     protected final Board board;
-    protected final int turn;
 
-    public BaseTurn(Board board, int turn) {
+    public BaseTurn(Board board) {
         this.board = board;
-        this.turn = turn;
     }
 
     @Override
