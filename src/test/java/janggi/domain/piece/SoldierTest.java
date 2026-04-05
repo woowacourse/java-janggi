@@ -19,7 +19,7 @@ class SoldierTest {
             "CHO, true"})
     void 졸의_팀을_확인한다(Team team, boolean expected) {
         // given
-        Soldier soldier = new Soldier(team);
+        Soldier soldier = new Soldier(team, new Palace());
 
         // when
         boolean result = soldier.isSameTeam(team);
@@ -31,7 +31,7 @@ class SoldierTest {
     @Test
     void 졸의_타입은_SOLDIER이다() {
         // given
-        Soldier soldier = new Soldier(Team.HAN);
+        Soldier soldier = new Soldier(Team.HAN, new Palace());
 
         // when
         boolean result = soldier.isSameType(PieceType.SOLDIER);
@@ -43,10 +43,11 @@ class SoldierTest {
     @ParameterizedTest(name = "from={0}, to={1}")
     @CsvSource({
             "43, 53",
-            "43, 44"})
-    void 전진_방향으로_한_칸_이동시키면_빈_경로를_반환한다(String from, String to) {
+            "43, 44",
+            "85, 95"})
+    void 전진_또는_옆_방향으로_한_칸_이동시키면_빈_경로를_반환한다(String from, String to) {
         // given
-        Soldier soldier = new Soldier(Team.HAN);
+        Soldier soldier = new Soldier(Team.HAN, new Palace());
         Movement movement = new Movement(Position.from(from), Position.from(to));
 
         // when
@@ -56,14 +57,25 @@ class SoldierTest {
         assertThat(path).isEmpty();
     }
 
-    @ParameterizedTest(name = "from={0}, to={1}")
-    @CsvSource({
-            "43, 54",
-            "43, 63"})
-    void 올바르지_않은_경로로_이동시키면_예외가_발생한다(String from, String to) {
+    @Test
+    void 궁성에서_전진_방향으로_대각선_이동하면_빈_경로를_반환한다() {
         // given
-        Soldier soldier = new Soldier(Team.HAN);
-        Movement movement = new Movement(Position.from(from), Position.from(to));
+        Soldier soldier = new Soldier(Team.CHO, new Palace());
+        Movement movement = new Movement(Position.from("34"), Position.from("25"));
+
+        // when
+        Path path = soldier.getPath(movement);
+
+        // then
+        assertThat(path).isEmpty();
+
+    }
+
+    @Test
+    void 궁성이_아닌_곳에서_대각선으로_이동시키면_예외가_발생한다() {
+        // given
+        Soldier soldier = new Soldier(Team.HAN, new Palace());
+        Movement movement = new Movement(Position.from("43"), Position.from("52"));
 
         // when & then
         assertThatThrownBy(() -> soldier.getPath(movement))
@@ -74,10 +86,10 @@ class SoldierTest {
     @ParameterizedTest(name = "team={0}, from={1}, to={2}")
     @CsvSource({
             "HAN, 45, 35",
-            "CHO, 75, 85"})
+            "CHO, 25, 34"})
     void 뒷_방향으로_이동시키면_예외가_발생한다(Team team, String from, String to) {
         // given
-        Soldier soldier = new Soldier(team);
+        Soldier soldier = new Soldier(team, new Palace());
         Movement movement = new Movement(Position.from(from), Position.from(to));
 
         // when & then
@@ -89,7 +101,7 @@ class SoldierTest {
     @Test
     void 이동할_위치에_같은_팀이_있으면_예외가_발생한다() {
         // given
-        Soldier soldier = new Soldier(Team.HAN);
+        Soldier soldier = new Soldier(Team.HAN, new Palace());
 
         // when & then
         assertThatThrownBy(() -> soldier.validateCanMove(new PieceOnPath(), new Chariot(Team.HAN, new Palace())))
@@ -100,7 +112,7 @@ class SoldierTest {
     @Test
     void 이동할_위치에_다른_팀이_있으면_예외가_발생하지_않는다() {
         // given
-        Soldier soldier = new Soldier(Team.HAN);
+        Soldier soldier = new Soldier(Team.HAN, new Palace());
 
         // when & then
         assertThatNoException().isThrownBy(

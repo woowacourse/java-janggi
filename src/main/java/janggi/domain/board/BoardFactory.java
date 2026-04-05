@@ -44,11 +44,11 @@ public class BoardFactory {
         base.put(Position.of(2, 5), new General(Team.HAN, new Palace()));
         base.put(Position.of(3, 2), new Cannon(Team.HAN, new Palace()));
         base.put(Position.of(3, 8), new Cannon(Team.HAN, new Palace()));
-        base.put(Position.of(4, 1), new Soldier(Team.HAN));
-        base.put(Position.of(4, 3), new Soldier(Team.HAN));
-        base.put(Position.of(4, 5), new Soldier(Team.HAN));
-        base.put(Position.of(4, 7), new Soldier(Team.HAN));
-        base.put(Position.of(4, 9), new Soldier(Team.HAN));
+        base.put(Position.of(4, 1), new Soldier(Team.HAN, new Palace()));
+        base.put(Position.of(4, 3), new Soldier(Team.HAN, new Palace()));
+        base.put(Position.of(4, 5), new Soldier(Team.HAN, new Palace()));
+        base.put(Position.of(4, 7), new Soldier(Team.HAN, new Palace()));
+        base.put(Position.of(4, 9), new Soldier(Team.HAN, new Palace()));
     }
 
     private static void placeCho(Map<Position, Piece> base) {
@@ -63,11 +63,11 @@ public class BoardFactory {
         base.put(Position.of(9, 5), new General(Team.CHO, new Palace()));
         base.put(Position.of(8, 2), new Cannon(Team.CHO, new Palace()));
         base.put(Position.of(8, 8), new Cannon(Team.CHO, new Palace()));
-        base.put(Position.of(7, 1), new Soldier(Team.CHO));
-        base.put(Position.of(7, 3), new Soldier(Team.CHO));
-        base.put(Position.of(7, 5), new Soldier(Team.CHO));
-        base.put(Position.of(7, 7), new Soldier(Team.CHO));
-        base.put(Position.of(7, 9), new Soldier(Team.CHO));
+        base.put(Position.of(7, 1), new Soldier(Team.CHO, new Palace()));
+        base.put(Position.of(7, 3), new Soldier(Team.CHO, new Palace()));
+        base.put(Position.of(7, 5), new Soldier(Team.CHO, new Palace()));
+        base.put(Position.of(7, 7), new Soldier(Team.CHO, new Palace()));
+        base.put(Position.of(7, 9), new Soldier(Team.CHO, new Palace()));
     }
 
     private static void applySetUp(Map<Position, Piece> base, PieceSetup hanSetup, PieceSetup choSetup) {

@@ -29,7 +29,7 @@ class PieceOnPathTest {
 
     private static Stream<Arguments> countNonEmptyArguments() {
         return Stream.of(
-                Arguments.of(List.of(new EmptyPiece(), new Soldier(Team.HAN)), 1L),
+                Arguments.of(List.of(new EmptyPiece(), new Soldier(Team.HAN, new Palace())), 1L),
                 Arguments.of(List.of(new EmptyPiece(), new EmptyPiece()), 0L)
         );
     }
@@ -48,7 +48,7 @@ class PieceOnPathTest {
     private static Stream<Arguments> hasTypeArguments() {
         return Stream.of(
                 Arguments.of(new Cannon(Team.HAN, new Palace()), PieceType.CANNON, true),
-                Arguments.of(new Soldier(Team.HAN), PieceType.CANNON, false)
+                Arguments.of(new Soldier(Team.HAN, new Palace()), PieceType.CANNON, false)
         );
     }
 }

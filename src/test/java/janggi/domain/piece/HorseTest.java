@@ -76,7 +76,7 @@ class HorseTest {
         // given
         Horse horse = new Horse(Team.HAN);
         PieceOnPath pieceOnPath = new PieceOnPath();
-        pieceOnPath.add(new Soldier(Team.HAN));
+        pieceOnPath.add(new Soldier(Team.HAN, new Palace()));
 
         // when & then
         assertThatThrownBy(() -> horse.validateCanMove(pieceOnPath, new EmptyPiece()))
@@ -92,7 +92,7 @@ class HorseTest {
         pieceOnPath.add(new EmptyPiece());
 
         // when & then
-        assertThatThrownBy(() -> horse.validateCanMove(pieceOnPath, new Soldier(Team.HAN)))
+        assertThatThrownBy(() -> horse.validateCanMove(pieceOnPath, new Soldier(Team.HAN, new Palace())))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 자신의 기물로 이동할 수 없습니다.");
     }

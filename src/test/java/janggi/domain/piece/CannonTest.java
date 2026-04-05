@@ -90,7 +90,7 @@ class CannonTest {
         Cannon cannon = new Cannon(Team.HAN, new Palace());
         PieceOnPath pieceOnPath = new PieceOnPath();
         pieceOnPath.add(new EmptyPiece());
-        pieceOnPath.add(new Soldier(Team.HAN));
+        pieceOnPath.add(new Soldier(Team.HAN, new Palace()));
 
         // when & then
         assertThatNoException().isThrownBy(
@@ -102,7 +102,7 @@ class CannonTest {
         //given
         Cannon cannon = new Cannon(Team.HAN, new Palace());
         PieceOnPath pieceOnPath = new PieceOnPath();
-        pieceOnPath.add(new Soldier(Team.HAN));
+        pieceOnPath.add(new Soldier(Team.HAN, new Palace()));
         pieceOnPath.add(new Elephant(Team.HAN));
 
         // when & then
