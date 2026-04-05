@@ -75,12 +75,6 @@ public class JdbcTemplate {
         return ps.executeUpdate();
     }
 
-    private Void processBatchUpdate(PreparedStatement ps, List<List<Object>> parameterBatch) throws SQLException {
-        bindBatchParameters(ps, parameterBatch);
-        ps.executeBatch();
-        return null;
-    }
-
     private PreparedStatement prepareStatement(Connection conn, String sql, boolean returnKeys) throws SQLException {
         if (returnKeys) {
             return conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
