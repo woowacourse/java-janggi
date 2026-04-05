@@ -15,7 +15,7 @@ import java.util.Optional;
 
 public class GameRepository {
     public Optional<Integer> findActiveGameId() {
-        String sql = "SELECT id FROM game WHERE is_finished = 0";
+        String sql = "SELECT id FROM game WHERE is_finished = 0 ORDER BY id DESC LIMIT 1";
 
         try (Connection conn = JdbcContext.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql);

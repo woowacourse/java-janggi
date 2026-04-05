@@ -36,6 +36,8 @@ public class JanggiController {
             return;
         }
 
+        activeGameId.ifPresent(gameRepository::finish);
+
         BoardSetUp choBoardSetUp = retry(() -> inputView.readBoardSetup(Side.CHO));
         BoardSetUp hanBoardSetUp = retry(() -> inputView.readBoardSetup(Side.HAN));
         Game game = Game.createGame(choBoardSetUp, hanBoardSetUp);
