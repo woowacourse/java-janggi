@@ -22,7 +22,7 @@ class PlayerTest {
         String nameValue = "초나라고수";
         Player player = new Player(new Name(nameValue), Team.CHO);
 
-        assertEquals(nameValue, player.getProfile().nameValue());
+        assertEquals(nameValue, player.getProfile().name().value());
         assertEquals(Team.CHO, player.getProfile().team());
     }
 

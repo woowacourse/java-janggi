@@ -32,13 +32,13 @@ public class OutputView {
     }
 
     public void printPlayerTurnMessage(PlayerProfile profile) {
-        System.out.println(profile.nameValue() + "(" + profile.team() + ") 님의 차례입니다.");
+        System.out.println(profile.name().value() + "(" + profile.team() + ") 님의 차례입니다.");
     }
 
     public void printResult(PlayerProfile winnerProfile) {
         System.out.println("게임 종료");
         System.out.println("승리 팀: " + winnerProfile.team());
-        System.out.println("승리 플레이어: " + winnerProfile.nameValue());
+        System.out.println("승리 플레이어: " + winnerProfile.name().value());
     }
 
     public void printAvailableGames(java.util.List<dao.GameInfo> games) {
