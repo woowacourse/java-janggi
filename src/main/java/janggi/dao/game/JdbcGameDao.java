@@ -79,4 +79,22 @@ public class JdbcGameDao implements GameDao {
             throw new IllegalStateException("게임 삭제에 실패했습니다.", e);
         }
     }
+
+    @Override
+    public void updateCurrentTurn(Connection con, Long gameId, String turn) {
+        String sql = """
+                UPDATE game
+                SET current_turn = (?)
+                WHERE game_id = (?)
+                """;
+
+        try (PreparedStatement psmt = con.prepareStatement(sql)){
+            psmt.setString(1, turn);
+            psmt.setLong(2, gameId);
+
+            psmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new IllegalStateException("게임 정보 수정에 실패했습니다.", e);
+        }
+    }
 }

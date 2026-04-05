@@ -146,6 +146,12 @@ public class JanggiService {
                     piece.id(),
                     to
             );
+
+            gameDao.updateCurrentTurn(
+                    con,
+                    piece.gameId(),
+                    janggi.getCurrentTeam().name()
+            );
         });
 
         return moved;

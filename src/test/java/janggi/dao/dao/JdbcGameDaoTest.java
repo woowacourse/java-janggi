@@ -49,4 +49,20 @@ class JdbcGameDaoTest extends DatabaseTest {
         //then
         assertThat(gameDao.findLatestGame(con)).isEmpty();
     }
+
+    @DisplayName("현재 턴 정보를 수정한다.")
+    @Test
+    void updateCurrentTurn() {
+        //given
+        Long gameId = gameDao.save(con, "HAN");
+
+        //when
+        gameDao.updateCurrentTurn(con, gameId, "CHO");
+
+        //then
+        Optional<GameEntity> latestGameOpt = gameDao.findLatestGame(con);
+        GameEntity gameEntity = latestGameOpt.get();
+
+        assertThat(gameEntity.currentTurn()).isEqualTo("CHO");
+    }
 }

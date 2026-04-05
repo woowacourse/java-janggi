@@ -105,7 +105,7 @@ class JanggiServiceTest {
         //when & then
         assertThatThrownBy(() ->
                 janggiService.updateBoardWith(
-                        null,
+                        Janggi.of(PlayingBoard.of(Map.of())),
                         new Position(Row.ONE, Column.ONE),
                         new Position(Row.TWO, Column.ONE)
                 )
@@ -146,15 +146,21 @@ class JanggiServiceTest {
         Position to = new Position(Row.NINE, Column.SIX);
 
         //when
-        Janggi updated = janggiService.updateBoardWith(
+       janggiService.updateBoardWith(
                 janggi,
                 from,
                 to
         );
 
         //then
-        assertThat(updated.getBoard().getBoardInfo().get(to))
-                .isEqualTo(pieceAtFrom);
+        Optional<LatestInProgressGameResponse> responseOpt = janggiService.loadGame();
+        LatestInProgressGameResponse response = responseOpt.get();
+
+        Janggi updated = response.janggi();
+
+        assertThat(updated.getCurrentTeam()).isEqualTo(Team.HAN);
+        assertThat(updated.getBoard().getBoardInfo().get(to).getPieceType())
+                .isEqualTo(pieceAtFrom.getPieceType());
     }
 
     @DisplayName("원래 to에 있던 기물을 삭제한다.")
