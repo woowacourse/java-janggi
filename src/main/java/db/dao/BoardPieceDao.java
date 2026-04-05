@@ -1,13 +1,13 @@
 package db.dao;
 
-import db.model.BoardPiece;
+import db.model.BoardPieceEntity;
 import java.util.List;
 
 public interface BoardPieceDao {
 
-    void saveAll(Long gameId, List<BoardPiece> boardPieces);
+    void saveAll(Long gameEntityId, List<BoardPieceEntity> boardPieceEntities);
 
-    List<BoardPiece> findByGameId(Long gameId);
+    List<BoardPieceEntity> findByGameId(Long gameEntityId);
 
-    void deleteByGameId(Long gameId);
+    void deleteByGameId(Long gameEntityId);
 }

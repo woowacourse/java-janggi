@@ -48,7 +48,7 @@ public class Gungsung {
         if (!isDiagonalReachableRange(departure, destination)) {
             return false;
         }
-        return departure.calculateDelta(destination).isDiagonal();
+        return departure.calculateDeltaTo(destination).isDiagonal();
     }
 
     private boolean isDiagonalReachableRange(Position departure, Position destination) {

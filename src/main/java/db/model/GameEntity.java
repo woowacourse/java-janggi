@@ -3,7 +3,7 @@ package db.model;
 import core.GameStatus;
 import pieces.Side;
 
-public record Game(
+public record GameEntity(
     Long id,
     Side turnSide,
     GameStatus status) {

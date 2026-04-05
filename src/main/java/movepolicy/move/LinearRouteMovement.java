@@ -3,6 +3,7 @@ package movepolicy.move;
 import java.util.ArrayList;
 import java.util.List;
 import pieces.Side;
+import position.Delta;
 import position.Position;
 
 public class LinearRouteMovement implements Movement {
@@ -43,16 +44,32 @@ public class LinearRouteMovement implements Movement {
     }
 
     private Step decideForwardOrBack(Position departure, Position destination, Side side) {
-        if (destination.isBackRow(departure, side)) {
-            return Step.BACK;
+        Delta delta = departure.calculateDeltaTo(destination);
+        if (isForward(delta, side)) {
+            return Step.FORWARD;
         }
-        return Step.FORWARD;
+        return Step.BACK;
     }
 
     private Step decideRightOrLeft(Position departure, Position destination, Side side) {
-        if (destination.isLeftColumn(departure, side)) {
+        Delta delta = departure.calculateDeltaTo(destination);
+        if (isLeft(delta, side)) {
             return Step.LEFT;
         }
         return Step.RIGHT;
+    }
+
+    private boolean isForward(Delta delta, Side side) {
+        if (side.isCho()) {
+            return delta.isRowPositive();
+        }
+        return delta.isRowNegative();
+    }
+
+    private boolean isLeft(Delta delta, Side side) {
+        if (side.isCho()) {
+            return delta.isColumnNegative();
+        }
+        return delta.isColumnPositive();
     }
 }

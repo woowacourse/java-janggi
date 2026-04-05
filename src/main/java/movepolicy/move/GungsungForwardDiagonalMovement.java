@@ -12,9 +12,13 @@ public class GungsungForwardDiagonalMovement implements Movement {
 
     @Override
     public boolean canReach(Position departure, Position destination, Side side) {
-        Delta delta = departure.calculateDelta(destination);
-        return delta.isForwardOneStepDiagonal(side)
+        return isForwardOneStepDiagonal(departure, destination, side)
             && gungsung.isOneStepDiagonalInside(departure, destination);
+    }
+
+    private boolean isForwardOneStepDiagonal(Position departure, Position destination, Side side) {
+        Delta delta = departure.calculateDeltaTo(destination);
+        return delta.equals(side.leftForwardDelta()) || delta.equals(side.rightForwardDelta());
     }
 
     @Override

@@ -15,7 +15,7 @@ import pieces.PieceType;
 import pieces.Side;
 import position.Position;
 
-class JanggiGameTest {
+class JanggiGameEntityTest {
 
     @Nested
     @DisplayName("공격 차례를 검증한다")
@@ -90,7 +90,7 @@ class JanggiGameTest {
 
     @Nested
     @DisplayName("게임의 진행, 종료 상태를 검증한다")
-    class GameStatusCheck {
+    class GameEntityStatusCheck {
 
         @Test
         void 궁이_잡히면_게임이_종료된다() {

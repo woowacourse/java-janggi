@@ -1,7 +1,6 @@
 package position;
 
 import java.util.List;
-import pieces.Side;
 
 public record Position(Row row, Column column) {
 
@@ -16,6 +15,9 @@ public record Position(Row row, Column column) {
     }
 
     public Position move(Delta delta) {
+        if (!canMove(delta)) {
+            throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
+        }
         return new Position(row.add(delta), column.move(delta));
     }
 
@@ -25,20 +27,6 @@ public record Position(Row row, Column column) {
 
     public boolean isSameColumn(Position departure) {
         return column.equals(departure.column);
-    }
-
-    public boolean isBackRow(Position destination, Side side) {
-        if (side.isCho()) {
-            return this.row.isBelow(destination.row);
-        }
-        return this.row.isAbove(destination.row);
-    }
-
-    public boolean isLeftColumn(Position destination, Side side) {
-        if (side.isCho()) {
-            return this.column.isLeft(destination.column);
-        }
-        return this.column.isRight(destination.column);
     }
 
     public boolean isGapBiggerThanOneStep(Position destination) {
@@ -65,17 +53,17 @@ public record Position(Row row, Column column) {
             .toList();
     }
 
-    public Delta calculateDelta(Position destination) {
+    public Delta calculateDeltaTo(Position destination) {
         Delta rowDelta = destination.row.calculateDelta(row);
         Delta columnDelta = destination.column.calculateDelta(column);
         return rowDelta.add(columnDelta);
     }
 
-    public int getRowValue() {
+    public int getRowIndex() {
         return row.index();
     }
 
-    public int getColumnValue() {
+    public int getColumnIndex() {
         return column.index();
     }
 }

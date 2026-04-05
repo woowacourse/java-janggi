@@ -20,14 +20,6 @@ public record Row(int index) {
         return MINIMUM_BOUNDARY <= index && index <= MAXIMUM_BOUNDARY;
     }
 
-    public boolean isBelow(Row other) {
-        return this.index < other.index;
-    }
-
-    public boolean isAbove(Row other) {
-        return this.index > other.index;
-    }
-
     public boolean isInRange(Row min, Row max) {
         return min.index <= index && index <= max.index;
     }

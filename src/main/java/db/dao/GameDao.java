@@ -1,15 +1,13 @@
 package db.dao;
 
-import db.model.Game;
+import db.model.GameEntity;
 import java.util.Optional;
 
 public interface GameDao {
 
-    Long save(Game game);
+    Long save(GameEntity gameEntity);
 
-    void update(Game game);
+    void update(GameEntity gameEntity);
 
-    Optional<Game> findById(Long id);
-
-    Optional<Game> findLatest();
+    Optional<GameEntity> findLatest();
 }

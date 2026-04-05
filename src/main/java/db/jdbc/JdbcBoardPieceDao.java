@@ -1,7 +1,7 @@
 package db.jdbc;
 
 import db.dao.BoardPieceDao;
-import db.model.BoardPiece;
+import db.model.BoardPieceEntity;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,7 +20,7 @@ public class JdbcBoardPieceDao implements BoardPieceDao {
     }
 
     @Override
-    public void saveAll(final Long gameId, final List<BoardPiece> boardPieces) {
+    public void saveAll(final Long gameId, final List<BoardPieceEntity> boardPieceEntities) {
         validateGameId(gameId);
 
         String sql = """
@@ -31,12 +31,12 @@ public class JdbcBoardPieceDao implements BoardPieceDao {
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
-            for (BoardPiece boardPiece : boardPieces) {
+            for (BoardPieceEntity boardPieceEntity : boardPieceEntities) {
                 statement.setLong(1, gameId);
-                statement.setInt(2, boardPiece.row());
-                statement.setInt(3, boardPiece.column());
-                statement.setString(4, boardPiece.pieceType().name());
-                statement.setString(5, boardPiece.pieceSide().name());
+                statement.setInt(2, boardPieceEntity.row());
+                statement.setInt(3, boardPieceEntity.column());
+                statement.setString(4, boardPieceEntity.pieceType().name());
+                statement.setString(5, boardPieceEntity.pieceSide().name());
                 statement.addBatch();
             }
 
@@ -47,7 +47,7 @@ public class JdbcBoardPieceDao implements BoardPieceDao {
     }
 
     @Override
-    public List<BoardPiece> findByGameId(final Long gameId) {
+    public List<BoardPieceEntity> findByGameId(final Long gameId) {
         validateGameId(gameId);
 
         String sql = """
@@ -63,11 +63,11 @@ public class JdbcBoardPieceDao implements BoardPieceDao {
             statement.setLong(1, gameId);
 
             try (ResultSet resultSet = statement.executeQuery()) {
-                List<BoardPiece> boardPieces = new ArrayList<>();
+                List<BoardPieceEntity> boardPieceEntities = new ArrayList<>();
                 while (resultSet.next()) {
-                    boardPieces.add(parseBoardPiece(resultSet));
+                    boardPieceEntities.add(parseBoardPiece(resultSet));
                 }
-                return boardPieces;
+                return boardPieceEntities;
             }
         } catch (SQLException e) {
             throw new IllegalStateException("보드 기물 배치 조회에 실패했습니다.", e);
@@ -99,8 +99,8 @@ public class JdbcBoardPieceDao implements BoardPieceDao {
         }
     }
 
-    private BoardPiece parseBoardPiece(final ResultSet resultSet) throws SQLException {
-        return new BoardPiece(
+    private BoardPieceEntity parseBoardPiece(final ResultSet resultSet) throws SQLException {
+        return new BoardPieceEntity(
             resultSet.getInt("row_index"),
             resultSet.getInt("column_index"),
             PieceType.valueOf(resultSet.getString("piece_type")),

@@ -37,7 +37,7 @@ public record Board(Map<Position, Piece> pieces) {
         if (piece == null) {
             return Optional.empty();
         }
-        return Optional.of(piece.getType());
+        return Optional.of(piece.type());
     }
 
     public void validateDeparturePiece(Position departure, Turn turn) {

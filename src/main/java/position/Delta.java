@@ -1,7 +1,6 @@
 package position;
 
 import java.util.List;
-import pieces.Side;
 
 public record Delta(int rowDelta, int columnDelta) {
 
@@ -57,11 +56,23 @@ public record Delta(int rowDelta, int columnDelta) {
         return Math.abs(rowDelta) == ONE_STEP && Math.abs(columnDelta) == ONE_STEP;
     }
 
-    public boolean isForwardOneStepDiagonal(Side side) {
-        return rowDelta == side.forwardDelta().rowDelta && Math.abs(columnDelta) == ONE_STEP;
-    }
-
     public boolean isDiagonal() {
         return Math.abs(rowDelta) == Math.abs(columnDelta);
+    }
+
+    public boolean isRowPositive() {
+        return rowDelta > 0;
+    }
+
+    public boolean isRowNegative() {
+        return rowDelta < 0;
+    }
+
+    public boolean isColumnPositive() {
+        return columnDelta > 0;
+    }
+
+    public boolean isColumnNegative() {
+        return columnDelta < 0;
     }
 }

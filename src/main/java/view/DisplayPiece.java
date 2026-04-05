@@ -24,9 +24,9 @@ public class DisplayPiece {
     }
 
     public static String symbolOf(Piece piece) {
-        String symbol = PIECE_SYMBOLS.get(piece.getType());
+        String symbol = PIECE_SYMBOLS.get(piece.type());
         if (symbol == null) {
-            throw new IllegalArgumentException("출력할 수 없는 기물 타입입니다. type=" + piece.getType());
+            throw new IllegalArgumentException("출력할 수 없는 기물 타입입니다. type=" + piece.type());
         }
         return colorize(piece, symbol);
     }

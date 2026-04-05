@@ -12,7 +12,7 @@ public class GungsungStepMovement implements Movement {
 
     @Override
     public boolean canReach(Position departure, Position destination, Side side) {
-        Delta delta = departure.calculateDelta(destination);
+        Delta delta = departure.calculateDeltaTo(destination);
         if (delta.isOneStepDiagonal()) {
             return gungsung.isOneStepDiagonalInside(departure, destination);
         }

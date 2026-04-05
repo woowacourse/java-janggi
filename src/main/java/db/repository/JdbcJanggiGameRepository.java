@@ -5,8 +5,8 @@ import core.GameStatus;
 import core.JanggiGame;
 import db.dao.BoardPieceDao;
 import db.dao.GameDao;
-import db.model.BoardPiece;
-import db.model.Game;
+import db.model.BoardPieceEntity;
+import db.model.GameEntity;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -27,87 +27,87 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
 
     @Override
     public Optional<JanggiGame> findLatest() {
-        Optional<Game> latestGame = gameDao.findLatest();
+        Optional<GameEntity> latestGame = gameDao.findLatest();
         if (latestGame.isEmpty()) {
             return Optional.empty();
         }
 
-        Game gameRecord = latestGame.get();
-        List<BoardPiece> boardPieceRecords = boardPieceDao.findByGameId(gameRecord.id());
-        return Optional.of(toJanggiGame(gameRecord, boardPieceRecords));
+        GameEntity gameEntity = latestGame.get();
+        List<BoardPieceEntity> boardPieceEntities = boardPieceDao.findByGameId(gameEntity.id());
+        return Optional.of(parseGame(gameEntity, boardPieceEntities));
     }
 
     @Override
     public void saveLatest(final JanggiGame janggiGame) {
-        Optional<Game> latestGame = gameDao.findLatest();
+        Optional<GameEntity> latestGame = gameDao.findLatest();
 
         if (latestGame.isEmpty()) {
-            Long gameId = gameDao.save(toGame(janggiGame));
-            boardPieceDao.saveAll(gameId, toBoardPieces(janggiGame.getBoard()));
+            Long gameId = gameDao.save(parseGameEntity(janggiGame));
+            boardPieceDao.saveAll(gameId, parseBoardPieceEntities(janggiGame.getBoard()));
             return;
         }
 
         Long gameId = latestGame.get().id();
-        gameDao.update(toGame(gameId, janggiGame));
+        gameDao.update(parseGameEntity(gameId, janggiGame));
         boardPieceDao.deleteByGameId(gameId);
-        boardPieceDao.saveAll(gameId, toBoardPieces(janggiGame.getBoard()));
+        boardPieceDao.saveAll(gameId, parseBoardPieceEntities(janggiGame.getBoard()));
     }
 
-    private Game toGame(final JanggiGame janggiGame) {
-        return new Game(
+    private GameEntity parseGameEntity(final JanggiGame janggiGame) {
+        return new GameEntity(
             null,
             janggiGame.getTurnSide(),
             janggiGame.getStatus()
         );
     }
 
-    private Game toGame(final Long gameId, final JanggiGame janggiGame) {
-        return new Game(
+    private GameEntity parseGameEntity(final Long gameId, final JanggiGame janggiGame) {
+        return new GameEntity(
             gameId,
             janggiGame.getTurnSide(),
             janggiGame.getStatus()
         );
     }
 
-    private List<BoardPiece> toBoardPieces(final Board board) {
+    private List<BoardPieceEntity> parseBoardPieceEntities(final Board board) {
         return board.pieces().entrySet().stream()
-            .map(this::toBoardPiece)
+            .map(this::parseBoardEntity)
             .toList();
     }
 
-    private BoardPiece toBoardPiece(final Map.Entry<Position, Piece> entry) {
+    private BoardPieceEntity parseBoardEntity(final Map.Entry<Position, Piece> entry) {
         Position position = entry.getKey();
         Piece piece = entry.getValue();
 
-        return new BoardPiece(
-            position.getRowValue(),
-            position.getColumnValue(),
-            piece.getType(),
-            piece.getSide()
+        return new BoardPieceEntity(
+            position.getRowIndex(),
+            position.getColumnIndex(),
+            piece.type(),
+            piece.side()
         );
     }
 
-    private JanggiGame toJanggiGame(final Game gameRecord, final List<BoardPiece> boardPieceRecords) {
-        Board board = toBoard(boardPieceRecords);
-        Turn turn = Turn.from(gameRecord.turnSide());
-        GameStatus status = gameRecord.status();
+    private JanggiGame parseGame(final GameEntity gameEntityRecord, final List<BoardPieceEntity> boardPieceEntityRecords) {
+        Board board = parseBoard(boardPieceEntityRecords);
+        Turn turn = Turn.from(gameEntityRecord.turnSide());
+        GameStatus status = gameEntityRecord.status();
         return new JanggiGame(board, turn, status);
     }
 
-    private Board toBoard(final List<BoardPiece> boardPieceRecords) {
-        Map<Position, Piece> pieces = boardPieceRecords.stream()
+    private Board parseBoard(final List<BoardPieceEntity> boardPieceEntityRecords) {
+        Map<Position, Piece> pieces = boardPieceEntityRecords.stream()
             .collect(Collectors.toMap(
-                this::toPosition,
-                this::toPiece
+                this::parsePosition,
+                this::parsePiece
             ));
         return new Board(pieces);
     }
 
-    private Position toPosition(final BoardPiece boardPieceRecord) {
-        return new Position(boardPieceRecord.row(), boardPieceRecord.column());
+    private Position parsePosition(final BoardPieceEntity boardPieceEntityRecord) {
+        return new Position(boardPieceEntityRecord.row(), boardPieceEntityRecord.column());
     }
 
-    private Piece toPiece(final BoardPiece boardPieceRecord) {
-        return new Piece(boardPieceRecord.pieceSide(), boardPieceRecord.pieceType());
+    private Piece parsePiece(final BoardPieceEntity boardPieceEntityRecord) {
+        return new Piece(boardPieceEntityRecord.pieceSide(), boardPieceEntityRecord.pieceType());
     }
 }

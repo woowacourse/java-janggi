@@ -3,7 +3,7 @@ package db.model;
 import pieces.PieceType;
 import pieces.Side;
 
-public record BoardPiece(
+public record BoardPieceEntity(
     int row,
     int column,
     PieceType pieceType,
