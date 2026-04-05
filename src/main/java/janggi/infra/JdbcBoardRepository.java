@@ -13,8 +13,6 @@ import janggi.infra.dao.GameRoomDao;
 import janggi.infra.dao.PiecesDao;
 import janggi.infra.dto.GameRoomData;
 import janggi.infra.dto.PieceData;
-import janggi.infra.transaction.ConnectionContext;
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -33,34 +31,31 @@ public class JdbcBoardRepository implements BoardRepository {
 
     @Override
     public long save(JanggiGame game) {
-        Connection connection = ConnectionContext.getConnection();
-        long roomId = roomDao.save(GameRoomData.from(game), connection);
+        long roomId = roomDao.save(GameRoomData.from(game));
         Map<Point, Piece> pieces = game.getBoardStatus();
         List<PieceData> data = new ArrayList<>();
         for (Point point : pieces.keySet()) {
             Piece piece = pieces.get(point);
             data.add(new PieceData(piece.getType().name(), piece.getTeam().name(), point.getRow(), point.getColumn()));
         }
-        piecesDao.save(roomId, data, connection);
+        piecesDao.save(roomId, data);
         return roomId;
     }
 
     @Override
     public void update(long roomId, Point from, Point to, JanggiGame game) {
-        Connection connection = ConnectionContext.getConnection();
-        roomDao.update(roomId, GameRoomData.from(game), connection);
-        piecesDao.delete(roomId, to.getRow(), to.getColumn(), connection);
-        piecesDao.update(roomId, from.getRow(), from.getColumn(), to.getRow(), to.getColumn(), connection);
+        roomDao.update(roomId, GameRoomData.from(game));
+        piecesDao.delete(roomId, to.getRow(), to.getColumn());
+        piecesDao.update(roomId, from.getRow(), from.getColumn(), to.getRow(), to.getColumn());
     }
 
     @Override
     public Optional<JanggiGame> findJanggiGameByRoomId(long roomId) {
-        Connection connection = ConnectionContext.getConnection();
-        Optional<GameRoomData> roomData = roomDao.findRoomById(roomId, connection);
+        Optional<GameRoomData> roomData = roomDao.findRoomById(roomId);
         if (roomData.isEmpty()) {
             return Optional.empty();
         }
-        List<PieceData> pieceDatas = piecesDao.findAllByRoomId(roomId, connection);
+        List<PieceData> pieceDatas = piecesDao.findAllByRoomId(roomId);
         Map<Point, Piece> pieces = new LinkedHashMap<>();
         pieceDatas.forEach(pieceData -> {
             PieceType type = PieceType.valueOf(pieceData.pieceName());

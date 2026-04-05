@@ -1,6 +1,7 @@
 package janggi.infra.dao;
 
 import janggi.infra.dto.GameRoomData;
+import janggi.infra.transaction.ConnectionContext;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,7 +11,8 @@ import java.util.Optional;
 
 public class GameRoomDao {
 
-    public Long save(GameRoomData data, Connection connection) {
+    public Long save(GameRoomData data) {
+        Connection connection = ConnectionContext.getConnection();
         String sql = "INSERT INTO game_room (current_turn, winner, cha_score, han_score) VALUES (?, ?, ?, ?)";
         try(PreparedStatement roomStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             roomStatement.setString(1, data.currentTurn());
@@ -28,7 +30,8 @@ public class GameRoomDao {
         }
     }
 
-    public void update(Long roomId, GameRoomData data, Connection connection) {
+    public void update(Long roomId, GameRoomData data) {
+        Connection connection = ConnectionContext.getConnection();
         String sql = "UPDATE game_room SET current_turn = ?, winner = ?, cha_score = ?, han_score = ? WHERE id = ?";
         try (PreparedStatement roomStatement = connection.prepareStatement(sql)) {
             roomStatement.setString(1, data.currentTurn());
@@ -42,7 +45,8 @@ public class GameRoomDao {
         }
     }
 
-    public Optional<GameRoomData> findRoomById(Long roomId, Connection connection) {
+    public Optional<GameRoomData> findRoomById(Long roomId) {
+        Connection connection = ConnectionContext.getConnection();
         String sql = "SELECT current_turn, winner, cha_score, han_score FROM game_room WHERE id=?";
         try (PreparedStatement roomStatement = connection.prepareStatement(sql)) {
             roomStatement.setLong(1, roomId);
