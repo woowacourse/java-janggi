@@ -4,6 +4,7 @@ import domain.constant.Country;
 import domain.constant.InitMaSangPosition;
 import domain.constant.InitPiecePosition;
 import domain.constant.PieceType;
+import dto.SavedPieceDto;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,5 +37,18 @@ public final class BoardFactory {
         for (int i = 0; i < 4; i++) {
             board.put(positions.get(i), new Piece(country, maSangPosition.get(i)));
         }
+    }
+
+    public static Map<Position, Piece> createLoadBoard(List<SavedPieceDto> savedPieces) {
+        Map<Position, Piece> board = new HashMap<>();
+        for (SavedPieceDto savedPieceDto : savedPieces) {
+            Position position = Position.create(savedPieceDto.x(), savedPieceDto.y());
+            Piece piece = new Piece(Country.getCountry(savedPieceDto.country()), PieceType.from(
+                    savedPieceDto.pieceType()));
+
+            board.put(position, piece);
+        }
+
+        return board;
     }
 }

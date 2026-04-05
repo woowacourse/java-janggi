@@ -15,6 +15,10 @@ public class Board {
         this.board = BoardFactory.createInitBoard(choMaSang, hanMaSang);
     }
 
+    public Board(Map<Position, Piece> board) {
+        this.board = board;
+    }
+
     public boolean move(Position start, Position end) {
         Piece startPiece = board.getOrDefault(start, Piece.getEmptyPiece());
         Piece endPiece = board.getOrDefault(end, Piece.getEmptyPiece());
@@ -123,5 +127,9 @@ public class Board {
     private boolean checkJangRemove(Position end) {
         Piece piece = board.getOrDefault(end, Piece.getEmptyPiece());
         return piece.getPieceType() == PieceType.JANG;
+    }
+
+    public boolean checkEndPosition(Position end) {
+        return board.getOrDefault(end, Piece.getEmptyPiece()).isEmpty();
     }
 }

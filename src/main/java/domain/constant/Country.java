@@ -14,4 +14,8 @@ public enum Country {
     public String getName() {
         return name;
     }
+
+    public static Country getCountry(String name) {
+        return Country.valueOf(name);
+    }
 }
