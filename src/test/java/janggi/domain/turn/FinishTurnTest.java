@@ -11,7 +11,7 @@ import janggi.initializer.BoardInitializer;
 import org.junit.jupiter.api.Test;
 
 public class FinishTurnTest {
-    private final Board board = new Board(BoardInitializer.createBoard(Arrangement.MA_SANG_MA_SANG, Arrangement.MA_SANG_MA_SANG), 9 ,0);
+    private final Board board = Board.from(BoardInitializer.createBoard(Arrangement.MA_SANG_MA_SANG, Arrangement.MA_SANG_MA_SANG));
     private final FinishTurn finishTurn = new FinishTurn(board, 1, Side.CHO);
 
     @Test

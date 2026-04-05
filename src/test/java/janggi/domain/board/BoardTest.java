@@ -17,7 +17,7 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 class BoardTest {
-    private Board board = new Board(BoardInitializer.createBoard(Arrangement.MA_SANG_MA_SANG, Arrangement.MA_SANG_MA_SANG), 72, 72);
+    private Board board = Board.from(BoardInitializer.createBoard(Arrangement.MA_SANG_MA_SANG, Arrangement.MA_SANG_MA_SANG));
 
     @Test
     void 빈_칸인지_여부를_제대로_반영한다() {
@@ -42,7 +42,7 @@ class BoardTest {
 
     @Test
     void 자기_진영의_기물을_움직이면_정상_작동한다() {
-        Board board = new Board(BoardInitializer.createBoard(Arrangement.MA_SANG_MA_SANG, Arrangement.MA_SANG_MA_SANG), 72, 72);
+        Board board = Board.from(BoardInitializer.createBoard(Arrangement.MA_SANG_MA_SANG, Arrangement.MA_SANG_MA_SANG));
         board.move(new Position(1, 1), new Position(2, 1), Side.HAN);
 
         assertThat(board.getCurrentBoard().get(1).getFirst().pieceType()).isEqualTo(PieceType.CHA);
@@ -51,7 +51,7 @@ class BoardTest {
 
     @Test
     void 다른_진영의_기물을_움직이면_예외_처리한다() {
-        Board board = new Board(BoardInitializer.createBoard(Arrangement.MA_SANG_MA_SANG, Arrangement.MA_SANG_MA_SANG), 72, 72);
+        Board board = Board.from(BoardInitializer.createBoard(Arrangement.MA_SANG_MA_SANG, Arrangement.MA_SANG_MA_SANG));
 
         assertThatThrownBy(() -> board.move(new Position(1, 1), new Position(2, 1), Side.CHO)).isInstanceOf(IllegalArgumentException.class).hasMessage("자기 진영의 기물만 움직일 수 있습니다.");
     }
@@ -59,7 +59,7 @@ class BoardTest {
     @Test
     void 기물을_잡으면_상대편_진영의_점수가_깎인다() {
         Map<Position, Piece> customBoard = new HashMap<>(Map.of(new Position(1, 1), new Pawn(Side.HAN), new Position(1, 2), new Pawn(Side.CHO)));
-        Board board = new Board(customBoard, PieceType.PAWN.getScore(), PieceType.PAWN.getScore());
+        Board board = Board.from(customBoard);
 
         board.move(new Position(1, 2), new Position(1, 1), Side.CHO);
         assertThat(board.getScore()).isEqualTo(new SideScore(1.5, PieceType.PAWN.getScore()));
@@ -68,7 +68,7 @@ class BoardTest {
     @Test
     void 궁을_잡으면_게임_끝나는지_확인하는_메서드에서_참으로_리턴한다() {
         Map<Position, Piece> customBoard = new HashMap<>(Map.of(new Position(1, 1), new Pawn(Side.HAN), new Position(1, 2), new Gung(Side.CHO)));
-        Board board = new Board(customBoard,0, 0);
+        Board board = Board.from(customBoard);
 
         board.move(new Position(1, 1), new Position(1, 2), Side.HAN);
         assertThat(board.isEndGame()).isTrue();
