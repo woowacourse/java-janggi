@@ -10,6 +10,8 @@ import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 @DisplayName("기물 통합 테스트")
 class PieceTest {
@@ -283,35 +285,56 @@ class PieceTest {
         @Nested
         class 궁_사 {
 
-            @DisplayName("한 칸씩 모든 방향으로 이동할 수 있다")
-            @Test
-            void 한_칸씩_모든_방향으로_이동할_수_있다() {
-                Piece general = Piece.of(PieceType.GENERAL, MY_SIDE);
-                Piece guard = Piece.of(PieceType.GUARD, MY_SIDE);
-                AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
-                List<Intersection> expected = createOneStepIntersectionsToAllDirection(CURRENT_INTERSECTION);
+            @DisplayName("궁성 내에서 1칸씩 모든 방향으로 이동할 수 있다")
+            @Nested
+            class 궁성_내에서만_1칸_이동 {
 
-                List<Intersection> generalPaths = general.movableDestinations(CURRENT_INTERSECTION,
-                        emptyAlivePieces);
-                List<Intersection> guardPaths = guard.movableDestinations(CURRENT_INTERSECTION, emptyAlivePieces);
+                @DisplayName("초(CHO) 진영")
+                @ParameterizedTest(name = "기물 {0}은 궁성 내에서만 모든 방향으로 이동할 수 있다")
+                @EnumSource(value = PieceType.class, names = {"GENERAL", "GUARD"}, mode = EnumSource.Mode.INCLUDE)
+                void 초_진영(PieceType palacePieceType) {
+                    // given
+                    Piece choPalacePiece = Piece.of(palacePieceType, Side.CHO);
+                    AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
 
-                assertThat(generalPaths).containsAll(expected);
-                assertThat(guardPaths).containsAll(expected);
-            }
+                    // when
+                    List<Intersection> movableDestinations = choPalacePiece.movableDestinations(
+                            position(8, 4),
+                            emptyAlivePieces
+                    );
 
-            private static List<Intersection> createOneStepIntersectionsToAllDirection(
-                    Intersection startIntersection
-            ) {
-                int row = startIntersection.row();
-                int file = startIntersection.file();
+                    // then
+                    assertThat(movableDestinations).containsExactlyInAnyOrder(
+                            position(8, 5),
+                            position(9, 4)
+                    );
+                }
 
-                return List.of(
-                        new Intersection(row + 1, file),
-                        new Intersection(row - 1, file),
-                        new Intersection(row, file + 1),
-                        new Intersection(row, file - 1)
-                );
+                @DisplayName("한(HAN) 진영")
+                @ParameterizedTest(name = "기물 {0}은 궁성 내에서만 모든 방향으로 이동할 수 있다")
+                @EnumSource(value = PieceType.class, names = {"GENERAL", "GUARD"}, mode = EnumSource.Mode.INCLUDE)
+                void 한_진영(PieceType palacePieceType) {
+                    // given
+                    Piece hanPalacePiece = Piece.of(palacePieceType, Side.HAN);
+                    AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
+
+                    // when
+                    List<Intersection> movableDestinations = hanPalacePiece.movableDestinations(
+                            position(3, 4),
+                            emptyAlivePieces
+                    );
+
+                    // then
+                    assertThat(movableDestinations).containsExactlyInAnyOrder(
+                            position(2, 4),
+                            position(3, 5)
+                    );
+                }
             }
         }
+    }
+
+    private static Intersection position(int row, int file) {
+        return new Intersection(row, file);
     }
 }

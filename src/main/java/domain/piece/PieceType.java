@@ -6,6 +6,7 @@ import domain.move.Path;
 import domain.move.rule.BasicRule;
 import domain.move.rule.JumpingRule;
 import domain.move.rule.MoveRule;
+import domain.move.rule.PalaceRule;
 import domain.move.strategy.Movement;
 import domain.move.strategy.OrthogonalThenDiagonalMovement;
 import domain.move.strategy.OrthogonalThenTwoDiagonalMovement;
@@ -18,8 +19,8 @@ public enum PieceType {
     CANNON(7, new StraightLineMovement(), new JumpingRule()),
     CHARIOT(13, new StraightLineMovement(), new BasicRule()),
     ELEPHANT(3, new OrthogonalThenTwoDiagonalMovement(), new BasicRule()),
-    GENERAL(0, new SingleStepMovement(), new BasicRule()),
-    GUARD(3, new SingleStepMovement(), new BasicRule()),
+    GENERAL(0, new SingleStepMovement(), new PalaceRule()),
+    GUARD(3, new SingleStepMovement(), new PalaceRule()),
     HORSE(5, new OrthogonalThenDiagonalMovement(), new BasicRule()),
     SOLDIER(2, new SingleStepExcludeBackwardMovement(), new BasicRule()),
     EMPTY(0,
