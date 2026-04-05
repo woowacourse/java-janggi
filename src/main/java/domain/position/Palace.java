@@ -28,4 +28,13 @@ public enum Palace {
         return Arrays.stream(values())
                 .anyMatch(place -> place.position.equals(position));
     }
+
+    public static boolean canMoveDiagonallyPosition(Position from, Direction direction) {
+        return Arrays.stream(values())
+                .anyMatch(place -> place.position.equals(from) && place.moveAbleDirections.contains(direction));
+    }
+
+    public static boolean canStepDiagonal(Position position, Direction direction) {
+        return isPalace(position) && canMoveDiagonallyPosition(position, direction) && direction.isDiagonal();
+    }
 }

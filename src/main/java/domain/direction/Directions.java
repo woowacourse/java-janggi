@@ -42,6 +42,10 @@ public class Directions {
         return directions.size();
     }
 
+    public Direction findFirst() {
+        return directions.peek();
+    }
+
     private static Queue<Direction> calculateDirections(int row, int column) {
         Queue<Direction> directions = new ArrayDeque<>();
 
