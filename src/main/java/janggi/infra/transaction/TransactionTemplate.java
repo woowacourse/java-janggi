@@ -1,19 +1,19 @@
 package janggi.infra.transaction;
 
-import janggi.infra.datasource.DataConnectionManager;
 import java.sql.Connection;
 import java.sql.SQLException;
+import javax.sql.DataSource;
 
 public class TransactionTemplate {
 
-    private final DataConnectionManager manager;
+    private final DataSource dataSource;
 
-    public TransactionTemplate(DataConnectionManager manager) {
-        this.manager = manager;
+    public TransactionTemplate(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     public  <T> T executeInTransaction(TransactionCallback<T> action) {
-        try (Connection connection = manager.getConnection()) {
+        try (Connection connection = dataSource.getConnection()) {
             return processTransaction(connection, action);
         } catch (SQLException e) {
             throw new RuntimeException("[ERROR] DB 커넥션 에러", e);

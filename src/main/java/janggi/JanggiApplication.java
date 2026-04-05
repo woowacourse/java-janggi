@@ -2,7 +2,6 @@ package janggi;
 
 import janggi.application.JanggiGameService;
 import janggi.domain.board.BoardRepository;
-import janggi.infra.datasource.DataConnectionManager;
 import janggi.infra.datasource.H2DataSourceFactory;
 import janggi.infra.JdbcBoardRepository;
 import janggi.infra.transaction.TransactionTemplate;
@@ -12,12 +11,13 @@ import janggi.presentation.JanggiGameController;
 import janggi.presentation.ui.InputView;
 import janggi.presentation.ui.OutputView;
 import java.sql.SQLException;
+import javax.sql.DataSource;
 import org.h2.tools.Server;
 
 public class JanggiApplication {
     public static void main(String[] args) throws SQLException {
         Server server = Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "9092").start();
-        DataConnectionManager manager = new DataConnectionManager(H2DataSourceFactory.create());
+        DataSource manager = H2DataSourceFactory.create();
         GameRoomDao roomDao = new GameRoomDao();
         PiecesDao piecesDao = new PiecesDao();
         BoardRepository repository = new JdbcBoardRepository(roomDao, piecesDao);
