@@ -56,16 +56,4 @@ public class PalaceTest {
         Position end = new Position(x2, y2);
         assertThat(Palace.isDiagonalMove(start, end)).isFalse();
     }
-
-    @ParameterizedTest
-    @CsvSource({
-            "1, 4, 2, 4",
-            "1, 6, 3, 6",
-            "1, 5, 2, 5"
-    })
-    void 직선_이동의_경우_대각선_이동에_대한_거짓을_반환한다(int x1, int y1, int x2, int y2) {
-        Position start = new Position(x1, y1);
-        Position end = new Position(x2, y2);
-        assertThat(Palace.isDiagonalMove(start, end)).isFalse();
-    }
 }

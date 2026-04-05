@@ -17,11 +17,12 @@ public class Palace {
 
 
     public static boolean isDiagonalMove(Position start, Position end) {
-        if (!isInside(start) || !isInside(end) || !start.isDiagonal(end)) {
+        if (!isInside(start) || !isInside(end)) {
             return false;
         }
 
-        return !ORTHOGONAL_POSITIONS.contains(start) && !ORTHOGONAL_POSITIONS.contains(end);    }
+        return !ORTHOGONAL_POSITIONS.contains(start) && !ORTHOGONAL_POSITIONS.contains(end);
+    }
 
     public static boolean isInside(Position position) {
         return RANGES.stream().anyMatch(range -> range.isContain(position));

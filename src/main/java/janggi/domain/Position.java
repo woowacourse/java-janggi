@@ -78,13 +78,6 @@ public class Position {
         return new Position(x + movement.getDx(), y + movement.getDy());
     }
 
-    public boolean isDiagonal(Position target) {
-        int dx = Math.abs(target.x - x);
-        int dy = Math.abs(target.y - y);
-
-        return dx == dy && dx != 0;
-    }
-
     public Movement calculateDirection(Position destination) {
         int dx = Math.abs(destination.x - x);
         int dy = Math.abs(destination.y - y);
