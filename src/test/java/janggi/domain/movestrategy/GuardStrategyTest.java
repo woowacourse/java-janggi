@@ -2,6 +2,7 @@ package janggi.domain.movestrategy;
 
 import janggi.domain.board.Position;
 import janggi.domain.movestrategy.rule.StraightOneStepMoveRule;
+import janggi.domain.palace.PalaceFactory;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceFactory;
 import janggi.domain.piece.Team;
@@ -24,7 +25,7 @@ class GuardStrategyTest {
 
     @BeforeEach
     void setUp() {
-        guardStrategy = new GuardStrategy(List.of(new StraightOneStepMoveRule()));
+        guardStrategy = new GuardStrategy(PalaceFactory.createPalace(Team.HAN), List.of(new StraightOneStepMoveRule()));
         guard = PieceFactory.createGuard(Team.HAN);
         otherTeamPiece = PieceFactory.createCannon(Team.CHO);
         sameTeamPiece = PieceFactory.createCannon(Team.HAN);
@@ -107,5 +108,21 @@ class GuardStrategyTest {
     void testNotCanCaptureWhenDestinationIsAlly() {
         // when & then
         assertThat(guardStrategy.canCapture(guard, sameTeamPiece)).isFalse();
+    }
+
+    @ParameterizedTest
+    @DisplayName("궁성 영역 밖으로는 이동할 수 없다.")
+    @CsvSource({
+            "4, 1, 3, 1",
+            "6, 3, 7, 3",
+            "5, 3, 5, 4",
+    })
+    void testCanNotMoveOutsidePalace(int preX, int preY, int nextX, int nextY) {
+        // given
+        Position from = new Position(preX, preY);
+        Position to = new Position(nextX, nextY);
+
+        // when & then
+        assertThat(guardStrategy.canMove(from, to)).isFalse();
     }
 }
