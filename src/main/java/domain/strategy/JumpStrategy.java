@@ -31,7 +31,7 @@ public class JumpStrategy implements MovementStrategy {
     }
 
     private List<Position> getReachablePositions(Path path, BoardReader board, Side side) {
-        return path.findFirst(pos -> !board.isEmpty(pos))
+        return path.findFirst(position -> !board.isEmpty(position))
                 .filter(bridge -> board.getPiece(bridge).canBeBridge())
                 .map(path::after)
                 .map(afterBridge -> collectAfterBridge(afterBridge, board, side))
@@ -40,7 +40,7 @@ public class JumpStrategy implements MovementStrategy {
 
     private List<Position> collectAfterBridge(Path afterBridge, BoardReader board, Side side) {
         Path emptyPath = afterBridge.takeWhile(board::isEmpty);
-        Optional<Position> target = afterBridge.findFirst(pos -> !board.isEmpty(pos));
+        Optional<Position> target = afterBridge.findFirst(position -> !board.isEmpty(position));
         List<Position> reachable = new ArrayList<>(emptyPath.toList());
         target.filter(position -> isCatchable(position, board, side))
                 .ifPresent(reachable::add);
