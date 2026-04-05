@@ -100,7 +100,7 @@ class ChariotTest {
         // when & then
         assertThatThrownBy(() -> chariot.getPath(movement))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 차는 한 방향으로만 이동할 수 있습니다.");
+                .hasMessage("[ERROR] 차은(는) 해당 위치로 이동할 수 없습니다.");
     }
 
     @Test

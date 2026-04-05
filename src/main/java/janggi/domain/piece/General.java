@@ -1,6 +1,5 @@
 package janggi.domain.piece;
 
-import janggi.domain.path.Path;
 import janggi.domain.path.PieceOnPath;
 import janggi.domain.position.Movement;
 import janggi.domain.team.Team;
@@ -18,15 +17,19 @@ public class General extends PalacePiece {
     }
 
     @Override
-    public Path getPath(Movement movement) {
-        validateInPalace(movement);
-        validateMove(movement);
-        return findPath(movement);
+    public void validateCanMove(PieceOnPath pieceOnPath, Piece endPiece) {
+        validateSameTeam(endPiece);
     }
 
     @Override
-    public void validateCanMove(PieceOnPath pieceOnPath, Piece endPiece) {
-        validateSameTeam(endPiece);
+    protected boolean isNormalMove(Movement movement) {
+        validateInPalace(movement);
+        return isOneStepStraightMove(movement);
+    }
+
+    @Override
+    protected boolean isPalaceMove(Movement movement) {
+        return isOneStepMove(movement) && palace.hasRoute(movement.getFrom(), movement.getTo());
     }
 
     private void validateInPalace(Movement movement) {
@@ -35,26 +38,16 @@ public class General extends PalacePiece {
         }
     }
 
-    private void validateMove(Movement movement) {
-        if (!(isNormalMove(movement) || isPalaceRouteMove(movement))) {
-            throw new IllegalArgumentException("[ERROR] 장은 해당 위치로 이동할 수 없습니다.");
-        }
-    }
-
-    private boolean isNormalMove(Movement movement) {
+    private boolean isOneStepStraightMove(Movement movement) {
         int absRowDiff = Math.abs(movement.calculateRowDiff());
         int absColumnDiff = Math.abs(movement.calculateColumnDiff());
-
         return (absRowDiff == MAX_MOVE_DISTANCE && absColumnDiff == 0)
                 || (absRowDiff == 0 && absColumnDiff == MAX_MOVE_DISTANCE);
     }
 
-    private boolean isPalaceRouteMove(Movement movement) {
+    private boolean isOneStepMove(Movement movement) {
         int absRowDiff = Math.abs(movement.calculateRowDiff());
         int absColumnDiff = Math.abs(movement.calculateColumnDiff());
-
-        boolean isOneStepMove = absRowDiff <= MAX_MOVE_DISTANCE && absColumnDiff <= MAX_MOVE_DISTANCE;
-
-        return isOneStepMove && palace.hasRoute(movement.getFrom(), movement.getTo());
+        return absRowDiff <= MAX_MOVE_DISTANCE && absColumnDiff <= MAX_MOVE_DISTANCE;
     }
 }

@@ -14,7 +14,32 @@ public abstract class PalacePiece extends MoveablePiece {
         this.palace = palace;
     }
 
-    protected Path findPath(Movement movement) {
+    @Override
+    public Path getPath(Movement movement) {
+        validateMove(movement);
+        return findPath(movement);
+    }
+
+    private void validateMove(Movement movement) {
+        if (!(isNormalMove(movement) || isPalaceMove(movement))) {
+            throw new IllegalArgumentException(
+                    "[ERROR] " + getType() + "은(는) 해당 위치로 이동할 수 없습니다.");
+        }
+    }
+
+    protected boolean isNormalMove(Movement movement) {
+        return isStraightMove(movement);
+    }
+
+    protected boolean isPalaceMove(Movement movement) {
+        return palace.hasRoute(movement.getFrom(), movement.getTo());
+    }
+
+    private boolean isStraightMove(Movement movement) {
+        return movement.calculateRowDiff() == 0 || movement.calculateColumnDiff() == 0;
+    }
+
+    private Path findPath(Movement movement) {
         if (isDiagonalMove(movement)) {
             return findDiagonalPath(movement);
         }

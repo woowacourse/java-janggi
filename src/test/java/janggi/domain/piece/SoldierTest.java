@@ -80,7 +80,7 @@ class SoldierTest {
         // when & then
         assertThatThrownBy(() -> soldier.getPath(movement))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 졸은 해당 위치로 이동할 수 없습니다.");
+                .hasMessage("[ERROR] 졸은(는) 해당 위치로 이동할 수 없습니다.");
     }
 
     @ParameterizedTest(name = "team={0}, from={1}, to={2}")

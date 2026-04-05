@@ -68,7 +68,7 @@ class GuardTest {
         // when & then
         assertThatThrownBy(() -> guard.getPath(movement))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 사는 해당 위치로 이동할 수 없습니다.");
+                .hasMessage("[ERROR] 사은(는) 해당 위치로 이동할 수 없습니다.");
     }
 
     @Test

@@ -1,6 +1,5 @@
 package janggi.domain.piece;
 
-import janggi.domain.path.Path;
 import janggi.domain.path.PieceOnPath;
 import janggi.domain.position.Movement;
 import janggi.domain.team.Team;
@@ -18,38 +17,34 @@ public class Soldier extends PalacePiece {
     }
 
     @Override
-    public Path getPath(Movement movement) {
-        validateMove(movement);
-        validateBackStep(movement);
-        return findPath(movement);
-    }
-
-    @Override
     public void validateCanMove(PieceOnPath pieceOnPath, Piece endPiece) {
         validateSameTeam(endPiece);
     }
 
-    private void validateMove(Movement movement) {
-        if (!(isNormalMove(movement) || isPalaceRouteMove(movement))) {
-            throw new IllegalArgumentException("[ERROR] 졸은 해당 위치로 이동할 수 없습니다.");
-        }
+    @Override
+    protected boolean isNormalMove(Movement movement) {
+        validateBackStep(movement);
+        return isOneStepStraightMove(movement);
     }
 
-    private boolean isNormalMove(Movement movement) {
+    @Override
+    protected boolean isPalaceMove(Movement movement) {
+        validateBackStep(movement);
+        return isOneStepMove(movement)
+                && palace.hasRoute(movement.getFrom(), movement.getTo());
+    }
+
+    private boolean isOneStepStraightMove(Movement movement) {
         int absRowDiff = Math.abs(movement.calculateRowDiff());
         int absColumnDiff = Math.abs(movement.calculateColumnDiff());
-
         return (absRowDiff == MAX_MOVE_DISTANCE && absColumnDiff == 0)
                 || (absRowDiff == 0 && absColumnDiff == MAX_MOVE_DISTANCE);
     }
 
-    private boolean isPalaceRouteMove(Movement movement) {
+    private boolean isOneStepMove(Movement movement) {
         int absRowDiff = Math.abs(movement.calculateRowDiff());
         int absColumnDiff = Math.abs(movement.calculateColumnDiff());
-
-        boolean isOneStepMove = absRowDiff <= MAX_MOVE_DISTANCE && absColumnDiff <= MAX_MOVE_DISTANCE;
-
-        return isOneStepMove && palace.hasRoute(movement.getFrom(), movement.getTo());
+        return absRowDiff <= MAX_MOVE_DISTANCE && absColumnDiff <= MAX_MOVE_DISTANCE;
     }
 
     private void validateBackStep(Movement movement) {
