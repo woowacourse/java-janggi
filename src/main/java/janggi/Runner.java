@@ -11,6 +11,7 @@ import janggi.domain.Side;
 import janggi.domain.piece.PieceAttribute;
 import janggi.domain.piece.PieceType;
 import janggi.dto.GameDto;
+import janggi.dto.GameResponseDto;
 import janggi.dto.PieceDto;
 import janggi.dto.TurnDto;
 import janggi.view.InputView;
@@ -52,7 +53,7 @@ public class Runner {
 
     private Optional<Integer> getPreviousBoard() {
         GameInfos gameInfos = new GameInfos(janggiService.getEntireGame().stream()
-                .map(gameResponseDto -> new GameInfo(gameResponseDto.id(), gameResponseDto.name(), gameResponseDto.createdAt(), gameResponseDto.updatedAt(), Side.from(gameResponseDto.side()), gameResponseDto.turn()))
+                .map(GameResponseDto::toGameInfo)
                 .toList());
 
 
@@ -62,8 +63,9 @@ public class Runner {
 
         GameInfo selectedGame = askUntilValid(() -> getSelectedGame(gameInfos));
 
-        List<PieceInitInfo> pieceInitInfos = janggiService.getPieceInitInfos(selectedGame.id()).stream().map(pieceDto -> new PieceInitInfo(new Position(pieceDto.x(), pieceDto.y()), Side.from(pieceDto.side()),
-                PieceType.from(pieceDto.pieceType()))).toList();
+        List<PieceInitInfo> pieceInitInfos = janggiService.getPieceInitInfos(selectedGame.id()).stream()
+                .map(PieceDto::toPieceInitInfo)
+                .toList();
 
         game.init(pieceInitInfos, selectedGame.side(), selectedGame.turn());
         return Optional.of(selectedGame.id());
@@ -91,7 +93,7 @@ public class Runner {
         Arrangement choArrangement = Arrangement.from(choArrangementInput);
 
         List<PieceDto> pieceDtos = game.init(choArrangement, hanArrangement).stream()
-                .map(pieceInitInfo -> new PieceDto(pieceInitInfo.position().getX(), pieceInitInfo.position().getY(), pieceInitInfo.pieceType().getName(), pieceInitInfo.side().getName()))
+                .map(PieceDto::from)
                 .toList();
 
         int id = janggiService.addGameData(new GameDto(gameName.name(), formattedNow, formattedNow, Side.CHO.getName(), 1), pieceDtos);
