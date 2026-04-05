@@ -1,11 +1,11 @@
 package janggi;
 
-import janggi.config.AppConfig;
 import janggi.controller.JanggiController;
-import janggi.jdbc.ConnectionProvider;
-import janggi.jdbc.dao.game.JdbcGameDao;
-import janggi.jdbc.dao.piece.JdbcPieceDao;
-import janggi.jdbc.transaction.TransactionExecutorImpl;
+import janggi.dao.game.JdbcGameDao;
+import janggi.dao.piece.JdbcPieceDao;
+import janggi.infra.AppConfig;
+import janggi.infra.ConnectionProvider;
+import janggi.infra.transaction.TransactionExecutorImpl;
 import janggi.service.JanggiService;
 import janggi.view.InputView;
 import janggi.view.OutputView;

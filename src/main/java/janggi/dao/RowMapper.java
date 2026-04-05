@@ -1,4 +1,4 @@
-package janggi.jdbc.dao;
+package janggi.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -3,7 +3,7 @@ package janggi.dao.dao;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.dao.DatabaseTest;
-import janggi.jdbc.dao.piece.PieceEntity;
+import janggi.dao.piece.PieceEntity;
 import janggi.model.board.Board;
 import janggi.model.position.absolute.Column;
 import janggi.model.position.absolute.Position;

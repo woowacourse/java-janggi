@@ -38,11 +38,13 @@ public class JanggiController {
 
         while (!currentJanggi.isGameOver()) {
             outputView.printGameStatus(GameStatus.from(currentJanggi));
+            Position from = readPosition();
+            Position to = readPosition();
 
             currentJanggi = janggiService.updateBoardWith(
                     currentJanggi,
-                    readPosition(),
-                    readPosition()
+                    from,
+                    to
             );
 
             if (currentJanggi.isGameOver()) {
