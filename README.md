@@ -2,6 +2,45 @@
 
 장기 미션 저장소
 
+# Database 설정
+
+해당 프로그램에서는 데이터 영속성을 위해 다음과 같은 외부 저장소를 사용하고 있습니다.
+
+- 기본 : `MySQL`
+- 테스트 환경 : `H2(In-Memory)`, 별도의 설정 불필요
+
+`Main.java`를 실행하려면 아래 두 가지 방법 중 하나를 선택하여 DB를 준비해야 합니다.
+
+### 1. Docker를 이용한 빠른 시작 (권장)
+
+터미널에서 아래 명령어를 실행하면 즉시 프로젝트 설정과 일치하는 MySQL 컨테이너가 구동됩니다.
+
+```shell
+docker run -d \
+  --name mysql-db \
+  --restart always \
+  -e MYSQL_ROOT_PASSWORD=rootpassword \
+  -e MYSQL_DATABASE=janggi \
+  -p 3306:3306 \
+  mysql:8.0
+```
+
+### 2. 로컬 DB 직접 설정 방법
+
+이미 설치된 MySQL을 사용하거나 설정을 변경해야 한다면, 아래 경로의 파일을 수정하십시오.
+
+**파일 경로:** `src/main/resources/database.properties`
+
+```properties
+db.url=jdbc:mysql://localhost:3306/janggi?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+db.username=root
+db.password=rootpassword
+```
+
+- **`db.url`** : 데이터 베이스 접속 주소
+- **`db.username`** : 데이터 베이스 사용자 이름
+- **`db.password`** : 데이터 베이스 사용자에 맞는 비밀번호
+
 # View
 
 ```shell
