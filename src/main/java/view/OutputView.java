@@ -21,6 +21,10 @@ public class OutputView {
     private static final int MIN_COL_RANGE = 1;
     private static final int MAX_COL_RANGE = 9;
 
+    public static void printStartMode() {
+        System.out.println("1. 시작하기 2. 이어하기");
+    }
+
     public static void printArrangeCountry(Country country) {
         System.out.printf("%s나라의 진영을 선택해주세요.%n", country.color() + country.title() + Country.RESET);
     }
