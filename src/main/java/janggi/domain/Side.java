@@ -2,8 +2,18 @@ package janggi.domain;
 
 public enum Side {
 
-    HAN("한"),
-    CHO("초"),
+    HAN("한") {
+        @Override
+        public Side switchSide() {
+            return CHO;
+        }
+    },
+    CHO("초") {
+        @Override
+        public Side switchSide() {
+            return HAN;
+        }
+    },
     ;
 
     private final String name;
@@ -12,15 +22,7 @@ public enum Side {
         this.name = name;
     }
 
-    public Side switchSide() {
-        if (this == HAN) {
-            return CHO;
-        }
-        if (this == CHO) {
-            return HAN;
-        }
-        throw new UnsupportedOperationException("진영이 존재하지 않아 진영을 반전시킬 수 없습니다.");
-    }
+    public abstract Side switchSide();
 
     public String getName() {
         return name;
