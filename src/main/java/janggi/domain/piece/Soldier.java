@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.Camp;
+import janggi.domain.Score;
 import janggi.domain.piece.strategy.ChoSoldierStrategy;
 import janggi.domain.piece.strategy.HanSoldierStrategy;
 import janggi.domain.piece.strategy.MoveStrategy;
@@ -11,9 +12,11 @@ import java.util.Map;
 public class Soldier extends Piece {
     private static final ChoSoldierStrategy CHO_SOLDIER_STRATEGY = new ChoSoldierStrategy();
     private static final HanSoldierStrategy HAN_SOLDIER_STRATEGY = new HanSoldierStrategy();
+    private static final PieceName SOLDIER_NAME = new PieceName("卒", "兵");
+    private static final Score SOLDIER_SCORE = new Score(2);
 
     public Soldier(Camp camp) {
-        super(camp, createStrategy(camp));
+        super(camp, createStrategy(camp), SOLDIER_NAME, SOLDIER_SCORE);
     }
 
     private static MoveStrategy createStrategy(Camp camp) {
@@ -41,15 +44,5 @@ public class Soldier extends Piece {
     @Override
     public boolean canBeCaughtByCannon() {
         return true;
-    }
-
-    @Override
-    public String choDisplayName() {
-        return "卒";
-    }
-
-    @Override
-    public String hanDisplayName() {
-        return "兵";
     }
 }

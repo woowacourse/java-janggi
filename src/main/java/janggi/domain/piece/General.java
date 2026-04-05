@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.Camp;
+import janggi.domain.Score;
 import janggi.domain.piece.strategy.PalaceStrategy;
 import janggi.domain.position.Position;
 
@@ -8,9 +9,11 @@ import java.util.Map;
 
 public class General extends Piece {
     private static final PalaceStrategy PALACE_STRATEGY = new PalaceStrategy();
+    private static final PieceName GENERAL_NAME = new PieceName("楚", "漢");
+    private static final Score GENERAL_SCORE = new Score(0);
 
     public General(Camp camp) {
-        super(camp, PALACE_STRATEGY);
+        super(camp, PALACE_STRATEGY, GENERAL_NAME, GENERAL_SCORE);
     }
 
     @Override
@@ -31,15 +34,5 @@ public class General extends Piece {
     @Override
     public boolean canBeCaughtByCannon() {
         return true;
-    }
-
-    @Override
-    public String choDisplayName() {
-        return "楚";
-    }
-
-    @Override
-    public String hanDisplayName() {
-        return "漢";
     }
 }

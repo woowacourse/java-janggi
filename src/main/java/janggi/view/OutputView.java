@@ -52,7 +52,7 @@ public class OutputView {
 
     private String renderCell(int row, int col, Map<Position, Piece> board) {
         return Optional.ofNullable(board.get(Position.of(row, col)))
-                .map(piece -> COLOR_MAP.get(piece.isSameCamp(Camp.CHO)) + piece.displayName() + RESET)
+                .map(piece -> COLOR_MAP.get(piece.isSameCamp(Camp.CHO)) + piece.pieceName() + RESET)
                 .orElse("＋");
     }
 

@@ -2,6 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.Camp;
 import janggi.domain.Paths;
+import janggi.domain.Score;
 import janggi.domain.piece.strategy.MoveStrategy;
 import janggi.domain.position.Position;
 
@@ -10,10 +11,14 @@ import java.util.Map;
 public abstract class Piece {
     private final Camp camp;
     private final MoveStrategy moveStrategy;
+    private final PieceName pieceName;
+    private final Score score;
 
-    Piece(Camp camp, MoveStrategy moveStrategy) {
+    Piece(Camp camp, MoveStrategy moveStrategy, PieceName pieceName, Score score) {
         this.camp = camp;
         this.moveStrategy = moveStrategy;
+        this.pieceName = pieceName;
+        this.score = score;
     }
 
     public Paths findMovablePaths(Position current) {
@@ -28,11 +33,12 @@ public abstract class Piece {
         return this.camp.isSameCamp(camp);
     }
 
-    public String displayName() {
-        if (camp.isCho()) {
-            return choDisplayName();
-        }
-        return hanDisplayName();
+    public String pieceName(){
+        return pieceName.of(camp);
+    }
+
+    public Score score(){
+        return score;
     }
 
     abstract public boolean canPassRoute(Map<Position, Piece> piecesInPath);
@@ -42,8 +48,4 @@ public abstract class Piece {
     abstract public boolean canBeJumpedOver();
 
     abstract public boolean canBeCaughtByCannon();
-
-    abstract public String choDisplayName();
-
-    abstract public String hanDisplayName();
 }
