@@ -32,7 +32,7 @@ public class Soldier extends Piece {
     }
 
     @Override
-    public List<Position> extractPath(Position currentExcluded, Position nextExcluded) {
+    public List<Position> extractPath(Position currentExclusive, Position nextExclusive) {
         return List.of();
     }
 

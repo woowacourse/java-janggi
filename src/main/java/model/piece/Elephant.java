@@ -23,10 +23,10 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public List<Position> extractPath(Position currentExcluded, Position nextExcluded) {
-        List<Direction> directions = Direction.decomposePieceRoute(currentExcluded, nextExcluded);
+    public List<Position> extractPath(Position currentExclusive, Position nextExclusive) {
+        List<Direction> directions = Direction.decomposePieceRoute(currentExclusive, nextExclusive);
         List<Position> path = new ArrayList<>();
-        Position step = currentExcluded;
+        Position step = currentExclusive;
         for (int i = 0; i < directions.size() - 1; i++) {
             step = step.move(directions.get(i));
             path.add(step);

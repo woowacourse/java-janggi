@@ -21,11 +21,11 @@ public class Chariot extends Piece {
     }
 
     @Override
-    public List<Position> extractPath(Position current, Position nextExcluded) {
-        Direction direction = Direction.from(current, nextExcluded);
+    public List<Position> extractPath(Position currentExclusive, Position nextExclusive) {
+        Direction direction = Direction.from(currentExclusive, nextExclusive);
         List<Position> path = new ArrayList<>();
-        Position step = current.move(direction);
-        while (!step.equals(nextExcluded)) {
+        Position step = currentExclusive.move(direction);
+        while (!step.equals(nextExclusive)) {
             path.add(step);
             step = step.move(direction);
         }

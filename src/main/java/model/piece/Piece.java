@@ -16,7 +16,7 @@ public abstract class Piece {
         this.type = type;
     }
 
-    public abstract List<Position> extractPath(Position currentExcluded, Position nextExcluded);
+    public abstract List<Position> extractPath(Position currentExclusive, Position nextExclusive);
 
     public boolean isSameTeam(Piece other) {
         return !isEnemy(other.team);
