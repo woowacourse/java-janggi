@@ -153,4 +153,30 @@ class BoardTest {
         assertThat(result).isEqualTo(new Score(0));
     }
 
+    @Test
+    @DisplayName("해당 진영의 궁이 잡히면 true를 반환한다.")
+    void testGeneralCaptured() {
+        // given
+        Map<Position, Piece> pieces = new LinkedHashMap<>();
+        Board board = new Board(pieces);
+
+        // when & then
+        assertThat(board.isGeneralCaptured(Team.HAN)).isTrue();
+        assertThat(board.isGeneralCaptured(Team.CHO)).isTrue();
+    }
+
+    @Test
+    @DisplayName("해당 진영의 궁이 살아있으면 false를 반환한다.")
+    void testGeneralNotCaptured() {
+        // given
+        Map<Position, Piece> pieces = new LinkedHashMap<>();
+        pieces.put(new Position(5, 2), PieceFactory.createGeneral(Team.HAN));
+        pieces.put(new Position(5, 9), PieceFactory.createGeneral(Team.CHO));
+        Board board = new Board(pieces);
+
+        // when & then
+        assertThat(board.isGeneralCaptured(Team.HAN)).isFalse();
+        assertThat(board.isGeneralCaptured(Team.CHO)).isFalse();
+    }
+
 }
