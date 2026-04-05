@@ -2,6 +2,7 @@ package view;
 
 import domain.pieces.Side;
 import java.util.List;
+import view.dto.GameResultDto;
 import view.dto.PieceDto;
 
 public class OutputView {
@@ -41,5 +42,17 @@ public class OutputView {
             return "초나라";
         }
         return "한나라";
+    }
+
+    public void printGameResult(GameResultDto gameResult) {
+        if (!gameResult.isEnded()) {
+            return;
+        }
+
+        if (gameResult.winner().isCho()) {
+            System.out.println("게임 종료: 초 승리");
+            return;
+        }
+        System.out.println("게임 종료: 한 승리");
     }
 }

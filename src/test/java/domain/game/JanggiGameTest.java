@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.board.Board;
+import domain.game.exception.GameEndedException;
 import domain.game.exception.GameErrorMessage;
 import domain.game.exception.InvalidTurnException;
 import java.util.HashMap;
@@ -11,6 +12,7 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 import domain.pieces.Cha;
 import domain.pieces.EmptyPiece;
+import domain.pieces.Gung;
 import domain.pieces.Piece;
 import domain.pieces.Side;
 import domain.position.Position;
@@ -94,5 +96,45 @@ class JanggiGameTest {
 
         // then
         assertThat(janggiGame.currentTurn()).isEqualTo(Side.HAN);
+    }
+
+    @Test
+    void 왕을_잡으면_게임이_종료된다() {
+        // given
+        Position departure = new Position(7, 4);
+        Position destination = new Position(8, 4);
+
+        Map<Position, Piece> pieces = new HashMap<>();
+        pieces.put(departure, new Cha(Side.CHO));
+        pieces.put(destination, new Gung(Side.HAN));
+        JanggiGame janggiGame = new JanggiGame(new Board(pieces));
+
+        // when
+        janggiGame.move(departure, destination);
+
+        // then
+        assertThat(janggiGame.gameResult().isEnded()).isTrue();
+        assertThat(janggiGame.gameResult().winner()).isEqualTo(Side.CHO);
+    }
+
+    @Test
+    void 게임이_종료되면_추가_이동을_진행할_수_없다() {
+        // given
+        Position departure = new Position(7, 4);
+        Position destination = new Position(8, 4);
+        Position nextDestination = new Position(9, 4);
+
+        Map<Position, Piece> pieces = new HashMap<>();
+        pieces.put(departure, new Cha(Side.CHO));
+        pieces.put(destination, new Gung(Side.HAN));
+        pieces.put(nextDestination, new EmptyPiece());
+        JanggiGame janggiGame = new JanggiGame(new Board(pieces));
+
+        janggiGame.move(departure, destination);
+
+        // when & then
+        assertThatThrownBy(() -> janggiGame.move(destination, nextDestination))
+            .isInstanceOf(GameEndedException.class)
+            .hasMessage(GameErrorMessage.GAME_ALREADY_ENDED.message());
     }
 }

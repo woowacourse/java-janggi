@@ -6,6 +6,7 @@ import domain.game.JanggiGame;
 import domain.pieces.Side;
 import domain.position.Position;
 import view.BoardViewMapper;
+import view.GameResultViewMapper;
 import view.InputView;
 import view.OutputView;
 
@@ -13,6 +14,7 @@ public class GameController {
     private final InputView inputView;
     private final OutputView outputView;
     private final BoardViewMapper boardViewMapper = new BoardViewMapper();
+    private final GameResultViewMapper gameResultViewMapper = new GameResultViewMapper();
 
     public GameController(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
@@ -36,6 +38,12 @@ public class GameController {
 
                 game.move(departure, destination);
                 outputView.printBoard(boardViewMapper.map(game.board()));
+
+                if (game.gameResult().isEnded()) {
+                    outputView.printGameResult(gameResultViewMapper.map(game.gameResult()));
+                    break;
+                }
+
             } catch (IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());
             }
