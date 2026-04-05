@@ -18,18 +18,6 @@ class BoardTest {
     }
 
     @Test
-    @DisplayName("도착 좌표가 장기판 범위 밖일 경우 예외 발생")
-    void cannotMoveWhenEndPositionIsOutOfRange() {
-        // given
-        Position outOfBound = new Position(1, 11);
-
-        // when & then
-        assertThatThrownBy(() -> board.validateCanMove(new Position(1, 4), outOfBound, TeamType.CHU))
-            .isInstanceOf(IllegalArgumentException.class)
-            .hasMessage("입력한 좌표가 장기판 범위 밖입니다.");
-    }
-
-    @Test
     @DisplayName("출발지와 목적지가 동일할 경우 예외 발생")
     void checkSamePosition() {
         // given

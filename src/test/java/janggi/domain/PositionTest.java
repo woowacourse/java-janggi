@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class PositionTest {
 
@@ -48,6 +50,24 @@ class PositionTest {
         assertThatThrownBy(() -> Position.makePosition(rawPosition))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("좌표는 숫자가 입력되어야 합니다.");
+    }
+
+    @ParameterizedTest
+    @DisplayName("입력한 좌표가 범위 밖일 경우 예외 발생")
+    @CsvSource({
+            "0, 6",
+            "10, 6",
+            "6, 0",
+            "6, 11",
+    })
+    void makePosition_fail_when_out_of_range(String x, String y) {
+        // given
+        List<String> parsedPiecePosition = List.of(x, y);
+
+        // when & then
+        assertThatThrownBy(() -> Position.makePosition(parsedPiecePosition))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("입력한 좌표가 장기판 범위 밖입니다. x : " + x + ", y : " + y);
     }
 
     @Test

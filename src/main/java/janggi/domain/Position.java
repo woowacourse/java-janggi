@@ -6,6 +6,9 @@ import java.util.Objects;
 public class Position {
 
     private static final int POSITION_SIZE = 2;
+    private static final int FIRST_INDEX = 1;
+    private static final int LAST_X_INDEX = 9;
+    private static final int LAST_Y_INDEX = 10;
 
     private final int x;
     private final int y;
@@ -22,6 +25,7 @@ public class Position {
         try {
             int parsedX = Integer.parseInt(parsedPiecePosition.getFirst());
             int parsedY = Integer.parseInt(parsedPiecePosition.getLast());
+            validateRange(parsedX, parsedY);
             return new Position(parsedX, parsedY);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("좌표는 숫자가 입력되어야 합니다.");
@@ -66,5 +70,19 @@ public class Position {
     @Override
     public int hashCode() {
         return Objects.hash(x, y);
+    }
+
+    private static void validateRange(int parsedX, int parsedY) {
+        if (!isXInRange(parsedX) || !isYInRange(parsedY)) {
+            throw new IllegalArgumentException("입력한 좌표가 장기판 범위 밖입니다. x : " + parsedX + ", y : " + parsedY);
+        }
+    }
+
+    private static boolean isXInRange(int parsedX) {
+        return FIRST_INDEX <= parsedX && parsedX <= LAST_X_INDEX;
+    }
+
+    private static boolean isYInRange(int parsedY) {
+        return FIRST_INDEX <= parsedY && parsedY <= LAST_Y_INDEX;
     }
 }
