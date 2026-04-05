@@ -21,7 +21,7 @@ public class Pawn extends SingleLinearPiece {
     @Override
     public Route findRoute(Position start, Position end) {
         try {
-            Movement direction = getLinearDirection(start, end);
+            Movement direction = start.calculateDirection(end);
             validateDirection(direction);
 
             return super.findRoute(start, end);

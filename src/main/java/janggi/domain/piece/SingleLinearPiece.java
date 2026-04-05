@@ -15,7 +15,7 @@ public class SingleLinearPiece extends LinearPiece {
     @Override
     public Route findRoute(Position start, Position end) {
         try {
-            int distance = calculateLinearDistance(start, end);
+            int distance = start.calculateLinearDistance(end);
             validateDistance(distance);
 
             return super.findRoute(start, end);

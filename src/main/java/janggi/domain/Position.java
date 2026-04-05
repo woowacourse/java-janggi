@@ -1,5 +1,7 @@
 package janggi.domain;
 
+import static janggi.domain.Movement.INVALID_DELTA_DIRECTION_MESSAGE;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -76,20 +78,29 @@ public class Position {
         return new Position(x + movement.getDx(), y + movement.getDy());
     }
 
-    public int getDeltaX(Position position) {
-        return Math.abs(position.x - x);
+    public boolean isDiagonal(Position target) {
+        int dx = Math.abs(target.x - x);
+        int dy = Math.abs(target.y - y);
+
+        return dx == dy && dx != 0;
     }
 
-    public int getDeltaY(Position position) {
-        return Math.abs(position.y - y);
+    public Movement calculateDirection(Position destination) {
+        int dx = Math.abs(destination.x - x);
+        int dy = Math.abs(destination.y - y);
+
+        if(dx == 0 || dy == 0 || dx == dy) {
+            return Movement.of(
+                    Integer.compare(destination.x, x),
+                    Integer.compare(destination.y, y)
+            );
+        }
+
+        throw new IllegalStateException(INVALID_DELTA_DIRECTION_MESSAGE);
     }
 
-    public int compareX(Position position) {
-        return Integer.compare(position.x, x);
-    }
-
-    public int compareY(Position position) {
-        return Integer.compare(position.y, y);
+    public int calculateLinearDistance(Position destination) {
+        return Math.max(Math.abs(destination.x - x), Math.abs(destination.y - y));
     }
 
     public boolean isRange(int startX, int endX, int startY, int endY) {

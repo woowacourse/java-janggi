@@ -1,6 +1,7 @@
 package janggi.domain;
 
 import java.util.Arrays;
+import java.util.Set;
 
 public enum Movement {
     UP(-1, 0),
@@ -12,7 +13,11 @@ public enum Movement {
     DOWN_RIGHT(1, 1),
     DOWN_LEFT(1, -1);
 
-    private static final String INVALID_DELTA_DIRECTION_MESSAGE = "해당 dx,dy에 대한 movement가 없습니다.";
+    public static final String INVALID_DELTA_DIRECTION_MESSAGE = "해당 dx,dy에 대한 movement가 없습니다.";
+
+    private static final Set<Movement> diagonalMovement = Set.of(
+            UP_RIGHT, UP_LEFT, DOWN_RIGHT, DOWN_LEFT
+    );
 
     private final int dx;
     private final int dy;
@@ -35,5 +40,9 @@ public enum Movement {
                 .filter(movement ->  movement.dx == dx && movement.dy == dy)
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException(INVALID_DELTA_DIRECTION_MESSAGE));
+    }
+
+    public boolean isDiagonal() {
+        return diagonalMovement.contains(this);
     }
 }
