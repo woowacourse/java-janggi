@@ -83,6 +83,11 @@ public class InputView {
         }
     }
 
+    public String readRoomName() {
+        System.out.println("방 이름을 입력해주세요");
+        return scanner.nextLine();
+    }
+
     private static void validateRange(int input, int min, int max) {
         if (input < min || input > max) {
             throw new IllegalArgumentException(

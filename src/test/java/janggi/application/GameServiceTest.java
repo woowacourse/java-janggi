@@ -68,7 +68,7 @@ class GameServiceTest {
         LocalDateTime lastPlayedAt = LocalDateTime.of(2026, 10, 7, 10, 0);
 
         // when
-        GameDto gameDto = gameService.createGame(boardDesignPolicy, roomName, lastPlayedAt);
+        GameDto gameDto = gameService.createGame(boardDesignPolicy, new RoomName(roomName), lastPlayedAt);
 
         // then
         Game game = gameDto.game();

@@ -32,7 +32,7 @@ public class GameService {
         this.transactionTemplate = transactionTemplate;
     }
 
-    public GameDto createGame(BoardDesignPolicy boardDesignPolicy, String roomName, LocalDateTime lastPlayedAt) {
+    public GameDto createGame(BoardDesignPolicy boardDesignPolicy, RoomName roomName, LocalDateTime lastPlayedAt) {
         Game game = Game.initGame(boardDesignPolicy, roomName, lastPlayedAt);
         Long gameId = transactionTemplate.execute(() -> {
             GameEntity gameEntity = saveGame(roomName, lastPlayedAt, game);
@@ -42,8 +42,8 @@ public class GameService {
         return new GameDto(gameId, game);
     }
 
-    private GameEntity saveGame(String roomName, LocalDateTime lastPlayedAt, Game game) {
-        GameEntity gameEntity = new GameEntity(new RoomName(roomName), game.currentTurn(), lastPlayedAt);
+    private GameEntity saveGame(RoomName roomName, LocalDateTime lastPlayedAt, Game game) {
+        GameEntity gameEntity = new GameEntity(roomName, game.currentTurn(), lastPlayedAt);
         Long gameRoomId = gameDAO.save(gameEntity);
         gameEntity.bindId(gameRoomId);
         return gameEntity;

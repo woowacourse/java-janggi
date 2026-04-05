@@ -30,7 +30,7 @@ class GameTest {
                 Position.from(1, 2), new Piece(CHO, HORSE),
                 Position.from(2, 1), new Piece(CHO, SOLDIER)
         );
-        Game game = Game.initGame(boardDesignPolicy, "room", LocalDateTime.now());
+        Game game = Game.initGame(boardDesignPolicy, new RoomName("room"), LocalDateTime.now());
 
         // when & then
         assertThatThrownBy(() -> game.findMovablePositions(from))
@@ -47,7 +47,7 @@ class GameTest {
                 from, new Piece(CHO, CHARIOT)
         );
 
-        Game game = Game.initGame(boardDesignPolicy, "room", LocalDateTime.now());
+        Game game = Game.initGame(boardDesignPolicy, new RoomName("room"), LocalDateTime.now());
         Dynasty currentTurn = game.currentTurn();
 
         // when
@@ -67,7 +67,7 @@ class GameTest {
         );
 
         LocalDateTime initTime = LocalDateTime.of(2026, 4, 5, 10, 15);
-        Game game = Game.initGame(boardDesignPolicy, "room", initTime);
+        Game game = Game.initGame(boardDesignPolicy, new RoomName("room"), initTime);
         Dynasty currentTurn = game.currentTurn();
 
         // when

@@ -8,6 +8,7 @@ import janggi.domain.board.DefaultBoardDesignPolicy;
 import janggi.domain.board.HorseElephantPosition;
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.game.Game;
+import janggi.domain.game.RoomName;
 import janggi.domain.position.Position;
 import janggi.view.dto.BoardDto;
 import janggi.view.dto.PositionDto;
@@ -64,8 +65,9 @@ public class JanggiController {
 
     private GameDto createNewGame() {
         GameDto game;
+        RoomName roomName = getUntilValid(() -> new RoomName(inputView.readRoomName()));
         Map<Dynasty, HorseElephantPosition> horseElephantPositions = readDynastyHorseElephantPositionMap();
-        game = gameService.createGame(new DefaultBoardDesignPolicy(horseElephantPositions), "room", LocalDateTime.now());
+        game = gameService.createGame(new DefaultBoardDesignPolicy(horseElephantPositions), roomName, LocalDateTime.now());
         return game;
     }
 
