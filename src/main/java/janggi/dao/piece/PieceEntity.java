@@ -1,4 +1,4 @@
-package janggi.jdbc.dao.piece;
+package janggi.dao.piece;
 
 public record PieceEntity(
         Long id,

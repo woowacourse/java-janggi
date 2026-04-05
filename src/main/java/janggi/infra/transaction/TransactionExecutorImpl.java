@@ -1,8 +1,8 @@
-package janggi.jdbc.transaction;
+package janggi.infra.transaction;
 
-import janggi.jdbc.ConnectionProvider;
-import janggi.jdbc.transaction.action.TransactionRunnable;
-import janggi.jdbc.transaction.action.TransactionSupplier;
+import janggi.infra.ConnectionProvider;
+import janggi.infra.transaction.action.TransactionRunnable;
+import janggi.infra.transaction.action.TransactionSupplier;
 import java.sql.Connection;
 import java.sql.SQLException;
 

@@ -1,7 +1,7 @@
 package janggi.service;
 
-import janggi.jdbc.dao.game.GameDao;
-import janggi.jdbc.dao.game.GameEntity;
+import janggi.dao.game.GameDao;
+import janggi.dao.game.GameEntity;
 import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;

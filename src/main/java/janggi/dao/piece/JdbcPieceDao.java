@@ -1,4 +1,4 @@
-package janggi.jdbc.dao.piece;
+package janggi.dao.piece;
 
 import janggi.model.Team;
 import janggi.model.piece.Piece;

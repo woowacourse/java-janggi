@@ -1,7 +1,7 @@
 package janggi.service;
 
-import janggi.jdbc.dao.piece.PieceDao;
-import janggi.jdbc.dao.piece.PieceEntity;
+import janggi.dao.piece.PieceDao;
+import janggi.dao.piece.PieceEntity;
 import janggi.model.Team;
 import janggi.model.piece.Piece;
 import janggi.model.position.absolute.Position;

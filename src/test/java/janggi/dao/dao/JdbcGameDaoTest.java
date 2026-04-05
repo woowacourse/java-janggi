@@ -3,7 +3,7 @@ package janggi.dao.dao;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.dao.DatabaseTest;
-import janggi.jdbc.dao.game.GameEntity;
+import janggi.dao.game.GameEntity;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package janggi.jdbc.transaction.action;
+package janggi.infra.transaction.action;
 
 import java.sql.Connection;
 

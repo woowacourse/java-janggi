@@ -1,9 +1,9 @@
 package janggi.dao;
 
-import janggi.config.AppConfig;
-import janggi.jdbc.dao.game.GameDao;
-import janggi.jdbc.dao.game.JdbcGameDao;
-import janggi.jdbc.dao.piece.JdbcPieceDao;
+import janggi.dao.game.GameDao;
+import janggi.dao.game.JdbcGameDao;
+import janggi.dao.piece.JdbcPieceDao;
+import janggi.infra.AppConfig;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;

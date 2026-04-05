@@ -1,8 +1,8 @@
 package janggi.service;
 
-import janggi.jdbc.transaction.TransactionExecutor;
-import janggi.jdbc.transaction.action.TransactionRunnable;
-import janggi.jdbc.transaction.action.TransactionSupplier;
+import janggi.infra.transaction.TransactionExecutor;
+import janggi.infra.transaction.action.TransactionRunnable;
+import janggi.infra.transaction.action.TransactionSupplier;
 import java.sql.Connection;
 
 public class TestTransactionExecutor implements TransactionExecutor {

@@ -1,4 +1,4 @@
-package janggi.config;
+package janggi.infra;
 
 import java.io.IOException;
 import java.io.InputStream;

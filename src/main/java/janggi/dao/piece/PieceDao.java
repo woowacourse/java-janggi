@@ -1,4 +1,4 @@
-package janggi.jdbc.dao.piece;
+package janggi.dao.piece;
 
 import janggi.model.piece.Piece;
 import janggi.model.position.absolute.Position;
