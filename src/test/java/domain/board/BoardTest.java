@@ -144,8 +144,7 @@ class BoardTest {
             );
 
             // then
-            AlivePieces resultAlivePieces = board.getAlivePieces();
-            Piece destinationPiece = resultAlivePieces.placedAt(reachableDestination);
+            Piece destinationPiece = board.placedAt(reachableDestination);
 
             assertThat(destinationPiece).isEqualTo(SAME_SIDE_PIECE);
         }

@@ -2,6 +2,7 @@ package domain.board;
 
 import domain.game.Side;
 import domain.piece.AlivePieces;
+import domain.piece.Piece;
 import domain.piece.PieceType;
 import java.util.List;
 
@@ -41,8 +42,12 @@ public final class Board {
                 .movableDestinations(selectedIntersection, alivePieces);
     }
 
-    public AlivePieces getAlivePieces() {
-        return alivePieces;
+    public boolean isEmpty(Intersection intersection) {
+        return alivePieces.isEmpty(intersection);
+    }
+
+    public Piece placedAt(Intersection intersection) {
+        return alivePieces.placedAt(intersection);
     }
 
     public boolean isGeneralCaptured(Side side) {

@@ -89,7 +89,7 @@ public final class OutputView {
     }
 
     private void printCell(Board board, Intersection current, boolean isMovable) {
-        if (board.getAlivePieces().isEmpty(current)) {
+        if (board.isEmpty(current)) {
             printEmptyCell(isMovable);
             return;
         }
@@ -105,7 +105,7 @@ public final class OutputView {
     }
 
     private void printPieceCell(Board board, Intersection current, boolean isMovable) {
-        Piece piece = board.getAlivePieces().placedAt(current);
+        Piece piece = board.placedAt(current);
         String coloredSymbol = getColoredPieceSymbol(piece);
         if (isMovable) {
             System.out.print("［" + coloredSymbol + "］");
