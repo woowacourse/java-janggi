@@ -23,14 +23,6 @@ public class Board {
         }
     }
 
-    public boolean isEmpty(Position position) {
-        return !isInvalidRange(position) && getPiece(position).isEmpty();
-    }
-
-    public boolean isCannon(Position position) {
-        return board[position.col()][position.row()] instanceof Cannon;
-    }
-
     public void move(Position start, Position destination) {
         validateRange(start);
         validateRange(destination);
@@ -41,10 +33,6 @@ public class Board {
     public Piece getPiece(Position position) {
         validateRange(position);
         return board[position.col()][position.row()];
-    }
-
-    public boolean isInvalidRange(Position position) {
-        return !BOUNDS.contains(position);
     }
 
     public void validateRange(Position position) {

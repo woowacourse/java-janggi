@@ -16,26 +16,6 @@ public class Game {
         this.turn = boardInitializer.getFirstTurnSide();
     }
 
-    public boolean isAvailableDestination(Position destination) {
-        if (board.isInvalidRange(destination)) {
-            return false;
-        }
-
-        return isOpponentOrEmptyPiece(destination);
-    }
-
-    public boolean isOpponentPiece(Position position) {
-        return isOpponentOrEmptyPiece(position) && !board.isEmpty(position);
-    }
-
-    public boolean isCannon(Position position) {
-        return board.isInvalidRange(position) || board.isCannon(position);
-    }
-
-    public boolean isNotEmpty(Position position) {
-        return !board.isEmpty(position);
-    }
-
     public void validateStartPosition(Position start) {
         board.validateRange(start);
         validateCurrentTurnPiece(start);
