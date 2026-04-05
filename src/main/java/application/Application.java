@@ -28,7 +28,7 @@ public class Application {
     }
 
     private void playJanggi(Game game) {
-        while (true) {
+        while (!game.isFinished()) {
             outputView.printTurnPrompt(game.currentTurn());
 
             try {
@@ -41,6 +41,7 @@ public class Application {
                 return;
             }
         }
+        outputView.printWinner(game.winner());
     }
 
     private int readSetUp(Camp camp) {

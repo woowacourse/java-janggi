@@ -16,6 +16,7 @@ public class OutputView {
     private static final String ELEPHANT_SETUP_MESSAGE = "%s 상차림 번호를 입력하세요.%n";
     private static final String CHO_CAMP = "초나라";
     private static final String HAN_CAMP = "한나라";
+    private static final String WINNER_MESSAGE = "%s의 승리입니다!";
 
     private final BoardRenderer boardRenderer;
 
@@ -41,6 +42,10 @@ public class OutputView {
 
     public void printError(String message) {
         System.out.println(message);
+    }
+
+    public void printWinner(Camp winner) {
+        System.out.printf(WINNER_MESSAGE, campName(winner));
     }
 
     private String campName(Camp camp) {
