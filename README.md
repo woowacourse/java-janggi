@@ -5,6 +5,8 @@
 # View
 
 ```shell
+진행 중인 게임이 존재합니다. 계속 하시겠습니까? (y | n)
+n
 
 초나라와 한나라의 차림을 각각 선택하세요(콤마로 구분, 예시 => 1,3)
 ① 왼상차림 (상마상마), ② 오른상차림 (마상마상), ③ 안상차림 (마상상마), ④ 바깥상차림 (상마마상)
@@ -34,7 +36,7 @@
 >> a7 a5
 잘못된 입력입니다. 다시 입력하세요.
 
-... (치열한 공방전 진행, 초나라 졸이 적진 깊숙이 침투) ...
+... (중간 진행 과정 생략) ...
 
      a   b  c   d  e  f   g  h  i
    +------------------------------+
@@ -111,6 +113,15 @@
     - [x] 게임의 승자를 찾아올 수 있다
     - [x] 게임의 점수를 구할 수 있다
 
+## GameContext
+
+- [x] 게임의 진행 상태(Playing, Finish 등)와 현재 턴을 중앙에서 관리한다.
+- [x] 턴이 넘어갈 때 턴을 교체하는 로직을 수행한다.
+
+## Turn
+
+- [x] 초나라와 한나라 사이의 턴 관리를 담당한다.
+
 ## ScoreCalculator
 
 - [x] 게임의 상태를 기반으로 팀별 점수를 구한다
@@ -123,6 +134,10 @@
 ## BoardInitializer
 
 - [x] 차림에 맞게 기물 위치를 배치한다.
+
+## PieceFactory
+
+- [x] 도메인 생성의 복잡성을 캡슐화하여 알맞은 전략(Strategy)을 주입한 각 기물(Piece) 인스턴스들을 생성한다.
 
 ## Piece
 
@@ -212,6 +227,14 @@
 
 # Service
 
+## JanggiGameService
+
+- [x] 새로운 게임을 생성하고 저장한다
+- [x] 진행 중인 게임들을 불러오거나 관리한다
+- [x] 진행 중인 모든 게임을 포기(종료) 처리한다
+- [x] 기물을 이동시키고 DB에 반영한다
+- [x] 턴을 넘기고 DB에 상태를 반영한다
+
 # Repository
 
 ## JdbcConnectionGenerator
@@ -222,62 +245,37 @@
 
 - [x] Jdbc를 사용하는 과정에서 발생하는 공통된 로직을 공통으로 관리한다
 
-## PieceJdbcRepository
-
-- [x] 단일 Piece를 잘 저장한다
-- [x] 여러 Piece들을 잘 저장한다
-- [x] 하나의 Piece를 id로 잘 찾아온다
-- [x] 모든 Piece들을 잘 찾아온다
-
-## GameContextJdbcRepository
-
-- [x] 단일 GameContextEntity를 잘 저장한다
-- [x] id 기반으로 GameContextEntity를 잘 찾는다
-- [x] id 와 새로운 엔티티를 통해 기존의 값을 업데이트 잘 한다
-
 ## GameJdbcRepository
 
 - [x] 단일 Game을 잘 저장한다
 - [x] 하나의 Game을 id로 잘 찾아온다
 - [x] Game 정보를 잘 수정한다
+- [x] 상태를 기반으로 진행 중인 게임을 찾아온다
 
 ## GamePieceJdbcRepository
 
 - [x] 하나의 GamePiece를 잘 저장한다
-- [x] 여러 GamePiece들을 잘 저장한다
-- [x] 하나의 GamePiece를 id로 잘 찾아온다
-- [x] 전체 GamePiece들을 잘 찾아온다
-- [x] GamePiece 수정이 잘 된다
+- [x] 여러 GamePiece들을 배치(Batch)로 잘 저장한다
+- [x] 특정 게임(game_id)의 전체 GamePiece들을 잘 찾아온다
+- [x] GamePiece 데이터(위치 업데이트, 잡힘 여부) 변경이 잘 된다
 
 # Database ERD
 
 ```mermaid
 erDiagram
-    game_contexts ||--o{ games : "has"
     games ||--o{ game_pieces : "contains"
-    pieces ||--o{ game_pieces : "references"
 
-    game_contexts {
-        BIGINT game_context_id PK
-        VARCHAR current_turn_own_team
-        VARCHAR game_state
-    }
-    
     games {
         BIGINT game_id PK
-        BIGINT game_context_id FK
-    }
-    
-    pieces {
-        BIGINT piece_id PK
-        VARCHAR team
-        VARCHAR type
+        VARCHAR current_turn_own_team
+        VARCHAR game_state
     }
     
     game_pieces {
         BIGINT game_piece_id PK
         BIGINT game_id FK
-        BIGINT piece_id FK
+        VARCHAR piece_type
+        VARCHAR team
         INT position_row
         INT position_col
         BOOLEAN is_active
