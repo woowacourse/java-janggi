@@ -1,0 +1,26 @@
+package domain.piece;
+
+import domain.Position;
+import domain.Side;
+import domain.board.BoardReader;
+import domain.strategy.MovementStrategy;
+import domain.strategy.Path;
+import java.util.List;
+
+public class Guard extends Piece {
+    private final PieceType pieceType = PieceType.GUARD;
+
+    public Guard(Side side, MovementStrategy movementStrategy) {
+        super(side, movementStrategy);
+    }
+
+    @Override
+    protected List<Position> filterValidPositions(Position current, List<Path> paths, BoardReader board) {
+        return filterStandardPaths(paths, board);
+    }
+
+    @Override
+    public String getName() {
+        return pieceType.getName();
+    }
+}
