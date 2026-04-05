@@ -16,8 +16,8 @@ public class Players {
     public static Players createInitial(Name choName, Name hanName) {
         validateDuplicateName(choName, hanName);
         return new Players(
-                new Player(choName, Side.CHO, new ActiveTurn()),
-                new Player(hanName, Side.HAN, new InactiveTurn())
+                new Player(choName, Side.CHO, ActiveTurn.INSTANCE),
+                new Player(hanName, Side.HAN, InactiveTurn.INSTANCE)
         );
     }
 
