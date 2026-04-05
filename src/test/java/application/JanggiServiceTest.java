@@ -1,5 +1,7 @@
 package application;
 
+import static domain.player.Team.CHO;
+import static domain.player.Team.HAN;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import dao.BoardRepository;
@@ -9,20 +11,50 @@ import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.Formation;
 import domain.game.GameStatus;
+import domain.player.Name;
+import domain.player.Player;
 import domain.player.Team;
 import infra.db.DbBootstrap;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class GameLoaderTest {
+class JanggiServiceTest {
     private final GameRoom gameRoom = new GameRoom();
     private final BoardRepository boardRepository = new BoardRepository();
-    private final GameLoader gameLoader = new GameLoader(gameRoom, boardRepository);
+    private final JanggiService janggiService = new JanggiService(gameRoom, boardRepository);
 
     @BeforeEach
     void setUp() {
         DbBootstrap.initializeForTest();
+    }
+
+    @Test
+    void 새_게임을_생성하면_세션을_반환하고_진행_상태로_저장한다() {
+        GameSession session = janggiService.createNewGame(
+            createPlayer("CHO Player", CHO),
+            createPlayer("HAN Player", HAN),
+            Formation.from(1),
+            Formation.from(1)
+        );
+
+        assertThat(session.gameId()).isPositive();
+        assertThat(session.gameManager().getCurrentPlayer().getProfile().team()).isEqualTo(CHO);
+        assertThat(janggiService.findProgressGames())
+            .anyMatch(gameInfo -> gameInfo.gameId() == session.gameId());
+    }
+
+    @Test
+    void 저장된_게임을_세션으로_불러온다() {
+        long gameId = gameRoom.createGame("CHO Player", "HAN Player");
+        Board board = BoardFactory.createWithFormation(Formation.from(1), Formation.from(1));
+        boardRepository.save(gameId, board);
+
+        Optional<GameSession> loaded = janggiService.loadSessionById(gameId);
+
+        assertThat(loaded).isPresent();
+        assertThat(loaded.get().gameId()).isEqualTo(gameId);
+        assertThat(loaded.get().gameManager().getCurrentPlayer().getProfile().team()).isEqualTo(CHO);
     }
 
     @Test
@@ -31,7 +63,7 @@ class GameLoaderTest {
         Board board = BoardFactory.createWithFormation(Formation.from(1), Formation.from(1));
         boardRepository.save(gameId, board);
 
-        Optional<GameLoadResult> result = gameLoader.loadProgress();
+        Optional<GameLoadResult> result = janggiService.loadProgress();
 
         assertThat(result).isPresent();
         assertThat(result.get().gameId()).isEqualTo(gameId);
@@ -44,32 +76,35 @@ class GameLoaderTest {
     @Test
     void loadProgress_진행중인_게임이_없으면_Empty를_반환한다() {
         // 기존에 있을 수 있는 PROGRESS 게임들 종료
-        Optional<GameLoadResult> existingGame = gameLoader.loadProgress();
+        Optional<GameLoadResult> existingGame = janggiService.loadProgress();
         while (existingGame.isPresent()) {
             gameRoom.updateGameState(existingGame.get().gameId(), Team.CHO, GameStatus.CHO_WIN);
-            existingGame = gameLoader.loadProgress();
+            existingGame = janggiService.loadProgress();
         }
 
         // 새 게임 생성 후 바로 종료
         long gameId = gameRoom.createGame("CHO Player", "HAN Player");
         gameRoom.updateGameState(gameId, Team.CHO, GameStatus.CHO_WIN);
 
-        Optional<GameLoadResult> result = gameLoader.loadProgress();
+        Optional<GameLoadResult> result = janggiService.loadProgress();
 
         assertThat(result).isEmpty();
     }
 
     @Test
     void loadProgress_여러_게임_중_최신_게임을_반환한다() {
-        long gameId1 = gameRoom.createGame("CHO Player1", "HAN Player1");
+        gameRoom.createGame("CHO Player1", "HAN Player1");
         long gameId2 = gameRoom.createGame("CHO Player2", "HAN Player2");
         Board board = BoardFactory.createWithFormation(Formation.from(1), Formation.from(1));
         boardRepository.save(gameId2, board);
 
-        Optional<GameLoadResult> result = gameLoader.loadProgress();
+        Optional<GameLoadResult> result = janggiService.loadProgress();
 
         assertThat(result).isPresent();
         assertThat(result.get().gameId()).isEqualTo(gameId2);
     }
-}
 
+    private Player createPlayer(String name, Team team) {
+        return new Player(new Name(name), team);
+    }
+}

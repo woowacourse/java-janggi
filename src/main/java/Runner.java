@@ -1,24 +1,23 @@
 import static domain.player.Team.CHO;
 import static domain.player.Team.HAN;
 
+import application.GameSession;
+import application.JanggiService;
 import dao.BoardRepository;
-import dao.GameLoadResult;
 import dao.GameRoom;
 import common.exception.JanggiException;
-import domain.board.Board;
 import domain.board.Formation;
 import domain.game.GameStatus;
 import domain.manager.GameManager;
 import domain.player.Name;
 import domain.player.Player;
+import domain.player.PlayerProfile;
 import domain.player.Team;
 import domain.position.Position;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Supplier;
 import view.InputView;
 import view.OutputView;
-import application.GameLoader;
 
 public class Runner {
 
@@ -26,6 +25,7 @@ public class Runner {
     private final OutputView outputView;
     private final GameRoom gameRoom;
     private final BoardRepository boardRepository;
+    private final JanggiService janggiService;
     private GameManager gameManager;
     private long gameId;
 
@@ -38,6 +38,7 @@ public class Runner {
         this.outputView = outputView;
         this.gameRoom = gameRoom;
         this.boardRepository = boardRepository;
+        this.janggiService = new JanggiService(gameRoom, boardRepository);
     }
 
     public void run() {
@@ -48,9 +49,9 @@ public class Runner {
             playTurn();
         }
 
-        Player winner = gameManager.getCurrentPlayer();
-        gameRoom.updateGameState(gameId, winner.getProfile().team(), resolveFinishedStatus(winner));
-        outputView.printResult(gameManager.calculateFinalScore());
+        PlayerProfile winnerProfile = gameManager.calculateFinalScore();
+        gameRoom.updateGameState(gameId, winnerProfile.team(), resolveFinishedStatus(winnerProfile.team()));
+        outputView.printResult(winnerProfile);
     }
 
     private void playTurn() {
@@ -113,16 +114,18 @@ public class Runner {
     private void initializeNewGame() {
         Player choPlayer = retryOnInvalidInput(this::createChoPlayer);
         Player hanPlayer = retryOnInvalidInput(() -> createHanPlayer(choPlayer));
-        this.gameManager = new GameManager(choPlayer, hanPlayer,
+        GameSession session = janggiService.createNewGame(
+            choPlayer,
+            hanPlayer,
             retryOnInvalidInput(this::createChoFormation),
-            retryOnInvalidInput(this::createHanFormation));
-        this.gameId = gameRoom.createGame(choPlayer.getProfile().name().value(), hanPlayer.getProfile().name().value());
-        boardRepository.save(gameId, gameManager.getBoard());
-        gameRoom.updateGameState(gameId, gameManager.getCurrentPlayer().getProfile().team(), GameStatus.PROGRESS);
+            retryOnInvalidInput(this::createHanFormation)
+        );
+        this.gameId = session.gameId();
+        this.gameManager = session.gameManager();
     }
 
     private void initializeLoadedGame() {
-        java.util.List<dao.GameInfo> games = gameRoom.findAllProgressGames();
+        java.util.List<dao.GameInfo> games = janggiService.findProgressGames();
         if (games.isEmpty()) {
             outputView.printErrorMessage("저장된 게임이 없습니다. 새 게임을 생성합니다.");
             initializeNewGame();
@@ -131,38 +134,25 @@ public class Runner {
 
         outputView.printAvailableGames(games);
         int choice = retryOnInvalidInput(() -> inputView.askSelectGame(games.size()));
-        if (choice != games.size() + 1) {
-            loadGame(games.get(choice - 1).gameId());
-        } else {
+        if (choice == games.size() + 1) {
             initializeNewGame();
-        }
-    }
-
-    private void loadGame(long gameId) {
-        Optional<dao.GameLoadResult> loaded = new GameLoader(gameRoom, boardRepository).loadGameById(gameId);
-        if (loaded.isEmpty()) {
-            outputView.printErrorMessage("게임을 불러올 수 없습니다.");
             return;
         }
 
-        dao.GameLoadResult state = loaded.get();
-        Board board = new Board(state.boardMap());
-        this.gameId = state.gameId();
-        this.gameManager = GameManager.fromLoadedState(
-            createDefaultPlayer(state.choName(), CHO),
-            createDefaultPlayer(state.hanName(), HAN),
-            board,
-            state.currentTeam()
-        );
+        GameSession loadedSession = janggiService.loadSessionById(games.get(choice - 1).gameId())
+            .orElse(null);
+        if (loadedSession == null) {
+            outputView.printErrorMessage("게임을 불러올 수 없습니다. 새 게임을 생성합니다.");
+            initializeNewGame();
+            return;
+        }
+
+        this.gameId = loadedSession.gameId();
+        this.gameManager = loadedSession.gameManager();
     }
 
-    private Player createDefaultPlayer(String namePrefix, Team team) {
-        return new Player(new Name(namePrefix), team);
-    }
-
-
-    private GameStatus resolveFinishedStatus(Player winner) {
-        return winner.getProfile().team() == CHO ? GameStatus.CHO_WIN : GameStatus.HAN_WIN;
+    private GameStatus resolveFinishedStatus(Team winnerTeam) {
+        return winnerTeam == CHO ? GameStatus.CHO_WIN : GameStatus.HAN_WIN;
     }
 
     private Player createChoPlayer() {
