@@ -41,4 +41,25 @@ public class JanggiGameTest {
         assertThat(game.turn()).isEqualTo(Country.HAN);
     }
 
+    @Test
+    void 장을_잡으면_게임이_종료된다(){
+        Move moveChariot_1 = Move.of(Position.of(10, 9), Position.of(9, 9));
+        game.move(moveChariot_1);
+
+        Move moveGeneral_1 = Move.of(Position.of(2, 5), Position.of(2, 6));
+        game.move(moveGeneral_1);
+
+        Move moveChariot_2 = Move.of(Position.of(9, 9), Position.of(9, 6));
+        game.move(moveChariot_2);
+
+        Move moveGeneral_2 = Move.of(Position.of(2, 6), Position.of(3, 6));
+        game.move(moveGeneral_2);
+
+        Move moveChariot_3 = Move.of(Position.of(9, 6), Position.of(3, 6));
+        game.move(moveChariot_3);
+
+        assertThatThrownBy(() ->
+                game.move(Move.of(Position.of(7, 1), Position.of(6, 1))))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
 }

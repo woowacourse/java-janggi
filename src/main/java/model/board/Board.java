@@ -35,7 +35,7 @@ public class Board {
         board.remove(position);
     }
 
-    public void move(Move move) {
+    public Piece move(Move move) {
         Piece piece = findPiece(move.from());
         validatePieceExists(piece);
 
@@ -43,7 +43,9 @@ public class Board {
             throw new IllegalArgumentException("[ERROR] 이동할 수 없습니다.");
         }
 
+        Piece capturedPiece = findPiece(move.to());
         executeMove(move, piece);
+        return capturedPiece;
     }
 
     private static void validatePieceExists(Piece piece) {

@@ -8,15 +8,20 @@ import model.pieces.Piece;
 public class JanggiGame {
     private final Board board;
     private Country turn;
+    private GameStatus status;
 
     public JanggiGame(Board board) {
         this.board = board;
         this.turn = Country.CHO;
+        this.status = GameStatus.playing();
     }
 
     public void move(Move move) {
+        status.validateNotFinished();
         validateTurn(move);
-        board.move(move);
+
+        Piece capturedPiece = board.move(move);
+        status = status.update(capturedPiece);
         changeTurn();
     }
 
