@@ -78,7 +78,7 @@ public class Board {
     }
 
     private void validateExistPiece(Position position) {
-        if (!isEmpty(position)) {
+        if (isEmpty(position)) {
             throw new IllegalArgumentException("해당 좌표에 기물이 존재하지 않습니다.");
         }
     }
