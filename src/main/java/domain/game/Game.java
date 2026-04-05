@@ -3,6 +3,7 @@ package domain.game;
 import domain.board.Board;
 import domain.game.state.ChoTurn;
 import domain.game.state.GameState;
+import domain.game.state.HanTurn;
 import domain.piece.Piece;
 import domain.player.Player;
 import domain.player.Players;
@@ -24,6 +25,15 @@ public class Game {
         this.board = board;
         this.caughtPieces = new ArrayList<>();
         this.gameState = new ChoTurn(this);
+    }
+
+    public static Game restore(Players players, Board board, List<Piece> caughtPieces, Team currentTeam) {
+        Game game = new Game(players, board);
+        game.caughtPieces = new ArrayList<>(caughtPieces);
+        if (currentTeam.isHan()) {
+            game.gameState = new HanTurn(game);
+        }
+        return game;
     }
 
     public Set<Position> select(Position source) {
@@ -91,5 +101,13 @@ public class Game {
 
     public List<Piece> getCaughtPieces() {
         return List.copyOf(caughtPieces);
+    }
+
+    public String getChoPlayerName() {
+        return players.getChoPlayerName();
+    }
+
+    public String getHanPlayerName() {
+        return players.getHanPlayerName();
     }
 }

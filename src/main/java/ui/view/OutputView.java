@@ -5,6 +5,7 @@ import static domain.board.Board.MAX_ROW;
 import static domain.board.Board.MIN_COLUMN;
 import static domain.board.Board.MIN_ROW;
 
+import domain.game.Game;
 import domain.piece.Piece;
 import domain.player.Team;
 import domain.position.Position;
@@ -121,5 +122,25 @@ public class OutputView {
             }
         }
         System.out.println(sb);
+    }
+
+    // todo : game id를 어디서 관리할지 결정
+    public void printGameList(List<Game> games) {
+        System.out.println("===== 저장된 게임 목록 =====");
+        if (games.isEmpty()) {
+            System.out.println("저장된 게임이 없습니다.");
+            return;
+        }
+
+        for (int index = 0; index < games.size(); index++) {
+            Game game = games.get(index);
+            long gameId = index + 1L;
+            System.out.printf(
+                    "id: %d, 초: %s, 한: %s%n",
+                    gameId,
+                    game.getChoPlayerName(),
+                    game.getHanPlayerName()
+            );
+        }
     }
 }

@@ -10,6 +10,11 @@ public class InputView {
     private static final String INVALID_POSITION_INPUT = "숫자 두 개를 공백으로 구분하여 입력하세요.";
     private final Scanner scanner = new Scanner(System.in);
 
+    public String askNewOrLoadOption() {
+        System.out.println("게임을 불러오시겠습니까? (y or n)");
+        return scanner.nextLine();
+    }
+
     public String askChoPlayerName() {
         System.out.println("선공 닉네임을 입력하세요.");
         return scanner.nextLine();
@@ -60,6 +65,15 @@ public class InputView {
             return numbers;
         } catch (NumberFormatException e) {
             throw new JanggiException(INVALID_POSITION_INPUT);
+        }
+    }
+
+    public long askGameId() {
+        System.out.println("게임 ID를 입력하세요.");
+        try {
+            return Long.parseLong(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            throw new JanggiException(INVALID_NUMBER_INPUT);
         }
     }
 }
