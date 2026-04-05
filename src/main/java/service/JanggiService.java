@@ -1,20 +1,42 @@
 package service;
 
+import dao.JanggiDao;
+import domain.Board;
+import domain.BoardFactory;
+import domain.JanggiGame;
+import domain.Position;
+import domain.constant.Country;
 import domain.constant.MaSang;
+import domain.constant.PieceType;
+import dto.BoardDto;
+import dto.PieceDto;
+import dto.PositionDto;
+import dto.SavedPieceDto;
 import java.util.ArrayList;
 import java.util.List;
-
-import domain.Board;
-import domain.JanggiGame;
-import domain.constant.PieceType;
-import domain.Position;
 import java.util.Map;
 import java.util.stream.Collectors;
-import service.dto.BoardDto;
-import service.dto.PieceDto;
-import service.dto.PositionDto;
 
 public class JanggiService {
+    private final JanggiDao janggiDao;
+
+    public JanggiService(JanggiDao janggiDao) {
+        this.janggiDao = janggiDao;
+    }
+
+    public int createNewGame(String initialTurn) {
+        return janggiDao.createNewGame(initialTurn);
+    }
+
+    public void saveInitBoard(int gameId, Board board) {
+        BoardDto boardDto = createBoardDto(board);
+        for (Map.Entry<PositionDto, PieceDto> entry : boardDto.pieces().entrySet()) {
+            PositionDto positionDto = entry.getKey();
+            PieceDto pieceDto = entry.getValue();
+
+            janggiDao.savePiecePosition(gameId, pieceDto, positionDto);
+        }
+    }
 
     public Board createBoard(List<PieceType> choMaSangChoose, List<PieceType> hanMaSangChoose) {
         return new Board(choMaSangChoose, hanMaSangChoose);
@@ -43,11 +65,33 @@ public class JanggiService {
         return positionDtos;
     }
 
-    public void applyMove(Position start, Position end, JanggiGame game) {
+    public void applyMove(int gameId, Position start, Position end, JanggiGame game) {
+        boolean checkEndPosition = game.isEmptyPosition(end);
+
         game.play(start, end);
+
+        if (!checkEndPosition) {
+            janggiDao.deletePiece(gameId, end.getX(), end.getY());
+        }
+        janggiDao.movePiece(gameId, start.getX(), start.getY(), end.getX(), end.getY());
+        janggiDao.updateTurn(gameId, game.getCountry().name());
     }
 
     public List<PieceType> createMaSang(int command) {
         return MaSang.getMaSangPosition(command);
+    }
+
+    public List<Integer> getSavedGames() {
+        return janggiDao.getSavedGames();
+    }
+
+    public Board getSavedBoard(int gameId) {
+        List<SavedPieceDto> savedPieces = janggiDao.getSavedBoard(gameId);
+        return new Board(BoardFactory.createLoadBoard(savedPieces));
+    }
+
+    public JanggiGame loadGame(int gameId, Board board) {
+        Country country = Country.getCountry(janggiDao.getSavedTurn(gameId));
+        return new JanggiGame(board, country);
     }
 }
