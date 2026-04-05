@@ -34,7 +34,7 @@ public enum Palace {
                 .anyMatch(place -> place.position.equals(from) && place.moveAbleDirections.contains(direction));
     }
 
-    public static boolean canStepDiagonal(Position position, Direction direction) {
-        return isPalace(position) && canMoveDiagonallyPosition(position, direction) && direction.isDiagonal();
+    public static boolean canStepDiagonal(Position from, Direction direction) {
+        return isPalace(from) && canMoveDiagonallyPosition(from, direction) && direction.isDiagonal();
     }
 }
