@@ -1,20 +1,22 @@
 package domain.piece;
 
 public enum PieceType {
-    BLANK("."),
-    CANNON("C"),
-    CHARIOT("R"),
-    ELEPHANT("M"),
-    GUARD("G"),
-    HORSE("N"),
-    KING("K"),
-    PAWN("P");
+    BLANK(".", 0),
+    CANNON("C", 7),
+    CHARIOT("R", 13),
+    ELEPHANT("M", 3),
+    GUARD("G", 3),
+    HORSE("N", 5),
+    KING("K", 0),
+    PAWN("P", 2);
 
 
     private final String name;
+    private final int score;
 
-    PieceType(String name) {
+    PieceType(String name, int score) {
         this.name = name;
+        this.score = score;
     }
 
     public String getName() {
