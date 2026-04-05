@@ -36,9 +36,7 @@ public class Board {
     public List<Position> findAvailablePositions(Position position) {
         Piece piece = pieceAt(position);
 
-        Map<Position, List<Position>> routePositions = piece.convertToPosition(this, position);
-
-        List<Position> availablePositions = calculateAvailablePositions(piece, routePositions);
+        List<Position> availablePositions = calculateAvailablePositions(piece, piece.convertToPosition(position));
 
         if (availablePositions.isEmpty()) {
             throw new IllegalArgumentException("[ERROR] 이동할 수 없는 좌표입니다.");

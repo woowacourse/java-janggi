@@ -21,7 +21,7 @@ public class PieceTypeTest {
         board.place(position, piece);
 
         // when
-        Map<Position, List<Position>> result = piece.convertToPosition(board, position);
+        Map<Position, List<Position>> result = piece.convertToPosition(position);
 
         // then
         assertThat(result.keySet()).containsExactlyInAnyOrder(
@@ -39,7 +39,7 @@ public class PieceTypeTest {
         board.place(position, piece);
 
         // when
-        Map<Position, List<Position>> result = piece.convertToPosition(board, position);
+        Map<Position, List<Position>> result = piece.convertToPosition(position);
 
         // then
         assertThat(result.keySet()).containsExactlyInAnyOrder(
@@ -57,7 +57,7 @@ public class PieceTypeTest {
         board.place(position, piece);
 
         // when
-        Map<Position, List<Position>> result = piece.convertToPosition(board, position);
+        Map<Position, List<Position>> result = piece.convertToPosition(position);
 
         // then
         assertThat(result.keySet()).containsExactlyInAnyOrder(
@@ -75,7 +75,7 @@ public class PieceTypeTest {
         board.place(position, piece);
 
         // when
-        Map<Position, List<Position>> result = piece.convertToPosition(board, position);
+        Map<Position, List<Position>> result = piece.convertToPosition(position);
 
         // then
         assertThat(result.keySet()).containsExactlyInAnyOrder(
@@ -94,7 +94,7 @@ public class PieceTypeTest {
         board.place(position, piece);
 
         // when
-        Map<Position, List<Position>> result = piece.convertToPosition(board, position);
+        Map<Position, List<Position>> result = piece.convertToPosition(position);
 
         // then
         assertThat(result.keySet()).containsExactlyInAnyOrder(
@@ -113,7 +113,7 @@ public class PieceTypeTest {
         board.place(position, piece);
 
         // when
-        Map<Position, List<Position>> result = piece.convertToPosition(board, position);
+        Map<Position, List<Position>> result = piece.convertToPosition(position);
 
         // then
         assertThat(result.keySet()).containsExactlyInAnyOrder(
@@ -132,7 +132,7 @@ public class PieceTypeTest {
         board.place(position, piece);
 
         // when
-        Map<Position, List<Position>> result = piece.convertToPosition(board, position);
+        Map<Position, List<Position>> result = piece.convertToPosition(position);
 
         // then
         assertThat(result.keySet()).containsExactlyInAnyOrder(
@@ -151,7 +151,7 @@ public class PieceTypeTest {
         board.place(position, piece);
 
         // when
-        Map<Position, List<Position>> result = piece.convertToPosition(board, position);
+        Map<Position, List<Position>> result = piece.convertToPosition(position);
 
         // then
         assertThat(result.keySet()).containsExactlyInAnyOrder(
@@ -175,7 +175,7 @@ public class PieceTypeTest {
         board.place(position, piece);
 
         // when
-        Map<Position, List<Position>> result = piece.convertToPosition(board, position);
+        Map<Position, List<Position>> result = piece.convertToPosition(position);
 
         // then
         assertThat(result.keySet()).containsExactlyInAnyOrder(

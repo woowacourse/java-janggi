@@ -1,6 +1,5 @@
 package janggi.domain.piece;
 
-import janggi.domain.board.Board;
 import janggi.domain.common.Position;
 import janggi.domain.common.Team;
 import janggi.domain.piece.moveRules.ChaMoveRule;
@@ -41,12 +40,11 @@ public enum PieceType {
         return moveRule.findRoutes(team);
     }
 
-    public Map<Position, List<Position>> convertToPosition(Board board, Position position) {
-        Piece piece = board.pieceAt(position);
-        if (piece.isCha() || piece.isPo()) {
-            return convertToContinuousRoutes(position, piece.findRoutes());
+    public Map<Position, List<Position>> convertToPosition(Position position, Team team) {
+        if (this == CHA || this == PO) {
+            return convertToContinuousRoutes(position, findRoutes(team));
         }
-        return convertToFixedRoutes(position, piece.findRoutes());
+        return convertToFixedRoutes(position, findRoutes(team));
     }
 
     private Map<Position, List<Position>> convertToFixedRoutes(Position position, List<Route> routes) {

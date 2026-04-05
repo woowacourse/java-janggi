@@ -1,9 +1,7 @@
 package janggi.domain.piece;
 
-import janggi.domain.board.Board;
 import janggi.domain.common.Position;
 import janggi.domain.common.Team;
-import janggi.domain.route.Route;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -38,16 +36,12 @@ public class Piece {
         return pieceType == PieceType.PO;
     }
 
-    public List<Route> findRoutes() {
-        return pieceType.findRoutes(team);
-    }
-
     public boolean isSameTeam(Piece other) {
         return team == other.team;
     }
 
-    public Map<Position, List<Position>> convertToPosition(Board board, Position position) {
-        return pieceType.convertToPosition(board, position);
+    public Map<Position, List<Position>> convertToPosition(Position position) {
+        return pieceType.convertToPosition(position, team);
     }
 
     @Override
