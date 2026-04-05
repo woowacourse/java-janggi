@@ -6,13 +6,10 @@ import janggi.domain.position.Movement;
 import janggi.domain.position.Position;
 import janggi.domain.team.Team;
 
-public class Chariot extends MoveablePiece {
-
-    private final Palace palace;
+public class Chariot extends PalacePiece {
 
     public Chariot(Team team, Palace palace) {
-        super(team);
-        this.palace = palace;
+        super(team, palace);
     }
 
     @Override

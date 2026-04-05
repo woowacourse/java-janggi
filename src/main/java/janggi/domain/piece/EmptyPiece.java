@@ -28,11 +28,6 @@ public class EmptyPiece implements Piece {
     }
 
     @Override
-    public Team getTeam() {
-        return Team.NONE;
-    }
-
-    @Override
     public Path getPath(Movement movement) {
         throw new IllegalArgumentException("[ERROR] 선택된 기물이 없습니다.");
     }

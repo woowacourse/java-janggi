@@ -42,7 +42,7 @@ public class Soldier extends MoveablePiece {
     }
 
     private void validateBackStep(Movement movement) {
-        if (getTeam().isBackward(movement.calculateRowDiff())) {
+        if (team.isBackward(movement.calculateRowDiff())) {
             throw new IllegalArgumentException("[ERROR] 졸은 뒷 방향으로 이동할 수 없습니다.");
         }
     }

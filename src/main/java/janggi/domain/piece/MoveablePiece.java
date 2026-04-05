@@ -4,7 +4,7 @@ import janggi.domain.team.Team;
 
 public abstract class MoveablePiece implements Piece {
 
-    private final Team team;
+    protected final Team team;
 
     public MoveablePiece(Team team) {
         this.team = team;
@@ -23,11 +23,6 @@ public abstract class MoveablePiece implements Piece {
     @Override
     public boolean isSameTeam(Team team) {
         return this.team == team;
-    }
-
-    @Override
-    public Team getTeam() {
-        return team;
     }
 
     protected void validateSameTeam(Piece endPiece) {
