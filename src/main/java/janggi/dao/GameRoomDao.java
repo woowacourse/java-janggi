@@ -8,10 +8,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameRoom {
+public class GameRoomDao {
     private final SQLManager sqlManager;
 
-    public GameRoom(SQLManager sqlManager) {
+    public GameRoomDao(SQLManager sqlManager) {
         this.sqlManager = sqlManager;
     }
 

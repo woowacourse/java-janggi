@@ -1,7 +1,7 @@
 package janggi;
 
-import janggi.dao.GameRoom;
-import janggi.dao.Piece;
+import janggi.dao.GameRoomDao;
+import janggi.dao.PieceDao;
 import janggi.db.TransactionManager;
 import janggi.domain.Position;
 import janggi.domain.Side;
@@ -14,23 +14,23 @@ import java.util.List;
 
 public class JanggiService {
     private final TransactionManager transactionManager;
-    private final GameRoom gameRoom;
-    private final Piece piece;
+    private final GameRoomDao gameRoomDao;
+    private final PieceDao pieceDao;
 
-    public JanggiService(TransactionManager transactionManager, GameRoom gameRoom, Piece piece) {
+    public JanggiService(TransactionManager transactionManager, GameRoomDao gameRoomDao, PieceDao pieceDao) {
         this.transactionManager = transactionManager;
-        this.gameRoom = gameRoom;
-        this.piece = piece;
+        this.gameRoomDao = gameRoomDao;
+        this.pieceDao = pieceDao;
     }
 
     public List<GameResponseDto> getEntireGame() {
-        return gameRoom.findAllGames();
+        return gameRoomDao.findAllGames();
     }
 
     public int addGameData(GameDto gameDto, List<PieceDto> pieceDtos) {
         return transactionManager.sync((connection) -> {
-            int gameId = gameRoom.insertGame(connection, gameDto);
-            piece.updatePieces(connection, gameId, pieceDtos);
+            int gameId = gameRoomDao.insertGame(connection, gameDto);
+            pieceDao.updatePieces(connection, gameId, pieceDtos);
 
             return gameId;
         });
@@ -38,22 +38,22 @@ public class JanggiService {
 
     public void removeGame(int id) {
         transactionManager.sync((connection) -> {
-            gameRoom.removeGame(connection, id);
+            gameRoomDao.removeGame(connection, id);
         });
     }
 
     public List<PieceDto> getPieceInitInfos(int gameId) {
-        return piece.getAllPieces(gameId);
+        return pieceDao.getAllPieces(gameId);
     }
 
 
     public void movePiece(int gameId, Position start, Position end, Side side, PieceType pieceType, TurnDto turnDto) {
         transactionManager.sync(connection -> {
-            gameRoom.updateGameTurn(connection, gameId, turnDto);
-            piece.deletePiece(connection, gameId, start.getX(), start.getY());
+            gameRoomDao.updateGameTurn(connection, gameId, turnDto);
+            pieceDao.deletePiece(connection, gameId, start.getX(), start.getY());
 
             PieceDto pieceDto = new PieceDto(end.getX(), end.getY(), pieceType.getName(), side.getName());
-            piece.updatePiece(connection, gameId, pieceDto);
+            pieceDao.updatePiece(connection, gameId, pieceDto);
         });
     }
 }

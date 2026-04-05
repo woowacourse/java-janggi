@@ -1,7 +1,7 @@
 package janggi;
 
-import janggi.dao.GameRoom;
-import janggi.dao.Piece;
+import janggi.dao.GameRoomDao;
+import janggi.dao.PieceDao;
 import janggi.db.SQLManager;
 import janggi.db.TransactionManager;
 import janggi.domain.Game;
@@ -11,13 +11,13 @@ public class Application {
         SQLManager sqlManager = new SQLManager("jdbc:sqlite:src/main/resources/janggi.db");
         TransactionManager transactionManager = new TransactionManager(sqlManager);
 
-        GameRoom gameRoom = new GameRoom(sqlManager);
-        gameRoom.initTable();
+        GameRoomDao gameRoomDao = new GameRoomDao(sqlManager);
+        gameRoomDao.initTable();
 
-        Piece piece = new Piece(sqlManager);
-        piece.initTable();
+        PieceDao pieceDao = new PieceDao(sqlManager);
+        pieceDao.initTable();
 
-        JanggiService janggiService = new JanggiService(transactionManager, gameRoom, piece);
+        JanggiService janggiService = new JanggiService(transactionManager, gameRoomDao, pieceDao);
 
         Game game = new Game();
 

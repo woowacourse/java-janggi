@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Piece {
+public class PieceDao {
     private final SQLManager sqlManager;
 
-    public Piece(SQLManager sqlManager) {
+    public PieceDao(SQLManager sqlManager) {
         this.sqlManager = sqlManager;
     }
 
