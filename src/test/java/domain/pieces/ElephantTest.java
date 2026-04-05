@@ -1,12 +1,12 @@
 package domain.pieces;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
 import domain.Board;
 import domain.Camp;
 import domain.Position;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class ElephantTest {
 
@@ -55,6 +55,16 @@ public class ElephantTest {
         Elephant elephant = new Elephant(Camp.HAN);
         Position fromPosition = new Position(2, 9);
         Position toPosition = new Position(0, 0);
+
+        Assertions.assertFalse(elephant.canMove(fromPosition, toPosition, board));
+    }
+
+    @Test
+    void 이동_불가_좌표_이동_불가2() {
+        Board board = new Board();
+        Elephant elephant = new Elephant(Camp.HAN);
+        Position fromPosition = new Position(2, 0);
+        Position toPosition = new Position(3, 0);
 
         Assertions.assertFalse(elephant.canMove(fromPosition, toPosition, board));
     }

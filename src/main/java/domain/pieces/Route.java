@@ -12,8 +12,8 @@ public class Route {
         for (Direction direction : directions) {
             if(position.canMove(direction)) {
                 position = position.move(direction);
+                path.add(position);
             }
-            path.add(position);
         }
         
         return path;
