@@ -28,7 +28,7 @@ public class CannonStrategy implements Strategy {
         Position bridge = findFirstPiece(from,team, direction, board);
         boolean isCannon = board.isCannon(bridge);
 
-        if (!isWithinBoard(bridge) || isCannon) {
+        if (bridge.isInvalid() || isCannon) {
             return Collections.emptyList();
         }
 
@@ -37,7 +37,7 @@ public class CannonStrategy implements Strategy {
 
     private Position findFirstPiece(Position from, Team team, Direction direction, PieceProvider board) {
         Position nextPosition = getNext(from, team, direction);
-        while (isWithinBoard(nextPosition) && board.isBlank(nextPosition)) {
+        while (nextPosition.isInvalid() && board.isBlank(nextPosition)) {
             nextPosition = getNext(nextPosition, team, direction);
         }
         return nextPosition;
@@ -53,21 +53,16 @@ public class CannonStrategy implements Strategy {
         List<Position> candidates = new ArrayList<>();
         Position target = getNext(bridge, team, direction);
 
-        while (isWithinBoard(target) && board.isBlank(target)) {
+        while (target.isInvalid() && board.isBlank(target)) {
             candidates.add(target);
             target = getNext(target, team, direction);
         }
 
         boolean isCannon = board.isCannon(target);
-        if (isWithinBoard(target) && !isCannon) {
+        if (target.isInvalid() && !isCannon) {
             candidates.add(target);
         }
 
         return candidates;
-    }
-
-    private boolean isWithinBoard(Position from) {
-        return from.row() >= 0 && from.row() < BOARD_ROWS.getIndex() &&
-                from.col() >= 0 && from.col() < BOARD_COLUMNS.getIndex();
     }
 }
