@@ -13,7 +13,7 @@ public class Soldier extends Piece {
 
     @Override
     public boolean canMove(Position from, Position to, BoardReader boardReader) {
-        List<List<Direction>> soliderDirections = initSoliderDirections();
+        List<List<Direction>> soliderDirections = initSoldierDirections();
 
         for (List<Direction> directions : soliderDirections) {
             List<Position> path = Route.path(from, directions);
@@ -24,7 +24,7 @@ public class Soldier extends Piece {
         return false;
     }
 
-    private List<List<Direction>> initSoliderDirections() {
+    private List<List<Direction>> initSoldierDirections() {
         List<List<Direction>> soliderDirections = new ArrayList<>(
                 List.of(
                         List.of(Direction.WEST),
