@@ -16,6 +16,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class JangTest {
+
+    Map<Position, Piece> emptyBoard = Map.of();
+
     @DisplayName("from이나 to가 궁성 밖에 위치하면 예외가 발생한다.")
     @Test
     void getLegalPath_invalid() {
@@ -44,6 +47,22 @@ class JangTest {
                 .hasMessage("해당 경로로 이동할 수 없습니다.");
     }
 
+    @DisplayName("간선을 따라 대각선으로 이동한다.")
+    @Test
+    void getLegalPath_diagonal() {
+        //given
+        Position from = new Position(Row.NINE, Column.FIVE);
+        Position to = new Position(Row.EIGHT, Column.FOUR);
+        Jang jang = new Jang(Team.HAN);
+
+        //when & then
+        assertThat(jang.getLegalPath(
+                from,
+                to
+                ).findPiecesOn(emptyBoard)
+        ).isEmpty();
+    }
+
     @DisplayName("남쪽으로 한칸 이동한다.")
     @Test
     void getLegalPath_moveSouth() {
@@ -54,15 +73,11 @@ class JangTest {
 
         Cha cha = new Cha(Team.CHO);
 
-        Map<Position, Piece> board = Map.of(
-                new Position(Row.SIX, Column.FOUR), cha
-        );
-
         //when
         PositionPath path = jang.getLegalPath(from, to);
 
         //then
-        assertThat(path.findPiecesOn(board))
+        assertThat(path.findPiecesOn(emptyBoard))
                 .isEmpty();
     }
 
@@ -76,15 +91,11 @@ class JangTest {
 
         Cha cha = new Cha(Team.CHO);
 
-        Map<Position, Piece> board = Map.of(
-                new Position(Row.SIX, Column.FOUR), cha
-        );
-
         //when
         PositionPath path = jang.getLegalPath(from, to);
 
         //then
-        assertThat(path.findPiecesOn(board))
+        assertThat(path.findPiecesOn(emptyBoard))
                 .isEmpty();
     }
 
@@ -98,15 +109,11 @@ class JangTest {
 
         Cha cha = new Cha(Team.CHO);
 
-        Map<Position, Piece> board =Map.of(
-                new Position(Row.SIX, Column.FOUR), cha
-        );
-
         //when
         PositionPath path = jang.getLegalPath(from, to);
 
         //then
-        assertThat(path.findPiecesOn(board))
+        assertThat(path.findPiecesOn(emptyBoard))
                 .isEmpty();
     }
 
@@ -120,15 +127,11 @@ class JangTest {
 
         Cha cha = new Cha(Team.CHO);
 
-        Map<Position, Piece> board =Map.of(
-                new Position(Row.SIX, Column.FOUR), cha
-        );
-
         //when
         PositionPath path = jang.getLegalPath(from, to);
 
         //then
-        assertThat(path.findPiecesOn(board))
+        assertThat(path.findPiecesOn(emptyBoard))
                 .isEmpty();
     }
 
