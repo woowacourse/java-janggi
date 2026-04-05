@@ -37,7 +37,7 @@ public class OutputView {
         for (int row = FIRST_ROW; row <= LAST_ROW; row++) {
             printPieceRow(board, row);
             if (row < LAST_ROW) {
-                printLineBetweenRows();
+                printLineBetweenRows(row);
             }
         }
         System.out.println();
@@ -63,13 +63,31 @@ public class OutputView {
         System.out.println();
     }
 
-    private void printLineBetweenRows() {
+    private void printLineBetweenRows(int row) {
         System.out.print("   ");
         for (int col = FIRST_COL; col <= LAST_COL; col++) {
             System.out.print(V_LINE);
-            if (col < LAST_COL) System.out.print("   ");
+            if (col < LAST_COL) {
+                System.out.print(getPalaceDiagonal(row, col));
+            }
         }
         System.out.println();
+    }
+
+    private String getPalaceDiagonal(int row, int col) {
+        if (isPalaceTopRow(row) && col == 4) return " ╲ ";
+        if (isPalaceTopRow(row) && col == 5) return " ╱ ";
+        if (isPalaceBottomRow(row) && col == 4) return " ╱ ";
+        if (isPalaceBottomRow(row) && col == 5) return " ╲ ";
+        return "   ";
+    }
+
+    private boolean isPalaceTopRow(int row) {
+        return row == 1 || row == 8;
+    }
+
+    private boolean isPalaceBottomRow(int row) {
+        return row == 2 || row == 9;
     }
 
     private String toRowLabel(int row) {
