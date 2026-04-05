@@ -1,9 +1,7 @@
 package janggi.domain.turn;
 
-import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.board.Board;
-import janggi.domain.piece.PieceAttribute;
 
 public class HanTurn extends BaseTurn {
 
@@ -12,22 +10,12 @@ public class HanTurn extends BaseTurn {
     }
 
     @Override
-    public TurnState move(Position start, Position end) {
-        PieceAttribute pieceAttribute = board.move(start, end, Side.HAN);
-
-        if(turn == MAX_TURN) {
-            return new TurnState(new FinishTurn(board, turn + 1, Side.EMPTY), pieceAttribute);
-        }
-
-        if (board.isEndGame()) {
-            return new TurnState(new FinishTurn(board, turn + 1, Side.HAN), pieceAttribute);
-        }
-
-        return new TurnState(new ChoTurn(board, turn + 1), pieceAttribute);
+    public Side getCurrentSide() {
+        return Side.HAN;
     }
 
     @Override
-    public Side getCurrentSide() {
-        return Side.HAN;
+    protected PlayerTurn nextTurn() {
+        return new ChoTurn(board, turn + 1);
     }
 }

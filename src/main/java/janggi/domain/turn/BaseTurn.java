@@ -1,5 +1,6 @@
 package janggi.domain.turn;
 
+import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.SideScore;
 import janggi.domain.board.Board;
@@ -16,6 +17,22 @@ public abstract class BaseTurn implements PlayerTurn {
         this.board = board;
         this.turn = turn;
     }
+
+    @Override
+    public TurnState move(Position start, Position end) {
+        PieceAttribute pieceAttribute = board.move(start, end, getCurrentSide());
+
+        if(turn == MAX_TURN) {
+            return new TurnState(new FinishTurn(board, turn + 1, Side.EMPTY), pieceAttribute);
+        }
+
+        if (board.isEndGame()) {
+            return new TurnState(new FinishTurn(board, turn + 1, Side.HAN), pieceAttribute);
+        }
+
+        return new TurnState(nextTurn(), pieceAttribute);
+    }
+
 
     @Override
     public boolean isFinished() {
@@ -41,4 +58,6 @@ public abstract class BaseTurn implements PlayerTurn {
     public int getCurrentTurn() {
         return turn;
     }
+
+    protected abstract PlayerTurn nextTurn();
 }

@@ -36,4 +36,9 @@ public class FinishTurn extends BaseTurn {
     public Side getCurrentSide() {
         return Side.EMPTY;
     }
+
+    @Override
+    protected PlayerTurn nextTurn() {
+        throw new IllegalStateException(INVALID_MOVE);
+    }
 }
