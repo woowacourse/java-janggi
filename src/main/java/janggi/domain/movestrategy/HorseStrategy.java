@@ -5,7 +5,7 @@ import janggi.domain.piece.Piece;
 
 import java.util.List;
 
-public class HorseStrategy implements MoveStrategy{
+public class HorseStrategy implements MoveStrategy {
 
     @Override
     public boolean canMove(Position from, Position to) {

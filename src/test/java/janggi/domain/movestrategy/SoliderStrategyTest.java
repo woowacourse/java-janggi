@@ -3,6 +3,9 @@ package janggi.domain.movestrategy;
 import janggi.domain.board.BoardDirection;
 import janggi.domain.board.Position;
 import janggi.domain.movestrategy.rule.DirectionalOneStepMoveRule;
+import janggi.domain.movestrategy.rule.PalaceDiagonalDirectionalOneStepMoveRule;
+import janggi.domain.palace.Palace;
+import janggi.domain.palace.PalaceFactory;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceFactory;
 import janggi.domain.piece.Team;
@@ -27,8 +30,16 @@ class SoliderStrategyTest {
 
     @BeforeEach
     void setUp() {
-        hanSoliderStrategy = new SoliderStrategy(List.of(new DirectionalOneStepMoveRule(BoardDirection.UP)));
-        choSoliderStrategy = new SoliderStrategy(List.of(new DirectionalOneStepMoveRule(BoardDirection.DOWN)));
+        Palace hanPalace = PalaceFactory.createPalace(Team.HAN);
+        Palace choPalace = PalaceFactory.createPalace(Team.CHO);
+
+        hanSoliderStrategy = new SoliderStrategy(List.of(
+                new DirectionalOneStepMoveRule(BoardDirection.UP),
+                new PalaceDiagonalDirectionalOneStepMoveRule(hanPalace, BoardDirection.UP)));
+        choSoliderStrategy = new SoliderStrategy(List.of(
+                new DirectionalOneStepMoveRule(BoardDirection.DOWN),
+                new PalaceDiagonalDirectionalOneStepMoveRule(choPalace, BoardDirection.DOWN)));
+
 
         solider = PieceFactory.createSolider(Team.HAN, BoardDirection.UP);
 
@@ -128,6 +139,7 @@ class SoliderStrategyTest {
 
         assertThat(hanSoliderStrategy.canMove(from, to)).isTrue();
     }
+
     @ParameterizedTest
     @DisplayName("초나라 병은 앞으로 1칸 또는 좌우로 1칸 이동할 수 있다.")
     @CsvSource({
@@ -141,6 +153,7 @@ class SoliderStrategyTest {
 
         assertThat(choSoliderStrategy.canMove(from, to)).isTrue();
     }
+
     @ParameterizedTest
     @DisplayName("병은 절대 뒤로 가거나, 두 칸을 이동하거나, 대각선으로 갈 수 없다.")
     @CsvSource({
@@ -160,16 +173,19 @@ class SoliderStrategyTest {
     void testCheckPathRule_Empty() {
         assertThat(hanSoliderStrategy.checkPathRule(List.of())).isTrue();
     }
+
     @Test
     @DisplayName("이동 경로가 null이면 이동할 수 있다.")
     void testCanCaptureEmpty() {
         assertThat(hanSoliderStrategy.canCapture(solider, null)).isTrue();
     }
+
     @Test
     @DisplayName("도착 경로에 상대 진영 기물이 있으면 이동할 수 있다.")
     void testCanCaptureEnemy() {
         assertThat(hanSoliderStrategy.canCapture(solider, otherTeamPiece)).isTrue();
     }
+
     @Test
     @DisplayName("도착 경로에 아군 기물이 있으면 이동할 수 없다.")
     void testNotCanCaptureSameTeam() {
