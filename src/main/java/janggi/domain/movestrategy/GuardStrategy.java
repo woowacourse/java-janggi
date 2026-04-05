@@ -2,20 +2,26 @@ package janggi.domain.movestrategy;
 
 import janggi.domain.board.Position;
 import janggi.domain.movestrategy.rule.MoveRule;
+import janggi.domain.palace.Palace;
 import janggi.domain.piece.Piece;
 
 import java.util.List;
 
 public class GuardStrategy implements MoveStrategy {
 
+    private final Palace palace;
     private final List<MoveRule> moveRules;
 
-    public GuardStrategy(List<MoveRule> moveRules) {
+    public GuardStrategy(Palace palace, List<MoveRule> moveRules) {
+        this.palace = palace;
         this.moveRules = moveRules;
     }
 
     @Override
     public boolean canMove(Position from, Position to) {
+        if (!palace.isInRange(to)) {
+            return false;
+        }
         return moveRules.stream()
                 .anyMatch(rule -> rule.canMove(from, to));
     }

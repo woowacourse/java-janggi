@@ -5,6 +5,7 @@ import janggi.domain.movestrategy.*;
 import janggi.domain.movestrategy.rule.DirectionalOneStepMoveRule;
 import janggi.domain.movestrategy.rule.StraightForwardMoveRule;
 import janggi.domain.movestrategy.rule.StraightOneStepMoveRule;
+import janggi.domain.palace.PalaceFactory;
 
 import java.util.List;
 
@@ -12,12 +13,14 @@ public class PieceFactory {
 
     public static Piece createGeneral(Team team) {
         return new Piece(PieceType.GENERAL, team, new GeneralStrategy(
+                PalaceFactory.createPalace(team),
                 List.of(new StraightOneStepMoveRule())
         ));
     }
 
     public static Piece createGuard(Team team) {
         return new Piece(PieceType.GUARD, team, new GuardStrategy(
+                PalaceFactory.createPalace(team),
                 List.of(new StraightOneStepMoveRule())
         ));
     }
