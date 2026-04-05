@@ -35,7 +35,7 @@ public class Position {
         if (other.equals(this)) {
             return false;
         }
-        return (other.x - this.x) == (other.y - this.y);
+        return Math.abs(other.x - this.x) == Math.abs(other.y - this.y);
     }
 
     public boolean isMatchDistance(Position other, int value1, int value2) {

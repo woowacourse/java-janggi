@@ -226,7 +226,8 @@ class PositionTest {
             "5, 4, 6, 5",
             "1, 2, 2, 3",
             "5, 5, 6, 6",
-            "1, 1, 6, 6"
+            "1, 1, 6, 6",
+            "6, 1, 4, 3"
     })
     void testIsOnSameDiagonal(int x1, int y1, int x2, int y2) {
         // given
