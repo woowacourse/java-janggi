@@ -2,14 +2,13 @@ package domain.game;
 
 import domain.board.Board;
 import domain.board.SangSetup;
-import domain.game.exception.GameErrorMessage;
 import domain.game.exception.InvalidTurnException;
 import domain.pieces.Side;
 import domain.position.Position;
 
 public class JanggiGame {
     private Board board;
-    private Side currentTurn = Side.CHO;
+    private Turn currentTurn = Turn.start();
 
     public JanggiGame(Board board) {
         this.board = board;
@@ -22,36 +21,15 @@ public class JanggiGame {
     }
 
     public void move(Position departure, Position destination) {
-        if (isNotCurrentTurnPiece(departure)) {
-            throw new InvalidTurnException(currentTurnErrorMessage());
+        if (currentTurn.isNotCurrentTurnPiece(board.pieces().get(departure))) {
+            throw new InvalidTurnException(currentTurn.errorMessage());
         }
         board = board.move(departure, destination);
-        currentTurn = nextTurn();
-    }
-
-    private GameErrorMessage currentTurnErrorMessage() {
-        if (currentTurn.isCho()) {
-            return GameErrorMessage.CHO_TURN;
-        }
-        return GameErrorMessage.HAN_TURN;
-    }
-
-    private boolean isNotCurrentTurnPiece(Position departure) {
-        if (currentTurn.isCho()) {
-            return board.pieces().get(departure).isHan();
-        }
-        return board.pieces().get(departure).isCho();
-    }
-
-    private Side nextTurn() {
-        if (currentTurn.isCho()) {
-            return Side.HAN;
-        }
-        return Side.CHO;
+        currentTurn = currentTurn.next();
     }
 
     public Side currentTurn() {
-        return currentTurn;
+        return currentTurn.side();
     }
 
     public Board board() {
