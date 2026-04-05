@@ -94,9 +94,6 @@ public class GameDaoImplementation implements GameDao {
         gameJdbcRepository.update(connection, entityId.value(), updatedEntity);
     }
 
-    /**
-     * 메모리 상의 최신 기물 상태(JanggiGame)를 기준으로 DB의 기존 기물 레코드를 동기화(UPDATE)합니다. (기존 PK를 유지하면서 활성 여부 및 현재 좌표만 일괄 갱신합니다.)
-     */
     @Override
     public void updateGamePiece(Connection connection, GameId id, JanggiGame game) {
         List<GamePieceEntity> existingEntities = gamePieceJdbcRepository.findByGameId(connection, id.value());
@@ -109,10 +106,6 @@ public class GameDaoImplementation implements GameDao {
         gamePieceJdbcRepository.updateAll(connection, updatedPieces);
     }
 
-    /**
-     * 수집된 DB 엔티티 목록을 하나씩 순회하며, 대응되는 보드 위 활성화된 기물의 위치(activePositions)를 매핑합니다. 매핑 여부에 따라 각각 이동(혹은 유지) 처리 또는 잡힘(비활성화) 처리된
-     * 엔티티로 변환합니다.
-     */
     private List<GamePieceEntity> compareEntitiesAndDomainForCheckUpdatedInformation(
             List<GamePieceEntity> existingEntities, List<Position> activePositions, Map<Position, Piece> boardStatus) {
 

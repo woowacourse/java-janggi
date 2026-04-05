@@ -20,12 +20,12 @@ public class TransactionTemplate {
                 return result;
             } catch (Exception e) {
                 connection.rollback();
-                throw new IllegalStateException("비즈니스 로직 오류로 인한 롤백", e);
+                throw new IllegalStateException(ServiceErrorMessage.ROLL_BACK.getMessage());
             } finally {
                 connection.setAutoCommit(true);
             }
         } catch (SQLException e) {
-            throw new RuntimeException("DB 연결에 실패하였습니다.");
+            throw new RuntimeException(ServiceErrorMessage.DATABASE_LINKING_FAIL_EXCEPTION.getMessage());
         }
     }
 }
