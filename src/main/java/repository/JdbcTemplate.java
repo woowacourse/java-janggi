@@ -1,11 +1,6 @@
 package repository;
 
-import model.coordinate.Position;
-import model.piece.Piece;
 import repository.mapper.RowMapper;
-
-import java.util.Map;
-import java.util.concurrent.Callable;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,6 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.Callable;
 
 public class JdbcTemplate {
     private static final String ERROR_SQL = "SQL 문제가 발생했습니다";
@@ -29,20 +25,6 @@ public class JdbcTemplate {
         try {
             task.run();
             commit();
-        } catch (Exception e) {
-            rollback();
-            throw new IllegalStateException(e);
-        } finally {
-            setAutoCommit(true);
-        }
-    }
-
-    public <T> T executeInTransaction(Callable<T> task) {
-        setAutoCommit(false);
-        try {
-            T result = task.call();
-            commit();
-            return result;
         } catch (Exception e) {
             rollback();
             throw new IllegalStateException(e);
@@ -75,6 +57,20 @@ public class JdbcTemplate {
         }
     }
 
+    public <T> T executeInTransaction(Callable<T> task) {
+        setAutoCommit(false);
+        try {
+            T result = task.call();
+            commit();
+            return result;
+        } catch (Exception e) {
+            rollback();
+            throw new IllegalStateException(e);
+        } finally {
+            setAutoCommit(true);
+        }
+    }
+
     public Long executeAndReturnKey(String sql, PreparedStatementSetter setter) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             setter.setValues(preparedStatement);
@@ -91,7 +87,8 @@ public class JdbcTemplate {
     }
 
     public <T> Optional<T> queryForSingleObject(String sql, RowMapper<T> mapper) {
-        return queryForSingleObject(sql, stmt -> {}, mapper);
+        return queryForSingleObject(sql, stmt -> {
+        }, mapper);
     }
 
     public <T> Optional<T> queryForSingleObject(String sql, PreparedStatementSetter setter, RowMapper<T> mapper) {

@@ -1,6 +1,7 @@
 package repository;
 
 import model.coordinate.Position;
+import model.game.GameStatus;
 import model.game.Team;
 import model.game.dao.GameDao;
 import model.piece.Piece;
@@ -18,4 +19,6 @@ public interface JanggiRepository {
     Optional<GameDao> findRecentGame();
 
     Map<Position, Piece> findPiecesByGameId(long gameId);
+
+    void updateCurrentGameStatus(Long gameId, GameStatus gameStatus);
 }

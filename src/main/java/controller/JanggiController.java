@@ -5,7 +5,6 @@ import model.coordinate.Position;
 import model.formation.JanggiFormation;
 import model.game.GameStatus;
 import model.game.Team;
-import model.game.dao.GameDao;
 import model.piece.Piece;
 import service.JanggiService;
 import view.InputView;
@@ -51,7 +50,8 @@ public class JanggiController {
         outputView.displayBoard(janggiService.getBoard());
         if (status == GameStatus.WIN_BY_CAPTURE) {
             Team winner = janggiService.getWinnerByCapture();
-            outputView.displayWinner(winner.getName());
+            outputView.displayWinner(winner.getKoreanName());
+            janggiService.changeGameStatus(GameStatus.WIN_BY_CAPTURE);
         }
     }
 
@@ -59,7 +59,8 @@ public class JanggiController {
         ScoreResult scoreResult = janggiService.calculateScoreResult();
 
         outputView.displayScores(scoreResult.choScore(), scoreResult.hanScore());
-        outputView.displayWinner(scoreResult.winner().getName());
+        outputView.displayWinner(scoreResult.winner().getKoreanName());
+        janggiService.changeGameStatus(GameStatus.WIN_BY_SCORE);
     }
 
     private void handleQuit() {

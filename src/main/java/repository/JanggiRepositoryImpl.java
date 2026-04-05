@@ -1,6 +1,7 @@
 package repository;
 
 import model.coordinate.Position;
+import model.game.GameStatus;
 import model.game.Team;
 import model.game.dao.GameDao;
 import model.piece.Piece;
@@ -123,6 +124,17 @@ public class JanggiRepositoryImpl implements JanggiRepository {
                 new PieceDaoMapper()
         );
         return createBoardMap(pieceDaos);
+    }
+
+    @Override
+    public void updateCurrentGameStatus(Long gameId, GameStatus gameStatus) {
+        jdbcTemplate.execute(
+                "UPDATE game SET status = ? WHERE game_id = ?",
+                stmt -> {
+                    stmt.setString(1, gameStatus.name());
+                    stmt.setLong(2, gameId);
+                }
+        );
     }
 
     private Map<Position, Piece> createBoardMap(List<PieceDao> pieceDaos) {

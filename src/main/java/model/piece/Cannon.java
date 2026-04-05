@@ -1,9 +1,9 @@
 package model.piece;
 
-import model.game.Team;
 import model.coordinate.Direction;
 import model.coordinate.PalacePositions;
 import model.coordinate.Position;
+import model.game.Team;
 import model.piece.strategy.LinearReach;
 import model.piece.strategy.PalaceLinearReach;
 import model.piece.strategy.ReachStrategy;

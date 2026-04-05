@@ -23,18 +23,18 @@ public enum PieceType {
         this.pieceFactory = pieceFactory;
     }
 
+    public static PieceType fromName(String name) {
+        return Stream.of(values())
+                .filter(pieceType -> pieceType.name().equalsIgnoreCase(name))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 기물입니다."));
+    }
+
     public double getScore() {
         return score;
     }
 
     public Piece createPiece(Team team) {
         return pieceFactory.apply(team);
-    }
-
-    public static PieceType fromName(String name) {
-       return Stream.of(values())
-                .filter(pieceType -> pieceType.name().equalsIgnoreCase(name))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 기물입니다."));
     }
 }

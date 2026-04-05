@@ -1,7 +1,7 @@
 package model.piece;
 
-import model.game.Team;
 import model.coordinate.Position;
+import model.game.Team;
 import model.piece.strategy.ReachStrategy;
 
 import java.util.List;

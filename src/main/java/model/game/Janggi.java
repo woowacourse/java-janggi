@@ -19,14 +19,14 @@ public class Janggi {
     private Team turn;
     private GameStatus status;
 
+    public Janggi(Board board) {
+        this(board, Team.CHO);
+    }
+
     public Janggi(Board board, Team turn) {
         this.board = board;
         this.turn = turn;
         this.status = GameStatus.PLAYING;
-    }
-
-    public Janggi(Board board) {
-        this(board, Team.CHO);
     }
 
     public GameStatus move(Position current, Position next) {
@@ -44,7 +44,7 @@ public class Janggi {
     public Piece findPieceAt(Position position, Team turn) {
         Piece piece = board.pickPiece(position);
         if (piece.isEnemy(turn)) {
-            throw new IllegalArgumentException(turn.getName() + "의 기물이 아닙니다.");
+            throw new IllegalArgumentException(turn.getKoreanName() + "의 기물이 아닙니다.");
         }
         return piece;
     }

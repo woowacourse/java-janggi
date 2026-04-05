@@ -5,10 +5,10 @@ import java.util.stream.Stream;
 public enum Team {
     HAN("한나라"), CHO("초나라");
 
-    private final String name;
+    private final String koreanName;
 
-    Team(String name) {
-        this.name = name;
+    Team(String koreanName) {
+        this.koreanName = koreanName;
     }
 
     public static Team fromName(String name) {
@@ -18,8 +18,8 @@ public enum Team {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 팀명입니다."));
     }
 
-    public String getName() {
-        return name;
+    public String getKoreanName() {
+        return koreanName;
     }
 
     public Team next() {

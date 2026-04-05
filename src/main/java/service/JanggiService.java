@@ -85,4 +85,8 @@ public class JanggiService {
     public Map<Position, Piece> getBoard() {
         return janggi.board();
     }
+
+    public void changeGameStatus(GameStatus gameStatus) {
+        janggiRepository.updateCurrentGameStatus(gameId, gameStatus);
+    }
 }

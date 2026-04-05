@@ -1,8 +1,8 @@
 package model.piece;
 
-import model.game.Team;
 import model.coordinate.Direction;
 import model.coordinate.Position;
+import model.game.Team;
 import model.piece.strategy.AnimalReach;
 import model.piece.strategy.ReachStrategy;
 

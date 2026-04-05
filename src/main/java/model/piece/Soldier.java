@@ -1,8 +1,8 @@
 package model.piece;
 
-import model.game.Team;
 import model.coordinate.PalacePositions;
 import model.coordinate.Position;
+import model.game.Team;
 import model.piece.strategy.PalaceSoldierReach;
 import model.piece.strategy.ReachStrategy;
 import model.piece.strategy.SoldierReach;

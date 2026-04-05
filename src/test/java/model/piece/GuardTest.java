@@ -1,7 +1,7 @@
 package model.piece;
 
-import model.game.Team;
 import model.coordinate.Position;
+import model.game.Team;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 

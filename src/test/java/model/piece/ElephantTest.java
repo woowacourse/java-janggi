@@ -1,9 +1,9 @@
 package model.piece;
 
-import model.game.Janggi;
-import model.game.Team;
 import model.board.Board;
 import model.coordinate.Position;
+import model.game.Janggi;
+import model.game.Team;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;

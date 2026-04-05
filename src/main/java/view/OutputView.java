@@ -69,6 +69,7 @@ public class OutputView {
     }
 
     public void displayResume() {
-        System.out.println("[기존 게임을 이어서합니다.]");
+        System.out.println("[이전에 진행하던 게임을 불러왔습니다.]");
+        System.out.println();
     }
 }

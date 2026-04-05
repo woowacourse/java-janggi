@@ -25,18 +25,6 @@ public class DatabaseConfig {
         }
     }
 
-    public static Connection getConnection() {
-        try {
-            return DriverManager.getConnection(
-                    PROPERTIES.getProperty("db.url"),
-                    PROPERTIES.getProperty("db.user"),
-                    PROPERTIES.getProperty("db.password")
-            );
-        } catch (SQLException e) {
-            throw new IllegalStateException("데이터베이스 연결 불가");
-        }
-    }
-
     public static void initSchema() {
         try (InputStream in = DatabaseConfig.class
                 .getClassLoader()
@@ -47,6 +35,18 @@ public class DatabaseConfig {
             stmt.execute(sql);
         } catch (IOException | SQLException e) {
             throw new IllegalStateException("스키마 초기화 실패", e);
+        }
+    }
+
+    public static Connection getConnection() {
+        try {
+            return DriverManager.getConnection(
+                    PROPERTIES.getProperty("db.url"),
+                    PROPERTIES.getProperty("db.user"),
+                    PROPERTIES.getProperty("db.password")
+            );
+        } catch (SQLException e) {
+            throw new IllegalStateException("데이터베이스 연결 불가");
         }
     }
 }
