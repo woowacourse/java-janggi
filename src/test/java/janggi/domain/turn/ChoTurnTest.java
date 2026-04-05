@@ -57,6 +57,15 @@ public class ChoTurnTest {
     }
 
     @Test
+    void 게임_진행_중_승자를_조회하면_현재_점수가_높은_진영을_반환한다() {
+        Map<Position, Piece> initBoard = new HashMap<>(Map.of(new Position(9, 5), new Gung(Side.CHO), new Position(3, 5), new Pawn(Side.CHO), new Position(2, 5), new Gung(Side.HAN)));
+        Board board = new Board(initBoard, 10, 5);
+        ChoTurn choTurn = new ChoTurn(board, 1);
+
+        assertThat(choTurn.getWinnerSide()).isEqualTo(Side.HAN);
+    }
+
+    @Test
     void 상속받은_공통_로직에_대해서_제대로_반환한다() {
         int turn = 5;
         Map<Position, Piece> initBoard = new HashMap<>(Map.of(new Position(9, 5), new Gung(Side.CHO), new Position(3, 5), new Pawn(Side.CHO), new Position(2, 5), new Gung(Side.HAN)));
