@@ -92,12 +92,12 @@ public class BoardCellRepositoryImpl implements BoardCellRepository {
             return save(BoardCellEntity.from(gameId, position, piece));
         }
         final String sql = String.format(
-            "UPDATE %s SET piece_type = ?, team = ? WHERE row_pos = ? AND column_pos = ?",
+            "UPDATE %s SET piece_type = ?, team = ? WHERE row_pos = ? AND column_pos = ? AND game_id = ?",
             TABLE_NAME);
 
         return dbConnection.executeUpdate(sql, piece.getPieceType().name(),
             piece.getTeamType().name(),
-            position.getRow(), position.getColumn());
+            position.getRow(), position.getColumn(), gameId);
     }
 
     @Override
