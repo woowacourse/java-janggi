@@ -38,7 +38,7 @@ public class GameRoomDao {
             roomStatement.setLong(5, roomId);
             roomStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] 기물 이동 위치를 DB에 저장하는 중 오류가 발생했습니다.", e);
+            throw new RuntimeException("[ERROR] 기물 이동에 따른 갱신을 DB에 저장하는 중 오류가 발생했습니다.", e);
         }
     }
 

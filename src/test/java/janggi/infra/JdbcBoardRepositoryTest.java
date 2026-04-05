@@ -38,7 +38,7 @@ class JdbcBoardRepositoryTest {
     }
 
     @AfterEach
-    void reset() throws SQLException {
+    void tearDown() throws SQLException {
         connection.rollback();
         connection.close();
     }
