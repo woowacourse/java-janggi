@@ -8,27 +8,26 @@ import domain.strategy.GuardMoveStrategy;
 import domain.strategy.HorseMoveStrategy;
 import domain.strategy.MoveStrategy;
 import domain.strategy.SoldierMoveStrategy;
-import java.util.function.Supplier;
 
 public enum Type {
-    GENERAL("궁", GeneralMoveStrategy::new),
-    CHARIOT("차", ChariotMoveStrategy::new),
-    CANNON("포", CannonMoveStrategy::new),
-    HORSE("마", HorseMoveStrategy::new),
-    ELEPHANT("상", ElephantMoveStrategy::new),
-    GUARD("사", GuardMoveStrategy::new),
-    SOLDIER("졸", SoldierMoveStrategy::new);
+    GENERAL("궁", new GeneralMoveStrategy()),
+    CHARIOT("차", new ChariotMoveStrategy()),
+    CANNON("포", new CannonMoveStrategy()),
+    HORSE("마", new HorseMoveStrategy()),
+    ELEPHANT("상", new ElephantMoveStrategy()),
+    GUARD("사", new GuardMoveStrategy()),
+    SOLDIER("졸", new SoldierMoveStrategy());
 
     private final String name;
-    private final Supplier<MoveStrategy> strategySupplier;
+    private final MoveStrategy strategySupplier;
 
-    Type(String name, Supplier<MoveStrategy> strategySupplier) {
+    Type(String name, MoveStrategy strategySupplier) {
         this.name = name;
         this.strategySupplier = strategySupplier;
     }
 
     public MoveStrategy getStrategy() {
-        return strategySupplier.get();
+        return strategySupplier;
     }
 
     public String getName() {
