@@ -168,6 +168,33 @@ class PieceTest {
                         .doesNotContain(new Intersection(DEFAULT_ROW, DEFAULT_FILE + 3));
             }
 
+            @DisplayName("궁성에 있는 경우 대각선으로 이동할 수 있다")
+            @Test
+            void 궁성에서_대각선_이동_가능() {
+                // given
+                Intersection placedSameSidePiece = position(1, 6);
+                AlivePieces alivePieces = new AlivePieces(Map.of(placedSameSidePiece, SAME_SIDE_PIECE));
+                Intersection corner = new Intersection(2, 5);
+                List<Intersection> orthogonalDestinations =
+                        createAllStraightIntersectionExcludeTargetPosition(2, 5);
+                List<Intersection> diagonalDestinations = List.of(
+                        position(1, 4), position(3, 4), position(3, 6)
+                );
+
+                // when
+                List<Intersection> movableDestinations = CHARIOT.movableDestinations(corner, alivePieces);
+
+                // then
+                assertThat(movableDestinations)
+                        .hasSize(orthogonalDestinations.size() + diagonalDestinations.size())
+                        .as("직선 방향 포함")
+                        .containsAll(orthogonalDestinations)
+                        .as("궁성 대각선 포함")
+                        .containsAll(diagonalDestinations)
+                        .as("같은 편 기물이 있는 곳으로는 이동 불가")
+                        .doesNotContain(placedSameSidePiece);
+            }
+
             private static List<Intersection> createAllStraightIntersectionExcludeTargetPosition(
                     int targetRow,
                     int targetFile
@@ -320,6 +347,45 @@ class PieceTest {
                             CANNON.movableDestinations(CURRENT_INTERSECTION, targetIsCannon);
 
                     assertThat(movableDestinations).doesNotContain(placedCannonDestination);
+                }
+            }
+
+            @DisplayName("포는 궁성에 있는 경우 중앙의 기물을 넘어 대각선으로 이동할 수 있다")
+            @Nested
+            class 궁성에서_대각선_이동 {
+
+                @DisplayName("중앙에 뛰어넘을 기물이 있다면, 그 너머 대각선으로 이동 가능")
+                @Test
+                void 뛰어넘을_기물_있으면_가능() {
+                    // given
+                    Intersection startIntersection = position(1, 4);
+                    Intersection screenIntersection = position(2, 5); // 궁성 대각선의 다리
+
+                    AlivePieces alivePieces = new AlivePieces(Map.of(
+                            screenIntersection, SAME_SIDE_PIECE
+                    ));
+
+                    // when
+                    List<Intersection> movableDestinations = CANNON.movableDestinations(startIntersection, alivePieces);
+
+                    // then
+                    assertThat(movableDestinations).containsExactlyInAnyOrder(position(3, 6));
+                }
+
+                @DisplayName("중앙에 뛰어넘을 기물이 없다면, 행마법에 따라 대각선 이동이 불가능하다")
+                @Test
+                void 뛰어넘을_기물_없으면_불가능() {
+                    // given
+                    Intersection startIntersection = position(1, 4);
+
+                    AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
+
+                    // when
+                    List<Intersection> movableDestinations =
+                            CANNON.movableDestinations(startIntersection, emptyAlivePieces);
+
+                    // then
+                    assertThat(movableDestinations).isEmpty();
                 }
             }
         }

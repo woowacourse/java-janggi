@@ -8,13 +8,20 @@ import domain.move.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class StraightLineMovement extends Movement {
+public final class StraightLineMovement extends Movement implements PalaceMovement {
 
     private static final MoveAmount MOVE_AMOUNT = new MoveAmount(1);
 
     @Override
     protected List<Path> candidatePaths(Intersection from, Side side) {
-        return allDirectionPaths(from, side);
+        List<Path> paths = new ArrayList<>();
+
+        List<Path> orthogonalPaths = allDirectionPaths(from, side);
+        List<Path> palaceDiagonalPaths = PalaceMovement.super.palaceDiagonalPathsForStraight(from);
+        paths.addAll(orthogonalPaths);
+        paths.addAll(palaceDiagonalPaths);
+
+        return List.copyOf(paths);
     }
 
     private List<Path> allDirectionPaths(Intersection from, Side side) {
