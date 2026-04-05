@@ -164,7 +164,7 @@ public class Runner {
             try {
                 return supplier.get();
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                OutputView.printErrorMessage(e.getMessage());
             }
         }
     }
