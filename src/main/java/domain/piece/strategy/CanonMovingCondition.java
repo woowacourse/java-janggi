@@ -17,7 +17,7 @@ public class CanonMovingCondition implements MovingCondition {
         if (Palace.canStepDiagonal(startPosition, directions.findFirst()) && !Palace.isPalace(endPosition)) {
             return false;
         }
-        if (!directions.checkAllDirectionIsStraight() && !Palace.isPalace(startPosition)) {
+        if (!directions.checkAllDirectionIsStraight() && !Palace.isPalace(endPosition)) {
             return false;
         }
         return hasValidCanonPath(boardState, endPosition, new LinePath(startPosition, directions));
