@@ -37,8 +37,7 @@ public class Army {
 
     private void deployCannon(Board board, Country country) {
         for (int column : CANNON_COLUMN) {
-            board.place(new Position(Row.cannon(country), Column.from(column)), new Piece(country, PieceType.CANNON) {
-            });
+            board.place(new Position(Row.cannon(country), Column.from(column)), new Piece(country, PieceType.CANNON));
         }
     }
 

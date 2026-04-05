@@ -3,7 +3,9 @@ package model.board;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.stream.Stream;
 import model.move.Move;
 import model.pieces.Piece;
 import model.pieces.PieceType;
@@ -93,6 +95,10 @@ public class Board {
                 .filter(piece -> piece.pieceType() == PieceType.GENERAL)
                 .findFirst()
                 .map(Piece::country);
+    }
+
+    public Stream<Entry<Position, Piece>> getPieceStream() {
+        return board.entrySet().stream();
     }
 
     private boolean countGeneral() {

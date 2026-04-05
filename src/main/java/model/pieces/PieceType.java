@@ -28,6 +28,15 @@ public enum PieceType {
         this.rule = rule;
     }
 
+    public static PieceType fromType(String name) {
+        for (PieceType pieceType : PieceType.values()) {
+            if (pieceType.name().equals(name)) {
+                return pieceType;
+            }
+        }
+        throw new IllegalArgumentException("[ERROR] 없는 기물입니다.");
+    }
+
     public String symbol() {
         return symbol;
     }

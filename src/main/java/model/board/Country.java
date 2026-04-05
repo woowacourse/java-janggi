@@ -18,6 +18,15 @@ public enum Country {
         this.color = color;
     }
 
+    public static Country fromCountry(String name) {
+        for (Country country : Country.values()) {
+            if (country.name().equals(name)) {
+                return country;
+            }
+        }
+        throw new IllegalArgumentException("[ERROR] 없는 나라입니다.");
+    }
+
     public boolean myTurn(Country country) {
         return this == country;
     }
