@@ -19,10 +19,14 @@ public class Janggi {
     private Team turn;
     private GameStatus status;
 
-    public Janggi(Board board) {
+    public Janggi(Board board, Team turn) {
         this.board = board;
-        this.turn = Team.CHO;
+        this.turn = turn;
         this.status = GameStatus.PLAYING;
+    }
+
+    public Janggi(Board board) {
+        this(board, Team.CHO);
     }
 
     public GameStatus move(Position current, Position next) {
@@ -94,7 +98,7 @@ public class Janggi {
     }
 
     public Map<Position, Piece> board() {
-        return board.board();
+        return board.getBoardMap();
     }
 
     public Team getTurn() {

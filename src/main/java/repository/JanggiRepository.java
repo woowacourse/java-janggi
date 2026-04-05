@@ -1,10 +1,21 @@
 package repository;
 
-import model.game.Janggi;
+import model.coordinate.Position;
+import model.game.Team;
+import model.game.dao.GameDao;
+import model.piece.Piece;
+import repository.command.MoveCommand;
+
+import java.util.Map;
+import java.util.Optional;
 
 public interface JanggiRepository {
 
-    Long saveGame(Janggi janggi);
+    long saveGame(Team turn, Map<Position, Piece> board);
 
-    void updateGame(Long gameId, Janggi janggi);
+    void updateGame(long gameId, MoveCommand moveCommand);
+
+    Optional<GameDao> findRecentGame();
+
+    Map<Position, Piece> findPiecesByGameId(long gameId);
 }

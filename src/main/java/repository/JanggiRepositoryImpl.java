@@ -1,30 +1,138 @@
 package repository;
 
-import config.db.DatabaseConfig;
-import model.game.Janggi;
+import model.coordinate.Position;
+import model.game.Team;
+import model.game.dao.GameDao;
+import model.piece.Piece;
+import model.piece.PieceType;
+import repository.command.MoveCommand;
+import repository.dao.PieceDao;
+import repository.mapper.PieceDaoMapper;
 
 import java.sql.Connection;
-import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 public class JanggiRepositoryImpl implements JanggiRepository {
 
-    private final Connection connection;
+    private final JdbcTemplate jdbcTemplate;
 
-    public JanggiRepositoryImpl() {
-        try (Connection connection = DatabaseConfig.getConnection()) {
-            this.connection = connection;
-        } catch (SQLException ex) {
-            throw new RuntimeException("데이터베이스 연결 불가");
+    public JanggiRepositoryImpl(Connection connection) {
+        this.jdbcTemplate = new JdbcTemplate(connection);
+    }
+
+    @Override
+    public long saveGame(Team turn, Map<Position, Piece> board) {
+        return jdbcTemplate.executeInTransaction(
+                () -> {
+                    long gameId = jdbcTemplate.executeAndReturnKey(
+                            "INSERT INTO game(turn) VALUES (?)",
+                            stmt -> stmt.setString(1, turn.name())
+                    );
+                    insertPieceEntries(gameId, board);
+                    return gameId;
+                });
+    }
+
+    private void insertPieceEntries(long gameId, Map<Position, Piece> board) {
+        for (Map.Entry<Position, Piece> entry : board.entrySet()) {
+            insertSinglePieceEntry(gameId, entry.getKey(), entry.getValue());
         }
     }
 
-    @Override
-    public Long saveGame(Janggi janggi) {
-        return 0L;
+    private void insertSinglePieceEntry(long gameId, Position position, Piece piece) {
+        jdbcTemplate.executeAndReturnKey(
+                "INSERT INTO piece(game_id, piece_type, team, row_idx, col_idx) values (?, ?, ?, ?, ?)",
+                stmt -> {
+                    stmt.setLong(1, gameId);
+                    stmt.setString(2, piece.getType().name());
+                    stmt.setString(3, piece.getTeam().name());
+                    stmt.setInt(4, position.row());
+                    stmt.setInt(5, position.col());
+                }
+        );
     }
 
     @Override
-    public void updateGame(Long gameId, Janggi janggi) {
+    public void updateGame(long gameId, MoveCommand moveCommand) {
+        Position source = moveCommand.source();
+        Position destination = moveCommand.destination();
+        Team currentTurn = moveCommand.turn();
 
+        jdbcTemplate.executeInTransaction(() -> {
+            deletePieceOnDestination(gameId, moveCommand.destination());
+            updatePositionOfPiece(gameId, destination, source);
+            updateCurrentTurn(gameId, currentTurn);
+        });
+    }
+
+    private void updateCurrentTurn(long gameId, Team currentTurn) {
+        jdbcTemplate.execute(
+                "UPDATE game SET turn = ? WHERE game_id = ?",
+                stmt -> {
+                    stmt.setString(1, currentTurn.name());
+                    stmt.setLong(2, gameId);
+                }
+        );
+    }
+
+    private void updatePositionOfPiece(long gameId, Position destination, Position source) {
+        jdbcTemplate.execute(
+                "UPDATE piece SET row_idx = ?, col_idx = ? WHERE game_id = ? AND row_idx = ? AND col_idx = ?",
+                stmt -> {
+                    stmt.setInt(1, destination.row());
+                    stmt.setInt(2, destination.col());
+                    stmt.setLong(3, gameId);
+                    stmt.setInt(4, source.row());
+                    stmt.setInt(5, source.col());
+                }
+        );
+    }
+
+    private void deletePieceOnDestination(long gameId, Position destination) {
+        jdbcTemplate.execute(
+                "DELETE FROM piece WHERE game_id = ? AND row_idx = ? AND col_idx = ?",
+                stmt -> {
+                    stmt.setLong(1, gameId);
+                    stmt.setInt(2, destination.row());
+                    stmt.setInt(3, destination.col());
+                }
+        );
+    }
+
+    @Override
+    public Optional<GameDao> findRecentGame() {
+        return jdbcTemplate.queryForSingleObject(
+                "SELECT game_id, turn FROM game " +
+                        "WHERE status = 'PLAYING' " +
+                        "ORDER BY game_id DESC " +
+                        "LIMIT 1",
+                rs -> new GameDao(rs.getLong("game_id"), rs.getString("turn"))
+        );
+    }
+
+    @Override
+    public Map<Position, Piece> findPiecesByGameId(long gameId) {
+        List<PieceDao> pieceDaos = jdbcTemplate.query(
+                "SELECT piece_type, team, row_idx, col_idx " +
+                        "FROM piece " +
+                        "WHERE game_id = ?",
+                stmt -> stmt.setLong(1, gameId),
+                new PieceDaoMapper()
+        );
+        return createBoardMap(pieceDaos);
+    }
+
+    private Map<Position, Piece> createBoardMap(List<PieceDao> pieceDaos) {
+        Map<Position, Piece> boardMap = new HashMap<>();
+        for (PieceDao pieceDao : pieceDaos) {
+            Position position = new Position(pieceDao.rowIndex(), pieceDao.colIndex());
+            Team currentTurn = Team.fromName(pieceDao.team());
+            Piece piece = PieceType.fromName(pieceDao.pieceType()).createPiece(currentTurn);
+            boardMap.put(position, piece);
+        }
+        return Map.copyOf(boardMap);
     }
 }

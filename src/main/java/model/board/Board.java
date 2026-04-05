@@ -1,7 +1,7 @@
 package model.board;
 
-import model.game.Team;
 import model.coordinate.Position;
+import model.game.Team;
 import model.piece.Piece;
 
 import java.util.HashMap;
@@ -9,10 +9,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public record Board(Map<Position, Piece> board) {
+public class Board {
 
     public static final int BOARD_ROW = 10;
     public static final int BOARD_COL = 9;
+
+    private final Map<Position, Piece> board;
 
     public Board(Map<Position, Piece> board) {
         this.board = new HashMap<>(board);
@@ -47,8 +49,7 @@ public record Board(Map<Position, Piece> board) {
         }
     }
 
-    @Override
-    public Map<Position, Piece> board() {
+    public Map<Position, Piece> getBoardMap() {
         return Map.copyOf(board);
     }
 

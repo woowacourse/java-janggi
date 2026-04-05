@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Objects;
 import java.util.Properties;
 
 public class DatabaseConfig {
@@ -20,16 +21,20 @@ public class DatabaseConfig {
                 .getResourceAsStream(PROPERTIES_FILE_NAME)) {
             PROPERTIES.load(in);
         } catch (IOException e) {
-            throw new RuntimeException("데이터베이스 로딩 실패");
+            throw new IllegalStateException("데이터베이스 연결 불가");
         }
     }
 
-    public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(
-                PROPERTIES.getProperty("db.url"),
-                PROPERTIES.getProperty("db.user"),
-                PROPERTIES.getProperty("db.password")
-        );
+    public static Connection getConnection() {
+        try {
+            return DriverManager.getConnection(
+                    PROPERTIES.getProperty("db.url"),
+                    PROPERTIES.getProperty("db.user"),
+                    PROPERTIES.getProperty("db.password")
+            );
+        } catch (SQLException e) {
+            throw new IllegalStateException("데이터베이스 연결 불가");
+        }
     }
 
     public static void initSchema() {
@@ -38,10 +43,10 @@ public class DatabaseConfig {
                 .getResourceAsStream("schema.sql");
              Connection conn = getConnection();
              Statement stmt = conn.createStatement()) {
-            String sql = new String(in.readAllBytes(), StandardCharsets.UTF_8);
+            String sql = new String(Objects.requireNonNull(in).readAllBytes(), StandardCharsets.UTF_8);
             stmt.execute(sql);
         } catch (IOException | SQLException e) {
-            throw new RuntimeException("스키마 초기화 실패", e);
+            throw new IllegalStateException("스키마 초기화 실패", e);
         }
     }
 }

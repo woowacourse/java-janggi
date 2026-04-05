@@ -67,4 +67,8 @@ public class OutputView {
     public void displaySaved() {
         System.out.println("\n게임이 저장되었습니다.");
     }
+
+    public void displayResume() {
+        System.out.println("[기존 게임을 이어서합니다.]");
+    }
 }

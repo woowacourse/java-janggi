@@ -5,6 +5,7 @@ import model.coordinate.Position;
 import model.formation.JanggiFormation;
 import model.game.GameStatus;
 import model.game.Team;
+import model.game.dao.GameDao;
 import model.piece.Piece;
 import service.JanggiService;
 import view.InputView;
@@ -41,15 +42,13 @@ public class JanggiController {
 
     private void handleMove() {
         Team currentTurn = janggiService.getTurn();
-
         Position current = inputView.readSource(currentTurn);
         Piece piece = janggiService.findPieceAt(current, currentTurn);
 
         Position next = inputView.readDestination(currentTurn, piece);
         GameStatus status = janggiService.move(current, next);
 
-        outputView.displayBoard(janggiService.board());
-
+        outputView.displayBoard(janggiService.getBoard());
         if (status == GameStatus.WIN_BY_CAPTURE) {
             Team winner = janggiService.getWinnerByCapture();
             outputView.displayWinner(winner.getName());
@@ -69,14 +68,28 @@ public class JanggiController {
     }
 
     public void run() {
+        startGame();
+        outputView.displayBoard(janggiService.getBoard());
+        processCommand();
+    }
+
+    private void startGame() {
+        if (janggiService.tryResumeGame()) {
+            outputView.displayResume();
+            return;
+        }
+        startNewGame();
+    }
+
+    private void startNewGame() {
         List<JanggiFormation> formations = Arrays.asList(JanggiFormation.values());
         JanggiFormation hanFormation = retry(() -> inputView.readFormationNumber(HAN, formations), processError());
         JanggiFormation choFormation = retry(() -> inputView.readFormationNumber(CHO, formations), processError());
-
         janggiService.startNewGame(hanFormation, choFormation);
-        outputView.displayBoard(janggiService.board());
+    }
 
-        processCommand();
+    private Consumer<IllegalArgumentException> processError() {
+        return (e) -> outputView.displayError(e.getMessage());
     }
 
     private void processCommand() {
@@ -88,9 +101,5 @@ public class JanggiController {
         if (janggiService.isPlaying()) {
             handleScore();
         }
-    }
-
-    private Consumer<IllegalArgumentException> processError() {
-        return (e) -> outputView.displayError(e.getMessage());
     }
 }

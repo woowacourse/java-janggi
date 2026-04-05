@@ -8,7 +8,7 @@ import view.OutputView;
 public class Application {
     public static void main(String[] args) {
         DatabaseConfig.initSchema();
-        JanggiService janggiService = new JanggiService(new JanggiRepositoryImpl());
+        JanggiService janggiService = new JanggiService(new JanggiRepositoryImpl(DatabaseConfig.getConnection()));
         JanggiController janggiController = new JanggiController(new InputView(), new OutputView(), janggiService);
         janggiController.run();
     }
