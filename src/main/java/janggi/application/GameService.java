@@ -5,7 +5,6 @@ import janggi.domain.board.Board;
 import janggi.domain.board.BoardDesignPolicy;
 import janggi.domain.game.CurrentTurn;
 import janggi.domain.game.Game;
-import janggi.domain.game.RoomName;
 import janggi.domain.piece.Piece;
 import janggi.domain.position.Position;
 import janggi.infra.dao.GameDAO;
@@ -32,18 +31,18 @@ public class GameService {
         this.transactionTemplate = transactionTemplate;
     }
 
-    public GameDto createGame(BoardDesignPolicy boardDesignPolicy, RoomName roomName, LocalDateTime lastPlayedAt) {
+    public GameDto createGame(BoardDesignPolicy boardDesignPolicy, String roomName, LocalDateTime lastPlayedAt) {
         Game game = Game.initGame(boardDesignPolicy, roomName, lastPlayedAt);
         Long gameId = transactionTemplate.execute(() -> {
-            GameEntity gameEntity = saveGame(roomName, lastPlayedAt, game);
+            GameEntity gameEntity = saveGame(game);
             savePiecePositions(game, gameEntity);
             return gameEntity.id();
         });
         return new GameDto(gameId, game);
     }
 
-    private GameEntity saveGame(RoomName roomName, LocalDateTime lastPlayedAt, Game game) {
-        GameEntity gameEntity = new GameEntity(roomName, game.currentTurn(), lastPlayedAt);
+    private GameEntity saveGame(Game game) {
+        GameEntity gameEntity = new GameEntity(game.roomName(), game.currentTurn(), game.lastPlayedAt());
         Long gameRoomId = gameDAO.save(gameEntity);
         gameEntity.bindId(gameRoomId);
         return gameEntity;

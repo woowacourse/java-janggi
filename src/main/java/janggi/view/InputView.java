@@ -96,11 +96,6 @@ public class InputView {
     }
 
     public Long readSelectedGame(List<GameRoomDto> gameRoomDtos) {
-        System.out.println("플레이 하고 싶은 게임을 선택해주세요: ");
-        int idx = 1;
-        for (GameRoomDto gameRoomDto : gameRoomDtos) {
-            System.out.printf("%d. %s\n", idx++, gameRoomDto.roomName());
-        }
 
         String strGameNum = scanner.nextLine();
         try {

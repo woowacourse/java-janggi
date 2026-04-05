@@ -1,5 +1,6 @@
 package janggi.view;
 
+import janggi.application.GameRoomDto;
 import janggi.domain.position.Column;
 import janggi.view.dto.BoardDto;
 import janggi.view.dto.PieceDto;
@@ -84,6 +85,18 @@ public class OutputView {
         System.out.println("현재 점수: ");
         for (Dynasty dynasty : scoreMap.keySet()) {
             System.out.println(DynastyMapper.toKoreanWithColor(dynasty) + ": " + scoreMap.get(dynasty));
+        }
+    }
+
+    public void printGameList(List<GameRoomDto> gameRoomDtos) {
+        if(gameRoomDtos.isEmpty()) {
+            System.out.println("현재 저장되어 있는 게임이 없습니다. ");
+            return;
+        }
+        System.out.println("플레이 하고 싶은 게임을 선택해주세요: ");
+        int idx = 1;
+        for (GameRoomDto gameRoomDto : gameRoomDtos) {
+            System.out.printf("%d. %s\n", idx++, gameRoomDto.roomName());
         }
     }
 }

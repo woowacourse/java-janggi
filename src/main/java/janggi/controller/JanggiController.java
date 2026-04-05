@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 public class JanggiController {
@@ -49,26 +50,42 @@ public class JanggiController {
     }
 
     private GameDto startGame() {
-        int gameOption = getUntilValid(inputView::readGameOption);
-        GameDto gameDto = null;
-        if(gameOption == 1) {
-            gameDto = createNewGame();
-        } else if (gameOption == 2) {
-            List<GameRoomDto> recentlyPlayedGames = gameService.getRecentlyPlayedGames();
-            Long selectedGameId = getUntilValid(() -> inputView.readSelectedGame(recentlyPlayedGames));
-            gameDto = gameService.loadGame(selectedGameId);
+
+        Optional<GameDto> optionalGameDto = Optional.empty();
+        while (optionalGameDto.isEmpty()) {
+            int gameOption = getUntilValid(inputView::readGameOption);
+            if (gameOption == 1) {
+                optionalGameDto = createNewGame();
+            } else if (gameOption == 2) {
+                optionalGameDto = loadGame();
+            }
         }
+        GameDto gameDto = optionalGameDto.get();
         Game game = gameDto.game();
         outputView.printBoard(BoardDto.from(game.boardMap()));
         return gameDto;
     }
 
-    private GameDto createNewGame() {
-        GameDto game;
-        RoomName roomName = getUntilValid(() -> new RoomName(inputView.readRoomName()));
-        Map<Dynasty, HorseElephantPosition> horseElephantPositions = readDynastyHorseElephantPositionMap();
-        game = gameService.createGame(new DefaultBoardDesignPolicy(horseElephantPositions), roomName, LocalDateTime.now());
-        return game;
+    private Optional<GameDto> createNewGame() {
+        return Optional.ofNullable(getUntilValid(() -> {
+            RoomName roomName = new RoomName(inputView.readRoomName());
+            Map<Dynasty, HorseElephantPosition> horseElephantPositions = readDynastyHorseElephantPositionMap();
+            return gameService.createGame(new DefaultBoardDesignPolicy(horseElephantPositions), roomName.roomName(), LocalDateTime.now());
+        }));
+    }
+
+    private Optional<GameDto> loadGame() {
+        List<GameRoomDto> recentlyPlayedGames = gameService.getRecentlyPlayedGames();
+        outputView.printGameList(recentlyPlayedGames);
+
+        if (recentlyPlayedGames.isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.of(getUntilValid(() -> {
+            Long selectedGameId = getUntilValid(() -> inputView.readSelectedGame(recentlyPlayedGames));
+            return gameService.loadGame(selectedGameId);
+        }));
     }
 
     private void printScore(Game game) {

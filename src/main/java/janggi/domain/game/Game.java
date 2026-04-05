@@ -31,8 +31,8 @@ public class Game {
         this.lastPlayedAt = lastPlayedAt;
     }
 
-    public static Game initGame(BoardDesignPolicy boardDesignPolicy, RoomName roomName, LocalDateTime lastPlayedAt) {
-        return new Game(Board.policyOf(boardDesignPolicy), roomName, new CurrentTurn(CHO), lastPlayedAt);
+    public static Game initGame(BoardDesignPolicy boardDesignPolicy, String roomName, LocalDateTime lastPlayedAt) {
+        return new Game(Board.policyOf(boardDesignPolicy), new RoomName(roomName), new CurrentTurn(CHO), lastPlayedAt);
     }
 
     public static Game loadGame(Board board, RoomName roomName, CurrentTurn currentTurn, LocalDateTime lastPlayedAt) {
