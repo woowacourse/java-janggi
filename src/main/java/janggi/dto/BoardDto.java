@@ -9,7 +9,7 @@ import java.util.Map;
 public record BoardDto(Map<Position, PieceDto> pieceMap) {
 
     public static BoardDto from(final Board board) {
-        final Map<Position, Piece> positionPieceMap = board.getPositionPieceMapForDTO();
+        final Map<Position, Piece> positionPieceMap = board.getPositionPieceMap();
         final Map<Position, PieceDto> pieceDtoMap = new LinkedHashMap<>();
         positionPieceMap.forEach((position, piece) ->
                 pieceDtoMap.put(position, new PieceDto(piece.getPieceTypeForDTO(), piece.getTeamTypeForDTO())));

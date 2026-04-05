@@ -43,7 +43,7 @@ public class Board implements BoardMediator {
         return findPieceByPosition(position).isSameTeamType(teamType);
     }
 
-    public Map<Position, Piece> getPositionPieceMapForDTO() {
+    public Map<Position, Piece> getPositionPieceMap() {
         return Map.copyOf(positionPieceMap);
     }
 
