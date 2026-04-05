@@ -35,8 +35,9 @@ public class JanggiBoard implements PieceProvider {
     }
 
     private void changeTurn() {
-        if (turn == Team.CHO) {
+        if (Team.CHO == turn) {
             turn = Team.HAN;
+            return;
         }
         turn = Team.CHO;
     }
