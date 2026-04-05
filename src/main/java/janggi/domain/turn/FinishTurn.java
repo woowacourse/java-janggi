@@ -9,8 +9,8 @@ public class FinishTurn extends BaseTurn {
 
     private final Side winnerSide;
 
-    public FinishTurn(Board board, Side winnerSide) {
-        super(board);
+    public FinishTurn(Board board, int turn, Side winnerSide) {
+        super(board, turn);
         this.winnerSide = winnerSide;
     }
 

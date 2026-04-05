@@ -5,14 +5,17 @@ import janggi.domain.SideScore;
 import janggi.domain.board.Board;
 import janggi.domain.piece.PieceAttribute;
 import java.util.List;
+import java.util.Optional;
 
 public abstract class BaseTurn implements PlayerTurn {
     protected static final int MAX_TURN = 200;
 
     protected final Board board;
+    protected final int turn;
 
-    public BaseTurn(Board board) {
+    public BaseTurn(Board board, int turn) {
         this.board = board;
+        this.turn = turn;
     }
 
     @Override
@@ -33,5 +36,10 @@ public abstract class BaseTurn implements PlayerTurn {
     @Override
     public SideScore getCurrentScore() {
         return board.getScore();
+    }
+
+    @Override
+    public int getCurrentTurn() {
+        return turn;
     }
 }

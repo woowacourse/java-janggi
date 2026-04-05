@@ -6,11 +6,9 @@ import janggi.domain.board.Board;
 import janggi.domain.piece.PieceAttribute;
 
 public class HanTurn extends BaseTurn {
-    private final int turn;
 
     public HanTurn(Board board, int turn) {
-        super(board);
-        this.turn = turn;
+        super(board, turn);
     }
 
     @Override
@@ -18,17 +16,14 @@ public class HanTurn extends BaseTurn {
         PieceAttribute pieceAttribute = board.move(start, end, Side.HAN);
 
         if(turn == MAX_TURN) {
-            TurnAttribute turnAttribute = new TurnAttribute(Side.EMPTY, turn + 1);
-            return new TurnState(new FinishTurn(board, Side.EMPTY), turnAttribute, pieceAttribute);
+            return new TurnState(new FinishTurn(board, turn + 1, Side.EMPTY), pieceAttribute);
         }
 
         if (board.isEndGame()) {
-            TurnAttribute turnAttribute = new TurnAttribute(Side.EMPTY, turn + 1);
-            return new TurnState(new FinishTurn(board, Side.HAN), turnAttribute, pieceAttribute);
+            return new TurnState(new FinishTurn(board, turn + 1, Side.HAN), pieceAttribute);
         }
 
-        TurnAttribute turnAttribute = new TurnAttribute(Side.HAN, turn + 1);
-        return new TurnState(new ChoTurn(board, turn + 1), turnAttribute, pieceAttribute);
+        return new TurnState(new ChoTurn(board, turn + 1), pieceAttribute);
     }
 
     @Override

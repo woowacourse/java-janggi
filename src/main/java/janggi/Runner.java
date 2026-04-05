@@ -5,11 +5,10 @@ import janggi.domain.Game;
 import janggi.domain.GameInfo;
 import janggi.domain.GameInfos;
 import janggi.domain.GameName;
-import janggi.domain.MoveResult;
 import janggi.domain.PieceInitInfo;
 import janggi.domain.Position;
 import janggi.domain.Side;
-import janggi.domain.SideScore;
+import janggi.domain.piece.PieceAttribute;
 import janggi.domain.piece.PieceType;
 import janggi.dto.GameDto;
 import janggi.dto.PieceDto;
@@ -130,10 +129,10 @@ public class Runner {
 
         OutputView.printLine();
 
-        MoveResult moveResult = game.move(startPosition, endPosition);
-        TurnDto turnDto = new TurnDto(moveResult.turnAttribute().side().getName(), moveResult.turnAttribute().turn());
+        PieceAttribute movedPiece = game.move(startPosition, endPosition);
+        TurnDto turnDto = new TurnDto(movedPiece.side().getOppositeSide().getName(), game.getCurrentTurn());
 
-        janggiService.movePiece(gameId, startPosition, endPosition, moveResult.pieceAttribute().side(), moveResult.pieceAttribute().pieceType(), turnDto);
+        janggiService.movePiece(gameId, startPosition, endPosition, movedPiece.side(), movedPiece.pieceType(), turnDto);
 
         OutputView.printScore(game.getCurrentSideScore());
         return !game.isFinished();

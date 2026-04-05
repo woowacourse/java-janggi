@@ -5,6 +5,7 @@ import janggi.domain.Side;
 import janggi.domain.SideScore;
 import janggi.domain.piece.PieceAttribute;
 import java.util.List;
+import java.util.Optional;
 
 public interface PlayerTurn {
     TurnState move(Position start, Position end);
@@ -18,4 +19,6 @@ public interface PlayerTurn {
     Side getWinnerSide();
 
     SideScore getCurrentScore();
+
+    int getCurrentTurn();
 }

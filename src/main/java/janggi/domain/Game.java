@@ -2,6 +2,7 @@ package janggi.domain;
 
 import janggi.domain.board.Board;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceAttribute;
 import janggi.domain.piece.PieceType;
 import janggi.domain.turn.ChoTurn;
 import janggi.domain.turn.HanTurn;
@@ -14,6 +15,8 @@ import java.util.List;
 import java.util.Map;
 
 public class Game {
+    private static final String INVALID_TURN = "게임이 이미 끝나서 턴을 가져올 수 없습니다.";
+
     private PlayerTurn playerTurn;
 
     public List<PieceInitInfo> init(Arrangement choArrangement, Arrangement hanArrangement) {
@@ -45,10 +48,9 @@ public class Game {
         initTurn(new Board(initBoard, hanScore, choScore), side, turn);
     }
 
-    public MoveResult move(Position start, Position end) {
+    public PieceAttribute move(Position start, Position end) {
         TurnState turnState = playerTurn.move(start, end);
-        playerTurn = turnState.playerTurn();
-        return new MoveResult(turnState.turnAttribute(), turnState.movedPiece());
+        return turnState.movedPiece();
     }
 
     public boolean isFinished() {
@@ -61,6 +63,10 @@ public class Game {
 
     public Side getCurrentSide() {
         return playerTurn.getCurrentSide();
+    }
+
+    public Integer getCurrentTurn() {
+        return playerTurn.getCurrentTurn();
     }
 
     public SideScore getCurrentSideScore() {
