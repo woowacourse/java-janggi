@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import service.JanggiGameService;
 import view.ActionType;
 import view.BoardStatusDto;
 import view.InputView;
@@ -21,14 +22,37 @@ import view.TeamDto;
 public class JanggiGameController {
     private final InputView inputView;
     private final ResultView resultView;
+    private final JanggiGameService janggiGameService;
 
-    public JanggiGameController(InputView inputView, ResultView resultView) {
+    public JanggiGameController(InputView inputView, ResultView resultView, JanggiGameService janggiGameService) {
         this.inputView = inputView;
         this.resultView = resultView;
+        this.janggiGameService = janggiGameService;
     }
 
     public void play() {
-        JanggiGame game = retry(this::initializeGame);
+        janggiGameService.initializeDatabase();
+        boolean playingGameExist = janggiGameService.isPlayingGameExist();
+
+        JanggiGame game = null;
+
+        if (playingGameExist) {
+            boolean isContinue = inputView.readGameContinueYesOrNo();
+            if (isContinue) {
+                game = retry(() -> {
+                    JanggiGame loadedGame = janggiGameService.loadPlayingGame();
+                    printBoardStatus(loadedGame.getJanggiGameStatus());
+                    return loadedGame;
+                });
+            } else {
+                janggiGameService.abandonGame();
+            }
+        }
+
+        if (game == null) {
+            game = retry(this::initializeGame);
+        }
+
         playTurn(game);
     }
 
@@ -39,7 +63,7 @@ public class JanggiGameController {
                 retry(this::executeMove, game);
             }
             if (actionType == ActionType.PASS) {
-                game.passTurn();
+                janggiGameService.passTurn(game);
             }
             BoardStatus currentBoardStatus = game.getJanggiGameStatus();
             printBoardStatus(currentBoardStatus);
@@ -54,7 +78,7 @@ public class JanggiGameController {
         Position startPosition = Position.of(positionDto.getStartRow(), positionDto.getStartColumn());
         Position destinationPosition = Position.of(positionDto.getDestinationRow(),
                 positionDto.getDestinationColumn());
-        game.executeMove(startPosition, destinationPosition);
+        janggiGameService.doMove(game, startPosition, destinationPosition);
     }
 
     private JanggiGame initializeGame() {
@@ -62,7 +86,7 @@ public class JanggiGameController {
         SettingType choSettingType = settingTypes.getFirst();
         SettingType hanSettingType = settingTypes.getLast();
 
-        JanggiGame game = JanggiGame.init(choSettingType, hanSettingType);
+        JanggiGame game = janggiGameService.startNewGame(choSettingType, hanSettingType);
         printBoardStatus(game.getJanggiGameStatus());
         return game;
     }

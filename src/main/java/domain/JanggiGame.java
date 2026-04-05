@@ -5,8 +5,6 @@ import domain.board.BoardStatus;
 import domain.piece.Team;
 import domain.position.Position;
 
-import domain.GameId;
-
 public class JanggiGame {
     private final GameId id;
     private final Board board;
@@ -22,18 +20,6 @@ public class JanggiGame {
 
     private JanggiGame(Board board, GameContext context, ScoreCalculator scoreCalculator) {
         this(null, board, context, scoreCalculator);
-    }
-
-    public GameId getId() {
-        return id;
-    }
-
-    public GameContext getContext() {
-        return context;
-    }
-
-    public Board getBoard() {
-        return board;
     }
 
     public static JanggiGame init(SettingType choSetting, SettingType hanSetting) {
@@ -94,5 +80,17 @@ public class JanggiGame {
 
     public Team getTurnOwnTeam() {
         return context.getTurn().turnOwnTeam();
+    }
+
+    public GameId getId() {
+        return id;
+    }
+
+    public GameContext getContext() {
+        return context;
+    }
+
+    public Board getBoard() {
+        return board;
     }
 }
