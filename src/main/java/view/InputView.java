@@ -53,7 +53,7 @@ public class InputView {
     }
 
     public int requestGameId(List<Integer> saveGames) {
-        System.out.println("진행 중인 게임 목록입니다. 게엠 방의 숫자를 입력해주세요.");
+        System.out.println("\n진행 중인 게임 목록입니다. 게엠 방의 숫자를 입력해주세요.");
         for (int number : saveGames) {
             System.out.printf("- %d번방\n", number);
         }

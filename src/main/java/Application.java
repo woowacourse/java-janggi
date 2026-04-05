@@ -12,7 +12,7 @@ public class Application {
         InputView inputView = new InputView(new Scanner(System.in));
         OutputView outputView = new OutputView(new OutputViewFormatter());
         JanggiDao janggiDao = new JanggiDao();
-        janggiDao.createTables();
+        janggiDao.createTable();
 
         JanggiService janggiService = new JanggiService(janggiDao);
         try{
