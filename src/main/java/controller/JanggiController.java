@@ -38,13 +38,15 @@ public class JanggiController {
             // 새 게임
             board = initBoard();
             janggiGame = initJanggiGame(board);
-            gameId = janggiService.createNewGame(janggiGame.getCountry().getName());
+            gameId = janggiService.createNewGame(janggiGame.getCountry().name());
             janggiService.saveInitBoard(gameId, board);
         } else {
             // 이어하기
-            List<Integer> saveGames = janggiService.getSaveGames();
+            List<Integer> saveGames = janggiService.getSavedGames();
             gameId = inputView.requestGameId(saveGames);
-            board = janggiService.getSaveBoard(gameId);
+            board = janggiService.getSavedBoard(gameId);
+
+            outputView.printBoard(janggiService.createBoardDto(board));
             janggiGame = janggiService.loadGame(gameId, board);
         }
 

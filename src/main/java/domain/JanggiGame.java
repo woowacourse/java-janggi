@@ -5,6 +5,7 @@ import domain.constant.PieceType;
 import domain.state.ChoTurn;
 import domain.state.Finished;
 import domain.state.State;
+import domain.state.StateFactory;
 import java.util.List;
 
 public class JanggiGame {
@@ -16,6 +17,11 @@ public class JanggiGame {
     public JanggiGame(Board board) {
         this.board = board;
         this.state = new ChoTurn();
+    }
+
+    public JanggiGame(Board board, Country country) {
+        this.board = board;
+        this.state = StateFactory.from(country);
     }
 
     public void play(Position start, Position end) {
@@ -48,5 +54,9 @@ public class JanggiGame {
 
     public String getWinnerCountry() {
         return state.getCountry().getName();
+    }
+
+    public boolean isEmptyPosition(Position end) {
+        return board.checkEndPosition(end);
     }
 }
