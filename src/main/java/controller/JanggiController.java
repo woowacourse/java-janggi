@@ -30,26 +30,34 @@ public class JanggiController {
 
     public void run() {
         int gameMenuInput = inputView.requestGameMenu();
-        int gameId;
-        Board board;
-        JanggiGame janggiGame;
-
         if (gameMenuInput == 1) {
-            // 새 게임
-            board = initBoard();
-            janggiGame = initJanggiGame(board);
-            gameId = janggiService.createNewGame(janggiGame.getCountry().name());
-            janggiService.saveInitBoard(gameId, board);
-        } else {
-            // 이어하기
-            List<Integer> saveGames = janggiService.getSavedGames();
-            gameId = inputView.requestGameId(saveGames);
-            board = janggiService.getSavedBoard(gameId);
-
-            outputView.printBoard(janggiService.createBoardDto(board));
-            janggiGame = janggiService.loadGame(gameId, board);
+            startNewGame();
+            return;
         }
+        loadSavedGame();
+    }
 
+    private void startNewGame() {
+        Board board = initBoard();
+        JanggiGame janggiGame = initJanggiGame(board);
+        int gameId = janggiService.createNewGame(janggiGame.getCountry().name());
+        janggiService.saveInitBoard(gameId, board);
+
+        playGame(gameId, board, janggiGame);
+    }
+
+    private void loadSavedGame() {
+        List<Integer> saveGames = janggiService.getSavedGames();
+        int gameId = inputView.requestGameId(saveGames);
+        Board board = janggiService.getSavedBoard(gameId);
+
+        outputView.printBoard(janggiService.createBoardDto(board));
+        JanggiGame janggiGame = janggiService.loadGame(gameId, board);
+
+        playGame(gameId, board, janggiGame);
+    }
+
+    private void playGame(int gameId, Board board, JanggiGame janggiGame) {
         while (!janggiGame.isFinished()) {
             outputView.printChangeTurnMessage(janggiGame.getCountry().getName(), janggiGame.calculateScore());
             List<PositionDto> positionDtos = requestMovePiece(janggiGame);
