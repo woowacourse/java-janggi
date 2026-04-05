@@ -40,15 +40,19 @@ class JanggiRepositoryImplTest {
 
     @Test
     void 게임을_저장하고_ID를_반환한다() {
+        // when
         long gameId = repository.saveGame(Team.HAN, Map.of());
 
+        // then
         assertThat(gameId).isNotNull();
     }
 
     @Test
     void 저장된_게임의_턴이_올바르다() throws SQLException {
+        // when
         long gameId = repository.saveGame(Team.CHO, Map.of());
 
+        // then
         try (PreparedStatement stmt = connection.prepareStatement(
                 "SELECT turn FROM game WHERE game_id = ?")) {
             stmt.setLong(1, gameId);
@@ -60,11 +64,13 @@ class JanggiRepositoryImplTest {
 
     @Test
     void 게임_저장시_기물이_함께_저장된다() throws SQLException {
+        // when
         long gameId = repository.saveGame(Team.HAN, Map.of(
                 new Position(6, 0), new Soldier(Team.HAN),
                 new Position(3, 0), new Soldier(Team.CHO)
         ));
 
+        // then
         try (PreparedStatement stmt = connection.prepareStatement(
                 "SELECT COUNT(*) FROM piece WHERE game_id = ?")) {
             stmt.setLong(1, gameId);
@@ -76,12 +82,15 @@ class JanggiRepositoryImplTest {
 
     @Test
     void 기물_이동시_위치가_업데이트된다() throws SQLException {
+        // given
         long gameId = repository.saveGame(Team.HAN, Map.of());
         insertPiece(gameId, "SOLDIER", "HAN", 6, 0);
 
+        // when
         MoveCommand move = new MoveCommand(new Position(6, 0), new Position(5, 0), Team.CHO);
         repository.updateGame(gameId, move);
 
+        // then
         try (PreparedStatement stmt = connection.prepareStatement(
                 "SELECT row_idx, col_idx FROM piece WHERE game_id = ?")) {
             stmt.setLong(1, gameId);
@@ -106,13 +115,16 @@ class JanggiRepositoryImplTest {
 
     @Test
     void 기물_이동시_대상_위치의_기물이_삭제된다() throws SQLException {
+        // given
         long gameId = repository.saveGame(Team.HAN, Map.of());
         insertPiece(gameId, "SOLDIER", "HAN", 6, 0);
         insertPiece(gameId, "SOLDIER", "CHO", 5, 0);
 
+        // when
         MoveCommand move = new MoveCommand(new Position(6, 0), new Position(5, 0), Team.CHO);
         repository.updateGame(gameId, move);
 
+        // then
         try (PreparedStatement stmt = connection.prepareStatement(
                 "SELECT COUNT(*) FROM piece WHERE game_id = ?")) {
             stmt.setLong(1, gameId);
@@ -124,12 +136,15 @@ class JanggiRepositoryImplTest {
 
     @Test
     void 기물_이동시_턴이_변경된다() throws SQLException {
+        // given
         long gameId = repository.saveGame(Team.HAN, Map.of());
         insertPiece(gameId, "SOLDIER", "HAN", 6, 0);
 
+        // when
         MoveCommand move = new MoveCommand(new Position(6, 0), new Position(5, 0), Team.CHO);
         repository.updateGame(gameId, move);
 
+        // then
         try (PreparedStatement stmt = connection.prepareStatement(
                 "SELECT turn FROM game WHERE game_id = ?")) {
             stmt.setLong(1, gameId);
@@ -141,27 +156,35 @@ class JanggiRepositoryImplTest {
 
     @Test
     void 진행중인_최근_게임을_조회한다() {
+        // given
         repository.saveGame(Team.HAN, Map.of());
 
+        // when
         Optional<GameDao> result = repository.findRecentGame();
 
+        // then
         assertThat(result).isPresent();
         assertThat(result.get().turn()).isEqualTo("HAN");
     }
 
     @Test
     void 진행중인_게임이_없으면_빈값을_반환한다() {
+        // when
         Optional<GameDao> result = repository.findRecentGame();
 
+        // then
         assertThat(result).isEmpty();
     }
 
     @Test
     void 게임_상태를_변경한다() throws SQLException {
+        // given
         long gameId = repository.saveGame(Team.HAN, Map.of());
 
+        // when
         repository.updateCurrentGameStatus(gameId, GameStatus.WIN_BY_SCORE);
 
+        // then
         try (PreparedStatement stmt = connection.prepareStatement(
                 "SELECT status FROM game WHERE game_id = ?")) {
             stmt.setLong(1, gameId);
@@ -173,16 +196,20 @@ class JanggiRepositoryImplTest {
 
     @Test
     void 종료된_게임은_최근_게임_조회에서_제외된다() {
+        // given
         long gameId = repository.saveGame(Team.HAN, Map.of());
         repository.updateCurrentGameStatus(gameId, GameStatus.WIN_BY_SCORE);
 
+        // when
         Optional<GameDao> result = repository.findRecentGame();
 
+        // then
         assertThat(result).isEmpty();
     }
 
     @Test
     void 저장된_기물을_게임ID로_조회한다() {
+        // given
         Position hanPosition = new Position(6, 0);
         Position choPosition = new Position(3, 0);
         long gameId = repository.saveGame(Team.HAN, Map.of(
@@ -190,8 +217,10 @@ class JanggiRepositoryImplTest {
                 choPosition, new Soldier(Team.CHO)
         ));
 
+        // when
         Map<Position, Piece> pieces = repository.findPiecesByGameId(gameId);
 
+        // then
         assertThat(pieces).hasSize(2);
         assertThat(pieces.get(hanPosition)).isInstanceOf(Soldier.class);
         assertThat(pieces.get(choPosition)).isInstanceOf(Soldier.class);

@@ -33,35 +33,46 @@ class JanggiServiceTest {
 
     @Test
     void 진행중인_게임이_있으면_재개한다() {
+        // given
         saveGameDirectly(Team.HAN);
 
+        // when
         boolean resumed = service.tryResumeGame();
 
+        // then
         assertThat(resumed).isTrue();
     }
 
     @Test
     void 재개시_저장된_턴이_복원된다() {
+        // given
         saveGameDirectly(Team.CHO);
 
+        // when
         service.tryResumeGame();
 
+        // then
         assertThat(service.getTurn()).isEqualTo(Team.CHO);
     }
 
     @Test
     void 재개시_저장된_기물이_복원된다() {
+        // given
         saveGameDirectly(Team.HAN);
 
+        // when
         service.tryResumeGame();
 
+        // then
         assertThat(service.getBoard()).hasSize(2);
     }
 
     @Test
     void 진행중인_게임이_없으면_재개하지_않는다() {
+        // when
         boolean resumed = service.tryResumeGame();
 
+        // then
         assertThat(resumed).isFalse();
     }
 
