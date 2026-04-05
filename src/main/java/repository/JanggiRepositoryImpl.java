@@ -4,10 +4,11 @@ import model.coordinate.Position;
 import model.game.GameStatus;
 import model.game.Team;
 import model.game.dto.GameDto;
+import model.game.dto.PieceDto;
 import model.piece.Piece;
 import model.piece.PieceType;
+import repository.column.GameColumn;
 import repository.command.MoveCommand;
-import model.game.dto.PieceDto;
 import repository.mapper.PieceDtoMapper;
 
 import java.sql.Connection;
@@ -110,7 +111,7 @@ public class JanggiRepositoryImpl implements JanggiRepository {
                         "WHERE status = 'PLAYING' " +
                         "ORDER BY game_id DESC " +
                         "LIMIT 1",
-                rs -> new GameDto(rs.getLong("game_id"), rs.getString("turn"))
+                rs -> new GameDto(rs.getLong(GameColumn.GAME_ID), rs.getString(GameColumn.TURN))
         );
     }
 
@@ -126,17 +127,6 @@ public class JanggiRepositoryImpl implements JanggiRepository {
         return createBoardMap(pieceDaos);
     }
 
-    @Override
-    public void updateCurrentGameStatus(Long gameId, GameStatus gameStatus) {
-        jdbcTemplate.execute(
-                "UPDATE game SET status = ? WHERE game_id = ?",
-                stmt -> {
-                    stmt.setString(1, gameStatus.name());
-                    stmt.setLong(2, gameId);
-                }
-        );
-    }
-
     private Map<Position, Piece> createBoardMap(List<PieceDto> pieceDaos) {
         Map<Position, Piece> boardMap = new HashMap<>();
         for (PieceDto pieceDao : pieceDaos) {
@@ -146,5 +136,16 @@ public class JanggiRepositoryImpl implements JanggiRepository {
             boardMap.put(position, piece);
         }
         return Map.copyOf(boardMap);
+    }
+
+    @Override
+    public void updateCurrentGameStatus(Long gameId, GameStatus gameStatus) {
+        jdbcTemplate.execute(
+                "UPDATE game SET status = ? WHERE game_id = ?",
+                stmt -> {
+                    stmt.setString(1, gameStatus.name());
+                    stmt.setLong(2, gameId);
+                }
+        );
     }
 }

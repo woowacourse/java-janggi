@@ -43,6 +43,14 @@ class JanggiServiceTest {
         assertThat(resumed).isTrue();
     }
 
+    private void saveGameDirectly(Team turn) {
+        JanggiRepositoryImpl repository = new JanggiRepositoryImpl(connection);
+        repository.saveGame(turn, Map.of(
+                new Position(6, 0), new Soldier(Team.HAN),
+                new Position(3, 0), new Soldier(Team.CHO)
+        ));
+    }
+
     @Test
     void 재개시_저장된_턴이_복원된다() {
         // given
@@ -74,13 +82,5 @@ class JanggiServiceTest {
 
         // then
         assertThat(resumed).isFalse();
-    }
-
-    private void saveGameDirectly(Team turn) {
-        JanggiRepositoryImpl repository = new JanggiRepositoryImpl(connection);
-        repository.saveGame(turn, Map.of(
-                new Position(6, 0), new Soldier(Team.HAN),
-                new Position(3, 0), new Soldier(Team.CHO)
-        ));
     }
 }
