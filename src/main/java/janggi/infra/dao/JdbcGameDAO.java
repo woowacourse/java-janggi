@@ -17,8 +17,6 @@ public class JdbcGameDAO implements GameDAO {
 
     private final ConnectionProvider connectionProvider;
 
-    private static final String SAVE_SQL = "INSERT INTO game(room_name, current_turn, last_played_at) VALUES(?, ?, ?)";
-
     public JdbcGameDAO(ConnectionProvider connectionProvider) {
         this.connectionProvider = connectionProvider;
     }
@@ -26,8 +24,9 @@ public class JdbcGameDAO implements GameDAO {
     @Override
     public Long save(GameEntity gameEntity) {
         Connection connection = connectionProvider.getConnection();
+        String sql = "INSERT INTO game(room_name, current_turn, last_played_at) VALUES(?, ?, ?)";
         try (
-                PreparedStatement pstmt = connection.prepareStatement(SAVE_SQL, RETURN_GENERATED_KEYS)
+                PreparedStatement pstmt = connection.prepareStatement(sql, RETURN_GENERATED_KEYS)
         ) {
 
             pstmt.setString(1, gameEntity.roomName().roomName());
@@ -53,8 +52,9 @@ public class JdbcGameDAO implements GameDAO {
     @Override
     public List<GameEntity> findAllOrderByLastPlayedAtDESC() {
         Connection connection = connectionProvider.getConnection();
+        String sql = "SELECT * FROM game ORDER BY last_played_at DESC";
         try (
-                PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM game ORDER BY last_played_at DESC")
+                PreparedStatement pstmt = connection.prepareStatement(sql)
         ) {
 
             List<GameEntity> gameEntities = new ArrayList<>();
@@ -69,6 +69,26 @@ public class JdbcGameDAO implements GameDAO {
                 );
             }
             return gameEntities;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            DataSourceUtils.releaseConnection(connection);
+        }
+    }
+
+    @Override
+    public void updateCurrentTurnAndLastPlayedAt(GameEntity gameEntity) {
+        Connection connection = connectionProvider.getConnection();
+        String sql = "UPDATE game SET current_turn = ?, last_played_at = ? WHERE game_id = ?";
+
+        try (
+                PreparedStatement pstmt = connection.prepareStatement(sql)
+        ) {
+            pstmt.setString(1, gameEntity.currentTurn().name());
+            pstmt.setTimestamp(2, Timestamp.valueOf(gameEntity.lastPlayedAt()));
+            pstmt.setLong(3, gameEntity.id());
+
+            pstmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {

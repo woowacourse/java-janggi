@@ -83,4 +83,33 @@ class JdbcGameRoomDaoTest {
                 .extracting(GameEntity::id)
                 .allMatch(Objects::nonNull);
     }
+
+    @Test
+    @DisplayName("GameEntity의 현재 턴과 최근 플레이 시간을 업데이트한다.")
+    public void update() throws Exception {
+        // given
+        GameEntity gameEntity = saveGameRoomEntity(new RoomName("room1"), CHO,
+                LocalDateTime.of(2024, 4, 5, 10, 0), dataSource);
+
+        Dynasty updatedTurn = HAN;
+        LocalDateTime updatedLastPlayedAt = LocalDateTime.of(2024, 4, 5, 17, 12);
+
+        GameEntity updatedGameEntity =
+                createGameRoomEntity(gameEntity.id(), new RoomName("room1"), updatedTurn, updatedLastPlayedAt);
+
+        // when
+        jdbcGameRoomDao.updateCurrentTurnAndLastPlayedAt(updatedGameEntity);
+
+        // then
+        try (
+                Connection conn = connectionProvider.getConnection();
+                PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM game WHERE game_id = ?");
+        ) {
+            preparedStatement.setLong(1, gameEntity.id());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            assertThat(resultSet.getString("current_turn")).isEqualTo(updatedTurn.name());
+            assertThat(resultSet.getTimestamp("last_played_at")).isEqualTo(Timestamp.valueOf(updatedLastPlayedAt));
+        }
+    }
 }

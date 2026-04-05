@@ -17,6 +17,11 @@ public class TestFixture {
         return new GameEntity(roomName, lastTurn, lastPlayedAt);
     }
 
+    public static GameEntity createGameRoomEntity(Long id, RoomName roomName, Dynasty lastTurn, LocalDateTime lastPlayedAt) {
+        return new GameEntity(id, roomName, lastTurn, lastPlayedAt);
+    }
+
+
     public static PiecePositionEntity createPiecePositionEntity(
             Position from, PieceType pieceType, Dynasty dynasty, GameEntity gameEntity) {
         return new PiecePositionEntity(from, pieceType, dynasty, gameEntity);
