@@ -84,6 +84,9 @@ public class JanggiBoard implements PieceProvider {
                 totalScore += pieceType.getScore();
             }
         }
+        if (team == Team.HAN) {
+            totalScore += 1.5;
+        }
         return totalScore;
     }
 
