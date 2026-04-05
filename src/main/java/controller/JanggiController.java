@@ -6,32 +6,41 @@ import domain.game.Team;
 import domain.game.Turn;
 import domain.piece.Piece;
 import domain.position.Position;
-import java.util.List;
 import java.util.Map;
+import util.Retry;
 import view.InputView;
 import view.OutputView;
 
 public class JanggiController {
     private final InputView inputView;
     private final OutputView outputView;
+    private Turn turn;
 
-    public JanggiController(InputView inputView, OutputView outputView) {
+    private JanggiController(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
+    }
+
+    public static JanggiController of(InputView inputView, OutputView outputView) {
+        return new JanggiController(inputView, outputView);
     }
 
     public void run() {
         Board board = createBoard();
         outputView.printBoard(board);
-        Turn turn = Turn.first();
-        while (true) {
-            turn = playTurn(board, turn);
+        turn = Turn.first();
+        while (board.isGeneralAlive()) {
+            playTurn(board);
         }
+        board.calculateScore();
+        outputView.printWinner(board.decideWinner());
+        outputView.printScore(Team.CHO);
+        outputView.printScore(Team.HAN);
     }
 
     private Board createBoard() {
-        int choFormationNumber = inputView.initialFormation(Team.CHO);
-        int hanFormationNumber = inputView.initialFormation(Team.HAN);
+        int choFormationNumber = Retry.untilSuccess(() -> inputView.initialFormation(Team.CHO));
+        int hanFormationNumber = Retry.untilSuccess(() -> inputView.initialFormation(Team.HAN));
         AbstractBoardFactory choAbstractBoardFactory = AbstractBoardFactory.from(choFormationNumber);
         AbstractBoardFactory hanAbstractBoardFactory = AbstractBoardFactory.from(hanFormationNumber);
         Map<Position, Piece> board = AbstractBoardFactory.createFormation(choAbstractBoardFactory,
@@ -39,18 +48,12 @@ public class JanggiController {
         return new Board(board);
     }
 
-    private Turn playTurn(Board board, Turn turn) {
-        while (true) {
-            try {
-                List<String> movePositions = inputView.askMovePiecePosition(turn.current());
-                Position src = Position.from(movePositions.get(0), movePositions.get(1));
-                Position dest = Position.from(movePositions.get(2), movePositions.get(3));
-                board.move(src, dest);
-                outputView.printBoard(board);
-                return turn.next();
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
-            }
-        }
+    private void playTurn(Board board) {
+        Retry.run(() -> {
+            Position[] positions = inputView.askMovePiecePosition(turn.current());
+            board.move(positions[0], positions[1]);
+            outputView.printBoard(board);
+            turn = turn.next();
+        });
     }
 }

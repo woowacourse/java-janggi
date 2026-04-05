@@ -1,19 +1,28 @@
 package view;
 
 import domain.board.Board;
-import domain.piece.EmptyPiece;
+import domain.game.Score;
+import domain.game.Team;
 import domain.piece.Piece;
-import domain.piece.PieceAppearance;
 import domain.position.Position;
 import java.util.Map;
 
 public class OutputView {
     private static final int MAX_ROW = 10;
     private static final int MAX_COLUMN = 9;
+    private static final Map<Team, String> TEAM_NAMES = Map.of(
+            Team.CHO, "초",
+            Team.HAN, "한"
+    );
+    private static final String divideArea = "============";
     private final PieceAppearance appearance;
 
     public OutputView(PieceAppearance appearance) {
         this.appearance = appearance;
+    }
+
+    public static void printErrorMessage(String message) {
+        System.out.println("[ERROR] " + message);
     }
 
     public void printBoard(Board board) {
@@ -36,10 +45,33 @@ public class OutputView {
         sb.append(System.lineSeparator());
     }
 
+    public void printScore(Team team) {
+        Score teamScore = team.getTeamScore();
+        System.out.println(TEAM_NAMES.get(team) + "의 점수는 " + teamScore.toString() + "점 입니다");
+    }
+
     private void appendRow(StringBuilder sb, Map<Position, Piece> boardState, int row) {
         for (int col = 1; col <= MAX_COLUMN; col++) {
-            Piece piece = boardState.getOrDefault(new Position(row, col), new EmptyPiece());
-            sb.append(piece.display(appearance)).append("\t");
+            Piece piece = boardState.get(new Position(row, col));
+            if (piece != null) {
+                sb.append(appearance.colorize(piece.getTeam(), piece.getType())).append("\t");
+            } else {
+                sb.append(appearance.colorizeEmpty()).append("\t");
+            }
         }
+    }
+
+    public void printWinner(boolean cho) {
+        Team team = validateTeam(cho);
+        System.out.println(divideArea);
+        System.out.println(TEAM_NAMES.get(team) + "나라의 승리입니다! ");
+        System.out.println(divideArea);
+    }
+
+    private Team validateTeam(boolean cho) {
+        if (cho) {
+            return Team.CHO;
+        }
+        return Team.HAN;
     }
 }

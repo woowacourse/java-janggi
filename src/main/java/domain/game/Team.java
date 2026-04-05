@@ -1,13 +1,19 @@
 package domain.game;
 
 public enum Team {
-    CHO("초"),
-    HAN("한");
+    CHO(new Score(0.0)),
+    HAN(new Score(1.5));
 
-    private final String teamName;
+    private final Score initialScore;
+    private Score teamScore;
 
-    Team(String teamName) {
-        this.teamName = teamName;
+    Team(Score initialScore) {
+        this.initialScore = initialScore;
+        this.teamScore = initialScore;
+    }
+
+    public Score getTeamScore() {
+        return teamScore;
     }
 
     public int forwardRowDirection() {
@@ -17,8 +23,11 @@ public enum Team {
         return -1;
     }
 
-    @Override
-    public String toString() {
-        return teamName;
+    public void addScore(Score score) {
+        this.teamScore = this.teamScore.add(score);
+    }
+
+    public void resetScore() {
+        this.teamScore = this.initialScore;
     }
 }
