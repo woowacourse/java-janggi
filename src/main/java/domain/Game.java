@@ -18,10 +18,9 @@ public class Game {
         return players.getCurrentSide();
     }
 
-    public MoveCandidate selectSource(Position source) {
+    public Destinations selectSource(Position source) {
         players.validateAlly(board.getPiece(source));
-        Destinations destinations = board.findDestinations(source);
-        return new MoveCandidate(source, destinations);
+        return board.findDestinations(source);
     }
 
     public void move(Position source, Position target) {

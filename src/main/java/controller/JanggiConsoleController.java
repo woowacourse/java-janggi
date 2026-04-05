@@ -1,7 +1,6 @@
 package controller;
 
 import domain.Game;
-import domain.MoveCandidate;
 import domain.Position;
 import domain.Side;
 import domain.board.Board;
@@ -64,8 +63,7 @@ public class JanggiConsoleController {
     private Position selectPiecePosition(Game game) {
         return retry(() -> {
             Position position = InputParser.parsePosition(inputView.readSourcePosition(game.getCurrentSide()));
-            MoveCandidate moveCandidate = game.selectSource(position);
-            outputView.printDestinations(DestinationDto.from(moveCandidate));
+            outputView.printDestinations(DestinationDto.from(game.selectSource(position)));
             return position;
         });
     }
