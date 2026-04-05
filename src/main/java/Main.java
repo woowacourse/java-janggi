@@ -1,4 +1,4 @@
-import config.DiConfig;
+import global.config.DiConfig;
 import domain.janggigame.JanggiGame;
 
 public class Main {

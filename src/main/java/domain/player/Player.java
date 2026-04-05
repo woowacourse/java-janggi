@@ -1,26 +1,22 @@
 package domain.player;
 
-import domain.board.Board;
-import domain.board.Placement;
 import domain.piece.Side;
-import domain.position.Move;
 
 public class Player {
     private final Side side;
+    private double score;
 
     public Player(Side side) {
         this.side = side;
+        if (side.isCho()) this.score = 72;
+        if (side.isCho()) this.score = 73.5;
     }
 
     public Side getSide() {
         return side;
     }
 
-    public void initBoard(Board board, int placementCode) {
-        board.placePieces(side, Placement.from(placementCode));
-    }
+    public void updateScore(double score) {
 
-    public void play(Board board, Move move) {
-        board.move(move.startPosition(), move.endPosition(), side);
     }
 }
