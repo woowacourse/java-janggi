@@ -37,7 +37,7 @@ public class JdbcContext {
             stmt.execute(createGameTable);
             stmt.execute(createPieceTable);
         } catch (SQLException e) {
-            System.err.println("DB 초기화 실패: " + e.getMessage());
+            throw new RuntimeException("DB 초기화 실패: " + e.getMessage());
         }
     }
 

@@ -5,8 +5,14 @@ import java.util.Arrays;
 import java.util.Optional;
 
 public class Palace {
-    private final int lower_center_x = 1;
+
+    private final int upper_min_x = 7;
+    private final int lower_max_x = 2;
+    private final int min_y = 3;
+    private final int max_y = 5;
+
     private final int upper_center_x = 8;
+    private final int lower_center_x = 1;
     private final int center_y = 4;
 
     public boolean isInPalace(Point point) {
@@ -31,14 +37,14 @@ public class Palace {
     }
 
     public boolean isInUpper(Point point) {
-        if (point.x() >= 7 && point.y() >= 3 && point.y() <= 5) {
+        if (point.x() >= upper_min_x && point.y() >= min_y && point.y() <= max_y) {
             return true;
         }
         return false;
     }
 
     public boolean isInLower(Point point) {
-        if (point.x() <= 2 && point.y() >= 3 && point.y() <= 5) {
+        if (point.x() <= lower_max_x && point.y() >= min_y && point.y() <= max_y) {
             return true;
         }
         return false;
