@@ -3,38 +3,53 @@ package domain.activePiece;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.game.Team;
-import domain.piece.ActivePiece;
 import domain.piece.PalacePiece;
 import domain.piece.Piece;
-import domain.position.Column;
 import domain.position.Position;
-import domain.position.Row;
-import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
 class GeneralTest {
 
     @Test
-    void 궁은_직선_범위로_이동_한다() {
+    void 궁_안에서_직선_이동_가능() {
         Piece general = PalacePiece.general(Team.HAN);
-        assertThat(general.canMove(new Position(5, 5), new Position(5, 6))).isTrue();
+        assertThat(general.canMove(new Position(9, 5), new Position(9, 6))).isTrue();
     }
 
     @Test
-    void 궁_이동_범위가_직선이_아니면_거짓() {
+    void 궁_안에서_위아래_직선_이동_가능() {
         Piece general = PalacePiece.general(Team.HAN);
-        assertThat(general.canMove(new Position(5, 5), new Position(6, 6))).isFalse();
+        assertThat(general.canMove(new Position(9, 5), new Position(8, 5))).isTrue();
     }
 
     @Test
-    void 궁은_인접_이동_시_중간_경로_위치가_없다() {
-        ActivePiece general = PalacePiece.general(Team.HAN);
+    void 궁_코너에서_대각선_이동_가능() {
+        Piece general = PalacePiece.general(Team.HAN);
+        assertThat(general.canMove(new Position(8, 4), new Position(9, 5))).isTrue();
+    }
 
-        Position src = new Position(new Row(1), new Column(3));
-        Position dest = new Position(new Row(2), new Column(3));
-        List<Position> routes = new ArrayList<>();
+    @Test
+    void 궁_변에서_대각선_이동_불가() {
+        Piece general = PalacePiece.general(Team.HAN);
+        assertThat(general.canMove(new Position(8, 5), new Position(9, 6))).isFalse();
+    }
 
-        assertThat(general.searchRoute(src, dest)).isEqualTo(routes);
+    @Test
+    void 궁_밖으로_이동_불가() {
+        Piece general = PalacePiece.general(Team.HAN);
+        assertThat(general.canMove(new Position(9, 5), new Position(7, 5))).isFalse();
+    }
+
+    @Test
+    void 두_칸_직선_이동_불가() {
+        Piece general = PalacePiece.general(Team.HAN);
+        assertThat(general.canMove(new Position(8, 5), new Position(10, 5))).isFalse();
+    }
+
+    @Test
+    void 이동_시_중간_경로_위치가_없다() {
+        Piece general = PalacePiece.general(Team.HAN);
+        assertThat(general.searchRoute(new Position(9, 5), new Position(9, 6))).isEqualTo(List.of());
     }
 }

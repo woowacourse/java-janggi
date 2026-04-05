@@ -1,32 +1,42 @@
 package domain.piece;
 
 import domain.game.Team;
+import domain.position.Movement;
+import domain.position.PalacePosition;
 import domain.position.Position;
 import java.util.List;
 
-public class PalacePiece extends ActivePiece {
-    private static final List<Integer> dx = List.of(-1, 1, 0, 0);
-    private static final List<Integer> dy = List.of(0, 0, -1, 1);
+public abstract class PalacePiece extends Piece {
+    private static final List<Movement> MOVEMENTS = List.of(
+            new Movement(-1, 0), new Movement(1, 0), new Movement(0, -1), new Movement(0, 1),
+            new Movement(1, 1), new Movement(1, -1), new Movement(-1, 1), new Movement(-1, -1)
+    );
 
-    private PalacePiece(Team team, PieceDefinition type) {
+    protected PalacePiece(Team team, PieceDefinition type) {
         super(team, type);
     }
 
-    public static PalacePiece general(Team team) {
-        return new PalacePiece(team, PieceDefinition.GENERAL);
+    public static General general(Team team) {
+        return new General(team);
     }
 
-    public static PalacePiece guard(Team team) {
-        return new PalacePiece(team, PieceDefinition.SA);
+    public static Guard guard(Team team) {
+        return new Guard(team);
     }
 
     @Override
     public boolean canMove(Position source, Position target) {
+        if (!isInPalace(source, target)) {
+            return false;
+        }
         int rowDiff = target.rowDiff(source);
         int colDiff = target.columnDiff(source);
 
-        for (int i = 0; i < dx.size(); i++) {
-            if (dx.get(i) == rowDiff && dy.get(i) == colDiff) {
+        for (Movement movement : MOVEMENTS) {
+            if (movement.row() == rowDiff && movement.col() == colDiff) {
+                if (isDiagonalMove(movement)) {
+                    return PalacePosition.isCanMoveDiagonal(source);
+                }
                 return true;
             }
         }
@@ -36,5 +46,13 @@ public class PalacePiece extends ActivePiece {
     @Override
     public List<Position> searchRoute(Position source, Position target) {
         return List.of();
+    }
+
+    private boolean isDiagonalMove(Movement m) {
+        return Math.abs(m.row()) == Math.abs(m.col());
+    }
+
+    private boolean isInPalace(Position src, Position dest) {
+        return PalacePosition.isPalacePosition(src) && PalacePosition.isPalacePosition(dest);
     }
 }
