@@ -306,7 +306,8 @@ class PieceTest {
                     // then
                     assertThat(movableDestinations).containsExactlyInAnyOrder(
                             position(8, 5),
-                            position(9, 4)
+                            position(9, 4),
+                            position(9, 5)
                     );
                 }
 
@@ -327,7 +328,8 @@ class PieceTest {
                     // then
                     assertThat(movableDestinations).containsExactlyInAnyOrder(
                             position(2, 4),
-                            position(3, 5)
+                            position(3, 5),
+                            position(2, 5)
                     );
                 }
             }

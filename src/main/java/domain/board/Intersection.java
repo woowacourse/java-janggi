@@ -42,4 +42,14 @@ public record Intersection(int row, int file) {
 
         return rowsInPalace.contains(row) && filesInPalace.contains(file);
     }
+
+    public boolean isPalaceCenter() {
+        return (row == 2 || row == 9)
+                && file == 5;
+    }
+
+    public boolean isPalaceCorner() {
+        return (row == 1 || row == 3 || row == 8 || row == 10)
+                && (file == 4 || file == 6);
+    }
 }
