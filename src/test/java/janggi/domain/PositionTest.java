@@ -1,5 +1,6 @@
 package janggi.domain;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.Arrays;
@@ -9,6 +10,14 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class PositionTest {
+    @Test
+    void 정상적인_범위의_값이_입력되면_Position이_생성된다() {
+        Position position = new Position(1, 9);
+
+        assertThat(position.getX()).isEqualTo(1);
+        assertThat(position.getY()).isEqualTo(9);
+    }
+
     @ParameterizedTest
     @ValueSource(strings = {"0,7", "100,2", "-2,7"})
     void 입력한_행이_유효_범위를_벗어나면_예외가_발생한다(String input) {
@@ -35,4 +44,42 @@ class PositionTest {
         assertThatThrownBy(() -> Position.from(inputValue1)).isInstanceOf(IllegalArgumentException.class).hasMessage("행과 열 두 개의 값만 입력하세요.");
         assertThatThrownBy(() -> Position.from(inputValue2)).isInstanceOf(IllegalArgumentException.class).hasMessage("행과 열 두 개의 값만 입력하세요.");
     }
+
+    @Test
+    void 좌표가_같으면_동등한_객체로_취급한다() {
+        Position pos1 = new Position(5, 5);
+        Position pos2 = new Position(5, 5);
+
+        assertThat(pos1).isEqualTo(pos2);
+    }
+
+    @Test
+    void 이동_시_판_범위를_벗어나면_예외가_발생한다() {
+        Position start = new Position(1, 1);
+
+        assertThatThrownBy(() -> start.move(Movement.UP))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("유효하지 않은 위치입니다. 행은 1부터 10까지 가능합니다.");
+    }
+
+    @Test
+    void 두_지점_사이의_차이를_절대값으로_반환한다() {
+        Position p1 = new Position(4, 6);
+        Position p2 = new Position(3, 9);
+
+        assertThat(p1.getDeltaX(p2)).isEqualTo(1);
+        assertThat(p1.getDeltaY(p2)).isEqualTo(3);
+    }
+
+    @Test
+    void 특정_범위_안에_있는지_확인한다() {
+        Position position = new Position(2, 5);
+
+        assertThat(position.isRange(1, 3, 1, 6)).isTrue();
+        assertThat(position.isRange(2, 2, 5, 5)).isTrue();
+
+        assertThat(position.isRange(1, 2, 1,4)).isFalse();
+        assertThat(position.isRange(2,2, 1,4)).isFalse();
+    }
+
 }
