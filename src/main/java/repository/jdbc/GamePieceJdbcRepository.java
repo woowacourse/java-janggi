@@ -10,39 +10,41 @@ import repository.jdbc.JdbcTemplate.RowMapper;
 public class GamePieceJdbcRepository {
 
     private static final String INSERT_SQL =
-            "INSERT INTO game_pieces (game_id, piece_type, team, position_row, position_col, is_active) " +
+            "INSERT INTO game_pieces (game_id, piece_type, team, position_row, position_col, is_active) "
+                    +
                     "VALUES (?, ?, ?, ?, ?, ?)";
 
     private static final String FIND_BY_ID_SQL =
-            "SELECT game_piece_id, game_id, piece_type, team, position_row, position_col, is_active " +
+            "SELECT game_piece_id, game_id, piece_type, team, position_row, position_col, is_active "
+                    +
                     "FROM game_pieces " +
                     "WHERE game_piece_id = ?";
 
     private static final String FIND_BY_GAME_ID_SQL =
-            "SELECT game_piece_id, game_id, piece_type, team, position_row, position_col, is_active " +
+            "SELECT game_piece_id, game_id, piece_type, team, position_row, position_col, is_active "
+                    +
                     "FROM game_pieces " +
                     "WHERE game_id = ?";
 
     private static final String FIND_ALL_SQL =
-            "SELECT game_piece_id, game_id, piece_type, team, position_row, position_col, is_active " +
+            "SELECT game_piece_id, game_id, piece_type, team, position_row, position_col, is_active "
+                    +
                     "FROM game_pieces";
 
-    private static final String UPDATE_SQL =
-            "UPDATE game_pieces " +
-                    "SET position_row = ?, position_col = ?, is_active = ? " +
-                    "WHERE game_piece_id = ?";
+    private static final String UPDATE_SQL = "UPDATE game_pieces " +
+            "SET position_row = ?, position_col = ?, is_active = ? " +
+            "WHERE game_piece_id = ?";
 
-    private static final String CREATE_TABLE_SQL =
-            "CREATE TABLE IF NOT EXISTS game_pieces (" +
-                    "game_piece_id BIGINT PRIMARY KEY AUTO_INCREMENT, " +
-                    "game_id BIGINT NOT NULL, " +
-                    "piece_type VARCHAR(10) NOT NULL, " +
-                    "team VARCHAR(10) NOT NULL, " +
-                    "position_row INT NOT NULL, " +
-                    "position_col INT NOT NULL, " +
-                    "is_active BOOLEAN DEFAULT TRUE, " +
-                    "CONSTRAINT fk_gp_game FOREIGN KEY (game_id) REFERENCES games(game_id) ON DELETE CASCADE" +
-                    ")";
+    private static final String CREATE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS game_pieces (" +
+            "game_piece_id BIGINT PRIMARY KEY AUTO_INCREMENT, " +
+            "game_id BIGINT NOT NULL, " +
+            "piece_type VARCHAR(10) NOT NULL, " +
+            "team VARCHAR(10) NOT NULL, " +
+            "position_row INT NOT NULL, " +
+            "position_col INT NOT NULL, " +
+            "is_active BOOLEAN DEFAULT TRUE, " +
+            "CONSTRAINT fk_gp_game FOREIGN KEY (game_id) REFERENCES games(game_id) ON DELETE CASCADE" +
+            ")";
 
     private final JdbcTemplate template;
 
@@ -63,8 +65,7 @@ public class GamePieceJdbcRepository {
                 entity.team(),
                 entity.row(),
                 entity.col(),
-                entity.isActive()
-        );
+                entity.isActive());
         return Long.parseLong(generatedId.toString());
     }
 
@@ -89,8 +90,7 @@ public class GamePieceJdbcRepository {
                 entity.team(),
                 entity.row(),
                 entity.col(),
-                entity.isActive()
-        );
+                entity.isActive());
         totalEntityValues.add(rowValues);
     }
 
@@ -99,8 +99,7 @@ public class GamePieceJdbcRepository {
                 connection,
                 FIND_BY_ID_SQL,
                 parseRowValueToGamePieceEntity(),
-                id
-        );
+                id);
 
         validateSingleEntity(entities);
         return entities.getFirst();
@@ -111,8 +110,7 @@ public class GamePieceJdbcRepository {
                 connection,
                 FIND_BY_GAME_ID_SQL,
                 parseRowValueToGamePieceEntity(),
-                gameId
-        );
+                gameId);
     }
 
     private void validateSingleEntity(List<GamePieceEntity> entities) {
@@ -128,8 +126,7 @@ public class GamePieceJdbcRepository {
         return template.executeRead(
                 connection,
                 FIND_ALL_SQL,
-                parseRowValueToGamePieceEntity()
-        );
+                parseRowValueToGamePieceEntity());
     }
 
     private RowMapper<GamePieceEntity> parseRowValueToGamePieceEntity() {
@@ -140,8 +137,7 @@ public class GamePieceJdbcRepository {
                 resultSet.getString("team"),
                 resultSet.getInt("position_row"),
                 resultSet.getInt("position_col"),
-                resultSet.getBoolean("is_active")
-        );
+                resultSet.getBoolean("is_active"));
     }
 
     public void updateAll(Connection connection, List<GamePieceEntity> newEntities) {
