@@ -5,6 +5,7 @@ import domain.path.PathInfo;
 import domain.piece.Camp;
 import domain.piece.Piece;
 import domain.piece.PieceType;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -23,33 +24,56 @@ class GeneralMoveStrategyTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
-    @Test
-    void 궁과_사는_세로_직선_방향으로_한_칸_이동하는_경로를_가진다() {
-        Position from = new Position(8, 0);
-        Position to = new Position(8, 1);
+    @Nested
+    class 궁과_사_이동_방향_테스트 {
+        @Test
+        void 궁과_사는_위쪽_직선_방향으로_한칸_이동하는_경로를_가진다() {
+            Position from = new Position(8, 0);
+            Position to = new Position(8, 1);
 
-        List<Position> path = generalMoveStrategy.getPath(from, to);
+            List<Position> path = generalMoveStrategy.getPath(from, to);
 
-        assertThat(path).containsExactly(new Position(8, 1));
-    }
+            assertThat(path).containsExactly(new Position(8, 1));
+        }
 
-    @Test
-    void 궁과_사는_가로_직선_방향으로_한_칸_이동하는_경로를_가진다() {
-        Position from = new Position(8, 0);
-        Position to = new Position(7, 0);
+        @Test
+        void 궁과_사는_아래쪽_직선_방향으로_한칸_이동하는_경로를_가진다() {
+            Position from = new Position(8, 1);
+            Position to = new Position(8, 0);
 
-        List<Position> path = generalMoveStrategy.getPath(from, to);
+            List<Position> path = generalMoveStrategy.getPath(from, to);
 
-        assertThat(path).containsExactly(new Position(7, 0));
-    }
+            assertThat(path).containsExactly(new Position(8, 0));
+        }
 
-    @Test
-    void 궁과_사는_대각선_방향으로_이동할_수_없다() {
-        Position from = new Position(8, 0);
-        Position to = new Position(7, 1);
+        @Test
+        void 궁과_사는_왼쪽_직선_방향으로_한_칸_이동하는_경로를_가진다() {
+            Position from = new Position(8, 0);
+            Position to = new Position(7, 0);
 
-        assertThatThrownBy(() -> generalMoveStrategy.getPath(from, to))
-                .isInstanceOf(IllegalArgumentException.class);
+            List<Position> path = generalMoveStrategy.getPath(from, to);
+
+            assertThat(path).containsExactly(new Position(7, 0));
+        }
+
+        @Test
+        void 궁과_사는_오른쪽_직선_방향으로_한_칸_이동하는_경로를_가진다() {
+            Position from = new Position(7, 0);
+            Position to = new Position(8, 0);
+
+            List<Position> path = generalMoveStrategy.getPath(from, to);
+
+            assertThat(path).containsExactly(new Position(8, 0));
+        }
+
+        @Test
+        void 궁과_사는_대각선_방향으로_이동할_수_없다() {
+            Position from = new Position(8, 0);
+            Position to = new Position(7, 1);
+
+            assertThatThrownBy(() -> generalMoveStrategy.getPath(from, to))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
     }
 
     @Test

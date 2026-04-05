@@ -5,6 +5,7 @@ import domain.path.PathInfo;
 import domain.piece.Camp;
 import domain.piece.Piece;
 import domain.piece.PieceType;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -23,42 +24,55 @@ class SoldierMoveStrategyTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
-    @Test
-    void 졸은_세로_직선_방향으로_한_칸_이동하는_경로를_가진다() {
-        Position from = new Position(8, 0);
-        Position to = new Position(8, 1);
+    @Nested
+    class 졸_이동_방향_테스트 {
+        @Test
+        void 졸은_위쪽_직선_방향으로_한_칸_이동하는_경로를_가진다() {
+            Position from = new Position(8, 0);
+            Position to = new Position(8, 1);
 
-        List<Position> path = soldierMoveStrategy.getPath(from, to);
+            List<Position> path = soldierMoveStrategy.getPath(from, to);
 
-        assertThat(path).containsExactly(new Position(8, 1));
-    }
+            assertThat(path).containsExactly(new Position(8, 1));
+        }
 
-    @Test
-    void 졸은_가로_직선_방향으로_한_칸_이동하는_경로를_가진다() {
-        Position from = new Position(8, 0);
-        Position to = new Position(7, 0);
+        @Test
+        void 졸은_왼쪽_직선_방향으로_한_칸_이동하는_경로를_가진다() {
+            Position from = new Position(8, 0);
+            Position to = new Position(7, 0);
 
-        List<Position> path = soldierMoveStrategy.getPath(from, to);
+            List<Position> path = soldierMoveStrategy.getPath(from, to);
 
-        assertThat(path).containsExactly(new Position(7, 0));
-    }
+            assertThat(path).containsExactly(new Position(7, 0));
+        }
 
-    @Test
-    void 졸은_대각선_방향으로_이동할_수_없다() {
-        Position from = new Position(8, 0);
-        Position to = new Position(7, 1);
+        @Test
+        void 졸은_오른쪽_직선_방향으로_한_칸_이동하는_경로를_가진다() {
+            Position from = new Position(7, 0);
+            Position to = new Position(8, 0);
 
-        assertThatThrownBy(() -> soldierMoveStrategy.getPath(from, to))
-                .isInstanceOf(IllegalArgumentException.class);
-    }
+            List<Position> path = soldierMoveStrategy.getPath(from, to);
 
-    @Test
-    void 졸은_후퇴할_수_없다() {
-        Position from = new Position(7, 2);
-        Position to = new Position(7, 1);
+            assertThat(path).containsExactly(new Position(8, 0));
+        }
 
-        assertThatThrownBy(() -> soldierMoveStrategy.getPath(from, to))
-                .isInstanceOf(IllegalArgumentException.class);
+        @Test
+        void 졸은_대각선_방향으로_이동할_수_없다() {
+            Position from = new Position(8, 0);
+            Position to = new Position(7, 1);
+
+            assertThatThrownBy(() -> soldierMoveStrategy.getPath(from, to))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+
+        @Test
+        void 졸은_후퇴할_수_없다() {
+            Position from = new Position(7, 2);
+            Position to = new Position(7, 1);
+
+            assertThatThrownBy(() -> soldierMoveStrategy.getPath(from, to))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
     }
 
     @Test
