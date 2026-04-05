@@ -109,4 +109,18 @@ public class Board implements PathChecker {
 
         return isBothHanPalace || isBothChoPalace;
     }
+
+    public boolean isOnlyGeneralAndGuard() {
+        return board.values().stream()
+                .noneMatch(piece -> piece.type() != PieceType.GENERAL && piece.type() != PieceType.GUARD);
+    }
+
+    public double calculateScore(Camp camp) {
+        double totalScore = board.values().stream()
+                .filter(piece -> piece.camp() == camp)
+                .mapToDouble(piece -> piece.type().score())
+                .sum();
+
+        return totalScore += camp.bonusScore();
+    }
 }

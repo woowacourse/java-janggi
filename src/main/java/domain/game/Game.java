@@ -37,11 +37,47 @@ public class Game {
 
         board.move(from, to);
 
+        validateGameFinished(isGeneralCaptured);
+        validateGameDraw();
+
+        changeTurn();
+    }
+
+    private void validateGameFinished(boolean isGeneralCaptured) {
         if (isGeneralCaptured) {
-            this.gameState = new Finished();
+            this.gameState=new Finished(currentTurn);
             return;
         }
-        changeTurn();
+    }
+
+    private void validateGameDraw() {
+        if (board.isOnlyGeneralAndGuard()) {
+            double choScore = board.calculateScore(Camp.CHO);
+            double hanScore = board.calculateScore(Camp.HAN);
+
+            checkWinCamp(choScore, hanScore);
+        }
+        return;
+    }
+
+    private void checkWinCamp(double choScore, double hanScore) {
+        if (choScore > hanScore) {
+            this.gameState = new Finished(Camp.CHO);
+            return;
+        }
+        this.gameState = new Finished(Camp.HAN);
+    }
+
+    public boolean isScoreWin() {
+        return board.isOnlyGeneralAndGuard();
+    }
+
+    public double choScore() {
+        return board.calculateScore(Camp.CHO);
+    }
+
+    public double hanScore() {
+        return board.calculateScore(Camp.HAN);
     }
 
     public boolean isFinished() {
@@ -49,7 +85,7 @@ public class Game {
     }
 
     public Camp winner() {
-        return currentTurn;
+        return gameState.winner();
     }
 
     public void passTurn() {

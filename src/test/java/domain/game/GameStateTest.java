@@ -1,5 +1,6 @@
 package domain.game;
 
+import domain.piece.Camp;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +11,8 @@ public class GameStateTest {
     @Test
     @DisplayName("Finished 상태에서는 이동 검증 시 무조건 예외가 발생한다.")
     void throwException_When_finishedState() {
-        GameState finished = new Finished();
+        Camp winner = Camp.CHO;
+        GameState finished = new Finished(winner);
 
         assertThatThrownBy(finished::validateMovable)
                 .isInstanceOf(IllegalArgumentException.class);
