@@ -10,7 +10,6 @@ import java.util.List;
 public class Chariot implements Piece {
 
     private static final PieceType PIECE_TYPE = PieceType.CHARIOT;
-    private static final double PIECE_SCORE = 13D;
     private static final PieceAction PIECE_ACTION = new ChariotAction();
 
     private final TeamType teamType;
@@ -52,6 +51,6 @@ public class Chariot implements Piece {
 
     @Override
     public double getScore() {
-        return PIECE_SCORE;
+        return PIECE_TYPE.getScore();
     }
 }

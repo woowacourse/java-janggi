@@ -10,7 +10,6 @@ import java.util.List;
 public class Horse implements Piece {
 
     private static final PieceType PIECE_TYPE = PieceType.HORSE;
-    private static final double PIECE_SCORE = 5D;
     private static final PieceAction PIECE_ACTION = new HorseAction();
 
     private final TeamType teamType;
@@ -52,6 +51,6 @@ public class Horse implements Piece {
 
     @Override
     public double getScore() {
-        return PIECE_SCORE;
+        return PIECE_TYPE.getScore();
     }
 }

@@ -51,6 +51,6 @@ public class General implements Piece {
 
     @Override
     public double getScore() {
-        return 0;
+        return PIECE_TYPE.getScore();
     }
 }
