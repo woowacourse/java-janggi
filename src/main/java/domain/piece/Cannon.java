@@ -5,7 +5,7 @@ import domain.piece.error.PieceException;
 
 import java.util.List;
 
-public class Cannon extends Piece {
+public class Cannon extends DiagonalPalaceMovementPiece {
 
     public static final String NO_BRIDGE_MESSAGE = "포는 기물을 뛰어넘어야 이동할 수 있습니다.";
     public static final String TOO_MANY_BRIDGE_MESSAGE = "경로에 기물이 2개 이상 있어 이동할 수 없습니다.";
@@ -24,6 +24,14 @@ public class Cannon extends Piece {
 
     @Override
     public void validateRule(Coordination from, Coordination to) {
+        if (palaceMovement.isPalace(from, to)) {
+            palaceMovement.validateRule(from, to);
+            return;
+        }
+        validateNormalRule(from, to);
+    }
+
+    private void validateNormalRule(Coordination from, Coordination to) {
         boolean movable = from.isHorizontal(to) || from.isVertical(to);
         if (!movable) {
             throw new PieceException(IMPOSSIBLE_MOVE_MESSAGE);
@@ -32,10 +40,18 @@ public class Cannon extends Piece {
 
     @Override
     public List<Coordination> resolvePath(Coordination from, Coordination to) {
+        if (palaceMovement.isPalace(from, to)) {
+            if (from.isDiagonal(to)) {
+                return from.diagonalPathTo(to);
+            }
+        }
         if (from.isVertical(to)) {
             return from.verticalPathTo(to);
         }
-        return from.horizontalPathTo(to);
+        if (from.isHorizontal(to)) {
+            return from.horizontalPathTo(to);
+        }
+        throw new IllegalStateException(UNRESOLVABLE_PATH_MESSAGE);
     }
 
     @Override

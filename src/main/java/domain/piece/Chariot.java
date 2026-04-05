@@ -7,8 +7,6 @@ import java.util.List;
 
 public class Chariot extends DiagonalPalaceMovementPiece {
 
-    private static final String UNRESOLVABLE_PATH_MESSAGE = "이동 경로를 확인할 수 없습니다.";
-
     public Chariot(Team team) {
         super(team);
     }
