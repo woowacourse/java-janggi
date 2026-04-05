@@ -1,0 +1,69 @@
+package domain.movestrategy;
+
+import domain.board.Board;
+import domain.board.Position;
+import domain.piece.Delta;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+public class CannonMoveStrategy implements MoveStrategy {
+
+    @Override
+    public List<Position> getMovablePositions(final Board board, final Position from) {
+        List<Position> movable = new ArrayList<>();
+
+        for (Delta delta : Delta.ORTHOGONAL_DELTAS) {
+            collectMovablePositions(board, from, delta, movable);
+        }
+
+        return movable;
+    }
+
+    private void collectMovablePositions(
+            final Board board,
+            final Position from,
+            final Delta direction,
+            final List<Position> movable
+    ) {
+        Optional<Position> bridge = findBridge(board, from, direction);
+        if (bridge.isEmpty()) {
+            return;
+        }
+
+        collectLandingPositions(board, from, bridge.get(), direction, movable);
+    }
+
+    private Optional<Position> findBridge(final Board board, final Position from, final Delta direction) {
+        Position current = from.move(direction);
+
+        while (current.isInside() && board.isEmpty(current)) {
+            current = current.move(direction);
+        }
+
+        if (board.isCannon(current)) {
+            return Optional.empty();
+        }
+
+        return Optional.of(current);
+    }
+
+    private void collectLandingPositions(
+            final Board board,
+            final Position from,
+            final Position bridge,
+            final Delta direction,
+            final List<Position> movable
+    ) {
+        Position current = bridge.move(direction);
+
+        while (current.isInside() && board.isEmpty(current)) {
+            movable.add(current);
+            current = current.move(direction);
+        }
+
+        if (current.isInside() && board.isOpposite(from, current) && !board.isCannon(current)) {
+            movable.add(current);
+        }
+    }
+}
