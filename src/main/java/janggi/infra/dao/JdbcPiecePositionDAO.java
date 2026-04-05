@@ -120,6 +120,31 @@ public class JdbcPiecePositionDAO implements PiecePositionDAO {
         }
     }
 
+    @Override
+    public void deleteByGameIdAndPosition(Long gameId, Position to) {
+        Connection connection = connectionProvider.getConnection();
+
+        String sql = """
+                DELETE FROM piece_position
+                WHERE game_id = ? AND piece_row = ? AND piece_column = ?
+                """;
+
+        try (
+                PreparedStatement pstmt = connection.prepareStatement(sql)
+        ) {
+            pstmt.setLong(1, gameId);
+            pstmt.setInt(2, to.row().row());
+            pstmt.setInt(3, to.column().column());
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            DataSourceUtils.releaseConnection(connection);
+        }
+    }
+
     private static PiecePositionEntity createPiecePositionEntity(ResultSet rs, GameEntity gameEntity) throws SQLException {
         return new PiecePositionEntity(
                 rs.getLong("piece_position_id"),

@@ -11,5 +11,7 @@ public interface PiecePositionDAO {
 
     List<PiecePositionEntity> findAllPiecesByGameId(Long gameId);
 
+    void deleteByGameIdAndPosition(Long gameId, Position to);
+
     void updatePosition(Long gameRoomId, Position from, Position to);
 }

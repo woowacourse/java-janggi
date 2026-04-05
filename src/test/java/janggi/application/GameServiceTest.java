@@ -136,12 +136,15 @@ class GameServiceTest {
         Dynasty currentTurn = CHO;
         GameEntity gameEntity = saveGameRoomEntity(new RoomName("room1"), currentTurn,
                 LocalDateTime.of(2024, 4, 5, 10, 0), dataSource);
-        Position from = Position.from(1, 1);
+
+        int fromRow = 1;
+        int fromColumn = 1;
+        Position from = Position.from(fromRow, fromColumn);
         savePiecePositionEntity(from, CHARIOT, CHO, gameEntity, dataSource);
 
         int toRow = 1;
         int toColumn = 2;
-        Position to = Position.from(1, 2);
+        Position to = Position.from(toRow, toColumn);
         LocalDateTime updatedLastPlayedAt = LocalDateTime.of(2024, 4, 5, 17, 12);
 
         // when
@@ -155,7 +158,7 @@ class GameServiceTest {
                         "SELECT COUNT(*) FROM piece_position WHERE game_id = ? AND piece_row = ? AND  piece_column = ?");
         ) {
             assertGameUpdate(gameStatement, gameEntity, currentTurn, updatedLastPlayedAt);
-            assertPiecePositionUpdate(piecePositionStatement, gameEntity, toRow, toColumn);
+            assertPiecePositionUpdate(piecePositionStatement, gameEntity, fromRow, fromColumn, toRow, toColumn);
         }
     }
 
@@ -167,15 +170,23 @@ class GameServiceTest {
         assertThat(gameResultSet.getTimestamp("last_played_at")).isEqualTo(Timestamp.valueOf(updatedLastPlayedAt));
     }
 
-    private static void assertPiecePositionUpdate(PreparedStatement piecePositionStatement, GameEntity gameEntity, int toRow, int toColumn) throws SQLException {
+    private static void assertPiecePositionUpdate(
+            PreparedStatement piecePositionStatement, GameEntity gameEntity,
+            int fromRow, int fromColumn,
+            int toRow, int toColumn) throws SQLException {
+        piecePositionStatement.setLong(1, gameEntity.id());
+        piecePositionStatement.setInt(2, fromRow);
+        piecePositionStatement.setInt(3, fromColumn);
+        ResultSet fromResultSet = piecePositionStatement.executeQuery();
+        fromResultSet.next();
+        assertThat(fromResultSet.getInt(1)).isEqualTo(0);
+
         piecePositionStatement.setLong(1, gameEntity.id());
         piecePositionStatement.setInt(2, toRow);
         piecePositionStatement.setInt(3, toColumn);
-        ResultSet resultSet = piecePositionStatement.executeQuery();
-        resultSet.next();
-
-        assertThat(resultSet.getInt(1)).isEqualTo(1);
+        ResultSet toResultSet = piecePositionStatement.executeQuery();
+        toResultSet.next();
+        assertThat(toResultSet.getInt(1)).isEqualTo(1);
     }
-
 
 }

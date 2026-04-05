@@ -109,6 +109,7 @@ public class GameService {
             game.movePiece(from, to, playedAt);
 
             gameDAO.updateCurrentTurnAndLastPlayedAt(new GameEntity(gameId, game.roomName(), game.currentTurn(), game.lastPlayedAt()));
+            piecePositionDAO.deleteByGameIdAndPosition(gameId, to);
             piecePositionDAO.updatePosition(gameId, from, to);
         });
     }

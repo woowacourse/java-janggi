@@ -127,17 +127,54 @@ class JdbcPiecePositionDAOTest {
     }
 
     @Test
+    @DisplayName("특정 위치에 있는 piece를 삭제한다.")
+    public void deleteByGameIdAndPosition_success() throws Exception {
+        // given
+        GameEntity gameEntity = saveGameRoomEntity(
+                new RoomName("room1"),
+                CHO,
+                LocalDateTime.of(2024, 4, 5, 10, 0),
+                dataSource
+        );
+
+        Position position = Position.from(1, 1);
+        savePiecePositionEntity(position, CHARIOT, CHO, gameEntity, dataSource);
+
+        // when
+        jdbcPiecePositionDAO.deleteByGameIdAndPosition(gameEntity.id(), position);
+
+        // then
+        try (
+                Connection conn = connectionProvider.getConnection();
+                PreparedStatement preparedStatement = conn.prepareStatement(
+                        "SELECT COUNT(*) FROM piece_position WHERE game_id = ? AND piece_row = ? AND piece_column = ?")
+        ) {
+            preparedStatement.setLong(1, gameEntity.id());
+            preparedStatement.setInt(2, position.row().row());
+            preparedStatement.setInt(3, position.column().column());
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+
+            assertThat(resultSet.getInt(1)).isEqualTo(0);
+        }
+    }
+
+    @Test
     @DisplayName("PiecePosition의 piece_row와 piece_column을 수정한다.")
     public void updatePosition_success() throws Exception {
         // given
         GameEntity gameEntity = saveGameRoomEntity(new RoomName("room1"), CHO,
                 LocalDateTime.of(2024, 4, 5, 10, 0), dataSource);
-        Position from = Position.from(1, 1);
+
+        int fromRow = 1;
+        int fromColumn = 1;
+        Position from = Position.from(fromRow, fromColumn);
         savePiecePositionEntity(from, CHARIOT, CHO, gameEntity, dataSource);
 
         int toRow = 1;
         int toColumn = 2;
-        Position to = Position.from(1, 2);
+        Position to = Position.from(toRow, toColumn);
 
         // when
         jdbcPiecePositionDAO.updatePosition(gameEntity.id(), from, to);
@@ -149,12 +186,21 @@ class JdbcPiecePositionDAOTest {
                         "SELECT COUNT(*) FROM piece_position WHERE game_id = ? AND piece_row = ? AND  piece_column = ?")
         ) {
             preparedStatement.setLong(1, gameEntity.id());
+            preparedStatement.setInt(2, fromRow);
+            preparedStatement.setInt(3, fromColumn);
+            ResultSet fromResultSet = preparedStatement.executeQuery();
+            fromResultSet.next();
+
+            assertThat(fromResultSet.getInt(1)).isEqualTo(0);
+
+
+            preparedStatement.setLong(1, gameEntity.id());
             preparedStatement.setInt(2, toRow);
             preparedStatement.setInt(3, toColumn);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
+            ResultSet toResultSet = preparedStatement.executeQuery();
+            toResultSet.next();
 
-            assertThat(resultSet.getInt(1)).isEqualTo(1);
+            assertThat(toResultSet.getInt(1)).isEqualTo(1);
         }
     }
 

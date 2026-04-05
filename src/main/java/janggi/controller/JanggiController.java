@@ -1,6 +1,7 @@
 package janggi.controller;
 
 import janggi.application.GameDto;
+import janggi.application.GameRoomDto;
 import janggi.application.GameService;
 import janggi.domain.DomainException;
 import janggi.domain.board.DefaultBoardDesignPolicy;
@@ -34,27 +35,35 @@ public class JanggiController {
 
     public void run() {
 
-        int gameOption = getUntilValid(inputView::readGameOption);
-        Game game = null;
-        if(gameOption == 1) {
-            game = createGame();
-        } else if (gameOption == 2) {
-            List<GameDto> recentlyPlayedGames = gameService.getRecentlyPlayedGames();
-            Long selectedGameId = getUntilValid(() -> inputView.readSelectedGame(recentlyPlayedGames));
-            game = gameService.loadGame(selectedGameId);
-        }
+        GameDto gameDto = startGame();
 
-        outputView.printBoard(BoardDto.from(game.boardMap()));
-
+        Game game = gameDto.game();
         while (game.winner().isEmpty()) {
             printScore(game);
-            moveProcess(game);
+            gameDto = processMove(gameDto);
+            game = gameDto.game();
         }
+
         outputView.printWinner(game.winner().get());
     }
 
-    private Game createGame() {
-        Game game;
+    private GameDto startGame() {
+        int gameOption = getUntilValid(inputView::readGameOption);
+        GameDto gameDto = null;
+        if(gameOption == 1) {
+            gameDto = createNewGame();
+        } else if (gameOption == 2) {
+            List<GameRoomDto> recentlyPlayedGames = gameService.getRecentlyPlayedGames();
+            Long selectedGameId = getUntilValid(() -> inputView.readSelectedGame(recentlyPlayedGames));
+            gameDto = gameService.loadGame(selectedGameId);
+        }
+        Game game = gameDto.game();
+        outputView.printBoard(BoardDto.from(game.boardMap()));
+        return gameDto;
+    }
+
+    private GameDto createNewGame() {
+        GameDto game;
         Map<Dynasty, HorseElephantPosition> horseElephantPositions = readDynastyHorseElephantPositionMap();
         game = gameService.createGame(new DefaultBoardDesignPolicy(horseElephantPositions), "room", LocalDateTime.now());
         return game;
@@ -77,16 +86,17 @@ public class JanggiController {
         return horseElephantPositions;
     }
 
-    private void moveProcess(Game game) {
+    private GameDto processMove(GameDto gameDto) {
         Position from = getUntilValid(() -> {
+            Game game = gameDto.game();
             Position wantToMove = readPieceWantToMove(game);
             findCanMovePosition(game, wantToMove);
             return wantToMove;
         });
 
-        runUntilValid(() -> {
+        return getUntilValid(() -> {
             Position to = readPositionToMove();
-            movePiece(game, from, to);
+            return movePiece(gameDto, from, to);
         });
     }
 
@@ -107,9 +117,12 @@ public class JanggiController {
         return Position.from(toDto.row(), toDto.column());
     }
 
-    private void movePiece(Game game, Position from, Position to) {
-        game.movePiece(from, to);
-        outputView.printBoard(BoardDto.from(game.boardMap()));
+    private GameDto movePiece(GameDto gameDto, Position from, Position to) {
+        gameService.movePiece(gameDto.id(), from, to, LocalDateTime.now());
+
+        GameDto updatedGame = gameService.loadGame(gameDto.id());
+        outputView.printBoard(BoardDto.from(updatedGame.game().boardMap()));
+        return updatedGame;
     }
 
     /**
@@ -122,24 +135,6 @@ public class JanggiController {
         while (true) {
             try {
                 return readOperation.get();
-            } catch (DomainException | IllegalArgumentException e) {
-                outputView.printErrorMessage(e.getMessage());
-            } catch (Exception e) {
-                outputView.printErrorMessage("알 수 없는 에러가 발생했습니다.");
-            }
-        }
-    }
-
-    /**
-     * 적절한 입력이 들어올 때까지 반복해서 실행하는 메서드(반환값 없음)"
-     *
-     * @param readOperation: 특정 입력을 받는 작업
-     */
-    private void runUntilValid(Runnable readOperation) {
-        while (true) {
-            try {
-                readOperation.run();
-                break;
             } catch (DomainException | IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());
             } catch (Exception e) {

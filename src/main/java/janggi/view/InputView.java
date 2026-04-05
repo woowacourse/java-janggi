@@ -40,7 +40,7 @@ public class InputView {
     }
 
     public PositionDto readPositionToMove() {
-        System.out.println("움직이고 싶은 위치를 선택해주세요.(좌표로 입력해주세요)");
+        System.out.println("움직이고 싶은 위치를 선택해주세요.(좌표로 입력해주세요. 예시: 1, 3)");
         return readPosition();
     }
 
