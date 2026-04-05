@@ -24,6 +24,13 @@ public class OutputView {
 
     private static final String ERROR_PREFIX = "[ERROR] ";
 
+    private static final String INVALID_INSTANCE_MESSAGE = "출력 클래스는 인스턴스화할 수 없습니다.";
+
+
+    private OutputView() {
+        throw new AssertionError(INVALID_INSTANCE_MESSAGE);
+    }
+
     public static void printLine() {
         System.out.println();
     }

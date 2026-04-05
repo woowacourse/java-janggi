@@ -15,9 +15,15 @@ public class InputView {
     private static final String BASE_DELIMITER = ",";
     private static final String CONSENT_END_MESSAGE = "종료하는 데 동의하시면 '종료'를, 계속하시려면 아무 키나 입력해주세요.";
 
+    private static final String INVALID_INSTANCE_MESSAGE = "입력 클래스는 인스턴스화할 수 없습니다.";
+
     private static final String INVALID_POSITION_TYPE = "숫자만 입력 가능합니다.";
 
     private static final Scanner scanner = new Scanner(System.in);
+
+    private InputView() {
+        throw new AssertionError(INVALID_INSTANCE_MESSAGE);
+    }
 
     public static Optional<Integer> askLoadGame() {
         System.out.println("불러오려는 게임의 번호를, 또는 새로 생성하려면 '*'를 입력해주세요.");
