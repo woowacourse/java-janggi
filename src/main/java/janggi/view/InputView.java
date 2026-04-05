@@ -1,8 +1,8 @@
 package janggi.view;
 
+import janggi.application.GameDto;
 import janggi.domain.dynasty.Dynasty;
 import janggi.view.dto.PositionDto;
-import janggi.view.mapper.DynastyColorMapper;
 import janggi.view.mapper.DynastyMapper;
 
 import java.util.Arrays;
@@ -13,8 +13,9 @@ import java.util.Scanner;
 public class InputView {
 
     private static final Scanner scanner = new Scanner(System.in);
-    private static final String INVALID_HORSE_ELEPHANT_POSITION_INPUT_FORMAT_MESSAGE = "상차림 법을 숫자로 입력해주세요. 입력값: %s";
-    private static final String INVALID_HORSE_ELEPHANT_POSITION_INPUT_RANGE_MESSAGE = "1, 2, 3, 4 중 하나의 숫자를 입력해주세요. 입력값: %s";
+
+    private static final String INVALID_INPUT_RANGE_MESSAGE = "%d ~ %d 중 하나의 숫자를 입력해주세요. 입력값: %s";
+    private static final String INVALID_INPUT_FORMAT_MESSAGE = "%s을(를) 숫자로 입력해주세요. 입력값: %s";
     private static final String INVALID_POSITION_FORMAT_MESSAGE = "위치를 콤마로 구분된 두 개의 숫자로 올바르게 입력해주세요. 입력값: %s";
 
     public int readHorseElephantPosition(Dynasty dynasty) {
@@ -24,14 +25,11 @@ public class InputView {
         String position = scanner.nextLine();
         try {
             int ordinal = Integer.parseInt(position);
-            if (ordinal < 1 || ordinal > 4) {
-                throw new IllegalArgumentException(
-                        String.format(INVALID_HORSE_ELEPHANT_POSITION_INPUT_RANGE_MESSAGE, ordinal));
-            }
+            validateRange(ordinal, 1, 4);
             return ordinal;
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(
-                    String.format(INVALID_HORSE_ELEPHANT_POSITION_INPUT_FORMAT_MESSAGE, position));
+                    String.format(INVALID_INPUT_FORMAT_MESSAGE, "상차림 법", position));
         }
     }
 
@@ -72,4 +70,41 @@ public class InputView {
                 }).toList();
     }
 
+    public int readGameOption() {
+        System.out.println("1. 새 게임 만들기 2. 기존 게임 이어서 하기");
+        String strOption = scanner.nextLine();
+        try {
+            int option = Integer.parseInt(strOption);
+            validateRange(option, 1,2);
+            return option;
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(
+                    String.format(INVALID_INPUT_FORMAT_MESSAGE, "게임 옵션", strOption));
+        }
+    }
+
+    private static void validateRange(int input, int min, int max) {
+        if (input < min || input > max) {
+            throw new IllegalArgumentException(
+                    String.format(INVALID_INPUT_RANGE_MESSAGE, min, max, input));
+        }
+    }
+
+    public Long readSelectedGame(List<GameDto> gameDtos) {
+        System.out.println("플레이 하고 싶은 게임을 선택해주세요: ");
+        int idx = 1;
+        for (GameDto gameDto : gameDtos) {
+            System.out.printf("%d. %s\n", idx++, gameDto.roomName());
+        }
+
+        String strGameNum = scanner.nextLine();
+        try {
+            int option = Integer.parseInt(strGameNum);
+            validateRange(option, 1, gameDtos.size());
+            return gameDtos.get(option - 1).id();
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(
+                    String.format(INVALID_INPUT_FORMAT_MESSAGE, "게임번호", strGameNum));
+        }
+    }
 }
