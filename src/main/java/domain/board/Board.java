@@ -45,6 +45,12 @@ public class Board implements PathChecker {
         board.put(to, targetPiece);
     }
 
+    public boolean isGeneral(Position to) {
+        return findPiece(to)
+                .map(piece -> piece.type() == PieceType.GENERAL)
+                .orElse(false);
+    }
+
     public Piece findBy(Position position) {
         Piece piece = board.get(position);
 
@@ -94,5 +100,13 @@ public class Board implements PathChecker {
     @Override
     public boolean isOnPalaceCenter(Position position) {
         return PALACE.isOnPalaceCenter(position);
+    }
+
+    @Override
+    public boolean isInSamePalace(Position from, Position to) {
+        boolean isBothHanPalace = (from.y() <= 3 && to.y() <= 3);
+        boolean isBothChoPalace = (from.y() >= 8 && to.y() >= 8);
+
+        return isBothHanPalace || isBothChoPalace;
     }
 }

@@ -32,6 +32,10 @@ public class ChariotStrategy implements MoveStrategy {
     }
 
     private boolean isDiagonalMoveInPalace(Position from, Position to, PathChecker pathChecker) {
+        if (pathChecker.isInSamePalace(from, to)) {
+            return false;
+        }
+
         int dx = Math.abs(from.x() - to.x());
         int dy = Math.abs(from.y() - to.y());
         boolean isInPalace = pathChecker.isInPalace(from) && pathChecker.isInPalace(to);
