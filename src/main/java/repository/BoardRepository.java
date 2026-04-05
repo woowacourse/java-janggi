@@ -1,4 +1,4 @@
-package db;
+package repository;
 
 import domain.Position;
 import domain.piece.Piece;

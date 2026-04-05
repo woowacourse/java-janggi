@@ -1,6 +1,6 @@
 package janggiBoard.repositoryTest;
 
-import db.JdbcBoardRepository;
+import repository.JdbcBoardRepository;
 import domain.Position;
 import domain.Team;
 import domain.piece.King;
