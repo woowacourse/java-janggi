@@ -28,6 +28,10 @@ public class Piece {
         return piece.team.equals(this.team);
     }
 
+    public boolean isSameTeam(Team team) {
+        return this.team == team;
+    }
+
     public Team getTeam() {
         return team;
     }
@@ -50,5 +54,9 @@ public class Piece {
 
     public boolean canCapture(Piece from, Piece to) {
         return moveStrategy.canCapture(from, to);
+    }
+
+    public Score getScore() {
+        return pieceType.getScore();
     }
 }

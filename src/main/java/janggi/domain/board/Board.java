@@ -1,6 +1,7 @@
 package janggi.domain.board;
 
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.Score;
 import janggi.domain.piece.Team;
 
 import java.util.*;
@@ -26,9 +27,16 @@ public class Board {
         if (!piece.canCapture(piece, board.get(to))) {
             throw new IllegalArgumentException("목적지로 이동하거나 기물을 잡을 수 없습니다.");
         }
-        
+
         changePiecePosition(piece, from, to);
         changeTurn();
+    }
+
+    public Score calculateScore(Team team) {
+        return board.values().stream()
+                .filter(piece -> piece.isSameTeam(team))
+                .map(Piece::getScore)
+                .reduce(new Score(0), Score::add);
     }
 
     private List<Piece> getPathPieces(Position from, Position to, Piece piece) {
