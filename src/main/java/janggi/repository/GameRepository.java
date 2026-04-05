@@ -102,11 +102,12 @@ public class GameRepository {
         throw new RuntimeException("턴 정보를 불러오지 못했습니다.");
     }
 
-    public void finish(int gameId) {
-        String sql = "UPDATE game SET is_finished = 1 WHERE id = ?";
+    public void finish(int gameId, Side winner) {
+        String sql = "UPDATE game SET is_finished = 1, winner =? WHERE id = ?";
         try (Connection conn = JdbcContext.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, gameId);
+            pstmt.setString(1, winner.name());
+            pstmt.setInt(2, gameId);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("게임 종료 처리에 실패하였습니다.");

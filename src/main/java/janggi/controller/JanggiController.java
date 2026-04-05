@@ -36,7 +36,7 @@ public class JanggiController {
             return;
         }
 
-        activeGameId.ifPresent(gameRepository::finish);
+        activeGameId.ifPresent(id -> gameRepository.finish(id, Side.NONE));
 
         BoardSetUp choBoardSetUp = retry(() -> inputView.readBoardSetup(Side.CHO));
         BoardSetUp hanBoardSetUp = retry(() -> inputView.readBoardSetup(Side.HAN));
@@ -61,6 +61,7 @@ public class JanggiController {
             if (side != Side.NONE) {
                 outputView.printBoard(game.getBoard());
                 outputView.printGameResult(side);
+                gameRepository.finish(gameId, side);
                 break;
             }
         }

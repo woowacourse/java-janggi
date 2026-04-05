@@ -17,7 +17,8 @@ public class JdbcContext {
                 CREATE TABLE IF NOT EXISTS game (
                     id          INTEGER PRIMARY KEY AUTOINCREMENT,
                     turn        TEXT    NOT NULL,
-                    is_finished INTEGER NOT NULL DEFAULT 0
+                    is_finished INTEGER NOT NULL DEFAULT 0,
+                    winner      TEXT
                 );
                 """;
 
