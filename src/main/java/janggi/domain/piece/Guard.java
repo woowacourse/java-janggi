@@ -21,7 +21,7 @@ public class Guard extends PalacePiece {
     public Path getPath(Movement movement) {
         validateInPalace(movement);
         validateMove(movement);
-        return new Path();
+        return findPath(movement);
     }
 
     @Override
