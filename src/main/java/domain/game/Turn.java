@@ -25,4 +25,5 @@ public class Turn {
     public Team current() {
         return current;
     }
+    
 }

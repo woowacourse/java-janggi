@@ -27,7 +27,7 @@ public abstract class AbstractBoardFactory {
         return pieces;
     }
 
-    public static AbstractBoardFactory from(int input) {
+    public static final AbstractBoardFactory from(int input) {
         return factories.get(input);
     }
 
