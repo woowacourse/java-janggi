@@ -23,19 +23,19 @@ public class Board {
         return new Board(boardMap);
     }
 
-    public List<Position> canMovePosition(Position from, Dynasty currentTurn) {
+    public List<Position> placeablePositions(Position from, Dynasty currentTurn) {
         if (!board.containsKey(from)) {
             throw new IllegalArgumentException("해당 위치에 기물이 존재하지 않습니다.");
         }
         Piece piece = board.get(from);
-        if (!piece.isSameDynasty(currentTurn)) {
+        if (!piece.isSame(currentTurn)) {
             throw new IllegalArgumentException("해당 위치의 기물은 상대 팀의 기물입니다.");
         }
-        return piece.canMovePosition(BoardSnapshot.of(board), from);
+        return piece.placeablePositions(BoardSnapshot.of(board), from);
     }
 
     public void movePiece(Position from, Position to, Dynasty currentTurn) {
-        List<Position> positions = canMovePosition(from, currentTurn);
+        List<Position> positions = placeablePositions(from, currentTurn);
         if (!positions.contains(to)) {
             throw new IllegalArgumentException("해당 위치에 해당 기물을 옮길 수 없습니다.");
         }
@@ -47,14 +47,14 @@ public class Board {
     public boolean hasGeneral(Dynasty dynasty) {
         return board.values().stream()
                 .anyMatch(piece ->
-                        piece.isSamePieceType(PieceType.GENERAL)
-                                && piece.isSameDynasty(dynasty)
+                        piece.isSame(PieceType.GENERAL)
+                                && piece.isSame(dynasty)
                 );
     }
 
     public int sumPointsOf(Dynasty dynasty) {
         return board.values().stream()
-                .filter(piece -> piece.isSameDynasty(dynasty))
+                .filter(piece -> piece.isSame(dynasty))
                 .mapToInt(piece -> piece.pieceType().points())
                 .sum();
     }

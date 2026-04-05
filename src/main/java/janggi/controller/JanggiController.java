@@ -50,18 +50,15 @@ public class JanggiController {
         Map<Dynasty, HorseElephantPosition> horseElephantPositions = new EnumMap<>(Dynasty.class);
         for (Dynasty dynasty : Dynasty.values()) {
             int ordinal = getUntilValid(() -> inputView.readHorseElephantPosition(DynastyDto.from(dynasty)));
-            HorseElephantPosition position = HorseElephantPositionMapper.from(ordinal);
-            horseElephantPositions.put(dynasty, position);
+            horseElephantPositions.put(dynasty, HorseElephantPositionMapper.from(ordinal));
         }
         return horseElephantPositions;
     }
 
     private void moveProcess(Long gameId) {
-        Game game = janggiService.findGame(gameId);
-
         Position from = getUntilValid(() -> {
-            Position wantToMove = readPieceWantToMove(game);
-            findCanMovePosition(game, wantToMove);
+            Position wantToMove = readPieceWantToMove(gameId);
+            findPlaceablePosition(gameId, wantToMove);
             return wantToMove;
         });
 
@@ -72,20 +69,21 @@ public class JanggiController {
         });
     }
 
-    private Position readPieceWantToMove(Game game) {
-        PositionDto fromDto = getUntilValid(
-                () -> inputView.readPieceWantToMove(DynastyDto.from(game.currentDynasty())));
-        return Position.from(fromDto.row(), fromDto.column());
+    private Position readPieceWantToMove(Long gameId) {
+        Game game = janggiService.findGame(gameId);
+        PositionDto from = getUntilValid(() -> inputView.readPieceWantToMove(DynastyDto.from(game.currentDynasty())));
+        return Position.from(from.row(), from.column());
     }
 
-    private void findCanMovePosition(Game game, Position from) {
-        List<Position> positions = game.canMovePosition(from);
+    private void findPlaceablePosition(Long gameId, Position from) {
+        Game game = janggiService.findGame(gameId);
+        List<Position> positions = game.placeablePositions(from);
         outputView.printCanMovePositions(PositionDto.fromPositions(positions));
     }
 
     private Position readDestinationPosition() {
-        PositionDto position = getUntilValid(inputView::readDestinationPosition);
-        return Position.from(position.row(), position.column());
+        PositionDto to = getUntilValid(inputView::readDestinationPosition);
+        return Position.from(to.row(), to.column());
     }
 
     private void printBoard(Long gameId) {

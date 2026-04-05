@@ -36,8 +36,8 @@ public class Game {
         return new Game(board, currentTurn);
     }
 
-    public List<Position> canMovePosition(Position from) {
-        List<Position> positions = board.canMovePosition(from, currentTurn.currentDynasty());
+    public List<Position> placeablePositions(Position from) {
+        List<Position> positions = board.placeablePositions(from, currentTurn.currentDynasty());
         if (positions.isEmpty()) {
             throw new IllegalStateException("선택된 기물이 이동할 수 있는 위치가 없습니다.");
         }

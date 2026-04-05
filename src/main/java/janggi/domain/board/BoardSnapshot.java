@@ -41,14 +41,14 @@ public class BoardSnapshot {
         if (isEmpty(position)) {
             return false;
         }
-        return board.get(position).isSameDynasty(dynasty);
+        return board.get(position).isSame(dynasty);
     }
 
     public boolean isSamePieceType(Position position, PieceType pieceType) {
         if (isEmpty(position)) {
             return false;
         }
-        return board.get(position).isSamePieceType(pieceType);
+        return board.get(position).isSame(pieceType);
     }
 
     public boolean isEmpty(Position position) {

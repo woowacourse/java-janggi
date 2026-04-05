@@ -23,7 +23,7 @@ class BoardTest {
         Board board = Board.from(policy);
 
         // when & then
-        assertThatCode(() -> board.canMovePosition(Position.from(4, 5), CHO))
+        assertThatCode(() -> board.placeablePositions(Position.from(4, 5), CHO))
                 .doesNotThrowAnyException();
     }
 
@@ -34,7 +34,7 @@ class BoardTest {
         Board board = Board.from(policy);
 
         // when & then
-        assertThatThrownBy(() -> board.canMovePosition(Position.from(4, 5), HAN))
+        assertThatThrownBy(() -> board.placeablePositions(Position.from(4, 5), HAN))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("해당 위치의 기물은 상대 팀의 기물입니다.");
     }
@@ -46,7 +46,7 @@ class BoardTest {
         Board board = Board.from(policy);
 
         // when & then
-        assertThatThrownBy(() -> board.canMovePosition(Position.from(5, 5), CHO))
+        assertThatThrownBy(() -> board.placeablePositions(Position.from(5, 5), CHO))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("해당 위치에 기물이 존재하지 않습니다.");
     }
