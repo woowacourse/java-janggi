@@ -12,10 +12,10 @@ public enum PieceSetup {
         @Override
         public void apply(Map<Position, Piece> base, Team team) {
             if (team == Team.HAN) {
-                swap(base, Position.from("12"), Position.from("13"));
+                swap(base, Position.of(1, 2), Position.of(1, 3));
             }
             if (team == Team.CHO) {
-                swap(base, Position.from("07"), Position.from("08"));
+                swap(base, Position.of(10, 7), Position.of(10, 8));
             }
         }
     },
@@ -23,10 +23,10 @@ public enum PieceSetup {
         @Override
         public void apply(Map<Position, Piece> base, Team team) {
             if (team == Team.HAN) {
-                swap(base, Position.from("17"), Position.from("18"));
+                swap(base, Position.of(1, 7), Position.of(1, 8));
             }
             if (team == Team.CHO) {
-                swap(base, Position.from("02"), Position.from("03"));
+                swap(base, Position.of(10, 2), Position.of(10, 3));
             }
         }
     },
@@ -34,12 +34,12 @@ public enum PieceSetup {
         @Override
         public void apply(Map<Position, Piece> base, Team team) {
             if (team == Team.HAN) {
-                swap(base, Position.from("17"), Position.from("18"));
-                swap(base, Position.from("12"), Position.from("13"));
+                swap(base, Position.of(1, 7), Position.of(1, 8));
+                swap(base, Position.of(1, 2), Position.of(1, 3));
             }
             if (team == Team.CHO) {
-                swap(base, Position.from("07"), Position.from("08"));
-                swap(base, Position.from("02"), Position.from("03"));
+                swap(base, Position.of(10, 7), Position.of(10, 8));
+                swap(base, Position.of(10, 2), Position.of(10, 3));
             }
         }
     },
