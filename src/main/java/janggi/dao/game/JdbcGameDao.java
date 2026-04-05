@@ -1,4 +1,4 @@
-package janggi.jdbc.dao.game;
+package janggi.dao.game;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

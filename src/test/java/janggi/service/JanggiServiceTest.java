@@ -3,8 +3,8 @@ package janggi.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.jdbc.dao.game.GameDao;
-import janggi.jdbc.dao.piece.PieceDao;
+import janggi.dao.game.GameDao;
+import janggi.dao.piece.PieceDao;
 import janggi.model.Janggi;
 import janggi.model.Team;
 import janggi.model.board.PlayingBoard;

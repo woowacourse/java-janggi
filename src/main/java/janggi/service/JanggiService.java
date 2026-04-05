@@ -1,10 +1,10 @@
 package janggi.service;
 
-import janggi.jdbc.dao.game.GameDao;
-import janggi.jdbc.dao.game.GameEntity;
-import janggi.jdbc.dao.piece.PieceDao;
-import janggi.jdbc.dao.piece.PieceEntity;
-import janggi.jdbc.transaction.TransactionExecutor;
+import janggi.dao.game.GameDao;
+import janggi.dao.game.GameEntity;
+import janggi.dao.piece.PieceDao;
+import janggi.dao.piece.PieceEntity;
+import janggi.infra.transaction.TransactionExecutor;
 import janggi.model.Janggi;
 import janggi.model.Team;
 import janggi.model.board.Board;
@@ -41,13 +41,16 @@ public class JanggiService {
 
     public Optional<LatestInProgressGameResponse> loadGame(){
         return transactionExecutor.execute(con -> {
-            Optional<GameEntity> gameEntityOpt = gameDao.findLatestGame(con);
+            Optional<GameEntity> gameEntityOpt =
+                    gameDao.findLatestGame(con);
+
             if (gameEntityOpt.isEmpty()) {
                 return Optional.empty();
             }
 
             GameEntity gameEntity = gameEntityOpt.get();
-            List<PieceEntity> pieceEntities = pieceDao.findAllByGameId(con, gameEntity.id());
+            List<PieceEntity> pieceEntities =
+                    pieceDao.findAllByGameId(con, gameEntity.id());
 
             PlayingBoard board = toBoard(pieceEntities);
             Turn turn = toTurn(gameEntity, board);
@@ -62,18 +65,34 @@ public class JanggiService {
     }
 
     private PlayingBoard toBoard(List<PieceEntity> pieceEntities) {
-        Map<Position, Piece> boardInfo = pieceEntities.stream()
-                .collect(Collectors.toMap(
-                        entity -> new Position(
-                                Row.of(entity.positionRow()),
-                                Column.of(entity.positionColumn())
-                        ),
-                        entity -> PieceType
-                                .valueOf(entity.pieceType())
-                                .createPieceWith(Team.valueOf(entity.team()))
-                ));
+        return PlayingBoard.of(
+                getBoardInfoFrom(pieceEntities)
+        );
+    }
 
-        return PlayingBoard.of(boardInfo);
+    private Map<Position, Piece> getBoardInfoFrom(List<PieceEntity> pieceEntities) {
+        return pieceEntities.stream()
+                .collect(Collectors.toMap(
+                                this::getPositionFrom
+                                ,this::getPieceFrom
+                        )
+                );
+    }
+
+    private Position getPositionFrom(PieceEntity pieceEntity) {
+        return new Position(
+                Row.of(pieceEntity.positionRow()),
+                Column.of(pieceEntity.positionColumn())
+        );
+    }
+
+    private Piece getPieceFrom(PieceEntity pieceEntity) {
+        return PieceType
+                .valueOf(
+                        pieceEntity.pieceType()
+                ).createPieceWith(
+                        Team.valueOf(pieceEntity.team())
+                );
     }
 
     private Turn toTurn(GameEntity foundGame, PlayingBoard board) {

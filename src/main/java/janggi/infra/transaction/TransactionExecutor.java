@@ -1,7 +1,7 @@
-package janggi.jdbc.transaction;
+package janggi.infra.transaction;
 
-import janggi.jdbc.transaction.action.TransactionRunnable;
-import janggi.jdbc.transaction.action.TransactionSupplier;
+import janggi.infra.transaction.action.TransactionRunnable;
+import janggi.infra.transaction.action.TransactionSupplier;
 
 public interface TransactionExecutor {
 
