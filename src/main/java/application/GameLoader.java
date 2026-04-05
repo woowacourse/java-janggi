@@ -1,5 +1,9 @@
-package dao;
+package application;
 
+import dao.BoardRepository;
+import dao.GameLoadResult;
+import dao.GameRoom;
+import dao.PlayerNames;
 import domain.piece.BasicPiece;
 import domain.player.Team;
 import domain.position.Position;

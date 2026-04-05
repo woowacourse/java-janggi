@@ -1,10 +1,14 @@
-package dao;
+package application;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import dao.BoardRepository;
+import dao.GameLoadResult;
+import dao.GameRoom;
 import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.Formation;
+import domain.game.GameStatus;
 import domain.player.Team;
 import infra.db.DbBootstrap;
 import java.util.Optional;
@@ -42,13 +46,13 @@ class GameLoaderTest {
         // 기존에 있을 수 있는 PROGRESS 게임들 종료
         Optional<GameLoadResult> existingGame = gameLoader.loadProgress();
         while (existingGame.isPresent()) {
-            gameRoom.updateGameState(existingGame.get().gameId(), Team.CHO, "CHO_WIN");
+            gameRoom.updateGameState(existingGame.get().gameId(), Team.CHO, GameStatus.CHO_WIN);
             existingGame = gameLoader.loadProgress();
         }
 
         // 새 게임 생성 후 바로 종료
         long gameId = gameRoom.createGame("CHO Player", "HAN Player");
-        gameRoom.updateGameState(gameId, Team.CHO, "CHO_WIN");
+        gameRoom.updateGameState(gameId, Team.CHO, GameStatus.CHO_WIN);
 
         Optional<GameLoadResult> result = gameLoader.loadProgress();
 
