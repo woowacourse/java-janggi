@@ -8,6 +8,7 @@ import janggi.infra.config.TestDataSourceConfig;
 import janggi.infra.entity.GameEntity;
 import janggi.infra.entity.PiecePositionEntity;
 import janggi.infra.transaction.ConnectionProvider;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -23,6 +24,19 @@ class JdbcPiecePositionDAOTest {
 
     private final ConnectionProvider connectionProvider = new ConnectionProvider(new TestDataSourceConfig().dataSource());
     private final JdbcPiecePositionDAO jdbcBoardDAO = new JdbcPiecePositionDAO(connectionProvider);
+
+    @AfterEach
+    void tearDown() {
+        try (
+                Connection conn = connectionProvider.getConnection();
+                Statement statement = conn.createStatement();
+        ) {
+            statement.executeUpdate("DELETE FROM piece_position");
+            statement.executeUpdate("DELETE FROM game");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Test
     @DisplayName("기물 위치목록을 저장한다.")
