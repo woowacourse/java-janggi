@@ -139,7 +139,7 @@ class CannonTest {
         // given
         Cannon cannon = new Cannon(Team.HAN);
         PieceOnPath pieceOnPath = new PieceOnPath();
-        pieceOnPath.add(new Guard(Team.HAN));
+        pieceOnPath.add(new Guard(Team.HAN, new Palace()));
 
         // when & then
         assertThatThrownBy(() -> cannon.validateCanMove(pieceOnPath, new Chariot(Team.HAN)))
@@ -152,7 +152,7 @@ class CannonTest {
         // given
         Cannon cannon = new Cannon(Team.HAN);
         PieceOnPath pieceOnPath = new PieceOnPath();
-        pieceOnPath.add(new Guard(Team.HAN));
+        pieceOnPath.add(new Guard(Team.HAN, new Palace()));
 
         // when & then
         assertThatThrownBy(() -> cannon.validateCanMove(pieceOnPath, new Cannon(Team.CHO)))

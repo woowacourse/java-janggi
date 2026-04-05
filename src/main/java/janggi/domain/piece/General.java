@@ -27,21 +27,29 @@ public class General extends MoveablePiece {
         return new Path();
     }
 
+    @Override
+    public void validateCanMove(PieceOnPath pieceOnPath, Piece endPiece) {
+        validateSameTeam(endPiece);
+    }
+
     private void validateInPalace(Movement movement) {
         if (!palace.isPalaceMove(movement.getFrom(), movement.getTo())) {
             throw new IllegalArgumentException("[ERROR] 장은 궁성 내에서만 움직일 수 있습니다.");
         }
     }
 
-    @Override
-    public void validateCanMove(PieceOnPath pieceOnPath, Piece endPiece) {
-        validateSameTeam(endPiece);
-    }
-
     private void validateMove(Movement movement) {
         if (!(isNormalMove(movement) || isPalaceRouteMove(movement))) {
             throw new IllegalArgumentException("[ERROR] 장은 해당 위치로 이동할 수 없습니다.");
         }
+    }
+
+    private boolean isNormalMove(Movement movement) {
+        int absRowDiff = Math.abs(movement.calculateRowDiff());
+        int absColumnDiff = Math.abs(movement.calculateColumnDiff());
+
+        return (absRowDiff == MAX_MOVE_DISTANCE && absColumnDiff == 0)
+                || (absRowDiff == 0 && absColumnDiff == MAX_MOVE_DISTANCE);
     }
 
     private boolean isPalaceRouteMove(Movement movement) {
@@ -51,13 +59,5 @@ public class General extends MoveablePiece {
         boolean isOneStepMove = absRowDiff <= MAX_MOVE_DISTANCE && absColumnDiff <= MAX_MOVE_DISTANCE;
 
         return isOneStepMove && palace.hasRoute(movement.getFrom(), movement.getTo());
-    }
-
-    private boolean isNormalMove(Movement movement) {
-        int absRowDiff = Math.abs(movement.calculateRowDiff());
-        int absColumnDiff = Math.abs(movement.calculateColumnDiff());
-        
-        return (absRowDiff == MAX_MOVE_DISTANCE && absColumnDiff == 0)
-                || (absRowDiff == 0 && absColumnDiff == MAX_MOVE_DISTANCE);
     }
 }
