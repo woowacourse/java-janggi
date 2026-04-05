@@ -3,6 +3,7 @@ package view;
 import domain.piece.Side;
 import domain.position.Position;
 import dto.BoardResponseDto;
+import dto.JanggiGameResultResponseDto;
 import dto.PieceDto;
 
 import java.util.Map;
@@ -36,8 +37,23 @@ public class OutputView {
         System.out.println(message);
     }
 
-    public static void printSide(Side attackerSide) {
-        System.out.println(attackerSide.getName() + "진영 차례 입니다.");
+    public static void printSide(Side currentTurnSide) {
+        System.out.println(currentTurnSide.getName() + "진영 차례 입니다.");
+    }
+
+    public static void printIsJangGun() {
+        System.out.println("장군!");
+    }
+
+    public static void printScoreBothSide(JanggiGameResultResponseDto janggiGameResultResponseDto) {
+        System.out.println("# 점수출력 #");
+        System.out.println(janggiGameResultResponseDto.cho() + " : " + janggiGameResultResponseDto.choScore());
+        System.out.println(janggiGameResultResponseDto.han() + " : " + janggiGameResultResponseDto.hanScore());
+        System.out.println("승리한 진영: " + janggiGameResultResponseDto.winSide());
+    }
+
+    public static void printWinSide(Side side) {
+        System.out.println(side.getName() + "진영이 승리하였습니다.");
     }
 
     private static void printRows(Map<Position, PieceDto> state) {

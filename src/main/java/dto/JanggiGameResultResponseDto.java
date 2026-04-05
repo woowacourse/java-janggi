@@ -1,0 +1,22 @@
+package dto;
+
+import domain.piece.Side;
+import janggigame.ScoreBoard;
+
+public record JanggiGameResultResponseDto(
+        String cho,
+        String han,
+        double choScore,
+        double hanScore,
+        String winSide
+) {
+    public static JanggiGameResultResponseDto from(ScoreBoard scoreBoard) {
+        return new JanggiGameResultResponseDto(
+                Side.CHO.getName(),
+                Side.HAN.getName(),
+                scoreBoard.getScores().get(Side.CHO),
+                scoreBoard.getScores().get(Side.HAN),
+                scoreBoard.determineSide().getName()
+        );
+    }
+}

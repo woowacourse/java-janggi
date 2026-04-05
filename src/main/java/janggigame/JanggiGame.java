@@ -5,20 +5,27 @@ import domain.board.Placement;
 import domain.piece.Side;
 import domain.position.Position;
 import dto.BoardResponseDto;
+import dto.JanggiGameResultResponseDto;
 import util.Parser;
 import view.InputView;
 import view.OutputView;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class JanggiGame {
+    private static final int JANGGUN_COUNT = 5;
+    private final Map<Side, Integer> jangGunCount = new HashMap<>();
 
     public void run() {
         selectSide();
         Board board = initBoard();
         gameStart(board);
+        ScoreBoard scoreBoard = calculateScore(board);
+        showResult(board, scoreBoard);
     }
 
     private void selectSide() {
@@ -44,8 +51,8 @@ public class JanggiGame {
 
     private Board initBoard() {
         Board board = new Board();
-        initPlacement(Side.CHO, board);
         initPlacement(Side.HAN, board);
+        initPlacement(Side.CHO, board);
 
         return board;
     }
@@ -70,23 +77,39 @@ public class JanggiGame {
     }
 
     private void gameStart(Board board) {
-        Side attackerSide = Side.HAN;
-        while (true) {
-            // TODO: 궁성을 구현하지 않아 다음 사이클에서 종료조건을 구현할 예정...
+        Side currentTurnSide = Side.CHO;
+        printBoard(board);
+        while (!isGameOver(board, currentTurnSide)) {
             try {
+                OutputView.printSide(currentTurnSide);
+                board.move(selectFromPosition(), selectToPosition(), currentTurnSide);
                 printBoard(board);
-                OutputView.printSide(attackerSide);
-                board.move(selectFromPosition(), selectToPosition(), attackerSide);
-                attackerSide = changeSide(attackerSide);
+
+                Side nextTurnSide = changeSide(currentTurnSide);
+                updateJangGunCount(board, nextTurnSide);
+                currentTurnSide = nextTurnSide;
             } catch (Exception e) {
                 OutputView.printErrorMessage(e.getMessage());
             }
         }
     }
 
-    private void printBoard(Board board) {
-        BoardResponseDto nowBoardState = BoardResponseDto.from(board);
-        OutputView.printBoard(nowBoardState);
+    private boolean isGameOver(Board board, Side currentTurnSide) {
+        return isBigJang() || board.isEmptyGeneral(currentTurnSide);
+    }
+
+    private boolean isBigJang() {
+        return jangGunCount.values().stream()
+                .anyMatch(count -> count == JANGGUN_COUNT);
+    }
+
+    private void updateJangGunCount(Board board, Side currentTurnSide) {
+        if (board.isJangGun(currentTurnSide)) {
+            OutputView.printIsJangGun();
+            jangGunCount.put(currentTurnSide, jangGunCount.get(currentTurnSide) + 1);
+            return;
+        }
+        jangGunCount.put(currentTurnSide, 0);
     }
 
     private Position selectFromPosition() {
@@ -99,8 +122,29 @@ public class JanggiGame {
         return Parser.parseToPosition(input);
     }
 
-    private Side changeSide(Side attackerSide) {
-        if (attackerSide == Side.HAN) return Side.CHO;
+    private void printBoard(Board board) {
+        BoardResponseDto nowBoardState = BoardResponseDto.from(board);
+        OutputView.printBoard(nowBoardState);
+    }
+
+    private Side changeSide(Side currentTurnSide) {
+        if (currentTurnSide == Side.HAN) return Side.CHO;
         return Side.HAN;
+    }
+
+    private ScoreBoard calculateScore(Board board) {
+        return board.calculateScore();
+    }
+
+    private void showResult(Board board, ScoreBoard scoreBoard) {
+        if (board.isEmptyGeneral(Side.CHO)) {
+            OutputView.printWinSide(Side.HAN);
+            return;
+        }
+        if (board.isEmptyGeneral(Side.HAN)) {
+            OutputView.printWinSide(Side.CHO);
+            return;
+        }
+        OutputView.printScoreBothSide(JanggiGameResultResponseDto.from(scoreBoard));
     }
 }

@@ -5,7 +5,9 @@ import domain.piece.PieceType;
 import domain.piece.Side;
 import domain.piece.strategy.MovingCondition;
 import domain.position.Position;
+import janggigame.ScoreBoard;
 
+import java.util.EnumMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -39,6 +41,44 @@ public class Board implements BoardState {
         validatePieceCanMove(from, to, fromPiece);
         state.put(to, fromPiece);
         state.remove(from);
+    }
+
+    public boolean isJangGun(Side currentTurnSide) {
+        Position generalPosition = findGeneralPosition(currentTurnSide);
+
+        return state.entrySet().stream()
+                .filter(entry -> !entry.getValue().isSameSide(currentTurnSide))
+                .anyMatch(entry -> {
+                    if (currentTurnSide == Side.HAN) {
+                        return entry.getValue().getMovingCondition().canMove(boardStateBySide(currentTurnSide), entry.getKey(), generalPosition);
+                    }
+                    return entry.getValue().getMovingCondition().canMove(this, entry.getKey(), generalPosition);
+                });
+    }
+
+    public boolean isEmptyGeneral(Side currentTurnSide) {
+        return state.values().stream()
+                .noneMatch(piece -> piece.isSameSide(currentTurnSide) && piece.isSamePieceType(PieceType.GENERAL));
+    }
+
+    public ScoreBoard calculateScore() {
+        Map<Side, Double> scores = new EnumMap<>(Side.class);
+        scores.put(Side.CHO, 0.0);
+        scores.put(Side.HAN, 1.5);
+
+        for (Piece piece : state.values()) {
+            scores.put(piece.getSide(), scores.get(piece.getSide()) + piece.getPieceValue());
+        }
+
+        return new ScoreBoard(scores);
+    }
+
+    private Position findGeneralPosition(Side currentTurnSide) {
+        return state.entrySet().stream()
+                .filter(entry -> entry.getValue().isSameSide(currentTurnSide) && entry.getValue().isSamePieceType(PieceType.GENERAL))
+                .map(Map.Entry::getKey)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(currentTurnSide + "진영의 장군이 존재하지 않습니다."));
     }
 
     private void validatePieceCanMove(Position from, Position to, Piece fromPiece) {
