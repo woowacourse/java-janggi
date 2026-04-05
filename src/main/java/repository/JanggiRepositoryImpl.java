@@ -8,6 +8,7 @@ import model.game.dto.PieceDto;
 import model.piece.Piece;
 import model.piece.PieceType;
 import repository.column.GameColumn;
+import repository.column.PieceColumn;
 import repository.command.MoveCommand;
 import repository.mapper.PieceDtoMapper;
 
@@ -30,7 +31,7 @@ public class JanggiRepositoryImpl implements JanggiRepository {
         return jdbcTemplate.executeInTransaction(
                 () -> {
                     long gameId = jdbcTemplate.executeAndReturnKey(
-                            "INSERT INTO game(turn) VALUES (?)",
+                            "INSERT INTO game(" + GameColumn.TURN + ") VALUES (?)",
                             stmt -> stmt.setString(1, turn.name())
                     );
                     insertPieceEntries(gameId, board);
@@ -46,7 +47,7 @@ public class JanggiRepositoryImpl implements JanggiRepository {
 
     private void insertSinglePieceEntry(long gameId, Position position, Piece piece) {
         jdbcTemplate.executeAndReturnKey(
-                "INSERT INTO piece(game_id, piece_type, team, row_idx, col_idx) values (?, ?, ?, ?, ?)",
+                "INSERT INTO piece(" + PieceColumn.GAME_ID + ", " + PieceColumn.PIECE_TYPE + ", " + PieceColumn.TEAM + ", " + PieceColumn.ROW_IDX + ", " + PieceColumn.COL_IDX + ") values (?, ?, ?, ?, ?)",
                 stmt -> {
                     stmt.setLong(1, gameId);
                     stmt.setString(2, piece.getType().name());
@@ -72,7 +73,7 @@ public class JanggiRepositoryImpl implements JanggiRepository {
 
     private void updateCurrentTurn(long gameId, Team currentTurn) {
         jdbcTemplate.execute(
-                "UPDATE game SET turn = ? WHERE game_id = ?",
+                "UPDATE game SET " + GameColumn.TURN + " = ? WHERE " + GameColumn.GAME_ID + " = ?",
                 stmt -> {
                     stmt.setString(1, currentTurn.name());
                     stmt.setLong(2, gameId);
@@ -82,7 +83,7 @@ public class JanggiRepositoryImpl implements JanggiRepository {
 
     private void updatePositionOfPiece(long gameId, Position destination, Position source) {
         jdbcTemplate.execute(
-                "UPDATE piece SET row_idx = ?, col_idx = ? WHERE game_id = ? AND row_idx = ? AND col_idx = ?",
+                "UPDATE piece SET " + PieceColumn.ROW_IDX + " = ?, " + PieceColumn.COL_IDX + " = ? WHERE " + PieceColumn.GAME_ID + " = ? AND " + PieceColumn.ROW_IDX + " = ? AND " + PieceColumn.COL_IDX + " = ?",
                 stmt -> {
                     stmt.setInt(1, destination.row());
                     stmt.setInt(2, destination.col());
@@ -95,7 +96,7 @@ public class JanggiRepositoryImpl implements JanggiRepository {
 
     private void deletePieceOnDestination(long gameId, Position destination) {
         jdbcTemplate.execute(
-                "DELETE FROM piece WHERE game_id = ? AND row_idx = ? AND col_idx = ?",
+                "DELETE FROM piece WHERE " + PieceColumn.GAME_ID + " = ? AND " + PieceColumn.ROW_IDX + " = ? AND " + PieceColumn.COL_IDX + " = ?",
                 stmt -> {
                     stmt.setLong(1, gameId);
                     stmt.setInt(2, destination.row());
@@ -107,9 +108,9 @@ public class JanggiRepositoryImpl implements JanggiRepository {
     @Override
     public Optional<GameDto> findRecentGame() {
         return jdbcTemplate.queryForSingleObject(
-                "SELECT game_id, turn FROM game " +
-                        "WHERE status = 'PLAYING' " +
-                        "ORDER BY game_id DESC " +
+                "SELECT " + GameColumn.GAME_ID + ", " + GameColumn.TURN + " FROM game " +
+                        "WHERE " + GameColumn.STATUS + " = 'PLAYING' " +
+                        "ORDER BY " + GameColumn.GAME_ID + " DESC " +
                         "LIMIT 1",
                 rs -> new GameDto(rs.getLong(GameColumn.GAME_ID), rs.getString(GameColumn.TURN))
         );
@@ -118,9 +119,9 @@ public class JanggiRepositoryImpl implements JanggiRepository {
     @Override
     public Map<Position, Piece> findPiecesByGameId(long gameId) {
         List<PieceDto> pieceDaos = jdbcTemplate.query(
-                "SELECT piece_type, team, row_idx, col_idx " +
+                "SELECT " + PieceColumn.PIECE_TYPE + ", " + PieceColumn.TEAM + ", " + PieceColumn.ROW_IDX + ", " + PieceColumn.COL_IDX + " " +
                         "FROM piece " +
-                        "WHERE game_id = ?",
+                        "WHERE " + PieceColumn.GAME_ID + " = ?",
                 stmt -> stmt.setLong(1, gameId),
                 new PieceDtoMapper()
         );
@@ -141,7 +142,7 @@ public class JanggiRepositoryImpl implements JanggiRepository {
     @Override
     public void updateCurrentGameStatus(Long gameId, GameStatus gameStatus) {
         jdbcTemplate.execute(
-                "UPDATE game SET status = ? WHERE game_id = ?",
+                "UPDATE game SET " + GameColumn.STATUS + " = ? WHERE " + GameColumn.GAME_ID + " = ?",
                 stmt -> {
                     stmt.setString(1, gameStatus.name());
                     stmt.setLong(2, gameId);
