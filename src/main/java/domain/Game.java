@@ -19,32 +19,23 @@ public class Game {
     }
 
     public MoveCandidate selectSource(Position source) {
-        Piece selectedPiece = board.getPiece(source);
-        players.validateAlly(selectedPiece);
-        Destinations destinations = findDestinations(source);
+        players.validateAlly(board.getPiece(source));
+        Destinations destinations = board.findDestinations(source);
         return new MoveCandidate(source, destinations);
     }
 
-    public void move(MoveCandidate moveCandidate, Position target) {
-        moveCandidate.validate(target);
-        movePiece(moveCandidate.source(), target);
-        players.switchPlayer();
-    }
-
-    private Destinations findDestinations(Position position) {
-        return board.findDestinations(position);
-    }
-
-    private void movePiece(Position source, Position target) {
+    public void move(Position source, Position target) {
+        players.validateAlly(board.getPiece(source));
         this.board = board.movePiece(source, target);
+        players.switchPlayer();
     }
 
     public Map<Position, Piece> getBoard() {
         return board.getBoard();
     }
 
-    public boolean isOver() {
-        return board.isGameOver();
+    public boolean isPlaying() {
+        return board.isPlaying();
     }
 
     public String getWinner() {

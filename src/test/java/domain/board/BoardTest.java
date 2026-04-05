@@ -57,7 +57,7 @@ class BoardTest {
         pieces.put(Position.of(4, 8), PieceFactory.createGeneral(Side.HAN));
         Board board = new Board(pieces);
 
-        assertThat(board.isGameOver()).isFalse();
+        assertThat(board.isPlaying()).isTrue();
     }
 
     @Test
@@ -66,7 +66,7 @@ class BoardTest {
         pieces.put(Position.of(4, 1), PieceFactory.createGeneral(Side.CHO));
         Board board = new Board(pieces);
 
-        assertThat(board.isGameOver()).isTrue();
+        assertThat(board.isPlaying()).isFalse();
     }
 
     @Test

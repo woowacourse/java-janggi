@@ -63,7 +63,7 @@ public class Position {
     }
 
     private static int generateKey(int x, int y) {
-        return x * 31 + y;
+        return x * 10 + y;
     }
 
     public int getY() {

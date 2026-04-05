@@ -7,13 +7,10 @@ import domain.Side;
 import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.Formation;
-import domain.board.FormationCommand;
 import domain.player.Name;
 import domain.player.Players;
 import dto.BoardDto;
 import dto.DestinationDto;
-import dto.PositionDto;
-import java.util.List;
 import java.util.function.Supplier;
 import view.InputParser;
 import view.InputView;
@@ -31,7 +28,7 @@ public class JanggiConsoleController {
     public void play() {
         Game game = initializeGame();
         outputView.printBoard(BoardDto.from(game.getBoard()));
-        while (!game.isOver()) {
+        while (game.isPlaying()) {
             playTurn(game);
         }
         outputView.printWinner(game.getWinner());
@@ -56,20 +53,20 @@ public class JanggiConsoleController {
     }
 
     private void playTurn(Game game) {
-        MoveCandidate moveCandidate = selectPiecePosition(game);
+        Position source = selectPiecePosition(game);
         retry(() -> {
             Position target = InputParser.parsePosition(inputView.readTargetPosition());
-            game.move(moveCandidate, target);
+            game.move(source, target);
         });
         outputView.printBoard(BoardDto.from(game.getBoard()));
     }
 
-    private MoveCandidate selectPiecePosition(Game game) {
+    private Position selectPiecePosition(Game game) {
         return retry(() -> {
             Position position = InputParser.parsePosition(inputView.readSourcePosition(game.getCurrentSide()));
             MoveCandidate moveCandidate = game.selectSource(position);
             outputView.printDestinations(DestinationDto.from(moveCandidate));
-            return moveCandidate;
+            return position;
         });
     }
 

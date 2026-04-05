@@ -78,6 +78,6 @@ class GameTest {
         Game gameOverGame = new Game(new Board(oneGeneralMap), players);
 
         // When & Then
-        assertThat(gameOverGame.isOver()).isTrue();
+        assertThat(gameOverGame.isPlaying()).isTrue();
     }
 }

@@ -22,17 +22,15 @@ public class Board implements BoardReader{
     }
 
     public Board movePiece(Position source, Position target) {
+        findDestinations(source).validateDestinations(target);
         Map<Position, Piece> nextBoardMap = new HashMap<>(this.board);
         Piece movingPiece = nextBoardMap.remove(source);
-        if (movingPiece == null) {
-            throw new IllegalArgumentException("출발지에 기물이 존재하지 않습니다.");
-        }
         nextBoardMap.put(target, movingPiece);
         return new Board(nextBoardMap);
     }
 
-    public boolean isGameOver() {
-        return getVitalSides().size() < MINIMUM_VITAL_PIECES_COUNT;
+    public boolean isPlaying() {
+        return getVitalSides().size() >= MINIMUM_VITAL_PIECES_COUNT;
     }
 
     public Side getWinnerSide() {
