@@ -6,7 +6,7 @@ import janggi.model.piece.Piece;
 import janggi.model.position.absolute.Column;
 import janggi.model.position.absolute.Position;
 import janggi.model.position.absolute.Row;
-import janggi.view.PieceSymbol;
+import janggi.view.mapping.PieceSymbol;
 import java.util.Map;
 
 public record GameStatus(

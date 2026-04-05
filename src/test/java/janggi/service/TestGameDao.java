@@ -1,0 +1,46 @@
+package janggi.service;
+
+import janggi.jdbc.dao.game.GameDao;
+import janggi.jdbc.dao.game.GameEntity;
+import java.sql.Connection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
+public class TestGameDao implements GameDao {
+
+   private final Map<Long, String> turnByGameId = new HashMap<>();
+   private long lastGameId = 0L;
+
+    @Override
+    public Long save(Connection con, String currentTurn) {
+        lastGameId++;
+        turnByGameId.put(lastGameId, currentTurn);
+        return lastGameId;
+    }
+
+    @Override
+    public Optional<GameEntity> findLatestGame(Connection con) {
+        if (turnByGameId.isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.of(new GameEntity(
+                lastGameId,
+                turnByGameId.get(lastGameId))
+        );
+    }
+
+    @Override
+    public void deleteByGameId(Connection con, Long gameId) {
+        if (!turnByGameId.containsKey(gameId)) {
+            throw new IllegalStateException("게임이 없습니다.");
+        }
+
+        turnByGameId.remove(lastGameId);
+
+        if (gameId.equals(lastGameId)) {
+            lastGameId--;
+        }
+    }
+}
