@@ -126,4 +126,19 @@ class GameServiceTest {
             () -> assertThat(actual.get()).isEqualTo(expected)
         );
     }
+
+    @Test
+    @DisplayName("게임 종료 처리 테스트")
+    void closeGame() {
+        long gameId = gameRepository.save(
+            GameEntity.from("게임 1", 88, List.of(TeamType.RED, TeamType.BLUE),
+                GameStatus.IN_PROGRESS));
+        GameEntity expected = GameEntity.from(gameId, "게임 1", 88,
+            List.of(TeamType.RED, TeamType.BLUE), GameStatus.CLOSED);
+
+        gameService.closeGame(gameId);
+        Optional<GameEntity> actual = gameRepository.findById(gameId);
+
+        assertThat(actual).hasValue(expected);
+    }
 }
