@@ -1,5 +1,6 @@
 package dao;
 
+import domain.game.GameStatus;
 import domain.player.Team;
 import infra.db.DbConnectionFactory;
 
@@ -44,11 +45,11 @@ public class GameRoom {
         throw new IllegalStateException("게임 생성 키를 조회하지 못했습니다.");
     }
 
-    public void updateGameState(long gameId, Team currentTurn, String status) {
+    public void updateGameState(long gameId, Team currentTurn, GameStatus status) {
         try (Connection connection = DbConnectionFactory.createConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_GAME_STATE_SQL)) {
             statement.setString(1, currentTurn.name());
-            statement.setString(2, status);
+            statement.setString(2, status.getValue());
             statement.setLong(3, gameId);
             statement.executeUpdate();
         } catch (SQLException e) {

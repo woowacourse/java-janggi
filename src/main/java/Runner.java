@@ -2,12 +2,12 @@ import static domain.player.Team.CHO;
 import static domain.player.Team.HAN;
 
 import dao.BoardRepository;
-import dao.GameLoader;
 import dao.GameLoadResult;
 import dao.GameRoom;
 import common.exception.JanggiException;
 import domain.board.Board;
 import domain.board.Formation;
+import domain.game.GameStatus;
 import domain.manager.GameManager;
 import domain.player.Name;
 import domain.player.Player;
@@ -18,11 +18,9 @@ import java.util.Optional;
 import java.util.function.Supplier;
 import view.InputView;
 import view.OutputView;
+import application.GameLoader;
 
 public class Runner {
-    private static final String PROGRESS_STATUS = "PROGRESS";
-    private static final String CHO_WIN_STATUS = "CHO_WIN";
-    private static final String HAN_WIN_STATUS = "HAN_WIN";
 
     private final InputView inputView;
     private final OutputView outputView;
@@ -65,7 +63,7 @@ public class Runner {
             Position destination = createDestination();
             gameManager.move(source, destination);
             boardRepository.save(gameId, gameManager.getBoard());
-            gameRoom.updateGameState(gameId, gameManager.getCurrentPlayer().getProfile().team(), PROGRESS_STATUS);
+            gameRoom.updateGameState(gameId, gameManager.getCurrentPlayer().getProfile().team(), GameStatus.PROGRESS);
         });
 
         outputView.printBoard(gameManager.getBoard());
@@ -120,7 +118,7 @@ public class Runner {
             retryOnInvalidInput(this::createHanFormation));
         this.gameId = gameRoom.createGame(choPlayer.getProfile().name().value(), hanPlayer.getProfile().name().value());
         boardRepository.save(gameId, gameManager.getBoard());
-        gameRoom.updateGameState(gameId, gameManager.getCurrentPlayer().getProfile().team(), PROGRESS_STATUS);
+        gameRoom.updateGameState(gameId, gameManager.getCurrentPlayer().getProfile().team(), GameStatus.PROGRESS);
     }
 
     private void initializeLoadedGame() {
@@ -163,11 +161,8 @@ public class Runner {
     }
 
 
-    private String resolveFinishedStatus(Player winner) {
-        if(winner.getProfile().team() == CHO) {
-            return CHO_WIN_STATUS;
-        }
-        return HAN_WIN_STATUS;
+    private GameStatus resolveFinishedStatus(Player winner) {
+        return winner.getProfile().team() == CHO ? GameStatus.CHO_WIN : GameStatus.HAN_WIN;
     }
 
     private Player createChoPlayer() {

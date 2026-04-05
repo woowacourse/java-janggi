@@ -3,6 +3,7 @@ package dao;
 import static domain.player.Team.HAN;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.game.GameStatus;
 import infra.db.DbBootstrap;
 import infra.db.DbConnectionFactory;
 import java.sql.Connection;
@@ -42,7 +43,7 @@ class GameRoomTest {
     void 게임_상태를_업데이트하면_턴과_상태가_변경된다() throws SQLException {
         long gameId = gameRoom.createGame("CHO Player", "HAN Player");
 
-        gameRoom.updateGameState(gameId, HAN, "HAN_WIN");
+        gameRoom.updateGameState(gameId, HAN, GameStatus.HAN_WIN);
 
         try (Connection connection = DbConnectionFactory.createConnection();
              PreparedStatement statement = connection.prepareStatement(
@@ -73,13 +74,13 @@ class GameRoomTest {
         // 기존에 있을 수 있는 PROGRESS 게임들 종료
         Optional<Long> existingGame = gameRoom.findProgressGame();
         while (existingGame.isPresent()) {
-            gameRoom.updateGameState(existingGame.get(), HAN, "CHO_WIN");
+            gameRoom.updateGameState(existingGame.get(), HAN, GameStatus.CHO_WIN);
             existingGame = gameRoom.findProgressGame();
         }
 
         // 새 게임 생성 후 바로 종료
         long gameId = gameRoom.createGame("CHO Player", "HAN Player");
-        gameRoom.updateGameState(gameId, HAN, "HAN_WIN");
+        gameRoom.updateGameState(gameId, HAN, GameStatus.HAN_WIN);
 
         Optional<Long> foundId = gameRoom.findProgressGame();
 
@@ -98,7 +99,7 @@ class GameRoomTest {
     @Test
     void getCurrentTurn_업데이트_후_변경된_차례를_반환한다() {
         long gameId = gameRoom.createGame("CHO Player", "HAN Player");
-        gameRoom.updateGameState(gameId, HAN, "PROGRESS");
+        gameRoom.updateGameState(gameId, HAN, GameStatus.PROGRESS);
 
         var currentTurn = gameRoom.getCurrentTurn(gameId);
 
