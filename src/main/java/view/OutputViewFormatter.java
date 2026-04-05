@@ -36,7 +36,7 @@ public class OutputViewFormatter {
     }
 
     public String formatColNumbers() {
-        StringBuilder colNumbers = new StringBuilder("   ");
+        StringBuilder colNumbers = new StringBuilder("\n   ");
         for (int y = 1; y <= 9; y++) {
             colNumbers.append(COL_NUMBERS.get(y)).append("  ");
         }
