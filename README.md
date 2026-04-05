@@ -19,44 +19,38 @@
 
 ### 🗃️ DB 설계
 
-> 초기
+> ### 초기
+>
+> (id 는 공통이니 생략)
+>
+> 게임(생성일시) date
+>
+> 플레이어(닉네임, 게임id, 진영id) varchar int int
+>
+> 현재 턴(게임id, 진영 id) int int
+>
+> 진영(진영) varchar?
+>
+> 기물(종류) varchar?
+>
+> 위치(행번호, 열번호) int int
+>
+> 기물 배치 상태(게임id, 기물id, 위치id) int int int
 
-    (id 는 공통이니 생략)
-    
-    게임(생성일시) date
-    
-    플레이어(닉네임, 게임id, 진영id) varchar int int
-    
-    현재 턴(게임id, 진영 id) int int
-    
-    진영(진영) varchar?
-    
-    기물(종류) varchar?
-    
-    위치(행번호, 열번호) int int
-    
-    기물 배치 상태(게임id, 기물id, 위치id) int int int
-
-> 수정
+> ### 수정
 > - 도메인과 테이블이 1:1 관계인가?
-    >
-
-- 0~N : 0:N 관계
-
+> - 0~N : 0:N 관계
 > - 없어도 될 테이블은 과감히 속성으로 격하하고
     >
 
 - 필수적인 데이터(가변 상태)만 테이블로 묶어 저장
 
-```java
-
-public static Players from(String choPlayerName, String hanPlayerName) {
-    ->varchar cho_player_name, varchar han_player_name
-}
-
-// 상태와 값(enum) 을 String(varchar)으로 저장 / 로드
-
-```
+> ```java
+> public static Players from(String choPlayerName, String hanPlayerName) {
+>     ->varchar cho_player_name, varchar han_player_name
+> }
+> // 상태와 값(enum) 을 String(varchar)으로 저장 / 로드
+> ```
 
 TABLE `GAME` (게임)
 
@@ -83,6 +77,23 @@ TABLE `GAME_PIECE_POSITION` (기물 배치 상태)
     side(VARCHAR)
     
     piece_number(VARCHAR)
+
+### DB 에서 뽑아올 정보
+
+- #### 게임(진행 중인) 정보
+    - `게임ID` - 몰라도 되지만, 식별할 방법은? 플레이어 닉네임? 중복이라면?
+    - `플레이어 닉네임(초)`
+    - `플레이어 닉네임(한)`
+    - `플레이어 턴`
+    - `게임 생성 일시`
+    - `게임 종료 일시` - 없으면 게임 종료?
+- #### 해당 게임의 기물 배치 정보
+    - `기물 종류` - PieceType Enum 이름을 varchar 로
+    - `기물 위치` - 기물의 위치 Position row/column 을 int 로
+
+> 게임 ID 는 몰라도 되고, 진행 중인 게임의 목록은 출력  
+> 이어갈 게임을 선택`순번으로`하거나, `0 입력`  
+> 해당 게임 정보를 불러와서 GameManager 조립해주면 완-벽
 
 - ✔️ 선택) 게임방 구현
 
