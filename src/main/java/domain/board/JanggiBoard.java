@@ -2,16 +2,7 @@ package domain.board;
 
 import domain.Position;
 import domain.Team;
-import domain.piece.Blank;
-import domain.piece.Cannon;
-import domain.piece.Chariot;
-import domain.piece.Elephant;
-import domain.piece.Guard;
-import domain.piece.Horse;
-import domain.piece.King;
-import domain.piece.Pawn;
-import domain.piece.Piece;
-import domain.piece.PieceProvider;
+import domain.piece.*;
 import domain.strategy.*;
 
 import java.util.Collections;
@@ -82,6 +73,18 @@ public class JanggiBoard implements PieceProvider {
         janggiBoard.put(currentPosition, new Blank());
 
         return caughtPiece;
+    }
+
+    public double calculateScore(Team team) {
+        double totalScore = 0;
+        for (Map.Entry<Position, Piece> entry : janggiBoard.entrySet()) {
+            Piece piece = entry.getValue();
+            if (piece.getTeam() == team) {
+                PieceType pieceType = piece.getPieceType();
+                totalScore += pieceType.getScore();
+            }
+        }
+        return totalScore;
     }
 
     private void validateMovePiece(Position currentPosition, Position targetPosition, Piece currentPiece) {
