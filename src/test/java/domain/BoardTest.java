@@ -1,6 +1,7 @@
 package domain;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 import domain.constant.PieceType;
@@ -91,4 +92,40 @@ class BoardTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
+    @Test
+    void 장_궁성_영역_외부_이동_예외_테스트() {
+        List<PieceType> pieces = BoardTestUtil.createMaSangSangMa();
+        Board board = new Board(pieces, pieces);
+        board.move(Position.create(2, 5), Position.create(2, 4));
+        assertThatThrownBy(() -> board.move(Position.create(2, 4), Position.create(2, 3)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("장과 사는 궁성 내부에서만 이동 가능합니다.");
+    }
+
+    @Test
+    void 사_궁성_영역_외부_이동_예외_테스트() {
+        List<PieceType> pieces = BoardTestUtil.createMaSangSangMa();
+        Board board = new Board(pieces, pieces);
+        board.move(Position.create(1, 4), Position.create(2, 4));
+        assertThatThrownBy(() -> board.move(Position.create(2, 4), Position.create(2, 3)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("장과 사는 궁성 내부에서만 이동 가능합니다.");
+    }
+
+    @Test
+    void 장_궁성_영역_대각선_이동_테스트() {
+        List<PieceType> pieces = BoardTestUtil.createMaSangSangMa();
+        Board board = new Board(pieces, pieces);
+        assertThatCode(() -> board.move(Position.create(2, 5), Position.create(3, 4)))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    void 사_궁성_영역_대각선_이동_테스트() {
+        List<PieceType> pieces = BoardTestUtil.createMaSangSangMa();
+        Board board = new Board(pieces, pieces);
+        board.move(Position.create(2, 5), Position.create(3, 5));
+        assertThatCode(() -> board.move(Position.create(1, 4), Position.create(2, 5)))
+                .doesNotThrowAnyException();
+    }
 }
