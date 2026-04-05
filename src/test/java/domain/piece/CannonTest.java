@@ -70,8 +70,6 @@ public class CannonTest {
     void cannonCatchCannonExceptionTest() {
         Board board = Board.create(TableSetting.LEFT_TABLE, TableSetting.RIGHT_TABLE);
         board.move(new Position(0, 3), new Position(1, 3));
-//        board.move(new Position(0, 4), new Position(1, 3));
-//        board.move(new Position(1, 3), new Position(1, 4));
 
         Position from = new Position(1, 2);
         Position to = new Position(1, 7);
@@ -79,5 +77,17 @@ public class CannonTest {
         assertThatThrownBy(() -> board.move(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 포는 포를 잡을 수 없습니다.");
+    }
+
+    @Test
+    @DisplayName("포가 궁성 내부에서 대각선으로 이동할 수 있다.")
+    void cannonDiagonalInPalaceTest() {
+        Piece choCannon = new Cannon(Country.CHO);
+        Piece hanCannon = new Cannon(Country.HAN);
+
+        assertThat(choCannon.findPaths(new Position(3, 0), new Position(5, 2)))
+                .isEqualTo(List.of(new Position(4, 1), new Position(5, 2)));
+        assertThat(hanCannon.findPaths(new Position(3, 9), new Position(5, 7)))
+                .isEqualTo(List.of(new Position(4, 8), new Position(5, 7)));
     }
 }

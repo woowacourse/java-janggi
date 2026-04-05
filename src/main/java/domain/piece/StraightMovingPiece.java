@@ -1,6 +1,8 @@
 package domain.piece;
 
 import domain.Direction;
+import domain.Distance;
+import domain.Position;
 import java.util.List;
 
 public abstract class StraightMovingPiece extends Piece {
@@ -12,15 +14,36 @@ public abstract class StraightMovingPiece extends Piece {
     }
 
     @Override
+    public List<Direction> findMovingDirections(Position from, Position to) {
+        Distance distance = from.calculateDistance(to);
+        List<Direction> directions = Direction.findDirections(distance.x(), distance.y());
+
+        if (from.isInPalace(pieceInfo.country())) {
+            validateDirectionsInPalace(directions);
+            return directions;
+        }
+        validateDirections(directions);
+        return directions;
+    }
+
+    @Override
     protected void validateDirections(List<Direction> directions) {
+        validateAllSameDirection(directions);
+        if (directions.getFirst().isDiagonal()) {
+            throw new IllegalArgumentException(ONLY_MOVE_STRAIGHT);
+        }
+    }
+
+    protected void validateDirectionsInPalace(List<Direction> directions) {
+        validateAllSameDirection(directions);
+    }
+
+    private void validateAllSameDirection(List<Direction> directions) {
         Direction oneSide = directions.getFirst();
         boolean allSameDirection = directions.stream()
                 .allMatch(direction -> direction.equals(oneSide));
         if (!allSameDirection) {
             throw new IllegalArgumentException(FIXED_DIRECTION);
-        }
-        if (oneSide.isDiagonal()) {
-            throw new IllegalArgumentException(ONLY_MOVE_STRAIGHT);
         }
     }
 }

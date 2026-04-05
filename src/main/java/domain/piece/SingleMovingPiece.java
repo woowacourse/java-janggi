@@ -1,6 +1,8 @@
 package domain.piece;
 
 import domain.Direction;
+import domain.Distance;
+import domain.Position;
 import java.util.List;
 
 public abstract class SingleMovingPiece extends Piece {
@@ -14,13 +16,31 @@ public abstract class SingleMovingPiece extends Piece {
     }
 
     @Override
+    public List<Direction> findMovingDirections(Position from, Position to) {
+        Distance distance = from.calculateDistance(to);
+        List<Direction> directions = Direction.findDirections(distance.x(), distance.y());
+
+        if (from.isInPalace(pieceInfo.country())) {
+            validateDirectionsInPalace(directions);
+            return directions;
+        }
+        validateDirections(directions);
+        return directions;
+    }
+
+    @Override
     protected void validateDirections(List<Direction> directions) {
         if (directions.size() != DIRECTION_SIZE) {
             throw new IllegalArgumentException(INVALID_DIRECTION_SIZE);
         }
-        // 궁성 영역 생각하지 않음
         if (directions.getFirst().isDiagonal()) {
             throw new IllegalArgumentException(ONLY_MOVE_STRAIGHT);
+        }
+    }
+
+    protected void validateDirectionsInPalace(List<Direction> directions) {
+        if (directions.size() != DIRECTION_SIZE) {
+            throw new IllegalArgumentException(INVALID_DIRECTION_SIZE);
         }
     }
 }
