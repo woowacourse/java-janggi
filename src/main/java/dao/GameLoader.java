@@ -1,5 +1,10 @@
 package dao;
 
+import domain.piece.BasicPiece;
+import domain.player.Team;
+import domain.position.Position;
+
+import java.util.Map;
 import java.util.Optional;
 
 public class GameLoader {
@@ -19,15 +24,15 @@ public class GameLoader {
 
         long gameId = gameIdOpt.get();
         try {
-            var boardMap = boardRepository.loadBoard(gameId);
-            var currentTeam = gameRoom.getCurrentTurn(gameId);
-            var playerNames = gameRoom.getPlayerNames(gameId);
+            Map<Position, BasicPiece> boardMap = boardRepository.loadBoard(gameId);
+            Team currentTeam = gameRoom.getCurrentTurn(gameId);
+            PlayerNames playerNames = gameRoom.getPlayerNames(gameId);
             return Optional.of(new GameLoadResult(
-                gameId,
-                playerNames.choName(),
-                playerNames.hanName(),
-                currentTeam,
-                boardMap
+                    gameId,
+                    playerNames.choName(),
+                    playerNames.hanName(),
+                    currentTeam,
+                    boardMap
             ));
         } catch (Exception e) {
             throw new IllegalStateException("게임 불러오기에 실패했습니다: " + e.getMessage(), e);
@@ -36,19 +41,18 @@ public class GameLoader {
 
     public Optional<GameLoadResult> loadGameById(long gameId) {
         try {
-            var boardMap = boardRepository.loadBoard(gameId);
-            var currentTeam = gameRoom.getCurrentTurn(gameId);
-            var playerNames = gameRoom.getPlayerNames(gameId);
+            Map<Position, BasicPiece> boardMap = boardRepository.loadBoard(gameId);
+            Team currentTeam = gameRoom.getCurrentTurn(gameId);
+            PlayerNames playerNames = gameRoom.getPlayerNames(gameId);
             return Optional.of(new GameLoadResult(
-                gameId,
-                playerNames.choName(),
-                playerNames.hanName(),
-                currentTeam,
-                boardMap
+                    gameId,
+                    playerNames.choName(),
+                    playerNames.hanName(),
+                    currentTeam,
+                    boardMap
             ));
         } catch (Exception e) {
             System.err.println("게임 로드 실패 (gameId: " + gameId + "): " + e.getMessage());
-            e.printStackTrace();
             return Optional.empty();
         }
     }
