@@ -2,17 +2,16 @@ package model.move;
 
 import model.board.Board;
 import model.board.Country;
+import model.board.Palace;
 import model.pieces.Piece;
 import model.pieces.PieceType;
-
 import java.util.List;
-
 
 public class CannonMoveRule extends MoveRule {
 
     @Override
     public boolean matches(Move move, Board board, Country country) {
-        if (!move.isStraight()) {
+        if(!isMovableRoute(move,country)){
             return false;
         }
 
@@ -25,6 +24,14 @@ public class CannonMoveRule extends MoveRule {
         return isValidTarget(from, target);
     }
 
+    private boolean isMovableRoute(Move move,Country country){
+        if(move.isStraight()){
+            return true;
+        }
+
+        Palace palace = Palace.from(country);
+        return palace.isDiagonalMove(move);
+    }
 
     private boolean isValidBridge(List<Piece> betweenPieces) {
         return betweenPieces.size() == 1
@@ -38,5 +45,4 @@ public class CannonMoveRule extends MoveRule {
         return target.pieceType() != PieceType.CANNON
                 && from.country() != target.country();
     }
-
 }
