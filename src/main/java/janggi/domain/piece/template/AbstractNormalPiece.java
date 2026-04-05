@@ -18,15 +18,17 @@ public abstract class AbstractNormalPiece implements Piece {
 
     private final Team team;
     private final PieceType type;
+    private final Castle castle;
 
-    public AbstractNormalPiece(Team team, PieceType type) {
+    public AbstractNormalPiece(Team team, PieceType type, Castle castle) {
         this.team = team;
         this.type = type;
+        this.castle = castle;
     }
 
     @Override
     public Points getRoutePoints(Point from, Point to) {
-        if (!Castle.inSameCastle(from, to)) {
+        if (!castle.inSameCastle(from, to)) {
             throw new IllegalArgumentException("[ERROR] 궁성 밖으로 나갈 수 없습니다.");
         }
         int pathCol = to.calculatePathColumn(from);

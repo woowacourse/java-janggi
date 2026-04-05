@@ -17,10 +17,12 @@ public abstract class AbstractStraightPiece implements Piece {
 
     private final Team team;
     private final PieceType type;
+    private final Castle castle;
 
-    public AbstractStraightPiece(Team team, PieceType type) {
+    public AbstractStraightPiece(Team team, PieceType type, Castle castle) {
         this.team = team;
         this.type = type;
+        this.castle = castle;
     }
 
     @Override
@@ -72,7 +74,7 @@ public abstract class AbstractStraightPiece implements Piece {
     }
 
     private void validateDirection(Point from, Point to, int signCol, int signRow, int pathCol, int pathRow) {
-        if (Castle.inSameCastle(from, to)) {
+        if (castle.inSameCastle(from, to)) {
             CastleDirection.find(from, signCol, signRow);
             return;
         }

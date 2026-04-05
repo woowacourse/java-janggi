@@ -18,10 +18,12 @@ public class Jol implements Piece {
 
     private final Team team;
     private final PieceType type;
+    private final Castle castle;
 
     public Jol(Team team) {
         this.team = team;
         this.type = PieceType.JOL;
+        this.castle = new Castle();
     }
 
     @Override
@@ -33,7 +35,7 @@ public class Jol implements Piece {
         validateForward(signRow);
         int distanceCol = abs(pathCol);
         int distanceRow = abs(pathRow);
-        if (Castle.inSameCastle(from, to)) {
+        if (castle.inSameCastle(from, to)) {
             CastleDirection direction = CastleDirection.find(from, signCol, signRow);
             Point point = Point.of(from.getColumn() + direction.getTargetCol(),
                     from.getRow() + direction.getTargetRow());
