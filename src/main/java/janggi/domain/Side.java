@@ -36,6 +36,10 @@ public enum Side {
         return side;
     }
 
+    public String getOppositeSideName() {
+        return getOppositeSide().getName();
+    }
+
     public static Side from(String name) {
         return Arrays.stream(Side.values())
                 .filter(side -> side.getName().equals(name))

@@ -131,7 +131,7 @@ public class Runner {
         OutputView.printLine();
 
         PieceAttribute movedPiece = game.move(startPosition, endPosition);
-        TurnDto turnDto = new TurnDto(movedPiece.side().getOppositeSide().getName(), game.getCurrentTurn());
+        TurnDto turnDto = new TurnDto(movedPiece.getOppositeSideName(), game.getCurrentTurn());
 
         janggiService.movePiece(gameId, startPosition, endPosition, movedPiece.side(), movedPiece.pieceType(), turnDto);
 
