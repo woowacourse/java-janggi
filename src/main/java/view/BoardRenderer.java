@@ -19,7 +19,9 @@ public class BoardRenderer {
 
     private static final String EMPTY_CELL = "＋";
     private static final String HORIZONTAL_LINE = "－";
-    private static final String VERTICAL_LINE = "   ｜　｜　｜　｜　｜　｜　｜　｜　｜";
+    private static final String VERTICAL_LINE_DEFAULT = "   ｜　｜　｜　｜　｜　｜　｜　｜　｜";
+    private static final String VERTICAL_LINE_PALACE_TOP = "   ｜　｜　｜　｜＼｜／｜　｜　｜　｜";
+    private static final String VERTICAL_LINE_PALACE_BOTTOM = "   ｜　｜　｜　｜／｜＼｜　｜　｜　｜";
 
     public String render(Board board) {
         List<String> lines = new ArrayList<>();
@@ -30,11 +32,23 @@ public class BoardRenderer {
             lines.add(formatRowLabel(y) + " " + renderRow(board, y));
 
             if (y < MAX_Y) {
-                lines.add(VERTICAL_LINE);
+                lines.add(getVerticalLine(y));
             }
         }
 
         return String.join(System.lineSeparator(), lines);
+    }
+
+    private String getVerticalLine(int y) {
+        if (y == 1 || y == 8) {
+            return VERTICAL_LINE_PALACE_TOP;
+        }
+
+        if (y == 2 || y == 9) {
+            return VERTICAL_LINE_PALACE_BOTTOM;
+        }
+
+        return VERTICAL_LINE_DEFAULT;
     }
 
     private String renderRow(Board board, int y) {
