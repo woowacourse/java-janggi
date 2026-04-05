@@ -26,14 +26,14 @@ public class JanggiController {
         JanggiBoard janggiBoard = new JanggiBoard(new HashMap<>());
         JanggiGame janggiGame = new JanggiGame(janggiBoard);
 
-        while(true) {
+        while(!janggiGame.isFinished()) {
             try {
                 playTurn(janggiBoard, janggiGame);
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
         }
-
+        outputView.printJanggiBoard(BoardMapper.from(janggiBoard));
     }
 
     private void playTurn(JanggiBoard janggiBoard, JanggiGame janggiGame) {

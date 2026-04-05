@@ -72,13 +72,16 @@ public class JanggiBoard implements PieceProvider {
         }
     }
 
-    public void movePiece(Position currentPosition, Position targetPosition) {
+    public Piece movePiece(Position currentPosition, Position targetPosition) {
         Piece currentPiece = getPiece(currentPosition);
 
+        Piece caughtPiece = getPiece(targetPosition);
         validateMovePiece(currentPosition, targetPosition, currentPiece);
 
         janggiBoard.put(targetPosition, currentPiece);
         janggiBoard.put(currentPosition, new Blank());
+
+        return caughtPiece;
     }
 
     private void validateMovePiece(Position currentPosition, Position targetPosition, Piece currentPiece) {
