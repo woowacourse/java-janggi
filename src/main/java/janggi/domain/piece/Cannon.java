@@ -24,9 +24,9 @@ public class Cannon extends MoveablePiece {
     }
 
     @Override
-    public void validateCanMove(PieceOnPath piecesOnPath, Piece endPiece) {
-        validateJumpOnlyOnePiece(piecesOnPath);
-        validateJumpCannon(piecesOnPath);
+    public void validateCanMove(PieceOnPath pieceOnPath, Piece endPiece) {
+        validateJumpOnlyOnePiece(pieceOnPath);
+        validateJumpCannon(pieceOnPath);
         validateSameTeam(endPiece);
         validateEndCannon(endPiece);
     }
@@ -51,21 +51,19 @@ public class Cannon extends MoveablePiece {
     }
 
     private void validateJumpOnlyOnePiece(PieceOnPath piecesOnPath) {
-        if (piecesOnPath.stream()
-                .filter(piece -> !piece.isEmptyPiece()).count() != 1) {
+        if (piecesOnPath.countNonEmpty() != 1) {
             throw new IllegalArgumentException("[ERROR] 포는 오직 1개의 기물을 뛰어넘고 이동할 수 있습니다.");
         }
     }
 
     private void validateEndCannon(Piece endPiece) {
-        if (endPiece.getType() == PieceType.CANNON) {
+        if (endPiece.isSameType(getType())) {
             throw new IllegalArgumentException("[ERROR] 포는 포를 잡을 수 없습니다.");
         }
     }
 
-    private void validateJumpCannon(PieceOnPath piecesOnPath) {
-        if (piecesOnPath.stream()
-                .anyMatch(piece -> piece.getType() == PieceType.CANNON)) {
+    private void validateJumpCannon(PieceOnPath pieceOnPath) {
+        if (pieceOnPath.hasType(getType())) {
             throw new IllegalArgumentException("[ERROR] 포는 포를 뛰어넘을 수 없습니다.");
         }
     }

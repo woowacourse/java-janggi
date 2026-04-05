@@ -33,8 +33,11 @@ class ChariotTest {
         // given
         Chariot chariot = new Chariot(Team.HAN);
 
-        // when & then
-        assertThat(chariot.getType()).isEqualTo(PieceType.CHARIOT);
+        // when
+        boolean result = chariot.isSameType(PieceType.CHARIOT);
+
+        // then
+        assertThat(result).isTrue();
     }
 
     @Test

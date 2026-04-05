@@ -24,7 +24,7 @@ public class Guard extends MoveablePiece {
     }
 
     @Override
-    public void validateCanMove(PieceOnPath piecesOnPath, Piece endPiece) {
+    public void validateCanMove(PieceOnPath pieceOnPath, Piece endPiece) {
         validateSameTeam(endPiece);
     }
 

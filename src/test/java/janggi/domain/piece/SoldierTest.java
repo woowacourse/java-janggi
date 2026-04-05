@@ -33,8 +33,11 @@ class SoldierTest {
         // given
         Soldier soldier = new Soldier(Team.HAN);
 
-        // when & then
-        assertThat(soldier.getType()).isEqualTo(PieceType.SOLDIER);
+        // when
+        boolean result = soldier.isSameType(PieceType.SOLDIER);
+
+        // then
+        assertThat(result).isTrue();
     }
 
     @ParameterizedTest(name = "from={0}, to={1}")

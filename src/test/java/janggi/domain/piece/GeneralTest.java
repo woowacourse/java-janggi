@@ -33,8 +33,11 @@ class GeneralTest {
         // given
         General general = new General(Team.HAN);
 
-        // when & then
-        assertThat(general.getType()).isEqualTo(PieceType.GENERAL);
+        // when
+        boolean result = general.isSameType(PieceType.GENERAL);
+
+        // then
+        assertThat(result).isTrue();
     }
 
     @ParameterizedTest

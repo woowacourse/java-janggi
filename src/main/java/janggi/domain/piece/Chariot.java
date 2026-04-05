@@ -24,8 +24,8 @@ public class Chariot extends MoveablePiece {
     }
 
     @Override
-    public void validateCanMove(PieceOnPath piecesOnPath, Piece endPiece) {
-        validateAllPieceEmpty(piecesOnPath);
+    public void validateCanMove(PieceOnPath pieceOnPath, Piece endPiece) {
+        validateAllPieceEmpty(pieceOnPath);
         validateSameTeam(endPiece);
     }
 
@@ -49,7 +49,7 @@ public class Chariot extends MoveablePiece {
     }
 
     private void validateAllPieceEmpty(PieceOnPath piecesOnPath) {
-        if (!piecesOnPath.stream().allMatch(Piece::isEmptyPiece)) {
+        if (piecesOnPath.countNonEmpty() != 0) {
             throw new IllegalArgumentException("[ERROR] 차의 이동 경로에 기물이 있을 수 없습니다.");
         }
     }

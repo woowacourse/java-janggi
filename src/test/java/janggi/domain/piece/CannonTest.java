@@ -33,8 +33,11 @@ class CannonTest {
         // given
         Cannon cannon = new Cannon(Team.HAN);
 
-        // when & then
-        assertThat(cannon.getType()).isEqualTo(PieceType.CANNON);
+        // when
+        boolean result = cannon.isSameType(PieceType.CANNON);
+
+        // then
+        assertThat(result).isTrue();
     }
 
     @Test

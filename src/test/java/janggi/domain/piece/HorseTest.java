@@ -33,8 +33,11 @@ class HorseTest {
         // given
         Horse horse = new Horse(Team.HAN);
 
-        // when & then
-        assertThat(horse.getType()).isEqualTo(PieceType.HORSE);
+        // when
+        boolean result = horse.isSameType(PieceType.HORSE);
+
+        // then
+        assertThat(result).isTrue();
     }
 
     @ParameterizedTest(name = "from={0}, to={1}, path1={2}")

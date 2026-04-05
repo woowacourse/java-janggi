@@ -18,6 +18,11 @@ public class EmptyPiece implements Piece {
     }
 
     @Override
+    public boolean isSameType(PieceType type) {
+        return getType() == type;
+    }
+
+    @Override
     public PieceType getType() {
         return PieceType.EMPTY;
     }
@@ -33,7 +38,7 @@ public class EmptyPiece implements Piece {
     }
 
     @Override
-    public void validateCanMove(PieceOnPath piecesOnPath, Piece endPiece) {
+    public void validateCanMove(PieceOnPath pieceOnPath, Piece endPiece) {
         throw new IllegalArgumentException("[ERROR] 빈 기물은 이동할 수 없습니다.");
     }
 }

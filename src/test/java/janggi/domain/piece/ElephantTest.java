@@ -33,8 +33,11 @@ class ElephantTest {
         // given
         Elephant elephant = new Elephant(Team.HAN);
 
-        // when & then
-        assertThat(elephant.getType()).isEqualTo(PieceType.ELEPHANT);
+        // when
+        boolean result = elephant.isSameType(PieceType.ELEPHANT);
+
+        // then
+        assertThat(result).isTrue();
     }
 
     @ParameterizedTest(name = "from={0}, to={1}, path1={2}, path2={3}")

@@ -33,8 +33,11 @@ class GuardTest {
         // given
         Guard guard = new Guard(Team.HAN);
 
-        // when & then
-        assertThat(guard.getType()).isEqualTo(PieceType.GUARD);
+        // when
+        boolean result = guard.isSameType(PieceType.GUARD);
+
+        // then
+        assertThat(result).isTrue();
     }
 
     @ParameterizedTest(name = "from={0}, to={1}")

@@ -27,8 +27,11 @@ class EmptyPieceTest {
         // given
         EmptyPiece emptyPiece = new EmptyPiece();
 
-        // when & then
-        assertThat(emptyPiece.getType()).isEqualTo(PieceType.EMPTY);
+        // when
+        boolean result = emptyPiece.isSameType(PieceType.EMPTY);
+
+        // then
+        assertThat(result).isTrue();
     }
 
     @Test
