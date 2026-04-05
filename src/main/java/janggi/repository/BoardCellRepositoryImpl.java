@@ -67,11 +67,11 @@ public class BoardCellRepositoryImpl implements BoardCellRepository {
     @Override
     public List<BoardCellEntity> findAllByGameId(final long gameId) {
         final String sql = String.format(
-            "SELECT id, row_pos, column_pos, piece_type, team, game_id FROM %s WHERE game_id = %d",
-            TABLE_NAME, gameId);
+            "SELECT id, row_pos, column_pos, piece_type, team, game_id FROM %s WHERE game_id = ?",
+            TABLE_NAME);
         final EntityMapper<BoardCellEntity> mapper = getBoardCellEntityEntityMapper();
 
-        return dbConnection.executeSelectAll(sql, mapper);
+        return dbConnection.executeSelectAll(sql, mapper, gameId);
     }
 
     private static EntityMapper<BoardCellEntity> getBoardCellEntityEntityMapper() {
