@@ -3,9 +3,9 @@ package janggi.domain.turn;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.SideScore;
+import janggi.domain.board.Board;
 import janggi.domain.piece.PieceAttribute;
 import java.util.List;
-import java.util.Optional;
 
 public interface PlayerTurn {
     TurnState move(Position start, Position end);
@@ -21,4 +21,15 @@ public interface PlayerTurn {
     SideScore getCurrentScore();
 
     int getCurrentTurn();
+
+    static public PlayerTurn from(Board board, int turn, Side side) {
+        if(side.equals(Side.CHO)) {
+            return new ChoTurn(board, turn);
+        }
+        return new HanTurn(board, turn);
+    }
+
+    static public PlayerTurn init(Board board, int turn) {
+        return new ChoTurn(board, turn);
+    }
 }

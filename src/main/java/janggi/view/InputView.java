@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
-import javax.swing.text.html.Option;
 
 public class InputView {
     private static final String HAN_ARRANGEMENT_MESSAGE = "한 진영의 배치를 입력해주세요. (예: 마상마상, 마상상마, 상마상마, 상마마상)";

@@ -6,7 +6,6 @@ import janggi.domain.SideScore;
 import janggi.domain.piece.PieceAttribute;
 import janggi.domain.piece.PieceType;
 import janggi.dto.BoardDto;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class OutputView {

@@ -18,7 +18,7 @@ class PawnTest {
             "2,3,2,4",
     })
     void 폰은_한_진영일때_하좌우로_한_칸_이동할_수_있다(int startX, int startY, int endX, int endY) {
-        Pawn pawn = new Pawn(Side.CHO);
+        Pawn pawn = new Pawn(Side.HAN);
 
         Position startPosition = new Position(startX, startY);
         Position endPosition = new Position(endX, endY);
@@ -34,7 +34,7 @@ class PawnTest {
             "9,5,10,6"
     })
     void 폰은_한_진영일때_궁성에서_아래_대각선으로_한_칸_이동할_수_있다(int startX, int startY, int endX, int endY) {
-        Pawn pawn = new Pawn(Side.CHO);
+        Pawn pawn = new Pawn(Side.HAN);
 
         Position startPosition = new Position(startX, startY);
         Position endPosition = new Position(endX, endY);
@@ -86,7 +86,7 @@ class PawnTest {
             "2,3,3,1"
     })
     void 폰은_한_진영일_때_하좌우가_아닌_좌표로는_이동할_수_없다(int startX, int startY, int endX, int endY) {
-        Pawn pawn = new Pawn(Side.CHO);
+        Pawn pawn = new Pawn(Side.HAN);
 
         Position startPosition = new Position(startX, startY);
         Position endPosition = new Position(endX, endY);
@@ -102,7 +102,7 @@ class PawnTest {
             "9,5,8,6",
     })
     void 폰은_한_진영일_때_궁성에서_위_대각선으로_이동할_수_없다(int startX, int startY, int endX, int endY) {
-        Pawn pawn = new Pawn(Side.CHO);
+        Pawn pawn = new Pawn(Side.HAN);
 
         Position startPosition = new Position(startX, startY);
         Position endPosition = new Position(endX, endY);

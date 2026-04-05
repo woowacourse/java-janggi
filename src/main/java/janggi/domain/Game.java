@@ -4,8 +4,6 @@ import janggi.domain.board.Board;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceAttribute;
 import janggi.domain.piece.PieceType;
-import janggi.domain.turn.ChoTurn;
-import janggi.domain.turn.HanTurn;
 import janggi.domain.turn.PlayerTurn;
 import janggi.domain.turn.TurnState;
 import janggi.dto.BoardDto;
@@ -21,19 +19,17 @@ public class Game {
 
     public List<PieceInitInfo> init(Arrangement choArrangement, Arrangement hanArrangement) {
         Map<Position, Piece> initBoard = BoardInitializer.createBoard(choArrangement, hanArrangement);
-        int hanScore = calculateScore(initBoard, Side.HAN);
-        int choScore = calculateScore(initBoard, Side.CHO);
+        Board board = getBoard(initBoard);
 
-        this.playerTurn = new ChoTurn(new Board(initBoard, hanScore, choScore), 0);
+        this.playerTurn = PlayerTurn.init(board, 0);
         return getPieceInitInfo(initBoard);
     }
 
     public void init(List<PieceInitInfo> pieceInitInfos, Side side, int turn) {
         Map<Position, Piece> initBoard = BoardInitializer.createBoard(pieceInitInfos);
-        int hanScore = calculateScore(initBoard, Side.HAN);
-        int choScore = calculateScore(initBoard, Side.CHO);
+        Board board = getBoard(initBoard);
 
-        initTurn(new Board(initBoard, hanScore, choScore), side, turn);
+        this.playerTurn = PlayerTurn.from(board, turn, side);
     }
 
     public PieceAttribute move(Position start, Position end) {
@@ -75,12 +71,11 @@ public class Game {
         return pieceInitInfos;
     }
 
-    private void initTurn(Board board, Side side, int turn) {
-        if(side.equals(Side.CHO)) {
-            this.playerTurn = new ChoTurn(board, turn);
-            return;
-        }
-        this.playerTurn = new HanTurn(board, turn);
+    private Board getBoard(Map<Position, Piece> board) {
+        int hanScore = calculateScore(board, Side.HAN);
+        int choScore = calculateScore(board, Side.CHO);
+
+        return new Board(board, hanScore, choScore);
     }
 
     private int calculateScore(Map<Position, Piece> initBoard, Side side) {
