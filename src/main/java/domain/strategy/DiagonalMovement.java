@@ -7,7 +7,6 @@ import domain.enums.Country;
 import domain.enums.Direction;
 
 public class DiagonalMovement implements MoveStrategy{
-    // TODO : 대각선 로직으로 수정 필요
     public Optional<Position> move(Position start, Direction direction, Country country) {
         int startX = start.getX();
         int startY = start.getY();

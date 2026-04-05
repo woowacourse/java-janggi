@@ -13,4 +13,9 @@ public class HanTurn implements State{
         return Country.HAN;
     }
 
+    @Override
+    public boolean isGameOver() {
+        return false;
+    }
+
 }

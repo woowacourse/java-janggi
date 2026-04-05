@@ -22,6 +22,10 @@ public abstract class Piece implements MoveStrategy {
         return pieceType;
     }
 
+    public int getPieceScore() {
+        return pieceType.getScore();
+    }
+
     public abstract boolean canMovePosition(Position start, Position end);
 
     public abstract boolean isAvailableRoute(List<Piece> pieces, PieceType endPieceType);

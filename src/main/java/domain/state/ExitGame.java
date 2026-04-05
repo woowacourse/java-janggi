@@ -13,4 +13,9 @@ public class ExitGame implements State {
         return Country.NONE;
     }
 
+    @Override
+    public boolean isGameOver() {
+        return true;
+    }
+
 }

@@ -20,13 +20,14 @@ public class JanggiGame {
         PieceType killPieceType = board.move(start, end);
         if (killPieceType==PieceType.JANG){
             this.state = state.exitGame();
+
             return;
         }
         this.state = state.changeTurn();
     }
 
     public boolean isGameOver() {
-        return state.getCountry()==Country.NONE;
+        return state.isGameOver();
     }
 
     public List<Position> getPiecesNowPosition(PieceType pieceType){
@@ -35,5 +36,38 @@ public class JanggiGame {
 
     public Country getCountry() {
         return state.getCountry();
+    }
+
+    public double calculateScore(Country country) {
+        if (country==Country.HAN){
+            return board.calculateScore(country)+1.5;
+        }
+        return board.calculateScore(country);
+    }
+
+    public Country calculateWinner(){
+        int choScore = board.calculateScore(Country.CHO);
+        int hanScore = board.calculateScore(Country.HAN);
+        boolean isChoKingAlive = board.isKingAlive(Country.CHO);
+        boolean isHanKingAlive = board.isKingAlive(Country.HAN);
+        if (!isChoKingAlive || isHanKingAlive){
+            return Country.HAN;
+        }
+
+        if (isChoKingAlive || !isHanKingAlive){
+            return Country.CHO;
+        }
+
+        if (choScore > hanScore){
+            return Country.CHO;
+        }
+
+        if (choScore == hanScore){
+            return Country.NONE;
+        }
+        if (choScore < hanScore){
+            return Country.HAN;
+        }
+        return Country.NONE;
     }
 }

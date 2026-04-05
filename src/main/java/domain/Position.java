@@ -19,10 +19,6 @@ public class Position {
     public static Position create(int x, int y) {
         return new Position(x, y);
     }
-    public static Position createInPalace(int x, int y) {
-        validateInPalace(x,y);
-        return new Position(x, y);
-    }
 
     private void validateBoardSize(int x, int y){
         if (x < MIN_ROW_COL || x > MAX_ROW || y < MIN_ROW_COL || y > MAX_COL) {

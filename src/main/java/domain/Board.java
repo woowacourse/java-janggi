@@ -139,4 +139,18 @@ public class Board {
         }
         return positions;
     }
+
+    public int calculateScore(Country country){
+        return board.values().stream()
+                .filter(piece -> piece.getCountry()==country)
+                .mapToInt(Piece::getPieceScore)
+                .sum();
+
+    }
+
+    public boolean isKingAlive(Country country){
+        return board.values().stream()
+                .filter(piece -> piece.getCountry()==country )
+                .anyMatch(piece -> piece.getPieceType()==PieceType.JANG);
+    }
 }

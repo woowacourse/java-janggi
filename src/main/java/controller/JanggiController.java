@@ -35,8 +35,14 @@ public class JanggiController {
 
         boolean isGameContinue = true;
         while (!janggiGame.isGameOver() && isGameContinue) {
+            outputView.printScore(janggiService.buildScoreDto(janggiGame));
             outputView.printChangeTurnMessage(janggiGame.getCountry().getName());
             playTurn(janggiGame, board);
+
+            if(janggiGame.isGameOver()) {
+//                outputView.printGameOverMessage();
+                break;
+            }
             isGameContinue= isGameContinue();
         }
     }

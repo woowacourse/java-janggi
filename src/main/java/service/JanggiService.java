@@ -1,9 +1,12 @@
 package service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import domain.Board;
+import domain.Record;
 import domain.enums.Country;
 import domain.JanggiGame;
 import domain.enums.MaSang;
@@ -12,6 +15,7 @@ import domain.Position;
 import service.dto.BoardDto;
 import service.dto.ColorDto;
 import service.dto.PositionDto;
+import service.dto.ScoreDto;
 
 public class JanggiService {
 
@@ -61,5 +65,11 @@ public class JanggiService {
 
     public void applyMove(Position start, Position end, JanggiGame game) {
         game.play(start, end);
+    }
+
+    public ScoreDto buildScoreDto(JanggiGame janggiGame) {
+        double choScore = janggiGame.calculateScore(Country.CHO);
+        double hanScore = janggiGame.calculateScore(Country.HAN);
+        return new ScoreDto(choScore, hanScore);
     }
 }

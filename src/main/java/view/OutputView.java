@@ -8,6 +8,7 @@ import domain.Position;
 import service.dto.BoardDto;
 import service.dto.ColorDto;
 import service.dto.PositionDto;
+import service.dto.ScoreDto;
 
 public class OutputView {
     public static final String PREFEIX_ERROR_MESSAGE = "[ERROR] ";
@@ -40,6 +41,18 @@ public class OutputView {
         System.out.printf("\n\n---------------------------\n");
         System.out.printf("\n차례 : %s\n", countryName);
     }
+
+    public void printGameOverMessage(String countryName) {
+        System.out.printf("\n\n---------------------------\n");
+        System.out.printf("%s의 승리입니다. 🎉", countryName);
+    }    
+    
+    public void printScore(ScoreDto scoreDto) {
+        System.out.printf("\n\n---------점수 집계--------\n");
+        System.out.printf("초나라 : %.1f \n한나라 : %.1f",scoreDto.choScore(),scoreDto.hanScore() );
+    }
+
+
 
     public void printBoard(BoardDto boardDto, ColorDto colorDto) {
         System.out.println();
