@@ -2,11 +2,8 @@ package dao;
 
 import domain.player.Team;
 import infra.db.DbConnectionFactory;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,21 +20,28 @@ public class GameRoom {
     public long createGame(String choName, String hanName) {
         try (Connection connection = DbConnectionFactory.createConnection();
              PreparedStatement statement = connection.prepareStatement(INSERT_GAME_SQL, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setString(1, choName);
-            statement.setString(2, hanName);
-            statement.setString(3, Team.CHO.name());
-            statement.setString(4, INITIAL_STATUS);
+            setCreateGameParameters(statement, choName, hanName);
             statement.executeUpdate();
-
-            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    return generatedKeys.getLong(1);
-                }
-            }
-            throw new IllegalStateException("게임 생성 키를 조회하지 못했습니다.");
+            return extractGeneratedGameId(statement);
         } catch (SQLException e) {
             throw new IllegalStateException("게임 생성에 실패했습니다.", e);
         }
+    }
+
+    private void setCreateGameParameters(PreparedStatement statement, String choName, String hanName) throws SQLException {
+        statement.setString(1, choName);
+        statement.setString(2, hanName);
+        statement.setString(3, Team.CHO.name());
+        statement.setString(4, INITIAL_STATUS);
+    }
+
+    private long extractGeneratedGameId(PreparedStatement statement) throws SQLException {
+        try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+            if (generatedKeys.next()) {
+                return generatedKeys.getLong(1);
+            }
+        }
+        throw new IllegalStateException("게임 생성 키를 조회하지 못했습니다.");
     }
 
     public void updateGameState(long gameId, Team currentTurn, String status) {
@@ -56,13 +60,7 @@ public class GameRoom {
         try (Connection connection = DbConnectionFactory.createConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_PROGRESS_GAME_SQL)) {
             statement.setString(1, INITIAL_STATUS);
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    return Optional.of(resultSet.getLong("game_id"));
-                }
-            }
-            return Optional.empty();
+            return executeQueryForOptionalLong(statement, "game_id");
         } catch (SQLException e) {
             throw new IllegalStateException("진행 중인 게임 조회에 실패했습니다.", e);
         }
@@ -72,11 +70,9 @@ public class GameRoom {
         try (Connection connection = DbConnectionFactory.createConnection();
              PreparedStatement statement = connection.prepareStatement(GET_CURRENT_TURN_SQL)) {
             statement.setLong(1, gameId);
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    return Team.valueOf(resultSet.getString("current_turn"));
-                }
+            Team team = executeQueryForTeam(statement);
+            if (team != null) {
+                return team;
             }
             throw new IllegalStateException("해당 게임을 찾을 수 없습니다. gameId: " + gameId);
         } catch (SQLException e) {
@@ -88,13 +84,9 @@ public class GameRoom {
         try (Connection connection = DbConnectionFactory.createConnection();
              PreparedStatement statement = connection.prepareStatement(GET_PLAYER_NAMES_SQL)) {
             statement.setLong(1, gameId);
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    String choName = resultSet.getString("cho_name");
-                    String hanName = resultSet.getString("han_name");
-                    return new PlayerNames(choName, hanName);
-                }
+            PlayerNames names = executeQueryForPlayerNames(statement);
+            if (names != null) {
+                return names;
             }
             throw new IllegalStateException("해당 게임을 찾을 수 없습니다. gameId: " + gameId);
         } catch (SQLException e) {
@@ -102,24 +94,49 @@ public class GameRoom {
         }
     }
 
+    private Optional<Long> executeQueryForOptionalLong(PreparedStatement statement, String columnName) throws SQLException {
+        try (ResultSet resultSet = statement.executeQuery()) {
+            return resultSet.next() ? Optional.of(resultSet.getLong(columnName)) : Optional.empty();
+        }
+    }
+
+    private Team executeQueryForTeam(PreparedStatement statement) throws SQLException {
+        try (ResultSet resultSet = statement.executeQuery()) {
+            return resultSet.next() ? Team.valueOf(resultSet.getString("current_turn")) : null;
+        }
+    }
+
+    private PlayerNames executeQueryForPlayerNames(PreparedStatement statement) throws SQLException {
+        try (ResultSet resultSet = statement.executeQuery()) {
+            if (resultSet.next()) {
+                return new PlayerNames(resultSet.getString("cho_name"), resultSet.getString("han_name"));
+            }
+            return null;
+        }
+    }
+
     public List<GameInfo> findAllProgressGames() {
-        List<GameInfo> games = new ArrayList<>();
         try (Connection connection = DbConnectionFactory.createConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_PROGRESS_GAMES_SQL)) {
             statement.setString(1, INITIAL_STATUS);
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    long gameId = resultSet.getLong("game_id");
-                    String choName = resultSet.getString("cho_name");
-                    String hanName = resultSet.getString("han_name");
-                    String currentTurn = resultSet.getString("current_turn");
-                    games.add(new GameInfo(gameId, choName, hanName, currentTurn));
-                }
-            }
-            return games;
+            return loadGamesFromResultSet(statement.executeQuery());
         } catch (SQLException e) {
             throw new IllegalStateException("진행 중인 게임 목록 조회에 실패했습니다.", e);
         }
+    }
+
+    private List<GameInfo> loadGamesFromResultSet(ResultSet resultSet) throws SQLException {
+        List<GameInfo> games = new ArrayList<>();
+        try (resultSet) {
+            while (resultSet.next()) {
+                games.add(new GameInfo(
+                    resultSet.getLong("game_id"),
+                    resultSet.getString("cho_name"),
+                    resultSet.getString("han_name"),
+                    resultSet.getString("current_turn")
+                ));
+            }
+        }
+        return games;
     }
 }

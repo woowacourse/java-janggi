@@ -20,15 +20,16 @@ import view.InputView;
 import view.OutputView;
 
 public class Runner {
+    private static final String PROGRESS_STATUS = "PROGRESS";
+    private static final String CHO_WIN_STATUS = "CHO_WIN";
+    private static final String HAN_WIN_STATUS = "HAN_WIN";
+
     private final InputView inputView;
     private final OutputView outputView;
     private final GameRoom gameRoom;
     private final BoardRepository boardRepository;
     private GameManager gameManager;
     private long gameId;
-    private static final String PROGRESS_STATUS = "PROGRESS";
-    private static final String CHO_WIN_STATUS = "CHO_WIN";
-    private static final String HAN_WIN_STATUS = "HAN_WIN";
 
     public Runner(InputView inputView, OutputView outputView) {
         this(inputView, outputView, new GameRoom(), new BoardRepository());
@@ -114,18 +115,16 @@ public class Runner {
     private void initializeNewGame() {
         Player choPlayer = retryOnInvalidInput(this::createChoPlayer);
         Player hanPlayer = retryOnInvalidInput(() -> createHanPlayer(choPlayer));
-        Formation choFormation = retryOnInvalidInput(this::createChoFormation);
-        Formation hanFormation = retryOnInvalidInput(this::createHanFormation);
-
-        this.gameManager = new GameManager(choPlayer, hanPlayer, choFormation, hanFormation);
-        this.gameId = gameRoom.createGame(choPlayer.getProfile().nameValue(), hanPlayer.getProfile().nameValue());
+        this.gameManager = new GameManager(choPlayer, hanPlayer,
+            retryOnInvalidInput(this::createChoFormation),
+            retryOnInvalidInput(this::createHanFormation));
+        this.gameId = gameRoom.createGame(choPlayer.getProfile().name().value(), hanPlayer.getProfile().name().value());
         boardRepository.save(gameId, gameManager.getBoard());
         gameRoom.updateGameState(gameId, gameManager.getCurrentPlayer().getProfile().team(), PROGRESS_STATUS);
     }
 
     private void initializeLoadedGame() {
         java.util.List<dao.GameInfo> games = gameRoom.findAllProgressGames();
-
         if (games.isEmpty()) {
             outputView.printErrorMessage("저장된 게임이 없습니다. 새 게임을 생성합니다.");
             initializeNewGame();
@@ -133,36 +132,30 @@ public class Runner {
         }
 
         outputView.printAvailableGames(games);
-
         int choice = retryOnInvalidInput(() -> inputView.askSelectGame(games.size()));
-
-        if (choice == games.size() + 1) {
+        if (choice != games.size() + 1) {
+            loadGame(games.get(choice - 1).gameId());
+        } else {
             initializeNewGame();
-            return;
         }
-
-        dao.GameInfo selectedGame = games.get(choice - 1);
-        loadGame(selectedGame.gameId());
     }
 
     private void loadGame(long gameId) {
-        GameLoader loader = new GameLoader(gameRoom, boardRepository);
-        Optional<dao.GameLoadResult> loadedStateOpt = loader.loadGameById(gameId);
-
-        if (loadedStateOpt.isEmpty()) {
+        Optional<dao.GameLoadResult> loaded = new GameLoader(gameRoom, boardRepository).loadGameById(gameId);
+        if (loaded.isEmpty()) {
             outputView.printErrorMessage("게임을 불러올 수 없습니다.");
             return;
         }
 
-        dao.GameLoadResult loadedState = loadedStateOpt.get();
-
-        Player choPlayer = createDefaultPlayer(loadedState.choName(), CHO);
-        Player hanPlayer = createDefaultPlayer(loadedState.hanName(), HAN);
-
-        Board board = new Board(loadedState.boardMap());
-
-        this.gameId = loadedState.gameId();
-        this.gameManager = GameManager.fromLoadedState(choPlayer, hanPlayer, board, loadedState.currentTeam());
+        dao.GameLoadResult state = loaded.get();
+        Board board = new Board(state.boardMap());
+        this.gameId = state.gameId();
+        this.gameManager = GameManager.fromLoadedState(
+            createDefaultPlayer(state.choName(), CHO),
+            createDefaultPlayer(state.hanName(), HAN),
+            board,
+            state.currentTeam()
+        );
     }
 
     private Player createDefaultPlayer(String namePrefix, Team team) {
@@ -171,7 +164,7 @@ public class Runner {
 
 
     private String resolveFinishedStatus(Player winner) {
-        if (winner.getProfile().team() == CHO) {
+        if(winner.getProfile().team() == CHO) {
             return CHO_WIN_STATUS;
         }
         return HAN_WIN_STATUS;

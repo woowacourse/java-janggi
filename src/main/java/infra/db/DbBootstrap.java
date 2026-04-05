@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
+
 import org.h2.tools.RunScript;
 
 public final class DbBootstrap {
@@ -28,6 +30,10 @@ public final class DbBootstrap {
 
     private static boolean isSchemaMissing(Connection connection) throws SQLException {
         DatabaseMetaData metaData = connection.getMetaData();
+        return hasAnyMissingTable(metaData);
+    }
+
+    private static boolean hasAnyMissingTable(DatabaseMetaData metaData) throws SQLException {
         for (String tableName : REQUIRED_TABLES) {
             if (!hasTable(metaData, tableName)) {
                 return true;
@@ -52,7 +58,7 @@ public final class DbBootstrap {
 
     private static Reader openSchemaReader() {
         return new InputStreamReader(
-                DbBootstrap.class.getResourceAsStream(SCHEMA_PATH),
+                Objects.requireNonNull(DbBootstrap.class.getResourceAsStream(SCHEMA_PATH)),
                 StandardCharsets.UTF_8
         );
     }
