@@ -1,6 +1,7 @@
 import static domain.player.Team.CHO;
 import static domain.player.Team.HAN;
 
+import dao.GameRoom;
 import common.exception.JanggiException;
 import domain.board.Formation;
 import domain.manager.GameManager;
@@ -16,11 +17,17 @@ import view.OutputView;
 public class Runner {
     private final InputView inputView;
     private final OutputView outputView;
+    private final GameRoom gameRoom;
     private GameManager gameManager;
 
     public Runner(InputView inputView, OutputView outputView) {
+        this(inputView, outputView, new GameRoom());
+    }
+
+    Runner(InputView inputView, OutputView outputView, GameRoom gameRoom) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.gameRoom = gameRoom;
     }
 
     public void run() {
@@ -86,6 +93,7 @@ public class Runner {
         Formation hanFormation = retryOnInvalidInput(this::createHanFormation);
 
         this.gameManager = new GameManager(choPlayer, hanPlayer, choFormation, hanFormation);
+        gameRoom.createGame();
     }
 
     private Player createChoPlayer() {
