@@ -51,9 +51,30 @@ class GameTest {
         Dynasty currentTurn = game.currentTurn();
 
         // when
-        game.movePiece(from, Position.from(1, 2));
+        game.movePiece(from, Position.from(1, 2), LocalDateTime.now());
         
         // then
         assertThat(game.currentTurn()).isEqualTo(currentTurn.next());
+    }
+
+    @Test
+    @DisplayName("기물을 움직인 후에는 최근 플레이 시간이 업데이트 돼야 한다.")
+    public void movePiece_success_chang_lastPlayedAt() {
+        // given
+        Position from = Position.from(1, 1);
+        BoardDesignPolicy boardDesignPolicy = () -> Map.of(
+                from, new Piece(CHO, CHARIOT)
+        );
+
+        LocalDateTime initTime = LocalDateTime.of(2026, 4, 5, 10, 15);
+        Game game = Game.initGame(boardDesignPolicy, "room", initTime);
+        Dynasty currentTurn = game.currentTurn();
+
+        // when
+        LocalDateTime playedAt = LocalDateTime.of(2026, 4, 5, 12, 44);
+        game.movePiece(from, Position.from(1, 2), playedAt);
+
+        // then
+        assertThat(game.lastPlayedAt()).isEqualTo(playedAt);
     }
 }

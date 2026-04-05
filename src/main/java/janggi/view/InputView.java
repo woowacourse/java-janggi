@@ -1,6 +1,6 @@
 package janggi.view;
 
-import janggi.application.GameDto;
+import janggi.application.GameRoomDto;
 import janggi.domain.dynasty.Dynasty;
 import janggi.view.dto.PositionDto;
 import janggi.view.mapper.DynastyMapper;
@@ -90,18 +90,18 @@ public class InputView {
         }
     }
 
-    public Long readSelectedGame(List<GameDto> gameDtos) {
+    public Long readSelectedGame(List<GameRoomDto> gameRoomDtos) {
         System.out.println("플레이 하고 싶은 게임을 선택해주세요: ");
         int idx = 1;
-        for (GameDto gameDto : gameDtos) {
-            System.out.printf("%d. %s\n", idx++, gameDto.roomName());
+        for (GameRoomDto gameRoomDto : gameRoomDtos) {
+            System.out.printf("%d. %s\n", idx++, gameRoomDto.roomName());
         }
 
         String strGameNum = scanner.nextLine();
         try {
             int option = Integer.parseInt(strGameNum);
-            validateRange(option, 1, gameDtos.size());
-            return gameDtos.get(option - 1).id();
+            validateRange(option, 1, gameRoomDtos.size());
+            return gameRoomDtos.get(option - 1).id();
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(
                     String.format(INVALID_INPUT_FORMAT_MESSAGE, "게임번호", strGameNum));

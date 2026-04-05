@@ -32,16 +32,17 @@ public class GameService {
         this.transactionTemplate = transactionTemplate;
     }
 
-    public Game createGame(BoardDesignPolicy boardDesignPolicy, String roomName, LocalDateTime lastPlayedAt) {
+    public GameDto createGame(BoardDesignPolicy boardDesignPolicy, String roomName, LocalDateTime lastPlayedAt) {
         Game game = Game.initGame(boardDesignPolicy, roomName, lastPlayedAt);
-        transactionTemplate.executeWithoutResult(() -> {
-            GameEntity gameEntity = saveGameRoom(roomName, lastPlayedAt, game);
+        Long gameId = transactionTemplate.execute(() -> {
+            GameEntity gameEntity = saveGame(roomName, lastPlayedAt, game);
             savePiecePositions(game, gameEntity);
+            return gameEntity.id();
         });
-        return game;
+        return new GameDto(gameId, game);
     }
 
-    private GameEntity saveGameRoom(String roomName, LocalDateTime lastPlayedAt, Game game) {
+    private GameEntity saveGame(String roomName, LocalDateTime lastPlayedAt, Game game) {
         GameEntity gameEntity = new GameEntity(new RoomName(roomName), game.currentTurn(), lastPlayedAt);
         Long gameRoomId = gameDAO.save(gameEntity);
         gameEntity.bindId(gameRoomId);
@@ -59,13 +60,14 @@ public class GameService {
         piecePositionDAO.saveAll(piecePositionEntities);
     }
 
-    public List<GameDto> getRecentlyPlayedGames() {
+    public List<GameRoomDto> getRecentlyPlayedGames() {
         return gameDAO.findAllOrderByLastPlayedAtDESC().stream()
-                .map(gameEntity -> new GameDto(gameEntity.id(), gameEntity.roomName().roomName()))
+                .map(gameEntity -> new GameRoomDto(gameEntity.id(), gameEntity.roomName().roomName()))
                 .toList();
     }
 
-    public Game loadGame(Long gameId) {
+
+    public GameDto loadGame(Long gameId) {
 
         List<PiecePositionEntity> piecePositionEntities = piecePositionDAO.findAllPiecesByGameId(gameId);
         validateGameIsNotExist(piecePositionEntities);
@@ -73,8 +75,8 @@ public class GameService {
         GameEntity gameEntity = getGameEntity(piecePositionEntities);
         Map<Position, Piece> boardMap = getBoardMap(piecePositionEntities);
 
-        return Game.loadGame(
-                Board.of(boardMap), gameEntity.roomName(), new CurrentTurn(gameEntity.currentTurn()), gameEntity.lastPlayedAt());
+        return new GameDto(gameId, Game.loadGame(
+                Board.of(boardMap), gameEntity.roomName(), new CurrentTurn(gameEntity.currentTurn()), gameEntity.lastPlayedAt()));
     }
 
     private static void validateGameIsNotExist(List<PiecePositionEntity> piecePositionEntities) {
@@ -98,5 +100,16 @@ public class GameService {
                     new Piece(piecePositionEntity.dynasty(), piecePositionEntity.pieceType()));
         }
         return boardMap;
+    }
+
+
+    public void movePiece(Long gameId, Position from, Position to, LocalDateTime playedAt) {
+        transactionTemplate.executeWithoutResult(() -> {
+            Game game = loadGame(gameId).game();
+            game.movePiece(from, to, playedAt);
+
+            gameDAO.updateCurrentTurnAndLastPlayedAt(new GameEntity(gameId, game.roomName(), game.currentTurn(), game.lastPlayedAt()));
+            piecePositionDAO.updatePosition(gameId, from, to);
+        });
     }
 }

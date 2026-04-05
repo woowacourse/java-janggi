@@ -43,8 +43,8 @@ public class Game {
         return board.board();
     }
 
-    public String roomName() {
-        return roomName.roomName();
+    public RoomName roomName() {
+        return roomName;
     }
 
     public Dynasty currentTurn() {
@@ -63,9 +63,10 @@ public class Game {
         return positions;
     }
 
-    public void movePiece(Position from, Position to) {
+    public void movePiece(Position from, Position to, LocalDateTime playedAt) {
         board.movePiece(from, to, currentTurn.currentDynasty());
         currentTurn.changeTurn();
+        this.lastPlayedAt = playedAt;
     }
 
     public Optional<Dynasty> winner() {

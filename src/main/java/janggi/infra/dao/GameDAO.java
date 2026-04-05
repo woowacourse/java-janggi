@@ -10,4 +10,5 @@ public interface GameDAO {
 
     List<GameEntity> findAllOrderByLastPlayedAtDESC();
 
+    void updateCurrentTurnAndLastPlayedAt(GameEntity gameEntity);
 }

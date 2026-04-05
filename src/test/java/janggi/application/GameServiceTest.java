@@ -2,6 +2,7 @@ package janggi.application;
 
 import janggi.domain.board.DefaultBoardDesignPolicy;
 import janggi.domain.board.HorseElephantPosition;
+import janggi.domain.dynasty.Dynasty;
 import janggi.domain.game.Game;
 import janggi.domain.game.RoomName;
 import janggi.domain.piece.Piece;
@@ -17,9 +18,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -69,11 +68,12 @@ class GameServiceTest {
         LocalDateTime lastPlayedAt = LocalDateTime.of(2026, 10, 7, 10, 0);
 
         // when
-        Game game = gameService.createGame(boardDesignPolicy, roomName, lastPlayedAt);
+        GameDto gameDto = gameService.createGame(boardDesignPolicy, roomName, lastPlayedAt);
 
         // then
+        Game game = gameDto.game();
         assertThat(game).isNotNull();
-        assertThat(game.roomName()).isEqualTo(roomName);
+        assertThat(game.roomName().roomName()).isEqualTo(roomName);
         assertThat(game.lastPlayedAt()).isEqualTo(lastPlayedAt);
     }
 
@@ -89,14 +89,14 @@ class GameServiceTest {
                 LocalDateTime.of(2026, 4, 5, 10, 0), dataSource);
 
         // when
-        List<GameDto> gameList = gameService.getRecentlyPlayedGames();
+        List<GameRoomDto> gameList = gameService.getRecentlyPlayedGames();
 
         // then
         assertThat(gameList).hasSize(3)
-                .extracting(GameDto::roomName)
+                .extracting(GameRoomDto::roomName)
                 .containsExactly("room3", "room2", "room1");
         assertThat(gameList)
-                .extracting(GameDto::id)
+                .extracting(GameRoomDto::id)
                 .allMatch(Objects::nonNull);
     }
 
@@ -111,13 +111,14 @@ class GameServiceTest {
         savePiecePositionEntity(Position.from(9, 5), GENERAL, HAN, gameEntity, dataSource);
 
         // when
-        Game game = gameService.loadGame(gameEntity.id());
+        GameDto gameDto = gameService.loadGame(gameEntity.id());
 
         // then
+        Game game = gameDto.game();
         assertThat(game).extracting(
                 Game::roomName, Game::currentTurn, Game::lastPlayedAt
         ).contains(
-                "room1", CHO, LocalDateTime.of(2024, 4, 5, 10, 0));
+                new RoomName("room1"), CHO, LocalDateTime.of(2024, 4, 5, 10, 0));
         assertThat(game.boardMap())
                 .containsExactlyInAnyOrderEntriesOf(
                         Map.of(
@@ -126,6 +127,54 @@ class GameServiceTest {
                                 Position.from(9, 5), new Piece(HAN, GENERAL)
                         )
                 );
+    }
+
+    @Test
+    @DisplayName("특정 게임에서 특정 위치에 있는 기물을 다른 위치로 이동시킨다.")
+    public void movePiece_success() throws Exception {
+        // given
+        Dynasty currentTurn = CHO;
+        GameEntity gameEntity = saveGameRoomEntity(new RoomName("room1"), currentTurn,
+                LocalDateTime.of(2024, 4, 5, 10, 0), dataSource);
+        Position from = Position.from(1, 1);
+        savePiecePositionEntity(from, CHARIOT, CHO, gameEntity, dataSource);
+
+        int toRow = 1;
+        int toColumn = 2;
+        Position to = Position.from(1, 2);
+        LocalDateTime updatedLastPlayedAt = LocalDateTime.of(2024, 4, 5, 17, 12);
+
+        // when
+        gameService.movePiece(gameEntity.id(), from, to, updatedLastPlayedAt);
+
+        // then
+        try (
+                Connection conn = dataSource.getConnection();
+                PreparedStatement gameStatement = conn.prepareStatement("SELECT * FROM game WHERE game_id = ?");
+                PreparedStatement piecePositionStatement = conn.prepareStatement(
+                        "SELECT COUNT(*) FROM piece_position WHERE game_id = ? AND piece_row = ? AND  piece_column = ?");
+        ) {
+            assertGameUpdate(gameStatement, gameEntity, currentTurn, updatedLastPlayedAt);
+            assertPiecePositionUpdate(piecePositionStatement, gameEntity, toRow, toColumn);
+        }
+    }
+
+    private static void assertGameUpdate(PreparedStatement gameStatement, GameEntity gameEntity, Dynasty currentTurn, LocalDateTime updatedLastPlayedAt) throws SQLException {
+        gameStatement.setLong(1, gameEntity.id());
+        ResultSet gameResultSet = gameStatement.executeQuery();
+        gameResultSet.next();
+        assertThat(gameResultSet.getString("current_turn")).isEqualTo(currentTurn.next().name());
+        assertThat(gameResultSet.getTimestamp("last_played_at")).isEqualTo(Timestamp.valueOf(updatedLastPlayedAt));
+    }
+
+    private static void assertPiecePositionUpdate(PreparedStatement piecePositionStatement, GameEntity gameEntity, int toRow, int toColumn) throws SQLException {
+        piecePositionStatement.setLong(1, gameEntity.id());
+        piecePositionStatement.setInt(2, toRow);
+        piecePositionStatement.setInt(3, toColumn);
+        ResultSet resultSet = piecePositionStatement.executeQuery();
+        resultSet.next();
+
+        assertThat(resultSet.getInt(1)).isEqualTo(1);
     }
 
 

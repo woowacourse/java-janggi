@@ -1,7 +1,9 @@
 package janggi.application;
 
+import janggi.domain.game.Game;
+
 public record GameDto(
         Long id,
-        String roomName
-) {
+        Game game
+){
 }
