@@ -51,7 +51,7 @@ public class JanggiController {
     private void playTurn(Board board) {
         Retry.run(() -> {
             Position[] positions = inputView.askMovePiecePosition(turn.current());
-            board.move(positions[0], positions[1]);
+            board.move(positions[0], positions[1], turn.current());
             outputView.printBoard(board);
             turn = turn.next();
         });

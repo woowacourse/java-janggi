@@ -4,6 +4,7 @@ import domain.game.Team;
 import domain.piece.CannonRule;
 import domain.piece.Piece;
 import domain.position.Position;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -11,23 +12,30 @@ import java.util.Map;
 import java.util.Optional;
 
 public class Board {
+    private final List<Integer> HAN = new ArrayList<>(List.of(1, 2, 3, 4));
+    private final List<Integer> CHO = new ArrayList<>(List.of(7, 8, 9, 10));
     private final Map<Position, Piece> pieces;
 
     public Board(Map<Position, Piece> pieces) {
         this.pieces = new HashMap<>(pieces);
     }
 
-    public void move(Position src, Position dest) {
+    public void move(Position src, Position dest, Team team) {
         Piece piece = findPiece(src)
                 .orElseThrow(() -> new IllegalArgumentException("이동할 기물이 없는 위치입니다."));
-        piece.validateCanMove(src, dest);
-        List<Position> route = piece.searchRoute(src, dest);
-        validateRoute(dest, piece, route);
+        validateMove(src, dest, team, piece);
         Optional<Piece> destPiece = findPiece(dest);
         if (destPiece.isPresent()) {
             piece.validateDestination(destPiece.get());
         }
         applyMove(src, dest, piece);
+    }
+
+    private void validateMove(Position src, Position dest, Team team, Piece piece) {
+        piece.validateSameTurnAndPiece(team);
+        piece.validateCanMove(src, dest);
+        List<Position> route = piece.searchRoute(src, dest);
+        validateRoute(dest, piece, route);
     }
 
     private void validateRoute(Position dest, Piece piece, List<Position> route) {

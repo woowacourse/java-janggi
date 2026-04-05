@@ -31,6 +31,13 @@ public abstract class Piece {
         }
     }
 
+    public void validateSameTurnAndPiece(Team currentTeam) {
+        if (this.team != currentTeam) {
+            throw new IllegalArgumentException("현재 차례의 기물만 이동할 수 있습니다.");
+        }
+    }
+
+
     private boolean isSameTeam(Piece other) {
         return this.team == other.team;
     }
