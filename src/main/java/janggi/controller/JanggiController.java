@@ -20,6 +20,7 @@ public class JanggiController {
 
                 board.move(fromPosition, toPosition);
                 OutputView.printBoard(board);
+                OutputView.printTeamScore(board);
             } catch (IllegalArgumentException exception) {
                 System.out.println(exception.getMessage());
             }

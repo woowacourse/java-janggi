@@ -3,15 +3,24 @@ package janggi.view;
 import janggi.domain.Board;
 import janggi.domain.Position;
 import janggi.domain.Space;
+import janggi.domain.Team;
 
 public class OutputView {
+
+    private static String TEAM_SCORE = "%s나라: %d점";
 
     public static void printBoard(Board board) {
         printHeader(board);
         for (int y = 0; y < board.getBoardWidth(); y++) {
             printRow(board, y);
         }
-        System.out.println();
+    }
+
+    public static void printTeamScore(Board board) {
+        System.out.printf(TEAM_SCORE, Team.CHO.name(), board.getChoScore());
+        printLine();
+        System.out.printf(TEAM_SCORE, Team.HAN.name(), board.getHanScore());
+        printLine();
     }
 
     private static void printHeader(Board board) {
