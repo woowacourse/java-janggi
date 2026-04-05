@@ -46,7 +46,6 @@ public class JanggiService {
         return pieceDao.getAllPieces(gameId);
     }
 
-
     public void movePiece(int gameId, Position start, Position end, Side side, PieceType pieceType, TurnDto turnDto) {
         transactionManager.sync(connection -> {
             gameRoomDao.updateGameTurn(connection, gameId, turnDto);

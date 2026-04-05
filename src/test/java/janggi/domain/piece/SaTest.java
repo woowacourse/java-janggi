@@ -82,7 +82,6 @@ class SaTest {
                 .hasMessage("올바른 도착 지점이 아닙니다.");
     }
 
-
     @ParameterizedTest
     @CsvSource({
             "8,4,8,3",

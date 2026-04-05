@@ -68,6 +68,4 @@ public class MaterialScoreTest {
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessage("해당 진영의 점수 정보가 존재하지 않습니다");
     }
-
-
 }

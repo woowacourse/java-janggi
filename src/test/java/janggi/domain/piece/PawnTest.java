@@ -44,8 +44,6 @@ class PawnTest {
         assertThat(actual.isDestinationSatisfied(position -> position.equals(endPosition))).isTrue();
     }
 
-
-
     @ParameterizedTest
     @CsvSource({
             "2,3,1,3",

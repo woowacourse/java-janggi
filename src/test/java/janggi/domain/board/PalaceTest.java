@@ -32,6 +32,7 @@ public class PalaceTest {
         Position end = new Position(x2, y2);
         assertThat(Palace.isDiagonalMove(start, end)).isTrue();
     }
+
     @ParameterizedTest
     @CsvSource({
             "1, 5, 2, 5",

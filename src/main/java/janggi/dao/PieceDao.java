@@ -6,7 +6,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class PieceDao {
     private static final String FAILED_TABLE_INIT_MESSAGE = "기물 테이블 생성에 실패하였습니다.";
     private static final String FAILED_PIECES_GET_MESSAGE = "전체 기물 정보를 가져오는데 실패하였습니다.";

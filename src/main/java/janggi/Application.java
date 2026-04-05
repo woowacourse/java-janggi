@@ -10,6 +10,8 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class Application {
+    private static final String APPLICATION_PROPERTIES_NAME = "application.properties";
+
     private static final String FAILED_SETTING_FILE_FIND_MESSAGE = "설정 파일을 찾을 수 없습니다.";
     private static final String FAILED_DB_SETTING_LOAD_MESSAGE = "DB 설정을 불러오는 중 오류가 발생했습니다.";
 
@@ -37,7 +39,7 @@ public class Application {
     }
 
     private static String loadDbUrl() {
-        try (InputStream input = Application.class.getClassLoader().getResourceAsStream("application.properties")) {
+        try (InputStream input = Application.class.getClassLoader().getResourceAsStream(APPLICATION_PROPERTIES_NAME)) {
             Properties prop = new Properties();
             if (input == null) {
                 throw new RuntimeException(FAILED_SETTING_FILE_FIND_MESSAGE);

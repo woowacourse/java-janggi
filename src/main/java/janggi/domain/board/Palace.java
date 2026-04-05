@@ -15,7 +15,6 @@ public class Palace {
             new Position(8, 5), new Position(9, 4), new Position(9, 6), new Position(10, 5)
     );
 
-
     public static boolean isDiagonalMove(Position start, Position end) {
         if (!isInside(start) || !isInside(end)) {
             return false;

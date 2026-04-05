@@ -3,7 +3,6 @@ package janggi.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.piece.PieceType;
-import janggi.domain.piece.Po;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
