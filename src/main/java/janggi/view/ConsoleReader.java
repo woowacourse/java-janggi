@@ -27,13 +27,12 @@ public class ConsoleReader implements Input {
         String input = scanner.nextLine().trim();
         validateIsBlank(input);
         String[] strings = input.split("\\s*,\\s*");
-        List<Integer> integers = Arrays.stream(strings)
+        return Arrays.stream(strings)
                 .map(s -> {
                     validateIsBlank(s);
                     validateIsNumeric(s);
                     return parseToInt(s);
                 }).toList();
-        return List.copyOf(integers);
     }
 
     private void validateIsBlank(String input) {
