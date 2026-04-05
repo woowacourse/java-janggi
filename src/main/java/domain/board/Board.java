@@ -31,6 +31,10 @@ public class Board {
                 ));
     }
 
+    public Map<Position, Piece> getState() {
+        return Map.copyOf(state);
+    }
+
     public void move(Position startPosition, Position endPosition, Side side) {
         validatePosition(startPosition, endPosition);
 
