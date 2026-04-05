@@ -24,7 +24,7 @@ class BoardTest {
                 source, new Piece(PieceType.CANNON, Camp.HAN)
         ));
         // when
-        board.movePieceAndCheckGameEnd(source, destination, Camp.HAN);
+        board.movePiece(source, destination, Camp.HAN);
         // then
         boolean destinationExists = board.hasSamePieceTypeAt(destination, PieceType.CANNON);
         boolean sourceExists = board.hasPieceAt(source);
@@ -47,7 +47,7 @@ class BoardTest {
                 source, new Piece(PieceType.CANNON, Camp.CHO)
         ));
         // then
-        Assertions.assertThatThrownBy(() -> board.movePieceAndCheckGameEnd(source, destination, Camp.HAN))
+        Assertions.assertThatThrownBy(() -> board.movePiece(source, destination, Camp.HAN))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 상대 진영의 기물은 이동할 수 없습니다.");
     }
@@ -60,28 +60,9 @@ class BoardTest {
         // when
         Board board = new Board(Map::of);
         // then
-        Assertions.assertThatThrownBy(() -> board.movePieceAndCheckGameEnd(source, destination, Camp.HAN))
+        Assertions.assertThatThrownBy(() -> board.movePiece(source, destination, Camp.HAN))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 출발지에 기물이 존재하지 않습니다.");
-    }
-
-    @Test
-    void 궁을_잡으면_게임이_끝난다() {
-        // given
-        Position source = new Position(7, 4);
-        Position destination = new Position(1, 4);
-
-        Board board = new Board(() -> Map.of(
-                new Position(6, 4), new Piece(PieceType.SOLDIER, Camp.HAN),
-                source, new Piece(PieceType.CANNON, Camp.HAN),
-                destination, new Piece(PieceType.GENERAL, Camp.CHO)
-        ));
-
-        // when
-        boolean gameEnded = board.movePieceAndCheckGameEnd(source, destination, Camp.HAN);
-
-        // then
-        assertThat(gameEnded).isTrue();
     }
 
     @Test

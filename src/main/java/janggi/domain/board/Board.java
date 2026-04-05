@@ -6,6 +6,7 @@ import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class Board implements BoardChecker {
 
@@ -39,15 +40,19 @@ public class Board implements BoardChecker {
         return foundPiece.isSamePieceType(pieceType);
     }
 
-    public boolean movePieceAndCheckGameEnd(Position source, Position destination, Camp turn) {
+    public Optional<PieceType> movePiece(Position source, Position destination, Camp turn) {
         validateCampTurn(source, turn);
         Piece movingPiece = board.get(source);
+        Piece destinationPiece = board.get(destination);
         movingPiece.validateMove(source, destination, this);
 
-        boolean isDestinationGeneral = isGeneralAt(destination);
         board.remove(source);
         board.put(destination, movingPiece);
-        return isDestinationGeneral;
+
+        if (destinationPiece == null) {
+            return Optional.empty();
+        }
+        return Optional.of(destinationPiece.pieceType());
     }
 
     public void validateCampTurn(Position source, Camp turn) {
@@ -68,13 +73,6 @@ public class Board implements BoardChecker {
 
     public Map<Position, Piece> getBoard() {
         return Map.copyOf(board);
-    }
-
-    private boolean isGeneralAt(Position position) {
-        if (!board.containsKey(position)) {
-            return false;
-        }
-        return board.get(position).isGeneral();
     }
 
     private void validateSource(Position source) {

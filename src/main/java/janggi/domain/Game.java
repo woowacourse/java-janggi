@@ -4,8 +4,10 @@ import janggi.domain.board.Board;
 import janggi.domain.board.Position;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public final class Game {
     private final long id;
@@ -55,10 +57,15 @@ public final class Game {
     }
 
     public boolean play(Position source, Position destination) {
-        boolean gameEnded = board.movePieceAndCheckGameEnd(source, destination, currentTurn());
+        Optional<PieceType> caughtPieceType = board.movePiece(source, destination, currentTurn());
+        boolean gameEnded = caughtPieceType
+                .filter(pieceType -> pieceType == PieceType.GENERAL)
+                .isPresent();
+
         if (!gameEnded) {
             currentTurn = currentTurn.next();
         }
+
         return gameEnded;
     }
 }
