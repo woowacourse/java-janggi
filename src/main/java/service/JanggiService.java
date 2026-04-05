@@ -41,9 +41,8 @@ public class JanggiService {
         if (load == null || turn == null) {
             throw new IllegalArgumentException(GAME_DOES_NOT_EXISTS);
         }
-        
-        Board board = Board.of(load);
-        return Playing.load(gameId, board, turn);
+
+        return Playing.load(gameId, Board.of(load), turn);
     }
 
     public JanggiGame move(JanggiGame game, Position from, Position to) {
