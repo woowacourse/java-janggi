@@ -67,6 +67,22 @@ public class GungTest {
 
     @ParameterizedTest
     @CsvSource({
+            "1,4,1,6",
+            "1,4,3,4",
+            "1,4,3,6"
+    })
+    void 궁은_궁성_안이라도_두_칸_이상_이동_이동이_있을_때_에러가_발생한다(int startX, int startY, int endX, int endY) {
+        Gung gung = new Gung(Side.CHO);
+        Position start = new Position(startX, startY);
+        Position end = new Position(endX, endY);
+
+        Assertions.assertThatThrownBy(() -> gung.findRoute(start, end))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("올바른 도착 지점이 아닙니다.");
+    }
+
+    @ParameterizedTest
+    @CsvSource({
             "8,4,8,3",
             "8,6,8,7",
             "8,5,7,5"
