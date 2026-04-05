@@ -9,7 +9,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class ShouldInGungseongPolicyTest {
+class GungseongBoundaryMovementPolicyTest {
 
     public static final Board BOARD = Board.of(SettingType.LEFT, SettingType.LEFT);
 
@@ -17,7 +17,7 @@ class ShouldInGungseongPolicyTest {
     @MethodSource("insideOfGungseongPositions")
     void 궁성_안으로_움직이면_예외가_발생하지_않는다(Position destination) {
         Assertions.assertThatNoException()
-                .isThrownBy(() -> new ShouldInGungseongPolicy().validate(BOARD, null, null, destination));
+                .isThrownBy(() -> new GungseongBoundaryMovementPolicy().validate(BOARD, null, null, destination));
 
     }
 
@@ -46,7 +46,8 @@ class ShouldInGungseongPolicyTest {
     @ParameterizedTest
     @MethodSource("outOfGungseongPositions")
     void 궁성_밖으로_움직이면_예외가_발생해야_한다(Position destination) {
-        Assertions.assertThatThrownBy(() -> new ShouldInGungseongPolicy().validate(BOARD, null, null, destination));
+        Assertions.assertThatThrownBy(
+                () -> new GungseongBoundaryMovementPolicy().validate(BOARD, null, null, destination));
     }
 
     private static Stream<Arguments> outOfGungseongPositions() {

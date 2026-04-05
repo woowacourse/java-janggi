@@ -13,7 +13,7 @@ public class Column {
         this.value = value;
     }
 
-    public void validate(int value) {
+    private void validate(int value) {
         if (value < MIN_RANGE || value > MAX_RANGE) {
             throw new IllegalArgumentException(OUT_OF_RANGE);
         }

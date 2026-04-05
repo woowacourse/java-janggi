@@ -28,30 +28,12 @@ public class Position {
         return new Position(this.row.add(row), this.column.add(column));
     }
 
-    public Position go(Row row, Column column) {
-        return new Position(this.row.add(row), this.column.add(column));
-    }
-
     public boolean isSameRow(Position destination) {
         return row.equals(destination.row);
     }
 
     public boolean isSameColumn(Position destination) {
         return column.equals(destination.column);
-    }
-
-    public boolean isReachableByDirection(List<Direction> directions, Position destination) {
-        for (Direction diagonal : directions) {
-            Position current = this;
-            while (diagonal.isMovable(current)) {
-                current = diagonal.getMovedPosition(current);
-
-                if (current.equals(destination)) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     public List<Position> getPathToDestination(List<Direction> direction, Position destination) {
@@ -79,14 +61,6 @@ public class Position {
                 .toList();
     }
 
-    public List<Position> getHorizontalPathExcludeDestination(Position destination) {
-        Column min = column.getLower(destination.column);
-        Column max = column.getUpper(destination.column);
-        return IntStream.range(min.getValue() + 1, max.getValue())
-                .mapToObj(column -> Position.of(row.getValue(), column))
-                .toList();
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -110,13 +84,5 @@ public class Position {
 
     public Column getColumn() {
         return column;
-    }
-
-    @Override
-    public String toString() {
-        return "Position{" +
-                "row=" + row.getValue() +
-                ", column=" + column.getValue() +
-                '}';
     }
 }

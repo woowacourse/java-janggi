@@ -13,14 +13,8 @@ import java.util.List;
 
 public class MaMoveStrategy extends MultipleStepMoveStrategy {
     private final List<List<Direction>> DIRECTIONS = List.of(
-            List.of(UP, LEFT_UP),
-            List.of(UP, RIGHT_UP),
-            List.of(LEFT, LEFT_UP),
-            List.of(LEFT, LEFT_DOWN),
-            List.of(RIGHT, RIGHT_UP),
-            List.of(RIGHT, RIGHT_DOWN),
-            List.of(DOWN, LEFT_DOWN),
-            List.of(DOWN, RIGHT_DOWN)
+            List.of(UP, LEFT_UP), List.of(UP, RIGHT_UP), List.of(LEFT, LEFT_UP), List.of(LEFT, LEFT_DOWN),
+            List.of(RIGHT, RIGHT_UP), List.of(RIGHT, RIGHT_DOWN), List.of(DOWN, LEFT_DOWN), List.of(DOWN, RIGHT_DOWN)
     );
 
     @Override

@@ -48,14 +48,6 @@ public enum Direction {
         return start.go(dRow, dColumn);
     }
 
-    public int getdRow() {
-        return dRow;
-    }
-
-    public int getdColumn() {
-        return dColumn;
-    }
-
     public boolean isDiagonal() {
         return this == LEFT_UP || this == LEFT_DOWN || this == RIGHT_UP || this == RIGHT_DOWN;
     }

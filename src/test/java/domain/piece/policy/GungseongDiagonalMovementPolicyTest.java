@@ -11,9 +11,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class GungseongMovementPolicyTest {
+class GungseongDiagonalMovementPolicyTest {
 
-    public static final GungseongMovementPolicy GUNGSEONG_MOVEMENT_POLICY = new GungseongMovementPolicy();
+    public static final GungseongDiagonalMovementPolicy GUNGSEONG_MOVEMENT_POLICY = new GungseongDiagonalMovementPolicy();
     public static final Board BOARD = Board.of(SettingType.LEFT, SettingType.LEFT);
 
     @Test

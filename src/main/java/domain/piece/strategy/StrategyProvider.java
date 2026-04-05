@@ -19,6 +19,9 @@ public class StrategyProvider {
         provideMap.put(PieceType.BYEONG, new ByeongMoveStrategy());
     }
 
+    private StrategyProvider() {
+    }
+
     public static MoveStrategy getStrategy(PieceType pieceType) {
         return provideMap.get(pieceType);
     }

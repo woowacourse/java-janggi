@@ -12,7 +12,7 @@ import domain.position.Position;
 import java.util.List;
 import java.util.Map;
 
-public class GungseongMovementPolicy implements MovementPolicy {
+public class GungseongDiagonalMovementPolicy implements MovementPolicy {
     private static final Map<Position, List<Direction>> gungseongMapper = Map.of(
             Position.of(1, 4), List.of(RIGHT_DOWN),
             Position.of(1, 6), List.of(LEFT_DOWN),
@@ -33,9 +33,8 @@ public class GungseongMovementPolicy implements MovementPolicy {
         }
         List<Direction> possibleDirections = findDirectionsByPosition(start);
         isSameDirection(direction, possibleDirections);
-        new ShouldInGungseongPolicy().validate(board, path, start, destination);
+        new GungseongBoundaryMovementPolicy().validate(board, path, start, destination);
     }
-
 
     private List<Direction> findDirectionsByPosition(Position start) {
         List<Direction> possibleDirections = gungseongMapper.get(start);

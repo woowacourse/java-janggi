@@ -32,11 +32,8 @@ public class Board {
 
     public void move(Team turn, Position start, Position destination) {
         validateIsAlly(turn, start);
-
         validateIsReachable(start, destination);
-
         validateCanMove(start, destination);
-
         validateCrashWithAlly(start, destination);
 
         Piece startPiece = getPieceOrThrowException(start);
@@ -97,11 +94,14 @@ public class Board {
         return findAnyJang();
     }
 
-    private Team findAnyJang() {
+    public boolean isAnyJangDead() {
+        return getJangAmount() != NORAML_JANG_AMOUNT;
+    }
+
+    private long getJangAmount() {
         return pieces.values().stream()
                 .filter(piece -> piece.getPieceType() == PieceType.JANG)
-                .findAny()
-                .get().getTeam();
+                .count();
     }
 
     private Team judgeByScore() {
@@ -113,23 +113,19 @@ public class Board {
         return Team.CHO;
     }
 
-    public boolean isAnyJangDead() {
-        return getJangAmount() != NORAML_JANG_AMOUNT;
-    }
-
-    private long getJangAmount() {
-        return pieces.values().stream()
-                .filter(piece -> piece.getPieceType() == PieceType.JANG)
-                .count();
-    }
-
     public double getScoreByTeam(Team team) {
         double sum = getScore(team);
         if (team.isHan()) {
             sum += HAN_ADVANTAGE_SCORE;
         }
         return sum;
+    }
 
+    private Team findAnyJang() {
+        return pieces.values().stream()
+                .filter(piece -> piece.getPieceType() == PieceType.JANG)
+                .findAny()
+                .get().getTeam();
     }
 
     private double getScore(Team team) {
@@ -148,10 +144,8 @@ public class Board {
         }
 
         List<Position> path = jangOfCho.getVerticalPathExcludeDestination(jangOfHan);
-        for (Position position : path) {
-            if (pieces.get(position) != null) {
-                return false;
-            }
+        if (hasAnyPieceInPath(path)) {
+            return false;
         }
         return true;
     }
@@ -161,5 +155,14 @@ public class Board {
                 .filter(position -> pieces.get(position).getPieceType() == PieceType.JANG)
                 .filter(position -> pieces.get(position).isSameTeam(team))
                 .findAny().get();
+    }
+
+    public boolean hasAnyPieceInPath(List<Position> path) {
+        for (Position position : path) {
+            if (pieces.get(position) != null) {
+                return true;
+            }
+        }
+        return false;
     }
 }

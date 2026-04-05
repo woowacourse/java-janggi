@@ -18,12 +18,16 @@ public class PoMovementPolicy implements MovementPolicy {
             Piece piece = null;
             if ((piece = board.getPieceWithNull(current)) != null) {
                 pieceCount += 1;
-                if (!piece.canBeJumpedOver()) {
-                    throw new IllegalArgumentException(PieceExceptionMessage.CANT_JUMP_OVER_PO.getMessage());
-                }
+                validateIsJumpable(piece);
             }
         }
         checkIsInvalidJumpedPieces(pieceCount);
+    }
+
+    private static void validateIsJumpable(Piece piece) {
+        if (!piece.canBeJumpedOver()) {
+            throw new IllegalArgumentException(PieceExceptionMessage.CANT_JUMP_OVER_PO.getMessage());
+        }
     }
 
     private void checkIsInvalidJumpedPieces(int existsPieces) {

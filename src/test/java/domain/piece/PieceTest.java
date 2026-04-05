@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.piece.policy.GungseongMovementPolicy;
+import domain.piece.policy.GungseongDiagonalMovementPolicy;
 import domain.piece.policy.NormalMovementPolicy;
 import domain.piece.strategy.ByeongMoveStrategy;
 import java.util.List;
@@ -15,7 +15,7 @@ class PieceTest {
     @MethodSource("allyCanNotBeCaptured")
     void 아군_기물을_잡으면_예외가_발생한다(Piece target) {
         Byeong testPiece = new Byeong(new ByeongMoveStrategy(),
-                List.of(new NormalMovementPolicy(), new GungseongMovementPolicy()), Team.CHO);
+                List.of(new NormalMovementPolicy(), new GungseongDiagonalMovementPolicy()), Team.CHO);
         Assertions.assertThatThrownBy(() -> testPiece.capture(target)).isInstanceOf(IllegalArgumentException.class);
 
     }
@@ -35,7 +35,7 @@ class PieceTest {
     @MethodSource("enemyCanBeCaptured")
     void 상대_기물은_잡을_수_있다(Piece target) {
         Byeong testPiece = new Byeong(new ByeongMoveStrategy(),
-                List.of(new NormalMovementPolicy(), new GungseongMovementPolicy()), Team.CHO);
+                List.of(new NormalMovementPolicy(), new GungseongDiagonalMovementPolicy()), Team.CHO);
         Assertions.assertThatNoException().isThrownBy((() -> testPiece.capture(target)));
 
     }
