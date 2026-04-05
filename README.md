@@ -1,5 +1,91 @@
 # java-janggi
 
+## 🚀 사이클 2 - 기물 확장 + DB 적용
+
+- ✔️ 궁성 구현
+    - 궁성 위치(PalacePosition) enum 추가
+    - 특정 위치에서 대각선 이동
+    - 대각선 이동은 궁성 위치 내에서만 가능하도록
+    - 대각선 이동과 기본 이동을 각각의 전략으로 구현, 병합
+- ✔️ 종료 조건
+    - 궁(장) 이 2개가 아닌 순간 게임 종료
+- ✔️ 점수 계산
+    - 장기 규칙에 맞춰 기물 점수 계산
+    - 초 진영 어드벤티지 부여(1.5)
+- ✔️ DB 적용
+    - H2 사용 - 편의성 고려
+    - 서비스 계층 - 저장소 - DAO/DTO
+    - 테이블 설계 - 참조관계 설정 - DB 구현 - 도메인 연동
+
+### 🗃️ DB 설계
+
+> 초기
+
+    (id 는 공통이니 생략)
+    
+    게임(생성일시) date
+    
+    플레이어(닉네임, 게임id, 진영id) varchar int int
+    
+    현재 턴(게임id, 진영 id) int int
+    
+    진영(진영) varchar?
+    
+    기물(종류) varchar?
+    
+    위치(행번호, 열번호) int int
+    
+    기물 배치 상태(게임id, 기물id, 위치id) int int int
+
+> 수정
+> - 도메인과 테이블이 1:1 관계인가?
+    >
+
+- 0~N : 0:N 관계
+
+> - 없어도 될 테이블은 과감히 속성으로 격하하고
+    >
+
+- 필수적인 데이터(가변 상태)만 테이블로 묶어 저장
+
+```java
+
+public static Players from(String choPlayerName, String hanPlayerName) {
+    ->varchar cho_player_name, varchar han_player_name
+}
+
+// 상태와 값(enum) 을 String(varchar)으로 저장 / 로드
+
+```
+
+TABLE `GAME` (게임)
+
+    game_id(PK)
+    
+    cho_player_name(VARCHAR)
+    
+    han_player_name(VARCHAR)
+    
+    current_turn[Side] (VARCHAR)
+    
+    created_at(DATETIME)
+
+TABLE `GAME_PIECE_POSITION` (기물 배치 상태)
+
+    game_id(FK)
+    
+    row_index(INT)
+    
+    col_index(INT)
+    
+    piece_type[PieceType] (VARCHAR)
+    
+    side(VARCHAR)
+    
+    piece_number(VARCHAR)
+
+- ✔️ 선택) 게임방 구현
+
 ## 1차 PR 코멘트 반영
 
 ### `InitialBoardInfo` `Side-Effect` `Pure Function`
