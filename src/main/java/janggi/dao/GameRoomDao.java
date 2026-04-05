@@ -9,6 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameRoomDao {
+    private static final String FAILED_TABLE_INIT_MESSAGE = "게임 방 테이블 생성에 실패하였습니다.";
+    private static final String FAILED_GAME_ROOM_INSERT_MESSAGE = "게임 방 데이터 추가에 실패하였습니다.";
+    private static final String FAILED_GAME_ROOM_GET_MESSAGE = "게임 방 정보를 가져오는데 실패하였습니다.";
+    private static final String FAILED_GAME_ROOM_UPDATE_MESSAGE = "게임 방 데이터 업데이트에 실패하였습니다.";
+    private static final String FAILED_GAME_ROOM_DELETE_MESSAGE = "게임 방 데이터 삭제에 실패하였습니다.";
+
     private final SQLManager sqlManager;
 
     public GameRoomDao(SQLManager sqlManager) {
@@ -33,7 +39,7 @@ public class GameRoomDao {
             stmt.execute(sql);
             if (!conn.getAutoCommit()) conn.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(FAILED_TABLE_INIT_MESSAGE);
         }
     }
 
@@ -57,7 +63,7 @@ public class GameRoomDao {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(FAILED_GAME_ROOM_INSERT_MESSAGE);
         }
 
         return generatedId;
@@ -81,7 +87,7 @@ public class GameRoomDao {
                 ));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(FAILED_GAME_ROOM_GET_MESSAGE);
         }
         return gameInfos;
     }
@@ -97,7 +103,7 @@ public class GameRoomDao {
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(FAILED_GAME_ROOM_UPDATE_MESSAGE);
         }
     }
 
@@ -111,7 +117,7 @@ public class GameRoomDao {
             pstmt.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(FAILED_GAME_ROOM_DELETE_MESSAGE);
         }
     }
 }

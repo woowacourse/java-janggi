@@ -13,33 +13,35 @@ public class TransactionManager {
     }
 
     public <T> T sync(Function<Connection, T> function) {
-        Connection conn = sqlManager.ensureConnection();
+        Connection connection = sqlManager.ensureConnection();
         try {
-            T result = function.apply(conn);
-            conn.commit();
+            T result = function.apply(connection);
+            connection.commit();
             return result;
         } catch (Exception e) {
-            rollback(conn);
-            throw new RuntimeException("Transaction failed", e);
-        }
-    }
-
-    public void sync(Consumer<Connection> consumer) {
-        Connection conn = sqlManager.ensureConnection();
-        try {
-            consumer.accept(conn);
-            conn.commit();
-        } catch (Exception e) {
-            rollback(conn);
+            rollback(connection);
             throw new RuntimeException("트랜잭션 실행 중 오류 발생", e);
         }
     }
 
-    private void rollback(Connection conn) {
+    public void sync(Consumer<Connection> consumer) {
+        Connection connection = sqlManager.ensureConnection();
         try {
-            if (conn != null) conn.rollback();
+            consumer.accept(connection);
+            connection.commit();
+        } catch (Exception e) {
+            rollback(connection);
+            throw new RuntimeException("트랜잭션 실행 중 오류 발생", e);
+        }
+    }
+
+    private void rollback(Connection connection) {
+        try {
+            if (connection != null) {
+                connection.rollback();
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("트랜잭션 실행 중 오류 발생", e);
         }
     }
 }

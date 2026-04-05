@@ -27,7 +27,7 @@ public class SQLManager {
                 stmt.execute("PRAGMA foreign_keys = ON;");
             }
         } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("DB 연결에 실패했습니다.", e);
         }
         return this.connection;
     }
@@ -38,7 +38,7 @@ public class SQLManager {
                 connection.close();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("DB 연결을 닫는 중 오류가 발생했습니다.", e);
         } finally {
             connection = null;
         }

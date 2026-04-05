@@ -8,6 +8,11 @@ import java.util.List;
 
 
 public class PieceDao {
+    private static final String FAILED_TABLE_INIT_MESSAGE = "기물 테이블 생성에 실패하였습니다.";
+    private static final String FAILED_PIECES_GET_MESSAGE = "전체 기물 정보를 가져오는데 실패하였습니다.";
+    private static final String FAILED_PIECE_UPDATE_MESSAGE = "기물 데이터 업데이트에 실패하였습니다.";
+    private static final String FAILED_PIECE_DELETE_MESSAGE = "기물 데이터 삭제에 실패하였습니다.";
+
     private final SQLManager sqlManager;
 
     public PieceDao(SQLManager sqlManager) {
@@ -33,7 +38,7 @@ public class PieceDao {
             stmt.execute(sql);
             if (!conn.getAutoCommit()) conn.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(FAILED_TABLE_INIT_MESSAGE);
         }
     }
 
@@ -58,34 +63,13 @@ public class PieceDao {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(FAILED_PIECES_GET_MESSAGE);
         }
         return pieces;
     }
 
     public void updatePiece(Connection connection, int gameId, PieceDto pieceDto) {
-        String sql = """
-        INSERT INTO Piece (game_id, x, y, piece_type, side)
-        VALUES (?, ?, ?, ?, ?)
-        ON CONFLICT(game_id, x, y)
-        DO UPDATE SET
-            piece_type = excluded.piece_type,
-            side = excluded.side
-        """;
-
-        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-
-            pstmt.setInt(1, gameId);
-            pstmt.setInt(2, pieceDto.x());
-            pstmt.setInt(3, pieceDto.y());
-            pstmt.setString(4, pieceDto.pieceType());
-            pstmt.setString(5, pieceDto.side());
-
-            pstmt.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        updatePieces(connection, gameId, List.of(pieceDto));
     }
 
     public void updatePieces(Connection connection, int gameId, List<PieceDto> pieceDtos) {
@@ -111,7 +95,7 @@ public class PieceDao {
 
             pstmt.executeBatch();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(FAILED_PIECE_UPDATE_MESSAGE);
         }
     }
 
@@ -126,8 +110,7 @@ public class PieceDao {
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(FAILED_PIECE_DELETE_MESSAGE);
         }
     }
 }
-
