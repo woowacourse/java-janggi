@@ -7,7 +7,7 @@ import domain.strategy.Strategy;
 import java.util.List;
 
 public abstract class Piece {
-    private final Team team;
+    protected final Team team;
     protected final Strategy moveStrategy;
 
     public Piece(Team team, final Strategy moveStrategy) {
@@ -19,9 +19,9 @@ public abstract class Piece {
         return team;
     }
 
-    public abstract boolean canMove(Position from, Position to, Team team, PieceProvider pieceProvider);
+    public abstract boolean canMove(Position from, Position to, PieceProvider pieceProvider);
 
     public List<Position> getMoveCandidates(Position from, PieceProvider board) {
-        return moveStrategy.getMoveCandidates(from, board);
+        return moveStrategy.getMoveCandidates(from, team, board);
     }
 }
