@@ -20,6 +20,4 @@ public interface GameRepository {
     long updateById(long id, GameEntity gameEntity);
 
     long updateStatusById(long id, GameStatus gameStatus);
-
-    boolean deleteById(long id);
 }

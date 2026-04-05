@@ -126,16 +126,4 @@ class GameServiceTest {
             () -> assertThat(actual.get()).isEqualTo(expected)
         );
     }
-
-    @Test
-    @DisplayName("게임 상태 삭제 테스트")
-    void removeGame() {
-        gameRepository.save(GameEntity.from("게임 1", 2, List.of(TeamType.RED, TeamType.BLUE),
-            GameStatus.IN_PROGRESS));
-        boolean expected = true;
-
-        boolean actual = gameService.removeGame(1);
-
-        assertThat(actual).isEqualTo(expected);
-    }
 }

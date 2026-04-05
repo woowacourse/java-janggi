@@ -55,15 +55,6 @@ public class BoardCellRepositoryImpl implements BoardCellRepository {
     }
 
     @Override
-    public Optional<BoardCellEntity> findById(final long targetId) {
-        final String sql = String.format(
-            "SELECT id, row_pos, column_pos, piece_type, team, game_id "
-                + "FROM %s WHERE id = ?", TABLE_NAME);
-        final EntityMapper<BoardCellEntity> mapper = getBoardCellEntityEntityMapper();
-        return dbConnection.executeSelect(sql, mapper, targetId);
-    }
-
-    @Override
     public Optional<BoardCellEntity> findByPosition(Position position) {
         final String sql = String.format(
             "SELECT id, row_pos, column_pos, piece_type, team, game_id "

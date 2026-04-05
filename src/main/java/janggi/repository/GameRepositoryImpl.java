@@ -79,11 +79,4 @@ public class GameRepositoryImpl implements GameRepository {
 
         return dbConnection.executeUpdate(sql, gameStatus.name(), id);
     }
-
-
-    @Override
-    public boolean deleteById(final long id) {
-        final String sql = String.format("DELETE FROM %s WHERE id = ?", TABLE_NAME);
-        return dbConnection.executeDelete(sql, id);
-    }
 }

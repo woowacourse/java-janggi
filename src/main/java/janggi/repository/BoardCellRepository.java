@@ -14,8 +14,6 @@ public interface BoardCellRepository {
 
     boolean existsByPosition(Position position);
 
-    Optional<BoardCellEntity> findById(long id);
-
     Optional<BoardCellEntity> findByPosition(Position position);
 
     List<BoardCellEntity> findAllByGameId(long id);

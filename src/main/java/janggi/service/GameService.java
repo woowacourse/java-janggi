@@ -28,15 +28,6 @@ public class GameService {
             .toList();
     }
 
-    public Optional<Long> getLatestGameId() {
-        final List<Long> ids = gameRepository.findAllIdsOrderByLatest(1);
-        if (ids.isEmpty()) {
-            return Optional.empty();
-        }
-
-        return Optional.of(ids.getFirst());
-    }
-
     public long createNewGame(final String name, final TurnManager turnManager) {
         final List<TeamType> teamQueue = turnManager.getTeams()
             .stream()
@@ -57,10 +48,6 @@ public class GameService {
         gameRepository.updateById(id,
             TurnManagerMapper.toEntity(turnManager.getTurnTaken(), turnManager.getTeams(),
                 GameStatus.IN_PROGRESS));
-    }
-
-    public boolean removeGame(final long id) {
-        return gameRepository.deleteById(id);
     }
 
     public void closeGame(final long id) {
