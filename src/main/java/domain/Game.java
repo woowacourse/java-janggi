@@ -4,10 +4,12 @@ public class Game {
 
     private final Turn turn;
     private final Board board;
+    private Status status;
 
     private Game(final Board board) {
         this.turn = Turn.of();
         this.board = board;
+        this.status = Status.PLAYING;
     }
 
     public static Game of(final Board board) {
