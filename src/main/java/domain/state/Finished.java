@@ -7,8 +7,8 @@ import domain.position.Position;
 public class Finished extends Started {
     private final static String GAME_HAS_BEEN_FINISHED = "게임이 끝나 더 이상 진행할 수 없습니다.";
 
-    protected Finished(Board board, Team turn) {
-        super(board, turn);
+    protected Finished(long id, Board board, Team turn) {
+        super(id, board, turn);
     }
 
     @Override

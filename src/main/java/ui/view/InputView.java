@@ -3,6 +3,7 @@ package ui.view;
 import domain.piece.Team;
 import domain.settingType.SettingType;
 import java.util.Arrays;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 import ui.dto.ActionType;
@@ -20,15 +21,23 @@ public class InputView {
 
     private static final String INVALID_SETTING_INPUT = "1~4 사이의 숫자만 입력해주세요.";
     private static final String INVALID_ACTION_INPUT = "1~2 사이의 숫자만 입력해주세요.";
+    public static final String SETTING_AMOUNT_MUST_BE_TWO = "2개의 차림을 입력해야 합니다.";
+    public static final String MUST_INPUT_ROOM_ID = "방 ID를 입력해야 합니다!";
+    private static final String MUST_INPUT_NUMBER = "올바른 메뉴를 선택해 주세요!";
+    public static final String INVALID_INPUT = "올바른 입력을 해주세요!";
 
     private final Scanner sc = new Scanner(System.in);
 
     public List<SettingType> readSettings() {
         System.out.println(SETTING_DESCRIPTION);
-        return Arrays.stream(sc.nextLine().split(DELIMITER))
+        List<SettingType> settings = Arrays.stream(sc.nextLine().split(DELIMITER))
                 .map(String::strip)
                 .map(InputView::selectSettingType)
                 .toList();
+        if (settings.size() != 2) {
+            throw new IllegalArgumentException(SETTING_AMOUNT_MUST_BE_TWO);
+        }
+        return settings;
     }
 
     private static SettingType selectSettingType(String info) {
@@ -55,6 +64,10 @@ public class InputView {
 
         String[] positions = input.split(" ");
 
+        if (positions.length != 2) {
+            throw new IllegalArgumentException(INVALID_INPUT);
+        }
+
         PositionDto startPosition = PositionDto.toDto(positions[0]);
         PositionDto destinationPosition = PositionDto.toDto(positions[1]);
 
@@ -66,7 +79,7 @@ public class InputView {
         System.out.println(commandDescription);
         String input = sc.nextLine();
 
-        int action = 0;
+        int action;
         try {
             action = Integer.parseInt(input);
         } catch (NumberFormatException e) {
@@ -80,5 +93,53 @@ public class InputView {
             return CHO_KOREAN_DESCRIPTION;
         }
         return HAN_KOREAN_DESCRIPTION;
+    }
+
+    public String readGameTitle() {
+        System.out.println("방 제목을 입력해 주세요");
+        return sc.nextLine();
+    }
+
+    public LobbyMenu readGameRoomOption() {
+        System.out.println("메뉴를 선택해 주세요.");
+        System.out.println("1. 게임 방 참가하기");
+        System.out.println("2. 게임 방 만들기");
+        int option;
+        try {
+            option = sc.nextInt();
+        } catch (InputMismatchException e) {
+            throw new IllegalArgumentException(MUST_INPUT_NUMBER);
+        } finally {
+            sc.nextLine();
+        }
+        return LobbyMenu.of(option);
+    }
+
+    public long readRoomId() {
+        System.out.println("입장할 게임 방 ID를 입력해 주세요!");
+        long input;
+        try {
+            input = sc.nextLong();
+        } catch (InputMismatchException e) {
+            throw new IllegalArgumentException(MUST_INPUT_ROOM_ID);
+        } finally {
+            sc.nextLine();
+        }
+        return input;
+    }
+
+    public enum LobbyMenu {
+        CREATE_ROOM, JOIN_ROOM;
+        public static String WRONG_INPUT = "올바른 메뉴 선택을 해주세요";
+
+        public static LobbyMenu of(int option) {
+            if (option == 1) {
+                return JOIN_ROOM;
+            }
+            if (option == 2) {
+                return CREATE_ROOM;
+            }
+            throw new IllegalArgumentException(WRONG_INPUT);
+        }
     }
 }

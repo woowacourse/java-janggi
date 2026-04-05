@@ -3,12 +3,29 @@ package ui.view;
 import domain.piece.Team;
 import java.util.Arrays;
 import java.util.List;
+import repository.GameRoomInfo;
 import ui.dto.BoardStatusDto;
 import ui.dto.PieceDto;
 
 public class ResultView {
     private static final String CHO_KOREAN_DESCRIPTION = "초나라";
     private static final String HAN_KOREAN_DESCRIPTION = "한나라";
+
+    public void printGameRoom(List<GameRoomInfo> roomInfos) {
+        if (roomInfos.isEmpty()) {
+            System.out.println("현재 진행 중인 게임 방이 없습니다");
+        } else {
+            System.out.println("현재 진행 중인 게임 방 목록입니다.");
+            System.out.println("=======================");
+            System.out.println("ID    방 제목");
+            System.out.println("---------------------");
+            for (GameRoomInfo roomInfo : roomInfos) {
+                System.out.print(roomInfo.id() + "    ");
+                System.out.println(roomInfo.title());
+            }
+        }
+        System.out.println("=======================");
+    }
 
     public void printBoard(BoardStatusDto dto) {
         String[][] grid = initGrid();
