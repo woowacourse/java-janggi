@@ -41,8 +41,8 @@ public enum Camp {
         return startRowPosition;
     }
 
-    public double getBonusScoreForSecondPlayer() {
-        return bonusScoreForSecondPlayer;
+    public double addBonusTo(double score) {
+        return score + bonusScoreForSecondPlayer;
     }
 
     public static List<Camp> getAllCamp() {

@@ -98,10 +98,11 @@ class BoardTest {
         ));
 
         // when
-        Map<Camp, Double> eachCampScore = board.calculateScore();
+        double choScore = board.calculatePieceScore(Camp.CHO);
+        double hanScore = board.calculatePieceScore(Camp.HAN);
 
         // then
-        assertThat(eachCampScore.get(Camp.CHO)).isEqualTo(26);
-        assertThat(eachCampScore.get(Camp.HAN)).isEqualTo(17.5);
+        assertThat(choScore).isEqualTo(26);
+        assertThat(hanScore).isEqualTo(16);
     }
 }

@@ -4,6 +4,7 @@ import janggi.domain.board.Board;
 import janggi.domain.board.Position;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
+import java.util.HashMap;
 import java.util.Map;
 
 public final class Game {
@@ -38,7 +39,15 @@ public final class Game {
     }
 
     public Map<Camp, Double> calculateScore() {
-        return board.calculateScore();
+        Map<Camp, Double> resultScore = new HashMap<>();
+
+        Camp.getAllCamp().forEach(camp -> {
+            double totalPieceScore = board.calculatePieceScore(camp);
+            double finalScore = camp.addBonusTo(totalPieceScore);
+            resultScore.put(camp, finalScore);
+        });
+
+        return resultScore;
     }
 
     public void validateSourceForCurrentTurn(Position source) {
