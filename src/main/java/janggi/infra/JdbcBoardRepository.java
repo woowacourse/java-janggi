@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class JdbcBoardRepository implements BoardRepository {
 
@@ -53,10 +54,12 @@ public class JdbcBoardRepository implements BoardRepository {
     }
 
     @Override
-    public JanggiGame loadGame(long roomId) {
+    public Optional<JanggiGame> findJanggiGameByRoomId(long roomId) {
         Connection connection = ConnectionContext.getConnection();
-        GameRoomData roomData = roomDao.findRoomById(roomId, connection)
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 존재하지 않는 게임방 입니다."));
+        Optional<GameRoomData> roomData = roomDao.findRoomById(roomId, connection);
+        if (roomData.isEmpty()) {
+            return Optional.empty();
+        }
         List<PieceData> pieceDatas = piecesDao.findAllByRoomId(roomId, connection);
         Map<Point, Piece> pieces = new LinkedHashMap<>();
         pieceDatas.forEach(pieceData -> {
@@ -67,6 +70,6 @@ public class JdbcBoardRepository implements BoardRepository {
         pieces.put(point, piece);
         });
         Board board = new Board(pieces);
-        return new JanggiGame(board, GameStatusFactory.create(Team.valueOf(roomData.currentTurn())));
+        return Optional.of(new JanggiGame(board, GameStatusFactory.create(Team.valueOf(roomData.get().currentTurn()))));
     }
 }
