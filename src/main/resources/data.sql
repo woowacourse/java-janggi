@@ -3,7 +3,7 @@ INSERT INTO GAME
 VALUES ('ROOM1', 'CHO', '2026-04-05 13:13');
 
 INSERT INTO PIECE_POSITION
-    (JANGGI_GAME_ID, PIECE_ROW, PIECE_COLUMN, PIECE_TYPE, DYNASTY)
+    (game_id, piece_row, piece_column, piece_type, dynasty)
 VALUES
 -- CHO (초)
 (1, 3, 5, 'GENERAL', 'CHO'), -- 중앙에서 움직임

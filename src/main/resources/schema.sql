@@ -1,7 +1,3 @@
--- 콘솔로 테스트할 때 계속 데이터가 쌓이는 것을 방지
-DROP TABLE IF EXISTS piece_position;
-DROP TABLE IF EXISTS game;
-
 CREATE TABLE IF NOT EXISTS game
 (
     game_id LONG AUTO_INCREMENT PRIMARY KEY,
@@ -13,7 +9,7 @@ CREATE TABLE IF NOT EXISTS game
 CREATE TABLE IF NOT EXISTS piece_position
 (
     piece_position_id INT AUTO_INCREMENT PRIMARY KEY,
-    janggi_game_id LONG         NOT NULL,
+    game_id LONG         NOT NULL,
     piece_row      INT         NOT NULL,
     piece_column   INT         NOT NULL,
     piece_type     VARCHAR(10) NOT NULL CHECK (piece_type IN
@@ -22,9 +18,9 @@ CREATE TABLE IF NOT EXISTS piece_position
     dynasty        VARCHAR(5)  NOT NULL CHECK (dynasty IN ('CHO', 'HAN')),
 
     CONSTRAINT fk_game
-        FOREIGN KEY (janggi_game_id)
+        FOREIGN KEY (game_id)
             REFERENCES game (game_id),
 
     CONSTRAINT uq_position
-        UNIQUE (janggi_game_id, piece_row, piece_column)
+        UNIQUE (game_id, piece_row, piece_column)
 );
