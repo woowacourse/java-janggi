@@ -8,36 +8,42 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class PositionTest {
+class PalaceTest {
 
     @ParameterizedTest
     @MethodSource("palaceRedArea")
     @DisplayName("현재 위치가 한나라(Red) 궁성 영역이면 true를 반환한다.")
     void current_position_isPalaceRedArea_true_test(Position currentPosition) {
-        Assertions.assertThat(currentPosition.isPalaceRedArea()).isTrue();
+        Palace palace = new Palace();
+
+        Assertions.assertThat(palace.isPalaceRedArea(currentPosition)).isTrue();
     }
 
     @Test
     @DisplayName("현재 위치가 한나라(Red) 궁성 영역이 아니라면 false를 반환한다.")
     void current_position_isPalaceRedArea_false_test() {
+        Palace palace = new Palace();
         Position currentPosition = new Position(4, 4);
 
-        Assertions.assertThat(currentPosition.isPalaceRedArea()).isFalse();
+        Assertions.assertThat(palace.isPalaceRedArea(currentPosition)).isFalse();
     }
 
     @ParameterizedTest
     @MethodSource("palaceGreenArea")
     @DisplayName("현재 위치가 초나라(Green) 궁성 영역이면 true를 반환한다.")
     void current_position_isPalaceGreenArea_true_test(Position currentPosition) {
-        Assertions.assertThat(currentPosition.isPalaceGreenArea()).isTrue();
+        Palace palace = new Palace();
+
+        Assertions.assertThat(palace.isPalaceGreenArea(currentPosition)).isTrue();
     }
 
     @Test
     @DisplayName("현재 위치가 초나라(Green) 궁성 영역이면 false를 반환한다.")
     void current_position_isPalaceGreenArea_true_test() {
+        Palace palace = new Palace();
         Position currentPosition = new Position(4, 4);
 
-        Assertions.assertThat(currentPosition.isPalaceGreenArea()).isFalse();
+        Assertions.assertThat(palace.isPalaceGreenArea(currentPosition)).isFalse();
     }
 
     private static Stream<Arguments> palaceRedArea() {
@@ -67,4 +73,5 @@ class PositionTest {
                 Arguments.arguments(palaceRedCenter.right())
         );
     }
+
 }
