@@ -2,10 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.board.BoardDirection;
 import janggi.domain.movestrategy.*;
-import janggi.domain.movestrategy.rule.DirectionalOneStepMoveRule;
-import janggi.domain.movestrategy.rule.PalaceDiagonalForwardMoveRule;
-import janggi.domain.movestrategy.rule.StraightForwardMoveRule;
-import janggi.domain.movestrategy.rule.StraightOneStepMoveRule;
+import janggi.domain.movestrategy.rule.*;
 import janggi.domain.palace.PalaceFactory;
 
 import java.util.List;
@@ -54,8 +51,9 @@ public class PieceFactory {
 
     public static Piece createSolider(Team team, BoardDirection direction) {
         return new Piece(PieceType.SOLDIER, team, new SoliderStrategy(
-                List.of(new DirectionalOneStepMoveRule(direction))
-        ));
+                List.of(new DirectionalOneStepMoveRule(direction),
+                        new PalaceDiagonalDirectionalOneStepMoveRule(PalaceFactory.createPalace(team), direction)
+                )));
     }
 
 }
