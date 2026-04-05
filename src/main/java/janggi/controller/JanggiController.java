@@ -5,7 +5,6 @@ import janggi.domain.board.BoardFormation;
 import janggi.domain.board.BoardInitiator;
 import janggi.domain.common.Position;
 import janggi.domain.common.Team;
-import janggi.domain.route.RouteChecker;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.List;
@@ -16,7 +15,6 @@ public class JanggiController {
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();
     private final BoardInitiator boardInitiator = new BoardInitiator();
-    private final RouteChecker routeChecker = new RouteChecker();
 
     public void run() {
         Board board = new Board();
@@ -51,7 +49,7 @@ public class JanggiController {
 
         Position movePiecePosition = doLoop(() -> askMovePiecePosition(board));
 
-        List<Position> availablePositions = routeChecker.findAvailablePositions(board, movePiecePosition);
+        List<Position> availablePositions = board.findAvailablePositions(movePiecePosition);
 
         outputView.printAvailablePositions(board.getBoard(), availablePositions);
 
@@ -69,14 +67,14 @@ public class JanggiController {
     private Position askMovePosition(Board board, Position movePiecePosition) {
         outputView.printMoveChoiceInfo();
         Position position = inputView.readPosition();
-        routeChecker.validateDestination(board, movePiecePosition, position);
+        board.validateDestination(movePiecePosition, position);
         return position;
     }
 
     private Position askMovePiecePosition(Board board) {
         outputView.printMoveInfo();
         Position position = inputView.readPosition();
-        routeChecker.findAvailablePositions(board, position);
+        board.findAvailablePositions(position);
         return position;
     }
 
