@@ -5,6 +5,7 @@ import janggi.domain.board.Board;
 import janggi.domain.board.BoardGenerator;
 import janggi.domain.board.BoardMediator;
 import janggi.domain.board.BoardMediatorImpl;
+import janggi.domain.command.GameSelectCommand;
 import janggi.domain.command.SetupCommand;
 import janggi.domain.piece.Piece;
 import janggi.domain.setup.SetupPolicy;
@@ -15,6 +16,7 @@ import janggi.domain.team.TeamType;
 import janggi.domain.turn.TurnManager;
 import janggi.dto.BoardDto;
 import janggi.dto.GameResultDto;
+import janggi.entity.GameEntity;
 import janggi.mapper.TurnManagerMapper;
 import janggi.service.BoardService;
 import janggi.service.GameService;
@@ -23,9 +25,10 @@ import janggi.utils.RetryExecutor;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.List;
-import java.util.Optional;
 
 public class JanggiController {
+
+    public static final int MAXIMUM_GAMES_COUNT_IN_PROGRESS = 3;
 
     private final GameService gameService;
     private final BoardService boardService;
@@ -41,7 +44,8 @@ public class JanggiController {
     }
 
     public void run() {
-        final TurnManager turnManager = loadOrSaveTurnManager();
+        final GameSelectCommand gameSelectCommand = selectGame();
+        final TurnManager turnManager = loadOrSaveTurnManager(gameSelectCommand);
         final Board board = loadOrSaveBoard(turnManager.getTeams());
         OutputView.printBoard(BoardDto.from(board, List.of()));
         playGame(turnManager, board);
@@ -49,19 +53,39 @@ public class JanggiController {
         gameService.removeGame(gameId);
     }
 
-    public TurnManager loadOrSaveTurnManager() {
-        final Optional<Long> latestGameId = gameService.getLatestGameId();
-        if (latestGameId.isPresent()) {
-            gameId = latestGameId.get();
-            OutputView.printGameLoadedMessage();
-            return TurnManagerMapper.toDomain(gameService.loadGame(gameId));
-        }
-        final Team blueTeam = setupBlueTeam();
-        final Team redTeam = setupRedTeam();
-        final TurnManager turnManager = TurnManager.init(blueTeam, redTeam);
-        gameId = gameService.createNewGame("게임 1", turnManager);
+    private GameSelectCommand selectGame() {
+        final List<GameEntity> gameEntities = gameService.getAllGamesInProgress(
+            MAXIMUM_GAMES_COUNT_IN_PROGRESS);
+        final List<Long> gameInProgressIds = gameEntities.stream()
+            .map(GameEntity::id).toList();
+        final List<String> gameNames = gameEntities.stream()
+            .map(GameEntity::name).toList();
+        OutputView.printGameSelect(gameNames);
 
-        return TurnManager.init(blueTeam, redTeam);
+        return RetryExecutor.retry(this::readGameSelectCommand, gameInProgressIds);
+    }
+
+    private GameSelectCommand readGameSelectCommand(final List<Long> gameInProgressIds) {
+        final GameSelectCommand gameSelectCommand = new GameSelectCommand(gameInProgressIds);
+        gameSelectCommand.select(InputView.readGameSelection());
+
+        return gameSelectCommand;
+    }
+
+    private TurnManager loadOrSaveTurnManager(final GameSelectCommand gameSelectCommand) {
+        if (gameSelectCommand.isGenerateGame()) {
+            OutputView.printGameCreatingMessage();
+            final String gameName = InputView.readGameName();
+            final Team blueTeam = setupBlueTeam();
+            final Team redTeam = setupRedTeam();
+            final TurnManager turnManager = TurnManager.init(blueTeam, redTeam);
+            gameId = gameService.createNewGame(gameName, turnManager);
+            return turnManager;
+        }
+        OutputView.printGameLoadingMessage();
+        gameId = gameSelectCommand.getSelectedGameId();
+        return TurnManagerMapper.toDomain(
+            gameService.loadGame(gameSelectCommand.getSelectedGameId()));
     }
 
     public Board loadOrSaveBoard(final List<Team> teams) {

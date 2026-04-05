@@ -8,6 +8,15 @@ public final class InputView {
     private InputView() {
     }
 
+    public static int readGameSelection() {
+        return Parser.parseInteger(Console.readLine());
+    }
+
+    public static String readGameName() {
+        System.out.println("원하는 게임 이름을 입력하세요.");
+        return Console.readLine().trim();
+    }
+
     public static int readSetupCommand() {
         return Parser.parseInteger(Console.readLine());
     }

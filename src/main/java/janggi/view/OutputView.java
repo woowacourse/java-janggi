@@ -1,5 +1,6 @@
 package janggi.view;
 
+import static janggi.controller.JanggiController.MAXIMUM_GAMES_COUNT_IN_PROGRESS;
 import static janggi.domain.Position.MAXIMUM_ROW;
 
 import janggi.domain.command.SetupCommand;
@@ -16,6 +17,16 @@ public final class OutputView {
     private OutputView() {
     }
 
+    public static void printGameSelect(final List<String> gameNames) {
+        System.out.printf("불러올 게임을 선택하세요. (최대 %d개 저장 가능)\n", MAXIMUM_GAMES_COUNT_IN_PROGRESS);
+        for (int gameIndex = 1; gameIndex <= gameNames.size(); gameIndex++) {
+            System.out.printf("%d. %s\n", gameIndex, gameNames.get(gameIndex - 1));
+        }
+        if (gameNames.size() < MAXIMUM_GAMES_COUNT_IN_PROGRESS) {
+            System.out.println("0. 새 게임 생성");
+        }
+    }
+
     public static void printSetupGuide(final TeamType teamType) {
         System.out.println(teamType.getName() + "의 차림법을 입력해주세요.");
         for (final SetupCommand setupCommand : SetupCommand.values()) {
@@ -27,7 +38,11 @@ public final class OutputView {
         System.out.println(ERROR_PREFIX + message);
     }
 
-    public static void printGameLoadedMessage() {
+    public static void printGameCreatingMessage() {
+        System.out.println("새로운 게임을 생성합니다.");
+    }
+
+    public static void printGameLoadingMessage() {
         System.out.println("이전에 저장된 게임을 불러옵니다.");
     }
 
