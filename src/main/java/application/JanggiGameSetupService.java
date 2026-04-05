@@ -17,33 +17,32 @@ import domain.player.Name;
 import domain.player.Player;
 import domain.player.Team;
 import domain.position.Position;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class JanggiService {
+public class JanggiGameSetupService {
     private final GameRoom gameRoom;
     private final BoardRepository boardRepository;
 
-    public JanggiService(GameRoom gameRoom, BoardRepository boardRepository) {
+    public JanggiGameSetupService(GameRoom gameRoom, BoardRepository boardRepository) {
         this.gameRoom = gameRoom;
         this.boardRepository = boardRepository;
     }
 
-    public GameSession createNewGame(Player choPlayer, Player hanPlayer, Formation choFormation, Formation hanFormation) {
+    public JanggiGameSession createNewGame(Player choPlayer, Player hanPlayer, Formation choFormation, Formation hanFormation) {
         GameManager gameManager = new GameManager(choPlayer, hanPlayer, choFormation, hanFormation);
         long gameId = gameRoom.createGame(choPlayer.getProfile().name().value(), hanPlayer.getProfile().name().value());
         boardRepository.save(gameId, gameManager.getBoard());
         gameRoom.updateGameState(gameId, gameManager.getCurrentPlayer().getProfile().team(), GameStatus.PROGRESS);
-        return new GameSession(gameId, gameManager);
+        return new JanggiGameSession(gameId, gameManager);
     }
 
     public List<GameInfo> findProgressGames() {
         return gameRoom.findAllProgressGames();
     }
 
-    public Optional<GameSession> loadSessionById(long gameId) {
+    public Optional<JanggiGameSession> loadSessionById(long gameId) {
         return loadGameById(gameId).map(this::toGameSession);
     }
 
@@ -77,7 +76,7 @@ public class JanggiService {
         );
     }
 
-    private GameSession toGameSession(GameLoadResult state) {
+    private JanggiGameSession toGameSession(GameLoadResult state) {
         Board board = new Board(state.boardMap());
         GameManager gameManager = GameManager.fromLoadedState(
             new Player(new Name(state.choName()), CHO),
@@ -85,6 +84,7 @@ public class JanggiService {
             board,
             state.currentTeam()
         );
-        return new GameSession(state.gameId(), gameManager);
+        return new JanggiGameSession(state.gameId(), gameManager);
     }
 }
+

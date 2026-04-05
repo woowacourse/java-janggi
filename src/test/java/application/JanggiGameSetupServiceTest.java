@@ -19,10 +19,10 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class JanggiServiceTest {
+class JanggiGameSetupServiceTest {
     private final GameRoom gameRoom = new GameRoom();
     private final BoardRepository boardRepository = new BoardRepository();
-    private final JanggiService janggiService = new JanggiService(gameRoom, boardRepository);
+    private final JanggiGameSetupService janggiGameSetupService = new JanggiGameSetupService(gameRoom, boardRepository);
 
     @BeforeEach
     void setUp() {
@@ -31,7 +31,7 @@ class JanggiServiceTest {
 
     @Test
     void 새_게임을_생성하면_세션을_반환하고_진행_상태로_저장한다() {
-        GameSession session = janggiService.createNewGame(
+        JanggiGameSession session = janggiGameSetupService.createNewGame(
             createPlayer("CHO Player", CHO),
             createPlayer("HAN Player", HAN),
             Formation.from(1),
@@ -40,7 +40,7 @@ class JanggiServiceTest {
 
         assertThat(session.gameId()).isPositive();
         assertThat(session.gameManager().getCurrentPlayer().getProfile().team()).isEqualTo(CHO);
-        assertThat(janggiService.findProgressGames())
+        assertThat(janggiGameSetupService.findProgressGames())
             .anyMatch(gameInfo -> gameInfo.gameId() == session.gameId());
     }
 
@@ -50,7 +50,7 @@ class JanggiServiceTest {
         Board board = BoardFactory.createWithFormation(Formation.from(1), Formation.from(1));
         boardRepository.save(gameId, board);
 
-        Optional<GameSession> loaded = janggiService.loadSessionById(gameId);
+        Optional<JanggiGameSession> loaded = janggiGameSetupService.loadSessionById(gameId);
 
         assertThat(loaded).isPresent();
         assertThat(loaded.get().gameId()).isEqualTo(gameId);
@@ -63,7 +63,7 @@ class JanggiServiceTest {
         Board board = BoardFactory.createWithFormation(Formation.from(1), Formation.from(1));
         boardRepository.save(gameId, board);
 
-        Optional<GameLoadResult> result = janggiService.loadProgress();
+        Optional<GameLoadResult> result = janggiGameSetupService.loadProgress();
 
         assertThat(result).isPresent();
         assertThat(result.get().gameId()).isEqualTo(gameId);
@@ -75,18 +75,16 @@ class JanggiServiceTest {
 
     @Test
     void loadProgress_진행중인_게임이_없으면_Empty를_반환한다() {
-        // 기존에 있을 수 있는 PROGRESS 게임들 종료
-        Optional<GameLoadResult> existingGame = janggiService.loadProgress();
+        Optional<GameLoadResult> existingGame = janggiGameSetupService.loadProgress();
         while (existingGame.isPresent()) {
             gameRoom.updateGameState(existingGame.get().gameId(), Team.CHO, GameStatus.CHO_WIN);
-            existingGame = janggiService.loadProgress();
+            existingGame = janggiGameSetupService.loadProgress();
         }
 
-        // 새 게임 생성 후 바로 종료
         long gameId = gameRoom.createGame("CHO Player", "HAN Player");
         gameRoom.updateGameState(gameId, Team.CHO, GameStatus.CHO_WIN);
 
-        Optional<GameLoadResult> result = janggiService.loadProgress();
+        Optional<GameLoadResult> result = janggiGameSetupService.loadProgress();
 
         assertThat(result).isEmpty();
     }
@@ -98,7 +96,7 @@ class JanggiServiceTest {
         Board board = BoardFactory.createWithFormation(Formation.from(1), Formation.from(1));
         boardRepository.save(gameId2, board);
 
-        Optional<GameLoadResult> result = janggiService.loadProgress();
+        Optional<GameLoadResult> result = janggiGameSetupService.loadProgress();
 
         assertThat(result).isPresent();
         assertThat(result.get().gameId()).isEqualTo(gameId2);

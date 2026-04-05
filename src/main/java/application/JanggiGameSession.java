@@ -2,7 +2,7 @@ package application;
 
 import domain.manager.GameManager;
 
-public record GameSession(
+public record JanggiGameSession(
     long gameId,
     GameManager gameManager
 ) {

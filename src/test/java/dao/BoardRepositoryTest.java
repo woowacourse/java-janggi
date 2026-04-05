@@ -122,7 +122,6 @@ class BoardRepositoryTest {
     @Test
     void loadBoard_저장되지_않은_보드는_모두_None으로_초기화된다() {
         long gameId = gameRoom.createGame("CHO Player", "HAN Player");
-        // 보드 저장하지 않음
 
         Map<Position, BasicPiece> loadedBoardMap = boardRepository.loadBoard(gameId);
         Board loadedBoard = new Board(loadedBoardMap);

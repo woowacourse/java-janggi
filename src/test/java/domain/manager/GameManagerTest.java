@@ -124,9 +124,7 @@ class GameManagerTest {
                 originalBoard,
                 Team.HAN
         );
-
-        // HAN 차례이므로 HAN의 기물 위치(1,4) 검증은 성공해야 함
-        Position hanSourcePosition = new Position(1, 4);  // HAN JANG 위치
+        Position hanSourcePosition = new Position(1, 4);
 
         assertDoesNotThrow(
                 () -> loadedGameManager.validateSource(hanSourcePosition));

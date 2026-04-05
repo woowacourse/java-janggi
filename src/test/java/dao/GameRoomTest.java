@@ -66,19 +66,17 @@ class GameRoomTest {
         Optional<Long> foundId = gameRoom.findProgressGame();
 
         assertThat(foundId).isPresent();
-        assertThat(foundId.get()).isEqualTo(gameId2);  // 최신 게임
+        assertThat(foundId.get()).isEqualTo(gameId2);
     }
 
     @Test
     void findProgressGame_진행중인_게임이_없으면_비어있음을_반환한다() {
-        // 기존에 있을 수 있는 PROGRESS 게임들 종료
         Optional<Long> existingGame = gameRoom.findProgressGame();
         while (existingGame.isPresent()) {
             gameRoom.updateGameState(existingGame.get(), HAN, GameStatus.CHO_WIN);
             existingGame = gameRoom.findProgressGame();
         }
 
-        // 새 게임 생성 후 바로 종료
         long gameId = gameRoom.createGame("CHO Player", "HAN Player");
         gameRoom.updateGameState(gameId, HAN, GameStatus.HAN_WIN);
 
