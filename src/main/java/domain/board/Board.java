@@ -13,10 +13,12 @@ public class Board {
 
     private Map<Position, Piece> state;
 
-    public Board() {}
-
-    public void initialState(Map<Position, Piece> state) {
+    private Board(Map<Position, Piece> state) {
         this.state = state;
+    }
+
+    public static Board of(Map<Position, Piece> state) {
+        return new Board(state);
     }
 
     public Piece findBy(Position position) {
@@ -56,6 +58,14 @@ public class Board {
 
         if (side.isHan()) return score + 1.5;
         return score;
+    }
+
+    public Side getWinner() {
+        return state.values().stream()
+                .filter(Piece::isGeneral)
+                .map(Piece::getSide)
+                .findFirst()
+                .get();
     }
 
     public boolean isFinished() {
