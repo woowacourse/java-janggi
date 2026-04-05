@@ -3,12 +3,12 @@ package repository;
 import model.coordinate.Position;
 import model.game.GameStatus;
 import model.game.Team;
-import model.game.dao.GameDao;
+import model.game.dao.GameDto;
 import model.piece.Piece;
 import model.piece.PieceType;
 import repository.command.MoveCommand;
-import repository.dao.PieceDao;
-import repository.mapper.PieceDaoMapper;
+import repository.dto.PieceDto;
+import repository.mapper.PieceDtoMapper;
 
 import java.sql.Connection;
 import java.util.HashMap;
@@ -104,24 +104,24 @@ public class JanggiRepositoryImpl implements JanggiRepository {
     }
 
     @Override
-    public Optional<GameDao> findRecentGame() {
+    public Optional<GameDto> findRecentGame() {
         return jdbcTemplate.queryForSingleObject(
                 "SELECT game_id, turn FROM game " +
                         "WHERE status = 'PLAYING' " +
                         "ORDER BY game_id DESC " +
                         "LIMIT 1",
-                rs -> new GameDao(rs.getLong("game_id"), rs.getString("turn"))
+                rs -> new GameDto(rs.getLong("game_id"), rs.getString("turn"))
         );
     }
 
     @Override
     public Map<Position, Piece> findPiecesByGameId(long gameId) {
-        List<PieceDao> pieceDaos = jdbcTemplate.query(
+        List<PieceDto> pieceDaos = jdbcTemplate.query(
                 "SELECT piece_type, team, row_idx, col_idx " +
                         "FROM piece " +
                         "WHERE game_id = ?",
                 stmt -> stmt.setLong(1, gameId),
-                new PieceDaoMapper()
+                new PieceDtoMapper()
         );
         return createBoardMap(pieceDaos);
     }
@@ -137,9 +137,9 @@ public class JanggiRepositoryImpl implements JanggiRepository {
         );
     }
 
-    private Map<Position, Piece> createBoardMap(List<PieceDao> pieceDaos) {
+    private Map<Position, Piece> createBoardMap(List<PieceDto> pieceDaos) {
         Map<Position, Piece> boardMap = new HashMap<>();
-        for (PieceDao pieceDao : pieceDaos) {
+        for (PieceDto pieceDao : pieceDaos) {
             Position position = new Position(pieceDao.rowIndex(), pieceDao.colIndex());
             Team currentTurn = Team.fromName(pieceDao.team());
             Piece piece = PieceType.fromName(pieceDao.pieceType()).createPiece(currentTurn);

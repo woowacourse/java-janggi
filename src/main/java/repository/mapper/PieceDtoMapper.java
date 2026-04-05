@@ -1,14 +1,14 @@
 package repository.mapper;
 
-import repository.dao.PieceDao;
+import repository.dto.PieceDto;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class PieceDaoMapper implements RowMapper<PieceDao> {
+public class PieceDtoMapper implements RowMapper<PieceDto> {
     @Override
-    public PieceDao mapRow(ResultSet resultSet) throws SQLException {
-        return new PieceDao(
+    public PieceDto mapRow(ResultSet resultSet) throws SQLException {
+        return new PieceDto(
                 resultSet.getString("piece_type"),
                 resultSet.getString("team"),
                 resultSet.getInt("row_idx"),

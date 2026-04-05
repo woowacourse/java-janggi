@@ -9,7 +9,7 @@ import model.formation.JanggiFormation;
 import model.game.GameStatus;
 import model.game.Janggi;
 import model.game.Team;
-import model.game.dao.GameDao;
+import model.game.dao.GameDto;
 import model.piece.Piece;
 import repository.JanggiRepository;
 import repository.command.MoveCommand;
@@ -28,20 +28,20 @@ public class JanggiService {
     }
 
     public boolean tryResumeGame() {
-        Optional<GameDao> gameDaoOptional = janggiRepository.findRecentGame();
-        if (gameDaoOptional.isEmpty()) {
+        Optional<GameDto> gameDtoOptional = janggiRepository.findRecentGame();
+        if (gameDtoOptional.isEmpty()) {
             return false;
         }
-        GameDao gameDao = gameDaoOptional.get();
-        this.gameId = gameDao.gameId();
-        startPlayingGame(gameDao);
+        GameDto gameDto = gameDtoOptional.get();
+        this.gameId = gameDto.gameId();
+        startPlayingGame(gameDto);
         return true;
     }
 
-    private void startPlayingGame(GameDao gameDao) {
-        Map<Position, Piece> boardMap = janggiRepository.findPiecesByGameId(gameDao.gameId());
+    private void startPlayingGame(GameDto gameDto) {
+        Map<Position, Piece> boardMap = janggiRepository.findPiecesByGameId(gameDto.gameId());
         Board board = new Board(boardMap);
-        Team currentTurn = Team.fromName(gameDao.turn());
+        Team currentTurn = Team.fromName(gameDto.turn());
         this.janggi = new Janggi(board, currentTurn);
     }
 

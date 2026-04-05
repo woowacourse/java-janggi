@@ -4,7 +4,7 @@ import config.db.DatabaseConfig;
 import model.coordinate.Position;
 import model.game.GameStatus;
 import model.game.Team;
-import model.game.dao.GameDao;
+import model.game.dao.GameDto;
 import model.piece.Piece;
 import model.piece.Soldier;
 import org.junit.jupiter.api.BeforeEach;
@@ -160,7 +160,7 @@ class JanggiRepositoryImplTest {
         repository.saveGame(Team.HAN, Map.of());
 
         // when
-        Optional<GameDao> result = repository.findRecentGame();
+        Optional<GameDto> result = repository.findRecentGame();
 
         // then
         assertThat(result).isPresent();
@@ -170,7 +170,7 @@ class JanggiRepositoryImplTest {
     @Test
     void 진행중인_게임이_없으면_빈값을_반환한다() {
         // when
-        Optional<GameDao> result = repository.findRecentGame();
+        Optional<GameDto> result = repository.findRecentGame();
 
         // then
         assertThat(result).isEmpty();
@@ -201,7 +201,7 @@ class JanggiRepositoryImplTest {
         repository.updateCurrentGameStatus(gameId, GameStatus.WIN_BY_SCORE);
 
         // when
-        Optional<GameDao> result = repository.findRecentGame();
+        Optional<GameDto> result = repository.findRecentGame();
 
         // then
         assertThat(result).isEmpty();

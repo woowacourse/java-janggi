@@ -3,7 +3,7 @@ package repository;
 import model.coordinate.Position;
 import model.game.GameStatus;
 import model.game.Team;
-import model.game.dao.GameDao;
+import model.game.dao.GameDto;
 import model.piece.Piece;
 import repository.command.MoveCommand;
 
@@ -16,7 +16,7 @@ public interface JanggiRepository {
 
     void updateGame(long gameId, MoveCommand moveCommand);
 
-    Optional<GameDao> findRecentGame();
+    Optional<GameDto> findRecentGame();
 
     Map<Position, Piece> findPiecesByGameId(long gameId);
 

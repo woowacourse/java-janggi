@@ -1,6 +1,6 @@
-package repository.dao;
+package repository.dto;
 
-public record PieceDao(
+public record PieceDto(
         String pieceType,
         String team,
         int rowIndex,
