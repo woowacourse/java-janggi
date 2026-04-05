@@ -52,7 +52,7 @@
 > // 상태와 값(enum) 을 String(varchar)으로 저장 / 로드
 > ```
 
-TABLE `GAME` (게임)
+TABLE `GAME` (게임 정보)
 
     game_id(PK)
     
@@ -63,6 +63,14 @@ TABLE `GAME` (게임)
     current_turn[Side] (VARCHAR)
     
     created_at(DATETIME)
+
+TABLE `PLAYER` (플레이어 정보)
+
+    player_id(PK) - 필요한가? 닉네임과 게임ID 조합으로 표현 가능할거같은데 
+
+    player_nickname - 중복 검사해서 생성되겠지만 PK 로 정해두면 교차 검증 가능?
+
+    playing_game_id - 두개 조합으로 관리하는게 
 
 TABLE `GAME_PIECE_POSITION` (기물 배치 상태)
 
