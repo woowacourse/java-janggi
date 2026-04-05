@@ -12,6 +12,7 @@ import janggi.domain.status.Team;
 import janggi.infra.dao.GameRoomDao;
 import janggi.infra.dao.PiecesDao;
 import janggi.infra.datasource.H2DataSourceFactory;
+import janggi.infra.transaction.ConnectionContext;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.LinkedHashMap;
@@ -50,8 +51,9 @@ class JdbcBoardRepositoryTest {
         pieces.put(Point.of(0, 1), new Ma(Team.CHO));
         Board board = new Board(pieces);
         JanggiGame game = new JanggiGame(board, new ChoTurn());
-        long roomId = repository.save(game, connection);
-        JanggiGame loadedGame = repository.loadGame(roomId, connection);
+        ConnectionContext.setConnection(connection);
+        long roomId = repository.save(game);
+        JanggiGame loadedGame = repository.loadGame(roomId);
         Assertions.assertThat(game.getTeam()).isEqualTo(loadedGame.getTeam());
         Assertions.assertThat(game.getChoScore()).isEqualTo(loadedGame.getChoScore());
         Assertions.assertThat(game.getHanScore()).isEqualTo(loadedGame.getHanScore());
@@ -65,14 +67,15 @@ class JdbcBoardRepositoryTest {
         pieces.put(Point.of(1, 1), new Ma(Team.CHO));
         Board board = new Board(pieces);
         JanggiGame game = new JanggiGame(board, new ChoTurn());
-        long roomId = repository.save(game, connection);
+        ConnectionContext.setConnection(connection);
+        long roomId = repository.save(game);
 
         Point from = Point.of(0,0);
         Point to = Point.of(0,2);
         game.play(from, to);
-        repository.update(roomId, from, to, game, connection);
+        repository.update(roomId, from, to, game);
 
-        JanggiGame loadedGame = repository.loadGame(roomId, connection);
+        JanggiGame loadedGame = repository.loadGame(roomId);
         Assertions.assertThat(loadedGame.getBoardStatus().get(from)).isNull();
         Assertions.assertThat(loadedGame.getBoardStatus().get(to)).isNotNull();
         Assertions.assertThat(loadedGame.getBoardStatus().get(to).getType()).isEqualTo(PieceType.CHA);
@@ -81,7 +84,8 @@ class JdbcBoardRepositoryTest {
     @Test
     @DisplayName("존재하지 않는 방번호로 조회하면 예외가 발생한다.")
     void not_found_room() {
-        Assertions.assertThatThrownBy(() -> repository.loadGame(-1, connection))
+        ConnectionContext.setConnection(connection);
+        Assertions.assertThatThrownBy(() -> repository.loadGame(-1))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

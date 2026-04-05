@@ -20,15 +20,15 @@ public class JanggiGameService {
     }
 
     public long startNewGame(Board initBoard) {
-        return template.executeInTransaction(connection -> {
+        return template.executeInTransaction(() -> {
             JanggiGame game = new JanggiGame(initBoard, new ChoTurn());
-            return repository.save(game, connection);
+            return repository.save(game);
         });
     }
 
     public GameStatusInfo getBoardStatus(long roomId) {
-        return template.executeInTransaction(connection -> {
-            JanggiGame game = repository.loadGame(roomId, connection);
+        return template.executeInTransaction(() -> {
+            JanggiGame game = repository.loadGame(roomId);
             return GameStatusInfo.from(
                     game.getHanScore(),
                     game.getChoScore(),
@@ -39,32 +39,32 @@ public class JanggiGameService {
     }
 
     public boolean isFinished(long roomId) {
-        return template.executeInTransaction(connection ->
-                repository.loadGame(roomId, connection)
+        return template.executeInTransaction(() ->
+                repository.loadGame(roomId)
                     .isFinished()
         );
     }
 
     public GameStatusInfo play(long roomId, Point from, Point to) {
-        return template.executeInTransaction(connection -> {
-                JanggiGame game = repository.loadGame(roomId, connection);
+        return template.executeInTransaction(() -> {
+                JanggiGame game = repository.loadGame(roomId);
                 game.play(from, to);
-                repository.update(roomId, from, to, game, connection);
+                repository.update(roomId, from, to, game);
                 return GameStatusInfo.from(game.getHanScore(), game.getChoScore(), game.getBoardStatus());
             }
         );
     }
 
     public Team winner(long roomId) {
-        return template.executeInTransaction(connection ->
-                repository.loadGame(roomId, connection)
+        return template.executeInTransaction(() ->
+                repository.loadGame(roomId)
                         .getWinner()
         );
     }
 
     public Team currentTurn(long roomId) {
-        return template.executeInTransaction(connection ->
-                repository.loadGame(roomId, connection)
+        return template.executeInTransaction(() ->
+                repository.loadGame(roomId)
                         .getTeam()
         );
     }

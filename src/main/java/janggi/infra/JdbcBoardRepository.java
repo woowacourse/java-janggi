@@ -13,6 +13,7 @@ import janggi.infra.dao.GameRoomDao;
 import janggi.infra.dao.PiecesDao;
 import janggi.infra.dto.GameRoomData;
 import janggi.infra.dto.PieceData;
+import janggi.infra.transaction.ConnectionContext;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -30,7 +31,8 @@ public class JdbcBoardRepository implements BoardRepository {
     }
 
     @Override
-    public long save(JanggiGame game, Connection connection) {
+    public long save(JanggiGame game) {
+        Connection connection = ConnectionContext.getConnection();
         long roomId = roomDao.save(GameRoomData.from(game), connection);
         Map<Point, Piece> pieces = game.getBoardStatus();
         List<PieceData> data = new ArrayList<>();
@@ -43,14 +45,16 @@ public class JdbcBoardRepository implements BoardRepository {
     }
 
     @Override
-    public void update(long roomId, Point from, Point to, JanggiGame game, Connection connection) {
+    public void update(long roomId, Point from, Point to, JanggiGame game) {
+        Connection connection = ConnectionContext.getConnection();
         roomDao.update(roomId, GameRoomData.from(game), connection);
         piecesDao.delete(roomId, to.getRow(), to.getColumn(), connection);
         piecesDao.update(roomId, from.getRow(), from.getColumn(), to.getRow(), to.getColumn(), connection);
     }
 
     @Override
-    public JanggiGame loadGame(long roomId, Connection connection) {
+    public JanggiGame loadGame(long roomId) {
+        Connection connection = ConnectionContext.getConnection();
         GameRoomData roomData = roomDao.findRoomById(roomId, connection)
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 존재하지 않는 게임방 입니다."));
         List<PieceData> pieceDatas = piecesDao.findAllByRoomId(roomId, connection);

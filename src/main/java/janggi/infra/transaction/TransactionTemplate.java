@@ -23,7 +23,8 @@ public class TransactionTemplate {
     private <T> T processTransaction(Connection connection, TransactionCallback<T> action) throws SQLException {
         try {
             connection.setAutoCommit(false);
-            T result = action.doInTransaction(connection);
+            ConnectionContext.setConnection(connection);
+            T result = action.doInTransaction();
             connection.commit();
             return result;
         } catch (RuntimeException e) {
@@ -33,6 +34,7 @@ public class TransactionTemplate {
             connection.rollback();
             throw new RuntimeException("[ERROR] 게임 저장 중 트랜잭션 롤백됨", e);
         } finally {
+            ConnectionContext.clear();
             connection.setAutoCommit(true);
         }
     }
