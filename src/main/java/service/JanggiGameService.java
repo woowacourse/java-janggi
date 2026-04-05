@@ -1,46 +1,92 @@
 package service;
 
-
-import java.sql.Connection;
-import java.sql.SQLException;
-import repository.dao.GameContextDao;
+import domain.GameId;
+import domain.JanggiGame;
+import domain.SettingType;
+import domain.position.Position;
+import java.util.List;
 import repository.dao.GameDao;
-import repository.dao.GamePieceDao;
-import repository.dao.PieceDao;
-import repository.jdbc.JdbcConnectionGenerator;
 
 public class JanggiGameService {
-    private final JdbcConnectionGenerator CONNECTION_GENERATOR;
-
-    private final PieceDao pieceDao;
-    private final GamePieceDao gamePieceDao;
+    private final TransactionTemplate transactionTemplate;
     private final GameDao gameDao;
-    private final GameContextDao gameContextDao;
 
-    public JanggiGameService(JdbcConnectionGenerator connectionGenerator, PieceDao pieceDao, GamePieceDao gamePieceDao,
-                             GameDao gameDao, GameContextDao gameContextDao) {
-        CONNECTION_GENERATOR = connectionGenerator;
-        this.pieceDao = pieceDao;
-        this.gamePieceDao = gamePieceDao;
+    public JanggiGameService(TransactionTemplate transactionTemplate, GameDao gameDao) {
+        this.transactionTemplate = transactionTemplate;
         this.gameDao = gameDao;
-        this.gameContextDao = gameContextDao;
     }
 
     public void initializeDatabase() {
-        try (Connection connection = CONNECTION_GENERATOR.getDBConnection()) {
-            connection.setAutoCommit(false);
-            try {
-                pieceDao.initTable(connection);
-                gamePieceDao.initTable(connection);
-                gameDao.initTable(connection);
-                gameContextDao.initTable(connection);
-                connection.commit();
-            } catch (Exception e) {
-                connection.rollback();
-                throw new RuntimeException("비즈니스 로직 예외로 인한 롤백 발생", e);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("데이터베이스 연결 오류", e);
-        }
+        transactionTemplate.execute(
+                connection -> {
+                    gameDao.initTable(connection);
+                    return null;
+                }
+        );
+    }
+
+    public boolean isPlayingGameExist() {
+        return transactionTemplate.execute(
+                connection -> {
+                    List<GameId> playingGameIds = gameDao.findPlayingGameIds(connection);
+                    return !playingGameIds.isEmpty();
+                }
+        );
+    }
+
+    public void abandonGame() {
+        transactionTemplate.execute(
+                connection -> {
+                    List<JanggiGame> playingGames = gameDao.findPlayingGames(connection);
+                    for (JanggiGame game : playingGames) {
+                        game.getContext().finishGame();
+                        gameDao.updateContext(connection, game.getId(), game.getContext());
+                    }
+                    return null;
+                }
+        );
+    }
+
+    public JanggiGame startNewGame(SettingType choSettingType, SettingType hanSettingType) {
+        return transactionTemplate.execute(
+                connection -> {
+                    JanggiGame newGame = JanggiGame.init(choSettingType, hanSettingType);
+                    GameId gameId = gameDao.save(connection, newGame);
+                    connection.commit();
+                    return gameDao.findGameById(connection, gameId);
+                }
+        );
+    }
+
+    public JanggiGame loadPlayingGame() {
+        return transactionTemplate.execute(
+                connection -> {
+                    List<JanggiGame> playingGames = gameDao.findPlayingGames(connection);
+                    if (playingGames.isEmpty()) {
+                        throw new IllegalStateException("진행 중인 게임이 없습니다.");
+                    }
+                    return playingGames.getFirst();
+                }
+        );
+    }
+
+    public void doMove(JanggiGame game, Position start, Position destination) {
+        transactionTemplate.execute(
+                connection -> {
+                    game.executeMove(start, destination);
+                    gameDao.updateGamePiece(connection, game.getId(), game);
+                    return null;
+                }
+        );
+    }
+
+    public void passTurn(JanggiGame game) {
+        transactionTemplate.execute(
+                connection -> {
+                    game.passTurn();
+                    gameDao.updateContext(connection, game.getId(), game.getContext());
+                    return null;
+                }
+        );
     }
 }
