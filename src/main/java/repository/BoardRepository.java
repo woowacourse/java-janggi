@@ -4,6 +4,6 @@ import domain.board.Board;
 import dto.BoardResponseDto;
 
 public interface BoardRepository {
-    void save(Board board);
-    BoardResponseDto findAll();
+    void save(Long gameId, Board board);
+    BoardResponseDto findByGameId(Long gameId);
 }

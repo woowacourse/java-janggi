@@ -1,7 +1,10 @@
 package repository;
 
-import domain.player.Player;
+import domain.players.Player;
+
+import java.util.List;
 
 public interface PlayerRepository {
-    void save(Player player);
+    void save(Long gameId, List<Player> players);
+    void update(Long gameId, List<Player> players);
 }
