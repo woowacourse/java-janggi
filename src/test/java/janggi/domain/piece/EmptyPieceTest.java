@@ -14,15 +14,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class EmptyPieceTest {
 
     @Test
-    void 빈_기물의_팀은_NONE이다() {
-        // given
-        EmptyPiece emptyPiece = new EmptyPiece();
-
-        // when & then
-        assertThat(emptyPiece.getTeam()).isEqualTo(Team.NONE);
-    }
-
-    @Test
     void 빈기물의_타입은_EMPTY이다() {
         // given
         EmptyPiece emptyPiece = new EmptyPiece();
@@ -45,7 +36,7 @@ class EmptyPieceTest {
 
 
     @ParameterizedTest
-    @EnumSource(value = Team.class, names = "NONE", mode = EnumSource.Mode.EXCLUDE)
+    @EnumSource(value = Team.class)
     void 빈_기물은_어떤_팀과도_같은_팀이_아니다(Team expected) {
         // given
         EmptyPiece emptyPiece = new EmptyPiece();

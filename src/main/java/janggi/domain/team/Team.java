@@ -1,16 +1,12 @@
 package janggi.domain.team;
 
 public enum Team {
-    HAN("한", -1),
-    CHO("초", 1),
-    NONE("무", 0),
-    ;
+    HAN(-1),
+    CHO(1);
 
-    private final String displayName;
     private final int backwardDirection;
 
-    Team(String displayName, int backwardDirection) {
-        this.displayName = displayName;
+    Team(int backwardDirection) {
         this.backwardDirection = backwardDirection;
     }
 

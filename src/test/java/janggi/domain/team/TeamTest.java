@@ -48,13 +48,4 @@ class TeamTest {
         // then
         assertThat(result).isEqualTo(expected);
     }
-
-    @ParameterizedTest()
-    @EnumSource(value = Team.class, names = {"HAN", "CHO"}, mode = EnumSource.Mode.EXCLUDE)
-    void 한나라와_초나라를_제외한_팀은_변환될_수_없다(Team team) {
-        // when & then
-        assertThatThrownBy(team::convert)
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 한나라, 초나라만 선택 가능합니다.");
-    }
 }
