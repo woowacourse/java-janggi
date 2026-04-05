@@ -82,10 +82,10 @@ public class JanggiController {
             gameId = gameService.createNewGame(gameName, turnManager);
             return turnManager;
         }
-        OutputView.printGameLoadingMessage();
+        final GameEntity gameEntity = gameService.loadGame(gameSelectCommand.getSelectedGameId());
+        OutputView.printGameLoadingMessage(gameEntity.name());
         gameId = gameSelectCommand.getSelectedGameId();
-        return TurnManagerMapper.toDomain(
-            gameService.loadGame(gameSelectCommand.getSelectedGameId()));
+        return TurnManagerMapper.toDomain(gameEntity);
     }
 
     public Board loadOrSaveBoard(final List<Team> teams) {

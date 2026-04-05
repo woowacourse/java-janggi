@@ -39,11 +39,11 @@ public final class OutputView {
     }
 
     public static void printGameCreatingMessage() {
-        System.out.println("새로운 게임을 생성합니다.");
+        System.out.printf("새 게임 생성을 선택하였습니다. 새로운 게임을 시작합니다.");
     }
 
-    public static void printGameLoadingMessage() {
-        System.out.println("이전에 저장된 게임을 불러옵니다.");
+    public static void printGameLoadingMessage(final String gameName) {
+        System.out.printf("%s의 진행 상태를 불러옵니다.\n", gameName);
     }
 
     public static void printBoard(final BoardDto boardDto) {
