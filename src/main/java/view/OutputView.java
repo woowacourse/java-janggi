@@ -2,6 +2,8 @@ package view;
 
 import domain.dto.BoardDto;
 import domain.dto.PieceDto;
+import domain.dto.ResultDto;
+import domain.dto.ScoreDto;
 
 import java.util.List;
 
@@ -19,5 +21,16 @@ public class OutputView {
             System.out.println();
         }
         System.out.println();
+    }
+
+    public void printCurrentScore(ScoreDto scoreDto) {
+        System.out.println("현재 점수");
+        System.out.printf("초: %.1f, 한: %.1f\n", scoreDto.choScore(), scoreDto.hanScore());
+    }
+
+    public void printWinnerTeam(ResultDto resultDto) {
+        System.out.println("===== 게임 결과 =====");
+        System.out.printf("초: %.1f, 한: %.1f\n", resultDto.choScore(), resultDto.hanScore());
+        System.out.println("최종 승리팀: " + resultDto.winnerTeam());
     }
 }

@@ -28,6 +28,19 @@ public class JanggiGame {
         this.gameState = gameState.nextTurn(pieceType == PieceType.KING);
     }
 
+    public Team getWinner() {
+        double teamChoScore = janggiBoard.calculateScore(Team.CHO);
+        double teamHanScore = janggiBoard.calculateScore(Team.HAN);
+
+        if (teamChoScore > teamHanScore) {
+            return Team.CHO;
+        }
+        if (teamHanScore > teamChoScore) {
+            return Team.HAN;
+        }
+        return Team.NONE;
+    }
+
     public boolean isFinished() {
         return gameState == GameState.FINISHED;
     }

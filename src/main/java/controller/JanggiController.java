@@ -5,6 +5,8 @@ import domain.Team;
 import domain.board.JanggiBoard;
 import domain.dto.BoardDto;
 import domain.dto.BoardMapper;
+import domain.dto.ResultDto;
+import domain.dto.ScoreDto;
 import game.JanggiGame;
 import view.InputView;
 import view.OutputView;
@@ -34,10 +36,13 @@ public class JanggiController {
             }
         }
         outputView.printJanggiBoard(BoardMapper.from(janggiBoard));
+        outputView.printWinnerTeam(new ResultDto(janggiBoard.calculateScore(Team.CHO),
+                janggiBoard.calculateScore(Team.HAN), janggiGame.getWinner().getName()));
     }
 
     private void playTurn(JanggiBoard janggiBoard, JanggiGame janggiGame) {
         outputView.printJanggiBoard(BoardMapper.from(janggiBoard));
+        outputView.printCurrentScore(new ScoreDto(janggiBoard.calculateScore(Team.CHO), janggiBoard.calculateScore(Team.HAN)));
 
         Team currentTeam = janggiGame.getCurrentTeam();
         String currentTeamName = currentTeam.getName();
