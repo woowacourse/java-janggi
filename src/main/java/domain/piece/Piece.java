@@ -50,21 +50,4 @@ public abstract class Piece {
     public Team getTeam() {
         return team;
     }
-
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) {
-            return true;
-        }
-        if (object == null || getClass() != object.getClass()) {
-            return false;
-        }
-        Piece piece = (Piece) object;
-        return pieceType == piece.pieceType && team == piece.team;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(pieceType, team);
-    }
 }

@@ -90,7 +90,8 @@ class ChariotTest {
         board.move(new Position(0,0), new Position(4,0));
 
         Piece piece = board.getPiece(new Position(4, 0)).get();
-        assertThat(piece).isEqualTo(new Chariot(Team.CHO));
+        boolean result = piece.isSameTeam(Team.CHO) && piece.isSameType(PieceType.CHARIOT);
+        assertThat(result).isTrue();
     }
 
 
@@ -114,7 +115,8 @@ class ChariotTest {
         board.move(new Position(0,0), new Position(5,0));
 
         Piece piece = board.getPiece(new Position(5, 0)).get();
-        assertThat(piece).isEqualTo(new Chariot(Team.CHO));
+        boolean result = piece.isSameTeam(Team.CHO) && piece.isSameType(PieceType.CHARIOT);
+        assertThat(result).isTrue();
     }
 
 
@@ -189,6 +191,8 @@ class ChariotTest {
         board.move(new Position(4, 1), new Position(5, 2));
         Piece piece = board.getRequiredPiece(new Position(5, 2));
 
-        assertThat(piece).isEqualTo(new Chariot(Team.CHO));
+        boolean result = piece.isSameTeam(Team.CHO) && piece.isSameType(PieceType.CHARIOT);
+        assertThat(result).isTrue();
+
     }
 }

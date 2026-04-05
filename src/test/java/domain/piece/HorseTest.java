@@ -135,7 +135,8 @@ class HorseTest {
         board.move(new Position(4, 0), new Position(5, 2));
 
         Piece piece = board.getPiece(new Position(5, 2)).get();
-        assertThat(piece).isEqualTo(new Horse(Team.CHO));
+        boolean result = piece.isSameTeam(Team.CHO) && piece.isSameType(PieceType.HORSE);
+        assertThat(result).isTrue();
     }
 
 
@@ -159,6 +160,8 @@ class HorseTest {
         board.move(new Position(4, 0), new Position(2, 1));
 
         Piece piece = board.getPiece(new Position(2, 1)).get();
-        assertThat(piece).isEqualTo(new Horse(Team.CHO));
+        boolean result = piece.isSameTeam(Team.CHO) && piece.isSameType(PieceType.HORSE);
+        assertThat(result).isTrue();
+
     }
 }

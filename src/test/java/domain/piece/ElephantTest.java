@@ -133,7 +133,10 @@ class ElephantTest {
         board.move(new Position(4,0), new Position(6,3));
 
         Piece piece = board.getPiece(new Position(6, 3)).get();
-        assertThat(piece).isEqualTo(new Elephant(Team.CHO));
+        boolean result = piece.isSameTeam(Team.CHO) && piece.isSameType(PieceType.ELEPHANT);
+        assertThat(result).isTrue();
+
+
     }
 
 
@@ -158,6 +161,8 @@ class ElephantTest {
         board.move(new Position(4,0), new Position(2,3));
 
         Piece piece = board.getPiece(new Position(2,3)).get();
-        assertThat(piece).isEqualTo(new Elephant(Team.CHO));
+        boolean result = piece.isSameTeam(Team.CHO) && piece.isSameType(PieceType.ELEPHANT);
+        assertThat(result).isTrue();
+
     }
 }

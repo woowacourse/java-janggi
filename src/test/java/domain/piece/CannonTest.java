@@ -204,6 +204,7 @@ class CannonTest {
         board.move(new Position(5, 2), new Position(3, 0));
         Piece piece = board.getRequiredPiece(new Position(3, 0));
 
-        assertThat(piece).isEqualTo(new Cannon(Team.CHO));
+        boolean result = piece.isSameTeam(Team.CHO) && piece.isSameType(PieceType.CANNON);
+        assertThat(result).isTrue();
     }
 }
