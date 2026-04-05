@@ -4,6 +4,7 @@ public enum Team {
     CHO("초나라"),
     HAN("한나라");
 
+    private static final int MAX_Y = 11;
     private final String name;
 
     Team(String name) {
@@ -12,5 +13,12 @@ public enum Team {
 
     public String getName() {
         return name;
+    }
+
+    public int calculateYPosition(int defaultY) {
+        if (this == CHO) {
+            return defaultY;
+        }
+        return MAX_Y - defaultY;
     }
 }

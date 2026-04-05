@@ -10,8 +10,6 @@ import java.util.Map;
 
 public class BoardInitiator {
 
-    private static final int MAX_Y = 11;
-
     private final Map<PieceType, List<Integer>> defaultXPositions = Map.of(
             PieceType.KING, List.of(5),
             PieceType.SA, List.of(4, 6),
@@ -60,14 +58,9 @@ public class BoardInitiator {
     private void placeByPieceType(Board board, Map<PieceType, List<Integer>> hanXPositions, Team team,
                                   PieceType pieceType) {
         for (Integer x : hanXPositions.get(pieceType)) {
-            if (team == Team.CHO) {
-                Position position = new Position(x, defaultYPosition.get(pieceType));
-                board.place(position, new Piece(team, pieceType));
-            }
-            if (team == Team.HAN) {
-                Position position = new Position(x, MAX_Y - defaultYPosition.get(pieceType));
-                board.place(position, new Piece(team, pieceType));
-            }
+            int y = team.calculateYPosition(defaultYPosition.get(pieceType));
+            Position position = new Position(x, y);
+            board.place(position, new Piece(team, pieceType));
         }
     }
 }
