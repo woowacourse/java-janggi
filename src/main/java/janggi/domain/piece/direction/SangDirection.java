@@ -59,7 +59,8 @@ public enum SangDirection {
             new Offset(1, 0),
             new Offset(2, 1)
         )
-    );
+    ),
+    ;
 
     private final Offset target;
     private final List<Offset> routes;

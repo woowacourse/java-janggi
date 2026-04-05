@@ -51,7 +51,8 @@ public enum MaDirection {
             new Offset(2, 1),
             new Offset(1, 0)
         )
-    );
+    ),
+    ;
 
     private final List<Offset> routes;
 

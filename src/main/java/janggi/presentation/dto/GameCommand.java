@@ -4,8 +4,8 @@ import java.util.Arrays;
 
 public enum GameCommand {
     NEW("y"),
-
-    LOAD("n");
+    LOAD("n"),
+    ;
 
     private final String input;
 

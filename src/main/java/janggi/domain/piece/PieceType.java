@@ -7,7 +7,8 @@ public enum PieceType {
     SANG(3),
     JANG(0),
     SA(3),
-    JOL(2);
+    JOL(2),
+    ;
 
     private final int score;
 

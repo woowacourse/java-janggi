@@ -12,7 +12,8 @@ public enum Team {
         public boolean isBackward(int signRow) {
             return signRow > 0;
         }
-    };
+    },
+    ;
 
     public abstract boolean isBackward(int signRow);
 }

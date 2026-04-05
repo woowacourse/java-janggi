@@ -12,7 +12,8 @@ public enum CastleDirection {
     UP_RIGHT(1, 1),
     UP_LEFT(-1, 1),
     DOWN_RIGHT(1, -1),
-    DOWN_LEFT(-1, -1);
+    DOWN_LEFT(-1, -1),
+    ;
 
     private static final Map<Point, List<CastleDirection>> RULE = Map.ofEntries(
             Map.entry(Point.of(3, 0), List.of(RIGHT, UP, UP_RIGHT)),
