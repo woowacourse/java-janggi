@@ -5,6 +5,7 @@ import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceFactory;
 import janggi.domain.piece.PieceType;
 import java.util.List;
+import java.util.function.Function;
 
 public class MaSangArrangementStrategy implements ArrangementStrategy {
 
@@ -65,37 +66,32 @@ public class MaSangArrangementStrategy implements ArrangementStrategy {
     }
 
     private enum DefaultPieceFactory {
-        CHA(0, List.of(0, 8), PieceType.CHA),
-        SA(0, List.of(3, 5), PieceType.SA),
-        GUNG(1, List.of(4), PieceType.GUNG),
-        PO(2, List.of(1, 7), PieceType.PO),
-        JOLBYEONG(3, List.of(0, 2, 4, 6, 8), PieceType.JOL);
+        CHA(0, List.of(0, 8), pieceSide -> PieceType.CHA),
+        SA(0, List.of(3, 5), pieceSide -> PieceType.SA),
+        GUNG(1, List.of(4), pieceSide -> PieceType.GUNG),
+        PO(2, List.of(1, 7), pieceSide -> PieceType.PO),
+        JOLBYEONG(3, List.of(0, 2, 4, 6, 8), pieceSide -> {
+            if (pieceSide == Side.HAN) {
+                return PieceType.BYEONG;
+            }
+            if (pieceSide.equals(Side.CHO)) {
+                return PieceType.JOL;
+            }
+            throw new UnsupportedOperationException("진영이 존재하지 않아 기물명을 정할 수 없습니다.");
+        });
 
         private final int row;
         private final List<Integer> cols;
-        private final PieceType pieceType;
+        private final Function<Side, PieceType> pieceTypeProvider;
 
-        DefaultPieceFactory(int row, List<Integer> cols, PieceType pieceType) {
+        DefaultPieceFactory(int row, List<Integer> cols, Function<Side, PieceType> pieceTypeProvider) {
             this.row = row;
             this.cols = cols;
-            this.pieceType = pieceType;
+            this.pieceTypeProvider = pieceTypeProvider;
         }
 
         private Piece createPiece(Side side) {
-            if (this == JOLBYEONG) {
-                return FACTORY.createActivePiece(getJolOrByeongBySide(side), side);
-            }
-            return FACTORY.createActivePiece(this.pieceType, side);
-        }
-
-        private PieceType getJolOrByeongBySide(Side side) {
-            if (side == Side.HAN) {
-                return PieceType.BYEONG;
-            }
-            if (side == Side.CHO) {
-                return PieceType.JOL;
-            }
-            throw new IllegalArgumentException("진영이 존재하지 않아 기물명을 정할 수 없습니다.");
+            return FACTORY.createActivePiece(pieceTypeProvider.apply(side), side);
         }
 
         private int getRow(Side side, int height) {
