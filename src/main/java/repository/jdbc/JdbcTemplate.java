@@ -27,6 +27,7 @@ public class JdbcTemplate {
         return execute(connection, sql, false, ps -> processUpdate(ps, parameters));
     }
 
+    @FunctionalInterface
     public interface RowMapper<T> {
         T mapRow(ResultSet resultSet) throws SQLException;
     }
