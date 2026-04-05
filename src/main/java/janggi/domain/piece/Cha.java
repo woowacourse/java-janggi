@@ -31,12 +31,4 @@ public class Cha extends SlidingPiece {
             throw new IllegalArgumentException("이동 경로에 기물이 존재하여 이동할 수 없습니다.");
         }
     }
-
-//    @Override
-//    protected void validatePieceInPath(MovePath movePath, Position start, Position end, Board board) {
-//        if (movePath.intermediatePositions(start, end).stream()
-//                .anyMatch(board::hasPiece)) {
-//            throw new IllegalArgumentException("이동 경로에 기물이 존재하여 이동할 수 없습니다.");
-//        }
-//    }
 }

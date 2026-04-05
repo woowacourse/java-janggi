@@ -1,6 +1,3 @@
-/**
- * gung은 steppingPiece 테스트로 검증 가능
- */
 package janggi.domain.piece;
 
 import janggi.domain.Position;
@@ -44,28 +41,6 @@ class GungTest {
         assertThatCode(() -> gung.getPiecePositionsInPath(start, end))
                 .doesNotThrowAnyException();
     }
-
-//    @Test
-//    @DisplayName("이동 경로에 기물이 존재하는 경우 예외 발생")
-//    void validateCanMove_Fail_Piece_Exists_In_Path() {
-//        List<Piece> = new ArrayList<>(new Gung(TeamType.CHU));
-//    }
-
-    /**
-     * 제자리 이동은 Board로 이전
-     */
-//    @Test
-//    @DisplayName("제자리로 이동할 경우 예외 발생")
-//    void validateCanMove_Fail_Same_Position() {
-//        // given
-//        Position start = new Position(4, 4);
-//        Position sameEnd = new Position(4, 4);
-//
-//        // when & then
-//        assertThatThrownBy(() -> gung.validateCanMove(start, sameEnd, board))
-//                .isInstanceOf(IllegalArgumentException.class)
-//                .hasMessage("출발지와 목적지가 동일합니다.");
-//    }
 
     @Test
     @DisplayName("궁이 이동할 수 없는 패턴(예: 마의 행마)인 경우 예외 발생")

@@ -1,6 +1,3 @@
-/**
- * LeapingPiece에서 테스트
- */
 package janggi.domain.piece;
 
 import janggi.domain.Position;
@@ -42,22 +39,6 @@ class SangTest {
                 .doesNotThrowAnyException();
     }
 
-    /**
-     * Board에서 진행
-     */
-//    @Test
-//    @DisplayName("제자리로 이동할 경우 예외 발생")
-//    void validateCanMove_Fail_Same_Position() {
-//        // given
-//        Position start = new Position(4, 4);
-//        Position sameEnd = new Position(4, 4);
-//
-//        // when & then
-//        assertThatThrownBy(() -> sang.validateCanMove(start, sameEnd, board))
-//                .isInstanceOf(IllegalArgumentException.class)
-//                .hasMessage("출발지와 목적지가 동일합니다.");
-//    }
-
     @Test
     @DisplayName("상이 이동할 수 없는 위치일 경우 예외 발생")
     void validateCanMove_Fail_Invalid_Position() {
@@ -72,25 +53,4 @@ class SangTest {
                         .hasMessage("이동할 수 없는 위치입니다.")
         );
     }
-/**
- * LeapingPiece에서 테스트
- */
-//    @ParameterizedTest
-//    @DisplayName("이동 경로 중간에 기물이 존재할 경우 예외 발생")
-//    @CsvSource({
-//            "4, 4, 7, 6",
-//            "4, 4, 1, 6",
-//            "4, 4, 7, 2",
-//            "4, 4, 1, 2"
-//    })
-//    void validateCanMove_Fail_ObstacleExist(int startX, int startY, int endX, int endY) {
-//        // given
-//        Position start = new Position(startX, startY);
-//        Position end = new Position(endX, endY);
-//
-//        // when & then
-//        assertThatThrownBy(() -> sang.validateCanMove(start, end, board))
-//                .isInstanceOf(IllegalArgumentException.class)
-//                .hasMessage("이동 경로에 기물이 존재하여 이동할 수 없습니다.");
-//    }
 }
