@@ -1,20 +1,21 @@
 package janggi.domain;
 
+import static janggi.domain.Movement.INVALID_DELTA_DIRECTION_MESSAGE;
+
 import java.util.List;
 import java.util.Objects;
 
 public class Position {
-    public static final int POSITION_COMPONENTS_SIZE = 2;
-
     public static final int BOARD_START_ROWS = 1;
     public static final int BOARD_START_COLS = 1;
     public static final int BOARD_END_ROWS = 10;
     public static final int BOARD_END_COLS = 9;
 
+    public static final int POSITION_COMPONENTS_SIZE = 2;
+
     private static final String INVALID_POSITION_SIZE = "행과 열 두 개의 값만 입력하세요.";
     private static final String INVALID_ROW_RANGE = "유효하지 않은 위치입니다. 행은 1부터 10까지 가능합니다.";
     private static final String INVALID_COL_RANGE = "유효하지 않은 위치입니다. 열은 1부터 9까지 가능합니다.";
-    private static final String INVALID_HORIZON = "수직 또는 수평이 아닙니다.";
 
     private final int x;
     private final int y;
@@ -77,19 +78,33 @@ public class Position {
         return new Position(x + movement.getDx(), y + movement.getDy());
     }
 
-    public int calculateRowDistance(Position position) {
-        return position.x - x;
+    public Movement calculateDirection(Position destination) {
+        int dx = Math.abs(destination.x - x);
+        int dy = Math.abs(destination.y - y);
+
+        if(dx == 0 || dy == 0 || dx == dy) {
+            return Movement.of(
+                    Integer.compare(destination.x, x),
+                    Integer.compare(destination.y, y)
+            );
+        }
+
+        throw new IllegalStateException(INVALID_DELTA_DIRECTION_MESSAGE);
     }
 
-    public int calculateColumnDistance(Position position) {
-        return position.y - y;
+    public int calculateLinearDistance(Position destination) {
+        return Math.max(Math.abs(destination.x - x), Math.abs(destination.y - y));
     }
 
-    public boolean isHorizontal(Position position) {
-        return position.x == this.x;
+    public boolean isRange(int startX, int endX, int startY, int endY) {
+        return x >= startX && x <= endX && y >= startY && y <= endY;
     }
 
-    public boolean isVertical(Position position) {
-        return position.y == this.y;
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 }

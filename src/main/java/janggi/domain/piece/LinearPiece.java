@@ -4,7 +4,7 @@ import janggi.domain.Movement;
 import janggi.domain.Position;
 import janggi.domain.Route;
 import janggi.domain.Side;
-import janggi.domain.board.BaseBoard;
+import janggi.domain.board.Palace;
 import janggi.domain.policy.RoutePolicy;
 import java.util.stream.Stream;
 
@@ -15,50 +15,36 @@ public abstract class LinearPiece extends ActivePiece {
 
     @Override
     public Route findRoute(Position start, Position end) {
-        boolean isVertical = start.isVertical(end);
-        boolean isHorizontal = start.isHorizontal(end);
+        try {
+            return getRoute(start, end);
+        } catch (IllegalStateException e) {
+            throw new IllegalArgumentException(INVALID_DESTINATION_MESSAGE);
+        }
+    }
 
-        if (!isVertical && !isHorizontal) {
+    private Route getRoute(Position start, Position end) {
+        Movement direction = start.calculateDirection(end);
+
+        if(!isValidDirection(start, end, direction)) {
             throw new IllegalArgumentException(INVALID_DESTINATION_MESSAGE);
         }
 
-        int dist = start.calculateColumnDistance(end) + start.calculateRowDistance(end);
-        return calculatePath(start, isVertical, dist);
+        int distance = start.calculateLinearDistance(end);
+
+        return calculatePath(start, direction, distance);
     }
 
-    @Override
-    public void validateRoute(Route route, BaseBoard boardInfo) {
-        if (!routePolicy.isMovable(route, side, boardInfo)) {
-            throw new IllegalArgumentException(UNMOVABLE_ROUTE_MESSAGE);
+    private boolean isValidDirection(Position start, Position end, Movement direction) {
+        if (!direction.isDiagonal()) {
+            return true;
         }
+        return Palace.isDiagonalMove(start, end);
     }
 
-    private Route calculatePath(Position start, boolean isVertical, int dist) {
-        Movement movement = resolveMovement(isVertical, dist);
+    protected Route calculatePath(Position start, Movement direction, int dist) {
         return new Route(Stream
-                .iterate(start, current -> current.move(movement))
+                .iterate(start, current -> current.move(direction))
                 .limit(Math.abs(dist) + 1)
                 .toList());
-    }
-
-    private Movement resolveMovement(boolean isVertical, int dist) {
-        if (isVertical) {
-            return resolveVerticalMovement(dist);
-        }
-        return resolveHorizontalMovement(dist);
-    }
-
-    private Movement resolveVerticalMovement(int dist) {
-        if (dist < 0) {
-            return Movement.UP;
-        }
-        return Movement.DOWN;
-    }
-
-    private Movement resolveHorizontalMovement(int dist) {
-        if (dist < 0) {
-            return Movement.LEFT;
-        }
-        return Movement.RIGHT;
     }
 }

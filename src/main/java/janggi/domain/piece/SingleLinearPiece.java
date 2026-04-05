@@ -14,9 +14,19 @@ public class SingleLinearPiece extends LinearPiece {
 
     @Override
     public Route findRoute(Position start, Position end) {
-        if(Math.abs(start.calculateRowDistance(end) + start.calculateColumnDistance(end)) != RESTRICTED_DISTANCE) {
+        try {
+            int distance = start.calculateLinearDistance(end);
+            validateDistance(distance);
+
+            return super.findRoute(start, end);
+        } catch (IllegalStateException e) {
             throw new IllegalArgumentException(INVALID_DESTINATION_MESSAGE);
         }
-        return super.findRoute(start, end);
+    }
+
+    private void validateDistance(int distance) {
+        if(distance != RESTRICTED_DISTANCE) {
+            throw new IllegalArgumentException(INVALID_DESTINATION_MESSAGE);
+        }
     }
 }

@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import janggi.domain.PieceInitInfo;
 import janggi.domain.Position;
 import janggi.domain.Route;
 import janggi.domain.Side;
@@ -14,5 +15,9 @@ public interface Piece {
 
     boolean isEqualSide(Side side);
 
-    PieceManifest getPieceInfo();
+    int getPieceScore();
+    
+    PieceAttribute getPieceInfo();
+
+    PieceInitInfo getPieceInitInfo(Position position);
 }

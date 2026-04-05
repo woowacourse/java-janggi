@@ -1,5 +1,6 @@
 package janggi.domain;
 
+import java.util.Arrays;
 import java.util.Map;
 
 public enum Side {
@@ -8,6 +9,7 @@ public enum Side {
     EMPTY("없음");
 
     private static final String INVALID_OPPOSITE_SIDE = "반대 진영이 없습니다.";
+    private static final String INVALID_SIDE_NAME = "해당 이름의 진영이 없습니다.";
 
     private static final Map<Side, Side> oppositeSide = Map.of(
             Side.CHO, Side.HAN,
@@ -32,5 +34,16 @@ public enum Side {
         }
 
         return side;
+    }
+
+    public String getOppositeSideName() {
+        return getOppositeSide().getName();
+    }
+
+    public static Side from(String name) {
+        return Arrays.stream(Side.values())
+                .filter(side -> side.getName().equals(name))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(INVALID_SIDE_NAME));
     }
 }

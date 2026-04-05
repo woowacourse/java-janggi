@@ -1,22 +1,39 @@
 package janggi.domain;
 
 import janggi.domain.board.Board;
-import janggi.domain.turn.ChoActionTurn;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceAttribute;
+import janggi.domain.piece.PieceType;
 import janggi.domain.turn.PlayerTurn;
+import janggi.domain.turn.TurnState;
 import janggi.dto.BoardDto;
 import janggi.initializer.BoardInitializer;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class Game {
-    private static final String INVALID_WINNER_SIDE = "잘못된 승자 진영입니다.";
-
     private PlayerTurn playerTurn;
 
-    public Game(Arrangement choArrangement, Arrangement hanArrangement) {
-        this.playerTurn = new ChoActionTurn(new Board(BoardInitializer.createBoard(choArrangement, hanArrangement)));
+    public List<PieceInitInfo> init(Arrangement choArrangement, Arrangement hanArrangement) {
+        Map<Position, Piece> initBoard = BoardInitializer.createBoard(choArrangement, hanArrangement);
+        Board board = Board.from(initBoard);
+
+        this.playerTurn = PlayerTurn.init(board);
+        return getPieceInitInfo(initBoard);
     }
 
-    public void move(Position start, Position end) {
-        playerTurn = playerTurn.move(start, end);
+    public void init(List<PieceInitInfo> pieceInitInfos, Side side, int turn) {
+        Map<Position, Piece> initBoard = BoardInitializer.createBoard(pieceInitInfos);
+        Board board = Board.from(initBoard);
+
+        this.playerTurn = PlayerTurn.from(board, turn, side);
+    }
+
+    public PieceAttribute move(Position start, Position end) {
+        TurnState turnState = playerTurn.move(start, end);
+        this.playerTurn = turnState.playerTurn();
+        return turnState.movedPiece();
     }
 
     public boolean isFinished() {
@@ -31,11 +48,25 @@ public class Game {
         return playerTurn.getCurrentSide();
     }
 
+    public Integer getCurrentTurn() {
+        return playerTurn.getCurrentTurn();
+    }
+
+    public SideScore getCurrentSideScore() {
+        return playerTurn.getCurrentScore();
+    }
+
     public Side getWinnerSide() {
-        Side winnerSide = playerTurn.getWinnerSide();
-        if (winnerSide.equals(Side.EMPTY)) {
-            throw new IllegalStateException(INVALID_WINNER_SIDE);
-        }
-        return winnerSide;
+       return playerTurn.getWinnerSide();
+    }
+
+    private List<PieceInitInfo> getPieceInitInfo(Map<Position, Piece> board) {
+        List<PieceInitInfo> pieceInitInfos = new ArrayList<>();
+        board.forEach(((position, piece) -> {
+            if(!piece.isEqualPieceType(PieceType.NONE)) {
+                pieceInitInfos.add(piece.getPieceInitInfo(position));
+            }
+        }));
+        return pieceInitInfos;
     }
 }

@@ -1,7 +1,9 @@
 package janggi.view;
 
+import janggi.domain.GameInfo;
 import janggi.domain.Side;
-import janggi.domain.piece.PieceManifest;
+import janggi.domain.SideScore;
+import janggi.domain.piece.PieceAttribute;
 import janggi.domain.piece.PieceType;
 import janggi.dto.BoardDto;
 import java.util.List;
@@ -14,10 +16,36 @@ public class OutputView {
     private static final String ANSI_GREEN = "\u001B[32m";
 
     private static final String TURN_PREFIX = "현재 턴: ";
+
+    private static final String HAN_SCORE_PREFIX = "한: ";
+    private static final String CHO_SCORE_PREFIX = "초: ";
+    private static final String SCORE_SUFFIX = "점";
+    private static final String SCORE_DELIMITER = ", ";
+
     private static final String ERROR_PREFIX = "[ERROR] ";
 
+    private static final String INVALID_INSTANCE_MESSAGE = "출력 클래스는 인스턴스화할 수 없습니다.";
+
+
+    private OutputView() {
+        throw new AssertionError(INVALID_INSTANCE_MESSAGE);
+    }
+
+    public static void printLine() {
+        System.out.println();
+    }
+
+    public static void printGameRoom(List<GameInfo> gameInfos) {
+        System.out.println("진행 중인 장기 게임");
+        for(int i = 0; i < gameInfos.size(); i++) {
+            GameInfo gameInfo = gameInfos.get(i);
+            System.out.println(i + 1 + ". 이름: " + gameInfo.name() + ", 생성 시간: " + gameInfo.created() + ", 가장 마지막 플레이 시간: " + gameInfo.recent());
+        }
+        printLine();
+    }
+
     public static void printBoard(BoardDto boardDto) {
-        List<List<PieceManifest>> board = boardDto.board();
+        List<List<PieceAttribute>> board = boardDto.board();
         StringBuilder result = new StringBuilder();
         result.append(buildColumnHeader(board.getFirst().size()));
         appendBoardRows(board, result);
@@ -28,7 +56,12 @@ public class OutputView {
         System.out.println(TURN_PREFIX + side.getName());
     }
 
+    public static void printScore(SideScore score) {
+        System.out.println(CHO_SCORE_PREFIX + score.cho() + SCORE_SUFFIX + SCORE_DELIMITER + HAN_SCORE_PREFIX + score.han() + SCORE_SUFFIX);
+    }
+
     public static void printWinner(Side winnerSide) {
+        printLine();
         System.out.printf("%s 승리!%n", winnerSide.getName());
     }
 
@@ -45,7 +78,7 @@ public class OutputView {
         return header.toString();
     }
 
-    private static void appendBoardRows(List<List<PieceManifest>> board, StringBuilder result) {
+    private static void appendBoardRows(List<List<PieceAttribute>> board, StringBuilder result) {
         result.append(buildTopBorder(board.getFirst().size()));
         for (int row = 0; row < board.size(); row++) {
             appendBoardRow(board.get(row), row, result);
@@ -53,10 +86,10 @@ public class OutputView {
         }
     }
 
-    private static void appendBoardRow(List<PieceManifest> row, int rowIndex, StringBuilder result) {
+    private static void appendBoardRow(List<PieceAttribute> row, int rowIndex, StringBuilder result) {
         result.append(String.format(" %2d ┃", rowIndex + 1));
-        for (PieceManifest pieceManifest : row) {
-            result.append(formatCell(pieceManifest));
+        for (PieceAttribute pieceAttribute : row) {
+            result.append(formatCell(pieceAttribute));
             result.append("┃");
         }
         result.append(System.lineSeparator());
@@ -86,11 +119,11 @@ public class OutputView {
         return border.toString();
     }
 
-    private static String formatCell(PieceManifest pieceManifest) {
-        if (isEmpty(pieceManifest)) {
+    private static String formatCell(PieceAttribute pieceAttribute) {
+        if (isEmpty(pieceAttribute)) {
             return "  " + EMPTY_CELL + "  ";
         }
-        return " " + colorize(pieceManifest.pieceType().getName(), pieceManifest.side()) + "  ";
+        return " " + colorize(pieceAttribute.pieceType().getName(), pieceAttribute.side()) + "  ";
     }
 
     private static String colorize(String pieceName, Side side) {
@@ -103,10 +136,10 @@ public class OutputView {
         return pieceName;
     }
 
-    private static boolean isEmpty(PieceManifest pieceManifest) {
-        if (pieceManifest == null) {
+    private static boolean isEmpty(PieceAttribute pieceAttribute) {
+        if (pieceAttribute == null) {
             return true;
         }
-        return pieceManifest.pieceType() == PieceType.NONE || pieceManifest.side() == Side.EMPTY;
+        return pieceAttribute.pieceType() == PieceType.NONE || pieceAttribute.side() == Side.EMPTY;
     }
 }
