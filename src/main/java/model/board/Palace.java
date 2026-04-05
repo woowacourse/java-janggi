@@ -3,6 +3,8 @@ package model.board;
 import model.move.Move;
 import model.position.Position;
 
+import java.util.List;
+
 public class Palace {
     private static final int MIN_COLUMN = 4;
     private static final int MAX_COLUMN = 6;
@@ -35,13 +37,61 @@ public class Palace {
         if (!contains(move.to())) {
             return false;
         }
-        return isOneStepDiagonal(move);
+        return isConnectedDiagonal(move);
     }
 
-    private boolean isOneStepDiagonal(Move move) {
-        int rowDiff = Math.abs(move.from().row().diff(move.to().row()));
-        int colDiff = Math.abs(move.from().column().diff(move.to().column()));
-        return rowDiff == 1 && colDiff == 1;
+    private boolean isConnectedDiagonal(Move move) {
+        for(PalaceDiagonal diagonal: diagonals()){
+            if(diagonal.matches(move)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private List<PalaceDiagonal> diagonals(){
+        Position center = center();
+        return List.of(
+                new PalaceDiagonal(topLeft(), center),
+                new PalaceDiagonal(topRight(), center),
+                new PalaceDiagonal(bottomLeft(), center),
+                new PalaceDiagonal(bottomRight(), center)
+        );
+    }
+
+    private Position center(){
+        if(country==Country.CHO){
+            return Position.of(9, 5);
+        }
+        return Position.of(2, 5);
+    }
+
+    private Position topLeft(){
+        if(country==Country.CHO){
+            return Position.of(8, 4);
+        }
+        return Position.of(1, 4);
+    }
+
+    private Position topRight(){
+        if(country ==Country.CHO){
+            return Position.of(8, 6);
+        }
+        return Position.of(1, 6);
+    }
+
+    private Position bottomLeft() {
+        if (country == Country.CHO) {
+            return Position.of(10, 4);
+        }
+        return Position.of(3, 4);
+    }
+
+    private Position bottomRight() {
+        if (country == Country.CHO) {
+            return Position.of(10, 6);
+        }
+        return Position.of(3, 6);
     }
 
     private boolean isInsideColumn(Position position) {
