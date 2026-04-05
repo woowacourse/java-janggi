@@ -52,7 +52,6 @@ public class JanggiGameService {
                 connection -> {
                     JanggiGame newGame = JanggiGame.init(choSettingType, hanSettingType);
                     GameId gameId = gameDao.save(connection, newGame);
-                    connection.commit();
                     return gameDao.findGameById(connection, gameId);
                 }
         );
