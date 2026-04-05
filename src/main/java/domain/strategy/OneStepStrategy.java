@@ -24,7 +24,7 @@ public class OneStepStrategy implements MovementStrategy {
     public List<Path> generatePaths(Position current) {
         return defaultDirections.stream()
                 .filter(current::canMove)
-                .map(direction -> new Path(List.of(current.move(direction))))
+                .map(direction -> Path.ofOneStep(current, direction))
                 .toList();
     }
 }

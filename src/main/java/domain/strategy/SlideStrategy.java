@@ -25,7 +25,7 @@ public class SlideStrategy implements MovementStrategy {
     public List<Path> generatePaths(Position current) {
         return defaultDirections.stream()
                 .filter(current::canMove)
-                .map(direction -> createPath(current, direction))
+                .map(direction -> Path.ofContinuous(current, direction))
                 .toList();
     }
 
