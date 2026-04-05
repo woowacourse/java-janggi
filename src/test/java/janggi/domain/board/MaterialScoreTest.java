@@ -27,6 +27,17 @@ public class MaterialScoreTest {
     }
 
     @Test
+    void 점수_차감_시_해당_진영의_점수만_정확히_감소한다() {
+        MaterialScore materialScore = new MaterialScore(50, 50);
+
+        materialScore.decreaseScore(Side.HAN, 10);
+
+        SideScore currentScore = materialScore.getCurrentScore();
+        assertThat(currentScore.han()).isEqualTo(41.5);
+        assertThat(currentScore.cho()).isEqualTo(50.0);
+    }
+
+    @Test
     void 궁이_죽기_전까지는_isAnyGungDead가_거짓이다() {
         MaterialScore materialScore = new MaterialScore(72, 72);
         assertThat(materialScore.isAnyGungDead()).isFalse();
@@ -41,4 +52,22 @@ public class MaterialScoreTest {
 
         assertThat(materialScore.getHighestSide()).isEqualTo(Side.CHO);
     }
+
+    @Test
+    void 기물_점수가_같으면_덤_때문에_한_진영이_높다() {
+        MaterialScore materialScore = new MaterialScore(73, 73);
+
+        assertThat(materialScore.getHighestSide()).isEqualTo(Side.HAN);
+    }
+
+    @Test
+    void 존재하지_않는_진영의_점수를_차감하려_하면_예외가_발생한다() {
+        MaterialScore materialScore = new MaterialScore(72, 72);
+
+        assertThatThrownBy(() -> materialScore.decreaseScore(Side.EMPTY, 5))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessage("해당 진영의 점수 정보가 존재하지 않습니다");
+    }
+
+
 }
