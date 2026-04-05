@@ -83,6 +83,6 @@ public final class Position {
 
     @Override
     public int hashCode() {
-        return Objects.hash(coordinate.row()) + Objects.hash(coordinate.column());
+        return Objects.hash(coordinate.row(), coordinate.column());
     }
 }
