@@ -5,7 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.stream.Stream;
 import model.board.Board;
 import model.board.Country;
-import model.pieces.Guard;
+import model.pieces.Piece;
+import model.pieces.PieceType;
 import model.position.Position;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -43,7 +44,7 @@ class ChariotMoveRuleTest {
     @Test
     void 가운데에_기물이_있을_경우_대각선으로_이동하지_못한다() {
         Move move = Move.of(Position.of(1, 4), Position.of(3, 6));
-        board.place(Position.of(2, 5), new Guard(Country.HAN));
+        board.place(Position.of(2, 5), new Piece(Country.HAN, PieceType.GUARD));
         ChariotMoveRule rule = new ChariotMoveRule();
 
         boolean expected = false;

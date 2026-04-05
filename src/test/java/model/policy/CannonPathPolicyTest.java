@@ -8,7 +8,8 @@ import java.util.stream.Stream;
 import model.board.Board;
 import model.board.Country;
 import model.move.Move;
-import model.pieces.Cannon;
+import model.pieces.Piece;
+import model.pieces.PieceType;
 import model.position.Position;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -31,7 +32,7 @@ class CannonPathPolicyTest {
     @Test
     void 포는_포를_뛰어넘을_수_없다() {
         List<Position> pathWithCannon = List.of(Position.of(1, 3));
-        board.place(Position.of(1, 3), new Cannon(Country.HAN));
+        board.place(Position.of(1, 3), new Piece(Country.HAN, PieceType.CANNON));
 
         assertThatThrownBy(() -> policy.validatePath(pathWithCannon, board))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -42,8 +43,8 @@ class CannonPathPolicyTest {
     @MethodSource("provideInvalidDestinations")
     void 목적지_도착_불가_케이스(Position to, Country myCountry, String errorMsg) {
         Move move = new Move(Position.of(1, 2), to);
-        board.place(Position.of(1, 5), new Cannon(Country.CHO));
-        board.place(Position.of(1, 6), new Cannon(Country.HAN));
+        board.place(Position.of(1, 5), new Piece(Country.CHO, PieceType.CANNON));
+        board.place(Position.of(1, 6), new Piece(Country.HAN, PieceType.CANNON));
 
         assertThatThrownBy(() -> policy.validateDestination(move, board, myCountry))
                 .isInstanceOf(IllegalArgumentException.class)

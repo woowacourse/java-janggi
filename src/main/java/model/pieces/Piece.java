@@ -5,7 +5,7 @@ import model.board.Board;
 import model.board.Country;
 import model.move.Move;
 
-public abstract class Piece {
+public class Piece {
     private final Country country;
     private final PieceType pieceType;
 
