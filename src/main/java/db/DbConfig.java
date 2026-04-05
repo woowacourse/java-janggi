@@ -1,4 +1,4 @@
-package infra.db;
+package db;
 
 public final class DbConfig {
     private static final String JDBC_URL = "jdbc:h2:./build/h2/janggi;AUTO_SERVER=TRUE";

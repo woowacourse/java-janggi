@@ -3,9 +3,9 @@ package dao;
 import static domain.player.Team.HAN;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.game.GameStatus;
-import infra.db.DbBootstrap;
-import infra.db.DbConnectionFactory;
+import common.GameStatus;
+import db.DbBootstrap;
+import db.DbConnectionFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

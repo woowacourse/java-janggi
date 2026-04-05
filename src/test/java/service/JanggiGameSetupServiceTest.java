@@ -1,4 +1,4 @@
-package application;
+package service;
 
 import static domain.player.Team.CHO;
 import static domain.player.Team.HAN;
@@ -10,11 +10,11 @@ import dao.GameRoom;
 import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.Formation;
-import domain.game.GameStatus;
+import common.GameStatus;
 import domain.player.Name;
 import domain.player.Player;
 import domain.player.Team;
-import infra.db.DbBootstrap;
+import db.DbBootstrap;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

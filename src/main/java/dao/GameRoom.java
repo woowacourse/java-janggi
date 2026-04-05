@@ -1,8 +1,8 @@
 package dao;
 
-import domain.game.GameStatus;
+import common.GameStatus;
 import domain.player.Team;
-import infra.db.DbConnectionFactory;
+import db.DbConnectionFactory;
 
 import java.sql.*;
 import java.util.ArrayList;

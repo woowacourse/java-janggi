@@ -1,4 +1,4 @@
-package application;
+package service;
 
 import static domain.player.Team.CHO;
 import static domain.player.Team.HAN;
@@ -12,8 +12,8 @@ import domain.player.Name;
 import domain.player.Player;
 import domain.player.Team;
 import domain.position.Position;
-import infra.db.DbBootstrap;
-import infra.db.DbConnectionFactory;
+import db.DbBootstrap;
+import db.DbConnectionFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

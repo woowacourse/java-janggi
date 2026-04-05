@@ -1,4 +1,4 @@
-package infra.db;
+package db;
 
 import java.io.InputStreamReader;
 import java.io.Reader;

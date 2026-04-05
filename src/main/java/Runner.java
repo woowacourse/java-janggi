@@ -1,9 +1,9 @@
 import static domain.player.Team.CHO;
 import static domain.player.Team.HAN;
 
-import application.JanggiGamePlayService;
-import application.JanggiGameSession;
-import application.JanggiGameSetupService;
+import service.JanggiGamePlayService;
+import service.JanggiGameSession;
+import service.JanggiGameSetupService;
 import dao.BoardRepository;
 import dao.GameRoom;
 import common.exception.JanggiException;

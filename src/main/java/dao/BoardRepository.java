@@ -3,7 +3,7 @@ package dao;
 import domain.board.Board;
 import domain.piece.BasicPiece;
 import domain.position.Position;
-import infra.db.DbConnectionFactory;
+import db.DbConnectionFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

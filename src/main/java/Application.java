@@ -1,4 +1,4 @@
-import infra.db.DbBootstrap;
+import db.DbBootstrap;
 import view.InputView;
 import view.OutputView;
 

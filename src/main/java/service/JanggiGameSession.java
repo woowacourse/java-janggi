@@ -1,4 +1,4 @@
-package application;
+package service;
 
 import domain.manager.GameManager;
 

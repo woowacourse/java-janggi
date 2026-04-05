@@ -1,10 +1,10 @@
-package application;
+package service;
 
 import static domain.player.Team.CHO;
 
 import dao.BoardRepository;
 import dao.GameRoom;
-import domain.game.GameStatus;
+import common.GameStatus;
 import domain.manager.GameManager;
 import domain.player.Team;
 import domain.position.Position;

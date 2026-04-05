@@ -1,4 +1,4 @@
-package domain.game;
+package common;
 
 
 public enum GameStatus {
