@@ -3,6 +3,7 @@ package janggi.domain.piece;
 import janggi.domain.board.BoardDirection;
 import janggi.domain.movestrategy.*;
 import janggi.domain.movestrategy.rule.DirectionalOneStepMoveRule;
+import janggi.domain.movestrategy.rule.PalaceDiagonalForwardMoveRule;
 import janggi.domain.movestrategy.rule.StraightForwardMoveRule;
 import janggi.domain.movestrategy.rule.StraightOneStepMoveRule;
 import janggi.domain.palace.PalaceFactory;
@@ -27,14 +28,20 @@ public class PieceFactory {
 
     public static Piece createChariot(Team team) {
         return new Piece(PieceType.CHARIOT, team, new ChariotStrategy(
-                List.of(new StraightForwardMoveRule())
-        ));
+                List.of(new StraightForwardMoveRule(),
+                        new PalaceDiagonalForwardMoveRule(List.of(
+                                PalaceFactory.createPalace(Team.HAN),
+                                PalaceFactory.createPalace(Team.CHO)
+                        )))));
     }
 
     public static Piece createCannon(Team team) {
         return new Piece(PieceType.CANNON, team, new CannonStrategy(
-                List.of(new StraightForwardMoveRule())
-        ));
+                List.of(new StraightForwardMoveRule(),
+                        new PalaceDiagonalForwardMoveRule(List.of(
+                                PalaceFactory.createPalace(Team.HAN),
+                                PalaceFactory.createPalace(Team.CHO)
+                        )))));
     }
 
     public static Piece createHorse(Team team) {
