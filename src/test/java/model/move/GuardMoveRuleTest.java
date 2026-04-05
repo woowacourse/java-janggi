@@ -8,11 +8,10 @@ import model.position.Position;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class GuardMoveRuleTest {
     @Test
-    void 사는_궁성_안에서만_이동할_수_있다(){
+    void 사는_자신의_궁성_안에서만_이동할_수_있다(){
         Board board = new Board();
         Piece guard = new Piece(Country.CHO, PieceType.GUARD);
         Position from = Position.of(10, 4);
@@ -27,7 +26,7 @@ class GuardMoveRuleTest {
     }
 
     @Test
-    void 사는_궁성_안에서_대각선으로_이동할_수_있다(){
+    void 사는_자신의_궁성_안에서_대각선으로_이동할_수_있다(){
         Board board = new Board();
         Piece guard = new Piece(Country.CHO, PieceType.GUARD);
         Position from = Position.of(9, 5);

@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class GeneralMoveRuleTest {
 
     @Test
-    void 장은_궁성_안에서만_이동할_수_있다(){
+    void 장은_자신의_궁성_안에서만_이동할_수_있다(){
         Board board = new Board();
         Piece general = new Piece(Country.CHO, PieceType.GENERAL);
         Position from = Position.of(9, 5);
@@ -28,7 +28,7 @@ class GeneralMoveRuleTest {
     }
 
     @Test
-    void 장은_궁성_안에서_대각선으로_이동할_수_있다(){
+    void 장은_자신의_궁성_안에서_대각선으로_이동할_수_있다(){
         Board board = new Board();
         Piece general = new Piece(Country.CHO, PieceType.GENERAL);
         Position from = Position.of(9, 5);

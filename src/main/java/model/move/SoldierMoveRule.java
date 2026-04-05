@@ -30,11 +30,20 @@ public class SoldierMoveRule extends PatternMoveRule {
     }
 
     private boolean isPalaceForwardDiagonal(Move move, Country country){
-        Palace palace = Palace.from(country);
-        if (!palace.isDiagonalMove(move)) {
+        if(!isPalaceDiagonal(move)){
             return false;
         }
         return isForwardDiagonal(move, country);
+    }
+
+    private boolean isPalaceDiagonal(Move move) {
+        Palace choPalace = Palace.from(Country.CHO);
+        if (choPalace.isDiagonalMove(move)) {
+            return true;
+        }
+
+        Palace hanPalace = Palace.from(Country.HAN);
+        return hanPalace.isDiagonalMove(move);
     }
 
     private boolean isForwardDiagonal(Move move,Country country){
