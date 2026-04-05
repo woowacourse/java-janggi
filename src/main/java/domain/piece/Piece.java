@@ -18,8 +18,12 @@ public abstract class Piece {
         return this.team;
     }
 
-    public PieceType getType() {
+    public final PieceType getType() {
         return this.type;
+    }
+
+    public Integer getScore() {
+        return this.type.getScore();
     }
 
     public boolean isSameTeam(Piece other) {

@@ -4,6 +4,7 @@ import controller.dto.CurrentBoardStatus;
 import controller.dto.MovedPieceRequest;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import strategy.InitializeStrategy;
 
 public class GameManager {
@@ -24,7 +25,22 @@ public class GameManager {
                 team);
     }
 
+    public Map<Team, Integer> calculateCurrentScore(List<Team> teams) {
+        return teams.stream()
+                .collect(Collectors.toMap(
+                        team -> team,
+                        this::calculateCurrentScoreOf
+                ));
+    }
+
     public boolean isGameFinished(Team currentTeam) {
         return !board.isExistPiece(PieceType.KING, currentTeam);
+    }
+
+    /**
+     * 헬퍼 메서드
+     */
+    private int calculateCurrentScoreOf(Team team) {
+        return board.getCurrentScoreOfTeam(team);
     }
 }

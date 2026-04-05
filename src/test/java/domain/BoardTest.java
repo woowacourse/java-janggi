@@ -42,10 +42,10 @@ class BoardTest {
     }
 
     public Map<Team, InitializeStrategy> createStrategies(InitializeStrategy choInitializeStrategy,
-                                                          InitializeStrategy hanInitializeStrategy){
+                                                          InitializeStrategy hanInitializeStrategy) {
         return Map.of(Team.CHO, choInitializeStrategy, Team.HAN, hanInitializeStrategy);
     }
-  
+
     /**
      * 1. 한나라 기본 기물이 올바르게 배치된다.(상,마 제외)
      */
@@ -525,5 +525,48 @@ class BoardTest {
         StubBoard board = new StubBoard(noInitializeStrategy);
 
         assertThat(board.isExistPiece(PieceType.KING, Team.HAN)).isEqualTo(false);
+    }
+
+    /**
+     * 점수 계산 테스트
+     */
+    @Test
+    void 초나라의_모든_기물이_있는_경우_72점이_계산된다() {
+        //given
+        Board board = new Board(createStrategies(new LeftElephantFormationStrategy(),
+                new LeftElephantFormationStrategy()));
+
+        //when
+        assertThat(board.getCurrentScoreOfTeam(Team.CHO)).isEqualTo(72);
+    }
+
+    @Test
+    void 한나라의_모든_기물이_있는_경우_72점이_계산된다() {
+        //given
+        Board board = new Board(createStrategies(new LeftElephantFormationStrategy(),
+                new LeftElephantFormationStrategy()));
+
+        //when
+        assertThat(board.getCurrentScoreOfTeam(Team.HAN)).isEqualTo(72);
+    }
+
+    @Test
+    void 궁만_남아있는_경우_0점이_계산된다() {
+        StubBoard board = new StubBoard(noInitializeStrategy);
+
+        Position position = Position.from(9, 5);
+
+        Map<Position, Piece> testPiece = new HashMap<>();
+        testPiece.put(position, new King(Team.CHO));
+        board.putPieces(testPiece);
+
+        assertThat(board.getCurrentScoreOfTeam(Team.CHO)).isEqualTo(0);
+    }
+
+    @Test
+    void 기물이_남아있지_않은_경우_0점이_계산된다() {
+        StubBoard board = new StubBoard(noInitializeStrategy);
+
+        assertThat(board.getCurrentScoreOfTeam(Team.CHO)).isEqualTo(0);
     }
 }

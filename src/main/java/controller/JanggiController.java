@@ -1,6 +1,7 @@
 package controller;
 
 import controller.dto.CurrentBoardStatus;
+import controller.dto.CurrentScore;
 import controller.dto.MovedPieceRequest;
 import domain.GameManager;
 import domain.HorseElephantFormation;
@@ -8,6 +9,7 @@ import domain.Team;
 import exception.GameExceptionHandler;
 import exception.custom.GameException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,6 +85,8 @@ public class JanggiController {
         while (true) {
             try {
                 movePiece(team);
+                printCurrentScore();
+                printCurrentBoardStatus();
                 return;
             } catch (GameException e) {
                 gameExceptionHandler.handle(e);
@@ -104,9 +108,21 @@ public class JanggiController {
     private void movePiece(Team team) {
         MovedPieceRequest movedPieceRequest = readMovedPiece();
         gameManager.movePiece(movedPieceRequest, team);
-        printCurrentBoardStatus();
     }
 
+    private void printCurrentScore() {
+        List<CurrentScore> results = new ArrayList<>();
+
+        Map<Team, Integer> currentScore = gameManager.calculateCurrentScore(List.of(Team.CHO, Team.HAN));
+        currentScore.forEach(((team, score) ->
+                results.add(CurrentScore.of(team, score))));
+
+        outputView.printCurrentScore(results);
+    }
+
+    /**
+     * 입력 단계 조율 메서드
+     */
     private MovedPieceRequest readMovedPiece() {
         String sourcePositionAndPieceType = readSourcePositionAndPieceType();
         String targetPosition = readTargetPosition();

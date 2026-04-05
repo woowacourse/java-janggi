@@ -102,6 +102,13 @@ public class Board {
                 .anyMatch(piece -> piece.getType() == target && piece.getTeam() == team);
     }
 
+    public int getCurrentScoreOfTeam(Team team) {
+        return pieces.values().stream()
+                .filter(piece -> piece.getTeam() == team)
+                .mapToInt(Piece::getScore)
+                .sum();
+    }
+
     /**
      * 헬퍼 메서드
      */

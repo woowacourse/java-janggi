@@ -1,13 +1,19 @@
 package view;
 
 import controller.dto.CurrentBoardStatus;
+import controller.dto.CurrentScore;
+import domain.Team;
 import java.util.List;
+import java.util.Map;
 
 public class OutputView {
     private static final String GAME_WINNER_GUIDE = "장기 게임이 종료되었습니다. 게임의 우승자는 %s나라 입니다.";
-  
+    private static final String CURRENT_SCORE_GUIDE = "[현재 점수]";
+    private static final String TEAM_SCORE_FORMAT = "%s나라 : %d점";
+
     private static final int BOARD_ROW_SIZE = 10;
     private static final int BOARD_COLUMN_SIZE = 9;
+    private static final int exameple = 9;
     private static final String EMPTY_CELL = "   ";
 
     private static final String RESET = "\u001B[0m";
@@ -27,12 +33,19 @@ public class OutputView {
         }
     }
 
-    public void printErrorMessage(String message){
+    public void printErrorMessage(String message) {
         System.out.println(message);
     }
 
     public void printGameWinner(String winner) {
         System.out.println(String.format(GAME_WINNER_GUIDE, winner));
+    }
+
+    public void printCurrentScore(List<CurrentScore> currentScores) {
+        System.out.println(CURRENT_SCORE_GUIDE);
+        for (CurrentScore currentScore : currentScores) {
+            System.out.println(String.format(TEAM_SCORE_FORMAT, currentScore.teamName(), currentScore.score()));
+        }
     }
 
     /**
