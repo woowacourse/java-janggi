@@ -125,6 +125,8 @@ public class JanggiService {
             Position from,
             Position to
     ) {
+        Janggi moved = janggi.play(from, to);
+
         transactionExecutor.executeWithoutResult(con -> {
             Optional<PieceEntity> pieceEntityOpt =
                     pieceDao.findByPosition(con, from);
@@ -146,7 +148,7 @@ public class JanggiService {
             );
         });
 
-        return janggi.play(from, to);
+        return moved;
     }
 
     public void removeGame(Long gameId) {
