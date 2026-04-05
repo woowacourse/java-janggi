@@ -5,7 +5,6 @@ import janggi.domain.SideScore;
 import janggi.domain.board.Board;
 import janggi.domain.piece.PieceAttribute;
 import java.util.List;
-import java.util.Optional;
 
 public abstract class BaseTurn implements PlayerTurn {
     protected static final int MAX_TURN = 200;

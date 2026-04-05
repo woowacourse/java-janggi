@@ -4,7 +4,6 @@ import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.board.Board;
 import janggi.domain.piece.PieceAttribute;
-import java.util.Optional;
 
 public class ChoTurn extends BaseTurn {
     public ChoTurn(Board board, int turn) {
