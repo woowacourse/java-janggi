@@ -18,7 +18,7 @@ public class BikjangTest {
         when(mock.isBikjang()).thenReturn(false);
         JanggiGame game = new Bikjang(mock, Team.CHO);
 
-        Assertions.assertThat(game.move(Position.of(1, 1), Position.of(2, 1))).isInstanceOf(Normal.class);
+        Assertions.assertThat(game.move(Position.of(1, 1), Position.of(2, 1))).isInstanceOf(Playing.class);
     }
 
     @Test
@@ -41,26 +41,26 @@ public class BikjangTest {
 
     @Test
     void 승자를_판단하면_예외가_발생해야_한다() {
-        JanggiGame game = new Normal(Board.of(SettingType.LEFT, SettingType.LEFT), Team.CHO);
+        JanggiGame game = new Playing(Board.of(SettingType.LEFT, SettingType.LEFT), Team.CHO);
         Assertions.assertThatThrownBy(() -> game.judgeWinner()).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     void 끝난_상태가_아니어야_한다() {
-        JanggiGame game = new Normal(Board.of(SettingType.LEFT, SettingType.LEFT), Team.CHO);
+        JanggiGame game = new Playing(Board.of(SettingType.LEFT, SettingType.LEFT), Team.CHO);
         Assertions.assertThat(game.isFinished()).isFalse();
     }
 
     @Test
     void move가_끝나면_턴이_변경되어야_한다() {
-        JanggiGame game = new Normal(Board.of(SettingType.LEFT, SettingType.LEFT), Team.CHO);
+        JanggiGame game = new Playing(Board.of(SettingType.LEFT, SettingType.LEFT), Team.CHO);
         game = game.move(Position.of(1, 1), Position.of(2, 1));
         Assertions.assertThat(game.getTurn()).isEqualTo(Team.HAN);
     }
 
     @Test
     void 턴을_쉬면_턴이_변경되어야_한다() {
-        JanggiGame game = new Normal(Board.of(SettingType.LEFT, SettingType.LEFT), Team.CHO);
+        JanggiGame game = new Playing(Board.of(SettingType.LEFT, SettingType.LEFT), Team.CHO);
         game = game.pass();
         Assertions.assertThat(game.getTurn()).isEqualTo(Team.HAN);
     }

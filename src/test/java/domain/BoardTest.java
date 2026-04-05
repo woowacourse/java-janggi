@@ -111,6 +111,13 @@ public class BoardTest {
     }
 
     @Test
+    void 장이_같은_열에_없으면_빅장으로_처리하지_않는다() {
+        Board board = Board.of(SettingType.LEFT, SettingType.LEFT);
+        board.move(Team.CHO, Position.of(2, 5), Position.of(2, 6));
+        Assertions.assertThat(board.isBikjang()).isFalse();
+    }
+
+    @Test
     void 장_사이에_기물이_있으면_빅장으로_처리하지_않는다() {
         Board board = Board.of(SettingType.LEFT, SettingType.LEFT);
         Assertions.assertThat(board.isBikjang()).isFalse();

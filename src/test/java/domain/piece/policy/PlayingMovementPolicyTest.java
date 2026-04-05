@@ -8,7 +8,7 @@ import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class NormalMovementPolicyTest {
+class PlayingMovementPolicyTest {
     private static final Position START_POSITION = Position.of(1, 1);
 
     @Test

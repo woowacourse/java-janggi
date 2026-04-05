@@ -149,6 +149,10 @@ public class Board {
         Position jangOfCho = findJangByTeam(Team.CHO);
         Position jangOfHan = findJangByTeam(Team.HAN);
 
+        if (!jangOfCho.isSameColumn(jangOfHan)) {
+            return false;
+        }
+
         List<Position> path = jangOfCho.getVerticalPathExcludeDestination(jangOfHan);
         for (Position position : path) {
             if (pieces.get(position) != null) {

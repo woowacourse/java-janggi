@@ -16,6 +16,11 @@ public abstract class Started implements JanggiGame {
     }
 
     @Override
+    public double getScoreByTeam(Team team) {
+        return board.getScoreByTeam(team);
+    }
+
+    @Override
     public Map<Position, Piece> getBoard() {
         return board.getPieces();
     }

@@ -17,4 +17,6 @@ public interface JanggiGame {
     Team getTurn();
 
     boolean isFinished();
+
+    double getScoreByTeam(Team team);
 }

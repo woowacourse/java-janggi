@@ -18,7 +18,7 @@ public class Bikjang extends Running {
         if (board.isBikjang()) {
             return new Finished(board, turn.changeTeam());
         }
-        return new Normal(board, turn.changeTeam());
+        return new Playing(board, turn.changeTeam());
     }
 
     @Override
