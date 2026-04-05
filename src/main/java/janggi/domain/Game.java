@@ -32,6 +32,7 @@ public class Game {
 
     public PieceAttribute move(Position start, Position end) {
         TurnState turnState = playerTurn.move(start, end);
+        this.playerTurn = turnState.playerTurn();
         return turnState.movedPiece();
     }
 
