@@ -3,9 +3,10 @@ package janggi.domain.piece;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import janggi.domain.Point;
+import janggi.domain.piece.Implementation.Cha;
+import janggi.domain.point.Point;
+import janggi.domain.point.Points;
 import janggi.domain.status.Team;
-import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -23,10 +24,10 @@ public class ChaTest {
         Point to = Point.of(x, y);
 
         // when
-        List<Point> route = cha.getRoute(from, to);
+        Points points = cha.getRoutePoints(from, to);
 
         // then
-        assertThat(route.size()).isEqualTo(result);
+        assertThat(points.getPoints().size()).isEqualTo(result);
     }
 
     @Test
@@ -38,7 +39,19 @@ public class ChaTest {
         Point to = Point.of(7, 1);
 
         // when & then
-        assertThatThrownBy(() -> cha.getRoute(from, to))
+        assertThatThrownBy(() -> cha.getRoutePoints(from, to))
                 .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @ParameterizedTest
+    @DisplayName("궁성 안에서 이동 할 경우 대각선으로 이동 할 수 있다.")
+    @CsvSource(value = {"3:0:5:2:4:1","3:7:5:9:4:8","3:9:5:7:4:8"}, delimiter = ':')
+    void can_move_diagonal(int fromColumn, int fromRow, int toColumn, int toRow, int routeColumn, int routeRow) {
+        Piece cha = new Cha(Team.CHO);
+        Point from = Point.of(fromColumn, fromRow);
+        Point to = Point.of(toColumn, toRow);
+        Points routePoints = cha.getRoutePoints(from, to);
+        assertThat(routePoints.getPoints().getFirst().getColumn()).isEqualTo(routeColumn);
+        assertThat(routePoints.getPoints().getFirst().getRow()).isEqualTo(routeRow);
     }
 }

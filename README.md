@@ -12,6 +12,10 @@
     - [X] 현재 위치와 이동할 위치 입력 안내 메시지 출력 (예: 1,1 1,2)
     - [X] 사용자 입력 받기
     - [X] 입력값 앞뒤 공백 제거
+- [X] 사용자로부터 게임 선택 입력 받기
+  - [X] 새로운 게임 선택 여부 입력받기(y,n)
+  - [X] n 입력시 기존 게임방 ID 입력받기
+
 
 ### 장기 게임 (JanggiGame)
 - [X] 장기 게임 흐름 관리
@@ -31,6 +35,7 @@
 - [X] 기물(Piece)이 반환한 이동 경로 상에 다른 기물(장애물)이 있는지 최종 검증 (길막힘 판별)
 - [X] 검증 통과 시 보드 상태 업데이트 (기물 이동)
 - [X] 도착지에 적군 기물이 있다면 맵에서 제거 (포획 처리)
+- [X] 현재 점수 계산 결과 반환
 
 #### 기물 공통 (Piece - 움직임 전략 패턴)
 - [X] 기물의 소속 팀(한/초) 반환
@@ -51,8 +56,9 @@
 ### 📤 출력 (OutputView)
 #### 게임 진행 상태 출력
 - [X] 게임 시작 안내 메시지 출력
-- [ ] 매 턴마다 현재 누구의 턴인지 출력
+- [X] 매 턴마다 현재 누구의 턴인지 출력
 - [X] 매 턴마다 이동 결과가 반영된 현재 장기판의 상태를 시각적으로 출력
+- [X] 매 턴마다 현재 점수 출력
 
 #### 게임 종료 출력
 - [X] 승리 팀 안내 및 게임 종료 메시지 출력 
@@ -63,5 +69,82 @@
 #### 구현되지 않은 기능
 - 상마상마, 마상마상 등의 상차림 변경은 미구현
 - 외통수 시 게임을 종료하는 기능 미구현(장을 잡을 때까지 게임 진행)
-- 궁성을 구현하지 않아서, 장, 사의 이동 범위 제한이 현재는 없음
-- 궁성 내부에서의 기물마다의 특수한 이동 경로 또한 현재는 없음
+
+
+```mermaid
+classDiagram
+  Piece <|.. Ma
+  Piece <|.. Cha
+  Piece <|.. Pho
+  Piece <|.. Sang
+  Piece <|.. Jang
+  Piece <|.. Sa
+  Piece <|.. Jol
+  Board -- Piece
+  GameTurn .. HanTurn
+  GameTurn .. ChoTurn
+  GameTurn .. FinishedGame
+  JanggiGame -- GameTurn
+  JanggiGame -- Board
+  
+  class Point {
+	  int x
+	  int y
+	  of(int x, int y)
+  }
+  class Piece {
+	  Team team
+	  isSameTeam(Team team)
+	  getRoute(Point from, Point to)
+	  canMove(List<Piece> route)
+  }
+  class Board {
+	  Map~Point, Piece~ state
+	  init()
+	  move(Point from, Point to)
+  }
+  class JanggiGame {
+		Board board
+		GameTurn gameState
+	  play()
+  }
+  class GameTurn {
+	  Team team
+	  <<interface>>
+	  move()
+  }
+  class HanTurn {
+		Team han
+	  move()
+  }
+  class ChoTurn {
+	  Team cho
+	  move()
+  }
+  class FinishedGame {
+	  Team winner
+	  move()
+  }
+```
+```mermaid
+erDiagram
+    GameRoom ||--o{ Piece : "contains (1:N)"
+    
+    GameRoom {
+        BIGINT id PK
+        VARCHAR current_turn
+        VARCHAR winner
+        DOUBLE cho_score
+        DOUBLE han_score
+    }
+    
+    Piece {
+        BIGINT id PK
+        BIGINT game_room_id FK
+        VARCHAR piece_name
+        VARCHAR team
+        INT row_pos
+        INT col_pos
+    }
+
+```

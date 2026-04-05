@@ -3,9 +3,10 @@ package janggi.domain.piece;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import janggi.domain.Point;
+import janggi.domain.piece.Implementation.Ma;
+import janggi.domain.point.Point;
+import janggi.domain.point.Points;
 import janggi.domain.status.Team;
-import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -20,10 +21,10 @@ public class MaTest {
         Point to = Point.of(2, 1);
 
         // when
-        List<Point> route = ma.getRoute(from, to);
+        Points route = ma.getRoutePoints(from, to);
 
         // then
-        assertThat(route.size()).isEqualTo(1);
+        assertThat(route.getPoints().size()).isEqualTo(1);
     }
 
     @Test
@@ -35,10 +36,10 @@ public class MaTest {
         Point to = Point.of(1, 2);
 
         // when
-        List<Point> route = ma.getRoute(from, to);
+        Points route = ma.getRoutePoints(from, to);
 
         // then
-        assertThat(route.size()).isEqualTo(1);
+        assertThat(route.getPoints().size()).isEqualTo(1);
     }
 
     @Test
@@ -50,7 +51,7 @@ public class MaTest {
         Point to = Point.of(1, 1);
 
         // when & then
-        assertThatThrownBy(() -> ma.getRoute(from, to))
+        assertThatThrownBy(() -> ma.getRoutePoints(from, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

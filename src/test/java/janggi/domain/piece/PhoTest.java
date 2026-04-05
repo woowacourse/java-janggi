@@ -3,11 +3,14 @@ package janggi.domain.piece;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import janggi.domain.Board;
-import janggi.domain.Point;
+import janggi.domain.board.Board;
+import janggi.domain.piece.Implementation.Cha;
+import janggi.domain.piece.Implementation.Pho;
+import janggi.domain.point.Point;
+import janggi.domain.point.Points;
+import janggi.domain.point.Route;
 import janggi.domain.status.Team;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -21,14 +24,13 @@ public class PhoTest {
 
     @BeforeEach
     void setUp() {
-        board = new Board();
         Map<Point, Piece> pieces = new LinkedHashMap<>();
         pieces.put(Point.of(1, 1), new Pho(Team.HAN));
         pieces.put(Point.of(1, 2), new Cha(Team.HAN));
         pieces.put(Point.of(1, 3), new Cha(Team.CHO));
         pieces.put(Point.of(1, 5), new Pho(Team.CHO));
         pieces.put(Point.of(1, 6), new Pho(Team.CHO));
-        board.init(pieces);
+        board = new Board(pieces);
     }
 
     @ParameterizedTest
@@ -41,10 +43,10 @@ public class PhoTest {
         Point to = Point.of(x, y);
 
         // when
-        List<Point> route = pho.getRoute(from, to);
+        Points points = pho.getRoutePoints(from, to);
 
         // then
-        assertThat(route.size()).isEqualTo(result);
+        assertThat(points.getPoints().size()).isEqualTo(result);
     }
 
     @Test
@@ -56,7 +58,7 @@ public class PhoTest {
         Point to = Point.of(1, 1);
 
         // when & then
-        assertThatThrownBy(() -> pho.getRoute(from, to))
+        assertThatThrownBy(() -> pho.getRoutePoints(from, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -69,11 +71,11 @@ public class PhoTest {
         Point to = Point.of(1, 3);
 
         // when
-        List<Point> route = pho.getRoute(from, to);
-        List<Piece> pieces = board.getPieces(route);
+        Points points = pho.getRoutePoints(from, to);
+        Route route = board.getRoute(points);
 
         // then
-        assertThat(pho.canMove(pieces)).isTrue();
+        assertThat(pho.canMove(route)).isTrue();
     }
 
     @Test
@@ -85,11 +87,11 @@ public class PhoTest {
         Point to = Point.of(1, 4);
 
         // when
-        List<Point> route = pho.getRoute(from, to);
-        List<Piece> pieces = board.getPieces(route);
+        Points points = pho.getRoutePoints(from, to);
+        Route route = board.getRoute(points);
 
         // then
-        assertThat(pho.canMove(pieces)).isFalse();
+        assertThat(pho.canMove(route)).isFalse();
     }
 
     @Test
@@ -101,10 +103,22 @@ public class PhoTest {
         Point to = Point.of(1, 7);
 
         // when
-        List<Point> route = pho.getRoute(from, to);
-        List<Piece> pieces = board.getPieces(route);
+        Points points = pho.getRoutePoints(from, to);
+        Route pieces = board.getRoute(points);
 
         // then
         assertThat(pho.canMove(pieces)).isFalse();
+    }
+
+    @ParameterizedTest
+    @DisplayName("궁성 안에서는 대각선으로 이동 할 수 있다.")
+    @CsvSource(value = {"3:0:5:2:4:1","3:7:5:9:4:8","3:9:5:7:4:8"}, delimiter = ':')
+    void can_move_diagonal(int fromColumn, int fromRow, int toColumn, int toRow, int routeColumn, int routeRow) {
+        Piece pho = new Pho(Team.HAN);
+        Point from = Point.of(fromColumn, fromRow);
+        Point to = Point.of(toColumn, toRow);
+        Points routePoints = pho.getRoutePoints(from, to);
+        assertThat(routePoints.getPoints().getFirst().getColumn()).isEqualTo(routeColumn);
+        assertThat(routePoints.getPoints().getFirst().getRow()).isEqualTo(routeRow);
     }
 }

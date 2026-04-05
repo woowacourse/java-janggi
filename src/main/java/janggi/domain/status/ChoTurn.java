@@ -1,7 +1,7 @@
 package janggi.domain.status;
 
-import janggi.domain.Board;
-import janggi.domain.Point;
+import janggi.domain.board.Board;
+import janggi.domain.point.Point;
 
 public class ChoTurn implements GameStatus {
 

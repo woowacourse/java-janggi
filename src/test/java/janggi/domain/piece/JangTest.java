@@ -2,7 +2,8 @@ package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.domain.Point;
+import janggi.domain.piece.Implementation.Jang;
+import janggi.domain.point.Point;
 import janggi.domain.status.Team;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,19 @@ public class JangTest {
         Point to = Point.of(7, 1);
 
         // when & then
-        assertThatThrownBy(() -> jang.getRoute(from, to))
+        assertThatThrownBy(() -> jang.getRoutePoints(from, to))
                 .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("장은 궁성 밖으로 나갈 수 없습니다.")
+    void can_not_move_outside_castle() {
+        Piece jang = new Jang(Team.CHO);
+        Point from = Point.of(3, 0);
+        Point to = Point.of(2, 0);
+
+        assertThatThrownBy(() -> jang.getRoutePoints(from, to))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR] 궁성 밖으로 나갈 수 없습니다.");
     }
 }

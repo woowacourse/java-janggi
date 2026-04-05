@@ -1,5 +1,12 @@
 package janggi.domain.piece;
 
+import janggi.domain.piece.Implementation.Cha;
+import janggi.domain.piece.Implementation.Jang;
+import janggi.domain.piece.Implementation.Jol;
+import janggi.domain.piece.Implementation.Ma;
+import janggi.domain.piece.Implementation.Pho;
+import janggi.domain.piece.Implementation.Sa;
+import janggi.domain.piece.Implementation.Sang;
 import janggi.domain.status.Team;
 import java.util.Map;
 import java.util.function.Function;

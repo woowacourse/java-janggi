@@ -1,37 +1,32 @@
 package janggi;
 
-import janggi.domain.Board;
-import janggi.domain.JanggiGame;
-import janggi.domain.Point;
-import janggi.domain.piece.Piece;
-import janggi.presentation.dto.GameStatusInfo;
-import janggi.presentation.dto.MoveCommand;
-import janggi.presentation.dto.PositionInfo;
+import janggi.application.JanggiGameService;
+import janggi.domain.board.BoardRepository;
+import janggi.infra.datasource.H2DataSourceFactory;
+import janggi.infra.JdbcBoardRepository;
+import janggi.infra.transaction.TransactionTemplate;
+import janggi.infra.dao.GameRoomDao;
+import janggi.infra.dao.PiecesDao;
+import janggi.presentation.JanggiGameController;
 import janggi.presentation.ui.InputView;
 import janggi.presentation.ui.OutputView;
-import janggi.util.Console;
-import janggi.util.FileParser;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.SQLException;
+import javax.sql.DataSource;
+import org.h2.tools.Server;
 
 public class JanggiApplication {
-    public static void main(String[] args) {
-        List<PositionInfo> positionInfos = FileParser.readCsvFile("/janggi.csv");
-        Map<Point, Piece> pieces = new LinkedHashMap<>();
-        positionInfos.forEach(info -> pieces.put(info.point(), info.piece()));
-        Board board = new Board();
-        board.init(pieces);
-        JanggiGame game = new JanggiGame(board);
-
-        OutputView.printGameStatus(GameStatusInfo.from(game.getBoardStatus()));
-        OutputView.printStartGame();
-        while (!game.isFinished()) {
-            MoveCommand points = InputView.readPoints();
-            game.play(points.from(), points.to());
-            OutputView.printGameStatus(GameStatusInfo.from(game.getBoardStatus()));
-        }
-        OutputView.printWinner(game.getWinner());
-        Console.close();
+    public static void main(String[] args) throws SQLException {
+        Server server = Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "9092").start();
+        DataSource manager = H2DataSourceFactory.create();
+        GameRoomDao roomDao = new GameRoomDao();
+        PiecesDao piecesDao = new PiecesDao();
+        BoardRepository repository = new JdbcBoardRepository(roomDao, piecesDao);
+        TransactionTemplate template = new TransactionTemplate(manager);
+        JanggiGameService service = new JanggiGameService(template, repository);
+        InputView inputView = new InputView();
+        OutputView outputView = new OutputView();
+        JanggiGameController controller = new JanggiGameController(service, inputView, outputView);
+        controller.run();
+        server.stop();
     }
 }

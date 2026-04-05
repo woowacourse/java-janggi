@@ -3,10 +3,10 @@ package janggi.domain.status;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
-import janggi.domain.Board;
-import janggi.domain.Point;
-import janggi.domain.piece.Cha;
-import janggi.domain.piece.Jang;
+import janggi.domain.board.Board;
+import janggi.domain.point.Point;
+import janggi.domain.piece.Implementation.Cha;
+import janggi.domain.piece.Implementation.Jang;
 import janggi.domain.piece.Piece;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -20,13 +20,12 @@ public class ChoTurnTest {
 
     @BeforeEach
     void setUp() {
-        board = new Board();
         Map<Point, Piece> pieces = new LinkedHashMap<>();
         pieces.put(Point.of(4, 1), new Jang(Team.HAN));
         pieces.put(Point.of(4, 8), new Jang(Team.CHO));
         pieces.put(Point.of(1, 1), new Cha(Team.HAN));
         pieces.put(Point.of(2, 3), new Cha(Team.CHO));
-        board.init(pieces);
+        board = new Board(pieces);
     }
 
     @Test

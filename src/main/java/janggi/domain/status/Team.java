@@ -1,16 +1,19 @@
 package janggi.domain.status;
 
 public enum Team {
-    CHO("초"),
-    HAN("한");
+    CHO {
+        @Override
+        public boolean isBackward(int signRow) {
+            return signRow < 0;
+        }
+    },
+    HAN {
+        @Override
+        public boolean isBackward(int signRow) {
+            return signRow > 0;
+        }
+    },
+    ;
 
-    private final String name;
-
-    Team(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
+    public abstract boolean isBackward(int signRow);
 }
