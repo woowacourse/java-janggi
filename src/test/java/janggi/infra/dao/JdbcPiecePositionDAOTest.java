@@ -72,9 +72,9 @@ class JdbcPiecePositionDAOTest {
                 PreparedStatement preparedStatement = conn.prepareStatement(createFindByGeneratedKeysQuery(generatedKeys));
         ) {
             bindGeneratedKeysParameter(generatedKeys, preparedStatement);
-
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
+
             assertThat(resultSet.getInt(1)).isEqualTo(3);
         }
     }
@@ -124,6 +124,38 @@ class JdbcPiecePositionDAOTest {
                         tuple(Position.from(2, 5), GENERAL, CHO),
                         tuple(Position.from(9, 5), GENERAL, HAN)
                 );
+    }
+
+    @Test
+    @DisplayName("PiecePosition의 piece_row와 piece_column을 수정한다.")
+    public void updatePosition_success() throws Exception {
+        // given
+        GameEntity gameEntity = saveGameRoomEntity(new RoomName("room1"), CHO,
+                LocalDateTime.of(2024, 4, 5, 10, 0), dataSource);
+        Position from = Position.from(1, 1);
+        savePiecePositionEntity(from, CHARIOT, CHO, gameEntity, dataSource);
+
+        int toRow = 1;
+        int toColumn = 2;
+        Position to = Position.from(1, 2);
+
+        // when
+        jdbcPiecePositionDAO.updatePosition(gameEntity.id(), from, to);
+
+        // then
+        try (
+                Connection conn = connectionProvider.getConnection();
+                PreparedStatement preparedStatement = conn.prepareStatement(
+                        "SELECT COUNT(*) FROM piece_position WHERE game_id = ? AND piece_row = ? AND  piece_column = ?")
+        ) {
+            preparedStatement.setLong(1, gameEntity.id());
+            preparedStatement.setInt(2, toRow);
+            preparedStatement.setInt(3, toColumn);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+
+            assertThat(resultSet.getInt(1)).isEqualTo(1);
+        }
     }
 
 

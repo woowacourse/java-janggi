@@ -105,7 +105,7 @@ public class JdbcPiecePositionDAO implements PiecePositionDAO {
             List<PiecePositionEntity> result = new ArrayList<>();
             GameEntity gameEntity = null;
             while (rs.next()) {
-                if(gameEntity == null) {
+                if (gameEntity == null) {
                     gameEntity = createGameEntity(rs);
                 }
                 PiecePositionEntity entity = createPiecePositionEntity(rs, gameEntity);
@@ -144,6 +144,30 @@ public class JdbcPiecePositionDAO implements PiecePositionDAO {
 
     @Override
     public void updatePosition(Long gameRoomId, Position from, Position to) {
+        Connection connection = connectionProvider.getConnection();
 
+        String sql = """
+                UPDATE piece_position
+                SET piece_row = ?, piece_column = ?
+                WHERE game_id = ? AND piece_row = ? AND piece_column = ?
+                """;
+
+        try (
+                PreparedStatement pstmt = connection.prepareStatement(sql)
+        ) {
+            pstmt.setInt(1, to.row().row());
+            pstmt.setInt(2, to.column().column());
+
+            pstmt.setLong(3, gameRoomId);
+            pstmt.setInt(4, from.row().row());
+            pstmt.setInt(5, from.column().column());
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            DataSourceUtils.releaseConnection(connection);
+        }
     }
 }
