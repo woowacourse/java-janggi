@@ -5,7 +5,7 @@ import java.util.List;
 public class GameInfos {
     private static final String INVALID_NUMBER = "존재하지 않는 게임 번호입니다.";
 
-    private List<GameInfo> gameInfos;
+    private final List<GameInfo> gameInfos;
 
     public GameInfos(List<GameInfo> gameInfos) {
         this.gameInfos = gameInfos;
