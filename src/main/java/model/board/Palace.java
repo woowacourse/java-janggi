@@ -1,5 +1,6 @@
 package model.board;
 
+import model.move.Move;
 import model.position.Position;
 
 public class Palace {
@@ -25,6 +26,22 @@ public class Palace {
             return false;
         }
         return isInsideRow(position);
+    }
+
+    public boolean isDiagonalMove(Move move) {
+        if (!contains(move.from())) {
+            return false;
+        }
+        if (!contains(move.to())) {
+            return false;
+        }
+        return isOneStepDiagonal(move);
+    }
+
+    private boolean isOneStepDiagonal(Move move) {
+        int rowDiff = Math.abs(move.from().row().diff(move.to().row()));
+        int colDiff = Math.abs(move.from().column().diff(move.to().column()));
+        return rowDiff == 1 && colDiff == 1;
     }
 
     private boolean isInsideColumn(Position position) {
