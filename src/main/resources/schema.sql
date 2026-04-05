@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS game
 (
     game_id LONG AUTO_INCREMENT PRIMARY KEY,
     room_name      VARCHAR(10) NOT NULL,
-    last_turn      VARCHAR(5)  NOT NULL CHECK (last_turn IN ('CHO', 'HAN')),
+    current_turn      VARCHAR(5)  NOT NULL CHECK (current_turn IN ('CHO', 'HAN')),
     last_played_at TIMESTAMP   NOT NULL
 );
 

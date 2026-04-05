@@ -4,9 +4,12 @@ import janggi.domain.board.DefaultBoardDesignPolicy;
 import janggi.domain.board.HorseElephantPosition;
 import janggi.domain.game.Game;
 import janggi.domain.game.RoomName;
+import janggi.domain.piece.Piece;
+import janggi.domain.position.Position;
 import janggi.infra.config.TestDataSourceConfig;
 import janggi.infra.dao.JdbcGameDAO;
 import janggi.infra.dao.JdbcPiecePositionDAO;
+import janggi.infra.entity.GameEntity;
 import janggi.infra.util.ConnectionProvider;
 import janggi.infra.transaction.TransactionTemplate;
 import org.junit.jupiter.api.AfterEach;
@@ -24,17 +27,20 @@ import java.util.Objects;
 
 import static janggi.domain.dynasty.Dynasty.*;
 import static janggi.domain.dynasty.Dynasty.CHO;
-import static janggi.fixture.TestFixture.saveGameRoomEntity;
+import static janggi.domain.piece.PieceType.CHARIOT;
+import static janggi.domain.piece.PieceType.GENERAL;
+import static janggi.fixture.TestFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class GameServiceTest {
 
     private final TestDataSourceConfig testDataSourceConfig = new TestDataSourceConfig();
     private final DataSource dataSource = testDataSourceConfig.dataSource();
+    private final TransactionTemplate transactionTemplate = new TransactionTemplate(dataSource);
     private final GameService gameService = new GameService(
             new JdbcGameDAO(new ConnectionProvider(dataSource)),
             new JdbcPiecePositionDAO(new ConnectionProvider(dataSource)),
-            new TransactionTemplate(dataSource)
+            transactionTemplate
     );
 
     @AfterEach
@@ -93,5 +99,34 @@ class GameServiceTest {
                 .extracting(GameDto::id)
                 .allMatch(Objects::nonNull);
     }
+
+    @Test
+    @DisplayName("특정 ID의 게임을 가져온다.")
+    public void loadGame_success() throws Exception {
+        // given
+        GameEntity gameEntity = saveGameRoomEntity(new RoomName("room1"), CHO,
+                LocalDateTime.of(2024, 4, 5, 10, 0), dataSource);
+        savePiecePositionEntity(Position.from(1, 1), CHARIOT, CHO, gameEntity, dataSource);
+        savePiecePositionEntity(Position.from(2, 5), GENERAL, CHO, gameEntity, dataSource);
+        savePiecePositionEntity(Position.from(9, 5), GENERAL, HAN, gameEntity, dataSource);
+
+        // when
+        Game game = gameService.loadGame(gameEntity.id());
+
+        // then
+        assertThat(game).extracting(
+                Game::roomName, Game::currentTurn, Game::lastPlayedAt
+        ).contains(
+                "room1", CHO, LocalDateTime.of(2024, 4, 5, 10, 0));
+        assertThat(game.boardMap())
+                .containsExactlyInAnyOrderEntriesOf(
+                        Map.of(
+                                Position.from(1, 1), new Piece(CHO, CHARIOT),
+                                Position.from(2, 5), new Piece(CHO, GENERAL),
+                                Position.from(9, 5), new Piece(HAN, GENERAL)
+                        )
+                );
+    }
+
 
 }

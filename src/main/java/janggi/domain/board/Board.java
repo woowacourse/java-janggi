@@ -19,8 +19,17 @@ public class Board {
     public static final String INVALID_PIECE_OWNER_MESSAGE = "해당 위치(%d, %d)에 있는 기물은 상대 편의 기물입니다.";
     public static final String INVALID_PIECE_MOVE_MESSAGE = "(%d, %d)위치의 기물을 (%d, %d)로 옮길 수 없습니다.";
 
-    public Board(BoardDesignPolicy boardDesignPolicy) {
-        this.board = new HashMap<>(boardDesignPolicy.initBoard());
+
+    private Board(Map<Position, Piece> board) {
+        this.board = board;
+    }
+
+    public static Board policyOf(BoardDesignPolicy boardDesignPolicy) {
+        return new Board(new HashMap<>(boardDesignPolicy.initBoard()));
+    }
+
+    public static Board of(Map<Position, Piece> board) {
+        return new Board(board);
     }
 
     public Map<Position, Piece> board() {

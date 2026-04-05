@@ -9,7 +9,7 @@ public interface PiecePositionDAO {
 
     List<Long> saveAll(List<PiecePositionEntity> piecePositionEntities);
 
-    List<PiecePositionEntity> findAllPieceByGameRoomId(Long gameRoomId);
+    List<PiecePositionEntity> findAllPiecesByGameId(Long gameId);
 
     void updatePosition(Long gameRoomId, Position from, Position to);
 }

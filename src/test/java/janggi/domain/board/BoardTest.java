@@ -30,8 +30,8 @@ class BoardTest {
     public void canMovePosition_success() {
         // given
         DefaultBoardDesignPolicy policy = new DefaultBoardDesignPolicy(Map.of(CHO, HEHE, HAN, HEHE));
-        Board board = new Board(policy);
-
+        Board board = Board.policyOf(policy);
+        
         // when & then
         assertThatCode(() -> board.canMovePosition(Position.from(4, 5), CHO))
                 .doesNotThrowAnyException();
@@ -42,7 +42,7 @@ class BoardTest {
     public void canMovePosition_error1() {
         // given
         DefaultBoardDesignPolicy policy = new DefaultBoardDesignPolicy(Map.of(CHO, HEHE, HAN, HEHE));
-        Board board = new Board(policy);
+        Board board = Board.policyOf(policy);
         Position from = Position.from(4, 5);
 
         // when & then
@@ -56,7 +56,7 @@ class BoardTest {
     public void canMovePosition_error2() {
         // given
         DefaultBoardDesignPolicy policy = new DefaultBoardDesignPolicy(Map.of(CHO, HEHE, HAN, HEHE));
-        Board board = new Board(policy);
+        Board board = Board.policyOf(policy);
         Position from = Position.from(5, 5);
         // when & then
         assertThatThrownBy(() -> board.canMovePosition(from, CHO))
@@ -78,7 +78,7 @@ class BoardTest {
                 from, fromPiece,
                 toCanEat,  new Piece(CHO,  CHARIOT)
         ));
-        Board board = new Board(policy);
+        Board board = Board.policyOf(policy);
 
         // when
         board.movePiece(from, toCanEat, HAN);
@@ -100,7 +100,7 @@ class BoardTest {
         BoardDesignPolicy policy = () -> new HashMap<>(Map.of(
                 from, fromPiece
         ));
-        Board board = new Board(policy);
+        Board board = Board.policyOf(policy);
         Position to = Position.from(4, 4);
 
         // when & then
@@ -124,7 +124,7 @@ class BoardTest {
                         dynasty, HEHE,
                         dynasty.next(), HEHE
                 ));
-        Board board = new Board(boardDesignPolicy);
+        Board board = Board.policyOf(boardDesignPolicy);
 
         // when
         double score = board.calculateScoreByDynasty(dynasty);
@@ -144,7 +144,7 @@ class BoardTest {
         BoardDesignPolicy boardDesignPolicy = () -> Map.of(
                 Position.from(row, column), new Piece(dynasty, PieceType.GENERAL)
         );
-        Board board = new Board(boardDesignPolicy);
+        Board board = Board.policyOf(boardDesignPolicy);
 
         // when
         boolean generalCaught = board.isGeneralCaughtByDynasty(dynasty.next());
@@ -162,7 +162,7 @@ class BoardTest {
                 Position.from(2, 5), new Piece(CHO, PieceType.GENERAL),
                 Position.from(7, 5), new Piece(HAN, PieceType.GENERAL)
         );
-        Board board = new Board(boardDesignPolicy);
+        Board board = Board.policyOf(boardDesignPolicy);
 
         // when
         boolean generalCaught = board.isGeneralCaughtByDynasty(dynasty);

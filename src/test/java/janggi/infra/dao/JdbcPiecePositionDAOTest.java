@@ -12,18 +12,26 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static janggi.fixture.TestFixture.createPiecePositionEntity;
-import static janggi.fixture.TestFixture.saveGameRoomEntity;
+import static janggi.domain.dynasty.Dynasty.CHO;
+import static janggi.domain.dynasty.Dynasty.HAN;
+import static janggi.domain.piece.PieceType.CHARIOT;
+import static janggi.domain.piece.PieceType.GENERAL;
+import static janggi.fixture.TestFixture.*;
+import static janggi.fixture.TestFixture.savePiecePositionEntity;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 
 class JdbcPiecePositionDAOTest {
 
-    private final ConnectionProvider connectionProvider = new ConnectionProvider(new TestDataSourceConfig().dataSource());
-    private final JdbcPiecePositionDAO jdbcBoardDAO = new JdbcPiecePositionDAO(connectionProvider);
+    private final DataSource dataSource = new TestDataSourceConfig().dataSource();
+    private final ConnectionProvider connectionProvider = new ConnectionProvider(dataSource);
+    private final JdbcPiecePositionDAO jdbcPiecePositionDAO = new JdbcPiecePositionDAO(connectionProvider);
+
 
     @AfterEach
     void tearDown() {
@@ -46,7 +54,7 @@ class JdbcPiecePositionDAOTest {
                 new RoomName("room1"),
                 Dynasty.CHO,
                 LocalDateTime.of(2026, 4, 3, 15, 30),
-                new TestDataSourceConfig().dataSource()
+                dataSource
         );
 
         List<PiecePositionEntity> positionEntities = List.of(
@@ -56,7 +64,7 @@ class JdbcPiecePositionDAOTest {
         );
 
         // when
-        List<Long> generatedKeys = jdbcBoardDAO.saveAll(positionEntities);
+        List<Long> generatedKeys = jdbcPiecePositionDAO.saveAll(positionEntities);
 
         // then
         try (
@@ -86,6 +94,36 @@ class JdbcPiecePositionDAOTest {
         for (Long generatedKey : generatedKeys) {
             preparedStatement.setLong(idx++, generatedKey);
         }
+    }
+
+    @Test
+    @DisplayName("특정 게임 id의 기물들을 가져온다.")
+    public void findAllPiecesByGameId_success() throws Exception {
+        // given
+        GameEntity gameEntity = saveGameRoomEntity(new RoomName("room1"), CHO,
+                LocalDateTime.of(2024, 4, 5, 10, 0), dataSource);
+        savePiecePositionEntity(Position.from(1, 1), CHARIOT, CHO, gameEntity, dataSource);
+        savePiecePositionEntity(Position.from(2, 5), GENERAL, CHO, gameEntity, dataSource);
+        savePiecePositionEntity(Position.from(9, 5), GENERAL, HAN, gameEntity, dataSource);
+
+        // when
+        List<PiecePositionEntity> pieces = jdbcPiecePositionDAO.findAllPiecesByGameId(gameEntity.id());
+
+        // then
+        assertThat(pieces.getFirst().gameRoomEntity()).extracting(
+                GameEntity::roomName, GameEntity::currentTurn, GameEntity::lastPlayedAt
+        ).contains(
+                new RoomName("room1"), CHO, LocalDateTime.of(2024, 4, 5, 10, 0));
+        assertThat(pieces)
+                .hasSize(3)
+                .extracting(
+                        PiecePositionEntity::position, PiecePositionEntity::pieceType, PiecePositionEntity::dynasty
+                )
+                .contains(
+                        tuple(Position.from(1, 1), CHARIOT, CHO),
+                        tuple(Position.from(2, 5), GENERAL, CHO),
+                        tuple(Position.from(9, 5), GENERAL, HAN)
+                );
     }
 
 

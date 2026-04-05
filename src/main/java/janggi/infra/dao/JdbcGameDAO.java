@@ -9,7 +9,6 @@ import janggi.infra.util.DataSourceUtils;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
@@ -18,7 +17,7 @@ public class JdbcGameDAO implements GameDAO {
 
     private final ConnectionProvider connectionProvider;
 
-    private static final String SAVE_SQL = "INSERT INTO game(room_name, last_turn, last_played_at) VALUES(?, ?, ?)";
+    private static final String SAVE_SQL = "INSERT INTO game(room_name, current_turn, last_played_at) VALUES(?, ?, ?)";
 
     public JdbcGameDAO(ConnectionProvider connectionProvider) {
         this.connectionProvider = connectionProvider;
@@ -32,7 +31,7 @@ public class JdbcGameDAO implements GameDAO {
         ) {
 
             pstmt.setString(1, gameEntity.roomName().roomName());
-            pstmt.setString(2, gameEntity.lastTurn().name());
+            pstmt.setString(2, gameEntity.currentTurn().name());
             pstmt.setTimestamp(3, Timestamp.valueOf(gameEntity.lastPlayedAt()));
             pstmt.executeUpdate();
             return getGeneratedKey(pstmt);
@@ -52,11 +51,6 @@ public class JdbcGameDAO implements GameDAO {
     }
 
     @Override
-    public Optional<GameEntity> findById(Long id) {
-        return Optional.empty();
-    }
-
-    @Override
     public List<GameEntity> findAllOrderByLastPlayedAtDESC() {
         Connection connection = connectionProvider.getConnection();
         try (
@@ -69,7 +63,7 @@ public class JdbcGameDAO implements GameDAO {
                 gameEntities.add(new GameEntity(
                                 resultSet.getLong("game_id"),
                                 new RoomName(resultSet.getString("room_name")),
-                                Dynasty.valueOf(resultSet.getString("last_turn")),
+                                Dynasty.valueOf(resultSet.getString("current_turn")),
                                 resultSet.getTimestamp("last_played_at").toLocalDateTime()
                         )
                 );

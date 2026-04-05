@@ -1,5 +1,5 @@
 INSERT INTO GAME
-    (room_name, last_turn, last_played_at)
+    (room_name, current_turn, last_played_at)
 VALUES ('ROOM1', 'CHO', '2026-04-05 13:13');
 
 INSERT INTO PIECE_POSITION

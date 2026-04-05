@@ -9,19 +9,19 @@ public class GameEntity {
 
     private Long id;
     private RoomName roomName;
-    private Dynasty lastTurn;
+    private Dynasty currentTurn;
     private LocalDateTime lastPlayedAt;
 
-    public GameEntity(Long id, RoomName roomName, Dynasty lastTurn, LocalDateTime lastPlayedAt) {
+    public GameEntity(Long id, RoomName roomName, Dynasty currentTurn, LocalDateTime lastPlayedAt) {
         this.id = id;
         this.roomName = roomName;
-        this.lastTurn = lastTurn;
+        this.currentTurn = currentTurn;
         this.lastPlayedAt = lastPlayedAt;
     }
 
-    public GameEntity(RoomName roomName, Dynasty lastTurn, LocalDateTime lastPlayedAt) {
+    public GameEntity(RoomName roomName, Dynasty currentTurn, LocalDateTime lastPlayedAt) {
         this.roomName = roomName;
-        this.lastTurn = lastTurn;
+        this.currentTurn = currentTurn;
         this.lastPlayedAt = lastPlayedAt;
     }
 
@@ -33,8 +33,8 @@ public class GameEntity {
         return roomName;
     }
 
-    public Dynasty lastTurn() {
-        return lastTurn;
+    public Dynasty currentTurn() {
+        return currentTurn;
     }
 
     public LocalDateTime lastPlayedAt() {

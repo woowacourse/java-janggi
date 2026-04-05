@@ -40,8 +40,8 @@ public class JanggiController {
             game = createGame();
         } else if (gameOption == 2) {
             List<GameDto> recentlyPlayedGames = gameService.getRecentlyPlayedGames();
-            Long selectedGame = getUntilValid(() -> inputView.readSelectedGame(recentlyPlayedGames));
-
+            Long selectedGameId = getUntilValid(() -> inputView.readSelectedGame(recentlyPlayedGames));
+            game = gameService.loadGame(selectedGameId);
         }
 
         outputView.printBoard(BoardDto.from(game.boardMap()));

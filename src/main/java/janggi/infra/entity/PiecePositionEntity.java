@@ -20,6 +20,14 @@ public class PiecePositionEntity {
         this.gameEntity = gameEntity;
     }
 
+    public PiecePositionEntity(Long id, Position position, PieceType pieceType, Dynasty dynasty, GameEntity gameEntity) {
+        this.id = id;
+        this.position = position;
+        this.pieceType = pieceType;
+        this.dynasty = dynasty;
+        this.gameEntity = gameEntity;
+    }
+
     public Long id() {
         return id;
     }
@@ -38,5 +46,11 @@ public class PiecePositionEntity {
 
     public GameEntity gameRoomEntity() {
         return gameEntity;
+    }
+
+    public void bindId(long id) {
+        if(this.id == null) {
+            this.id = id;
+        }
     }
 }

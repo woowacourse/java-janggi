@@ -1,6 +1,9 @@
 package janggi.application;
 
+import janggi.domain.DomainException;
+import janggi.domain.board.Board;
 import janggi.domain.board.BoardDesignPolicy;
+import janggi.domain.game.CurrentTurn;
 import janggi.domain.game.Game;
 import janggi.domain.game.RoomName;
 import janggi.domain.piece.Piece;
@@ -13,6 +16,7 @@ import janggi.infra.transaction.TransactionTemplate;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -59,5 +63,40 @@ public class GameService {
         return gameDAO.findAllOrderByLastPlayedAtDESC().stream()
                 .map(gameEntity -> new GameDto(gameEntity.id(), gameEntity.roomName().roomName()))
                 .toList();
+    }
+
+    public Game loadGame(Long gameId) {
+
+        List<PiecePositionEntity> piecePositionEntities = piecePositionDAO.findAllPiecesByGameId(gameId);
+        validateGameIsNotExist(piecePositionEntities);
+
+        GameEntity gameEntity = getGameEntity(piecePositionEntities);
+        Map<Position, Piece> boardMap = getBoardMap(piecePositionEntities);
+
+        return Game.loadGame(
+                Board.of(boardMap), gameEntity.roomName(), new CurrentTurn(gameEntity.currentTurn()), gameEntity.lastPlayedAt());
+    }
+
+    private static void validateGameIsNotExist(List<PiecePositionEntity> piecePositionEntities) {
+        if(piecePositionEntities.isEmpty()) {
+            throw new DomainException("게임이 존재하지 않습니다.");
+        }
+    }
+
+    private static GameEntity getGameEntity(List<PiecePositionEntity> piecePositionEntities) {
+        GameEntity gameEntity = piecePositionEntities.getFirst().gameRoomEntity();
+        if(gameEntity == null) {
+            throw new IllegalStateException();
+        }
+        return gameEntity;
+    }
+
+    private static Map<Position, Piece> getBoardMap(List<PiecePositionEntity> piecePositionEntities) {
+        Map<Position, Piece> boardMap = new HashMap<>();
+        for (PiecePositionEntity piecePositionEntity : piecePositionEntities) {
+            boardMap.put(piecePositionEntity.position(),
+                    new Piece(piecePositionEntity.dynasty(), piecePositionEntity.pieceType()));
+        }
+        return boardMap;
     }
 }

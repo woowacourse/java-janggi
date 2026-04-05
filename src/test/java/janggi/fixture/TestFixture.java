@@ -27,24 +27,49 @@ public class TestFixture {
         try (
                 Connection conn = dataSource.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(
-                        "INSERT INTO game(room_name, last_turn, last_played_at) VALUES(?, ?, ?)",
+                        "INSERT INTO game(room_name, current_turn, last_played_at) VALUES(?, ?, ?)",
                         Statement.RETURN_GENERATED_KEYS
                 );
         ) {
             pstmt.setString(1, gameEntity.roomName().roomName());
-            pstmt.setString(2, gameEntity.lastTurn().name());
+            pstmt.setString(2, gameEntity.currentTurn().name());
             pstmt.setTimestamp(3, Timestamp.valueOf(gameEntity.lastPlayedAt()));
             pstmt.executeUpdate();
 
             try (ResultSet rs = pstmt.getGeneratedKeys()) {
                 if (rs.next()) {
                     long generatedId = rs.getLong(1);
-                    return new GameEntity(
-                            generatedId,
-                            gameEntity.roomName(),
-                            gameEntity.lastTurn(),
-                            gameEntity.lastPlayedAt()
-                    );
+                    gameEntity.bindId(generatedId);
+                    return gameEntity;
+                }
+            }
+        }
+
+        throw new SQLException("생성된 game_room id를 가져오지 못했습니다.");
+    }
+
+    public static PiecePositionEntity savePiecePositionEntity(
+            Position from, PieceType pieceType, Dynasty dynasty, GameEntity gameEntity, DataSource dataSource) throws SQLException {
+        PiecePositionEntity piecePositionEntity = createPiecePositionEntity(from, pieceType, dynasty, gameEntity);
+        try (
+                Connection conn = dataSource.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(
+                        "INSERT INTO piece_position(game_id, piece_row, piece_column, piece_type, dynasty) VALUES(?, ?, ?, ?, ?)",
+                        Statement.RETURN_GENERATED_KEYS
+                );
+        ) {
+            pstmt.setLong(1, piecePositionEntity.gameRoomEntity().id());
+            pstmt.setInt(2, piecePositionEntity.position().row().row());
+            pstmt.setInt(3, piecePositionEntity.position().column().column());
+            pstmt.setString(4, piecePositionEntity.pieceType().name());
+            pstmt.setString(5, piecePositionEntity.dynasty().name());
+            pstmt.executeUpdate();
+
+            try (ResultSet rs = pstmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    long generatedId = rs.getLong(1);
+                    piecePositionEntity.bindId(generatedId);
+                    return piecePositionEntity;
                 }
             }
         }

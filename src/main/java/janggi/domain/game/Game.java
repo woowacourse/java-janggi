@@ -32,7 +32,11 @@ public class Game {
     }
 
     public static Game initGame(BoardDesignPolicy boardDesignPolicy, String roomName, LocalDateTime lastPlayedAt) {
-        return new Game(new Board(boardDesignPolicy), new RoomName(roomName), new CurrentTurn(CHO), lastPlayedAt);
+        return new Game(Board.policyOf(boardDesignPolicy), new RoomName(roomName), new CurrentTurn(CHO), lastPlayedAt);
+    }
+
+    public static Game loadGame(Board board, RoomName roomName, CurrentTurn currentTurn, LocalDateTime lastPlayedAt) {
+        return new Game(board, roomName, currentTurn, lastPlayedAt);
     }
 
     public Map<Position, Piece> boardMap() {
