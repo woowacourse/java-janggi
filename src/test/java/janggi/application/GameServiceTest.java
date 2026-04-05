@@ -7,7 +7,7 @@ import janggi.domain.game.RoomName;
 import janggi.infra.config.TestDataSourceConfig;
 import janggi.infra.dao.JdbcGameDAO;
 import janggi.infra.dao.JdbcPiecePositionDAO;
-import janggi.infra.transaction.ConnectionProvider;
+import janggi.infra.util.ConnectionProvider;
 import janggi.infra.transaction.TransactionTemplate;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
@@ -31,7 +30,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class GameServiceTest {
 
     private final TestDataSourceConfig testDataSourceConfig = new TestDataSourceConfig();
-    DataSource dataSource = testDataSourceConfig.dataSource();
+    private final DataSource dataSource = testDataSourceConfig.dataSource();
     private final GameService gameService = new GameService(
             new JdbcGameDAO(new ConnectionProvider(dataSource)),
             new JdbcPiecePositionDAO(new ConnectionProvider(dataSource)),

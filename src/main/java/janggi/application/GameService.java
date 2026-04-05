@@ -54,4 +54,10 @@ public class GameService {
         }
         piecePositionDAO.saveAll(piecePositionEntities);
     }
+
+    public List<GameDto> getRecentlyPlayedGames() {
+        return gameDAO.findAllOrderByLastPlayedAtDESC().stream()
+                .map(gameEntity -> new GameDto(gameEntity.id(), gameEntity.roomName().roomName()))
+                .toList();
+    }
 }
