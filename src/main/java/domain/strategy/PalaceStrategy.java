@@ -13,10 +13,7 @@ public class PalaceStrategy implements Strategy {
     public List<Position> getMoveCandidates(Position from, Team team, PieceProvider board) {
         List<Position> candidates = new ArrayList<>();
 
-        Direction[] directions = {Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST,
-                Direction.NORTH_EAST, Direction.NORTH_WEST, Direction.SOUTH_EAST, Direction.SOUTH_WEST};
-
-        for (Direction direction : directions) {
+        for (Direction direction : Direction.values()) {
             int targetRow = from.row() + direction.getRowOffset(team);
             int targetColumns = from.col() + direction.getColOffset(team);
 
