@@ -3,6 +3,7 @@ package janggi.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.piece.PieceType;
+import janggi.domain.piece.Po;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -28,5 +29,17 @@ public class GameTest {
 
         assertThat(game.getCurrentSide()).isEqualTo(Side.HAN);
         assertThat(game.getCurrentTurn()).isEqualTo(12);
+    }
+
+    @Test
+    void 기물을_움직이면_턴이_바뀐다() {
+        Game game = new Game();
+        game.init(Arrangement.MA_SANG_MA_SANG, Arrangement.MA_SANG_MA_SANG);
+        game.move(new Position(10, 1), new Position(9, 1));
+
+        assertThat(game.getCurrentSide()).isEqualTo(Side.HAN);
+
+        game.move(new Position(1, 1), new Position(2, 1));
+        assertThat(game.getCurrentSide()).isEqualTo(Side.CHO);
     }
 }
