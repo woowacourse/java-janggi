@@ -59,8 +59,8 @@ public class CannonStrategy implements MoveStrategy {
     }
 
     private void validatePalaceJumpShape(Position from, Position to, PathChecker pathChecker) {
-        if(!pathChecker.isInSamePalace(from, to)){
-           return;
+        if (pathChecker.isInDifferencePalace(from, to)) {
+            return;
         }
         if (pathChecker.isInPalace(from) && pathChecker.isInPalace(to)) {
             checkValidDistanceInPalace(from, to);

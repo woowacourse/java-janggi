@@ -32,7 +32,7 @@ public class ChariotStrategy implements MoveStrategy {
     }
 
     private boolean isDiagonalMoveInPalace(Position from, Position to, PathChecker pathChecker) {
-        if (!pathChecker.isInSamePalace(from, to)) {
+        if (pathChecker.isInDifferencePalace(from, to)) {
             return false;
         }
 

@@ -45,7 +45,7 @@ public class Game {
 
     private void validateGameFinished(boolean isGeneralCaptured) {
         if (isGeneralCaptured) {
-            this.gameState=new Finished(currentTurn);
+            this.gameState = new Finished(currentTurn);
             return;
         }
     }

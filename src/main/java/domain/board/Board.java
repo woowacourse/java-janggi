@@ -103,11 +103,11 @@ public class Board implements PathChecker {
     }
 
     @Override
-    public boolean isInSamePalace(Position from, Position to) {
+    public boolean isInDifferencePalace(Position from, Position to) {
         boolean isBothHanPalace = (from.y() <= 3 && to.y() <= 3);
         boolean isBothChoPalace = (from.y() >= 8 && to.y() >= 8);
 
-        return isBothHanPalace || isBothChoPalace;
+        return !(isBothHanPalace || isBothChoPalace);
     }
 
     public boolean isOnlyGeneralAndGuard() {
@@ -121,6 +121,6 @@ public class Board implements PathChecker {
                 .mapToDouble(piece -> piece.type().score())
                 .sum();
 
-        return totalScore += camp.bonusScore();
+        return totalScore + camp.bonusScore();
     }
 }

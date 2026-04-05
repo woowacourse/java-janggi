@@ -212,7 +212,7 @@ public class SoldierStrategyTest {
     @Test
     @DisplayName("졸은 궁성 내부에서 좌우로 움직일 수 있다")
     void moveLeftOrRightSuccess_When_ChoSoldierCurrentPositionIsInPalace() {
-        Position from=new Position(4,1);
+        Position from = new Position(4, 1);
         Position to = new Position(5, 1);
 
         Piece choSoldier = dummyBoard.get(from);
@@ -224,7 +224,7 @@ public class SoldierStrategyTest {
     @Test
     @DisplayName("졸은 궁성 내부에서 직진할 수 있다")
     void moveStraightSuccess_When_ChoSoldierCurrentPositionIsInPalace() {
-        Position from=new Position(4,3);
+        Position from = new Position(4, 3);
         Position to = new Position(4, 2);
 
         Piece choSoldier = dummyBoard.get(from);
@@ -236,7 +236,7 @@ public class SoldierStrategyTest {
     @Test
     @DisplayName("병은 궁성 내부에서 좌우로 움직일 수 있다")
     void moveLeftOrRightSuccess_When_HanSoldierCurrentPositionIsInPalace() {
-        Position from=new Position(4,8);
+        Position from = new Position(4, 8);
         Position to = new Position(5, 8);
 
         Piece hanSoldier = dummyBoard.get(from);
@@ -248,7 +248,7 @@ public class SoldierStrategyTest {
     @Test
     @DisplayName("병은 궁성 내부에서 직진할 수 있다")
     void moveStraightSuccess_When_HanSoldierCurrentPositionIsInPalace() {
-        Position from=new Position(4,8);
+        Position from = new Position(4, 8);
         Position to = new Position(4, 9);
 
         Piece hanSoldier = dummyBoard.get(from);
