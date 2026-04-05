@@ -10,7 +10,6 @@ public class DataSource {
     private static final String PASSWORD = "";
 
     private DataSource() {
-        /* This utility class should not be instantiated */
     }
 
     public static Connection getConnection() throws SQLException {
