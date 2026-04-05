@@ -51,7 +51,6 @@ public class ResultView {
     }
 
     private void writeBoard(String[][] grid) {
-        // 알파벳 헤더의 사이 간격을 한 칸씩 줄여서 타이트하게 맞췄습니다.
         System.out.println("    a   b    c   d    e   f   g    h   i");
 
         for (int r = 0; r < 10; r++) {
@@ -86,7 +85,6 @@ public class ResultView {
                 break;
             }
 
-            // 세로선(|) 라인의 간격도 한 칸씩 줄여서 폰트 너비 오차를 잡았습니다.
             if ((r == 0 || r == 7) && c == 3) {
                 System.out.print("|  \\ ");
             } else if ((r == 0 || r == 7) && c == 4) {
@@ -100,7 +98,6 @@ public class ResultView {
             } else if (c == 4 || c == 5) {
                 System.out.print("|    ");
             } else {
-                // 일반 세로선: 공백 4개 -> 3개로 축소
                 System.out.print("|   ");
             }
         }
