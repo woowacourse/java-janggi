@@ -43,4 +43,17 @@ public class TestGameDao implements GameDao {
             lastGameId--;
         }
     }
+
+    @Override
+    public void updateCurrentTurn(
+            Connection con,
+            Long gameId,
+            String nextTurn
+    ) {
+        if (!turnByGameId.containsKey(gameId)) {
+            throw new IllegalStateException("게임이 없습니다.");
+        }
+
+        turnByGameId.put(gameId, nextTurn);
+    }
 }

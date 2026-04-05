@@ -9,4 +9,6 @@ public interface GameDao {
     Optional<GameEntity> findLatestGame(Connection con);
 
     void deleteByGameId(Connection con, Long gameId);
+
+    void updateCurrentTurn(Connection con, Long gameId, String nextTurn);
 }
