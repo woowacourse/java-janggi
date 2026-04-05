@@ -27,7 +27,7 @@ public abstract class BaseTurn implements PlayerTurn {
         }
 
         if (board.isEndGame()) {
-            return new TurnState(new FinishTurn(board, turn + 1, Side.HAN), pieceAttribute);
+            return new TurnState(new FinishTurn(board, turn + 1, getCurrentSide()), pieceAttribute);
         }
 
         return new TurnState(nextTurn(), pieceAttribute);
