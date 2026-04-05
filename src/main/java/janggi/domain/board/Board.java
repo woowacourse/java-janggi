@@ -2,7 +2,6 @@ package janggi.domain.board;
 
 import janggi.domain.common.Position;
 import janggi.domain.piece.Piece;
-import janggi.domain.route.RouteConverter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +10,6 @@ import java.util.Map;
 public class Board {
 
     private final Map<Position, Piece> board = new HashMap<>();
-    private final RouteConverter routeConverter = new RouteConverter();
 
     public void place(Position position, Piece piece) {
         board.put(position, piece);
@@ -38,7 +36,7 @@ public class Board {
     public List<Position> findAvailablePositions(Position position) {
         Piece piece = pieceAt(position);
 
-        Map<Position, List<Position>> routePositions = routeConverter.convertToPosition(this, position);
+        Map<Position, List<Position>> routePositions = piece.convertToPosition(this, position);
 
         List<Position> availablePositions = calculateAvailablePositions(piece, routePositions);
 

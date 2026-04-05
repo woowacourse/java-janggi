@@ -1,20 +1,16 @@
-package janggi.domain.route;
+package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.board.Board;
 import janggi.domain.common.Position;
 import janggi.domain.common.Team;
-import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceType;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class RouteConverterTest {
-    RouteConverter routeConverter = new RouteConverter();
-
+public class PieceTypeTest {
     @Test
     @DisplayName("초나라 졸의 왼쪽 방향이 보드 범위를 넘어서 불가능한 좌표이다")
     void 초나라_졸_보드_범위_내_경로_가능() {
@@ -25,7 +21,7 @@ public class RouteConverterTest {
         board.place(position, piece);
 
         // when
-        Map<Position, List<Position>> result = routeConverter.convertToPosition(board, position);
+        Map<Position, List<Position>> result = piece.convertToPosition(board, position);
 
         // then
         assertThat(result.keySet()).containsExactlyInAnyOrder(
@@ -43,7 +39,7 @@ public class RouteConverterTest {
         board.place(position, piece);
 
         // when
-        Map<Position, List<Position>> result = routeConverter.convertToPosition(board, position);
+        Map<Position, List<Position>> result = piece.convertToPosition(board, position);
 
         // then
         assertThat(result.keySet()).containsExactlyInAnyOrder(
@@ -61,7 +57,7 @@ public class RouteConverterTest {
         board.place(position, piece);
 
         // when
-        Map<Position, List<Position>> result = routeConverter.convertToPosition(board, position);
+        Map<Position, List<Position>> result = piece.convertToPosition(board, position);
 
         // then
         assertThat(result.keySet()).containsExactlyInAnyOrder(
@@ -79,7 +75,7 @@ public class RouteConverterTest {
         board.place(position, piece);
 
         // when
-        Map<Position, List<Position>> result = routeConverter.convertToPosition(board, position);
+        Map<Position, List<Position>> result = piece.convertToPosition(board, position);
 
         // then
         assertThat(result.keySet()).containsExactlyInAnyOrder(
@@ -98,7 +94,7 @@ public class RouteConverterTest {
         board.place(position, piece);
 
         // when
-        Map<Position, List<Position>> result = routeConverter.convertToPosition(board, position);
+        Map<Position, List<Position>> result = piece.convertToPosition(board, position);
 
         // then
         assertThat(result.keySet()).containsExactlyInAnyOrder(
@@ -117,7 +113,7 @@ public class RouteConverterTest {
         board.place(position, piece);
 
         // when
-        Map<Position, List<Position>> result = routeConverter.convertToPosition(board, position);
+        Map<Position, List<Position>> result = piece.convertToPosition(board, position);
 
         // then
         assertThat(result.keySet()).containsExactlyInAnyOrder(
@@ -136,7 +132,7 @@ public class RouteConverterTest {
         board.place(position, piece);
 
         // when
-        Map<Position, List<Position>> result = routeConverter.convertToPosition(board, position);
+        Map<Position, List<Position>> result = piece.convertToPosition(board, position);
 
         // then
         assertThat(result.keySet()).containsExactlyInAnyOrder(
@@ -155,7 +151,7 @@ public class RouteConverterTest {
         board.place(position, piece);
 
         // when
-        Map<Position, List<Position>> result = routeConverter.convertToPosition(board, position);
+        Map<Position, List<Position>> result = piece.convertToPosition(board, position);
 
         // then
         assertThat(result.keySet()).containsExactlyInAnyOrder(
@@ -179,7 +175,7 @@ public class RouteConverterTest {
         board.place(position, piece);
 
         // when
-        Map<Position, List<Position>> result = routeConverter.convertToPosition(board, position);
+        Map<Position, List<Position>> result = piece.convertToPosition(board, position);
 
         // then
         assertThat(result.keySet()).containsExactlyInAnyOrder(
