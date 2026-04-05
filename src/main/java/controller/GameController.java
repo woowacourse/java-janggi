@@ -18,6 +18,8 @@ import view.InputView;
 import view.OutputView;
 
 public class GameController {
+    private static final int START_NEW_MODE = 1;
+    private static final int START_CONTINUE_MODE = 2;
     private final MysqlConnectionManager manager;
 
     public GameController(MysqlConnectionManager manager) {
@@ -37,7 +39,7 @@ public class GameController {
         int gameId = status.id();
         Country currentTurn = status.turn();
 
-        if (mode == 1) {
+        if (mode == START_NEW_MODE) {
             JanggiGameDao janggiGameDao = new JanggiGameDao(manager);
             gameId = janggiGameDao.createGame(currentTurn);
             janggiGameDao.saveGame(gameId, currentTurn, BoardConverter.convertToPieceDtos(board));
@@ -54,7 +56,7 @@ public class GameController {
     }
 
     private GameStatus findInitialStatus(int mode) {
-        if (mode == 1) {
+        if (mode == START_NEW_MODE) {
             return new GameStatus(0, Country.CHO);
         }
         JanggiGameDao janggiGameDao = new JanggiGameDao(manager);
@@ -67,7 +69,7 @@ public class GameController {
     }
 
     private Board createBoardByMode(int mode, GameStatus gameStatus) {
-        if (mode == 1 || gameStatus.id() == 0) {
+        if (mode == START_NEW_MODE || gameStatus.id() == 0) {
             Board board = new Board();
             initBoard(board);
             return board;
@@ -145,7 +147,7 @@ public class GameController {
     }
 
     private void validateMode(int mode) {
-        if (mode != 1 && mode != 2) {
+        if (mode != START_NEW_MODE && mode != START_CONTINUE_MODE) {
             throw new IllegalArgumentException("[ERROR] 올바른 번호를 입력해 주세요.");
         }
     }

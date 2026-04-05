@@ -41,7 +41,7 @@ public class JanggiGameDao {
         String deletePiecesSql = "DELETE FROM piece WHERE janggi_game_id = ?";
         String insertPieceSql = "INSERT INTO piece (janggi_game_id, row_pos, col_pos, country, type) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = manager.getConnection()) {
-            conn.setAutoCommit(false); // 트랜잭션 시작
+            conn.setAutoCommit(false);
 
             try (PreparedStatement pstmt = conn.prepareStatement(updateTurnSql)) {
                 pstmt.setString(1, turn.name());
