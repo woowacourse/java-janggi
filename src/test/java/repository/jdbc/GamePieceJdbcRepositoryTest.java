@@ -1,17 +1,17 @@
 package repository.jdbc;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import repository.entity.GamePiece;
+import repository.entity.GameEntity;
+import repository.entity.GamePieceEntity;
 
 class GamePieceJdbcRepositoryTest {
 
@@ -22,86 +22,146 @@ class GamePieceJdbcRepositoryTest {
     private static final Connection DB_CONNECTION = CONNECTION_GENERATOR.getDBConnection();
 
     private final JdbcTemplate template = new JdbcTemplate();
+    private final GameJdbcRepository gameRepository = new GameJdbcRepository(template);
     private final GamePieceJdbcRepository gamePieceRepository = new GamePieceJdbcRepository(template);
 
     @BeforeEach
-    void setUp() throws SQLException {
-        template.executeCommand(DB_CONNECTION,
-                "CREATE TABLE IF NOT EXISTS games (game_id BIGINT PRIMARY KEY AUTO_INCREMENT)");
-        template.executeCommand(DB_CONNECTION,
-                "CREATE TABLE IF NOT EXISTS pieces (piece_id BIGINT PRIMARY KEY AUTO_INCREMENT)");
-
-        template.executeCommand(DB_CONNECTION, "INSERT INTO games (game_id) VALUES (1)");
-        template.executeCommand(DB_CONNECTION, "INSERT INTO pieces (piece_id) VALUES (1)");
-        template.executeCommand(DB_CONNECTION, "INSERT INTO pieces (piece_id) VALUES (2)");
-
+    void setUp() {
+        gameRepository.initTable(DB_CONNECTION);
         gamePieceRepository.initTable(DB_CONNECTION);
     }
 
     @AfterEach
-    void clearAll() throws SQLException {
-        String sql = "DROP ALL OBJECTS";
-        template.executeCommand(DB_CONNECTION, sql);
+    void clearAll() {
+        template.executeCommand(DB_CONNECTION, "DROP ALL OBJECTS");
     }
 
     @Test
-    @DisplayName("하나의 GamePiece 잘 저장한다")
-    void save_success() throws SQLException {
-        GamePiece gamePiece = new GamePiece(null, 1L, 1L, 0, 0, true);
-        Long id = gamePieceRepository.save(DB_CONNECTION, gamePiece);
-        assertNotNull(id);
-    }
+    @DisplayName("GamePiece 저장을 위한 테이블을 잘 구성한다")
+    void initTable() {
+        template.executeCommand(DB_CONNECTION, "DROP ALL OBJECTS");
+        gameRepository.initTable(DB_CONNECTION);
 
-    @Test
-    @DisplayName("여러 GamePiece 잘 저장한다")
-    void save_all_success() throws SQLException {
-        List<GamePiece> gamePieces = List.of(
-                new GamePiece(null, 1L, 1L, 0, 0, true),
-                new GamePiece(null, 1L, 2L, 1, 1, true)
+        assertDoesNotThrow(
+                () -> gamePieceRepository.initTable(DB_CONNECTION)
         );
-        List<Long> ids = gamePieceRepository.saveAll(DB_CONNECTION, gamePieces);
-        assertEquals(2, ids.size());
     }
 
     @Test
-    @DisplayName("하나의 GamePiece 잘 찾는다")
-    void find_success() throws SQLException {
-        GamePiece gamePiece = new GamePiece(null, 1L, 1L, 0, 0, true);
-        Long id = gamePieceRepository.save(DB_CONNECTION, gamePiece);
+    @DisplayName("단일 GamePiece를 잘 저장한다")
+    void save_success() {
+        // given
+        Long gameId = gameRepository.save(DB_CONNECTION, new GameEntity(null, "CHO", "PLAYING"));
+        GamePieceEntity pieceEntity = new GamePieceEntity(null, gameId, "JOL", "CHO", 4, 1, true);
 
-        GamePiece found = gamePieceRepository.find(DB_CONNECTION, id);
-        assertEquals(1L, found.gameId());
-        assertEquals(1L, found.pieceId());
-        assertEquals(0, found.row());
-        assertEquals(0, found.col());
-        assertTrue(found.isActive());
+        // when
+        Long savedId = gamePieceRepository.save(DB_CONNECTION, pieceEntity);
+
+        // then
+        assertNotNull(savedId);
     }
 
     @Test
-    @DisplayName("전체 GamePiece 잘 찾는다")
-    void find_all_success() throws SQLException {
-        List<GamePiece> gamePieces = List.of(
-                new GamePiece(null, 1L, 1L, 0, 0, true),
-                new GamePiece(null, 1L, 2L, 1, 1, true)
+    @DisplayName("여러 GamePiece를 한 번에 잘 저장한다")
+    void saveAll_success() {
+        // given
+        int expectSavedIdsSize = 2;
+        Long gameId = gameRepository.save(DB_CONNECTION, new GameEntity(null, "CHO", "PLAYING"));
+        List<GamePieceEntity> pieceEntities = List.of(
+                new GamePieceEntity(null, gameId, "JOL", "CHO", 4, 1, true),
+                new GamePieceEntity(null, gameId, "PO", "CHO", 3, 2, true)
         );
-        gamePieceRepository.saveAll(DB_CONNECTION, gamePieces);
 
-        List<GamePiece> foundList = gamePieceRepository.findAll(DB_CONNECTION);
-        assertEquals(2, foundList.size());
+        // when
+        List<Long> savedIds = gamePieceRepository.saveAll(DB_CONNECTION, pieceEntities);
+
+        // then
+        assertEquals(expectSavedIdsSize, savedIds.size());
     }
 
     @Test
-    @DisplayName("GamePiece 수정이 잘 된다")
-    void update_success() throws SQLException {
-        GamePiece gamePiece = new GamePiece(null, 1L, 1L, 0, 0, true);
-        Long id = gamePieceRepository.save(DB_CONNECTION, gamePiece);
+    @DisplayName("단일 GamePiece를 id로 잘 찾아온다")
+    void find_success() {
+        // given
+        String team = "CHO";
+        String status = "PLAYING";
+        String type = "JOL";
+        int row = 4;
+        int col = 1;
+        boolean active = true;
 
-        GamePiece newGamePiece = new GamePiece(id, 1L, 1L, 2, 2, false);
-        gamePieceRepository.update(DB_CONNECTION, newGamePiece);
+        Long gameId = gameRepository.save(DB_CONNECTION, new GameEntity(null, team, status));
 
-        GamePiece updated = gamePieceRepository.find(DB_CONNECTION, id);
-        assertEquals(2, updated.row());
-        assertEquals(2, updated.col());
-        assertEquals(false, updated.isActive());
+        GamePieceEntity pieceEntity = new GamePieceEntity(null, gameId, type, team, row, col, active);
+        Long savedId = gamePieceRepository.save(DB_CONNECTION, pieceEntity);
+
+        // when
+        GamePieceEntity result = gamePieceRepository.find(DB_CONNECTION, savedId);
+
+        // then
+        GamePieceEntity expectPieceEntity = new GamePieceEntity(result.id(), gameId, type, team, row, col, active);
+        assertEquals(expectPieceEntity, result);
+    }
+
+    @Test
+    @DisplayName("gameId로 연관된 모든 GamePiece를 찾아온다")
+    void findByGameId_success() {
+        // given
+        int expectSize = 2;
+        Long gameId1 = gameRepository.save(DB_CONNECTION, new GameEntity(null, "CHO", "PLAYING"));
+        Long gameId2 = gameRepository.save(DB_CONNECTION, new GameEntity(null, "HAN", "PLAYING"));
+
+        gamePieceRepository.save(DB_CONNECTION, new GamePieceEntity(null, gameId1, "JOL", "CHO", 4, 1, true));
+        gamePieceRepository.save(DB_CONNECTION, new GamePieceEntity(null, gameId1, "PO", "CHO", 3, 2, true));
+        gamePieceRepository.save(DB_CONNECTION, new GamePieceEntity(null, gameId2, "SA", "HAN", 1, 4, true));
+
+        // when
+        List<GamePieceEntity> results = gamePieceRepository.findByGameId(DB_CONNECTION, gameId1);
+
+        // then
+        assertEquals(expectSize, results.size());
+    }
+
+    @Test
+    @DisplayName("모든 GamePiece를 찾아온다")
+    void findAll_success() {
+        // given
+        Long gameId = gameRepository.save(DB_CONNECTION, new GameEntity(null, "CHO", "PLAYING"));
+        gamePieceRepository.save(DB_CONNECTION, new GamePieceEntity(null, gameId, "JOL", "CHO", 4, 1, true));
+        gamePieceRepository.save(DB_CONNECTION, new GamePieceEntity(null, gameId, "PO", "CHO", 3, 2, true));
+        int expectSize = 2;
+
+        // when
+        List<GamePieceEntity> allPieces = gamePieceRepository.findAll(DB_CONNECTION);
+
+        // then
+        assertEquals(expectSize, allPieces.size());
+    }
+
+    @Test
+    @DisplayName("여러 GamePiece의 상태를 정상적으로 변경한다")
+    void updateAll_success() {
+        // given
+        Long gameId = gameRepository.save(DB_CONNECTION, new GameEntity(null, "CHO", "PLAYING"));
+
+        GamePieceEntity newPiece1 = new GamePieceEntity(null, gameId, "JOL", "CHO", 4, 1, true);
+        GamePieceEntity newPiece2 = new GamePieceEntity(null, gameId, "PO", "CHO", 3, 2, true);
+
+        Long savedId1 = gamePieceRepository.save(DB_CONNECTION, newPiece1);
+        Long savedId2 = gamePieceRepository.save(DB_CONNECTION, newPiece2);
+
+        GamePieceEntity updatedPiece1 = new GamePieceEntity(savedId1, gameId, "JOL", "CHO", 5, 1, true);
+        GamePieceEntity updatedPiece2 = new GamePieceEntity(savedId2, gameId, "PO", "CHO", 3, 2, false);
+        List<GamePieceEntity> updatedEntities = List.of(updatedPiece1, updatedPiece2);
+
+        // when
+        gamePieceRepository.updateAll(DB_CONNECTION, updatedEntities);
+
+        // then
+        GamePieceEntity result1 = gamePieceRepository.find(DB_CONNECTION, savedId1);
+        GamePieceEntity result2 = gamePieceRepository.find(DB_CONNECTION, savedId2);
+
+        assertEquals(updatedPiece1, result1);
+        assertEquals(updatedPiece2, result2);
     }
 }

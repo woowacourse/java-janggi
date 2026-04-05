@@ -4,22 +4,27 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import repository.RepositoryErrorMessage;
-import repository.dao.GamePieceDao;
-import repository.entity.GamePiece;
+import repository.entity.GamePieceEntity;
+import repository.jdbc.JdbcTemplate.RowMapper;
 
-public class GamePieceJdbcRepository implements GamePieceDao {
+public class GamePieceJdbcRepository {
 
     private static final String INSERT_SQL =
-            "INSERT INTO game_pieces (game_id, piece_id, position_row, position_col, is_active) " +
-                    "VALUES (?, ?, ?, ?, ?)";
+            "INSERT INTO game_pieces (game_id, piece_type, team, position_row, position_col, is_active) " +
+                    "VALUES (?, ?, ?, ?, ?, ?)";
 
     private static final String FIND_BY_ID_SQL =
-            "SELECT game_piece_id, game_id, piece_id, position_row, position_col, is_active " +
+            "SELECT game_piece_id, game_id, piece_type, team, position_row, position_col, is_active " +
                     "FROM game_pieces " +
                     "WHERE game_piece_id = ?";
 
+    private static final String FIND_BY_GAME_ID_SQL =
+            "SELECT game_piece_id, game_id, piece_type, team, position_row, position_col, is_active " +
+                    "FROM game_pieces " +
+                    "WHERE game_id = ?";
+
     private static final String FIND_ALL_SQL =
-            "SELECT game_piece_id, game_id, piece_id, position_row, position_col, is_active " +
+            "SELECT game_piece_id, game_id, piece_type, team, position_row, position_col, is_active " +
                     "FROM game_pieces";
 
     private static final String UPDATE_SQL =
@@ -31,12 +36,12 @@ public class GamePieceJdbcRepository implements GamePieceDao {
             "CREATE TABLE IF NOT EXISTS game_pieces (" +
                     "game_piece_id BIGINT PRIMARY KEY AUTO_INCREMENT, " +
                     "game_id BIGINT NOT NULL, " +
-                    "piece_id BIGINT NOT NULL, " +
+                    "piece_type VARCHAR(10) NOT NULL, " +
+                    "team VARCHAR(10) NOT NULL, " +
                     "position_row INT NOT NULL, " +
                     "position_col INT NOT NULL, " +
                     "is_active BOOLEAN DEFAULT TRUE, " +
-                    "CONSTRAINT fk_gp_game FOREIGN KEY (game_id) REFERENCES games(game_id) ON DELETE CASCADE, " +
-                    "CONSTRAINT fk_gp_piece FOREIGN KEY (piece_id) REFERENCES pieces(piece_id) ON DELETE CASCADE" +
+                    "CONSTRAINT fk_gp_game FOREIGN KEY (game_id) REFERENCES games(game_id) ON DELETE CASCADE" +
                     ")";
 
     private final JdbcTemplate template;
@@ -49,52 +54,51 @@ public class GamePieceJdbcRepository implements GamePieceDao {
         template.executeCommand(connection, CREATE_TABLE_SQL);
     }
 
-    @Override
-    public Long save(Connection connection, GamePiece entity) {
+    public Long save(Connection connection, GamePieceEntity entity) {
         Object generatedId = template.executeSave(
                 connection,
                 INSERT_SQL,
                 entity.gameId(),
-                entity.pieceId(),
+                entity.pieceType(),
+                entity.team(),
                 entity.row(),
                 entity.col(),
                 entity.isActive()
         );
-        return (Long) generatedId;
+        return Long.parseLong(generatedId.toString());
     }
 
-    @Override
-    public List<Long> saveAll(Connection connection, List<GamePiece> entities) {
+    public List<Long> saveAll(Connection connection, List<GamePieceEntity> entities) {
         List<List<Object>> totalEntityValues = new ArrayList<>();
-        for (GamePiece entity : entities) {
-            List<Object> rowValues = new ArrayList<>();
-            rowValues.add(entity.gameId());
-            rowValues.add(entity.pieceId());
-            rowValues.add(entity.row());
-            rowValues.add(entity.col());
-            rowValues.add(entity.isActive());
-            totalEntityValues.add(rowValues);
+        for (GamePieceEntity entity : entities) {
+            addSingleEntityValueForBatchSave(entity, totalEntityValues);
         }
 
         List<Object> generatedKeys = template.executeBatchSave(connection, INSERT_SQL, totalEntityValues);
-        return generatedKeys.stream()
-                .map(id -> (Long) id)
+
+        return generatedKeys
+                .stream()
+                .map(id -> Long.parseLong(id.toString()))
                 .toList();
     }
 
-    @Override
-    public GamePiece find(Connection connection, Long id) {
-        List<GamePiece> entities = template.executeRead(
+    private void addSingleEntityValueForBatchSave(GamePieceEntity entity, List<List<Object>> totalEntityValues) {
+        List<Object> rowValues = List.of(
+                entity.gameId(),
+                entity.pieceType(),
+                entity.team(),
+                entity.row(),
+                entity.col(),
+                entity.isActive()
+        );
+        totalEntityValues.add(rowValues);
+    }
+
+    public GamePieceEntity find(Connection connection, Long id) {
+        List<GamePieceEntity> entities = template.executeRead(
                 connection,
                 FIND_BY_ID_SQL,
-                (rs) -> new GamePiece(
-                        rs.getLong("game_piece_id"),
-                        rs.getLong("game_id"),
-                        rs.getLong("piece_id"),
-                        rs.getInt("position_row"),
-                        rs.getInt("position_col"),
-                        rs.getBoolean("is_active")
-                ),
+                parseRowValueToGamePieceEntity(),
                 id
         );
 
@@ -102,7 +106,16 @@ public class GamePieceJdbcRepository implements GamePieceDao {
         return entities.getFirst();
     }
 
-    private void validateSingleEntity(List<GamePiece> entities) {
+    public List<GamePieceEntity> findByGameId(Connection connection, Long gameId) {
+        return template.executeRead(
+                connection,
+                FIND_BY_GAME_ID_SQL,
+                parseRowValueToGamePieceEntity(),
+                gameId
+        );
+    }
+
+    private void validateSingleEntity(List<GamePieceEntity> entities) {
         if (entities.isEmpty()) {
             throw new IllegalStateException(RepositoryErrorMessage.NOT_FOUND.getMessage());
         }
@@ -111,31 +124,42 @@ public class GamePieceJdbcRepository implements GamePieceDao {
         }
     }
 
-    @Override
-    public List<GamePiece> findAll(Connection connection) {
+    public List<GamePieceEntity> findAll(Connection connection) {
         return template.executeRead(
                 connection,
                 FIND_ALL_SQL,
-                (rs) -> new GamePiece(
-                        rs.getLong("game_piece_id"),
-                        rs.getLong("game_id"),
-                        rs.getLong("piece_id"),
-                        rs.getInt("position_row"),
-                        rs.getInt("position_col"),
-                        rs.getBoolean("is_active")
-                )
+                parseRowValueToGamePieceEntity()
         );
     }
 
-    @Override
-    public void update(Connection connection, GamePiece newEntity) {
-        template.executeCommand(
-                connection,
-                UPDATE_SQL,
+    private RowMapper<GamePieceEntity> parseRowValueToGamePieceEntity() {
+        return (resultSet) -> new GamePieceEntity(
+                resultSet.getLong("game_piece_id"),
+                resultSet.getLong("game_id"),
+                resultSet.getString("piece_type"),
+                resultSet.getString("team"),
+                resultSet.getInt("position_row"),
+                resultSet.getInt("position_col"),
+                resultSet.getBoolean("is_active")
+        );
+    }
+
+    public void updateAll(Connection connection, List<GamePieceEntity> newEntities) {
+        List<List<Object>> totalEntityValues = new ArrayList<>();
+        for (GamePieceEntity newEntity : newEntities) {
+            addSingleEntityValueForUpdate(newEntity, totalEntityValues);
+        }
+
+        template.executeBatchSave(connection, UPDATE_SQL, totalEntityValues);
+    }
+
+    private void addSingleEntityValueForUpdate(GamePieceEntity newEntity, List<List<Object>> totalEntityValues) {
+        List<Object> rowValues = List.of(
                 newEntity.row(),
                 newEntity.col(),
                 newEntity.isActive(),
-                newEntity.gamePieceId()
+                newEntity.id()
         );
+        totalEntityValues.add(rowValues);
     }
 }
