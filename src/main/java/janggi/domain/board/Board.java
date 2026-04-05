@@ -1,6 +1,7 @@
 package janggi.domain.board;
 
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Score;
 import janggi.domain.piece.Team;
 
@@ -37,6 +38,12 @@ public class Board {
                 .filter(piece -> piece.isSameTeam(team))
                 .map(Piece::getScore)
                 .reduce(new Score(0), Score::add);
+    }
+
+    public boolean isGeneralCaptured(Team team) {
+        return board.values().stream()
+                .filter(piece -> piece.isSameTeam(team))
+                .noneMatch(piece -> piece.isSameType(PieceType.GENERAL));
     }
 
     private List<Piece> getPathPieces(Position from, Position to, Piece piece) {
