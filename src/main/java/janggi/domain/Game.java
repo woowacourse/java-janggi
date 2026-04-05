@@ -21,14 +21,8 @@ public class Game {
 
     public List<PieceInitInfo> init(Arrangement choArrangement, Arrangement hanArrangement) {
         Map<Position, Piece> initBoard = BoardInitializer.createBoard(choArrangement, hanArrangement);
-        int hanScore = initBoard.values().stream()
-                .filter(piece -> piece.isEqualSide(Side.HAN))
-                .mapToInt(Piece::getPieceScore)
-                .sum();
-        int choScore = initBoard.values().stream()
-                .filter(piece -> piece.isEqualSide(Side.CHO))
-                .mapToInt(Piece::getPieceScore)
-                .sum();
+        int hanScore = calculateScore(initBoard, Side.HAN);
+        int choScore = calculateScore(initBoard, Side.CHO);
 
         this.playerTurn = new ChoTurn(new Board(initBoard, hanScore, choScore), 0);
         return getPieceInitInfo(initBoard);
@@ -36,14 +30,8 @@ public class Game {
 
     public void init(List<PieceInitInfo> pieceInitInfos, Side side, int turn) {
         Map<Position, Piece> initBoard = BoardInitializer.createBoard(pieceInitInfos);
-        int hanScore = initBoard.values().stream()
-                .filter(piece -> piece.isEqualSide(Side.HAN))
-                .mapToInt(Piece::getPieceScore)
-                .sum();
-        int choScore = initBoard.values().stream()
-                .filter(piece -> piece.isEqualSide(Side.CHO))
-                .mapToInt(Piece::getPieceScore)
-                .sum();
+        int hanScore = calculateScore(initBoard, Side.HAN);
+        int choScore = calculateScore(initBoard, Side.CHO);
 
         initTurn(new Board(initBoard, hanScore, choScore), side, turn);
     }
@@ -93,5 +81,12 @@ public class Game {
             return;
         }
         this.playerTurn = new HanTurn(board, turn);
+    }
+
+    private int calculateScore(Map<Position, Piece> initBoard, Side side) {
+        return initBoard.values().stream()
+                .filter(piece -> piece.isEqualSide(side))
+                .mapToInt(Piece::getPieceScore)
+                .sum();
     }
 }
