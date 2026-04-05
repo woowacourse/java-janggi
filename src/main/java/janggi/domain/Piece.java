@@ -30,7 +30,7 @@ public class Piece {
         }
     }
 
-    private boolean isSameTeam(Piece pieceTo) {
+    public boolean isSameTeam(Piece pieceTo) {
         return team == pieceTo.getTeam();
     }
 
