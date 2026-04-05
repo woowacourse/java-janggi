@@ -28,14 +28,13 @@ public class GameController {
 
         while (true) {
             try {
-                Side currentTurn = game.currentTurn();
-                outputView.printTurn(currentTurn);
+                outputView.printTurn(game.currentTurn());
                 outputView.printMoveGuide();
 
                 Position departure = inputView.readDeparturePosition();
                 Position destination = inputView.readDestinationPosition();
 
-                game.move(departure, destination, currentTurn);
+                game.move(departure, destination);
                 outputView.printBoard(boardViewMapper.map(game.board()));
             } catch (IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());

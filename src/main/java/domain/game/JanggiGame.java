@@ -8,8 +8,8 @@ import domain.pieces.Side;
 import domain.position.Position;
 
 public class JanggiGame {
-    private final Board board;
-    private boolean isChoTurn = true;
+    private Board board;
+    private Side currentTurn = Side.CHO;
 
     public JanggiGame(Board board) {
         this.board = board;
@@ -21,22 +21,37 @@ public class JanggiGame {
         return new JanggiGame(choBoard.merge(hanBoard));
     }
 
-    public void move(Position departure, Position destination, Side side) {
-        if (isChoTurn && side.isHan()) {
-            throw new InvalidTurnException(GameErrorMessage.CHO_TURN);
+    public void move(Position departure, Position destination) {
+        if (isNotCurrentTurnPiece(departure)) {
+            throw new InvalidTurnException(currentTurnErrorMessage());
         }
-        if (!isChoTurn && side.isCho()) {
-            throw new InvalidTurnException(GameErrorMessage.HAN_TURN);
+        board = board.move(departure, destination);
+        currentTurn = nextTurn();
+    }
+
+    private GameErrorMessage currentTurnErrorMessage() {
+        if (currentTurn.isCho()) {
+            return GameErrorMessage.CHO_TURN;
         }
-        board.move(departure, destination);
-        isChoTurn = !isChoTurn;
+        return GameErrorMessage.HAN_TURN;
+    }
+
+    private boolean isNotCurrentTurnPiece(Position departure) {
+        if (currentTurn.isCho()) {
+            return board.pieces().get(departure).isHan();
+        }
+        return board.pieces().get(departure).isCho();
+    }
+
+    private Side nextTurn() {
+        if (currentTurn.isCho()) {
+            return Side.HAN;
+        }
+        return Side.CHO;
     }
 
     public Side currentTurn() {
-        if (isChoTurn) {
-            return Side.CHO;
-        }
-        return Side.HAN;
+        return currentTurn;
     }
 
     public Board board() {
