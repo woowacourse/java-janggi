@@ -17,6 +17,7 @@ public class OutputView {
     private static final String CHO_CAMP = "초나라";
     private static final String HAN_CAMP = "한나라";
     private static final String WINNER_MESSAGE = "%s의 승리입니다!";
+    private static final String SCORE_MESSAGE = "기물 부족으로 게임이 종료되었습니다. (점수 - 초: %.1f, 한: %.1f)%n";
 
     private final BoardRenderer boardRenderer;
 
@@ -46,6 +47,10 @@ public class OutputView {
 
     public void printWinner(Camp winner) {
         System.out.printf(WINNER_MESSAGE, campName(winner));
+    }
+
+    public void printScore(double choScore, double hanScore) {
+        System.out.printf(SCORE_MESSAGE, choScore, hanScore);
     }
 
     private String campName(Camp camp) {

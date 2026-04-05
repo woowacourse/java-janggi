@@ -28,6 +28,15 @@ public class Application {
     }
 
     private void playJanggi(Game game) {
+        progressJanggi(game);
+
+        if (game.isScoreWin()) {
+            outputView.printScore(game.choScore(), game.hanScore());
+        }
+        outputView.printWinner(game.winner());
+    }
+
+    private void progressJanggi(Game game) {
         while (!game.isFinished()) {
             outputView.printTurnPrompt(game.currentTurn());
 
@@ -41,7 +50,6 @@ public class Application {
                 return;
             }
         }
-        outputView.printWinner(game.winner());
     }
 
     private int readSetUp(Camp camp) {
