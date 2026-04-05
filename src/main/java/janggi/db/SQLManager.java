@@ -53,7 +53,7 @@ public class SQLManager {
                 createConnection();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(FAILED_DB_CONNECT_MESSAGE, e);
         }
         return connection;
     }
