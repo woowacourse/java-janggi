@@ -4,9 +4,11 @@ CREATE TABLE IF NOT EXISTS games
     name        varchar(255) NOT NULL,
     turns_taken numeric,
     team_queue  varchar(255) NOT NULL,
+    status      varchar(20)  NOT NULL,
     created_at  timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at  timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CHECK (team_queue in ('RED,BLUE', 'BLUE,RED'))
+        AND (status in ('IN_PROGRESS', 'CLOSED'))
 );
 
 CREATE TABLE IF NOT EXISTS board_cells
