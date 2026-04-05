@@ -34,4 +34,11 @@ public class MaterialScoreTest {
         materialScore.updateGungDead(Side.CHO);
         assertThat(materialScore.isAnyGungDead()).isTrue();
     }
+
+    @Test
+    void 가장_높은_점수의_진영을_정확하게_반환한다() {
+        MaterialScore materialScore = new MaterialScore(1, 20);
+
+        assertThat(materialScore.getHighestSide()).isEqualTo(Side.CHO);
+    }
 }
