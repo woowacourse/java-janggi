@@ -9,17 +9,12 @@ public class DBTableInitializer {
     private static final String ABSOLUTE_SQL_FILE_PATH = "./src/main/resources/schema.sql";
 
     private final DBConnection dbConnection;
-    private boolean executed;
 
     public DBTableInitializer(final DBConnection dbConnection) {
         this.dbConnection = dbConnection;
     }
 
     public void init() {
-        if (executed) {
-            throw new IllegalStateException("이미 DB 테이블이 초기화된 상태입니다.");
-        }
-        executed = true;
         try (
             final Scanner scanner = new Scanner(new FileInputStream(ABSOLUTE_SQL_FILE_PATH))
                 .useDelimiter(";")
