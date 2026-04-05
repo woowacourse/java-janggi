@@ -92,4 +92,21 @@ public class Board {
     public int getBoardHeight() {
         return VERTICAL_LENGTH;
     }
+
+    public int getChoScore() {
+        return calculateScore(Team.CHO);
+    }
+
+    public int getHanScore() {
+        return calculateScore(Team.HAN);
+    }
+
+    private int calculateScore(Team team) {
+        return piecesInfo.values().stream()
+            .filter(space -> !space.isBlank())
+            .map(Space::asPiece)
+            .filter(piece -> piece.isEqualTeam(team))
+            .mapToInt(Piece::getScore)
+            .sum();
+    }
 }
