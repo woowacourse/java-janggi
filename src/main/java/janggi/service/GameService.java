@@ -4,6 +4,7 @@ import janggi.db.TransactionManager;
 import janggi.db.TransactionManager.SqlConsumer;
 import janggi.db.TransactionManager.SqlFunction;
 import janggi.domain.Game;
+import janggi.domain.LoadedGame;
 import janggi.domain.board.Board;
 import janggi.domain.board.Position;
 import janggi.domain.board.initializer.SnapshotBoardInitializer;
@@ -38,7 +39,7 @@ public final class GameService {
         return readOnly(gameStateRepository::findAllIds);
     }
 
-    public Optional<Game> findById(long gameId) {
+    public Optional<LoadedGame> findById(long gameId) {
         return readOnly(connection -> {
             Optional<Camp> currentTurn = gameStateRepository.findCurrentTurnByGameId(connection, gameId);
             if (currentTurn.isEmpty()) {
@@ -47,31 +48,32 @@ public final class GameService {
 
             Map<Position, Piece> boardSnapshot = gamePieceRepository.findByGameId(connection, gameId);
             Board board = new Board(new SnapshotBoardInitializer(boardSnapshot));
+            Game restoredGame = Game.restore(board, currentTurn.orElseThrow());
 
-            return Optional.of(Game.restore(gameId, board, currentTurn.orElseThrow()));
+            return Optional.of(new LoadedGame(gameId, restoredGame));
         });
     }
 
-    public Game create(Board board) {
+    public LoadedGame create(Board board) {
         return inTransaction(connection -> {
             long gameId = gameStateRepository.createGame(connection, Camp.CHO);
-            Game game = Game.start(gameId, board);
+            Game game = Game.start(board);
 
             gamePieceRepository.saveGameByBoard(
                     connection,
                     gameId,
                     game.boardSnapshot()
             );
-            return game;
+            return new LoadedGame(gameId, game);
         });
     }
 
-    public void save(Game game) {
+    public void update(long id, Game game) {
         inTransaction(connection -> {
-            gameStateRepository.save(connection, game.id(), game.currentTurn());
+            gameStateRepository.save(connection, id, game.currentTurn());
             gamePieceRepository.saveGameByBoard(
                     connection,
-                    game.id(),
+                    id,
                     game.boardSnapshot()
             );
         });

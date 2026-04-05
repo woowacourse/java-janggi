@@ -10,26 +10,20 @@ import java.util.Map;
 import java.util.Optional;
 
 public final class Game {
-    private final long id;
     private final Board board;
     private Camp currentTurn;
 
-    private Game(long id, Board board, Camp currentTurn) {
-        this.id = id;
+    private Game(Board board, Camp currentTurn) {
         this.board = board;
         this.currentTurn = currentTurn;
     }
 
-    public long id() {
-        return id;
+    public static Game start(Board board) {
+        return new Game(board, Camp.CHO);
     }
 
-    public static Game start(long id, Board board) {
-        return new Game(id, board, Camp.CHO);
-    }
-
-    public static Game restore(long id, Board board, Camp currentTurn) {
-        return new Game(id, board, currentTurn);
+    public static Game restore(Board board, Camp currentTurn) {
+        return new Game(board, currentTurn);
     }
 
     public Camp currentTurn() {

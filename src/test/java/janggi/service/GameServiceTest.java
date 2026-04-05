@@ -6,6 +6,7 @@ import janggi.db.DatabaseInitializer;
 import janggi.db.TestConnectionManager;
 import janggi.db.TransactionManager;
 import janggi.domain.Game;
+import janggi.domain.LoadedGame;
 import janggi.domain.board.Board;
 import janggi.domain.board.Position;
 import janggi.domain.board.initializer.ElephantSetUp;
@@ -46,23 +47,26 @@ class GameServiceTest {
     @Test
     void 새_게임을_생성하고_다시_조회할_수_있다() {
         // when
-        Game createdGame = gameService.create(board);
-        Game loadedGame = gameService.findById(createdGame.id()).orElseThrow();
+        LoadedGame createdGame = gameService.create(board);
+        long id = createdGame.id();
+        Game game = createdGame.game();
+        LoadedGame loadedGame = gameService.findById(id).orElseThrow();
+        Game foundGame = loadedGame.game();
 
         // then
         SoftAssertions.assertSoftly(assertSoftly -> {
-            assertSoftly.assertThat(createdGame.id()).isPositive();
-            assertSoftly.assertThat(gameService.findAllIds()).containsExactly(createdGame.id());
-            assertSoftly.assertThat(loadedGame.currentTurn()).isEqualTo(Camp.CHO);
-            assertSoftly.assertThat(loadedGame.boardSnapshot()).isEqualTo(createdGame.boardSnapshot());
+            assertSoftly.assertThat(id).isPositive();
+            assertSoftly.assertThat(gameService.findAllIds()).containsExactly(id);
+            assertSoftly.assertThat(foundGame.currentTurn()).isEqualTo(Camp.CHO);
+            assertSoftly.assertThat(foundGame.boardSnapshot()).isEqualTo(game.boardSnapshot());
         });
     }
 
     @Test
     void 게임을_두_개_생성하면_전체_게임방_번호를_조회할_수_있다() {
         // when
-        Game firstGame = gameService.create(createBoard());
-        Game secondGame = gameService.create(createBoard());
+        LoadedGame firstGame = gameService.create(createBoard());
+        LoadedGame secondGame = gameService.create(createBoard());
 
         // then
         assertThat(gameService.findAllIds()).containsExactly(firstGame.id(), secondGame.id());
@@ -71,21 +75,24 @@ class GameServiceTest {
     @Test
     void 게임을_저장하면_변경된_턴과_보드_상태가_반영된다() {
         // given
-        Game createdGame = gameService.create(board);
+        LoadedGame createdGame = gameService.create(board);
+        long id = createdGame.id();
+        Game game = createdGame.game();
         Position source = new Position(3, 0);
         Position destination = new Position(4, 0);
-        createdGame.play(source, destination);
+        game.play(source, destination);
 
         // when
-        gameService.save(createdGame);
-        Game loadedGame = gameService.findById(createdGame.id()).orElseThrow();
+        gameService.update(id, game);
+        LoadedGame loadedGame = gameService.findById(id).orElseThrow();
+        Game foundGame = loadedGame.game();
 
         // then
         SoftAssertions.assertSoftly(assertSoftly -> {
-            assertSoftly.assertThat(loadedGame.currentTurn()).isEqualTo(Camp.HAN);
-            assertSoftly.assertThat(loadedGame.boardSnapshot()).isEqualTo(createdGame.boardSnapshot());
-            assertSoftly.assertThat(loadedGame.boardSnapshot()).doesNotContainKey(source);
-            assertSoftly.assertThat(loadedGame.boardSnapshot()).containsKey(destination);
+            assertSoftly.assertThat(foundGame.currentTurn()).isEqualTo(Camp.HAN);
+            assertSoftly.assertThat(foundGame.boardSnapshot()).isEqualTo(game.boardSnapshot());
+            assertSoftly.assertThat(foundGame.boardSnapshot()).doesNotContainKey(source);
+            assertSoftly.assertThat(foundGame.boardSnapshot()).containsKey(destination);
         });
     }
 

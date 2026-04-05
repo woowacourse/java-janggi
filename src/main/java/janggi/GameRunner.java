@@ -1,6 +1,7 @@
 package janggi;
 
 import janggi.domain.Game;
+import janggi.domain.LoadedGame;
 import janggi.domain.board.Board;
 import janggi.domain.board.Position;
 import janggi.domain.board.initializer.BoardInitializer;
@@ -29,12 +30,15 @@ public class GameRunner {
     }
 
     public void run() {
-        Game game = retryOnInvalidInput(this::loadOrCreateGame);
+        LoadedGame loadedGame = retryOnInvalidInput(this::loadOrCreateGame);
+        long gameId = loadedGame.id();
+        Game game = loadedGame.game();
+
         outputView.printBoard(game.boardSnapshot());
-        play(game);
+        play(gameId, game);
     }
 
-    private Game loadOrCreateGame() {
+    private LoadedGame loadOrCreateGame() {
         outputView.printExistGameRoom(gameService.findAllIds());
         long gameId = inputView.readSelectedGameRoom();
 
@@ -46,7 +50,7 @@ public class GameRunner {
                 .orElseThrow(() -> new IllegalArgumentException(INVALID_GAME_ROOM));
     }
 
-    private Game createNewGame() {
+    private LoadedGame createNewGame() {
         Board board = createBoard();
         return gameService.create(board);
     }
@@ -67,17 +71,17 @@ public class GameRunner {
         elephantSetUps.put(camp, elephantSetUp);
     }
 
-    private void play(Game game) {
+    private void play(long id, Game game) {
         boolean continueGame = true;
         while (continueGame) {
             outputView.printScore(game.calculateScore());
-            continueGame = retryOnInvalidInput(() -> playTurn(game));
+            continueGame = retryOnInvalidInput(() -> playTurn(id, game));
             outputView.printBoard(game.boardSnapshot());
         }
         outputView.printWinner(game.currentTurn());
     }
 
-    private boolean playTurn(Game game) {
+    private boolean playTurn(long id, Game game) {
         Camp currentTurn = game.currentTurn();
 
         Position source = retryOnInvalidInput(() -> readSource(game, currentTurn));
@@ -85,10 +89,10 @@ public class GameRunner {
 
         boolean gameEnded = game.play(source, destination);
         if (gameEnded) {
-            gameService.deleteById(game.id());
+            gameService.deleteById(id);
             return false;
         }
-        gameService.save(game);
+        gameService.update(id, game);
         return true;
     }
 
