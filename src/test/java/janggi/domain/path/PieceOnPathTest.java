@@ -47,7 +47,7 @@ class PieceOnPathTest {
 
     private static Stream<Arguments> hasTypeArguments() {
         return Stream.of(
-                Arguments.of(new Cannon(Team.HAN), PieceType.CANNON, true),
+                Arguments.of(new Cannon(Team.HAN, new Palace()), PieceType.CANNON, true),
                 Arguments.of(new Soldier(Team.HAN), PieceType.CANNON, false)
         );
     }

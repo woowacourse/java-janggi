@@ -19,7 +19,7 @@ class CannonTest {
             "CHO, true"})
     void 포의_팀을_확인한다(Team team, boolean expected) {
         // given
-        Cannon cannon = new Cannon(team);
+        Cannon cannon = new Cannon(team, new Palace());
 
         // when
         boolean result = cannon.isSameTeam(team);
@@ -31,7 +31,7 @@ class CannonTest {
     @Test
     void 포의_타입은_CANNON이다() {
         // given
-        Cannon cannon = new Cannon(Team.HAN);
+        Cannon cannon = new Cannon(Team.HAN, new Palace());
 
         // when
         boolean result = cannon.isSameType(PieceType.CANNON);
@@ -43,7 +43,7 @@ class CannonTest {
     @Test
     void 한_방향으로만_이동시키면_경로를_반환한다() {
         // given
-        Cannon cannon = new Cannon(Team.HAN);
+        Cannon cannon = new Cannon(Team.HAN, new Palace());
         Movement movement = new Movement(Position.from("22"), Position.from("26"));
 
         //when
@@ -56,22 +56,38 @@ class CannonTest {
                 Position.from("25"));
     }
 
-    @Test
-    void 한_방향만으로_이동이_아니면_예외가_발생한다() {
+    @ParameterizedTest(name = "from={0}, to={1}, 경로좌표={2}")
+    @CsvSource({
+            "14, 36, 25",
+            "04, 86, 95"})
+    void 궁성에서_대각선으로_이동하면_경로를_반환한다(String from, String to, String expectedPosition) {
         // given
-        Cannon cannon = new Cannon(Team.HAN);
-        Movement movement = new Movement(Position.from("22"), Position.from("33"));
+        Cannon cannon = new Cannon(Team.HAN, new Palace());
+        Movement movement = new Movement(Position.from(from), Position.from(to));
+
+        // when
+        Path path = cannon.getPath(movement);
+
+        // then
+        assertThat(path).containsExactly(Position.from(expectedPosition));
+    }
+
+    @Test
+    void 궁성_이동이_아닐_때_직선이_아닌_방향으로_이동시키면_예외가_발생한다() {
+        // given
+        Cannon cannon = new Cannon(Team.HAN, new Palace());
+        Movement movement = new Movement(Position.from("22"), Position.from("44"));
 
         // when & then
         assertThatThrownBy(() -> cannon.getPath(movement))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 포는 직선으로만 이동할 수 있습니다.");
+                .hasMessage("[ERROR] 포는 한 방향으로만 이동할 수 있습니다.");
     }
 
     @Test
     void 이동_가능하면_예외가_발생하지_않는다() {
         // given
-        Cannon cannon = new Cannon(Team.HAN);
+        Cannon cannon = new Cannon(Team.HAN, new Palace());
         PieceOnPath pieceOnPath = new PieceOnPath();
         pieceOnPath.add(new EmptyPiece());
         pieceOnPath.add(new Soldier(Team.HAN));
@@ -84,7 +100,7 @@ class CannonTest {
     @Test
     void 경로에_존재하는_기물_중_빈_기물이_아닌_기물이_2개_이상이면_예외가_발생한다() {
         //given
-        Cannon cannon = new Cannon(Team.HAN);
+        Cannon cannon = new Cannon(Team.HAN, new Palace());
         PieceOnPath pieceOnPath = new PieceOnPath();
         pieceOnPath.add(new Soldier(Team.HAN));
         pieceOnPath.add(new Elephant(Team.HAN));
@@ -98,7 +114,7 @@ class CannonTest {
     @Test
     void 경로에_존재하는_기물이_모두_빈_기물이면_예외가_발생한다() {
         // given
-        Cannon cannon = new Cannon(Team.HAN);
+        Cannon cannon = new Cannon(Team.HAN, new Palace());
         PieceOnPath pieceOnPath = new PieceOnPath();
         pieceOnPath.add(new EmptyPiece());
         pieceOnPath.add(new EmptyPiece());
@@ -112,7 +128,7 @@ class CannonTest {
     @Test
     void 오직_한_칸만_이동하면_예외가_발생한다() {
         // given
-        Cannon cannon = new Cannon(Team.HAN);
+        Cannon cannon = new Cannon(Team.HAN, new Palace());
 
         // when & then
         assertThatThrownBy(() -> cannon.validateCanMove(new PieceOnPath(), new EmptyPiece()))
@@ -123,10 +139,10 @@ class CannonTest {
     @Test
     void 경로에_존재하는_기물이_포면_예외가_발생한다() {
         // given
-        Cannon cannon = new Cannon(Team.HAN);
+        Cannon cannon = new Cannon(Team.HAN, new Palace());
         PieceOnPath pieceOnPath = new PieceOnPath();
         pieceOnPath.add(new EmptyPiece());
-        pieceOnPath.add(new Cannon(Team.HAN));
+        pieceOnPath.add(new Cannon(Team.HAN, new Palace()));
 
         // when & then
         assertThatThrownBy(() -> cannon.validateCanMove(pieceOnPath, new EmptyPiece()))
@@ -137,7 +153,7 @@ class CannonTest {
     @Test
     void 이동할_위치에_같은_팀이_있으면_예외가_발생한다() {
         // given
-        Cannon cannon = new Cannon(Team.HAN);
+        Cannon cannon = new Cannon(Team.HAN, new Palace());
         PieceOnPath pieceOnPath = new PieceOnPath();
         pieceOnPath.add(new Guard(Team.HAN, new Palace()));
 
@@ -150,12 +166,12 @@ class CannonTest {
     @Test
     void 이동할_위치에_적의_포가_있으면_예외가_발생한다() {
         // given
-        Cannon cannon = new Cannon(Team.HAN);
+        Cannon cannon = new Cannon(Team.HAN, new Palace());
         PieceOnPath pieceOnPath = new PieceOnPath();
         pieceOnPath.add(new Guard(Team.HAN, new Palace()));
 
         // when & then
-        assertThatThrownBy(() -> cannon.validateCanMove(pieceOnPath, new Cannon(Team.CHO)))
+        assertThatThrownBy(() -> cannon.validateCanMove(pieceOnPath, new Cannon(Team.CHO, new Palace())))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 포는 포를 잡을 수 없습니다.");
     }
