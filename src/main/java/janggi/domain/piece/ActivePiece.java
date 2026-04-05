@@ -8,8 +8,8 @@ import java.util.Optional;
 
 public class ActivePiece implements Piece {
 
-    protected final PieceType pieceType;
-    protected final Side side;
+    private final PieceType pieceType;
+    private final Side side;
     private final Movement movement;
 
     public ActivePiece(PieceType pieceType, Side side, Movement movement) {
