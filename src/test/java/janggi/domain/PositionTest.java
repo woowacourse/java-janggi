@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class PositionTest {
@@ -63,15 +64,6 @@ class PositionTest {
     }
 
     @Test
-    void 두_지점_사이의_차이를_절대값으로_반환한다() {
-        Position p1 = new Position(4, 6);
-        Position p2 = new Position(3, 9);
-
-        assertThat(p1.getDeltaX(p2)).isEqualTo(1);
-        assertThat(p1.getDeltaY(p2)).isEqualTo(3);
-    }
-
-    @Test
     void 특정_범위_안에_있는지_확인한다() {
         Position position = new Position(2, 5);
 
@@ -80,6 +72,41 @@ class PositionTest {
 
         assertThat(position.isRange(1, 2, 1,4)).isFalse();
         assertThat(position.isRange(2,2, 1,4)).isFalse();
+    }
+
+    @Test
+    void 두_좌표_사이의_방향을_계산한다() {
+        Position start = new Position(5, 5);
+
+        assertThat(start.calculateDirection(new Position(3, 5))).isEqualTo(Movement.UP);
+        assertThat(start.calculateDirection(new Position(7, 7))).isEqualTo(Movement.DOWN_RIGHT);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "7, 6",
+            "6, 9",
+            "2, 4"
+    })
+    void 직선이나_대각선이_아닌_방향_계산_시_예외가_발생한다(int x, int y) {
+        Position start = new Position(5, 5);
+        Position invalidTarget = new Position(x, y);
+
+        assertThatThrownBy(() -> start.calculateDirection(invalidTarget))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessage(Movement.INVALID_DELTA_DIRECTION_MESSAGE);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "5, 8, 3",
+            "3, 3, 2",
+            "1, 5, 4"
+    })
+    void 두_직선_좌표_사이의_거리를_계산한다(int x, int y, int distance) {
+        Position start = new Position(5, 5);
+
+        assertThat(start.calculateLinearDistance(new Position(x, y))).isEqualTo(distance);
     }
 
 }

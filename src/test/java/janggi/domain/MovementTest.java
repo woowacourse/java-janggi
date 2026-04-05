@@ -29,4 +29,26 @@ public class MovementTest {
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessage("해당 dx,dy에 대한 movement가 없습니다.");
     }
+
+    @ParameterizedTest
+    @CsvSource({
+            "UP",
+            "DOWN",
+            "LEFT",
+            "RIGHT"
+    })
+    void 상하좌우_방향의_경우_isDiagonal은_false를_반환한다(Movement movement) {
+        assertThat(movement.isDiagonal()).isFalse();
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "UP_RIGHT",
+            "UP_LEFT",
+            "DOWN_RIGHT",
+            "DOWN_LEFT"
+    })
+    void 대각선_방향의_경우_isDiagonal은_false를_반환한다(Movement movement) {
+        assertThat(movement.isDiagonal()).isTrue();
+    }
 }
