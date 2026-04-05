@@ -1,6 +1,7 @@
 package janggi.repository;
 
 import janggi.config.DBConnection;
+import janggi.domain.game.GameStatus;
 import janggi.entity.GameEntity;
 import janggi.global.EntityMapper;
 import java.util.List;
@@ -19,15 +20,23 @@ public class GameRepositoryImpl implements GameRepository {
     @Override
     public long save(final GameEntity gameEntity) {
         final String sql = String.format(
-            "INSERT INTO %s (name, turns_taken, team_queue) VALUES (?, ?, ?)",
+            "INSERT INTO %s (name, turns_taken, team_queue, status) VALUES (?, ?, ?, ?)",
             TABLE_NAME);
         return dbConnection.executeUpdate(sql, gameEntity.name(), gameEntity.turns_taken(),
-            gameEntity.team_queue());
+            gameEntity.team_queue(), gameEntity.status());
     }
 
     @Override
     public boolean existsById(final long id) {
         return findById(id).isPresent();
+    }
+
+    @Override
+    public List<Long> findByStatusOrderByLatest(final GameStatus gameStatus, final int limit) {
+        final String sql = String.format(
+            "SELECT id FROM %s WHERE status = ? ORDER BY created_at DESC LIMIT ?", TABLE_NAME);
+
+        return dbConnection.executeSelectForIds(sql, gameStatus.name(), limit);
     }
 
     @Override
@@ -41,14 +50,15 @@ public class GameRepositoryImpl implements GameRepository {
     @Override
     public Optional<GameEntity> findById(final long targetId) {
         final String sql = String.format(
-            "SELECT id, name, turns_taken, team_queue FROM %s WHERE id = ?",
+            "SELECT id, name, turns_taken, team_queue, status FROM %s WHERE id = ?",
             TABLE_NAME);
         final EntityMapper<GameEntity> mapper = resultSet -> {
             long id = resultSet.getLong(1);
             String name = resultSet.getString(2);
             int turnsTaken = resultSet.getInt(3);
             String teamQueue = resultSet.getString(4);
-            return new GameEntity(id, name, turnsTaken, teamQueue);
+            String status = resultSet.getString(5);
+            return new GameEntity(id, name, turnsTaken, teamQueue, status);
         };
         return dbConnection.executeSelect(sql, mapper, targetId);
     }

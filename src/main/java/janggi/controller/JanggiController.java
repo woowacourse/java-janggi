@@ -56,9 +56,10 @@ public class JanggiController {
             OutputView.printGameLoadedMessage();
             return TurnManagerMapper.toDomain(gameService.loadGame(gameId));
         }
-        Team blueTeam = setupBlueTeam();
-        Team redTeam = setupRedTeam();
-        gameId = gameService.createNewGame("게임 1");
+        final Team blueTeam = setupBlueTeam();
+        final Team redTeam = setupRedTeam();
+        final TurnManager turnManager = TurnManager.init(blueTeam, redTeam);
+        gameId = gameService.createNewGame("게임 1", turnManager);
 
         return TurnManager.init(blueTeam, redTeam);
     }

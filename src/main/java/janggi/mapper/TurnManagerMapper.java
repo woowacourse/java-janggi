@@ -1,5 +1,6 @@
 package janggi.mapper;
 
+import janggi.domain.game.GameStatus;
 import janggi.domain.setup.InnerElephantSetupPolicy;
 import janggi.domain.team.BlueTeam;
 import janggi.domain.team.RedTeam;
@@ -28,11 +29,12 @@ public final class TurnManagerMapper {
         return new TurnManager(gameEntity.turns_taken(), teams);
     }
 
-    public static GameEntity toEntity(final int turnsTaken, final List<Team> teams) {
+    public static GameEntity toEntity(final int turnsTaken, final List<Team> teams, final
+    GameStatus gameStatus) {
         final List<TeamType> teamQueue = teams.stream()
             .map(Team::getTeamType)
             .toList();
 
-        return GameEntity.from("", turnsTaken, teamQueue);
+        return GameEntity.from("", turnsTaken, teamQueue, gameStatus);
     }
 }
