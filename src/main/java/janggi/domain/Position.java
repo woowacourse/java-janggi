@@ -1,5 +1,6 @@
 package janggi.domain;
 
+import janggi.exception.BusinessException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,32 +13,44 @@ public class Position {
     static {
         for (Row row : Row.values()) {
             for (Column column : Column.values()) {
-                CACHE.put(toKey(row, column), new Position(row, column));
+                CACHE.put(generateKey(row, column), new Position(row, column));
             }
         }
     }
 
-    private final Row x;
-    private final Column y;
+    private final Row row;
+    private final Column column;
 
-    private Position(Row x, Column y) {
-        this.x = x;
-        this.y = y;
+    private Position(Row row, Column column) {
+        this.row = row;
+        this.column = column;
     }
 
-    public static Position of(Row x, Column y) {
-        String key = toKey(x, y);
-        return CACHE.get(key);
+    public static Position of(Row row, Column column) {
+        String key = generateKey(row, column);
+        Position position = CACHE.get(key);
+        if (position == null) {
+            throw new BusinessException("존재하지 않는 좌표입니다.");
+        }
+        return position;
     }
 
-    private static String toKey(Row x, Column y) {
-        return x.getRow() + "," + y.getColumn();
+    private static String generateKey(Row row, Column column) {
+        return String.format("%d,%d", row.getRow(), column.getColumn());
+    }
+
+    public int getRowValue() {  // 이거 활용하도록 수정하기
+        return row.getRow();
+    }
+
+    public int getColumnValue() {
+        return column.getColumn();
     }
 
     public List<Integer> getPosition() {    // Position을 활용
         List<Integer> position = new ArrayList<>();
-        position.add(x.getRow());   // 캡슐화 깨짐
-        position.add(y.getColumn());
+        position.add(row.getRow());   // 캡슐화 깨짐
+        position.add(column.getColumn());
         return position;
     }
 
@@ -45,11 +58,11 @@ public class Position {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Position position = (Position) o;
-        return Objects.equals(x, position.x) && Objects.equals(y, position.y);
+        return Objects.equals(row, position.row) && Objects.equals(column, position.column);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(x, y);
+        return Objects.hash(row, column);
     }
 }
