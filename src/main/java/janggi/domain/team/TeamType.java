@@ -1,5 +1,7 @@
 package janggi.domain.team;
 
+import janggi.domain.Position;
+
 public enum TeamType {
     RED("한나라"),
     BLUE("초나라");
@@ -19,5 +21,12 @@ public enum TeamType {
             return BLUE;
         }
         return RED;
+    }
+
+    public Position adjustPosition(Position position) {
+        if (this == BLUE) {
+            return position.flipAroundMiddleRow();
+        }
+        return position;
     }
 }

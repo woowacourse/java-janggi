@@ -5,8 +5,6 @@ import janggi.domain.board.Board;
 import janggi.domain.board.BoardGenerator;
 import janggi.domain.board.setup.ElephantFormation;
 import janggi.domain.board.setup.SetupStrategy;
-import janggi.domain.team.BlueTeam;
-import janggi.domain.team.RedTeam;
 import janggi.domain.team.Team;
 import janggi.domain.team.TeamType;
 import janggi.domain.team.TurnManager;
@@ -22,7 +20,7 @@ public class JanggiController {
     }
 
     public void run() {
-        Board board = BoardGenerator.generate(setupRedTeam(), setupBlueTeam());
+        Board board = BoardGenerator.generate(setupTeam(TeamType.RED), setupTeam(TeamType.BLUE));
         TurnManager turnManager = new TurnManager();
         while (board.hasGeneral(turnManager.currentTeamType())) {
             playTurn(board, turnManager);
@@ -31,18 +29,11 @@ public class JanggiController {
         OutputView.printGameOverMessage(turnManager.currentTeamTypeToName());
     }
 
-    private Team setupRedTeam() {
-        OutputView.printSetupGuide(TeamType.RED);
+    private Team setupTeam(TeamType teamType) {
+        OutputView.printSetupGuide(teamType);
         final SetupStrategy setupStrategyCommand = RetryExecutor.retry(this::readSetupCommand);
         final ElephantFormation elephantFormation = setupStrategyCommand.toPolicy();
-        return new RedTeam(elephantFormation);
-    }
-
-    private Team setupBlueTeam() {
-        OutputView.printSetupGuide(TeamType.BLUE);
-        final SetupStrategy setupStrategyCommand = RetryExecutor.retry(this::readSetupCommand);
-        final ElephantFormation elephantFormation = setupStrategyCommand.toPolicy();
-        return new BlueTeam(elephantFormation);
+        return new Team(teamType, elephantFormation);
     }
 
     private SetupStrategy readSetupCommand() {
