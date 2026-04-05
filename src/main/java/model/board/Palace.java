@@ -37,25 +37,26 @@ public class Palace {
         if (!contains(move.to())) {
             return false;
         }
-        return isConnectedDiagonal(move);
+        return matchesRoute(move);
     }
 
-    private boolean isConnectedDiagonal(Move move) {
-        for(PalaceDiagonal diagonal: diagonals()){
-            if(diagonal.matches(move)){
+    private boolean matchesRoute(Move move) {
+        for(PalaceRoute route : routes()){
+            if(route.matches(move)){
                 return true;
             }
         }
         return false;
     }
 
-    private List<PalaceDiagonal> diagonals(){
-        Position center = center();
+    private List<PalaceRoute> routes(){
         return List.of(
-                new PalaceDiagonal(topLeft(), center),
-                new PalaceDiagonal(topRight(), center),
-                new PalaceDiagonal(bottomLeft(), center),
-                new PalaceDiagonal(bottomRight(), center)
+                new PalaceRoute(Move.of(topLeft(), center())),
+                new PalaceRoute(Move.of(center(), bottomRight())),
+                new PalaceRoute(Move.of(topRight(), center())),
+                new PalaceRoute(Move.of(center(), bottomLeft())),
+                new PalaceRoute(Move.of(topLeft(), bottomRight())),
+                new PalaceRoute(Move.of(topRight(), bottomLeft()))
         );
     }
 
