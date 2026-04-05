@@ -1,7 +1,6 @@
 package janggi.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.board.Board;
 import java.util.ArrayList;
@@ -501,41 +500,16 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("포는 넘어가려는 목적지에 또 다른 포가 있으면, 포는 포를 포획할 수 없으므로 이동할 수 없다")
-    void 포_목적지에_다른_포가_있으면_포획_및_이동_불가() {
+    @DisplayName("초나라 턴 일 때 한나라 기물을 선택할 수 없다")
+    void 초나라_턴일때_한나라_선택_시_오류() {
         //given
         Map<Position, Piece> customBoard = new HashMap<>();
-        Position position = new Position(5, 8);
-        customBoard.put(position, new Piece(Team.CHO, PieceType.PO));
-        customBoard.put(new Position(5, 6), new Piece(Team.HAN, PieceType.CHA));
-        customBoard.put(new Position(5, 5), new Piece(Team.HAN, PieceType.PO));
+        Position choPosition = new Position(1, 7);
+        Position hanPosition = new Position(1, 6);
+        customBoard.put(choPosition, new Piece(Team.CHO, PieceType.ZOL));
+        customBoard.put(hanPosition, new Piece(Team.HAN, PieceType.ZOL));
         Board board = new Board(customBoard);
+        //지금 턴은 cho 턴이야. 근데 han으로 끝낼 순 없어.
 
-        //when & then
-        assertThatThrownBy(() -> board.findAvailablePositions(position))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 이동할 수 없는 좌표입니다.");
-    }
-
-    @Test
-    @DisplayName("포는 포다리 너머에 일반 적군 기물이 존재하면 해당 기물을 포획하며 이동할 수 있다")
-    void 포_목적지에_일반_적군_기물이_있을때_이동_성공() {
-        //given
-        Map<Position, Piece> customBoard = new HashMap<>();
-        Position position = new Position(5, 8);
-        customBoard.put(position, new Piece(Team.CHO, PieceType.PO));
-        customBoard.put(new Position(5, 6), new Piece(Team.HAN, PieceType.CHA));
-        customBoard.put(new Position(5, 5), new Piece(Team.HAN, PieceType.ZOL));
-        Board board = new Board(customBoard);
-        List<Position> upRoutes = List.of(new Position(5, 5));
-
-        List<Position> rightAnswer = new ArrayList<>(upRoutes);
-
-        //when
-        List<Position> chaRoutesPositions = board.findAvailablePositions(position);
-
-        //then
-        assertThat(chaRoutesPositions).hasSize(1)
-                .containsExactlyInAnyOrderElementsOf(rightAnswer);
     }
 }

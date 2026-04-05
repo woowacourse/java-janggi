@@ -91,10 +91,11 @@ public class OutputView {
         return HAN_COLOR;
     }
 
-    public void printTurnMessage(boolean isChoTurn) {
-        if (isChoTurn) {
-            System.out.println(CHO_COLOR + "\n현재 초나라 차례입니다" + RESET);
-        } else {
+    public void printTurnMessage(Team team) {
+        if (team == Team.CHO) {
+            System.out.println(CHO_COLOR + "\n초나라 차례입니다" + RESET);
+        }
+        if (team == Team.HAN) {
             System.out.println(HAN_COLOR + "\n한나라 차례입니다" + RESET);
         }
     }

@@ -1,9 +1,11 @@
-package janggi.controller;
+package janggi;
 
 import janggi.domain.Piece;
 import janggi.domain.Position;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardFactory;
+import janggi.domain.turn.ChoTurn;
+import janggi.domain.turn.Turn;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.List;
@@ -14,31 +16,30 @@ public class JanggiGame {
 
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();
-    private boolean isChoTurn = true;
 
     public void run() {
         Board board = initializeBoard();
+        Turn currentTurn = new ChoTurn();
         outputView.printBoard(board.getBoard());
         while (true) {
-            isChoTurn = playTurn(board);
+            currentTurn = playTurn(currentTurn, board);
         }
-    }
-
-    private boolean playTurn(Board board) {
-        outputView.printTurnMessage(isChoTurn);
-        Position movePiecePosition = choosePieceToMove(board);
-        List<Position> availablePositions = board.findAvailablePositions(movePiecePosition);
-        outputView.printAvailablePositions(board.getBoard(), availablePositions);
-        Position targetPosition = chooseTargetPosition(board, movePiecePosition);
-        board.movePiece(movePiecePosition, targetPosition);
-        outputView.printBoard(board.getBoard());
-        isChoTurn = !isChoTurn;
-        return isChoTurn;
     }
 
     private Board initializeBoard() {
         Map<Position, Piece> initBoard = BoardFactory.settingUpBoard();
         return new Board(initBoard);
+    }
+
+    private Turn playTurn(Turn currentTurn, Board board) {
+        outputView.printTurnMessage(currentTurn.getTeam());
+        Position sourcePosition = choosePieceToMove(currentTurn, board);
+        List<Position> availablePositions = board.findAvailablePositions(sourcePosition);
+        outputView.printAvailablePositions(board.getBoard(), availablePositions);
+        Position targetPosition = chooseTargetPosition(board, sourcePosition);
+        Turn nextTurn = currentTurn.move(sourcePosition, targetPosition, board);
+        outputView.printBoard(board.getBoard());
+        return nextTurn;
     }
 
     private Position chooseTargetPosition(Board board, Position movePiecePosition) {
@@ -50,10 +51,12 @@ public class JanggiGame {
         });
     }
 
-    private Position choosePieceToMove(Board board) {
+    private Position choosePieceToMove(Turn turn, Board board) {
         return retry(() -> {
             outputView.printMoveInfo();
             Position position = inputView.readPosition();
+            turn.validateIsNull(board.getPiece(position));
+            turn.validateTurn(board.getPiece(position));
             board.findAvailablePositions(position);
             return position;
         });

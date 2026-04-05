@@ -185,4 +185,8 @@ public class Board {
             throw new IllegalArgumentException("[ERROR] 이동할 수 없는 좌표입니다.");
         }
     }
+
+    public Piece getPiece(Position position) {
+        return board.get(position);
+    }
 }
