@@ -8,12 +8,11 @@ import janggi.domain.position.Position;
 import java.util.Map;
 
 public class Horse extends Piece {
-    private static final HorseStrategy HORSE_STRATEGY = new HorseStrategy();
     private static final PieceName HORSE_NAME = new PieceName("馬", "馬");
     private static final Score HORSE_SCORE = new Score(5);
 
     public Horse(Camp camp) {
-        super(camp, HORSE_STRATEGY, HORSE_NAME, HORSE_SCORE);
+        super(camp, HorseStrategy.getInstance(), HORSE_NAME, HORSE_SCORE);
     }
 
     @Override

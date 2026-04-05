@@ -8,6 +8,17 @@ import janggi.domain.position.Position;
 import java.util.Optional;
 
 public class PalaceStrategy implements MoveStrategy {
+    private PalaceStrategy() {
+    }
+
+    private static class SingleInstanceHolder{
+        private static final PalaceStrategy INSTANCE = new PalaceStrategy();
+    }
+
+    public static PalaceStrategy getInstance() {
+        return SingleInstanceHolder.INSTANCE;
+    }
+
     @Override
     public Paths findMovablePaths(Position current) {
         return new Paths(

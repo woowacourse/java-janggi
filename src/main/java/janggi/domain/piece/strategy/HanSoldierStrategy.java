@@ -9,6 +9,17 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 public class HanSoldierStrategy implements MoveStrategy {
+    private HanSoldierStrategy(){
+    }
+
+    private static class SingleInstanceHolder{
+        private static final HanSoldierStrategy INSTANCE = new HanSoldierStrategy();
+    }
+
+    public static HanSoldierStrategy getInstance() {
+        return SingleInstanceHolder.INSTANCE;
+    }
+
     @Override
     public Paths findMovablePaths(Position current) {
         return new Paths(Stream.of(

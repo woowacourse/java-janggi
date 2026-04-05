@@ -10,6 +10,17 @@ import java.util.List;
 import java.util.Optional;
 
 public class LinearStrategy implements MoveStrategy {
+    private LinearStrategy() {
+    }
+
+    private static class SingleInstanceHolder {
+        private static final LinearStrategy INSTANCE = new LinearStrategy();
+    }
+
+    public static LinearStrategy getInstance(){
+        return SingleInstanceHolder.INSTANCE;
+    }
+
     @Override
     public Paths findMovablePaths(Position current) {
         List<Path> paths = new ArrayList<>();

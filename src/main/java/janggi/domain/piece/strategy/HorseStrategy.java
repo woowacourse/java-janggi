@@ -10,6 +10,17 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 public class HorseStrategy implements MoveStrategy {
+    private HorseStrategy() {
+    }
+
+    private static class SingleInstanceHolder{
+        private static final HorseStrategy INSTANCE = new HorseStrategy();
+    }
+
+    public static HorseStrategy getInstance() {
+        return SingleInstanceHolder.INSTANCE;
+    }
+
     @Override
     public Paths findMovablePaths(Position current) {
         return new Paths(Stream.of(

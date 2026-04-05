@@ -11,15 +11,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 class MoveStrategyTest {
-    private static final int MIN_INDEX = 0;
-    private static final int MAX_ROW_INDEX = 9;
-    private static final int MAX_COL_INDEX = 8;
-
     @Nested
     class 병_이동_테스트 {
         @Test
         void 초나라_병은_앞과_양_옆으로_움직인다() {
-            MoveStrategy strategy = new ChoSoldierStrategy();
+            MoveStrategy strategy = ChoSoldierStrategy.getInstance();
             Paths paths = strategy.findMovablePaths(Position.of(4, 4));
             assertThat(paths.findPathByDestination(Position.of(5, 4))).isEqualTo(Path.of(Position.of(5, 4)));
             assertThat(paths.findPathByDestination(Position.of(4, 5))).isEqualTo(Path.of(Position.of(4, 5)));
@@ -28,7 +24,7 @@ class MoveStrategyTest {
 
         @Test
         void 한나라_병은_앞과_양_옆으로_움직인다() {
-            MoveStrategy strategy = new HanSoldierStrategy();
+            MoveStrategy strategy = HanSoldierStrategy.getInstance();
             Paths paths = strategy.findMovablePaths(Position.of(4, 4));
             assertThat(paths.findPathByDestination(Position.of(3, 4))).isEqualTo(Path.of(Position.of(3, 4)));
             assertThat(paths.findPathByDestination(Position.of(4, 5))).isEqualTo(Path.of(Position.of(4, 5)));
@@ -41,8 +37,8 @@ class MoveStrategyTest {
 
         @DisplayName("사는 현재 위치에서 앞, 뒤, 양 옆을 1칸씩의 좌표를 도착지점 후보로 반환한다")
         @Test
-        void 사는_앞뒤_양옆으로_움직인다() {
-            MoveStrategy strategy = new PalaceStrategy();
+        void 궁_내부는_앞뒤_양옆으로_움직인다() {
+            MoveStrategy strategy = PalaceStrategy.getInstance();
             Paths paths = strategy.findMovablePaths(Position.of(4, 4));
             assertThat(paths.findPathByDestination(Position.of(5, 4))).isEqualTo(Path.of(Position.of(5, 4)));
             assertThat(paths.findPathByDestination(Position.of(3, 4))).isEqualTo(Path.of(Position.of(3, 4)));
@@ -56,7 +52,7 @@ class MoveStrategyTest {
 
         @Test
         void 마는_직선_한칸_후_대각선_한칸으로_이동한다() {
-            MoveStrategy strategy = new HorseStrategy();
+            MoveStrategy strategy = HorseStrategy.getInstance();
             Paths paths = strategy.findMovablePaths(Position.of(4, 4));
 
             assertThat(paths.findPathByDestination(Position.of(6, 5)).isDestination(Position.of(6, 5))).isTrue();
@@ -75,7 +71,7 @@ class MoveStrategyTest {
 
         @Test
         void 상은_직선_한칸_후_대각선_두칸으로_이동한다() {
-            MoveStrategy strategy = new ElephantStrategy();
+            MoveStrategy strategy = ElephantStrategy.getInstance();
             Paths paths = strategy.findMovablePaths(Position.of(4, 4));
 
             assertThat(paths.findPathByDestination(Position.of(7, 6)).isDestination(Position.of(7, 6))).isTrue();
@@ -94,7 +90,7 @@ class MoveStrategyTest {
         @Test
         @DisplayName("포는 현재 위치에서 가로와 세로 직선상의 모든 좌표를 후보로 반환한다")
         void findMovablePaths_ReturnAllLinearCandidates() {
-            MoveStrategy strategy = new LinearStrategy();
+            MoveStrategy strategy = LinearStrategy.getInstance();
             Paths paths = strategy.findMovablePaths(Position.of(4, 4));
 
             for (int c = 0; c <= 8; c++) {

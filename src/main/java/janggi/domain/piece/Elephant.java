@@ -8,12 +8,11 @@ import janggi.domain.position.Position;
 import java.util.Map;
 
 public class Elephant extends Piece {
-    private static final ElephantStrategy ELEPHANT_STRATEGY = new ElephantStrategy();
     private static final PieceName ELEPHANT_NAME = new PieceName("象", "象");
     private static final Score ELEPHANT_SCORE = new Score(3);
 
     public Elephant(Camp camp) {
-        super(camp, ELEPHANT_STRATEGY, ELEPHANT_NAME, ELEPHANT_SCORE);
+        super(camp, ElephantStrategy.getInstance(), ELEPHANT_NAME, ELEPHANT_SCORE);
     }
 
     @Override

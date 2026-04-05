@@ -8,12 +8,11 @@ import janggi.domain.position.Position;
 import java.util.Map;
 
 public class Advisor extends Piece {
-    private static final PalaceStrategy PALACE_STRATEGY = new PalaceStrategy();
     private static final PieceName ADVISOR_NAME = new PieceName("士", "仕");
     private static final Score ADVISOR_SCORE = new Score(3);
 
     public Advisor(Camp camp) {
-        super(camp, PALACE_STRATEGY, ADVISOR_NAME, ADVISOR_SCORE);
+        super(camp, PalaceStrategy.getInstance(), ADVISOR_NAME, ADVISOR_SCORE);
     }
 
     @Override

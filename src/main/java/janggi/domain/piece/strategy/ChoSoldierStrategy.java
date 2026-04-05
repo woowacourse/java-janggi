@@ -9,6 +9,17 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 public class ChoSoldierStrategy implements MoveStrategy {
+    private ChoSoldierStrategy(){
+    }
+
+    private static class SingleInstanceHolder{
+        private static final ChoSoldierStrategy INSTANCE = new ChoSoldierStrategy();
+    }
+
+    public static ChoSoldierStrategy getInstance() {
+        return SingleInstanceHolder.INSTANCE;
+    }
+
     @Override
     public Paths findMovablePaths(Position current) {
         return new Paths(Stream.of(

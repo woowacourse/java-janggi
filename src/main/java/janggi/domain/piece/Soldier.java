@@ -10,8 +10,6 @@ import janggi.domain.position.Position;
 import java.util.Map;
 
 public class Soldier extends Piece {
-    private static final ChoSoldierStrategy CHO_SOLDIER_STRATEGY = new ChoSoldierStrategy();
-    private static final HanSoldierStrategy HAN_SOLDIER_STRATEGY = new HanSoldierStrategy();
     private static final PieceName SOLDIER_NAME = new PieceName("卒", "兵");
     private static final Score SOLDIER_SCORE = new Score(2);
 
@@ -21,9 +19,9 @@ public class Soldier extends Piece {
 
     private static MoveStrategy createStrategy(Camp camp) {
         if (camp.isCho()) {
-            return CHO_SOLDIER_STRATEGY;
+            return ChoSoldierStrategy.getInstance();
         }
-        return HAN_SOLDIER_STRATEGY;
+        return HanSoldierStrategy.getInstance();
     }
 
     @Override
