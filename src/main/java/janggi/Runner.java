@@ -140,9 +140,12 @@ public class Runner {
     }
 
     private void endGame(int gameId) {
-        janggiService.removeGame(gameId);
         Side winnerSide = game.getWinnerSide();
         OutputView.printWinner(winnerSide);
+        if(!game.isFinished()) {
+            OutputView.printScore(game.getCurrentSideScore());
+        }
+        janggiService.removeGame(gameId);
     }
 
     private boolean consentEndGame(int gameId) {

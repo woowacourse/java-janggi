@@ -29,7 +29,7 @@ public abstract class BaseTurn implements PlayerTurn {
 
     @Override
     public Side getWinnerSide() {
-        return Side.EMPTY;
+        return board.getHighestScoreSide();
     }
 
     @Override
