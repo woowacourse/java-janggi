@@ -22,7 +22,7 @@ public class Board {
         return new Board(board);
     }
 
-    public void tryToMove(final Position from, final Position to) {
+    public Optional<Piece> tryToMove(final Position from, final Position to) {
         Piece fromPiece = findPieceByPosition(from)
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 위치에 기물이 존재하지 않습니다."));
 
@@ -30,7 +30,7 @@ public class Board {
             throw new IllegalArgumentException("[ERROR] 해당 위치로 움직일 수 없습니다.");
         }
 
-        movePiece(from, to, fromPiece);
+        return movePiece(from, to, fromPiece);
     }
 
     public boolean isExistPosition(final Position tempPosition) {
@@ -65,8 +65,11 @@ public class Board {
         return Map.copyOf(board);
     }
 
-    private void movePiece(Position from, Position to, Piece fromPiece) {
+    private Optional<Piece> movePiece(Position from, Position to, Piece fromPiece) {
+        Optional<Piece> capturedPiece = findPieceByPosition(to);
+
         board.remove(from);
         board.put(to, fromPiece);
+        return capturedPiece;
     }
 }

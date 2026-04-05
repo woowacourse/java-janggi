@@ -23,7 +23,7 @@ public class JanggiController {
         Game game = Game.of(board);
 
         while (true) {
-            boolean isContinue = move(board, game);
+            boolean isContinue = move(game);
 
             if (!isContinue) {
                 break;
@@ -31,14 +31,15 @@ public class JanggiController {
         }
     }
 
-    private boolean move(Board board, Game game) {
+    private boolean move(Game game) {
         try {
+            Board board = game.getBoard();
             String currentInput = inputView.readPosition(game.getTurnName());
             if (currentInput.equals("n")) {
                 return false;
             }
             Position currentPosition = parsePosition(currentInput);
-            
+
             Piece piece = board.findPieceByPosition(currentPosition)
                     .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 위치에 기물이 존재하지 않습니다."));
             game.checkTurn(piece.getTeam());
@@ -49,14 +50,14 @@ public class JanggiController {
             }
             Position targetPosition = parsePosition(targetInput);
 
-            board.tryToMove(currentPosition, targetPosition);
-            game.nextTurn();
+            game.tryToMove(currentPosition, targetPosition);
+
             outputView.printBoard(board.getBoard());
             return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.out.println();
-            return move(board, game);
+            return move(game);
         }
     }
 
