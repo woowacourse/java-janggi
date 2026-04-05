@@ -5,7 +5,7 @@ import domain.piece.Piece;
 import domain.piece.PieceType;
 
 public record PathInfo(Position position, Piece piece) {
-    public boolean hasPiece(){
+    public boolean hasPiece() {
         return piece != null;
     }
 

@@ -2,7 +2,6 @@ package domain.piece.strategy;
 
 import domain.board.Position;
 import domain.path.Direction;
-import domain.path.PathGenerator;
 
 import java.util.List;
 
@@ -13,7 +12,7 @@ public abstract class SingleStepLinearMoveStrategy implements MoveStrategy {
 
         validateDirection(direction);
 
-        return PathGenerator.generateStraightPath(departure, destination, direction);
+        return List.of(destination);
     }
 
     protected void validateDirection(Direction direction) {
