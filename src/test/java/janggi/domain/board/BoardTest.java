@@ -19,12 +19,13 @@ class BoardTest {
     @DisplayName("기물이 없는 좌표에서 이동을 시작하면 예외가 발생한다.")
     void testStartMoveFromEmptyPosition() {
         // given
+        Team team = Team.HAN;
         Map<Position, Piece> pieces = new LinkedHashMap<>();
         pieces.put(new Position(1, 1), PieceFactory.createChariot(Team.HAN));
         Board board = new Board(pieces);
 
         // when & then
-        assertThatThrownBy(() -> board.move(new Position(5, 5), new Position(5, 6)))
+        assertThatThrownBy(() -> board.move(new Position(5, 5), new Position(5, 6), team))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 좌표에는 기물이 존재하지 않습니다.");
     }
@@ -38,7 +39,7 @@ class BoardTest {
         Board board = new Board(pieces);
 
         // when & then
-        assertThatThrownBy(() -> board.move(new Position(1, 10), new Position(1, 9)))
+        assertThatThrownBy(() -> board.move(new Position(1, 10), new Position(1, 9), Team.HAN))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("현재 턴의 기물이 아닙니다.");
     }
@@ -47,12 +48,13 @@ class BoardTest {
     @DisplayName("이동 성공 시 기물의 위치가 변경된다.")
     void testChangesPosition() {
         // given
+        Team team = Team.HAN;
         Map<Position, Piece> pieces = new LinkedHashMap<>();
-        pieces.put(new Position(1, 1), PieceFactory.createChariot(Team.HAN));
+        pieces.put(new Position(1, 1), PieceFactory.createChariot(team));
         Board board = new Board(pieces);
 
         // when
-        board.move(new Position(1, 1), new Position(1, 5));
+        board.move(new Position(1, 1), new Position(1, 5), team);
 
         // then
         assertThat(board.getBoard().containsKey(new Position(1, 5))).isTrue();
@@ -63,13 +65,14 @@ class BoardTest {
     @DisplayName("경로에 기물이 있으면 차는 이동할 수 없다.")
     void testChariotBlockedByPieceInPath() {
         // given
+        Team team = Team.HAN;
         Map<Position, Piece> pieces = new LinkedHashMap<>();
-        pieces.put(new Position(1, 1), PieceFactory.createChariot(Team.HAN));
+        pieces.put(new Position(1, 1), PieceFactory.createChariot(team));
         pieces.put(new Position(1, 3), PieceFactory.createSolider(Team.CHO, BoardDirection.DOWN));
         Board board = new Board(pieces);
 
         // when & then
-        assertThatThrownBy(() -> board.move(new Position(1, 1), new Position(1, 5)))
+        assertThatThrownBy(() -> board.move(new Position(1, 1), new Position(1, 5), team))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -77,13 +80,14 @@ class BoardTest {
     @DisplayName("도착지에 같은 팀 기물이 있으면 이동할 수 없다.")
     void testNotMoveSameSidePieceAtDestination() {
         // given
+        Team team = Team.HAN;
         Map<Position, Piece> pieces = new LinkedHashMap<>();
-        pieces.put(new Position(1, 1), PieceFactory.createChariot(Team.HAN));
-        pieces.put(new Position(1, 5), PieceFactory.createChariot(Team.HAN));
+        pieces.put(new Position(1, 1), PieceFactory.createChariot(team));
+        pieces.put(new Position(1, 5), PieceFactory.createChariot(team));
         Board board = new Board(pieces);
 
         // when & then
-        assertThatThrownBy(() -> board.move(new Position(1, 1), new Position(1, 5)))
+        assertThatThrownBy(() -> board.move(new Position(1, 1), new Position(1, 5), team))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -91,13 +95,14 @@ class BoardTest {
     @DisplayName("도착지에 상대 팀 기물이 있으면 잡고 이동한다.")
     void testChangePositionWhenOtherSidePieceAtDestination() {
         // given
+        Team team = Team.HAN;
         Map<Position, Piece> pieces = new LinkedHashMap<>();
-        pieces.put(new Position(1, 1), PieceFactory.createChariot(Team.HAN));
+        pieces.put(new Position(1, 1), PieceFactory.createChariot(team));
         pieces.put(new Position(1, 5), PieceFactory.createSolider(Team.CHO, BoardDirection.DOWN));
         Board board = new Board(pieces);
 
         // when & then
-        board.move(new Position(1, 1), new Position(1, 5));
+        board.move(new Position(1, 1), new Position(1, 5), team);
         assertThat(board.getBoard().get(new Position(1, 5))).isInstanceOf(Piece.class);
         assertThat(board.getBoard().size()).isEqualTo(1);
     }
@@ -131,7 +136,7 @@ class BoardTest {
         Board board = new Board(pieces);
 
         // when
-        board.move(new Position(1, 1), new Position(1, 5));
+        board.move(new Position(1, 1), new Position(1, 5), Team.HAN);
 
         // then
         assertThat(board.calculateScore(Team.HAN)).isEqualTo(new Score(20));
