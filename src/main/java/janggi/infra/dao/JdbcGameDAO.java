@@ -1,9 +1,14 @@
 package janggi.infra.dao;
 
+import janggi.domain.dynasty.Dynasty;
+import janggi.domain.game.RoomName;
 import janggi.infra.entity.GameEntity;
-import janggi.infra.transaction.ConnectionProvider;
+import janggi.infra.util.ConnectionProvider;
+import janggi.infra.util.DataSourceUtils;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
@@ -33,6 +38,8 @@ public class JdbcGameDAO implements GameDAO {
             return getGeneratedKey(pstmt);
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            DataSourceUtils.releaseConnection(connection);
         }
     }
 
@@ -47,5 +54,31 @@ public class JdbcGameDAO implements GameDAO {
     @Override
     public Optional<GameEntity> findById(Long id) {
         return Optional.empty();
+    }
+
+    @Override
+    public List<GameEntity> findAllOrderByLastPlayedAtDESC() {
+        Connection connection = connectionProvider.getConnection();
+        try (
+                PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM game ORDER BY last_played_at DESC")
+        ) {
+
+            List<GameEntity> gameEntities = new ArrayList<>();
+            ResultSet resultSet = pstmt.executeQuery();
+            while (resultSet.next()) {
+                gameEntities.add(new GameEntity(
+                                resultSet.getLong("game_id"),
+                                new RoomName(resultSet.getString("room_name")),
+                                Dynasty.valueOf(resultSet.getString("last_turn")),
+                                resultSet.getTimestamp("last_played_at").toLocalDateTime()
+                        )
+                );
+            }
+            return gameEntities;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            DataSourceUtils.releaseConnection(connection);
+        }
     }
 }

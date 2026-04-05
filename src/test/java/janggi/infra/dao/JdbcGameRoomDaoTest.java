@@ -4,7 +4,7 @@ import janggi.domain.dynasty.Dynasty;
 import janggi.domain.game.RoomName;
 import janggi.infra.config.TestDataSourceConfig;
 import janggi.infra.entity.GameEntity;
-import janggi.infra.transaction.ConnectionProvider;
+import janggi.infra.util.ConnectionProvider;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

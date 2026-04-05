@@ -2,7 +2,8 @@ package janggi.infra.dao;
 
 import janggi.domain.position.Position;
 import janggi.infra.entity.PiecePositionEntity;
-import janggi.infra.transaction.ConnectionProvider;
+import janggi.infra.util.ConnectionProvider;
+import janggi.infra.util.DataSourceUtils;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 public class JdbcPiecePositionDAO implements PiecePositionDAO {
 
-    private static final String SAVE_ALL_SQL = "INSERT INTO piece_position(janggi_game_id, piece_row, piece_column, piece_type, dynasty) VALUES";
+    private static final String SAVE_ALL_SQL = "INSERT INTO piece_position(game_id, piece_row, piece_column, piece_type, dynasty) VALUES";
 
     private final ConnectionProvider connectionProvider;
 
@@ -36,6 +37,8 @@ public class JdbcPiecePositionDAO implements PiecePositionDAO {
             return getGeneratedKeys(pstmt, piecePositionEntities.size());
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            DataSourceUtils.releaseConnection(con);
         }
     }
 

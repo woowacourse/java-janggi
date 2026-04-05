@@ -1,4 +1,4 @@
-package janggi.infra.transaction;
+package janggi.infra.util;
 
 
 import javax.sql.DataSource;

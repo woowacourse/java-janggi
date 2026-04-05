@@ -1,5 +1,7 @@
 package janggi.infra.transaction;
 
+import janggi.infra.util.ConnectionHolder;
+
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
