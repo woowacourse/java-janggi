@@ -42,8 +42,20 @@ public class GameJdbcRepository implements GameRepository {
     @Override
     public int save(Connection connection, String turn) throws SQLException {
         PreparedStatement stmt = connection.prepareStatement(
-                "INSERT INTO game (current_turn) VALUES (?)");
+                "INSERT INTO game (current_turn) VALUES (?)",
+                PreparedStatement.RETURN_GENERATED_KEYS);
         stmt.setString(1, turn);
-        return stmt.executeUpdate();
+        stmt.executeUpdate();
+        ResultSet rs = stmt.getGeneratedKeys();
+        return rs.getInt(1);
+    }
+
+    @Override
+    public void updateTurn(Connection connection, int gameId, String turn) throws SQLException {
+        PreparedStatement stmt = connection.prepareStatement(
+                "UPDATE game SET current_turn = ? WHERE id = ?");
+        stmt.setString(1, turn);
+        stmt.setInt(2, gameId);
+        stmt.executeUpdate();
     }
 }

@@ -15,4 +15,6 @@ public interface GameRepository {
     Optional<GameDto> findOngoingGame(Connection connection) throws SQLException;
 
     int save(Connection connection, String turn) throws SQLException;
+
+    void updateTurn(Connection connection, int gameId, String turn) throws SQLException;
 }

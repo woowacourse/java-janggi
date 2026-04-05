@@ -2,6 +2,7 @@ package service;
 
 import domain.board.Board;
 import domain.board.BoardFactory;
+import dto.PieceDto;
 import dto.PieceSnapshot;
 import repository.JanggiRepository;
 
@@ -16,7 +17,6 @@ public class JanggiService {
 
     public JanggiService(JanggiRepository janggiRepository) {
         this.janggiRepository = janggiRepository;
-
     }
 
     public void setUp(Connection connection) throws SQLException {
@@ -29,5 +29,11 @@ public class JanggiService {
 
     public void save(Connection connection, int gameId, List<PieceSnapshot> pieceSnapshots) throws SQLException {
         janggiRepository.save(connection, gameId, pieceSnapshots);
+    }
+
+    public void update(Connection connection, int gameId, List<Integer> from, List<Integer> to) throws SQLException {
+        PieceDto piece = janggiRepository.findPieceByPosition(connection, gameId, from);
+        janggiRepository.updateFrom(connection, gameId, from);
+        janggiRepository.updateTo(connection, gameId, to, piece.pieceType(), piece.team());
     }
 }

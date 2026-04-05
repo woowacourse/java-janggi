@@ -56,6 +56,7 @@ public class JanggiController {
         Retry.repeatUntilSuccess(() -> {
             List<Integer> to = inputView.inputDestination();
             janggiGame.start(from, to);
+            facadeService.update(from, to, janggiGame.getTurn());
             outputView.printBoard(janggiGame.gameSnapshot());
         });
     }

@@ -32,4 +32,8 @@ public class GameService {
     public int save(Connection connection, String turn) throws SQLException {
         return gameRepository.save(connection, turn);
     }
+
+    public void updateTurn(Connection connection, int gameId, String turn) throws SQLException {
+        gameRepository.updateTurn(connection, gameId, turn);
+    }
 }

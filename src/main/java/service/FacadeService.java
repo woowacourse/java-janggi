@@ -49,6 +49,7 @@ public class FacadeService {
             int gameId = gameService.save(connection, turn);
             janggiService.save(connection, gameId, pieceSnapshots);
             connection.commit();
+            connection.setAutoCommit(true);
         } catch (SQLException e) {
             rollback();
             throw new RuntimeException(e);
@@ -67,6 +68,20 @@ public class FacadeService {
         try {
             connection.rollback();
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void update(List<Integer> from, List<Integer> to, String turn) {
+        try {
+            connection.setAutoCommit(false);
+            int gameId = gameService.findOngoingGame(connection).id();
+            janggiService.update(connection, gameId, from, to);
+            gameService.updateTurn(connection, gameId, turn);
+            connection.commit();
+            connection.setAutoCommit(true); // 추가
+        } catch (SQLException e) {
+            rollback();
             throw new RuntimeException(e);
         }
     }

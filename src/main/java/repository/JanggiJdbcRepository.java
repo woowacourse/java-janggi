@@ -65,4 +65,37 @@ public class JanggiJdbcRepository implements JanggiRepository {
         }
         stmt.executeBatch();
     }
+
+    @Override
+    public void updateFrom(Connection connection, int gameId, List<Integer> from) throws SQLException {
+        PreparedStatement stmt = connection.prepareStatement(
+                "UPDATE board SET piece_type = 'EMPTY', team = 'NONE' WHERE game_id = ? AND column = ? AND row = ?");
+        stmt.setInt(1, gameId);
+        stmt.setInt(2, from.get(0));
+        stmt.setInt(3, from.get(1));
+        stmt.executeUpdate();
+    }
+
+    @Override
+    public PieceDto findPieceByPosition(Connection connection, int gameId, List<Integer> from) throws SQLException {
+        PreparedStatement stmt = connection.prepareStatement(
+                "SELECT piece_type, team FROM board WHERE game_id = ? AND column = ? AND row = ?");
+        stmt.setInt(1, gameId);
+        stmt.setInt(2, from.get(0));
+        stmt.setInt(3, from.get(1));
+        ResultSet rs = stmt.executeQuery();
+        return new PieceDto(from.get(0), from.get(1), rs.getString(PIECE_TYPE), rs.getString(TEAM));
+    }
+
+    @Override
+    public void updateTo(Connection connection, int gameId, List<Integer> to, String pieceType, String team) throws SQLException {
+        PreparedStatement stmt = connection.prepareStatement(
+                "UPDATE board SET piece_type = ?, team = ? WHERE game_id = ? AND column = ? AND row = ?");
+        stmt.setString(1, pieceType);
+        stmt.setString(2, team);
+        stmt.setInt(3, gameId);
+        stmt.setInt(4, to.get(0));
+        stmt.setInt(5, to.get(1));
+        stmt.executeUpdate();
+    }
 }
