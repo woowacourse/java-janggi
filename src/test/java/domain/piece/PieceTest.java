@@ -82,6 +82,49 @@ class PieceTest {
                         .as("적군이 있는 곳으로는 이동할 수 있다")
                         .contains(placedSameSidePieceIntersection);
             }
+
+            @DisplayName("궁성에 있는 경우 대각선으로 이동할 수 있다")
+            @Nested
+            class 궁성에서_대각선_이동_가능 {
+
+                private final AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
+
+                @DisplayName("초(CHO)")
+                @Test
+                void 초_진영() {
+                    Piece solider = Piece.of(PieceType.SOLDIER, Side.CHO);
+
+                    List<Intersection> movableDestinations
+                            = solider.movableDestinations(position(2, 5), emptyAlivePieces);
+
+                    assertThat(movableDestinations)
+                            .containsExactlyInAnyOrder(
+                                    position(1, 4),
+                                    position(1, 5),
+                                    position(1, 6),
+                                    position(2, 4),
+                                    position(2, 6)
+                            );
+                }
+
+                @DisplayName("초(HAN)")
+                @Test
+                void 한_진영() {
+                    Piece solider = Piece.of(PieceType.SOLDIER, Side.HAN);
+
+                    List<Intersection> movableDestinations
+                            = solider.movableDestinations(position(9, 5), emptyAlivePieces);
+
+                    assertThat(movableDestinations)
+                            .containsExactlyInAnyOrder(
+                                    position(10, 4),
+                                    position(10, 5),
+                                    position(10, 6),
+                                    position(9, 4),
+                                    position(9, 6)
+                            );
+                }
+            }
         }
 
         @DisplayName("차")

@@ -86,4 +86,6 @@ class SingleStepMovementTest {
             );
         }
     }
+
+    // TODO 궁성에서는 대각선으로도 가능
 }
