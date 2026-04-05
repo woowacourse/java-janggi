@@ -92,7 +92,7 @@ class SoldierTest {
         Soldier soldier = new Soldier(Team.HAN);
 
         // when & then
-        assertThatThrownBy(() -> soldier.validateCanMove(new PieceOnPath(), new Chariot(Team.HAN)))
+        assertThatThrownBy(() -> soldier.validateCanMove(new PieceOnPath(), new Chariot(Team.HAN, new Palace())))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 자신의 기물로 이동할 수 없습니다.");
     }
@@ -104,6 +104,6 @@ class SoldierTest {
 
         // when & then
         assertThatNoException().isThrownBy(
-                () -> soldier.validateCanMove(new PieceOnPath(), new Chariot(Team.CHO)));
+                () -> soldier.validateCanMove(new PieceOnPath(), new Chariot(Team.CHO, new Palace())));
     }
 }

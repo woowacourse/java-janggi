@@ -106,6 +106,6 @@ class HorseTest {
 
         // when & then
         assertThatNoException().isThrownBy(
-                () -> horse.validateCanMove(pieceOnPath, new Chariot(Team.CHO)));
+                () -> horse.validateCanMove(pieceOnPath, new Chariot(Team.CHO, new Palace())));
     }
 }

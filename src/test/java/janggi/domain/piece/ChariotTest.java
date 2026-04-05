@@ -19,7 +19,7 @@ class ChariotTest {
             "CHO, true"})
     void 차의_팀을_확인한다(Team team, boolean expected) {
         // given
-        Chariot chariot = new Chariot(team);
+        Chariot chariot = new Chariot(team, new Palace());
 
         // when
         boolean result = chariot.isSameTeam(team);
@@ -31,7 +31,7 @@ class ChariotTest {
     @Test
     void 차의_타입은_CHARIOT이다() {
         // given
-        Chariot chariot = new Chariot(Team.HAN);
+        Chariot chariot = new Chariot(Team.HAN, new Palace());
 
         // when
         boolean result = chariot.isSameType(PieceType.CHARIOT);
@@ -43,7 +43,7 @@ class ChariotTest {
     @Test
     void 한_방향으로_이동시키면_경로를_반환한다() {
         // given
-        Chariot chariot = new Chariot(Team.HAN);
+        Chariot chariot = new Chariot(Team.HAN, new Palace());
         Movement movement = new Movement(Position.from("22"), Position.from("26"));
 
         // when
@@ -56,11 +56,30 @@ class ChariotTest {
                 Position.from("25"));
     }
 
-    @Test
-    void 한_칸을_이동시키면_빈_경로를_반환한다() {
+    @ParameterizedTest(name = "from={0}, to={1}, 경로좌표={2}")
+    @CsvSource({
+            "14, 36, 25",
+            "04, 86, 95"})
+    void 궁성에서_대각선으로_이동하면_경로를_반환한다(String from, String to, String expectedPosition) {
         // given
-        Chariot chariot = new Chariot(Team.HAN);
-        Movement movement = new Movement(Position.from("22"), Position.from("23"));
+        Chariot chariot = new Chariot(Team.HAN, new Palace());
+        Movement movement = new Movement(Position.from(from), Position.from(to));
+
+        // when
+        Path path = chariot.getPath(movement);
+
+        // then
+        assertThat(path).containsExactly(Position.from(expectedPosition));
+    }
+
+    @ParameterizedTest(name = "from={0}, to={1}")
+    @CsvSource({
+            "14, 25",
+            "22, 23"})
+    void 한_칸을_이동시키면_빈_경로를_반환한다(String from, String to) {
+        // given
+        Chariot chariot = new Chariot(Team.HAN, new Palace());
+        Movement movement = new Movement(Position.from(from), Position.from(to));
 
         // when
         Path path = chariot.getPath(movement);
@@ -73,21 +92,21 @@ class ChariotTest {
     @CsvSource({
             "22, 33",
             "22, 48"})
-    void 직선이_아닌_방향으로_이동시키면_예외가_발생한다(String from, String to) {
+    void 궁성_이동이_아닐_때_직선이_아닌_방향으로_이동시키면_예외가_발생한다(String from, String to) {
         // given
-        Chariot chariot = new Chariot(Team.HAN);
+        Chariot chariot = new Chariot(Team.HAN, new Palace());
         Movement movement = new Movement(Position.from(from), Position.from(to));
 
         // when & then
         assertThatThrownBy(() -> chariot.getPath(movement))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 차는 직선으로만 이동할 수 있습니다.");
+                .hasMessage("[ERROR] 차는 한 방향으로만 이동할 수 있습니다.");
     }
 
     @Test
     void 경로에_기물이_있으면_예외가_발생한다() {
         // given
-        Chariot chariot = new Chariot(Team.HAN);
+        Chariot chariot = new Chariot(Team.HAN, new Palace());
         PieceOnPath pieceOnPath = new PieceOnPath();
         pieceOnPath.add(new Soldier(Team.HAN));
 
@@ -100,7 +119,7 @@ class ChariotTest {
     @Test
     void 이동할_위치에_같은_팀이_있으면_예외가_발생한다() {
         // given
-        Chariot chariot = new Chariot(Team.HAN);
+        Chariot chariot = new Chariot(Team.HAN, new Palace());
         PieceOnPath pieceOnPath = new PieceOnPath();
         pieceOnPath.add(new EmptyPiece());
 
@@ -113,13 +132,13 @@ class ChariotTest {
     @Test
     void 이동_가능하면_예외가_발생하지_않는다() {
         // given
-        Chariot chariot = new Chariot(Team.HAN);
+        Chariot chariot = new Chariot(Team.HAN, new Palace());
         PieceOnPath pieceOnPath = new PieceOnPath();
         pieceOnPath.add(new EmptyPiece());
         pieceOnPath.add(new EmptyPiece());
 
         // when & then
         assertThatNoException().isThrownBy(
-                () -> chariot.validateCanMove(pieceOnPath, new Chariot(Team.CHO)));
+                () -> chariot.validateCanMove(pieceOnPath, new Chariot(Team.CHO, new Palace())));
     }
 }

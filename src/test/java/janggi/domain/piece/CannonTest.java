@@ -78,7 +78,7 @@ class CannonTest {
 
         // when & then
         assertThatNoException().isThrownBy(
-                () -> cannon.validateCanMove(pieceOnPath, new Chariot(Team.CHO)));
+                () -> cannon.validateCanMove(pieceOnPath, new Chariot(Team.CHO, new Palace())));
     }
 
     @Test
@@ -142,7 +142,7 @@ class CannonTest {
         pieceOnPath.add(new Guard(Team.HAN, new Palace()));
 
         // when & then
-        assertThatThrownBy(() -> cannon.validateCanMove(pieceOnPath, new Chariot(Team.HAN)))
+        assertThatThrownBy(() -> cannon.validateCanMove(pieceOnPath, new Chariot(Team.HAN, new Palace())))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 자신의 기물로 이동할 수 없습니다.");
     }

@@ -101,7 +101,7 @@ class GeneralTest {
         General general = new General(Team.HAN, new Palace());
 
         // when & then
-        assertThatThrownBy(() -> general.validateCanMove(new PieceOnPath(), new Chariot(Team.HAN)))
+        assertThatThrownBy(() -> general.validateCanMove(new PieceOnPath(), new Chariot(Team.HAN, new Palace())))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 자신의 기물로 이동할 수 없습니다.");
     }
@@ -113,6 +113,6 @@ class GeneralTest {
 
         // when & then
         assertThatNoException().isThrownBy(
-                () -> general.validateCanMove(new PieceOnPath(), new Chariot(Team.CHO)));
+                () -> general.validateCanMove(new PieceOnPath(), new Chariot(Team.CHO, new Palace())));
     }
 }

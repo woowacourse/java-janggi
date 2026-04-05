@@ -109,6 +109,6 @@ class ElephantTest {
 
         // when & then
         assertThatNoException().isThrownBy(
-                () -> elephant.validateCanMove(pieceOnPath, new Chariot(Team.CHO)));
+                () -> elephant.validateCanMove(pieceOnPath, new Chariot(Team.CHO, new Palace())));
     }
 }
