@@ -14,9 +14,10 @@ public class Players {
     }
 
     public Players(List<Player> players) {
-        validateSize(players);
-        validateDuplicate(players);
-        this.players = players;
+        List<Player> copiedPlayers = List.copyOf(players);
+        validateSize(copiedPlayers);
+        validateDuplicate(copiedPlayers);
+        this.players = copiedPlayers;
     }
 
     private void validateSize(List<Player> players) {
@@ -43,9 +44,9 @@ public class Players {
 
     public Player getByTeam(Team team) {
         return players.stream()
-            .filter(player -> player.team() == team)
-            .findAny()
-            .orElseThrow(() -> new JanggiException("해당 팀의 플레이어가 없습니다."));
+                .filter(player -> player.team() == team)
+                .findAny()
+                .orElseThrow(() -> new JanggiException("해당 팀의 플레이어가 없습니다."));
     }
 
     public String getChoPlayerName() {
