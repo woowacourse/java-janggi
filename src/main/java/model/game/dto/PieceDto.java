@@ -1,4 +1,4 @@
-package repository.dto;
+package model.game.dto;
 
 public record PieceDto(
         String pieceType,

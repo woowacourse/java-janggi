@@ -3,11 +3,11 @@ package repository;
 import model.coordinate.Position;
 import model.game.GameStatus;
 import model.game.Team;
-import model.game.dao.GameDto;
+import model.game.dto.GameDto;
 import model.piece.Piece;
 import model.piece.PieceType;
 import repository.command.MoveCommand;
-import repository.dto.PieceDto;
+import model.game.dto.PieceDto;
 import repository.mapper.PieceDtoMapper;
 
 import java.sql.Connection;

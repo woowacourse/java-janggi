@@ -1,6 +1,6 @@
 package repository.mapper;
 
-import repository.dto.PieceDto;
+import model.game.dto.PieceDto;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

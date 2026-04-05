@@ -4,7 +4,7 @@ import config.db.DatabaseConfig;
 import model.coordinate.Position;
 import model.game.GameStatus;
 import model.game.Team;
-import model.game.dao.GameDto;
+import model.game.dto.GameDto;
 import model.piece.Piece;
 import model.piece.Soldier;
 import org.junit.jupiter.api.BeforeEach;

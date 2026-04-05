@@ -9,7 +9,7 @@ import model.formation.JanggiFormation;
 import model.game.GameStatus;
 import model.game.Janggi;
 import model.game.Team;
-import model.game.dao.GameDto;
+import model.game.dto.GameDto;
 import model.piece.Piece;
 import repository.JanggiRepository;
 import repository.command.MoveCommand;

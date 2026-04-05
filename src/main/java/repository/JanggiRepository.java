@@ -3,7 +3,7 @@ package repository;
 import model.coordinate.Position;
 import model.game.GameStatus;
 import model.game.Team;
-import model.game.dao.GameDto;
+import model.game.dto.GameDto;
 import model.piece.Piece;
 import repository.command.MoveCommand;
 
