@@ -19,6 +19,11 @@ public class TurnManager {
         this.turnTaken = turnTaken;
     }
 
+    public static TurnManager init(final Team blueTeam, final Team redTeam) {
+        final int initialTurnsTaken = 1;
+        return new TurnManager(initialTurnsTaken, List.of(blueTeam, redTeam));
+    }
+
     private void validateTeamsSize(final List<Team> teams) {
         if (teams.size() < MINIMUM_TEAMS_SIZE || teams.size() > MAXIMUM_TEAMS_SIZE) {
             throw new IllegalArgumentException(

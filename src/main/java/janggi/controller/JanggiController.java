@@ -60,7 +60,7 @@ public class JanggiController {
         Team redTeam = setupRedTeam();
         gameId = gameService.createNewGame("게임 1");
 
-        return new TurnManager(1, List.of(blueTeam, redTeam));
+        return TurnManager.init(blueTeam, redTeam);
     }
 
     public Board loadOrSaveBoard(final List<Team> teams) {
