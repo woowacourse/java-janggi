@@ -148,8 +148,6 @@ class JanggiGameTest {
         void 한_쪽_진영_30점_이상이면_종료_아님(Side sufficientPointsSide) {
             JanggiGame janggiGame = JanggiGameFixture
                     .create_game_with_sufficient_points_only_one_side(sufficientPointsSide);
-            System.out.println(janggiGame.calculateScoreOf(sufficientPointsSide));
-            System.out.println(janggiGame.isFinished());
 
             assertThat(janggiGame.isFinished()).isFalse();
         }
