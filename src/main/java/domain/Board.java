@@ -37,32 +37,57 @@ public class Board {
         }
     }
 
-    public void move(Position from, Position to) {
+    public boolean move(Position from, Position to) {
         if (isEmpty(from)) {
             throw new IllegalArgumentException(NOT_FOUND_PIECE_FROM_POSITION);
         }
-        Piece piece = board.get(from).getPiece();
-        List<Position> paths = piece.findPaths(from, to);
+        Piece fromPiece = board.get(from).getPiece();
+        List<Position> paths = fromPiece.findPaths(from, to);
 
-        if (!board.get(to).isEmpty()) {
-            Country fromCountry = board.get(from).getPiece().getPieceCountry();
-            Country toCountry = board.get(to).getPiece().getPieceCountry();
-            if (fromCountry == toCountry) {
-                throw new IllegalArgumentException(CAN_NOT_MOVE_TO_POSITION);
-            }
+        validateDestination(from, to);
+        validatePath(fromPiece, paths);
+        boolean isGeneralCaught = isGeneralCaught(to);
+        movePiece(from, to, fromPiece);
+
+        return isGeneralCaught;
+    }
+
+    private void validateDestination(Position from, Position to) {
+        if (board.get(to).isEmpty()) {
+            return;
         }
+        Country fromCountry = board.get(from).getPiece().getPieceCountry();
+        Country toCountry = board.get(to).getPiece().getPieceCountry();
+        if (fromCountry == toCountry) {
+            throw new IllegalArgumentException(CAN_NOT_MOVE_TO_POSITION);
+        }
+    }
 
+    private void validatePath(Piece fromPiece, List<Position> paths) {
         Map<Position, PieceType> piecesOnPath = new LinkedHashMap<>();
-        for (Position position : paths) {
+        for (Position position : paths.subList(0, paths.size() - 1)) {
             if (!isEmpty(position)) {
                 piecesOnPath.put(position, board.get(position).getPiece().getPieceType());
             }
         }
-        boolean isDestinationEmpty = board.get(paths.getLast()).isEmpty();
-        piece.validateClearPath(piecesOnPath, isDestinationEmpty);
+        PieceType destinationPieceType = getDestinationPieceType(paths.getLast());
+        fromPiece.validateClearPath(piecesOnPath, destinationPieceType);
+    }
 
-        board.put(to, new FullState(piece));
+    private PieceType getDestinationPieceType(Position destination) {
+        if (isEmpty(destination)) {
+            return PieceType.EMPTY;
+        }
+        return board.get(destination).getPiece().getPieceType();
+    }
+
+    private void movePiece(Position from, Position to, Piece fromPiece) {
+        board.put(to, new FullState(fromPiece));
         board.put(from, new EmptyState());
+    }
+
+    private boolean isGeneralCaught(Position to) {
+        return !isEmpty(to) && board.get(to).getPiece().getPieceType() == PieceType.GENERAL;
     }
 
     public Map<Position, PieceInfo> getPieceInfos() {

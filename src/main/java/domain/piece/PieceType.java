@@ -8,5 +8,6 @@ public enum PieceType {
     CANNON,
     CHARIOT,
     GENERAL,
+    EMPTY,
     ;
 }

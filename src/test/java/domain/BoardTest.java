@@ -16,13 +16,11 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 public class BoardTest {
-    private List<TableSetting> tableSettings;
     private Board board;
 
     @BeforeEach
     void setUp() {
-        tableSettings = List.of(TableSetting.LEFT_TABLE, TableSetting.RIGHT_TABLE);
-        board = Board.create(tableSettings.get(1), tableSettings.get(0));
+        board = Board.create(TableSetting.LEFT_TABLE, TableSetting.RIGHT_TABLE);
     }
 
     @Test
@@ -273,5 +271,16 @@ public class BoardTest {
         assertThat(pieceInfos.get(from)).isNull();
         assertThat(pieceInfos.get(to).pieceType()).isEqualTo(PieceType.CANNON);
         assertThat(pieceInfos.get(to).country()).isEqualTo(Country.CHO);
+    }
+
+    @Test
+    @DisplayName("상대 궁을 잡으면 true를 반환한다.")
+    void catchGeneralTest() {
+        board.move(new Position(0, 3), new Position(1, 3));
+        board.move(new Position(0, 6), new Position(1, 6));
+        board.move(new Position(4, 1), new Position(3, 1));
+        board.move(new Position(0, 0), new Position(0, 8));
+
+        assertThat(board.move(new Position(0, 8), new Position(4, 8))).isTrue();
     }
 }

@@ -41,10 +41,14 @@ public class JanggiController {
         int turnIndex = 0;
         while (true) {
             Country country = playOrders.get(turnIndex);
+            Country otherSide = playOrders.get((turnIndex + 1) % 2);
             outputView.printTurn(CountryFormatter.from(country));
             outputView.printBoard(board.getPieceInfos());
 
-            movePiece(board, country);
+            if (movePiece(board, country)) {
+                outputView.printWinner(CountryFormatter.from(country), CountryFormatter.from(otherSide));
+                return;
+            }
             turnIndex = (turnIndex + 1) % 2;
         }
     }
@@ -62,7 +66,7 @@ public class JanggiController {
         }
     }
 
-    private void movePiece(Board board, Country country) {
+    private boolean movePiece(Board board, Country country) {
         while (true) {
             try {
                 Position from = makeFromPosition();
@@ -70,8 +74,7 @@ public class JanggiController {
                 Position to = makeToPosition();
                 from.validatePositions(to);
 
-                board.move(from, to);
-                return;
+                return board.move(from, to);
             } catch (IllegalArgumentException exception) {
                 outputView.printErrorMessage(exception.getMessage());
             }

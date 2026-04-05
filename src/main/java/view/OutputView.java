@@ -53,6 +53,12 @@ public class OutputView {
         System.out.println(String.join(STATE_SEPARATOR, POSITION_NUMBERS.subList(0, 9)));
     }
 
+    public void printWinner(String winCountry, String loseCountry) {
+        System.out.println();
+        System.out.println(winCountry + "가 " + loseCountry + "궁을 잡았습니다.");
+        System.out.println(winCountry + "가 승리했습니다!");
+    }
+
     public void printErrorMessage(String message) {
         System.out.println(message);
     }

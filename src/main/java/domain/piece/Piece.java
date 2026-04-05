@@ -39,7 +39,7 @@ public abstract class Piece {
 
     abstract protected void validateDirections(List<Direction> directions);
 
-    public void validateClearPath(Map<Position, PieceType> piecesOnPath, boolean isDestinationEmpty) {
+    public void validateClearPath(Map<Position, PieceType> piecesOnPath, PieceType destinationPieceType) {
         if (!piecesOnPath.isEmpty()) {
             throw new IllegalArgumentException(CAN_NOT_MOVE_TO_POSITION);
         }
