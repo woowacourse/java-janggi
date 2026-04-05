@@ -178,4 +178,18 @@ public class JanggiDao {
 
         return "";
     }
+
+    public void deleteGame(int gameId) {
+        String sql = "DELETE FROM game_state WHERE id = ?";
+
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+
+            pstmt.setInt(1, gameId);
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("게임 정보 삭제 중 에러 발생: " + e.getMessage());
+        }
+    }
 }

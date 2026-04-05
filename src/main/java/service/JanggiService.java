@@ -94,4 +94,8 @@ public class JanggiService {
         Country country = Country.getCountry(janggiDao.getSavedTurn(gameId));
         return new JanggiGame(board, country);
     }
+
+    public void deleteGame(int gameId) {
+        janggiDao.deleteGame(gameId);
+    }
 }
