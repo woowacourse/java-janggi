@@ -1,17 +1,16 @@
 package repository.jdbc;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import repository.entity.Game;
-import repository.entity.GameContext;
+import repository.entity.GameEntity;
 
 class GameJdbcRepositoryTest {
 
@@ -23,63 +22,82 @@ class GameJdbcRepositoryTest {
 
     private final JdbcTemplate template = new JdbcTemplate();
     private final GameJdbcRepository gameRepository = new GameJdbcRepository(template);
-    private final GameContextJdbcRepository gameContextRepository = new GameContextJdbcRepository(template);
 
     @BeforeEach
-    void setUp() throws SQLException {
-        template.executeCommand(DB_CONNECTION, "CREATE TABLE IF NOT EXISTS game_contexts (" +
-                "game_context_id BIGINT PRIMARY KEY AUTO_INCREMENT, " +
-                "current_turn_own_team VARCHAR(10) NOT NULL, " +
-                "game_state VARCHAR(10) NOT NULL)");
-
-        template.executeCommand(DB_CONNECTION, "CREATE TABLE IF NOT EXISTS games (" +
-                "game_id BIGINT PRIMARY KEY AUTO_INCREMENT, " +
-                "game_context_id BIGINT, " +
-                "CONSTRAINT fk_game_context FOREIGN KEY (game_context_id) REFERENCES game_contexts(game_context_id) ON DELETE CASCADE)");
+    void setUp() {
+        gameRepository.initTable(DB_CONNECTION);
     }
 
     @AfterEach
-    void clearAll() throws SQLException {
-        String sql = "DROP ALL OBJECTS";
-        template.executeCommand(DB_CONNECTION, sql);
+    void clearAll() {
+        template.executeCommand(DB_CONNECTION, "DROP ALL OBJECTS");
+    }
+
+    @Test
+    @DisplayName("Game 저장을 위한 테이블을 잘 구성한다")
+    void initTable() {
+        template.executeCommand(DB_CONNECTION, "DROP ALL OBJECTS");
+
+        assertDoesNotThrow(
+                () -> gameRepository.initTable(DB_CONNECTION)
+        );
     }
 
     @Test
     @DisplayName("단일 Game 잘 저장한다")
-    void save_success() throws SQLException {
-        Long contextId = gameContextRepository.save(DB_CONNECTION, new GameContext(null, "CHO", "PLAYING"));
-        Game game = new Game(null, contextId, List.of());
+    void save_success() {
+        GameEntity gameEntity = new GameEntity(null, "CHO", "PLAYING");
 
-        Long savedId = gameRepository.save(DB_CONNECTION, game);
+        Long savedId = gameRepository.save(DB_CONNECTION, gameEntity);
         assertNotNull(savedId);
     }
 
     @Test
     @DisplayName("단일 Game 잘 가져온다")
-    void find_success() throws SQLException {
-        Long contextId = gameContextRepository.save(DB_CONNECTION, new GameContext(null, "CHO", "PLAYING"));
-        Game game = new Game(null, contextId, List.of());
-        Long savedId = gameRepository.save(DB_CONNECTION, game);
+    void find_success() {
+        GameEntity gameEntity = new GameEntity(null, "CHO", "PLAYING");
+        Long savedId = gameRepository.save(DB_CONNECTION, gameEntity);
 
-        Game found = gameRepository.find(DB_CONNECTION, savedId);
+        GameEntity found = gameRepository.find(DB_CONNECTION, savedId);
         assertNotNull(found);
-        assertEquals(savedId, found.gameId());
-        assertEquals(contextId, found.gameContextId());
+        assertEquals(savedId, found.id());
+        assertEquals("CHO", found.turn());
+        assertEquals("PLAYING", found.state());
+    }
+
+    @Test
+    @DisplayName("단일 Game을 상태를 기반으로 잘 가져온다")
+    void findByState() {
+        //given
+        int expectPlayingGameSelectSize = 2;
+        String testGameState = "PLAYING";
+        GameEntity gameEntity = new GameEntity(null, "CHO", testGameState);
+        GameEntity gameEntity2 = new GameEntity(null, "HAN", testGameState);
+        Long savedId = gameRepository.save(DB_CONNECTION, gameEntity);
+        Long savedId2 = gameRepository.save(DB_CONNECTION, gameEntity2);
+        List<Long> savedIds = List.of(savedId, savedId2);
+
+        //when
+        List<GameEntity> playingGames = gameRepository.findByState(DB_CONNECTION, testGameState);
+        List<Long> playingGamesIds = playingGames.stream()
+                .map(game -> game.id())
+                .toList();
+
+        //then
+        assertEquals(expectPlayingGameSelectSize, playingGames.size());
+        assertEquals(savedIds, playingGamesIds);
     }
 
     @Test
     @DisplayName("Game 정보를 잘 수정한다")
-    void update_success() throws SQLException {
-        Long oldContextId = gameContextRepository.save(DB_CONNECTION, new GameContext(null, "CHO", "PLAYING"));
-        Long newContextId = gameContextRepository.save(DB_CONNECTION, new GameContext(null, "HAN", "PLAYING"));
+    void update_success() {
+        GameEntity gameEntity = new GameEntity(null, "CHO", "PLAYING");
+        Long savedId = gameRepository.save(DB_CONNECTION, gameEntity);
 
-        Game game = new Game(null, oldContextId, List.of());
-        Long savedId = gameRepository.save(DB_CONNECTION, game);
+        GameEntity updatedEntity = new GameEntity(savedId, "HAN", "PLAYING");
+        gameRepository.update(DB_CONNECTION, savedId, updatedEntity);
 
-        GameContext newContext = new GameContext(newContextId, "HAN", "PLAYING");
-        gameRepository.update(DB_CONNECTION, savedId, newContext);
-
-        Game updated = gameRepository.find(DB_CONNECTION, savedId);
-        assertEquals(newContextId, updated.gameContextId());
+        GameEntity updated = gameRepository.find(DB_CONNECTION, savedId);
+        assertEquals("HAN", updated.turn());
     }
 }
