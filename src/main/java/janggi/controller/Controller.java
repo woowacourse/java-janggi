@@ -23,30 +23,40 @@ public class Controller {
     }
 
     public void run() {
+        Board board = initializeGame();
+        playGame(board);
+    }
+
+    private Board initializeGame() {
         outputView.printStartMessage();
         Board board = new Board(BoardFactory.generate());
         outputView.printBoard(BoardDto.from(board));
+        return board;
+    }
 
-        outputView.printStartMessage();
-
+    private void playGame(Board board) {
         Team currentTeam = Team.CHO;
 
         for (int i = 0; i < 10; i++) {
-            while (true) {
-                try {
-                    List<Integer> positions = inputView.playTurn(currentTeam.getTeam());
-                    Position from = Position.of(Row.of(positions.get(0)), Column.of(positions.get(1)));
-                    Position to = Position.of(Row.of(positions.get(2)), Column.of(positions.get(3)));
+            processTurn(board, currentTeam);
+            currentTeam = currentTeam.switchTeam();
+        }
+    }
 
-                    board.move(from, to);
-                    outputView.printBoard(BoardDto.from(board));
+    private void processTurn(Board board, Team team) {
+        while (true) {
+            try {
+                List<Integer> positions = inputView.playTurn(team.getTeam());
+                Position from = Position.of(Row.of(positions.get(0)), Column.of(positions.get(1)));
+                Position to = Position.of(Row.of(positions.get(2)), Column.of(positions.get(3)));
 
-                    currentTeam = currentTeam.switchTeam();
-                    break;
+                board.move(from, to);
+                outputView.printBoard(BoardDto.from(board));
 
-                } catch (BusinessException e) {
-                    outputView.printErrorMessage(e.getMessage());
-                }
+                break;
+
+            } catch (BusinessException e) {
+                outputView.printErrorMessage(e.getMessage());
             }
         }
     }
