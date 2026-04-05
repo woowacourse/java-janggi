@@ -2,6 +2,7 @@ package janggi.domain.board;
 
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceFactory;
+import janggi.domain.piece.Score;
 import janggi.domain.piece.Team;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -100,4 +101,56 @@ class BoardTest {
         assertThat(board.getBoard().get(new Position(1, 5))).isInstanceOf(Piece.class);
         assertThat(board.getBoard().size()).isEqualTo(1);
     }
+
+    @Test
+    @DisplayName("진영의 남아있는 기물 점수를 계산한다.")
+    void testCalculateScore() {
+        // given
+        Map<Position, Piece> pieces = new LinkedHashMap<>();
+        pieces.put(new Position(1, 1), PieceFactory.createChariot(Team.HAN));
+        pieces.put(new Position(2, 3), PieceFactory.createCannon(Team.HAN));
+        pieces.put(new Position(5, 2), PieceFactory.createGeneral(Team.HAN));
+        pieces.put(new Position(1, 10), PieceFactory.createChariot(Team.CHO));
+        Board board = new Board(pieces);
+
+        // when
+        Score result = board.calculateScore(Team.HAN);
+
+        // then
+        assertThat(result).isEqualTo(new Score(20));
+    }
+
+    @Test
+    @DisplayName("기물이 잡히면 점수가 줄어든다.")
+    void testCalculateScoreAfterCapture() {
+        // given
+        Map<Position, Piece> pieces = new LinkedHashMap<>();
+        pieces.put(new Position(1, 1), PieceFactory.createChariot(Team.HAN));
+        pieces.put(new Position(2, 3), PieceFactory.createCannon(Team.HAN));
+        pieces.put(new Position(1, 5), PieceFactory.createSolider(Team.CHO, BoardDirection.DOWN));
+        Board board = new Board(pieces);
+
+        // when
+        board.move(new Position(1, 1), new Position(1, 5));
+
+        // then
+        assertThat(board.calculateScore(Team.HAN)).isEqualTo(new Score(20));
+        assertThat(board.calculateScore(Team.CHO)).isEqualTo(new Score(0));
+    }
+
+    @Test
+    @DisplayName("해당 진영의 기물이 없으면 점수는 0이다.")
+    void testCalculateScoreWhenNoPiece() {
+        // given
+        Map<Position, Piece> pieces = new LinkedHashMap<>();
+        pieces.put(new Position(1, 1), PieceFactory.createChariot(Team.HAN));
+        Board board = new Board(pieces);
+
+        // when
+        Score result = board.calculateScore(Team.CHO);
+
+        // then
+        assertThat(result).isEqualTo(new Score(0));
+    }
+
 }
