@@ -17,4 +17,6 @@ public interface GameRepository {
     int save(Connection connection, String turn) throws SQLException;
 
     void updateTurn(Connection connection, int gameId, String turn) throws SQLException;
+
+    void gameEnd(Connection connection, int gameId) throws SQLException;
 }

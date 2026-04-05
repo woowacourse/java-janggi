@@ -32,6 +32,17 @@ public class Board {
         resolve(from, to, piece);
     }
 
+    public double calculateScore(Team team) {
+        double score = board.values().stream()
+                .filter(piece -> piece.team() == team)
+                .mapToInt(piece -> piece.pieceType().score())
+                .sum();
+        if (team == Team.HAN) {
+            score += 1.5;
+        }
+        return score;
+    }
+
     public boolean hasTwoGenerals() {
         return board.keySet().stream()
                 .filter(key -> board.get(key) instanceof General)

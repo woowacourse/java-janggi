@@ -58,4 +58,13 @@ public class GameJdbcRepository implements GameRepository {
         stmt.setInt(2, gameId);
         stmt.executeUpdate();
     }
+
+    @Override
+    public void gameEnd(Connection connection, int gameId) throws SQLException {
+        PreparedStatement stmt = connection.prepareStatement(
+                "UPDATE game SET is_finished = ? WHERE id = ?");
+        stmt.setBoolean(1, true);
+        stmt.setInt(2, gameId);
+        stmt.executeUpdate();
+    }
 }

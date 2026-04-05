@@ -1,6 +1,7 @@
 package controller;
 
 import domain.game.JanggiGame;
+import domain.piece.Team;
 import dto.PieceSnapshot;
 import service.FacadeService;
 import util.Retry;
@@ -29,7 +30,9 @@ public class JanggiController {
             List<Integer> from = choosePiece(janggiGame);
             chooseDestinationAndGameStart(janggiGame, from);
         }
+        facadeService.gameEnd();
         outputView.printGameEnd(janggiGame.getWinnerName());
+        outputView.printScore(janggiGame.getScore(Team.CHO), janggiGame.getScore(Team.HAN));
     }
 
     private JanggiGame initGame() {

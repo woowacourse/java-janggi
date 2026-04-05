@@ -3,6 +3,7 @@ package domain.game;
 import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.coordination.Coordination;
+import domain.piece.Team;
 import dto.BoardSnapshot;
 import dto.PieceSnapshot;
 
@@ -35,7 +36,7 @@ public class JanggiGame {
     }
 
     public String getWinnerName() {
-        return turn.getName();
+        return turn.reverse().getName();
     }
 
     public void checkSameTeam(List<Integer> inputTokens) {
@@ -61,5 +62,9 @@ public class JanggiGame {
 
     public List<PieceSnapshot> capturePieces() {
         return PieceSnapshot.from(this.board);
+    }
+
+    public double getScore(Team team) {
+        return board.calculateScore(team);
     }
 }

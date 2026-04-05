@@ -1,4 +1,5 @@
 import controller.JanggiController;
+import database.SQLiteConnectionProvider;
 import repository.GameJdbcRepository;
 import repository.JanggiJdbcRepository;
 import service.FacadeService;
@@ -10,7 +11,19 @@ import view.OutputView;
 public class Application {
 
     public static void main(String[] args) {
-        JanggiController janggiController = new JanggiController(new InputView(), new OutputView(), new FacadeService(new JanggiService(new JanggiJdbcRepository()), new GameService(new GameJdbcRepository())));
+        JanggiController janggiController = new JanggiController(
+                new InputView(),
+                new OutputView(),
+                new FacadeService(
+                        new JanggiService(
+                                new JanggiJdbcRepository()
+                        ),
+                        new GameService(
+                                new GameJdbcRepository()
+                        ),
+                        new SQLiteConnectionProvider()
+                )
+        );
         janggiController.start();
     }
 }

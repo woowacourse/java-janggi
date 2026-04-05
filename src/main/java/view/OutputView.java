@@ -20,6 +20,9 @@ public class OutputView {
     private static final String GAME_END_DIVIDER = "==========================";
     private static final String GAME_END_MESSAGE = "게임이 종료되었습니다.";
     private static final String GAME_END_WINNER = "%s 진영이 승리하셨습니다!";
+    private static final String SCORE_HEADER = "=== 최종 점수 ===";
+    private static final String CHO_SCORE_FORMAT = "초: %.1f점";
+    private static final String HAN_SCORE_FORMAT = "한: %.1f점";
 
     public void printTurn(String turnName) {
         System.out.println();
@@ -55,5 +58,11 @@ public class OutputView {
         System.out.println(GAME_END_MESSAGE);
         System.out.printf(GAME_END_WINNER + "%n", winnerName);
         System.out.println(GAME_END_DIVIDER);
+    }
+
+    public void printScore(double choScore, double hanScore) {
+        System.out.println(SCORE_HEADER);
+        System.out.printf(CHO_SCORE_FORMAT + "%n", choScore);
+        System.out.printf(HAN_SCORE_FORMAT + "%n", hanScore);
     }
 }
