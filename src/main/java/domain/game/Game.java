@@ -11,10 +11,12 @@ public class Game {
 
     private final Board board;
     private Camp currentTurn;
+    private GameState gameState;
 
     public Game(int choSetUp, int hanSetUp) {
         this.board = new Board(BoardInitializer.init(choSetUp, hanSetUp));
         this.currentTurn = Camp.CHO;
+        this.gameState = new InProgress();
     }
 
     public Board board() {
@@ -26,14 +28,32 @@ public class Game {
     }
 
     public void move(Position from, Position to) {
+        gameState.validateMovable();
+
         Piece piece = board.findBy(from);
         validateTurn(piece);
 
+        boolean isGeneralCaptured = board.isGeneral(to);
+
         board.move(from, to);
+
+        if (isGeneralCaptured) {
+            this.gameState = new Finished();
+            return;
+        }
         changeTurn();
     }
 
+    public boolean isFinished() {
+        return gameState.isFinished();
+    }
+
+    public Camp winner() {
+        return currentTurn;
+    }
+
     public void passTurn() {
+        gameState.validateMovable();
         changeTurn();
     }
 
