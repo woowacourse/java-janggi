@@ -50,7 +50,7 @@ public class JanggiController {
         OutputView.printBoard(BoardDto.from(board, List.of()));
         playGame(turnManager, board);
         OutputView.printGameResult(GameResultDto.from(board));
-        gameService.removeGame(gameId);
+        gameService.closeGame(gameId);
     }
 
     private GameSelectCommand selectGame() {

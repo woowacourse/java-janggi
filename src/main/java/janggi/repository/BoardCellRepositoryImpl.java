@@ -104,7 +104,8 @@ public class BoardCellRepositoryImpl implements BoardCellRepository {
             "UPDATE %s SET piece_type = ?, team = ? WHERE row_pos = ? AND column_pos = ?",
             TABLE_NAME);
 
-        return dbConnection.executeUpdate(sql, piece.getPieceType(), piece.getTeamType(),
+        return dbConnection.executeUpdate(sql, piece.getPieceType().name(),
+            piece.getTeamType().name(),
             position.getRow(), position.getColumn());
     }
 

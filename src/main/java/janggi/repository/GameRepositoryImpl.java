@@ -73,6 +73,13 @@ public class GameRepositoryImpl implements GameRepository {
             id);
     }
 
+    @Override
+    public long updateStatusById(long id, GameStatus gameStatus) {
+        final String sql = String.format("UPDATE %s SET status = ? WHERE id = ?", TABLE_NAME);
+
+        return dbConnection.executeUpdate(sql, gameStatus.name(), id);
+    }
+
 
     @Override
     public boolean deleteById(final long id) {

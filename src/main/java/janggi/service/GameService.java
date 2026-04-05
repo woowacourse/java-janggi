@@ -62,4 +62,8 @@ public class GameService {
     public boolean removeGame(final long id) {
         return gameRepository.deleteById(id);
     }
+
+    public void closeGame(final long id) {
+        gameRepository.updateStatusById(id, GameStatus.CLOSED);
+    }
 }

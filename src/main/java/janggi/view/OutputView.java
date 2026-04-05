@@ -39,7 +39,7 @@ public final class OutputView {
     }
 
     public static void printGameCreatingMessage() {
-        System.out.printf("새 게임 생성을 선택하였습니다. 새로운 게임을 시작합니다.");
+        System.out.printf("새 게임 생성을 선택하였습니다. 새로운 게임을 시작합니다.\n");
     }
 
     public static void printGameLoadingMessage(final String gameName) {
