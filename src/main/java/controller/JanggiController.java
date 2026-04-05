@@ -10,8 +10,8 @@ import domain.JanggiGame;
 import domain.constant.PieceType;
 import domain.Position;
 import service.JanggiService;
-import service.dto.BoardDto;
-import service.dto.PositionDto;
+import dto.BoardDto;
+import dto.PositionDto;
 import view.InputView;
 import view.OutputView;
 
@@ -22,36 +22,52 @@ public class JanggiController {
     private final OutputView outputView;
     private final JanggiService janggiService;
 
-    public JanggiController(InputView inputView, OutputView outputView) {
+    public JanggiController(InputView inputView, OutputView outputView, JanggiService janggiService) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.janggiService = new JanggiService();
+        this.janggiService = janggiService;
     }
 
     public void run() {
-        Board board = initBoard();
-        JanggiGame janggiGame = initJanggiGame(board);
+        int gameMenuInput = inputView.requestGameMenu();
+        int gameId;
+        Board board;
+        JanggiGame janggiGame;
+
+        if (gameMenuInput == 1) {
+            // 새 게임
+            board = initBoard();
+            janggiGame = initJanggiGame(board);
+            gameId = janggiService.createNewGame(janggiGame.getCountry().getName());
+            janggiService.saveInitBoard(gameId, board);
+        } else {
+            // 이어하기
+            List<Integer> saveGames = janggiService.getSaveGames();
+            gameId = inputView.requestGameId(saveGames);
+            board = janggiService.getSaveBoard(gameId);
+            janggiGame = janggiService.loadGame(gameId, board);
+        }
 
         while (!janggiGame.isFinished()) {
             outputView.printChangeTurnMessage(janggiGame.getCountry().getName(), janggiGame.calculateScore());
             List<PositionDto> positionDtos = requestMovePiece(janggiGame);
-            playTurn(positionDtos, janggiGame, board);
+            playTurn(positionDtos, gameId, janggiGame, board);
         }
 
         outputView.printGameResult(janggiGame.getWinnerCountry());
     }
 
-    private void playTurn(List<PositionDto> positionDtos, JanggiGame janggiGame, Board board) {
+    private void playTurn(List<PositionDto> positionDtos, int gameId, JanggiGame janggiGame, Board board) {
         Position start = requestStartPiecePosition(positionDtos);
-        requestEndPosition(start, janggiGame);
+        requestEndPosition(gameId, start, janggiGame);
         outputView.printBoard(janggiService.createBoardDto(board));
     }
 
-    private void requestEndPosition(Position start, JanggiGame janggiGame) {
+    private void requestEndPosition(int gameId, Position start, JanggiGame janggiGame) {
         doRetry(() -> {
                     List<Integer> destination = inputView.requestMovePosition();
                     Position end = Position.create(destination.getFirst(), destination.getLast());
-                    janggiService.applyMove(start, end, janggiGame);
+                    janggiService.applyMove(gameId, start, end, janggiGame);
                     return Optional.empty();
                 }
         );

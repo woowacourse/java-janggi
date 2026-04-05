@@ -14,6 +14,13 @@ public class InputView {
         this.scanner = scanner;
     }
 
+    public int requestGameMenu() {
+        System.out.println("게임을 시작합니다.");
+        System.out.println("1: 새 게임");
+        System.out.println("2: 이어하기");
+        return Validator.validateNumber(scanner.nextLine());
+    }
+
     public int requestMaSangPosition() {
         System.out.println("[차 ( ) ( ) 사 ＋ 사 ( ) ( ) 차] ◀︎ 위치 선택");
         System.out.println("\n마,상의 위치를 번호로 입력해 주세요. (1~4 중에 입력)");
@@ -43,5 +50,13 @@ public class InputView {
     public List<Integer> requestMovePosition() {
         System.out.println("\n이동할 좌표를 입력해 주세요. ");
         return InputParser.splitBy(",", scanner.nextLine());
+    }
+
+    public int requestGameId(List<Integer> saveGames) {
+        System.out.println("진행 중인 게임 목록입니다. 게엠 방의 숫자를 입력해주세요.");
+        for (int number : saveGames) {
+            System.out.printf("- %d번방\n", number);
+        }
+        return Validator.validateNumber(scanner.nextLine());
     }
 }

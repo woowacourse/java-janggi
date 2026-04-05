@@ -4,9 +4,9 @@ import domain.constant.Country;
 import domain.constant.PieceType;
 import java.util.List;
 import java.util.Map;
-import service.dto.BoardDto;
-import service.dto.PieceDto;
-import service.dto.PositionDto;
+import dto.BoardDto;
+import dto.PieceDto;
+import dto.PositionDto;
 
 public class OutputView {
 
