@@ -18,9 +18,17 @@ public class Board implements BaseBoard {
     private final Map<Position, Piece> board;
     private final MaterialScore materialScore;
 
-    public Board(Map<Position, Piece> board, int hanScore, int choScore) {
+    private Board(Map<Position, Piece> board, MaterialScore materialScore) {
         this.board = board;
-        this.materialScore = new MaterialScore(hanScore, choScore);
+        this.materialScore = materialScore;
+    }
+
+    public static Board from(Map<Position, Piece> board) {
+        int hanScore = calculateScore(board, Side.HAN);
+        int choScore = calculateScore(board, Side.CHO);
+        MaterialScore initialScore = new MaterialScore(hanScore, choScore);
+
+        return new Board(board, initialScore);
     }
 
     @Override
@@ -82,5 +90,12 @@ public class Board implements BaseBoard {
 
         board.put(end, piece);
         board.put(start, new Empty());
+    }
+
+    private static int calculateScore(Map<Position, Piece> initBoard, Side side) {
+        return initBoard.values().stream()
+                .filter(piece -> piece.isEqualSide(side))
+                .mapToInt(Piece::getPieceScore)
+                .sum();
     }
 }

@@ -13,21 +13,19 @@ import java.util.List;
 import java.util.Map;
 
 public class Game {
-    private static final String INVALID_TURN = "게임이 이미 끝나서 턴을 가져올 수 없습니다.";
-
     private PlayerTurn playerTurn;
 
     public List<PieceInitInfo> init(Arrangement choArrangement, Arrangement hanArrangement) {
         Map<Position, Piece> initBoard = BoardInitializer.createBoard(choArrangement, hanArrangement);
-        Board board = getBoard(initBoard);
+        Board board = Board.from(initBoard);
 
-        this.playerTurn = PlayerTurn.init(board, 0);
+        this.playerTurn = PlayerTurn.init(board);
         return getPieceInitInfo(initBoard);
     }
 
     public void init(List<PieceInitInfo> pieceInitInfos, Side side, int turn) {
         Map<Position, Piece> initBoard = BoardInitializer.createBoard(pieceInitInfos);
-        Board board = getBoard(initBoard);
+        Board board = Board.from(initBoard);
 
         this.playerTurn = PlayerTurn.from(board, turn, side);
     }
@@ -69,19 +67,5 @@ public class Game {
             }
         }));
         return pieceInitInfos;
-    }
-
-    private Board getBoard(Map<Position, Piece> board) {
-        int hanScore = calculateScore(board, Side.HAN);
-        int choScore = calculateScore(board, Side.CHO);
-
-        return new Board(board, hanScore, choScore);
-    }
-
-    private int calculateScore(Map<Position, Piece> initBoard, Side side) {
-        return initBoard.values().stream()
-                .filter(piece -> piece.isEqualSide(side))
-                .mapToInt(Piece::getPieceScore)
-                .sum();
     }
 }

@@ -9,7 +9,6 @@ import janggi.domain.PieceInitInfo;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.piece.PieceAttribute;
-import janggi.domain.piece.PieceType;
 import janggi.dto.GameDto;
 import janggi.dto.GameResponseDto;
 import janggi.dto.PieceDto;

@@ -22,14 +22,14 @@ public interface PlayerTurn {
 
     int getCurrentTurn();
 
-    static public PlayerTurn from(Board board, int turn, Side side) {
+    static PlayerTurn from(Board board, int turn, Side side) {
         if(side.equals(Side.CHO)) {
             return new ChoTurn(board, turn);
         }
         return new HanTurn(board, turn);
     }
 
-    static public PlayerTurn init(Board board, int turn) {
-        return new ChoTurn(board, turn);
+    static PlayerTurn init(Board board) {
+        return new ChoTurn(board, 0);
     }
 }
