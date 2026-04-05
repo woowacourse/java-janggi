@@ -10,8 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 
 class CannonMoveStrategyTest {
     private final MoveStrategy cannonMoveStrategy = new CannonMoveStrategy();
@@ -50,7 +49,19 @@ class CannonMoveStrategyTest {
     }
 
     @Test
-    void 포는_경로에_다른_기물이_없으면_이동할_수_없다() {
+    void 포의_이동_제약_검증_시_도착지_외의_경로에_한_개의_기물이_존재하면_이동할_수_있다() {
+        Position to = new Position(8, 2);
+
+        List<PathInfo> pathInfos = new ArrayList<>();
+        pathInfos.add(new PathInfo(new Position(8, 1), Piece.of(Camp.CHO, PieceType.SOLDIER)));
+        pathInfos.add(new PathInfo(to, Piece.of(Camp.CHO, PieceType.CHARIOT)));
+
+        assertThatCode(() -> cannonMoveStrategy.validateBlockingPiece(pathInfos, to))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    void 포의_이동_제약_검증_시_도착지_외의_경로에_기물이_존재하지_않으면_예외를_던진다() {
         Position to = new Position(8, 2);
 
         List<PathInfo> pathInfos = new ArrayList<>();
@@ -61,7 +72,7 @@ class CannonMoveStrategyTest {
     }
 
     @Test
-    void 포는_경로에_여러_개의_기물이_존재하면_이동할_수_없다() {
+    void 포의_이동_제약_검증_시_도착지_외의_경로에_두_개_이상의_기물이_존재하면_예외를_던진다() {
         Position to = new Position(8, 4);
 
         List<PathInfo> pathInfos = new ArrayList<>();
@@ -74,7 +85,7 @@ class CannonMoveStrategyTest {
     }
 
     @Test
-    void 포는_포를_잡을_수_없다() {
+    void 포의_이동_제약_검증_시_도착지에_위치한_기물이_포라면_예외를_던진다() {
         Position to = new Position(8, 2);
 
         List<PathInfo> pathInfos = new ArrayList<>();
@@ -85,7 +96,7 @@ class CannonMoveStrategyTest {
     }
 
     @Test
-    void 포는_포를_넘을_수_없다() {
+    void 포의_이동_제약_검증_시_도착지_외의_경로에_포가_존재하면_예외를_던진다() {
         Position to = new Position(8, 2);
 
         List<PathInfo> pathInfos = new ArrayList<>();

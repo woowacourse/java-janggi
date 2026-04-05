@@ -9,8 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 
 class SoldierMoveStrategyTest {
     private final MoveStrategy soldierMoveStrategy = new SoldierMoveStrategy(Camp.CHO.getForwardDirection());
@@ -63,11 +62,22 @@ class SoldierMoveStrategyTest {
     }
 
     @Test
+    void 졸의_이동_제약_검증_시_경로에_도착지_외에_경로가_포함되어_있지_않으면_이동할_수_있다() {
+        Position to = new Position(7, 0);
+
+        List<PathInfo> pathInfos = List.of(
+                new PathInfo(to, Piece.of(Camp.CHO, PieceType.HORSE)));
+
+        assertThatCode(() -> soldierMoveStrategy.validateBlockingPiece(pathInfos, to))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
     void 졸의_이동_제약_검증_시_도착지_외의_경로가_포함되어_있으면_예외를_던진다() {
         Position to = new Position(7, 0);
 
         List<PathInfo> pathInfos = List.of(
-                new PathInfo(new Position(8,0), Piece.of(Camp.CHO, PieceType.CHARIOT)),
+                new PathInfo(new Position(8, 0), Piece.of(Camp.CHO, PieceType.CHARIOT)),
                 new PathInfo(to, Piece.of(Camp.CHO, PieceType.HORSE)));
 
         assertThatThrownBy(() -> soldierMoveStrategy.validateBlockingPiece(pathInfos, to))

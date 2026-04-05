@@ -10,8 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 
 class ChariotMoveStrategyTest {
     private final MoveStrategy chariotMoveStrategy = new ChariotMoveStrategy();
@@ -50,12 +49,23 @@ class ChariotMoveStrategyTest {
     }
 
     @Test
-    void 차는_경로에_다른_기물이_있으면_이동할_수_없다() {
+    void 차의_이동_제약_검증_시_도착지_외의_경로에_다른_기물이_존재하지_않으면_이동할_수_있다() {
+        Position to = new Position(8, 2);
+
+        List<PathInfo> pathInfos = new ArrayList<>();
+        pathInfos.add(new PathInfo(to, Piece.of(Camp.CHO, PieceType.HORSE)));
+
+        assertThatCode(() -> chariotMoveStrategy.validateBlockingPiece(pathInfos, to))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    void 차의_이동_제약_검증_시_도착지_외의_경로에_다른_기물이_존재하면_예외를_던진다() {
         Position to = new Position(8, 2);
 
         List<PathInfo> pathInfos = new ArrayList<>();
         pathInfos.add(new PathInfo(new Position(8, 1), Piece.of(Camp.CHO, PieceType.CHARIOT)));
-        pathInfos.add(new PathInfo(new Position(8, 2), Piece.of(Camp.CHO, PieceType.HORSE)));
+        pathInfos.add(new PathInfo(to, Piece.of(Camp.CHO, PieceType.HORSE)));
 
         assertThatThrownBy(() -> chariotMoveStrategy.validateBlockingPiece(pathInfos, to))
                 .isInstanceOf(IllegalArgumentException.class);

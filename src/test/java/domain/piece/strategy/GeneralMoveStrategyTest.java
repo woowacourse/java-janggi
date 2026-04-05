@@ -9,8 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 
 class GeneralMoveStrategyTest {
     private final MoveStrategy generalMoveStrategy = new GeneralMoveStrategy();
@@ -51,6 +50,17 @@ class GeneralMoveStrategyTest {
 
         assertThatThrownBy(() -> generalMoveStrategy.getPath(from, to))
                 .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void 궁과_사의_이동_제약_검증_시_경로에_도착지_외에_경로가_포함되어_있지_않으면_이동할_수_있다() {
+        Position to = new Position(7, 0);
+
+        List<PathInfo> pathInfos = List.of(
+                new PathInfo(to, Piece.of(Camp.CHO, PieceType.HORSE)));
+
+        assertThatCode(() -> generalMoveStrategy.validateBlockingPiece(pathInfos, to))
+                .doesNotThrowAnyException();
     }
 
     @Test

@@ -74,7 +74,7 @@ public class Board {
 
     private List<PathInfo> getPath(Position departure, Position destination, Piece piece) {
         return piece.getPath(departure, destination).stream()
-                .map(pos -> new PathInfo(pos, pieces.get(pos)))
+                .map(position -> new PathInfo(position, pieces.get(position)))
                 .toList();
     }
 
