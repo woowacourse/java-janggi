@@ -70,6 +70,14 @@ public class Position {
         return new Position(this.row.divide(other.row), this.column.divide(other.column));
     }
 
+    public int getRow() {
+        return row.getValue();
+    }
+
+    public int getColumn() {
+        return column.getValue();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {

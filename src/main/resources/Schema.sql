@@ -5,10 +5,7 @@ USE `jangi-db`;
 CREATE TABLE IF NOT EXISTS game (
     id INT AUTO_INCREMENT PRIMARY KEY,
     status ENUM('PLAYING', 'FINISHED') NOT NULL,
-    current_turn ENUM('CHO', 'HAN') NOT NULL,
-    winner ENUM('CHO', 'HAN'),
-    cho_score DOUBLE,
-    han_score DOUBLE
+    current_turn ENUM('CHO', 'HAN') NOT NULL
     );
 
 CREATE TABLE IF NOT EXISTS `piece` (

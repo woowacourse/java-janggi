@@ -42,6 +42,10 @@ public final class Row {
         return new Row((this.value + row.value) / 2);
     }
 
+    public int getValue() {
+        return value;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {

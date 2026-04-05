@@ -42,6 +42,10 @@ public final class Column {
         return new Column(this.value + measure);
     }
 
+    public int getValue() {
+        return value;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {
