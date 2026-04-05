@@ -75,7 +75,7 @@ public class JanggiController {
     private TurnManager loadOrSaveTurnManager(final GameSelectCommand gameSelectCommand) {
         if (gameSelectCommand.isGenerateGame()) {
             OutputView.printGameCreatingMessage();
-            final String gameName = InputView.readGameName();
+            final String gameName = RetryExecutor.retry(this::readGameName);
             final Team blueTeam = setupBlueTeam();
             final Team redTeam = setupRedTeam();
             final TurnManager turnManager = TurnManager.init(blueTeam, redTeam);
@@ -86,6 +86,19 @@ public class JanggiController {
         OutputView.printGameLoadingMessage(gameEntity.name());
         gameId = gameSelectCommand.getSelectedGameId();
         return TurnManagerMapper.toDomain(gameEntity);
+    }
+
+    private String readGameName() {
+        final List<String> gameNames = gameService.getAllGamesInProgress(
+                MAXIMUM_GAMES_COUNT_IN_PROGRESS)
+            .stream()
+            .map(GameEntity::name)
+            .toList();
+        final String inputGameName = InputView.readGameName();
+        if (gameNames.contains(inputGameName)) {
+            throw new IllegalArgumentException("입력된 이름은 이미 존재하는 게임 이름입니다.");
+        }
+        return inputGameName;
     }
 
     public Board loadOrSaveBoard(final List<Team> teams) {
