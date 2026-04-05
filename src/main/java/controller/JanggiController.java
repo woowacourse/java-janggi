@@ -1,6 +1,8 @@
 package controller;
 
 import domain.game.JanggiGame;
+import dto.PieceSnapshot;
+import service.FacadeService;
 import util.Retry;
 import view.InputView;
 import view.OutputView;
@@ -11,23 +13,35 @@ public class JanggiController {
 
     private final InputView inputView;
     private final OutputView outputView;
+    private final FacadeService facadeService;
 
-    public JanggiController(InputView inputView, OutputView outputView) {
+    public JanggiController(InputView inputView, OutputView outputView, FacadeService facadeService) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.facadeService = facadeService;
     }
 
     public void start() {
-        String inputCho = inputView.inputPlacementChoOption();
-        String inputHan = inputView.inputPlacementHanOption();
-        JanggiGame janggiGame = JanggiGame.of(inputCho, inputHan);
-        outputView.printBoard(janggiGame.captureBoard());
+        JanggiGame janggiGame = initGame();
+        outputView.printBoard(janggiGame.gameSnapshot());
         while (!janggiGame.isGameEnd()) {
             outputView.printTurn(janggiGame.getTurnName());
             List<Integer> from = choosePiece(janggiGame);
             chooseDestinationAndGameStart(janggiGame, from);
         }
         outputView.printGameEnd(janggiGame.getWinnerName());
+    }
+
+    private JanggiGame initGame() {
+        if (facadeService.existsGame()) {
+            return facadeService.loadOngoingGame();
+        }
+        String inputCho = inputView.inputPlacementChoOption();
+        String inputHan = inputView.inputPlacementHanOption();
+        JanggiGame janggiGame = JanggiGame.of(inputCho, inputHan);
+        List<PieceSnapshot> pieceSnapshots = janggiGame.capturePieces();
+        facadeService.save(pieceSnapshots, janggiGame.getTurn());
+        return janggiGame;
     }
 
     private List<Integer> choosePiece(JanggiGame janggiGame) {
@@ -42,7 +56,7 @@ public class JanggiController {
         Retry.repeatUntilSuccess(() -> {
             List<Integer> to = inputView.inputDestination();
             janggiGame.start(from, to);
-            outputView.printBoard(janggiGame.captureBoard());
+            outputView.printBoard(janggiGame.gameSnapshot());
         });
     }
 }
