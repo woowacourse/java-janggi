@@ -1,4 +1,4 @@
-package service.dto;
+package dto;
 
 public record PieceDto(
         String countryName,
