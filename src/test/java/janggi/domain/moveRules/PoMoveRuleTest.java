@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.common.Direction;
 import janggi.domain.common.Team;
-import janggi.domain.piece.moveRules.MoveRule;
-import janggi.domain.piece.moveRules.PoMoveRule;
+import janggi.domain.piece.moverules.MoveRule;
+import janggi.domain.piece.moverules.PoMoveRule;
 import janggi.domain.route.Route;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;

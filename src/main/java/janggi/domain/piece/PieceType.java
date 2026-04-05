@@ -1,15 +1,16 @@
 package janggi.domain.piece;
 
+import janggi.domain.board.Board;
 import janggi.domain.common.Position;
 import janggi.domain.common.Team;
-import janggi.domain.piece.moveRules.ChaMoveRule;
-import janggi.domain.piece.moveRules.KingMoveRule;
-import janggi.domain.piece.moveRules.MaMoveRule;
-import janggi.domain.piece.moveRules.MoveRule;
-import janggi.domain.piece.moveRules.PoMoveRule;
-import janggi.domain.piece.moveRules.SaMoveRule;
-import janggi.domain.piece.moveRules.SangMoveRule;
-import janggi.domain.piece.moveRules.ZolMoveRule;
+import janggi.domain.piece.moverules.ChaMoveRule;
+import janggi.domain.piece.moverules.KingMoveRule;
+import janggi.domain.piece.moverules.MaMoveRule;
+import janggi.domain.piece.moverules.MoveRule;
+import janggi.domain.piece.moverules.PoMoveRule;
+import janggi.domain.piece.moverules.SaMoveRule;
+import janggi.domain.piece.moverules.SangMoveRule;
+import janggi.domain.piece.moverules.ZolMoveRule;
 import janggi.domain.route.Route;
 import java.util.HashMap;
 import java.util.List;
@@ -45,6 +46,10 @@ public enum PieceType {
             return convertToContinuousRoutes(position, findRoutes(team));
         }
         return convertToFixedRoutes(position, findRoutes(team));
+    }
+
+    public List<Position> findMovablePositions(Board board, Position position, Team team) {
+        return moveRule.findMovablePositions(board, position, team);
     }
 
     private Map<Position, List<Position>> convertToFixedRoutes(Position position, List<Route> routes) {

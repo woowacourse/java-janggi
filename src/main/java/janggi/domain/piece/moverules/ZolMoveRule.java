@@ -1,11 +1,11 @@
-package janggi.domain.piece.moveRules;
+package janggi.domain.piece.moverules;
 
 import janggi.domain.common.Direction;
 import janggi.domain.common.Team;
 import janggi.domain.route.Route;
 import java.util.List;
 
-public class ZolMoveRule implements MoveRule {
+public class ZolMoveRule extends GeneralMoveRule {
 
     @Override
     public List<Route> findRoutes(Team team) {
@@ -20,5 +20,4 @@ public class ZolMoveRule implements MoveRule {
         Route route3 = new Route(List.of(Direction.RIGHT));
         return List.of(route1, route2, route3);
     }
-
 }
