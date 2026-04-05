@@ -1,8 +1,12 @@
 import static domain.player.Team.CHO;
 import static domain.player.Team.HAN;
 
+import dao.BoardRepository;
+import dao.GameLoader;
+import dao.GameLoadResult;
 import dao.GameRoom;
 import common.exception.JanggiException;
+import domain.board.Board;
 import domain.board.Formation;
 import domain.manager.GameManager;
 import domain.player.Name;
@@ -10,6 +14,7 @@ import domain.player.Player;
 import domain.player.Team;
 import domain.position.Position;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
 import view.InputView;
 import view.OutputView;
@@ -18,26 +23,34 @@ public class Runner {
     private final InputView inputView;
     private final OutputView outputView;
     private final GameRoom gameRoom;
+    private final BoardRepository boardRepository;
     private GameManager gameManager;
+    private long gameId;
+    private static final String PROGRESS_STATUS = "PROGRESS";
+    private static final String CHO_WIN_STATUS = "CHO_WIN";
+    private static final String HAN_WIN_STATUS = "HAN_WIN";
 
     public Runner(InputView inputView, OutputView outputView) {
-        this(inputView, outputView, new GameRoom());
+        this(inputView, outputView, new GameRoom(), new BoardRepository());
     }
 
-    Runner(InputView inputView, OutputView outputView, GameRoom gameRoom) {
+    Runner(InputView inputView, OutputView outputView, GameRoom gameRoom, BoardRepository boardRepository) {
         this.inputView = inputView;
         this.outputView = outputView;
         this.gameRoom = gameRoom;
+        this.boardRepository = boardRepository;
     }
 
     public void run() {
-        initialize();
+        initializeGameChoice();
         outputView.printBoard(gameManager.getBoard());
 
         while (gameManager.isGameRunning()) {
             playTurn();
         }
 
+        Player winner = gameManager.getCurrentPlayer();
+        gameRoom.updateGameState(gameId, winner.getProfile().team(), resolveFinishedStatus(winner));
         outputView.printResult(gameManager.calculateFinalScore());
     }
 
@@ -50,6 +63,8 @@ public class Runner {
             gameManager.validateSource(source);
             Position destination = createDestination();
             gameManager.move(source, destination);
+            boardRepository.save(gameId, gameManager.getBoard());
+            gameRoom.updateGameState(gameId, gameManager.getCurrentPlayer().getProfile().team(), PROGRESS_STATUS);
         });
 
         outputView.printBoard(gameManager.getBoard());
@@ -86,14 +101,80 @@ public class Runner {
         }
     }
 
-    private void initialize() {
+    private void initializeGameChoice() {
+        int mode = retryOnInvalidInput(inputView::askGameMode);
+
+        if (mode == 1) {
+            initializeNewGame();
+        } else if (mode == 2) {
+            initializeLoadedGame();
+        }
+    }
+
+    private void initializeNewGame() {
         Player choPlayer = retryOnInvalidInput(this::createChoPlayer);
         Player hanPlayer = retryOnInvalidInput(() -> createHanPlayer(choPlayer));
         Formation choFormation = retryOnInvalidInput(this::createChoFormation);
         Formation hanFormation = retryOnInvalidInput(this::createHanFormation);
 
         this.gameManager = new GameManager(choPlayer, hanPlayer, choFormation, hanFormation);
-        gameRoom.createGame();
+        this.gameId = gameRoom.createGame(choPlayer.getProfile().nameValue(), hanPlayer.getProfile().nameValue());
+        boardRepository.save(gameId, gameManager.getBoard());
+        gameRoom.updateGameState(gameId, gameManager.getCurrentPlayer().getProfile().team(), PROGRESS_STATUS);
+    }
+
+    private void initializeLoadedGame() {
+        java.util.List<dao.GameInfo> games = gameRoom.findAllProgressGames();
+
+        if (games.isEmpty()) {
+            outputView.printErrorMessage("저장된 게임이 없습니다. 새 게임을 생성합니다.");
+            initializeNewGame();
+            return;
+        }
+
+        outputView.printAvailableGames(games);
+
+        int choice = retryOnInvalidInput(() -> inputView.askSelectGame(games.size()));
+
+        if (choice == games.size() + 1) {
+            initializeNewGame();
+            return;
+        }
+
+        dao.GameInfo selectedGame = games.get(choice - 1);
+        loadGame(selectedGame.gameId());
+    }
+
+    private void loadGame(long gameId) {
+        GameLoader loader = new GameLoader(gameRoom, boardRepository);
+        Optional<dao.GameLoadResult> loadedStateOpt = loader.loadGameById(gameId);
+
+        if (loadedStateOpt.isEmpty()) {
+            outputView.printErrorMessage("게임을 불러올 수 없습니다.");
+            return;
+        }
+
+        dao.GameLoadResult loadedState = loadedStateOpt.get();
+
+        Player choPlayer = createDefaultPlayer(loadedState.choName(), CHO);
+        Player hanPlayer = createDefaultPlayer(loadedState.hanName(), HAN);
+
+        Board board = new Board(loadedState.boardMap());
+
+        this.gameId = loadedState.gameId();
+        this.gameManager = GameManager.fromLoadedState(choPlayer, hanPlayer, board, loadedState.currentTeam());
+    }
+
+    private Player createDefaultPlayer(String namePrefix, Team team) {
+        return new Player(new Name(namePrefix), team);
+    }
+
+
+    private String resolveFinishedStatus(Player winner) {
+        if (winner.getProfile().team() == CHO) {
+            return CHO_WIN_STATUS;
+        }
+        return HAN_WIN_STATUS;
     }
 
     private Player createChoPlayer() {

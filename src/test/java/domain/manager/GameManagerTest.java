@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import common.exception.JanggiException;
+import domain.board.Board;
+import domain.board.BoardFactory;
 import domain.board.Formation;
 import domain.player.Name;
 import domain.player.Player;
@@ -69,5 +71,64 @@ class GameManagerTest {
         gameManager.endGame();
 
         assertFalse(gameManager.isGameRunning());
+    }
+
+    @Test
+    void fromLoadedState_불러온_보드로_게임매니저를_생성한다() {
+        Board originalBoard = new GameManager(
+                choPlayer, hanPlayer,
+                Formation.SANG_MA_SANG_MA,
+                Formation.SANG_MA_SANG_MA
+        ).getBoard();
+
+        GameManager loadedGameManager = GameManager.fromLoadedState(
+                choPlayer,
+                hanPlayer,
+                originalBoard,
+                Team.CHO
+        );
+
+        assertEquals(choPlayer, loadedGameManager.getCurrentPlayer());
+        assertEquals(originalBoard, loadedGameManager.getBoard());
+    }
+
+    @Test
+    void fromLoadedState_현재_차례가_HAN일때_정확히_설정된다() {
+        Board originalBoard = new GameManager(
+                choPlayer, hanPlayer,
+                Formation.SANG_MA_SANG_MA,
+                Formation.SANG_MA_SANG_MA
+        ).getBoard();
+
+        GameManager loadedGameManager = GameManager.fromLoadedState(
+                choPlayer,
+                hanPlayer,
+                originalBoard,
+                Team.HAN
+        );
+
+        assertEquals(hanPlayer, loadedGameManager.getCurrentPlayer());
+    }
+
+    @Test
+    void fromLoadedState_생성_후_즉시_게임을_진행할_수_있다() {
+        Board originalBoard = new GameManager(
+                choPlayer, hanPlayer,
+                Formation.SANG_MA_SANG_MA,
+                Formation.SANG_MA_SANG_MA
+        ).getBoard();
+
+        GameManager loadedGameManager = GameManager.fromLoadedState(
+                choPlayer,
+                hanPlayer,
+                originalBoard,
+                Team.HAN
+        );
+
+        // HAN 차례이므로 HAN의 기물 위치(1,4) 검증은 성공해야 함
+        Position hanSourcePosition = new Position(1, 4);  // HAN JANG 위치
+
+        assertDoesNotThrow(
+                () -> loadedGameManager.validateSource(hanSourcePosition));
     }
 }

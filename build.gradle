@@ -24,4 +24,13 @@ java {
 
 test {
     useJUnitPlatform()
+
+    doFirst {
+        file("./build/h2").deleteDir()
+    }
+}
+
+task run(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'Application'
 }

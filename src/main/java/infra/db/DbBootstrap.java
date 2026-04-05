@@ -51,10 +51,17 @@ public final class DbBootstrap {
     }
 
     private static Reader openSchemaReader() {
-        var stream = DbBootstrap.class.getResourceAsStream(SCHEMA_PATH);
-        if (stream == null) {
-            throw new IllegalStateException("스키마 파일을 찾을 수 없습니다: " + SCHEMA_PATH);
+        return new InputStreamReader(
+                DbBootstrap.class.getResourceAsStream(SCHEMA_PATH),
+                StandardCharsets.UTF_8
+        );
+    }
+
+    public static void initializeForTest() {
+        try (Connection connection = DbConnectionFactory.createConnection()) {
+            runSchema(connection);
+        } catch (SQLException e) {
+            throw new IllegalStateException("DB 초기화에 실패했습니다.", e);
         }
-        return new InputStreamReader(stream, StandardCharsets.UTF_8);
     }
 }

@@ -3,6 +3,8 @@ DROP TABLE IF EXISTS game;
 
 CREATE TABLE game (
                       game_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                      cho_name VARCHAR(50) NOT NULL COMMENT '선공 플레이어명',
+                      han_name VARCHAR(50) NOT NULL COMMENT '후공 플레이어명',
                       current_turn VARCHAR(10) NOT NULL COMMENT '현재 차례 (CHO, HAN)',
                       status VARCHAR(20) NOT NULL COMMENT '상태 (PROGRESS, CHO_WIN, HAN_WIN)',
                       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '게임 생성 일시'

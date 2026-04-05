@@ -32,6 +32,25 @@ public class GameManager {
         this.isDraw = false;
     }
 
+    private GameManager(Player choPlayer, Player hanPlayer, Board loadedBoard, Team currentTeam) {
+        this.board = loadedBoard;
+        this.ruleEngine = new RuleEngine(List.of(new BigJangDrawRule()));
+        this.isGameRunning = true;
+        this.isDraw = false;
+
+        if (currentTeam == Team.CHO) {
+            this.currentPlayer = choPlayer;
+            this.standbyPlayer = hanPlayer;
+        } else {
+            this.currentPlayer = hanPlayer;
+            this.standbyPlayer = choPlayer;
+        }
+    }
+
+    public static GameManager fromLoadedState(Player choPlayer, Player hanPlayer, Board loadedBoard, Team currentTeam) {
+        return new GameManager(choPlayer, hanPlayer, loadedBoard, currentTeam);
+    }
+
     public void move(Position source, Position destination) {
         BasicPiece caughtPiece = board.move(source, destination, currentPlayer);
 
