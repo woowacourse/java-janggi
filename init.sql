@@ -5,12 +5,6 @@ title VARCHAR(50) NOT NULL,
 is_finished BOOLEAN NOT NULL
 );
 
--- CREATE TABLE PIECE(
--- id BIGINT AUTO_INCREMENT PRIMARY KEY,
--- piece_type VARCHAR(10) NOT NULL,
--- score TINYINT NOT NULL
--- );
-
 CREATE TABLE BOARD(
 id BIGINT AUTO_INCREMENT PRIMARY KEY,
 team VARCHAR(10) NOT NULL,
@@ -20,14 +14,3 @@ position_row TINYINT NOT NULL,
 position_column TINYINT NOT NULL,
 FOREIGN KEY (game_room_id) REFERENCES GAME_ROOM(id) ON DELETE CASCADE
 );
--- FOREIGN KEY (piece_id) REFERENCES PIECE(id) ON DELETE RESTRICT
-
--- INSERT INTO PIECE (piece_type, score) VALUES
--- ('Cha', 13),
--- ('Po', 7),
--- ('Ma', 5),
--- ('Sang', 3),
--- ('Sa', 3),
--- ('Jol', 2),
--- ('Byeong', 2),
--- ('Jang', 0);

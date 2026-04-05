@@ -12,7 +12,8 @@ services:
       TZ: Asia/Seoul
     volumes:
       - ./mysql-data:/var/lib/mysql
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./init.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - ./data.sql:/docker-entrypoint-initdb.d/02-data.sql
     restart: always
   mysql-test:
     image: mysql:8.0
