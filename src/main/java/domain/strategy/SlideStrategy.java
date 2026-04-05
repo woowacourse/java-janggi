@@ -1,7 +1,6 @@
 package domain.strategy;
 
 import domain.Position;
-import domain.Side;
 import domain.board.BoardReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +14,9 @@ public class SlideStrategy implements MovementStrategy {
     }
 
     @Override
-    public List<Position> getMovablePositions(Position current, BoardReader board, Side side) {
+    public List<Position> getMovablePositions(Position current, BoardReader board) {
         return generatePaths(current).stream()
-                .flatMap(path -> getReachablePositions(path, board, side).stream())
+                .flatMap(path -> getReachablePositions(path, board).stream())
                 .toList();
     }
 
@@ -29,12 +28,10 @@ public class SlideStrategy implements MovementStrategy {
                 .toList();
     }
 
-    private List<Position> getReachablePositions(Path path, BoardReader board, Side side) {
+    private List<Position> getReachablePositions(Path path, BoardReader board) {
         List<Position> reachable = new ArrayList<>(path.takeWhile(board::isEmpty).toList());
         Optional<Position> obstacle = path.findFirst(pos -> !board.isEmpty(pos));
-
-        obstacle.filter(pos -> !board.getPiece(pos).isAlly(side))
-                .ifPresent(reachable::add);
+        obstacle.ifPresent(reachable::add);
         return reachable;
     }
 }

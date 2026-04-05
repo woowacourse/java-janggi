@@ -1,7 +1,6 @@
 package domain.strategy;
 
 import domain.Position;
-import domain.Side;
 import domain.board.BoardReader;
 import java.util.List;
 
@@ -13,10 +12,9 @@ public class OneStepStrategy implements MovementStrategy {
     }
 
     @Override
-    public List<Position> getMovablePositions(Position current, BoardReader board, Side side) {
+    public List<Position> getMovablePositions(Position current, BoardReader board) {
         return generatePaths(current).stream()
                 .map(Path::getDestination)
-                .filter(destination -> board.isEmpty(destination) || !board.isAlly(destination, side))
                 .toList();
     }
 

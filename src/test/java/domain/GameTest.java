@@ -33,9 +33,7 @@ class GameTest {
         Position target = Position.of(0, 4);
 
         // When
-        MoveCandidate candidate = game.selectSource(source);
-        game.move(candidate, target);
-
+        game.move(source, target);
 
         // Then
         assertThat(game.getCurrentSide()).isEqualTo(Side.HAN);
@@ -65,7 +63,7 @@ class GameTest {
         Position invalidTo = Position.of(1, 4);
 
         // When & Then: validateDestinations(to) 호출 시 예외 발생
-        assertThatThrownBy(() -> game.move(game.selectSource(source), invalidTo))
+        assertThatThrownBy(() -> game.move(source, invalidTo))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -78,6 +76,6 @@ class GameTest {
         Game gameOverGame = new Game(new Board(oneGeneralMap), players);
 
         // When & Then
-        assertThat(gameOverGame.isPlaying()).isTrue();
+        assertThat(gameOverGame.isPlaying()).isFalse();
     }
 }

@@ -5,6 +5,7 @@ import domain.Position;
 import domain.Side;
 import domain.board.BoardReader;
 import domain.strategy.MovementStrategy;
+import java.util.List;
 
 public abstract class Piece {
     private final Side side;
@@ -18,7 +19,11 @@ public abstract class Piece {
     public abstract PieceType getType();
 
     public Destinations findDestinations(Position current, BoardReader board) {
-        return new Destinations(movementStrategy.getMovablePositions(current, board, side));
+        List<Position> destinations = movementStrategy.getMovablePositions(current, board);
+        List<Position> validDestinations = destinations.stream()
+                .filter(destination -> board.isEmpty(destination) || !board.isAlly(destination, this.side))
+                .toList();
+        return new Destinations(validDestinations);
     }
 
     public boolean isAlly(Side other) {
