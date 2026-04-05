@@ -1,6 +1,7 @@
 package view;
 
 import domain.Piece;
+import domain.Status;
 import domain.vo.Position;
 
 import java.util.Map;
@@ -25,6 +26,16 @@ public class OutputView {
         printRows(pieces);
         System.out.println("  영 일 이 삼 사 오 육 칠 팔");
         System.out.println();
+    }
+
+    public void printGameResult(Status status) {
+        System.out.println("게임 종료 : ");
+        if (status == Status.CHU_WIN) {
+            System.out.println("초나라가 승리했습니다!");
+        }
+        if (status == Status.HAN_WIN) {
+            System.out.println("한나라가 승리했습니다!");
+        }
     }
 
     private void printRows(Map<Position, Piece> pieces) {

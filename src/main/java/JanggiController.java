@@ -29,6 +29,7 @@ public class JanggiController {
                 break;
             }
         }
+        outputView.printGameResult(game.getStatus());
     }
 
     private boolean move(Game game) {
@@ -53,6 +54,10 @@ public class JanggiController {
             game.tryToMove(currentPosition, targetPosition);
 
             outputView.printBoard(board.getBoard());
+
+            if (game.getStatus() != Status.PLAYING) {
+                return false;
+            }
             return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
