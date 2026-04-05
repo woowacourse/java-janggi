@@ -1,17 +1,15 @@
 package janggi.controller;
 
-import janggi.infra.transaction.TransactionExecutor;
 import janggi.model.Janggi;
-import janggi.model.Team;
 import janggi.model.position.absolute.Column;
 import janggi.model.position.absolute.Position;
 import janggi.model.position.absolute.Row;
-import janggi.repository.dto.LatestInProgressGameResponse;
-import janggi.repository.gameRepository;
-import janggi.view.BoardType;
+import janggi.service.JanggiService;
+import janggi.service.dto.LatestInProgressGameResponse;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import janggi.view.dto.GameStatus;
+import janggi.view.mapping.BoardType;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,37 +17,40 @@ public class JanggiController {
 
     private final OutputView outputView;
     private final InputView inputView;
-    private final gameRepository gameRepository;
-    private final TransactionExecutor transactionExecutor;
+    private final JanggiService janggiService;
 
     public JanggiController(
             OutputView outputView,
             InputView inputView,
-            gameRepository gameRepository,
-            TransactionExecutor transactionExecutor
+            JanggiService janggiService
+
     ) {
         this.outputView = outputView;
         this.inputView = inputView;
-        this.gameRepository = gameRepository;
-        this.transactionExecutor = transactionExecutor;
+        this.janggiService = janggiService;
     }
 
     public void run() {
-        LatestInProgressGameResponse response = setUpJanggi();
+        LatestInProgressGameResponse response = setUpBoard();
 
         Long gameId = response.gameId();
-        Janggi janggi = response.janggi();
+        Janggi currentJanggi = response.janggi();
 
-        while (!janggi.isGameOver()) {
-            janggi = movePiece(janggi);
+        while (!currentJanggi.isGameOver()) {
+            outputView.printGameStatus(GameStatus.from(currentJanggi));
 
-            if (janggi.isGameOver()) {
+            currentJanggi = janggiService.updateBoardWith(
+                    currentJanggi,
+                    readPosition(),
+                    readPosition()
+            );
+
+            if (currentJanggi.isGameOver()) {
                 break;
             }
 
-            boolean isDrawAccepted = readDrawAccept();
-            if (isDrawAccepted) {
-                janggi = janggi.draw();
+            if (readDrawAccept()) {
+                currentJanggi = currentJanggi.draw();
                 break;
             }
 
@@ -58,66 +59,37 @@ public class JanggiController {
             }
         }
 
-        if (janggi.isGameOver()) {
-            Team winner = janggi.getWinner();
-            outputView.printWinner(winner);
-
-            transactionExecutor.executeWithoutResult(con ->
-                    gameRepository.deleteByGameId(con, gameId)
-            );
+        if (currentJanggi.isGameOver()) {
+            outputView.printWinner(currentJanggi.getWinner());
+            janggiService.removeGame(gameId);
         }
     }
 
-    private LatestInProgressGameResponse setUpJanggi() {
-        Optional<LatestInProgressGameResponse> response = transactionExecutor.execute(
-                gameRepository::findLatestInProgressGame);
+    private LatestInProgressGameResponse setUpBoard() {
+        Optional<LatestInProgressGameResponse> responseOpt =
+                janggiService.loadGame();
 
-        if (response.isPresent()) {
-            return response.get();
+        if (responseOpt.isPresent()) {
+            return responseOpt.get();
         }
 
-        Janggi newGame = startNewGame();
-
-        Long gameId = transactionExecutor.execute(con ->
-                gameRepository.saveBoard(
-                        con,
-                        newGame.getCurrentTeam().name(),
-                        newGame.getBoard().getBoardInfo()
-                )
-        );
-
-        return new LatestInProgressGameResponse(
-                gameId,
-                newGame
+        BoardType boardType = readBoardType();
+        return janggiService.initGame(
+                boardType.getBoard()
         );
     }
 
-    private Janggi startNewGame() {
+    private BoardType readBoardType() {
         outputView.printBoardInitialTypeMessage();
-        BoardType boarType = inputView.readBoardInitializeType();
-        return Janggi.of(boarType.getBoard());
-    }
-
-    private Janggi movePiece(Janggi janggi) {
-        outputView.printGameStatus(GameStatus.from(janggi));
-
-        Position from = readPosition();
-        Position to = readPosition();
-
-        janggi = janggi.play(from, to);
-
-        transactionExecutor.executeWithoutResult(con ->
-                gameRepository.updateBoardWith(con, from, to)
-        );
-
-        return janggi;
+        return inputView.readBoardInitializeType();
     }
 
     private Position readPosition() {
         outputView.printFromPositionMessage();
-        return convertPositionInfoToPosition(inputView.readPosition());
+        return convertPositionInfoToPosition(
+                inputView.readPosition()
+        );
     }
-
 
     private Position convertPositionInfoToPosition(List<Integer> positionInfo) {
         int rowIndex = 0;

@@ -1,5 +1,7 @@
 package janggi.view;
 
+import janggi.view.mapping.BoardType;
+import janggi.view.util.Parser;
 import java.util.List;
 import java.util.Scanner;
 
