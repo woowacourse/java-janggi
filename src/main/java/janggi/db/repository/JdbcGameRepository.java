@@ -63,7 +63,7 @@ public class JdbcGameRepository implements GameRepository {
 
     @Override
     public JanggiGame load(Long gameId) {
-        GameEntity gameEntity = gameDao.findLatest()
+        GameEntity gameEntity = gameDao.findById(gameId)
                 .orElseThrow(() -> new IllegalArgumentException("진행 중인 게임이 없습니다."));
 
         List<PieceEntity> pieceEntities = pieceDao.findByGameId(gameEntity.getId());
@@ -83,15 +83,10 @@ public class JdbcGameRepository implements GameRepository {
     }
 
     @Override
-    public boolean hasOngoingGame() {
-        return gameDao.findLatest().isPresent();
-    }
-
-    @Override
-    public Long getLatestGameId() {
-        return gameDao.findLatest()
-                .orElseThrow(() -> new IllegalArgumentException("진행 중인 게임이 없습니다."))
-                .getId();
+    public List<Long> findAllGameIds() {
+        return gameDao.findAll().stream()
+                .map(GameEntity::getId)
+                .toList();
     }
 
     @Override

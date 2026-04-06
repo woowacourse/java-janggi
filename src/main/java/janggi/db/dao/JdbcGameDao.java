@@ -4,6 +4,8 @@ import janggi.db.DatabaseConnection;
 import janggi.db.entity.GameEntity;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class JdbcGameDao implements GameDao {
@@ -33,24 +35,46 @@ public class JdbcGameDao implements GameDao {
     }
 
     @Override
-    public Optional<GameEntity> findLatest() {
+    public Optional<GameEntity> findById(Long gameId) {
         String sql = "SELECT id, turn " +
                 "FROM game " +
-                "ORDER BY id DESC LIMIT 1";
+                "WHERE id = ?";
 
         try (Connection conn = connection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
+            pstmt.setLong(1, gameId);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                return Optional.of(
-                        new GameEntity(
-                                rs.getLong("id"),
-                                rs.getString("turn")));
+                return Optional.of(new GameEntity(
+                        rs.getLong("id"),
+                        rs.getString("turn")));
             }
             return Optional.empty();
         } catch (SQLException e) {
-            throw new RuntimeException("최신 게임 데이터 조회를 실패했습니다.");
+            throw new RuntimeException("게임 조회를 실패했습니다.");
+        }
+    }
+
+    @Override
+    public List<GameEntity> findAll() {
+        String sql = "SELECT id, turn " +
+                "FROM game " +
+                "ORDER BY id";
+
+        try (Connection conn = connection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            List<GameEntity> games = new ArrayList<>();
+            while (rs.next()) {
+                games.add(new GameEntity(
+                        rs.getLong("id"),
+                        rs.getString("turn")));
+            }
+            return games;
+        } catch (SQLException e) {
+            throw new RuntimeException("게임 목록 조회를 실패했습니다.");
         }
     }
 
