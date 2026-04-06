@@ -17,6 +17,18 @@ public class OutputView {
     private static final String FULL_WIDTH_DOT = "．"; // 전각 마침표 (．)
     private static final String[] FULL_WIDTH_NUMBERS = {"０", "１", "２", "３", "４", "５", "６", "７", "８", "９"}; // 전각 숫자 배열
 
+    public static void printEmptySavedGame() {
+        System.out.println("저장된 게임이 없습니다. 새로운 게임을 시작합니다.");
+    }
+
+    public static void printSavedGames(List<Long> savedGameIds) {
+        System.out.println("\n----- 저장된 게임 목록 -----");
+        for (Long id : savedGameIds) {
+            System.out.printf("[Game ID: %d]\n", id);
+        }
+        System.out.println("-".repeat(20));
+    }
+
     public static void printBoard(Map<Position, Space> capturedBoard, String currentTurn, double currentTurnScore) {
         System.out.println("현재" + currentTurn + "의 차례입니다. \n"
                 + "현재 기물 점수 : " + currentTurnScore);
@@ -33,12 +45,8 @@ public class OutputView {
         printXCoordinates();
     }
 
-    public static void printSavedGames(List<Long> savedGameIds) {
-        System.out.println("\n----- 저장된 게임 목록 -----");
-        for (Long id : savedGameIds) {
-            System.out.printf("[Game ID: %d]\n", id);
-        }
-        System.out.println("-".repeat(20));
+    public static void printSaveSuccess(long targetId) {
+        System.out.println(targetId + " 게임이 성공적으로 저장되었습니다.");
     }
 
     public static void printErrorMessage(String message) {
