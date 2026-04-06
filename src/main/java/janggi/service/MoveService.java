@@ -21,9 +21,12 @@ public class MoveService {
                 game.move(from, to);
                 moveRepository.save(moveEntity);
             } catch (IllegalArgumentException e) {
-
+                if (i == SAVE_TRY_COUNT - 1) {
+                    throw new IllegalStateException("이동 저장에 반복 실패했습니다.", e);
+                }
             }
         }
+
     }
 
     private MoveEntity createMoveEntity(Game game, Point from, Point to, int moveNumber) {
