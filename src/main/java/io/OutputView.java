@@ -52,6 +52,10 @@ public class OutputView {
         }
     }
 
+    public void printCheck() {
+        System.out.println("장군입니다!");
+    }
+
     public void printRouteOptions(List<Route> routes) {
         System.out.println("이동 가능한 경로:");
         System.out.println("0. 뒤로가기");

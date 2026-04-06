@@ -2,11 +2,11 @@ package domain;
 
 import java.util.Map;
 import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class BoardTest {
 
@@ -145,9 +145,47 @@ class BoardTest {
                     Position.of(4, 5), allyPiece
             ));
 
-            assertThat(movableBoard.findMovableRoutes(movingPawn))
+            MovableRoutes movable = movableBoard.findMovableRoutes(movingPawn);
+
+            assertThat(movable.routes())
                     .extracting(Route::endPos)
                     .containsExactlyInAnyOrder(Position.of(3, 4), Position.of(4, 3));
+            assertThat(movable.hasKingDestination()).isFalse();
+        }
+
+        @Test
+        void 이동_가능_경로_중_목적지에_왕이_있으면_왕_목적지_여부를_참으로_반환한다() {
+            Piece choRook = Piece.of(TeamColor.CHO, PieceType.ROOK);
+            Piece hanKing = Piece.of(TeamColor.HAN, PieceType.KING);
+            Board movableBoard = new Board(Map.of(
+                    Position.of(1, 3), choRook,
+                    Position.of(1, 4), hanKing
+            ));
+
+            MovableRoutes movable = movableBoard.findMovableRoutes(choRook);
+
+            assertThat(movable.hasKingDestination()).isTrue();
+            assertThat(movable.routes())
+                    .extracting(Route::endPos)
+                    .contains(Position.of(1, 4));
+        }
+
+        @Test
+        void 여러_이동_후보_중_일부만_왕을_목적지로_해도_왕_목적지_여부는_참이다() {
+            Piece choRook = Piece.of(TeamColor.CHO, PieceType.ROOK);
+            Piece hanKing = Piece.of(TeamColor.HAN, PieceType.KING);
+            Board movableBoard = new Board(Map.of(
+                    Position.of(4, 4), choRook,
+                    Position.of(4, 0), hanKing
+            ));
+
+            MovableRoutes movable = movableBoard.findMovableRoutes(choRook);
+
+            assertThat(movable.routes().size()).isGreaterThan(1);
+            assertThat(movable.hasKingDestination()).isTrue();
+            assertThat(movable.routes())
+                    .extracting(Route::endPos)
+                    .contains(Position.of(4, 0));
         }
     }
 }

@@ -1,12 +1,13 @@
+import java.time.Clock;
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.time.Clock;
-import java.time.Instant;
 
 import domain.Board;
 import domain.GameDeadline;
 import domain.GameStatus;
+import domain.MovableRoutes;
 import domain.Piece;
 import domain.Position;
 import domain.Route;
@@ -288,13 +289,22 @@ public class Runner {
 
     private TurnOutcome followRoutes(
             Board board, TurnManager turnManager, Piece selectedPiece, GameDeadline deadline) {
-        List<Route> routes = board.findMovableRoutes(selectedPiece);
+        MovableRoutes movable = board.findMovableRoutes(selectedPiece);
+        List<Route> routes = movable.routes();
         if (routes.isEmpty()) {
             throw new IllegalArgumentException("선택한 기물은 이동 가능한 경로가 없습니다.");
         }
+        printKingNoticeIfApplicable(movable);
         outputView.printRouteOptions(routes);
         int routeChoice = inputView.readRouteChoice();
         return applyRouteChoice(board, turnManager, selectedPiece, routes, routeChoice, deadline);
+    }
+
+    private void printKingNoticeIfApplicable(MovableRoutes movable) {
+        if (!movable.hasKingDestination()) {
+            return;
+        }
+        outputView.printCheck();
     }
 
     private TurnOutcome applyRouteChoice(

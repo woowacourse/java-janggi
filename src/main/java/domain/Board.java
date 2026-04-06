@@ -55,7 +55,12 @@ public class Board implements PalaceRouter {
                 .toList();
     }
 
-    public List<Route> findMovableRoutes(Piece piece) {
+    public MovableRoutes findMovableRoutes(Piece piece) {
+        List<Route> routes = computeMovableRoutes(piece);
+        return new MovableRoutes(routes, hasKingAtAnyDestination(routes));
+    }
+
+    private List<Route> computeMovableRoutes(Piece piece) {
         Position currentPosition = findPositionOf(piece)
                 .orElseThrow(() -> new IllegalArgumentException("보드에 없는 기물입니다."));
 
@@ -66,6 +71,13 @@ public class Board implements PalaceRouter {
                 .filter(route -> moveStrategy.canMove(route, getBlockingPieces(route),
                         getDestinationPiece(route).orElse(null), piece.getTeamColor()))
                 .toList();
+    }
+
+    private boolean hasKingAtAnyDestination(List<Route> routes) {
+        return routes.stream()
+                .map(this::getDestinationPiece)
+                .flatMap(Optional::stream)
+                .anyMatch(Piece::isKing);
     }
 
     public Optional<Piece> move(Piece piece, Position destination) {
