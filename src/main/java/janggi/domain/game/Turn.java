@@ -4,7 +4,7 @@ public class Turn {
 
     private final Side currentSide;
 
-    private Turn(Side currentSide) {
+    public Turn(Side currentSide) {
         this.currentSide = currentSide;
     }
 
