@@ -20,7 +20,7 @@ public class DBConnection {
             if (inputStream == null) {
                 throw new IllegalStateException("properties.yml 파일을 찾을 수 없습니다.");
             }
-            Config config = mapper.readValue(inputStream, Config.class);
+            DBConfig config = mapper.readValue(inputStream, DBConfig.class);
             USER = config.user();
             PASSWORD = config.password();
         } catch (IOException e) {
