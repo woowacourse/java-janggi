@@ -57,6 +57,21 @@ public class PieceGenerator {
         return piecePositions;
     }
 
+    private List<Position> getFinalPositions(Camp camp) {
+        List<Position> positions = getFinalPositionByCamp(camp,
+                List.of(new Position(1, 0), new Position(2, 0), new Position(6, 0),
+                        new Position(7, 0)));
+        return positions;
+    }
+
+    private ElephantFormation adjustElephantFormationByCamp(Camp camp,
+            ElephantFormation elephantFormation) {
+        if (camp == Camp.CHO) {
+            elephantFormation = rotateFormation(elephantFormation);
+        }
+        return elephantFormation;
+    }
+
 
     private ElephantFormation rotateFormation(ElephantFormation elephantFormation) {
         if (elephantFormation == ElephantFormation.LEFT) {

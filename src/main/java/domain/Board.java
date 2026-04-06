@@ -20,12 +20,7 @@ public class Board implements BoardChecker {
     }
 
     public void locatePiece(Position position, Piece piece) {
-        if (!isExist(position)) {
-            board.put(position, piece);
-            return;
-        }
-
-        if (getPieceFrom(position).isSameCamp(piece)) {
+        if (isExist(position) && getPieceFrom(position).isSameCamp(piece)) {
             throw new InvalidMoveException("[ERROR] 같은 팀은 잡을 수 없습니다!");
         }
 
