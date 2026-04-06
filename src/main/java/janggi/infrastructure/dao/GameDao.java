@@ -11,7 +11,7 @@ import java.util.List;
 public class GameDao {
 
     public void saveGameList(Connection connection, long gameId, String turn) throws SQLException {
-        String sql = "INSERT INTO GAME_LIST (GAME_ID, CURRENT_TURN) VALUES (?, ?)";
+        String sql = "MERGE INTO GAME_LIST (GAME_ID, CURRENT_TURN) KEY (GAME_ID) VALUES (?, ?)";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setLong(1, gameId);
             pstmt.setString(2, turn);
