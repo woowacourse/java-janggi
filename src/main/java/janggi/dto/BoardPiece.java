@@ -1,6 +1,6 @@
 package janggi.dto;
 
-public record BoardPiece(int gameRoomId,
+public record BoardPiece(long gameRoomId,
                          int rowPos,
                          int colPos,
                          String pieceType,

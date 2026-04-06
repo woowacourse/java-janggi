@@ -1,6 +1,6 @@
 package janggi.dto;
 
-public record GameRoom(int id,
+public record GameRoom(long id,
                        String turn,
                        boolean finished,
                        double choScore,
