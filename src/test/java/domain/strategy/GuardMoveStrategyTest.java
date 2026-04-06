@@ -5,12 +5,26 @@ import static org.assertj.core.api.Assertions.assertThat;
 import domain.Position;
 import java.util.List;
 import java.util.stream.Stream;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class GuardMoveStrategyTest {
+
+    @Test
+    @DisplayName("사는 궁성 외부로는 움직일 수 없다.")
+    void cannot_move_guard_destination_outside_palace_test() {
+        GuardMoveStrategy moveStrategy = new GuardMoveStrategy();
+        Position guardPosition = new Position(8, 3);
+        Position palaceOutsideGuardDestination = new Position(8, 2);
+
+        Assertions.assertThatIllegalArgumentException()
+                .isThrownBy(() -> moveStrategy.canMoveTo(guardPosition, palaceOutsideGuardDestination))
+                .withMessage("[ERROR] 사는 궁성 내부에서만 움직일 수 있다.");
+    }
 
     @ParameterizedTest
     @MethodSource("moveablePositions")
@@ -40,20 +54,24 @@ class GuardMoveStrategyTest {
     }
 
     private static Stream<Arguments> moveablePositions() {
+        Position palaceRedCenter = new Position(1, 4);
+
         return Stream.of(
-                Arguments.arguments(new Position(1, 4), new Position(1, 5)),
-                Arguments.arguments(new Position(1, 4), new Position(1, 3)),
-                Arguments.arguments(new Position(1, 4), new Position(2, 4)),
-                Arguments.arguments(new Position(1, 4), new Position(0, 4))
+                Arguments.arguments(palaceRedCenter, palaceRedCenter.up()),
+                Arguments.arguments(palaceRedCenter, palaceRedCenter.down()),
+                Arguments.arguments(palaceRedCenter, palaceRedCenter.left()),
+                Arguments.arguments(palaceRedCenter, palaceRedCenter.right())
         );
     }
 
     private static Stream<Arguments> nonMovablePositions() {
+        Position insidePalacePosition = new Position(0, 4);
         return Stream.of(
-                Arguments.arguments(new Position(1, 4), new Position(1, 2)),
-                Arguments.arguments(new Position(1, 4), new Position(3, 3)),
-                Arguments.arguments(new Position(1, 4), new Position(5, 5)),
-                Arguments.arguments(new Position(1, 4), new Position(7, 7))
+                Arguments.arguments(insidePalacePosition, insidePalacePosition.down().down()),
+                Arguments.arguments(insidePalacePosition, insidePalacePosition.down().left()),
+                Arguments.arguments(insidePalacePosition, insidePalacePosition.down().right()),
+                Arguments.arguments(insidePalacePosition, insidePalacePosition.down().downCrossRight()),
+                Arguments.arguments(insidePalacePosition, insidePalacePosition.down().downCrossLeft())
         );
     }
 }
