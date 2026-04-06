@@ -90,5 +90,55 @@ public class ChariotTest {
 
             assertThat(actual).hasSameElementsAs(expected);
         }
+
+        @Test
+        @DisplayName("차는 궁성영역에서 대각선으로 이동할 수 있다.")
+        void test3() {
+            positionPieceMap.put(Position.valueOf(9, 5), chariot);
+            positionPieceMap.put(Position.valueOf(8, 5), ally1);
+            positionPieceMap.put(Position.valueOf(8, 6), ally2);
+            List<Position> expected = List.of(
+                    Position.valueOf(8, 4),
+                    Position.valueOf(9, 1),
+                    Position.valueOf(9, 2),
+                    Position.valueOf(9, 3),
+                    Position.valueOf(9, 4),
+                    Position.valueOf(9, 6),
+                    Position.valueOf(9, 7),
+                    Position.valueOf(9, 8),
+                    Position.valueOf(9, 9),
+                    Position.valueOf(10, 4),
+                    Position.valueOf(10, 5),
+                    Position.valueOf(10, 6));
+
+            BoardMediator boardMediator = new Board(positionPieceMap);
+            List<Position> actual = chariot.calculateMovablePositions(Position.valueOf(9, 5), boardMediator);
+
+            assertThat(actual).hasSameElementsAs(expected);
+        }
+
+        @Test
+        @DisplayName("차는 궁성영역에서 대각선으로 이동할 수 있다.")
+        void test5() {
+            positionPieceMap.put(Position.valueOf(8, 6), chariot);
+            positionPieceMap.put(Position.valueOf(8, 4), enemy1);
+            positionPieceMap.put(Position.valueOf(6, 6), ally1);
+            List<Position> expected = List.of(
+                    Position.valueOf(8, 4),
+                    Position.valueOf(8, 5),
+                    Position.valueOf(8, 7),
+                    Position.valueOf(8, 8),
+                    Position.valueOf(8, 9),
+                    Position.valueOf(7, 6),
+                    Position.valueOf(9, 6),
+                    Position.valueOf(10, 6),
+                    Position.valueOf(9, 5),
+                    Position.valueOf(10, 4));
+
+            BoardMediator boardMediator = new Board(positionPieceMap);
+            List<Position> actual = chariot.calculateMovablePositions(Position.valueOf(8, 6), boardMediator);
+
+            assertThat(actual).hasSameElementsAs(expected);
+        }
     }
 }
