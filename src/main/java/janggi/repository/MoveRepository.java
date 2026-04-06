@@ -11,4 +11,6 @@ public interface MoveRepository {
     MoveEntity findById(int id);
 
     List<MoveEntity> findByGameIdOrderByMoveNumber(int gameId);
+
+    int findNextMoveNumber(int gameId);
 }

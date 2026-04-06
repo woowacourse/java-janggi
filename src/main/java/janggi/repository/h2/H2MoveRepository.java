@@ -13,45 +13,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class H2MoveRepository implements MoveRepository {
+
+    private static final String INSERT_MOVE =
+            "INSERT INTO MOVE (GAME_ID, MOVE_NUMBER, SIDE, FROM_X, FROM_Y, TO_X, TO_Y) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+    private static final String SELECT_MOVE_BY_ID =
+            "SELECT ID, GAME_ID, MOVE_NUMBER, SIDE, FROM_X, FROM_Y, TO_X, TO_Y FROM MOVE WHERE ID = ?";
+
+    private static final String SELECT_NEXT_MOVE_NUMBER =
+            "SELECT COALESCE(MAX(MOVE_NUMBER), 0) + 1 FROM MOVE WHERE GAME_ID = ?";
+
+    private static final String SELECT_MOVES_BY_GAME_ID =
+            "SELECT ID, GAME_ID, MOVE_NUMBER, SIDE, FROM_X, FROM_Y, TO_X, TO_Y FROM MOVE WHERE GAME_ID = ? ORDER BY MOVE_NUMBER";
+
     @Override
     public void save(MoveEntity move) {
-        String sql = "INSERT INTO MOVE (MOVE_NUMBER,GAME_ID,SIDE,FROM_X,FROM_Y,TO_X,TO_Y) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)";
-
-        String nextMoveSql = "SELECT COALESCE(MAX(move_number), 0) + 1 FROM move WHERE game_id = ?";
-
-        int nextMoveNumber;
         try (Connection connection = getConnection()) {
-            try (PreparedStatement stmt = connection.prepareStatement(nextMoveSql)) {
-                stmt.setInt(1, move.gameId());
-                var rs = stmt.executeQuery();
-                rs.next();
-                nextMoveNumber = rs.getInt(1);
-            }
-
-            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-                stmt.setInt(1, nextMoveNumber);
-                stmt.setInt(2, move.gameId());
-                stmt.setString(3, move.side().name());
-                stmt.setInt(4, move.fromX());
-                stmt.setInt(5, move.fromY());
-                stmt.setInt(6, move.toX());
-                stmt.setInt(7, move.toY());
-
-                stmt.executeUpdate();
-            }
+            insertMove(connection, move);
         } catch (SQLException e) {
-            throw new IllegalStateException("이동 저장에 실패했습니다.", e);
+            throw new IllegalStateException("게임 ID " + move.gameId() + "의 이동 저장에 실패했습니다.", e);
         }
     }
 
     @Override
     public MoveEntity findById(int id) {
-        String sql = "SELECT ID, GAME_ID, MOVE_NUMBER, SIDE, FROM_X, FROM_Y, TO_X, TO_Y FROM MOVE "
-                + "WHERE id = ?";
-
         try (Connection connection = getConnection();
-             PreparedStatement stmt = connection.prepareStatement(sql)) {
+             PreparedStatement stmt = connection.prepareStatement(SELECT_MOVE_BY_ID)) {
             stmt.setInt(1, id);
             ResultSet resultSet = stmt.executeQuery();
 
@@ -60,18 +47,15 @@ public class H2MoveRepository implements MoveRepository {
             }
             return null;
         } catch (SQLException e) {
-            throw new IllegalStateException(e);
+            throw new IllegalStateException("이동 ID " + id + "의 조회에 실패했습니다.", e);
         }
     }
 
     @Override
     public List<MoveEntity> findByGameIdOrderByMoveNumber(int gameId) {
-        String sql = "SELECT ID, GAME_ID, MOVE_NUMBER, SIDE, FROM_X, FROM_Y, TO_X, TO_Y FROM MOVE "
-                + "WHERE GAME_ID = ? ORDER BY MOVE_NUMBER";
-
         List<MoveEntity> moveEntities = new ArrayList<>();
         try (Connection connection = getConnection();
-             PreparedStatement stmt = connection.prepareStatement(sql)) {
+             PreparedStatement stmt = connection.prepareStatement(SELECT_MOVES_BY_GAME_ID)) {
             stmt.setInt(1, gameId);
             ResultSet resultSet = stmt.executeQuery();
 
@@ -80,20 +64,49 @@ public class H2MoveRepository implements MoveRepository {
             }
             return moveEntities;
         } catch (SQLException e) {
-            throw new IllegalStateException(e);
+            throw new IllegalStateException("게임 ID " + gameId + "의 이동 조회에 실패했습니다.", e);
         }
+    }
 
+    @Override
+    public int findNextMoveNumber(int gameId) {
+        try (Connection connection = getConnection();
+             PreparedStatement stmt = connection.prepareStatement(SELECT_NEXT_MOVE_NUMBER)) {
+            stmt.setInt(1, gameId);
+            ResultSet resultSet = stmt.getResultSet();
+
+            if (resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+            return 1;
+        } catch (SQLException e) {
+            throw new IllegalStateException("게임 ID " + gameId + "의 다음 MOVE_NUMBER 조회에 실패했습니다.");
+        }
+    }
+
+    private void insertMove(Connection connection, MoveEntity move) throws SQLException {
+        try (PreparedStatement stmt = connection.prepareStatement(INSERT_MOVE)) {
+            stmt.setInt(1, move.gameId());
+            stmt.setInt(2, move.moveNumber());
+            stmt.setString(3, move.side().name());
+            stmt.setInt(4, move.fromX());
+            stmt.setInt(5, move.fromY());
+            stmt.setInt(6, move.toX());
+            stmt.setInt(7, move.toY());
+            stmt.executeUpdate();
+        }
     }
 
     private MoveEntity mapResultSetToMove(ResultSet rs) throws SQLException {
         return new MoveEntity(
-                rs.getInt("id"),
-                rs.getInt("game_id"),
-                Side.valueOf(rs.getString("side")),
-                rs.getInt("from_x"),
-                rs.getInt("from_y"),
-                rs.getInt("to_x"),
-                rs.getInt("to_y")
+                rs.getInt("ID"),
+                rs.getInt("GAME_ID"),
+                rs.getInt("MOVE_NUMBER"),
+                Side.valueOf(rs.getString("SIDE")),
+                rs.getInt("FROM_X"),
+                rs.getInt("FROM_Y"),
+                rs.getInt("TO_X"),
+                rs.getInt("TO_Y")
         );
     }
 }

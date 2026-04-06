@@ -13,13 +13,14 @@ public class MoveService {
     }
 
     public void move(Game game, Point from, Point to) {
-        MoveEntity moveEntity = createMoveEntity(game, from, to);
+        int moveNumber = moveRepository.findNextMoveNumber(game.getId());
+        MoveEntity moveEntity = createMoveEntity(game, from, to, moveNumber);
         game.move(from, to);
         moveRepository.save(moveEntity);
     }
 
-    private MoveEntity createMoveEntity(Game game, Point from, Point to) {
-        MoveEntity moveEntity = new MoveEntity(null, game.getId(), game.getTurn(), from.x(), from.y(), to.x(), to.y());
-        return moveEntity;
+    private MoveEntity createMoveEntity(Game game, Point from, Point to, int moveNumber) {
+        return new MoveEntity(null, game.getId(), game.getTurn(), moveNumber,
+                from.x(), from.y(), to.x(), to.y());
     }
 }
