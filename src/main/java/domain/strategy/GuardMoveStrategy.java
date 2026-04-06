@@ -1,7 +1,9 @@
 package domain.strategy;
 
 import domain.Position;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class GuardMoveStrategy extends MoveStrategy {
 
@@ -29,11 +31,18 @@ public class GuardMoveStrategy extends MoveStrategy {
     }
 
     private List<Position> createDestinations(Position currentPosition) {
-        return List.of(
-                currentPosition.right(),
-                currentPosition.down(),
-                currentPosition.up(),
-                currentPosition.left()
-        );
+        List<Position> destinations = new ArrayList<>(basicPositions(currentPosition));
+        destinations.addAll(palace.reachablePositionsInPalace(currentPosition));
+        return destinations;
+    }
+
+    private List<Position> basicPositions(Position currentPosition) {
+        return Stream.of(
+                        currentPosition.right(),
+                        currentPosition.down(),
+                        currentPosition.up(),
+                        currentPosition.left())
+                .filter(this::isPalaceArea)
+                .toList();
     }
 }
