@@ -10,6 +10,7 @@ import java.util.List;
 
 public class OutputView {
 
+    private static final String NEW_LINE = System.lineSeparator();
     private static final String EMPTY = "    ";
     private static final String RESET = "\u001B[0m";
     private static final String RED = "\u001B[31m";
@@ -60,11 +61,12 @@ public class OutputView {
             final Position pos = positions.get(i);
             final Piece piece = board.findPiece(pos).orElseThrow(); // Optional 활용 고민
 
-            System.out.printf("%d. %s(%d, %d)  ",
+            System.out.printf("%d. %s(%d, %d)%s",
                     i + 1,
                     piece.getPieceType().getNameOf(piece.getTeam()),
                     pos.row(),
-                    pos.column());
+                    pos.column(),
+                    NEW_LINE);
         }
 
         System.out.println();
@@ -77,10 +79,11 @@ public class OutputView {
         for (int i = 0; i < moves.size(); i++) {
             final Position pos = moves.get(i);
 
-            System.out.printf("%d. (%d, %d)  ",
+            System.out.printf("%d. (%d, %d)%s",
                     i + 1,
                     pos.row(),
-                    pos.column());
+                    pos.column(),
+                    NEW_LINE);
         }
 
         System.out.println();
