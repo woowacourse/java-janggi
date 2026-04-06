@@ -36,13 +36,19 @@ public class InputView {
         return coordinates;
     }
 
-    private void validateSize(List<Integer> coordinates) {
-        if (coordinates.size() != 2) {
-            throw new BusinessException("좌표는 두 개의 숫자(예: 1, 2)로 입력해야 합니다.");
+    private void validateEmpty(String input) {
+        if (input == null || input.isBlank()) {
+            throw new BusinessException("입력값이 비어있습니다.");
         }
     }
 
-    private static List<Integer> parseToIntegers(String input) {
+    private void validateFormat(String input) {
+        if (!input.contains(DELIMITER)) {
+            throw new BusinessException("쉼표(,)를 기준으로 입력하세요.");
+        }
+    }
+
+    private List<Integer> parseToIntegers(String input) {
         try {
             return Arrays.stream(input.split(DELIMITER))
                     .map(String::trim)
@@ -53,15 +59,9 @@ public class InputView {
         }
     }
 
-    private static void validateEmpty(String input) {
-        if (input == null || input.isBlank()) {
-            throw new BusinessException("입력값이 비어있습니다.");
-        }
-    }
-
-    private static void validateFormat(String input) {
-        if (!input.contains(DELIMITER)) {
-            throw new BusinessException("쉼표(,)를 기준으로 입력하세요.");
+    private void validateSize(List<Integer> coordinates) {
+        if (coordinates.size() != 2) {
+            throw new BusinessException("좌표는 두 개의 숫자(예: 1, 2)로 입력해야 합니다.");
         }
     }
 
