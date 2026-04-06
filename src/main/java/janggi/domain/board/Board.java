@@ -108,10 +108,7 @@ public class Board {
     }
 
     private Optional<Piece> getPieceAt(Point point) {
-        if (!pieces.containsKey(point)) {
-            return Optional.empty();
-        }
-        return Optional.of(pieces.get(point));
+        return Optional.ofNullable(pieces.get(point));
     }
 
 }
