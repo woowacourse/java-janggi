@@ -2,12 +2,14 @@ package io;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import domain.Board;
 import domain.Piece;
 import domain.Position;
 import domain.Route;
 import domain.TeamColor;
+import domain.TeamScores;
 
 public class OutputView {
 
@@ -23,6 +25,10 @@ public class OutputView {
         System.out.println("저장된 게임이 있습니다.");
         System.out.println("1. 이어하기");
         System.out.println("2. 새 게임");
+    }
+
+    public void printTimeLimitPrompt() {
+        System.out.println("게임 제한 시간을 입력하세요.");
     }
 
     public void printFormationSelectionPrompt(TeamColor teamColor) {
@@ -82,6 +88,26 @@ public class OutputView {
 
     public void printGameEnd(TeamColor winner) {
         System.out.println("게임이 종료되었습니다. 승자: " + winner.getDisplayName());
+    }
+
+    public void printTimeOverByScore(TeamScores scores, Optional<TeamColor> winner) {
+        if (winner.isEmpty()) {
+            System.out.println(
+                    "시간이 종료되었습니다. 무승부입니다. (초: "
+                            + scores.pointsFor(TeamColor.CHO).value()
+                            + ", 한: "
+                            + scores.pointsFor(TeamColor.HAN).value()
+                            + ")");
+            return;
+        }
+        System.out.println(
+                "시간이 종료되었습니다. 점수 승자: "
+                        + winner.get().getDisplayName()
+                        + " (초: "
+                        + scores.pointsFor(TeamColor.CHO).value()
+                        + ", 한: "
+                        + scores.pointsFor(TeamColor.HAN).value()
+                        + ")");
     }
 
     public void printSavedGameEnded(TeamColor winner) {

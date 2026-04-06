@@ -1,13 +1,18 @@
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.time.Clock;
+import java.time.Instant;
 
 import domain.Board;
+import domain.GameDeadline;
 import domain.GameStatus;
 import domain.Piece;
 import domain.Position;
 import domain.Route;
+import domain.ScoreCalculator;
 import domain.TeamColor;
+import domain.TeamScores;
 import domain.TurnManager;
 import domain.TurnOutcome;
 import io.InputView;
@@ -22,17 +27,21 @@ import strategy.formation.RightFormationStrategy;
 
 public class Runner {
 
-    private record GameSession(Board board, TurnManager turnManager) {}
+    private record GameSession(Board board, TurnManager turnManager, GameDeadline deadline) {}
 
     private final InputView inputView;
     private final OutputView outputView;
     private final GameStateRepository gameStateRepository;
+    private final ScoreCalculator scoreCalculator;
+    private final Clock clock;
 
     public Runner(
-            InputView inputView, OutputView outputView, GameStateRepository gameStateRepository) {
+            InputView inputView, OutputView outputView, GameStateRepository gameStateRepository, Clock clock) {
         this.inputView = inputView;
         this.outputView = outputView;
         this.gameStateRepository = gameStateRepository;
+        this.scoreCalculator = new ScoreCalculator();
+        this.clock = clock;
     }
 
     public void run() {
@@ -66,12 +75,57 @@ public class Runner {
     private GameSession resumeSession(SavedGameState saved) {
         Board board = new Board(saved.snapshot().pieces());
         TurnManager turnManager = new TurnManager(saved.currentTurn());
-        return new GameSession(board, turnManager);
+        GameDeadline deadline = resolveDeadlineForResume(saved);
+        return new GameSession(board, turnManager, deadline);
     }
 
     private GameSession startFreshSession() {
         Board board = initializeNewBoard();
-        return new GameSession(board, new TurnManager());
+        GameDeadline deadline = readNewDeadline();
+        return new GameSession(board, new TurnManager(), deadline);
+    }
+
+    private GameDeadline resolveDeadlineForResume(SavedGameState saved) {
+        if (saved.deadline().isPresent()) {
+            return saved.deadline().get();
+        }
+        GameDeadline deadline = readNewDeadline();
+        gameStateRepository.save(
+                saved.snapshot(),
+                saved.currentTurn(),
+                saved.gameStatus(),
+                saved.winner(),
+                Optional.of(deadline));
+        return deadline;
+    }
+
+    private GameDeadline readNewDeadline() {
+        int seconds = readTimeLimitSecondsWithRetry();
+        Instant deadlineInstant = Instant.now(clock).plusSeconds(seconds);
+        return GameDeadline.of(deadlineInstant);
+    }
+
+    private int readTimeLimitSecondsWithRetry() {
+        while (true) {
+            try {
+                return parseTimeLimitSeconds();
+            } catch (RuntimeException exception) {
+                outputView.printError(exception.getMessage());
+            }
+        }
+    }
+
+    private int parseTimeLimitSeconds() {
+        outputView.printTimeLimitPrompt();
+        int seconds = inputView.readTimeLimitSeconds();
+        return validatedSeconds(seconds);
+    }
+
+    private static int validatedSeconds(int seconds) {
+        if (seconds <= 0) {
+            throw new IllegalArgumentException("제한 시간은 1초 이상이어야 합니다.");
+        }
+        return seconds;
     }
 
     private int readResumeChoiceWithRetry() {
@@ -112,11 +166,12 @@ public class Runner {
                 session.board().capture(),
                 session.turnManager().getCurrentTurn(),
                 GameStatus.IN_PROGRESS,
-                Optional.empty());
+                Optional.empty(),
+                Optional.of(session.deadline()));
     }
 
     private void runGameLoop(GameSession session) {
-        while (playTurn(session.board(), session.turnManager())) {
+        while (playTurn(session.board(), session.turnManager(), session.deadline())) {
         }
     }
 
@@ -167,16 +222,33 @@ public class Runner {
         throw new IllegalArgumentException("상차림 번호는 1~4 사이여야 합니다.");
     }
 
-    private boolean playTurn(Board board, TurnManager turnManager) {
+    private boolean playTurn(Board board, TurnManager turnManager, GameDeadline deadline) {
+        if (deadline.isExpired(clock)) {
+            endByScore(board, turnManager, deadline);
+            return false;
+        }
         TeamColor currentTurn = turnManager.getCurrentTurn();
         outputView.printCurrentTurn(currentTurn);
         outputView.printBoard(board);
-        return runTurnInputLoop(board, turnManager, currentTurn);
+        return runTurnInputLoop(board, turnManager, currentTurn, deadline);
     }
 
-    private boolean runTurnInputLoop(Board board, TurnManager turnManager, TeamColor currentTurn) {
+    private void endByScore(Board board, TurnManager turnManager, GameDeadline deadline) {
+        TeamScores scores = scoreCalculator.calculate(board.capture());
+        Optional<TeamColor> winner = scores.winner();
+        outputView.printTimeOverByScore(scores, winner);
+        gameStateRepository.save(
+                board.capture(),
+                turnManager.getCurrentTurn(),
+                GameStatus.ENDED,
+                winner,
+                Optional.of(deadline));
+    }
+
+    private boolean runTurnInputLoop(
+            Board board, TurnManager turnManager, TeamColor currentTurn, GameDeadline deadline) {
         while (true) {
-            TurnOutcome outcome = trySingleTurnAction(board, turnManager, currentTurn);
+            TurnOutcome outcome = trySingleTurnAction(board, turnManager, currentTurn, deadline);
             Boolean gameContinues = interpretOutcome(outcome);
             if (gameContinues != null) {
                 return gameContinues;
@@ -191,31 +263,34 @@ public class Runner {
         return outcome != TurnOutcome.GAME_OVER;
     }
 
-    private TurnOutcome trySingleTurnAction(Board board, TurnManager turnManager, TeamColor currentTurn) {
+    private TurnOutcome trySingleTurnAction(
+            Board board, TurnManager turnManager, TeamColor currentTurn, GameDeadline deadline) {
         try {
-            return processPieceSelection(board, turnManager, currentTurn);
+            return processPieceSelection(board, turnManager, currentTurn, deadline);
         } catch (RuntimeException exception) {
             outputView.printError(exception.getMessage());
             return TurnOutcome.RETRY;
         }
     }
 
-    private TurnOutcome processPieceSelection(Board board, TurnManager turnManager, TeamColor currentTurn) {
+    private TurnOutcome processPieceSelection(
+            Board board, TurnManager turnManager, TeamColor currentTurn, GameDeadline deadline) {
         List<Map.Entry<Position, Piece>> pieces = board.findPiecesByTeam(currentTurn);
         outputView.printPieceOptions(pieces);
         int pieceChoice = inputView.readPieceChoice(currentTurn);
         Piece selectedPiece = getSelectedPiece(pieces, pieceChoice);
-        return followRoutes(board, turnManager, selectedPiece);
+        return followRoutes(board, turnManager, selectedPiece, deadline);
     }
 
-    private TurnOutcome followRoutes(Board board, TurnManager turnManager, Piece selectedPiece) {
+    private TurnOutcome followRoutes(
+            Board board, TurnManager turnManager, Piece selectedPiece, GameDeadline deadline) {
         List<Route> routes = board.findMovableRoutes(selectedPiece);
         if (routes.isEmpty()) {
             throw new IllegalArgumentException("선택한 기물은 이동 가능한 경로가 없습니다.");
         }
         outputView.printRouteOptions(routes);
         int routeChoice = inputView.readRouteChoice();
-        return applyRouteChoice(board, turnManager, selectedPiece, routes, routeChoice);
+        return applyRouteChoice(board, turnManager, selectedPiece, routes, routeChoice, deadline);
     }
 
     private TurnOutcome applyRouteChoice(
@@ -223,27 +298,34 @@ public class Runner {
             TurnManager turnManager,
             Piece selectedPiece,
             List<Route> routes,
-            int routeChoice) {
+            int routeChoice,
+            GameDeadline deadline) {
         if (routeChoice == 0) {
             return TurnOutcome.RETRY;
         }
-        return completeMove(board, turnManager, selectedPiece, routes, routeChoice);
+        return completeMove(board, turnManager, selectedPiece, routes, routeChoice, deadline);
     }
 
     private TurnOutcome completeMove(
-            Board board, TurnManager turnManager, Piece piece, List<Route> routes, int routeChoice) {
+            Board board,
+            TurnManager turnManager,
+            Piece piece,
+            List<Route> routes,
+            int routeChoice,
+            GameDeadline deadline) {
         Position destination = getSelectedRoute(routes, routeChoice).endPos();
         Optional<Piece> captured = board.move(piece, destination);
         outputView.printMoveResult(piece, destination);
-        return afterMove(board, turnManager, captured);
+        return afterMove(board, turnManager, captured, deadline);
     }
 
-    private TurnOutcome afterMove(Board board, TurnManager turnManager, Optional<Piece> captured) {
+    private TurnOutcome afterMove(
+            Board board, TurnManager turnManager, Optional<Piece> captured, GameDeadline deadline) {
         if (isKingCapture(captured)) {
-            persistFinalState(board, turnManager);
+            persistFinalState(board, turnManager, deadline);
             return TurnOutcome.GAME_OVER;
         }
-        progressTurnAndPersist(board, turnManager);
+        progressTurnAndPersist(board, turnManager, deadline);
         return TurnOutcome.TURN_DONE;
     }
 
@@ -251,22 +333,24 @@ public class Runner {
         return captured.filter(Piece::isKing).isPresent();
     }
 
-    private void persistFinalState(Board board, TurnManager turnManager) {
+    private void persistFinalState(Board board, TurnManager turnManager, GameDeadline deadline) {
         outputView.printGameEnd(turnManager.getCurrentTurn());
         gameStateRepository.save(
                 board.capture(),
                 turnManager.getCurrentTurn(),
                 GameStatus.ENDED,
-                Optional.of(turnManager.getCurrentTurn()));
+                Optional.of(turnManager.getCurrentTurn()),
+                Optional.of(deadline));
     }
 
-    private void progressTurnAndPersist(Board board, TurnManager turnManager) {
+    private void progressTurnAndPersist(Board board, TurnManager turnManager, GameDeadline deadline) {
         turnManager.progressTurn();
         gameStateRepository.save(
                 board.capture(),
                 turnManager.getCurrentTurn(),
                 GameStatus.IN_PROGRESS,
-                Optional.empty());
+                Optional.empty(),
+                Optional.of(deadline));
     }
 
     private Piece getSelectedPiece(List<Map.Entry<Position, Piece>> pieces, int pieceChoice) {

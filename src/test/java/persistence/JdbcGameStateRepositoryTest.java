@@ -4,10 +4,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.GameSnapshot;
 import domain.GameStatus;
+import domain.GameDeadline;
 import domain.Piece;
 import domain.PieceType;
 import domain.Position;
 import domain.TeamColor;
+import java.time.Instant;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -47,13 +49,14 @@ class JdbcGameStateRepositoryTest {
         GameSnapshot snapshot = sampleSnapshot();
         TeamColor turn = TeamColor.HAN;
 
-        repository.save(snapshot, turn, GameStatus.IN_PROGRESS, Optional.empty());
+        repository.save(snapshot, turn, GameStatus.IN_PROGRESS, Optional.empty(), Optional.empty());
         Optional<SavedGameState> loaded = repository.load();
 
         assertThat(loaded).isPresent();
         assertThat(loaded.get().currentTurn()).isEqualTo(turn);
         assertThat(loaded.get().gameStatus()).isEqualTo(GameStatus.IN_PROGRESS);
         assertThat(loaded.get().winner()).isEmpty();
+        assertThat(loaded.get().deadline()).isEmpty();
         assertSnapshotsEqual(snapshot, loaded.get().snapshot());
     }
 
@@ -64,8 +67,8 @@ class JdbcGameStateRepositoryTest {
         GameSnapshot second = GameSnapshot.from(
                 Map.of(Position.of(9, 8), Piece.of(TeamColor.HAN, PieceType.KING)));
 
-        repository.save(first, TeamColor.CHO, GameStatus.IN_PROGRESS, Optional.empty());
-        repository.save(second, TeamColor.HAN, GameStatus.IN_PROGRESS, Optional.empty());
+        repository.save(first, TeamColor.CHO, GameStatus.IN_PROGRESS, Optional.empty(), Optional.empty());
+        repository.save(second, TeamColor.HAN, GameStatus.IN_PROGRESS, Optional.empty(), Optional.empty());
         Optional<SavedGameState> loaded = repository.load();
 
         assertThat(loaded).isPresent();
@@ -77,12 +80,30 @@ class JdbcGameStateRepositoryTest {
     void 종료된_게임은_승자와_상태를_함께_저장한다() {
         GameSnapshot snapshot = sampleSnapshot();
 
-        repository.save(snapshot, TeamColor.CHO, GameStatus.ENDED, Optional.of(TeamColor.CHO));
+        repository.save(
+                snapshot,
+                TeamColor.CHO,
+                GameStatus.ENDED,
+                Optional.of(TeamColor.CHO),
+                Optional.empty());
         Optional<SavedGameState> loaded = repository.load();
 
         assertThat(loaded).isPresent();
         assertThat(loaded.get().gameStatus()).isEqualTo(GameStatus.ENDED);
         assertThat(loaded.get().winner()).contains(TeamColor.CHO);
+    }
+
+    @Test
+    void 마감시각을_저장하고_다시_불러온다() {
+        GameSnapshot snapshot = sampleSnapshot();
+        GameDeadline deadline = GameDeadline.of(Instant.parse("2026-04-06T10:00:00Z"));
+
+        repository.save(
+                snapshot, TeamColor.CHO, GameStatus.IN_PROGRESS, Optional.empty(), Optional.of(deadline));
+        Optional<SavedGameState> loaded = repository.load();
+
+        assertThat(loaded).isPresent();
+        assertThat(loaded.get().deadline()).contains(deadline);
     }
 
     private static GameSnapshot sampleSnapshot() {

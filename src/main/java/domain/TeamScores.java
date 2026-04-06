@@ -1,5 +1,7 @@
 package domain;
 
+import java.util.Optional;
+
 public final class TeamScores {
 
     private final MaterialPoints choTotal;
@@ -19,5 +21,21 @@ public final class TeamScores {
             return choTotal;
         }
         return hanTotal;
+    }
+
+    public Optional<TeamColor> winner() {
+        long cho = scaledHalfPointUnits(choTotal);
+        long han = scaledHalfPointUnits(hanTotal);
+        if (cho > han) {
+            return Optional.of(TeamColor.CHO);
+        }
+        if (han > cho) {
+            return Optional.of(TeamColor.HAN);
+        }
+        return Optional.empty();
+    }
+
+    private static long scaledHalfPointUnits(MaterialPoints points) {
+        return Math.round(points.value() * 2);
     }
 }

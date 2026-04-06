@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.Clock;
 
 import io.InputView;
 import io.OutputView;
@@ -15,6 +16,6 @@ public class Main {
         Connection connection = GameDatabase.openFileConnection();
         SchemaInitializer.apply(connection);
         GameStateRepository repository = new JdbcGameStateRepository(() -> connection);
-        new Runner(new InputView(), new OutputView(), repository).run();
+        new Runner(new InputView(), new OutputView(), repository, Clock.systemDefaultZone()).run();
     }
 }

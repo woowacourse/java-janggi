@@ -2,7 +2,8 @@ CREATE TABLE IF NOT EXISTS game_meta (
     id INT PRIMARY KEY,
     current_turn VARCHAR(20) NOT NULL,
     game_status VARCHAR(20) NOT NULL,
-    winner_team VARCHAR(20)
+    winner_team VARCHAR(20),
+    deadline_epoch_ms BIGINT
 );
 
 CREATE TABLE IF NOT EXISTS board_cell (
