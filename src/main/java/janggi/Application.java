@@ -2,6 +2,7 @@ package janggi;
 
 import janggi.controller.GameLobbyController;
 import janggi.persistence.ActiveGameSession;
+import janggi.persistence.DatabaseInitializer;
 import janggi.persistence.DatabaseProvider;
 import janggi.persistence.JanggiGameRepository;
 import janggi.service.JanggiService;
@@ -22,6 +23,7 @@ public class Application {
 
     private static void runGameLifecycle(InputView inputView, OutputView outputView, JanggiService service) {
         try (Connection connection = DatabaseProvider.getConnection()) {
+            DatabaseInitializer.initialize(connection);
             GameLobbyController lobbyController = new GameLobbyController(inputView, outputView, service);
             ActiveGameSession session = lobbyController.enterLobby(connection);
             Runner runner = new Runner(inputView, outputView, session.gameManager());
