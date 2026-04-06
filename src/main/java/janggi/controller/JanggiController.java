@@ -5,7 +5,6 @@ import janggi.domain.board.Board;
 import janggi.domain.board.BoardGenerator;
 import janggi.domain.board.BoardMediator;
 import janggi.domain.board.BoardMediatorImpl;
-import janggi.domain.command.GameSelectCommand;
 import janggi.domain.command.SetupCommand;
 import janggi.domain.piece.Piece;
 import janggi.domain.setup.SetupPolicy;
@@ -28,7 +27,7 @@ import java.util.List;
 
 public class JanggiController {
 
-    public static final int MAXIMUM_GAMES_COUNT_IN_PROGRESS = 3;
+    protected static final int MAXIMUM_GAMES_COUNT_IN_PROGRESS = 3;
 
     private final GameService gameService;
     private final BoardService boardService;

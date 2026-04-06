@@ -1,4 +1,4 @@
-package janggi.domain.command;
+package janggi.controller;
 
 import static janggi.controller.JanggiController.MAXIMUM_GAMES_COUNT_IN_PROGRESS;
 
