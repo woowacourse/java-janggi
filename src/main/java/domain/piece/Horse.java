@@ -15,25 +15,25 @@ public class Horse extends Piece {
 
     @Override
     public boolean canMove(Position source, Position target) {
-        int rowDiff = target.rowDiff(source);
-        int colDiff = target.columnDiff(source);
+        int rowDifference = target.rowDifference(source);
+        int columnDifference = target.columnDifference(source);
 
         return java.util.stream.IntStream.range(0, ROW_OFFSETS.size())
-                .anyMatch(i -> ROW_OFFSETS.get(i) == rowDiff && COLUMN_OFFSETS.get(i) == colDiff);
+                .anyMatch(i -> ROW_OFFSETS.get(i) == rowDifference && COLUMN_OFFSETS.get(i) == columnDifference);
     }
 
     @Override
     public List<Position> calculateRoute(Position source, Position target) {
-        int rowDiff = source.rowDiff(target);
-        int colDiff = source.columnDiff(target);
-        return List.of(calculateFirstStep(source, rowDiff, colDiff));
+        int rowDifference = source.rowDifference(target);
+        int columnDifference = source.columnDifference(target);
+        return List.of(calculateFirstStep(source, rowDifference, columnDifference));
     }
 
-    private Position calculateFirstStep(Position source, int rowDiff, int colDiff) {
-        if (Math.abs(colDiff) == 2) {
-            return source.addPosition(0, -Integer.signum(colDiff));
+    private Position calculateFirstStep(Position source, int rowDifference, int columnDifference) {
+        if (Math.abs(columnDifference) == 2) {
+            return source.addPosition(0, -Integer.signum(columnDifference));
         }
-        return source.addPosition(-Integer.signum(rowDiff), 0);
+        return source.addPosition(-Integer.signum(rowDifference), 0);
     }
 
 }

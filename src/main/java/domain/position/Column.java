@@ -39,7 +39,7 @@ public class Column {
         return Math.max(other.value, value);
     }
 
-    public int diff(Column other) {
+    public int difference(Column other) {
         return this.value - other.value;
     }
 

@@ -22,7 +22,7 @@ public class Position {
 
     private static Stream<Position> positionsInRow(Row row) {
         return Column.allColumns().stream()
-                .map(col -> new Position(row, col));
+                .map(column -> new Position(row, column));
     }
 
     public static Position from(String row, String column) {
@@ -42,19 +42,19 @@ public class Position {
         return other.row.equals(this.row);
     }
 
-    public boolean isSameCol(Position other) {
+    public boolean isSameColumn(Position other) {
         return other.column.equals(this.column);
     }
 
-    public int rowDiff(Position other) {
-        return this.row.diff(other.row);
+    public int rowDifference(Position other) {
+        return this.row.difference(other.row);
     }
 
-    public int columnDiff(Position other) {
-        return this.column.diff(other.column);
+    public int columnDifference(Position other) {
+        return this.column.difference(other.column);
     }
 
-    public List<Position> makeColStraightRoute(Position other) {
+    public List<Position> makeColumnStraightRoute(Position other) {
         List<Position> routes = new ArrayList<>();
         int start = other.column.min(this.column);
         int end = other.column.max(this.column);
@@ -74,8 +74,8 @@ public class Position {
         return routes;
     }
 
-    public Position addPosition(int x, int y) {
-        return new Position(this.row.add(x), this.column.add(y));
+    public Position addPosition(int rowOffset, int columnOffset) {
+        return new Position(this.row.add(rowOffset), this.column.add(columnOffset));
     }
 
     public Position middlePosition(Position other) {

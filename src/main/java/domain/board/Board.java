@@ -23,12 +23,17 @@ public class Board {
 
     public void move(Position source, Position destination) {
         Piece piece = pieceAt(source);
+
         validateCanMove(piece, source, destination);
+
         List<Position> route = piece.calculateRoute(source, destination);
+
         List<Piece> piecesOnRoute = route.stream()
                 .map(this::pieceAt)
                 .collect(Collectors.toList());
+
         piece.validateRoute(piecesOnRoute, pieceAt(destination));
+
         applyMove(source, destination, piece);
     }
 

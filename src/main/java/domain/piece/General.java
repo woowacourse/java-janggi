@@ -14,11 +14,11 @@ public class General extends Piece {
 
     @Override
     public boolean canMove(Position source, Position target) {
-        int rowDiff = target.rowDiff(source);
-        int colDiff = target.columnDiff(source);
+        int rowDifference = target.rowDifference(source);
+        int columnDifference = target.columnDifference(source);
 
         for (int i = 0; i < ROW_OFFSETS.size(); i++) {
-            if (ROW_OFFSETS.get(i) == rowDiff && COLUMN_OFFSETS.get(i) == colDiff) {
+            if (ROW_OFFSETS.get(i) == rowDifference && COLUMN_OFFSETS.get(i) == columnDifference) {
                 return true;
             }
         }

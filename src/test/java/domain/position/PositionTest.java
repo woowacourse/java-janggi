@@ -77,7 +77,7 @@ class PositionTest {
         Position position = new Position(1, 5);
         Position otherPosition = new Position(3, 5);
 
-        assertThat(position.isSameCol(otherPosition)).isTrue();
+        assertThat(position.isSameColumn(otherPosition)).isTrue();
     }
 
     @Test
@@ -85,6 +85,6 @@ class PositionTest {
         Position position = new Position(1, 5);
         Position otherPosition = new Position(1, 6);
 
-        assertThat(position.isSameCol(otherPosition)).isFalse();
+        assertThat(position.isSameColumn(otherPosition)).isFalse();
     }
 }

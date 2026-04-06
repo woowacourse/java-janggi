@@ -20,6 +20,7 @@ public class JanggiController {
     public void run() {
         JanggiGame game = createGame();
         outputView.printBoard(game.getBoard());
+
         while (game.isRunning()) {
             playTurn(game);
             outputView.printBoard(game.getBoard());

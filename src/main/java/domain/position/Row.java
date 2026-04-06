@@ -35,7 +35,7 @@ public class Row {
         return Math.max(other.value, value);
     }
 
-    public int diff(Row other) {
+    public int difference(Row other) {
         return this.value - other.value;
     }
 

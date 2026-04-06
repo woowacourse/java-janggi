@@ -22,15 +22,15 @@ public class Cannon extends Piece {
 
     @Override
     public boolean canMove(Position source, Position target) {
-        return source.isSameCol(target) || source.isSameRow(target);
+        return source.isSameColumn(target) || source.isSameRow(target);
     }
 
     @Override
     public List<Position> calculateRoute(Position source, Position target) {
-        if (source.isSameCol(target)) {
+        if (source.isSameColumn(target)) {
             return source.makeRowStraightRoute(target);
         }
-        return source.makeColStraightRoute(target);
+        return source.makeColumnStraightRoute(target);
     }
 
     @Override

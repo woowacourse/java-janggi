@@ -15,18 +15,18 @@ public class Soldier extends Piece {
     }
 
     private boolean isValidForwardMove(Position source, Position target) {
-        int rowDiff = target.rowDiff(source);
-        int colDiff = target.columnDiff(source);
-        boolean isForwardOneStep = rowDiff == forwardDirection();
-        boolean isSameColumn = colDiff == 0;
+        int rowDifference = target.rowDifference(source);
+        int columnDifference = target.columnDifference(source);
+        boolean isForwardOneStep = rowDifference == forwardDirection();
+        boolean isSameColumn = columnDifference == 0;
         return isForwardOneStep && isSameColumn;
     }
 
     private boolean isValidSideMove(Position source, Position target) {
-        int rowDiff = target.rowDiff(source);
-        int colDiff = target.columnDiff(source);
-        boolean isSameRow = rowDiff == 0;
-        boolean isOneColumnAway = Math.abs(colDiff) == 1;
+        int rowDifference = target.rowDifference(source);
+        int columnDifference = target.columnDifference(source);
+        boolean isSameRow = rowDifference == 0;
+        boolean isOneColumnAway = Math.abs(columnDifference) == 1;
         return isSameRow && isOneColumnAway;
     }
 
