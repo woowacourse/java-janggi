@@ -1,11 +1,13 @@
 package janggi.persistence;
 
 import janggi.domain.game.GameManager;
+import janggi.domain.game.Side;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Map;
 import java.util.Optional;
 
 public class JanggiGameRepository implements GameRepository {
@@ -46,9 +48,24 @@ public class JanggiGameRepository implements GameRepository {
     }
 
     private void bindInsertParameters(PreparedStatement statement, GameManager gameManager) throws SQLException {
-        String choPlayerName = gameManager.
-        pstmt.setString(1, );
-        pstmt.setString(2, );
-        pstmt.setString(3, gameManager.getCurrentTurn().getSide().name());
+        Map<Side, String> playersInfo = gameManager.getPlayersInfo();
+        String choPlayerName = playersInfo.get(Side.CHO);
+        String hanPlayerName = playersInfo.get(Side.HAN);
+        statement.setString(1, choPlayerName);
+        statement.setString(2, hanPlayerName);
+        statement.setString(3, gameManager.getCurrentSide().name());
+    }
+
+    private long extractGeneratedId(PreparedStatement statement) throws SQLException {
+        try (ResultSet resultSet = statement.getGeneratedKeys()) {
+            return mapToGeneratedId(resultSet);
+        }
+    }
+
+    private long mapToGeneratedId(ResultSet resultSet) throws SQLException {
+        if (!resultSet.next()) {
+            throw new SQLException("생성된 게임의 ID가 조회되지 않습니다.");
+        }
+        return resultSet.getLong(1);
     }
 }

@@ -61,4 +61,12 @@ public class GameManager {
     public double currentPlayerScore() {
         return board.calculateScore(turn.currentSide());
     }
+
+    public Map<Side, String> getPlayersInfo() {
+        return players.getPlayersInfo();
+    }
+
+    public Side getCurrentSide() {
+        return turn.currentSide();
+    }
 }
