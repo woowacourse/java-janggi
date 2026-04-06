@@ -2,10 +2,7 @@ package janggi.domain.board.coordinate;
 
 import janggi.domain.board.Board;
 
-public record Point(
-        int x,
-        int y
-) {
+public record Point(int x, int y) {
 
     private static final Point[][] CACHE = initCache();
 

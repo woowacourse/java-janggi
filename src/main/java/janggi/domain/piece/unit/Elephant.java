@@ -17,6 +17,7 @@ public class Elephant extends Piece {
 
     private static final PieceType TYPE = PieceType.ELEPHANT;
     private static final PathStrategy DEFAULT_STRATEGY = new FixedPathStrategy();
+
     private static final List<Pattern> BASE_PATTERNS = List.of(
             new Pattern(List.of(Direction.NORTH, Direction.NORTH_WEST, Direction.NORTH_WEST)),
             new Pattern(List.of(Direction.NORTH, Direction.NORTH_EAST, Direction.NORTH_EAST)),

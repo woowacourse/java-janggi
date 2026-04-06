@@ -18,6 +18,7 @@ public class General extends Piece {
 
     private static final PieceType TYPE = PieceType.GENERAL;
     private static final PathStrategy DEFAULT_STRATEGY = new FixedPathStrategy();
+
     private static final List<Pattern> BASE_PATTERNS = Arrays.stream(Direction.values())
             .map(direction -> new Pattern(List.of(direction)))
             .toList();

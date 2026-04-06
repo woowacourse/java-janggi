@@ -3,8 +3,7 @@ package janggi.domain.side;
 public enum Side {
     HAN("한", 1.5),
     CHO("초", 0),
-    NONE("  ", 0),
-    ;
+    NONE("  ", 0);
 
     private final String name;
     private final double bonusScore;

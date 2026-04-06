@@ -18,6 +18,7 @@ public class Soldier extends Piece {
 
     private static final PieceType TYPE = PieceType.SOLDIER;
     private static final PathStrategy DEFAULT_STRATEGY = new FixedPathStrategy();
+
     private static final List<Pattern> CHO_BASE_PATTERNS = List.of(
             new Pattern(List.of(Direction.NORTH)),
             new Pattern(List.of(Direction.WEST)),
@@ -33,7 +34,6 @@ public class Soldier extends Piece {
             new Pattern(List.of(Direction.NORTH_WEST)),
             new Pattern(List.of(Direction.NORTH_EAST))
     );
-
     private static final List<Pattern> ADD_LOWER_PATTERNS = List.of(
             new Pattern(List.of(Direction.SOUTH_WEST)),
             new Pattern(List.of(Direction.SOUTH_EAST))

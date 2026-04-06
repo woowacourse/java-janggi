@@ -18,6 +18,7 @@ public class Cannon extends Piece {
 
     private static final PieceType TYPE = PieceType.CANNON;
     private static final PathStrategy DEFAULT_STRATEGY = new LinearPathStrategy();
+
     private static final List<Pattern> BASE_PATTERNS = List.of(
             new Pattern(List.of(Direction.NORTH)),
             new Pattern(List.of(Direction.SOUTH)),
