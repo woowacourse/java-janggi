@@ -87,7 +87,7 @@ public class Board {
 
     private void validateBlankSpace(Space spaceFrom) {
         if (spaceFrom.isBlank()) {
-            throw new IllegalArgumentException("해당 좌표에 말이 없습니다.");
+            throw new IllegalStateException("해당 좌표에 말이 없습니다.");
         }
     }
 

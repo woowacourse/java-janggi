@@ -26,7 +26,7 @@ public abstract class Piece implements Space {
 
         Piece piece = (Piece) space;
         if (isEqualTeam(piece.team)) {
-            throw new IllegalArgumentException("이동하려는 위치에 같은 팀의 말이 존재합니다.");
+            throw new IllegalStateException("이동하려는 위치에 같은 팀의 말이 존재합니다.");
         }
 
         validateSpecificArrival(piece);
@@ -34,7 +34,7 @@ public abstract class Piece implements Space {
 
     public void validateRoutes(List<Piece> pieces) {
         if (!pieces.isEmpty()) {
-            throw new IllegalArgumentException("이동 경로 사이에 다른 말이 있으면 안됩니다.");
+            throw new IllegalStateException("이동 경로 사이에 다른 말이 있으면 안됩니다.");
         }
     }
 
