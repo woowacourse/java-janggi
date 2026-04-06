@@ -141,4 +141,21 @@ public class JanggiGameRepository implements GameRepository {
         }
         return resultSet.getObject("created_at", LocalDateTime.class);
     }
+
+    @Override
+    public void updateTurn(Connection connection, long gameId, GameManager gameManager) throws SQLException {
+        String sql = "update game set current_turn = ? where game_id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, gameManager.getCurrentSide().name());
+            statement.setLong(2, gameId);
+            executeAndValidateUpdate(statement);
+        }
+    }
+
+    private void executeAndValidateUpdate(PreparedStatement statement) throws SQLException {
+        int affectedRows = statement.executeUpdate();
+        if (affectedRows == 0) {
+            throw new SQLException("업데이트 대상 게임을 찾을 수 없습니다.");
+        }
+    }
 }

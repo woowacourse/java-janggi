@@ -8,8 +8,11 @@ import janggi.dto.BoardDTO;
 import janggi.dto.PieceDTO;
 import janggi.dto.PlayerDTO;
 import janggi.dto.PositionDTO;
+import janggi.service.JanggiService;
 import janggi.view.InputView;
 import janggi.view.OutputView;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -26,20 +29,25 @@ public class Runner {
         this.gameManager = gameManager;
     }
 
-    public void run() {
+    public void run(JanggiService janggiService, long gameId, Connection connection) throws SQLException {
         printBoard();
-        play();
+        play(janggiService, gameId, connection);
     }
 
-    private void play() {
+    private void play(JanggiService janggiService, long gameId, Connection connection) throws SQLException {
         while (!gameManager.isFinished()) {
-            Player currentPlayer = gameManager.currentPlayer();
-            PlayerDTO currentPlayerDTO = PlayerDTO.from(currentPlayer);
-            double currentPlayerScore = gameManager.currentPlayerScore();
-            printPlayerTurnNotice(currentPlayerDTO, currentPlayerScore);
+            printCurrentTurnNotice();
             playerTurn();
             gameManager.switchTurn();
+            janggiService.saveTurnState(connection, gameId, gameManager);
         }
+    }
+
+    private void printCurrentTurnNotice() {
+        Player currentPlayer = gameManager.currentPlayer();
+        PlayerDTO currentPlayerDTO = PlayerDTO.from(currentPlayer);
+        double currentPlayerScore = gameManager.currentPlayerScore();
+        printPlayerTurnNotice(currentPlayerDTO, currentPlayerScore);
     }
 
     private void printPlayerTurnNotice(PlayerDTO currentPlayer, double currentPlayerScore) {

@@ -6,7 +6,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 public interface GameRepository {
 
@@ -17,4 +16,6 @@ public interface GameRepository {
     GameManager findByGameId(Connection connection, long gameId) throws SQLException;
 
     LocalDateTime findCreatedAtById(Connection connection, long gameId) throws SQLException;
+
+    void updateTurn(Connection connection, long gameId, GameManager gameManager) throws SQLException;
 }
