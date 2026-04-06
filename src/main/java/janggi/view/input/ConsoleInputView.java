@@ -10,10 +10,6 @@ public class ConsoleInputView implements InputView {
         scanner = new Scanner(System.in);
     }
 
-    public ConsoleInputView(Scanner scanner) {
-        this.scanner = scanner;
-    }
-
     @Override
     public String readLine() {
         return scanner.nextLine();
