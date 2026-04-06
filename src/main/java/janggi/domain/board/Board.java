@@ -6,7 +6,7 @@ import janggi.domain.Side;
 import janggi.domain.piece.Piece;
 import janggi.exception.ErrorCode;
 import janggi.exception.JanggiException;
-import janggi.strategy.BoardAssembler;
+import janggi.domain.strategy.BoardAssembler;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

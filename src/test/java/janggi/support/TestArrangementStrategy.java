@@ -4,7 +4,7 @@ import janggi.domain.Location;
 import janggi.domain.Side;
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
-import janggi.strategy.ArrangementStrategy;
+import janggi.domain.strategy.ArrangementStrategy;
 import java.util.Map;
 
 public class TestArrangementStrategy implements ArrangementStrategy {

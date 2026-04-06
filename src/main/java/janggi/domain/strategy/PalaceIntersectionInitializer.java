@@ -1,4 +1,4 @@
-package janggi.strategy;
+package janggi.domain.strategy;
 
 import static janggi.domain.rule.route.Direction.BACK;
 import static janggi.domain.rule.route.Direction.BACK_LEFT;
