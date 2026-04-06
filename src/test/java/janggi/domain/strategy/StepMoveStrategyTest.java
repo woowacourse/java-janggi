@@ -22,7 +22,8 @@ public class StepMoveStrategyTest {
     @DisplayName("한 칸 이동 시 보드 범위를 벗어나는 경우, 경로를 생성하지 않는다. - findMovablePaths()")
     @Test
     void 보드_범위_밖_경로_미생성_테스트() {
-        // given: (0, 0) 위치에서 북쪽(위)으로 한 칸 이동 시도
+        // given
+        // (0, 0) 위치에서 북쪽으로 한 칸 이동 시도
         Position current = new Position(0, 0);
         EnumSet<Direction> directions = EnumSet.of(Direction.N);
 
