@@ -56,7 +56,7 @@ public class JanggiController {
             outputView.printScore(Side.CHO, game.getScore(Side.CHO));
             outputView.printScore(Side.HAN, game.getScore(Side.HAN));
 
-            if (winner.get() != Side.NONE) {
+            if (!winner.get().equals(Side.NONE)) {
                 outputView.printBoard(game.getBoard());
                 outputView.printGameResult(winner.get());
                 break;

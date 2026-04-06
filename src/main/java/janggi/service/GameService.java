@@ -35,7 +35,7 @@ public class GameService {
         Side winner = session.game().move(from, to);
         gameRepository.update(session.gameId(), session.game());
 
-        if (winner != Side.NONE) {
+        if (!winner.equals(Side.NONE)) {
             gameRepository.finish(session.gameId(), winner);
         }
 
