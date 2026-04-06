@@ -52,20 +52,14 @@ public class InputView {
 
     public static boolean askExitAfterSave() {
         System.out.println("게임을 종료하시겠습니까? (종료: exit, 계속: continue)");
-        while (true) {
-            try {
-                String answer = Console.readLine().trim().toLowerCase();
-                if ("exit".equals(answer)) {
-                    return true;
-                }
-                if ("continue".equals(answer)) {
-                    return false;
-                }
-                System.out.println("잘못된 입력입니다. 'exit' 또는 'continue'로 입력해주세요.");
-            } catch (Exception e) {
-                System.out.println("입력 중 오류가 발생했습니다. 다시 시도해주세요.");
-            }
+        String answer = Console.readLine().trim().toLowerCase();
+        if ("exit".equals(answer)) {
+            return true;
         }
+        if ("continue".equals(answer)) {
+            return false;
+        }
+        throw new IllegalArgumentException("잘못된 입력입니다. 'exit' 또는 'continue'로 입력해주세요.");
     }
 
     public static boolean askOverwrite() {
