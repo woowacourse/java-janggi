@@ -15,6 +15,7 @@ build/
 .sts4-cache
 
 ### IntelliJ IDEA ###
+docker/mysql_data
 .idea
 *.iws
 *.iml
