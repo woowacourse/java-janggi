@@ -19,16 +19,19 @@ public class MovePath {
         if (path.size() != 1) {
             return false;
         }
+        Delta inputDelta = Delta.scaleDown(dx, dy);
         Delta delta = path.getFirst();
-        if (delta.getDx() == 0) {
-            return dx == 0 && Integer.signum(dy) == Integer.signum(delta.getDy()) && dy != 0;
+
+        return inputDelta.equals(delta);
+    }
+
+    public List<Position> intermediatePositions(Position start, Position end) {
+        List<Position> route = createRoute(start, end);
+        if (route.isEmpty()) {
+            return route;
         }
-        if (delta.getDy() == 0) {
-            return dy == 0 && Integer.signum(dx) == Integer.signum(delta.getDx()) && dx != 0;
-        }
-        return Math.abs(dx) == Math.abs(dy)
-            && Integer.signum(dx) == Integer.signum(delta.getDx())
-            && Integer.signum(dy) == Integer.signum(delta.getDy());
+        route.removeLast();
+        return route;
     }
 
     public List<Position> createRoute(Position start, Position end) {
@@ -41,15 +44,6 @@ public class MovePath {
             current = current.move(delta);
             route.add(current);
         }
-        return route;
-    }
-
-    public List<Position> intermediatePositions(Position start, Position end) {
-        List<Position> route = createRoute(start, end);
-        if (route.isEmpty()) {
-            return route;
-        }
-        route.removeLast();
         return route;
     }
 

@@ -52,6 +52,10 @@ public class Delta {
         return new Delta(dx, dy);
     }
 
+    public static Delta scaleDown(int dx, int dy) {
+        return new Delta(Integer.signum(dx), Integer.signum(dy));
+    }
+
     public int getDx() {
         return dx;
     }
