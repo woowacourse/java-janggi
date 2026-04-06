@@ -1,6 +1,7 @@
 package game;
 
 import domain.Position;
+import domain.Score;
 import domain.Team;
 import domain.board.JanggiBoard;
 import domain.piece.Piece;
@@ -41,20 +42,15 @@ public class JanggiGame {
     }
 
     public Team getWinner() {
-        if (!janggiBoard.isKingAlive(Team.HAN)) {
-            return Team.CHO;
-        }
-        if (!janggiBoard.isKingAlive(Team.CHO)) {
-            return Team.HAN;
-        }
-        double teamChoScore = janggiBoard.calculateScore(Team.CHO);
-        double teamHanScore = janggiBoard.calculateScore(Team.HAN);
-        if (teamChoScore > teamHanScore) {
-            return Team.CHO;
-        }
-        if (teamHanScore > teamChoScore) {
-            return Team.HAN;
-        }
+        if (!janggiBoard.isKingAlive(Team.HAN)) return Team.CHO;
+        if (!janggiBoard.isKingAlive(Team.CHO)) return Team.HAN;
+
+        Score choScore = Score.from(Team.CHO, janggiBoard.calculateScore(Team.CHO));
+        Score hanScore = Score.from(Team.HAN, janggiBoard.calculateScore(Team.HAN));
+
+        if (choScore.isGreaterThan(hanScore)) return Team.CHO;
+        if (hanScore.isGreaterThan(choScore)) return Team.HAN;
+
         return Team.NONE;
     }
 
