@@ -81,5 +81,38 @@ public class RedSoldierTest {
 
             assertThat(actual).hasSameElementsAs(expected);
         }
+
+        @Test
+        @DisplayName("홍졸은 궁성 내부에서 대각선으로 이동할 수 있다.")
+        void test4() {
+            positionPieceMap.put(Position.valueOf(8, 4), redSoldier);
+            List<Position> expected = List.of(
+                    Position.valueOf(9, 4),
+                    Position.valueOf(8, 3),
+                    Position.valueOf(8, 5),
+                    Position.valueOf(9, 5));
+
+            BoardMediator boardMediator = new Board(positionPieceMap);
+            List<Position> actual = redSoldier.calculateMovablePositions(Position.valueOf(8, 4), boardMediator);
+
+            assertThat(actual).hasSameElementsAs(expected);
+        }
+
+        @Test
+        @DisplayName("홍졸은 궁성 내부에서 대각선으로 이동할 수 있다.")
+        void test5() {
+            positionPieceMap.put(Position.valueOf(9, 5), redSoldier);
+            List<Position> expected = List.of(
+                    Position.valueOf(9, 4),
+                    Position.valueOf(9, 6),
+                    Position.valueOf(10, 5),
+                    Position.valueOf(10, 4),
+                    Position.valueOf(10, 6));
+
+            BoardMediator boardMediator = new Board(positionPieceMap);
+            List<Position> actual = redSoldier.calculateMovablePositions(Position.valueOf(9, 5), boardMediator);
+
+            assertThat(actual).hasSameElementsAs(expected);
+        }
     }
 }
