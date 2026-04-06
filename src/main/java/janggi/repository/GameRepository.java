@@ -10,5 +10,5 @@ public interface GameRepository {
 
     void updateTurn(Connection conn, int gameId, String nextTurn);
 
-    Optional<GameEntity> findById(Connection conn, int gameId);
+    Optional<GameEntity> findInProgressGame(Connection conn);
 }
