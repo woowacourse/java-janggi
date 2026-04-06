@@ -79,7 +79,7 @@ public class Board {
         return Optional.ofNullable(pieces.get(position));
     }
 
-    public Map<Position, Piece> currentPieces() {
+    public Map<Position, Piece> getState() {
         return Collections.unmodifiableMap(pieces);
     }
 
