@@ -1,5 +1,6 @@
 package janggi.domain.board;
 
+import janggi.domain.Palace;
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
@@ -12,6 +13,7 @@ import java.util.Map;
 
 public class Board implements BoardView {
     private final Map<Position, Piece> board;
+    private final Palace palace = Palace.creatAllPalace();
 
     public Board() {
         this(new HashMap<>());
@@ -34,6 +36,11 @@ public class Board implements BoardView {
     @Override
     public PieceType findTypeByPosition(Position position) {
         return findByPosition(position).pieceType();
+    }
+
+    @Override
+    public Palace palace() {
+        return palace;
     }
 
     public void move(Position from, Position to, Team currentTeam) {

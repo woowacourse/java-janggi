@@ -1,5 +1,6 @@
 package janggi.domain.board;
 
+import janggi.domain.Palace;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.vo.position.Position;
@@ -10,4 +11,6 @@ public interface BoardView {
     boolean isEmptyPosition(Position position);
 
     PieceType findTypeByPosition(Position position);
+
+    Palace palace();
 }

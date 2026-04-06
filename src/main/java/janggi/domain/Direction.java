@@ -4,6 +4,7 @@ import janggi.domain.piece.Team;
 import janggi.domain.vo.position.Position;
 
 import java.util.Arrays;
+import java.util.List;
 
 public enum Direction {
     NORTH(-1, 0), SOUTH(1, 0), EAST(0, 1), WEST(0, -1),
@@ -37,6 +38,10 @@ public enum Direction {
         }
 
         return SOUTH;
+    }
+
+    public boolean isDiagonal() {
+        return List.of(NORTH_EAST, NORTH_WEST, SOUTH_EAST, SOUTH_WEST).contains(this);
     }
 
     public int getDx() {
