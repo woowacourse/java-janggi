@@ -4,7 +4,9 @@ import janggi.domain.dynasty.Dynasty;
 import janggi.domain.position.Direction;
 import janggi.domain.position.Palace;
 import janggi.domain.position.Position;
+
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -29,11 +31,12 @@ public class SoldierMoveStrategy implements MoveStrategy {
     }
 
     private static List<Direction> getMovableDirections(Position from) {
-        List<Direction> movableDirections = List.of(Direction.valuesFourDirections());
-        if(Palace.isPalace(from)) {
-            movableDirections = Palace.getMovableDirectionsAtPalace(from);
+        HashSet<Direction> movableDirections = new HashSet<>(List.of(Direction.valuesFourDirections()));
+        if (Palace.isPalace(from)) {
+            movableDirections.addAll(Palace.getMovableDirectionsAtPalace(from));
         }
-        return movableDirections;
+        return movableDirections.stream()
+                .toList();
     }
 
     private static void addIfMovable(Map<Position, Piece> board, Position from, Dynasty dynasty, Direction dir, List<Position> movablePositions) {

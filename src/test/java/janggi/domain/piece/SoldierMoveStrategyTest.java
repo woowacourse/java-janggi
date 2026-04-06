@@ -99,6 +99,7 @@ class SoldierMoveStrategyTest {
         // then
         assertThat(positions)
                 .containsExactlyInAnyOrder(
+                        Position.from(8, 3),
                         Position.from(8, 5),
                         Position.from(9, 4),
                         Position.from(9, 5) // 대각선

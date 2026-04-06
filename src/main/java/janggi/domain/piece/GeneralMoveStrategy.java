@@ -39,9 +39,6 @@ public class GeneralMoveStrategy implements MoveStrategy {
 
     private static void addIfMovable(Map<Position, Piece> board, Position from, Dynasty dynasty, Direction dir, List<Position> movablePositions) {
         from.findOnePositionByDirection(dir).ifPresent(to -> {
-            if(!Palace.isPalace(to)) {
-                return;
-            }
             if (isPiecePresent(board, to) && board.get(to).isAlly(dynasty)) {
                 return;
             }
