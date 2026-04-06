@@ -1,7 +1,6 @@
 package domain;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -32,7 +31,7 @@ public enum Direction implements Comparator<Direction> {
             x += -direction.x;
             y += -direction.y;
         }
-        Collections.sort(directions);
+        directions.sort((d1, d2) -> Boolean.compare(d1.isDiagonal(), d2.isDiagonal()));
         return directions;
     }
 
