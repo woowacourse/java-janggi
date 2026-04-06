@@ -62,7 +62,7 @@ public class JanggiGameService {
                 connection -> {
                     List<JanggiGame> playingGames = gameDao.findPlayingGames(connection);
                     if (playingGames.isEmpty()) {
-                        throw new IllegalStateException("진행 중인 게임이 없습니다.");
+                        throw new IllegalStateException(ServiceErrorMessage.NOT_FOUND_PLAYING_GAME.getMessage());
                     }
                     return playingGames.getFirst();
                 }
