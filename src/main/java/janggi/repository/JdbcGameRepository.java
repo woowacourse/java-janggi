@@ -141,28 +141,19 @@ public class JdbcGameRepository implements GameRepository {
             Long gameId,
             List<PositionInfo> positions
     ) throws SQLException {
-        for (PositionInfo positionInfo : positions) {
-            insertPiece(connection, gameId, positionInfo);
-        }
-    }
-
-    private void insertPiece(
-            Connection connection,
-            Long gameId,
-            PositionInfo position
-    ) throws SQLException {
-        try (
-                PreparedStatement statement = connection.prepareStatement(
-                        "INSERT INTO game_pieces(game_id, team, piece_type, x_value, y_value) " +
-                                "VALUES (?, ?, ?, ?, ?)"
-                )
-        ) {
-            statement.setLong(1, gameId);
-            statement.setString(2, teamName(position));
-            statement.setString(3, position.piece().getType().name());
-            statement.setInt(4, position.point().getX());
-            statement.setInt(5, position.point().getY());
-            statement.executeUpdate();
+        try (PreparedStatement statement = connection.prepareStatement(
+                "INSERT INTO game_pieces(game_id, team, piece_type, x_value, y_value) " +
+                        "VALUES (?, ?, ?, ?, ?)"
+        )){
+            for (PositionInfo position : positions) {
+                statement.setLong(1, gameId);
+                statement.setString(2, teamName(position));
+                statement.setString(3, position.piece().getType().name());
+                statement.setInt(4, position.point().getX());
+                statement.setInt(5, position.point().getY());
+                statement.addBatch();
+            }
+            statement.executeBatch();
         }
     }
 
