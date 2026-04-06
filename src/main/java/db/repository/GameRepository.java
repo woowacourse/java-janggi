@@ -1,16 +1,16 @@
 package db.repository;
 
-import static java.sql.PreparedStatement.*;
+import static db.util.TransactionUtil.withTransaction;
 
 import db.connector.MySqlConnector;
 import db.session.Session;
+import db.util.StatementMode;
 import domain.board.Board;
 import domain.board.Intersection;
 import domain.game.JanggiGame;
 import domain.game.Side;
 import domain.piece.AlivePieces;
 import domain.piece.Piece;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,33 +24,21 @@ public class GameRepository {
     public Session<JanggiGame> save(JanggiGame game) {
         String save = "INSERT INTO game (current_turn) values (?)";
 
-        try (
-                Connection connection = connector.getConnection();
-                PreparedStatement statement = connection.prepareStatement(
-                        save,
-                        RETURN_GENERATED_KEYS
-                )
-        ) {
+        return withTransaction(connector, save, StatementMode.RETURN_GENERATED_KEY, (connection, statement) -> {
             statement.setString(1, parseSide(game.getCurrentTurn()));
-
             statement.executeUpdate();
+
             int gameId = getGeneratedKey(statement);
             pieceRepository.save(game.getBoard(), gameId, connection);
 
             return new Session<>(game, gameId);
-        } catch (Exception exception) {
-            // TODO: 적절한 예외
-            throw new IllegalStateException();
-        }
+        });
     }
 
     public Session<JanggiGame> findById(int gameId) {
         String findById = "SELECT current_turn FROM game WHERE id = ?";
 
-        try (
-                Connection connection = connector.getConnection();
-                PreparedStatement statement = connection.prepareStatement(findById)
-        ) {
+        return withTransaction(connector, findById, StatementMode.DEFAULT, (connection, statement) -> {
             Map<Intersection, Piece> pieces = pieceRepository.findByGameId(gameId, connection);
             statement.setLong(1, gameId);
 
@@ -58,52 +46,36 @@ public class GameRepository {
             JanggiGame game = parseGame(resultSet, pieces);
 
             return new Session<>(game, gameId);
-        } catch (Exception exception) {
-            // TODO: 적절한 예외
-            throw new IllegalStateException();
-        }
+        });
     }
 
     public void update(Session<JanggiGame> gameSession) {
         String update = "UPDATE game SET current_turn = ? WHERE id = ?";
 
-        try (
-                Connection connection = connector.getConnection();
-                PreparedStatement statement = connection.prepareStatement(update)
-        ) {
+        withTransaction(connector, update, StatementMode.DEFAULT, (connection, statement) -> {
             JanggiGame game = gameSession.payload();
             int gameId = gameSession.id();
             Map<Intersection, Piece> pieces = game.getBoard();
 
             pieceRepository.update(pieces, gameId, connection);
+
             statement.setString(1, parseSide(game.getCurrentTurn()));
             statement.setInt(2, gameId);
-
             statement.executeUpdate();
-        } catch (Exception exception) {
-            // TODO: 적절한 예외
-            throw new IllegalStateException();
-        }
+        });
     }
 
     public void delete(Session<JanggiGame> gameSession) {
         String delete = "DELETE FROM game WHERE id = ?";
 
-        try (
-                Connection connection = connector.getConnection();
-                PreparedStatement statement = connection.prepareStatement(delete)
-        ) {
-            connection.setAutoCommit(false);
+        withTransaction(connector, delete, StatementMode.DEFAULT, (connection, statement) -> {
             int gameId = gameSession.id();
 
             pieceRepository.delete(gameId, connection);
-            statement.setInt(1, gameId);
 
+            statement.setInt(1, gameId);
             statement.executeUpdate();
-        } catch (Exception exception) {
-            // TODO: 적절한 예외
-            throw new IllegalStateException();
-        }
+        });
     }
 
     private String parseSide(Side side) {
@@ -114,7 +86,9 @@ public class GameRepository {
             ResultSet resultSet,
             Map<Intersection, Piece> pieces
     ) throws SQLException {
-        resultSet.next();
+        if (!resultSet.next()) {
+            throw new IllegalArgumentException("장기 게임을 조회하지 못했습니다.");
+        }
 
         Board board = new Board(new AlivePieces(pieces));
         Side currentTurn = Side.valueOf(resultSet.getString(1));
@@ -122,14 +96,11 @@ public class GameRepository {
         return new JanggiGame(board, currentTurn);
     }
 
-    private int getGeneratedKey(PreparedStatement statement) {
+    private int getGeneratedKey(PreparedStatement statement) throws SQLException {
         try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
             generatedKeys.next();
 
             return generatedKeys.getInt(1);
-        } catch (SQLException e) {
-            // TODO: 적절한 예외
-            throw new IllegalStateException();
         }
     }
 }

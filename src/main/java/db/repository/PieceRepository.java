@@ -1,7 +1,5 @@
 package db.repository;
 
-import static java.sql.Statement.RETURN_GENERATED_KEYS;
-
 import db.parser.PieceParser;
 import domain.board.Intersection;
 import domain.game.Side;
@@ -19,44 +17,32 @@ public class PieceRepository {
             Map<Intersection, Piece> pieces,
             int gameId,
             Connection connection
-    ) {
+    ) throws SQLException {
         String save = "INSERT INTO piece (`row`, file, side, type, game_id) VALUES (?, ?, ?, ?, ?)";
 
         try (
-                PreparedStatement statement = connection.prepareStatement(
-                        save,
-                        RETURN_GENERATED_KEYS
-                )
+                PreparedStatement statement = connection.prepareStatement(save)
         ) {
             batchPieces(statement, pieces, gameId);
 
             statement.executeBatch();
-        } catch (Exception e) {
-            // TODO: 적절한 예외
-            throw new IllegalStateException();
         }
     }
 
     public Map<Intersection, Piece> findByGameId(
             int gameId,
             Connection connection
-    ) {
+    ) throws SQLException {
         String findByGameId = "SELECT `row`, file, side, type FROM piece WHERE piece.game_id = ?";
 
         try (
-                PreparedStatement statement = connection.prepareStatement(
-                        findByGameId,
-                        RETURN_GENERATED_KEYS
-                )
+                PreparedStatement statement = connection.prepareStatement(findByGameId)
         ) {
             statement.setInt(1, gameId);
 
             ResultSet resultSet = statement.executeQuery();
 
             return parsePieces(resultSet);
-        } catch (Exception e) {
-            // TODO: 적절한 예외
-            throw new IllegalStateException();
         }
     }
 
@@ -64,7 +50,7 @@ public class PieceRepository {
             Map<Intersection, Piece> pieces,
             int gameId,
             Connection connection
-    ) {
+    ) throws SQLException {
         delete(gameId, connection);
         save(pieces, gameId, connection);
     }
@@ -72,7 +58,7 @@ public class PieceRepository {
     public void delete(
             int gameId,
             Connection connection
-    ) {
+    ) throws SQLException {
         String delete = "DELETE FROM piece WHERE game_id = ?";
 
         try (
@@ -80,9 +66,6 @@ public class PieceRepository {
         ) {
             statement.setInt(1, gameId);
             statement.executeUpdate();
-        } catch (Exception e) {
-            // TODO: 적절한 예외
-            throw new IllegalStateException();
         }
     }
 
