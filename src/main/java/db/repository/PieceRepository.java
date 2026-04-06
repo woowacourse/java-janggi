@@ -1,6 +1,7 @@
 package db.repository;
 
 import db.parser.PieceParser;
+import db.parser.SideParser;
 import domain.board.Intersection;
 import domain.game.Side;
 import domain.piece.Piece;
@@ -74,8 +75,8 @@ public class PieceRepository {
 
             statement.setInt(1, intersection.getRow());
             statement.setInt(2, intersection.getFile());
-            statement.setString(3, piece.getSide().name());
-            statement.setString(4, piece.getClass().getSimpleName());
+            statement.setString(3, SideParser.sideToString(piece.getSide()));
+            statement.setString(4, PieceParser.toString(piece));
             statement.setInt(5, gameId);
 
             statement.addBatch();
@@ -90,17 +91,13 @@ public class PieceRepository {
             int file = resultSet.getInt(2);
             Intersection intersection = new Intersection(row, file);
 
-            Side side = parseSide(resultSet.getString(3));
+            Side side = SideParser.stringToSide(resultSet.getString(3));
             String pieceName = resultSet.getString(4);
-            Piece piece = PieceParser.from(pieceName, side);
+            Piece piece = PieceParser.toPiece(pieceName, side);
 
             pieces.put(intersection, piece);
         }
 
         return pieces;
-    }
-
-    private Side parseSide(String sideName) {
-        return Side.valueOf(sideName);
     }
 }

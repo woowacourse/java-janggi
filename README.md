@@ -13,7 +13,8 @@ src/main/java/
 │   ├── connector/
 │   │   └── MySqlConnector - MySQL DB 연결
 │   ├── parser/
-│   │   └── PieceParser - 저장된 기물 정보를 도메인 객체로 변환
+│   │   ├── PieceParser - 저장된 기물 정보를 도메인 객체로 변환
+│   │   └── SideParser - 저장된 진영 문자열과 Side 도메인 간 변환
 │   ├── repository/
 │   │   ├── GameRepository - 게임 영속성 관련 기능 제공
 │   │   └── PieceRepository - 기물 영속성 관련 기능 제공

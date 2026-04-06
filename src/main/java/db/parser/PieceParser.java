@@ -32,7 +32,7 @@ public enum PieceParser {
         this.pieceFactory = pieceFactory;
     }
 
-    public static Piece from(String pieceName, Side side) {
+    public static Piece toPiece(String pieceName, Side side) {
         return Arrays.stream(values())
                 .filter(piece -> piece.hasSameName(pieceName))
                 .map(piece -> piece.createPiece(side))
@@ -40,9 +40,25 @@ public enum PieceParser {
                 .orElseThrow(() -> new IllegalStateException("정의되지 않은 기물입니다."));
     }
 
+    public static String toString(Piece piece) {
+        return Arrays.stream(values())
+                .filter(pieceParser -> pieceParser.hasSameType(piece))
+                .map(PieceParser::getName)
+                .findAny()
+                .orElseThrow(() -> new IllegalStateException("정의되지 않은 기물입니다."));
+    }
+
     private boolean hasSameName(String pieceName) {
         return pieceType.getSimpleName()
                 .equals(pieceName);
+    }
+
+    private boolean hasSameType(Piece piece) {
+        return pieceType.equals(piece.getClass());
+    }
+
+    private String getName() {
+        return pieceType.getSimpleName();
     }
 
     private Piece createPiece(Side side) {

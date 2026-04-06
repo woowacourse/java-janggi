@@ -3,6 +3,7 @@ package db.repository;
 import static db.util.TransactionUtil.withTransaction;
 
 import db.connector.MySqlConnector;
+import db.parser.SideParser;
 import db.session.Session;
 import db.util.StatementMode;
 import domain.board.Board;
@@ -27,7 +28,7 @@ public class GameRepository {
         String save = "INSERT INTO game (current_turn) values (?)";
 
         return withTransaction(connector, save, StatementMode.RETURN_GENERATED_KEY, (connection, statement) -> {
-            statement.setString(1, parseSide(game.getCurrentTurn()));
+            statement.setString(1, SideParser.sideToString(game.getCurrentTurn()));
             statement.executeUpdate();
 
             int gameId = getGeneratedKey(statement);
@@ -71,7 +72,7 @@ public class GameRepository {
 
             pieceRepository.update(pieces, gameId, connection);
 
-            statement.setString(1, parseSide(game.getCurrentTurn()));
+            statement.setString(1, SideParser.sideToString(game.getCurrentTurn()));
             statement.setInt(2, gameId);
             statement.executeUpdate();
         });
@@ -88,10 +89,6 @@ public class GameRepository {
             statement.setInt(1, gameId);
             statement.executeUpdate();
         });
-    }
-
-    private String parseSide(Side side) {
-        return side.name();
     }
 
     private List<Integer> parseGameIds(ResultSet resultSet) throws SQLException {
