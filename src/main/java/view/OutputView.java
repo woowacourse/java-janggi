@@ -46,24 +46,15 @@ public class OutputView {
     }
 
     public void printGameResult(GameResultDto gameResult) {
-        if (!gameResult.isEnded()) {
+        if (!gameResult.ended()) {
             return;
         }
-
-        if (gameResult.winner().isCho()) {
-            System.out.println("게임 종료: 초 승리");
-            return;
-        }
-        System.out.println("게임 종료: 한 승리");
+        System.out.printf("게임 종료: %s 승리%n", gameResult.winnerName());
     }
 
     public void printGameScoreResult(GameScoreResultDto gameScoreResult) {
-        if (gameScoreResult.winner().isCho()) {
-            System.out.println("게임 종료: 초 승리");
-        } else {
-            System.out.println("게임 종료: 한 승리");
-        }
-        System.out.printf("초 점수: %.1f%n", gameScoreResult.choScore());
-        System.out.printf("한 점수: %.1f%n", gameScoreResult.hanScore());
+        System.out.printf("게임 종료: %s 승리%n", gameScoreResult.winnerName());
+        System.out.printf("초 점수: %s%n", gameScoreResult.choScoreText());
+        System.out.printf("한 점수: %s%n", gameScoreResult.hanScoreText());
     }
 }
