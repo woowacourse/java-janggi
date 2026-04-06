@@ -15,7 +15,12 @@ public class Empty extends Piece {
     private static final PieceType TYPE = PieceType.NONE;
 
     private Empty() {
-        super(TYPE, Side.NONE, null);
+        super(Side.NONE, null);
+    }
+
+    @Override
+    public PieceType getType() {
+        return TYPE;
     }
 
     @Override

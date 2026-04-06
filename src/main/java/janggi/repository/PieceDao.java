@@ -1,7 +1,6 @@
 package janggi.repository;
 
 import janggi.domain.board.coordinate.Point;
-import janggi.domain.piece.PieceFactory;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.unit.Piece;
 import janggi.domain.side.Side;
@@ -51,7 +50,7 @@ public class PieceDao {
                     Side side = Side.valueOf(rs.getString("side"));
                     int x = rs.getInt("x");
                     int y = rs.getInt("y");
-                    board.put(Point.of(x, y), PieceFactory.create(pieceType, side));
+                    board.put(Point.of(x, y), pieceType.create(side));
                 }
             }
         } catch (SQLException e) {

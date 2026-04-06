@@ -39,7 +39,12 @@ public class Soldier extends Piece {
     );
 
     public Soldier(Side side) {
-        super(TYPE, side, DEFAULT_STRATEGY);
+        super(side, DEFAULT_STRATEGY);
+    }
+
+    @Override
+    public PieceType getType() {
+        return TYPE;
     }
 
     @Override

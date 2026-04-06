@@ -10,29 +10,24 @@ import janggi.domain.side.Side;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public abstract class Piece {
-    protected PieceType type;
     protected Side side;
     protected PathStrategy pathStrategy;
 
-    public Piece(PieceType type, Side side, PathStrategy pathStrategy) {
-        this.type = type;
+    public Piece(Side side, PathStrategy pathStrategy) {
         this.side = side;
         this.pathStrategy = pathStrategy;
     }
 
-    public PieceType getType() {
-        return type;
-    }
+    public abstract PieceType getType();
 
     public String getName() {
-        return type.getNameFormat(side);
+        return getType().getNameFormat(side);
     }
 
     public double getScore() {
-        return type.getScore();
+        return getType().getScore();
     }
 
     public final Side getSide() {
@@ -56,24 +51,4 @@ public abstract class Piece {
     public abstract List<Pattern> patterns(Point from, Palace palace);
 
     protected abstract Path cutPath(Path path, Map<Point, Piece> piecesOnPaths, Palace palace);
-
-    @Override
-    public int hashCode() {
-        int result = Objects.hashCode(type);
-        result = 31 * result + Objects.hashCode(side);
-        return result;
-    }
-
-    @Override
-    public final boolean equals(Object object) {
-        if (this == object) {
-            return true;
-        }
-        if (!(object instanceof Piece piece)) {
-            return false;
-        }
-
-        return type == piece.type && side == piece.side;
-    }
-
 }

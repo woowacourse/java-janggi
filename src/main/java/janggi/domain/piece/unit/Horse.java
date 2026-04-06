@@ -28,7 +28,12 @@ public class Horse extends Piece {
     );
 
     public Horse(Side side) {
-        super(TYPE, side, DEFAULT_STRATEGY);
+        super(side, DEFAULT_STRATEGY);
+    }
+
+    @Override
+    public PieceType getType() {
+        return TYPE;
     }
 
     @Override
