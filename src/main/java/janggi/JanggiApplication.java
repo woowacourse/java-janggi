@@ -15,8 +15,9 @@ public class JanggiApplication {
             DBInitializer initializer = new DBInitializer();
             initializer.initialize(conn);
 
-            JanggiGame janggiGame = new JanggiGame(new InputView(), new OutputView());
-            janggiGame.start();
+            JanggiGame game = new JanggiGame();
+            JanggiController controller = new JanggiController(new InputView(), new OutputView(), game);
+            controller.run();
         } catch (SQLException e) {
             System.out.println("DB 연결에 실패했습니다: " + e.getMessage());
         }

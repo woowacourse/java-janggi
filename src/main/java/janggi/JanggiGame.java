@@ -3,67 +3,39 @@ package janggi;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardFactory;
 import janggi.domain.board.PieceSetup;
+import janggi.domain.piece.Piece;
 import janggi.domain.position.Movement;
 import janggi.domain.position.Position;
 import janggi.domain.score.Score;
 import janggi.domain.team.Team;
-import janggi.view.InputView;
-import janggi.view.OutputView;
 
 import java.util.List;
+import java.util.Map;
 
 public class JanggiGame {
-    private static final String END_COMMAND = "end";
     private static final int FROM_INDEX = 0;
     private static final int TO_INDEX = 1;
 
-    private final InputView inputView;
-    private final OutputView outputView;
     private Board board;
 
-    public JanggiGame(InputView inputView, OutputView outputView) {
-        this.inputView = inputView;
-        this.outputView = outputView;
-    }
-
-    public void start() {
-        initializeBoard();
-        outputView.printBoard(board.showBoard(), new Score(board.showBoard()));
-        play();
-    }
-
-    private void initializeBoard() {
-        String hanSetup = inputView.readHanSetup();
-        String choSetup = inputView.readChoSetup();
+    public void initialize(String hanSetup, String choSetup) {
         board = BoardFactory.create(PieceSetup.from(hanSetup), PieceSetup.from(choSetup));
     }
 
-    private void play() {
-        Team currentTeam = Team.CHO;
-        while (!board.isGeneralCaptured(currentTeam)) {
-            List<String> positions = inputView.readPosition(currentTeam);
-            if (isEndCommand(positions)) {
-                outputView.printGameEnd();
-                return;
-            }
-            currentTeam = processTurn(positions, currentTeam);
-        }
-        outputView.printWinner(currentTeam.convert());
+    public void playTurn(List<String> positions, Team currentTeam) {
+        board.move(createMovement(positions), currentTeam);
     }
 
-    private boolean isEndCommand(List<String> positions) {
-        return positions.getFirst().equals(END_COMMAND);
+    public boolean isFinished(Team currentTeam) {
+        return board.isGeneralCaptured(currentTeam);
     }
 
-    private Team processTurn(List<String> positions, Team currentTeam) {
-        try {
-            board.move(createMovement(positions), currentTeam);
-            outputView.printBoard(board.showBoard(), new Score(board.showBoard()));
-            return currentTeam.convert();
-        } catch (IllegalArgumentException exception) {
-            outputView.printError(exception.getMessage());
-            return currentTeam;
-        }
+    public Map<Position, Piece> getBoard() {
+        return board.showBoard();
+    }
+
+    public Score getScore() {
+        return new Score(board.showBoard());
     }
 
     private Movement createMovement(List<String> positions) {

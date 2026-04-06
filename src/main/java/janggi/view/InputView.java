@@ -31,8 +31,11 @@ public class InputView {
         System.out.printf("%s의 차례입니다. 이동할 좌표를 입력하세요 (예: 11 21, 종료: end)%n", toDisplayName(currentTeam));
         System.out.print("> ");
         String input = scanner.nextLine().trim();
-
-        return List.of(input.split("\\s+"));
+        List<String> positions = List.of(input.split("\\s+"));
+        if (positions.size() == 1 && !positions.getFirst().equals("end")) {
+            throw new IllegalArgumentException("[ERROR] 좌표 입력 형식에 맞게 입력해주세요.");
+        }
+        return positions;
     }
 
     private String toDisplayName(Team team) {
