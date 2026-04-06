@@ -283,5 +283,34 @@ class BoardTest {
             Assertions.assertThatThrownBy(() -> board.validateLocationToMove(currentSide, location))
                     .isInstanceOf(JanggiException.class);
         }
+
+        @Test
+        @DisplayName("빈 칸을 제외하고 현재 보드에 존재하는 기물 목록을 반환한다.")
+        void returnAlivePieces() {
+            // given
+            Map<Location, Piece> initialPieces = Map.of(
+                    Location.of(1, 2), new TestPiece(Side.HAN),
+                    Location.of(1, 3), new TestPiece(Side.HAN),
+                    Location.of(1, 4), new TestPiece(Side.HAN),
+                    Location.of(1, 5), new TestPiece(Side.CHO),
+                    Location.of(1, 6), new TestPiece(Side.CHO),
+                    Location.of(1, 7), new TestPiece(Side.CHO),
+                    Location.of(1, 8), EmptyPiece.getInstance(),
+                    Location.of(1, 9), EmptyPiece.getInstance()
+            );
+
+            ArrangementStrategy strategy = new TestArrangementStrategy(initialPieces);
+            IntersectionInitializer intersectionInitializer = new PalaceIntersectionInitializer();
+            BoardAssembler assembler = BoardAssembler.of(List.of(strategy), intersectionInitializer);
+
+            // when
+            Board board = Board.create(assembler);
+            List<Piece> alivePieces = board.getAlivePieces();
+
+            // then
+            Assertions.assertThat(alivePieces)
+                    .hasSize(6)
+                    .doesNotContain(EmptyPiece.getInstance());
+        }
     }
 }
