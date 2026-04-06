@@ -13,7 +13,7 @@ public class Piece {
         this.pieceType = pieceType;
     }
 
-    public boolean isAlly(Team targetTeam){
+    public boolean isAlly(Team targetTeam) {
         return this.team.isSameTeam(targetTeam);
     }
 
@@ -27,6 +27,14 @@ public class Piece {
 
     public List<Route> findRoutes() {
         return pieceType.getMoveRule().findRoutes(this.team);
+    }
+
+    public PieceType getPieceType() {
+        return pieceType;
+    }
+
+    public Team getTeam() {
+        return team;
     }
 
     @Override
