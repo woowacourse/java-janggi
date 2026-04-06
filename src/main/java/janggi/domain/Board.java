@@ -56,6 +56,7 @@ public class Board {
     }
 
     public Board move(Position start, Position end, TeamType currentTeamType) {
+        validateCanMove(start, end, currentTeamType);
         Team updatedCurrentTeam = currentTeam(currentTeamType).move(start, end);
         Team updatedOpponentTeam = removeOpponentPiece(currentTeamType, end);
         return createMovedBoard(currentTeamType, updatedCurrentTeam, updatedOpponentTeam);
