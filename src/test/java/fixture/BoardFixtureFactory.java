@@ -1,12 +1,13 @@
 package fixture;
 
-import domain.board.formation.PlacementOption;
+import domain.board.formation.PlacementStrategyRegistry;
 import domain.coordination.Coordination;
 import domain.piece.EmptyPiece;
 import domain.piece.Piece;
 import domain.piece.Team;
 import java.util.HashMap;
 import java.util.Map;
+import view.PlacementInputMapper;
 
 public class BoardFixtureFactory {
 
@@ -14,8 +15,8 @@ public class BoardFixtureFactory {
         Map<Coordination, Piece> board = new HashMap<>();
 
         placeEmpty(board);
-        board.putAll(PlacementOption.hanFrom(hanOption).place());
-        board.putAll(PlacementOption.choFrom(choOption).place());
+        board.putAll(PlacementStrategyRegistry.forHan(PlacementInputMapper.toFormationType(hanOption)).place());
+        board.putAll(PlacementStrategyRegistry.forCho(PlacementInputMapper.toFormationType(choOption)).place());
 
         return new BoardFixture(board);
     }
