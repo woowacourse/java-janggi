@@ -4,30 +4,34 @@ import java.util.Objects;
 
 public class Position {
 
-    private static final int MIN_X = 1;
-    private static final int MAX_X = 9;
-    private static final int MIN_Y = 1;
-    private static final int MAX_Y = 10;
+    private static final int MIN_COLUMN = 1;
+    private static final int MAX_COLUMN = 9;
+    private static final int MIN_ROW = 1;
+    private static final int MAX_ROW = 10;
 
-    private final int x;
-    private final int y;
+    private final int row;
+    private final int column;
 
-    public Position(int x, int y) {
-        validateBoundary(x, y);
-        this.x = x;
-        this.y = y;
+    public Position(int column, int row) {
+        validateBoundary(column, row);
+        this.row = column;
+        this.column = row;
     }
 
-    public static boolean isInsideBoundary(int x, int y) {
-        return x >= MIN_X && x <= MAX_X && y >= MIN_Y && y <= MAX_Y;
+    public static boolean isInsideBoundary(int column, int row) {
+        return column >= MIN_COLUMN && column <= MAX_COLUMN && row >= MIN_ROW && row <= MAX_ROW;
     }
 
-    public int getX() {
-        return x;
+    public Position move(Direction direction) {
+        return new Position(row + direction.getColumn(), column + direction.getRow());
     }
 
-    public int getY() {
-        return y;
+    public int getRow() {
+        return row;
+    }
+
+    public int getColumn() {
+        return column;
     }
 
     @Override
@@ -35,16 +39,16 @@ public class Position {
         if (!(o instanceof Position position)) {
             return false;
         }
-        return x == position.x && y == position.y;
+        return row == position.row && column == position.column;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(x, y);
+        return Objects.hash(row, column);
     }
 
-    private void validateBoundary(int x, int y) {
-        if (x < MIN_X || x > MAX_X || y < MIN_Y || y > MAX_Y) {
+    private void validateBoundary(int column, int row) {
+        if (column < MIN_COLUMN || column > MAX_COLUMN || row < MIN_ROW || row > MAX_ROW) {
             throw new IllegalArgumentException("[ERROR] 보드 범위를 벗어났습니다.");
         }
     }

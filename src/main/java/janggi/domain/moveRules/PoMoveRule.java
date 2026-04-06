@@ -34,8 +34,8 @@ public class PoMoveRule implements MoveRule {
     }
 
     private Position findBridge(Position currentPosition, Direction direction, Board board) {
-        if (!Position.isInsideBoundary(currentPosition.getRow() + direction.getX(),
-                currentPosition.getColumn() + direction.getY())) {
+        if (!Position.isInsideBoundary(currentPosition.getRow() + direction.getColumn(),
+                currentPosition.getColumn() + direction.getRow())) {
             return null;
         }
         Position next = currentPosition.move(direction);
@@ -52,7 +52,8 @@ public class PoMoveRule implements MoveRule {
 
     private void collectPositions(Position current, Direction direction, Team team, Board board,
                                   List<Position> result) {
-        if (!Position.isInsideBoundary(current.getRow() + direction.getX(), current.getColumn() + direction.getY())) {
+        if (!Position.isInsideBoundary(current.getRow() + direction.getColumn(),
+                current.getColumn() + direction.getRow())) {
             return;
         }
         Position next = current.move(direction);

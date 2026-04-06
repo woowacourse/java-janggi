@@ -11,19 +11,19 @@ public enum Direction {
     SOUTH_EAST(1, 1),
     ;
 
-    private final int x;
-    private final int y;
+    private final int column;
+    private final int row;
 
-    Direction(int x, int y) {
-        this.x = x;
-        this.y = y;
+    Direction(int column, int row) {
+        this.column = column;
+        this.row = row;
     }
 
-    public int getX() {
-        return x;
+    public int getColumn() {
+        return column;
     }
 
-    public int getY() {
-        return y;
+    public int getRow() {
+        return row;
     }
 }
