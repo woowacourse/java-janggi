@@ -64,7 +64,6 @@ class BoardSetUpTest {
         );
     }
 
-
     private static Map<Point, Piece> createHanCommonBoard() {
         Map<Point, Piece> board = new HashMap<>();
         board.put(Point.of(6, 8), new Soldier(Side.HAN));

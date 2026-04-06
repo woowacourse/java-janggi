@@ -37,7 +37,6 @@ public class Soldier extends Piece {
             new Pattern(List.of(Direction.SOUTH_EAST))
     );
 
-
     public Soldier(Side side) {
         super(TYPE, side, DEFAULT_STRATEGY);
     }

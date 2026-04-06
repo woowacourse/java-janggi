@@ -103,7 +103,6 @@ class CannonTest {
             );
         }
 
-
         @Test
         @DisplayName("포는 다른 포를 넘을 수 없다")
         void availablePoints_cannotOverCannon() {

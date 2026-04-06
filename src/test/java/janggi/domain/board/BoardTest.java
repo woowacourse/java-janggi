@@ -1,6 +1,5 @@
 package janggi.domain.board;
 
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.board.coordinate.Point;

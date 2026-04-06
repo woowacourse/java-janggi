@@ -49,7 +49,6 @@ public class JdbcContext {
         }
     }
 
-
     public Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url);
     }

@@ -78,7 +78,6 @@ public class InputView {
         return Optional.of(Point.of(x, y));
     }
 
-
     private void validateBlank(String input) {
         if (input.isBlank()) {
             throw new IllegalArgumentException("공백은 입력할 수 없습니다.");

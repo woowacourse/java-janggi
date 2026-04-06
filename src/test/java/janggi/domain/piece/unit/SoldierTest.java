@@ -187,7 +187,6 @@ class SoldierTest {
                     new Path(List.of(Point.of(8, 4)), true)
             );
 
-
             @Test
             @DisplayName("대각선 경로에 기물이 없으면 해당 좌표를 반환한다")
             void availablePoints_diagonal() {

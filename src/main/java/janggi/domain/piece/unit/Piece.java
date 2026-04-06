@@ -56,7 +56,6 @@ public abstract class Piece {
 
     protected abstract Path cutPath(Path path, Map<Point, Piece> piecesOnPaths, Palace palace);
 
-
     @Override
     public int hashCode() {
         int result = Objects.hashCode(type);

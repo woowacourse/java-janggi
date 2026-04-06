@@ -39,7 +39,6 @@ public class General extends Piece {
         return BASE_PATTERNS;
     }
 
-
     @Override
     protected Path cutPath(Path path, Map<Point, Piece> piecesOnPaths, Palace palace) {
         return path;

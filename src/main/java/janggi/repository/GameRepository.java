@@ -72,7 +72,6 @@ public class GameRepository {
         }
     }
 
-
     public Map<Point, Piece> loadPieces(int gameId) {
         String sql = "SELECT piece_type, side, x, y FROM game_piece WHERE game_id = ?";
         Map<Point, Piece> board = new HashMap<>();

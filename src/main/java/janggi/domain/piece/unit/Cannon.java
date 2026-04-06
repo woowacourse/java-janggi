@@ -23,7 +23,6 @@ public class Cannon extends Piece {
             new Pattern(List.of(Direction.EAST))
     );
 
-
     public Cannon(Side side) {
         super(TYPE, side, DEFAULT_STRATEGY);
     }

@@ -50,7 +50,6 @@ public class Game {
         return Side.NONE;
     }
 
-
     public Map<Point, Piece> getBoard() {
         return board.getBoard();
     }
