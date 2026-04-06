@@ -101,13 +101,17 @@ public class JanggiController {
                 final Position selected = positions.get(selectedPieceNumber - 1);
 
                 final Piece piece = board.getPiece(selected);
-                piece.calculateMovablePositions(selected, board);
+                validateMovablePiece(board, piece, selected);
 
                 return selected;
             } catch (final IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());
             }
         }
+    }
+
+    private static void validateMovablePiece(final Board board, final Piece piece, final Position selected) {
+        piece.calculateMovablePositions(selected, board);
     }
 
     private Position selectDestination(final Board board, final Position from) {
