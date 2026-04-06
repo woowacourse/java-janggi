@@ -23,8 +23,8 @@ public class JanggiController {
         while (!janggiService.isFinished()) {
             playJanggi();
 
-            String command = InputView.askSaveGame();
-            if ("y".equals(command)) {
+            String command = RetryExecutor.retry(InputView::askSaveGame);
+            if ("y".equalsIgnoreCase(command)) {
                 saveGame(gameId);
                 break;
             }
@@ -36,8 +36,8 @@ public class JanggiController {
             Map<Position, Space> capturedBoard = janggiService.getBoardDto();
             OutputView.printBoard(capturedBoard);
 
-            Position from = InputView.askSelectPiece();
-            Position to = InputView.askTargetPosition();
+            Position from = RetryExecutor.retry(InputView::askSelectPiece);
+            Position to = RetryExecutor.retry(InputView::askTargetPosition);
             janggiService.movePiece(from, to);
 
             capturedBoard = janggiService.getBoardDto();
