@@ -1,5 +1,11 @@
 package janggi.repository;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Optional;
+
 import janggi.domain.board.coordinate.Point;
 import janggi.domain.board.setup.InSetUp;
 import janggi.domain.game.Game;
@@ -9,13 +15,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
 class GameRepositoryTest {
+
     private Connection keepAlive;
     private GameRepository gameRepository;
 

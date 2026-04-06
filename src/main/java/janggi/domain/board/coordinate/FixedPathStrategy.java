@@ -1,14 +1,15 @@
 package janggi.domain.board.coordinate;
 
-import janggi.domain.board.Board;
-import janggi.domain.piece.Direction;
-import janggi.domain.piece.Pattern;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import janggi.domain.board.Board;
+import janggi.domain.piece.Direction;
+import janggi.domain.piece.Pattern;
+
 public class FixedPathStrategy implements PathStrategy {
+
     @Override
     public List<Point> calculate(Pattern pattern, Point from) {
         List<Point> path = new ArrayList<>();

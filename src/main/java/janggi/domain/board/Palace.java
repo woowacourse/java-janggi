@@ -1,9 +1,9 @@
 package janggi.domain.board;
 
-import janggi.domain.board.coordinate.Point;
-
 import java.util.Arrays;
 import java.util.Optional;
+
+import janggi.domain.board.coordinate.Point;
 
 public class Palace {
 

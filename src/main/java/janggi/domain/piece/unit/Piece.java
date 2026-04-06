@@ -1,5 +1,8 @@
 package janggi.domain.piece.unit;
 
+import java.util.List;
+import java.util.Map;
+
 import janggi.domain.board.Palace;
 import janggi.domain.board.coordinate.Path;
 import janggi.domain.board.coordinate.PathStrategy;
@@ -8,10 +11,8 @@ import janggi.domain.piece.Pattern;
 import janggi.domain.piece.PieceType;
 import janggi.domain.side.Side;
 
-import java.util.List;
-import java.util.Map;
-
 public abstract class Piece {
+
     protected Side side;
     protected PathStrategy pathStrategy;
 

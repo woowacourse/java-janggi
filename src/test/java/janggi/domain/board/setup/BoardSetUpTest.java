@@ -1,5 +1,12 @@
 package janggi.domain.board.setup;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import janggi.domain.board.coordinate.Point;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.unit.Advisor;
@@ -17,14 +24,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
 class BoardSetUpTest {
+
     private static Map<Point, PieceType> toTypeMap(Map<Point, Piece> map) {
         return map.entrySet().stream()
                 .collect(Collectors.toMap(
@@ -36,6 +37,7 @@ class BoardSetUpTest {
     @Nested
     @DisplayName("기물 차림 테스트")
     class SetUpTest {
+
         static Stream<Arguments> generate() {
             return Stream.of(
                     Arguments.of(new InSetUp(), Side.CHO, Map.of(
@@ -91,6 +93,7 @@ class BoardSetUpTest {
     @Nested
     @DisplayName("공통 기물 배치 테스트")
     class CommonSetUpTest {
+
         private static Map<Point, Piece> createHanCommonBoard() {
             Map<Point, Piece> board = new HashMap<>();
             board.put(Point.of(6, 8), new Soldier(Side.HAN));

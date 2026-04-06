@@ -1,15 +1,16 @@
 package janggi.domain.game;
 
+import java.util.Map;
+import java.util.Set;
+
 import janggi.domain.board.Board;
 import janggi.domain.board.coordinate.Point;
 import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.piece.unit.Piece;
 import janggi.domain.side.Side;
 
-import java.util.Map;
-import java.util.Set;
-
 public class Game {
+
     private static final Side INIT_TURN = Side.CHO;
     private final Board board;
 

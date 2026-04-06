@@ -1,14 +1,14 @@
 package janggi.view;
 
-import janggi.domain.board.coordinate.Point;
-import janggi.domain.piece.unit.Empty;
-import janggi.domain.piece.unit.Piece;
-import janggi.domain.side.Side;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import janggi.domain.board.coordinate.Point;
+import janggi.domain.piece.unit.Empty;
+import janggi.domain.piece.unit.Piece;
+import janggi.domain.side.Side;
 
 public class OutputView {
 

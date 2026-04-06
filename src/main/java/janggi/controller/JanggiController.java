@@ -1,5 +1,9 @@
 package janggi.controller;
 
+import java.util.Optional;
+import java.util.Set;
+import java.util.function.Supplier;
+
 import janggi.domain.board.coordinate.Point;
 import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.game.Game;
@@ -9,11 +13,8 @@ import janggi.service.GameService;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 
-import java.util.Optional;
-import java.util.Set;
-import java.util.function.Supplier;
-
 public class JanggiController {
+
     private final InputView inputView;
     private final OutputView outputView;
     private final GameService gameService;

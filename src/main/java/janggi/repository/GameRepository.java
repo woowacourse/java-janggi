@@ -1,16 +1,17 @@
 package janggi.repository;
 
-import janggi.domain.board.coordinate.Point;
-import janggi.domain.game.Game;
-import janggi.domain.piece.unit.Piece;
-import janggi.domain.side.Side;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Map;
 import java.util.Optional;
 
+import janggi.domain.board.coordinate.Point;
+import janggi.domain.game.Game;
+import janggi.domain.piece.unit.Piece;
+import janggi.domain.side.Side;
+
 public class GameRepository {
+
     private final JdbcContext jdbcContext;
     private final GameDao gameDao;
     private final PieceDao pieceDao;

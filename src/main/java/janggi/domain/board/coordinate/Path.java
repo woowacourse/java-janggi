@@ -1,12 +1,13 @@
 package janggi.domain.board.coordinate;
 
-import janggi.domain.piece.Pattern;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import janggi.domain.piece.Pattern;
+
 public class Path {
+
     private final List<Point> path;
     private final boolean diagonal;
 

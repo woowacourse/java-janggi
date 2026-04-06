@@ -1,10 +1,5 @@
 package janggi.repository;
 
-import janggi.domain.board.coordinate.Point;
-import janggi.domain.piece.PieceType;
-import janggi.domain.piece.unit.Piece;
-import janggi.domain.side.Side;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,7 +7,13 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+import janggi.domain.board.coordinate.Point;
+import janggi.domain.piece.PieceType;
+import janggi.domain.piece.unit.Piece;
+import janggi.domain.side.Side;
+
 public class PieceDao {
+
     public void insertAll(Connection conn, int gameId, Map<Point, Piece> board) throws SQLException {
         String sql = "INSERT INTO game_piece (game_id, piece_type, side, x, y) VALUES (?,?,?,?,?)";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {

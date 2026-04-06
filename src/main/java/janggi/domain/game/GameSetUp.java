@@ -7,4 +7,5 @@ public record GameSetUp(
         Side side,
         BoardSetUp boardSetUp
 ) {
+
 }

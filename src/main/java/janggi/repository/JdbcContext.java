@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class JdbcContext {
+
     private static final String DEFAULT_URL = "jdbc:sqlite:db/janggi.db";
 
     private final String url;

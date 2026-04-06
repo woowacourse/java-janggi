@@ -1,16 +1,17 @@
 package janggi.view;
 
-import janggi.domain.board.coordinate.Point;
-import janggi.domain.board.setup.BoardSetUp;
-import janggi.domain.side.Side;
-
 import java.io.InputStream;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import janggi.domain.board.coordinate.Point;
+import janggi.domain.board.setup.BoardSetUp;
+import janggi.domain.side.Side;
+
 public class InputView {
+
     private static final Pattern pattern = Pattern.compile("^([가나다라마바사아자차])([0-8])$");
 
     private final Scanner sc;

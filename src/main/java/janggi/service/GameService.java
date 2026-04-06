@@ -1,5 +1,7 @@
 package janggi.service;
 
+import java.util.Optional;
+
 import janggi.domain.board.coordinate.Point;
 import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.game.Game;
@@ -7,9 +9,8 @@ import janggi.domain.game.GameSession;
 import janggi.domain.side.Side;
 import janggi.repository.GameRepository;
 
-import java.util.Optional;
-
 public class GameService {
+
     private final GameRepository gameRepository;
 
     public GameService(GameRepository gameRepository) {

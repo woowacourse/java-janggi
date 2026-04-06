@@ -1,5 +1,10 @@
 package janggi.domain.piece.unit;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.List;
+import java.util.Map;
+
 import janggi.domain.board.Palace;
 import janggi.domain.board.coordinate.Path;
 import janggi.domain.board.coordinate.Point;
@@ -10,12 +15,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-import java.util.Map;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
 class CannonTest {
+
     private final Palace palace = new Palace();
     private final Cannon cannon = new Cannon(Side.CHO);
 
@@ -135,6 +136,7 @@ class CannonTest {
         @Nested
         @DisplayName("궁성 대각선 이동:")
         class PalaceDiagonal {
+
             private final List<Path> diagonalPath = List.of(
                     new Path(List.of(Point.of(1, 4), Point.of(2, 5)), true)
             );

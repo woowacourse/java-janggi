@@ -1,7 +1,5 @@
 package janggi.repository;
 
-import janggi.domain.side.Side;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,7 +7,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Optional;
 
+import janggi.domain.side.Side;
+
 public class GameDao {
+
     private final JdbcContext jdbcContext;
 
     public GameDao(JdbcContext jdbcContext) {

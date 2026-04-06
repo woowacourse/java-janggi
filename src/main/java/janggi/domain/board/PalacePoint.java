@@ -1,9 +1,9 @@
 package janggi.domain.board;
 
+import java.util.List;
+
 import janggi.domain.piece.Direction;
 import janggi.domain.piece.Pattern;
-
-import java.util.List;
 
 public enum PalacePoint {
     LEFT_UP(1, -1, List.of(Direction.SOUTH_EAST)),

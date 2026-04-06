@@ -1,5 +1,8 @@
 package janggi.domain.piece.unit;
 
+import java.util.List;
+import java.util.Map;
+
 import janggi.domain.board.Palace;
 import janggi.domain.board.coordinate.FixedPathStrategy;
 import janggi.domain.board.coordinate.Path;
@@ -10,10 +13,8 @@ import janggi.domain.piece.Pattern;
 import janggi.domain.piece.PieceType;
 import janggi.domain.side.Side;
 
-import java.util.List;
-import java.util.Map;
-
 public class Elephant extends Piece {
+
     private static final PieceType TYPE = PieceType.ELEPHANT;
     private static final PathStrategy DEFAULT_STRATEGY = new FixedPathStrategy();
     private static final List<Pattern> BASE_PATTERNS = List.of(

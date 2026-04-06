@@ -1,13 +1,14 @@
 package janggi.domain.board.coordinate;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import janggi.domain.board.Board;
 import janggi.domain.piece.Direction;
 import janggi.domain.piece.Pattern;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class LinearPathStrategy implements PathStrategy {
+
     private static final int LINEAR_SIZE = 1;
 
     @Override
