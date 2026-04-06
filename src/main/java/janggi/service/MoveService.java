@@ -6,6 +6,7 @@ import janggi.entity.MoveEntity;
 import janggi.repository.MoveRepository;
 
 public class MoveService {
+    private static final int SAVE_TRY_COUNT = 5;
     private final MoveRepository moveRepository;
 
     public MoveService(MoveRepository moveRepository) {
@@ -13,14 +14,20 @@ public class MoveService {
     }
 
     public void move(Game game, Point from, Point to) {
-        int moveNumber = moveRepository.findNextMoveNumber(game.getId());
-        MoveEntity moveEntity = createMoveEntity(game, from, to, moveNumber);
-        game.move(from, to);
-        moveRepository.save(moveEntity);
+        for (int i = 0; i < SAVE_TRY_COUNT; i++) {
+            try {
+                int moveNumber = moveRepository.findNextMoveNumber(game.getId());
+                MoveEntity moveEntity = createMoveEntity(game, from, to, moveNumber);
+                game.move(from, to);
+                moveRepository.save(moveEntity);
+            } catch (IllegalArgumentException e) {
+
+            }
+        }
     }
 
     private MoveEntity createMoveEntity(Game game, Point from, Point to, int moveNumber) {
-        return new MoveEntity(null, game.getId(), game.getTurn(), moveNumber,
+        return new MoveEntity(null, game.getId(), moveNumber, game.getTurn(),
                 from.x(), from.y(), to.x(), to.y());
     }
 }

@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException;
 
 public class H2MoveRepository implements MoveRepository {
 
@@ -28,8 +29,18 @@ public class H2MoveRepository implements MoveRepository {
 
     @Override
     public void save(MoveEntity move) {
-        try (Connection connection = getConnection()) {
-            insertMove(connection, move);
+        try (Connection connection = getConnection();
+             PreparedStatement stmt = connection.prepareStatement(INSERT_MOVE)) {
+            stmt.setInt(1, move.gameId());
+            stmt.setInt(2, move.moveNumber());
+            stmt.setString(3, move.side().name());
+            stmt.setInt(4, move.fromX());
+            stmt.setInt(5, move.fromY());
+            stmt.setInt(6, move.toX());
+            stmt.setInt(7, move.toY());
+            stmt.executeUpdate();
+        } catch (JdbcSQLIntegrityConstraintViolationException e) {
+            throw new IllegalArgumentException("moveNumber 는 중복 될 수 없습니다.");
         } catch (SQLException e) {
             throw new IllegalStateException("게임 ID " + move.gameId() + "의 이동 저장에 실패했습니다.", e);
         }
@@ -81,19 +92,6 @@ public class H2MoveRepository implements MoveRepository {
             return 1;
         } catch (SQLException e) {
             throw new IllegalStateException("게임 ID " + gameId + "의 다음 MOVE_NUMBER 조회에 실패했습니다.");
-        }
-    }
-
-    private void insertMove(Connection connection, MoveEntity move) throws SQLException {
-        try (PreparedStatement stmt = connection.prepareStatement(INSERT_MOVE)) {
-            stmt.setInt(1, move.gameId());
-            stmt.setInt(2, move.moveNumber());
-            stmt.setString(3, move.side().name());
-            stmt.setInt(4, move.fromX());
-            stmt.setInt(5, move.fromY());
-            stmt.setInt(6, move.toX());
-            stmt.setInt(7, move.toY());
-            stmt.executeUpdate();
         }
     }
 
