@@ -283,4 +283,20 @@ public class BoardTest {
 
         assertThat(board.move(new Position(0, 8), new Position(4, 8))).isTrue();
     }
+
+    @Test
+    @DisplayName("초나라의 현재 점수를 계산한다.")
+    void calculateChoCurrentScoreTest() {
+        Map<Country, Double> currentScores = board.calculateScore();
+
+        assertThat(currentScores.get(Country.CHO)).isEqualTo(72.0);
+    }
+
+    @Test
+    @DisplayName("한나라의 현재 점수를 계산한다.")
+    void calculateHanCurrentScoreTest() {
+        Map<Country, Double> currentScores = board.calculateScore();
+
+        assertThat(currentScores.get(Country.HAN)).isEqualTo(73.5);
+    }
 }

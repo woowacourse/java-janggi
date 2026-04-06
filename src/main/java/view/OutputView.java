@@ -4,10 +4,12 @@ import static domain.Position.INITIAL_POSITION;
 import static domain.Position.X_MAXIMUM_POSITION;
 import static domain.Position.Y_MAXIMUM_POSITION;
 
+import domain.Country;
 import domain.Position;
 import domain.piece.PieceInfo;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class OutputView {
     private static final List<String> POSITION_NUMBERS = List.of("０", "１", "２", "３", "４", "５", "６", "７", "８", "９");
@@ -51,6 +53,12 @@ public class OutputView {
     private void printXPositionNumbers() {
         System.out.print(X_POSITION_START_BLANK);
         System.out.println(String.join(STATE_SEPARATOR, POSITION_NUMBERS.subList(0, 9)));
+    }
+
+    public void printCurrentScores(Map<Country, Double> currentScores) {
+        for (Entry<Country, Double> currentScore : currentScores.entrySet()) {
+            System.out.println(CountryFormatter.from(currentScore.getKey()) + " 점수: " + currentScore.getValue());
+        }
     }
 
     public void printWinner(String winCountry, String loseCountry) {

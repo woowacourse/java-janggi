@@ -43,6 +43,9 @@ public class JanggiController {
             Country country = playOrders.get(turnIndex);
             Country otherSide = playOrders.get((turnIndex + 1) % 2);
             outputView.printTurn(CountryFormatter.from(country));
+
+            Map<Country, Double> currentScores = board.calculateScore();
+            outputView.printCurrentScores(currentScores);
             outputView.printBoard(board.getPieceInfos());
 
             if (movePiece(board, country)) {

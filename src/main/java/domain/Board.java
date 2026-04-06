@@ -52,6 +52,38 @@ public class Board {
         return isGeneralCaught;
     }
 
+    public Map<Position, PieceInfo> getPieceInfos() {
+        Map<Position, PieceInfo> pieceInfos = new LinkedHashMap<>();
+        for (Entry<Position, State> entry : board.entrySet()) {
+            if (!entry.getValue().isEmpty()) {
+                pieceInfos.put(entry.getKey(), entry.getValue().getPiece().getPieceInfo());
+            }
+        }
+        return pieceInfos;
+    }
+
+    public boolean isEmpty(Position position) {
+        return board.get(position).isEmpty();
+    }
+
+    public Map<Country, Double> calculateScore() {
+        double choInitScore = 0;
+        double hanInitScore = 1.5;
+        Map<Country, Double> totalScores = new LinkedHashMap<>();
+
+        for (Entry<Position, PieceInfo> pieceInfo : getPieceInfos().entrySet()) {
+            if (pieceInfo.getValue().country() == Country.CHO) {
+                choInitScore += pieceInfo.getValue().pieceType().getScore();
+                totalScores.put(Country.CHO, choInitScore);
+            }
+            if (pieceInfo.getValue().country() == Country.HAN) {
+                hanInitScore += pieceInfo.getValue().pieceType().getScore();
+                totalScores.put(Country.HAN, hanInitScore);
+            }
+        }
+        return totalScores;
+    }
+
     private void validateDestination(Position from, Position to) {
         if (board.get(to).isEmpty()) {
             return;
@@ -88,19 +120,5 @@ public class Board {
 
     private boolean isGeneralCaught(Position to) {
         return !isEmpty(to) && board.get(to).getPiece().getPieceType() == PieceType.GENERAL;
-    }
-
-    public Map<Position, PieceInfo> getPieceInfos() {
-        Map<Position, PieceInfo> pieceInfos = new LinkedHashMap<>();
-        for (Entry<Position, State> entry : board.entrySet()) {
-            if (!entry.getValue().isEmpty()) {
-                pieceInfos.put(entry.getKey(), entry.getValue().getPiece().getPieceInfo());
-            }
-        }
-        return pieceInfos;
-    }
-
-    public boolean isEmpty(Position position) {
-        return board.get(position).isEmpty();
     }
 }
