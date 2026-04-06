@@ -1,15 +1,14 @@
 package janggi.repository;
 
-import janggi.domain.game.CurrentTurn;
-import janggi.entity.GameEntity;
+import janggi.entity.TurnEntity;
 import java.util.Optional;
 
 public interface GameRepository {
 
-    Long save(GameEntity game);
+    Long save(TurnEntity game);
 
-    Optional<CurrentTurn> findByCurrentTurnById(Long gameId);
+    Optional<TurnEntity> findByCurrentTurnById(Long gameId);
 
-    void updateTurn(Long gameId, GameEntity game);
+    void updateTurn(Long gameId, TurnEntity game);
 
 }

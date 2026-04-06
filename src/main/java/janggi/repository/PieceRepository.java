@@ -1,10 +1,8 @@
 package janggi.repository;
 
-import janggi.domain.piece.Piece;
 import janggi.domain.position.Position;
 import janggi.entity.PieceEntity;
 import java.util.List;
-import java.util.Map;
 
 public interface PieceRepository {
 
@@ -12,6 +10,6 @@ public interface PieceRepository {
 
     void updatePiece(Long gameId, Position from, Position to);
 
-    Map<Position, Piece> findAllByGameId(Long gameId);
+    List<PieceEntity> findAllByGameId(Long gameId);
 
 }

@@ -1,18 +1,14 @@
 package janggi.repository;
 
 import janggi.config.DatabaseManager;
-import janggi.domain.dynasty.Dynasty;
-import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
 import janggi.entity.PieceEntity;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class JdbcPieceRepository implements PieceRepository {
 
@@ -79,10 +75,10 @@ public class JdbcPieceRepository implements PieceRepository {
     }
 
     @Override
-    public Map<Position, Piece> findAllByGameId(Long gameId) {
+    public List<PieceEntity> findAllByGameId(Long gameId) {
         String sql = "SELECT row_pos, col_pos, team, type FROM piece WHERE janggi_game_id = ?";
 
-        Map<Position, Piece> board = new HashMap<>();
+        List<PieceEntity> pieces = new ArrayList<>();
         try (Connection connection = DatabaseManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, gameId);
@@ -91,15 +87,13 @@ public class JdbcPieceRepository implements PieceRepository {
                 while (resultSet.next()) {
                     int row = resultSet.getInt("row_pos");
                     int column = resultSet.getInt("col_pos");
-                    Dynasty dynasty = Dynasty.valueOf(resultSet.getString("team"));
-                    PieceType pieceType = PieceType.valueOf(resultSet.getString("type"));
+                    String dynasty = resultSet.getString("team");
+                    String pieceType = resultSet.getString("type");
 
-                    Position position = Position.from(row, column);
-                    Piece piece = new Piece(dynasty, pieceType);
-                    board.put(position, piece);
+                    pieces.add(PieceEntity.toEntity(row, column, dynasty, pieceType));
                 }
             }
-            return board;
+            return pieces;
         } catch (SQLException e) {
             throw new RuntimeException("기물 조회 실패", e);
         }

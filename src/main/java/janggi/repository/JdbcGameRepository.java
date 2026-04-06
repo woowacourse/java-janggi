@@ -3,9 +3,7 @@ package janggi.repository;
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 import janggi.config.DatabaseManager;
-import janggi.domain.dynasty.Dynasty;
-import janggi.domain.game.CurrentTurn;
-import janggi.entity.GameEntity;
+import janggi.entity.TurnEntity;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,14 +13,14 @@ import java.util.Optional;
 public class JdbcGameRepository implements GameRepository {
 
     @Override
-    public Long save(GameEntity game) {
+    public Long save(TurnEntity turn) {
         String gameSql = "INSERT INTO janggi_game (turn) VALUES (?)";
 
         try (Connection connection = DatabaseManager.getConnection()) {
             connection.setAutoCommit(false);
 
             try (PreparedStatement gameStatement = connection.prepareStatement(gameSql, RETURN_GENERATED_KEYS)) {
-                gameStatement.setString(1, game.currentTurn());
+                gameStatement.setString(1, turn.currentTurn());
                 gameStatement.executeUpdate();
 
                 ResultSet keys = gameStatement.getGeneratedKeys();
@@ -42,7 +40,7 @@ public class JdbcGameRepository implements GameRepository {
     }
 
     @Override
-    public Optional<CurrentTurn> findByCurrentTurnById(Long gameId) {
+    public Optional<TurnEntity> findByCurrentTurnById(Long gameId) {
         String gameSql = "SELECT turn FROM janggi_game WHERE id = ?";
 
         try (Connection connection = DatabaseManager.getConnection();
@@ -54,8 +52,8 @@ public class JdbcGameRepository implements GameRepository {
                     return Optional.empty();
                 }
 
-                Dynasty currentDynasty = Dynasty.valueOf(resultSet.getString("turn"));
-                return Optional.of(new CurrentTurn(currentDynasty));
+                String currentTurn = resultSet.getString("turn");
+                return Optional.of(TurnEntity.toEntity(currentTurn));
             }
         } catch (SQLException e) {
             throw new RuntimeException("조회 실패", e);
@@ -63,7 +61,7 @@ public class JdbcGameRepository implements GameRepository {
     }
 
     @Override
-    public void updateTurn(Long gameId, GameEntity game) {
+    public void updateTurn(Long gameId, TurnEntity game) {
         String updateGameSql = "UPDATE janggi_game SET turn = ? WHERE id = ?";
 
         try (Connection connection = DatabaseManager.getConnection()) {
