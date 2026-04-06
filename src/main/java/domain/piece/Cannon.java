@@ -55,7 +55,7 @@ public class Cannon extends Piece {
 
     private boolean isCorrectMoveDistanceAndDirection(Position from, Position to, Board board) {
         if (board.isPalaceCorner(from)) {
-            return board.isPalaceCorner(to)  || board.isPalaceCorner(to) || from.isSameColumn(to) || from.isSameRow(to);
+            return board.isPalaceCorner(to) || from.isSameColumn(to) || from.isSameRow(to);
         }
 
         return from.isSameColumn(to) || from.isSameRow(to);
