@@ -18,7 +18,6 @@ public class Board {
         this.board = initBoard;
     }
 
-
     public List<Position> findAvailablePositions(Position position) {
         Piece piece = board.get(position);
         List<Route> routes = piece.findRoutes();
