@@ -18,6 +18,7 @@ public class RouteResolveException extends JanggiException {
     }
 
     public RouteResolveException(PieceType pieceType, Location from, Location to) {
-        super(defaultErrorCode, defaultErrorCode.getMessage() + " 기물: " + pieceType + ", " + from.toString() + " -> " + to.toString());
+        super(defaultErrorCode,
+                defaultErrorCode.getMessage() + " 기물: " + pieceType + ", " + from.toString() + " -> " + to.toString());
     }
 }

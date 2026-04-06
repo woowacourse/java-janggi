@@ -25,7 +25,7 @@ public class InProgress implements GameState {
 
     @Override
     public void update(GameContext context, Piece piece) {
-        if(piece.isNotEmpty()) {
+        if (piece.isNotEmpty()) {
             scores.get(piece.getSide()).subtract(piece);
         }
 
