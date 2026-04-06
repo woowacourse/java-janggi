@@ -1,7 +1,6 @@
 package core;
 
 import board.SangSetupType;
-import db.model.GameEntity;
 import db.repository.JanggiGameRepository;
 import java.util.List;
 import pieces.Side;
@@ -18,7 +17,7 @@ public class GamePreparationService {
     }
 
     public GameSession prepare() {
-        List<GameEntity> savedGames = repository.findTop10GameRoomsOrderByCreatedAtAsc();
+        List<GameSummary> savedGames = repository.findTop10GameRoomsOrderByCreatedAtAsc();
 
         if (savedGames.isEmpty()) {
             return createNewGameSession();

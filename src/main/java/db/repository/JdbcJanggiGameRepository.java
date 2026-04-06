@@ -2,6 +2,7 @@ package db.repository;
 
 import board.Board;
 import core.GameStatus;
+import core.GameSummary;
 import core.JanggiGame;
 import db.dao.BoardPieceDao;
 import db.dao.GameDao;
@@ -39,8 +40,10 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
     }
 
     @Override
-    public List<GameEntity> findTop10GameRoomsOrderByCreatedAtAsc() {
-        return gameDao.findTop10OrderByCreatedAtAsc();
+    public List<GameSummary> findTop10GameRoomsOrderByCreatedAtAsc() {
+        return gameDao.findTop10OrderByCreatedAtAsc().stream()
+            .map(gameEntity -> parseGameSummary(gameEntity))
+            .toList();
     }
 
     @Override
@@ -59,6 +62,14 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
             boardPieceDao.deleteByGameIdAndPosition(gameId, destination.getRowIndex(), destination.getColumnIndex());
         }
         boardPieceDao.updatePosition(movingPiece.get().id(), destination.getRowIndex(), destination.getColumnIndex());
+    }
+
+    private GameSummary parseGameSummary(GameEntity gameEntity) {
+        return new GameSummary(
+            gameEntity.id(),
+            gameEntity.turn(),
+            gameEntity.status()
+        );
     }
 
     private GameEntity parseGameEntity(final JanggiGame game) {

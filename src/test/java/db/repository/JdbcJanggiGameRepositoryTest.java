@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 
 import board.Board;
 import core.GameStatus;
+import core.GameSummary;
 import core.JanggiGame;
 import db.dao.BoardPieceDao;
 import db.dao.GameDao;
@@ -12,7 +13,6 @@ import db.jdbc.ConnectionManager;
 import db.jdbc.DatabaseMigrator;
 import db.jdbc.JdbcBoardPieceDao;
 import db.jdbc.JdbcGameDao;
-import db.model.GameEntity;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -113,7 +113,7 @@ class JdbcJanggiGameRepositoryTest {
         Long firstGameId = repository.save(firstGame);
         repository.save(secondGame);
         // when
-        List<GameEntity> foundGames = repository.findTop10GameRoomsOrderByCreatedAtAsc();
+        List<GameSummary> foundGames = repository.findTop10GameRoomsOrderByCreatedAtAsc();
         // then
         assertThat(foundGames.getFirst().id()).isEqualTo(firstGameId);
     }

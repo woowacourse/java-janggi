@@ -1,8 +1,8 @@
 package db.repository;
 
 import core.GameStatus;
+import core.GameSummary;
 import core.JanggiGame;
-import db.model.GameEntity;
 import java.util.List;
 import java.util.Optional;
 import participant.Turn;
@@ -14,7 +14,7 @@ public interface JanggiGameRepository {
 
     Optional<JanggiGame> findById(Long gameId);
 
-    List<GameEntity> findTop10GameRoomsOrderByCreatedAtAsc();
+    List<GameSummary> findTop10GameRoomsOrderByCreatedAtAsc();
 
     void updateGameState(Long gameId, Turn turn, GameStatus status);
 

@@ -2,7 +2,7 @@ package view;
 
 import board.SangSetupType;
 import core.GameStatus;
-import db.model.GameEntity;
+import core.GameSummary;
 import java.util.List;
 import participant.Score;
 import pieces.Side;
@@ -62,15 +62,15 @@ public class JanggiView {
         out.printScore(side, score);
     }
 
-    public Long askGameId(List<GameEntity> savedGames) {
+    public Long askGameId(List<GameSummary> gameSummaries) {
         return Retry.untilSuccess(() -> {
-            out.printSavedGames(savedGames);
+            out.printSavedGames(gameSummaries);
             out.askGameId();
             Long gameId = in.readGameId();
             if (gameId == 0) {
                 return 0L;
             }
-            boolean nonMatch = savedGames.stream()
+            boolean nonMatch = gameSummaries.stream()
                 .noneMatch(game -> game.id().equals(gameId));
             if (nonMatch) {
                 throw new IllegalArgumentException("게임 ID를 잘못 입력하셨습니다.");

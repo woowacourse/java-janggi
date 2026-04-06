@@ -1,7 +1,7 @@
 package view;
 
 import core.GameStatus;
-import db.model.GameEntity;
+import core.GameSummary;
 import java.util.List;
 import java.util.Map;
 import participant.Score;
@@ -64,10 +64,10 @@ public class OutputView {
         System.out.println(SIDE_SYMBOL.get(side) + "나라 점수: " + score.value());
     }
 
-    public void printSavedGames(List<GameEntity> savedGames) {
+    public void printSavedGames(List<GameSummary> gameSummaries) {
         System.out.println("저장된 게임 목록을 출력합니다.");
 
-        savedGames.forEach(game -> System.out.printf(
+        gameSummaries.forEach(game -> System.out.printf(
             "%d. 상태=%s, 현재차례=%s%n",
             game.id(),
             GAME_STATUS_LABELS.get(game.status()),
