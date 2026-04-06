@@ -1,5 +1,6 @@
 package janggi.util;
 
+import static janggi.util.InputParser.parseGameId;
 import static janggi.util.InputParser.parseHorseElephantPositionOrdinal;
 import static janggi.util.InputParser.parsePosition;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -11,6 +12,25 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class InputParserTest {
+
+    @ParameterizedTest(name = "{0}은 올바른 장기 게임 아이디 형식이다.")
+    @ValueSource(strings = {"1", "2", "10000"})
+    public void 올바른_장기_게임_아이디를_입력받는다(String input) {
+        // when
+        long gameId = parseGameId(input);
+
+        // then
+        assertThat(gameId).isEqualTo(Long.parseLong(input));
+    }
+
+    @ParameterizedTest(name = "{0}은 올바르지않은 장기 게임 아이디 형식이다.")
+    @ValueSource(strings = {"aa", "-", "hi"})
+    public void 장기_게임_아이디가_숫자가_아니면_오류를_일으킨다(String input) {
+        // when & then
+        assertThatThrownBy(() -> parseGameId(input))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("숫자로 입력해주세요.");
+    }
 
     @ParameterizedTest(name = "{0}은 올바른 마와 상의 상차림 법 입력이다.")
     @ValueSource(strings = {"1", "2", "3", "4"})

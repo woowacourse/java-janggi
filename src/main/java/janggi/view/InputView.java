@@ -1,5 +1,6 @@
 package janggi.view;
 
+import static janggi.util.InputParser.parseGameId;
 import static janggi.util.InputParser.parseHorseElephantPositionOrdinal;
 import static janggi.util.InputParser.parsePosition;
 
@@ -22,7 +23,8 @@ public class InputView {
 
     public long readGameIdToRestore() {
         System.out.println("불러오고싶은 게임의 ID를 입력하세요.");
-        return Long.parseLong(Console.readLine());
+        String input = Console.readLine();
+        return parseGameId(input);
     }
 
     public int readHorseElephantPosition(DynastyDto dynastyDto) {
