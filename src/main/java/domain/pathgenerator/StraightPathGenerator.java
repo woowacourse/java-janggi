@@ -17,6 +17,9 @@ public class StraightPathGenerator implements PathGenerator {
             throw new JanggiException(INVALID_STRAIGHT_PATH);
         }
         Direction direction = determineDirection(source, destination);
+        if (!direction.isStraight()) {
+            throw new JanggiException(INVALID_STRAIGHT_PATH);
+        }
         return buildPath(source, destination, direction);
     }
 
@@ -25,7 +28,15 @@ public class StraightPathGenerator implements PathGenerator {
         if (source.equals(destination)) {
             return false;
         }
-        return source.row() == destination.row() || source.column() == destination.column();
+        return isHorizontal(source, destination) || isVertical(source, destination);
+    }
+
+    private boolean isHorizontal(Position source, Position destination) {
+        return source.row() == destination.row();
+    }
+
+    private boolean isVertical(Position source, Position destination) {
+        return source.column() == destination.column();
     }
 
     private Direction determineDirection(Position source, Position destination) {

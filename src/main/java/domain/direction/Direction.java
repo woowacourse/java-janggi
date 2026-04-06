@@ -1,6 +1,5 @@
 package domain.direction;
 
-import common.JanggiException;
 import domain.position.Position;
 
 public enum Direction {
@@ -14,7 +13,6 @@ public enum Direction {
     SOUTH_EAST(1, 1),
     SOUTH_WEST(1, -1);
 
-    private static final String INVALID_DIRECTION = "동서남북 방향이 아닙니다.";
     private final int offsetRow;
     private final int offsetColumn;
 
@@ -25,10 +23,22 @@ public enum Direction {
 
     public static Direction fromStraight(int rowDifference, int columnDifference) {
         if (rowDifference < 0) {
-            return NORTH;
+            if (columnDifference < 0) {
+                return NORTH_WEST;
+            }
+            if (columnDifference == 0) {
+                return NORTH;
+            }
+            return NORTH_EAST;
         }
         if (rowDifference > 0) {
-            return SOUTH;
+            if (columnDifference < 0) {
+                return SOUTH_WEST;
+            }
+            if (columnDifference == 0) {
+                return SOUTH;
+            }
+            return SOUTH_EAST;
         }
         if (columnDifference < 0) {
             return WEST;
@@ -36,7 +46,7 @@ public enum Direction {
         if (columnDifference > 0) {
             return EAST;
         }
-        throw new JanggiException(INVALID_DIRECTION);
+        throw new IllegalArgumentException("방향을 계산할 수 없습니다.");
     }
 
     public Position calculateNextPosition(Position source) {
@@ -47,5 +57,13 @@ public enum Direction {
         int nextRow = source.row() + this.offsetRow;
         int nextColumn = source.column() + this.offsetColumn;
         return Position.isValid(nextRow, nextColumn);
+    }
+
+    public boolean isStraight() {
+        return this == NORTH || this == SOUTH || this == EAST || this == WEST;
+    }
+
+    public boolean isDiagonal() {
+        return this == NORTH_EAST || this == NORTH_WEST || this == SOUTH_EAST || this == SOUTH_WEST;
     }
 }
