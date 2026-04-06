@@ -23,6 +23,10 @@ public class JanggiService {
         return gameRepository.save(currentTurn, name);
     }
 
+    public boolean exitsGame() {
+        return !gameRepository.findAllNames().isEmpty();
+    }
+
     public List<String> findAllGameNames() {
         return gameRepository.findAllNames();
     }

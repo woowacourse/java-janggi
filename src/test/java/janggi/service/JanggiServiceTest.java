@@ -27,8 +27,28 @@ class JanggiServiceTest {
     @DisplayName("새 게임을 생성하고 ID를 반환한다.")
     @Test
     void createGame() {
+        //given
         Long gameId = janggiService.createGame("테스트게임", Team.CHO);
+
+        //when & then
         assertThat(gameId).isNotNull();
+    }
+
+    @DisplayName("현재 기존 게임이 존재하지 않는다면 false를 반환한다. ")
+    @Test
+    void existsGame_false() {
+        //given & when & then
+        assertThat(janggiService.exitsGame()).isFalse();
+    }
+
+    @DisplayName("현재 기존 게임이 존재한다면 true를 반환한다. ")
+    @Test
+    void existsGame_true() {
+        //given
+        janggiService.createGame("game1", Team.CHO);
+
+        //when & then
+        assertThat(janggiService.exitsGame()).isTrue();
     }
 
     @DisplayName("게임 이름 목록을 반환한다.")

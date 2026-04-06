@@ -16,10 +16,6 @@ public class OutputView {
         System.out.println("이동 시킬 위치를 입력하세요:");
     }
 
-    public void printErrorMessage(String message) {
-        System.out.println("[ERROR] " + message);
-    }
-
     public void printBoard(String boardRender, String teamName) {
         System.out.println(boardRender);
         System.out.println(teamName + "의 차례입니다.");
@@ -40,5 +36,9 @@ public class OutputView {
     public void printGameList(List<String> gameNames) {
         System.out.println("진행 중인 게임 목록:");
         gameNames.forEach(System.out::println);
+    }
+
+    public void printNoGameExist() {
+        System.out.println("현재 진행 중인 게임이 존재하지 않습니다.");
     }
 }
