@@ -3,15 +3,19 @@ package janggi.domain;
 import janggi.domain.board.Board;
 import janggi.domain.turn.ChoTurn;
 import janggi.domain.turn.PlayerTurn;
-import janggi.initializer.BoardInitializer;
+import janggi.factory.BoardFactory;
 
 public class Game {
     private PlayerTurn playerTurn;
 
     public Game(Arrangement choArrangement, Arrangement hanArrangement) {
         this.playerTurn = new ChoTurn(new Board(
-                BoardInitializer.createBoard(choArrangement, hanArrangement),
-                BoardInitializer.createScoresBySide()));
+                BoardFactory.createInitialBoard(choArrangement, hanArrangement),
+                BoardFactory.createInitialScoresBySide()));
+    }
+
+    public Game(PlayerTurn playerTurn) {
+        this.playerTurn = playerTurn;
     }
 
     public void move(Position start, Position end) {
