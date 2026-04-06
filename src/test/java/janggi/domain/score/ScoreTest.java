@@ -1,13 +1,22 @@
 package janggi.domain.score;
 
-import janggi.domain.piece.Piece;
+import janggi.domain.board.Board;
+import janggi.domain.board.BoardFactory;
+import janggi.domain.piece.*;
 import janggi.domain.position.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
+import static janggi.domain.board.PieceSetup.OUTER_ELEPHANT;
+import static janggi.domain.team.Team.CHO;
+import static janggi.domain.team.Team.HAN;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -28,5 +37,52 @@ class ScoreTest {
         assertAll(
                 () -> assertThat(hanScore).isEqualTo(1.5),
                 () -> assertThat(choScore).isEqualTo(0.0));
+    }
+
+    @ParameterizedTest
+    @MethodSource("setupPieces")
+    void 기물별_점수_테스트(Piece hanPiece, Piece choPiece, double expectedHanScore, double expectedChoScore) {
+        // given
+        Map<Position, Piece> board = new LinkedHashMap<>();
+        board.put(Position.from("25"), hanPiece);
+        board.put(Position.from("95"), choPiece);
+        Score score = new Score(board);
+
+        // when
+        double hanScore = score.getHanScore();
+        double choScore = score.getChoScore();
+
+        // then
+        assertAll(
+                () -> assertThat(hanScore).isEqualTo(expectedHanScore),
+                () -> assertThat(choScore).isEqualTo(expectedChoScore));
+    }
+
+    public static Stream<Arguments> setupPieces() {
+        return Stream.of(
+                Arguments.of(new Chariot(HAN, new Palace()), new Chariot(CHO, new Palace()), 14.5, 13.0),
+                Arguments.of(new Cannon(HAN, new Palace()), new Cannon(CHO, new Palace()), 8.5, 7.0),
+                Arguments.of(new Horse(HAN), new Horse(CHO), 6.5, 5.0),
+                Arguments.of(new Elephant(HAN), new Elephant(CHO), 4.5, 3.0),
+                Arguments.of(new Guard(HAN, new Palace()), new Guard(CHO, new Palace()), 4.5, 3.0),
+                Arguments.of(new Soldier(HAN, new Palace()), new Soldier(CHO, new Palace()), 3.5, 2.0),
+                Arguments.of(new General(HAN, new Palace()), new General(CHO, new Palace()), 1.5, 0),
+                Arguments.of(new EmptyPiece(), new EmptyPiece(), 1.5, 0));
+    }
+
+    @Test
+    void 게임_시작_시_점수_합계_테스트() {
+        // given
+        Board board = BoardFactory.create(OUTER_ELEPHANT, OUTER_ELEPHANT);
+        Score score = new Score(board.showBoard());
+
+        // when
+        double hanScore = score.getHanScore();
+        double choScore = score.getChoScore();
+
+        // then
+        assertAll(
+                () -> assertThat(hanScore).isEqualTo(73.5),
+                () -> assertThat(choScore).isEqualTo(72.0));
     }
 }
