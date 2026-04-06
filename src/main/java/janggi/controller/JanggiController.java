@@ -27,7 +27,7 @@ public class JanggiController {
     public void run() {
         outputView.printSelectGame();
         GameSelect gameSelect = retry(inputView::readGameSelect);
-        while (!GameSelect.QUIT.equals(gameSelect)) {
+        while (GameSelect.QUIT != gameSelect) {
             GameSelect finalGameSelect = gameSelect;
             retry(() -> runSelected(finalGameSelect));
             outputView.printSelectGame();
