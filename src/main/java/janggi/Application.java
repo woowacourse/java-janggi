@@ -19,9 +19,9 @@ public class Application {
         DatabaseConnection connection = new DatabaseConnection(config);
         DatabaseInitializer.initialize(config);
 
-        GameDao gameDaoTmp = new JdbcGameDao(connection);
-        PieceDao pieceDaoTmp = new JdbcPieceDao(connection);
-        GameRepository gameRepository = new JdbcGameRepository(gameDaoTmp, pieceDaoTmp);
+        GameDao gameDao = new JdbcGameDao(connection);
+        PieceDao pieceDao = new JdbcPieceDao(connection);
+        GameRepository gameRepository = new JdbcGameRepository(gameDao, pieceDao);
 
         JanggiController janggiController = new JanggiController(new InputView(), new OutputView(), gameRepository);
 
