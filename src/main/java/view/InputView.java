@@ -60,7 +60,7 @@ public class InputView {
                 for (String name : FORMATION_NAMES.values()) {
                     System.out.println(name);
                 }
-                return Integer.parseInt(sc.nextLine());
+                return validateFormationNum(parseInt(sc.nextLine()));
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
@@ -77,6 +77,13 @@ public class InputView {
         int row = parseInt(input[1]);
         System.out.println();
         return new Position(column, row);
+    }
+
+    private int validateFormationNum(int formationNum) {
+        if (formationNum < 0 || formationNum >= FORMATION_NAMES.size()) {
+            throw new IllegalArgumentException("[ERROR] 상차림 정보는 1 ~ 4 사이어야 합니다.");
+        }
+        return formationNum;
     }
 
     private int parseInt(String input) {
