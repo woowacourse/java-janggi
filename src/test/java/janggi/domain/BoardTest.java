@@ -210,23 +210,12 @@ class BoardTest {
     }
 
     @Test
-    void 초_기물_점수_테스트() {
+    void 기물_점수_정상_테스트() {
         Board initBoard = new Board(strategy);
 
         double actual = initBoard.calculatePieceScore(Team.CHO);
 
         double expected = 72;
-
-        assertThat(actual).isEqualTo(expected);
-    }
-
-    @Test
-    void 한_기물_점수_테스트() {
-        Board initBoard = new Board(strategy);
-
-        double actual = initBoard.calculatePieceScore(Team.HAN);
-
-        double expected = 73.5;
 
         assertThat(actual).isEqualTo(expected);
     }

@@ -1,6 +1,7 @@
 package janggi.domain.Turn;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import janggi.domain.board.Board;
@@ -41,5 +42,16 @@ class HanTurnTest {
 
         assertThatThrownBy(() -> state.move(from, to))
                 .isInstanceOf(IllegalStateException.class);
+    }
+
+    @Test
+    void 한_기물_점수_테스트() {
+        GameState state = new HanTurn(board);
+
+        double actual = state.calculatePieceScore();
+
+        double expected = 73.5;
+
+        assertThat(actual).isEqualTo(expected);
     }
 }
