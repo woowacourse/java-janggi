@@ -8,7 +8,6 @@ import janggi.domain.piece.Camp;
 import janggi.domain.piece.PieceStrategy;
 import janggi.exception.ExceptionMessage;
 import java.util.stream.Stream;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -23,8 +22,12 @@ class GuardStrategyTest {
         return Stream.of(
                 Arguments.of(new Position(8, 3), new Position(7, 3)),
                 Arguments.of(new Position(8, 3), new Position(9, 3)),
-                Arguments.of(new Position(8, 3), new Position(8, 2)),
-                Arguments.of(new Position(8, 3), new Position(8, 4))
+                Arguments.of(new Position(8, 3), new Position(8, 4)),
+
+                Arguments.of(new Position(8, 4), new Position(7, 3)),
+                Arguments.of(new Position(8, 4), new Position(7, 5)),
+                Arguments.of(new Position(8, 4), new Position(9, 3)),
+                Arguments.of(new Position(8, 4), new Position(9, 5))
         );
     }
 
@@ -35,10 +38,39 @@ class GuardStrategyTest {
                 moveStrategy.validate(source, destination, Camp.HAN, null, PieceStrategy.GUARD));
     }
 
-    @Test
-    void 직선_방향으로_1칸만_이동하지_않으면_예외가_발생한다() {
-        assertThatThrownBy(() -> moveStrategy.validate(new Position(3, 0), new Position(5, 0), Camp.HAN, null, PieceStrategy.GUARD))
+    private static Stream<Arguments> invalidDistancePositions() {
+        return Stream.of(
+                Arguments.of(Camp.CHO, new Position(0, 3), new Position(2, 5)),
+                Arguments.of(Camp.CHO, new Position(0, 3), new Position(0, 5)),
+                Arguments.of(Camp.HAN, new Position(9, 3), new Position(7, 5)),
+                Arguments.of(Camp.HAN, new Position(9, 4), new Position(7, 4))
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("invalidDistancePositions")
+    void 직선_방향으로_1칸만_이동하지_않으면_예외가_발생한다(Camp camp, Position source, Position destination) {
+        assertThatThrownBy(() -> moveStrategy.validate(source, destination, camp, null, PieceStrategy.GUARD))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(ExceptionMessage.INVALID_SINGLE_STEP_MOVE.getMessage(DISTANCE));
+                .hasMessage(ExceptionMessage.INVALID_PALACE_MOVE.getMessage(DISTANCE));
+    }
+
+    private static Stream<Arguments> invalidRangePositions() {
+        return Stream.of(
+                Arguments.of(Camp.CHO, new Position(0, 2), new Position(0, 3)),
+                Arguments.of(Camp.CHO, new Position(0, 6), new Position(0, 5)),
+                Arguments.of(Camp.CHO, new Position(3, 3), new Position(2, 4)),
+                Arguments.of(Camp.HAN, new Position(8, 2), new Position(8, 3)),
+                Arguments.of(Camp.HAN, new Position(7, 5), new Position(7, 6)),
+                Arguments.of(Camp.HAN, new Position(6, 2), new Position(7, 3))
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("invalidRangePositions")
+    void 궁성_내에서_이동하지_않으면_예외가_발생한다(Camp camp, Position source, Position destination) {
+        assertThatThrownBy(() -> moveStrategy.validate(source, destination, camp, null, PieceStrategy.GUARD))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(ExceptionMessage.INVALID_PALACE_MOVE.getMessage(DISTANCE));
     }
 }

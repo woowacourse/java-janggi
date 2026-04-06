@@ -6,14 +6,18 @@ import janggi.domain.piece.Camp;
 import janggi.domain.piece.PieceStrategy;
 import janggi.exception.ExceptionMessage;
 
-public class SoldierStrategy implements MoveStrategy {
+public class SoldierStrategy extends PalaceStrategy implements MoveStrategy {
 
     private static final int DISTANCE = 1;
-
 
     @Override
     public void validate(Position source, Position destination, Camp camp, BoardChecker board, PieceStrategy pieceStrategy) {
         Movement movement = new Movement(source, destination);
+        if (isPalaceRange(source, destination)) {
+            validatePalaceDiagonalDistance(source, destination, movement);
+            validateForwardMovement(movement.calculateRowDirection(), camp);
+            return;
+        }
         validateDistance(movement);
         validateForwardMovement(movement.calculateRowDirection(), camp);
     }

@@ -29,12 +29,12 @@ public final class InputView {
     public static List<Integer> readSource(Camp camp) {
         CampFormat campFormat = CampFormat.from(camp);
         System.out.println(LINE_SEPARATOR + "%s나라 차례 입니다.".formatted(campFormat.getName()));
-        System.out.println("공격할 기물의 좌표를 행,열 순으로 입력해 주세요. (예: 9,8)");
+        System.out.println("이동 시킬 기물의 출발 좌표를 행,열 순으로 입력해 주세요. (예: 9,8)");
         return Parser.parseByDelimiter(DELIMITER, readLine());
     }
 
     public static List<Integer> readDestination() {
-        System.out.println(LINE_SEPARATOR + "이동 시킬 목적지의 좌표를 행,열 순으로 입력해 주세요. (예: 2,0)");
+        System.out.println(LINE_SEPARATOR + "이동 시킬 기물의 도착 좌표를 행,열 순으로 입력해 주세요. (예: 2,0)");
         return Parser.parseByDelimiter(DELIMITER, readLine());
     }
 

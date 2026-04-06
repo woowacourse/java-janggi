@@ -11,7 +11,11 @@ import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceStrategy;
 import janggi.exception.ExceptionMessage;
 import java.util.Map;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class ChariotStrategyTest {
 
@@ -39,6 +43,25 @@ class ChariotStrategyTest {
                 moveStrategy.validate(source, destination, Camp.CHO, board, PieceStrategy.CHARIOT));
     }
 
+    private static Stream<Arguments> successMovePositionsInPath() {
+        return Stream.of(
+                Arguments.of(new Position(0, 3), new Position(2, 5)),
+                Arguments.of(new Position(0, 4), new Position(1, 4)),
+                Arguments.of(new Position(2, 5), new Position(0, 5)),
+                Arguments.of(new Position(1, 5), new Position(1, 3))
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("successMovePositionsInPath")
+    void 궁성_내에서_직선으로_여러_칸_이동한다(Position source, Position destination) {
+        //given
+        BoardChecker board = new Board(Map.of());
+        //when & then
+        assertThatNoException().isThrownBy(() ->
+                moveStrategy.validate(source, destination, Camp.CHO, board, PieceStrategy.CHARIOT));
+    }
+
     @Test
     void 직선으로_이동하지_않으면_예외가_발생한다() {
         //given
@@ -51,13 +74,21 @@ class ChariotStrategyTest {
                 .hasMessage(ExceptionMessage.ONLY_STRAIGHT_MOVE_ALLOWED.getMessage());
     }
 
-    @Test
-    void 이동하려는_경로에_기물이_존재하면_예외가_발생한다() {
+    private static Stream<Arguments> invalidDistancePositions() {
+        return Stream.of(
+                Arguments.of(new Position(0, 0), new Position(5, 0)),
+                Arguments.of(new Position(0, 5), new Position(2, 3))
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("invalidDistancePositions")
+    void 이동하려는_경로에_기물이_존재하면_예외가_발생한다(Position source, Position destination) {
         //given
-        Position source = new Position(0, 0);
-        Position destination = new Position(5, 0);
-        Position blockingPosition = new Position(3, 0);
-        BoardChecker board = new Board(Map.of(blockingPosition, new Piece(PieceStrategy.SOLDIER, Camp.CHO)));
+        BoardChecker board = new Board(Map.of(
+                new Position(3, 0), new Piece(PieceStrategy.CHARIOT, Camp.CHO),
+                new Position(1, 4), new Piece(PieceStrategy.ELEPHANT, Camp.CHO)
+        ));
         //when & then
         assertThatThrownBy(() -> moveStrategy.validate(source, destination, Camp.CHO, board, PieceStrategy.CHARIOT))
                 .isInstanceOf(IllegalArgumentException.class)

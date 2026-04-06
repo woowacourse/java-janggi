@@ -21,6 +21,7 @@ public enum ExceptionMessage {
     INVALID_DIAGONAL_STEP_MOVE("해당 기물은 직선 %d칸 이동 후 대각선 %d칸 이동만 가능합니다."),
     CAMP_FORMAT_NOT_FOUND("존재하지 않는 진영 형식입니다."),
     PIECE_FORMAT_NOT_FOUND("존재하지 않는 기물 형식입니다."),
+    INVALID_PALACE_MOVE("궁성 내 %d칸만 이동할 수 있습니다."),
     ;
 
 

@@ -66,7 +66,7 @@ class PieceTest {
             assertThatThrownBy(
                     () -> piece.validateMove(new Position(1, 4), new Position(3, 4), board))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(ExceptionMessage.INVALID_SINGLE_STEP_MOVE.getMessage(SINGLE_STEP_DISTANCE));
+                    .hasMessage(ExceptionMessage.INVALID_PALACE_MOVE.getMessage(SINGLE_STEP_DISTANCE));
         }
     }
 
@@ -94,7 +94,7 @@ class PieceTest {
             assertThatThrownBy(
                     () -> piece.validateMove(new Position(0, 3), new Position(0, 5), board))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(ExceptionMessage.INVALID_SINGLE_STEP_MOVE.getMessage(SINGLE_STEP_DISTANCE));
+                    .hasMessage(ExceptionMessage.INVALID_PALACE_MOVE.getMessage(SINGLE_STEP_DISTANCE));
         }
     }
 

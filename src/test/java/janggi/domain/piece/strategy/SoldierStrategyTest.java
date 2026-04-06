@@ -23,7 +23,9 @@ class SoldierStrategyTest {
                 Arguments.of(Camp.HAN, new Position(6, 0), new Position(5, 0)),
                 Arguments.of(Camp.HAN, new Position(6, 0), new Position(6, 1)),
                 Arguments.of(Camp.HAN, new Position(6, 1), new Position(6, 0)),
-                Arguments.of(Camp.CHO, new Position(3, 0), new Position(4, 0)),
+                Arguments.of(Camp.HAN, new Position(7, 5), new Position(6, 5)),
+                Arguments.of(Camp.CHO, new Position(0, 3), new Position(0, 2)),
+                Arguments.of(Camp.CHO, new Position(3, 0), new Position(3, 1)),
                 Arguments.of(Camp.CHO, new Position(3, 0), new Position(3, 1)),
                 Arguments.of(Camp.CHO, new Position(3, 1), new Position(3, 0))
         );
@@ -32,6 +34,26 @@ class SoldierStrategyTest {
     @ParameterizedTest
     @MethodSource("successMovePositions")
     void 전진_또는_좌우_방향으로_1칸만_이동한다(Camp camp, Position source, Position destination) {
+        assertThatNoException().isThrownBy(() ->
+                moveStrategy.validate(source, destination, camp, null, PieceStrategy.SOLDIER));
+    }
+
+    private static Stream<Arguments> successMovePositionsInPalace() {
+        return Stream.of(
+                Arguments.of(Camp.CHO, new Position(0, 3), new Position(1, 4)),
+                Arguments.of(Camp.CHO, new Position(0, 5), new Position(1, 4)),
+                Arguments.of(Camp.CHO, new Position(1, 4), new Position(2, 3)),
+                Arguments.of(Camp.CHO, new Position(1, 4), new Position(2, 5)),
+                Arguments.of(Camp.HAN, new Position(9, 3), new Position(8, 4)),
+                Arguments.of(Camp.HAN, new Position(9, 5), new Position(8, 4)),
+                Arguments.of(Camp.HAN, new Position(8, 4), new Position(7, 3)),
+                Arguments.of(Camp.HAN, new Position(8, 4), new Position(7, 5))
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("successMovePositionsInPalace")
+    void 궁성에서_전진_또는_좌우_방향으로_1칸만_이동한다(Camp camp, Position source, Position destination) {
         assertThatNoException().isThrownBy(() ->
                 moveStrategy.validate(source, destination, camp, null, PieceStrategy.SOLDIER));
     }
@@ -61,6 +83,27 @@ class SoldierStrategyTest {
     @ParameterizedTest
     @MethodSource("backwardMovePositions")
     void 후진하는_경우_예외가_발생한다(Camp camp, Position source, Position destination) {
+        assertThatThrownBy(() -> moveStrategy.validate(source, destination, camp, null, PieceStrategy.SOLDIER))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(ExceptionMessage.INVALID_BACKWARD_MOVEMENT.getMessage());
+    }
+
+    private static Stream<Arguments> backwardMovePositionsInPalace() {
+        return Stream.of(
+                Arguments.of(Camp.CHO, new Position(1, 4), new Position(0, 3)),
+                Arguments.of(Camp.CHO, new Position(1, 4), new Position(0, 5)),
+                Arguments.of(Camp.CHO, new Position(2, 3), new Position(1, 4)),
+                Arguments.of(Camp.CHO, new Position(2, 5), new Position(1, 4)),
+                Arguments.of(Camp.HAN, new Position(8, 4), new Position(9, 3)),
+                Arguments.of(Camp.HAN, new Position(8, 4), new Position(9, 5)),
+                Arguments.of(Camp.HAN, new Position(7, 3), new Position(8, 4)),
+                Arguments.of(Camp.HAN, new Position(7, 5), new Position(8, 4))
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("backwardMovePositionsInPalace")
+    void 궁성에서_후진하는_경우_예외가_발생한다(Camp camp, Position source, Position destination) {
         assertThatThrownBy(() -> moveStrategy.validate(source, destination, camp, null, PieceStrategy.SOLDIER))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.INVALID_BACKWARD_MOVEMENT.getMessage());

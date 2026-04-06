@@ -9,16 +9,42 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiFunction;
 
-public class CannonStrategy implements MoveStrategy {
+public class CannonStrategy extends PalaceStrategy implements MoveStrategy {
 
     private static final long REQUIRED_PIECE_COUNT = 1;
 
     @Override
     public void validate(Position source, Position destination, Camp camp, BoardChecker board, PieceStrategy pieceStrategy) {
         Movement movement = new Movement(source, destination);
+        if (isPalaceRange(source, destination)) {
+            List<Position> path = findPathInPalace(source, movement);
+            List<Position> pathBeforeDestination = path.subList(0, path.size() - 1);
+            validatePath(pathBeforeDestination, destination, board, pieceStrategy);
+            return;
+        }
         List<Position> path = findPath(source, movement);
         List<Position> pathBeforeDestination = path.subList(0, path.size() - 1);
         validatePath(pathBeforeDestination, destination, board, pieceStrategy);
+    }
+
+    private List<Position> findPathInPalace(Position source, Movement movement) {
+        if (movement.isHorizontal()) {
+            return createPath(source, movement.colDistance(), Position::moveCol);
+        }
+        if (movement.isVertical()) {
+            return createPath(source, movement.rowDistance(), Position::moveRow);
+        }
+        if (movement.isDiagonal()) {
+            List<Position> path = new ArrayList<>();
+            int colDirection = Integer.signum(movement.colDistance());
+            int rowDirection = Integer.signum(movement.rowDistance());
+            for (int i = 0; i < Math.abs(2); i++) {
+                source = source.moveDiagonal(rowDirection, colDirection);
+                path.add(source);
+            }
+            return path;
+        }
+        throw new IllegalArgumentException(ExceptionMessage.ONLY_STRAIGHT_MOVE_ALLOWED.getMessage());
     }
 
     private List<Position> findPath(Position source, Movement movement) {

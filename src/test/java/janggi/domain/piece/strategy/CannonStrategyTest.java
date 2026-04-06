@@ -11,7 +11,11 @@ import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceStrategy;
 import janggi.exception.ExceptionMessage;
 import java.util.Map;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class CannonStrategyTest {
 
@@ -19,13 +23,22 @@ class CannonStrategyTest {
 
     private final MoveStrategy moveStrategy = new CannonStrategy();
 
-    @Test
-    void 직선_방향으로_하나의_기물을_넘어_이동한다() {
+    private static Stream<Arguments> successMovePositions() {
+        return Stream.of(
+                Arguments.of(new Position(0, 0), new Position(0, 5)),
+                Arguments.of(new Position(2, 3), new Position(0, 5)),
+                Arguments.of(new Position(0, 3), new Position(2, 5)),
+                Arguments.of(new Position(6, 4), new Position(0, 4))
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("successMovePositions")
+    void 직선_방향으로_하나의_기물을_넘어_이동한다(Position source, Position destination) {
         //given
-        Position source = new Position(0, 0);
-        Position destination = new Position(0, 5);
         BoardChecker board = new Board(Map.of(
-                new Position(0, 3), new Piece(PieceStrategy.SOLDIER, Camp.CHO)
+                new Position(0, 3), new Piece(PieceStrategy.SOLDIER, Camp.CHO),
+                new Position(1, 4), new Piece(PieceStrategy.GENERAL, Camp.CHO)
         ));
         //when & then
         assertThatNoException().isThrownBy(() ->
@@ -35,35 +48,58 @@ class CannonStrategyTest {
     @Test
     void 목적지까지_직선_방향으로_이동하지_않으면_예외가_발생한다() {
         //given
-        Position source = new Position(0, 0);
-        Position destination = new Position(1, 1);
-        BoardChecker board = new Board(Map.of());
+        Position source = new Position(9, 3);
+        Position destination = new Position(6, 6);
+        BoardChecker board = new Board(Map.of(
+                new Position(8, 4), new Piece(PieceStrategy.GENERAL, Camp.HAN)
+        ));
         //when & then
         assertThatThrownBy(() -> moveStrategy.validate(source, destination, Camp.CHO, board, PieceStrategy.CANNON))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.ONLY_STRAIGHT_MOVE_ALLOWED.getMessage());
     }
 
-    @Test
-    void 이동하려는_경로에_기물이_존재하지_않으면_예외가_발생한다() {
-        //given
-        Position source = new Position(0, 0);
-        Position destination = new Position(0, 5);
-        BoardChecker board = new Board(Map.of());
-        //when & then
+    private static Stream<Arguments> noPieceInPathCases() {
+        return Stream.of(
+                Arguments.of(
+                        new Position(0, 5), new Position(0, 0),
+                        new Position(2, 3), new Position(0, 5),
+                        new Position(9, 5), new Position(7, 3)
+                )
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("noPieceInPathCases")
+    void 이동하려는_경로에_기물이_존재하지_않으면_예외가_발생한다(Position source, Position destination) {
+        // given
+        BoardChecker board = new Board(Map.of(
+                new Position(2, 4), new Piece(PieceStrategy.GENERAL, Camp.CHO)
+        ));
+        // when & then
         assertThatThrownBy(() -> moveStrategy.validate(source, destination, Camp.CHO, board, PieceStrategy.CANNON))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.INVALID_JUMPED_PIECE_COUNT.getMessage(REQUIRED_PIECE_COUNT));
     }
 
-    @Test
-    void 이동하려는_경로에_기물이_2개_이상_존재하면_예외가_발생한다() {
+    private static Stream<Arguments> multiplePiecesInPathCases() {
+        return Stream.of(
+                Arguments.of(
+                        new Position(0, 0), new Position(0, 5),
+                        new Position(6, 3), new Position(9, 3)
+                )
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("multiplePiecesInPathCases")
+    void 이동하려는_경로에_기물이_2개_이상_존재하면_예외가_발생한다(Position source, Position destination) {
         //given
-        Position source = new Position(0, 0);
-        Position destination = new Position(0, 5);
         BoardChecker board = new Board(Map.of(
                 new Position(0, 3), new Piece(PieceStrategy.CHARIOT, Camp.CHO),
-                new Position(0, 4), new Piece(PieceStrategy.ELEPHANT, Camp.CHO)
+                new Position(0, 4), new Piece(PieceStrategy.ELEPHANT, Camp.CHO),
+                new Position(7, 3), new Piece(PieceStrategy.CHARIOT, Camp.HAN),
+                new Position(8, 3), new Piece(PieceStrategy.ELEPHANT, Camp.HAN)
         ));
         //when & then
         assertThatThrownBy(() -> moveStrategy.validate(source, destination, Camp.CHO, board, PieceStrategy.CANNON))
@@ -71,13 +107,22 @@ class CannonStrategyTest {
                 .hasMessage(ExceptionMessage.INVALID_JUMPED_PIECE_COUNT.getMessage(1));
     }
 
-    @Test
-    void 이동하려는_경로에_있는_기물이_같은_타입이면_예외가_발생한다() {
+    private static Stream<Arguments> samePieceTypeInPathCases() {
+        return Stream.of(
+                Arguments.of(
+                        new Position(0, 0), new Position(0, 5),
+                        new Position(7, 3), new Position(9, 5)
+                )
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("samePieceTypeInPathCases")
+    void 이동하려는_경로에_있는_기물이_같은_타입이면_예외가_발생한다(Position source, Position destination) {
         //given
-        Position source = new Position(0, 0);
-        Position destination = new Position(0, 5);
         BoardChecker board = new Board(Map.of(
-                new Position(0, 4), new Piece(PieceStrategy.CANNON, Camp.CHO)
+                new Position(0, 4), new Piece(PieceStrategy.CANNON, Camp.CHO),
+                new Position(8, 4), new Piece(PieceStrategy.CANNON, Camp.HAN)
         ));
         //when & then
         assertThatThrownBy(() -> moveStrategy.validate(source, destination, Camp.CHO, board, PieceStrategy.CANNON))
@@ -85,18 +130,29 @@ class CannonStrategyTest {
                 .hasMessage(ExceptionMessage.SAME_PIECE_TYPE_IN_PATH.getMessage());
     }
 
-    @Test
-    void 목적지에_있는_기물이_같은_타입이면_예외가_발생한다() {
+    private static Stream<Arguments> samePieceTypeAtDestinationCases() {
+        return Stream.of(
+                Arguments.of(
+                        new Position(0, 0), new Position(0, 5),
+                        new Position(0, 4), new Position(2, 4)
+                )
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("samePieceTypeAtDestinationCases")
+    void 목적지에_있는_기물이_같은_타입이면_예외가_발생한다(Position source, Position destination) {
         //given
-        Position source = new Position(0, 0);
-        Position destination = new Position(0, 5);
         BoardChecker board = new Board(Map.of(
                 new Position(0, 3), new Piece(PieceStrategy.SOLDIER, Camp.CHO),
-                new Position(0, 5), new Piece(PieceStrategy.CANNON, Camp.CHO)
+                new Position(0, 5), new Piece(PieceStrategy.CANNON, Camp.CHO),
+                new Position(1, 4), new Piece(PieceStrategy.CANNON, Camp.CHO)
         ));
         //when & then
         assertThatThrownBy(() -> moveStrategy.validate(source, destination, Camp.CHO, board, PieceStrategy.CANNON))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.SAME_PIECE_TYPE_AT_DESTINATION.getMessage());
     }
+
+    //궁성 밖에서는 대각선 이동이 불가능 9,3-> 6,6
 }
