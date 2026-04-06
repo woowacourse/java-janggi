@@ -23,8 +23,12 @@ public class ApplicationView {
         return inputView.askStartNewGame();
     }
 
-    public int readExistGameId() {
-        guideOutputView.printGameIdGuide();
+    public void printNewGameId(int newGameId) {
+        guideOutputView.printNewGameId(newGameId);
+    }
+
+    public int readExistGameId(List<Integer> existGameIds) {
+        guideOutputView.printGameIdGuide(existGameIds);
 
         return inputView.readGameId();
     }

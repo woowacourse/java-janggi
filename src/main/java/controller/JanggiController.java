@@ -53,11 +53,15 @@ public class JanggiController {
 
         JanggiGame game = new JanggiGame(new Board(alivePieces));
 
-        return gameRepository.save(game);
+        Session<JanggiGame> newGame = gameRepository.save(game);
+        view.printNewGameId(newGame.id());
+
+        return newGame;
     }
 
     private Session<JanggiGame> resumeExistGame() {
-        int gameId = view.readExistGameId();
+        List<Integer> gameIds = gameRepository.findAllIds();
+        int gameId = view.readExistGameId(gameIds);
 
         return gameRepository.findById(gameId);
     }

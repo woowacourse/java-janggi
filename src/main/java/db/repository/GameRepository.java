@@ -14,6 +14,8 @@ import domain.piece.Piece;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class GameRepository {
@@ -32,6 +34,16 @@ public class GameRepository {
             pieceRepository.save(game.getBoard(), gameId, connection);
 
             return new Session<>(game, gameId);
+        });
+    }
+
+    public List<Integer> findAllIds() {
+        String findAllIds = "SELECT id FROM game";
+
+        return withTransaction(connector, findAllIds, StatementMode.DEFAULT, (connection, statement) -> {
+            ResultSet resultSet = statement.executeQuery();
+
+            return parseGameIds(resultSet);
         });
     }
 
@@ -80,6 +92,16 @@ public class GameRepository {
 
     private String parseSide(Side side) {
         return side.name();
+    }
+
+    private List<Integer> parseGameIds(ResultSet resultSet) throws SQLException {
+        List<Integer> gameIds = new ArrayList<>();
+
+        while (resultSet.next()) {
+            gameIds.add(resultSet.getInt(1));
+        }
+
+        return gameIds;
     }
 
     private JanggiGame parseGame(
