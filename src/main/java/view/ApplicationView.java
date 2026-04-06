@@ -13,6 +13,7 @@ public class ApplicationView {
     private final InputView inputView = new InputView();
     private final BoardOutputView boardOutputView = new BoardOutputView();
     private final GuideOutputView guideOutputView = new GuideOutputView();
+    private final ResultOutputView resultOutputView = new ResultOutputView();
     private final ErrorOutputView errorOutputView = new ErrorOutputView();
 
     public ChoWings readChowings() {
@@ -45,6 +46,10 @@ public class ApplicationView {
         boardOutputView.printBoard(board, movableIntersections);
 
         return inputView.readIntersection();
+    }
+
+    public void printWinner(Side winner) {
+        resultOutputView.printWinner(winner);
     }
 
     public void printError(Exception exception) {

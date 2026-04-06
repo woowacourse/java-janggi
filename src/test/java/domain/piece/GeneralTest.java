@@ -39,4 +39,16 @@ class GeneralTest {
             assertThat(actual).isEqualTo(expected);
         }
     }
+
+    @Test
+    void 핵심_기물로_취급된다() {
+        // given
+        General general = new General(Side.CHO);
+
+        // when
+        boolean royalPiece = general.isRoyalPiece();
+
+        // then
+        assertThat(royalPiece).isTrue();
+    }
 }

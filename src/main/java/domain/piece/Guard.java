@@ -27,6 +27,11 @@ public class Guard extends PalacePiece {
     }
 
     @Override
+    public boolean isRoyalPiece() {
+        return false;
+    }
+
+    @Override
     protected boolean isScreenable() {
         return true;
     }

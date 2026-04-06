@@ -3,6 +3,7 @@ package domain.game;
 import domain.board.Board;
 import domain.board.Intersection;
 import domain.piece.Piece;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +20,8 @@ public final class JanggiGame {
     }
 
     public List<Intersection> getMovableIntersections(Intersection startIntersection) {
+        validatePlaying();
+
         return board.getMovableIntersections(startIntersection, currentTurn);
     }
 
@@ -26,9 +29,27 @@ public final class JanggiGame {
             Intersection startIntersection,
             Intersection destination
     ) {
+        validatePlaying();
+
         board.movePiece(startIntersection, destination, currentTurn);
 
         currentTurn = currentTurn.nextTurn();
+    }
+
+    public boolean isPlaying() {
+        return Arrays.stream(Side.values())
+                .allMatch(board::hasRoyalPiece);
+    }
+
+    public Side getWinner() {
+        if (isPlaying()) {
+            throw new IllegalStateException("승자는 게임 종료 이후에 조회할 수 있습니다.");
+        }
+
+        return Arrays.stream(Side.values())
+                .filter(board::hasRoyalPiece)
+                .findAny()
+                .orElseThrow(() -> new RuntimeException("승자를 조회할 수 없습니다."));
     }
 
     public Side getCurrentTurn() {
@@ -37,5 +58,15 @@ public final class JanggiGame {
 
     public Map<Intersection, Piece> getBoard() {
         return board.getPieces();
+    }
+
+    private void validatePlaying() {
+        if (isEnded()) {
+            throw new IllegalStateException("게임이 이미 종료되었습니다.");
+        }
+    }
+
+    private boolean isEnded() {
+        return !isPlaying();
     }
 }

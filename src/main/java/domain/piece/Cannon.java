@@ -64,6 +64,11 @@ public final class Cannon extends StaticPositionedPiece {
     }
 
     @Override
+    public boolean isRoyalPiece() {
+        return false;
+    }
+
+    @Override
     protected boolean isScreenable() {
         return false;
     }

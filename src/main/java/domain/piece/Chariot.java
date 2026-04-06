@@ -63,6 +63,11 @@ public final class Chariot extends StaticPositionedPiece {
     }
 
     @Override
+    public boolean isRoyalPiece() {
+        return false;
+    }
+
+    @Override
     protected boolean isScreenable() {
         return true;
     }

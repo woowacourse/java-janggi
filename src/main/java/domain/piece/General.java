@@ -25,6 +25,11 @@ public class General extends PalacePiece {
     }
 
     @Override
+    public boolean isRoyalPiece() {
+        return true;
+    }
+
+    @Override
     protected boolean isScreenable() {
         return true;
     }

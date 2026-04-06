@@ -51,6 +51,11 @@ public final class Horse extends Piece {
     }
 
     @Override
+    public boolean isRoyalPiece() {
+        return false;
+    }
+
+    @Override
     protected boolean isScreenable() {
         return true;
     }

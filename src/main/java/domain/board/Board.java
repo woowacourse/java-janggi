@@ -42,6 +42,10 @@ public final class Board {
                 .movableIntersections(selectedIntersection, alivePieces);
     }
 
+    public boolean hasRoyalPiece(Side side) {
+        return alivePieces.hasRoyalPiece(side);
+    }
+
     public Map<Intersection, Piece> getPieces() {
         return alivePieces.get();
     }

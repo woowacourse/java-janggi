@@ -25,6 +25,13 @@ public class AlivePieces {
         alivePieces.put(to, piece);
     }
 
+    public boolean hasRoyalPiece(Side side) {
+        return alivePieces.values()
+                .stream()
+                .filter(piece -> piece.hasSameSide(side))
+                .anyMatch(Piece::isRoyalPiece);
+    }
+
     public Map<Intersection, Piece> get() {
         return Map.copyOf(alivePieces);
     }

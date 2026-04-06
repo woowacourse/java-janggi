@@ -23,9 +23,11 @@ public class JanggiController {
         Board board = initBoard();
         JanggiGame game = new JanggiGame(board);
 
-        while (true) {
+        while (game.isPlaying()) {
             retryOnIllegalArgument(() -> progressTurn(game));
         }
+
+        view.printWinner(game.getWinner());
     }
 
     private Board initBoard() {

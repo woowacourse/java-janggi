@@ -34,6 +34,8 @@ public abstract class Piece {
 
     public abstract boolean canBelongToWing();
 
+    public abstract boolean isRoyalPiece();
+
     protected abstract boolean isScreenable();
 
     @Override

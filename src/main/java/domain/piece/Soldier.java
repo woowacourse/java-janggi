@@ -7,8 +7,6 @@ import domain.movement.Route;
 import domain.movement.Vector;
 import domain.movement.strategy.MoveStrategy;
 import domain.movement.strategy.Straight;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -63,6 +61,11 @@ public final class Soldier extends StaticPositionedPiece {
     }
 
     @Override
+    public boolean isRoyalPiece() {
+        return false;
+    }
+
+    @Override
     protected boolean isScreenable() {
         return true;
     }
@@ -110,11 +113,5 @@ public final class Soldier extends StaticPositionedPiece {
         return moveStrategy.getRoutes(from, vector)
                 .stream()
                 .filter(route -> route.canReachDestinationThroughPath(alivePieces, side));
-    }
-
-    @SafeVarargs
-    private Stream<Route> concatRoutes(List<Route>... routesCollection) {
-        return Arrays.stream(routesCollection)
-                .flatMap(Collection::stream);
     }
 }
