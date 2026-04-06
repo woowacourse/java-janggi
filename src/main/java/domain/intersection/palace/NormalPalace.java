@@ -5,10 +5,12 @@ import domain.move.directions.Directions;
 import domain.piece.Piece;
 import domain.point.Point;
 
+import static domain.intersection.IntersectionType.NORMAL_PALACE;
+
 public class NormalPalace extends Intersection {
 
     public NormalPalace(Point point, Piece piece) {
-        super(point, piece);
+        super(NORMAL_PALACE, point, piece);
     }
 
     public static NormalPalace empty(Point point) {

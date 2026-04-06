@@ -9,10 +9,12 @@ import domain.point.Point;
 
 import java.util.List;
 
+import static domain.intersection.IntersectionType.CENTER_PALACE;
+
 public class CenterPalace extends Intersection {
 
     public CenterPalace(Point point, Piece piece) {
-        super(point, piece);
+        super(CENTER_PALACE, point, piece);
     }
 
     public static CenterPalace empty(Point point) {

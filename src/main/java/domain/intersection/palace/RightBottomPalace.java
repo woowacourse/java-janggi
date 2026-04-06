@@ -6,10 +6,12 @@ import domain.move.directions.Vector;
 import domain.piece.Piece;
 import domain.point.Point;
 
+import static domain.intersection.IntersectionType.RIGHT_BOTTOM_PALACE;
+
 public class RightBottomPalace extends Intersection {
 
     public RightBottomPalace(Point point, Piece piece) {
-        super(point, piece);
+        super(RIGHT_BOTTOM_PALACE, point, piece);
     }
 
     public static RightBottomPalace empty(Point point) {

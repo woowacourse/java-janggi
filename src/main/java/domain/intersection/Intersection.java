@@ -14,10 +14,12 @@ import static domain.intersection.exception.IntersectionError.ORIGIN_INTERSECTIO
 
 public abstract class Intersection {
 
+    private final IntersectionType intersectionType;
     private final Point point;
     private Piece piece;
 
-    protected Intersection(Point point, Piece piece) {
+    protected Intersection(IntersectionType intersectionType, Point point, Piece piece) {
+        this.intersectionType = intersectionType;
         this.point = point;
         this.piece = piece;
     }
@@ -61,6 +63,10 @@ public abstract class Intersection {
 
     public Piece readPiece() {
         return this.piece;
+    }
+
+    public IntersectionType readIntersectionType() {
+        return this.intersectionType;
     }
 
     public void validateMovable(Team currentTeam) {
