@@ -3,6 +3,7 @@ package janggi.domain.board;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardFactory;
 import janggi.domain.movestrategy.FixedStepMoveStrategy;
+import janggi.domain.movestrategy.OrStrategy;
 import janggi.domain.movestrategy.PalaceBoundStrategy;
 import janggi.domain.movestrategy.SlidingMoveStrategy;
 import janggi.domain.piece.Piece;
@@ -83,7 +84,7 @@ class BoardFactoryTest {
         Piece piece = board.getPieceAt(position);
 
         assertThat(piece.getTeam()).isEqualTo(Team.HAN);
-        assertThat(piece.getMoveStorage()).isInstanceOf(FixedStepMoveStrategy.class);
+        assertThat(piece.getMoveStorage()).isInstanceOf(OrStrategy.class);
     }
 
     @Test
@@ -153,6 +154,6 @@ class BoardFactoryTest {
         Piece piece = board.getPieceAt(position);
 
         assertThat(piece.getTeam()).isEqualTo(Team.CHO);
-        assertThat(piece.getMoveStorage()).isInstanceOf(FixedStepMoveStrategy.class);
+        assertThat(piece.getMoveStorage()).isInstanceOf(OrStrategy.class);
     }
 }
