@@ -59,7 +59,7 @@ public class Board {
                 .sum();
     }
 
-    public Map<Position, Piece> board() {
+    public Map<Position, Piece> pieces() {
         return Map.copyOf(board);
     }
 

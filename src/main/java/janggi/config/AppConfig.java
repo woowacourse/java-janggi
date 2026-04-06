@@ -4,6 +4,8 @@ import janggi.controller.JanggiController;
 import janggi.controller.JanggiService;
 import janggi.repository.GameRepository;
 import janggi.repository.JdbcGameRepository;
+import janggi.repository.JdbcPieceRepository;
+import janggi.repository.PieceRepository;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 
@@ -11,7 +13,10 @@ public class AppConfig {
 
     private JanggiController controller;
     private JanggiService service;
+
     private GameRepository gameRepository;
+    private PieceRepository pieceRepository;
+
     private InputView inputView;
     private OutputView outputView;
 
@@ -24,7 +29,7 @@ public class AppConfig {
 
     private JanggiService service() {
         if (service == null) {
-            service = new JanggiService(gameRepository());
+            service = new JanggiService(gameRepository(), pieceRepository());
         }
         return service;
     }
@@ -34,6 +39,13 @@ public class AppConfig {
             gameRepository = new JdbcGameRepository();
         }
         return gameRepository;
+    }
+
+    private PieceRepository pieceRepository() {
+        if (pieceRepository == null) {
+            pieceRepository = new JdbcPieceRepository();
+        }
+        return pieceRepository;
     }
 
     private InputView inputView() {

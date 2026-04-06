@@ -31,17 +31,15 @@ public class JanggiController {
         Long gameId = initGame();
         printBoard(gameId);
 
-        Game game = janggiService.findGame(gameId);
-        while (!game.isFinished()) {
+        while (!janggiService.findGame(gameId).isFinished()) {
             moveProcess(gameId);
-            game = janggiService.findGame(gameId);
         }
         printWinner(gameId);
     }
 
     private Long initGame() {
         if (inputView.readWantToRestore()) {
-            return janggiService.findRecentlyGameId();
+            return inputView.readGameIdToRestore();
         }
         return janggiService.makeGame(readDynastyHorseElephantPositions());
     }
@@ -88,7 +86,7 @@ public class JanggiController {
 
     private void printBoard(Long gameId) {
         Game game = janggiService.findGame(gameId);
-        outputView.printBoard(BoardDto.from(game.boardMap()));
+        outputView.printBoard(BoardDto.from(game.pieces()));
     }
 
     private void printWinner(Long gameId) {

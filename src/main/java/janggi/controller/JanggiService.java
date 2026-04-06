@@ -1,40 +1,48 @@
 package janggi.controller;
 
+import janggi.domain.board.Board;
 import janggi.domain.board.HorseElephantPosition;
 import janggi.domain.dynasty.Dynasty;
+import janggi.domain.game.CurrentTurn;
 import janggi.domain.game.Game;
+import janggi.domain.piece.Piece;
 import janggi.domain.position.Position;
 import janggi.repository.GameRepository;
+import janggi.repository.PieceRepository;
 import java.util.Map;
 
 public class JanggiService {
 
     private final GameRepository gameRepository;
+    private final PieceRepository pieceRepository;
 
-    public JanggiService(GameRepository gameRepository) {
+    public JanggiService(GameRepository gameRepository, PieceRepository pieceRepository) {
         this.gameRepository = gameRepository;
-    }
-
-    public Long findRecentlyGameId() {
-        return gameRepository.findRecentlyGameId()
-                .orElseThrow(() -> new IllegalArgumentException("불러올 최근 게임이 없습니다."));
+        this.pieceRepository = pieceRepository;
     }
 
     public Long makeGame(Map<Dynasty, HorseElephantPosition> horseElephantPositions) {
         Game game = Game.initGame(horseElephantPositions);
-        return gameRepository.save(game);
+        Long gameId = gameRepository.save(game);
+        pieceRepository.saveAll(gameId, game);
+        return gameId;
     }
 
     public Game findGame(Long gameId) {
-        return gameRepository.findById(gameId)
+        CurrentTurn currentTurn = gameRepository.findByCurrentTurnById(gameId)
                 .orElseThrow(() -> new IllegalArgumentException("게임이 존재하지 않습니다."));
+
+        Map<Position, Piece> pieces = pieceRepository.findAllByGameId(gameId);
+
+        return Game.restore(Board.restore(pieces), currentTurn);
     }
 
     public void movePiece(Long gameId, Position from, Position to) {
         Game game = findGame(gameId);
         game.movePiece(from, to);
 
-        gameRepository.update(gameId, game);
+        pieceRepository.updatePiece(gameId, from, to);
+        gameRepository.updateTurn(gameId, game.currentDynasty());
     }
 
 }

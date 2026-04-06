@@ -20,6 +20,11 @@ public class InputView {
         return YES.equals(Console.readLine());
     }
 
+    public long readGameIdToRestore() {
+        System.out.println("불러오고싶은 게임의 ID를 입력하세요.");
+        return Long.parseLong(Console.readLine());
+    }
+
     public int readHorseElephantPosition(DynastyDto dynastyDto) {
         System.out.println(dynastyDto.dynastyName() + "나라의 상차림 법을 숫자로 입력해주세요.");
         System.out.println("1: 마상마상, 2: 마상상마, 3: 상마상마, 4: 상마마상");
