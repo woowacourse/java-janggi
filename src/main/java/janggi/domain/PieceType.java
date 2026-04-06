@@ -3,6 +3,7 @@ package janggi.domain;
 import janggi.domain.moveRules.ChaMoveRule;
 import janggi.domain.moveRules.KingMoveRule;
 import janggi.domain.moveRules.MaMoveRule;
+import janggi.domain.moveRules.MoveRule;
 import janggi.domain.moveRules.PoMoveRule;
 import janggi.domain.moveRules.SaMoveRule;
 import janggi.domain.moveRules.SangMoveRule;
@@ -23,10 +24,6 @@ public enum PieceType {
     PieceType(String name, MoveRule moveRule) {
         this.name = name;
         this.moveRule = moveRule;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public MoveRule getMoveRule() {
