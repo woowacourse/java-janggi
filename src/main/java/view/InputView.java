@@ -86,7 +86,7 @@ public class InputView {
 
             System.out.println();
             for (PositionDto position : possibleMovesDto.possibleMoves()) {
-                System.out.printf("%d. (%d, %d)\n", index++, position.getCol(), position.getRow());
+                System.out.printf("%d. (%d, %d)\n", index++, position.col(), position.row());
             }
 
             System.out.println(REQUEST_PIECE_DESTINATION);
