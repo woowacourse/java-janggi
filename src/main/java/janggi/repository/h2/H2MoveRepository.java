@@ -86,6 +86,8 @@ public class H2MoveRepository implements MoveRepository {
             stmt.setInt(1, gameId);
             ResultSet resultSet = stmt.getResultSet();
 
+            ResultSet resultSet = stmt.executeQuery();
+
             if (resultSet.next()) {
                 return resultSet.getInt(1);
             }
