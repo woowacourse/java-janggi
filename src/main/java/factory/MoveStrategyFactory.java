@@ -5,9 +5,9 @@ import domain.PieceType;
 import domain.Team;
 import domain.strategy.CannonMoveStrategy;
 import domain.strategy.ChariotMoveStrategy;
-import domain.strategy.GreendSoldierMoveStrategy;
 import domain.strategy.ElephantMoveStrategy;
 import domain.strategy.GeneralMoveStrategy;
+import domain.strategy.GreenSoldierMoveStrategy;
 import domain.strategy.GuardMoveStrategy;
 import domain.strategy.HorseMoveStrategy;
 import domain.strategy.MoveStrategy;
@@ -28,7 +28,7 @@ public class MoveStrategyFactory {
 
     private MoveStrategy createSoldierMoveStrategy(Team team) {
         if (team == Team.GREEN) {
-            return new GreendSoldierMoveStrategy();
+            return new GreenSoldierMoveStrategy();
         }
         return new RedSoldierMoveStrategy();
     }

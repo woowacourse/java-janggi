@@ -5,9 +5,9 @@ import domain.PieceType;
 import domain.Team;
 import domain.strategy.CannonMoveStrategy;
 import domain.strategy.ChariotMoveStrategy;
-import domain.strategy.GreendSoldierMoveStrategy;
 import domain.strategy.ElephantMoveStrategy;
 import domain.strategy.GeneralMoveStrategy;
+import domain.strategy.GreenSoldierMoveStrategy;
 import domain.strategy.GuardMoveStrategy;
 import domain.strategy.HorseMoveStrategy;
 import domain.strategy.MoveStrategy;
@@ -27,7 +27,7 @@ class MoveStrategyFactoryTest {
 
         MoveStrategy downwardMoveStrategy = moveStrategyFactory.createMoveStrategy(greenSoldier);
 
-        Assertions.assertThat(downwardMoveStrategy).isInstanceOf(GreendSoldierMoveStrategy.class);
+        Assertions.assertThat(downwardMoveStrategy).isInstanceOf(GreenSoldierMoveStrategy.class);
     }
 
     @Test
