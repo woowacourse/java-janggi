@@ -6,17 +6,17 @@ public enum Palace {
     CHO(1, 3, 4, 6, Position.create(2, 5)),
     HAN(8, 10, 4, 6, Position.create(9, 5));
 
-    private final int startX;
-    private final int endX;
-    private final int startY;
-    private final int endY;
+    private final int startRow;
+    private final int endRow;
+    private final int startCol;
+    private final int endCol;
     private final Position center;
 
-    Palace(int startX, int endX, int startY, int endY, Position position) {
-        this.startX = startX;
-        this.endX = endX;
-        this.startY = startY;
-        this.endY = endY;
+    Palace(int startRow, int endRow, int startCol, int endCol, Position position) {
+        this.startRow = startRow;
+        this.endRow = endRow;
+        this.startCol = startCol;
+        this.endCol = endCol;
         this.center = position;
     }
 
@@ -28,7 +28,8 @@ public enum Palace {
     }
 
     public boolean isPalace(Position position) {
-        return position.getX() >= startX && position.getX() <= endX && position.getY() >= startY && position.getY() <= endY;
+        return position.getRow() >= startRow
+                && position.getRow() <= endRow && position.getCol() >= startCol && position.getCol() <= endCol;
     }
 
     public boolean isDiagonalPath(Position start, Position end) {
@@ -36,9 +37,9 @@ public enum Palace {
             return false;
         }
 
-        int diffX = Math.abs(end.getX() - start.getX());
-        int diffY = Math.abs(end.getY() - start.getY());
-        if (diffX != diffY) {
+        int diffRow = Math.abs(end.getRow() - start.getRow());
+        int diffCol = Math.abs(end.getCol() - start.getCol());
+        if (diffRow != diffCol) {
             return false;
         }
 
@@ -46,12 +47,12 @@ public enum Palace {
             return false;
         }
 
-        return diffX == 1 || diffX == 2;
+        return diffRow == 1 || diffRow == 2;
     }
 
     private boolean isCorner(Position position) {
-        return (position.getX() == startX || position.getX() == endX)
-                && (position.getY() == startY || position.getY() == endY) || position.equals(center);
+        return (position.getRow() == startRow || position.getRow() == endRow)
+                && (position.getCol() == startCol || position.getCol() == endCol) || position.equals(center);
     }
 
     public Position getCenter() {

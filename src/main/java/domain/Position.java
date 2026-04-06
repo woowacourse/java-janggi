@@ -7,42 +7,42 @@ public class Position {
     public static final int MAX_COL=9;
     public static final int MIN_ROW_COL=1;
 
-    private final int x;
-    private final int y;
+    private final int row;
+    private final int col;
 
-    private Position(int x, int y) {
-        validateBoardSize(x, y);
-        this.x = x;
-        this.y = y;
+    private Position(int row, int col) {
+        validateBoardSize(row, col);
+        this.row = row;
+        this.col = col;
     }
 
-    public static Position create(int x, int y) {
-        return new Position(x, y);
+    public static Position create(int row, int col) {
+        return new Position(row, col);
     }
 
-    private void validateBoardSize(int x, int y){
-        if (x < MIN_ROW_COL || x > MAX_ROW || y < MIN_ROW_COL || y > MAX_COL) {
+    private void validateBoardSize(int row, int col){
+        if (row < MIN_ROW_COL || row > MAX_ROW || col < MIN_ROW_COL || col > MAX_COL) {
             throw new IllegalArgumentException("좌표 범위를 벗어났습니다.");
         }
     }
 
-    public int getX() {
-        return x;
+    public int getRow() {
+        return row;
     }
 
-    public int getY() {
-        return y;
+    public int getCol() {
+        return col;
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Position position = (Position) o;
-        return x == position.x && y == position.y;
+        return row == position.row && col == position.col;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(x, y);
+        return Objects.hash(row, col);
     }
 }

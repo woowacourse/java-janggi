@@ -7,9 +7,9 @@ public class SangMoveRule implements MoveRule {
 
     @Override
     public boolean canMovePosition(Position start, Position end, Piece piece) {
-        int diffX = end.getX() - start.getX();
-        int diffY = end.getY() - start.getY();
+        int diffRow = end.getRow() - start.getRow();
+        int diffCol = end.getCol() - start.getCol();
 
-        return (Math.abs(diffX) == 3 && Math.abs(diffY) == 2) || (Math.abs(diffX) == 2 && Math.abs(diffY) == 3);
+        return (Math.abs(diffRow) == 3 && Math.abs(diffCol) == 2) || (Math.abs(diffRow) == 2 && Math.abs(diffCol) == 3);
     }
 }

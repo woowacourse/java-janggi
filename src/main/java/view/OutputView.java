@@ -42,23 +42,23 @@ public class OutputView {
         StringBuilder boardResult = new StringBuilder(formatter.formatColNumbers());
 
         boardResult.append(formatter.formatHorizontalLine());
-        for (int x = 1; x <= 10; x++) {
-            boardResult.append(formatter.formatRowNumber(x));
-            printBoardColumn(boardResult, pieces, x);
+        for (int row = 1; row <= 10; row++) {
+            boardResult.append(formatter.formatRowNumber(row));
+            printBoardColumn(boardResult, pieces, row);
             boardResult.append(formatter.formatRightVerticalLine());
         }
         boardResult.append(formatter.formatHorizontalLine());
         System.out.print(boardResult);
     }
 
-    private void printBoardColumn(StringBuilder boardResult, Map<PositionDto, PieceDto> pieces, int x) {
-        for (int y = 1; y <= 9; y++) {
-            printPiece(boardResult, pieces, x, y);
+    private void printBoardColumn(StringBuilder boardResult, Map<PositionDto, PieceDto> pieces, int row) {
+        for (int col = 1; col <= 9; col++) {
+            printPiece(boardResult, pieces, row, col);
         }
     }
 
-    private void printPiece(StringBuilder boardResult, Map<PositionDto, PieceDto> pieces, int x, int y) {
-        PositionDto nowPosition = new PositionDto(x, y);
+    private void printPiece(StringBuilder boardResult, Map<PositionDto, PieceDto> pieces, int row, int col) {
+        PositionDto nowPosition = new PositionDto(row, col);
         if (!pieces.containsKey(nowPosition)) {
             boardResult.append(formatter.formatEmptyPiece());
             return;
@@ -73,7 +73,7 @@ public class OutputView {
         StringBuilder result = new StringBuilder(formatter.formatPossiblePositionHeader(pieceType.getName()));
         int num = 1;
         for (PositionDto dto : positionDtos) {
-            result.append(formatter.formatPossiblePosition(num++, dto.x(), dto.y()));
+            result.append(formatter.formatPossiblePosition(num++, dto.row(), dto.col()));
         }
 
         System.out.print(result);

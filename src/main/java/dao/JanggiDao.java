@@ -18,13 +18,13 @@ public class JanggiDao {
                 "id INT AUTO_INCREMENT PRIMARY KEY, " +
                 "turn VARCHAR(10))";
 
-        String createBoardTable = "CREATE TABLE IF NOT EXISTS board_state (" +
+        String createBoardTable = "CREATE TABLE IF NOT EXISTS piece_state (" +
                 "id INT AUTO_INCREMENT PRIMARY KEY, " +
                 "game_id INT, " +
                 "country VARCHAR(10), " +
                 "piece_name VARCHAR(20), " +
-                "x_pos INT, " +
-                "y_pos INT, " +
+                "row_pos INT, " +
+                "col_pos INT, " +
                 "FOREIGN KEY (game_id) REFERENCES game_state(id) ON DELETE CASCADE)";
 
         try (Connection connection = DBConnection.getConnection();
@@ -73,7 +73,7 @@ public class JanggiDao {
     }
 
     public void savePiecePosition(int gameId, PieceDto pieceDto, PositionDto positionDto) {
-        String sql = "INSERT INTO board_state (game_id, country, piece_name, x_pos, y_pos) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO board_state (game_id, country, piece_name, row_pos, col_pos) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection connection = DBConnection.getConnection();
             PreparedStatement pstmt = connection.prepareStatement(sql)) {
@@ -81,40 +81,40 @@ public class JanggiDao {
             pstmt.setInt(1, gameId);
             pstmt.setString(2, pieceDto.countryName());
             pstmt.setString(3, pieceDto.pieceName());
-            pstmt.setInt(4, positionDto.x());
-            pstmt.setInt(5, positionDto.y());
+            pstmt.setInt(4, positionDto.row());
+            pstmt.setInt(5, positionDto.col());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("보드 상태 저장 중 에러 발생: " + e.getMessage());
         }
     }
 
-    public void movePiece(int gameId, int beforeX, int beforeY, int afterX, int afterY) {
-        String sql = "UPDATE board_state SET x_pos = ?, y_pos = ? WHERE game_id = ? AND x_pos = ? AND y_pos = ?";
+    public void movePiece(int gameId, int beforeRow, int beforeCol, int afterRow, int afterCol) {
+        String sql = "UPDATE board_state SET x_pos = ?, y_pos = ? WHERE game_id = ? AND row_pos = ? AND col_pos = ?";
 
         try (Connection connection = DBConnection.getConnection();
             PreparedStatement pstmt = connection.prepareStatement(sql)) {
 
-            pstmt.setInt(1, afterX);
-            pstmt.setInt(2, afterY);
+            pstmt.setInt(1, afterRow);
+            pstmt.setInt(2, afterCol);
             pstmt.setInt(3, gameId);
-            pstmt.setInt(4, beforeX);
-            pstmt.setInt(5, beforeY);
+            pstmt.setInt(4, beforeRow);
+            pstmt.setInt(5, beforeCol);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("말 이동 업데이트 중 에러 발생: " + e.getMessage());
         }
     }
 
-    public void deletePiece(int gameId, int x, int y) {
-        String sql = "DELETE FROM board_state WHERE game_id = ? AND x_pos = ? AND y_pos = ?";
+    public void deletePiece(int gameId, int row, int col) {
+        String sql = "DELETE FROM board_state WHERE game_id = ? AND row_pos = ? AND col_pos = ?";
 
         try (Connection connection = DBConnection.getConnection();
             PreparedStatement pstmt = connection.prepareStatement(sql)) {
 
             pstmt.setInt(1, gameId);
-            pstmt.setInt(2, x);
-            pstmt.setInt(3, y);
+            pstmt.setInt(2, row);
+            pstmt.setInt(3, col);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("말 제거 중 에러 발생: " + e.getMessage());
@@ -139,7 +139,7 @@ public class JanggiDao {
     }
 
     public List<SavedPieceDto> getSavedBoard(int gameId) {
-        String sql = "SELECT country, piece_name, x_pos, y_pos FROM board_state WHERE game_id = ?";
+        String sql = "SELECT country, piece_name, row_pos, col_pos FROM board_state WHERE game_id = ?";
         List<SavedPieceDto> savedPieceDtos = new ArrayList<>();
         try (Connection connection = DBConnection.getConnection();
             PreparedStatement pstmt = connection.prepareStatement(sql)) {
@@ -151,8 +151,8 @@ public class JanggiDao {
                             new SavedPieceDto(
                                     rs.getString("country"),
                                     rs.getString("piece_name"),
-                                    rs.getInt("x_pos"),
-                                    rs.getInt("y_pos")));
+                                    rs.getInt("row_pos"),
+                                    rs.getInt("col_pos")));
                 }
             }
         } catch (SQLException e) {

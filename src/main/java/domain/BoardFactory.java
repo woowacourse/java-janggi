@@ -42,7 +42,7 @@ public final class BoardFactory {
     public static Map<Position, Piece> createLoadBoard(List<SavedPieceDto> savedPieces) {
         Map<Position, Piece> board = new HashMap<>();
         for (SavedPieceDto savedPieceDto : savedPieces) {
-            Position position = Position.create(savedPieceDto.x(), savedPieceDto.y());
+            Position position = Position.create(savedPieceDto.row(), savedPieceDto.col());
             Piece piece = new Piece(Country.getCountry(savedPieceDto.country()), PieceType.from(
                     savedPieceDto.pieceType()));
 

@@ -31,14 +31,14 @@ public class OutputViewFormatter {
         return String.format("%n['%s' 기물의 현재 좌표 목록]%n", pieceName);
     }
 
-    public String formatPossiblePosition(int number, int x, int y) {
-        return String.format("%d. [%d,%d]%n", number, x, y);
+    public String formatPossiblePosition(int number, int row, int col) {
+        return String.format("%d. [%d,%d]%n", number, row, col);
     }
 
     public String formatColNumbers() {
         StringBuilder colNumbers = new StringBuilder("\n   ");
-        for (int y = 1; y <= 9; y++) {
-            colNumbers.append(COL_NUMBERS.get(y)).append("  ");
+        for (int col = 1; col <= 9; col++) {
+            colNumbers.append(COL_NUMBERS.get(col)).append("  ");
         }
         colNumbers.append('\n');
 

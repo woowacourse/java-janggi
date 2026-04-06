@@ -7,11 +7,11 @@ public class SaMoveRule implements MoveRule {
 
     @Override
     public boolean canMovePosition(Position start, Position end, Piece piece) {
-        int diffX = Math.abs(end.getX() - start.getX());
-        int diffY = Math.abs(end.getY() - start.getY());
+        int diffRow = Math.abs(end.getRow() - start.getRow());
+        int diffCol = Math.abs(end.getCol() - start.getCol());
 
-        boolean isStraight = (diffX + diffY) == 1;
-        boolean isDiagonal = (diffX == 1 && diffY == 1);
+        boolean isStraight = (diffRow + diffCol) == 1;
+        boolean isDiagonal = (diffRow == 1 && diffCol == 1);
 
         return isStraight || isDiagonal;
     }

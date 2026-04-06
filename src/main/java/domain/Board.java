@@ -50,28 +50,28 @@ public class Board {
         }
 
         List<Piece> pieces = new ArrayList<>();
-        if (start.getX() == end.getX() || start.getY() == end.getY()) {
-            int startX = start.getX();
-            int startY = start.getY();
-            int endX = end.getX();
-            int endY = end.getY();
-            if (!(startX == endX || startY == endY)) {
+        if (start.getRow() == end.getRow() || start.getCol() == end.getCol()) {
+            int startRow = start.getRow();
+            int startCol = start.getCol();
+            int endRow = end.getRow();
+            int endCol = end.getCol();
+            if (!(startRow == endRow || startCol == endCol)) {
                 throw new IllegalArgumentException("포는 같은 줄만 이동 가능합니다.");
             }
 
-            if (startX == endX) {
-                int minY = Math.min(startY, endY);
-                int maxY = Math.max(startY, endY);
-                for (int i = minY + 1; i < maxY; i++) {
-                    pieces.add(board.getOrDefault(Position.create(startX, i), Piece.getEmptyPiece()));
+            if (startRow == endRow) {
+                int minCol = Math.min(startCol, endCol);
+                int maxCol = Math.max(startCol, endCol);
+                for (int i = minCol + 1; i < maxCol; i++) {
+                    pieces.add(board.getOrDefault(Position.create(startRow, i), Piece.getEmptyPiece()));
                 }
             }
 
-            if (startY == endY) {
-                int minX = Math.min(startX, endX);
-                int maxX = Math.max(startX, endX);
-                for (int i = minX + 1; i < maxX; i++) {
-                    pieces.add(board.getOrDefault(Position.create(i, startY), Piece.getEmptyPiece()));
+            if (startCol == endCol) {
+                int minRow = Math.min(startRow, endRow);
+                int maxRow = Math.max(startRow, endRow);
+                for (int i = minRow + 1; i < maxRow; i++) {
+                    pieces.add(board.getOrDefault(Position.create(i, startCol), Piece.getEmptyPiece()));
                 }
             }
 
@@ -80,8 +80,8 @@ public class Board {
 
         Palace palace = Palace.from(startPiece.getCountry());
         if (palace.isDiagonalPath(start, end)) {
-            int diffX = Math.abs(end.getX() - start.getX());
-            if (diffX == 2) {
+            int diffRow = Math.abs(end.getRow() - start.getRow());
+            if (diffRow == 2) {
                 pieces.add(board.getOrDefault(palace.getCenter(), Piece.getEmptyPiece()));
             }
         }

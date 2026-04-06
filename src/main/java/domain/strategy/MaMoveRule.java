@@ -7,9 +7,9 @@ public class MaMoveRule implements MoveRule {
 
     @Override
     public boolean canMovePosition(Position start, Position end, Piece piece) {
-        int diffX = end.getX() - start.getX();
-        int diffY = end.getY() - start.getY();
+        int diffRow = end.getRow() - start.getRow();
+        int diffCol = end.getCol() - start.getCol();
 
-        return (Math.abs(diffX) == 2 && Math.abs(diffY) == 1) || (Math.abs(diffX) == 1 && Math.abs(diffY) == 2);
+        return (Math.abs(diffRow) == 2 && Math.abs(diffCol) == 1) || (Math.abs(diffRow) == 1 && Math.abs(diffCol) == 2);
     }
 }

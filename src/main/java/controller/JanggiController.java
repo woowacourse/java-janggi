@@ -142,7 +142,7 @@ public class JanggiController {
     private Position requestStartPiecePosition(List<PositionDto> positionDtos) {
         return doRetry(() -> {
             int choiceStart = inputView.requestStartPiecePosition(positionDtos.size()) - 1;
-            return Position.create(positionDtos.get(choiceStart).x(), positionDtos.get(choiceStart).y());
+            return Position.create(positionDtos.get(choiceStart).row(), positionDtos.get(choiceStart).col());
         });
     }
 

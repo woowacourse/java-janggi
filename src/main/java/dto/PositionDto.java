@@ -1,7 +1,7 @@
 package dto;
 
 public record PositionDto(
-        int x,
-        int y
+        int row,
+        int col
 ){
 }

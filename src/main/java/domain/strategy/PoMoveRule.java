@@ -10,7 +10,7 @@ public class PoMoveRule implements MoveRule {
 
     @Override
     public boolean canMovePosition(Position start, Position end, Piece piece) {
-        if (start.getX() == end.getX() || start.getY() == end.getY()) {
+        if (start.getRow() == end.getRow() || start.getCol() == end.getCol()) {
             return true;
         }
         Palace palace = Palace.from(piece.getCountry());

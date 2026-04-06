@@ -50,7 +50,7 @@ public class JanggiService {
         Map<PositionDto, PieceDto> pieceDtos = board.getPieces().entrySet().stream()
                 .filter(entry -> !entry.getValue().isEmpty())
                 .collect(Collectors.toMap(
-                        entry -> new PositionDto(entry.getKey().getX(), entry.getKey().getY()),
+                        entry -> new PositionDto(entry.getKey().getRow(), entry.getKey().getCol()),
                         entry -> new PieceDto(entry.getValue().getCountry().name(),
                                 entry.getValue().getPieceType().getName())
                 ));
@@ -60,7 +60,7 @@ public class JanggiService {
     public List<PositionDto> getPiecePositions(JanggiGame janggiGame, PieceType pieceType) {
         List<PositionDto> positionDtos = new ArrayList<>();
         for (Position position : janggiGame.getPiecesNowPosition(pieceType)) {
-            positionDtos.add(new PositionDto(position.getX(), position.getY()));
+            positionDtos.add(new PositionDto(position.getRow(), position.getCol()));
         }
         return positionDtos;
     }
@@ -71,9 +71,9 @@ public class JanggiService {
         game.play(start, end);
 
         if (!checkEndPosition) {
-            janggiDao.deletePiece(gameId, end.getX(), end.getY());
+            janggiDao.deletePiece(gameId, end.getRow(), end.getCol());
         }
-        janggiDao.movePiece(gameId, start.getX(), start.getY(), end.getX(), end.getY());
+        janggiDao.movePiece(gameId, start.getRow(), start.getCol(), end.getRow(), end.getCol());
         janggiDao.updateTurn(gameId, game.getCountry().name());
     }
 
