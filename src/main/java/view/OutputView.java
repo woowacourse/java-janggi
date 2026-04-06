@@ -27,7 +27,7 @@ public class OutputView {
 
     public void printBoard(Board board) {
         StringBuilder sb = new StringBuilder();
-        Map<Position, Piece> boardState = board.currentPieces();
+        Map<Position, Piece> boardState = board.getState();
         for (int row = MAX_ROW; row >= 1; row--) {
             sb.append(row).append("\t");
             appendRow(sb, boardState, row);
