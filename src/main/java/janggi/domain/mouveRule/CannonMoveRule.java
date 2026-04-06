@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 public class CannonMoveRule implements MoveRule {
     @Override
     public boolean canMove(Position from, Position to, BoardView board) {
-        if (!from.isStraightLine(to)) {
+        if (!(board.palace().isOnDiagonalPath(from, to) || from.isStraightLine(to))){
             return false;
         }
 
@@ -22,7 +22,6 @@ public class CannonMoveRule implements MoveRule {
     }
 
     private boolean hasOneBridgeNotCannon(List<PieceType> types) {
-
         return types.size() == 1 && types.get(0) != PieceType.CANNON;
     }
 
