@@ -22,4 +22,8 @@ public interface Piece {
     PieceType getType();
 
     boolean isSame(PieceType pieceType);
+
+    double getScore();
+
+    Side getSide();
 }

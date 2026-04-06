@@ -34,11 +34,21 @@ public abstract class ActivePiece implements Piece {
 
     @Override
     public boolean isNotEmpty() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isSame(PieceType pieceType) {
         return this.pieceType == pieceType;
+    }
+
+    @Override
+    public double getScore() {
+        return this.pieceType.getScore();
+    }
+
+    @Override
+    public Side getSide() {
+        return this.side;
     }
 }

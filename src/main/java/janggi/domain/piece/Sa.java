@@ -25,7 +25,7 @@ public class Sa extends ActivePiece {
 
     @Override
     public List<Location> calculateRoute(Intersection from, Intersection to) {
-        if(!to.isPalace()) {
+        if (!to.isPalace()) {
             throw new RouteResolveException(ErrorCode.PALACE_OUT_OF_RANGE);
         }
         List<Location> moveRoutes;
