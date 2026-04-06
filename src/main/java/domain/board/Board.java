@@ -1,6 +1,6 @@
 package domain.board;
 
-import domain.ErrorMessage;
+import exception.ErrorMessage;
 import domain.Offset;
 import domain.piece.Cannon;
 import domain.piece.Piece;
@@ -82,5 +82,9 @@ public class Board {
         return pieces.values().stream()
                 .filter(piece -> piece.isSameTeam(team))
                 .anyMatch(piece -> piece.isSameType(PieceType.GENERAL));
+    }
+
+    public Map<Position, Piece> getPieces() {
+        return Map.copyOf(pieces);
     }
 }

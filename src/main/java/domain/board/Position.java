@@ -1,7 +1,6 @@
 package domain.board;
 
-import domain.ErrorMessage;
-import domain.Offset;
+import exception.ErrorMessage;
 
 public record Position(int x, int y) {
     private static final int MIN_RANGE = 0;

@@ -1,4 +1,4 @@
-package domain;
+package exception;
 
 public enum ErrorMessage {
     EMPTY_SOURCE("선택한 위치에 기물이 없습니다."),

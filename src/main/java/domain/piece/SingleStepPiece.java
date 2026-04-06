@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.ErrorMessage;
+import exception.ErrorMessage;
 import domain.Offset;
 import domain.board.Palace;
 import domain.board.Position;

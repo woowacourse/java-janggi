@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.ErrorMessage;
+import exception.ErrorMessage;
 
 import java.util.List;
 import java.util.Optional;

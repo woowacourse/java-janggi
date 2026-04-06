@@ -1,11 +1,10 @@
 package domain.piece;
 
-import domain.ErrorMessage;
+import exception.ErrorMessage;
 import domain.Offset;
 import domain.board.Position;
 
 import java.util.List;
-import java.util.Objects;
 
 public abstract class Piece {
     private final PieceType pieceType;
