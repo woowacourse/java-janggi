@@ -1,8 +1,11 @@
 package janggi.controller;
 
+import janggi.db.repository.GameRepository;
 import janggi.domain.board.BoardInitializer;
+import janggi.domain.board.MoveResult;
 import janggi.domain.board.Position;
 import janggi.domain.game.JanggiGame;
+import janggi.domain.piece.Team;
 import janggi.dto.BoardDto;
 import janggi.dto.TurnDto;
 import janggi.view.InputView;
@@ -14,17 +17,17 @@ import java.util.function.Supplier;
 public class JanggiController {
     private final InputView inputView;
     private final OutputView outputView;
+    private final GameRepository gameRepository;
 
-    public JanggiController(InputView inputView, OutputView outputView) {
+    public JanggiController(InputView inputView, OutputView outputView, GameRepository gameRepository) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.gameRepository = gameRepository;
     }
 
     public void start() {
-        List<Integer> openingFormationChoices = retryOnException(inputView::readOpeningFormationChoice);
-        JanggiGame game = new JanggiGame(BoardInitializer.initializeBoard(
-                openingFormationChoices.getFirst(),
-                openingFormationChoices.getLast()));
+        Long gameId = initializeGame();
+        JanggiGame game = gameRepository.load(gameId);
 
         while (!game.isOver()) {
             try {
@@ -33,11 +36,24 @@ public class JanggiController {
 
                 Position startPiecePosition = retryOnException(this::getStartPiecePosition);
                 Position endPiecePosition = retryOnException(this::getEndPiecePosition);
-                game.move(startPiecePosition, endPiecePosition);
+                MoveResult result = game.move(startPiecePosition, endPiecePosition);
+                gameRepository.updateGame(gameId, game, result);
             } catch (IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());
             }
         }
+        gameRepository.delete(gameId);
+    }
+
+    private Long initializeGame() {
+        if (gameRepository.hasOngoingGame()) {
+            return gameRepository.getLatestGameId();
+        }
+        List<Integer> openingFormationChoices = retryOnException(inputView::readOpeningFormationChoice);
+        JanggiGame game = new JanggiGame(BoardInitializer.initializeBoard(
+                openingFormationChoices.getFirst(),
+                openingFormationChoices.getLast()), Team.HAN);
+        return gameRepository.save(game);
     }
 
     private Position getEndPiecePosition() {
