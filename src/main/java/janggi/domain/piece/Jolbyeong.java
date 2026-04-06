@@ -47,11 +47,11 @@ public class Jolbyeong extends ActivePiece {
         COLLISION_DETECTOR.check(this, piecesOnPath);
     }
 
-    private void validateMoveBack(Location from , Location to) {
+    private void validateMoveBack(Location from, Location to) {
         Direction sideRealBack = side.getBackDirection();
         Direction locationDirection = Direction.getDirection(from, to);
 
-        if(sideRealBack.isSameDirection(locationDirection)) {
+        if (sideRealBack.isSameDirection(locationDirection)) {
             throw new RouteResolveException(ErrorCode.JOLBYEONG_MOVE_BACK_ERROR);
         }
     }
