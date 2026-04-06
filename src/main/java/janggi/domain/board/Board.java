@@ -40,7 +40,10 @@ public class Board {
         return new Board(boardState, height, width);
     }
 
-    public void move(Location from, Location to) {
+    /**
+     * @return 기물이 이동한 자리에 존재하여 제거된 상대편 기물을 반환한다.
+     */
+    public Piece move(Location from, Location to) {
         validateMove(from, to);
 
         Intersection base = boardState.get(from);
@@ -50,7 +53,7 @@ public class Board {
         Piece piece = base.getPiece();
         piece.detectCollision(piecesOnPath);
 
-        executeMove(from, to, piece);
+        return executeMove(from, to, piece);
     }
 
     public void validateLocationOfPiece(Side currentSide, Location locationOfPiece) {
@@ -88,9 +91,12 @@ public class Board {
         return List.copyOf(pieces);
     }
 
-    private void executeMove(Location from, Location to, Piece piece) {
+    private Piece executeMove(Location from, Location to, Piece piece) {
+        Piece removedPiece = boardState.get(to).getPiece();
         boardState.get(to).place(piece);
         boardState.get(from).leave();
+
+        return removedPiece;
     }
 
     private boolean isNotSameSide(Piece piece, Side side) {

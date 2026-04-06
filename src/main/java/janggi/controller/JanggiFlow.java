@@ -3,6 +3,8 @@ package janggi.controller;
 import janggi.domain.Location;
 import janggi.domain.Side;
 import janggi.domain.board.Board;
+import janggi.domain.piece.Piece;
+import janggi.domain.state.GameContext;
 import janggi.exception.JanggiException;
 import janggi.strategy.ArrangementStrategy;
 import janggi.strategy.ArrangementStrategyFactory;
@@ -32,18 +34,19 @@ public class JanggiFlow {
     public void process() {
         Board board = initializeBoard();
 
-        Side current = Side.HAN;
-        while (board.isNotEmpty()) {
+        GameContext gameContext = GameContext.createInProgress(board.getAlivePieces(), Side.HAN);
+        while (gameContext.isInProgress()) {
             printBoard(board);
-            view.respondCurrentSide(SideViewResolver.toDisplayName(current));
 
-            final Side turnSide = current;
+            Side currentSide = gameContext.getCurrentSide();
+            view.respondCurrentSide(SideViewResolver.toDisplayName(currentSide));
+
             retryAction(() -> {
-                Location from = askLocationOfPiece(turnSide, board);
-                Location to = askLocationToMove(turnSide, board);
-                board.move(from, to);
+                Location from = askLocationOfPiece(currentSide, board);
+                Location to = askLocationToMove(currentSide, board);
+                Piece removedPiece = board.move(from, to);
+                gameContext.update(removedPiece);
             });
-            current = current.switchTurn();
         }
     }
 
