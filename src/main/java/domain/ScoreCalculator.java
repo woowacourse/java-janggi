@@ -4,22 +4,20 @@ import domain.board.BoardStatus;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Team;
-import java.util.HashMap;
 import java.util.Map;
 
 public class ScoreCalculator {
 
-    private static final Map<PieceType, Integer> scorePerPieceTypeInformation = new HashMap<>() {{
-        put(PieceType.CHA, 13);
-        put(PieceType.PO, 7);
-        put(PieceType.MA, 5);
-        put(PieceType.SANG, 3);
-        put(PieceType.SA, 3);
-        put(PieceType.JOL, 2);
-        put(PieceType.BYEONG, 2);
-        put(PieceType.JANG, 0);
-    }};
-
+    private static final Map<PieceType, Integer> scorePerPieceTypeInformation = Map.of(
+            PieceType.CHA, 13,
+            PieceType.PO, 7,
+            PieceType.MA, 5,
+            PieceType.SANG, 3,
+            PieceType.SA, 3,
+            PieceType.JOL, 2,
+            PieceType.BYEONG, 2,
+            PieceType.JANG, 0
+    );
 
     public JanggiScore calculate(BoardStatus boardStatus) {
         double choScore = 0;
