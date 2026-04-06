@@ -5,6 +5,7 @@ import janggi.domain.board.coordinate.Point;
 import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.piece.unit.Piece;
 import janggi.domain.side.Side;
+
 import java.util.Map;
 import java.util.Set;
 
@@ -71,13 +72,12 @@ public class Game {
     }
 
     private void switchTurn() {
-        Side switchTurn = Side.NONE;
         if (turn.equals(Side.HAN)) {
-            switchTurn = Side.CHO;
+            turn = Side.CHO;
+            return;
         }
         if (turn.equals(Side.CHO)) {
-            switchTurn = Side.HAN;
+            turn = Side.HAN;
         }
-        turn = switchTurn;
     }
 }
