@@ -27,42 +27,7 @@ public class OutputView {
                 }
             }
             System.out.println();
-
-            if (i < 9) {
-                for (int c = 0; c < 9; c++) {
-                if (c == 0) {
-                        System.out.print(" ");
-                    } else {
-                        System.out.print("ㅤ");
-                    }
-
-                    String line = " ㅣ ";
-
-                    if (i == 0 || i == 7) {
-                        if (c == 3) {
-                            line = " ㅣ \\";
-                        } else if (c == 4) {
-                            line = "ㅣ /";
-                        } else if (c == 5) {
-                            line = "ㅣ ";
-                        }
-                    }
-
-                    if (i == 1 || i == 8) {
-                        if (c == 3) {
-                            line = " ㅣ /";
-                        } else if (c == 4) {
-                            line = "ㅣ \\";
-                        } else if (c == 5) {
-                            line = "ㅣ ";
-                        }
-                    }
-
-                    System.out.print(line);
-                }
-
-                System.out.println();
-            }
+            drawBoardGrid(i);
         }
     }
 
@@ -70,9 +35,9 @@ public class OutputView {
         System.out.printf(
                 "%s 점수: %s %s 점수: %s\n",
                 SideView.from(Side.CHU),
-                formatScore(scoreDto.getChuSideScore()),
+                formatScore(scoreDto.chuSideScore()),
                 SideView.from(Side.HAN),
-                formatScore(scoreDto.getHanSideScore())
+                formatScore(scoreDto.hanSideScore())
         );
     }
 
@@ -98,6 +63,46 @@ public class OutputView {
 
     public void printLoadGameMessage() {
         System.out.println("이전 게임을 불러옵니다.");
+    }
+
+    private void drawBoardGrid(int i) {
+        if (i < 9) {
+            for (int c = 0; c < 9; c++) {
+                if (c == 0) {
+                    System.out.print(" ");
+                } else {
+                    System.out.print("ㅤ");
+                }
+
+                String line = " ㅣ ";
+                System.out.print(getPalaceLine(i, c, line));
+            }
+
+            System.out.println();
+        }
+    }
+
+    private String getPalaceLine(int i, int c, String line) {
+        if (i == 0 || i == 7) {
+            if (c == 3) {
+                line = " ㅣ \\";
+            } else if (c == 4) {
+                line = "ㅣ /";
+            } else if (c == 5) {
+                line = "ㅣ ";
+            }
+        }
+
+        if (i == 1 || i == 8) {
+            if (c == 3) {
+                line = " ㅣ /";
+            } else if (c == 4) {
+                line = "ㅣ \\";
+            } else if (c == 5) {
+                line = "ㅣ ";
+            }
+        }
+        return line;
     }
 
     private void printPieceBySide(PieceDto pieceDto) {
