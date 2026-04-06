@@ -2,7 +2,11 @@ package janggi.repository;
 
 import janggi.domain.side.Side;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Optional;
 
 public class GameDao {
@@ -70,6 +74,6 @@ public class GameDao {
         } catch (SQLException e) {
             throw new RuntimeException("턴 정보를 불러오지 못했습니다.", e);
         }
-        throw new RuntimeException("턴 정보를 불러오지 못했습니다.", null);
+        throw new RuntimeException("턴 정보를 불러오지 못했습니다.");
     }
 }

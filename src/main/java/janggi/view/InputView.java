@@ -3,6 +3,7 @@ package janggi.view;
 import janggi.domain.board.coordinate.Point;
 import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.side.Side;
+
 import java.io.InputStream;
 import java.util.Optional;
 import java.util.Scanner;

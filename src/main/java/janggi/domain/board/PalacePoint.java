@@ -2,6 +2,7 @@ package janggi.domain.board;
 
 import janggi.domain.piece.Direction;
 import janggi.domain.piece.Pattern;
+
 import java.util.List;
 
 public enum PalacePoint {

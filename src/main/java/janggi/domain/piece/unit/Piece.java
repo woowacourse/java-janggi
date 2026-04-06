@@ -7,6 +7,7 @@ import janggi.domain.board.coordinate.Point;
 import janggi.domain.piece.Pattern;
 import janggi.domain.piece.PieceType;
 import janggi.domain.side.Side;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;

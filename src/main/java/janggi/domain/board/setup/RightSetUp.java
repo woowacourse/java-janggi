@@ -5,6 +5,7 @@ import janggi.domain.piece.unit.Elephant;
 import janggi.domain.piece.unit.Horse;
 import janggi.domain.piece.unit.Piece;
 import janggi.domain.side.Side;
+
 import java.util.HashMap;
 import java.util.Map;
 

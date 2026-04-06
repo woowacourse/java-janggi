@@ -9,6 +9,7 @@ import janggi.domain.piece.Direction;
 import janggi.domain.piece.Pattern;
 import janggi.domain.piece.PieceType;
 import janggi.domain.side.Side;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

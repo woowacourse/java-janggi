@@ -3,6 +3,7 @@ package janggi.domain.board.coordinate;
 import janggi.domain.board.Board;
 import janggi.domain.piece.Direction;
 import janggi.domain.piece.Pattern;
+
 import java.util.ArrayList;
 import java.util.List;
 

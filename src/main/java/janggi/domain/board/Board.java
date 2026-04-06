@@ -9,6 +9,7 @@ import janggi.domain.piece.unit.Empty;
 import janggi.domain.piece.unit.General;
 import janggi.domain.piece.unit.Piece;
 import janggi.domain.side.Side;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

@@ -1,6 +1,7 @@
 package janggi.domain.board.coordinate;
 
 import janggi.domain.piece.Pattern;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

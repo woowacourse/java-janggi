@@ -1,7 +1,5 @@
 package janggi.domain.board.setup;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import janggi.domain.board.coordinate.Point;
 import janggi.domain.piece.unit.Advisor;
 import janggi.domain.piece.unit.Cannon;
@@ -12,13 +10,16 @@ import janggi.domain.piece.unit.Horse;
 import janggi.domain.piece.unit.Piece;
 import janggi.domain.piece.unit.Soldier;
 import janggi.domain.side.Side;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Stream;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class BoardSetUpTest {
 

@@ -8,6 +8,7 @@ import janggi.domain.piece.unit.General;
 import janggi.domain.piece.unit.Piece;
 import janggi.domain.piece.unit.Soldier;
 import janggi.domain.side.Side;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
