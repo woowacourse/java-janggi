@@ -55,6 +55,9 @@ public class Game {
             switchTurn();
             return;
         }
+        if (!destinations(from).contains(to)) {
+            throw new IllegalArgumentException("기물이 이동할 수 없는 위치입니다.");
+        }
         board.moveTo(from, to);
         switchTurn();
     }

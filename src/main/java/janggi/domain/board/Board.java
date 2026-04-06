@@ -42,7 +42,7 @@ public class Board {
 
         return piece.availablePoints(candidatePaths, findPiecesOnPaths(candidatePaths))
                 .stream()
-                .filter(point -> canMove(piece, point))
+                .filter(point -> isThereOtherSidePiece(piece, point))
                 .collect(Collectors.toSet());
     }
 
@@ -76,7 +76,7 @@ public class Board {
         return piece.getSide();
     }
 
-    private boolean canMove(Piece from, Point destination) {
+    private boolean isThereOtherSidePiece(Piece from, Point destination) {
         Piece to = getPieceAt(destination).orElse(null);
         if (to == null) {
             return true;
