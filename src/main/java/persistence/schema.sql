@@ -9,11 +9,12 @@ CREATE TABLE game_room (
 );
 
 CREATE TABLE board_state (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     game_id BIGINT,
     row_pos INT,
     col_pos INT,
     piece_type VARCHAR(20),
     side VARCHAR(10),
-    PRIMARY KEY (game_id, row_pos, col_pos),
+    UNIQUE KEY (game_id, row_pos, col_pos),
     FOREIGN KEY (game_id) REFERENCES game_room(id)
 );
