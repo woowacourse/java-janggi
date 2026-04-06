@@ -1,7 +1,6 @@
 package domain.piece;
 
 import domain.Side;
-import domain.board.BoardBounds;
 import domain.coordinate.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,9 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class ChariotTest {
 
-    private static final BoardBounds BOUNDS = BoardBounds.JANGGI;
-
-    private Pieces piecesFrom(Map<Position, Piece> pieces) {
+private Pieces piecesFrom(Map<Position, Piece> pieces) {
         return position -> pieces.getOrDefault(position, EmptyPiece.getInstance());
     }
 
@@ -28,7 +25,7 @@ class ChariotTest {
         Pieces pieces = piecesFrom(Map.of(start, chariot));
 
         // when
-        List<Position> moves = chariot.getPossibleMoves(start, BOUNDS, pieces);
+        List<Position> moves = chariot.getPossibleMoves(start, pieces);
 
         // then
         assertThat(moves).containsOnly(
@@ -56,7 +53,7 @@ class ChariotTest {
         ));
 
         // when
-        List<Position> moves = chariot.getPossibleMoves(start, BOUNDS, pieces);
+        List<Position> moves = chariot.getPossibleMoves(start, pieces);
 
         // then
         assertThat(moves).isEmpty();
@@ -75,7 +72,7 @@ class ChariotTest {
         ));
 
         // when
-        List<Position> moves = chariot.getPossibleMoves(start, BOUNDS, pieces);
+        List<Position> moves = chariot.getPossibleMoves(start, pieces);
 
         // then
         assertThat(moves).contains(new Position(5, 8), new Position(6, 8));

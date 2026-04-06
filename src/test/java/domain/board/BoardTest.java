@@ -1,6 +1,5 @@
 package domain.board;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
@@ -35,72 +34,47 @@ class BoardTest {
     @Test
     @DisplayName("좌표 입력은 행은 0부터 8 열은 0 부터 9 범위여야 한다.")
     void isInvalid_True_Test() {
-        // given
-        Board board = new Board(basicBoardInitializer.initialize());
-        Position position = new Position(4, 4);
-
         // when - then
-        //assertThat(board.isInvalidRange(position)).isFalse();
+        assertDoesNotThrow(() -> new Position(4, 4));
     }
 
     @Test
     @DisplayName("0부터 9 범위를 넘어간 열 좌표 입력은 예외를 발생한다.")
     void isInvalid_Col_Test() {
-        // given
-        Board board = new Board(basicBoardInitializer.initialize());
-        Position position = new Position(10, 4);
-
         // when - then
-        //assertThat(board.isInvalidRange(position)).isTrue();
+        assertThatThrownBy(() -> new Position(10, 4))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
-    @DisplayName("0부터 9 범위를 넘어간 행 좌표 입력은 예외를 발생한다.")
+    @DisplayName("0부터 8 범위를 넘어간 행 좌표 입력은 예외를 발생한다.")
     void isInvalid_Row_Test() {
-        // given
-        Board board = new Board(basicBoardInitializer.initialize());
-        Position position = new Position(4, 9);
-
         // when - then
-        //  assertThat(board.isInvalidRange(position)).isTrue();
+        assertThatThrownBy(() -> new Position(4, 9))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     @DisplayName("0부터 9 범위를 넘어간 열 좌표 입력에 대한 이동은 예외를 발생한다.")
     void boardRange_Col_Error_Test() {
-        // given
-        Board board = new Board(basicBoardInitializer.initialize());
-        Position start = new Position(10, 4);
-        Position destination = new Position(4, 4);
-
         // when - then
-        assertThatThrownBy(() -> board.move(start, destination))
+        assertThatThrownBy(() -> new Position(10, 4))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     @DisplayName("0부터 8 범위를 넘어간 행 좌표 입력에 대한 이동은 예외를 발생한다.")
     void boardRange_Row_Error_Test() {
-        // given
-        Board board = new Board(basicBoardInitializer.initialize());
-        Position start = new Position(4, 9);
-        Position destination = new Position(4, 4);
-
         // when - then
-        assertThatThrownBy(() -> board.move(start, destination))
+        assertThatThrownBy(() -> new Position(4, 9))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     @DisplayName("음수 좌표 입력은 예외에 대한 이동은 발생한다.")
     void boardRange_Negative_Error_Test() {
-        // given
-        Board board = new Board(basicBoardInitializer.initialize());
-        Position start = new Position(-1, 4);
-        Position destination = new Position(4, 4);
-
         // when - then
-        assertThatThrownBy(() -> board.move(start, destination))
+        assertThatThrownBy(() -> new Position(-1, 4))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

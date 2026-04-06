@@ -1,7 +1,6 @@
 package domain.piece;
 
 import domain.Side;
-import domain.board.BoardBounds;
 import domain.coordinate.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,9 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class HorseTest {
 
-    private static final BoardBounds BOUNDS = BoardBounds.JANGGI;
-
-    private Pieces piecesFrom(Map<Position, Piece> pieces) {
+private Pieces piecesFrom(Map<Position, Piece> pieces) {
         return position -> pieces.getOrDefault(position, EmptyPiece.getInstance());
     }
 
@@ -28,7 +25,7 @@ class HorseTest {
         Pieces pieces = piecesFrom(Map.of(start, horse));
 
         // when
-        List<Position> moves = horse.getPossibleMoves(start, BOUNDS, pieces);
+        List<Position> moves = horse.getPossibleMoves(start, pieces);
 
         // then
         assertThat(moves).containsOnly(
@@ -54,7 +51,7 @@ class HorseTest {
         ));
 
         // when
-        List<Position> moves = horse.getPossibleMoves(start, BOUNDS, pieces);
+        List<Position> moves = horse.getPossibleMoves(start, pieces);
 
         // then
         assertThat(moves).isEmpty();
@@ -72,7 +69,7 @@ class HorseTest {
         ));
 
         // when
-        List<Position> moves = horse.getPossibleMoves(start, BOUNDS, pieces);
+        List<Position> moves = horse.getPossibleMoves(start, pieces);
 
         // then
         assertThat(moves).doesNotContain(new Position(7, 1));
@@ -90,7 +87,7 @@ class HorseTest {
         ));
 
         // when
-        List<Position> moves = horse.getPossibleMoves(start, BOUNDS, pieces);
+        List<Position> moves = horse.getPossibleMoves(start, pieces);
 
         // then
         assertThat(moves).contains(new Position(8, 2));

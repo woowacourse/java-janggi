@@ -22,25 +22,18 @@ public class Board implements Pieces {
     }
 
     public void move(Position start, Position destination) {
-        validateRange(start);
-        validateRange(destination);
         board[destination.col()][destination.row()] = board[start.col()][start.row()];
         board[start.col()][start.row()] = EmptyPiece.getInstance();
     }
 
     @Override
     public Piece getPiece(Position position) {
-        validateRange(position);
         return board[position.col()][position.row()];
-    }
-
-    public void validateRange(Position position) {
-        BOUNDS.validateContains(position);
     }
 
     public List<Position> getPossibleMoves(Position start) {
         Piece piece = getPiece(start);
-        return piece.getPossibleMoves(start, BOUNDS, this);
+        return piece.getPossibleMoves(start, this);
     }
 
     public CellSnapshot[][] toSnapshot() {

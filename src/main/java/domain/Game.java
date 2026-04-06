@@ -17,7 +17,6 @@ public class Game {
     }
 
     public void validateStartPosition(Position start) {
-        board.validateRange(start);
         validateCurrentTurnPiece(start);
     }
 

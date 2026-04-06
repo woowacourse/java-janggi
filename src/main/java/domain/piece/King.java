@@ -1,7 +1,6 @@
 package domain.piece;
 
 import domain.coordinate.Direction;
-import domain.board.BoardBounds;
 import domain.coordinate.Path;
 import domain.coordinate.Position;
 import domain.Side;
@@ -41,8 +40,8 @@ public final class King extends Piece {
     }
 
     @Override
-    public List<Position> getPossibleMoves(Position start, BoardBounds bounds, Pieces pieces) {
-        List<Path> paths = strategy.getPaths(start, bounds);
+    public List<Position> getPossibleMoves(Position start, Pieces pieces) {
+        List<Path> paths = strategy.getPaths(start);
         Map<Position, Piece> pathPieces = pieces.collectPieces(paths);
         return rule.getPossiblePositions(getSide(), pathPieces, paths);
     }

@@ -52,39 +52,24 @@ class GameTest {
     @Test
     @DisplayName("0부터 9 범위를 넘어간 열 좌표 입력에 대한 이동은 예외를 발생한다.")
     void boardRange_Col_Error_Test() {
-        // given
-        Game game = new Game(basicBoardInitializer);
-        Position start = new Position(10, 4);
-        Position destination = new Position(4, 4);
-
         // when - then
-        assertThatThrownBy(() -> game.move(start, destination))
+        assertThatThrownBy(() -> new Position(10, 4))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     @DisplayName("0부터 8 범위를 넘어간 행 좌표 입력에 대한 이동은 예외를 발생한다.")
     void boardRange_Row_Error_Test() {
-        // given
-        Game game = new Game(basicBoardInitializer);
-        Position start = new Position(4, 9);
-        Position destination = new Position(4, 4);
-
         // when - then
-        assertThatThrownBy(() -> game.move(start, destination))
+        assertThatThrownBy(() -> new Position(4, 9))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     @DisplayName("음수 좌표 입력은 예외에 대한 이동은 발생한다.")
     void boardRange_Negative_Error_Test() {
-        // given
-        Game game = new Game(basicBoardInitializer);
-        Position start = new Position(-1, 4);
-        Position destination = new Position(4, 4);
-
         // when - then
-        assertThatThrownBy(() -> game.move(start, destination))
+        assertThatThrownBy(() -> new Position(-1, 4))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 

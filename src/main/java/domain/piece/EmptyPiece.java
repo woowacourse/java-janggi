@@ -1,12 +1,9 @@
 package domain.piece;
 
-import domain.board.BoardBounds;
-import domain.coordinate.Path;
 import domain.coordinate.Position;
 import domain.Side;
 
 import java.util.List;
-import java.util.Map;
 
 public class EmptyPiece extends Piece {
 
@@ -36,7 +33,7 @@ public class EmptyPiece extends Piece {
     }
 
     @Override
-    public List<Position> getPossibleMoves(Position start, BoardBounds bounds, Pieces pieces) {
+    public List<Position> getPossibleMoves(Position start, Pieces pieces) {
         return List.of();
     }
 }

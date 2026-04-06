@@ -1,7 +1,6 @@
 package domain.piece;
 
 import domain.Side;
-import domain.board.BoardBounds;
 import domain.coordinate.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,9 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class KingTest {
 
-    private static final BoardBounds BOUNDS = BoardBounds.JANGGI;
-
-    private Pieces piecesFrom(Map<Position, Piece> pieces) {
+private Pieces piecesFrom(Map<Position, Piece> pieces) {
         return position -> pieces.getOrDefault(position, EmptyPiece.getInstance());
     }
 
@@ -28,7 +25,7 @@ class KingTest {
         Pieces pieces = piecesFrom(Map.of(start, king));
 
         // when
-        List<Position> moves = king.getPossibleMoves(start, BOUNDS, pieces);
+        List<Position> moves = king.getPossibleMoves(start, pieces);
 
         // then
         assertThat(moves).containsOnly(
@@ -54,7 +51,7 @@ class KingTest {
         ));
 
         // when
-        List<Position> moves = king.getPossibleMoves(start, BOUNDS, pieces);
+        List<Position> moves = king.getPossibleMoves(start, pieces);
 
         // then
         assertThat(moves).isEmpty();
@@ -72,7 +69,7 @@ class KingTest {
         ));
 
         // when
-        List<Position> moves = king.getPossibleMoves(start, BOUNDS, pieces);
+        List<Position> moves = king.getPossibleMoves(start, pieces);
 
         // then
         assertThat(moves).contains(new Position(3, 4));
@@ -87,7 +84,7 @@ class KingTest {
         Pieces pieces = piecesFrom(Map.of(start, king));
 
         // when
-        List<Position> moves = king.getPossibleMoves(start, BOUNDS, pieces);
+        List<Position> moves = king.getPossibleMoves(start, pieces);
 
         // then
         assertThat(moves).containsOnly(

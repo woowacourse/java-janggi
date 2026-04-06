@@ -1,6 +1,5 @@
 package domain.piece;
 
-import domain.board.BoardBounds;
 import domain.coordinate.Direction;
 import domain.coordinate.Position;
 import domain.Side;
@@ -41,5 +40,5 @@ public abstract class Piece {
 
     public abstract boolean isEmpty();
 
-    public abstract List<Position> getPossibleMoves(Position start, BoardBounds bounds, Pieces pieces);
+    public abstract List<Position> getPossibleMoves(Position start, Pieces pieces);
 }
