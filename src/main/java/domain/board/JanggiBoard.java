@@ -80,14 +80,10 @@ public class JanggiBoard implements PieceProvider {
     }
 
     public double calculateScore(Team team) {
-        double totalScore = 0;
-        for (Map.Entry<Position, Piece> entry : janggiBoard.entrySet()) {
-            Piece piece = entry.getValue();
-            if (piece.getTeam() == team) {
-                PieceType pieceType = piece.getPieceType();
-                totalScore += pieceType.getScore();
-            }
-        }
+        double totalScore = janggiBoard.values().stream()
+                .filter(piece -> piece.getTeam() == team)
+                .map(Piece::getPieceType).mapToDouble(PieceType::getScore)
+                .sum();
         if (team == Team.HAN) {
             totalScore += 1.5;
         }
