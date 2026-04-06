@@ -23,7 +23,10 @@ public class Application {
         OutputView outputView = new OutputView();
         GameRepository repository = new JdbcGameRepository(DB_URL);
 
-        GameController gameController = new GameController(inputView, outputView, repository);
+        GameStarter starter = new GameStarter(inputView, outputView, repository);
+        GameSession gameSession = new GameSession(inputView, outputView, repository);
+
+        GameController gameController = new GameController(starter, gameSession);
         gameController.run();
     }
 }
