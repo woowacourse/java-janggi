@@ -2,38 +2,32 @@ package domain.state;
 
 public enum Side {
 
-    HAN,
-    CHU,
-    NEUTRAL;
+    HAN(0),
+    CHU(9),
+    NEUTRAL(-1);
 
-    private static final int HAN_SIDE_STARTING_ROW = 0;
-    private static final int CHU_SIDE_STARTING_ROW = 9;
+    private final int startingRow;
+    private Side opposite;
+
+    Side(int startingRow) {
+        this.startingRow = startingRow;
+    }
+
+    static {
+        HAN.opposite = CHU;
+        CHU.opposite = HAN;
+        NEUTRAL.opposite = NEUTRAL;
+    }
 
     public boolean isNeutral() {
         return this == NEUTRAL;
     }
 
-    public int getStartingRow() {
-        if (this == HAN) {
-            return HAN_SIDE_STARTING_ROW;
-        }
-
-        if (this == CHU) {
-            return CHU_SIDE_STARTING_ROW;
-        }
-
-        throw new IllegalStateException("일치하는 진영이 없습니다.");
+    public Side opposite() {
+        return opposite;
     }
 
-    public Side opposite() {
-        if (this == HAN) {
-            return CHU;
-        }
-
-        if (this == CHU) {
-            return HAN;
-        }
-
-        throw new IllegalStateException("일치하는 진영이 없습니다.");
+    public int getStartingRow() {
+        return startingRow;
     }
 }

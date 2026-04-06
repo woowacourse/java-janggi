@@ -4,8 +4,8 @@ public class Finished implements State {
 
     private final Side winner;
 
-    public Finished(Side loser) {
-        this.winner = loser.opposite();
+    public Finished(Side winner) {
+        this.winner = winner;
     }
 
     @Override

@@ -10,7 +10,8 @@ public abstract class Running implements State {
 
     @Override
     public State endGame() {
-        return new Finished(side);
+        Side winnerSide = side.opposite();
+        return new Finished(winnerSide);
     }
 
     @Override
