@@ -19,7 +19,7 @@ public class JanggiGame {
     }
 
     private JanggiGame(Board board, GameContext context, ScoreCalculator scoreCalculator) {
-        this(null, board, context, scoreCalculator);
+        this(GameId.UNASSIGNED, board, context, scoreCalculator);
     }
 
     public static JanggiGame init(SettingType choSetting, SettingType hanSetting) {

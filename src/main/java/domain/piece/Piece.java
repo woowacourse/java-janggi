@@ -19,8 +19,11 @@ public abstract class Piece {
         this.team = team;
     }
 
-    public Piece(MoveStrategy moveStrategy, PieceType pieceType, Team team) {
-        this(null, moveStrategy, pieceType, team);
+    protected Piece(MoveStrategy moveStrategy, PieceType pieceType, Team team) {
+        this.id = PieceId.UNASSIGNED;
+        this.moveStrategy = moveStrategy;
+        this.pieceType = pieceType;
+        this.team = team;
     }
 
     public PieceId getId() {
