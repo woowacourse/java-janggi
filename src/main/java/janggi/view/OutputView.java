@@ -7,7 +7,7 @@ import janggi.domain.Team;
 
 public class OutputView {
 
-    private static String TEAM_SCORE = "%s나라: %d점";
+    private static String TEAM_SCORE = "%s나라: %.1f점";
 
     public static void printGameId(long gameId) {
         System.out.printf("id = %d 게임을 실행합니다.", gameId);
