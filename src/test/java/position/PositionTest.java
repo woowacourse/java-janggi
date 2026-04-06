@@ -15,8 +15,8 @@ class PositionTest {
         Position after = before.move(delta);
         // then
         Position expected = new Position(
-            before.row().index() + delta.rowDelta(),
-            before.column().index() + delta.columnDelta()
+            before.getRowIndex() + delta.rowDelta(),
+            before.getColumnIndex() + delta.columnDelta()
         );
         assertThat(after).isEqualTo(expected);
     }
