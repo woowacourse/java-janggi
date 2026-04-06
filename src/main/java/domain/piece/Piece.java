@@ -57,10 +57,6 @@ public class Piece {
         return destinationPiece.isEmpty() || isEnemy(destinationPiece.get());
     }
 
-    public boolean isSameType(PieceType pieceType) {
-        return this.pieceType == pieceType;
-    }
-
     public static Piece of(TeamColor teamColor, PieceType pieceType) {
         return new Piece(teamColor, pieceType, createMoveStrategy(pieceType));
     }
@@ -82,6 +78,4 @@ public class Piece {
         return moveStrategies;
     }
 }
-
-
 

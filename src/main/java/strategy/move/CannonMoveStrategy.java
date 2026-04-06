@@ -39,22 +39,29 @@ public class CannonMoveStrategy implements MoveStrategy {
 
     @Override
     public boolean canMove(Route route, List<Piece> blockingPieces, Optional<Piece> destinationPiece) {
-        if (blockingPieces.size() != REQUIRED_BRIDGE_COUNT) {
+        if (!hasExactlyOneBridge(blockingPieces)) {
             return false;
         }
 
         final Piece bridgePiece = blockingPieces.getFirst();
-        if (bridgePiece.isSameType(PieceType.CANNON)) {
+        if (!isValidBridge(bridgePiece)) {
             return false;
         }
 
-        if (destinationPiece.isEmpty()) {
-            return true;
-        }
+        return destinationPiece
+                .map(this::isCapturableTarget)
+                .orElse(true);
+    }
 
-        final Piece targetPiece = destinationPiece.get();
-        return !targetPiece.isSameType(PieceType.CANNON);
+    private boolean hasExactlyOneBridge(List<Piece> blockingPieces) {
+        return blockingPieces.size() == REQUIRED_BRIDGE_COUNT;
+    }
+
+    private boolean isValidBridge(Piece bridgePiece) {
+        return bridgePiece.getPieceType() != PieceType.CANNON;
+    }
+
+    private boolean isCapturableTarget(Piece targetPiece) {
+        return targetPiece.getPieceType() != PieceType.CANNON;
     }
 }
-
-

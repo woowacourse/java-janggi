@@ -32,13 +32,6 @@ class PieceTest {
             assertThat(choPawn.canOccupy(Optional.of(Piece.of(TeamColor.CHO, PieceType.GUARD)))).isFalse();
         }
 
-        @Test
-        void 같은_기물_타입인지_응답한다() {
-            final Piece piece = Piece.of(TeamColor.CHO, PieceType.PAWN);
-
-            assertThat(piece.isSameType(PieceType.PAWN)).isTrue();
-            assertThat(piece.isSameType(PieceType.HORSE)).isFalse();
-        }
     }
 
     @Nested
@@ -83,6 +76,4 @@ class PieceTest {
         }
     }
 }
-
-
 
