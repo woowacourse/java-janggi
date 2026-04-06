@@ -9,6 +9,26 @@ import java.util.Map;
 
 public class Board implements BoardMediator {
 
+    private static final List<Position> PALACE = List.of(
+            Position.valueOf(1, 4),
+            Position.valueOf(1, 5),
+            Position.valueOf(1, 6),
+            Position.valueOf(2, 4),
+            Position.valueOf(2, 5),
+            Position.valueOf(2, 6),
+            Position.valueOf(3, 4),
+            Position.valueOf(3, 5),
+            Position.valueOf(3, 6),
+            Position.valueOf(8, 4),
+            Position.valueOf(8, 5),
+            Position.valueOf(8, 6),
+            Position.valueOf(9, 4),
+            Position.valueOf(9, 5),
+            Position.valueOf(9, 6),
+            Position.valueOf(10, 4),
+            Position.valueOf(10, 5),
+            Position.valueOf(10, 6)
+    );
     private final Map<Position, Piece> positionPieceMap;
 
     public Board(final Map<Position, Piece> positionPieceMap) {
@@ -41,6 +61,11 @@ public class Board implements BoardMediator {
     @Override
     public boolean isSameTeamType(Position position, TeamType teamType) {
         return findPieceByPosition(position).isSameTeamType(teamType);
+    }
+
+    @Override
+    public boolean isPalace(Position position) {
+        return PALACE.contains(position);
     }
 
     public Map<Position, Piece> getPositionPieceMap() {
