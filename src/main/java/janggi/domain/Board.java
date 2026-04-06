@@ -14,6 +14,7 @@ public class Board {
     private static final int HORIZONTAL_LENGTH = 10;
     private static final int VERTICAL_LENGTH = 9;
     private static final int INITIAL_KING_COUNT = 2;
+    private static final double CHO_BONUS_SCORE = 1.5;
 
     private final Map<Position, Space> piecesInfo;
 
@@ -110,11 +111,11 @@ public class Board {
         return VERTICAL_LENGTH;
     }
 
-    public int getChoScore() {
-        return calculateScore(Team.CHO);
+    public double getChoScore() {
+        return calculateScore(Team.CHO) + CHO_BONUS_SCORE;
     }
 
-    public int getHanScore() {
+    public double getHanScore() {
         return calculateScore(Team.HAN);
     }
 
