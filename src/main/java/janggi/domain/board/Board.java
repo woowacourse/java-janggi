@@ -17,7 +17,7 @@ public class Board {
         this.board = board;
     }
 
-    public void move(Position from, Position to, Team team) {
+    public MoveResult move(Position from, Position to, Team team) {
         Piece piece = findCurrentTeamPiece(from, team);
 
         if (!piece.canMove(from, to)) {
@@ -31,7 +31,7 @@ public class Board {
             throw new IllegalArgumentException("목적지로 이동하거나 기물을 잡을 수 없습니다.");
         }
 
-        changePiecePosition(piece, from, to);
+        return changePiecePosition(piece, from, to);
     }
 
     public Score calculateScore(Team team) {
@@ -73,8 +73,10 @@ public class Board {
         return piece;
     }
 
-    private void changePiecePosition(Piece piece, Position from, Position to) {
+    private MoveResult changePiecePosition(Piece piece, Position from, Position to) {
+        Piece capturedPiece = board.get(to);
         board.put(to, piece);
         board.remove(from);
+        return new MoveResult(from, to, capturedPiece != null);
     }
 }

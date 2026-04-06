@@ -1,6 +1,7 @@
 package janggi.domain.game;
 
 import janggi.domain.board.Board;
+import janggi.domain.board.MoveResult;
 import janggi.domain.board.Position;
 import janggi.domain.board.Turn;
 import janggi.domain.piece.Score;
@@ -9,15 +10,17 @@ import janggi.domain.piece.Team;
 public class JanggiGame {
 
     private final Board board;
-    private Turn turn = new Turn(Team.HAN);
+    private Turn turn;
 
-    public JanggiGame(Board board) {
+    public JanggiGame(Board board, Team team) {
         this.board = board;
+        this.turn = new Turn(team);
     }
 
-    public void move(Position from, Position to) {
-        board.move(from, to, turn.getTeam());
+    public MoveResult move(Position from, Position to) {
+        MoveResult result = board.move(from, to, turn.getTeam());
         turn = turn.changeTurn();
+        return result;
     }
 
     public boolean isOver() {
@@ -34,5 +37,9 @@ public class JanggiGame {
 
     public Turn getTurn() {
         return turn;
+    }
+
+    public String getTurnName() {
+        return turn.getTeamName();
     }
 }

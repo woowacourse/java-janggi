@@ -24,7 +24,7 @@ class JanggiGameTest {
         pieces.put(new Position(1, 1), PieceFactory.createChariot(Team.HAN));
         pieces.put(new Position(1, 5), PieceFactory.createGeneral(Team.CHO));
         pieces.put(new Position(5, 2), PieceFactory.createGeneral(Team.HAN));
-        JanggiGame game = new JanggiGame(new Board(pieces));
+        JanggiGame game = new JanggiGame(new Board(pieces), Team.HAN);
 
         // when
         game.move(new Position(1, 1), new Position(1, 5));
@@ -40,7 +40,7 @@ class JanggiGameTest {
         Map<Position, Piece> pieces = new LinkedHashMap<>();
         pieces.put(new Position(5, 2), PieceFactory.createGeneral(Team.HAN));
         pieces.put(new Position(5, 9), PieceFactory.createGeneral(Team.CHO));
-        JanggiGame game = new JanggiGame(new Board(pieces));
+        JanggiGame game = new JanggiGame(new Board(pieces), Team.HAN);
 
         // when & then
         assertThat(game.isOver()).isFalse();
@@ -55,7 +55,7 @@ class JanggiGameTest {
         pieces.put(new Position(2, 3), PieceFactory.createCannon(Team.HAN));
         pieces.put(new Position(5, 2), PieceFactory.createGeneral(Team.HAN));
         pieces.put(new Position(1, 5), PieceFactory.createGeneral(Team.CHO));
-        JanggiGame game = new JanggiGame(new Board(pieces));
+        JanggiGame game = new JanggiGame(new Board(pieces), Team.HAN);
 
         // when
         game.move(new Position(1, 1), new Position(1, 5));
@@ -72,7 +72,7 @@ class JanggiGameTest {
         Map<Position, Piece> pieces = new LinkedHashMap<>();
         pieces.put(new Position(1, 1), PieceFactory.createChariot(Team.HAN));
         pieces.put(new Position(5, 9), PieceFactory.createGeneral(Team.CHO));
-        JanggiGame game = new JanggiGame(new Board(pieces));
+        JanggiGame game = new JanggiGame(new Board(pieces), Team.HAN);
 
         // when
         game.move(new Position(1, 1), new Position(1, 5));
