@@ -31,7 +31,8 @@ public class TestFIxture implements PieceProvider {
 
     @Override
     public boolean isCannon(Position position) {
-        return true;
+        Piece piece = getPiece(position);
+        return piece instanceof domain.piece.Cannon;
     }
 
     @Override

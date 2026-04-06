@@ -37,7 +37,7 @@ public class CannonStrategy implements Strategy {
 
     private Position findFirstPiece(Position from, Team team, Direction direction, PieceProvider board) {
         Position nextPosition = getNext(from, team, direction);
-        while (nextPosition.isInvalid() && board.isBlank(nextPosition)) {
+        while (!nextPosition.isInvalid() && board.isBlank(nextPosition)) {
             nextPosition = getNext(nextPosition, team, direction);
         }
         return nextPosition;
@@ -52,17 +52,20 @@ public class CannonStrategy implements Strategy {
     private List<Position> collectTargets(Position bridge, Team team, Direction direction, PieceProvider board) {
         List<Position> candidates = new ArrayList<>();
         Position target = getNext(bridge, team, direction);
+        while (!target.isInvalid()) {
 
-        while (target.isInvalid() && board.isBlank(target)) {
-            candidates.add(target);
-            target = getNext(target, team, direction);
+            if (board.isBlank(target)) {
+                candidates.add(target);
+                target = getNext(target, team, direction);
+                continue;
+            }
+
+            if (board.getPiece(target).getTeam() != team && !board.isCannon(target)) {
+                candidates.add(target);
+            }
+
+            break;
         }
-
-        boolean isCannon = board.isCannon(target);
-        if (target.isInvalid() && !isCannon) {
-            candidates.add(target);
-        }
-
         return candidates;
     }
 }

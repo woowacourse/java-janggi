@@ -11,8 +11,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
-
-public class CannonStrategyTest {
+ public class CannonStrategyTest {
 
     private CannonStrategy cannonStrategy;
     private TestFIxture testBoard;
@@ -26,6 +25,7 @@ public class CannonStrategyTest {
     @Test
     void 포가_기물_한개를_넘어_빈칸으로_이동하는지_확인한다() {
         Position currentPosition = new Position(0, 0);
+        testBoard.setPiece(new Position(0, 0), new Cannon(Team.CHO));
         testBoard.setPiece(new Position(2, 0), new Guard(Team.CHO));
 
         List<Position> candidates = cannonStrategy.getMoveCandidates(currentPosition, Team.CHO, testBoard);

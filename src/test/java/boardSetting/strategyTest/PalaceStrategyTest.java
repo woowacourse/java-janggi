@@ -1,28 +1,25 @@
 package boardSetting.strategyTest;
 
+import boardSetting.TestFIxture;
+import domain.Team;
 import domain.position.Position;
-import domain.piece.Blank;
-import domain.piece.Piece;
-import domain.PieceProvider;
 import domain.strategy.PalaceStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.*;
 
 public class PalaceStrategyTest {
 
     private PalaceStrategy palaceStrategy;
-    private TestPieceProvider testBoard;
+    private TestFIxture testBoard;
 
     @BeforeEach
     void setUp() {
         palaceStrategy = new PalaceStrategy();
-        testBoard = new TestPieceProvider();
+        testBoard = new TestFIxture();
     }
 
     @Test
@@ -30,7 +27,7 @@ public class PalaceStrategyTest {
         Position currentPosition = new Position(5, 5);
         testBoard.setAllBlank();
 
-        List<Position> candidates = palaceStrategy.getMoveCandidates(currentPosition, testBoard);
+        List<Position> candidates = palaceStrategy.getMoveCandidates(currentPosition, Team.CHO, testBoard);
 
         assertThat(candidates).hasSize(8)
                 .containsExactlyInAnyOrder(
@@ -39,33 +36,5 @@ public class PalaceStrategyTest {
                         new Position(5, 6), new Position(6, 4),
                         new Position(6, 5), new Position(6, 6)
                 );
-    }
-
-    private static class TestPieceProvider implements PieceProvider {
-        private final Map<Position, Boolean> boardState = new HashMap<>();
-        private boolean defaultState = true;
-
-        void setBlank(Position pos) {
-            boardState.put(pos, false);
-        }
-
-        void setAllBlank() {
-            this.defaultState = true;
-        }
-
-        @Override
-        public boolean isBlank(Position position) {
-            return boardState.getOrDefault(position, defaultState);
-        }
-
-        @Override
-        public boolean isCannon(Position position) {
-            return false;
-        }
-
-        @Override
-        public Piece getPiece(Position position) {
-            return new Blank();
-        }
     }
 }
