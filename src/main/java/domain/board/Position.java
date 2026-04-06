@@ -28,6 +28,14 @@ public class Position {
         return CACHE.get(toCacheKey(row, column));
     }
 
+    public static int maxRow() {
+        return BOARD_MAX_ROW;
+    }
+
+    public static int maxColumn() {
+        return BOARD_MAX_COLUMN;
+    }
+
     public int row() {
         return row.value();
     }
@@ -93,6 +101,5 @@ public class Position {
     }
 
 }
-
 
 

@@ -12,8 +12,6 @@ import java.util.Map;
 import java.util.Optional;
 
 public class OutputView {
-    private static final int BOARD_LAST_ROW = 9;
-    private static final int BOARD_LAST_COLUMN = 8;
     private static final int INNER_CELL_WIDTH = 3;
     private static final String FULL_WIDTH_SPACE = "　";
     private static final String GAME_START_MESSAGE = "장기 게임을 시작합니다.";
@@ -78,18 +76,18 @@ public class OutputView {
         System.out.println(CURRENT_BOARD_MESSAGE);
         System.out.println(createBoardHeader());
         System.out.println(createBoardDivider());
-        for (int row = 0; row <= BOARD_LAST_ROW; row++) {
+        for (int row = 0; row <= Position.maxRow(); row++) {
             final StringBuilder line = new StringBuilder();
             line.append(toFullWidthNumber(row)).append(FULL_WIDTH_SPACE).append(ROW_SEPARATOR);
-            for (int column = 0; column <= BOARD_LAST_COLUMN; column++) {
+            for (int column = 0; column <= Position.maxColumn(); column++) {
                 final Optional<Piece> piece = board.findPiece(Position.of(row, column));
                 line.append(formatBoardCell(piece));
-                if (column < BOARD_LAST_COLUMN) {
+                if (column < Position.maxColumn()) {
                     line.append(ROW_SEPARATOR);
                 }
             }
             System.out.println(line);
-            if (row < BOARD_LAST_ROW) {
+            if (row < Position.maxRow()) {
                 System.out.println(createBoardDivider());
             }
         }
@@ -110,7 +108,7 @@ public class OutputView {
             return createCell("");
         }
         final Piece actualPiece = piece.get();
-        final String cell = createCell(formatBoardSymbol(actualPiece));
+        final String cell = createCell(formatPiece(actualPiece));
 
         if (actualPiece.getTeamColor() == TeamColor.CHO) {
             return CHO_COLOR + cell + RESET;
@@ -122,10 +120,6 @@ public class OutputView {
         return findPieceSymbol(piece.getPieceType());
     }
 
-    private String formatBoardSymbol(Piece piece) {
-        return findPieceSymbol(piece.getPieceType());
-    }
-
     private String findPieceSymbol(PieceType pieceType) {
         return Optional.ofNullable(PIECE_SYMBOLS.get(pieceType))
                 .orElseThrow(() -> new IllegalArgumentException("지원하지 않는 기물 타입입니다."));
@@ -133,9 +127,9 @@ public class OutputView {
 
     private String createBoardHeader() {
         final StringBuilder header = new StringBuilder(BOARD_PREFIX);
-        for (int column = 0; column <= BOARD_LAST_COLUMN; column++) {
+        for (int column = 0; column <= Position.maxColumn(); column++) {
             header.append(createCell(toFullWidthNumber(column)));
-            if (column < BOARD_LAST_COLUMN) {
+            if (column < Position.maxColumn()) {
                 header.append(ROW_SEPARATOR);
             }
         }
@@ -143,7 +137,7 @@ public class OutputView {
     }
 
     private String createBoardDivider() {
-        final int contentWidth = (BOARD_LAST_COLUMN + 1) * createCell("").length() + BOARD_LAST_COLUMN * ROW_SEPARATOR.length();
+        final int contentWidth = (Position.maxColumn() + 1) * createCell("").length() + Position.maxColumn() * ROW_SEPARATOR.length();
         return BOARD_PREFIX + DIVIDER_SYMBOL.repeat(contentWidth);
     }
 
