@@ -1,4 +1,4 @@
-package view;
+package view.formatter;
 
 import java.util.Map;
 

@@ -9,6 +9,7 @@ import dto.PieceInfoDto;
 import dto.PiecePositionDto;
 import dto.PiecesDto;
 import dto.PositionDto;
+import dto.TeamNameDto;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -27,11 +28,11 @@ public class JanggiController {
     }
 
     public void run() {
-        Player choPlayer = retry(this::initChoPlayer);
-        Player hanPlayer = retry(this::initHanPlayer);
+        Player choPlayer = retry(() -> initPlayerFor(Team.CHO));
+        Player hanPlayer = retry(() -> initPlayerFor(Team.HAN));
 
-        ElephantSetup choElephantSetup = retry(this::initChoElephantSetup);
-        ElephantSetup hanElephantSetup = retry(this::initHanElephantSetup);
+        ElephantSetup choElephantSetup = retry(() -> initElephantSetupFor(Team.CHO));
+        ElephantSetup hanElephantSetup = retry(() -> initElephantSetupFor(Team.HAN));
 
         JanggiGame janggiGame = JanggiGame.init(choElephantSetup, hanElephantSetup);
 
@@ -43,37 +44,18 @@ public class JanggiController {
         }
     }
 
-    private Player initChoPlayer() {
-        outputView.printEnterChoPlayerNamePrompt();
-        String choPlayerName = inputView.readPlayerName();
-        return Player.cho(choPlayerName);
+    private Player initPlayerFor(Team team) {
+        outputView.printEnterPlayerNamePrompt(TeamNameDto.of(team));
+        String playerName = inputView.readPlayerName();
+        return Player.of(playerName, team);
     }
 
-    private Player initHanPlayer() {
-        outputView.printEnterHanPlayerNamePrompt();
-        String hanPlayerName = inputView.readPlayerName();
-        return Player.han(hanPlayerName);
-    }
-
-    private ElephantSetup initChoElephantSetup() {
+    private ElephantSetup initElephantSetupFor(Team team) {
         List<ElephantSetup> elephantSetups = ElephantSetup.all();
         List<String> elephantSetupNames = elephantSetups.stream()
                 .map(Enum::toString)
                 .toList();
-        outputView.printChooseChoElephantSetupPrompt(elephantSetupNames);
-        int index = inputView.readElephantSetupIndex();
-
-        validateIndexRange(index, elephantSetups.size());
-
-        return elephantSetups.get(index);
-    }
-
-    private ElephantSetup initHanElephantSetup() {
-        List<ElephantSetup> elephantSetups = ElephantSetup.all();
-        List<String> elephantSetupNames = elephantSetups.stream()
-                .map(Enum::toString)
-                .toList();
-        outputView.printChooseHanElephantSetupPrompt(elephantSetupNames);
+        outputView.printChooseElephantSetupPrompt(elephantSetupNames, TeamNameDto.of(team));
         int index = inputView.readElephantSetupIndex();
 
         validateIndexRange(index, elephantSetups.size());
@@ -141,7 +123,8 @@ public class JanggiController {
 
     private void validateIndexRange(final int index, final int count) {
         if (index < 0 || index >= count) {
-            throw new IllegalArgumentException("선택 가능한 범위를 벗어났습니다. 1 ~ " + count + 1 + "까지 입력 가능합니다.");
+            String message = String.format("선택 가능한 범위를 벗어났습니다. %d 이상, %d 이하의 정수만 입력 가능합니다.", 1, count);
+            throw new IllegalArgumentException(message);
         }
     }
 

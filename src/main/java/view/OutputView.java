@@ -4,8 +4,12 @@ import dto.PieceInfoDto;
 import dto.PiecePositionDto;
 import dto.PiecesDto;
 import dto.PositionDto;
+import dto.TeamNameDto;
 import java.util.List;
 import java.util.Map;
+import view.formatter.ElephantSetupFormatter;
+import view.formatter.PieceFormatter;
+import view.formatter.TeamNameFormatter;
 
 public class OutputView {
 
@@ -24,21 +28,14 @@ public class OutputView {
     private static final int MIN_ROW_RANGE = 1;
     private static final int MAX_ROW_RANGE = 9;
 
-    public void printEnterChoPlayerNamePrompt() {
-        System.out.println("초나라 플레이어의 이름을 입력하세요(2~5자의 영문):");
+    public void printEnterPlayerNamePrompt(TeamNameDto teamName) {
+        String formattedName = TeamNameFormatter.format(teamName.name());
+        System.out.printf("%s나라 플레이어의 이름을 입력하세요(2~5자의 영문): ", formattedName);
     }
 
-    public void printEnterHanPlayerNamePrompt() {
-        System.out.println("한나라 플레이어의 이름을 입력하세요(2~5자의 영문):");
-    }
-
-    public void printChooseChoElephantSetupPrompt(final List<String> elephantSetupNames) {
-        System.out.println("초나라 플레이어가 사용할 상차림 번호를 입력하세요");
-        printElephantSetups(elephantSetupNames);
-    }
-
-    public void printChooseHanElephantSetupPrompt(final List<String> elephantSetupNames) {
-        System.out.println("한나라 플레이어가 사용할 상차림 번호를 입력하세요");
+    public void printChooseElephantSetupPrompt(final List<String> elephantSetupNames, final TeamNameDto teamName) {
+        String formattedName = TeamNameFormatter.format(teamName.name());
+        System.out.printf("%s나라 플레이어가 사용할 상차림 번호를 입력하세요:\n", formattedName);
         printElephantSetups(elephantSetupNames);
     }
 
