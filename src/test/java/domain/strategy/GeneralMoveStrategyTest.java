@@ -27,17 +27,8 @@ class GeneralMoveStrategyTest {
     }
 
     @ParameterizedTest
-    @MethodSource("nonMovablePositions")
-    @DisplayName("장군은 한 칸만 이동하므로 이동 경로 규칙이 항상 true이다.")
-    void general_can_move_hasValidPathTo_always_true_test(Position generalPosition, Position destination) {
-        GeneralMoveStrategy moveStrategy = new GeneralMoveStrategy();
-
-        assertThat(moveStrategy.hasValidPathTo(generalPosition, destination, List.of())).isTrue();
-    }
-
-    @ParameterizedTest
     @MethodSource("moveablePositions")
-    @DisplayName("장군은 현재 위치 기준 상하좌우 한 칸 이동할 수 있다.")
+    @DisplayName("장군은 한 칸 이동할 수 있다. (상하좌우 기본으로 움직이지만, 궁성 영역에 따라 대각 이동이 가능하다.")
     void general_can_move_test(Position generalPosition, Position destination) {
         GeneralMoveStrategy moveStrategy = new GeneralMoveStrategy();
 
@@ -46,11 +37,20 @@ class GeneralMoveStrategyTest {
 
     @ParameterizedTest
     @MethodSource("nonMovablePositions")
-    @DisplayName("장군은 현재 위치 기준 상하좌우 한 칸을 벗어난 곳으로 이동할 수 없다.")
+    @DisplayName("장군은 한 칸, 궁성 대각 이동 외에 이동할 수 없다.")
     void general_cannot_move_test(Position generalPosition, Position wrongTarget) {
         GeneralMoveStrategy moveStrategy = new GeneralMoveStrategy();
 
         assertThat(moveStrategy.canMoveTo(generalPosition, wrongTarget)).isFalse();
+    }
+
+    @ParameterizedTest
+    @MethodSource("nonMovablePositions")
+    @DisplayName("장군은 한 칸만 이동하므로 이동 경로 규칙이 항상 true이다.")
+    void general_can_move_hasValidPathTo_always_true_test(Position generalPosition, Position destination) {
+        GeneralMoveStrategy moveStrategy = new GeneralMoveStrategy();
+
+        assertThat(moveStrategy.hasValidPathTo(generalPosition, destination, List.of())).isTrue();
     }
 
     private static Stream<Arguments> moveablePositions() {
@@ -60,7 +60,11 @@ class GeneralMoveStrategyTest {
                 Arguments.arguments(palaceRedCenter, palaceRedCenter.up()),
                 Arguments.arguments(palaceRedCenter, palaceRedCenter.down()),
                 Arguments.arguments(palaceRedCenter, palaceRedCenter.left()),
-                Arguments.arguments(palaceRedCenter, palaceRedCenter.right())
+                Arguments.arguments(palaceRedCenter, palaceRedCenter.right()),
+                Arguments.arguments(palaceRedCenter, palaceRedCenter.upCrossLeft()),
+                Arguments.arguments(palaceRedCenter, palaceRedCenter.upCrossRight()),
+                Arguments.arguments(palaceRedCenter, palaceRedCenter.downCrossRight()),
+                Arguments.arguments(palaceRedCenter, palaceRedCenter.downCrossLeft())
         );
     }
 

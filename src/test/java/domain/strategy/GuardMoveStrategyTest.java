@@ -28,7 +28,7 @@ class GuardMoveStrategyTest {
 
     @ParameterizedTest
     @MethodSource("moveablePositions")
-    @DisplayName("사는 현재 위치 기준 상하좌우 한 칸 이동할 수 있다.")
+    @DisplayName("사는 한 칸 이동할 수 있다. (상하좌우 기본으로 움직이지만, 궁성 영역에 따라 대각 이동이 가능하다.")
     void guard_can_move_test(Position guardPosition, Position destination) {
         GuardMoveStrategy moveStrategy = new GuardMoveStrategy();
 
@@ -37,7 +37,7 @@ class GuardMoveStrategyTest {
 
     @ParameterizedTest
     @MethodSource("nonMovablePositions")
-    @DisplayName("사는 현재 위치 기준 상하좌우 한 칸을 벗어난 곳으로 이동할 수 없다.")
+    @DisplayName("사는 한 칸, 궁성 대각 이동 외에 이동할 수 없다.")
     void guard_cannot_move_test(Position guardPosition, Position wrongTarget) {
         GuardMoveStrategy moveStrategy = new GuardMoveStrategy();
 
@@ -60,7 +60,11 @@ class GuardMoveStrategyTest {
                 Arguments.arguments(palaceRedCenter, palaceRedCenter.up()),
                 Arguments.arguments(palaceRedCenter, palaceRedCenter.down()),
                 Arguments.arguments(palaceRedCenter, palaceRedCenter.left()),
-                Arguments.arguments(palaceRedCenter, palaceRedCenter.right())
+                Arguments.arguments(palaceRedCenter, palaceRedCenter.right()),
+                Arguments.arguments(palaceRedCenter, palaceRedCenter.upCrossLeft()),
+                Arguments.arguments(palaceRedCenter, palaceRedCenter.upCrossRight()),
+                Arguments.arguments(palaceRedCenter, palaceRedCenter.downCrossRight()),
+                Arguments.arguments(palaceRedCenter, palaceRedCenter.downCrossLeft())
         );
     }
 
