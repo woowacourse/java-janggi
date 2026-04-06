@@ -4,6 +4,7 @@ import janggi.domain.position.Position;
 import janggi.domain.space.Space;
 import janggi.domain.space.piece.Piece;
 import janggi.domain.space.piece.Team;
+import java.util.List;
 import java.util.Map;
 
 public class OutputView {
@@ -30,6 +31,15 @@ public class OutputView {
         printXCoordinates();
     }
 
+    public static void printSavedGames(List<Long> savedGameIds) {
+        System.out.println("\n----- 저장된 게임 목록 -----");
+        for (Long id : savedGameIds) {
+            System.out.printf("[Game ID: %d]\n", id);
+        }
+        System.out.println("-".repeat(20));
+        System.out.println("이어할 게임의 ID를 입력하거나, 새로운 게임을 시작하려면 0을 입력해주세요.");
+    }
+
     public static void printErrorMessage(String message) {
         System.out.println(ERROR_PREFIX + message);
     }
@@ -41,7 +51,7 @@ public class OutputView {
 
         Piece piece = (Piece) space; //
         String color = ANSI_BLUE;
-        if(piece.isEqualTeam(Team.HAN))  {
+        if (piece.isEqualTeam(Team.HAN)) {
             color = ANSI_RED;
         }
         return color + FULL_WIDTH_SPACE + piece + ANSI_RESET; //
