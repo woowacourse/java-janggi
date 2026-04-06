@@ -158,27 +158,27 @@ class BoardTest {
 
     @Test
     @DisplayName("장이 공격받고 있지 않다면 false를 반환한다")
-    void isCheck_False_Test() {
+    void isSafe_False_Test() {
         // given
         Board board = new Board(new CheckTest().initialize());
 
         // when - then
-        assertThat(board.isCheck(Side.HAN)).isFalse();
+        assertThat(board.isSafe(Side.CHU)).isFalse();
     }
 
     @Test
     @DisplayName("장이 공격당하고 있다면 true를 반환한다")
-    void isCheck_True_Test() {
+    void isSafe_True_Test() {
         // given
         Board board = new Board(new CheckTest().initialize());
 
         // when - then
-        assertThat(board.isCheck(Side.CHU)).isTrue();
+        assertThat(board.isSafe(Side.HAN)).isTrue();
     }
 
     @Test
     @DisplayName("왕이 공격받고 있으며, 다음 수에 장군을 피할 수 없다면 true를 반환한다.")
-    void isCheckMate_True_Test() {
+    void isSafeMate_True_Test() {
         // given
         Board board = new Board(new CheckTest().initialize());
 
@@ -188,7 +188,7 @@ class BoardTest {
 
     @Test
     @DisplayName("왕이 공격받고 있지 않으며, 다음 수에 장군을 피할 수 있다면 false를 반환한다.")
-    void isCheckMate_False_Test() {
+    void isSafeMate_False_Test() {
         // given
         Board board = new Board(new CheckTest().initialize());
 

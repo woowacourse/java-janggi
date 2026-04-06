@@ -114,13 +114,13 @@ class GameTest {
     }
 
     @Test
-    @DisplayName("장이 공격당하고 있다면 true를 반환한다")
-    void isCheck_True_Test() {
+    @DisplayName("장이 공격당하고 있다면 false를 반환한다")
+    void isSafe_True_Test() {
         // given
         Game game = new Game(new CheckTest());
 
         // when - then
-        assertThat(game.isCheck()).isTrue();
+        assertThat(game.isSafe()).isFalse();
     }
 
     @Test

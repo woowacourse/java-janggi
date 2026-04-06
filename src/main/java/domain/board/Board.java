@@ -62,7 +62,7 @@ public class Board {
         for (Position dest : possibleMoves) {
             Board simulated = simulateMove(start, dest);
 
-            if (!simulated.isCheck(piece.getSide())) {
+            if (simulated.isSafe(piece.getSide())) {
                 legalMoves.add(dest);
             }
         }
@@ -90,7 +90,7 @@ public class Board {
                 .orElseThrow();
     }
 
-    public boolean isCheck(Side side) {
+    public boolean isSafe(Side side) {
         Position kingPos = findKingPosition(side);
 
         for (Map.Entry<Position, Piece> entry : board.entrySet()) {
@@ -99,16 +99,16 @@ public class Board {
             if (piece.isSameSide(side.opposite())) {
                 List<Position> moves = calculatePossibleMoves(entry.getKey());
                 if (moves.contains(kingPos)) {
-                    return true;
+                    return false;
                 }
             }
         }
 
-        return false;
+        return true;
     }
 
     public boolean isCheckmate(Side side) {
-        if (!isCheck(side)) {
+        if (isSafe(side)) {
             return false;
         }
 
@@ -122,7 +122,7 @@ public class Board {
 
             for (Position to : moves) {
                 Board simulated = simulateMove(from, to);
-                if (!simulated.isCheck(side)) {
+                if (simulated.isSafe(side)) {
                     return false;
                 }
             }

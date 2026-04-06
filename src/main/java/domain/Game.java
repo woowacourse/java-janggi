@@ -65,8 +65,8 @@ public class Game {
         return  board.calculateScore(side);
     }
 
-    public boolean isCheck() {
-        return board.isCheck(state.getSide());
+    public boolean isSafe() {
+        return board.isSafe(state.getSide());
     }
 
     public boolean isCheckmate() {
