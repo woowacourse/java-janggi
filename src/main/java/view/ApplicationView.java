@@ -17,6 +17,18 @@ public class ApplicationView {
     private final ResultOutputView resultOutputView = new ResultOutputView();
     private final ErrorOutputView errorOutputView = new ErrorOutputView();
 
+    public boolean askStartNewGame() {
+        guideOutputView.printAskNewGameGuide();
+
+        return inputView.askStartNewGame();
+    }
+
+    public int readExistGameId() {
+        guideOutputView.printGameIdGuide();
+
+        return inputView.readGameId();
+    }
+
     public ChoWings readChowings() {
         guideOutputView.printWingInputGuide(Side.CHO);
 

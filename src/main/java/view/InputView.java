@@ -20,6 +20,17 @@ public class InputView {
 
     private final BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
+    public boolean askStartNewGame() {
+        String answer = readLine();
+        boolean startNewGame = answer.equals("y");
+
+        return startNewGame;
+    }
+
+    public int readGameId() {
+        return Integer.parseInt(readLine());
+    }
+
     public ChoWings readChoWings() {
         String[] wingInputs = splitWingInput(readLine());
         System.out.println();

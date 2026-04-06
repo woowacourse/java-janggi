@@ -15,8 +15,15 @@ public final class JanggiGame {
     private Side currentTurn;
 
     public JanggiGame(Board board) {
+        this(board, FIRST_TURN);
+    }
+
+    public JanggiGame(
+            Board board,
+            Side currentTurn
+    ) {
         this.board = board;
-        this.currentTurn = FIRST_TURN;
+        this.currentTurn = currentTurn;
     }
 
     public List<Intersection> getMovableIntersections(Intersection startIntersection) {
