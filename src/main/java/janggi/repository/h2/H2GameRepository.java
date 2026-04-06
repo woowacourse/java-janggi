@@ -98,7 +98,7 @@ public class H2GameRepository implements GameRepository {
 
     @Override
     public void delete(int id) {
-        String sql = "DELETE FROM move WHERE id = ?";
+        String sql = "DELETE FROM GAME WHERE id = ?";
 
         try (Connection connection = getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
