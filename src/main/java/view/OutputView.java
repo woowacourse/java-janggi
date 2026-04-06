@@ -14,10 +14,10 @@ public class OutputView {
         Side.HAN, "한"
     );
 
-    private static final Map<GameStatus, String> GAME_STATUS_SYMBOL = Map.of(
-        GameStatus.PLAYING, "진행중",
+    private static final Map<GameStatus, String> GAME_STATUS_LABELS = Map.of(
+        GameStatus.PLAYING, "진행 중",
         GameStatus.CHO_WIN_BY_GUNG, "초나라승리(장군)",
-        GameStatus.HAN_WIN_BY_GUNG, "한나라승리(멍군)",
+        GameStatus.HAN_WIN_BY_GUNG, "한나라승리(장군)",
         GameStatus.CHO_WIN_BY_SCORE, "초나라승리(점수)",
         GameStatus.HAN_WIN_BY_SCORE, "한나라승리(점수)"
     );
@@ -56,7 +56,7 @@ public class OutputView {
     }
 
     public void printGameIsOver(GameStatus status) {
-        System.out.println(GAME_STATUS_SYMBOL.get(status));
+        System.out.println(GAME_STATUS_LABELS.get(status));
         System.out.println("게임이 종료되었습니다.");
     }
 
@@ -70,7 +70,7 @@ public class OutputView {
         savedGames.forEach(game -> System.out.printf(
             "%d. 상태=%s, 현재차례=%s%n",
             game.id(),
-            GAME_STATUS_SYMBOL.get(game.status()),
+            GAME_STATUS_LABELS.get(game.status()),
             SIDE_SYMBOL.get(game.turn().getSide())
         ));
     }
