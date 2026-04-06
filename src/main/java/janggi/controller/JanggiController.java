@@ -26,9 +26,56 @@ public class JanggiController {
     }
 
     public void start() {
-        Long gameId = initializeGame();
-        JanggiGame game = gameRepository.load(gameId);
+        boolean running = true;
+        while (running) {
+            try {
+                outputView.printMenu();
+                int choice = retryOnException(inputView::readMenuChoice);
+                running = executeMenu(choice);
+            } catch (IllegalArgumentException e) {
+                outputView.printErrorMessage(e.getMessage());
+            }
+        }
+    }
 
+    private boolean executeMenu(int choice) {
+        if (choice == 1) {
+            createAndPlayGame();
+            return true;
+        }
+        if (choice == 2) {
+            showGameRoomList();
+            return true;
+        }
+        if (choice == 3) {
+            enterGameRoom();
+            return true;
+        }
+        return false;
+    }
+
+    private void enterGameRoom() {
+        Long gameId = retryOnException(inputView::readGameId);
+        JanggiGame game = gameRepository.load(gameId);
+        playGame(gameId, game);
+    }
+
+    private void showGameRoomList() {
+        List<Long> gameIds = gameRepository.findAllGameIds();
+        outputView.printGameRoomList(gameIds);
+    }
+
+    private void createAndPlayGame() {
+        List<Integer> openingFormationChoices = retryOnException(inputView::readOpeningFormationChoice);
+        JanggiGame game = new JanggiGame(BoardInitializer.initializeBoard(
+                openingFormationChoices.getFirst(),
+                openingFormationChoices.getLast()), Team.HAN);
+        Long gameId = gameRepository.save(game);
+        outputView.printRoomCreated(gameId);
+        playGame(gameId, game);
+    }
+
+    private void playGame(Long gameId, JanggiGame game) {
         while (!game.isOver()) {
             try {
                 outputView.printBoardMap(BoardDto.from(game.getBoard()));
@@ -45,19 +92,6 @@ public class JanggiController {
         }
         outputView.printGameOverMessage(TurnDto.from(game.getTurn()));
         gameRepository.delete(gameId);
-    }
-
-    private Long initializeGame() {
-        if (gameRepository.hasOngoingGame()) {
-            outputView.printHasOnGoingGameMessage();
-            return gameRepository.getLatestGameId();
-        }
-        List<Integer> openingFormationChoices = retryOnException(inputView::readOpeningFormationChoice);
-        JanggiGame game = new JanggiGame(BoardInitializer.initializeBoard(
-                openingFormationChoices.getFirst(),
-                openingFormationChoices.getLast()), Team.HAN);
-        outputView.printNewGameMessage();
-        return gameRepository.save(game);
     }
 
     private Position getEndPiecePosition() {
