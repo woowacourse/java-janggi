@@ -86,4 +86,18 @@ public class GameDao {
         }
         return pieces;
     }
+
+    public boolean existsById(Connection connection, long gameId) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM game_list WHERE game_id = ?";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setLong(1, gameId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        }
+        return false;
+    }
 }

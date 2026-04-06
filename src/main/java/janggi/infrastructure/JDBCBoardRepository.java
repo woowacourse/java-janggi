@@ -77,4 +77,12 @@ public class JDBCBoardRepository implements BoardRepository {
             throw new RuntimeException("턴 정보 조회 실패: " + e.getMessage());
         }
     }
+
+    public boolean existsById(long gameId) {
+        try (Connection connection = DatabaseConnector.getConnection()) {
+            return gameDAO.existsById(connection, gameId);
+        } catch (SQLException e) {
+            throw new RuntimeException("게임 목록 조회 실패: " + e.getMessage());
+        }
+    }
 }
