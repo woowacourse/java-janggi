@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
@@ -36,7 +37,7 @@ class PhoTest {
         Position from = new Position(1, 2);
         Position to = new Position(2, 2);
 
-        assertThatIllegalArgumentException()
+        assertThatIllegalStateException()
                 .isThrownBy(() -> piece.validateMove(from, to))
                 .withMessage("해당 위치로 포가 이동할 수 없습니다.");
     }
@@ -46,7 +47,7 @@ class PhoTest {
         Piece piece = new Pho(Team.CHO);
         Space space = new Sang(Team.CHO);
 
-        assertThatIllegalArgumentException()
+        assertThatIllegalStateException()
                 .isThrownBy(() -> piece.validateArrival(space))
                 .withMessage("이동하려는 위치에 같은 팀의 말이 존재합니다.");
     }
@@ -187,7 +188,7 @@ class PhoTest {
         Position from = new Position(3, 0);
         Position to = new Position(5, 1);
 
-        assertThatIllegalArgumentException()
+        assertThatIllegalStateException()
                 .isThrownBy(() -> piece.validateMove(from, to))
                 .withMessage("해당 위치로 포가 이동할 수 없습니다.");
     }

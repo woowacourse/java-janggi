@@ -1,12 +1,11 @@
 package janggi.domain.piece;
 
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.junit.jupiter.api.Assertions.*;
 
 import janggi.domain.position.Position;
 import janggi.domain.space.Space;
 import janggi.domain.space.piece.Byeong;
-import janggi.domain.space.piece.Pho;
 import janggi.domain.space.piece.Piece;
 import janggi.domain.space.piece.Sang;
 import janggi.domain.space.piece.Team;
@@ -31,7 +30,7 @@ class ByeongTest {
         Position from = new Position(0, 3);
         Position to = new Position(0, 2);
 
-        assertThatIllegalArgumentException()
+        assertThatIllegalStateException()
                 .isThrownBy(() -> piece.validateMove(from, to))
                 .withMessage("해당 위치로 병이 이동할 수 없습니다.");
     }
@@ -43,7 +42,7 @@ class ByeongTest {
         Position from = new Position(0, 3);
         Position to = new Position(1, 4);
 
-        assertThatIllegalArgumentException()
+        assertThatIllegalStateException()
                 .isThrownBy(() -> piece.validateMove(from, to))
                 .withMessage("해당 위치로 병이 이동할 수 없습니다.");
     }
@@ -53,7 +52,7 @@ class ByeongTest {
         Piece piece = new Byeong(Team.CHO);
         Space space = new Sang(Team.CHO);
 
-        assertThatIllegalArgumentException()
+        assertThatIllegalStateException()
                 .isThrownBy(() -> piece.validateArrival(space))
                 .withMessage("이동하려는 위치에 같은 팀의 말이 존재합니다.");
     }
@@ -75,7 +74,7 @@ class ByeongTest {
         Position from = new Position(3, 7);
         Position to = new Position(5, 8);
 
-        assertThatIllegalArgumentException()
+        assertThatIllegalStateException()
                 .isThrownBy(() -> piece.validateMove(from, to))
                 .withMessage("해당 위치로 병이 이동할 수 없습니다.");
     }

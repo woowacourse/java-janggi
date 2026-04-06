@@ -12,7 +12,7 @@ public class Byeong extends Piece {
     @Override
     public void validateMove(Position from, Position to) {
         if (!isMovable(from, to)) {
-            throw new IllegalArgumentException("해당 위치로 병이 이동할 수 없습니다.");
+            throw new IllegalStateException("해당 위치로 병이 이동할 수 없습니다.");
         }
     }
 
