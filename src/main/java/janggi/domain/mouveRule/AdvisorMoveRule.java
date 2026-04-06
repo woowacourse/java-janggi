@@ -1,12 +1,8 @@
 package janggi.domain.mouveRule;
 
-import janggi.domain.Direction;
 import janggi.domain.Palace;
 import janggi.domain.board.BoardView;
-import janggi.domain.vo.position.Path;
 import janggi.domain.vo.position.Position;
-
-import java.util.List;
 
 public class AdvisorMoveRule implements MoveRule {
     private final Palace palace;
