@@ -1,6 +1,6 @@
 package domain.point;
 
-import domain.point.dto.Command;
+import domain.point.dto.MoveCommand;
 import domain.point.exception.PointException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -8,14 +8,14 @@ import org.junit.jupiter.api.Test;
 
 import static domain.point.exception.PointError.*;
 
-class CommandTest {
+class MoveCommandTest {
 
     @Test
     @DisplayName("Command에 좌표를 2개 초과로 입력할 경우 예외가 발생한다.")
     void shouldThrowExceptionWhenPointCountIsOverThanTwo() {
         String overPoint = "1,2 3,4 5,6";
 
-        Assertions.assertThatThrownBy(() -> Command.from(overPoint))
+        Assertions.assertThatThrownBy(() -> MoveCommand.from(overPoint))
                 .isInstanceOf(PointException.class)
                 .hasMessage(POINT_PAIR_FORMAT_IS_WRONG.getMessage());
     }
@@ -25,7 +25,7 @@ class CommandTest {
     void shouldThrowExceptionWhenPointCountIsLessThanTwo() {
         String lessPoint = "1,2";
 
-        Assertions.assertThatThrownBy(() -> Command.from(lessPoint))
+        Assertions.assertThatThrownBy(() -> MoveCommand.from(lessPoint))
                 .isInstanceOf(PointException.class)
                 .hasMessage(POINT_PAIR_FORMAT_IS_WRONG.getMessage());
     }
@@ -35,7 +35,7 @@ class CommandTest {
     void shouldThrowExceptionWhenInputIsBlank() {
         String blankInput = "";
 
-        Assertions.assertThatThrownBy(() -> Command.from(blankInput))
+        Assertions.assertThatThrownBy(() -> MoveCommand.from(blankInput))
                 .isInstanceOf(PointException.class)
                 .hasMessage(POINT_INPUT_IS_BLANK.getMessage());
     }
@@ -45,7 +45,7 @@ class CommandTest {
     void shouldThrowExceptionWhenPointFormatIsWrong() {
         String wrongPointFormat = "1.2 3.3";
 
-        Assertions.assertThatThrownBy(() -> Command.from(wrongPointFormat))
+        Assertions.assertThatThrownBy(() -> MoveCommand.from(wrongPointFormat))
                 .isInstanceOf(PointException.class)
                 .hasMessage(POINT_FORMAT_IS_WRONG.getMessage());
     }
@@ -55,7 +55,7 @@ class CommandTest {
     void shouldThrowExceptionWhenInputIsNotNumber() {
         String notNumberInput = "ㄱ,ㄴ ㄷ,ㄹ";
 
-        Assertions.assertThatThrownBy(() -> Command.from(notNumberInput))
+        Assertions.assertThatThrownBy(() -> MoveCommand.from(notNumberInput))
                 .isInstanceOf(PointException.class)
                 .hasMessage(POINT_IS_NOT_NUMERIC.getMessage());
     }
@@ -70,11 +70,11 @@ class CommandTest {
 
         String format = "%d,%d %d,%d";
         String correctInput = String.format(format, startY, startX, endY, endX);
-        Command actualCommand = Command.from(correctInput);
+        MoveCommand actualCommand = MoveCommand.from(correctInput);
 
         Point start = new Point(startY, startX);
         Point end = new Point(endY, endX);
-        Command expectedCommand = new Command(start, end);
+        MoveCommand expectedCommand = new MoveCommand(start, end);
 
         Assertions.assertThat(actualCommand)
                 .isEqualTo(expectedCommand);

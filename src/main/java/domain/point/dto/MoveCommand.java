@@ -5,7 +5,7 @@ import domain.point.exception.PointException;
 
 import static domain.point.exception.PointError.*;
 
-public record Command(
+public record MoveCommand(
         Point start,
         Point end
 ) {
@@ -18,7 +18,7 @@ public record Command(
     private static final int COORDINATE_OF_Y = 0;
     private static final int COORDINATE_OF_X = 1;
 
-    public static Command from(String input) {
+    public static MoveCommand from(String input) {
         validateBlank(input);
         String[] parts = input.split(COMMAND_DELIMITER);
         validateCommandSize(parts);
@@ -26,7 +26,7 @@ public record Command(
         Point start = parsePoint(parts[START_POINT]);
         Point end = parsePoint(parts[END_POINT]);
 
-        return new Command(start, end);
+        return new MoveCommand(start, end);
     }
 
     private static Point parsePoint(String pointInput) {
