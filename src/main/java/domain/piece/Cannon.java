@@ -3,7 +3,7 @@ package domain.piece;
 import domain.Direction;
 import domain.Position;
 import domain.Side;
-import domain.strategy.MovementStrategy;
+import domain.movement.Movement;
 import java.util.List;
 
 public class Cannon extends Piece {
@@ -14,13 +14,13 @@ public class Cannon extends Piece {
     private final List<List<Direction>> paths = List.of(
         List.of(Direction.UP), List.of(Direction.DOWN), List.of(Direction.RIGHT), List.of(Direction.LEFT));
 
-    public Cannon(Side side, MovementStrategy movementStrategy) {
-        super(side, movementStrategy);
+    public Cannon(Side side, Movement movement) {
+        super(side, movement);
     }
 
     @Override
     public List<Position> findRoute(Position sourcePosition, Position targetPosition) {
-        return movementStrategy.findRoute(paths, sourcePosition, targetPosition);
+        return movement.findRoute(paths, sourcePosition, targetPosition);
     }
 
     @Override

@@ -2,7 +2,7 @@ package domain.piece;
 
 import domain.Position;
 import domain.Side;
-import domain.strategy.MovementStrategy;
+import domain.movement.Movement;
 import java.util.List;
 
 public abstract class Piece {
@@ -13,11 +13,11 @@ public abstract class Piece {
     protected static final String INVALID_TARGET_POSITION = "이동할 수 없는 목적지입니다.";
 
     protected final Side side;
-    protected final MovementStrategy movementStrategy;
+    protected final Movement movement;
 
-    protected Piece(Side side, MovementStrategy movementStrategy) {
+    protected Piece(Side side, Movement movement) {
         this.side = side;
-        this.movementStrategy = movementStrategy;
+        this.movement = movement;
     }
 
     public void validateMovement(Side currentTurn, Piece targetPiece) {

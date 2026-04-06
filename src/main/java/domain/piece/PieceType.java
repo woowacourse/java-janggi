@@ -1,8 +1,8 @@
 package domain.piece;
 
 import domain.Side;
-import domain.strategy.LinearMovement;
-import domain.strategy.PathMovement;
+import domain.movement.LinearMovement;
+import domain.movement.PathMovement;
 
 public enum PieceType {
     ELEPHANT {

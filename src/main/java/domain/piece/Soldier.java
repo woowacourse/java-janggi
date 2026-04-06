@@ -3,15 +3,15 @@ package domain.piece;
 import domain.Direction;
 import domain.Position;
 import domain.Side;
-import domain.strategy.MovementStrategy;
+import domain.movement.Movement;
 import java.util.List;
 
 public class Soldier extends Piece {
 
     private final List<List<Direction>> paths;
 
-    public Soldier(Side side, MovementStrategy movementStrategy) {
-        super(side, movementStrategy);
+    public Soldier(Side side, Movement movement) {
+        super(side, movement);
         if (Side.CHO == side) {
             paths = List.of(
                 List.of(Direction.UP), List.of(Direction.RIGHT), List.of(Direction.LEFT)
@@ -25,7 +25,7 @@ public class Soldier extends Piece {
 
     @Override
     public List<Position> findRoute(Position sourcePosition, Position targetPosition) {
-        return movementStrategy.findRoute(paths, sourcePosition, targetPosition);
+        return movement.findRoute(paths, sourcePosition, targetPosition);
     }
 
     @Override
