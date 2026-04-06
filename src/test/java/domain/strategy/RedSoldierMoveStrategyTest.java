@@ -6,6 +6,7 @@ import domain.Position;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -21,6 +22,38 @@ class RedSoldierMoveStrategyTest {
         RedSoldierMoveStrategy moveStrategy = new RedSoldierMoveStrategy();
 
         assertThat(moveStrategy.canMoveTo(guardPosition, destination)).isTrue();
+    }
+
+    @ParameterizedTest
+    @MethodSource("moveableWithinPalaceCornerPositions")
+    @DisplayName("한나라 졸이 적팀 궁성 왼쪽 모서리에 있는 경우, 하, 좌우, 궁성 중앙 대각 이동이 가능하다.")
+    void redSoldier_within_palace_corner_can_move_test(Position guardPosition, Position destination) {
+        RedSoldierMoveStrategy moveStrategy = new RedSoldierMoveStrategy();
+
+        assertThat(moveStrategy.canMoveTo(guardPosition, destination)).isTrue();
+    }
+
+    @ParameterizedTest
+    @MethodSource("moveableWithinPalaceCenterPositions")
+    @DisplayName("한나라 졸이 적팀 궁성 중앙에 있는 경우, 하, 좌우, 왼-오 아래 대각 이동이 가능하다.")
+    void redSoldier_within_palace_center_can_move_test(Position guardPosition, Position destination) {
+        RedSoldierMoveStrategy moveStrategy = new RedSoldierMoveStrategy();
+
+        assertThat(moveStrategy.canMoveTo(guardPosition, destination)).isTrue();
+    }
+
+    @Test
+    @DisplayName("초나라 졸은 적팀 궁성 내부에서 앞으로 이동할 수 없다.")
+    void redSoldier_within_palace_forward_cannot_move_test() {
+        RedSoldierMoveStrategy moveStrategy = new RedSoldierMoveStrategy();
+        Position currentPosition = new Position(8, 4);
+        Position cannotMoveUpCrossLeft = new Position(7, 3);
+        Position cannotMoveUp = new Position(7, 4);
+        Position cannotMoveUpCrossRight = new Position(7, 5);
+
+        assertThat(moveStrategy.canMoveTo(currentPosition, cannotMoveUpCrossLeft)).isFalse();
+        assertThat(moveStrategy.canMoveTo(currentPosition, cannotMoveUp)).isFalse();
+        assertThat(moveStrategy.canMoveTo(currentPosition, cannotMoveUpCrossRight)).isFalse();
     }
 
     @ParameterizedTest
@@ -47,12 +80,29 @@ class RedSoldierMoveStrategyTest {
                 Arguments.arguments(redSoliderPosition, redSoliderPosition.right()));
     }
 
+    private static Stream<Arguments> moveableWithinPalaceCornerPositions() {
+        Position greenPalaceCornerPosition = new Position(7, 3);
+        return Stream.of(Arguments.arguments(greenPalaceCornerPosition, greenPalaceCornerPosition.down()),
+                Arguments.arguments(greenPalaceCornerPosition, greenPalaceCornerPosition.left()),
+                Arguments.arguments(greenPalaceCornerPosition, greenPalaceCornerPosition.right()),
+                Arguments.arguments(greenPalaceCornerPosition, greenPalaceCornerPosition.downCrossRight()));
+    }
+
+    private static Stream<Arguments> moveableWithinPalaceCenterPositions() {
+        Position greenPalaceCenterPosition = new Position(8, 4);
+        return Stream.of(Arguments.arguments(greenPalaceCenterPosition, greenPalaceCenterPosition.down()),
+                Arguments.arguments(greenPalaceCenterPosition, greenPalaceCenterPosition.left()),
+                Arguments.arguments(greenPalaceCenterPosition, greenPalaceCenterPosition.right()),
+                Arguments.arguments(greenPalaceCenterPosition, greenPalaceCenterPosition.downCrossRight()),
+                Arguments.arguments(greenPalaceCenterPosition, greenPalaceCenterPosition.downCrossLeft()));
+    }
+
     private static Stream<Arguments> nonMovablePositions() {
         return Stream.of(Arguments.arguments(redSoliderPosition, redSoliderPosition.up()),
-                Arguments.arguments(redSoliderPosition, redSoliderPosition.down().down()),
+                Arguments.arguments(redSoliderPosition, redSoliderPosition.up().up()),
                 Arguments.arguments(redSoliderPosition, redSoliderPosition.left().left()),
-                Arguments.arguments(redSoliderPosition, redSoliderPosition.down().left()),
-                Arguments.arguments(redSoliderPosition, redSoliderPosition.down().right()));
+                Arguments.arguments(redSoliderPosition, redSoliderPosition.up().left()),
+                Arguments.arguments(redSoliderPosition, redSoliderPosition.up().right()));
     }
 
 }
