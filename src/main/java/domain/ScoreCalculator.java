@@ -21,7 +21,9 @@ public class ScoreCalculator {
 
     public JanggiScore calculate(BoardStatus boardStatus) {
         double choScore = 0;
-        double hanScore = 1.5;
+        double hanScore = 0;
+
+        double hanBonusScore = 1.5;
 
         for (Piece piece : boardStatus.status().values()) {
             if (piece.getTeam() == Team.CHO) {
@@ -31,6 +33,10 @@ public class ScoreCalculator {
                 hanScore += scorePerPieceTypeInformation.getOrDefault(piece.getPieceType(), 0);
             }
         }
-        return new JanggiScore(choScore, hanScore);
+
+        return new JanggiScore(
+                choScore,
+                hanScore + hanBonusScore
+        );
     }
 }
