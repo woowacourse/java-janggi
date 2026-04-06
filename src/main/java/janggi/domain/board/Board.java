@@ -98,8 +98,8 @@ public class Board {
     }
 
     private static void addValidFixedRoute(Position position, Map<Position, List<Position>> result, Route route) {
-        int currentColumn = position.getRow();
-        int currentRow = position.getColumn();
+        int currentColumn = position.getColumn();
+        int currentRow = position.getRow();
         List<Position> routeToPositions = new ArrayList<>();
 
         for (Direction direction : route.getRoutes()) {
@@ -125,20 +125,20 @@ public class Board {
 
     private static void addValidContinuousPosition(Position position, Map<Position, List<Position>> result,
                                                    Route route) {
-        int currentX = position.getRow();
-        int currentY = position.getColumn();
+        int currentColumn = position.getColumn();
+        int currentRow = position.getRow();
         List<Direction> directions = route.getRoutes();
 
         for (Direction direction : directions) {
             List<Position> routeToPositions = new ArrayList<>();
-            currentX += direction.getColumn();
-            currentY += direction.getRow();
-            while (Position.isInsideBoundary(currentX, currentY)) {
-                Position movePosition = new Position(currentX, currentY);
+            currentColumn += direction.getColumn();
+            currentRow += direction.getRow();
+            while (Position.isInsideBoundary(currentColumn, currentRow)) {
+                Position movePosition = new Position(currentColumn, currentRow);
                 routeToPositions.add(movePosition);
                 result.put(movePosition, new ArrayList<>(routeToPositions));
-                currentX += direction.getColumn();
-                currentY += direction.getRow();
+                currentColumn += direction.getColumn();
+                currentRow += direction.getRow();
             }
         }
     }

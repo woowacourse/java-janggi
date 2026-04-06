@@ -14,8 +14,8 @@ public class Position {
 
     public Position(int column, int row) {
         validateBoundary(column, row);
-        this.row = column;
-        this.column = row;
+        this.column = column;
+        this.row = row;
     }
 
     public static boolean isInsideBoundary(int column, int row) {
@@ -23,7 +23,13 @@ public class Position {
     }
 
     public Position move(Direction direction) {
-        return new Position(row + direction.getColumn(), column + direction.getRow());
+        return new Position(column + direction.getColumn(), row + direction.getRow());
+    }
+
+    public boolean canMoveTo(Direction direction) {
+        int nextColumn = this.column + direction.getColumn();
+        int nextRow = this.row + direction.getRow();
+        return isInsideBoundary(nextColumn, nextRow);
     }
 
     public int getRow() {
