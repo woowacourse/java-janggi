@@ -57,7 +57,7 @@ public class JanggiService {
 
     public void saveGame(long gameId) {
         Map<Position, Piece> arrivePieces = getAlivePieces();
-        String currentTurn = getCurrenTurn();
+        String currentTurn = getCurrentTurn();
         boardRepository.saveGame(gameId, currentTurn, arrivePieces);
     }
 
@@ -67,6 +67,12 @@ public class JanggiService {
 
     public boolean isDuplicateId(long gameId) {
         return boardRepository.existsById(gameId);
+    }
+
+    public String getCurrentTurn() {
+        return gameManager.getCurrentTeam()
+                .map(Team::toString)
+                .orElse("Finished");
     }
 
     private Map<Position, Piece> getAlivePieces() {
