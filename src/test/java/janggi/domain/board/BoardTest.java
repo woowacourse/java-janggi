@@ -61,7 +61,6 @@ public class BoardTest {
     @Nested
     @DisplayName("빈칸 여부 테스트")
     class isBlank {
-
         @Test
         @DisplayName("빈칸인 경우")
         void success_1() {
@@ -83,6 +82,36 @@ public class BoardTest {
             boolean expected = true;
 
             boolean actual = board.hasPieceAt(position);
+
+            assertThat(actual).isEqualTo(expected);
+        }
+    }
+
+    @Nested
+    @DisplayName("궁성 영역 테스트")
+    class isPalace {
+        @Test
+        @DisplayName("궁성 영역인 경우")
+        void success_1() {
+            LinkedHashMap<Position, Piece> positionPieceMap = new LinkedHashMap<>();
+            Position position = Position.valueOf(1, 4);
+            BoardMediator boardMediator = new Board(positionPieceMap);
+            boolean expected = true;
+
+            boolean actual = boardMediator.isPalace(position);
+
+            assertThat(actual).isEqualTo(expected);
+        }
+
+        @Test
+        @DisplayName("궁성 영역이 아닌 경우")
+        void success_2() {
+            LinkedHashMap<Position, Piece> positionPieceMap = new LinkedHashMap<>();
+            Position position = Position.valueOf(1, 7);
+            BoardMediator boardMediator = new Board(positionPieceMap);
+            boolean expected = false;
+
+            boolean actual = boardMediator.isPalace(position);
 
             assertThat(actual).isEqualTo(expected);
         }
