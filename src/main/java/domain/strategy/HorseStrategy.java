@@ -9,13 +9,15 @@ import java.util.List;
 
 public class HorseStrategy implements Strategy {
     @Override
+    public List<Direction> getDirections() {
+        return List.of(Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST);
+    }
+
+    @Override
     public List<Position> getMoveCandidates(Position from, Team team, PieceProvider board) {
         List<Position> candidates = new ArrayList<>();
 
-        Direction[] straightDirections = {Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
-
-        for (Direction straight : straightDirections) {
-            // 1칸 직선 방향으로 가기
+        for (Direction straight : getDirections()) {
             int myeokRow = from.row() + straight.getRowOffset(team);
             int myeokCol = from.col() + straight.getColOffset(team);
             Position myeokPosition = new Position(myeokRow, myeokCol);

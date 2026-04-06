@@ -15,11 +15,16 @@ import java.util.stream.Collectors;
 public class CarStrategy implements Strategy {
 
     @Override
+    public List<Direction> getDirections() {
+        return List.of(Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST);
+    }
+
+    @Override
     public List<Position> getMoveCandidates(Position from, Team team, PieceProvider board) {
 
         Direction[] straightDirections = {Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
 
-        return Arrays.stream(straightDirections)
+        return getDirections().stream()
                 .flatMap(direction -> addPathCandidates(from, team, direction, board).stream())
                 .collect(Collectors.toList());
     }
@@ -32,8 +37,9 @@ public class CarStrategy implements Strategy {
             int nextRows = next.row() + direction.getRowOffset(team);
             int nextColumns = next.col() + direction.getColOffset(team);
 
-            if (nextRows < 0 || nextRows >= BOARD_ROWS.getIndex() || nextColumns < 0
-                    || nextColumns >= BOARD_COLUMNS.getIndex()) {
+            Position bridge = new Position(nextRows, nextColumns);
+
+            if (bridge.isInvalid()) {
                 break;
             }
 

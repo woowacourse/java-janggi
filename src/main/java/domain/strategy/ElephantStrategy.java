@@ -10,11 +10,15 @@ import java.util.List;
 public class ElephantStrategy implements Strategy {
 
     @Override
+    public List<Direction> getDirections() {
+        return List.of(Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST);
+    }
+
+    @Override
     public List<Position> getMoveCandidates(Position from, Team team, PieceProvider board) {
         List<Position> candidates = new ArrayList<>();
-        Direction[] straightDirections = {Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
 
-        for (Direction straight : straightDirections) {
+        for (Direction straight : getDirections()) {
             Position myeok1 = new Position(
                     from.row() + straight.getRowOffset(team),
                     from.col() + straight.getColOffset(team)

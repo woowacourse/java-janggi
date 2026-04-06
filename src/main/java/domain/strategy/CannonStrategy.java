@@ -16,10 +16,14 @@ import java.util.stream.Collectors;
 public class CannonStrategy implements Strategy {
 
     @Override
-    public List<Position> getMoveCandidates(Position from, Team team, PieceProvider board) {
-        Direction[] straightDirections = {Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
+    public List<Direction> getDirections() {
+        return List.of(Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST);
+    }
 
-        return Arrays.stream(straightDirections)
+    @Override
+    public List<Position> getMoveCandidates(Position from, Team team, PieceProvider board) {
+
+        return getDirections().stream()
                 .flatMap(direction -> addCannonCandidates(from, team, direction, board).stream())
                 .collect(Collectors.toList());
     }
