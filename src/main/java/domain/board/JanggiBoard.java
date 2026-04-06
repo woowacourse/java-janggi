@@ -20,14 +20,8 @@ public class JanggiBoard {
     private final MoveRuleManager moveRuleManager;
 
     public JanggiBoard(IntersectionGenerator intersectionGenerator) {
-//        this.intersections = createIntersections(intersectionGenerator);
-//        this.moveRuleManager = new MoveRuleManager();
-        this(createIntersections(intersectionGenerator));
-    }
-
-    public JanggiBoard(Map<Point, Intersection> intersections) {
-        this.intersections = intersections;
-        this.moveRuleManager = new MoveRuleManager();
+        this.intersections = createIntersections(intersectionGenerator);
+    this.moveRuleManager = new MoveRuleManager();
     }
 
     public void tryToMove(Point start, Point end, Team currentTeam) {
@@ -116,6 +110,12 @@ public class JanggiBoard {
 
     private static IntStream range(int maxRange) {
         return IntStream.range(BASE_POINT, maxRange);
+    }
+
+    public List<Intersection> getListIntersection() {
+        return intersections.values()
+                .stream()
+                .toList();
     }
 
 }
