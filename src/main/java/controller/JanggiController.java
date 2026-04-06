@@ -1,5 +1,9 @@
 package controller;
 
+import database.GameRepository;
+import database.entity.GameEntity;
+import database.jdbc.JdbcGameDao;
+import database.jdbc.JdbcPieceDao;
 import domain.board.AbstractBoardFactory;
 import domain.board.Board;
 import domain.game.Team;
@@ -7,6 +11,7 @@ import domain.game.Turn;
 import domain.piece.Piece;
 import domain.position.Position;
 import java.util.Map;
+import java.util.Optional;
 import util.Retry;
 import view.InputView;
 import view.OutputView;
@@ -14,28 +19,35 @@ import view.OutputView;
 public class JanggiController {
     private final InputView inputView;
     private final OutputView outputView;
-    private Turn turn;
+    private final GameRepository gameRepository;
 
-    private JanggiController(InputView inputView, OutputView outputView) {
+    private JanggiController(InputView inputView, OutputView outputView, GameRepository gameRepository) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.gameRepository = gameRepository;
     }
 
     public static JanggiController of(InputView inputView, OutputView outputView) {
-        return new JanggiController(inputView, outputView);
+        return new JanggiController(inputView, outputView, new GameRepository(new JdbcGameDao(), new JdbcPieceDao()));
     }
 
     public void run() {
-        Board board = createBoard();
+        GameState state = initializeGame();
+        Board board = state.board();
+        Turn turn = state.turn();
+        int gameId = state.gameId();
+
         outputView.printBoard(board);
-        turn = Turn.first();
+
         while (board.isGeneralAlive()) {
-            playTurn(board);
+            turn = playTurn(board, turn, gameId);
         }
+
         board.calculateScore();
         outputView.printWinner(board.decideWinner());
         outputView.printScore(Team.CHO);
         outputView.printScore(Team.HAN);
+        gameRepository.deleteGame(gameId);
     }
 
     private Board createBoard() {
@@ -48,12 +60,37 @@ public class JanggiController {
         return new Board(board);
     }
 
-    private void playTurn(Board board) {
-        Retry.run(() -> {
+    private Turn playTurn(Board board, Turn turn, int gameId) {
+        return Retry.untilSuccess(() -> {
             Position[] positions = inputView.askMovePiecePosition(turn.current());
+            boolean isCapture = board.getState().containsKey(positions[1]);
             board.move(positions[0], positions[1], turn.current());
+            Turn next = turn.next();
+            gameRepository.saveMove(gameId, positions[0], positions[1], isCapture, next.current());
             outputView.printBoard(board);
-            turn = turn.next();
+            return next;
         });
+    }
+
+    private GameState initializeGame() {
+        Optional<GameEntity> savedGame = gameRepository.findLatestGame();
+
+        Board board = savedGame
+                .map(entity -> new Board(gameRepository.loadPieces(entity.id())))
+                .orElseGet(this::createBoard);
+
+        Turn turn = savedGame
+                .map(entity -> Turn.of(entity.currentTurn()))
+                .orElse(Turn.first());
+
+        Team initialTeam = turn.current();
+        int gameId = savedGame
+                .map(GameEntity::id)
+                .orElseGet(() -> gameRepository.startNewGame(initialTeam, board.getState()));
+
+        return new GameState(board, turn, gameId);
+    }
+
+    private record GameState(Board board, Turn turn, int gameId) {
     }
 }
