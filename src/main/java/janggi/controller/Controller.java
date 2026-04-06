@@ -9,9 +9,8 @@ import janggi.domain.Team;
 import janggi.dto.BoardDto;
 import janggi.exception.BusinessException;
 import janggi.view.InputView;
+import janggi.view.InputView.MoveCommand;
 import janggi.view.OutputView;
-
-import java.util.List;
 
 public class Controller {
     private final InputView inputView;
@@ -46,9 +45,9 @@ public class Controller {
     private void processTurn(Board board, Team team) {
         while (true) {
             try {
-                List<Integer> positions = inputView.playTurn(team.getTeam());
-                Position from = Position.of(Row.of(positions.get(0)), Column.of(positions.get(1)));
-                Position to = Position.of(Row.of(positions.get(2)), Column.of(positions.get(3)));
+                MoveCommand command = inputView.readMoveCommand(team.getTeam());
+                Position from = Position.of(Row.of(command.fromRow()), Column.of(command.fromColumn()));
+                Position to = Position.of(Row.of(command.toRow()), janggi.domain.Column.of(command.toColumn()));
 
                 board.move(from, to);
                 outputView.printBoard(BoardDto.from(board));

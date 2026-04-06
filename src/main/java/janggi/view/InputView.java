@@ -1,34 +1,73 @@
 package janggi.view;
 
-import java.util.ArrayList;
+import janggi.exception.BusinessException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
 public class InputView {
+    private static final String DELIMITER = ",";
     private final Scanner sc;
 
     public InputView() {
         this.sc = new Scanner(System.in);
     }
 
-    public List<Integer> playTurn(String team) {
+    public MoveCommand readMoveCommand(String team) {
         System.out.println(team + "나라 턴입니다.");
 
-        List<Integer> inputFrom = readCoordinates("이동할 기물의 좌표를 입력하세요. (예 : 1, 2)");
-        List<Integer> inputTo = readCoordinates("도착할 좌표를 입력하세요. (예 : 1, 3)");
+        List<Integer> from = readCoordinates("이동할 기물의 좌표를 입력하세요. (예 : 1, 2)");
+        List<Integer> to = readCoordinates("도착할 좌표를 입력하세요. (예 : 1, 3)");
 
-        List<Integer> result = new ArrayList<>(inputFrom);
-        result.addAll(inputTo);
-
-        return result;
+        return new MoveCommand(from, to);
     }
 
     private List<Integer> readCoordinates(String message) {
         System.out.println(message);
-        return Arrays.stream(sc.nextLine().split(","))
-                .map(String::trim)
-                .map(Integer::parseInt)
-                .toList();
+        String input = sc.nextLine();
+
+        validateEmpty(input);
+        validateFormat(input);
+
+        try {
+            return Arrays.stream(input.split(DELIMITER))
+                    .map(String::trim)
+                    .map(Integer::parseInt)
+                    .toList();
+        } catch (NumberFormatException e) {
+            throw new BusinessException("좌표는 숫자로 입력해야 합니다.");
+        }
+    }
+
+    private static void validateEmpty(String input) {
+        if (input == null || input.isBlank()) {
+            ;
+            throw new BusinessException("입력값이 비어있습니다.");
+        }
+    }
+
+    private static void validateFormat(String input) {
+        if (!input.contains(DELIMITER)) {
+            ;
+            throw new BusinessException("쉼표(,)를 기준으로 입력하세요.");
+        }
+    }
+
+    public record MoveCommand(List<Integer> from, List<Integer> to) {
+        public int fromRow() {
+            return from.get(0);
+        }
+
+        public int fromColumn() {
+            return from.get(1);
+        }
+
+        public int toRow() {
+            return to.get(0);
+        }
+
+        public int toColumn() {
+            return to.get(1);
+        }
     }
 }
