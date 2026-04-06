@@ -29,6 +29,7 @@ public class H2MoveRepository implements MoveRepository {
     }
 
     @Override
+    public void save(MoveEntity move) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement stmt = connection.prepareStatement(INSERT_MOVE)) {
             stmt.setInt(1, move.gameId());
@@ -40,7 +41,7 @@ public class H2MoveRepository implements MoveRepository {
             stmt.setInt(7, move.toY());
             stmt.executeUpdate();
         } catch (JdbcSQLIntegrityConstraintViolationException e) {
-            throw e;
+            throw new IllegalArgumentException("게임 MoveNumber가 중복됩니다.");
         } catch (SQLException e) {
             throw new IllegalStateException("게임 ID " + move.gameId() + "의 이동 저장에 실패했습니다.", e);
         }

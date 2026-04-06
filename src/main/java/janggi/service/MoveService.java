@@ -14,12 +14,14 @@ public class MoveService {
     }
 
     public void move(Game game, Point from, Point to) {
+        game.move(from, to);
+
         for (int i = 0; i < SAVE_TRY_COUNT; i++) {
             try {
                 int moveNumber = moveRepository.findNextMoveNumber(game.getId());
                 MoveEntity moveEntity = createMoveEntity(game, from, to, moveNumber);
-                game.move(from, to);
                 moveRepository.save(moveEntity);
+                return;
             } catch (IllegalArgumentException e) {
                 if (i == SAVE_TRY_COUNT - 1) {
                     throw new IllegalStateException("이동 저장에 반복 실패했습니다.", e);
