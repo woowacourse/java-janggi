@@ -4,7 +4,7 @@
 
 ## ✅ 리팩토링 할 것 목록
 
-- [ ] **1. `Board`의 `calculateScore`를 `Team`에서 처리하도록 수정.**
+- [x] **1. `Board`의 `calculateScore`를 `Team`에서 처리하도록 수정.**
 - [x] **2. `isColumnClearBetween`의 축약형 이름 없애기**
 - [ ] **3. `JanggiGame`에서 DB 전용 getter 제거 (`getStateName`, `getArrangementOf`)**
   - `JanggiGame`에 `getGameState()` 추가

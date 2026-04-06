@@ -13,8 +13,6 @@ import java.util.Map;
 import java.util.Optional;
 
 public class Board {
-    private static final double DUM_POINT = 1.5;
-
     private final Pieces pieces;
 
     public Board(Pieces pieces) {
@@ -77,10 +75,7 @@ public class Board {
         double base = getAllPiecesOf(team).values().stream()
                 .mapToInt(Piece::score)
                 .sum();
-        if (team == Team.HAN) {
-            return base + DUM_POINT;
-        }
-        return base;
+        return base + team.dumPoint();
     }
 
     public boolean hasInsufficientPieces(Team team) {
