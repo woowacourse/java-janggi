@@ -52,6 +52,10 @@ public class BoardFactory {
         return new Board(pieces);
     }
 
+    public static Piece createPiece(PieceType pieceType, Team team) {
+        return PIECE_GENERATORS.get(pieceType).apply(team);
+    }
+
     private static void placeGeneral(Map<Position, Piece> pieces) {
         int choGeneralRow = 1;
         int hanGeneralRow = 8;
@@ -103,9 +107,5 @@ public class BoardFactory {
             pieces.put(new Position(CHO_DYNAMIC_COLUMNS.get(i), 0), createPiece(choTypes.get(i), Team.CHO));
             pieces.put(new Position(HAN_DYNAMIC_COLUMNS.get(i), 9), createPiece(hanTypes.get(i), Team.HAN));
         }
-    }
-
-    private static Piece createPiece(PieceType pieceType, Team team) {
-        return PIECE_GENERATORS.get(pieceType).apply(team);
     }
 }
