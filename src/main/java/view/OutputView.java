@@ -21,22 +21,12 @@ public class OutputView {
     }
 
 
-    public void printEnterChoPlayerNamePrompt() {
-        System.out.println("초나라 플레이어의 이름을 입력하세요(2~5자, 영어만 사용):");
+    public void printEnterPlayerNamePrompt(final Team team) {
+        System.out.println(getTeamName(team) + " 플레이어의 이름을 입력하세요(2~5자, 영어만 사용):");
     }
 
-    public void printEnterHanPlayerNamePrompt() {
-        System.out.println("한나라 플레이어의 이름을 입력하세요(2~5자, 영어만 사용):");
-    }
-
-
-    public void printChoiceChoElephantSetupPrompt() {
-        System.out.println("초나라 플레이어가 사용할 상차림 번호를 입력하세요 ");
-        printElephantSetups();
-    }
-
-    public void printChoiceHanElephantSetupPrompt() {
-        System.out.println("한나라 플레이어가 사용할 상차림 번호를 입력하세요 ");
+    public void printChoiceElephantSetupPrompt(final Team team) {
+        System.out.println(getTeamName(team) + " 플레이어가 사용할 상차림 번호를 입력하세요 ");
         printElephantSetups();
     }
 
@@ -154,5 +144,14 @@ public class OutputView {
             promptBuilder.append(String.format("%d. %s ", i + 1, descriptions.get(i)));
         }
         System.out.println(promptBuilder);
+    }
+
+
+    private String getTeamName(final Team team) {
+        if (team == Team.HAN) {
+            return "한나라";
+        }
+
+        return "초나라";
     }
 }

@@ -30,7 +30,7 @@ public enum PieceType {
         this.moveStrategy = moveStrategy;
     }
 
-    public String getNameOf(Team team) {
+    public String getNameOf(final Team team) {
         if (team == Team.CHO) {
             return nameOfCho;
         }

@@ -25,11 +25,7 @@ public class JanggiController {
     }
 
     public void run() {
-        final Player choPlayer = generateChoPlayer();
-        final Player hanPlayer = generateHanPlayer();
-
-        final Board board = initializeBoard();
-        final JanggiGame game = new JanggiGame(board, choPlayer, hanPlayer);
+        final JanggiGame game = initializeGame();
 
         // TODO: 승패 조건 추가 후 수정
 //        while (true) {
@@ -38,25 +34,21 @@ public class JanggiController {
         }
     }
 
+    private JanggiGame initializeGame() {
+        final Player choPlayer = generatePlayer(Team.CHO);
+        final Player hanPlayer = generatePlayer(Team.HAN);
 
-    private Player generateHanPlayer() {
-        while (true) {
-            try {
-                outputView.printEnterHanPlayerNamePrompt();
-                final String hanPlayerName = inputView.readPlayerName();
-                return Player.of(hanPlayerName, Team.HAN);
-            } catch (final IllegalArgumentException e) {
-                outputView.printErrorMessage(e.getMessage());
-            }
-        }
+        final Board board = initializeBoard();
+        return new JanggiGame(board, choPlayer, hanPlayer);
     }
 
-    private Player generateChoPlayer() {
+
+    private Player generatePlayer(final Team team) {
         while (true) {
             try {
-                outputView.printEnterChoPlayerNamePrompt();
-                final String choPlayerName = inputView.readPlayerName();
-                return Player.of(choPlayerName, Team.CHO);
+                outputView.printEnterPlayerNamePrompt(team);
+                final String playerName = inputView.readPlayerName();
+                return Player.of(playerName, team);
             } catch (final IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());
             }
@@ -65,30 +57,19 @@ public class JanggiController {
 
 
     private Board initializeBoard() {
-        final ElephantSetup choElephantSetup = generateChoElephantSetup();
-        final ElephantSetup hanElephantSetup = generateHanElephantSetup();
+        final ElephantSetup choElephantSetup = generateElephantSetup(Team.CHO);
+        final ElephantSetup hanElephantSetup = generateElephantSetup(Team.HAN);
 
         return BoardInitializer.initialize(choElephantSetup, hanElephantSetup);
     }
 
-    private ElephantSetup generateHanElephantSetup() {
-        while (true) {
-            try {
-                outputView.printChoiceHanElephantSetupPrompt();
-                final int hanElephantSetupNumber = inputView.readNumber(ElephantSetup.values().length);
-                return ElephantSetup.of(hanElephantSetupNumber);
-            } catch (final IllegalArgumentException e) {
-                outputView.printErrorMessage(e.getMessage());
-            }
-        }
-    }
 
-    private ElephantSetup generateChoElephantSetup() {
+    private ElephantSetup generateElephantSetup(final Team team) {
         while (true) {
             try {
-                outputView.printChoiceChoElephantSetupPrompt();
-                final int choElephantSetupNumber = inputView.readNumber(ElephantSetup.values().length);
-                return ElephantSetup.of(choElephantSetupNumber);
+                outputView.printChoiceElephantSetupPrompt(team);
+                final int elephantSetupNumber = inputView.readNumber(ElephantSetup.values().length);
+                return ElephantSetup.of(elephantSetupNumber);
             } catch (final IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());
             }
