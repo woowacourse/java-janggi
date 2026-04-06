@@ -10,6 +10,9 @@ public class DatabaseConnector {
     private static final String USER = "root";
     private static final String PASSWORD = "1234";
 
+    private DatabaseConnector() {
+    }
+
     public static Connection getConnection() {
         try {
             return DriverManager.getConnection(URL, USER, PASSWORD);
