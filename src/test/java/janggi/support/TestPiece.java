@@ -41,6 +41,11 @@ public class TestPiece implements Piece {
     }
 
     @Override
+    public boolean isNotEmpty() {
+        return true;
+    }
+
+    @Override
     public PieceType getType() {
         return null;
     }

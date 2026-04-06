@@ -9,6 +9,8 @@ public interface Piece {
 
     boolean isEmpty();
 
+    boolean isNotEmpty();
+
     List<Location> calculateRoute(Intersection from, Intersection to);
 
     void detectCollision(List<Piece> piecesOnPath);

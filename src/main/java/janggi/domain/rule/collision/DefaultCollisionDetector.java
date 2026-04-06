@@ -25,7 +25,7 @@ public class DefaultCollisionDetector implements CollisionDetector {
     private void validateMiddlePath(List<Piece> piecesOnPath) {
         List<Piece> middlePath = piecesOnPath.subList(0, piecesOnPath.size() - 1);
         for (Piece pathPiece : middlePath) {
-            if (!pathPiece.isEmpty()) {
+            if (pathPiece.isNotEmpty()) {
                 throw new PieceOnPathException(ErrorCode.COLLISION_DETECT_ERROR, pathPiece);
             }
         }

@@ -41,6 +41,10 @@ public class Intersection {
         return piece.calculateRoute(this, destination);
     }
 
+    public boolean isNotEmpty() {
+        return piece.isNotEmpty();
+    }
+
     public boolean isEmpty() {
         return piece.isEmpty();
     }
