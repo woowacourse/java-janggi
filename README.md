@@ -9,6 +9,23 @@ src/main/java/
 ├── JanggiApplication
 ├── controller/
 │   └── JanggiController
+├── db/
+│   ├── connector/
+│   │   └── MySqlConnector - MySQL DB 연결
+│   ├── parser/
+│   │   └── PieceParser - 저장된 기물 정보를 도메인 객체로 변환
+│   ├── repository/
+│   │   ├── GameRepository - 게임 영속성 관련 기능 제공
+│   │   └── PieceRepository - 기물 영속성 관련 기능 제공
+│   ├── session/
+│   │   └── Session - DB 세션 관리
+│   └── util/
+│       ├── DataAccessException - 데이터 접근 계층에 대한 예외
+│       ├── PreparingStatement - PreparedStatement 생성에 대한 함수형 인터페이스
+│       ├── StatementMode - PreparedStatement 생성 방식(기본 / 생성 키 반환 등)
+│       ├── TransactionalFunction - 트랜잭션 내에서 실행할 함수형 인터페이스(반환 O)
+│       ├── TransactionalRunnable - 트랜잭션 내에서 실행할 함수형 인터페이스(반환 X)
+│       └── TransactionUtil - 트랜잭션 유틸
 ├── domain/
 │   ├── board/
 │   │   ├── File - 장기판의 열(Column)
@@ -43,9 +60,9 @@ src/main/java/
 │       ├── Horse - 마
 │       ├── Elephant - 상
 │       ├── Guard - 사
-│         └── AlivePieces - 게임에 남아 있는 장기말에 대한 일급 컬렉션
-├── util/├── Soldier - 졸/병
-│     
+│       ├── Soldier - 졸/병
+│       └── AlivePieces - 게임에 남아 있는 장기말에 대한 일급 컬렉션
+├── util/
 │   └── RetryUtil
 └── view/
     ├── ApplicationView
@@ -53,6 +70,9 @@ src/main/java/
     ├── ErrorOutputView
     ├── GuideOutputView
     ├── InputView
+    ├── ResultOutputView
+    ├── dto/
+    │   └── ScoreDto
     └── label/
         ├── PieceLabel
         ├── SideLabel
