@@ -5,6 +5,7 @@ import janggi.domain.piece.PieceType;
 import janggi.domain.position.Column;
 import janggi.domain.position.Position;
 import janggi.domain.position.Row;
+import janggi.domain.score.Score;
 import janggi.domain.team.Team;
 
 import java.util.Map;
@@ -31,7 +32,7 @@ public class OutputView {
             GENERAL, "GEN", CANNON, "CAN", SOLDIER, "SOL"
     );
 
-    public void printBoard(Map<Position, Piece> board) {
+    public void printBoard(Map<Position, Piece> board, Score score) {
         System.out.println();
         printColumnHeader();
         for (int row = FIRST_ROW; row <= LAST_ROW; row++) {
@@ -41,7 +42,7 @@ public class OutputView {
             }
         }
         System.out.println();
-        printLegend();
+        printLegendAndScore(score);
     }
 
     private void printColumnHeader() {
@@ -102,9 +103,11 @@ public class OutputView {
         return ANSI_BLUE + PIECE_LABEL.get(piece.getType()) + ANSI_RESET;
     }
 
-    private void printLegend() {
-        System.out.println(ANSI_RED + "  [HAN] CHA=車 HOR=馬 ELE=相 GRD=仕 GEN=將 CAN=包 SOL=兵" + ANSI_RESET);
-        System.out.println(ANSI_BLUE + "  [CHO] CHA=車 HOR=馬 ELE=象 GRD=士 GEN=將 CAN=包 SOL=卒" + ANSI_RESET);
+    private void printLegendAndScore(Score score) {
+        System.out.println(ANSI_RED + "  [HAN] CHA=車 HOR=馬 ELE=相 GRD=仕 GEN=將 CAN=包 SOL=兵 | " +
+                "현재 점수: " + score.getHanScore() + ANSI_RESET);
+        System.out.println(ANSI_BLUE + "  [CHO] CHA=車 HOR=馬 ELE=象 GRD=士 GEN=將 CAN=包 SOL=卒 | " +
+                "현재 점수: " + score.getChoScore() + ANSI_RESET);
     }
 
     public void printWinner(Team winner) {

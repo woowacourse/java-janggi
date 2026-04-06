@@ -5,6 +5,7 @@ import janggi.domain.board.BoardFactory;
 import janggi.domain.board.PieceSetup;
 import janggi.domain.position.Movement;
 import janggi.domain.position.Position;
+import janggi.domain.score.Score;
 import janggi.domain.team.Team;
 import janggi.view.InputView;
 import janggi.view.OutputView;
@@ -12,7 +13,6 @@ import janggi.view.OutputView;
 import java.util.List;
 
 public class JanggiGame {
-
     private static final String END_COMMAND = "end";
     private static final int FROM_INDEX = 0;
     private static final int TO_INDEX = 1;
@@ -28,7 +28,7 @@ public class JanggiGame {
 
     public void start() {
         initializeBoard();
-        outputView.printBoard(board.showBoard());
+        outputView.printBoard(board.showBoard(), new Score(board.showBoard()));
         play();
     }
 
@@ -58,7 +58,7 @@ public class JanggiGame {
     private Team processTurn(List<String> positions, Team currentTeam) {
         try {
             board.move(createMovement(positions), currentTeam);
-            outputView.printBoard(board.showBoard());
+            outputView.printBoard(board.showBoard(), new Score(board.showBoard()));
             return currentTeam.convert();
         } catch (IllegalArgumentException exception) {
             outputView.printError(exception.getMessage());
