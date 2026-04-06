@@ -17,24 +17,8 @@ public final class Retry {
         }
     }
 
-    public static void run(RunnableWithEx runnable) {
-        while (true) {
-            try {
-                runnable.run();
-                return;
-            } catch (IllegalArgumentException e) {
-                OutputView.printErrorMessage(e.getMessage());
-            }
-        }
-    }
-
     @FunctionalInterface
     public interface SupplierWithEx<T> {
         T get();
-    }
-
-    @FunctionalInterface
-    public interface RunnableWithEx {
-        void run();
     }
 }
