@@ -85,6 +85,54 @@ src/main/java/
 - [x] 시작 위치가 고정된 기물들은 게임 시작 시 정해진 위치에 배치되어야 한다.
 - [x] `상`과 `마`는 지정한 순서에 따른 위치에 배치되어야 한다.
 
+## 데이터베이스
+
+### 테이블 구조
+```
+┌────────────────────────┐          ┌──────────────────────────────────┐
+│          game          │          │              piece               │
+├────────────────────────┤          ├──────────────────────────────────┤
+│ [PK] id (INT)  <──┐    │          │ [PK] id (INT)                    │
+│ current_turn      │    │          │ [FK] game_id (INT) ──────────────┘
+└───────────────────│────┘          │ row (INT)                        │
+                    │               │ file (INT)                       │
+                    └─────────────○<│ side (ENUM: CHO, HAN)            │
+                                    │ type (ENUM: Cannon, Chariot,...) │
+                                    └──────────────────────────────────┘
+```
+
+### 데이터베이스 생성 쿼리
+```sql
+CREATE DATABASE janggi CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+CREATE USER 'janggi'@'%' IDENTIFIED BY 'janggi';
+
+GRANT ALL PRIVILEGES ON janggi.* TO 'janggi'@'%';
+
+FLUSH PRIVILEGES;
+```
+
+### 테이블 생성 쿼리
+```sql
+CREATE TABLE game (
+    id INT NOT NULL AUTO_INCREMENT,
+    current_turn ENUM('CHO', 'HAN') NOT NULL,
+    PRIMARY KEY (id)
+);
+
+DROP TABLE IF EXISTS piece;
+CREATE TABLE piece (
+    id INT NOT NULL AUTO_INCREMENT,
+    game_id INT NOT NULL,
+    `row` INT NOT NULL,
+    `file` INT NOT NULL,
+    side ENUM('CHO', 'HAN') NOT NULL,
+    type ENUM('Cannon', 'Chariot', 'Elephant', 'General', 'Guard', 'Horse', 'Soldier') NOT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT fk_game_id FOREIGN KEY (game_id) REFERENCES game(id)
+);
+```
+
 ## 입출력 형태
 
 ### 규칙
