@@ -28,9 +28,10 @@ public class GameRepository {
         pieceRepository.save(gameId, board);
     }
 
-    public void update(Game game, Board board) {
+    public void update(Game game, Board board, Position from, Position to) {
         updateGame(game, board);
-        pieceRepository.updatePieces(game.id(), board);
+        pieceRepository.deletePiece(game.id(), to);
+        pieceRepository.updatePieces(game.id(), from, to);
     }
 
     public Game findByGameId(Long gameId) {

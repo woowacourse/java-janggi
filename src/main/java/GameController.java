@@ -101,6 +101,6 @@ public class GameController {
 
         game.changeTurn();
 
-        gameRepository.update(game, board);
+        gameRepository.update(game, board, command.from(), command.to());
     }
 }

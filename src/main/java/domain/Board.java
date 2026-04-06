@@ -125,6 +125,7 @@ public class Board {
     private void movePiece(Position from, Position to, Piece piece) {
         pieces.remove(from);
 
+        // 킹을 잡았을 경우
         if (!isEmpty(to) && isKing(to)) {
             isGameOver = true;
         }

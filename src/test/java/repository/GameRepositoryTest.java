@@ -72,7 +72,7 @@ public class GameRepositoryTest {
 
         board.move(from, to, PieceType.PAWN, Team.CHO);
         game.changeTurn();
-        gameRepository.update(game, board);
+        gameRepository.update(game, board, from, to);
 
         Game latelyGame = gameRepository.findLatest();
 

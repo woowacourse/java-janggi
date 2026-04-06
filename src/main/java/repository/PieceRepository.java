@@ -42,9 +42,23 @@ public class PieceRepository {
         }
     }
 
-    public void updatePieces(Long gameId, Board board) {
-        deletePieces(gameId);
-        save(gameId, board);
+    // 현재 위치에서 목적지로 위치 변경
+    // TODO : gameRepository에서 연동할 것 (1. 목적지 피스 삭제, 2. 현재 기물 -> 목적지로 업데이트 )
+    public void updatePieces(Long gameId, Position from, Position to) {
+        String sql = "UPDATE piece SET row_index = ? , column_index = ? WHERE game_id = ? and row_index = ? and column_index = ? ";
+
+        try(PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, to.getRow());
+            pstmt.setInt(2, to.getColumn());
+            pstmt.setLong(3, gameId);
+            pstmt.setLong(4, from.getRow());
+            pstmt.setLong(5, from.getColumn());
+
+            pstmt.executeUpdate();
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public Map<Position, Piece> findByGameId(Long gameId) {
@@ -72,11 +86,14 @@ public class PieceRepository {
         }
     }
 
-    private void deletePieces(Long gameId) {
-        String sql = "DELETE FROM piece WHERE game_id = ?";
+    // 목적지 기물 삭제
+    public void deletePiece(Long gameId, Position position) {
+        String sql = "DELETE FROM piece WHERE game_id = ? and row_index = ? and column_index = ?";
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setLong(1, gameId);
+            pstmt.setInt(2, position.getRow());
+            pstmt.setInt(3, position.getColumn());
             pstmt.executeUpdate();
         } catch (Exception e) {
             throw new RuntimeException(e);
