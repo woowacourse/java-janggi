@@ -24,8 +24,8 @@ class HanTurnTest {
 
     @Test
     void 한나라_턴_종료_정상_테스트() {
-        Position from = new Position(2, 3);
-        Position to = new Position(2, 4);
+        Position from = new Position(2, 6);
+        Position to = new Position(2, 5);
 
         GameState state = new HanTurn(board);
         GameState actual = state.move(from, to);
