@@ -47,14 +47,26 @@ public class JanggiController {
     }
 
     private void loadSavedGame() {
-        List<Integer> saveGames = janggiService.getSavedGames();
-        int gameId = inputView.requestGameId(saveGames);
-        Board board = janggiService.getSavedBoard(gameId);
+        doRetry(() -> {
+            List<Integer> savedGames = janggiService.getSavedGames();
+            checkSavedGames(savedGames);
 
-        outputView.printBoard(janggiService.createBoardDto(board));
-        JanggiGame janggiGame = janggiService.loadGame(gameId, board);
+            int gameId = inputView.requestGameId(savedGames);
+            Board board = janggiService.getSavedBoard(gameId);
 
-        playGame(gameId, board, janggiGame);
+            outputView.printBoard(janggiService.createBoardDto(board));
+            JanggiGame janggiGame = janggiService.loadGame(gameId, board);
+
+            playGame(gameId, board, janggiGame);
+            return Optional.empty();
+        });
+    }
+
+    private void checkSavedGames(List<Integer> savedGames) {
+        if (savedGames.isEmpty()) {
+            outputView.printNewGameStart();
+            startNewGame();
+        }
     }
 
     private void playGame(int gameId, Board board, JanggiGame janggiGame) {

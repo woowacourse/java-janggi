@@ -52,11 +52,14 @@ public class InputView {
         return InputParser.splitBy(",", scanner.nextLine());
     }
 
-    public int requestGameId(List<Integer> saveGames) {
-        System.out.println("\n진행 중인 게임 목록입니다. 게엠 방의 숫자를 입력해주세요.");
-        for (int number : saveGames) {
+    public int requestGameId(List<Integer> savedGames) {
+        System.out.println("\n진행 중인 게임 목록입니다. 게임 방의 숫자를 입력해주세요.");
+        for (int number : savedGames) {
             System.out.printf("- %d번방\n", number);
         }
-        return Validator.validateNumber(scanner.nextLine());
+
+        int input = Validator.validateNumber(scanner.nextLine());
+        Validator.validateContainsNumber(input, savedGames);
+        return input;
     }
 }

@@ -88,4 +88,8 @@ public class OutputView {
     private void printGameWinner(String countryName) {
         System.out.print(formatter.formatGameWinner(countryName));
     }
+
+    public void printNewGameStart() {
+        System.out.println("\n저장된 게임이 존재하지 않습니다. 새 게임을 시작합니다.\n");
+    }
 }
