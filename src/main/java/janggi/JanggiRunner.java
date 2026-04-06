@@ -31,6 +31,12 @@ public class JanggiRunner {
                 () -> readValidEndPosition(janggiGame, startPosition), outputView
             );
             janggiGame.doGame(startPosition, endPosition);
+            if (janggiGame.isGameOver()) {
+                outputView.printBoard(janggiGame.makeCurrentTurnBoardSnapShot());
+                outputView.printWinner(janggiGame.findWinner()
+                    .orElseThrow(() -> new IllegalStateException("승자가 존재하지 않습니다.")));
+                return;
+            }
         }
     }
 

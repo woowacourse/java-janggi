@@ -6,6 +6,7 @@ import janggi.domain.piece.Jol;
 import janggi.domain.piece.Ma;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Po;
+import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Sa;
 import janggi.domain.piece.Sang;
 import janggi.domain.team.TeamType;
@@ -80,6 +81,11 @@ public class Pieces {
 
     public Optional<Piece> findPiece(Position position) {
         return Optional.ofNullable(value.get(position));
+    }
+
+    public boolean hasPieceType(PieceType pieceType) {
+        return value.values().stream()
+            .anyMatch(piece -> piece.getPieceType() == pieceType);
     }
 
     private static void createChas(Map<Position, Piece> pieces, int indexY, TeamType teamType) {

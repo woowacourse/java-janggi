@@ -60,6 +60,11 @@ public class ConsoleOutputView implements OutputView {
     }
 
     @Override
+    public void printWinner(TeamType winner) {
+        printMessage(formatTeamType(winner) + "의 승리입니다.");
+    }
+
+    @Override
     public void printAskPiecePosition() {
         printMessage("움직일 기물의 좌표를 입력해주세요. (ex. 1,3)");
     }

@@ -1,6 +1,7 @@
 package janggi.domain;
 
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.domain.team.Team;
 import janggi.domain.team.TeamType;
 import janggi.dto.BoardSpot;
@@ -76,6 +77,22 @@ public class Board {
         Team movedCurrentTeam = currentTeam(playingTeam).move(startPosition, endPosition);
         Team remainedOpponentTeam = removeOpponentPiece(playingTeam, endPosition);
         return createMovedBoard(playingTeam, movedCurrentTeam, remainedOpponentTeam);
+    }
+
+    public boolean hasGung(TeamType teamType) {
+        return findSpecificTeam(teamType).hasPieceType(PieceType.GUNG);
+    }
+
+    public Optional<TeamType> findWinner() {
+        boolean chuHasGung = hasGung(TeamType.CHU);
+        boolean hanHasGung = hasGung(TeamType.HAN);
+        if (chuHasGung == hanHasGung) {
+            return Optional.empty();
+        }
+        if (chuHasGung) {
+            return Optional.of(TeamType.CHU);
+        }
+        return Optional.of(TeamType.HAN);
     }
 
     private Piece findTeamPiece(Position position, Team nowTeam) {

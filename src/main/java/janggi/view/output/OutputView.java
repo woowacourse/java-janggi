@@ -17,6 +17,8 @@ public interface OutputView {
 
     void printTurnNotice(TeamType currentTurnTeam);
 
+    void printWinner(TeamType winner);
+
     void printAskPiecePosition();
 
     void printAskMovePosition(String nickname);

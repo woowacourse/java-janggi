@@ -3,6 +3,7 @@ package janggi.domain.team;
 import janggi.domain.Pieces;
 import janggi.domain.Position;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.dto.BoardSpots;
 import java.util.Optional;
 
@@ -30,6 +31,10 @@ public class Team {
 
     public Optional<Piece> findPiece(Position position) {
         return pieces.findPiece(position);
+    }
+
+    public boolean hasPieceType(PieceType pieceType) {
+        return pieces.hasPieceType(pieceType);
     }
 
     public Team remove(Position position) {

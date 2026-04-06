@@ -3,6 +3,7 @@ package janggi.domain;
 import janggi.domain.piece.Piece;
 import janggi.domain.team.TeamType;
 import janggi.dto.BoardSpots;
+import java.util.Optional;
 
 public class Turn {
 
@@ -42,6 +43,10 @@ public class Turn {
 
     public BoardSpots makeBoardSnapShot() {
         return board.makeSnapShot();
+    }
+
+    public Optional<TeamType> findWinner() {
+        return board.findWinner();
     }
 
     private TeamType playingTeamType() {
