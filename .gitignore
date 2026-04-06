@@ -32,7 +32,6 @@ out/
 .vscode/
 
 # DB 정보
-db.properties
 data/app.*
 
 ## 개인
