@@ -3,7 +3,7 @@ package janggi.domain.piece.strategy;
 import janggi.domain.Position;
 import janggi.domain.board.BoardChecker;
 import janggi.domain.piece.Camp;
-import janggi.domain.piece.PieceStrategy;
+import janggi.domain.piece.PieceRule;
 import janggi.exception.ExceptionMessage;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ public class ElephantStrategy implements MoveStrategy {
     private static final int DIAGONAL_DISTANCE = 2;
 
     @Override
-    public void validate(Position source, Position destination, Camp camp, BoardChecker board, PieceStrategy pieceStrategy) {
+    public void validate(Position source, Position destination, Camp camp, BoardChecker board, PieceRule pieceRule) {
         Movement movement = new Movement(source, destination);
         validateDistance(movement);
         List<Position> path = findPath(source, movement);

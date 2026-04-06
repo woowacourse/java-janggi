@@ -3,7 +3,7 @@ package janggi.domain.piece.strategy;
 import janggi.domain.Position;
 import janggi.domain.board.BoardChecker;
 import janggi.domain.piece.Camp;
-import janggi.domain.piece.PieceStrategy;
+import janggi.domain.piece.PieceRule;
 import janggi.exception.ExceptionMessage;
 
 public class SoldierStrategy extends PalaceStrategy implements MoveStrategy {
@@ -11,7 +11,7 @@ public class SoldierStrategy extends PalaceStrategy implements MoveStrategy {
     private static final int DISTANCE = 1;
 
     @Override
-    public void validate(Position source, Position destination, Camp camp, BoardChecker board, PieceStrategy pieceStrategy) {
+    public void validate(Position source, Position destination, Camp camp, BoardChecker board, PieceRule pieceRule) {
         Movement movement = new Movement(source, destination);
         if (isPalaceRange(source, destination)) {
             validatePalaceDiagonalDistance(source, destination, movement);

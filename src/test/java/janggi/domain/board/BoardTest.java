@@ -7,7 +7,7 @@ import janggi.domain.Position;
 import janggi.domain.Turn;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceStrategy;
+import janggi.domain.piece.PieceRule;
 import janggi.exception.ExceptionMessage;
 import java.util.Map;
 import org.assertj.core.api.SoftAssertions;
@@ -21,7 +21,7 @@ class BoardTest {
         Position source = new Position(7, 1);
         Position destination = new Position(8, 1);
         Board board = new Board(Map.of(
-                source, new Piece(PieceStrategy.SOLDIER, Camp.CHO)
+                source, new Piece(PieceRule.SOLDIER, Camp.CHO)
         ));
         // when
         board.movePiece(source, destination, Camp.CHO);
@@ -40,14 +40,14 @@ class BoardTest {
         Position destination = new Position(0, 1);
 
         Board board = new Board(Map.of(
-                new Position(4, 1), new Piece(PieceStrategy.SOLDIER, Camp.HAN),
-                destination, new Piece(PieceStrategy.HORSE, Camp.CHO),
-                source, new Piece(PieceStrategy.CANNON, Camp.HAN)
+                new Position(4, 1), new Piece(PieceRule.SOLDIER, Camp.HAN),
+                destination, new Piece(PieceRule.HORSE, Camp.CHO),
+                source, new Piece(PieceRule.CANNON, Camp.HAN)
         ));
         // when
         board.movePiece(source, destination, Camp.HAN);
         // then
-        boolean destinationExists = board.hasSamePieceRuleAt(destination, PieceStrategy.CANNON);
+        boolean destinationExists = board.hasSamePieceRuleAt(destination, PieceRule.CANNON);
         boolean sourceExists = board.hasPieceAt(source);
 
         SoftAssertions.assertSoftly(assertSoftly -> {
@@ -64,8 +64,8 @@ class BoardTest {
 
         // when
         Board board = new Board(Map.of(
-                destination, new Piece(PieceStrategy.HORSE, Camp.CHO),
-                source, new Piece(PieceStrategy.CANNON, Camp.CHO)
+                destination, new Piece(PieceRule.HORSE, Camp.CHO),
+                source, new Piece(PieceRule.CANNON, Camp.CHO)
         ));
         // then
         assertThatThrownBy(() -> board.movePiece(source, destination, Camp.HAN))
@@ -90,7 +90,7 @@ class BoardTest {
     void 특정_위치에_기물이_있는지_확인한다() {
         // given
         Position position = new Position(0, 0);
-        Board board = new Board(Map.of(position, new Piece(PieceStrategy.SOLDIER, Camp.CHO)));
+        Board board = new Board(Map.of(position, new Piece(PieceRule.SOLDIER, Camp.CHO)));
 
         // when & then
         SoftAssertions.assertSoftly(softly -> {
@@ -103,7 +103,7 @@ class BoardTest {
     void 출발지와_목적지가_같으면_예외가_발생한다() {
         // given
         Position source = new Position(7, 1);
-        Board board = new Board(Map.of(source, new Piece(PieceStrategy.SOLDIER, Camp.CHO)));
+        Board board = new Board(Map.of(source, new Piece(PieceRule.SOLDIER, Camp.CHO)));
         // when & then
         assertThatThrownBy(() -> board.movePiece(source, source, Camp.CHO))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -116,8 +116,8 @@ class BoardTest {
         Position source = new Position(7, 1);
         Position destination = new Position(0, 1);
         Board board = new Board(Map.of(
-                source, new Piece(PieceStrategy.SOLDIER, Camp.CHO),
-                destination, new Piece(PieceStrategy.HORSE, Camp.CHO)
+                source, new Piece(PieceRule.SOLDIER, Camp.CHO),
+                destination, new Piece(PieceRule.HORSE, Camp.CHO)
         ));
         // when & then
         assertThatThrownBy(() -> board.movePiece(source, destination, Camp.CHO))
@@ -129,7 +129,7 @@ class BoardTest {
     void 상대_진영의_왕이_존재하는지_확인한다() {
         // given
         Turn turn = new Turn();
-        Board board = new Board(Map.of(new Position(0, 4), new Piece(PieceStrategy.GENERAL, Camp.HAN)));
+        Board board = new Board(Map.of(new Position(0, 4), new Piece(PieceRule.GENERAL, Camp.HAN)));
         // when
         boolean result = board.isRivalGeneralKilled(turn);
         // then

@@ -11,7 +11,7 @@ import janggi.domain.piece.strategy.HorseStrategy;
 import janggi.domain.piece.strategy.MoveStrategy;
 import janggi.domain.piece.strategy.SoldierStrategy;
 
-public enum PieceStrategy {
+public enum PieceRule {
 
     GENERAL(new GeneralStrategy()),
     CHARIOT(new ChariotStrategy()),
@@ -24,7 +24,7 @@ public enum PieceStrategy {
 
     private final MoveStrategy moveStrategy;
 
-    PieceStrategy(MoveStrategy moveStrategy) {
+    PieceRule(MoveStrategy moveStrategy) {
         this.moveStrategy = moveStrategy;
     }
 

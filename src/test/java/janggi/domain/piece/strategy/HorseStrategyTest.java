@@ -8,7 +8,7 @@ import janggi.domain.board.Board;
 import janggi.domain.board.BoardChecker;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceStrategy;
+import janggi.domain.piece.PieceRule;
 import janggi.exception.ExceptionMessage;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -42,7 +42,7 @@ class HorseStrategyTest {
     @MethodSource("successPaths")
     void 직선_1칸_이동_후_대각선_1칸_이동한다(Position source, Position destination) {
         assertThatNoException().isThrownBy(() ->
-                moveStrategy.validate(source, destination, Camp.HAN, new Board(Map.of()), PieceStrategy.HORSE));
+                moveStrategy.validate(source, destination, Camp.HAN, new Board(Map.of()), PieceRule.HORSE));
     }
 
     private static Stream<Arguments> invalidDistancePositions() {
@@ -56,7 +56,7 @@ class HorseStrategyTest {
     @ParameterizedTest
     @MethodSource("invalidDistancePositions")
     void 행마법_대로_움직이지_않으면_예외가_발생한다(Position source, Position destination) {
-        assertThatThrownBy(() -> moveStrategy.validate(source, destination, Camp.CHO, new Board(Map.of()), PieceStrategy.HORSE))
+        assertThatThrownBy(() -> moveStrategy.validate(source, destination, Camp.CHO, new Board(Map.of()), PieceRule.HORSE))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.INVALID_DIAGONAL_STEP_MOVE.getMessage(STRAIGHT_DISTANCE, DIAGONAL_DISTANCE));
     }
@@ -64,12 +64,12 @@ class HorseStrategyTest {
     @Test
     void 이동하려는_경로에_기물이_존재하면_예외가_발생한다() {
         BoardChecker blockingBoard = new Board(Map.of(
-                new Position(8, 2), new Piece(PieceStrategy.SOLDIER, Camp.CHO)
+                new Position(8, 2), new Piece(PieceRule.SOLDIER, Camp.CHO)
         ));
         Position source = new Position(9, 2);
         Position destination = new Position(7, 3);
 
-        assertThatThrownBy(() -> moveStrategy.validate(source, destination, Camp.HAN, blockingBoard, PieceStrategy.HORSE))
+        assertThatThrownBy(() -> moveStrategy.validate(source, destination, Camp.HAN, blockingBoard, PieceRule.HORSE))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.PATH_NOT_EMPTY.getMessage());
     }

@@ -4,7 +4,7 @@ import janggi.domain.Position;
 import janggi.domain.Turn;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceStrategy;
+import janggi.domain.piece.PieceRule;
 import janggi.exception.ExceptionMessage;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,10 +24,10 @@ public class Board implements BoardChecker {
 
 
     @Override
-    public boolean hasSamePieceRuleAt(Position position, PieceStrategy pieceStrategy) {
+    public boolean hasSamePieceRuleAt(Position position, PieceRule pieceRule) {
         if (hasPieceAt(position)) {
             Piece piece = board.get(position);
-            return piece.isSamePieceRule(pieceStrategy);
+            return piece.isSamePieceRule(pieceRule);
         }
         return false;
     }
@@ -77,6 +77,6 @@ public class Board implements BoardChecker {
     public boolean isRivalGeneralKilled(Turn turn) {
         Camp camp = turn.peekNextTurn();
         return board.values().stream()
-                .noneMatch(piece -> piece.isSameCamp(camp) && piece.isSamePieceRule(PieceStrategy.GENERAL));
+                .noneMatch(piece -> piece.isSameCamp(camp) && piece.isSamePieceRule(PieceRule.GENERAL));
     }
 }

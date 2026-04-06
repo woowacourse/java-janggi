@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.Position;
 import janggi.domain.piece.Camp;
-import janggi.domain.piece.PieceStrategy;
+import janggi.domain.piece.PieceRule;
 import janggi.exception.ExceptionMessage;
 import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -43,7 +43,7 @@ class GeneralStrategyTest {
     @MethodSource("successMovePositions")
     void 직선_방향으로_1칸만_이동한다(Camp camp, Position source, Position destination) {
         assertThatNoException().isThrownBy(() ->
-                moveStrategy.validate(source, destination, camp, null, PieceStrategy.GENERAL));
+                moveStrategy.validate(source, destination, camp, null, PieceRule.GENERAL));
     }
 
     private static Stream<Arguments> invalidDistancePositions() {
@@ -58,7 +58,7 @@ class GeneralStrategyTest {
     @ParameterizedTest
     @MethodSource("invalidDistancePositions")
     void 직선_방향으로_1칸만_이동하지_않으면_예외가_발생한다(Camp camp, Position source, Position destination) {
-        assertThatThrownBy(() -> moveStrategy.validate(source, destination, camp, null, PieceStrategy.GENERAL))
+        assertThatThrownBy(() -> moveStrategy.validate(source, destination, camp, null, PieceRule.GENERAL))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.INVALID_PALACE_MOVE.getMessage(DISTANCE));
     }
@@ -77,7 +77,7 @@ class GeneralStrategyTest {
     @ParameterizedTest
     @MethodSource("invalidRangePositions")
     void 궁성_내에서_이동하지_않으면_예외가_발생한다(Camp camp, Position source, Position destination) {
-        assertThatThrownBy(() -> moveStrategy.validate(source, destination, camp, null, PieceStrategy.GENERAL))
+        assertThatThrownBy(() -> moveStrategy.validate(source, destination, camp, null, PieceRule.GENERAL))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.INVALID_PALACE_MOVE.getMessage(DISTANCE));
     }

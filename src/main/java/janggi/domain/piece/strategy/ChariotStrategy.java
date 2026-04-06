@@ -3,7 +3,7 @@ package janggi.domain.piece.strategy;
 import janggi.domain.Position;
 import janggi.domain.board.BoardChecker;
 import janggi.domain.piece.Camp;
-import janggi.domain.piece.PieceStrategy;
+import janggi.domain.piece.PieceRule;
 import janggi.exception.ExceptionMessage;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.function.BiFunction;
 public class ChariotStrategy extends PalaceStrategy implements MoveStrategy {
 
     @Override
-    public void validate(Position source, Position destination, Camp camp, BoardChecker board, PieceStrategy pieceStrategy) {
+    public void validate(Position source, Position destination, Camp camp, BoardChecker board, PieceRule pieceRule) {
         Movement movement = new Movement(source, destination);
         if (isPalaceRange(source, destination)) {
             List<Position> path = findPathInPalace(source, movement);

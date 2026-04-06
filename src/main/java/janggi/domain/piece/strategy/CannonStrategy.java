@@ -3,7 +3,7 @@ package janggi.domain.piece.strategy;
 import janggi.domain.Position;
 import janggi.domain.board.BoardChecker;
 import janggi.domain.piece.Camp;
-import janggi.domain.piece.PieceStrategy;
+import janggi.domain.piece.PieceRule;
 import janggi.exception.ExceptionMessage;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,17 +14,17 @@ public class CannonStrategy extends PalaceStrategy implements MoveStrategy {
     private static final long REQUIRED_PIECE_COUNT = 1;
 
     @Override
-    public void validate(Position source, Position destination, Camp camp, BoardChecker board, PieceStrategy pieceStrategy) {
+    public void validate(Position source, Position destination, Camp camp, BoardChecker board, PieceRule pieceRule) {
         Movement movement = new Movement(source, destination);
         if (isPalaceRange(source, destination)) {
             List<Position> path = findPathInPalace(source, movement);
             List<Position> pathBeforeDestination = path.subList(0, path.size() - 1);
-            validatePath(pathBeforeDestination, destination, board, pieceStrategy);
+            validatePath(pathBeforeDestination, destination, board, pieceRule);
             return;
         }
         List<Position> path = findPath(source, movement);
         List<Position> pathBeforeDestination = path.subList(0, path.size() - 1);
-        validatePath(pathBeforeDestination, destination, board, pieceStrategy);
+        validatePath(pathBeforeDestination, destination, board, pieceRule);
     }
 
     private List<Position> findPathInPalace(Position source, Movement movement) {
@@ -68,10 +68,10 @@ public class CannonStrategy extends PalaceStrategy implements MoveStrategy {
         return path;
     }
 
-    private void validatePath(List<Position> path, Position destination, BoardChecker board, PieceStrategy pieceStrategy) {
+    private void validatePath(List<Position> path, Position destination, BoardChecker board, PieceRule pieceRule) {
         validateJumpedPieceCount(path, board);
-        validateDifferentPieceRule(path, board, pieceStrategy);
-        validateDestination(board, pieceStrategy, destination);
+        validateDifferentPieceRule(path, board, pieceRule);
+        validateDestination(board, pieceRule, destination);
     }
 
     private void validateJumpedPieceCount(List<Position> path, BoardChecker board) {
@@ -90,19 +90,19 @@ public class CannonStrategy extends PalaceStrategy implements MoveStrategy {
                 .count();
     }
 
-    private void validateDifferentPieceRule(List<Position> path, BoardChecker board, PieceStrategy pieceStrategy) {
-        if (hasSamePieceType(path, board, pieceStrategy)) {
+    private void validateDifferentPieceRule(List<Position> path, BoardChecker board, PieceRule pieceRule) {
+        if (hasSamePieceType(path, board, pieceRule)) {
             throw new IllegalArgumentException(ExceptionMessage.SAME_PIECE_TYPE_IN_PATH.getMessage());
         }
     }
 
-    private boolean hasSamePieceType(List<Position> path, BoardChecker board, PieceStrategy pieceStrategy) {
+    private boolean hasSamePieceType(List<Position> path, BoardChecker board, PieceRule pieceRule) {
         return path.stream()
-                .anyMatch(position -> board.hasSamePieceRuleAt(position, pieceStrategy));
+                .anyMatch(position -> board.hasSamePieceRuleAt(position, pieceRule));
     }
 
-    private void validateDestination(BoardChecker board, PieceStrategy pieceStrategy, Position position) {
-        if (board.hasSamePieceRuleAt(position, pieceStrategy)) {
+    private void validateDestination(BoardChecker board, PieceRule pieceRule, Position position) {
+        if (board.hasSamePieceRuleAt(position, pieceRule)) {
             throw new IllegalArgumentException(ExceptionMessage.SAME_PIECE_TYPE_AT_DESTINATION.getMessage());
         }
     }

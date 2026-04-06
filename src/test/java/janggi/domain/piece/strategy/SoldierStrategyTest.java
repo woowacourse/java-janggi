@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.Position;
 import janggi.domain.piece.Camp;
-import janggi.domain.piece.PieceStrategy;
+import janggi.domain.piece.PieceRule;
 import janggi.exception.ExceptionMessage;
 import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -35,7 +35,7 @@ class SoldierStrategyTest {
     @MethodSource("successMovePositions")
     void 전진_또는_좌우_방향으로_1칸만_이동한다(Camp camp, Position source, Position destination) {
         assertThatNoException().isThrownBy(() ->
-                moveStrategy.validate(source, destination, camp, null, PieceStrategy.SOLDIER));
+                moveStrategy.validate(source, destination, camp, null, PieceRule.SOLDIER));
     }
 
     private static Stream<Arguments> successMovePositionsInPalace() {
@@ -55,7 +55,7 @@ class SoldierStrategyTest {
     @MethodSource("successMovePositionsInPalace")
     void 궁성에서_전진_또는_좌우_방향으로_1칸만_이동한다(Camp camp, Position source, Position destination) {
         assertThatNoException().isThrownBy(() ->
-                moveStrategy.validate(source, destination, camp, null, PieceStrategy.SOLDIER));
+                moveStrategy.validate(source, destination, camp, null, PieceRule.SOLDIER));
     }
 
     private static Stream<Arguments> invalidDistancePositions() {
@@ -68,7 +68,7 @@ class SoldierStrategyTest {
     @ParameterizedTest
     @MethodSource("invalidDistancePositions")
     void 직선_방향으로_1칸만_이동하지_않으면_예외가_발생한다(Camp camp, Position source, Position destination) {
-        assertThatThrownBy(() -> moveStrategy.validate(source, destination, camp, null, PieceStrategy.SOLDIER))
+        assertThatThrownBy(() -> moveStrategy.validate(source, destination, camp, null, PieceRule.SOLDIER))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.INVALID_SINGLE_STEP_MOVE.getMessage(DISTANCE));
     }
@@ -83,7 +83,7 @@ class SoldierStrategyTest {
     @ParameterizedTest
     @MethodSource("backwardMovePositions")
     void 후진하는_경우_예외가_발생한다(Camp camp, Position source, Position destination) {
-        assertThatThrownBy(() -> moveStrategy.validate(source, destination, camp, null, PieceStrategy.SOLDIER))
+        assertThatThrownBy(() -> moveStrategy.validate(source, destination, camp, null, PieceRule.SOLDIER))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.INVALID_BACKWARD_MOVEMENT.getMessage());
     }
@@ -104,7 +104,7 @@ class SoldierStrategyTest {
     @ParameterizedTest
     @MethodSource("backwardMovePositionsInPalace")
     void 궁성에서_후진하는_경우_예외가_발생한다(Camp camp, Position source, Position destination) {
-        assertThatThrownBy(() -> moveStrategy.validate(source, destination, camp, null, PieceStrategy.SOLDIER))
+        assertThatThrownBy(() -> moveStrategy.validate(source, destination, camp, null, PieceRule.SOLDIER))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.INVALID_BACKWARD_MOVEMENT.getMessage());
     }
