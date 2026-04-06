@@ -10,17 +10,14 @@ import java.util.Map;
 
 public class OutputView {
 
-    public static final String HAN_COLOR = "\u001B[31m";
-    public static final String CHO_COLOR = "\u001B[34m";
     public static final String AVAILABLE_COLOR = "\u001B[32m";
     public static final String RESET = "\u001B[0m";
-
-    private static final String[] X_VALUES = {"１", "２", "３", "４", "５", "６", "７", "８", "９"};
+    private static final List<String> COLUMN_VALUES = List.of("１", "２", "３", "４", "５", "６", "７", "８", "９");
     private static final String EMPTY_MARK = "． ";
     private static final String AVAILABLE_MARK = "Ｏ ";
 
     public static void printErrorMessage(String message) {
-        System.out.printf("%s%n", message);
+        System.out.println(message);
     }
 
     public void printBoard(Map<Position, Piece> board) {
@@ -31,73 +28,10 @@ public class OutputView {
         printGrid(board, availablePositions);
     }
 
-    private void printGrid(Map<Position, Piece> board, List<Position> availablePositions) {
-        printXAxis();
-
-        for (int y = 1; y <= 10; y++) {
-            System.out.printf("%2d ", y);
-            for (int x = 1; x <= 9; x++) {
-                Position currentPos = new Position(x, y);
-                printCell(board, availablePositions, currentPos);
-            }
-            System.out.println();
-        }
-    }
-
-    private void printXAxis() {
-        System.out.print("   ");
-        for (String xValue : X_VALUES) {
-            System.out.print(xValue + " ");
-        }
-        System.out.println();
-    }
-
-    private void printCell(Map<Position, Piece> board, List<Position> availablePositions, Position position) {
-        boolean isAvailable = availablePositions.contains(position);
-        boolean hasPiece = board.containsKey(position);
-
-        if (isAvailable && hasPiece) {
-            Piece piece = board.get(position);
-            String pieceName = resolvePieceName(piece.getPieceType());
-            System.out.print(AVAILABLE_COLOR + pieceName + RESET + " ");
-        } else if (isAvailable) {
-            System.out.print(AVAILABLE_COLOR + AVAILABLE_MARK + RESET);
-        } else if (hasPiece) {
-            Piece piece = board.get(position);
-            String pieceName = resolvePieceName(piece.getPieceType());
-            String color = getColorByTeam(piece.getTeam());
-            System.out.print(color + pieceName + RESET + " ");
-        } else {
-            System.out.print(EMPTY_MARK);
-        }
-    }
-
-    private String resolvePieceName(PieceType pieceType) {
-        return switch (pieceType) {
-            case KING -> "왕";
-            case SA -> "사";
-            case SANG -> "상";
-            case MA -> "마";
-            case CHA -> "차";
-            case PO -> "포";
-            case ZOL -> "졸";
-        };
-    }
-
-    private String getColorByTeam(Team team) {
-        if (team == Team.CHO) {
-            return CHO_COLOR;
-        }
-        return HAN_COLOR;
-    }
-
     public void printTurnMessage(Team team) {
-        if (team == Team.CHO) {
-            System.out.println(CHO_COLOR + "\n초나라 차례입니다" + RESET);
-        }
-        if (team == Team.HAN) {
-            System.out.println(HAN_COLOR + "\n한나라 차례입니다" + RESET);
-        }
+        String color = TEAM_COLORS.get(team);
+        String name = TEAM_NAMES.get(team);
+        System.out.println(color + "\n" + name + "나라 차례입니다" + RESET);
     }
 
     public void printMoveInfo() {
@@ -106,5 +40,72 @@ public class OutputView {
 
     public void printMoveChoiceInfo() {
         System.out.println("이동하고자 하는 목표 지점의 좌표를 입력하세요.");
+    }
+
+    private static final Map<PieceType, String> PIECE_NAMES = Map.of(
+            PieceType.KING, "왕", PieceType.SA, "사", PieceType.SANG, "상",
+            PieceType.MA, "마", PieceType.CHA, "차", PieceType.PO, "포", PieceType.ZOL, "졸"
+    );
+
+    private static final Map<Team, String> TEAM_COLORS = Map.of(
+            Team.CHO, "\u001B[34m",
+            Team.HAN, "\u001B[31m"
+    );
+
+    private static final Map<Team, String> TEAM_NAMES = Map.of(
+            Team.CHO, "초",
+            Team.HAN, "한"
+    );
+
+    private void printGrid(Map<Position, Piece> board, List<Position> availablePositions) {
+        printColumnAxis();
+        for (int column = 1; column <= 10; column++) {
+            printRow(board, availablePositions, column);
+        }
+    }
+
+    private void printColumnAxis() {
+        System.out.print("   ");
+        for (String columnValue : COLUMN_VALUES) {
+            System.out.print(columnValue + " ");
+        }
+        System.out.println();
+    }
+
+    private void printRow(Map<Position, Piece> board, List<Position> availablePositions, int column) {
+        System.out.printf("%2d ", column);
+        for (int row = 1; row <= 9; row++) {
+            Position currentPos = new Position(row, column);
+            System.out.print(generateCellString(board, availablePositions, currentPos));
+        }
+        System.out.println();
+    }
+
+    private String generateCellString(Map<Position, Piece> board, List<Position> availablePositions,
+                                      Position position) {
+        boolean isAvailable = availablePositions.contains(position);
+        boolean hasPiece = board.containsKey(position);
+
+        if (isAvailable && hasPiece) {
+            return formatAvailablePiece(board.get(position));
+        }
+        if (isAvailable) {
+            return AVAILABLE_COLOR + AVAILABLE_MARK + RESET;
+        }
+        if (hasPiece) {
+            return formatPiece(board.get(position));
+        }
+        return EMPTY_MARK;
+    }
+
+    private String formatAvailablePiece(Piece piece) {
+        String name = PIECE_NAMES.get(piece.getPieceType());
+        return AVAILABLE_COLOR + name + RESET + " ";
+    }
+
+    private String formatPiece(Piece piece) {
+        String color = TEAM_COLORS.get(piece.getTeam());
+        String name = PIECE_NAMES.get(piece.getPieceType());
+        return color + name + RESET + " ";
     }
 }
