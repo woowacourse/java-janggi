@@ -34,7 +34,7 @@ public class Runner {
     private void play() {
         while (!gameManager.isFinished()) {
             Player currentPlayer = gameManager.currentPlayer();
-            PlayerDTO currentPlayerDTO = currentPlayer.map(PlayerDTO::new);
+            PlayerDTO currentPlayerDTO = PlayerDTO.from(currentPlayer);
             double currentPlayerScore = gameManager.currentPlayerScore();
             printPlayerTurnNotice(currentPlayerDTO, currentPlayerScore);
             playerTurn();

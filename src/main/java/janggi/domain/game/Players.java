@@ -36,4 +36,10 @@ public class Players {
         }
         return currentPlayer;
     }
+
+    public Map<Side, String> getPlayerNames() {
+        Player choPlayer = players.get(Side.CHO);
+        Player hanPlayer = players.get(Side.HAN);
+        return Map.of(Side.CHO, choPlayer.name(), Side.HAN, hanPlayer.name());
+    }
 }
