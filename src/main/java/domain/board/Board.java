@@ -1,9 +1,11 @@
 package domain.board;
 
 import domain.Destinations;
+import domain.Palace;
 import domain.Position;
 import domain.Side;
 import domain.piece.Piece;
+import domain.strategy.Direction;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,5 +72,10 @@ public class Board implements BoardReader{
             throw new IllegalArgumentException("기물이 존재하지 않는 위치입니다.");
         }
         return piece;
+    }
+
+    @Override
+    public List<Direction> getPalaceDiagonals(Position position) {
+        return Palace.getDiagonals(position);
     }
 }

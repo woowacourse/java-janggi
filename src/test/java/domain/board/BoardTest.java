@@ -1,6 +1,8 @@
 package domain.board;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.Destinations;
@@ -12,7 +14,9 @@ import domain.piece.General;
 import domain.piece.Horse;
 import domain.piece.Piece;
 import domain.piece.PieceFactory;
+import domain.strategy.Direction;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -123,5 +127,22 @@ class BoardTest {
 
         // Then: 아군이 있는 (0, 1)은 목적지 목록에 포함되지 않음
         assertThat(destinations.getPositions()).doesNotContain(allyPos);
+    }
+
+    @DisplayName("기물의 배치가 아닌, 장기판 특정 좌표의 기하학적 공간 정보(대각선 유무)를 제공한다.")
+    @Test
+    void getPalaceDiagonalsTest() {
+        // given
+        Board board = new Board(Map.of());
+        Position palaceCenter = Position.of(4, 1);
+        Position outSide = Position.of(0, 0);
+
+        // when & then
+        assertThat(board.getPalaceDiagonals(palaceCenter)).containsExactlyInAnyOrderElementsOf(List.of(
+                Direction.NORTH_EAST, Direction.NORTH_WEST,
+                Direction.SOUTH_EAST, Direction.SOUTH_WEST
+        ));
+
+        assertThat(board.getPalaceDiagonals(outSide)).containsExactlyInAnyOrderElementsOf(List.of());
     }
 }
