@@ -5,10 +5,10 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.stream.Collectors;
+import org.h2.jdbcx.JdbcConnectionPool;
 
 public class H2DataSource implements JdbcDataSource {
     private static final String SQL_DIR = "game.sql";
@@ -16,14 +16,16 @@ public class H2DataSource implements JdbcDataSource {
     private static final String USER = "sa";
     private static final String PASSWORD = "";
 
+    private final JdbcConnectionPool connectionPool;
 
     public H2DataSource() {
+        this.connectionPool = JdbcConnectionPool.create(URL, USER, PASSWORD);
         init();
     }
 
     @Override
     public Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USER, PASSWORD);
+        return connectionPool.getConnection();
     }
 
     private void init() {
