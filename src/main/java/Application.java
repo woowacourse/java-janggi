@@ -1,13 +1,15 @@
 import controller.JanggiController;
-import view.InputView;
-import view.OutputView;
+import repository.BoardRepository;
+import repository.GameRepository;
+import repository.JdbcBoardRepository;
+import repository.JdbcGameRepository;
 
 public class Application {
 
     public static void main(String[] args) {
-        InputView inputView = new InputView();
-        OutputView outputView = new OutputView();
-        JanggiController controller = new JanggiController(inputView, outputView);
+        BoardRepository jdbcBoardRepository = new JdbcBoardRepository();
+        GameRepository jdbcGameRepository = new JdbcGameRepository();
+        JanggiController controller = new JanggiController(jdbcBoardRepository, jdbcGameRepository);
         controller.start();
     }
 }
