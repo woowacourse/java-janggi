@@ -82,6 +82,64 @@ class SoldierPieceTest {
                 soldierPiece2.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
     }
 
+    @ParameterizedTest
+    @DisplayName("진영이 한인 병은 초 궁성 안에서 대각선 전진이 가능하다.")
+    @CsvSource({
+            "4,8,5,9",
+            "6,8,5,9",
+            "5,9,4,10",
+            "5,9,6,10"
+    })
+    void testMoveHanSoldierDiagonallyInChoPalace(int preX, int preY, int nextX, int nextY) {
+        SoldierPiece soldierPiece = new SoldierPiece(Team.HAN);
+        assertThat(
+                soldierPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
+    }
+
+    @ParameterizedTest
+    @DisplayName("진영이 초인 병은 한 궁성 안에서 대각선 전진이 가능하다.")
+    @CsvSource({
+            "4,3,5,2",
+            "6,3,5,2",
+            "5,2,4,1",
+            "5,2,6,1"
+    })
+    void testMoveChoSoldierDiagonallyInHanPalace(int preX, int preY, int nextX, int nextY) {
+        SoldierPiece soldierPiece = new SoldierPiece(Team.CHO);
+        assertThat(
+                soldierPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
+    }
+
+    @ParameterizedTest
+    @DisplayName("진영이 한인 병은 일반 위치나 자기 궁성 안에서는 대각선 이동할 수 없다.")
+    @CsvSource({
+            "3,3,4,4",
+            "4,1,5,2",
+            "6,1,5,2",
+            "5,2,4,3",
+            "5,2,6,3"
+    })
+    void testNotMoveHanSoldierDiagonallyOutsideChoPalace(int preX, int preY, int nextX, int nextY) {
+        SoldierPiece soldierPiece = new SoldierPiece(Team.HAN);
+        assertThat(
+                soldierPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
+    }
+
+    @ParameterizedTest
+    @DisplayName("진영이 초인 병은 일반 위치나 자기 궁성 안에서는 대각선 이동할 수 없다.")
+    @CsvSource({
+            "3,3,4,2",
+            "4,8,5,9",
+            "6,8,5,9",
+            "5,9,4,10",
+            "5,9,6,10"
+    })
+    void testNotMoveChoSoldierDiagonallyOutsideHanPalace(int preX, int preY, int nextX, int nextY) {
+        SoldierPiece soldierPiece = new SoldierPiece(Team.CHO);
+        assertThat(
+                soldierPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
+    }
+
 
     @ParameterizedTest
     @DisplayName("진영에 관계없이 두 칸 이상 이동이 불가능하다.")
