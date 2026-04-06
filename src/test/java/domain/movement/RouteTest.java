@@ -183,6 +183,26 @@ class RouteTest {
     }
 
     @Test
+    void 경로에_위치한_기물들을_반환한다() {
+        // given
+        Intersection firstNode = new Intersection(2, 2);
+        Intersection secondNode = new Intersection(3, 3);
+        Intersection destination = new Intersection(4, 4);
+
+        AlivePieces alivePieces = new AlivePieces(Map.of(
+                firstNode, SAME_SIDE_PIECE,
+                secondNode, OPPOSITE_SIDE_PIECE
+        ));
+
+        // when
+        Route route = new Route(List.of(firstNode, secondNode, destination));
+
+        // then
+        List<Piece> pieces = route.getPiecesOnPath(alivePieces);
+        assertThat(pieces).containsExactly(SAME_SIDE_PIECE, OPPOSITE_SIDE_PIECE);
+    }
+
+    @Test
     void 목적지를_반환한다() {
         Intersection firstNode = new Intersection(4, 4);
         Intersection secondNode = new Intersection(4, 5);

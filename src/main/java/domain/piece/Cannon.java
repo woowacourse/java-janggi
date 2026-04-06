@@ -13,6 +13,7 @@ import java.util.List;
 public final class Cannon extends StaticPositionedPiece {
 
     private static final int FAR_FROM_BASE_ROW = 2;
+    private static final int REQUIRED_SCREEN_COUNT = 1;
     private static final List<Integer> INITIAL_FILES = List.of(2, 8);
     private static final MoveAmount MAX_MOVE_DISTANCE = MoveAmount.maximum();
 
@@ -80,14 +81,14 @@ public final class Cannon extends StaticPositionedPiece {
     }
 
     private boolean isAvailableCannonRoute(Route route, AlivePieces alivePieces) {
-        List<Intersection> path = route.getPath();
+        List<Piece> pieces = route.getPiecesOnPath(alivePieces);
 
-        List<Intersection> notEmptyNodes = path.stream()
-                .filter(alivePieces::isNotEmpty)
-                .toList();
+        if (pieces.size() != REQUIRED_SCREEN_COUNT) {
+            return false;
+        }
 
-        return notEmptyNodes.size() == 1
-                && isScreen(notEmptyNodes.getFirst(), alivePieces);
+        return pieces.stream()
+                .allMatch(Piece::isScreenable);
     }
 
     private boolean isDestinationAvailable(Route route, AlivePieces alivePieces) {
@@ -100,19 +101,5 @@ public final class Cannon extends StaticPositionedPiece {
 
         return route.isDestinationAvailable(alivePieces, side)
                 && destinationPiece.isScreenable();
-    }
-
-    private boolean isScreen(
-            Intersection intersection,
-            AlivePieces alivePieces
-    ) {
-        if (alivePieces.isEmpty(intersection)) {
-            return false;
-        }
-
-        Piece piece = alivePieces.placedAt(intersection);
-
-        return intersection.isInBoard()
-                && piece.isScreenable();
     }
 }

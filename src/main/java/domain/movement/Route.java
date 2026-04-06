@@ -3,6 +3,7 @@ package domain.movement;
 import domain.board.Intersection;
 import domain.game.Side;
 import domain.piece.AlivePieces;
+import domain.piece.Piece;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,6 +25,13 @@ public class Route {
     public boolean isDestinationAvailable(AlivePieces alivePieces, Side ownSide) {
         return getDestination().isInBoard()
                 && alivePieces.placedNotSameSide(getDestination(), ownSide);
+    }
+
+    public List<Piece> getPiecesOnPath(AlivePieces alivePieces) {
+        return getPath().stream()
+                .filter(alivePieces::isNotEmpty)
+                .map(alivePieces::placedAt)
+                .toList();
     }
 
     public Intersection getDestination() {
