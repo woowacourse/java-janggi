@@ -14,10 +14,20 @@ import static org.assertj.core.api.Assertions.*;
 class GuardTest {
 
     @ParameterizedTest
+    @CsvSource({"HAN", "CHO"})
+    void 사의_팀을_확인한다(Team team) {
+        // given
+        Guard guard = new Guard(team, new Palace());
+
+        // when & then
+        assertThat(guard.getTeam()).isEqualTo(team);
+    }
+
+    @ParameterizedTest
     @CsvSource({
             "HAN, true",
             "CHO, true"})
-    void 사의_팀을_확인한다(Team team, boolean expected) {
+    void 입력받은_팀과_같은_팀인지_확인한다(Team team, boolean expected) {
         // given
         Guard guard = new Guard(team, new Palace());
 

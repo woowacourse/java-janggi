@@ -13,6 +13,8 @@ public interface Piece {
 
     boolean isSameType(PieceType type);
 
+    Team getTeam();
+
     PieceType getType();
 
     Path getPath(Movement movement);

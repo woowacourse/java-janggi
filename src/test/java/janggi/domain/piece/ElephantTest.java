@@ -14,10 +14,20 @@ import static org.assertj.core.api.Assertions.*;
 class ElephantTest {
 
     @ParameterizedTest
+    @CsvSource({"HAN", "CHO"})
+    void 상의_팀을_확인한다(Team team) {
+        // given
+        Elephant elephant = new Elephant(team);
+
+        // when & then
+        assertThat(elephant.getTeam()).isEqualTo(team);
+    }
+
+    @ParameterizedTest
     @CsvSource({
             "HAN, true",
             "CHO, true"})
-    void 상의_팀을_확인한다(Team team, boolean expected) {
+    void 입력받은_팀과_같은_팀인지_확인한다(Team team, boolean expected) {
         // given
         Elephant elephant = new Elephant(team);
 

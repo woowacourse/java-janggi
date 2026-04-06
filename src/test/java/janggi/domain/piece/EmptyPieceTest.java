@@ -6,7 +6,7 @@ import janggi.domain.position.Position;
 import janggi.domain.team.Team;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -34,15 +34,30 @@ class EmptyPieceTest {
         assertThat(emptyPiece.isEmptyPiece()).isTrue();
     }
 
-
-    @ParameterizedTest
-    @EnumSource(value = Team.class)
-    void 빈_기물은_어떤_팀과도_같은_팀이_아니다(Team expected) {
+    @Test
+    void 빈_기물의_팀은_NONE이다() {
         // given
         EmptyPiece emptyPiece = new EmptyPiece();
 
         // when & then
-        assertThat(emptyPiece.isSameTeam(expected)).isFalse();
+        assertThat(emptyPiece.getTeam()).isEqualTo(Team.NONE);
+    }
+
+
+    @ParameterizedTest
+    @CsvSource({
+            "HAN, false",
+            "CHO, false",
+            "NONE, true",})
+    void 빈_기물_같은_팀_확인_테스트(Team team, boolean expected) {
+        // given
+        EmptyPiece emptyPiece = new EmptyPiece();
+
+        // when
+        boolean result = emptyPiece.isSameTeam(team);
+
+        // then
+        assertThat(result).isEqualTo(expected);
     }
 
     @Test

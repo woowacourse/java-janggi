@@ -14,10 +14,20 @@ import static org.assertj.core.api.Assertions.*;
 class ChariotTest {
 
     @ParameterizedTest
+    @CsvSource({"HAN", "CHO"})
+    void 차의_팀을_확인한다(Team team) {
+        // given
+        Chariot chariot = new Chariot(team, new Palace());
+
+        // when & then
+        assertThat(chariot.getTeam()).isEqualTo(team);
+    }
+
+    @ParameterizedTest
     @CsvSource({
             "HAN, true",
             "CHO, true"})
-    void 차의_팀을_확인한다(Team team, boolean expected) {
+    void 입력받은_팀과_같은_팀인지_확인한다(Team team, boolean expected) {
         // given
         Chariot chariot = new Chariot(team, new Palace());
 

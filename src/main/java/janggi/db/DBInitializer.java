@@ -23,7 +23,7 @@ public class DBInitializer {
                 piece_row INT NOT NULL,
                 piece_col INT NOT NULL,
                 PRIMARY KEY (game_id, piece_row, piece_col),
-                FOREIGN KEY (game_id) REFERENCES game(id)
+                FOREIGN KEY (game_id) REFERENCES game(id) ON DELETE CASCADE
                 );
                 """;
 

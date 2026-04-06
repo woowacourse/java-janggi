@@ -20,7 +20,6 @@ public class JanggiController {
     }
 
     public void run() {
-        this.game = new JanggiGame();
         initializeGame();
         outputView.printBoard(game.getBoard(), game.getScore());
         startGame();
@@ -40,7 +39,7 @@ public class JanggiController {
     }
 
     private void startGame() {
-        Team currentTeam = Team.CHO;
+        Team currentTeam = Team.FIRST_TURN;
         while (!game.isFinished(currentTeam)) {
             try {
                 List<String> positions = inputView.readPosition(currentTeam);

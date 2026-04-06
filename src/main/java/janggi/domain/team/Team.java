@@ -2,7 +2,10 @@ package janggi.domain.team;
 
 public enum Team {
     HAN(-1),
-    CHO(1);
+    CHO(1),
+    NONE(0);
+
+    public final static Team FIRST_TURN = CHO;
 
     private final int backwardDirection;
 
@@ -23,6 +26,6 @@ public enum Team {
             return Team.HAN;
         }
 
-        throw new IllegalArgumentException("[ERROR] 한나라, 초나라만 선택 가능합니다.");
+        throw new IllegalArgumentException("[ERROR] 한나라, 초나라만 변환 가능합니다.");
     }
 }

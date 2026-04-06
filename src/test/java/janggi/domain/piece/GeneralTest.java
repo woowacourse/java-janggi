@@ -14,10 +14,20 @@ import static org.assertj.core.api.Assertions.*;
 class GeneralTest {
 
     @ParameterizedTest
+    @CsvSource({"HAN", "CHO"})
+    void 장의_팀을_확인한다(Team team) {
+        // given
+        General general = new General(team, new Palace());
+
+        // when & then
+        assertThat(general.getTeam()).isEqualTo(team);
+    }
+
+    @ParameterizedTest
     @CsvSource({
             "HAN, true",
             "CHO, true"})
-    void 장의_팀을_확인한다(Team team, boolean expected) {
+    void 입력받은_팀과_같은_팀인지_확인한다(Team team, boolean expected) {
         // given
         General general = new General(team, new Palace());
 

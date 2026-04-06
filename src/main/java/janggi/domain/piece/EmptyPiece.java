@@ -14,12 +14,17 @@ public class EmptyPiece implements Piece {
 
     @Override
     public boolean isSameTeam(Team team) {
-        return false;
+        return team == Team.NONE;
     }
 
     @Override
     public boolean isSameType(PieceType type) {
         return getType() == type;
+    }
+
+    @Override
+    public Team getTeam() {
+        return Team.NONE;
     }
 
     @Override
