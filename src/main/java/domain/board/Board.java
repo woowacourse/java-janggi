@@ -80,14 +80,14 @@ public class Board implements BoardChecker {
 
     @Override
     public Optional<List<Position>> findMovePath(Position from, Position to) {
-        if (isSamePosition(from, to)) {
-            return Optional.of(from.findStraightPath(to));
+        if (isOrthogonallyAligned(from, to)) {
+            return Optional.of(from.findOrthogonalPath(to));
         }
 
         return palace.findDiagonalPath(from, to);
     }
 
-    private boolean isSamePosition(Position from, Position to) {
+    private boolean isOrthogonallyAligned(Position from, Position to) {
         return from.x() == to.x() || from.y() == to.y();
     }
 
