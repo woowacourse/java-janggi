@@ -1,7 +1,17 @@
-package janggi.domain.piece;
+package janggi.factory;
 
 import janggi.domain.PalaceTopology;
 import janggi.domain.Side;
+import janggi.domain.piece.Cha;
+import janggi.domain.piece.Gung;
+import janggi.domain.piece.Ma;
+import janggi.domain.piece.None;
+import janggi.domain.piece.Pawn;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
+import janggi.domain.piece.Po;
+import janggi.domain.piece.Sa;
+import janggi.domain.piece.Sang;
 
 import java.util.Map;
 import java.util.function.BiFunction;

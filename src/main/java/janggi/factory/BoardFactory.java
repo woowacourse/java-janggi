@@ -1,28 +1,18 @@
-package janggi.initializer;
+package janggi.factory;
 
 import janggi.domain.Arrangement;
 import janggi.domain.PalaceTopology;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.board.Board;
-import janggi.domain.piece.Cha;
-import janggi.domain.piece.Gung;
-import janggi.domain.piece.Ma;
-import janggi.domain.piece.None;
-import janggi.domain.piece.Pawn;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceFactory;
 import janggi.domain.piece.PieceType;
-import janggi.domain.piece.Po;
-import janggi.domain.piece.Sa;
-import janggi.domain.piece.Sang;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.BiFunction;
 
-public class BoardInitializer {
+public class BoardFactory {
     private static final String UTILITY_CLASS_INSTANTIATION_MESSAGE = "BoardInitializer는 유틸리티 클래스이므로 인스턴스화할 수 없습니다.";
 
     private static final Map<Arrangement, List<PieceType>> arrangeMap = Map.of(
@@ -38,17 +28,6 @@ public class BoardInitializer {
 
     private static final List<Position> hanMaSangPosition = List.of(
             new Position(1, 2), new Position(1, 3), new Position(1, 7), new Position(1, 8)
-    );
-
-    private static final Map<PieceType, BiFunction<Side, PalaceTopology, Piece>> pieceMap = Map.of(
-            PieceType.CHA, Cha::new,
-            PieceType.GUNG, Gung::new,
-            PieceType.MA, Ma::new,
-            PieceType.NONE, (side, palaceTopology) -> new None(),
-            PieceType.PAWN, Pawn::new,
-            PieceType.PO, Po::new,
-            PieceType.SA, Sa::new,
-            PieceType.SANG, Sang::new
     );
 
     private static final Map<PieceType, List<Position>> initHanPosition = Map.of(
@@ -67,14 +46,14 @@ public class BoardInitializer {
             PieceType.PAWN, List.of(new Position(7, 1), new Position(7, 3), new Position(7, 5), new Position(7, 7), new Position(7, 9))
     );
 
-    private BoardInitializer() {
+    private BoardFactory() {
         throw new AssertionError(UTILITY_CLASS_INSTANTIATION_MESSAGE);
     }
 
-    public static Map<Position, Piece> createBoard(Arrangement choArrangement, Arrangement hanArrangement) {
+    public static Map<Position, Piece> createInitialBoard(Arrangement choArrangement, Arrangement hanArrangement) {
         PalaceTopology palaceTopology = PalaceTopology.from();
         PieceFactory pieceFactory = new PieceFactory(palaceTopology);
-        Map<Position, Piece> board = initBoard(pieceFactory);
+        Map<Position, Piece> board = createEmptyBoard(pieceFactory);
 
         initHanPosition.forEach((key, value) -> value.forEach(position -> board.put(position, pieceFactory.create(key, Side.HAN))));
         initChoPosition.forEach((key, value) -> value.forEach(position -> board.put(position, pieceFactory.create(key, Side.CHO))));
@@ -89,14 +68,14 @@ public class BoardInitializer {
         return board;
     }
 
-    public static Map<Side, Double> createScoresBySide(){
+    public static Map<Side, Double> createInitialScoresBySide(){
         Map<Side, Double> scoresBySide = new HashMap<>();
         scoresBySide.put(Side.HAN, 73.5);
         scoresBySide.put(Side.CHO, 72.0);
         return scoresBySide;
     }
 
-    private static Map<Position, Piece> initBoard(PieceFactory pieceFactory) {
+    public static Map<Position, Piece> createEmptyBoard(PieceFactory pieceFactory) {
         Map<Position, Piece> pieces = new HashMap<>();
         for (int i = Board.BOARD_START_ROWS; i <= Board.BOARD_END_ROWS; i++) {
             for (int j = Board.BOARD_START_COLS; j <= Board.BOARD_END_COLS; j++) {

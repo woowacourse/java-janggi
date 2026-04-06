@@ -16,7 +16,7 @@ import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Po;
 import janggi.domain.piece.Sa;
 import janggi.domain.piece.Sang;
-import janggi.initializer.BoardInitializer;
+import janggi.factory.BoardFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -33,8 +33,8 @@ class BoardTest {
     @Test
     void 자기_진영의_기물을_움직이면_정상_작동한다() {
         Board board = new Board(
-                BoardInitializer.createBoard(Arrangement.MA_SANG_MA_SANG, Arrangement.MA_SANG_MA_SANG),
-                BoardInitializer.createScoresBySide()
+                BoardFactory.createInitialBoard(Arrangement.MA_SANG_MA_SANG, Arrangement.MA_SANG_MA_SANG),
+                BoardFactory.createInitialScoresBySide()
         );
 
         MoveResult moveResult = board.move(new Position(1, 1), new Position(2, 1), Side.HAN);
@@ -45,8 +45,8 @@ class BoardTest {
     @Test
     void 다른_진영의_기물을_움직이면_예외_처리한다() {
         Board board = new Board(
-                BoardInitializer.createBoard(Arrangement.MA_SANG_MA_SANG, Arrangement.MA_SANG_MA_SANG),
-                BoardInitializer.createScoresBySide());
+                BoardFactory.createInitialBoard(Arrangement.MA_SANG_MA_SANG, Arrangement.MA_SANG_MA_SANG),
+                BoardFactory.createInitialScoresBySide());
 
         assertThatThrownBy(() -> board.move(new Position(1, 1), new Position(2, 1), Side.CHO))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -134,7 +134,7 @@ class BoardTest {
             }
         }
         boardMap.putAll(pieces);
-        return new Board(boardMap, BoardInitializer.createScoresBySide());
+        return new Board(boardMap, BoardFactory.createInitialScoresBySide());
     }
 
     private Piece createPieceByType(PieceType pieceType, Side side) {
