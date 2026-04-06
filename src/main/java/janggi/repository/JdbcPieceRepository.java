@@ -2,34 +2,32 @@ package janggi.repository;
 
 import janggi.config.DatabaseManager;
 import janggi.domain.dynasty.Dynasty;
-import janggi.domain.game.Game;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
+import janggi.entity.PieceEntity;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class JdbcPieceRepository implements PieceRepository {
 
     @Override
-    public void saveAll(Long gameId, Game game) {
+    public void saveAll(Long gameId, List<PieceEntity> pieces) {
         String sql = "INSERT INTO piece (janggi_game_id, row_pos, col_pos, team, type) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection connection = DatabaseManager.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                for (Map.Entry<Position, Piece> entry : game.pieces().entrySet()) {
-                    Position position = entry.getKey();
-                    Piece piece = entry.getValue();
-
+                for (PieceEntity piece : pieces) {
                     statement.setLong(1, gameId);
-                    statement.setInt(2, position.row().row());
-                    statement.setInt(3, position.column().column());
-                    statement.setString(4, piece.dynasty().name());
-                    statement.setString(5, piece.pieceType().name());
+                    statement.setInt(2, piece.row());
+                    statement.setInt(3, piece.column());
+                    statement.setString(4, piece.dynasty());
+                    statement.setString(5, piece.type());
                     statement.addBatch();
                 }
                 statement.executeBatch();
