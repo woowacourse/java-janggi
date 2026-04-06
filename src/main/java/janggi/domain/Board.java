@@ -5,7 +5,6 @@ import janggi.domain.side.Chu;
 import janggi.domain.side.Han;
 import janggi.domain.side.Team;
 import janggi.domain.side.TeamType;
-import janggi.dto.BoardSpots;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,10 +25,10 @@ public class Board {
         return new Board(Chu.createInitialChu(), Han.createInitialHan());
     }
 
-    public BoardSpots makeSnapShot() {
+    public Map<Position, Piece> makeSnapShot() {
         Map<Position, Piece> allPieces = new HashMap<>(chu.getPieces());
         allPieces.putAll(han.getPieces());
-        return BoardSpots.from(allPieces);
+        return allPieces;
     }
 
     public boolean isPieceExists(Position position, TeamType currentTeamType) {

@@ -2,6 +2,7 @@ package janggi;
 
 import janggi.domain.JanggiGame;
 import janggi.domain.Position;
+import janggi.dto.BoardSpots;
 import janggi.util.DelimiterParser;
 import janggi.util.ActionExecutor;
 import janggi.view.InputView;
@@ -20,7 +21,7 @@ public class JanggiRunner {
         OutputView.printStartMessage();
 
         while (true) {
-            OutputView.printBoard(janggiGame.makeCurrentTurnBoardSnapShot());
+            OutputView.printBoard(BoardSpots.from(janggiGame.makeCurrentTurnBoardSnapShot()));
             Position startPosition = ActionExecutor.retryUntilSuccess(this::readValidStartPosition);
             Position endPosition = ActionExecutor.retryUntilSuccess(() -> readValidEndPosition(startPosition));
             janggiGame.doGame(startPosition, endPosition);

@@ -1,7 +1,9 @@
 package janggi.domain;
 
+import janggi.domain.piece.Piece;
 import janggi.domain.side.TeamType;
-import janggi.dto.BoardSpots;
+
+import java.util.Map;
 
 public class Turn {
 
@@ -17,7 +19,7 @@ public class Turn {
         return new Turn(TeamType.HAN, Board.createInitialBoard());
     }
 
-    public BoardSpots makeBoardSnapShot() {
+    public Map<Position, Piece> makeBoardSnapShot() {
         return board.makeSnapShot();
     }
 

@@ -1,9 +1,10 @@
 package janggi.domain;
 
-import janggi.dto.BoardSpots;
+import janggi.domain.piece.Piece;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class JanggiGame {
 
@@ -17,7 +18,7 @@ public class JanggiGame {
         return new JanggiGame(List.of(Turn.createInitialTurn()));
     }
 
-    public BoardSpots makeCurrentTurnBoardSnapShot() {
+    public Map<Position, Piece> makeCurrentTurnBoardSnapShot() {
         Turn lastTurn = getLastTurn();
         return lastTurn.makeBoardSnapShot();
     }
