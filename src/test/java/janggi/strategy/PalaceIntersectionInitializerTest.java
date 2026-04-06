@@ -21,7 +21,7 @@ class PalaceIntersectionInitializerTest {
 
         // when
         intersectionInitializer.initialize(intersections);
-        List<Intersection> palaceIntersections = List.of(intersections[1][4], intersections[2][5], intersections[2][6]);
+        List<Intersection> palaceIntersections = List.of(intersections[0][3], intersections[1][4], intersections[1][5]);
 
         // then
         Assertions.assertThat(palaceIntersections)
@@ -48,7 +48,7 @@ class PalaceIntersectionInitializerTest {
 
         // when
         intersectionInitializer.initialize(intersections);
-        Intersection center = intersections[2][5];
+        Intersection center = intersections[1][4];
 
         // then
         Assertions.assertThat(center.getVectors()).isEqualTo(expectedVectors);
@@ -70,7 +70,7 @@ class PalaceIntersectionInitializerTest {
 
         // when
         intersectionInitializer.initialize(intersections);
-        Intersection center = intersections[8][4];
+        Intersection center = intersections[7][3];
 
         // then
         Assertions.assertThat(center.getVectors()).isEqualTo(expectedVectors);
@@ -92,7 +92,7 @@ class PalaceIntersectionInitializerTest {
 
         // when
         intersectionInitializer.initialize(intersections);
-        Intersection center = intersections[3][6];
+        Intersection center = intersections[2][5];
 
         // then
         Assertions.assertThat(center.getVectors()).isEqualTo(expectedVectors);
@@ -113,7 +113,7 @@ class PalaceIntersectionInitializerTest {
 
         // when
         intersectionInitializer.initialize(intersections);
-        Intersection center = intersections[2][4];
+        Intersection center = intersections[1][3];
 
         // then
         Assertions.assertThat(center.getVectors()).isEqualTo(expectedVectors);
