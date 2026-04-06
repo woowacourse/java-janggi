@@ -10,12 +10,9 @@ import java.util.Map;
 public abstract class InitialFormationStrategy {
     protected static final int HAN_BACK_RANK_ROW = 0;
     protected static final int CHO_BACK_RANK_ROW = 9;
-    private static final int HAN_KING_ROW = 1;
-    private static final int HAN_CANNON_ROW = 2;
-    private static final int HAN_PAWN_ROW = 3;
-    private static final int CHO_KING_ROW = 8;
-    private static final int CHO_CANNON_ROW = 7;
-    private static final int CHO_PAWN_ROW = 6;
+    private static final int KING_DISTANCE_FROM_BACK_RANK = 1;
+    private static final int CANNON_DISTANCE_FROM_BACK_RANK = 2;
+    private static final int PAWN_DISTANCE_FROM_BACK_RANK = 3;
     private static final int LEFT_EDGE_COLUMN = 0;
     private static final int LEFT_CANNON_COLUMN = 1;
     private static final int PALACE_LEFT_GUARD_COLUMN = 3;
@@ -45,11 +42,21 @@ public abstract class InitialFormationStrategy {
         return HAN_BACK_RANK_ROW;
     }
 
-    private Map<Position, Piece> placeFixedPieces(TeamColor teamColor) {
-        if (teamColor == TeamColor.HAN) {
-            return createFixedMap(teamColor, HAN_BACK_RANK_ROW, HAN_KING_ROW, HAN_CANNON_ROW, HAN_PAWN_ROW);
+    protected final int findRowFromBackRank(TeamColor teamColor, int distanceFromBackRank) {
+        final int backRankRow = findBackRankRow(teamColor);
+        if (teamColor == TeamColor.CHO) {
+            return backRankRow - distanceFromBackRank;
         }
-        return createFixedMap(teamColor, CHO_BACK_RANK_ROW, CHO_KING_ROW, CHO_CANNON_ROW, CHO_PAWN_ROW);
+        return backRankRow + distanceFromBackRank;
+    }
+
+    private Map<Position, Piece> placeFixedPieces(TeamColor teamColor) {
+        final int backRankRow = findBackRankRow(teamColor);
+        final int kingRow = findRowFromBackRank(teamColor, KING_DISTANCE_FROM_BACK_RANK);
+        final int cannonRow = findRowFromBackRank(teamColor, CANNON_DISTANCE_FROM_BACK_RANK);
+        final int pawnRow = findRowFromBackRank(teamColor, PAWN_DISTANCE_FROM_BACK_RANK);
+
+        return createFixedMap(teamColor, backRankRow, kingRow, cannonRow, pawnRow);
     }
 
     private Map<Position, Piece> createFixedMap(TeamColor teamColor, int backRankRow, int kingRow, int cannonRow, int pawnRow) {
@@ -73,5 +80,4 @@ public abstract class InitialFormationStrategy {
         return map;
     }
 }
-
 

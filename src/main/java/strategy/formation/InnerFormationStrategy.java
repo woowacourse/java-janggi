@@ -15,10 +15,7 @@ public class InnerFormationStrategy extends InitialFormationStrategy {
 
     @Override
     protected Map<Position, Piece> createFormationPieces(TeamColor teamColor) {
-        if (teamColor.equals(TeamColor.CHO)) {
-            return createFormation(teamColor, CHO_BACK_RANK_ROW);
-        }
-        return createFormation(teamColor, HAN_BACK_RANK_ROW);
+        return createFormation(teamColor, findBackRankRow(teamColor));
     }
 
     private Map<Position, Piece> createFormation(TeamColor teamColor, int row) {
@@ -30,5 +27,4 @@ public class InnerFormationStrategy extends InitialFormationStrategy {
         return formation;
     }
 }
-
 
