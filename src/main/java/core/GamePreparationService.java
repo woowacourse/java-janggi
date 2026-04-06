@@ -17,7 +17,7 @@ public class GamePreparationService {
     }
 
     public GameSession prepare() {
-        List<GameSummary> savedGames = repository.findTop10GameRoomsOrderByCreatedAtAsc();
+        List<GameSummary> savedGames = repository.findTop10GameRoomsOrderByCreatedAtDesc();
 
         if (savedGames.isEmpty()) {
             return createNewGameSession();

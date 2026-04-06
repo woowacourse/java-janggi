@@ -40,9 +40,9 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
     }
 
     @Override
-    public List<GameSummary> findTop10GameRoomsOrderByCreatedAtAsc() {
-        return gameDao.findTop10OrderByCreatedAtAsc().stream()
-            .map(gameEntity -> parseGameSummary(gameEntity))
+    public List<GameSummary> findTop10GameRoomsOrderByCreatedAtDesc() {
+        return gameDao.findTop10OrderByCreatedAtDesc().stream()
+            .map(this::parseGameSummary)
             .toList();
     }
 

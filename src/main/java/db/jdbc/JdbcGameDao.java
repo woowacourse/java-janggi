@@ -75,11 +75,11 @@ public class JdbcGameDao implements GameDao {
     }
 
     @Override
-    public List<GameEntity> findTop10OrderByCreatedAtAsc() {
+    public List<GameEntity> findTop10OrderByCreatedAtDesc() {
         final String sql = """
             SELECT id, turn, status
             FROM game
-            ORDER BY updated_at ASC
+            ORDER BY updated_at DESC
             LIMIT 10
             """;
 

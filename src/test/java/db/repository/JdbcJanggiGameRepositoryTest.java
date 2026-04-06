@@ -113,7 +113,7 @@ class JdbcJanggiGameRepositoryTest {
         Long firstGameId = repository.save(firstGame);
         repository.save(secondGame);
         // when
-        List<GameSummary> foundGames = repository.findTop10GameRoomsOrderByCreatedAtAsc();
+        List<GameSummary> foundGames = repository.findTop10GameRoomsOrderByCreatedAtDesc();
         // then
         assertThat(foundGames.getFirst().id()).isEqualTo(firstGameId);
     }

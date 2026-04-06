@@ -14,7 +14,7 @@ public interface JanggiGameRepository {
 
     Optional<JanggiGame> findById(Long gameId);
 
-    List<GameSummary> findTop10GameRoomsOrderByCreatedAtAsc();
+    List<GameSummary> findTop10GameRoomsOrderByCreatedAtDesc();
 
     void updateGameState(Long gameId, Turn turn, GameStatus status);
 

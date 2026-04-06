@@ -12,7 +12,7 @@ public interface GameDao {
 
     Optional<GameEntity> findById(Long id);
 
-    List<GameEntity> findTop10OrderByCreatedAtAsc();
+    List<GameEntity> findTop10OrderByCreatedAtDesc();
 
     void updateState(Long gameId, Turn turn, GameStatus gameStatus);
 }
