@@ -14,6 +14,10 @@ public class GameManager {
         this.board = new Board(initializeStrategies);
     }
 
+    public GameManager(List<CurrentBoardStatus> statuses) {
+        this.board = new Board(statuses);
+    }
+
     public List<CurrentBoardStatus> getCurrentBoardStatus() {
         return board.getCurrentStatus();
     }

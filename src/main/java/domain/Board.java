@@ -28,9 +28,24 @@ public class Board {
 
     protected final Map<Position, Piece> pieces = new HashMap<>();
 
+    /**
+     * 초기화 전용 생성자
+     */
     public Board(Map<Team, InitializeStrategy> initializeStrategies) {
         initializeStrategies.forEach(((team, initializeStrategy) ->
                 initTeamBoard(initializeStrategy, team)));
+    }
+
+    /**
+     * 재구성 전용 생성자
+     */
+    public Board(List<CurrentBoardStatus> statuses) {
+        for (CurrentBoardStatus status : statuses) {
+            Position position = Position.from(status.row(), status.column());
+            PieceType pieceType = PieceType.getPieceType(status.pieceType());
+            Team team = Team.getTeam(status.team());
+            pieces.put(position, pieceType.createPiece(team));
+        }
     }
 
     public void move(Position from, Position to, PieceType pieceType, Team team) {

@@ -1,0 +1,16 @@
+CREATE DATABASE IF NOT EXISTS janggi;
+
+USE janggi;
+
+CREATE TABLE IF NOT EXISTS board (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    board_row INT NOT NULL,
+    board_column INT NOT NULL,
+    piece_type VARCHAR(10) NOT NULL,
+    team VARCHAR(10) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS turn (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    turn VARCHAR(10) NOT NULL
+);

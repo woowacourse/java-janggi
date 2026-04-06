@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import strategy.InitializeStrategy;
+import infra.repository.BoardRepository;
 
 import view.InputView;
 import view.OutputView;
@@ -22,19 +23,37 @@ public class JanggiController {
     private final GameExceptionHandler gameExceptionHandler;
     private final InputView inputView;
     private final OutputView outputView;
+    private final BoardRepository boardRepository;
     private GameManager gameManager;
 
-    public JanggiController(GameExceptionHandler gameExceptionHandler, InputView inputView, OutputView outputView) {
+    public JanggiController(GameExceptionHandler gameExceptionHandler, InputView inputView, OutputView outputView, BoardRepository boardRepository) {
         this.gameExceptionHandler = gameExceptionHandler;
         this.inputView = inputView;
         this.outputView = outputView;
+        this.boardRepository = boardRepository;
     }
 
     public void start() {
-        Map<Team, String> horseElephantFormations = readHorseElephantFormation();
-        initializeJanggiGame(horseElephantFormations);
-        Team winnerTeam = playJanggiGame();
+        Team currentTeam = Team.CHO;
+        if (shouldContinueGame()) {
+            currentTeam = loadJanggiGame();
+        } else {
+            Map<Team, String> horseElephantFormations = readHorseElephantFormation();
+            initializeJanggiGame(horseElephantFormations);
+        }
+        Team winnerTeam = playJanggiGame(currentTeam);
         printGameWinner(winnerTeam);
+        boardRepository.deleteAll();
+    }
+
+    private boolean shouldContinueGame() {
+        return !boardRepository.readBoard().isEmpty();
+    }
+
+    private Team loadJanggiGame() {
+        this.gameManager = new GameManager(boardRepository.readBoard());
+        printCurrentBoardStatus();
+        return boardRepository.readTurn();
     }
 
     private Map<Team, String> readHorseElephantFormation() {
@@ -70,8 +89,8 @@ public class JanggiController {
         outputView.printCurrentBoard(statuses);
     }
 
-    private Team playJanggiGame() {
-        Team currentTeam = Team.CHO;
+    private Team playJanggiGame(Team startTeam) {
+        Team currentTeam = startTeam;
 
         while (!gameManager.isGameFinished(currentTeam)) {
             playTurn(currentTeam);
@@ -85,6 +104,7 @@ public class JanggiController {
         while (true) {
             try {
                 movePiece(team);
+                boardRepository.save(gameManager.getCurrentBoardStatus(), switchTeam(team));
                 printCurrentScore();
                 printCurrentBoardStatus();
                 return;
