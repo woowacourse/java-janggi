@@ -33,7 +33,22 @@ public final class JanggiController {
         while (!janggiGame.isFinished()) {
             Side currentTurn = janggiGame.currentTurn();
 
-            Intersection startPosition = readValidStartPositionAndPrintBoard(currentTurn, board);
+            // TODO command 받고 -> position 변환 이거 하나로 묶을 수 없는지 시도하기. depth 1로.
+            String command = inputView.readCommand(currentTurn);
+            if (command.equals("exit")) {
+                outputView.printGameFinishedByCommand();
+                return;
+            }
+
+            Intersection startPosition;
+            try {
+                startPosition = Intersection.parse(command);
+            } catch (IllegalArgumentException e) {
+                outputView.printError(e.getMessage());
+                continue;
+            }
+
+            outputView.printBoardWithMovable(board, board.getMovableIntersections(startPosition, currentTurn));
 
             readValidDestinationAndPrintBoard(janggiGame, board, startPosition, currentTurn);
         }
@@ -52,19 +67,6 @@ public final class JanggiController {
         while (true) {
             try {
                 return inputView.readWings(side);
-            } catch (IllegalArgumentException e) {
-                outputView.printError(e.getMessage());
-            }
-        }
-    }
-
-    private Intersection readValidStartPositionAndPrintBoard(Side currentTurn, Board board) {
-        while (true) {
-            try {
-                Intersection startPosition = inputView.readStartPosition(currentTurn);
-                outputView.printBoardWithMovable(board, board.getMovableIntersections(startPosition, currentTurn));
-
-                return startPosition;
             } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
             }

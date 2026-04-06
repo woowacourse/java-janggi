@@ -11,6 +11,23 @@ public record Intersection(int row, int file) {
     private static final int LOWER_BOUND_FILE = 1;
     private static final int UPPER_BOUND_FILE = 9;
 
+    public static Intersection parse(String rowAndFile) {
+        final String delimiter = ",";
+        if (!rowAndFile.contains(delimiter)) {
+            throw new IllegalArgumentException("잘못된 입력입니다. (7,2)처럼 좌표를 구분자(쉼표)로 구분해주세요.");
+        }
+
+        try {
+            String[] split = rowAndFile.split(delimiter);
+            int row = Integer.parseInt(split[0].trim());
+            int file = Integer.parseInt(split[1].trim());
+
+            return new Intersection(row, file);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("좌표에는 숫자만 입력할 수 있습니다.");
+        }
+    }
+
     public boolean isOutOfBounds() {
         return isOutOfRow() || isOutOfFile();
     }

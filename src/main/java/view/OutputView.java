@@ -50,6 +50,10 @@ public final class OutputView {
         System.out.println();
     }
 
+    public void printGameFinishedByCommand() {
+        System.out.println("--- 게임을 종료합니다---");
+    }
+
     public void printWinner(GameResult gameResult) {
         System.out.printf("--- 게임이 종료되었습니다 ---%n%s의 승리!%n", gameResult.winnerName());
         printWinningReason(gameResult);

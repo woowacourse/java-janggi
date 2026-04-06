@@ -59,34 +59,21 @@ public final class InputView {
         return WingPieces.of(pieces);
     }
 
-    public Intersection readStartPosition(Side currentTurn) {
+    public String readCommand(Side currentTurn) {
         String sideName = SIDE_NAMES.get(currentTurn);
-        System.out.printf("%s 차례입니다. 이동할 기물의 좌표를 입력하세요 (예: 7,2):%n", sideName);
+        System.out.printf("%s 차례입니다. 이동할 기물의 좌표를 입력하세요 ('exit'를 입력하면 종료):%n", sideName);
 
-        return parseIntersection(readLine());
+        return readLine();
     }
 
     public Intersection readDestination() {
         System.out.printf("이동 가능한 경로를 표시합니다. 도착할 좌표를 입력하세요 (예: 7,2):%n");
 
-        return parseIntersection(readLine());
+        return Intersection.parse(readLine());
     }
 
     private String readLine() {
         return scanner.nextLine()
                 .trim();
-    }
-
-    private Intersection parseIntersection(String input) {
-        final String delimiter = ",";
-        if (!input.contains(delimiter)) {
-            throw new IllegalArgumentException("잘못된 입력입니다.");
-        }
-
-        String[] split = input.split(delimiter);
-        int row = Integer.parseInt(split[0]);
-        int file = Integer.parseInt(split[1]);
-
-        return new Intersection(row, file);
     }
 }
