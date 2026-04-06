@@ -4,7 +4,7 @@ import domain.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RedSoldierMoveStrategy extends MoveStrategy {
+public class GreenSoldierMoveStrategy extends MoveStrategy {
 
     @Override
     public boolean canMoveTo(Position currentPosition, Position destination) {
@@ -15,18 +15,18 @@ public class RedSoldierMoveStrategy extends MoveStrategy {
     }
 
     @Override
-    public boolean hasValidPathTo(Position currentPosition, Position targetPosition, List<Position> occupiedPositions) {
+    public boolean hasValidPathTo(Position currentPosition, Position destination, List<Position> occupiedPositions) {
         return true;
     }
 
     private boolean isPalaceArea(Position currentPosition) {
-        return palace.isPalaceGreenArea(currentPosition);
+        return palace.isPalaceRedArea(currentPosition);
     }
 
     private List<Position> movablePositionsInPalace(Position currentPosition) {
         List<Position> destinations = new ArrayList<>(basicMovablePositions(currentPosition));
         List<Position> reachablePalacePositions = palace.reachablePositionsInPalace(currentPosition).stream()
-                .filter(destination -> !isForwardDiagonalPosition(currentPosition, destination)).toList();
+                .filter(destination -> !isBackwardDiagonalPosition(currentPosition, destination)).toList();
         destinations.addAll(reachablePalacePositions);
         return destinations;
     }
@@ -34,15 +34,15 @@ public class RedSoldierMoveStrategy extends MoveStrategy {
     private List<Position> basicMovablePositions(Position currentPosition) {
         return List.of(
                 currentPosition.right(),
-                currentPosition.down(),
+                currentPosition.up(),
                 currentPosition.left()
         );
     }
 
-    private boolean isForwardDiagonalPosition(Position currentPosition, Position destination) {
+    private boolean isBackwardDiagonalPosition(Position currentPosition, Position destination) {
         return List.of(
-                        currentPosition.upCrossLeft(),
-                        currentPosition.upCrossRight())
+                currentPosition.downCrossLeft(),
+                currentPosition.downCrossRight())
                 .contains(destination);
     }
 }
