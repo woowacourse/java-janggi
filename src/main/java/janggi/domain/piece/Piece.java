@@ -49,6 +49,14 @@ public abstract class Piece implements Space {
         return pieceType.getScore();
     }
 
+    public Team getTeam() {
+        return team;
+    }
+
+    public PieceType getPieceType() {
+        return pieceType;
+    }
+
     @Override
     public boolean isBlank() {
         return false;

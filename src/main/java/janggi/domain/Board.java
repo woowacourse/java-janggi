@@ -1,6 +1,8 @@
 package janggi.domain;
 
+import janggi.domain.dto.BoardPieceSnapshot;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceFactory;
 import janggi.domain.piece.PieceType;
 import janggi.domain.strategy.InitializeStrategy;
 import java.util.HashMap;
@@ -20,7 +22,23 @@ public class Board {
         initializeStrategy.basicSetting(piecesInfo);
     }
 
-    private Map<Position, Space> generateBlankBoard() {
+    private Board(Map<Position, Space> piecesInfo) {
+        this.piecesInfo = piecesInfo;
+    }
+
+    public static Board from(List<BoardPieceSnapshot> snapshots) {
+        Map<Position, Space> board = generateBlankBoard();
+
+        for (BoardPieceSnapshot snapshot : snapshots) {
+            Position position = new Position(snapshot.x(), snapshot.y());
+            Piece piece = PieceFactory.createPiece(snapshot.team(), snapshot.pieceType());
+            board.put(position, piece);
+        }
+        return new Board(board);
+    }
+
+
+    private static Map<Position, Space> generateBlankBoard() {
         Map<Position, Space> blankBoard = new HashMap<>();
 
         for (int y = 0; y < HORIZONTAL_LENGTH; y++) {
@@ -30,7 +48,7 @@ public class Board {
         return blankBoard;
     }
 
-    private void putHorizontal(Map<Position, Space> blankBoard, int y) {
+    private static void putHorizontal(Map<Position, Space> blankBoard, int y) {
         for (int x = 0; x < VERTICAL_LENGTH; x++) {
             blankBoard.put(new Position(x, y), new Blank());
         }
@@ -108,5 +126,22 @@ public class Board {
             .filter(piece -> piece.isEqualTeam(team))
             .mapToInt(Piece::getScore)
             .sum();
+    }
+
+    public List<BoardPieceSnapshot> getPieces() {
+        return piecesInfo.entrySet().stream()
+            .filter(entry -> !entry.getValue().isBlank())
+            .map(entry -> {
+                Position position = entry.getKey();
+                Piece piece = entry.getValue().asPiece();
+
+                return new BoardPieceSnapshot(
+                    position.x(),
+                    position.y(),
+                    piece.getTeam(),
+                    piece.getPieceType()
+                );
+            })
+            .toList();
     }
 }

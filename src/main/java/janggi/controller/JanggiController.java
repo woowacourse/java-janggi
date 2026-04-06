@@ -1,8 +1,11 @@
 package janggi.controller;
 
 import janggi.domain.Board;
+import janggi.domain.GameInitializeMode;
+import janggi.domain.dto.GameSession;
 import janggi.domain.Position;
 import janggi.domain.strategy.BasicPlacementStrategy;
+import janggi.service.JanggiService;
 import janggi.util.InputParser;
 import janggi.view.InputView;
 import janggi.view.OutputView;
@@ -10,15 +13,25 @@ import java.util.List;
 
 public class JanggiController {
 
+    private final JanggiService janggiGameService;
+
+    public JanggiController(JanggiService janggiGameService) {
+        this.janggiGameService = janggiGameService;
+    }
+
     public void run() {
-        Board board = new Board(new BasicPlacementStrategy());
+        GameSession session = initializeGame();
+
+        Board board = session.board();
+        long gameId = session.gameId();
 
         while (!board.gameEnd()) {
             try {
                 Position fromPosition = readPosition();
                 Position toPosition = readPosition();
 
-                board.move(fromPosition, toPosition);
+                janggiGameService.move(gameId, board, fromPosition, toPosition);
+
                 OutputView.printBoard(board);
                 OutputView.printTeamScore(board);
             } catch (IllegalArgumentException exception) {
@@ -26,6 +39,41 @@ public class JanggiController {
             }
         }
     }
+
+    private GameSession initializeGame() {
+        while (true) {
+            try {
+                String modeInput = InputView.askGameMode();
+                GameInitializeMode mode = GameInitializeMode.from(modeInput);
+
+                return getGameSession(mode);
+            } catch (IllegalArgumentException exception) {
+                System.out.println(exception.getMessage());
+            }
+        }
+    }
+
+    private GameSession getGameSession(GameInitializeMode mode) {
+        if (mode == GameInitializeMode.NEW) {
+            return initializeNewGame();
+        }
+        return initializePastGame();
+    }
+
+    private GameSession initializeNewGame() {
+        Board board = new Board(new BasicPlacementStrategy());
+        long gameId = janggiGameService.createGame(board);
+        OutputView.printGameId(gameId);
+        return new GameSession(gameId, board);
+    }
+
+    private GameSession initializePastGame() {
+        long gameId = Long.parseLong(InputView.askGameId());
+        Board board = janggiGameService.loadGame(gameId);
+        OutputView.printBoard(board);
+        return new GameSession(gameId, board);
+    }
+
 
     private Position readPosition() {
         while (true) {
