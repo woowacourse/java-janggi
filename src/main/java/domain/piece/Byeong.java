@@ -6,4 +6,8 @@ public class Byeong extends NonJumpable {
     public Byeong(MoveStrategy moveStrategy, Team team) {
         super(moveStrategy, PieceType.BYEONG, team);
     }
+
+    public Byeong(Long id, MoveStrategy moveStrategy, Team team) {
+        super(id, moveStrategy, PieceType.BYEONG, team);
+    }
 }

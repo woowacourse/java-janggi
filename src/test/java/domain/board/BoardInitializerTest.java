@@ -1,5 +1,7 @@
-package domain;
+package domain.board;
 
+import domain.SettingInfo;
+import domain.SettingType;
 import domain.piece.Byeong;
 import domain.piece.Cha;
 import domain.piece.Jang;
@@ -16,6 +18,7 @@ import domain.piece.strategy.MaMoveStrategy;
 import domain.piece.strategy.SangMoveStrategy;
 import domain.piece.strategy.SingleStepMoveStrategy;
 import domain.piece.strategy.SlidingMoveStrategy;
+import domain.piece.strategy.component.PalaceMoveRule;
 import domain.position.Position;
 import java.util.HashMap;
 import java.util.Map;
@@ -133,40 +136,42 @@ public class BoardInitializerTest {
     }
 
     private void putWithoutSangAndMa(Map<Position, Piece> expect) {
+        PalaceMoveRule palaceMoveRule = new PalaceMoveRule();
+
         // 초나라
-        expect.put(Position.of(1, 1), new Cha(new SlidingMoveStrategy(), Team.CHO));
-        expect.put(Position.of(1, 9), new Cha(new SlidingMoveStrategy(), Team.CHO));
+        expect.put(Position.of(1, 1), new Cha(new SlidingMoveStrategy(palaceMoveRule), Team.CHO));
+        expect.put(Position.of(1, 9), new Cha(new SlidingMoveStrategy(palaceMoveRule), Team.CHO));
 
-        expect.put(Position.of(1, 4), new Sa(new SingleStepMoveStrategy(), Team.CHO));
-        expect.put(Position.of(1, 6), new Sa(new SingleStepMoveStrategy(), Team.CHO));
+        expect.put(Position.of(1, 4), new Sa(new SingleStepMoveStrategy(palaceMoveRule), Team.CHO));
+        expect.put(Position.of(1, 6), new Sa(new SingleStepMoveStrategy(palaceMoveRule), Team.CHO));
 
-        expect.put(Position.of(2, 5), new Jang(new SingleStepMoveStrategy(), Team.CHO));
+        expect.put(Position.of(2, 5), new Jang(new SingleStepMoveStrategy(palaceMoveRule), Team.CHO));
 
-        expect.put(Position.of(3, 2), new Po(new SlidingMoveStrategy(), Team.CHO));
-        expect.put(Position.of(3, 8), new Po(new SlidingMoveStrategy(), Team.CHO));
+        expect.put(Position.of(3, 2), new Po(new SlidingMoveStrategy(palaceMoveRule), Team.CHO));
+        expect.put(Position.of(3, 8), new Po(new SlidingMoveStrategy(palaceMoveRule), Team.CHO));
 
-        expect.put(Position.of(4, 1), new Jol(new JolMoveStrategy(), Team.CHO));
-        expect.put(Position.of(4, 3), new Jol(new JolMoveStrategy(), Team.CHO));
-        expect.put(Position.of(4, 5), new Jol(new JolMoveStrategy(), Team.CHO));
-        expect.put(Position.of(4, 7), new Jol(new JolMoveStrategy(), Team.CHO));
-        expect.put(Position.of(4, 9), new Jol(new JolMoveStrategy(), Team.CHO));
+        expect.put(Position.of(4, 1), new Jol(new JolMoveStrategy(palaceMoveRule), Team.CHO));
+        expect.put(Position.of(4, 3), new Jol(new JolMoveStrategy(palaceMoveRule), Team.CHO));
+        expect.put(Position.of(4, 5), new Jol(new JolMoveStrategy(palaceMoveRule), Team.CHO));
+        expect.put(Position.of(4, 7), new Jol(new JolMoveStrategy(palaceMoveRule), Team.CHO));
+        expect.put(Position.of(4, 9), new Jol(new JolMoveStrategy(palaceMoveRule), Team.CHO));
 
         // 한나라
-        expect.put(Position.of(10, 1), new Cha(new SlidingMoveStrategy(), Team.HAN));
-        expect.put(Position.of(10, 9), new Cha(new SlidingMoveStrategy(), Team.HAN));
+        expect.put(Position.of(10, 1), new Cha(new SlidingMoveStrategy(palaceMoveRule), Team.HAN));
+        expect.put(Position.of(10, 9), new Cha(new SlidingMoveStrategy(palaceMoveRule), Team.HAN));
 
-        expect.put(Position.of(10, 4), new Sa(new SingleStepMoveStrategy(), Team.HAN));
-        expect.put(Position.of(10, 6), new Sa(new SingleStepMoveStrategy(), Team.HAN));
+        expect.put(Position.of(10, 4), new Sa(new SingleStepMoveStrategy(palaceMoveRule), Team.HAN));
+        expect.put(Position.of(10, 6), new Sa(new SingleStepMoveStrategy(palaceMoveRule), Team.HAN));
 
-        expect.put(Position.of(9, 5), new Jang(new SingleStepMoveStrategy(), Team.HAN));
+        expect.put(Position.of(9, 5), new Jang(new SingleStepMoveStrategy(palaceMoveRule), Team.HAN));
 
-        expect.put(Position.of(8, 2), new Po(new SlidingMoveStrategy(), Team.HAN));
-        expect.put(Position.of(8, 8), new Po(new SlidingMoveStrategy(), Team.HAN));
+        expect.put(Position.of(8, 2), new Po(new SlidingMoveStrategy(palaceMoveRule), Team.HAN));
+        expect.put(Position.of(8, 8), new Po(new SlidingMoveStrategy(palaceMoveRule), Team.HAN));
 
-        expect.put(Position.of(7, 1), new Byeong(new ByeongMoveStrategy(), Team.HAN));
-        expect.put(Position.of(7, 3), new Byeong(new ByeongMoveStrategy(), Team.HAN));
-        expect.put(Position.of(7, 5), new Byeong(new ByeongMoveStrategy(), Team.HAN));
-        expect.put(Position.of(7, 7), new Byeong(new ByeongMoveStrategy(), Team.HAN));
-        expect.put(Position.of(7, 9), new Byeong(new ByeongMoveStrategy(), Team.HAN));
+        expect.put(Position.of(7, 1), new Byeong(new ByeongMoveStrategy(palaceMoveRule), Team.HAN));
+        expect.put(Position.of(7, 3), new Byeong(new ByeongMoveStrategy(palaceMoveRule), Team.HAN));
+        expect.put(Position.of(7, 5), new Byeong(new ByeongMoveStrategy(palaceMoveRule), Team.HAN));
+        expect.put(Position.of(7, 7), new Byeong(new ByeongMoveStrategy(palaceMoveRule), Team.HAN));
+        expect.put(Position.of(7, 9), new Byeong(new ByeongMoveStrategy(palaceMoveRule), Team.HAN));
     }
 }

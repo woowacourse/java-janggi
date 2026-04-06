@@ -1,20 +1,33 @@
 package domain.piece;
 
-import domain.BoardStatus;
 import domain.Turn;
+import domain.board.BoardStatus;
 import domain.piece.strategy.MoveStrategy;
 import domain.position.Position;
 import java.util.Objects;
 
 public abstract class Piece {
+    private final PieceId id;
     protected final MoveStrategy moveStrategy;
     private final PieceType pieceType;
     private final Team team;
 
-    public Piece(MoveStrategy moveStrategy, PieceType pieceType, Team team) {
+    public Piece(Long id, MoveStrategy moveStrategy, PieceType pieceType, Team team) {
+        this.id = new PieceId(id);
         this.moveStrategy = moveStrategy;
         this.pieceType = pieceType;
         this.team = team;
+    }
+
+    protected Piece(MoveStrategy moveStrategy, PieceType pieceType, Team team) {
+        this.id = PieceId.UNASSIGNED;
+        this.moveStrategy = moveStrategy;
+        this.pieceType = pieceType;
+        this.team = team;
+    }
+
+    public PieceId getId() {
+        return id;
     }
 
     abstract public void check(BoardStatus boardStatus, Position start, Position destination);
@@ -50,18 +63,15 @@ public abstract class Piece {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
         Piece piece = (Piece) o;
-        return pieceType == piece.pieceType && team == piece.team;
+        return id.equals(piece.id) && pieceType == piece.pieceType && team == piece.team;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(pieceType, team);
+        return Objects.hash(id, pieceType, team);
     }
 }

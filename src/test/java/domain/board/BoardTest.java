@@ -1,7 +1,9 @@
-package domain;
+package domain.board;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+import domain.SettingType;
+import domain.Turn;
 import domain.piece.Piece;
 import domain.piece.PieceErrorMessage;
 import domain.piece.Team;

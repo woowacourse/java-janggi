@@ -12,6 +12,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class SangMoveStrategyTest {
 
+    private final MoveStrategy strategy = new SangMoveStrategy();
+
     @ParameterizedTest
     @MethodSource("moveWays")
     @DisplayName("움직일 수 있다면 경로를 반환한다")
@@ -19,7 +21,6 @@ class SangMoveStrategyTest {
         // given
         Position start = Position.of(3, 3);
 
-        MoveStrategy strategy = new SangMoveStrategy();
         List<Position> movablePath = strategy.findMovablePath(start, destination);
 
         // then
@@ -54,8 +55,6 @@ class SangMoveStrategyTest {
         // given
         Position start = Position.of(3, 3);
         Position destination = Position.of(4, 4);
-
-        MoveStrategy strategy = new SangMoveStrategy();
 
         Assertions.assertThatThrownBy(() -> strategy.findMovablePath(start, destination))
                 .isInstanceOf(IllegalArgumentException.class)

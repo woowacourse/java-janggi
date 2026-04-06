@@ -1,22 +1,11 @@
-package domain;
+package domain.board;
 
-import domain.piece.Byeong;
-import domain.piece.Cha;
-import domain.piece.Jang;
-import domain.piece.Jol;
-import domain.piece.Ma;
+import domain.SettingInfo;
+import domain.SettingType;
 import domain.piece.Piece;
+import domain.piece.PieceFactory;
 import domain.piece.PieceType;
-import domain.piece.Po;
-import domain.piece.Sa;
-import domain.piece.Sang;
 import domain.piece.Team;
-import domain.piece.strategy.ByeongMoveStrategy;
-import domain.piece.strategy.JolMoveStrategy;
-import domain.piece.strategy.MaMoveStrategy;
-import domain.piece.strategy.SangMoveStrategy;
-import domain.piece.strategy.SingleStepMoveStrategy;
-import domain.piece.strategy.SlidingMoveStrategy;
 import domain.position.Position;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,14 +21,11 @@ public class BoardInitializer {
 
     private Map<PieceType, Piece> initPieceByTeam(Team team) {
         Map<PieceType, Piece> pieces = new HashMap<>();
-        pieces.put(PieceType.PO, new Po(new SlidingMoveStrategy(), team));
-        pieces.put(PieceType.MA, new Ma(new MaMoveStrategy(), team));
-        pieces.put(PieceType.SANG, new Sang(new SangMoveStrategy(), team));
-        pieces.put(PieceType.SA, new Sa(new SingleStepMoveStrategy(), team));
-        pieces.put(PieceType.JANG, new Jang(new SingleStepMoveStrategy(), team));
-        pieces.put(PieceType.CHA, new Cha(new SlidingMoveStrategy(), team));
-        pieces.put(PieceType.JOL, new Jol(new JolMoveStrategy(), team));
-        pieces.put(PieceType.BYEONG, new Byeong(new ByeongMoveStrategy(), team));
+        for (PieceType type : PieceType.values()) {
+            if (type != PieceType.EMPTY) {
+                pieces.put(type, PieceFactory.create(type, team));
+            }
+        }
         return pieces;
     }
 

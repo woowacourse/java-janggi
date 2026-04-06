@@ -29,20 +29,28 @@ public class Position {
         return column.equals(destination);
     }
 
+    public boolean isRowInRange(int start, int end) {
+        return row.isRowInRange(start, end);
+    }
+
+    public boolean isColumnInRange(int start, int end) {
+        return column.isColumnInRange(start, end);
+    }
+
     public List<Position> getSameColumnPositionsToDestination(Position destination) {
         Row min = row.getLowerValue(destination.row);
         Row max = row.getUpper(destination.row);
 
-        return IntStream.range(min.getValue() + 1, max.getValue())
-                .mapToObj(i -> Position.of(i, column.getValue()))
+        return IntStream.range(min.value() + 1, max.value())
+                .mapToObj(i -> Position.of(i, column.value()))
                 .toList();
     }
 
     public List<Position> getSameRowPositionsToDestination(Position destination) {
         Column min = column.getLowerValue(destination.column);
         Column max = column.getUpper(destination.column);
-        return IntStream.range(min.getValue() + 1, max.getValue())
-                .mapToObj(i -> Position.of(row.getValue(), i))
+        return IntStream.range(min.value() + 1, max.value())
+                .mapToObj(i -> Position.of(row.value(), i))
                 .toList();
     }
 

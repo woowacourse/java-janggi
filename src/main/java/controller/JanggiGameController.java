@@ -1,48 +1,85 @@
 package controller;
 
-import domain.BoardStatus;
 import domain.JanggiGame;
+import domain.JanggiScore;
 import domain.SettingType;
+import domain.board.BoardStatus;
 import domain.piece.Piece;
 import domain.position.Position;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import service.JanggiGameService;
 import view.ActionType;
 import view.BoardStatusDto;
 import view.InputView;
+import view.JanggiScoreDto;
 import view.PositionDto;
 import view.ResultView;
+import view.TeamDto;
 
 public class JanggiGameController {
     private final InputView inputView;
     private final ResultView resultView;
+    private final JanggiGameService janggiGameService;
 
-    public JanggiGameController(InputView inputView, ResultView resultView) {
+    public JanggiGameController(InputView inputView, ResultView resultView, JanggiGameService janggiGameService) {
         this.inputView = inputView;
         this.resultView = resultView;
+        this.janggiGameService = janggiGameService;
     }
 
     public void play() {
-
-        JanggiGame game = retry(this::initializeGame);
-
-        //2. 게임 진행 -> 반복문.
+        janggiGameService.initializeDatabase();
+        JanggiGame game = prepareJanggiGame();
         playTurn(game);
     }
 
+    private JanggiGame prepareJanggiGame() {
+        Optional<JanggiGame> janggiGame = Optional.empty();
+
+        if (janggiGameService.isPlayingGameExist()) {
+            janggiGame = prepareGameAlreadyExist();
+        }
+
+        return janggiGame.orElseGet(
+                () -> retry(this::initializeGame)
+        );
+    }
+
+    private Optional<JanggiGame> prepareGameAlreadyExist() {
+        boolean isContinue = inputView.readGameContinueYesOrNo();
+        if (isContinue) {
+            JanggiGame game = retry(() -> {
+                JanggiGame loadedGame = janggiGameService.loadPlayingGame();
+                printBoardStatus(loadedGame.getJanggiGameStatus());
+                return loadedGame;
+            });
+
+            return Optional.of(game);
+        }
+
+        janggiGameService.abandonGame();
+        return Optional.empty();
+    }
+
+
     private void playTurn(JanggiGame game) {
-        while (true) {
+        while (!game.isFinished()) {
             ActionType actionType = retry(() -> inputView.readAction(game.getTurnOwnTeam()));
             if (actionType == ActionType.MOVE) {
                 retry(this::executeMove, game);
             }
             if (actionType == ActionType.PASS) {
-                game.passTurn();
+                janggiGameService.passTurn(game);
             }
-            printBoardStatus(game.getJanggiGameStatus());
+            BoardStatus currentBoardStatus = game.getJanggiGameStatus();
+            printBoardStatus(currentBoardStatus);
+            printGameScore(game, currentBoardStatus);
         }
+        resultView.printWinner(TeamDto.toDto(game.getWinner()));
     }
 
     private void executeMove(JanggiGame game) {
@@ -51,7 +88,7 @@ public class JanggiGameController {
         Position startPosition = Position.of(positionDto.getStartRow(), positionDto.getStartColumn());
         Position destinationPosition = Position.of(positionDto.getDestinationRow(),
                 positionDto.getDestinationColumn());
-        game.executeMove(startPosition, destinationPosition);
+        janggiGameService.doMove(game, startPosition, destinationPosition);
     }
 
     private JanggiGame initializeGame() {
@@ -59,7 +96,7 @@ public class JanggiGameController {
         SettingType choSettingType = settingTypes.getFirst();
         SettingType hanSettingType = settingTypes.getLast();
 
-        JanggiGame game = JanggiGame.init(choSettingType, hanSettingType);
+        JanggiGame game = janggiGameService.startNewGame(choSettingType, hanSettingType);
         printBoardStatus(game.getJanggiGameStatus());
         return game;
     }
@@ -69,6 +106,11 @@ public class JanggiGameController {
         BoardStatusDto statusDto = BoardStatusDto.from(boardStatus);
 
         resultView.printBoard(statusDto);
+    }
+
+    private void printGameScore(JanggiGame game, BoardStatus currentBoardStatus) {
+        JanggiScore currentGameScore = game.getGameScore(currentBoardStatus);
+        resultView.printGameScore(JanggiScoreDto.toDto(currentGameScore));
     }
 
     private <T> T retry(Supplier<T> supplier) {

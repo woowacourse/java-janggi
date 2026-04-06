@@ -1,5 +1,8 @@
 package domain.piece.strategy;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
+import domain.piece.strategy.component.PalaceMoveRule;
 import domain.position.Position;
 import java.util.List;
 import org.assertj.core.api.Assertions;
@@ -10,6 +13,9 @@ class SingleStepMoveStrategyTest {
 
     private static final int EXPECT_SIZE = 0;
 
+    private final MoveStrategy strategy = new SingleStepMoveStrategy(new PalaceMoveRule());
+
+
     @Test
     @DisplayName("움직일 수 있다면 경로를 반환한다 : 전진 ")
     void findMovablePath_success_front() {
@@ -17,7 +23,6 @@ class SingleStepMoveStrategyTest {
         Position start = Position.of(2, 10);
         Position destination = Position.of(3, 10);
 
-        MoveStrategy strategy = new SingleStepMoveStrategy();
         List<Position> movablePath = strategy.findMovablePath(start, destination);
         Assertions.assertThat(movablePath.size()).isEqualTo(EXPECT_SIZE);
     }
@@ -29,7 +34,6 @@ class SingleStepMoveStrategyTest {
         Position start = Position.of(2, 10);
         Position destination = Position.of(1, 10);
 
-        MoveStrategy strategy = new SingleStepMoveStrategy();
         List<Position> movablePath = strategy.findMovablePath(start, destination);
         Assertions.assertThat(movablePath.size()).isEqualTo(EXPECT_SIZE);
     }
@@ -41,7 +45,6 @@ class SingleStepMoveStrategyTest {
         Position start = Position.of(2, 9);
         Position destination = Position.of(2, 10);
 
-        MoveStrategy strategy = new SingleStepMoveStrategy();
         List<Position> movablePath = strategy.findMovablePath(start, destination);
         Assertions.assertThat(movablePath.size()).isEqualTo(EXPECT_SIZE);
     }
@@ -53,7 +56,6 @@ class SingleStepMoveStrategyTest {
         Position start = Position.of(2, 10);
         Position destination = Position.of(2, 9);
 
-        MoveStrategy strategy = new SingleStepMoveStrategy();
         List<Position> movablePath = strategy.findMovablePath(start, destination);
         Assertions.assertThat(movablePath.size()).isEqualTo(EXPECT_SIZE);
     }
@@ -65,10 +67,35 @@ class SingleStepMoveStrategyTest {
         Position start = Position.of(2, 9);
         Position destination = Position.of(4, 9);
 
-        MoveStrategy strategy = new SingleStepMoveStrategy();
-
         Assertions.assertThatThrownBy(() -> strategy.findMovablePath(start, destination))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(MoveStrategyErrorMessage.NOT_EXIST_MOVABLE_PATH.getMessage());
+    }
+
+
+    @Test
+    @DisplayName("궁성 외부에서 내부로 이동 가능하다")
+    void can_go_in_palace() {
+        //given
+        Position start = Position.of(1, 3);
+        Position destination = Position.of(1, 4);
+
+        //when
+        List<Position> movablePath = strategy.findMovablePath(start, destination);
+
+        assertThat(movablePath.size()).isEqualTo(EXPECT_SIZE);
+    }
+
+    @Test
+    @DisplayName("궁성 내부에서 대각선으로 이동 가능하다")
+    void can_diagonal_go_in_palace() {
+        //given
+        Position start = Position.of(1, 4);
+        Position destination = Position.of(2, 5);
+
+        //when
+        List<Position> movablePath = strategy.findMovablePath(start, destination);
+
+        assertThat(movablePath.size()).isEqualTo(EXPECT_SIZE);
     }
 }

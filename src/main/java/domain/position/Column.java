@@ -1,20 +1,13 @@
 package domain.position;
 
-import java.util.Objects;
-
-public class Column {
-    private final int value;
-
-    public Column(int value) {
-        this.value = value;
-    }
+public record Column(int value) {
 
     public Column add(int value) {
         return new Column(this.value + value);
     }
 
-    public int getValue() {
-        return value;
+    public boolean isColumnInRange(int start, int end) {
+        return value >= start && value <= end;
     }
 
     public Column getUpper(Column target) {
@@ -43,8 +36,4 @@ public class Column {
         return value == column.value;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(value);
-    }
 }

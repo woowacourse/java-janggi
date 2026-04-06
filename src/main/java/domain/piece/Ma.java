@@ -7,4 +7,8 @@ public class Ma extends NonJumpable {
     public Ma(MoveStrategy moveStrategy, Team team) {
         super(moveStrategy, PieceType.MA, team);
     }
+
+    public Ma(Long id, MoveStrategy moveStrategy, Team team) {
+        super(id, moveStrategy, PieceType.MA, team);
+    }
 }

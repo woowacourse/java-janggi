@@ -1,7 +1,10 @@
-package domain;
+package domain.board;
 
+import domain.SettingType;
+import domain.Turn;
 import domain.piece.EmptyPiece;
 import domain.piece.Piece;
+import domain.piece.PieceType;
 import domain.piece.Team;
 import domain.piece.strategy.EmptyMoveStrategy;
 import domain.position.Position;
@@ -19,6 +22,10 @@ public class Board {
         return new Board(setup);
     }
 
+    public static Board reconstruct(Map<Position, Piece> pieces) {
+        return new Board(pieces);
+    }
+
     public void move(Turn turn, Position start, Position destination) {
         Piece startPiece = selectNotEmptyPiece(start);
         Piece destinationPiece = findTargetPiece(destination);
@@ -30,6 +37,17 @@ public class Board {
 
         pieces.remove(start);
         pieces.put(destination, startPiece);
+    }
+
+    public boolean isKingCaptured(Team team) {
+        return getKing(team).isEmpty();
+    }
+
+    private Piece getKing(Team team) {
+        return pieces.values().stream()
+                .filter(piece -> piece.getPieceType() == PieceType.JANG && piece.getTeam() == team)
+                .findFirst()
+                .orElse(new EmptyPiece(new EmptyMoveStrategy(), Team.UNDEFINED));
     }
 
     private Piece selectNotEmptyPiece(Position position) {

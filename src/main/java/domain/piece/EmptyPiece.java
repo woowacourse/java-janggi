@@ -1,12 +1,16 @@
 package domain.piece;
 
-import domain.BoardStatus;
+import domain.board.BoardStatus;
 import domain.piece.strategy.MoveStrategy;
 import domain.position.Position;
 
 public class EmptyPiece extends Piece {
     public EmptyPiece(MoveStrategy moveStrategy, Team team) {
-        super(moveStrategy, PieceType.PO, team);
+        super(moveStrategy, PieceType.EMPTY, team);
+    }
+
+    public EmptyPiece(Long id, MoveStrategy moveStrategy, Team team) {
+        super(id, moveStrategy, PieceType.EMPTY, team);
     }
 
     @Override
@@ -16,6 +20,6 @@ public class EmptyPiece extends Piece {
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return true;
     }
 }

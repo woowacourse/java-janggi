@@ -1,13 +1,18 @@
 package domain.piece;
 
-import domain.BoardStatus;
+import domain.board.BoardStatus;
 import domain.piece.strategy.MoveStrategy;
 import domain.position.Position;
 import java.util.List;
 
 public class Po extends Piece {
+
     public Po(MoveStrategy moveStrategy, Team team) {
         super(moveStrategy, PieceType.PO, team);
+    }
+
+    public Po(Long id, MoveStrategy moveStrategy, Team team) {
+        super(id, moveStrategy, PieceType.PO, team);
     }
 
     @Override

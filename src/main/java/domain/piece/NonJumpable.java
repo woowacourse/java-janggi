@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.BoardStatus;
+import domain.board.BoardStatus;
 import domain.piece.strategy.MoveStrategy;
 import domain.position.Position;
 import java.util.List;
@@ -8,6 +8,10 @@ import java.util.List;
 public abstract class NonJumpable extends Piece {
     public NonJumpable(MoveStrategy moveStrategy, PieceType pieceType, Team team) {
         super(moveStrategy, pieceType, team);
+    }
+
+    public NonJumpable(Long id, MoveStrategy moveStrategy, PieceType pieceType, Team team) {
+        super(id, moveStrategy, pieceType, team);
     }
 
     @Override
