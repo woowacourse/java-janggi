@@ -11,4 +11,6 @@ public interface PieceDao {
     void deleteByPosition(Long gameId, int row, int col);
 
     void updatePosition(Long gameId, int fromRow, int fromCol, int toRow, int toCol);
+
+    List<PieceEntity> findAllByGameId(Long gameId);
 }

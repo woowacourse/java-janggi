@@ -1,4 +1,5 @@
 import domain.*;
+import domain.strategy.CannonMoveStrategy;
 import domain.vo.Position;
 import entity.GameEntity;
 import entity.PieceEntity;
@@ -8,7 +9,9 @@ import view.InputView;
 import view.OutputView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class JanggiController {
 
@@ -28,18 +31,44 @@ public class JanggiController {
     }
 
     public void run() {
-        Game game = initializeGame();
-        GameEntity savedGame = saveGame(game);
+        GameType gameType = inputView.readGameType();
+        if (gameType == GameType.LOAD) {
+            List<GameEntity> findGames = gameDao.findAll();
+            int gameId = inputView.readGameNumber(findGames.stream()
+                    .map(GameEntity::getUpdatedAt)
+                    .toList());
+            GameEntity findGame = findGames.get(gameId);
+            List<PieceEntity> findPieces = pieceDao.findAllByGameId(findGame.getId());
+            Board board = convertPieceEntitiesToBoard(findPieces);
+            Game game = Game.of(board);
+            playGame(game, findGame);
+        }
+        if (gameType == GameType.NEW) {
+            Game game = initializeGame();
+            GameEntity savedGame = saveGame(game);
+            playGame(game, savedGame);
+        }
+    }
 
+    private Board convertPieceEntitiesToBoard(List<PieceEntity> findPieces) {
+        Map<Position, Piece> board = new HashMap<>();
+        for (PieceEntity piece : findPieces) {
+            Position position = Position.of(piece.getPositionRow(), piece.getPositionCol());
+            board.put(position, Piece.of(Team.valueOf(piece.getTeam()), Type.valueOf(piece.getPieceType()), new CannonMoveStrategy()));
+        }
+        return Board.of(board);
+    }
+
+    private void playGame(Game game, GameEntity gameEntity) {
         while (true) {
-            boolean isContinue = move(game, savedGame.getId());
-            gameDao.update(savedGame.getId(), game.getTurnName(), game.getStatus().toString());
+            outputView.printBoard(game.getBoard().getBoard());
+            boolean isContinue = move(game, gameEntity.getId());
+            gameDao.update(gameEntity.getId(), game.getTurnName(), game.getStatus().toString());
             outputView.printScore(game.calculateScore(Team.CHU), game.calculateScore(Team.HAN));
 
             if (!isContinue) {
                 break;
             }
-            outputView.printBoard(game.getBoard().getBoard());
         }
         outputView.printGameResult(game.getStatus());
     }
@@ -49,18 +78,17 @@ public class JanggiController {
         Formation chuFormation = inputView.readHorseElephantFormation(Team.CHU.getName());
 
         Board board = BoardFactory.setUp(hanFormation, chuFormation);
-        outputView.printBoard(board.getBoard());
         return Game.of(board);
     }
 
     private GameEntity saveGame(Game game) {
-        GameEntity savedGame = gameDao.save(
+        GameEntity gameEntity = gameDao.save(
                 GameEntity.from(game.getTurnName(), game.getStatus().toString())
         );
 
-        List<PieceEntity> pieces = convertBoardToPieceEntities(savedGame.getId(), game.getBoard());
+        List<PieceEntity> pieces = convertBoardToPieceEntities(gameEntity.getId(), game.getBoard());
         pieceDao.saveAll(pieces);
-        return savedGame;
+        return gameEntity;
     }
 
     private List<PieceEntity> convertBoardToPieceEntities(Long gameId, Board board) {

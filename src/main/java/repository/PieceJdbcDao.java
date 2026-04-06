@@ -3,6 +3,7 @@ package repository;
 import entity.PieceEntity;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PieceJdbcDao implements PieceDao {
@@ -77,6 +78,41 @@ public class PieceJdbcDao implements PieceDao {
             pstmt.setInt(4, fromRow);
             pstmt.setInt(5, fromCol);
             pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("[ERROR] " + e.getMessage());
+        } finally {
+            close(con, pstmt, rs);
+        }
+    }
+
+    @Override
+    public List<PieceEntity> findAllByGameId(Long gameId) {
+        String sql = "select * from pieces where game_id = ?";
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            con = getConnection();
+            pstmt = con.prepareStatement(sql);
+            pstmt.setLong(1, gameId);
+
+            rs = pstmt.executeQuery();
+
+            List<PieceEntity> pieces = new ArrayList<>();
+            while (rs.next()) {
+                PieceEntity piece = new PieceEntity(
+                        rs.getLong("id"),
+                        rs.getLong("game_id"),
+                        rs.getInt("position_row"),
+                        rs.getInt("position_col"),
+                        rs.getString("team"),
+                        rs.getString("piece_type")
+                );
+                pieces.add(piece);
+            }
+            return pieces;
         } catch (SQLException e) {
             throw new RuntimeException("[ERROR] " + e.getMessage());
         } finally {

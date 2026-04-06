@@ -1,13 +1,62 @@
 package view;
 
 import domain.Formation;
+import domain.GameType;
 
+import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.Scanner;
 
 public class InputView {
 
     private static final String POSITION_PATTERN = "^\\d+\\s+\\d+$";
     private final Scanner scanner = new Scanner(System.in);
+
+    public GameType readGameType() {
+        System.out.println("어떤 걸 선택하시겠습니다? (숫자만 입력)");
+        System.out.println("1. 새로운 게임");
+        System.out.println("2. 기존 게임");
+
+        String input = scanner.nextLine().trim();
+        try {
+            int parsedInput = Integer.parseInt(input);
+            if (parsedInput != 1 && parsedInput != 2)
+                throw new IllegalArgumentException();
+            System.out.println();
+            return switch (parsedInput) {
+                case 1 -> GameType.NEW;
+                case 2 -> GameType.LOAD;
+                default -> throw new IllegalArgumentException();
+            };
+        }
+        catch (Exception e) {
+            System.out.println("[ERROR] 잘못된 입력입니다.");
+            System.out.println();
+            return readGameType();
+        }
+    }
+
+    public int readGameNumber(List<OffsetDateTime> games) {
+        System.out.println("어떤 게임을 이어서 하시겠어요? (숫자만 입력)");
+        for (int i = 0; i < games.size(); i++) {
+            System.out.println(i + 1 + "번 게임 마지막 수정 시간 : " + games.get(i));
+        }
+
+        String input = scanner.nextLine().trim();
+        try {
+            int parsedInput = Integer.parseInt(input);
+            if (parsedInput > games.size()) {
+                throw new IllegalArgumentException();
+            }
+            System.out.println();
+            return parsedInput;
+        }
+        catch (Exception e) {
+            System.out.println("[ERROR] 잘못된 입력입니다.");
+            System.out.println();
+            return readGameNumber(games);
+        }
+    }
 
     public Formation readHorseElephantFormation(String team) {
         System.out.println(team + "의 초기 진형을 선택하세요. (숫자만 입력)");

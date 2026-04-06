@@ -4,6 +4,9 @@ import entity.GameEntity;
 
 import java.sql.*;
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameJdbcDao implements GameDao {
 
@@ -30,7 +33,7 @@ public class GameJdbcDao implements GameDao {
             rs = pstmt.getGeneratedKeys();
             if (rs.next()) {
                 Long generatedId = rs.getLong(1);
-                return new GameEntity(generatedId, game.getCurrentTurn(), game.getStatus());
+                return new GameEntity(generatedId, game.getCurrentTurn(), game.getStatus(), game.getUpdatedAt());
             }
             throw new RuntimeException("[ERROR] ID 생성 실패");
         } catch (SQLException e) {
@@ -58,6 +61,42 @@ public class GameJdbcDao implements GameDao {
             pstmt.setLong(4, gameId);
 
             pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("[ERROR] " + e.getMessage());
+        } finally {
+            close(con, pstmt, rs);
+        }
+    }
+
+    @Override
+    public List<GameEntity> findAll() {
+        String sql = "select * from games";
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            con = getConnection();
+            pstmt = con.prepareStatement(sql);
+
+            rs = pstmt.executeQuery();
+
+            List<GameEntity> gameEntities = new ArrayList<>();
+            while (rs.next()) {
+                GameEntity game = new GameEntity(
+                        rs.getLong("id"),
+                        rs.getString("current_turn"),
+                        rs.getString("status"),
+                        rs.getTimestamp("updated_at")
+                                .toInstant()
+                                .atZone(ZoneId.of("Asia/Seoul"))
+                                .toOffsetDateTime()
+                );
+
+                gameEntities.add(game);
+            }
+            return gameEntities;
         } catch (SQLException e) {
             throw new RuntimeException("[ERROR] " + e.getMessage());
         } finally {

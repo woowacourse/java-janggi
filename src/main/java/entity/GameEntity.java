@@ -10,13 +10,14 @@ public class GameEntity {
     private OffsetDateTime updatedAt;
 
     public GameEntity(String currentTurn, String status) {
-        this(null, currentTurn, status);
+        this(null, currentTurn, status, null);
     }
 
-    public GameEntity(Long id, String currentTurn, String status) {
+    public GameEntity(Long id, String currentTurn, String status, OffsetDateTime updatedAt) {
         this.id = id;
         this.currentTurn = currentTurn;
         this.status = status;
+        this.updatedAt = updatedAt;
     }
 
     public static GameEntity from(String currentTurn, String status) {
