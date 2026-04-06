@@ -32,6 +32,18 @@ public class TestGameDao implements GameDao {
     }
 
     @Override
+    public Optional<GameEntity> findByGameId(Connection con, Long gameId) {
+        if (!turnByGameId.containsKey(gameId)) {
+            return Optional.empty();
+        }
+
+        return Optional.of(new GameEntity(
+                gameId,
+                turnByGameId.get(gameId))
+        );
+    }
+
+    @Override
     public void deleteByGameId(Connection con, Long gameId) {
         if (!turnByGameId.containsKey(gameId)) {
             throw new IllegalStateException("게임이 없습니다.");

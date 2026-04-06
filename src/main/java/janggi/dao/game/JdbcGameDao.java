@@ -39,6 +39,35 @@ public class JdbcGameDao implements GameDao {
     }
 
     @Override
+    public Optional<GameEntity> findByGameId(
+            Connection con,
+            Long gameId
+    ) {
+        String sql = """
+                SELECT *
+                FROM game
+                WHERE game_id = (?)
+                """;
+
+        try (PreparedStatement psmt = con.prepareStatement(sql)){
+            psmt.setLong(1, gameId);
+            ResultSet rs = psmt.executeQuery();
+
+            if (!rs.next()) {
+                return Optional.empty();
+            }
+
+            return Optional.of(new GameEntity(
+                    rs.getLong(GAME_ID),
+                    rs.getString(CURRENT_TEAM)
+            ));
+
+        } catch (SQLException e) {
+            throw new IllegalStateException("게임 조회에 실패했습니다.", e);
+        }
+    }
+
+    @Override
     public Optional<GameEntity> findLatestGame(Connection con) {
         String sql = """
                 SELECT *

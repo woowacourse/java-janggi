@@ -64,6 +64,31 @@ public class JanggiService {
         });
     }
 
+    public Optional<LatestInProgressGameResponse> loadGameByGameId(Long gameId){
+        return transactionExecutor.execute(con -> {
+            Optional<GameEntity> gameEntityOpt =
+                    gameDao.findByGameId(con, gameId);
+
+            if (gameEntityOpt.isEmpty()) {
+                return Optional.empty();
+            }
+
+            GameEntity gameEntity = gameEntityOpt.get();
+            List<PieceEntity> pieceEntities =
+                    pieceDao.findAllByGameId(con, gameEntity.id());
+
+            PlayingBoard board = toBoard(pieceEntities);
+            Turn turn = toTurn(gameEntity, board);
+
+            LatestInProgressGameResponse response = new LatestInProgressGameResponse(
+                    gameEntity.id(),
+                    Janggi.continueFrom(turn)
+            );
+
+            return Optional.of(response);
+        });
+    }
+
     private PlayingBoard toBoard(List<PieceEntity> pieceEntities) {
         return PlayingBoard.of(
                 getBoardInfoFrom(pieceEntities)

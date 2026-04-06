@@ -65,4 +65,29 @@ class JdbcGameDaoTest extends DatabaseTest {
 
         assertThat(gameEntity.currentTurn()).isEqualTo("CHO");
     }
+
+    @DisplayName("game_id에 해당하는 게임을 조회한다.")
+    @Test
+    void findByGameId() {
+        //given
+        Long gameId = gameDao.save(con, "HAN");
+
+        //when
+        Optional<GameEntity> gameEntityOpt = gameDao.findByGameId(con, gameId);
+
+        //then
+        GameEntity gameEntity = gameEntityOpt.get();
+        assertThat(gameEntity.currentTurn()).isEqualTo("HAN");
+    }
+
+    @DisplayName("game_id에 해당하는 게임이 없으면 Optional.empty()를 반환한다.")
+    @Test
+    void findByGameId_empty() {
+        //when
+        Optional<GameEntity> gameEntityOpt =
+                gameDao.findByGameId(con, 1L);
+
+        //then
+        assertThat(gameEntityOpt).isEmpty();
+    }
 }

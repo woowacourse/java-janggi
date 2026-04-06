@@ -78,6 +78,43 @@ class JanggiServiceTest {
                 .getPieceType()).isEqualTo(PieceType.SA);
     }
 
+    @DisplayName("진행 중이던 게임이 없으면 Optional.empty()를 반환한다.")
+    @Test
+    void loadGameByGameId_empty() {
+        assertThat(janggiService.loadGameByGameId(100L))
+                .isEmpty();
+    }
+
+    @DisplayName("진행 중이던 게임을 조회한다.")
+    @Test
+    void loadGameByGameId_success() {
+        //given
+        Long gameId1 = gameDao.save(null, "HAN");
+        Long gameId2 = gameDao.save(null, "CHO");
+
+        pieceDao.save(null, gameId2, "BYEONG", 1, 1, "CHO");
+        pieceDao.save(null, gameId2, "JANG", 1, 2, "HAN");
+        pieceDao.save(null, gameId2, "SA", 1, 3, "CHO");
+
+        //when
+        Optional<LatestInProgressGameResponse> janggiOpt =
+                janggiService.loadGameByGameId(gameId2);
+
+        //then
+        Janggi janggi = janggiOpt.get().janggi();
+        assertThat(janggi.getCurrentTeam()).isEqualTo(Team.HAN);
+
+        Map<Position, Piece> boardInfo = janggi.getBoard().getBoardInfo();
+
+        assertThat(boardInfo.get(new Position(Row.ONE, Column.ONE))
+                .getPieceType()).isEqualTo(PieceType.BYEONG);
+        assertThat(boardInfo.get(new Position(Row.ONE, Column.TWO))
+                .getPieceType()).isEqualTo(PieceType.JANG);
+        assertThat(boardInfo.get(new Position(Row.ONE, Column.THREE))
+                .getPieceType()).isEqualTo(PieceType.SA);
+    }
+
+
     @DisplayName("새로운 게임을 시작한다.")
     @Test
     void initGame() {
