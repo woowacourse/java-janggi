@@ -12,6 +12,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class RedSoldierMoveStrategyTest {
 
+    private static final Position redSoliderPosition = new Position(3, 2);
+
     @ParameterizedTest
     @MethodSource("moveablePositions")
     @DisplayName("한나라 졸은 현재 위치 기준 하, 좌우 한 칸 이동할 수 있다.")
@@ -40,18 +42,17 @@ class RedSoldierMoveStrategyTest {
     }
 
     private static Stream<Arguments> moveablePositions() {
-        return Stream.of(Arguments.arguments(new Position(3, 2), new Position(3, 1)),
-                Arguments.arguments(new Position(3, 2), new Position(3, 3)),
-                Arguments.arguments(new Position(3, 2), new Position(4, 2)));
+        return Stream.of(Arguments.arguments(redSoliderPosition, redSoliderPosition.down()),
+                Arguments.arguments(redSoliderPosition, redSoliderPosition.left()),
+                Arguments.arguments(redSoliderPosition, redSoliderPosition.right()));
     }
 
     private static Stream<Arguments> nonMovablePositions() {
-        return Stream.of(Arguments.arguments(new Position(3, 2), new Position(5, 6)),
-                Arguments.arguments(new Position(3, 2), new Position(5, 7)),
-                Arguments.arguments(new Position(3, 2), new Position(5, 8)),
-
-                Arguments.arguments(new Position(3, 2), new Position(2, 2)),
-                Arguments.arguments(new Position(3, 2), new Position(1, 2)));
+        return Stream.of(Arguments.arguments(redSoliderPosition, redSoliderPosition.up()),
+                Arguments.arguments(redSoliderPosition, redSoliderPosition.down().down()),
+                Arguments.arguments(redSoliderPosition, redSoliderPosition.left().left()),
+                Arguments.arguments(redSoliderPosition, redSoliderPosition.down().left()),
+                Arguments.arguments(redSoliderPosition, redSoliderPosition.down().right()));
     }
 
 }

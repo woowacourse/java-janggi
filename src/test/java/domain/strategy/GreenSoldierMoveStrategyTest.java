@@ -10,7 +10,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class GreendSoldierMoveStrategyTest {
+class GreenSoldierMoveStrategyTest {
+
+    private static final Position greenSoliderPosition = new Position(6, 2);
 
     @ParameterizedTest
     @MethodSource("moveablePositions")
@@ -40,22 +42,17 @@ class GreendSoldierMoveStrategyTest {
     }
 
     private static Stream<Arguments> moveablePositions() {
-        return Stream.of(
-                Arguments.arguments(new Position(6, 2), new Position(6, 1)),
-                Arguments.arguments(new Position(6, 2), new Position(6, 3)),
-                Arguments.arguments(new Position(6, 2), new Position(5, 2))
-        );
+        return Stream.of(Arguments.arguments(greenSoliderPosition, greenSoliderPosition.up()),
+                Arguments.arguments(greenSoliderPosition, greenSoliderPosition.left()),
+                Arguments.arguments(greenSoliderPosition, greenSoliderPosition.right()));
     }
 
     private static Stream<Arguments> nonMovablePositions() {
-        return Stream.of(
-                Arguments.arguments(new Position(6, 2), new Position(6, 4)),
-                Arguments.arguments(new Position(6, 2), new Position(1, 2)),
-                Arguments.arguments(new Position(6, 2), new Position(5, 3)),
-
-                Arguments.arguments(new Position(6, 2), new Position(7, 2)),
-                Arguments.arguments(new Position(6, 2), new Position(8, 3))
-        );
+        return Stream.of(Arguments.arguments(greenSoliderPosition, greenSoliderPosition.down()),
+                Arguments.arguments(greenSoliderPosition, greenSoliderPosition.up().up()),
+                Arguments.arguments(greenSoliderPosition, greenSoliderPosition.left().left()),
+                Arguments.arguments(greenSoliderPosition, greenSoliderPosition.up().left()),
+                Arguments.arguments(greenSoliderPosition, greenSoliderPosition.up().right()));
     }
 
 }
