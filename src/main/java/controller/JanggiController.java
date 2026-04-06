@@ -33,6 +33,7 @@ public class JanggiController {
     public void run() {
         Game game = loadOrInitializeGame();
         play(game);
+        outputView.printVictoryMessage(game.getSide());
     }
 
     private void play(Game game) {
@@ -40,53 +41,21 @@ public class JanggiController {
             janggiService.save(game);
             outputView.printBoard(BoardMapper.toDto(game.getBoard()));
             outputView.printScore(ScoreMapper.toDto(game.calculateScore(Side.CHU), game.calculateScore(Side.HAN)));
-            GameCommand command = InputHandler.readUntilValid(() -> inputView.requestGameCommand(game.getSide()));
 
-            if (command == GameCommand.MOVE) {
-                handleMove(game);
-                janggiService.save(game);
-                continue;
-            }
+            GameCommand gameCommand = GameCommandFactory.create(InputHandler.readUntilValid(() ->
+                    inputView.requestGameCommand(game.getSide()))
+            );
+            gameCommand.execute(inputView, outputView, game);
+            handleCheckMate(game);
 
-            if (command == GameCommand.PASS) {
-                outputView.printTurnPassMessage(game.getSide());
-                game.pass();
-                janggiService.save(game);
-                continue;
-            }
-
-            if (command == GameCommand.SURRENDER) {
-                outputView.printSurrenderMessage(game.getSide());
-                game.end();
-                janggiService.save(game);
-            }
+            janggiService.save(game);
         }
-
-        outputView.printVictoryMessage(game.getSide());
     }
 
-    private void handleMove(Game game) {
-        Position start = InputHandler.readUntilValid(() ->
-                game.validateMoveable(createPosition(
-                        inputView.requestStartPiecePosition(game.getSide())))
-        );
-
-        List<Position> possibleMoves = game.getPossibleMoves(start);
-        Position dest = InputHandler.readUntilValid(() ->
-                game.getEndPosition(
-                        inputView.requestPieceDestination(PossibleMovesMapper.toDto(possibleMoves)),
-                        possibleMoves)
-        );
-
-        game.movePiece(start, dest);
-
+    private void handleCheckMate(Game game) {
         if (game.isCheckmate()) {
             outputView.printCheckMateMessage();
             game.end();
-        }
-
-        if (!game.isSafe()) {
-            outputView.printCheckMessage();
         }
     }
 
@@ -113,11 +82,5 @@ public class JanggiController {
 
         game.assignId(1L);
         return game;
-    }
-
-    private Position createPosition(List<Integer> inputs) {
-        int col = inputs.get(0);
-        int row = inputs.get(1);
-        return Position.of(col, row);
     }
 }

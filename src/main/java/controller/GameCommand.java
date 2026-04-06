@@ -1,8 +1,10 @@
 package controller;
 
-public enum GameCommand {
+import domain.Game;
+import view.InputView;
+import view.OutputView;
 
-    MOVE,
-    PASS,
-    SURRENDER
+public interface GameCommand {
+
+    void execute(InputView inputView, OutputView outputView, Game game);
 }
