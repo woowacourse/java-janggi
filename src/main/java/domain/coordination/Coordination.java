@@ -64,6 +64,14 @@ public class Coordination {
         return List.of(column.index(), row.index());
     }
 
+    public boolean isInRange(int minColumn, int maxColumn, int minRow, int maxRow) {
+        int columnIndex = column.index();
+        int rowIndex = row.index();
+        return columnIndex >= minColumn
+                && columnIndex <= maxColumn
+                && rowIndex >= minRow
+                && rowIndex <= maxRow;
+    }
 
     public List<Coordination> betweenRowCoordination(Coordination other) {
         List<Coordination> coordinations = new ArrayList<>();
