@@ -19,11 +19,11 @@ public abstract class Piece {
 
     public Destinations findDestinations(Position current, BoardReader board) {
         List<Path> paths = movementStrategy.generatePaths(current);
-        List<Position> validDestinations = filterValidPositions(current, paths, board);
+        List<Position> validDestinations = filterValidPositions(paths, board);
         return new Destinations(validDestinations);
     }
 
-    protected abstract List<Position> filterValidPositions(Position current, List<Path> paths, BoardReader board);
+    protected abstract List<Position> filterValidPositions(List<Path> paths, BoardReader board);
 
     protected List<Position> filterStandardPaths(List<Path> paths, BoardReader board) {
         return paths.stream()

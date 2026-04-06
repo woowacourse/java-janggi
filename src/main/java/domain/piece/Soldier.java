@@ -15,7 +15,7 @@ public class Soldier extends Piece {
     }
 
     @Override
-    protected List<Position> filterValidPositions(Position current, List<Path> paths, BoardReader board) {
+    protected List<Position> filterValidPositions(List<Path> paths, BoardReader board) {
         return filterStandardPaths(paths, board);
     }
 
