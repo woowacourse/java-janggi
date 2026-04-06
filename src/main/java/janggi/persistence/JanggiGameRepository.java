@@ -120,29 +120,6 @@ public class JanggiGameRepository implements GameRepository {
     }
 
     @Override
-    public LocalDateTime findCreatedAtById(Connection connection, long gameId) throws SQLException {
-        String sql = "select created_at from game where game_id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            return executeFindCreatedAtById(statement, gameId);
-        }
-
-    }
-
-    private LocalDateTime executeFindCreatedAtById(PreparedStatement statement, long gameId) throws SQLException {
-        statement.setLong(1, gameId);
-        try (ResultSet resultSet = statement.executeQuery()) {
-            return mapToLocalDateTime(resultSet);
-        }
-    }
-
-    private LocalDateTime mapToLocalDateTime(ResultSet resultSet) throws SQLException {
-        if (!resultSet.next()) {
-            throw new SQLException("해당 ID의 게임이 조회되지 않습니다.");
-        }
-        return resultSet.getObject("created_at", LocalDateTime.class);
-    }
-
-    @Override
     public void updateTurn(Connection connection, long gameId, GameManager gameManager) throws SQLException {
         String sql = "update game set current_turn = ? where game_id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
