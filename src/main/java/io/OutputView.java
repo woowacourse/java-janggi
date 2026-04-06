@@ -112,10 +112,10 @@ public class OutputView {
 
     public void printSavedGameEnded(TeamColor winner) {
         if (winner == null) {
-            System.out.println("저장된 게임은 이미 종료되었습니다.");
+            System.out.println("저장된 게임은 종료되어 새 게임을 진행합니다.");
             return;
         }
-        System.out.println("저장된 게임은 이미 종료되었습니다. 승자: " + winner.getDisplayName());
+        System.out.println("저장된 게임은 종료되어 새 게임을 진행합니다. 승자: " + winner.getDisplayName());
     }
 
     public void printError(String message) {
