@@ -3,12 +3,15 @@ package janggi.service;
 import janggi.domain.JanggiGameManager;
 import janggi.domain.Turn.ChoTurn;
 import janggi.domain.Turn.GameState;
+import janggi.domain.Turn.HanTurn;
 import janggi.domain.board.Board;
 import janggi.domain.position.Position;
 import janggi.domain.space.Space;
 import janggi.domain.space.piece.Piece;
 import janggi.domain.space.piece.Team;
+import janggi.domain.strategy.LoadStrategy;
 import janggi.infrastructure.JDBCBoardRepository;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -25,9 +28,20 @@ public class JanggiService {
         gameManager = new JanggiGameManager(new ChoTurn(initBoard));
     }
 
-    public void startLoadGame(Board initBoard, GameState currentState) {
-        gameManager = new JanggiGameManager(currentState);
+    public void startLoadGame(long gameId) {
+        String currentTurn = boardRepository.findTurnById(gameId);
+        Map<Position, Piece> pieceInfo = boardRepository.findPiecesById(gameId);
+
+        Board loadedBoard = new Board(new LoadStrategy(pieceInfo));
+
+        GameState currentState = new HanTurn(loadedBoard);
+        if ("CHO".equals(currentTurn)) {
+            currentState = new ChoTurn(loadedBoard);
+        }
+
+        this.gameManager = new JanggiGameManager(currentState);
     }
+
 
     public boolean isFinished() {
         return gameManager.isFinished();
@@ -45,6 +59,10 @@ public class JanggiService {
         Map<Position, Piece> arrivePieces = getAlivePieces();
         String currentTurn = getCurrenTurn();
         boardRepository.saveGame(gameId, currentTurn, arrivePieces);
+    }
+
+    public List<Long> getSavedGameIds() {
+        return boardRepository.findAllGameIds();
     }
 
     private Map<Position, Piece> getAlivePieces() {
