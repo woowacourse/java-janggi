@@ -13,5 +13,5 @@ CREATE TABLE IF NOT EXISTS piece (
     team VARCHAR(10) NOT NULL,
     position_x INT NOT NULL,
     position_y INT NOT NULL,
-    FOREIGN KEY (game_id) REFERENCES game(id)
+    FOREIGN KEY (game_id) REFERENCES game(id) ON DELETE CASCADE
 );
