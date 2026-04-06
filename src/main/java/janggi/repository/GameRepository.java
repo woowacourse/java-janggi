@@ -7,7 +7,6 @@ import janggi.domain.board.initializer.SnapshotBoardInitializer;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
-import janggi.service.LoadedGame;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,7 +28,7 @@ public class GameRepository {
         return gameStateDao.findAllIds(connection);
     }
 
-    public Optional<LoadedGame> findById(Connection connection, long gameId) {
+    public Optional<Game> findById(Connection connection, long gameId) {
         Optional<String> currentTurn = gameStateDao.findCurrentTurn(connection, gameId);
         if (currentTurn.isEmpty()) {
             return Optional.empty();
@@ -37,13 +36,10 @@ public class GameRepository {
 
         Map<Position, Piece> boardSnapshot = toBoardSnapshot(gamePieceDao.findByGameId(connection, gameId));
         Board board = new Board(new SnapshotBoardInitializer(boardSnapshot));
-        Game restoredGame = Game.restore(board, Camp.valueOf(currentTurn.orElseThrow()));
-
-        return Optional.of(new LoadedGame(gameId, restoredGame));
+        return Optional.of(Game.restore(board, Camp.valueOf(currentTurn.orElseThrow())));
     }
 
-    public LoadedGame create(Connection connection, Board board) {
-        Game game = Game.start(board);
+    public long create(Connection connection, Game game) {
         long gameId = gameStateDao.create(connection, game.currentTurn().name());
 
         gamePieceDao.save(
@@ -51,7 +47,7 @@ public class GameRepository {
                 gameId,
                 toGamePieceRows(game.boardSnapshot())
         );
-        return new LoadedGame(gameId, game);
+        return gameId;
     }
 
     public void update(Connection connection, long id, Game game) {

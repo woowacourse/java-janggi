@@ -22,15 +22,18 @@ public class GameService {
     }
 
     public Optional<LoadedGame> findById(long gameId) {
-        return transactionManager.withoutTransaction(connection ->
+        Optional<Game> foundGame = transactionManager.withoutTransaction(connection ->
                 gameRepository.findById(connection, gameId)
         );
+        return foundGame.map(game -> new LoadedGame(gameId, game));
     }
 
     public LoadedGame create(Board board) {
-        return transactionManager.inTransaction(connection -> {
-            return gameRepository.create(connection, board);
+        Game game = Game.start(board);
+        long gameId = transactionManager.inTransaction(connection -> {
+            return gameRepository.create(connection, game);
         });
+        return new LoadedGame(gameId, game);
     }
 
     public void update(long id, Game game) {
