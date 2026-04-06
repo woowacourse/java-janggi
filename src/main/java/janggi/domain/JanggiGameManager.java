@@ -29,4 +29,8 @@ public class JanggiGameManager {
     public Optional<Team> getCurrentTeam() {
         return currentState.getTeam();
     }
+
+    public double getPieceScore() {
+        return currentState.calculatePieceScore();
+    }
 }

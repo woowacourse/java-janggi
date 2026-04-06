@@ -14,4 +14,6 @@ public interface GameState {
     Map<Position, Space> captureBoard();
 
     Optional<Team> getTeam();
+
+    double calculatePieceScore();
 }

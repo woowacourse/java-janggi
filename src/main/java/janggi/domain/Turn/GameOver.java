@@ -34,4 +34,9 @@ public class GameOver implements GameState {
     public Optional<Team> getTeam() {
         return Optional.empty();
     }
+
+    @Override
+    public double calculatePieceScore() {
+        throw new IllegalStateException("종료된 게임입니다.");
+    }
 }

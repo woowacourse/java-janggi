@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Optional;
 
 public class HanTurn implements GameState {
+    private static final double BONUS_SCORE = 1.5;
+
     private final Team team;
     private final Board board;
 
@@ -41,4 +43,11 @@ public class HanTurn implements GameState {
     public Optional<Team> getTeam() {
         return Optional.of(team);
     }
+
+    @Override
+    public double calculatePieceScore() {
+        return BONUS_SCORE + board.calculatePieceScore(team);
+    }
+
+
 }

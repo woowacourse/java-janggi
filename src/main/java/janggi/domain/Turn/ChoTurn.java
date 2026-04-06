@@ -40,4 +40,9 @@ public class ChoTurn implements GameState {
     public Optional<Team> getTeam() {
         return Optional.of(team);
     }
+
+    @Override
+    public double calculatePieceScore() {
+        return board.calculatePieceScore(team);
+    }
 }
