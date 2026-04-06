@@ -63,4 +63,61 @@ class TankTest {
         // when, then
         assertThat(tank.canMove(from, to, board)).isFalse();
     }
+
+    @ParameterizedTest
+    @CsvSource({
+            "7, 3, 9, 5",
+            "9, 5, 7, 3",
+            "7, 5, 9, 3",
+            "9, 3, 7, 5"
+    })
+    void 궁성_안에서_대각선_이동_테스트(int fromRow, int fromCol, int toRow, int toCol) {
+        // given
+        Position from = new Position(fromRow, fromCol);
+        Position to = new Position(toRow, toCol);
+
+        // when & then
+        assertThat(tank.canMove(from, to, board))
+                .isTrue();
+    }
+
+    @Test
+    void 궁성_밖_대각선_이동_실패_테스트() {
+        // given
+        Position from = new Position(8, 4);
+        Position to = new Position(6, 2);
+
+        // when, then
+        assertThat(tank.canMove(from, to, board)).isFalse();
+    }
+
+    @Test
+    void 궁성_관통_직선_이동_테스트() {
+        // given
+        Position from = new Position(5, 4);
+        Position to = new Position(9, 4);
+
+        // when, then
+        assertThat(tank.canMove(from, to, board)).isTrue();
+    }
+
+    @Test
+    void 궁성_안에서_밖으로_직선_이동_테스트() {
+        // given
+        Position from = new Position(8, 4);
+        Position to = new Position(8, 1);
+
+        // when, then
+        assertThat(tank.canMove(from, to, board)).isTrue();
+    }
+
+    @Test
+    void 궁성_밖에서_안으로_직선_이동_테스트() {
+        // given
+        Position from = new Position(8, 1);
+        Position to = new Position(8, 4);
+
+        // when, then
+        assertThat(tank.canMove(from, to, board)).isTrue();
+    }
 }
