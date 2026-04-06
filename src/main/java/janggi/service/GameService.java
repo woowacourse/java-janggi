@@ -4,7 +4,6 @@ import janggi.db.TransactionManager;
 import janggi.db.TransactionManager.SqlConsumer;
 import janggi.db.TransactionManager.SqlFunction;
 import janggi.domain.Game;
-import janggi.domain.LoadedGame;
 import janggi.domain.board.Board;
 import janggi.domain.board.Position;
 import janggi.domain.board.initializer.SnapshotBoardInitializer;

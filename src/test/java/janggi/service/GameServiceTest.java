@@ -6,7 +6,6 @@ import janggi.db.DatabaseInitializer;
 import janggi.db.TestConnectionManager;
 import janggi.db.TransactionManager;
 import janggi.domain.Game;
-import janggi.domain.LoadedGame;
 import janggi.domain.board.Board;
 import janggi.domain.board.Position;
 import janggi.domain.board.initializer.ElephantSetUp;

@@ -1,7 +1,6 @@
 package janggi;
 
 import janggi.domain.Game;
-import janggi.domain.LoadedGame;
 import janggi.domain.board.Board;
 import janggi.domain.board.Position;
 import janggi.domain.board.initializer.BoardInitializer;
@@ -9,6 +8,7 @@ import janggi.domain.board.initializer.ElephantSetUp;
 import janggi.domain.board.initializer.StandardBoardInitializer;
 import janggi.domain.piece.Camp;
 import janggi.service.GameService;
+import janggi.service.LoadedGame;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import janggi.view.dto.CampDto;
