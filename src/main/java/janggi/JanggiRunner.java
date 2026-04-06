@@ -10,6 +10,8 @@ import java.util.List;
 
 public class JanggiRunner {
 
+    private static final String CANCEL = "cancel";
+
     private final InputView inputView;
     private final OutputView outputView;
 
@@ -27,7 +29,8 @@ public class JanggiRunner {
             Position startPosition = ActionExecutor.retryUntilSuccess(
                 () -> readValidStartPosition(janggiGame), outputView
             );
-            Position endPosition = ActionExecutor.retryUntilSuccess(
+            Position endPosition;
+            endPosition = ActionExecutor.retryUntilSuccess(
                 () -> readValidEndPosition(janggiGame, startPosition), outputView
             );
             janggiGame.doGame(startPosition, endPosition);
@@ -53,9 +56,16 @@ public class JanggiRunner {
     private Position readValidEndPosition(JanggiGame janggiGame, Position startPosition) {
         outputView.printAskMovePosition(janggiGame.findPiece(startPosition).nickname());
         String rawMovePosition = inputView.readLine();
+        if (isCancelCommand(rawMovePosition)) {
+            throw new IllegalArgumentException("말 선택을 취소했습니다. 다시 선택해 주세요.");
+        }
         List<String> parsedMovePosition = DelimiterParser.parse(rawMovePosition);
         Position endPosition = Position.makePosition(parsedMovePosition);
         janggiGame.validateValidEndPosition(startPosition, endPosition);
         return endPosition;
+    }
+
+    private boolean isCancelCommand(String input) {
+        return CANCEL.equals(input);
     }
 }

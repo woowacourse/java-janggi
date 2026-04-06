@@ -92,6 +92,29 @@ class BoardTest {
     }
 
     @Test
+    @DisplayName("궁은 궁성 대각선으로 이동할 수 있다.")
+    void canMoveGungDiagonallyInsidePalace() {
+        // given
+        Board board = Board.createInitialBoard();
+
+        // when & then
+        assertThatCode(() -> board.canMove(new Position(5, 2), new Position(4, 3), TeamType.CHU))
+            .doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("궁은 궁성 밖으로 이동할 수 없다.")
+    void cannotMoveGungOutsidePalace() {
+        // given
+        Board board = Board.createInitialBoard();
+
+        // when & then
+        assertThatThrownBy(() -> board.canMove(new Position(5, 2), new Position(3, 2), TeamType.CHU))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("이동할 수 없는 위치입니다.");
+    }
+
+    @Test
     @DisplayName("장애물이 있는 차의 이동은 막는다.")
     void cannotMoveChaWhenPathIsBlocked() {
         // given
@@ -131,6 +154,62 @@ class BoardTest {
         assertThatThrownBy(() -> board.canMove(poStartPosition, poEndPosition, TeamType.CHU))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("이동할 수 없는 위치입니다.");
+    }
+
+    @Test
+    @DisplayName("졸은 궁성 안에서 전진 대각선으로 이동할 수 있다.")
+    void canMoveJolDiagonallyInsidePalace() {
+        // given
+        Board board = Board.createInitialBoard();
+        Board firstMovedBoard = board.move(new Position(5, 7), new Position(5, 6), TeamType.HAN);
+        Board secondMovedBoard = firstMovedBoard.move(new Position(5, 6), new Position(5, 5), TeamType.HAN);
+        Board thirdMovedBoard = secondMovedBoard.move(new Position(5, 5), new Position(5, 4), TeamType.HAN);
+        Board fourthMovedBoard = thirdMovedBoard.move(new Position(5, 4), new Position(5, 3), TeamType.HAN);
+        Board movedBoard = fourthMovedBoard.move(new Position(5, 3), new Position(4, 3), TeamType.HAN);
+
+        // when & then
+        assertThatCode(() -> movedBoard.canMove(new Position(4, 3), new Position(5, 2), TeamType.HAN))
+            .doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("궁성 대각선 경로가 막혀 있으면 차는 이동할 수 없다.")
+    void cannotMoveChaDiagonallyInsidePalaceWhenRouteIsBlocked() {
+        // given
+        Board board = Board.createInitialBoard();
+        Board firstMovedBoard = board.move(new Position(5, 2), new Position(5, 3), TeamType.CHU);
+        Board secondMovedBoard = firstMovedBoard.move(new Position(4, 1), new Position(4, 2), TeamType.CHU);
+        Board thirdMovedBoard = secondMovedBoard.move(new Position(1, 4), new Position(2, 4), TeamType.CHU);
+        Board fourthMovedBoard = thirdMovedBoard.move(new Position(2, 3), new Position(2, 6), TeamType.CHU);
+        Board fifthMovedBoard = fourthMovedBoard.move(new Position(4, 2), new Position(5, 2), TeamType.CHU);
+        Board sixthMovedBoard = fifthMovedBoard.move(new Position(1, 1), new Position(1, 3), TeamType.CHU);
+        Board seventhMovedBoard = sixthMovedBoard.move(new Position(1, 3), new Position(4, 3), TeamType.CHU);
+        Board movedBoard = seventhMovedBoard.move(new Position(4, 3), new Position(4, 1), TeamType.CHU);
+
+        // when & then
+        assertThatThrownBy(() -> movedBoard.canMove(new Position(4, 1), new Position(6, 3), TeamType.CHU))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("이동할 수 없는 위치입니다.");
+    }
+
+    @Test
+    @DisplayName("궁성 대각선 경로가 비어 있으면 차는 이동할 수 있다.")
+    void canMoveChaDiagonallyInsidePalaceWhenRouteIsEmpty() {
+        // given
+        Board board = Board.createInitialBoard();
+        Board firstMovedBoard = board.move(new Position(5, 2), new Position(5, 3), TeamType.CHU);
+        Board secondMovedBoard = firstMovedBoard.move(new Position(4, 1), new Position(4, 2), TeamType.CHU);
+        Board thirdMovedBoard = secondMovedBoard.move(new Position(1, 4), new Position(2, 4), TeamType.CHU);
+        Board fourthMovedBoard = thirdMovedBoard.move(new Position(2, 3), new Position(2, 6), TeamType.CHU);
+        Board fifthMovedBoard = fourthMovedBoard.move(new Position(4, 2), new Position(5, 2), TeamType.CHU);
+        Board sixthMovedBoard = fifthMovedBoard.move(new Position(1, 1), new Position(1, 3), TeamType.CHU);
+        Board seventhMovedBoard = sixthMovedBoard.move(new Position(1, 3), new Position(4, 3), TeamType.CHU);
+        Board eighthMovedBoard = seventhMovedBoard.move(new Position(4, 3), new Position(4, 1), TeamType.CHU);
+        Board movedBoard = eighthMovedBoard.move(new Position(5, 2), new Position(6, 2), TeamType.CHU);
+
+        // when & then
+        assertThatCode(() -> movedBoard.canMove(new Position(4, 1), new Position(6, 3), TeamType.CHU))
+            .doesNotThrowAnyException();
     }
 
     @Test
@@ -191,6 +270,26 @@ class BoardTest {
             () -> assertThat(secondMovedBoard.findPiece(new Position(1, 7))).get().isInstanceOf(Jol.class),
             () -> assertThat(capturedBoard.findPiece(new Position(1, 6))).isEmpty(),
             () -> assertThat(capturedBoard.findPiece(new Position(1, 7))).get().isInstanceOf(Jol.class)
+        );
+    }
+
+    @Test
+    @DisplayName("궁이 잡히면 승자를 확인할 수 있다.")
+    void findWinnerWhenGungIsCaptured() {
+        // given
+        Board board = Board.createInitialBoard();
+
+        // when
+        Board firstMovedBoard = board.move(new Position(1, 4), new Position(2, 4), TeamType.CHU);
+        Board secondMovedBoard = firstMovedBoard.move(new Position(1, 1), new Position(1, 4), TeamType.CHU);
+        Board thirdMovedBoard = secondMovedBoard.move(new Position(1, 4), new Position(1, 7), TeamType.CHU);
+        Board fourthMovedBoard = thirdMovedBoard.move(new Position(1, 7), new Position(1, 9), TeamType.CHU);
+        Board capturedBoard = fourthMovedBoard.move(new Position(1, 9), new Position(5, 9), TeamType.CHU);
+
+        // then
+        assertAll(
+            () -> assertThat(capturedBoard.hasGung(TeamType.HAN)).isFalse(),
+            () -> assertThat(capturedBoard.findWinner()).contains(TeamType.CHU)
         );
     }
 }

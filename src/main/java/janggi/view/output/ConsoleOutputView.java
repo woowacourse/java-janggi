@@ -71,7 +71,7 @@ public class ConsoleOutputView implements OutputView {
 
     @Override
     public void printAskMovePosition(String nickname) {
-        printMessage(nickname + "의 목적 좌표를 입력해주세요. (ex. 1,3)");
+        printMessage(nickname + "의 목적 좌표를 입력해주세요. (ex. 1,3) /  말 선택을 취소하시려면 cancel을 입력해주세요.");
     }
 
     private void printHeader() {
