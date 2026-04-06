@@ -19,4 +19,8 @@ public enum Team {
             .findFirst()
             .orElseThrow(() -> new IllegalArgumentException("[ERROR] 적절하지 않은 진영입니다."));
     }
+
+    public String getName() {
+        return name;
+    }
 }

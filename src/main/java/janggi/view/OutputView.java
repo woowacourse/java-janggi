@@ -17,9 +17,9 @@ public class OutputView {
     }
 
     public static void printTeamScore(Board board) {
-        System.out.printf(TEAM_SCORE, Team.CHO.name(), board.getChoScore());
+        System.out.printf(TEAM_SCORE, Team.CHO.getName(), board.getChoScore());
         printLine();
-        System.out.printf(TEAM_SCORE, Team.HAN.name(), board.getHanScore());
+        System.out.printf(TEAM_SCORE, Team.HAN.getName(), board.getHanScore());
         printLine();
     }
 
