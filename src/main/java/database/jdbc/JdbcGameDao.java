@@ -33,25 +33,23 @@ public class JdbcGameDao implements GameDao {
     }
 
     @Override
-    public Optional<GameEntity> findById(int gameId) {
-        String sql = "SELECT id, status, current_turn FROM game WHERE id = ?";
+    public Optional<GameEntity> findLatestPlaying() {
+        String sql = "SELECT id, status, current_turn FROM game WHERE status = 'PLAYING' ORDER BY id DESC LIMIT 1";
         try (Connection connection = DatabaseConnector.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+             PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
 
-            statement.setInt(1, gameId);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    GameEntity entity = new GameEntity(
-                            resultSet.getInt("id"),
-                            resultSet.getString("status"),
-                            Team.valueOf(resultSet.getString("current_turn"))
-                    );
-                    return Optional.of(entity);
-                }
+            if (resultSet.next()) {
+                GameEntity entity = new GameEntity(
+                        resultSet.getInt("id"),
+                        resultSet.getString("status"),
+                        Team.valueOf(resultSet.getString("current_turn"))
+                );
+                return Optional.of(entity);
             }
             return Optional.empty();
         } catch (SQLException e) {
-            throw new RuntimeException("게임 조회에 실패했습니다. gameId: " + gameId, e);
+            throw new RuntimeException("진행중인 게임 조회에 실패했습니다.", e);
         }
     }
 

@@ -7,7 +7,7 @@ import java.util.Optional;
 public interface GameDao {
     int createGame(Team initialTurn);
 
-    Optional<GameEntity> findById(int gameId);
+    Optional<GameEntity> findLatestPlaying();
 
     void updateTurn(int gameId, Team team);
 
