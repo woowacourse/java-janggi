@@ -1,7 +1,7 @@
 package domain.pieces;
 
 import domain.Camp;
-import domain.ExistBoard;
+import domain.BoardChecker;
 import domain.MovingFunction;
 import domain.PieceType;
 import domain.Position;
@@ -18,7 +18,7 @@ public class Horse extends Piece {
     }
 
     @Override
-    public boolean canMove(Position from, Position to, ExistBoard existBoard) {
+    public boolean canMove(Position from, Position to, BoardChecker existBoard) {
         Map<Position, List<Position>> routeOfDestination = new HashMap<>();
 
         routeOfDestination.putAll(move(from, this::north, this::northEast, existBoard));
@@ -34,7 +34,7 @@ public class Horse extends Piece {
     }
 
     private Map<Position, List<Position>> move(Position position, MovingFunction firstMovement,
-            MovingFunction secondMovement, ExistBoard existBoard) {
+            MovingFunction secondMovement, BoardChecker existBoard) {
         Map<Position, List<Position>> movablePositions = new HashMap<>();
         List<Position> collectedMovablePositions = new ArrayList<>();
         Optional<Position> next1 = firstMovement.move(position);

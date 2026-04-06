@@ -1,7 +1,7 @@
 package domain.pieces;
 
 import domain.Camp;
-import domain.ExistBoard;
+import domain.BoardChecker;
 import domain.MovingFunction;
 import domain.PieceType;
 import domain.Position;
@@ -18,7 +18,7 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public boolean canMove(Position from, Position to, ExistBoard existBoard) {
+    public boolean canMove(Position from, Position to, BoardChecker existBoard) {
         Map<Position, List<Position>> routeOfDestination = new HashMap<>();
 
         routeOfDestination.putAll(move(from, existBoard, this::north));
@@ -29,7 +29,7 @@ public class Cannon extends Piece {
         return routeOfDestination.containsKey(to);
     }
 
-    private Map<Position, List<Position>> move(Position position, ExistBoard existBoard,
+    private Map<Position, List<Position>> move(Position position, BoardChecker existBoard,
             MovingFunction movement) {
         Map<Position, List<Position>> movablePositions = new HashMap<>();
         Optional<Position> next = movement.move(position);
@@ -44,7 +44,7 @@ public class Cannon extends Piece {
     }
 
     private Map<Position, List<Position>> collectMovablePositions(Position position,
-            ExistBoard existBoard, MovingFunction movement) {
+            BoardChecker existBoard, MovingFunction movement) {
         Map<Position, List<Position>> movablePositions = new HashMap<>();
         List<Position> collectedMovablePositions = new ArrayList<>();
         Optional<Position> next = movement.move(position);
@@ -65,7 +65,7 @@ public class Cannon extends Piece {
         return movablePositions;
     }
 
-    private boolean checkCannonJumping(Position position, ExistBoard existBoard) {
+    private boolean checkCannonJumping(Position position, BoardChecker existBoard) {
         return existBoard.isExist(position) && existBoard.isNotCannon(position);
     }
 

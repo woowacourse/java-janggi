@@ -1,6 +1,6 @@
 package domain;
 
-public interface ExistBoard {
+public interface BoardChecker {
 
     boolean isExist(Position position);
 

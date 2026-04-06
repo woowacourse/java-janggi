@@ -1,7 +1,7 @@
 package domain.pieces;
 
 import domain.Camp;
-import domain.ExistBoard;
+import domain.BoardChecker;
 import domain.MovingFunction;
 import domain.PieceType;
 import domain.Position;
@@ -16,7 +16,7 @@ public class Guard extends Piece {
     }
 
     @Override
-    public boolean canMove(Position from, Position to, ExistBoard existBoard) {
+    public boolean canMove(Position from, Position to, BoardChecker existBoard) {
 
         Set<Position> destination = new HashSet<>();
 

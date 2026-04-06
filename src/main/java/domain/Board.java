@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Board implements ExistBoard {
+public class Board implements BoardChecker {
 
     private final Map<Position, Piece> board = new HashMap<>();
 

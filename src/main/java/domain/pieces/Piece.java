@@ -1,7 +1,7 @@
 package domain.pieces;
 
 import domain.Camp;
-import domain.ExistBoard;
+import domain.BoardChecker;
 import domain.PieceType;
 import domain.Position;
 import java.util.Optional;
@@ -22,7 +22,7 @@ public abstract class Piece {
         return this.camp == camp;
     }
 
-    public abstract boolean canMove(Position from, Position to, ExistBoard existBoard);
+    public abstract boolean canMove(Position from, Position to, BoardChecker existBoard);
 
     public abstract PieceType getPieceType();
 
