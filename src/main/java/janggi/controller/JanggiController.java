@@ -8,7 +8,7 @@ import janggi.domain.common.Team;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.List;
-import java.util.function.Supplier;
+import java.util.Optional;
 
 public class JanggiController {
 
@@ -17,17 +17,15 @@ public class JanggiController {
     private final BoardInitiator boardInitiator = new BoardInitiator();
 
     public void run() {
-        Board board = new Board();
-
-        choiceBoardFormation(board);
-
         boolean isChoTurn = true;
+        boolean isGameOver = false;
 
+        Board board = new Board();
+        choiceBoardFormation(board);
         outputView.printBoard(board.getBoard());
 
-        while (true) {
+        while (!isGameOver) {
             playGame(isChoTurn, board);
-
             isChoTurn = changeTurn(isChoTurn);
         }
     }
@@ -47,13 +45,13 @@ public class JanggiController {
     private void playGame(boolean isChoTurn, Board board) {
         outputView.printTurnMessage(isChoTurn);
 
-        Position movePiecePosition = doLoop(() -> askMovePiecePosition(board));
+        Position movePiecePosition = askMovePiecePositionUntilValid(board);
 
         List<Position> availablePositions = board.findAvailablePositions(movePiecePosition);
 
         outputView.printAvailablePositions(board.getBoard(), availablePositions);
 
-        Position movePosition = doLoop(() -> askMovePosition(board, movePiecePosition));
+        Position movePosition = askMovePositionUntilValid(board, movePiecePosition);
 
         board.movePiece(movePiecePosition, movePosition);
 
@@ -64,27 +62,44 @@ public class JanggiController {
         return !isChoTurn;
     }
 
-    private Position askMovePosition(Board board, Position movePiecePosition) {
-        outputView.printMoveChoiceInfo();
-        Position position = inputView.readPosition();
-        board.validateDestination(movePiecePosition, position);
-        return position;
-    }
-
-    private Position askMovePiecePosition(Board board) {
-        outputView.printMoveInfo();
-        Position position = inputView.readPosition();
-        board.findAvailablePositions(position);
-        return position;
-    }
-
-    private <T> T doLoop(Supplier<T> inputFunction) {
-        while (true) {
-            try {
-                return inputFunction.get();
-            } catch (IllegalArgumentException e) {
-                outputView.printErrorMessage(e.getMessage());
-            }
+    private Position askMovePiecePositionUntilValid(Board board) {
+        Optional<Position> position = Optional.empty();
+        while (position.isEmpty()) {
+            position = askMovePiecePosition(board, position);
         }
+        return position.get();
+    }
+
+    private Optional<Position> askMovePiecePosition(Board board, Optional<Position> position) {
+        try {
+            outputView.printMoveInfo();
+            Position input = inputView.readPosition();
+            board.validateMovePiecePosition(input);
+            board.findAvailablePositions(input);
+            position = Optional.of(input);
+        } catch (IllegalArgumentException e) {
+            outputView.printErrorMessage(e.getMessage());
+        }
+        return position;
+    }
+
+    private Position askMovePositionUntilValid(Board board, Position movePiecePosition) {
+        Optional<Position> position = Optional.empty();
+        while (position.isEmpty()) {
+            position = askMovePosition(board, movePiecePosition, position);
+        }
+        return position.get();
+    }
+
+    private Optional<Position> askMovePosition(Board board, Position movePiecePosition, Optional<Position> position) {
+        try {
+            outputView.printMoveChoiceInfo();
+            Position input = inputView.readPosition();
+            board.validateDestination(movePiecePosition, input);
+            position = Optional.of(input);
+        } catch (IllegalArgumentException e) {
+            outputView.printErrorMessage(e.getMessage());
+        }
+        return position;
     }
 }

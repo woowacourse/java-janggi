@@ -38,6 +38,12 @@ public class Board {
         return piece.findMovablePositions(this, position);
     }
 
+    public void validateMovePiecePosition(Position movePiecePosition) {
+        if (!hasPiece(movePiecePosition)) {
+            throw new IllegalArgumentException("[ERROR] 빈 칸을 선택하셨습니다.");
+        }
+    }
+
     public void validateDestination(Position movePiecePosition, Position destination) {
         List<Position> availablePositions = findAvailablePositions(movePiecePosition);
         boolean hasPosition = false;
