@@ -20,7 +20,6 @@ public class JanggiGame {
         PieceType killPieceType = board.move(start, end);
         if (killPieceType==PieceType.JANG){
             this.state = state.exitGame();
-
             return;
         }
         this.state = state.changeTurn();
@@ -46,28 +45,24 @@ public class JanggiGame {
     }
 
     public Country calculateWinner(){
-        int choScore = board.calculateScore(Country.CHO);
-        int hanScore = board.calculateScore(Country.HAN);
+        double choScore = calculateScore(Country.CHO);
+        double hanScore = calculateScore(Country.HAN);
         boolean isChoKingAlive = board.isKingAlive(Country.CHO);
         boolean isHanKingAlive = board.isKingAlive(Country.HAN);
-        if (!isChoKingAlive || isHanKingAlive){
+        if (!isChoKingAlive && isHanKingAlive){
             return Country.HAN;
         }
 
-        if (isChoKingAlive || !isHanKingAlive){
+        if (isChoKingAlive && !isHanKingAlive){
             return Country.CHO;
         }
 
         if (choScore > hanScore){
             return Country.CHO;
         }
-
         if (choScore == hanScore){
             return Country.NONE;
         }
-        if (choScore < hanScore){
-            return Country.HAN;
-        }
-        return Country.NONE;
+        return Country.HAN;
     }
 }

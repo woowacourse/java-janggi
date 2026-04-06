@@ -43,7 +43,6 @@ public class Board {
     }
 
     public List<Position> findAvailablePositions(Position start) {
-        List<Position> positions = new ArrayList<>();
         List<Position> possiblePosition = new ArrayList<>();
         Piece startPiece = board.getOrDefault(start, None.INSTANCE);
 
@@ -58,7 +57,9 @@ public class Board {
                 possiblePosition.add(end);
             }
         }
-
+        if (possiblePosition.isEmpty()){
+            throw new IllegalArgumentException("이동 가능한 좌표가 없습니다.");
+        }
         return possiblePosition;
     }
 
@@ -145,7 +146,6 @@ public class Board {
                 .filter(piece -> piece.getCountry()==country)
                 .mapToInt(Piece::getPieceScore)
                 .sum();
-
     }
 
     public boolean isKingAlive(Country country){

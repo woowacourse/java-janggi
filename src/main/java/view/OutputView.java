@@ -44,6 +44,10 @@ public class OutputView {
 
     public void printGameOverMessage(Country country) {
         System.out.printf("\n\n---------------------------\n");
+        if (country == Country.NONE){
+            System.out.println("무승부입니다.");
+            return;
+        }
         System.out.printf("%s의 승리입니다. 🎉", country.getName());
     }    
     
@@ -74,6 +78,13 @@ public class OutputView {
         int num = 1;
         for (PositionDto dto : positionDtos) {
             System.out.printf("%d. [%d,%d]\n", num++, dto.x(), dto.y());
+        }
+    }
+
+    public void printPiecePossibleEndPosition(List<PositionDto> positionDtos) {
+        System.out.printf("\n[이동 가능한 좌표 목록]\n");
+        for (PositionDto dto : positionDtos) {
+            System.out.printf("- [%d,%d]\n", dto.x(), dto.y());
         }
     }
 

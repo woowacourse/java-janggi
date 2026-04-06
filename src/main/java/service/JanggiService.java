@@ -72,6 +72,13 @@ public class JanggiService {
 
     public Country getFinalWinner(JanggiGame janggiGame) {
         return janggiGame.calculateWinner();
+    }
 
+    public List<PositionDto> buildAvailabelPositions(Board board,Position start) {
+        List<PositionDto> positionDtos = new ArrayList<>();
+        for (Position position : board.findAvailablePositions(start)){
+            positionDtos.add(new PositionDto(position.getX(), position.getY()));
+        }
+        return positionDtos;
     }
 }

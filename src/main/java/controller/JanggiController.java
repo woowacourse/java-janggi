@@ -5,11 +5,11 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 import domain.Board;
-import domain.enums.Country;
 import domain.JanggiGame;
+import domain.Position;
+import domain.enums.Country;
 import domain.enums.MaSang;
 import domain.enums.PieceType;
-import domain.Position;
 import service.JanggiService;
 import service.dto.PositionDto;
 import view.InputView;
@@ -29,6 +29,12 @@ public class JanggiController {
         this.janggiService = new JanggiService();
     }
 
+    private static void checkRetryLimit(int retry) {
+        if (retry > MAX_RETRY) {
+            throw new IllegalStateException("입력횟수를 초과했습니다.");
+        }
+    }
+
     public void run() {
         Board board = initBoard();
         JanggiGame janggiGame = initJanggiGame(board);
@@ -39,10 +45,10 @@ public class JanggiController {
             outputView.printChangeTurnMessage(janggiGame.getCountry().getName());
             playTurn(janggiGame, board);
 
-            if(janggiGame.isGameOver()) {
+            if (janggiGame.isGameOver()) {
                 break;
             }
-            isGameContinue= isGameContinue();
+            isGameContinue = isGameContinue();
         }
         outputView.printScore(janggiService.buildScoreDto(janggiGame));
         outputView.printGameOverMessage(janggiService.getFinalWinner(janggiGame));
@@ -82,7 +88,7 @@ public class JanggiController {
     private Optional<Position> requestStartPiecePosition(List<PositionDto> positionDtos) {
         return doRetry(() -> {
             int choiceStart = inputView.requestStartPiecePosition(positionDtos.size());
-            if (choiceStart==InputView.CHOICE_QUIT_NUMBER) {
+            if (choiceStart == InputView.CHOICE_QUIT_NUMBER) {
                 return Optional.empty();
             }
             int startIdx = choiceStart - 1;
@@ -93,10 +99,10 @@ public class JanggiController {
     private void requestEndPosition(Position start, JanggiGame janggiGame) {
         doRetry(() -> {
                     Optional<List<Integer>> input = inputView.requestMovePosition();
-                    if (input.isEmpty()){
+                    if (input.isEmpty()) {
                         return Optional.empty();
                     }
-                    List<Integer> destination= input.get();
+                    List<Integer> destination = input.get();
                     Position end = Position.create(destination.getFirst(), destination.getLast());
                     janggiService.applyMove(start, end, janggiGame);
                     return Optional.empty();
@@ -105,14 +111,17 @@ public class JanggiController {
     }
 
     private void playTurn(JanggiGame janggiGame, Board board) {
-        outputView.printBoard(janggiService.buildBoardDto(board),janggiService.buildColorDto(board));
+        outputView.printBoard(janggiService.buildBoardDto(board), janggiService.buildColorDto(board));
         List<PositionDto> positionDtos = requestMovePiece(janggiGame);
         Optional<Position> start = requestStartPiecePosition(positionDtos);
         if (start.isEmpty()) {
             return;
         }
+        List<PositionDto> availableEndPositions = janggiService.buildAvailabelPositions(board, start.get());
+        outputView.printPiecePossibleEndPosition(availableEndPositions);
         requestEndPosition(start.get(), janggiGame);
-        outputView.printBoard(janggiService.buildBoardDto(board),janggiService.buildColorDto(board));
+
+        outputView.printBoard(janggiService.buildBoardDto(board), janggiService.buildColorDto(board));
     }
 
     private boolean isGameContinue() {
@@ -129,12 +138,6 @@ public class JanggiController {
                 retry++;
                 checkRetryLimit(retry);
             }
-        }
-    }
-
-    private static void checkRetryLimit(int retry) {
-        if (retry > MAX_RETRY) {
-            throw new IllegalStateException("입력횟수를 초과했습니다.");
         }
     }
 }

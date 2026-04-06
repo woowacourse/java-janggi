@@ -22,7 +22,7 @@ public final class Validator {
     }
 
     public static boolean validateYesOrNo(String input) {
-        if (input.equals("y")) {
+        if (input.equals("y") || input.isBlank()) {
             return true;
         }
         if  (input.equals("n")) {
