@@ -32,6 +32,7 @@ public class JanggiController {
         while (!game.isOver()) {
             try {
                 outputView.printBoardMap(BoardDto.from(game.getBoard()));
+                outputView.printCurrentScore(game.calculateScore(Team.HAN), game.calculateScore(Team.CHO));
                 outputView.printCurrentTurn(TurnDto.from(game.getTurn()));
 
                 Position startPiecePosition = retryOnException(this::getStartPiecePosition);
@@ -42,17 +43,20 @@ public class JanggiController {
                 outputView.printErrorMessage(e.getMessage());
             }
         }
+        outputView.printGameOverMessage(TurnDto.from(game.getTurn()));
         gameRepository.delete(gameId);
     }
 
     private Long initializeGame() {
         if (gameRepository.hasOngoingGame()) {
+            outputView.printHasOnGoingGameMessage();
             return gameRepository.getLatestGameId();
         }
         List<Integer> openingFormationChoices = retryOnException(inputView::readOpeningFormationChoice);
         JanggiGame game = new JanggiGame(BoardInitializer.initializeBoard(
                 openingFormationChoices.getFirst(),
                 openingFormationChoices.getLast()), Team.HAN);
+        outputView.printNewGameMessage();
         return gameRepository.save(game);
     }
 
