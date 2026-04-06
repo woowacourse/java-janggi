@@ -74,7 +74,7 @@ TABLE `GAME` (게임 정보)
 
     playing_game_id - 두개 조합으로 관리하는게 
 
-TABLE `GAME_PIECE_POSITION` (기물 배치 상태)
+TABLE `BOARD` (기물 배치 상태)
 
     game_id(FK)
     

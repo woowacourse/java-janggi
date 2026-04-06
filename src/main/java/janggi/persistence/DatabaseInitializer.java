@@ -16,7 +16,7 @@ public class DatabaseInitializer {
 
     private static void executeSchemaCreation(Statement statement) throws SQLException {
         executeGameSchemaCreation(statement);
-        executePieceSchemaCreation(statement);
+        executeBoardSchemaCreation(statement);
     }
 
     private static void executeGameSchemaCreation(Statement statement) throws SQLException {
@@ -33,9 +33,9 @@ public class DatabaseInitializer {
         statement.execute(createSql);
     }
 
-    private static void executePieceSchemaCreation(Statement statement) throws SQLException {
+    private static void executeBoardSchemaCreation(Statement statement) throws SQLException {
         String createSql = """
-                    CREATE TABLE IF NOT EXISTS GAME_PIECE_POSITION (
+                    CREATE TABLE IF NOT EXISTS BOARD (
                         game_id BIGINT NOT NULL,
                         side VARCHAR(10) NOT NULL,
                         piece_type VARCHAR(20) NOT NULL,
