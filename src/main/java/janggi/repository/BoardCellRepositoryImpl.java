@@ -11,6 +11,15 @@ import java.util.Optional;
 public class BoardCellRepositoryImpl implements BoardCellRepository {
 
     private static final String TABLE_NAME = "board_cells";
+    private static final EntityMapper<BoardCellEntity> ENTITY_MAPPER = resultSet -> {
+        long id = resultSet.getInt(1);
+        int row = resultSet.getInt(2);
+        int column = resultSet.getInt(3);
+        String piece_type = resultSet.getString(4);
+        String team = resultSet.getString(5);
+        int board_id = resultSet.getInt(6);
+        return new BoardCellEntity(id, row, column, piece_type, team, board_id);
+    };
 
     private final DBConnection dbConnection;
 
@@ -48,8 +57,8 @@ public class BoardCellRepositoryImpl implements BoardCellRepository {
         final String sql = String.format(
             "SELECT id, row_pos, column_pos, piece_type, team, game_id FROM %s WHERE row_pos = ? AND column_pos = ?",
             TABLE_NAME);
-        final EntityMapper<BoardCellEntity> mapper = getBoardCellEntityEntityMapper();
-        final Optional<BoardCellEntity> boardCellEntity = dbConnection.executeSelect(sql, mapper,
+        final Optional<BoardCellEntity> boardCellEntity = dbConnection.executeSelect(sql,
+            ENTITY_MAPPER,
             position.getRow(), position.getColumn());
         return boardCellEntity.isPresent();
     }
@@ -59,9 +68,9 @@ public class BoardCellRepositoryImpl implements BoardCellRepository {
         final String sql = String.format(
             "SELECT id, row_pos, column_pos, piece_type, team, game_id "
                 + "FROM %s WHERE row_pos = ? AND column_pos = ?", TABLE_NAME);
-        final EntityMapper<BoardCellEntity> mapper = getBoardCellEntityEntityMapper();
 
-        return dbConnection.executeSelect(sql, mapper, position.getRow(), position.getColumn());
+        return dbConnection.executeSelect(sql, ENTITY_MAPPER, position.getRow(),
+            position.getColumn());
     }
 
     @Override
@@ -69,21 +78,8 @@ public class BoardCellRepositoryImpl implements BoardCellRepository {
         final String sql = String.format(
             "SELECT id, row_pos, column_pos, piece_type, team, game_id FROM %s WHERE game_id = ?",
             TABLE_NAME);
-        final EntityMapper<BoardCellEntity> mapper = getBoardCellEntityEntityMapper();
 
-        return dbConnection.executeSelectAll(sql, mapper, gameId);
-    }
-
-    private static EntityMapper<BoardCellEntity> getBoardCellEntityEntityMapper() {
-        return resultSet -> {
-            long id = resultSet.getInt(1);
-            int row = resultSet.getInt(2);
-            int column = resultSet.getInt(3);
-            String piece_type = resultSet.getString(4);
-            String team = resultSet.getString(5);
-            int board_id = resultSet.getInt(6);
-            return new BoardCellEntity(id, row, column, piece_type, team, board_id);
-        };
+        return dbConnection.executeSelectAll(sql, ENTITY_MAPPER, gameId);
     }
 
     @Override

@@ -10,6 +10,14 @@ import java.util.Optional;
 public class GameRepositoryImpl implements GameRepository {
 
     private static final String TABLE_NAME = "games";
+    private static final EntityMapper<GameEntity> ENTITY_MAPPER = resultSet -> {
+        long id = resultSet.getLong(1);
+        String name = resultSet.getString(2);
+        int turnsTaken = resultSet.getInt(3);
+        String teamQueue = resultSet.getString(4);
+        String status = resultSet.getString(5);
+        return new GameEntity(id, name, turnsTaken, teamQueue, status);
+    };
 
     private final DBConnection dbConnection;
 
@@ -45,15 +53,8 @@ public class GameRepositoryImpl implements GameRepository {
         final String sql = String.format(
             "SELECT id, name, turns_taken, team_queue, status FROM %s WHERE id = ?",
             TABLE_NAME);
-        final EntityMapper<GameEntity> mapper = resultSet -> {
-            long id = resultSet.getLong(1);
-            String name = resultSet.getString(2);
-            int turnsTaken = resultSet.getInt(3);
-            String teamQueue = resultSet.getString(4);
-            String status = resultSet.getString(5);
-            return new GameEntity(id, name, turnsTaken, teamQueue, status);
-        };
-        return dbConnection.executeSelect(sql, mapper, targetId);
+
+        return dbConnection.executeSelect(sql, ENTITY_MAPPER, targetId);
     }
 
     @Override
