@@ -2,6 +2,7 @@ package view;
 
 import domain.game.Turn;
 import view.dto.BoardDto;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -20,9 +21,11 @@ public class OutputView {
     private static final String GAME_END_DIVIDER = "==========================";
     private static final String GAME_END_MESSAGE = "게임이 종료되었습니다.";
     private static final String GAME_END_WINNER = "%s 진영이 승리하셨습니다!";
+    private static final String SCORE_FORMAT = "%s 점수: %s";
 
     private static final int BOARD_CELL_WIDTH = 4;
     private static final Pattern ANSI_PATTERN = Pattern.compile("\\u001B\\[[;\\d]*m");
+    private static final DecimalFormat SCORE_DECIMAL_FORMAT = new DecimalFormat("0.#");
 
     public void printTurn(Turn turn) {
         System.out.println();
@@ -88,5 +91,13 @@ public class OutputView {
         System.out.println(GAME_END_MESSAGE);
         System.out.printf(GAME_END_WINNER + "%n", winner.getName());
         System.out.println(GAME_END_DIVIDER);
+    }
+
+    public void printScore(String team, double score) {
+        System.out.printf(SCORE_FORMAT + "%n", team, formatScore(score));
+    }
+
+    private String formatScore(double score) {
+        return SCORE_DECIMAL_FORMAT.format(score);
     }
 }
