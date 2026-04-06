@@ -18,9 +18,6 @@ public class Board {
         this.board = initBoard;
     }
 
-    public Map<Position, Piece> getBoard() {
-        return board;
-    }
 
     public List<Position> findAvailablePositions(Position position) {
         Piece piece = board.get(position);
@@ -102,17 +99,17 @@ public class Board {
     }
 
     private static void addValidFixedRoute(Position position, Map<Position, List<Position>> result, Route route) {
-        int currentX = position.getX();
-        int currentY = position.getY();
+        int currentColumn = position.getRow();
+        int currentRow = position.getColumn();
         List<Position> routeToPositions = new ArrayList<>();
 
         for (Direction direction : route.getRoutes()) {
-            currentX += direction.getX();
-            currentY += direction.getY();
-            if (!Position.isInsideBoundary(currentX, currentY)) {
+            currentColumn += direction.getColumn();
+            currentRow += direction.getRow();
+            if (!Position.isInsideBoundary(currentColumn, currentRow)) {
                 return;
             }
-            routeToPositions.add(new Position(currentX, currentY));
+            routeToPositions.add(new Position(currentColumn, currentRow));
         }
         if (!routeToPositions.isEmpty()) {
             result.put(routeToPositions.getLast(), routeToPositions);
@@ -129,20 +126,20 @@ public class Board {
 
     private static void addValidContinuousPosition(Position position, Map<Position, List<Position>> result,
                                                    Route route) {
-        int currentX = position.getX();
-        int currentY = position.getY();
+        int currentX = position.getRow();
+        int currentY = position.getColumn();
         List<Direction> directions = route.getRoutes();
 
         for (Direction direction : directions) {
             List<Position> routeToPositions = new ArrayList<>();
-            currentX += direction.getX();
-            currentY += direction.getY();
+            currentX += direction.getColumn();
+            currentY += direction.getRow();
             while (Position.isInsideBoundary(currentX, currentY)) {
                 Position movePosition = new Position(currentX, currentY);
                 routeToPositions.add(movePosition);
                 result.put(movePosition, new ArrayList<>(routeToPositions));
-                currentX += direction.getX();
-                currentY += direction.getY();
+                currentX += direction.getColumn();
+                currentY += direction.getRow();
             }
         }
     }
@@ -163,6 +160,14 @@ public class Board {
         Piece piece = board.get(movePiecePosition);
         board.remove(movePiecePosition);
         board.put(destination, piece);
+    }
+
+    public Piece getPiece(Position position) {
+        return board.get(position);
+    }
+
+    public Map<Position, Piece> getBoard() {
+        return board;
     }
 
     public void validateDestination(Position movePiecePosition, Position destination) {
@@ -186,7 +191,4 @@ public class Board {
         }
     }
 
-    public Piece getPiece(Position position) {
-        return board.get(position);
-    }
 }
