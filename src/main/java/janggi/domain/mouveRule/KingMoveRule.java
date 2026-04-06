@@ -1,17 +1,26 @@
 package janggi.domain.mouveRule;
 
-import janggi.domain.Direction;
+import janggi.domain.Palace;
 import janggi.domain.board.BoardView;
-import janggi.domain.vo.position.Path;
 import janggi.domain.vo.position.Position;
 
-import java.util.List;
-
 public class KingMoveRule implements MoveRule {
-    private static final List<Direction> KING_PATHS = List.of(Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST);
+    private final Palace palace;
+
+    public KingMoveRule(Palace palace) {
+        this.palace = palace;
+    }
+
+    public static MoveRule ofHan() {
+        return new KingMoveRule(Palace.createHanPalace());
+    }
+
+    public static MoveRule ofCho() {
+        return new KingMoveRule(Palace.createChoPalace());
+    }
 
     @Override
     public boolean canMove(Position from, Position to, BoardView board) {
-        return Path.createByDirections(from, KING_PATHS).contains(to);
+        return palace.canInnerGo(from, to);
     }
 }

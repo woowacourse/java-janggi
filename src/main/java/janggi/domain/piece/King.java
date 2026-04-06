@@ -16,6 +16,10 @@ public class King extends Piece {
 
     @Override
     public MoveRule moveRule() {
-        return new KingMoveRule();
+        if (this.findTeam() == Team.CHO) {
+            return KingMoveRule.ofCho();
+        }
+
+        return KingMoveRule.ofHan();
     }
 }
