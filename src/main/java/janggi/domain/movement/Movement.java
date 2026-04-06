@@ -107,6 +107,26 @@ public class Movement {
         return traces;
     }
 
+    public List<Position> calculateTracesForPalace(final Position from, final TeamType teamType,
+                                                   final BoardMediator boardMediator) {
+        final List<Position> traces = new ArrayList<>();
+        Position tempTo = from;
+        for (int distance = 1; distance <= MAX_DISTANCE; distance++) {
+            if (boardMediator.isPalace(tempTo) && !Palace.isAllowedDirection(tempTo, direction)) {
+                return traces;
+            }
+            if (!from.checkNextBound(direction, distance)) {
+                break;
+            }
+            Position to = calculateNextPosition(from, distance);
+            tempTo = to;
+            if (processPosition(to, traces, teamType, boardMediator)) {
+                return traces;
+            }
+        }
+        return traces;
+    }
+
     private boolean processPosition(final Position to, final List<Position> traces, TeamType teamType,
                                     BoardMediator boardMediator) {
         if (!hasPieceAt(to, boardMediator)) {
