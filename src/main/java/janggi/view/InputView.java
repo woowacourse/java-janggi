@@ -1,5 +1,6 @@
 package janggi.view;
 
+import janggi.domain.Position;
 import janggi.exception.BusinessException;
 import java.util.Arrays;
 import java.util.List;
@@ -29,6 +30,19 @@ public class InputView {
         validateEmpty(input);
         validateFormat(input);
 
+        List<Integer> coordinates = parseToIntegers(input);
+        validateSize(coordinates);
+
+        return coordinates;
+    }
+
+    private void validateSize(List<Integer> coordinates) {
+        if (coordinates.size() != 2) {
+            throw new BusinessException("좌표는 두 개의 숫자(예: 1, 2)로 입력해야 합니다.");
+        }
+    }
+
+    private static List<Integer> parseToIntegers(String input) {
         try {
             return Arrays.stream(input.split(DELIMITER))
                     .map(String::trim)
@@ -41,33 +55,23 @@ public class InputView {
 
     private static void validateEmpty(String input) {
         if (input == null || input.isBlank()) {
-            ;
             throw new BusinessException("입력값이 비어있습니다.");
         }
     }
 
     private static void validateFormat(String input) {
         if (!input.contains(DELIMITER)) {
-            ;
             throw new BusinessException("쉼표(,)를 기준으로 입력하세요.");
         }
     }
 
     public record MoveCommand(List<Integer> from, List<Integer> to) {
-        public int fromRow() {
-            return from.get(0);
+        public Position fromPosition() {
+            return Position.from(from);
         }
 
-        public int fromColumn() {
-            return from.get(1);
-        }
-
-        public int toRow() {
-            return to.get(0);
-        }
-
-        public int toColumn() {
-            return to.get(1);
+        public Position toPosition() {
+            return Position.from(to);
         }
     }
 }

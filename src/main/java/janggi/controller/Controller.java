@@ -37,26 +37,25 @@ public class Controller {
         Team currentTeam = Team.CHO;
 
         for (int i = 0; i < 10; i++) {
-            processTurn(board, currentTeam);
+            playTurn(board, currentTeam);
             currentTeam = currentTeam.switchTeam();
         }
     }
 
-    private void processTurn(Board board, Team team) {
+    private void playTurn(Board board, Team team) {
         while (true) {
             try {
                 MoveCommand command = inputView.readMoveCommand(team.getTeam());
-                Position from = Position.of(Row.of(command.fromRow()), Column.of(command.fromColumn()));
-                Position to = Position.of(Row.of(command.toRow()), janggi.domain.Column.of(command.toColumn()));
-
-                board.move(from, to);
+                movePiece(board, command);
                 outputView.printBoard(BoardDto.from(board));
-
                 break;
-
             } catch (BusinessException e) {
                 outputView.printErrorMessage(e.getMessage());
             }
         }
+    }
+
+    private static void movePiece(Board board, MoveCommand command) {
+        board.move(command.fromPosition(), command.toPosition());
     }
 }

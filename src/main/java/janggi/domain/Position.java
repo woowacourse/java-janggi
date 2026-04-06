@@ -35,6 +35,10 @@ public class Position {
         return position;
     }
 
+    public static Position from(List<Integer> coordinates) {
+        return of(Row.of(coordinates.get(0)), Column.of(coordinates.get(1)));
+    }
+
     private static String generateKey(Row row, Column column) {
         return String.format("%d,%d", row.getRow(), column.getColumn());
     }
