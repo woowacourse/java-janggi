@@ -28,7 +28,7 @@ public class JdbcGameRepository implements GameRepository {
             connection.setAutoCommit(false);
 
             try {
-                long gameId = gameDao.save(connection, game.currentTurn(), game.isFinished());
+                long gameId = gameDao.upsert(connection, game.currentTurn(), game.isFinished());
                 pieceDao.replace(connection, gameId, gameMapper.toBoardPieces(game));
                 connection.commit();
             } catch (SQLException exception) {

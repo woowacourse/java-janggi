@@ -21,7 +21,7 @@ public class GameDao {
         }
     }
 
-    public long save(Connection connection, Camp currentTurn, boolean finished) throws SQLException {
+    public long upsert(Connection connection, Camp currentTurn, boolean finished) throws SQLException {
         Optional<GameData> foundGame = findInProgressGame(connection);
 
         if (foundGame.isPresent()) {
