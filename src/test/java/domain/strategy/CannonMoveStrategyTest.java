@@ -49,6 +49,23 @@ class CannonMoveStrategyTest {
     }
 
     @Test
+    @DisplayName("차는 대각선 포인트가 아닌 곳으로 대각선 이동할 수 없다")
+    void cannonShouldNotMoveWhenDiagonallyToNonDiagonalPoint() {
+        // given
+        MoveStrategy strategy = new CannonMoveStrategy();
+        Map<Position, Piece> boardMapper = new HashMap<>();
+        boardMapper.put(Position.of(1, 3), Piece.of(Team.CHU, Type.CANNON, strategy));
+        Board board = Board.of(boardMapper);
+
+        // when
+        Position position = Position.of(1, 3);
+        Position targetPosition = Position.of(2, 4);
+
+        // then
+        Assertions.assertFalse(strategy.canMove(position, targetPosition, board));
+    }
+
+    @Test
     @DisplayName("포의 이동 경로에 다른 기물이 없으면 이동하지 못한다.")
     void cannonShouldNotMoveWhenNoPieceInPath() {
         // given
