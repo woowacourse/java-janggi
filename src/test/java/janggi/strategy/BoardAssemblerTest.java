@@ -31,6 +31,13 @@ class BoardAssemblerTest {
         Assertions.assertThat(board[9][1].hasPiece(PieceType.MA)).isTrue();
         Assertions.assertThat(board[9][2].hasPiece(PieceType.SANG)).isTrue();
         Assertions.assertThat(board[4][0].hasPiece(PieceType.EMPTY)).isTrue();
+
+        Assertions.assertThat(board[1][4].isPalace()).isTrue();
+        Assertions.assertThat(board[0][3].isPalace()).isTrue();
+        Assertions.assertThat(board[2][5].isPalace()).isTrue();
+        Assertions.assertThat(board[8][4].isPalace()).isTrue();
+        Assertions.assertThat(board[7][3].isPalace()).isTrue();
+        Assertions.assertThat(board[9][5].isPalace()).isTrue();
     }
 
 }

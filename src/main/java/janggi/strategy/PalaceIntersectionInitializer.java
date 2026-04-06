@@ -60,39 +60,39 @@ public class PalaceIntersectionInitializer implements IntersectionInitializer {
     private enum PalaceConfiguration {
 
         SIDE(List.of(
+                Location.of(8, 3),
+                Location.of(7, 4),
                 Location.of(9, 4),
                 Location.of(8, 5),
-                Location.of(0, 5),
-                Location.of(9, 6),
-                Location.of(2, 4),
-                Location.of(1, 4),
-                Location.of(3, 4),
-                Location.of(2, 6)
+                Location.of(1, 3),
+                Location.of(0, 3),
+                Location.of(2, 3),
+                Location.of(1, 5)
         ), Collections.emptyList()),
 
         TOP_LEFT(List.of(
-                Location.of(1, 4),
-                Location.of(8, 4)
+                Location.of(0, 3),
+                Location.of(7, 3)
         ), List.of(new Vector(BACK_RIGHT, 2))),
 
         TOP_RIGHT(List.of(
-                Location.of(1, 6),
-                Location.of(8, 6)
+                Location.of(0, 5),
+                Location.of(7, 5)
         ), List.of(new Vector(BACK_LEFT, 2))),
 
         BOTTOM_LEFT(List.of(
-                Location.of(0, 4),
-                Location.of(3, 4)
+                Location.of(9, 3),
+                Location.of(2, 3)
         ), List.of(new Vector(FRONT_RIGHT, 2))),
 
         BOTTOM_RIGHT(List.of(
-                Location.of(0, 6),
-                Location.of(3, 6)
+                Location.of(9, 5),
+                Location.of(2, 5)
         ), List.of(new Vector(FRONT_LEFT, 2))),
 
         CENTER(List.of(
-                Location.of(2, 5),
-                Location.of(9, 5)
+                Location.of(1, 4),
+                Location.of(8, 4)
         ), List.of(
                 new Vector(BACK_RIGHT, 1),
                 new Vector(BACK_LEFT, 1),
