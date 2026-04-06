@@ -8,7 +8,7 @@ import java.util.function.Predicate;
 
 public class InputView {
 
-    public static long askGameId() {
+    public static long askLoadGameId() {
         System.out.println("게임 ID를 입력해주세요. (새로운 게임을 시작하려면 0을 입력해주세요.) : ");
         String rawGameId = Console.readLine();
         try {
