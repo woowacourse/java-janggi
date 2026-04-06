@@ -30,6 +30,25 @@ public class JanggiService {
 
     public ActiveGameSession createNewSession(Connection connection, String choName, String hanName)
             throws SQLException {
+        connection.setAutoCommit(false);
+        try {
+            return executeAndCommitSession(connection, choName, hanName);
+        } catch (SQLException exception) {
+            return rollbackAndThrow(connection, exception);
+        } finally {
+            connection.setAutoCommit(true);
+        }
+    }
+
+    private ActiveGameSession executeAndCommitSession(Connection connection, String choName, String hanName)
+            throws SQLException {
+        ActiveGameSession session = generateSession(connection, choName, hanName);
+        connection.commit();
+        return session;
+    }
+
+    private ActiveGameSession generateSession(Connection connection, String choName, String hanName)
+            throws SQLException {
         Players players = Players.from(choName, hanName);
         GameManager newGameManager = new GameManager(players, Board.initialize(), Turn.init());
         long newGameId = gameRepository.insertGame(connection, newGameManager);
@@ -37,6 +56,23 @@ public class JanggiService {
     }
 
     public void saveTurnState(Connection connection, long gameId, GameManager gameManager) throws SQLException {
+        connection.setAutoCommit(false);
+        try {
+            executeAndCommitTurn(connection, gameId, gameManager);
+        } catch (SQLException exception) {
+            rollbackAndThrow(connection, exception);
+        } finally {
+            connection.setAutoCommit(true);
+        }
+    }
+
+    private void executeAndCommitTurn(Connection connection, long gameId, GameManager gameManager) throws SQLException {
         gameRepository.updateTurn(connection, gameId, gameManager);
+        connection.commit();
+    }
+
+    private <T> T rollbackAndThrow(Connection connection, SQLException exception) throws SQLException {
+        connection.rollback();
+        throw exception;
     }
 }
