@@ -1,10 +1,12 @@
 package janggi.domain.piece;
 
+import janggi.domain.board.Palace;
 import janggi.domain.board.Position;
 import java.util.List;
 import java.util.Map;
 
 public class GeneralPiece extends Piece {
+    private static final Palace PALACE = new Palace();
 
     public GeneralPiece(Team team) {
         super(team, Name.GENERAL);
@@ -12,7 +14,7 @@ public class GeneralPiece extends Piece {
 
     @Override
     public boolean canMoveByBasicMovingRule(Position from, Position to) {
-        return canMoveOneStep(from, to);
+        return PALACE.canMove(getTeam(), from, to);
     }
 
     @Override
