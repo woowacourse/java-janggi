@@ -16,6 +16,10 @@ public class Advisor extends Piece {
 
     @Override
     public MoveRule moveRule() {
-        return new AdvisorMoveRule();
+        if (this.findTeam() == Team.CHO) {
+            return AdvisorMoveRule.ofCho();
+        }
+
+        return AdvisorMoveRule.ofHan();
     }
 }
