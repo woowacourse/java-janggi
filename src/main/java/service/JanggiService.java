@@ -294,40 +294,49 @@ public class JanggiService {
         String sql = "SELECT * FROM board_snapshot WHERE `id` = ? AND `board_id` = ?";
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            List<Integer> ids = getBoardSnapshotIds();
-            Map<Position, PieceInfo> pieceInfos;
-            for (int id : ids) {
-                String turn = "";
-                pieceInfos = new HashMap<>();
-                preparedStatement.setInt(1, id);
-                preparedStatement.setInt(2, boardId);
-                ResultSet resultSet = preparedStatement.executeQuery();
 
-                while (resultSet.next()) {
-                    int x = resultSet.getInt("position_x");
-                    int y = resultSet.getInt("position_y");
-                    String pieceType = resultSet.getString("piece_type");
-                    String pieceCountry = resultSet.getString("piece_country");
-                    PieceInfo pieceInfo = new PieceInfo(PieceType.valueOf(pieceType),
-                            CountryType.valueOf(pieceCountry));
-                    pieceInfos.put(new Position(x, y), pieceInfo);
-                    turn = resultSet.getString("turn");
-                }
-                if (turn.isEmpty()) {
-                    continue;
-                }
-                snapshots.add(new BoardSnapshot(new PieceInfos(pieceInfos), CountryType.valueOf(turn)));
-            }
-
+            addSnapshots(boardId, getBoardSnapshotIds(), preparedStatement, snapshots);
             for (BoardSnapshot boardSnapshot : snapshots) {
                 boardSnapshots.addBoardSnapshot(boardSnapshot);
             }
 
-            System.out.println("스냅샷 로드 완료");
+//            System.out.println("스냅샷 로드 완료");
             return boardSnapshots;
         } catch (SQLException e) {
             throw new IllegalStateException("[ERROR] 보드 스냅샷을 불러오는 데 실패했습니다.", e);
         }
+    }
+
+    private static void addSnapshots(int boardId, List<Integer> ids, PreparedStatement preparedStatement,
+                                     List<BoardSnapshot> snapshots) throws SQLException {
+        for (int id : ids) {
+            Map<Position, PieceInfo> pieceInfos = new HashMap<>();
+            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(2, boardId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            String turn = addPieceInfos(resultSet, pieceInfos);
+            if (turn.isEmpty()) {
+                continue;
+            }
+            snapshots.add(new BoardSnapshot(new PieceInfos(pieceInfos), CountryType.valueOf(turn)));
+        }
+    }
+
+    private static String addPieceInfos(ResultSet resultSet, Map<Position, PieceInfo> pieceInfos)
+            throws SQLException {
+        String turn = "";
+        while (resultSet.next()) {
+            int x = resultSet.getInt("position_x");
+            int y = resultSet.getInt("position_y");
+            String pieceType = resultSet.getString("piece_type");
+            String pieceCountry = resultSet.getString("piece_country");
+            PieceInfo pieceInfo = new PieceInfo(PieceType.valueOf(pieceType),
+                    CountryType.valueOf(pieceCountry));
+            pieceInfos.put(new Position(x, y), pieceInfo);
+            turn = resultSet.getString("turn");
+        }
+        return turn;
     }
 
     private List<Integer> getBoardSnapshotIds() {
