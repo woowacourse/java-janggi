@@ -22,6 +22,10 @@ public enum XPointFormat {
         this.pointX = pointX;
     }
 
+    public String getFormat() {
+        return format;
+    }
+
     public int getPointX() {
         return pointX;
     }

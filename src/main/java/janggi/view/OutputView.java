@@ -4,6 +4,8 @@ import janggi.domain.board.coordinate.Point;
 import janggi.domain.piece.unit.Empty;
 import janggi.domain.piece.unit.Piece;
 import janggi.domain.side.Side;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -14,25 +16,28 @@ public class OutputView {
     private static final String RED = "\u001B[31m";
     private static final String BLUE = "\u001B[34m";
 
-    private static final String NODE = "・";
-    private static final String PATH = "〇";
-    private static final String H = "－";
-    private static final String V = "｜";
-    private static final String BK = "＼";
-    private static final String FW = "／";
-    private static final String SP = "　";
+    private static final String NODE = " ＋ ";
+    private static final String PATH = " Ｏ ";
+    private static final String H = "---";
+    private static final String V = " ｜ ";
+    private static final String BK = " \\ ";
+    private static final String FW = " / ";
+    private static final String SP = "   ";
 
-    private static final String[] X_LABELS =
-            {"가", "나", "다", "라", "마", "바", "사", "아", "자", "차"};
-    private static final String[] Y_LABELS =
-            {"０", "１", "２", "３", "４", "５", "６", "７", "８"};
+    private static final List<String> X_LABELS =
+            Arrays.stream(XPointFormat.values())
+                    .map(XPointFormat::getFormat)
+                    .toList();
 
-    private static final int[][] DIAG = {
-            {9, 8, 1, -1},
-            {8, 7, -1, 1},
-            {2, 1, 1, -1},
-            {1, 0, -1, 1},
-    };
+    private static final List<String> Y_LABELS =
+            List.of(" ０ ", " １ ", " ２ ", " ３ ", " ４ ", " ５ ", " ６ ", " ７ ", " ８ ");
+
+    private static final List<List<Integer>> DIAG = List.of(
+            List.of(9, 8, 1, -1),
+            List.of(8, 7, -1, 1),
+            List.of(2, 1, 1, -1),
+            List.of(1, 0, -1, 1)
+    );
 
     public void printBoard(Map<Point, Piece> board) {
         printBoardWithPath(board, null);
@@ -49,7 +54,7 @@ public class OutputView {
     }
 
     private void printPieceRow(int x, Map<Point, Piece> board, Set<Point> destinations) {
-        System.out.print(X_LABELS[x] + SP);
+        System.out.print(X_LABELS.get(x) + " ");
         for (int y = 0; y <= 8; y++) {
             System.out.print(nodeSymbol(x, y, board, destinations));
             if (y < 8) {
@@ -65,21 +70,21 @@ public class OutputView {
         boolean hasPiece = !(piece instanceof Empty);
 
         if (destinations != null && destinations.contains(p)) {
-            return colored(hasPiece ? piece.getName() : PATH, BLUE);
+            return colored(hasPiece ? " " + piece.getName() + " " : PATH, BLUE);
         }
         if (hasPiece) {
-            return colored(piece.getName(), Side.CHO.equals(piece.getSide()) ? GREEN : RED);
+            return colored(" " + piece.getName() + " ", Side.CHO.equals(piece.getSide()) ? GREEN : RED);
         }
         return NODE;
     }
 
     private void printConnectRow(int upperX) {
         int lowerX = upperX - 1;
-        int[] rule = getDiagRule(upperX, lowerX);
+        List<Integer> rule = getDiagRule(upperX, lowerX);
 
-        System.out.print(SP + SP);
+        System.out.print("   ");
         for (int y = 0; y <= 8; y++) {
-            System.out.print(colChar());
+            System.out.print(V);
             if (y < 8) {
                 System.out.print(sepChar(rule, y));
             }
@@ -87,38 +92,33 @@ public class OutputView {
         System.out.println();
     }
 
-    private int[] getDiagRule(int upperX, int lowerX) {
-        for (int[] r : DIAG) {
-            if (r[0] == upperX && r[1] == lowerX) {
-                return r;
-            }
-        }
-        return null;
+    private List<Integer> getDiagRule(int upperX, int lowerX) {
+        return DIAG.stream()
+                .filter(r -> r.get(0) == upperX && r.get(1) == lowerX)
+                .findAny()
+                .orElse(null);
     }
 
-    private String colChar() {
-        return V;
-    }
-
-    private String sepChar(int[] rule, int y) {
+    private String sepChar(List<Integer> rule, int y) {
         if (rule == null) {
             return SP;
         }
+
         if (y == 3) {
-            return rule[2] == 1 ? BK : FW;
+            return rule.get(2) == 1 ? BK : FW;
         }
         if (y == 4) {
-            return rule[3] == 1 ? BK : FW;
+            return rule.get(3) == 1 ? BK : FW;
         }
         return SP;
     }
 
     private void printYLabels() {
-        System.out.print(SP + SP);
+        System.out.print("   ");
         for (int y = 0; y <= 8; y++) {
-            System.out.print(Y_LABELS[y]);
+            System.out.print(Y_LABELS.get(y));
             if (y < 8) {
-                System.out.print(SP);
+                System.out.print("   ");
             }
         }
         System.out.println();
