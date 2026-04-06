@@ -5,9 +5,7 @@ import domain.*;
 import java.util.List;
 
 public class Chariot extends Piece {
-    private final List<Direction> linearDirections = List.of(
-            Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST
-    );
+    private final List<Direction> linearDirections = MoveDirection.ofLinear();
 
     public Chariot(Camp camp) {
         super(camp, PieceType.CHARIOT);

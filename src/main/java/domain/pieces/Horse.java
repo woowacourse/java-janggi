@@ -5,12 +5,7 @@ import domain.*;
 import java.util.List;
 
 public class Horse extends Piece {
-    private final List<List<Direction>> horseDirections = List.of(
-            List.of(Direction.NORTH, Direction.NORTHEAST), List.of(Direction.NORTH, Direction.NORTHWEST),
-            List.of(Direction.SOUTH, Direction.SOUTHEAST), List.of(Direction.SOUTH, Direction.SOUTHWEST),
-            List.of(Direction.EAST, Direction.NORTHEAST), List.of(Direction.EAST, Direction.SOUTHEAST),
-            List.of(Direction.WEST, Direction.NORTHWEST), List.of(Direction.WEST, Direction.SOUTHWEST)
-    );
+    private final List<List<Direction>> horseDirections = MoveDirection.ofHorse();
 
     public Horse(Camp camp) {
         super(camp, PieceType.HORSE);

@@ -1,12 +1,12 @@
 package domain.pieces;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
 import domain.Board;
 import domain.Camp;
 import domain.Position;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class GuardTest {
 

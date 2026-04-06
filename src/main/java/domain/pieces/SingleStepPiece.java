@@ -6,10 +6,7 @@ import java.util.List;
 
 public class SingleStepPiece extends Piece {
 
-    private final List<Direction> singleStepDirections = List.of(
-            Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST,
-            Direction.NORTHWEST, Direction.NORTHEAST, Direction.SOUTHWEST, Direction.SOUTHEAST
-    );
+    private final List<List<Direction>> singleStepDirections = MoveDirection.ofAllAround();
 
     public SingleStepPiece(Camp camp, PieceType pieceType) {
         super(camp, pieceType);
@@ -17,19 +14,12 @@ public class SingleStepPiece extends Piece {
 
     @Override
     public boolean canMove(Position from, Position to, BoardReader boardReader) {
-        for (Direction direction : singleStepDirections) {
-            if (isTargetPosition(from, to, direction)) {
+        for (List<Direction> directions : singleStepDirections) {
+            List<Position> path = Route.path(from, directions);
+            if (path.size() == 1 && path.getLast().equals(to)) {
                 return true;
             }
         }
         return false;
-    }
-
-    private static boolean isTargetPosition(Position from, Position to, Direction direction) {
-        if (!from.canMove(direction)) {
-            return false;
-        }
-
-        return from.move(direction).equals(to);
     }
 }

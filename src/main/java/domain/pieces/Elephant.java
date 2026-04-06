@@ -5,16 +5,7 @@ import domain.*;
 import java.util.List;
 
 public class Elephant extends Piece {
-    private final List<List<Direction>> elephantDirections = List.of(
-            List.of(Direction.NORTH, Direction.NORTHEAST, Direction.NORTHEAST),
-            List.of(Direction.NORTH, Direction.NORTHWEST, Direction.NORTHWEST),
-            List.of(Direction.SOUTH, Direction.SOUTHEAST, Direction.SOUTHEAST),
-            List.of(Direction.SOUTH, Direction.SOUTHWEST, Direction.SOUTHWEST),
-            List.of(Direction.EAST, Direction.NORTHEAST, Direction.NORTHEAST),
-            List.of(Direction.EAST, Direction.SOUTHEAST, Direction.SOUTHEAST),
-            List.of(Direction.WEST, Direction.NORTHWEST, Direction.NORTHWEST),
-            List.of(Direction.WEST, Direction.SOUTHWEST, Direction.SOUTHWEST)
-    );
+    private final List<List<Direction>> elephantDirections = MoveDirection.ofElephant();
 
     public Elephant(Camp camp) {
         super(camp, PieceType.ELEPHANT);

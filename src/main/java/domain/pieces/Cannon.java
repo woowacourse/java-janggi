@@ -6,9 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class Cannon extends Piece {
-    private final List<Direction> linearDirections = List.of(
-            Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST
-    );
+    private final List<Direction> linearDirections = MoveDirection.ofLinear();
 
     public Cannon(Camp camp) {
         super(camp, PieceType.CANNON);
