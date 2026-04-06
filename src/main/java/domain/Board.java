@@ -12,7 +12,7 @@ public class Board implements BoardChecker {
 
     private final Map<Position, Piece> board = new HashMap<>();
 
-    public void generatePiecesBy(Camp camp, ElephantFormation elephantFormation) {
+    public void generatePiecesBy(Camp camp, int elephantFormation) {
         PieceGenerator pieceGenerator = new PieceGenerator();
         Map<Position, Piece> pieces = pieceGenerator.generateInitialPieces(camp, elephantFormation);
 

@@ -1,11 +1,8 @@
 import domain.Board;
 import domain.Camp;
-import domain.ElephantFormation;
 import domain.InvalidMoveException;
 import domain.Position;
 import dto.BoardStatusDto;
-import java.util.HashMap;
-import java.util.Map;
 import view.InputView;
 import view.OutputView;
 
@@ -13,13 +10,6 @@ public class JanggiController {
 
     private final InputView inputView;
     private final OutputView outputView;
-
-    private final Map<Integer, ElephantFormation> INPUT_FORMATION_MAPPER = new HashMap<>(Map.of(
-            1, ElephantFormation.RIGHT,
-            2, ElephantFormation.INNER,
-            3, ElephantFormation.LEFT,
-            4, ElephantFormation.OUTER
-    ));
 
     JanggiController(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
@@ -37,8 +27,8 @@ public class JanggiController {
         Board board = new Board();
         int choElephantFormation = inputView.askElephantFormation(Camp.CHO);
         int hanElephantFormation = inputView.askElephantFormation(Camp.HAN);
-        board.generatePiecesBy(Camp.CHO, mappingElephantFormation(choElephantFormation));
-        board.generatePiecesBy(Camp.HAN, mappingElephantFormation(hanElephantFormation));
+        board.generatePiecesBy(Camp.CHO, choElephantFormation);
+        board.generatePiecesBy(Camp.HAN, hanElephantFormation);
         return board;
     }
 
@@ -85,9 +75,5 @@ public class JanggiController {
     private void printBoard(Board board) {
         BoardStatusDto boardStatus = board.getBoardStatus();
         outputView.printBoardStatus(boardStatus);
-    }
-
-    private ElephantFormation mappingElephantFormation(int userInput) {
-        return INPUT_FORMATION_MAPPER.get(userInput);
     }
 }

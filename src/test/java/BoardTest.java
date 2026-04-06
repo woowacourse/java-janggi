@@ -2,6 +2,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.Board;
 import domain.Camp;
+import domain.InvalidMoveException;
 import domain.Position;
 import domain.pieces.Cannon;
 import domain.pieces.Horse;
@@ -30,7 +31,7 @@ public class BoardTest {
         board.locatePiece(position, locatedPiece);
 
         assertThatThrownBy(() -> board.locatePiece(position, anotherPiece)).isInstanceOf(
-                IllegalArgumentException.class).hasMessageContaining("[ERROR]", "같은 팀");
+                InvalidMoveException.class).hasMessageContaining("[ERROR]", "같은 팀");
     }
 
     @Test

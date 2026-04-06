@@ -16,7 +16,7 @@ public class PieceGeneratorTest {
         PieceGenerator pieceGenerator = new PieceGenerator();
 
         Map<Position, Piece> board = pieceGenerator.generateInitialPieces(Camp.HAN,
-                ElephantFormation.RIGHT);
+                1);
 
         Assertions.assertEquals(board.size(), 16);
     }
@@ -26,7 +26,7 @@ public class PieceGeneratorTest {
         PieceGenerator pieceGenerator = new PieceGenerator();
 
         Map<Position, Piece> board = pieceGenerator.generateInitialPieces(Camp.CHO,
-                ElephantFormation.RIGHT);
+                1);
 
         Assertions.assertEquals(board.size(), 16);
     }
@@ -36,7 +36,7 @@ public class PieceGeneratorTest {
         PieceGenerator pieceGenerator = new PieceGenerator();
 
         Map<Position, Piece> board = pieceGenerator.generateInitialPieces(Camp.HAN,
-                ElephantFormation.RIGHT);
+                1);
 
         Assertions.assertEquals(board.get(new Position(1, 0)).getClass(), Elephant.class);
         Assertions.assertEquals(board.get(new Position(2, 0)).getClass(), Horse.class);
@@ -49,7 +49,7 @@ public class PieceGeneratorTest {
         PieceGenerator pieceGenerator = new PieceGenerator();
 
         Map<Position, Piece> board = pieceGenerator.generateInitialPieces(Camp.HAN,
-                ElephantFormation.LEFT);
+                3);
 
         Assertions.assertEquals(board.get(new Position(1, 0)).getClass(), Horse.class);
         Assertions.assertEquals(board.get(new Position(2, 0)).getClass(), Elephant.class);
@@ -62,7 +62,7 @@ public class PieceGeneratorTest {
         PieceGenerator pieceGenerator = new PieceGenerator();
 
         Map<Position, Piece> board = pieceGenerator.generateInitialPieces(Camp.HAN,
-                ElephantFormation.INNER);
+                2);
 
         Assertions.assertEquals(board.get(new Position(1, 0)).getClass(), Horse.class);
         Assertions.assertEquals(board.get(new Position(2, 0)).getClass(), Elephant.class);
@@ -75,7 +75,7 @@ public class PieceGeneratorTest {
         PieceGenerator pieceGenerator = new PieceGenerator();
 
         Map<Position, Piece> board = pieceGenerator.generateInitialPieces(Camp.HAN,
-                ElephantFormation.OUTER);
+                4);
 
         Assertions.assertEquals(board.get(new Position(1, 0)).getClass(), Elephant.class);
         Assertions.assertEquals(board.get(new Position(2, 0)).getClass(), Horse.class);
@@ -89,7 +89,7 @@ public class PieceGeneratorTest {
         PieceGenerator pieceGenerator = new PieceGenerator();
 
         Map<Position, Piece> board = pieceGenerator.generateInitialPieces(Camp.CHO,
-                ElephantFormation.RIGHT);
+                1);
 
         Assertions.assertEquals(board.get(new Position(1, 9)).getClass(), Horse.class);
         Assertions.assertEquals(board.get(new Position(2, 9)).getClass(), Elephant.class);
@@ -102,7 +102,7 @@ public class PieceGeneratorTest {
         PieceGenerator pieceGenerator = new PieceGenerator();
 
         Map<Position, Piece> board = pieceGenerator.generateInitialPieces(Camp.CHO,
-                ElephantFormation.LEFT);
+                3);
 
         Assertions.assertEquals(board.get(new Position(1, 9)).getClass(), Elephant.class);
         Assertions.assertEquals(board.get(new Position(2, 9)).getClass(), Horse.class);
@@ -115,7 +115,7 @@ public class PieceGeneratorTest {
         PieceGenerator pieceGenerator = new PieceGenerator();
 
         Map<Position, Piece> board = pieceGenerator.generateInitialPieces(Camp.CHO,
-                ElephantFormation.INNER);
+                2);
 
         Assertions.assertEquals(board.get(new Position(1, 9)).getClass(), Horse.class);
         Assertions.assertEquals(board.get(new Position(2, 9)).getClass(), Elephant.class);
@@ -128,7 +128,7 @@ public class PieceGeneratorTest {
         PieceGenerator pieceGenerator = new PieceGenerator();
 
         Map<Position, Piece> board = pieceGenerator.generateInitialPieces(Camp.CHO,
-                ElephantFormation.OUTER);
+                4);
 
         Assertions.assertEquals(board.get(new Position(1, 9)).getClass(), Elephant.class);
         Assertions.assertEquals(board.get(new Position(2, 9)).getClass(), Horse.class);
