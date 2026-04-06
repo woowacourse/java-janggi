@@ -1,7 +1,6 @@
 package view;
 
 import controller.CommandType;
-import controller.GameCommand;
 import domain.board.formation.InitialFormationType;
 import domain.state.Side;
 import java.util.Arrays;
