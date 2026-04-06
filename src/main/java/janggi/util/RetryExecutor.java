@@ -13,4 +13,13 @@ public class RetryExecutor {
             return retry(supplier);
         }
     }
+
+    public static void retry(Runnable runnable) {
+        try {
+            runnable.run();
+        } catch (IllegalStateException e) {
+            OutputView.printErrorMessage(e.getMessage());
+            retry(runnable);
+        }
+    }
 }

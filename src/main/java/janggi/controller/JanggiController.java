@@ -58,7 +58,7 @@ public class JanggiController {
     }
 
     private void playJanggi() {
-        try {
+        RetryExecutor.retry(() -> {
             printCurrentBoard();
 
             Position from = RetryExecutor.retry(InputView::askSelectPiece);
@@ -66,9 +66,7 @@ public class JanggiController {
             janggiService.movePiece(from, to);
 
             printCurrentBoard();
-        } catch (Exception e) {
-            OutputView.printErrorMessage(e.getMessage());
-        }
+        });
     }
 
     private void printCurrentBoard() {
