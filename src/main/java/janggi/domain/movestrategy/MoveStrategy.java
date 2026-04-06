@@ -12,8 +12,6 @@ public interface MoveStrategy {
 
     boolean checkPathRule(List<Piece> pathPieces);
 
-    default boolean canCapture(Piece from, Piece to) {
-        return to == null || !from.isSameTeam(to);
-    }
+    boolean canCapture(Piece from, Piece to);
 }
 

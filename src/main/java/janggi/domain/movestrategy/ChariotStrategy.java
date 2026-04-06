@@ -6,7 +6,7 @@ import janggi.domain.piece.Piece;
 
 import java.util.List;
 
-public class ChariotStrategy implements MoveStrategy {
+public class ChariotStrategy extends AbstractMoveStrategy {
 
     private final List<MoveRule> moveRules;
 

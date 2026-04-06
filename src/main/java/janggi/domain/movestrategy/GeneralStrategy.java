@@ -7,7 +7,7 @@ import janggi.domain.piece.Piece;
 
 import java.util.List;
 
-public class GeneralStrategy implements MoveStrategy {
+public class GeneralStrategy extends AbstractMoveStrategy {
 
     private final Palace palace;
     private final List<MoveRule> moveRules;

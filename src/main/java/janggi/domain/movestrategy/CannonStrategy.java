@@ -7,7 +7,7 @@ import janggi.domain.piece.PieceType;
 
 import java.util.List;
 
-public class CannonStrategy implements MoveStrategy {
+public class CannonStrategy extends AbstractMoveStrategy {
 
     private final List<MoveRule> moveRules;
 

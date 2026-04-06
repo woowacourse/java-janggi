@@ -6,7 +6,7 @@ import janggi.domain.piece.Piece;
 
 import java.util.List;
 
-public class SoliderStrategy implements MoveStrategy {
+public class SoliderStrategy extends AbstractMoveStrategy {
 
     private final List<MoveRule> moveRules;
 

@@ -5,7 +5,7 @@ import janggi.domain.piece.Piece;
 
 import java.util.List;
 
-public class ElephantStrategy implements MoveStrategy {
+public class ElephantStrategy extends AbstractMoveStrategy {
 
     @Override
     public boolean canMove(Position from, Position to) {
