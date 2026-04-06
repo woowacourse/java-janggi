@@ -1,5 +1,7 @@
 package view;
 
+import db.model.GameEntity;
+import java.util.List;
 import java.util.Map;
 import participant.Score;
 import pieces.Side;
@@ -43,5 +45,20 @@ public class OutputView {
 
     public void printScore(Side side, Score score) {
         System.out.println(SIDE_SYMBOL.get(side) + "나라 점수: " + score.value());
+    }
+
+    public void printSavedGames(List<GameEntity> savedGames) {
+        System.out.println("저장된 게임 목록을 출력합니다.");
+
+        savedGames.forEach(game -> System.out.printf(
+            "%d. 상태=%s, 현재 차례=%s%n",
+            game.id(),
+            game.status(),
+            game.turn()
+        ));
+    }
+
+    public void askGameId() {
+        System.out.println("실행할 게임 ID 를 입력해주세요. 새로운 게임을 원할 경우 0을 입력해주세요.");
     }
 }

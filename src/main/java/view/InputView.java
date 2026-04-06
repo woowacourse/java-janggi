@@ -23,6 +23,18 @@ public class InputView {
         return parsePosition(readStrippedLine());
     }
 
+    public Long readGameId() {
+        return parseLong(readStrippedLine());
+    }
+
+    private Long parseLong(final String input) {
+        try {
+            return Long.parseLong(input);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("숫자만 입력할 수 있습니다. 다시 입력해주세요.");
+        }
+    }
+
     private int parseInt(final String input) {
         try {
             return Integer.parseInt(input);

@@ -1,6 +1,8 @@
 package view;
 
 import board.SangSetupType;
+import db.model.GameEntity;
+import java.util.List;
 import participant.Score;
 import pieces.Side;
 import position.Position;
@@ -46,5 +48,22 @@ public class JanggiView {
 
     public void printScore(Side side, Score score) {
         out.printScore(side, score);
+    }
+
+    public Long askGameId(List<GameEntity> savedGames) {
+        return Retry.untilSuccess(() -> {
+            out.printSavedGames(savedGames);
+            out.askGameId();
+            Long gameId = in.readGameId();
+            if (gameId == 0) {
+                return 0L;
+            }
+            boolean nonMatch = savedGames.stream()
+                .noneMatch(game -> game.id().equals(gameId));
+            if (nonMatch) {
+                throw new IllegalArgumentException("게임 ID를 잘못 입력하셨습니다.");
+            }
+            return gameId;
+        });
     }
 }
