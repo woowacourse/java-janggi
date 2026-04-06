@@ -13,14 +13,14 @@ public class SequenceStrategy implements MovementStrategy {
 
     @Override
     public List<Position> getMovablePositions(Position current, BoardReader board) {
-        return generatePaths(current).stream()
+        return generatePaths(current, board).stream()
                 .filter(path -> !path.isBlocked(board))
                 .map(Path::getDestination)
                 .toList();
     }
 
     @Override
-    public List<Path> generatePaths(Position current) {
+    public List<Path> generatePaths(Position current, BoardReader board) {
         return defaultSequences.stream()
                 .filter(current::canMove)
                 .map(sequence -> Path.ofSequence(current, sequence))

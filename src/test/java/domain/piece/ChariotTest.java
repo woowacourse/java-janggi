@@ -67,4 +67,25 @@ class ChariotTest {
         assertThat(movable.getPositions()).contains(Position.of(1, 0), Position.of(4, 0), Position.of(5, 0));
         assertThat(movable.getPositions()).doesNotContain(Position.of(6, 0));
     }
+
+    @DisplayName("차는 궁성 내 대각선 경로를 만나면 해당 대각선 방향으로 끝까지 연속 이동하는 경로를 생성한다.")
+    @Test
+    void getDestinations_includeDiagonals() {
+        // given
+        Position current = Position.of(3, 0);
+        Map<Position, Piece> pieces = Map.of(current, PieceFactory.createChariot(Side.CHO));
+        Board board = new Board(pieces);
+
+        // when
+        Destinations actual = board.findDestinations(current);
+
+        // then
+        assertThat(actual.getPositions()).contains(
+                Position.of(4, 1),
+                Position.of(5, 2)
+        );
+        assertThat(actual.getPositions()).doesNotContain(
+                Position.of(6, 3)
+        );
+    }
 }

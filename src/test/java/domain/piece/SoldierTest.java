@@ -47,4 +47,24 @@ class SoldierTest {
                 Position.of(5, 6)  // 우
         );
     }
+
+    @DisplayName("졸과 병은 궁성 내 대각선 중 자신의 진영 기준 전진 방향과 일치하는 대각선으로만 1칸 이동 경로를 추가한다.")
+    @Test
+    void getDestinations_includeDiagonals() {
+        Position source = Position.of(4, 1);
+        Board board = new Board(Map.of(source, PieceFactory.createSoldier(Side.HAN)));
+
+        // when
+        List<Position> destinations = board.findDestinations(source).getPositions();
+
+        // then
+        assertThat(destinations).containsExactlyInAnyOrder(
+                Position.of(3, 1),
+                Position.of(5, 1),
+                Position.of(3, 0),
+                Position.of(4, 0),
+                Position.of(5, 0)
+        );
+
+    }
 }

@@ -77,5 +77,15 @@ public class Board implements BoardReader{
     @Override
     public List<Direction> getPalaceDiagonals(Position position) {
         return Palace.getDiagonals(position);
+
+    }
+    @Override
+    public boolean isInsidePalace(Position position) {
+        return Palace.isInsideAny(position);
+    }
+
+    @Override
+    public boolean isInsidePalace(Position position, Side side) {
+        return Palace.isInside(position, side);
     }
 }

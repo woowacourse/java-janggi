@@ -11,4 +11,6 @@ public interface BoardReader {
     boolean isAlly(Position position, Side side);
     Piece getPiece(Position position);
     List<Direction> getPalaceDiagonals(Position position);
+    boolean isInsidePalace(Position position);
+    boolean isInsidePalace(Position position, Side side);
 }

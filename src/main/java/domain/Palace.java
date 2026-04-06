@@ -68,6 +68,10 @@ public class Palace {
         return HAN_POSITIONS.contains(position);
     }
 
+    public static boolean isInsideAny(Position position) {
+        return CHO_POSITIONS.contains(position) || HAN_POSITIONS.contains(position);
+    }
+
     public static List<Direction> getDiagonals(Position position) {
         return DIAGONALS.getOrDefault(position, Collections.emptyList());
     }

@@ -94,4 +94,25 @@ class CannonTest {
         assertThat(movable.getPositions()).contains(Position.of(1, 4));
         assertThat(movable.getPositions()).doesNotContain(Position.of(1, 5));
     }
+
+    @DisplayName("포는 궁성 내 대각선 경로에 위치한 기물을 뛰어넘어 반대편으로 이동하는 경로를 생성한다.")
+    @Test
+    void getDestinations_includeDiagonals() {
+        // given
+        Position current = Position.of(3, 0);
+        Position bridge = Position.of(4, 1);
+        Map<Position, Piece> pieces = Map.of(
+                current, PieceFactory.createCannon(Side.CHO),
+                bridge, PieceFactory.createSoldier(Side.CHO)
+        );
+        Board board = new Board(pieces);
+
+        // when
+        Destinations actual = board.findDestinations(current);
+
+        // then
+        assertThat(actual.getPositions()).contains(Position.of(5, 2));
+        assertThat(actual.getPositions()).doesNotContain(Position.of(6, 3));
+
+    }
 }

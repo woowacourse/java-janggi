@@ -46,4 +46,23 @@ class GuardTest {
                 Position.of(4, 1)
         );
     }
+
+    @DisplayName("사는 궁성 내 대각선 경로가 존재하는 위치에서 해당 대각선 방향의 1칸 이동 경로를 추가한다.")
+    @Test
+    void getDestinations_includeDiagonals() {
+        // given
+        Position current = Position.of(3, 0);
+        Map<Position, Piece> pieces = Map.of(current, PieceFactory.createGeneral(Side.CHO));
+        Board board = new Board(pieces);
+
+        // when
+        Destinations actual = board.findDestinations(current);
+
+        // then
+        assertThat(actual.getPositions()).containsExactlyInAnyOrder(
+                Position.of(3, 1),
+                Position.of(4, 0),
+                Position.of(4, 1)
+        );
+    }
 }
