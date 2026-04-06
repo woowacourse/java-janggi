@@ -28,11 +28,20 @@ class GeneralMoveStrategyTest {
 
     @ParameterizedTest
     @MethodSource("moveablePositions")
-    @DisplayName("장군은 한 칸 이동할 수 있다. (상하좌우 기본으로 움직이지만, 궁성 영역에 따라 대각 이동이 가능하다.")
-    void general_can_move_test(Position generalPosition, Position destination) {
+    @DisplayName("장군이 궁성 중간 위치인 경우 상하좌우 및 대각 한 칸 이동이 가능하다.")
+    void general_center_can_move_test(Position generalPosition, Position destination) {
         GeneralMoveStrategy moveStrategy = new GeneralMoveStrategy();
 
         assertThat(moveStrategy.canMoveTo(generalPosition, destination)).isTrue();
+    }
+
+    @ParameterizedTest
+    @MethodSource("moveableCornerPositions")
+    @DisplayName("장군이 궁성 모서리 위치인 경우, 궁성 내부에서만 이동 가능하며 궁성 중앙으로 이동이 가능하다.")
+    void general_corner_can_move_test(Position guardPosition, Position destination) {
+        GeneralMoveStrategy moveStrategy = new GeneralMoveStrategy();
+
+        assertThat(moveStrategy.canMoveTo(guardPosition, destination)).isTrue();
     }
 
     @ParameterizedTest
@@ -65,6 +74,16 @@ class GeneralMoveStrategyTest {
                 Arguments.arguments(palaceRedCenter, palaceRedCenter.upCrossRight()),
                 Arguments.arguments(palaceRedCenter, palaceRedCenter.downCrossRight()),
                 Arguments.arguments(palaceRedCenter, palaceRedCenter.downCrossLeft())
+        );
+    }
+
+    private static Stream<Arguments> moveableCornerPositions() {
+        Position palaceRedCorner = new Position(2, 3);
+
+        return Stream.of(
+                Arguments.arguments(palaceRedCorner, palaceRedCorner.up()),
+                Arguments.arguments(palaceRedCorner, palaceRedCorner.right()),
+                Arguments.arguments(palaceRedCorner, palaceRedCorner.upCrossRight())
         );
     }
 
