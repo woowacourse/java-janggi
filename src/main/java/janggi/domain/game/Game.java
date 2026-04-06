@@ -62,8 +62,8 @@ public class Game {
         return isGeneralCaptured() || isPossibleToCompareUsingPoints();
     }
 
-    public Map<Position, Piece> boardMap() {
-        return board.board();
+    public Map<Position, Piece> pieces() {
+        return board.pieces();
     }
 
     public Dynasty currentDynasty() {

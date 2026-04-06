@@ -70,7 +70,7 @@ class BoardTest {
         board.movePiece(toCanEat, toCannotEat, HAN);
 
         // then
-        assertThat(board.board())
+        assertThat(board.pieces())
                 .doesNotContainKeys(from, toCanEat)
                 .containsEntry(toCannotEat, fromPiece);
     }
