@@ -67,4 +67,8 @@ public class Palace {
         }
         return HAN_POSITIONS.contains(position);
     }
+
+    public static List<Direction> getDiagonals(Position position) {
+        return DIAGONALS.getOrDefault(position, Collections.emptyList());
+    }
 }
