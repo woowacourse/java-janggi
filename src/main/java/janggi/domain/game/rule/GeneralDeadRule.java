@@ -21,8 +21,8 @@ public class GeneralDeadRule implements Rule {
     public Side getWinSide(Map<Point, Piece> piecesWithPoint) {
         Collection<Piece> pieces = getPieces(piecesWithPoint);
         if (pieces.contains(CHO_GENERAL)) {
-            return Side.HAN;
+            return Side.CHO;
         }
-        return Side.CHO;
+        return Side.HAN;
     }
 }
