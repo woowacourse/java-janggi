@@ -1,5 +1,7 @@
 package janggi.domain.board;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 public record Position(int row, int column) {
@@ -64,5 +66,40 @@ public record Position(int row, int column) {
     public boolean isPalaceCenter() {
         return (row == TOP_PALACE_CENTER_ROW && column == PALACE_CENTER_COLUMN) ||
                 (row == BOTTOM_PALACE_CENTER_ROW && column == PALACE_CENTER_COLUMN);
+    }
+
+    public boolean isPalaceCorner() {
+        boolean isTopCorner = (row == TOP_PALACE_MIN_ROW || row == TOP_PALACE_MAX_ROW)
+                && (column == PALACE_MIN_COLUMN || column == PALACE_MAX_COLUMN);
+
+        boolean isBottomCorner = (row == BOTTOM_PALACE_MIN_ROW || row == BOTTOM_PALACE_MAX_ROW)
+                && (column == PALACE_MIN_COLUMN || column == PALACE_MAX_COLUMN);
+
+        return isTopCorner || isBottomCorner;
+    }
+
+    public List<Direction> getValidPalaceDiagonals() {
+        if (isPalaceCenter()) {
+            return List.of(Direction.NE, Direction.NW, Direction.SE, Direction.SW);
+        }
+
+        // 좌상단 꼭짓점
+        if ((row == TOP_PALACE_MIN_ROW || row == BOTTOM_PALACE_MIN_ROW) && column == PALACE_MIN_COLUMN) {
+            return List.of(Direction.SE);
+        }
+        // 우상단 꼭짓점
+        if ((row == TOP_PALACE_MIN_ROW || row == BOTTOM_PALACE_MIN_ROW) && column == PALACE_MAX_COLUMN) {
+            return List.of(Direction.SW);
+        }
+        // 좌하단 꼭짓점
+        if ((row == TOP_PALACE_MAX_ROW || row == BOTTOM_PALACE_MAX_ROW) && column == PALACE_MIN_COLUMN) {
+            return List.of(Direction.NE);
+        }
+        // 우하단 꼭짓점
+        if ((row == TOP_PALACE_MAX_ROW || row == BOTTOM_PALACE_MAX_ROW) && column == PALACE_MAX_COLUMN) {
+            return List.of(Direction.NW);
+        }
+
+        return Collections.emptyList();
     }
 }

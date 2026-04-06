@@ -16,8 +16,18 @@ public class SlideMoveStrategy implements MoveStrategy {
     @Override
     public Paths findMovablePaths(Position current, EnumSet<Direction> baseDirections) {
         Paths paths = new Paths();
+
+        // 기본 직선 경로
         for (Direction baseDirection : baseDirections) {
             addSlidePath(current, baseDirection, paths);
+        }
+
+        // 궁성 내 대각선 경로
+        if (current.isPalaceCorner() || current.isPalaceCenter()) {
+            for (Direction diagonalDirection : current.getValidPalaceDiagonals()) {
+                Path diagonalPath = Path.fromPalaceContinuousMove(current, diagonalDirection);
+                paths.addPath(diagonalPath);
+            }
         }
 
         return paths;

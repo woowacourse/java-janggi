@@ -13,7 +13,7 @@ public class Paths implements Iterable<Path> {
     }
 
     public void addPath(Path path) {
-        if (path.isEmpty()) {
+        if (path.isEmpty() || paths.contains(path)) {
             return;
         }
         paths.add(path);

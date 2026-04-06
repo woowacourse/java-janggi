@@ -60,4 +60,18 @@ public class Path implements Iterable<Position> {
 
         return path;
     }
+
+    public static Path fromPalaceContinuousMove(Position start, Direction direction) {
+        Path path = new Path();
+        Optional<Position> nextCandidate = start.tryMove(direction);
+
+        // 다음 칸이 궁성 안일 때까지만 반복
+        while (nextCandidate.isPresent() && nextCandidate.get().isPalace()) {
+            Position current = nextCandidate.get();
+            path.add(current);
+            nextCandidate = current.tryMove(direction);
+        }
+
+        return path;
+    }
 }
