@@ -17,30 +17,33 @@ public class ElephantStrategy implements Strategy {
     @Override
     public List<Position> getMoveCandidates(Position from, Team team, PieceProvider board) {
         List<Position> candidates = new ArrayList<>();
-
         for (Direction straight : getDirections()) {
-            Position myeok1 = new Position(
-                    from.row() + straight.getRowOffset(team),
-                    from.col() + straight.getColOffset(team)
-            );
-
-            if (!board.isBlank(myeok1)) continue;
-
-            for (Direction diag : getDiagonalsFor(straight)) {
-                Position myeok2 = new Position(
-                        myeok1.row() + diag.getRowOffset(team),
-                        myeok1.col() + diag.getColOffset(team)
-                );
-
-                if (!board.isBlank(myeok2)) continue;
-
-                Position target = new Position(myeok2.row() + diag.getRowOffset(team),
-                        myeok2.col() + diag.getColOffset(team)
-                );
-                candidates.add(target);
-            }
+            addCandidatesForStraight(from, team, board, straight, candidates);
         }
         return candidates;
+    }
+
+    private void addCandidatesForStraight(Position from, Team team, PieceProvider board,
+                                          Direction straight, List<Position> candidates) {
+        Position myeok1 = move(from, straight, team);
+        if (!board.isBlank(myeok1)) return;
+        addCandidatesForDiagonals(myeok1, team, board, straight, candidates);
+    }
+
+    private void addCandidatesForDiagonals(Position myeok1, Team team, PieceProvider board,
+                                           Direction straight, List<Position> candidates) {
+        for (Direction diag : getDiagonalsFor(straight)) {
+            Position myeok2 = move(myeok1, diag, team);
+            if (!board.isBlank(myeok2)) continue;
+            candidates.add(move(myeok2, diag, team));
+        }
+    }
+
+    private Position move(Position pos, Direction dir, Team team) {
+        return new Position(
+                pos.row() + dir.getRowOffset(team),
+                pos.col() + dir.getColOffset(team)
+        );
     }
 
     private List<Direction> getDiagonalsFor(Direction straight) {

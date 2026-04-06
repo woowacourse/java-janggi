@@ -16,24 +16,31 @@ public class HorseStrategy implements Strategy {
     @Override
     public List<Position> getMoveCandidates(Position from, Team team, PieceProvider board) {
         List<Position> candidates = new ArrayList<>();
-
         for (Direction straight : getDirections()) {
-            int myeokRow = from.row() + straight.getRowOffset(team);
-            int myeokCol = from.col() + straight.getColOffset(team);
-            Position myeokPosition = new Position(myeokRow, myeokCol);
-
-            if (board.isBlank(myeokPosition)) {
-                List<Direction> diagonals = getDiagonalsFor(straight);
-                for (Direction diag : diagonals) {
-                    int targetRow = myeokPosition.row() + diag.getRowOffset(team);
-                    int targetCol = myeokPosition.col() + diag.getColOffset(team);
-                    Position targetPosition = new Position(targetRow, targetCol);
-
-                    candidates.add(targetPosition);
-                }
-            }
+            addCandidatesForStraight(from, team, board, straight, candidates);
         }
         return candidates;
+    }
+
+    private void addCandidatesForStraight(Position from, Team team, PieceProvider board,
+                                          Direction straight, List<Position> candidates) {
+        Position myeok = move(from, straight, team);
+        if (!board.isBlank(myeok)) return;
+        addDiagonalTargets(myeok, team, straight, candidates);
+    }
+
+    private void addDiagonalTargets(Position myeok, Team team,
+                                    Direction straight, List<Position> candidates) {
+        for (Direction diag : getDiagonalsFor(straight)) {
+            candidates.add(move(myeok, diag, team));
+        }
+    }
+
+    private Position move(Position pos, Direction dir, Team team) {
+        return new Position(
+                pos.row() + dir.getRowOffset(team),
+                pos.col() + dir.getColOffset(team)
+        );
     }
 
     private List<Direction> getDiagonalsFor(Direction straight) {

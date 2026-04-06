@@ -1,14 +1,10 @@
 package domain.strategy;
 
-import static domain.Index.BOARD_COLUMNS;
-import static domain.Index.BOARD_ROWS;
-
 import domain.Team;
 import domain.position.Position;
 import domain.PieceProvider;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,9 +17,6 @@ public class CarStrategy implements Strategy {
 
     @Override
     public List<Position> getMoveCandidates(Position from, Team team, PieceProvider board) {
-
-        Direction[] straightDirections = {Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
-
         return getDirections().stream()
                 .flatMap(direction -> addPathCandidates(from, team, direction, board).stream())
                 .collect(Collectors.toList());
@@ -31,23 +24,25 @@ public class CarStrategy implements Strategy {
 
     private List<Position> addPathCandidates(Position from, Team team, Direction direction, PieceProvider board) {
         List<Position> candidates = new ArrayList<>();
-
-        int nextRow = from.row() + direction.getRowOffset(team);
-        int nextCol = from.col() + direction.getColOffset(team);
-        Position next = new Position(nextRow, nextCol);
+        Position next = move(from, direction, team);
 
         while (!next.isInvalid()) {
             candidates.add(next);
-
-            if (!board.isBlank(next)) {
-                break;
-            }
-
-            nextRow = next.row() + direction.getRowOffset(team);
-            nextCol = next.col() + direction.getColOffset(team);
-            next = new Position(nextRow, nextCol);
+            next = nextPosition(next, direction, team, board);
         }
-
         return candidates;
+    }
+
+    private Position nextPosition(Position current, Direction direction, Team team, PieceProvider board) {
+        if (!board.isBlank(current)) {
+            return current; // isInvalid()가 true인 sentinel 역할 → 루프 종료 필요
+        }
+        return move(current, direction, team);
+    }
+
+    private Position move(Position pos, Direction direction, Team team) {
+        int nextRow = pos.row() + direction.getRowOffset(team);
+        int nextCol = pos.col() + direction.getColOffset(team);
+        return new Position(nextRow, nextCol);
     }
 }
