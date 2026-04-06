@@ -71,4 +71,12 @@ public class AlivePieces {
 
         return piece.hasDifferentSide(side);
     }
+
+    public int getTotalScore(Side side) {
+        return alivePieces.values()
+                .stream()
+                .filter(piece -> piece.hasSameSide(side))
+                .mapToInt(Piece::getScore)
+                .sum();
+    }
 }

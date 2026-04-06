@@ -127,7 +127,7 @@ class AlivePiecesTest {
         }
 
         @Test
-        void 아군_기물이_배치되어_있다면_true를_반환한다() {
+        void 아군_기물이_배치되어_있다면_false를_반환한다() {
             boolean result = alivePieces.isEmpty(sameSideIntersection);
 
             assertThat(result).isFalse();
@@ -225,5 +225,54 @@ class AlivePiecesTest {
 
             assertThat(result).isFalse();
         }
+    }
+
+    @Nested
+    class 궁이_살아있는지_판단한다 {
+
+        @Test
+        void 궁이_존재한다면_true를_반환한다() {
+            // given
+            AlivePieces withGeneral = new AlivePieces(Map.of(
+                    DEFAULT_INTERSECTION, new General(SIDE)
+            ));
+
+            // when
+            boolean hasRoyalPiece = withGeneral.hasRoyalPiece(SIDE);
+
+            // then
+            assertThat(hasRoyalPiece).isTrue();
+        }
+
+        @Test
+        void 궁이_존재하지_않는다면_false를_반환한다() {
+            // given
+            AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
+
+            // when
+            boolean hasRoyalPiece = emptyAlivePieces.hasRoyalPiece(SIDE);
+
+            // then
+            assertThat(hasRoyalPiece).isFalse();
+        }
+    }
+
+    @Test
+    void 기물_점수의_총_합을_계산한다() {
+        // given
+        Piece piece1 = new Soldier(SIDE);
+        Piece piece2 = new Chariot(SIDE);
+        AlivePieces alivePieces = new AlivePieces(Map.of(
+                new Intersection(3, 3), piece1,
+                new Intersection(4, 4), piece2
+        ));
+
+        int expected = piece1.getScore() + piece2.getScore();
+
+        // when
+        int actual = alivePieces.getTotalScore(SIDE);
+
+        // then
+        assertThat(actual).isEqualTo(expected);
     }
 }

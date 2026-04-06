@@ -7,6 +7,7 @@ import domain.game.Side;
 import domain.piece.Piece;
 import java.util.List;
 import java.util.Map;
+import view.dto.ScoreDto;
 
 public class ApplicationView {
 
@@ -48,8 +49,8 @@ public class ApplicationView {
         return inputView.readIntersection();
     }
 
-    public void printWinner(Side winner) {
-        resultOutputView.printWinner(winner);
+    public void printWinner(Side winner, List<ScoreDto> scores) {
+        resultOutputView.printWinner(winner, scores);
     }
 
     public void printError(Exception exception) {

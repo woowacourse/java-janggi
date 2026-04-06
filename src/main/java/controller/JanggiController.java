@@ -9,11 +9,13 @@ import domain.game.JanggiGame;
 import domain.game.Side;
 import domain.piece.AlivePieces;
 import domain.piece.Piece;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 import util.RetryUtil;
 import view.ApplicationView;
+import view.dto.ScoreDto;
 
 public class JanggiController {
 
@@ -27,7 +29,9 @@ public class JanggiController {
             retryOnIllegalArgument(() -> progressTurn(game));
         }
 
-        view.printWinner(game.getWinner());
+        Side winner = game.getWinner();
+        List<ScoreDto> scores = calculateTotalScore(game);
+        view.printWinner(winner, scores);
     }
 
     private Board initBoard() {
@@ -49,6 +53,12 @@ public class JanggiController {
         Intersection destination = view.readMovePiece(board, movableIntersections);
 
         game.movePiece(startIntersection, destination);
+    }
+
+    private List<ScoreDto> calculateTotalScore(JanggiGame game) {
+        return Arrays.stream(Side.values())
+                .map(side -> new ScoreDto(side, game.getTotalScore(side)))
+                .toList();
     }
 
     private <T> T retryOnIllegalArgument(Supplier<T> retryableAction) {

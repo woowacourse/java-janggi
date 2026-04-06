@@ -46,6 +46,10 @@ public final class Board {
         return alivePieces.hasRoyalPiece(side);
     }
 
+    public int getTotalScore(Side side) {
+        return alivePieces.getTotalScore(side);
+    }
+
     public Map<Intersection, Piece> getPieces() {
         return alivePieces.get();
     }
