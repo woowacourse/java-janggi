@@ -17,6 +17,9 @@ dependencies {
     // H2 Database
     implementation 'com.h2database:h2:2.2.220'
     runtimeOnly 'com.h2database:h2'
+
+    testImplementation 'org.mockito:mockito-core:5.2.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.2.0'
 }
 
 java {

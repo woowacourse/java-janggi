@@ -15,7 +15,6 @@ public class MoveService {
 
     public void move(Game game, Point from, Point to) {
         game.move(from, to);
-
         for (int i = 0; i < SAVE_TRY_COUNT; i++) {
             try {
                 int moveNumber = moveRepository.findNextMoveNumber(game.getId());
