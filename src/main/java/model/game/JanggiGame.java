@@ -21,7 +21,11 @@ public class JanggiGame {
         validateTurn(move);
 
         Piece capturedPiece = board.move(move);
-        status = status.update(capturedPiece);
+        status = status.update(capturedPiece, turn);
+
+        if (status.isFinished()) {
+            return;
+        }
         changeTurn();
     }
 
@@ -47,5 +51,13 @@ public class JanggiGame {
 
     public Country turn() {
         return turn;
+    }
+
+    public Country winner() {
+        return status.winner();
+    }
+
+    public boolean isFinished() {
+        return status.isFinished();
     }
 }

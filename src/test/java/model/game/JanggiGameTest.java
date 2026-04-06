@@ -6,6 +6,8 @@ import model.board.Country;
 import model.board.strategy.InnerElephant;
 import model.board.strategy.OuterElephant;
 import model.move.Move;
+import model.pieces.Piece;
+import model.pieces.PieceType;
 import model.position.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -61,5 +63,30 @@ public class JanggiGameTest {
         assertThatThrownBy(() ->
                 game.move(Move.of(Position.of(7, 1), Position.of(6, 1))))
                 .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void 한나라의_장이_잡히면_초나라가_승리한다(){
+        Board board = new Board();
+        JanggiGame game = new JanggiGame(board);
+
+        board.place(Position.of(2, 5), new Piece(Country.HAN, PieceType.GENERAL));
+        board.place(Position.of(6, 5), new Piece(Country.CHO, PieceType.CHARIOT));
+        game.move(Move.of(Position.of(6, 5), Position.of(2, 5)));
+
+        assertThat(game.winner()).isEqualTo(Country.CHO);
+    }
+
+    @Test
+    void 초나라의_장이_잡히면_한나라가_승리한다(){
+        Board board = new Board();
+        JanggiGame game = new JanggiGame(board);
+
+        board.place(Position.of(9, 5), new Piece(Country.CHO, PieceType.GENERAL));
+        game.move(Move.of(Position.of(9, 5), Position.of(8, 5)));
+        board.place(Position.of(5, 5), new Piece(Country.HAN, PieceType.CHARIOT));
+        game.move(Move.of(Position.of(5, 5), Position.of(8, 5)));
+
+        assertThat(game.winner()).isEqualTo(Country.HAN);
     }
 }

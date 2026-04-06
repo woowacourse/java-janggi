@@ -24,7 +24,16 @@ public class GameController {
         OutputView.printBoard(board);
         while (true) {
             runGame(game, board);
+            if (gameOver(game, board)) break;
         }
+    }
+
+    private boolean gameOver(JanggiGame game, Board board) {
+        if (game.isFinished()) {
+            printResult(board, game);
+            return true;
+        }
+        return false;
     }
 
     private void init(Board board) {
@@ -54,5 +63,11 @@ public class GameController {
             OutputView.printBoard(board);
             return null;
         });
+    }
+
+    private void printResult(Board board, JanggiGame game) {
+        OutputView.printWinner(game.winner());
+        OutputView.printScore(Country.CHO, board.calculateScore(Country.CHO));
+        OutputView.printScore(Country.HAN, board.calculateScore(Country.HAN));
     }
 }
