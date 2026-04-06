@@ -38,25 +38,25 @@ public class Gungsung {
     }
 
     public boolean isOneStepDiagonalInside(Position departure, Position destination) {
-        if (!isDiagonalReachableRange(departure, destination)) {
+        if (isInvalidDiagonalMove(departure, destination)) {
             return false;
         }
         return departure.getMovableOneStepDiagonals().contains(destination);
     }
 
     public boolean isDiagonalInside(Position departure, Position destination) {
-        if (!isDiagonalReachableRange(departure, destination)) {
+        if (isInvalidDiagonalMove(departure, destination)) {
             return false;
         }
         return departure.calculateDeltaTo(destination).isDiagonal();
     }
 
-    private boolean isDiagonalReachableRange(Position departure, Position destination) {
-        return isInsideSameGungsung(departure, destination)
-            && isDepartureDiagonalMovable(departure);
+    private boolean isInvalidDiagonalMove(Position departure, Position destination) {
+        return !isInsideSameGungsung(departure, destination)
+            || !isDiagonalMovableDeparture(departure);
     }
 
-    private boolean isDepartureDiagonalMovable(Position departure) {
+    private boolean isDiagonalMovableDeparture(Position departure) {
         return CHO_DIAGONAL_POINTS.contains(departure)
             || HAN_DIAGONAL_POINTS.contains(departure);
     }
