@@ -108,7 +108,7 @@ TABLE `GAME_PIECE_POSITION` (기물 배치 상태)
 - `class Players`
     - 테이블에 초/한 진영의 플레이어를 저장해야 한다.
     - currentPlayer 를 통한 get / playerDTO 를 통한 비교는 가능하나 비즈니스 로직이 아님.
-    - > 효율화/비즈니스 로직 충족 일거양득을 위해선 Map 도입이?
+    - > 효율화/비즈니스 로직 충족 일거양득을 위해선 Map 도입이?ㅁ
 
 - ✔️ 선택) 게임방 구현
 

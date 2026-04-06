@@ -29,13 +29,14 @@ public class GameManager {
     }
 
     public Player currentPlayer() {
-        return players.currentPlayer(turn);
+        return players.currentPlayer(turn.currentSide());
     }
 
     public boolean isThereMoveablePiece(Position selectedPosition) {
         if (board.isPieceExist(selectedPosition)) {
             Piece selectedPiece = board.findPieceBy(selectedPosition);
-            return players.isCurrentSidePiece(turn, selectedPiece) && board.isMoveablePiece(selectedPosition);
+            Side currentSide = turn.currentSide();
+            return players.isCurrentSidePiece(currentSide, selectedPiece) && board.isMoveablePiece(selectedPosition);
         }
         return false;
     }
@@ -58,6 +59,6 @@ public class GameManager {
     }
 
     public double currentPlayerScore() {
-        return board.calculateScore(turn.getCurrentSide());
+        return board.calculateScore(turn.currentSide());
     }
 }

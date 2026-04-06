@@ -1,13 +1,13 @@
 package janggi.domain.game;
 
 import janggi.domain.piece.Piece;
-import java.util.Set;
+import java.util.Map;
 
 public class Players {
 
-    private final Set<Player> players;
+    private final Map<Side, Player> players;
 
-    private Players(Set<Player> players) {
+    private Players(Map<Side, Player> players) {
         this.players = players;
     }
 
@@ -16,7 +16,7 @@ public class Players {
         Player choPlayer = new Player(choPlayerName, Side.CHO);
         Player hanPlayer = new Player(hanPlayerName, Side.HAN);
 
-        return new Players(Set.of(choPlayer, hanPlayer));
+        return new Players(Map.of(Side.CHO, choPlayer, Side.HAN, hanPlayer));
     }
 
     private static void validateDuplicatedNames(String choPlayerName, String hanPlayerName) {
@@ -25,14 +25,15 @@ public class Players {
         }
     }
 
-    public boolean isCurrentSidePiece(Turn turn, Piece selectedPiece) {
-        return currentPlayer(turn).isOwnPiece(selectedPiece);
+    public boolean isCurrentSidePiece(Side side, Piece selectedPiece) {
+        return currentPlayer(side).isOwnPiece(selectedPiece);
     }
 
-    public Player currentPlayer(Turn turn) {
-        return players.stream()
-                .filter(player -> player.isMyTurn(turn))
-                .findFirst()
-                .orElseThrow(() -> new IllegalStateException("[ERROR] 현재 턴에 해당하는 플레이어가 없습니다."));
+    public Player currentPlayer(Side side) {
+        Player currentPlayer = players.get(side);
+        if (currentPlayer == null) {
+            throw new IllegalStateException("[ERROR] 현재 턴에 해당하는 플레이어가 없습니다.");
+        }
+        return currentPlayer;
     }
 }

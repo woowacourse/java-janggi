@@ -20,7 +20,7 @@ public class Turn {
         return this.currentSide == side;
     }
 
-    public Side getCurrentSide() {
+    public Side currentSide() {
         return currentSide;
     }
 }
