@@ -16,6 +16,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class SoldierTest {
 
+    private static final Side SIDE = Side.HAN;
+
     @Nested
     class 초기_위치를_반환한다 {
 
@@ -63,7 +65,6 @@ class SoldierTest {
 
         private static final int DEFAULT_ROW = 5;
         private static final int DEFAULT_FILE = 5;
-        private static final Side SIDE = Side.HAN;
         private static final Side OPPOSITE_SIDE = Side.CHO;
         private static final Soldier SAME_SIDE_PIECE = new Soldier(SIDE);
         private static final Soldier OPPOSITE_SIDE_PIECE = new Soldier(OPPOSITE_SIDE);
@@ -168,6 +169,19 @@ class SoldierTest {
                     .stream()
                     .map(Arguments::of);
         }
+    }
+
+    @Test
+    void 본인의_점수를_반환한다() {
+        // given
+        Soldier soldier = new Soldier(SIDE);
+        int expected = 2;
+
+        // when
+        int actual = soldier.getScore();
+
+        // then
+        assertThat(actual).isEqualTo(expected);
     }
 
     private Vector reverse(Vector vector) {

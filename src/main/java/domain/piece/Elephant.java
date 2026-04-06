@@ -46,6 +46,11 @@ public final class Elephant extends Piece {
     }
 
     @Override
+    public int getScore() {
+        return 3;
+    }
+
+    @Override
     public boolean canBelongToWing() {
         return true;
     }

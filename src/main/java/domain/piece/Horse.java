@@ -46,6 +46,11 @@ public final class Horse extends Piece {
     }
 
     @Override
+    public int getScore() {
+        return 5;
+    }
+
+    @Override
     public boolean canBelongToWing() {
         return true;
     }

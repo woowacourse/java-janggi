@@ -175,4 +175,17 @@ class ElephantTest {
         // then
         assertThat(movableIntersections).contains(LEFT_DESTINATION, RIGHT_DESTINATION);
     }
+
+    @Test
+    void 본인의_점수를_반환한다() {
+        // given
+        Elephant elephant = new Elephant(SIDE);
+        int expected = 3;
+
+        // when
+        int actual = elephant.getScore();
+
+        // then
+        assertThat(actual).isEqualTo(expected);
+    }
 }

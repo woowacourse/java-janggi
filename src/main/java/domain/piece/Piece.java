@@ -32,6 +32,8 @@ public abstract class Piece {
             AlivePieces alivePieces
     );
 
+    public abstract int getScore();
+
     public abstract boolean canBelongToWing();
 
     public abstract boolean isRoyalPiece();

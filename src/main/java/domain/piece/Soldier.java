@@ -56,6 +56,11 @@ public final class Soldier extends StaticPositionedPiece {
     }
 
     @Override
+    public int getScore() {
+        return 2;
+    }
+
+    @Override
     public boolean canBelongToWing() {
         return false;
     }

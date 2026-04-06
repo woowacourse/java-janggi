@@ -51,4 +51,17 @@ class GeneralTest {
         // then
         assertThat(royalPiece).isTrue();
     }
+
+    @Test
+    void 본인의_점수를_반환한다() {
+        // given
+        General general = new General(Side.HAN);
+        int expected = 0;
+
+        // when
+        int actual = general.getScore();
+
+        // then
+        assertThat(actual).isEqualTo(expected);
+    }
 }

@@ -182,4 +182,17 @@ class ChariotTest {
             assertThat(movableIntersections).containsAll(expectedPalaceDestinations);
         }
     }
+
+    @Test
+    void 본인의_점수를_반환한다() {
+        // given
+        Chariot chariot = new Chariot(SIDE);
+        int expected = 13;
+
+        // when
+        int actual = chariot.getScore();
+
+        // then
+        assertThat(actual).isEqualTo(expected);
+    }
 }

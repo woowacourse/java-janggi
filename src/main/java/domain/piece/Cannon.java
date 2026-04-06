@@ -59,6 +59,11 @@ public final class Cannon extends StaticPositionedPiece {
     }
 
     @Override
+    public int getScore() {
+        return 7;
+    }
+
+    @Override
     public boolean canBelongToWing() {
         return false;
     }

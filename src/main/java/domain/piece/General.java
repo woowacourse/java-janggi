@@ -20,6 +20,11 @@ public class General extends PalacePiece {
     }
 
     @Override
+    public int getScore() {
+        return 0;
+    }
+
+    @Override
     public boolean canBelongToWing() {
         return false;
     }

@@ -58,6 +58,11 @@ public final class Chariot extends StaticPositionedPiece {
     }
 
     @Override
+    public int getScore() {
+        return 13;
+    }
+
+    @Override
     public boolean canBelongToWing() {
         return false;
     }
