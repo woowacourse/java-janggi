@@ -18,10 +18,12 @@ import view.OutputView;
 public class JanggiController {
     private final InputView inputView;
     private final OutputView outputView;
+    private final JanggiService janggiService;
 
-    public JanggiController(InputView inputView, OutputView outputView) {
+    public JanggiController(InputView inputView, OutputView outputView, JanggiService janggiService) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.janggiService = janggiService;
     }
 
     public void run() {
@@ -29,8 +31,8 @@ public class JanggiController {
 //        JanggiService.insertPositions();
 //        JanggiService.insertPieces();
         int boardId = askLoadOrCreate();
-        Board board = JanggiService.readBoard(boardId);
-        BoardSnapshots boardSnapshots = JanggiService.loadBoardSnapshot(boardId);
+        Board board = janggiService.readBoard(boardId);
+        BoardSnapshots boardSnapshots = janggiService.loadBoardSnapshot(boardId);
 
         playTurn(board, boardSnapshots, boardId);
     }
@@ -50,10 +52,10 @@ public class JanggiController {
     }
 
     private int loadBoard() {
-        outputView.printBoardId(JanggiService.readAllBoardId());
+        outputView.printBoardId(janggiService.readAllBoardId());
         String input = inputView.readBoardSelect();
         int boardId = InputParser.parseBoardId(input);
-        JanggiService.readBoard(boardId);
+        janggiService.readBoard(boardId);
         return boardId;
     }
 
@@ -62,14 +64,14 @@ public class JanggiController {
         TableSetting hanTableSetting = readTableSetting(CountryType.HAN);
         BoardFactory boardFactory = new BoardFactory();
         Board board = boardFactory.create(choTableSetting, hanTableSetting);
-        int boardId = JanggiService.insertBoard();
+        int boardId = janggiService.insertBoard();
         initBoardState(board.getPieceInfos(), boardId);
         return boardId;
     }
 
     private void initBoardState(PieceInfos pieceInfos, int boardId) {
         for (Position position : pieceInfos.getKeys()) {
-            JanggiService.insertBoardState(position, pieceInfos.get(position), boardId);
+            janggiService.insertBoardState(position, pieceInfos.get(position), boardId);
         }
     }
 
@@ -89,13 +91,13 @@ public class JanggiController {
     private void playTurn(Board board, BoardSnapshots boardSnapshots, int boardId) {
         boolean isEnd = false;
         while (!isEnd) {
-            CountryType countryType = JanggiService.readCountryTurn(boardId);
+            CountryType countryType = janggiService.readCountryTurn(boardId);
             isEnd = checkEndAndMovePiece(board, countryType, boardSnapshots, boardId);
-            JanggiService.updateBoard(countryType.anotherCountryType(), board.getScores(), boardId);
+            janggiService.updateBoard(countryType.anotherCountryType(), board.getScores(), boardId);
         }
-        JanggiService.deleteAllBoardStateInBoard(boardId);
-        JanggiService.deleteAllBoardSnapshotInBoard(boardId);
-        JanggiService.deleteBoard(boardId);
+        janggiService.deleteAllBoardStateInBoard(boardId);
+        janggiService.deleteAllBoardSnapshotInBoard(boardId);
+        janggiService.deleteBoard(boardId);
     }
 
     private boolean checkEndAndMovePiece(Board board, CountryType turn, BoardSnapshots boardSnapshots,
@@ -123,8 +125,8 @@ public class JanggiController {
                 boolean isEnd = board.checkEndAndPlay(from, to);
                 BoardSnapshot boardSnapshot = new BoardSnapshot(board.getPieceInfos(), turn);
                 boardSnapshots.addBoardSnapshot(boardSnapshot);
-                JanggiService.insertBoardSnapshot(board.getPieceInfos(), boardId, turn);
-                JanggiService.changeBoardStateToAndFrom(from, to, board.getPieceInfos(), boardId);
+                janggiService.insertBoardSnapshot(board.getPieceInfos(), boardId, turn);
+                janggiService.changeBoardStateToAndFrom(from, to, board.getPieceInfos(), boardId);
                 return isEnd;
             } catch (IllegalArgumentException exception) {
                 outputView.printErrorMessage(exception.getMessage());
