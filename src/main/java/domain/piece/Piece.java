@@ -7,7 +7,7 @@ import domain.position.Position;
 import java.util.Objects;
 
 public abstract class Piece {
-    private PieceId id;
+    private final PieceId id;
     protected final MoveStrategy moveStrategy;
     private final PieceType pieceType;
     private final Team team;
@@ -21,10 +21,6 @@ public abstract class Piece {
 
     public Piece(MoveStrategy moveStrategy, PieceType pieceType, Team team) {
         this(null, moveStrategy, pieceType, team);
-    }
-
-    public void setId(PieceId id) {
-        this.id = id;
     }
 
     public PieceId getId() {
