@@ -65,6 +65,10 @@ public class JanggiService {
         return boardRepository.findAllGameIds();
     }
 
+    public boolean isDuplicateId(long gameId) {
+        return boardRepository.existsById(gameId);
+    }
+
     private Map<Position, Piece> getAlivePieces() {
         Map<Position, Space> board = gameManager.captureBoard();
 

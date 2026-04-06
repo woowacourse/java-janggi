@@ -49,10 +49,34 @@ public class JanggiController {
 
     private void saveGame(long gameId) {
         try {
-            janggiService.saveGame(gameId);
-            System.out.println("게임이 성공적으로 저장되었습니다.");
+            long targetId = currentGameId;
+            if (currentGameId != 0) {
+                if (!RetryExecutor.retry(InputView::askOverwrite)) {
+                    targetId = getUniqueNewGameId();
+                }
+            } else {
+                targetId = getUniqueNewGameId();
+            }
+
+            janggiService.saveGame(targetId);
+            System.out.println(targetId + " 게임이 성공적으로 저장되었습니다.");
+            return targetId;
         } catch (Exception e) {
             OutputView.printErrorMessage("저장 실패: " + e.getMessage());
+            return currentGameId;
         }
+    }
+
+    private long getUniqueNewGameId() {
+        return RetryExecutor.retry(() -> {
+            long newId = InputView.askGenerateGameId();
+            if (newId <= 0) {
+                throw new IllegalArgumentException("ID는 0보다 큰 숫자여야 합니다.");
+            }
+            if (janggiService.isDuplicateId(newId)) {
+                throw new IllegalArgumentException("이미 존재하는 게임 ID입니다. 다른 번호를 입력해주세요.");
+            }
+            return newId;
+        });
     }
 }
