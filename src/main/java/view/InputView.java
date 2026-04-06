@@ -43,9 +43,8 @@ public class InputView {
     public Position readToPosition(Camp camp) {
         while (true) {
             try {
-                System.out.println(
-                        CAMP_NAMES.get(camp)
-                                + " 플레이어는 선택한 말을 움직일 위치를 column, row 형식으로 입력해 주세요.(입력좌표 예시 column, row: 0, 7)");
+                System.out.println(CAMP_NAMES.get(camp)
+                        + " 플레이어는 선택한 말을 움직일 위치를 column, row 형식으로 입력해 주세요.(입력좌표 예시 column, row: 0, 7)");
                 return readPosition();
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
