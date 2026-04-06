@@ -11,4 +11,6 @@ public interface PieceRepository {
     void updatePosition(Connection conn, int gameId, int oldRow, int oldCol, int newRow, int newCol);
 
     void deleteByPosition(Connection conn, int gameId, int row, int col);
+
+    List<PieceEntity> findAllByGameId(Connection conn, int gameId);
 }

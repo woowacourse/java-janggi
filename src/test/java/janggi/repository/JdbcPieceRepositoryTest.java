@@ -128,4 +128,30 @@ class JdbcPieceRepositoryTest {
             assertThat(rs.next()).isFalse();
         }
     }
+
+    @Test
+    void 특정_방의_모든_기물을_조회하면_저장된_모든_기물_리스트를_반환한다() throws SQLException {
+        // give
+        List<PieceEntity> pieces = List.of(
+                new PieceEntity(testGameId, "CHA", 0, 0),
+                new PieceEntity(testGameId, "MA", 0, 1)
+        );
+        pieceRepository.saveAll(conn, pieces);
+
+        // when
+        List<PieceEntity> result = pieceRepository.findAllByGameId(conn, testGameId);
+
+        // then
+        assertThat(result).hasSize(2);
+        assertThat(result).extracting("type").contains("CHA", "MA");
+    }
+
+    @Test
+    void 기물이_없는_방_번호로_조회하면_빈_리스트를_반환한다() throws SQLException {
+        // when
+        List<PieceEntity> result = pieceRepository.findAllByGameId(conn, testGameId);
+
+        // then
+        assertThat(result).isEmpty();
+    }
 }

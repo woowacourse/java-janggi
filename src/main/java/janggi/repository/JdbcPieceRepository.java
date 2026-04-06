@@ -1,13 +1,16 @@
 package janggi.repository;
 
 import janggi.entity.PieceEntity;
+import janggi.exception.database.GameLoadException;
 import janggi.exception.database.PieceDeletionException;
 import janggi.exception.database.PieceInitializationException;
 import janggi.exception.database.PieceMovementException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class JdbcPieceRepository implements PieceRepository {
@@ -66,5 +69,29 @@ public class JdbcPieceRepository implements PieceRepository {
         } catch (SQLException e) {
             throw new PieceDeletionException(e);
         }
+    }
+
+    @Override
+    public List<PieceEntity> findAllByGameId(Connection conn, int gameId) {
+        String sql = "SELECT * FROM Piece WHERE game_id = ?";
+        List<PieceEntity> pieces = new ArrayList<>();
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, gameId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    pieces.add(new PieceEntity(
+                            rs.getInt("game_id"),
+                            rs.getString("type"),
+                            rs.getInt("row"),
+                            rs.getInt("col")
+                    ));
+                }
+            }
+        } catch (SQLException e) {
+            throw new GameLoadException(e);
+        }
+        return pieces;
     }
 }
