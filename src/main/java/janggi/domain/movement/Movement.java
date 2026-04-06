@@ -61,6 +61,21 @@ public class Movement {
         return calculateNextPosition(from, MAX_DISTANCE);
     }
 
+    public Position findFirstOccupiedPalacePositionOrMax(final Position from, final BoardMediator boardMediator) {
+        Position tempTo = from;
+        for (int distance = 1; distance <= MAX_DISTANCE; distance++) {
+            if (boardMediator.isPalace(tempTo) && !Palace.isAllowedDirection(tempTo, direction)) {
+                return tempTo;
+            }
+            final Position to = calculateNextPosition(from, distance);
+            if (hasPieceAt(to, boardMediator)) {
+                return to;
+            }
+            tempTo = to;
+        }
+        return calculateNextPosition(from, MAX_DISTANCE);
+    }
+
     // 이동 가능한 경로의 자취 위치 리스트를 반환한다.
     // 경로에 장애물을 만나면 그때까지의 리스트를 반환하고, 적을 만난다면 적의 좌표를 포함하여 반환한다.
     public List<Position> calculateTracesOne(final Position from, final TeamType teamType,

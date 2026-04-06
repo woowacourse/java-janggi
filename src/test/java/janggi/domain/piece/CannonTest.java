@@ -128,7 +128,16 @@ class CannonTest {
                     Position.valueOf(9, 5), enemySoldier,
                     Position.valueOf(8, 6), enemySoldier
             );
-            List<Position> expected = List.of();
+            List<Position> expected = List.of(
+                    Position.valueOf(8, 5),
+                    Position.valueOf(7, 5),
+                    Position.valueOf(6, 5),
+                    Position.valueOf(5, 5),
+                    Position.valueOf(4, 5),
+                    Position.valueOf(3, 5),
+                    Position.valueOf(2, 5),
+                    Position.valueOf(1, 5)
+            );
 
             BoardMediator boardMediator = new Board(positionPieceMap);
             List<Position> actual = cannon.calculateMovablePositions(Position.valueOf(10, 5), boardMediator);
