@@ -7,7 +7,7 @@ import static janggi.domain.dynasty.Dynasty.HAN;
 import static janggi.domain.piece.PieceType.CHARIOT;
 import static org.assertj.core.api.Assertions.*;
 
-import janggi.domain.DomainException;
+import janggi.domain.exception.DomainException;
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
@@ -21,7 +21,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.EnumSource;
-import org.junit.jupiter.params.provider.ValueSource;
 
 class BoardTest {
 

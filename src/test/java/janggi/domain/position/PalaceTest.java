@@ -1,6 +1,6 @@
 package janggi.domain.position;
 
-import janggi.domain.DomainException;
+import janggi.domain.exception.DomainException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

@@ -1,6 +1,8 @@
 package janggi.application;
 
-import janggi.domain.DomainException;
+import janggi.application.dto.GameDto;
+import janggi.application.dto.GameRoomDto;
+import janggi.domain.exception.DomainException;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardDesignPolicy;
 import janggi.domain.game.CurrentTurn;

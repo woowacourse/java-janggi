@@ -1,6 +1,6 @@
 package janggi.domain.position;
 
-import janggi.domain.DomainException;
+import janggi.domain.exception.DomainException;
 
 public record Column(
         int column

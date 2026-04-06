@@ -1,6 +1,6 @@
 package janggi.domain.piece;
 
-import janggi.domain.DomainException;
+import janggi.domain.exception.DomainException;
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.position.Position;
 import org.junit.jupiter.api.DisplayName;

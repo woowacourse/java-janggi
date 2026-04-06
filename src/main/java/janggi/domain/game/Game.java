@@ -3,7 +3,7 @@ package janggi.domain.game;
 import static janggi.domain.dynasty.Dynasty.CHO;
 import static janggi.domain.dynasty.Dynasty.HAN;
 
-import janggi.domain.DomainException;
+import janggi.domain.exception.DomainException;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardDesignPolicy;
 import janggi.domain.dynasty.Dynasty;

@@ -1,9 +1,9 @@
 package janggi.controller;
 
-import janggi.application.GameDto;
-import janggi.application.GameRoomDto;
+import janggi.application.dto.GameDto;
+import janggi.application.dto.GameRoomDto;
 import janggi.application.GameService;
-import janggi.domain.DomainException;
+import janggi.domain.exception.DomainException;
 import janggi.domain.board.DefaultBoardDesignPolicy;
 import janggi.domain.board.HorseElephantPosition;
 import janggi.domain.dynasty.Dynasty;

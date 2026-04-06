@@ -6,7 +6,7 @@ import static janggi.domain.piece.PieceType.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.domain.DomainException;
+import janggi.domain.exception.DomainException;
 import janggi.domain.board.BoardDesignPolicy;
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.piece.*;

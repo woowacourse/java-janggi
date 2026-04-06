@@ -1,4 +1,4 @@
-package janggi.application;
+package janggi.application.dto;
 
 import janggi.domain.game.Game;
 

@@ -1,6 +1,6 @@
 package janggi.domain.position;
 
-import janggi.domain.DomainException;
+import janggi.domain.exception.DomainException;
 
 import java.util.List;
 import java.util.Map;

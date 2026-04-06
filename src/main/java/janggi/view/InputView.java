@@ -1,6 +1,6 @@
 package janggi.view;
 
-import janggi.application.GameRoomDto;
+import janggi.application.dto.GameRoomDto;
 import janggi.domain.dynasty.Dynasty;
 import janggi.view.dto.PositionDto;
 import janggi.view.mapper.DynastyMapper;

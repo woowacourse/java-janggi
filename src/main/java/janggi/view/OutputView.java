@@ -1,6 +1,6 @@
 package janggi.view;
 
-import janggi.application.GameRoomDto;
+import janggi.application.dto.GameRoomDto;
 import janggi.domain.position.Column;
 import janggi.view.dto.BoardDto;
 import janggi.view.dto.PieceDto;

@@ -1,5 +1,7 @@
 package janggi.application;
 
+import janggi.application.dto.GameDto;
+import janggi.application.dto.GameRoomDto;
 import janggi.domain.board.DefaultBoardDesignPolicy;
 import janggi.domain.board.HorseElephantPosition;
 import janggi.domain.dynasty.Dynasty;

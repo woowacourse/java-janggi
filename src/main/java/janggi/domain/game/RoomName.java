@@ -1,6 +1,6 @@
 package janggi.domain.game;
 
-import janggi.domain.DomainException;
+import janggi.domain.exception.DomainException;
 
 public record RoomName(
         String roomName
