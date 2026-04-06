@@ -6,48 +6,42 @@ import java.util.List;
 
 public class GameSelectCommand {
 
-    private final List<Long> gameInProgressIds;
-    private int selectedCommand = -1;
+    private final long selectedGameId;
 
-    public GameSelectCommand(final List<Long> gameInProgressIds) {
-        this.gameInProgressIds = gameInProgressIds;
+    public static GameSelectCommand from(final int selectedNumber, final List<Long> gameIds) {
+        validateSelectedNumberRange(selectedNumber, gameIds.size());
+        if (selectedNumber == 0) {
+            return new GameSelectCommand(0);
+        }
+        return new GameSelectCommand(gameIds.get(selectedNumber - 1));
     }
 
-    public void select(final int selectedCommand) {
-        validateSelectedCommandRange(selectedCommand);
-        this.selectedCommand = selectedCommand;
+    private static void validateSelectedNumberRange(final int selectedNumber, final int idsCount) {
+        if (idsCount < MAXIMUM_GAMES_COUNT_IN_PROGRESS
+            && (selectedNumber < 0 || selectedNumber > idsCount)) {
+            throw new IllegalArgumentException("해당 명령 번호는 유효한 번호가 아닙니다.");
+        }
+        if (idsCount >= MAXIMUM_GAMES_COUNT_IN_PROGRESS
+            && (selectedNumber < 1 || selectedNumber > idsCount)) {
+            throw new IllegalArgumentException("해당 명령 번호는 유효한 번호가 아닙니다.");
+        }
     }
 
-    private void validateSelectedCommandRange(final int selectedCommand) {
-        if (gameInProgressIds.size() < MAXIMUM_GAMES_COUNT_IN_PROGRESS
-            && (selectedCommand < 0 || selectedCommand > gameInProgressIds.size())) {
-            throw new IllegalArgumentException("해당 명령 번호는 유효한 번호가 아닙니다.");
-        }
-        if (gameInProgressIds.size() >= MAXIMUM_GAMES_COUNT_IN_PROGRESS
-            && (selectedCommand < 1 || selectedCommand > gameInProgressIds.size())) {
-            throw new IllegalArgumentException("해당 명령 번호는 유효한 번호가 아닙니다.");
-        }
+    private GameSelectCommand(final long selectedGameId) {
+        this.selectedGameId = selectedGameId;
     }
 
     public boolean isGenerateGame() {
-        validateCommandSelected();
-        return selectedCommand == 0;
+        return selectedGameId == 0;
     }
 
     public long getSelectedGameId() {
-        validateCommandSelected();
-        validateCommandForGame();
-        return gameInProgressIds.get(selectedCommand - 1);
+        validateGenerateGame();
+        return selectedGameId;
     }
 
-    private void validateCommandSelected() {
-        if (selectedCommand == -1) {
-            throw new IllegalStateException("아직 게임 선택 명령이 입력되지 않았습니다.");
-        }
-    }
-
-    private void validateCommandForGame() {
-        if (selectedCommand == 0) {
+    private void validateGenerateGame() {
+        if (isGenerateGame()) {
             throw new IllegalStateException("게임 불러오기 명령이 아닙니다.");
         }
     }

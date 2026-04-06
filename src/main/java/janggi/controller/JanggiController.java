@@ -59,16 +59,13 @@ public class JanggiController {
             .map(GameEntity::id).toList();
         final List<String> gameNames = gameEntities.stream()
             .map(GameEntity::name).toList();
-        OutputView.printGameSelect(gameNames);
+        OutputView.printGameSelect(gameNames, MAXIMUM_GAMES_COUNT_IN_PROGRESS);
 
         return RetryExecutor.retry(this::readGameSelectCommand, gameInProgressIds);
     }
 
     private GameSelectCommand readGameSelectCommand(final List<Long> gameInProgressIds) {
-        final GameSelectCommand gameSelectCommand = new GameSelectCommand(gameInProgressIds);
-        gameSelectCommand.select(InputView.readGameSelection());
-
-        return gameSelectCommand;
+        return GameSelectCommand.from(InputView.readGameSelection(), gameInProgressIds);
     }
 
     private TurnManager loadOrSaveTurnManager(final GameSelectCommand gameSelectCommand) {
