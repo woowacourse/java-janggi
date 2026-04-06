@@ -17,14 +17,15 @@ public class Board {
         return Collections.unmodifiableMap(board);
     }
 
-    public void move(Position from, Position to) {
+    public Piece move(Position from, Position to) {
         Piece piece = board.get(from);
-
+        Piece capturedPiece = board.get(to);
         if (!piece.canMove(from, to, this)) {
             throw new IllegalArgumentException("해당 기물은 이동할 수 없습니다.");
         }
 
         movePiece(from, to);
+        return capturedPiece;
     }
 
     public Piece findPiece(Position position) {

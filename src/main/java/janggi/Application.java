@@ -29,16 +29,12 @@ public class Application {
                 openingFormationChoices.choChoice());
         JanggiGame janggiGame = new JanggiGame(board);
 
-        while (isPlaying()) {
+        while (janggiGame.isPlaying()) {
             outputView.printBoardMap(BoardDto.from(janggiGame.board()));
             Position startPiecePosition = readStartPositionUntilValid();
             Position endPiecePosition = readEndPositionUntilValid();
             tryMove(janggiGame, startPiecePosition, endPiecePosition);
         }
-    }
-
-    private boolean isPlaying() {
-        return true;
     }
 
     private void tryMove(JanggiGame janggiGame, Position from, Position to) {
