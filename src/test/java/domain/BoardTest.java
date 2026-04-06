@@ -87,11 +87,53 @@ class BoardTest {
                     Position.of(4, 4), movingPawn
             ));
 
-            movableBoard.move(movingPawn, Position.of(3, 4));
+            assertThat(movableBoard.move(movingPawn, Position.of(3, 4))).isEmpty();
 
             assertThat(movableBoard.findPositionOf(movingPawn)).contains(Position.of(3, 4));
             assertThat(movableBoard.findPiece(Position.of(4, 4))).isEmpty();
             assertThat(movableBoard.findPiece(Position.of(3, 4))).contains(movingPawn);
+        }
+
+        @Test
+        void 빈_칸으로_이동하면_잡힌_기물이_없다() {
+            Piece movingPawn = Piece.of(TeamColor.CHO, PieceType.PAWN);
+            Board movableBoard = new Board(Map.of(
+                    Position.of(4, 4), movingPawn
+            ));
+
+            Optional<Piece> captured = movableBoard.move(movingPawn, Position.of(3, 4));
+
+            assertThat(captured).isEmpty();
+        }
+
+        @Test
+        void 상대_일반_기물이_있는_칸으로_이동하면_잡힌_기물을_반환한다() {
+            Piece choRook = Piece.of(TeamColor.CHO, PieceType.ROOK);
+            Piece hanHorse = Piece.of(TeamColor.HAN, PieceType.HORSE);
+            Board movableBoard = new Board(Map.of(
+                    Position.of(1, 3), choRook,
+                    Position.of(1, 4), hanHorse
+            ));
+
+            Optional<Piece> captured = movableBoard.move(choRook, Position.of(1, 4));
+
+            assertThat(captured).contains(hanHorse);
+            assertThat(captured.orElseThrow().isKing()).isFalse();
+        }
+
+        @Test
+        void 상대_왕이_있는_칸으로_이동하면_잡힌_왕을_반환한다() {
+            Piece choRook = Piece.of(TeamColor.CHO, PieceType.ROOK);
+            Piece hanKing = Piece.of(TeamColor.HAN, PieceType.KING);
+            Board movableBoard = new Board(Map.of(
+                    Position.of(1, 3), choRook,
+                    Position.of(1, 4), hanKing
+            ));
+
+            Optional<Piece> captured = movableBoard.move(choRook, Position.of(1, 4));
+
+            assertThat(captured).contains(hanKing);
+            assertThat(captured.orElseThrow().isKing()).isTrue();
         }
 
         @Test
