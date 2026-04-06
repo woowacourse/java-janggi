@@ -39,7 +39,7 @@ public class JanggiGameService {
                 connection -> {
                     List<JanggiGame> playingGames = gameDao.findPlayingGames(connection);
                     for (JanggiGame game : playingGames) {
-                        game.getContext().finishGame();
+                        game.forceQuit();
                         gameDao.updateContext(connection, game.getId(), game.getContext());
                     }
                     return null;

@@ -2,8 +2,8 @@ package domain;
 
 public class GameContext {
     private final GameContextId id;
-    private Turn turn;
-    private GameState gameState;
+    private final Turn turn;
+    private final GameState gameState;
 
     public GameContext(GameContextId id, Turn turn, GameState gameState) {
         this.id = id;
@@ -13,6 +13,14 @@ public class GameContext {
 
     public GameContext(Turn turn, GameState gameState) {
         this(null, turn, gameState);
+    }
+
+    public GameContext passTurn() {
+        return new GameContext(this.id, turn.passTurn(), this.gameState);
+    }
+
+    public GameContext finishGame() {
+        return new GameContext(this.id, this.turn, GameState.END);
     }
 
     public GameContextId getId() {
@@ -25,13 +33,5 @@ public class GameContext {
 
     public GameState getGameState() {
         return gameState;
-    }
-
-    public void passTurn() {
-        this.turn = this.turn.passTurn();
-    }
-
-    public void finishGame() {
-        this.gameState = GameState.END;
     }
 }

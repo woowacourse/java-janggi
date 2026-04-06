@@ -8,8 +8,8 @@ import domain.position.Position;
 public class JanggiGame {
     private final GameId id;
     private final Board board;
-    private final GameContext context;
     private final ScoreCalculator scoreCalculator;
+    private GameContext context;
 
     public JanggiGame(GameId id, Board board, GameContext context, ScoreCalculator scoreCalculator) {
         this.id = id;
@@ -34,7 +34,7 @@ public class JanggiGame {
     public void executeMove(Position start, Position destination) {
         validateGameIsNotFinished();
         board.move(context.getTurn(), start, destination);
-        checkGameTermination();
+        terminateIfKingCaptured();
         if (context.getGameState() == GameState.PLAYING) {
             passTurn();
         }
@@ -46,14 +46,18 @@ public class JanggiGame {
         }
     }
 
-    private void checkGameTermination() {
+    private void terminateIfKingCaptured() {
         if (board.isKingCaptured(Team.CHO) || board.isKingCaptured(Team.HAN)) {
-            context.finishGame();
+            context = context.finishGame();
         }
     }
 
     public void passTurn() {
-        context.passTurn();
+        context = context.passTurn();
+    }
+
+    public void forceQuit() {
+        context = context.finishGame();
     }
 
     public boolean isFinished() {

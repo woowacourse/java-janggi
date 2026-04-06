@@ -3,7 +3,6 @@ package domain.piece;
 import domain.Turn;
 import domain.board.BoardStatus;
 import domain.piece.strategy.MoveStrategy;
-import domain.PieceId;
 import domain.position.Position;
 import java.util.Objects;
 
