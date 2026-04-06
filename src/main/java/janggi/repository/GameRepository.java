@@ -1,6 +1,7 @@
 package janggi.repository;
 
 import janggi.domain.board.coordinate.Point;
+import janggi.domain.piece.PieceFactory;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.unit.Piece;
 import janggi.domain.side.Side;
@@ -79,7 +80,7 @@ public class GameRepository {
                 int x = rs.getInt("x");
                 int y = rs.getInt("y");
 
-                board.put(Point.of(x, y), pieceType.create(side));
+                board.put(Point.of(x, y), PieceFactory.create(pieceType, side));
             }
         } catch (SQLException e) {
             throw new RuntimeException("기물 정보를 불러오는 데 실패했습니다.");
