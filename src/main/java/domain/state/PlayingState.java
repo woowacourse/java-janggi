@@ -12,9 +12,9 @@ import io.OutputView;
 
 public class PlayingState implements GameState {
 
-    private final CheckDetector checkDetector = new CheckDetector();
-    private final CheckmateDetector checkmateDetector = new CheckmateDetector();
-    private final BikjangDetector bikjangDetector = new BikjangDetector();
+    private static final CheckDetector checkDetector = new CheckDetector();
+    private static final CheckmateDetector checkmateDetector = new CheckmateDetector();
+    private static final BikjangDetector bikjangDetector = new BikjangDetector();
 
     @Override
     public GameState handle(JanggiGame game, Command command) {
