@@ -172,20 +172,24 @@ public class GameConsole {
     }
 
     private <T> T retryUntilSuccess(Supplier<T> action) {
-        try {
-            return action.get();
-        } catch (IllegalArgumentException e) {
-            outputView.printErrorMessage(e.getMessage());
-            return retryUntilSuccess(action);
+        while (true) {
+            try {
+                return action.get();
+            } catch (IllegalArgumentException e) {
+                outputView.printErrorMessage(e.getMessage());
+            }
         }
+
     }
 
     private void retryUntilSuccess(Runnable action) {
-        try {
-            action.run();
-        } catch (IllegalArgumentException e) {
-            outputView.printErrorMessage(e.getMessage());
-            retryUntilSuccess(action);
+        while (true) {
+            try {
+                action.run();
+                return;
+            } catch (IllegalArgumentException e) {
+                outputView.printErrorMessage(e.getMessage());
+            }
         }
     }
 }

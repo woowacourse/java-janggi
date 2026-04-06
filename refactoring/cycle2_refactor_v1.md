@@ -19,4 +19,4 @@
   - `GameConsole.restoreState()`를 `GameStateName.toGameState(snapshot)` 한 줄 호출로 교체
 - [ ] **5. `PlayingState`의 detector들을 static으로 수정**
 - [x] **6. `GameConsole` 안쓰는 import 제거**
-- [ ] **7. 재귀를 통한 재입력 시도를 while로 수정하기.**
+- [x] **7. 재귀를 통한 재입력 시도를 while로 수정하기.**
