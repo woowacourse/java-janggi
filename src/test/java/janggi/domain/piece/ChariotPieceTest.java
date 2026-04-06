@@ -3,8 +3,6 @@ package janggi.domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.board.Position;
-import janggi.domain.movestrategy.ChariotStrategy;
-import janggi.domain.movestrategy.ElephantStrategy;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +24,8 @@ class ChariotPieceTest {
     void testNotMovableChariot(int preX, int preY, int nextX, int nextY) {
         ChariotPiece chariotPiece = new ChariotPiece(Team.HAN);
 
-        Assertions.assertThat(chariotPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY)))
+        Assertions.assertThat(
+                        chariotPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY)))
                 .isFalse();
     }
 
@@ -41,7 +40,8 @@ class ChariotPieceTest {
     void testMoveChariot(int preX, int preY, int nextX, int nextY) {
         ChariotPiece chariotPiece = new ChariotPiece(Team.HAN);
 
-        Assertions.assertThat(chariotPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY)))
+        Assertions.assertThat(
+                        chariotPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY)))
                 .isTrue();
     }
 

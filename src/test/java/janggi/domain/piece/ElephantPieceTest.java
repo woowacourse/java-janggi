@@ -3,8 +3,6 @@ package janggi.domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.board.Position;
-import janggi.domain.movestrategy.CannonStrategy;
-import janggi.domain.movestrategy.ElephantStrategy;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +23,8 @@ class ElephantPieceTest {
     })
     void testMovableElephant(int preX, int preY, int nextX, int nextY) {
         ElephantPiece elephantPiece = new ElephantPiece(Team.HAN);
-        assertThat(elephantPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
+        assertThat(
+                elephantPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
     }
 
 
@@ -39,7 +38,8 @@ class ElephantPieceTest {
     })
     void testNotMovableElephant(int preX, int preY, int nextX, int nextY) {
         ElephantPiece elephantPiece = new ElephantPiece(Team.HAN);
-        assertThat(elephantPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
+        assertThat(
+                elephantPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
     }
 
     @ParameterizedTest

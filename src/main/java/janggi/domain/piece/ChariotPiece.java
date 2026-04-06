@@ -1,12 +1,33 @@
 package janggi.domain.piece;
 
 import janggi.domain.board.Position;
-import janggi.domain.movestrategy.ChariotStrategy;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class ChariotPiece extends Piece {
     public ChariotPiece(Team team) {
-        super(team, Name.CHARIOT, new ChariotStrategy());
+        super(team, Name.CHARIOT);
+    }
+
+    @Override
+    public boolean canMoveByBasicMovingRule(Position from, Position to) {
+        return (from.isSameX(to) && !from.isSameY(to))
+                || (!from.isSameX(to) && from.isSameY(to));
+    }
+
+    @Override
+    public List<Position> findPath(Position from, Position to) {
+        List<Position> path = new ArrayList<>();
+        int stepX = Integer.compare(to.x(), from.x());
+        int stepY = Integer.compare(to.y(), from.y());
+        Position currentPosition = from;
+
+        while (!currentPosition.equals(to)) {
+            currentPosition = currentPosition.moveBy(stepX, stepY);
+            path.add(currentPosition);
+        }
+        return path;
     }
 
     @Override

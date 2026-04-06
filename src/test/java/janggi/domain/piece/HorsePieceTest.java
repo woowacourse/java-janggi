@@ -3,8 +3,6 @@ package janggi.domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.board.Position;
-import janggi.domain.movestrategy.ElephantStrategy;
-import janggi.domain.movestrategy.HorseStrategy;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;

@@ -3,9 +3,6 @@ package janggi.domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.board.Position;
-import janggi.domain.movestrategy.ChoSoldierStrategy;
-import janggi.domain.movestrategy.ElephantStrategy;
-import janggi.domain.movestrategy.HanSoldierStrategy;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
@@ -24,7 +21,8 @@ class SoldierPieceTest {
     })
     void testMoveSoliderWhenTeamIsHAN(int preX, int preY, int nextX, int nextY) {
         SoldierPiece soldierPiece = new SoldierPiece(Team.HAN);
-        assertThat(soldierPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
+        assertThat(
+                soldierPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
     }
 
     @ParameterizedTest
@@ -36,7 +34,8 @@ class SoldierPieceTest {
     })
     void testNotMoveSoliderWhenTeamIsHAN(int preX, int preY, int nextX, int nextY) {
         SoldierPiece soldierPiece = new SoldierPiece(Team.HAN);
-        assertThat(soldierPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
+        assertThat(
+                soldierPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
     }
 
     @ParameterizedTest
@@ -48,7 +47,8 @@ class SoldierPieceTest {
     })
     void testMoveSoliderWhenTeamIsCHO(int preX, int preY, int nextX, int nextY) {
         SoldierPiece soldierPiece = new SoldierPiece(Team.CHO);
-        assertThat(soldierPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
+        assertThat(
+                soldierPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
     }
 
 
@@ -61,7 +61,8 @@ class SoldierPieceTest {
     })
     void testNotMoveSoliderWhenTeamIsCHO(int preX, int preY, int nextX, int nextY) {
         SoldierPiece soldierPiece = new SoldierPiece(Team.CHO);
-        assertThat(soldierPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
+        assertThat(
+                soldierPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
     }
 
     @ParameterizedTest
@@ -75,8 +76,10 @@ class SoldierPieceTest {
     void testMoveSoliderHorizontally(int preX, int preY, int nextX, int nextY) {
         SoldierPiece soldierPiece1 = new SoldierPiece(Team.CHO);
         SoldierPiece soldierPiece2 = new SoldierPiece(Team.HAN);
-        assertThat(soldierPiece1.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
-        assertThat(soldierPiece2.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
+        assertThat(
+                soldierPiece1.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
+        assertThat(
+                soldierPiece2.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
     }
 
 
@@ -91,8 +94,10 @@ class SoldierPieceTest {
     void testNotMoveSoliderTwoStepMore(int preX, int preY, int nextX, int nextY) {
         SoldierPiece soldierPiece1 = new SoldierPiece(Team.CHO);
         SoldierPiece soldierPiece2 = new SoldierPiece(Team.HAN);
-        assertThat(soldierPiece1.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
-        assertThat(soldierPiece2.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
+        assertThat(
+                soldierPiece1.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
+        assertThat(
+                soldierPiece2.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
     }
 
     @Test

@@ -1,13 +1,29 @@
 package janggi.domain.piece;
 
 import janggi.domain.board.Position;
-import janggi.domain.movestrategy.GuardStrategy;
+import java.util.List;
 import java.util.Map;
 
 public class GuardPiece extends Piece {
 
     public GuardPiece(Team team) {
-        super(team, Name.GUARD, new GuardStrategy());
+        super(team, Name.GUARD);
+    }
+
+    @Override
+    public boolean canMoveByBasicMovingRule(Position from, Position to) {
+        if (from.distanceX(to) > 1) {
+            return false;
+        }
+        if (from.distanceY(to) > 1) {
+            return false;
+        }
+        return from.distanceX(to) + from.distanceY(to) <= 1;
+    }
+
+    @Override
+    public List<Position> findPath(Position from, Position to) {
+        return List.of(to);
     }
 
     @Override

@@ -1,12 +1,5 @@
 package janggi.domain.board;
 
-import janggi.domain.movestrategy.CannonStrategy;
-import janggi.domain.movestrategy.ChariotStrategy;
-import janggi.domain.movestrategy.ElephantStrategy;
-import janggi.domain.movestrategy.GeneralStrategy;
-import janggi.domain.movestrategy.GuardStrategy;
-import janggi.domain.movestrategy.HorseStrategy;
-import janggi.domain.movestrategy.MoveStrategy;
 import janggi.domain.piece.CannonPiece;
 import janggi.domain.piece.ChariotPiece;
 import janggi.domain.piece.ElephantPiece;

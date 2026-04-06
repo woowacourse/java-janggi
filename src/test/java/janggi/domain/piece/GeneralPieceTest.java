@@ -3,8 +3,6 @@ package janggi.domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.board.Position;
-import janggi.domain.movestrategy.ElephantStrategy;
-import janggi.domain.movestrategy.GeneralStrategy;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +23,8 @@ class GeneralPieceTest {
     })
     void testMoveGeneral(int preX, int preY, int nextX, int nextY) {
         GeneralPiece generalPiece = new GeneralPiece(Team.HAN);
-        assertThat(generalPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
+        assertThat(
+                generalPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
     }
 
 
@@ -39,7 +38,8 @@ class GeneralPieceTest {
     })
     void testNotMovableGeneral(int preX, int preY, int nextX, int nextY) {
         GeneralPiece generalPiece = new GeneralPiece(Team.HAN);
-        assertThat(generalPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
+        assertThat(
+                generalPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
     }
 
     @ParameterizedTest
