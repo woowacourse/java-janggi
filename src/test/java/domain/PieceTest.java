@@ -20,4 +20,10 @@ class PieceTest {
 
         assertThat(piece.materialPoints()).isEqualTo(MaterialPoints.of(13));
     }
+
+    @Test
+    void isKing은_왕인지_확인한다() {
+        Piece piece = Piece.of(TeamColor.CHO, PieceType.KING);
+        assertThat(piece.isKing()).isTrue();
+    }
 }
