@@ -20,9 +20,7 @@ public class PieceRepository {
     ) throws SQLException {
         String save = "INSERT INTO piece (`row`, file, side, type, game_id) VALUES (?, ?, ?, ?, ?)";
 
-        try (
-                PreparedStatement statement = connection.prepareStatement(save)
-        ) {
+        try (PreparedStatement statement = connection.prepareStatement(save)) {
             batchPieces(statement, pieces, gameId);
 
             statement.executeBatch();
@@ -35,9 +33,7 @@ public class PieceRepository {
     ) throws SQLException {
         String findByGameId = "SELECT `row`, file, side, type FROM piece WHERE piece.game_id = ?";
 
-        try (
-                PreparedStatement statement = connection.prepareStatement(findByGameId)
-        ) {
+        try (PreparedStatement statement = connection.prepareStatement(findByGameId)) {
             statement.setInt(1, gameId);
 
             ResultSet resultSet = statement.executeQuery();
@@ -61,9 +57,7 @@ public class PieceRepository {
     ) throws SQLException {
         String delete = "DELETE FROM piece WHERE game_id = ?";
 
-        try (
-                PreparedStatement statement = connection.prepareStatement(delete)
-        ) {
+        try (PreparedStatement statement = connection.prepareStatement(delete)) {
             statement.setInt(1, gameId);
             statement.executeUpdate();
         }
