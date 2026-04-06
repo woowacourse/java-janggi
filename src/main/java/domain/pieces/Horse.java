@@ -1,7 +1,7 @@
 package domain.pieces;
 
-import domain.Camp;
 import domain.BoardChecker;
+import domain.Camp;
 import domain.MovingFunction;
 import domain.PieceType;
 import domain.Position;
@@ -18,31 +18,31 @@ public class Horse extends Piece {
     }
 
     @Override
-    public boolean canMove(Position from, Position to, BoardChecker existBoard) {
+    public boolean canMove(Position from, Position to, BoardChecker boardChecker) {
         Map<Position, List<Position>> routeOfDestination = new HashMap<>();
 
-        routeOfDestination.putAll(move(from, this::north, this::northEast, existBoard));
-        routeOfDestination.putAll(move(from, this::north, this::northWest, existBoard));
-        routeOfDestination.putAll(move(from, this::south, this::southEast, existBoard));
-        routeOfDestination.putAll(move(from, this::south, this::southWest, existBoard));
-        routeOfDestination.putAll(move(from, this::east, this::northEast, existBoard));
-        routeOfDestination.putAll(move(from, this::east, this::southEast, existBoard));
-        routeOfDestination.putAll(move(from, this::west, this::northWest, existBoard));
-        routeOfDestination.putAll(move(from, this::west, this::southWest, existBoard));
+        routeOfDestination.putAll(move(from, this::north, this::northEast, boardChecker));
+        routeOfDestination.putAll(move(from, this::north, this::northWest, boardChecker));
+        routeOfDestination.putAll(move(from, this::south, this::southEast, boardChecker));
+        routeOfDestination.putAll(move(from, this::south, this::southWest, boardChecker));
+        routeOfDestination.putAll(move(from, this::east, this::northEast, boardChecker));
+        routeOfDestination.putAll(move(from, this::east, this::southEast, boardChecker));
+        routeOfDestination.putAll(move(from, this::west, this::northWest, boardChecker));
+        routeOfDestination.putAll(move(from, this::west, this::southWest, boardChecker));
 
         return routeOfDestination.containsKey(to);
     }
 
     private Map<Position, List<Position>> move(Position position, MovingFunction firstMovement,
-            MovingFunction secondMovement, BoardChecker existBoard) {
+            MovingFunction secondMovement, BoardChecker boardChecker) {
         Map<Position, List<Position>> movablePositions = new HashMap<>();
         List<Position> collectedMovablePositions = new ArrayList<>();
         Optional<Position> next1 = firstMovement.move(position);
-        if (next1.isEmpty() || existBoard.isExist(next1.get())) {
+        if (next1.isEmpty() || boardChecker.isExist(next1.get())) {
             return movablePositions;
         }
         Optional<Position> next2 = secondMovement.move(next1.get());
-        if (next2.isEmpty() || existBoard.isExist(next2.get())) {
+        if (next2.isEmpty() || boardChecker.isExist(next2.get())) {
             return movablePositions;
         }
         collectedMovablePositions.add(next1.get());

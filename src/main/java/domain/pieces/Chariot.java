@@ -1,7 +1,7 @@
 package domain.pieces;
 
-import domain.Camp;
 import domain.BoardChecker;
+import domain.Camp;
 import domain.MovingFunction;
 import domain.PieceType;
 import domain.Position;
@@ -18,18 +18,18 @@ public class Chariot extends Piece {
     }
 
     @Override
-    public boolean canMove(Position from, Position to, BoardChecker existBoard) {
+    public boolean canMove(Position from, Position to, BoardChecker boardChecker) {
         Map<Position, List<Position>> routeOfDestination = new HashMap<>();
 
-        routeOfDestination.putAll(move(from, existBoard, this::north));
-        routeOfDestination.putAll(move(from, existBoard, this::south));
-        routeOfDestination.putAll(move(from, existBoard, this::west));
-        routeOfDestination.putAll(move(from, existBoard, this::east));
+        routeOfDestination.putAll(move(from, boardChecker, this::north));
+        routeOfDestination.putAll(move(from, boardChecker, this::south));
+        routeOfDestination.putAll(move(from, boardChecker, this::west));
+        routeOfDestination.putAll(move(from, boardChecker, this::east));
 
         return routeOfDestination.containsKey(to);
     }
 
-    private Map<Position, List<Position>> move(Position position, BoardChecker existBoard,
+    private Map<Position, List<Position>> move(Position position, BoardChecker boardChecker,
             MovingFunction movement) {
         Map<Position, List<Position>> movablePositions = new HashMap<>();
         List<Position> collectedMovablePositions = new ArrayList<>();
@@ -39,7 +39,7 @@ public class Chariot extends Piece {
             collectedMovablePositions.add(currentPosition);
             movablePositions.put(currentPosition, collectedMovablePositions);
 
-            if (existBoard.isExist(currentPosition)) {
+            if (boardChecker.isExist(currentPosition)) {
                 return movablePositions;
             }
             next = movement.move(currentPosition);

@@ -1,7 +1,7 @@
 package domain.pieces;
 
-import domain.Camp;
 import domain.BoardChecker;
+import domain.Camp;
 import domain.MovingFunction;
 import domain.PieceType;
 import domain.Position;
@@ -16,7 +16,7 @@ public class General extends Piece {
     }
 
     @Override
-    public boolean canMove(Position from, Position to, BoardChecker existBoard) {
+    public boolean canMove(Position from, Position to, BoardChecker boardChecker) {
 
         Set<Position> destination = new HashSet<>();
 

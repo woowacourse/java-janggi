@@ -1,7 +1,7 @@
 package domain.pieces;
 
-import domain.Camp;
 import domain.BoardChecker;
+import domain.Camp;
 import domain.MovingFunction;
 import domain.PieceType;
 import domain.Position;
@@ -18,25 +18,25 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public boolean canMove(Position from, Position to, BoardChecker existBoard) {
+    public boolean canMove(Position from, Position to, BoardChecker boardChecker) {
         Map<Position, List<Position>> routeOfDestination = new HashMap<>();
 
-        routeOfDestination.putAll(move(from, existBoard, this::north));
-        routeOfDestination.putAll(move(from, existBoard, this::south));
-        routeOfDestination.putAll(move(from, existBoard, this::west));
-        routeOfDestination.putAll(move(from, existBoard, this::east));
+        routeOfDestination.putAll(move(from, boardChecker, this::north));
+        routeOfDestination.putAll(move(from, boardChecker, this::south));
+        routeOfDestination.putAll(move(from, boardChecker, this::west));
+        routeOfDestination.putAll(move(from, boardChecker, this::east));
 
         return routeOfDestination.containsKey(to);
     }
 
-    private Map<Position, List<Position>> move(Position position, BoardChecker existBoard,
+    private Map<Position, List<Position>> move(Position position, BoardChecker boardChecker,
             MovingFunction movement) {
         Map<Position, List<Position>> movablePositions = new HashMap<>();
         Optional<Position> next = movement.move(position);
         while (next.isPresent()) {
             Position currentPosition = next.get();
-            if (checkCannonJumping(currentPosition, existBoard)) {
-                return collectMovablePositions(currentPosition, existBoard, movement);
+            if (checkCannonJumping(currentPosition, boardChecker)) {
+                return collectMovablePositions(currentPosition, boardChecker, movement);
             }
             next = movement.move(currentPosition);
         }
@@ -44,19 +44,19 @@ public class Cannon extends Piece {
     }
 
     private Map<Position, List<Position>> collectMovablePositions(Position position,
-            BoardChecker existBoard, MovingFunction movement) {
+            BoardChecker boardChecker, MovingFunction movement) {
         Map<Position, List<Position>> movablePositions = new HashMap<>();
         List<Position> collectedMovablePositions = new ArrayList<>();
         Optional<Position> next = movement.move(position);
 
-        while (next.isPresent() && !existBoard.isExist(next.get())) {
+        while (next.isPresent() && !boardChecker.isExist(next.get())) {
             Position currentPosition = next.get();
             collectedMovablePositions.add(currentPosition);
             movablePositions.put(currentPosition, new ArrayList<>(collectedMovablePositions));
             next = movement.move(currentPosition);
         }
         next.ifPresent(pos -> {
-            if (checkCannonJumping(pos, existBoard)) {
+            if (checkCannonJumping(pos, boardChecker)) {
                 collectedMovablePositions.add(pos);
                 movablePositions.put(pos, new ArrayList<>(collectedMovablePositions));
 
@@ -65,8 +65,8 @@ public class Cannon extends Piece {
         return movablePositions;
     }
 
-    private boolean checkCannonJumping(Position position, BoardChecker existBoard) {
-        return existBoard.isExist(position) && existBoard.isNotCannon(position);
+    private boolean checkCannonJumping(Position position, BoardChecker boardChecker) {
+        return boardChecker.isExist(position) && boardChecker.isNotCannon(position);
     }
 
     @Override
