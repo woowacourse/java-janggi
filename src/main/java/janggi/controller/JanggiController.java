@@ -5,6 +5,8 @@ import janggi.domain.board.BoardFormation;
 import janggi.domain.board.BoardInitiator;
 import janggi.domain.common.Position;
 import janggi.domain.common.Team;
+import janggi.dto.BoardResponse;
+import janggi.dto.TeamResponse;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.List;
@@ -17,16 +19,16 @@ public class JanggiController {
     private final BoardInitiator boardInitiator = new BoardInitiator();
 
     public void run() {
-        boolean isChoTurn = true;
+        Team team = Team.CHO;
         boolean isGameOver = false;
 
         Board board = new Board();
         choiceBoardFormation(board);
-        outputView.printBoard(board.getBoard());
+        outputView.printBoard(BoardResponse.from(board));
 
         while (!isGameOver) {
-            playGame(isChoTurn, board);
-            isChoTurn = changeTurn(isChoTurn);
+            playGame(team, board);
+            team = team.next();
         }
     }
 
@@ -36,30 +38,26 @@ public class JanggiController {
     }
 
     private void askBoardFormation(Board board, Team team) {
-        outputView.printBoardFormation(team);
+        outputView.printBoardFormation(TeamResponse.from(team));
         int boardFormationChoice = inputView.readBoardFormationChoice();
         BoardFormation formation = BoardFormation.selectByChoice(boardFormationChoice);
         boardInitiator.initializeByFormation(board, formation, team);
     }
 
-    private void playGame(boolean isChoTurn, Board board) {
-        outputView.printTurnMessage(isChoTurn);
+    private void playGame(Team team, Board board) {
+        outputView.printTurnMessage(TeamResponse.from(team));
 
         Position movePiecePosition = askMovePiecePositionUntilValid(board);
 
         List<Position> availablePositions = board.findAvailablePositions(movePiecePosition);
 
-        outputView.printAvailablePositions(board.getBoard(), availablePositions);
+        outputView.printBoard(BoardResponse.of(board, availablePositions));
 
         Position movePosition = askMovePositionUntilValid(board, movePiecePosition);
 
         board.movePiece(movePiecePosition, movePosition);
 
-        outputView.printBoard(board.getBoard());
-    }
-
-    private boolean changeTurn(boolean isChoTurn) {
-        return !isChoTurn;
+        outputView.printBoard(BoardResponse.from(board));
     }
 
     private Position askMovePiecePositionUntilValid(Board board) {

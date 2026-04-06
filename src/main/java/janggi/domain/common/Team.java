@@ -21,4 +21,11 @@ public enum Team {
         }
         return MAX_Y - defaultY;
     }
+
+    public Team next() {
+        if (this == CHO) {
+            return HAN;
+        }
+        return CHO;
+    }
 }

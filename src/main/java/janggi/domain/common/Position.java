@@ -21,6 +21,14 @@ public class Position {
         this.y = y;
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
     public Optional<Position> applyDirection(int dx, int dy) {
         if (isInsideBoundary(x + dx, y + dy)) {
             return Optional.of(new Position(x + dx, y + dy));
