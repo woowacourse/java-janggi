@@ -11,4 +11,6 @@ public interface BoardMediator {
     boolean isSameTeamType(Position position, TeamType teamType);
 
     boolean isPalace(Position position);
+
+    boolean isPalacePiece(Position position);
 }
