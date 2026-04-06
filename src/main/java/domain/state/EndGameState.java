@@ -27,7 +27,7 @@ public class EndGameState implements GameState {
     }
 
     @Override
-    public String stateName() {
-        return "END";
+    public GameStateName stateName() {
+        return GameStateName.END;
     }
 }

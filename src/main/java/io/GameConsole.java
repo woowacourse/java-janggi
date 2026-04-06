@@ -7,13 +7,8 @@ import domain.game.Turn;
 import domain.piece.Team;
 import domain.room.GameRoom;
 import domain.setup.Arrangement;
-import domain.setup.Arrangements;
-import domain.state.BikjangState;
-import domain.state.EndGameState;
-import domain.state.GameResult;
 import domain.state.GameState;
-import domain.state.PlayingState;
-import domain.state.ReadyState;
+import domain.state.GameStateName;
 import infrastructure.repository.GameDto;
 import infrastructure.repository.GameRepository;
 import infrastructure.repository.GameRoomRepository;
@@ -93,25 +88,8 @@ public class GameConsole {
     }
 
     private GameState restoreState(GameDto snapshot) {
-        String stateName = snapshot.stateName();
-        if ("READY_HAN".equals(stateName)) {
-            return new ReadyState(new Arrangements());
-        }
-        if ("READY_CHO".equals(stateName)) {
-            return restoreReadyCho(snapshot);
-        }
-        if ("BIKJANG".equals(stateName)) {
-            return new BikjangState();
-        }
-        if ("END".equals(stateName)) {
-            return new EndGameState(GameResult.DRAW);
-        }
-        return new PlayingState();
-    }
-
-    private GameState restoreReadyCho(GameDto snapshot) {
-        Arrangements arrangements = new Arrangements().assignArrangement(Team.HAN, snapshot.hanArrangement());
-        return new ReadyState(arrangements);
+        GameStateName stateName = GameStateName.valueOf(snapshot.stateName());
+        return stateName.toGameState(snapshot.hanArrangement());
     }
 
     private void saveGame(long currentGameId, JanggiGame game) {

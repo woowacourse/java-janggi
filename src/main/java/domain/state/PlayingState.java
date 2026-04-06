@@ -17,6 +17,11 @@ public class PlayingState implements GameState {
     private static final BikjangDetector bikjangDetector = new BikjangDetector();
 
     @Override
+    public GameStateName stateName() {
+        return GameStateName.PLAYING;
+    }
+
+    @Override
     public GameState handle(JanggiGame game, Command command) {
         game.move(command.toCoordinate());
         return resolveAfterMove(game);

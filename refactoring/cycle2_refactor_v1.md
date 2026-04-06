@@ -10,7 +10,7 @@
   - `JanggiGame`에 `getGameState()` 추가
   - `GameConsole.saveGame()`에서 `game.getGameState().stateName()`, `game.getGameState().getArrangementOf(team)` 로 직접 호출
   - `GameState.stateName()`, `GameState.getArrangementOf(Team)` 는 그대로 유지
-- [ ] **4. `GameStateName` enum 도입 및 `GameState.stateName()` 타입 변경**
+- [x] **4. `GameStateName` enum 도입 및 `GameState.stateName()` 타입 변경**
   - `GameStateName { READY_HAN, READY_CHO, PLAYING, BIKJANG, END }` enum 생성
   - `GameState.stateName()`의 default 제거 → abstract 메서드로 변경, 반환 타입 `String` → `GameStateName`
   - 각 구현체(ReadyState, PlayingState, BikjangState, EndGameState)에서 직접 반환

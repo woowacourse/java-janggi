@@ -7,6 +7,7 @@ import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Team;
 import domain.setup.Arrangement;
+import domain.state.GameStateName;
 import infrastructure.DatabaseManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -46,11 +47,11 @@ public class H2GameRepository implements GameRepository {
     }
 
     @Override
-    public void updateState(long gameId, String stateName, Team currentTeam) {
+    public void updateState(long gameId, GameStateName stateName, Team currentTeam) {
         String sql = "UPDATE games SET current_state = ?, current_team = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?";
         try (Connection connection = databaseManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, stateName);
+            statement.setString(1, stateName.name());
             statement.setString(2, currentTeam.name());
             statement.setLong(3, gameId);
             statement.executeUpdate();

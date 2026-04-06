@@ -34,8 +34,11 @@ public class ReadyState implements GameState {
     }
 
     @Override
-    public String stateName() {
-        return arrangements.hasArrangementFor(Team.HAN) ? "READY_CHO" : "READY_HAN";
+    public GameStateName stateName() {
+        if (arrangements.hasArrangementFor(Team.HAN)) {
+            return GameStateName.READY_CHO;
+        }
+        return GameStateName.READY_HAN;
     }
 
     @Override

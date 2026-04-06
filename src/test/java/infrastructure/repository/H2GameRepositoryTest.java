@@ -1,5 +1,7 @@
 package infrastructure.repository;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import domain.board.Column;
 import domain.board.Position;
 import domain.board.Row;
@@ -7,18 +9,16 @@ import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Team;
 import domain.setup.Arrangement;
+import domain.state.GameStateName;
 import infrastructure.DatabaseManager;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Map;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 @DisplayName("H2GameRepository 테스트")
 class H2GameRepositoryTest {
@@ -60,7 +60,7 @@ class H2GameRepositoryTest {
     void updateStatePersistsStateAndTeam() {
         long gameId = gameRepository.save(roomId);
 
-        gameRepository.updateState(gameId, "PLAYING", Team.CHO);
+        gameRepository.updateState(gameId, GameStateName.PLAYING, Team.CHO);
 
         var snapshot = gameRepository.findLatestByRoom(roomId);
         assertThat(snapshot).isPresent();

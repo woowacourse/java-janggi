@@ -32,7 +32,7 @@ public class BikjangState implements GameState {
     }
 
     @Override
-    public String stateName() {
-        return "BIKJANG";
+    public GameStateName stateName() {
+        return GameStateName.BIKJANG;
     }
 }

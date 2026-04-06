@@ -10,12 +10,10 @@ public interface GameState {
     GameState handle(JanggiGame game, Command command);
     void display(JanggiGame game, OutputView outputView);
 
+    GameStateName stateName();
+
     default boolean isFinished() {
         return false;
-    }
-
-    default String stateName() {
-        return "PLAYING";
     }
 
     default Arrangement getArrangementOf(Team team) {
