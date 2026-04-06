@@ -43,6 +43,12 @@ public class OutputView {
         if (status == Status.HAN_WIN) {
             System.out.println("한나라가 승리했습니다!");
         }
+        System.out.println("잠시 쉬도록 하겠습니다!");
+    }
+
+    public void printError(String message) {
+        System.out.println(message);
+        System.out.println();
     }
 
     private void printRows(Map<Position, Piece> pieces) {
