@@ -11,6 +11,7 @@ import janggi.domain.piece.Ma;
 import janggi.domain.piece.None;
 import janggi.domain.piece.Pawn;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceFactory;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Po;
 import janggi.domain.piece.Sa;
@@ -72,17 +73,18 @@ public class BoardInitializer {
 
     public static Map<Position, Piece> createBoard(Arrangement choArrangement, Arrangement hanArrangement) {
         PalaceTopology palaceTopology = PalaceTopology.from();
-        Map<Position, Piece> board = initBoard();
+        PieceFactory pieceFactory = new PieceFactory(palaceTopology);
+        Map<Position, Piece> board = initBoard(pieceFactory);
 
-        initHanPosition.forEach((key, value) -> value.forEach(position -> board.put(position, pieceMap.get(key).apply(Side.HAN, palaceTopology))));
-        initChoPosition.forEach((key, value) -> value.forEach(position -> board.put(position, pieceMap.get(key).apply(Side.CHO, palaceTopology))));
+        initHanPosition.forEach((key, value) -> value.forEach(position -> board.put(position, pieceFactory.create(key, Side.HAN))));
+        initChoPosition.forEach((key, value) -> value.forEach(position -> board.put(position, pieceFactory.create(key, Side.CHO))));
 
         List<PieceType> choMaSangPieceOrder = arrangeMap.get(choArrangement);
         List<PieceType> hanMaSangPieceOrder = arrangeMap.get(hanArrangement);
 
         for (int i = 0; i < 4; i++) {
-            board.put(choMaSangPosition.get(i), pieceMap.get(choMaSangPieceOrder.get(i)).apply(Side.CHO, palaceTopology));
-            board.put(hanMaSangPosition.get(i), pieceMap.get(hanMaSangPieceOrder.get(i)).apply(Side.HAN, palaceTopology));
+            board.put(choMaSangPosition.get(i), pieceFactory.create(choMaSangPieceOrder.get(i), Side.CHO));
+            board.put(hanMaSangPosition.get(i), pieceFactory.create(hanMaSangPieceOrder.get(i), Side.HAN));
         }
         return board;
     }
@@ -94,12 +96,11 @@ public class BoardInitializer {
         return scoresBySide;
     }
 
-    private static Map<Position, Piece> initBoard() {
+    private static Map<Position, Piece> initBoard(PieceFactory pieceFactory) {
         Map<Position, Piece> pieces = new HashMap<>();
         for (int i = Board.BOARD_START_ROWS; i <= Board.BOARD_END_ROWS; i++) {
             for (int j = Board.BOARD_START_COLS; j <= Board.BOARD_END_COLS; j++) {
-                Position position = new Position(i, j);
-                pieces.put(position, new None());
+                pieces.put(new Position(i, j), pieceFactory.create(PieceType.NONE, Side.EMPTY));
             }
         }
         return pieces;
