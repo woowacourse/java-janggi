@@ -25,6 +25,18 @@ public class JanggiService {
         return gameId;
     }
 
+    private List<PieceData> toPieceData(long gameId, List<BoardPieceSnapshot> snapshots) {
+        return snapshots.stream()
+            .map(snapshot -> new PieceData(
+                gameId,
+                snapshot.x(),
+                snapshot.y(),
+                snapshot.team(),
+                snapshot.pieceType()
+            ))
+            .toList();
+    }
+
     public Board loadGame(long gameId) {
         validateGameExists(gameId);
 
@@ -40,20 +52,8 @@ public class JanggiService {
 
     private void validateGameExists(long gameId) {
         if (!gameDao.findById(gameId)) {
-            throw new IllegalArgumentException("존재하지 않는 게임입니다.");
+            throw new IllegalArgumentException("[ERROR] 존재하지 않는 게임입니다.");
         }
-    }
-
-    private List<PieceData> toPieceData(long gameId, List<BoardPieceSnapshot> snapshots) {
-        return snapshots.stream()
-            .map(snapshot -> new PieceData(
-                gameId,
-                snapshot.x(),
-                snapshot.y(),
-                snapshot.team(),
-                snapshot.pieceType()
-            ))
-            .toList();
     }
 
     private List<BoardPieceSnapshot> toSnapshots(List<PieceData> pieces) {

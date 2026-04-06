@@ -37,7 +37,6 @@ public class Board {
         return new Board(board);
     }
 
-
     private static Map<Position, Space> generateBlankBoard() {
         Map<Position, Space> blankBoard = new HashMap<>();
 
