@@ -11,7 +11,7 @@ public class HanTurn extends Turn {
         Piece piece = board.getPiece(source);
         validateIsNull(piece);
         board.movePiece(source, target);
-        return new HanTurn();
+        return new ChoTurn();
     }
 
     @Override
