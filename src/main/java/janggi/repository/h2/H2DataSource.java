@@ -1,20 +1,33 @@
 package janggi.repository.h2;
 
+import janggi.repository.JdbcDataSource;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.stream.Collectors;
 
-public class DatabaseInitializer {
-    private static final String DIR = "game.sql";
+public class H2DataSource implements JdbcDataSource {
+    private static final String SQL_DIR = "game.sql";
+    private static final String URL = "jdbc:h2:~/janggi";
+    private static final String USER = "sa";
+    private static final String PASSWORD = "";
 
-    private DatabaseInitializer() {
+
+    public H2DataSource() {
+        init();
     }
 
-    public static void init() {
-        try (Connection conn = DataSource.getConnection();
+    @Override
+    public Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(URL, USER, PASSWORD);
+    }
+
+    private void init() {
+        try (Connection conn = getConnection();
              Statement stmt = conn.createStatement()) {
 
             InputStream resourceAsStream = readFile();
@@ -30,10 +43,10 @@ public class DatabaseInitializer {
         }
     }
 
-    private static InputStream readFile() {
-        InputStream resourceAsStream = DatabaseInitializer.class
+    private InputStream readFile() {
+        InputStream resourceAsStream = H2DataSource.class
                 .getClassLoader()
-                .getResourceAsStream(DIR);
+                .getResourceAsStream(SQL_DIR);
 
         if (resourceAsStream == null) {
             throw new IllegalStateException("파일 찾기 실패~");

@@ -1,9 +1,8 @@
 package janggi.repository.h2;
 
-import static janggi.repository.h2.DataSource.getConnection;
-
 import janggi.domain.side.Side;
 import janggi.entity.MoveEntity;
+import janggi.repository.JdbcDataSource;
 import janggi.repository.MoveRepository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,22 +13,23 @@ import java.util.List;
 import org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException;
 
 public class H2MoveRepository implements MoveRepository {
-
     private static final String INSERT_MOVE =
             "INSERT INTO MOVE (GAME_ID, MOVE_NUMBER, SIDE, FROM_X, FROM_Y, TO_X, TO_Y) VALUES (?, ?, ?, ?, ?, ?, ?)";
-
     private static final String SELECT_MOVE_BY_ID =
             "SELECT ID, GAME_ID, MOVE_NUMBER, SIDE, FROM_X, FROM_Y, TO_X, TO_Y FROM MOVE WHERE ID = ?";
-
     private static final String SELECT_NEXT_MOVE_NUMBER =
             "SELECT COALESCE(MAX(MOVE_NUMBER), 0) + 1 FROM MOVE WHERE GAME_ID = ?";
-
     private static final String SELECT_MOVES_BY_GAME_ID =
             "SELECT ID, GAME_ID, MOVE_NUMBER, SIDE, FROM_X, FROM_Y, TO_X, TO_Y FROM MOVE WHERE GAME_ID = ? ORDER BY MOVE_NUMBER";
 
+    private final JdbcDataSource dataSource;
+
+    public H2MoveRepository(JdbcDataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
     @Override
-    public void save(MoveEntity move) {
-        try (Connection connection = getConnection();
+        try (Connection connection = dataSource.getConnection();
              PreparedStatement stmt = connection.prepareStatement(INSERT_MOVE)) {
             stmt.setInt(1, move.gameId());
             stmt.setInt(2, move.moveNumber());
@@ -40,7 +40,7 @@ public class H2MoveRepository implements MoveRepository {
             stmt.setInt(7, move.toY());
             stmt.executeUpdate();
         } catch (JdbcSQLIntegrityConstraintViolationException e) {
-            throw new IllegalArgumentException("moveNumber 는 중복 될 수 없습니다.");
+            throw e;
         } catch (SQLException e) {
             throw new IllegalStateException("게임 ID " + move.gameId() + "의 이동 저장에 실패했습니다.", e);
         }
@@ -48,7 +48,7 @@ public class H2MoveRepository implements MoveRepository {
 
     @Override
     public MoveEntity findById(int id) {
-        try (Connection connection = getConnection();
+        try (Connection connection = dataSource.getConnection();
              PreparedStatement stmt = connection.prepareStatement(SELECT_MOVE_BY_ID)) {
             stmt.setInt(1, id);
             ResultSet resultSet = stmt.executeQuery();
@@ -65,7 +65,7 @@ public class H2MoveRepository implements MoveRepository {
     @Override
     public List<MoveEntity> findByGameIdOrderByMoveNumber(int gameId) {
         List<MoveEntity> moveEntities = new ArrayList<>();
-        try (Connection connection = getConnection();
+        try (Connection connection = dataSource.getConnection();
              PreparedStatement stmt = connection.prepareStatement(SELECT_MOVES_BY_GAME_ID)) {
             stmt.setInt(1, gameId);
             ResultSet resultSet = stmt.executeQuery();
@@ -81,10 +81,9 @@ public class H2MoveRepository implements MoveRepository {
 
     @Override
     public int findNextMoveNumber(int gameId) {
-        try (Connection connection = getConnection();
+        try (Connection connection = dataSource.getConnection();
              PreparedStatement stmt = connection.prepareStatement(SELECT_NEXT_MOVE_NUMBER)) {
             stmt.setInt(1, gameId);
-            ResultSet resultSet = stmt.getResultSet();
 
             ResultSet resultSet = stmt.executeQuery();
 

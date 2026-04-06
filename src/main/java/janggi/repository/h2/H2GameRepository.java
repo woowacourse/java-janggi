@@ -1,12 +1,11 @@
 package janggi.repository.h2;
 
-import static janggi.repository.h2.DataSource.getConnection;
-
 import janggi.domain.side.Side;
 import janggi.entity.GameEntity;
 import janggi.entity.SetUpEntity;
 import janggi.entity.Status;
 import janggi.repository.GameRepository;
+import janggi.repository.JdbcDataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,12 +17,18 @@ import java.util.Optional;
 
 public class H2GameRepository implements GameRepository {
 
+    private final JdbcDataSource dataSource;
+
+    public H2GameRepository(JdbcDataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
     @Override
     public Integer save(GameEntity game) {
         String sql = "INSERT INTO game (name, CHO_SET_UP, HAN_SET_UP, status, winner) " +
                 "VALUES (?, ?, ?, ?, ?)";
 
-        try (Connection connection = getConnection();
+        try (Connection connection = dataSource.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, game.name());
             stmt.setString(2, game.choSetUp().name());
@@ -46,7 +51,7 @@ public class H2GameRepository implements GameRepository {
     public GameEntity findById(int id) {
         String sql = "SELECT id, name, CHO_SET_UP, HAN_SET_UP , status, winner FROM game WHERE id = ?";
 
-        try (Connection connection = getConnection();
+        try (Connection connection = dataSource.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, id);
 
@@ -64,7 +69,7 @@ public class H2GameRepository implements GameRepository {
     public Optional<GameEntity> findByName(String name) {
         String sql = "SELECT id, name, CHO_SET_UP, HAN_SET_UP, status, winner FROM game WHERE NAME = ?";
 
-        try (Connection connection = getConnection();
+        try (Connection connection = dataSource.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, name);
 
@@ -82,7 +87,7 @@ public class H2GameRepository implements GameRepository {
     public List<String> findAllNames() {
         String sql = "SELECT name FROM game";
 
-        try (Connection connection = getConnection();
+        try (Connection connection = dataSource.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
 
             ResultSet resultSet = stmt.executeQuery();
@@ -100,7 +105,7 @@ public class H2GameRepository implements GameRepository {
     public void delete(int id) {
         String sql = "DELETE FROM GAME WHERE id = ?";
 
-        try (Connection connection = getConnection();
+        try (Connection connection = dataSource.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, id);
 
@@ -114,7 +119,7 @@ public class H2GameRepository implements GameRepository {
     public void updateWinner(Integer id, Side side) {
         String sql = "UPDATE game SET WINNER = ? WHERE ID = ?";
 
-        try (Connection connection = getConnection();
+        try (Connection connection = dataSource.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, side.name());
             stmt.setInt(2, id);
