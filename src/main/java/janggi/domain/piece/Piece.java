@@ -58,4 +58,16 @@ public class Piece {
     public int getScore() {
         return type.getScore();
     }
+
+    public Side getSide() {
+        return side;
+    }
+
+    public PieceType getType() {
+        return type;
+    }
+
+    public String getNumber() {
+        return pieceNumber;
+    }
 }

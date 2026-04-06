@@ -4,6 +4,7 @@ import janggi.controller.GameLobbyController;
 import janggi.persistence.ActiveGameSession;
 import janggi.persistence.DatabaseInitializer;
 import janggi.persistence.DatabaseProvider;
+import janggi.persistence.JanggiBoardRepository;
 import janggi.persistence.JanggiGameRepository;
 import janggi.service.JanggiService;
 import janggi.view.InputView;
@@ -16,7 +17,7 @@ public class Application {
     public static void main(String[] args) throws SQLException {
         InputView inputView = new InputView();
         OutputView outputView = new OutputView();
-        JanggiService janggiService = new JanggiService(new JanggiGameRepository());
+        JanggiService janggiService = new JanggiService(new JanggiGameRepository(), new JanggiBoardRepository());
         runGameLifecycle(inputView, outputView, janggiService);
         inputView.close();
     }

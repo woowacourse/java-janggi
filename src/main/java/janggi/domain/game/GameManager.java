@@ -5,6 +5,8 @@ import janggi.domain.board.Destinations;
 import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceMapper;
+import janggi.dto.PiecePositionSnapshot;
+import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
 
@@ -52,6 +54,10 @@ public class GameManager {
     public <K, V> Map<K, V> exportBoardState(BiFunction<Integer, Integer, K> positionMapper,
                                              PieceMapper<V> pieceMapper) {
         return board.exportBoardState(positionMapper, pieceMapper);
+    }
+
+    public List<PiecePositionSnapshot> exportBoardState() {
+        return board.stateSnapshot();
     }
 
     public void movePiece(Position selected, Position target, Destinations destinations) {

@@ -88,21 +88,21 @@ public class JanggiGameRepository implements GameRepository {
     }
 
     @Override
-    public GameManager findByGameId(Connection connection, long gameId) throws SQLException {
+    public GameManager findByGameId(Connection connection, long gameId, Board board) throws SQLException {
         String sql = "select cho_player_name, han_player_name, current_turn, created_at from game where game_id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            return executeFindById(statement, gameId);
+            return executeFindById(statement, gameId, board);
         }
     }
 
-    private GameManager executeFindById(PreparedStatement statement, long gameId) throws SQLException {
+    private GameManager executeFindById(PreparedStatement statement, long gameId, Board board) throws SQLException {
         statement.setLong(1, gameId);
         try (ResultSet resultSet = statement.executeQuery()) {
-            return mapToGameManager(resultSet);
+            return mapToGameManager(resultSet, board);
         }
     }
 
-    private GameManager mapToGameManager(ResultSet resultSet) throws SQLException {
+    private GameManager mapToGameManager(ResultSet resultSet, Board board) throws SQLException {
         if (!resultSet.next()) {
             throw new SQLException("해당 ID의 게임이 조회되지 않습니다.");
         }
@@ -110,11 +110,10 @@ public class JanggiGameRepository implements GameRepository {
         String hanPlayerName = resultSet.getString("han_player_name");
         Side currentSide = Side.valueOf(resultSet.getString("current_turn"));
         Players players = Players.from(choPlayerName, hanPlayerName);
-        return generatGameManager(players, currentSide);
+        return generatGameManager(players, currentSide, board);
     }
 
-    private GameManager generatGameManager(Players players, Side currentSide) {
-        Board board = Board.initialize();
+    private GameManager generatGameManager(Players players, Side currentSide, Board board) {
         Turn turn = new Turn(currentSide);
         return new GameManager(players, board, turn);
     }

@@ -5,7 +5,9 @@ import janggi.domain.game.GameManager;
 import janggi.domain.game.Players;
 import janggi.domain.game.Turn;
 import janggi.dto.GameSessionDTO;
+import janggi.dto.PiecePositionSnapshot;
 import janggi.persistence.ActiveGameSession;
+import janggi.persistence.BoardRepository;
 import janggi.persistence.GameRepository;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -14,9 +16,11 @@ import java.util.List;
 public class JanggiService {
 
     private final GameRepository gameRepository;
+    private final BoardRepository boardRepository;
 
-    public JanggiService(GameRepository gameRepository) {
+    public JanggiService(GameRepository gameRepository, BoardRepository boardRepository) {
         this.gameRepository = gameRepository;
+        this.boardRepository = boardRepository;
     }
 
     public List<GameSessionDTO> activeGames(Connection connection) throws SQLException {
@@ -24,7 +28,8 @@ public class JanggiService {
     }
 
     public ActiveGameSession loadGameSession(Connection connection, long gameId) throws SQLException {
-        GameManager gameManager = gameRepository.findByGameId(connection, gameId);
+        Board board = boardRepository.findAllByGameId(connection, gameId);
+        GameManager gameManager = gameRepository.findByGameId(connection, gameId, board);
         return new ActiveGameSession(gameId, gameManager);
     }
 
@@ -52,6 +57,8 @@ public class JanggiService {
         Players players = Players.from(choName, hanName);
         GameManager newGameManager = new GameManager(players, Board.initialize(), Turn.init());
         long newGameId = gameRepository.insertGame(connection, newGameManager);
+        List<PiecePositionSnapshot> board = newGameManager.exportBoardState();
+        boardRepository.insertBoard(connection, newGameId, board);
         return new ActiveGameSession(newGameId, newGameManager);
     }
 
@@ -59,6 +66,7 @@ public class JanggiService {
         connection.setAutoCommit(false);
         try {
             executeAndCommitTurn(connection, gameId, gameManager);
+            updateAndCommitBoard(connection, gameId, gameManager);
         } catch (SQLException exception) {
             rollbackAndThrow(connection, exception);
         } finally {
@@ -68,6 +76,11 @@ public class JanggiService {
 
     private void executeAndCommitTurn(Connection connection, long gameId, GameManager gameManager) throws SQLException {
         gameRepository.updateTurn(connection, gameId, gameManager);
+        connection.commit();
+    }
+
+    private void updateAndCommitBoard(Connection connection, long gameId, GameManager gameManager) throws SQLException {
+        boardRepository.updateBoard(connection, gameId, gameManager.exportBoardState());
         connection.commit();
     }
 

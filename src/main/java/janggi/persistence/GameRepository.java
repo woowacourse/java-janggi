@@ -1,5 +1,6 @@
 package janggi.persistence;
 
+import janggi.domain.board.Board;
 import janggi.domain.game.GameManager;
 import janggi.dto.GameSessionDTO;
 import java.sql.Connection;
@@ -12,7 +13,7 @@ public interface GameRepository {
 
     long insertGame(Connection connection, GameManager gameManager) throws SQLException;
 
-    GameManager findByGameId(Connection connection, long gameId) throws SQLException;
+    GameManager findByGameId(Connection connection, long gameId, Board board) throws SQLException;
 
     void updateTurn(Connection connection, long gameId, GameManager gameManager) throws SQLException;
 }

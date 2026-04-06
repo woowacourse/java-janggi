@@ -4,8 +4,10 @@ import janggi.domain.game.Side;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceMapper;
 import janggi.domain.piece.PieceScoreCalculator;
+import janggi.dto.PiecePositionSnapshot;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
@@ -97,5 +99,15 @@ public class Board implements BoardInfo {
 
     public double calculateScore(Side side) {
         return PieceScoreCalculator.calculateScore(side, piecePosition.values());
+    }
+
+    public List<PiecePositionSnapshot> stateSnapshot() {
+        return piecePosition.entrySet().stream()
+                .map(positionPieceEntry -> {
+                    Piece piece = positionPieceEntry.getValue();
+                    Position position = positionPieceEntry.getKey();
+                    return new PiecePositionSnapshot(piece.getSide(), piece.getType(), piece.getNumber(),
+                            position.row(), position.column());
+                }).toList();
     }
 }
