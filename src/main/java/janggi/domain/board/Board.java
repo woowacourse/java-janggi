@@ -120,4 +120,11 @@ public class Board {
             throw new IllegalArgumentException("해당 좌표에 기물이 존재하지 않습니다.");
         }
     }
+
+    public List<Piece> getAlivePieces() {
+        return boardState.values().stream()
+                .filter(Intersection::isNotEmpty)
+                .map(Intersection::getPiece)
+                .toList();
+    }
 }
