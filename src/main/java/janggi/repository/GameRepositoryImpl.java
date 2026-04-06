@@ -40,14 +40,6 @@ public class GameRepositoryImpl implements GameRepository {
     }
 
     @Override
-    public List<Long> findAllIdsOrderByLatest(final int limit) {
-        final String sql = String.format("SELECT id FROM %s ORDER BY created_at DESC LIMIT ?",
-            TABLE_NAME);
-
-        return dbConnection.executeSelectForIds(sql, limit);
-    }
-
-    @Override
     public Optional<GameEntity> findById(final long targetId) {
         final String sql = String.format(
             "SELECT id, name, turns_taken, team_queue, status FROM %s WHERE id = ?",
