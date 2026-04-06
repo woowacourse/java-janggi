@@ -1,7 +1,9 @@
 package janggi.view;
 
 import janggi.model.Team;
+import janggi.service.dto.GameOptionResponse;
 import janggi.view.dto.GameStatus;
+import java.util.List;
 
 public class OutputView {
 
@@ -20,7 +22,7 @@ public class OutputView {
     }
 
     public void printToPositionMessage() {
-        System.out.println("이동 시킬 위치를 입력하세요:");
+        System.out.println("이동 시킬 위치를 입력하세요(행,열) 형식으로]:");
     }
 
     public void printInputDrawAcceptPrompt() {
@@ -38,5 +40,14 @@ public class OutputView {
 
     public void printInputContinuePrompt() {
         System.out.println("프로그램을 계속하시겠습니까? (y, n)");
+    }
+
+    public void printGameOptions(List<GameOptionResponse> responses) {
+        for (GameOptionResponse response : responses) {
+            System.out.println("게임 id: " + response.gameId()
+                    + ", 마지막 턴: " + response.currentTurn());
+        }
+
+        System.out.println("플레이할 게임을 고르세요(게임 id) -  새로운 게임을 시작하고 싶으면 0을 입력하세요: ");
     }
 }

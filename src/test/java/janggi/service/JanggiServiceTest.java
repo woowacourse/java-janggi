@@ -16,8 +16,10 @@ import janggi.model.piece.palace.Jang;
 import janggi.model.position.absolute.Column;
 import janggi.model.position.absolute.Position;
 import janggi.model.position.absolute.Row;
-import janggi.service.dto.LatestInProgressGameResponse;
+import janggi.service.dto.GameDetailResponse;
+import janggi.service.dto.GameOptionResponse;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
@@ -43,46 +45,12 @@ class JanggiServiceTest {
         );
     }
 
-    @DisplayName("진행 중이던 게임이 없으면 Optional.empty()를 반환한다.")
-    @Test
-    void loadGame_empty() {
-        assertThat(janggiService.loadGame())
-                .isEmpty();
-    }
-
-    @DisplayName("진행 중이던 게임을 조회한다.")
-    @Test
-    void loadGame_success() {
-        //given
-        Long gameId = gameDao.save(null, "CHO");
-
-        pieceDao.save(null, gameId, "BYEONG", 1, 1, "CHO");
-        pieceDao.save(null, gameId, "JANG", 1, 2, "HAN");
-        pieceDao.save(null, gameId, "SA", 1, 3, "CHO");
-
-        //when
-        Optional<LatestInProgressGameResponse> janggiOpt =
-                janggiService.loadGame();
-
-        //then
-        Janggi janggi = janggiOpt.get().janggi();
-        assertThat(janggi.getCurrentTeam()).isEqualTo(Team.HAN);
-
-        Map<Position, Piece> boardInfo = janggi.getBoard().getBoardInfo();
-
-        assertThat(boardInfo.get(new Position(Row.ONE, Column.ONE))
-                .getPieceType()).isEqualTo(PieceType.BYEONG);
-        assertThat(boardInfo.get(new Position(Row.ONE, Column.TWO))
-                .getPieceType()).isEqualTo(PieceType.JANG);
-        assertThat(boardInfo.get(new Position(Row.ONE, Column.THREE))
-                .getPieceType()).isEqualTo(PieceType.SA);
-    }
-
-    @DisplayName("진행 중이던 게임이 없으면 Optional.empty()를 반환한다.")
+    @DisplayName("진행 중이던 게임이 없으면 예외가 발생한다.")
     @Test
     void loadGameByGameId_empty() {
-        assertThat(janggiService.loadGameByGameId(100L))
-                .isEmpty();
+        assertThatThrownBy(() -> janggiService.loadGameByGameId(100L))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("해당 게임이 존재하지 않습니다.");
     }
 
     @DisplayName("진행 중이던 게임을 조회한다.")
@@ -97,11 +65,10 @@ class JanggiServiceTest {
         pieceDao.save(null, gameId2, "SA", 1, 3, "CHO");
 
         //when
-        Optional<LatestInProgressGameResponse> janggiOpt =
-                janggiService.loadGameByGameId(gameId2);
+        GameDetailResponse response = janggiService.loadGameByGameId(gameId2);
 
         //then
-        Janggi janggi = janggiOpt.get().janggi();
+        Janggi janggi = response.janggi();
         assertThat(janggi.getCurrentTeam()).isEqualTo(Team.HAN);
 
         Map<Position, Piece> boardInfo = janggi.getBoard().getBoardInfo();
@@ -124,7 +91,7 @@ class JanggiServiceTest {
         );
 
         //when
-        LatestInProgressGameResponse response = janggiService.initGame(board);
+        GameDetailResponse response = janggiService.initGame(board);
 
         //then
         assertThat(response.gameId())
@@ -190,8 +157,8 @@ class JanggiServiceTest {
         );
 
         //then
-        Optional<LatestInProgressGameResponse> responseOpt = janggiService.loadGame();
-        LatestInProgressGameResponse response = responseOpt.get();
+
+        GameDetailResponse response = janggiService.loadGameByGameId(gameId);
 
         Janggi updated = response.janggi();
 
@@ -255,7 +222,27 @@ class JanggiServiceTest {
         janggiService.removeGame(gameId);
 
         //then
-        assertThat(janggiService.loadGame())
-                .isEmpty();
+        assertThatThrownBy(() -> janggiService.loadGameByGameId(gameId))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("해당 게임이 존재하지 않습니다.");
+    }
+
+    @DisplayName("모든 게임 id를 조회한다.")
+    @Test
+    void loadAllGames() {
+        //given
+        Long gameId1 = gameDao.save(null, "CHO");
+        Long gameId2 = gameDao.save(null, "HAN");
+        Long gameId3 = gameDao.save(null, "CHO");
+
+        //when
+        List<GameOptionResponse> responses = janggiService.loadAllGames();
+
+        //then
+        assertThat(responses).containsExactly(
+                new GameOptionResponse(gameId1, Team.CHO),
+                new GameOptionResponse(gameId2, Team.HAN),
+                new GameOptionResponse(gameId3, Team.CHO)
+        );
     }
 }

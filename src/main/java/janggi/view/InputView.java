@@ -19,7 +19,7 @@ public class InputView {
     }
 
     public BoardType readBoardInitializeType() {
-        int boardType = Parser.parse(scanner.nextLine());
+        int boardType = Parser.parseInt(scanner.nextLine());
         return BoardType.of(boardType);
     }
 
@@ -32,8 +32,8 @@ public class InputView {
         }
 
         return List.of(
-                Parser.parse(parts[ROW_INDEX].trim()),
-                Parser.parse(parts[COLUMN_INDEX].trim())
+                Parser.parseInt(parts[ROW_INDEX].trim()),
+                Parser.parseInt(parts[COLUMN_INDEX].trim())
         );
     }
 
@@ -49,5 +49,9 @@ public class InputView {
         }
 
         throw new IllegalArgumentException("유효하지 않은 값이 입력됐스니다.");
+    }
+
+    public Long readGameOption() {
+        return Parser.parseLong(scanner.nextLine());
     }
 }

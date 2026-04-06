@@ -17,7 +17,8 @@ import janggi.model.position.absolute.Row;
 import janggi.model.turn.Turn;
 import janggi.model.turn.playing.ChoTurn;
 import janggi.model.turn.playing.HanTurn;
-import janggi.service.dto.LatestInProgressGameResponse;
+import janggi.service.dto.GameDetailResponse;
+import janggi.service.dto.GameOptionResponse;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -39,53 +40,34 @@ public class JanggiService {
         this.transactionExecutor = transactionExecutor;
     }
 
-    public Optional<LatestInProgressGameResponse> loadGame(){
+    public List<GameOptionResponse> loadAllGames() {
         return transactionExecutor.execute(con -> {
-            Optional<GameEntity> gameEntityOpt =
-                    gameDao.findLatestGame(con);
-
-            if (gameEntityOpt.isEmpty()) {
-                return Optional.empty();
-            }
-
-            GameEntity gameEntity = gameEntityOpt.get();
-            List<PieceEntity> pieceEntities =
-                    pieceDao.findAllByGameId(con, gameEntity.id());
-
-            PlayingBoard board = toBoard(pieceEntities);
-            Turn turn = toTurn(gameEntity, board);
-
-            LatestInProgressGameResponse response = new LatestInProgressGameResponse(
-                    gameEntity.id(),
-                    Janggi.continueFrom(turn)
-            );
-
-            return Optional.of(response);
+            List<GameEntity> gameEntities = gameDao.findAll(con);
+            return gameEntities.stream()
+                    .map(game ->
+                            new GameOptionResponse(
+                                    game.id(),
+                                    Team.valueOf(game.currentTurn()
+                                    )
+                            )
+                    ).toList();
         });
     }
 
-    public Optional<LatestInProgressGameResponse> loadGameByGameId(Long gameId){
+    public GameDetailResponse loadGameByGameId(Long gameId){
         return transactionExecutor.execute(con -> {
-            Optional<GameEntity> gameEntityOpt =
-                    gameDao.findByGameId(con, gameId);
+            GameEntity gameEntity = gameDao.findByGameId(con, gameId);
 
-            if (gameEntityOpt.isEmpty()) {
-                return Optional.empty();
-            }
-
-            GameEntity gameEntity = gameEntityOpt.get();
             List<PieceEntity> pieceEntities =
                     pieceDao.findAllByGameId(con, gameEntity.id());
 
             PlayingBoard board = toBoard(pieceEntities);
             Turn turn = toTurn(gameEntity, board);
 
-            LatestInProgressGameResponse response = new LatestInProgressGameResponse(
+            return new GameDetailResponse(
                     gameEntity.id(),
                     Janggi.continueFrom(turn)
             );
-
-            return Optional.of(response);
         });
     }
 
@@ -130,7 +112,7 @@ public class JanggiService {
         return new HanTurn(board);
     }
 
-    public LatestInProgressGameResponse initGame(Board board) {
+    public GameDetailResponse initGame(Board board) {
         Janggi newGame = Janggi.of(board);
 
         Long gameId = transactionExecutor.execute(con ->{
@@ -139,7 +121,7 @@ public class JanggiService {
                     return result;
         });
 
-        return new LatestInProgressGameResponse(
+        return new GameDetailResponse(
                 gameId,
                 newGame
         );

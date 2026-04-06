@@ -2,7 +2,7 @@ package janggi.service.dto;
 
 import janggi.model.Janggi;
 
-public record LatestInProgressGameResponse(
+public record GameDetailResponse(
         Long gameId,
         Janggi janggi
 ) {}

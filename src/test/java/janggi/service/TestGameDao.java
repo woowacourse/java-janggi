@@ -4,6 +4,7 @@ import janggi.dao.game.GameDao;
 import janggi.dao.game.GameEntity;
 import java.sql.Connection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -20,33 +21,29 @@ public class TestGameDao implements GameDao {
     }
 
     @Override
-    public Optional<GameEntity> findLatestGame(Connection con) {
-        if (turnByGameId.isEmpty()) {
-            return Optional.empty();
-        }
-
-        return Optional.of(new GameEntity(
-                lastGameId,
-                turnByGameId.get(lastGameId))
-        );
+    public List<GameEntity> findAll(Connection con) {
+        return turnByGameId.entrySet().stream()
+                .map(entry -> new GameEntity(entry.getKey(), entry.getValue()))
+                .toList();
     }
 
+
     @Override
-    public Optional<GameEntity> findByGameId(Connection con, Long gameId) {
+    public GameEntity findByGameId(Connection con, Long gameId) {
         if (!turnByGameId.containsKey(gameId)) {
-            return Optional.empty();
+            throw new IllegalArgumentException("해당 게임이 존재하지 않습니다.");
         }
 
-        return Optional.of(new GameEntity(
+        return new GameEntity(
                 gameId,
-                turnByGameId.get(gameId))
+                turnByGameId.get(gameId)
         );
     }
 
     @Override
     public void deleteByGameId(Connection con, Long gameId) {
         if (!turnByGameId.containsKey(gameId)) {
-            throw new IllegalStateException("게임이 없습니다.");
+            throw new IllegalStateException("해당 게임이 존재하지 않습니다.");
         }
 
         turnByGameId.remove(lastGameId);

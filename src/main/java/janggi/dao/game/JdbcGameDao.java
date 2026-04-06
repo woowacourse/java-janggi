@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class JdbcGameDao implements GameDao {
@@ -39,7 +41,32 @@ public class JdbcGameDao implements GameDao {
     }
 
     @Override
-    public Optional<GameEntity> findByGameId(
+    public List<GameEntity> findAll(Connection con) {
+        String sql = """
+                SELECT *
+                FROM game
+                """;
+
+        try (PreparedStatement psmt = con.prepareStatement(sql)){
+            ResultSet rs = psmt.executeQuery();
+            List<GameEntity> result = new ArrayList<>();
+
+            while (rs.next()) {
+                result.add(new GameEntity(
+                        rs.getLong(GAME_ID),
+                        rs.getString(CURRENT_TEAM)
+                ));
+            }
+
+            return result;
+
+        } catch (SQLException e) {
+            throw new IllegalStateException("게임 조회에 실패했습니다.", e);
+        }
+    }
+
+    @Override
+    public GameEntity findByGameId(
             Connection con,
             Long gameId
     ) {
@@ -54,40 +81,13 @@ public class JdbcGameDao implements GameDao {
             ResultSet rs = psmt.executeQuery();
 
             if (!rs.next()) {
-                return Optional.empty();
+                throw new IllegalArgumentException("해당 게임이 존재하지 않습니다.");
             }
 
-            return Optional.of(new GameEntity(
+            return new GameEntity(
                     rs.getLong(GAME_ID),
                     rs.getString(CURRENT_TEAM)
-            ));
-
-        } catch (SQLException e) {
-            throw new IllegalStateException("게임 조회에 실패했습니다.", e);
-        }
-    }
-
-    @Override
-    public Optional<GameEntity> findLatestGame(Connection con) {
-        String sql = """
-                SELECT *
-                FROM game
-                ORDER BY game_id DESC
-                LIMIT 1
-                """;
-
-        try (
-                PreparedStatement psmt = con.prepareStatement(sql);
-                ResultSet rs = psmt.executeQuery()
-        ){
-            if (!rs.next()) {
-                return Optional.empty();
-            }
-
-            return Optional.of(new GameEntity(
-                    rs.getLong(GAME_ID),
-                    rs.getString(CURRENT_TEAM)
-            ));
+            );
 
         } catch (SQLException e) {
             throw new IllegalStateException("게임 조회에 실패했습니다.", e);
@@ -103,7 +103,11 @@ public class JdbcGameDao implements GameDao {
 
         try (PreparedStatement psmt = con.prepareStatement(sql)){
             psmt.setLong(1, gameId);
-            psmt.executeUpdate();
+            int affectedRow = psmt.executeUpdate();
+
+            if (affectedRow == 0) {
+                throw new IllegalArgumentException("해당 게임이 존재하지 않습니다.");
+            }
         } catch (SQLException e) {
             throw new IllegalStateException("게임 삭제에 실패했습니다.", e);
         }
@@ -121,7 +125,11 @@ public class JdbcGameDao implements GameDao {
             psmt.setString(1, turn);
             psmt.setLong(2, gameId);
 
-            psmt.executeUpdate();
+            int affectedRow = psmt.executeUpdate();
+
+            if (affectedRow == 0) {
+                throw new IllegalArgumentException("해당 게임이 존재하지 않습니다.");
+            }
         } catch (SQLException e) {
             throw new IllegalStateException("게임 정보 수정에 실패했습니다.", e);
         }

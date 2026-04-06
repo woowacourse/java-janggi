@@ -5,15 +5,17 @@ import janggi.model.position.absolute.Column;
 import janggi.model.position.absolute.Position;
 import janggi.model.position.absolute.Row;
 import janggi.service.JanggiService;
-import janggi.service.dto.LatestInProgressGameResponse;
+import janggi.service.dto.GameDetailResponse;
+import janggi.service.dto.GameOptionResponse;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import janggi.view.dto.GameStatus;
 import janggi.view.mapping.BoardType;
 import java.util.List;
-import java.util.Optional;
 
 public class JanggiController {
+
+    private static final Long NEW_GAME_OPTION = 0L;
 
     private final OutputView outputView;
     private final InputView inputView;
@@ -31,20 +33,20 @@ public class JanggiController {
     }
 
     public void run() {
-        LatestInProgressGameResponse response = setUpBoard();
+        List<GameOptionResponse> gameOptions
+                = janggiService.loadAllGames();
+        GameDetailResponse response = setUpGame(gameOptions);
 
         Long gameId = response.gameId();
         Janggi currentJanggi = response.janggi();
 
         while (!currentJanggi.isGameOver()) {
             outputView.printGameStatus(GameStatus.from(currentJanggi));
-            Position from = readPosition();
-            Position to = readPosition();
 
             currentJanggi = janggiService.updateBoardWith(
                     currentJanggi,
-                    from,
-                    to
+                    readFromPosition(),
+                    readToPosition()
             );
 
             if (currentJanggi.isGameOver()) {
@@ -67,18 +69,29 @@ public class JanggiController {
         }
     }
 
-    private LatestInProgressGameResponse setUpBoard() {
-        Optional<LatestInProgressGameResponse> responseOpt =
-                janggiService.loadGame();
+    private GameDetailResponse setUpGame(List<GameOptionResponse> gameOptionResponses) {
+        Long chosenGameId = readChosenGameId(gameOptionResponses);
 
-        if (responseOpt.isPresent()) {
-            return responseOpt.get();
+        if (NEW_GAME_OPTION.equals(chosenGameId)) {
+            return initNewGame();
         }
 
+        return janggiService.loadGameByGameId(chosenGameId);
+    }
+
+    private Long readChosenGameId(List<GameOptionResponse> gameOptionResponses) {
+        if (gameOptionResponses.isEmpty()) {
+            return NEW_GAME_OPTION;
+        }
+
+        outputView.printGameOptions(gameOptionResponses);
+        return inputView.readGameOption();
+    }
+
+    private GameDetailResponse initNewGame() {
         BoardType boardType = readBoardType();
-        return janggiService.initGame(
-                boardType.getBoard()
-        );
+
+        return janggiService.initGame(boardType.getBoard());
     }
 
     private BoardType readBoardType() {
@@ -86,8 +99,15 @@ public class JanggiController {
         return inputView.readBoardInitializeType();
     }
 
-    private Position readPosition() {
+    private Position readFromPosition() {
         outputView.printFromPositionMessage();
+        return convertPositionInfoToPosition(
+                inputView.readPosition()
+        );
+    }
+
+    private Position readToPosition() {
+        outputView.printToPositionMessage();
         return convertPositionInfoToPosition(
                 inputView.readPosition()
         );

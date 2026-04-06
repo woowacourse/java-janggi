@@ -1,41 +1,17 @@
 package janggi.dao.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.dao.DatabaseTest;
 import janggi.dao.game.GameEntity;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class JdbcGameDaoTest extends DatabaseTest {
-
-    @DisplayName("가장 마지막에 추가된 게임을 조회한다.")
-    @Test
-    void findLatestGame_success() {
-        //given
-        gameDao.save(con, "CHO");
-        Long second = gameDao.save(con, "HAN");
-
-        //when
-        Optional<GameEntity> result = gameDao.findLatestGame(con);
-
-        //then
-        GameEntity found = result.get();
-
-        assertThat(found.id())
-                .isEqualTo(second);
-    }
-
-    @DisplayName("해당하는 게임이 존재하지 않으면 Optional.empty()를 반환한다.")
-    @Test
-    void findLatestGame_fail() {
-        //when
-        Optional<GameEntity> result = gameDao.findLatestGame(con);
-
-        //then
-        assertThat(result).isEmpty();
-    }
 
     @DisplayName("게임을 삭제한다.")
     @Test
@@ -47,7 +23,17 @@ class JdbcGameDaoTest extends DatabaseTest {
         gameDao.deleteByGameId(con, gameId);
 
         //then
-        assertThat(gameDao.findLatestGame(con)).isEmpty();
+        assertThatThrownBy(() -> gameDao.findByGameId(con, gameId))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("해당 게임이 존재하지 않습니다.");
+    }
+
+    @DisplayName("삭제할 게임이 없으면 예외가 발생한다.")
+    @Test
+    void deleteByGameId_empty() {
+        assertThatThrownBy(() ->  gameDao.deleteByGameId(con, 100L))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("해당 게임이 존재하지 않습니다.");
     }
 
     @DisplayName("현재 턴 정보를 수정한다.")
@@ -60,10 +46,17 @@ class JdbcGameDaoTest extends DatabaseTest {
         gameDao.updateCurrentTurn(con, gameId, "CHO");
 
         //then
-        Optional<GameEntity> latestGameOpt = gameDao.findLatestGame(con);
-        GameEntity gameEntity = latestGameOpt.get();
+        GameEntity gameEntity = gameDao.findByGameId(con, gameId);
 
         assertThat(gameEntity.currentTurn()).isEqualTo("CHO");
+    }
+
+    @DisplayName("해당 하는 게임이 없으면 턴을 업데이트할 수 없다.")
+    @Test
+    void updateCurrentTurn_empty() {
+        assertThatThrownBy(() ->  gameDao.updateCurrentTurn(con, 100L, "CHO"))
+                .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("해당 게임이 존재하지 않습니다.");
     }
 
     @DisplayName("game_id에 해당하는 게임을 조회한다.")
@@ -73,21 +66,38 @@ class JdbcGameDaoTest extends DatabaseTest {
         Long gameId = gameDao.save(con, "HAN");
 
         //when
-        Optional<GameEntity> gameEntityOpt = gameDao.findByGameId(con, gameId);
+        GameEntity gameEntity = gameDao.findByGameId(con, gameId);
 
         //then
-        GameEntity gameEntity = gameEntityOpt.get();
         assertThat(gameEntity.currentTurn()).isEqualTo("HAN");
     }
 
-    @DisplayName("game_id에 해당하는 게임이 없으면 Optional.empty()를 반환한다.")
+    @DisplayName("game_id에 해당하는 게임이 없으면 예외가 발생한다.")
     @Test
     void findByGameId_empty() {
+        //then
+        assertThatThrownBy(() ->  gameDao.findByGameId(con, 1L))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("해당 게임이 존재하지 않습니다.");
+    }
+
+    @DisplayName("모든 게임을 조회한다.")
+    @Test
+    void findAll() {
+        //given
+        Long gameId1 = gameDao.save(con, "HAN");
+        Long gameId2 = gameDao.save(con, "CHO");
+        Long gameId3 = gameDao.save(con, "HAN");
+
         //when
-        Optional<GameEntity> gameEntityOpt =
-                gameDao.findByGameId(con, 1L);
+        List<GameEntity> gameEntities = gameDao.findAll(con);
 
         //then
-        assertThat(gameEntityOpt).isEmpty();
+        List<Long> gameIds = gameEntities.stream()
+                .map(GameEntity::id)
+                .toList();
+
+        assertThat(gameIds).containsExactly(gameId1, gameId2, gameId3);
+
     }
 }
