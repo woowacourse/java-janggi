@@ -14,11 +14,11 @@ public class Score {
         }
     }
 
-    public Score plus(Score other){
+    public Score plus(Score other) {
         return new Score(point + other.point);
     }
 
-    public boolean isGreaterThan(Score other){
+    public boolean isGreaterThan(Score other) {
         return point > other.point;
     }
 
