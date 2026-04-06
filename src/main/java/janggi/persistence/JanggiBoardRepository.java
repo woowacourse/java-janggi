@@ -52,12 +52,31 @@ public class JanggiBoardRepository implements BoardRepository {
     }
 
     @Override
-    public void insertBoard(Connection connection, long gameId, List<PiecePositionSnapshot> snapshots)
+    public void insertBoard(Connection connection, long gameId, Board board)
             throws SQLException {
         String sql = "insert into board (game_id, side, piece_type, piece_number, row_index, column_index) values (?, ?, ?, ?, ?, ?)";
+        List<PiecePositionSnapshot> snapshots = mapToSnapshots(board.piecePosition());
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             executeBatchInsert(statement, gameId, snapshots);
         }
+    }
+
+    private List<PiecePositionSnapshot> mapToSnapshots(Map<Position, Piece> piecePosition) {
+        return piecePosition.entrySet().stream()
+                .map(this::createSnapshot)
+                .toList();
+    }
+
+    private PiecePositionSnapshot createSnapshot(Map.Entry<Position, Piece> entry) {
+        Position position = entry.getKey();
+        Piece piece = entry.getValue();
+        return new PiecePositionSnapshot(
+                piece.side().name(),
+                piece.type().name(),
+                piece.pieceNumber(),
+                position.row(),
+                position.column()
+        );
     }
 
     private void executeBatchInsert(PreparedStatement statement, long gameId, List<PiecePositionSnapshot> snapshots)
@@ -80,10 +99,10 @@ public class JanggiBoardRepository implements BoardRepository {
     }
 
     @Override
-    public void updateBoard(Connection connection, long gameId, List<PiecePositionSnapshot> snapshots)
+    public void updateBoard(Connection connection, long gameId, Board board)
             throws SQLException {
         deleteAllPiecesByGameId(connection, gameId);
-        insertBoard(connection, gameId, snapshots);
+        insertBoard(connection, gameId, board);
     }
 
     private void deleteAllPiecesByGameId(Connection connection, long gameId) throws SQLException {

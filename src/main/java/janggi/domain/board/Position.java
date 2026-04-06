@@ -1,7 +1,5 @@
 package janggi.domain.board;
 
-import java.util.function.BiFunction;
-
 public record Position(int row, int column) {
 
     public static final int BOARD_MAX_COLUMN = 8;
@@ -33,17 +31,4 @@ public record Position(int row, int column) {
     public Position moduloRow(int divisor) {
         return new Position(this.row % divisor, this.column);
     }
-
-    public <T> T map(BiFunction<Integer, Integer, T> mapper) {
-        return mapper.apply(this.row, this.column);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof Position position)) {
-            return false;
-        }
-        return row == position.row && column == position.column;
-    }
-
 }

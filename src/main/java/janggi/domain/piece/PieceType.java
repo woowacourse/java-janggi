@@ -17,6 +17,7 @@ import java.util.EnumSet;
 import java.util.function.Function;
 
 public enum PieceType {
+
     PALACE(side -> Direction.cardinalDirections(), new PalaceMoveStrategy(), 0),
     GUARD(side -> Direction.cardinalDirections(), new PalaceMoveStrategy(), 3),
     CHARIOT(side -> Direction.cardinalDirections(), new SlideMoveStrategy(), 13),

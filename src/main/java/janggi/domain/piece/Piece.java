@@ -5,24 +5,16 @@ import janggi.domain.board.Destinations;
 import janggi.domain.board.Position;
 import janggi.domain.game.Side;
 
-public class Piece {
+public record Piece(Side side, PieceType type, String pieceNumber) {
 
-    private final Side side;
-    private final PieceType type;
-    private final String pieceNumber;
-
-    public Piece(Side side, PieceType type, String pieceNumber) {
+    public Piece {
         validate(side, type, pieceNumber);
-        this.side = side;
-        this.type = type;
-        this.pieceNumber = pieceNumber;
     }
 
     private void validate(Side side, PieceType type, String pieceNumber) {
         if (side == null || type == null || pieceNumber == null) {
             throw new IllegalArgumentException("[ERROR] 기물은 유효한 [진영/타입/번호] 로만 생성 가능합니다.");
         }
-
         if (pieceNumber.isBlank()) {
             throw new IllegalArgumentException("[ERROR] 기물은 유효한 번호로만 생성 가능합니다.");
         }
@@ -51,23 +43,7 @@ public class Piece {
         return this.side == side;
     }
 
-    public <T> T map(PieceMapper<T> mapper) {
-        return mapper.apply(this.side, this.type, this.pieceNumber);
-    }
-
     public int getScore() {
         return type.getScore();
-    }
-
-    public Side getSide() {
-        return side;
-    }
-
-    public PieceType getType() {
-        return type;
-    }
-
-    public String getNumber() {
-        return pieceNumber;
     }
 }

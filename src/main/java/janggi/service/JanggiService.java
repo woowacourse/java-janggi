@@ -5,7 +5,6 @@ import janggi.domain.game.GameManager;
 import janggi.domain.game.Players;
 import janggi.domain.game.Turn;
 import janggi.dto.GameSessionDTO;
-import janggi.dto.PiecePositionSnapshot;
 import janggi.persistence.ActiveGameSession;
 import janggi.persistence.BoardRepository;
 import janggi.persistence.GameRepository;
@@ -55,9 +54,9 @@ public class JanggiService {
     private ActiveGameSession generateSession(Connection connection, String choName, String hanName)
             throws SQLException {
         Players players = Players.from(choName, hanName);
-        GameManager newGameManager = new GameManager(players, Board.initialize(), Turn.init());
+        Board board = Board.initialize();
+        GameManager newGameManager = new GameManager(players, board, Turn.init());
         long newGameId = gameRepository.insertGame(connection, newGameManager);
-        List<PiecePositionSnapshot> board = newGameManager.exportBoardState();
         boardRepository.insertBoard(connection, newGameId, board);
         return new ActiveGameSession(newGameId, newGameManager);
     }
@@ -80,7 +79,7 @@ public class JanggiService {
     }
 
     private void updateAndCommitBoard(Connection connection, long gameId, GameManager gameManager) throws SQLException {
-        boardRepository.updateBoard(connection, gameId, gameManager.exportBoardState());
+        boardRepository.updateBoard(connection, gameId, gameManager.getBoard());
         connection.commit();
     }
 
