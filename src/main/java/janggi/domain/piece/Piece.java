@@ -26,6 +26,42 @@ public abstract class Piece {
         return piece.team.equals(this.team);
     }
 
+    protected boolean canMoveOneStep(Position from, Position to) {
+        if (from.distanceX(to) > 1) {
+            return false;
+        }
+        if (from.distanceY(to) > 1) {
+            return false;
+        }
+        return from.distanceX(to) + from.distanceY(to) <= 1;
+    }
+
+    protected boolean canMoveStraight(Position from, Position to) {
+        return (from.isSameX(to) && !from.isSameY(to))
+                || (!from.isSameX(to) && from.isSameY(to));
+    }
+
+    protected List<Position> findStraightPath(Position from, Position to) {
+        List<Position> path = new java.util.ArrayList<>();
+        int stepX = Integer.compare(to.x(), from.x());
+        int stepY = Integer.compare(to.y(), from.y());
+        Position currentPosition = from;
+
+        while (!currentPosition.equals(to)) {
+            currentPosition = currentPosition.moveBy(stepX, stepY);
+            path.add(currentPosition);
+        }
+        return path;
+    }
+
+    protected boolean canCaptureDestinationPiece(Map<Position, Piece> positionPieces, Position to) {
+        if (!positionPieces.containsKey(to)) {
+            return true;
+        }
+        Piece destinationPiece = positionPieces.get(to);
+        return !isSameTeam(destinationPiece);
+    }
+
     public abstract boolean canMoveByBasicMovingRule(Position from, Position to);
 
     public abstract List<Position> findPath(Position from, Position to);

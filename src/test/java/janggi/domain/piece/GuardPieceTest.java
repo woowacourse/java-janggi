@@ -62,7 +62,7 @@ class GuardPieceTest {
 
         positionPieces.put(new Position(5, 5), new ElephantPiece(Team.HAN));
         GuardPiece generalPiece = new GuardPiece(Team.HAN);
-        assertThat(generalPiece.canMoveBySpecialMovingRule(positionPieces, new Position(5, 6))).isFalse();
+        assertThat(generalPiece.canMoveBySpecialMovingRule(positionPieces, new Position(5, 5))).isFalse();
     }
 
     @Test
@@ -81,6 +81,6 @@ class GuardPieceTest {
 
         positionPieces.put(new Position(5, 5), new ElephantPiece(Team.CHO));
         GuardPiece generalPiece = new GuardPiece(Team.HAN);
-        assertThat(generalPiece.canMoveBySpecialMovingRule(positionPieces, new Position(5, 6))).isTrue();
+        assertThat(generalPiece.canMoveBySpecialMovingRule(positionPieces, new Position(5, 5))).isTrue();
     }
 }

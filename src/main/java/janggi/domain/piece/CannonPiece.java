@@ -1,55 +1,46 @@
 package janggi.domain.piece;
 
 import janggi.domain.board.Position;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class CannonPiece extends Piece {
+    private static final int REQUIRED_BRIDGE_COUNT = 1;
+
     public CannonPiece(Team team) {
         super(team, Name.CANNON);
     }
 
     @Override
     public boolean canMoveByBasicMovingRule(Position from, Position to) {
-        return (from.isSameX(to) && !from.isSameY(to))
-                || (!from.isSameX(to) && from.isSameY(to));
+        return canMoveStraight(from, to);
     }
 
     @Override
     public List<Position> findPath(Position from, Position to) {
-        List<Position> path = new ArrayList<>();
-        int stepX = Integer.compare(to.x(), from.x());
-        int stepY = Integer.compare(to.y(), from.y());
-        Position currentPosition = from;
-
-        while (!currentPosition.equals(to)) {
-            currentPosition = currentPosition.moveBy(stepX, stepY);
-            path.add(currentPosition);
-        }
-        return path;
+        return findStraightPath(from, to);
     }
 
     @Override
     public boolean canMoveBySpecialMovingRule(Map<Position, Piece> positionPieces, Position to) {
-        if (positionPieces.size() >= 3) {
+        if (hasCannonInPath(positionPieces)) {
             return false;
         }
-        long count = positionPieces.values().stream()
-                .filter(piece -> getName().equals(piece.getName()))
-                .count();
-        if (count != 0) {
+        if (countPiecesInPath(positionPieces, to) != REQUIRED_BRIDGE_COUNT) {
             return false;
         }
+        return canCaptureDestinationPiece(positionPieces, to);
+    }
 
-        if (positionPieces.size() == 2) {
-            if (positionPieces.containsKey(to)) {
-                Piece piece = positionPieces.get(to);
-                return !piece.isSameTeam(this);
-            }
-            return false;
-        }
+    private boolean hasCannonInPath(Map<Position, Piece> positionPieces) {
+        return positionPieces.values().stream()
+                .anyMatch(piece -> getName().equals(piece.getName()));
+    }
 
-        return !positionPieces.containsKey(to);
+    private int countPiecesInPath(Map<Position, Piece> positionPieces, Position to) {
+        if (positionPieces.containsKey(to)) {
+            return positionPieces.size() - 1;
+        }
+        return positionPieces.size();
     }
 }

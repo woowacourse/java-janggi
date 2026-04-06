@@ -12,13 +12,7 @@ public class GuardPiece extends Piece {
 
     @Override
     public boolean canMoveByBasicMovingRule(Position from, Position to) {
-        if (from.distanceX(to) > 1) {
-            return false;
-        }
-        if (from.distanceY(to) > 1) {
-            return false;
-        }
-        return from.distanceX(to) + from.distanceY(to) <= 1;
+        return canMoveOneStep(from, to);
     }
 
     @Override
@@ -28,11 +22,6 @@ public class GuardPiece extends Piece {
 
     @Override
     public boolean canMoveBySpecialMovingRule(Map<Position, Piece> positionPieces, Position to) {
-        for (Piece piece : positionPieces.values()) {
-            if (piece.isSameTeam(this)) {
-                return false;
-            }
-        }
-        return true;
+        return canCaptureDestinationPiece(positionPieces, to);
     }
 }
