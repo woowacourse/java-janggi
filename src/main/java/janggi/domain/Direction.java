@@ -40,6 +40,18 @@ public enum Direction {
         return SOUTH;
     }
 
+    public static List<Direction> forwardDiagonals(Direction direction) {
+        if (direction == NORTH) {
+            return List.of(NORTH_EAST, NORTH_WEST);
+        }
+
+        if (direction == SOUTH) {
+            return List.of(SOUTH_EAST, SOUTH_WEST);
+        }
+
+        throw  new IllegalArgumentException("NORTH 또는 SOUTH 대신 " + direction + "으로 잘못 입력되었습니다.");
+    }
+
     public boolean isDiagonal() {
         return List.of(NORTH_EAST, NORTH_WEST, SOUTH_EAST, SOUTH_WEST).contains(this);
     }
