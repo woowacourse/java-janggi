@@ -71,7 +71,7 @@ public class PoMoveRule implements MoveRule {
             result.add(next);
             return;
         }
-        if (team != piece.getTeam() && !piece.isPo()) {
+        if (piece.isAlly(team) && !piece.isPo()) {
             result.add(next);
         }
     }

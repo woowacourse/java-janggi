@@ -13,12 +13,8 @@ public class Piece {
         this.pieceType = pieceType;
     }
 
-    public PieceType getPieceType() {
-        return pieceType;
-    }
-
-    public Team getTeam() {
-        return team;
+    public boolean isAlly(Team targetTeam){
+        return this.team.isSameTeam(targetTeam);
     }
 
     public boolean isCha() {
