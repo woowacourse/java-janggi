@@ -1,111 +1,47 @@
 package janggi.service;
 
 import janggi.db.TransactionManager;
-import janggi.db.TransactionManager.SqlConsumer;
-import janggi.db.TransactionManager.SqlFunction;
 import janggi.domain.Game;
 import janggi.domain.board.Board;
-import janggi.domain.board.Position;
-import janggi.domain.board.initializer.SnapshotBoardInitializer;
-import janggi.domain.piece.Camp;
-import janggi.domain.piece.Piece;
-import janggi.repository.GamePieceRepository;
-import janggi.repository.GameStateRepository;
-import java.sql.SQLException;
+import janggi.repository.GameRepository;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
-public final class GameService {
-
-    private static final String GAME_ACCESS_FAILED = "[ERROR] 게임 상태를 DB에서 처리하는 중 문제가 발생했습니다.";
+public class GameService {
 
     private final TransactionManager transactionManager;
-    private final GameStateRepository gameStateRepository;
-    private final GamePieceRepository gamePieceRepository;
+    private final GameRepository gameRepository;
 
-    public GameService(
-            TransactionManager transactionManager,
-            GameStateRepository gameStateRepository,
-            GamePieceRepository gamePieceRepository
-    ) {
+    public GameService(TransactionManager transactionManager, GameRepository gameRepository) {
         this.transactionManager = transactionManager;
-        this.gameStateRepository = gameStateRepository;
-        this.gamePieceRepository = gamePieceRepository;
+        this.gameRepository = gameRepository;
     }
 
     public List<Long> findAllIds() {
-        return readOnly(gameStateRepository::findAllIds);
+        return transactionManager.withoutTransaction(gameRepository::findAllIds);
     }
 
     public Optional<LoadedGame> findById(long gameId) {
-        return readOnly(connection -> {
-            Optional<Camp> currentTurn = gameStateRepository.findCurrentTurnByGameId(connection, gameId);
-            if (currentTurn.isEmpty()) {
-                return Optional.empty();
-            }
-
-            Map<Position, Piece> boardSnapshot = gamePieceRepository.findByGameId(connection, gameId);
-            Board board = new Board(new SnapshotBoardInitializer(boardSnapshot));
-            Game restoredGame = Game.restore(board, currentTurn.orElseThrow());
-
-            return Optional.of(new LoadedGame(gameId, restoredGame));
-        });
+        return transactionManager.withoutTransaction(connection ->
+                gameRepository.findById(connection, gameId)
+        );
     }
 
     public LoadedGame create(Board board) {
-        return inTransaction(connection -> {
-            long gameId = gameStateRepository.createGame(connection, Camp.CHO);
-            Game game = Game.start(board);
-
-            gamePieceRepository.saveGameByBoard(
-                    connection,
-                    gameId,
-                    game.boardSnapshot()
-            );
-            return new LoadedGame(gameId, game);
+        return transactionManager.inTransaction(connection -> {
+            return gameRepository.create(connection, board);
         });
     }
 
     public void update(long id, Game game) {
-        inTransaction(connection -> {
-            gameStateRepository.save(connection, id, game.currentTurn());
-            gamePieceRepository.saveGameByBoard(
-                    connection,
-                    id,
-                    game.boardSnapshot()
-            );
+        transactionManager.inTransaction(connection -> {
+            gameRepository.update(connection, id, game);
         });
     }
 
     public void deleteById(long gameId) {
-        inTransaction(connection -> {
-            gamePieceRepository.deleteByGameId(connection, gameId);
-            gameStateRepository.deleteById(connection, gameId);
+        transactionManager.inTransaction(connection -> {
+            gameRepository.deleteById(connection, gameId);
         });
-    }
-
-    private <T> T readOnly(SqlFunction<T> action) {
-        try {
-            return transactionManager.readOnly(action);
-        } catch (SQLException e) {
-            throw new IllegalStateException(GAME_ACCESS_FAILED);
-        }
-    }
-
-    private <T> T inTransaction(SqlFunction<T> action) {
-        try {
-            return transactionManager.inTransaction(action);
-        } catch (SQLException e) {
-            throw new IllegalStateException(GAME_ACCESS_FAILED);
-        }
-    }
-
-    private void inTransaction(SqlConsumer action) {
-        try {
-            transactionManager.inTransaction(action);
-        } catch (SQLException e) {
-            throw new IllegalStateException(GAME_ACCESS_FAILED);
-        }
     }
 }
