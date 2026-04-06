@@ -1,6 +1,6 @@
 package janggi.domain;
 
-import janggi.exception.RowOutOfRangeException;
+import janggi.exception.position.RowOutOfRangeException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 

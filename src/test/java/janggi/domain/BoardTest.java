@@ -1,7 +1,7 @@
 package janggi.domain;
 
 import janggi.domain.movestorage.JolMoveStorage;
-import janggi.exception.EmptyPositionException;
+import janggi.exception.move.EmptyPositionException;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;

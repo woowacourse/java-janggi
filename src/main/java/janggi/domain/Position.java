@@ -1,6 +1,6 @@
 package janggi.domain;
 
-import janggi.exception.BusinessException;
+import janggi.exception.position.InvalidPositionException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +30,7 @@ public class Position {
         String key = generateKey(row, column);
         Position position = CACHE.get(key);
         if (position == null) {
-            throw new BusinessException("존재하지 않는 좌표입니다.");
+            throw new InvalidPositionException();
         }
         return position;
     }

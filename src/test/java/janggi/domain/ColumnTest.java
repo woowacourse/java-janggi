@@ -1,7 +1,7 @@
 package janggi.domain;
 
 
-import janggi.exception.ColumnOutOfRangeException;
+import janggi.exception.position.ColumnOutOfRangeException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 

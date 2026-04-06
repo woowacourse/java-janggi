@@ -1,8 +1,9 @@
 package janggi.domain;
 
-import janggi.exception.BusinessException;
-import janggi.exception.EmptyPositionException;
+import janggi.exception.move.EmptyPositionException;
 
+import janggi.exception.move.InvalidTargetException;
+import janggi.exception.move.SamePositionException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,11 +36,11 @@ public class Board implements BoardState{
 
     private void validateMove(Position from, Position to) {
         if (from.equals(to)) {
-            throw new BusinessException("출발지와 목적지가 같을 수 없습니다.");
+            throw new SamePositionException();
         }
 
         if (hasPieceAt(to) && isSameTeam(from, to)) {
-            throw new BusinessException("목적지에 아군 기물이 위치하고 있습니다.");
+            throw new InvalidTargetException();
         }
     }
 

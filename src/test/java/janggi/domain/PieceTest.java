@@ -2,7 +2,7 @@ package janggi.domain;
 
 import janggi.domain.movestorage.JolMoveStorage;
 import janggi.domain.movestorage.MoveStorage;
-import janggi.exception.InvalidMoveException;
+import janggi.exception.move.InvalidMoveException;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;

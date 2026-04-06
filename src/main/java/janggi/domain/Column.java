@@ -1,6 +1,6 @@
 package janggi.domain;
 
-import janggi.exception.ColumnOutOfRangeException;
+import janggi.exception.position.ColumnOutOfRangeException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
