@@ -72,10 +72,15 @@ public class JanggiGame {
         if (context.getGameState() != GameState.END) {
             throw new IllegalStateException(JanggiGameErrorMessage.NOW_ON_PLAYING.getMessage());
         }
+
         if (board.isKingCaptured(Team.CHO)) {
             return Team.HAN;
         }
-        return Team.CHO;
+        if (board.isKingCaptured(Team.HAN)) {
+            return Team.CHO;
+        }
+        throw new IllegalStateException(JanggiGameErrorMessage.UNEXPECTED_SHUTDOWN.getMessage());
+
     }
 
     public BoardStatus getJanggiGameStatus() {
