@@ -37,7 +37,7 @@ public abstract class Piece {
     }
 
     public boolean isAlly(Piece other) {
-        return this.team != Team.NONE && this.team == other.team;
+        return this.team.isAllyWith(other.team);
     }
 
     public boolean belongsTo(Team team) {

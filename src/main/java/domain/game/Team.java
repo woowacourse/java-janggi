@@ -17,6 +17,10 @@ public enum Team {
         return forwardRowDirection;
     }
 
+    public boolean isAllyWith(Team team) {
+        return this != NONE && this == team;
+    }
+
     @Override
     public String toString() {
         return teamName;
