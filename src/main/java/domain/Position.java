@@ -2,6 +2,7 @@ package domain;
 
 import domain.strategy.Direction;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -67,8 +68,7 @@ public class Position {
         return Objects.hash(x, y);
     }
 
-    @Override
-    public String toString() {
-        return String.format("(%d, %d)", x, y);
+    public List<Integer> getPosition() {
+        return List.of(x, y);
     }
 }
