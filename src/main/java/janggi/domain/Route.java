@@ -1,5 +1,6 @@
 package janggi.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -8,7 +9,7 @@ public class Route {
     private final List<Direction> routes;
 
     public Route(List<Direction> routes) {
-        this.routes = routes;
+        this.routes = new ArrayList<>(routes);
     }
 
     public List<Direction> getRoutes() {

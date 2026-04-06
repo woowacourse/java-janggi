@@ -6,6 +6,7 @@ import janggi.domain.PieceType;
 import janggi.domain.Position;
 import janggi.domain.Route;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +16,7 @@ public class Board {
     private final Map<Position, Piece> board;
 
     public Board(Map<Position, Piece> initBoard) {
-        this.board = initBoard;
+        this.board = new HashMap<>(initBoard);
     }
 
     public List<Position> findAvailablePositions(Position position) {
@@ -161,13 +162,6 @@ public class Board {
         board.put(destination, piece);
     }
 
-    public Piece getPiece(Position position) {
-        return board.get(position);
-    }
-
-    public Map<Position, Piece> getBoard() {
-        return board;
-    }
 
     public void validateDestination(Position movePiecePosition, Position destination) {
         List<Position> availablePositions = findAvailablePositions(movePiecePosition);
@@ -190,4 +184,11 @@ public class Board {
         }
     }
 
+    public Piece getPiece(Position position) {
+        return board.get(position);
+    }
+
+    public Map<Position, Piece> getBoard() {
+        return Collections.unmodifiableMap(board);
+    }
 }

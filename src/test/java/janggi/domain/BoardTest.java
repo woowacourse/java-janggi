@@ -39,10 +39,10 @@ public class BoardTest {
         //given
         Map<Position, Piece> customBoard = new HashMap<>();
         Position position = new Position(5, 7);
-        customBoard.put(position, new Piece(Team.CHO, PieceType.ZOL));
-        Board board = new Board(customBoard);
         Position zolUp = new Position(5, 6);
-        board.getBoard().put(zolUp, new Piece(Team.CHO, PieceType.ZOL));
+        customBoard.put(position, new Piece(Team.CHO, PieceType.ZOL));
+        customBoard.put(zolUp, new Piece(Team.CHO, PieceType.ZOL));
+        Board board = new Board(customBoard);
         Position zolLeft = new Position(4, 7);
         Position zolRight = new Position(6, 7);
         List<Position> rightAnswer = List.of(zolRight, zolLeft);
@@ -58,10 +58,10 @@ public class BoardTest {
     @DisplayName("마는 이동 경로(멱)에 장애물이 없으면 8방향 모두 이동할 수 있다")
     void 마_장애물_없을때_8방향_이동_성공() {
         //given
-        Map<Position, Piece> emptyBoard = new HashMap<>();
-        Board board = new Board(emptyBoard);
+        Map<Position, Piece> customBoard = new HashMap<>();
         Position position = new Position(4, 6);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.MA));
+        customBoard.put(position, new Piece(Team.CHO, PieceType.MA));
+        Board board = new Board(customBoard);
         Position maPos1 = new Position(3, 4);
         Position maPos2 = new Position(5, 4);
         Position maPos3 = new Position(6, 5);
@@ -109,11 +109,11 @@ public class BoardTest {
     @DisplayName("마의 최종 목적지에 아군 기물이 있으면 해당 좌표로 이동할 수 없다")
     void 마_목적지에_아군_존재시_이동_불가() {
         //given
-        Map<Position, Piece> emptyBoard = new HashMap<>();
-        Board board = new Board(emptyBoard);
+        Map<Position, Piece> customBoard = new HashMap<>();
         Position position = new Position(4, 6);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.MA));
-        board.getBoard().put(new Position(2, 7), new Piece(Team.CHO, PieceType.CHA));
+        customBoard.put(position, new Piece(Team.CHO, PieceType.MA));
+        customBoard.put(new Position(2, 7), new Piece(Team.CHO, PieceType.CHA));
+        Board board = new Board(customBoard);
         Position maPos1 = new Position(3, 4);
         Position maPos2 = new Position(5, 4);
         Position maPos3 = new Position(6, 5);
@@ -135,10 +135,10 @@ public class BoardTest {
     @DisplayName("상은 이동 경로(멱)에 장애물이 없으면 8방향 모두 이동할 수 있다")
     void 상_장애물_없을때_8방향_이동_성공() {
         //given
-        Map<Position, Piece> emptyBoard = new HashMap<>();
-        Board board = new Board(emptyBoard);
+        Map<Position, Piece> customBoard = new HashMap<>();
         Position position = new Position(5, 7);
-        board.getBoard().put(position, new Piece(Team.CHO, PieceType.SANG));
+        customBoard.put(position, new Piece(Team.CHO, PieceType.SANG));
+        Board board = new Board(customBoard);
         Position maPos1 = new Position(3, 4);
         Position maPos2 = new Position(7, 4);
         Position maPos3 = new Position(8, 5);
@@ -310,8 +310,8 @@ public class BoardTest {
         //given
         Map<Position, Piece> customBoard = new HashMap<>();
         Position position = new Position(5, 9);
-        Board board = new Board(customBoard);
         customBoard.put(position, new Piece(Team.CHO, PieceType.KING));
+        Board board = new Board(customBoard);
         Position maPos1 = new Position(4, 8);
         Position maPos2 = new Position(5, 8);
         Position maPos3 = new Position(6, 8);
@@ -450,10 +450,10 @@ public class BoardTest {
     void 차_경로에_적군_존재시_적군_위치까지_이동_가능() {
         //given
         Map<Position, Piece> customBoard = new HashMap<>();
-        Board board = new Board(customBoard);
         Position position = new Position(1, 10);
         customBoard.put(position, new Piece(Team.CHO, PieceType.CHA));
         customBoard.put(new Position(1, 7), new Piece(Team.HAN, PieceType.CHA));
+        Board board = new Board(customBoard);
         List<Position> upRoutes = List.of(
                 new Position(1, 9), new Position(1, 8), new Position(1, 7)
         );

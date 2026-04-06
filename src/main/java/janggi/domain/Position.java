@@ -40,6 +40,12 @@ public class Position {
         return column;
     }
 
+    private void validateBoundary(int column, int row) {
+        if (column < MIN_COLUMN || column > MAX_COLUMN || row < MIN_ROW || row > MAX_ROW) {
+            throw new IllegalArgumentException("[ERROR] 보드 범위를 벗어났습니다.");
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Position position)) {
@@ -51,11 +57,5 @@ public class Position {
     @Override
     public int hashCode() {
         return Objects.hash(row, column);
-    }
-
-    private void validateBoundary(int column, int row) {
-        if (column < MIN_COLUMN || column > MAX_COLUMN || row < MIN_ROW || row > MAX_ROW) {
-            throw new IllegalArgumentException("[ERROR] 보드 범위를 벗어났습니다.");
-        }
     }
 }
