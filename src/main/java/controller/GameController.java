@@ -22,7 +22,6 @@ public class GameController {
         init(board);
         JanggiGame game = new JanggiGame(board);
         OutputView.printBoard(board);
-
         while (true) {
             runGame(game, board);
         }

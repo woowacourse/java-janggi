@@ -71,6 +71,17 @@ public class Board {
         return findPiece(position) == null;
     }
 
+    public double calculateScore(Country country) {
+        double totalScore = country.bonusScore();
+        for (Piece piece : board.values()) {
+            if (piece.country() != country) {
+                continue;
+            }
+            totalScore += piece.score();
+        }
+        return totalScore;
+    }
+
     public List<Piece> findBetweenPieces(Move move) {
         List<Piece> pieces = new ArrayList<>();
         Position from = move.from();
