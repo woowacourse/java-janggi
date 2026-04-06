@@ -116,7 +116,6 @@ public class JanggiService {
             if (!resultSet.next()) {
                 throw new IllegalArgumentException("[ERROR] 해당 번호의 board가 없습니다.");
             }
-            System.out.println(resultSet.getString("turn"));
             return new Board(loadBoardState(id), resultSet.getDouble("cho_score"),
                     resultSet.getDouble("han_score"));
         } catch (SQLException e) {
@@ -174,7 +173,6 @@ public class JanggiService {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (!resultSet.next()) {
-                System.out.println("해당 좌표(" + position.x() + ", " + position.y() + ")는 비어있습니다.");
                 return true;
             }
         } catch (SQLException e) {
@@ -299,8 +297,6 @@ public class JanggiService {
             for (BoardSnapshot boardSnapshot : snapshots) {
                 boardSnapshots.addBoardSnapshot(boardSnapshot);
             }
-
-//            System.out.println("스냅샷 로드 완료");
             return boardSnapshots;
         } catch (SQLException e) {
             throw new IllegalStateException("[ERROR] 보드 스냅샷을 불러오는 데 실패했습니다.", e);
