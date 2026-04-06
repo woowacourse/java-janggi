@@ -26,4 +26,10 @@ class PieceTest {
         Piece piece = Piece.of(TeamColor.CHO, PieceType.KING);
         assertThat(piece.isKing()).isTrue();
     }
+
+    @Test
+    void isKing은_왕이_아니면_거짓이다() {
+        Piece piece = Piece.of(TeamColor.HAN, PieceType.ROOK);
+        assertThat(piece.isKing()).isFalse();
+    }
 }
