@@ -9,6 +9,7 @@ import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.route.Path;
 import janggi.domain.route.Paths;
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +18,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class CannonMoveStrategyTest {
-    private final CannonMoveStrategy strategy = new CannonMoveStrategy();
+    private final MoveStrategy strategy = new CannonMoveStrategy();
 
     @DisplayName("장애물 여부와 상관없이 직선 경로를 생성한다. - findMovablePaths()")
     @Test
@@ -113,7 +114,7 @@ public class CannonMoveStrategyTest {
         Paths routes = MoveStrategyTestHelper.createRoute(List.of(new Position(1, 0), new Position(2, 0)));
         Map<Position, Piece> boardState = new HashMap<>();
         boardState.put(new Position(1, 0), new Piece(Side.HAN, PieceType.SOLDIER, "1")); // 다리
-        boardState.put(new Position(2, 0), new Piece(Side.HAN, PieceType.CHARIOT, "1"));    // 적군 차
+        boardState.put(new Position(2, 0), new Piece(Side.HAN, PieceType.CHARIOT, "1")); // 적군 차
 
         Piece me = new Piece(Side.CHO, PieceType.CANNON, "1");
 
@@ -122,5 +123,43 @@ public class CannonMoveStrategyTest {
 
         // then
         assertThat(destinations).containsExactly(new Position(2, 0));
+    }
+
+    @DisplayName("궁성 내에 기물이 있는 경우, 직진 방향으로 뛰어넘을 수 있다.")
+    @Test
+    void 궁성_내_기물_직진_뛰어넘기_테스트() {
+        // given
+        Position current = new Position(2, 4);
+        Map<Position, Piece> boardState = new HashMap<>();
+        boardState.put(new Position(1, 4), new Piece(Side.HAN, PieceType.SOLDIER, "1")); // 다리
+
+        Piece movingPiece = new Piece(Side.CHO, PieceType.CANNON, "1");
+        EnumSet<Direction> directions = EnumSet.of(Direction.N, Direction.S, Direction.E, Direction.W);
+
+        // when
+        Paths paths = strategy.findMovablePaths(current, directions);
+        List<Position> destinations = strategy.determineDestinations(paths, boardState, movingPiece);
+
+        // then
+        assertThat(destinations).containsExactly(new Position(0, 4));
+    }
+
+    @DisplayName("궁성 내에 기물이 있는 경우, 대각선 방향으로 뛰어넘을 수 있다.")
+    @Test
+    void 궁성_내_기물_대각선_뛰어넘기_테스트() {
+        // given
+        Position current = new Position(2, 5);
+        Map<Position, Piece> boardState = new HashMap<>();
+        boardState.put(new Position(1, 4), new Piece(Side.HAN, PieceType.SOLDIER, "1")); // 다리
+
+        Piece movingPiece = new Piece(Side.CHO, PieceType.CANNON, "1");
+        EnumSet<Direction> directions = EnumSet.of(Direction.N, Direction.S, Direction.E, Direction.W);
+
+        // when
+        Paths paths = strategy.findMovablePaths(current, directions);
+        List<Position> destinations = strategy.determineDestinations(paths, boardState, movingPiece);
+
+        // then
+        assertThat(destinations).containsExactly(new Position(0, 3));
     }
 }
