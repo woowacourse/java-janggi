@@ -2,9 +2,10 @@ package janggi.domain.piece;
 
 import janggi.domain.Board;
 import janggi.domain.Delta;
+import janggi.domain.Palace;
 import janggi.domain.Position;
-import janggi.domain.movepath.MovePathStrategy;
 import janggi.domain.movepath.FixedMovePath;
+import janggi.domain.movepath.MovePathStrategy;
 import janggi.domain.team.TeamType;
 import java.util.List;
 import java.util.Optional;
@@ -14,11 +15,13 @@ public class Jol implements Piece {
     private final TeamType teamType;
     private final PieceType pieceType;
     private final List<MovePathStrategy> paths;
+    private final Palace palace;
 
     public Jol(TeamType teamType) {
         this.teamType = teamType;
         pieceType = PieceType.JOL;
         paths = createPaths();
+        palace = new Palace();
     }
 
     @Override
@@ -33,9 +36,17 @@ public class Jol implements Piece {
         if (isSamePosition(dx, dy)) {
             return Optional.empty();
         }
-        return paths.stream()
+        Optional<MovePathStrategy> normalPath = paths.stream()
             .filter(path -> path.matches(dx, dy))
             .findFirst();
+        if (normalPath.isPresent()) {
+            return normalPath;
+        }
+        return palace.findForwardDiagonalStepPath(
+            new Position(startX, startY),
+            new Position(endX, endY),
+            teamType
+        );
     }
 
     @Override

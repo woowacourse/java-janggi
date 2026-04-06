@@ -2,9 +2,10 @@ package janggi.domain.piece;
 
 import janggi.domain.Board;
 import janggi.domain.Delta;
+import janggi.domain.Palace;
 import janggi.domain.Position;
-import janggi.domain.movepath.MovePathStrategy;
 import janggi.domain.movepath.DirectionalMovePath;
+import janggi.domain.movepath.MovePathStrategy;
 import janggi.domain.team.TeamType;
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +15,7 @@ public class Po implements Piece {
     private final TeamType teamType;
     private final PieceType pieceType;
     private final List<MovePathStrategy> paths;
+    private final Palace palace;
 
     public Po(TeamType teamType) {
         this.teamType = teamType;
@@ -24,6 +26,7 @@ public class Po implements Piece {
             new DirectionalMovePath(List.of(Delta.createLeft())),
             new DirectionalMovePath(List.of(Delta.createRight()))
         );
+        palace = new Palace();
     }
 
     @Override
@@ -38,9 +41,16 @@ public class Po implements Piece {
         }
         int dx = endX - startX;
         int dy = endY - startY;
-        return paths.stream()
+        Optional<MovePathStrategy> normalPath = paths.stream()
             .filter(path -> path.matches(dx, dy))
             .findFirst();
+        if (normalPath.isPresent()) {
+            return normalPath;
+        }
+        return palace.findDiagonalMovePath(
+            new Position(startX, startY),
+            new Position(endX, endY)
+        );
     }
 
     @Override
