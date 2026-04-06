@@ -8,11 +8,44 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Board implements BoardState{
+public class Board implements BoardState {
     private final Map<Position, Piece> board;
 
     public Board(Map<Position, Piece> initialPieces) {
         this.board = new HashMap<>(initialPieces);
+    }
+
+    public void move(Position from, Position to) {
+        Piece movingPiece = findPieceAt(from);
+
+        validateMove(from, to, movingPiece);
+
+        movingPiece.verifyMove(from, to, this);
+
+        executeMove(from, to, movingPiece);
+    }
+
+    private Piece findPieceAt(Position position) {
+        Piece piece = board.get(position);
+        if (piece == null) {
+            throw new EmptyPositionException();
+        }
+        return piece;
+    }
+
+    private void validateMove(Position from, Position to, Piece movingPiece) {
+        if (from.equals(to)) {
+            throw new SamePositionException();
+        }
+
+        if (hasPieceAt(to) && movingPiece.isSameTeam(getPieceAt(to))) {
+            throw new InvalidTargetException();
+        }
+    }
+
+    private void executeMove(Position from, Position to, Piece movingPiece) {
+        board.remove(from);
+        board.put(to, movingPiece);
     }
 
     @Override
@@ -23,42 +56,6 @@ public class Board implements BoardState{
     @Override
     public Piece getPieceAt(Position position) {
         return board.get(position);
-    }
-
-    public void move(Position from, Position to) {
-        validateMove(from, to);
-
-        Piece movingPiece = getNonNullPiece(from);
-        movingPiece.verifyMove(from, to, this);
-
-        executeMove(from, to, movingPiece);
-    }
-
-    private void validateMove(Position from, Position to) {
-        if (from.equals(to)) {
-            throw new SamePositionException();
-        }
-
-        if (hasPieceAt(to) && isSameTeam(from, to)) {
-            throw new InvalidTargetException();
-        }
-    }
-
-    private boolean isSameTeam(Position from, Position to) {
-        return board.get(from).isSameTeam(board.get(to));
-    }
-
-    private Piece getNonNullPiece(Position position) {
-        Piece piece = board.get(position);
-        if (piece == null) {
-            throw new EmptyPositionException();
-        }
-        return piece;
-    }
-
-    private void executeMove(Position from, Position to, Piece movingPiece) {
-        board.remove(from);
-        board.put(to, movingPiece);
     }
 
     public Map<Position, Piece> getBoard() {
