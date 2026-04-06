@@ -8,6 +8,7 @@ import domain.piece.Piece;
 import domain.position.Position;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import service.JanggiGameService;
@@ -32,29 +33,38 @@ public class JanggiGameController {
 
     public void play() {
         janggiGameService.initializeDatabase();
-        boolean playingGameExist = janggiGameService.isPlayingGameExist();
-
-        JanggiGame game = null;
-
-        if (playingGameExist) {
-            boolean isContinue = inputView.readGameContinueYesOrNo();
-            if (isContinue) {
-                game = retry(() -> {
-                    JanggiGame loadedGame = janggiGameService.loadPlayingGame();
-                    printBoardStatus(loadedGame.getJanggiGameStatus());
-                    return loadedGame;
-                });
-            } else {
-                janggiGameService.abandonGame();
-            }
-        }
-
-        if (game == null) {
-            game = retry(this::initializeGame);
-        }
-
+        JanggiGame game = prepareJanggiGame();
         playTurn(game);
     }
+
+    private JanggiGame prepareJanggiGame() {
+        Optional<JanggiGame> janggiGame = Optional.empty();
+
+        if (janggiGameService.isPlayingGameExist()) {
+            janggiGame = prepareGameAlreadyExist();
+        }
+
+        return janggiGame.orElseGet(
+                () -> retry(this::initializeGame)
+        );
+    }
+
+    private Optional<JanggiGame> prepareGameAlreadyExist() {
+        boolean isContinue = inputView.readGameContinueYesOrNo();
+        if (isContinue) {
+            JanggiGame game = retry(() -> {
+                JanggiGame loadedGame = janggiGameService.loadPlayingGame();
+                printBoardStatus(loadedGame.getJanggiGameStatus());
+                return loadedGame;
+            });
+
+            return Optional.of(game);
+        }
+
+        janggiGameService.abandonGame();
+        return Optional.empty();
+    }
+
 
     private void playTurn(JanggiGame game) {
         while (!game.isFinished()) {
