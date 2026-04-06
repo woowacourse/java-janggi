@@ -14,6 +14,10 @@ public record Position(
 
     private static final Map<String, Position> POSITIONS = new HashMap<>();
     private static final Map<Position, List<Direction>> DIAGONAL = new HashMap<>();
+    private static final int MIN_PALACE_COLUMN = 4;
+    private static final int MAX_PALACE_COLUMN = 6;
+    private static final int FLOOR_OF_CHO_PALACE_ROW = 3;
+    private static final int CEILING_OF_HAN_PALACE_ROW = 8;
 
     static {
         for (Row row : Row.values()) {
@@ -72,15 +76,14 @@ public record Position(
         return directions;
     }
 
-    // TODO: 러프하게 작성됨. 궁성 position을 관리하는 위치를 어디로 할지 다시 고민하기
     public boolean isPalace(Dynasty dynasty) {
-        if (this.column.column() < 4 || this.column.column() > 6) {
+        if (column.column() < MIN_PALACE_COLUMN || column.column() > MAX_PALACE_COLUMN) {
             return false;
         }
         if (dynasty.equals(Dynasty.HAN)) {
-            return this.row.row() >= 8;
+            return row.row() >= CEILING_OF_HAN_PALACE_ROW;
         }
-        return this.row.row() <= 3;
+        return row.row() <= FLOOR_OF_CHO_PALACE_ROW;
     }
 
     private boolean canMoveDiagonal() {

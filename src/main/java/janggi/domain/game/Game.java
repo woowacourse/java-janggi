@@ -16,8 +16,7 @@ public class Game {
 
     private static final Dynasty FIRST_DYNASTY = CHO;
     private static final double DEOM = 1.5;
-    private static final double SCORE_COMPARISON_THRESHOLD = 30;
-
+    private static final double POINTS_COMPARISON_THRESHOLD = 30;
 
     private final Board board;
     private final CurrentTurn currentTurn;
@@ -50,8 +49,8 @@ public class Game {
     }
 
     public Dynasty judgeWinner() {
-        if (isLessThan30()) {
-            return findPointWinner();
+        if (isPossibleToCompareUsingPoints()) {
+            return findWinnerUsingPoints();
         }
         if (board.hasGeneral(HAN)) {
             return HAN;
@@ -60,7 +59,7 @@ public class Game {
     }
 
     public boolean isFinished() {
-        return isGeneralCaptured() || isLessThan30();
+        return isGeneralCaptured() || isPossibleToCompareUsingPoints();
     }
 
     public Map<Position, Piece> boardMap() {
@@ -75,15 +74,15 @@ public class Game {
         return !board.hasGeneral(HAN) || !board.hasGeneral(CHO);
     }
 
-    private boolean isLessThan30() {
+    private boolean isPossibleToCompareUsingPoints() {
         double pointsOfHan = board.sumPointsOf(HAN) + DEOM;
         double pointsOfCho = board.sumPointsOf(CHO);
 
-        return pointsOfHan < SCORE_COMPARISON_THRESHOLD
-                && pointsOfCho < SCORE_COMPARISON_THRESHOLD;
+        return pointsOfHan < POINTS_COMPARISON_THRESHOLD
+                && pointsOfCho < POINTS_COMPARISON_THRESHOLD;
     }
 
-    private Dynasty findPointWinner() {
+    private Dynasty findWinnerUsingPoints() {
         double pointsOfHan = board.sumPointsOf(HAN) + DEOM;
         double pointsOfCho = board.sumPointsOf(CHO);
 
