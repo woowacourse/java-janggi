@@ -73,7 +73,9 @@ public class JanggiController {
 
     private void printCurrentBoard() {
         Map<Position, Space> capturedBoard = janggiService.getBoardDto();
-        OutputView.printBoard(capturedBoard);
+        String currentTurn = janggiService.getCurrentTurn();
+        double currentTurnScore = janggiService.getCurrentTurnScore();
+        OutputView.printBoard(capturedBoard, currentTurn, currentTurnScore);
     }
 
     private long saveGame(long currentGameId) {

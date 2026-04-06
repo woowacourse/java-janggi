@@ -17,7 +17,9 @@ public class OutputView {
     private static final String FULL_WIDTH_DOT = "．"; // 전각 마침표 (．)
     private static final String[] FULL_WIDTH_NUMBERS = {"０", "１", "２", "３", "４", "５", "６", "７", "８", "９"}; // 전각 숫자 배열
 
-    public static void printBoard(Map<Position, Space> capturedBoard) {
+    public static void printBoard(Map<Position, Space> capturedBoard, String currentTurn, double currentTurnScore) {
+        System.out.println("현재" + currentTurn + "의 차례입니다. \n"
+                + "현재 기물 점수 : " + currentTurnScore);
         System.out.println("    " + "-".repeat(27));
         for (int y = 9; y >= 0; y--) {
             System.out.print(FULL_WIDTH_NUMBERS[y] + FULL_WIDTH_SPACE + "|");
@@ -37,7 +39,6 @@ public class OutputView {
             System.out.printf("[Game ID: %d]\n", id);
         }
         System.out.println("-".repeat(20));
-        System.out.println("이어할 게임의 ID를 입력하거나, 새로운 게임을 시작하려면 0을 입력해주세요.");
     }
 
     public static void printErrorMessage(String message) {

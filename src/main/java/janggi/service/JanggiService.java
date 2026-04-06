@@ -75,6 +75,10 @@ public class JanggiService {
                 .orElse("Finished");
     }
 
+    public double getCurrentTurnScore() {
+        return gameManager.getPieceScore();
+    }
+
     private Map<Position, Piece> getAlivePieces() {
         Map<Position, Space> board = gameManager.captureBoard();
 
