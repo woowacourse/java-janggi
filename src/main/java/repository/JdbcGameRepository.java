@@ -53,4 +53,20 @@ public class JdbcGameRepository implements GameRepository {
             throw new RuntimeException("게임의 상태를 초기화하는 과정에서 문제가 발생하였습니다. " + e);
         }
     }
+
+    @Override
+    public boolean isNotFinished() {
+        String sql = "SELECT COUNT(*) FROM game_state WHERE is_finished = false";
+
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            if (resultSet.next()) {
+                return resultSet.getInt(1) > 0;
+            }
+            return false;
+        } catch (SQLException e) {
+            throw new RuntimeException("게임 중단 상태 결과를 불러오는 과정에서 문제가 발생하였습니다. " + e);
+        }
+    }
 }

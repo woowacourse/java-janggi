@@ -8,4 +8,6 @@ public interface GameRepository {
     Team findCurrentTurn();
 
     void deleteAll();
+
+    boolean isNotFinished();
 }
