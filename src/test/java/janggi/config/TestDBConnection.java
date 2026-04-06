@@ -38,28 +38,6 @@ public final class TestDBConnection implements DBConnection {
     }
 
     @Override
-    public List<Long> executeSelectForIds(String sql, Object... parameters) {
-        final List<Long> ids = new ArrayList<>();
-        try (
-            final PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        ) {
-            for (int parameterIndex = 0; parameterIndex < parameters.length; parameterIndex++) {
-                preparedStatement.setObject(parameterIndex + 1, parameters[parameterIndex]);
-            }
-            try (final ResultSet resultSet = preparedStatement.executeQuery()) {
-                while (resultSet.next()) {
-                    ids.add(resultSet.getLong("id"));
-                }
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return ids;
-    }
-
-    @Override
     public <R> Optional<R> executeSelect(final String sql, final EntityMapper<R> mapper,
         final Object... parameters) {
         try (final PreparedStatement preparedStatement = connection.prepareStatement(sql)) {

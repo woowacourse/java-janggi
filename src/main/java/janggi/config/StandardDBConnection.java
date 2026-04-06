@@ -36,29 +36,6 @@ public class StandardDBConnection implements DBConnection {
     }
 
     @Override
-    public List<Long> executeSelectForIds(final String sql, final Object... parameters) {
-        final List<Long> ids = new ArrayList<>();
-        try (
-            final Connection connection = DriverManager.getConnection(url, id, password);
-            final PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        ) {
-            for (int parameterIndex = 0; parameterIndex < parameters.length; parameterIndex++) {
-                preparedStatement.setObject(parameterIndex + 1, parameters[parameterIndex]);
-            }
-            try (final ResultSet resultSet = preparedStatement.executeQuery()) {
-                while (resultSet.next()) {
-                    ids.add(resultSet.getLong("id"));
-                }
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return ids;
-    }
-
-    @Override
     public <R> Optional<R> executeSelect(final String sql, final EntityMapper<R> mapper,
         final Object... parameters) {
         try (

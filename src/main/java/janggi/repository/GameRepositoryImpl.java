@@ -35,8 +35,9 @@ public class GameRepositoryImpl implements GameRepository {
     public List<Long> findByStatusOrderByLatest(final GameStatus gameStatus, final int limit) {
         final String sql = String.format(
             "SELECT id FROM %s WHERE status = ? ORDER BY created_at DESC LIMIT ?", TABLE_NAME);
+        final EntityMapper<Long> mapper = resultSet -> resultSet.getLong(1);
 
-        return dbConnection.executeSelectForIds(sql, gameStatus.name(), limit);
+        return dbConnection.executeSelectAll(sql, mapper, gameStatus.name(), limit);
     }
 
     @Override
