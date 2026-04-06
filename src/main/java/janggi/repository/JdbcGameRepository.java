@@ -46,15 +46,15 @@ public class JdbcGameRepository implements GameRepository {
                 )
         ) {
             statement.setLong(1, gameId);
-            ResultSet resultSet = statement.executeQuery();
-            if (!resultSet.next()) {
-                return Optional.empty();
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (!resultSet.next()) {
+                    return Optional.empty();
+                }
+                return Optional.of(toGameSnapshot(connection, resultSet));
             }
-            return Optional.of(toGameSnapshot(connection, resultSet));
         } catch (SQLException exception) {
             throw new IllegalStateException("[ERROR] 게임 조회 중 데이터베이스 오류가 발생했습니다.", exception);
         }
-
     }
 
     @Override
@@ -147,7 +147,7 @@ public class JdbcGameRepository implements GameRepository {
         )){
             for (PositionInfo position : positions) {
                 statement.setLong(1, gameId);
-                statement.setString(2, teamName(position));
+                statement.setString(2, position.piece().getTeam().name());
                 statement.setString(3, position.piece().getType().name());
                 statement.setInt(4, position.point().getX());
                 statement.setInt(5, position.point().getY());
@@ -155,13 +155,6 @@ public class JdbcGameRepository implements GameRepository {
             }
             statement.executeBatch();
         }
-    }
-
-    private String teamName(PositionInfo position) {
-        if (position.piece().isSameTeam(Team.HAN)) {
-            return Team.HAN.name();
-        }
-        return Team.CHO.name();
     }
 
     private String winnerName(Team winner) {
