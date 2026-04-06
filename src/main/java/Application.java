@@ -3,7 +3,7 @@ import core.JanggiGame;
 import db.dao.BoardPieceDao;
 import db.dao.GameDao;
 import db.jdbc.ConnectionManager;
-import db.jdbc.DatabaseInitializer;
+import db.jdbc.DatabaseMigrator;
 import db.jdbc.JdbcBoardPieceDao;
 import db.jdbc.JdbcGameDao;
 import db.repository.JanggiGameRepository;
@@ -38,14 +38,13 @@ public class Application {
     private static JanggiGameRepository getRepository(ConnectionManager connectionManager) {
         GameDao gameDao = new JdbcGameDao(connectionManager);
         BoardPieceDao boardPieceDao = new JdbcBoardPieceDao(connectionManager);
-        JanggiGameRepository repository = new JdbcJanggiGameRepository(gameDao, boardPieceDao);
-        return repository;
+        return new JdbcJanggiGameRepository(gameDao, boardPieceDao);
     }
 
     private static ConnectionManager getConnectionManager() {
         ConnectionManager connectionManager = new ConnectionManager();
-        DatabaseInitializer databaseInitializer = new DatabaseInitializer(connectionManager);
-        databaseInitializer.initialize();
+        DatabaseMigrator databaseMigrator = new DatabaseMigrator(connectionManager);
+        databaseMigrator.initialize();
         return connectionManager;
     }
 

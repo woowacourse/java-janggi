@@ -1,0 +1,126 @@
+package db.jdbc;
+
+import db.model.Migration;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Comparator;
+import java.util.List;
+
+public class DatabaseMigrator {
+
+    private static final Migration BOOTSTRAP_MIGRATION = new Migration(
+        0, "create_migration", "/migration/v0_create_migration.sql");
+    private static final List<Migration> MIGRATIONS = List.of(
+        new Migration(1, "init", "/migration/v1_init.sql"),
+        new Migration(2, "expand_game_and_add_move_history", "/migration/V2_expand_game_and_add_move_history.sql")
+    );
+
+    private final ConnectionManager connectionManager;
+
+    public DatabaseMigrator(ConnectionManager connectionManager) {
+        this.connectionManager = connectionManager;
+    }
+
+    public void initialize() {
+        List<Migration> migrations = MIGRATIONS.stream()
+            .filter(migration -> migration.version() > 0)
+            .sorted(Comparator.comparingInt(Migration::version))
+            .toList();
+
+        try (Connection connection = connectionManager.getConnection()) {
+            connection.setAutoCommit(false);
+
+            try {
+                applyMigration(connection, BOOTSTRAP_MIGRATION);
+
+                for (Migration migration : migrations) {
+                    if (isAlreadyApplied(connection, migration.version())) {
+                        continue;
+                    }
+                    applyMigration(connection, migration);
+                    insertMigrationHistory(connection, migration);
+                }
+
+                connection.commit();
+            } catch (Exception e) {
+                connection.rollback();
+                throw new IllegalStateException("데이터베이스 마이그레이션에 실패했습니다.", e);
+            }
+        } catch (SQLException e) {
+            throw new IllegalStateException("데이터베이스 연결에 실패했습니다.", e);
+        }
+    }
+
+    private boolean isAlreadyApplied(Connection connection, int version) throws SQLException {
+        String sql = """
+            SELECT 1
+            FROM migration
+            WHERE version = ?
+            """;
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, version);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                return resultSet.next();
+            }
+        }
+    }
+
+    private void applyMigration(Connection connection, Migration migration) throws SQLException {
+        String migrationSql = readSql(migration.resourcePath());
+
+        for (String sql : migrationSql.split(";")) {
+            String trimmedSql = sql.trim();
+            if (trimmedSql.isEmpty()) {
+                continue;
+            }
+
+            try (Statement statement = connection.createStatement()) {
+                statement.execute(trimmedSql);
+            }
+        }
+    }
+
+    private void insertMigrationHistory(Connection connection, Migration migration) throws SQLException {
+        String sql = """
+            INSERT INTO migration(version, description, applied_at)
+            VALUES (?, ?, ?)
+            """;
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, migration.version());
+            statement.setString(2, migration.description());
+            statement.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
+            statement.executeUpdate();
+        }
+    }
+
+    private String readSql(String resourcePath) {
+        InputStream inputStream = getClass().getResourceAsStream(resourcePath);
+        if (inputStream == null) {
+            throw new IllegalStateException(resourcePath + " 파일을 찾을 수 없습니다.");
+        }
+
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+            StringBuilder builder = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                builder.append(line).append("\n");
+            }
+            return builder.toString();
+        } catch (IOException e) {
+            throw new IllegalStateException(resourcePath + " 파일을 읽는 데 실패했습니다.", e);
+        }
+    }
+}
