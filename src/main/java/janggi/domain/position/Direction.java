@@ -24,8 +24,20 @@ public enum Direction {
         return List.of(UP, DOWN, LEFT, RIGHT);
     }
 
+    public static List<Direction> diagonal() {
+        return List.of(UP_RIGHT, UP_LEFT, DOWN_LEFT, DOWN_RIGHT);
+    }
+
     public static List<Direction> all() {
         return List.of(values());
+    }
+
+    public boolean isUp() {
+        return dr > 0;
+    }
+
+    public boolean isDown() {
+        return dr < 0;
     }
 
     int dr() {
