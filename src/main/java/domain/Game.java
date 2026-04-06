@@ -8,14 +8,19 @@ import domain.piece.Team;
 public class Game {
 
     private final Board board;
-    private Team turn = Team.CHO;
+    private Team turn;
 
     public Board getBoard() {
         return board;
     }
 
     public Game(Board board) {
+        this(board, Team.CHO);
+    }
+
+    public Game(Board board, Team turn) {
         this.board = board;
+        this.turn = turn;
     }
 
     public void move(Position from, Position to) {
@@ -57,10 +62,10 @@ public class Game {
 
 
     public Team getWinnerTeam() {
-        if(!isGameEnd()) {
+        if (!isGameEnd()) {
             throw new IllegalStateException("게임이 아직 끝나지 않았습니다");
         }
-        if(board.isAliveGeneral(Team.CHO)) {
+        if (board.isAliveGeneral(Team.CHO)) {
             return Team.CHO;
         }
         return Team.HAN;

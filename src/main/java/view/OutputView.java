@@ -5,6 +5,7 @@ import domain.board.Position;
 import domain.piece.Piece;
 import domain.piece.Team;
 
+import java.util.Map;
 import java.util.Optional;
 
 public class OutputView {
@@ -72,5 +73,21 @@ public class OutputView {
         String winnerName = winner == Team.CHO ? "초(CHO)" : "한(HAN)";
         String color = winner == Team.CHO ? BLUE : RED;
         System.out.println(color + "\n🎉 " + winnerName + "가 승리했습니다! 게임을 종료합니다." + RESET);
+    }
+
+    public void printSavedGames(Map<Long, String> games) {
+        System.out.println("=== 💾 저장된 게임 목록 ===");
+        if (games.isEmpty()) {
+            System.out.println("저장된 게임이 없습니다.");
+            System.out.println("==========================");
+            return;
+        }
+
+        for (java.util.Map.Entry<Long, String> entry : games.entrySet()) {
+            long id = entry.getKey();
+            String turn = entry.getValue().equals("CHO") ? "초(CHO)" : "한(HAN)";
+            System.out.printf("- %d번 방 (현재 차례: %s)\n", id, turn);
+        }
+        System.out.println("==========================");
     }
 }
