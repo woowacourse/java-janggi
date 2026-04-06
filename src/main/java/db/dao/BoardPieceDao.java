@@ -2,12 +2,19 @@ package db.dao;
 
 import db.model.BoardPieceEntity;
 import java.util.List;
+import java.util.Optional;
 
 public interface BoardPieceDao {
 
-    void saveAll(Long gameEntityId, List<BoardPieceEntity> boardPieceEntities);
+    Long save(BoardPieceEntity boardPiece);
 
-    List<BoardPieceEntity> findByGameId(Long gameEntityId);
+    void saveAll(List<BoardPieceEntity> boardPieces);
 
-    void deleteByGameId(Long gameEntityId);
+    List<BoardPieceEntity> findAllByGameId(Long gameId);
+
+    Optional<BoardPieceEntity> findByGameIdAndPosition(Long gameId, int row, int column);
+
+    void updatePosition(Long id, int row, int column);
+
+    void deleteByGameIdAndPosition(Long gameId, int row, int column);
 }

@@ -22,7 +22,7 @@ public class DatabaseMigrator {
         0, "create_migration", "/migration/v0_create_migration.sql");
     private static final List<Migration> MIGRATIONS = List.of(
         new Migration(1, "init", "/migration/v1_init.sql"),
-        new Migration(2, "expand_game_and_add_move_history", "/migration/V2_expand_game_and_add_move_history.sql")
+        new Migration(2, "expand_game_and_add_move_history", "/migration/v2_expand_game_and_add_move_history.sql")
     );
 
     private final ConnectionManager connectionManager;

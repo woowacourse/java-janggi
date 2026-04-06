@@ -1,13 +1,18 @@
 package db.dao;
 
+import core.GameStatus;
 import db.model.GameEntity;
+import java.util.List;
 import java.util.Optional;
+import participant.Turn;
 
 public interface GameDao {
 
-    Long save(GameEntity gameEntity);
+    Long save(GameEntity game);
 
-    void update(GameEntity gameEntity);
+    Optional<GameEntity> findById(Long id);
 
-    Optional<GameEntity> findLatest();
+    List<GameEntity> findTop10OrderByCreatedAtAsc();
+
+    void updateState(Long gameId, Turn turn, GameStatus gameStatus);
 }

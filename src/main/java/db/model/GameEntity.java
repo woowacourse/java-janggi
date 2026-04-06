@@ -1,14 +1,10 @@
 package db.model;
 
 import core.GameStatus;
-import java.time.LocalDateTime;
-import pieces.Side;
+import participant.Turn;
 
 public record GameEntity(
     Long id,
-    String roomName,
-    Side turnSide,
-    GameStatus status,
-    LocalDateTime createdAt,
-    LocalDateTime updatedAt) {
+    Turn turn,
+    GameStatus status) {
 }

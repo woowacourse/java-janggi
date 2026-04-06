@@ -8,8 +8,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-import pieces.Side;
+import participant.Turn;
 
 public class JdbcGameDao implements GameDao {
 
@@ -22,14 +24,14 @@ public class JdbcGameDao implements GameDao {
     @Override
     public Long save(final GameEntity gameEntity) {
         final String sql = """
-            INSERT INTO game (turn_side, status)
-            VALUES (?, ?)
+            INSERT INTO game (turn, status, created_at, updated_at)
+            VALUES (?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
             """;
 
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            statement.setString(1, gameEntity.turnSide().name());
+            statement.setString(1, gameEntity.turn().name());
             statement.setString(2, gameEntity.status().name());
             statement.executeUpdate();
 
@@ -45,42 +47,21 @@ public class JdbcGameDao implements GameDao {
     }
 
     @Override
-    public void update(final GameEntity gameEntity) {
-        validateId(gameEntity);
-
-        final String sql = """
-            UPDATE game 
-            SET turn_side = ?, status = ?
-            WHERE id = ?;
-            """;
-
-        try (Connection connection = connectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-
-            statement.setString(1, gameEntity.turnSide().name());
-            statement.setString(2, gameEntity.status().name());
-            statement.setLong(3, gameEntity.id());
-
-            int affectedRows = statement.executeUpdate();
-            if (affectedRows == 0) {
-                throw new IllegalArgumentException("수정할 게임이 존재하지 않습니다. id=" + gameEntity.id());
-            }
-        } catch (SQLException e) {
-            throw new IllegalStateException("게임 수정에 실패했습니다.", e);
+    public Optional<GameEntity> findById(final Long id) {
+        if (id == null) {
+            throw new IllegalStateException("조회할 게임 ID가 필요합니다.");
         }
-    }
 
-    @Override
-    public Optional<GameEntity> findLatest() {
         final String sql = """
-            SELECT id, turn_side, status
+            SELECT id, turn, status
             FROM game
-            ORDER BY id DESC
-            LIMIT 1
+            WHERE id = ?
             """;
 
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setLong(1, id);
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
@@ -89,20 +70,65 @@ public class JdbcGameDao implements GameDao {
                 return Optional.empty();
             }
         } catch (SQLException e) {
-            throw new IllegalStateException("마지막 게임 조회에 실패했습니다.", e);
+            throw new IllegalStateException("게임 조회에 실패했습니다.", e);
         }
     }
 
-    private void validateId(final GameEntity gameEntity) {
-        if (gameEntity.id() == null) {
+    @Override
+    public List<GameEntity> findTop10OrderByCreatedAtAsc() {
+        final String sql = """
+            SELECT id, turn, status
+            FROM game
+            ORDER BY updated_at ASC
+            LIMIT 10
+            """;
+
+        try (Connection connection = connectionManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            List<GameEntity> gameEntities = new ArrayList<>();
+            while (resultSet.next()) {
+                gameEntities.add(parseGame(resultSet));
+            }
+            return gameEntities;
+        } catch (SQLException e) {
+            throw new IllegalStateException("게임 조회에 실패했습니다.", e);
+        }
+    }
+
+    @Override
+    public void updateState(final Long id, Turn turn, GameStatus gameStatus) {
+        if (id == null) {
             throw new IllegalArgumentException("수정할 게임 ID가 필요합니다.");
+        }
+
+        final String sql = """
+            UPDATE game
+            SET turn = ?, status = ?, updated_at = CURRENT_TIMESTAMP
+            WHERE id = ?
+            """;
+
+        try (Connection connection = connectionManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, turn.name());
+            statement.setString(2, gameStatus.name());
+            statement.setLong(3, id);
+
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new IllegalArgumentException("수정할 게임이 존재하지 않습니다. id=" + id);
+            }
+        } catch (SQLException e) {
+            throw new IllegalStateException("게임 수정에 실패했습니다.", e);
         }
     }
 
     private GameEntity parseGame(final ResultSet resultSet) throws SQLException {
         return new GameEntity(
             resultSet.getLong("id"),
-            Side.valueOf(resultSet.getString("turn_side")),
+            Turn.valueOf(resultSet.getString("turn")),
             GameStatus.valueOf(resultSet.getString("status"))
         );
     }

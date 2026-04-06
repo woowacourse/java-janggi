@@ -26,60 +26,62 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
     }
 
     @Override
-    public Optional<JanggiGame> findLatest() {
-        Optional<GameEntity> latestGame = gameDao.findLatest();
-        if (latestGame.isEmpty()) {
-            return Optional.empty();
-        }
-
-        GameEntity gameEntity = latestGame.get();
-        List<BoardPieceEntity> boardPieceEntities = boardPieceDao.findByGameId(gameEntity.id());
-        return Optional.of(parseGame(gameEntity, boardPieceEntities));
+    public Long save(JanggiGame game) {
+        Long gameId = gameDao.save(parseGameEntity(game));
+        boardPieceDao.saveAll(parseBoardPieceEntities(gameId, game.getBoard()));
+        return gameId;
     }
 
     @Override
-    public void saveLatest(final JanggiGame janggiGame) {
-        Optional<GameEntity> latestGame = gameDao.findLatest();
-
-        if (latestGame.isEmpty()) {
-            Long gameId = gameDao.save(parseGameEntity(janggiGame));
-            boardPieceDao.saveAll(gameId, parseBoardPieceEntities(janggiGame.getBoard()));
-            return;
-        }
-
-        Long gameId = latestGame.get().id();
-        gameDao.update(parseGameEntity(gameId, janggiGame));
-        boardPieceDao.deleteByGameId(gameId);
-        boardPieceDao.saveAll(gameId, parseBoardPieceEntities(janggiGame.getBoard()));
+    public Optional<JanggiGame> findById(Long gameId) {
+        return gameDao.findById(gameId)
+            .map(gameEntity -> parseGame(gameEntity, boardPieceDao.findAllByGameId(gameId)));
     }
 
-    private GameEntity parseGameEntity(final JanggiGame janggiGame) {
+    @Override
+    public List<GameEntity> findTop10GameRoomsOrderByCreatedAtAsc() {
+        return gameDao.findTop10OrderByCreatedAtAsc();
+    }
+
+    @Override
+    public void updateGameState(Long gameId, Turn turn, GameStatus status) {
+        gameDao.updateState(gameId, turn, status);
+    }
+
+    @Override
+    public void updatePiecePosition(Long gameId, Position departure, Position destination) {
+        Optional<BoardPieceEntity> movingPiece = boardPieceDao.findByGameIdAndPosition(
+            gameId, departure.getRowIndex(), departure.getColumnIndex());
+        Optional<BoardPieceEntity> destinationPiece = boardPieceDao.findByGameIdAndPosition(
+            gameId, destination.getRowIndex(), destination.getColumnIndex());
+
+        if (destinationPiece.isPresent()) {
+            boardPieceDao.deleteByGameIdAndPosition(gameId, destination.getRowIndex(), destination.getColumnIndex());
+        }
+        boardPieceDao.updatePosition(movingPiece.get().id(), destination.getRowIndex(), destination.getColumnIndex());
+    }
+
+    private GameEntity parseGameEntity(final JanggiGame game) {
         return new GameEntity(
             null,
-            janggiGame.getTurnSide(),
-            janggiGame.getStatus()
+            game.getTurn(),
+            game.getStatus()
         );
     }
 
-    private GameEntity parseGameEntity(final Long gameId, final JanggiGame janggiGame) {
-        return new GameEntity(
-            gameId,
-            janggiGame.getTurnSide(),
-            janggiGame.getStatus()
-        );
-    }
-
-    private List<BoardPieceEntity> parseBoardPieceEntities(final Board board) {
+    private List<BoardPieceEntity> parseBoardPieceEntities(final Long gameId, final Board board) {
         return board.pieces().entrySet().stream()
-            .map(this::parseBoardEntity)
+            .map(positionPieceEntry -> parseBoardEntity(gameId, positionPieceEntry))
             .toList();
     }
 
-    private BoardPieceEntity parseBoardEntity(final Map.Entry<Position, Piece> entry) {
+    private BoardPieceEntity parseBoardEntity(final Long gameId, final Map.Entry<Position, Piece> entry) {
         Position position = entry.getKey();
         Piece piece = entry.getValue();
 
         return new BoardPieceEntity(
+            null,
+            gameId,
             position.getRowIndex(),
             position.getColumnIndex(),
             piece.type(),
@@ -87,15 +89,15 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
         );
     }
 
-    private JanggiGame parseGame(final GameEntity gameEntityRecord, final List<BoardPieceEntity> boardPieceEntityRecords) {
-        Board board = parseBoard(boardPieceEntityRecords);
-        Turn turn = Turn.from(gameEntityRecord.turnSide());
-        GameStatus status = gameEntityRecord.status();
+    private JanggiGame parseGame(final GameEntity gameEntity, final List<BoardPieceEntity> boardPieceEntities) {
+        Board board = parseBoard(boardPieceEntities);
+        Turn turn = gameEntity.turn();
+        GameStatus status = gameEntity.status();
         return new JanggiGame(board, turn, status);
     }
 
-    private Board parseBoard(final List<BoardPieceEntity> boardPieceEntityRecords) {
-        Map<Position, Piece> pieces = boardPieceEntityRecords.stream()
+    private Board parseBoard(final List<BoardPieceEntity> boardPieceEntities) {
+        Map<Position, Piece> pieces = boardPieceEntities.stream()
             .collect(Collectors.toMap(
                 this::parsePosition,
                 this::parsePiece
@@ -103,8 +105,8 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
         return new Board(pieces);
     }
 
-    private Position parsePosition(final BoardPieceEntity boardPieceEntityRecord) {
-        return new Position(boardPieceEntityRecord.row(), boardPieceEntityRecord.column());
+    private Position parsePosition(final BoardPieceEntity boardPieceEntity) {
+        return new Position(boardPieceEntity.boardRow(), boardPieceEntity.boardColumn());
     }
 
     private Piece parsePiece(final BoardPieceEntity boardPieceEntityRecord) {

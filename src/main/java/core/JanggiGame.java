@@ -42,6 +42,10 @@ public class JanggiGame {
         return turn.getSide();
     }
 
+    public Turn getTurn() {
+        return turn;
+    }
+
     public GameStatus getStatus() {
         return status;
     }
@@ -85,7 +89,6 @@ public class JanggiGame {
     }
 
     private void validateMoveRequest(Position departure, Position destination) {
-        // TODO: 게임 진행 상태 객체화 고민해보기 (과한지? 합리적인지?)
         if (status.isOver()) {
             throw new IllegalArgumentException("게임이 종료되어 더 이상 말을 이동시킬 수 없습니다.");
         }
