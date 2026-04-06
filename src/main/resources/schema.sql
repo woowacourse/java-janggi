@@ -1,0 +1,15 @@
+CREATE TABLE IF NOT EXISTS games (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    current_turn VARCHAR(10) NOT NULL,
+    status VARCHAR(20) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS pieces (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    game_id BIGINT NOT NULL,
+    position_row INT NOT NULL,
+    position_col INT NOT NULL,
+    team VARCHAR(10) NOT NULL,
+    piece_type VARCHAR(20) NOT NULL
+);

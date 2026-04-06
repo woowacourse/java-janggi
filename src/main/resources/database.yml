@@ -1,0 +1,5 @@
+db:
+  driver: org.h2.Driver
+  url: jdbc:h2:~/janggi;AUTO_SERVER=TRUE
+  username: sa
+  password:
