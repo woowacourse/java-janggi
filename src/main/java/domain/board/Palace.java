@@ -53,7 +53,7 @@ public class Palace {
                 && position.y() <= CHO_PALACE_MAX_Y;
     }
 
-    public Optional<List<Position>> findDiagonalPath(Position from, Position to) {
+    Optional<List<Position>> findDiagonalPath(Position from, Position to) {
         return Optional.ofNullable(diagonalPaths.get(new PositionPair(from, to)));
     }
 

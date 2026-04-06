@@ -28,7 +28,7 @@ public record Position(int x, int y) {
         return to.y - this.y;
     }
 
-    public List<Position> findOrthogonalPath(Position destination) {
+    List<Position> findOrthogonalPath(Position destination) {
         List<Position> path = new ArrayList<>();
 
         int dx = Integer.compare(destination.x(), this.x());
