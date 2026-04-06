@@ -45,6 +45,26 @@ class ChariotPieceTest {
                 .isTrue();
     }
 
+    @ParameterizedTest
+    @DisplayName("차는 궁성 안 대각선으로 이동할 수 있다.")
+    @CsvSource({
+            "4,1,5,2",
+            "5,2,6,3",
+            "4,1,6,3",
+            "6,1,4,3",
+            "4,8,5,9",
+            "5,9,6,10",
+            "4,8,6,10",
+            "6,8,4,10"
+    })
+    void testMoveChariotDiagonallyInPalace(int preX, int preY, int nextX, int nextY) {
+        ChariotPiece chariotPiece = new ChariotPiece(Team.HAN);
+
+        Assertions.assertThat(
+                        chariotPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY)))
+                .isTrue();
+    }
+
     @Test
     @DisplayName("차는 상하좌우 직선이면 칸 수에 상관없이 이동 가능하다.")
     void testFindDestinationPath() {
@@ -54,6 +74,32 @@ class ChariotPieceTest {
 
         List<Position> result = chariotPiece.findPath(from, to);
         assertThat(result).containsExactly(new Position(3, 3), new Position(4, 3), new Position(5, 3));
+    }
+
+    @ParameterizedTest
+    @DisplayName("차는 궁성 대각선 이동 시 도착 좌표까지의 경로를 반환한다.")
+    @CsvSource({
+            "4,1,5,2,5,2",
+            "5,2,6,3,6,3",
+            "4,1,6,3,5,2",
+            "6,1,4,3,5,2",
+            "4,8,5,9,5,9",
+            "5,9,6,10,6,10",
+            "4,8,6,10,5,9",
+            "6,8,4,10,5,9"
+    })
+    void testFindDestinationDiagonalPath(int preX, int preY, int nextX, int nextY,
+                                         int pathX1, int pathY1) {
+        Position from = new Position(preX, preY);
+        Position to = new Position(nextX, nextY);
+        ChariotPiece chariotPiece = new ChariotPiece(Team.HAN);
+
+        List<Position> result = chariotPiece.findPath(from, to);
+        if (Math.abs(preX - nextX) == 1) {
+            assertThat(result).containsExactly(new Position(pathX1, pathY1));
+            return;
+        }
+        assertThat(result).containsExactly(new Position(pathX1, pathY1), new Position(nextX, nextY));
     }
 
     @Test
@@ -97,6 +143,17 @@ class ChariotPieceTest {
 
         ChariotPiece chariotPiece = new ChariotPiece(Team.HAN);
         assertThat(chariotPiece.canMoveBySpecialMovingRule(positionPieces, new Position(5, 6))).isTrue();
+    }
+
+    @Test
+    @DisplayName("차는 궁성 대각선 이동 경로에 기물이 있으면 이동할 수 없다.")
+    void testNotMoveChariotIfPieceExistsInPalaceDiagonalPath() {
+        Map<Position, Piece> positionPieces = new LinkedHashMap<>();
+
+        positionPieces.put(new Position(5, 2), new ElephantPiece(Team.HAN));
+
+        ChariotPiece chariotPiece = new ChariotPiece(Team.HAN);
+        assertThat(chariotPiece.canMoveBySpecialMovingRule(positionPieces, new Position(6, 3))).isFalse();
     }
 
 
