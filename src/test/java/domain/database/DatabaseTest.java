@@ -8,6 +8,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 class DatabaseTest {
 
@@ -32,6 +37,24 @@ class DatabaseTest {
             // then
             Assertions.assertThat(expected)
                     .isEqualTo("H2");
+        }
+    }
+
+    @Test
+    @DisplayName("테스트 DB에는 Board, Intersection 테이블이 생성되어야한다.")
+    void h2DatabaseTableTest() throws SQLException {
+        try (Connection connection = DBConnector.getConnection();
+             Statement stmt = connection.createStatement()) {
+
+            ResultSet resultSet = stmt.executeQuery("show tables");
+
+            List<String> tableNames = new ArrayList<>();
+            while (resultSet.next()) {
+                tableNames.add(resultSet.getString(1).toLowerCase());
+            }
+
+            Assertions.assertThat(tableNames)
+                    .contains("board", "intersection");
         }
     }
 
