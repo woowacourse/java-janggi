@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -106,5 +107,30 @@ class JdbcGameRepositoryTest {
             assertThat(rs.next()).isTrue();
             assertThat(rs.getString("turn")).isEqualTo("CHO");
         }
+    }
+
+    @Test
+    void 존재하는_방_번호로_조회하면_해당_게임_정보가_담긴_Optional을_반환한다() throws SQLException {
+        // give
+        int gameId = 300;
+        GameEntity game = new GameEntity(gameId, "PROGRESS", "CHO", new java.sql.Date(System.currentTimeMillis()));
+        gameRepository.save(conn, game);
+
+        // when
+        Optional<GameEntity> result = gameRepository.findById(conn, gameId);
+
+        // then
+        assertThat(result).isPresent();
+        assertThat(result.get().getGameId()).isEqualTo(gameId);
+        assertThat(result.get().getTurn()).isEqualTo("CHO");
+    }
+
+    @Test
+    void 존재하지_않는_방_번호로_조회하면_빈_Optional을_반환한다() throws SQLException {
+        // when
+        Optional<GameEntity> result = gameRepository.findById(conn, 999);
+
+        // then
+        assertThat(result).isEmpty();
     }
 }
