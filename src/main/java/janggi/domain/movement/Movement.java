@@ -67,6 +67,9 @@ public class Movement {
     public List<Position> calculateTracesOne(final Position from, final TeamType teamType,
                                              final BoardMediator boardMediator) {
         final List<Position> traces = new ArrayList<>();
+        if (!Palace.isAllowedDirection(from, direction)) {
+            return traces;
+        }
         if (!from.checkNextBound(direction)) {
             return traces;
         }
