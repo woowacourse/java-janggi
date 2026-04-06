@@ -1,4 +1,6 @@
-package domain;
+package domain.board;
+
+import dto.Distance;
 
 public record Position(
         int x,

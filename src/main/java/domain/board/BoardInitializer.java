@@ -1,8 +1,8 @@
-package domain;
+package domain.board;
 
-import static domain.Position.INITIAL_POSITION;
-import static domain.Position.X_MAXIMUM_POSITION;
-import static domain.Position.Y_MAXIMUM_POSITION;
+import static domain.board.Position.INITIAL_POSITION;
+import static domain.board.Position.X_MAXIMUM_POSITION;
+import static domain.board.Position.Y_MAXIMUM_POSITION;
 
 import domain.piece.Cannon;
 import domain.piece.Chariot;

@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.Country;
+import domain.board.Country;
 
 public enum PieceType {
     SOLDIER(2) {

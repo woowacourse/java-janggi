@@ -1,7 +1,7 @@
 package repository;
 
 import domain.Game;
-import domain.TableSetting;
+import domain.board.TableSetting;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

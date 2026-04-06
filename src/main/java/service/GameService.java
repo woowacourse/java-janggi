@@ -2,7 +2,7 @@ package service;
 
 import config.DataSourceConfig;
 import domain.Game;
-import domain.Position;
+import domain.board.Position;
 import domain.piece.PieceInfo;
 import java.sql.Connection;
 import java.sql.SQLException;

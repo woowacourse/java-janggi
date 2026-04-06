@@ -1,8 +1,8 @@
 package domain.piece;
 
-import domain.Direction;
-import domain.Distance;
-import domain.Position;
+import domain.board.Direction;
+import domain.board.Position;
+import dto.Distance;
 import java.util.List;
 
 public abstract class SingleMovingPiece extends Piece {

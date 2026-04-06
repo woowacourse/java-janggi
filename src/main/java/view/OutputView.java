@@ -1,11 +1,11 @@
 package view;
 
-import static domain.Position.INITIAL_POSITION;
-import static domain.Position.X_MAXIMUM_POSITION;
-import static domain.Position.Y_MAXIMUM_POSITION;
+import static domain.board.Position.INITIAL_POSITION;
+import static domain.board.Position.X_MAXIMUM_POSITION;
+import static domain.board.Position.Y_MAXIMUM_POSITION;
 
-import domain.Country;
-import domain.Position;
+import domain.board.Country;
+import domain.board.Position;
 import domain.piece.PieceInfo;
 import java.util.List;
 import java.util.Map;

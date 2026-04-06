@@ -1,7 +1,7 @@
 package repository;
 
-import domain.Country;
-import domain.Position;
+import domain.board.Country;
+import domain.board.Position;
 import domain.piece.PieceInfo;
 import domain.piece.PieceType;
 import java.sql.Connection;

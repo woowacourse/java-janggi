@@ -1,7 +1,7 @@
 package domain.piece;
 
-import domain.Country;
-import domain.Position;
+import domain.board.Country;
+import domain.board.Position;
 import java.util.Map;
 
 public class Cannon extends StraightMovingPiece {

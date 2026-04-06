@@ -1,5 +1,6 @@
 package domain;
 
+import domain.board.TableSetting;
 import java.time.LocalDateTime;
 
 public class Game {

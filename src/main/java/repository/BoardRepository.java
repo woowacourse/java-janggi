@@ -1,6 +1,6 @@
 package repository;
 
-import domain.Position;
+import domain.board.Position;
 import domain.piece.PieceInfo;
 import java.sql.Connection;
 import java.util.Map;

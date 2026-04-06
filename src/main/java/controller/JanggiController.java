@@ -1,11 +1,11 @@
 package controller;
 
-import domain.Board;
 import domain.ContinueOption;
-import domain.Country;
 import domain.Game;
-import domain.Position;
-import domain.TableSetting;
+import domain.board.Board;
+import domain.board.Country;
+import domain.board.Position;
+import domain.board.TableSetting;
 import java.util.List;
 import java.util.Optional;
 import service.GameService;

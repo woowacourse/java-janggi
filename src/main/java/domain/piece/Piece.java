@@ -1,9 +1,9 @@
 package domain.piece;
 
-import domain.Country;
-import domain.Direction;
-import domain.Distance;
-import domain.Position;
+import domain.board.Country;
+import domain.board.Direction;
+import domain.board.Position;
+import dto.Distance;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

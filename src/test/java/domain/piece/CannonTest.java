@@ -3,10 +3,10 @@ package domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import domain.Board;
-import domain.Country;
-import domain.Position;
-import domain.TableSetting;
+import domain.board.Board;
+import domain.board.Country;
+import domain.board.Position;
+import domain.board.TableSetting;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
