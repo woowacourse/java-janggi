@@ -108,22 +108,20 @@ class CannonTest {
 
     @ParameterizedTest(name = "궁성 대각선 이동 {index}: {0} -> {1}")
     @CsvSource({
-            "7, 3, 9, 5", // 1. 왼쪽 위 -> 오른쪽 아래
-            "9, 5, 7, 3", // 2. 오른쪽 아래 -> 왼쪽 위
-            "7, 5, 9, 3", // 3. 오른쪽 위 -> 왼쪽 아래
-            "9, 3, 7, 5"  // 4. 왼쪽 아래 -> 오른쪽 위
+            "7, 3, 9, 5",
+            "9, 5, 7, 3",
+            "7, 5, 9, 3",
+            "9, 3, 7, 5"
     })
-    void 궁성_안에서_대각선_이동이_가능하다(int fromRow, int fromCol, int toRow, int toCol) {
+    void 궁성_안에서_대각선_이동_테스트(int fromRow, int fromCol, int toRow, int toCol) {
         // given
         Position from = new Position(fromRow, fromCol);
         Position to = new Position(toRow, toCol);
 
-        // 핵심: 궁성 정중앙(8, 4)에 반드시 '다리'가 있어야 함
         board = Board.createBoardWith(new Position(8, 4), new Soldier(Team.HAN));
 
         // when & then
         assertThat(cannon.canMove(from, to, board))
-                .as("궁성 대각선 이동 (%d,%d) -> (%d,%d) 실패", fromRow, fromCol, toRow, toCol)
                 .isTrue();
     }
 
