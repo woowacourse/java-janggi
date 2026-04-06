@@ -35,7 +35,6 @@ public class JanggiController {
 
     private void play(Game game) {
         while (!game.isFinished()) {
-            janggiService.save(game);
             outputView.printBoard(BoardMapper.toDto(game.getBoard()));
             outputView.printScore(ScoreMapper.toDto(game.calculateScore(Side.CHU), game.calculateScore(Side.HAN)));
 
