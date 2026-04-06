@@ -84,6 +84,14 @@ public class OutputView {
         System.out.println("게임이 종료되었습니다. 승자: " + winner.getDisplayName());
     }
 
+    public void printSavedGameEnded(TeamColor winner) {
+        if (winner == null) {
+            System.out.println("저장된 게임은 이미 종료되었습니다.");
+            return;
+        }
+        System.out.println("저장된 게임은 이미 종료되었습니다. 승자: " + winner.getDisplayName());
+    }
+
     public void printError(String message) {
         System.out.println("[ERROR] " + message);
     }

@@ -3,6 +3,7 @@ package persistence;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.GameSnapshot;
+import domain.GameStatus;
 import domain.Piece;
 import domain.PieceType;
 import domain.Position;
@@ -46,11 +47,13 @@ class JdbcGameStateRepositoryTest {
         GameSnapshot snapshot = sampleSnapshot();
         TeamColor turn = TeamColor.HAN;
 
-        repository.save(snapshot, turn);
+        repository.save(snapshot, turn, GameStatus.IN_PROGRESS, Optional.empty());
         Optional<SavedGameState> loaded = repository.load();
 
         assertThat(loaded).isPresent();
         assertThat(loaded.get().currentTurn()).isEqualTo(turn);
+        assertThat(loaded.get().gameStatus()).isEqualTo(GameStatus.IN_PROGRESS);
+        assertThat(loaded.get().winner()).isEmpty();
         assertSnapshotsEqual(snapshot, loaded.get().snapshot());
     }
 
@@ -61,13 +64,25 @@ class JdbcGameStateRepositoryTest {
         GameSnapshot second = GameSnapshot.from(
                 Map.of(Position.of(9, 8), Piece.of(TeamColor.HAN, PieceType.KING)));
 
-        repository.save(first, TeamColor.CHO);
-        repository.save(second, TeamColor.HAN);
+        repository.save(first, TeamColor.CHO, GameStatus.IN_PROGRESS, Optional.empty());
+        repository.save(second, TeamColor.HAN, GameStatus.IN_PROGRESS, Optional.empty());
         Optional<SavedGameState> loaded = repository.load();
 
         assertThat(loaded).isPresent();
         assertThat(loaded.get().snapshot().pieces()).hasSize(1);
         assertThat(loaded.get().snapshot().pieces()).containsKey(Position.of(9, 8));
+    }
+
+    @Test
+    void 종료된_게임은_승자와_상태를_함께_저장한다() {
+        GameSnapshot snapshot = sampleSnapshot();
+
+        repository.save(snapshot, TeamColor.CHO, GameStatus.ENDED, Optional.of(TeamColor.CHO));
+        Optional<SavedGameState> loaded = repository.load();
+
+        assertThat(loaded).isPresent();
+        assertThat(loaded.get().gameStatus()).isEqualTo(GameStatus.ENDED);
+        assertThat(loaded.get().winner()).contains(TeamColor.CHO);
     }
 
     private static GameSnapshot sampleSnapshot() {

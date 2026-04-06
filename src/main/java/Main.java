@@ -1,8 +1,9 @@
-import io.InputView;
-import io.OutputView;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+
+import io.InputView;
+import io.OutputView;
 import persistence.GameDatabase;
 import persistence.GameStateRepository;
 import persistence.JdbcGameStateRepository;

@@ -3,11 +3,13 @@ import java.util.Map;
 import java.util.Optional;
 
 import domain.Board;
+import domain.GameStatus;
 import domain.Piece;
 import domain.Position;
 import domain.Route;
 import domain.TeamColor;
 import domain.TurnManager;
+import domain.TurnOutcome;
 import io.InputView;
 import io.OutputView;
 import persistence.GameStateRepository;
@@ -50,6 +52,10 @@ public class Runner {
     }
 
     private GameSession resumeOrNewSession(SavedGameState saved) {
+        if (saved.gameStatus() == GameStatus.ENDED) {
+            outputView.printSavedGameEnded(saved.winner().orElse(null));
+            return startFreshSession();
+        }
         int choice = readResumeChoiceWithRetry();
         if (choice == 1) {
             return resumeSession(saved);
@@ -102,7 +108,11 @@ public class Runner {
     }
 
     private void persistSession(GameSession session) {
-        gameStateRepository.save(session.board().capture(), session.turnManager().getCurrentTurn());
+        gameStateRepository.save(
+                session.board().capture(),
+                session.turnManager().getCurrentTurn(),
+                GameStatus.IN_PROGRESS,
+                Optional.empty());
     }
 
     private void runGameLoop(GameSession session) {
@@ -178,10 +188,7 @@ public class Runner {
         if (outcome == TurnOutcome.RETRY) {
             return null;
         }
-        if (outcome == TurnOutcome.GAME_OVER) {
-            return false;
-        }
-        return true;
+        return outcome != TurnOutcome.GAME_OVER;
     }
 
     private TurnOutcome trySingleTurnAction(Board board, TurnManager turnManager, TeamColor currentTurn) {
@@ -245,13 +252,21 @@ public class Runner {
     }
 
     private void persistFinalState(Board board, TurnManager turnManager) {
-        gameStateRepository.save(board.capture(), turnManager.getCurrentTurn());
         outputView.printGameEnd(turnManager.getCurrentTurn());
+        gameStateRepository.save(
+                board.capture(),
+                turnManager.getCurrentTurn(),
+                GameStatus.ENDED,
+                Optional.of(turnManager.getCurrentTurn()));
     }
 
     private void progressTurnAndPersist(Board board, TurnManager turnManager) {
         turnManager.progressTurn();
-        gameStateRepository.save(board.capture(), turnManager.getCurrentTurn());
+        gameStateRepository.save(
+                board.capture(),
+                turnManager.getCurrentTurn(),
+                GameStatus.IN_PROGRESS,
+                Optional.empty());
     }
 
     private Piece getSelectedPiece(List<Map.Entry<Position, Piece>> pieces, int pieceChoice) {
