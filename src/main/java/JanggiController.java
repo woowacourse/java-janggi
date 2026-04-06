@@ -2,9 +2,11 @@ import domain.Board;
 import domain.Camp;
 import domain.ElephantFormation;
 import domain.Position;
-import dto.BoardStatusDto;
+import domain.pieces.Piece;
 import view.InputView;
 import view.OutputView;
+
+import java.util.Map;
 
 public class JanggiController {
 
@@ -70,7 +72,7 @@ public class JanggiController {
     }
 
     private void printBoard(Board board) {
-        BoardStatusDto boardStatus = board.getBoardStatus();
+        Map<Position, Piece> boardStatus = board.getBoardStatus();
         outputView.printBoardStatus(boardStatus);
     }
 

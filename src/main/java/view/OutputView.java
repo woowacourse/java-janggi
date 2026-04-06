@@ -2,10 +2,10 @@ package view;
 
 import domain.Camp;
 import domain.PieceType;
-import dto.BoardStatusDto;
-import dto.PositionStatusDto;
+import domain.Position;
+import domain.pieces.Piece;
+
 import java.util.EnumMap;
-import java.util.List;
 import java.util.Map;
 
 public class OutputView {
@@ -41,23 +41,34 @@ public class OutputView {
         HAN_SYMBOLS.put(PieceType.SOLDIER, "兵");
     }
 
-    public void printBoardStatus(BoardStatusDto boardStatusDto) {
-        List<List<PositionStatusDto>> rows = boardStatusDto.positionStatusDtos();
-
-        // 1. 상단 열 인덱스 출력 (전각 숫자 사용, 앞부분 공백 2칸으로 시작점 정렬)
+    public void printBoardStatus(Map<Position, Piece> boardStatus) {
         System.out.println("\n  ０ １ ２ ３ ４ ５ ６ ７ ８");
 
-        for (int i = 0; i < rows.size(); i++) {
-            // 2. 좌측 행 인덱스 출력 (전각 숫자 사용)
-            System.out.print(FULL_WIDTH_NUMBERS[i] + " ");
+        for (int y = 0; y < 10; y++) {
+            System.out.print(FULL_WIDTH_NUMBERS[y] + " ");
 
-            List<PositionStatusDto> row = rows.get(i);
-            for (PositionStatusDto cell : row) {
-                // 3. 기물 출력 및 띄어쓰기 1칸
-                System.out.print(formatPiece(cell) + " ");
+            for (int x = 0; x < 9; x++) {
+                Position position = new Position(x, y);
+                Piece piece = boardStatus.get(position);
+
+                System.out.print(formatPiece(piece) + " ");
             }
             System.out.println();
         }
+    }
+
+    private String formatPiece(Piece piece) {
+        if (piece == null || piece.getPieceType() == PieceType.NONE) {
+            return EMPTY_SPACE;
+        }
+
+        String symbol = (piece.getCamp() == Camp.CHO)
+                ? CHO_SYMBOLS.get(piece.getPieceType())
+                : HAN_SYMBOLS.get(piece.getPieceType());
+
+        String color = (piece.getCamp() == Camp.CHO) ? ANSI_GREEN : ANSI_RED;
+
+        return color + symbol + ANSI_RESET;
     }
 
     public void printWrongChoice() {
@@ -66,19 +77,5 @@ public class OutputView {
 
     public void printErrorMessage(Exception e) {
         System.out.println(e.getMessage());
-    }
-
-    private String formatPiece(PositionStatusDto cell) {
-        if (cell.pieceType() == PieceType.NONE) {
-            return EMPTY_SPACE; // 전각 마침표 반환
-        }
-
-        String symbol = (cell.camp() == Camp.CHO)
-                ? CHO_SYMBOLS.get(cell.pieceType())
-                : HAN_SYMBOLS.get(cell.pieceType());
-
-        String color = (cell.camp() == Camp.CHO) ? ANSI_GREEN : ANSI_RED;
-
-        return color + symbol + ANSI_RESET;
     }
 }

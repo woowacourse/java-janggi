@@ -1,11 +1,9 @@
 package domain;
 
 import domain.pieces.Piece;
-import dto.BoardStatusDto;
-import dto.PositionStatusDto;
-import java.util.ArrayList;
+
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Board implements BoardReader {
@@ -65,30 +63,10 @@ public class Board implements BoardReader {
         return board.get(position).isDifferentPieceType(piece);
     }
 
-    public BoardStatusDto getBoardStatus() {
-        List<List<PositionStatusDto>> boardStatusDto = new ArrayList<>();
-        for (int y = Position.MIN_Y_VALUE; y <= Position.MAX_Y_VALUE; y++) {
-            List<PositionStatusDto> xPositionStatus = new ArrayList<>();
-            for (int x = Position.MIN_X_VALUE; x <= Position.MAX_X_VALUE; x++) {
-                Position position = new Position(x, y);
+    public Map<Position, Piece> getBoardStatus() {
+        Map<Position, Piece> boardStatus = new HashMap<>(board);
 
-                PositionStatusDto positionStatusDto = getPositionStatusDto(position);
-                xPositionStatus.add(positionStatusDto);
-            }
-            boardStatusDto.add(xPositionStatus);
-        }
-        return new BoardStatusDto(boardStatusDto);
-    }
-
-    private PositionStatusDto getPositionStatusDto(Position position) {
-        if (!board.containsKey(position)) {
-            return new PositionStatusDto(position, PieceType.NONE, Camp.NONE);
-        }
-
-        Piece piece = board.get(position);
-        PieceType pieceType = piece.getPieceType();
-        Camp camp = piece.getCamp();
-        return new PositionStatusDto(position, pieceType, camp);
+        return Collections.unmodifiableMap(boardStatus);
     }
 
     public boolean isPieceOfCamp(Position position, Camp camp) {
