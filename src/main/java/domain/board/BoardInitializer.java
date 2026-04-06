@@ -3,7 +3,13 @@ package domain.board;
 import static domain.board.Board.MAX_COLUMN_RANGE;
 import static domain.board.Board.MAX_ROW_RANGE;
 
+import domain.movestrategy.CannonMoveStrategy;
+import domain.movestrategy.ChariotMoveStrategy;
+import domain.movestrategy.GeneralMoveStrategy;
+import domain.movestrategy.GuardMoveStrategy;
+import domain.movestrategy.SoldierMoveStrategy;
 import domain.piece.Piece;
+import domain.piece.PieceStatus;
 import domain.piece.PieceType;
 import domain.piece.Position;
 import domain.player.Team;
@@ -26,27 +32,30 @@ public class BoardInitializer {
 
 
     private static void putDefaultPiece(final Map<Position, Piece> pieces, final Team team) {
-        put(pieces, Position.of(1, 1), PieceType.CHARIOT, team);
-        put(pieces, Position.of(1, 9), PieceType.CHARIOT, team);
+        put(pieces, Position.of(1, 1), new PieceStatus(PieceType.CHARIOT, new ChariotMoveStrategy()), team);
+        put(pieces, Position.of(1, 9), new PieceStatus(PieceType.CHARIOT, new ChariotMoveStrategy()), team);
 
-        put(pieces, Position.of(1, 4), PieceType.GUARD, team);
-        put(pieces, Position.of(1, 6), PieceType.GUARD, team);
+        put(pieces, Position.of(1, 4), new PieceStatus(PieceType.GUARD, new GuardMoveStrategy()), team);
+        put(pieces, Position.of(1, 6), new PieceStatus(PieceType.GUARD, new GuardMoveStrategy()), team);
 
-        put(pieces, Position.of(2, 5), PieceType.GENERAL, team);
+        put(pieces, Position.of(2, 5), new PieceStatus(PieceType.GENERAL, new GeneralMoveStrategy()), team);
 
-        put(pieces, Position.of(3, 2), PieceType.CANNON, team);
-        put(pieces, Position.of(3, 8), PieceType.CANNON, team);
+        put(pieces, Position.of(3, 2), new PieceStatus(PieceType.CANNON, new CannonMoveStrategy()), team);
+        put(pieces, Position.of(3, 8), new PieceStatus(PieceType.CANNON, new CannonMoveStrategy()), team);
 
-        put(pieces, Position.of(4, 1), PieceType.SOLDIER, team);
-        put(pieces, Position.of(4, 3), PieceType.SOLDIER, team);
-        put(pieces, Position.of(4, 5), PieceType.SOLDIER, team);
-        put(pieces, Position.of(4, 7), PieceType.SOLDIER, team);
-        put(pieces, Position.of(4, 9), PieceType.SOLDIER, team);
+        put(pieces, Position.of(4, 1), new PieceStatus(PieceType.SOLDIER, new SoldierMoveStrategy()), team);
+        put(pieces, Position.of(4, 3), new PieceStatus(PieceType.SOLDIER, new SoldierMoveStrategy()), team);
+        put(pieces, Position.of(4, 5), new PieceStatus(PieceType.SOLDIER, new SoldierMoveStrategy()), team);
+        put(pieces, Position.of(4, 7), new PieceStatus(PieceType.SOLDIER, new SoldierMoveStrategy()), team);
+        put(pieces, Position.of(4, 9), new PieceStatus(PieceType.SOLDIER, new SoldierMoveStrategy()), team);
     }
 
-    private static void put(final Map<Position, Piece> pieces, final Position pos, final PieceType type,
-                            final Team team) {
-        pieces.put(transform(pos, team), Piece.of(type, team));
+    private static void put(final Map<Position, Piece> pieces,
+                            final Position pos,
+                            final PieceStatus pieceStatus,
+                            final Team team
+    ) {
+        pieces.put(transform(pos, team), Piece.of(pieceStatus, team));
     }
 
     private static Position transform(final Position pos, final Team team) {
@@ -64,7 +73,7 @@ public class BoardInitializer {
 
 
     private static void setupElephant(final Map<Position, Piece> pieces, final ElephantSetup setup, final Team team) {
-        for (final Map.Entry<Position, PieceType> entry : setup.getPiecePositions().entrySet()) {
+        for (final Map.Entry<Position, PieceStatus> entry : setup.getPiecePositions().entrySet()) {
             put(pieces, entry.getKey(), entry.getValue(), team);
         }
     }

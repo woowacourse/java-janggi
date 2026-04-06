@@ -8,21 +8,21 @@ public class Piece {
 
     private static final String CANNOT_MOVE = "이동 가능한 위치가 없습니다.";
 
+    private final PieceStatus pieceStatus;
     private final Team team;
-    private final PieceType pieceType;
 
-    public static Piece of(final PieceType pieceType, final Team team) {
-        return new Piece(team, pieceType);
+    public static Piece of(final PieceStatus pieceStatus, final Team team) {
+        return new Piece(pieceStatus, team);
     }
 
-    private Piece(final Team team, final PieceType pieceType) {
+    private Piece(final PieceStatus pieceStatus, final Team team) {
+        this.pieceStatus = pieceStatus;
         this.team = team;
-        this.pieceType = pieceType;
     }
 
 
-    public List<Position> calculateMovablePositions(Position from, Board board) {
-        List<Position> movablePositions = pieceType.getMoveStrategy().calculateMovablePositions(from, board);
+    public List<Position> calculateMovablePositions(final Position from, final Board board) {
+        final List<Position> movablePositions = pieceStatus.moveStrategy().calculateMovablePositions(from, board);
 
         if (movablePositions.isEmpty()) {
             throw new IllegalArgumentException(CANNOT_MOVE);
@@ -31,16 +31,16 @@ public class Piece {
         return movablePositions;
     }
 
-    public boolean isSameTeam(Team team) {
+    public boolean isSameTeam(final Team team) {
         return this.team == team;
     }
 
-    public boolean isSameTeam(Piece other) {
+    public boolean isSameTeam(final Piece other) {
         return this.team == other.team;
     }
 
     public boolean isCannon() {
-        return pieceType == PieceType.CANNON;
+        return pieceStatus.pieceType() == PieceType.CANNON;
     }
 
 
@@ -49,7 +49,7 @@ public class Piece {
     }
 
     public PieceType getPieceType() {
-        return pieceType;
+        return pieceStatus.pieceType();
     }
 
     public Team getTeam() {

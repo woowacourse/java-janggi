@@ -1,10 +1,12 @@
 package domain.movestrategy;
 
+import static domain.piece.PieceType.GENERAL;
+import static domain.piece.PieceType.GUARD;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.board.Board;
 import domain.piece.Piece;
-import domain.piece.PieceType;
+import domain.piece.PieceStatus;
 import domain.piece.Position;
 import domain.player.Team;
 import java.util.HashMap;
@@ -24,8 +26,8 @@ class GeneralMoveStrategyTest {
         final Position from = Position.of(5, 5);
         final Map<Position, Piece> pieces = new HashMap<>();
 
-        pieces.put(from, Piece.of(PieceType.GENERAL, Team.CHO));
-        pieces.put(Position.of(1, 1), Piece.of(PieceType.GENERAL, Team.HAN));
+        pieces.put(from, Piece.of(new PieceStatus(GENERAL, new GeneralMoveStrategy()), Team.CHO));
+        pieces.put(Position.of(1, 1), Piece.of(new PieceStatus(GENERAL, new GeneralMoveStrategy()), Team.HAN));
 
         final Board board = Board.of(pieces);
 
@@ -52,8 +54,8 @@ class GeneralMoveStrategyTest {
         final Position from = Position.of(2, 4);
         final Map<Position, Piece> pieces = new HashMap<>();
 
-        pieces.put(from, Piece.of(PieceType.GENERAL, Team.CHO));
-        pieces.put(Position.of(7, 5), Piece.of(PieceType.GENERAL, Team.HAN));
+        pieces.put(from, Piece.of(new PieceStatus(GENERAL, new GeneralMoveStrategy()), Team.CHO));
+        pieces.put(Position.of(7, 5), Piece.of(new PieceStatus(GENERAL, new GeneralMoveStrategy()), Team.HAN));
 
         final Board board = Board.of(pieces);
 
@@ -77,13 +79,13 @@ class GeneralMoveStrategyTest {
         final Position from = Position.of(5, 5);
         final Map<Position, Piece> pieces = new HashMap<>();
 
-        pieces.put(from, Piece.of(PieceType.GENERAL, Team.CHO));
+        pieces.put(from, Piece.of(new PieceStatus(GENERAL, new GeneralMoveStrategy()), Team.CHO));
 
         // 아군 기물 배치
-        pieces.put(Position.of(5, 6), Piece.of(PieceType.GUARD, Team.CHO));
-        pieces.put(Position.of(6, 5), Piece.of(PieceType.GUARD, Team.CHO));
+        pieces.put(Position.of(5, 6), Piece.of(new PieceStatus(GUARD, new GuardMoveStrategy()), Team.CHO));
+        pieces.put(Position.of(6, 5), Piece.of(new PieceStatus(GUARD, new GuardMoveStrategy()), Team.CHO));
 
-        pieces.put(Position.of(1, 1), Piece.of(PieceType.GENERAL, Team.HAN));
+        pieces.put(Position.of(1, 1), Piece.of(new PieceStatus(GENERAL, new GeneralMoveStrategy()), Team.HAN));
 
         final Board board = Board.of(pieces);
 

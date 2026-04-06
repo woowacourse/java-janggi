@@ -1,10 +1,12 @@
 package domain.movestrategy;
 
+import static domain.piece.PieceType.CHARIOT;
+import static domain.piece.PieceType.SOLDIER;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.board.Board;
 import domain.piece.Piece;
-import domain.piece.PieceType;
+import domain.piece.PieceStatus;
 import domain.piece.Position;
 import domain.player.Team;
 import java.util.HashMap;
@@ -23,7 +25,7 @@ class ChariotMoveStrategyTest {
         // given
         final Position from = Position.of(5, 5);
         final Map<Position, Piece> pieces = new HashMap<>();
-        pieces.put(from, Piece.of(PieceType.CHARIOT, Team.CHO));
+        pieces.put(from, Piece.of(new PieceStatus(CHARIOT, new ChariotMoveStrategy()), Team.CHO));
 
         final Board board = Board.of(pieces);
 
@@ -46,8 +48,8 @@ class ChariotMoveStrategyTest {
         final Position from = Position.of(5, 5);
         final Map<Position, Piece> pieces = new HashMap<>();
 
-        pieces.put(from, Piece.of(PieceType.CHARIOT, Team.CHO));
-        pieces.put(Position.of(7, 5), Piece.of(PieceType.SOLDIER, Team.HAN));
+        pieces.put(from, Piece.of(new PieceStatus(CHARIOT, new ChariotMoveStrategy()), Team.CHO));
+        pieces.put(Position.of(7, 5), Piece.of(new PieceStatus(SOLDIER, new SoldierMoveStrategy()), Team.HAN));
 
         final Board board = Board.of(pieces);
 
@@ -68,10 +70,10 @@ class ChariotMoveStrategyTest {
         final Position from = Position.of(5, 5);
         final Map<Position, Piece> pieces = new HashMap<>();
 
-        pieces.put(from, Piece.of(PieceType.CHARIOT, Team.CHO));
+        pieces.put(from, Piece.of(new PieceStatus(CHARIOT, new ChariotMoveStrategy()), Team.CHO));
 
         // 아군
-        pieces.put(Position.of(7, 5), Piece.of(PieceType.SOLDIER, Team.CHO));
+        pieces.put(Position.of(7, 5), Piece.of(new PieceStatus(SOLDIER, new SoldierMoveStrategy()), Team.CHO));
 
         final Board board = Board.of(pieces);
 
