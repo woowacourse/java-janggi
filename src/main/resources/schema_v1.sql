@@ -1,7 +1,7 @@
 create table if not exists board
 (
     id           bigint auto_increment primary key,
-    current_turn varchar(10) not null default 'NONE',
+    current_turn varchar(10) not null default 'CHO',
     winner varchar(10) not null default 'NONE',
     cho_score double null,
     han_score double null,

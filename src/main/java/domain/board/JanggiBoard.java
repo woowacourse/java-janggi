@@ -20,7 +20,13 @@ public class JanggiBoard {
     private final MoveRuleManager moveRuleManager;
 
     public JanggiBoard(IntersectionGenerator intersectionGenerator) {
-        this.intersections = createIntersections(intersectionGenerator);
+//        this.intersections = createIntersections(intersectionGenerator);
+//        this.moveRuleManager = new MoveRuleManager();
+        this(createIntersections(intersectionGenerator));
+    }
+
+    public JanggiBoard(Map<Point, Intersection> intersections) {
+        this.intersections = intersections;
         this.moveRuleManager = new MoveRuleManager();
     }
 
@@ -90,7 +96,7 @@ public class JanggiBoard {
         return Collections.unmodifiableMap(intersections);
     }
 
-    private Map<Point, Intersection> createIntersections(IntersectionGenerator intersectionGenerator) {
+    private static Map<Point, Intersection> createIntersections(IntersectionGenerator intersectionGenerator) {
         Map<Point, Intersection> intersections = fillEmptyIntersections();
         for (Intersection intersection : intersectionGenerator.makeIntersection()) {
             intersections.put(intersection.getPoint(), intersection);
@@ -98,17 +104,17 @@ public class JanggiBoard {
         return intersections;
     }
 
-    private Map<Point, Intersection> fillEmptyIntersections() {
+    private static Map<Point, Intersection> fillEmptyIntersections() {
         return getAllPoints()
                 .collect(Collectors.toMap(point -> point, NormalIntersection::empty));
     }
 
-    private Stream<Point> getAllPoints() {
+    private static Stream<Point> getAllPoints() {
         return range(MAX_ROW).boxed()
                 .flatMap(row -> range(MAX_FILE).mapToObj(file -> new Point(row, file)));
     }
 
-    private IntStream range(int maxRange) {
+    private static IntStream range(int maxRange) {
         return IntStream.range(BASE_POINT, maxRange);
     }
 
