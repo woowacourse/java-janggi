@@ -27,7 +27,13 @@ public class Sa extends Piece {
     @Override
     public List<Position> getAvailableRoute(Position start, PieceFinder finder) {
         List<Position> availableRoute = new ArrayList<>();
-        for (Direction direction : Direction.getCardinalDirections()){
+        List<Direction> directions = new ArrayList<>(Direction.getCardinalDirections());
+
+        if (start.isPalaceDiagonal()){
+            directions.addAll(Direction.getDiagonalDirections());
+        }
+
+        for (Direction direction : directions) {
             Optional<Position> position = move(start, direction);
             if (position.isEmpty()) {
                 continue;

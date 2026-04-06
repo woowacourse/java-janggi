@@ -24,12 +24,21 @@ public class Cha extends Piece {
     @Override
     public List<Position> getAvailableRoute(Position start, PieceFinder finder) {
         List<Position> availableRoute = new ArrayList<>();
-        for (Direction direction : Direction.getCardinalDirections()){
+        List<Direction> directions = new ArrayList<>(Direction.getCardinalDirections());
+
+        if (start.isPalaceDiagonal()){
+            directions.addAll(Direction.getDiagonalDirections());
+        }
+
+        for (Direction direction : directions) {
             int i = Position.MAX_ROW;
             Position now = start;
             while (i-- > 0) {
                 Optional<Position> position = move(now, direction);
                 if (position.isEmpty()) {
+                    break;
+                }
+                if (Direction.getDiagonalDirections().contains(direction) && (!position.get().isInPalace())){
                     break;
                 }
                 Piece endPiece = finder.find(position.get());
@@ -47,5 +56,5 @@ public class Cha extends Piece {
         }
         return availableRoute;
     }
-    
+
 }

@@ -26,22 +26,25 @@ public class Jang extends Piece {
     @Override
     public List<Position> getAvailableRoute(Position start, PieceFinder finder) {
         List<Position> availableRoute = new ArrayList<>();
-        //Todo: 궁성영역이라면 대각 이동
+        List<Direction> directions = new ArrayList<>(Direction.getCardinalDirections());
 
+        if (start.isPalaceDiagonal()){
+            directions.addAll(Direction.getDiagonalDirections());
+        }
 
-
-        for (Direction direction : Direction.getCardinalDirections()){
+        for (Direction direction : directions) {
             Optional<Position> position = move(start, direction);
-            if (position.isEmpty()) {
+            // 1) 좌표 밖이거나  2) 궁성 밖이거나 → 불가능
+            if (position.isEmpty() || !position.get().isInPalace()) {
                 continue;
             }
 
             Piece endPiece = finder.find(position.get());
-            if (finder.find(position.get())==None.INSTANCE || isDifferentCountry(endPiece.getCountry())) {
+            // 3) 도착지가 비어있음,  4) 다른 나라 기물 → 가능
+            if (finder.find(position.get()) == None.INSTANCE || isDifferentCountry(endPiece.getCountry())) {
                 availableRoute.add(position.get());
             }
         }
         return availableRoute;
     }
-
 }

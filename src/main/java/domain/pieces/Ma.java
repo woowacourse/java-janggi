@@ -36,7 +36,7 @@ public class Ma extends Piece {
                 continue;
             }
 
-            for (Direction moveDirection : direction.getDiagonalDirections(direction)) {
+            for (Direction moveDirection : direction.getMaSangDiagonalDirections(direction)) {
                 Optional<Position> position = move(positionFirst.get(), moveDirection);
                 if (position.isEmpty()) {
                     continue;

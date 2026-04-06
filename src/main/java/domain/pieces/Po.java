@@ -24,7 +24,13 @@ public class Po extends Piece {
     @Override
     public List<Position> getAvailableRoute(Position start, PieceFinder finder) {
         List<Position> availableRoute = new ArrayList<>();
-        for (Direction direction : Direction.getCardinalDirections()) {
+        List<Direction> directions = new ArrayList<>(Direction.getCardinalDirections());
+
+        if (start.isPalaceDiagonal()){
+            directions.addAll(Direction.getDiagonalDirections());
+        }
+
+        for (Direction direction : directions) {
             List<Piece> pieces = new ArrayList<>();
             int i = Position.MAX_ROW;
             Position now = start;
@@ -34,6 +40,9 @@ public class Po extends Piece {
                     break;
                 }
                 now = position.get();
+                if (Direction.getDiagonalDirections().contains(direction) && (!now.isInPalace())){
+                    break;
+                }
                 Piece endPiece = finder.find(position.get());
                 if (isNotPo(endPiece) && isDifferentCountry(endPiece.getCountry()) && hasNotPoAmongPath(pieces) && hasOnePieceAmongPath(pieces)) {
                     availableRoute.add(position.get());

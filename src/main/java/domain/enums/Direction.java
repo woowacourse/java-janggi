@@ -29,7 +29,11 @@ public enum Direction {
         return List.of(UP,DOWN,LEFT,RIGHT);
     }
 
-    public List<Direction> getDiagonalDirections(Direction direction){
+    public static List<Direction> getDiagonalDirections() {
+        return List.of(UP_LEFT,UP_RIGHT,DOWN_LEFT,DOWN_RIGHT);
+    }
+
+    public List<Direction> getMaSangDiagonalDirections(Direction direction){
         if (direction==Direction.UP){
             return List.of(UP_LEFT, UP_RIGHT);
         }

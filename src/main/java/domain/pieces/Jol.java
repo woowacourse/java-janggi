@@ -32,21 +32,30 @@ public class Jol extends Piece {
     @Override
     public List<Position> getAvailableRoute(Position start, PieceFinder finder) {
         List<Position> availableRoute = new ArrayList<>();
-        for (Direction direction : Direction.getCardinalDirections()) {
-            if (direction.equals(Direction.DOWN)) {
-                continue;
-            }
+        List<Direction> directions = new ArrayList<>(Direction.getCardinalDirections());
+        if (start.isPalaceDiagonal()){
+            directions.addAll(Direction.getDiagonalDirections());
+        }
 
+        for (Direction direction : directions) {
             Optional<Position> position = move(start, direction);
-            if (position.isEmpty()) {
+            if (position.isEmpty() || isBackMovement(start, position.get())) {
                 continue;
             }
             Piece endPiece = finder.find(position.get());
+            if (Direction.getDiagonalDirections().contains(direction) && (!position.get().isInPalace())){
+                continue;
+            }
             if (finder.find(position.get())==None.INSTANCE || isDifferentCountry(endPiece.getCountry())) {
                 availableRoute.add(position.get());
             }
+
         }
         return availableRoute;
+    }
+
+    private boolean isBackMovement(Position start, Position end) {
+        return getCountry().getForward()==start.getX()-end.getX();
     }
 
 }
