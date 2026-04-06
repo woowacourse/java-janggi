@@ -32,7 +32,7 @@ public class PoCollisionDetector implements CollisionDetector {
         List<Piece> middlePath = piecesOnPath.subList(0, piecesOnPath.size() - 1);
 
         long obstacleCount = middlePath.stream()
-                .filter(piece -> !piece.isEmpty())
+                .filter(Piece::isNotEmpty)
                 .count();
 
         if (obstacleCount != REQUIRED_SCREEN_COUNT) {

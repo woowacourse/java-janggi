@@ -33,6 +33,11 @@ public abstract class ActivePiece implements Piece {
     }
 
     @Override
+    public boolean isNotEmpty() {
+        return true;
+    }
+
+    @Override
     public boolean isSame(PieceType pieceType) {
         return this.pieceType == pieceType;
     }

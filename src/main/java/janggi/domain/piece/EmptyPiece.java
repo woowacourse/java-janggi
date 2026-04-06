@@ -22,6 +22,11 @@ public class EmptyPiece implements Piece {
     }
 
     @Override
+    public boolean isNotEmpty() {
+        return false;
+    }
+
+    @Override
     public List<Location> calculateRoute(Intersection from, Intersection to) {
         throw new UnsupportedOperationException("빈 객체는 이동할 수 없습니다.");
     }
