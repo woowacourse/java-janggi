@@ -1,20 +1,20 @@
 package janggi.domain;
 
-import janggi.domain.piece.Camp;
+import janggi.domain.piece.camp.CampType;
 
 public class Turn {
 
-    private Camp currentCamp = Camp.CHO;
+    private CampType currentCampType = CampType.CHO;
 
-    public Camp currentTurn() {
-        return currentCamp;
+    public CampType currentTurn() {
+        return currentCampType;
     }
 
-    public Camp peekNextTurn() {
-        return currentCamp.next();
+    public CampType peekNextTurn() {
+        return currentCampType.next();
     }
 
     public void finishTurn() {
-        currentCamp = currentCamp.next();
+        currentCampType = currentCampType.next();
     }
 }

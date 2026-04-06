@@ -2,7 +2,7 @@ package janggi.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.piece.Camp;
+import janggi.domain.piece.camp.CampType;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
@@ -13,22 +13,22 @@ class TurnTest {
         // given
         Turn turn = new Turn();
         // when
-        Camp result = turn.currentTurn();
+        CampType result = turn.currentTurn();
         // then
-        assertThat(result).isEqualTo(Camp.CHO);
+        assertThat(result).isEqualTo(CampType.CHO);
     }
 
     @Test
     void 초나라_차례가_끝나면_한나라_차례가_된다() {
         // given
         Turn turn = new Turn();
-        Camp firstTurn = turn.currentTurn();
+        CampType firstTurn = turn.currentTurn();
         // when
         turn.finishTurn();
         // then
         SoftAssertions.assertSoftly(assertSoftly -> {
-            assertSoftly.assertThat(firstTurn).isEqualTo(Camp.CHO);
-            assertSoftly.assertThat(turn.currentTurn()).isEqualTo(Camp.HAN);
+            assertSoftly.assertThat(firstTurn).isEqualTo(CampType.CHO);
+            assertSoftly.assertThat(turn.currentTurn()).isEqualTo(CampType.HAN);
         });
     }
 }

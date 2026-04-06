@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import janggi.domain.Position;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardChecker;
-import janggi.domain.piece.Camp;
+import janggi.domain.piece.camp.CampType;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceRule;
 import janggi.exception.ExceptionMessage;
@@ -37,12 +37,12 @@ class CannonStrategyTest {
     void 직선_방향으로_하나의_기물을_넘어_이동한다(Position source, Position destination) {
         //given
         BoardChecker board = new Board(Map.of(
-                new Position(0, 3), new Piece(PieceRule.SOLDIER, Camp.CHO),
-                new Position(1, 4), new Piece(PieceRule.GENERAL, Camp.CHO)
+                new Position(0, 3), new Piece(PieceRule.SOLDIER, CampType.CHO),
+                new Position(1, 4), new Piece(PieceRule.GENERAL, CampType.CHO)
         ));
         //when & then
         assertThatNoException().isThrownBy(() ->
-                moveStrategy.validate(source, destination, Camp.CHO, board, PieceRule.CANNON));
+                moveStrategy.validate(source, destination, CampType.CHO, board, PieceRule.CANNON));
     }
 
     @Test
@@ -51,10 +51,10 @@ class CannonStrategyTest {
         Position source = new Position(9, 3);
         Position destination = new Position(6, 6);
         BoardChecker board = new Board(Map.of(
-                new Position(8, 4), new Piece(PieceRule.GENERAL, Camp.HAN)
+                new Position(8, 4), new Piece(PieceRule.GENERAL, CampType.HAN)
         ));
         //when & then
-        assertThatThrownBy(() -> moveStrategy.validate(source, destination, Camp.CHO, board, PieceRule.CANNON))
+        assertThatThrownBy(() -> moveStrategy.validate(source, destination, CampType.CHO, board, PieceRule.CANNON))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.ONLY_STRAIGHT_MOVE_ALLOWED.getMessage());
     }
@@ -74,10 +74,10 @@ class CannonStrategyTest {
     void 이동하려는_경로에_기물이_존재하지_않으면_예외가_발생한다(Position source, Position destination) {
         // given
         BoardChecker board = new Board(Map.of(
-                new Position(2, 4), new Piece(PieceRule.GENERAL, Camp.CHO)
+                new Position(2, 4), new Piece(PieceRule.GENERAL, CampType.CHO)
         ));
         // when & then
-        assertThatThrownBy(() -> moveStrategy.validate(source, destination, Camp.CHO, board, PieceRule.CANNON))
+        assertThatThrownBy(() -> moveStrategy.validate(source, destination, CampType.CHO, board, PieceRule.CANNON))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.INVALID_JUMPED_PIECE_COUNT.getMessage(REQUIRED_PIECE_COUNT));
     }
@@ -96,13 +96,13 @@ class CannonStrategyTest {
     void 이동하려는_경로에_기물이_2개_이상_존재하면_예외가_발생한다(Position source, Position destination) {
         //given
         BoardChecker board = new Board(Map.of(
-                new Position(0, 3), new Piece(PieceRule.CHARIOT, Camp.CHO),
-                new Position(0, 4), new Piece(PieceRule.ELEPHANT, Camp.CHO),
-                new Position(7, 3), new Piece(PieceRule.CHARIOT, Camp.HAN),
-                new Position(8, 3), new Piece(PieceRule.ELEPHANT, Camp.HAN)
+                new Position(0, 3), new Piece(PieceRule.CHARIOT, CampType.CHO),
+                new Position(0, 4), new Piece(PieceRule.ELEPHANT, CampType.CHO),
+                new Position(7, 3), new Piece(PieceRule.CHARIOT, CampType.HAN),
+                new Position(8, 3), new Piece(PieceRule.ELEPHANT, CampType.HAN)
         ));
         //when & then
-        assertThatThrownBy(() -> moveStrategy.validate(source, destination, Camp.CHO, board, PieceRule.CANNON))
+        assertThatThrownBy(() -> moveStrategy.validate(source, destination, CampType.CHO, board, PieceRule.CANNON))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.INVALID_JUMPED_PIECE_COUNT.getMessage(1));
     }
@@ -121,11 +121,11 @@ class CannonStrategyTest {
     void 이동하려는_경로에_있는_기물이_같은_타입이면_예외가_발생한다(Position source, Position destination) {
         //given
         BoardChecker board = new Board(Map.of(
-                new Position(0, 4), new Piece(PieceRule.CANNON, Camp.CHO),
-                new Position(8, 4), new Piece(PieceRule.CANNON, Camp.HAN)
+                new Position(0, 4), new Piece(PieceRule.CANNON, CampType.CHO),
+                new Position(8, 4), new Piece(PieceRule.CANNON, CampType.HAN)
         ));
         //when & then
-        assertThatThrownBy(() -> moveStrategy.validate(source, destination, Camp.CHO, board, PieceRule.CANNON))
+        assertThatThrownBy(() -> moveStrategy.validate(source, destination, CampType.CHO, board, PieceRule.CANNON))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.SAME_PIECE_TYPE_IN_PATH.getMessage());
     }
@@ -144,12 +144,12 @@ class CannonStrategyTest {
     void 목적지에_있는_기물이_같은_타입이면_예외가_발생한다(Position source, Position destination) {
         //given
         BoardChecker board = new Board(Map.of(
-                new Position(0, 3), new Piece(PieceRule.SOLDIER, Camp.CHO),
-                new Position(0, 5), new Piece(PieceRule.CANNON, Camp.CHO),
-                new Position(1, 4), new Piece(PieceRule.CANNON, Camp.CHO)
+                new Position(0, 3), new Piece(PieceRule.SOLDIER, CampType.CHO),
+                new Position(0, 5), new Piece(PieceRule.CANNON, CampType.CHO),
+                new Position(1, 4), new Piece(PieceRule.CANNON, CampType.CHO)
         ));
         //when & then
-        assertThatThrownBy(() -> moveStrategy.validate(source, destination, Camp.CHO, board, PieceRule.CANNON))
+        assertThatThrownBy(() -> moveStrategy.validate(source, destination, CampType.CHO, board, PieceRule.CANNON))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.SAME_PIECE_TYPE_AT_DESTINATION.getMessage());
     }

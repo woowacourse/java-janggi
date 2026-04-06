@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import janggi.domain.Position;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardChecker;
-import janggi.domain.piece.Camp;
+import janggi.domain.piece.camp.CampType;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceRule;
 import janggi.exception.ExceptionMessage;
@@ -29,7 +29,7 @@ class ChariotStrategyTest {
         BoardChecker board = new Board(Map.of());
         //when & then
         assertThatNoException().isThrownBy(() ->
-                moveStrategy.validate(source, destination, Camp.CHO, board, PieceRule.CHARIOT));
+                moveStrategy.validate(source, destination, CampType.CHO, board, PieceRule.CHARIOT));
     }
 
     @Test
@@ -40,7 +40,7 @@ class ChariotStrategyTest {
         BoardChecker board = new Board(Map.of());
         //when & then
         assertThatNoException().isThrownBy(() ->
-                moveStrategy.validate(source, destination, Camp.CHO, board, PieceRule.CHARIOT));
+                moveStrategy.validate(source, destination, CampType.CHO, board, PieceRule.CHARIOT));
     }
 
     private static Stream<Arguments> successMovePositionsInPath() {
@@ -59,7 +59,7 @@ class ChariotStrategyTest {
         BoardChecker board = new Board(Map.of());
         //when & then
         assertThatNoException().isThrownBy(() ->
-                moveStrategy.validate(source, destination, Camp.CHO, board, PieceRule.CHARIOT));
+                moveStrategy.validate(source, destination, CampType.CHO, board, PieceRule.CHARIOT));
     }
 
     @Test
@@ -69,7 +69,7 @@ class ChariotStrategyTest {
         Position destination = new Position(3, 3);
         BoardChecker board = new Board(Map.of());
         //when & then
-        assertThatThrownBy(() -> moveStrategy.validate(source, destination, Camp.CHO, board, PieceRule.CHARIOT))
+        assertThatThrownBy(() -> moveStrategy.validate(source, destination, CampType.CHO, board, PieceRule.CHARIOT))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.ONLY_STRAIGHT_MOVE_ALLOWED.getMessage());
     }
@@ -86,11 +86,11 @@ class ChariotStrategyTest {
     void 이동하려는_경로에_기물이_존재하면_예외가_발생한다(Position source, Position destination) {
         //given
         BoardChecker board = new Board(Map.of(
-                new Position(3, 0), new Piece(PieceRule.CHARIOT, Camp.CHO),
-                new Position(1, 4), new Piece(PieceRule.ELEPHANT, Camp.CHO)
+                new Position(3, 0), new Piece(PieceRule.CHARIOT, CampType.CHO),
+                new Position(1, 4), new Piece(PieceRule.ELEPHANT, CampType.CHO)
         ));
         //when & then
-        assertThatThrownBy(() -> moveStrategy.validate(source, destination, Camp.CHO, board, PieceRule.CHARIOT))
+        assertThatThrownBy(() -> moveStrategy.validate(source, destination, CampType.CHO, board, PieceRule.CHARIOT))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.PATH_NOT_EMPTY.getMessage());
     }

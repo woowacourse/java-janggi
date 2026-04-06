@@ -2,7 +2,7 @@ package janggi.domain.piece.strategy;
 
 import janggi.domain.Position;
 import janggi.domain.board.BoardChecker;
-import janggi.domain.piece.Camp;
+import janggi.domain.piece.camp.CampType;
 import janggi.domain.piece.PieceRule;
 import janggi.exception.ExceptionMessage;
 
@@ -11,15 +11,15 @@ public class SoldierStrategy extends PalaceStrategy implements MoveStrategy {
     private static final int DISTANCE = 1;
 
     @Override
-    public void validate(Position source, Position destination, Camp camp, BoardChecker board, PieceRule pieceRule) {
+    public void validate(Position source, Position destination, CampType campType, BoardChecker board, PieceRule pieceRule) {
         Movement movement = new Movement(source, destination);
         if (isPalaceRange(source, destination)) {
             validatePalaceDiagonalDistance(source, destination, movement);
-            validateForwardMovement(movement.calculateRowDirection(), camp);
+            validateForwardMovement(movement.calculateRowDirection(), campType);
             return;
         }
         validateDistance(movement);
-        validateForwardMovement(movement.calculateRowDirection(), camp);
+        validateForwardMovement(movement.calculateRowDirection(), campType);
     }
 
     private void validateDistance(Movement movement) {
@@ -28,9 +28,9 @@ public class SoldierStrategy extends PalaceStrategy implements MoveStrategy {
         }
     }
 
-    private void validateForwardMovement(int rowDistance, Camp camp) {
+    private void validateForwardMovement(int rowDistance, CampType campType) {
         boolean isRowMove = rowDistance != 0;
-        boolean isForward = camp.matchesForwardDirection(rowDistance);
+        boolean isForward = campType.matchesForwardDirection(rowDistance);
 
         if (isRowMove && !isForward) {
             throw new IllegalArgumentException(ExceptionMessage.INVALID_BACKWARD_MOVEMENT.getMessage());

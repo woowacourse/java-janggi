@@ -5,8 +5,8 @@ import janggi.domain.Turn;
 import janggi.domain.board.Board;
 import janggi.domain.board.ElephantFormation;
 import janggi.domain.board.InitialPiecePlacement;
-import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.camp.CampType;
 import janggi.dto.PiecePositionDto;
 import janggi.util.RetryHandler;
 import janggi.view.InputView;
@@ -24,15 +24,15 @@ public class JanggiGame {
     }
 
     private Board createBoard() {
-        ElephantFormation hanElephantFormation = readElephantFormation(Camp.HAN);
-        ElephantFormation choElephantFormation = readElephantFormation(Camp.CHO);
+        ElephantFormation hanElephantFormation = readElephantFormation(CampType.HAN);
+        ElephantFormation choElephantFormation = readElephantFormation(CampType.CHO);
         return InitialPiecePlacement.initialize(hanElephantFormation, choElephantFormation);
     }
 
-    private ElephantFormation readElephantFormation(Camp camp) {
+    private ElephantFormation readElephantFormation(CampType campType) {
         return RetryHandler.retryOnInvalidInput(() -> {
-            ElephantSetUpFormat elephantSetUpFormat = InputView.readElephantSettingCommand(camp);
-            return elephantSetUpFormat.toElephantFormation(camp);
+            ElephantSetUpFormat elephantSetUpFormat = InputView.readElephantSettingCommand(campType);
+            return elephantSetUpFormat.toElephantFormation(campType);
         });
     }
 
@@ -45,8 +45,8 @@ public class JanggiGame {
     private void play(Board board) {
         Turn turn = new Turn();
         while (true) {
-            Camp camp = turn.currentTurn();
-            RetryHandler.retryOnInvalidInput(() -> playTurn(board, camp));
+            CampType campType = turn.currentTurn();
+            RetryHandler.retryOnInvalidInput(() -> playTurn(board, campType));
             OutputView.printBoard(toPiecePositions(board.getBoard()));
             if (board.isRivalGeneralKilled(turn)) {
                 break;
@@ -55,25 +55,26 @@ public class JanggiGame {
         }
         OutputView.printWinner(turn.currentTurn());
     }
-    
-    private void playTurn(Board board, Camp camp) {
-        Position source = readSource(board, camp);
-        Position destination = readDestination(board, source, camp);
-        board.movePiece(source, destination, camp);
+
+    private void playTurn(Board board, CampType campType) {
+        OutputView.printScore(board.getScoreBoard());
+        Position source = readSource(board, campType);
+        Position destination = readDestination(board, source, campType);
+        board.movePiece(source, destination, campType);
     }
 
-    private Position readSource(Board board, Camp camp) {
+    private Position readSource(Board board, CampType campType) {
         return RetryHandler.retryOnInvalidInput(() -> {
-            Position source = Position.from(InputView.readSource(camp));
-            board.validateSource(source, camp);
+            Position source = Position.from(InputView.readSource(campType));
+            board.validateSource(source, campType);
             return source;
         });
     }
 
-    private Position readDestination(Board board, Position source, Camp camp) {
+    private Position readDestination(Board board, Position source, CampType campType) {
         return RetryHandler.retryOnInvalidInput(() -> {
             Position destination = Position.from(InputView.readDestination());
-            board.validateDestination(destination, source, camp);
+            board.validateDestination(destination, source, campType);
             return destination;
         });
     }
