@@ -153,6 +153,5 @@ public class JdbcGameRepositoryTest {
         assertThat(foundGame.finished()).isTrue();
         assertThat(foundGame.winner()).isEqualTo(Team.HAN);
         assertThat(foundGame.positions()).hasSize(1);
-
     }
 }
