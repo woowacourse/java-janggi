@@ -61,18 +61,6 @@ public class Board {
         return hanPalace.isInPalace(position);
     }
 
-    public Map<Position, Piece> getBoard() {
-        return Map.copyOf(board);
-    }
-
-    private Optional<Piece> movePiece(Position from, Position to, Piece fromPiece) {
-        Optional<Piece> capturedPiece = findPieceByPosition(to);
-
-        board.remove(from);
-        board.put(to, fromPiece);
-        return capturedPiece;
-    }
-
     public int calculateScore(Team team) {
         int totalScore = 0;
         for (Position position : board.keySet()) {
@@ -84,5 +72,22 @@ public class Board {
             }
         }
         return totalScore;
+    }
+
+    public boolean canMoveDiagonallyInPalace(Position position, Position to) {
+        return (chuPalace.isDiagonalPoint(position) && chuPalace.isDiagonalPoint(to))
+                || (hanPalace.isDiagonalPoint(position) && hanPalace.isDiagonalPoint(to));
+    }
+
+    public Map<Position, Piece> getBoard() {
+        return Map.copyOf(board);
+    }
+
+    private Optional<Piece> movePiece(Position from, Position to, Piece fromPiece) {
+        Optional<Piece> capturedPiece = findPieceByPosition(to);
+
+        board.remove(from);
+        board.put(to, fromPiece);
+        return capturedPiece;
     }
 }
