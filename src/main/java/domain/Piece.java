@@ -29,4 +29,8 @@ public class Piece {
     public MaterialPoints materialPoints() {
         return pieceType.materialPoints();
     }
+
+    public boolean isKing() {
+        return this.pieceType == PieceType.KING;
+    }
 }
