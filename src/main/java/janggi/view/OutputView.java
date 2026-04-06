@@ -9,6 +9,11 @@ public class OutputView {
 
     private static String TEAM_SCORE = "%s나라: %d점";
 
+    public static void printGameId(long gameId) {
+        System.out.printf("id = %d 게임을 실행합니다.", gameId);
+        printLine();
+    }
+
     public static void printBoard(Board board) {
         printHeader(board);
         for (int y = 0; y < board.getBoardWidth(); y++) {
