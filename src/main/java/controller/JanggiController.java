@@ -1,12 +1,14 @@
 package controller;
 
 import domain.Board;
+import domain.ContinueOption;
 import domain.Country;
+import domain.Game;
 import domain.Position;
 import domain.TableSetting;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
+import service.GameService;
 import view.CountryFormatter;
 import view.InputParser;
 import view.InputView;
@@ -15,40 +17,62 @@ import view.OutputView;
 public class JanggiController {
     private final InputView inputView;
     private final OutputView outputView;
+    private final GameService gameService;
 
-    public JanggiController(InputView inputView, OutputView outputView) {
+    public JanggiController(InputView inputView, OutputView outputView, GameService gameService) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.gameService = gameService;
     }
 
     public void run() {
-        Map<Country, TableSetting> tableSettings = makeTableSetting();
-        Board board = Board.create(tableSettings.get(Country.CHO), tableSettings.get(Country.HAN));
-        List<Country> playOrders = List.of(Country.CHO, Country.HAN);
-
-        playTurn(board, playOrders);
-    }
-
-    private Map<Country, TableSetting> makeTableSetting() {
-        Map<Country, TableSetting> tableSettings = new LinkedHashMap<>();
-        for (Country country : Country.values()) {
-            tableSettings.put(country, readTableSetting(country));
+        Optional<Game> latestGame = gameService.loadLatestGame();
+        if (latestGame.isPresent() && isGameContinue()) {
+            Game game = latestGame.get();
+            Board board = Board.load(gameService.loadBoard(game.getGameId()));
+            playTurn(board, game.getGameId(), List.of(Country.CHO, Country.HAN));
+            return;
         }
-        return tableSettings;
+        startNewGame();
     }
 
-    private void playTurn(Board board, List<Country> playOrders) {
+    private boolean isGameContinue() {
+        while (true) {
+            try {
+                String input = inputView.readContinueGame();
+                return ContinueOption.from(input) == ContinueOption.CONTINUE;
+            } catch (IllegalArgumentException exception) {
+                outputView.printErrorMessage(exception.getMessage());
+            }
+        }
+    }
+
+    private void startNewGame() {
+        TableSetting choTableSetting = readTableSetting(Country.CHO);
+        TableSetting hanTableSetting = readTableSetting(Country.HAN);
+        Board board = Board.create(choTableSetting, hanTableSetting);
+
+        Game game = new Game(choTableSetting, hanTableSetting);
+        Long gameId = gameService.saveGame(game, board.getPieceInfos());
+
+        playTurn(board, gameId, List.of(Country.CHO, Country.HAN));
+    }
+
+    private void playTurn(Board board, Long gameId, List<Country> playOrders) {
         int turnIndex = 0;
         while (true) {
             Country country = playOrders.get(turnIndex);
             Country otherSide = playOrders.get((turnIndex + 1) % 2);
             outputView.printTurn(CountryFormatter.from(country));
-
-            Map<Country, Double> currentScores = board.calculateScore();
-            outputView.printCurrentScores(currentScores);
+            outputView.printCurrentScores(board.calculateScore());
             outputView.printBoard(board.getPieceInfos());
 
-            if (movePiece(board, country)) {
+            List<Position> positions = movePiece(board, country);
+            Position from = positions.get(0);
+            Position to = positions.get(1);
+            gameService.updateBoard(gameId, from, to, board.getPieceInfos());
+
+            if (board.isGeneralCaught(to)) {
                 outputView.printWinner(CountryFormatter.from(country), CountryFormatter.from(otherSide));
                 return;
             }
@@ -61,7 +85,6 @@ public class JanggiController {
             try {
                 String input = inputView.readTableSetting(CountryFormatter.from(country));
                 String tableNames = InputParser.parseTableSetting(input);
-
                 return TableSetting.from(tableNames);
             } catch (IllegalArgumentException exception) {
                 outputView.printErrorMessage(exception.getMessage());
@@ -69,15 +92,17 @@ public class JanggiController {
         }
     }
 
-    private boolean movePiece(Board board, Country country) {
+    private List<Position> movePiece(Board board, Country country) {
         while (true) {
             try {
                 Position from = makeFromPosition();
                 board.validateFromPosition(from, country);
+
                 Position to = makeToPosition();
                 from.validatePositions(to);
 
-                return board.move(from, to);
+                board.move(from, to);
+                return List.of(from, to);
             } catch (IllegalArgumentException exception) {
                 outputView.printErrorMessage(exception.getMessage());
             }

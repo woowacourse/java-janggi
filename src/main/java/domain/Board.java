@@ -22,6 +22,17 @@ public class Board {
         this.board = board;
     }
 
+    public static Board load(Map<Position, PieceInfo> pieceInfos) {
+        Map<Position, State> board = new LinkedHashMap<>();
+        for (Map.Entry<Position, PieceInfo> entry : pieceInfos.entrySet()) {
+            PieceInfo pieceInfo = entry.getValue();
+            Piece piece = pieceInfo.pieceType().createPiece(pieceInfo.country());
+            board.put(entry.getKey(), new FullState(piece));
+        }
+        new BoardInitializer().fillEmptyPositions(board);
+        return new Board(board);
+    }
+
     public static Board create(TableSetting choSetting, TableSetting hanSetting) {
         Map<Position, State> board = new BoardInitializer().initialize(choSetting, hanSetting);
         return new Board(board);
@@ -64,6 +75,10 @@ public class Board {
 
     public boolean isEmpty(Position position) {
         return board.get(position).isEmpty();
+    }
+
+    public boolean isGeneralCaught(Position to) {
+        return !isEmpty(to) && board.get(to).getPiece().getPieceType() == PieceType.GENERAL;
     }
 
     public Map<Country, Double> calculateScore() {
@@ -116,9 +131,5 @@ public class Board {
     private void movePiece(Position from, Position to, Piece fromPiece) {
         board.put(to, new FullState(fromPiece));
         board.put(from, new EmptyState());
-    }
-
-    private boolean isGeneralCaught(Position to) {
-        return !isEmpty(to) && board.get(to).getPiece().getPieceType() == PieceType.GENERAL;
     }
 }

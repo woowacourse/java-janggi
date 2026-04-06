@@ -1,0 +1,16 @@
+CREATE TABLE IF NOT EXISTS game (
+    game_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    created_at TIMESTAMP,
+    cho_table_setting VARCHAR(20),
+    han_table_setting VARCHAR(20)
+);
+
+CREATE TABLE IF NOT EXISTS board (
+    board_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    x INTEGER,
+    y INTEGER,
+    piece_type VARCHAR(20),
+    country VARCHAR(10),
+    game_id BIGINT,
+    FOREIGN KEY (game_id) REFERENCES game(game_id)
+);

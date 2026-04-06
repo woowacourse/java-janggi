@@ -1,4 +1,7 @@
 import controller.JanggiController;
+import repository.BoardRepositoryImpl;
+import repository.GameRepositoryImpl;
+import service.GameService;
 import view.InputView;
 import view.OutputView;
 
@@ -6,7 +9,11 @@ public class Main {
     public static void main(String[] args) {
         JanggiController janggiController = new JanggiController(
                 new InputView(),
-                new OutputView()
+                new OutputView(),
+                new GameService(
+                        new GameRepositoryImpl(),
+                        new BoardRepositoryImpl()
+                )
         );
         janggiController.run();
     }
