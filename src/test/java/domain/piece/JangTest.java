@@ -30,14 +30,14 @@ class JangTest {
 
     private static Stream<Arguments> provideJangPaths() {
         return Stream.of(
-                Arguments.of(4, 4, 5, 4),
-                Arguments.of(4, 4, 3, 4),
-                Arguments.of(4, 4, 4, 5),
-                Arguments.of(4, 4, 4, 3),
-                Arguments.of(4, 4, 5, 5),
-                Arguments.of(4, 4, 5, 3),
-                Arguments.of(4, 4, 3, 5),
-                Arguments.of(4, 4, 3, 3)
+                Arguments.of(1, 4, 2, 4),
+                Arguments.of(1, 4, 0, 4),
+                Arguments.of(1, 4, 1, 5),
+                Arguments.of(1, 4, 1, 3),
+                Arguments.of(1, 4, 2, 5),
+                Arguments.of(1, 4, 2, 3),
+                Arguments.of(1, 4, 0, 5),
+                Arguments.of(1, 4, 0, 3)
         );
     }
 }
