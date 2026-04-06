@@ -1,6 +1,6 @@
 package janggi.domain.movestorage;
 
-import janggi.domain.BoardState;
+import janggi.domain.BoardView;
 import janggi.domain.Position;
 import janggi.domain.Team;
 
@@ -12,7 +12,7 @@ public class JolMoveStorage implements MoveStorage{
     public static final int NEXT_TO = 1;
 
     @Override
-    public boolean canMove(Position from, Position to, BoardState boardState) {
+    public boolean canMove(Position from, Position to, BoardView boardState) {
         List<Integer> fromPosition = from.getPosition();
         List<Integer> toPosition = to.getPosition();
 

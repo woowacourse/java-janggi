@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class PieceTest {
-    private static class ObstaclFakeBoard implements BoardState {
+    private static class ObstaclFakeBoard implements BoardView {
         private final Map<Position, Piece> obstacles;
 
         public ObstaclFakeBoard(Map<Position, Piece> obstacles) {
@@ -44,7 +44,7 @@ class PieceTest {
         fakeBoard.put(from, pieceHan);
         fakeBoard.put(to, pieceCho);
 
-        BoardState boardState = new ObstaclFakeBoard(fakeBoard);
+        BoardView boardState = new ObstaclFakeBoard(fakeBoard);
 
         // when & then
         assertThatCode(() -> pieceHan.verifyMove(from, to, boardState))
@@ -64,7 +64,7 @@ class PieceTest {
         fakeBoard.put(from, pieceHan1);
         fakeBoard.put(to, pieceHan2);
 
-        BoardState boardState = new ObstaclFakeBoard(fakeBoard);
+        BoardView boardState = new ObstaclFakeBoard(fakeBoard);
 
         // when & then
         assertThatThrownBy(() -> pieceHan1.verifyMove(from, to, boardState))

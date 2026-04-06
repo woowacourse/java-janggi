@@ -1,6 +1,6 @@
 package janggi.domain.movestorage;
 
-import janggi.domain.BoardState;
+import janggi.domain.BoardView;
 import janggi.domain.Column;
 import janggi.domain.Piece;
 import janggi.domain.Position;
@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class SangMoveStorageTest {
 
-    private static class FakeBoard implements BoardState {
+    private static class FakeBoard implements BoardView {
         @Override
         public boolean hasPieceAt(Position position) {
             return false;
@@ -26,7 +26,7 @@ class SangMoveStorageTest {
         }
     }
 
-    private static class ObstaclFakeBoard implements BoardState {
+    private static class ObstaclFakeBoard implements BoardView {
         private final List<Position> obstacles;
 
         public ObstaclFakeBoard(List<Position> obstacles) {
@@ -50,7 +50,7 @@ class SangMoveStorageTest {
         MoveStorage moveStorage = new SangMoveStorage();
         Position from = Position.of(Row.of(4), Column.of(4));
         Position to = Position.of(Row.of(7), Column.of(2));
-        BoardState boardState = new FakeBoard();
+        BoardView boardState = new FakeBoard();
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isTrue();
     }
@@ -61,7 +61,7 @@ class SangMoveStorageTest {
         MoveStorage moveStorage = new SangMoveStorage();
         Position from = Position.of(Row.of(4), Column.of(4));
         Position to = Position.of(Row.of(7), Column.of(3));
-        BoardState boardState = new FakeBoard();
+        BoardView boardState = new FakeBoard();
 
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
@@ -74,7 +74,7 @@ class SangMoveStorageTest {
         Position to = Position.of(Row.of(2), Column.of(1));
 
         Position obstaclPosition = Position.of(Row.of(3), Column.of(2));
-        BoardState boardState = new ObstaclFakeBoard(List.of(obstaclPosition));
+        BoardView boardState = new ObstaclFakeBoard(List.of(obstaclPosition));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
     }
@@ -87,7 +87,7 @@ class SangMoveStorageTest {
         Position to = Position.of(Row.of(6), Column.of(1));
 
         Position obstaclPosition = Position.of(Row.of(5), Column.of(2));
-        BoardState boardState = new ObstaclFakeBoard(List.of(obstaclPosition));
+        BoardView boardState = new ObstaclFakeBoard(List.of(obstaclPosition));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
     }
@@ -100,7 +100,7 @@ class SangMoveStorageTest {
         Position to = Position.of(Row.of(7), Column.of(2));
 
         Position obstaclPosition = Position.of(Row.of(6), Column.of(3));
-        BoardState boardState = new ObstaclFakeBoard(List.of(obstaclPosition));
+        BoardView boardState = new ObstaclFakeBoard(List.of(obstaclPosition));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
     }
@@ -113,7 +113,7 @@ class SangMoveStorageTest {
         Position to = Position.of(Row.of(7), Column.of(6));
 
         Position obstaclPosition = Position.of(Row.of(6), Column.of(5));
-        BoardState boardState = new ObstaclFakeBoard(List.of(obstaclPosition));
+        BoardView boardState = new ObstaclFakeBoard(List.of(obstaclPosition));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
     }
@@ -126,7 +126,7 @@ class SangMoveStorageTest {
         Position to = Position.of(Row.of(6), Column.of(7));
 
         Position obstaclPosition = Position.of(Row.of(5), Column.of(6));
-        BoardState boardState = new ObstaclFakeBoard(List.of(obstaclPosition));
+        BoardView boardState = new ObstaclFakeBoard(List.of(obstaclPosition));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
     }
@@ -139,7 +139,7 @@ class SangMoveStorageTest {
         Position to = Position.of(Row.of(2), Column.of(7));
 
         Position obstaclPosition = Position.of(Row.of(3), Column.of(6));
-        BoardState boardState = new ObstaclFakeBoard(List.of(obstaclPosition));
+        BoardView boardState = new ObstaclFakeBoard(List.of(obstaclPosition));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
     }
@@ -151,7 +151,7 @@ class SangMoveStorageTest {
         Position to = Position.of(Row.of(1), Column.of(6));
 
         Position obstaclPosition = Position.of(Row.of(2), Column.of(5));
-        BoardState boardState = new ObstaclFakeBoard(List.of(obstaclPosition));
+        BoardView boardState = new ObstaclFakeBoard(List.of(obstaclPosition));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
     }
@@ -163,7 +163,7 @@ class SangMoveStorageTest {
         Position to = Position.of(Row.of(1), Column.of(2));
 
         Position obstaclPosition = Position.of(Row.of(2), Column.of(3));
-        BoardState boardState = new ObstaclFakeBoard(List.of(obstaclPosition));
+        BoardView boardState = new ObstaclFakeBoard(List.of(obstaclPosition));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
     }

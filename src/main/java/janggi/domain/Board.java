@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Board implements BoardState {
+public class Board implements BoardView {
     private final Map<Position, Piece> board;
 
     public Board(Map<Position, Piece> initialPieces) {

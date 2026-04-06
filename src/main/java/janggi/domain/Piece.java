@@ -18,7 +18,7 @@ public class Piece {
         this.name = name;
     }
 
-    public void verifyMove(Position from, Position to, BoardState boardState) {
+    public void verifyMove(Position from, Position to, BoardView boardState) {
         if (!moveStorage.canMove(from, to, boardState)) {
             throw new InvalidMoveException();
         }

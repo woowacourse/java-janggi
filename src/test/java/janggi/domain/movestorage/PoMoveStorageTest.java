@@ -1,6 +1,6 @@
 package janggi.domain.movestorage;
 
-import janggi.domain.BoardState;
+import janggi.domain.BoardView;
 import janggi.domain.Column;
 import janggi.domain.Piece;
 import janggi.domain.Position;
@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class PoMoveStorageTest {
 
-    private static class FakeBoard implements BoardState {
+    private static class FakeBoard implements BoardView {
         @Override
         public boolean hasPieceAt(Position position) {
             return false;
@@ -27,7 +27,7 @@ class PoMoveStorageTest {
         }
     }
 
-    private static class ObstaclFakeBoard implements BoardState {
+    private static class ObstaclFakeBoard implements BoardView {
         private final Map<Position, Piece> obstacles;
 
         public ObstaclFakeBoard(Map<Position, Piece> obstacles) {
@@ -56,7 +56,7 @@ class PoMoveStorageTest {
         Position obstaclePosition = Position.of(Row.of(0), Column.of(1));
         Piece obstaclePiece = new Piece(new JolMoveStorage(), Team.HAN, 2,  "卒");
 
-        BoardState boardState = new ObstaclFakeBoard(Map.of(obstaclePosition, obstaclePiece));
+        BoardView boardState = new ObstaclFakeBoard(Map.of(obstaclePosition, obstaclePiece));
 
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isTrue();
@@ -73,7 +73,7 @@ class PoMoveStorageTest {
         Position obstaclePosition = Position.of(Row.of(0), Column.of(1));
         Piece obstaclePiece = new Piece(new JolMoveStorage(), Team.HAN, 2,  "卒");
 
-        BoardState boardState = new ObstaclFakeBoard(Map.of(obstaclePosition, obstaclePiece));
+        BoardView boardState = new ObstaclFakeBoard(Map.of(obstaclePosition, obstaclePiece));
 
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isTrue();
@@ -90,7 +90,7 @@ class PoMoveStorageTest {
         Position obstaclePosition = Position.of(Row.of(2), Column.of(0));
         Piece obstaclePiece = new Piece(new JolMoveStorage(), Team.HAN, 2,  "卒");
 
-        BoardState boardState = new ObstaclFakeBoard(Map.of(obstaclePosition, obstaclePiece));
+        BoardView boardState = new ObstaclFakeBoard(Map.of(obstaclePosition, obstaclePiece));
 
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isTrue();
@@ -107,7 +107,7 @@ class PoMoveStorageTest {
         Position obstaclePosition = Position.of(Row.of(2), Column.of(0));
         Piece obstaclePiece = new Piece(new JolMoveStorage(), Team.HAN, 2,  "卒");
 
-        BoardState boardState = new ObstaclFakeBoard(Map.of(obstaclePosition, obstaclePiece));
+        BoardView boardState = new ObstaclFakeBoard(Map.of(obstaclePosition, obstaclePiece));
 
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isTrue();
@@ -124,7 +124,7 @@ class PoMoveStorageTest {
         Position obstaclePosition = Position.of(Row.of(0), Column.of(1));
         Piece obstaclePiece = new Piece(new JolMoveStorage(), Team.HAN, 2,  "卒");
 
-        BoardState boardState = new ObstaclFakeBoard(Map.of(obstaclePosition, obstaclePiece));
+        BoardView boardState = new ObstaclFakeBoard(Map.of(obstaclePosition, obstaclePiece));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
     }
@@ -137,7 +137,7 @@ class PoMoveStorageTest {
         Position from = Position.of(Row.of(0), Column.of(0));
         Position to = Position.of(Row.of(0), Column.of(3));
 
-        BoardState boardState = new FakeBoard();
+        BoardView boardState = new FakeBoard();
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
     }
@@ -150,7 +150,7 @@ class PoMoveStorageTest {
         Position from = Position.of(Row.of(0), Column.of(3));
         Position to = Position.of(Row.of(0), Column.of(0));
 
-        BoardState boardState = new FakeBoard();
+        BoardView boardState = new FakeBoard();
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
     }
@@ -163,7 +163,7 @@ class PoMoveStorageTest {
         Position from = Position.of(Row.of(0), Column.of(0));
         Position to = Position.of(Row.of(3), Column.of(0));
 
-        BoardState boardState = new FakeBoard();
+        BoardView boardState = new FakeBoard();
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
     }
@@ -176,7 +176,7 @@ class PoMoveStorageTest {
         Position from = Position.of(Row.of(3), Column.of(0));
         Position to = Position.of(Row.of(0), Column.of(0));
 
-        BoardState boardState = new FakeBoard();
+        BoardView boardState = new FakeBoard();
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
     }
@@ -192,7 +192,7 @@ class PoMoveStorageTest {
         Position obstaclePosition = Position.of(Row.of(0), Column.of(3));
         Piece obstaclePiece = new Piece(new PoMoveStorage(), Team.HAN, 7,  "包");
 
-        BoardState boardState = new ObstaclFakeBoard(Map.of(obstaclePosition, obstaclePiece));
+        BoardView boardState = new ObstaclFakeBoard(Map.of(obstaclePosition, obstaclePiece));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
     }
@@ -208,7 +208,7 @@ class PoMoveStorageTest {
         Position obstaclePosition = Position.of(Row.of(0), Column.of(0));
         Piece obstaclePiece = new Piece(new PoMoveStorage(), Team.HAN, 7,  "包");
 
-        BoardState boardState = new ObstaclFakeBoard(Map.of(obstaclePosition, obstaclePiece));
+        BoardView boardState = new ObstaclFakeBoard(Map.of(obstaclePosition, obstaclePiece));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
     }
@@ -224,7 +224,7 @@ class PoMoveStorageTest {
         Position obstaclePosition = Position.of(Row.of(3), Column.of(0));
         Piece obstaclePiece = new Piece(new PoMoveStorage(), Team.HAN, 7,  "包");
 
-        BoardState boardState = new ObstaclFakeBoard(Map.of(obstaclePosition, obstaclePiece));
+        BoardView boardState = new ObstaclFakeBoard(Map.of(obstaclePosition, obstaclePiece));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
     }
@@ -240,7 +240,7 @@ class PoMoveStorageTest {
         Position obstaclePosition = Position.of(Row.of(0), Column.of(0));
         Piece obstaclePiece = new Piece(new PoMoveStorage(), Team.HAN, 7,  "包");
 
-        BoardState boardState = new ObstaclFakeBoard(Map.of(obstaclePosition, obstaclePiece));
+        BoardView boardState = new ObstaclFakeBoard(Map.of(obstaclePosition, obstaclePiece));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
     }
@@ -256,7 +256,7 @@ class PoMoveStorageTest {
         Position obstaclePosition = Position.of(Row.of(0), Column.of(2));
         Piece obstaclePiece = new Piece(new PoMoveStorage(), Team.HAN, 7,  "包");
 
-        BoardState boardState = new ObstaclFakeBoard(Map.of(obstaclePosition, obstaclePiece));
+        BoardView boardState = new ObstaclFakeBoard(Map.of(obstaclePosition, obstaclePiece));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
     }
@@ -272,7 +272,7 @@ class PoMoveStorageTest {
         Position obstaclePosition = Position.of(Row.of(0), Column.of(2));
         Piece obstaclePiece = new Piece(new PoMoveStorage(), Team.HAN, 7,  "包");
 
-        BoardState boardState = new ObstaclFakeBoard(Map.of(obstaclePosition, obstaclePiece));
+        BoardView boardState = new ObstaclFakeBoard(Map.of(obstaclePosition, obstaclePiece));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
     }
@@ -288,7 +288,7 @@ class PoMoveStorageTest {
         Position obstaclePosition = Position.of(Row.of(2), Column.of(0));
         Piece obstaclePiece = new Piece(new PoMoveStorage(), Team.HAN, 7,  "包");
 
-        BoardState boardState = new ObstaclFakeBoard(Map.of(obstaclePosition, obstaclePiece));
+        BoardView boardState = new ObstaclFakeBoard(Map.of(obstaclePosition, obstaclePiece));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
     }
@@ -304,7 +304,7 @@ class PoMoveStorageTest {
         Position obstaclePosition = Position.of(Row.of(2), Column.of(0));
         Piece obstaclePiece = new Piece(new PoMoveStorage(), Team.HAN, 7,  "包");
 
-        BoardState boardState = new ObstaclFakeBoard(Map.of(obstaclePosition, obstaclePiece));
+        BoardView boardState = new ObstaclFakeBoard(Map.of(obstaclePosition, obstaclePiece));
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
     }
@@ -328,7 +328,7 @@ class PoMoveStorageTest {
                 targetPosition, targetPiece
         );
 
-        BoardState boardState = new ObstaclFakeBoard(initialPieces);
+        BoardView boardState = new ObstaclFakeBoard(initialPieces);
 
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
@@ -353,7 +353,7 @@ class PoMoveStorageTest {
                 targetPosition, targetPiece
         );
 
-        BoardState boardState = new ObstaclFakeBoard(initialPieces);
+        BoardView boardState = new ObstaclFakeBoard(initialPieces);
 
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
@@ -378,7 +378,7 @@ class PoMoveStorageTest {
                 targetPosition, targetPiece
         );
 
-        BoardState boardState = new ObstaclFakeBoard(initialPieces);
+        BoardView boardState = new ObstaclFakeBoard(initialPieces);
 
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
@@ -403,7 +403,7 @@ class PoMoveStorageTest {
                 targetPosition, targetPiece
         );
 
-        BoardState boardState = new ObstaclFakeBoard(initialPieces);
+        BoardView boardState = new ObstaclFakeBoard(initialPieces);
 
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
@@ -428,7 +428,7 @@ class PoMoveStorageTest {
                 pathObstaclePosition2, pathObstaclePiece2
         );
 
-        BoardState boardState = new ObstaclFakeBoard(initialPieces);
+        BoardView boardState = new ObstaclFakeBoard(initialPieces);
 
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
@@ -453,7 +453,7 @@ class PoMoveStorageTest {
                 pathObstaclePosition2, pathObstaclePiece2
         );
 
-        BoardState boardState = new ObstaclFakeBoard(initialPieces);
+        BoardView boardState = new ObstaclFakeBoard(initialPieces);
 
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
@@ -478,7 +478,7 @@ class PoMoveStorageTest {
                 pathObstaclePosition2, pathObstaclePiece2
         );
 
-        BoardState boardState = new ObstaclFakeBoard(initialPieces);
+        BoardView boardState = new ObstaclFakeBoard(initialPieces);
 
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();
@@ -503,7 +503,7 @@ class PoMoveStorageTest {
                 pathObstaclePosition2, pathObstaclePiece2
         );
 
-        BoardState boardState = new ObstaclFakeBoard(initialPieces);
+        BoardView boardState = new ObstaclFakeBoard(initialPieces);
 
         // when & then
         assertThat(moveStorage.canMove(from, to, boardState)).isFalse();

@@ -1,6 +1,6 @@
 package janggi.domain.movestorage;
 
-import janggi.domain.BoardState;
+import janggi.domain.BoardView;
 import janggi.domain.Column;
 import janggi.domain.Position;
 import janggi.domain.Row;
@@ -17,7 +17,7 @@ public class SangMoveStorage implements MoveStorage{
     private static final int PATH_STEP_0 = 0;
 
     @Override
-    public boolean canMove(Position from, Position to, BoardState boardState) {
+    public boolean canMove(Position from, Position to, BoardView boardState) {
         List<Integer> fromPosition = from.getPosition();
         List<Integer> toPosition = to.getPosition();
 

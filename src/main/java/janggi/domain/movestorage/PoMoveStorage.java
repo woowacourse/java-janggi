@@ -1,6 +1,6 @@
 package janggi.domain.movestorage;
 
-import janggi.domain.BoardState;
+import janggi.domain.BoardView;
 import janggi.domain.Column;
 import janggi.domain.Piece;
 import janggi.domain.Position;
@@ -11,7 +11,7 @@ import java.util.List;
 public class PoMoveStorage implements MoveStorage {
 
     @Override
-    public boolean canMove(Position from, Position to, BoardState boardState) {
+    public boolean canMove(Position from, Position to, BoardView boardState) {
         List<Integer> fromPosition = from.getPosition();
         List<Integer> toPosition = to.getPosition();
 
