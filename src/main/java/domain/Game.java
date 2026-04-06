@@ -50,6 +50,15 @@ public class Game {
         return board.calculateScore(team);
     }
 
+    public void lose(String turnName) {
+        if (turnName.equals(Team.CHU.getName())) {
+            this.status = Status.HAN_WIN;
+        }
+        if (turnName.equals(Team.HAN.getName())) {
+            this.status = Status.CHU_WIN;
+        }
+    }
+
     public String getTurnName() {
         return turn.getTeamName();
     }

@@ -29,6 +29,7 @@ public class JanggiController {
             if (!isContinue) {
                 break;
             }
+            outputView.printBoard(board.getBoard());
         }
         outputView.printGameResult(game.getStatus());
     }
@@ -36,8 +37,10 @@ public class JanggiController {
     private boolean move(Game game) {
         try {
             Board board = game.getBoard();
-            String currentInput = inputView.readPosition(game.getTurnName());
-            if (currentInput.equals("n")) {
+            String turnName = game.getTurnName();
+            String currentInput = inputView.readPosition(turnName);
+            if (currentInput.equals("r")) {
+                game.lose(turnName);
                 return false;
             }
             Position currentPosition = parsePosition(currentInput);
@@ -53,8 +56,6 @@ public class JanggiController {
             Position targetPosition = parsePosition(targetInput);
 
             game.tryToMove(currentPosition, targetPosition);
-
-            outputView.printBoard(board.getBoard());
 
             if (game.getStatus() != Status.PLAYING) {
                 return false;

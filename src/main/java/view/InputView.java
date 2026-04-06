@@ -39,11 +39,11 @@ public class InputView {
     
     public String readPosition(String turnName) {
         System.out.println(turnName + " 차례입니다.");
-        System.out.println("움직일 기물의 위치를 입력해주세요. (예: 0 0) [게임 종료는 n]");
+        System.out.println("움직일 기물의 위치를 입력해주세요. (예: 0 0) [게임 종료는 n] [기권은 r]");
 
         String input = scanner.nextLine();
         try {
-            if (input.equals("n")) {
+            if (input.equals("n") || input.equals("r")) {
                 return input;
             }
             validatePositionFormat(input);
@@ -53,6 +53,7 @@ public class InputView {
             }
             Integer.parseInt(tokens[0]);
             Integer.parseInt(tokens[1]);
+            System.out.println();
             return input;
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -76,6 +77,7 @@ public class InputView {
             }
             Integer.parseInt(tokens[0]);
             Integer.parseInt(tokens[1]);
+            System.out.println();
             return input;
         } catch (Exception e) {
             System.out.println(e.getMessage());
