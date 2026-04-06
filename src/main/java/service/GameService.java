@@ -60,6 +60,7 @@ public class GameService {
                 Connection connection = dataSource.getConnection()
         ) {
             boardRepository.delete(connection, gameId, from);
+            boardRepository.delete(connection, gameId, to);
             PieceInfo pieceInfo = pieceInfos.get(to);
             boardRepository.save(connection, gameId, to, pieceInfo);
         } catch (SQLException exception) {
