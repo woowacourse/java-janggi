@@ -297,40 +297,30 @@ no
       기존의 다른 기물 클래스나 Board의 이동 로직은 수정하지 않아도 되므로,
       다형성을 적용하기 전과 비교해 변경 범위가 명확하게 줄어든 것을 확인할 수 있습니다.
 
----
+### 사이클 2
 
-## DB 적용 이유
+### 기능 추가로 인해 수정한 위치 개수
 
-### 우테코는 왜 DB를 적용해보라 했을까???
+- 궁성 영역 추가 시 -> Position, SingleMovingPiece, StraightMovingPiece, Soldier 수정
+- DB 연동 추가 시 -> Board에 `load()` 정적 팩토리 메서드 추가, BoardInitializer에 `fillEmptyPositions()` 추출, Game 도메인 추가,
+  Controller/Service 계층 추가
 
-### DB에 무엇을 저장해야 할까?
+### 사이클1 때보다 수정 범위가 줄었는가/늘었는가
 
-### 어떤 단위로 저장해야 할까?
+- 궁성 영역 구현 시 기물 클래스 계층 구조를 재정의하면서 수정 범위가 사이클 1보다 늘어났습니다. 다만 `validateDirectionsInPalace()`를 부모 클래스에서 정의하고 자식 클래스에서
+  오버라이딩하는 구조 덕분에, 각 기물의 궁성 규칙이 해당 클래스 안에서만 변경되어 다른 기물에 영향을 주지 않았습니다.
 
-### 도메인 객체의 변경을 최소화하며 DB를 적용해야 하는 이유는?
+### 도메인과 저장소를 분리한 코드 1곳
 
-### 도메인 객체를 최소화하려면 DB를 어떻게 적용해야 할까?
+- Board 도메인은 게임 상태를 `Map<Position, State>`로 관리하고, DB 저장 및 조회는 BoardRepository가 담당합니다.
+  `Board.load(Map<Position, PieceInfo>)`를 통해 DB에서 조회한 데이터를 도메인 객체로 복원하는 방식으로 도메인이 DB에 직접 의존하지 않도록 했습니다.
 
-### 재시작의 기준은??
+### DB 변경 시 도메인 코드 영향 분석
 
-### DB 적용으로 인한 새로운 책임과 파급효과는?
+- H2에서 MySQL로 DB를 변경해도 `BoardRepositoryImpl`과 `GameRepositoryImpl`의 SQL 쿼리만 수정하면 된다고 생각합니다. Board, Game 등 도메인 객체는
+  변경이 필요하지 않습니다. 다만, `GameRepositoryImpl.findLatest()`의 `LIMIT 1`이 포함된 쿼리는 수정이 필요할 것 같습니다.
 
----
+### 규칙 적용으로 변경한 코드 1곳
 
-# 설계 관점에서의 고민
-
-### 복구 가능한 최소 상태
-
-### 복구 시나리오
-
-### 필요한 책임
-
-### 테이블 구조 설정
-
-```
-Game
-
-
-Board
-
-```
+- `Piece.validateClearPath()`에 Board를 직접 넘기던 양방향 의존을 제거했습니다. Board에서 경로 중간 기물 정보만 추출해 `Map<Position, PieceType>`으로
+  전달하고, 목적지 타입을 `PieceType destinationPieceType`으로 별도 전달하는 방식으로 변경했습니다. 이를 통해 Piece가 Board를 알지 않아도 경로 검증이 가능해졌습니다.
