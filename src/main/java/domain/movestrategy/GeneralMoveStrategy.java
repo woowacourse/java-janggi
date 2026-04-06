@@ -17,26 +17,26 @@ public class GeneralMoveStrategy implements MoveStrategy {
         return ALL_DIRECTIONS.stream()
                 .map(from::move)
                 .filter(board::inBoard)
-                .filter(to -> !isFacing(from, to, board))
+                .filter(to -> !isDirectlyFacingEnemyGeneral(from, to, board))
                 .filter(to -> !isAlly(from, to, board))
                 .toList();
     }
 
 
-    private boolean isFacing(final Position from, final Position to, final Board board) {
-        Position enemyGeneral = board.findGeneral(board.getPiece(from).opponentTeam());
+    private boolean isDirectlyFacingEnemyGeneral(final Position from, final Position to, final Board board) {
+        final Position enemyGeneral = board.findGeneral(board.getPiece(from).opponentTeam());
 
         if (to.column() != enemyGeneral.column()) {
             return false;
         }
 
-        int start = Math.min(to.row(), enemyGeneral.row()) + 1;
-        int end = Math.max(to.row(), enemyGeneral.row());
+        final int rowBetweenGeneralStart = Math.min(to.row(), enemyGeneral.row()) + 1;
+        final int rowBetweenGeneralEnd = Math.max(to.row(), enemyGeneral.row());
 
-        for (int row = start; row < end; row++) {
-            Position pos = Position.of(row, to.column());
+        for (int row = rowBetweenGeneralStart; row < rowBetweenGeneralEnd; row++) {
+            final Position position = Position.of(row, to.column());
 
-            if (!pos.equals(from) && board.hasPiece(pos)) {
+            if (!position.equals(from) && board.hasPiece(position)) {
                 return false;
             }
         }
