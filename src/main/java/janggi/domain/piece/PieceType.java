@@ -2,12 +2,12 @@ package janggi.domain.piece;
 
 public enum PieceType {
 
-    GENERAL(GeneralMoveStrategy.instance(), 0),
+    GENERAL(PalaceMoveStrategy.instance(), 0),
     CHARIOT(ChariotMoveStrategy.instance(), 13),
     CANNON(CannonMoveStrategy.instance(), 7),
     HORSE(HorseMoveStrategy.instance(), 5),
     ELEPHANT(ElephantMoveStrategy.instance(), 3),
-    GUARD(GuardMoveStrategy.instance(), 3),
+    GUARD(PalaceMoveStrategy.instance(), 3),
     SOLDIER(SoldierMoveStrategy.instance(), 2);
 
     private final MoveStrategy moveStrategy;

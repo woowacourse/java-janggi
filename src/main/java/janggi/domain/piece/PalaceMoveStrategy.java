@@ -7,12 +7,12 @@ import janggi.domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GeneralMoveStrategy implements MoveStrategy {
+public class PalaceMoveStrategy implements MoveStrategy {
 
-    private static final GeneralMoveStrategy GENERAL_MOVE_STRATEGY = new GeneralMoveStrategy();
+    private static final PalaceMoveStrategy PALACE_MOVE_STRATEGY = new PalaceMoveStrategy();
 
     public static MoveStrategy instance() {
-        return GENERAL_MOVE_STRATEGY;
+        return PALACE_MOVE_STRATEGY;
     }
 
     @Override
