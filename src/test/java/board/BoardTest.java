@@ -76,37 +76,6 @@ class BoardTest {
     }
 
     @ParameterizedTest
-    @EnumSource(Side.class)
-    void 해당_진영의_궁이_살아있다면_TRUE를_반환한다(Side side) {
-        // given
-        Piece piece = new Piece(side, PieceType.GUNG);
-        Map<Position, Piece> pieces = Map.of(
-            new Position(0, 0), piece
-        );
-        Board board = new Board(pieces);
-        // when
-        boolean hasGung = board.hasGungOf(side);
-        // then
-        assertThat(hasGung).isTrue();
-    }
-
-    @ParameterizedTest
-    @EnumSource(Side.class)
-    void 다른_진영의_궁만_있으면_FALSE를_반환한다(Side side) {
-        // given
-        Side other = getOtherSide(side);
-        Piece piece = new Piece(other, PieceType.GUNG);
-        Map<Position, Piece> pieces = Map.of(
-            new Position(0, 0), piece
-        );
-        Board board = new Board(pieces);
-        // when
-        boolean hasGung = board.hasGungOf(side);
-        // then
-        assertThat(hasGung).isFalse();
-    }
-
-    @ParameterizedTest
     @EnumSource(PieceType.class)
     void 특정_위치의_기물_타입을_반환한다(PieceType expected) {
         // given

@@ -110,13 +110,6 @@ class SangSetupTest {
         if (side.isCho()) {
             return position;
         }
-        return reverse(position);
-    }
-
-    private Position reverse(Position position) {
-        return new Position(
-            BOARD_ROW_SIZE - position.row().index(),
-            BOARD_COLUMN_SIZE - position.column().index()
-        );
+        return position.reverse();
     }
 }

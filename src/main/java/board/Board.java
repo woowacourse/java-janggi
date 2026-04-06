@@ -20,11 +20,6 @@ public record Board(Map<Position, Piece> pieces) {
         return Map.copyOf(pieces);
     }
 
-    public boolean hasGungOf(Side side) {
-        return pieces.values().stream()
-            .anyMatch(piece -> piece.isGung() && piece.isSameSide(side));
-    }
-
     public Score calculateScoreOf(Side side) {
         return pieces.values().stream()
             .filter(piece -> piece.isSameSide(side))

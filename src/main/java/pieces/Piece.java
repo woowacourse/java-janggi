@@ -19,10 +19,6 @@ public record Piece(Side side, PieceType type) {
         return type.isPo();
     }
 
-    public boolean isGung() {
-        return type.isGung();
-    }
-
     public Score getScore() {
         return type.getScore();
     }
