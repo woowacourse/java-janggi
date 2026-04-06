@@ -70,12 +70,19 @@ public class JanggiView {
             if (gameId == 0) {
                 return 0L;
             }
-            boolean nonMatch = gameSummaries.stream()
-                .noneMatch(game -> game.id().equals(gameId));
-            if (nonMatch) {
-                throw new IllegalArgumentException("게임 ID를 잘못 입력하셨습니다.");
-            }
+            validateGameId(gameSummaries, gameId);
             return gameId;
         });
+    }
+
+    private static void validateGameId(List<GameSummary> gameSummaries, Long gameId) {
+        GameSummary game = gameSummaries.stream()
+            .filter(gameSummary -> gameSummary.id().equals(gameId))
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException("게임 ID를 잘못 입력하셨습니다."));
+
+        if (game.status().isOver()) {
+            throw new IllegalArgumentException("종료된 게임은 입장할 수 없습니다.");
+        }
     }
 }
