@@ -40,6 +40,31 @@ public class GameJdbcDao implements GameDao {
         }
     }
 
+    @Override
+    public void update(Long gameId, String turnName, String status) {
+        String sql = "UPDATE games SET current_turn = ?, status = ?, updated_at = ? WHERE id = ?";
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            con = getConnection();
+            pstmt = con.prepareStatement(sql);
+
+            pstmt.setString(1, turnName);
+            pstmt.setString(2, status);
+            pstmt.setObject(3, OffsetDateTime.now());
+            pstmt.setLong(4, gameId);
+
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("[ERROR] " + e.getMessage());
+        } finally {
+            close(con, pstmt, rs);
+        }
+    }
+
     private Connection getConnection() {
         return DBConnectionUtil.getConnection();
     }

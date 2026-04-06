@@ -41,6 +41,7 @@ public class JanggiController {
 
         while (true) {
             boolean isContinue = move(game);
+            gameDao.update(savedGame.getId(), game.getTurnName(), game.getStatus().toString());
             outputView.printScore(game.calculateScore(Team.CHU), game.calculateScore(Team.HAN));
 
             if (!isContinue) {
