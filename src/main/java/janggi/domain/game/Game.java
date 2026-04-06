@@ -56,19 +56,7 @@ public class Game {
     }
 
     public double getScore(Side side) {
-        double totalScore = 0;
-
-        for (Point point : board.getBoard().keySet()) {
-            Side pieceSide = board.getPointPieceSide(point);
-
-            if (side == pieceSide) {
-                totalScore += board.getPieceAtPoint(point).getScore();
-            }
-        }
-
-        totalScore += side.getBonusScore();
-
-        return totalScore;
+        return board.calculateScore(side);
     }
 
     private void switchTurn() {

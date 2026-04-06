@@ -95,6 +95,22 @@ public class Board {
         return piece.getSide();
     }
 
+    public double calculateScore(Side side) {
+        double totalScore = 0;
+
+        for (Point point : board.keySet()) {
+            Side pieceSide = getPointPieceSide(point);
+
+            if (side == pieceSide) {
+                totalScore += getPieceAtPoint(point).getScore();
+            }
+        }
+
+        totalScore += side.getBonusScore();
+
+        return totalScore;
+    }
+
     private List<Path> convertToPaths(List<Pattern> patterns, Point from, PathStrategy pathStrategy) {
         return patterns.stream()
                 .map(pattern -> convertToPath(pattern, from, pathStrategy))
