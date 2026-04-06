@@ -5,10 +5,9 @@ import domain.position.Position;
 import domain.Team;
 import domain.strategy.CannonStrategy;
 
-import domain.strategy.Strategy;
 import java.util.List;
 
-public class Cannon extends Piece {
+public class Cannon extends MoveablePiece {
 
     public Cannon(Team team) {
         super(team, new CannonStrategy());

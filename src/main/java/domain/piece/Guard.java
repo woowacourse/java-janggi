@@ -3,12 +3,11 @@ package domain.piece;
 import domain.PieceProvider;
 import domain.position.Position;
 import domain.Team;
-import domain.strategy.Strategy;
 import domain.strategy.PalaceStrategy;
 
 import java.util.List;
 
-public class Guard extends Piece {
+public class Guard extends MoveablePiece {
 
     public Guard(Team team) {
         super(team, new PalaceStrategy());

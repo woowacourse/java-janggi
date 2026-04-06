@@ -4,11 +4,10 @@ import domain.PieceProvider;
 import domain.position.Position;
 import domain.Team;
 import domain.strategy.ElephantStrategy;
-import domain.strategy.Strategy;
 
 import java.util.List;
 
-public class Elephant extends Piece {
+public class Elephant extends MoveablePiece {
 
     public Elephant(Team team) {
         super(team, new ElephantStrategy());

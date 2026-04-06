@@ -11,6 +11,7 @@ import domain.piece.Guard;
 import domain.piece.Horse;
 import domain.piece.King;
 import domain.piece.Pawn;
+import domain.piece.MoveablePiece;
 import domain.piece.Piece;
 import domain.position.Position;
 import java.util.HashMap;

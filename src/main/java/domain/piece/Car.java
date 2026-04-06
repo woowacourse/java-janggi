@@ -4,11 +4,10 @@ import domain.PieceProvider;
 import domain.position.Position;
 import domain.Team;
 import domain.strategy.CarStrategy;
-import domain.strategy.Strategy;
 
 import java.util.List;
 
-public class Car extends Piece {
+public class Car extends MoveablePiece {
 
     public Car(Team team) {
         super(team, new CarStrategy());
