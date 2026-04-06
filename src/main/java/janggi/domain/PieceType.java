@@ -10,19 +10,17 @@ import janggi.domain.moveRules.SangMoveRule;
 import janggi.domain.moveRules.ZolMoveRule;
 
 public enum PieceType {
-    KING("왕", new KingMoveRule()),
-    SA("사", new SaMoveRule()),
-    SANG("상", new SangMoveRule()),
-    MA("마", new MaMoveRule()),
-    CHA("차", new ChaMoveRule()),
-    PO("포", new PoMoveRule()),
-    ZOL("졸", new ZolMoveRule());
+    KING(new KingMoveRule()),
+    SA(new SaMoveRule()),
+    SANG(new SangMoveRule()),
+    MA(new MaMoveRule()),
+    CHA(new ChaMoveRule()),
+    PO(new PoMoveRule()),
+    ZOL(new ZolMoveRule());
 
-    private final String name;
     private final MoveRule moveRule;
 
-    PieceType(String name, MoveRule moveRule) {
-        this.name = name;
+    PieceType(MoveRule moveRule) {
         this.moveRule = moveRule;
     }
 
