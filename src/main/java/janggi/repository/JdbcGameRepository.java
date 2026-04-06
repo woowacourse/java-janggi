@@ -15,7 +15,8 @@ import java.util.Optional;
 
 public class JdbcGameRepository implements GameRepository {
 
-    private JdbcConnectionManager connectionManager;
+    private final JdbcConnectionManager connectionManager;
+    private final TransactionalService transactionalService = new TransactionalService();
 
     public JdbcGameRepository(JdbcConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
@@ -59,9 +60,11 @@ public class JdbcGameRepository implements GameRepository {
     @Override
     public Long save(GameSnapshot gameSnapshot) {
         try (Connection connection = connectionManager.getConnection()) {
-            Long gameId = insertGame(connection, gameSnapshot);
-            insertPieces(connection, gameId, gameSnapshot.positions());
-            return gameId;
+            return transactionalService.executeInTransaction(connection, conn -> {
+                Long gameId = insertGame(conn, gameSnapshot);
+                insertPieces(conn, gameId, gameSnapshot.positions());
+                return gameId;
+            });
         } catch (SQLException exception) {
             throw new RuntimeException("[ERROR] 게임 저장 중 데이터베이스 오류가 발생했습니다.", exception);
         }
@@ -70,9 +73,12 @@ public class JdbcGameRepository implements GameRepository {
     @Override
     public void update(GameSnapshot gameSnapshot) {
         try (Connection connection = connectionManager.getConnection()) {
-            updateGame(connection, gameSnapshot);
-            deletePieces(connection, gameSnapshot.id());
-            insertPieces(connection, gameSnapshot.id(), gameSnapshot.positions());
+            transactionalService.executeInTransaction(connection, conn -> {
+                updateGame(conn, gameSnapshot);
+                deletePieces(conn, gameSnapshot.id());
+                insertPieces(conn, gameSnapshot.id(), gameSnapshot.positions());
+                return null;
+            });
         } catch (SQLException exception) {
             throw new RuntimeException("[ERROR] 게임 수정 중 데이터베이스 오류가 발생했습니다.", exception);
         }
