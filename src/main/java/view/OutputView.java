@@ -58,7 +58,10 @@ public class OutputView {
     }
 
     public void printDestinations(List<Position> destinations) {
-        System.out.println(String.join(", ", destinations.stream().map(Position::toString).toList()));
+        System.out.println(String.join(", ", destinations.stream()
+                .map(Position::getPosition)
+                .map(position -> String.format("(%d, %d)", position.getFirst(), position.getLast()))
+                .toList()));
     }
 
     public void printWinner(String winner) {
