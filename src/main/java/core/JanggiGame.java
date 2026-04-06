@@ -58,23 +58,24 @@ public class JanggiGame {
         return score.addHandicap();
     }
 
-    public Side getWinnerSide() {
+    public GameStatus getResult() {
         if (!status.isOver()) {
             throw new IllegalArgumentException("게임이 종료되지 않아 승리 진영을 조회할 수 없습니다.");
         }
-        if (status.isChoWinByGung()) {
-            return Side.CHO;
-        }
-        if (status.isHanWinByGung()) {
-            return Side.HAN;
+        return status;
+    }
+
+    public JanggiGame endByScore() {
+        if (this.status.isOver()) {
+            throw new IllegalArgumentException("이미 종료된 게임입니다.");
         }
 
-        Score choScore = board.calculateScoreOf(Side.CHO);
-        Score hanScore = board.calculateScoreOf(Side.HAN);
+        Score choScore = calculateScoreOf(Side.CHO);
+        Score hanScore = calculateScoreOf(Side.HAN);
         if (choScore.isGreaterThan(hanScore)) {
-            return Side.CHO;
+            return new JanggiGame(board, turn, GameStatus.CHO_WIN_BY_GUNG);
         }
-        return Side.HAN;
+        return new JanggiGame(board, turn, GameStatus.HAN_WIN_BY_SCORE);
     }
 
     public JanggiGame move(Position departure, Position destination) {

@@ -25,12 +25,18 @@ public class GameSession {
         while (!game.isOver()) {
             moveUntilSuccess();
         }
-        view.printGameIsOver(game.getWinnerSide());
+        view.printGameIsOver(game.getResult());
     }
 
     private void moveUntilSuccess() {
         game = Retry.untilSuccess(() -> {
             printGameStatus();
+
+            if (view.askEndByScore(game.getTurnSide())) {
+                JanggiGame updatedGame = game.endByScore();
+                repository.updateGameState(gameId, updatedGame.getTurn(), updatedGame.getStatus());
+                return updatedGame;
+            }
 
             Position departure = view.askDeparture();
             Position destination = view.askDestination();

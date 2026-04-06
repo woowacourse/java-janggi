@@ -1,6 +1,7 @@
 package view;
 
 import board.SangSetupType;
+import core.GameStatus;
 import db.model.GameEntity;
 import java.util.List;
 import participant.Score;
@@ -28,6 +29,17 @@ public class JanggiView {
         out.printTurnSide(side);
     }
 
+    public boolean askEndByScore(Side turnSide) {
+        return Retry.untilSuccess(() -> {
+            out.askEndByScore();
+            if (!in.readYesOrNo()) {
+                return false;
+            }
+            out.askConfirmEndByScore(turnSide.other());
+            return in.readYesOrNo();
+        });
+    }
+
     public Position askDeparture() {
         out.askDeparture();
         return readPositionUntilSuccess();
@@ -42,8 +54,8 @@ public class JanggiView {
         return Retry.untilSuccess(in::readPosition);
     }
 
-    public void printGameIsOver(Side winner) {
-        out.printGameIsOver(winner);
+    public void printGameIsOver(GameStatus status) {
+        out.printGameIsOver(status);
     }
 
     public void printScore(Side side, Score score) {

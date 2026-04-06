@@ -15,7 +15,7 @@ import pieces.PieceType;
 import pieces.Side;
 import position.Position;
 
-class JanggiGameEntityTest {
+class JanggiGameTest {
 
     @Nested
     @DisplayName("공격 차례를 검증한다")
@@ -25,8 +25,8 @@ class JanggiGameEntityTest {
         void 초의_턴으로_시작할_때_한의_기물로_공격하는_경우_예외를_던진다() {
             // given
             Turn choTurn = Turn.CHO_TURN;
-            Position departure = pos(0, 0);
-            Position destination = pos(1, 0);
+            Position departure = toPosition(0, 0);
+            Position destination = toPosition(1, 0);
             Piece hanPiece = piece(Side.HAN, PieceType.CHA);
 
             JanggiGame game = game(choTurn, Map.of(
@@ -40,8 +40,8 @@ class JanggiGameEntityTest {
         @Test
         void 한의_턴일_때_초의_기물로_공격하는_경우_예외를_던진다() {
             // given
-            Position choDeparture = pos(9, 0);
-            Position choDestination = pos(8, 0);
+            Position choDeparture = toPosition(9, 0);
+            Position choDestination = toPosition(8, 0);
             Piece choPiece = piece(Side.CHO, PieceType.CHA);
 
             JanggiGame game = startWith(Map.of(
@@ -56,9 +56,9 @@ class JanggiGameEntityTest {
         @Test
         void 기물을_한_번_이동시키면_턴이_바뀐다() {
             // given
-            Position choDeparture = pos(0, 0);
-            Position choDestination = pos(1, 0);
-            Position hanDeparture = pos(9, 0);
+            Position choDeparture = toPosition(0, 0);
+            Position choDestination = toPosition(1, 0);
+            Position hanDeparture = toPosition(9, 0);
             Piece choPiece = piece(Side.CHO, PieceType.CHA);
             Piece hanPiece = piece(Side.HAN, PieceType.CHA);
 
@@ -75,8 +75,8 @@ class JanggiGameEntityTest {
         @Test
         void 기본_게임은_초가_먼저_시작한다() {
             // given
-            Position departure = pos(9, 0);
-            Position destination = pos(8, 0);
+            Position departure = toPosition(9, 0);
+            Position destination = toPosition(8, 0);
             Piece choPiece = piece(Side.CHO, PieceType.CHA);
 
             JanggiGame janggiGame = startWith(Map.of(
@@ -95,8 +95,8 @@ class JanggiGameEntityTest {
         @Test
         void 궁이_잡히면_게임이_종료된다() {
             // given
-            Position departure = pos(3, 4);
-            Position destination = pos(8, 4);
+            Position departure = toPosition(3, 4);
+            Position destination = toPosition(8, 4);
             Piece choPiece = piece(Side.CHO, PieceType.CHA);
             Piece hanGung = piece(Side.HAN, PieceType.GUNG);
 
@@ -113,14 +113,14 @@ class JanggiGameEntityTest {
         @Test
         void 궁이_잡히지_않으면_게임이_계속_진행된다() {
             // given
-            Position departure = pos(1, 4);
-            Position destination = pos(1, 5);
+            Position departure = toPosition(1, 4);
+            Position destination = toPosition(1, 5);
             Piece choPiece = piece(Side.CHO, PieceType.CHA);
             Piece hanGung = piece(Side.HAN, PieceType.GUNG);
 
             JanggiGame game = startWith(Map.of(
                 departure, choPiece,
-                pos(8, 4), hanGung
+                toPosition(8, 4), hanGung
             ));
             // when
             game = game.move(departure, destination);
@@ -131,8 +131,8 @@ class JanggiGameEntityTest {
         @Test
         void 게임이_종료된_상태에_기물을_움직일_경우_예외를_던진다() {
             // given
-            Position departure = pos(1, 4);
-            Position destination = pos(1, 5);
+            Position departure = toPosition(1, 4);
+            Position destination = toPosition(1, 5);
             Piece choPiece = piece(Side.CHO, PieceType.CHA);
 
             JanggiGame game = new JanggiGame(
@@ -155,15 +155,15 @@ class JanggiGameEntityTest {
             // given
             JanggiGame game = startWith(Map.of());
             // when & then
-            assertThatThrownBy(game::getWinnerSide)
+            assertThatThrownBy(game::getResult)
                 .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test
         void 초가_한의_궁을_잡아_종료되면_초가_승리한다() {
             // given
-            Position departure = pos(3, 4);
-            Position destination = pos(8, 4);
+            Position departure = toPosition(3, 4);
+            Position destination = toPosition(8, 4);
             Piece choPiece = piece(Side.CHO, PieceType.CHA);
             Piece hanGung = piece(Side.HAN, PieceType.GUNG);
 
@@ -173,16 +173,16 @@ class JanggiGameEntityTest {
             ));
             JanggiGame finished = game.move(departure, destination);
             // when
-            Side winnerSide = finished.getWinnerSide();
+            GameStatus result = finished.getResult();
             // then
-            assertThat(winnerSide).isEqualTo(Side.CHO);
+            assertThat(result).isEqualTo(GameStatus.CHO_WIN_BY_GUNG);
         }
 
         @Test
         void 한이_초의_궁을_잡아_종료되면_한이_승리한다() {
             /// given
-            Position departure = pos(3, 4);
-            Position destination = pos(8, 4);
+            Position departure = toPosition(3, 4);
+            Position destination = toPosition(8, 4);
             Piece hanPiece = piece(Side.HAN, PieceType.CHA);
             Piece choGung = piece(Side.CHO, PieceType.GUNG);
 
@@ -192,9 +192,9 @@ class JanggiGameEntityTest {
             ));
             JanggiGame finished = game.move(departure, destination);
             // when
-            Side winnerSide = finished.getWinnerSide();
+            GameStatus result = finished.getResult();
             // then
-            assertThat(winnerSide).isEqualTo(Side.HAN);
+            assertThat(result).isEqualTo(GameStatus.HAN_WIN_BY_GUNG);
         }
 
         @Test
@@ -205,16 +205,16 @@ class JanggiGameEntityTest {
 
             JanggiGame game = new JanggiGame(
                 new Board(Map.of(
-                    pos(0, 0), choPiece,
-                    pos(9, 0), hanPiece
+                    toPosition(0, 0), choPiece,
+                    toPosition(9, 0), hanPiece
                 )),
                 Turn.CHO_TURN,
-                GameStatus.SCORE_DECIDED
+                GameStatus.PLAYING
             );
             // when
-            Side winnerSide = game.getWinnerSide();
+            JanggiGame endGame = game.endByScore();
             // then
-            assertThat(winnerSide).isEqualTo(Side.CHO);
+            assertThat(endGame.getResult()).isEqualTo(GameStatus.CHO_WIN_BY_GUNG);
         }
 
         @Test
@@ -225,20 +225,20 @@ class JanggiGameEntityTest {
 
             JanggiGame game = new JanggiGame(
                 new Board(Map.of(
-                    pos(0, 0), hanPiece,
-                    pos(9, 0), choPiece
+                    toPosition(0, 0), hanPiece,
+                    toPosition(9, 0), choPiece
                 )),
                 Turn.CHO_TURN,
-                GameStatus.SCORE_DECIDED
+                GameStatus.PLAYING
             );
             // when
-            Side winnerSide = game.getWinnerSide();
+            JanggiGame endGame = game.endByScore();
             // then
-            assertThat(winnerSide).isEqualTo(Side.HAN);
+            assertThat(endGame.getResult()).isEqualTo(GameStatus.HAN_WIN_BY_SCORE);
         }
     }
 
-    private static Position pos(int row, int column) {
+    private static Position toPosition(int row, int column) {
         return new Position(row, column);
     }
 

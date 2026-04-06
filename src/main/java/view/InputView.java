@@ -27,6 +27,17 @@ public class InputView {
         return parseLong(readStrippedLine());
     }
 
+    public boolean readYesOrNo() {
+        String input = readStrippedLine().toLowerCase();
+        if (input.equals("y")) {
+            return true;
+        }
+        if (input.equals("n")) {
+            return false;
+        }
+        throw new IllegalArgumentException("y 또는 n 만 입력할 수 있습니다.");
+    }
+
     private Long parseLong(final String input) {
         try {
             return Long.parseLong(input);
