@@ -22,6 +22,10 @@ public class Board implements PalaceRouter {
         this.pieces = new HashMap<>(pieces);
     }
 
+    public GameSnapshot capture() {
+        return GameSnapshot.from(pieces);
+    }
+
     public List<Piece> getBlockingPieces(Route route) {
         return route.intermediateNodes().stream()
                 .map(pieces::get)

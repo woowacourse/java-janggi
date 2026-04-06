@@ -14,8 +14,8 @@ class ScoreCalculatorTest {
 
     @Test
     void 빈_보드는_팀별_기준_점수만_반영한다() {
-        Board board = new Board(new HashMap<>());
-        TeamScores scores = scoreCalculator.calculate(board);
+        GameSnapshot snapshot = GameSnapshot.from(new HashMap<>());
+        TeamScores scores = scoreCalculator.calculate(snapshot);
 
         assertThat(scores.pointsFor(TeamColor.CHO)).isEqualTo(MaterialPoints.of(72));
         assertThat(scores.pointsFor(TeamColor.HAN)).isEqualTo(MaterialPoints.of(73.5));
@@ -24,9 +24,8 @@ class ScoreCalculatorTest {
     @Test
     void 초_차_한_기만_있으면_72에_13을_더한다() {
         Piece choRook = Piece.of(TeamColor.CHO, PieceType.ROOK);
-        Map<Position, Piece> pieces = Map.of(Position.of(0, 0), choRook);
-        Board board = new Board(pieces);
-        TeamScores scores = scoreCalculator.calculate(board);
+        GameSnapshot snapshot = GameSnapshot.from(Map.of(Position.of(0, 0), choRook));
+        TeamScores scores = scoreCalculator.calculate(snapshot);
 
         assertThat(scores.pointsFor(TeamColor.CHO)).isEqualTo(MaterialPoints.of(85));
         assertThat(scores.pointsFor(TeamColor.HAN)).isEqualTo(MaterialPoints.of(73.5));
@@ -35,11 +34,11 @@ class ScoreCalculatorTest {
     @Test
     void InnerFormation_초기판이면_초_144_한_145점5이다() {
         InnerFormationStrategy strategy = new InnerFormationStrategy();
-        Map<Position, Piece> pieces = new HashMap<>();
-        pieces.putAll(strategy.setUpPieces(TeamColor.CHO));
-        pieces.putAll(strategy.setUpPieces(TeamColor.HAN));
-        Board board = new Board(pieces);
-        TeamScores scores = scoreCalculator.calculate(board);
+        Map<Position, Piece> pieceMap = new HashMap<>();
+        pieceMap.putAll(strategy.setUpPieces(TeamColor.CHO));
+        pieceMap.putAll(strategy.setUpPieces(TeamColor.HAN));
+        GameSnapshot snapshot = GameSnapshot.from(pieceMap);
+        TeamScores scores = scoreCalculator.calculate(snapshot);
 
         assertThat(scores.pointsFor(TeamColor.CHO)).isEqualTo(MaterialPoints.of(144));
         assertThat(scores.pointsFor(TeamColor.HAN)).isEqualTo(MaterialPoints.of(145.5));

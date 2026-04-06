@@ -4,28 +4,26 @@ import java.util.Map;
 
 public final class ScoreCalculator {
 
-    public TeamScores calculate(Board board) {
-        MaterialPoints choTotal = totalForTeam(board, TeamColor.CHO);
-        MaterialPoints hanTotal = totalForTeam(board, TeamColor.HAN);
+    public TeamScores calculate(GameSnapshot snapshot) {
+        Map<Position, Piece> placedPieces = snapshot.pieces();
+        MaterialPoints choTotal = totalForTeam(placedPieces, TeamColor.CHO);
+        MaterialPoints hanTotal = totalForTeam(placedPieces, TeamColor.HAN);
         return TeamScores.of(choTotal, hanTotal);
     }
 
-    private MaterialPoints totalForTeam(Board board, TeamColor teamColor) {
+    private MaterialPoints totalForTeam(Map<Position, Piece> pieces, TeamColor teamColor) {
         MaterialPoints base = teamColor.startingScore();
-        MaterialPoints material = materialSum(board, teamColor);
+        MaterialPoints material = materialSumForTeam(pieces, teamColor);
         return base.plus(material);
     }
 
-    private MaterialPoints materialSum(Board board, TeamColor teamColor) {
+    private MaterialPoints materialSumForTeam(Map<Position, Piece> pieces, TeamColor teamColor) {
         MaterialPoints sum = MaterialPoints.zero();
-        for (Map.Entry<Position, Piece> entry : board.findPiecesByTeam(teamColor)) {
-            sum = addPieceMaterial(sum, entry);
+        for (Piece piece : pieces.values()) {
+            if (piece.isOnTeam(teamColor)) {
+                sum = sum.plus(piece.materialPoints());
+            }
         }
         return sum;
-    }
-
-    private MaterialPoints addPieceMaterial(MaterialPoints sum, Map.Entry<Position, Piece> entry) {
-        Piece piece = entry.getValue();
-        return sum.plus(piece.materialPoints());
     }
 }
