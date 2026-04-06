@@ -3,6 +3,7 @@ package domain.piece;
 import domain.game.Team;
 import domain.position.Position;
 import java.util.List;
+import java.util.function.Function;
 
 public abstract class Piece {
     private final Team team;
@@ -14,6 +15,18 @@ public abstract class Piece {
     public abstract boolean canMove(Position source, Position target);
 
     public abstract List<Position> calculateRoute(Position source, Position target);
+
+    public void validateMove(Position source, Position target, Function<Position, Piece> pieceAt) {
+        if (!canMove(source, target)) {
+            throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
+        }
+
+        List<Piece> piecesOnRoute = calculateRoute(source, target).stream()
+                .map(pieceAt)
+                .toList();
+
+        validateRoute(piecesOnRoute, pieceAt.apply(target));
+    }
 
     public void validateRoute(List<Piece> piecesOnRoute, Piece destinationPiece) {
         if (piecesOnRoute.stream().anyMatch(Piece::isNotEmpty)) {
