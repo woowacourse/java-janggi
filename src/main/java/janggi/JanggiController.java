@@ -5,6 +5,7 @@ import janggi.view.InputView;
 import janggi.view.OutputView;
 
 import java.util.List;
+import java.util.Optional;
 
 public class JanggiController {
     private static final String END_COMMAND = "end";
@@ -20,9 +21,13 @@ public class JanggiController {
     }
 
     public void run() {
-        initializeGame();
+        Optional<Team> previousTurn = game.checkPreviousGame();
+        if (previousTurn.isEmpty()) {
+            initializeGame();
+        }
+        Team currentTurn = previousTurn.orElse(Team.FIRST_TURN);
         outputView.printBoard(game.getBoard(), game.getScore());
-        startGame();
+        startGame(currentTurn);
     }
 
     private void initializeGame() {
@@ -38,8 +43,7 @@ public class JanggiController {
         }
     }
 
-    private void startGame() {
-        Team currentTeam = Team.FIRST_TURN;
+    private void startGame(Team currentTeam) {
         while (!game.isFinished(currentTeam)) {
             try {
                 List<String> positions = inputView.readPosition(currentTeam);

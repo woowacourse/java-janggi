@@ -17,42 +17,112 @@ public class GameRepository {
         this.conn = conn;
     }
 
-    public int createGame(Map<Position, Piece> board) throws SQLException {
-        int gameId = insertGame();
-        savePieces(gameId, board);
-        return gameId;
-    }
-
-    public Optional<GameInfo> findGame() throws SQLException {
-        String sql = "SELECT * FROM game";
-        PreparedStatement pstmt = conn.prepareStatement(sql);
-
-        ResultSet rs = pstmt.executeQuery();
-        if (!rs.next()) {
-            return Optional.empty();
+    public int createGame(Map<Position, Piece> board) {
+        try {
+            int gameId = insertGame();
+            savePieces(gameId, board);
+            return gameId;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        return Optional.of(new GameInfo(
-                rs.getInt("id"),
-                rs.getString("current_turn"),
-                rs.getString("winner")));
     }
 
-    public List<PieceInfo> findPieces(int gameId) throws SQLException {
-        String sql = "SELECT type, team, piece_row, piece_col FROM piece WHERE game_id = ?";
-        PreparedStatement pstmt = conn.prepareStatement(sql);
-        pstmt.setInt(1, gameId);
+    public Optional<GameInfo> findGame() {
+        try {
+            String sql = "SELECT * FROM game";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
 
-        ResultSet rs = pstmt.executeQuery();
-        List<PieceInfo> pieces = new ArrayList<>();
-        while (rs.next()) {
-            pieces.add(new PieceInfo(
-                    rs.getString("type"),
-                    rs.getString("team"),
-                    rs.getInt("piece_row"),
-                    rs.getInt("piece_col")));
+            ResultSet rs = pstmt.executeQuery();
+            if (!rs.next()) {
+                return Optional.empty();
+            }
+            return Optional.of(new GameInfo(
+                    rs.getInt("id"),
+                    rs.getString("current_turn"),
+                    rs.getString("winner")));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        return pieces;
     }
+
+    public List<PieceInfo> findPieces(int gameId) {
+        try {
+            String sql = "SELECT type, team, piece_row, piece_col FROM piece WHERE game_id = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, gameId);
+
+            ResultSet rs = pstmt.executeQuery();
+            List<PieceInfo> pieces = new ArrayList<>();
+            while (rs.next()) {
+                pieces.add(new PieceInfo(
+                        rs.getString("type"),
+                        rs.getString("team"),
+                        rs.getInt("piece_row"),
+                        rs.getInt("piece_col")));
+            }
+            return pieces;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void movePiece(int gameId, Position from, Position to) {
+        try {
+            String deleteSql = "DELETE FROM piece WHERE game_id = ? AND piece_row = ? AND piece_col = ?";
+            PreparedStatement deletePstmt = conn.prepareStatement(deleteSql);
+            deletePstmt.setInt(1, gameId);
+            deletePstmt.setInt(2, to.getRowValue());
+            deletePstmt.setInt(3, to.getColumnValue());
+            deletePstmt.executeUpdate();
+
+            String updateSql = "UPDATE piece SET piece_row = ?, piece_col = ? WHERE game_id = ? AND piece_row = ? AND piece_col = ?";
+            PreparedStatement updatePstmt = conn.prepareStatement(updateSql);
+            updatePstmt.setInt(1, to.getRowValue());
+            updatePstmt.setInt(2, to.getColumnValue());
+            updatePstmt.setInt(3, gameId);
+            updatePstmt.setInt(4, from.getRowValue());
+            updatePstmt.setInt(5, from.getColumnValue());
+            updatePstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateTurn(int gameId, Team nextTurn) {
+        try {
+            String sql = "UPDATE game SET current_turn = ? WHERE id = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, nextTurn.name());
+            pstmt.setInt(2, gameId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateWinner(int gameId, Team winner) {
+        try {
+            String sql = "UPDATE game SET winner = ? WHERE id = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, winner.name());
+            pstmt.setInt(2, gameId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void deleteGame(int gameId) {
+        try {
+            String sql = "DELETE FROM game WHERE id = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, gameId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     private int insertGame() throws SQLException {
         String sql = "INSERT INTO game (current_turn) VALUES(?)";

@@ -2,6 +2,7 @@ package janggi;
 
 import janggi.db.DBConnection;
 import janggi.db.DBInitializer;
+import janggi.repository.GameRepository;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 
@@ -15,7 +16,7 @@ public class JanggiApplication {
             DBInitializer initializer = new DBInitializer();
             initializer.initialize(conn);
 
-            JanggiGame game = new JanggiGame();
+            JanggiGame game = new JanggiGame(new GameRepository(conn));
             JanggiController controller = new JanggiController(new InputView(), new OutputView(), game);
             controller.run();
         } catch (SQLException e) {

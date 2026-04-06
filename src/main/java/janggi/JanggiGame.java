@@ -8,18 +8,42 @@ import janggi.domain.position.Movement;
 import janggi.domain.position.Position;
 import janggi.domain.score.Score;
 import janggi.domain.team.Team;
+import janggi.repository.GameInfo;
+import janggi.repository.GameRepository;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class JanggiGame {
     private static final int FROM_INDEX = 0;
     private static final int TO_INDEX = 1;
 
+    private final GameRepository repository;
     private Board board;
+    private int gameId;
+
+    public JanggiGame(GameRepository repository) {
+        this.repository = repository;
+    }
+
+    public Optional<Team> checkPreviousGame() {
+        Optional<GameInfo> gameInfo = repository.findGame();
+        if (gameInfo.isEmpty()) {
+            return Optional.empty();
+        }
+        if (gameInfo.get().getWinner() != null) {
+            repository.deleteGame(gameInfo.get().getGameId());
+            return Optional.empty();
+        }
+        gameId = gameInfo.get().getGameId();
+        board = BoardFactory.restore(repository.findPieces(gameId));
+        return Optional.of(Team.valueOf(gameInfo.get().getCurrentTeam()));
+    }
 
     public void initialize(String hanSetup, String choSetup) {
         board = BoardFactory.create(PieceSetup.from(hanSetup), PieceSetup.from(choSetup));
+        gameId = repository.createGame(board.showBoard());
     }
 
     public void playTurn(List<String> positions, Team currentTeam) {
