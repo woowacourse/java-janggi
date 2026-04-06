@@ -1,10 +1,13 @@
 package janggi.domain.piece;
 
+import janggi.domain.board.Palace;
 import janggi.domain.board.Position;
 import java.util.List;
 import java.util.Map;
 
 public class SoldierPiece extends Piece {
+    private static final Palace PALACE = new Palace();
+
     public SoldierPiece(Team team) {
         super(team, Name.SOLDIER);
     }
@@ -12,9 +15,9 @@ public class SoldierPiece extends Piece {
     @Override
     public boolean canMoveByBasicMovingRule(Position from, Position to) {
         if (getTeam() == Team.HAN) {
-            return canMoveHanSoldier(from, to);
+            return canMoveHanSoldier(from, to) || PALACE.canMoveSoldierDiagonally(getTeam(), from, to);
         }
-        return canMoveChoSoldier(from, to);
+        return canMoveChoSoldier(from, to) || PALACE.canMoveSoldierDiagonally(getTeam(), from, to);
     }
 
     @Override

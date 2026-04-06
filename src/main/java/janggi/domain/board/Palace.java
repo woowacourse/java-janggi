@@ -22,6 +22,20 @@ public class Palace {
         return false;
     }
 
+    public boolean canMoveSoldierDiagonally(Team team, Position from, Position to) {
+        Team opponentTeam = findOpponentTeam(team);
+        if (!contains(opponentTeam, from) || !contains(opponentTeam, to)) {
+            return false;
+        }
+        if (!canMoveDiagonally(opponentTeam, from, to)) {
+            return false;
+        }
+        if (team == Team.HAN) {
+            return from.deltaY(to) == 1;
+        }
+        return from.deltaY(to) == -1;
+    }
+
     private boolean contains(Team team, Position position) {
         if (position.x() < MIN_X || position.x() > MAX_X) {
             return false;
@@ -50,6 +64,13 @@ public class Palace {
             return HAN_CENTER;
         }
         return CHO_CENTER;
+    }
+
+    private Team findOpponentTeam(Team team) {
+        if (team == Team.HAN) {
+            return Team.CHO;
+        }
+        return Team.HAN;
     }
 
     private boolean isCorner(Team team, Position position) {
