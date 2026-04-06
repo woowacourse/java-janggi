@@ -2,7 +2,8 @@ CREATE TABLE IF NOT EXISTS game (
     game_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     created_at TIMESTAMP,
     cho_table_setting VARCHAR(20),
-    han_table_setting VARCHAR(20)
+    han_table_setting VARCHAR(20),
+    is_finished BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE IF NOT EXISTS board (

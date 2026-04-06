@@ -75,6 +75,7 @@ public class JanggiController {
             gameService.updateBoard(gameId, from, to, board.getPieceInfos());
 
             if (isGeneralCaught) {
+                gameService.finishGame(gameId);
                 outputView.printWinner(CountryFormatter.from(country), CountryFormatter.from(otherSide));
                 return;
             }

@@ -67,4 +67,12 @@ public class GameService {
             throw new IllegalStateException(exception.getMessage());
         }
     }
+
+    public void finishGame(Long gameId) {
+        try (Connection connection = dataSource.getConnection()) {
+            gameRepository.finishedGame(connection, gameId);
+        } catch (SQLException exception) {
+            throw new IllegalStateException(exception.getMessage());
+        }
+    }
 }

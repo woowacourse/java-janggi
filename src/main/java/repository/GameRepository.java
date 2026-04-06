@@ -8,4 +8,6 @@ public interface GameRepository {
     Optional<Long> save(Connection connection, Game game);
 
     Optional<Game> findLatest(Connection connection);
+
+    void finishedGame(Connection connection, Long gameId);
 }

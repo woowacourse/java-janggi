@@ -34,7 +34,7 @@ public class GameRepositoryImpl implements GameRepository {
 
     @Override
     public Optional<Game> findLatest(Connection connection) {
-        String sql = "SELECT  * FROM game ORDER BY game_id DESC LIMIT 1";
+        String sql = "SELECT  * FROM game WHERE is_finished = FALSE ORDER BY game_id DESC LIMIT 1";
 
         try (
                 PreparedStatement statement = connection.prepareStatement(sql)
@@ -50,5 +50,17 @@ public class GameRepositoryImpl implements GameRepository {
             throw new IllegalStateException("[ERROR] DB에서 최근 게임 데이터를 조회하는 도중, 오류가 발생했습니다.", exception);
         }
         return Optional.empty();
+    }
+
+    @Override
+    public void finishedGame(Connection connection, Long gameId) {
+        String sql = "UPDATE game SET is_finished = TRUE WHERE game_id = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setLong(1, gameId);
+            statement.executeUpdate();
+        } catch (SQLException exception) {
+            throw new IllegalStateException("[ERROR] DB에서 게임 종료 처리 도중, 오류가 발생했습니다.", exception);
+        }
     }
 }
