@@ -15,10 +15,17 @@ import java.util.Map;
 import java.util.Optional;
 
 public class GameRepository {
+
+    private final JdbcContext jdbcContext;
+
+    public GameRepository(JdbcContext jdbcContext) {
+        this.jdbcContext = jdbcContext;
+    }
+
     public Optional<Integer> findActiveGameId() {
         String sql = "SELECT id FROM game WHERE is_finished = 0 ORDER BY id DESC LIMIT 1";
 
-        try (Connection conn = JdbcContext.getConnection();
+        try (Connection conn = jdbcContext.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
 
@@ -32,7 +39,7 @@ public class GameRepository {
     }
 
     public int saveGame(Side turn, Map<Point, Piece> board) {
-        try (Connection conn = JdbcContext.getConnection()) {
+        try (Connection conn = jdbcContext.getConnection()) {
             try {
                 conn.setAutoCommit(false);
                 int gameId = insertGame(conn, turn);
@@ -49,7 +56,7 @@ public class GameRepository {
     }
 
     public void updateGame(int gameId, Side turn, Map<Point, Piece> board) {
-        try (Connection conn = JdbcContext.getConnection()) {
+        try (Connection conn = jdbcContext.getConnection()) {
             try {
                 conn.setAutoCommit(false);
                 updateTurn(conn, gameId, turn);
@@ -70,7 +77,7 @@ public class GameRepository {
         String sql = "SELECT piece_type, side, x, y FROM game_piece WHERE game_id = ?";
         Map<Point, Piece> board = new HashMap<>();
 
-        try (Connection conn = JdbcContext.getConnection();
+        try (Connection conn = jdbcContext.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = executeQuery(pstmt, gameId)) {
 
@@ -91,7 +98,7 @@ public class GameRepository {
 
     public Side loadTurn(int gameId) {
         String sql = "SELECT turn FROM game WHERE id = ?";
-        try (Connection conn = JdbcContext.getConnection();
+        try (Connection conn = jdbcContext.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = executeQuery(pstmt, gameId)) {
             if (rs.next()) {
@@ -105,7 +112,7 @@ public class GameRepository {
 
     public void finish(int gameId, Side winner) {
         String sql = "UPDATE game SET is_finished = 1, winner =? WHERE id = ?";
-        try (Connection conn = JdbcContext.getConnection();
+        try (Connection conn = jdbcContext.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, winner.name());
             pstmt.setInt(2, gameId);

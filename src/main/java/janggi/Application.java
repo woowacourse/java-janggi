@@ -8,10 +8,10 @@ import janggi.view.OutputView;
 
 public class Application {
     public static void main(String[] args) {
-        JdbcContext jdbcContext = new JdbcContext();
         InputView inputView = new InputView(System.in);
         OutputView outputView = new OutputView();
-        GameRepository gameRepository = new GameRepository();
+        JdbcContext jdbcContext = new JdbcContext();
+        GameRepository gameRepository = new GameRepository(jdbcContext);
 
         JanggiController janggiController = new JanggiController(inputView, outputView, gameRepository);
         janggiController.run();

@@ -6,13 +6,20 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class JdbcContext {
-    private static final String URL = "jdbc:sqlite:db/janggi.db";
+    private static final String DEFAULT_URL = "jdbc:sqlite:db/janggi.db";
+
+    private final String url;
 
     public JdbcContext() {
+        this(DEFAULT_URL);
+    }
+
+    public JdbcContext(String url) {
+        this.url = url;
         initializeDatabase();
     }
 
-    private static void initializeDatabase() {
+    private void initializeDatabase() {
         String createGameTable = """
                 CREATE TABLE IF NOT EXISTS game (
                     id          INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -42,7 +49,8 @@ public class JdbcContext {
         }
     }
 
-    public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL);
+
+    public Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(url);
     }
 }
