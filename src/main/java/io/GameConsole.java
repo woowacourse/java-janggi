@@ -115,14 +115,15 @@ public class GameConsole {
     }
 
     private void saveGame(long currentGameId, JanggiGame game) {
-        gameRepository.updateState(currentGameId, game.getStateName(), game.getCurrentTeam());
-        saveArrangement(currentGameId, game, Team.HAN);
-        saveArrangement(currentGameId, game, Team.CHO);
+        GameState currentGameState = game.getGameState();
+        gameRepository.updateState(currentGameId, currentGameState.stateName(), game.getCurrentTeam());
+        saveArrangement(currentGameId, currentGameState, Team.HAN);
+        saveArrangement(currentGameId, currentGameState, Team.CHO);
         saveBoard(currentGameId, game);
     }
 
-    private void saveArrangement(long currentGameId, JanggiGame game, Team team) {
-        Arrangement arrangement = game.getArrangementOf(team);
+    private void saveArrangement(long currentGameId, GameState currentGameState, Team team) {
+        Arrangement arrangement = currentGameState.getArrangementOf(team);
         if (arrangement == null) {
             return;
         }

@@ -6,7 +6,7 @@
 
 - [x] **1. `Board`의 `calculateScore`를 `Team`에서 처리하도록 수정.**
 - [x] **2. `isColumnClearBetween`의 축약형 이름 없애기**
-- [ ] **3. `JanggiGame`에서 DB 전용 getter 제거 (`getStateName`, `getArrangementOf`)**
+- [x] **3. `JanggiGame`에서 DB 전용 getter 제거 (`getStateName`, `getArrangementOf`)**
   - `JanggiGame`에 `getGameState()` 추가
   - `GameConsole.saveGame()`에서 `game.getGameState().stateName()`, `game.getGameState().getArrangementOf(team)` 로 직접 호출
   - `GameState.stateName()`, `GameState.getArrangementOf(Team)` 는 그대로 유지

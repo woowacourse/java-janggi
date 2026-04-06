@@ -1,13 +1,12 @@
 package domain.game;
 
 import domain.board.Board;
-import domain.setup.Arrangement;
+import domain.piece.Team;
+import domain.setup.Arrangements;
 import domain.setup.Command;
+import domain.setup.Coordinate;
 import domain.state.GameState;
 import domain.state.ReadyState;
-import domain.setup.Arrangements;
-import domain.setup.Coordinate;
-import domain.piece.Team;
 import io.OutputView;
 
 public class JanggiGame {
@@ -68,11 +67,7 @@ public class JanggiGame {
         gameState.display(this, outputView);
     }
 
-    public String getStateName() {
-        return gameState.stateName();
-    }
-
-    public Arrangement getArrangementOf(Team team) {
-        return gameState.getArrangementOf(team);
+    public GameState getGameState() {
+        return gameState;
     }
 }
