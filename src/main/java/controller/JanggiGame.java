@@ -24,7 +24,7 @@ public class JanggiGame {
 
     public void run() {
         JanggiBoard janggiBoard = generateJanggiBoard();
-        startGame(janggiBoard);
+        startGame(janggiBoard, Team.HAN);
         announceWinner(janggiBoard.getWinner());
     }
 
@@ -38,10 +38,9 @@ public class JanggiGame {
         return retry(() -> reader.requestFormation(team));
     }
 
-    private void startGame(JanggiBoard janggiBoard) {
-        Team currentTeam = Team.HAN;
+    private void startGame(JanggiBoard janggiBoard, Team startTurn) {
         printJanggiBoard(JanggiBoardDto.from(janggiBoard));
-        progressGame(janggiBoard, currentTeam);
+        progressGame(janggiBoard, startTurn);
     }
 
     private void progressGame(JanggiBoard janggiBoard, Team currentTeam) {
