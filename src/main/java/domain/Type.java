@@ -19,15 +19,15 @@ public enum Type {
     SOLDIER("졸", new SoldierMoveStrategy());
 
     private final String name;
-    private final MoveStrategy strategySupplier;
+    private final MoveStrategy strategy;
 
-    Type(String name, MoveStrategy strategySupplier) {
+    Type(String name, MoveStrategy strategy) {
         this.name = name;
-        this.strategySupplier = strategySupplier;
+        this.strategy = strategy;
     }
 
     public MoveStrategy getStrategy() {
-        return strategySupplier;
+        return strategy;
     }
 
     public String getName() {
