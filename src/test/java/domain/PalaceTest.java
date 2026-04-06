@@ -84,4 +84,43 @@ class PalaceTest {
         // then
         Assertions.assertFalse(palace.isInPalace(position));
     }
+
+    @Test
+    @DisplayName("궁성 꼭지점은 대각선 포인트이다.")
+    void shouldReturnTrueWhenPositionIsPalaceCorner() {
+        // given
+        Palace palace = Palace.of(Team.HAN);
+
+        // when
+        Position position = Position.of(7, 3);
+
+        // then
+        Assertions.assertTrue(palace.isDiagonalPoint(position));
+    }
+
+    @Test
+    @DisplayName("궁성 중앙은 대각선 포인트이다.")
+    void shouldReturnTrueWhenPositionIsChuPalaceCenter() {
+        // given
+        Palace palace = Palace.of(Team.CHU);
+
+        // when
+        Position position = Position.of(1, 4);
+
+        // then
+        Assertions.assertTrue(palace.isDiagonalPoint(position));
+    }
+
+    @Test
+    @DisplayName("궁성 밖의 위치는 대각선 포인트가 아니다")
+    void shouldReturnFalseWhenPositionIsOutsidePalace() {
+        // given
+        Palace palace = Palace.of(Team.HAN);
+
+        // when
+        Position position = Position.of(7, 2);
+
+        // then
+        Assertions.assertFalse(palace.isDiagonalPoint(position));
+    }
 }
