@@ -1,5 +1,7 @@
 import domain.*;
 import domain.vo.Position;
+import entity.GameEntity;
+import repository.GameDao;
 import view.InputView;
 import view.OutputView;
 
@@ -7,10 +9,12 @@ public class JanggiController {
 
     private final InputView inputView;
     private final OutputView outputView;
+    private final GameDao gameDao;
 
-    public JanggiController(InputView inputView, OutputView outputView) {
+    public JanggiController(InputView inputView, OutputView outputView, GameDao gameDao) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.gameDao = gameDao;
     }
 
     public void run() {
@@ -21,6 +25,8 @@ public class JanggiController {
         outputView.printBoard(board.getBoard());
 
         Game game = Game.of(board);
+        GameEntity gameEntity = GameEntity.from(game.getTurnName(), game.getStatus().toString());
+        gameDao.save(gameEntity);
 
         while (true) {
             boolean isContinue = move(game);
