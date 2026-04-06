@@ -2,6 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.board.Board;
 import janggi.domain.vo.position.Position;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -95,13 +96,82 @@ class CannonTest {
             "5, 5, 7, 6", // 상(Elephant)과 같은 이동
             "3, 3, 4, 5"  // 무작위 좌표
     })
-    void 직선_이동이_아닌_경우_이동_불가하다(int fR, int fC, int tR, int tC) {
+    void 직선_이동이_아닌_경우_이동_불가하다(int fromRow, int fromCol, int toRow, int toCol) {
         // given
-        Position from = new Position(fR, fC);
-        Position to = new Position(tR, tC);
+        Position from = new Position(fromRow, fromCol);
+        Position to = new Position(toRow, toCol);
         board = new Board();
 
         // when, then
         assertThat(cannon.canMove(from, to, board)).isFalse();
+    }
+
+    @ParameterizedTest(name = "궁성 대각선 이동 {index}: {0} -> {1}")
+    @CsvSource({
+            "7, 3, 9, 5", // 1. 왼쪽 위 -> 오른쪽 아래
+            "9, 5, 7, 3", // 2. 오른쪽 아래 -> 왼쪽 위
+            "7, 5, 9, 3", // 3. 오른쪽 위 -> 왼쪽 아래
+            "9, 3, 7, 5"  // 4. 왼쪽 아래 -> 오른쪽 위
+    })
+    void 궁성_안에서_대각선_이동이_가능하다(int fromRow, int fromCol, int toRow, int toCol) {
+        // given
+        Position from = new Position(fromRow, fromCol);
+        Position to = new Position(toRow, toCol);
+
+        // 핵심: 궁성 정중앙(8, 4)에 반드시 '다리'가 있어야 함
+        board = Board.createBoardWith(new Position(8, 4), new Soldier(Team.HAN));
+
+        // when & then
+        assertThat(cannon.canMove(from, to, board))
+                .as("궁성 대각선 이동 (%d,%d) -> (%d,%d) 실패", fromRow, fromCol, toRow, toCol)
+                .isTrue();
+    }
+
+    @Test
+    void 궁성_밖_대각선_이동_실패_테스트() {
+        // given
+        Position from = new Position(8, 4);
+        Position to = new Position(6, 2);
+
+        board = Board.createBoardWith(new Position(7, 3), new Soldier(Team.HAN));
+
+        // when, then
+        assertThat(cannon.canMove(from, to, board)).isFalse();
+    }
+
+    @Test
+    void 궁성_관통_직선_이동_테스트() {
+        // given
+        Position from = new Position(5, 4);
+        Position to = new Position(9, 4);
+
+        board = Board.createBoardWith(new Position(7, 4), new Soldier(Team.CHO));
+
+        // when, then
+        assertThat(cannon.canMove(from, to, board)).isTrue();
+    }
+
+    @Test
+    void 궁성_안에서_밖으로_직선_이동_테스트() {
+        // given
+        Position from = new Position(8, 4);
+        Position to = new Position(8, 1);
+
+        board = Board.createBoardWith(new Position(8, 3), new Soldier(Team.HAN));
+
+        // when, then
+        assertThat(cannon.canMove(from, to, board)).isTrue();
+    }
+
+    @Test
+    void 궁성_밖에서_안으로_직선_이동_테스트() {
+        // given
+        Position from = new Position(8, 1);
+        Position to = new Position(8, 4);
+
+        board = Board.createBoardWith(new Position(8, 3), new Soldier(Team.CHO));
+
+        // when, then
+        assertThat(cannon.canMove(from, to, board)).isTrue();
     }
 }
