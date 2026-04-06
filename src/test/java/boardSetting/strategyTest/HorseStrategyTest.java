@@ -1,28 +1,25 @@
 package boardSetting.strategyTest;
 
 
+import boardSetting.TestFIxture;
+import domain.Team;
 import domain.position.Position;
-import domain.piece.Blank;
-import domain.piece.Piece;
-import domain.PieceProvider;
 import domain.strategy.HorseStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.*;
 
 public class HorseStrategyTest {
     private HorseStrategy horseStrategy;
-    private TestPieceProvider testBoard;
+    private TestFIxture testBoard;
 
     @BeforeEach
     void setUp() {
         horseStrategy = new HorseStrategy();
-        testBoard = new TestPieceProvider();
+        testBoard = new TestFIxture();
     }
 
     @Test
@@ -30,7 +27,7 @@ public class HorseStrategyTest {
         Position position = new Position(5, 5);
         testBoard.setAllBlank();
 
-        List<Position> candidates = horseStrategy.getMoveCandidates(position, testBoard);
+        List<Position> candidates = horseStrategy.getMoveCandidates(position, Team.CHO, testBoard);
 
         assertThat(candidates).hasSize(8)
                 .containsExactlyInAnyOrder(
@@ -48,7 +45,7 @@ public class HorseStrategyTest {
 
         // 북쪽 멱 위치를 막힌 상태로 설정
         testBoard.setBlank(new Position(4, 5));
-        List<Position> candidates = horseStrategy.getMoveCandidates(source, testBoard);
+        List<Position> candidates = horseStrategy.getMoveCandidates(source, Team.CHO, testBoard);
 
         assertThat(candidates).hasSize(6)
                 .doesNotContain(new Position(3, 4), new Position(3, 6));
@@ -60,7 +57,7 @@ public class HorseStrategyTest {
         testBoard.setAllBlank();
 
         testBoard.setBlank(new Position(6, 5));
-        List<Position> candidates = horseStrategy.getMoveCandidates(position, testBoard);
+        List<Position> candidates = horseStrategy.getMoveCandidates(position, Team.CHO, testBoard);
 
         assertThat(candidates).hasSize(6)
                 .doesNotContain(new Position(7,4), new Position(7,6));
@@ -72,7 +69,7 @@ public class HorseStrategyTest {
         testBoard.setAllBlank();
 
         testBoard.setBlank(new Position(5, 4));
-        List<Position> candidates = horseStrategy.getMoveCandidates(position, testBoard);
+        List<Position> candidates = horseStrategy.getMoveCandidates(position, Team.CHO, testBoard);
 
         assertThat(candidates).hasSize(6)
                 .doesNotContain(new Position(6,5), new Position(4,3));
@@ -84,37 +81,9 @@ public class HorseStrategyTest {
         testBoard.setAllBlank();
 
         testBoard.setBlank(new Position(5, 6));
-        List<Position> candidates = horseStrategy.getMoveCandidates(position, testBoard);
+        List<Position> candidates = horseStrategy.getMoveCandidates(position, Team.CHO, testBoard);
 
         assertThat(candidates).hasSize(6)
                 .doesNotContain(new Position(4, 7), new Position(6, 7));
-    }
-
-    private static class TestPieceProvider implements PieceProvider {
-        private final Map<Position, Boolean> boardState = new HashMap<>();
-        private boolean defaultState = true;
-
-        void setBlank(Position pos) {
-            boardState.put(pos, false);
-        }
-
-        void setAllBlank() {
-            this.defaultState = true;
-        }
-
-        @Override
-        public boolean isBlank(Position position) {
-            return boardState.getOrDefault(position, defaultState);
-        }
-
-        @Override
-        public boolean isCannon(Position position) {
-            return false;
-        }
-
-        @Override
-        public Piece getPiece(Position position) {
-            return new Blank();
-        }
     }
 }

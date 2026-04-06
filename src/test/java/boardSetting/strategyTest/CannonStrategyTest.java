@@ -1,6 +1,6 @@
 package boardSetting.strategyTest;
 
-import domain.PieceProvider;
+import boardSetting.TestFIxture;
 import domain.position.Position;
 import domain.Team;
 import domain.piece.*;
@@ -8,21 +8,19 @@ import domain.strategy.CannonStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.*;
 
 public class CannonStrategyTest {
 
     private CannonStrategy cannonStrategy;
-    private TestPieceProvider testBoard;
+    private TestFIxture testBoard;
 
     @BeforeEach
     public void setUp() {
         cannonStrategy = new CannonStrategy();
-        testBoard = new TestPieceProvider();
+        testBoard = new TestFIxture();
     }
 
     @Test
@@ -30,7 +28,7 @@ public class CannonStrategyTest {
         Position currentPosition = new Position(0, 0);
         testBoard.setPiece(new Position(2, 0), new Guard(Team.CHO));
 
-        List<Position> candidates = cannonStrategy.getMoveCandidates(currentPosition, testBoard);
+        List<Position> candidates = cannonStrategy.getMoveCandidates(currentPosition, Team.CHO, testBoard);
         assertThat(candidates).contains(new Position(3, 0), new Position(9, 0));
         assertThat(candidates).doesNotContain(new Position(1, 0), new Position(2, 0));
     }
@@ -40,7 +38,7 @@ public class CannonStrategyTest {
         Position currentPosition = new Position(0, 0);
         testBoard.setPiece(new Position(2, 0), new Cannon(Team.CHO));
 
-        List<Position> candidates = cannonStrategy.getMoveCandidates(currentPosition, testBoard);
+        List<Position> candidates = cannonStrategy.getMoveCandidates(currentPosition, Team.CHO, testBoard);
         assertThat(candidates.size()).isEqualTo(0);
     }
 
@@ -49,7 +47,7 @@ public class CannonStrategyTest {
         Position currentPosition = new Position(0, 0);
         testBoard.setAllBlank();
 
-        List<Position> candidates = cannonStrategy.getMoveCandidates(currentPosition, testBoard);
+        List<Position> candidates = cannonStrategy.getMoveCandidates(currentPosition, Team.CHO, testBoard);
         assertThat(candidates.size()).isEqualTo(0);
     }
 
@@ -59,35 +57,8 @@ public class CannonStrategyTest {
         testBoard.setPiece(new Position(2, 0), new Guard(Team.CHO));
         testBoard.setPiece(new Position(4, 0), new Cannon(Team.HAN));
 
-        List<Position> candidates = cannonStrategy.getMoveCandidates(currentPosition, testBoard);
+        List<Position> candidates = cannonStrategy.getMoveCandidates(currentPosition, Team.CHO, testBoard);
         assertThat(candidates).contains(new Position(3, 0));
         assertThat(candidates).doesNotContain(new Position(4, 0));
-    }
-
-    private static class TestPieceProvider implements PieceProvider {
-        private final Map<Position, Piece> pieces = new HashMap<>();
-
-        void setPiece(Position position, Piece piece) {
-            pieces.put(position, piece);
-        }
-
-        void setAllBlank() {
-            pieces.clear();
-        }
-
-        @Override
-        public boolean isBlank(Position position) {
-            return !pieces.containsKey(position);
-        }
-
-        @Override
-        public boolean isCannon(Position position) {
-            return true;
-        }
-
-        @Override
-        public Piece getPiece(Position position) {
-            return pieces.getOrDefault(position, new Blank());
-        }
     }
 }

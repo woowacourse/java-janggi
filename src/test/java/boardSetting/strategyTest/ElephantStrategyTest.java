@@ -1,28 +1,25 @@
 package boardSetting.strategyTest;
 
+import boardSetting.TestFIxture;
+import domain.Team;
 import domain.position.Position;
-import domain.piece.Blank;
-import domain.piece.Piece;
-import domain.PieceProvider;
 import domain.strategy.ElephantStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ElephantStrategyTest {
 
     private ElephantStrategy elephantStrategy;
-    private TestPieceProvider testBoard;
+    private TestFIxture testBoard;
 
     @BeforeEach
     public void setUp() {
         elephantStrategy = new ElephantStrategy();
-        testBoard = new TestPieceProvider();
+        testBoard = new TestFIxture();
     }
 
     @Test
@@ -30,7 +27,7 @@ public class ElephantStrategyTest {
         Position position = new Position(5, 5);
         testBoard.setAllBlank();
 
-        List<Position> candidates = elephantStrategy.getMoveCandidates(position, testBoard);
+        List<Position> candidates = elephantStrategy.getMoveCandidates(position, Team.CHO, testBoard);
 
         assertThat(candidates).hasSize(8)
                 .containsExactlyInAnyOrder(
@@ -48,7 +45,7 @@ public class ElephantStrategyTest {
 
         // 북쪽 멱 위치를 막힌 상태로 설정
         testBoard.setBlank(new Position(4, 5));
-        List<Position> candidates = elephantStrategy.getMoveCandidates(source, testBoard);
+        List<Position> candidates = elephantStrategy.getMoveCandidates(source, Team.CHO, testBoard);
 
         assertThat(candidates).hasSize(6)
                 .doesNotContain(new Position(2, 3), new Position(2, 7));
@@ -60,7 +57,7 @@ public class ElephantStrategyTest {
         testBoard.setAllBlank();
 
         testBoard.setBlank(new Position(6, 5));
-        List<Position> candidates = elephantStrategy.getMoveCandidates(position, testBoard);
+        List<Position> candidates = elephantStrategy.getMoveCandidates(position, Team.CHO, testBoard);
 
         assertThat(candidates).hasSize(6)
                 .doesNotContain(new Position(8,3), new Position(8,7));
@@ -72,7 +69,7 @@ public class ElephantStrategyTest {
         testBoard.setAllBlank();
 
         testBoard.setBlank(new Position(5, 4));
-        List<Position> candidates = elephantStrategy.getMoveCandidates(position, testBoard);
+        List<Position> candidates = elephantStrategy.getMoveCandidates(position, Team.CHO, testBoard);
 
         assertThat(candidates).hasSize(6)
                 .doesNotContain(new Position(3,2), new Position(7,2));
@@ -84,37 +81,9 @@ public class ElephantStrategyTest {
         testBoard.setAllBlank();
 
         testBoard.setBlank(new Position(5, 6));
-        List<Position> candidates = elephantStrategy.getMoveCandidates(position, testBoard);
+        List<Position> candidates = elephantStrategy.getMoveCandidates(position, Team.CHO, testBoard);
 
         assertThat(candidates).hasSize(6)
                 .doesNotContain(new Position(3, 8), new Position(7, 8));
-    }
-
-    private static class TestPieceProvider implements PieceProvider {
-        private final Map<Position, Boolean> boardState = new HashMap<>();
-        private boolean defaultState = true;
-
-        void setBlank(Position pos) {
-            boardState.put(pos, false);
-        }
-
-        void setAllBlank() {
-            this.defaultState = true;
-        }
-
-        @Override
-        public boolean isBlank(Position position) {
-            return boardState.getOrDefault(position, defaultState);
-        }
-
-        @Override
-        public boolean isCannon(Position position) {
-            return false;
-        }
-
-        @Override
-        public Piece getPiece(Position position) {
-            return new Blank();
-        }
     }
 }

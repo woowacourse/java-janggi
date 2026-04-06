@@ -1,26 +1,23 @@
 package boardSetting.PieceTest;
 
-import domain.PieceProvider;
+import boardSetting.TestFIxture;
 import domain.position.Position;
 import domain.Team;
 import domain.piece.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class CannonTest {
 
     private Cannon cannon;
-    private TestPieceProvider testBoard;
+    private TestFIxture testBoard;
 
     @BeforeEach
     public void setUp() {
         cannon = new Cannon(Team.CHO);
-        testBoard = new TestPieceProvider();
+        testBoard = new TestFIxture();
     }
 
     @Test
@@ -58,32 +55,5 @@ public class CannonTest {
 
         boolean isCannonMove = cannon.canMove(currentPosition, targetPosition, testBoard);
         assertThat(isCannonMove).isFalse();
-    }
-
-    private static class TestPieceProvider implements PieceProvider {
-        private final Map<Position, Piece> pieces = new HashMap<>();
-
-        void setPiece(Position pos, Piece piece) {
-            pieces.put(pos, piece);
-        }
-
-        void setAllBlank() {
-            pieces.clear();
-        }
-
-        @Override
-        public boolean isBlank(Position position) {
-            return !pieces.containsKey(position);
-        }
-
-        @Override
-        public boolean isCannon(Position position) {
-            return true;
-        }
-
-        @Override
-        public Piece getPiece(Position position) {
-            return pieces.getOrDefault(position, new Blank());
-        }
     }
 }

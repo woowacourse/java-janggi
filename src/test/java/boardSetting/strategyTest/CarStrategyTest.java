@@ -1,28 +1,25 @@
 package boardSetting.strategyTest;
 
+import boardSetting.TestFIxture;
+import domain.Team;
 import domain.position.Position;
-import domain.piece.Blank;
-import domain.piece.Piece;
-import domain.PieceProvider;
 import domain.strategy.CarStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class CarStrategyTest {
 
     private CarStrategy carStrategy;
-    private TestPieceProvider testBoard;
+    private TestFIxture testBoard;
 
     @BeforeEach
     void setUp() {
         carStrategy = new CarStrategy();
-        testBoard = new TestPieceProvider();
+        testBoard = new TestFIxture();
     }
 
     @Test
@@ -30,7 +27,7 @@ public class CarStrategyTest {
         Position position = new Position(5, 4);
         testBoard.setAllBlank();
 
-        List<Position> candidates = carStrategy.getMoveCandidates(position, testBoard);
+        List<Position> candidates = carStrategy.getMoveCandidates(position, Team.CHO, testBoard);
 
         assertThat(candidates).hasSize(17);
         assertThat(candidates).contains(new Position(0, 4),
@@ -47,7 +44,7 @@ public class CarStrategyTest {
         Position obstacle = new Position(3, 4);
         testBoard.setBlank(obstacle);
 
-        List<Position> candidates = carStrategy.getMoveCandidates(position, testBoard);
+        List<Position> candidates = carStrategy.getMoveCandidates(position, Team.CHO, testBoard);
 
         assertThat(candidates).contains(new Position(4, 4), new Position(3, 4));
         assertThat(candidates).doesNotContain(new Position(2, 4),
@@ -55,31 +52,5 @@ public class CarStrategyTest {
                 new Position(0, 4));
     }
 
-    private static class TestPieceProvider implements PieceProvider {
-        private final Map<Position, Boolean> boardState = new HashMap<>();
-        private boolean defaultState = true;
 
-        void setBlank(Position position) {
-            boardState.put(position, false);
-        }
-
-        void setAllBlank() {
-            this.defaultState = true;
-        }
-
-        @Override
-        public boolean isBlank(Position position) {
-            return boardState.getOrDefault(position, defaultState);
-        }
-
-        @Override
-        public boolean isCannon(Position position) {
-            return false;
-        }
-
-        @Override
-        public Piece getPiece(Position position) {
-            return new Blank();
-        }
-    }
 }

@@ -8,4 +8,8 @@ public abstract class Piece {
     protected Piece(Team team) {
         this.team = team;
     }
+
+    public Team getTeam() {
+        return team;
+    }
 }

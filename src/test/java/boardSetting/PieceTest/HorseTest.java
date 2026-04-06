@@ -1,27 +1,22 @@
 package boardSetting.PieceTest;
 
+import boardSetting.TestFIxture;
 import domain.position.Position;
 import domain.Team;
-import domain.piece.Blank;
 import domain.piece.Horse;
-import domain.piece.Piece;
-import domain.PieceProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.*;
 
 public class HorseTest {
-    private TestPieceProvider testBoard;
+    private TestFIxture testBoard;
     private Horse horse;
 
     @BeforeEach
     void setUp() {
         horse = new Horse(Team.CHO);
-        testBoard = new TestPieceProvider();
+        testBoard = new TestFIxture();
     }
 
     @Test
@@ -44,33 +39,5 @@ public class HorseTest {
 
         boolean isCanMove = horse.canMove(currentPosition, targetPosition, testBoard);
         assertThat(isCanMove).isFalse();
-    }
-
-    private static class TestPieceProvider implements PieceProvider {
-        private final Map<Position, Boolean> boardState = new HashMap<>();
-        private boolean defaultState = true;
-
-        void setBlank(Position pos) {
-            boardState.put(pos, false);
-        }
-
-        void setAllBlank() {
-            this.defaultState = true;
-        }
-
-        @Override
-        public boolean isBlank(Position position) {
-            return boardState.getOrDefault(position, defaultState);
-        }
-
-        @Override
-        public boolean isCannon(Position position) {
-            return false;
-        }
-
-        @Override
-        public Piece getPiece(Position position) {
-            return new Blank();
-        }
     }
 }

@@ -1,14 +1,10 @@
 package domain.strategy;
 
-import static domain.Index.BOARD_COLUMNS;
-import static domain.Index.BOARD_ROWS;
-
 import domain.Team;
 import domain.position.Position;
 import domain.PieceProvider;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
