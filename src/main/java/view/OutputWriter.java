@@ -1,10 +1,12 @@
 package view;
 
+import database.dto.BoardSummaryDto;
 import domain.board.dto.JanggiBoardDto;
 import domain.board.dto.PieceViewDto;
 import domain.piece.Team;
 import domain.point.Point;
 
+import java.util.List;
 import java.util.Map;
 
 import static common.constant.JanggiConstant.*;
@@ -17,6 +19,14 @@ public class OutputWriter {
     private static final String PIECE_SEPARATOR = "　";           // 전각 공백
     private static final String WINNER_MESSAGE = "%s팀의 승리입니다!";
     private static final String ERROR_MESSAGE_PREFIX = "［ERROR］ ";
+    private static final String BOARD_SUMMARY_FORMAT = "%d번방: 현재 %s턴 \n";
+
+    public void printExistingPlayingBoard(List<BoardSummaryDto> boardSummaries) {
+        System.out.println("현재 종료되지 않은 장기판 목록입니다");
+        for (BoardSummaryDto summary : boardSummaries) {
+            System.out.printf(BOARD_SUMMARY_FORMAT, summary.boardId(), summary.currentTurn());
+        }
+    }
 
     public void printJanggiBoard(JanggiBoardDto boardView) {
         printFileNumber();
