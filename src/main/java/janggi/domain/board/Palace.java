@@ -6,14 +6,14 @@ import java.util.Optional;
 
 public class Palace {
 
-    private final int upper_min_x = 7;
-    private final int lower_max_x = 2;
-    private final int min_y = 3;
-    private final int max_y = 5;
+    private static final int UPPER_MIN_X = 7;
+    private static final int LOWER_MAX_X = 2;
+    private static final int MIN_Y = 3;
+    private static final int MAX_Y = 5;
 
-    private final int upper_center_x = 8;
-    private final int lower_center_x = 1;
-    private final int center_y = 4;
+    private static final int UPPER_CENTER_X = 8;
+    private static final int LOWER_CENTER_X = 1;
+    private static final int CENTER_Y = 4;
 
     public boolean isInPalace(Point point) {
         if (isInUpper(point) || isInLower(point)) {
@@ -23,28 +23,28 @@ public class Palace {
     }
 
     public Optional<PalacePoint> getPalacePoint(Point point) {
-        int relativeY = point.y() - center_y;
+        int relativeY = point.y() - CENTER_Y;
 
         if (isInUpper(point)) {
-            return findMatch(point.x() - upper_center_x, relativeY);
+            return findMatch(point.x() - UPPER_CENTER_X, relativeY);
         }
 
         if (isInLower(point)) {
-            return findMatch(point.x() - lower_center_x, relativeY);
+            return findMatch(point.x() - LOWER_CENTER_X, relativeY);
         }
 
         return Optional.empty();
     }
 
     public boolean isInUpper(Point point) {
-        if (point.x() >= upper_min_x && point.y() >= min_y && point.y() <= max_y) {
+        if (point.x() >= UPPER_MIN_X && point.y() >= MIN_Y && point.y() <= MAX_Y) {
             return true;
         }
         return false;
     }
 
     public boolean isInLower(Point point) {
-        if (point.x() <= lower_max_x && point.y() >= min_y && point.y() <= max_y) {
+        if (point.x() <= LOWER_MAX_X && point.y() >= MIN_Y && point.y() <= MAX_Y) {
             return true;
         }
         return false;
