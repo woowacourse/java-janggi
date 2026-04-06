@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS Game (
 CREATE TABLE IF NOT EXISTS Piece (
     game_id INT,
     type VARCHAR(50),
+    team VARCHAR(50),
     `row` INT,
     col INT
 );

@@ -110,25 +110,33 @@ class JdbcGameRepositoryTest {
     }
 
     @Test
-    void 존재하는_방_번호로_조회하면_해당_게임_정보가_담긴_Optional을_반환한다() throws SQLException {
-        // give
-        int gameId = 300;
-        GameEntity game = new GameEntity(gameId, "PROGRESS", "CHO", new java.sql.Date(System.currentTimeMillis()));
-        gameRepository.save(conn, game);
+    void 진행_중인_게임들_중_가장_먼저_생성된_게임을_반환한다() throws SQLException {
+        // given
+        GameEntity finishedGame = new GameEntity(1, "FINISHED", "CHO", new java.sql.Date(System.currentTimeMillis()));
+        GameEntity oldestProgressGame = new GameEntity(2, "PROGRESS", "HAN", new java.sql.Date(System.currentTimeMillis()));
+        GameEntity latestProgressGame = new GameEntity(3, "PROGRESS", "CHO", new java.sql.Date(System.currentTimeMillis()));
+
+        gameRepository.save(conn, finishedGame);
+        gameRepository.save(conn, oldestProgressGame);
+        gameRepository.save(conn, latestProgressGame);
 
         // when
-        Optional<GameEntity> result = gameRepository.findById(conn, gameId);
+        Optional<GameEntity> result = gameRepository.findInProgressGame(conn);
 
         // then
         assertThat(result).isPresent();
-        assertThat(result.get().getGameId()).isEqualTo(gameId);
-        assertThat(result.get().getTurn()).isEqualTo("CHO");
+        assertThat(result.get().getGameId()).isEqualTo(2);
+        assertThat(result.get().getState()).isEqualTo("PROGRESS");
     }
 
     @Test
-    void 존재하지_않는_방_번호로_조회하면_빈_Optional을_반환한다() throws SQLException {
+    void 진행_중인_게임이_하나도_없고_종료된_게임만_있다면_빈_Optional을_반환한다() throws SQLException {
+        // given
+        GameEntity finishedGame = new GameEntity(1, "FINISHED", "CHO", new java.sql.Date(System.currentTimeMillis()));
+        gameRepository.save(conn, finishedGame);
+
         // when
-        Optional<GameEntity> result = gameRepository.findById(conn, 999);
+        Optional<GameEntity> result = gameRepository.findInProgressGame(conn);
 
         // then
         assertThat(result).isEmpty();

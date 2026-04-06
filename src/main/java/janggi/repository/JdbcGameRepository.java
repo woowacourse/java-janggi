@@ -47,21 +47,19 @@ public class JdbcGameRepository implements GameRepository{
     }
 
     @Override
-    public Optional<GameEntity> findById(Connection conn, int gameId) {
-        String sql = "SELECT * FROM Game WHERE game_id = ?";
+    public Optional<GameEntity> findInProgressGame(Connection conn) {
+        String sql = "SELECT * FROM Game WHERE state = 'PROGRESS' ORDER BY game_id ASC LIMIT 1";
 
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, gameId);
+        try (PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
 
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    return Optional.of(new GameEntity(
-                            rs.getInt("game_id"),
-                            rs.getString("state"),
-                            rs.getString("turn"),
-                            rs.getDate("start_date")
-                    ));
-                }
+            if (rs.next()) {
+                return Optional.of(new GameEntity(
+                        rs.getInt("game_id"),
+                        rs.getString("state"),
+                        rs.getString("turn"),
+                        rs.getDate("start_date")
+                ));
             }
         } catch (SQLException e) {
             throw new GameLoadException(e);

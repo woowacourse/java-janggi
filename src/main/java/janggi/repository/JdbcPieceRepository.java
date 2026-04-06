@@ -17,14 +17,15 @@ public class JdbcPieceRepository implements PieceRepository {
 
     @Override
     public void saveAll(Connection conn, List<PieceEntity> entities) {
-        String sql = "INSERT INTO Piece (game_id, type, `row`, col) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO Piece (game_id, type, team, `row`, col) VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             for (PieceEntity entity : entities) {
                 pstmt.setInt(1, entity.getGameId());
                 pstmt.setString(2, entity.getType());
-                pstmt.setInt(3, entity.getRow());
-                pstmt.setInt(4, entity.getColumn());
+                pstmt.setString(3, entity.getTeam());
+                pstmt.setInt(4, entity.getRow());
+                pstmt.setInt(5, entity.getColumn());
 
                 pstmt.addBatch();
             }
@@ -43,7 +44,6 @@ public class JdbcPieceRepository implements PieceRepository {
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, newRow);
             pstmt.setInt(2, newCol);
-
             pstmt.setInt(3, gameId);
             pstmt.setInt(4, oldRow);
             pstmt.setInt(5, oldCol);
@@ -81,9 +81,11 @@ public class JdbcPieceRepository implements PieceRepository {
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
+
                     pieces.add(new PieceEntity(
                             rs.getInt("game_id"),
                             rs.getString("type"),
+                            rs.getString("team"),
                             rs.getInt("row"),
                             rs.getInt("col")
                     ));

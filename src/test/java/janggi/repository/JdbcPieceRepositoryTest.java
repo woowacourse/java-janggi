@@ -28,8 +28,9 @@ class JdbcPieceRepositoryTest {
              PreparedStatement pstmt1 = conn.prepareStatement(
                      "CREATE TABLE IF NOT EXISTS Game (game_id INT PRIMARY KEY, state VARCHAR(50), turn VARCHAR(50), start_date DATE)"
              );
+             // 💡 1. 테이블 생성 쿼리에 team VARCHAR(50)을 추가했습니다.
              PreparedStatement pstmt2 = conn.prepareStatement(
-                     "CREATE TABLE IF NOT EXISTS Piece (game_id INT, type VARCHAR(50), `row` INT, col INT, FOREIGN KEY (game_id) REFERENCES Game(game_id) ON DELETE CASCADE)"
+                     "CREATE TABLE IF NOT EXISTS Piece (game_id INT, type VARCHAR(50), team VARCHAR(50), `row` INT, col INT, FOREIGN KEY (game_id) REFERENCES Game(game_id) ON DELETE CASCADE)"
              )) {
             pstmt1.execute();
             pstmt2.execute();
@@ -67,8 +68,8 @@ class JdbcPieceRepositoryTest {
     void 여러_개의_기물을_넘기면_DB에_한_번에_저장되어야_한다() throws SQLException {
         // give
         List<PieceEntity> pieces = List.of(
-                new PieceEntity(testGameId, "CHA", 0, 0),
-                new PieceEntity(testGameId, "MA", 0, 1)
+                new PieceEntity(testGameId, "CHA", "CHO", 0, 0),
+                new PieceEntity(testGameId, "MA", "HAN", 0, 1)
         );
 
         // when
@@ -89,7 +90,7 @@ class JdbcPieceRepositoryTest {
     @Test
     void 기물의_기존_좌표와_새_좌표를_주면_성공적으로_위치가_업데이트되어야_한다() throws SQLException {
         // give
-        List<PieceEntity> initialPiece = List.of(new PieceEntity(testGameId, "CHA", 0, 0));
+        List<PieceEntity> initialPiece = List.of(new PieceEntity(testGameId, "CHA", "CHO", 0, 0));
         pieceRepository.saveAll(conn, initialPiece);
 
         // when
@@ -110,8 +111,8 @@ class JdbcPieceRepositoryTest {
 
     @Test
     void 좌표를_주면_해당_위치의_기물이_삭제_되어야_한다() throws SQLException {
-        // give
-        List<PieceEntity> targetPiece = List.of(new PieceEntity(testGameId, "JOL", 5, 5));
+        // give: 💡 팀 정보 추가
+        List<PieceEntity> targetPiece = List.of(new PieceEntity(testGameId, "JOL", "HAN", 5, 5));
         pieceRepository.saveAll(conn, targetPiece);
 
         // when
@@ -133,8 +134,8 @@ class JdbcPieceRepositoryTest {
     void 특정_방의_모든_기물을_조회하면_저장된_모든_기물_리스트를_반환한다() throws SQLException {
         // give
         List<PieceEntity> pieces = List.of(
-                new PieceEntity(testGameId, "CHA", 0, 0),
-                new PieceEntity(testGameId, "MA", 0, 1)
+                new PieceEntity(testGameId, "CHA", "CHO", 0, 0),
+                new PieceEntity(testGameId, "MA", "HAN", 0, 1)
         );
         pieceRepository.saveAll(conn, pieces);
 
@@ -144,6 +145,7 @@ class JdbcPieceRepositoryTest {
         // then
         assertThat(result).hasSize(2);
         assertThat(result).extracting("type").contains("CHA", "MA");
+        assertThat(result).extracting("team").contains("CHO", "HAN");
     }
 
     @Test
