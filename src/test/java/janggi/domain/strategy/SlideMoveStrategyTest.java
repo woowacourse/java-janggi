@@ -91,11 +91,14 @@ public class SlideMoveStrategyTest {
         assertThat(allPositions).containsExactlyInAnyOrder(
                 // 동쪽 직진
                 new Position(0, 4), new Position(0, 5), new Position(0, 6), new Position(0, 7), new Position(0, 8),
+
                 // 서쪽 직진
                 new Position(0, 2), new Position(0, 1), new Position(0, 0),
+
                 // 남쪽 직진
                 new Position(1, 3), new Position(2, 3), new Position(3, 3), new Position(4, 3), new Position(5, 3),
                 new Position(6, 3), new Position(7, 3), new Position(8, 3), new Position(9, 3),
+
                 // 남동쪽 대각선 (궁성 정중앙, 우하단 꼭짓점)
                 new Position(1, 4), new Position(2, 5)
         );
