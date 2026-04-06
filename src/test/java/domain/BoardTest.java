@@ -49,6 +49,21 @@ class BoardTest {
         assertFalse(board.isExistPosition(from));
     }
 
+    @Test
+    @DisplayName("기물의 점수를 계산한다.")
+    void shouldCalculateScore() {
+        // given
+        // when
+        Map<Position, Piece> tempBoard = new HashMap<>();
+        tempBoard.put(Position.of(0, 0), Piece.of(Team.CHU, Type.SOLDIER, new SoldierMoveStrategy()));
+
+        Board board = Board.of(tempBoard);
+
+        // then
+        assertEquals(2, board.calculateScore(Team.CHU));
+        assertEquals(0, board.calculateScore(Team.HAN));
+    }
+
     private static Stream<Arguments> providePiece() {
         return Stream.of(
                 Arguments.of(0, 0, Type.CHARIOT),

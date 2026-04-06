@@ -24,6 +24,7 @@ public class JanggiController {
 
         while (true) {
             boolean isContinue = move(game);
+            outputView.printScore(game.calculateScore(Team.CHU), game.calculateScore(Team.HAN));
 
             if (!isContinue) {
                 break;

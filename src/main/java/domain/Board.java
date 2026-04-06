@@ -72,4 +72,17 @@ public class Board {
         board.put(to, fromPiece);
         return capturedPiece;
     }
+
+    public int calculateScore(Team team) {
+        int totalScore = 0;
+        for (Position position : board.keySet()) {
+            Piece piece = findPieceByPosition(position)
+                    .orElse(null);
+
+            if (piece != null && piece.getTeam() == team) {
+                totalScore += piece.getType().getScore();
+            }
+        }
+        return totalScore;
+    }
 }

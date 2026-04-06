@@ -28,6 +28,13 @@ public class OutputView {
         System.out.println();
     }
 
+    public void printScore(int chuScore, int hanScore) {
+        System.out.println("게임 점수 : ");
+        System.out.println("초나라: " + chuScore + "점");
+        System.out.println("한나라: " + hanScore + "점");
+        System.out.println();
+    }
+
     public void printGameResult(Status status) {
         System.out.println("게임 종료 : ");
         if (status == Status.CHU_WIN) {

@@ -46,6 +46,10 @@ public class Game {
         }
     }
 
+    public int calculateScore(Team team) {
+        return board.calculateScore(team);
+    }
+
     public String getTurnName() {
         return turn.getTeamName();
     }
