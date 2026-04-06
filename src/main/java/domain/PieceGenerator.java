@@ -14,12 +14,12 @@ public class PieceGenerator {
 
     public Map<Position, Piece> generateInitialPieces(Camp camp, int elephantFormation) {
         Map<Position, Piece> board = new HashMap<>();
-        board.putAll(generatePieces(camp, PieceType.GENERAL, InitialPositions.GENERAL_POSITIONS));
-        board.putAll(generatePieces(camp, PieceType.SOLDIER, InitialPositions.SOLDIER_POSITIONS));
-        board.putAll(generatePieces(camp, PieceType.GUARD, InitialPositions.GUARD_POSITIONS));
-        board.putAll(generatePieces(camp, PieceType.CANNON, InitialPositions.CANNON_POSITIONS));
-        board.putAll(generatePieces(camp, PieceType.CHARIOT, InitialPositions.CHARIOT_POSITIONS));
-        board.putAll(generatePieces(camp, elephantFormation));
+        board.putAll(generatePieces(camp, PieceType.GENERAL));
+        board.putAll(generatePieces(camp, PieceType.SOLDIER));
+        board.putAll(generatePieces(camp, PieceType.GUARD));
+        board.putAll(generatePieces(camp, PieceType.CANNON));
+        board.putAll(generatePieces(camp, PieceType.CHARIOT));
+        board.putAll(generatePieces(camp, INPUT_FORMATION_MAPPER.get(elephantFormation)));
         return board;
     }
 
