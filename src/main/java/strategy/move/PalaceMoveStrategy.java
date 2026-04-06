@@ -5,7 +5,7 @@ import domain.board.MovePath;
 import domain.piece.TeamColor;
 import java.util.List;
 
-public class GuardMoveStrategy implements MoveStrategy {
+public class PalaceMoveStrategy implements MoveStrategy {
 
     private static final List<MovePath> PATHS = List.of(
             new MovePath(List.of(Direction.NORTH)),
@@ -23,5 +23,3 @@ public class GuardMoveStrategy implements MoveStrategy {
         return PATHS;
     }
 }
-
-

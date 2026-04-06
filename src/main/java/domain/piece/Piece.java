@@ -8,10 +8,9 @@ import java.util.Map;
 import java.util.Optional;
 import strategy.move.CannonMoveStrategy;
 import strategy.move.ElephantMoveStrategy;
-import strategy.move.GuardMoveStrategy;
 import strategy.move.HorseMoveStrategy;
-import strategy.move.KingMoveStrategy;
 import strategy.move.MoveStrategy;
+import strategy.move.PalaceMoveStrategy;
 import strategy.move.PawnMoveStrategy;
 import strategy.move.RookMoveStrategy;
 
@@ -70,12 +69,11 @@ public class Piece {
         final Map<PieceType, MoveStrategy> moveStrategies = new EnumMap<>(PieceType.class);
         moveStrategies.put(PieceType.CANNON, new CannonMoveStrategy());
         moveStrategies.put(PieceType.ELEPHANT, new ElephantMoveStrategy());
-        moveStrategies.put(PieceType.GUARD, new GuardMoveStrategy());
+        moveStrategies.put(PieceType.GUARD, new PalaceMoveStrategy());
         moveStrategies.put(PieceType.HORSE, new HorseMoveStrategy());
-        moveStrategies.put(PieceType.KING, new KingMoveStrategy());
+        moveStrategies.put(PieceType.KING, new PalaceMoveStrategy());
         moveStrategies.put(PieceType.PAWN, new PawnMoveStrategy());
         moveStrategies.put(PieceType.ROOK, new RookMoveStrategy());
         return moveStrategies;
     }
 }
-
