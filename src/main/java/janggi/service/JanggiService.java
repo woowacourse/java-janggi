@@ -89,10 +89,4 @@ public class JanggiService {
                         entry -> (Piece) entry.getValue()
                 ));
     }
-
-    private String getCurrenTurn() {
-        return gameManager.getCurrentTeam()
-                .map(Team::toString)
-                .orElse("Finished");
-    }
 }
