@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.Board;
 import domain.Camp;
+import domain.InvalidMoveException;
 import domain.Position;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -53,7 +54,7 @@ public class SoldierTest {
         board.locatePiece(toPosition, piece);
 
         assertThatThrownBy(() -> board.move(fromPosition, toPosition)).isInstanceOf(
-                IllegalArgumentException.class).hasMessageContaining("[ERROR]", "같은 팀");
+                InvalidMoveException.class).hasMessageContaining("[ERROR]", "같은 팀");
     }
 
     @Test
