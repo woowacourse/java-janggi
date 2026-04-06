@@ -69,7 +69,7 @@ class PoCollisionDetectorTest {
     @DisplayName("이동 경로에 포가 존재하는 경우 예외를 발생시킨다.")
     void shouldThrowExceptionWhenPoOnPath() {
         // given
-        CollisionDetector collisionDetector = DefaultCollisionDetector.getInstance();
+        CollisionDetector collisionDetector = PoCollisionDetector.getInstance();
         List<Piece> piecesOnPath = List.of(EmptyPiece.getInstance(), new Po(Side.HAN), new TestPiece(Side.HAN));
         Piece piece = new Po(Side.CHO);
 

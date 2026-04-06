@@ -55,4 +55,14 @@ public class EmptyPiece implements Piece {
     public boolean isSame(PieceType pieceType) {
         return PieceType.EMPTY == pieceType;
     }
+
+    @Override
+    public double getScore() {
+        return 0;
+    }
+
+    @Override
+    public Side getSide() {
+        throw new UnsupportedOperationException("빈 객체는 팀이 존재하지 않습니다.");
+    }
 }

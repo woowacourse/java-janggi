@@ -10,9 +10,15 @@ import java.util.List;
 public class TestPiece implements Piece {
 
     private final Side side;
+    private final double score;
+
+    public TestPiece(Side side, double score) {
+        this.side = side;
+        this.score = score;
+    }
 
     public TestPiece(Side side) {
-        this.side = side;
+        this(side, 0);
     }
 
     @Override
@@ -53,5 +59,15 @@ public class TestPiece implements Piece {
     @Override
     public boolean isSame(PieceType pieceType) {
         return false;
+    }
+
+    @Override
+    public double getScore() {
+        return score;
+    }
+
+    @Override
+    public Side getSide() {
+        return side;
     }
 }

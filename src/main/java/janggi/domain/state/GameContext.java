@@ -8,12 +8,12 @@ public class GameContext {
 
     private GameState gameState;
 
-    private GameContext(List<Piece> alivePieces, GameState state) {
+    private GameContext(GameState state) {
         this.gameState = state;
     }
 
     public static GameContext createInProgress(List<Piece> alivePieces, Side currentSide) {
-        return new GameContext(alivePieces, new InProgress(currentSide));
+        return new GameContext(new InProgress(currentSide, alivePieces));
     }
 
     public void changeState(GameState state) {

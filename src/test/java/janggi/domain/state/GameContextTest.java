@@ -66,8 +66,8 @@ class GameContextTest {
             List<Piece> alivePieces = List.of(
                     new Gung(Side.CHO),
                     new Gung(Side.HAN),
-                    new TestPiece(Side.CHO),
-                    new TestPiece(Side.HAN)
+                    new TestPiece(Side.CHO, 33),
+                    new TestPiece(Side.HAN, 33)
             );
             GameContext gameContext = GameContext.createInProgress(alivePieces, Side.HAN);
 
@@ -77,6 +77,69 @@ class GameContextTest {
 
             // then
             Assertions.assertThat(gameContext.isInProgress()).isTrue();
+        }
+    }
+
+    @Nested
+    class ScoreTest {
+
+        @Test
+        @DisplayName("양 팀의 점수가 모두 종료 기준 점수를 초과하면, 게임은 계속 진행된다.")
+        void continueGame_WhenScoresExceedThreshold() {
+            // given
+            List<Piece> alivePieces = List.of(
+                    new Gung(Side.CHO),
+                    new Gung(Side.HAN),
+                    new TestPiece(Side.CHO, 30), //31
+                    new TestPiece(Side.HAN, 29.5) //31
+            );
+            GameContext gameContext = GameContext.createInProgress(alivePieces, Side.HAN);
+
+            // when
+            Piece removed = new TestPiece(Side.HAN);
+            gameContext.update(removed);
+
+            // then
+            Assertions.assertThat(gameContext.isInProgress()).isTrue();
+        }
+
+        @Test
+        @DisplayName("양 팀의 점수가 모두 종료 기준 점수 이하가 되면, 게임이 종료된다.")
+        void endGame_WhenScoresAreBelowThreshold() {
+            // given
+            List<Piece> alivePieces = List.of(
+                    new Gung(Side.CHO),
+                    new Gung(Side.HAN),
+                    new TestPiece(Side.CHO, 30), // 31
+                    new TestPiece(Side.HAN, 30) // 31.5
+            );
+            GameContext gameContext = GameContext.createInProgress(alivePieces, Side.CHO);
+
+            // when
+            gameContext.update(new TestPiece(Side.HAN, 2));
+            gameContext.update(new TestPiece(Side.CHO, 2));
+
+            // then
+            Assertions.assertThat(gameContext.isInProgress()).isFalse();
+        }
+
+        @Test
+        @DisplayName("종료 기준 점수 이하가 되어 게임이 종료될 때, 점수가 더 높은 초나라가 승리한다.")
+        void winCho_WhenScoresAreBelowThreshold() {
+            // given
+            List<Piece> alivePieces = List.of(
+                    new Gung(Side.CHO),
+                    new Gung(Side.HAN),
+                    new TestPiece(Side.CHO, 29), //30
+                    new TestPiece(Side.HAN, 30) //31.5
+            );
+            GameContext gameContext = GameContext.createInProgress(alivePieces, Side.CHO);
+
+            // when
+            gameContext.update(new TestPiece(Side.HAN, 2));
+
+            // then
+            Assertions.assertThat(gameContext.getWinner()).isEqualTo(Side.CHO);
         }
     }
 }
