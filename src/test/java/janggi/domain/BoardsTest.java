@@ -8,6 +8,7 @@ import janggi.domain.piece.PieceType;
 import janggi.domain.status.Team;
 import janggi.dto.PositionInfo;
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -43,11 +44,10 @@ public class BoardsTest {
                 PositionInfo.from(Team.HAN, "JANG", 4, 8)
         );
 
-        List<PositionInfo> boardStatus = boards.getBoardStatus();
+        Map<Point, Piece> boardStatus = boards.getBoardStatus();
 
         assertThat(boardStatus).hasSize(2);
-        assertThat(boardStatus.get(0).point()).isEqualTo(Point.of(4, 1));
-        assertThat(boardStatus.get(1).point()).isEqualTo(Point.of(4, 8));
+        assertThat(boardStatus).containsKeys(Point.of(4, 1), Point.of(4, 8));
     }
 
     @Test
@@ -88,7 +88,7 @@ public class BoardsTest {
 
     private Boards initBoards(PositionInfo... positionInfos) {
         Board board = new Board();
-        board.init(List.of(positionInfos));
+        board.init(PositionInfo.toPiecesByPoint(List.of(positionInfos)));
         return new Boards(board);
     }
 }

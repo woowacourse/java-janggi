@@ -10,6 +10,7 @@ import janggi.domain.status.FinishedGame;
 import janggi.domain.status.GameStatus;
 import janggi.domain.status.HanTurn;
 import janggi.domain.status.Team;
+import janggi.dto.PositionInfo;
 import janggi.repository.GameRepository;
 import janggi.repository.InitialBoardProvider;
 import java.util.List;
@@ -30,7 +31,7 @@ public class JanggiGameService {
 
     public JanggiGame startNewGame() {
         Board board = new Board();
-        board.init(initialBoardProvider.load());
+        board.init(PositionInfo.toPiecesByPoint(initialBoardProvider.load()));
         return new JanggiGame(board);
     }
 
@@ -38,7 +39,7 @@ public class JanggiGameService {
         GameSnapshot gameSnapshot = gameRepository.findById(gameId)
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 존재하지 않는 게임입니다."));
         Board board = new Board();
-        board.init(gameSnapshot.positions());
+        board.init(PositionInfo.toPiecesByPoint(gameSnapshot.positions()));
         return new JanggiGame(board, gameStatus(gameSnapshot));
     }
 
@@ -69,7 +70,7 @@ public class JanggiGameService {
                 janggiGame.currentTurn(),
                 janggiGame.isFinished(),
                 winner(janggiGame),
-                janggiGame.boardStatus()
+                PositionInfo.from(janggiGame.boardStatus())
         );
     }
 

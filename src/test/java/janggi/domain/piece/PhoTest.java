@@ -31,7 +31,7 @@ public class PhoTest {
         info.add(PositionInfoFixture.from(List.of("CHO", "PHO", "3", "0")));
         info.add(PositionInfoFixture.from(List.of("CHO", "JANG", "4", "1")));
         info.add(PositionInfoFixture.from(List.of("CHO", "PHO", "1", "6")));
-        board.init(info);
+        board.init(PositionInfo.toPiecesByPoint(info));
     }
 
     @ParameterizedTest

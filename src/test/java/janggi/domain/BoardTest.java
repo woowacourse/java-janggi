@@ -8,6 +8,7 @@ import janggi.domain.piece.PieceType;
 import janggi.domain.status.Team;
 import janggi.dto.PositionInfo;
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -154,7 +155,7 @@ public class BoardTest {
         Boards boards = new Boards(board);
 
         // when
-        List<PositionInfo> boardStatus = boards.getBoardStatus();
+        Map<Point, Piece> boardStatus = boards.getBoardStatus();
 
         // then
         assertThat(boardStatus.size()).isEqualTo(2);
@@ -185,7 +186,7 @@ public class BoardTest {
 
     private Board initBoard(PositionInfo... positionInfos) {
         Board board = new Board();
-        board.init(List.of(positionInfos));
+        board.init(PositionInfo.toPiecesByPoint(List.of(positionInfos)));
         return board;
     }
 

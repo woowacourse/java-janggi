@@ -4,8 +4,8 @@ import janggi.domain.piece.Piece;
 import janggi.domain.status.ChoTurn;
 import janggi.domain.status.GameStatus;
 import janggi.domain.status.Team;
-import janggi.dto.PositionInfo;
 import java.util.List;
+import java.util.Map;
 
 public class JanggiGame {
 
@@ -45,7 +45,7 @@ public class JanggiGame {
         return gameStatus.getTeam();
     }
 
-    public List<PositionInfo> boardStatus() {
+    public Map<Point, Piece> boardStatus() {
         return boards.getBoardStatus();
     }
 

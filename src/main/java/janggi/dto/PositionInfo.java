@@ -5,9 +5,9 @@ import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceFactory;
 import janggi.domain.piece.PieceType;
 import janggi.domain.status.Team;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public record PositionInfo(
         Piece piece,
@@ -26,5 +26,11 @@ public record PositionInfo(
                 .filter(entry -> entry.getValue() != null)
                 .map(entry -> new PositionInfo(entry.getValue(), entry.getKey()))
                 .toList();
+    }
+
+    public static Map<Point, Piece> toPiecesByPoint(List<PositionInfo> positions) {
+        Map<Point, Piece> piecesByPoint = new LinkedHashMap<>();
+        positions.forEach(position -> piecesByPoint.put(position.point(), position.piece()));
+        return piecesByPoint;
     }
 }

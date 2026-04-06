@@ -26,7 +26,7 @@ public class ChoTurnTest {
         info.add(PositionInfoFixture.from(List.of("CHO","JANG", "4", "8")));
         info.add(PositionInfoFixture.from(List.of("HAN", "CHA", "1", "1")));
         info.add(PositionInfoFixture.from(List.of("CHO", "CHA", "2", "3")));
-        board.init(info);
+        board.init(PositionInfo.toPiecesByPoint(info));
         boards = new Boards(board);
     }
 

@@ -4,8 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.status.HanTurn;
 import janggi.domain.status.Team;
+import janggi.domain.piece.Piece;
 import janggi.dto.PositionInfo;
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -38,12 +40,11 @@ public class JanggiGameTest {
 
         // when
         JanggiGame janggiGame = new JanggiGame(board);
-        List<PositionInfo> boardStatus = janggiGame.boardStatus();
+        Map<Point, Piece> boardStatus = janggiGame.boardStatus();
 
         // then
         assertThat(boardStatus).hasSize(2);
-        assertThat(boardStatus.get(0).point()).isEqualTo(Point.of(4, 1));
-        assertThat(boardStatus.get(1).point()).isEqualTo(Point.of(4, 8));
+        assertThat(boardStatus).containsKeys(Point.of(4, 1), Point.of(4, 8));
     }
 
     @Test
@@ -64,7 +65,7 @@ public class JanggiGameTest {
 
     private Board initBoard(PositionInfo... positionInfos) {
         Board board = new Board();
-        board.init(List.of(positionInfos));
+        board.init(PositionInfo.toPiecesByPoint(List.of(positionInfos)));
         return board;
     }
 }

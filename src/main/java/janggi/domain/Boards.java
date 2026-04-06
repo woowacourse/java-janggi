@@ -3,9 +3,10 @@ package janggi.domain;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.status.Team;
-import janggi.dto.PositionInfo;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Boards {
 
@@ -34,8 +35,8 @@ public class Boards {
                         piece.isSameTeam(team));
     }
 
-    public List<PositionInfo> getBoardStatus() {
-        return PositionInfo.from(board.getPiecesByPoint());
+    public Map<Point, Piece> getBoardStatus() {
+        return new LinkedHashMap<>(board.getPiecesByPoint());
     }
 
     public List<List<Piece>> getPoints() {

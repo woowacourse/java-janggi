@@ -1,10 +1,7 @@
 package janggi.domain;
 
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceType;
 import janggi.domain.status.Team;
-import janggi.dto.PositionInfo;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,8 +15,9 @@ public class Board {
         this.piecesByPoint = new LinkedHashMap<>();
     }
 
-    public void init(List<PositionInfo> positionInfos) {
-        positionInfos.forEach(info -> piecesByPoint.put(info.point(), info.piece()));
+    public void init(Map<Point, Piece> piecesByPoint) {
+        this.piecesByPoint.clear();
+        this.piecesByPoint.putAll(piecesByPoint);
     }
 
     public void move(Point from, Point to, Team team) {

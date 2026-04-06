@@ -26,7 +26,7 @@ public class HanTurnTest {
         info.add(PositionInfoFixture.from(List.of("CHO","JANG", "4", "8")));
         info.add(PositionInfoFixture.from(List.of("HAN", "CHA", "1", "1")));
         info.add(PositionInfoFixture.from(List.of("CHO", "CHA", "2", "3")));
-        board.init(info);
+        board.init(PositionInfo.toPiecesByPoint(info));
         boards = new Boards(board);
     }
 
@@ -52,7 +52,7 @@ public class HanTurnTest {
         Board board = new Board();
         List<PositionInfo> info = new ArrayList<>();
         info.add(PositionInfoFixture.from(List.of("CHO", "CHA", "1", "1")));
-        board.init(info);
+        board.init(PositionInfo.toPiecesByPoint(info));
         Boards boards = new Boards(board);
         Point from = Point.of(1, 1);
         Point to = Point.of(2, 3);
