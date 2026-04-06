@@ -38,7 +38,7 @@ public class EmptyPiece extends Piece {
     }
 
     @Override
-    public String display(PieceAppearance colorizer) {
-        return colorizer.colorizeEmpty();
+    public double score() {
+        return 0.0;
     }
 }

@@ -5,11 +5,17 @@ import domain.game.Team;
 import java.util.List;
 
 public class Guard extends Piece {
+    private static final double SCORE = 3.0;
     private static final List<Integer> ROW_OFFSETS = List.of(-1, 1, 0, 0);
     private static final List<Integer> COLUMN_OFFSETS = List.of(0, 0, -1, 1);
 
     public Guard(Team team) {
-        super(team, PieceType.SA);
+        super(team);
+    }
+
+    @Override
+    public double score() {
+        return SCORE;
     }
 
     @Override

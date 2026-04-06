@@ -1,11 +1,17 @@
 package domain.board;
 
 import domain.game.Team;
+import domain.piece.Cannon;
+import domain.piece.Chariot;
+import domain.piece.General;
+import domain.piece.Guard;
 import domain.piece.Piece;
-import domain.piece.PieceType;
+import domain.piece.Soldier;
 import domain.position.Position;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 public abstract class AbstractFormationFactory {
 
@@ -33,16 +39,17 @@ public abstract class AbstractFormationFactory {
 
     private void setFixedPieces(Map<Position, Piece> pieces, Team team) {
         TeamLayout layout = TeamLayout.of(team);
-        placePieces(pieces, team, layout.backRow(), PieceType.CHA);
-        placePieces(pieces, team, layout.backRow(), PieceType.SA);
-        placePieces(pieces, team, layout.generalRow(), PieceType.GENERAL);
-        placePieces(pieces, team, layout.cannonRow(), PieceType.PHO);
-        placePieces(pieces, team, layout.soldierRow(), PieceType.BYEONG);
+        placePieces(pieces, team, layout.backRow(), List.of(1, 9), Chariot::new);
+        placePieces(pieces, team, layout.backRow(), List.of(4, 6), Guard::new);
+        placePieces(pieces, team, layout.generalRow(), List.of(5), General::new);
+        placePieces(pieces, team, layout.cannonRow(), List.of(2, 8), Cannon::new);
+        placePieces(pieces, team, layout.soldierRow(), List.of(1, 3, 5, 7, 9), Soldier::new);
     }
 
-    private void placePieces(Map<Position, Piece> pieces, Team team, int row, PieceType type) {
-        for (int column : type.getInitialColumns()) {
-            pieces.put(new Position(row, column), type.createPiece(team));
+    private void placePieces(Map<Position, Piece> pieces, Team team, int row,
+                             List<Integer> columns, Function<Team, Piece> factory) {
+        for (int column : columns) {
+            pieces.put(new Position(row, column), factory.apply(team));
         }
     }
 

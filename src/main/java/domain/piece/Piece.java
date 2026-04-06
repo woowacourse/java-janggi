@@ -6,16 +6,9 @@ import java.util.List;
 
 public abstract class Piece {
     private final Team team;
-    private final PieceType type;
-
-    protected Piece(Team team, PieceType type) {
-        this.team = team;
-        this.type = type;
-    }
 
     protected Piece(Team team) {
         this.team = team;
-        this.type = null;
     }
 
     public abstract boolean canMove(Position source, Position target);
@@ -52,16 +45,13 @@ public abstract class Piece {
         return true;
     }
 
-    public String display(PieceAppearance colorizer) {
-        return colorizer.colorize(team, type);
+    public Team getTeam() {
+        return team;
     }
+
+    public abstract double score();
 
     protected int forwardDirection() {
         return team.forwardRowDirection();
-    }
-
-    @Override
-    public String toString() {
-        return type.name();
     }
 }

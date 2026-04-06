@@ -6,12 +6,17 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 public class Elephant extends Piece {
-
+    private static final double SCORE = 3.0;
     private static final List<Integer> ROW_OFFSETS = List.of(2, 3, -2, -3, -3, -2, 2, 3);
     private static final List<Integer> COLUMN_OFFSETS = List.of(3, 2, 3, 2, -2, -3, -3, -2);
 
     public Elephant(Team team) {
-        super(team, PieceType.SANG);
+        super(team);
+    }
+
+    @Override
+    public double score() {
+        return SCORE;
     }
 
     @Override

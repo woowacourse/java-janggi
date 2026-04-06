@@ -2,7 +2,6 @@ package view;
 
 import domain.board.Board;
 import domain.piece.Piece;
-import domain.piece.PieceAppearance;
 import domain.position.Position;
 
 public class OutputView {
@@ -10,11 +9,6 @@ public class OutputView {
     private static final int MAX_ROW = 10;
     private static final int MIN_COLUMN = 1;
     private static final int MAX_COLUMN = 9;
-    private final PieceAppearance appearance;
-
-    public OutputView(PieceAppearance appearance) {
-        this.appearance = appearance;
-    }
 
     public void printBoard(Board board) {
         StringBuilder sb = new StringBuilder();
@@ -42,7 +36,7 @@ public class OutputView {
     private void appendRow(StringBuilder sb, Board board, int row) {
         for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
             Piece piece = board.pieceAt(new Position(row, column));
-            sb.append(piece.display(appearance)).append("\t");
+            sb.append(PieceMapper.toDisplayName(piece)).append("\t");
         }
     }
 }

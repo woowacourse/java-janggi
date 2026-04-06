@@ -1,21 +1,19 @@
 package domain.board;
 
 import domain.position.Position;
+import domain.piece.Elephant;
+import domain.piece.Horse;
 import domain.piece.Piece;
-import domain.piece.PieceType;
 import domain.game.Team;
 import java.util.Map;
 
 public class WonangmaFactory extends AbstractFormationFactory {
     @Override
     protected void setVariablePieces(Map<Position, Piece> pieces, Team team) {
-        pieces.put(new Position(TeamLayout.of(team).backRow(), PieceType.SANG.getInitialColumns().get(0)),
-                PieceType.SANG.createPiece(team));
-        pieces.put(new Position(TeamLayout.of(team).backRow(), PieceType.MA.getInitialColumns().get(1)),
-                PieceType.MA.createPiece(team));
-        pieces.put(new Position(TeamLayout.of(team).backRow(), PieceType.MA.getInitialColumns().get(2)),
-                PieceType.MA.createPiece(team));
-        pieces.put(new Position(TeamLayout.of(team).backRow(), PieceType.SANG.getInitialColumns().get(3)),
-                PieceType.SANG.createPiece(team));
+        int backRow = TeamLayout.of(team).backRow();
+        pieces.put(new Position(backRow, 2), new Elephant(team));
+        pieces.put(new Position(backRow, 3), new Horse(team));
+        pieces.put(new Position(backRow, 7), new Horse(team));
+        pieces.put(new Position(backRow, 8), new Elephant(team));
     }
 }

@@ -5,9 +5,15 @@ import domain.position.Position;
 import java.util.List;
 
 public class Cannon extends Piece {
+    private static final double SCORE = 7.0;
 
     public Cannon(Team team) {
-        super(team, PieceType.PHO);
+        super(team);
+    }
+
+    @Override
+    public double score() {
+        return SCORE;
     }
 
     @Override
@@ -22,6 +28,9 @@ public class Cannon extends Piece {
 
     @Override
     public boolean canMove(Position source, Position target) {
+        if (source.equals(target)) {
+            return false;
+        }
         return source.isSameColumn(target) || source.isSameRow(target);
     }
 

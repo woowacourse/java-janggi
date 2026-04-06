@@ -5,12 +5,17 @@ import domain.game.Team;
 import java.util.List;
 
 public class Horse extends Piece {
-
+    private static final double SCORE = 5.0;
     private static final List<Integer> ROW_OFFSETS = List.of(1, 2, 2, 1, -1, -2, -2, -1);
     private static final List<Integer> COLUMN_OFFSETS = List.of(2, 1, -1, -2, -2, -1, 1, 2);
 
     public Horse(Team team) {
-        super(team, PieceType.MA);
+        super(team);
+    }
+
+    @Override
+    public double score() {
+        return SCORE;
     }
 
     @Override

@@ -5,8 +5,15 @@ import domain.game.Team;
 import java.util.List;
 
 public class Soldier extends Piece {
+    private static final double SCORE = 2.0;
+
     public Soldier(Team team) {
-        super(team, PieceType.BYEONG);
+        super(team);
+    }
+
+    @Override
+    public double score() {
+        return SCORE;
     }
 
     @Override

@@ -5,11 +5,17 @@ import domain.game.Team;
 import java.util.List;
 
 public class General extends Piece {
+    private static final double SCORE = 0.0;
     private static final List<Integer> ROW_OFFSETS = List.of(-1, 1, 0, 0);
     private static final List<Integer> COLUMN_OFFSETS = List.of(0, 0, -1, 1);
 
     public General(Team team) {
-        super(team, PieceType.GENERAL);
+        super(team);
+    }
+
+    @Override
+    public double score() {
+        return SCORE;
     }
 
     @Override
