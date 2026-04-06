@@ -40,7 +40,7 @@ public class Position {
     }
 
     private static String generateKey(Row row, Column column) {
-        return String.format("%d,%d", row.getRow(), column.getColumn());
+        return String.format("%d,%d", row.getRow(), column.getValue());
     }
 
     public int getRowValue() {  // 이거 활용하도록 수정하기
@@ -48,13 +48,13 @@ public class Position {
     }
 
     public int getColumnValue() {
-        return column.getColumn();
+        return column.getValue();
     }
 
     public List<Integer> getPosition() {    // Position을 활용
         List<Integer> position = new ArrayList<>();
         position.add(row.getRow());   // 캡슐화 깨짐
-        position.add(column.getColumn());
+        position.add(column.getValue());
         return position;
     }
 

@@ -1,20 +1,22 @@
 package janggi.domain;
 
 import janggi.exception.position.ColumnOutOfRangeException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 public class Column {
     private static final int MIN = 0;
     private static final int MAX = 9;
-    private static final Map<Integer, Column> CACHE = new HashMap<>();  // 직접 실험해서 성능 차이 확인
+    private static final List<Column> CACHE;
 
     static {
+        List<Column> temp = new ArrayList<>();
         for (int i = MIN; i <= MAX; i++) {
-            CACHE.put(i, new Column(i));
+            temp.add(new Column(i));
         }
+        CACHE = Collections.unmodifiableList(temp);
     }
 
     private final int value;
@@ -22,18 +24,19 @@ public class Column {
     private Column(int value) {
         this.value = value;
     }
+
     public static Column of(int value) {
-        if (!CACHE.containsKey(value)) {
+        if (value < MIN || value > MAX) {
             throw new ColumnOutOfRangeException();
         }
         return CACHE.get(value);
     }
 
-    public static Collection<Column> values() {
-        return CACHE.values();
+    public static List<Column> values() {
+        return CACHE;
     }
 
-    public int getColumn() {
+    public int getValue() {
         return value;
     }
 
@@ -49,6 +52,6 @@ public class Column {
 
     @Override
     public int hashCode() {
-        return Objects.hash(value);
+        return Integer.hashCode(value);
     }
 }

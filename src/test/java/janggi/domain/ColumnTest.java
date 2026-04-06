@@ -17,8 +17,8 @@ class ColumnTest {
         Column column1 = Column.of(0);
         Column column2 = Column.of(9);
 
-        Assertions.assertThat(column1.getColumn()).isEqualTo(0);
-        Assertions.assertThat(column2.getColumn()).isEqualTo(9);
+        Assertions.assertThat(column1.getValue()).isEqualTo(0);
+        Assertions.assertThat(column2.getValue()).isEqualTo(9);
     }
 
     @Test
