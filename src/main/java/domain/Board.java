@@ -90,7 +90,7 @@ public class Board {
             throw new IllegalArgumentException("해당 위치에 피스가 없습니다.");
         }
 
-        if (piece.getType() != pieceType) {
+        if (!piece.isSameType(pieceType)) {
             throw new IllegalArgumentException("해당 위치에 해당 타입이 없습니다.");
         }
 
@@ -134,8 +134,7 @@ public class Board {
 
     public boolean isExistSameType(Position position, Piece piece) {
         if (hasPieceInPosition(position)) {
-            return pieces.get(position).getType()
-                    .equals(piece.getType());
+            return pieces.get(position).isSameType(piece);
         }
 
         return false;
@@ -143,8 +142,7 @@ public class Board {
 
     public boolean isExistSameType(Position position, PieceType pieceType) {
         if (hasPieceInPosition(position)) {
-            return pieces.get(position).getType()
-                    .equals(pieceType);
+            return pieces.get(position).isSameType(pieceType);
         }
 
         return false;
