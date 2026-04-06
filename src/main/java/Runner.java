@@ -18,6 +18,7 @@ import domain.TurnOutcome;
 import io.InputView;
 import io.OutputView;
 import persistence.GameStateRepository;
+import persistence.SaveGameStateRequest;
 import persistence.SavedGameState;
 import strategy.formation.InitialFormationStrategy;
 import strategy.formation.InnerFormationStrategy;
@@ -62,7 +63,7 @@ public class Runner {
 
     private GameSession resumeOrNewSession(SavedGameState saved) {
         if (saved.gameStatus() == GameStatus.ENDED) {
-            outputView.printSavedGameEnded(saved.winner().orElse(null));
+            outputView.printSavedGameEnded(saved.winner());
             return startFreshSession();
         }
         int choice = readResumeChoiceWithRetry();
@@ -86,16 +87,17 @@ public class Runner {
     }
 
     private GameDeadline resolveDeadlineForResume(SavedGameState saved) {
-        if (saved.deadline().isPresent()) {
-            return saved.deadline().get();
+        if (saved.deadline() != null) {
+            return saved.deadline();
         }
         GameDeadline deadline = readNewDeadline();
         gameStateRepository.save(
-                saved.snapshot(),
-                saved.currentTurn(),
-                saved.gameStatus(),
-                saved.winner(),
-                Optional.of(deadline));
+                new SaveGameStateRequest(
+                        saved.snapshot(),
+                        saved.currentTurn(),
+                        saved.gameStatus(),
+                        saved.winner(),
+                        deadline));
         return deadline;
     }
 
@@ -163,11 +165,12 @@ public class Runner {
 
     private void persistSession(GameSession session) {
         gameStateRepository.save(
-                session.board().capture(),
-                session.turnManager().getCurrentTurn(),
-                GameStatus.IN_PROGRESS,
-                Optional.empty(),
-                Optional.of(session.deadline()));
+                new SaveGameStateRequest(
+                        session.board().capture(),
+                        session.turnManager().getCurrentTurn(),
+                        GameStatus.IN_PROGRESS,
+                        null,
+                        session.deadline()));
     }
 
     private void runGameLoop(GameSession session) {
@@ -238,11 +241,12 @@ public class Runner {
         Optional<TeamColor> winner = scores.winner();
         outputView.printTimeOverByScore(scores, winner);
         gameStateRepository.save(
-                board.capture(),
-                turnManager.getCurrentTurn(),
-                GameStatus.ENDED,
-                winner,
-                Optional.of(deadline));
+                new SaveGameStateRequest(
+                        board.capture(),
+                        turnManager.getCurrentTurn(),
+                        GameStatus.ENDED,
+                        winner.orElse(null),
+                        deadline));
     }
 
     private boolean runTurnInputLoop(
@@ -336,21 +340,23 @@ public class Runner {
     private void persistFinalState(Board board, TurnManager turnManager, GameDeadline deadline) {
         outputView.printGameEnd(turnManager.getCurrentTurn());
         gameStateRepository.save(
-                board.capture(),
-                turnManager.getCurrentTurn(),
-                GameStatus.ENDED,
-                Optional.of(turnManager.getCurrentTurn()),
-                Optional.of(deadline));
+                new SaveGameStateRequest(
+                        board.capture(),
+                        turnManager.getCurrentTurn(),
+                        GameStatus.ENDED,
+                        turnManager.getCurrentTurn(),
+                        deadline));
     }
 
     private void progressTurnAndPersist(Board board, TurnManager turnManager, GameDeadline deadline) {
         turnManager.progressTurn();
         gameStateRepository.save(
-                board.capture(),
-                turnManager.getCurrentTurn(),
-                GameStatus.IN_PROGRESS,
-                Optional.empty(),
-                Optional.of(deadline));
+                new SaveGameStateRequest(
+                        board.capture(),
+                        turnManager.getCurrentTurn(),
+                        GameStatus.IN_PROGRESS,
+                        null,
+                        deadline));
     }
 
     private Piece getSelectedPiece(List<Map.Entry<Position, Piece>> pieces, int pieceChoice) {

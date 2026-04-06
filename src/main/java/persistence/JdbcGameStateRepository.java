@@ -38,14 +38,9 @@ public final class JdbcGameStateRepository implements GameStateRepository {
     }
 
     @Override
-    public void save(
-            GameSnapshot snapshot,
-            TeamColor currentTurn,
-            GameStatus gameStatus,
-            Optional<TeamColor> winner,
-            Optional<GameDeadline> deadline) {
+    public void save(SaveGameStateRequest command) {
         try {
-            saveInternal(snapshot, currentTurn, gameStatus, winner, deadline);
+            saveInternal(command);
         } catch (SQLException exception) {
             throw new IllegalStateException("게임 상태 저장에 실패했습니다.", exception);
         }
@@ -87,19 +82,26 @@ public final class JdbcGameStateRepository implements GameStateRepository {
             }
             TeamColor currentTurn = TeamColor.valueOf(resultSet.getString("current_turn"));
             GameStatus status = GameStatus.valueOf(resultSet.getString("game_status"));
-            Optional<TeamColor> winner =
-                    Optional.ofNullable(resultSet.getString("winner_team")).map(TeamColor::valueOf);
-            Optional<GameDeadline> deadline = readDeadline(resultSet);
+            TeamColor winner = readWinner(resultSet);
+            GameDeadline deadline = readDeadline(resultSet);
             return Optional.of(new GameMetaRow(currentTurn, status, winner, deadline));
         }
     }
 
-    private static Optional<GameDeadline> readDeadline(ResultSet resultSet) throws SQLException {
+    private static TeamColor readWinner(ResultSet resultSet) throws SQLException {
+        String winnerTeam = resultSet.getString("winner_team");
+        if (winnerTeam == null) {
+            return null;
+        }
+        return TeamColor.valueOf(winnerTeam);
+    }
+
+    private static GameDeadline readDeadline(ResultSet resultSet) throws SQLException {
         Long epochMillis = (Long) resultSet.getObject("deadline_epoch_ms");
         if (epochMillis == null) {
-            return Optional.empty();
+            return null;
         }
-        return Optional.of(GameDeadline.of(Instant.ofEpochMilli(epochMillis)));
+        return GameDeadline.of(Instant.ofEpochMilli(epochMillis));
     }
 
     private static GameSnapshot readSnapshot(Connection connection) throws SQLException {
@@ -125,29 +127,17 @@ public final class JdbcGameStateRepository implements GameStateRepository {
         pieces.put(position, piece);
     }
 
-    private void saveInternal(
-            GameSnapshot snapshot,
-            TeamColor currentTurn,
-            GameStatus gameStatus,
-            Optional<TeamColor> winner,
-            Optional<GameDeadline> deadline)
-            throws SQLException {
+    private void saveInternal(SaveGameStateRequest command) throws SQLException {
         Connection connection = connectionSource.getConnection();
         connection.setAutoCommit(false);
-        commitOrRollback(connection, snapshot, currentTurn, gameStatus, winner, deadline);
+        commitOrRollback(connection, command);
         connection.setAutoCommit(true);
     }
 
-    private static void commitOrRollback(
-            Connection connection,
-            GameSnapshot snapshot,
-            TeamColor turn,
-            GameStatus status,
-            Optional<TeamColor> winner,
-            Optional<GameDeadline> deadline)
+    private static void commitOrRollback(Connection connection, SaveGameStateRequest command)
             throws SQLException {
         try {
-            writeGameState(connection, snapshot, turn, status, winner, deadline);
+            writeGameState(connection, command);
             connection.commit();
         } catch (SQLException exception) {
             connection.rollback();
@@ -155,17 +145,11 @@ public final class JdbcGameStateRepository implements GameStateRepository {
         }
     }
 
-    private static void writeGameState(
-            Connection connection,
-            GameSnapshot snapshot,
-            TeamColor turn,
-            GameStatus status,
-            Optional<TeamColor> winner,
-            Optional<GameDeadline> deadline)
+    private static void writeGameState(Connection connection, SaveGameStateRequest command)
             throws SQLException {
         deleteAllPieces(connection);
-        insertPieces(connection, snapshot);
-        mergeMeta(connection, turn, status, winner, deadline);
+        insertPieces(connection, command.snapshot());
+        mergeMeta(connection, command);
     }
 
     private static void deleteAllPieces(Connection connection) throws SQLException {
@@ -200,23 +184,32 @@ public final class JdbcGameStateRepository implements GameStateRepository {
         statement.setString(4, piece.getPieceType().name());
     }
 
-    private static void mergeMeta(
-            Connection connection,
-            TeamColor currentTurn,
-            GameStatus status,
-            Optional<TeamColor> winner,
-            Optional<GameDeadline> deadline)
+    private static void mergeMeta(Connection connection, SaveGameStateRequest command)
             throws SQLException {
         String sql =
                 "MERGE INTO game_meta (id, current_turn, game_status, winner_team, deadline_epoch_ms) KEY (id) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, SINGLETON_GAME_ID);
-            statement.setString(2, currentTurn.name());
-            statement.setString(3, status.name());
-            statement.setString(4, winner.map(Enum::name).orElse(null));
-            statement.setObject(5, deadline.map(JdbcGameStateRepository::toEpochMillis).orElse(null));
+            statement.setString(2, command.currentTurn().name());
+            statement.setString(3, command.gameStatus().name());
+            statement.setString(4, teamNameOrNull(command.winner()));
+            statement.setObject(5, deadlineEpochMillisOrNull(command.deadline()));
             statement.executeUpdate();
         }
+    }
+
+    private static String teamNameOrNull(TeamColor winner) {
+        if (winner == null) {
+            return null;
+        }
+        return winner.name();
+    }
+
+    private static Long deadlineEpochMillisOrNull(GameDeadline deadline) {
+        if (deadline == null) {
+            return null;
+        }
+        return toEpochMillis(deadline);
     }
 
     private static long toEpochMillis(GameDeadline deadline) {
@@ -226,6 +219,6 @@ public final class JdbcGameStateRepository implements GameStateRepository {
     private record GameMetaRow(
             TeamColor currentTurn,
             GameStatus gameStatus,
-            Optional<TeamColor> winner,
-            Optional<GameDeadline> deadline) {}
+            TeamColor winner,
+            GameDeadline deadline) {}
 }

@@ -49,14 +49,14 @@ class JdbcGameStateRepositoryTest {
         GameSnapshot snapshot = sampleSnapshot();
         TeamColor turn = TeamColor.HAN;
 
-        repository.save(snapshot, turn, GameStatus.IN_PROGRESS, Optional.empty(), Optional.empty());
+        repository.save(new SaveGameStateRequest(snapshot, turn, GameStatus.IN_PROGRESS, null, null));
         Optional<SavedGameState> loaded = repository.load();
 
         assertThat(loaded).isPresent();
         assertThat(loaded.get().currentTurn()).isEqualTo(turn);
         assertThat(loaded.get().gameStatus()).isEqualTo(GameStatus.IN_PROGRESS);
-        assertThat(loaded.get().winner()).isEmpty();
-        assertThat(loaded.get().deadline()).isEmpty();
+        assertThat(loaded.get().winner()).isNull();
+        assertThat(loaded.get().deadline()).isNull();
         assertSnapshotsEqual(snapshot, loaded.get().snapshot());
     }
 
@@ -67,8 +67,8 @@ class JdbcGameStateRepositoryTest {
         GameSnapshot second = GameSnapshot.from(
                 Map.of(Position.of(9, 8), Piece.of(TeamColor.HAN, PieceType.KING)));
 
-        repository.save(first, TeamColor.CHO, GameStatus.IN_PROGRESS, Optional.empty(), Optional.empty());
-        repository.save(second, TeamColor.HAN, GameStatus.IN_PROGRESS, Optional.empty(), Optional.empty());
+        repository.save(new SaveGameStateRequest(first, TeamColor.CHO, GameStatus.IN_PROGRESS, null, null));
+        repository.save(new SaveGameStateRequest(second, TeamColor.HAN, GameStatus.IN_PROGRESS, null, null));
         Optional<SavedGameState> loaded = repository.load();
 
         assertThat(loaded).isPresent();
@@ -81,16 +81,12 @@ class JdbcGameStateRepositoryTest {
         GameSnapshot snapshot = sampleSnapshot();
 
         repository.save(
-                snapshot,
-                TeamColor.CHO,
-                GameStatus.ENDED,
-                Optional.of(TeamColor.CHO),
-                Optional.empty());
+                new SaveGameStateRequest(snapshot, TeamColor.CHO, GameStatus.ENDED, TeamColor.CHO, null));
         Optional<SavedGameState> loaded = repository.load();
 
         assertThat(loaded).isPresent();
         assertThat(loaded.get().gameStatus()).isEqualTo(GameStatus.ENDED);
-        assertThat(loaded.get().winner()).contains(TeamColor.CHO);
+        assertThat(loaded.get().winner()).isEqualTo(TeamColor.CHO);
     }
 
     @Test
@@ -99,11 +95,11 @@ class JdbcGameStateRepositoryTest {
         GameDeadline deadline = GameDeadline.of(Instant.parse("2026-04-06T10:00:00Z"));
 
         repository.save(
-                snapshot, TeamColor.CHO, GameStatus.IN_PROGRESS, Optional.empty(), Optional.of(deadline));
+                new SaveGameStateRequest(snapshot, TeamColor.CHO, GameStatus.IN_PROGRESS, null, deadline));
         Optional<SavedGameState> loaded = repository.load();
 
         assertThat(loaded).isPresent();
-        assertThat(loaded.get().deadline()).contains(deadline);
+        assertThat(loaded.get().deadline()).isEqualTo(deadline);
     }
 
     private static GameSnapshot sampleSnapshot() {
