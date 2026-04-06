@@ -18,8 +18,9 @@ import domain.position.Position;
 class ChaTest {
 
     private static final Position DEFAULT = new Position(3, 3);
+
     private Piece cha() {
-        return new Cha(Side.HAN);
+        return new Cha(Side.CHO);
     }
 
     @Nested
@@ -97,6 +98,162 @@ class ChaTest {
                 assertThatCode(() -> cha.askMoveContext(departure, destination))
                         .doesNotThrowAnyException();
             }
+
+            @Test
+            void 초나라_차는_우로_이동해_궁성영역_안으로_들어갈_수_있다() {
+                // given
+                Piece cha = cha();
+                Position departure = new Position(0, 0);
+                Position destination = new Position(0, 5);
+
+                // when & then
+                assertThatCode(() -> cha.askMoveContext(departure, destination))
+                        .doesNotThrowAnyException();
+            }
+
+            @Test
+            void 초나라_차는_궁성에서_우상향_한_칸_대각선으로_이동할_수_있다() {
+                // given
+                Piece cha = cha();
+                Position departure = new Position(0, 3);
+                Position destination = new Position(1, 4);
+
+                // when & then
+                assertThatCode(() -> cha.askMoveContext(departure, destination))
+                        .doesNotThrowAnyException();
+            }
+
+            @Test
+            void 초나라_차는_궁성에서_좌하향_한_칸_대각선으로_이동할_수_있다() {
+                // given
+                Piece cha = cha();
+                Position departure = new Position(1, 4);
+                Position destination = new Position(0, 3);
+
+                // when & then
+                assertThatCode(() -> cha.askMoveContext(departure, destination))
+                        .doesNotThrowAnyException();
+            }
+
+            @Test
+            void 초나라_차는_궁성에서_좌상향_한_칸_대각선으로_이동할_수_있다() {
+                // given
+                Piece cha = cha();
+                Position departure = new Position(0, 5);
+                Position destination = new Position(1, 4);
+
+                // when & then
+                assertThatCode(() -> cha.askMoveContext(departure, destination))
+                        .doesNotThrowAnyException();
+            }
+
+            @Test
+            void 초나라_차는_궁성에서_우하향_한_칸_대각선으로_이동할_수_있다() {
+                // given
+                Piece cha = cha();
+                Position departure = new Position(1, 4);
+                Position destination = new Position(0, 5);
+
+                // when & then
+                assertThatCode(() -> cha.askMoveContext(departure, destination))
+                        .doesNotThrowAnyException();
+            }
+
+            @Test
+            void 초나라_차는_궁성_좌하단_코너에서_중심으로_우상향_한_칸_대각선_이동할_수_있다() {
+                // given
+                Piece cha = cha();
+                Position departure = new Position(2, 3);
+                Position destination = new Position(1, 4);
+
+                // when & then
+                assertThatCode(() -> cha.askMoveContext(departure, destination))
+                        .doesNotThrowAnyException();
+            }
+
+            @Test
+            void 초나라_차는_궁성_중심에서_좌하단_코너로_좌하향_한_칸_대각선_이동할_수_있다() {
+                // given
+                Piece cha = cha();
+                Position departure = new Position(1, 4);
+                Position destination = new Position(2, 3);
+
+                // when & then
+                assertThatCode(() -> cha.askMoveContext(departure, destination))
+                        .doesNotThrowAnyException();
+            }
+
+            @Test
+            void 초나라_차는_궁성_중심에서_우하단_코너로_우상향_한_칸_대각선_이동할_수_있다() {
+                // given
+                Piece cha = cha();
+                Position departure = new Position(1, 4);
+                Position destination = new Position(2, 5);
+
+                // when & then
+                assertThatCode(() -> cha.askMoveContext(departure, destination))
+                        .doesNotThrowAnyException();
+            }
+
+            @Test
+            void 초나라_차는_궁성_우하단_코너에서_중심으로_좌하향_한_칸_대각선_이동할_수_있다() {
+                // given
+                Piece cha = cha();
+                Position departure = new Position(2, 5);
+                Position destination = new Position(1, 4);
+
+                // when & then
+                assertThatCode(() -> cha.askMoveContext(departure, destination))
+                        .doesNotThrowAnyException();
+            }
+
+            @Test
+            void 초나라_차는_궁성에서_우상향_두_칸_대각선으로_이동할_수_있다() {
+                // given
+                Piece cha = cha();
+                Position departure = new Position(0, 3);
+                Position destination = new Position(2, 5);
+
+                // when & then
+                assertThatCode(() -> cha.askMoveContext(departure, destination))
+                        .doesNotThrowAnyException();
+            }
+
+            @Test
+            void 초나라_차는_궁성에서_좌하향_두_칸_대각선으로_이동할_수_있다() {
+                // given
+                Piece cha = cha();
+                Position departure = new Position(2, 5);
+                Position destination = new Position(0, 3);
+
+                // when & then
+                assertThatCode(() -> cha.askMoveContext(departure, destination))
+                        .doesNotThrowAnyException();
+            }
+
+            @Test
+            void 초나라_차는_궁성에서_좌상향_두_칸_대각선으로_이동할_수_있다() {
+                // given
+                Piece cha = cha();
+                Position departure = new Position(0, 5);
+                Position destination = new Position(2, 3);
+
+                // when & then
+                assertThatCode(() -> cha.askMoveContext(departure, destination))
+                        .doesNotThrowAnyException();
+            }
+
+            @Test
+            void 초나라_차는_궁성에서_우하향_두_칸_대각선으로_이동할_수_있다() {
+                // given
+                Piece cha = cha();
+                Position departure = new Position(2, 3);
+                Position destination = new Position(0, 5);
+
+                // when & then
+                assertThatCode(() -> cha.askMoveContext(departure, destination))
+                        .doesNotThrowAnyException();
+            }
         }
 
         @Nested
@@ -140,11 +297,115 @@ class ChaTest {
             }
 
             @Test
-            void 우상향이_도착지인_경우_예외를_던진다() {
+            void 궁성외부에서_우상향이_도착지인_경우_예외를_던진다() {
                 // given
                 Piece cha = cha();
                 Position departure = DEFAULT;
                 Position destination = departure.moveRightUp();
+                // when & then
+                assertThatThrownBy(() -> cha.askMoveContext(departure, destination))
+                        .isInstanceOf(InvalidMoveException.class)
+                        .hasMessage(PieceErrorMessage.CHA_INVALID_MOVE.message());
+            }
+
+            @Test
+            void 초나라_차는_궁성_내부라도_대각선_선분이_아닌_우상향_이동은_할_수_없다() {
+                // given
+                Piece cha = cha();
+                Position departure = new Position(0, 4);
+                Position destination = new Position(1, 5);
+
+                // when & then
+                assertThatThrownBy(() -> cha.askMoveContext(departure, destination))
+                        .isInstanceOf(InvalidMoveException.class)
+                        .hasMessage(PieceErrorMessage.CHA_INVALID_MOVE.message());
+            }
+
+            @Test
+            void 초나라_차는_궁성_내부라도_대각선_선분이_아닌_좌상향_이동은_할_수_없다() {
+                // given
+                Piece cha = cha();
+                Position departure = new Position(0, 4);
+                Position destination = new Position(1, 3);
+
+                // when & then
+                assertThatThrownBy(() -> cha.askMoveContext(departure, destination))
+                        .isInstanceOf(InvalidMoveException.class)
+                        .hasMessage(PieceErrorMessage.CHA_INVALID_MOVE.message());
+            }
+
+            @Test
+            void 초나라_차는_궁성_내부라도_대각선_선분이_아닌_좌하향_이동은_할_수_없다() {
+                // given
+                Piece cha = cha();
+                Position departure = new Position(1, 5);
+                Position destination = new Position(0, 4);
+
+                // when & then
+                assertThatThrownBy(() -> cha.askMoveContext(departure, destination))
+                        .isInstanceOf(InvalidMoveException.class)
+                        .hasMessage(PieceErrorMessage.CHA_INVALID_MOVE.message());
+            }
+
+            @Test
+            void 초나라_차는_궁성_내부라도_대각선_선분이_아닌_우하향_이동은_할_수_없다() {
+                // given
+                Piece cha = cha();
+                Position departure = new Position(1, 3);
+                Position destination = new Position(0, 4);
+
+                // when & then
+                assertThatThrownBy(() -> cha.askMoveContext(departure, destination))
+                        .isInstanceOf(InvalidMoveException.class)
+                        .hasMessage(PieceErrorMessage.CHA_INVALID_MOVE.message());
+            }
+
+            @Test
+            void 초나라_차는_궁성_좌중앙에서_우상향_대각선_이동할_수_없다() {
+                // given
+                Piece cha = cha();
+                Position departure = new Position(1, 3);
+                Position destination = new Position(2, 4);
+
+                // when & then
+                assertThatThrownBy(() -> cha.askMoveContext(departure, destination))
+                        .isInstanceOf(InvalidMoveException.class)
+                        .hasMessage(PieceErrorMessage.CHA_INVALID_MOVE.message());
+            }
+
+            @Test
+            void 초나라_차는_궁성_우중앙에서_좌상향_대각선_이동할_수_없다() {
+                // given
+                Piece cha = cha();
+                Position departure = new Position(1, 5);
+                Position destination = new Position(2, 4);
+
+                // when & then
+                assertThatThrownBy(() -> cha.askMoveContext(departure, destination))
+                        .isInstanceOf(InvalidMoveException.class)
+                        .hasMessage(PieceErrorMessage.CHA_INVALID_MOVE.message());
+            }
+
+            @Test
+            void 초나라_차는_궁성_하중앙에서_좌하향_대각선_이동할_수_없다() {
+                // given
+                Piece cha = cha();
+                Position departure = new Position(2, 4);
+                Position destination = new Position(1, 3);
+
+                // when & then
+                assertThatThrownBy(() -> cha.askMoveContext(departure, destination))
+                        .isInstanceOf(InvalidMoveException.class)
+                        .hasMessage(PieceErrorMessage.CHA_INVALID_MOVE.message());
+            }
+
+            @Test
+            void 초나라_차는_궁성_하중앙에서_우하향_대각선_이동할_수_없다() {
+                // given
+                Piece cha = cha();
+                Position departure = new Position(2, 4);
+                Position destination = new Position(1, 5);
+
                 // when & then
                 assertThatThrownBy(() -> cha.askMoveContext(departure, destination))
                         .isInstanceOf(InvalidMoveException.class)

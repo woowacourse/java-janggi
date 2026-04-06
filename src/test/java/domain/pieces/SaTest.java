@@ -149,6 +149,30 @@ class SaTest {
             }
 
             @Test
+            void 궁성_내부라도_두_칸_우상향_대각선_이동은_예외를_던진다() {
+                // given
+                Piece sa = sa();
+                Position departure = new Position(0, 3);
+                Position destination = new Position(2, 5);
+                // when & then
+                assertThatThrownBy(() -> sa.askMoveContext(departure, destination))
+                        .isInstanceOf(InvalidMoveException.class)
+                        .hasMessage(PieceErrorMessage.SA_INVALID_MOVE.message());
+            }
+
+            @Test
+            void 궁성_내부라도_두_칸_좌상향_대각선_이동은_예외를_던진다() {
+                // given
+                Piece sa = sa();
+                Position departure = new Position(0, 5);
+                Position destination = new Position(2, 3);
+                // when & then
+                assertThatThrownBy(() -> sa.askMoveContext(departure, destination))
+                        .isInstanceOf(InvalidMoveException.class)
+                        .hasMessage(PieceErrorMessage.SA_INVALID_MOVE.message());
+            }
+
+            @Test
             void 궁성_밖_대각선이_도착지인_경우_예외를_던진다() {
                 // given
                 Piece sa = sa();

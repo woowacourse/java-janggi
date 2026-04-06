@@ -11,7 +11,8 @@ import domain.movepolicy.path.PathRule;
 import domain.position.Position;
 
 public class Sa extends FullPiece {
-    private static final Palace PALACE = new Palace();
+
+    private static final Palace palace = new Palace();
 
     public Sa(Side side) {
         super(side);
@@ -19,7 +20,7 @@ public class Sa extends FullPiece {
 
     @Override
     protected void validateDestination(Position departure, Position destination) {
-        if (!PALACE.isConnected(departure, destination)) {
+        if (!palace.isConnected(departure, destination)) {
             throw new InvalidMoveException(PieceErrorMessage.SA_INVALID_MOVE);
         }
     }

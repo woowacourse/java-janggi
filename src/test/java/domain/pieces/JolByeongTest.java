@@ -139,6 +139,18 @@ class JolByeongTest {
                         .isInstanceOf(InvalidMoveException.class)
                         .hasMessage(PieceErrorMessage.JOL_BYEONG_INVALID_MOVE.message());
             }
+
+            @Test
+            void 궁성_내부라도_대각선_선분이_아닌_대각선_전진은_이동할_수_없다() {
+                // given
+                Piece jol = choJol();
+                Position departure = new Position(7, 4);
+                Position destination = departure.moveRightUp();
+                // when & then
+                assertThatThrownBy(() -> jol.askMoveContext(departure, destination))
+                        .isInstanceOf(InvalidMoveException.class)
+                        .hasMessage(PieceErrorMessage.JOL_BYEONG_INVALID_MOVE.message());
+            }
         }
 
         @Nested
@@ -288,6 +300,18 @@ class JolByeongTest {
                 Piece byeong = hanByeong();
                 Position departure = new Position(1, 4);
                 Position destination = departure.moveLeftUp();
+                // when & then
+                assertThatThrownBy(() -> byeong.askMoveContext(departure, destination))
+                        .isInstanceOf(InvalidMoveException.class)
+                        .hasMessage(PieceErrorMessage.JOL_BYEONG_INVALID_MOVE.message());
+            }
+
+            @Test
+            void 궁성_내부라도_대각선_선분이_아닌_대각선_전진은_이동할_수_없다() {
+                // given
+                Piece byeong = hanByeong();
+                Position departure = new Position(2, 4);
+                Position destination = departure.moveRightDown();
                 // when & then
                 assertThatThrownBy(() -> byeong.askMoveContext(departure, destination))
                         .isInstanceOf(InvalidMoveException.class)

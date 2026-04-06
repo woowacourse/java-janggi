@@ -17,6 +17,7 @@ import domain.position.Position;
 class GungTest {
 
     private static final Position DEFAULT = new Position(1, 4);
+
     private Piece gung() {
         return new Gung(Side.HAN);
     }
@@ -142,6 +143,30 @@ class GungTest {
                 Piece hanGung = gung();
                 Position departure = DEFAULT;
                 Position destination = departure.moveUp().moveUp();
+                // when & then
+                assertThatThrownBy(() -> hanGung.askMoveContext(departure, destination))
+                        .isInstanceOf(InvalidMoveException.class)
+                        .hasMessage(PieceErrorMessage.GUNG_INVALID_MOVE.message());
+            }
+
+            @Test
+            void 궁성_내부라도_두_칸_우상향_대각선_이동은_예외를_던진다() {
+                // given
+                Piece hanGung = gung();
+                Position departure = new Position(0, 3);
+                Position destination = new Position(2, 5);
+                // when & then
+                assertThatThrownBy(() -> hanGung.askMoveContext(departure, destination))
+                        .isInstanceOf(InvalidMoveException.class)
+                        .hasMessage(PieceErrorMessage.GUNG_INVALID_MOVE.message());
+            }
+
+            @Test
+            void 궁성_내부라도_두_칸_좌상향_대각선_이동은_예외를_던진다() {
+                // given
+                Piece hanGung = gung();
+                Position departure = new Position(0, 5);
+                Position destination = new Position(2, 3);
                 // when & then
                 assertThatThrownBy(() -> hanGung.askMoveContext(departure, destination))
                         .isInstanceOf(InvalidMoveException.class)

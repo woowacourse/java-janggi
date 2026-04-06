@@ -100,5 +100,21 @@ class PalaceTest {
 
             assertThat(palace.isDiagonalConnection(departure, destination)).isFalse();
         }
+
+        @Test
+        void 차와_포는_궁성_대각선_두_칸_축_위에서_연결될_수_있다() {
+            Position departure = new Position(0, 3);
+            Position destination = new Position(2, 5);
+
+            assertThat(palace.isChaAndPoDiagonalConnection(departure, destination)).isTrue();
+        }
+
+        @Test
+        void 차와_포도_궁성_내부지만_대각선_선분이_아닌_경우는_연결되지_않는다() {
+            Position departure = new Position(0, 4);
+            Position destination = new Position(1, 5);
+
+            assertThat(palace.isChaAndPoDiagonalConnection(departure, destination)).isFalse();
+        }
     }
 }

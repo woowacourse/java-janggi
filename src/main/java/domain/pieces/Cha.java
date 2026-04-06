@@ -1,5 +1,6 @@
 package domain.pieces;
 
+import domain.board.Palace;
 import domain.pieces.exception.InvalidMoveException;
 import domain.pieces.exception.PieceErrorMessage;
 import java.util.List;
@@ -13,7 +14,9 @@ import domain.movement.SlidingDirectionFinder;
 import domain.movement.SlidingPath;
 
 public class Cha extends FullPiece {
+
     private static final SlidingDirectionFinder SLIDING_DIRECTION_FINDER = new SlidingDirectionFinder();
+    private static final Palace palace = new Palace();
 
     public Cha(Side side) {
         super(side);
@@ -24,7 +27,9 @@ public class Cha extends FullPiece {
         if (departure.equals(destination)) {
             throw new InvalidMoveException(PieceErrorMessage.CHA_INVALID_MOVE);
         }
-        if (!departure.isSameRow(destination) && !departure.isSameColumn(destination)) {
+        if (!departure.isSameRow(destination)
+                && !departure.isSameColumn(destination)
+                && !palace.isChaAndPoDiagonalConnection(departure, destination)) {
             throw new InvalidMoveException(PieceErrorMessage.CHA_INVALID_MOVE);
         }
     }

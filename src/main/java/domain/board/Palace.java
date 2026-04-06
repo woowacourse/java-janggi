@@ -15,6 +15,16 @@ public class Palace {
             new Position(0, 3), new Position(0, 4), new Position(0, 5)
     );
     private final Map<Position, Set<Position>> connections = initializeConnections();
+    private final Map<Position, Set<Position>> doubleConnections = initializeDoubleConnections();
+
+    private Map<Position, Set<Position>> initializeDoubleConnections() {
+        Map<Position, Set<Position>> palaceConnections = new HashMap<>();
+        connectBidirectional(palaceConnections, 9, 3, 7, 5);
+        connectBidirectional(palaceConnections, 9, 5, 7, 3);
+        connectBidirectional(palaceConnections, 0, 3, 2, 5);
+        connectBidirectional(palaceConnections, 0, 5, 2, 3);
+        return palaceConnections;
+    }
 
     public boolean contains(Position position) {
         return positions.contains(position);
@@ -26,6 +36,20 @@ public class Palace {
         }
         return Math.abs(departure.row() - destination.row()) == 1
                 && Math.abs(departure.column() - destination.column()) == 1;
+    }
+
+    public boolean isChaAndPoDiagonalConnection(Position departure, Position destination) {
+        if (!isConnected(departure, destination) && !isDoubleConnected(departure,destination)) {
+            return false;
+        }
+        return (Math.abs(departure.row() - destination.row()) == 1
+                && Math.abs(departure.column() - destination.column()) == 1) ||
+                (Math.abs(departure.row() - destination.row()) == 2
+                        && Math.abs(departure.column() - destination.column()) == 2);
+    }
+
+    private boolean isDoubleConnected(Position departure, Position destination) {
+        return doubleConnections.getOrDefault(departure, Set.of()).contains(destination);
     }
 
     public boolean isConnected(Position departure, Position destination) {

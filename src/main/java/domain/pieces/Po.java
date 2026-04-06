@@ -13,6 +13,7 @@ import domain.movement.SlidingDirectionFinder;
 import domain.movement.SlidingPath;
 
 public class Po extends FullPiece {
+
     private static final SlidingDirectionFinder SLIDING_DIRECTION_FINDER = new SlidingDirectionFinder();
 
     public Po(Side side) {

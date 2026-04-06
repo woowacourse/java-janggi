@@ -89,6 +89,34 @@ public class Position {
         return this.column.isLeft(destination.column);
     }
 
+    public boolean isRightUp(Position destination) {
+        return destination.row.index() > this.row.index()
+                && destination.column.index() > this.column.index()
+                && destination.row.index() - this.row.index()
+                == destination.column.index() - this.column.index();
+    }
+
+    public boolean isLeftUp(Position destination) {
+        return destination.row.index() > this.row.index()
+                && destination.column.index() < this.column.index()
+                && destination.row.index() - this.row.index()
+                == this.column.index() - destination.column.index();
+    }
+
+    public boolean isRightDown(Position destination) {
+        return destination.row.index() < this.row.index()
+                && destination.column.index() > this.column.index()
+                && this.row.index() - destination.row.index()
+                == destination.column.index() - this.column.index();
+    }
+
+    public boolean isLeftDown(Position destination) {
+        return destination.row.index() < this.row.index()
+                && destination.column.index() < this.column.index()
+                && this.row.index() - destination.row.index()
+                == this.column.index() - destination.column.index();
+    }
+
     public boolean isGapBiggerThanOne(Position destination) {
         return row.isGapBiggerThanOne(destination.row) || column.isGapBiggerThanOne(
                 destination.column);
