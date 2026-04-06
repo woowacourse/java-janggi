@@ -1,6 +1,7 @@
 package janggi.view;
 
 import janggi.dto.BoardDTO;
+import janggi.dto.GameSessionDTO;
 import janggi.dto.PieceDTO;
 import janggi.dto.PositionDTO;
 import java.util.Collections;
@@ -85,7 +86,7 @@ public class OutputView {
 
     private String applySideColor(String cell, PieceDTO piece) {
         if (piece == null) {
-            return cell; // 빈 칸은 기본색
+            return cell;
         }
 
         if ("CHO".equals(piece.sideName())) {
@@ -142,5 +143,13 @@ public class OutputView {
 
     public void printNotOwnPiece() {
         printLine(Message.TARGET_PIECE_IS_NOT_MOVEABLE);
+    }
+
+    public void printSelectGameData() {
+        printLine(Message.GAME_DATA_SELECT_NOTICE);
+    }
+
+    public void printActiveGameInfo(GameSessionDTO gameSessionDTO) {
+        printLine(gameSessionDTO.toString());
     }
 }

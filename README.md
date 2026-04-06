@@ -64,6 +64,8 @@ TABLE `GAME` (게임 정보)
     
     created_at(DATETIME)
 
+    is_finished(boolean)
+
 ~~TABLE `PLAYER` (플레이어 정보)~~ 정규화가 뭔가요
 
     player_id(PK) - 필요한가? 닉네임과 게임ID 조합으로 표현 가능할거같은데 

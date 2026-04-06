@@ -1,14 +1,16 @@
 package janggi.persistence;
 
 import janggi.domain.game.GameManager;
+import janggi.dto.GameSessionDTO;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 public interface GameRepository {
 
-    Optional<Long> findActiveGameId(Connection connection) throws SQLException;
+    List<GameSessionDTO> findAllActiveGames(Connection connection) throws SQLException;
 
     long insertGame(Connection connection, GameManager gameManager) throws SQLException;
 
