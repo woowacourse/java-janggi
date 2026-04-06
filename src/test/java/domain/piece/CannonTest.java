@@ -144,4 +144,57 @@ class CannonTest {
         assertThatThrownBy(() -> cannon.validateMovable(from, to, board))
                 .isInstanceOf(PieceException.class);
     }
+
+    @ParameterizedTest
+    @CsvSource(value = {
+            "6,8"
+    })
+    void 궁성_대각선_건너뛰기로_이동할_수_있다(int column, int row) {
+        Map<Coordination, Piece> board = BoardFixtureFactory.create("1", "1")
+                .moveIgnoringValidation(Coordination.of(2, 8), Coordination.of(4, 10))
+                .map();
+
+        Cannon cannon = new Cannon(Team.CHO);
+        Coordination from = Coordination.of(4, 10);
+        Coordination to = Coordination.of(column, row);
+
+        assertThatCode(() -> cannon.validateMovable(from, to, board))
+                .doesNotThrowAnyException();
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {
+            "6,8"
+    })
+    void 궁성_대각선_중앙에_기물이_없다면_이동할_수_없다(int column, int row) {
+        Map<Coordination, Piece> board = BoardFixtureFactory.create("1", "1")
+                .moveIgnoringValidation(Coordination.of(2, 8), Coordination.of(4, 10))
+                .moveIgnoringValidation(Coordination.of(5, 9), Coordination.of(5, 8))
+                .map();
+
+        Cannon cannon = new Cannon(Team.CHO);
+        Coordination from = Coordination.of(4, 10);
+        Coordination to = Coordination.of(column, row);
+
+        assertThatThrownBy(() -> cannon.validateMovable(from, to, board))
+                .isInstanceOf(PieceException.class);
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {
+            "6,8"
+    })
+    void 궁성_대각선_중앙의_기물이_포라면_이동할_수_없다(int column, int row) {
+        Map<Coordination, Piece> board = BoardFixtureFactory.create("1", "1")
+                .moveIgnoringValidation(Coordination.of(2, 8), Coordination.of(4, 10))
+                .moveIgnoringValidation(Coordination.of(8, 8), Coordination.of(5, 9))
+                .map();
+
+        Cannon cannon = new Cannon(Team.CHO);
+        Coordination from = Coordination.of(4, 10);
+        Coordination to = Coordination.of(column, row);
+
+        assertThatThrownBy(() -> cannon.validateMovable(from, to, board))
+                .isInstanceOf(PieceException.class);
+    }
 }

@@ -96,4 +96,40 @@ class ChariotTest {
         assertThatThrownBy(() -> chariot.validateMovable(from, to, board))
                 .isInstanceOf(PieceException.class);
     }
+
+    @ParameterizedTest
+    @CsvSource(value = {
+            "6,8",
+            "5,9"
+    })
+    void 궁성_대각선_방향으로_이동할_수_있다(int column, int row) {
+        Map<Coordination, Piece> board = BoardFixtureFactory.create("1", "1")
+                .moveIgnoringValidation(Coordination.of(1, 10), Coordination.of(4, 10))
+                .moveIgnoringValidation(Coordination.of(5, 9), Coordination.of(5, 8))
+                .map();
+
+        Chariot chariot = new Chariot(Team.CHO);
+        Coordination from = Coordination.of(4, 10);
+        Coordination to = Coordination.of(column, row);
+
+        assertThatCode(() -> chariot.validateMovable(from, to, board))
+                .doesNotThrowAnyException();
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {
+            "6,8"
+    })
+    void 궁성_대각선_경로에_기물이_있다면_이동할_수_없다(int column, int row) {
+        Map<Coordination, Piece> board = BoardFixtureFactory.create("1", "1")
+                .moveIgnoringValidation(Coordination.of(1, 10), Coordination.of(4, 10))
+                .map();
+
+        Chariot chariot = new Chariot(Team.CHO);
+        Coordination from = Coordination.of(4, 10);
+        Coordination to = Coordination.of(column, row);
+
+        assertThatThrownBy(() -> chariot.validateMovable(from, to, board))
+                .isInstanceOf(PieceException.class);
+    }
 }
