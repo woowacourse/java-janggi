@@ -1,14 +1,11 @@
 package domain.piece;
 
-import domain.Game;
-import domain.coordinate.Position;
 import domain.Side;
-import domain.board.BoardInitializer;
-import org.assertj.core.api.Assertions;
+import domain.board.BoardBounds;
+import domain.coordinate.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,103 +13,85 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class PawnTest {
 
-    static class HanSidePawnInitializer implements BoardInitializer {
+    private static final BoardBounds BOUNDS = BoardBounds.JANGGI;
 
-        @Override
-        public Map<Position, Piece> initialize() {
-            Map<Position, Piece> piecesPosition = new HashMap<>();
-
-            piecesPosition.put(new Position(3, 0), new Pawn(Side.HAN));
-            piecesPosition.put(new Position(3, 2), new Pawn(Side.HAN));
-            piecesPosition.put(new Position(3, 4), new Pawn(Side.HAN));
-            piecesPosition.put(new Position(3, 5), new Pawn(Side.HAN));
-            piecesPosition.put(new Position(3, 6), new Pawn(Side.HAN));
-            piecesPosition.put(new Position(3, 7), new Pawn(Side.HAN));
-            piecesPosition.put(new Position(4, 6), new Pawn(Side.HAN));
-
-            piecesPosition.put(new Position(4, 7), new Pawn(Side.CHU));
-
-            return piecesPosition;
-        }
-
-        @Override
-        public Side getFirstTurnSide() {
-            return Side.HAN;
-        }
-    }
-
-    static class ChuSidePawnInitializer implements BoardInitializer {
-
-        @Override
-        public Map<Position, Piece> initialize() {
-            Map<Position, Piece> piecesPosition = new HashMap<>();
-
-            piecesPosition.put(new Position(6, 0), new Pawn(Side.CHU));
-            piecesPosition.put(new Position(6, 2), new Pawn(Side.CHU));
-            piecesPosition.put(new Position(6, 4), new Pawn(Side.CHU));
-            piecesPosition.put(new Position(6, 6), new Pawn(Side.CHU));
-            piecesPosition.put(new Position(6, 7), new Pawn(Side.CHU));
-
-            return piecesPosition;
-        }
-
-        @Override
-        public Side getFirstTurnSide() {
-            return Side.CHU;
-        }
+    private Pieces piecesFrom(Map<Position, Piece> pieces) {
+        return position -> pieces.getOrDefault(position, EmptyPiece.getInstance());
     }
 
     @Test
-    @DisplayName("한나라 진영에서 졸은 하/좌/우 3가지 방향으로 1 칸 이동 가능하다.")
+    @DisplayName("한나라 졸은 하/좌/우 3방향으로 1칸 이동할 수 있다.")
     void getHanPossibleMovesTest() {
         // given
-        Game game = new Game(new HanSidePawnInitializer());
-        Position start = new Position(3, 0);
+        Pawn pawn = new Pawn(Side.HAN);
+        Position start = new Position(3, 4);
+        Pieces pieces = piecesFrom(Map.of(start, pawn));
+
         // when
-        List<Position> possibleMoves = game.getPossibleMoves(start);
+        List<Position> moves = pawn.getPossibleMoves(start, BOUNDS, pieces);
 
         // then
-        assertThat(possibleMoves).containsOnly(new Position(4, 0), new Position(3, 1));
+        assertThat(moves).containsOnly(
+                new Position(4, 4),
+                new Position(3, 3),
+                new Position(3, 5)
+        );
     }
 
     @Test
-    @DisplayName("초나라 진영에서 졸은 상/좌/우 3가지 방향으로 1 칸 이동 가능하다.")
+    @DisplayName("초나라 졸은 상/좌/우 3방향으로 1칸 이동할 수 있다.")
     void getChuPossibleMovesTest() {
         // given
-        Game game = new Game(new ChuSidePawnInitializer());
-        Position start = new Position(6, 0);
+        Pawn pawn = new Pawn(Side.CHU);
+        Position start = new Position(6, 4);
+        Pieces pieces = piecesFrom(Map.of(start, pawn));
+
         // when
-        List<Position> possibleMoves = game.getPossibleMoves(start);
+        List<Position> moves = pawn.getPossibleMoves(start, BOUNDS, pieces);
 
         // then
-        assertThat(possibleMoves).containsOnly(new Position(5, 0), new Position(6, 1));
+        assertThat(moves).containsOnly(
+                new Position(5, 4),
+                new Position(6, 3),
+                new Position(6, 5)
+        );
     }
 
     @Test
     @DisplayName("졸은 아군 기물이 있는 위치로 이동할 수 없다.")
-    void doesNotMoveTest() {
+    void blockedByFriendlyTest() {
         // given
-        Game game = new Game(new HanSidePawnInitializer());
-        Position start = new Position(3, 6);
+        Pawn pawn = new Pawn(Side.HAN);
+        Position start = new Position(3, 4);
+        Pieces pieces = piecesFrom(Map.of(
+                start, pawn,
+                new Position(4, 4), new Pawn(Side.HAN),
+                new Position(3, 3), new Pawn(Side.HAN),
+                new Position(3, 5), new Pawn(Side.HAN)
+        ));
 
         // when
-        List<Position> possibleMoves = game.getPossibleMoves(start);
+        List<Position> moves = pawn.getPossibleMoves(start, BOUNDS, pieces);
 
         // then
-        Assertions.assertThat(possibleMoves.size()).isEqualTo(0);
+        assertThat(moves).isEmpty();
     }
 
     @Test
     @DisplayName("졸은 상대 기물이 있는 위치로 이동할 수 있다.")
     void captureTest() {
         // given
-        Game game = new Game(new HanSidePawnInitializer());
-        Position start = new Position(3, 7);
+        Pawn pawn = new Pawn(Side.HAN);
+        Position start = new Position(3, 4);
+        Pieces pieces = piecesFrom(Map.of(
+                start, pawn,
+                new Position(4, 4), new Pawn(Side.CHU)
+        ));
 
         // when
-        List<Position> possibleMoves = game.getPossibleMoves(start);
+        List<Position> moves = pawn.getPossibleMoves(start, BOUNDS, pieces);
 
         // then
-        assertThat(possibleMoves).contains(new Position(4, 7));
+        assertThat(moves).contains(new Position(4, 4));
     }
 }

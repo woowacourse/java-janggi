@@ -37,12 +37,9 @@ public final class Cannon extends Piece {
     }
 
     @Override
-    public List<Path> getPaths(Position start, BoardBounds bounds) {
-        return strategy.getPaths(start, bounds);
-    }
-
-    @Override
-    public List<Position> getPossiblePositions(Map<Position, Piece> pathPieces, List<Path> paths) {
+    public List<Position> getPossibleMoves(Position start, BoardBounds bounds, Pieces pieces) {
+        List<Path> paths = strategy.getPaths(start, bounds);
+        Map<Position, Piece> pathPieces = pieces.collectPieces(paths);
         return rule.getPossiblePositions(getSide(), pathPieces, paths);
     }
 }

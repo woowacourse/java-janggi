@@ -1,17 +1,15 @@
 package domain.board;
 
 import domain.CellSnapshot;
-import domain.coordinate.Path;
 import domain.coordinate.Position;
-import domain.piece.Cannon;
 import domain.piece.EmptyPiece;
 import domain.piece.Piece;
+import domain.piece.Pieces;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Board {
+public class Board implements Pieces {
 
     private static final BoardBounds BOUNDS = BoardBounds.JANGGI;
 
@@ -30,6 +28,7 @@ public class Board {
         board[start.col()][start.row()] = EmptyPiece.getInstance();
     }
 
+    @Override
     public Piece getPiece(Position position) {
         validateRange(position);
         return board[position.col()][position.row()];
@@ -39,21 +38,9 @@ public class Board {
         BOUNDS.validateContains(position);
     }
 
-    public Map<Position, Piece> collectPieces(List<Path> paths) {
-        Map<Position, Piece> result = new HashMap<>();
-        for (Path path : paths) {
-            for (Position position : path.getPositions()) {
-                result.put(position, board[position.col()][position.row()]);
-            }
-        }
-        return result;
-    }
-
     public List<Position> getPossibleMoves(Position start) {
-        Piece piece = board[start.col()][start.row()];
-        List<Path> paths = piece.getPaths(start, BOUNDS);
-        Map<Position, Piece> pathPieces = collectPieces(paths);
-        return piece.getPossiblePositions(pathPieces, paths);
+        Piece piece = getPiece(start);
+        return piece.getPossibleMoves(start, BOUNDS, this);
     }
 
     public CellSnapshot[][] toSnapshot() {

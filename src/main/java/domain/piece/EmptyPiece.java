@@ -36,12 +36,7 @@ public class EmptyPiece extends Piece {
     }
 
     @Override
-    public List<Path> getPaths(Position start, BoardBounds bounds) {
-        return List.of();
-    }
-
-    @Override
-    public List<Position> getPossiblePositions(Map<Position, Piece> pathPieces, List<Path> paths) {
+    public List<Position> getPossibleMoves(Position start, BoardBounds bounds, Pieces pieces) {
         return List.of();
     }
 }
