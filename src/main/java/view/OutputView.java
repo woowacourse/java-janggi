@@ -9,7 +9,7 @@ import java.util.List;
 
 public class OutputView {
 
-    public void printJanggiBoard(BoardDto boardDto) {
+    public static void printJanggiBoard(BoardDto boardDto) {
         System.out.println("  0 1 2 3 4 5 6 7 8");
         List<List<PieceDto>> board = boardDto.board();
 
@@ -23,12 +23,12 @@ public class OutputView {
         System.out.println();
     }
 
-    public void printCurrentScore(ScoreDto scoreDto) {
+    public static void printCurrentScore(ScoreDto scoreDto) {
         System.out.println("현재 점수");
         System.out.printf("초: %.1f, 한: %.1f\n", scoreDto.choScore(), scoreDto.hanScore());
     }
 
-    public void printWinnerTeam(ResultDto resultDto) {
+    public static void printWinnerTeam(ResultDto resultDto) {
         System.out.println("===== 게임 결과 =====");
         System.out.printf("초: %.1f, 한: %.1f\n", resultDto.choScore(), resultDto.hanScore());
         System.out.println("최종 승리팀: " + resultDto.winnerTeam());
