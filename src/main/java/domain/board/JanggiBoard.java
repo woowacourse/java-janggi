@@ -16,9 +16,13 @@ public class JanggiBoard implements PieceProvider {
     private final Map<Position, Piece> janggiBoard;
 
     public JanggiBoard(Map<Position, Piece> janggiBoard) {
-        this.janggiBoard = new HashMap<>(janggiBoard);
+        this.janggiBoard = new HashMap<>();
         initializeBoard();
-        setupInitialPieces();
+        if (janggiBoard.isEmpty()) {
+            setupInitialPieces();
+            return;
+        }
+        this.janggiBoard.putAll(janggiBoard);
     }
 
     public Map<Position, Piece> getJanggiBoard() {
