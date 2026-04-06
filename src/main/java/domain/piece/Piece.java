@@ -41,6 +41,8 @@ public abstract class Piece {
         return false;
     }
 
+    public abstract int score();
+
     public abstract void validateRule(Coordination from, Coordination to);
 
     public abstract List<Coordination> resolvePath(Coordination from, Coordination to);

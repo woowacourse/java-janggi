@@ -31,4 +31,9 @@ public class EmptyPiece extends Piece {
     public void validatePath(List<Piece> piecesOnPath) {
         throw new PieceException(NOT_EXISTS_PIECE);
     }
+
+    @Override
+    public int score() {
+        return 0;
+    }
 }

@@ -20,11 +20,9 @@ public class Board {
 
     public void move(Coordination from, Coordination to) {
         Piece piece = board.get(from);
-
         validateRule(from, to, piece);
         validatePiecesOnPath(from, to, piece);
         validateNotSameTeam(to, piece);
-
         resolve(from, to, piece);
     }
 
@@ -34,8 +32,8 @@ public class Board {
     }
 
     public boolean hasTwoGenerals() {
-        return board.keySet().stream()
-                .filter(key -> board.get(key).isAliveGeneral())
+        return board.values().stream()
+                .filter(Piece::isAliveGeneral)
                 .count() == TOTAL_GENERAL_COUNT;
     }
 
@@ -49,6 +47,13 @@ public class Board {
         return Map.copyOf(this.board);
     }
 
+    public double scoreOf(Team team) {
+        return board.values().stream()
+                .filter(piece -> piece.isSameTeam(team))
+                .mapToInt(Piece::score)
+                .sum();
+    }
+
     private void validateNotSameTeam(Coordination to, Piece piece) {
         piece.validateNotSameTeam(board.get(to));
     }
@@ -57,7 +62,7 @@ public class Board {
         List<Coordination> path = piece.resolvePath(from, to);
         List<Piece> piecesOnPath = path.stream()
                 .map(board::get)
-                .filter(p -> !p.isEmpty())
+                .filter(pathPiece -> !pathPiece.isEmpty())
                 .toList();
         piece.validatePath(piecesOnPath);
     }

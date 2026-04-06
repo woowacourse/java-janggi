@@ -4,7 +4,7 @@ import domain.board.PlacementInputMapper;
 import domain.board.formation.FormationType;
 import domain.game.JanggiGame;
 import domain.game.Turn;
-import view.dto.BoardDto;
+import domain.piece.Team;
 import java.util.List;
 import util.Retry;
 import view.InputView;
@@ -31,7 +31,7 @@ public class JanggiController {
         FormationType hanFormation = PlacementInputMapper.toFormationType(inputHan);
         JanggiGame janggiGame = JanggiGame.of(choFormation, hanFormation);
 
-        outputView.printBoard(janggiGame.createBoardDto());
+        printBoardAndScore(janggiGame);
         while (!janggiGame.isGameEnd()) {
             Turn turn = janggiGame.turn();
 
@@ -55,8 +55,13 @@ public class JanggiController {
         Retry.repeatUntilSuccess(() -> {
             List<Integer> to = inputView.inputDestination();
             janggiGame.playTurn(from, to);
-            BoardDto boardDto = janggiGame.createBoardDto();
-            outputView.printBoard(boardDto);
+            printBoardAndScore(janggiGame);
         });
+    }
+
+    private void printBoardAndScore(JanggiGame janggiGame) {
+        outputView.printBoard(janggiGame.createBoardDto());
+        outputView.printScore(CHO, janggiGame.scoreOf(Team.CHO));
+        outputView.printScore(HAN, janggiGame.scoreOf(Team.HAN));
     }
 }

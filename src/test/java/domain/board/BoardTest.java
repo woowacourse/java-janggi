@@ -7,6 +7,7 @@ import domain.board.formation.FormationType;
 import domain.coordination.Coordination;
 import domain.piece.EmptyPiece;
 import domain.piece.Piece;
+import domain.piece.Team;
 import java.util.Map;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -36,5 +37,16 @@ class BoardTest {
 
         assertThat(toPiece).isEqualTo(fromPiece);
         assertThat(fromPieceAfterMove).isInstanceOf(EmptyPiece.class);
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {
+            "CHO,72.0",
+            "HAN,72.0"
+    })
+    void 남아있는_기물의_점수를_계산할_수_있다(Team team, double score) {
+        Board board = BoardFactory.create(FormationType.DEFAULT, FormationType.DEFAULT);
+
+        assertThat(board.scoreOf(team)).isEqualTo(score);
     }
 }
