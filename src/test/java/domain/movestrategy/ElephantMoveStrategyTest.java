@@ -29,7 +29,7 @@ class ElephantMoveStrategyTest {
         Position from = Position.of(5, 5);
 
         Map<Position, Piece> pieces = new HashMap<>();
-        pieces.put(from, Piece.choPieceOf(PieceType.CHARIOT));
+        pieces.put(from, Piece.choPieceOf(PieceType.ELEPHANT));
 
         Board board = Board.init(pieces);
 
