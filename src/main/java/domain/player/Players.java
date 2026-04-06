@@ -9,7 +9,7 @@ public class Players {
     private final List<Player> players;
 
     private Players(Player cho, Player han) {
-        this.players = java.util.List.of(cho, han);
+        this.players = List.of(cho, han);
     }
 
     public static Players createInitial(Name choName, Name hanName) {
