@@ -22,7 +22,7 @@ public class GameDao {
     }
 
     public long upsert(Connection connection, Camp currentTurn, boolean finished) throws SQLException {
-        Optional<GameData> foundGame = findInProgressGame(connection);
+        Optional<GameData> foundGame = findInProgressLastGame(connection);
 
         if (foundGame.isPresent()) {
             long gameId = foundGame.get().id();
@@ -33,7 +33,7 @@ public class GameDao {
         return insert(connection, currentTurn, finished);
     }
 
-    public Optional<GameData> findInProgressGame(Connection connection) throws SQLException {
+    public Optional<GameData> findInProgressLastGame(Connection connection) throws SQLException {
         String sql = """
                 select id, current_turn, finished
                 from game

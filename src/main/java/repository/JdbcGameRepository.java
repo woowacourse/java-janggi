@@ -44,7 +44,7 @@ public class JdbcGameRepository implements GameRepository {
     @Override
     public Optional<Game> findInProgressGame() {
         try (Connection connection = DriverManager.getConnection(url)) {
-            Optional<GameData> foundGame = gameDao.findInProgressGame(connection);
+            Optional<GameData> foundGame = gameDao.findInProgressLastGame(connection);
 
             if (foundGame.isEmpty()) {
                 return Optional.empty();
