@@ -2,10 +2,8 @@ package io;
 
 import domain.board.Board;
 import domain.board.Pieces;
-import domain.board.Position;
 import domain.game.JanggiGame;
 import domain.game.Turn;
-import domain.piece.Piece;
 import domain.piece.Team;
 import domain.room.GameRoom;
 import domain.setup.Arrangement;
@@ -20,7 +18,6 @@ import infrastructure.repository.GameDto;
 import infrastructure.repository.GameRepository;
 import infrastructure.repository.GameRoomRepository;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
 

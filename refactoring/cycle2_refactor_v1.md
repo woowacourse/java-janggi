@@ -18,5 +18,5 @@
   - `GameStateName`에 팩토리 메서드 `toGameState(GameDto)` 추가 → 문자열 → GameState 변환 책임을 도메인으로 이동
   - `GameConsole.restoreState()`를 `GameStateName.toGameState(snapshot)` 한 줄 호출로 교체
 - [ ] **5. `PlayingState`의 detector들을 static으로 수정**
-- [ ] **6. `GameConsole` 안쓰는 import 제거**
+- [x] **6. `GameConsole` 안쓰는 import 제거**
 - [ ] **7. 재귀를 통한 재입력 시도를 while로 수정하기.**
