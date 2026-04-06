@@ -3,16 +3,10 @@ package domain.strategy;
 import domain.board.PathPieces;
 import domain.position.Path;
 
-public class PoMovementStrategy implements MovementStrategy {
+public class GungsungMovementStrategy implements MovementStrategy {
     @Override
     public boolean isValidPath(Path path, PathPieces pathPieces) {
-        if (!pathPieces.hasOnePieceInWaypoint()) {
-            return false;
-        }
-        if (pathPieces.hasPoInWaypoint()) {
-            return false;
-        }
-        if (pathPieces.isDestinationPiecePo()) {
+        if (!path.destination().isGungsung()) {
             return false;
         }
         return pathPieces.isDestinationEmpty() || pathPieces.isDestinationDifferentTeamFromSource();

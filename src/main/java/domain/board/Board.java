@@ -63,7 +63,7 @@ public class Board {
         }
         Path path = piece.calculatePath(source, destination);
         PathPieces pathPieces = createPathPieces(path);
-        return piece.isValidPath(pathPieces);
+        return piece.isValidPath(path, pathPieces);
     }
 
     private void validateSource(Position source) {

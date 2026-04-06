@@ -30,8 +30,8 @@ public abstract class Piece {
         return this.getPathGenerator().isPathPossible(source, destination);
     }
 
-    public boolean isValidPath(PathPieces pathPieces) {
-        return this.getMovementStrategy().isValidPath(pathPieces);
+    public boolean isValidPath(Path path, PathPieces pathPieces) {
+        return this.getMovementStrategy().isValidPath(path, pathPieces);
     }
 
     public String getPieceString() {

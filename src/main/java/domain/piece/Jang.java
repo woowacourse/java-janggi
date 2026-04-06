@@ -11,7 +11,7 @@ import domain.pathgenerator.GungsungDiagonalPathGenerator;
 import domain.pathgenerator.NonStraightPathGenerator;
 import domain.pathgenerator.PathGenerator;
 import domain.player.Team;
-import domain.strategy.BlockedMovementStrategy;
+import domain.strategy.GungsungMovementStrategy;
 import domain.strategy.MovementStrategy;
 import java.util.List;
 
@@ -24,7 +24,7 @@ public class Jang extends Piece {
             List.of(WEST)
     );
 
-    private static final MovementStrategy MOVEMENT_STRATEGY = new BlockedMovementStrategy();
+    private static final MovementStrategy MOVEMENT_STRATEGY = new GungsungMovementStrategy();
     private static final PathGenerator PATH_GENERATOR = new CompositePathGenerator(List.of(
             new NonStraightPathGenerator(PATHS),
             new GungsungDiagonalPathGenerator()
