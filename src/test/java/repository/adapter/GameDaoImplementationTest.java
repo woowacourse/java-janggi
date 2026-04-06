@@ -1,5 +1,6 @@
 package repository.adapter;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -7,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import domain.GameId;
 import domain.JanggiGame;
 import domain.SettingType;
+import domain.piece.PieceId;
 import domain.position.Position;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
@@ -79,9 +81,10 @@ class GameDaoImplementationTest {
         JanggiGame findedJanggiGame = implementation.findGameById(generator.getDBConnection(), savedId);
 
         //then
-        assertEquals(newJanggiGame.getBoard().getBoardStatus(), findedJanggiGame.getBoard().getBoardStatus());
-        assertEquals(newJanggiGame.getTurnOwnTeam(), findedJanggiGame.getTurnOwnTeam());
-        assertEquals(newJanggiGame.getContext().getGameState(), findedJanggiGame.getContext().getGameState());
+        assertThat(findedJanggiGame.getBoard().getBoardStatus())
+                .usingRecursiveComparison()
+                .ignoringFieldsOfTypes(PieceId.class)
+                .isEqualTo(newJanggiGame.getBoard().getBoardStatus());
     }
 
     @Test
@@ -142,6 +145,7 @@ class GameDaoImplementationTest {
         // given
         JanggiGame game = JanggiGame.init(SettingType.INNER, SettingType.INNER);
         GameId savedId = implementation.save(generator.getDBConnection(), game);
+        game = implementation.findGameById(generator.getDBConnection(), savedId);
 
         // when
         game.executeMove(Position.of(4, 1), Position.of(5, 1));

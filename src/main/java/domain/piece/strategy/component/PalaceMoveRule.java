@@ -34,7 +34,7 @@ public class PalaceMoveRule {
     );
 
     public boolean isPalacePath(Position start, Position destination) {
-        if (isInPalace(start) || isInPalace(destination)) {
+        if (isNotInPalace(start) || isNotInPalace(destination)) {
             return false;
         }
 
@@ -46,7 +46,7 @@ public class PalaceMoveRule {
         return (isStraightPath || isDiagonalPath);
     }
 
-    private boolean isInPalace(Position position) {
+    private boolean isNotInPalace(Position position) {
         boolean isRowOfChoInRange = position.isRowInRange(CHO_PALACE_START_ROW, CHO_PALACE_END_ROW);
         boolean isRowOfHanInRange = position.isRowInRange(HAN_PALACE_START_ROW, HAN_PALACE_END_ROW);
         boolean isColumnInRange = position.isColumnInRange(PALACE_START_COLUMN, PALACE_END_COLUMN);

@@ -9,7 +9,11 @@ import repository.entity.GamePieceEntity;
 
 public final class PieceEntityMapper {
     public Piece toDomain(GamePieceEntity entity) {
-        return PieceFactory.create(PieceType.valueOf(entity.pieceType()), Team.valueOf(entity.team()));
+        return PieceFactory.createWithId(
+                entity.id(),
+                PieceType.valueOf(entity.pieceType()),
+                Team.valueOf(entity.team())
+        );
     }
 
     public GamePieceEntity toNewEntity(Long gameId, Piece piece, Position pos) {

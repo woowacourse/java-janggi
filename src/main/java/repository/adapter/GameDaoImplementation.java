@@ -153,9 +153,11 @@ public class GameDaoImplementation implements GameDao {
     }
 
     private boolean isSamePieceTeamAndType(GamePieceEntity entity, Piece piece) {
+        Long pieceIdValue = piece.getId().value();
         String pieceTeam = piece.getTeam().name();
         String pieceType = piece.getPieceType().name();
-        return pieceTeam.equals(entity.team())
+        return (pieceIdValue.equals(entity.id()))
+                && pieceTeam.equals(entity.team())
                 && pieceType.equals(entity.pieceType());
     }
 

@@ -11,6 +11,10 @@ public class Po extends Piece {
         super(moveStrategy, PieceType.PO, team);
     }
 
+    public Po(Long id, MoveStrategy moveStrategy, Team team) {
+        super(id, moveStrategy, PieceType.PO, team);
+    }
+
     @Override
     public void check(BoardStatus boardStatus, Position start, Position destination) {
         Piece movePiece = boardStatus.status().get(start);

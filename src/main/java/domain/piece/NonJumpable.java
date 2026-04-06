@@ -10,6 +10,10 @@ public abstract class NonJumpable extends Piece {
         super(moveStrategy, pieceType, team);
     }
 
+    public NonJumpable(Long id, MoveStrategy moveStrategy, PieceType pieceType, Team team) {
+        super(id, moveStrategy, pieceType, team);
+    }
+
     @Override
     public void check(BoardStatus boardStatus, Position start, Position destination) {
         List<Position> movablePath = moveStrategy.findMovablePath(start, destination);

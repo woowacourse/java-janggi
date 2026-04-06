@@ -11,22 +11,22 @@ import domain.piece.strategy.component.PalaceMoveRule;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Function;
+import java.util.function.BiFunction;
 
 public final class PieceFactory {
     private static final PalaceMoveRule RULE = new PalaceMoveRule();
-    private static final Map<PieceType, Function<Team, Piece>> CREATORS = new EnumMap<>(PieceType.class);
+    private static final Map<PieceType, BiFunction<Long, Team, Piece>> CREATORS = new EnumMap<>(PieceType.class);
 
     static {
-        CREATORS.put(PieceType.JANG, team -> new Jang(new SingleStepMoveStrategy(RULE), team));
-        CREATORS.put(PieceType.SA, team -> new Sa(new SingleStepMoveStrategy(RULE), team));
-        CREATORS.put(PieceType.CHA, team -> new Cha(new SlidingMoveStrategy(RULE), team));
-        CREATORS.put(PieceType.PO, team -> new Po(new SlidingMoveStrategy(RULE), team));
-        CREATORS.put(PieceType.MA, team -> new Ma(new MaMoveStrategy(), team));
-        CREATORS.put(PieceType.SANG, team -> new Sang(new SangMoveStrategy(), team));
-        CREATORS.put(PieceType.JOL, team -> new Jol(new JolMoveStrategy(RULE), team));
-        CREATORS.put(PieceType.BYEONG, team -> new Byeong(new ByeongMoveStrategy(RULE), team));
-        CREATORS.put(PieceType.EMPTY, team -> new EmptyPiece(new EmptyMoveStrategy(), team));
+        CREATORS.put(PieceType.JANG, (id, team) -> new Jang(id, new SingleStepMoveStrategy(RULE), team));
+        CREATORS.put(PieceType.SA, (id, team) -> new Sa(id, new SingleStepMoveStrategy(RULE), team));
+        CREATORS.put(PieceType.CHA, (id, team) -> new Cha(id, new SlidingMoveStrategy(RULE), team));
+        CREATORS.put(PieceType.PO, (id, team) -> new Po(id, new SlidingMoveStrategy(RULE), team));
+        CREATORS.put(PieceType.MA, (id, team) -> new Ma(id, new MaMoveStrategy(), team));
+        CREATORS.put(PieceType.SANG, (id, team) -> new Sang(id, new SangMoveStrategy(), team));
+        CREATORS.put(PieceType.JOL, (id, team) -> new Jol(id, new JolMoveStrategy(RULE), team));
+        CREATORS.put(PieceType.BYEONG, (id, team) -> new Byeong(id, new ByeongMoveStrategy(RULE), team));
+        CREATORS.put(PieceType.EMPTY, (id, team) -> new EmptyPiece(id, new EmptyMoveStrategy(), team));
     }
 
     private PieceFactory() {
@@ -35,6 +35,12 @@ public final class PieceFactory {
     public static Piece create(PieceType pieceType, Team team) {
         return Optional.ofNullable(CREATORS.get(pieceType))
                 .orElseThrow(() -> new IllegalArgumentException("지원하지 않는 타입: " + pieceType))
-                .apply(team);
+                .apply(null, team);
+    }
+
+    public static Piece createWithId(Long id, PieceType pieceType, Team team) {
+        return Optional.ofNullable(CREATORS.get(pieceType))
+                .orElseThrow(() -> new IllegalArgumentException("지원하지 않는 타입: " + pieceType))
+                .apply(id, team);
     }
 }

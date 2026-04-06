@@ -12,8 +12,8 @@ public abstract class Piece {
     private final PieceType pieceType;
     private final Team team;
 
-    public Piece(PieceId id, MoveStrategy moveStrategy, PieceType pieceType, Team team) {
-        this.id = id;
+    public Piece(Long id, MoveStrategy moveStrategy, PieceType pieceType, Team team) {
+        this.id = new PieceId(id);
         this.moveStrategy = moveStrategy;
         this.pieceType = pieceType;
         this.team = team;
@@ -64,7 +64,7 @@ public abstract class Piece {
             return false;
         }
         Piece piece = (Piece) o;
-        return Objects.equals(id, piece.id) && pieceType == piece.pieceType && team == piece.team;
+        return id.equals(piece.id) && pieceType == piece.pieceType && team == piece.team;
     }
 
     @Override

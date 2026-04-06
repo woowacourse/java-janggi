@@ -9,6 +9,10 @@ public class EmptyPiece extends Piece {
         super(moveStrategy, PieceType.EMPTY, team);
     }
 
+    public EmptyPiece(Long id, MoveStrategy moveStrategy, Team team) {
+        super(id, moveStrategy, PieceType.EMPTY, team);
+    }
+
     @Override
     public void check(BoardStatus boardStatus, Position start, Position destination) {
         throw new IllegalStateException(PieceErrorMessage.EMPTY_PIECE.getMessage());
