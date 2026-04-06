@@ -8,8 +8,8 @@ import domain.piece.Guard;
 import domain.piece.Horse;
 import domain.piece.King;
 import domain.piece.Pawn;
-import domain.position.Position;
 import domain.piece.Piece;
+import domain.position.Position;
 
 public class OutputView {
     private static final int BOARD_ROWS = 10;

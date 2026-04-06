@@ -1,13 +1,9 @@
 package domain;
 
-import static domain.Index.BOARD_COLUMNS;
-import static domain.Index.BOARD_ROWS;
-
 import domain.piece.*;
 
 import domain.position.Position;
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class JanggiBoard implements PieceProvider {

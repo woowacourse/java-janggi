@@ -3,12 +3,11 @@ package domain.piece;
 import domain.PieceProvider;
 import domain.position.Position;
 import domain.Team;
-import domain.strategy.Strategy;
 import domain.strategy.PawnStrategy;
 
 import java.util.List;
 
-public class Pawn extends Piece{
+public class Pawn extends MoveablePiece {
 
     public Pawn(Team team) {
         super(team, new PawnStrategy());

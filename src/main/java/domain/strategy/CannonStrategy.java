@@ -52,8 +52,8 @@ public class CannonStrategy implements Strategy {
     private List<Position> collectTargets(Position bridge, Team team, Direction direction, PieceProvider board) {
         List<Position> candidates = new ArrayList<>();
         Position target = getNext(bridge, team, direction);
-        while (!target.isInvalid()) {
 
+        while (!target.isInvalid()) {
             if (board.isBlank(target)) {
                 candidates.add(target);
                 target = getNext(target, team, direction);
