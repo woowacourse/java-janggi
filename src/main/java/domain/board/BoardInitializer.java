@@ -12,8 +12,8 @@ import java.util.Map;
 
 public class BoardInitializer {
 
-    public static Board initialize(ElephantSetup choSetup, ElephantSetup hanSetup) {
-        Map<Position, Piece> pieces = new HashMap<>();
+    public static Board initialize(final ElephantSetup choSetup, final ElephantSetup hanSetup) {
+        final Map<Position, Piece> pieces = new HashMap<>();
 
         putDefaultPiece(pieces, Team.HAN);
         putDefaultPiece(pieces, Team.CHO);
@@ -25,7 +25,7 @@ public class BoardInitializer {
     }
 
 
-    private static void putDefaultPiece(Map<Position, Piece> pieces, Team team) {
+    private static void putDefaultPiece(final Map<Position, Piece> pieces, final Team team) {
         put(pieces, Position.of(1, 1), PieceType.CHARIOT, team);
         put(pieces, Position.of(1, 9), PieceType.CHARIOT, team);
 
@@ -44,26 +44,27 @@ public class BoardInitializer {
         put(pieces, Position.of(4, 9), PieceType.SOLDIER, team);
     }
 
-    private static void put(Map<Position, Piece> pieces, Position pos, PieceType type, Team team) {
+    private static void put(final Map<Position, Piece> pieces, final Position pos, final PieceType type,
+                            final Team team) {
         pieces.put(transform(pos, team), Piece.of(type, team));
     }
 
-    private static Position transform(Position pos, Team team) {
+    private static Position transform(final Position pos, final Team team) {
         if (team == Team.CHO) {
             return mirror(pos);
         }
         return pos;
     }
 
-    private static Position mirror(Position pos) {
-        int mirroredRow = MAX_ROW_RANGE - pos.row() + 1;
-        int mirroredColumn = MAX_COLUMN_RANGE - pos.column() + 1;
+    private static Position mirror(final Position pos) {
+        final int mirroredRow = MAX_ROW_RANGE - pos.row() + 1;
+        final int mirroredColumn = MAX_COLUMN_RANGE - pos.column() + 1;
         return Position.of(mirroredRow, mirroredColumn);
     }
 
 
-    private static void setupElephant(Map<Position, Piece> pieces, ElephantSetup setup, Team team) {
-        for (Map.Entry<Position, PieceType> entry : setup.getPiecePositions().entrySet()) {
+    private static void setupElephant(final Map<Position, Piece> pieces, final ElephantSetup setup, final Team team) {
+        for (final Map.Entry<Position, PieceType> entry : setup.getPiecePositions().entrySet()) {
             put(pieces, entry.getKey(), entry.getValue(), team);
         }
     }

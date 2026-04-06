@@ -8,7 +8,7 @@ public interface MoveStrategy {
 
     List<Position> calculateMovablePositions(Position from, Board board);
 
-    default boolean isAlly(Position from, Position to, Board board) {
+    default boolean isAlly(final Position from, final Position to, final Board board) {
         if (!board.hasPiece(to)) {
             return false;
         }

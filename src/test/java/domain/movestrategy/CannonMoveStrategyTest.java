@@ -21,15 +21,15 @@ class CannonMoveStrategyTest {
     @DisplayName("포는 장애물이 없으면 이동할 수 없다")
     void shouldNotMove_whenNoScreenExists() {
         // given
-        Map<Position, Piece> pieces = new HashMap<>();
-        Position from = Position.of(5, 5);
+        final Map<Position, Piece> pieces = new HashMap<>();
+        final Position from = Position.of(5, 5);
 
         pieces.put(from, Piece.of(PieceType.CANNON, Team.CHO));
 
-        Board board = Board.of(pieces);
+        final Board board = Board.of(pieces);
 
         // when
-        List<Position> result = strategy.calculateMovablePositions(from, board);
+        final List<Position> result = strategy.calculateMovablePositions(from, board);
 
         // then
         assertThat(result).isEmpty();
@@ -39,18 +39,18 @@ class CannonMoveStrategyTest {
     @DisplayName("포는 하나의 기물을 넘은 이후부터 이동할 수 있다")
     void shouldMoveAfterJumpingOverOnePiece() {
         // given
-        Map<Position, Piece> pieces = new HashMap<>();
-        Position from = Position.of(5, 5);
+        final Map<Position, Piece> pieces = new HashMap<>();
+        final Position from = Position.of(5, 5);
 
         pieces.put(from, Piece.of(PieceType.CANNON, Team.CHO));
 
         // 장애물 (screen)
         pieces.put(Position.of(6, 5), Piece.of(PieceType.SOLDIER, Team.CHO));
 
-        Board board = Board.of(pieces);
+        final Board board = Board.of(pieces);
 
         // when
-        List<Position> result = strategy.calculateMovablePositions(from, board);
+        final List<Position> result = strategy.calculateMovablePositions(from, board);
 
         // then
         assertThat(result).contains(
@@ -65,8 +65,8 @@ class CannonMoveStrategyTest {
     @DisplayName("포는 두 번째 기물 위치까지 이동할 수 있지만 그 이후로는 불가능하다")
     void shouldStopAfterSecondPiece() {
         // given
-        Map<Position, Piece> pieces = new HashMap<>();
-        Position from = Position.of(5, 5);
+        final Map<Position, Piece> pieces = new HashMap<>();
+        final Position from = Position.of(5, 5);
 
         pieces.put(from, Piece.of(PieceType.CANNON, Team.CHO));
 
@@ -76,10 +76,10 @@ class CannonMoveStrategyTest {
         // 두 번째 기물
         pieces.put(Position.of(8, 5), Piece.of(PieceType.SOLDIER, Team.HAN));
 
-        Board board = Board.of(pieces);
+        final Board board = Board.of(pieces);
 
         // when
-        List<Position> result = strategy.calculateMovablePositions(from, board);
+        final List<Position> result = strategy.calculateMovablePositions(from, board);
 
         // then
         assertThat(result).contains(
@@ -94,18 +94,18 @@ class CannonMoveStrategyTest {
     @DisplayName("포는 다른 포를 넘을 수 없다")
     void shouldNotJumpOverAnotherCannon() {
         // given
-        Map<Position, Piece> pieces = new HashMap<>();
-        Position from = Position.of(5, 5);
+        final Map<Position, Piece> pieces = new HashMap<>();
+        final Position from = Position.of(5, 5);
 
         pieces.put(from, Piece.of(PieceType.CANNON, Team.CHO));
 
         // 첫 번째 기물이 포
         pieces.put(Position.of(6, 5), Piece.of(PieceType.CANNON, Team.CHO));
 
-        Board board = Board.of(pieces);
+        final Board board = Board.of(pieces);
 
         // when
-        List<Position> result = strategy.calculateMovablePositions(from, board);
+        final List<Position> result = strategy.calculateMovablePositions(from, board);
 
         // then
         assertThat(result).isEmpty();
@@ -115,8 +115,8 @@ class CannonMoveStrategyTest {
     @DisplayName("아군 기물은 잡을 수 없다.")
     void cannon_cannot_capture_ally() {
         // given
-        Position from = Position.of(5, 5);
-        Map<Position, Piece> pieces = new HashMap<>();
+        final Position from = Position.of(5, 5);
+        final Map<Position, Piece> pieces = new HashMap<>();
 
         pieces.put(from, Piece.of(PieceType.CANNON, Team.CHO));
 
@@ -124,13 +124,13 @@ class CannonMoveStrategyTest {
         pieces.put(Position.of(5, 6), Piece.of(PieceType.SOLDIER, Team.HAN));
 
         // 아군 기물
-        Position ally = Position.of(5, 7);
+        final Position ally = Position.of(5, 7);
         pieces.put(ally, Piece.of(PieceType.GUARD, Team.CHO));
 
-        Board board = Board.of(pieces);
+        final Board board = Board.of(pieces);
 
         // when
-        List<Position> result = strategy.calculateMovablePositions(from, board);
+        final List<Position> result = strategy.calculateMovablePositions(from, board);
 
         // then
         assertThat(result).doesNotContain(ally);

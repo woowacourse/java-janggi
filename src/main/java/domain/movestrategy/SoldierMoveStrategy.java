@@ -19,7 +19,7 @@ public class SoldierMoveStrategy implements MoveStrategy {
 
     @Override
     public List<Position> calculateMovablePositions(final Position from, final Board board) {
-        List<Delta> paths = getPathsByTeam(from, board);
+        final List<Delta> paths = getPathsByTeam(from, board);
 
         return paths.stream()
                 .map(from::move)
@@ -30,7 +30,7 @@ public class SoldierMoveStrategy implements MoveStrategy {
 
 
     private static List<Delta> getPathsByTeam(final Position from, final Board board) {
-        Piece fromPiece = board.getPiece(from);
+        final Piece fromPiece = board.getPiece(from);
 
         if (fromPiece.isSameTeam(Team.HAN)) {
             return HAN_PATHS;

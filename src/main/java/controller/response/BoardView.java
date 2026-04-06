@@ -15,7 +15,7 @@ public record BoardView(
         Map<Position, Piece> pieces
 ) {
 
-    public static BoardView from(Board board) {
+    public static BoardView from(final Board board) {
         return new BoardView(
                 board.getMinRowRange(),
                 board.getMaxRowRange(),
@@ -25,12 +25,12 @@ public record BoardView(
         );
     }
 
-    private static Map<Position, Piece> extractPieces(Board board) {
-        Map<Position, Piece> map = new HashMap<>();
+    private static Map<Position, Piece> extractPieces(final Board board) {
+        final Map<Position, Piece> map = new HashMap<>();
 
         for (int row = board.getMinRowRange(); row <= board.getMaxRowRange(); row++) {
             for (int col = board.getMinColumnRange(); col <= board.getMaxColumnRange(); col++) {
-                Position pos = Position.of(row, col);
+                final Position pos = Position.of(row, col);
 
                 if (board.hasPiece(pos)) {
                     map.put(pos, board.getPiece(pos));
@@ -41,7 +41,7 @@ public record BoardView(
         return map;
     }
 
-    public Optional<Piece> findPiece(Position pos) {
+    public Optional<Piece> findPiece(final Position pos) {
         return Optional.ofNullable(pieces.get(pos));
     }
 }

@@ -18,7 +18,7 @@ public class ChariotMoveStrategy implements MoveStrategy {
 
     @Override
     public List<Position> calculateMovablePositions(final Position from, final Board board) {
-        List<Position> movable = new ArrayList<>();
+        final List<Position> movable = new ArrayList<>();
 
         for (final Delta delta : ORTHOGONAL) {
             movable.addAll(calculateByDirection(from, board, delta));
@@ -33,15 +33,15 @@ public class ChariotMoveStrategy implements MoveStrategy {
             final Board board,
             final Delta delta
     ) {
-        List<Position> movable = new ArrayList<>();
-        Piece fromPiece = board.getPiece(from);
+        final List<Position> movable = new ArrayList<>();
+        final Piece fromPiece = board.getPiece(from);
 
         for (Position current = from.move(delta); board.inBoard(current); current = current.move(delta)) {
             if (!board.hasPiece(current)) {
                 movable.add(current);
                 continue;
             }
-            
+
             if (!fromPiece.isSameTeam(board.getPiece(current))) {
                 movable.add(current);
             }

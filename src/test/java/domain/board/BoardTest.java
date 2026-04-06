@@ -25,10 +25,11 @@ class BoardTest {
     @DisplayName("보드 초기화 테스트")
     public void boardInitTest() {
         // given
-        Board board = BoardInitializer.initialize(ElephantSetup.InnerElephantSetup, ElephantSetup.InnerElephantSetup);
+        final Board board = BoardInitializer.initialize(ElephantSetup.InnerElephantSetup,
+                ElephantSetup.InnerElephantSetup);
 
         // when
-        BoardView view = BoardView.from(board);
+        final BoardView view = BoardView.from(board);
 
         // then
         assertThat(view.pieces()).hasSize(32);
@@ -68,8 +69,9 @@ class BoardTest {
         assertPiece(view, 4, 9, SOLDIER, HAN);
     }
 
-    private void assertPiece(BoardView view, int row, int col, PieceType pieceType, Team team) {
-        Piece piece = view.findPiece(Position.of(row, col)).orElseThrow();
+    private void assertPiece(final BoardView view, final int row, final int col, final PieceType pieceType,
+                             final Team team) {
+        final Piece piece = view.findPiece(Position.of(row, col)).orElseThrow();
 
         assertThat(piece.getPieceType()).isEqualTo(pieceType);
         assertThat(piece.getTeam()).isEqualTo(team);

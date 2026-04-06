@@ -3,18 +3,20 @@ package domain;
 import domain.board.Board;
 import domain.piece.Position;
 import domain.player.Player;
+import domain.player.Players;
+import domain.player.Team;
 import java.util.List;
 
 public class JanggiGame {
 
     private final Board board;
-    private final List<Player> players;
-
-    private int turnIndex = 0;
+    private final Players players;
+    private Player currentPlayer;
 
     public JanggiGame(final Board board, final Player choPlayer, final Player hanPlayer) {
         this.board = board;
-        this.players = List.of(choPlayer, hanPlayer);
+        this.players = new Players(List.of(choPlayer, hanPlayer));
+        currentPlayer = choPlayer;
     }
 
 
@@ -25,7 +27,7 @@ public class JanggiGame {
 
 
     public Player getCurrentPlayer() {
-        return players.get(turnIndex);
+        return currentPlayer;
     }
 
     public Board getBoard() {
@@ -34,6 +36,7 @@ public class JanggiGame {
 
 
     private void switchTurn() {
-        turnIndex = (turnIndex + 1) % players.size();
+        final Team teamNextTurn = currentPlayer.getTeam().opponent();
+        currentPlayer = players.findByTeam(teamNextTurn);
     }
 }

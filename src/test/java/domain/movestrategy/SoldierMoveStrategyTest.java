@@ -21,15 +21,15 @@ class SoldierMoveStrategyTest {
     @DisplayName("병은 좌, 우, 아래로 이동한다.")
     public void moveTest() {
         // given
-        Map<Position, Piece> pieces = new HashMap<>();
-        Position from = Position.of(4, 3);
+        final Map<Position, Piece> pieces = new HashMap<>();
+        final Position from = Position.of(4, 3);
 
         pieces.put(from, Piece.of(PieceType.SOLDIER, Team.HAN));
 
-        Board board = Board.of(pieces);
+        final Board board = Board.of(pieces);
 
         // when
-        List<Position> result = strategy.calculateMovablePositions(from, board);
+        final List<Position> result = strategy.calculateMovablePositions(from, board);
 
         // then
         assertThat(result).containsExactlyInAnyOrder(
@@ -43,15 +43,15 @@ class SoldierMoveStrategyTest {
     @DisplayName("졸은 좌, 우, 위로 이동한다.")
     void han_moves_correct_directions() {
         // given
-        Map<Position, Piece> pieces = new HashMap<>();
-        Position from = Position.of(7, 3);
+        final Map<Position, Piece> pieces = new HashMap<>();
+        final Position from = Position.of(7, 3);
 
         pieces.put(from, Piece.of(PieceType.SOLDIER, Team.CHO));
 
-        Board board = Board.of(pieces);
+        final Board board = Board.of(pieces);
 
         // when
-        List<Position> result = strategy.calculateMovablePositions(from, board);
+        final List<Position> result = strategy.calculateMovablePositions(from, board);
 
         // then
         assertThat(result).containsExactlyInAnyOrder(
