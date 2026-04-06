@@ -42,7 +42,7 @@ public class GameJdbcDao implements GameDao {
 
     @Override
     public void update(Long gameId, String turnName, String status) {
-        String sql = "UPDATE games SET current_turn = ?, status = ?, updated_at = ? WHERE id = ?";
+        String sql = "update games set current_turn = ?, status = ?, updated_at = ? where id = ?";
 
         Connection con = null;
         PreparedStatement pstmt = null;

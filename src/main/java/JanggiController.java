@@ -40,7 +40,7 @@ public class JanggiController {
         pieceDao.saveAll(pieces);
 
         while (true) {
-            boolean isContinue = move(game);
+            boolean isContinue = move(game, savedGame.getId());
             gameDao.update(savedGame.getId(), game.getTurnName(), game.getStatus().toString());
             outputView.printScore(game.calculateScore(Team.CHU), game.calculateScore(Team.HAN));
 
@@ -64,7 +64,7 @@ public class JanggiController {
         return pieces;
     }
 
-    private boolean move(Game game) {
+    private boolean move(Game game, Long gameId) {
         try {
             Board board = game.getBoard();
             String turnName = game.getTurnName();
@@ -84,8 +84,16 @@ public class JanggiController {
                 return false;
             }
             Position targetPosition = parsePosition(targetInput);
+            boolean hasTargetPiece = board.findPieceByPosition(targetPosition).isPresent();
 
             game.tryToMove(currentPosition, targetPosition);
+
+            if (hasTargetPiece) {
+                pieceDao.deleteByPosition(gameId, targetPosition.getRow(), targetPosition.getCol());
+            }
+            pieceDao.updatePosition(gameId,
+                    currentPosition.getRow(), currentPosition.getCol(),
+                    targetPosition.getRow(), targetPosition.getCol());
 
             if (game.getStatus() != Status.PLAYING) {
                 return false;
@@ -94,7 +102,7 @@ public class JanggiController {
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.out.println();
-            return move(game);
+            return move(game, gameId);
         }
     }
 

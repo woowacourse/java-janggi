@@ -34,6 +34,56 @@ public class PieceJdbcDao implements PieceDao {
         }
     }
 
+    @Override
+    public void deleteByPosition(Long gameId, int row, int col) {
+        String sql = "delete from pieces where game_id = ? and position_row = ? and position_col = ?";
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            con = getConnection();
+            pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+
+            pstmt.setLong(1, gameId);
+            pstmt.setInt(2, row);
+            pstmt.setInt(3, col);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("[ERROR] " + e.getMessage());
+        } finally {
+            close(con, pstmt, rs);
+        }
+    }
+
+    @Override
+    public void updatePosition(Long gameId, int fromRow, int fromCol, int toRow, int toCol) {
+        String sql = "update pieces set position_row = ?, position_col = ? " +
+                "where game_id = ? and position_row = ? and position_col = ?";
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            con = getConnection();
+            pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+            pstmt.setInt(1, toRow);
+            pstmt.setInt(2, toCol);
+            pstmt.setLong(3, gameId);
+            pstmt.setInt(4, fromRow);
+            pstmt.setInt(5, fromCol);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("[ERROR] " + e.getMessage());
+        } finally {
+            close(con, pstmt, rs);
+        }
+    }
+
     private Connection getConnection() {
         return DBConnectionUtil.getConnection();
     }
