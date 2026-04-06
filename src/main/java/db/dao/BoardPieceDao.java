@@ -6,8 +6,6 @@ import java.util.Optional;
 
 public interface BoardPieceDao {
 
-    Long save(BoardPieceEntity boardPiece);
-
     void saveAll(List<BoardPieceEntity> boardPieces);
 
     List<BoardPieceEntity> findAllByGameId(Long gameId);

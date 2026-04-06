@@ -6,7 +6,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -19,36 +18,6 @@ public class JdbcBoardPieceDao implements BoardPieceDao {
 
     public JdbcBoardPieceDao(final ConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
-    }
-
-    @Override
-    public Long save(BoardPieceEntity boardPieceEntity) {
-        validateGameId(boardPieceEntity.gameId());
-
-        final String sql = """
-            INSERT INTO board_piece (game_id, board_row, board_column, piece_type, piece_side, created_at, updated_at)
-            VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
-            """;
-
-        try (Connection connection = connectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-
-            statement.setLong(1, boardPieceEntity.gameId());
-            statement.setInt(2, boardPieceEntity.boardRow());
-            statement.setInt(3, boardPieceEntity.boardColumn());
-            statement.setString(4, boardPieceEntity.pieceType().name());
-            statement.setString(5, boardPieceEntity.pieceSide().name());
-            statement.executeUpdate();
-
-            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    return generatedKeys.getLong(1);
-                }
-            }
-            throw new IllegalStateException("기물 저장 후 생성된 ID를 조회할 수 없습니다.");
-        } catch (SQLException e) {
-            throw new IllegalStateException("보드 기물 저장에 실패했습니다.", e);
-        }
     }
 
     @Override
