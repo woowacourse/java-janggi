@@ -89,5 +89,51 @@ class CannonTest {
 
             assertThat(actual).hasSameElementsAs(expected);
         }
+
+        @Test
+        @DisplayName("포는 궁성영역에서 대각선으로 이동할 수 있다.")
+        void success_4() {
+            positionPieceMap = Map.of(
+                    Position.valueOf(8, 4), cannon,
+                    Position.valueOf(9, 5), enemySoldier,
+                    Position.valueOf(10, 6), enemySoldier);
+            List<Position> expected = List.of(Position.valueOf(10, 6));
+
+            BoardMediator boardMediator = new Board(positionPieceMap);
+            List<Position> actual = cannon.calculateMovablePositions(Position.valueOf(8, 4), boardMediator);
+
+            assertThat(actual).hasSameElementsAs(expected);
+        }
+
+        @Test
+        @DisplayName("포는 궁성영역에서 대각선으로 이동할 수 있다.")
+        void success_5() {
+            positionPieceMap = Map.of(
+                    Position.valueOf(8, 4), cannon,
+                    Position.valueOf(9, 5), enemySoldier,
+                    Position.valueOf(10, 6), enemySoldier);
+            List<Position> expected = List.of(Position.valueOf(10, 6));
+
+            BoardMediator boardMediator = new Board(positionPieceMap);
+            List<Position> actual = cannon.calculateMovablePositions(Position.valueOf(8, 4), boardMediator);
+
+            assertThat(actual).hasSameElementsAs(expected);
+        }
+
+        @Test
+        @DisplayName("포는 궁성 대각선에서 포다리가 없으면 상대 기물을 잡을 수 없다")
+        void success_6() {
+            positionPieceMap = Map.of(
+                    Position.valueOf(10, 5), cannon,
+                    Position.valueOf(9, 5), enemySoldier,
+                    Position.valueOf(8, 6), enemySoldier
+            );
+            List<Position> expected = List.of();
+
+            BoardMediator boardMediator = new Board(positionPieceMap);
+            List<Position> actual = cannon.calculateMovablePositions(Position.valueOf(10, 5), boardMediator);
+
+            assertThat(actual).hasSameElementsAs(expected);
+        }
     }
 }
