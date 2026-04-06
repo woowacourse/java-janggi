@@ -28,8 +28,8 @@ class GeneralDeadRuleTest {
 
     public static Stream<Arguments> getWinSide() {
         return Stream.of(
-                Arguments.of(Map.of(new Point(1, 4), new General(Side.CHO)), Side.HAN),
-                Arguments.of(Map.of(new Point(8, 4), new General(Side.HAN)), Side.CHO)
+                Arguments.of(Map.of(new Point(1, 4), new General(Side.CHO)), Side.CHO),
+                Arguments.of(Map.of(new Point(8, 4), new General(Side.HAN)), Side.HAN)
         );
     }
 

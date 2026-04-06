@@ -48,7 +48,7 @@ public class Game {
     }
 
     public boolean isTurnPiece(Point from) {
-        return turn.equals(board.getSideAt(from));
+        return turn == board.getSideAt(from);
     }
 
     public void move(Point from, Point to) {
@@ -69,7 +69,7 @@ public class Game {
     }
 
     private void switchTurn() {
-        if (turn.equals(Side.HAN)) {
+        if (turn == Side.HAN) {
             turn = Side.CHO;
             return;
         }
