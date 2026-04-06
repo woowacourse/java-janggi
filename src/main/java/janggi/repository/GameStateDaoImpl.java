@@ -17,11 +17,10 @@ public class GameStateDaoImpl implements GameStateDao {
 
     @Override
     public long create(Connection connection, String currentTurn) {
-        try {
-            PreparedStatement statement = connection.prepareStatement("""
+        try (PreparedStatement statement = connection.prepareStatement("""
                     insert into game_state (current_turn)
                     values (?)
-                    """, Statement.RETURN_GENERATED_KEYS);
+                    """, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, currentTurn);
             return createGame(statement);
         } catch (SQLException e) {
@@ -31,12 +30,11 @@ public class GameStateDaoImpl implements GameStateDao {
 
     @Override
     public List<Long> findAllIds(Connection connection) {
-        try {
-            PreparedStatement statement = connection.prepareStatement("""
+        try (PreparedStatement statement = connection.prepareStatement("""
                     select game_id
                     from game_state
                     order by game_id asc
-                    """);
+                    """)) {
             return readGameIds(statement);
         } catch (SQLException e) {
             throw new DataAccessException(GAME_STATE_ACCESS_FAILED, e);
@@ -45,12 +43,11 @@ public class GameStateDaoImpl implements GameStateDao {
 
     @Override
     public Optional<String> findCurrentTurn(Connection connection, long gameId) {
-        try {
-            PreparedStatement statement = connection.prepareStatement("""
+        try (PreparedStatement statement = connection.prepareStatement("""
                     select current_turn
                     from game_state
                     where game_id = ?
-                    """);
+                    """)) {
             statement.setLong(1, gameId);
             return readCurrentTurn(statement);
         } catch (SQLException e) {
@@ -60,12 +57,11 @@ public class GameStateDaoImpl implements GameStateDao {
 
     @Override
     public void update(Connection connection, long gameId, String currentTurn) {
-        try {
-            PreparedStatement statement = connection.prepareStatement("""
+        try (PreparedStatement statement = connection.prepareStatement("""
                     update game_state
                     set current_turn = ?
                     where game_id = ?
-                    """);
+                    """)) {
             statement.setString(1, currentTurn);
             statement.setLong(2, gameId);
 
@@ -89,14 +85,12 @@ public class GameStateDaoImpl implements GameStateDao {
     }
 
     private long createGame(PreparedStatement statement) throws SQLException {
-        try (statement) {
-            statement.executeUpdate();
-            return getGeneratedKey(statement);
-        }
+        statement.executeUpdate();
+        return getGeneratedKey(statement);
     }
 
     private List<Long> readGameIds(PreparedStatement statement) throws SQLException {
-        try (statement; ResultSet resultSet = statement.executeQuery()) {
+        try (ResultSet resultSet = statement.executeQuery()) {
             List<Long> gameIds = new ArrayList<>();
             addGameIds(resultSet, gameIds);
 
@@ -105,7 +99,7 @@ public class GameStateDaoImpl implements GameStateDao {
     }
 
     private Optional<String> readCurrentTurn(PreparedStatement statement) throws SQLException {
-        try (statement; ResultSet resultSet = statement.executeQuery()) {
+        try (ResultSet resultSet = statement.executeQuery()) {
             if (!resultSet.next()) {
                 return Optional.empty();
             }
@@ -140,8 +134,6 @@ public class GameStateDaoImpl implements GameStateDao {
     }
 
     private int updateCurrentTurn(PreparedStatement statement) throws SQLException {
-        try (statement) {
-            return statement.executeUpdate();
-        }
+        return statement.executeUpdate();
     }
 }

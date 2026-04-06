@@ -13,12 +13,11 @@ public class GamePieceDaoImpl implements GamePieceDao {
 
     @Override
     public List<StoredGamePiece> findByGameId(Connection connection, long gameId) {
-        try {
-            PreparedStatement statement = connection.prepareStatement("""
+        try (PreparedStatement statement = connection.prepareStatement("""
                     select row_position, column_position, piece_type, camp
                     from game_piece
                     where game_id = ?
-                    """);
+                    """)) {
             statement.setLong(1, gameId);
 
             return readBoardSnapshot(statement);
@@ -30,7 +29,7 @@ public class GamePieceDaoImpl implements GamePieceDao {
     private List<StoredGamePiece> readBoardSnapshot(PreparedStatement statement) throws SQLException {
         List<StoredGamePiece> storedGamePieceData = new ArrayList<>();
 
-        try (statement; ResultSet resultSet = statement.executeQuery()) {
+        try (ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
                 storedGamePieceData.add(toGamePieceRow(resultSet));
             }
