@@ -12,7 +12,7 @@ public class MovePath {
     }
 
     public boolean matches(int dx, int dy) {
-        return totalDx() == dx && totalDy() == dy;
+        return totalDelta().equals(Delta.of(dx, dy));
     }
 
     public boolean matchesDirection(int dx, int dy) {
@@ -53,16 +53,9 @@ public class MovePath {
         return route;
     }
 
-    private int totalDx() {
+    private Delta totalDelta() {
         return path.stream()
-            .mapToInt(Delta::getDx)
-            .sum();
-    }
-
-    private int totalDy() {
-        return path.stream()
-            .mapToInt(Delta::getDy)
-            .sum();
+                .reduce(Delta.zero(), Delta::add);
     }
 
     private List<Position> createStraightRoute(Position end, List<Position> route, Position current) {

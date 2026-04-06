@@ -9,15 +9,15 @@ import java.util.List;
 public class Jol extends SteppingPiece {
 
     private static final List<MovePath> CHU_PATHS = List.of(
-            new MovePath(List.of(Delta.UP)),
-            new MovePath(List.of(Delta.LEFT)),
-            new MovePath(List.of(Delta.RIGHT))
+            new MovePath(List.of(Delta.up())),
+            new MovePath(List.of(Delta.left())),
+            new MovePath(List.of(Delta.right()))
     );
 
     private static final List<MovePath> HAN_PATHS = List.of(
-            new MovePath(List.of(Delta.DOWN)),
-            new MovePath(List.of(Delta.LEFT)),
-            new MovePath(List.of(Delta.RIGHT))
+            new MovePath(List.of(Delta.down())),
+            new MovePath(List.of(Delta.left())),
+            new MovePath(List.of(Delta.right()))
     );
 
     public Jol(TeamType teamType) {

@@ -9,14 +9,14 @@ import java.util.List;
 public class Sa extends SteppingPiece {
 
     private static final List<MovePath> PATHS = List.of(
-            new MovePath(List.of(Delta.UP)),
-            new MovePath(List.of(Delta.DOWN)),
-            new MovePath(List.of(Delta.LEFT)),
-            new MovePath(List.of(Delta.RIGHT)),
-            new MovePath(List.of(Delta.RIGHT_UP)),
-            new MovePath(List.of(Delta.RIGHT_DOWN)),
-            new MovePath(List.of(Delta.LEFT_UP)),
-            new MovePath(List.of(Delta.LEFT_DOWN))
+            new MovePath(List.of(Delta.up())),
+            new MovePath(List.of(Delta.down())),
+            new MovePath(List.of(Delta.left())),
+            new MovePath(List.of(Delta.right())),
+            new MovePath(List.of(Delta.rightUp())),
+            new MovePath(List.of(Delta.rightDown())),
+            new MovePath(List.of(Delta.leftUp())),
+            new MovePath(List.of(Delta.leftDown()))
     );
 
     public Sa(TeamType teamType) {
