@@ -27,6 +27,11 @@ public class Route {
                 && alivePieces.placedNotSameSide(getDestination(), ownSide);
     }
 
+    public boolean containsOnlyPalace() {
+        return route.stream()
+                .allMatch(Intersection::isPalace);
+    }
+
     public List<Piece> getPiecesOnPath(AlivePieces alivePieces) {
         return getPath().stream()
                 .filter(alivePieces::isNotEmpty)

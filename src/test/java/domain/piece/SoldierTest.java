@@ -70,7 +70,7 @@ class SoldierTest {
         private static final Intersection CURRENT_INTERSECTION = new Intersection(DEFAULT_ROW, DEFAULT_FILE);
 
         @ParameterizedTest
-        @MethodSource("soliderDirections")
+        @MethodSource("soliderCardinalDirections")
         void 아군_기물이_있는_위치로는_이동할_수_없다(Vector vector) {
             // given
             Soldier soldier = new Soldier(SIDE);
@@ -88,7 +88,7 @@ class SoldierTest {
         }
 
         @ParameterizedTest
-        @MethodSource("soliderDirections")
+        @MethodSource("soliderCardinalDirections")
         void 상대_기물이_있는_위치로는_이동할_수_있다(Vector vector) {
             // given
             Soldier soldier = new Soldier(SIDE);
@@ -106,7 +106,7 @@ class SoldierTest {
         }
 
         @ParameterizedTest
-        @MethodSource("soliderDirections")
+        @MethodSource("soliderCardinalDirections")
         void 비어_있는_위치로는_이동할_수_있다(Vector vector) {
             // given
             Soldier soldier = new Soldier(SIDE);
@@ -137,12 +137,36 @@ class SoldierTest {
             assertThat(canMove).isFalse();
         }
 
-        private static Stream<Arguments> soliderDirections() {
+        @ParameterizedTest
+        @MethodSource("soliderDigonalDirections")
+        void 궁성의_전진_방향_대각선으로는_이동할_수_있다(Vector digonalDirection) {
+            // given
+            Soldier soldier = new Soldier(SIDE);
+
+            Intersection palaceIntersection = new Intersection(2, 5);
+            AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
+
+            Intersection expectedPalaceDestination = digonalDirection.next(palaceIntersection);
+
+            // when
+            List<Intersection> movableIntersections = soldier.movableIntersections(palaceIntersection, emptyAlivePieces);
+
+            // then
+            assertThat(movableIntersections).contains(expectedPalaceDestination);
+        }
+
+        private static Stream<Arguments> soliderCardinalDirections() {
             return Stream.of(
                     Arguments.of(SIDE.toForward()),
                     Arguments.of(Vector.right()),
                     Arguments.of(Vector.left())
             );
+        }
+
+        private static Stream<Arguments> soliderDigonalDirections() {
+            return SIDE.toForwardDiagonals()
+                    .stream()
+                    .map(Arguments::of);
         }
     }
 

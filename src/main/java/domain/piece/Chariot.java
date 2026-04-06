@@ -7,8 +7,8 @@ import domain.movement.Route;
 import domain.movement.Vector;
 import domain.movement.strategy.MoveStrategy;
 import domain.movement.strategy.Straight;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public final class Chariot extends StaticPositionedPiece {
 
@@ -46,14 +46,15 @@ public final class Chariot extends StaticPositionedPiece {
             Intersection from,
             AlivePieces alivePieces
     ) {
-        List<Intersection> movableIntersections = new ArrayList<>();
+        Stream<Intersection> cardinalDestinations = Vector.cardinals()
+                .stream()
+                .flatMap(vector -> findReachableDestinations(from, vector, alivePieces));
+        Stream<Intersection> palaceDestinations = from.getPalaceDiagonalVectors()
+                .stream()
+                .flatMap(vector -> findReachablePalaceDestinations(from, vector, alivePieces));
 
-        for (Vector vector : Vector.cardinals()) {
-            List<Intersection> movableDestinations = findReachableDestinations(from, vector, alivePieces);
-            movableIntersections.addAll(movableDestinations);
-        }
-
-        return List.copyOf(movableIntersections);
+        return Stream.concat(cardinalDestinations, palaceDestinations)
+                .toList();
     }
 
     @Override
@@ -66,15 +67,32 @@ public final class Chariot extends StaticPositionedPiece {
         return true;
     }
 
-    private List<Intersection> findReachableDestinations(
+    private Stream<Intersection> findReachableDestinations(
+            Intersection from,
+            Vector vector,
+            AlivePieces alivePieces
+    ) {
+        return findValidRoute(from, vector, alivePieces)
+                .map(Route::getDestination);
+    }
+
+    private Stream<Intersection> findReachablePalaceDestinations(
+            Intersection from,
+            Vector vector,
+            AlivePieces alivePieces
+    ) {
+        return findValidRoute(from, vector, alivePieces)
+                .filter(Route::containsOnlyPalace)
+                .map(Route::getDestination);
+    }
+
+    private Stream<Route> findValidRoute(
             Intersection from,
             Vector vector,
             AlivePieces alivePieces
     ) {
         return moveStrategy.getRoutes(from, vector)
                 .stream()
-                .filter(route -> route.canReachDestinationThroughPath(alivePieces, side))
-                .map(Route::getDestination)
-                .toList();
+                .filter(route -> route.canReachDestinationThroughPath(alivePieces, side));
     }
 }

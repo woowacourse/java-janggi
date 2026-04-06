@@ -15,13 +15,12 @@ class PalacePieceTest {
     @Nested
     class 이동_가능한_위치를_판단한다 {
 
-        private static final int DEFAULT_ROW = 5;
-        private static final int DEFAULT_FILE = 5;
         private static final Side SIDE = Side.HAN;
         private static final Side OPPOSITE_SIDE = Side.CHO;
         private static final Soldier SAME_SIDE_PIECE = new Soldier(SIDE);
         private static final Soldier OPPOSITE_SIDE_PIECE = new Soldier(OPPOSITE_SIDE);
-        private static final Intersection CURRENT_INTERSECTION = new Intersection(DEFAULT_ROW, DEFAULT_FILE);
+        private static final Intersection PALACE_CENTER = new Intersection(2, 5);
+        private static final Intersection CURRENT_INTERSECTION = PALACE_CENTER;
 
         @Test
         void 아군_기물이_있는_위치로는_이동할_수_없다() {
@@ -94,6 +93,43 @@ class PalacePieceTest {
 
             // then
             assertThat(canMove).isTrue();
+        }
+
+        @Test
+        void 궁성_바깥으로는_이동할_수_없다() {
+            // given
+            PalacePiece palacePiece = new Guard(SIDE);
+
+            Intersection palaceBorderline = new Intersection(3, 5);
+            Intersection outOfPalace = new Intersection(4, 5);
+            AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
+
+            // when
+            boolean canMove = palacePiece.canMove(palaceBorderline, outOfPalace, emptyAlivePieces);
+
+            // then
+            assertThat(canMove).isFalse();
+        }
+
+        @Test
+        void 궁성의_대각선으로_이동할_수_있다() {
+            // given
+            PalacePiece palacePiece = new Guard(SIDE);
+
+            AlivePieces alivePieces = new AlivePieces(Map.of(
+                    PALACE_CENTER, palacePiece
+            ));
+
+            List<Vector> palaceDiagonalVectors = PALACE_CENTER.getPalaceDiagonalVectors();
+            List<Intersection> expectedPalaceDestinations = palaceDiagonalVectors.stream()
+                    .map(vector -> vector.next(PALACE_CENTER))
+                    .toList();
+
+            // when
+            List<Intersection> movableIntersections = palacePiece.movableIntersections(PALACE_CENTER, alivePieces);
+
+            // then
+            assertThat(movableIntersections).containsAll(expectedPalaceDestinations);
         }
     }
 }

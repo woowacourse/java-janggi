@@ -182,6 +182,45 @@ class RouteTest {
         }
     }
 
+    @Nested
+    class 궁성만_포함하고_있는지를_반환한다 {
+
+        @Test
+        void 모든_좌표가_궁성이라면_true를_반환한다() {
+            // given
+            List<Intersection> palaceIntersections = List.of(
+                    new Intersection(2, 5),
+                    new Intersection(1, 4),
+                    new Intersection(3, 6)
+            );
+            Route route = new Route(palaceIntersections);
+
+            // when
+            boolean containsOnlyPalace = route.containsOnlyPalace();
+
+            // then
+            assertThat(containsOnlyPalace).isTrue();
+        }
+
+        @Test
+        void 궁성이_아닌_좌표가_포함되어_있다면_false를_반환한다() {
+            // given
+            Intersection notPalaceIntersection = new Intersection(5, 5);
+            Intersection palaceIntersection = new Intersection(2, 5);
+
+            Route route = new Route(List.of(
+                    notPalaceIntersection,
+                    palaceIntersection
+            ));
+
+            // when
+            boolean containsOnlyPalace = route.containsOnlyPalace();
+
+            // then
+            assertThat(containsOnlyPalace).isFalse();
+        }
+    }
+
     @Test
     void 경로에_위치한_기물들을_반환한다() {
         // given

@@ -1,6 +1,7 @@
 package domain.game;
 
 import domain.movement.Vector;
+import java.util.List;
 
 public enum Side {
     HAN(1, Vector.down()) {
@@ -34,6 +35,13 @@ public enum Side {
 
     public Vector toForward() {
         return forward;
+    }
+
+    public List<Vector> toForwardDiagonals() {
+        return List.of(
+                forward.turnLeft45Degrees(),
+                forward.turnRight45Degrees()
+        );
     }
 
     public abstract Side nextTurn();

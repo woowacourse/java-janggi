@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.board.Intersection;
 import domain.game.Side;
+import domain.movement.Vector;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Nested;
@@ -157,6 +158,28 @@ class ChariotTest {
                     .anyMatch(intersection -> intersection.hasDifferentFile(currentFile)
                             && intersection.hasDifferentRow(currentRow));
             assertThat(diagonalIntersectionExist).isFalse();
+        }
+
+        @Test
+        void 궁성의_대각선으로는_이동할_수_있다() {
+            // given
+            Chariot chariot = new Chariot(SIDE);
+            Intersection palaceIntersection = new Intersection(2, 5);
+
+            AlivePieces alivePieces = new AlivePieces(Map.of(
+                    palaceIntersection, chariot
+            ));
+
+            List<Vector> palaceDiagonalVectors = palaceIntersection.getPalaceDiagonalVectors();
+            List<Intersection> expectedPalaceDestinations = palaceDiagonalVectors.stream()
+                    .map(vector -> vector.next(palaceIntersection))
+                    .toList();
+
+            // when
+            List<Intersection> movableIntersections = chariot.movableIntersections(palaceIntersection, alivePieces);
+
+            // then
+            assertThat(movableIntersections).containsAll(expectedPalaceDestinations);
         }
     }
 }
