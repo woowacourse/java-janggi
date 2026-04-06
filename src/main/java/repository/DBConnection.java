@@ -11,25 +11,31 @@ import java.sql.SQLException;
 
 public class DBConnection {
     private final String url;
-    private final String user;
-    private final String password;
+    private static final String USER;
+    private static final String PASSWORD;
 
-    public DBConnection(String url) {
-        this.url = url;
+    static {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-
-        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("properties.yml")) {
+        try (InputStream inputStream = DBConnection.class.getClassLoader().getResourceAsStream("properties.yml")) {
+            if (inputStream == null) {
+                throw new IllegalStateException("properties.yml 파일을 찾을 수 없습니다.");
+            }
             Config config = mapper.readValue(inputStream, Config.class);
-            this.user = config.user();
-            this.password = config.password();
+            USER = config.user();
+            PASSWORD = config.password();
         } catch (IOException e) {
             throw new IllegalStateException("DB 설정 파일을 읽는데 실패했습니다.", e);
         }
     }
 
+
+    public DBConnection(String url) {
+        this.url = url;
+    }
+
     public Connection getConnection() {
         try {
-            return DriverManager.getConnection(url, user, password);
+            return DriverManager.getConnection(url, USER, PASSWORD);
         } catch (SQLException e) {
             throw new RuntimeException("데이터베이스 연결에 실패했습니다: " + e.getMessage(), e);
         }
