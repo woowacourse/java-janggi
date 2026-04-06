@@ -68,7 +68,7 @@ public class Board implements PalaceRouter {
                 .toList();
     }
 
-    public void move(Piece piece, Position destination) {
+    public Optional<Piece> move(Piece piece, Position destination) {
         Position currentPosition = findPositionOf(piece)
                 .orElseThrow(() -> new IllegalArgumentException("보드에 없는 기물입니다."));
 
@@ -86,8 +86,10 @@ public class Board implements PalaceRouter {
             throw new IllegalArgumentException("현재 판 상태에서는 해당 목적지로 이동할 수 없습니다.");
         }
 
+        Optional<Piece> captured = Optional.ofNullable(pieceAtDestination);
         pieces.remove(currentPosition);
         pieces.put(destination, piece);
+        return captured;
     }
 
     @Override

@@ -80,6 +80,10 @@ public class OutputView {
         System.out.println(formatPiece(piece) + " 가 " + destination + " 로 이동했습니다.");
     }
 
+    public void printGameEnd(TeamColor winner) {
+        System.out.println("게임이 종료되었습니다. 승자: " + winner.getDisplayName());
+    }
+
     public void printError(String message) {
         System.out.println("[ERROR] " + message);
     }

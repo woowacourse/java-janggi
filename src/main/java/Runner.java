@@ -106,8 +106,7 @@ public class Runner {
     }
 
     private void runGameLoop(GameSession session) {
-        while (true) {
-            playTurn(session.board(), session.turnManager());
+        while (playTurn(session.board(), session.turnManager())) {
         }
     }
 
@@ -158,28 +157,43 @@ public class Runner {
         throw new IllegalArgumentException("상차림 번호는 1~4 사이여야 합니다.");
     }
 
-    private void playTurn(Board board, TurnManager turnManager) {
+    private boolean playTurn(Board board, TurnManager turnManager) {
         TeamColor currentTurn = turnManager.getCurrentTurn();
         outputView.printCurrentTurn(currentTurn);
         outputView.printBoard(board);
+        return runTurnInputLoop(board, turnManager, currentTurn);
+    }
 
+    private boolean runTurnInputLoop(Board board, TurnManager turnManager, TeamColor currentTurn) {
         while (true) {
-            if (trySingleTurnAction(board, turnManager, currentTurn)) {
-                return;
+            TurnOutcome outcome = trySingleTurnAction(board, turnManager, currentTurn);
+            Boolean gameContinues = interpretOutcome(outcome);
+            if (gameContinues != null) {
+                return gameContinues;
             }
         }
     }
 
-    private boolean trySingleTurnAction(Board board, TurnManager turnManager, TeamColor currentTurn) {
+    private static Boolean interpretOutcome(TurnOutcome outcome) {
+        if (outcome == TurnOutcome.RETRY) {
+            return null;
+        }
+        if (outcome == TurnOutcome.GAME_OVER) {
+            return false;
+        }
+        return true;
+    }
+
+    private TurnOutcome trySingleTurnAction(Board board, TurnManager turnManager, TeamColor currentTurn) {
         try {
             return processPieceSelection(board, turnManager, currentTurn);
         } catch (RuntimeException exception) {
             outputView.printError(exception.getMessage());
-            return false;
+            return TurnOutcome.RETRY;
         }
     }
 
-    private boolean processPieceSelection(Board board, TurnManager turnManager, TeamColor currentTurn) {
+    private TurnOutcome processPieceSelection(Board board, TurnManager turnManager, TeamColor currentTurn) {
         List<Map.Entry<Position, Piece>> pieces = board.findPiecesByTeam(currentTurn);
         outputView.printPieceOptions(pieces);
         int pieceChoice = inputView.readPieceChoice(currentTurn);
@@ -187,7 +201,7 @@ public class Runner {
         return followRoutes(board, turnManager, selectedPiece);
     }
 
-    private boolean followRoutes(Board board, TurnManager turnManager, Piece selectedPiece) {
+    private TurnOutcome followRoutes(Board board, TurnManager turnManager, Piece selectedPiece) {
         List<Route> routes = board.findMovableRoutes(selectedPiece);
         if (routes.isEmpty()) {
             throw new IllegalArgumentException("선택한 기물은 이동 가능한 경로가 없습니다.");
@@ -197,24 +211,45 @@ public class Runner {
         return applyRouteChoice(board, turnManager, selectedPiece, routes, routeChoice);
     }
 
-    private boolean applyRouteChoice(
+    private TurnOutcome applyRouteChoice(
             Board board,
             TurnManager turnManager,
             Piece selectedPiece,
             List<Route> routes,
             int routeChoice) {
         if (routeChoice == 0) {
-            return false;
+            return TurnOutcome.RETRY;
         }
-        completeMove(board, turnManager, selectedPiece, routes, routeChoice);
-        return true;
+        return completeMove(board, turnManager, selectedPiece, routes, routeChoice);
     }
 
-    private void completeMove(
+    private TurnOutcome completeMove(
             Board board, TurnManager turnManager, Piece piece, List<Route> routes, int routeChoice) {
         Position destination = getSelectedRoute(routes, routeChoice).endPos();
-        board.move(piece, destination);
+        Optional<Piece> captured = board.move(piece, destination);
         outputView.printMoveResult(piece, destination);
+        return afterMove(board, turnManager, captured);
+    }
+
+    private TurnOutcome afterMove(Board board, TurnManager turnManager, Optional<Piece> captured) {
+        if (isKingCapture(captured)) {
+            persistFinalState(board, turnManager);
+            return TurnOutcome.GAME_OVER;
+        }
+        progressTurnAndPersist(board, turnManager);
+        return TurnOutcome.TURN_DONE;
+    }
+
+    private static boolean isKingCapture(Optional<Piece> captured) {
+        return captured.filter(Piece::isKing).isPresent();
+    }
+
+    private void persistFinalState(Board board, TurnManager turnManager) {
+        gameStateRepository.save(board.capture(), turnManager.getCurrentTurn());
+        outputView.printGameEnd(turnManager.getCurrentTurn());
+    }
+
+    private void progressTurnAndPersist(Board board, TurnManager turnManager) {
         turnManager.progressTurn();
         gameStateRepository.save(board.capture(), turnManager.getCurrentTurn());
     }
