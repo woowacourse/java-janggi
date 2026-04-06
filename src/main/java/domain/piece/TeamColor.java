@@ -1,8 +1,18 @@
 package domain.piece;
 
 public enum TeamColor {
-    CHO,
-    HAN;
+    CHO {
+        @Override
+        public TeamColor next() {
+            return HAN;
+        }
+    },
+    HAN {
+        @Override
+        public TeamColor next() {
+            return CHO;
+        }
+    };
 
     public String displayName() {
         if (this == CHO) {
@@ -10,6 +20,8 @@ public enum TeamColor {
         }
         return "한";
     }
+
+    public abstract TeamColor next();
 }
 
 

@@ -11,11 +11,7 @@ public class TurnManager {
     }
 
     public void advanceTurn() {
-        if (currentTurn.equals(TeamColor.CHO)) {
-            currentTurn = TeamColor.HAN;
-            return;
-        }
-        currentTurn = TeamColor.CHO;
+        currentTurn = currentTurn.next();
     }
 
     public TeamColor getCurrentTurn() {
