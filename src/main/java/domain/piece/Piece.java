@@ -21,9 +21,14 @@ public abstract class Piece {
     public Destinations findDestinations(Position current, BoardReader board) {
         List<Position> destinations = movementStrategy.getMovablePositions(current, board);
         List<Position> validDestinations = destinations.stream()
+                .filter(this::isWithinBoundary)
                 .filter(destination -> board.isEmpty(destination) || !board.isAlly(destination, this.side))
                 .toList();
         return new Destinations(validDestinations);
+    }
+
+    protected boolean isWithinBoundary(Position position) {
+        return true;
     }
 
     public boolean isAlly(Side other) {

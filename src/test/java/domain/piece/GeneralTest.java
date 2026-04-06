@@ -28,4 +28,23 @@ class GeneralTest {
                 Position.of(4, 0), Position.of(3, 1), Position.of(5, 1)
         );
     }
+
+    @DisplayName("궁은 이동 경로 탐색 시 자신의 궁성 영역 안의 좌표를 목적지에 포함한다.")
+    @Test
+    void findDestinations_generalAtBoundary() {
+        // given
+        Position current = Position.of(3, 1);
+        Map<Position, Piece> pieces = Map.of(current, PieceFactory.createGeneral(Side.CHO));
+        Board board = new Board(pieces);
+
+        // when
+        Destinations actual = board.findDestinations(current);
+
+        // then
+        assertThat(actual.getPositions()).containsExactlyInAnyOrder(
+                Position.of(3, 0),
+                Position.of(3, 2),
+                Position.of(4, 1)
+        );
+    }
 }
