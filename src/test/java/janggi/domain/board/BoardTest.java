@@ -1,8 +1,10 @@
 package janggi.domain.board;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.Position;
+import janggi.domain.Turn;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceStrategy;
@@ -121,5 +123,16 @@ class BoardTest {
         assertThatThrownBy(() -> board.movePiece(source, destination, Camp.CHO))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.SAME_CAMP_PIECE_AT_DESTINATION.getMessage());
+    }
+
+    @Test
+    void 상대_진영의_왕이_존재하는지_확인한다() {
+        // given
+        Turn turn = new Turn();
+        Board board = new Board(Map.of(new Position(0, 4), new Piece(PieceStrategy.GENERAL, Camp.HAN)));
+        // when
+        boolean result = board.isRivalGeneralKilled(turn);
+        // then
+        assertThat(result).isFalse();
     }
 }

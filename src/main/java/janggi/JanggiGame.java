@@ -45,17 +45,21 @@ public class JanggiGame {
     private void play(Board board) {
         Turn turn = new Turn();
         while (true) {
-            RetryHandler.retryOnInvalidInput(() -> playTurn(board, turn));
+            Camp camp = turn.currentTurn();
+            RetryHandler.retryOnInvalidInput(() -> playTurn(board, camp));
             OutputView.printBoard(toPiecePositions(board.getBoard()));
+            if (board.isRivalGeneralKilled(turn)) {
+                break;
+            }
+            turn.finishTurn();
         }
+        OutputView.printWinner(turn.currentTurn());
     }
-
-    private void playTurn(Board board, Turn turn) {
-        Camp camp = turn.currentTurn();
+    
+    private void playTurn(Board board, Camp camp) {
         Position source = readSource(board, camp);
         Position destination = readDestination(board, source, camp);
         board.movePiece(source, destination, camp);
-        turn.finishTurn();
     }
 
     private Position readSource(Board board, Camp camp) {

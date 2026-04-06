@@ -1,6 +1,7 @@
 package janggi.domain.board;
 
 import janggi.domain.Position;
+import janggi.domain.Turn;
 import janggi.domain.piece.Camp;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceStrategy;
@@ -42,6 +43,7 @@ public class Board implements BoardChecker {
         board.remove(source);
     }
 
+
     public void validateSource(Position source, Camp camp) {
         if (!hasPieceAt(source)) {
             throw new IllegalArgumentException(ExceptionMessage.SOURCE_NOT_EXISTS.getMessage());
@@ -70,5 +72,11 @@ public class Board implements BoardChecker {
 
     public Map<Position, Piece> getBoard() {
         return Map.copyOf(board);
+    }
+
+    public boolean isRivalGeneralKilled(Turn turn) {
+        Camp camp = turn.peekNextTurn();
+        return board.values().stream()
+                .noneMatch(piece -> piece.isSameCamp(camp) && piece.isSamePieceRule(PieceStrategy.GENERAL));
     }
 }

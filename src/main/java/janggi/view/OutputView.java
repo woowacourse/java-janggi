@@ -2,6 +2,7 @@ package janggi.view;
 
 import static java.util.stream.Collectors.joining;
 
+import janggi.domain.piece.Camp;
 import janggi.dto.PiecePositionDto;
 import janggi.view.format.CampFormat;
 import java.util.Arrays;
@@ -77,5 +78,9 @@ public final class OutputView {
 
     private static String fullWidthNumber(int number) {
         return FULL_WIDTH_NUMBERS[number];
+    }
+
+    public static void printWinner(Camp camp) {
+        System.out.println(CampFormat.from(camp).getName() + "나라 승리!");
     }
 }

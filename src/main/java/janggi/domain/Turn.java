@@ -10,6 +10,10 @@ public class Turn {
         return currentCamp;
     }
 
+    public Camp peekNextTurn() {
+        return currentCamp.next();
+    }
+
     public void finishTurn() {
         currentCamp = currentCamp.next();
     }
