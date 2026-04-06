@@ -44,7 +44,7 @@ class InMemoryGameRepositoryTest {
                 new Position(5, 5), new Piece(Camp.CHO, PieceType.CHARIOT),
                 new Position(5, 2), new Piece(Camp.HAN, PieceType.GENERAL)
         ));
-        Game finishedGame = Game.of(board, Camp.CHO);
+        Game finishedGame = Game.restoreFromState(board, Camp.CHO);
         finishedGame.move(new Position(5, 5), new Position(5, 2));
 
         gameRepository.save(finishedGame);

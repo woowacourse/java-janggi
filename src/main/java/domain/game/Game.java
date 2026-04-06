@@ -18,11 +18,11 @@ public class Game {
         this(new Board(BoardInitializer.init(choSetUp, hanSetUp)), Camp.CHO, false);
     }
 
-    public static Game of(Board board, Camp currentTurn) {
+    public static Game restoreFromState(Board board, Camp currentTurn) {
         return new Game(board, currentTurn, false);
     }
 
-    public static Game of(Board board, Camp currentTurn, boolean finished) {
+    public static Game restoreFromState(Board board, Camp currentTurn, boolean finished) {
         return new Game(board, currentTurn, finished);
     }
 

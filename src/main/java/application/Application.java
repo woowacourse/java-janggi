@@ -1,17 +1,7 @@
 package application;
 
-import static domain.piece.Camp.CHO;
-import static domain.piece.Camp.HAN;
-
-import domain.board.SetUp;
-import domain.game.Game;
-import domain.piece.Camp;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 import repository.GameRepository;
 import repository.JdbcGameRepository;
-import view.GameCommand;
 import view.InputView;
 import view.OutputView;
 

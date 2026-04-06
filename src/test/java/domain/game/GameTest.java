@@ -81,7 +81,7 @@ public class GameTest {
                 new Position(5, 5), new Piece(Camp.CHO, PieceType.CHARIOT),
                 new Position(5, 2), new Piece(Camp.HAN, PieceType.GENERAL)
         ));
-        Game game = Game.of(board, Camp.CHO);
+        Game game = Game.restoreFromState(board, Camp.CHO);
 
         game.move(new Position(5, 5), new Position(5, 2));
 
@@ -96,7 +96,7 @@ public class GameTest {
                 new Position(5, 2), new Piece(Camp.HAN, PieceType.SOLDIER),
                 new Position(4, 2), new Piece(Camp.HAN, PieceType.GUARD)
         ));
-        Game game = Game.of(board, Camp.CHO);
+        Game game = Game.restoreFromState(board, Camp.CHO);
 
         game.move(new Position(5, 5), new Position(5, 2));
 
