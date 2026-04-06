@@ -92,12 +92,12 @@ public class Board {
         return pieces.getAll();
     }
 
-    public boolean isColumnClearBetween(Position a, Position b) {
-        Column column = a.column();
-        int minRow = Math.min(a.row().ordinal(), b.row().ordinal());
-        int maxRow = Math.max(a.row().ordinal(), b.row().ordinal());
-        for (int r = minRow + 1; r < maxRow; r++) {
-            if (hasAnyPiece(new Position(column, Row.values()[r]))) {
+    public boolean isColumnClearBetween(Position hanGeneralPosition, Position choGeneralPosition) {
+        Column column = hanGeneralPosition.column();
+        int minRow = Math.min(hanGeneralPosition.row().ordinal(), choGeneralPosition.row().ordinal());
+        int maxRow = Math.max(hanGeneralPosition.row().ordinal(), choGeneralPosition.row().ordinal());
+        for (int row = minRow + 1; row < maxRow; row++) {
+            if (hasAnyPiece(new Position(column, Row.values()[row]))) {
                 return false;
             }
         }
