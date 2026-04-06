@@ -34,6 +34,22 @@ public record Vector(
         return new Vector(0, 1);
     }
 
+    public static Vector leftUp() {
+        return new Vector(-1, -1);
+    }
+
+    public static Vector leftDown() {
+        return new Vector(1, -1);
+    }
+
+    public static Vector rightUp() {
+        return new Vector(-1, 1);
+    }
+
+    public static Vector rightDown() {
+        return new Vector(1, 1);
+    }
+
     public static List<Vector> cardinals() {
         return List.of(
                 Vector.up(),
