@@ -1,7 +1,10 @@
 package janggi.view;
 
 import janggi.domain.Position;
-import janggi.exception.BusinessException;
+import janggi.exception.input.EmptyInputException;
+import janggi.exception.input.InvalidInputFormatException;
+import janggi.exception.input.InvalidInputSizeException;
+import janggi.exception.input.NotNumberException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -38,13 +41,13 @@ public class InputView {
 
     private void validateEmpty(String input) {
         if (input == null || input.isBlank()) {
-            throw new BusinessException("입력값이 비어있습니다.");
+            throw new EmptyInputException();
         }
     }
 
     private void validateFormat(String input) {
         if (!input.contains(DELIMITER)) {
-            throw new BusinessException("쉼표(,)를 기준으로 입력하세요.");
+            throw new InvalidInputFormatException();
         }
     }
 
@@ -55,13 +58,13 @@ public class InputView {
                     .map(Integer::parseInt)
                     .toList();
         } catch (NumberFormatException e) {
-            throw new BusinessException("좌표는 숫자로 입력해야 합니다.");
+            throw new NotNumberException();
         }
     }
 
     private void validateSize(List<Integer> coordinates) {
         if (coordinates.size() != 2) {
-            throw new BusinessException("좌표는 두 개의 숫자(예: 1, 2)로 입력해야 합니다.");
+            throw new InvalidInputSizeException();
         }
     }
 
