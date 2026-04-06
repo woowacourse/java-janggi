@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import janggi.config.DBConnection;
 import janggi.config.DBTableInitializer;
+import janggi.config.PropertiesReader;
 import janggi.config.TestDBConnection;
 import janggi.domain.game.GameStatus;
 import janggi.domain.setup.InnerElephantSetupPolicy;
@@ -15,6 +16,7 @@ import janggi.domain.team.RedTeam;
 import janggi.domain.team.Team;
 import janggi.domain.team.TeamType;
 import janggi.domain.turn.TurnManager;
+import janggi.dto.H2DBPropertiesDto;
 import janggi.entity.GameEntity;
 import janggi.repository.GameRepository;
 import janggi.repository.GameRepositoryImpl;
@@ -35,7 +37,9 @@ class GameServiceTest {
 
     @BeforeEach
     void setUp() {
-        dbConnection = new TestDBConnection();
+        H2DBPropertiesDto h2DBPropertiesDto =
+            H2DBPropertiesDto.of(PropertiesReader.read("application.properties"));
+        dbConnection = new TestDBConnection(h2DBPropertiesDto);
         dbTableInitializer = new DBTableInitializer(dbConnection);
 
         gameRepository = new GameRepositoryImpl(dbConnection);

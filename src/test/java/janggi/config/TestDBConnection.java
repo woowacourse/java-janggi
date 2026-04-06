@@ -1,8 +1,7 @@
 package janggi.config;
 
+import janggi.dto.H2DBPropertiesDto;
 import janggi.global.EntityMapper;
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -12,29 +11,20 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Properties;
 
 public final class TestDBConnection implements DBConnection {
 
-    private static String driverClassName;
-    private static String url;
-    private static String id;
-    private static String password;
-    private static Connection connection;
+    private final String driverClassName;
+    private final String url;
+    private final String id;
+    private final String password;
+    private Connection connection;
 
-    static {
-        final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        final Properties properties = new Properties();
-        try (final InputStream inputStream = classLoader.getResourceAsStream(
-            "application.properties")) {
-            properties.load(inputStream);
-            driverClassName = properties.getProperty("h2-db.driver-class-name");
-            url = properties.getProperty("h2-db.datasource.url");
-            id = properties.getProperty("h2-db.datasource.id");
-            password = properties.getProperty("h2-db.datasource.password");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public TestDBConnection(final H2DBPropertiesDto h2DBPropertiesDto) {
+        driverClassName = h2DBPropertiesDto.driverClassName();
+        url = h2DBPropertiesDto.url();
+        id = h2DBPropertiesDto.id();
+        password = h2DBPropertiesDto.password();
     }
 
     @Override
