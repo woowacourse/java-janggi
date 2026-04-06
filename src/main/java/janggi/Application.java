@@ -4,6 +4,7 @@ import janggi.controller.GameController;
 import janggi.controller.JanggiController;
 import janggi.controller.MoveController;
 import janggi.repository.MoveRepository;
+import janggi.repository.h2.DatabaseInitializer;
 import janggi.repository.h2.H2GameRepository;
 import janggi.repository.h2.H2MoveRepository;
 import janggi.service.GameService;
@@ -20,6 +21,8 @@ public class Application {
         MoveService moveService = new MoveService(moveRepository);
         MoveController moveController = new MoveController(inputView, outputView, moveService);
         GameController gameController = new GameController(inputView, outputView, gameService, moveController);
+
+        DatabaseInitializer.init();
 
         JanggiController janggiController = new JanggiController(inputView, outputView, gameController);
         janggiController.run();
