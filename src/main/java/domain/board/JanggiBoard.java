@@ -94,6 +94,11 @@ public class JanggiBoard implements PieceProvider {
         return totalScore;
     }
 
+    public boolean isKingAlive(Team team) {
+        return janggiBoard.values().stream().anyMatch(piece -> piece.getTeam() == team
+                && piece.getPieceType() == PieceType.KING);
+    }
+
     private void validateMovePiece(Position currentPosition, Position targetPosition, Piece currentPiece) {
         if (currentPiece.isBlank()) {
             throw new IllegalArgumentException("[ERROR] 선택한 위치에 기물이 비어있습니다.");

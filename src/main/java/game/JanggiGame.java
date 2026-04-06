@@ -41,9 +41,14 @@ public class JanggiGame {
     }
 
     public Team getWinner() {
+        if (!janggiBoard.isKingAlive(Team.HAN)) {
+            return Team.CHO;
+        }
+        if (!janggiBoard.isKingAlive(Team.CHO)) {
+            return Team.HAN;
+        }
         double teamChoScore = janggiBoard.calculateScore(Team.CHO);
         double teamHanScore = janggiBoard.calculateScore(Team.HAN);
-
         if (teamChoScore > teamHanScore) {
             return Team.CHO;
         }
