@@ -50,7 +50,7 @@ public class Controller {
 
             boolean isContinue = executeMove(game);
             if (!isContinue) {
-                System.out.println("게임을 중단합니다. 현재 상태는 " + gameId + "번 방에 안전하게 저장되어 있습니다.");
+                outputView.printGameSaved(gameId);
                 return;
             }
             gameDao.updateTurn(gameId, game.getTurn().name());
@@ -78,7 +78,7 @@ public class Controller {
         outputView.printSavedGames(savedGames);
 
         if (savedGames.isEmpty()) {
-            System.out.println("새 게임을 시작합니다.");
+            outputView.printStartNewGame();
             startNewGame();
             return;
         }
@@ -91,7 +91,7 @@ public class Controller {
             Board board = new Board(loadedPieces);
             Game game = new Game(board, savedTurn);
 
-            System.out.println("\n[" + gameId + "번 방 게임을 성공적으로 불러왔습니다!]");
+            outputView.printGameLoaded(gameId);
             play(game, gameId);
 
         } catch (Exception e) {

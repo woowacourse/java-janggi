@@ -90,4 +90,16 @@ public class OutputView {
         }
         System.out.println("==========================");
     }
+
+    public void printGameSaved(long gameId) {
+        System.out.println("게임을 중단합니다. 현재 상태는 " + gameId + "번 방에 안전하게 저장되어 있습니다.");
+    }
+
+    public void printStartNewGame() {
+        System.out.println("새 게임을 시작합니다.");
+    }
+
+    public void printGameLoaded(long gameId) {
+        System.out.println("\n[" + gameId + "번 방 게임을 성공적으로 불러왔습니다!]");
+    }
 }
