@@ -8,10 +8,9 @@ import domain.board.Board;
 import domain.piece.Piece;
 import domain.position.Position;
 import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import repository.dao.GameDao;
 import repository.entity.GameEntity;
@@ -98,73 +97,34 @@ public class GameDaoImplementation implements GameDao {
     public void updateGamePiece(Connection connection, GameId id, JanggiGame game) {
         List<GamePieceEntity> existingEntities = gamePieceJdbcRepository.findByGameId(connection, id.value());
         Map<Position, Piece> currentBoardStatus = game.getBoard().getBoardStatus().status();
-        List<Position> activePositions = new ArrayList<>(currentBoardStatus.keySet());
 
-        List<GamePieceEntity> updatedPieces = compareEntitiesAndDomainForCheckUpdatedInformation(existingEntities,
-                activePositions, currentBoardStatus);
+        Map<Long, Position> activePiecePositions = extractActivePositions(currentBoardStatus);
+
+        List<GamePieceEntity> updatedPieces = existingEntities.stream()
+                .map(entity -> updateEntityState(entity, activePiecePositions))
+                .toList();
 
         gamePieceJdbcRepository.updateAll(connection, updatedPieces);
     }
 
-    private List<GamePieceEntity> compareEntitiesAndDomainForCheckUpdatedInformation(
-            List<GamePieceEntity> existingEntities, List<Position> activePositions, Map<Position, Piece> boardStatus) {
-
-        return existingEntities.stream()
-                .map(entity -> synchronizeEntityAndDomain(entity, activePositions, boardStatus))
-                .toList();
+    private Map<Long, Position> extractActivePositions(Map<Position, Piece> boardStatus) {
+        return boardStatus.entrySet().stream()
+                .collect(
+                        Collectors.toMap(
+                                entry -> entry.getValue().getId().value(),
+                                Entry::getKey
+                        )
+                );
     }
 
-    private GamePieceEntity synchronizeEntityAndDomain(GamePieceEntity entity, List<Position> activePositions,
-                                                       Map<Position, Piece> boardStatus) {
-        Optional<Position> positionIfActive = findPositionIfActive(entity, activePositions, boardStatus);
+    private GamePieceEntity updateEntityState(GamePieceEntity entity, Map<Long, Position> activePiecePositions) {
+        Position currentPosition = activePiecePositions.get(entity.id());
 
-        if (positionIfActive.isPresent()) {
-            activePositions.remove(positionIfActive.get());
-            return createActiveEntity(entity, positionIfActive.get());
+        if (currentPosition != null) {
+            return createActiveEntity(entity, currentPosition);
         }
 
         return createInactiveEntity(entity);
-    }
-
-    private Optional<Position> findPositionIfActive(GamePieceEntity entity, List<Position> activePositions,
-                                                    Map<Position, Piece> boardStatus) {
-        Optional<Position> matchedPosition = findPositionIfNotMovedAndActive(entity, activePositions, boardStatus);
-
-        if (matchedPosition.isPresent()) {
-            return matchedPosition;
-        }
-
-        return findPositionMovedButActive(entity, activePositions, boardStatus);
-    }
-
-    private Optional<Position> findPositionMovedButActive(GamePieceEntity entity, List<Position> activePositions,
-                                                          Map<Position, Piece> boardStatus) {
-        return activePositions.stream()
-                .filter(pos -> isSamePieceTeamAndType(entity, boardStatus.get(pos)))
-                .findFirst();
-    }
-
-    private Optional<Position> findPositionIfNotMovedAndActive(GamePieceEntity entity, List<Position> activePositions,
-                                                               Map<Position, Piece> boardStatus) {
-        return activePositions.stream()
-                .filter(pos -> isSamePieceTeamAndType(entity, boardStatus.get(pos)))
-                .filter(pos -> isSamePosition(entity, pos))
-                .findFirst();
-    }
-
-    private boolean isSamePieceTeamAndType(GamePieceEntity entity, Piece piece) {
-        Long pieceIdValue = piece.getId().value();
-        String pieceTeam = piece.getTeam().name();
-        String pieceType = piece.getPieceType().name();
-        return (pieceIdValue.equals(entity.id()))
-                && pieceTeam.equals(entity.team())
-                && pieceType.equals(entity.pieceType());
-    }
-
-    private boolean isSamePosition(GamePieceEntity entity, Position position) {
-        boolean isSameRow = entity.row() == position.getRow().value();
-        boolean isSameColumn = entity.col() == position.getColumn().value();
-        return isSameRow && isSameColumn;
     }
 
     private GamePieceEntity createActiveEntity(GamePieceEntity entity, Position position) {
@@ -193,13 +153,7 @@ public class GameDaoImplementation implements GameDao {
 
     private JanggiGame createNewJanggiGameFromDatabaseContents(Connection connection, GameEntity gameEntity) {
         List<GamePieceEntity> gamePieceEntities = gamePieceJdbcRepository.findByGameId(connection, gameEntity.id());
-
-        Map<Position, Piece> piecePositions = gamePieceEntities.stream()
-                .filter(GamePieceEntity::isActive)
-                .collect(Collectors.toMap(
-                        entity -> Position.of(entity.row(), entity.col()),
-                        pieceEntityMapper::toDomain
-                ));
+        Map<Position, Piece> piecePositions = convertGamePieceEntityToDomainType(gamePieceEntities);
 
         return new JanggiGame(
                 new GameId(gameEntity.id()),
@@ -207,5 +161,14 @@ public class GameDaoImplementation implements GameDao {
                 gameContextMapper.toDomain(gameEntity),
                 new ScoreCalculator()
         );
+    }
+
+    private Map<Position, Piece> convertGamePieceEntityToDomainType(List<GamePieceEntity> gamePieceEntities) {
+        return gamePieceEntities.stream()
+                .filter(GamePieceEntity::isActive)
+                .collect(Collectors.toMap(
+                        entity -> Position.of(entity.row(), entity.col()),
+                        pieceEntityMapper::toDomain
+                ));
     }
 }
