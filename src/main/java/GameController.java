@@ -50,7 +50,7 @@ public class GameController {
 
         Board board = new Board(choStrategy, hanStrategy);
         game = new Game(board);
-        gameRepository.save(game, board);
+        gameRepository.save(game);
 
         OutputView.printBoard(board);
 
@@ -101,6 +101,6 @@ public class GameController {
 
         game.changeTurn();
 
-        gameRepository.update(game, board, command.from(), command.to());
+        gameRepository.update(game, command.from(), command.to());
     }
 }

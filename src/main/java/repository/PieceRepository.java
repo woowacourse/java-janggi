@@ -1,6 +1,7 @@
 package repository;
 
 import domain.Board;
+import domain.Game;
 import domain.PieceType;
 import domain.Position;
 import domain.Team;
@@ -19,7 +20,10 @@ public class PieceRepository {
         this.connection = connection;
     }
 
-    public void save(Long gameId, Board board) {
+    public void save(Game game) {
+        Long gameId = game.id();
+        Board board = game.board();
+
         String sql = "INSERT INTO piece (game_id, row_index, column_index, piece_type, team) VALUES (?, ?, ?, ?, ?)";
 
         try(PreparedStatement pstmt = connection.prepareStatement(sql)) {

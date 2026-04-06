@@ -36,7 +36,7 @@ public class GameRepositoryTest {
         Board board = new Board();
         Game game = new Game(board);
 
-        gameRepository.save(game, board);
+        gameRepository.save(game);
         Game found = gameRepository.findByGameId(game.id());
 
         assertThat(found.board().getPieces()).hasSize(board.getPieces().size());
@@ -47,7 +47,7 @@ public class GameRepositoryTest {
         Board board = new Board();
         Game game = new Game(board);
 
-        gameRepository.save(game, board);
+        gameRepository.save(game);
         Game latelyGame = gameRepository.findLatest();
 
         assertThat(latelyGame.id()).isEqualTo(game.id());
@@ -68,11 +68,11 @@ public class GameRepositoryTest {
         Board board = new Board(testPiece);
         Game game = new Game(board);
 
-        gameRepository.save(game, board);
+        gameRepository.save(game);
 
         board.move(from, to, PieceType.PAWN, Team.CHO);
         game.changeTurn();
-        gameRepository.update(game, board, from, to);
+        gameRepository.update(game, from, to);
 
         Game latelyGame = gameRepository.findLatest();
 

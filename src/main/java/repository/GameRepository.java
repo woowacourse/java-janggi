@@ -22,14 +22,14 @@ public class GameRepository {
     }
 
     // 초기 게임판과 게임 정보 저장
-    public void save(Game game, Board board) {
-        Long gameId = insertGame(game, board);
+    public void save(Game game) {
+        Long gameId = insertGame(game);
         game.assignId(gameId);
-        pieceRepository.save(gameId, board);
+        pieceRepository.save(game);
     }
 
-    public void update(Game game, Board board, Position from, Position to) {
-        updateGame(game, board);
+    public void update(Game game, Position from, Position to) {
+        updateGame(game, game.board());
         pieceRepository.deletePiece(game.id(), to);
         pieceRepository.updatePieces(game.id(), from, to);
     }
@@ -90,11 +90,12 @@ public class GameRepository {
         }
     }
 
-    private Long insertGame(Game game, Board board) {
+    private Long insertGame(Game game) {
         String sql = "INSERT INTO game (turn, is_finished) VALUES (?, ?)";
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
+            Board board = game.board();
             pstmt.setString(1, String.valueOf(game.turn()));
             pstmt.setBoolean(2, !board.canNextTurn());
             pstmt.execute();
