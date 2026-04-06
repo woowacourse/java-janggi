@@ -79,4 +79,8 @@ public class AlivePieces {
                 .stream()
                 .toList();
     }
+
+    public Map<Intersection, Piece> toMap() {
+        return Map.copyOf(alivePieces);
+    }
 }

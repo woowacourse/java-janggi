@@ -60,4 +60,8 @@ public final class Board {
     public int calculatePiecePointOf(Side side) {
         return alivePieces.calculatePiecePointOf(side);
     }
+
+    public AlivePieces toAlivePieces() {
+        return alivePieces;
+    }
 }

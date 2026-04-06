@@ -13,6 +13,7 @@ import domain.move.strategy.OrthogonalThenTwoDiagonalMovement;
 import domain.move.strategy.SingleStepExcludeBackwardMovement;
 import domain.move.strategy.SingleStepMovement;
 import domain.move.strategy.StraightLineMovement;
+import java.util.Arrays;
 import java.util.List;
 
 public enum PieceType {
@@ -41,6 +42,13 @@ public enum PieceType {
         this.point = point;
         this.movement = movement;
         this.moveRule = moveRule;
+    }
+
+    public static PieceType from(String typeName) {
+        return Arrays.stream(values())
+                .filter(type -> type.name().equals(typeName))
+                .findAny()
+                .orElse(EMPTY);
     }
 
     public final List<Intersection> movableDestinations(

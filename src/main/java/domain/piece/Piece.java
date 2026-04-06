@@ -52,6 +52,14 @@ public final class Piece {
         return type.point();
     }
 
+    public PieceType getType() {
+        return type;
+    }
+
+    public Side getSide() {
+        return side;
+    }
+
     @Override
     public String toString() {
         return "Piece{" +

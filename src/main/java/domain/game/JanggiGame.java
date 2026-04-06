@@ -2,6 +2,7 @@ package domain.game;
 
 import domain.board.Board;
 import domain.board.Intersection;
+import domain.piece.Piece;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -13,7 +14,7 @@ public final class JanggiGame {
     private final Board board;
     private Side currentTurn;
 
-    JanggiGame(Board board, Side currentTurn) {
+    public JanggiGame(Board board, Side currentTurn) {
         this.board = board;
         this.currentTurn = currentTurn;
     }
@@ -110,5 +111,14 @@ public final class JanggiGame {
         totalPointBySide.put(han, calculateScoreOf(han));
 
         return totalPointBySide;
+    }
+
+    public Map<Intersection, Piece> toMap() {
+        return board.toAlivePieces()
+                .toMap();
+    }
+
+    public Board getBoard() {
+        return board;
     }
 }

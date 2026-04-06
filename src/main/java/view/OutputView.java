@@ -6,6 +6,7 @@ import domain.game.GameResult;
 import domain.game.Side;
 import domain.piece.Piece;
 import domain.piece.PieceType;
+import dto.GameSummary;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -31,6 +32,35 @@ public final class OutputView {
     public void printError(String message) {
         System.out.println(ERROR_MESSAGE_PREFIX + message);
         System.out.println();
+    }
+
+    public void printGameMenu() {
+        final List<String> menuItems = List.of(
+                "1. 새 게임",
+                "2. 이전 게임 조회(이어하기/결과 확인)"
+        );
+
+        System.out.println("안녕하세요. 루드비코의 장기 마을입니다!" + System.lineSeparator());
+        System.out.println("선택 가능한 메뉴는 다음과 같습니다.");
+        menuItems.forEach(System.out::println);
+        System.out.println();
+    }
+
+    public void printGames(List<GameSummary> gameSummaries) {
+        System.out.println("이전 게임을 조회합니다.");
+        if (gameSummaries.isEmpty()) {
+            System.out.println("--- 이전 게임이 존재하지 않습니다. ---");
+            return;
+        }
+
+        System.out.println("------------- 저장된 게임 목록 -------------");
+        System.out.printf("%-3s %-20s %-5s", "번호", "시작 일시", "차례");
+        System.out.println();
+        gameSummaries.forEach(summary -> {
+            System.out.printf("%-3d %-20s %-5s", summary.id(), summary.startedAt(), summary.currentTurn());
+            System.out.println();
+        });
+        System.out.println("----------------------------------------");
     }
 
     public void printGameStart() {

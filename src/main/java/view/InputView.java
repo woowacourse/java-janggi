@@ -30,6 +30,20 @@ public final class InputView {
 
     private final Scanner scanner = new Scanner(System.in);
 
+    public int readMenuCommand() {
+        System.out.print("메뉴 중 하나를 선택해 주세요: ");
+        System.out.println();
+
+        return Integer.parseInt(readLine().trim());
+    }
+
+    public int readGameNumber() {
+        System.out.print("이어서 시작할 게임의 번호를 선택해 주세요: ");
+        System.out.println();
+
+        return Integer.parseInt(readLine().trim());
+    }
+
     public Wings readWings(Side side) {
         System.out.println(SIDE_NAMES.get(side) + "의 상차림을 번호로 선택해주세요 (예: 1)");
         System.out.printf("1. %s%n2. %s%n3. %s%n4. %s%n", "마상마상", "마상상마", "상마마상", "상마상마");

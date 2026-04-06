@@ -33,3 +33,8 @@ out/
 
 ### Mac ###
 **/.DS_Store
+
+### DB - SQLite ###
+/src/main/resources/db/
+/src/test/resources/db/
+:memory:?cache=shared
