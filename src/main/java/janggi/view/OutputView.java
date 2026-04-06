@@ -35,10 +35,6 @@ public class OutputView {
         System.out.println("[ERROR] " + message);
     }
 
-    public void printHasOnGoingGameMessage() {
-        System.out.println("기존 게임을 불러왔습니다!!");
-    }
-
     public void printGameOverMessage(TurnDto turnDto) {
         System.out.println(turnDto.teamName() + " 진영이 패배했습니다!!");
     }
@@ -47,7 +43,25 @@ public class OutputView {
         System.out.println("한(HAN): " + hanScore.getValue() + "점 | 초(CHO): " + choScore.getValue() + "점");
     }
 
-    public void printNewGameMessage() {
-        System.out.println("새로운 게임을 생성했습니다.");
+    public void printMenu() {
+        System.out.println("1. 새 게임방 만들기");
+        System.out.println("2. 게임방 목록 보기");
+        System.out.println("3. 게임방 입장하기");
+        System.out.println("4. 종료");
+    }
+
+    public void printRoomCreated(Long gameId) {
+        System.out.println("게임방 " + gameId + "번이 생성되었습니다.");
+    }
+
+    public void printGameRoomList(List<Long> gameIds) {
+        if (gameIds.isEmpty()) {
+            System.out.println("진행 중인 게임방이 없습니다.");
+            return;
+        }
+        System.out.println("=----- 게임방 목록 -----=");
+        for (Long gameId : gameIds) {
+            System.out.println("방 번호: " + gameId);
+        }
     }
 }
