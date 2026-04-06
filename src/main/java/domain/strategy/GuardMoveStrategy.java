@@ -12,7 +12,7 @@ public class GuardMoveStrategy implements MoveStrategy {
         if (isOutsideOwnPalace(from, to, board))
             return false;
 
-        if (isNotStraightPath(from, to) && isNotDiagonalPath(from, to))
+        if (isNotStraightPath(from, to) && isNotDiagonalPath(from, to, board))
             return false;
 
         return board.canOccupy(from, to);
@@ -44,8 +44,10 @@ public class GuardMoveStrategy implements MoveStrategy {
         return true;
     }
 
-    private boolean isNotDiagonalPath(Position from, Position to) {
-        if (Math.abs(from.getRow() - to.getRow()) == 1 && Math.abs(from.getCol() - to.getCol()) == 1) {
+    private boolean isNotDiagonalPath(Position from, Position to, Board board) {
+        if (board.canMoveDiagonallyInPalace(from, to)
+                && Math.abs(from.getRow() - to.getRow()) == 1
+                && Math.abs(from.getCol() - to.getCol()) == 1) {
             return false;
         }
         return true;
