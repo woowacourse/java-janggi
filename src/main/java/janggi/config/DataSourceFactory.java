@@ -1,4 +1,4 @@
-package janggi;
+package janggi.config;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 import javax.sql.DataSource;

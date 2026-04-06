@@ -1,5 +1,6 @@
 package janggi;
 
+import janggi.config.DataSourceFactory;
 import janggi.controller.JanggiController;
 import janggi.dao.GameDao;
 import janggi.dao.PieceDao;
