@@ -86,10 +86,18 @@ public class JanggiController {
         Position from = selectPieceToMove(janggiGame, piecePositions);
 
         List<Position> movablePositions = janggiGame.getMovablePositions(from);
+        checkMovablePositionsIsEmpty(movablePositions);
+
         Position to = selectPositionToMove(movablePositions);
 
         janggiGame.move(from, to);
         printJanggiBoard(janggiGame);
+    }
+
+    private void checkMovablePositionsIsEmpty(List<Position> movablePositions) {
+        if (movablePositions.isEmpty()) {
+            throw new IllegalArgumentException("해당 기물은 이동할 수 있는 위치가 없습니다. 다른 기물을 선택해주세요.");
+        }
     }
 
     private Position selectPieceToMove(final JanggiGame janggiGame, final List<Position> positions) {
