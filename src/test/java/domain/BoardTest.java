@@ -1,6 +1,5 @@
 package domain;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -102,6 +101,17 @@ class BoardTest {
         assertThatThrownBy(() -> board.move(Position.create(1,1), Position.create(5,1)))
                 .isInstanceOf(IllegalArgumentException.class);
     }
+
+    @DisplayName("이동할 수 없는 도착 좌표 제외 여부 테스트 - 차 이동 시 중간에 장애물 있음 (초나라)")
+    @Test
+    void 차_이동_중간_장애물_도착좌표_예외_테스트(){
+        List<PieceType> pieces = BoardTestUtil.createSangMaSangMa();
+        Board board = new Board(pieces);
+
+        assertThat(board.findAvailablePositions(Position.create(1,1)))
+                .doesNotContain(Position.create(5,1));
+    }
+
     @DisplayName("보드 위에 다른 기물 있을 때 - 졸 이동 테스트")
     @Test
     void 졸_이동가능한_좌표_반환(){

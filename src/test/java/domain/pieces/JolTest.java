@@ -1,8 +1,8 @@
 package domain.pieces;
 
+import domain.PieceFinder;
 import domain.Position;
 import domain.enums.Country;
-import domain.enums.Direction;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,6 +17,12 @@ class JolTest {
     void 졸_이동_좌우위_초나라_정상_테스트(){
         Jol jol = new Jol(Country.CHO);
         Position start = Position.create(4,3);
+        PieceFinder finder = new PieceFinder() {
+            @Override
+            public Piece find(Position position) {
+                return None.INSTANCE;
+            }
+        };
 
         List<Position> expected = List.of(
                 Position.create(5,3),
@@ -24,10 +30,7 @@ class JolTest {
                 Position.create(4,4)
         );
 
-        List<Position> result = jol.getAvailableRoute(start, Direction.UP);
-        result.addAll(jol.getAvailableRoute(start, Direction.DOWN)) ;
-        result.addAll(jol.getAvailableRoute(start, Direction.LEFT)) ;
-        result.addAll(jol.getAvailableRoute(start, Direction.RIGHT)) ;
+        List<Position> result = jol.getAvailableRoute(start, finder);
         assertThat(result).containsExactlyInAnyOrderElementsOf(expected);
     }
 
@@ -35,6 +38,12 @@ class JolTest {
     void 졸_이동_좌우위_한나라_정상_테스트(){
         Jol jol = new Jol(Country.HAN);
         Position start = Position.create(7,3);
+        PieceFinder finder = new PieceFinder() {
+            @Override
+            public Piece find(Position position) {
+                return None.INSTANCE;
+            }
+        };
 
         List<Position> expected = List.of(
                 Position.create(6,3),
@@ -42,10 +51,7 @@ class JolTest {
                 Position.create(7,4)
         );
 
-        List<Position> result = jol.getAvailableRoute(start, Direction.UP);
-        result.addAll(jol.getAvailableRoute(start, Direction.DOWN)) ;
-        result.addAll(jol.getAvailableRoute(start, Direction.LEFT)) ;
-        result.addAll(jol.getAvailableRoute(start, Direction.RIGHT)) ;
+        List<Position> result = jol.getAvailableRoute(start, finder);
 
         assertThat(result).containsExactlyInAnyOrderElementsOf(expected);
     }
@@ -55,16 +61,19 @@ class JolTest {
     void 졸_한칸막혔을때_이동_한나라_정상_테스트(){
         Jol jol = new Jol(Country.HAN);
         Position start = Position.create(7,1);
+        PieceFinder finder = new PieceFinder() {
+            @Override
+            public Piece find(Position position) {
+                return None.INSTANCE;
+            }
+        };
 
         List<Position> expected = List.of(
                 Position.create(6,1),
                 Position.create(7,2)
         );
 
-        List<Position> result = jol.getAvailableRoute(start, Direction.UP);
-        result.addAll(jol.getAvailableRoute(start, Direction.DOWN)) ;
-        result.addAll(jol.getAvailableRoute(start, Direction.LEFT)) ;
-        result.addAll(jol.getAvailableRoute(start, Direction.RIGHT)) ;
+        List<Position> result = jol.getAvailableRoute(start, finder);
 
         assertThat(result).containsExactlyInAnyOrderElementsOf(expected);
     }

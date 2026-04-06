@@ -6,9 +6,9 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import domain.PieceFinder;
 import domain.Position;
 import domain.enums.Country;
-import domain.enums.Direction;
 
 class SangTest {
 
@@ -16,6 +16,12 @@ class SangTest {
     void 상_이동_좌우위_초나라_정상_테스트(){
         Sang sang = new Sang(Country.CHO);
         Position start = Position.create(4,4);
+        PieceFinder finder = new PieceFinder() {
+            @Override
+            public Piece find(Position position) {
+                return None.INSTANCE;
+            }
+        };
 
         List<Position> expected = List.of(
                 Position.create(1,2),
@@ -28,10 +34,7 @@ class SangTest {
                 Position.create(6,1)
         );
 
-        List<Position> result = sang.getAvailableRoute(start, Direction.UP);
-        result.addAll(sang.getAvailableRoute(start, Direction.DOWN)) ;
-        result.addAll(sang.getAvailableRoute(start, Direction.LEFT)) ;
-        result.addAll(sang.getAvailableRoute(start, Direction.RIGHT)) ;
+        List<Position> result = sang.getAvailableRoute(start, finder);
         assertThat(result).containsExactlyInAnyOrderElementsOf(expected);
     }
 

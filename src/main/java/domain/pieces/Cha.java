@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import domain.PieceFinder;
 import domain.Position;
 import domain.enums.Country;
 import domain.enums.Direction;
 import domain.enums.PieceType;
-import domain.strategy.StraightMovement;
-import domain.strategy.MoveStrategy;
 
 public class Cha extends Piece {
 
@@ -23,39 +22,44 @@ public class Cha extends Piece {
     }
 
     @Override
-    public List<Position> getAvailableRoute(Position start,Direction direction) {
+    public List<Position> getAvailableRoute(Position start, PieceFinder finder) {
         List<Position> availableRoute = new ArrayList<>();
-        int i = Position.MAX_ROW;
-        Position now = start;
-        while (i-- > 0) {
-            Optional<Position> position = move(now, direction, getCountry());
-            if (position.isPresent()) {
-                availableRoute.add(position.get());
-                now = position.get();
-                continue;
+        for (Direction direction : Direction.getCardinalDirections()){
+            int i = Position.MAX_ROW;
+            Position now = start;
+            while (i-- > 0) {
+                Optional<Position> position = move(now, direction);
+                if (position.isEmpty()) {
+                    break;
+                }
+                Piece endPiece = finder.find(position.get());
+                if (endPiece==None.INSTANCE) {
+                    availableRoute.add(position.get());
+                    now = position.get();
+                    continue;
+                }
+                if (isDifferentCountry(endPiece.getCountry())) {
+                    availableRoute.add(position.get());
+                    break;
+                }
             }
-            break;
+
         }
         return availableRoute;
     }
 
-    @Override
-    public Optional<Position> move(Position start, Direction direction, Country country) {
-        MoveStrategy moveStraight = new StraightMovement();
-        return moveStraight.move(start, direction, country);
-    }
 
-    @Override
-    public boolean isAvailableRoute(List<Piece> pieces, PieceType endPieceType) {
-        int count = 0;
-        for (Piece piece : pieces) {
-            if (piece.getPieceType() != PieceType.NONE) {
-                count++;
-            }
-        }
-        if (!endPieceType.equals(PieceType.NONE)) {
-            count--;
-        }
-        return !(count >= 1);
-    }
+//    @Override
+//    public boolean isAvailableRoute(List<Piece> pieces, PieceType endPieceType) {
+//        int count = 0;
+//        for (Piece piece : pieces) {
+//            if (piece.getPieceType() != PieceType.NONE) {
+//                count++;
+//            }
+//        }
+//        if (!endPieceType.equals(PieceType.NONE)) {
+//            count--;
+//        }
+//        return !(count >= 1);
+//    }
 }

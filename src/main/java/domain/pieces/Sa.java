@@ -4,16 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import domain.PieceFinder;
+import domain.Position;
 import domain.enums.Country;
 import domain.enums.Direction;
 import domain.enums.PieceType;
-import domain.Position;
-import domain.strategy.StraightMovement;
-import domain.strategy.MoveStrategy;
 
 public class Sa extends Piece {
 
-    public Sa (Country country) {
+    public Sa(Country country) {
         super(country, PieceType.SA);
     }
 
@@ -26,29 +25,24 @@ public class Sa extends Piece {
     }
 
     @Override
-    public List<Position> getAvailableRoute(Position start,Direction direction) {
+    public List<Position> getAvailableRoute(Position start, PieceFinder finder) {
         List<Position> availableRoute = new ArrayList<>();
-        int startX = start.getX();
-        int startY = start.getY();
+        for (Direction direction : Direction.getCardinalDirections()){
+            Optional<Position> position = move(start, direction);
+            if (position.isEmpty()) {
+                continue;
+            }
 
-        try {
-            int forward = getCountry().getForward();
-            int dx = direction.getDx();
-            int dy = direction.getDy();
-            availableRoute.add(Position.create(startX + dx * forward, startY + dy * forward));
-        }catch (IllegalArgumentException e){
+            Piece endPiece = finder.find(position.get());
+            if (finder.find(position.get())==None.INSTANCE || isDifferentCountry(endPiece.getCountry())) {
+                availableRoute.add(position.get());
+            }
         }
         return availableRoute;
     }
 
-    @Override
-    public Optional<Position> move(Position start, Direction direction, Country country) {
-        MoveStrategy moveStraight = new StraightMovement();
-        return moveStraight.move(start, direction, country);
-    }
-
-    @Override
-    public boolean isAvailableRoute(List<Piece> pieces, PieceType endPieceType) {
-        return true;
-    }
+//    @Override
+//    public boolean isAvailableRoute(List<Piece> pieces, PieceType endPieceType) {
+//        return true;
+//    }
 }

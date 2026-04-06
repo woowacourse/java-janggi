@@ -43,35 +43,52 @@ public class Board {
     }
 
     public List<Position> findAvailablePositions(Position start) {
-        List<Position> possiblePosition = new ArrayList<>();
         Piece startPiece = board.getOrDefault(start, None.INSTANCE);
 
-        Piece piece=Objects.requireNonNull(board.get(start));
-        for (Direction direction : Direction.getCardinalDirections()){
-            for(Position end : piece.getAvailableRoute(start,direction)){
-                Piece endPiece = board.getOrDefault(end, None.INSTANCE);
-                if (!(startPiece.canMovePosition(start, end) && startPiece.isDifferentCountry(endPiece.getCountry())
-                        && startPiece.isAvailableRoute(getSameLine(start, end), endPiece.getPieceType()))) {
-                    break;
-                }
-                possiblePosition.add(end);
+        PieceFinder finder = new PieceFinder() {
+            @Override
+            public Piece find(Position position) {
+                return board.getOrDefault(position, None.INSTANCE);
             }
-        }
-        if (possiblePosition.isEmpty()){
+        };
+//        Piece piece=Objects.requireNonNull(board.get(start));
+//
+//        for (Direction direction : Direction.getCardinalDirections()){
+//            for(Position end : piece.getAvailableRoute(start,direction)){
+//                Piece endPiece = board.getOrDefault(end, None.INSTANCE);
+
+
+//                if (!(startPiece.canMovePosition(start, end) && startPiece.isDifferentCountry(endPiece.getCountry()))){
+////                        && startPiece.isAvailableRoute(getSameLine(start, end), endPiece.getPieceType()))) {
+//
+//                    break;
+//                }
+//                possiblePosition.add(end);
+//            }
+//        }
+        //        if (availableRoute.isEmpty()){
+//            throw new IllegalArgumentException("이동 가능한 좌표가 없습니다.");
+//        }
+
+        List<Position> availablePositions = startPiece.getAvailableRoute(start,finder);
+        if (availablePositions.isEmpty()) {
             throw new IllegalArgumentException("이동 가능한 좌표가 없습니다.");
         }
-        return possiblePosition;
+        return availablePositions;
     }
 
     public PieceType move(Position start, Position end) {
         Piece startPiece = board.getOrDefault(start, None.INSTANCE);
         Piece endPiece = board.getOrDefault(end, None.INSTANCE);
 
-        if (!(startPiece.canMovePosition(start, end) && startPiece.isDifferentCountry(endPiece.getCountry())
-                && startPiece.isAvailableRoute(getSameLine(start, end), endPiece.getPieceType()))) {
+        if (!findAvailablePositions(start).contains(end)){
             throw new IllegalArgumentException("말을 이동할 수 없습니다.");
         }
 
+//        if (!(startPiece.canMovePosition(start, end) && startPiece.isDifferentCountry(endPiece.getCountry()))){
+////                && startPiece.isAvailableRoute(getSameLine(start, end), endPiece.getPieceType()))) {
+//            throw new IllegalArgumentException("말을 이동할 수 없습니다.");
+//        }
         killPiece(start);
         PieceType pieceType=killPiece(end);
         board.put(end, startPiece);

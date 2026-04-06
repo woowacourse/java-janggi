@@ -1,16 +1,14 @@
 package domain.pieces;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import domain.PieceFinder;
 import domain.Position;
 import domain.enums.Country;
 import domain.enums.Direction;
 import domain.enums.PieceType;
-import domain.strategy.StraightMovement;
-import domain.strategy.MoveStrategy;
 
 public class Jol extends Piece {
 
@@ -32,26 +30,27 @@ public class Jol extends Piece {
     }
 
     @Override
-    public List<Position> getAvailableRoute(Position start,Direction direction) {
+    public List<Position> getAvailableRoute(Position start, PieceFinder finder) {
         List<Position> availableRoute = new ArrayList<>();
-        if (direction.equals(Direction.DOWN)) {
-            return Collections.emptyList();
-        }
-        Optional<Position> position = move(start, direction,getCountry());
-        if (position.isPresent()){
-            availableRoute.add(position.get());
+        for (Direction direction : Direction.getCardinalDirections()) {
+            if (direction.equals(Direction.DOWN)) {
+                continue;
+            }
+
+            Optional<Position> position = move(start, direction);
+            if (position.isEmpty()) {
+                continue;
+            }
+            Piece endPiece = finder.find(position.get());
+            if (finder.find(position.get())==None.INSTANCE || isDifferentCountry(endPiece.getCountry())) {
+                availableRoute.add(position.get());
+            }
         }
         return availableRoute;
     }
 
-    @Override
-    public Optional<Position> move(Position start, Direction direction, Country country) {
-        MoveStrategy moveStraight = new StraightMovement();
-        return moveStraight.move(start, direction, country);
-    }
-
-    @Override
-    public boolean isAvailableRoute(List<Piece> pieces, PieceType endPieceType) {
-        return true;
-    }
+//    @Override
+//    public boolean isAvailableRoute(List<Piece> pieces, PieceType endPieceType) {
+//        return true;
+//    }
 }

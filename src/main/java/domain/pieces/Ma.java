@@ -4,13 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import domain.PieceFinder;
 import domain.enums.Country;
 import domain.enums.Direction;
 import domain.enums.PieceType;
 import domain.Position;
-import domain.strategy.DiagonalMovement;
-import domain.strategy.StraightMovement;
-import domain.strategy.MoveStrategy;
 
 public class Ma extends Piece {
 
@@ -26,34 +24,38 @@ public class Ma extends Piece {
         return (Math.abs(diffX) == 2 && Math.abs(diffY) == 1) || (Math.abs(diffX) == 1 && Math.abs(diffY) == 2);
     }
     @Override
-    public List<Position> getAvailableRoute(Position start, Direction direction) {
+    public List<Position> getAvailableRoute(Position start, PieceFinder finder) {
         List<Position> availableRoute = new ArrayList<>();
+        for (Direction direction : Direction.getCardinalDirections()) {
+            Optional<Position> positionFirst = move(start, direction);
+            if (positionFirst.isEmpty()) {
+                continue;
+            }
+            Piece endPiece = finder.find(positionFirst.get());
+            if (endPiece!=None.INSTANCE) {
+                continue;
+            }
 
-        Optional<Position> positionFirst = move(start, direction, getCountry());
-        for (Direction moveDirection : direction.getDiagonalDirections(direction)) {
-            if (positionFirst.isPresent()){
-                Optional<Position> position = move(positionFirst.get(), moveDirection,getCountry());
-                if (position.isPresent()){
-                    availableRoute.add(position.get());
+            for (Direction moveDirection : direction.getDiagonalDirections(direction)) {
+                Optional<Position> position = move(positionFirst.get(), moveDirection);
+                if (position.isEmpty()) {
+                    continue;
+                }
+                endPiece = finder.find(position.get());
+                if (endPiece==None.INSTANCE || isDifferentCountry(endPiece.getCountry())) {
+                    position.ifPresent(availableRoute::add);
                 }
             }
         }
         return availableRoute;
     }
 
-    @Override
-    public Optional<Position> move(Position start, Direction direction, Country country) {
-        MoveStrategy moveStraight = new StraightMovement();
-        MoveStrategy moveDiagonal = new DiagonalMovement();
-        Optional<Position> position = moveStraight.move(start, direction, country);
-        if (position.isPresent()) {
-            return moveDiagonal.move(start, direction, country);
-        }
-        return Optional.empty();
+    public void move(){
+
     }
 
-    @Override
-    public boolean isAvailableRoute(List<Piece> pieces, PieceType endPieceType) {
-        return true;
-    }
+//    @Override
+//    public boolean isAvailableRoute(List<Piece> pieces, PieceType endPieceType) {
+//        return true;
+//    }
 }

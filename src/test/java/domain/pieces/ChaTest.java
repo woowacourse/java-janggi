@@ -7,9 +7,9 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import domain.PieceFinder;
 import domain.Position;
 import domain.enums.Country;
-import domain.enums.Direction;
 
 class ChaTest {
 
@@ -18,6 +18,12 @@ class ChaTest {
     void 차_이동_좌우위아래_초나라_정상_테스트(){
         Cha cha = new Cha(Country.CHO);
         Position start = Position.create(1,1);
+        PieceFinder finder = new PieceFinder() {
+            @Override
+            public Piece find(Position position) {
+                return None.INSTANCE;
+            }
+        };
 
         List<Position> expected = List.of(
                 Position.create(2,1),
@@ -39,10 +45,7 @@ class ChaTest {
                 Position.create(1,9)
         );
 
-        List<Position> result = cha.getAvailableRoute(start, Direction.UP);
-        result.addAll(cha.getAvailableRoute(start, Direction.DOWN)) ;
-        result.addAll(cha.getAvailableRoute(start, Direction.LEFT)) ;
-        result.addAll(cha.getAvailableRoute(start, Direction.RIGHT)) ;
+        List<Position> result = cha.getAvailableRoute(start, finder);
         assertThat(result).containsExactlyInAnyOrderElementsOf(expected);
     }
 
@@ -51,6 +54,12 @@ class ChaTest {
     void 차_이동_임의위치_초나라_정상_테스트(){
         Cha cha = new Cha(Country.CHO);
         Position start = Position.create(2,2);
+        PieceFinder finder = new PieceFinder() {
+            @Override
+            public Piece find(Position position) {
+                return None.INSTANCE;
+            }
+        };
 
         List<Position> expected = List.of(
                 Position.create(1,2),
@@ -72,10 +81,7 @@ class ChaTest {
                 Position.create(2,9)
         );
 
-        List<Position> result = cha.getAvailableRoute(start, Direction.UP);
-        result.addAll(cha.getAvailableRoute(start, Direction.DOWN)) ;
-        result.addAll(cha.getAvailableRoute(start, Direction.LEFT)) ;
-        result.addAll(cha.getAvailableRoute(start, Direction.RIGHT)) ;
+        List<Position> result = cha.getAvailableRoute(start, finder);
         assertThat(result).containsExactlyInAnyOrderElementsOf(expected);
     }
 }

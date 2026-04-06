@@ -1,15 +1,13 @@
 package domain.pieces;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import domain.PieceFinder;
 import domain.Position;
 import domain.enums.Country;
-import domain.enums.Direction;
 
 class MaTest {
 
@@ -17,6 +15,12 @@ class MaTest {
     void 마_이동_좌우위_초나라_정상_테스트(){
         Ma ma = new Ma(Country.CHO);
         Position start = Position.create(4,3);
+        PieceFinder finder = new PieceFinder() {
+            @Override
+            public Piece find(Position position) {
+                return None.INSTANCE;
+            }
+        };
 
         List<Position> expected = List.of(
                 Position.create(2,4),
@@ -29,10 +33,7 @@ class MaTest {
                 Position.create(5,5)
         );
 
-        List<Position> result = ma.getAvailableRoute(start, Direction.UP);
-        result.addAll(ma.getAvailableRoute(start, Direction.DOWN)) ;
-        result.addAll(ma.getAvailableRoute(start, Direction.LEFT)) ;
-        result.addAll(ma.getAvailableRoute(start, Direction.RIGHT)) ;
+        List<Position> result = ma.getAvailableRoute(start, finder);
         assertThat(result).containsExactlyInAnyOrderElementsOf(expected);
     }
 
