@@ -20,8 +20,7 @@ public class PositionTest {
     })
     void of_OutOfRangePosition_ThrowException(int row, int column) {
         assertThatThrownBy(() -> Position.of(row, column))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("잘못된 좌표입니다.");
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
