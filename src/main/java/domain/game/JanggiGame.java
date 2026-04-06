@@ -14,6 +14,7 @@ public class JanggiGame {
     private Board board;
     private Turn currentTurn = Turn.start();
     private GameResult gameResult = GameResult.running();
+    private final GameScoreCalculator gameScoreCalculator = new GameScoreCalculator();
 
     public JanggiGame(Board board) {
         this.board = board;
@@ -60,5 +61,9 @@ public class JanggiGame {
 
     public GameResult gameResult() {
         return gameResult;
+    }
+
+    public GameScore calculateScore() {
+        return gameScoreCalculator.calculate(board);
     }
 }

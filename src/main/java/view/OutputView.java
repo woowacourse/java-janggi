@@ -3,6 +3,7 @@ package view;
 import domain.pieces.Side;
 import java.util.List;
 import view.dto.GameResultDto;
+import view.dto.GameScoreResultDto;
 import view.dto.PieceDto;
 
 public class OutputView {
@@ -54,5 +55,15 @@ public class OutputView {
             return;
         }
         System.out.println("게임 종료: 한 승리");
+    }
+
+    public void printGameScoreResult(GameScoreResultDto gameScoreResult) {
+        if (gameScoreResult.winner().isCho()) {
+            System.out.println("게임 종료: 초 승리");
+        } else {
+            System.out.println("게임 종료: 한 승리");
+        }
+        System.out.printf("초 점수: %.1f%n", gameScoreResult.choScore());
+        System.out.printf("한 점수: %.1f%n", gameScoreResult.hanScore());
     }
 }

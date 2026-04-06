@@ -1,10 +1,12 @@
 package view;
 
 import domain.board.SangSetupType;
-import java.util.Scanner;
 import domain.position.Position;
+import java.util.Scanner;
+import view.dto.PositionInput;
 
 public class InputView {
+    private static final String QUIT_COMMAND = "종료";
 
     private final Scanner scanner = new Scanner(System.in);
 
@@ -17,18 +19,22 @@ public class InputView {
         }
     }
 
-    public Position readDeparturePosition() {
+    public PositionInput readDeparturePosition() {
         return readPosition("출발지 좌표를 입력하세요. (row,column)");
     }
 
-    public Position readDestinationPosition() {
+    public PositionInput readDestinationPosition() {
         return readPosition("도착지 좌표를 입력하세요. (row,column)");
     }
 
-    private Position readPosition(String message) {
+    private PositionInput readPosition(String message) {
         System.out.println(message);
-        String[] values = splitPositionInput(scanner.nextLine());
-        return parsePosition(values);
+        String input = scanner.nextLine().trim();
+        if (input.equals(QUIT_COMMAND)) {
+            return PositionInput.quitting();
+        }
+        String[] values = splitPositionInput(input);
+        return PositionInput.of(parsePosition(values));
     }
 
     private String[] splitPositionInput(String input) {
