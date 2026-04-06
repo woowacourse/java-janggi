@@ -5,11 +5,15 @@ import janggi.domain.position.Position;
 import janggi.domain.space.Space;
 import janggi.domain.strategy.BasicPlacementStrategy;
 import janggi.service.JanggiService;
+import janggi.util.RetryExecutor;
 import janggi.view.InputView;
 import janggi.view.OutputView;
+import java.util.List;
 import java.util.Map;
 
 public class JanggiController {
+    private static final long NEW_GAME_ID = 0;
+
     private final JanggiService janggiService;
 
     public JanggiController(JanggiService janggiService) {
@@ -17,37 +21,62 @@ public class JanggiController {
     }
 
     public void run() {
-        long gameId = 1;
-        janggiService.startNewGame(new Board(new BasicPlacementStrategy()));
+        long gameId = initializeGame();
 
         while (!janggiService.isFinished()) {
             playJanggi();
 
-            String command = RetryExecutor.retry(InputView::askSaveGame);
-            if ("y".equalsIgnoreCase(command)) {
-                saveGame(gameId);
-                break;
+            boolean isSave = RetryExecutor.retry(InputView::askSaveGame);
+            if (isSave) {
+                gameId = saveGame(gameId);
+                if (InputView.askExitAfterSave()) {
+                    break;
+                }
             }
         }
     }
 
+    private long initializeGame() {
+        List<Long> savedGameIds = janggiService.getSavedGameIds();
+
+        if (savedGameIds.isEmpty()) {
+            System.out.println("저장된 게임이 없습니다. 새로운 게임을 시작합니다.");
+            janggiService.startNewGame(new Board(new BasicPlacementStrategy()));
+            return NEW_GAME_ID;
+        }
+
+        OutputView.printSavedGames(savedGameIds);
+        long selectedId = RetryExecutor.retry(InputView::askLoadGameId);
+
+        if (selectedId == NEW_GAME_ID) {
+            janggiService.startNewGame(new Board(new BasicPlacementStrategy()));
+            return NEW_GAME_ID;
+        }
+
+        janggiService.startLoadGame(selectedId);
+        return selectedId;
+    }
+
     private void playJanggi() {
         try {
-            Map<Position, Space> capturedBoard = janggiService.getBoardDto();
-            OutputView.printBoard(capturedBoard);
+            printCurrentBoard();
 
             Position from = RetryExecutor.retry(InputView::askSelectPiece);
             Position to = RetryExecutor.retry(InputView::askTargetPosition);
             janggiService.movePiece(from, to);
 
-            capturedBoard = janggiService.getBoardDto();
-            OutputView.printBoard(capturedBoard);
+            printCurrentBoard();
         } catch (Exception e) {
             OutputView.printErrorMessage(e.getMessage());
         }
     }
 
-    private void saveGame(long gameId) {
+    private void printCurrentBoard() {
+        Map<Position, Space> capturedBoard = janggiService.getBoardDto();
+        OutputView.printBoard(capturedBoard);
+    }
+
+    private long saveGame(long currentGameId) {
         try {
             long targetId = currentGameId;
             if (currentGameId != 0) {
