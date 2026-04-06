@@ -8,6 +8,7 @@ import janggi.domain.piece.unit.Soldier;
 import janggi.domain.point.Point;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class GameTest {
@@ -25,16 +26,34 @@ class GameTest {
         assertThat(game.isTurnPiece(choPoint)).isFalse();
     }
 
-    @Test
-    @DisplayName("움직이려는 포인트에 있는 기물이 자신의 기물인지 확인한다.")
-    void isTurnPiece() {
-        Point choPoint = new Point(3, 0);
-        Point hanPoint = new Point(6, 0);
-        BoardSetUp choBoardSetUp = side -> Map.of(choPoint, new Soldier(side));
-        BoardSetUp handBoardSetUp = side -> Map.of(hanPoint, new Soldier(side));
-        Game game = Game.createGame(choBoardSetUp, handBoardSetUp);
+    @Nested
+    class IsTurnPiece {
+        @Test
+        @DisplayName("CHO 턴일때 같은 진영 기물인지 확인한다.")
+        void isChoPiece() {
+            Point choPoint = new Point(3, 0);
+            Point hanPoint = new Point(6, 0);
+            BoardSetUp choBoardSetUp = side -> Map.of(choPoint, new Soldier(side));
+            BoardSetUp handBoardSetUp = side -> Map.of(hanPoint, new Soldier(side));
+            Game game = Game.createGame(choBoardSetUp, handBoardSetUp);
 
-        assertThat(game.isTurnPiece(choPoint)).isTrue();
-        assertThat(game.isTurnPiece(hanPoint)).isFalse();
+            assertThat(game.isTurnPiece(choPoint)).isTrue();
+            assertThat(game.isTurnPiece(hanPoint)).isFalse();
+        }
+
+        @Test
+        @DisplayName("CHO 턴일때 같은 진영 기물인지 확인한다.")
+        void isHanPiece() {
+            Point choPoint = new Point(3, 0);
+            Point hanPoint = new Point(6, 0);
+            BoardSetUp choBoardSetUp = side -> Map.of(choPoint, new Soldier(side));
+            BoardSetUp handBoardSetUp = side -> Map.of(hanPoint, new Soldier(side));
+            Game game = Game.createGame(choBoardSetUp, handBoardSetUp);
+
+            game.switchTurn();
+
+            assertThat(game.isTurnPiece(choPoint)).isFalse();
+            assertThat(game.isTurnPiece(hanPoint)).isTrue();
+        }
     }
 }

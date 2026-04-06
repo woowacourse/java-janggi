@@ -23,15 +23,14 @@ public class Game {
     private Integer id;
     private Side turn;
 
-
-    protected Game(Rules rules, Board board) {
+    public Game(Rules rules, Board board, Side turn) {
         this.rules = rules;
         this.board = board;
-        turn = INIT_TURN;
+        this.turn = turn;
     }
 
     public static Game createGame(BoardSetUp choBoardSetUp, BoardSetUp hanBoardSetUp) {
-        return new Game(Rules.createWithDefaultRules(), Board.setUp(choBoardSetUp, hanBoardSetUp));
+        return new Game(Rules.createWithDefaultRules(), Board.setUp(choBoardSetUp, hanBoardSetUp), INIT_TURN);
     }
 
     public Side getTurn() {
@@ -68,7 +67,7 @@ public class Game {
         return board.getPieces();
     }
 
-    private void switchTurn() {
+    protected void switchTurn() {
         if (turn == Side.HAN) {
             turn = Side.CHO;
             return;
