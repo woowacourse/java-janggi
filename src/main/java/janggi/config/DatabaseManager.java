@@ -43,10 +43,8 @@ public class DatabaseManager {
 
         try (Connection connection = getConnection();
              Statement statement = connection.createStatement()) {
-
             statement.execute(gameTableSql);
             statement.execute(pieceTableSql);
-
         } catch (SQLException e) {
             throw new RuntimeException("DB 초기화 실패", e);
         }

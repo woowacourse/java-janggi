@@ -25,4 +25,23 @@ public record BoardDto(
         return new BoardDto(pieces);
     }
 
+    public boolean has(int row, int column) {
+        Position from = Position.from(row, column);
+        PositionDto positionDto = PositionDto.from(from);
+
+        return pieces.stream()
+                .anyMatch(piece -> piece.position().equals(positionDto));
+    }
+
+    public String get(int row, int column) {
+        Position from = Position.from(row, column);
+        PositionDto positionDto = PositionDto.from(from);
+
+        return pieces.stream()
+                .filter(piece -> piece.position().equals(positionDto))
+                .map(PieceDto::nameWithColor)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("해당 위치에 기물이 없습니다."));
+    }
+
 }
