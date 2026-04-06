@@ -2,7 +2,6 @@ package janggi.domain.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.movestrategy.ChariotStrategy;
 import janggi.domain.piece.ChariotPiece;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Team;
@@ -20,10 +19,10 @@ class BoardTest {
     @BeforeEach
     void setUp() {
         Map<Position, Piece> boards = new LinkedHashMap<>();
-        boards.put(new Position(1, 1), new ChariotPiece(Team.HAN, new ChariotStrategy()));
-        boards.put(new Position(9, 1), new ChariotPiece(Team.HAN, new ChariotStrategy()));
-        boards.put(new Position(1, 10), new ChariotPiece(Team.CHO, new ChariotStrategy()));
-        boards.put(new Position(9, 10), new ChariotPiece(Team.CHO, new ChariotStrategy()));
+        boards.put(new Position(1, 1), new ChariotPiece(Team.HAN));
+        boards.put(new Position(9, 1), new ChariotPiece(Team.HAN));
+        boards.put(new Position(1, 10), new ChariotPiece(Team.CHO));
+        boards.put(new Position(9, 10), new ChariotPiece(Team.CHO));
         board = new Board(boards);
     }
 

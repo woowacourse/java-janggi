@@ -24,7 +24,7 @@ class HorsePieceTest {
             "5, 4, 4, 6", "5, 4, 6, 6",
     })
     void testMovableHorse(int preX, int preY, int nextX, int nextY) {
-        HorsePiece horsePiece = new HorsePiece(Team.HAN, new HorseStrategy());
+        HorsePiece horsePiece = new HorsePiece(Team.HAN);
         assertThat(horsePiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
     }
 
@@ -38,7 +38,7 @@ class HorsePieceTest {
             "5, 4, 4, 7", "5, 4, 6, 5",
     })
     void testNotMovableHorse(int preX, int preY, int nextX, int nextY) {
-        HorsePiece horsePiece = new HorsePiece(Team.HAN, new HorseStrategy());
+        HorsePiece horsePiece = new HorsePiece(Team.HAN);
         assertThat(horsePiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
     }
 
@@ -56,7 +56,7 @@ class HorsePieceTest {
     })
     void testFindDestinationPath(int preX, int preY, int nextX, int nextY,
                                  int pathX1, int pathY1) {
-        HorsePiece horsePiece = new HorsePiece(Team.HAN, new HorseStrategy());
+        HorsePiece horsePiece = new HorsePiece(Team.HAN);
         List<Position> path = horsePiece.findPath(new Position(preX, preY), new Position(nextX, nextY));
         assertThat(path).containsExactly(new Position(pathX1, pathY1), new Position(nextX, nextY));
     }
@@ -66,9 +66,9 @@ class HorsePieceTest {
     void testMoveOtherPiecesInPath() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        positionPieces.put(new Position(5, 5), new ElephantPiece(Team.HAN, new ElephantStrategy()));
+        positionPieces.put(new Position(5, 5), new ElephantPiece(Team.HAN));
 
-        HorsePiece horsePiece = new HorsePiece(Team.HAN, new HorseStrategy());
+        HorsePiece horsePiece = new HorsePiece(Team.HAN);
         assertThat(horsePiece.canMoveBySpecialMovingRule(positionPieces, new Position(6, 6))).isFalse();
     }
 
@@ -77,9 +77,9 @@ class HorsePieceTest {
     void testNotMoveIfSameTeamPieceInDestination() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        positionPieces.put(new Position(5, 6), new ElephantPiece(Team.HAN, new ElephantStrategy()));
+        positionPieces.put(new Position(5, 6), new ElephantPiece(Team.HAN));
 
-        HorsePiece horsePiece = new HorsePiece(Team.HAN, new HorseStrategy());
+        HorsePiece horsePiece = new HorsePiece(Team.HAN);
         assertThat(horsePiece.canMoveBySpecialMovingRule(positionPieces, new Position(5, 6))).isFalse();
     }
 
@@ -88,9 +88,9 @@ class HorsePieceTest {
     void testNotMoveIfOtherTeamPieceInDestination() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        positionPieces.put(new Position(5, 6), new ElephantPiece(Team.CHO, new ElephantStrategy()));
+        positionPieces.put(new Position(5, 6), new ElephantPiece(Team.CHO));
 
-        HorsePiece horsePiece = new HorsePiece(Team.HAN, new HorseStrategy());
+        HorsePiece horsePiece = new HorsePiece(Team.HAN);
         assertThat(horsePiece.canMoveBySpecialMovingRule(positionPieces, new Position(5, 6))).isTrue();
     }
 }

@@ -24,7 +24,7 @@ class GeneralPieceTest {
             "5,2,5,1"
     })
     void testMoveGeneral(int preX, int preY, int nextX, int nextY) {
-        GeneralPiece generalPiece = new GeneralPiece(Team.HAN, new GeneralStrategy());
+        GeneralPiece generalPiece = new GeneralPiece(Team.HAN);
         assertThat(generalPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
     }
 
@@ -38,7 +38,7 @@ class GeneralPieceTest {
             "5,2,3,2"
     })
     void testNotMovableGeneral(int preX, int preY, int nextX, int nextY) {
-        GeneralPiece generalPiece = new GeneralPiece(Team.HAN, new GeneralStrategy());
+        GeneralPiece generalPiece = new GeneralPiece(Team.HAN);
         assertThat(generalPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
     }
 
@@ -51,7 +51,7 @@ class GeneralPieceTest {
             "5,2,5,1"
     })
     void testFindDestinationPath(int preX, int preY, int nextX, int nextY) {
-        GeneralPiece generalPiece = new GeneralPiece(Team.HAN, new GeneralStrategy());
+        GeneralPiece generalPiece = new GeneralPiece(Team.HAN);
         List<Position> path = generalPiece.findPath(new Position(preX, preY), new Position(nextX, nextY));
         assertThat(path).containsExactly(new Position(nextX, nextY));
     }
@@ -61,8 +61,8 @@ class GeneralPieceTest {
     void testNotMoveIfSameTeamPieceInPath() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        positionPieces.put(new Position(5, 5), new ElephantPiece(Team.HAN, new ElephantStrategy()));
-        GeneralPiece generalPiece = new GeneralPiece(Team.HAN, new GeneralStrategy());
+        positionPieces.put(new Position(5, 5), new ElephantPiece(Team.HAN));
+        GeneralPiece generalPiece = new GeneralPiece(Team.HAN);
         assertThat(generalPiece.canMoveBySpecialMovingRule(positionPieces, new Position(5, 5))).isFalse();
     }
 
@@ -71,7 +71,7 @@ class GeneralPieceTest {
     void testMoveNoPieceInPath() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        GeneralPiece generalPiece = new GeneralPiece(Team.HAN, new GeneralStrategy());
+        GeneralPiece generalPiece = new GeneralPiece(Team.HAN);
         assertThat(generalPiece.canMoveBySpecialMovingRule(positionPieces, new Position(5, 6))).isTrue();
     }
 
@@ -80,8 +80,8 @@ class GeneralPieceTest {
     void testMoveOtherTeamPieceInPath() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        positionPieces.put(new Position(5, 5), new ElephantPiece(Team.CHO, new ElephantStrategy()));
-        GeneralPiece generalPiece = new GeneralPiece(Team.HAN, new GeneralStrategy());
+        positionPieces.put(new Position(5, 5), new ElephantPiece(Team.CHO));
+        GeneralPiece generalPiece = new GeneralPiece(Team.HAN);
         assertThat(generalPiece.canMoveBySpecialMovingRule(positionPieces, new Position(5, 5))).isTrue();
     }
 }

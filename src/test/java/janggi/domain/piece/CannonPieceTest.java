@@ -27,7 +27,7 @@ class CannonPieceTest {
             "8, 3, 8, 1",
     })
     void testMoveCannon(int preX, int preY, int nextX, int nextY) {
-        CannonPiece cannonPiece = new CannonPiece(Team.HAN, new CannonStrategy());
+        CannonPiece cannonPiece = new CannonPiece(Team.HAN);
 
         assertThat(cannonPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY)))
                 .isTrue();
@@ -42,7 +42,7 @@ class CannonPieceTest {
             "8, 3, 2, 4",
     })
     void testNotMovableCannon(int preX, int preY, int nextX, int nextY) {
-        CannonPiece cannonPiece = new CannonPiece(Team.HAN, new CannonStrategy());
+        CannonPiece cannonPiece = new CannonPiece(Team.HAN);
 
         assertThat(cannonPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY)))
                 .isFalse();
@@ -61,7 +61,7 @@ class CannonPieceTest {
                                  int pathX3, int pathY3) {
         Position from = new Position(preX, preY);
         Position to = new Position(nextX, nextY);
-        CannonPiece cannonPiece = new CannonPiece(Team.HAN, new CannonStrategy());
+        CannonPiece cannonPiece = new CannonPiece(Team.HAN);
 
         List<Position> result = cannonPiece.findPath(from, to);
         assertThat(result).containsExactly(
@@ -76,11 +76,11 @@ class CannonPieceTest {
     void testNotMoveIfOtherPiecesInPath() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        positionPieces.put(new Position(4, 6), new SoldierPiece(Team.HAN, new HanSoldierStrategy()));
-        positionPieces.put(new Position(5, 6), new GeneralPiece(Team.CHO, new GeneralStrategy()));
-        positionPieces.put(new Position(6, 6), new ElephantPiece(Team.CHO, new ElephantStrategy()));
+        positionPieces.put(new Position(4, 6), new SoldierPiece(Team.HAN));
+        positionPieces.put(new Position(5, 6), new GeneralPiece(Team.CHO));
+        positionPieces.put(new Position(6, 6), new ElephantPiece(Team.CHO));
 
-        CannonPiece cannonPiece = new CannonPiece(Team.HAN, new CannonStrategy());
+        CannonPiece cannonPiece = new CannonPiece(Team.HAN);
         assertThat(cannonPiece.canMoveBySpecialMovingRule(positionPieces, new Position(6, 6))).isFalse();
     }
 
@@ -89,10 +89,10 @@ class CannonPieceTest {
     void testNotMoveIfTwoPiecesInPath() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        positionPieces.put(new Position(4, 6), new SoldierPiece(Team.HAN, new HanSoldierStrategy()));
-        positionPieces.put(new Position(5, 6), new GeneralPiece(Team.CHO, new GeneralStrategy()));
+        positionPieces.put(new Position(4, 6), new SoldierPiece(Team.HAN));
+        positionPieces.put(new Position(5, 6), new GeneralPiece(Team.CHO));
 
-        CannonPiece cannonPiece = new CannonPiece(Team.HAN, new CannonStrategy());
+        CannonPiece cannonPiece = new CannonPiece(Team.HAN);
         assertThat(cannonPiece.canMoveBySpecialMovingRule(positionPieces, new Position(6, 6))).isFalse();
     }
 
@@ -101,10 +101,10 @@ class CannonPieceTest {
     void testMoveIfNoCannonInPath() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        positionPieces.put(new Position(4, 6), new SoldierPiece(Team.HAN, new HanSoldierStrategy()));
-        positionPieces.put(new Position(7, 6), new GeneralPiece(Team.CHO, new GeneralStrategy()));
+        positionPieces.put(new Position(4, 6), new SoldierPiece(Team.HAN));
+        positionPieces.put(new Position(7, 6), new GeneralPiece(Team.CHO));
 
-        CannonPiece cannonPiece = new CannonPiece(Team.HAN, new CannonStrategy());
+        CannonPiece cannonPiece = new CannonPiece(Team.HAN);
         assertThat(cannonPiece.canMoveBySpecialMovingRule(positionPieces, new Position(7, 6))).isTrue();
     }
 
@@ -113,10 +113,10 @@ class CannonPieceTest {
     void testNotMoveIfNoCannonInPathAndSameTeamInDestination() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        positionPieces.put(new Position(4, 6), new SoldierPiece(Team.HAN, new HanSoldierStrategy()));
-        positionPieces.put(new Position(7, 6), new GeneralPiece(Team.HAN, new GeneralStrategy()));
+        positionPieces.put(new Position(4, 6), new SoldierPiece(Team.HAN));
+        positionPieces.put(new Position(7, 6), new GeneralPiece(Team.HAN));
 
-        CannonPiece cannonPiece = new CannonPiece(Team.HAN, new CannonStrategy());
+        CannonPiece cannonPiece = new CannonPiece(Team.HAN);
         assertThat(cannonPiece.canMoveBySpecialMovingRule(positionPieces, new Position(7, 6))).isFalse();
     }
 
@@ -125,9 +125,9 @@ class CannonPieceTest {
     void testMoveIfOnePieceInPathExceptCannon() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        positionPieces.put(new Position(4, 6), new SoldierPiece(Team.HAN, new HanSoldierStrategy()));
+        positionPieces.put(new Position(4, 6), new SoldierPiece(Team.HAN));
 
-        CannonPiece cannonPiece = new CannonPiece(Team.HAN, new CannonStrategy());
+        CannonPiece cannonPiece = new CannonPiece(Team.HAN);
         assertThat(cannonPiece.canMoveBySpecialMovingRule(positionPieces, new Position(7, 6))).isTrue();
     }
 
@@ -136,9 +136,9 @@ class CannonPieceTest {
     void testNotMoveIfCannonInPath() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        positionPieces.put(new Position(4, 6), new CannonPiece(Team.HAN, new CannonStrategy()));
+        positionPieces.put(new Position(4, 6), new CannonPiece(Team.HAN));
 
-        CannonPiece cannonPiece = new CannonPiece(Team.HAN, new CannonStrategy());
+        CannonPiece cannonPiece = new CannonPiece(Team.HAN);
         assertThat(cannonPiece.canMoveBySpecialMovingRule(positionPieces, new Position(7, 6))).isFalse();
     }
 
@@ -147,10 +147,10 @@ class CannonPieceTest {
     void testNotMoveIfCannonInDestination() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        positionPieces.put(new Position(7, 6), new CannonPiece(Team.CHO, new CannonStrategy()));
-        positionPieces.put(new Position(5, 6), new SoldierPiece(Team.CHO, new ChoSoldierStrategy()));
+        positionPieces.put(new Position(7, 6), new CannonPiece(Team.CHO));
+        positionPieces.put(new Position(5, 6), new SoldierPiece(Team.CHO));
 
-        CannonPiece cannonPiece = new CannonPiece(Team.HAN, new CannonStrategy());
+        CannonPiece cannonPiece = new CannonPiece(Team.HAN);
         assertThat(cannonPiece.canMoveBySpecialMovingRule(positionPieces, new Position(7, 6))).isFalse();
     }
 }

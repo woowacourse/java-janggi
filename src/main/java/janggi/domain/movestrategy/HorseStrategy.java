@@ -44,5 +44,4 @@ public class HorseStrategy implements MoveStrategy {
         }
         return path;
     }
-
 }

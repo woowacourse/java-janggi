@@ -1,13 +1,13 @@
 package janggi.domain.piece;
 
 import janggi.domain.board.Position;
-import janggi.domain.movestrategy.MoveStrategy;
+import janggi.domain.movestrategy.HorseStrategy;
 import java.util.Map;
 
 public class HorsePiece extends Piece {
 
-    public HorsePiece(Team team, MoveStrategy moveStrategy) {
-        super(team, Name.HORSE, moveStrategy);
+    public HorsePiece(Team team) {
+        super(team, Name.HORSE, new HorseStrategy());
     }
 
     @Override

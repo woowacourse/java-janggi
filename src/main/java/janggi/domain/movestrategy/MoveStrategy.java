@@ -8,4 +8,3 @@ public interface MoveStrategy {
 
     List<Position> findPath(Position from, Position to);
 }
-

@@ -1,12 +1,14 @@
 package janggi.domain.piece;
 
 import janggi.domain.board.Position;
+import janggi.domain.movestrategy.ChoSoldierStrategy;
+import janggi.domain.movestrategy.HanSoldierStrategy;
 import janggi.domain.movestrategy.MoveStrategy;
 import java.util.Map;
 
 public class SoldierPiece extends Piece {
-    public SoldierPiece(Team team, MoveStrategy moveStrategy) {
-        super(team, Name.SOLDIER, moveStrategy);
+    public SoldierPiece(Team team) {
+        super(team, Name.SOLDIER, createMoveStrategy(team));
     }
 
     @Override
@@ -18,5 +20,12 @@ public class SoldierPiece extends Piece {
             }
         }
         return true;
+    }
+
+    private static MoveStrategy createMoveStrategy(Team team) {
+        if (team == Team.HAN) {
+            return new HanSoldierStrategy();
+        }
+        return new ChoSoldierStrategy();
     }
 }

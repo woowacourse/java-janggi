@@ -23,7 +23,7 @@ class SoldierPieceTest {
             "3, 5, 3, 6"
     })
     void testMoveSoliderWhenTeamIsHAN(int preX, int preY, int nextX, int nextY) {
-        SoldierPiece soldierPiece = new SoldierPiece(Team.HAN, new HanSoldierStrategy());
+        SoldierPiece soldierPiece = new SoldierPiece(Team.HAN);
         assertThat(soldierPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
     }
 
@@ -35,7 +35,7 @@ class SoldierPieceTest {
             "3, 5, 3, 4"
     })
     void testNotMoveSoliderWhenTeamIsHAN(int preX, int preY, int nextX, int nextY) {
-        SoldierPiece soldierPiece = new SoldierPiece(Team.HAN, new HanSoldierStrategy());
+        SoldierPiece soldierPiece = new SoldierPiece(Team.HAN);
         assertThat(soldierPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
     }
 
@@ -47,7 +47,7 @@ class SoldierPieceTest {
             "3, 5, 3, 4"
     })
     void testMoveSoliderWhenTeamIsCHO(int preX, int preY, int nextX, int nextY) {
-        SoldierPiece soldierPiece = new SoldierPiece(Team.CHO, new ChoSoldierStrategy());
+        SoldierPiece soldierPiece = new SoldierPiece(Team.CHO);
         assertThat(soldierPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
     }
 
@@ -60,7 +60,7 @@ class SoldierPieceTest {
             "3, 5, 3, 6"
     })
     void testNotMoveSoliderWhenTeamIsCHO(int preX, int preY, int nextX, int nextY) {
-        SoldierPiece soldierPiece = new SoldierPiece(Team.CHO, new ChoSoldierStrategy());
+        SoldierPiece soldierPiece = new SoldierPiece(Team.CHO);
         assertThat(soldierPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
     }
 
@@ -73,8 +73,8 @@ class SoldierPieceTest {
             "3, 5, 2, 5"
     })
     void testMoveSoliderHorizontally(int preX, int preY, int nextX, int nextY) {
-        SoldierPiece soldierPiece1 = new SoldierPiece(Team.CHO, new ChoSoldierStrategy());
-        SoldierPiece soldierPiece2 = new SoldierPiece(Team.HAN, new HanSoldierStrategy());
+        SoldierPiece soldierPiece1 = new SoldierPiece(Team.CHO);
+        SoldierPiece soldierPiece2 = new SoldierPiece(Team.HAN);
         assertThat(soldierPiece1.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
         assertThat(soldierPiece2.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
     }
@@ -89,8 +89,8 @@ class SoldierPieceTest {
             "3, 5, 3, 3"
     })
     void testNotMoveSoliderTwoStepMore(int preX, int preY, int nextX, int nextY) {
-        SoldierPiece soldierPiece1 = new SoldierPiece(Team.CHO, new ChoSoldierStrategy());
-        SoldierPiece soldierPiece2 = new SoldierPiece(Team.HAN, new HanSoldierStrategy());
+        SoldierPiece soldierPiece1 = new SoldierPiece(Team.CHO);
+        SoldierPiece soldierPiece2 = new SoldierPiece(Team.HAN);
         assertThat(soldierPiece1.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
         assertThat(soldierPiece2.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
     }
@@ -100,8 +100,8 @@ class SoldierPieceTest {
     void testNotMoveIfSameTeamPieceInPath() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        positionPieces.put(new Position(5, 5), new ElephantPiece(Team.HAN, new ElephantStrategy()));
-        SoldierPiece soldierPiece = new SoldierPiece(Team.HAN, new HanSoldierStrategy());
+        positionPieces.put(new Position(5, 5), new ElephantPiece(Team.HAN));
+        SoldierPiece soldierPiece = new SoldierPiece(Team.HAN);
         assertThat(soldierPiece.canMoveBySpecialMovingRule(positionPieces, new Position(5, 5))).isFalse();
     }
 
@@ -110,7 +110,7 @@ class SoldierPieceTest {
     void testMoveNoPieceInPath() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        SoldierPiece soldierPiece = new SoldierPiece(Team.HAN, new HanSoldierStrategy());
+        SoldierPiece soldierPiece = new SoldierPiece(Team.HAN);
         assertThat(soldierPiece.canMoveBySpecialMovingRule(positionPieces, new Position(5, 5))).isTrue();
     }
 
@@ -119,8 +119,8 @@ class SoldierPieceTest {
     void testMoveOtherTeamPieceInPath() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
-        positionPieces.put(new Position(5, 5), new ElephantPiece(Team.CHO, new ElephantStrategy()));
-        SoldierPiece soldierPiece = new SoldierPiece(Team.HAN, new HanSoldierStrategy());
+        positionPieces.put(new Position(5, 5), new ElephantPiece(Team.CHO));
+        SoldierPiece soldierPiece = new SoldierPiece(Team.HAN);
         assertThat(soldierPiece.canMoveBySpecialMovingRule(positionPieces, new Position(5, 5))).isTrue();
     }
 }

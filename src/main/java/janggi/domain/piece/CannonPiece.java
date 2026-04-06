@@ -1,12 +1,12 @@
 package janggi.domain.piece;
 
+import janggi.domain.movestrategy.CannonStrategy;
 import janggi.domain.board.Position;
-import janggi.domain.movestrategy.MoveStrategy;
 import java.util.Map;
 
 public class CannonPiece extends Piece {
-    public CannonPiece(Team team, MoveStrategy moveStrategy) {
-        super(team, Name.CANNON, moveStrategy);
+    public CannonPiece(Team team) {
+        super(team, Name.CANNON, new CannonStrategy());
     }
 
     @Override

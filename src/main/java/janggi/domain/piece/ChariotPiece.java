@@ -1,12 +1,12 @@
 package janggi.domain.piece;
 
 import janggi.domain.board.Position;
-import janggi.domain.movestrategy.MoveStrategy;
+import janggi.domain.movestrategy.ChariotStrategy;
 import java.util.Map;
 
 public class ChariotPiece extends Piece {
-    public ChariotPiece(Team team, MoveStrategy moveStrategy) {
-        super(team, Name.CHARIOT, moveStrategy);
+    public ChariotPiece(Team team) {
+        super(team, Name.CHARIOT, new ChariotStrategy());
     }
 
     @Override

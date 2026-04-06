@@ -1,13 +1,13 @@
 package janggi.domain.piece;
 
 import janggi.domain.board.Position;
-import janggi.domain.movestrategy.MoveStrategy;
+import janggi.domain.movestrategy.ElephantStrategy;
 import java.util.Map;
 
 public class ElephantPiece extends Piece {
 
-    public ElephantPiece(Team team, MoveStrategy moveStrategy) {
-        super(team, Name.ELEPHANT, moveStrategy);
+    public ElephantPiece(Team team) {
+        super(team, Name.ELEPHANT, new ElephantStrategy());
     }
 
     @Override
