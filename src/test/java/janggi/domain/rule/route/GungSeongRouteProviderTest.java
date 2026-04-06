@@ -28,8 +28,10 @@ class GungSeongRouteProviderTest {
                 new Location(2, 4), // 하
                 new Location(1, 3), // 좌
                 new Location(1, 5), // 우
-                new Location(2, 5), // 우대각
-                new Location(2, 3) // 좌대각
+                new Location(0, 3), // 좌대각 전진
+                new Location(0, 5), // 우대각 전진
+                new Location(2, 3), // 좌대각 후진
+                new Location(2, 5) // 우대각 후진
         );
     }
 
