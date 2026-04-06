@@ -2,7 +2,8 @@ package controller;
 
 import domain.JanggiBoard;
 import domain.JanggiBoardInitializer;
-import domain.piece.Piece;
+import domain.piece.Blank;
+import domain.piece.MoveablePiece;
 import domain.position.Position;
 import view.InputView;
 import view.OutputView;
@@ -23,7 +24,13 @@ public class JanggiController {
                 outputView.printBoard(janggiBoard);
                 Position from = inputMovePosition();
                 Position to = inputTargetPosition();
-                Piece currentPiece = janggiBoard.getPiece(from);
+                if (janggiBoard.isBlank(from)) {
+                    throw new IllegalArgumentException("[ERROR] 해당 위치에는 기물이 존재하지 않습니다.");
+                }
+                MoveablePiece currentPiece = (MoveablePiece) janggiBoard.getPiece(from);
+                if (currentPiece.getTeam() != janggiBoard.getTurn()) {
+                    throw new IllegalArgumentException("[ERROR] 상대방의 기물을 이동할 수 없습니다.");
+                }
                 boolean movePiece = currentPiece.canMove(from, to, janggiBoard);
                 if (!movePiece) {
                     throw new IllegalArgumentException("[ERROR] 해당 위치로 이동할 수 없는 기물입니다.");
