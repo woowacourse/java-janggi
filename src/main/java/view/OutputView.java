@@ -18,11 +18,19 @@ public class OutputView {
     private static final String STATE_SEPARATOR = "  ";
     private static final String X_POSITION_START_BLANK = "   ";
 
+    private static final String PRINT_BOARD_ID = "보드 ID";
     private static final String PRINT_TURN = "%s의 차례입니다.";
     private static final String PRINT_SCORE = "%s: %.1f점";
     private static final String PRINT_END_WITH_CATCH_GENERAL = "%s가 %s의 궁을 잡아서 게임을 종료합니다.";
     private static final String PRINT_END_WITH_BOARD_REPEAT = "동일 포지션이 3번 반복되어 게임을 종료합니다.";
     private static final String PRINT_WINNER = "%s가 게임을 승리했습니다.";
+
+    public void printBoardId(List<Integer> boardIds) {
+        System.out.println(LINE_SEPARATOR + PRINT_BOARD_ID);
+        for (int id : boardIds) {
+            System.out.println(id);
+        }
+    }
 
     public void printBoard(PieceInfos pieceInfos, CountryType turn, Map<CountryType, Double> scores) {
         System.out.printf(LINE_SEPARATOR + PRINT_TURN + LINE_SEPARATOR, CountryFormatter.from(turn));

@@ -50,7 +50,7 @@ public class JanggiController {
     }
 
     private int loadBoard() {
-        JanggiService.readAllBoard();
+        outputView.printBoardId(JanggiService.readAllBoardId());
         String input = inputView.readBoardSelect();
         int boardId = InputParser.parseBoardId(input);
         JanggiService.readBoard(boardId);

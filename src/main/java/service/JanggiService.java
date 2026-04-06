@@ -31,7 +31,7 @@ public class JanggiService {
     private static final String PASSWORD = "0502";
 
     public static int insertBoard() {
-        String sql = "INSERT INTO board(turn, cho_score, han_score) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO board(`turn`, `cho_score`, `han_score`) VALUES (?, ?, ?)";
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
@@ -51,7 +51,7 @@ public class JanggiService {
     }
 
     public static void updateBoard(CountryType countryType, Map<CountryType, Double> scores, int id) {
-        String sql = "UPDATE board SET turn = ?, cho_score = ?, han_score = ? WHERE id = ?";
+        String sql = "UPDATE board SET `turn` = ?, `cho_score` = ?, `han_score` = ? WHERE `id` = ?";
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
@@ -66,65 +66,64 @@ public class JanggiService {
         }
     }
 
-    public static void readAllBoard() {
-        String sql = "SELECT * FROM board";
+    public static List<Integer> readAllBoardId() {
+        String sql = "SELECT `id` FROM board";
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(sql)) {
+            List<Integer> boardIds = new ArrayList<>();
 
             boolean isEmpty = true;
 
             while (resultSet.next()) {
                 isEmpty = false;
-                int id = resultSet.getInt("id");
-                System.out.println("board id: " + id);
+                boardIds.add(resultSet.getInt("id"));
             }
 
             if (isEmpty) {
                 throw new IllegalArgumentException("[ERROR] 저장된 보드가 없습니다.");
             }
+            return boardIds;
         } catch (SQLException e) {
             System.out.println("에러: " + e);
+            throw new IllegalStateException("[ERROR] 모든 보드를 불러오는 데 실패했습니다.");
         }
     }
 
     public static CountryType readCountryTurn(int id) {
-        String sql = "SELECT `turn` FROM board WHERE id = ?";
+        String sql = "SELECT `turn` FROM board WHERE `id` = ?";
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            if (resultSet.next()) {
-                return CountryType.valueOf(resultSet.getString("turn"));
+            if (!resultSet.next()) {
+                throw new IllegalArgumentException("[ERROR] 해당 번호의 board가 없습니다.");
             }
-            resultSet.close();
+            return CountryType.valueOf(resultSet.getString("turn"));
         } catch (SQLException e) {
-            System.out.println("에러: " + e);
+            throw new IllegalStateException("[ERROR] 진영 턴을 불러오지 못했습니다.", e);
         }
-        throw new IllegalArgumentException("[ERROR] 진영 턴을 불러오지 못했습니다.");
     }
 
     public static Board readBoard(int id) {
-        String sql = "SELECT * FROM board WHERE id = ?";
+        String sql = "SELECT * FROM board WHERE `id` = ?";
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (!resultSet.next()) {
-                throw new IllegalArgumentException("해당 번호의 board가 없습니다.");
+                throw new IllegalArgumentException("[ERROR] 해당 번호의 board가 없습니다.");
             }
             System.out.println(resultSet.getString("turn"));
-            Board board = new Board(loadBoardState(id), resultSet.getDouble("cho_score"),
+            return new Board(loadBoardState(id), resultSet.getDouble("cho_score"),
                     resultSet.getDouble("han_score"));
-            resultSet.close();
-            return board;
         } catch (SQLException e) {
             System.out.println("에러: " + e);
+            throw new IllegalStateException("[ERROR] board 불러오기에 실패했습니다.", e);
         }
-        throw new IllegalArgumentException("board 불러오기에 실패했습니다.");
     }
 
     public static void deleteBoard(int id) {
@@ -272,7 +271,7 @@ public class JanggiService {
     public static BoardSnapshots loadBoardSnapshot(int boardId) {
         BoardSnapshots boardSnapshots = new BoardSnapshots();
         List<BoardSnapshot> snapshots = new ArrayList<>();
-        String sql = "SELECT * FROM board_snapshot WHERE id = ? AND board_id = ?";
+        String sql = "SELECT * FROM board_snapshot WHERE `id` = ? AND `board_id` = ?";
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             List<Integer> ids = getBoardSnapshotIds();
@@ -309,11 +308,11 @@ public class JanggiService {
         } catch (SQLException e) {
             System.out.println("에러: " + e);
         }
-        throw new IllegalStateException("스냅샷 로드 실패");
+        throw new IllegalStateException("[ERROR] 스냅샷 로드 실패");
     }
 
     private static List<Integer> getBoardSnapshotIds() {
-        String sql = "SELECT DISTINCT id FROM board_snapshot";
+        String sql = "SELECT DISTINCT `id` FROM board_snapshot";
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -324,9 +323,8 @@ public class JanggiService {
             }
             return ids;
         } catch (SQLException e) {
-            System.out.println("에러: " + e);
+            throw new IllegalStateException("[ERROR] snapshot id를 찾는 데 실패했습니다.");
         }
-        throw new IllegalStateException("snapshot id 찾기 실패");
     }
 
     public static void deleteAllBoardSnapshotInBoard(int boardId) {
@@ -344,7 +342,7 @@ public class JanggiService {
 
     private static BoardStates loadBoardState(int boardId) {
         Map<Position, Piece> pieceInfos = new HashMap<>();
-        String sql = "SELECT * FROM board_state WHERE board_id = ?";
+        String sql = "SELECT * FROM board_state WHERE `board_id` = ?";
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, boardId);
@@ -358,10 +356,10 @@ public class JanggiService {
                 Piece piece = new Piece(new PieceInfo(PieceType.valueOf(pieceType), CountryType.valueOf(pieceCountry)));
                 pieceInfos.put(new Position(x, y), piece);
             }
+            return new BoardStates(pieceInfos);
         } catch (SQLException e) {
-            System.out.println("에러: " + e);
+            throw new IllegalStateException("[ERROR] board state를 불러오기에 실패했습니다.");
         }
-        return new BoardStates(pieceInfos);
     }
 
     public static void deleteAll() {
@@ -402,7 +400,7 @@ public class JanggiService {
 
     // 기물 초기화용
     public static void insertPieces() {
-        String sql = "INSERT INTO `piece` (type, country) VALUES (?, ?)";
+        String sql = "INSERT INTO `piece` (`type`, `country`) VALUES (?, ?)";
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             for (PieceType pieceType : PieceType.values()) {
