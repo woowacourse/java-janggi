@@ -5,11 +5,9 @@ import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.InitializeSetting;
 import domain.board.Position;
-import domain.piece.Piece;
 import domain.piece.Team;
 
-import repository.GameDao;
-import repository.PieceDao;
+import repository.GameRepository;
 import view.InputView;
 import view.OutputView;
 
@@ -20,19 +18,16 @@ import java.util.function.Supplier;
 public class Controller {
     private final InputView inputView;
     private final OutputView outputView;
-    private final GameDao gameDao;
-    private final PieceDao pieceDao;
+    private final GameRepository gameRepository;
 
-    public Controller(InputView inputView, OutputView outputView, GameDao gameDao, PieceDao pieceDao) {
+    public Controller(InputView inputView, OutputView outputView, GameRepository gameRepository) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.gameDao = gameDao;
-        this.pieceDao = pieceDao;
+        this.gameRepository = gameRepository;
     }
 
-
     public void run() {
-        String menu = retry(() -> inputView.readMainMenu());
+        String menu = retry(inputView::readMainMenu);
 
         if (menu.equals("1")) {
             startNewGame();
@@ -53,8 +48,7 @@ public class Controller {
                 outputView.printGameSaved(gameId);
                 return;
             }
-            gameDao.updateTurn(gameId, game.getTurn().name());
-            pieceDao.saveAll(gameId, game.getBoard().getPieces());
+            gameRepository.save(gameId, game);
         }
 
         outputView.printGameResult(game.getWinnerTeam());
@@ -66,15 +60,13 @@ public class Controller {
         Board board = BoardFactory.createBoard(choSetting, hanSetting);
         Game game = new Game(board);
 
-        long gameId = gameDao.save(game.getTurn().name());
-        pieceDao.saveAll(gameId, board.getPieces());
-
+        long gameId = gameRepository.create(game);
         play(game, gameId);
     }
 
 
     private void loadExistGame() {
-        Map<Long, String> savedGames = gameDao.findAll();
+        Map<Long, String> savedGames = gameRepository.findAll();
         outputView.printSavedGames(savedGames);
 
         if (savedGames.isEmpty()) {
@@ -83,14 +75,10 @@ public class Controller {
             return;
         }
 
-        long gameId = retry(() -> inputView.readGameId());
+        long gameId = retry(inputView::readGameId);
         try {
-            Map<Position, Piece> loadedPieces = pieceDao.findByGameId(gameId);
-            Team savedTurn = gameDao.findTurn(gameId);
 
-            Board board = new Board(loadedPieces);
-            Game game = new Game(board, savedTurn);
-
+            Game game = gameRepository.findById(gameId);
             outputView.printGameLoaded(gameId);
             play(game, gameId);
 
