@@ -15,8 +15,8 @@ class GeneralTest {
     @ParameterizedTest
     @CsvSource(value = {
             "5,7",
-            "4,8",
-            "6,8",
+            "4,7",
+            "6,7",
     })
     void 초_기물에서_이동할_수_없는_위치일_경우_에러를_반환한다(int column, int row) {
         Map<Coordination, Piece> board = BoardFixtureFactory.create("1", "1")
@@ -35,7 +35,8 @@ class GeneralTest {
             "5,8",
             "6,9",
             "4,9",
-            "5,10",
+            "4,8",
+            "6,8",
     })
     void 초_기물에서_이동할_수_있는_위치일_경우_에러를_반환하지_않는다(int column, int row) {
         Map<Coordination, Piece> board = BoardFixtureFactory.create("1", "1")

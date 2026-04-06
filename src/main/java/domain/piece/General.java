@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.board.Palace;
 import domain.coordination.Coordination;
 import domain.coordination.MoveDelta;
 import domain.piece.error.PieceException;
@@ -7,12 +8,9 @@ import java.util.List;
 
 public class General extends Piece {
 
-    private static final List<MoveDelta> MOVABLE_LOCATION = List.of(
-            new MoveDelta(-1, 0),
-            new MoveDelta(0, -1),
-            new MoveDelta(1, 0),
-            new MoveDelta(0, 1)
-    );
+    private static final Palace PALACE = new Palace();
+    private static final MoveDelta ONE_STEP_DIAGONAL = new MoveDelta(1, 1);
+    private static final int SCORE = 0;
 
     public General(Team team) {
         super(team);
@@ -20,12 +18,19 @@ public class General extends Piece {
 
     @Override
     public void validateRule(Coordination from, Coordination to) {
-        validateLocation(from, to);
+        if (!canMoveOneStepInPalace(from, to)) {
+            throw new PieceException(IMPOSSIBLE_MOVE);
+        }
     }
 
     @Override
     public boolean isAliveGeneral() {
         return true;
+    }
+
+    @Override
+    public int score() {
+        return SCORE;
     }
 
     @Override
@@ -40,17 +45,18 @@ public class General extends Piece {
         }
     }
 
-    private void validateLocation(Coordination from, Coordination to) {
-        MoveDelta different = MoveDelta.between(from, to);
-
-        validateLocation(different);
+    private boolean canMoveOneStepInPalace(Coordination from, Coordination to) {
+        return PALACE.isSamePalace(from, to)
+                && (isOrthogonalOneStep(from, to) || isDiagonalOneStepInPalace(from, to));
     }
 
-    private void validateLocation(MoveDelta different) {
-        boolean isMovable = MOVABLE_LOCATION.contains(different);
+    private boolean isOrthogonalOneStep(Coordination from, Coordination to) {
+        MoveDelta absolute = MoveDelta.between(from, to).absolute();
+        return absolute.deltaColumn() + absolute.deltaRow() == 1;
+    }
 
-        if (!isMovable) {
-            throw new PieceException(IMPOSSIBLE_MOVE);
-        }
+    private boolean isDiagonalOneStepInPalace(Coordination from, Coordination to) {
+        MoveDelta absolute = MoveDelta.between(from, to).absolute();
+        return ONE_STEP_DIAGONAL.equals(absolute) && PALACE.hasDiagonalRoute(from, to);
     }
 }

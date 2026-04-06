@@ -81,4 +81,38 @@ class SoldierTest {
         assertThatCode(() -> soldier.validateMovable(from, to, board))
                 .doesNotThrowAnyException();
     }
+
+    @ParameterizedTest
+    @CsvSource(value = {
+            "5,2"
+    })
+    void 적군_궁성에서는_대각선_전진이_가능하다(int column, int row) {
+        Map<Coordination, Piece> board = BoardFixtureFactory.create("1", "1")
+                .moveIgnoringValidation(Coordination.of(5, 7), Coordination.of(4, 3))
+                .map();
+
+        Soldier soldier = new Soldier(Team.CHO);
+        Coordination from = Coordination.of(4, 3);
+        Coordination to = Coordination.of(column, row);
+
+        assertThatCode(() -> soldier.validateMovable(from, to, board))
+                .doesNotThrowAnyException();
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {
+            "5,4"
+    })
+    void 적군_궁성에서도_뒤쪽_대각선으로는_이동할_수_없다(int column, int row) {
+        Map<Coordination, Piece> board = BoardFixtureFactory.create("1", "1")
+                .moveIgnoringValidation(Coordination.of(5, 7), Coordination.of(4, 3))
+                .map();
+
+        Soldier soldier = new Soldier(Team.CHO);
+        Coordination from = Coordination.of(4, 3);
+        Coordination to = Coordination.of(column, row);
+
+        assertThatThrownBy(() -> soldier.validateMovable(from, to, board))
+                .isInstanceOf(PieceException.class);
+    }
 }
