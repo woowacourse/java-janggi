@@ -7,7 +7,7 @@ import java.sql.Connection;
 import java.sql.Statement;
 import java.util.stream.Collectors;
 
-public class DatabaseInit {
+public class DatabaseInitializer {
 
     public static void initialize(Connection conn) {
         String sql = readSqlFile();
@@ -26,7 +26,7 @@ public class DatabaseInit {
     }
 
     private static String readSqlFile() {
-        try (InputStream is = DatabaseInit.class.getResourceAsStream("/schema.sql");
+        try (InputStream is = DatabaseInitializer.class.getResourceAsStream("/schema.sql");
              BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
 
             return reader.lines().collect(Collectors.joining("\n"));
