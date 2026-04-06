@@ -14,6 +14,7 @@ import view.InputView;
 import view.OutputView;
 
 import java.util.List;
+import java.util.Optional;
 
 public class JanggiController {
 
@@ -84,17 +85,17 @@ public class JanggiController {
             game.end();
         }
 
-        if (game.isCheck()) {
+        if (!game.isSafe()) {
             outputView.printCheckMessage();
         }
     }
 
     private Game loadOrInitializeGame() {
-        Game savedGame = janggiService.load(DEFAULT_GAME_ID);
+        Optional<Game> savedGame = janggiService.load(DEFAULT_GAME_ID);
 
-        if (savedGame != null && !savedGame.isFinished()) {
+        if (savedGame.isPresent() && !savedGame.get().isFinished()) {
             outputView.printLoadGameMessage();
-            return savedGame;
+            return savedGame.get();
         }
 
         return initializeGame();

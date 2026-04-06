@@ -3,6 +3,8 @@ package service;
 import domain.Game;
 import repository.GameRepository;
 
+import java.util.Optional;
+
 public class JanggiService {
 
     private final GameRepository gameRepository;
@@ -15,7 +17,8 @@ public class JanggiService {
         gameRepository.save(game);
     }
 
-    public Game load(Long gameId) {
-        return gameRepository.load(gameId);
+    public Optional<Game> load(Long gameId) {
+        Game game = gameRepository.load(gameId);
+        return Optional.ofNullable(game);
     }
 }

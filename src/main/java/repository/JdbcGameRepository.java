@@ -19,7 +19,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class JdbcGameRepository implements GameRepository{
+public class JdbcGameRepository implements GameRepository {
 
     private static final int COL_SIZE = 10;
     private static final int ROW_SIZE = 9;
