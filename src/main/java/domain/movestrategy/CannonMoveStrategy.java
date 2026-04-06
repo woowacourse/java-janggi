@@ -41,7 +41,7 @@ public class CannonMoveStrategy implements MoveStrategy {
             current = current.move(direction);
         }
 
-        if (board.isCannon(current)) {
+        if (!current.isInside() || board.isCannon(current)) {
             return Optional.empty();
         }
 
