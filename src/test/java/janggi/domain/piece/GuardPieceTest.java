@@ -21,10 +21,10 @@ class GuardPieceTest {
             "5,2,5,3",
             "5,2,5,1"
     })
-    void testMoveGeneral(int preX, int preY, int nextX, int nextY) {
-        GeneralPiece generalPiece = new GeneralPiece(Team.HAN);
+    void testMoveGuard(int preX, int preY, int nextX, int nextY) {
+        GuardPiece guardPiece = new GuardPiece(Team.HAN);
         assertThat(
-                generalPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
+                guardPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
     }
 
     @ParameterizedTest
@@ -35,10 +35,10 @@ class GuardPieceTest {
             "5,2,5,4",
             "5,2,3,2"
     })
-    void testNotMovableGeneral(int preX, int preY, int nextX, int nextY) {
-        GeneralPiece generalPiece = new GeneralPiece(Team.HAN);
+    void testNotMovableGuard(int preX, int preY, int nextX, int nextY) {
+        GuardPiece guardPiece = new GuardPiece(Team.HAN);
         assertThat(
-                generalPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
+                guardPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
     }
 
     @ParameterizedTest
@@ -50,9 +50,87 @@ class GuardPieceTest {
             "5,2,5,1"
     })
     void testFindDestinationPath(int preX, int preY, int nextX, int nextY) {
-        GeneralPiece generalPiece = new GeneralPiece(Team.HAN);
-        List<Position> path = generalPiece.findPath(new Position(preX, preY), new Position(nextX, nextY));
+        GuardPiece guardPiece = new GuardPiece(Team.HAN);
+        List<Position> path = guardPiece.findPath(new Position(preX, preY), new Position(nextX, nextY));
         assertThat(path).containsExactly(new Position(nextX, nextY));
+    }
+
+    @ParameterizedTest
+    @DisplayName("진영이 한인 사는 한 궁성 안 대각선으로 한 칸 이동할 수 있다.")
+    @CsvSource({
+            "5,2,4,1",
+            "5,2,6,1",
+            "5,2,4,3",
+            "5,2,6,3"
+    })
+    void testMoveGuardDiagonallyInHanPalace(int preX, int preY, int nextX, int nextY) {
+        GuardPiece guardPiece = new GuardPiece(Team.HAN);
+        assertThat(
+                guardPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
+    }
+
+    @ParameterizedTest
+    @DisplayName("진영이 초인 사는 초 궁성 안 대각선으로 한 칸 이동할 수 있다.")
+    @CsvSource({
+            "5,9,4,8",
+            "5,9,6,8",
+            "5,9,4,10",
+            "5,9,6,10"
+    })
+    void testMoveGuardDiagonallyInChoPalace(int preX, int preY, int nextX, int nextY) {
+        GuardPiece guardPiece = new GuardPiece(Team.CHO);
+        assertThat(
+                guardPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isTrue();
+    }
+
+    @ParameterizedTest
+    @DisplayName("진영이 한인 사는 한 궁성 밖으로 이동할 수 없다.")
+    @CsvSource({
+            "4,1,3,1",
+            "6,1,7,1",
+            "5,3,5,4"
+    })
+    void testNotMoveGuardOutsideHanPalace(int preX, int preY, int nextX, int nextY) {
+        GuardPiece guardPiece = new GuardPiece(Team.HAN);
+        assertThat(
+                guardPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
+    }
+
+    @ParameterizedTest
+    @DisplayName("진영이 초인 사는 초 궁성 밖으로 이동할 수 없다.")
+    @CsvSource({
+            "4,8,3,8",
+            "6,8,7,8",
+            "5,8,5,7"
+    })
+    void testNotMoveGuardOutsideChoPalace(int preX, int preY, int nextX, int nextY) {
+        GuardPiece guardPiece = new GuardPiece(Team.CHO);
+        assertThat(
+                guardPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
+    }
+
+    @ParameterizedTest
+    @DisplayName("진영이 한인 사는 한 궁성 안 대각선 선이 아닌 방향으로는 이동할 수 없다.")
+    @CsvSource({
+            "4,2,5,3",
+            "6,2,5,3"
+    })
+    void testNotMoveGuardDiagonallyOutsideHanPalaceLine(int preX, int preY, int nextX, int nextY) {
+        GuardPiece guardPiece = new GuardPiece(Team.HAN);
+        assertThat(
+                guardPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
+    }
+
+    @ParameterizedTest
+    @DisplayName("진영이 초인 사는 초 궁성 안 대각선 선이 아닌 방향으로는 이동할 수 없다.")
+    @CsvSource({
+            "4,9,5,10",
+            "6,9,5,10"
+    })
+    void testNotMoveGuardDiagonallyOutsideChoPalaceLine(int preX, int preY, int nextX, int nextY) {
+        GuardPiece guardPiece = new GuardPiece(Team.CHO);
+        assertThat(
+                guardPiece.canMoveByBasicMovingRule(new Position(preX, preY), new Position(nextX, nextY))).isFalse();
     }
 
     @Test
