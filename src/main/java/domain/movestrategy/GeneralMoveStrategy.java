@@ -37,7 +37,7 @@ public class GeneralMoveStrategy implements MoveStrategy {
         int upperGeneralColumn = Math.max(generalPosition.column(), anotherGeneralPosition.column());
         int row = generalPosition.row();
 
-        return IntStream.range(lowerGeneralColumn, upperGeneralColumn)
+        return IntStream.range(lowerGeneralColumn + 1, upperGeneralColumn)
                 .mapToObj(column -> Position.of(column, row))
                 .allMatch(board::isEmpty);
     }
