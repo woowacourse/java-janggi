@@ -46,47 +46,46 @@ class BoardInitializerTest {
             assertThat(board.findPiecesByTeam(TeamColor.CHO)).hasSize(16);
             assertThat(
                     board.findPiecesByTeam(TeamColor.CHO).stream()
-                            .map(entry -> entry.getValue())
+                            .map(piecePosition -> piecePosition.piece())
                             .filter(p -> p.getPieceType() == PieceType.ELEPHANT)
             ).hasSize(2);
 
             assertThat(
                     board.findPiecesByTeam(TeamColor.CHO).stream()
-                            .map(entry -> entry.getValue())
+                            .map(piecePosition -> piecePosition.piece())
                             .filter(p -> p.getPieceType() == PieceType.HORSE)
             ).hasSize(2);
 
             assertThat(
                     board.findPiecesByTeam(TeamColor.CHO).stream()
-                            .map(entry -> entry.getValue())
+                            .map(piecePosition -> piecePosition.piece())
                             .filter(p -> p.getPieceType() == PieceType.CANNON)
             ).hasSize(2);
 
             assertThat(
                     board.findPiecesByTeam(TeamColor.CHO).stream()
-                            .map(entry -> entry.getValue())
+                            .map(piecePosition -> piecePosition.piece())
                             .filter(p -> p.getPieceType() == PieceType.ROOK)
             ).hasSize(2);
 
             assertThat(
                     board.findPiecesByTeam(TeamColor.CHO).stream()
-                            .map(entry -> entry.getValue())
+                            .map(piecePosition -> piecePosition.piece())
                             .filter(p -> p.getPieceType() == PieceType.GUARD)
             ).hasSize(2);
 
             assertThat(
                     board.findPiecesByTeam(TeamColor.CHO).stream()
-                            .map(entry -> entry.getValue())
+                            .map(piecePosition -> piecePosition.piece())
                             .filter(p -> p.getPieceType() == PieceType.PAWN)
             ).hasSize(5);
 
             assertThat(
                     board.findPiecesByTeam(TeamColor.CHO).stream()
-                            .map(entry -> entry.getValue())
+                            .map(piecePosition -> piecePosition.piece())
                             .filter(p -> p.getPieceType() == PieceType.KING)
             ).hasSize(1);
         }
     }
 }
-
 

@@ -1,5 +1,6 @@
 import domain.board.Board;
 import domain.piece.Piece;
+import domain.board.PiecePosition;
 import domain.board.Position;
 import domain.board.Route;
 import domain.piece.TeamColor;
@@ -7,7 +8,6 @@ import domain.game.TurnManager;
 import io.InputView;
 import io.OutputView;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import strategy.formation.InitialFormationStrategy;
 import strategy.formation.InnerFormationStrategy;
@@ -104,7 +104,7 @@ public class GameRunner {
     }
 
     private Piece choosePiece(Board board, TeamColor currentTurn) {
-        List<Map.Entry<Position, Piece>> pieces = board.findPiecesByTeam(currentTurn);
+        List<PiecePosition> pieces = board.findPiecesByTeam(currentTurn);
         outputView.printPieceOptions(pieces);
 
         final int pieceChoice = inputView.readPieceChoice(currentTurn);
@@ -129,11 +129,11 @@ public class GameRunner {
         }
     }
 
-    private Piece getSelectedPiece(List<Map.Entry<Position, Piece>> pieces, int pieceChoice) {
+    private Piece getSelectedPiece(List<PiecePosition> pieces, int pieceChoice) {
         if (pieceChoice < FIRST_OPTION_NUMBER || pieceChoice > pieces.size()) {
             throw new IllegalArgumentException("기물 번호가 범위를 벗어났습니다.");
         }
-        return pieces.get(pieceChoice - ZERO_BASE_INDEX_OFFSET).getValue();
+        return pieces.get(pieceChoice - ZERO_BASE_INDEX_OFFSET).piece();
     }
 
     private Route getSelectedRoute(List<Route> routes, int routeChoice) {
@@ -143,5 +143,4 @@ public class GameRunner {
         return routes.get(routeChoice - ZERO_BASE_INDEX_OFFSET);
     }
 }
-
 

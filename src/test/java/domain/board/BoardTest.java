@@ -29,7 +29,7 @@ class BoardTest {
         @Test
         void 팀에_속한_기물들을_좌표순으로_조회한다() {
             assertThat(board.findPiecesByTeam(TeamColor.CHO))
-                    .extracting(entry -> entry.getKey())
+                    .extracting(piecePosition -> piecePosition.position())
                     .containsExactly(Position.of(1, 4), Position.of(3, 4));
         }
     }

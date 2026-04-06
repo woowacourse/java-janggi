@@ -37,10 +37,11 @@ public class Board {
         return Optional.ofNullable(pieces.get(position));
     }
 
-    public List<Map.Entry<Position, Piece>> findPiecesByTeam(TeamColor teamColor) {
+    public List<PiecePosition> findPiecesByTeam(TeamColor teamColor) {
         return pieces.entrySet().stream()
                 .filter(entry -> entry.getValue().getTeamColor() == teamColor)
                 .sorted((left, right) -> left.getKey().compareBoardOrder(right.getKey()))
+                .map(entry -> new PiecePosition(entry.getKey(), entry.getValue()))
                 .toList();
     }
 
@@ -73,4 +74,3 @@ public class Board {
         pieces.put(destination, piece);
     }
 }
-

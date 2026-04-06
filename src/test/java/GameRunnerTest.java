@@ -1,3 +1,4 @@
+import domain.board.PiecePosition;
 import domain.board.Position;
 import domain.board.Route;
 import domain.piece.Piece;
@@ -6,7 +7,6 @@ import domain.piece.TeamColor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
-import java.util.Map;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -29,8 +29,8 @@ class GameRunnerTest {
 
         @Test
         void 기물_번호가_범위를_벗어나면_예외가_발생한다() {
-            List<Map.Entry<Position, Piece>> pieces = List.of(
-                    Map.entry(Position.of(4, 4), Piece.of(TeamColor.CHO, PieceType.PAWN))
+            List<PiecePosition> pieces = List.of(
+                    new PiecePosition(Position.of(4, 4), Piece.of(TeamColor.CHO, PieceType.PAWN))
             );
 
             assertThatThrownBy(() -> invokePrivate("getSelectedPiece",

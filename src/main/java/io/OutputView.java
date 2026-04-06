@@ -3,6 +3,7 @@ package io;
 import domain.board.Board;
 import domain.piece.Piece;
 import domain.piece.PieceType;
+import domain.board.PiecePosition;
 import domain.board.Position;
 import domain.board.Route;
 import domain.piece.TeamColor;
@@ -54,11 +55,11 @@ public class OutputView {
         System.out.println(CURRENT_TURN_MESSAGE + teamColor.displayName());
     }
 
-    public void printPieceOptions(List<Map.Entry<Position, Piece>> pieces) {
+    public void printPieceOptions(List<PiecePosition> pieces) {
         System.out.println(PIECE_SELECTION_MESSAGE);
         for (int index = 0; index < pieces.size(); index++) {
-            final Map.Entry<Position, Piece> entry = pieces.get(index);
-            System.out.println(PIECE_OPTION_FORMAT.formatted(index + 1, formatPiece(entry.getValue()), entry.getKey()));
+            final PiecePosition piecePosition = pieces.get(index);
+            System.out.println(PIECE_OPTION_FORMAT.formatted(index + 1, formatPiece(piecePosition.piece()), piecePosition.position()));
         }
     }
 
