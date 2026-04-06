@@ -42,9 +42,9 @@ public class OutputView {
         System.out.printf("\n차례 : %s\n", countryName);
     }
 
-    public void printGameOverMessage(String countryName) {
+    public void printGameOverMessage(Country country) {
         System.out.printf("\n\n---------------------------\n");
-        System.out.printf("%s의 승리입니다. 🎉", countryName);
+        System.out.printf("%s의 승리입니다. 🎉", country.getName());
     }    
     
     public void printScore(ScoreDto scoreDto) {

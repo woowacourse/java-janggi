@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import domain.Position;
 import domain.enums.Country;
 import domain.enums.Direction;
 import domain.enums.PieceType;
-import domain.Position;
-import domain.strategy.StraightMovement;
 import domain.strategy.MoveStrategy;
+import domain.strategy.StraightMovement;
 
-public class Jang extends Piece{
+public class Jang extends Piece {
 
     public Jang(Country country) {
-        super(country,PieceType.JANG);
+        super(country, PieceType.JANG);
     }
 
     @Override
@@ -26,18 +26,10 @@ public class Jang extends Piece{
     }
 
     @Override
-    public List<Position> getAvailableRoute(Position start,Direction direction) {
+    public List<Position> getAvailableRoute(Position start, Direction direction) {
         List<Position> availableRoute = new ArrayList<>();
-        int startX = start.getX();
-        int startY = start.getY();
-
-        try {
-            int forward = getCountry().getForward();
-            int dx = direction.getDx();
-            int dy = direction.getDy();
-            availableRoute.add(Position.create(startX + dx * forward, startY + dy * forward));
-        }catch (IllegalArgumentException e){
-        }
+        Optional<Position> position = move(start, direction, getCountry());
+        position.ifPresent(availableRoute::add);
         return availableRoute;
     }
 

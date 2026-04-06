@@ -40,13 +40,13 @@ public class JanggiController {
             playTurn(janggiGame, board);
 
             if(janggiGame.isGameOver()) {
-//                outputView.printGameOverMessage();
                 break;
             }
             isGameContinue= isGameContinue();
         }
+        outputView.printScore(janggiService.buildScoreDto(janggiGame));
+        outputView.printGameOverMessage(janggiService.getFinalWinner(janggiGame));
     }
-
 
     private Board initBoard() {
         outputView.printGameStartMessage();

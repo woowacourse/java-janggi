@@ -1,12 +1,9 @@
 package service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import domain.Board;
-import domain.Record;
 import domain.enums.Country;
 import domain.JanggiGame;
 import domain.enums.MaSang;
@@ -71,5 +68,10 @@ public class JanggiService {
         double choScore = janggiGame.calculateScore(Country.CHO);
         double hanScore = janggiGame.calculateScore(Country.HAN);
         return new ScoreDto(choScore, hanScore);
+    }
+
+    public Country getFinalWinner(JanggiGame janggiGame) {
+        return janggiGame.calculateWinner();
+
     }
 }
