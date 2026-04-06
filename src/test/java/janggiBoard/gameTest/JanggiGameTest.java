@@ -22,7 +22,6 @@ public class JanggiGameTest {
         this.janggiGame = new JanggiGame(janggiBoard);
     }
 
-
     @Test
     void 게임의_처음_턴이_초인지_확인한다() {
         assertThat(janggiGame.getCurrentTeam()).isEqualTo(Team.CHO);

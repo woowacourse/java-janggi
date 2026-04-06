@@ -16,6 +16,18 @@ public class JanggiGame {
         this.gameState = GameState.CHO_TURN;
     }
 
+    public JanggiGame(JanggiBoard janggiBoard, Team team) {
+        this.janggiBoard = janggiBoard;
+        this.gameState = mapToGameState(team);
+    }
+
+    private GameState mapToGameState(Team team) {
+        if (team == Team.HAN) {
+            return GameState.HAN_TURN;
+        }
+        return GameState.CHO_TURN;
+    }
+
     public void progress(Position currentPosition, Position targetPosition) {
         validateGameState();
 
