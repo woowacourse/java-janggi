@@ -25,7 +25,7 @@ class PlayersTest {
 
         Player current = players.currentPlayer(turn.currentSide());
 
-        boolean isHanPlayer = current.map((name, side) -> side == Side.HAN);
+        boolean isHanPlayer = current.side() == Side.HAN;
         assertThat(isHanPlayer).isTrue();
     }
 
