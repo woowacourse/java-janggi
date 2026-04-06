@@ -22,7 +22,7 @@ public class TransactionUtil {
         ) {
             rollbackIfThrowException(work, connection, statement);
         } catch (SQLException e) {
-            throw new IllegalStateException(e);
+            throw new DataAccessException(e);
         }
     }
 
@@ -38,7 +38,7 @@ public class TransactionUtil {
         ) {
             return rollbackIfThrowException(work, connection, statement);
         } catch (SQLException e) {
-            throw new IllegalStateException(e);
+            throw new DataAccessException(e);
         }
     }
 
