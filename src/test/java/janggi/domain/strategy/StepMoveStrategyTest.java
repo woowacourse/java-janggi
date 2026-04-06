@@ -17,7 +17,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class StepMoveStrategyTest {
-    private final StepMoveStrategy strategy = new StepMoveStrategy();
+    private final MoveStrategy strategy = new StepMoveStrategy();
 
     @DisplayName("한 칸 이동 시 보드 범위를 벗어나는 경우, 경로를 생성하지 않는다. - findMovablePaths()")
     @Test

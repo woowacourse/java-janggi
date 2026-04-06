@@ -47,7 +47,25 @@ public enum PieceType {
     }
 
     public Paths calculatePaths(Position current, Side side) {
-        return moveStrategy.findMovablePaths(current, directionProvider.apply(side));
+        EnumSet<Direction> movableDirections = getMovableDirections(current, side);
+        return moveStrategy.findMovablePaths(current, movableDirections);
+    }
+
+    private EnumSet<Direction> getMovableDirections(Position current, Side side) {
+        EnumSet<Direction> directions = directionProvider.apply(side);
+
+        if (this == SOLDIER && current.isOpponentPalace(side)) {
+            addSoldierPalaceDiagonals(current, side, directions);
+        }
+
+        return directions;
+    }
+
+    private void addSoldierPalaceDiagonals(Position current, Side side, EnumSet<Direction> directions) {
+        current.getValidPalaceDiagonals().stream()
+                // 궁성 대각선들 중, 전진하는 방향만 추가
+                .filter(diagonal -> diagonal.isForwardFor(side))
+                .forEach(directions::add);
     }
 
     public List<Position> determineDestinations(Paths paths, Map<Position, Piece> boardState, Piece movingPiece) {

@@ -1,5 +1,6 @@
 package janggi.domain.board;
 
+import janggi.domain.game.Side;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -45,5 +46,13 @@ public enum Direction {
 
     public boolean isDiagonal() {
         return (this == NE) || (this == NW) || (this == SE) || (this == SW);
+    }
+
+    // 전진 방향
+    public boolean isForwardFor(Side side) {
+        if (side == Side.CHO) {
+            return this.row < 0; // 초: 위 (-1)
+        }
+        return this.row > 0; // 한: 아래 (+1)
     }
 }

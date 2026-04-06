@@ -123,6 +123,63 @@ class PieceTypeTest {
         assertThat(destinations).doesNotContain(new Position(3, 4));
     }
 
+    @DisplayName("졸(SOLDIER)은 상대 진영 궁성 입구에서, 대각선 전진 경로를 생성한다.")
+    @Test
+    void 졸_상대_궁성_입구_대각선_테스트() {
+        // given
+        // 초 진영의 졸이 한 진영의 궁성 입구에 위치
+        Position current = new Position(2, 5);
+        PieceType soldierType = PieceType.SOLDIER;
+
+        // when
+        Paths paths = soldierType.calculatePaths(current, Side.CHO);
+        Map<Position, Piece> boardState = new HashMap<>();
+        Piece movingPiece = createPiece(Side.CHO, PieceType.SOLDIER);
+        List<Position> destinations = soldierType.determineDestinations(paths, boardState, movingPiece);
+
+        // then
+        // 직진(1, 5), 좌(2, 4), 우(2, 6) + 대각선(1, 4)
+        assertThat(destinations).contains(new Position(1, 4));
+        assertThat(destinations).hasSize(4);
+    }
+
+    @DisplayName("졸(SOLDIER)은 상대 진영 궁성 중앙에서, 대각선 전진 경로를 생성한다.")
+    @Test
+    void 졸_상대_궁성_중앙_대각선_테스트() {
+        // given
+        // 초 진영의 졸이 한 진영의 궁성 중앙에 위치
+        Position current = new Position(1, 4);
+        PieceType soldierType = PieceType.SOLDIER;
+
+        // when
+        Paths paths = soldierType.calculatePaths(current, Side.CHO);
+        Map<Position, Piece> boardState = new HashMap<>();
+        Piece movingPiece = createPiece(Side.CHO, PieceType.SOLDIER);
+        List<Position> destinations = soldierType.determineDestinations(paths, boardState, movingPiece);
+
+        // then
+        // 직진(0, 4), 좌(1, 3), 우(1, 5) + 대각선 2방향(0, 3, 0, 5)
+        assertThat(destinations).contains(new Position(0, 3), new Position(0, 5));
+        assertThat(destinations).hasSize(5);
+    }
+
+    @DisplayName("졸(SOLDIER)은 어떠한 상황에서도 후퇴할 수 없다.")
+    @Test
+    void 졸_후퇴_불가_검증_테스트() {
+        // given
+        Position current = new Position(4, 4);
+        PieceType soldierType = PieceType.SOLDIER;
+
+        // when
+        Paths paths = soldierType.calculatePaths(current, Side.CHO);
+        Map<Position, Piece> boardState = new HashMap<>();
+        Piece movingPiece = createPiece(Side.CHO, PieceType.SOLDIER);
+        List<Position> destinations = soldierType.determineDestinations(paths, boardState, movingPiece);
+
+        // then
+        assertThat(destinations).doesNotContain(new Position(5, 4));
+    }
+
     @DisplayName("포(CANNON)는 다리가 하나 있는 경우, 그 너머로 이동할 수 있다.")
     @Test
     void 포_정상_이동_테스트() {

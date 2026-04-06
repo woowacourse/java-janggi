@@ -16,9 +16,10 @@ public class StepMoveStrategy implements MoveStrategy {
     @Override
     public Paths findMovablePaths(Position current, EnumSet<Direction> baseDirections) {
         Paths paths = new Paths();
-        for (Direction baseDirection : baseDirections) {
-            addStepPath(current, baseDirection, paths);
+        for (Direction direction : baseDirections) {
+            addStepPath(current, direction, paths);
         }
+
         return paths;
     }
 

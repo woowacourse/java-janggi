@@ -1,5 +1,6 @@
 package janggi.domain.board;
 
+import janggi.domain.game.Side;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -54,13 +55,17 @@ public record Position(int row, int column) {
     }
 
     public boolean isPalace() {
-        boolean isTopPalace = (row >= TOP_PALACE_MIN_ROW && row <= TOP_PALACE_MAX_ROW)
-                && (column >= PALACE_MIN_COLUMN && column <= PALACE_MAX_COLUMN);
+        return isWithinTopPalace() || isWithinBottomPalace();
+    }
 
-        boolean isBottomPalace = (row >= BOTTOM_PALACE_MIN_ROW && row <= BOTTOM_PALACE_MAX_ROW)
+    private boolean isWithinTopPalace() {
+        return (row >= TOP_PALACE_MIN_ROW && row <= TOP_PALACE_MAX_ROW)
                 && (column >= PALACE_MIN_COLUMN && column <= PALACE_MAX_COLUMN);
+    }
 
-        return isTopPalace || isBottomPalace;
+    private boolean isWithinBottomPalace() {
+        return (row >= BOTTOM_PALACE_MIN_ROW && row <= BOTTOM_PALACE_MAX_ROW)
+                && (column >= PALACE_MIN_COLUMN && column <= PALACE_MAX_COLUMN);
     }
 
     public boolean isPalaceCenter() {
@@ -101,5 +106,13 @@ public record Position(int row, int column) {
         }
 
         return Collections.emptyList();
+    }
+
+    // 상대 궁성인지 판단
+    public boolean isOpponentPalace(Side side) {
+        if (side == Side.CHO) {
+            return isWithinTopPalace();
+        }
+        return isWithinBottomPalace();
     }
 }
