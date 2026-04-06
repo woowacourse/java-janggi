@@ -2,9 +2,20 @@ package service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.logging.Logger;
 import repository.jdbc.JdbcConnectionGenerator;
 
 public class TransactionTemplate {
+
+    private static final Logger logger = Logger.getLogger(TransactionTemplate.class.getName());
+
+    static void log(Exception e) {
+        logger.severe(() -> String.format(
+                "%-15s | %s",
+                "[  ROLLBACK 발생  ]", e.getMessage()
+        ));
+    }
+
     private final JdbcConnectionGenerator connectionGenerator;
 
     public TransactionTemplate(JdbcConnectionGenerator connectionGenerator) {
@@ -20,6 +31,7 @@ public class TransactionTemplate {
                 return result;
             } catch (Exception e) {
                 connection.rollback();
+                log(e);
                 throw new IllegalStateException(ServiceErrorMessage.ROLL_BACK.getMessage());
             } finally {
                 connection.setAutoCommit(true);
