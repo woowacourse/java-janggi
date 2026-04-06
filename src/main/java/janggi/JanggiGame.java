@@ -33,12 +33,15 @@ public class JanggiGame {
 
     private Turn playTurn(Turn currentTurn, Board board) {
         outputView.printTurnMessage(currentTurn.getTeam());
+
         Position sourcePosition = choosePieceToMove(currentTurn, board);
         List<Position> availablePositions = board.findAvailablePositions(sourcePosition);
         outputView.printAvailablePositions(board.getBoard(), availablePositions);
+
         Position targetPosition = chooseTargetPosition(board, sourcePosition);
         Turn nextTurn = currentTurn.move(sourcePosition, targetPosition, board);
         outputView.printBoard(board.getBoard());
+
         return nextTurn;
     }
 
