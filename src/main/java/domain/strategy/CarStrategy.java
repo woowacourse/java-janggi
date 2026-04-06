@@ -31,25 +31,21 @@ public class CarStrategy implements Strategy {
 
     private List<Position> addPathCandidates(Position from, Team team, Direction direction, PieceProvider board) {
         List<Position> candidates = new ArrayList<>();
-        Position next = from;
 
-        while (true) {
-            int nextRows = next.row() + direction.getRowOffset(team);
-            int nextColumns = next.col() + direction.getColOffset(team);
+        int nextRow = from.row() + direction.getRowOffset(team);
+        int nextCol = from.col() + direction.getColOffset(team);
+        Position next = new Position(nextRow, nextCol);
 
-            Position bridge = new Position(nextRows, nextColumns);
+        while (!next.isInvalid()) {
+            candidates.add(next);
 
-            if (bridge.isInvalid()) {
+            if (!board.isBlank(next)) {
                 break;
             }
 
-            next = new Position(nextRows, nextColumns);
-            if (board.isBlank(next)) {
-                candidates.add(next);
-                continue;
-            }
-            candidates.add(next);
-            break;
+            nextRow = next.row() + direction.getRowOffset(team);
+            nextCol = next.col() + direction.getColOffset(team);
+            next = new Position(nextRow, nextCol);
         }
 
         return candidates;
