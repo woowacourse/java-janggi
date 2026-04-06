@@ -9,10 +9,8 @@ public class GuardMoveStrategy extends MoveStrategy {
 
     @Override
     public boolean canMoveTo(Position currentPosition, Position destination) {
-        if (isPalace(destination)) {
-            return createDestinations(currentPosition).contains(destination);
-        }
-        return false;
+        validatePalaceArea(destination);
+        return createDestinations(currentPosition).contains(destination);
     }
 
     @Override
@@ -20,11 +18,14 @@ public class GuardMoveStrategy extends MoveStrategy {
         return true;
     }
 
-    private boolean isPalace(Position destination) {
-        if (!palace.isPalaceRedArea(destination) && !palace.isPalaceGreenArea(destination)) {
+    private void validatePalaceArea(Position destination) {
+        if (!isPalaceArea(destination)) {
             throw new IllegalArgumentException(ERROR_GUARD_CAN_MOVE_ONLY_WITHIN_PALACE);
         }
-        return true;
+    }
+
+    private boolean isPalaceArea(Position destination) {
+        return palace.isPalaceRedArea(destination) || palace.isPalaceGreenArea(destination);
     }
 
     private List<Position> createDestinations(Position currentPosition) {
