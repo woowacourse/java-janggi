@@ -56,13 +56,14 @@ public class JanggiController {
                 outputView.printError(exception.getMessage());
             }
         }
+        game.saveWinner(currentTeam.convert());
         outputView.printWinner(currentTeam.convert());
     }
 
     private Team processTurn(List<String> positions, Team currentTeam) {
-        game.playTurn(positions, currentTeam);
+        Team nextTurn = game.playTurn(positions, currentTeam);
         outputView.printBoard(game.getBoard(), game.getScore());
-        return currentTeam.convert();
+        return nextTurn;
     }
 
     private boolean isEndCommand(List<String> positions) {

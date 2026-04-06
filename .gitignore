@@ -6,6 +6,7 @@ build/
 !**/src/test/**
 janggi.mv.db
 janggi.trace.db
+janggi.lock.db
 
 ### STS ###
 .apt_generated

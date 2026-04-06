@@ -46,12 +46,21 @@ public class JanggiGame {
         gameId = repository.createGame(board.showBoard());
     }
 
-    public void playTurn(List<String> positions, Team currentTeam) {
-        board.move(createMovement(positions), currentTeam);
+    public Team playTurn(List<String> positions, Team currentTeam) {
+        Movement movement = createMovement(positions);
+        board.move(movement, currentTeam);
+        Team nextTurn = currentTeam.convert();
+        repository.movePiece(gameId, movement.getFrom(), movement.getTo());
+        repository.updateTurn(gameId, nextTurn);
+        return nextTurn;
     }
 
     public boolean isFinished(Team currentTeam) {
         return board.isGeneralCaptured(currentTeam);
+    }
+
+    public void saveWinner(Team winner) {
+        repository.updateWinner(gameId, winner);
     }
 
     public Map<Position, Piece> getBoard() {
