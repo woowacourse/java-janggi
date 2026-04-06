@@ -37,6 +37,7 @@ public class BoardTest {
         // given
         Board board = new Board();
         Position movePiecePosition = new Position(1, 5);
+        board.place(movePiecePosition, new Piece(Team.CHO, PieceType.CHA));
         Position destinationPosition = new Position(1, 3);
 
         // when
