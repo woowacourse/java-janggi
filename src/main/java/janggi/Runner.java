@@ -142,7 +142,7 @@ public class Runner {
         List<PositionDTO> dtos = destinations.getDestinations().stream()
                 .map(PositionDTO::from)
                 .toList();
-        BoardDTO boardDTO = BoardDTO.from(gameManager.getBoard().piecePosition());
+        BoardDTO boardDTO = mapToBoardDTO(gameManager);
         outputView.printBoardStatus(boardDTO, PositionDTO.from(selected), dtos);
     }
 
