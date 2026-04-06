@@ -3,6 +3,7 @@ package janggi;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardInitializer;
 import janggi.domain.board.Position;
+import janggi.domain.game.JanggiGame;
 import janggi.dto.BoardDto;
 import janggi.dto.OpeningFormationChoices;
 import janggi.view.InputView;
@@ -26,12 +27,13 @@ public class Application {
         OpeningFormationChoices openingFormationChoices = readOpeningFormationChoiceUntilValid();
         Board board = BoardInitializer.initializeBoard(openingFormationChoices.hanChoice(),
                 openingFormationChoices.choChoice());
+        JanggiGame janggiGame = new JanggiGame(board);
 
         while (isPlaying()) {
-            outputView.printBoardMap(BoardDto.from(board));
+            outputView.printBoardMap(BoardDto.from(janggiGame.board()));
             Position startPiecePosition = readStartPositionUntilValid();
             Position endPiecePosition = readEndPositionUntilValid();
-            tryMove(board, startPiecePosition, endPiecePosition);
+            tryMove(janggiGame, startPiecePosition, endPiecePosition);
         }
     }
 
@@ -39,9 +41,9 @@ public class Application {
         return true;
     }
 
-    private void tryMove(Board board, Position from, Position to) {
+    private void tryMove(JanggiGame janggiGame, Position from, Position to) {
         try {
-            board.move(from, to);
+            janggiGame.move(from, to);
         } catch (IllegalArgumentException e) {
             outputView.printErrorMessage(e.getMessage());
         }
