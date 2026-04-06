@@ -10,6 +10,7 @@ import domain.Position;
 import domain.enums.Country;
 import domain.enums.MaSang;
 import domain.enums.PieceType;
+import domain.pieces.None;
 import service.JanggiService;
 import service.dto.PositionDto;
 import view.InputView;
@@ -42,8 +43,9 @@ public class JanggiController {
         boolean isGameContinue = true;
         while (!janggiGame.isGameOver() && isGameContinue) {
             outputView.printScore(janggiService.buildScoreDto(janggiGame));
-            outputView.printChangeTurnMessage(janggiGame.getCountry().getName());
+            outputView.printChangeTurnMessage(janggiGame.getCountry());
             playTurn(janggiGame, board);
+            outputView.printBoard(janggiService.buildBoardDto(board), janggiService.buildColorDto(board));
 
             if (janggiGame.isGameOver()) {
                 break;
@@ -111,17 +113,24 @@ public class JanggiController {
     }
 
     private void playTurn(JanggiGame janggiGame, Board board) {
-        outputView.printBoard(janggiService.buildBoardDto(board), janggiService.buildColorDto(board));
-        List<PositionDto> positionDtos = requestMovePiece(janggiGame);
-        Optional<Position> start = requestStartPiecePosition(positionDtos);
-        if (start.isEmpty()) {
-            return;
-        }
-        List<PositionDto> availableEndPositions = janggiService.buildAvailabelPositions(board, start.get());
-        outputView.printPiecePossibleEndPosition(availableEndPositions);
-        requestEndPosition(start.get(), janggiGame);
+        doRetry(() -> {
+                    outputView.printBoard(janggiService.buildBoardDto(board), janggiService.buildColorDto(board));
+                    List<PositionDto> positionDtos = requestMovePiece(janggiGame);
+                    Optional<Position> start = requestStartPiecePosition(positionDtos);
+                    if (start.isEmpty()) {
+                        throw new IllegalArgumentException("올바르지 않은 입력입니다. 번호를 다시 입력해주세요.");
+                    }
 
-        outputView.printBoard(janggiService.buildBoardDto(board), janggiService.buildColorDto(board));
+                    List<PositionDto> availableEndPositions = janggiService.buildAvailabelPositions(board, start.get());
+                    if (availableEndPositions.isEmpty()) {
+                        throw new IllegalArgumentException("이동 가능한 좌표가 없습니다.");
+                    }
+                    outputView.printPiecePossibleEndPosition(availableEndPositions);
+                    requestEndPosition(start.get(), janggiGame);
+//        outputView.printBoard(janggiService.buildBoardDto(board), janggiService.buildColorDto(board));
+            return Optional.empty();
+                }
+        );
     }
 
     private boolean isGameContinue() {

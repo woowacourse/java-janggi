@@ -51,29 +51,11 @@ public class Board {
                 return board.getOrDefault(position, None.INSTANCE);
             }
         };
-//        Piece piece=Objects.requireNonNull(board.get(start));
-//
-//        for (Direction direction : Direction.getCardinalDirections()){
-//            for(Position end : piece.getAvailableRoute(start,direction)){
-//                Piece endPiece = board.getOrDefault(end, None.INSTANCE);
-
-
-//                if (!(startPiece.canMovePosition(start, end) && startPiece.isDifferentCountry(endPiece.getCountry()))){
-////                        && startPiece.isAvailableRoute(getSameLine(start, end), endPiece.getPieceType()))) {
-//
-//                    break;
-//                }
-//                possiblePosition.add(end);
-//            }
-//        }
-        //        if (availableRoute.isEmpty()){
-//            throw new IllegalArgumentException("이동 가능한 좌표가 없습니다.");
-//        }
 
         List<Position> availablePositions = startPiece.getAvailableRoute(start,finder);
-        if (availablePositions.isEmpty()) {
-            throw new IllegalArgumentException("이동 가능한 좌표가 없습니다.");
-        }
+//        if (availablePositions.isEmpty()) {
+//            throw new IllegalArgumentException("이동 가능한 좌표가 없습니다.");
+//        }
         return availablePositions;
     }
 

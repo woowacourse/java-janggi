@@ -59,9 +59,4 @@ public class Sang extends Piece {
         }
         return availableRoute;
     }
-
-//    @Override
-//    public boolean isAvailableRoute(List<Piece> pieces, PieceType endPieceType) {
-//        return true;
-//    }
 }

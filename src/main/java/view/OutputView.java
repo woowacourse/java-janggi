@@ -37,9 +37,9 @@ public class OutputView {
         System.out.println("\n초나라가 먼저 시작합니다.");
     }
 
-    public void printChangeTurnMessage(String countryName) {
+    public void printChangeTurnMessage(Country country) {
         System.out.printf("\n\n---------------------------\n");
-        System.out.printf("\n차례 : %s\n", countryName);
+        System.out.printf("\n차례 : %s\n", country.getName());
     }
 
     public void printGameOverMessage(Country country) {

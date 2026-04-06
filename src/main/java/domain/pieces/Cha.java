@@ -47,19 +47,5 @@ public class Cha extends Piece {
         }
         return availableRoute;
     }
-
-
-//    @Override
-//    public boolean isAvailableRoute(List<Piece> pieces, PieceType endPieceType) {
-//        int count = 0;
-//        for (Piece piece : pieces) {
-//            if (piece.getPieceType() != PieceType.NONE) {
-//                count++;
-//            }
-//        }
-//        if (!endPieceType.equals(PieceType.NONE)) {
-//            count--;
-//        }
-//        return !(count >= 1);
-//    }
+    
 }

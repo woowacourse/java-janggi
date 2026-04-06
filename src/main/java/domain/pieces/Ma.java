@@ -53,9 +53,4 @@ public class Ma extends Piece {
     public void move(){
 
     }
-
-//    @Override
-//    public boolean isAvailableRoute(List<Piece> pieces, PieceType endPieceType) {
-//        return true;
-//    }
 }

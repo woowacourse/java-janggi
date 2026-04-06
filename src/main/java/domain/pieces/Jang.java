@@ -26,6 +26,10 @@ public class Jang extends Piece {
     @Override
     public List<Position> getAvailableRoute(Position start, PieceFinder finder) {
         List<Position> availableRoute = new ArrayList<>();
+        //Todo: 궁성영역이라면 대각 이동
+
+
+
         for (Direction direction : Direction.getCardinalDirections()){
             Optional<Position> position = move(start, direction);
             if (position.isEmpty()) {
@@ -40,9 +44,4 @@ public class Jang extends Piece {
         return availableRoute;
     }
 
-//
-//    @Override
-//    public boolean isAvailableRoute(List<Piece> pieces, PieceType endPieceType) {
-//        return true;
-//    }
 }

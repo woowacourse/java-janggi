@@ -26,12 +26,6 @@ public class Position {
         }
     }
 
-    private static void validateInPalace(int x, int y){
-        if (x < MIN_ROW_COL || x > MAX_ROW || y < MIN_ROW_COL || y > MAX_COL) {
-            throw new IllegalArgumentException("궁성 좌표 범위를 벗어났습니다.");
-        }
-    }
-
     public int getX() {
         return x;
     }

@@ -24,9 +24,4 @@ public class None extends Piece {
         return Collections.emptyList();
     }
 
-//
-//    @Override
-//    public boolean isAvailableRoute(List<Piece> pieces, PieceType endPieceType) {
-//        return true;
-//    }
 }

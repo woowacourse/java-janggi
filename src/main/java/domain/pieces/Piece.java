@@ -42,8 +42,6 @@ public abstract class Piece{
 
     public abstract boolean canMovePosition(Position start, Position end);
 
-//    public abstract boolean isAvailableRoute(List<Piece> pieces, PieceType endPieceType);
-
     public abstract List<Position> getAvailableRoute(Position start, PieceFinder finder);
 
     public boolean isDifferentCountry(Country endCountry) {
