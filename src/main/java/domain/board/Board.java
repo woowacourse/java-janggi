@@ -4,7 +4,6 @@ import domain.game.Team;
 import domain.piece.CannonRule;
 import domain.piece.Piece;
 import domain.position.Position;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -12,8 +11,6 @@ import java.util.Map;
 import java.util.Optional;
 
 public class Board {
-    private final List<Integer> HAN = new ArrayList<>(List.of(1, 2, 3, 4));
-    private final List<Integer> CHO = new ArrayList<>(List.of(7, 8, 9, 10));
     private final Map<Position, Piece> pieces;
 
     public Board(Map<Position, Piece> pieces) {
