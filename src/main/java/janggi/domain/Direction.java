@@ -1,14 +1,14 @@
 package janggi.domain;
 
 public enum Direction {
-    UP(0, -1),
-    DOWN(0, 1),
-    LEFT(-1, 0),
-    RIGHT(1, 0),
-    UP_LEFT(-1, -1),
-    UP_RIGHT(1, -1),
-    DOWN_LEFT(-1, 1),
-    DOWN_RIGHT(1, 1),
+    NORTH(0, -1),
+    SOUTH(0, 1),
+    WEST(-1, 0),
+    EAST(1, 0),
+    NORTH_WEST(-1, -1),
+    NORTH_EAST(1, -1),
+    SOUTH_WEST(-1, 1),
+    SOUTH_EAST(1, 1),
     ;
 
     private final int x;

@@ -10,10 +10,10 @@ public class ChaMoveRule implements MoveRule {
 
     @Override
     public List<Route> findRoutes(Team team) {
-        Route route1 = new Route(List.of(Direction.UP));
-        Route route2 = new Route(List.of(Direction.RIGHT));
-        Route route3 = new Route(List.of(Direction.DOWN));
-        Route route4 = new Route(List.of(Direction.LEFT));
+        Route route1 = new Route(List.of(Direction.NORTH));
+        Route route2 = new Route(List.of(Direction.EAST));
+        Route route3 = new Route(List.of(Direction.SOUTH));
+        Route route4 = new Route(List.of(Direction.WEST));
         return List.of(route1, route2, route3, route4);
     }
 }

@@ -3,7 +3,6 @@ package janggi.domain.moveRules;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.Direction;
-import janggi.domain.MoveRule;
 import janggi.domain.Route;
 import janggi.domain.Team;
 import java.util.List;
@@ -18,14 +17,14 @@ public class KingMoveRuleTest {
         //given
         MoveRule moveRule = new KingMoveRule();
         Team team = Team.CHO;
-        Route route1 = new Route(List.of(Direction.UP));
-        Route route2 = new Route(List.of(Direction.RIGHT));
-        Route route3 = new Route(List.of(Direction.DOWN));
-        Route route4 = new Route(List.of(Direction.LEFT));
-        Route route5 = new Route(List.of(Direction.UP_LEFT));
-        Route route6 = new Route(List.of(Direction.UP_RIGHT));
-        Route route7 = new Route(List.of(Direction.DOWN_LEFT));
-        Route route8 = new Route(List.of(Direction.DOWN_RIGHT));
+        Route route1 = new Route(List.of(Direction.NORTH));
+        Route route2 = new Route(List.of(Direction.EAST));
+        Route route3 = new Route(List.of(Direction.SOUTH));
+        Route route4 = new Route(List.of(Direction.WEST));
+        Route route5 = new Route(List.of(Direction.NORTH_WEST));
+        Route route6 = new Route(List.of(Direction.NORTH_EAST));
+        Route route7 = new Route(List.of(Direction.SOUTH_WEST));
+        Route route8 = new Route(List.of(Direction.SOUTH_EAST));
         List<Route> routes = List.of(route1, route2, route3, route4, route5, route6, route7, route8);
 
         //when

@@ -3,7 +3,6 @@ package janggi.domain.moveRules;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.Direction;
-import janggi.domain.MoveRule;
 import janggi.domain.Route;
 import janggi.domain.Team;
 import java.util.List;
@@ -18,11 +17,11 @@ public class ZolMoveRuleTest {
         //given
         MoveRule moveRule = new ZolMoveRule();
         Team cho = Team.CHO;
-        Route route1 = new Route(List.of(Direction.UP));
-        Route route2 = new Route(List.of(Direction.LEFT));
-        Route route3 = new Route(List.of(Direction.RIGHT));
+        Route route1 = new Route(List.of(Direction.NORTH));
+        Route route2 = new Route(List.of(Direction.WEST));
+        Route route3 = new Route(List.of(Direction.EAST));
 
-        List<Route> routes = List.of(route1,route2,route3);
+        List<Route> routes = List.of(route1, route2, route3);
 
         //when
         List<Route> zolPaths = moveRule.findRoutes(cho);
@@ -37,11 +36,11 @@ public class ZolMoveRuleTest {
         //given
         MoveRule moveRule = new ZolMoveRule();
         Team han = Team.HAN;
-        Route route1 = new Route(List.of(Direction.DOWN));
-        Route route2 = new Route(List.of(Direction.LEFT));
-        Route route3 = new Route(List.of(Direction.RIGHT));
+        Route route1 = new Route(List.of(Direction.SOUTH));
+        Route route2 = new Route(List.of(Direction.WEST));
+        Route route3 = new Route(List.of(Direction.EAST));
 
-        List<Route> routes = List.of(route1,route2,route3);
+        List<Route> routes = List.of(route1, route2, route3);
 
         //when
         List<Route> zolPaths = moveRule.findRoutes(han);

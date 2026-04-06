@@ -3,7 +3,6 @@ package janggi.domain.moveRules;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.Direction;
-import janggi.domain.MoveRule;
 import janggi.domain.Route;
 import janggi.domain.Team;
 import java.util.List;
@@ -18,10 +17,10 @@ class ChaMoveRuleTest {
         //given
         MoveRule moveRule = new ChaMoveRule();
         Team team = Team.CHO;
-        Route route1 = new Route(List.of(Direction.UP));
-        Route route2 = new Route(List.of(Direction.RIGHT));
-        Route route3 = new Route(List.of(Direction.DOWN));
-        Route route4 = new Route(List.of(Direction.LEFT));
+        Route route1 = new Route(List.of(Direction.NORTH));
+        Route route2 = new Route(List.of(Direction.EAST));
+        Route route3 = new Route(List.of(Direction.SOUTH));
+        Route route4 = new Route(List.of(Direction.WEST));
         List<Route> routes = List.of(route1, route2, route3, route4);
 
         //when
