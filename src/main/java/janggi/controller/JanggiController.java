@@ -15,6 +15,7 @@ public class JanggiController {
     private static final long NEW_GAME_ID = 0;
 
     private final JanggiService janggiService;
+    private boolean isExit = false;
 
     public JanggiController(JanggiService janggiService) {
         this.janggiService = janggiService;
@@ -22,17 +23,8 @@ public class JanggiController {
 
     public void run() {
         long gameId = initializeGame();
-
-        while (!janggiService.isFinished()) {
-            playJanggi();
-
-            boolean isSave = RetryExecutor.retry(InputView::askSaveGame);
-            if (isSave) {
-                gameId = saveGame(gameId);
-                if (InputView.askExitAfterSave()) {
-                    break;
-                }
-            }
+        while (isGameContinue()) {
+            gameId = executeTurn(gameId);
         }
     }
 
@@ -40,21 +32,43 @@ public class JanggiController {
         List<Long> savedGameIds = janggiService.getSavedGameIds();
 
         if (savedGameIds.isEmpty()) {
-            System.out.println("저장된 게임이 없습니다. 새로운 게임을 시작합니다.");
-            janggiService.startNewGame(new Board(new BasicPlacementStrategy()));
-            return NEW_GAME_ID;
+            return startAutoNewGame();
         }
 
+        return selectGameOrNew(savedGameIds);
+    }
+
+    private long startAutoNewGame() {
+        OutputView.printEmptySavedGame();
+        Board basicInitBoard = new Board(new BasicPlacementStrategy());
+        janggiService.startNewGame(basicInitBoard);
+        return NEW_GAME_ID;
+    }
+
+    private long selectGameOrNew(List<Long> savedGameIds) {
         OutputView.printSavedGames(savedGameIds);
         long selectedId = RetryExecutor.retry(InputView::askLoadGameId);
+        return setupGameBySelection(selectedId);
+    }
 
+    private long setupGameBySelection(long selectedId) {
         if (selectedId == NEW_GAME_ID) {
-            janggiService.startNewGame(new Board(new BasicPlacementStrategy()));
+            Board basicInitBoard = new Board(new BasicPlacementStrategy());
+            janggiService.startNewGame(basicInitBoard);
             return NEW_GAME_ID;
         }
 
         janggiService.startLoadGame(selectedId);
         return selectedId;
+    }
+
+    private boolean isGameContinue() {
+        return !isExit && !janggiService.isFinished();
+    }
+
+    private long executeTurn(long gameId) {
+        playJanggi();
+        return processSave(gameId);
     }
 
     private void playJanggi() {
@@ -76,24 +90,32 @@ public class JanggiController {
         OutputView.printBoard(capturedBoard, currentTurn, currentTurnScore);
     }
 
+    private long processSave(long gameId) {
+        boolean isSave = RetryExecutor.retry(InputView::askSaveGame);
+        if (isSave) {
+            gameId = saveGame(gameId);
+            isExit = RetryExecutor.retry(InputView::askExitAfterSave);
+        }
+        return gameId;
+    }
+
     private long saveGame(long currentGameId) {
         try {
-            long targetId = currentGameId;
-            if (currentGameId != 0) {
-                if (!RetryExecutor.retry(InputView::askOverwrite)) {
-                    targetId = getUniqueNewGameId();
-                }
-            } else {
-                targetId = getUniqueNewGameId();
-            }
-
+            long targetId = determineTargetId(currentGameId);
             janggiService.saveGame(targetId);
-            System.out.println(targetId + " 게임이 성공적으로 저장되었습니다.");
+            OutputView.printSaveSuccess(targetId);
             return targetId;
         } catch (Exception e) {
             OutputView.printErrorMessage("저장 실패: " + e.getMessage());
             return currentGameId;
         }
+    }
+
+    private long determineTargetId(long currentGameId) {
+        if (currentGameId != NEW_GAME_ID && RetryExecutor.retry(InputView::askOverwrite)) {
+            return currentGameId;
+        }
+        return getUniqueNewGameId();
     }
 
     private long getUniqueNewGameId() {
