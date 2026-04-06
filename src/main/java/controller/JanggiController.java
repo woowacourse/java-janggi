@@ -6,6 +6,7 @@ import domain.board.Board;
 import domain.board.Country;
 import domain.board.Position;
 import domain.board.TableSetting;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import service.GameService;
@@ -67,12 +68,13 @@ public class JanggiController {
             outputView.printCurrentScores(board.calculateScore());
             outputView.printBoard(board.getPieceInfos());
 
-            List<Position> positions = movePiece(board, country);
+            List<Position> positions = new ArrayList<>();
+            boolean isGeneralCaught = movePiece(board, country, positions);
             Position from = positions.get(0);
             Position to = positions.get(1);
             gameService.updateBoard(gameId, from, to, board.getPieceInfos());
 
-            if (board.isGeneralCaught(to)) {
+            if (isGeneralCaught) {
                 outputView.printWinner(CountryFormatter.from(country), CountryFormatter.from(otherSide));
                 return;
             }
@@ -92,7 +94,7 @@ public class JanggiController {
         }
     }
 
-    private List<Position> movePiece(Board board, Country country) {
+    private boolean movePiece(Board board, Country country, List<Position> positions) {
         while (true) {
             try {
                 Position from = makeFromPosition();
@@ -101,8 +103,10 @@ public class JanggiController {
                 Position to = makeToPosition();
                 from.validatePositions(to);
 
-                board.move(from, to);
-                return List.of(from, to);
+                boolean isGeneralCaught = board.move(from, to);
+                positions.add(from);
+                positions.add(to);
+                return isGeneralCaught;
             } catch (IllegalArgumentException exception) {
                 outputView.printErrorMessage(exception.getMessage());
             }

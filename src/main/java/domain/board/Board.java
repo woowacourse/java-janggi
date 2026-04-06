@@ -77,7 +77,7 @@ public class Board {
         return board.get(position).isEmpty();
     }
 
-    public boolean isGeneralCaught(Position to) {
+    private boolean isGeneralCaught(Position to) {
         return !isEmpty(to) && board.get(to).getPiece().getPieceType() == PieceType.GENERAL;
     }
 
