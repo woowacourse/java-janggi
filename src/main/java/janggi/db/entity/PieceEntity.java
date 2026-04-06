@@ -18,14 +18,6 @@ public class PieceEntity {
         this.positionY = positionY;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public Long getGameId() {
-        return gameId;
-    }
-
     public String getPieceType() {
         return pieceType;
     }

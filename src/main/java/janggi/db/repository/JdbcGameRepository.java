@@ -1,0 +1,101 @@
+package janggi.db.repository;
+
+import janggi.db.dao.GameDao;
+import janggi.db.dao.PieceDao;
+import janggi.db.entity.GameEntity;
+import janggi.db.entity.PieceEntity;
+import janggi.domain.board.Board;
+import janggi.domain.board.MoveResult;
+import janggi.domain.board.Position;
+import janggi.domain.game.JanggiGame;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceFactory;
+import janggi.domain.piece.PieceType;
+import janggi.domain.piece.Team;
+
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+public class JdbcGameRepository implements GameRepository {
+
+    private final GameDao gameDao;
+    private final PieceDao pieceDao;
+
+    public JdbcGameRepository(GameDao gameDao, PieceDao pieceDao) {
+        this.gameDao = gameDao;
+        this.pieceDao = pieceDao;
+    }
+
+    @Override
+    public Long save(JanggiGame game) {
+        Long gameId = gameDao.save(game.getTurnName());
+        saveAllPieces(gameId, game.getBoard());
+
+        return gameId;
+    }
+
+    private void saveAllPieces(Long gameId, Board board) {
+        Map<Position, Piece> boardPieces = board.getBoard();
+        List<PieceEntity> pieceEntities = boardPieces.entrySet().stream()
+                .map(entry -> new PieceEntity(
+                        null,
+                        gameId,
+                        entry.getValue().getPieceTypeName(),
+                        entry.getValue().getTeamName(),
+                        entry.getKey().getX(),
+                        entry.getKey().getY()
+                ))
+                .toList();
+        pieceDao.saveAll(gameId, pieceEntities);
+    }
+
+    @Override
+    public void updateGame(Long gameId, JanggiGame game, MoveResult result) {
+        gameDao.updateTurn(gameId, game.getTurnName());
+        if (result.isCaptured()) {
+            pieceDao.deleteByPosition(gameId, result.getTo().getX(), result.getTo().getY());
+        }
+        pieceDao.updatePosition(gameId,
+                result.getFrom().getX(), result.getFrom().getY(),
+                result.getTo().getX(), result.getTo().getY());
+    }
+
+    @Override
+    public JanggiGame load(Long gameId) {
+        GameEntity gameEntity = gameDao.findLatest()
+                .orElseThrow(() -> new IllegalArgumentException("진행 중인 게임이 없습니다."));
+
+        List<PieceEntity> pieceEntities = pieceDao.findByGameId(gameEntity.getId());
+
+        Map<Position, Piece> pieces = new LinkedHashMap<>();
+        for (PieceEntity entity : pieceEntities) {
+            Position position = new Position(entity.getPositionX(), entity.getPositionY());
+            PieceType pieceType = PieceType.valueOf(entity.getPieceType());
+            Team team = Team.valueOf(entity.getTeam());
+            Piece piece = PieceFactory.create(pieceType, team);
+            pieces.put(position, piece);
+        }
+
+        Board board = new Board(pieces);
+        Team turnTeam = Team.valueOf(gameEntity.getTurn());
+        return new JanggiGame(board, turnTeam);
+    }
+
+    @Override
+    public boolean hasOngoingGame() {
+        return gameDao.findLatest().isPresent();
+    }
+
+    @Override
+    public Long getLatestGameId() {
+        return gameDao.findLatest()
+                .orElseThrow(() -> new IllegalArgumentException("진행 중인 게임이 없습니다."))
+                .getId();
+    }
+
+    @Override
+    public void delete(Long gameId) {
+        gameDao.deleteById(gameId);
+    }
+}

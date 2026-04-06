@@ -59,4 +59,8 @@ public class Piece {
     public Score getScore() {
         return pieceType.getScore();
     }
+
+    public String getPieceTypeName() {
+        return pieceType.name();
+    }
 }

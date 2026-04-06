@@ -28,8 +28,7 @@ public class PieceFactory {
                 List.of(new StraightForwardMoveRule(),
                         new PalaceDiagonalForwardMoveRule(List.of(
                                 PalaceFactory.createPalace(Team.HAN),
-                                PalaceFactory.createPalace(Team.CHO)
-                        )))));
+                                PalaceFactory.createPalace(Team.CHO))))));
     }
 
     public static Piece createCannon(Team team) {
@@ -37,8 +36,7 @@ public class PieceFactory {
                 List.of(new StraightForwardMoveRule(),
                         new PalaceDiagonalForwardMoveRule(List.of(
                                 PalaceFactory.createPalace(Team.HAN),
-                                PalaceFactory.createPalace(Team.CHO)
-                        )))));
+                                PalaceFactory.createPalace(Team.CHO))))));
     }
 
     public static Piece createHorse(Team team) {
@@ -52,8 +50,31 @@ public class PieceFactory {
     public static Piece createSolider(Team team, BoardDirection direction) {
         return new Piece(PieceType.SOLDIER, team, new SoliderStrategy(
                 List.of(new DirectionalOneStepMoveRule(direction),
-                        new PalaceDiagonalDirectionalOneStepMoveRule(PalaceFactory.createPalace(team), direction)
-                )));
+                        new PalaceDiagonalDirectionalOneStepMoveRule(PalaceFactory.createPalace(team), direction))));
     }
 
+    public static Piece create(PieceType pieceType, Team team) {
+        if (pieceType == PieceType.GENERAL) {
+            return createGeneral(team);
+        }
+        if (pieceType == PieceType.GUARD) {
+            return createGuard(team);
+        }
+        if (pieceType == PieceType.CHARIOT) {
+            return createChariot(team);
+        }
+        if (pieceType == PieceType.CANNON) {
+            return createCannon(team);
+        }
+        if (pieceType == PieceType.HORSE) {
+            return createHorse(team);
+        }
+        if (pieceType == PieceType.ELEPHANT) {
+            return createElephant(team);
+        }
+        if (pieceType == PieceType.SOLDIER) {
+            return createSolider(team, BoardDirection.of(team));
+        }
+        throw new IllegalArgumentException("알 수 없는 기물 타입입니다: " + pieceType);
+    }
 }
