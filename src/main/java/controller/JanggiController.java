@@ -4,16 +4,13 @@ import domain.Game;
 import domain.board.BasicBoardInitializer;
 import domain.state.Side;
 import domain.board.formation.InitialFormationType;
-import domain.coordinate.Position;
 import mapper.BoardMapper;
-import mapper.PossibleMovesMapper;
 import mapper.ScoreMapper;
 import service.JanggiService;
 import view.InputHandler;
 import view.InputView;
 import view.OutputView;
 
-import java.util.List;
 import java.util.Optional;
 
 public class JanggiController {
