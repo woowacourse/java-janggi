@@ -20,6 +20,14 @@ public class Palace {
         return positions.contains(position);
     }
 
+    public boolean isDiagonalConnection(Position departure, Position destination) {
+        if (!isConnected(departure, destination)) {
+            return false;
+        }
+        return Math.abs(departure.row() - destination.row()) == 1
+                && Math.abs(departure.column() - destination.column()) == 1;
+    }
+
     public boolean isConnected(Position departure, Position destination) {
         return connections.getOrDefault(departure, Set.of()).contains(destination);
     }

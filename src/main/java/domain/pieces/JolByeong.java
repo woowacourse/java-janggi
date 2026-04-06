@@ -1,16 +1,18 @@
 package domain.pieces;
 
-import domain.pieces.exception.InvalidMoveException;
-import domain.pieces.exception.PieceErrorMessage;
+import domain.board.Palace;
 import domain.movepolicy.destination.BasicDestinationRule;
 import domain.movepolicy.destination.DestinationRule;
 import domain.movepolicy.path.EmptyPathRule;
 import domain.movepolicy.path.PathRule;
+import domain.pieces.exception.InvalidMoveException;
+import domain.pieces.exception.PieceErrorMessage;
 import domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
 
 public class JolByeong extends FullPiece {
+    private static final Palace PALACE = new Palace();
 
     public JolByeong(Side side) {
         super(side);
@@ -20,9 +22,23 @@ public class JolByeong extends FullPiece {
     protected void validateDestination(Position departure, Position destination) {
         List<Position> movableDestinations = movableDestinations(departure);
 
-        if (!movableDestinations.contains(destination)) {
-            throw new InvalidMoveException(PieceErrorMessage.JOL_BYEONG_INVALID_MOVE);
+        if (movableDestinations.contains(destination)) {
+            return;
         }
+        if (canMovePalaceDiagonal(departure, destination)) {
+            return;
+        }
+        throw new InvalidMoveException(PieceErrorMessage.JOL_BYEONG_INVALID_MOVE);
+    }
+
+    private boolean canMovePalaceDiagonal(Position departure, Position destination) {
+        if (!PALACE.isDiagonalConnection(departure, destination)) {
+            return false;
+        }
+        if (isCho()) {
+            return destination.row() > departure.row();
+        }
+        return destination.row() < departure.row();
     }
 
     private List<Position> movableDestinations(Position departure) {
