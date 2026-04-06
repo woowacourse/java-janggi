@@ -15,9 +15,8 @@ import position.Position;
 
 public record Board(Map<Position, Piece> pieces) {
 
-    @Override
-    public Map<Position, Piece> pieces() {
-        return Map.copyOf(pieces);
+    public Board {
+        pieces = Map.copyOf(pieces);
     }
 
     public Score calculateScoreOf(Side side) {

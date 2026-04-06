@@ -2,6 +2,7 @@ package board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,19 @@ import pieces.Side;
 import position.Position;
 
 class BoardTest {
+
+    @Test
+    void 기물_정보는_내부에서_방어적_복사로_초기화한다() {
+        // given
+        Piece piece = new Piece(Side.HAN, PieceType.CHA);
+        Position departure = new Position(1, 1);
+        Map<Position, Piece> pieces = new HashMap<>();
+        Board board = new Board(pieces);
+        // when
+        pieces.put(departure, piece);
+        // then
+        assertThat(board.pieces()).hasSize(0);
+    }
 
     @Test
     void 기물의_위치를_이동시키면_기존_위치에는_기물이_존재하지_않는다() {
