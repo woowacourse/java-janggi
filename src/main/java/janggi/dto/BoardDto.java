@@ -12,7 +12,7 @@ public record BoardDto(Map<Position, PieceDto> pieceMap) {
         final Map<Position, Piece> positionPieceMap = board.getPositionPieceMap();
         final Map<Position, PieceDto> pieceDtoMap = new LinkedHashMap<>();
         positionPieceMap.forEach((position, piece) ->
-                pieceDtoMap.put(position, new PieceDto(piece.getPieceTypeForDTO(), piece.getTeamTypeForDTO())));
+                pieceDtoMap.put(position, new PieceDto(piece.pieceType(), piece.teamType())));
         return new BoardDto(Map.copyOf(pieceDtoMap));
     }
 }

@@ -27,12 +27,12 @@ public abstract class AbstractPiece implements Piece {
     }
 
     @Override
-    public final TeamType getTeamTypeForDTO() {
+    public final TeamType teamType() {
         return this.teamType;
     }
 
     @Override
-    public final PieceType getPieceTypeForDTO() {
+    public final PieceType pieceType() {
         return getPieceType();
     }
 }

@@ -18,7 +18,7 @@ public interface Piece {
         return false;
     }
 
-    TeamType getTeamTypeForDTO();
+    TeamType teamType();
 
-    PieceType getPieceTypeForDTO();
+    PieceType pieceType();
 }
