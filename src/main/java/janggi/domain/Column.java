@@ -4,7 +4,6 @@ import janggi.exception.position.ColumnOutOfRangeException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 public class Column {
     private static final int MIN = 0;
@@ -42,9 +41,13 @@ public class Column {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
+        if (this == o) {
+            return true;
+        }
 
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         Column column = (Column) o;
         return this.value == column.value;

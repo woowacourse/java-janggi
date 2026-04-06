@@ -16,8 +16,8 @@ class RowTest {
         Row row1 = Row.of(0);
         Row row2 = Row.of(8);
 
-        Assertions.assertThat(row1.getRow()).isEqualTo(0);
-        Assertions.assertThat(row2.getRow()).isEqualTo(8);
+        Assertions.assertThat(row1.getValue()).isEqualTo(0);
+        Assertions.assertThat(row2.getValue()).isEqualTo(8);
     }
 
     @Test
