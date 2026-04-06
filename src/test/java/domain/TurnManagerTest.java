@@ -30,4 +30,14 @@ public class TurnManagerTest {
             assertThat(turnManager.getCurrentTurn()).isEqualTo(TeamColor.HAN);
         }
     }
+
+    @Nested
+    class 복원 {
+        @Test
+        public void 시작_팀을_주입하면_그_팀이_현재_턴이다() {
+            TurnManager restored = new TurnManager(TeamColor.HAN);
+
+            assertThat(restored.getCurrentTurn()).isEqualTo(TeamColor.HAN);
+        }
+    }
 }
