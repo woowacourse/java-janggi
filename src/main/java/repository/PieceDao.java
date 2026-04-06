@@ -22,7 +22,11 @@ public class PieceDao {
                         camp varchar(20) not null,
                         piece_type varchar(20) not null,
                         position_x int not null,
-                        position_y int not null
+                        position_y int not null,
+                        primary key (game_id, position_x, position_y),
+                        constraint fk_piece_game
+                            foreign key (game_id) references game(id)
+                            on delete cascade
                     )
                     """);
         }
