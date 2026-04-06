@@ -19,6 +19,12 @@ public class OutputView {
         System.out.println("장기 게임을 시작합니다.");
     }
 
+    public void printResumePrompt() {
+        System.out.println("저장된 게임이 있습니다.");
+        System.out.println("1. 이어하기");
+        System.out.println("2. 새 게임");
+    }
+
     public void printFormationSelectionPrompt(TeamColor teamColor) {
         System.out.println(teamColor.getDisplayName() + " 상차림을 선택하세요.");
         System.out.println("1. 안상차림");
