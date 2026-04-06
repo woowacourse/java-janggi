@@ -1,10 +1,14 @@
 package domain.piece;
 
+import domain.board.Palace;
 import domain.coordination.Coordination;
 import domain.piece.error.PieceException;
 import java.util.List;
 
 public class Chariot extends Piece {
+
+    private static final Palace PALACE = new Palace();
+    private static final int SCORE = 13;
 
     public Chariot(Team team) {
         super(team);
@@ -16,14 +20,24 @@ public class Chariot extends Piece {
     }
 
     private void validateLocation(Coordination from, Coordination to) {
-        boolean movable = from.isSameRowDifferentColumn(to) || from.isSameColumnDifferentRow(to);
+        boolean movable = from.isSameRowDifferentColumn(to)
+                || from.isSameColumnDifferentRow(to)
+                || PALACE.hasDiagonalRoute(from, to);
         if (!movable) {
             throw new PieceException(IMPOSSIBLE_MOVE);
         }
     }
 
     @Override
+    public int score() {
+        return SCORE;
+    }
+
+    @Override
     public List<Coordination> resolvePath(Coordination from, Coordination to) {
+        if (PALACE.hasDiagonalRoute(from, to)) {
+            return PALACE.diagonalPath(from, to);
+        }
         if (from.isSameColumnDifferentRow(to)) {
             return from.betweenRowCoordination(to);
         }
