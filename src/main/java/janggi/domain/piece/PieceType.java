@@ -19,7 +19,7 @@ import java.util.function.Function;
 
 public enum PieceType {
 
-    PALACE(side -> eightDirections(), new PalaceMoveStrategy()),
+    GENERAL(side -> eightDirections(), new PalaceMoveStrategy()),
     GUARD(side -> eightDirections(), new PalaceMoveStrategy()),
     CHARIOT(side -> fourDirections(), new SlideMoveStrategy()),
     CANNON(side -> fourDirections(), new CannonMoveStrategy()),

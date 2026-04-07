@@ -286,11 +286,11 @@ class PieceTypeTest {
     void 궁_정상_이동_테스트() {
         // given
         Position current = new Position(1, 4);
-        PieceType palaceType = PieceType.PALACE;
+        PieceType palaceType = PieceType.GENERAL;
         Paths paths = palaceType.calculatePaths(current, Side.HAN);
 
         Map<Position, Piece> boardState = new HashMap<>();
-        Piece movingPiece = createPiece(Side.HAN, PieceType.PALACE);
+        Piece movingPiece = createPiece(Side.HAN, PieceType.GENERAL);
 
         // when
         List<Position> destinations = palaceType.determineDestinations(paths, boardState, movingPiece);
@@ -309,14 +309,14 @@ class PieceTypeTest {
     void 궁_아군_차단_검증_테스트() {
         // given
         Position current = new Position(1, 4);
-        PieceType palaceType = PieceType.PALACE;
+        PieceType palaceType = PieceType.GENERAL;
         Paths paths = palaceType.calculatePaths(current, Side.HAN);
 
         // 북쪽(0, 4)에 아군(사) 배치
         Map<Position, Piece> boardState = new HashMap<>();
         boardState.put(new Position(0, 4), createPiece(Side.HAN, PieceType.GUARD));
 
-        Piece movingPiece = createPiece(Side.HAN, PieceType.PALACE);
+        Piece movingPiece = createPiece(Side.HAN, PieceType.GENERAL);
 
         // when
         List<Position> destinations = palaceType.determineDestinations(paths, boardState, movingPiece);

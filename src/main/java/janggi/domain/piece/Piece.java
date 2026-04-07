@@ -37,7 +37,7 @@ public class Piece {
     }
 
     public boolean isGeneral() {
-        return this.pieceType == PieceType.PALACE;
+        return this.pieceType == PieceType.GENERAL;
     }
 
     public boolean isEmpty() {

@@ -19,7 +19,7 @@ public class PieceLabelFormatter {
     }
 
     private static String getPieceName(PieceDTO pieceDTO) {
-        if (pieceDTO.pieceType() == PieceType.PALACE) {
+        if (pieceDTO.pieceType() == PieceType.GENERAL) {
             return toPalaceName(pieceDTO.side());
         }
 

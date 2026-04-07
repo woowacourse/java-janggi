@@ -90,7 +90,7 @@ public class Board {
     }
 
     private static void initPalaceAndCannons(Map<Position, Piece> initialBoard, Side side, int palaceRow, int cannonRow) {
-        put(initialBoard, palaceRow, PALACE_COL, side, PieceType.PALACE, ID_FIRST);
+        put(initialBoard, palaceRow, PALACE_COL, side, PieceType.GENERAL, ID_FIRST);
         put(initialBoard, cannonRow, ELEPHANT_LEFT, side, PieceType.CANNON, ID_FIRST);
         put(initialBoard, cannonRow, ELEPHANT_RIGHT, side, PieceType.CANNON, ID_SECOND);
     }
