@@ -31,15 +31,13 @@ public final class InputView {
     private final Scanner scanner = new Scanner(System.in);
 
     public int readMenuCommand() {
-        System.out.print("메뉴 중 하나를 선택해 주세요: ");
-        System.out.println();
+        System.out.println("메뉴 중 하나를 선택해 주세요: ");
 
         return Integer.parseInt(readLine().trim());
     }
 
     public int readGameNumber() {
-        System.out.print("이어서 시작할 게임의 번호를 선택해 주세요: ");
-        System.out.println();
+        System.out.println("이어서 시작할 게임의 번호를 선택해 주세요(새 게임을 시작하려면 0번): ");
 
         return Integer.parseInt(readLine().trim());
     }

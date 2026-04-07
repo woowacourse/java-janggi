@@ -32,7 +32,10 @@ public final class JanggiGameRepository {
 
     public JanggiGameRepository(DataSource dataSource) throws IOException {
         this.dataSource = dataSource;
+        executeDDL(dataSource);
+    }
 
+    private void executeDDL(DataSource dataSource) throws IOException {
         String[] queries = Files.readString(SCHEMA_PATH)
                 .trim()
                 .split(QUERY_DELIMITER);
@@ -42,8 +45,9 @@ public final class JanggiGameRepository {
                 Statement statement = conn.createStatement()
         ) {
             for (String query : queries) {
-                statement.execute(query);
+                statement.addBatch(query);
             }
+            statement.executeBatch();
         } catch (SQLException e) {
             throw new IllegalStateException(e);
         }
@@ -73,7 +77,7 @@ public final class JanggiGameRepository {
         }
     }
 
-    public void updateGameStatus(JanggiGame janggiGame, long gameId) {
+    public void updateGameStatus(JanggiGame janggiGame, Long gameId) {
         try (Connection conn = dataSource.getConnection()) {
             try {
                 conn.setAutoCommit(false);
@@ -193,7 +197,6 @@ public final class JanggiGameRepository {
                 + "INSERT INTO piece (game_id, position_row, position_file, piece_type, side) "
                 + "VALUES (?, ?, ?, ?, ?)";
 
-        // 기존 거 삭제
         try (PreparedStatement pstmt = conn.prepareStatement(sqlForDelete)) {
             pstmt.setLong(1, gameId);
             pstmt.executeUpdate();
@@ -201,12 +204,11 @@ public final class JanggiGameRepository {
             throw new IllegalStateException(e);
         }
 
-        // 새 거 주입
         try (PreparedStatement pstmt = conn.prepareStatement(sqlForUpdate)) {
-            Map<Intersection, Piece> map = janggiGame.toMap();
+            Map<Intersection, Piece> piecesByIntersection = janggiGame.toMap();
 
             pstmt.setLong(1, gameId);
-            for (Entry<Intersection, Piece> entry : map.entrySet()) {
+            for (Entry<Intersection, Piece> entry : piecesByIntersection.entrySet()) {
                 Intersection intersection = entry.getKey();
                 Piece piece = entry.getValue();
 
@@ -245,6 +247,23 @@ public final class JanggiGameRepository {
             }
 
             return pieces;
+        } catch (SQLException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
+    public void clear() {
+        final String DELETE_FORMAT = "DELETE FROM %s";
+        final List<String> tables = List.of("piece", "game");
+
+        try (
+                Connection connection = dataSource.getConnection();
+                Statement stmt = connection.createStatement()
+        ) {
+            for (String table : tables) {
+                stmt.addBatch(DELETE_FORMAT.formatted(table));
+            }
+            stmt.executeBatch();
         } catch (SQLException e) {
             throw new IllegalStateException(e);
         }

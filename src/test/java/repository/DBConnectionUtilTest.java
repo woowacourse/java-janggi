@@ -7,6 +7,7 @@ import javax.sql.DataSource;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("DB 연결 테스트")
 class DBConnectionUtilTest {
 
     @DisplayName("커넥션을 정상적으로 생성한다")

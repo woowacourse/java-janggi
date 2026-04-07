@@ -34,13 +34,20 @@ public final class OutputView {
         System.out.println();
     }
 
+    public void printWelcomeMessage() {
+        System.out.println("안녕하세요. 루드비코의 장기 마을입니다!" + System.lineSeparator());
+    }
+
+    public void printExitMessage() {
+        System.out.println("--- 프로그램을 종료합니다. ---" + System.lineSeparator());
+    }
+
     public void printGameMenu() {
         final List<String> menuItems = List.of(
                 "1. 새 게임",
                 "2. 이전 게임 조회(이어하기/결과 확인)"
         );
 
-        System.out.println("안녕하세요. 루드비코의 장기 마을입니다!" + System.lineSeparator());
         System.out.println("선택 가능한 메뉴는 다음과 같습니다.");
         menuItems.forEach(System.out::println);
         System.out.println();
@@ -54,12 +61,10 @@ public final class OutputView {
         }
 
         System.out.println("------------- 저장된 게임 목록 -------------");
-        System.out.printf("%-3s %-20s %-5s", "번호", "시작 일시", "차례");
-        System.out.println();
-        gameSummaries.forEach(summary -> {
-            System.out.printf("%-3d %-20s %-5s", summary.id(), summary.startedAt(), summary.currentTurn());
-            System.out.println();
-        });
+        System.out.printf("%-5s %-15s %-5s %n", "[ID]", "[STARTED_AT]", "[CURRENT_TURN]");
+        gameSummaries.forEach(summary ->
+                System.out.printf(" %-5d %-15s %-5s %n", summary.id(), summary.startedAt(), summary.currentTurn())
+        );
         System.out.println("----------------------------------------");
     }
 
@@ -81,7 +86,7 @@ public final class OutputView {
     }
 
     public void printGameFinishedByCommand() {
-        System.out.println("--- 게임을 종료합니다---");
+        System.out.println("--- 게임을 종료합니다 ---" + System.lineSeparator());
     }
 
     public void printWinner(GameResult gameResult) {
