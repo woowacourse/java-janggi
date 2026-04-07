@@ -88,10 +88,16 @@ public final class JanggiController {
         List<Long> selectableNumbers = new ArrayList<>(gameNumbers);
         selectableNumbers.add(0L);
 
-        if (!gameSummaries.isEmpty()) {
-            LoadCommand loadCommand = LoadCommand.from(inputView.readGameNumber());
-            // TODO: 없는 게임 번호 입력하면 재시도 받아야 됨
-            dispatchLoadCommand(loadCommand, selectableNumbers);
+        while (true) {
+            try {
+                LoadCommand loadCommand = LoadCommand.from(inputView.readGameNumber());
+                dispatchLoadCommand(loadCommand, selectableNumbers);
+                return;
+            } catch (NumberFormatException e) {
+                outputView.printError("숫자만 입력할 수 있습니다.");
+            } catch (IllegalArgumentException e) {
+                outputView.printError(e.getMessage());
+            }
         }
     }
 
