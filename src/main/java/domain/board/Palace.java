@@ -8,15 +8,30 @@ public class Palace {
     private static final int HAN_PALACE_MIN_ROW = 7;
     private static final int HAN_PALACE_MAX_ROW = 9;
 
-    public static boolean isPalace(Position position) {
-        return isChoPalace(position) || isHanPalace(position);
+    private static final Position HAN_PALACE_CENTER_POSITION = new Position(4, 8);
+    private static final Position CHO_PALACE_CENTER_POSITION = new Position(4, 1);
+
+    public static boolean isPalaceCenter(Position position) {
+        return isChoPalaceCenter(position) || isHanPalaceCenter(position);
     }
 
-    public static boolean isChoPalace(Position position) {
+    public static boolean isChoPalaceCenter(Position position) {
+        return position.equals(CHO_PALACE_CENTER_POSITION);
+    }
+
+    public static boolean isHanPalaceCenter(Position position) {
+        return position.equals(HAN_PALACE_CENTER_POSITION);
+    }
+
+    public static boolean isInPalace(Position position) {
+        return isInChoPalace(position) || isInHanPalace(position);
+    }
+
+    public static boolean isInChoPalace(Position position) {
         return isPalaceColumn(position.column()) && isChoPalaceRow(position.row());
     }
 
-    public static boolean isHanPalace(Position position) {
+    public static boolean isInHanPalace(Position position) {
         return isPalaceColumn(position.column()) && isHanPalaceRow(position.row());
     }
 

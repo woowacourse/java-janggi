@@ -38,15 +38,18 @@ class PalaceTest {
 
     @Test
     void 해당_좌표가_궁성의_중앙인지_반환한다() {
-        assertThat(Palace.isPalaceCenter(hanPalacePosition)).isTrue();
-        assertThat(Palace.isPalaceCenter(choPalacePosition)).isFalse();
+        Position outPalacePosition = new Position(0, 0);
 
+        assertThat(Palace.isPalaceCenter(hanPalacePosition)).isTrue();
+        assertThat(Palace.isPalaceCenter(choPalacePosition)).isTrue();
+        assertThat(Palace.isPalaceCenter(outPalacePosition)).isFalse();
     }
 
     @Test
     void 해당_좌표가_초의_궁성의_중앙인지_반환한다() {
-        assertThat(Palace.isChoPalaceCenter(hanPalacePosition)).isTrue();
-        assertThat(Palace.isChoPalaceCenter(choPalacePosition)).isFalse();
+
+        assertThat(Palace.isChoPalaceCenter(choPalacePosition)).isTrue();
+        assertThat(Palace.isChoPalaceCenter(hanPalacePosition)).isFalse();
     }
 
     @Test

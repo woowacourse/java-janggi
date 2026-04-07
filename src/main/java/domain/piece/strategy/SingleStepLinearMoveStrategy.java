@@ -18,7 +18,7 @@ public abstract class SingleStepLinearMoveStrategy implements MoveStrategy {
     }
 
     private boolean isInPalace(Position departure, Position destination) {
-        return Palace.isPalace(departure) && Palace.isPalace(destination);
+        return Palace.isInPalace(departure) && Palace.isInPalace(destination);
     }
 
     protected void validateMove(Direction direction, boolean isInPalace) {

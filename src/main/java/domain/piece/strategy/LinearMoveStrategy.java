@@ -24,7 +24,7 @@ public abstract class LinearMoveStrategy implements MoveStrategy {
     }
 
     private boolean isInPalace(Position departure, Position destination) {
-        return Palace.isPalace(departure) && Palace.isPalace(destination);
+        return Palace.isInPalace(departure) && Palace.isInPalace(destination);
     }
 
     private void validateLinearMove(int deltaX, int deltaY, boolean isInPalace) {
