@@ -4,7 +4,13 @@ import janggi.model.Team;
 import janggi.model.board.Board;
 import janggi.model.position.absolute.Position;
 
-public record GameOver(Board board) implements Turn {
+public class GameOver implements Turn {
+
+    private final Board board;
+
+    public GameOver(Board board) {
+        this.board = board;
+    }
 
     @Override
     public Turn play(Position from, Position to) {
