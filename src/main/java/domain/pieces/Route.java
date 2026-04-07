@@ -18,4 +18,14 @@ public class Route {
         
         return path;
     }
+
+    public static List<Position> path(Position position, Direction direction) {
+        List<Position> path = new ArrayList<>();
+        if(position.canMove(direction)) {
+            position = position.move(direction);
+            path.add(position);
+        }
+
+        return path;
+    }
 }
