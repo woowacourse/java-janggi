@@ -20,10 +20,10 @@ public class Palace {
     public static final String INVALID_PALACE_POSITION = "해당 위치(%d,%d)는 궁성이 아닙니다.";
 
     // key: Position, value: 각 Position에서 궁성 내에서 이동할 수 있는 방향 목록
-    private static Map<Position, List<Direction>> palacePositionDirectionMap = Map.ofEntries(
+    private final static Map<Position, List<Direction>> palacePositionDirectionMap = Map.ofEntries(
             Map.entry(Position.from(1, 4), List.of(SOUTH, SOUTHEAST, EAST)),
             Map.entry(Position.from(1, 5), List.of(WEST, SOUTH, EAST)),
-            Map.entry(Position.from(1, 6), List.of(SOUTHWEST, SOUTHEAST, SOUTH)),
+            Map.entry(Position.from(1, 6), List.of(WEST, SOUTHWEST, SOUTH)),
             Map.entry(Position.from(2, 4), List.of(SOUTH, EAST, NORTH)),
             Map.entry(Position.from(2, 5), List.of(WEST, SOUTHWEST, SOUTH, SOUTHEAST, EAST, NORTHEAST, NORTH, NORTHWEST)),
             Map.entry(Position.from(2, 6), List.of(WEST, SOUTH, NORTH)),
@@ -33,7 +33,7 @@ public class Palace {
 
             Map.entry(Position.from(8, 4), List.of(SOUTH, SOUTHEAST, EAST)),
             Map.entry(Position.from(8, 5), List.of(WEST, EAST, NORTH)),
-            Map.entry(Position.from(8, 6), List.of(WEST, SOUTHWEST, NORTH)),
+            Map.entry(Position.from(8, 6), List.of(WEST, SOUTHWEST, SOUTH)),
             Map.entry(Position.from(9, 4), List.of(SOUTH, EAST, NORTH)),
             Map.entry(Position.from(9, 5), List.of(WEST, SOUTHWEST, SOUTH, SOUTHEAST, EAST, NORTHEAST, NORTH, NORTHWEST)),
             Map.entry(Position.from(9, 6), List.of(WEST, SOUTH, NORTH)),

@@ -7,8 +7,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.List;
 import java.util.stream.Stream;
 
+import static janggi.domain.position.Direction.*;
 import static janggi.domain.position.Palace.INVALID_PALACE_POSITION;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -59,6 +61,24 @@ class PalaceTest {
         assertThatThrownBy(() -> Palace.getMovableDirectionsAtPalace(notPalacePosition))
                 .isInstanceOf(DomainException.class)
                 .hasMessage(String.format(INVALID_PALACE_POSITION, notPalaceRow, notPalaceColumn));
+    }
+
+    @ParameterizedTest
+    @MethodSource("getMovableDirectionsAtPalace_success_테스트케이스")
+    @DisplayName("특정 궁성 영역에서 갈 수 있는 방향 목록을 반환한다.")
+    public void getMovableDirectionsAtPalace_success(Position position, List<Direction> expectedResult) {
+        // when
+        List<Direction> directions = Palace.getMovableDirectionsAtPalace(position);
+
+        // then
+        assertThat(directions).isEqualTo(expectedResult);
+    }
+
+    private static Stream<Arguments> getMovableDirectionsAtPalace_success_테스트케이스() {
+        return Stream.of(
+                Arguments.of(Position.from(1, 6), List.of(WEST, SOUTHWEST, SOUTH)),
+                Arguments.of(Position.from(8, 6), List.of(WEST, SOUTHWEST, SOUTH))
+        );
     }
 
 
