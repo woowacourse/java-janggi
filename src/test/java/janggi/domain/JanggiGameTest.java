@@ -27,7 +27,7 @@ class JanggiGameTest {
         board = Board.createBoardWith(
                 new Position(8, 4), new King(Team.CHO)
         );
-        janggiGame = new JanggiGame(board, scoreBoard);
+        janggiGame = new JanggiGame(board);
 
         // when, then
         assertThat(janggiGame.isFinished()).isTrue();
@@ -42,7 +42,7 @@ class JanggiGameTest {
         board = createBoardWithKings(
                 new Position(9, 0), new Soldier(Team.CHO)
         );
-        janggiGame = new JanggiGame(board, scoreBoard);
+        janggiGame = new JanggiGame(board);
 
         // when
         janggiGame.skipTurn(); // 초(CHO) 턴 쉼
@@ -60,7 +60,7 @@ class JanggiGameTest {
     void 연속_기권_아닌_경우_게임_정상_진행_테스트() {
         // given
         board = createBoardWithKings();
-        janggiGame = new JanggiGame(board, scoreBoard);
+        janggiGame = new JanggiGame(board);
 
         // when
         janggiGame.skipTurn();
@@ -74,7 +74,7 @@ class JanggiGameTest {
     @Test
     void 기권패_테스트() {
         // given
-        janggiGame = new JanggiGame(createBoardWithKings(), scoreBoard);
+        janggiGame = new JanggiGame(createBoardWithKings());
 
         // when
         janggiGame.resign();
