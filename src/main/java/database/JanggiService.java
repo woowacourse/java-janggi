@@ -48,19 +48,6 @@ public class JanggiService {
     }
 
     public JanggiBoard getExistBoard(BoardSelectCommand command) {
-        try (Connection connection = DBConnector.getConnection()) {
-
-            BoardSummaryDto boardSummaryDto = boardDao.readPlayingById(command.select());
-            List<Intersection> intersections = intersectionDao.readByBoardId(command.select());
-            Team currentTurn = Team.valueOf(boardSummaryDto.currentTurn());
-
-            return new JanggiBoard(new DBIntersectionGenerator(intersections), currentTurn);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public JanggiBoard getExistBoardV2(BoardSelectCommand command) {
         return executor.execute(()->{
             BoardSummaryDto boardSummaryDto = boardDao.readPlayingById(command.select());
             List<Intersection> intersections = intersectionDao.readByBoardId(command.select());
