@@ -9,6 +9,7 @@ import domain.rule.CheckDetector;
 import domain.rule.CheckmateDetector;
 import domain.setup.Command;
 import io.OutputView;
+import java.util.Optional;
 
 public class PlayingState implements GameState {
 
@@ -32,19 +33,26 @@ public class PlayingState implements GameState {
         Team current = game.getCurrentTeam();
         Team opponent = game.getEnemy();
 
-        if (!board.hasGeneral(opponent)) {
-            return new EndGameState(GameResult.winOf(current));
+        return checkOpponentDefeated(board, current, opponent)
+                .or(() -> checkBoardEndCondition(board))
+                .orElseGet(() -> resolveNoLegalMoves(game, board, current, opponent));
+    }
+
+    private Optional<GameState> checkOpponentDefeated(Board board, Team current, Team opponent) {
+        if (!board.hasGeneral(opponent) || checkmateDetector.isCheckmate(board, opponent)) {
+            return Optional.of(new EndGameState(GameResult.winOf(current)));
         }
-        if (checkmateDetector.isCheckmate(board, opponent)) {
-            return new EndGameState(GameResult.winOf(current));
-        }
+        return Optional.empty();
+    }
+
+    private Optional<GameState> checkBoardEndCondition(Board board) {
         if (bikjangDetector.isBikjang(board)) {
-            return new BikjangState();
+            return Optional.of(new BikjangState());
         }
         if (isBothInsufficient(board)) {
-            return endByScore(board);
+            return Optional.of(endByScore(board));
         }
-        return resolveNoLegalMoves(game, board, current, opponent);
+        return Optional.empty();
     }
 
     private GameState resolveNoLegalMoves(JanggiGame game, Board board, Team current, Team opponent) {
