@@ -6,7 +6,10 @@ import domain.piece.Side;
 import domain.players.Players;
 import domain.position.Movement;
 import dto.BoardResponseDto;
+import global.template.TransactionTemplate;
 import repository.GameRepository;
+
+import java.sql.Connection;
 
 public class JanggiService {
 
@@ -19,20 +22,25 @@ public class JanggiService {
     }
 
     public Long initialBoardState(int hanPlacementCode, int choPlacementCode) {
-        Board board = boardService.initialState(hanPlacementCode, choPlacementCode);
-        Players players = new Players();
-        JanggiGame janggiGame = new JanggiGame(board, players);
-        Long gameId = gameRepository.save(janggiGame);
-        boardService.save(gameId, janggiGame.getBoard(), janggiGame.getPlayers());
-        return gameId;
+        return TransactionTemplate.execute(connection -> {
+            Board board = boardService.initialState(hanPlacementCode, choPlacementCode);
+            Players players = new Players();
+            JanggiGame janggiGame = new JanggiGame(board, players);
+            Long gameId = gameRepository.save(connection, janggiGame);
+            boardService.save(connection, gameId, janggiGame.getBoard(), janggiGame.getPlayers());
+            return gameId;
+        });
     }
 
     public void playGame(Long gameId, Movement movement) {
-        JanggiGame janggiGame = findGameById(gameId);
-        janggiGame.playGame(movement);
-        boardService.update(gameId, janggiGame.getBoard(), janggiGame.getPlayers());
-        janggiGame.switchTurn();
-        gameRepository.update(gameId, janggiGame);
+        TransactionTemplate.execute(connection -> {
+            JanggiGame janggiGame = findGameById(gameId);
+            janggiGame.playGame(movement);
+            boardService.update(connection, gameId, janggiGame.getBoard(), janggiGame.getPlayers());
+            janggiGame.switchTurn();
+            gameRepository.update(connection, gameId, janggiGame);
+            return null;
+        });
     }
 
     public BoardResponseDto getBoardState(Long gameId) {

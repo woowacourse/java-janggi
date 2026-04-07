@@ -8,14 +8,13 @@ import java.util.Optional;
 
 public class JDBCGameRepository implements GameRepository {
     @Override
-    public Long save(JanggiGame janggiGame) {
+    public Long save(Connection connection, JanggiGame janggiGame) {
         String insertSql = """
                 INSERT INTO game (current_turn, is_finished)
                 VALUES (?, ?)
                 """;
 
-        try (Connection connection = JDBCContext.getConnection();
-             PreparedStatement insertStatement = connection.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement insertStatement = connection.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)) {
 
             insertStatement.setString(1, janggiGame.getWhoseTurn().name());
             insertStatement.setBoolean(2, janggiGame.isFinished());
@@ -36,11 +35,10 @@ public class JDBCGameRepository implements GameRepository {
     }
 
     @Override
-    public void update(Long gameId, JanggiGame janggiGame) {
+    public void update(Connection connection, Long gameId, JanggiGame janggiGame) {
         String updateSql = "UPDATE game SET current_turn = ?, is_finished = ? WHERE id = ?";
 
-        try (Connection connection = JDBCContext.getConnection();
-             PreparedStatement statement = connection.prepareStatement(updateSql)) {
+        try (PreparedStatement statement = connection.prepareStatement(updateSql)) {
 
             statement.setString(1, janggiGame.getWhoseTurn().name());
             statement.setBoolean(2, janggiGame.isFinished());

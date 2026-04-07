@@ -13,6 +13,7 @@ import dto.BoardResponseDto;
 import repository.BoardRepository;
 import repository.PlayerRepository;
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
@@ -38,14 +39,14 @@ public class BoardService {
         return board.findState();
     }
 
-    public void save(Long gameId, Board board, List<Player> players) {
-        boardRepository.save(gameId, board);
-        playerRepository.saveAll(gameId, players);
+    public void save(Connection connection, Long gameId, Board board, List<Player> players) {
+        boardRepository.save(connection, gameId, board);
+        playerRepository.saveAll(connection, gameId, players);
     }
 
-    public void update(Long gameId, Board board, List<Player> players) {
-        boardRepository.save(gameId, board);
-        playerRepository.update(gameId, players);
+    public void update(Connection connection, Long gameId, Board board, List<Player> players) {
+        boardRepository.save(connection, gameId, board);
+        playerRepository.update(connection, gameId, players);
     }
 
     public Board findBoardBy(Long gameId) {

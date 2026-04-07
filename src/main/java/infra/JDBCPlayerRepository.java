@@ -1,12 +1,8 @@
 package infra;
 
-import domain.board.Board;
-import domain.piece.Piece;
-import domain.piece.PieceType;
 import domain.piece.Side;
 import domain.players.Player;
 import domain.players.PlayerStatus;
-import domain.position.Position;
 import repository.PlayerRepository;
 
 import java.sql.*;
@@ -17,14 +13,13 @@ import java.util.Optional;
 
 public class JDBCPlayerRepository implements PlayerRepository {
     @Override
-    public void saveAll(Long gameId, List<Player> players) {
+    public void saveAll(Connection connection, Long gameId, List<Player> players) {
         String sql = """
                 INSERT INTO player (game_id, player_status, score, side)
                 VALUES (?, ?, ?, ?)
                 """;
 
-        try (Connection connection = JDBCContext.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
 
             for (Player player : players) {
                 statement.setLong(1, gameId);
@@ -42,11 +37,10 @@ public class JDBCPlayerRepository implements PlayerRepository {
     }
 
     @Override
-    public void update(Long gameId, List<Player> players) {
+    public void update(Connection connection, Long gameId, List<Player> players) {
         String sql = "UPDATE player SET score = ?, player_status = ? WHERE game_id = ? AND side = ?";
 
-        try (Connection connection = JDBCContext.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
 
             for (Player player : players) {
                 statement.setDouble(1, player.getScore());

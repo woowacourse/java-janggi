@@ -18,20 +18,20 @@ public class JDBCBoardRepository implements BoardRepository {
     }
 
     @Override
-    public void save(Long gameId, Board board) {
+    public void save(Connection connection, Long gameId, Board board) {
         String deleteSql = "DELETE FROM board WHERE game_id = ? ";
         String insertSql = """
                 INSERT INTO board (game_id, row_value, column_value, piece_type, side)
                 VALUES (?, ?, ?, ?, ?)
                 """;
 
-        try (Connection connection = JDBCContext.getConnection()) {
-
+        try (
             PreparedStatement deleteStatement = connection.prepareStatement(deleteSql);
+            PreparedStatement insertStatement = connection.prepareStatement(insertSql);
+        ) {
             deleteStatement.setLong(1, gameId);
             deleteStatement.executeUpdate();
 
-            PreparedStatement insertStatement = connection.prepareStatement(insertSql);
             Map<Position, Piece> state = board.getState();
             for (Map.Entry<Position, Piece> entry : state.entrySet()) {
                 Position position = entry.getKey();

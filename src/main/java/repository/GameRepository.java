@@ -2,12 +2,13 @@ package repository;
 
 import domain.janggigame.JanggiGame;
 
+import java.sql.Connection;
 import java.util.Optional;
 
 public interface GameRepository {
-    Long save(JanggiGame janggiGame);
+    Long save(Connection connection, JanggiGame janggiGame);
 
-    void update(Long gameId, JanggiGame janggiGame);
+    void update(Connection connection, Long gameId, JanggiGame janggiGame);
 
     boolean isFinished(Long gameId);
 
