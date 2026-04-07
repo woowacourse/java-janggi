@@ -25,6 +25,9 @@ class JdbcPieceRepositoryTest {
     @BeforeAll
     static void initTable() throws SQLException {
         try (Connection conn = DBConnectionManager.getConnection();
+             PreparedStatement dropStmt = conn.prepareStatement(
+                     "DROP TABLE IF EXISTS Piece, Game"
+             );
              PreparedStatement pstmt1 = conn.prepareStatement(
                      "CREATE TABLE IF NOT EXISTS Game (game_id INT PRIMARY KEY, state VARCHAR(50), turn VARCHAR(50), start_date DATE)"
              );
