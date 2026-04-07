@@ -3,6 +3,7 @@ package janggi.repository.game;
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 import janggi.config.DatabaseManager;
+import janggi.domain.game.GameState;
 import janggi.entity.TurnEntity;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,13 +15,14 @@ public class JdbcGameRepository implements GameRepository {
 
     @Override
     public Long save(TurnEntity turn) {
-        String gameSql = "INSERT INTO janggi_game (turn) VALUES (?)";
+        String gameSql = "INSERT INTO janggi_game (turn, state) VALUES (?, ?)";
 
         try (Connection connection = DatabaseManager.getConnection()) {
             connection.setAutoCommit(false);
 
             try (PreparedStatement gameStatement = connection.prepareStatement(gameSql, RETURN_GENERATED_KEYS)) {
                 gameStatement.setString(1, turn.currentTurn());
+                gameStatement.setString(2, GameState.PLAYING.name());
                 gameStatement.executeUpdate();
 
                 ResultSet keys = gameStatement.getGeneratedKeys();

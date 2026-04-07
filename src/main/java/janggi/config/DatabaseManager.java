@@ -20,6 +20,7 @@ public class DatabaseManager {
                 CREATE TABLE IF NOT EXISTS janggi_game (
                     id BIGINT NOT NULL AUTO_INCREMENT,
                     turn VARCHAR(8) NOT NULL,
+                    state VARCHAR(16) NOT NULL,
                 
                     PRIMARY KEY (id)
                 );
@@ -34,7 +35,10 @@ public class DatabaseManager {
                     team VARCHAR(8) NOT NULL,
                     type VARCHAR(16) NOT NULL,
                 
-                    PRIMARY KEY (id)
+                    PRIMARY KEY (id),
+                    CONSTRAINT fk_piece_game
+                        FOREIGN KEY (janggi_game_id) REFERENCES janggi_game(id)
+                        ON DELETE CASCADE
                 );
                 """;
 
