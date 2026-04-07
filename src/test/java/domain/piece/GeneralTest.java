@@ -19,9 +19,6 @@ class GeneralTest {
             "6,7",
     })
     void 초_기물에서_이동할_수_없는_위치일_경우_에러를_반환한다(int column, int row) {
-        Map<Coordination, Piece> board = BoardFixtureFactory.create("1", "1")
-                .map();
-
         General general = new General(Team.CHO);
         Coordination from = Coordination.of(5, 9);
         Coordination to = Coordination.of(column, row);
@@ -39,9 +36,6 @@ class GeneralTest {
             "6,8",
     })
     void 초_기물에서_이동할_수_있는_위치일_경우_에러를_반환하지_않는다(int column, int row) {
-        Map<Coordination, Piece> board = BoardFixtureFactory.create("1", "1")
-                .map();
-
         General general = new General(Team.CHO);
         Coordination from = Coordination.of(5, 9);
         Coordination to = Coordination.of(column, row);
@@ -61,7 +55,6 @@ class GeneralTest {
                 .map();
 
         General general = new General(Team.HAN);
-        Coordination from = Coordination.of(5, 1);
         Coordination to = Coordination.of(column, row);
 
         assertThatThrownBy(() -> general.validateNotSameTeam(board.get(to)))

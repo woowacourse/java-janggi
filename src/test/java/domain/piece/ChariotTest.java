@@ -19,9 +19,6 @@ class ChariotTest {
             "4,9"
     })
     void 출발점을_기준으로_도착점이_수직_수평_위치에_있지_않다면_에러를_반환한다(int column, int row) {
-        Map<Coordination, Piece> board = BoardFixtureFactory.create("1", "1")
-                .map();
-
         Chariot chariot = new Chariot(Team.CHO);
         Coordination from = Coordination.of(1, 10);
         Coordination to = Coordination.of(column, row);
@@ -36,9 +33,6 @@ class ChariotTest {
             "1,8"
     })
     void 출발점을_기준으로_도착점이_수직_수평_위치에_있다면_에러를_반환하지_않는다(int column, int row) {
-        Map<Coordination, Piece> board = BoardFixtureFactory.create("1", "1")
-                .map();
-
         Chariot chariot = new Chariot(Team.CHO);
         Coordination from = Coordination.of(1, 10);
         Coordination to = Coordination.of(column, row);
@@ -91,7 +85,6 @@ class ChariotTest {
                 .map();
 
         Chariot chariot = new Chariot(Team.CHO);
-        Coordination from = Coordination.of(1, 10);
         Coordination to = Coordination.of(column, row);
 
         assertThatThrownBy(() -> chariot.validateNotSameTeam(board.get(to)))

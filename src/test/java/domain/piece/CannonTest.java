@@ -20,10 +20,6 @@ class CannonTest {
             "4,6",
     })
     void 출발점을_기준으로_도착점이_수직_수평_위치에_있지_않다면_에러를_반환한다(int column, int row) {
-         Map<Coordination, Piece> board = BoardFixtureFactory.create("1", "1")
-                 .moveIgnoringValidation(Coordination.of(2,8), Coordination.of(3,8))
-                 .map();
-
         Cannon cannon = new Cannon(Team.CHO);
         Coordination from = Coordination.of(3, 8);
         Coordination to = Coordination.of(column, row);
@@ -39,11 +35,6 @@ class CannonTest {
             "4,9",
     })
     void 출발점을_기준으로_도착점이_수직_수평_위치에_있다면_에러를_반환하지_않는다(int column, int row) {
-        Map<Coordination, Piece> board = BoardFixtureFactory.create("1", "1")
-                .moveIgnoringValidation(Coordination.of(2, 8), Coordination.of(4, 7))
-                .moveIgnoringValidation(Coordination.of(3,10), Coordination.of(4,8))
-                .map();
-
         Cannon cannon = new Cannon(Team.CHO);
         Coordination from = Coordination.of(4, 7);
         Coordination to = Coordination.of(column, row);
@@ -118,7 +109,6 @@ class CannonTest {
                 .map();
 
         Cannon cannon = new Cannon(Team.CHO);
-        Coordination from = Coordination.of(2, 8);
         Coordination to = Coordination.of(column, row);
 
         assertThatThrownBy(() -> cannon.validateNotSameTeam(board.get(to)))
@@ -138,7 +128,6 @@ class CannonTest {
 
 
         Cannon cannon = new Cannon(Team.CHO);
-        Coordination from = Coordination.of(2, 8);
         Coordination to = Coordination.of(column, row);
 
         assertThatThrownBy(() -> cannon.validateNotSameTeam(board.get(to)))

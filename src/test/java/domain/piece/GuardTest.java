@@ -18,9 +18,6 @@ class GuardTest {
             "4,8",
     })
     void 초_기물에서_이동할_수_없는_위치일_경우_에러를_반환한다(int column, int row) {
-        Map<Coordination, Piece> board = BoardFixtureFactory.create("1", "1")
-                .map();
-
         Guard guard = new Guard(Team.CHO);
         Coordination from = Coordination.of(4, 10);
         Coordination to = Coordination.of(column, row);
@@ -36,10 +33,6 @@ class GuardTest {
             "5,9",
     })
     void 초_기물에서_이동할_수_있는_위치일_경우_에러를_반환하지_않는다(int column, int row) {
-        Map<Coordination, Piece> board = BoardFixtureFactory.create("1", "1")
-                .moveIgnoringValidation(Coordination.of(5, 9), Coordination.of(5, 8))
-                .map();
-
         Guard guard = new Guard(Team.CHO);
         Coordination from = Coordination.of(4, 10);
         Coordination to = Coordination.of(column, row);
@@ -59,7 +52,6 @@ class GuardTest {
                 .map();
 
         Guard guard = new Guard(Team.HAN);
-        Coordination from = Coordination.of(5, 1);
         Coordination to = Coordination.of(column, row);
 
         assertThatThrownBy(() -> guard.validateNotSameTeam(board.get(to)))

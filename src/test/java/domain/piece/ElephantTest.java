@@ -23,9 +23,6 @@ class ElephantTest {
             "4,7"
     })
     void 이동할_수_없는_위치일_경우_에러를_반환한다(int column, int row) {
-        Map<Coordination, Piece> board = BoardFixtureFactory.create("1", "1")
-                .map();
-
         Elephant elephant = new Elephant(Team.CHO);
         Coordination from = Coordination.of(3, 10);
         Coordination to = Coordination.of(column, row);
@@ -42,10 +39,6 @@ class ElephantTest {
             "6,9"
     })
     void 이동할_수_있는_위치일_경우_에러를_반환하지_않는다(int column, int row) {
-        Map<Coordination, Piece> board = BoardFixtureFactory.create("1", "1")
-                .moveIgnoringValidation(Coordination.of(3, 10), Coordination.of(4, 6))
-                .map();
-
         Elephant elephant = new Elephant(Team.CHO);
         Coordination from = Coordination.of(4, 6);
         Coordination to = Coordination.of(column, row);
@@ -102,7 +95,6 @@ class ElephantTest {
                 .map();
 
         Elephant elephant = new Elephant(Team.HAN);
-        Coordination from = Coordination.of(5, 7);
         Coordination to = Coordination.of(column, row);
 
         assertThatThrownBy(() -> elephant.validateNotSameTeam(board.get(to)))
