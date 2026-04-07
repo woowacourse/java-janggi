@@ -21,12 +21,12 @@ public class Board {
     public static final int X_SIZE = 9;
     public static final int Y_SIZE = 8;
 
+    private static final Palace palace = new Palace();
+
     private final Map<Point, Piece> board;
-    private final Palace palace;
 
     private Board(Map<Point, Piece> board) {
         this.board = board;
-        this.palace = new Palace();
     }
 
     public static Board setUp(BoardSetUp choBoardSetUp, BoardSetUp hanBoardSetUp) {
