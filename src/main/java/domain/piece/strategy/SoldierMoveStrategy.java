@@ -15,7 +15,7 @@ public class SoldierMoveStrategy extends SingleStepLinearMoveStrategy {
     }
 
     @Override
-    protected void validateDirection(Direction direction, boolean isInPalace) {
+    protected void validateMove(Direction direction, boolean isInPalace) {
         List<Direction> allowedDirections = new ArrayList<>(List.of(Direction.LEFT, Direction.RIGHT, forwardDirection));
         if (isInPalace){
             allowedDirections.add(direction);

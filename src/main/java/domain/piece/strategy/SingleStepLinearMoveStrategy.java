@@ -12,7 +12,7 @@ public abstract class SingleStepLinearMoveStrategy implements MoveStrategy {
         boolean isInPalace = isInPalace(departure, destination);
         Direction direction = decideSingleLinearDirection(departure, destination, isInPalace);
 
-        validateDirection(direction, isInPalace);
+        validateMove(direction, isInPalace);
 
         return List.of(destination);
     }
@@ -21,7 +21,7 @@ public abstract class SingleStepLinearMoveStrategy implements MoveStrategy {
         return Palace.isPalace(departure) && Palace.isPalace(destination);
     }
 
-    protected void validateDirection(Direction direction, boolean isInPalace) {
+    protected void validateMove(Direction direction, boolean isInPalace) {
     }
 
     protected Direction decideSingleLinearDirection(Position departure, Position destination, boolean isInPalace) {
