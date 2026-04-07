@@ -32,7 +32,7 @@ public class JanggiGame {
         showDoesntEndBoardList();
         BoardSelectCommand selectCommand = reader.requestBoardSelectCommand();
         JanggiBoard janggiBoard = getJanggiBoard(selectCommand);
-        startGame(janggiBoard, Team.CHO); // TODO 이 부분을 DB값과 일치하도록 or currentTeam을 Board가 가지도록.
+        startGame(janggiBoard);
         announceWinner(janggiBoard.getWinner());
     }
 
@@ -63,23 +63,22 @@ public class JanggiGame {
         return retry(() -> reader.requestFormation(team));
     }
 
-    private void startGame(JanggiBoard janggiBoard, Team startTurn) {
+    private void startGame(JanggiBoard janggiBoard) {
         printJanggiBoard(JanggiBoardDto.from(janggiBoard));
-        progressGame(janggiBoard, startTurn);
+        progressGame(janggiBoard);
     }
 
-    private void progressGame(JanggiBoard janggiBoard, Team currentTeam) {
+    private void progressGame(JanggiBoard janggiBoard) {
         while (!janggiBoard.isGameOver() || janggiBoard.hasNotEnoughPieceScore()) {
-            Moved moved = progressTurn(janggiBoard, currentTeam);
-            currentTeam = currentTeam.nextTurn();
-            janggiService.updateTurn(moved, currentTeam);
+            Moved moved = progressTurn(janggiBoard);
+            janggiService.updateTurn(moved, janggiBoard.getCurrentTurn());
         }
     }
 
-    public Moved progressTurn(JanggiBoard janggiBoard, Team currentTeam) {
+    public Moved progressTurn(JanggiBoard janggiBoard) {
         return retry(() -> {
-            MoveCommand command = requestCommand(currentTeam);
-            Moved moved = janggiBoard.tryToMove(command.start(), command.end(), currentTeam);
+            MoveCommand command = requestCommand(janggiBoard.getCurrentTurn());
+            Moved moved = janggiBoard.tryToMove(command.start(), command.end());
             printJanggiBoard(JanggiBoardDto.from(janggiBoard));
             return moved;
         });

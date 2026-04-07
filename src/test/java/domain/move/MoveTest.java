@@ -3,6 +3,7 @@ package domain.move;
 import domain.board.JanggiBoard;
 import domain.intersection.exception.IntersectionException;
 import domain.intersection.palace.NormalIntersection;
+import fixture.JanggiBoardFixture;
 import fixture.TestIntersectionGenerator;
 import domain.intersection.Intersection;
 import domain.piece.Piece;
@@ -40,7 +41,7 @@ class MoveTest {
         JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(origin, destination)));
 
         // when
-        janggiBoard.tryToMove(start, end, currentTurn);
+        janggiBoard.tryToMove(start, end);
         Intersection actualOrigin = janggiBoard.findIntersection(start);
         Intersection actualDestination = janggiBoard.findIntersection(end);
 
@@ -67,13 +68,13 @@ class MoveTest {
         Intersection destination = NormalIntersection.empty(end);
 
         // when
-        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
-                opponentIntersection,
-                destination)
-        ));
+        JanggiBoard janggiBoard = JanggiBoardFixture.generate(
+                opponentTeam,
+                opponentIntersection, destination
+        );
 
         // then
-        Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(start, end, opponentTeam))
+        Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(start, end))
                 .isInstanceOf(IntersectionException.class)
                 .hasMessage(ORIGIN_INTERSECTION_IS_NOT_OPPONENT.getMessage());
     }
@@ -95,7 +96,7 @@ class MoveTest {
         ));
 
         // then
-        Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(start, end, Team.CHO))
+        Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(start, end))
                 .isInstanceOf(IntersectionException.class)
                 .hasMessage(ORIGIN_INTERSECTION_IS_EMPTY.getMessage());
     }

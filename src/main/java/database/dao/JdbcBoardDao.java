@@ -7,23 +7,29 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JdbcBoardDao implements BoardDao{
+public class JdbcBoardDao implements BoardDao {
 
     private static final String INSERT_BOARD_QUERY = """
             insert into board () values ();
             """;
 
-    private static final String READ_PLAYING_BOARD_QUERY = """
+    private static final String READ_PLAYING_BOARD_LIST_QUERY = """
             select id, current_turn, is_finished
             from board
             where is_finished = false;
             """;
 
+    private static final String READ_BOARD_QUERY = """
+            select id, current_turn, is_finished
+            from board
+            where id = ?;
+            """;
+
     private static final String UPDATE_BOARD_QUERY = """
-        UPDATE board
-        SET current_turn = ?
-        WHERE id = ?
-        """;
+            UPDATE board
+            SET current_turn = ?
+            WHERE id = ?
+            """;
 
     @Override
     public Long save(Connection connection) {
@@ -43,8 +49,8 @@ public class JdbcBoardDao implements BoardDao{
     }
 
     @Override
-    public List<BoardSummaryDto> readPlayingJanggiBoard(Connection connection) {
-        try (PreparedStatement preparedStatement = connection.prepareStatement(READ_PLAYING_BOARD_QUERY)) {
+    public List<BoardSummaryDto> readPlayingJanggiBoardList(Connection connection) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(READ_PLAYING_BOARD_LIST_QUERY)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             List<BoardSummaryDto> boardSummaryDtos = new ArrayList<>();
 
@@ -63,8 +69,27 @@ public class JdbcBoardDao implements BoardDao{
         }
     }
 
+    public BoardSummaryDto readPlayingJanggiBoard(Connection connection, Long boardId) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(READ_BOARD_QUERY)) {
+            preparedStatement.setString(1, String.valueOf(boardId));
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                long id = resultSet.getLong("id");
+                String currentTeam = resultSet.getString("current_turn");
+                boolean isFinished = resultSet.getBoolean("is_finished");
+
+                return new BoardSummaryDto(id, currentTeam, isFinished);
+            }
+
+            throw new IllegalArgumentException("해당 ID의 Board를 찾을 수 없습니다.");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void updateBoardTurn(Connection connection, Long boardId, Team nextTurn) {
-        try(PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BOARD_QUERY)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BOARD_QUERY)) {
 
             preparedStatement.setString(1, nextTurn.name());
             preparedStatement.setLong(2, boardId);
@@ -76,10 +101,6 @@ public class JdbcBoardDao implements BoardDao{
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public void updateBoardResult(Connection connection, Long boardId) {
-
     }
 
 }

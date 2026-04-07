@@ -112,7 +112,7 @@ class ElephantMoveRuleTest {
         )));
 
         // when
-        janggiBoard.tryToMove(start, end, Team.CHO);
+        janggiBoard.tryToMove(start, end);
         Intersection actual = janggiBoard.findIntersection(end);
 
         // then
@@ -148,7 +148,7 @@ class ElephantMoveRuleTest {
         )));
 
         // when
-        janggiBoard.tryToMove(start, end, Team.CHO);
+        janggiBoard.tryToMove(start, end);
         Intersection actual = janggiBoard.findIntersection(end);
 
         // then

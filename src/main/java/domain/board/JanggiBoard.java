@@ -19,17 +19,26 @@ public class JanggiBoard {
 
     private final Map<Point, Intersection> intersections;
     private final MoveRuleManager moveRuleManager;
+    private Team currentTurn;
 
     public JanggiBoard(IntersectionGenerator intersectionGenerator) {
         this.intersections = createIntersections(intersectionGenerator);
         this.moveRuleManager = new MoveRuleManager();
+        this.currentTurn = Team.CHO;
     }
 
-    public Moved tryToMove(Point start, Point end, Team currentTeam) {
-        Intersection origin = findOriginIntersection(start, currentTeam);
+    public JanggiBoard(IntersectionGenerator intersectionGenerator, Team currentTurn) {
+        this.intersections = createIntersections(intersectionGenerator);
+        this.moveRuleManager = new MoveRuleManager();
+        this.currentTurn = currentTurn;
+    }
+
+    public Moved tryToMove(Point start, Point end) {
+        Intersection origin = findOriginIntersection(start, currentTurn);
         Intersection destination = findIntersection(end);
         inspectPath(origin, destination);
         origin.move(destination);
+        this.currentTurn = this.currentTurn.nextTurn();
         return new Moved(origin, destination);
     }
 
@@ -122,6 +131,10 @@ public class JanggiBoard {
         return intersections.values()
                 .stream()
                 .toList();
+    }
+
+    public Team getCurrentTurn() {
+        return currentTurn;
     }
 
 }

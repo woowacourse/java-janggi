@@ -38,7 +38,7 @@ public class JanggiService {
 
     public List<BoardSummaryDto> readExistPlayingBoard() {
         try (Connection connection = DBConnector.getConnection()) {
-            return boardDao.readPlayingJanggiBoard(connection);
+            return boardDao.readPlayingJanggiBoardList(connection);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -46,8 +46,12 @@ public class JanggiService {
 
     public JanggiBoard getExistBoard(BoardSelectCommand command) {
         try (Connection connection = DBConnector.getConnection()) {
+
+            BoardSummaryDto boardSummaryDto = boardDao.readPlayingJanggiBoard(connection, command.select());
             List<Intersection> intersections = intersectionDao.readIntersectionByBoardId(connection, command.select());
-            return new JanggiBoard(new DBIntersectionGenerator(intersections));
+            Team currentTurn = Team.valueOf(boardSummaryDto.currentTurn());
+
+            return new JanggiBoard(new DBIntersectionGenerator(intersections), currentTurn);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

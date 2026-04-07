@@ -143,7 +143,7 @@ class ChariotMoveRuleTest {
                 emptyDestination)));
 
         // when
-        janggiBoard.tryToMove(start, end, Team.CHO);
+        janggiBoard.tryToMove(start, end);
         Intersection actual = janggiBoard.findIntersection(end);
 
         // then
@@ -174,7 +174,7 @@ class ChariotMoveRuleTest {
                 opponentDestination)));
 
         // when
-        janggiBoard.tryToMove(start, end, Team.CHO);
+        janggiBoard.tryToMove(start, end);
         Intersection actual = janggiBoard.findIntersection(end);
 
         // then
@@ -195,7 +195,7 @@ class ChariotMoveRuleTest {
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(leftBottomPalace, centerCho, rightTopCho);
 
             // when
-            janggiBoard.tryToMove(leftBottomPointCho, rightTopPointCho, Team.CHO);
+            janggiBoard.tryToMove(leftBottomPointCho, rightTopPointCho);
 
             // then
             Assertions.assertThat(janggiBoard.findIntersection(rightTopPointCho))
@@ -211,7 +211,7 @@ class ChariotMoveRuleTest {
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(leftBottomPalace, centerCho);
 
             // when
-            janggiBoard.tryToMove(leftBottomPointCho, centerPointCho, Team.CHO);
+            janggiBoard.tryToMove(leftBottomPointCho, centerPointCho);
 
             // then
             Assertions.assertThat(janggiBoard.findIntersection(centerPointCho))
@@ -227,7 +227,7 @@ class ChariotMoveRuleTest {
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(centerPalace, rightTopCho);
 
             // when
-            janggiBoard.tryToMove(centerPointCho, rightTopPointCho, Team.CHO);
+            janggiBoard.tryToMove(centerPointCho, rightTopPointCho);
 
             // then
             Assertions.assertThat(janggiBoard.findIntersection(rightTopPointCho))
@@ -251,7 +251,7 @@ class ChariotMoveRuleTest {
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(centerPalace, rightTopCho, twiceLeftTopIntersection);
 
             // when & then
-            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(centerPointCho, outOtLeftUpPoint, Team.CHO))
+            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(centerPointCho, outOtLeftUpPoint))
                     .isInstanceOf(DirectionException.class)
                     .hasMessage(INVALID_DIRECTION.getMessage());
         }
@@ -268,7 +268,7 @@ class ChariotMoveRuleTest {
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(leftBottomPalace, rightTopCho, leftUpNormalIntersection);
 
             // when & then
-            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(leftBottomPoint, leftUpPoint, Team.CHO))
+            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(leftBottomPoint, leftUpPoint))
                     .isInstanceOf(DirectionException.class)
                     .hasMessage(INVALID_DIRECTION.getMessage());
         }
@@ -286,7 +286,7 @@ class ChariotMoveRuleTest {
 
             // when & then
             Assertions.assertThatThrownBy(() -> {
-                        janggiBoard.tryToMove(normalLeftPalacePoint, normalTopPalacePoint, Team.CHO);
+                        janggiBoard.tryToMove(normalLeftPalacePoint, normalTopPalacePoint);
                     }).isInstanceOf(DirectionException.class)
                     .hasMessage(INVALID_DIRECTION.getMessage());
         }

@@ -94,10 +94,13 @@ class SoliderMoveRuleTest {
         Intersection origin = new NormalIntersection(start, soldier);
         Intersection destination = new NormalIntersection(end, anotherTeamPiece);
         Intersection expected = new NormalIntersection(end, soldier);
-        JanggiBoard janggiBoard = JanggiBoardFixture.generate(origin, destination);
+        JanggiBoard janggiBoard = JanggiBoardFixture.generate(
+                teamHan,
+                origin, destination
+        );
 
         // when
-        janggiBoard.tryToMove(start, end, teamHan);
+        janggiBoard.tryToMove(start, end);
         Intersection actual = janggiBoard.findIntersection(end);
 
         // then
@@ -122,7 +125,7 @@ class SoliderMoveRuleTest {
         JanggiBoard janggiBoard = JanggiBoardFixture.generate(origin, destination);
 
         // when
-        janggiBoard.tryToMove(start, end, teamCho);
+        janggiBoard.tryToMove(start, end);
         Intersection actual = janggiBoard.findIntersection(end);
 
         // then
@@ -143,7 +146,7 @@ class SoliderMoveRuleTest {
         JanggiBoard janggiBoard = JanggiBoardFixture.generate(origin, destination);
 
         // when & then
-        Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(start, end, teamCho))
+        Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(start, end))
                 .isInstanceOf(DirectionException.class)
                 .hasMessage(INVALID_DIRECTION.getMessage());
     }
@@ -158,10 +161,13 @@ class SoliderMoveRuleTest {
 
         Intersection origin = new NormalIntersection(start, soldier);
         Intersection destination = NormalIntersection.empty(end);
-        JanggiBoard janggiBoard = JanggiBoardFixture.generate(origin, destination);
+        JanggiBoard janggiBoard = JanggiBoardFixture.generate(
+                teamHan,
+                origin, destination
+        );
 
         // when & then
-        Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(start, end, teamHan))
+        Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(start, end))
                 .isInstanceOf(DirectionException.class)
                 .hasMessage(INVALID_DIRECTION.getMessage());
     }
@@ -176,10 +182,13 @@ class SoliderMoveRuleTest {
             // given
             Intersection leftTopPalace = new LeftTopPalace(leftTopPointCho, soliderHan);
             Intersection expected = new CenterPalace(centerPointCho, soliderHan);
-            JanggiBoard janggiBoard = JanggiBoardFixture.generate(leftTopPalace, centerCho);
+            JanggiBoard janggiBoard = JanggiBoardFixture.generate(
+                    teamHan,
+                    leftTopPalace, centerCho
+            );
 
             // when
-            janggiBoard.tryToMove(leftTopPointCho, centerPointCho, teamHan);
+            janggiBoard.tryToMove(leftTopPointCho, centerPointCho);
 
             // then
             Assertions.assertThat(janggiBoard.findIntersection(centerPointCho))
@@ -192,10 +201,13 @@ class SoliderMoveRuleTest {
             // given
             Intersection rightTopPalace = new RightTopPalace(rightTopPointCho, soliderHan);
             Intersection expected = new CenterPalace(centerPointCho, soliderHan);
-            JanggiBoard janggiBoard = JanggiBoardFixture.generate(rightTopPalace, centerCho);
+            JanggiBoard janggiBoard = JanggiBoardFixture.generate(
+                    teamHan,
+                    rightTopPalace, centerCho
+            );
 
             // when
-            janggiBoard.tryToMove(rightTopPointCho, centerPointCho, teamHan);
+            janggiBoard.tryToMove(rightTopPointCho, centerPointCho);
 
             // then
             Assertions.assertThat(janggiBoard.findIntersection(centerPointCho))
@@ -208,10 +220,13 @@ class SoliderMoveRuleTest {
             // given
             Intersection centerPalace = new CenterPalace(centerPointCho, soliderHan);
             Intersection expected = new LeftBottomPalace(leftBottomPointCho, soliderHan);
-            JanggiBoard janggiBoard = JanggiBoardFixture.generate(centerPalace, leftBottomCho);
+            JanggiBoard janggiBoard = JanggiBoardFixture.generate(
+                    teamHan,
+                    centerPalace, leftBottomCho
+            );
 
             // when
-            janggiBoard.tryToMove(centerPointCho, leftBottomPointCho, teamHan);
+            janggiBoard.tryToMove(centerPointCho, leftBottomPointCho);
 
             // then
             Assertions.assertThat(janggiBoard.findIntersection(leftBottomPointCho))
@@ -224,10 +239,13 @@ class SoliderMoveRuleTest {
             // given
             Intersection centerPalace = new CenterPalace(centerPointCho, soliderHan);
             Intersection expected = new RightBottomPalace(rightBottomPointCho, soliderHan);
-            JanggiBoard janggiBoard = JanggiBoardFixture.generate(centerPalace, rightBottomCho);
+            JanggiBoard janggiBoard = JanggiBoardFixture.generate(
+                    teamHan,
+                    centerPalace, rightBottomCho
+            );
 
             // when
-            janggiBoard.tryToMove(centerPointCho, rightBottomPointCho, teamHan);
+            janggiBoard.tryToMove(centerPointCho, rightBottomPointCho);
 
             // then
             Assertions.assertThat(janggiBoard.findIntersection(rightBottomPointCho))
@@ -245,10 +263,13 @@ class SoliderMoveRuleTest {
         void shouldThrowExceptionWhenSoliderOfHanMoveFromLeftBottomPalaceToCenterPalace() {
             // given
             Intersection leftBottomPalace = new LeftBottomPalace(leftBottomPointCho, soliderHan);
-            JanggiBoard janggiBoard = JanggiBoardFixture.generate(leftBottomPalace, centerCho);
+            JanggiBoard janggiBoard = JanggiBoardFixture.generate(
+                    teamHan,
+                    leftBottomPalace, centerCho
+            );
 
             // when & then
-            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(leftBottomPointCho, centerPointCho, teamHan))
+            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(leftBottomPointCho, centerPointCho))
                     .isInstanceOf(DirectionException.class)
                     .hasMessage(INVALID_DIRECTION.getMessage());
         }
@@ -258,10 +279,13 @@ class SoliderMoveRuleTest {
         void shouldThrowExceptionWhenSoliderOfHanMoveFromRightBottomPalaceToCenterPalace() {
             // given
             Intersection rightBottomPalace = new RightBottomPalace(rightBottomPointCho, soliderHan);
-            JanggiBoard janggiBoard = JanggiBoardFixture.generate(rightBottomPalace, centerCho);
+            JanggiBoard janggiBoard = JanggiBoardFixture.generate(
+                    teamHan,
+                    rightBottomPalace, centerCho
+            );
 
             // when & then
-            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(rightBottomPointCho, centerPointCho, teamHan))
+            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(rightBottomPointCho, centerPointCho))
                     .isInstanceOf(DirectionException.class)
                     .hasMessage(INVALID_DIRECTION.getMessage());
         }
@@ -271,10 +295,13 @@ class SoliderMoveRuleTest {
         void shouldThrowExceptionWhenSoliderOfHanMoveFromCenterPalaceToLeftTopPalace() {
             // given
             Intersection centerPalace = new CenterPalace(centerPointCho, soliderHan);
-            JanggiBoard janggiBoard = JanggiBoardFixture.generate(centerPalace, leftTopCho);
+            JanggiBoard janggiBoard = JanggiBoardFixture.generate(
+                    teamHan,
+                    centerPalace, leftTopCho
+            );
 
             // when & then
-            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(centerPointCho, leftTopPointCho, teamHan))
+            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(centerPointCho, leftTopPointCho))
                     .isInstanceOf(DirectionException.class)
                     .hasMessage(INVALID_DIRECTION.getMessage());
         }
@@ -284,10 +311,13 @@ class SoliderMoveRuleTest {
         void shouldThrowExceptionWhenSoliderOfHanMoveFromCenterPalaceToRightTopPalace() {
             // given
             Intersection centerPalace = new CenterPalace(centerPointCho, soliderHan);
-            JanggiBoard janggiBoard = JanggiBoardFixture.generate(centerPalace, rightTopCho);
+            JanggiBoard janggiBoard = JanggiBoardFixture.generate(
+                    teamHan,
+                    centerPalace, rightTopCho
+            );
 
             // when & then
-            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(centerPointCho, rightTopPointCho, teamHan))
+            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(centerPointCho, rightTopPointCho))
                     .isInstanceOf(DirectionException.class)
                     .hasMessage(INVALID_DIRECTION.getMessage());
         }
@@ -307,7 +337,7 @@ class SoliderMoveRuleTest {
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(leftBottomPalace, centerHan);
 
             // when
-            janggiBoard.tryToMove(leftBottomPointHan, centerPointHan, teamCho);
+            janggiBoard.tryToMove(leftBottomPointHan, centerPointHan);
 
             // then
             Assertions.assertThat(janggiBoard.findIntersection(centerPointHan))
@@ -323,7 +353,7 @@ class SoliderMoveRuleTest {
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(rightBottomPalace, centerHan);
 
             // when
-            janggiBoard.tryToMove(rightBottomPointHan, centerPointHan, teamCho);
+            janggiBoard.tryToMove(rightBottomPointHan, centerPointHan);
 
             // then
             Assertions.assertThat(janggiBoard.findIntersection(centerPointHan))
@@ -339,7 +369,7 @@ class SoliderMoveRuleTest {
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(centerPalace, leftTopHan);
 
             // when
-            janggiBoard.tryToMove(centerPointHan, leftTopPointHan, teamCho);
+            janggiBoard.tryToMove(centerPointHan, leftTopPointHan);
 
             // then
             Assertions.assertThat(janggiBoard.findIntersection(leftTopPointHan))
@@ -355,7 +385,7 @@ class SoliderMoveRuleTest {
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(centerPalace, rightTopHan);
 
             // when
-            janggiBoard.tryToMove(centerPointHan, rightTopPointHan, teamCho);
+            janggiBoard.tryToMove(centerPointHan, rightTopPointHan);
 
             // then
             Assertions.assertThat(janggiBoard.findIntersection(rightTopPointHan))
@@ -376,7 +406,7 @@ class SoliderMoveRuleTest {
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(leftTopPalace, centerHan);
 
             // when & then
-            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(leftTopPointHan, centerPointHan, teamCho))
+            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(leftTopPointHan, centerPointHan))
                     .isInstanceOf(DirectionException.class)
                     .hasMessage(INVALID_DIRECTION.getMessage());
         }
@@ -389,7 +419,7 @@ class SoliderMoveRuleTest {
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(rightTopPalace, centerHan);
 
             // when & then
-            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(rightTopPointHan, centerPointHan, teamCho))
+            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(rightTopPointHan, centerPointHan))
                     .isInstanceOf(DirectionException.class)
                     .hasMessage(INVALID_DIRECTION.getMessage());
         }
@@ -402,7 +432,7 @@ class SoliderMoveRuleTest {
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(centerPalace, leftBottomHan);
 
             // when & then
-            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(centerPointHan, leftBottomPointHan, teamCho))
+            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(centerPointHan, leftBottomPointHan))
                     .isInstanceOf(DirectionException.class)
                     .hasMessage(INVALID_DIRECTION.getMessage());
         }
@@ -415,7 +445,7 @@ class SoliderMoveRuleTest {
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(centerPalace, rightBottomHan);
 
             // when & then
-            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(centerPointHan, rightBottomPointHan, teamCho))
+            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(centerPointHan, rightBottomPointHan))
                     .isInstanceOf(DirectionException.class)
                     .hasMessage(INVALID_DIRECTION.getMessage());
         }

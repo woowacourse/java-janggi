@@ -49,8 +49,7 @@ class GuardMoveRuleTest {
         Point start = new Point(0, 0);
         Point end = new Point(1, 0);
 
-        Team sameTeam = Team.HAN;
-        Piece guard = new Piece(sameTeam, PieceType.GUARD);
+        Team sameTeam = Team.CHO;
         Piece sameTeamPiece = new Piece(sameTeam, PieceType.SOLDIER);
 
         Intersection origin = new NormalIntersection(start, guard);
@@ -76,8 +75,7 @@ class GuardMoveRuleTest {
         Point start = new Point(1, 4);
         Point end = new Point(2, 4);
 
-        Team sameTeam = Team.HAN;
-        Piece guard = new Piece(sameTeam, PieceType.GUARD);
+        Team sameTeam = Team.CHO;
 
         Intersection origin = new LeftTopPalace(start, guard);
         Intersection emptyDestination = NormalPalace.empty(end);
@@ -89,7 +87,7 @@ class GuardMoveRuleTest {
         )));
 
         // when
-        janggiBoard.tryToMove(start, end, sameTeam);
+        janggiBoard.tryToMove(start, end);
         Intersection actual = janggiBoard.findIntersection(end);
 
         // then
@@ -104,10 +102,9 @@ class GuardMoveRuleTest {
         Point start = new Point(1, 4);
         Point end = new Point(2, 4);
 
-        Team sameTeam = Team.HAN;
-        Team anotherTeam = Team.CHO;
+        Team sameTeam = Team.CHO;
+        Team anotherTeam = Team.HAN;
 
-        Piece guard = new Piece(sameTeam, PieceType.GUARD);
         Piece opponent = new Piece(anotherTeam, PieceType.GUARD);
 
         Intersection origin = new LeftTopPalace(start, guard);
@@ -120,7 +117,7 @@ class GuardMoveRuleTest {
         )));
 
         // when
-        janggiBoard.tryToMove(start, end, sameTeam);
+        janggiBoard.tryToMove(start, end);
         Intersection actual = janggiBoard.findIntersection(end);
 
         // then
@@ -141,7 +138,7 @@ class GuardMoveRuleTest {
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(leftBottomPalace, centerCho);
 
             // when
-            janggiBoard.tryToMove(leftBottomPointCho, centerPointCho, teamCho);
+            janggiBoard.tryToMove(leftBottomPointCho, centerPointCho);
 
             // then
             Assertions.assertThat(janggiBoard.findIntersection(centerPointCho))
@@ -157,7 +154,7 @@ class GuardMoveRuleTest {
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(leftBottomPalace, centerCho);
 
             // when
-            janggiBoard.tryToMove(leftTopPointCho, centerPointCho, teamCho);
+            janggiBoard.tryToMove(leftTopPointCho, centerPointCho);
 
             // then
             Assertions.assertThat(janggiBoard.findIntersection(centerPointCho))
@@ -173,7 +170,7 @@ class GuardMoveRuleTest {
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(rightBottomPalace, centerCho);
 
             // when
-            janggiBoard.tryToMove(rightBottomPointCho, centerPointCho, teamCho);
+            janggiBoard.tryToMove(rightBottomPointCho, centerPointCho);
 
             // then
             Assertions.assertThat(janggiBoard.findIntersection(centerPointCho))
@@ -189,7 +186,7 @@ class GuardMoveRuleTest {
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(rightTopPalace, centerCho);
 
             // when
-            janggiBoard.tryToMove(rightTopPointCho, centerPointCho, teamCho);
+            janggiBoard.tryToMove(rightTopPointCho, centerPointCho);
 
             // then
             Assertions.assertThat(janggiBoard.findIntersection(centerPointCho))
@@ -205,7 +202,7 @@ class GuardMoveRuleTest {
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(centerPalace, leftBottomCho);
 
             // when
-            janggiBoard.tryToMove(centerPointCho, leftBottomPointCho, teamCho);
+            janggiBoard.tryToMove(centerPointCho, leftBottomPointCho);
 
             // then
             Assertions.assertThat(janggiBoard.findIntersection(leftBottomPointCho))
@@ -221,7 +218,7 @@ class GuardMoveRuleTest {
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(centerPalace, leftTopCho);
 
             // when
-            janggiBoard.tryToMove(centerPointCho, leftTopPointCho, teamCho);
+            janggiBoard.tryToMove(centerPointCho, leftTopPointCho);
 
             // then
             Assertions.assertThat(janggiBoard.findIntersection(leftTopPointCho))
@@ -237,7 +234,7 @@ class GuardMoveRuleTest {
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(centerPalace, rightBottomCho);
 
             // when
-            janggiBoard.tryToMove(centerPointCho, rightBottomPointCho, teamCho);
+            janggiBoard.tryToMove(centerPointCho, rightBottomPointCho);
 
             // then
             Assertions.assertThat(janggiBoard.findIntersection(rightBottomPointCho))
@@ -253,7 +250,7 @@ class GuardMoveRuleTest {
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(centerPalace, rightTopCho);
 
             // when
-            janggiBoard.tryToMove(centerPointCho, rightTopPointCho, teamCho);
+            janggiBoard.tryToMove(centerPointCho, rightTopPointCho);
 
             // then
             Assertions.assertThat(janggiBoard.findIntersection(rightTopPointCho))
@@ -278,7 +275,7 @@ class GuardMoveRuleTest {
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(leftPalace, topPalace);
 
             // when & then
-            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(leftPalacePoint, topPalacePoint, teamCho))
+            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(leftPalacePoint, topPalacePoint))
                     .isInstanceOf(DirectionException.class)
                     .hasMessage(INVALID_DIRECTION.getMessage());
         }
@@ -295,7 +292,7 @@ class GuardMoveRuleTest {
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(leftPalace, outOfPalace);
 
             // when & then
-            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(leftPalacePoint, outOfPalacePoint, teamCho))
+            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(leftPalacePoint, outOfPalacePoint))
                     .isInstanceOf(PathException.class)
                     .hasMessage(GUARD_CANNOT_GO_OUT_PALACE.getMessage());
         }
