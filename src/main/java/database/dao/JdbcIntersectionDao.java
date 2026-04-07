@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JdbcIntersectionDao implements IntersectionDao{
+public class JdbcIntersectionDao implements IntersectionDao {
 
     private static final String INSERT_INTERSECTION_QUERY = """
             insert into intersection (board_id, y, x, piece_type, team, intersection_type) 
@@ -25,6 +25,12 @@ public class JdbcIntersectionDao implements IntersectionDao{
             select y, x, piece_type, team, intersection_type 
             from intersection 
             where board_id = ?
+            """;
+
+    private static final String UPDATE_INTERSECTION_QUERY = """
+            update intersection
+            set piece_type = ?, team = ?
+            where board_id = ? and y = ? and x = ?
             """;
 
     @Override
@@ -76,6 +82,31 @@ public class JdbcIntersectionDao implements IntersectionDao{
             return intersections;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void update(Connection connection, Long boardId, Intersection intersection) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_INTERSECTION_QUERY)) {
+
+            Piece piece = intersection.readPiece();
+            String teamName = piece.team().name();
+            String pieceTypeName = piece.pieceType().name();
+
+            Point point = intersection.getPoint();
+
+            preparedStatement.setString(1, pieceTypeName);
+            preparedStatement.setString(2, teamName);
+            preparedStatement.setString(3, String.valueOf(boardId));
+            preparedStatement.setString(4, String.valueOf(point.y()));
+            preparedStatement.setString(5, String.valueOf(point.x()));
+
+            int affectedRows = preparedStatement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new RuntimeException("업데이트할 인터섹션을 찾을 수 없습니다");
+            }
+
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }

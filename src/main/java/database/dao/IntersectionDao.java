@@ -11,4 +11,6 @@ public interface IntersectionDao {
 
     List<Intersection> readIntersectionByBoardId(Connection connection, Long boardId);
 
+    void update(Connection connection, Long boardId, Intersection intersection);
+
 }
