@@ -72,6 +72,12 @@ class DirectionTest {
     }
 
     @Test
+    void 직선_방향인지_반환한다() {
+        assertThat(Direction.isLinear(Direction.UP)).isTrue();
+        assertThat(Direction.isLinear(Direction.SOUTHWEST)).isFalse();
+    }
+
+    @Test
     void 출발_위치와_도착_위치가_같으면_예외를_던진다() {
         assertThatThrownBy(() ->
                 Direction.decideDirection(departure.calculateDeltaX(departure),
