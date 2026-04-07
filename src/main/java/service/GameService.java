@@ -1,6 +1,5 @@
 package service;
 
-import config.DataSourceConfig;
 import domain.Game;
 import domain.board.Position;
 import domain.piece.PieceInfo;
@@ -13,11 +12,12 @@ import repository.BoardRepository;
 import repository.GameRepository;
 
 public class GameService {
-    private final DataSource dataSource = new DataSourceConfig().getDataSource();
+    private final DataSource dataSource;
     private final GameRepository gameRepository;
     private final BoardRepository boardRepository;
 
-    public GameService(GameRepository gameRepository, BoardRepository boardRepository) {
+    public GameService(DataSource dataSource, GameRepository gameRepository, BoardRepository boardRepository) {
+        this.dataSource = dataSource;
         this.gameRepository = gameRepository;
         this.boardRepository = boardRepository;
     }

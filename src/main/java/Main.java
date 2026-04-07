@@ -1,3 +1,4 @@
+import config.DataSourceConfig;
 import controller.JanggiController;
 import repository.BoardRepositoryImpl;
 import repository.GameRepositoryImpl;
@@ -11,6 +12,7 @@ public class Main {
                 new InputView(),
                 new OutputView(),
                 new GameService(
+                        new DataSourceConfig().getDataSource(),
                         new GameRepositoryImpl(),
                         new BoardRepositoryImpl()
                 )
