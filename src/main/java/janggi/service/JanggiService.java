@@ -67,4 +67,8 @@ public class JanggiService {
         return gamedIds;
     }
 
+    public void updateGameState(Long gameId) {
+        gameRepository.updateState(gameId, GameState.FINISHED);
+    }
+
 }

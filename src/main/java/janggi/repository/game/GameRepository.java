@@ -15,4 +15,6 @@ public interface GameRepository {
 
     List<Long> findAllByState(GameState state);
 
+    void updateState(Long gameId, GameState state);
+
 }

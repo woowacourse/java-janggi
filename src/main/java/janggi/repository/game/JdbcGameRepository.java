@@ -106,4 +106,18 @@ public class JdbcGameRepository implements GameRepository {
         }
     }
 
+    @Override
+    public void updateState(Long gameId, GameState state) {
+        String sql = "UPDATE janggi_game SET state = ? WHERE id = ?";
+
+        try (Connection connection = DatabaseManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, state.name());
+            statement.setLong(2, gameId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("게임 상태 수정 실패", e);
+        }
+    }
+
 }

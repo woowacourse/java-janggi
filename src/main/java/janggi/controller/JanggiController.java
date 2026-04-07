@@ -36,6 +36,7 @@ public class JanggiController {
             moveProcess(gameId);
         }
         printWinner(gameId);
+        janggiService.updateGameState(gameId);
     }
 
     private Long initGame() {
@@ -60,6 +61,7 @@ public class JanggiController {
         return horseElephantPositions;
     }
 
+    // TODO: 분리
     private void moveProcess(Long gameId) {
         Position from = getUntilValid(() -> {
             Position source = readSourcePosition(gameId);
