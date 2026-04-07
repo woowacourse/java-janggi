@@ -2,7 +2,7 @@ package domain.movestrategy;
 
 import domain.board.Board;
 import domain.board.Position;
-import domain.piece.Delta;
+import domain.piece.Direction;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +12,7 @@ public class ChariotMoveStrategy implements MoveStrategy {
     public List<Position> getMovablePositions(final Board board, final Position from) {
         List<Position> movable = new ArrayList<>();
 
-        for (Delta direction : Delta.ORTHOGONAL_DELTAS) {
+        for (Direction direction : Direction.ORTHOGONAL_DIRECTIONS) {
             collectMovablePositions(board, from, direction, movable);
         }
 
@@ -22,7 +22,7 @@ public class ChariotMoveStrategy implements MoveStrategy {
     private void collectMovablePositions(
             final Board board,
             final Position from,
-            final Delta direction,
+            final Direction direction,
             final List<Position> movable
     ) {
         Position current = from.move(direction);

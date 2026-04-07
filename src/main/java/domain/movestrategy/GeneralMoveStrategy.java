@@ -2,15 +2,15 @@ package domain.movestrategy;
 
 import domain.board.Board;
 import domain.board.Position;
-import domain.piece.Delta;
+import domain.piece.Direction;
 import java.util.List;
 import java.util.stream.IntStream;
 
 public class GeneralMoveStrategy implements MoveStrategy {
 
-    private static final List<Delta> ALL_DIRECTIONS = List.of(
-            Delta.UP, Delta.RIGHT_UP, Delta.RIGHT, Delta.RIGHT_DOWN,
-            Delta.DOWN, Delta.LEFT_DOWN, Delta.LEFT, Delta.LEFT_UP
+    private static final List<Direction> ALL_DIRECTIONS = List.of(
+            Direction.UP, Direction.RIGHT_UP, Direction.RIGHT, Direction.RIGHT_DOWN,
+            Direction.DOWN, Direction.LEFT_DOWN, Direction.LEFT, Direction.LEFT_UP
     );
 
     @Override

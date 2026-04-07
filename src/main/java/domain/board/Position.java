@@ -1,6 +1,6 @@
 package domain.board;
 
-import domain.piece.Delta;
+import domain.piece.Direction;
 
 public record Position(
         int column,
@@ -16,8 +16,8 @@ public record Position(
         return new Position(column, row);
     }
 
-    public Position move(final Delta delta) {
-        return Position.of(column + delta.column(), row + delta.row());
+    public Position move(final Direction direction) {
+        return Position.of(column + direction.column(), row + direction.row());
     }
 
     public boolean isInside() {

@@ -2,7 +2,7 @@ package domain.movestrategy;
 
 import domain.board.Board;
 import domain.board.Position;
-import domain.piece.Delta;
+import domain.piece.Direction;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -13,8 +13,8 @@ public class CannonMoveStrategy implements MoveStrategy {
     public List<Position> getMovablePositions(final Board board, final Position from) {
         List<Position> movable = new ArrayList<>();
 
-        for (Delta delta : Delta.ORTHOGONAL_DELTAS) {
-            collectMovablePositions(board, from, delta, movable);
+        for (Direction direction : Direction.ORTHOGONAL_DIRECTIONS) {
+            collectMovablePositions(board, from, direction, movable);
         }
 
         return movable;
@@ -23,7 +23,7 @@ public class CannonMoveStrategy implements MoveStrategy {
     private void collectMovablePositions(
             final Board board,
             final Position from,
-            final Delta direction,
+            final Direction direction,
             final List<Position> movable
     ) {
         Optional<Position> bridge = findBridge(board, from, direction);
@@ -34,7 +34,7 @@ public class CannonMoveStrategy implements MoveStrategy {
         collectLandingPositions(board, from, bridge.get(), direction, movable);
     }
 
-    private Optional<Position> findBridge(final Board board, final Position from, final Delta direction) {
+    private Optional<Position> findBridge(final Board board, final Position from, final Direction direction) {
         Position current = from.move(direction);
 
         while (current.isInside() && board.isEmpty(current)) {
@@ -52,7 +52,7 @@ public class CannonMoveStrategy implements MoveStrategy {
             final Board board,
             final Position from,
             final Position bridge,
-            final Delta direction,
+            final Direction direction,
             final List<Position> movable
     ) {
         Position current = bridge.move(direction);
