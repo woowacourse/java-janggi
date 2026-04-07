@@ -110,4 +110,18 @@ class SangTest {
         Sang sang = new Sang(Team.CHO);
         assertThat(sang.getScore()).isEqualTo(new Score(3));
     }
+
+    @DisplayName("상은 점프할 수 없다.")
+    @Test
+    void isJumpable() {
+        Sang sang = new Sang(Team.CHO);
+        assertThat(sang.isJumpable()).isTrue();
+    }
+
+    @DisplayName("상은 잡아야할 왕이 아니다.")
+    @Test
+    void isKing() {
+        Sang sang = new Sang(Team.CHO);
+        assertThat(sang.isKing()).isFalse();
+    }
 }

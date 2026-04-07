@@ -32,6 +32,10 @@ public abstract class AbstractGimul {
 
     public abstract Score getScore();
 
+    public abstract boolean isJumpable();
+
+    public abstract boolean isKing();
+
     public Team getTeam() {
         return team;
     }

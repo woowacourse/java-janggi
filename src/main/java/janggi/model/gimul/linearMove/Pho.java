@@ -18,8 +18,8 @@ public class Pho extends AbstractLinearMoveGimul {
     @Override
     public boolean canPassThrough(List<AbstractGimul> gimulsOnPath, Optional<AbstractGimul> gimulAtTo) {
         return gimulsOnPath.size() == REQUIRED_PIECE_COUNT_ON_PATH
-                && !(gimulsOnPath.getFirst() instanceof Pho)
-                && gimulAtTo.map(gimul -> !this.isSameTeam(gimul) && !(gimul instanceof Pho)).orElse(true);
+                && gimulsOnPath.getFirst().isJumpable()
+                && gimulAtTo.map(gimul -> !this.isSameTeam(gimul) && gimul.isJumpable()).orElse(true);
     }
 
     @Override
@@ -30,5 +30,15 @@ public class Pho extends AbstractLinearMoveGimul {
     @Override
     public Score getScore() {
         return new Score(SCORE_VALUE);
+    }
+
+    @Override
+    public boolean isJumpable() {
+        return false;
+    }
+
+    @Override
+    public boolean isKing() {
+        return false;
     }
 }

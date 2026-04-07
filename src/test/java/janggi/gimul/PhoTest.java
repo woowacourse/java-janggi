@@ -217,4 +217,18 @@ class PhoTest {
         Pho pho = new Pho(Team.CHO);
         assertThat(pho.getScore()).isEqualTo(new Score(7));
     }
+
+    @DisplayName("포는 점프할 수 없다.")
+    @Test
+    void isJumpable() {
+        Pho pho = new Pho(Team.CHO);
+        assertThat(pho.isJumpable()).isFalse();
+    }
+
+    @DisplayName("포는 잡아야할 왕이 아니다.")
+    @Test
+    void isKing() {
+        Pho pho = new Pho(Team.CHO);
+        assertThat(pho.isKing()).isFalse();
+    }
 }

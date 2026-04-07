@@ -29,4 +29,14 @@ public class Cha extends AbstractLinearMoveGimul {
     public Score getScore() {
         return new Score(SCORE_VALUE);
     }
+
+    @Override
+    public boolean isJumpable() {
+        return true;
+    }
+
+    @Override
+    public boolean isKing() {
+        return false;
+    }
 }

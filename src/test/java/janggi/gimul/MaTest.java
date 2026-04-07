@@ -122,4 +122,18 @@ class MaTest {
         Ma ma = new Ma(Team.CHO);
         assertThat(ma.getScore()).isEqualTo(new Score(5));
     }
+
+    @DisplayName("마는 점프할 수 있다.")
+    @Test
+    void isJumpable() {
+        Ma ma = new Ma(Team.CHO);
+        assertThat(ma.isJumpable()).isTrue();
+    }
+
+    @DisplayName("마는 잡아야할 왕이 아니다.")
+    @Test
+    void isKing() {
+        Ma ma = new Ma(Team.CHO);
+        assertThat(ma.isKing()).isFalse();
+    }
 }

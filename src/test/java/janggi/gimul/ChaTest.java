@@ -179,4 +179,18 @@ class ChaTest {
         Cha cha = new Cha(Team.CHO);
         assertThat(cha.getScore()).isEqualTo(new Score(13));
     }
+
+    @DisplayName("차는 점프할 수 있다.")
+    @Test
+    void isJumpable() {
+        Cha cha = new Cha(Team.CHO);
+        assertThat(cha.isJumpable()).isTrue();
+    }
+
+    @DisplayName("차는 잡아야할 왕이 아니다.")
+    @Test
+    void isKing() {
+        Cha cha = new Cha(Team.CHO);
+        assertThat(cha.isKing()).isFalse();
+    }
 }

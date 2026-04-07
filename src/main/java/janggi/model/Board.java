@@ -1,7 +1,6 @@
 package janggi.model;
 
 import janggi.model.gimul.AbstractGimul;
-import janggi.model.gimul.palace.Jang;
 import janggi.model.position.Column;
 import janggi.model.position.Position;
 import janggi.model.position.PositionPath;
@@ -71,7 +70,7 @@ public class Board {
 
     private boolean isJangAlive(Team team) {
         return board.values().stream()
-                .anyMatch(gimul -> gimul instanceof Jang && gimul.isSameTeam(team));
+                .anyMatch(gimul -> gimul.isKing() && gimul.isSameTeam(team));
     }
 
     public Score calculateScore(Team team) {

@@ -128,4 +128,18 @@ class JangTest {
         Jang jang = new Jang(Team.CHO);
         assertThat(jang.getScore()).isEqualTo(new Score(0));
     }
+
+    @DisplayName("장군은 점프할 수 있다.")
+    @Test
+    void isJumpable() {
+        Jang jang = new Jang(Team.CHO);
+        assertThat(jang.isJumpable()).isTrue();
+    }
+
+    @DisplayName("장군은 잡아야할 왕이다.")
+    @Test
+    void isKing() {
+        Jang jang = new Jang(Team.CHO);
+        assertThat(jang.isKing()).isTrue();
+    }
 }

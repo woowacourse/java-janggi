@@ -233,4 +233,18 @@ class ByeongTest {
         Byeong byeong = new Byeong(Team.CHO);
         assertThat(byeong.getScore()).isEqualTo(new Score(2));
     }
+
+    @DisplayName("병은 점프할 수 있다.")
+    @Test
+    void isJumpable() {
+        Byeong byeong = new Byeong(Team.CHO);
+        assertThat(byeong.isJumpable()).isTrue();
+    }
+
+    @DisplayName("병은 잡아야할 왕이 아니다.")
+    @Test
+    void isKing() {
+        Byeong byeong = new Byeong(Team.CHO);
+        assertThat(byeong.isKing()).isFalse();
+    }
 }

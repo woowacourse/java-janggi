@@ -128,4 +128,18 @@ class SaTest {
         Sa sa = new Sa(Team.CHO);
         assertThat(sa.getScore()).isEqualTo(new Score(3));
     }
+
+    @DisplayName("사는 점프할 수 없다.")
+    @Test
+    void isJumpable() {
+        Sa sa = new Sa(Team.CHO);
+        assertThat(sa.isJumpable()).isTrue();
+    }
+
+    @DisplayName("사는 잡아야할 왕이 아니다.")
+    @Test
+    void isKing() {
+        Sa sa = new Sa(Team.CHO);
+        assertThat(sa.isKing()).isFalse();
+    }
 }
