@@ -14,16 +14,16 @@ public abstract class LeapingPiece extends Piece{
     }
 
     @Override
+    public List<Position> getPiecePositionsInPath(Position start, Position end) {
+        MovePath movePath = findMovePath(start, end);
+        return movePath.intermediatePositions(start, end);
+    }
+
+    @Override
     public void validateCanMove(List<Piece> piecesInPath) {
         if (!piecesInPath.isEmpty()) {
             throw new IllegalArgumentException("이동 경로에 기물이 존재하여 이동할 수 없습니다.");
         }
-    }
-
-    @Override
-    public List<Position> getPiecePositionsInPath(Position start, Position end) {
-        MovePath movePath = findMovePath(start, end);
-        return movePath.intermediatePositions(start, end);
     }
 
     private MovePath findMovePath(Position start, Position end) {
