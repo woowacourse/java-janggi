@@ -56,10 +56,11 @@ public class JDBCGameRepository implements GameRepository {
     public boolean isFinished(Long gameId) {
         String sql = "SELECT is_finished FROM game WHERE id = ?";
 
-        try(Connection connection = JDBCContext.getConnection();
-            PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (Connection connection = JDBCContext.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, gameId);
             ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
             return resultSet.getBoolean("is_finished");
         } catch (SQLException e) {
             throw new RuntimeException("조회 실패", e);
@@ -70,10 +71,11 @@ public class JDBCGameRepository implements GameRepository {
     public Optional<String> findCurrentTurnById(Long gameId) {
         String sql = "SELECT current_turn FROM game WHERE id = ?";
 
-        try(Connection connection = JDBCContext.getConnection();
-            PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (Connection connection = JDBCContext.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, gameId);
             ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
             return Optional.of(resultSet.getString("current_turn"));
         } catch (SQLException e) {
             throw new RuntimeException("조회 실패", e);
