@@ -28,11 +28,19 @@ public class Position {
     }
 
     public boolean isStraightTo(Position to) {
-        return (this.row == to.row)|| (this.col == to.col);
+        return (this.row == to.row) || (this.col == to.col);
     }
 
     public boolean isDiagonalTo(Position to) {
         return Math.abs(this.row - to.row) == Math.abs(this.col - to.col);
+    }
+
+    public int getDistanceRow(Position to) {
+        return Math.abs(this.row - to.row);
+    }
+
+    public int getDistanceCol(Position to) {
+        return Math.abs(this.col - to.col);
     }
 
     public int getRow() {
