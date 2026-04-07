@@ -19,7 +19,7 @@ public class GameRepository {
     public GameRepository(JdbcContext jdbcContext) {
         this.jdbcContext = jdbcContext;
         this.gameDao = new GameDao(jdbcContext);
-        this.pieceDao = new PieceDao();
+        this.pieceDao = new PieceDao(jdbcContext);
     }
 
     public Optional<Integer> findActiveGameId() {
@@ -62,7 +62,7 @@ public class GameRepository {
 
     public Game load(int gameId) {
         Side turn = gameDao.findTurn(gameId);
-        Map<Point, Piece> board = pieceDao.findAll(gameId, jdbcContext);
+        Map<Point, Piece> board = pieceDao.findAll(gameId);
         return Game.loadGame(board, turn);
     }
 

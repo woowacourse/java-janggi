@@ -14,6 +14,12 @@ import janggi.domain.side.Side;
 
 public class PieceDao {
 
+    private final JdbcContext jdbcContext;
+
+    public PieceDao(JdbcContext jdbcContext) {
+        this.jdbcContext = jdbcContext;
+    }
+
     public void insertAll(Connection conn, int gameId, Map<Point, Piece> board) throws SQLException {
         String sql = "INSERT INTO game_piece (game_id, piece_type, side, x, y) VALUES (?,?,?,?,?)";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -39,7 +45,7 @@ public class PieceDao {
         }
     }
 
-    public Map<Point, Piece> findAll(int gameId, JdbcContext jdbcContext) {
+    public Map<Point, Piece> findAll(int gameId) {
         String sql = "SELECT piece_type, side, x, y FROM game_piece WHERE game_id = ?";
         Map<Point, Piece> board = new HashMap<>();
         try (Connection conn = jdbcContext.getConnection();
