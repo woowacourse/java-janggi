@@ -1,8 +1,9 @@
 package janggi.dto;
 
 import janggi.domain.piece.Piece;
+import java.util.Objects;
 
-public record PieceResponse(String displayPiece) {
+public class PieceResponse {
 
     private static final String HAN_COLOR = "\u001B[31m";
     private static final String CHO_COLOR = "\u001B[34m";
@@ -10,6 +11,12 @@ public record PieceResponse(String displayPiece) {
     private static final String RESET = "\u001B[0m";
     private static final String EMPTY_CELL = "． ";
     private static final String AVAILABLE_EMPTY_CELL = "Ｏ";
+
+    private final String displayPiece;
+
+    private PieceResponse(String displayPiece) {
+        this.displayPiece = displayPiece;
+    }
 
     public static PieceResponse from(Piece piece, boolean isMovable) {
         if (isMovable) {
@@ -29,9 +36,27 @@ public record PieceResponse(String displayPiece) {
     }
 
     private static String selectColor(Piece piece) {
-        if (piece.isCHO()) {
+        if (piece.isCho()) {
             return CHO_COLOR;
         }
         return HAN_COLOR;
+    }
+
+    public String getDisplayPiece() {
+        return displayPiece;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        PieceResponse that = (PieceResponse) o;
+        return Objects.equals(displayPiece, that.displayPiece);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(displayPiece);
     }
 }

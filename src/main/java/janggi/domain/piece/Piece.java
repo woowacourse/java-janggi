@@ -24,7 +24,7 @@ public class Piece {
         return pieceType.getName();
     }
 
-    public boolean isCHO() {
+    public boolean isCho() {
         return team == Team.CHO;
     }
 

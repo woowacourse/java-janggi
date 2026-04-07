@@ -7,7 +7,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public record BoardResponse(Map<PositionResponse, PieceResponse> boardInfos) {
+public class BoardResponse {
+
+    private final Map<PositionResponse, PieceResponse> boardInfos;
+
+    private BoardResponse(Map<PositionResponse, PieceResponse> boardInfos) {
+        this.boardInfos = boardInfos;
+    }
 
     public static BoardResponse from(Board board) {
         return of(board, List.of());
@@ -32,5 +38,9 @@ public record BoardResponse(Map<PositionResponse, PieceResponse> boardInfos) {
 
             boardInfos.put(PositionResponse.from(currentPos), PieceResponse.from(piece, isMovable));
         }
+    }
+
+    public Map<PositionResponse, PieceResponse> getBoardInfos() {
+        return boardInfos;
     }
 }

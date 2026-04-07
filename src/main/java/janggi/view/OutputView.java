@@ -1,6 +1,7 @@
 package janggi.view;
 
 import janggi.domain.board.BoardFormation;
+import janggi.domain.common.Position;
 import janggi.dto.BoardResponse;
 import janggi.dto.PieceResponse;
 import janggi.dto.PositionResponse;
@@ -29,7 +30,7 @@ public class OutputView {
     }
 
     public void printTurnMessage(TeamResponse team) {
-        System.out.printf("현재 %s 차례입니다%n", team.name());
+        System.out.printf("현재 %s 차례입니다%n", team.getName());
     }
 
     public void printMoveInfo() {
@@ -41,7 +42,7 @@ public class OutputView {
     }
 
     public void printBoardFormation(TeamResponse team) {
-        System.out.printf("%s 상차림을 선택하세요.%n", team.name());
+        System.out.printf("%s 상차림을 선택하세요.%n", team.getName());
         for (BoardFormation boardFormation : BoardFormation.values()) {
             System.out.printf("%d. %s%n", boardFormation.getChoice(), boardFormation.getName());
         }
@@ -49,11 +50,11 @@ public class OutputView {
 
     private void printRow(BoardResponse board, int y) {
         for (int x = 1; x <= 9; x++) {
-            PositionResponse targetPos = new PositionResponse(x, y);
+            PositionResponse targetPos = PositionResponse.from(new Position(x, y));
 
-            PieceResponse piece = board.boardInfos().get(targetPos);
+            PieceResponse piece = board.getBoardInfos().get(targetPos);
 
-            System.out.print(piece.displayPiece());
+            System.out.print(piece.getDisplayPiece());
         }
         System.out.println();
     }
