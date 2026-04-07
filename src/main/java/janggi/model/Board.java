@@ -65,12 +65,12 @@ public class Board {
     }
 
     public boolean isGameOver() {
-        return !isJangAlive(Team.CHO) || !isJangAlive(Team.HAN);
+        return isKingCaptured(Team.CHO) || isKingCaptured(Team.HAN);
     }
 
-    private boolean isJangAlive(Team team) {
+    private boolean isKingCaptured(Team team) {
         return board.values().stream()
-                .anyMatch(gimul -> gimul.isKing() && gimul.isSameTeam(team));
+                .noneMatch(gimul -> gimul.isKing() && gimul.isSameTeam(team));
     }
 
     public Score calculateScore(Team team) {
