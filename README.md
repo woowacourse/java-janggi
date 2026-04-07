@@ -71,3 +71,10 @@
 - 기본적으로 전진 및 좌우 방향으로 한 칸 이동할 수 있다.
 - 뒤로 이동할 수 없습니다.
 - 궁성 내부에서는 대각선 방향으로도 이동할 수 있다.
+
+## DB 연결
+- H2 임베디드 사용
+- http://localhost:8082/
+- URL = "jdbc:h2:~/janggi;AUTO_SERVER=TRUE";
+- USERNAME = "sa";
+- PASSWORD = "";
