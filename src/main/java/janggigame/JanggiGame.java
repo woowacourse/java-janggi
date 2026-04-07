@@ -1,7 +1,10 @@
 package janggigame;
 
 import domain.board.Board;
+import domain.board.BoardAssembler;
 import domain.board.Placement;
+import domain.piece.PieceRepository;
+import domain.piece.PieceSnapshot;
 import domain.piece.Side;
 import domain.position.Position;
 import dto.BoardResponseDto;
@@ -18,14 +21,74 @@ import java.util.Map;
 
 public class JanggiGame {
     private static final int JANGGUN_COUNT = 5;
+
     private final Map<Side, Integer> jangGunCount = new HashMap<>();
+    private final JanggiGameRepository janggiGameRepository;
+    private final PieceRepository pieceRepository;
+
+    public JanggiGame(JanggiGameRepository janggiGameRepository, PieceRepository pieceRepository) {
+        this.janggiGameRepository = janggiGameRepository;
+        this.pieceRepository = pieceRepository;
+    }
 
     public void run() {
+        GameMetaData gameMetaData = loadOrCreateNewGame();
+        Board board = loadOrInitBoard(gameMetaData);
+        processByStatus(board, gameMetaData);
+    }
+
+    private GameMetaData loadOrCreateNewGame() {
+        OutputView.printLoadGame();
+        return janggiGameRepository.findLatestUnfinishedGame()
+                .orElseGet(this::createNewGame);
+    }
+
+    private GameMetaData createNewGame() {
+        OutputView.printCreateNewGame();
+        return janggiGameRepository.save(JanggiGameEntity.newGame());
+    }
+
+    private Board loadOrInitBoard(GameMetaData gameMetaData) {
+        List<PieceSnapshot> pieces = pieceRepository.findByGameId(gameMetaData);
+
+        if (pieces.isEmpty()) {
+            return new Board();
+        }
+        return BoardAssembler.assemble(pieces);
+    }
+
+    private void processByStatus(Board board, GameMetaData gameMetaData) {
+        if (gameMetaData.status() == JanggiGameStatus.WAITING_HAN_PLACEMENT) {
+            handleWaitingHanPlacement(board, gameMetaData);
+            return;
+        }
+        if (gameMetaData.status() == JanggiGameStatus.WAITING_CHO_PLACEMENT) {
+            handleWaitingChoPlacement(board, gameMetaData);
+            return;
+        }
+        handleInProgress(board, gameMetaData);
+    }
+
+    private void handleWaitingHanPlacement(Board board, GameMetaData gameMetaData) {
         selectSide();
-        Board board = initBoard();
-        gameStart(board);
+        initPlacement(Side.HAN, board);
+        pieceRepository.savePlacement(board, gameMetaData, Side.HAN);
+        updateGameStatus(gameMetaData, JanggiGameStatus.WAITING_CHO_PLACEMENT);
+        handleWaitingChoPlacement(board, gameMetaData);
+    }
+
+    private void handleWaitingChoPlacement(Board board, GameMetaData gameMetaData) {
+        initPlacement(Side.CHO, board);
+        pieceRepository.savePlacement(board, gameMetaData, Side.CHO);
+        updateGameStatus(gameMetaData, JanggiGameStatus.IN_PROGRESS);
+        handleInProgress(board, gameMetaData);
+    }
+
+    private void handleInProgress(Board board, GameMetaData gameMetaData) {
+        gameStart(board, gameMetaData);
         ScoreBoard scoreBoard = calculateScore(board);
         showResult(board, scoreBoard);
+        updateGameStatus(gameMetaData, JanggiGameStatus.FINISHED);
     }
 
     private void selectSide() {
@@ -49,14 +112,6 @@ public class JanggiGame {
         return sides.get(sideCode - 1);
     }
 
-    private Board initBoard() {
-        Board board = new Board();
-        initPlacement(Side.HAN, board);
-        initPlacement(Side.CHO, board);
-
-        return board;
-    }
-
     private void initPlacement(Side side, Board board) {
         while (true) {
             try {
@@ -76,22 +131,47 @@ public class JanggiGame {
         return InputView.inputChoPlacementCode();
     }
 
-    private void gameStart(Board board) {
-        Side currentTurnSide = Side.CHO;
+    private void gameStart(Board board, GameMetaData gameMetaData) {
+        Side currentTurnSide = gameMetaData.currentTurn();
         printBoard(board);
         while (!isGameOver(board, currentTurnSide)) {
             try {
                 OutputView.printSide(currentTurnSide);
-                board.move(selectFromPosition(), selectToPosition(), currentTurnSide);
+                pieceMoveProcess(board, currentTurnSide, gameMetaData);
                 printBoard(board);
 
-                Side nextTurnSide = changeSide(currentTurnSide);
-                updateJangGunCount(board, nextTurnSide);
-                currentTurnSide = nextTurnSide;
+                currentTurnSide = changeSide(currentTurnSide);
+                jangGunCountProcess(board, gameMetaData, currentTurnSide);
+                changeTurnProcess(gameMetaData, currentTurnSide);
             } catch (Exception e) {
                 OutputView.printErrorMessage(e.getMessage());
             }
         }
+    }
+
+    private void pieceMoveProcess(Board board, Side currentTurnSide, GameMetaData gameMetaData) {
+        Position from = selectFromPosition();
+        Position to = selectToPosition();
+        boolean hasEnemyPieceAtTo = board.isBlocked(to) && !board.findBy(to).isSameSide(currentTurnSide);
+        board.move(from, to, currentTurnSide);
+
+        if (hasEnemyPieceAtTo) {
+            pieceRepository.deletePiecePosition(to, gameMetaData);
+        }
+        pieceRepository.updatePiecePosition(from, to, gameMetaData);
+    }
+
+    private void jangGunCountProcess(Board board, GameMetaData gameMetaData, Side currentTurnSide) {
+        updateJangGunCount(board, currentTurnSide);
+        janggiGameRepository.updateJangGunCount(jangGunCount, gameMetaData);
+    }
+
+    private void changeTurnProcess(GameMetaData gameMetaData, Side currentTurnSide) {
+        janggiGameRepository.updateTurn(currentTurnSide, gameMetaData);
+    }
+
+    private void updateGameStatus(GameMetaData gameMetaData, JanggiGameStatus newStatus) {
+        janggiGameRepository.updateGameStatus(gameMetaData, newStatus);
     }
 
     private boolean isGameOver(Board board, Side currentTurnSide) {
@@ -106,7 +186,7 @@ public class JanggiGame {
     private void updateJangGunCount(Board board, Side currentTurnSide) {
         if (board.isJangGun(currentTurnSide)) {
             OutputView.printIsJangGun();
-            jangGunCount.put(currentTurnSide, jangGunCount.get(currentTurnSide) + 1);
+            jangGunCount.put(currentTurnSide, jangGunCount.getOrDefault(currentTurnSide, 0) + 1);
             return;
         }
         jangGunCount.put(currentTurnSide, 0);

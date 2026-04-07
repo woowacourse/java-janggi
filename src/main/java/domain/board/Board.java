@@ -19,6 +19,10 @@ public class Board implements BoardState {
         state = new LinkedHashMap<>();
     }
 
+    public void put(Position position, Piece piece) {
+        state.put(position, piece);
+    }
+
     @Override
     public boolean isBlocked(Position currentPosition) {
         return state.containsKey(currentPosition);
@@ -78,7 +82,7 @@ public class Board implements BoardState {
                 .filter(entry -> entry.getValue().isSameSide(currentTurnSide) && entry.getValue().isSamePieceType(PieceType.GENERAL))
                 .map(Map.Entry::getKey)
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(currentTurnSide + "진영의 장군이 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException(currentTurnSide.getName() + "진영의 장군이 존재하지 않습니다."));
     }
 
     private void validatePieceCanMove(Position from, Position to, Piece fromPiece) {
