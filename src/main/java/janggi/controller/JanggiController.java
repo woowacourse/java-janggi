@@ -36,7 +36,6 @@ public class JanggiController {
             moveProcess(gameId);
         }
         printWinner(gameId);
-        janggiService.updateGameState(gameId);
     }
 
     private Long initGame() {
@@ -110,6 +109,7 @@ public class JanggiController {
     private void printWinner(Long gameId) {
         Game game = janggiService.findGame(gameId);
         outputView.printWinner(DynastyDto.from(game.judgeWinner()));
+        janggiService.updateGameState(gameId);
     }
 
     private <T> T getUntilValid(Supplier<T> supplier) {
