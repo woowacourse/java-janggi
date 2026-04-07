@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class GameDao {
 
-    DBConnection dbConnection;
+    private final DBConnection dbConnection;
 
     public GameDao(DBConnection dbConnection) {
         this.dbConnection = dbConnection;

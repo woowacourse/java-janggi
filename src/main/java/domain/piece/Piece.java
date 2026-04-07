@@ -53,4 +53,8 @@ public abstract class Piece {
     public Team getTeam() {
         return team;
     }
+
+    public int score() {
+        return pieceType.getScore();
+    }
 }

@@ -20,4 +20,11 @@ public enum Team {
     public double getScore() {
         return score;
     }
+
+    public Team opposite() {
+        if (this == Team.CHO) {
+            return Team.HAN;
+        }
+        return Team.CHO;
+    }
 }

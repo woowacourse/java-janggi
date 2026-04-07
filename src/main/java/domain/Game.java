@@ -24,20 +24,12 @@ public class Game {
     }
 
     public void move(Position from, Position to) {
-        try {
-            board.move(from, to);
-            nextTurn();
-        } catch (IllegalStateException e) {
-            throw new IllegalStateException(e.getMessage());
-        }
+        board.move(from, to);
+        nextTurn();
     }
 
     private void nextTurn() {
-        if (turn == Team.CHO) {
-            this.turn = Team.HAN;
-            return;
-        }
-        this.turn = Team.CHO;
+        this.turn = turn.opposite();
     }
 
     public void validateMoveAblePiece(Position from) {
