@@ -12,6 +12,15 @@ class PalaceTest {
         Position choPalacePosition = new Position(3, 2);
 
         @Test
+        void 해당_좌표가_궁성인지_반환한다() {
+            Position outPalacePosition = new Position(0,0);
+
+            assertThat(Palace.isPalace(choPalacePosition)).isTrue();
+            assertThat(Palace.isPalace(hanPalacePosition)).isFalse();
+            assertThat(Palace.isPalace(outPalacePosition)).isFalse();
+        }
+
+        @Test
         void 해당_좌표가_초의_궁성인지_반환한다() {
             assertThat(Palace.isChoPalace(choPalacePosition)).isTrue();
             assertThat(Palace.isChoPalace(hanPalacePosition)).isFalse();
