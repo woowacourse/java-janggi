@@ -15,20 +15,26 @@ import java.util.Set;
 public class Game {
     private static final Side INIT_TURN = Side.CHO;
 
+    private final Integer id;
     private final Rules rules;
     private final Board board;
-    private Integer id;
     private Side turn;
 
-    public Game(Rules rules, Board board, Side turn) {
+    public Game(Integer id, Rules rules, Board board, Side turn) {
+        this.id = id;
         this.rules = rules;
         this.board = board;
         this.turn = turn;
     }
 
     public static Game createGame(BoardSetUp choBoardSetUp, BoardSetUp hanBoardSetUp) {
-        return new Game(Rules.createWithDefaultRules(), Board.setUp(choBoardSetUp, hanBoardSetUp), INIT_TURN);
+        return new Game(null, Rules.createWithDefaultRules(), Board.setUp(choBoardSetUp, hanBoardSetUp), INIT_TURN);
     }
+
+    public static Game createGameWithId(Integer id, BoardSetUp choBoardSetUp, BoardSetUp hanBoardSetUp) {
+        return new Game(id, Rules.createWithDefaultRules(), Board.setUp(choBoardSetUp, hanBoardSetUp), INIT_TURN);
+    }
+
 
     public Side getTurn() {
         return turn;
@@ -84,11 +90,7 @@ public class Game {
     public Side winnerSide() {
         return rules.winner(board.getPieces());
     }
-
-    public void assignId(Integer id) {
-        this.id = id;
-    }
-
+    
     public Integer getId() {
         return id;
     }

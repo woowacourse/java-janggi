@@ -3,7 +3,6 @@ package janggi.domain.board;
 import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.path.CandidatePath;
 import janggi.domain.path.Movement;
-import janggi.domain.path.generator.PathStrategy;
 import janggi.domain.piece.unit.Piece;
 import janggi.domain.point.Point;
 import janggi.domain.side.Side;
@@ -37,8 +36,9 @@ public class Board {
     public Set<Point> destinations(List<Movement> movements, Point from, Predicate<Point> predicate) {
         Piece piece = getPieceAt(from)
                 .orElseThrow(() -> new IllegalArgumentException("해당 Point에 기물이 없어, 목적지가 없습니다."));
-        List<CandidatePath> candidatePaths = convertToCandidatePaths(
-                movements, from, piece.pathStrategy(), predicate);
+        List<CandidatePath> candidatePaths = movements.stream()
+                .map(movement -> new CandidatePath(movement, from, piece.pathStrategy(), predicate))
+                .toList();
 
         return piece.availablePoints(candidatePaths, findPiecesOnPaths(candidatePaths))
                 .stream()
@@ -50,15 +50,6 @@ public class Board {
         return getPieceAt(from)
                 .orElseThrow(() -> new IllegalArgumentException("해당하는 포인트에 Piece가 존재하지 않아 Movement를 생성할 수 없습니다."))
                 .createMovements();
-    }
-
-    private List<CandidatePath> convertToCandidatePaths(List<Movement> movements,
-                                                        Point from,
-                                                        PathStrategy pathStrategy,
-                                                        Predicate<Point> predicate) {
-        return movements.stream()
-                .map(movement -> new CandidatePath(movement, from, pathStrategy, predicate))
-                .toList();
     }
 
 
