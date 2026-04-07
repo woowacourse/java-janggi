@@ -116,11 +116,12 @@ public final class JanggiController {
                 continue;
             }
 
-            // TODO board말고 장기게임만 넘겨서 해결할 수 없을까?
-            Board board = janggiGame.getBoard();
-            outputView.printBoardWithMovable(board, board.getMovableIntersections(startPosition, currentTurn));
+            outputView.printBoardWithMovable(
+                    janggiGame.getBoard(),
+                    janggiGame.getMovableIntersections(startPosition, currentTurn)
+            );
 
-            readValidDestinationAndPrintBoard(janggiGame, board, startPosition, currentTurn);
+            readValidDestinationAndPrintBoard(janggiGame, startPosition, currentTurn);
         }
 
         outputView.printWinner(janggiGame.determineResult());
@@ -151,7 +152,6 @@ public final class JanggiController {
 
     private Intersection readValidDestinationAndPrintBoard(
             JanggiGame janggiGame,
-            Board board,
             Intersection startPosition,
             Side currentTurn
     ) {
@@ -159,7 +159,7 @@ public final class JanggiController {
             try {
                 Intersection destination = inputView.readDestination();
                 janggiGame.movePiece(startPosition, destination, currentTurn);
-                outputView.printBoard(board);
+                outputView.printBoard(janggiGame.getBoard());
 
                 return destination;
             } catch (IllegalArgumentException e) {

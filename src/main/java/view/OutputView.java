@@ -3,6 +3,7 @@ package view;
 import domain.board.Board;
 import domain.board.Intersection;
 import domain.game.GameResult;
+import domain.game.JanggiGame;
 import domain.game.Side;
 import domain.piece.Piece;
 import domain.piece.PieceType;

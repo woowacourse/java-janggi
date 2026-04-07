@@ -4,6 +4,7 @@ import domain.board.Board;
 import domain.board.Intersection;
 import domain.piece.Piece;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public final class JanggiGame {
@@ -48,6 +49,14 @@ public final class JanggiGame {
     private Side previousTurn() {
         return currentTurn.nextTurn();
     }
+
+    public List<Intersection> getMovableIntersections(
+            Intersection selectedIntersection,
+            Side side
+    ) {
+        return board.getMovableIntersections(selectedIntersection, side);
+    }
+
 
     public boolean isFinished() {
         return isGeneralCaptured() || !hasEnoughPointsToContinue();
