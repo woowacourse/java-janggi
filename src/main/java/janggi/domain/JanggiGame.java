@@ -16,6 +16,11 @@ public class JanggiGame {
         this.currentTeam = Team.CHO;
     }
 
+    public JanggiGame(Board board, Team currentTeam) {
+        this.board = board;
+        this.currentTeam = currentTeam;
+    }
+
     public void move(Position from, Position to) {
         if (board.getPieceAt(from).getTeam() != currentTeam) {
             throw new InvalidTurnException(currentTeam);

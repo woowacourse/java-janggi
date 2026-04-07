@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 
-public class JdbcGameRepository implements GameRepository{
+public class JdbcGameRepository implements GameRepository {
     @Override
     public void save(Connection conn, GameEntity entity) {
         String sql = "INSERT INTO Game (game_id, state, turn, start_date) VALUES (?, ?, ?, ?)";
