@@ -11,10 +11,12 @@ import java.util.List;
 public class JanggiGame {
     private final Board board;
     private final Players players;
+    private Side currentTurn;
 
     public JanggiGame(Board board, Players players) {
         this.board = board;
         this.players = players;
+        this.currentTurn = Side.CHO;
     }
 
     public boolean isFinished() {
@@ -22,16 +24,16 @@ public class JanggiGame {
     }
 
     public Side getWhoseTurn() {
-        return players.getWhoseTurn();
+        return currentTurn;
     }
 
     public void playGame(Movement movement) {
-        board.move(movement.startPosition(), movement.endPosition(), players.getWhoseTurn());
+        board.move(movement.startPosition(), movement.endPosition(), currentTurn);
         players.updateState(board);
     }
 
     public void switchTurn() {
-        players.switchTurn();
+        this.currentTurn = currentTurn.next();
     }
 
     public Board getBoard() {
