@@ -1,0 +1,93 @@
+package dao;
+
+import config.DBConnection;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class JanggiGameDao {
+    public int createNewGame(String initialTurn) {
+        String sql = "INSERT INTO game_state (turn) VALUES (?)";
+
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+
+            pstmt.setString(1, initialTurn);
+            pstmt.executeUpdate();
+
+            try (ResultSet rs = pstmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("새 게임 생성 중 에러 발생: " + e.getMessage());
+        }
+        throw new RuntimeException("새 게임 생성에 실패했습니다.");
+    }
+
+    public void updateTurn(int gameId, String currentTurn) {
+        String sql = "UPDATE game_state SET turn = ? WHERE id = ?";
+
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+
+            pstmt.setString(1, currentTurn);
+            pstmt.setInt(2, gameId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("턴 정보 업데이트 중 에러 발생: " + e.getMessage());
+        }
+    }
+
+    public List<Integer> getSavedGames() {
+        String sql = "SELECT id FROM game_state";
+        List<Integer> gameId = new ArrayList<>();
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                gameId.add(rs.getInt("id"));
+            }
+        } catch (SQLException e) {
+            System.out.println("게임 목록 조회 중 에러 발생: " + e.getMessage());
+        }
+
+        return gameId;
+    }
+
+    public String getSavedTurn(int gameId) {
+        String sql = "SELECT turn FROM game_state WHERE id = ?";
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, gameId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("turn");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("보드 정보 조회 중 에러 발생: " + e.getMessage());
+        }
+
+        return "";
+    }
+
+    public void deleteGame(int gameId) {
+        String sql = "DELETE FROM game_state WHERE id = ?";
+
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+
+            pstmt.setInt(1, gameId);
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("게임 정보 삭제 중 에러 발생: " + e.getMessage());
+        }
+    }
+}

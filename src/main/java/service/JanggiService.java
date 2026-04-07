@@ -1,6 +1,7 @@
 package service;
 
-import dao.JanggiDao;
+import dao.JanggiGameDao;
+import dao.PieceDao;
 import domain.Board;
 import domain.BoardFactory;
 import domain.JanggiGame;
@@ -18,14 +19,16 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class JanggiService {
-    private final JanggiDao janggiDao;
+    private final JanggiGameDao janggiGameDao;
+    private final PieceDao pieceDao;
 
-    public JanggiService(JanggiDao janggiDao) {
-        this.janggiDao = janggiDao;
+    public JanggiService(JanggiGameDao janggiGameDao, PieceDao pieceDao) {
+        this.janggiGameDao = janggiGameDao;
+        this.pieceDao = pieceDao;
     }
 
     public int createNewGame(String initialTurn) {
-        return janggiDao.createNewGame(initialTurn);
+        return janggiGameDao.createNewGame(initialTurn);
     }
 
     public void saveInitBoard(int gameId, Board board) {
@@ -34,7 +37,7 @@ public class JanggiService {
             PositionDto positionDto = entry.getKey();
             PieceDto pieceDto = entry.getValue();
 
-            janggiDao.savePiecePosition(gameId, pieceDto, positionDto);
+            pieceDao.savePiecePosition(gameId, pieceDto, positionDto);
         }
     }
 
@@ -71,10 +74,10 @@ public class JanggiService {
         game.play(start, end);
 
         if (!checkEndPosition) {
-            janggiDao.deletePiece(gameId, end.getRow(), end.getCol());
+            pieceDao.deletePiece(gameId, end.getRow(), end.getCol());
         }
-        janggiDao.movePiece(gameId, start.getRow(), start.getCol(), end.getRow(), end.getCol());
-        janggiDao.updateTurn(gameId, game.getCountry().name());
+        pieceDao.movePiece(gameId, start.getRow(), start.getCol(), end.getRow(), end.getCol());
+        janggiGameDao.updateTurn(gameId, game.getCountry().name());
     }
 
     public List<PieceType> createMaSang(int command) {
@@ -82,20 +85,20 @@ public class JanggiService {
     }
 
     public List<Integer> getSavedGames() {
-        return janggiDao.getSavedGames();
+        return janggiGameDao.getSavedGames();
     }
 
     public Board getSavedBoard(int gameId) {
-        List<SavedPieceDto> savedPieces = janggiDao.getSavedBoard(gameId);
+        List<SavedPieceDto> savedPieces = pieceDao.getSavedBoard(gameId);
         return new Board(BoardFactory.createLoadBoard(savedPieces));
     }
 
     public JanggiGame loadGame(int gameId, Board board) {
-        Country country = Country.getCountry(janggiDao.getSavedTurn(gameId));
+        Country country = Country.getCountry(janggiGameDao.getSavedTurn(gameId));
         return new JanggiGame(board, country);
     }
 
     public void deleteGame(int gameId) {
-        janggiDao.deleteGame(gameId);
+        janggiGameDao.deleteGame(gameId);
     }
 }

@@ -1,4 +1,6 @@
-import dao.JanggiDao;
+import config.DBInitializer;
+import dao.JanggiGameDao;
+import dao.PieceDao;
 import java.util.Scanner;
 
 import controller.JanggiController;
@@ -11,10 +13,13 @@ public class Application {
     public static void main(String[] args) {
         InputView inputView = new InputView(new Scanner(System.in));
         OutputView outputView = new OutputView(new OutputViewFormatter());
-        JanggiDao janggiDao = new JanggiDao();
-        janggiDao.createTable();
 
-        JanggiService janggiService = new JanggiService(janggiDao);
+        JanggiGameDao janggiGameDao = new JanggiGameDao();
+        PieceDao pieceDao = new PieceDao();
+
+        DBInitializer.init();
+
+        JanggiService janggiService = new JanggiService(janggiGameDao, pieceDao);
         try{
             JanggiController janggiController = new JanggiController (inputView, outputView, janggiService);
             janggiController.run();
