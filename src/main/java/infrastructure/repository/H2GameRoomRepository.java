@@ -20,7 +20,7 @@ public class H2GameRoomRepository implements GameRoomRepository {
 
     @Override
     public List<GameRoom> findAllPlaying() {
-        String sql = "SELECT id, name FROM game_rooms WHERE status = 'PLAYING' ORDER BY created_at";
+        String sql = "SELECT id, name FROM game_rooms WHERE status = 'PLAYING' ORDER BY id";
         List<GameRoom> rooms = new ArrayList<>();
         try (Connection connection = databaseManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql);
