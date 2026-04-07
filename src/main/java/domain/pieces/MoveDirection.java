@@ -15,6 +15,15 @@ public class MoveDirection {
         );
     }
 
+    public static List<Direction> ofDiagonal() {
+        return List.of(
+                Direction.NORTHWEST,
+                Direction.NORTHEAST,
+                Direction.SOUTHEAST,
+                Direction.SOUTHWEST
+        );
+    }
+
     public static List<List<Direction>> ofHorse() {
         return List.of(
                 List.of(Direction.NORTH, Direction.NORTHEAST),
@@ -41,33 +50,57 @@ public class MoveDirection {
         );
     }
 
-    public static List<List<Direction>> ofAllAround() {
+    public static List<Direction> ofAllAround() {
         return List.of(
-                List.of(Direction.NORTH),
-                List.of(Direction.SOUTH),
-                List.of(Direction.WEST),
-                List.of(Direction.EAST),
-                List.of(Direction.NORTHWEST),
-                List.of(Direction.NORTHEAST),
-                List.of(Direction.SOUTHWEST),
-                List.of(Direction.SOUTHEAST)
+                Direction.NORTH,
+                Direction.SOUTH,
+                Direction.WEST,
+                Direction.EAST,
+                Direction.NORTHWEST,
+                Direction.NORTHEAST,
+                Direction.SOUTHWEST,
+                Direction.SOUTHEAST
         );
     }
 
-    public static List<List<Direction>> ofSoldier(Camp camp) {
+    public static List<Direction> ofSoldier(Camp camp) {
         if(camp == Camp.CHO) {
             return List.of(
-                    List.of(Direction.WEST),
-                    List.of(Direction.EAST),
-                    List.of(Direction.NORTH)
+                    Direction.WEST,
+                    Direction.EAST,
+                    Direction.NORTH
             );
         }
 
         if(camp == Camp.HAN) {
             return List.of(
-                    List.of(Direction.WEST),
-                    List.of(Direction.EAST),
-                    List.of(Direction.SOUTH)
+                    Direction.WEST,
+                    Direction.EAST,
+                    Direction.SOUTH
+            );
+        }
+
+        throw new IllegalArgumentException("[ERROR] Soldier의 이동이 정의되지 않은 Camp 입니다." + camp);
+    }
+
+    public static List<Direction> ofSoldierInPalace(Camp camp) {
+        if(camp == Camp.CHO) {
+            return List.of(
+                    Direction.WEST,
+                    Direction.EAST,
+                    Direction.NORTH,
+                    Direction.NORTHEAST,
+                    Direction.NORTHWEST
+            );
+        }
+
+        if(camp == Camp.HAN) {
+            return List.of(
+                    Direction.WEST,
+                    Direction.EAST,
+                    Direction.SOUTH,
+                    Direction.SOUTHEAST,
+                    Direction.SOUTHWEST
             );
         }
 
