@@ -6,6 +6,7 @@ import domain.board.wing.Wings;
 import domain.game.Side;
 import domain.piece.Piece;
 import domain.piece.PieceType;
+import dto.MoveCommand;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -71,11 +72,11 @@ public final class InputView {
         return WingPieces.of(pieces);
     }
 
-    public String readCommand(Side currentTurn) {
+    public MoveCommand readMoveCommand(Side currentTurn) {
         String sideName = SIDE_NAMES.get(currentTurn);
         System.out.printf("%s 차례입니다. 이동할 기물의 좌표를 입력하세요 ('exit'를 입력하면 종료):%n", sideName);
 
-        return readLine();
+        return MoveCommand.from(readLine());
     }
 
     public Intersection readDestination() {

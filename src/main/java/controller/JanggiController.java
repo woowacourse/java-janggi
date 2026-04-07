@@ -10,6 +10,7 @@ import domain.piece.AlivePieces;
 import dto.GameMenu;
 import dto.GameSummary;
 import dto.GameWrapper;
+import dto.MoveCommand;
 import java.util.List;
 import java.util.Map;
 import service.JanggiService;
@@ -94,36 +95,51 @@ public final class JanggiController {
     }
 
     private void startGame(GameWrapper gameWrapper) {
-        outputView.printGameStart();
-        JanggiGame janggiGame = gameWrapper.game();
-        outputView.printBoard(janggiGame.getBoard());
+        JanggiGame janggiGame = setUpGame(gameWrapper);
         while (!janggiGame.isFinished()) {
-            Side currentTurn = janggiGame.currentTurn();
-
-            // TODO command 받고 -> position 변환 이거 하나로 묶을 수 없는지 시도하기. depth 1로.
-            String command = inputView.readCommand(currentTurn);
-            if (command.equals("exit")) {
-                outputView.printGameFinishedByCommand();
-                janggiService.saveGame(gameWrapper);
-                return;
-            }
-
-            Intersection startPosition;
+            MoveCommand moveCommand;
             try {
-                startPosition = Intersection.parse(command);
+                moveCommand = inputView.readMoveCommand(janggiGame.currentTurn());
             } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
                 continue;
             }
 
-            outputView.printBoardWithMovable(
-                    janggiGame.getBoard(),
-                    janggiGame.getMovableIntersections(startPosition, currentTurn)
-            );
+            if (moveCommand.isExit()) {
+                exitGame(gameWrapper);
+                return;
+            }
 
-            readValidDestinationAndPrintBoard(janggiGame, startPosition, currentTurn);
+            processTurn(moveCommand, janggiGame);
         }
 
+        finishGame(gameWrapper, janggiGame);
+    }
+
+    private JanggiGame setUpGame(GameWrapper gameWrapper) {
+        outputView.printGameStart();
+        JanggiGame janggiGame = gameWrapper.game();
+        outputView.printBoard(janggiGame.getBoard());
+        return janggiGame;
+    }
+
+    private void exitGame(GameWrapper gameWrapper) {
+        outputView.printGameFinishedByCommand();
+        janggiService.saveGame(gameWrapper);
+    }
+
+    private void processTurn(MoveCommand moveCommand, JanggiGame janggiGame) {
+        Intersection startPosition = moveCommand.selectedToMove();
+        Side currentTurn = janggiGame.currentTurn();
+
+        outputView.printBoardWithMovable(
+                janggiGame.getBoard(),
+                janggiGame.getMovableIntersections(startPosition, currentTurn)
+        );
+        readValidDestinationAndPrintBoard(janggiGame, startPosition, currentTurn);
+    }
+
+    private void finishGame(GameWrapper gameWrapper, JanggiGame janggiGame) {
         outputView.printWinner(janggiGame.determineResult());
         janggiService.saveGame(gameWrapper);
     }

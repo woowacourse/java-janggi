@@ -24,7 +24,7 @@ public record Intersection(int row, int file) {
 
             return new Intersection(row, file);
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("좌표에는 숫자만 입력할 수 있습니다.");
+            throw new IllegalArgumentException("좌표에는 숫자만 입력할 수 있습니다.", e);
         }
     }
 
