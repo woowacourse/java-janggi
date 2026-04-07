@@ -55,8 +55,8 @@ public class JanggiController {
 
     private void loadAndRunGame() {
         String name = readGameName();
-        Janggi janggi = janggiService.loadGameByName(name);
         Long gameId = janggiService.findIdByName(name);
+        Janggi janggi = janggiService.loadJanggiGameById(gameId);
         janggi.withScore((choScore, hanScore) ->
                 outputView.printScore(choScore.getValue(), hanScore.getValue()));
         runGame(janggi, gameId);

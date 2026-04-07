@@ -76,7 +76,8 @@ class JanggiServiceTest {
         Board board = new LeftSidedTableSetting().init();
         janggiService.save(gameId, board, Team.HAN);
 
-        Janggi janggi = janggiService.loadGameByName("테스트게임");
+        Long gameIdToLoad = janggiService.findIdByName("테스트게임");
+        Janggi janggi = janggiService.loadJanggiGameById(gameIdToLoad);
         assertThat(janggi).isNotNull();
         assertThat(janggi.isGameOver()).isFalse();
     }

@@ -31,9 +31,7 @@ public class JanggiService {
         return gameRepository.findAllNames();
     }
 
-    public Janggi loadGameByName(String name) {
-        Long gameId = gameRepository.findIdByName(name)
-                .orElseThrow(() -> new IllegalArgumentException("게임을 찾을 수 없습니다."));
+    public Janggi loadJanggiGameById(Long gameId) {
         Team currentTurn = gameRepository.findCurrentTurn(gameId)
                 .orElseThrow(() -> new IllegalArgumentException("게임을 찾을 수 없습니다."));
         Map<Position, AbstractGimul> board = gimulRepository.findAll(gameId);
