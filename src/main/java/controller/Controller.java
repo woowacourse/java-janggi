@@ -7,6 +7,7 @@ import domain.board.InitializeSetting;
 import domain.board.Position;
 import domain.piece.Piece;
 import domain.piece.Team;
+import dto.GameDto;
 import dto.PieceDto;
 
 import repository.GameRepository;
@@ -41,11 +42,7 @@ public class Controller {
 
     private void play(Game game, long gameId) {
         while (!game.isGameEnd()) {
-            outputView.printScore(Team.HAN, game.getCurrentScore(Team.HAN));
-            outputView.printBoard(toPieceDtos(game));
-            outputView.printScore(Team.CHO, game.getCurrentScore(Team.CHO));
-            outputView.printCurrentTurn(game.getTurn());
-
+            outputView.printGame(toGameDto(game));
             boolean isContinue = executeMove(game);
             if (!isContinue) {
                 outputView.printGameSaved(gameId);
@@ -53,23 +50,7 @@ public class Controller {
             }
             gameRepository.save(gameId, game);
         }
-
         outputView.printGameResult(game.getWinnerTeam());
-    }
-
-    private List<PieceDto> toPieceDtos(Game game) {
-        return game.getPieces().entrySet().stream()
-                .map(e -> toPieceDto(e.getKey(), e.getValue()))
-                .toList();
-    }
-
-    private PieceDto toPieceDto(Position position, Piece piece) {
-        return new PieceDto(
-                position.x(),
-                position.y(),
-                piece.getPieceType(),
-                piece.getTeam()
-        );
     }
 
     private void startNewGame() {
@@ -100,6 +81,30 @@ public class Controller {
         } catch (Exception e) {
             outputView.printError(new IllegalArgumentException("게임을 불러오는데 실패했습니다. 방 번호를 확인하세요."));
         }
+    }
+
+    private PieceDto toPieceDto(Position position, Piece piece) {
+        return new PieceDto(
+                position.x(),
+                position.y(),
+                piece.getPieceType(),
+                piece.getTeam()
+        );
+    }
+
+    private List<PieceDto> toPieceDtos(Game game) {
+        return game.getPieces().entrySet().stream()
+                .map(e -> toPieceDto(e.getKey(), e.getValue()))
+                .toList();
+    }
+
+    private GameDto toGameDto(Game game) {
+        return new GameDto(
+                game.getTurn(),
+                game.getCurrentScore(Team.CHO),
+                game.getCurrentScore(Team.HAN),
+                toPieceDtos(game)
+        );
     }
 
     private boolean executeMove(Game game) {

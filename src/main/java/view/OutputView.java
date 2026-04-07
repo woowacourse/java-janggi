@@ -2,6 +2,7 @@ package view;
 
 import domain.piece.PieceType;
 import domain.piece.Team;
+import dto.GameDto;
 import dto.PieceDto;
 
 import java.util.List;
@@ -14,7 +15,6 @@ public class OutputView {
     private static final String RESET = "\u001B[0m";
     private static final String RED = "\u001B[31m";
     private static final String BLUE = "\u001B[34m";
-
     private static final String EMPTY_MARK = "＋";
 
     private static final Map<Team, String> TEAM_NAMES = Map.of(
@@ -40,7 +40,14 @@ public class OutputView {
     private record Cell(int x, int y) {
     }
 
-    public void printBoard(List<PieceDto> pieces) {
+    public void printGame(GameDto game) {
+        printScore(Team.HAN, game.hanScore());
+        printBoard(game.pieces());
+        printScore(Team.CHO, game.choScore());
+        printCurrentTurn(game.turn());
+    }
+
+    private void printBoard(List<PieceDto> pieces) {
         Map<Cell, PieceDto> pieceMap = pieces.stream()
                 .collect(Collectors.toMap(piece -> new Cell(piece.x(), piece.y()), piece -> piece));
 
@@ -71,11 +78,11 @@ public class OutputView {
         System.out.println(RED + "[ERROR] " + e.getMessage() + RESET);
     }
 
-    public void printScore(Team team, double score) {
+    private void printScore(Team team, double score) {
         System.out.printf("\n%s: %.1f\n", TEAM_NAMES.get(team), score);
     }
 
-    public void printCurrentTurn(Team turn) {
+    private void printCurrentTurn(Team turn) {
         System.out.printf(TEAM_COLORS.get(turn) + "\n▶ [" + TEAM_NAMES.get(turn) + "의 차례입니다]  " + RESET);
     }
 
