@@ -15,9 +15,9 @@ public class SoldierPiece extends Piece {
     @Override
     public boolean canMoveByBasicMovingRule(Position from, Position to) {
         if (getTeam() == Team.HAN) {
-            return canMoveHanSoldier(from, to) || PALACE.canMoveSoldierDiagonally(getTeam(), from, to);
+            return canMoveHanSoldier(from, to) || canMoveHanSoldierDiagonallyInPalace(from, to);
         }
-        return canMoveChoSoldier(from, to) || PALACE.canMoveSoldierDiagonally(getTeam(), from, to);
+        return canMoveChoSoldier(from, to) || canMoveChoSoldierDiagonallyInPalace(from, to);
     }
 
     @Override
@@ -48,5 +48,25 @@ public class SoldierPiece extends Piece {
             return true;
         }
         return from.distanceX(to) == 1 && from.isSameY(to);
+    }
+
+    private boolean canMoveHanSoldierDiagonallyInPalace(Position from, Position to) {
+        if (!PALACE.contains(Team.CHO, from) || !PALACE.contains(Team.CHO, to)) {
+            return false;
+        }
+        if (!PALACE.canMoveOneStepDiagonally(Team.CHO, from, to)) {
+            return false;
+        }
+        return from.deltaY(to) == 1;
+    }
+
+    private boolean canMoveChoSoldierDiagonallyInPalace(Position from, Position to) {
+        if (!PALACE.contains(Team.HAN, from) || !PALACE.contains(Team.HAN, to)) {
+            return false;
+        }
+        if (!PALACE.canMoveOneStepDiagonally(Team.HAN, from, to)) {
+            return false;
+        }
+        return from.deltaY(to) == -1;
     }
 }

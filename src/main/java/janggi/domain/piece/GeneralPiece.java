@@ -14,7 +14,13 @@ public class GeneralPiece extends Piece {
 
     @Override
     public boolean canMoveByBasicMovingRule(Position from, Position to) {
-        return PALACE.canMove(getTeam(), from, to);
+        if (!PALACE.contains(getTeam(), from) || !PALACE.contains(getTeam(), to)) {
+            return false;
+        }
+        if (from.distanceX(to) + from.distanceY(to) == 1) {
+            return true;
+        }
+        return PALACE.canMoveOneStepDiagonally(getTeam(), from, to);
     }
 
     @Override

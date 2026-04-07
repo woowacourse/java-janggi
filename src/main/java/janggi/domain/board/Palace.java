@@ -13,30 +13,6 @@ public class Palace {
     private static final Position HAN_CENTER = new Position(5, 2);
     private static final Position CHO_CENTER = new Position(5, 9);
 
-    public boolean canMove(Team team, Position from, Position to) {
-        if (contains(team, from) && contains(team, to)) {
-            if (canMoveStraightOneStep(from, to)) {
-                return true;
-            }
-            return canMoveDiagonally(team, from, to);
-        }
-        return false;
-    }
-
-    public boolean canMoveSoldierDiagonally(Team team, Position from, Position to) {
-        Team opponentTeam = findOpponentTeam(team);
-        if (!contains(opponentTeam, from) || !contains(opponentTeam, to)) {
-            return false;
-        }
-        if (!canMoveOneStepDiagonally(opponentTeam, from, to)) {
-            return false;
-        }
-        if (team == Team.HAN) {
-            return from.deltaY(to) == 1;
-        }
-        return from.deltaY(to) == -1;
-    }
-
     public boolean canMoveOnDiagonalLine(Position from, Position to) {
         if (!isInsideSamePalace(from, to)) {
             return false;
@@ -59,7 +35,7 @@ public class Palace {
         return List.of(center, to);
     }
 
-    private boolean contains(Team team, Position position) {
+    public boolean contains(Team team, Position position) {
         if (position.x() < MIN_X || position.x() > MAX_X) {
             return false;
         }
@@ -69,15 +45,7 @@ public class Palace {
         return CHO_MIN_Y <= position.y() && position.y() <= CHO_MAX_Y;
     }
 
-    private boolean canMoveStraightOneStep(Position from, Position to) {
-        return from.distanceX(to) + from.distanceY(to) == 1;
-    }
-
-    private boolean canMoveDiagonally(Team team, Position from, Position to) {
-        return canMoveOneStepDiagonally(team, from, to);
-    }
-
-    private boolean canMoveOneStepDiagonally(Team team, Position from, Position to) {
+    public boolean canMoveOneStepDiagonally(Team team, Position from, Position to) {
         if (from.distanceX(to) != 1 || from.distanceY(to) != 1) {
             return false;
         }
@@ -103,13 +71,6 @@ public class Palace {
             return HAN_CENTER;
         }
         return CHO_CENTER;
-    }
-
-    private Team findOpponentTeam(Team team) {
-        if (team == Team.HAN) {
-            return Team.CHO;
-        }
-        return Team.HAN;
     }
 
     private boolean isCorner(Team team, Position position) {
