@@ -5,7 +5,8 @@ import java.util.List;
 
 public class Empty extends Piece {
 
-    private static final String NAME = ".";
+    private static final String NAME = " .";
+    private static final int SCORE = 0;
 
     public Empty() {
         super(null, null, null);
@@ -19,5 +20,10 @@ public class Empty extends Piece {
     @Override
     public String getName() {
         return NAME;
+    }
+
+    @Override
+    public int getScore() {
+        return SCORE;
     }
 }

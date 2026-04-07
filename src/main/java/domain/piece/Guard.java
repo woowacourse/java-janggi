@@ -9,6 +9,7 @@ import java.util.List;
 public class Guard extends Piece {
 
     private static final String NAME = "사";
+    private static final int SCORE = 3;
 
     public Guard(Side side, Paths paths, PieceMoveStrategy strategy) {
         super(side, paths, strategy);
@@ -22,5 +23,10 @@ public class Guard extends Piece {
     @Override
     public String getName() {
         return NAME;
+    }
+
+    @Override
+    public int getScore() {
+        return SCORE;
     }
 }

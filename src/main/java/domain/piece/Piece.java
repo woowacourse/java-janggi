@@ -55,4 +55,6 @@ public abstract class Piece {
     public abstract List<Position> findRoute(Position sourcePosition, Position targetPosition);
 
     public abstract String getName();
+
+    public abstract int getScore();
 }

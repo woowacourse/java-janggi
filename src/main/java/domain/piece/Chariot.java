@@ -9,6 +9,7 @@ import java.util.List;
 public class Chariot extends Piece {
 
     private static final String NAME = "차";
+    private static final int SCORE = 13;
 
     public Chariot(Side side, Paths paths, PieceMoveStrategy strategy) {
         super(side, paths, strategy);
@@ -22,5 +23,10 @@ public class Chariot extends Piece {
     @Override
     public String getName() {
         return NAME;
+    }
+
+    @Override
+    public int getScore() {
+        return SCORE;
     }
 }

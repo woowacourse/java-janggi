@@ -43,6 +43,19 @@ public class Board {
         return true;
     }
 
+    public double calculateTotalScore(Side side) {
+        double totalScore = 0;
+        if (side == Side.HAN) {
+            totalScore += 1.5;
+        }
+        for (Piece piece : board.values()) {
+            if (piece.isSameSide(side)) {
+                totalScore += piece.getScore();
+            }
+        }
+        return totalScore;
+    }
+
     public Map<Position, Piece> getBoard() {
         return Map.copyOf(board);
     }

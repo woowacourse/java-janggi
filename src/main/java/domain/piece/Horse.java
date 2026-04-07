@@ -9,6 +9,7 @@ import java.util.List;
 public class Horse extends Piece {
 
     private static final String NAME = "마";
+    private static final int SCORE = 5;
 
     public Horse(Side side, Paths paths, PieceMoveStrategy strategy) {
         super(side, paths, strategy);
@@ -22,5 +23,10 @@ public class Horse extends Piece {
     @Override
     public String getName() {
         return NAME;
+    }
+
+    @Override
+    public int getScore() {
+        return SCORE;
     }
 }

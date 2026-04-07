@@ -26,6 +26,11 @@ class PieceTest {
         public String getName() {
             return "";
         }
+
+        @Override
+        public int getScore() {
+            return 0;
+        }
     }
 
     @DisplayName("기물 이동 경로는 모두 비어있어야한다.")

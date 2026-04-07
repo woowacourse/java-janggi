@@ -33,6 +33,10 @@ public class Game {
         return board.getBoard();
     }
 
+    public double calculateTotalScore(Side side) {
+        return board.calculateTotalScore(side);
+    }
+
     private void validateMovement(Position sourcePosition, Position targetPosition) {
         Piece sourcePiece = board.getPiece(sourcePosition);
         Piece targetPiece = board.getPiece(targetPosition);

@@ -38,6 +38,7 @@ public class JanggiController {
     private void processMove(Game game) {
         while (!game.isGameEnd()) {
             Side currentTurn = game.getCurrentTurn();
+            outputView.printCurrentTotalScore(game.calculateTotalScore(Side.CHO), game.calculateTotalScore(Side.HAN));
             outputView.printCurrentTurn(currentTurn);
             Position sourcePosition = readSourcePosition();
             Position targetPosition = readTargetPosition();
