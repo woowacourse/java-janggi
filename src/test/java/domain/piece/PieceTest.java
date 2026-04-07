@@ -2,7 +2,8 @@ package domain.piece;
 
 import domain.Position;
 import domain.Side;
-import domain.movement.PathMovement;
+import domain.path.LinearPiecePaths;
+import domain.strategy.PathMovementStrategy;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -13,7 +14,7 @@ class PieceTest {
     static class TestPiece extends Piece {
 
         public TestPiece() {
-            super(Side.CHO, new PathMovement());
+            super(Side.CHO, new LinearPiecePaths(), new PathMovementStrategy());
         }
 
         @Override

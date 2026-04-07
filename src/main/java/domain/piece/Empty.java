@@ -6,7 +6,7 @@ import java.util.List;
 public class Empty extends Piece {
 
     public Empty() {
-        super(null, null);
+        super(null, null, null);
     }
 
     @Override

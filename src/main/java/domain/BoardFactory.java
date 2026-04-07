@@ -35,6 +35,19 @@ public class BoardFactory {
         return new Board(board);
     }
 
+    public static Board createTestBoard(Formation choFormation, Formation hanFormation) {
+        Map<Position, Piece> board = new HashMap<>();
+        for (int x = BoardSpec.MIN_X; x <= BoardSpec.MAX_X; x++) {
+            for (int y = BoardSpec.MIN_Y; y <= BoardSpec.MAX_Y; y++) {
+                placePiece(board, Position.of(x, y), new Empty());
+            }
+        }
+        placeTestPieces(board, Side.CHO);
+        placeTestPieces(board, Side.HAN);
+
+        return new Board(board);
+    }
+
     private static void placePieces(Map<Position, Piece> board, Formation formation, Side side) {
         List<Integer> rows = getRowForSide(side);
         placePiece(board, CANNON_X, rows.get(CANNON_Y), PieceType.CANNON, side);
@@ -43,6 +56,12 @@ public class BoardFactory {
         placePiece(board, KING_X, rows.get(KING_Y), PieceType.KING, side);
         placePiece(board, SOLIDER_X, rows.get(SOLDIER_Y), PieceType.SOLDIER, side);
         placeFormationPiece(board, formation, FORMATION_X, rows.get(BACK_Y), side);
+    }
+
+    private static void placeTestPieces(Map<Position, Piece> board, Side side) {
+        List<Integer> rows = getRowForSide(side);
+        placePiece(board, SOLIDER_X, rows.get(SOLDIER_Y), PieceType.SOLDIER, side);
+        placePiece(board, KING_X, rows.get(KING_Y), PieceType.KING, side);
     }
 
     private static List<Integer> getRowForSide(Side side) {

@@ -5,10 +5,10 @@ import domain.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LinearMovement extends Movement {
+public class LinearMovement implements Movement {
 
     @Override
-    protected List<Position> buildRoute(List<Direction> path, Position sourcePosition, Position targetPosition) {
+    public List<Position> buildRoute(List<Direction> path, Position sourcePosition, Position targetPosition) {
         List<Position> route = new ArrayList<>();
         Direction direction = path.getFirst();
         Position current = sourcePosition;

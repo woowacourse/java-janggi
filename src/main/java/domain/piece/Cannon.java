@@ -1,9 +1,9 @@
 package domain.piece;
 
-import domain.Direction;
 import domain.Position;
 import domain.Side;
-import domain.movement.Movement;
+import domain.path.Paths;
+import domain.strategy.PieceMoveStrategy;
 import java.util.List;
 
 public class Cannon extends Piece {
@@ -11,16 +11,13 @@ public class Cannon extends Piece {
     private static final String CANNOT_JUMP_WITH_CANNON = "포를 넘어갈 수 없습니다.";
     private static final String CANNOT_CAPTURE_CANNON_WITH_CANNON = "포는 포끼리 잡을 수 없습니다.";
 
-    private final List<List<Direction>> paths = List.of(
-        List.of(Direction.UP), List.of(Direction.DOWN), List.of(Direction.RIGHT), List.of(Direction.LEFT));
-
-    public Cannon(Side side, Movement movement) {
-        super(side, movement);
+    public Cannon(Side side, Paths paths, PieceMoveStrategy strategy) {
+        super(side, paths, strategy);
     }
 
     @Override
     public List<Position> findRoute(Position sourcePosition, Position targetPosition) {
-        return movement.findRoute(paths, sourcePosition, targetPosition);
+        return strategy.findRoute(paths.getPaths(sourcePosition), sourcePosition, targetPosition);
     }
 
     @Override

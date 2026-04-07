@@ -1,31 +1,31 @@
 package domain.piece;
 
-import domain.Direction;
 import domain.Position;
 import domain.Side;
-import domain.movement.Movement;
+import domain.path.Paths;
+import domain.strategy.PieceMoveStrategy;
 import java.util.List;
 
 public class Soldier extends Piece {
 
-    private final List<List<Direction>> paths;
+//    private final List<List<Direction>> paths;
 
-    public Soldier(Side side, Movement movement) {
-        super(side, movement);
-        if (Side.CHO == side) {
-            paths = List.of(
-                List.of(Direction.UP), List.of(Direction.RIGHT), List.of(Direction.LEFT)
-            );
-            return;
-        }
-        paths = List.of(
-            List.of(Direction.DOWN), List.of(Direction.RIGHT), List.of(Direction.LEFT)
-        );
+    public Soldier(Side side, Paths paths, PieceMoveStrategy strategy) {
+        super(side, paths, strategy);
+//        if (Side.CHO == side) {
+//            paths = List.of(
+//                List.of(Direction.UP), List.of(Direction.RIGHT), List.of(Direction.LEFT)
+//            );
+//            return;
+//        }
+//        paths = List.of(
+//            List.of(Direction.DOWN), List.of(Direction.RIGHT), List.of(Direction.LEFT)
+//        );
     }
 
     @Override
     public List<Position> findRoute(Position sourcePosition, Position targetPosition) {
-        return movement.findRoute(paths, sourcePosition, targetPosition);
+        return strategy.findRoute(paths.getPaths(sourcePosition), sourcePosition, targetPosition);
     }
 
     @Override

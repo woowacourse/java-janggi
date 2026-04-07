@@ -41,6 +41,35 @@ class CannonTest {
             .hasMessageContaining("이동할 수 없는 목적지입니다.");
     }
 
+    @DisplayName("포는 궁성 대각선으로 이동 경로를 반환한다.")
+    @Test
+    void 포는_궁성_대각선으로_이동_경로를_반환한다() {
+        // given
+        Position sourcePosition = Position.of(4, 1);
+        Position targetPosition = Position.of(6, 3);
+        Piece piece = PieceType.CANNON.create(Side.HAN);
+
+        // when
+        List<Position> positions = piece.findRoute(sourcePosition, targetPosition);
+
+        // then
+        Assertions.assertThat(positions).containsExactly(Position.of(5, 2), Position.of(6, 3));
+    }
+
+    @DisplayName("포는 궁성 상단 중앙에서 대각선으로 이동할 수 없다.")
+    @Test
+    void 포는_궁성_상단_중앙에서_대각선으로_이동할_수_없다() {
+        // given
+        Position sourcePosition = Position.of(5, 1);
+        Position targetPosition = Position.of(6, 2);
+        Piece piece = PieceType.CANNON.create(Side.HAN);
+
+        // when & then
+        Assertions.assertThatThrownBy(() -> piece.findRoute(sourcePosition, targetPosition))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessageContaining("이동할 수 없는 목적지입니다.");
+    }
+
     @DisplayName("포 이동 경로에 포를 제외한 기물이 하나 존재해야 한다.")
     @Test
     void 포_이동_경로에_포를_제외한_기물이_하나_존재해야_한다() {
