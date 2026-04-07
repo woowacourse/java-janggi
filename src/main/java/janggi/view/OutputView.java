@@ -1,6 +1,5 @@
 package janggi.view;
 
-import static janggi.controller.JanggiController.MAXIMUM_GAMES_COUNT_IN_PROGRESS;
 import static janggi.domain.Position.MAXIMUM_ROW;
 
 import janggi.domain.command.SetupCommand;
@@ -17,12 +16,13 @@ public final class OutputView {
     private OutputView() {
     }
 
-    public static void printGameSelect(final List<String> gameNames) {
-        System.out.printf("불러올 게임을 선택하세요. (최대 %d개 저장 가능)\n", MAXIMUM_GAMES_COUNT_IN_PROGRESS);
+    public static void printGameSelect(final List<String> gameNames,
+        final int maximumGamesInProgressCount) {
+        System.out.printf("불러올 게임을 선택하세요. (최대 %d개 저장 가능)\n", maximumGamesInProgressCount);
         for (int gameIndex = 1; gameIndex <= gameNames.size(); gameIndex++) {
             System.out.printf("%d. %s\n", gameIndex, gameNames.get(gameIndex - 1));
         }
-        if (gameNames.size() < MAXIMUM_GAMES_COUNT_IN_PROGRESS) {
+        if (gameNames.size() < maximumGamesInProgressCount) {
             System.out.println("0. 새 게임 생성");
         }
     }

@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.config.DBConnection;
 import janggi.config.DBTableInitializer;
+import janggi.config.PropertiesReader;
 import janggi.config.TestDBConnection;
 import janggi.config.TestDataInitializer;
 import janggi.domain.Position;
@@ -12,6 +13,7 @@ import janggi.domain.board.Board;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Soldier;
 import janggi.domain.team.TeamType;
+import janggi.dto.H2DBPropertiesDto;
 import janggi.entity.BoardCellEntity;
 import janggi.entity.GameEntity;
 import janggi.mapper.BoardMapper;
@@ -39,7 +41,9 @@ public class BoardServiceTest {
 
     @BeforeEach
     void setUp() {
-        dbConnection = new TestDBConnection();
+        H2DBPropertiesDto h2DBPropertiesDto =
+            H2DBPropertiesDto.of(PropertiesReader.read("application.properties"));
+        dbConnection = new TestDBConnection(h2DBPropertiesDto);
         dbTableInitializer = new DBTableInitializer(dbConnection);
         gameRepository = new GameRepositoryImpl(dbConnection);
         boardCellRepository = new BoardCellRepositoryImpl(dbConnection);

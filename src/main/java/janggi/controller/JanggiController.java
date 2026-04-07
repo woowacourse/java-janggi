@@ -5,7 +5,6 @@ import janggi.domain.board.Board;
 import janggi.domain.board.BoardGenerator;
 import janggi.domain.board.BoardMediator;
 import janggi.domain.board.BoardMediatorImpl;
-import janggi.domain.command.GameSelectCommand;
 import janggi.domain.command.SetupCommand;
 import janggi.domain.piece.Piece;
 import janggi.domain.setup.SetupPolicy;
@@ -16,8 +15,7 @@ import janggi.domain.team.TeamType;
 import janggi.domain.turn.TurnManager;
 import janggi.dto.BoardDto;
 import janggi.dto.GameResultDto;
-import janggi.entity.GameEntity;
-import janggi.mapper.TurnManagerMapper;
+import janggi.global.Pair;
 import janggi.service.BoardService;
 import janggi.service.GameService;
 import janggi.utils.Parser;
@@ -25,10 +23,11 @@ import janggi.utils.RetryExecutor;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.List;
+import java.util.Map;
 
 public class JanggiController {
 
-    public static final int MAXIMUM_GAMES_COUNT_IN_PROGRESS = 3;
+    protected static final int MAXIMUM_GAMES_COUNT_IN_PROGRESS = 3;
 
     private final GameService gameService;
     private final BoardService boardService;
@@ -54,22 +53,21 @@ public class JanggiController {
     }
 
     private GameSelectCommand selectGame() {
-        final List<GameEntity> gameEntities = gameService.getAllGamesInProgress(
+        final Map<Long, String> idGameNameMap = gameService.getAllGamesInProgress(
             MAXIMUM_GAMES_COUNT_IN_PROGRESS);
-        final List<Long> gameInProgressIds = gameEntities.stream()
-            .map(GameEntity::id).toList();
-        final List<String> gameNames = gameEntities.stream()
-            .map(GameEntity::name).toList();
-        OutputView.printGameSelect(gameNames);
+        final List<Long> gameInProgressIds = idGameNameMap.keySet()
+            .stream()
+            .toList();
+        final List<String> gameNames = idGameNameMap.values()
+            .stream()
+            .toList();
+        OutputView.printGameSelect(gameNames, MAXIMUM_GAMES_COUNT_IN_PROGRESS);
 
         return RetryExecutor.retry(this::readGameSelectCommand, gameInProgressIds);
     }
 
     private GameSelectCommand readGameSelectCommand(final List<Long> gameInProgressIds) {
-        final GameSelectCommand gameSelectCommand = new GameSelectCommand(gameInProgressIds);
-        gameSelectCommand.select(InputView.readGameSelection());
-
-        return gameSelectCommand;
+        return GameSelectCommand.from(InputView.readGameSelection(), gameInProgressIds);
     }
 
     private TurnManager loadOrSaveTurnManager(final GameSelectCommand gameSelectCommand) {
@@ -82,17 +80,17 @@ public class JanggiController {
             gameId = gameService.createNewGame(gameName, turnManager);
             return turnManager;
         }
-        final GameEntity gameEntity = gameService.loadGame(gameSelectCommand.getSelectedGameId());
-        OutputView.printGameLoadingMessage(gameEntity.name());
+        final Pair<String, TurnManager> game = gameService.loadGame(
+            gameSelectCommand.getSelectedGameId());
+        OutputView.printGameLoadingMessage(game.left());
         gameId = gameSelectCommand.getSelectedGameId();
-        return TurnManagerMapper.toDomain(gameEntity);
+        return game.right();
     }
 
     private String readGameName() {
         final List<String> gameNames = gameService.getAllGamesInProgress(
-                MAXIMUM_GAMES_COUNT_IN_PROGRESS)
+                MAXIMUM_GAMES_COUNT_IN_PROGRESS).values()
             .stream()
-            .map(GameEntity::name)
             .toList();
         final String inputGameName = InputView.readGameName();
         if (gameNames.contains(inputGameName)) {

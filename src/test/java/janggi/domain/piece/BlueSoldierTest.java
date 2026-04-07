@@ -28,7 +28,7 @@ public class BlueSoldierTest {
         }
 
         @Test
-        @DisplayName("앞, 좌, 우로 1칸 이동할 수 있고 적이 있으면 잡을 수 있다.")
+        @DisplayName("적군 기물을 잡을 수 있다.")
         void success_1() {
             Map<Position, Piece> positionPieceMap = Map.of(
                 Position.valueOf(6, 4), blueSoldier,
@@ -97,6 +97,26 @@ public class BlueSoldierTest {
 
             List<Position> actual = blueSoldier.calculateMovablePositions(
                 Position.valueOf(3, 4), boardMediator);
+
+            assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
+        }
+
+        @Test
+        @DisplayName("북, 서, 동쪽으로 1칸 이동할 수 있다.")
+        void success_5() {
+            Map<Position, Piece> positionPieceMap = Map.of(
+                Position.valueOf(6, 4), blueSoldier);
+            Board board = new Board(positionPieceMap);
+            BoardMediator boardMediator = new BoardMediatorImpl(board);
+            List<Position> expected = List.of(
+                Position.valueOf(5, 4),
+                Position.valueOf(6, 3),
+                Position.valueOf(6, 5)
+            );
+
+            List<Position> actual = blueSoldier.calculateMovablePositions(
+                Position.valueOf(6, 4), boardMediator
+            );
 
             assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
         }

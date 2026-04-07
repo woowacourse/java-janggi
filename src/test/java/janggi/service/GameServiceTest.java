@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import janggi.config.DBConnection;
 import janggi.config.DBTableInitializer;
+import janggi.config.PropertiesReader;
 import janggi.config.TestDBConnection;
 import janggi.domain.game.GameStatus;
 import janggi.domain.setup.InnerElephantSetupPolicy;
@@ -15,7 +16,9 @@ import janggi.domain.team.RedTeam;
 import janggi.domain.team.Team;
 import janggi.domain.team.TeamType;
 import janggi.domain.turn.TurnManager;
+import janggi.dto.H2DBPropertiesDto;
 import janggi.entity.GameEntity;
+import janggi.global.Pair;
 import janggi.repository.GameRepository;
 import janggi.repository.GameRepositoryImpl;
 import java.util.List;
@@ -35,7 +38,9 @@ class GameServiceTest {
 
     @BeforeEach
     void setUp() {
-        dbConnection = new TestDBConnection();
+        H2DBPropertiesDto h2DBPropertiesDto =
+            H2DBPropertiesDto.of(PropertiesReader.read("application.properties"));
+        dbConnection = new TestDBConnection(h2DBPropertiesDto);
         dbTableInitializer = new DBTableInitializer(dbConnection);
 
         gameRepository = new GameRepositoryImpl(dbConnection);
@@ -58,15 +63,14 @@ class GameServiceTest {
         gameRepository.save(GameEntity.from("게임 2", 28, List.of(TeamType.RED, TeamType.BLUE)));
         gameRepository.save(
             GameEntity.from("게임 3", 99, List.of(TeamType.RED, TeamType.BLUE), GameStatus.CLOSED));
-        List<GameEntity> expected = List.of(
-            GameEntity.from("게임 1", 1, List.of(TeamType.RED, TeamType.BLUE)),
-            GameEntity.from("게임 2", 28, List.of(TeamType.RED, TeamType.BLUE)));
+        List<String> expected = List.of("게임 1", "게임 2");
 
-        List<GameEntity> actual = gameService.getAllGamesInProgress(limit);
+        List<String> actual = gameService.getAllGamesInProgress(limit)
+            .values()
+            .stream()
+            .toList();
 
-        assertThat(actual)
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-            .containsExactlyInAnyOrderElementsOf(expected);
+        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
     }
 
     @Test
@@ -87,15 +91,18 @@ class GameServiceTest {
         @Test
         @DisplayName("정상 테스트")
         void success() {
-            long id = gameRepository.save(
-                GameEntity.from("게임 1", 1, List.of(TeamType.BLUE, TeamType.RED),
+            long id =
+                gameRepository.save(GameEntity.from("게임 1", 1, List.of(TeamType.BLUE, TeamType.RED),
                     GameStatus.IN_PROGRESS));
-            GameEntity expected = GameEntity.from(id, "게임 1", 1,
-                List.of(TeamType.BLUE, TeamType.RED), GameStatus.IN_PROGRESS);
+            Team blueTeam = new BlueTeam(new InnerElephantSetupPolicy());
+            Team redTeam = new RedTeam(new InnerElephantSetupPolicy());
+            Pair<String, TurnManager> expected = new Pair<>("게임 1",
+                new TurnManager(1, List.of(blueTeam, redTeam)));
 
-            GameEntity actual = gameService.loadGame(id);
+            Pair<String, TurnManager> actual = gameService.loadGame(id);
 
-            assertThat(actual).isEqualTo(expected);
+            assertThat(actual).usingRecursiveComparison()
+                .isEqualTo(expected);
         }
 
         @Test

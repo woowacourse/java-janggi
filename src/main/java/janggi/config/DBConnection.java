@@ -8,8 +8,6 @@ public interface DBConnection {
 
     void init();
 
-    List<Long> executeSelectForIds(String sql, Object... parameters);
-
     <R> Optional<R> executeSelect(String sql, EntityMapper<R> entityMapper, Object... parameters);
 
     <R> List<R> executeSelectAll(String sql, EntityMapper<R> entityMapper, Object... parameters);

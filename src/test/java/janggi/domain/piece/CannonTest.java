@@ -104,5 +104,25 @@ class CannonTest {
 
             assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
         }
+
+        @Test
+        @DisplayName("장기판 밖으로 나갈 수 없다.")
+        void success_5() {
+            Map<Position, Piece> positionPieceMap = Map.of(
+                Position.valueOf(5, 3), cannon,
+                Position.valueOf(5, 6), new Soldier(TeamType.BLUE));
+            Board board = new Board(positionPieceMap);
+            BoardMediator boardMediator = new BoardMediatorImpl(board);
+            List<Position> expected = List.of(
+                Position.valueOf(5, 7),
+                Position.valueOf(5, 8),
+                Position.valueOf(5, 9)
+            );
+
+            List<Position> actual = cannon.calculateMovablePositions(Position.valueOf(5, 3),
+                boardMediator);
+
+            assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
+        }
     }
 }

@@ -5,9 +5,12 @@ import janggi.domain.team.Team;
 import janggi.domain.team.TeamType;
 import janggi.domain.turn.TurnManager;
 import janggi.entity.GameEntity;
+import janggi.global.Pair;
 import janggi.mapper.TurnManagerMapper;
 import janggi.repository.GameRepository;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class GameService {
@@ -18,14 +21,16 @@ public class GameService {
         this.gameRepository = gameRepository;
     }
 
-    public List<GameEntity> getAllGamesInProgress(final int limit) {
+    public Map<Long, String> getAllGamesInProgress(final int limit) {
         final List<Long> ids = gameRepository.findByStatusOrderByLatest(GameStatus.IN_PROGRESS,
             limit);
-
-        return ids.stream()
+        final Map<Long, String> idGameNameMap = new LinkedHashMap<>();
+        ids.stream()
             .map(gameRepository::findById)
             .flatMap(Optional::stream)
-            .toList();
+            .forEach(gameEntity -> idGameNameMap.put(gameEntity.id(), gameEntity.name()));
+
+        return idGameNameMap;
     }
 
     public long createNewGame(final String name, final TurnManager turnManager) {
@@ -39,8 +44,10 @@ public class GameService {
         return gameRepository.save(gameEntity);
     }
 
-    public GameEntity loadGame(final long id) {
+    public Pair<String, TurnManager> loadGame(final long id) {
         return gameRepository.findById(id)
+            .map(gameEntity ->
+                new Pair<>(gameEntity.name(), TurnManagerMapper.toDomain(gameEntity)))
             .orElseThrow(() -> new IllegalArgumentException("해당 id를 가진 게임이 존재하지 않습니다."));
     }
 
