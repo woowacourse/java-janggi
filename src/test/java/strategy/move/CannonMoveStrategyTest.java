@@ -1,0 +1,167 @@
+package strategy.move;
+
+import domain.board.Direction;
+import domain.board.MovePath;
+import domain.board.Position;
+import domain.board.Route;
+import domain.piece.Piece;
+import domain.piece.PieceType;
+import domain.piece.TeamColor;
+import java.util.List;
+import java.util.Optional;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+public class CannonMoveStrategyTest {
+
+    @Nested
+    class 이동경로 {
+        @Test
+        public void 포는_초나라에서_동서남북_직선_경로를_보드_끝까지_가진다() {
+            MoveStrategy strategy = new CannonMoveStrategy();
+            List<MovePath> paths = strategy.getPaths(TeamColor.CHO);
+
+            assertThat(paths).hasSize(36);
+            assertThat(paths).contains(
+                    new MovePath(List.of(Direction.NORTH)),
+                    new MovePath(List.of(Direction.NORTH, Direction.NORTH, Direction.NORTH, Direction.NORTH)),
+                    new MovePath(List.of(Direction.SOUTH)),
+                    new MovePath(List.of(Direction.SOUTH, Direction.SOUTH, Direction.SOUTH, Direction.SOUTH)),
+                    new MovePath(List.of(Direction.EAST)),
+                    new MovePath(List.of(Direction.EAST, Direction.EAST, Direction.EAST, Direction.EAST)),
+                    new MovePath(List.of(Direction.WEST)),
+                    new MovePath(List.of(Direction.WEST, Direction.WEST, Direction.WEST, Direction.WEST))
+            );
+        }
+
+        @Test
+        public void 포는_현재위치에서_여러칸_떨어진_직선_목적지_경로를_생성한다() {
+            MoveStrategy strategy = new CannonMoveStrategy();
+            List<Route> routes = strategy.makeRoutes(Position.of(4, 4), TeamColor.HAN);
+
+            assertThat(routes).contains(
+                    new Route(Position.of(4, 4), Position.of(0, 4),
+                            List.of(Position.of(3, 4), Position.of(2, 4), Position.of(1, 4))),
+                    new Route(Position.of(4, 4), Position.of(4, 8),
+                            List.of(Position.of(4, 5), Position.of(4, 6), Position.of(4, 7))),
+                    new Route(Position.of(4, 4), Position.of(8, 4),
+                            List.of(Position.of(5, 4), Position.of(6, 4), Position.of(7, 4)))
+            );
+        }
+    }
+
+    @Nested
+    class 차단검사 {
+        @Test
+        public void 포는_다리가_되는_기물이_하나도_없으면_지나갈수_없다(){
+            MoveStrategy moveStrategy = new CannonMoveStrategy();
+            Route route = new Route(Position.of(4, 4), Position.of(1, 4), List.of(Position.of(3, 4), Position.of(2, 4)));
+
+            boolean canMove = moveStrategy.canMove(route, List.of(), Optional.empty());
+            assertThat(canMove).isFalse();
+        }
+
+        @Test
+        public void 포는_다리가_되는_기물이_포이면_지나갈수_없다(){
+            MoveStrategy moveStrategy = new CannonMoveStrategy();
+            Route route = new Route(Position.of(4, 4), Position.of(1, 4), List.of(Position.of(3, 4), Position.of(2, 4)));
+
+            boolean canMove = moveStrategy.canMove(
+                    route,
+                    List.of(Piece.of(TeamColor.CHO, PieceType.CANNON)),
+                    Optional.empty()
+            );
+            assertThat(canMove).isFalse();
+        }
+
+        @Test
+        public void 포는_다리가_되는_기물이_둘_이상이면_지나갈수_없다() {
+            MoveStrategy moveStrategy = new CannonMoveStrategy();
+            Route route = new Route(Position.of(4, 4), Position.of(0, 4), List.of(Position.of(3, 4), Position.of(2, 4), Position.of(1, 4)));
+
+            boolean canMove = moveStrategy.canMove(
+                    route,
+                    List.of(
+                            Piece.of(TeamColor.CHO, PieceType.PAWN),
+                            Piece.of(TeamColor.HAN, PieceType.HORSE)
+                    ),
+                    Optional.empty()
+            );
+
+            assertThat(canMove).isFalse();
+        }
+
+        @Test
+        public void 포는_도착지에_상대방의_포가_있으면_잡을수_없다(){
+            MoveStrategy moveStrategy = new CannonMoveStrategy();
+
+            Piece bridgePawn = Piece.of(TeamColor.CHO, PieceType.PAWN);
+            Piece targetCannon = Piece.of(TeamColor.HAN, PieceType.CANNON);
+
+            boolean canMove = moveStrategy.canMove(
+                    new Route(Position.of(4, 4), Position.of(1, 4), List.of(Position.of(3, 4), Position.of(2, 4))),
+                    List.of(bridgePawn),
+                    Optional.of(targetCannon)
+            );
+            assertThat(canMove).isFalse();
+        }
+
+        @Test
+        public void 포전략은_도착지의_같은팀_여부와_무관하게_포가_아니면_전략검사를_통과한다(){
+            MoveStrategy moveStrategy = new CannonMoveStrategy();
+
+            Piece bridgeRook = Piece.of(TeamColor.HAN, PieceType.ROOK);
+            Piece targetHorse = Piece.of(TeamColor.CHO, PieceType.HORSE);
+
+            boolean canMove = moveStrategy.canMove(
+                    new Route(Position.of(4, 4), Position.of(1, 4), List.of(Position.of(3, 4), Position.of(2, 4))),
+                    List.of(bridgeRook),
+                    Optional.of(targetHorse)
+            );
+            assertThat(canMove).isTrue();
+        }
+
+        @Test
+        public void 포는_일반_다리를_넘어_빈칸으로_정상적으로_이동가능하다(){
+            MoveStrategy moveStrategy = new CannonMoveStrategy();
+
+            Piece bridgePawn = Piece.of(TeamColor.CHO, PieceType.PAWN);
+
+            boolean canMove = moveStrategy.canMove(
+                    new Route(Position.of(4, 4), Position.of(1, 4), List.of(Position.of(3, 4), Position.of(2, 4))),
+                    List.of(bridgePawn),
+                    Optional.empty()
+            );
+            assertThat(canMove).isTrue();
+        }
+
+        @Test
+        public void 포는_일반_다리를_넘어_도착지에_있는_적군기물을_포획가능하다(){
+            MoveStrategy moveStrategy = new CannonMoveStrategy();
+
+            Piece bridgeHorse = Piece.of(TeamColor.CHO, PieceType.HORSE);
+            Piece targetRook = Piece.of(TeamColor.HAN, PieceType.ROOK);
+
+            boolean canMove = moveStrategy.canMove(
+                    new Route(Position.of(4, 4), Position.of(1, 4), List.of(Position.of(3, 4), Position.of(2, 4))),
+                    List.of(bridgeHorse),
+                    Optional.of(targetRook)
+            );
+            assertThat(canMove).isTrue();
+        }
+
+        @Test
+        public void 포는_한칸_이동처럼_중간기물이_없는_경로로는_이동할수_없다() {
+            MoveStrategy moveStrategy = new CannonMoveStrategy();
+            Route route = new Route(Position.of(4, 4), Position.of(3, 4), List.of());
+
+            boolean canMove = moveStrategy.canMove(route, List.of(), Optional.empty());
+
+            assertThat(canMove).isFalse();
+        }
+    }
+}
+
+
