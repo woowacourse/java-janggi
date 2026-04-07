@@ -17,7 +17,8 @@ public class GeneralMoveStrategy implements MoveStrategy {
     }
 
     @Override
-    public boolean canMove(final Piece mover, final Position from, final Position to, final Map<Position, Piece> piecesOnPath) {
+    public boolean canMove(final Piece mover, final Position from, final Position to,
+                           final Map<Position, Piece> piecesOnPath) {
         if (isNotCorrectPath(from, to)) {
             return false;
         }
@@ -33,6 +34,7 @@ public class GeneralMoveStrategy implements MoveStrategy {
         if (!palaceInRange(to)) {
             return true;
         }
+
         if (from.getRow() == to.getRow() && Math.abs(from.getCol() - to.getCol()) != 1) {
             return true;
         }
@@ -41,11 +43,40 @@ public class GeneralMoveStrategy implements MoveStrategy {
             return true;
         }
 
+        if (hanSoldierCanDiagonalMoveInPalace(from, to) || chuSoldierCanDiagonalMoveInPalace(from, to)) {
+            return true;
+        }
+
         return false;
     }
 
     private boolean palaceInRange(final Position position) {
-        return (((0 <= position.getRow() && position.getRow() <= 2) || (7 <= position.getRow() && position.getRow() <= 9))
+        return (((0 <= position.getRow() && position.getRow() <= 2) || (7 <= position.getRow()
+                && position.getRow() <= 9))
                 && (3 <= position.getCol() && position.getCol() <= 5));
+    }
+
+    private boolean chuSoldierCanDiagonalMoveInPalace(Position from, Position to) {
+        if ((from.getRow() == 7 && from.getCol() == 4) || (from.getRow() == 8 && from.getCol() == 3)
+                || (from.getRow() == 8 && from.getCol() == 5)) {
+            if (isDiagonal(from, to)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean hanSoldierCanDiagonalMoveInPalace(Position from, Position to) {
+        if ((from.getRow() == 2 && from.getCol() == 4) || (from.getRow() == 1 && from.getCol() == 3)
+                || (from.getRow() == 1 && from.getCol() == 5)) {
+            if (isDiagonal(from, to)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isDiagonal(final Position from, final Position to) {
+        return Math.abs(from.getRow() - to.getRow()) == 1 && Math.abs(from.getCol() - to.getCol()) == 1;
     }
 }
