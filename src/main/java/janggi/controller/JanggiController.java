@@ -70,7 +70,7 @@ public class JanggiController {
     private void runGame(Janggi janggi, Long gameId) {
         while (!janggi.isGameOver()) {
             janggi.withBoard((board, team) ->
-                    outputView.printBoard(board.render(), team.getDisplayName()));
+                    outputView.printBoard(board.snapshot(), team));
             janggi = playTurn(janggi, gameId);
         }
         janggi.withScore((choScore, hanScore) ->

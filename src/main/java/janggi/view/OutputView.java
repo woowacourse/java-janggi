@@ -1,6 +1,12 @@
 package janggi.view;
 
+import janggi.model.Team;
+import janggi.model.gimul.AbstractGimul;
+import janggi.model.position.Column;
+import janggi.model.position.Position;
+import janggi.model.position.Row;
 import java.util.List;
+import java.util.Map;
 
 public class OutputView {
 
@@ -16,9 +22,41 @@ public class OutputView {
         System.out.println("이동 시킬 위치를 입력하세요:");
     }
 
-    public void printBoard(String boardRender, String teamName) {
-        System.out.println(boardRender);
-        System.out.println(teamName + "의 차례입니다.");
+    public void printBoard(Map<Position, AbstractGimul> board, Team team) {
+        System.out.println(render(board));
+        System.out.println(team.getDisplayName() + "의 차례입니다.");
+    }
+
+    private String render(Map<Position, AbstractGimul> board) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("    1  2  3  4  5  6  7  8  9").append(System.lineSeparator());
+        sb.append("  ┌───────────────────────────┐").append(System.lineSeparator());
+        appendRows(sb, board);
+        sb.append("  └───────────────────────────┘").append(System.lineSeparator());
+        return sb.toString();
+    }
+
+    private void appendRows(StringBuilder sb, Map<Position, AbstractGimul> board) {
+        for (int row = 1; row <= 10; row++) {
+            sb.append(renderBoardRow(row, board));
+        }
+    }
+
+    private StringBuilder renderBoardRow(int row, Map<Position, AbstractGimul> board) {
+        StringBuilder sb = new StringBuilder();
+        Row currentRow = Row.of(row);
+        sb.append(currentRow.getDisplayName()).append(" │");
+        for (int col = 1; col <= 9; col++) {
+            sb.append(renderBoardColumn(row, col, board));
+        }
+        sb.append("│").append(System.lineSeparator());
+        return sb;
+    }
+
+    private StringBuilder renderBoardColumn(int row, int col, Map<Position, AbstractGimul> board) {
+        Position position = new Position(Row.of(row), Column.of(col));
+        String symbol = board.containsKey(position) ? board.get(position).getSymbol() : "·";
+        return new StringBuilder().append(" ").append(String.format("%-2s", symbol));
     }
 
     public void printScore(double choScore, double hanScore) {

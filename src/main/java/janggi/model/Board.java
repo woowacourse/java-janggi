@@ -1,10 +1,8 @@
 package janggi.model;
 
 import janggi.model.gimul.AbstractGimul;
-import janggi.model.position.Column;
 import janggi.model.position.Position;
 import janggi.model.position.PositionPath;
-import janggi.model.position.Row;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -79,46 +77,5 @@ public class Board {
                 .map(AbstractGimul::getScore)
                 .reduce(Score.zero(), Score::add);
         return sumOfScore.add(team.bonusScore());
-    }
-
-    public String render() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("    1  2  3  4  5  6  7  8  9\n");
-        sb.append("  ┌───────────────────────────┐\n");
-        appendRows(sb);
-        sb.append("  └───────────────────────────┘\n");
-        return sb.toString();
-    }
-
-    private void appendRows(StringBuilder sb) {
-        int rowStart = 1;
-        int rowEnd = 10;
-        for (int row = rowStart; row <= rowEnd; row++) {
-            sb.append(renderBoardRow(row));
-        }
-    }
-
-    private StringBuilder renderBoardRow(int row) {
-        StringBuilder sb = new StringBuilder();
-        Row currentRow = Row.of(row);
-        sb.append(currentRow.getDisplayName()).append(" │");
-        for (int col = 1; col <= 9; col++) {
-            sb.append(renderBoardColumn(row, col));
-        }
-        sb.append("│\n");
-        return sb;
-    }
-
-    private StringBuilder renderBoardColumn(int row, int col) {
-        Position position = new Position(Row.of(row), Column.of(col));
-        String symbol = getSymbol(position);
-        return new StringBuilder().append(" ").append(String.format("%-2s", symbol));
-    }
-
-    private String getSymbol(Position position) {
-        if (board.containsKey(position)) {
-            return board.get(position).getSymbol();
-        }
-        return "·";
     }
 }
