@@ -20,7 +20,7 @@ public abstract class SingleMovingPiece extends Piece {
         Distance distance = from.calculateDistance(to);
         List<Direction> directions = Direction.findDirections(distance.x(), distance.y());
 
-        if (from.isInPalace(pieceInfo.country())) {
+        if (from.isInPalace(pieceInfo.country()) && to.isInPalace(pieceInfo.country())) {
             validateDirectionsInPalace(directions);
             return directions;
         }
