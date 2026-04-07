@@ -61,8 +61,6 @@ public final class JanggiController {
             try {
                 int menuCommand = inputView.readMenuCommand();
                 return GameMenu.from(menuCommand);
-            } catch (NumberFormatException e) {
-                outputView.printError("숫자만 입력할 수 있습니다.");
             } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
             }
@@ -93,8 +91,6 @@ public final class JanggiController {
                 LoadCommand loadCommand = LoadCommand.from(inputView.readGameNumber());
                 dispatchLoadCommand(loadCommand, selectableNumbers);
                 return;
-            } catch (NumberFormatException e) {
-                outputView.printError("숫자만 입력할 수 있습니다.");
             } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
             }

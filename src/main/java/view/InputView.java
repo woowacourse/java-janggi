@@ -28,19 +28,26 @@ public final class InputView {
             '상', PieceType.ELEPHANT
     );
     private static final int WING_SIZE = 2;
+    private static final String ERROR_ONLY_NUMBER = "숫자만 입력할 수 있습니다.";
 
     private final Scanner scanner = new Scanner(System.in);
 
     public int readMenuCommand() {
         System.out.println("메뉴 중 하나를 선택해 주세요(예. 1): ");
-
-        return Integer.parseInt(readLine().trim());
+        try {
+            return Integer.parseInt(readLine().trim());
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(ERROR_ONLY_NUMBER, e);
+        }
     }
 
     public long readGameNumber() {
         System.out.println("이어서 시작할 게임의 번호를 선택해 주세요(새 게임을 시작하려면 0번): ");
-
-        return Long.parseLong(readLine().trim());
+        try {
+            return Long.parseLong(readLine().trim());
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(ERROR_ONLY_NUMBER, e);
+        }
     }
 
     public Wings readWings(Side side) {
