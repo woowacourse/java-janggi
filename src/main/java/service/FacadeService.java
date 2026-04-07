@@ -6,12 +6,22 @@ import domain.game.JanggiGame;
 import domain.game.Turn;
 import dto.GameDto;
 import dto.PieceSnapshot;
+import exception.DataAccessException;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
 public class FacadeService {
+
+    private static final String SETUP_FAIL_MESSAGE = "데이터베이스 초기화에 실패했습니다.";
+    private static final String LOAD_ONGOING_GAME_FAIL_MESSAGE = "진행 중인 게임 불러오기에 실패했습니다.";
+    private static final String SAVE_FAIL_MESSAGE = "게임 저장에 실패했습니다.";
+    private static final String UPDATE_FAIL_MESSAGE = "게임 업데이트에 실패했습니다.";
+    private static final String GAME_END_FAIL_MESSAGE = "게임 종료 처리에 실패했습니다.";
+    private static final String EXISTS_GAME_FAIL_MESSAGE = "진행 중인 게임 존재 여부 조회에 실패했습니다.";
+    private static final String ROLLBACK_FAIL_MESSAGE = "트랜잭션 롤백에 실패했습니다.";
+    private static final String CLOSE_FAIL_MESSAGE = "커넥션 반환에 실패했습니다.";
 
     private final JanggiService janggiService;
     private final GameService gameService;
@@ -26,7 +36,7 @@ public class FacadeService {
             gameService.setUp(connection);
             janggiService.setUp(connection);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DataAccessException(SETUP_FAIL_MESSAGE, e);
         }
     }
 
@@ -37,7 +47,7 @@ public class FacadeService {
             Turn turn = Turn.valueOf(gameDto.currentTurn());
             return JanggiGame.of(board, turn);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DataAccessException(LOAD_ONGOING_GAME_FAIL_MESSAGE, e);
         }
     }
 
@@ -51,7 +61,7 @@ public class FacadeService {
             connection.commit();
         } catch (SQLException e) {
             rollback(connection);
-            throw new RuntimeException(e);
+            throw new DataAccessException(SAVE_FAIL_MESSAGE, e);
         } finally {
             close(connection);
         }
@@ -68,7 +78,7 @@ public class FacadeService {
             connection.commit();
         } catch (SQLException e) {
             rollback(connection);
-            throw new RuntimeException(e);
+            throw new DataAccessException(UPDATE_FAIL_MESSAGE, e);
         } finally {
             close(connection);
         }
@@ -84,7 +94,7 @@ public class FacadeService {
             connection.commit();
         } catch (SQLException e) {
             rollback(connection);
-            throw new RuntimeException(e);
+            throw new DataAccessException(GAME_END_FAIL_MESSAGE, e);
         } finally {
             close(connection);
         }
@@ -94,7 +104,7 @@ public class FacadeService {
         try (Connection connection = connectionProvider.getConnection()) {
             return gameService.existsGame(connection);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DataAccessException(EXISTS_GAME_FAIL_MESSAGE, e);
         }
     }
 
@@ -103,7 +113,7 @@ public class FacadeService {
             try {
                 connection.rollback();
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                throw new DataAccessException(ROLLBACK_FAIL_MESSAGE, e);
             }
         }
     }
@@ -114,7 +124,7 @@ public class FacadeService {
                 connection.setAutoCommit(true);
                 connection.close();
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                throw new DataAccessException(CLOSE_FAIL_MESSAGE, e);
             }
         }
     }

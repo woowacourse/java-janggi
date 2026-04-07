@@ -4,7 +4,6 @@ import dto.GameDto;
 import repository.GameRepository;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 
 public class GameService {
 
@@ -16,28 +15,28 @@ public class GameService {
         this.gameRepository = gameRepository;
     }
 
-    public void setUp(Connection connection) throws SQLException {
+    public void setUp(Connection connection) {
         gameRepository.createTable(connection);
     }
 
-    public boolean existsGame(Connection connection) throws SQLException {
+    public boolean existsGame(Connection connection) {
         return gameRepository.existsGame(connection);
     }
 
-    public GameDto findOngoingGame(Connection connection) throws SQLException {
+    public GameDto findOngoingGame(Connection connection) {
         return gameRepository.findOngoingGame(connection)
                 .orElseThrow(() -> new IllegalStateException(NO_ONGOING_GAME_MESSAGE));
     }
 
-    public int save(Connection connection, String turn) throws SQLException {
+    public int save(Connection connection, String turn) {
         return gameRepository.save(connection, turn);
     }
 
-    public void updateTurn(Connection connection, int gameId, String turn) throws SQLException {
+    public void updateTurn(Connection connection, int gameId, String turn) {
         gameRepository.updateTurn(connection, gameId, turn);
     }
 
-    public void gameEnd(Connection connection, int gameId) throws SQLException {
+    public void gameEnd(Connection connection, int gameId) {
         gameRepository.gameEnd(connection, gameId);
     }
 }
