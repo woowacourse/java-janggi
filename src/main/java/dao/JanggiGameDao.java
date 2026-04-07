@@ -24,16 +24,18 @@ public class JanggiGameDao {
         String sql = "INSERT INTO janggi_game (turn) VALUES (?)";
         try (Connection conn = manager.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
             pstmt.setString(1, turn.name());
             pstmt.executeUpdate();
             ResultSet rs = pstmt.getGeneratedKeys();
+
             if (rs.next()) {
                 return rs.getInt(1);
             }
+            throw new RuntimeException("[ERROR] 게임 ID 생성에 실패했습니다.");
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("[ERROR] DB 연결 중 오류가 발생하여 게임을 생성할 수 없습니다: ", e);
         }
-        return -1;
     }
 
     public void saveGame(int gameId, Country turn, List<PieceDto> pieces) {
@@ -68,7 +70,7 @@ public class JanggiGameDao {
 
             conn.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("[ERROR] 게임 저장 중 DB 오류가 발생했습니다: ", e);
         }
     }
 
@@ -83,10 +85,10 @@ public class JanggiGameDao {
                         Country.fromCountry(rs.getString("turn"))
                 );
             }
+            return null;
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("[ERROR} 최신 정보를 불러오는 중 DB 오류가 발생했습니다: ", e);
         }
-        return null;
     }
 
     public List<PieceDto> loadPiecesByGameId(int gameId) {
@@ -105,9 +107,9 @@ public class JanggiGameDao {
                         PieceType.fromType(rs.getString("type"))
                 ));
             }
+            return pieces;
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("[ERROR] 게임을 불러오는 중 DB 오류가 발생했습니다: ", e);
         }
-        return pieces;
     }
 }
