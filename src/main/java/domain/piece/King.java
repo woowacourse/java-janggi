@@ -8,9 +8,7 @@ import java.util.List;
 
 public class King extends Piece {
 
-//    private final List<List<Direction>> paths = List.of(
-//        List.of(Direction.UP), List.of(Direction.DOWN), List.of(Direction.RIGHT), List.of(Direction.LEFT)
-//    );
+    private static final String NAME = "궁";
 
     public King(Side side, Paths paths, PieceMoveStrategy strategy) {
         super(side, paths, strategy);
@@ -23,6 +21,6 @@ public class King extends Piece {
 
     @Override
     public String getName() {
-        return "왕";
+        return NAME;
     }
 }

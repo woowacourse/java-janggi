@@ -8,6 +8,8 @@ import java.util.List;
 
 public class Chariot extends Piece {
 
+    private static final String NAME = "차";
+
     public Chariot(Side side, Paths paths, PieceMoveStrategy strategy) {
         super(side, paths, strategy);
     }
@@ -19,6 +21,6 @@ public class Chariot extends Piece {
 
     @Override
     public String getName() {
-        return "차";
+        return NAME;
     }
 }

@@ -5,6 +5,8 @@ import java.util.List;
 
 public class Empty extends Piece {
 
+    private static final String NAME = ".";
+
     public Empty() {
         super(null, null, null);
     }
@@ -16,6 +18,6 @@ public class Empty extends Piece {
 
     @Override
     public String getName() {
-        return "．";
+        return NAME;
     }
 }

@@ -8,6 +8,8 @@ import java.util.List;
 
 public class Elephant extends Piece {
 
+    private static final String NAME = "상";
+
     public Elephant(Side side, Paths paths, PieceMoveStrategy strategy) {
         super(side, paths, strategy);
     }
@@ -19,6 +21,6 @@ public class Elephant extends Piece {
 
     @Override
     public String getName() {
-        return "상";
+        return NAME;
     }
 }

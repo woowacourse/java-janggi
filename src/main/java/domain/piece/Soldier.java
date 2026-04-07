@@ -8,19 +8,11 @@ import java.util.List;
 
 public class Soldier extends Piece {
 
-//    private final List<List<Direction>> paths;
+    private static final String CHO_NAME = "졸";
+    private static final String HAN_NAME = "병";
 
     public Soldier(Side side, Paths paths, PieceMoveStrategy strategy) {
         super(side, paths, strategy);
-//        if (Side.CHO == side) {
-//            paths = List.of(
-//                List.of(Direction.UP), List.of(Direction.RIGHT), List.of(Direction.LEFT)
-//            );
-//            return;
-//        }
-//        paths = List.of(
-//            List.of(Direction.DOWN), List.of(Direction.RIGHT), List.of(Direction.LEFT)
-//        );
     }
 
     @Override
@@ -31,8 +23,8 @@ public class Soldier extends Piece {
     @Override
     public String getName() {
         if (isSameSide(Side.CHO)) {
-            return "졸";
+            return CHO_NAME;
         }
-        return "병";
+        return HAN_NAME;
     }
 }

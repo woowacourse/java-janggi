@@ -8,9 +8,7 @@ import java.util.List;
 
 public class Guard extends Piece {
 
-//    private final List<List<Direction>> paths = List.of(
-//        List.of(Direction.UP), List.of(Direction.DOWN), List.of(Direction.RIGHT), List.of(Direction.LEFT)
-//    );
+    private static final String NAME = "사";
 
     public Guard(Side side, Paths paths, PieceMoveStrategy strategy) {
         super(side, paths, strategy);
@@ -23,6 +21,6 @@ public class Guard extends Piece {
 
     @Override
     public String getName() {
-        return "사";
+        return NAME;
     }
 }
