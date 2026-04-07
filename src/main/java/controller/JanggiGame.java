@@ -55,7 +55,7 @@ public class JanggiGame {
         }
 
         BoardIdContext.setBoardId(selectCommand.select());
-        return janggiService.getExistBoard(selectCommand);
+        return janggiService.getExistBoardV2(selectCommand);
     }
 
     private JanggiBoard generateJanggiBoard() {

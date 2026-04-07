@@ -11,7 +11,7 @@ public interface IntersectionDao {
 
     void saveAll(Connection connection, Long boardId, List<IntersectionDto> intersections);
 
-    List<Intersection> readByBoardId(Connection connection, Long boardId);
+    List<Intersection> readByBoardId(Long boardId) throws SQLException;
 
     void update(Long boardId, IntersectionDto intersection) throws SQLException;
 

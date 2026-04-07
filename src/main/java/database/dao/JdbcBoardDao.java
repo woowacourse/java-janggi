@@ -62,43 +62,19 @@ public class JdbcBoardDao implements BoardDao {
     }
 
     @Override
-    public List<BoardSummaryDto> readAllPlaying(Connection connection) {
-        try (PreparedStatement preparedStatement = connection.prepareStatement(READ_PLAYING_BOARD_LIST_QUERY)) {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            List<BoardSummaryDto> boardSummaryDtos = new ArrayList<>();
-
-            while (resultSet.next()) {
-                long id = resultSet.getLong("id");
-                String currentTeam = resultSet.getString("current_turn");
-                boolean isFinished = resultSet.getBoolean("is_finished");
-
-                BoardSummaryDto boardSummaryDto = new BoardSummaryDto(id, currentTeam, isFinished);
-                boardSummaryDtos.add(boardSummaryDto);
-            }
-
-            return boardSummaryDtos;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public List<BoardSummaryDto> readAllPlaying() throws SQLException {
+        return jdbcTemplate.selectList(
+                READ_PLAYING_BOARD_LIST_QUERY,
+                new SummaryDtoRowMapper()
+        );
     }
 
-    public BoardSummaryDto readPlayingById(Connection connection, Long boardId) {
-        try (PreparedStatement preparedStatement = connection.prepareStatement(READ_BOARD_QUERY)) {
-            setParameters(preparedStatement, boardId);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            if (resultSet.next()) {
-                long id = resultSet.getLong("id");
-                String currentTeam = resultSet.getString("current_turn");
-                boolean isFinished = resultSet.getBoolean("is_finished");
-
-                return new BoardSummaryDto(id, currentTeam, isFinished);
-            }
-
-            throw new IllegalArgumentException("해당 ID의 Board를 찾을 수 없습니다.");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public BoardSummaryDto readPlayingById(Long boardId) throws SQLException {
+        return jdbcTemplate.selectOne(
+                READ_BOARD_QUERY,
+                new SummaryDtoRowMapper(),
+                boardId
+        );
     }
 
     @Override
@@ -121,9 +97,14 @@ public class JdbcBoardDao implements BoardDao {
         );
     }
 
-    public void setParameters(PreparedStatement preparedStatement, Object... parameters) throws SQLException {
-        for (int i = 0; i < parameters.length; i++) {
-            preparedStatement.setObject(i + 1, parameters[i]);
+    class SummaryDtoRowMapper implements RowMapper<BoardSummaryDto> {
+
+        @Override
+        public BoardSummaryDto map(ResultSet resultSet) throws SQLException {
+            long id = resultSet.getLong("id");
+            String currentTeam = resultSet.getString("current_turn");
+            boolean isFinished = resultSet.getBoolean("is_finished");
+            return new BoardSummaryDto(id, currentTeam, isFinished);
         }
     }
 

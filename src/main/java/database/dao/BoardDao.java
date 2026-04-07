@@ -13,9 +13,9 @@ public interface BoardDao {
     // TODO JanggiBoard를 받도록 수정.
     Long save(Connection connection);
 
-    List<BoardSummaryDto> readAllPlaying(Connection connection);
+    List<BoardSummaryDto> readAllPlaying() throws SQLException;
 
-    BoardSummaryDto readPlayingById(Connection connection, Long boardId);
+    BoardSummaryDto readPlayingById(Long boardId) throws SQLException;
 
     void updateTurn(Long boardId, Team nextTurn) throws SQLException;
 

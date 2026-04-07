@@ -12,7 +12,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class JdbcIntersectionDao implements IntersectionDao {
@@ -58,34 +57,12 @@ public class JdbcIntersectionDao implements IntersectionDao {
         }
     }
 
-    @Override
-    public List<Intersection> readByBoardId(Connection connection, Long boardId) {
-        try (PreparedStatement preparedStatement = connection.prepareStatement(READ_ALL_INTERSECTION_QUERY)) {
-            setParameters(preparedStatement, boardId);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-            List<Intersection> intersections = new ArrayList<>();
-
-            while (resultSet.next()) {
-                int y = resultSet.getInt("y");
-                int x = resultSet.getInt("x");
-
-                String pieceTypeName = resultSet.getString("piece_type");
-                String teamName = resultSet.getString("team");
-                String intersectionTypeName = resultSet.getString("intersection_type");
-
-                Point point = new Point(y, x);
-                Piece piece = new Piece(Team.valueOf(teamName), PieceType.valueOf(pieceTypeName));
-                IntersectionType type = IntersectionType.valueOf(intersectionTypeName);
-                Intersection intersection = type.create(point, piece);
-                intersections.add(intersection);
-            }
-
-            return intersections;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
+    public List<Intersection> readByBoardId(Long boardId) throws SQLException{
+        return jdbcTemplate.selectList(
+                READ_ALL_INTERSECTION_QUERY,
+                new IntersectionRowMapper(),
+                boardId
+        );
     }
 
     public void update(Long boardId, IntersectionDto intersection) throws SQLException {
@@ -102,6 +79,23 @@ public class JdbcIntersectionDao implements IntersectionDao {
     public void setParameters(PreparedStatement preparedStatement, Object... parameters) throws SQLException {
         for (int i = 0; i < parameters.length; i++) {
             preparedStatement.setObject(i + 1, parameters[i]);
+        }
+    }
+
+    public class IntersectionRowMapper implements RowMapper<Intersection> {
+        @Override
+        public Intersection map(ResultSet resultSet) throws SQLException {
+            int y = resultSet.getInt("y");
+            int x = resultSet.getInt("x");
+
+            String pieceTypeName = resultSet.getString("piece_type");
+            String teamName = resultSet.getString("team");
+            String intersectionTypeName = resultSet.getString("intersection_type");
+
+            Point point = new Point(y, x);
+            Piece piece = new Piece(Team.valueOf(teamName), PieceType.valueOf(pieceTypeName));
+            IntersectionType type = IntersectionType.valueOf(intersectionTypeName);
+            return type.create(point, piece);
         }
     }
 

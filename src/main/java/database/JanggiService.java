@@ -44,24 +44,29 @@ public class JanggiService {
     }
 
     public List<BoardSummaryDto> readExistPlayingBoard() {
-        try (Connection connection = DBConnector.getConnection()) {
-            return boardDao.readAllPlaying(connection);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        return executor.execute(boardDao::readAllPlaying);
     }
 
     public JanggiBoard getExistBoard(BoardSelectCommand command) {
         try (Connection connection = DBConnector.getConnection()) {
 
-            BoardSummaryDto boardSummaryDto = boardDao.readPlayingById(connection, command.select());
-            List<Intersection> intersections = intersectionDao.readByBoardId(connection, command.select());
+            BoardSummaryDto boardSummaryDto = boardDao.readPlayingById(command.select());
+            List<Intersection> intersections = intersectionDao.readByBoardId(command.select());
             Team currentTurn = Team.valueOf(boardSummaryDto.currentTurn());
 
             return new JanggiBoard(new DBIntersectionGenerator(intersections), currentTurn);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public JanggiBoard getExistBoardV2(BoardSelectCommand command) {
+        return executor.execute(()->{
+            BoardSummaryDto boardSummaryDto = boardDao.readPlayingById(command.select());
+            List<Intersection> intersections = intersectionDao.readByBoardId(command.select());
+            Team currentTurn = Team.valueOf(boardSummaryDto.currentTurn());
+            return new JanggiBoard(new DBIntersectionGenerator(intersections), currentTurn);
+        });
     }
 
     // TODO 상태 패턴을 사용하여, currentTurn과 isFinished를 합치면 좋을 듯.
