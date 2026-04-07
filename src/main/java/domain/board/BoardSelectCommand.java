@@ -4,7 +4,8 @@ public record BoardSelectCommand(
         long select
 ) {
 
-    private static final int SELECT_COMMAND_THRESHOLD = 0;
+    private static final int NEW_GAME_COMMAND = 0;
+    private static final int EXIT_COMMAND = -1;
 
     public static BoardSelectCommand from(String input) {
         validateStringIsNumeric(input);
@@ -23,13 +24,17 @@ public record BoardSelectCommand(
 
     // TODO 커스텀 예외로 변경할 것.
     public static void validateCommandRange(long select) {
-        if (select < SELECT_COMMAND_THRESHOLD) {
+        if (select < EXIT_COMMAND) {
             throw new IllegalArgumentException();
         }
     }
 
     public boolean isNewGameCommand() {
-        return select == SELECT_COMMAND_THRESHOLD;
+        return select == NEW_GAME_COMMAND;
+    }
+
+    public boolean isExitCommand() {
+        return select == EXIT_COMMAND;
     }
 
 }

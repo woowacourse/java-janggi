@@ -30,12 +30,15 @@ public class JanggiGame {
     }
 
     public void run() {
+        BoardSelectCommand selectCommand;
         showDoesntEndBoardList();
-        BoardSelectCommand selectCommand = reader.requestBoardSelectCommand();
-        JanggiBoard janggiBoard = getJanggiBoard(selectCommand);
-        startGame(janggiBoard);
-        applyGameResult(janggiBoard);
-        announceWinner(janggiBoard.getWinner());
+        while (!(selectCommand = reader.requestBoardSelectCommand()).isExitCommand()) {
+            JanggiBoard janggiBoard = getJanggiBoard(selectCommand);
+            startGame(janggiBoard);
+            applyGameResult(janggiBoard);
+            announceWinner(janggiBoard.getWinner());
+            showDoesntEndBoardList();
+        }
     }
 
     private void showDoesntEndBoardList() {
