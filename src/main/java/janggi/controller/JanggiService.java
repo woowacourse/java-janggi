@@ -7,9 +7,9 @@ import janggi.domain.game.Game;
 import janggi.domain.position.Position;
 import janggi.entity.PieceEntity;
 import janggi.entity.TurnEntity;
-import janggi.repository.GameRepository;
-import janggi.repository.MovementRepository;
-import janggi.repository.PieceRepository;
+import janggi.repository.game.GameRepository;
+import janggi.repository.movement.MovementRepository;
+import janggi.repository.piece.PieceRepository;
 import java.util.List;
 import java.util.Map;
 

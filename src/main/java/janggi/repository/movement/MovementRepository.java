@@ -1,4 +1,4 @@
-package janggi.repository;
+package janggi.repository.movement;
 
 import janggi.domain.position.Position;
 

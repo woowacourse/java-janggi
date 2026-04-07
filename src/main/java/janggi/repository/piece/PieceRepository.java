@@ -1,4 +1,4 @@
-package janggi.repository;
+package janggi.repository.piece;
 
 import janggi.domain.position.Position;
 import janggi.entity.PieceEntity;

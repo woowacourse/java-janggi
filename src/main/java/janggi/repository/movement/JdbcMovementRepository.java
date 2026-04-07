@@ -1,4 +1,4 @@
-package janggi.repository;
+package janggi.repository.movement;
 
 import janggi.config.DatabaseManager;
 import janggi.domain.position.Position;

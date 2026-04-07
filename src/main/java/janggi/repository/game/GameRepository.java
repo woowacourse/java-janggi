@@ -1,4 +1,4 @@
-package janggi.repository;
+package janggi.repository.game;
 
 import janggi.entity.TurnEntity;
 import java.util.Optional;

@@ -2,12 +2,12 @@ package janggi.config;
 
 import janggi.controller.JanggiController;
 import janggi.controller.JanggiService;
-import janggi.repository.GameRepository;
-import janggi.repository.JdbcGameRepository;
-import janggi.repository.JdbcMovementRepository;
-import janggi.repository.JdbcPieceRepository;
-import janggi.repository.MovementRepository;
-import janggi.repository.PieceRepository;
+import janggi.repository.game.GameRepository;
+import janggi.repository.game.JdbcGameRepository;
+import janggi.repository.movement.JdbcMovementRepository;
+import janggi.repository.movement.MovementRepository;
+import janggi.repository.piece.JdbcPieceRepository;
+import janggi.repository.piece.PieceRepository;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 

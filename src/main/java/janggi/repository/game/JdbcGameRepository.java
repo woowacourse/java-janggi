@@ -1,4 +1,4 @@
-package janggi.repository;
+package janggi.repository.game;
 
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
