@@ -58,6 +58,7 @@ public class JanggiService {
             boardDao.updateTurn(boardId, currentTurn);
             intersectionDao.update(boardId, mapper.toIntersectionDto(moved.destination()));
             intersectionDao.update(boardId, mapper.toIntersectionDto(moved.origin()));
+            return null;
         });
     }
 
@@ -65,6 +66,7 @@ public class JanggiService {
         executor.execute(() -> {
             Long boardId = BoardIdContext.getBoardId();
             boardDao.updateResult(boardId, gameResult);
+            return null;
         });
     }
 
