@@ -11,7 +11,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class CannonMoveInfoRuleTest {
+class CannonMoveInfoRuleTest {
     final Point start = new Point(0, 0);
     final Point middlePoint1 = new Point(1, 0);
     final Point middlePoint2 = new Point(2, 0);

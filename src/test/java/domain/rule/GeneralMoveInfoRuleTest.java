@@ -11,7 +11,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class GeneralMoveInfoRuleTest {
+class GeneralMoveInfoRuleTest {
     @Test
     @DisplayName("도착지에 같은 팀이 있는 경우 예외가 발생한다.")
     void should_throw_exception_when_destination_is_same_team() {

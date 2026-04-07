@@ -16,7 +16,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class BoardTest {
+class BoardTest {
     public static final int DEFAULT_ELEPHANT_AND_HORSE_ROW = 0;
 
     @Test

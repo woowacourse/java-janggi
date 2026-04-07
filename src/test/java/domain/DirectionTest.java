@@ -9,7 +9,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class DirectionTest {
+class DirectionTest {
     @Test
     @DisplayName("주어진 경로를 순차적으로 이동했을 때 최종 목적지에 도달하는지 확인한다.")
     void should_reach_target_when_following_directions() {

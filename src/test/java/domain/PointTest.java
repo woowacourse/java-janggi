@@ -7,7 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-public class PointTest {
+class PointTest {
     @Test
     @DisplayName("좌표가 같으면 동등한 객체로 취급한다")
     void should_be_equal_when_points_are_same() {
