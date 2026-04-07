@@ -14,11 +14,8 @@ public record BoardDTO(Map<PositionDTO, PieceDTO> piecePosition) {
 
     public static BoardDTO from(Map<Position, Piece> piecePositions) {
         Map<PositionDTO, PieceDTO> piecePosition = new HashMap<>();
-        piecePositions.entrySet().forEach(positionPieceEntry -> {
-            Position position = positionPieceEntry.getKey();
-            Piece piece = positionPieceEntry.getValue();
-            piecePosition.put(PositionDTO.from(position), PieceDTO.from(piece));
-        });
+        piecePositions.forEach(
+                (position, piece) -> piecePosition.put(PositionDTO.from(position), PieceDTO.from(piece)));
         return new BoardDTO(piecePosition);
     }
 }

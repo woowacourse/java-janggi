@@ -7,9 +7,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Board implements BoardInfo {
+public record Board(Map<Position, Piece> piecePosition) implements BoardInfo {
 
-    private final Map<Position, Piece> piecePosition;
+    private static final int PALACE_MAX_COUNT = 2;
 
     public Board(Map<Position, Piece> piecePosition) {
         this.piecePosition = new HashMap<>(piecePosition);
@@ -62,7 +62,7 @@ public class Board implements BoardInfo {
         long palaceCount = piecePosition.values().stream()
                 .filter(Piece::isPalace)
                 .count();
-        return palaceCount == 2;
+        return palaceCount == PALACE_MAX_COUNT;
     }
 
     public Destinations moveablePositions(Position currentPosition) {
@@ -87,6 +87,7 @@ public class Board implements BoardInfo {
         return PieceScoreCalculator.calculateScore(side, piecePosition.values());
     }
 
+    @Override
     public Map<Position, Piece> piecePosition() {
         return Map.copyOf(piecePosition);
     }
