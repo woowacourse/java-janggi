@@ -5,6 +5,7 @@ import java.util.Optional;
 import janggi.domain.board.coordinate.Point;
 import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.game.Game;
+import janggi.domain.game.GameResult;
 import janggi.domain.game.GameSession;
 import janggi.domain.side.Side;
 import janggi.repository.GameRepository;
@@ -32,15 +33,15 @@ public class GameService {
         return new GameSession(game, gameId);
     }
 
-    public Side move(GameSession session, Point from, Point to) {
-        Side winner = session.game().move(from, to);
+    public GameResult move(GameSession session, Point from, Point to) {
+        GameResult result = session.game().move(from, to);
         gameRepository.update(session.gameId(), session.game());
 
-        if (!winner.equals(Side.NONE)) {
-            gameRepository.finish(session.gameId(), winner);
+        if (!result.isGameOver()) {
+            gameRepository.finish(session.gameId(), result.getWinner());
         }
 
-        return winner;
+        return result;
     }
 
     public void finish(int gameId) {

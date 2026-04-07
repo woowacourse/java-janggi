@@ -43,13 +43,12 @@ public class Game {
         return board.destinations(from);
     }
 
-    public Side move(Point from, Point to) {
+    public GameResult move(Point from, Point to) {
         if (board.moveTo(from, to)) {
-            return turn;
+            return GameResult.win(turn);
         }
         switchTurn();
-
-        return Side.NONE;
+        return GameResult.progress();
     }
 
     public Map<Point, Piece> getBoard() {

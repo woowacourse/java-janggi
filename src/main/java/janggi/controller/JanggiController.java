@@ -7,6 +7,7 @@ import java.util.function.Supplier;
 import janggi.domain.board.coordinate.Point;
 import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.game.Game;
+import janggi.domain.game.GameResult;
 import janggi.domain.game.GameSession;
 import janggi.domain.side.Side;
 import janggi.service.GameService;
@@ -28,7 +29,9 @@ public class JanggiController {
     public void run() {
         Optional<Integer> activeGameId = gameService.findActiveGameId();
 
-        if (activeGameId.isPresent() && inputView.readContinueGame()) {
+        boolean isContinue = retry(() -> inputView.readContinueGame());
+
+        if (activeGameId.isPresent() && isContinue) {
             play(gameService.continueGame(activeGameId.get()));
             return;
         }
@@ -48,20 +51,16 @@ public class JanggiController {
             outputView.printSide(game.getTurn());
 
             Point from = retry(() -> selectFrom(game));
-            Optional<Side> winner = retryMove(session, from);
+            Optional<GameResult> result = retryMove(session, from);
 
-            if (winner.isEmpty()) {
+            if (result.isEmpty()) {
                 continue;
             }
 
-            outputView.printScore(Side.CHO, game.getScore(Side.CHO));
-            outputView.printScore(Side.HAN, game.getScore(Side.HAN));
-
-            if (!winner.get().equals(Side.NONE)) {
-                outputView.printBoard(game.getBoard());
-                outputView.printGameResult(winner.get());
+            if (processResult(game, result.get())) {
                 break;
             }
+
         }
     }
 
@@ -72,9 +71,7 @@ public class JanggiController {
         return from;
     }
 
-    private Optional<Side> retryMove(GameSession session, Point from) {
-        Game game = session.game();
-
+    private Optional<GameResult> retryMove(GameSession session, Point from) {
         while (true) {
             Optional<Point> to = retry(() -> inputView.readDestination());
 
@@ -82,13 +79,34 @@ public class JanggiController {
                 return Optional.empty();
             }
 
-            try {
-                return Optional.ofNullable(gameService.move(session, from, to.get()));
-            } catch (IllegalArgumentException e) {
-                outputView.printError(e.getMessage());
-                outputView.printBoardWithPath(game.getBoard(), game.destinations(from));
+            Optional<GameResult> result = tryMove(session, from, to.get());
+
+            if (result.isPresent()) {
+                return result;
             }
         }
+    }
+
+    private Optional<GameResult> tryMove(GameSession session, Point from, Point to) {
+        try {
+            return Optional.of(gameService.move(session, from, to));
+        } catch (IllegalArgumentException e) {
+            outputView.printError(e.getMessage());
+            outputView.printBoardWithPath(session.game().getBoard(), session.game().destinations(from));
+            return Optional.empty();
+        }
+    }
+
+    private boolean processResult(Game game, GameResult result) {
+        outputView.printScore(Side.CHO, game.getScore(Side.CHO));
+        outputView.printScore(Side.HAN, game.getScore(Side.HAN));
+
+        if (result.isGameOver()) {
+            outputView.printBoard(game.getBoard());
+            outputView.printGameResult(result.getWinner());
+            return true;
+        }
+        return false;
     }
 
     private <T> T retry(Supplier<T> supplier) {

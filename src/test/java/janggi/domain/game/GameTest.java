@@ -48,7 +48,7 @@ class GameTest {
     @Test
     @DisplayName("move(): 적 진영의 궁을 잡으면 이긴다.")
     void checkGeneral() {
-        assertThat(game.move(Point.of(5, 0), Point.of(6, 0))).isEqualTo(Side.CHO);
+        assertThat(game.move(Point.of(5, 0), Point.of(6, 0)).getWinner()).isEqualTo(Side.CHO);
     }
 
     @Test

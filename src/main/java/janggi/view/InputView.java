@@ -22,16 +22,17 @@ public class InputView {
 
     public boolean readContinueGame() {
         System.out.println("진행 중인 게임이 있습니다. 이어서 플레이하시겠습니까? (Y / N)");
-        while (true) {
-            String input = sc.nextLine().trim().toUpperCase();
-            if (input.equals("Y")) {
-                return true;
-            }
-            if (input.equals("N")) {
-                return false;
-            }
-            System.out.println("Y 또는 N을 입력해주세요.");
+
+        String input = sc.nextLine().trim().toUpperCase();
+        if (input.equals("Y")) {
+            return true;
         }
+        if (input.equals("N")) {
+            return false;
+        }
+
+        throw new IllegalArgumentException("Y 또는 N을 입력해주세요.");
+
     }
 
     public BoardSetUp readBoardSetup(Side side) {
