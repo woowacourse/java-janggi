@@ -5,6 +5,7 @@ import database.connection.DBConnector;
 import database.dao.BoardDao;
 import database.dao.IntersectionDao;
 import database.dto.BoardSummaryDto;
+import database.dto.GameResult;
 import domain.board.BoardSelectCommand;
 import domain.board.DBIntersectionGenerator;
 import domain.board.JanggiBoard;
@@ -69,6 +70,17 @@ public class JanggiService {
 
         } catch (SQLException e) {
             throw new RuntimeException();
+        }
+    }
+
+    public void updateBoardResult(GameResult gameResult) {
+        try (Connection connection = DBConnector.getConnection()) {
+
+            Long boardId = BoardIdContext.getBoardId();
+            boardDao.updateBoardResult(connection, boardId, gameResult);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 

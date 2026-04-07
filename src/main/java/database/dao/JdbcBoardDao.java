@@ -1,6 +1,7 @@
 package database.dao;
 
 import database.dto.BoardSummaryDto;
+import database.dto.GameResult;
 import domain.piece.Team;
 
 import java.sql.*;
@@ -29,6 +30,12 @@ public class JdbcBoardDao implements BoardDao {
             UPDATE board
             SET current_turn = ?
             WHERE id = ?
+            """;
+
+    private static final String UPDATE_BOARD_RESULT_QUERY = """
+            UPDATE board
+            SET winner = ?, han_score = ?, cho_score = ? , is_finished = true
+            WHERE id = ?;
             """;
 
     @Override
@@ -99,6 +106,24 @@ public class JdbcBoardDao implements BoardDao {
                 throw new SQLException("장기판 업데이트에 실패했습니다.");
             }
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateBoardResult(Connection connection, Long boardId, GameResult gameResult) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BOARD_RESULT_QUERY)) {
+
+            preparedStatement.setString(1, gameResult.winner().name());
+            preparedStatement.setString(2, String.valueOf(gameResult.hanScore()));
+            preparedStatement.setString(3, String.valueOf(gameResult.choScore()));
+            preparedStatement.setString(4, String.valueOf(boardId));
+
+            int affectedRows = preparedStatement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("장기판 업데이트에 실패했습니다.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }

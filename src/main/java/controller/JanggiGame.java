@@ -3,6 +3,7 @@ package controller;
 import common.exception.JanggiException;
 import database.JanggiService;
 import database.connection.BoardIdContext;
+import database.dto.GameResult;
 import domain.board.BoardSelectCommand;
 import domain.board.Formation;
 import domain.board.JanggiBoard;
@@ -33,6 +34,7 @@ public class JanggiGame {
         BoardSelectCommand selectCommand = reader.requestBoardSelectCommand();
         JanggiBoard janggiBoard = getJanggiBoard(selectCommand);
         startGame(janggiBoard);
+        applyGameResult(janggiBoard);
         announceWinner(janggiBoard.getWinner());
     }
 
@@ -69,7 +71,7 @@ public class JanggiGame {
     }
 
     private void progressGame(JanggiBoard janggiBoard) {
-        while (!janggiBoard.isGameOver() || janggiBoard.hasNotEnoughPieceScore()) {
+        while (!janggiBoard.isGameOver()) {
             Moved moved = progressTurn(janggiBoard);
             janggiService.updateTurn(moved, janggiBoard.getCurrentTurn());
         }
@@ -90,6 +92,11 @@ public class JanggiGame {
 
     private MoveCommand requestCommand(Team team) {
         return reader.requestCommand(team);
+    }
+
+    public void applyGameResult(JanggiBoard janggiBoard) {
+        GameResult gameResult = GameResult.from(janggiBoard);
+        janggiService.updateBoardResult(gameResult);
     }
 
     public void announceWinner(Team team) {
