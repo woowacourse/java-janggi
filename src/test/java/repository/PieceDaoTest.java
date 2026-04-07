@@ -25,7 +25,7 @@ class PieceDaoTest {
 
     @BeforeEach
     void setUp() {
-        DBConnection dbConnection = new DBConnection(TEST_URL);
+        DBConnection dbConnection = new H2DBConnection(TEST_URL);
         gameDao = new GameDao(dbConnection);
         pieceDao = new PieceDao(dbConnection);
 

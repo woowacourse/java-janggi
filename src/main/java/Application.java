@@ -3,6 +3,7 @@ import controller.Controller;
 import repository.DBConnection;
 import repository.GameDao;
 import repository.GameRepository;
+import repository.H2DBConnection;
 import repository.PieceDao;
 import view.InputView;
 import view.OutputView;
@@ -25,7 +26,7 @@ public class Application {
         InputView inputView = new InputView();
         OutputView outputView = new OutputView();
 
-        DBConnection dbConnection = new DBConnection(dbUrl);
+        DBConnection dbConnection = new H2DBConnection(dbUrl);
         GameRepository gameRepository = new GameRepository(new GameDao(dbConnection), new PieceDao(dbConnection));
 
         Controller controller = new Controller(inputView, outputView, gameRepository);
