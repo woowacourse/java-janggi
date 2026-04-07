@@ -18,6 +18,14 @@ public class OutputView {
     private static final String HAN_CAMP = "한나라";
     private static final String WINNER_MESSAGE = "%s의 승리입니다!";
     private static final String SCORE_MESSAGE = "기물 부족으로 게임이 종료되었습니다. (점수 - 초: %.1f, 한: %.1f)%n";
+    private static final String MENU_MESSAGE = """
+            > 장기 게임을 시작합니다.
+            > 1. 새로 하기
+            > 2. 이어 하기
+            """;
+    private static final String LOAD_MENU_MESSAGE = "> 불러올 게임 번호를 입력해 주세요.";
+    private static final String NEW_GAME_START_MESSAGE = "새 게임 시작 (게임 번호: %d)%n";
+    private static final String LOAD_PREVIOUS_GAME_MESSAGE = "%d 번 게임을 불러왔습니다.%n";
 
     private final BoardRenderer boardRenderer;
 
@@ -51,6 +59,22 @@ public class OutputView {
 
     public void printScore(double choScore, double hanScore) {
         System.out.printf(SCORE_MESSAGE, choScore, hanScore);
+    }
+
+    public void printMainMenu() {
+        System.out.println(MENU_MESSAGE);
+    }
+
+    public void printLoadGameMenu() {
+        System.out.println(LOAD_MENU_MESSAGE);
+    }
+
+    public void printNewGameStart(int gameId) {
+        System.out.printf(NEW_GAME_START_MESSAGE, gameId);
+    }
+
+    public void printLoadPreviousGame(int gameId) {
+        System.out.printf(LOAD_PREVIOUS_GAME_MESSAGE, gameId);
     }
 
     private String campName(Camp camp) {
