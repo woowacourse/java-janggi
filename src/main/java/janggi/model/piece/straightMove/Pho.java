@@ -1,6 +1,7 @@
 package janggi.model.piece.straightMove;
 
 import janggi.model.Team;
+import janggi.model.palace.Palaces;
 import janggi.model.piece.Piece;
 import janggi.model.piece.PieceType;
 import java.util.List;
@@ -8,13 +9,14 @@ import java.util.List;
 public class Pho extends StraightMovePiece {
     private Pho(
             Team team,
-            PieceType pieceType
+            PieceType pieceType,
+            Palaces palaces
     ) {
-        super(team, pieceType);
+        super(team, pieceType, palaces);
     }
 
-    public Pho(Team team) {
-        this(team, PieceType.PHO);
+    public Pho(Team team, Palaces palaces) {
+        this(team, PieceType.PHO, palaces);
     }
 
     @Override

@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.Team;
+import janggi.model.palace.Palaces;
+import janggi.model.palace.factory.DefaultPalaceFactory;
 import janggi.model.piece.palace.Sa;
 import janggi.model.piece.straightMove.Cha;
 import janggi.model.position.absolute.Column;
@@ -17,6 +19,8 @@ import org.junit.jupiter.api.Test;
 
 class SaTest {
 
+    Palaces palaces = new DefaultPalaceFactory().create();
+
     Map<Position, Piece> emptyBoard = Map.of();
 
     @DisplayName("from과 to가 같은 궁성 안에 없으면 예외가 발생한다.")
@@ -25,7 +29,7 @@ class SaTest {
         //given
         Position from = new Position(Row.SEVEN, Column.FIVE);
         Position to = new Position(Row.SEVEN, Column.SEVEN);
-        Sa sa = new Sa(Team.HAN);
+        Sa sa = new Sa(Team.HAN, palaces);
 
         //when & then
         assertThatThrownBy(() -> sa.getLegalPath(from, to))
@@ -39,7 +43,7 @@ class SaTest {
         //given
         Position from = new Position(Row.EIGHT, Column.FIVE);
         Position to = new Position(Row.NINE, Column.FOUR);
-        Sa sa = new Sa(Team.HAN);
+        Sa sa = new Sa(Team.HAN, palaces);
 
         //when & then
         assertThatThrownBy(() -> sa.getLegalPath(from, to))
@@ -47,13 +51,13 @@ class SaTest {
                 .hasMessage("해당 경로로 이동할 수 없습니다.");
     }
 
-    @DisplayName("간선을 따라 대각선으로 이동한다.")
+    @DisplayName("궁성 안에서는 간선을 따라 이동한다.")
     @Test
     void getLegalPath_diagonal() {
         //given
         Position from = new Position(Row.NINE, Column.FIVE);
         Position to = new Position(Row.EIGHT, Column.FOUR);
-        Sa sa = new Sa(Team.HAN);
+        Sa sa = new Sa(Team.HAN, palaces);
 
         //when & then
         assertThat(sa.getLegalPath(
@@ -69,9 +73,7 @@ class SaTest {
         //given
         Position from = new Position(Row.NINE, Column.FIVE);
         Position to = new Position(Row.ZERO, Column.FIVE);
-        Sa sa = new Sa(Team.CHO);
-
-        Cha cha = new Cha(Team.CHO);
+        Sa sa = new Sa(Team.HAN, palaces);
 
         //when
         PositionPath path = sa.getLegalPath(from, to);
@@ -87,9 +89,7 @@ class SaTest {
         //given
         Position from = new Position(Row.NINE, Column.FIVE);
         Position to = new Position(Row.EIGHT, Column.FIVE);
-        Sa sa = new Sa(Team.CHO);
-
-        Cha cha = new Cha(Team.CHO);
+        Sa sa = new Sa(Team.HAN, palaces);
 
         //when
         PositionPath path = sa.getLegalPath(from, to);
@@ -105,9 +105,7 @@ class SaTest {
         //given
         Position from = new Position(Row.NINE, Column.FIVE);
         Position to = new Position(Row.NINE, Column.SIX);
-        Sa sa = new Sa(Team.CHO);
-
-        Cha cha = new Cha(Team.CHO);
+        Sa sa = new Sa(Team.HAN, palaces);
 
         //when
         PositionPath path = sa.getLegalPath(from, to);
@@ -123,9 +121,7 @@ class SaTest {
         //given
         Position from = new Position(Row.NINE, Column.FIVE);
         Position to = new Position(Row.ZERO, Column.FOUR);
-        Sa sa = new Sa(Team.CHO);
-
-        Cha cha = new Cha(Team.CHO);
+        Sa sa = new Sa(Team.HAN, palaces);
 
         //when
         PositionPath path = sa.getLegalPath(from, to);
@@ -140,10 +136,10 @@ class SaTest {
     void canPassThrough() {
         //given
         List<Piece> gimulsOnPath = List.of(
-                new Cha(Team.CHO)
+                new Cha(Team.CHO, palaces)
         );
-        Cha gimulAtTo = new Cha(Team.HAN);
-        Sa sa = new Sa(Team.HAN);
+        Cha gimulAtTo = new Cha(Team.HAN, palaces);
+        Sa sa = new Sa(Team.HAN, palaces);
 
         //when & then
         assertThat(sa.canPassThrough(gimulsOnPath, gimulAtTo))
@@ -155,10 +151,10 @@ class SaTest {
     void canPassThrough_sameTeam() {
         //given
         List<Piece> gimulsOnPath = List.of(
-                new Cha(Team.CHO)
+                new Cha(Team.CHO, palaces)
         );
-        Sa gimulAtTo = new Sa(Team.CHO);
-        Sa sa = new Sa(Team.CHO);
+        Sa gimulAtTo = new Sa(Team.CHO, palaces);
+        Sa sa = new Sa(Team.HAN, palaces);
 
         //when & then
         assertThat(sa.canPassThrough(gimulsOnPath, gimulAtTo))

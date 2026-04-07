@@ -1,6 +1,7 @@
 package janggi.model.initializer;
 
 import janggi.model.Team;
+import janggi.model.palace.Palaces;
 import janggi.model.piece.Piece;
 import janggi.model.piece.diagonalMove.Ma;
 import janggi.model.piece.diagonalMove.Sang;
@@ -31,6 +32,10 @@ public class OutsideTableSetting extends BoardInitializerWithConst {
             new Position(Row.ONE, Column.TWO),
             new Position(Row.ONE, Column.EIGHT)
     );
+
+    public OutsideTableSetting(Palaces palaces) {
+        super(palaces);
+    }
 
     @Override
     protected Map<Position, Piece> initMa() {

@@ -6,6 +6,9 @@ import janggi.dao.piece.JdbcPieceDao;
 import janggi.infra.AppConfig;
 import janggi.infra.ConnectionProvider;
 import janggi.infra.transaction.TransactionExecutorImpl;
+import janggi.model.palace.Palaces;
+import janggi.model.palace.factory.DefaultPalaceFactory;
+import janggi.model.palace.factory.PalaceFactory;
 import janggi.service.JanggiService;
 import janggi.view.InputView;
 import janggi.view.OutputView;
@@ -14,7 +17,9 @@ public class JanggiApplication {
 
     public static void main(String[] args) {
         ConnectionProvider provider = createConnectionProvider();
-        JanggiService janggiService = createJanggiService(provider);
+        Palaces palaces = createPalaces();
+
+        JanggiService janggiService = createJanggiService(provider, palaces);
 
         JanggiController controller = new JanggiController(
                 new OutputView(),
@@ -33,11 +38,20 @@ public class JanggiApplication {
         return provider;
     }
 
-    private static JanggiService createJanggiService(ConnectionProvider provider) {
+    private static Palaces createPalaces() {
+        PalaceFactory palaceFactory = new DefaultPalaceFactory();
+        return palaceFactory.create();
+    }
+
+    private static JanggiService createJanggiService(
+            ConnectionProvider provider,
+            Palaces palaces
+    ) {
         return new JanggiService(
                 new JdbcGameDao(),
                 new JdbcPieceDao(),
-                new TransactionExecutorImpl(provider)
+                new TransactionExecutorImpl(provider),
+                palaces
         );
     }
 }

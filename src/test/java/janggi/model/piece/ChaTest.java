@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.Team;
+import janggi.model.palace.Palaces;
+import janggi.model.palace.factory.DefaultPalaceFactory;
 import janggi.model.piece.straightMove.Cha;
 import janggi.model.position.absolute.Column;
 import janggi.model.position.absolute.Position;
@@ -16,13 +18,15 @@ import org.junit.jupiter.api.Test;
 
 class ChaTest {
 
+    Palaces palaces = new DefaultPalaceFactory().create();
+
     @DisplayName("같은 행이나 열에 위치해있지 않으면 예외가 발생한다.")
     @Test
     void getLegalPath_invalidPath() {
         //given
         Position from = new Position(Row.SIX, Column.THREE);
         Position to = new Position(Row.TWO, Column.FIVE);
-        Cha cha = new Cha(Team.CHO);
+        Cha cha = new Cha(Team.CHO, palaces);
 
         //when & then
         assertThatThrownBy(() -> cha.getLegalPath(from, to))
@@ -36,7 +40,7 @@ class ChaTest {
         //given
         Position from = new Position(Row.SIX, Column.THREE);
         Position to = new Position(Row.SIX, Column.THREE);
-        Cha cha = new Cha(Team.CHO);
+        Cha cha = new Cha(Team.CHO, palaces);
 
         //when & then
         assertThatThrownBy(() -> cha.getLegalPath(from, to))
@@ -50,7 +54,7 @@ class ChaTest {
         //given
         Position from = new Position(Row.SIX, Column.THREE);
         Position to = new Position(Row.TWO, Column.FIVE);
-        Cha cha = new Cha(Team.CHO);
+        Cha cha = new Cha(Team.CHO, palaces);
 
         //when & then
         assertThatThrownBy(() -> cha.getLegalPath(from, to))
@@ -64,9 +68,9 @@ class ChaTest {
         //given
         Position from = new Position(Row.SIX, Column.THREE);
         Position to = new Position(Row.SIX, Column.FIVE);
-        Cha cha = new Cha(Team.CHO);
+        Cha cha = new Cha(Team.CHO, palaces);
 
-        Byeong byeong = new Byeong(Team.CHO);
+        Byeong byeong = new Byeong(Team.CHO, palaces);
 
         Map<Position, Piece> board = Map.of(
                 new Position(Row.SIX, Column.FOUR), byeong
@@ -86,9 +90,9 @@ class ChaTest {
         //given
         Position from = new Position(Row.SIX, Column.THREE);
         Position to = new Position(Row.NINE, Column.THREE);
-        Cha cha = new Cha(Team.CHO);
+        Cha cha = new Cha(Team.CHO, palaces);
 
-        Byeong byeong = new Byeong(Team.CHO);
+        Byeong byeong = new Byeong(Team.CHO, palaces);
 
         Map<Position, Piece> board = Map.of(
                 new Position(Row.SEVEN, Column.THREE), byeong
@@ -108,9 +112,9 @@ class ChaTest {
         //given
         Position from = new Position(Row.ZERO, Column.FOUR);
         Position to = new Position(Row.EIGHT, Column.SIX);
-        Cha cha = new Cha(Team.CHO);
+        Cha cha = new Cha(Team.CHO, palaces);
 
-        Byeong byeong = new Byeong(Team.CHO);
+        Byeong byeong = new Byeong(Team.CHO, palaces);
 
         Map<Position, Piece> board = Map.of(
                 new Position(Row.NINE, Column.FIVE), byeong
@@ -130,7 +134,7 @@ class ChaTest {
         //given
         Position from = new Position(Row.ZERO, Column.FIVE);
         Position to = new Position(Row.NINE, Column.FOUR);
-        Cha cha = new Cha(Team.CHO);
+        Cha cha = new Cha(Team.CHO, palaces);
 
         //when & then
         assertThatThrownBy(() -> cha.getLegalPath(from, to))
@@ -143,10 +147,10 @@ class ChaTest {
     void canPassThrough() {
         //given
         List<Piece> gimulsOnPath = List.of(
-                new Cha(Team.CHO)
+                new Cha(Team.CHO, palaces)
         );
-        Cha gimulAtTo = new Cha(Team.HAN);
-        Cha cha = new Cha(Team.CHO);
+        Cha gimulAtTo = new Cha(Team.HAN, palaces);
+        Cha cha = new Cha(Team.CHO, palaces);
 
         //when & then
         assertThat(cha.canPassThrough(gimulsOnPath, gimulAtTo))
@@ -158,10 +162,10 @@ class ChaTest {
     void canPassThrough_sameTeam() {
         //given
         List<Piece> gimulsOnPath = List.of(
-                new Cha(Team.CHO)
+                new Cha(Team.CHO, palaces)
         );
-        Cha gimulAtTo = new Cha(Team.CHO);
-        Cha cha = new Cha(Team.CHO);
+        Cha gimulAtTo = new Cha(Team.CHO, palaces);
+        Cha cha = new Cha(Team.CHO, palaces);
 
         //when & then
         assertThat(cha.canPassThrough(gimulsOnPath, gimulAtTo))

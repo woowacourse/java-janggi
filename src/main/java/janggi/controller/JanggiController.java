@@ -54,7 +54,7 @@ public class JanggiController {
             }
 
             if (readDrawAccept()) {
-               currentJanggi = janggiService.draw(currentJanggi);
+                currentJanggi = janggiService.draw(currentJanggi);
                 break;
             }
 
@@ -90,12 +90,12 @@ public class JanggiController {
 
     private GameDetailResponse initNewGame() {
         BoardType boardType = readBoardType();
-        return janggiService.initGame(boardType.getBoard());
+        return janggiService.initGame(boardType);
     }
 
     private BoardType readBoardType() {
         outputView.printBoardInitialTypeMessage();
-        return inputView.readBoardInitializeType();
+        return BoardType.of(inputView.readBoardInitializeType());
     }
 
     private Position readFromPosition() {

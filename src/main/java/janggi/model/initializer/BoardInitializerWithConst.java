@@ -3,6 +3,7 @@ package janggi.model.initializer;
 import janggi.model.Team;
 import janggi.model.board.Board;
 import janggi.model.board.PlayingBoard;
+import janggi.model.palace.Palaces;
 import janggi.model.piece.Byeong;
 import janggi.model.piece.Piece;
 import janggi.model.piece.palace.Jang;
@@ -68,6 +69,12 @@ public abstract class BoardInitializerWithConst implements BoardInitializer {
             new Position(Row.THREE, Column.EIGHT)
     );
 
+    private final Palaces palaces;
+
+    public BoardInitializerWithConst(Palaces palaces) {
+        this.palaces = palaces;
+    }
+
     public Board init() {
         Map<Position, Piece> board = new HashMap<>();
 
@@ -83,14 +90,15 @@ public abstract class BoardInitializerWithConst implements BoardInitializer {
     }
 
     protected abstract Map<Position, Piece> initMa();
+
     protected abstract Map<Position, Piece> initSang();
 
 
     protected Map<Position, Piece> initCha() {
         Map<Position, Piece> board = new HashMap<>();
 
-        Cha cho = new Cha(Team.CHO);
-        Cha han = new Cha(Team.HAN);
+        Cha cho = new Cha(Team.CHO, palaces);
+        Cha han = new Cha(Team.HAN, palaces);
 
         for (Position position : CHA_CHO) {
             board.put(position, cho);
@@ -106,8 +114,8 @@ public abstract class BoardInitializerWithConst implements BoardInitializer {
     protected Map<Position, Piece> initJang() {
         Map<Position, Piece> board = new HashMap<>();
 
-        Jang cho = new Jang(Team.CHO);
-        Jang han = new Jang(Team.HAN);
+        Jang cho = new Jang(Team.CHO, palaces);
+        Jang han = new Jang(Team.HAN, palaces);
 
         board.put(JANG_CHO, cho);
         board.put(JANG_HAN, han);
@@ -118,8 +126,8 @@ public abstract class BoardInitializerWithConst implements BoardInitializer {
     protected Map<Position, Piece> initSa() {
         Map<Position, Piece> board = new HashMap<>();
 
-        Sa cho = new Sa(Team.CHO);
-        Sa han = new Sa(Team.HAN);
+        Sa cho = new Sa(Team.CHO, palaces);
+        Sa han = new Sa(Team.HAN, palaces);
 
         for (Position position : SA_CHO) {
             board.put(position, cho);
@@ -135,8 +143,8 @@ public abstract class BoardInitializerWithConst implements BoardInitializer {
     protected Map<Position, Piece> initByeong() {
         Map<Position, Piece> board = new HashMap<>();
 
-        Byeong cho = new Byeong(Team.CHO);
-        Byeong han = new Byeong(Team.HAN);
+        Byeong cho = new Byeong(Team.CHO, palaces);
+        Byeong han = new Byeong(Team.HAN, palaces);
 
         for (Position position : BYEONG_CHO) {
             board.put(position, cho);
@@ -153,8 +161,8 @@ public abstract class BoardInitializerWithConst implements BoardInitializer {
     protected Map<Position, Piece> initPho() {
         Map<Position, Piece> board = new HashMap<>();
 
-        Pho cho = new Pho(Team.CHO);
-        Pho han = new Pho(Team.HAN);
+        Pho cho = new Pho(Team.CHO, palaces);
+        Pho han = new Pho(Team.HAN, palaces);
 
         for (Position position : PHO_CHO) {
             board.put(position, cho);

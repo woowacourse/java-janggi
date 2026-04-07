@@ -1,18 +1,24 @@
 package janggi.model.movement.palace;
 
+import janggi.model.palace.Palaces;
 import janggi.model.position.absolute.Column;
 import janggi.model.position.absolute.Position;
 import janggi.model.position.absolute.PositionPath;
 import janggi.model.position.absolute.Row;
 import java.util.List;
 
-public class PalaceMultipleMovement extends PalaceMovement{
+public class PalaceMultipleMovement extends PalaceMovement {
 
     private static final int ONE_STEP = 1;
 
+
+    public PalaceMultipleMovement(Palaces palaces) {
+        super(palaces);
+    }
+
     @Override
     public PositionPath move(Position from, Position to) {
-        if (!from.isInSamePalaceWith(to)) {
+        if (!supports(from, to)) {
             throw new IllegalArgumentException("from과 to는 같은 궁성 안에 있어야 합니다.");
         }
 
@@ -31,7 +37,7 @@ public class PalaceMultipleMovement extends PalaceMovement{
                 Column.of((from.column().getValue() + to.column().getValue()) / 2)
         );
 
-        if (!from.isAdjacentInPalaceWith(middle) || !middle.isAdjacentInPalaceWith(to)) {
+        if (!palaces.isAdjacentInSamePalace(from, middle) || !palaces.isAdjacentInSamePalace(middle, to)) {
             throw new IllegalArgumentException("해당 경로로는 이동할 수 없습니다.");
         }
 

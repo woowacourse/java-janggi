@@ -8,7 +8,8 @@ import janggi.dao.piece.PieceDao;
 import janggi.model.Janggi;
 import janggi.model.Team;
 import janggi.model.board.PlayingBoard;
-import janggi.model.initializer.LeftSidedTableSetting;
+import janggi.model.palace.Palaces;
+import janggi.model.palace.factory.DefaultPalaceFactory;
 import janggi.model.piece.Byeong;
 import janggi.model.piece.Piece;
 import janggi.model.piece.PieceType;
@@ -18,16 +19,18 @@ import janggi.model.position.absolute.Position;
 import janggi.model.position.absolute.Row;
 import janggi.service.dto.GameDetailResponse;
 import janggi.service.dto.GameOptionResponse;
+import janggi.view.mapping.BoardType;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class JanggiServiceTest {
+
+    Palaces palaces = new DefaultPalaceFactory().create();
 
     GameDao gameDao;
     PieceDao pieceDao;
@@ -41,7 +44,8 @@ class JanggiServiceTest {
         janggiService = new JanggiService(
                 gameDao,
                 pieceDao,
-                new TestTransactionExecutor(null)
+                new TestTransactionExecutor(null),
+                palaces
         );
     }
 
@@ -86,12 +90,10 @@ class JanggiServiceTest {
     @Test
     void initGame() {
         //given
-        PlayingBoard board = PlayingBoard.of(
-                new LeftSidedTableSetting().init().getBoardInfo()
-        );
+        BoardType boardType = BoardType.FIRST;
 
         //when
-        GameDetailResponse response = janggiService.initGame(board);
+        GameDetailResponse response = janggiService.initGame(boardType);
 
         //then
         assertThat(response.gameId())
@@ -124,10 +126,13 @@ class JanggiServiceTest {
         Map<Position, Piece> boardInfo = new HashMap<>();
 
         Position from = new Position(Row.NINE, Column.FIVE);
-        Piece pieceAtFrom = new Jang(Team.CHO);
+        Piece pieceAtFrom = new Jang(Team.CHO, palaces);
 
         boardInfo.put(from, pieceAtFrom);
-        boardInfo.put(new Position(Row.TWO, Column.FIVE), new Jang(Team.HAN));
+        boardInfo.put(
+                new Position(Row.TWO, Column.FIVE),
+                new Jang(Team.HAN, palaces)
+        );
 
         Janggi janggi = Janggi.of(PlayingBoard.of(boardInfo));
 
@@ -150,7 +155,7 @@ class JanggiServiceTest {
         Position to = new Position(Row.NINE, Column.SIX);
 
         //when
-       janggiService.updateBoardWith(
+        janggiService.updateBoardWith(
                 janggi,
                 from,
                 to
@@ -174,13 +179,19 @@ class JanggiServiceTest {
         Map<Position, Piece> boardInfo = new HashMap<>();
 
         Position from = new Position(Row.NINE, Column.FIVE);
-        Piece pieceAtFrom = new Jang(Team.CHO);
+        Piece pieceAtFrom = new Jang(Team.CHO, palaces);
 
         Position to = new Position(Row.NINE, Column.SIX);
 
         boardInfo.put(from, pieceAtFrom);
-        boardInfo.put(new Position(Row.TWO, Column.FIVE), new Jang(Team.HAN));
-        boardInfo.put(to, new Byeong(Team.HAN));
+        boardInfo.put(
+                new Position(Row.TWO, Column.FIVE),
+                new Jang(Team.HAN, palaces)
+        );
+        boardInfo.put(
+                to,
+                new Byeong(Team.HAN, palaces)
+        );
 
         Janggi janggi = Janggi.of(PlayingBoard.of(boardInfo));
 

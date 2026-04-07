@@ -5,6 +5,8 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.Team;
+import janggi.model.palace.Palaces;
+import janggi.model.palace.factory.DefaultPalaceFactory;
 import janggi.model.piece.Piece;
 import janggi.model.piece.diagonalMove.Ma;
 import janggi.model.piece.palace.Jang;
@@ -20,6 +22,7 @@ import org.junit.jupiter.api.Test;
 
 class PlayingBoardTest {
 
+    Palaces palaces = new DefaultPalaceFactory().create();
     Board board;
 
     @BeforeEach
@@ -32,7 +35,7 @@ class PlayingBoardTest {
         );
         board.put(
                 new Position(Row.EIGHT, Column.SEVEN),
-                new Jang(Team.HAN)
+                new Jang(Team.HAN, palaces)
         );
         board.put(
                 new Position(Row.SIX, Column.SEVEN),
@@ -53,11 +56,11 @@ class PlayingBoardTest {
 
         board.put(
                 new Position(Row.ZERO, Column.FOUR),
-                new Sa(Team.CHO)
+                new Sa(Team.CHO, palaces)
         );
         board.put(
                 new Position(Row.NINE, Column.FOUR),
-                new Sa(Team.CHO)
+                new Sa(Team.CHO, palaces)
         );
 
         this.board = PlayingBoard.of(board);

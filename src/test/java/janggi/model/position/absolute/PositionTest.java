@@ -20,7 +20,7 @@ class PositionTest {
 
     @DisplayName("같은 열이면 true를 반환한다.")
     @Test
-    void isSameCollumn() {
+    void isSameColumn() {
         //given
         Position position = new Position(Row.SIX, Column.THREE);
         Position other = new Position(Row.FIVE, Column.THREE);
@@ -40,29 +40,5 @@ class PositionTest {
         //when & then
         assertThat(position.getDistanceTo(other))
                 .isEqualTo(3);
-    }
-
-    @DisplayName("두 지점이 같은 궁성에 있으면 true를 반환한다.")
-    @Test
-    void isInSamePalaceWith() {
-        //given
-        Position position = new Position(Row.NINE, Column.FIVE);
-        Position other = new Position(Row.EIGHT, Column.FIVE);
-
-        //when & then
-        assertThat(position.isInSamePalaceWith(other))
-                .isTrue();
-    }
-
-    @DisplayName("두 지점이 궁성 안에서 인접하면 true를 반환한다.")
-    @Test
-    void isAdjacentInPalaceWith() {
-        //given
-        Position position = new Position(Row.NINE, Column.FIVE);
-        Position other = new Position(Row.EIGHT, Column.FOUR);
-
-        //when & then
-        assertThat(position.isAdjacentInPalaceWith(other))
-                .isTrue();
     }
 }

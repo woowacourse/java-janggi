@@ -5,8 +5,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.Team;
 import janggi.model.movement.patternBasedMovement.MaMovement;
-import janggi.model.piece.Byeong;
 import janggi.model.piece.Piece;
+import janggi.model.piece.diagonalMove.Sang;
 import janggi.model.position.absolute.Column;
 import janggi.model.position.absolute.Position;
 import janggi.model.position.absolute.PositionPath;
@@ -27,8 +27,8 @@ class MaMovementTest {
 
         //when & then
         assertThatThrownBy(() -> movement.move(
-                from,
-                new Position(Row.NINE, Column.FIVE)
+                        from,
+                        new Position(Row.NINE, Column.FIVE)
                 )
         ).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 경로로 이동할 수 없습니다.");
@@ -53,10 +53,10 @@ class MaMovementTest {
     @Test
     void move() {
         //given
-        Byeong byeong = new Byeong(Team.CHO);
+        Sang sang = new Sang(Team.CHO);
 
         Map<Position, Piece> board = Map.of(
-                new Position(Row.SIX, Column.FIVE), byeong
+                new Position(Row.SIX, Column.FIVE), sang
         );
 
         Position from = new Position(Row.SEVEN, Column.FIVE);
@@ -68,6 +68,6 @@ class MaMovementTest {
         PositionPath path = movement.move(from, to);
 
         //then
-        assertThat(path.findPiecesOn(board)).containsExactly(byeong);
+        assertThat(path.findPiecesOn(board)).containsExactly(sang);
     }
 }

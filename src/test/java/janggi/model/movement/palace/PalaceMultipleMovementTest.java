@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.movement.Movement;
+import janggi.model.palace.Palaces;
+import janggi.model.palace.factory.DefaultPalaceFactory;
 import janggi.model.piece.Piece;
 import janggi.model.position.absolute.Column;
 import janggi.model.position.absolute.Position;
@@ -14,11 +16,13 @@ import org.junit.jupiter.api.Test;
 
 class PalaceMultipleMovementTest {
 
+    Palaces palaces = new DefaultPalaceFactory().create();
+
     @DisplayName("궁성 안에서 한칸 이동할 수 있다.")
     @Test
     void move_one_step() {
         //given
-        Movement movement = new PalaceMultipleMovement();
+        Movement movement = new PalaceMultipleMovement(palaces);
         Map<Position, Piece> board = Map.of();
 
         //when & then
@@ -33,7 +37,7 @@ class PalaceMultipleMovementTest {
     @Test
     void move_two_step() {
         //given
-        Movement movement = new PalaceMultipleMovement();
+        Movement movement = new PalaceMultipleMovement(palaces);
         Map<Position, Piece> board = Map.of();
 
         //when & then
@@ -48,7 +52,7 @@ class PalaceMultipleMovementTest {
     @Test
     void move_not_adjacent() {
         //given
-        Movement movement = new PalaceMultipleMovement();
+        Movement movement = new PalaceMultipleMovement(palaces);
         Map<Position, Piece> board = Map.of();
 
         //when & then
@@ -64,7 +68,7 @@ class PalaceMultipleMovementTest {
     @Test
     void move_out_of_palace() {
         //given
-        Movement movement = new PalaceMultipleMovement();
+        Movement movement = new PalaceMultipleMovement(palaces);
         Map<Position, Piece> board = Map.of();
 
         //when & then

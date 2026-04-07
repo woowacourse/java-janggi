@@ -3,31 +3,33 @@ package janggi.model.piece;
 import janggi.model.Team;
 import janggi.model.movement.Movement;
 import janggi.model.movement.palace.PalaceAdjacentMovement;
+import janggi.model.movement.palace.PalaceMovement;
 import janggi.model.movement.patternBasedMovement.DefaultByeongMovement;
+import janggi.model.palace.Palaces;
 import janggi.model.position.absolute.Position;
 import janggi.model.position.absolute.PositionPath;
 import java.util.List;
 
 public class Byeong extends Piece {
 
-    private final Movement palaceMovement;
+    private final PalaceMovement palaceMovement;
 
     private Byeong(
             Team team,
             PieceType pieceType,
             Movement defaultMovement,
-            Movement palaceMovement
+            PalaceMovement palaceMovement
     ) {
         super(team, pieceType, defaultMovement);
         this.palaceMovement = palaceMovement;
     }
 
-    public Byeong(Team team) {
+    public Byeong(Team team, Palaces palaces) {
         this(
                 team,
                 PieceType.BYEONG,
                 new DefaultByeongMovement(),
-                new PalaceAdjacentMovement()
+                new PalaceAdjacentMovement(palaces)
         );
     }
 
@@ -37,7 +39,7 @@ public class Byeong extends Piece {
             throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
         }
 
-        if (from.isInSamePalaceWith(to)) {
+        if (palaceMovement.supports(from, to)) {
             return palaceMovement.move(from, to);
         }
 

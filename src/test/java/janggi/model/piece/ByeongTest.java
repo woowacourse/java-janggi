@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.Team;
+import janggi.model.palace.Palaces;
+import janggi.model.palace.factory.DefaultPalaceFactory;
 import janggi.model.piece.straightMove.Cha;
 import janggi.model.position.absolute.Column;
 import janggi.model.position.absolute.Position;
@@ -17,6 +19,7 @@ import org.junit.jupiter.api.Test;
 class ByeongTest {
 
     Map<Position, Piece> emptyBoard = Map.of();
+    Palaces palaces = new DefaultPalaceFactory().create();
 
     @DisplayName("초나라일때, 북쪽으로 한칸 이동한다.")
     @Test
@@ -24,9 +27,8 @@ class ByeongTest {
         //given
         Position from = new Position(Row.SEVEN, Column.FIVE);
         Position to = new Position(Row.SIX, Column.FIVE);
-        Byeong byeong = new Byeong(Team.CHO);
+        Byeong byeong = new Byeong(Team.CHO, palaces);
 
-        Cha cha = new Cha(Team.CHO);
         //when
         PositionPath path = byeong.getLegalPath(from, to);
 
@@ -41,9 +43,7 @@ class ByeongTest {
         //given
         Position from = new Position(Row.SEVEN, Column.FIVE);
         Position to = new Position(Row.EIGHT, Column.FIVE);
-        Byeong byeong = new Byeong(Team.HAN);
-
-        Cha cha = new Cha(Team.CHO);
+        Byeong byeong = new Byeong(Team.HAN, palaces);
 
         //when
         PositionPath path = byeong.getLegalPath(from, to);
@@ -59,9 +59,7 @@ class ByeongTest {
         //given
         Position from = new Position(Row.SEVEN, Column.FIVE);
         Position to = new Position(Row.SEVEN, Column.SIX);
-        Byeong byeong = new Byeong(Team.CHO);
-
-        Cha cha = new Cha(Team.CHO);
+        Byeong byeong = new Byeong(Team.CHO, palaces);
 
         //when
         PositionPath path = byeong.getLegalPath(from, to);
@@ -77,9 +75,8 @@ class ByeongTest {
         //given
         Position from = new Position(Row.SEVEN, Column.FIVE);
         Position to = new Position(Row.SEVEN, Column.FOUR);
-        Byeong byeong = new Byeong(Team.CHO);
+        Byeong byeong = new Byeong(Team.CHO, palaces);
 
-        Cha cha = new Cha(Team.CHO);
         //when
         PositionPath path = byeong.getLegalPath(from, to);
 
@@ -94,7 +91,7 @@ class ByeongTest {
         //given
         Position from = new Position(Row.SEVEN, Column.FIVE);
         Position to = new Position(Row.EIGHT, Column.FIVE);
-        Byeong byeong = new Byeong(Team.CHO);
+        Byeong byeong = new Byeong(Team.CHO, palaces);
 
         //when & then
         assertThatThrownBy(() -> byeong.getLegalPath(from, to))
@@ -108,7 +105,7 @@ class ByeongTest {
         //given
         Position from = new Position(Row.SEVEN, Column.FIVE);
         Position to = new Position(Row.SIX, Column.FIVE);
-        Byeong byeong = new Byeong(Team.HAN);
+        Byeong byeong = new Byeong(Team.HAN, palaces);
 
         //when & then
         assertThatThrownBy(() -> byeong.getLegalPath(from, to))
@@ -122,10 +119,10 @@ class ByeongTest {
     void canPassThrough() {
         //given
         List<Piece> gimulsOnPath = List.of(
-                new Cha(Team.CHO)
+                new Cha(Team.CHO, palaces)
         );
-        Cha gimulAtTo = new Cha(Team.HAN);
-        Byeong byeong = new Byeong(Team.CHO);
+        Cha gimulAtTo = new Cha(Team.HAN, palaces);
+        Byeong byeong = new Byeong(Team.CHO, palaces);
 
         //when & then
         assertThat(byeong.canPassThrough(gimulsOnPath, gimulAtTo))
@@ -137,23 +134,23 @@ class ByeongTest {
     void canPassThrough_sameTeam() {
         //given
         List<Piece> gimulsOnPath = List.of(
-                new Cha(Team.CHO)
+                new Cha(Team.CHO, palaces)
         );
-        Cha gimulAtTo = new Cha(Team.CHO);
-        Byeong byeong = new Byeong(Team.CHO);
+        Cha gimulAtTo = new Cha(Team.CHO, palaces);
+        Byeong byeong = new Byeong(Team.CHO, palaces);
 
         //when & then
         assertThat(byeong.canPassThrough(gimulsOnPath, gimulAtTo))
                 .isFalse();
     }
 
-    @DisplayName("궁성 안에서는 간선을 따라 대각선으로 이동한다.")
+    @DisplayName("궁성 안에서는 간선을 따라 이동한다.")
     @Test
     void getLegalPath_diagonal() {
         //given
         Position from = new Position(Row.NINE, Column.FIVE);
         Position to = new Position(Row.EIGHT, Column.FOUR);
-        Byeong byeong = new Byeong(Team.CHO);
+        Byeong byeong = new Byeong(Team.CHO, palaces);
 
         //when & then
         assertThat(byeong.getLegalPath(

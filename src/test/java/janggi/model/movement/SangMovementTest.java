@@ -5,8 +5,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.Team;
 import janggi.model.movement.patternBasedMovement.SangMovement;
-import janggi.model.piece.Byeong;
 import janggi.model.piece.Piece;
+import janggi.model.piece.diagonalMove.Ma;
 import janggi.model.position.absolute.Column;
 import janggi.model.position.absolute.Position;
 import janggi.model.position.absolute.PositionPath;
@@ -55,10 +55,10 @@ class SangMovementTest {
         Position from = new Position(Row.SEVEN, Column.FIVE);
         Position to = new Position(Row.FOUR, Column.THREE);
 
-        Byeong byeong = new Byeong(Team.CHO);
+        Ma ma = new Ma(Team.CHO);
 
         Map<Position, Piece> board = Map.of(
-                new Position(Row.SIX, Column.FIVE), byeong
+                new Position(Row.SIX, Column.FIVE), ma
         );
 
         Movement movement = new SangMovement();
@@ -68,6 +68,6 @@ class SangMovementTest {
 
         //then
         assertThat(path.findPiecesOn(board))
-                .containsExactly(byeong);
+                .containsExactly(ma);
     }
 }

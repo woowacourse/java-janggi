@@ -9,6 +9,7 @@ import janggi.model.Janggi;
 import janggi.model.Team;
 import janggi.model.board.Board;
 import janggi.model.board.PlayingBoard;
+import janggi.model.palace.Palaces;
 import janggi.model.piece.Piece;
 import janggi.model.piece.PieceType;
 import janggi.model.position.absolute.Column;
@@ -19,6 +20,7 @@ import janggi.model.turn.playing.ChoTurn;
 import janggi.model.turn.playing.HanTurn;
 import janggi.service.dto.GameDetailResponse;
 import janggi.service.dto.GameOptionResponse;
+import janggi.view.mapping.BoardType;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -29,15 +31,18 @@ public class JanggiService {
     private final GameDao gameDao;
     private final PieceDao pieceDao;
     private final TransactionExecutor transactionExecutor;
+    private final Palaces palaces;
 
     public JanggiService(
             GameDao gameDao,
             PieceDao pieceDao,
-            TransactionExecutor transactionExecutor
+            TransactionExecutor transactionExecutor,
+            Palaces palaces
     ) {
         this.gameDao = gameDao;
         this.pieceDao = pieceDao;
         this.transactionExecutor = transactionExecutor;
+        this.palaces = palaces;
     }
 
     public List<GameOptionResponse> loadAllGames() {
@@ -54,7 +59,7 @@ public class JanggiService {
         });
     }
 
-    public GameDetailResponse loadGameByGameId(Long gameId){
+    public GameDetailResponse loadGameByGameId(Long gameId) {
         return transactionExecutor.execute(con -> {
             GameEntity gameEntity = gameDao.findByGameId(con, gameId);
 
@@ -72,18 +77,16 @@ public class JanggiService {
     }
 
     private PlayingBoard toBoard(List<PieceEntity> pieceEntities) {
-        return PlayingBoard.of(
-                getBoardInfoFrom(pieceEntities)
-        );
-    }
-
-    private Map<Position, Piece> getBoardInfoFrom(List<PieceEntity> pieceEntities) {
-        return pieceEntities.stream()
+        Map<Position, Piece> boarInfo = pieceEntities.stream()
                 .collect(Collectors.toMap(
                                 this::getPositionFrom
-                                ,this::getPieceFrom
+                                , this::getPieceFrom
                         )
                 );
+
+        return PlayingBoard.of(
+                boarInfo
+        );
     }
 
     private Position getPositionFrom(PieceEntity pieceEntity) {
@@ -98,7 +101,8 @@ public class JanggiService {
                 .valueOf(
                         pieceEntity.pieceType()
                 ).createPieceWith(
-                        Team.valueOf(pieceEntity.team())
+                        Team.valueOf(pieceEntity.team()),
+                        palaces
                 );
     }
 
@@ -112,13 +116,14 @@ public class JanggiService {
         return new HanTurn(board);
     }
 
-    public GameDetailResponse initGame(Board board) {
+    public GameDetailResponse initGame(BoardType boardType) {
+        Board board = boardType.getBoard(palaces);
         Janggi newGame = Janggi.of(board);
 
-        Long gameId = transactionExecutor.execute(con ->{
-                    Long result = gameDao.save(con, newGame.getCurrentTeam().name());
-                    pieceDao.saveBoard(con, newGame.getBoard().getBoardInfo(), result);
-                    return result;
+        Long gameId = transactionExecutor.execute(con -> {
+            Long result = gameDao.save(con, newGame.getCurrentTeam().name());
+            pieceDao.saveBoard(con, newGame.getBoard().getBoardInfo(), result);
+            return result;
         });
 
         return new GameDetailResponse(

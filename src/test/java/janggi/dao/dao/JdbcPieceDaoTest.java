@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import janggi.dao.DatabaseTest;
 import janggi.dao.piece.PieceEntity;
 import janggi.model.board.Board;
+import janggi.model.palace.factory.DefaultPalaceFactory;
 import janggi.model.position.absolute.Column;
 import janggi.model.position.absolute.Position;
 import janggi.model.position.absolute.Row;
@@ -53,7 +54,9 @@ class JdbcPieceDaoTest extends DatabaseTest {
     @Test
     void saveBoard() {
         //given
-        Board board = BoardType.FIRST.getBoard();
+        Board board = BoardType.FIRST.getBoard(
+                new DefaultPalaceFactory().create()
+        );
 
         //when
         pieceEntityDao.saveBoard(con, board.getBoardInfo(), gameId);
@@ -132,7 +135,7 @@ class JdbcPieceDaoTest extends DatabaseTest {
         Position position = new Position(Row.ONE, Column.ONE);
 
         //when
-       pieceEntityDao.deleteByPosition(con, position);
+        pieceEntityDao.deleteByPosition(con, position);
 
         //then
         Optional<PieceEntity> result = pieceEntityDao.findByPosition(con, position);
