@@ -30,7 +30,9 @@ public class OutputView {
     }
 
     public static void printSideChoiceResult(Side side) {
+        System.out.println();
         System.out.println("당신은 " + side.getName() + "입니다.");
+        System.out.println();
     }
 
     public static void printErrorMessage(String message) {
@@ -54,6 +56,14 @@ public class OutputView {
 
     public static void printWinSide(Side side) {
         System.out.println(side.getName() + "진영이 승리하였습니다.");
+    }
+
+    public static void printLoadGame() {
+        System.out.println("진행하던 게임을 불러오는 중 입니다.");
+    }
+
+    public static void printCreateNewGame() {
+        System.out.println("기존에 진행하던 게임이 없어 새로운 게임을 생성합니다.");
     }
 
     private static void printRows(Map<Position, PieceDto> state) {
@@ -154,7 +164,7 @@ public class OutputView {
     }
 
     private static String renderColumnLabel(int column) {
-        String label = column + ".";
+        String label = String.valueOf(column);
         return padLeft() + label + " ".repeat(CELL_WIDTH - LEFT_PADDING - label.length());
     }
 
