@@ -15,7 +15,7 @@ import java.util.List;
 
 public class JanggiController {
 
-    private static final Long NEW_GAME_OPTION = 0L;
+    private static final long NEW_GAME_OPTION = 0L;
 
     private final OutputView outputView;
     private final InputView inputView;
