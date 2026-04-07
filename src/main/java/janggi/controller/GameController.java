@@ -39,20 +39,9 @@ public class GameController {
 
     private void playGame(Game game) {
         while (game.canPlay()) {
-            retry(() -> moveController.move(game));
+            ControllerUtil.retry(() -> moveController.move(game), outputView);
         }
         outputView.printWinner(game.winnerSide());
         gameService.updateWinner(game);
-    }
-
-    private void retry(Runnable runnable) {
-        while (true) {
-            try {
-                runnable.run();
-                break;
-            } catch (IllegalArgumentException e) {
-                outputView.printError(e.getMessage());
-            }
-        }
     }
 }

@@ -1,10 +1,11 @@
 package janggi.controller;
 
+import static janggi.controller.ControllerUtil.retry;
+
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.EnumMap;
 import java.util.Map;
-import java.util.function.Supplier;
 
 public class JanggiController {
     private final InputView inputView;
@@ -26,10 +27,10 @@ public class JanggiController {
 
     public void run() {
         outputView.printSelectGame();
-        GameSelect gameSelect = retry(inputView::readGameSelect);
+        GameSelect gameSelect = retry(inputView::readGameSelect, outputView);
         while (GameSelect.QUIT != gameSelect) {
             GameSelect finalGameSelect = gameSelect;
-            retry(() -> runSelected(finalGameSelect));
+            retry(() -> runSelected(finalGameSelect), outputView);
             outputView.printSelectGame();
             gameSelect = inputView.readGameSelect();
         }
@@ -37,27 +38,7 @@ public class JanggiController {
     }
 
     private void runSelected(GameSelect gameSelect) {
-        retry(() -> selectAction.get(gameSelect).run());
+        retry(() -> selectAction.get(gameSelect).run(), outputView);
     }
 
-    private void retry(Runnable runnable) {
-        while (true) {
-            try {
-                runnable.run();
-                break;
-            } catch (IllegalArgumentException e) {
-                outputView.printError(e.getMessage());
-            }
-        }
-    }
-
-    private <T> T retry(Supplier<T> supplier) {
-        while (true) {
-            try {
-                return supplier.get();
-            } catch (IllegalArgumentException e) {
-                outputView.printError(e.getMessage());
-            }
-        }
-    }
 }

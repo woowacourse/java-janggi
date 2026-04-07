@@ -61,7 +61,7 @@ public class H2GameRepository implements GameRepository {
             }
             return null;
         } catch (SQLException e) {
-            throw new IllegalStateException(e);
+            throw new IllegalStateException("게임 아이디를 찾을 수 없습니다. id: " + id, e);
         }
     }
 
@@ -79,7 +79,7 @@ public class H2GameRepository implements GameRepository {
             }
             return Optional.empty();
         } catch (SQLException e) {
-            throw new IllegalStateException(e);
+            throw new IllegalStateException("Game 이름을 찾을 수 없습니다. name: " + name, e);
         }
     }
 
@@ -97,7 +97,7 @@ public class H2GameRepository implements GameRepository {
             }
             return gameNames;
         } catch (SQLException e) {
-            throw new IllegalStateException(e);
+            throw new IllegalStateException("Game 이름 조회에 실패했습니다.", e);
         }
     }
 
