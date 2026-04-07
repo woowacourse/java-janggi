@@ -1,6 +1,6 @@
 package janggi.repository.entity;
 
-public class Piece {
+public class PieceEntity {
     private Long id;
     private final Long gameId;
     private final String type;
@@ -8,7 +8,7 @@ public class Piece {
     private final int rowIdx;
     private final int colIdx;
 
-    public Piece(Long gameId, String type, String side, int rowIdx, int colIdx) {
+    public PieceEntity(Long gameId, String type, String side, int rowIdx, int colIdx) {
         this.gameId = gameId;
         this.type = type;
         this.side = side;
@@ -16,7 +16,7 @@ public class Piece {
         this.colIdx = colIdx;
     }
 
-    public Piece(Long id, Long gameId, String type, String side, int rowIdx, int colIdx) {
+    public PieceEntity(Long id, Long gameId, String type, String side, int rowIdx, int colIdx) {
         this.id = id;
         this.gameId = gameId;
         this.type = type;

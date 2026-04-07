@@ -1,7 +1,7 @@
 package janggi.repository.dao;
 
 import janggi.domain.Location;
-import janggi.repository.entity.Piece;
+import janggi.repository.entity.PieceEntity;
 import janggi.repository.util.TransactionManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,16 +20,16 @@ public class PieceDao {
         this.transactionManager = transactionManager;
     }
 
-    public Long insert(Piece piece) {
+    public Long insert(PieceEntity pieceEntity) {
         Connection conn = transactionManager.getConnection();
         String sql = "INSERT INTO piece (game_id, type, side, row_idx, col_idx) VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            pstmt.setLong(1, piece.getGameId());
-            pstmt.setString(2, piece.getType());
-            pstmt.setString(3, piece.getSide());
-            pstmt.setInt(4, piece.getRowIdx());
-            pstmt.setInt(5, piece.getColIdx());
+            pstmt.setLong(1, pieceEntity.getGameId());
+            pstmt.setString(2, pieceEntity.getType());
+            pstmt.setString(3, pieceEntity.getSide());
+            pstmt.setInt(4, pieceEntity.getRowIdx());
+            pstmt.setInt(5, pieceEntity.getColIdx());
 
             pstmt.executeUpdate();
 
@@ -45,7 +45,7 @@ public class PieceDao {
         throw new IllegalStateException("생성된 기물 ID를 가져올 수 없습니다.");
     }
 
-    public Optional<Piece> findById(Long id) {
+    public Optional<PieceEntity> findById(Long id) {
         Connection conn = transactionManager.getConnection();
         String sql = "SELECT id, game_id, type, side, row_idx, col_idx FROM piece WHERE id = ?";
 
@@ -54,7 +54,7 @@ public class PieceDao {
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
-                    return Optional.of(new Piece(
+                    return Optional.of(new PieceEntity(
                             rs.getLong("id"),
                             rs.getLong("game_id"),
                             rs.getString("type"),
@@ -70,7 +70,7 @@ public class PieceDao {
         }
     }
 
-    public Optional<Piece> findByGameIdAndLocation(Long gameId, Location location) {
+    public Optional<PieceEntity> findByGameIdAndLocation(Long gameId, Location location) {
         Connection conn = transactionManager.getConnection();
         String sql = "SELECT id, game_id, type, side, row_idx, col_idx FROM piece WHERE game_id = ? AND row_idx = ? AND col_idx = ?";
 
@@ -81,7 +81,7 @@ public class PieceDao {
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
-                    return Optional.of(new Piece(
+                    return Optional.of(new PieceEntity(
                             rs.getLong("id"),
                             rs.getLong("game_id"),
                             rs.getString("type"),
@@ -97,17 +97,17 @@ public class PieceDao {
         }
     }
 
-    public List<Piece> findByGameId(Long gameId) {
+    public List<PieceEntity> findByGameId(Long gameId) {
         Connection conn = transactionManager.getConnection();
         String sql = "SELECT id, game_id, type, side, row_idx, col_idx FROM piece WHERE game_id = ?";
-        List<Piece> pieces = new ArrayList<>();
+        List<PieceEntity> pieceEntities = new ArrayList<>();
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setLong(1, gameId);
             try (ResultSet rs = pstmt.executeQuery()
             ) {
                 while (rs.next()) {
-                    pieces.add(new Piece(
+                    pieceEntities.add(new PieceEntity(
                             rs.getLong("id"),
                             rs.getLong("game_id"),
                             rs.getString("type"),
@@ -120,7 +120,7 @@ public class PieceDao {
         } catch (SQLException e) {
             throw new IllegalStateException("기물 목록 조회 실패", e);
         }
-        return pieces;
+        return pieceEntities;
     }
 
     public void updatePosition(Long id, Location to) {
