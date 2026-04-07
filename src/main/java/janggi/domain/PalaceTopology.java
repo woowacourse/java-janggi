@@ -10,7 +10,7 @@ public class PalaceTopology {
         this.diagonalMovements = diagonalMovements;
     }
 
-    public static PalaceTopology from(){
+    public static PalaceTopology from() {
         return new PalaceTopology(Map.of(
                 new Position(1, 4), List.of(
                         List.of(Movement.DOWN_RIGHT),

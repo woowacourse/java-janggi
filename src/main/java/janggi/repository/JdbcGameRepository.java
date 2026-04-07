@@ -86,7 +86,7 @@ public class JdbcGameRepository implements GameRepository {
                         connection);
 
                 connection.commit();
-            } catch (SQLException | RuntimeException e){
+            } catch (SQLException | RuntimeException e) {
                 rollback(connection);
                 throw new IllegalStateException(MOVE_SAVE_FAIL_MESSAGE, e);
             }

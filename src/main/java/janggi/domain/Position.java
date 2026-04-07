@@ -72,24 +72,24 @@ public record Position(int x, int y) {
         return position.y == this.y;
     }
 
-    public boolean isAbove(Position position){
-        return position.x < x ;
+    public boolean isAbove(Position position) {
+        return position.x < x;
     }
 
-    public boolean isBelow(Position position){
+    public boolean isBelow(Position position) {
         return position.x > x;
     }
 
-    public boolean isPalace(){
+    public boolean isPalace() {
         return isHanPalace() || isChoPalace();
     }
 
-    public boolean isHanPalace(){
+    public boolean isHanPalace() {
         return PALACE_HAN_START_ROW <= x && x <= PALACE_HAN_END_ROW
                 && PLACE_HAN_START_COL <= y && y <= PALACE_HAN_END_COL;
     }
 
-    public boolean isChoPalace(){
+    public boolean isChoPalace() {
         return PALACE_CHO_START_ROW <= x && x <= PALACE_CHO_END_ROW
                 && PALACE_CHO_START_COL <= y && y <= PALACE_CHO_END_COL;
     }

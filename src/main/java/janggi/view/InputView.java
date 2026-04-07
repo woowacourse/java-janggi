@@ -33,7 +33,7 @@ public class InputView {
         return PositionParser.parsePositionInput(input);
     }
 
-    public static long askRoomId(){
+    public static long askRoomId() {
         System.out.println(ROOM_ID_MESSAGE);
         String input = scanner.nextLine();
         try {

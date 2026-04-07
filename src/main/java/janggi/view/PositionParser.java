@@ -17,7 +17,7 @@ public class PositionParser {
         }
     }
 
-    private static List<String> parseString(String input){
+    private static List<String> parseString(String input) {
         return Arrays.stream(input.split(BASE_DELIMITER))
                 .map(String::trim)
                 .toList();

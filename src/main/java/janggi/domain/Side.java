@@ -14,12 +14,12 @@ public enum Side {
     public String getName() {
         return name;
     }
-    
-    public Side reverse(){
-        if(this == CHO){
+
+    public Side reverse() {
+        if (this == CHO) {
             return HAN;
         }
-        if(this == HAN){
+        if (this == HAN) {
             return CHO;
         }
         return EMPTY;

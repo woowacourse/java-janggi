@@ -37,11 +37,11 @@ public class OutputView {
         System.out.printf("%s 승리!%n", winnerSide.getName());
     }
 
-    public static void printNewGameRoom(long roomId){
+    public static void printNewGameRoom(long roomId) {
         System.out.printf(CREATE_NEW_GAME_ROOM_FORMAT, roomId);
     }
 
-    public static void printGameRoomNumber(long roomId){
+    public static void printGameRoomNumber(long roomId) {
         System.out.printf(GAME_ROOM_NUMBER_FORMAT, roomId);
     }
 

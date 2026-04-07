@@ -68,7 +68,7 @@ public class BoardFactory {
         return board;
     }
 
-    public static Map<Side, Double> createInitialScoresBySide(){
+    public static Map<Side, Double> createInitialScoresBySide() {
         Map<Side, Double> scoresBySide = new HashMap<>();
         scoresBySide.put(Side.HAN, 73.5);
         scoresBySide.put(Side.CHO, 72.0);
