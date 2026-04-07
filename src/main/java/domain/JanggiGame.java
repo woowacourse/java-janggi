@@ -2,42 +2,37 @@ package domain;
 
 import domain.constant.Country;
 import domain.constant.PieceType;
-import domain.state.ChoTurn;
-import domain.state.Finished;
-import domain.state.State;
-import domain.state.StateFactory;
+import domain.constant.Turn;
+import domain.state.GameState;
+import domain.state.Playing;
 import java.util.List;
 
 public class JanggiGame {
     private static final double HAN_BONUS_SCORE = 1.5;
 
     private final Board board;
-    private State state;
+    private GameState gameState;
 
     public JanggiGame(Board board) {
         this.board = board;
-        this.state = new ChoTurn();
+        this.gameState = new Playing(Turn.CHO);
     }
 
     public JanggiGame(Board board, Country country) {
         this.board = board;
-        this.state = StateFactory.from(country);
+        this.gameState = new Playing(Turn.from(country));
     }
 
     public void play(Position start, Position end) {
-        if (board.move(start, end)) {
-            this.state = new Finished(state.getCountry());
-            return;
-        }
-        this.state = state.changeTurn();
+        this.gameState = gameState.move(board, start, end);
     }
 
     public List<Position> getPiecesNowPosition(PieceType pieceType){
-        return board.getPiecesNowPosition(state.getCountry(), pieceType);
+        return board.getPiecesNowPosition(gameState.getTurn(), pieceType);
     }
 
     public Country getCountry() {
-        return state.getCountry();
+        return gameState.getTurn();
     }
 
     public double calculateScore() {
@@ -57,11 +52,11 @@ public class JanggiGame {
     }
 
     public boolean isFinished() {
-        return state instanceof Finished;
+        return gameState.isFinished();
     }
 
     public String getWinnerCountry() {
-        return state.getCountry().getName();
+        return gameState.getWinner().getName();
     }
 
     public boolean isEmptyPosition(Position end) {
