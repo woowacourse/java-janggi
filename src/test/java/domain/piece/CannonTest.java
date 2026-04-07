@@ -94,4 +94,29 @@ class CannonTest {
         assertThat(movable.getPositions()).contains(Position.of(1, 4));
         assertThat(movable.getPositions()).doesNotContain(Position.of(1, 5));
     }
+
+    @Test
+    @DisplayName("포는 궁성 대각선에서 다리를 뛰어넘어 이동할 수 있다")
+    void jumpOverBridgeInPalaceDiagonal() {
+        Position current = Position.of(3, 0);
+        Position bridge = Position.of(4, 1);
+        Board board = new Board(Map.of(
+                current, PieceFactory.createCannon(Side.CHO),
+                bridge, PieceFactory.createSoldier(Side.CHO)
+        ));
+
+        Destinations movable = board.findDestinations(current);
+
+        assertThat(movable.getPositions()).contains(Position.of(5, 2));
+    }
+
+    @Test
+    @DisplayName("포는 궁성 대각선에서 다리가 없으면 이동할 수 없다")
+    void cannotMoveWithoutBridgeInPalaceDiagonal() {
+        Position current = Position.of(3, 0);
+        Board board = new Board(Map.of(current, PieceFactory.createCannon(Side.CHO)));
+
+        assertThatThrownBy(() -> board.findDestinations(current))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
 }
