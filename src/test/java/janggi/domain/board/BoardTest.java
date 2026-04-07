@@ -148,7 +148,7 @@ class BoardTest {
                 destination, new Piece(PieceRule.SOLDIER, rivalCampType)
         ));
 
-        ScoreBoard scoreBoard = new ScoreBoard();
+        ScoreBoard scoreBoard = ScoreBoard.create();
         Double scoreBeforeMinus = scoreBoard.getScoreBoard().get(rivalCampType);
         double expectedScore = scoreBeforeMinus - PieceRule.SOLDIER.getScore();
         // when

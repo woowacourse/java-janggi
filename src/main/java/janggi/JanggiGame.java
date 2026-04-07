@@ -5,9 +5,15 @@ import janggi.domain.Turn;
 import janggi.domain.board.Board;
 import janggi.domain.board.ElephantFormation;
 import janggi.domain.board.InitialPiecePlacement;
+import janggi.domain.game.Game;
+import janggi.domain.game.GameSelectionFormat;
+import janggi.domain.game.GameStatus;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.camp.CampType;
+import janggi.dto.MoveResultDto;
 import janggi.dto.PiecePositionDto;
+import janggi.repository.GameRepository;
+import janggi.repository.PieceRepository;
 import janggi.util.RetryHandler;
 import janggi.view.InputView;
 import janggi.view.OutputView;
@@ -17,10 +23,35 @@ import java.util.Map;
 
 public class JanggiGame {
 
+    private final GameRepository gameRepository;
+    private final PieceRepository pieceRepository;
+
+    public JanggiGame(GameRepository gameRepository, PieceRepository pieceRepository) {
+        this.gameRepository = gameRepository;
+        this.pieceRepository = pieceRepository;
+    }
+
     public void run() {
-        Board board = createBoard();
-        OutputView.printBoard(toPiecePositions(board.getBoard()));
-        play(board);
+        GameSelectionFormat gameSelectionFormat = InputView.readGameSelection();
+        if (gameSelectionFormat == GameSelectionFormat.NEW_GAME) {
+            Board board = createBoard();
+            long gameId = gameRepository.save();
+            for (Map.Entry<Position, Piece> entry : board.getBoard().entrySet()) {
+                Position position = entry.getKey();
+                Piece piece = entry.getValue();
+                pieceRepository.save(gameId, piece.campType(), piece.pieceRule(), position.row(), position.column());
+            }
+            OutputView.printBoard(toPiecePositions(board.getBoard()));
+            play(board, gameId);
+            return;
+        }
+        List<Long> gameIds = gameRepository.findAllGameIds();
+        long gameId = InputView.readGameId(gameIds);
+        Game game = gameRepository.findByGameId(gameId);
+        Map<Position, Piece> pieces = pieceRepository.findByGameId(gameId);
+        OutputView.printBoard(toPiecePositions(pieces));
+        Board board = Board.restore(pieces);
+        play(board, gameId);
     }
 
     private Board createBoard() {
@@ -42,25 +73,38 @@ public class JanggiGame {
                 .toList();
     }
 
-    private void play(Board board) {
+    private void play(Board board, long gameId) {
         Turn turn = new Turn();
         while (true) {
             CampType campType = turn.currentTurn();
-            RetryHandler.retryOnInvalidInput(() -> playTurn(board, campType));
+            RetryHandler.retryOnInvalidInput(() -> {
+                MoveResultDto moveResultDto = playTurn(board, campType);
+                if (moveResultDto.captured()) {
+                    pieceRepository.delete(gameId, moveResultDto.destination());
+                }
+                pieceRepository.update(gameId, moveResultDto.source(), moveResultDto.destination());
+            });
             OutputView.printBoard(toPiecePositions(board.getBoard()));
             if (board.isRivalGeneralKilled(turn)) {
                 break;
             }
             turn.finishTurn();
+            gameRepository.updateTurn(gameId, turn.currentTurn());
         }
-        OutputView.printWinner(turn.currentTurn());
+        CampType campType = turn.currentTurn();
+        if (campType == CampType.CHO) {
+            gameRepository.updateStatus(gameId, GameStatus.CHO_WIN);
+            OutputView.printWinner(campType);
+        }
+        gameRepository.updateStatus(gameId, GameStatus.HAN_WIN);
+        OutputView.printWinner(campType);
     }
 
-    private void playTurn(Board board, CampType campType) {
+    private MoveResultDto playTurn(Board board, CampType campType) {
         OutputView.printScore(board.getScoreBoard());
         Position source = readSource(board, campType);
         Position destination = readDestination(board, source, campType);
-        board.movePiece(source, destination, campType);
+        return board.movePiece(source, destination, campType);
     }
 
     private Position readSource(Board board, CampType campType) {

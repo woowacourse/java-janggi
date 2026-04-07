@@ -16,7 +16,7 @@ public final class Parser {
                 .toList();
     }
 
-    private static int parseToInt(String number) {
+    public static int parseToInt(String number) {
         try {
             return Integer.parseInt(number);
         } catch (NumberFormatException numberFormatException) {

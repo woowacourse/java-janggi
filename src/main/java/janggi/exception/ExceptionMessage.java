@@ -22,7 +22,7 @@ public enum ExceptionMessage {
     CAMP_FORMAT_NOT_FOUND("존재하지 않는 진영 형식입니다."),
     PIECE_FORMAT_NOT_FOUND("존재하지 않는 기물 형식입니다."),
     INVALID_PALACE_MOVE("궁성 내 %d칸만 이동할 수 있습니다."),
-    ;
+    GAME_SELECTION_NOT_FOUND("존재하지 않는 게임 선택 명령어 입니다.");
 
 
     private static final String ERROR_PREFIX = "[ERROR] ";

@@ -1,5 +1,6 @@
 package janggi.view;
 
+import janggi.domain.game.GameSelectionFormat;
 import janggi.domain.piece.camp.CampType;
 import janggi.exception.ExceptionMessage;
 import janggi.util.Parser;
@@ -9,12 +10,27 @@ import java.util.List;
 import java.util.Scanner;
 
 public final class InputView {
-
     private static final Scanner SCANNER = new Scanner(System.in);
+
     private static final String DELIMITER = ",";
     private static final String LINE_SEPARATOR = System.lineSeparator();
 
     private InputView() {
+    }
+
+    public static GameSelectionFormat readGameSelection() {
+        System.out.println(GameSelectionFormat.NEW_GAME.getCommand() + ". "
+                + GameSelectionFormat.NEW_GAME.getDescription());
+        System.out.println(GameSelectionFormat.EXISTING_GAME.getCommand() + ". "
+                + GameSelectionFormat.EXISTING_GAME.getDescription());
+        return GameSelectionFormat.from(readLine());
+    }
+
+    public static long readGameId(List<Long> gameIds) {
+        System.out.println("진행 중인 게임 목록: " + String.join(", ", gameIds.stream()
+                .map(String::valueOf)
+                .toList()));
+        return Parser.parseToInt(readLine());
     }
 
     public static ElephantSetUpFormat readElephantSettingCommand(CampType campType) {

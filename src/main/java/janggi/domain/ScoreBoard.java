@@ -9,10 +9,27 @@ public class ScoreBoard {
 
     private final Map<CampType, Double> scoreBoard;
 
-    public ScoreBoard() {
+    public static ScoreBoard create() {
+        return new ScoreBoard(CampType.CHO.getStartScore(), CampType.HAN.getStartScore());
+    }
+
+    public static ScoreBoard restore(Map<Position, Piece> pieces) {
+        double choScore = 0;
+        double hanScore = 1.5;
+        for (Piece piece : pieces.values()) {
+            if (piece.campType() == CampType.CHO) {
+                choScore += piece.getScore();
+                continue;
+            }
+            hanScore += piece.getScore();
+        }
+        return new ScoreBoard(choScore, hanScore);
+    }
+
+    private ScoreBoard(double choScore, double hanScore) {
         this.scoreBoard = new EnumMap<>(Map.of(
-                CampType.CHO, CampType.CHO.getStartScore(),
-                CampType.HAN, CampType.HAN.getStartScore()
+                CampType.CHO, choScore,
+                CampType.HAN, hanScore
         ));
     }
 
