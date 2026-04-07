@@ -1,12 +1,10 @@
 package db.repository;
 
-import static db.util.TransactionUtil.withTransaction;
-
-import db.connector.Connector;
 import db.connector.MySqlConnector;
 import db.parser.SideParser;
 import db.session.Session;
 import db.util.StatementMode;
+import db.util.Transaction;
 import domain.board.Board;
 import domain.board.Intersection;
 import domain.game.JanggiGame;
@@ -22,13 +20,13 @@ import java.util.Map;
 
 public class GameRepository {
 
-    private final Connector connector = new MySqlConnector();
+    private final Transaction transaction = new Transaction(new MySqlConnector());
     private final PieceRepository pieceRepository = new PieceRepository();
 
     public Session<JanggiGame> save(JanggiGame game) {
         String save = "INSERT INTO game (current_turn) values (?)";
 
-        return withTransaction(connector, save, StatementMode.RETURN_GENERATED_KEY, (connection, statement) -> {
+        return transaction.execute(save, StatementMode.RETURN_GENERATED_KEY, (connection, statement) -> {
             statement.setString(1, SideParser.sideToString(game.getCurrentTurn()));
             statement.executeUpdate();
 
@@ -42,7 +40,7 @@ public class GameRepository {
     public List<Integer> findAllIds() {
         String findAllIds = "SELECT id FROM game";
 
-        return withTransaction(connector, findAllIds, StatementMode.DEFAULT, (connection, statement) -> {
+        return transaction.execute(findAllIds, StatementMode.DEFAULT, (connection, statement) -> {
             ResultSet resultSet = statement.executeQuery();
 
             return parseGameIds(resultSet);
@@ -52,7 +50,7 @@ public class GameRepository {
     public Session<JanggiGame> findById(int gameId) {
         String findById = "SELECT current_turn FROM game WHERE id = ?";
 
-        return withTransaction(connector, findById, StatementMode.DEFAULT, (connection, statement) -> {
+        return transaction.execute(findById, StatementMode.DEFAULT, (connection, statement) -> {
             Map<Intersection, Piece> pieces = pieceRepository.findByGameId(gameId, connection);
             statement.setLong(1, gameId);
 
@@ -66,7 +64,7 @@ public class GameRepository {
     public void update(Session<JanggiGame> gameSession) {
         String update = "UPDATE game SET current_turn = ? WHERE id = ?";
 
-        withTransaction(connector, update, StatementMode.DEFAULT, (connection, statement) -> {
+        transaction.execute(update, StatementMode.DEFAULT, (connection, statement) -> {
             JanggiGame game = gameSession.payload();
             int gameId = gameSession.id();
             Map<Intersection, Piece> pieces = game.getBoard();
@@ -82,7 +80,7 @@ public class GameRepository {
     public void delete(Session<JanggiGame> gameSession) {
         String delete = "DELETE FROM game WHERE id = ?";
 
-        withTransaction(connector, delete, StatementMode.DEFAULT, (connection, statement) -> {
+        transaction.execute(delete, StatementMode.DEFAULT, (connection, statement) -> {
             int gameId = gameSession.id();
 
             pieceRepository.delete(gameId, connection);

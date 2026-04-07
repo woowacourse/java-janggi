@@ -5,13 +5,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class TransactionUtil {
+public class Transaction {
 
-    private TransactionUtil() {
+    private final Connector connector;
+
+    public Transaction(Connector connector) {
+        this.connector = connector;
     }
 
-    public static void withTransaction(
-            Connector connector,
+    public void execute(
             String sql,
             StatementMode statementMode,
             TransactionalRunnable work
@@ -26,8 +28,7 @@ public class TransactionUtil {
         }
     }
 
-    public static <T> T withTransaction(
-            Connector connector,
+    public <T> T execute(
             String sql,
             StatementMode statementMode,
             TransactionalFunction<T> work
@@ -42,7 +43,7 @@ public class TransactionUtil {
         }
     }
 
-    private static void rollbackIfThrowException(
+    private void rollbackIfThrowException(
             TransactionalRunnable work,
             Connection connection,
             PreparedStatement statement
@@ -61,7 +62,7 @@ public class TransactionUtil {
         }
     }
 
-    private static <T> T rollbackIfThrowException(
+    private <T> T rollbackIfThrowException(
             TransactionalFunction<T> work,
             Connection connection,
             PreparedStatement statement
