@@ -18,8 +18,23 @@ public class SoldierMoveStrategy implements MoveStrategy {
     }
 
     @Override
-    public boolean canMove(final Piece mover, final Position from, final Position to, final Map<Position, Piece> piecesOnPath) {
+    public boolean canMove(final Piece mover, final Position from, final Position to,
+                           final Map<Position, Piece> piecesOnPath) {
         if (isNotCorrectPath(from, to)) {
+            return false;
+        }
+
+        if ((!isInPalace(from) || !isInPalace(to))) {
+            if (isDiagonal(from, to)) {
+                return false;
+            }
+        }
+
+        if (isInPalace(from) && isInPalace(to) && isDiagonal(from, to)) {
+            if (isDiagonal(from, to)) {
+                return canDiagonalInPalace(from, to);
+            }
+
             return false;
         }
 
@@ -31,6 +46,7 @@ public class SoldierMoveStrategy implements MoveStrategy {
         if (target == null) {
             return true;
         }
+
         return mover.isAnotherTeam(target);
     }
 
@@ -48,18 +64,41 @@ public class SoldierMoveStrategy implements MoveStrategy {
     }
 
     private boolean isNotCorrectPath(final Position from, final Position to) {
-        if (Math.abs(from.getRow() - to.getRow()) + Math.abs(from.getCol() - to.getCol()) != 1) {
+        if (Math.abs(from.getRow() - to.getRow()) + Math.abs(from.getCol() - to.getCol()) > 2) {
             return true;
         }
 
-        if (from.getRow() == to.getRow() && Math.abs(from.getCol() - to.getCol()) != 1) {
+        if ((from.getRow() == to.getRow()) && Math.abs(from.getCol() - to.getCol()) >= 2) {
             return true;
         }
 
-        if (from.getCol() == to.getCol() && Math.abs(from.getRow() - to.getRow()) != 1) {
+        if ((from.getCol() == to.getCol()) && Math.abs(from.getRow() - to.getCol()) >= 2) {
             return true;
         }
 
         return false;
+    }
+
+    private boolean isInPalace(Position position) {
+        int row = position.getRow();
+        int column = position.getCol();
+
+        return (column >= 3 && column <= 5) && ((row >= 0 && row <= 2) || (row >= 7 && row <= 9));
+    }
+
+    private boolean canDiagonalInPalace(Position from, Position to) {
+        if (!isDiagonal(from, to) || !isInPalace(from) || !isInPalace(to)) {
+            return false;
+        }
+
+        return isCenterOfPalace(from) || isCenterOfPalace(to);
+    }
+
+    private boolean isDiagonal(Position from, Position to) {
+        return Math.abs(from.getRow() - to.getRow()) == 1 && Math.abs(from.getCol() - to.getCol()) == 1;
+    }
+
+    private boolean isCenterOfPalace(Position position) {
+        return position.getCol() == 4 && (position.getRow() == 1 || position.getRow() == 8);
     }
 }
