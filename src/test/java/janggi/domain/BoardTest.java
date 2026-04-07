@@ -292,4 +292,34 @@ class BoardTest {
             () -> assertThat(capturedBoard.findWinner()).contains(TeamType.CHU)
         );
     }
+
+    @Test
+    @DisplayName("초기 보드에서 팀의 기물 점수를 계산할 수 있다.")
+    void calculateInitialScore() {
+        // given
+        Board board = Board.createInitialBoard();
+
+        // when & then
+        assertAll(
+            () -> assertThat(board.calculateScore(TeamType.CHU)).isEqualTo(72),
+            () -> assertThat(board.calculateScore(TeamType.HAN)).isEqualTo(72)
+        );
+    }
+
+    @Test
+    @DisplayName("상대 기물을 잡은 뒤 팀의 기물 점수를 계산할 수 있다.")
+    void calculateScoreAfterCapture() {
+        // given
+        Position hanJolPosition = new Position(1, 7);
+        Board board = Board.createInitialBoard();
+        Board firstMovedBoard = board.move(new Position(1, 4), new Position(1, 5), TeamType.CHU);
+        Board secondMovedBoard = firstMovedBoard.move(new Position(1, 5), new Position(1, 6), TeamType.CHU);
+        Board capturedBoard = secondMovedBoard.move(new Position(1, 6), hanJolPosition, TeamType.CHU);
+
+        // when & then
+        assertAll(
+            () -> assertThat(capturedBoard.calculateScore(TeamType.CHU)).isEqualTo(72),
+            () -> assertThat(capturedBoard.calculateScore(TeamType.HAN)).isEqualTo(70)
+        );
+    }
 }
