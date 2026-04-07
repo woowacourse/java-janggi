@@ -4,6 +4,7 @@ import janggi.dto.BoardDto;
 import janggi.dto.DestinationDto;
 import janggi.dto.PieceDto;
 import janggi.dto.PositionDto;
+import janggi.dto.WinnerDto;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -55,7 +56,7 @@ public class OutputView {
         System.out.println(result);
     }
 
-    public void printWinner(String winnerName) {
-        System.out.printf("%s(이/가) 승리했습니다.%n", winnerName);
+    public void printWinner(WinnerDto winnerDto) {
+        System.out.printf("%s(이/가) 승리했습니다.%n", winnerDto.name());
     }
 }

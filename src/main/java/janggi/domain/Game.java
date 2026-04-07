@@ -2,6 +2,7 @@ package janggi.domain;
 
 import janggi.domain.board.Board;
 import janggi.domain.piece.Piece;
+import janggi.domain.player.Name;
 import janggi.domain.player.Players;
 import janggi.domain.space.Destinations;
 import janggi.domain.space.Position;
@@ -45,7 +46,7 @@ public class Game {
         return board.calculateScore(side);
     }
 
-    public String getWinner() {
+    public Name getWinner() {
         Side winnerSide = board.getWinnerSide();
         return players.getPlayerNameBySide(winnerSide);
     }

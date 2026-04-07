@@ -1,46 +1,41 @@
 package janggi.controller;
 
-import janggi.domain.Game;
-import janggi.domain.space.Position;
 import janggi.domain.Side;
-import janggi.domain.board.Board;
-import janggi.domain.board.BoardFactory;
 import janggi.domain.board.Formation;
 import janggi.domain.player.Name;
-import janggi.domain.player.Players;
-import janggi.dto.BoardDto;
-import janggi.dto.DestinationDto;
-import java.util.function.Supplier;
+import janggi.domain.space.Position;
+import janggi.service.GameService;
 import janggi.view.InputParser;
 import janggi.view.InputView;
 import janggi.view.OutputView;
+import java.util.function.Supplier;
 
 public class ConsoleController {
     private final InputView inputView;
     private final OutputView outputView;
+    private final GameService gameService;
 
-    public ConsoleController(InputView inputView, OutputView outputView) {
+    public ConsoleController(InputView inputView, OutputView outputView, GameService gameService) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.gameService = gameService;
     }
 
-    public void play() {
-        Game game = initializeGame();
-        outputView.printBoard(BoardDto.from(game.getBoard()));
-        while (game.isPlaying()) {
-            playTurn(game);
+    public void run() {
+        initializeGame();
+        outputView.printBoard(gameService.getBoardDto());
+        while (gameService.isPlaying()) {
+            playTurn();
         }
-        outputView.printWinner(game.getWinner());
+        outputView.printWinner(gameService.getWinnerDto());
     }
 
-    private Game initializeGame() {
+    private void initializeGame() {
         Name choName = getPlayerName(Side.CHO);
-        Players players = retry(() -> {
-            Name hanName = getPlayerName(Side.HAN);
-            return Players.createInitial(choName, hanName);
-        });
-        Board board = BoardFactory.create(getFormation(Side.CHO), getFormation(Side.HAN));
-        return new Game(board, players);
+        Formation choFormation = getFormation(Side.CHO);
+        Name hanName = getPlayerName(Side.HAN);
+        Formation hanFormation = getFormation(Side.HAN);
+        retry(() -> gameService.initializeGame(choName, hanName, choFormation, hanFormation));
     }
 
     private Name getPlayerName(Side side) {
@@ -51,19 +46,19 @@ public class ConsoleController {
         return retry(() -> Formation.from(InputParser.parseFormation(inputView.readFormation(side))));
     }
 
-    private void playTurn(Game game) {
-        Position source = selectPiecePosition(game);
+    private void playTurn() {
+        Position source = selectPiecePosition();
         retry(() -> {
             Position target = InputParser.parsePosition(inputView.readTargetPosition());
-            game.move(source, target);
+            gameService.move(source, target);
         });
-        outputView.printBoard(BoardDto.from(game.getBoard()));
+        outputView.printBoard(gameService.getBoardDto());
     }
 
-    private Position selectPiecePosition(Game game) {
+    private Position selectPiecePosition() {
         return retry(() -> {
-            Position position = InputParser.parsePosition(inputView.readSourcePosition(game.getCurrentSide()));
-            outputView.printDestinations(DestinationDto.from(game.selectSource(position)));
+            Position position = InputParser.parsePosition(inputView.readSourcePosition(gameService.getCurrentSide()));
+            outputView.printDestinations(gameService.selectSource(position));
             return position;
         });
     }

@@ -33,7 +33,7 @@ public class Player {
         return side;
     }
 
-    public String getName() {
-        return name.name();
+    public Name getName() {
+        return name;
     }
 }

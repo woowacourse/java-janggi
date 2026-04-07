@@ -53,7 +53,7 @@ public class Players {
         players.forEach(Player::toggleTurn);
     }
 
-    public String getPlayerNameBySide(Side side) {
+    public Name getPlayerNameBySide(Side side) {
         return players.stream()
                 .filter(player -> player.getSide() == side)
                 .map(Player::getName)
