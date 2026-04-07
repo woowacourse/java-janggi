@@ -9,9 +9,11 @@ import java.util.Optional;
 
 public abstract class AbstractGimul {
     protected final Team team;
+    protected final GimulType type;
 
-    public AbstractGimul(Team team) {
+    public AbstractGimul(Team team, GimulType type) {
         this.team = team;
+        this.type = type;
     }
 
     public abstract PositionPath getLegalPath(Position from, Position to);
@@ -32,5 +34,9 @@ public abstract class AbstractGimul {
 
     public Team getTeam() {
         return team;
+    }
+
+    public GimulType getType() {
+        return type;
     }
 }

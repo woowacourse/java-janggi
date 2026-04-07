@@ -2,6 +2,7 @@ package janggi.model.gimul.palace;
 
 import janggi.model.Team;
 import janggi.model.gimul.AbstractGimul;
+import janggi.model.gimul.GimulType;
 import janggi.model.position.DiagonalDelta;
 import janggi.model.position.Position;
 import janggi.model.position.PositionDelta;
@@ -11,8 +12,9 @@ import java.util.Optional;
 
 public abstract class AbstractPalaceGimul extends AbstractGimul {
 
-    public AbstractPalaceGimul(Team team) {
-        super(team);
+
+    public AbstractPalaceGimul(Team team, GimulType type) {
+        super(team, type);
     }
 
     @Override

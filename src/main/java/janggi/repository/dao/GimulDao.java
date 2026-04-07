@@ -23,7 +23,7 @@ public class GimulDao implements GimulRepository {
              PreparedStatement statement = connection.prepareStatement(sql)) {
             for (Map.Entry<Position, AbstractGimul> entry : board.entrySet()) {
                 statement.setLong(1, gameId);
-                statement.setString(2, GimulType.from(entry.getValue()).name());
+                statement.setString(2, entry.getValue().getType().name());
                 statement.setString(3, entry.getValue().getTeam().name());
                 statement.setInt(4, entry.getKey().row().getValue());
                 statement.setInt(5, entry.getKey().column().getValue());

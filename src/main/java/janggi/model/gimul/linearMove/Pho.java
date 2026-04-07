@@ -3,6 +3,7 @@ package janggi.model.gimul.linearMove;
 import janggi.model.Score;
 import janggi.model.Team;
 import janggi.model.gimul.AbstractGimul;
+import janggi.model.gimul.GimulType;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,7 +12,7 @@ public class Pho extends AbstractLinearMoveGimul {
     private static final int REQUIRED_PIECE_COUNT_ON_PATH = 1;
 
     public Pho(Team team) {
-        super(team);
+        super(team, GimulType.PHO);
     }
 
     @Override

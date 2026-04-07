@@ -2,12 +2,13 @@ package janggi.model.gimul.palace;
 
 import janggi.model.Score;
 import janggi.model.Team;
+import janggi.model.gimul.GimulType;
 
 public class Sa extends AbstractPalaceGimul {
     private static final int SCORE_VALUE = 3;
 
     public Sa(Team team) {
-        super(team);
+        super(team, GimulType.SA);
     }
 
     @Override

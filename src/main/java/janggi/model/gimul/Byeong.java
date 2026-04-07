@@ -16,7 +16,7 @@ public class Byeong extends AbstractGimul {
     private static final int HORIZONTAL = 0;
 
     public Byeong(Team team) {
-        super(team);
+        super(team, GimulType.BYEONG);
     }
 
     @Override

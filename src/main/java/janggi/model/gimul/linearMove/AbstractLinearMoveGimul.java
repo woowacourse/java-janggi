@@ -2,14 +2,15 @@ package janggi.model.gimul.linearMove;
 
 import janggi.model.Team;
 import janggi.model.gimul.AbstractGimul;
+import janggi.model.gimul.GimulType;
 import janggi.model.position.DiagonalDelta;
 import janggi.model.position.Position;
 import janggi.model.position.PositionPath;
 
 public abstract class AbstractLinearMoveGimul extends AbstractGimul {
 
-    public AbstractLinearMoveGimul(Team team) {
-        super(team);
+    public AbstractLinearMoveGimul(Team team, GimulType type) {
+        super(team, type);
     }
 
     @Override

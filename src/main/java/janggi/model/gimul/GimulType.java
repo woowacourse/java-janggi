@@ -53,8 +53,4 @@ public enum GimulType {
     };
 
     public abstract AbstractGimul create(Team team);
-
-    public static GimulType from(AbstractGimul gimul) {
-        return valueOf(gimul.getClass().getSimpleName().toUpperCase());
-    }
 }
