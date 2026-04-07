@@ -13,8 +13,8 @@ import janggi.domain.side.Side;
 
 public abstract class Piece {
 
-    protected Side side;
-    protected PathStrategy pathStrategy;
+    private final Side side;
+    private final PathStrategy pathStrategy;
 
     public Piece(Side side, PathStrategy pathStrategy) {
         this.side = side;

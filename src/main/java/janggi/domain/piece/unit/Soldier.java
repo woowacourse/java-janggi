@@ -76,10 +76,10 @@ public class Soldier extends Piece {
             allPatterns.addAll(addPatterns);
         }
 
-        if (Side.CHO.equals(side)) {
+        if (Side.CHO.equals(getSide())) {
             allPatterns.addAll(CHO_BASE_PATTERNS);
         }
-        if (Side.HAN.equals(side)) {
+        if (Side.HAN.equals(getSide())) {
             allPatterns.addAll(HAN_BASE_PATTERNS);
         }
         return allPatterns;
