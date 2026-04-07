@@ -25,12 +25,20 @@ public class GameLobbyController {
     }
 
     public ActiveGameSession enterLobby(Connection connection) throws SQLException {
+        if (gameNotExist(connection)) {
+            outputView.printGameNotExist();
+            return generateNewGame(connection);
+        }
         outputView.printSelectGameData();
         UserCommand userCommand = UserCommand.from(inputView.readUserCommand());
         if (userCommand.confirmed()) {
             return loadExistingGame(connection);
         }
         return generateNewGame(connection);
+    }
+
+    private boolean gameNotExist(Connection connection) throws SQLException {
+        return janggiService.activeGames(connection).isEmpty();
     }
 
     private ActiveGameSession loadExistingGame(Connection connection) throws SQLException {

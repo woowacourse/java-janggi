@@ -160,4 +160,8 @@ public class OutputView {
                 gameSessionDTO.hanPlayerName(), gameSessionDTO.currentTurn(), formattedDate));
         printLine("");
     }
+
+    public void printGameNotExist() {
+        printLine(Message.GAME_DATA_NOT_EXIST);
+    }
 }
