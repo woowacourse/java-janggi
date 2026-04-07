@@ -1,8 +1,8 @@
 package domain.movestrategy;
 
 import domain.board.Board;
-import domain.board.Position;
 import domain.board.Direction;
+import domain.board.Position;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +15,10 @@ public class CannonMoveStrategy implements MoveStrategy {
 
         for (Direction direction : Direction.ORTHOGONAL_DIRECTIONS) {
             collectMovablePositions(board, from, direction, movable);
+        }
+
+        for (Direction direction : Direction.DIAGONAL_DIRECTIONS) {
+            collectDiagonalMovablePositions(board, from, direction, movable);
         }
 
         return movable;
@@ -64,6 +68,38 @@ public class CannonMoveStrategy implements MoveStrategy {
 
         if (current.isInsideBoard() && board.isOpposite(from, current) && !board.isCannon(current)) {
             movable.add(current);
+        }
+    }
+
+    private void collectDiagonalMovablePositions(
+            final Board board,
+            final Position from,
+            final Direction direction,
+            final List<Position> movable
+    ) {
+        Position bridge = from.move(direction);
+
+        if (!bridge.isInsideBoard()
+                || !from.isDiagonalConnected(bridge)
+                || board.isEmpty(bridge)
+                || board.isCannon(bridge)
+        ) {
+            return;
+        }
+
+        Position landing = bridge.move(direction);
+
+        if (!landing.isInsideBoard() || !bridge.isDiagonalConnected(landing)) {
+            return;
+        }
+
+        if (board.isEmpty(landing)) {
+            movable.add(landing);
+            return;
+        }
+
+        if (board.isOpposite(from, landing) && !board.isCannon(landing)) {
+            movable.add(landing);
         }
     }
 }
