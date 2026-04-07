@@ -61,22 +61,28 @@ public class JanggiController {
         return horseElephantPositions;
     }
 
-    // TODO: 분리
     private void moveProcess(Long gameId) {
-        Position from = getUntilValid(() -> {
-            Position source = readSourcePosition(gameId);
-            findPlaceablePosition(gameId, source);
-            return source;
-        });
+        Position from = readSourcePositionUntilValid(gameId);
+        Position to = readDestinationPositionUntilValid(gameId, from);
 
-        Position to = getUntilValid(() -> {
+        janggiService.saveMovement(gameId, from, to);
+        printBoard(gameId);
+    }
+
+    private Position readDestinationPositionUntilValid(Long gameId, Position from) {
+        return getUntilValid(() -> {
             Position destination = readDestinationPosition();
             janggiService.movePiece(gameId, from, destination);
             return destination;
         });
+    }
 
-        janggiService.saveMovement(gameId, from, to);
-        printBoard(gameId);
+    private Position readSourcePositionUntilValid(Long gameId) {
+        return getUntilValid(() -> {
+            Position source = readSourcePosition(gameId);
+            findPlaceablePosition(gameId, source);
+            return source;
+        });
     }
 
     private Position readSourcePosition(Long gameId) {
