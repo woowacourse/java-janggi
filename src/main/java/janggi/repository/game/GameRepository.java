@@ -5,10 +5,10 @@ import java.util.Optional;
 
 public interface GameRepository {
 
-    Long save(TurnEntity game);
+    Long save(TurnEntity turn);
 
     Optional<TurnEntity> findByCurrentTurnById(Long gameId);
 
-    void updateTurn(Long gameId, TurnEntity game);
+    void updateTurn(Long gameId, TurnEntity turn);
 
 }
