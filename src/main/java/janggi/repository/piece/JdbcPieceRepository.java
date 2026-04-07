@@ -35,7 +35,10 @@ public class JdbcPieceRepository implements PieceRepository {
 
     @Override
     public void updatePiece(Long gameId, Position from, Position to) {
-        String deleteSql = "DELETE FROM piece WHERE janggi_game_id = ? AND row_pos = ? AND col_pos = ?";
+        String deleteSql = """
+                DELETE FROM piece 
+                WHERE janggi_game_id = ? AND row_pos = ? AND col_pos = ?
+                """;
         String updateSql = """
                 UPDATE piece
                 SET row_pos = ?, col_pos = ?

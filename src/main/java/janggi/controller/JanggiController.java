@@ -56,7 +56,7 @@ public class JanggiController {
 
     private void moveProcess(Long gameId) {
         Position from = getUntilValid(() -> {
-            Position source = readPieceWantToMove(gameId);
+            Position source = readSourcePosition(gameId);
             findPlaceablePosition(gameId, source);
             return source;
         });
@@ -71,7 +71,7 @@ public class JanggiController {
         printBoard(gameId);
     }
 
-    private Position readPieceWantToMove(Long gameId) {
+    private Position readSourcePosition(Long gameId) {
         Game game = janggiService.findGame(gameId);
         PositionDto from = getUntilValid(() -> inputView.readPieceWantToMove(DynastyDto.from(game.currentDynasty())));
         return Position.from(from.row(), from.column());
