@@ -97,4 +97,47 @@ class ChariotMoveStrategyTest {
                 Position.of(5, 6), Position.of(5, 7), Position.of(5, 8), Position.of(5, 9)
         );
     }
+
+    @Test
+    @DisplayName("차는 궁성 내부에서 대각선으로 이동 가능")
+    void chariotCanMoveDiagonalInPalace() {
+        // given
+        Position from = Position.of(1, 4);
+
+        Map<Position, Piece> pieces = new HashMap<>();
+        pieces.put(from, Piece.hanPieceOf(PieceType.CHARIOT));
+
+        Board board = Board.init(pieces);
+
+        // when
+        List<Position> movablePositions = strategy.getMovablePositions(board, from);
+
+        // then
+        assertThat(movablePositions).contains(
+                Position.of(2, 5),
+                Position.of(3, 6)
+        );
+    }
+
+    @Test
+    @DisplayName("차는 대각선 경로에 장애물이 있으면 이동 불가능")
+    void chariotCantMoveDiagonalWhenBlocked() {
+        // given
+        Position from = Position.of(1, 4);
+
+        Map<Position, Piece> pieces = new HashMap<>();
+        pieces.put(from, Piece.hanPieceOf(PieceType.CHARIOT));
+        pieces.put(Position.of(2, 5), Piece.hanPieceOf(PieceType.CHARIOT));
+
+        Board board = Board.init(pieces);
+
+        // when
+        List<Position> movablePositions = strategy.getMovablePositions(board, from);
+
+        // then
+        assertThat(movablePositions).doesNotContain(
+                Position.of(2, 5),
+                Position.of(3, 6)
+        );
+    }
 }

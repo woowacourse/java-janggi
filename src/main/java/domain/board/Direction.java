@@ -20,6 +20,13 @@ public record Direction(int column, int row) {
             Direction.LEFT
     );
 
+    public static final List<Direction> DIAGONAL_DIRECTIONS = List.of(
+            Direction.RIGHT_UP,
+            Direction.RIGHT_DOWN,
+            Direction.LEFT_DOWN,
+            Direction.LEFT_UP
+    );
+
     public static final List<Direction> ALL_DIRECTIONS = List.of(
             Direction.UP,
             Direction.RIGHT_UP,

@@ -70,6 +70,10 @@ public record Position(
         return DIAGONAL_EDGES.getOrDefault(this, List.of());
     }
 
+    public boolean isDiagonalConnected(Position other) {
+        return DIAGONAL_EDGES.containsKey(this) && DIAGONAL_EDGES.get(this).contains(other);
+    }
+
     public boolean isMiddleOfPalace() {
         return (column == CHO_PALACE_MIDDLE.column && row == CHO_PALACE_MIDDLE.row)
                 || (column == HAN_PALACE_MIDDLE.column && row == HAN_PALACE_MIDDLE.row);
