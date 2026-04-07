@@ -1,6 +1,5 @@
 package domain.piece.strategy;
 
-import com.sun.source.tree.IfTree;
 import domain.board.Direction;
 import domain.piece.Piece;
 import domain.position.Position;
