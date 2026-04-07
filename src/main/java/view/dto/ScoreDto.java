@@ -4,6 +4,6 @@ import domain.game.Side;
 
 public record ScoreDto(
         Side side,
-        int score
+        double score
 ) {
 }

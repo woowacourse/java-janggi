@@ -63,8 +63,8 @@ public final class JanggiGame {
         return currentTurn;
     }
 
-    public int getTotalScore(Side side) {
-        return board.getTotalScore(side);
+    public double getTotalScore(Side side) {
+        return side.calculateTotalScore(board.getTotalScore(side));
     }
 
     public Map<Intersection, Piece> getBoard() {
