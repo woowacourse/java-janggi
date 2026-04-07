@@ -1,4 +1,4 @@
-package database.connection;
+package database.context;
 
 public class BoardIdContext {
 

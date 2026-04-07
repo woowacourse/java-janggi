@@ -1,7 +1,7 @@
 package database;
 
-import database.connection.BoardIdContext;
-import database.connection.TransactionExecutor;
+import database.context.BoardIdContext;
+import database.transaction.TransactionExecutor;
 import database.dao.BoardDao;
 import database.dao.IntersectionDao;
 import database.dto.BoardSummaryDto;

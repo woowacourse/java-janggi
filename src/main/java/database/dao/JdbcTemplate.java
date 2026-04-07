@@ -1,6 +1,6 @@
 package database.dao;
 
-import database.connection.ConnectionContext;
+import database.context.ConnectionContext;
 import database.dto.IntersectionDto;
 
 import java.sql.*;

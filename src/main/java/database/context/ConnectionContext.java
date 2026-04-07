@@ -1,4 +1,6 @@
-package database.connection;
+package database.context;
+
+import database.connection.DBConnector;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -22,7 +24,7 @@ public class ConnectionContext {
                 getConnection().rollback();
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 

@@ -1,7 +1,7 @@
 import controller.JanggiGame;
 import database.JanggiService;
 import database.SchemaInitializer;
-import database.connection.TransactionExecutor;
+import database.transaction.TransactionExecutor;
 import database.dao.JdbcBoardDao;
 import database.dao.JdbcIntersectionDao;
 import database.dao.JdbcTemplate;
