@@ -51,6 +51,14 @@ public class OutputView {
         System.out.printf(CURRENT_TOTAL_SCORE_MESSAGE, choTotalScore, hanTotalScore);
     }
 
+    public void printResult(Side winner) {
+        if (winner == Side.CHO) {
+            System.out.println("초의 승리입니다!");
+            return;
+        }
+        System.out.println("한의 승리입니다!");
+    }
+
     private void printRowNumber(int y) {
         if (y < BoardSpec.MAX_Y) {
             System.out.printf(SINGLE_DIGIT_ROW_FORMAT, y);

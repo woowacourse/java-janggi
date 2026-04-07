@@ -49,6 +49,7 @@ public class JanggiController {
             }
             outputView.printBoardStatus(game.getBoard());
         }
+        outputView.printResult(game.getCurrentTurn());
     }
 
     private Position readSourcePosition() {

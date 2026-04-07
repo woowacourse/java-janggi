@@ -18,7 +18,9 @@ public class Game {
     public void move(Position sourcePosition, Position targetPosition) {
         validateMovement(sourcePosition, targetPosition);
         board.movePiece(sourcePosition, targetPosition);
-        turn.next();
+        if (!isGameEnd()) {
+            turn.next();
+        }
     }
 
     public boolean isGameEnd() {
