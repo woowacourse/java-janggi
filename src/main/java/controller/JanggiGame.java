@@ -100,6 +100,7 @@ public class JanggiGame {
     public void applyGameResult(JanggiBoard janggiBoard) {
         GameResult gameResult = GameResult.from(janggiBoard);
         janggiService.updateBoardResult(gameResult);
+        BoardIdContext.clear();
     }
 
     public void announceWinner(Team team) {
