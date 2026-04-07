@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class TestDBConnectionProvider implements ConnectionProvider {
 
-    private static final String URL = "jdbc:h2:./java-janggi-test";
+    private static final String URL = "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;INIT=RUNSCRIPT FROM 'classpath:schema.sql'";
     private static final String USER = "sa";
     private static final String PASSWORD = "";
 
