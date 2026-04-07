@@ -28,6 +28,10 @@ public abstract class Piece {
         return teamType;
     }
 
+    public int score() {
+        return pieceType.getScore();
+    }
+
     public abstract void validateCanMove(List<Piece> piecesInPath);
 
     protected abstract List<MovePath> getPaths();
