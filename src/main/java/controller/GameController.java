@@ -1,19 +1,16 @@
 package controller;
 
-import dao.JanggiGameDao;
-import dao.converter.BoardConverter;
 import database.MysqlConnectionManager;
-import dto.GameStatus;
-import dto.PieceDto;
 import java.util.List;
 import java.util.function.Supplier;
-import model.board.Army;
+import model.JanggiGame;
 import model.board.Board;
 import model.board.Country;
 import model.board.HorseElephantStrategy;
 import model.board.strategy.ElephantSetup;
 import model.move.Move;
 import model.position.Position;
+import service.GameService;
 import view.InputView;
 import view.OutputView;
 
@@ -21,9 +18,11 @@ public class GameController {
     private static final int START_NEW_MODE = 1;
     private static final int START_CONTINUE_MODE = 2;
     private final MysqlConnectionManager manager;
+    private final GameService gameService;
 
     public GameController(MysqlConnectionManager manager) {
         this.manager = manager;
+        this.gameService = new GameService(manager);
     }
 
     public void start() {
@@ -34,93 +33,49 @@ public class GameController {
             return num;
         });
 
-        GameStatus status = findInitialStatus(mode);
-        Board board = createBoardByMode(mode, status);
-        int gameId = status.id();
-        Country currentTurn = status.turn();
+        JanggiGame game = prepareGame(mode);
 
+        OutputView.printBoard(game.board());
+
+        while (game.isProgressing()) {
+            playTurn(game);
+        }
+
+        endGamePhase(game.board());
+    }
+
+    private JanggiGame prepareGame(int mode) {
         if (mode == START_NEW_MODE) {
-            JanggiGameDao janggiGameDao = new JanggiGameDao(manager);
-            gameId = janggiGameDao.createGame(currentTurn);
-            janggiGameDao.saveGame(gameId, currentTurn, BoardConverter.convertToPieceDtos(board));
+            HorseElephantStrategy choStrategy = askHorseSetup(Country.CHO);
+            OutputView.printLine();
+            HorseElephantStrategy hanStrategy = askHorseSetup(Country.HAN);
+            return gameService.startNewGame(choStrategy, hanStrategy);
         }
 
-        OutputView.printBoard(board);
-
-        while (board.endCondition()) {
-            playTurn(gameId, board, currentTurn);
-            currentTurn = currentTurn.convertCountry();
-        }
-
-        endGamePhase(board);
+        return gameService.continueGame(mode);
     }
 
-    private GameStatus findInitialStatus(int mode) {
-        if (mode == START_NEW_MODE) {
-            return new GameStatus(0, Country.CHO);
-        }
-        JanggiGameDao janggiGameDao = new JanggiGameDao(manager);
-        GameStatus status = janggiGameDao.findLatestStatus();
-        if (status == null) {
-            OutputView.printError("저장된 게임이 없습니다. 새 게임을 시작합니다.");
-            return new GameStatus(0, Country.CHO);
-        }
-        return status;
-    }
-
-    private Board createBoardByMode(int mode, GameStatus gameStatus) {
-        if (mode == START_NEW_MODE || gameStatus.id() == 0) {
-            Board board = new Board();
-            initBoard(board);
-            return board;
-        }
-        JanggiGameDao janggiGameDao = new JanggiGameDao(manager);
-        List<PieceDto> pieces = janggiGameDao.loadPiecesByGameId(gameStatus.id());
-        return BoardConverter.convertToBoard(pieces);
-    }
-
-    private void playTurn(int gameId, Board board, Country country) {
-        OutputView.printPositionCountry(country);
+    private void playTurn(JanggiGame game) {
+        OutputView.printPositionCountry(game.turn());
 
         retry(() -> {
-            gamePhaseRetry(board, country);
+            Position from = selectStartPosition();
+            game.board().checkTurn(from, game.turn());
+            Position to = selectEndPosition();
 
-            Country nextCountry = Country.HAN;
-            if (country == Country.HAN) {
-                nextCountry = Country.CHO;
-            }
-
-            JanggiGameDao janggiGameDao = new JanggiGameDao(manager);
-            janggiGameDao.saveGame(gameId, nextCountry, BoardConverter.convertToPieceDtos(board));
+            gameService.moveAndSave(game, new Move(from, to));
         });
-        OutputView.printBoard(board);
+
+        OutputView.printBoard(game.board());
     }
 
-    private void initBoard(Board board) {
-        OutputView.printArrangeCountry(Country.CHO);
-        Army cho = initArmy(Country.CHO);
-        cho.deployTo(board, Country.CHO);
-        OutputView.printLine();
-        OutputView.printArrangeCountry(Country.HAN);
-        Army han = initArmy(Country.HAN);
-        han.deployTo(board, Country.HAN);
-    }
-
-    private Army initArmy(Country country) {
+    private HorseElephantStrategy askHorseSetup(Country country) {
+        OutputView.printArrangeCountry(country);
         OutputView.printArrangeList(ElephantSetup.arrangementList(), country);
-        HorseElephantStrategy strategy = retry(() -> {
-            int number = InputView.readArrangement();
-            return ElephantSetup.init(number);
+        return retry(() -> {
+            int num = InputView.readArrangement();
+            return ElephantSetup.init(num);
         });
-        return new Army(strategy);
-    }
-
-    private void gamePhaseRetry(Board board, Country country) {
-        Position from = selectStartPosition();
-        board.checkTurn(from, country);
-        Position to = selectEndPosition();
-        Move move = new Move(from, to);
-        board.move(move);
     }
 
     private Position selectStartPosition() {
