@@ -4,6 +4,8 @@ import janggi.domain.piece.diagonal.ElephantMoveStrategy;
 import janggi.domain.piece.diagonal.HorseMoveStrategy;
 import janggi.domain.piece.line.CannonMoveStrategy;
 import janggi.domain.piece.line.ChariotMoveStrategy;
+import janggi.domain.piece.single.PalaceMoveStrategy;
+import janggi.domain.piece.single.SoldierMoveStrategy;
 
 public enum PieceType {
 
