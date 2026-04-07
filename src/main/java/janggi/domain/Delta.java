@@ -1,5 +1,6 @@
 package janggi.domain;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Delta {
@@ -56,6 +57,15 @@ public class Delta {
         return new Delta(Integer.signum(delta.dx), Integer.signum(delta.dy));
     }
 
+    public static List<Delta> diagonalPaths() {
+        return List.of(
+                Delta.rightUp(),
+                Delta.rightDown(),
+                Delta.leftUp(),
+                Delta.leftDown()
+        );
+    }
+
     public int getDx() {
         return dx;
     }
@@ -66,6 +76,14 @@ public class Delta {
 
     public Delta add(Delta delta) {
         return new Delta(this.dx + delta.dx, this.dy + delta.dy);
+    }
+
+    public boolean isDiagonalOverOneStep() {
+        return Math.abs(dx) > 1 || Math.abs(dy) > 1;
+    }
+
+    public boolean isDiagonalOverTwoSteps() {
+        return Math.abs(dx) > 2 || Math.abs(dy) > 2;
     }
 
     @Override

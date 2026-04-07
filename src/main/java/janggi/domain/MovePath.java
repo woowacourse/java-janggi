@@ -47,6 +47,12 @@ public class MovePath {
         return route;
     }
 
+    public boolean isDiagonal() {
+        Delta delta = path.getFirst();
+        List<Delta> paths = Delta.diagonalPaths();
+        return paths.contains(delta);
+    }
+
     private Delta totalDelta() {
         return path.stream()
                 .reduce(Delta.zero(), Delta::add);

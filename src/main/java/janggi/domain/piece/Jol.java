@@ -31,4 +31,18 @@ public class Jol extends SteppingPiece {
         }
         return HAN_PATHS;
     }
+
+    @Override
+    protected void validateDiagonalDirection(Delta dxDelta) {
+        if (getTeamType() == TeamType.CHU) {
+            if (dxDelta.getDy() < 0) {
+                throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
+            }
+            return;
+        }
+
+        if (dxDelta.getDy() > 0) {
+            throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
+        }
+    }
 }
