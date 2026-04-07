@@ -6,8 +6,13 @@ import core.GameSummary;
 import core.JanggiGame;
 import db.dao.BoardPieceDao;
 import db.dao.GameDao;
+import db.jdbc.ConnectionManager;
+import db.jdbc.SqlConnection;
+import db.jdbc.SqlConnectionWrapper;
 import db.model.BoardPieceEntity;
 import db.model.GameEntity;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -20,48 +25,64 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
 
     private final GameDao gameDao;
     private final BoardPieceDao boardPieceDao;
+    private final ConnectionManager connectionManager;
 
-    public JdbcJanggiGameRepository(final GameDao gameDao, final BoardPieceDao boardPieceDao) {
+    public JdbcJanggiGameRepository(final GameDao gameDao, final BoardPieceDao boardPieceDao,
+                                    final ConnectionManager connectionManager) {
         this.gameDao = gameDao;
         this.boardPieceDao = boardPieceDao;
+        this.connectionManager = connectionManager;
     }
 
     @Override
     public Long save(final JanggiGame game) {
-        final Long gameId = gameDao.save(parseGameEntity(game));
-        boardPieceDao.saveAll(parseBoardPieceEntities(gameId, game.getBoard()));
-        return gameId;
+        return executeInTransaction(connection -> {
+            final Long gameId = gameDao.save(connection, parseGameEntity(game));
+            boardPieceDao.saveAll(connection, parseBoardPieceEntities(gameId, game.getBoard()));
+            return gameId;
+        });
     }
 
     @Override
     public Optional<JanggiGame> findById(final Long gameId) {
-        return gameDao.findById(gameId)
-            .map(gameEntity -> parseGame(gameEntity, boardPieceDao.findAllByGameId(gameId)));
+        return execute(connection -> gameDao.findById(connection, gameId)
+            .map(gameEntity -> parseGame(gameEntity, boardPieceDao.findAllByGameId(connection, gameId)))
+        );
     }
 
     @Override
     public List<GameSummary> findTop10GameRoomsOrderByCreatedAtDesc() {
-        return gameDao.findTop10OrderByCreatedAtDesc().stream()
+        return execute(connection -> gameDao.findTop10OrderByCreatedAtDesc(connection).stream()
             .map(this::parseGameSummary)
-            .toList();
+            .toList());
     }
 
     @Override
     public void updateGameState(final Long gameId, final Turn turn, final GameStatus status) {
-        gameDao.updateState(gameId, turn, status);
+        executeInTransaction(connection -> {
+            gameDao.updateState(connection, gameId, turn, status);
+            return null;
+        });
     }
 
     @Override
     public void updatePiecePosition(final Long gameId, final Position departure, final Position destination) {
-        final Optional<BoardPieceEntity> movingPiece = boardPieceDao.findByGameIdAndPosition(
-            gameId, departure.getRowIndex(), departure.getColumnIndex());
-        final Optional<BoardPieceEntity> destinationPiece = boardPieceDao.findByGameIdAndPosition(
-            gameId, destination.getRowIndex(), destination.getColumnIndex());
+        executeInTransaction(connection -> {
+            final BoardPieceEntity movingPiece = boardPieceDao.findByGameIdAndPosition(
+                    connection, gameId, departure.getRowIndex(), departure.getColumnIndex())
+                .orElseThrow(() -> new IllegalArgumentException("이동할 말이 없습니다."));
+            final Optional<BoardPieceEntity> destinationPiece = boardPieceDao.findByGameIdAndPosition(
+                connection, gameId, destination.getRowIndex(), destination.getColumnIndex());
 
-        if (destinationPiece.isPresent()) {
-            boardPieceDao.deleteByGameIdAndPosition(gameId, destination.getRowIndex(), destination.getColumnIndex());
-        }
-        boardPieceDao.updatePosition(movingPiece.get().id(), destination.getRowIndex(), destination.getColumnIndex());
+            if (destinationPiece.isPresent()) {
+                boardPieceDao.deleteByGameIdAndPosition(
+                    connection, gameId, destination.getRowIndex(), destination.getColumnIndex());
+            }
+            boardPieceDao.updatePosition(
+                connection, movingPiece.id(), destination.getRowIndex(), destination.getColumnIndex());
+
+            return null;
+        });
     }
 
     private GameSummary parseGameSummary(final GameEntity gameEntity) {
@@ -122,5 +143,34 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
 
     private Piece parsePiece(final BoardPieceEntity boardPieceEntityRecord) {
         return new Piece(boardPieceEntityRecord.pieceSide(), boardPieceEntityRecord.pieceType());
+    }
+
+    private <T> T execute(final ThrowingFunction<SqlConnection, T> operation) {
+        try (Connection connection = connectionManager.getConnection()) {
+            return operation.apply(new SqlConnectionWrapper(connection));
+        } catch (Exception e) {
+            throw new IllegalArgumentException("DB 조회에 실패했습니다.", e);
+        }
+    }
+
+    private <T> T executeInTransaction(final ThrowingFunction<SqlConnection, T> operation) {
+        try (Connection connection = connectionManager.getConnection()) {
+            connection.setAutoCommit(false);
+            try {
+                final T result = operation.apply(new SqlConnectionWrapper(connection));
+                connection.commit();
+                return result;
+            } catch (Exception e) {
+                connection.rollback();
+                throw new IllegalArgumentException("DB 작업에 실패했습니다.", e);
+            }
+        } catch (SQLException e) {
+            throw new IllegalArgumentException("DB 연결에 실패했습니다.", e);
+        }
+    }
+
+    @FunctionalInterface
+    interface ThrowingFunction<T, R> {
+        R apply(T t) throws Exception;
     }
 }

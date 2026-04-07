@@ -13,7 +13,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Comparator;
 import java.util.List;
 
 public class DatabaseMigrator {
@@ -27,23 +26,17 @@ public class DatabaseMigrator {
 
     private final ConnectionManager connectionManager;
 
-    public DatabaseMigrator(final ConnectionManager connectionManager) {
+    public DatabaseMigrator(ConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
     }
 
     public void initialize() {
-        final List<Migration> migrations = MIGRATIONS.stream()
-            .filter(migration -> migration.version() > 0)
-            .sorted(Comparator.comparingInt(Migration::version))
-            .toList();
-
         try (Connection connection = connectionManager.getConnection()) {
             connection.setAutoCommit(false);
 
             try {
                 applyMigration(connection, BOOTSTRAP_MIGRATION);
-
-                for (final Migration migration : migrations) {
+                for (final Migration migration : MIGRATIONS) {
                     if (isAlreadyApplied(connection, migration.version())) {
                         continue;
                     }

@@ -2,7 +2,6 @@ package db.jdbc;
 
 import db.dao.BoardPieceDao;
 import db.model.BoardPieceEntity;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,14 +13,8 @@ import pieces.Side;
 
 public class JdbcBoardPieceDao implements BoardPieceDao {
 
-    private final ConnectionManager connectionManager;
-
-    public JdbcBoardPieceDao(final ConnectionManager connectionManager) {
-        this.connectionManager = connectionManager;
-    }
-
     @Override
-    public void saveAll(final List<BoardPieceEntity> boardPieceEntities) {
+    public void saveAll(final SqlConnection connection, final List<BoardPieceEntity> boardPieceEntities) {
         if (boardPieceEntities.isEmpty()) {
             return;
         }
@@ -31,9 +24,7 @@ public class JdbcBoardPieceDao implements BoardPieceDao {
             VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
             """;
 
-        try (final Connection connection = connectionManager.getConnection();
-             final PreparedStatement statement = connection.prepareStatement(sql)) {
-
+        try (final PreparedStatement statement = connection.prepareStatement(sql)) {
             for (final BoardPieceEntity boardPieceEntity : boardPieceEntities) {
                 validateGameId(boardPieceEntity.gameId());
 
@@ -51,7 +42,7 @@ public class JdbcBoardPieceDao implements BoardPieceDao {
     }
 
     @Override
-    public List<BoardPieceEntity> findAllByGameId(final Long gameId) {
+    public List<BoardPieceEntity> findAllByGameId(SqlConnection connection, final Long gameId) {
         validateGameId(gameId);
 
         final String sql = """
@@ -60,8 +51,7 @@ public class JdbcBoardPieceDao implements BoardPieceDao {
             WHERE game_id = ?
             """;
 
-        try (final Connection connection = connectionManager.getConnection();
-             final PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (final PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setLong(1, gameId);
 
@@ -78,7 +68,7 @@ public class JdbcBoardPieceDao implements BoardPieceDao {
     }
 
     @Override
-    public Optional<BoardPieceEntity> findByGameIdAndPosition(final Long gameId, final int row, final int column) {
+    public Optional<BoardPieceEntity> findByGameIdAndPosition(SqlConnection connection, final Long gameId, final int row, final int column) {
         validateGameId(gameId);
 
         final String sql = """
@@ -87,8 +77,7 @@ public class JdbcBoardPieceDao implements BoardPieceDao {
             WHERE game_id = ? AND board_row = ? AND board_column = ?
             """;
 
-        try (final Connection connection = connectionManager.getConnection();
-             final PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (final PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setLong(1, gameId);
             statement.setInt(2, row);
@@ -106,7 +95,7 @@ public class JdbcBoardPieceDao implements BoardPieceDao {
     }
 
     @Override
-    public void updatePosition(final Long id, final int row, final int column) {
+    public void updatePosition(SqlConnection connection, final Long id, final int row, final int column) {
         validateId(id);
 
         final String sql = """
@@ -115,8 +104,7 @@ public class JdbcBoardPieceDao implements BoardPieceDao {
             WHERE id = ?
             """;
 
-        try (final Connection connection = connectionManager.getConnection();
-             final PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (final PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setInt(1, row);
             statement.setInt(2, column);
@@ -132,7 +120,7 @@ public class JdbcBoardPieceDao implements BoardPieceDao {
     }
 
     @Override
-    public void deleteByGameIdAndPosition(final Long gameId, final int row, final int column) {
+    public void deleteByGameIdAndPosition(SqlConnection connection, final Long gameId, final int row, final int column) {
         validateGameId(gameId);
 
         final String sql = """
@@ -140,8 +128,7 @@ public class JdbcBoardPieceDao implements BoardPieceDao {
             WHERE game_id = ? AND board_row = ? AND board_column = ?
             """;
 
-        try (final Connection connection = connectionManager.getConnection();
-             final PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (final PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setLong(1, gameId);
             statement.setInt(2, row);

@@ -1,18 +1,19 @@
 package db.dao;
 
+import db.jdbc.SqlConnection;
 import db.model.BoardPieceEntity;
 import java.util.List;
 import java.util.Optional;
 
 public interface BoardPieceDao {
 
-    void saveAll(final List<BoardPieceEntity> boardPieces);
+    void saveAll(SqlConnection connection, List<BoardPieceEntity> boardPieces);
 
-    List<BoardPieceEntity> findAllByGameId(final Long gameId);
+    List<BoardPieceEntity> findAllByGameId(SqlConnection connection, Long gameId);
 
-    Optional<BoardPieceEntity> findByGameIdAndPosition(final Long gameId, final int row, final int column);
+    Optional<BoardPieceEntity> findByGameIdAndPosition(SqlConnection connection, Long gameId, int row, int column);
 
-    void updatePosition(final Long id, final int row, final int column);
+    void updatePosition(SqlConnection connection, Long id, int row, int column);
 
-    void deleteByGameIdAndPosition(final Long gameId, final int row, final int column);
+    void deleteByGameIdAndPosition(SqlConnection connection, Long gameId, int row, int column);
 }

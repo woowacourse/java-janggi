@@ -1,6 +1,7 @@
 package db.dao;
 
 import core.GameStatus;
+import db.jdbc.SqlConnection;
 import db.model.GameEntity;
 import java.util.List;
 import java.util.Optional;
@@ -8,11 +9,11 @@ import participant.Turn;
 
 public interface GameDao {
 
-    Long save(final GameEntity game);
+    Long save(SqlConnection connection, GameEntity game);
 
-    Optional<GameEntity> findById(final Long id);
+    Optional<GameEntity> findById(SqlConnection connection, Long id);
 
-    List<GameEntity> findTop10OrderByCreatedAtDesc();
+    List<GameEntity> findTop10OrderByCreatedAtDesc(SqlConnection connection);
 
-    void updateState(final Long gameId, final Turn turn, final GameStatus gameStatus);
+    void updateState(SqlConnection connection, Long gameId, Turn turn, GameStatus gameStatus);
 }

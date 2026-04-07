@@ -41,9 +41,9 @@ class JdbcJanggiGameRepositoryTest {
         DatabaseMigrator databaseMigrator = new DatabaseMigrator(connectionManager);
         databaseMigrator.initialize();
 
-        GameDao gameDao = new JdbcGameDao(connectionManager);
-        BoardPieceDao boardPieceDao = new JdbcBoardPieceDao(connectionManager);
-        repository = new JdbcJanggiGameRepository(gameDao, boardPieceDao);
+        GameDao gameDao = new JdbcGameDao();
+        BoardPieceDao boardPieceDao = new JdbcBoardPieceDao();
+        repository = new JdbcJanggiGameRepository(gameDao, boardPieceDao, connectionManager);
     }
 
     @AfterEach
@@ -104,18 +104,18 @@ class JdbcJanggiGameRepositoryTest {
     }
 
     @Test
-    void 기존의_모든_게임을_생성된_순서로_반환한다() {
+    void 기존의_모든_게임을_최근_생성된_순서로_반환한다() {
         // given
         Turn turn = Turn.CHO_TURN;
         GameStatus status = GameStatus.PLAYING;
         JanggiGame firstGame = new JanggiGame(new Board(Map.of()), turn, status);
         JanggiGame secondGame = new JanggiGame(new Board(Map.of()), turn, status);
         Long firstGameId = repository.save(firstGame);
-        repository.save(secondGame);
+        Long secondGameId = repository.save(secondGame);
         // when
         List<GameSummary> foundGames = repository.findTop10GameRoomsOrderByCreatedAtDesc();
         // then
-        assertThat(foundGames.getFirst().id()).isEqualTo(firstGameId);
+        assertThat(foundGames.getFirst().id()).isEqualTo(secondGameId);
     }
 
     @Test

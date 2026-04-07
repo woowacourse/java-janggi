@@ -3,7 +3,6 @@ package db.jdbc;
 import core.GameStatus;
 import db.dao.GameDao;
 import db.model.GameEntity;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,22 +14,14 @@ import participant.Turn;
 
 public class JdbcGameDao implements GameDao {
 
-    private final ConnectionManager connectionManager;
-
-    public JdbcGameDao(final ConnectionManager connectionManager) {
-        this.connectionManager = connectionManager;
-    }
-
     @Override
-    public Long save(final GameEntity gameEntity) {
+    public Long save(final SqlConnection connection, final GameEntity gameEntity) {
         final String sql = """
             INSERT INTO game (turn, status, created_at, updated_at)
             VALUES (?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
             """;
 
-        try (Connection connection = connectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-
+        try (PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, gameEntity.turn().name());
             statement.setString(2, gameEntity.status().name());
             statement.executeUpdate();
@@ -47,7 +38,7 @@ public class JdbcGameDao implements GameDao {
     }
 
     @Override
-    public Optional<GameEntity> findById(final Long id) {
+    public Optional<GameEntity> findById(final SqlConnection connection, final Long id) {
         if (id == null) {
             throw new IllegalStateException("조회할 게임 ID가 필요합니다.");
         }
@@ -57,9 +48,7 @@ public class JdbcGameDao implements GameDao {
             FROM game
             WHERE id = ?
             """;
-
-        try (final Connection connection = connectionManager.getConnection();
-             final PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (final PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setLong(1, id);
 
@@ -75,16 +64,15 @@ public class JdbcGameDao implements GameDao {
     }
 
     @Override
-    public List<GameEntity> findTop10OrderByCreatedAtDesc() {
+    public List<GameEntity> findTop10OrderByCreatedAtDesc(final SqlConnection connection) {
         final String sql = """
             SELECT id, turn, status
             FROM game
-            ORDER BY updated_at DESC
+            ORDER BY created_at DESC
             LIMIT 10
             """;
 
-        try (final Connection connection = connectionManager.getConnection();
-             final PreparedStatement statement = connection.prepareStatement(sql);
+        try (final PreparedStatement statement = connection.prepareStatement(sql);
              final ResultSet resultSet = statement.executeQuery()) {
 
             final List<GameEntity> gameEntities = new ArrayList<>();
@@ -98,7 +86,7 @@ public class JdbcGameDao implements GameDao {
     }
 
     @Override
-    public void updateState(final Long id, final Turn turn, final GameStatus gameStatus) {
+    public void updateState(final SqlConnection connection, final Long id, final Turn turn, final GameStatus gameStatus) {
         if (id == null) {
             throw new IllegalArgumentException("수정할 게임 ID가 필요합니다.");
         }
@@ -109,8 +97,7 @@ public class JdbcGameDao implements GameDao {
             WHERE id = ?
             """;
 
-        try (final Connection connection = connectionManager.getConnection();
-             final PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (final PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setString(1, turn.name());
             statement.setString(2, gameStatus.name());

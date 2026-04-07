@@ -15,6 +15,7 @@ public class Application {
 
     public static void main(String[] args) {
         final ConnectionManager connectionManager = getConnectionManager();
+        migrate(connectionManager);
         final JanggiGameRepository repository = getRepository(connectionManager);
         final JanggiView view = new JanggiView();
 
@@ -22,16 +23,18 @@ public class Application {
         session.run();
     }
 
-    private static JanggiGameRepository getRepository(final ConnectionManager connectionManager) {
-        final GameDao gameDao = new JdbcGameDao(connectionManager);
-        final BoardPieceDao boardPieceDao = new JdbcBoardPieceDao(connectionManager);
-        return new JdbcJanggiGameRepository(gameDao, boardPieceDao);
+    private static ConnectionManager getConnectionManager() {
+        return new ProductionConnectionManager();
     }
 
-    private static ProductionConnectionManager getConnectionManager() {
-        final ProductionConnectionManager connectionManager = new ProductionConnectionManager();
+    private static void migrate(final ConnectionManager connectionManager) {
         final DatabaseMigrator databaseMigrator = new DatabaseMigrator(connectionManager);
         databaseMigrator.initialize();
-        return connectionManager;
+    }
+
+    private static JanggiGameRepository getRepository(final ConnectionManager connectionManager) {
+        final GameDao gameDao = new JdbcGameDao();
+        final BoardPieceDao boardPieceDao = new JdbcBoardPieceDao();
+        return new JdbcJanggiGameRepository(gameDao, boardPieceDao, connectionManager);
     }
 }
