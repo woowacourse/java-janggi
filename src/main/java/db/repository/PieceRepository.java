@@ -69,35 +69,51 @@ public class PieceRepository {
             Map<Intersection, Piece> pieces,
             int gameId
     ) throws SQLException {
-        for (Map.Entry<Intersection, Piece> entry : pieces.entrySet()) {
-            Intersection intersection = entry.getKey();
-            Piece piece = entry.getValue();
-
-            statement.setInt(1, intersection.getRow());
-            statement.setInt(2, intersection.getFile());
-            statement.setString(3, SideParser.sideToString(piece.getSide()));
-            statement.setString(4, PieceParser.toString(piece));
-            statement.setInt(5, gameId);
-
+        for (Map.Entry<Intersection, Piece> placedPiece : pieces.entrySet()) {
+            setPieceToStatement(statement, placedPiece, gameId);
             statement.addBatch();
         }
+    }
+
+    private void setPieceToStatement(
+            PreparedStatement statement,
+            Map.Entry<Intersection, Piece> placedPiece,
+            int gameId
+    ) throws SQLException {
+        Intersection intersection = placedPiece.getKey();
+        Piece piece = placedPiece.getValue();
+
+        statement.setInt(1, intersection.getRow());
+        statement.setInt(2, intersection.getFile());
+        statement.setString(3, SideParser.sideToString(piece.getSide()));
+        statement.setString(4, PieceParser.toString(piece));
+        statement.setInt(5, gameId);
     }
 
     private Map<Intersection, Piece> parsePieces(ResultSet resultSet) throws SQLException {
         Map<Intersection, Piece> pieces = new HashMap<>();
 
         while (resultSet.next()) {
-            int row = resultSet.getInt(1);
-            int file = resultSet.getInt(2);
-            Intersection intersection = new Intersection(row, file);
-
-            Side side = SideParser.stringToSide(resultSet.getString(3));
-            String pieceName = resultSet.getString(4);
-            Piece piece = PieceParser.toPiece(pieceName, side);
+            Intersection intersection = parseIntersection(resultSet);
+            Piece piece = parsePiece(resultSet);
 
             pieces.put(intersection, piece);
         }
 
         return pieces;
+    }
+
+    private Intersection parseIntersection(ResultSet resultSet) throws SQLException {
+        int row = resultSet.getInt(1);
+        int file = resultSet.getInt(2);
+
+        return new Intersection(row, file);
+    }
+
+    private Piece parsePiece(ResultSet resultSet) throws SQLException {
+        Side side = SideParser.stringToSide(resultSet.getString(3));
+        String pieceName = resultSet.getString(4);
+
+        return PieceParser.toPiece(pieceName, side);
     }
 }
