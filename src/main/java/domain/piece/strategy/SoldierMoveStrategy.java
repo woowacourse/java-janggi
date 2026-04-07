@@ -4,6 +4,7 @@ import domain.board.Position;
 import domain.path.PathInfo;
 import domain.path.Direction;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SoldierMoveStrategy extends SingleStepLinearMoveStrategy {
@@ -14,8 +15,12 @@ public class SoldierMoveStrategy extends SingleStepLinearMoveStrategy {
     }
 
     @Override
-    protected void validateDirection(Direction direction) {
-        List<Direction> allowedDirections = List.of(Direction.LEFT, Direction.RIGHT, forwardDirection);
+    protected void validateDirection(Direction direction, boolean isInPalace) {
+        List<Direction> allowedDirections = new ArrayList<>(List.of(Direction.LEFT, Direction.RIGHT, forwardDirection));
+        if (isInPalace){
+            allowedDirections.add(direction);
+        }
+
         if (!allowedDirections.contains(direction)) {
             throw new IllegalArgumentException("졸/병은 후퇴할 수 없습니다.");
         }

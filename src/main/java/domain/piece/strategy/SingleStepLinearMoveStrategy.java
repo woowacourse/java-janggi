@@ -1,5 +1,6 @@
 package domain.piece.strategy;
 
+import domain.board.Palace;
 import domain.board.Position;
 import domain.path.Direction;
 
@@ -8,26 +9,35 @@ import java.util.List;
 public abstract class SingleStepLinearMoveStrategy implements MoveStrategy {
     @Override
     public List<Position> getPath(Position departure, Position destination) {
-        Direction direction = decideSingleLinearDirection(departure, destination);
+        boolean isInPalace = isInPalace(departure, destination);
+        Direction direction = decideSingleLinearDirection(departure, destination, isInPalace);
 
-        validateDirection(direction);
+        validateDirection(direction, isInPalace);
 
         return List.of(destination);
     }
 
-    protected void validateDirection(Direction direction) {
+    private boolean isInPalace(Position departure, Position destination) {
+        return Palace.isPalace(departure) && Palace.isPalace(destination);
     }
 
-    protected Direction decideSingleLinearDirection(Position departure, Position destination) {
+    protected void validateDirection(Direction direction, boolean isInPalace) {
+    }
+
+    protected Direction decideSingleLinearDirection(Position departure, Position destination, boolean isInPalace) {
         int deltaX = departure.calculateDeltaX(destination);
         int deltaY = departure.calculateDeltaY(destination);
 
-        validateSingleLinearMove(deltaX, deltaY);
+        validateSingleLinearMove(deltaX, deltaY, isInPalace);
 
         return Direction.decideDirection(deltaX, deltaY);
     }
 
-    private void validateSingleLinearMove(int deltaX, int deltaY) {
+    private void validateSingleLinearMove(int deltaX, int deltaY, boolean isInPalace) {
+        if (isInPalace && isNotSingleStep(deltaX, deltaY)) {
+            return;
+        }
+
         if (isNotLinear(deltaX, deltaY) || isNotSingleStep(deltaX, deltaY)) {
             throw new IllegalArgumentException("직선 방향으로 한 칸만 이동할 수 있습니다.");
         }
