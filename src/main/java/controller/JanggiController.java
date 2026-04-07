@@ -1,11 +1,13 @@
 package controller;
 
-import domain.board.PlacementInputMapper;
+import view.PlacementInputMapper;
 import domain.board.formation.FormationType;
 import domain.game.JanggiGame;
 import domain.game.Turn;
 import domain.piece.Team;
 import java.util.List;
+import service.GamePersistenceService;
+import service.LoadedGame;
 import util.Retry;
 import view.InputView;
 import view.OutputView;
@@ -17,19 +19,21 @@ public class JanggiController {
 
     private final InputView inputView;
     private final OutputView outputView;
+    private final GamePersistenceService gamePersistenceService;
 
-    public JanggiController(InputView inputView, OutputView outputView) {
+    public JanggiController(
+            InputView inputView,
+            OutputView outputView,
+            GamePersistenceService gamePersistenceService
+    ) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.gamePersistenceService = gamePersistenceService;
     }
 
     public void start() {
-        String inputCho = inputView.inputPlacementOption(CHO);
-        String inputHan = inputView.inputPlacementOption(HAN);
-
-        FormationType choFormation = PlacementInputMapper.toFormationType(inputCho);
-        FormationType hanFormation = PlacementInputMapper.toFormationType(inputHan);
-        JanggiGame janggiGame = JanggiGame.of(choFormation, hanFormation);
+        LoadedGame loadedGame = gamePersistenceService.loadOrCreate(this::createNewGame);
+        JanggiGame janggiGame = loadedGame.game();
 
         printBoardAndScore(janggiGame);
         while (!janggiGame.isGameEnd()) {
@@ -38,9 +42,18 @@ public class JanggiController {
             outputView.printTurn(turn);
 
             List<Integer> from = choosePiece(janggiGame, turn);
-            chooseDestinationAndGameStart(janggiGame, from);
+            chooseDestinationAndGameStart(loadedGame, from);
         }
         outputView.printGameEnd(janggiGame.turn());
+    }
+
+    private JanggiGame createNewGame() {
+        String inputCho = inputView.inputPlacementOption(CHO);
+        String inputHan = inputView.inputPlacementOption(HAN);
+
+        FormationType choFormation = PlacementInputMapper.toFormationType(inputCho);
+        FormationType hanFormation = PlacementInputMapper.toFormationType(inputHan);
+        return JanggiGame.of(choFormation, hanFormation);
     }
 
     private List<Integer> choosePiece(JanggiGame janggiGame, Turn turn) {
@@ -51,10 +64,12 @@ public class JanggiController {
         });
     }
 
-    private void chooseDestinationAndGameStart(JanggiGame janggiGame, List<Integer> from) {
+    private void chooseDestinationAndGameStart(LoadedGame loadedGame, List<Integer> from) {
         Retry.repeatUntilSuccess(() -> {
+            JanggiGame janggiGame = loadedGame.game();
             List<Integer> to = inputView.inputDestination();
             janggiGame.playTurn(from, to);
+            gamePersistenceService.save(loadedGame);
             printBoardAndScore(janggiGame);
         });
     }
