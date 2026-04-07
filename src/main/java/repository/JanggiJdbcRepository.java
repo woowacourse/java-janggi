@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +20,8 @@ public class JanggiJdbcRepository implements JanggiRepository {
 
     @Override
     public void createTable(Connection connection) throws SQLException {
-        connection.prepareStatement("""
+        Statement statement = connection.createStatement();
+        statement.execute("""
                     CREATE TABLE IF NOT EXISTS board (
                                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                                     game_id INTEGER NOT NULL,
@@ -29,7 +31,7 @@ public class JanggiJdbcRepository implements JanggiRepository {
                                     team TEXT NOT NULL,
                                     FOREIGN KEY (game_id) REFERENCES game(id)
                 )
-                """).executeUpdate();
+                """);
     }
 
     public List<PieceDto> findPiecesByGameId(Connection connection, int gameId) throws SQLException {

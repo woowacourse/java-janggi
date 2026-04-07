@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Optional;
 
 public class GameJdbcRepository implements GameRepository {
@@ -15,13 +16,14 @@ public class GameJdbcRepository implements GameRepository {
 
     @Override
     public void createTable(Connection connection) throws SQLException {
-        connection.prepareStatement("""
+        Statement statement = connection.createStatement();
+        statement.execute("""
                 CREATE TABLE IF NOT EXISTS game (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     is_finished BOOLEAN NOT NULL DEFAULT FALSE,
                     current_turn TEXT NOT NULL DEFAULT 'CHO'
                 )
-                """).executeUpdate();
+                """);
     }
 
     @Override
