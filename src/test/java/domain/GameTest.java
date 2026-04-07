@@ -10,6 +10,7 @@ import domain.piece.Piece;
 import domain.piece.PieceFactory;
 import domain.player.Name;
 import domain.player.Players;
+import domain.score.RemainingPieceScorePolicy;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +23,7 @@ class GameTest {
     void setUp() {
         players = Players.createInitial(new Name("cho"), new Name("han"));
         Board board = BoardFactory.create(Formation.LEFT_ELEPHANT, Formation.LEFT_ELEPHANT);
-        game = new Game(board, players);
+        game = new Game(board, players, new RemainingPieceScorePolicy());
     }
 
     @Test
@@ -48,7 +49,7 @@ class GameTest {
                 Position.of(5, 0), PieceFactory.createChariot(Side.CHO),
                 Position.of(4, 1), PieceFactory.createChariot(Side.CHO)
         );
-        Game blockedGame = new Game(new Board(blockedMap), players);
+        Game blockedGame = new Game(new Board(blockedMap), players, new RemainingPieceScorePolicy());
 
         // When & Then: selectSource 내부에서 movablePositions.isEmpty() 체크 시 예외 발생
         assertThatThrownBy(() -> blockedGame.selectSource(guardPos))
@@ -72,9 +73,15 @@ class GameTest {
         Map<Position, Piece> oneGeneralMap = Map.of(
                 Position.of(4, 1), PieceFactory.createGeneral(Side.CHO)
         );
-        Game gameOverGame = new Game(new Board(oneGeneralMap), players);
+        Game gameOverGame = new Game(new Board(oneGeneralMap), players, new RemainingPieceScorePolicy());
 
         // When & Then
         assertThat(gameOverGame.isOver()).isTrue();
+    }
+
+    @Test
+    void 게임은_진영별_현재_점수를_조회할_수_있다() {
+        assertThat(game.getScore(Side.CHO)).isEqualTo(72);
+        assertThat(game.getScore(Side.HAN)).isEqualTo(72);
     }
 }
