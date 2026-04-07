@@ -16,7 +16,6 @@ import janggi.domain.side.Side;
 
 public class General extends Piece {
 
-    private static final PieceType TYPE = PieceType.GENERAL;
     private static final PathStrategy DEFAULT_STRATEGY = new FixedPathStrategy();
 
     private static final List<Pattern> BASE_PATTERNS = Arrays.stream(Direction.values())
@@ -29,7 +28,7 @@ public class General extends Piece {
 
     @Override
     public PieceType getType() {
-        return TYPE;
+        return PieceType.GENERAL;
     }
 
     @Override

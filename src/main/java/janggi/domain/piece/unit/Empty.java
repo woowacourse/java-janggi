@@ -13,7 +13,6 @@ import janggi.domain.side.Side;
 public class Empty extends Piece {
 
     public static final Piece INSTANCE = new Empty();
-    private static final PieceType TYPE = PieceType.NONE;
 
     private Empty() {
         super(Side.NONE, null);
@@ -21,7 +20,7 @@ public class Empty extends Piece {
 
     @Override
     public PieceType getType() {
-        return TYPE;
+        return PieceType.NONE;
     }
 
     @Override

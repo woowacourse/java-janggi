@@ -16,7 +16,6 @@ import janggi.domain.side.Side;
 
 public class Soldier extends Piece {
 
-    private static final PieceType TYPE = PieceType.SOLDIER;
     private static final PathStrategy DEFAULT_STRATEGY = new FixedPathStrategy();
 
     private static final List<Pattern> CHO_BASE_PATTERNS = List.of(
@@ -45,7 +44,7 @@ public class Soldier extends Piece {
 
     @Override
     public PieceType getType() {
-        return TYPE;
+        return PieceType.SOLDIER;
     }
 
     @Override

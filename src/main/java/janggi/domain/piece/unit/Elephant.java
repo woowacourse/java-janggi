@@ -15,7 +15,6 @@ import janggi.domain.side.Side;
 
 public class Elephant extends Piece {
 
-    private static final PieceType TYPE = PieceType.ELEPHANT;
     private static final PathStrategy DEFAULT_STRATEGY = new FixedPathStrategy();
 
     private static final List<Pattern> BASE_PATTERNS = List.of(
@@ -35,7 +34,7 @@ public class Elephant extends Piece {
 
     @Override
     public PieceType getType() {
-        return TYPE;
+        return PieceType.ELEPHANT;
     }
 
     @Override

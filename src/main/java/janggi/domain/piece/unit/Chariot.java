@@ -16,7 +16,6 @@ import janggi.domain.side.Side;
 
 public class Chariot extends Piece {
 
-    private static final PieceType TYPE = PieceType.CHARIOT;
     private static final PathStrategy DEFAULT_STRATEGY = new LinearPathStrategy();
 
     private static final List<Pattern> BASE_PATTERNS = List.of(
@@ -32,7 +31,7 @@ public class Chariot extends Piece {
 
     @Override
     public PieceType getType() {
-        return TYPE;
+        return PieceType.CHARIOT;
     }
 
     @Override
