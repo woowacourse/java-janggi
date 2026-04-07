@@ -37,14 +37,14 @@ public class GameService {
         GameResult result = session.game().move(from, to);
         gameRepository.update(session.gameId(), session.game());
 
-        if (!result.isGameOver()) {
+        if (result.isGameOver()) {
             gameRepository.finish(session.gameId(), result.getWinner());
         }
 
         return result;
     }
 
-    public void finish(int gameId) {
-        gameRepository.finish(gameId, Side.NONE);
+    public void finish(int gameId, Side winner) {
+        gameRepository.finish(gameId, winner);
     }
 }

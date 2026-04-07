@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 
 import janggi.domain.board.coordinate.Point;
 import janggi.domain.board.setup.BoardSetUp;
+import janggi.domain.board.setup.BoardSetUpFormat;
 import janggi.domain.side.Side;
 
 public class InputView {
@@ -94,6 +95,4 @@ public class InputView {
             throw new IllegalArgumentException("숫자만 입력 가능합니다.");
         }
     }
-
-
 }

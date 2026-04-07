@@ -29,14 +29,11 @@ public class JanggiController {
     public void run() {
         Optional<Integer> activeGameId = gameService.findActiveGameId();
 
-        boolean isContinue = retry(() -> inputView.readContinueGame());
-
-        if (activeGameId.isPresent() && isContinue) {
+        if (activeGameId.isPresent() && retry(() -> inputView.readContinueGame())) {
             play(gameService.continueGame(activeGameId.get()));
             return;
         }
-
-        activeGameId.ifPresent(gameService::finish);
+        activeGameId.ifPresent(id -> gameService.finish(id, Side.NONE));
 
         BoardSetUp choBoardSetUp = retry(() -> inputView.readBoardSetup(Side.CHO));
         BoardSetUp hanBoardSetUp = retry(() -> inputView.readBoardSetup(Side.HAN));
@@ -57,7 +54,7 @@ public class JanggiController {
                 continue;
             }
 
-            if (processResult(game, result.get())) {
+            if (processResult(session, result.get())) {
                 break;
             }
 
@@ -97,11 +94,13 @@ public class JanggiController {
         }
     }
 
-    private boolean processResult(Game game, GameResult result) {
+    private boolean processResult(GameSession session, GameResult result) {
+        Game game = session.game();
         outputView.printScore(Side.CHO, game.getScore(Side.CHO));
         outputView.printScore(Side.HAN, game.getScore(Side.HAN));
 
         if (result.isGameOver()) {
+            gameService.finish(session.gameId(), result.getWinner());
             outputView.printBoard(game.getBoard());
             outputView.printGameResult(result.getWinner());
             return true;
