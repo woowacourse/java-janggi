@@ -10,16 +10,16 @@ import janggi.domain.space.Space;
 import janggi.domain.space.piece.Piece;
 import janggi.domain.space.piece.Team;
 import janggi.domain.strategy.LoadStrategy;
-import janggi.infrastructure.JDBCBoardRepository;
+import janggi.infrastructure.BoardRepository;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class JanggiService {
     private JanggiGameManager gameManager;
-    private final JDBCBoardRepository boardRepository;
+    private final BoardRepository boardRepository;
 
-    public JanggiService(JanggiGameManager janggiGameManager, JDBCBoardRepository boardRepository) {
+    public JanggiService(JanggiGameManager janggiGameManager, BoardRepository boardRepository) {
         this.gameManager = janggiGameManager;
         this.boardRepository = boardRepository;
     }

@@ -42,6 +42,7 @@ public class JDBCBoardRepository implements BoardRepository {
         }
     }
 
+    @Override
     public List<Long> findAllGameIds() {
         try (Connection connection = DatabaseConnector.getConnection()) {
             return gameDAO.findAllGameIds(connection);
@@ -50,6 +51,7 @@ public class JDBCBoardRepository implements BoardRepository {
         }
     }
 
+    @Override
     public Map<Position, Piece> findPiecesById(long gameId) {
         Map<Position, Piece> pieces = new HashMap<>();
 
@@ -70,6 +72,7 @@ public class JDBCBoardRepository implements BoardRepository {
         return pieces;
     }
 
+    @Override
     public String findTurnById(long gameId) {
         try (Connection connection = DatabaseConnector.getConnection()) {
             return gameDAO.findTurnByGameId(connection, gameId);
@@ -78,6 +81,7 @@ public class JDBCBoardRepository implements BoardRepository {
         }
     }
 
+    @Override
     public boolean existsById(long gameId) {
         try (Connection connection = DatabaseConnector.getConnection()) {
             return gameDAO.existsById(connection, gameId);
