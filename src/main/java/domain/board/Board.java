@@ -48,4 +48,10 @@ public class Board implements Pieces {
         }
         return snapshot;
     }
+
+    public Map<Position, CellSnapshot> toSnapshotMap() {
+        Map<Position, CellSnapshot> result = new HashMap<>();
+        board.forEach((position, piece) -> result.put(position, new CellSnapshot(piece.getType(), piece.getSide())));
+        return result;
+    }
 }

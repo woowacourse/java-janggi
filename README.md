@@ -121,3 +121,51 @@
 - [x] 상/하/좌/우 4가지 방향으로 1 칸 이동한다.
 - [ ] 궁성 안에서는 대각선을 따라 1칸 이동할 수 있다.
 - [ ] 궁성 영역 밖으로 이동할 수 없다.
+
+# DB 구조
+
+### 🧩 Domain 정의
+
+#### SIDE_TYPE
+
+* 타입: VARCHAR(3)
+* 값:
+
+    * HAN
+    * CHU
+
+#### PIECE_TYPE
+
+* 타입: VARCHAR(10)
+* 값:
+
+    * KING
+    * GUARD
+    * ELEPHANT
+    * HORSE
+    * CHARIOT
+    * CANNON
+    * PAWN
+
+---
+
+### 🎮 game 테이블
+
+| 컬럼명  | 타입        | 제약조건               | 설명    |
+|------|-----------|--------------------|-------|
+| id   | INTEGER   | PK, AUTO_INCREMENT | 게임 ID |
+| turn | SIDE_TYPE | NOT NULL           | 현재 턴  |
+
+---
+
+### ♟️ piece 테이블
+
+| 컬럼명        | 타입         | 제약조건     | 설명           |
+|------------|------------|----------|--------------|
+| col_num    | INTEGER    | PK       | 열 좌표         |
+| row_num    | INTEGER    | PK       | 행 좌표         |
+| piece_type | PIECE_TYPE | NOT NULL | 말 종류         |
+| side       | SIDE_TYPE  | NOT NULL | 진영 (HAN/CHU) |
+
+* 복합 PK: (col_num, row_num)
+* 하나의 좌표에 하나의 말만 존재 가능

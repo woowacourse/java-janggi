@@ -3,6 +3,8 @@ package controller;
 import domain.Game;
 import domain.board.BoardInitializer;
 import domain.coordinate.Position;
+import repository.PieceRepository;
+import service.PieceService;
 import view.InputView;
 import view.OutputView;
 
@@ -22,9 +24,9 @@ public class JanggiController {
 
     public void play() {
         Game game = new Game(boardInitializer);
-
+        PieceService pieceService = new PieceService(new PieceRepository());
         while (true) {
-            outputView.printBoard(game.toSnapshot());
+            outputView.printBoard(game.getBoardSnapshot());
             Position startPosition = RetryInput.read(() -> getStartPosition(game));
 
             List<Position> possibleMoves = game.getPossibleMoves(startPosition);
@@ -34,7 +36,8 @@ public class JanggiController {
 
             outputView.printAvailablePositions(possibleMoves);
             Position destination = RetryInput.read(() -> getDestination(possibleMoves));
-            game.move(startPosition, destination);
+            //game.move(startPosition, destination);
+            pieceService.movePiece(game, startPosition, destination);
         }
     }
 

@@ -5,6 +5,7 @@ import domain.board.BoardInitializer;
 import domain.coordinate.Position;
 
 import java.util.List;
+import java.util.Map;
 
 public class Game {
 
@@ -52,7 +53,11 @@ public class Game {
         return board.getPossibleMoves(start);
     }
 
-    public CellSnapshot[][] toSnapshot() {
+    public CellSnapshot[][] getBoardSnapshot() {
         return board.toSnapshot();
+    }
+
+    public Map<Position, CellSnapshot> getBoardSnapshotMap() {
+        return board.toSnapshotMap();
     }
 }
