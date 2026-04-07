@@ -2,6 +2,7 @@ package janggi.domain.board;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import janggi.domain.common.Position;
@@ -46,6 +47,20 @@ public class BoardTest {
         // then
         assertThat(board.hasPiece(movePiecePosition)).isFalse();
         assertThat(board.hasPiece(destinationPosition)).isTrue();
+    }
+
+    @Test
+    @DisplayName("빈 칸은 이동시킬 수 없다")
+    void 빈_칸_이동_불가() {
+        // given
+        Board board = new Board();
+        Position emptyPosition = new Position(1, 3);
+        Position destinationPosition = new Position(1, 2);
+
+        // when & then
+        assertThatThrownBy(() -> board.movePiece(emptyPosition, destinationPosition))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 빈 칸은 이동시킬 수 없습니다.");
     }
 
     @Test
