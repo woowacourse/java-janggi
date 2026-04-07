@@ -168,3 +168,22 @@
     ```
     [ERROR] 현재 초나라턴입니다. (현재 누구 턴인지 동적으로 안내)
     ```
+
+---
+
+## 실행 및 테스트 방법
+
+이번 사이클은 데이터베이스 기반의 미션으로, 로컬 환경에서 MySQL 실행이 필요합니다.
+리뷰 시 아래 설정을 참고하여 테스트 환경을 구성해 주시면 됩니다!
+
+### 1. DB 환경 설정 (Docker)
+터미널에서 아래 명령어를 실행하여 MySQL 컨테이너를 구동하시면 됩니다.
+
+```bash
+docker run -d \
+  --name janggi-mysql \
+  -p 3306:3306 \
+  -e MYSQL_ROOT_PASSWORD=1234 \
+  -e MYSQL_DATABASE=janggi \
+  mysql
+```
