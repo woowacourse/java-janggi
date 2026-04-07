@@ -56,8 +56,8 @@ class CannonMoveStrategyTest {
 
         @Test
         void 포는_오른쪽_직선_방향의_이동_경로를_가진다() {
-            Position from = new Position(6, 0);
             Position to = new Position(8, 0);
+            Position from = new Position(6, 0);
 
             List<Position> path = cannonMoveStrategy.getPath(from, to);
 
@@ -73,6 +73,18 @@ class CannonMoveStrategyTest {
 
             assertThatThrownBy(() -> cannonMoveStrategy.getPath(from, to))
                     .isInstanceOf(IllegalArgumentException.class);
+        }
+
+        @Test
+        void 포는_궁성_내에서_대각선_방향으로_이동할_수_있다() {
+            Position from = new Position(3, 9);
+            Position to = new Position(5, 7);
+
+            List<Position> path = cannonMoveStrategy.getPath(from, to);
+
+            assertThat(path).containsExactly(
+                    new Position(4, 8),
+                    new Position(5, 7));
         }
     }
 
