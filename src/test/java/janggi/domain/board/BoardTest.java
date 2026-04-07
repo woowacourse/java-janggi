@@ -28,8 +28,9 @@ public class BoardTest {
         assertThat(piecePosition).hasSize(32);
     }
 
-    @Test
     @DisplayName("보드 초기화 시, 특정 위치에 올바른 기물이 배치된다.")
+
+    @Test
     void 보드_초기화_위치_테스트() {
         Map<Position, Piece> piecePosition = board.getPiecePosition();
 
@@ -44,8 +45,8 @@ public class BoardTest {
         );
     }
 
-    @Test
     @DisplayName("상대방의 기물을 선택하면 예외가 발생한다.")
+    @Test
     void 상대_기물_선택_예외_테스트() {
         // given
         Position hanPiecePosition = new Position(0, 0); // 한나라 기물 위치
@@ -56,8 +57,8 @@ public class BoardTest {
                 .hasMessageContaining("[ERROR] 상대방의 기물은 선택할 수 없습니다.");
     }
 
-    @Test
     @DisplayName("기물을 이동시키는 경우, 이전 위치는 비고, 새로운 위치에 기물이 존재한다.")
+    @Test
     void 기물_이동_테스트() {
         // given
         Position selected = new Position(6, 0); // 초나라 졸 위치
@@ -74,8 +75,8 @@ public class BoardTest {
         );
     }
 
-    @Test
     @DisplayName("기물이 없는 빈 칸을 선택하려 하는 경우, IllegalArgumentException이 발생한다.")
+    @Test
     void 빈_칸_선택_예외_테스트() {
         // given
         Board board = Board.initialize();
@@ -88,5 +89,30 @@ public class BoardTest {
                 .hasMessageContaining("[ERROR] 해당 위치에 기물이 없습니다.");
 
         assertThat(board.getPiecePosition().get(targetPosition)).isNull();
+    }
+
+    @DisplayName("양쪽 궁이 모두 존재하는 경우, 게임은 계속 진행된다.")
+    @Test
+    void 양쪽_궁_모두_존재_테스트() {
+        // given
+        Board board = Board.initialize();
+
+        // when & then
+        assertThat(board.isGameOver()).isFalse();
+    }
+
+    @DisplayName("한쪽 궁이 잡히면, 게임은 종료된다.")
+    @Test
+    void 궁_제거_게임_종료_테스트() {
+        // given
+        Board board = Board.initialize();
+
+        // when
+        Position selectedPosition = new Position(6, 4);
+        Position targetPosition = new Position(1, 4);
+        board.movePiece(selectedPosition, targetPosition);
+
+        // then
+        assertThat(board.isGameOver()).isTrue();
     }
 }

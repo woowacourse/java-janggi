@@ -174,4 +174,13 @@ public class Board {
         Piece movingPiece = piecePosition.remove(selected);
         piecePosition.put(target, movingPiece);
     }
+
+    public boolean isGameOver() {
+        return !hasGeneral(Side.CHO) || !hasGeneral(Side.HAN);
+    }
+
+    private boolean hasGeneral(Side side) {
+        return piecePosition.values().stream()
+                .anyMatch(piece -> piece.isOwnedBy(side) && piece.isGeneral());
+    }
 }

@@ -49,6 +49,12 @@ public class JanggiGame {
             PlayerDTO currentPlayer = players.getCurrentPlayer();
             printPlayerTurnNotice(currentPlayer);
             playerTurn(currentPlayer);
+
+            if (board.isGameOver()) {
+                outputView.printWinner(currentPlayer.name());
+                break;
+            }
+
             players.switchTurn();
         }
     }
