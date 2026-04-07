@@ -16,7 +16,7 @@ class JanggiGameTest {
         Board board = new Board(new HashMap<>(BoardFixtureFactory.create("1", "1")
                 .moveIgnoringValidation(Coordination.of(1, 10), Coordination.of(5, 3))
                 .map()));
-        JanggiGame janggiGame = JanggiGame.from(board);
+        JanggiGame janggiGame = JanggiGame.restore(new GameState(Turn.CHO, board.getBoard()));
 
         janggiGame.playTurn(List.of(5, 3), List.of(5, 2));
 

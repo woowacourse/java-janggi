@@ -5,6 +5,7 @@ import domain.board.BoardFactory;
 import domain.board.formation.FormationType;
 import domain.coordination.Coordination;
 import domain.piece.Team;
+import java.util.HashMap;
 import java.util.List;
 import view.dto.BoardDto;
 
@@ -21,8 +22,10 @@ public class JanggiGame {
         return new JanggiGame(BoardFactory.create(choFormat, hanFormat));
     }
 
-    static JanggiGame from(Board board) {
-        return new JanggiGame(board);
+    public static JanggiGame restore(GameState gameState) {
+        JanggiGame janggiGame = new JanggiGame(new Board(new HashMap<>(gameState.board())));
+        janggiGame.turn = gameState.currentTurn();
+        return janggiGame;
     }
 
     public boolean isGameEnd() {
@@ -43,6 +46,10 @@ public class JanggiGame {
 
     public BoardDto createBoardDto() {
         return BoardDto.from(board.getBoard());
+    }
+
+    public GameState snapshot() {
+        return new GameState(turn, board.getBoard());
     }
 
     public void checkSameTeam(List<Integer> pieceLocation, Turn turn) {
