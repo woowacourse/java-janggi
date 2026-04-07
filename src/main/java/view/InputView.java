@@ -23,7 +23,7 @@ public class InputView {
                 게임을 시작합니다.
                 1: 새 게임
                 2: 이어하기
-                3: 기록보기""");
+                3: 기록 조회""");
         return Validator.validateNumber(scanner.nextLine());
     }
 

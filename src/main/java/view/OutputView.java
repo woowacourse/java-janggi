@@ -2,6 +2,7 @@ package view;
 
 import domain.constant.Country;
 import domain.constant.PieceType;
+import dto.GameRecordDto;
 import java.util.List;
 import java.util.Map;
 import dto.BoardDto;
@@ -91,5 +92,15 @@ public class OutputView {
 
     public void printNewGameStart() {
         System.out.println("\n저장된 게임이 존재하지 않습니다. 새 게임을 시작합니다.\n");
+    }
+
+    public void printGameRecords(List<GameRecordDto> gameRecordDtos) {
+        if (gameRecordDtos.isEmpty()) {
+            System.out.println("종료된 게임이 없습니다. 게임을 시작합니다.");
+        }
+
+        for (GameRecordDto gameRecordDto : gameRecordDtos) {
+            System.out.print(String.format(formatter.formatGameRecord(gameRecordDto)));
+        }
     }
 }

@@ -1,6 +1,8 @@
 package dao;
 
 import config.DBConnection;
+import domain.constant.Country;
+import dto.GameRecordDto;
 import dto.SavedGameDto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -96,5 +98,28 @@ public class JanggiGameDao {
         } catch (SQLException e) {
             System.out.println("게임 종료 중 에러 발생: " + e.getMessage());
         }
+    }
+
+    public List<GameRecordDto> getGameRecords() {
+        String sql = "SELECT id, turn, cho_score, han_score FROM game_state WHERE is_finished = TRUE";
+        List<GameRecordDto> gameRecordDtos = new ArrayList<>();
+
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                gameRecordDtos.add(new GameRecordDto(
+                        rs.getInt("id"),
+                        Country.valueOf(rs.getString("turn")).getName(),
+                        rs.getDouble("cho_score"),
+                        rs.getDouble("han_score"))
+                );
+            }
+        } catch (SQLException e) {
+            System.out.println("게임 목록 조회 중 에러 발생: " + e.getMessage());
+        }
+
+        return gameRecordDtos;
     }
 }

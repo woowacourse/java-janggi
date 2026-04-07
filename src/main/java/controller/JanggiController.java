@@ -1,5 +1,6 @@
 package controller;
 
+import dto.GameRecordDto;
 import dto.SavedGameDto;
 import java.util.List;
 import java.util.Optional;
@@ -35,7 +36,11 @@ public class JanggiController {
             startNewGame();
             return;
         }
-        loadSavedGame();
+        if (gameMenuInput == 2) {
+            loadSavedGame();
+            return;
+        }
+        selectGameRecord();
     }
 
     private void startNewGame() {
@@ -48,13 +53,19 @@ public class JanggiController {
     }
 
     private void loadSavedGame() {
-        List<SavedGameDto> savedGames = janggiService.getSavedGames();
-        if (savedGames.isEmpty()) {
+        List<SavedGameDto> savedGameDtos = janggiService.getSavedGames();
+        if (savedGameDtos.isEmpty()) {
             outputView.printNewGameStart();
             startNewGame();
             return;
         }
-        startSavedGame(savedGames);
+        startSavedGame(savedGameDtos);
+    }
+
+    private void selectGameRecord() {
+        List<GameRecordDto> gameRecordDtos = janggiService.getGameRecords();
+        outputView.printGameRecords(gameRecordDtos);
+        run();
     }
 
     private void startSavedGame(List<SavedGameDto> savedGames) {

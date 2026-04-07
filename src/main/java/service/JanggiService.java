@@ -10,6 +10,7 @@ import domain.constant.Country;
 import domain.constant.MaSang;
 import domain.constant.PieceType;
 import dto.BoardDto;
+import dto.GameRecordDto;
 import dto.PieceDto;
 import dto.PositionDto;
 import dto.SavedGameDto;
@@ -89,8 +90,8 @@ public class JanggiService {
     }
 
     public Board getSavedBoard(int gameId) {
-        List<SavedPieceDto> savedPieces = pieceDao.getSavedBoard(gameId);
-        return new Board(BoardFactory.createLoadBoard(savedPieces));
+        List<SavedPieceDto> savedPieceDtos = pieceDao.getSavedBoard(gameId);
+        return new Board(BoardFactory.createLoadBoard(savedPieceDtos));
     }
 
     public JanggiGame loadGame(int gameId, Board board) {
@@ -100,5 +101,9 @@ public class JanggiService {
 
     public void finishGame(int gameId, JanggiGame janggiGame) {
         janggiGameDao.finishGame(gameId, janggiGame.calculateChoScore(), janggiGame.calculateHanScore());
+    }
+
+    public List<GameRecordDto> getGameRecords() {
+        return janggiGameDao.getGameRecords();
     }
 }

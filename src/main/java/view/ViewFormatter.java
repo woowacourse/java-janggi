@@ -1,5 +1,6 @@
 package view;
 
+import dto.GameRecordDto;
 import dto.SavedGameDto;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -72,5 +73,22 @@ public class ViewFormatter {
     private String formatModifiedDate(LocalDateTime modifiedDate) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         return modifiedDate.format(formatter);
+    }
+
+    public String formatGameRecord(GameRecordDto gameRecordDto) {
+        return String.format("""
+                
+                ----------------
+                
+                [%d번]%n
+                승리 : %s%n
+                초나라 점수 : %.1f%n
+                한나라 점수 : %.1f%n
+                ----------------
+                
+                """, gameRecordDto.gameId(),
+                gameRecordDto.country(),
+                gameRecordDto.choScore(),
+                gameRecordDto.hanScore());
     }
 }
