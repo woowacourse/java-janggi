@@ -19,14 +19,6 @@ public enum SetUpEntity {
         this.boardSetUp = boardSetUp;
     }
 
-    public static SetUpEntity from(BoardSetUp boardSetUp) {
-        for (SetUpEntity value : values()) {
-            if (boardSetUp.equals(value.boardSetUp)) {
-                return value;
-            }
-        }
-        throw new IllegalStateException("SetUpEntity 에 존재하지 BoardSetUp 입니다.");
-    }
 
     public BoardSetUp getBoardSetUp() {
         return boardSetUp;

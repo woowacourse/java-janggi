@@ -8,7 +8,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import janggi.domain.board.setup.InElephantSetUp;
 import janggi.domain.game.Game;
 import janggi.entity.GameEntity;
 import janggi.entity.SetUpEntity;
@@ -41,8 +40,8 @@ class GameServiceTest {
 
         // Act
         Game game = gameService.createGame("테스트 게임",
-                InElephantSetUp.INSTANCE,
-                InElephantSetUp.INSTANCE);
+                SetUpEntity.IN_ELEPHANT.getBoardSetUp(),
+                SetUpEntity.IN_ELEPHANT.getBoardSetUp());
 
         // Assert
         assertEquals(1, game.getId());

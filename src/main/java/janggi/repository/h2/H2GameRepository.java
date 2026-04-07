@@ -2,10 +2,10 @@ package janggi.repository.h2;
 
 import janggi.domain.side.Side;
 import janggi.entity.GameEntity;
-import janggi.entity.SetUpEntity;
 import janggi.entity.Status;
 import janggi.repository.GameRepository;
 import janggi.repository.JdbcDataSource;
+import janggi.view.BoardSetUpFormat;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -137,8 +137,8 @@ public class H2GameRepository implements GameRepository {
         return new GameEntity(
                 resultSet.getInt("id"),
                 resultSet.getString("name"),
-                SetUpEntity.valueOf(resultSet.getString("cho_set_up")),
-                SetUpEntity.valueOf(resultSet.getString("han_set_up")),
+                BoardSetUpFormat.valueOf(resultSet.getString("cho_set_up")),
+                BoardSetUpFormat.valueOf(resultSet.getString("han_set_up")),
                 Status.valueOf(resultSet.getString("status")),
                 getWinner(resultSet)
         );

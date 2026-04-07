@@ -20,9 +20,7 @@ public class GameService {
 
     public Game createGame(String gameName, BoardSetUp choSetUp, BoardSetUp hanSetUp) {
         Integer id = gameRepository.save(GameEntity.of(gameName, choSetUp, hanSetUp));
-        Game game = Game.createGame(choSetUp, hanSetUp);
-        game.assignId(id);
-        return game;
+        return Game.createGameWithId(id, choSetUp, hanSetUp);
     }
 
     public List<String> findAllGameNames() {
@@ -35,8 +33,7 @@ public class GameService {
         BoardSetUp choBoardSetUp = gameEntity.choSetUp().getBoardSetUp();
         BoardSetUp hanBoardSetUp = gameEntity.hanSetUp().getBoardSetUp();
 
-        Game game = Game.createGame(choBoardSetUp, hanBoardSetUp);
-        game.assignId(gameEntity.id());
+        Game game = Game.createGameWithId(gameEntity.id(), choBoardSetUp, hanBoardSetUp);
         List<MoveEntity> moveEntities = moveRepository.findByGameIdOrderByMoveNumber(gameEntity.id());
         moveEntities.forEach(moveEntity -> loadMove(game, moveEntity));
         return game;

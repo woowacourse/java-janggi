@@ -2,18 +2,19 @@ package janggi.entity;
 
 import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.side.Side;
+import janggi.view.BoardSetUpFormat;
 
 public record GameEntity(
         Integer id,
         String name,
-        SetUpEntity choSetUp,
-        SetUpEntity hanSetUp,
+        BoardSetUpFormat choSetUp,
+        BoardSetUpFormat hanSetUp,
         Status status,
         Side winner
 ) {
 
     public static GameEntity of(String gameName, BoardSetUp choSetUp, BoardSetUp hanSetUp) {
-        return new GameEntity(null, gameName, SetUpEntity.from(choSetUp), SetUpEntity.from(hanSetUp),
+        return new GameEntity(null, gameName, BoardSetUpFormat.from(choSetUp), BoardSetUpFormat.from(hanSetUp),
                 Status.IN_PROGRESS, null);
     }
 }
