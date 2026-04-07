@@ -35,7 +35,9 @@ public class DatabaseConnection {
                     .getResourceAsStream("schema.sql")
                     .readAllBytes());
             statement.execute(sql);
-        } catch (Exception e) {
+        } catch (IOException e) {
+            throw new IllegalStateException("스키마 파일을 읽을 수 없습니다.", e);
+        } catch (SQLException e) {
             throw new IllegalStateException("스키마 초기화에 실패했습니다.", e);
         }
     }
