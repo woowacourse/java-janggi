@@ -30,3 +30,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### DB(H2) ###
+*.db
