@@ -15,11 +15,14 @@ import java.util.Map;
 
 public class PieceRepository {
 
-    public void saveAll(Long gameId, Board board) {
-        String sql = "INSERT INTO piece (game_id, row_pos, col_pos, piece_type, team) VALUES (?, ?, ?, ?, ?)";
+    private static final String INSERT_PIECE = "INSERT INTO piece (game_id, row_pos, col_pos, piece_type, team) VALUES (?, ?, ?, ?, ?)";
+    private static final String SELECT_BY_GAME_ID = "SELECT row_pos, col_pos, piece_type, team FROM piece WHERE game_id = ?";
+    private static final String DELETE_BY_POSITION = "DELETE FROM piece WHERE game_id = ? AND row_pos = ? AND col_pos = ?";
+    private static final String UPDATE_POSITION = "UPDATE piece SET row_pos = ?, col_pos = ? WHERE game_id = ? AND row_pos = ? AND col_pos = ?";
 
+    public void saveAll(Long gameId, Board board) {
         try (Connection conn = DBConnectionManager.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             PreparedStatement pstmt = conn.prepareStatement(INSERT_PIECE)) {
 
             Map<Position, Piece> pieces = board.findAllPieces();
             for (Map.Entry<Position, Piece> entry : pieces.entrySet()) {
@@ -39,10 +42,8 @@ public class PieceRepository {
     }
 
     public Board findByGameId(Long gameId) {
-        String sql = "SELECT row_pos, col_pos, piece_type, team FROM piece WHERE game_id = ?";
-
         try (Connection conn = DBConnectionManager.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             PreparedStatement pstmt = conn.prepareStatement(SELECT_BY_GAME_ID)) {
 
             pstmt.setLong(1, gameId);
             ResultSet rs = pstmt.executeQuery();
@@ -68,10 +69,8 @@ public class PieceRepository {
     }
 
     private void deleteByPosition(Long gameId, Position position) {
-        String sql = "DELETE FROM piece WHERE game_id = ? AND row_pos = ? AND col_pos = ?";
-
         try (Connection conn = DBConnectionManager.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             PreparedStatement pstmt = conn.prepareStatement(DELETE_BY_POSITION)) {
 
             pstmt.setLong(1, gameId);
             pstmt.setInt(2, position.getRow());
@@ -84,10 +83,8 @@ public class PieceRepository {
     }
 
     private void updatePosition(Long gameId, Position from, Position to) {
-        String sql = "UPDATE piece SET row_pos = ?, col_pos = ? WHERE game_id = ? AND row_pos = ? AND col_pos = ?";
-
         try (Connection conn = DBConnectionManager.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             PreparedStatement pstmt = conn.prepareStatement(UPDATE_POSITION)) {
 
             pstmt.setInt(1, to.getRow());
             pstmt.setInt(2, to.getCol());

@@ -13,11 +13,15 @@ import java.util.List;
 
 public class GameRepository {
 
-    public JanggiGame save(JanggiGame game) {
-        String sql = "INSERT INTO game (current_turn, game_status, winner) VALUES (?, ?, ?)";
+    private static final String INSERT_GAME = "INSERT INTO game (current_turn, game_status, winner) VALUES (?, ?, ?)";
+    private static final String SELECT_PLAYING_GAMES = "SELECT game_id, current_turn, game_status, winner FROM game WHERE game_status = 'PLAYING'";
+    private static final String UPDATE_TURN = "UPDATE game SET current_turn = ?, updated_at = datetime('now', 'localtime') WHERE game_id = ?";
+    private static final String UPDATE_FINISHED = "UPDATE game SET game_status = 'FINISHED', winner = ?, updated_at = datetime('now', 'localtime') WHERE game_id = ?";
+    private static final String SELECT_BY_ID = "SELECT game_id, current_turn, game_status, winner FROM game WHERE game_id = ?";
 
+    public JanggiGame save(JanggiGame game) {
         try (Connection conn = DBConnectionManager.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement pstmt = conn.prepareStatement(INSERT_GAME, Statement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setString(1, game.findCurrentTeam().name());
             pstmt.setString(2, toGameStatus(game));
@@ -37,10 +41,8 @@ public class GameRepository {
     }
 
     public List<JanggiGame> findPlayingGames() {
-        String sql = "SELECT game_id, current_turn, game_status, winner FROM game WHERE game_status = 'PLAYING'";
-
         try (Connection conn = DBConnectionManager.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             PreparedStatement pstmt = conn.prepareStatement(SELECT_PLAYING_GAMES)) {
 
             ResultSet rs = pstmt.executeQuery();
             List<JanggiGame> games = new ArrayList<>();
@@ -56,10 +58,8 @@ public class GameRepository {
     }
 
     public void updateTurn(JanggiGame game) {
-        String sql = "UPDATE game SET current_turn = ?, updated_at = datetime('now', 'localtime') WHERE game_id = ?";
-
         try (Connection conn = DBConnectionManager.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             PreparedStatement pstmt = conn.prepareStatement(UPDATE_TURN)) {
 
             pstmt.setString(1, game.findCurrentTeam().name());
             pstmt.setLong(2, game.findGameId());
@@ -71,10 +71,8 @@ public class GameRepository {
     }
 
     public void updateFinished(JanggiGame game) {
-        String sql = "UPDATE game SET game_status = 'FINISHED', winner = ?, updated_at = datetime('now', 'localtime') WHERE game_id = ?";
-
         try (Connection conn = DBConnectionManager.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             PreparedStatement pstmt = conn.prepareStatement(UPDATE_FINISHED)) {
 
             pstmt.setString(1, toWinnerString(game));
             pstmt.setLong(2, game.findGameId());
@@ -82,6 +80,24 @@ public class GameRepository {
 
         } catch (SQLException e) {
             throw new RuntimeException("게임 종료 갱신에 실패했습니다.", e);
+        }
+    }
+
+    public JanggiGame findById(Long gameId) {
+        try (Connection conn = DBConnectionManager.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(SELECT_BY_ID)) {
+
+            pstmt.setLong(1, gameId);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (!rs.next()) {
+                throw new IllegalArgumentException("존재하지 않는 게임입니다. id=" + gameId);
+            }
+
+            return toJanggiGame(rs);
+
+        } catch (SQLException e) {
+            throw new RuntimeException("게임 조회에 실패했습니다.", e);
         }
     }
 
@@ -110,26 +126,4 @@ public class GameRepository {
         }
         return game.findWinner().name();
     }
-
-    public JanggiGame findById(Long gameId) { // PR
-        String sql = "SELECT game_id, current_turn, game_status, winner FROM game WHERE game_id = ?";
-
-        try (Connection conn = DBConnectionManager.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setLong(1, gameId);
-            ResultSet rs = pstmt.executeQuery();
-
-            if (!rs.next()) {
-                throw new IllegalArgumentException("존재하지 않는 게임입니다. id=" + gameId);
-            }
-
-            return toJanggiGame(rs);
-
-        } catch (SQLException e) {
-            throw new RuntimeException("게임 조회에 실패했습니다.", e);
-        }
-    }
-
-
 }

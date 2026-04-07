@@ -27,10 +27,11 @@ class PieceRepositoryTest {
     @Test
     void 보드기물들을_저장하고_복원한다() {
         Board board = new Board();
-        Long gameId = gameRepository.save(new JanggiGame());
-        pieceRepository.saveAll(gameId, board);
+        JanggiGame game = gameRepository.save(new JanggiGame());
 
-        Board restored = pieceRepository.findByGameId(gameId);
+        pieceRepository.saveAll(game.findGameId(), board);
+
+        Board restored = pieceRepository.findByGameId(game.findGameId());
 
         Map<Position, Piece> pieces = restored.findAllPieces();
         assertThat(pieces).hasSize(32);
@@ -41,12 +42,12 @@ class PieceRepositoryTest {
         Board board = Board.of(Map.of(
                 new Position(0, 0), new Tank(Team.HAN)
         ));
-        Long gameId = gameRepository.save(new JanggiGame());
-        pieceRepository.saveAll(gameId, board);
+        JanggiGame game = gameRepository.save(new JanggiGame());
+        pieceRepository.saveAll(game.findGameId(), board);
 
-        pieceRepository.movePiece(gameId, new Position(0, 0), new Position(0, 3));
+        pieceRepository.movePiece(game.findGameId(), new Position(0, 0), new Position(0, 3));
 
-        Board restored = pieceRepository.findByGameId(gameId);
+        Board restored = pieceRepository.findByGameId(game.findGameId());
         Map<Position, Piece> pieces = restored.findAllPieces();
         assertThat(pieces).hasSize(1);
         assertThat(pieces.containsKey(new Position(0, 3))).isTrue();
@@ -54,18 +55,17 @@ class PieceRepositoryTest {
     }
 
     @Test
-//PR
     void 상대_기물을_잡으며_이동하면_잡힌_기물이_삭제된다() {
         Board board = Board.of(Map.of(
                 new Position(0, 0), new Tank(Team.HAN),
                 new Position(0, 3), new Soldier(Team.CHO)
         ));
-        Long gameId = gameRepository.save(new JanggiGame());
-        pieceRepository.saveAll(gameId, board);
+        JanggiGame game = gameRepository.save(new JanggiGame());
+        pieceRepository.saveAll(game.findGameId(), board);
 
-        pieceRepository.movePiece(gameId, new Position(0, 0), new Position(0, 3));
+        pieceRepository.movePiece(game.findGameId(), new Position(0, 0), new Position(0, 3));
 
-        Board restored = pieceRepository.findByGameId(gameId);
+        Board restored = pieceRepository.findByGameId(game.findGameId());
         Map<Position, Piece> pieces = restored.findAllPieces();
         assertThat(pieces).hasSize(1);
         assertThat(pieces.get(new Position(0, 3))).isInstanceOf(Tank.class);
