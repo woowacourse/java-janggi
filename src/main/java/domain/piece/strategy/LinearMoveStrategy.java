@@ -1,5 +1,6 @@
 package domain.piece.strategy;
 
+import domain.board.Palace;
 import domain.board.Position;
 import domain.path.Direction;
 
@@ -17,12 +18,20 @@ public abstract class LinearMoveStrategy implements MoveStrategy {
         int deltaX = departure.calculateDeltaX(destination);
         int deltaY = departure.calculateDeltaY(destination);
 
-        validateLinearMove(deltaX, deltaY);
+        validateLinearMove(deltaX, deltaY, isInPalace(departure, destination));
 
         return Direction.decideDirection(deltaX, deltaY);
     }
 
-    private void validateLinearMove(int deltaX, int deltaY) {
+    private boolean isInPalace(Position departure, Position destination) {
+        return Palace.isPalace(departure) && Palace.isPalace(destination);
+    }
+
+    private void validateLinearMove(int deltaX, int deltaY, boolean isInPalace) {
+        if (isInPalace) {
+            return;
+        }
+
         if (isNotLinear(deltaX, deltaY)) {
             throw new IllegalArgumentException("직선 방향으로만 이동할 수 있습니다.");
         }
