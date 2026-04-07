@@ -10,7 +10,6 @@ import janggi.dto.TeamResponse;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.List;
-import java.util.Optional;
 
 public class JanggiController {
 
@@ -61,42 +60,34 @@ public class JanggiController {
     }
 
     private Position askMovePiecePositionUntilValid(Board board) {
-        Optional<Position> position = Optional.empty();
-        while (position.isEmpty()) {
-            position = askMovePiecePosition(board, position);
-        }
-        return position.get();
-    }
-
-    private Optional<Position> askMovePiecePosition(Board board, Optional<Position> position) {
-        try {
-            outputView.printMoveInfo();
-            Position input = inputView.readPosition();
-            board.validateMovePiecePosition(input);
-            board.findAvailablePositions(input);
-            position = Optional.of(input);
-        } catch (IllegalArgumentException e) {
-            outputView.printErrorMessage(e.getMessage());
+        boolean isInvalid = true;
+        Position position = null;
+        while (isInvalid) {
+            try {
+                outputView.printMoveInfo();
+                position = inputView.readPosition();
+                board.validateMovePiecePosition(position);
+                board.findAvailablePositions(position);
+                isInvalid = false;
+            } catch (IllegalArgumentException e) {
+                outputView.printErrorMessage(e.getMessage());
+            }
         }
         return position;
     }
 
     private Position askMovePositionUntilValid(Board board, Position movePiecePosition) {
-        Optional<Position> position = Optional.empty();
-        while (position.isEmpty()) {
-            position = askMovePosition(board, movePiecePosition, position);
-        }
-        return position.get();
-    }
-
-    private Optional<Position> askMovePosition(Board board, Position movePiecePosition, Optional<Position> position) {
-        try {
-            outputView.printMoveChoiceInfo();
-            Position input = inputView.readPosition();
-            board.validateDestination(movePiecePosition, input);
-            position = Optional.of(input);
-        } catch (IllegalArgumentException e) {
-            outputView.printErrorMessage(e.getMessage());
+        boolean isInvalid = true;
+        Position position = null;
+        while (isInvalid) {
+            try {
+                outputView.printMoveChoiceInfo();
+                position = inputView.readPosition();
+                board.validateDestination(movePiecePosition, position);
+                isInvalid = false;
+            } catch (IllegalArgumentException e) {
+                outputView.printErrorMessage(e.getMessage());
+            }
         }
         return position;
     }
