@@ -55,16 +55,19 @@ public class JanggiController {
 
     private void moveProcess(Long gameId) {
         Position from = getUntilValid(() -> {
-            Position wantToMove = readPieceWantToMove(gameId);
-            findPlaceablePosition(gameId, wantToMove);
-            return wantToMove;
+            Position source = readPieceWantToMove(gameId);
+            findPlaceablePosition(gameId, source);
+            return source;
         });
 
-        runUntilValid(() -> {
-            Position to = readDestinationPosition();
-            janggiService.movePiece(gameId, from, to);
-            printBoard(gameId);
+        Position to = getUntilValid(() -> {
+            Position destination = readDestinationPosition();
+            janggiService.movePiece(gameId, from, destination);
+            return destination;
         });
+
+        janggiService.saveMovement(gameId, from, to);
+        printBoard(gameId);
     }
 
     private Position readPieceWantToMove(Long gameId) {
@@ -98,19 +101,6 @@ public class JanggiController {
         while (true) {
             try {
                 return supplier.get();
-            } catch (IllegalArgumentException | IllegalStateException e) {
-                outputView.printWarningMessage(e.getMessage());
-            } catch (Exception e) {
-                outputView.printErrorMessage(e.getMessage());
-            }
-        }
-    }
-
-    private void runUntilValid(Runnable runnable) {
-        while (true) {
-            try {
-                runnable.run();
-                break;
             } catch (IllegalArgumentException | IllegalStateException e) {
                 outputView.printWarningMessage(e.getMessage());
             } catch (Exception e) {

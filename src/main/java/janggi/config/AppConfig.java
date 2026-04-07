@@ -4,7 +4,9 @@ import janggi.controller.JanggiController;
 import janggi.controller.JanggiService;
 import janggi.repository.GameRepository;
 import janggi.repository.JdbcGameRepository;
+import janggi.repository.JdbcMovementRepository;
 import janggi.repository.JdbcPieceRepository;
+import janggi.repository.MovementRepository;
 import janggi.repository.PieceRepository;
 import janggi.view.InputView;
 import janggi.view.OutputView;
@@ -16,6 +18,7 @@ public class AppConfig {
 
     private GameRepository gameRepository;
     private PieceRepository pieceRepository;
+    private MovementRepository movementRepository;
 
     private InputView inputView;
     private OutputView outputView;
@@ -29,7 +32,7 @@ public class AppConfig {
 
     private JanggiService service() {
         if (service == null) {
-            service = new JanggiService(gameRepository(), pieceRepository());
+            service = new JanggiService(gameRepository(), pieceRepository(), movementRepository());
         }
         return service;
     }
@@ -46,6 +49,13 @@ public class AppConfig {
             pieceRepository = new JdbcPieceRepository();
         }
         return pieceRepository;
+    }
+
+    private MovementRepository movementRepository() {
+        if (movementRepository == null) {
+            movementRepository = new JdbcMovementRepository();
+        }
+        return movementRepository;
     }
 
     private InputView inputView() {

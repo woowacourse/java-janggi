@@ -8,6 +8,7 @@ import janggi.domain.position.Position;
 import janggi.entity.PieceEntity;
 import janggi.entity.TurnEntity;
 import janggi.repository.GameRepository;
+import janggi.repository.MovementRepository;
 import janggi.repository.PieceRepository;
 import java.util.List;
 import java.util.Map;
@@ -16,10 +17,13 @@ public class JanggiService {
 
     private final GameRepository gameRepository;
     private final PieceRepository pieceRepository;
+    private final MovementRepository movementRepository;
 
-    public JanggiService(GameRepository gameRepository, PieceRepository pieceRepository) {
+    public JanggiService(GameRepository gameRepository, PieceRepository pieceRepository,
+                         MovementRepository movementRepository) {
         this.gameRepository = gameRepository;
         this.pieceRepository = pieceRepository;
+        this.movementRepository = movementRepository;
     }
 
     public Long makeGame(Map<Dynasty, HorseElephantPosition> horseElephantPositions) {
@@ -44,6 +48,10 @@ public class JanggiService {
 
         pieceRepository.updatePiece(gameId, from, to);
         gameRepository.updateTurn(gameId, TurnEntity.toEntity(game));
+    }
+
+    public void saveMovement(Long gameId, Position from, Position to) {
+        movementRepository.save(gameId, from, to);
     }
 
 }

@@ -34,10 +34,20 @@ public class DatabaseManager {
                     team VARCHAR(8) NOT NULL,
                     type VARCHAR(16) NOT NULL,
                 
-                    PRIMARY KEY (id),
-                    CONSTRAINT fk_piece_game
-                        FOREIGN KEY (janggi_game_id) REFERENCES janggi_game(id)
-                        ON DELETE CASCADE
+                    PRIMARY KEY (id)
+                );
+                """;
+
+        String movementTableSql = """
+                CREATE TABLE IF NOT EXISTS movement (
+                    id BIGINT NOT NULL AUTO_INCREMENT,
+                    janggi_game_id BIGINT NOT NULL,
+                    src_row_pos INT NOT NULL,
+                    src_col_pos INT NOT NULL,
+                    dest_row_pos INT NOT NULL,
+                    dest_col_pos INT NOT NULL,
+                
+                    PRIMARY KEY (id)                
                 );
                 """;
 
@@ -45,6 +55,7 @@ public class DatabaseManager {
              Statement statement = connection.createStatement()) {
             statement.execute(gameTableSql);
             statement.execute(pieceTableSql);
+            statement.execute(movementTableSql);
         } catch (SQLException e) {
             throw new RuntimeException("DB 초기화 실패", e);
         }
