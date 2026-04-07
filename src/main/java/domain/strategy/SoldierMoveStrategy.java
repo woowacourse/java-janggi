@@ -30,12 +30,16 @@ public class SoldierMoveStrategy implements MoveStrategy {
             }
         }
 
-        if (isInPalace(from) && isInPalace(to) && isDiagonal(from, to)) {
+        if (isInPalace(from) && isInPalace(to)) {
             if (isDiagonal(from, to)) {
                 return canDiagonalInPalace(from, to);
             }
+        }
 
-            return false;
+        if (isInPalace(from) && !isInPalace(to)) {
+            if (isDiagonal(from, to)) {
+                return false;
+            }
         }
 
         if (isWithdraw(from, to, mover)) {
@@ -47,7 +51,31 @@ public class SoldierMoveStrategy implements MoveStrategy {
             return true;
         }
 
+        if (hanSoldierCanDiagonalMoveInPalace(from, to) || chuSoldierCanDiagonalMoveInPalace(from, to)) {
+            return false;
+        }
+
         return mover.isAnotherTeam(target);
+    }
+
+    private boolean chuSoldierCanDiagonalMoveInPalace(Position from, Position to) {
+        if ((from.getRow() == 7 && from.getCol() == 4) || (from.getRow() == 8 && from.getCol() == 3)
+                || (from.getRow() == 8 && from.getCol() == 5)) {
+            if (isDiagonal(from, to)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean hanSoldierCanDiagonalMoveInPalace(Position from, Position to) {
+        if ((from.getRow() == 2 && from.getCol() == 4) || (from.getRow() == 1 && from.getCol() == 3)
+                || (from.getRow() == 1 && from.getCol() == 5)) {
+            if (isDiagonal(from, to)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean isWithdraw(final Position from, final Position to, final Piece mover) {
