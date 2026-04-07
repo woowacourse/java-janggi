@@ -60,10 +60,13 @@ class ElephantTest {
             AlivePieces alivePieces = new AlivePieces(Map.of(pathNode, blockingPiece));
 
             // when
-            boolean canMove = elephant.canMove(CURRENT_INTERSECTION, destination, alivePieces);
+            List<Intersection> movableIntersections = elephant.movableIntersections(
+                    CURRENT_INTERSECTION,
+                    alivePieces
+            );
 
             // then
-            assertThat(canMove).isFalse();
+            assertThat(movableIntersections).doesNotContain(destination);
         }
 
         @Test

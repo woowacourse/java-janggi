@@ -34,10 +34,13 @@ class PalacePieceTest {
             ));
 
             // when
-            boolean canMove = palacePiece.canMove(CURRENT_INTERSECTION, sameSidePieceIntersection, alivePieces);
+            List<Intersection> movableIntersections = palacePiece.movableIntersections(
+                    CURRENT_INTERSECTION,
+                    alivePieces
+            );
 
             // then
-            assertThat(canMove).isFalse();
+            assertThat(movableIntersections).doesNotContain(sameSidePieceIntersection);
         }
 
         @Test
@@ -73,10 +76,13 @@ class PalacePieceTest {
             ));
 
             // when
-            boolean canMove = palacePiece.canMove(CURRENT_INTERSECTION, oppositeSidePieceIntersection, alivePieces);
+            List<Intersection> movableIntersections = palacePiece.movableIntersections(
+                    CURRENT_INTERSECTION,
+                    alivePieces
+            );
 
             // then
-            assertThat(canMove).isTrue();
+            assertThat(movableIntersections).contains(oppositeSidePieceIntersection);
         }
 
         @Test
@@ -89,10 +95,13 @@ class PalacePieceTest {
             AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
 
             // when
-            boolean canMove = palacePiece.canMove(CURRENT_INTERSECTION, emptyIntersection, emptyAlivePieces);
+            List<Intersection> movableIntersections = palacePiece.movableIntersections(
+                    CURRENT_INTERSECTION,
+                    emptyAlivePieces
+            );
 
             // then
-            assertThat(canMove).isTrue();
+            assertThat(movableIntersections).contains(emptyIntersection);
         }
 
         @Test
@@ -105,10 +114,13 @@ class PalacePieceTest {
             AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
 
             // when
-            boolean canMove = palacePiece.canMove(palaceBorderline, outOfPalace, emptyAlivePieces);
+            List<Intersection> movableIntersections = palacePiece.movableIntersections(
+                    palaceBorderline,
+                    emptyAlivePieces
+            );
 
             // then
-            assertThat(canMove).isFalse();
+            assertThat(movableIntersections).doesNotContain(outOfPalace);
         }
 
         @Test

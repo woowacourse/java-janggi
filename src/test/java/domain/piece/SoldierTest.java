@@ -82,10 +82,13 @@ class SoldierTest {
             ));
 
             // when
-            boolean canMove = soldier.canMove(CURRENT_INTERSECTION, forwardIntersection, alivePieces);
+            List<Intersection> movableIntersections = soldier.movableIntersections(
+                    CURRENT_INTERSECTION,
+                    alivePieces
+            );
 
             // then
-            assertThat(canMove).isFalse();
+            assertThat(movableIntersections).doesNotContain(forwardIntersection);
         }
 
         @ParameterizedTest
@@ -100,10 +103,13 @@ class SoldierTest {
             ));
 
             // when
-            boolean canMove = soldier.canMove(CURRENT_INTERSECTION, forwardIntersection, alivePieces);
+            List<Intersection> movableIntersections = soldier.movableIntersections(
+                    CURRENT_INTERSECTION,
+                    alivePieces
+            );
 
             // then
-            assertThat(canMove).isTrue();
+            assertThat(movableIntersections).contains(forwardIntersection);
         }
 
         @ParameterizedTest
@@ -116,10 +122,13 @@ class SoldierTest {
             AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
 
             // when
-            boolean canMove = soldier.canMove(CURRENT_INTERSECTION, forwardIntersection, emptyAlivePieces);
+            List<Intersection> movableIntersections = soldier.movableIntersections(
+                    CURRENT_INTERSECTION,
+                    emptyAlivePieces
+            );
 
             // then
-            assertThat(canMove).isTrue();
+            assertThat(movableIntersections).contains(forwardIntersection);
         }
 
         @Test
@@ -132,10 +141,13 @@ class SoldierTest {
             AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
 
             // when
-            boolean canMove = soldier.canMove(CURRENT_INTERSECTION, backwardIntersection, emptyAlivePieces);
+            List<Intersection> movableIntersections = soldier.movableIntersections(
+                    CURRENT_INTERSECTION,
+                    emptyAlivePieces
+            );
 
             // then
-            assertThat(canMove).isFalse();
+            assertThat(movableIntersections).doesNotContain(backwardIntersection);
         }
 
         @ParameterizedTest

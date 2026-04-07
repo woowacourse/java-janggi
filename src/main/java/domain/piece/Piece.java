@@ -25,12 +25,6 @@ public abstract class Piece {
         return !hasSameSide(side);
     }
 
-    public abstract boolean canMove(
-            Intersection from,
-            Intersection to,
-            AlivePieces alivePieces
-    );
-
     public abstract List<Intersection> movableIntersections(
             Intersection from,
             AlivePieces alivePieces

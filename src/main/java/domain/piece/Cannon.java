@@ -33,16 +33,6 @@ public final class Cannon extends StaticPositionedPiece {
     }
 
     @Override
-    public boolean canMove(
-            Intersection from,
-            Intersection to,
-            AlivePieces alivePieces
-    ) {
-        return movableIntersections(from, alivePieces)
-                .contains(to);
-    }
-
-    @Override
     public List<Intersection> movableIntersections(
             Intersection from,
             AlivePieces alivePieces
