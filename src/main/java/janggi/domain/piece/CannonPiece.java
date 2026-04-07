@@ -1,11 +1,13 @@
 package janggi.domain.piece;
 
+import janggi.domain.board.Palace;
 import janggi.domain.board.Position;
 import java.util.List;
 import java.util.Map;
 
 public class CannonPiece extends Piece {
-    private static final int REQUIRED_BRIDGE_COUNT = 1;
+    private static final int REQUIRED_PIECES_IN_PATH_COUNT = 1;
+    private static final Palace PALACE = new Palace();
 
     public CannonPiece(Team team) {
         super(team, Name.CANNON);
@@ -13,12 +15,15 @@ public class CannonPiece extends Piece {
 
     @Override
     public boolean canMoveByBasicMovingRule(Position from, Position to) {
-        return canMoveStraight(from, to);
+        return canMoveStraight(from, to) || PALACE.canMoveOnDiagonalLine(from, to);
     }
 
     @Override
     public List<Position> findPath(Position from, Position to) {
-        return findStraightPath(from, to);
+        if (canMoveStraight(from, to)) {
+            return findStraightPath(from, to);
+        }
+        return PALACE.findDiagonalPath(from, to);
     }
 
     @Override
@@ -26,7 +31,7 @@ public class CannonPiece extends Piece {
         if (hasCannonInPath(positionPieces)) {
             return false;
         }
-        if (countPiecesInPath(positionPieces, to) != REQUIRED_BRIDGE_COUNT) {
+        if (countPiecesInPath(positionPieces, to) != REQUIRED_PIECES_IN_PATH_COUNT) {
             return false;
         }
         return canCaptureDestinationPiece(positionPieces, to);

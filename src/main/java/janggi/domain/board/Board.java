@@ -1,6 +1,7 @@
 package janggi.domain.board;
 
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.Team;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -45,6 +46,19 @@ public class Board {
             }
         }
         return positionPieces;
+    }
+
+    public double calculateScore(Team team) {
+        double score = board.values().stream()
+                .filter(piece -> piece.getTeam() == team)
+                .mapToDouble(Piece::score)
+                .sum();
+
+        if (team == Team.HAN) {
+            return score + 1.5;
+        }
+
+        return score;
     }
 
     private void movePiece(Position from, Position to) {

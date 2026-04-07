@@ -26,14 +26,8 @@ public abstract class Piece {
         return piece.team.equals(this.team);
     }
 
-    protected boolean canMoveOneStep(Position from, Position to) {
-        if (from.distanceX(to) > 1) {
-            return false;
-        }
-        if (from.distanceY(to) > 1) {
-            return false;
-        }
-        return from.distanceX(to) + from.distanceY(to) <= 1;
+    public int score() {
+        return name.score();
     }
 
     protected boolean canMoveStraight(Position from, Position to) {
