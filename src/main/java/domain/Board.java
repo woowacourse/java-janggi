@@ -3,6 +3,7 @@ package domain;
 import domain.piece.Piece;
 
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -75,5 +76,15 @@ public class Board implements BoardReader {
         }
 
         return board.get(position).isSameCamp(camp);
+    }
+
+    public Map<Camp, Integer> getScoreByCamp() {
+       Map<Camp, Integer> scoreByCamp = new EnumMap<>(Camp.class);
+        for (Piece piece : board.values()) {
+            int score = scoreByCamp.getOrDefault(piece.getCamp(), 0) + piece.getScore();
+            scoreByCamp.put(piece.getCamp(), score);
+        }
+
+        return scoreByCamp;
     }
 }

@@ -47,6 +47,7 @@ public class JanggiController {
                 continue;
             }
             printBoard(board);
+            printScore(board);
             camp = turnCamp(camp);
 
             //Todo: 사이클2 왕이 잡히면, 게임이 종료
@@ -78,5 +79,9 @@ public class JanggiController {
 
     private ElephantFormation mappingElephantFormation(int userInput) {
         return ElephantFormation.getFormationType(userInput);
+    }
+
+    private void printScore(Board board) {
+        outputView.printScoreByCamp(board.getScoreByCamp());
     }
 }

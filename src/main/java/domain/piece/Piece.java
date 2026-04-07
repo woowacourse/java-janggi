@@ -36,4 +36,8 @@ public abstract class Piece {
     public Camp getCamp() {
         return this.camp;
     }
+
+    public int getScore() {
+        return pieceType.getScore();
+    }
 }

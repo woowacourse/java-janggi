@@ -71,6 +71,12 @@ public class OutputView {
         return color + symbol + ANSI_RESET;
     }
 
+    public void printScoreByCamp(Map<Camp, Integer> scoreByCamp) {
+        for (Camp camp : scoreByCamp.keySet()) {
+            System.out.println(camp.getCampName() + "의 점수: " + scoreByCamp.get(camp));
+        }
+    }
+
     public void printWrongChoice() {
         System.out.println("잘못된 말 선택입니다.");
     }
