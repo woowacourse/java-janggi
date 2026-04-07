@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ChariotMoveStrategy implements MoveStrategy {
 
-    private static final ChariotMoveStrategy CHARIOT_MOVE_STRATEGY = new ChariotMoveStrategy();
+    private static final MoveStrategy CHARIOT_MOVE_STRATEGY = new ChariotMoveStrategy();
 
     public static MoveStrategy instance() {
         return CHARIOT_MOVE_STRATEGY;

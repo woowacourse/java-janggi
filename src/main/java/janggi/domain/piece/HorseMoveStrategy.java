@@ -9,7 +9,7 @@ import java.util.List;
 
 public class HorseMoveStrategy implements MoveStrategy {
 
-    private static final HorseMoveStrategy HORSE_MOVE_STRATEGY = new HorseMoveStrategy();
+    private static final MoveStrategy HORSE_MOVE_STRATEGY = new HorseMoveStrategy();
 
     public static MoveStrategy instance() {
         return HORSE_MOVE_STRATEGY;

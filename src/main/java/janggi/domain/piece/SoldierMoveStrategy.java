@@ -9,7 +9,7 @@ import java.util.List;
 
 public class SoldierMoveStrategy implements MoveStrategy {
 
-    private static final SoldierMoveStrategy SOLDIER_MOVE_STRATEGY = new SoldierMoveStrategy();
+    private static final MoveStrategy SOLDIER_MOVE_STRATEGY = new SoldierMoveStrategy();
 
     public static MoveStrategy instance() {
         return SOLDIER_MOVE_STRATEGY;

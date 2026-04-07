@@ -12,8 +12,10 @@ public enum HorseElephantPosition {
     private final int rightHorseColumn;
     private final int rightElephantColumn;
 
-    HorseElephantPosition(int leftHorseColumn, int leftElephantColumn,
-                          int rightHorseColumn, int rightElephantColumn) {
+    HorseElephantPosition(
+            int leftHorseColumn, int leftElephantColumn,
+            int rightHorseColumn, int rightElephantColumn
+    ) {
         this.leftHorseColumn = leftHorseColumn;
         this.leftElephantColumn = leftElephantColumn;
         this.rightHorseColumn = rightHorseColumn;
@@ -35,5 +37,5 @@ public enum HorseElephantPosition {
     public int rightElephantColumn() {
         return rightElephantColumn;
     }
-    
+
 }

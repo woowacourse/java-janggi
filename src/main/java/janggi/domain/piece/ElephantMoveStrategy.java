@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ElephantMoveStrategy implements MoveStrategy {
 
-    private static final ElephantMoveStrategy ELEPHANT_MOVE_STRATEGY = new ElephantMoveStrategy();
+    private static final MoveStrategy ELEPHANT_MOVE_STRATEGY = new ElephantMoveStrategy();
 
     public static MoveStrategy instance() {
         return ELEPHANT_MOVE_STRATEGY;

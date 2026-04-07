@@ -9,7 +9,7 @@ import java.util.List;
 
 public class PalaceMoveStrategy implements MoveStrategy {
 
-    private static final PalaceMoveStrategy PALACE_MOVE_STRATEGY = new PalaceMoveStrategy();
+    private static final MoveStrategy PALACE_MOVE_STRATEGY = new PalaceMoveStrategy();
 
     public static MoveStrategy instance() {
         return PALACE_MOVE_STRATEGY;

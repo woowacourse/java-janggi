@@ -47,9 +47,7 @@ public class Board {
     public boolean hasGeneral(Dynasty dynasty) {
         return board.values().stream()
                 .anyMatch(piece ->
-                        piece.isSame(PieceType.GENERAL)
-                                && piece.isSame(dynasty)
-                );
+                        piece.isSame(PieceType.GENERAL) && piece.isSame(dynasty));
     }
 
     public int sumPointsOf(Dynasty dynasty) {

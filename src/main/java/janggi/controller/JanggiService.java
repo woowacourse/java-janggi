@@ -19,8 +19,11 @@ public class JanggiService {
     private final PieceRepository pieceRepository;
     private final MovementRepository movementRepository;
 
-    public JanggiService(GameRepository gameRepository, PieceRepository pieceRepository,
-                         MovementRepository movementRepository) {
+    public JanggiService(
+            GameRepository gameRepository,
+            PieceRepository pieceRepository,
+            MovementRepository movementRepository
+    ) {
         this.gameRepository = gameRepository;
         this.pieceRepository = pieceRepository;
         this.movementRepository = movementRepository;
