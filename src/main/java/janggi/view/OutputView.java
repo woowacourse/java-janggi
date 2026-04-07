@@ -5,6 +5,7 @@ import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Team;
 import janggi.domain.vo.position.Position;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class OutputView {
@@ -28,6 +29,14 @@ public class OutputView {
         }
     }
 
+    public void skipTurn() {
+        System.out.println("움직임 없이 턴을 넘깁니다.");
+    }
+
+    public void printWinner(Team team) {
+        System.out.println(getTeamName(team) + "나라가 이겼습니다.");
+    }
+
     private void printHeader() {
         System.out.print("    ");
 
@@ -41,7 +50,7 @@ public class OutputView {
         if (piece == null || piece.isEmpty()) {
             return "[ . ] ";
         }
-        String team = piece.isSameTeam(Team.CHO) ? "초" : "한";
+        String team = getTeamName(piece.findTeam());
         String symbol = getSymbol(piece.pieceType());
 
         return String.format("[%s%s] ", team, symbol);
@@ -58,5 +67,20 @@ public class OutputView {
             case SOLDIER -> "卒";
             default -> "？";
         };
+    }
+
+    private String getTeamName(Team team) {
+        Map<Team, String> names = new HashMap<>(){
+            {
+                put(Team.CHO, "초");
+                put(Team.HAN, "한");
+            }
+        };
+
+        return names.get(team);
+    }
+
+    public void printResign(Team team) {
+        System.out.println(getTeamName(team) + "나라가 기권을 선언했습니다.");
     }
 }
