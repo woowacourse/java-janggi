@@ -31,9 +31,8 @@ public class MaTest {
         void shouldReturnRouteForReachableLocation() {
             // given
             Piece piece = new Ma(Side.HAN);
-            Intersection base = TestIntersectionUtil.getDefaultIntersection(Location.of(0,0), piece);
-            Intersection destination = TestIntersectionUtil.getDefaultEmptyPieceIntersection(Location.of(1,2));
-
+            Intersection base = TestIntersectionUtil.getDefaultIntersection(Location.of(0, 0), piece);
+            Intersection destination = TestIntersectionUtil.getDefaultEmptyPieceIntersection(Location.of(1, 2));
 
             List<Location> expected = List.of(
                     Location.of(0, 1),
@@ -51,7 +50,7 @@ public class MaTest {
         void shouldThrowExceptionForUnReachableLocation(Location to) {
             // given
             Piece piece = new Ma(Side.CHO);
-            Intersection base = TestIntersectionUtil.getDefaultIntersection(Location.of(0,0), piece);
+            Intersection base = TestIntersectionUtil.getDefaultIntersection(Location.of(0, 0), piece);
             Intersection destination = TestIntersectionUtil.getDefaultEmptyPieceIntersection(to);
 
             // when & then
