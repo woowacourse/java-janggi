@@ -1,5 +1,6 @@
 package domain.board;
 
+import domain.board.dto.Moved;
 import domain.intersection.Intersection;
 import domain.intersection.palace.NormalIntersection;
 import domain.move.rule.MoveRuleManager;
@@ -21,14 +22,15 @@ public class JanggiBoard {
 
     public JanggiBoard(IntersectionGenerator intersectionGenerator) {
         this.intersections = createIntersections(intersectionGenerator);
-    this.moveRuleManager = new MoveRuleManager();
+        this.moveRuleManager = new MoveRuleManager();
     }
 
-    public void tryToMove(Point start, Point end, Team currentTeam) {
+    public Moved tryToMove(Point start, Point end, Team currentTeam) {
         Intersection origin = findOriginIntersection(start, currentTeam);
         Intersection destination = findIntersection(end);
         inspectPath(origin, destination);
         origin.move(destination);
+        return new Moved(origin, destination);
     }
 
     private void inspectPath(Intersection origin, Intersection destination) {
@@ -55,9 +57,7 @@ public class JanggiBoard {
     }
 
     public boolean isGameOver() {
-        return Arrays.stream(Team.values())
-                .filter(team -> team != Team.NONE)
-                .anyMatch(this::isGeneralDead);
+        return isGeneralDead() || hasNotEnoughPieceScore();
     }
 
     public Team getWinner() {
@@ -67,6 +67,12 @@ public class JanggiBoard {
         return Team.HAN;
     }
 
+    public boolean isGeneralDead() {
+        return Arrays.stream(Team.values())
+                .filter(team -> team != Team.NONE)
+                .anyMatch(this::isGeneralDead);
+    }
+
     public boolean isGeneralDead(Team team) {
         return intersections.values().stream()
                 .filter(Intersection::hasPiece)
@@ -74,7 +80,7 @@ public class JanggiBoard {
                 .noneMatch(Intersection::hasGeneral);
     }
 
-    public boolean isDraw() {
+    public boolean hasNotEnoughPieceScore() {
         return calculateTeamScore(Team.HAN) < 30 && calculateTeamScore(Team.CHO) < 30;
     }
 

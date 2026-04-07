@@ -1,12 +1,16 @@
 package controller;
 
 import common.exception.JanggiException;
+import database.JanggiService;
+import database.connection.BoardIdContext;
+import domain.board.BoardSelectCommand;
 import domain.board.Formation;
 import domain.board.JanggiBoard;
 import domain.board.JanggiIntersectionGenerator;
 import domain.board.dto.JanggiBoardDto;
+import domain.board.dto.Moved;
 import domain.piece.Team;
-import domain.point.dto.Command;
+import domain.point.dto.MoveCommand;
 import view.InputReader;
 import view.OutputWriter;
 
@@ -16,16 +20,37 @@ public class JanggiGame {
 
     private final InputReader reader;
     private final OutputWriter writer;
+    private final JanggiService janggiService;
 
-    public JanggiGame(InputReader reader, OutputWriter writer) {
+    public JanggiGame(InputReader reader, OutputWriter writer, JanggiService janggiService) {
         this.reader = reader;
         this.writer = writer;
+        this.janggiService = janggiService;
     }
 
     public void run() {
-        JanggiBoard janggiBoard = generateJanggiBoard();
-        startGame(janggiBoard, Team.HAN);
+        showDoesntEndBoardList();
+        BoardSelectCommand selectCommand = reader.requestBoardSelectCommand();
+        JanggiBoard janggiBoard = getJanggiBoard(selectCommand);
+        startGame(janggiBoard, Team.CHO); // TODO 이 부분을 DB값과 일치하도록 or currentTeam을 Board가 가지도록.
         announceWinner(janggiBoard.getWinner());
+    }
+
+    private void showDoesntEndBoardList() {
+        writer.printExistingPlayingBoard(janggiService.readExistPlayingBoard());
+    }
+
+    // Board PK 추가
+    public JanggiBoard getJanggiBoard(BoardSelectCommand selectCommand) {
+        if (selectCommand.isNewGameCommand()) {
+            JanggiBoard janggiBoard = generateJanggiBoard();
+            Long boardId = janggiService.createBoard(janggiBoard);
+            BoardIdContext.setBoardId(boardId);
+            return janggiBoard;
+        }
+
+        BoardIdContext.setBoardId(selectCommand.select());
+        return janggiService.getExistBoard(selectCommand);
     }
 
     private JanggiBoard generateJanggiBoard() {
@@ -44,17 +69,19 @@ public class JanggiGame {
     }
 
     private void progressGame(JanggiBoard janggiBoard, Team currentTeam) {
-        while (!janggiBoard.isGameOver() || janggiBoard.isDraw()) {
-            progressTurn(janggiBoard, currentTeam);
+        while (!janggiBoard.isGameOver() || janggiBoard.hasNotEnoughPieceScore()) {
+            Moved moved = progressTurn(janggiBoard, currentTeam);
             currentTeam = currentTeam.nextTurn();
+            janggiService.updateTurn(moved, currentTeam);
         }
     }
 
-    public void progressTurn(JanggiBoard janggiBoard, Team currentTeam) {
-        retry(() -> {
-            Command command = requestCommand(currentTeam);
-            janggiBoard.tryToMove(command.start(), command.end(), currentTeam);
+    public Moved progressTurn(JanggiBoard janggiBoard, Team currentTeam) {
+        return retry(() -> {
+            MoveCommand command = requestCommand(currentTeam);
+            Moved moved = janggiBoard.tryToMove(command.start(), command.end(), currentTeam);
             printJanggiBoard(JanggiBoardDto.from(janggiBoard));
+            return moved;
         });
     }
 
@@ -62,7 +89,7 @@ public class JanggiGame {
         writer.printJanggiBoard(boardView);
     }
 
-    private Command requestCommand(Team team) {
+    private MoveCommand requestCommand(Team team) {
         return reader.requestCommand(team);
     }
 
