@@ -9,6 +9,7 @@ import janggi.domain.piece.Team;
 import janggi.domain.position.Column;
 import janggi.domain.position.Position;
 import janggi.domain.position.Row;
+import janggi.dto.GameRoomDto;
 import janggi.entity.GameEntity;
 import janggi.entity.PieceEntity;
 import janggi.repository.GameRepository;
@@ -31,7 +32,7 @@ public class JanggiService {
         this.pieceRepository = pieceRepository;
     }
 
-    public JanggiGame joinGame() {
+    public GameRoomDto joinGame() {
         try (Connection connection = DBConnectionManager.getConnection()) {
             connection.setAutoCommit(false);
 
@@ -41,14 +42,14 @@ public class JanggiService {
                 if (lastGame.isPresent() && "PROGRESS".equals(lastGame.get().getState())) {
                     JanggiGame game = resumeGame(lastGame.get(), connection);
                     connection.commit();
-                    return game;
+                    return new GameRoomDto(lastGame.get().getGameId(), game);
                 }
 
                 int newGameId = lastGame.map(g -> g.getGameId() + 1).orElse(1);
                 JanggiGame game = startNewGame(newGameId, connection);
 
                 connection.commit();
-                return game;
+                return new GameRoomDto(newGameId, game);
             } catch (Exception e) {
                 rollbackQuietly(connection);
                 throw new RuntimeException("DB 업데이트 중 오류 발생", e);
