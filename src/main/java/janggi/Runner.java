@@ -35,9 +35,12 @@ public class Runner {
         play(connection, session);
     }
 
-    private void play(Connection connection, ActiveGameSession session) {
+    private void play(Connection connection, ActiveGameSession session) throws SQLException {
         while (!session.gameManager().isFinished()) {
             session = processTurn(connection, session);
+        }
+        if (session.gameManager().isFinished()) {
+            janggiService.saveFinished(connection, session.gameId(), session.gameManager().isFinished());
         }
     }
 

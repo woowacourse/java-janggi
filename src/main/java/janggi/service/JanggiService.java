@@ -87,4 +87,8 @@ public class JanggiService {
         connection.rollback();
         throw exception;
     }
+
+    public void saveFinished(Connection connection, long gameId, boolean finished) throws SQLException {
+        gameRepository.updateIsFinished(connection, gameId, finished);
+    }
 }

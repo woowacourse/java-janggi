@@ -128,6 +128,16 @@ public class JanggiGameRepository implements GameRepository {
         }
     }
 
+    @Override
+    public void updateIsFinished(Connection connection, long gameId, boolean finished) throws SQLException {
+        String sql = "update game set is_finished = ? where game_id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setBoolean(1, finished);
+            statement.setLong(2, gameId);
+            executeAndValidateUpdate(statement);
+        }
+    }
+
     private void executeAndValidateUpdate(PreparedStatement statement) throws SQLException {
         int affectedRows = statement.executeUpdate();
         if (affectedRows == 0) {

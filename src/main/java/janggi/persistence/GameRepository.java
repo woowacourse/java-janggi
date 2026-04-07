@@ -16,4 +16,6 @@ public interface GameRepository {
     GameManager findByGameId(Connection connection, long gameId, Board board) throws SQLException;
 
     void updateTurn(Connection connection, long gameId, GameManager gameManager) throws SQLException;
+
+    void updateIsFinished(Connection connection, long gameId, boolean finished) throws SQLException;
 }
