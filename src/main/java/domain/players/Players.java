@@ -3,45 +3,40 @@ package domain.players;
 import domain.board.Board;
 import domain.piece.Side;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Players {
-    private final Player choPlayer;
-    private final Player hanPlayer;
-    private Side currentTurn;
+    private final Map<Side, Player> players;
 
     public Players() {
-        this.choPlayer = new Player(Side.CHO);
-        this.hanPlayer = new Player(Side.HAN);
-        this.currentTurn = Side.CHO;
+        players = new LinkedHashMap<>();
+        players.put(Side.HAN, new Player(Side.HAN));
+        players.put(Side.CHO, new Player(Side.CHO));
     }
 
-    public Side getWhoseTurn() {
-        return currentTurn;
+    public Players(Map<Side, Player> players) {
+        this.players = players;
     }
 
-    public void switchTurn() {
-        currentTurn = currentTurn.next();
+    public static Players of(Map<Side, Player> players) {
+        return new Players(players);
     }
 
     public void updateState(Board board) {
-        hanPlayer.updateScore(board.calculateScoreBy(Side.HAN));
-        choPlayer.updateScore(board.calculateScoreBy(Side.CHO));
+        players.get(Side.HAN).updateScore(board.calculateScoreBy(Side.HAN));
+        players.get(Side.CHO).updateScore(board.calculateScoreBy(Side.CHO));
 
         if (board.isFinished()) {
             Side side = board.getWinner();
-            if (side.isHan()) {
-                hanPlayer.updateStatus(PlayerStatus.WIN);
-                choPlayer.updateStatus(PlayerStatus.LOSS);
-            }
-            if (side.isCho()) {
-                choPlayer.updateStatus(PlayerStatus.WIN);
-                hanPlayer.updateStatus(PlayerStatus.LOSS);
-            }
+            players.get(side).updateStatus(PlayerStatus.WIN);
+            players.get(side.next()).updateStatus(PlayerStatus.LOSS);
+
         }
     }
 
     public List<Player> getPlayers() {
-        return List.of(hanPlayer, choPlayer);
+        return players.values().stream().toList();
     }
 }

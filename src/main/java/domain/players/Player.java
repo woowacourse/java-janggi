@@ -14,6 +14,16 @@ public class Player {
         this.playerStatus = PlayerStatus.RUNNING;
     }
 
+    public Player(Side side, double score, PlayerStatus playerStatus) {
+        this.side = side;
+        this.score = score;
+        this.playerStatus = playerStatus;
+    }
+
+    public static Player of(Side side, double score, PlayerStatus playerStatus) {
+        return new Player(side, score, playerStatus);
+    }
+
     public Side getSide() {
         return side;
     }
