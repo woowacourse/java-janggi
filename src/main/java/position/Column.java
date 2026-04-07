@@ -20,20 +20,20 @@ public record Column(int index) {
         return MINIMUM_BOUNDARY <= index && index <= MAXIMUM_BOUNDARY;
     }
 
-    public boolean isInRange(Column min, Column max) {
+    public boolean isInRange(final Column min, final Column max) {
         return min.index <= index && index <= max.index;
     }
 
-    public boolean isGapBiggerThanOne(Column other) {
+    public boolean isGapBiggerThanOne(final Column other) {
         return Math.abs(this.index - other.index) > ONE_SPACE;
     }
 
-    public boolean canMove(Delta delta) {
+    public boolean canMove(final Delta delta) {
         int nextColumn = index + delta.columnDelta();
         return isValidRange(nextColumn);
     }
 
-    public Column move(Delta delta) {
+    public Column move(final Delta delta) {
         return new Column(index + delta.columnDelta());
     }
 
@@ -41,7 +41,7 @@ public record Column(int index) {
         return new Column(MAXIMUM_BOUNDARY - index);
     }
 
-    public Delta calculateDelta(Column column) {
+    public Delta calculateDelta(final Column column) {
         return new Delta(0, index - column.index);
     }
 }

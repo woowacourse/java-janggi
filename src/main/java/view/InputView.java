@@ -15,7 +15,7 @@ public class InputView {
         Pattern.compile("(?<row>\\d+)\\s*,\\s*(?<column>\\d+)");
 
     public SangSetupType readSangSetup() {
-        int inputNumber = parseInt(readStrippedLine());
+        final int inputNumber = parseInt(readStrippedLine());
         return SangSetupInput.from(inputNumber);
     }
 
@@ -28,7 +28,7 @@ public class InputView {
     }
 
     public boolean readYesOrNo() {
-        String input = readStrippedLine().toLowerCase();
+        final String input = readStrippedLine().toLowerCase();
         if (input.equals("y")) {
             return true;
         }
@@ -55,11 +55,11 @@ public class InputView {
     }
 
     private Position parsePosition(final String input) {
-        Matcher matcher = POSITION_PATTERN.matcher(input);
+        final Matcher matcher = POSITION_PATTERN.matcher(input);
         validatePositionFormat(matcher);
 
-        int row = parseInt(matcher.group("row"));
-        int column = parseInt(matcher.group("column"));
+        final int row = parseInt(matcher.group("row"));
+        final int column = parseInt(matcher.group("column"));
         try {
             return new Position(new Row(row), new Column(column));
         } catch (IllegalArgumentException e) {
@@ -74,7 +74,7 @@ public class InputView {
     }
 
     private String readStrippedLine() {
-        String input = SCANNER.next();
+        final String input = SCANNER.next();
         if (input == null || input.isEmpty()) {
             throw new IllegalArgumentException("유효하지 않은 입력입니다. 다시 입력해주세요.");
         }

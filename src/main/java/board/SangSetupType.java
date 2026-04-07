@@ -27,19 +27,19 @@ public enum SangSetupType {
         this.fourth = fourth;
     }
 
-    public Piece createFirst(Side side) {
+    public Piece createFirst(final Side side) {
         return first.create(side);
     }
 
-    public Piece createSecond(Side side) {
+    public Piece createSecond(final Side side) {
         return second.create(side);
     }
 
-    public Piece createThird(Side side) {
+    public Piece createThird(final Side side) {
         return third.create(side);
     }
 
-    public Piece createFourth(Side side) {
+    public Piece createFourth(final Side side) {
         return fourth.create(side);
     }
 }

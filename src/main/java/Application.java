@@ -14,23 +14,23 @@ import view.JanggiView;
 public class Application {
 
     public static void main(String[] args) {
-        ConnectionManager connectionManager = getConnectionManager();
-        JanggiGameRepository repository = getRepository(connectionManager);
-        JanggiView view = new JanggiView();
+        final ConnectionManager connectionManager = getConnectionManager();
+        final JanggiGameRepository repository = getRepository(connectionManager);
+        final JanggiView view = new JanggiView();
 
-        GameSession session = new GamePreparationService(view, repository).prepare();
+        final GameSession session = new GamePreparationService(view, repository).prepare();
         session.run();
     }
 
-    private static JanggiGameRepository getRepository(ConnectionManager connectionManager) {
-        GameDao gameDao = new JdbcGameDao(connectionManager);
-        BoardPieceDao boardPieceDao = new JdbcBoardPieceDao(connectionManager);
+    private static JanggiGameRepository getRepository(final ConnectionManager connectionManager) {
+        final GameDao gameDao = new JdbcGameDao(connectionManager);
+        final BoardPieceDao boardPieceDao = new JdbcBoardPieceDao(connectionManager);
         return new JdbcJanggiGameRepository(gameDao, boardPieceDao);
     }
 
     private static ProductionConnectionManager getConnectionManager() {
-        ProductionConnectionManager connectionManager = new ProductionConnectionManager();
-        DatabaseMigrator databaseMigrator = new DatabaseMigrator(connectionManager);
+        final ProductionConnectionManager connectionManager = new ProductionConnectionManager();
+        final DatabaseMigrator databaseMigrator = new DatabaseMigrator(connectionManager);
         databaseMigrator.initialize();
         return connectionManager;
     }

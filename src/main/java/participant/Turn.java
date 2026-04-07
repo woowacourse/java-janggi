@@ -10,15 +10,8 @@ public enum Turn {
 
     private final Side side;
 
-    Turn(Side side) {
+    Turn(final Side side) {
         this.side = side;
-    }
-
-    public static Turn from(Side side) {
-        if (side.isCho()) {
-            return CHO_TURN;
-        }
-        return HAN_TURN;
     }
 
     public Turn other() {

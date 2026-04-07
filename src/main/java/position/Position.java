@@ -8,37 +8,37 @@ public record Position(Row row, Column column) {
         this(new Row(row), new Column(column));
     }
 
-    public boolean canMove(Delta delta) {
-        boolean canMoveRow = row.canMove(delta);
-        boolean canMoveColumn = column.canMove(delta);
+    public boolean canMove(final Delta delta) {
+        final boolean canMoveRow = row.canMove(delta);
+        final boolean canMoveColumn = column.canMove(delta);
         return canMoveRow && canMoveColumn;
     }
 
-    public Position move(Delta delta) {
+    public Position move(final Delta delta) {
         if (!canMove(delta)) {
             throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
         }
         return new Position(row.add(delta), column.move(delta));
     }
 
-    public boolean isSameRow(Position departure) {
+    public boolean isSameRow(final Position departure) {
         return row.equals(departure.row);
     }
 
-    public boolean isSameColumn(Position departure) {
+    public boolean isSameColumn(final Position departure) {
         return column.equals(departure.column);
     }
 
-    public boolean isGapBiggerThanOneStep(Position destination) {
+    public boolean isGapBiggerThanOneStep(final Position destination) {
         return row.isGapBiggerThanOne(destination.row) ||
             column.isGapBiggerThanOne(destination.column);
     }
 
-    public boolean isRowInRange(Row min, Row max) {
+    public boolean isRowInRange(final Row min, final Row max) {
         return row.isInRange(min, max);
     }
 
-    public boolean isColumnInRange(Column min, Column max) {
+    public boolean isColumnInRange(final Column min, final Column max) {
         return column.isInRange(min, max);
     }
 
@@ -53,9 +53,9 @@ public record Position(Row row, Column column) {
             .toList();
     }
 
-    public Delta calculateDeltaTo(Position destination) {
-        Delta rowDelta = destination.row.calculateDelta(row);
-        Delta columnDelta = destination.column.calculateDelta(column);
+    public Delta calculateDeltaTo(final Position destination) {
+        final Delta rowDelta = destination.row.calculateDelta(row);
+        final Delta columnDelta = destination.column.calculateDelta(column);
         return rowDelta.add(columnDelta);
     }
 

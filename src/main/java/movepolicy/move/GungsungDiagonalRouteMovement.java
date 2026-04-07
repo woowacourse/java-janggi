@@ -10,12 +10,12 @@ public class GungsungDiagonalRouteMovement implements Movement {
     private final Gungsung gungsung = new Gungsung();
 
     @Override
-    public boolean canReach(Position departure, Position destination, Side side) {
+    public boolean canReach(final Position departure, final Position destination, final Side side) {
         return gungsung.isDiagonalInside(departure, destination);
     }
 
     @Override
-    public List<Position> findPathPositions(Position departure, Position destination, Side side) {
+    public List<Position> findPathPositions(final Position departure, final Position destination, final Side side) {
         if (!canReach(departure, destination, side)) {
             throw new IllegalArgumentException("유효하지 않은 이동입니다.");
         }

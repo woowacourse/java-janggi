@@ -22,20 +22,20 @@ public class OutputView {
         GameStatus.HAN_WIN_BY_SCORE, "한나라승리(점수)"
     );
 
-    public void askSangSetup(Side side) {
+    public void askSangSetup(final Side side) {
         System.out.println(SIDE_SYMBOL.get(side) + "나라의 상차림을 선택해주세요.");
         System.out.println(SangSetupInput.convertDisplayFormat());
     }
 
-    public void printBoard(String board) {
+    public void printBoard(final String board) {
         System.out.println(board);
     }
 
-    public static void printErrorMessage(String message) {
+    public static void printErrorMessage(final String message) {
         System.out.println("[ERROR] " + message);
     }
 
-    public void printTurnSide(Side side) {
+    public void printTurnSide(final Side side) {
         System.out.println(SIDE_SYMBOL.get(side) + "나라의 차례 입니다.");
     }
 
@@ -43,7 +43,7 @@ public class OutputView {
         System.out.println("점수로 게임을 종료하시겠습니까? (y/n)");
     }
 
-    public void askConfirmEndByScore(Side side) {
+    public void askConfirmEndByScore(final Side side) {
         System.out.println(SIDE_SYMBOL.get(side) + "나라도 동의하십니까? (y/n)");
     }
 
@@ -55,16 +55,16 @@ public class OutputView {
         System.out.println("기물의 도착지 좌표를 입력해주세요. (형식: row, column)");
     }
 
-    public void printGameResult(GameStatus status) {
+    public void printGameResult(final GameStatus status) {
         System.out.println(GAME_STATUS_LABELS.get(status));
         System.out.println("게임이 종료되었습니다.");
     }
 
-    public void printScore(Side side, Score score) {
+    public void printScore(final Side side, final Score score) {
         System.out.println(SIDE_SYMBOL.get(side) + "나라 점수: " + score.value());
     }
 
-    public void printSavedGames(List<GameSummary> gameSummaries) {
+    public void printSavedGames(final List<GameSummary> gameSummaries) {
         System.out.println("저장된 게임 목록을 출력합니다.");
 
         gameSummaries.forEach(game -> System.out.printf(

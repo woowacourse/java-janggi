@@ -14,7 +14,8 @@ public class GameSession {
     private final JanggiView view;
     private final JanggiGameRepository repository;
 
-    public GameSession(Long gameId, JanggiGame game, JanggiView view, JanggiGameRepository repository) {
+    public GameSession(final Long gameId, final JanggiGame game, final JanggiView view,
+                       final JanggiGameRepository repository) {
         this.gameId = gameId;
         this.game = game;
         this.view = view;

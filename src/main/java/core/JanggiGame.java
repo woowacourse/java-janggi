@@ -16,17 +16,17 @@ public class JanggiGame {
     private final Turn turn;
     private final GameStatus status;
 
-    public JanggiGame(Board board, Turn turn, GameStatus status) {
+    public JanggiGame(final Board board, final Turn turn, final GameStatus status) {
         this.board = board;
         this.turn = turn;
         this.status = status;
     }
 
-    public static JanggiGame startWith(Board board) {
+    public static JanggiGame startWith(final Board board) {
         return new JanggiGame(board, Turn.CHO_TURN, GameStatus.PLAYING);
     }
 
-    public static JanggiGame of(SangSetupType choSangSetup, SangSetupType hanSangSetup) {
+    public static JanggiGame of(final SangSetupType choSangSetup, final SangSetupType hanSangSetup) {
         return JanggiGame.startWith(SangSetup.initialize(choSangSetup, hanSangSetup));
     }
 
@@ -50,8 +50,8 @@ public class JanggiGame {
         return status;
     }
 
-    public Score calculateScoreOf(Side side) {
-        Score score = board.calculateScoreOf(side);
+    public Score calculateScoreOf(final Side side) {
+        final Score score = board.calculateScoreOf(side);
         if (side.isCho()) {
             return score;
         }
@@ -70,47 +70,44 @@ public class JanggiGame {
             throw new IllegalArgumentException("이미 종료된 게임입니다.");
         }
 
-        Score choScore = calculateScoreOf(Side.CHO);
-        Score hanScore = calculateScoreOf(Side.HAN);
+        final Score choScore = calculateScoreOf(Side.CHO);
+        final Score hanScore = calculateScoreOf(Side.HAN);
         if (choScore.isGreaterThan(hanScore)) {
             return new JanggiGame(board, turn, GameStatus.CHO_WIN_BY_GUNG);
         }
         return new JanggiGame(board, turn, GameStatus.HAN_WIN_BY_SCORE);
     }
 
-    public JanggiGame move(Position departure, Position destination) {
+    public JanggiGame move(final Position departure, final Position destination) {
         validateMoveRequest(departure, destination);
-        Optional<PieceType> capturedPieceType = board.getPieceTypeAt(destination);
+        final Optional<PieceType> capturedPieceType = board.getPieceTypeAt(destination);
 
-        Board updatedBoard = board.move(departure, destination);
+        final Board updatedBoard = board.move(departure, destination);
         if (capturedPieceType.isEmpty()) {
             return nextTurn(updatedBoard);
         }
         return createNextGame(updatedBoard, capturedPieceType.get());
     }
 
-    private void validateMoveRequest(Position departure, Position destination) {
+    private void validateMoveRequest(final Position departure, final Position destination) {
         if (status.isOver()) {
             throw new IllegalArgumentException("게임이 종료되어 더 이상 말을 이동시킬 수 없습니다.");
         }
-        if (departure.equals(destination)) {
-            throw new IllegalArgumentException("출발지와 도착지는 동일할 수 없습니다.");
-        }
-        board.validateDeparturePiece(departure, turn);
+        board.validatePositions(departure, destination, turn);
     }
 
-    private JanggiGame createNextGame(Board updatedBoard, PieceType targetPieceType) {
+    private JanggiGame nextTurn(final Board updatedBoard) {
+        return new JanggiGame(updatedBoard, turn.other(), GameStatus.PLAYING);
+    }
+
+    private JanggiGame createNextGame(final Board updatedBoard, final PieceType targetPieceType) {
         if (targetPieceType.isGung()) {
             return gameOverByGung(updatedBoard);
         }
         return nextTurn(updatedBoard);
     }
 
-    private JanggiGame nextTurn(Board updatedBoard) {
-        return new JanggiGame(updatedBoard, turn.other(), GameStatus.PLAYING);
-    }
-
-    private JanggiGame gameOverByGung(Board updatedBoard) {
+    private JanggiGame gameOverByGung(final Board updatedBoard) {
         if (turn.isCho()) {
             return new JanggiGame(updatedBoard, turn, GameStatus.CHO_WIN_BY_GUNG);
         }

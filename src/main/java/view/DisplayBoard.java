@@ -16,9 +16,9 @@ public class DisplayBoard {
     private DisplayBoard() {
     }
 
-    public static String of(Board board) {
-        Map<Position, Piece> pieces = board.pieces();
-        StringBuilder sb = new StringBuilder();
+    public static String of(final Board board) {
+        final Map<Position, Piece> pieces = board.pieces();
+        final StringBuilder sb = new StringBuilder();
 
         for (int row = MAX_ROW; row >= 0; row--) {
             sb.append(padLeft(String.valueOf(row), 2)).append(" |");
@@ -35,7 +35,7 @@ public class DisplayBoard {
         return sb.toString();
     }
 
-    private static void appendColumnHeader(StringBuilder sb) {
+    private static void appendColumnHeader(final StringBuilder sb) {
         sb.append("   ");
         for (int column = 0; column <= MAX_COLUMN; column++) {
             sb.append(" ")
@@ -45,14 +45,14 @@ public class DisplayBoard {
         sb.append(System.lineSeparator());
     }
 
-    private static String cell(Piece piece) {
+    private static String cell(final Piece piece) {
         if (piece == null) {
             return " " + EMPTY_SYMBOL + " ";
         }
         return " " + DisplayPiece.symbolOf(piece) + " ";
     }
 
-    private static String padLeft(String value, final int size) {
+    private static String padLeft(final String value, final int size) {
         if (value.length() >= size) {
             return value;
         }

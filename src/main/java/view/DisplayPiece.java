@@ -23,15 +23,15 @@ public class DisplayPiece {
     private DisplayPiece() {
     }
 
-    public static String symbolOf(Piece piece) {
-        String symbol = PIECE_SYMBOLS.get(piece.type());
+    public static String symbolOf(final Piece piece) {
+        final String symbol = PIECE_SYMBOLS.get(piece.type());
         if (symbol == null) {
             throw new IllegalArgumentException("출력할 수 없는 기물 타입입니다. type=" + piece.type());
         }
         return colorize(piece, symbol);
     }
 
-    private static String colorize(Piece piece, String symbol) {
+    private static String colorize(final Piece piece, final String symbol) {
         if (piece.isSameSide(Side.HAN)) {
             return ANSI_RED + symbol + ANSI_RESET;
         }

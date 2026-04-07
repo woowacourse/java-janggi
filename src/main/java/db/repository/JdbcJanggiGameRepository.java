@@ -27,14 +27,14 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
     }
 
     @Override
-    public Long save(JanggiGame game) {
-        Long gameId = gameDao.save(parseGameEntity(game));
+    public Long save(final JanggiGame game) {
+        final Long gameId = gameDao.save(parseGameEntity(game));
         boardPieceDao.saveAll(parseBoardPieceEntities(gameId, game.getBoard()));
         return gameId;
     }
 
     @Override
-    public Optional<JanggiGame> findById(Long gameId) {
+    public Optional<JanggiGame> findById(final Long gameId) {
         return gameDao.findById(gameId)
             .map(gameEntity -> parseGame(gameEntity, boardPieceDao.findAllByGameId(gameId)));
     }
@@ -47,15 +47,15 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
     }
 
     @Override
-    public void updateGameState(Long gameId, Turn turn, GameStatus status) {
+    public void updateGameState(final Long gameId, final Turn turn, final GameStatus status) {
         gameDao.updateState(gameId, turn, status);
     }
 
     @Override
-    public void updatePiecePosition(Long gameId, Position departure, Position destination) {
-        Optional<BoardPieceEntity> movingPiece = boardPieceDao.findByGameIdAndPosition(
+    public void updatePiecePosition(final Long gameId, final Position departure, final Position destination) {
+        final Optional<BoardPieceEntity> movingPiece = boardPieceDao.findByGameIdAndPosition(
             gameId, departure.getRowIndex(), departure.getColumnIndex());
-        Optional<BoardPieceEntity> destinationPiece = boardPieceDao.findByGameIdAndPosition(
+        final Optional<BoardPieceEntity> destinationPiece = boardPieceDao.findByGameIdAndPosition(
             gameId, destination.getRowIndex(), destination.getColumnIndex());
 
         if (destinationPiece.isPresent()) {
@@ -64,7 +64,7 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
         boardPieceDao.updatePosition(movingPiece.get().id(), destination.getRowIndex(), destination.getColumnIndex());
     }
 
-    private GameSummary parseGameSummary(GameEntity gameEntity) {
+    private GameSummary parseGameSummary(final GameEntity gameEntity) {
         return new GameSummary(
             gameEntity.id(),
             gameEntity.turn(),
@@ -87,8 +87,8 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
     }
 
     private BoardPieceEntity parseBoardEntity(final Long gameId, final Map.Entry<Position, Piece> entry) {
-        Position position = entry.getKey();
-        Piece piece = entry.getValue();
+        final Position position = entry.getKey();
+        final Piece piece = entry.getValue();
 
         return new BoardPieceEntity(
             null,
@@ -101,14 +101,14 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
     }
 
     private JanggiGame parseGame(final GameEntity gameEntity, final List<BoardPieceEntity> boardPieceEntities) {
-        Board board = parseBoard(boardPieceEntities);
-        Turn turn = gameEntity.turn();
-        GameStatus status = gameEntity.status();
+        final Board board = parseBoard(boardPieceEntities);
+        final Turn turn = gameEntity.turn();
+        final GameStatus status = gameEntity.status();
         return new JanggiGame(board, turn, status);
     }
 
     private Board parseBoard(final List<BoardPieceEntity> boardPieceEntities) {
-        Map<Position, Piece> pieces = boardPieceEntities.stream()
+        final Map<Position, Piece> pieces = boardPieceEntities.stream()
             .collect(Collectors.toMap(
                 this::parsePosition,
                 this::parsePiece

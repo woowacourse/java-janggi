@@ -3,7 +3,7 @@ package movepolicy.rule;
 public class OtherSideTargetMoveRule implements MoveRule {
 
     @Override
-    public void validate(MoveTrace moveTrace) {
+    public void validate(final MoveTrace moveTrace) {
         if (moveTrace.isTargetEmpty()) {
             return;
         }

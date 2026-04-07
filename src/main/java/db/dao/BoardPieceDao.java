@@ -6,13 +6,13 @@ import java.util.Optional;
 
 public interface BoardPieceDao {
 
-    void saveAll(List<BoardPieceEntity> boardPieces);
+    void saveAll(final List<BoardPieceEntity> boardPieces);
 
-    List<BoardPieceEntity> findAllByGameId(Long gameId);
+    List<BoardPieceEntity> findAllByGameId(final Long gameId);
 
-    Optional<BoardPieceEntity> findByGameIdAndPosition(Long gameId, int row, int column);
+    Optional<BoardPieceEntity> findByGameIdAndPosition(final Long gameId, final int row, final int column);
 
-    void updatePosition(Long id, int row, int column);
+    void updatePosition(final Long id, final int row, final int column);
 
-    void deleteByGameIdAndPosition(Long gameId, int row, int column);
+    void deleteByGameIdAndPosition(final Long gameId, final int row, final int column);
 }

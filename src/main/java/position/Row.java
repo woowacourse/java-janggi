@@ -20,20 +20,20 @@ public record Row(int index) {
         return MINIMUM_BOUNDARY <= index && index <= MAXIMUM_BOUNDARY;
     }
 
-    public boolean isInRange(Row min, Row max) {
+    public boolean isInRange(final Row min, final Row max) {
         return min.index <= index && index <= max.index;
     }
 
-    public boolean isGapBiggerThanOne(Row other) {
+    public boolean isGapBiggerThanOne(final Row other) {
         return Math.abs(this.index - other.index) > ONE_SPACE;
     }
 
-    public Row add(Delta delta) {
+    public Row add(final Delta delta) {
         return new Row(index + delta.rowDelta());
     }
 
-    public boolean canMove(Delta delta) {
-        int nextIndex = index + delta.rowDelta();
+    public boolean canMove(final Delta delta) {
+        final int nextIndex = index + delta.rowDelta();
         return isValidRange(nextIndex);
     }
 
@@ -41,7 +41,7 @@ public record Row(int index) {
         return new Row(MAXIMUM_BOUNDARY - index);
     }
 
-    public Delta calculateDelta(Row row) {
+    public Delta calculateDelta(final Row row) {
         return new Delta(index - row.index, 0);
     }
 }

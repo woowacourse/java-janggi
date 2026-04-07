@@ -129,7 +129,7 @@ public enum PieceType {
     private final MoveRule moveRule;
     private final Score score;
 
-    PieceType(Movement movement, MoveRule moveRule, Score score) {
+    PieceType(final Movement movement, final MoveRule moveRule, final Score score) {
         this.movement = movement;
         this.moveRule = moveRule;
         this.score = score;

@@ -21,7 +21,7 @@ public class JdbcBoardPieceDao implements BoardPieceDao {
     }
 
     @Override
-    public void saveAll(List<BoardPieceEntity> boardPieceEntities) {
+    public void saveAll(final List<BoardPieceEntity> boardPieceEntities) {
         if (boardPieceEntities.isEmpty()) {
             return;
         }
@@ -31,10 +31,10 @@ public class JdbcBoardPieceDao implements BoardPieceDao {
             VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
             """;
 
-        try (Connection connection = connectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (final Connection connection = connectionManager.getConnection();
+             final PreparedStatement statement = connection.prepareStatement(sql)) {
 
-            for (BoardPieceEntity boardPieceEntity : boardPieceEntities) {
+            for (final BoardPieceEntity boardPieceEntity : boardPieceEntities) {
                 validateGameId(boardPieceEntity.gameId());
 
                 statement.setLong(1, boardPieceEntity.gameId());
@@ -60,13 +60,13 @@ public class JdbcBoardPieceDao implements BoardPieceDao {
             WHERE game_id = ?
             """;
 
-        try (Connection connection = connectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (final Connection connection = connectionManager.getConnection();
+             final PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setLong(1, gameId);
 
-            try (ResultSet resultSet = statement.executeQuery()) {
-                List<BoardPieceEntity> boardPieceEntities = new ArrayList<>();
+            try (final ResultSet resultSet = statement.executeQuery()) {
+                final List<BoardPieceEntity> boardPieceEntities = new ArrayList<>();
                 while (resultSet.next()) {
                     boardPieceEntities.add(parseBoardPiece(resultSet));
                 }
@@ -78,7 +78,7 @@ public class JdbcBoardPieceDao implements BoardPieceDao {
     }
 
     @Override
-    public Optional<BoardPieceEntity> findByGameIdAndPosition(Long gameId, int row, int column) {
+    public Optional<BoardPieceEntity> findByGameIdAndPosition(final Long gameId, final int row, final int column) {
         validateGameId(gameId);
 
         final String sql = """
@@ -87,14 +87,14 @@ public class JdbcBoardPieceDao implements BoardPieceDao {
             WHERE game_id = ? AND board_row = ? AND board_column = ?
             """;
 
-        try (Connection connection = connectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (final Connection connection = connectionManager.getConnection();
+             final PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setLong(1, gameId);
             statement.setInt(2, row);
             statement.setInt(3, column);
 
-            try (ResultSet resultSet = statement.executeQuery()) {
+            try (final ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     return Optional.of(parseBoardPiece(resultSet));
                 }
@@ -106,7 +106,7 @@ public class JdbcBoardPieceDao implements BoardPieceDao {
     }
 
     @Override
-    public void updatePosition(Long id, int row, int column) {
+    public void updatePosition(final Long id, final int row, final int column) {
         validateId(id);
 
         final String sql = """
@@ -115,14 +115,14 @@ public class JdbcBoardPieceDao implements BoardPieceDao {
             WHERE id = ?
             """;
 
-        try (Connection connection = connectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (final Connection connection = connectionManager.getConnection();
+             final PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setInt(1, row);
             statement.setInt(2, column);
             statement.setLong(3, id);
 
-            int affectedRows = statement.executeUpdate();
+            final int affectedRows = statement.executeUpdate();
             if (affectedRows == 0) {
                 throw new IllegalArgumentException("수정할 기물이 존재하지 않습니다. id=" + id);
             }
@@ -132,7 +132,7 @@ public class JdbcBoardPieceDao implements BoardPieceDao {
     }
 
     @Override
-    public void deleteByGameIdAndPosition(Long gameId, int row, int column) {
+    public void deleteByGameIdAndPosition(final Long gameId, final int row, final int column) {
         validateGameId(gameId);
 
         final String sql = """
@@ -140,14 +140,14 @@ public class JdbcBoardPieceDao implements BoardPieceDao {
             WHERE game_id = ? AND board_row = ? AND board_column = ?
             """;
 
-        try (Connection connection = connectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (final Connection connection = connectionManager.getConnection();
+             final PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setLong(1, gameId);
             statement.setInt(2, row);
             statement.setInt(3, column);
 
-            int affectedRows = statement.executeUpdate();
+            final int affectedRows = statement.executeUpdate();
             if (affectedRows == 0) {
                 throw new IllegalArgumentException(
                     "삭제할 기물이 존재하지 않습니다. gameId=" + gameId + ", row=" + row + ", column=" + column);

@@ -14,22 +14,22 @@ public class JanggiView {
     private final InputView in = new InputView();
     private final OutputView out = new OutputView();
 
-    public SangSetupType askSangSetupUntilSuccess(Side side) {
+    public SangSetupType askSangSetupUntilSuccess(final Side side) {
         return Retry.untilSuccess(() -> {
             out.askSangSetup(side);
             return in.readSangSetup();
         });
     }
 
-    public void printBoard(String board) {
+    public void printBoard(final String board) {
         out.printBoard(board);
     }
 
-    public void printTurnSide(Side side) {
+    public void printTurnSide(final Side side) {
         out.printTurnSide(side);
     }
 
-    public boolean askEndByScore(Side turnSide) {
+    public boolean askEndByScore(final Side turnSide) {
         return Retry.untilSuccess(() -> {
             out.askEndByScore();
             if (!in.readYesOrNo()) {
@@ -54,19 +54,19 @@ public class JanggiView {
         return Retry.untilSuccess(in::readPosition);
     }
 
-    public void printGameResult(GameStatus status) {
+    public void printGameResult(final GameStatus status) {
         out.printGameResult(status);
     }
 
-    public void printScore(Side side, Score score) {
+    public void printScore(final Side side, final Score score) {
         out.printScore(side, score);
     }
 
-    public InputGameId askGameId(List<GameSummary> gameSummaries) {
+    public InputGameId askGameId(final List<GameSummary> gameSummaries) {
         return Retry.untilSuccess(() -> {
             out.printSavedGames(gameSummaries);
             out.askGameId();
-            InputGameId gameId = in.readGameId();
+            final InputGameId gameId = in.readGameId();
             if (!gameId.isNewGame()) {
                 gameId.validateWith(gameSummaries);
             }

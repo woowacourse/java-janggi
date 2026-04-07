@@ -9,7 +9,7 @@ public class PoRouteMovement implements Movement {
     private final Movement origin = new LinearRouteMovement();
 
     @Override
-    public boolean canReach(Position departure, Position destination, Side side) {
+    public boolean canReach(final Position departure, final Position destination, final Side side) {
         if (!departure.isGapBiggerThanOneStep(destination)) {
             return false;
         }
@@ -17,7 +17,7 @@ public class PoRouteMovement implements Movement {
     }
 
     @Override
-    public List<Position> findPathPositions(Position departure, Position destination, Side side) {
+    public List<Position> findPathPositions(final Position departure, final Position destination, final Side side) {
         if (!canReach(departure, destination, side)) {
             throw new IllegalArgumentException("유효하지 않은 이동입니다.");
         }

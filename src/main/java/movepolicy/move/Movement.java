@@ -6,7 +6,7 @@ import position.Position;
 
 public interface Movement {
 
-    boolean canReach(Position departure, Position destination, Side side);
+    boolean canReach(final Position departure,final Position destination, final Side side);
 
-    List<Position> findPathPositions(Position departure, Position destination, Side side);
+    List<Position> findPathPositions(final Position departure, final Position destination, final Side side);
 }

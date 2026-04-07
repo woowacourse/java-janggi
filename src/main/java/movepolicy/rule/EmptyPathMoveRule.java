@@ -4,7 +4,7 @@ public class EmptyPathMoveRule implements MoveRule {
 
     private final MoveRule moveRule;
 
-    private EmptyPathMoveRule(MoveRule moveRule) {
+    private EmptyPathMoveRule(final MoveRule moveRule) {
         this.moveRule = moveRule;
     }
 
@@ -13,12 +13,12 @@ public class EmptyPathMoveRule implements MoveRule {
     }
 
     @Override
-    public void validate(MoveTrace moveTrace) {
+    public void validate(final MoveTrace moveTrace) {
         moveRule.validate(moveTrace);
         validatePathIsEmpty(moveTrace);
     }
 
-    private void validatePathIsEmpty(MoveTrace moveTrace) {
+    private void validatePathIsEmpty(final MoveTrace moveTrace) {
         if (moveTrace.hasPathPieces()) {
             throw new IllegalArgumentException("이동 경로엔 기물이 있을 수 없습니다.");
         }

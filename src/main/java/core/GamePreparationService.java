@@ -12,18 +12,18 @@ public class GamePreparationService {
     private final JanggiView view;
     private final JanggiGameRepository repository;
 
-    public GamePreparationService(JanggiView view, JanggiGameRepository repository) {
+    public GamePreparationService(final JanggiView view, final JanggiGameRepository repository) {
         this.view = view;
         this.repository = repository;
     }
 
     public GameSession prepare() {
-        List<GameSummary> savedGames = repository.findTop10GameRoomsOrderByCreatedAtDesc();
+        final List<GameSummary> savedGames = repository.findTop10GameRoomsOrderByCreatedAtDesc();
         if (savedGames.isEmpty()) {
             return createNewGameSession();
         }
 
-        InputGameId selectedGameId = view.askGameId(savedGames);
+        final InputGameId selectedGameId = view.askGameId(savedGames);
         if (selectedGameId.isNewGame()) {
             return createNewGameSession();
         }
@@ -31,16 +31,16 @@ public class GamePreparationService {
     }
 
     private GameSession createNewGameSession() {
-        SangSetupType choSangSetupType = view.askSangSetupUntilSuccess(Side.CHO);
-        SangSetupType hanSangSetupType = view.askSangSetupUntilSuccess(Side.HAN);
-        JanggiGame game = JanggiGame.of(choSangSetupType, hanSangSetupType);
-        Long gameId = repository.save(game);
+        final SangSetupType choSangSetupType = view.askSangSetupUntilSuccess(Side.CHO);
+        final SangSetupType hanSangSetupType = view.askSangSetupUntilSuccess(Side.HAN);
+        final JanggiGame game = JanggiGame.of(choSangSetupType, hanSangSetupType);
+        final Long gameId = repository.save(game);
 
         return new GameSession(gameId, game, view, repository);
     }
 
-    private GameSession findSavedGameSession(InputGameId selectedGameId) {
-        JanggiGame game = repository.findById(selectedGameId.id())
+    private GameSession findSavedGameSession(final InputGameId selectedGameId) {
+        final JanggiGame game = repository.findById(selectedGameId.id())
             .orElseThrow(() -> new IllegalArgumentException("선택한 게임이 존재하지 않습니다."));
         return new GameSession(selectedGameId.id(), game, view, repository);
     }

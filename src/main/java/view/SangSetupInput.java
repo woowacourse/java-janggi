@@ -16,7 +16,7 @@ public enum SangSetupInput {
     private final String displayName;
     private final SangSetupType sangSetupType;
 
-    SangSetupInput(int inputNumber, String displayName, SangSetupType sangSetupType) {
+    SangSetupInput(final int inputNumber, final String displayName, final SangSetupType sangSetupType) {
         this.inputNumber = inputNumber;
         this.displayName = displayName;
         this.sangSetupType = sangSetupType;

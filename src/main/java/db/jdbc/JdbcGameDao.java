@@ -58,12 +58,12 @@ public class JdbcGameDao implements GameDao {
             WHERE id = ?
             """;
 
-        try (Connection connection = connectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (final Connection connection = connectionManager.getConnection();
+             final PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setLong(1, id);
 
-            try (ResultSet resultSet = statement.executeQuery()) {
+            try (final ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     return Optional.of(parseGame(resultSet));
                 }
@@ -83,11 +83,11 @@ public class JdbcGameDao implements GameDao {
             LIMIT 10
             """;
 
-        try (Connection connection = connectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql);
-             ResultSet resultSet = statement.executeQuery()) {
+        try (final Connection connection = connectionManager.getConnection();
+             final PreparedStatement statement = connection.prepareStatement(sql);
+             final ResultSet resultSet = statement.executeQuery()) {
 
-            List<GameEntity> gameEntities = new ArrayList<>();
+            final List<GameEntity> gameEntities = new ArrayList<>();
             while (resultSet.next()) {
                 gameEntities.add(parseGame(resultSet));
             }
@@ -98,7 +98,7 @@ public class JdbcGameDao implements GameDao {
     }
 
     @Override
-    public void updateState(final Long id, Turn turn, GameStatus gameStatus) {
+    public void updateState(final Long id, final Turn turn, final GameStatus gameStatus) {
         if (id == null) {
             throw new IllegalArgumentException("수정할 게임 ID가 필요합니다.");
         }
@@ -109,14 +109,14 @@ public class JdbcGameDao implements GameDao {
             WHERE id = ?
             """;
 
-        try (Connection connection = connectionManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (final Connection connection = connectionManager.getConnection();
+             final PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setString(1, turn.name());
             statement.setString(2, gameStatus.name());
             statement.setLong(3, id);
 
-            int affectedRows = statement.executeUpdate();
+            final int affectedRows = statement.executeUpdate();
             if (affectedRows == 0) {
                 throw new IllegalArgumentException("수정할 게임이 존재하지 않습니다. id=" + id);
             }

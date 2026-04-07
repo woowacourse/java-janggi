@@ -28,45 +28,45 @@ public class Gungsung {
     private static final Column CHO_MIN_COLUMN = new Column(3);
     private static final Column CHO_MAX_COLUMN = new Column(5);
 
-    public boolean isChoRange(Position position) {
+    public boolean isChoRange(final Position position) {
         return position.isRowInRange(CHO_MIN_ROW, CHO_MAX_ROW)
             && position.isColumnInRange(CHO_MIN_COLUMN, CHO_MAX_COLUMN);
     }
 
-    public boolean isHanRange(Position position) {
+    public boolean isHanRange(final Position position) {
         return isChoRange(position.reverse());
     }
 
-    public boolean isOneStepDiagonalInside(Position departure, Position destination) {
+    public boolean isOneStepDiagonalInside(final Position departure, final Position destination) {
         if (isInvalidDiagonalMove(departure, destination)) {
             return false;
         }
         return departure.getMovableOneStepDiagonals().contains(destination);
     }
 
-    public boolean isDiagonalInside(Position departure, Position destination) {
+    public boolean isDiagonalInside(final Position departure, final Position destination) {
         if (isInvalidDiagonalMove(departure, destination)) {
             return false;
         }
         return departure.calculateDeltaTo(destination).isDiagonal();
     }
 
-    private boolean isInvalidDiagonalMove(Position departure, Position destination) {
+    private boolean isInvalidDiagonalMove(final Position departure, final Position destination) {
         return !isInsideSameGungsung(departure, destination)
             || !isDiagonalMovableDeparture(departure);
     }
 
-    private boolean isDiagonalMovableDeparture(Position departure) {
+    private boolean isDiagonalMovableDeparture(final Position departure) {
         return CHO_DIAGONAL_POINTS.contains(departure)
             || HAN_DIAGONAL_POINTS.contains(departure);
     }
 
-    public boolean isInsideSameGungsung(Position departure, Position destination) {
+    public boolean isInsideSameGungsung(final Position departure, final Position destination) {
         return (isChoRange(departure) && isChoRange(destination))
             || (isHanRange(departure) && isHanRange(destination));
     }
 
-    public Position getCenterPosition(Side side) {
+    public Position getCenterPosition(final Side side) {
         if (side.isCho()) {
             return CHO_CENTER;
         }

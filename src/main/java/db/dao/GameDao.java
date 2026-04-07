@@ -8,11 +8,11 @@ import participant.Turn;
 
 public interface GameDao {
 
-    Long save(GameEntity game);
+    Long save(final GameEntity game);
 
-    Optional<GameEntity> findById(Long id);
+    Optional<GameEntity> findById(final Long id);
 
     List<GameEntity> findTop10OrderByCreatedAtDesc();
 
-    void updateState(Long gameId, Turn turn, GameStatus gameStatus);
+    void updateState(final Long gameId, final Turn turn, final GameStatus gameStatus);
 }

@@ -7,7 +7,7 @@ public record Delta(int rowDelta, int columnDelta) {
     private static final int ONE_STEP = 1;
     private static final int NO_CHANGE = 0;
 
-    public Delta add(Delta delta) {
+    public Delta add(final Delta delta) {
         return new Delta(rowDelta + delta.rowDelta, columnDelta + delta.columnDelta);
     }
 

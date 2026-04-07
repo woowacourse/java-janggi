@@ -27,12 +27,12 @@ public class DatabaseMigrator {
 
     private final ConnectionManager connectionManager;
 
-    public DatabaseMigrator(ConnectionManager connectionManager) {
+    public DatabaseMigrator(final ConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
     }
 
     public void initialize() {
-        List<Migration> migrations = MIGRATIONS.stream()
+        final List<Migration> migrations = MIGRATIONS.stream()
             .filter(migration -> migration.version() > 0)
             .sorted(Comparator.comparingInt(Migration::version))
             .toList();
@@ -43,7 +43,7 @@ public class DatabaseMigrator {
             try {
                 applyMigration(connection, BOOTSTRAP_MIGRATION);
 
-                for (Migration migration : migrations) {
+                for (final Migration migration : migrations) {
                     if (isAlreadyApplied(connection, migration.version())) {
                         continue;
                     }
@@ -61,44 +61,44 @@ public class DatabaseMigrator {
         }
     }
 
-    private boolean isAlreadyApplied(Connection connection, int version) throws SQLException {
-        String sql = """
+    private boolean isAlreadyApplied(final Connection connection, final int version) throws SQLException {
+        final String sql = """
             SELECT 1
             FROM migration
             WHERE version = ?
             """;
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (final PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, version);
 
-            try (ResultSet resultSet = statement.executeQuery()) {
+            try (final ResultSet resultSet = statement.executeQuery()) {
                 return resultSet.next();
             }
         }
     }
 
-    private void applyMigration(Connection connection, Migration migration) throws SQLException {
-        String migrationSql = readSql(migration.resourcePath());
+    private void applyMigration(final Connection connection, final Migration migration) throws SQLException {
+        final String migrationSql = readSql(migration.resourcePath());
 
-        for (String sql : migrationSql.split(";")) {
-            String trimmedSql = sql.trim();
+        for (final String sql : migrationSql.split(";")) {
+            final String trimmedSql = sql.trim();
             if (trimmedSql.isEmpty()) {
                 continue;
             }
 
-            try (Statement statement = connection.createStatement()) {
+            try (final Statement statement = connection.createStatement()) {
                 statement.execute(trimmedSql);
             }
         }
     }
 
-    private void insertMigrationHistory(Connection connection, Migration migration) throws SQLException {
-        String sql = """
+    private void insertMigrationHistory(final Connection connection, final Migration migration) throws SQLException {
+        final String sql = """
             INSERT INTO migration(version, description, applied_at)
             VALUES (?, ?, ?)
             """;
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (final PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, migration.version());
             statement.setString(2, migration.description());
             statement.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
@@ -106,14 +106,15 @@ public class DatabaseMigrator {
         }
     }
 
-    private String readSql(String resourcePath) {
-        InputStream inputStream = getClass().getResourceAsStream(resourcePath);
+    private String readSql(final String resourcePath) {
+        final InputStream inputStream = getClass().getResourceAsStream(resourcePath);
         if (inputStream == null) {
             throw new IllegalStateException(resourcePath + " 파일을 찾을 수 없습니다.");
         }
 
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
-            StringBuilder builder = new StringBuilder();
+        try (final BufferedReader reader = new BufferedReader(
+            new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+            final StringBuilder builder = new StringBuilder();
             String line;
             while ((line = reader.readLine()) != null) {
                 builder.append(line).append("\n");
