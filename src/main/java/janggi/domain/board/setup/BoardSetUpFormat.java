@@ -1,10 +1,4 @@
-package janggi.view;
-
-import janggi.domain.board.setup.BoardSetUp;
-import janggi.domain.board.setup.InSetUp;
-import janggi.domain.board.setup.LeftSetUp;
-import janggi.domain.board.setup.OutSetUp;
-import janggi.domain.board.setup.RightSetUp;
+package janggi.domain.board.setup;
 
 public enum BoardSetUpFormat {
     LEFT_SET_UP(1, "왼상차림 (상마상마)", new LeftSetUp()),
