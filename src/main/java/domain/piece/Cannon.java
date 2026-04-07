@@ -25,9 +25,9 @@ public final class Cannon extends StraightMovingPiece {
         if (piece instanceof Cannon) {
             throw new IllegalStateException(ErrorMessage.CANNON_CANNOT_OVER_CANNON.getMessage());
         }
-
     }
 
+    @Override
     public void validateTarget(Optional<Piece> target) {
         target.ifPresent(piece -> {
             if (piece.isSameType(PieceType.CANNON)) {

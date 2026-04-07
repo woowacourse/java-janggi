@@ -2,7 +2,6 @@ package domain.board;
 
 import exception.ErrorMessage;
 import domain.Offset;
-import domain.piece.Cannon;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Team;
@@ -26,18 +25,15 @@ public class Board {
     public void move(Position from, Position to) {
         validateActualMove(from, to);
 
-        Piece fromPiece = getRequiredPiece(from);
-        Optional<Piece> toPiece = getPiece(to);
-        validateSameTeam(fromPiece, toPiece);
+        Piece sourcePiece = getRequiredPiece(from);
+        Optional<Piece> targetPiece = getPiece(to);
+        validateNotSameTeam(sourcePiece, targetPiece);
 
-        List<Offset> pathOffset = fromPiece.getPathOffset(from, to);
+        List<Offset> pathOffset = sourcePiece.getPathOffset(from, to);
         List<Piece> blockedPieces = getBlockedPieces(from, pathOffset);
 
-        if (fromPiece instanceof Cannon cannon) {
-            cannon.validateTarget(toPiece);
-        }
-
-        fromPiece.validateMove(blockedPieces);
+        sourcePiece.validateMove(blockedPieces);
+        sourcePiece.validateTarget(targetPiece);
 
         pieces.put(to, pieces.remove(from));
     }
@@ -57,7 +53,7 @@ public class Board {
         }
     }
 
-    private void validateSameTeam(Piece fromPiece, Optional<Piece> toPiece) {
+    private void validateNotSameTeam(Piece fromPiece, Optional<Piece> toPiece) {
         if (toPiece.isPresent() && fromPiece.isSameTeam(toPiece.get())) {
             throw new IllegalStateException(ErrorMessage.SAME_TEAM_OCCUPIED.getMessage());
         }
@@ -74,7 +70,7 @@ public class Board {
     public double calculateScore(Team team) {
         return team.getScore() + pieces.values().stream()
                 .filter(piece -> piece.isSameTeam(team))
-                .mapToInt(piece -> piece.getPieceType().getScore())
+                .mapToInt(Piece::score)
                 .sum();
     }
 

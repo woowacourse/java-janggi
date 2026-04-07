@@ -5,6 +5,7 @@ import domain.Offset;
 import domain.board.Position;
 
 import java.util.List;
+import java.util.Optional;
 
 public abstract class Piece {
     private final PieceType pieceType;
@@ -24,6 +25,9 @@ public abstract class Piece {
         if (!blockedPieces.isEmpty()) {
             throw new IllegalStateException(ErrorMessage.PATH_BLOCKED.getMessage());
         }
+    }
+
+    public void validateTarget(Optional<Piece> target) {
     }
 
     protected abstract void validateMoveRule(Position from, Position to);
