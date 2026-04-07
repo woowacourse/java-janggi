@@ -58,7 +58,7 @@ public class OutputView {
             PieceDto piece = entry.getValue();
             String factionColor = determineFactionColor(piece.team());
 
-            boardView[coord.column()][coord.row()] = String.format("[%s%s%s]", factionColor, entry.getValue(), ANSI_RESET);
+            boardView[coord.column()][coord.row()] = String.format("[%s%s%s]", factionColor, piece.name(), ANSI_RESET);
         }
     }
 
