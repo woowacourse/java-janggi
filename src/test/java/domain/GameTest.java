@@ -1,6 +1,8 @@
 package domain;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.board.Board;
@@ -13,6 +15,7 @@ import domain.player.Name;
 import domain.player.Players;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class GameTest {
@@ -77,5 +80,42 @@ class GameTest {
 
         // When & Then
         assertThat(gameOverGame.isPlaying()).isFalse();
+    }
+
+    @Test
+    void 목적지에_상대방의_궁이_있어_잡게_되는_순간_게임이_종료된다() {
+        // given
+        Position generalOfCho = Position.of(4, 1);
+        Position generalOfHan = Position.of(4, 8);
+        Position soldierOfCho = Position.of(4, 7);
+        Board board = new Board(Map.of(
+                generalOfCho, PieceFactory.createGeneral(Side.CHO),
+                generalOfHan, PieceFactory.createGeneral(Side.HAN),
+                soldierOfCho, PieceFactory.createSoldier(Side.CHO)
+        ));
+        Game actual = new Game(board, players);
+        assertThat(actual.isPlaying()).isTrue();
+
+        // when
+        actual.move(soldierOfCho, generalOfHan);
+
+        // then
+        assertThat(actual.isPlaying()).isFalse();
+    }
+
+    @Test
+    void 게임이_종료된_상태에서_기물을_이동하려고_시도하면_예외가_발생한다() {
+        // given
+        Map<Position, Piece> oneGeneralMap = Map.of(
+                Position.of(4, 1), PieceFactory.createGeneral(Side.CHO)
+        );
+        Game gameOverGame = new Game(new Board(oneGeneralMap), players);
+
+        assertThat(gameOverGame.isPlaying()).isFalse();
+
+        // when & Then
+        assertThatThrownBy(() -> gameOverGame.move(Position.of(4, 1), Position.of(4, 0)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("게임이 이미 종료되었습니다.");
     }
 }

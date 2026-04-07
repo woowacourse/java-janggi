@@ -14,23 +14,22 @@ public class Game {
         this.players = players;
     }
 
-    public Side getCurrentSide() {
-        return players.getCurrentSide();
-    }
-
     public Destinations selectSource(Position source) {
         players.validateAlly(board.getPiece(source));
         return board.findDestinations(source);
     }
 
     public void move(Position source, Position target) {
+        validateGamePlaying();
         players.validateAlly(board.getPiece(source));
         this.board = board.movePiece(source, target);
         players.switchPlayer();
     }
 
-    public Map<Position, Piece> getBoard() {
-        return board.getBoard();
+    private void validateGamePlaying() {
+        if (!isPlaying()) {
+            throw new IllegalArgumentException("게임이 이미 종료되었습니다.");
+        }
     }
 
     public boolean isPlaying() {
@@ -40,5 +39,13 @@ public class Game {
     public String getWinner() {
         Side winnerSide = board.getWinnerSide();
         return players.getPlayerNameBySide(winnerSide);
+    }
+
+    public Side getCurrentSide() {
+        return players.getCurrentSide();
+    }
+
+    public Map<Position, Piece> getBoard() {
+        return board.getBoard();
     }
 }
