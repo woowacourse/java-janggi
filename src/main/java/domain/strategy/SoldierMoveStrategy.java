@@ -68,11 +68,11 @@ public class SoldierMoveStrategy implements MoveStrategy {
             return true;
         }
 
-        if ((from.getRow() == to.getRow()) && Math.abs(from.getCol() - to.getCol()) >= 2) {
+        if ((from.getRow() == to.getRow()) && Math.abs(from.getCol() - to.getCol()) != 1) {
             return true;
         }
 
-        if ((from.getCol() == to.getCol()) && Math.abs(from.getRow() - to.getCol()) >= 2) {
+        if ((from.getCol() == to.getCol()) && Math.abs(from.getRow() - to.getRow()) != 1) {
             return true;
         }
 
