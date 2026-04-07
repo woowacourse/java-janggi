@@ -1,6 +1,6 @@
 package db.util;
 
-import db.connector.MySqlConnector;
+import db.connector.Connector;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -11,7 +11,7 @@ public class TransactionUtil {
     }
 
     public static void withTransaction(
-            MySqlConnector connector,
+            Connector connector,
             String sql,
             StatementMode statementMode,
             TransactionalRunnable work
@@ -27,7 +27,7 @@ public class TransactionUtil {
     }
 
     public static <T> T withTransaction(
-            MySqlConnector connector,
+            Connector connector,
             String sql,
             StatementMode statementMode,
             TransactionalFunction<T> work

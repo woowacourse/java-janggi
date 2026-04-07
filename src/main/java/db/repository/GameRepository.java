@@ -2,6 +2,7 @@ package db.repository;
 
 import static db.util.TransactionUtil.withTransaction;
 
+import db.connector.Connector;
 import db.connector.MySqlConnector;
 import db.parser.SideParser;
 import db.session.Session;
@@ -21,7 +22,7 @@ import java.util.Map;
 
 public class GameRepository {
 
-    private final MySqlConnector connector = new MySqlConnector();
+    private final Connector connector = new MySqlConnector();
     private final PieceRepository pieceRepository = new PieceRepository();
 
     public Session<JanggiGame> save(JanggiGame game) {
