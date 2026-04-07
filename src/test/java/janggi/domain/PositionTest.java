@@ -40,4 +40,58 @@ public class PositionTest {
 
         assertThat(move).isEmpty();
     }
+
+    @DisplayName("해당 포지션이 궁성의 대각에 위치하면 true를 반환한다")
+    @ParameterizedTest
+    @CsvSource({
+            "0, 3",
+            "0, 5",
+            "2, 3",
+            "2, 5",
+            "7, 3",
+            "7, 5",
+            "9, 3",
+            "9, 5",
+    })
+    void isPalaceDiagonal_LocatedAtDiagonal_ReturnTrue(int row, int col) {
+        Position position = Position.of(row, col);
+
+        assertThat(position.isPalaceDiagonal()).isTrue();
+    }
+
+    @DisplayName("해당 포지션이 궁성의 직교에 위치하면 false를 반환한다")
+    @ParameterizedTest
+    @CsvSource({
+            "0, 4",
+            "1, 3",
+            "1, 5",
+            "2, 4",
+            "7, 4",
+            "8, 3",
+            "8, 5",
+            "9, 4",
+    })
+    void isPalaceDiagonal_LocatedAtOrthogonal_ReturnFalse(int row, int col) {
+        Position position = Position.of(row, col);
+
+        assertThat(position.isPalaceDiagonal()).isFalse();
+    }
+
+    @DisplayName("해당 포지션이 궁성 밖에 위치하면 false를 반환한다")
+    @ParameterizedTest
+    @CsvSource({
+            "0, 2",
+            "0, 6",
+            "2, 2",
+            "2, 6",
+            "6, 3",
+            "6, 5",
+            "9, 2",
+            "9, 6",
+    })
+    void isPalaceDiagonal_LocatedOutside_ReturnFalse(int row, int col) {
+        Position position = Position.of(row, col);
+
+        assertThat(position.isPalaceDiagonal()).isFalse();
+    }
 }
