@@ -23,10 +23,11 @@ public class JanggiService {
         this.intersectionDao = intersectionDao;
     }
 
-    public void createBoard(JanggiBoard janggiBoard) {
+    public Long createBoard(JanggiBoard janggiBoard) {
         try (Connection connection = DBConnector.getConnection()) {
             Long saveId = boardDao.save(connection);
             intersectionDao.saveAllIntersection(connection, saveId, janggiBoard.getListIntersection());
+            return saveId;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -42,7 +43,7 @@ public class JanggiService {
 
     public JanggiBoard getExistBoard(BoardSelectCommand command) {
         try (Connection connection = DBConnector.getConnection()) {
-            List<Intersection> intersections = intersectionDao.readIntersectionByBoardId(connection, (long) command.select());
+            List<Intersection> intersections = intersectionDao.readIntersectionByBoardId(connection, command.select());
             return new JanggiBoard(new DBIntersectionGenerator(intersections));
         } catch (SQLException e) {
             throw new RuntimeException(e);
