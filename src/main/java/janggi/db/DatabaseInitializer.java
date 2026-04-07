@@ -7,7 +7,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public final class DatabaseInitializer {
+public class DatabaseInitializer {
 
     private static final String SCHEMA_PATH = "/schema.sql";
     private static final String SCHEMA_LOAD_FAILED = "[ERROR] DB 스키마를 읽을 수 없습니다.";
