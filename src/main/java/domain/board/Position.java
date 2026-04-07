@@ -36,7 +36,7 @@ public record Position(
         connect(edges, Position.of(8, 4), Position.of(9, 5));
         connect(edges, Position.of(8, 6), Position.of(9, 5));
         connect(edges, Position.of(10, 4), Position.of(9, 5));
-        connect(edges, Position.of(10, 6), Position.of(9, 3));
+        connect(edges, Position.of(10, 6), Position.of(9, 5));
 
         return edges;
     }
