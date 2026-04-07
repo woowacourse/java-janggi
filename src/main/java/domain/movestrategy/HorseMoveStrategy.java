@@ -2,7 +2,7 @@ package domain.movestrategy;
 
 import domain.board.Board;
 import domain.board.Position;
-import domain.piece.Direction;
+import domain.board.Direction;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +26,7 @@ public class HorseMoveStrategy implements MoveStrategy {
                 .filter(entry -> board.isEmpty(from.move(entry.getValue())))
                 .filter(entry -> board.isEmptyOrOpposite(from, from.move(entry.getKey())))
                 .map(entry -> from.move(entry.getKey()))
-                .filter(Position::isInside)
+                .filter(Position::isInsideBoard)
                 .toList();
     }
 }

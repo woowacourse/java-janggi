@@ -2,7 +2,7 @@ package domain.movestrategy;
 
 import domain.board.Board;
 import domain.board.Position;
-import domain.piece.Direction;
+import domain.board.Direction;
 import domain.piece.Team;
 import java.util.List;
 
@@ -23,7 +23,7 @@ public class SoldierMoveStrategy implements MoveStrategy {
 
         return paths.stream()
                 .map(from::move)
-                .filter(Position::isInside)
+                .filter(Position::isInsideBoard)
                 .filter(position -> board.isEmptyOrOpposite(from, position))
                 .toList();
     }

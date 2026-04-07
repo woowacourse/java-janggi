@@ -2,7 +2,7 @@ package domain.movestrategy;
 
 import domain.board.Board;
 import domain.board.Position;
-import domain.piece.Direction;
+import domain.board.Direction;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,11 +37,11 @@ public class CannonMoveStrategy implements MoveStrategy {
     private Optional<Position> findBridge(final Board board, final Position from, final Direction direction) {
         Position current = from.move(direction);
 
-        while (current.isInside() && board.isEmpty(current)) {
+        while (current.isInsideBoard() && board.isEmpty(current)) {
             current = current.move(direction);
         }
 
-        if (!current.isInside() || board.isCannon(current)) {
+        if (!current.isInsideBoard() || board.isCannon(current)) {
             return Optional.empty();
         }
 
@@ -57,12 +57,12 @@ public class CannonMoveStrategy implements MoveStrategy {
     ) {
         Position current = bridge.move(direction);
 
-        while (current.isInside() && board.isEmpty(current)) {
+        while (current.isInsideBoard() && board.isEmpty(current)) {
             movable.add(current);
             current = current.move(direction);
         }
 
-        if (current.isInside() && board.isOpposite(from, current) && !board.isCannon(current)) {
+        if (current.isInsideBoard() && board.isOpposite(from, current) && !board.isCannon(current)) {
             movable.add(current);
         }
     }

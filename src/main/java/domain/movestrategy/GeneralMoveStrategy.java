@@ -2,7 +2,7 @@ package domain.movestrategy;
 
 import domain.board.Board;
 import domain.board.Position;
-import domain.piece.Direction;
+import domain.board.Direction;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -19,7 +19,7 @@ public class GeneralMoveStrategy implements MoveStrategy {
 
         return ALL_DIRECTIONS.stream()
                 .map(from::move)
-                .filter(Position::isInside)
+                .filter(Position::isInsideBoard)
                 .filter(position -> board.isEmptyOrOpposite(from, position))
                 .filter(position -> !areGeneralsFacingEachOther(board, position, anotherGeneralPosition))
                 .toList();

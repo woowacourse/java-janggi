@@ -2,7 +2,7 @@ package domain.movestrategy;
 
 import domain.board.Board;
 import domain.board.Position;
-import domain.piece.Direction;
+import domain.board.Direction;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,12 +27,12 @@ public class ChariotMoveStrategy implements MoveStrategy {
     ) {
         Position current = from.move(direction);
 
-        while (current.isInside() && board.isEmpty(current)) {
+        while (current.isInsideBoard() && board.isEmpty(current)) {
             movable.add(current);
             current = current.move(direction);
         }
 
-        if (current.isInside() && board.isOpposite(from, current)) {
+        if (current.isInsideBoard() && board.isOpposite(from, current)) {
             movable.add(current);
         }
     }
