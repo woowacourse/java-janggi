@@ -10,7 +10,6 @@ import domain.Position;
 import domain.enums.Country;
 import domain.enums.MaSang;
 import domain.enums.PieceType;
-import domain.pieces.None;
 import service.JanggiService;
 import service.dto.PositionDto;
 import view.InputView;
@@ -127,7 +126,6 @@ public class JanggiController {
                     }
                     outputView.printPiecePossibleEndPosition(availableEndPositions);
                     requestEndPosition(start.get(), janggiGame);
-//        outputView.printBoard(janggiService.buildBoardDto(board), janggiService.buildColorDto(board));
             return Optional.empty();
                 }
         );

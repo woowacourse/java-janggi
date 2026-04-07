@@ -1,14 +1,10 @@
 package domain;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import domain.enums.Country;
-import domain.enums.Direction;
 import domain.enums.MaSangPosition;
 import domain.enums.PieceType;
 import domain.pieces.None;
@@ -53,58 +49,19 @@ public class Board {
         };
 
         List<Position> availablePositions = startPiece.getAvailableRoute(start,finder);
-//        if (availablePositions.isEmpty()) {
-//            throw new IllegalArgumentException("이동 가능한 좌표가 없습니다.");
-//        }
         return availablePositions;
     }
 
     public PieceType move(Position start, Position end) {
         Piece startPiece = board.getOrDefault(start, None.INSTANCE);
-        Piece endPiece = board.getOrDefault(end, None.INSTANCE);
-
         if (!findAvailablePositions(start).contains(end)){
             throw new IllegalArgumentException("말을 이동할 수 없습니다.");
         }
 
-//        if (!(startPiece.canMovePosition(start, end) && startPiece.isDifferentCountry(endPiece.getCountry()))){
-////                && startPiece.isAvailableRoute(getSameLine(start, end), endPiece.getPieceType()))) {
-//            throw new IllegalArgumentException("말을 이동할 수 없습니다.");
-//        }
         killPiece(start);
         PieceType pieceType=killPiece(end);
         board.put(end, startPiece);
         return pieceType;
-    }
-
-    private List<Piece> getSameLine(Position start, Position end) {
-        List<Piece> pieces = new ArrayList<>();
-        int startX = start.getX();
-        int startY = start.getY();
-        int endX = end.getX();
-        int endY = end.getY();
-
-        if (!(startX == endX || startY == endY)) {
-            return Collections.emptyList();
-        }
-
-        if (startX == endX) {
-            int minY = Math.min(startY, endY);
-            int maxY = Math.max(startY, endY);
-            for (int i = minY + 1; i < maxY; i++) {
-                pieces.add(board.getOrDefault(Position.create(startX, i), None.INSTANCE));
-            }
-        }
-
-        if (startY == endY) {
-            int minX = Math.min(startX, endX);
-            int maxX = Math.max(startX, endX);
-            for (int i = minX + 1; i < maxX; i++) {
-                pieces.add(board.getOrDefault(Position.create(i, startY), None.INSTANCE));
-            }
-        }
-
-        return pieces;
     }
 
     private PieceType killPiece(Position endPosition) {
