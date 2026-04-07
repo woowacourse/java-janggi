@@ -9,19 +9,19 @@ import java.util.List;
 
 public class GungsungDiagonalPathGenerator implements PathGenerator {
 
-    private static final List<List<Position>> choGungsungs = List.of(
+    private static final List<List<Position>> CHO_GUNGSUNGS = List.of(
             List.of(new Position(7, 3), new Position(7, 4), new Position(7, 5)),
             List.of(new Position(8, 3), new Position(8, 4), new Position(8, 5)),
             List.of(new Position(9, 3), new Position(9, 4), new Position(9, 5))
     );
 
-    private static final List<List<Position>> hanGungsungs = List.of(
+    private static final List<List<Position>> HAN_GUNGSUNGS = List.of(
             List.of(new Position(0, 3), new Position(0, 4), new Position(0, 5)),
             List.of(new Position(1, 3), new Position(1, 4), new Position(1, 5)),
             List.of(new Position(2, 3), new Position(2, 4), new Position(2, 5))
     );
 
-    private static final List<List<List<Integer>>> length1IndexPairs = List.of(
+    private static final List<List<List<Integer>>> MOVEABLE_INDEX_PAIR = List.of(
             List.of(List.of(0, 0), List.of(1, 1)),
             List.of(List.of(0, 0), List.of(2, 2)),
 
@@ -55,13 +55,13 @@ public class GungsungDiagonalPathGenerator implements PathGenerator {
 
     @Override
     public boolean isPathPossible(Position source, Position destination) {
-        for (List<List<Integer>> length1IndexPair : length1IndexPairs) {
+        for (List<List<Integer>> length1IndexPair : MOVEABLE_INDEX_PAIR) {
             List<Integer> targetSourceIndex = length1IndexPair.getFirst();
             List<Integer> targetDestinationIndex = length1IndexPair.get(1);
 
-            Position targetSource = choGungsungs.get(targetSourceIndex.getFirst())
+            Position targetSource = CHO_GUNGSUNGS.get(targetSourceIndex.getFirst())
                     .get(targetSourceIndex.get(1));
-            Position targetDestination = choGungsungs.get(targetDestinationIndex.getFirst())
+            Position targetDestination = CHO_GUNGSUNGS.get(targetDestinationIndex.getFirst())
                     .get(targetDestinationIndex.get(1));
 
             if (source.equals(targetSource) && destination.equals(targetDestination)) {
@@ -69,13 +69,13 @@ public class GungsungDiagonalPathGenerator implements PathGenerator {
             }
         }
 
-        for (List<List<Integer>> length1IndexPair : length1IndexPairs) {
+        for (List<List<Integer>> length1IndexPair : MOVEABLE_INDEX_PAIR) {
             List<Integer> targetSourceIndex = length1IndexPair.getFirst();
             List<Integer> targetDestinationIndex = length1IndexPair.get(1);
 
-            Position targetSource = hanGungsungs.get(targetSourceIndex.getFirst())
+            Position targetSource = HAN_GUNGSUNGS.get(targetSourceIndex.getFirst())
                     .get(targetSourceIndex.get(1));
-            Position targetDestination = hanGungsungs.get(targetDestinationIndex.getFirst())
+            Position targetDestination = HAN_GUNGSUNGS.get(targetDestinationIndex.getFirst())
                     .get(targetDestinationIndex.get(1));
 
             if (source.equals(targetSource) && destination.equals(targetDestination)) {
