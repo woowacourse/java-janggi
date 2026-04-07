@@ -77,6 +77,14 @@ public class Point {
         return isChoPalaceDiagonalPair(to) || isHanPalaceDiagonalPair(to);
     }
 
+    public int getMiddleX(Point to) {
+        return (x + to.getX()) / 2;
+    }
+
+    public int getMiddleY(Point to) {
+        return (y + to.getY()) / 2;
+    }
+
     private boolean isChoPalaceDiagonalPair(Point to) {
         return isSamePointPair(to, Point.of(3, 0), Point.of(4, 1))
                 || isSamePointPair(to, Point.of(4, 1), Point.of(5, 2))

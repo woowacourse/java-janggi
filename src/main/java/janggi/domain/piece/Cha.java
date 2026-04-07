@@ -56,8 +56,8 @@ public class Cha extends BasePiece {
             return List.of();
         }
         if (pathX == 2 && pathY == 2) {
-            int middleX = (from.getX() + to.getX()) / 2;
-            int middleY = (from.getY() + to.getY()) / 2;
+            int middleX = from.getMiddleX(to);
+            int middleY = from.getMiddleY(to);
             return List.of(Point.of(middleX, middleY));
         }
         throw new IllegalArgumentException("[ERROR] 궁성 대각선 경로가 아닙니다.");
