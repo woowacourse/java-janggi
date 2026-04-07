@@ -74,8 +74,19 @@ class SoldierMoveStrategyTest {
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
+
         @Test
-        void 졸과_병은_궁성_내에서_대각선_이동이_가능하다() {
+        void 졸과_병은_궁성_중앙에서_궁성_가장자리로_대각선_방향이더라도_후퇴할_수_없다() {
+            Position from = new Position(3, 9);
+            Position to = new Position(4, 8);
+
+            List<Position> path = soldierMoveStrategy.getPath(from, to);
+
+            assertThat(path).containsExactly(new Position(4, 8));
+        }
+
+        @Test
+        void 졸과_병은_궁성_중앙에서_궁성_가장자리로_대각선_방향으로_이동할_수_있다() {
             Position from = new Position(4, 8);
             Position to = new Position(3, 9);
 
