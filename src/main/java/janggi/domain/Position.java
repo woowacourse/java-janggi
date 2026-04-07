@@ -56,6 +56,14 @@ public class Position {
         return (row * COLUMN_SIZE) + column;
     }
 
+    public boolean compareRow(Position position) {
+        return row == position.row;
+    }
+
+    public boolean compareColumn(Position position) {
+        return column == position.column;
+    }
+
     public int getRow() {
         return row;
     }

@@ -3,8 +3,8 @@ package janggi.domain;
 import janggi.domain.piece.strategy.Direction;
 
 public enum Camp {
-    CHO(Direction.up(), 0),
-    HAN(Direction.down(), 9);
+    CHO(Direction.north(), 0),
+    HAN(Direction.south(), 9);
 
     private final Direction forward;
     private final int baselineRow;

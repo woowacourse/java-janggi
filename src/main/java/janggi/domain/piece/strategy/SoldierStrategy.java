@@ -19,8 +19,8 @@ public class SoldierStrategy implements MoveStrategy {
         List<Path> paths = new ArrayList<>();
 
         addPath(paths, current, forwardDirection);
-        addPath(paths, current, Direction.left());
-        addPath(paths, current, Direction.right());
+        addPath(paths, current, Direction.west());
+        addPath(paths, current, Direction.east());
 
         return Collections.unmodifiableList(paths);
     }
