@@ -1,5 +1,6 @@
 package janggi.domain.side;
 
+import janggi.domain.GameResult;
 import janggi.domain.Position;
 import janggi.domain.piece.*;
 
@@ -8,12 +9,12 @@ import java.util.Map;
 
 public class Han extends Team {
 
-    public Han(Map<Position, Piece> pieces) {
-        super(pieces);
+    public Han(Map<Position, Piece> pieces, GameResult gameResult) {
+        super(pieces, gameResult);
     }
 
     public static Han createInitialHan() {
-        return new Han(initializePieces());
+        return new Han(initializePieces(), GameResult.RUNNING);
     }
 
     @Override
@@ -23,14 +24,22 @@ public class Han extends Team {
         Map<Position, Piece> updatedPieces = new HashMap<>(pieces);
         updatedPieces.remove(start);
         updatedPieces.put(end, piece);
-        return new Han(updatedPieces);
+        return new Han(updatedPieces, GameResult.RUNNING);
     }
 
     @Override
     public Team remove(Position position) {
         Map<Position, Piece> updatedPieces = new HashMap<>(getPieces());
-        updatedPieces.remove(position);
-        return new Han(updatedPieces);
+        Piece removedPiece = updatedPieces.remove(position);
+        if (removedPiece.getPieceType() == PieceType.GUNG) {
+            return new Han(updatedPieces, GameResult.LOSE);
+        }
+        return new Han(updatedPieces, GameResult.RUNNING);
+    }
+
+    @Override
+    public Team updateWin() {
+        return new Han(getPieces(), GameResult.WIN);
     }
 
     private static Map<Position, Piece> initializePieces() {

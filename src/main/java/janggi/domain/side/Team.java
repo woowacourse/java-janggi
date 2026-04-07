@@ -1,5 +1,6 @@
 package janggi.domain.side;
 
+import janggi.domain.GameResult;
 import janggi.domain.Position;
 import janggi.domain.piece.*;
 import janggi.dto.BoardSpot;
@@ -9,13 +10,23 @@ import java.util.*;
 public abstract class Team {
 
     private final Map<Position, Piece> pieces;
+    private final GameResult gameResult;
 
-    public Team(Map<Position, Piece> pieces) {
+    public Team(Map<Position, Piece> pieces, GameResult gameResult) {
         this.pieces = pieces;
+        this.gameResult = gameResult;
     }
 
     public Map<Position, Piece> getPieces() {
         return Collections.unmodifiableMap(pieces);
+    }
+
+    public boolean isRunning() {
+        return gameResult == GameResult.RUNNING;
+    }
+
+    public boolean isLose() {
+        return gameResult == GameResult.LOSE;
     }
 
     public Map<Position, BoardSpot> makeSnapShot() {
@@ -75,4 +86,5 @@ public abstract class Team {
 
     public abstract Team remove(Position position);
 
+    public abstract Team updateWin();
 }

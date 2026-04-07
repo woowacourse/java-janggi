@@ -19,6 +19,10 @@ public class Turn {
         return new Turn(TeamType.HAN, Board.createInitialBoard());
     }
 
+    public boolean isRunning() {
+        return board.isRunning();
+    }
+
     public Map<Position, Piece> makeBoardSnapShot() {
         return board.makeSnapShot();
     }

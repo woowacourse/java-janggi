@@ -18,6 +18,10 @@ public class JanggiGame {
         return new JanggiGame(List.of(Turn.createInitialTurn()));
     }
 
+    public boolean isRunning() {
+        return getLastTurn().isRunning();
+    }
+
     public Map<Position, Piece> makeCurrentTurnBoardSnapShot() {
         Turn lastTurn = getLastTurn();
         return lastTurn.makeBoardSnapShot();

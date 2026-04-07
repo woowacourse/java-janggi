@@ -20,7 +20,7 @@ public class JanggiRunner {
     public void execute() {
         OutputView.printStartMessage();
 
-        while (true) {
+        while (janggiGame.isRunning()) {
             OutputView.printBoard(BoardSpots.from(janggiGame.makeCurrentTurnBoardSnapShot()));
             Position startPosition = ActionExecutor.retryUntilSuccess(this::readValidStartPosition);
             Position endPosition = ActionExecutor.retryUntilSuccess(() -> readValidEndPosition(startPosition));

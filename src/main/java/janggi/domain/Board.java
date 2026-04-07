@@ -25,6 +25,10 @@ public class Board {
         return new Board(Chu.createInitialChu(), Han.createInitialHan());
     }
 
+    public boolean isRunning() {
+        return chu.isRunning() && han.isRunning();
+    }
+
     public Map<Position, Piece> makeSnapShot() {
         Map<Position, Piece> allPieces = new HashMap<>(chu.getPieces());
         allPieces.putAll(han.getPieces());
@@ -59,6 +63,10 @@ public class Board {
         validateCanMove(start, end, currentTeamType);
         Team updatedCurrentTeam = currentTeam(currentTeamType).move(start, end);
         Team updatedOpponentTeam = removeOpponentPiece(currentTeamType, end);
+        if (updatedOpponentTeam.isLose()) {
+            updatedCurrentTeam = updatedCurrentTeam.updateWin();
+            return createMovedBoard(currentTeamType, updatedCurrentTeam, updatedOpponentTeam);
+        }
         return createMovedBoard(currentTeamType, updatedCurrentTeam, updatedOpponentTeam);
     }
 
