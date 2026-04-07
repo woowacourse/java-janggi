@@ -15,7 +15,7 @@ public class TransactionManager {
     }
 
     public <T> T withoutTransaction(SqlFunction<T> action) {
-        try (Connection connection = connectionManager.createConnection()) {
+        try (Connection connection = connectionManager.getConnection()) {
             connection.setReadOnly(true);
             return action.apply(connection);
         } catch (SQLException e) {
@@ -24,7 +24,7 @@ public class TransactionManager {
     }
 
     public <T> T inTransaction(SqlFunction<T> action) {
-        try (Connection connection = connectionManager.createConnection()) {
+        try (Connection connection = connectionManager.getConnection()) {
             connection.setAutoCommit(false);
             return executeInTransaction(connection, action);
         } catch (SQLException e) {
@@ -33,7 +33,7 @@ public class TransactionManager {
     }
 
     public void inTransaction(SqlConsumer action) {
-        try (Connection connection = connectionManager.createConnection()) {
+        try (Connection connection = connectionManager.getConnection()) {
             connection.setAutoCommit(false);
             executeInTransaction(connection, action);
         } catch (SQLException e) {

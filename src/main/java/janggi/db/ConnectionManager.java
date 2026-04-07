@@ -15,7 +15,7 @@ public class ConnectionManager {
         this.dataSource = dataSource;
     }
 
-    public Connection createConnection() {
+    public Connection getConnection() {
         try {
             return dataSource.getConnection();
         } catch (SQLException e) {

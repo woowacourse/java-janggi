@@ -115,7 +115,7 @@ class GameRepositoryTest {
 
     private void clearDatabase() {
         try (
-                Connection connection = connectionManager.createConnection();
+                Connection connection = connectionManager.getConnection();
                 Statement statement = connection.createStatement()
         ) {
             statement.execute("DROP ALL OBJECTS");

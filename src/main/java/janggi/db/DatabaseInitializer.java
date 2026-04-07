@@ -17,7 +17,7 @@ public class DatabaseInitializer {
 
     public void initialize() {
         try (
-                Connection connection = connectionManager.createConnection();
+                Connection connection = connectionManager.getConnection();
                 Statement jdbcStatement = connection.createStatement()
         ) {
             jdbcStatement.execute(SCHEMA_SCRIPT);
