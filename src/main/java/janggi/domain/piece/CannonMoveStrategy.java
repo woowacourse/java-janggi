@@ -9,7 +9,7 @@ import janggi.domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CannonMoveStrategy implements MoveStrategy {
+public final class CannonMoveStrategy extends LineMoveStrategy {
 
     private static final MoveStrategy CANNON_MOVE_STRATEGY = new CannonMoveStrategy();
 
@@ -18,36 +18,42 @@ public class CannonMoveStrategy implements MoveStrategy {
     }
 
     @Override
-    public List<Position> findPlaceablePositions(BoardSnapshot board, Position from, Dynasty dynasty) {
-        List<Position> placeablePositions = new ArrayList<>();
-        for (Direction dir : from.directions()) {
-            List<Position> allPositions = from.findAllPositionsByDirection(dir);
-            List<Position> positions = board.selectUntilNearestPiecePosition(allPositions);
-
-            if (!positions.isEmpty()) {
-                findPlaceablePositionsAfterJump(board, dynasty, dir, positions.getLast(), placeablePositions);
-            }
+    protected List<Position> findPlaceablePositionsByDirection(
+            BoardSnapshot board,
+            Position from,
+            Dynasty dynasty,
+            Direction direction
+    ) {
+        List<Position> beforeTarget = board.selectUntilNearestPiecePosition(
+                from.findAllPositionsByDirection(direction)
+        );
+        if (beforeTarget.isEmpty()) {
+            return List.of();
         }
-        return placeablePositions;
+
+        Position jumpTarget = beforeTarget.getLast();
+        if (board.isSamePieceType(jumpTarget, CANNON)) {
+            return List.of();
+        }
+
+        List<Position> afterTarget = board.selectUntilNearestPiecePosition(
+                jumpTarget.findAllPositionsByDirection(direction)
+        );
+        if (afterTarget.isEmpty()) {
+            return List.of();
+        }
+
+        return removeLastIfCannotCatch(board, dynasty, afterTarget);
     }
 
-    private static void findPlaceablePositionsAfterJump(BoardSnapshot board, Dynasty dynasty, Direction dir,
-                                                        Position from, List<Position> placeablePositions) {
-        if (!board.isSamePieceType(from, CANNON)) {
-            List<Position> allPositions = from.findAllPositionsByDirection(dir);
-            List<Position> positions = board.selectUntilNearestPiecePosition(allPositions);
+    private List<Position> removeLastIfCannotCatch(BoardSnapshot board, Dynasty dynasty, List<Position> positions) {
+        List<Position> result = new ArrayList<>(positions);
+        Position last = result.getLast();
 
-            if (!positions.isEmpty()) {
-                placeablePositions.addAll(removeIfCannotCatch(board, dynasty, positions));
-            }
+        if (board.isSamePieceType(last, CANNON) || board.isSameDynasty(last, dynasty)) {
+            result.removeLast();
         }
-    }
-
-    private static List<Position> removeIfCannotCatch(BoardSnapshot board, Dynasty dynasty, List<Position> positions) {
-        if (board.isSamePieceType(positions.getLast(), CANNON) || board.isSameDynasty(positions.getLast(), dynasty)) {
-            positions.removeLast();
-        }
-        return positions;
+        return result;
     }
 
 }

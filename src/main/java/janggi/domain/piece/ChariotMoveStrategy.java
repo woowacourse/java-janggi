@@ -4,37 +4,30 @@ import janggi.domain.board.BoardSnapshot;
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.position.Direction;
 import janggi.domain.position.Position;
-import java.util.ArrayList;
 import java.util.List;
 
-public class ChariotMoveStrategy implements MoveStrategy {
+public final class ChariotMoveStrategy extends LineMoveStrategy {
 
-    private static final MoveStrategy CHARIOT_MOVE_STRATEGY = new ChariotMoveStrategy();
+    private static final MoveStrategy INSTANCE = new ChariotMoveStrategy();
 
     public static MoveStrategy instance() {
-        return CHARIOT_MOVE_STRATEGY;
+        return INSTANCE;
     }
 
     @Override
-    public List<Position> findPlaceablePositions(BoardSnapshot board, Position from, Dynasty dynasty) {
-        List<Position> placeablePositions = new ArrayList<>();
-        for (Direction dir : from.directions()) {
-            List<Position> allPositions = from.findAllPositionsByDirection(dir);
-            List<Position> positions = board.selectUntilNearestPiecePosition(allPositions);
+    protected List<Position> findPlaceablePositionsByDirection(
+            BoardSnapshot board,
+            Position from,
+            Dynasty dynasty,
+            Direction direction
+    ) {
+        List<Position> allPositions = from.findAllPositionsByDirection(direction);
+        List<Position> positions = board.selectUntilNearestPiecePosition(allPositions);
 
-            if (!positions.isEmpty()) {
-                placeablePositions.addAll(removeIfCannotCatch(board, positions, dynasty));
-            }
+        if (positions.isEmpty()) {
+            return positions;
         }
-
-        return placeablePositions;
-    }
-
-    private List<Position> removeIfCannotCatch(BoardSnapshot board, List<Position> positions, Dynasty dynasty) {
-        if (board.isSameDynasty(positions.getLast(), dynasty)) {
-            positions.removeLast();
-        }
-        return positions;
+        return removeLastIfSameDynasty(board, dynasty, positions);
     }
 
 }
