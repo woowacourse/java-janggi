@@ -6,12 +6,12 @@ import janggi.db.DatabaseInitializer;
 public class JanggiApplication {
 
     public static void main(String[] args) {
-        AppConfig config = new AppConfig();
+        try (AppConfig config = new AppConfig()) {
+            DatabaseInitializer databaseInitializer = config.databaseInitializer();
+            databaseInitializer.initialize();
 
-        DatabaseInitializer databaseInitializer = config.databaseInitializer();
-        databaseInitializer.initialize();
-
-        GameRunner gameRunner = config.gameRunner();
-        gameRunner.run();
+            GameRunner gameRunner = config.gameRunner();
+            gameRunner.run();
+        }
     }
 }
