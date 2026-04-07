@@ -1,5 +1,6 @@
 package domain.board;
 
+import domain.path.Direction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -56,5 +57,17 @@ class PalaceTest {
     void 해당_좌표가_한의_궁성의_중앙인지_반환한다() {
         assertThat(Palace.isHanPalaceCenter(hanPalacePosition)).isTrue();
         assertThat(Palace.isHanPalaceCenter(choPalacePosition)).isFalse();
+    }
+
+    @Test
+    void 출발지와_도착지가_궁성_내에서_이동_가능한_경로인지_반환한다() {
+        Position availableDeparture = new Position(3, 0);
+        Position availableDestination = new Position(4, 1);
+
+        Position disableDeparture = new Position(4, 0);
+        Position disableDestination = new Position(3, 1);
+
+        assertThat(Palace.isPalacePath(availableDeparture, availableDestination)).isTrue();
+        assertThat(Palace.isPalacePath(disableDeparture, disableDestination)).isFalse();
     }
 }
