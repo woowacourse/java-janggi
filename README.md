@@ -11,6 +11,7 @@ src/main/java/
 │   └── JanggiController
 ├── db/
 │   ├── connector/
+│   │   ├── Connector - DB 연결 인터페이스
 │   │   └── MySqlConnector - MySQL DB 연결
 │   ├── parser/
 │   │   ├── PieceParser - 저장된 기물 정보를 도메인 객체로 변환
@@ -26,7 +27,7 @@ src/main/java/
 │       ├── StatementMode - PreparedStatement 생성 방식(기본 / 생성 키 반환 등)
 │       ├── TransactionalFunction - 트랜잭션 내에서 실행할 함수형 인터페이스(반환 O)
 │       ├── TransactionalRunnable - 트랜잭션 내에서 실행할 함수형 인터페이스(반환 X)
-│       └── TransactionUtil - 트랜잭션 유틸
+│       └── Transaction - 트랜잭션 실행 유틸
 ├── domain/
 │   ├── board/
 │   │   ├── File - 장기판의 열(Column)
