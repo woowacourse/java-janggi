@@ -19,7 +19,7 @@ public class GameRepository {
 
     public void save(long gameId, Game game) {
         gameDao.updateTurn(gameId, game.getTurn().name());
-        pieceDao.saveAll(gameId, game.getBoard().getPieces());
+        pieceDao.saveAll(gameId, game.getPieces());
     }
 
     public Game findById(long gameId) {
@@ -30,7 +30,7 @@ public class GameRepository {
 
     public long create(Game game) {
         long gameId = gameDao.save(game.getTurn().name());
-        pieceDao.saveAll(gameId, game.getBoard().getPieces());
+        pieceDao.saveAll(gameId, game.getPieces());
         return gameId;
     }
 

@@ -5,12 +5,15 @@ import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.InitializeSetting;
 import domain.board.Position;
+import domain.piece.Piece;
 import domain.piece.Team;
+import dto.PieceDto;
 
 import repository.GameRepository;
 import view.InputView;
 import view.OutputView;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -38,9 +41,9 @@ public class Controller {
 
     private void play(Game game, long gameId) {
         while (!game.isGameEnd()) {
-            outputView.printHanScore(game.getCurrentScore(Team.HAN));
-            outputView.printBoard(game.getBoard());
-            outputView.printChoScore(game.getCurrentScore(Team.CHO));
+            outputView.printScore(Team.HAN, game.getCurrentScore(Team.HAN));
+            outputView.printBoard(toPieceDtos(game));
+            outputView.printScore(Team.CHO, game.getCurrentScore(Team.CHO));
             outputView.printCurrentTurn(game.getTurn());
 
             boolean isContinue = executeMove(game);
@@ -54,6 +57,21 @@ public class Controller {
         outputView.printGameResult(game.getWinnerTeam());
     }
 
+    private List<PieceDto> toPieceDtos(Game game) {
+        return game.getPieces().entrySet().stream()
+                .map(e -> toPieceDto(e.getKey(), e.getValue()))
+                .toList();
+    }
+
+    private PieceDto toPieceDto(Position position, Piece piece) {
+        return new PieceDto(
+                position.x(),
+                position.y(),
+                piece.getPieceType(),
+                piece.getTeam()
+        );
+    }
+
     private void startNewGame() {
         InitializeSetting choSetting = retry(() -> inputView.readInitialSetting("초(CHO)"));
         InitializeSetting hanSetting = retry(() -> inputView.readInitialSetting("한(HAN)"));
@@ -63,7 +81,6 @@ public class Controller {
         long gameId = gameRepository.create(game);
         play(game, gameId);
     }
-
 
     private void loadExistGame() {
         Map<Long, String> savedGames = gameRepository.findAll();
@@ -77,11 +94,9 @@ public class Controller {
 
         long gameId = retry(inputView::readGameId);
         try {
-
             Game game = gameRepository.findById(gameId);
             outputView.printGameLoaded(gameId);
             play(game, gameId);
-
         } catch (Exception e) {
             outputView.printError(new IllegalArgumentException("게임을 불러오는데 실패했습니다. 방 번호를 확인하세요."));
         }

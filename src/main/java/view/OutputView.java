@@ -1,12 +1,13 @@
 package view;
 
-import domain.board.Board;
-import domain.board.Position;
-import domain.piece.Piece;
+import domain.piece.PieceType;
 import domain.piece.Team;
+import dto.PieceDto;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class OutputView {
 
@@ -16,63 +17,70 @@ public class OutputView {
 
     private static final String EMPTY_MARK = "＋";
 
-    public void printBoard(Board board) {
-        System.out.println("\n  Ａ Ｂ Ｃ Ｄ Ｅ Ｆ Ｇ Ｈ Ｉ");
+    private static final Map<Team, String> TEAM_NAMES = Map.of(
+            Team.CHO, "초(CHO)",
+            Team.HAN, "한(HAN)"
+    );
 
+    private static final Map<Team, String> TEAM_COLORS = Map.of(
+            Team.CHO, BLUE,
+            Team.HAN, RED
+    );
+
+    private static final Map<PieceType, Map<Team, String>> SYMBOLS = Map.of(
+            PieceType.GENERAL, Map.of(Team.CHO, "楚", Team.HAN, "漢"),
+            PieceType.CHARIOT, Map.of(Team.CHO, "車", Team.HAN, "車"),
+            PieceType.CANNON, Map.of(Team.CHO, "包", Team.HAN, "包"),
+            PieceType.HORSE, Map.of(Team.CHO, "馬", Team.HAN, "馬"),
+            PieceType.ELEPHANT, Map.of(Team.CHO, "象", Team.HAN, "象"),
+            PieceType.GUARD, Map.of(Team.CHO, "士", Team.HAN, "士"),
+            PieceType.SOLDIER, Map.of(Team.CHO, "卒", Team.HAN, "兵")
+    );
+
+    private record Cell(int x, int y) {
+    }
+
+    public void printBoard(List<PieceDto> pieces) {
+        Map<Cell, PieceDto> pieceMap = pieces.stream()
+                .collect(Collectors.toMap(piece -> new Cell(piece.x(), piece.y()), piece -> piece));
+
+        System.out.println("\n  Ａ Ｂ Ｃ Ｄ Ｅ Ｆ Ｇ Ｈ Ｉ");
         for (int y = 9; y >= 0; y--) {
-            printRow(board, y);
+            printRow(pieceMap, y);
         }
     }
 
-    private void printRow(Board board, int y) {
+    private void printRow(Map<Cell, PieceDto> pieceMap, int y) {
         System.out.print(y + " ");
         for (int x = 0; x <= 8; x++) {
-            Position position = new Position(x, y);
-            Optional<Piece> piece = board.getPiece(position);
-
-            String symbol = piece.map(this::getPieceSymbol).orElse(EMPTY_MARK);
+            String symbol = Optional.ofNullable(pieceMap.get(new Cell(x, y)))
+                    .map(this::getPieceSymbol)
+                    .orElse(EMPTY_MARK);
             System.out.print(symbol + " ");
         }
         System.out.println();
+    }
+
+    private String getPieceSymbol(PieceDto piece) {
+        return TEAM_COLORS.get(piece.team())
+                + SYMBOLS.get(piece.pieceType()).get(piece.team())
+                + RESET;
     }
 
     public void printError(Exception e) {
         System.out.println(RED + "[ERROR] " + e.getMessage() + RESET);
     }
 
-    private String getPieceSymbol(Piece piece) {
-        String teamColor = piece.getTeam() == Team.CHO ? BLUE : RED;
-        String typeName = switch (piece.getPieceType()) {
-            case GENERAL -> piece.getTeam() == Team.CHO ? "楚" : "漢";
-            case CHARIOT -> "車";
-            case CANNON -> "包";
-            case HORSE -> "馬";
-            case ELEPHANT -> "象";
-            case GUARD -> "士";
-            case SOLDIER -> piece.getTeam() == Team.CHO ? "卒" : "兵";
-        };
-
-        return teamColor + typeName + RESET;
-    }
-
-    public void printChoScore(double choScore) {
-        System.out.printf("\n초(CHO): %.1f\n", choScore);
-    }
-
-    public void printHanScore(double hanScore) {
-        System.out.printf("\n한(HAN): %.1f\n", hanScore);
+    public void printScore(Team team, double score) {
+        System.out.printf("\n%s: %.1f\n", TEAM_NAMES.get(team), score);
     }
 
     public void printCurrentTurn(Team turn) {
-        String teamName = turn == Team.CHO ? "초(CHO)" : "한(HAN)";
-        String color = turn == Team.CHO ? BLUE : RED;
-        System.out.printf(color + "\n▶ [" + teamName + "의 차례입니다]  " + RESET);
+        System.out.printf(TEAM_COLORS.get(turn) + "\n▶ [" + TEAM_NAMES.get(turn) + "의 차례입니다]  " + RESET);
     }
 
     public void printGameResult(Team winner) {
-        String winnerName = winner == Team.CHO ? "초(CHO)" : "한(HAN)";
-        String color = winner == Team.CHO ? BLUE : RED;
-        System.out.println(color + "\n🎉 " + winnerName + "가 승리했습니다! 게임을 종료합니다." + RESET);
+        System.out.println(TEAM_COLORS.get(winner) + "\n🎉 " + TEAM_NAMES.get(winner) + "가 승리했습니다! 게임을 종료합니다." + RESET);
     }
 
     public void printSavedGames(Map<Long, String> games) {
@@ -83,9 +91,9 @@ public class OutputView {
             return;
         }
 
-        for (java.util.Map.Entry<Long, String> entry : games.entrySet()) {
+        for (Map.Entry<Long, String> entry : games.entrySet()) {
             long id = entry.getKey();
-            String turn = entry.getValue().equals("CHO") ? "초(CHO)" : "한(HAN)";
+            String turn = TEAM_NAMES.get(Team.valueOf(entry.getValue()));
             System.out.printf("- %d번 방 (현재 차례: %s)\n", id, turn);
         }
         System.out.println("==========================");

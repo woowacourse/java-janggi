@@ -5,14 +5,12 @@ import domain.board.Position;
 import domain.piece.Piece;
 import domain.piece.Team;
 
+import java.util.Map;
+
 public class Game {
 
     private final Board board;
     private Team turn;
-
-    public Board getBoard() {
-        return board;
-    }
 
     public Game(Board board) {
         this(board, Team.CHO);
@@ -52,6 +50,9 @@ public class Game {
         return !(board.isAliveGeneral(Team.CHO) && board.isAliveGeneral(Team.HAN));
     }
 
+    public Map<Position, Piece> getPieces() {
+        return board.getPieces();
+    }
 
     public Team getWinnerTeam() {
         if (!isGameEnd()) {
