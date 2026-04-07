@@ -10,6 +10,7 @@ import janggi.domain.vo.position.Position;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Board implements BoardView {
     private final Map<Position, Piece> board;
@@ -41,6 +42,20 @@ public class Board implements BoardView {
     @Override
     public Palace palace() {
         return palace;
+    }
+
+    @Override
+    public List<Piece> kingsOnBoard() {
+        return board.values().stream()
+                .filter(piece -> piece.pieceType() == PieceType.KING)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Piece> piecesOf(Team team) {
+        return board.values().stream()
+                .filter(piece -> piece.findTeam() == team)
+                .collect(Collectors.toList());
     }
 
     public void move(Position from, Position to, Team currentTeam) {

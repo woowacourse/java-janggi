@@ -3,7 +3,10 @@ package janggi.domain.board;
 import janggi.domain.Palace;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
+import janggi.domain.piece.Team;
 import janggi.domain.vo.position.Position;
+
+import java.util.List;
 
 public interface BoardView {
     Piece findByPosition(Position position);
@@ -13,4 +16,8 @@ public interface BoardView {
     PieceType findTypeByPosition(Position position);
 
     Palace palace();
+
+    List<Piece> kingsOnBoard();
+
+    List<Piece> piecesOf(Team team);
 }
