@@ -152,37 +152,6 @@ class RouteTest {
     }
 
     @Nested
-    class 목적지까지의_경로를_반환한다 {
-
-        @Test
-        void 목적지만_있다면_빈_컬렉션을_반환한다() {
-            // given
-            Intersection destination = new Intersection(3, 3);
-            Route route = new Route(List.of(destination));
-
-            // when
-            List<Intersection> path = route.getPath();
-
-            // then
-            assertThat(path).isEmpty();
-        }
-
-        @Test
-        void 경로가_있다면_경로에_대한_좌표_컬렉션을_반환한다() {
-            // given
-            Intersection firstNode = new Intersection(2, 2);
-            Intersection secondNode = new Intersection(2, 3);
-            Intersection destination = new Intersection(2, 4);
-
-            Route route = new Route(List.of(firstNode, secondNode, destination));
-
-            List<Intersection> path = route.getPath();
-
-            assertThat(path).containsExactly(firstNode, secondNode);
-        }
-    }
-
-    @Nested
     class 궁성만_포함하고_있는지를_반환한다 {
 
         @Test

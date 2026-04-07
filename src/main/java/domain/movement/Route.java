@@ -43,7 +43,7 @@ public class Route {
         return route.getLast();
     }
 
-    public List<Intersection> getPath() {
+    private List<Intersection> getPath() {
         if (route.size() <= 1) {
             return List.of();
         }
