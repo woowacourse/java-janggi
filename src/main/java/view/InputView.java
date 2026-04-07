@@ -31,7 +31,7 @@ public final class InputView {
     private final Scanner scanner = new Scanner(System.in);
 
     public int readMenuCommand() {
-        System.out.println("메뉴 중 하나를 선택해 주세요: ");
+        System.out.println("메뉴 중 하나를 선택해 주세요(예. 1): ");
 
         return Integer.parseInt(readLine().trim());
     }

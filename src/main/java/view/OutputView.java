@@ -6,6 +6,7 @@ import domain.game.GameResult;
 import domain.game.Side;
 import domain.piece.Piece;
 import domain.piece.PieceType;
+import dto.GameMenu;
 import dto.GameSummary;
 import java.util.Arrays;
 import java.util.Collections;
@@ -43,13 +44,10 @@ public final class OutputView {
     }
 
     public void printGameMenu() {
-        final List<String> menuItems = List.of(
-                "1. 새 게임",
-                "2. 이전 게임 조회(이어하기/결과 확인)"
-        );
-
         System.out.println("선택 가능한 메뉴는 다음과 같습니다.");
-        menuItems.forEach(System.out::println);
+        Arrays.stream(GameMenu.values())
+                .map(GameMenu::toDisplayString)
+                .forEach(System.out::println);
         System.out.println();
     }
 
