@@ -14,10 +14,18 @@ import java.util.List;
 
 public class JanggiController {
 
-    private final InputView inputView = new InputView();
-    private final OutputView outputView = new OutputView();
-    private final GameRepository gameRepository = new GameRepository();
-    private final PieceRepository pieceRepository = new PieceRepository();
+    private final InputView inputView;
+    private final OutputView outputView;
+    private final GameRepository gameRepository;
+    private final PieceRepository pieceRepository;
+
+    public JanggiController(InputView inputView, OutputView outputView,
+                            GameRepository gameRepository, PieceRepository pieceRepository) {
+        this.inputView = inputView;
+        this.outputView = outputView;
+        this.gameRepository = gameRepository;
+        this.pieceRepository = pieceRepository;
+    }
 
     private JanggiGame janggiGame;
     private Board board;
