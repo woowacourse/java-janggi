@@ -90,14 +90,16 @@ public class GameService {
     }
 
 
-    public void movePiece(Long gameId, Position from, Position to, LocalDateTime playedAt) {
-        transactionTemplate.executeWithoutResult(() -> {
+    public GameDto movePiece(Long gameId, Position from, Position to, LocalDateTime playedAt) {
+        return transactionTemplate.execute(() -> {
             Game game = loadGame(gameId).game();
             game.movePiece(from, to, playedAt);
 
             gameDAO.updateCurrentTurnAndLastPlayedAt(new GameEntity(gameId, game.roomName(), game.currentTurn(), game.lastPlayedAt()));
             piecePositionDAO.deleteByGameIdAndPosition(gameId, to);
             piecePositionDAO.updatePosition(gameId, from, to);
+
+            return new GameDto(gameId, game);
         });
     }
 }

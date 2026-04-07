@@ -135,9 +135,8 @@ public class JanggiController {
     }
 
     private GameDto movePiece(GameDto gameDto, Position from, Position to) {
-        gameService.movePiece(gameDto.id(), from, to, LocalDateTime.now());
+        GameDto updatedGame = gameService.movePiece(gameDto.id(), from, to, LocalDateTime.now());
 
-        GameDto updatedGame = gameService.loadGame(gameDto.id());
         outputView.printBoard(BoardDto.from(updatedGame.game().boardMap()));
         return updatedGame;
     }

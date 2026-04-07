@@ -152,9 +152,21 @@ class GameServiceTest {
         LocalDateTime updatedLastPlayedAt = LocalDateTime.of(2024, 4, 5, 17, 12);
 
         // when
-        gameService.movePiece(gameEntity.id(), from, to, updatedLastPlayedAt);
+        GameDto gameDto = gameService.movePiece(gameEntity.id(), from, to, updatedLastPlayedAt);
 
         // then
+        Game game = gameDto.game();
+        assertThat(game.currentTurn())
+                .isEqualTo(currentTurn.next());
+        assertThat(game.lastPlayedAt())
+                .isEqualTo(updatedLastPlayedAt);
+        assertThat(game.boardMap())
+                .doesNotContainKey(from)
+                .containsKey(to);
+        assertDatabase(gameEntity, currentTurn, updatedLastPlayedAt, fromRow, fromColumn, toRow, toColumn);
+    }
+
+    private void assertDatabase(GameEntity gameEntity, Dynasty currentTurn, LocalDateTime updatedLastPlayedAt, int fromRow, int fromColumn, int toRow, int toColumn) throws SQLException {
         try (
                 Connection conn = dataSource.getConnection();
                 PreparedStatement gameStatement = conn.prepareStatement("SELECT * FROM game WHERE game_id = ?");
