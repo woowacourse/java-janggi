@@ -39,13 +39,13 @@ public class GameService {
         return new JanggiGame(status.id(), BoardConverter.convertToBoard(pieces), status.turn());
     }
 
-    public GameStatus findInitialStatus(int mode) {
+    private GameStatus findInitialStatus(int mode) {
         if (mode == START_NEW_MODE) {
             return new GameStatus(0, Country.CHO);
         }
         GameStatus status = janggiGameDao.findLatestStatus();
         if (status == null) {
-            OutputView.printError("저장된 게임이 없습니다. 새 게임을 시작합니다.");
+            OutputView.printError("저장된 게임이 없습니다.");
             return new GameStatus(0, Country.CHO);
         }
         return status;

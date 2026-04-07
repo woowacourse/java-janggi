@@ -2,6 +2,29 @@
 
 장기 미션 저장소
 
+## 실행 환경 구축
+./docker/docker-compose.yml가 존재하는 경로에서 아래의 명령어를 먼저 입력해야 데이터베이스 관련 로직이 동작합니다.
+
+docker 컨테이너 실행
+
+```shell
+docker-compose up -d
+```
+
+docker 컨테이너를 종료
+
+```shell
+docker-compose down
+```
+
+docker 컨테이너 볼륨 삭제 및 종료
+
+```shell
+docker-compose down -v
+```
+
+- 만약 3306포트가 열려있다면 로컬 MYSQL 서버를 종료하거나 docker-compose.yml의 포트를 변경해주세요.
+
 ## 기능 요구 사항
 
 - [x] Position 생성
