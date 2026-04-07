@@ -17,10 +17,21 @@ import java.util.Map;
 
 public class GimulDao implements GimulRepository {
 
-    public void saveAll(Long gameId, Map<Position, AbstractGimul> board) {
+    @Override
+    public void deleteAll(Connection connection, Long gameId) {
+        String sql = "DELETE FROM gimul WHERE game_id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setLong(1, gameId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new IllegalStateException("DB 오류가 발생했습니다.", e);
+        }
+    }
+
+    @Override
+    public void saveAll(Connection connection, Long gameId, Map<Position, AbstractGimul> board) {
         String sql = "INSERT INTO gimul (game_id, gimul_type, team, row_value, column_value) VALUES (?, ?, ?, ?, ?)";
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             for (Map.Entry<Position, AbstractGimul> entry : board.entrySet()) {
                 statement.setLong(1, gameId);
                 statement.setString(2, entry.getValue().getType().name());
@@ -30,19 +41,8 @@ public class GimulDao implements GimulRepository {
                 statement.addBatch();
             }
             statement.executeBatch();
-        } catch (SQLException exception) {
-            throw new IllegalStateException("DB 오류가 발생했습니다.", exception);
-        }
-    }
-
-    public void deleteAll(Long gameId) {
-        String sql = "DELETE FROM gimul WHERE game_id = ?";
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setLong(1, gameId);
-            statement.executeUpdate();
-        } catch (SQLException exception) {
-            throw new IllegalStateException("DB 오류가 발생했습니다.", exception);
+        } catch (SQLException e) {
+            throw new IllegalStateException("DB 오류가 발생했습니다.", e);
         }
     }
 

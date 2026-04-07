@@ -76,10 +76,10 @@ public class GameDao implements GameRepository {
         }
     }
 
-    public void updateCurrentTurn(Long gameId, Team currentTurn) {
+    @Override
+    public void updateCurrentTurn(Connection connection, Long gameId, Team currentTurn) {
         String sql = "UPDATE game SET current_turn = ? WHERE id = ?";
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, currentTurn.name());
             statement.setLong(2, gameId);
             statement.executeUpdate();
@@ -89,10 +89,9 @@ public class GameDao implements GameRepository {
     }
 
     @Override
-    public void delete(Long gameId) {
+    public void delete(Connection connection, Long gameId) {
         String sql = "DELETE FROM game WHERE id = ?";
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, gameId);
             statement.executeUpdate();
         } catch (SQLException e) {
