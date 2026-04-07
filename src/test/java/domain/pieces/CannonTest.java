@@ -93,4 +93,37 @@ public class CannonTest {
         Assertions.assertFalse(cannon.canMove(fromPosition, new Position(7, 5), board));
         Assertions.assertFalse(cannon.canMove(fromPosition, new Position(8, 5), board));
     }
+
+    @Test
+    void 궁성_안에서_기물을_넘고_대각선_이동() {
+        Board board = new Board();
+        Cannon cannon = new Cannon(Camp.HAN);
+        Soldier pieceA = new Soldier(Camp.CHO);
+
+        Position fromPosition = new Position(3, 9);
+        Position pieceAPosition = new Position(4, 8);
+        Position toPosition = new Position(5, 7);
+
+        board.locatePiece(fromPosition, cannon);
+        board.locatePiece(pieceAPosition, pieceA);
+
+        Assertions.assertFalse(cannon.canMove(fromPosition, pieceAPosition, board));
+        Assertions.assertTrue(cannon.canMove(fromPosition, toPosition, board));
+
+        //뛰어넘고 궁성밖 대각선은 안됨
+        Assertions.assertFalse(cannon.canMove(fromPosition, new Position(6,6), board));
+    }
+
+    @Test
+    void 궁성_안에서_기물을_넘지않으면_대각선이동_실패() {
+        Board board = new Board();
+        Cannon cannon = new Cannon(Camp.HAN);
+
+        Position fromPosition = new Position(3, 9);
+        Position toPosition = new Position(5, 7);
+
+        board.locatePiece(fromPosition, cannon);
+
+        Assertions.assertFalse(cannon.canMove(fromPosition, toPosition, board));
+    }
 }

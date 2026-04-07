@@ -2,11 +2,9 @@ package domain.pieces;
 
 import domain.*;
 
-import java.util.List;
 import java.util.Optional;
 
 public class Cannon extends Piece {
-    private final List<Direction> linearDirections = MoveDirection.ofLinear();
 
     public Cannon(Camp camp) {
         super(camp, PieceType.CANNON);
@@ -14,11 +12,21 @@ public class Cannon extends Piece {
 
     @Override
     public boolean canMove(Position from, Position to, BoardReader boardReader) {
-        for (Direction direction : linearDirections) {
+        for (Direction direction : MoveDirection.ofLinear()) {
             if (canJumpToTarget(from, to, boardReader, direction)) {
                 return true;
             }
         }
+
+        //궁성 로직
+        if (Palace.isPalacePosition(from) && Palace.isPalacePosition(to)) {
+            for (Direction diagonalDirection : MoveDirection.ofDiagonal()) {
+                if (canJumpToTarget(from, to, boardReader, diagonalDirection)) {
+                    return true;
+                }
+            }
+        }
+
         return false;
     }
 
@@ -57,4 +65,6 @@ public class Cannon extends Piece {
         }
         return false;
     }
+
+
 }

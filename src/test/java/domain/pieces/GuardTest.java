@@ -58,4 +58,34 @@ public class GuardTest {
 
         Assertions.assertFalse(guard.canMove(fromPosition, toPosition, board));
     }
+
+    @Test
+    void 한나라_Guard_궁성_밖_이동불가() {
+        Board board = new Board();
+        Guard guard = new Guard(Camp.HAN);
+        Position fromPosition = new Position(3, 0);
+        Position toPosition = new Position(2,0);
+
+        Assertions.assertFalse(guard.canMove(fromPosition, toPosition, board));
+    }
+
+    @Test
+    void 초나라_Guard_궁성_밖_이동불가() {
+        Board board = new Board();
+        Guard guard = new Guard(Camp.HAN);
+        Position fromPosition = new Position(5, 9);
+        Position toPosition = new Position(6,9);
+
+        Assertions.assertFalse(guard.canMove(fromPosition, toPosition, board));
+    }
+
+    @Test
+    void 궁성_연결안된_대각선_이동불가() {
+        Board board = new Board();
+        Guard guard = new Guard(Camp.CHO);
+        Position fromPosition = new Position(4,9);
+        Position toPosition = new Position(3,8);
+
+        Assertions.assertFalse(guard.canMove(fromPosition, toPosition, board));
+    }
 }

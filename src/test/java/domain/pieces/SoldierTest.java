@@ -1,12 +1,12 @@
 package domain.pieces;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
 import domain.Board;
 import domain.Camp;
 import domain.Position;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class SoldierTest {
 
@@ -99,6 +99,46 @@ public class SoldierTest {
         Soldier soldier = new Soldier(Camp.CHO);
         Position fromPosition = new Position(0, 6);
         Position toPosition = new Position(0, 7);
+
+        Assertions.assertFalse(soldier.canMove(fromPosition, toPosition, board));
+    }
+
+    @Test
+    void 초나라_졸_한나라_궁성_대각선_이동() {
+        Board board = new Board();
+        Soldier soldier = new Soldier(Camp.CHO);
+        Position fromPosition = new Position(3,2);
+        Position toPosition = new Position(4,2);
+
+        Assertions.assertTrue(soldier.canMove(fromPosition, toPosition, board));
+    }
+
+    @Test
+    void 초나라_졸_궁성에_있지만_바깥대각선_불가() {
+        Board board = new Board();
+        Soldier soldier = new Soldier(Camp.CHO);
+        Position fromPosition = new Position(3,2);
+        Position toPosition = new Position(2,1);
+
+        Assertions.assertFalse(soldier.canMove(fromPosition, toPosition, board));
+    }
+
+    @Test
+    void 초나라_졸_궁성_이어지지_않은_대각선_이동불가() {
+        Board board = new Board();
+        Soldier soldier = new Soldier(Camp.CHO);
+        Position fromPosition = new Position(4,2);
+        Position toPosition = new Position(3,1);
+
+        Assertions.assertFalse(soldier.canMove(fromPosition, toPosition, board));
+    }
+
+    @Test
+    void 초나라_졸_궁성_안에서_뒤로대각_불가() {
+        Board board = new Board();
+        Soldier soldier = new Soldier(Camp.CHO);
+        Position fromPosition = new Position(4,1);
+        Position toPosition = new Position(3,2);
 
         Assertions.assertFalse(soldier.canMove(fromPosition, toPosition, board));
     }

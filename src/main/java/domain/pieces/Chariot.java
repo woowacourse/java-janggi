@@ -2,10 +2,7 @@ package domain.pieces;
 
 import domain.*;
 
-import java.util.List;
-
 public class Chariot extends Piece {
-    private final List<Direction> linearDirections = MoveDirection.ofLinear();
 
     public Chariot(Camp camp) {
         super(camp, PieceType.CHARIOT);
@@ -13,11 +10,20 @@ public class Chariot extends Piece {
 
     @Override
     public boolean canMove(Position from, Position to, BoardReader boardReader) {
-        for (Direction direction : linearDirections) {
+        for (Direction direction : MoveDirection.ofLinear()) {
             if (canReachTarget(from, to, boardReader, direction)) {
                 return true;
             }
         }
+
+        if(Palace.isPalacePosition(from) && Palace.isPalacePosition(to)) {
+            for (Direction diagonalDirection : MoveDirection.ofDiagonal()) {
+                if(canReachTargetAndPassGeneralPosition(from, to, boardReader, diagonalDirection)) {
+                    return true;
+                }
+            }
+        }
+
         return false;
     }
 
@@ -33,6 +39,29 @@ public class Chariot extends Piece {
                 break;
             }
         }
+        return false;
+    }
+
+    private boolean canReachTargetAndPassGeneralPosition(Position from,
+                                                         Position to,
+                                                         BoardReader boardReader,
+                                                         Direction direction) {
+        Position current = from;
+        boolean PassGeneralPosition = false;
+        while (current.canMove(direction)) {
+            current = current.move(direction);
+            if(Palace.isGeneralPosition(current)) {
+                PassGeneralPosition = true;
+            }
+            if (current.equals(to) && PassGeneralPosition) {
+                return true;
+            }
+
+            if (boardReader.isExist(current)) {
+                break;
+            }
+        }
+
         return false;
     }
 }

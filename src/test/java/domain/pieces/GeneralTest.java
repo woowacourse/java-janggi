@@ -1,12 +1,12 @@
 package domain.pieces;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
 import domain.Board;
 import domain.Camp;
 import domain.Position;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class GeneralTest {
 
@@ -55,6 +55,26 @@ class GeneralTest {
         General general = new General(Camp.HAN);
         Position fromPosition = new Position(3, 0);
         Position toPosition = new Position(0, 0);
+
+        Assertions.assertFalse(general.canMove(fromPosition, toPosition, board));
+    }
+
+    @Test
+    void 왕은_궁성_밖으로_이동불가() {
+        Board board = new Board();
+        General general = new General(Camp.HAN);
+        Position fromPosition = new Position(5, 8);
+        Position toPosition = new Position(6, 8);
+
+        Assertions.assertFalse(general.canMove(fromPosition, toPosition, board));
+    }
+
+    @Test
+    void 궁성_연결안된_대각선_이동불가() {
+        Board board = new Board();
+        General general = new General(Camp.CHO);
+        Position fromPosition = new Position(4,9);
+        Position toPosition = new Position(3,8);
 
         Assertions.assertFalse(general.canMove(fromPosition, toPosition, board));
     }
