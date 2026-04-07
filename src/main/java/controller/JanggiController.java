@@ -1,5 +1,6 @@
 package controller;
 
+import dto.SavedGameDto;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -47,7 +48,7 @@ public class JanggiController {
     }
 
     private void loadSavedGame() {
-        List<Integer> savedGames = janggiService.getSavedGames();
+        List<SavedGameDto> savedGames = janggiService.getSavedGames();
         if (savedGames.isEmpty()) {
             outputView.printNewGameStart();
             startNewGame();
@@ -56,7 +57,7 @@ public class JanggiController {
         startSavedGame(savedGames);
     }
 
-    private void startSavedGame(List<Integer> savedGames) {
+    private void startSavedGame(List<SavedGameDto> savedGames) {
         doRetry(() -> {
             int gameId = inputView.requestGameId(savedGames);
             Board board = janggiService.getSavedBoard(gameId);
@@ -77,7 +78,7 @@ public class JanggiController {
         }
 
         outputView.printGameResult(janggiGame.getWinnerCountry());
-        janggiService.finishGame(gameId, board);
+        janggiService.finishGame(gameId, janggiGame);
     }
 
     private void playTurn(List<PositionDto> positionDtos, int gameId, JanggiGame janggiGame, Board board) {

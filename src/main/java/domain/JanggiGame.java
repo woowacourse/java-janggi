@@ -43,9 +43,17 @@ public class JanggiGame {
     public double calculateScore() {
         Country country = getCountry();
         if (country.equals(Country.CHO)) {
-            return board.calculateScore(country);
+            return calculateChoScore();
         }
-        return board.calculateScore(country) + HAN_BONUS_SCORE;
+        return calculateHanScore();
+    }
+
+    public double calculateChoScore() {
+        return board.calculateScore(Country.CHO);
+    }
+
+    public double calculateHanScore() {
+        return board.calculateScore(Country.HAN) + HAN_BONUS_SCORE;
     }
 
     public boolean isFinished() {
