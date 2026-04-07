@@ -1,17 +1,10 @@
 package domain.database;
 
-import database.SchemaInitializer;
-import database.connection.DBConnector;
+import database.service.SchemaInitializer;
 import database.dao.BoardDao;
 import database.dao.JdbcBoardDao;
 import database.dao.JdbcTemplate;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
-import java.sql.Connection;
-import java.sql.SQLException;
 
 class BoardDaoTest {
 

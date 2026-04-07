@@ -1,4 +1,4 @@
-package database;
+package database.service;
 
 import database.context.BoardIdContext;
 import database.transaction.TransactionExecutor;

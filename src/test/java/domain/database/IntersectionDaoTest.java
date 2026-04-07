@@ -1,23 +1,9 @@
 package domain.database;
 
-import database.SchemaInitializer;
-import database.connection.DBConnector;
+import database.service.SchemaInitializer;
 import database.dao.*;
-import database.dto.IntersectionDto;
 import database.mapper.JanggiBoardMapper;
-import domain.board.JanggiBoard;
-import domain.board.JanggiIntersectionGenerator;
-import domain.intersection.Intersection;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.List;
-
-import static domain.board.Formation.ELEPHANT_HORSE_ELEPHANT_HORSE;
 
 class IntersectionDaoTest {
 
