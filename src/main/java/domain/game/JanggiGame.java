@@ -7,7 +7,6 @@ import domain.coordination.Coordination;
 import domain.piece.Team;
 import java.util.HashMap;
 import java.util.List;
-import view.dto.BoardDto;
 
 public class JanggiGame {
 
@@ -42,10 +41,6 @@ public class JanggiGame {
                 Coordination.of(to.get(0), to.get(1))
         );
         updateTurn();
-    }
-
-    public BoardDto createBoardDto() {
-        return BoardDto.from(board.getBoard());
     }
 
     public GameState snapshot() {

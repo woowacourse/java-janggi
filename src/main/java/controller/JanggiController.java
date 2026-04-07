@@ -11,6 +11,7 @@ import service.LoadedGame;
 import util.Retry;
 import view.InputView;
 import view.OutputView;
+import view.dto.BoardDto;
 
 public class JanggiController {
 
@@ -75,7 +76,7 @@ public class JanggiController {
     }
 
     private void printBoardAndScore(JanggiGame janggiGame) {
-        outputView.printBoard(janggiGame.createBoardDto());
+        outputView.printBoard(BoardDto.from(janggiGame.snapshot().board()));
         outputView.printScore(CHO, janggiGame.scoreOf(Team.CHO));
         outputView.printScore(HAN, janggiGame.scoreOf(Team.HAN));
     }
