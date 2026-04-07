@@ -12,12 +12,12 @@ public interface BoardDao {
     // TODO JanggiBoard를 받도록 수정.
     Long save(Connection connection);
 
-    List<BoardSummaryDto> readPlayingJanggiBoardList(Connection connection);
+    List<BoardSummaryDto> readAllPlaying(Connection connection);
 
-    BoardSummaryDto readPlayingJanggiBoard(Connection connection, Long boardId);
+    BoardSummaryDto readPlayingById(Connection connection, Long boardId);
 
-    void updateBoardTurn(Connection connection, Long boardId, Team nextTurn);
+    void updateTurn(Connection connection, Long boardId, Team nextTurn);
 
-    void updateBoardResult(Connection connection, Long boardId, GameResult gameResult);
+    void updateResult(Connection connection, Long boardId, GameResult gameResult);
 
 }

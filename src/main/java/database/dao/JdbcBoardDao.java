@@ -56,7 +56,7 @@ public class JdbcBoardDao implements BoardDao {
     }
 
     @Override
-    public List<BoardSummaryDto> readPlayingJanggiBoardList(Connection connection) {
+    public List<BoardSummaryDto> readAllPlaying(Connection connection) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(READ_PLAYING_BOARD_LIST_QUERY)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             List<BoardSummaryDto> boardSummaryDtos = new ArrayList<>();
@@ -76,7 +76,7 @@ public class JdbcBoardDao implements BoardDao {
         }
     }
 
-    public BoardSummaryDto readPlayingJanggiBoard(Connection connection, Long boardId) {
+    public BoardSummaryDto readPlayingById(Connection connection, Long boardId) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(READ_BOARD_QUERY)) {
             preparedStatement.setString(1, String.valueOf(boardId));
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -95,7 +95,7 @@ public class JdbcBoardDao implements BoardDao {
         }
     }
 
-    public void updateBoardTurn(Connection connection, Long boardId, Team nextTurn) {
+    public void updateTurn(Connection connection, Long boardId, Team nextTurn) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BOARD_QUERY)) {
 
             preparedStatement.setString(1, nextTurn.name());
@@ -110,7 +110,7 @@ public class JdbcBoardDao implements BoardDao {
         }
     }
 
-    public void updateBoardResult(Connection connection, Long boardId, GameResult gameResult) {
+    public void updateResult(Connection connection, Long boardId, GameResult gameResult) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BOARD_RESULT_QUERY)) {
 
             preparedStatement.setString(1, gameResult.winner().name());

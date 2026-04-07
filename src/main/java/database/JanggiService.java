@@ -30,7 +30,7 @@ public class JanggiService {
     public Long createBoard(JanggiBoard janggiBoard) {
         try (Connection connection = DBConnector.getConnection()) {
             Long saveId = boardDao.save(connection);
-            intersectionDao.saveAllIntersection(connection, saveId, janggiBoard.getListIntersection());
+            intersectionDao.saveAll(connection, saveId, janggiBoard.getListIntersection());
             return saveId;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -39,7 +39,7 @@ public class JanggiService {
 
     public List<BoardSummaryDto> readExistPlayingBoard() {
         try (Connection connection = DBConnector.getConnection()) {
-            return boardDao.readPlayingJanggiBoardList(connection);
+            return boardDao.readAllPlaying(connection);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -48,8 +48,8 @@ public class JanggiService {
     public JanggiBoard getExistBoard(BoardSelectCommand command) {
         try (Connection connection = DBConnector.getConnection()) {
 
-            BoardSummaryDto boardSummaryDto = boardDao.readPlayingJanggiBoard(connection, command.select());
-            List<Intersection> intersections = intersectionDao.readIntersectionByBoardId(connection, command.select());
+            BoardSummaryDto boardSummaryDto = boardDao.readPlayingById(connection, command.select());
+            List<Intersection> intersections = intersectionDao.readByBoardId(connection, command.select());
             Team currentTurn = Team.valueOf(boardSummaryDto.currentTurn());
 
             return new JanggiBoard(new DBIntersectionGenerator(intersections), currentTurn);
@@ -64,7 +64,7 @@ public class JanggiService {
 
             Long boardId = BoardIdContext.getBoardId();
 
-            boardDao.updateBoardTurn(connection, boardId, currentTurn);
+            boardDao.updateTurn(connection, boardId, currentTurn);
             intersectionDao.update(connection, boardId, moved.destination());
             intersectionDao.update(connection, boardId, moved.origin());
 
@@ -77,7 +77,7 @@ public class JanggiService {
         try (Connection connection = DBConnector.getConnection()) {
 
             Long boardId = BoardIdContext.getBoardId();
-            boardDao.updateBoardResult(connection, boardId, gameResult);
+            boardDao.updateResult(connection, boardId, gameResult);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

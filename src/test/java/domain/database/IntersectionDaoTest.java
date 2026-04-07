@@ -48,10 +48,10 @@ class IntersectionDaoTest {
             );
 
             List<Intersection> actual = janggiBoard.getListIntersection();
-            intersectionDao.saveAllIntersection(connection, savedId, actual);
+            intersectionDao.saveAll(connection, savedId, actual);
 
             // when
-            List<Intersection> expected = intersectionDao.readIntersectionByBoardId(connection, savedId);
+            List<Intersection> expected = intersectionDao.readByBoardId(connection, savedId);
 
             // then
             Assertions.assertThat(actual.size())

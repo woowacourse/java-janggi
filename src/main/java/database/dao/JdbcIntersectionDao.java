@@ -34,7 +34,7 @@ public class JdbcIntersectionDao implements IntersectionDao {
             """;
 
     @Override
-    public void saveAllIntersection(Connection connection, Long boardId, List<Intersection> intersections) {
+    public void saveAll(Connection connection, Long boardId, List<Intersection> intersections) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_INTERSECTION_QUERY)) {
 
             for (Intersection intersection : intersections) {
@@ -57,7 +57,7 @@ public class JdbcIntersectionDao implements IntersectionDao {
     }
 
     @Override
-    public List<Intersection> readIntersectionByBoardId(Connection connection, Long boardId) {
+    public List<Intersection> readByBoardId(Connection connection, Long boardId) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(READ_ALL_INTERSECTION_QUERY)) {
             preparedStatement.setString(1, String.valueOf(boardId));
 
