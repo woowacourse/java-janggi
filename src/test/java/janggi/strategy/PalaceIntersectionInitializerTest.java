@@ -1,7 +1,14 @@
 package janggi.strategy;
 
 
-import static janggi.domain.rule.route.Direction.*;
+import static janggi.domain.rule.route.Direction.BACK;
+import static janggi.domain.rule.route.Direction.BACK_LEFT;
+import static janggi.domain.rule.route.Direction.BACK_RIGHT;
+import static janggi.domain.rule.route.Direction.FRONT;
+import static janggi.domain.rule.route.Direction.FRONT_LEFT;
+import static janggi.domain.rule.route.Direction.FRONT_RIGHT;
+import static janggi.domain.rule.route.Direction.LEFT;
+import static janggi.domain.rule.route.Direction.RIGHT;
 
 import janggi.domain.Intersection;
 import janggi.domain.location.Vector;

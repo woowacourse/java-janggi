@@ -46,9 +46,8 @@ public class SangTest {
         void shouldReturnRouteForReachableLocation(Location to, List<Location> expected) {
             // given
             Piece piece = new Sang(Side.HAN);
-            Intersection base = TestIntersectionUtil.getDefaultIntersection(Location.of(0,0), piece);
+            Intersection base = TestIntersectionUtil.getDefaultIntersection(Location.of(0, 0), piece);
             Intersection destination = TestIntersectionUtil.getDefaultEmptyPieceIntersection(to);
-
 
             // when & then
             Assertions.assertThat(piece.calculateRoute(base, destination))
@@ -61,9 +60,8 @@ public class SangTest {
         void shouldThrowExceptionForUnReachableLocation(Location to) {
             // given
             Piece piece = new Sang(Side.CHO);
-            Intersection base = TestIntersectionUtil.getDefaultIntersection(Location.of(0,0), piece);
+            Intersection base = TestIntersectionUtil.getDefaultIntersection(Location.of(0, 0), piece);
             Intersection destination = TestIntersectionUtil.getDefaultEmptyPieceIntersection(to);
-
 
             // when & then
             Assertions.assertThatThrownBy(() -> piece.calculateRoute(base, destination))

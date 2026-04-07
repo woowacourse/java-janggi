@@ -68,7 +68,7 @@ class StraightRouteProviderTest {
     void shouldThrowExceptionForUnReachableLocation(Location to) {
         // given
         Piece piece = new TestPiece(Side.CHO);
-        Intersection base = TestIntersectionUtil.getDefaultIntersection(Location.of(1,1), piece);
+        Intersection base = TestIntersectionUtil.getDefaultIntersection(Location.of(1, 1), piece);
         Intersection destination = TestIntersectionUtil.getDefaultEmptyPieceIntersection(to);
 
         RouteProvider routeProvider = StraightRouteProvider.getInstance();

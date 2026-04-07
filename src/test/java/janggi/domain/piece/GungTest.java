@@ -44,7 +44,7 @@ public class GungTest {
         void shouldReturnRouteForReachableLocation(Location to) {
             // given
             Piece piece = new Gung(Side.HAN);
-            Intersection base = TestIntersectionUtil.getPalaceCenterIntersection(Location.of(2,5), piece);
+            Intersection base = TestIntersectionUtil.getPalaceCenterIntersection(Location.of(2, 5), piece);
             Intersection destination = TestIntersectionUtil.getPalaceEmptyPieceIntersection(to);
 
             List<Location> expected = List.of(to);
@@ -59,10 +59,10 @@ public class GungTest {
         void returnRoute_WhenAtoRPalaceLeftTop() {
             // given
             Piece piece = new Gung(Side.HAN);
-            Intersection base = TestIntersectionUtil.getPalaceLeftTopIntersection(Location.of(1,4), piece);
-            Intersection destination = TestIntersectionUtil.getPalaceEmptyPieceIntersection(Location.of(2,5));
+            Intersection base = TestIntersectionUtil.getPalaceLeftTopIntersection(Location.of(1, 4), piece);
+            Intersection destination = TestIntersectionUtil.getPalaceEmptyPieceIntersection(Location.of(2, 5));
 
-            List<Location> expected = List.of(Location.of(2,5));
+            List<Location> expected = List.of(Location.of(2, 5));
 
             // when & then
             Assertions.assertThat(piece.calculateRoute(base, destination))
@@ -75,7 +75,7 @@ public class GungTest {
         void shouldThrowExceptionForUnReachableLocation(Location to) {
             // given
             Piece piece = new Gung(Side.CHO);
-            Intersection base = TestIntersectionUtil.getDefaultIntersection(Location.of(2,5), piece);
+            Intersection base = TestIntersectionUtil.getDefaultIntersection(Location.of(2, 5), piece);
             Intersection destination = TestIntersectionUtil.getPalaceEmptyPieceIntersection(to);
 
             // when & then
@@ -89,7 +89,7 @@ public class GungTest {
             // given
             Piece piece = new Gung(Side.CHO);
             Intersection base = TestIntersectionUtil.getDefaultIntersection(Location.of(1, 4), piece);
-            Intersection destination = TestIntersectionUtil.getDefaultEmptyPieceIntersection(Location.of(1,3));
+            Intersection destination = TestIntersectionUtil.getDefaultEmptyPieceIntersection(Location.of(1, 3));
 
             // when & then
             Assertions.assertThatThrownBy(() -> piece.calculateRoute(base, destination))

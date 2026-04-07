@@ -59,10 +59,10 @@ public class SaTest {
         void returnRoute_WhenMovingDiagonallyInPalace() {
             // given
             Piece piece = new Sa(Side.HAN);
-            Intersection base = TestIntersectionUtil.getPalaceLeftTopIntersection(Location.of(1,4), piece);
-            Intersection destination = TestIntersectionUtil.getPalaceEmptyPieceIntersection(Location.of(2,5));
+            Intersection base = TestIntersectionUtil.getPalaceLeftTopIntersection(Location.of(1, 4), piece);
+            Intersection destination = TestIntersectionUtil.getPalaceEmptyPieceIntersection(Location.of(2, 5));
 
-            List<Location> expected = List.of(Location.of(2,5));
+            List<Location> expected = List.of(Location.of(2, 5));
 
             // when & then
             Assertions.assertThat(piece.calculateRoute(base, destination))
@@ -89,7 +89,7 @@ public class SaTest {
             // given
             Piece piece = new Sa(Side.CHO);
             Intersection base = TestIntersectionUtil.getDefaultIntersection(Location.of(1, 4), piece);
-            Intersection destination = TestIntersectionUtil.getDefaultEmptyPieceIntersection(Location.of(1,3));
+            Intersection destination = TestIntersectionUtil.getDefaultEmptyPieceIntersection(Location.of(1, 3));
 
             // when & then
             Assertions.assertThatThrownBy(() -> piece.calculateRoute(base, destination))

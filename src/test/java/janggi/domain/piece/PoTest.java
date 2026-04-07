@@ -20,9 +20,9 @@ public class PoTest {
 
         static List<Location> provideUnreachableCoordination() {
             return List.of(
-                    Location.of(1,1),
-                    Location.of(2,2),
-                    Location.of(6,6)
+                    Location.of(1, 1),
+                    Location.of(2, 2),
+                    Location.of(6, 6)
             );
         }
 
@@ -32,7 +32,7 @@ public class PoTest {
             // given
             Piece piece = new Po(Side.HAN);
             Intersection base = TestIntersectionUtil.getDefaultIntersection(Location.of(0, 0), piece);
-            Intersection destination = TestIntersectionUtil.getDefaultEmptyPieceIntersection(Location.of(0,6));
+            Intersection destination = TestIntersectionUtil.getDefaultEmptyPieceIntersection(Location.of(0, 6));
 
             List<Location> expected = List.of(
                     Location.from(List.of(0, 1)),
@@ -56,7 +56,6 @@ public class PoTest {
             Piece piece = new Po(Side.CHO);
             Intersection base = TestIntersectionUtil.getDefaultIntersection(Location.of(5, 5), piece);
             Intersection destination = TestIntersectionUtil.getDefaultEmptyPieceIntersection(to);
-
 
             // when & then
             Assertions.assertThatThrownBy(() -> piece.calculateRoute(base, destination))

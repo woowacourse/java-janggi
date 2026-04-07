@@ -55,8 +55,8 @@ class JolbyeongTest {
         void shouldThrowExceptionForUnReachableLocationWhenTeamHan() {
             // given
             Piece piece = new Jolbyeong(Side.HAN);
-            Intersection base = TestIntersectionUtil.getDefaultIntersection(Location.of(5,5), piece);
-            Intersection destination = TestIntersectionUtil.getDefaultEmptyPieceIntersection(Location.of(4,5));
+            Intersection base = TestIntersectionUtil.getDefaultIntersection(Location.of(5, 5), piece);
+            Intersection destination = TestIntersectionUtil.getDefaultEmptyPieceIntersection(Location.of(4, 5));
 
             // when & then
             Assertions.assertThatThrownBy(() -> piece.calculateRoute(base, destination))
@@ -69,7 +69,7 @@ class JolbyeongTest {
         void shouldThrowExceptionForUnReachableLocationWhenTeamCho(Location to) {
             // given
             Piece piece = new Jolbyeong(Side.CHO);
-            Intersection base = TestIntersectionUtil.getDefaultIntersection(Location.of(5,5), piece);
+            Intersection base = TestIntersectionUtil.getDefaultIntersection(Location.of(5, 5), piece);
             Intersection destination = TestIntersectionUtil.getDefaultEmptyPieceIntersection(to);
 
             // when & then

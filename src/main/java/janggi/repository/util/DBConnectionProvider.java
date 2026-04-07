@@ -15,6 +15,7 @@ public class DBConnectionProvider implements ConnectionProvider {
         try {
             return DriverManager.getConnection(URL, USER, PASSWORD);
         } catch (SQLException e) {
-            throw new RuntimeException("DB 연결 실패", e);        }
+            throw new RuntimeException("DB 연결 실패", e);
+        }
     }
 }

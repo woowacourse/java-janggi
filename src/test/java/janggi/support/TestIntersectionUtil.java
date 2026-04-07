@@ -1,6 +1,13 @@
 package janggi.support;
 
-import static janggi.domain.rule.route.Direction.*;
+import static janggi.domain.rule.route.Direction.BACK;
+import static janggi.domain.rule.route.Direction.BACK_LEFT;
+import static janggi.domain.rule.route.Direction.BACK_RIGHT;
+import static janggi.domain.rule.route.Direction.FRONT;
+import static janggi.domain.rule.route.Direction.FRONT_LEFT;
+import static janggi.domain.rule.route.Direction.FRONT_RIGHT;
+import static janggi.domain.rule.route.Direction.LEFT;
+import static janggi.domain.rule.route.Direction.RIGHT;
 
 import janggi.domain.Intersection;
 import janggi.domain.Location;
@@ -35,6 +42,7 @@ public class TestIntersectionUtil {
     public static Intersection getPalaceEmptyPieceIntersection(Location location) {
         return Intersection.of(location, createDefaultVectors(), EmptyPiece.getInstance(), true);
     }
+
     private static List<Vector> createDefaultVectors() {
         int defaultVectorDistance = 10;
         return List.of(
