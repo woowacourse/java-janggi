@@ -1,13 +1,16 @@
 package janggi.controller;
 
+import janggi.controller.mapper.ArrangementMapper;
 import janggi.domain.Location;
 import janggi.domain.Side;
 import janggi.domain.board.Board;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
+import janggi.strategy.ArrangementOption;
 import janggi.strategy.ArrangementStrategy;
 import janggi.strategy.BoardAssembler;
 import janggi.view.ApplicationView;
+import janggi.view.label.ArrangementStrategyLabel;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -66,9 +69,12 @@ public class JanggiFlow {
     }
 
     private ArrangementStrategy askStrategy(Side side) {
-        Map<Integer, String> strategyInfos = ArrangementOption.getStrategyOptions();
+        Map<Integer, String> strategyInfos = ArrangementStrategyLabel.getStrategyOptions();
         int decisionNumber = view.promptForArrangementStrategyDecision(side.getName(), strategyInfos);
-        return ArrangementOption.createStrategyOf(side, decisionNumber);
+        ArrangementMapper mapper = ArrangementMapper.getInstance();
+        ArrangementStrategyLabel label = ArrangementStrategyLabel.createArrangementOption(decisionNumber);
+        ArrangementOption option = mapper.findArrangementOption(label);
+        return option.toStrategy(side);
     }
 
     private Location repeatAskLocationOfPieceUntilSuccess(Side turnSide, Board board) {
