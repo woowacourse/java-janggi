@@ -50,6 +50,10 @@ public class Turn {
         return new Turn(currentTeamType, movedBoard);
     }
 
+    public String winTeamName() {
+        return board.winTeamName();
+    }
+
     private TeamType opponentTeamType() {
         if (movedTeam == TeamType.CHU) {
             return TeamType.HAN;

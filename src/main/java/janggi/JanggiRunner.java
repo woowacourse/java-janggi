@@ -26,6 +26,7 @@ public class JanggiRunner {
             Position endPosition = ActionExecutor.retryUntilSuccess(() -> readValidEndPosition(startPosition));
             janggiGame.doGame(startPosition, endPosition);
         }
+        OutputView.printGameOver(janggiGame.winTeamName());
     }
 
     private Position readValidStartPosition() {

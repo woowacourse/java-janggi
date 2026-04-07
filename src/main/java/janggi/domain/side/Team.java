@@ -29,6 +29,10 @@ public abstract class Team {
         return gameResult == GameResult.LOSE;
     }
 
+    public boolean isWin() {
+        return gameResult == GameResult.WIN;
+    }
+
     public Map<Position, BoardSpot> makeSnapShot() {
         Map<Position, BoardSpot> snapShot = new HashMap<>();
         for (Map.Entry<Position, Piece> entry : pieces.entrySet()) {

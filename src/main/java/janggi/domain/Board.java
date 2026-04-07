@@ -70,6 +70,13 @@ public class Board {
         return createMovedBoard(currentTeamType, updatedCurrentTeam, updatedOpponentTeam);
     }
 
+    public String winTeamName() {
+        if (chu.isWin()) {
+            return TeamType.CHU.getName();
+        }
+        return TeamType.HAN.getName();
+    }
+
     private void checkSamePosition(Position start, Position end) {
         if (start.isSamePosition(end)) {
             throw new IllegalArgumentException("출발지와 목적지가 동일합니다.");

@@ -117,4 +117,8 @@ public class OutputView {
     public static void printAskMovePosition(String pieceName) {
         printMessage(pieceName + "의 목적 좌표를 입력해주세요. (ex. 1,3)");
     }
+
+    public static void printGameOver(String teamName) {
+        printMessage(teamName + "의 승리입니다.");
+    }
 }

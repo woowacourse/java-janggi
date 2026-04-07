@@ -54,6 +54,10 @@ public class JanggiGame {
         turns.add(newTurn);
     }
 
+    public String winTeamName() {
+        return getLastTurn().winTeamName();
+    }
+
     private Turn getLastTurn() {
         return turns.getLast();
     }
