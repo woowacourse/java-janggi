@@ -84,18 +84,18 @@ public class Board {
     public Map<Country, Double> calculateScore() {
         double choInitScore = 0;
         double hanInitScore = 1.5;
-        Map<Country, Double> totalScores = new LinkedHashMap<>();
 
         for (Entry<Position, PieceInfo> pieceInfo : getPieceInfos().entrySet()) {
             if (pieceInfo.getValue().country() == Country.CHO) {
                 choInitScore += pieceInfo.getValue().pieceType().getScore();
-                totalScores.put(Country.CHO, choInitScore);
             }
             if (pieceInfo.getValue().country() == Country.HAN) {
                 hanInitScore += pieceInfo.getValue().pieceType().getScore();
-                totalScores.put(Country.HAN, hanInitScore);
             }
         }
+        Map<Country, Double> totalScores = new LinkedHashMap<>();
+        totalScores.put(Country.CHO, choInitScore);
+        totalScores.put(Country.HAN, hanInitScore);
         return totalScores;
     }
 
