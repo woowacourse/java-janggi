@@ -11,8 +11,8 @@ import java.util.Map;
 
 public class Board {
 
-    private static final int HORIZONTAL_LENGTH = 10;
-    private static final int VERTICAL_LENGTH = 9;
+    private static final int WIDTH = 9;
+    private static final int HEIGHT = 10;
     private static final int INITIAL_KING_COUNT = 2;
     private static final double CHO_BONUS_SCORE = 1.5;
 
@@ -41,7 +41,7 @@ public class Board {
     private static Map<Position, Space> generateBlankBoard() {
         Map<Position, Space> blankBoard = new HashMap<>();
 
-        for (int y = 0; y < HORIZONTAL_LENGTH; y++) {
+        for (int y = 0; y < HEIGHT; y++) {
             putHorizontal(blankBoard, y);
         }
 
@@ -49,7 +49,7 @@ public class Board {
     }
 
     private static void putHorizontal(Map<Position, Space> blankBoard, int y) {
-        for (int x = 0; x < VERTICAL_LENGTH; x++) {
+        for (int x = 0; x < WIDTH; x++) {
             blankBoard.put(new Position(x, y), new Blank());
         }
     }
@@ -104,11 +104,11 @@ public class Board {
     }
 
     public int getBoardWidth() {
-        return HORIZONTAL_LENGTH;
+        return WIDTH;
     }
 
     public int getBoardHeight() {
-        return VERTICAL_LENGTH;
+        return HEIGHT;
     }
 
     public double getChoScore() {

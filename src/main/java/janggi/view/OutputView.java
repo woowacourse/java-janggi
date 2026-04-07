@@ -16,7 +16,7 @@ public class OutputView {
 
     public static void printBoard(Board board) {
         printHeader(board);
-        for (int y = 0; y < board.getBoardWidth(); y++) {
+        for (int y = 0; y < board.getBoardHeight(); y++) {
             printRow(board, y);
         }
     }
@@ -30,7 +30,7 @@ public class OutputView {
 
     private static void printHeader(Board board) {
         System.out.print("   ");
-        for (int x = 0; x < board.getBoardHeight(); x++) {
+        for (int x = 0; x < board.getBoardWidth(); x++) {
             System.out.print(x + " ");
         }
         printLine();
@@ -38,7 +38,7 @@ public class OutputView {
 
     private static void printRow(Board board, int y) {
         System.out.print(y + ": ");
-        for (int x = 0; x < board.getBoardHeight(); x++) {
+        for (int x = 0; x < board.getBoardWidth(); x++) {
             Space space = board.getSpace(new Position(x, y));
             System.out.print(formatSpace(space) + " ");
         }
