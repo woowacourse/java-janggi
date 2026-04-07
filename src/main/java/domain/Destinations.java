@@ -6,8 +6,11 @@ public class Destinations {
     private final List<Position> positions;
 
     public Destinations(List<Position> positions) {
-        validate(positions);
-        this.positions = List.copyOf(positions);
+        List<Position> uniquePositions = positions.stream()
+                .distinct()
+                .toList();
+        validate(uniquePositions);
+        this.positions = List.copyOf(uniquePositions);
     }
 
     private void validate(List<Position> positions) {
