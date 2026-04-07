@@ -12,7 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class BoardDaoTest {
+class JanggiServiceTest {
 
     private SchemaInitializer schemaInitializer;
     private JdbcTemplate jdbcTemplate;
