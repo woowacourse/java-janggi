@@ -5,6 +5,7 @@ import janggi.domain.board.BoardMediator;
 import janggi.domain.piece.Piece;
 import janggi.utils.Lists;
 import java.util.List;
+import java.util.Optional;
 
 public class NonLinearRule implements Rule {
 
@@ -20,16 +21,28 @@ public class NonLinearRule implements Rule {
 
 
     @Override
-    public List<Position> execute(Position from, final BoardMediator boardMediator) {
+    public List<Position> execute(final Position from, final BoardMediator boardMediator) {
         final Piece piece = boardMediator.getPieceInPosition(from);
-        final List<OffLineMovement> movementOrderExceptLast = Lists.exceptLast(movementOrder);
-        final OffLineMovement lastMovement = movementOrder.getLast();
-        for (final OffLineMovement movement : movementOrderExceptLast) {
-            if (!movement.canMove(from) || movement.isBlocked(from, boardMediator)) {
-                return List.of();
+        final Optional<Position> penultimatePosition = moveUpToLast(from, boardMediator);
+        return penultimatePosition.map(
+            position -> proceedFinalMovement(position, piece, boardMediator)).orElseGet(List::of);
+    }
+
+    private Optional<Position> moveUpToLast(final Position from, final BoardMediator boardMediator) {
+        final List<OffLineMovement> movementsExceptLast = Lists.exceptLast(movementOrder);
+        Position updatedPosition = from;
+        for (final OffLineMovement movement : movementsExceptLast) {
+            if (!movement.canMove(updatedPosition) || movement.isBlocked(updatedPosition, boardMediator)) {
+                return Optional.empty();
             }
-            from = movement.calculateDestination(from, boardMediator);
+            updatedPosition = movement.calculateDestination(updatedPosition, boardMediator);
         }
+        return Optional.of(updatedPosition);
+    }
+
+    private List<Position> proceedFinalMovement(final Position from, final Piece piece,
+        final BoardMediator boardMediator) {
+        final OffLineMovement lastMovement = movementOrder.getLast();
         if (lastMovement.canMove(from) && lastMovement.canCatchAnyOnPath(piece, from,
             boardMediator)) {
             return List.of(lastMovement.calculateBlockedPosition(from, boardMediator));
