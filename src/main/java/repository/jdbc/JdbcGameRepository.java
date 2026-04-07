@@ -19,6 +19,18 @@ import service.LoadedGame;
 
 public class JdbcGameRepository implements GameRepository {
 
+    private static final int FIRST_PARAMETER_INDEX = 1;
+    private static final int SECOND_PARAMETER_INDEX = 2;
+    private static final int THIRD_PARAMETER_INDEX = 3;
+    private static final int FOURTH_PARAMETER_INDEX = 4;
+    private static final int FIFTH_PARAMETER_INDEX = 5;
+    private static final int FIRST_GENERATED_KEY_INDEX = 1;
+    
+    private static final String ERROR_FIND_IN_PROGRESS_GAME = "진행 중인 게임 조회에 실패했습니다.";
+    private static final String ERROR_SAVE_GAME = "게임 저장에 실패했습니다.";
+    private static final String ERROR_GAME_ID_NOT_FOUND = "생성된 game id를 찾을 수 없습니다.";
+    private static final String ERROR_ROLLBACK_GAME = "게임 저장 롤백에 실패했습니다.";
+
     private static final String SELECT_IN_PROGRESS_GAME = """
             SELECT id, current_turn, status
             FROM games
@@ -62,7 +74,7 @@ public class JdbcGameRepository implements GameRepository {
     public Optional<LoadedGame> findInProgressGame() {
         try (Connection connection = connectionProvider.getConnection();
              PreparedStatement statement = connection.prepareStatement(SELECT_IN_PROGRESS_GAME)) {
-            statement.setString(1, GameStatus.IN_PROGRESS.name());
+            statement.setString(FIRST_PARAMETER_INDEX, GameStatus.IN_PROGRESS.name());
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (!resultSet.next()) {
@@ -79,7 +91,7 @@ public class JdbcGameRepository implements GameRepository {
                 );
             }
         } catch (SQLException e) {
-            throw new IllegalStateException("진행 중인 게임 조회에 실패했습니다.", e);
+            throw new IllegalStateException(ERROR_FIND_IN_PROGRESS_GAME, e);
         }
     }
 
@@ -95,18 +107,18 @@ public class JdbcGameRepository implements GameRepository {
                 return new LoadedGame(gameId, loadedGame.game());
             } catch (SQLException e) {
                 rollback(connection);
-                throw new IllegalStateException("게임 저장에 실패했습니다.", e);
+                throw new IllegalStateException(ERROR_SAVE_GAME, e);
             } finally {
                 connection.setAutoCommit(true);
             }
         } catch (SQLException e) {
-            throw new IllegalStateException("게임 저장에 실패했습니다.", e);
+            throw new IllegalStateException(ERROR_SAVE_GAME, e);
         }
     }
 
     private List<PieceSnapshot> findPieces(Connection connection, long gameId) throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement(SELECT_GAME_PIECES)) {
-            statement.setLong(1, gameId);
+            statement.setLong(FIRST_PARAMETER_INDEX, gameId);
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 List<PieceSnapshot> pieces = new ArrayList<>();
@@ -133,41 +145,41 @@ public class JdbcGameRepository implements GameRepository {
 
     private long insertGame(Connection connection, GameSnapshot snapshot) throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement(INSERT_GAME, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setString(1, snapshot.currentTurn().name());
-            statement.setString(2, snapshot.status().name());
+            statement.setString(FIRST_PARAMETER_INDEX, snapshot.currentTurn().name());
+            statement.setString(SECOND_PARAMETER_INDEX, snapshot.status().name());
             statement.executeUpdate();
 
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 if (!generatedKeys.next()) {
-                    throw new IllegalStateException("생성된 game id를 찾을 수 없습니다.");
+                    throw new IllegalStateException(ERROR_GAME_ID_NOT_FOUND);
                 }
-                return generatedKeys.getLong(1);
+                return generatedKeys.getLong(FIRST_GENERATED_KEY_INDEX);
             }
         }
     }
 
     private void updateGame(Connection connection, GameSnapshot snapshot) throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement(UPDATE_GAME)) {
-            statement.setString(1, snapshot.currentTurn().name());
-            statement.setString(2, snapshot.status().name());
-            statement.setLong(3, snapshot.id());
+            statement.setString(FIRST_PARAMETER_INDEX, snapshot.currentTurn().name());
+            statement.setString(SECOND_PARAMETER_INDEX, snapshot.status().name());
+            statement.setLong(THIRD_PARAMETER_INDEX, snapshot.id());
             statement.executeUpdate();
         }
     }
 
     private void replacePieces(Connection connection, long gameId, List<PieceSnapshot> pieces) throws SQLException {
         try (PreparedStatement deleteStatement = connection.prepareStatement(DELETE_GAME_PIECES)) {
-            deleteStatement.setLong(1, gameId);
+            deleteStatement.setLong(FIRST_PARAMETER_INDEX, gameId);
             deleteStatement.executeUpdate();
         }
 
         try (PreparedStatement insertStatement = connection.prepareStatement(INSERT_GAME_PIECE)) {
             for (PieceSnapshot piece : pieces) {
-                insertStatement.setLong(1, gameId);
-                insertStatement.setInt(2, piece.column());
-                insertStatement.setInt(3, piece.row());
-                insertStatement.setString(4, piece.pieceType().name());
-                insertStatement.setString(5, piece.team().name());
+                insertStatement.setLong(FIRST_PARAMETER_INDEX, gameId);
+                insertStatement.setInt(SECOND_PARAMETER_INDEX, piece.column());
+                insertStatement.setInt(THIRD_PARAMETER_INDEX, piece.row());
+                insertStatement.setString(FOURTH_PARAMETER_INDEX, piece.pieceType().name());
+                insertStatement.setString(FIFTH_PARAMETER_INDEX, piece.team().name());
                 insertStatement.addBatch();
             }
             insertStatement.executeBatch();
@@ -178,7 +190,7 @@ public class JdbcGameRepository implements GameRepository {
         try {
             connection.rollback();
         } catch (SQLException rollbackException) {
-            throw new IllegalStateException("게임 저장 롤백에 실패했습니다.", rollbackException);
+            throw new IllegalStateException(ERROR_ROLLBACK_GAME, rollbackException);
         }
     }
 }

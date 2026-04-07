@@ -7,6 +7,8 @@ import java.sql.SQLException;
 
 public class ConnectionProvider {
 
+    private static final String ERROR_CONNECT_MYSQL = "MySQL 연결에 실패했습니다.";
+
     private final DbConfig dbConfig;
 
     public ConnectionProvider(DbConfig dbConfig) {
@@ -21,7 +23,7 @@ public class ConnectionProvider {
                     dbConfig.password()
             );
         } catch (SQLException e) {
-            throw new IllegalStateException("MySQL 연결에 실패했습니다.", e);
+            throw new IllegalStateException(ERROR_CONNECT_MYSQL, e);
         }
     }
 }

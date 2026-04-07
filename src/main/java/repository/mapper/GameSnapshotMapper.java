@@ -21,6 +21,8 @@ public class GameSnapshotMapper {
     private static final int COLUMN_MAX = 9;
     private static final int ROW_MIN = 1;
     private static final int ROW_MAX = 10;
+    private static final int COLUMN_INDEX = 0;
+    private static final int ROW_INDEX = 1;
 
     private final PieceMapper pieceMapper = new PieceMapper();
 
@@ -60,14 +62,19 @@ public class GameSnapshotMapper {
     }
 
     private Comparator<Map.Entry<Coordination, Piece>> pieceOrder() {
-        return Comparator.comparing((Map.Entry<Coordination, Piece> entry) -> entry.getKey().coordination().get(1))
-                .thenComparing(entry -> entry.getKey().coordination().get(0));
+        return Comparator.comparing((Map.Entry<Coordination, Piece> entry) -> entry.getKey().coordination().get(ROW_INDEX))
+                .thenComparing(entry -> entry.getKey().coordination().get(COLUMN_INDEX));
     }
 
     private PieceSnapshot toPieceSnapshot(Map.Entry<Coordination, Piece> entry) {
         List<Integer> coordination = entry.getKey().coordination();
         Piece piece = entry.getValue();
-        return new PieceSnapshot(coordination.get(0), coordination.get(1), pieceMapper.toPieceType(piece), piece.team());
+        return new PieceSnapshot(
+                coordination.get(COLUMN_INDEX),
+                coordination.get(ROW_INDEX),
+                pieceMapper.toPieceType(piece),
+                piece.team()
+        );
     }
 
     private Map<Coordination, Piece> restoredBoard(GameSnapshot snapshot) {
