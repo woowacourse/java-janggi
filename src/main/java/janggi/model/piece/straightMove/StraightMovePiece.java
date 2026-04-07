@@ -34,7 +34,7 @@ public abstract class StraightMovePiece extends Piece {
     @Override
     public PositionPath getLegalPath(Position from, Position to) {
         if (from.isInSamePalaceWith(to)) {
-            palaceMovement.move(from, to);
+            return palaceMovement.move(from, to);
         }
 
         return defaultMovement
