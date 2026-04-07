@@ -14,6 +14,8 @@ public class OutputView {
     private static final String ANSI_GREEN = "\u001B[32m";
 
     private static final String TURN_PREFIX = "현재 턴: ";
+    private static final String CREATE_NEW_GAME_ROOM_FORMAT = "새 게임방을 생성했습니다. %d번방\n";
+    private static final String GAME_ROOM_NUMBER_FORMAT = "%d번방\n";
     private static final String ERROR_PREFIX = "[ERROR] ";
 
     public static void printBoard(PieceInfo[][] currentBoard) {
@@ -33,6 +35,14 @@ public class OutputView {
 
     public static void printWinner(Side winnerSide) {
         System.out.printf("%s 승리!%n", winnerSide.getName());
+    }
+
+    public static void printNewGameRoom(long roomId){
+        System.out.printf(CREATE_NEW_GAME_ROOM_FORMAT, roomId);
+    }
+
+    public static void printGameRoomNumber(long roomId){
+        System.out.printf(GAME_ROOM_NUMBER_FORMAT, roomId);
     }
 
     public static void printErrorMessage(String errorMessage) {

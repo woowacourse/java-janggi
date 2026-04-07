@@ -62,7 +62,7 @@ public class JdbcGameRepository implements GameRepository {
     public Game enterGame(long roomId) {
         try (Connection connection = connectionManager.getConnection()) {
             GameRoom gameRoom = gameRoomDao.findById(roomId, connection)
-                    .orElseThrow(() -> new IllegalStateException(GAME_ROOM_NOT_FOUND_MESSAGE));
+                    .orElseThrow(() -> new IllegalArgumentException(GAME_ROOM_NOT_FOUND_MESSAGE));
             List<BoardPiece> boardPieces = boardPieceDao.findAllByGameRoomId(roomId, connection);
 
             return gamePersistenceMapper.restore(gameRoom, boardPieces);
