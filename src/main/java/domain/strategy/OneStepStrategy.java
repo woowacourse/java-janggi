@@ -2,7 +2,6 @@ package domain.strategy;
 
 import domain.Position;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class OneStepStrategy implements MovementStrategy {
     private final List<Direction> directions;
