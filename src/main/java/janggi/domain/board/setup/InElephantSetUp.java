@@ -8,10 +8,6 @@ import janggi.domain.side.Side;
 import java.util.Map;
 
 public class InElephantSetUp implements BoardSetUp {
-    public static final BoardSetUp INSTANCE = new InElephantSetUp();
-
-    private InElephantSetUp() {
-    }
 
     @Override
     public Map<Point, Piece> generate(Side side) {

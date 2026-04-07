@@ -10,9 +10,6 @@ import java.util.Map;
 public class LeftElephantSetUp implements BoardSetUp {
     public static final BoardSetUp INSTANCE = new LeftElephantSetUp();
 
-    private LeftElephantSetUp() {
-    }
-
     @Override
     public Map<Point, Piece> generate(Side side) {
         Map<Point, Piece> setUp = createCommonBoard(side);

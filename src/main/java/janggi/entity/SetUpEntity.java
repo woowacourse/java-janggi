@@ -7,10 +7,10 @@ import janggi.domain.board.setup.OutElephantSetUp;
 import janggi.domain.board.setup.RightElephantSetUp;
 
 public enum SetUpEntity {
-    IN_ELEPHANT(InElephantSetUp.INSTANCE),
-    OUT_ELEPHANT(OutElephantSetUp.INSTANCE),
-    LEFT_ELEPHANT(LeftElephantSetUp.INSTANCE),
-    RIGHT_ELEPHANT(RightElephantSetUp.INSTANCE),
+    IN_ELEPHANT(new InElephantSetUp()),
+    OUT_ELEPHANT(new OutElephantSetUp()),
+    LEFT_ELEPHANT(new LeftElephantSetUp()),
+    RIGHT_ELEPHANT(new RightElephantSetUp()),
 
     ;
     private final BoardSetUp boardSetUp;
