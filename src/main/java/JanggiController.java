@@ -42,6 +42,13 @@ public class JanggiController {
                         .map(GameEntity::getUpdatedAt)
                         .toList());
                 GameEntity findGame = findGames.get(gameId - 1);
+
+                Status status = Status.valueOf(findGame.getStatus());
+                if (status != Status.PLAYING) {
+                    outputView.printGameResult(status);
+                    continue;
+                }
+
                 List<PieceEntity> findPieces = pieceDao.findAllByGameId(findGame.getId());
                 Board board = convertPieceEntitiesToBoard(findPieces);
                 Game game = Game.loadGame(board, findGame.getCurrentTurn(), findGame.getStatus());
@@ -114,15 +121,17 @@ public class JanggiController {
 
     private boolean move(Game game, Long gameId) {
         try {
+            String turnName = game.getTurnName();
+
             String currentInput = inputView.readPosition(game.getTurnName());
-            if (isQuitOrSkipCommand(currentInput))
+            if (isQuitOrSkipCommand(game, turnName, currentInput))
                 return false;
             Position from = parsePosition(currentInput);
 
             validatePieceAndTurn(game, from);
 
             String targetInput = inputView.readTargetPosition();
-            if (isQuitOrSkipCommand(targetInput))
+            if (isQuitOrSkipCommand(game, turnName, targetInput))
                 return false;
             Position to = parsePosition(targetInput);
 
@@ -147,8 +156,15 @@ public class JanggiController {
         updatePieceEntities(gameId, hasTargetPiece, from, to);
     }
 
-    private boolean isQuitOrSkipCommand(String input) {
-        return input.equals(QUIT_COMMAND) || input.equals(SKIP_COMMAND);
+    private boolean isQuitOrSkipCommand(Game game, String turn, String input) {
+        if (input.equals(QUIT_COMMAND)) {
+            game.lose(turn);
+            return true;
+        }
+        if (input.equals(SKIP_COMMAND)) {
+            return true;
+        }
+        return false;
     }
 
     private Position parsePosition(String input) {

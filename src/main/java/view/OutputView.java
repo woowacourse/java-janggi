@@ -39,9 +39,13 @@ public class OutputView {
         System.out.println("게임 종료 : ");
         if (status == Status.CHU_WIN) {
             System.out.println("초나라가 승리했습니다!");
+            System.out.println();
+            return;
         }
         if (status == Status.HAN_WIN) {
             System.out.println("한나라가 승리했습니다!");
+            System.out.println();
+            return;
         }
         System.out.println("잠시 쉬도록 하겠습니다.");
         System.out.println();
