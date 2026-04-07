@@ -5,66 +5,69 @@ import janggi.domain.Column;
 import janggi.domain.Piece;
 import janggi.domain.Position;
 import janggi.domain.Row;
-
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class PoMoveStorage implements MoveStorage {
 
     @Override
-    public boolean canMove(Position from, Position to, BoardView boardState) {
-        int fromRow = from.getRowValue();
-        int fromColumn = from.getColumnValue();
-        int toRow = to.getRowValue();
-        int toColumn = to.getColumnValue();
-
-        if (fromRow != toRow && fromColumn != toColumn) {
+    public boolean canMove(Position from, Position to, BoardView boardView) {
+        if (isNotStraight(from, to)) {
             return false;
         }
 
-        int jumpCount = 0;
+        List<Piece> pathPieces = getPathPieces(from, to, boardView);
 
-        if (fromRow == toRow) {
-            int start = Math.min(fromColumn, toColumn) + 1;
-            int end = Math.max(fromColumn, toColumn);
-
-            for (int i = start; i < end; i++) {
-                Position position = Position.of(Row.of(fromRow), Column.of(i));
-                if (boardState.hasPieceAt(position)) {
-                    Piece jumpPiece = boardState.getPieceAt(position);
-                    if (jumpPiece.getName().equals("包")) {
-                        return false;
-                    }
-                    jumpCount++;
-                }
-            }
-        }
-
-        if (fromColumn == toColumn) {
-            int start = Math.min(fromRow, toRow) + 1;
-            int end = Math.max(fromRow, toRow);
-
-            for (int i = start; i < end; i++) {
-                Position position = Position.of(Row.of(i), Column.of(fromColumn));
-                if (boardState.hasPieceAt(position)) {
-                    Piece jumpPiece = boardState.getPieceAt(position);
-                    if (jumpPiece.getName().equals("包")) {
-                        return false;
-                    }
-                    jumpCount++;
-                }
-            }
-        }
-
-        if (jumpCount != 1) {
+        if (isInvalidPath(pathPieces)) {
             return false;
         }
 
-        if (boardState.hasPieceAt(to)) {
-            Piece targetPiece = boardState.getPieceAt(to);
-            if (targetPiece.getName().equals("包")) {
-                return false;
-            }
+        return isValidTarget(to, boardView);
+    }
+
+    private boolean isNotStraight(Position from, Position to) {
+        return from.getRowValue() != to.getRowValue() && from.getColumnValue() != to.getColumnValue();
+    }
+
+    private List<Piece> getPathPieces(Position from, Position to, BoardView boardView) {
+        return getPathPositions(from, to).stream()
+                .filter(boardView::hasPieceAt)
+                .map(boardView::getPieceAt)
+                .toList();
+    }
+
+    private List<Position> getPathPositions(Position from, Position to) {
+        if (from.getRowValue() == to.getRowValue()) {
+            int row = from.getRowValue();
+            return IntStream.range(Math.min(from.getColumnValue(), to.getColumnValue()) + 1,
+                            Math.max(from.getColumnValue(), to.getColumnValue()))
+                    .mapToObj(column -> Position.of(Row.of(row), Column.of(column)))
+                    .toList();
         }
-        return true;
+
+        int column = from.getColumnValue();
+        return IntStream.range(Math.min(from.getRowValue(), to.getRowValue()) + 1,
+                        Math.max(from.getRowValue(), to.getRowValue()))
+                .mapToObj(row -> Position.of(Row.of(row), Column.of(column)))
+                .toList();
+    }
+
+    private boolean isInvalidPath(List<Piece> pathPieces) {
+        if (pathPieces.size() != 1) {
+            return true;
+        }
+        return isPo(pathPieces.get(0));
+    }
+
+    private boolean isValidTarget(Position to, BoardView boardView) {
+        if (!boardView.hasPieceAt(to)) {
+            return true;
+        }
+
+        return !isPo(boardView.getPieceAt(to));
+    }
+
+    private boolean isPo(Piece piece) {
+        return piece.getName().equals("包");
     }
 }
