@@ -52,14 +52,19 @@ public class InputView {
     }
 
     private List<Integer> parseToIntegers(String input) {
-        try {
-            return Arrays.stream(input.split(DELIMITER))
-                    .map(String::trim)
-                    .map(Integer::parseInt)
-                    .toList();
-        } catch (NumberFormatException e) {
+        if (hasNonNumeric(input)) {
             throw new NotNumberException();
         }
+
+        return Arrays.stream(input.split(DELIMITER))
+                .map(String::trim)
+                .map(Integer::parseInt)
+                .toList();
+    }
+
+    private boolean hasNonNumeric(String input) {
+        return !input.chars()
+                .allMatch(c -> Character.isDigit(c) || c == DELIMITER.charAt(0) || Character.isWhitespace(c));
     }
 
     private void validateSize(List<Integer> coordinates) {
