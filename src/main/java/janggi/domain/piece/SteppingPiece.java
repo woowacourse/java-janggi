@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import janggi.domain.Delta;
 import janggi.domain.Position;
 import janggi.domain.side.TeamType;
 
@@ -26,11 +27,10 @@ public abstract class SteppingPiece extends Piece{
     }
 
     private void checkMovePath(Position start, Position end) {
-        int dx = start.deltaX(end);
-        int dy = start.deltaY(end);
+        Delta dxDelta = start.calculateDelta(end);
 
         getPaths().stream()
-                .filter(path -> path.matches(dx, dy))
+                .filter(path -> path.matches(dxDelta))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("이동할 수 없는 위치입니다."));
     }

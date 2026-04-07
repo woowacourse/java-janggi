@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import janggi.domain.Delta;
 import janggi.domain.MovePath;
 import janggi.domain.Position;
 import janggi.domain.side.TeamType;
@@ -19,11 +20,10 @@ public abstract class SlidingPiece extends Piece {
     }
 
     private MovePath findMovePath(Position start, Position end) {
-        int dx = start.deltaX(end);
-        int dy = start.deltaY(end);
+        Delta dxDelta = start.calculateDelta(end);
 
         return getPaths().stream()
-                .filter(path -> path.matchesDirection(dx, dy))
+                .filter(path -> path.matchesDirection(dxDelta))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("이동할 수 없는 위치입니다."));
     }
