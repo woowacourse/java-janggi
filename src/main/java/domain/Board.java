@@ -87,4 +87,22 @@ public class Board implements BoardReader {
 
         return scoreByCamp;
     }
+
+    public Camp checkWinner() {
+        if(isGeneralDead(Camp.CHO)) {
+            return Camp.HAN;
+        }
+
+        if(isGeneralDead(Camp.HAN)) {
+            return Camp.CHO;
+        }
+
+        return Camp.NONE;
+    }
+
+    private boolean isGeneralDead(Camp camp) {
+        return board.values()
+                .stream()
+                .noneMatch(piece -> piece.isSameCamp(camp) && piece.getPieceType() == PieceType.GENERAL);
+    }
 }

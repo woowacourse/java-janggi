@@ -51,6 +51,12 @@ public class JanggiController {
             camp = turnCamp(camp);
 
             //Todo: 사이클2 왕이 잡히면, 게임이 종료
+            Camp winner = board.checkWinner();
+
+            if(winner != Camp.NONE) {
+                outputView.printWinner(winner);
+                return;
+            }
         }
     }
 
