@@ -24,6 +24,7 @@ public class JanggiController {
             outputView.printBoard(janggi.getBoard(), janggi.currentCamp());
             playTurn(janggi);
         }
+        System.out.println(janggi.currentCamp() + "승");
     }
 
     private Janggi createGame() {
@@ -39,13 +40,15 @@ public class JanggiController {
                 if (selection.isEmpty()) {
                     continue;
                 }
+                Position from = Position.of(selection.get().row(), selection.get().column());
+                janggi.validateTurn(from);
 
                 Optional<PositionRequest> destination = inputView.readMoveDestination();
                 if (destination.isEmpty()) {
                     continue;
                 }
 
-                Position from = Position.of(selection.get().row(), selection.get().column());
+
                 Position to = Position.of(destination.get().row(), destination.get().column());
 
                 janggi.play(from, to);

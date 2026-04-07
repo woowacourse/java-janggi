@@ -45,12 +45,15 @@ public class Janggi {
     }
 
     public void play(Position from, Position to) {
-        validateTurn(from);
         board.movePiece(from, to);
+        if (!board.isAliveEssentialPiece(currentCamp.next())) {
+            finish();
+            return;
+        }
         currentCamp = currentCamp.next();
     }
 
-    private void validateTurn(Position from) {
+    public void validateTurn(Position from) {
         Piece piece = board.selectPiece(from);
         if (!piece.isSameCamp(currentCamp)) {
             throw new IllegalArgumentException("자신의 기물만 선택할 수 있습니다.");
