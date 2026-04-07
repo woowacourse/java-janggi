@@ -19,10 +19,6 @@ public record Piece(PieceType pieceType, Camp camp) {
         return this.camp == camp;
     }
 
-    public boolean isGeneral() {
-        return pieceType == PieceType.GENERAL;
-    }
-
     public double score() {
         return pieceType().score();
     }
