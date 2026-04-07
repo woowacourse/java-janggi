@@ -40,7 +40,7 @@ public class JanggiController {
         Long gameId = response.gameId();
         Janggi currentJanggi = response.janggi();
 
-        while (!currentJanggi.isGameOver()) {
+        while (janggiService.isGameContinued(currentJanggi)) {
             outputView.printGameStatus(GameStatus.from(currentJanggi));
 
             currentJanggi = janggiService.updateBoardWith(
@@ -49,12 +49,12 @@ public class JanggiController {
                     readToPosition()
             );
 
-            if (currentJanggi.isGameOver()) {
+            if (!janggiService.isGameContinued(currentJanggi)) {
                 break;
             }
 
             if (readDrawAccept()) {
-                currentJanggi = currentJanggi.draw();
+               currentJanggi = janggiService.draw(currentJanggi);
                 break;
             }
 
@@ -90,7 +90,6 @@ public class JanggiController {
 
     private GameDetailResponse initNewGame() {
         BoardType boardType = readBoardType();
-
         return janggiService.initGame(boardType.getBoard());
     }
 

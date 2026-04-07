@@ -127,6 +127,10 @@ public class JanggiService {
         );
     }
 
+    public boolean isGameContinued(Janggi janggi) {
+        return !janggi.isGameOver();
+    }
+
     public Janggi updateBoardWith(
             Janggi janggi,
             Position from,
@@ -162,6 +166,10 @@ public class JanggiService {
         });
 
         return moved;
+    }
+
+    public Janggi draw(Janggi janggi) {
+        return janggi.draw();
     }
 
     public void removeGame(Long gameId) {
