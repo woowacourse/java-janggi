@@ -9,7 +9,7 @@ import java.util.List;
 public abstract class SingleStepLinearMoveStrategy implements MoveStrategy {
     @Override
     public List<Position> getPath(Position departure, Position destination) {
-        boolean isInPalace = isInPalace(departure, destination);
+        boolean isInPalace = isDiagonalPathInPalace(departure, destination);
         Direction direction = decideSingleLinearDirection(departure, destination, isInPalace);
 
         validateMove(direction, isInPalace);
@@ -17,7 +17,7 @@ public abstract class SingleStepLinearMoveStrategy implements MoveStrategy {
         return List.of(destination);
     }
 
-    private boolean isInPalace(Position departure, Position destination) {
+    private boolean isDiagonalPathInPalace(Position departure, Position destination) {
         if (Palace.isPalaceCenter(departure) || Palace.isPalaceCenter(destination)) {
             return Palace.isInPalace(departure) && Palace.isInPalace(destination);
         }

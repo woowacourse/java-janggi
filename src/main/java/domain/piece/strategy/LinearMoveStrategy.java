@@ -18,17 +18,25 @@ public abstract class LinearMoveStrategy implements MoveStrategy {
         int deltaX = departure.calculateDeltaX(destination);
         int deltaY = departure.calculateDeltaY(destination);
 
-        validateLinearMove(deltaX, deltaY, isInPalace(departure, destination));
+        validateLinearMove(deltaX, deltaY, isPassByPalace(departure, destination));
 
         return Direction.decideDirection(deltaX, deltaY);
+    }
+
+    private boolean isPassByPalace(Position departure, Position destination) {
+        int middlePositionColumn = (departure.column() + destination.column()) / 2;
+        int middlePositionRow = (departure.row() + destination.row()) / 2;
+        Position middlePosition = new Position(middlePositionColumn, middlePositionRow);
+
+        return isInPalace(departure, destination) && Palace.isPalaceCenter(middlePosition);
     }
 
     private boolean isInPalace(Position departure, Position destination) {
         return Palace.isInPalace(departure) && Palace.isInPalace(destination);
     }
 
-    private void validateLinearMove(int deltaX, int deltaY, boolean isInPalace) {
-        if (isInPalace) {
+    private void validateLinearMove(int deltaX, int deltaY, boolean isPassByPalace) {
+        if (isPassByPalace) {
             return;
         }
 
