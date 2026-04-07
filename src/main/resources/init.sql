@@ -7,11 +7,12 @@ CREATE TABLE IF NOT EXISTS janggi_game (
 
 CREATE TABLE IF NOT EXISTS piece (
     id BIGINT NOT NULL AUTO_INCREMENT,
+    janggi_game_id BIGINT NOT NULL,
     row_pos INT NOT NULL,
     col_pos INT NOT NULL,
-    team VARCHAR(8) NOT NULL,
+    country VARCHAR(8) NOT NULL,
     type VARCHAR(16) NOT NULL,
 
     PRIMARY KEY (id),
-    UNIQUE (row_pos, col_pos, team, type)
+    UNIQUE (janggi_game_id, row_pos, col_pos)
 );
