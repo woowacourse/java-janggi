@@ -10,9 +10,13 @@ import domain.piece.AlivePieces;
 import dto.GameMenu;
 import dto.GameSummary;
 import dto.GameWrapper;
+import dto.LoadCommand;
+import dto.LoadCommand.Type;
 import dto.MoveCommand;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import service.JanggiService;
 import view.InputView;
 import view.OutputView;
@@ -26,6 +30,11 @@ public final class JanggiController {
     private final Map<GameMenu, Runnable> menuFlowHandler = Map.of(
             GameMenu.NEW_GAME, this::newGameFlow,
             GameMenu.SHOW_PREVIOUS_GAMES, this::loadGameFlow
+    );
+
+    private final Map<LoadCommand.Type, Consumer<Long>> loadCommandHandler = Map.of(
+            Type.NEW_GAME, newGameCommandNumber -> newGameFlow(),
+            Type.LOAD_GAME, this::continueGame
     );
 
     public JanggiController(JanggiService janggiService, InputView inputView, OutputView outputView) {
@@ -73,14 +82,31 @@ public final class JanggiController {
         List<GameSummary> gameSummaries = janggiService.loadAllGameSummaries();
         outputView.printGames(gameSummaries);
 
+        List<Long> gameNumbers = gameSummaries.stream()
+                .map(GameSummary::id)
+                .toList();
+        List<Long> selectableNumbers = new ArrayList<>(gameNumbers);
+        selectableNumbers.add(0L);
+
         if (!gameSummaries.isEmpty()) {
-            // TODO 이거 if == 0으로 분기 처리하는게 좀 별로다.
-            int gameId = inputView.readGameNumber();
-            if (gameId == 0) {
-                newGameFlow();
-            }
-            continueGame(gameId);
+            LoadCommand loadCommand = LoadCommand.from(inputView.readGameNumber());
+            // TODO: 없는 게임 번호 입력하면 재시도 받아야 됨
+            dispatchLoadCommand(loadCommand, selectableNumbers);
         }
+    }
+
+    private void dispatchLoadCommand(LoadCommand loadCommand, List<Long> selectableNumbers) {
+        final Consumer<Long> defaultConsumer = gameNumber -> {
+            throw new IllegalArgumentException("핸들러에 등록되지 않은 커맨드입니다.");
+        };
+
+        long gameNumberToLoad = loadCommand.gameNumberToLoad();
+        if (!selectableNumbers.contains(gameNumberToLoad)) {
+            throw new IllegalArgumentException(gameNumberToLoad + "는 유효하지 않는 번호입니다.");
+        }
+
+        loadCommandHandler.getOrDefault(loadCommand.type(), defaultConsumer)
+                .accept(gameNumberToLoad);
     }
 
     private void newGameFlow() {

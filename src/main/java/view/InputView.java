@@ -37,10 +37,10 @@ public final class InputView {
         return Integer.parseInt(readLine().trim());
     }
 
-    public int readGameNumber() {
+    public long readGameNumber() {
         System.out.println("이어서 시작할 게임의 번호를 선택해 주세요(새 게임을 시작하려면 0번): ");
 
-        return Integer.parseInt(readLine().trim());
+        return Long.parseLong(readLine().trim());
     }
 
     public Wings readWings(Side side) {
