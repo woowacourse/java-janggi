@@ -41,6 +41,8 @@ public abstract class Piece {
         return false;
     }
 
+    public abstract PieceType pieceType();
+
     public abstract int score();
 
     public abstract void validateRule(Coordination from, Coordination to);

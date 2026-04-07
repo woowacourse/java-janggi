@@ -11,54 +11,34 @@ import domain.piece.Soldier;
 import domain.piece.Team;
 import java.util.Map;
 import java.util.function.Function;
-import repository.snapshot.PieceType;
 
 public class PieceMapper {
 
-    private final Map<PieceType, Function<Team, Piece>> pieceFactories = Map.of(
-            PieceType.GENERAL, General::new,
-            PieceType.GUARD, Guard::new,
-            PieceType.HORSE, Horse::new,
-            PieceType.ELEPHANT, Elephant::new,
-            PieceType.CHARIOT, Chariot::new,
-            PieceType.CANNON, Cannon::new,
-            PieceType.SOLDIER, Soldier::new
+    private static final String INVALID_PIECE_TYPE = "지원하지 않는 기물 타입입니다: ";
+
+    private final Map<repository.snapshot.PieceType, Function<Team, Piece>> pieceFactories = Map.of(
+            repository.snapshot.PieceType.GENERAL, General::new,
+            repository.snapshot.PieceType.GUARD, Guard::new,
+            repository.snapshot.PieceType.HORSE, Horse::new,
+            repository.snapshot.PieceType.ELEPHANT, Elephant::new,
+            repository.snapshot.PieceType.CHARIOT, Chariot::new,
+            repository.snapshot.PieceType.CANNON, Cannon::new,
+            repository.snapshot.PieceType.SOLDIER, Soldier::new
     );
 
-    public PieceType toPieceType(Piece piece) {
-        if (piece instanceof General) {
-            return PieceType.GENERAL;
-        }
-        if (piece instanceof Guard) {
-            return PieceType.GUARD;
-        }
-        if (piece instanceof Horse) {
-            return PieceType.HORSE;
-        }
-        if (piece instanceof Elephant) {
-            return PieceType.ELEPHANT;
-        }
-        if (piece instanceof Chariot) {
-            return PieceType.CHARIOT;
-        }
-        if (piece instanceof Cannon) {
-            return PieceType.CANNON;
-        }
-        if (piece instanceof Soldier) {
-            return PieceType.SOLDIER;
-        }
-        throw new IllegalArgumentException("지원하지 않는 기물입니다: " + piece.getClass().getSimpleName());
+    public repository.snapshot.PieceType toPieceType(Piece piece) {
+        return repository.snapshot.PieceType.valueOf(piece.pieceType().name());
     }
 
-    public Piece toPiece(PieceType pieceType, Team team) {
+    public Piece toPiece(repository.snapshot.PieceType pieceType, Team team) {
         return pieceFactory(pieceType).apply(team);
     }
 
-    private Function<Team, Piece> pieceFactory(PieceType pieceType) {
+    private Function<Team, Piece> pieceFactory(repository.snapshot.PieceType pieceType) {
         Function<Team, Piece> pieceFactory = pieceFactories.get(pieceType);
         if (pieceFactory != null) {
             return pieceFactory;
         }
-        throw new IllegalArgumentException("지원하지 않는 기물 타입입니다: " + pieceType.name());
+        throw new IllegalArgumentException(INVALID_PIECE_TYPE + pieceType.name());
     }
 }

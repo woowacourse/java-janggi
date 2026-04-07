@@ -24,6 +24,11 @@ public class Guard extends Piece {
     }
 
     @Override
+    public PieceType pieceType() {
+        return PieceType.GUARD;
+    }
+
+    @Override
     public int score() {
         return SCORE;
     }

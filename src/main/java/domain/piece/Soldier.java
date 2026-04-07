@@ -32,6 +32,11 @@ public class Soldier extends Piece {
     }
 
     @Override
+    public PieceType pieceType() {
+        return PieceType.SOLDIER;
+    }
+
+    @Override
     public List<Coordination> resolvePath(Coordination from, Coordination to) {
         return List.of();
     }

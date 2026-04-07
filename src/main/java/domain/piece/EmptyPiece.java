@@ -18,6 +18,11 @@ public class EmptyPiece extends Piece {
     }
 
     @Override
+    public PieceType pieceType() {
+        return PieceType.EMPTY;
+    }
+
+    @Override
     public void validateRule(Coordination from, Coordination to) {
         throw new PieceException(NOT_EXISTS_PIECE);
     }
