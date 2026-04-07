@@ -26,7 +26,7 @@ class GeneralTest {
         Coordination from = Coordination.of(5, 9);
         Coordination to = Coordination.of(column, row);
 
-        assertThatThrownBy(() -> general.validateMovable(from, to, board))
+        assertThatThrownBy(() -> general.validateRule(from, to))
                 .isInstanceOf(PieceException.class);
     }
 
@@ -46,7 +46,7 @@ class GeneralTest {
         Coordination from = Coordination.of(5, 9);
         Coordination to = Coordination.of(column, row);
 
-        assertThatCode(() -> general.validateMovable(from, to, board))
+        assertThatCode(() -> general.validateRule(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -64,7 +64,7 @@ class GeneralTest {
         Coordination from = Coordination.of(5, 1);
         Coordination to = Coordination.of(column, row);
 
-        assertThatThrownBy(() -> general.validateMovable(from, to, board))
+        assertThatThrownBy(() -> general.validateNotSameTeam(board.get(to)))
                 .isInstanceOf(PieceException.class);
     }
 }

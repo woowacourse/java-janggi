@@ -3,7 +3,6 @@ package domain.piece;
 import domain.coordination.Coordination;
 import domain.piece.error.PieceException;
 import java.util.List;
-import java.util.Map;
 
 public abstract class Piece {
 
@@ -50,14 +49,4 @@ public abstract class Piece {
     public abstract List<Coordination> resolvePath(Coordination from, Coordination to);
 
     public abstract void validatePath(List<Piece> piecesOnPath);
-
-    public void validateMovable(Coordination from, Coordination to, Map<Coordination, Piece> board) {
-        validateRule(from, to);
-        List<Piece> piecesOnPath = resolvePath(from, to).stream()
-                .map(board::get)
-                .filter(piece -> !piece.isEmpty())
-                .toList();
-        validatePath(piecesOnPath);
-        validateNotSameTeam(board.get(to));
-    }
 }

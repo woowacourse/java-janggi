@@ -25,7 +25,7 @@ class GuardTest {
         Coordination from = Coordination.of(4, 10);
         Coordination to = Coordination.of(column, row);
 
-        assertThatThrownBy(() -> guard.validateMovable(from, to, board))
+        assertThatThrownBy(() -> guard.validateRule(from, to))
                 .isInstanceOf(PieceException.class);
     }
 
@@ -44,7 +44,7 @@ class GuardTest {
         Coordination from = Coordination.of(4, 10);
         Coordination to = Coordination.of(column, row);
 
-        assertThatCode(() -> guard.validateMovable(from, to, board))
+        assertThatCode(() -> guard.validateRule(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -62,7 +62,7 @@ class GuardTest {
         Coordination from = Coordination.of(5, 1);
         Coordination to = Coordination.of(column, row);
 
-        assertThatThrownBy(() -> guard.validateMovable(from, to, board))
+        assertThatThrownBy(() -> guard.validateNotSameTeam(board.get(to)))
                 .isInstanceOf(PieceException.class);
     }
 }

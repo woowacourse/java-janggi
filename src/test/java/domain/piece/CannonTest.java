@@ -6,6 +6,7 @@ import java.util.Map;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import fixture.BoardFixtureFactory;
+import static fixture.PiecePathFinder.piecesOnPath;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
@@ -27,7 +28,7 @@ class CannonTest {
         Coordination from = Coordination.of(3, 8);
         Coordination to = Coordination.of(column, row);
 
-        assertThatThrownBy(() -> cannon.validateMovable(from, to, board))
+        assertThatThrownBy(() -> cannon.validateRule(from, to))
                 .isInstanceOf(PieceException.class);
     }
 
@@ -47,7 +48,7 @@ class CannonTest {
         Coordination from = Coordination.of(4, 7);
         Coordination to = Coordination.of(column, row);
 
-        assertThatCode(() -> cannon.validateMovable(from, to, board))
+        assertThatCode(() -> cannon.validateRule(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -65,9 +66,8 @@ class CannonTest {
         Coordination from = Coordination.of(2, 4);
         Coordination to = Coordination.of(column, row);
 
-        assertThatThrownBy(() -> cannon.validateMovable(from, to, board))
+        assertThatThrownBy(() -> cannon.validatePath(piecesOnPath(cannon, from, to, board)))
                 .isInstanceOf(PieceException.class);
-        ;
     }
 
     @ParameterizedTest
@@ -86,7 +86,7 @@ class CannonTest {
         Coordination from = Coordination.of(4, 4);
         Coordination to = Coordination.of(column, row);
 
-        assertThatCode(() -> cannon.validateMovable(from, to, board))
+        assertThatCode(() -> cannon.validatePath(piecesOnPath(cannon, from, to, board)))
                 .doesNotThrowAnyException();
     }
 
@@ -103,7 +103,7 @@ class CannonTest {
         Coordination from = Coordination.of(2, 3);
         Coordination to = Coordination.of(column, row);
 
-        assertThatThrownBy(() -> cannon.validateMovable(from, to, board))
+        assertThatThrownBy(() -> cannon.validatePath(piecesOnPath(cannon, from, to, board)))
                 .isInstanceOf(PieceException.class);
 
     }
@@ -121,7 +121,7 @@ class CannonTest {
         Coordination from = Coordination.of(2, 8);
         Coordination to = Coordination.of(column, row);
 
-        assertThatThrownBy(() -> cannon.validateMovable(from, to, board))
+        assertThatThrownBy(() -> cannon.validateNotSameTeam(board.get(to)))
                 .isInstanceOf(PieceException.class);
     }
 
@@ -141,7 +141,7 @@ class CannonTest {
         Coordination from = Coordination.of(2, 8);
         Coordination to = Coordination.of(column, row);
 
-        assertThatThrownBy(() -> cannon.validateMovable(from, to, board))
+        assertThatThrownBy(() -> cannon.validateNotSameTeam(board.get(to)))
                 .isInstanceOf(PieceException.class);
     }
 
@@ -158,7 +158,10 @@ class CannonTest {
         Coordination from = Coordination.of(4, 10);
         Coordination to = Coordination.of(column, row);
 
-        assertThatCode(() -> cannon.validateMovable(from, to, board))
+        assertThatCode(() -> {
+            cannon.validateRule(from, to);
+            cannon.validatePath(piecesOnPath(cannon, from, to, board));
+        })
                 .doesNotThrowAnyException();
     }
 
@@ -176,7 +179,7 @@ class CannonTest {
         Coordination from = Coordination.of(4, 10);
         Coordination to = Coordination.of(column, row);
 
-        assertThatThrownBy(() -> cannon.validateMovable(from, to, board))
+        assertThatThrownBy(() -> cannon.validatePath(piecesOnPath(cannon, from, to, board)))
                 .isInstanceOf(PieceException.class);
     }
 
@@ -194,7 +197,7 @@ class CannonTest {
         Coordination from = Coordination.of(4, 10);
         Coordination to = Coordination.of(column, row);
 
-        assertThatThrownBy(() -> cannon.validateMovable(from, to, board))
+        assertThatThrownBy(() -> cannon.validatePath(piecesOnPath(cannon, from, to, board)))
                 .isInstanceOf(PieceException.class);
     }
 }

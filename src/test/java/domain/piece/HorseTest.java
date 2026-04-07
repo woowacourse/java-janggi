@@ -2,6 +2,7 @@ package domain.piece;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static fixture.PiecePathFinder.piecesOnPath;
 
 import domain.coordination.Coordination;
 import domain.piece.error.PieceException;
@@ -27,7 +28,7 @@ class HorseTest {
         Coordination from = Coordination.of(3, 10);
         Coordination to = Coordination.of(column, row);
 
-        assertThatThrownBy(() -> horse.validateMovable(from, to, board))
+        assertThatThrownBy(() -> horse.validateRule(from, to))
                 .isInstanceOf(PieceException.class);
     }
 
@@ -51,7 +52,7 @@ class HorseTest {
         Coordination from = Coordination.of(4, 6);
         Coordination to = Coordination.of(column, row);
 
-        assertThatCode(() -> horse.validateMovable(from, to, board))
+        assertThatCode(() -> horse.validateRule(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -71,7 +72,7 @@ class HorseTest {
         Coordination from = Coordination.of(2, 4);
         Coordination to = Coordination.of(column, row);
 
-        assertThatThrownBy(() -> horse.validateMovable(from, to, board))
+        assertThatThrownBy(() -> horse.validatePath(piecesOnPath(horse, from, to, board)))
                 .isInstanceOf(PieceException.class);
     }
 
@@ -89,7 +90,7 @@ class HorseTest {
         Coordination from = Coordination.of(2, 4);
         Coordination to = Coordination.of(column, row);
 
-        assertThatCode(() -> horse.validateMovable(from, to, board))
+        assertThatCode(() -> horse.validatePath(piecesOnPath(horse, from, to, board)))
                 .doesNotThrowAnyException();
     }
 
@@ -107,7 +108,7 @@ class HorseTest {
         Coordination from = Coordination.of(5, 3);
         Coordination to = Coordination.of(column, row);
 
-        assertThatThrownBy(() -> horse.validateMovable(from, to, board))
+        assertThatThrownBy(() -> horse.validateNotSameTeam(board.get(to)))
                 .isInstanceOf(PieceException.class);
     }
 }
