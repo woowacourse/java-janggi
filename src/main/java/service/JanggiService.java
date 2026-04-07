@@ -9,8 +9,6 @@ import dto.BoardResponseDto;
 import global.template.TransactionTemplate;
 import repository.GameRepository;
 
-import java.sql.Connection;
-
 public class JanggiService {
 
     private final GameRepository gameRepository;
