@@ -1,18 +1,17 @@
 package db.dao;
 
+import db.jdbc.SqlConnection;
 import db.model.MoveHistoryEntity;
 import java.util.List;
 import java.util.Optional;
 
 public interface MoveHistoryDao {
 
-    Long save(final MoveHistoryEntity moveHistory);
+    Long save(SqlConnection connection, MoveHistoryEntity moveHistory);
 
-    List<MoveHistoryEntity> findAllByGameIdOrderByMoveOrderAsc(final Long gameId);
+    List<MoveHistoryEntity> findAllByGameIdOrderByMoveOrderAsc(SqlConnection connection, Long gameId);
 
-    Optional<Integer> findMaxMoveOrderByGameId(final Long gameId);
+    Optional<Integer> findLastMoveOrderByGameId(SqlConnection connection, Long gameId);
 
-    Optional<MoveHistoryEntity> findLastByGameId(final Long gameId);
-
-    void deleteLastByGameId(final Long gameId);
+    void deleteById(SqlConnection connection, Long id);
 }
