@@ -2,8 +2,8 @@ package janggi.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.util.DatabaseInitializer;
-import janggi.util.JdbcConnectionManager;
+import janggi.infrastructure.DatabaseInitializer;
+import janggi.infrastructure.JdbcConnectionManager;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
