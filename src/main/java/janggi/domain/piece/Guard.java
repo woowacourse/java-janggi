@@ -7,8 +7,8 @@ import janggi.domain.team.Team;
 public class Guard extends PalacePiece {
     private static final int MAX_MOVE_DISTANCE = 1;
 
-    public Guard(Team team, Palace palace) {
-        super(team, palace);
+    public Guard(Team team) {
+        super(team);
     }
 
     @Override

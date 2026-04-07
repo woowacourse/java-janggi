@@ -20,7 +20,7 @@ class PalaceTest {
     })
     void 궁성_좌표_내에서_이동인지_판정한다(String from, String to, boolean expected) {
         // given
-        Palace palace = new Palace();
+        Palace palace = Palace.getInstance();
 
         // when
         boolean result = palace.isPalaceMove(Position.from(from), Position.from(to));
@@ -42,7 +42,7 @@ class PalaceTest {
     })
     void 궁성_길_이동인지_판정한다(String from, String to, boolean expected) {
         // given
-        Palace palace = new Palace();
+        Palace palace = Palace.getInstance();
 
         // when
         boolean result = palace.hasRoute(Position.from(from), Position.from(to));

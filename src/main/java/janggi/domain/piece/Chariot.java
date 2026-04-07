@@ -5,8 +5,8 @@ import janggi.domain.team.Team;
 
 public class Chariot extends PalacePiece {
 
-    public Chariot(Team team, Palace palace) {
-        super(team, palace);
+    public Chariot(Team team) {
+        super(team);
     }
 
     @Override

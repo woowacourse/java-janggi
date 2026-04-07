@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 public class Palace {
+    private static final Palace instance = new Palace();
+
     private static final Map<Position, List<Position>> ROUTES = Map.of(
             Position.of(1, 4), List.of(Position.of(2, 5), Position.of(3, 6)),
             Position.of(1, 6), List.of(Position.of(2, 5), Position.of(3, 4)),
@@ -19,6 +21,12 @@ public class Palace {
             Position.of(10, 6), List.of(Position.of(9, 5), Position.of(8, 4)),
             Position.of(9, 5), List.of(Position.of(8, 4), Position.of(8, 6),
                     Position.of(10, 4), Position.of(10, 6)));
+
+    private Palace() {}
+
+    public static Palace getInstance() {
+        return instance;
+    }
 
     public boolean isPalaceMove(Position from, Position to) {
         return (isInHanPalace(from) && isInHanPalace(to))

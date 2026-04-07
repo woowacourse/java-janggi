@@ -5,8 +5,8 @@ import janggi.domain.team.Team;
 
 public class Cannon extends PalacePiece {
 
-    public Cannon(Team team, Palace palace) {
-        super(team, palace);
+    public Cannon(Team team) {
+        super(team);
     }
 
     @Override

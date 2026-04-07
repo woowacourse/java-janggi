@@ -84,8 +84,8 @@ class BoardTest {
     void 장이_잡히면_참을_반환한다() {
         // given
         Map<Position, Piece> base = new LinkedHashMap<>();
-        base.put(Position.of(2, 5), new General(Team.HAN, new Palace()));
-        base.put(Position.of(3, 5), new Soldier(Team.CHO, new Palace()));
+        base.put(Position.of(2, 5), new General(Team.HAN));
+        base.put(Position.of(3, 5), new Soldier(Team.CHO));
         board = new Board(base);
         Movement movement = new Movement(Position.of(3, 5), Position.of(2, 5));
 

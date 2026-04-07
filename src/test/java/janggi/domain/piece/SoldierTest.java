@@ -17,7 +17,7 @@ class SoldierTest {
     @CsvSource({"HAN", "CHO"})
     void 마의_팀을_확인한다(Team team) {
         // given
-        Soldier soldier = new Soldier(team, new Palace());
+        Soldier soldier = new Soldier(team);
 
         // when & then
         assertThat(soldier.getTeam()).isEqualTo(team);
@@ -29,7 +29,7 @@ class SoldierTest {
             "CHO, true"})
     void 입력받은_팀과_같은_팀인지_확인한다(Team team, boolean expected) {
         // given
-        Soldier soldier = new Soldier(team, new Palace());
+        Soldier soldier = new Soldier(team);
 
         // when
         boolean result = soldier.isSameTeam(team);
@@ -41,7 +41,7 @@ class SoldierTest {
     @Test
     void 졸의_타입은_SOLDIER이다() {
         // given
-        Soldier soldier = new Soldier(Team.HAN, new Palace());
+        Soldier soldier = new Soldier(Team.HAN);
 
         // when
         boolean result = soldier.isSameType(PieceType.SOLDIER);
@@ -57,7 +57,7 @@ class SoldierTest {
             "85, 95"})
     void 전진_또는_옆_방향으로_한_칸_이동시키면_빈_경로를_반환한다(String from, String to) {
         // given
-        Soldier soldier = new Soldier(Team.HAN, new Palace());
+        Soldier soldier = new Soldier(Team.HAN);
         Movement movement = new Movement(Position.from(from), Position.from(to));
 
         // when
@@ -70,7 +70,7 @@ class SoldierTest {
     @Test
     void 궁성에서_전진_방향으로_대각선_이동하면_빈_경로를_반환한다() {
         // given
-        Soldier soldier = new Soldier(Team.CHO, new Palace());
+        Soldier soldier = new Soldier(Team.CHO);
         Movement movement = new Movement(Position.from("34"), Position.from("25"));
 
         // when
@@ -84,7 +84,7 @@ class SoldierTest {
     @Test
     void 궁성이_아닌_곳에서_대각선으로_이동시키면_예외가_발생한다() {
         // given
-        Soldier soldier = new Soldier(Team.HAN, new Palace());
+        Soldier soldier = new Soldier(Team.HAN);
         Movement movement = new Movement(Position.from("43"), Position.from("52"));
 
         // when & then
@@ -99,7 +99,7 @@ class SoldierTest {
             "CHO, 25, 34"})
     void 뒷_방향으로_이동시키면_예외가_발생한다(Team team, String from, String to) {
         // given
-        Soldier soldier = new Soldier(team, new Palace());
+        Soldier soldier = new Soldier(team);
         Movement movement = new Movement(Position.from(from), Position.from(to));
 
         // when & then
@@ -111,10 +111,10 @@ class SoldierTest {
     @Test
     void 이동할_위치에_같은_팀이_있으면_예외가_발생한다() {
         // given
-        Soldier soldier = new Soldier(Team.HAN, new Palace());
+        Soldier soldier = new Soldier(Team.HAN);
 
         // when & then
-        assertThatThrownBy(() -> soldier.validateCanMove(new PieceOnPath(), new Chariot(Team.HAN, new Palace())))
+        assertThatThrownBy(() -> soldier.validateCanMove(new PieceOnPath(), new Chariot(Team.HAN)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 자신의 기물로 이동할 수 없습니다.");
     }
@@ -122,10 +122,10 @@ class SoldierTest {
     @Test
     void 이동할_위치에_다른_팀이_있으면_예외가_발생하지_않는다() {
         // given
-        Soldier soldier = new Soldier(Team.HAN, new Palace());
+        Soldier soldier = new Soldier(Team.HAN);
 
         // when & then
         assertThatNoException().isThrownBy(
-                () -> soldier.validateCanMove(new PieceOnPath(), new Chariot(Team.CHO, new Palace())));
+                () -> soldier.validateCanMove(new PieceOnPath(), new Chariot(Team.CHO)));
     }
 }

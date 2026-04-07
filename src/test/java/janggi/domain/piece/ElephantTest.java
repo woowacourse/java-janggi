@@ -87,7 +87,7 @@ class ElephantTest {
         Elephant elephant = new Elephant(Team.HAN);
         PieceOnPath pieceOnPath = new PieceOnPath();
         pieceOnPath.add(new EmptyPiece());
-        pieceOnPath.add(new Soldier(Team.HAN, new Palace()));
+        pieceOnPath.add(new Soldier(Team.HAN));
 
         // when & then
         assertThatThrownBy(() -> elephant.validateCanMove(pieceOnPath, new EmptyPiece()))
@@ -104,7 +104,7 @@ class ElephantTest {
         pieceOnPath.add(new EmptyPiece());
 
         // when & then
-        assertThatThrownBy(() -> elephant.validateCanMove(pieceOnPath, new Soldier(Team.HAN, new Palace())))
+        assertThatThrownBy(() -> elephant.validateCanMove(pieceOnPath, new Soldier(Team.HAN)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 자신의 기물로 이동할 수 없습니다.");
     }
@@ -119,6 +119,6 @@ class ElephantTest {
 
         // when & then
         assertThatNoException().isThrownBy(
-                () -> elephant.validateCanMove(pieceOnPath, new Chariot(Team.CHO, new Palace())));
+                () -> elephant.validateCanMove(pieceOnPath, new Chariot(Team.CHO)));
     }
 }

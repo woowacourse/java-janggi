@@ -60,13 +60,13 @@ class ScoreTest {
 
     public static Stream<Arguments> setupPieces() {
         return Stream.of(
-                Arguments.of(new Chariot(HAN, new Palace()), new Chariot(CHO, new Palace()), 14.5, 13.0),
-                Arguments.of(new Cannon(HAN, new Palace()), new Cannon(CHO, new Palace()), 8.5, 7.0),
+                Arguments.of(new Chariot(HAN), new Chariot(CHO), 14.5, 13.0),
+                Arguments.of(new Cannon(HAN), new Cannon(CHO), 8.5, 7.0),
                 Arguments.of(new Horse(HAN), new Horse(CHO), 6.5, 5.0),
                 Arguments.of(new Elephant(HAN), new Elephant(CHO), 4.5, 3.0),
-                Arguments.of(new Guard(HAN, new Palace()), new Guard(CHO, new Palace()), 4.5, 3.0),
-                Arguments.of(new Soldier(HAN, new Palace()), new Soldier(CHO, new Palace()), 3.5, 2.0),
-                Arguments.of(new General(HAN, new Palace()), new General(CHO, new Palace()), 1.5, 0),
+                Arguments.of(new Guard(HAN), new Guard(CHO), 4.5, 3.0),
+                Arguments.of(new Soldier(HAN), new Soldier(CHO), 3.5, 2.0),
+                Arguments.of(new General(HAN), new General(CHO), 1.5, 0),
                 Arguments.of(new EmptyPiece(), new EmptyPiece(), 1.5, 0));
     }
 

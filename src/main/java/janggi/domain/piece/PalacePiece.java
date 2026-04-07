@@ -9,9 +9,9 @@ public abstract class PalacePiece extends MoveablePiece {
 
     protected final Palace palace;
 
-    public PalacePiece(Team team, Palace palace) {
+    public PalacePiece(Team team) {
         super(team);
-        this.palace = palace;
+        this.palace = Palace.getInstance();
     }
 
     @Override
