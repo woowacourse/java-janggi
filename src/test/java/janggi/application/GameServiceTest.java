@@ -108,9 +108,11 @@ class GameServiceTest {
         // given
         GameEntity gameEntity = saveGameRoomEntity(new RoomName("room1"), CHO,
                 LocalDateTime.of(2024, 4, 5, 10, 0), dataSource);
-        savePiecePositionEntity(Position.from(1, 1), CHARIOT, CHO, gameEntity, dataSource);
-        savePiecePositionEntity(Position.from(2, 5), GENERAL, CHO, gameEntity, dataSource);
-        savePiecePositionEntity(Position.from(9, 5), GENERAL, HAN, gameEntity, dataSource);
+
+        Long gameId = gameEntity.id();
+        savePiecePositionEntity(Position.from(1, 1), CHARIOT, CHO, gameId, dataSource);
+        savePiecePositionEntity(Position.from(2, 5), GENERAL, CHO, gameId, dataSource);
+        savePiecePositionEntity(Position.from(9, 5), GENERAL, HAN, gameId, dataSource);
 
         // when
         GameDto gameDto = gameService.loadGame(gameEntity.id());
@@ -142,7 +144,7 @@ class GameServiceTest {
         int fromRow = 1;
         int fromColumn = 1;
         Position from = Position.from(fromRow, fromColumn);
-        savePiecePositionEntity(from, CHARIOT, CHO, gameEntity, dataSource);
+        savePiecePositionEntity(from, CHARIOT, CHO, gameEntity.id(), dataSource);
 
         int toRow = 1;
         int toColumn = 2;

@@ -11,21 +11,21 @@ public class PiecePositionEntity {
     private PieceType pieceType;
     private Dynasty dynasty;
 
-    private GameEntity gameEntity;
+    private Long gameId;
 
-    public PiecePositionEntity(Position position, PieceType pieceType, Dynasty dynasty, GameEntity gameEntity) {
+    public PiecePositionEntity(Position position, PieceType pieceType, Dynasty dynasty, Long gameId) {
         this.position = position;
         this.pieceType = pieceType;
         this.dynasty = dynasty;
-        this.gameEntity = gameEntity;
+        this.gameId = gameId;
     }
 
-    public PiecePositionEntity(Long id, Position position, PieceType pieceType, Dynasty dynasty, GameEntity gameEntity) {
+    public PiecePositionEntity(Long id, Position position, PieceType pieceType, Dynasty dynasty, Long gameId) {
         this.id = id;
         this.position = position;
         this.pieceType = pieceType;
         this.dynasty = dynasty;
-        this.gameEntity = gameEntity;
+        this.gameId = gameId;
     }
 
     public Long id() {
@@ -44,8 +44,8 @@ public class PiecePositionEntity {
         return dynasty;
     }
 
-    public GameEntity gameRoomEntity() {
-        return gameEntity;
+    public Long gameId() {
+        return gameId;
     }
 
     public void bindId(long id) {

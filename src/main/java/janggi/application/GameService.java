@@ -37,8 +37,9 @@ public class GameService {
         Game game = Game.initGame(boardDesignPolicy, roomName, lastPlayedAt);
         Long gameId = transactionTemplate.execute(() -> {
             GameEntity gameEntity = saveGame(game);
-            savePiecePositions(game, gameEntity);
-            return gameEntity.id();
+            Long createdGameId = gameEntity.id();
+            savePiecePositions(game.boardMap(), createdGameId);
+            return createdGameId;
         });
         return new GameDto(gameId, game);
     }
@@ -50,13 +51,12 @@ public class GameService {
         return gameEntity;
     }
 
-    private void savePiecePositions(Game game, GameEntity gameEntity) {
-        Map<Position, Piece> board = game.boardMap();
+    private void savePiecePositions(Map<Position, Piece> board, Long gameId) {
         List<PiecePositionEntity> piecePositionEntities = new ArrayList<>();
         for (Position position : board.keySet()) {
             Piece piece = board.get(position);
             piecePositionEntities.add(
-                    new PiecePositionEntity(position, piece.pieceType(), piece.dynasty(), gameEntity));
+                    new PiecePositionEntity(position, piece.pieceType(), piece.dynasty(), gameId));
         }
         piecePositionDAO.saveAll(piecePositionEntities);
     }
@@ -70,28 +70,15 @@ public class GameService {
 
     public GameDto loadGame(Long gameId) {
 
-        List<PiecePositionEntity> piecePositionEntities = piecePositionDAO.findAllPiecesByGameId(gameId);
-        validateGameIsNotExist(piecePositionEntities);
+        GameEntity gameEntity = gameDAO.findById(gameId)
+                .orElseThrow(() -> new DomainException("존재하지 않는 게임입니다."));
 
-        GameEntity gameEntity = getGameEntity(piecePositionEntities);
+        List<PiecePositionEntity> piecePositionEntities = piecePositionDAO.findAllPiecesByGameId(gameId);
+
         Map<Position, Piece> boardMap = getBoardMap(piecePositionEntities);
 
         return new GameDto(gameId, Game.loadGame(
                 Board.of(boardMap), gameEntity.roomName(), new CurrentTurn(gameEntity.currentTurn()), gameEntity.lastPlayedAt()));
-    }
-
-    private static void validateGameIsNotExist(List<PiecePositionEntity> piecePositionEntities) {
-        if(piecePositionEntities.isEmpty()) {
-            throw new DomainException("게임이 존재하지 않습니다.");
-        }
-    }
-
-    private static GameEntity getGameEntity(List<PiecePositionEntity> piecePositionEntities) {
-        GameEntity gameEntity = piecePositionEntities.getFirst().gameRoomEntity();
-        if(gameEntity == null) {
-            throw new IllegalStateException();
-        }
-        return gameEntity;
     }
 
     private static Map<Position, Piece> getBoardMap(List<PiecePositionEntity> piecePositionEntities) {

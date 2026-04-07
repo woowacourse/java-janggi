@@ -23,8 +23,8 @@ public class TestFixture {
 
 
     public static PiecePositionEntity createPiecePositionEntity(
-            Position from, PieceType pieceType, Dynasty dynasty, GameEntity gameEntity) {
-        return new PiecePositionEntity(from, pieceType, dynasty, gameEntity);
+            Position from, PieceType pieceType, Dynasty dynasty, Long gameId) {
+        return new PiecePositionEntity(from, pieceType, dynasty, gameId);
     }
 
     public static GameEntity saveGameRoomEntity(RoomName roomName, Dynasty lastTurn, LocalDateTime lastPlayedAt, DataSource dataSource) throws SQLException {
@@ -54,8 +54,8 @@ public class TestFixture {
     }
 
     public static PiecePositionEntity savePiecePositionEntity(
-            Position from, PieceType pieceType, Dynasty dynasty, GameEntity gameEntity, DataSource dataSource) throws SQLException {
-        PiecePositionEntity piecePositionEntity = createPiecePositionEntity(from, pieceType, dynasty, gameEntity);
+            Position from, PieceType pieceType, Dynasty dynasty, Long gameId, DataSource dataSource) throws SQLException {
+        PiecePositionEntity piecePositionEntity = createPiecePositionEntity(from, pieceType, dynasty, gameId);
         try (
                 Connection conn = dataSource.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(
@@ -63,7 +63,7 @@ public class TestFixture {
                         Statement.RETURN_GENERATED_KEYS
                 );
         ) {
-            pstmt.setLong(1, piecePositionEntity.gameRoomEntity().id());
+            pstmt.setLong(1, piecePositionEntity.gameId());
             pstmt.setInt(2, piecePositionEntity.position().row().row());
             pstmt.setInt(3, piecePositionEntity.position().column().column());
             pstmt.setString(4, piecePositionEntity.pieceType().name());

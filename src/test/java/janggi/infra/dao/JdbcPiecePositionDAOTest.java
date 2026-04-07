@@ -57,10 +57,11 @@ class JdbcPiecePositionDAOTest {
                 dataSource
         );
 
+        Long gameId = gameEntity.id();
         List<PiecePositionEntity> positionEntities = List.of(
-                createPiecePositionEntity(Position.from(1, 1), PieceType.CHARIOT, Dynasty.CHO, gameEntity),
-                createPiecePositionEntity(Position.from(2, 5), PieceType.GENERAL, Dynasty.CHO, gameEntity),
-                createPiecePositionEntity(Position.from(9, 5), PieceType.GENERAL, Dynasty.HAN, gameEntity)
+                createPiecePositionEntity(Position.from(1, 1), PieceType.CHARIOT, Dynasty.CHO, gameId),
+                createPiecePositionEntity(Position.from(2, 5), PieceType.GENERAL, Dynasty.CHO, gameId),
+                createPiecePositionEntity(Position.from(9, 5), PieceType.GENERAL, Dynasty.HAN, gameId)
         );
 
         // when
@@ -102,18 +103,16 @@ class JdbcPiecePositionDAOTest {
         // given
         GameEntity gameEntity = saveGameRoomEntity(new RoomName("room1"), CHO,
                 LocalDateTime.of(2024, 4, 5, 10, 0), dataSource);
-        savePiecePositionEntity(Position.from(1, 1), CHARIOT, CHO, gameEntity, dataSource);
-        savePiecePositionEntity(Position.from(2, 5), GENERAL, CHO, gameEntity, dataSource);
-        savePiecePositionEntity(Position.from(9, 5), GENERAL, HAN, gameEntity, dataSource);
+
+        Long gameId = gameEntity.id();
+        savePiecePositionEntity(Position.from(1, 1), CHARIOT, CHO, gameId, dataSource);
+        savePiecePositionEntity(Position.from(2, 5), GENERAL, CHO, gameId, dataSource);
+        savePiecePositionEntity(Position.from(9, 5), GENERAL, HAN, gameId, dataSource);
 
         // when
         List<PiecePositionEntity> pieces = jdbcPiecePositionDAO.findAllPiecesByGameId(gameEntity.id());
 
         // then
-        assertThat(pieces.getFirst().gameRoomEntity()).extracting(
-                GameEntity::roomName, GameEntity::currentTurn, GameEntity::lastPlayedAt
-        ).contains(
-                new RoomName("room1"), CHO, LocalDateTime.of(2024, 4, 5, 10, 0));
         assertThat(pieces)
                 .hasSize(3)
                 .extracting(
@@ -138,7 +137,7 @@ class JdbcPiecePositionDAOTest {
         );
 
         Position position = Position.from(1, 1);
-        savePiecePositionEntity(position, CHARIOT, CHO, gameEntity, dataSource);
+        savePiecePositionEntity(position, CHARIOT, CHO, gameEntity.id(), dataSource);
 
         // when
         jdbcPiecePositionDAO.deleteByGameIdAndPosition(gameEntity.id(), position);
@@ -170,7 +169,7 @@ class JdbcPiecePositionDAOTest {
         int fromRow = 1;
         int fromColumn = 1;
         Position from = Position.from(fromRow, fromColumn);
-        savePiecePositionEntity(from, CHARIOT, CHO, gameEntity, dataSource);
+        savePiecePositionEntity(from, CHARIOT, CHO, gameEntity.id(), dataSource);
 
         int toRow = 1;
         int toColumn = 2;

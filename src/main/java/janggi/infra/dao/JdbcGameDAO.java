@@ -9,6 +9,7 @@ import janggi.infra.util.DataSourceUtils;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
@@ -34,6 +35,33 @@ public class JdbcGameDAO implements GameDAO {
             pstmt.setTimestamp(3, Timestamp.valueOf(gameEntity.lastPlayedAt()));
             pstmt.executeUpdate();
             return getGeneratedKey(pstmt);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            DataSourceUtils.releaseConnection(connection);
+        }
+    }
+
+    @Override
+    public Optional<GameEntity> findById(Long id) {
+        Connection connection = connectionProvider.getConnection();
+        String sql = "SELECT * FROM game WHERE game_id = ?";
+        try (
+                PreparedStatement pstmt = connection.prepareStatement(sql)
+        ) {
+            pstmt.setLong(1, id);
+
+            ResultSet resultSet = pstmt.executeQuery();
+            if (resultSet.next()) {
+                return Optional.of(new GameEntity(
+                                resultSet.getLong("game_id"),
+                                new RoomName(resultSet.getString("room_name")),
+                                Dynasty.valueOf(resultSet.getString("current_turn")),
+                                resultSet.getTimestamp("last_played_at").toLocalDateTime()
+                        )
+                );
+            }
+            return Optional.empty();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {

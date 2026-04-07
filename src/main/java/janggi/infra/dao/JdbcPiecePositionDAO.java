@@ -18,21 +18,7 @@ import static java.sql.Statement.RETURN_GENERATED_KEYS;
 public class JdbcPiecePositionDAO implements PiecePositionDAO {
 
     private static final String SAVE_ALL_SQL = "INSERT INTO piece_position(game_id, piece_row, piece_column, piece_type, dynasty) VALUES";
-    private static final String FIND_ALL_PIECES_BY_GAME_ID_SQL = """
-                SELECT 
-                    pp.piece_position_id,
-                    pp.game_id,
-                    pp.piece_row,
-                    pp.piece_column,
-                    pp.piece_type,
-                    pp.dynasty,
-                    g.room_name,
-                    g.current_turn,
-                    g.last_played_at
-                FROM piece_position pp
-                JOIN game g ON pp.game_id = g.game_id
-                WHERE pp.game_id = ?
-            """;
+    private static final String FIND_ALL_PIECES_BY_GAME_ID_SQL = "SELECT * FROM piece_position WHERE game_id = ?";
 
     private final ConnectionProvider connectionProvider;
 
@@ -71,7 +57,7 @@ public class JdbcPiecePositionDAO implements PiecePositionDAO {
     private static void bindParameter(List<PiecePositionEntity> piecePositionEntities, PreparedStatement pstmt) throws SQLException {
         int idx = 1;
         for (PiecePositionEntity piecePosition : piecePositionEntities) {
-            pstmt.setLong(idx++, piecePosition.gameRoomEntity().id());
+            pstmt.setLong(idx++, piecePosition.gameId());
             pstmt.setInt(idx++, piecePosition.position().row().row());
             pstmt.setInt(idx++, piecePosition.position().column().column());
             pstmt.setString(idx++, piecePosition.pieceType().name());
@@ -103,12 +89,8 @@ public class JdbcPiecePositionDAO implements PiecePositionDAO {
 
             ResultSet rs = pstmt.executeQuery();
             List<PiecePositionEntity> result = new ArrayList<>();
-            GameEntity gameEntity = null;
             while (rs.next()) {
-                if (gameEntity == null) {
-                    gameEntity = createGameEntity(rs);
-                }
-                PiecePositionEntity entity = createPiecePositionEntity(rs, gameEntity);
+                PiecePositionEntity entity = createPiecePositionEntity(rs);
 
                 result.add(entity);
             }
@@ -145,7 +127,7 @@ public class JdbcPiecePositionDAO implements PiecePositionDAO {
         }
     }
 
-    private static PiecePositionEntity createPiecePositionEntity(ResultSet rs, GameEntity gameEntity) throws SQLException {
+    private static PiecePositionEntity createPiecePositionEntity(ResultSet rs) throws SQLException {
         return new PiecePositionEntity(
                 rs.getLong("piece_position_id"),
                 Position.from(
@@ -154,16 +136,7 @@ public class JdbcPiecePositionDAO implements PiecePositionDAO {
                 ),
                 PieceType.valueOf(rs.getString("piece_type")),
                 Dynasty.valueOf(rs.getString("dynasty")),
-                gameEntity
-        );
-    }
-
-    private static GameEntity createGameEntity(ResultSet rs) throws SQLException {
-        return new GameEntity(
-                rs.getLong("game_id"),
-                new RoomName(rs.getString("room_name")),
-                Dynasty.valueOf(rs.getString("current_turn")),
-                rs.getTimestamp("last_played_at").toLocalDateTime()
+                rs.getLong("game_id")
         );
     }
 

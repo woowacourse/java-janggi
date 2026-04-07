@@ -14,6 +14,7 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import static janggi.domain.dynasty.Dynasty.CHO;
 import static janggi.domain.dynasty.Dynasty.HAN;
@@ -58,6 +59,31 @@ class JdbcGameRoomDaoTest {
             resultSet.next();
             assertThat(resultSet.getInt(1)).isEqualTo(1);
         }
+    }
+
+    @Test
+    @DisplayName("게임을 id로 찾아온다.")
+    public void findById_success() throws Exception {
+        // given
+        GameEntity savedGame = saveGameRoomEntity(
+                new RoomName("room1"),
+                Dynasty.CHO,
+                LocalDateTime.of(2026, 4, 5, 10, 0),
+                dataSource
+        );
+
+        // when
+        Optional<GameEntity> result = jdbcGameRoomDao.findById(savedGame.id());
+
+        // then
+        assertThat(result).isPresent();
+        GameEntity foundGame = result.get();
+
+        assertThat(foundGame.id()).isEqualTo(savedGame.id());
+        assertThat(foundGame.roomName().roomName()).isEqualTo("room1");
+        assertThat(foundGame.currentTurn()).isEqualTo(Dynasty.CHO);
+        assertThat(foundGame.lastPlayedAt())
+                .isEqualTo(LocalDateTime.of(2026, 4, 5, 10, 0));
     }
 
     @Test
