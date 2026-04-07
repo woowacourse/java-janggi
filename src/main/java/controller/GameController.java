@@ -49,7 +49,7 @@ public class GameController {
 
         while (board.endCondition()) {
             playTurn(gameId, board, currentTurn);
-            currentTurn = convertCountry(currentTurn);
+            currentTurn = currentTurn.convertCountry();
         }
 
         endGamePhase(board);
@@ -94,13 +94,6 @@ public class GameController {
             janggiGameDao.saveGame(gameId, nextCountry, BoardConverter.convertToPieceDtos(board));
         });
         OutputView.printBoard(board);
-    }
-
-    private Country convertCountry(Country currentTurn) {
-        if (currentTurn == Country.CHO) {
-            return Country.HAN;
-        }
-        return Country.CHO;
     }
 
     private void initBoard(Board board) {

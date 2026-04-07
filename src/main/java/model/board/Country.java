@@ -27,6 +27,13 @@ public enum Country {
         throw new IllegalArgumentException("[ERROR] 없는 나라입니다.");
     }
 
+    public Country convertCountry() {
+        if (this == Country.CHO) {
+            return Country.HAN;
+        }
+        return Country.CHO;
+    }
+
     public boolean myTurn(Country country) {
         return this == country;
     }
