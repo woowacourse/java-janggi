@@ -32,7 +32,7 @@ public class LeapingMovement implements Movement {
 
     private boolean canCatchAt(final Piece me, final Position to,
         final BoardMediator boardMediator) {
-        if (!boardMediator.existsInPosition(to)) {
+        if (!boardMediator.existsByPosition(to)) {
             return true;
         }
         final Piece target = boardMediator.getPieceInPosition(to);
@@ -43,14 +43,14 @@ public class LeapingMovement implements Movement {
     public boolean isBlocked(final Position from, final BoardMediator boardMediator) {
         return IntStream.rangeClosed(1, maxDistance)
             .mapToObj(distance -> from.calculateNext(distance, direction))
-            .anyMatch(boardMediator::existsInPosition);
+            .anyMatch(boardMediator::existsByPosition);
     }
 
     public Position calculateDestination(final Position from, final BoardMediator boardMediator) {
         return IntStream.rangeClosed(1, maxDistance)
             .boxed()
             .filter(distance ->
-                boardMediator.existsInPosition(from.calculateNext(distance, direction)))
+                boardMediator.existsByPosition(from.calculateNext(distance, direction)))
             .findFirst()
             .map(distance -> decideFinalDestination(from, distance, boardMediator))
             .orElse(from.calculateNext(maxDistance, direction));
@@ -71,7 +71,7 @@ public class LeapingMovement implements Movement {
         final BoardMediator boardMediator) {
         return IntStream.rangeClosed(1, maxDistance)
             .mapToObj(distance -> from.calculateNext(distance, direction))
-            .filter(boardMediator::existsInPosition)
+            .filter(boardMediator::existsByPosition)
             .findFirst().orElse(from.calculateNext(maxDistance, direction));
     }
 
@@ -80,10 +80,10 @@ public class LeapingMovement implements Movement {
         final BoardMediator boardMediator) {
         final List<Position> path = new ArrayList<>(IntStream.rangeClosed(1, maxDistance)
             .mapToObj(distance -> from.calculateNext(distance, direction))
-            .takeWhile(position -> !boardMediator.existsInPosition(position)).toList());
+            .takeWhile(position -> !boardMediator.existsByPosition(position)).toList());
         final Position blockedPosition = from.calculateNext(path.size() + 1, direction);
 
-        if (boardMediator.existsInPosition(blockedPosition) &&
+        if (boardMediator.existsByPosition(blockedPosition) &&
             me.canCatch(boardMediator.getPieceInPosition(blockedPosition))) {
             path.add(blockedPosition);
         }

@@ -34,7 +34,7 @@ public class SlidingMovement implements Movement {
 
     private boolean canCatchAt(final Piece me, final Position to,
         final BoardMediator boardMediator) {
-        if (!boardMediator.existsInPosition(to)) {
+        if (!boardMediator.existsByPosition(to)) {
             return true;
         }
         final Piece target = boardMediator.getPieceInPosition(to);
@@ -46,7 +46,7 @@ public class SlidingMovement implements Movement {
         return IntStream.rangeClosed(1, maxDistance)
             .mapToObj(distance -> from.calculateNext(distance, direction))
             .takeWhile(position -> boardMediator.canMove(position, direction.flip()))
-            .anyMatch(boardMediator::existsInPosition);
+            .anyMatch(boardMediator::existsByPosition);
     }
 
     public Optional<Position> calculateDestination(final Position from,
@@ -54,7 +54,7 @@ public class SlidingMovement implements Movement {
 
         return IntStream.rangeClosed(1, maxDistance).boxed().takeWhile(
                 dist -> boardMediator.canMove(from.calculateNext(dist, direction), direction.flip()))
-            .filter(dist -> boardMediator.existsInPosition(from.calculateNext(dist, direction)))
+            .filter(dist -> boardMediator.existsByPosition(from.calculateNext(dist, direction)))
             .findFirst().map(dist -> decideFinalDestination(from, dist, boardMediator))
             .or(() -> fallbackPosition(from, direction, boardMediator));
     }
@@ -87,7 +87,7 @@ public class SlidingMovement implements Movement {
             .filter(distance -> from.checkNextBound(distance, direction))
             .mapToObj(distance -> from.calculateNext(distance, direction))
             .takeWhile(position -> boardMediator.canMove(position, direction.flip()))
-            .filter(boardMediator::existsInPosition).findFirst();
+            .filter(boardMediator::existsByPosition).findFirst();
     }
 
     @Override
@@ -100,7 +100,7 @@ public class SlidingMovement implements Movement {
         List<Position> path = new ArrayList<>(IntStream.rangeClosed(1, maxDistance)
             .filter(distance -> from.checkNextBound(distance, direction))
             .mapToObj(distance -> from.calculateNext(distance, direction))
-            .takeWhile(position -> !boardMediator.existsInPosition(position)
+            .takeWhile(position -> !boardMediator.existsByPosition(position)
                 && boardMediator.canMove(position, direction.flip())).toList());
         calculateBlockedPosition(from, boardMediator)
             .filter(position -> boardMediator.canMove(position, direction.flip())
@@ -111,7 +111,7 @@ public class SlidingMovement implements Movement {
 
     private boolean canMoveToBlockedPosition(final Piece me, final Position blockedPosition,
         final BoardMediator boardMediator) {
-        return boardMediator.existsInPosition(blockedPosition) && me.canCatch(
+        return boardMediator.existsByPosition(blockedPosition) && me.canCatch(
             boardMediator.getPieceInPosition(blockedPosition));
     }
 

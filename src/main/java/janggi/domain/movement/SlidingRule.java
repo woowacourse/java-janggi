@@ -23,7 +23,7 @@ public class SlidingRule implements Rule {
     @Override
     public List<Position> execute(final Position from, final BoardMediator boardMediator) {
         final List<Position> path = new ArrayList<>();
-        final Piece piece = boardMediator.getPieceInPosition(from);
+        final Piece piece = boardMediator.getPieceByPosition(from);
         final Pair<Position, List<Position>> moveResultUpToLast = moveUpToLast(from, piece, boardMediator);
 
         path.addAll(moveResultUpToLast.right());

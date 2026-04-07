@@ -8,8 +8,8 @@ public interface BoardMediator {
 
     boolean canMove(Position position, Direction direction);
 
-    boolean existsInPosition(Position position);
+    boolean existsByPosition(Position position);
 
-    Piece getPieceInPosition(Position position);
+    Piece getPieceByPosition(Position position);
 
 }

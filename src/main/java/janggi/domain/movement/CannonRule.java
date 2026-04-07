@@ -40,7 +40,7 @@ public class CannonRule implements Rule {
 
     private boolean canJump(final Piece me, final Position position,
         final BoardMediator boardMediator) {
-        if (!boardMediator.existsInPosition(position)) {
+        if (!boardMediator.existsByPosition(position)) {
             return false;
         }
         final Piece target = boardMediator.getPieceInPosition(position);

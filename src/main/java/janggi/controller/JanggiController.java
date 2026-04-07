@@ -181,7 +181,7 @@ public class JanggiController {
 
     private void validateSelectedPosition(final Position selectedPosition, final Team team,
         final BoardMediator boardMediator) {
-        if (!boardMediator.existsInPosition(selectedPosition)) {
+        if (!boardMediator.existsByPosition(selectedPosition)) {
             throw new IllegalArgumentException("입력된 위치에 기물이 존재하지 않습니다.");
         }
         final Piece selectedPiece = boardMediator.getPieceInPosition(selectedPosition);
