@@ -115,4 +115,53 @@ public class BoardTest {
         // then
         assertThat(board.isGameOver()).isTrue();
     }
+
+    @DisplayName("초기 보드 상태에서, 각 진영의 점수를 계산한다.")
+    @Test
+    void 초기_점수_계산_테스트() {
+        // given & when
+        double choScore = board.calculateScore(Side.CHO);
+        double hanScore = board.calculateScore(Side.HAN);
+
+        // then
+        assertAll(
+                () -> assertThat(choScore).isEqualTo(72.0),
+                () -> assertThat(hanScore).isEqualTo(73.5) // 72.0 + 1.5
+        );
+    }
+
+    @DisplayName("기물을 잡았을 때, 해당 진영의 점수가 감소한다.")
+    @Test
+    void 기물_제거_점수_감소_테스트() {
+        // given
+        Position choChariot = new Position(9, 0); // 초 진영 차 (13점)
+        Position target = new Position(0, 0); // 한 진영 차
+
+        // when
+        board.movePiece(choChariot, target);
+
+        // then
+        // 한 진영 점수: 73.5 - 13.0 = 60.5
+        assertThat(board.calculateScore(Side.HAN)).isEqualTo(60.5);
+    }
+
+    @DisplayName("점수가 더 높더라도, 궁이 잡히면 게임이 종료된다.")
+    @Test
+    void 점수_상관없이_궁_잡히면_게임_종료_테스트() {
+        // given
+        // 초기 상태 73.5 vs 72.0
+        assertThat(board.calculateScore(Side.HAN)).isGreaterThan(board.calculateScore(Side.CHO));
+
+        // when
+        // 한 진영 궁 제거
+        Position choSoldier = new Position(6, 4);
+        Position hanGeneral = new Position(1, 4);
+        board.movePiece(choSoldier, hanGeneral);
+
+        // then
+        assertAll(
+                () -> assertThat(board.isGameOver()).isTrue(),
+                () -> assertThat(board.calculateScore(Side.HAN)).isEqualTo(73.5)
+        );
+    }
 }

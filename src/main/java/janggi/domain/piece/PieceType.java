@@ -19,22 +19,24 @@ import java.util.function.Function;
 
 public enum PieceType {
 
-    GENERAL(side -> eightDirections(), new PalaceMoveStrategy()),
-    GUARD(side -> eightDirections(), new PalaceMoveStrategy()),
-    CHARIOT(side -> fourDirections(), new SlideMoveStrategy()),
-    CANNON(side -> fourDirections(), new CannonMoveStrategy()),
-    HORSE(side -> fourDirections(), new HorseMoveStrategy()),
-    ELEPHANT(side -> fourDirections(), new ElephantMoveStrategy()),
-    SOLDIER(Side::getSoldierDirections, new StepMoveStrategy()),
-    EMPTY(side -> EnumSet.noneOf(Direction.class), new EmptyMoveStrategy()),
+    GENERAL(side -> eightDirections(), new PalaceMoveStrategy(), 0.0),
+    GUARD(side -> eightDirections(), new PalaceMoveStrategy(), 3.0),
+    CHARIOT(side -> fourDirections(), new SlideMoveStrategy(), 13.0),
+    CANNON(side -> fourDirections(), new CannonMoveStrategy(), 7.0),
+    HORSE(side -> fourDirections(), new HorseMoveStrategy(), 5.0),
+    ELEPHANT(side -> fourDirections(), new ElephantMoveStrategy(), 3.0),
+    SOLDIER(Side::getSoldierDirections, new StepMoveStrategy(), 2.0),
+    EMPTY(side -> EnumSet.noneOf(Direction.class), new EmptyMoveStrategy(), 0.0),
     ;
 
     private final Function<Side, EnumSet<Direction>> directionProvider;
     private final MoveStrategy moveStrategy;
+    private final double score;
 
-    PieceType(Function<Side, EnumSet<Direction>> directionProvider, MoveStrategy moveStrategy) {
+    PieceType(Function<Side, EnumSet<Direction>> directionProvider, MoveStrategy moveStrategy, double score) {
         this.moveStrategy = moveStrategy;
         this.directionProvider = directionProvider;
+        this.score = score;
     }
 
     private static EnumSet<Direction> eightDirections() {
@@ -70,5 +72,9 @@ public enum PieceType {
 
     public List<Position> determineDestinations(Paths paths, Map<Position, Piece> boardState, Piece movingPiece) {
         return moveStrategy.determineDestinations(paths, boardState, movingPiece);
+    }
+
+    public double addToTotalScore(double currentScore) {
+        return currentScore + this.score;
     }
 }

@@ -64,6 +64,10 @@ public class Piece {
         return pieceNumber;
     }
 
+    public double addToTotalScore(double currentTotal) {
+        return pieceType.addToTotalScore(currentTotal);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {

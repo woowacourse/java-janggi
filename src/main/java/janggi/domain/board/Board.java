@@ -44,6 +44,10 @@ public class Board {
     private static final String ID_FIRST = "0";
     private static final String ID_SECOND = "1";
 
+    // 점수 계산
+    private static final double BASE_SCORE = 0.0;
+    private static final double HAN_BONUS_SCORE = 1.5;
+
     private final Map<Position, Piece> piecePosition;
 
     private Board(Map<Position, Piece> piecePosition) {
@@ -182,5 +186,18 @@ public class Board {
     private boolean hasGeneral(Side side) {
         return piecePosition.values().stream()
                 .anyMatch(piece -> piece.isOwnedBy(side) && piece.isGeneral());
+    }
+
+    public double calculateScore(Side side) {
+        double totalScore = piecePosition.values().stream()
+                .filter(piece -> piece.isOwnedBy(side))
+                .mapToDouble(piece -> piece.addToTotalScore(BASE_SCORE))
+                .sum();
+
+        if (side == Side.HAN) {
+            totalScore += HAN_BONUS_SCORE;
+        }
+
+        return totalScore;
     }
 }

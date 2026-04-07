@@ -2,6 +2,8 @@ package janggi;
 
 import janggi.domain.board.Board;
 import janggi.domain.board.PieceSelection;
+import janggi.domain.game.Player;
+import janggi.domain.game.PlayerResultDTO;
 import janggi.domain.game.Players;
 import janggi.domain.board.Position;
 import janggi.domain.game.Side;
@@ -9,6 +11,7 @@ import janggi.domain.board.BoardDTO;
 import janggi.domain.game.PlayerDTO;
 import janggi.view.InputView;
 import janggi.view.OutputView;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -46,12 +49,22 @@ public class JanggiGame {
 
     private void play(Players players) {
         while (true) {
-            PlayerDTO currentPlayer = players.getCurrentPlayer();
-            printPlayerTurnNotice(currentPlayer);
-            playerTurn(currentPlayer);
+            Player current = players.getCurrentPlayer();
+            PlayerDTO currentPlayerDTO = PlayerDTO.from(current);
+            printPlayerTurnNotice(currentPlayerDTO);
+            playerTurn(currentPlayerDTO);
 
             if (board.isGameOver()) {
-                outputView.printWinner(currentPlayer.side(), currentPlayer.name());
+                outputView.printWinnerNotice(currentPlayerDTO.side(), currentPlayerDTO.name());
+
+                List<PlayerResultDTO> playerResults = new ArrayList<>();
+
+                for (Player player : players) {
+                    double score = board.calculateScore(player.getSide());
+                    playerResults.add(new PlayerResultDTO(player.getName(), player.getSide(), score));
+                }
+
+                outputView.printTotalScores(playerResults);
                 break;
             }
 

@@ -1,8 +1,9 @@
 package janggi.domain.game;
 
+import java.util.Iterator;
 import java.util.Set;
 
-public class Players {
+public class Players implements Iterable<Player> {
     private static final String ERROR_DUPLICATED_NAME = "[ERROR] 플레이어는 중복된 이름을 가질 수 없습니다.";
     private static final String ERROR_PLAYER_NOT_FOUND = "[ERROR] 현재 턴에 해당하는 플레이어가 없습니다.";
 
@@ -28,15 +29,18 @@ public class Players {
         }
     }
 
-    public PlayerDTO getCurrentPlayer() {
+    public Player getCurrentPlayer() {
         return players.stream()
                 .filter(player -> player.isMyTurn(turn))
                 .findFirst()
-                .map(PlayerDTO::from)
                 .orElseThrow(() -> new IllegalStateException(ERROR_PLAYER_NOT_FOUND));
     }
 
     public void switchTurn() {
         turn.switchTurn();
+    }
+
+    public Iterator<Player> iterator() {
+        return players.iterator();
     }
 }
