@@ -6,6 +6,7 @@ import database.dao.BoardDao;
 import database.dao.IntersectionDao;
 import database.dto.BoardSummaryDto;
 import database.dto.GameResult;
+import database.mapper.JanggiBoardMapper;
 import domain.board.BoardSelectCommand;
 import domain.board.DBIntersectionGenerator;
 import domain.board.JanggiBoard;
@@ -20,17 +21,19 @@ import java.util.List;
 public class JanggiService {
 
     private final BoardDao boardDao;
+    private final JanggiBoardMapper mapper;
     private final IntersectionDao intersectionDao;
 
-    public JanggiService(BoardDao boardDao, IntersectionDao intersectionDao) {
+    public JanggiService(BoardDao boardDao, JanggiBoardMapper mapper, IntersectionDao intersectionDao) {
         this.boardDao = boardDao;
+        this.mapper = mapper;
         this.intersectionDao = intersectionDao;
     }
 
     public Long createBoard(JanggiBoard janggiBoard) {
         try (Connection connection = DBConnector.getConnection()) {
             Long saveId = boardDao.save(connection);
-            intersectionDao.saveAll(connection, saveId, janggiBoard.getListIntersection());
+            intersectionDao.saveAll(connection, saveId, mapper.toIntersectionDtoList(janggiBoard.getListIntersection()));
             return saveId;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -63,10 +66,9 @@ public class JanggiService {
         try (Connection connection = DBConnector.getConnection()) {
 
             Long boardId = BoardIdContext.getBoardId();
-
             boardDao.updateTurn(connection, boardId, currentTurn);
-            intersectionDao.update(connection, boardId, moved.destination());
-            intersectionDao.update(connection, boardId, moved.origin());
+            intersectionDao.update(connection, boardId, mapper.toIntersectionDto(moved.destination()));
+            intersectionDao.update(connection, boardId, mapper.toIntersectionDto(moved.origin()));
 
         } catch (SQLException e) {
             throw new RuntimeException();

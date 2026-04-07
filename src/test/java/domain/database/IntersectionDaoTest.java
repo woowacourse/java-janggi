@@ -6,6 +6,8 @@ import database.dao.BoardDao;
 import database.dao.IntersectionDao;
 import database.dao.JdbcBoardDao;
 import database.dao.JdbcIntersectionDao;
+import database.dto.IntersectionDto;
+import database.mapper.JanggiBoardMapper;
 import domain.board.JanggiBoard;
 import domain.board.JanggiIntersectionGenerator;
 import domain.intersection.Intersection;
@@ -24,6 +26,7 @@ class IntersectionDaoTest {
 
     private SchemaInitializer schemaInitializer;
     private IntersectionDao intersectionDao;
+    private JanggiBoardMapper mapper;
     private BoardDao boardDao;
 
     @BeforeEach
@@ -32,6 +35,7 @@ class IntersectionDaoTest {
         schemaInitializer.readShemaSQLFile();
         intersectionDao = new JdbcIntersectionDao();
         boardDao = new JdbcBoardDao();
+        mapper = new JanggiBoardMapper();
     }
 
     @Test
@@ -47,7 +51,7 @@ class IntersectionDaoTest {
                     ELEPHANT_HORSE_ELEPHANT_HORSE)
             );
 
-            List<Intersection> actual = janggiBoard.getListIntersection();
+            List<IntersectionDto> actual = mapper.toIntersectionDtoList(janggiBoard.getListIntersection());
             intersectionDao.saveAll(connection, savedId, actual);
 
             // when

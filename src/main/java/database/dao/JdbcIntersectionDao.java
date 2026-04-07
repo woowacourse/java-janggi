@@ -1,5 +1,6 @@
 package database.dao;
 
+import database.dto.IntersectionDto;
 import domain.intersection.Intersection;
 import domain.intersection.IntersectionType;
 import domain.piece.Piece;
@@ -34,21 +35,14 @@ public class JdbcIntersectionDao implements IntersectionDao {
             """;
 
     @Override
-    public void saveAll(Connection connection, Long boardId, List<Intersection> intersections) {
+    public void saveAll(Connection connection, Long boardId, List<IntersectionDto> intersections) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_INTERSECTION_QUERY)) {
 
-            for (Intersection intersection : intersections) {
-                Point point = intersection.getPoint();
-                Piece piece = intersection.readPiece();
-                String pieceType = piece.pieceType().name();
-                String teamName = piece.team().name();
-                String intersectionType = intersection.readIntersectionType().name();
-
+            for (IntersectionDto dto : intersections) {
                 setParameters(
                         preparedStatement,
-                        boardId, point.y(), point.x(), pieceType, teamName, intersectionType
+                        boardId, dto.y(), dto.x(), dto.pieceType(), dto.teamName(), dto.intersectionType()
                 );
-
                 preparedStatement.addBatch();
             }
 
@@ -88,17 +82,12 @@ public class JdbcIntersectionDao implements IntersectionDao {
         }
     }
 
-    public void update(Connection connection, Long boardId, Intersection intersection) {
+    public void update(Connection connection, Long boardId, IntersectionDto intersection) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_INTERSECTION_QUERY)) {
-
-            Piece piece = intersection.readPiece();
-            String teamName = piece.team().name();
-            String pieceTypeName = piece.pieceType().name();
-            Point point = intersection.getPoint();
 
             setParameters(
                     preparedStatement,
-                    pieceTypeName, teamName, boardId, point.y(), point.x()
+                    intersection.pieceType(), intersection.teamName(), boardId, intersection.y(), intersection.x()
             );
 
             int affectedRows = preparedStatement.executeUpdate();
