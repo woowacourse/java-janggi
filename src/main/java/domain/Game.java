@@ -3,15 +3,18 @@ package domain;
 import domain.board.Board;
 import domain.piece.Piece;
 import domain.player.Players;
+import domain.score.ScorePolicy;
 import java.util.Map;
 
 public class Game {
     private Board board;
     private final Players players;
+    private final ScorePolicy scorePolicy;
 
-    public Game(Board board, Players players) {
+    public Game(Board board, Players players, ScorePolicy scorePolicy) {
         this.board = board;
         this.players = players;
+        this.scorePolicy = scorePolicy;
     }
 
     public Side getCurrentSide() {
@@ -45,6 +48,10 @@ public class Game {
 
     public boolean isOver() {
         return board.isGameOver();
+    }
+
+    public int getScore(Side side) {
+        return scorePolicy.calculate(board, side);
     }
 
     public String getWinner() {
