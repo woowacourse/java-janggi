@@ -69,13 +69,6 @@ public class JanggiBoard {
         return isGeneralDead() || hasNotEnoughPieceScore();
     }
 
-    public Team getWinner() {
-        if (isGeneralDead(Team.HAN)) {
-            return Team.CHO;
-        }
-        return Team.HAN;
-    }
-
     public boolean isGeneralDead() {
         return Arrays.stream(Team.values())
                 .filter(team -> team != Team.NONE)
@@ -99,6 +92,27 @@ public class JanggiBoard {
                 .filter(Intersection::hasPiece)
                 .map(Intersection::getScore)
                 .reduce(0, Integer::sum);
+    }
+
+    public Team getWinner() {
+        if (isGeneralDead()) {
+            return getWinnerOnGeneralDead();
+        }
+
+        return getWinnerByScore();
+    }
+
+    public Team getWinnerOnGeneralDead() {
+        if (isGeneralDead(Team.HAN)) {
+            return Team.CHO;
+        }
+        return Team.HAN;
+    }
+
+    public Team getWinnerByScore() {
+        double hanScore = calculateTeamScore(Team.HAN) + 1.5;
+        double choScore = calculateTeamScore(Team.CHO);
+        return hanScore > choScore ? Team.HAN : Team.CHO;
     }
 
     public Map<Point, Intersection> getJanggiBoard() {

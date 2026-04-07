@@ -13,13 +13,7 @@ public record GameResult(
         double hanScore = janggiBoard.calculateTeamScore(Team.HAN) + 1.5;
         double choScore = janggiBoard.calculateTeamScore(Team.CHO);
 
-        if (janggiBoard.isGeneralDead()) {
-            Team winner = janggiBoard.getWinner();
-            return new GameResult(winner, hanScore, choScore);
-        }
-
-        Team winner = hanScore > choScore ? Team.HAN : Team.CHO;
-        return new GameResult(winner, hanScore, choScore);
+        return new GameResult(janggiBoard.getWinner(), hanScore, choScore);
     }
 
 }
