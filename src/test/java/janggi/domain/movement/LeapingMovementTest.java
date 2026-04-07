@@ -227,7 +227,7 @@ class LeapingMovementTest {
             List<Position> expected = List.of(Position.valueOf(5, 4), Position.valueOf(5, 5));
 
             List<Position> actual = leapingMovement.calculatePath(from,
-                boardMediator.getPieceInPosition(from), boardMediator);
+                boardMediator.getPieceByPosition(from), boardMediator);
 
             assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
         }
@@ -245,7 +245,7 @@ class LeapingMovementTest {
                 Position.valueOf(5, 6));
 
             List<Position> actual = leapingMovement.calculatePath(from,
-                boardMediator.getPieceInPosition(from), boardMediator);
+                boardMediator.getPieceByPosition(from), boardMediator);
 
             assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
         }
@@ -262,7 +262,7 @@ class LeapingMovementTest {
                 Position.valueOf(5, 6), Position.valueOf(5, 7));
 
             List<Position> actual = LeapingMovement.calculatePath(from,
-                boardMediator.getPieceInPosition(from), boardMediator);
+                boardMediator.getPieceByPosition(from), boardMediator);
 
             assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
         }

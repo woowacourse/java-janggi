@@ -22,7 +22,7 @@ public class LeapingRule implements Rule {
 
     @Override
     public List<Position> execute(final Position from, final BoardMediator boardMediator) {
-        final Piece piece = boardMediator.getPieceInPosition(from);
+        final Piece piece = boardMediator.getPieceByPosition(from);
         final Optional<Position> penultimatePosition = moveUpToLast(from, boardMediator);
         return penultimatePosition.map(
             position -> proceedFinalMovement(position, piece, boardMediator)).orElseGet(List::of);

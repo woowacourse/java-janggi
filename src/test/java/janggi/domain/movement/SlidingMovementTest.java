@@ -276,7 +276,7 @@ class SlidingMovementTest {
             List<Position> expected = List.of(Position.valueOf(5, 4), Position.valueOf(5, 5));
 
             List<Position> actual = slidingMovement.calculatePath(from,
-                boardMediator.getPieceInPosition(from), boardMediator);
+                boardMediator.getPieceByPosition(from), boardMediator);
 
             assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
         }
@@ -294,7 +294,7 @@ class SlidingMovementTest {
                 Position.valueOf(5, 6));
 
             List<Position> actual = slidingMovement.calculatePath(from,
-                boardMediator.getPieceInPosition(from), boardMediator);
+                boardMediator.getPieceByPosition(from), boardMediator);
 
             assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
         }
@@ -311,7 +311,7 @@ class SlidingMovementTest {
                 Position.valueOf(5, 6), Position.valueOf(5, 7));
 
             List<Position> actual = SlidingMovement.calculatePath(from,
-                boardMediator.getPieceInPosition(from), boardMediator);
+                boardMediator.getPieceByPosition(from), boardMediator);
 
             assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
         }
@@ -328,7 +328,7 @@ class SlidingMovementTest {
             List<Position> expected = List.of(Position.valueOf(8, 6));
 
             List<Position> actual = slidingMovement.calculatePath(from,
-                boardMediator.getPieceInPosition(from), boardMediator);
+                boardMediator.getPieceByPosition(from), boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }

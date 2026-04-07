@@ -37,7 +37,7 @@ public class SlidingMovement implements Movement {
         if (!boardMediator.existsByPosition(to)) {
             return true;
         }
-        final Piece target = boardMediator.getPieceInPosition(to);
+        final Piece target = boardMediator.getPieceByPosition(to);
         return me.canCatch(target);
     }
 
@@ -61,9 +61,9 @@ public class SlidingMovement implements Movement {
 
     private Position decideFinalDestination(final Position from, final int distance,
         final BoardMediator boardMediator) {
-        final Piece me = boardMediator.getPieceInPosition(from);
+        final Piece me = boardMediator.getPieceByPosition(from);
         final Position to = from.calculateNext(distance, direction);
-        final Piece toPiece = boardMediator.getPieceInPosition(to);
+        final Piece toPiece = boardMediator.getPieceByPosition(to);
         if (me.isOnSameTeamAs(toPiece)) {
             return from.calculateNext(distance - 1, direction);
         }
@@ -112,7 +112,7 @@ public class SlidingMovement implements Movement {
     private boolean canMoveToBlockedPosition(final Piece me, final Position blockedPosition,
         final BoardMediator boardMediator) {
         return boardMediator.existsByPosition(blockedPosition) && me.canCatch(
-            boardMediator.getPieceInPosition(blockedPosition));
+            boardMediator.getPieceByPosition(blockedPosition));
     }
 
 }

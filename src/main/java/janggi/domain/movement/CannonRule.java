@@ -26,7 +26,7 @@ public class CannonRule implements Rule {
     public List<Position> execute(Position from, final BoardMediator boardMediator) {
         final SlidingMovement firstMovement = movementOrder.getFirst();
         final SlidingMovement secondMovement = movementOrder.getLast();
-        final Piece piece = boardMediator.getPieceInPosition(from);
+        final Piece piece = boardMediator.getPieceByPosition(from);
         final Optional<Position> blockedPosition = firstMovement.calculateBlockedPosition(from,
             boardMediator);
 
@@ -43,7 +43,7 @@ public class CannonRule implements Rule {
         if (!boardMediator.existsByPosition(position)) {
             return false;
         }
-        final Piece target = boardMediator.getPieceInPosition(position);
+        final Piece target = boardMediator.getPieceByPosition(position);
 
         return !target.isSameTypeAs(me);
     }

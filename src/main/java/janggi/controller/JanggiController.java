@@ -146,7 +146,7 @@ public class JanggiController {
     private List<Position> displayMovablePositions(final Position positionOfMovingPiece,
         final Board board,
         final BoardMediator boardMediator) {
-        final Piece pieceToMove = boardMediator.getPieceInPosition(positionOfMovingPiece);
+        final Piece pieceToMove = boardMediator.getPieceByPosition(positionOfMovingPiece);
         final List<Position> movablePositions = pieceToMove.calculateMovablePositions(
             positionOfMovingPiece, boardMediator);
         OutputView.printBoard(BoardDto.from(board, movablePositions));
@@ -182,7 +182,7 @@ public class JanggiController {
         if (!boardMediator.existsByPosition(selectedPosition)) {
             throw new IllegalArgumentException("입력된 위치에 기물이 존재하지 않습니다.");
         }
-        final Piece selectedPiece = boardMediator.getPieceInPosition(selectedPosition);
+        final Piece selectedPiece = boardMediator.getPieceByPosition(selectedPosition);
         if (!team.hasPiece(selectedPiece)) {
             throw new IllegalArgumentException("입력된 위치에 있는 기물은 팀 기물이 아닙니다.");
         }
