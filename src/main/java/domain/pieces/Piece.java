@@ -30,35 +30,35 @@ public abstract class Piece {
         return this.camp;
     }
 
-    public Optional<Position> north(Position position) {
+    public static Optional<Position> north(Position position) {
         return Position.of(position.getCol(), position.getRow() - 1);
     }
 
-    public Optional<Position> south(Position position) {
+    public static Optional<Position> south(Position position) {
         return Position.of(position.getCol(), position.getRow() + 1);
     }
 
-    public Optional<Position> west(Position position) {
+    public static Optional<Position> west(Position position) {
         return Position.of(position.getCol() - 1, position.getRow());
     }
 
-    public Optional<Position> east(Position position) {
+    public static Optional<Position> east(Position position) {
         return Position.of(position.getCol() + 1, position.getRow());
     }
 
-    public Optional<Position> northWest(Position position) {
+    public static Optional<Position> northWest(Position position) {
         return Position.of(position.getCol() - 1, position.getRow() - 1);
     }
 
-    public Optional<Position> northEast(Position position) {
+    public static Optional<Position> northEast(Position position) {
         return Position.of(position.getCol() + 1, position.getRow() - 1);
     }
 
-    public Optional<Position> southWest(Position position) {
+    public static Optional<Position> southWest(Position position) {
         return Position.of(position.getCol() - 1, position.getRow() + 1);
     }
 
-    public Optional<Position> southEast(Position position) {
+    public static Optional<Position> southEast(Position position) {
         return Position.of(position.getCol() + 1, position.getRow() + 1);
     }
 }

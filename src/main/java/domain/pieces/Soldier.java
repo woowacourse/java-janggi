@@ -6,10 +6,18 @@ import domain.MovingFunction;
 import domain.PieceType;
 import domain.Position;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 public class Soldier extends Piece {
+
+    private static final List<MovingFunction> hanMovement = List.of(
+            Piece::south, Piece::west, Piece::east
+    );
+    private static final List<MovingFunction> choMovement = List.of(
+            Piece::north, Piece::west, Piece::east
+    );
 
     public Soldier(Camp camp) {
         super(camp);
@@ -19,21 +27,20 @@ public class Soldier extends Piece {
     public boolean canMove(Position from, Position to, BoardChecker boardChecker) {
 
         Set<Position> destination = new HashSet<>();
-
-        moveSoldier(from, this::west).ifPresent(destination::add);
-        moveSoldier(from, this::east).ifPresent(destination::add);
-
         if (this.isSameCamp(Camp.HAN)) {
-            moveSoldier(from, this::south).ifPresent(destination::add);
+            for (MovingFunction movement : hanMovement) {
+                move(from, movement).ifPresent(destination::add);
+            }
         }
         if (this.isSameCamp(Camp.CHO)) {
-            moveSoldier(from, this::north).ifPresent(destination::add);
+            for (MovingFunction movement : choMovement) {
+                move(from, movement).ifPresent(destination::add);
+            }
         }
-
         return destination.contains(to);
     }
 
-    private Optional<Position> moveSoldier(Position position, MovingFunction movement) {
+    private Optional<Position> move(Position position, MovingFunction movement) {
         return movement.move(position);
     }
 

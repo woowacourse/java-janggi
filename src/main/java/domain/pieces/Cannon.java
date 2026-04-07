@@ -13,6 +13,9 @@ import java.util.Optional;
 
 public class Cannon extends Piece {
 
+    private static final List<MovingFunction> movements = List.of(
+            Piece::north, Piece::south, Piece::west, Piece::east
+    );
     public Cannon(Camp camp) {
         super(camp);
     }
@@ -21,10 +24,9 @@ public class Cannon extends Piece {
     public boolean canMove(Position from, Position to, BoardChecker boardChecker) {
         Map<Position, List<Position>> routeOfDestination = new HashMap<>();
 
-        routeOfDestination.putAll(move(from, boardChecker, this::north));
-        routeOfDestination.putAll(move(from, boardChecker, this::south));
-        routeOfDestination.putAll(move(from, boardChecker, this::west));
-        routeOfDestination.putAll(move(from, boardChecker, this::east));
+        for (MovingFunction movement : movements) {
+            routeOfDestination.putAll(move(from, boardChecker, movement));
+        }
 
         return routeOfDestination.containsKey(to);
     }

@@ -6,11 +6,16 @@ import domain.MovingFunction;
 import domain.PieceType;
 import domain.Position;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 public class Guard extends Piece {
 
+    private static final List<MovingFunction> movements = List.of(
+            Piece::north, Piece::south, Piece::west, Piece::east,
+            Piece::northEast, Piece::southEast, Piece::northWest, Piece::southWest
+    );
     public Guard(Camp camp) {
         super(camp);
     }
@@ -20,15 +25,9 @@ public class Guard extends Piece {
 
         Set<Position> destination = new HashSet<>();
 
-        move(from, this::north).ifPresent(destination::add);
-        move(from, this::south).ifPresent(destination::add);
-        move(from, this::west).ifPresent(destination::add);
-        move(from, this::east).ifPresent(destination::add);
-        move(from, this::northEast).ifPresent(destination::add);
-        move(from, this::southEast).ifPresent(destination::add);
-        move(from, this::northWest).ifPresent(destination::add);
-        move(from, this::southWest).ifPresent(destination::add);
-
+        for (MovingFunction movement : movements) {
+            move(from, movement).ifPresent(destination::add);
+        }
         return destination.contains(to);
     }
 

@@ -25,7 +25,8 @@ public class PieceGenerator {
 
     private Map<Position, Piece> generatePieces(Camp camp, PieceType pieceType) {
         Map<Position, Piece> piecePositions = new HashMap<>();
-        List<Position> finalPositions = getFinalPositionByCamp(camp, pieceType.getInitialPositions());
+        List<Position> finalPositions = getFinalPositionByCamp(camp,
+                pieceType.getInitialPositions());
         for (Position position : finalPositions) {
             piecePositions.put(position, pieceType.create(camp));
         }
@@ -58,10 +59,9 @@ public class PieceGenerator {
     }
 
     private List<Position> getFinalPositions(Camp camp) {
-        List<Position> positions = getFinalPositionByCamp(camp,
+        return getFinalPositionByCamp(camp,
                 List.of(new Position(1, 0), new Position(2, 0), new Position(6, 0),
                         new Position(7, 0)));
-        return positions;
     }
 
     private ElephantFormation adjustElephantFormationByCamp(Camp camp,
