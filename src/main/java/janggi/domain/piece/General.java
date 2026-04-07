@@ -2,7 +2,9 @@ package janggi.domain.piece;
 
 import janggi.domain.Camp;
 import janggi.domain.Score;
-import janggi.domain.piece.strategy.PalaceStrategy;
+import janggi.domain.piece.strategy.ChoPalaceStrategy;
+import janggi.domain.piece.strategy.HanPalaceStrategy;
+import janggi.domain.piece.strategy.MoveStrategy;
 import janggi.domain.position.Position;
 
 import java.util.Map;
@@ -12,7 +14,14 @@ public class General extends Piece {
     private static final Score GENERAL_SCORE = new Score(0);
 
     public General(Camp camp) {
-        super(camp, PalaceStrategy.getInstance(), GENERAL_NAME, GENERAL_SCORE);
+        super(camp, createStrategy(camp), GENERAL_NAME, GENERAL_SCORE);
+    }
+
+    private static MoveStrategy createStrategy(Camp camp) {
+        if (camp.isCho()) {
+            return ChoPalaceStrategy.getInstance();
+        }
+        return HanPalaceStrategy.getInstance();
     }
 
     @Override

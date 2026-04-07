@@ -11,8 +11,8 @@ public class PieceName {
         this.hanName = hanName;
     }
 
-    public String of(Camp camp){
-        if(camp.isCho()){
+    public String of(Camp camp) {
+        if (camp.isCho()) {
             return choName;
         }
         return hanName;

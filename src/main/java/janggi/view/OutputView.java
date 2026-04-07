@@ -25,8 +25,8 @@ public class OutputView {
     public void printBoard(Map<Position, Piece> board, Camp currentCamp) {
         System.out.println();
 
-        int rowStart = currentCamp.initRowPosition();
-        int rowStep = -currentCamp.direction();
+        int rowStart = currentCamp.isCho() ? 9 : 0;
+        int rowStep = currentCamp.isCho() ? -1 : 1;
 
         List<Integer> rows = IntStream.iterate(rowStart, r -> r + rowStep)
                 .limit(10)

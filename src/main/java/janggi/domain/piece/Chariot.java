@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.Camp;
+import janggi.domain.Palaces;
 import janggi.domain.Score;
 import janggi.domain.piece.strategy.LinearStrategy;
 import janggi.domain.position.Position;
@@ -12,7 +13,7 @@ public class Chariot extends Piece {
     private static final Score CHARIOT_SCORE = new Score(13);
 
     public Chariot(Camp camp) {
-        super(camp, LinearStrategy.getInstance(), CHARIOT_NAME, CHARIOT_SCORE);
+        super(camp, new LinearStrategy(Palaces.of()), CHARIOT_NAME, CHARIOT_SCORE);
     }
 
     @Override

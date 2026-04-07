@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.Camp;
+import janggi.domain.Palaces;
 import janggi.domain.Score;
 import janggi.domain.piece.strategy.LinearStrategy;
 import janggi.domain.position.Position;
@@ -12,7 +13,7 @@ public class Cannon extends Piece {
     private static final Score CANNON_SCORE = new Score(7);
 
     public Cannon(Camp camp) {
-        super(camp, LinearStrategy.getInstance(), CANNON_NAME, CANNON_SCORE);
+        super(camp, new LinearStrategy(Palaces.of()), CANNON_NAME, CANNON_SCORE);
     }
 
     @Override

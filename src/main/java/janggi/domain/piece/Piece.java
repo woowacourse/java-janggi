@@ -33,11 +33,11 @@ public abstract class Piece {
         return this.camp.isSameCamp(camp);
     }
 
-    public String pieceName(){
+    public String pieceName() {
         return pieceName.of(camp);
     }
 
-    public Score score(){
+    public Score score() {
         return score;
     }
 
