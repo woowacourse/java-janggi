@@ -1,9 +1,12 @@
 package janggi.db;
 
+import janggi.repository.DataAccessException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public final class TransactionManager {
+public class TransactionManager {
+
+    private static final String DATABASE_ACCESS_FAILED = "[ERROR] 데이터베이스 접근 중 문제가 발생했습니다.";
 
     private final ConnectionManager connectionManager;
 
@@ -11,48 +14,61 @@ public final class TransactionManager {
         this.connectionManager = connectionManager;
     }
 
-    public <T> T readOnly(SqlFunction<T> action) throws SQLException {
+    public <T> T withoutTransaction(SqlFunction<T> action) {
         try (Connection connection = connectionManager.createConnection()) {
+            connection.setReadOnly(true);
             return action.apply(connection);
+        } catch (SQLException e) {
+            throw new DataAccessException(DATABASE_ACCESS_FAILED, e);
         }
     }
 
-    public <T> T inTransaction(SqlFunction<T> action) throws SQLException {
+    public <T> T inTransaction(SqlFunction<T> action) {
         try (Connection connection = connectionManager.createConnection()) {
             connection.setAutoCommit(false);
-
-            try {
-                T result = action.apply(connection);
-                connection.commit();
-                return result;
-            } catch (SQLException e) {
-                connection.rollback();
-                throw e;
-            }
+            return executeInTransaction(connection, action);
+        } catch (SQLException e) {
+            throw new DataAccessException(DATABASE_ACCESS_FAILED, e);
         }
     }
 
-    public void inTransaction(SqlConsumer action) throws SQLException {
+    public void inTransaction(SqlConsumer action) {
         try (Connection connection = connectionManager.createConnection()) {
             connection.setAutoCommit(false);
+            executeInTransaction(connection, action);
+        } catch (SQLException e) {
+            throw new DataAccessException(DATABASE_ACCESS_FAILED, e);
+        }
+    }
 
-            try {
-                action.accept(connection);
-                connection.commit();
-            } catch (SQLException e) {
-                connection.rollback();
-                throw e;
-            }
+    private <T> T executeInTransaction(Connection connection, SqlFunction<T> action) throws SQLException {
+        try {
+            T result = action.apply(connection);
+            connection.commit();
+            return result;
+        } catch (RuntimeException e) {
+            connection.rollback();
+            throw e;
+        }
+    }
+
+    private void executeInTransaction(Connection connection, SqlConsumer action) throws SQLException {
+        try {
+            action.accept(connection);
+            connection.commit();
+        } catch (RuntimeException e) {
+            connection.rollback();
+            throw e;
         }
     }
 
     @FunctionalInterface
     public interface SqlFunction<T> {
-        T apply(Connection connection) throws SQLException;
+        T apply(Connection connection);
     }
 
     @FunctionalInterface
     public interface SqlConsumer {
-        void accept(Connection connection) throws SQLException;
+        void accept(Connection connection);
     }
 }
