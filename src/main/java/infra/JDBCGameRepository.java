@@ -14,8 +14,8 @@ public class JDBCGameRepository implements GameRepository {
                 VALUES (?, ?)
                 """;
 
-        try (Connection connection = JDBCContext.getConnection()) {
-            PreparedStatement insertStatement = connection.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);
+        try (Connection connection = JDBCContext.getConnection();
+             PreparedStatement insertStatement = connection.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)) {
 
             insertStatement.setString(1, janggiGame.getWhoseTurn().name());
             insertStatement.setBoolean(2, janggiGame.isFinished());
@@ -37,10 +37,10 @@ public class JDBCGameRepository implements GameRepository {
 
     @Override
     public void update(Long gameId, JanggiGame janggiGame) {
-        String sql = "UPDATE game SET current_turn = ?, is_finished = ? WHERE id = ?";
+        String updateSql = "UPDATE game SET current_turn = ?, is_finished = ? WHERE id = ?";
 
         try (Connection connection = JDBCContext.getConnection();
-        PreparedStatement statement = connection.prepareStatement(sql)) {
+             PreparedStatement statement = connection.prepareStatement(updateSql)) {
 
             statement.setString(1, janggiGame.getWhoseTurn().name());
             statement.setBoolean(2, janggiGame.isFinished());
