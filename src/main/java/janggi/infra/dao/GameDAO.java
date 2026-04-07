@@ -11,7 +11,7 @@ public interface GameDAO {
 
     Optional<GameEntity> findById(Long id);
 
-    List<GameEntity> findAllOrderByLastPlayedAtDESC();
+    List<GameEntity> findAllOrderByLastPlayedAtDesc();
 
     void updateCurrentTurnAndLastPlayedAt(GameEntity gameEntity);
 }

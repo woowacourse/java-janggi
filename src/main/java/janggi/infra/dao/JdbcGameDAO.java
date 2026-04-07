@@ -78,7 +78,7 @@ public class JdbcGameDAO implements GameDAO {
     }
 
     @Override
-    public List<GameEntity> findAllOrderByLastPlayedAtDESC() {
+    public List<GameEntity> findAllOrderByLastPlayedAtDesc() {
         Connection connection = connectionProvider.getConnection();
         String sql = "SELECT * FROM game ORDER BY last_played_at DESC";
         try (

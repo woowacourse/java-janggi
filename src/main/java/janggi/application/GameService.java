@@ -62,7 +62,7 @@ public class GameService {
     }
 
     public List<GameRoomDto> getRecentlyPlayedGames() {
-        return gameDAO.findAllOrderByLastPlayedAtDESC().stream()
+        return gameDAO.findAllOrderByLastPlayedAtDesc().stream()
                 .map(gameEntity -> new GameRoomDto(gameEntity.id(), gameEntity.roomName().roomName()))
                 .toList();
     }

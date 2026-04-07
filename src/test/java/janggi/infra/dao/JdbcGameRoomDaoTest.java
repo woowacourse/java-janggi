@@ -98,7 +98,7 @@ class JdbcGameRoomDaoTest {
                 LocalDateTime.of(2026, 4, 5, 10, 0), dataSource);
         
         // when
-        List<GameEntity> gameEntities = jdbcGameRoomDao.findAllOrderByLastPlayedAtDESC();
+        List<GameEntity> gameEntities = jdbcGameRoomDao.findAllOrderByLastPlayedAtDesc();
 
         // then
         assertThat(gameEntities).hasSize(3)
