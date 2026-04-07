@@ -29,7 +29,7 @@ class ChoTurnTest {
         board.put(new Position(Row.SEVEN, Column.FIVE), new Ma(Team.CHO));
         board.put(new Position(Row.SIX, Column.SEVEN), new Ma(Team.CHO));
         board.put(new Position(Row.SIX, Column.FIVE), new Ma(Team.CHO));
-        board.put(new Position(Row.ZERO, Column.FIVE), new Jang(Team.CHO));
+        board.put(new Position(Row.HAN_BACK, Column.FIVE), new Jang(Team.CHO));
         board.put(new Position(Row.EIGHT, Column.SEVEN), new Ma(Team.HAN));
         board.put(new Position(Row.ONE, Column.ONE), new Ma(Team.HAN));
         board.put(new Position(Row.TWO, Column.FIVE), new Jang(Team.HAN));

@@ -103,7 +103,7 @@ class JangTest {
     @DisplayName("궁성 내에서 한칸 이동한다.")
     @Test
     void getLegalPath_insidePalace() {
-        Position from = new Position(Row.ZERO, Column.FIVE);
+        Position from = new Position(Row.HAN_BACK, Column.FIVE);
         Position to = new Position(Row.NINE, Column.FIVE);
         Jang jang = new Jang(Team.CHO);
 
@@ -114,7 +114,7 @@ class JangTest {
     @DisplayName("궁성 내에서 대각선으로 이동한다.")
     @Test
     void getLegalPath_palace_diagonal() {
-        Position from = new Position(Row.ZERO, Column.FOUR);
+        Position from = new Position(Row.HAN_BACK, Column.FOUR);
         Position to = new Position(Row.NINE, Column.FIVE);
         Jang jang = new Jang(Team.CHO);
 

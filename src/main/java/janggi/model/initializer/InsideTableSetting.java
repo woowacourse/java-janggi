@@ -13,8 +13,8 @@ import java.util.Map;
 public class InsideTableSetting extends BoardInitializerWithConst {
 
     private static final List<Position> MA_CHO = List.of(
-            new Position(Row.ZERO, Column.TWO),
-            new Position(Row.ZERO, Column.EIGHT)
+            new Position(Row.HAN_BACK, Column.TWO),
+            new Position(Row.HAN_BACK, Column.EIGHT)
     );
 
     private static final List<Position> MA_HAN = List.of(
@@ -23,8 +23,8 @@ public class InsideTableSetting extends BoardInitializerWithConst {
     );
 
     private static final List<Position> SANG_CHO = List.of(
-            new Position(Row.ZERO, Column.THREE),
-            new Position(Row.ZERO, Column.SEVEN)
+            new Position(Row.HAN_BACK, Column.THREE),
+            new Position(Row.HAN_BACK, Column.SEVEN)
     );
 
     private static final List<Position> SANG_HAN = List.of(

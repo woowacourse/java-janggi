@@ -24,7 +24,7 @@ class GameOverTest {
     @BeforeEach
     void beforeEach() {
         Map<Position, AbstractGimul> board = new HashMap<>();
-        board.put(new Position(Row.ZERO, Column.FIVE), new Jang(Team.CHO));
+        board.put(new Position(Row.HAN_BACK, Column.FIVE), new Jang(Team.CHO));
         board.put(new Position(Row.TWO, Column.FIVE), new Jang(Team.HAN));
         this.board = new Board(board);
     }

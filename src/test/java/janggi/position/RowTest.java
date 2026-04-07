@@ -37,14 +37,14 @@ class RowTest {
     void to() {
         //given
         Row eight = Row.EIGHT;
-        Row zero = Row.ZERO;
+        Row zero = Row.HAN_BACK;
 
         //when & then
         assertThat(eight.to(zero))
                 .containsExactly(
                         Row.EIGHT,
                         Row.NINE,
-                        Row.ZERO
+                        Row.HAN_BACK
                 );
     }
 
@@ -53,23 +53,23 @@ class RowTest {
     void to_smaller() {
         //given
         Row eight = Row.EIGHT;
-        Row zero = Row.ZERO;
+        Row zero = Row.HAN_BACK;
 
         //when & then
         assertThat(zero.to(eight))
                 .containsExactly(
-                        Row.ZERO,
+                        Row.HAN_BACK,
                         Row.NINE,
                         Row.EIGHT
                 );
     }
-    
+
     @DisplayName("두 행 사이의 거리를 반환한다.")
     @Test
     void getDistance() {
         //given
         Row eight = Row.EIGHT;
-        Row zero = Row.ZERO;
+        Row zero = Row.HAN_BACK;
 
         //when & then
         assertThat(eight.getDistance(zero))

@@ -14,7 +14,7 @@ public enum Row {
     SEVEN(7),
     EIGHT(8),
     NINE(9),
-    ZERO(10);
+    HAN_BACK(10);
 
     private final int value;
 
@@ -23,11 +23,6 @@ public enum Row {
     }
 
     public static Row of(int rowNumber) {
-        int rowZero = 0;
-        if (rowNumber == rowZero) {
-            return ZERO;
-        }
-
         return Arrays.stream(values())
                 .filter(row -> row.value == rowNumber)
                 .findFirst()
@@ -37,7 +32,7 @@ public enum Row {
     public Row moved(int displacement) {
         int nextValue = this.value + displacement;
 
-        if (nextValue > ZERO.value || nextValue < ONE.value) {
+        if (nextValue > HAN_BACK.value || nextValue < ONE.value) {
             throw new IllegalArgumentException("보드 밖으로는 이동할 수 없습니다.");
         }
 
@@ -62,7 +57,7 @@ public enum Row {
     }
 
     public int getDisplayName() {
-        if (this == ZERO) {
+        if (this == HAN_BACK) {
             return 0;
         }
         return this.value;

@@ -52,7 +52,7 @@ class ChaTest {
         //given
         Position from = new Position(Row.EIGHT, Column.SIX);
         Position middle = new Position(Row.NINE, Column.FIVE);
-        Position to = new Position(Row.ZERO, Column.FOUR);
+        Position to = new Position(Row.HAN_BACK, Column.FOUR);
         Cha cha = new Cha(Team.HAN);
 
         //when & then

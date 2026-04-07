@@ -30,7 +30,7 @@ class HanTurnTest {
         board.put(new Position(Row.EIGHT, Column.SEVEN), new Ma(Team.CHO));
         board.put(new Position(Row.SIX, Column.SEVEN), new Ma(Team.CHO));
         board.put(new Position(Row.SIX, Column.FIVE), new Ma(Team.CHO));
-        board.put(new Position(Row.ZERO, Column.FIVE), new Jang(Team.CHO));
+        board.put(new Position(Row.HAN_BACK, Column.FIVE), new Jang(Team.CHO));
         board.put(new Position(Row.TWO, Column.FIVE), new Jang(Team.HAN));
 
         this.board = new Board(board);
