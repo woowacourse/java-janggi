@@ -5,13 +5,14 @@ import domain.intersection.Intersection;
 import java.util.List;
 
 public class TestIntersectionGenerator implements IntersectionGenerator {
-    List<Intersection> intersections;
+    private final List<Intersection> intersections;
 
     public TestIntersectionGenerator(List<Intersection> intersections) {
         this.intersections = intersections;
     }
 
-    public List<Intersection> makeIntersection() {
-        return this.intersections;
+    @Override
+    public List<Intersection> makeIntersections() {
+        return intersections;
     }
 }
