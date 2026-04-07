@@ -64,6 +64,14 @@ public class OutputView {
                 .toList()));
     }
 
+    public void printScore(int choScore, int hanScore) {
+        System.out.printf("현재 점수 - 초: %d, 한: %d%n", choScore, hanScore);
+    }
+
+    public void printFinalScore(int choScore, int hanScore) {
+        System.out.printf("최종 점수 - 초: %d, 한: %d%n", choScore, hanScore);
+    }
+
     public void printWinner(String winner) {
         System.out.printf("%s(이/가) 승리했습니다.%n", winner);
     }
