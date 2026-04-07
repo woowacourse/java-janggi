@@ -43,6 +43,15 @@ public class Chu extends Team {
         return new Chu(getPieces(), GameResult.WIN);
     }
 
+    @Override
+    public double calculateTotalScore() {
+        int totalScore = 0;
+        for (Piece piece : getPieces().values()) {
+            totalScore += piece.score();
+        }
+        return totalScore + 1.5;
+    }
+
     private static Map<Position, Piece> initializePieces() {
         Map<Position, Piece> pieces = new HashMap<>();
         createChas(pieces, 1, TeamType.CHU);

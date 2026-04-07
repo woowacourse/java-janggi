@@ -42,6 +42,15 @@ public class Han extends Team {
         return new Han(getPieces(), GameResult.WIN);
     }
 
+    @Override
+    public double calculateTotalScore() {
+        double totalScore = 0;
+        for (Piece piece : getPieces().values()) {
+            totalScore += piece.score();
+        }
+        return totalScore;
+    }
+
     private static Map<Position, Piece> initializePieces() {
         Map<Position, Piece> pieces = new HashMap<>();
         createChas(pieces, 10, TeamType.HAN);

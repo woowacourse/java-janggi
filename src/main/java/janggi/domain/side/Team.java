@@ -47,14 +47,6 @@ public abstract class Team {
         return Optional.ofNullable(pieces.get(position));
     }
 
-    public int calculateTotalScore() {
-        int totalScore = 0;
-        for (Piece piece : pieces.values()) {
-            totalScore += piece.score();
-        }
-        return totalScore;
-    }
-
     protected static void createChas(Map<Position, Piece> pieces, int indexY, TeamType teamType) {
         pieces.put(new Position(1, indexY), new Cha(teamType));
         pieces.put(new Position(9, indexY), new Cha(teamType));
@@ -95,4 +87,6 @@ public abstract class Team {
     public abstract Team remove(Position position);
 
     public abstract Team updateWin();
+
+    public abstract double calculateTotalScore();
 }
