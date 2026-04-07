@@ -11,11 +11,15 @@ public class Row {
     private static final List<Row> CACHE;
 
     static {
+        CACHE = initializeCache();
+    }
+
+    private static List<Row> initializeCache() {
         List<Row> temp = new ArrayList<>();
         for (int i = MIN; i <= MAX; i++) {
             temp.add(new Row(i));
         }
-        CACHE = Collections.unmodifiableList(temp);
+        return Collections.unmodifiableList(temp);
     }
 
     private final int value;
