@@ -69,7 +69,6 @@ public class GameService {
 
 
     public GameDto loadGame(Long gameId) {
-
         GameEntity gameEntity = gameDAO.findById(gameId)
                 .orElseThrow(() -> new DomainException("존재하지 않는 게임입니다."));
 

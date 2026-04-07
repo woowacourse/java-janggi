@@ -36,7 +36,6 @@ public class JanggiController {
     }
 
     public void run() {
-
         GameDto gameDto = startGame();
 
         Game game = gameDto.game();
@@ -50,7 +49,6 @@ public class JanggiController {
     }
 
     private GameDto startGame() {
-
         Optional<GameDto> optionalGameDto = Optional.empty();
         while (optionalGameDto.isEmpty()) {
             int gameOption = getUntilValid(inputView::readGameOption);
