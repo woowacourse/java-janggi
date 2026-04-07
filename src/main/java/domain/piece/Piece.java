@@ -62,4 +62,5 @@ public abstract class Piece {
     }
 
     public abstract String getName();
+    public abstract int getScore();
 }
