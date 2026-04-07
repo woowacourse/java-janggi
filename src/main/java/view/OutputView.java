@@ -61,6 +61,10 @@ public class OutputView {
         System.out.println("\n!!! 외통수 !!!");
     }
 
+    public void printKingDeadMessage(Side side) {
+        System.out.println("\n" + SideView.from(side) + "의 장이 잡혔습니다...");
+    }
+
     public void printLoadGameMessage() {
         System.out.println("이전 게임을 불러옵니다.");
     }

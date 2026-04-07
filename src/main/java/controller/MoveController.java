@@ -26,10 +26,6 @@ public class MoveController implements GameCommand {
         );
 
         game.movePiece(start, dest);
-
-        if (!game.isSafe()) {
-            outputView.printCheckMessage();
-        }
     }
 
     private Position createPosition(List<Integer> inputs) {

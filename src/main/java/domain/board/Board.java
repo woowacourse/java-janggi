@@ -81,15 +81,6 @@ public class Board {
         return totalPossibleMoves;
     }
 
-    public Position findKingPosition(Side side) {
-        return board.entrySet().stream()
-                .filter(entry -> entry.getValue().isSameSide(side)
-                        && entry.getValue().getType() == PieceType.KING)
-                .map(Map.Entry::getKey)
-                .findFirst()
-                .orElseThrow();
-    }
-
     public boolean isSafe(Side side) {
         Position kingPos = findKingPosition(side);
 
@@ -156,6 +147,15 @@ public class Board {
         List<Position> intersection = new ArrayList<>(a);
         intersection.retainAll(b);
         return intersection;
+    }
+
+    private Position findKingPosition(Side side) {
+        return board.entrySet().stream()
+                .filter(entry -> entry.getValue().isSameSide(side)
+                        && entry.getValue().getType() == PieceType.KING)
+                .map(Map.Entry::getKey)
+                .findFirst()
+                .orElseThrow();
     }
 
     private Board simulateMove(Position from, Position to) {

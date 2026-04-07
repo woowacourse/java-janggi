@@ -38,7 +38,8 @@ public class JanggiController {
             outputView.printBoard(BoardMapper.toDto(game.getBoard()));
             outputView.printScore(ScoreMapper.toDto(game.calculateScore(Side.CHU), game.calculateScore(Side.HAN)));
 
-            GameCommand gameCommand = GameCommandFactory.create(InputHandler.readUntilValid(() ->
+            GameCommand gameCommand = GameCommandFactory.create(
+                    InputHandler.readUntilValid(() ->
                     inputView.requestGameCommand(game.getSide()))
             );
             gameCommand.execute(inputView, outputView, game);
@@ -49,6 +50,15 @@ public class JanggiController {
     }
 
     private void handleCheckMate(Game game) {
+        if (game.isKingDead()) {
+            game.end();
+            outputView.printKingDeadMessage(game.getSide());
+        }
+
+        if (!game.isSafe()) {
+            outputView.printCheckMessage();
+        }
+
         if (game.isCheckmate()) {
             outputView.printCheckMateMessage();
             game.end();
@@ -76,7 +86,7 @@ public class JanggiController {
                 )
         );
 
-        game.assignId(1L);
+        game.assignId(DEFAULT_GAME_ID);
         return game;
     }
 }

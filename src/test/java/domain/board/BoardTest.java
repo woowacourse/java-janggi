@@ -46,6 +46,30 @@ class BoardTest {
         }
     }
 
+    static class HasKingTest implements BoardInitializer {
+
+        @Override
+        public Map<Position, Piece> initialize() {
+            Map<Position, Piece> piecesPosition = new HashMap<>();
+
+            piecesPosition.put(new Position(1, 3), new Guard(Side.HAN));
+            piecesPosition.put(new Position(0, 3), new Cannon(Side.HAN));
+            piecesPosition.put(new Position(4, 4), new Chariot(Side.HAN));
+
+            piecesPosition.put(new Position(1, 0), new Chariot(Side.CHU));
+            initializeEmptyPiece(piecesPosition);
+            return piecesPosition;
+        }
+
+        private void initializeEmptyPiece(Map<Position, Piece> pieceInitPlacements) {
+            for (int i = 0; i < 10; i++) {
+                for (int j = 0; j < 9; j++) {
+                    pieceInitPlacements.putIfAbsent(new Position(i, j), EmptyPiece.getInstance());
+                }
+            }
+        }
+    }
+
     @Test
     @DisplayName("장기판을 생성한다.")
     void BoardInitializeTest() {
@@ -127,13 +151,23 @@ class BoardTest {
     }
 
     @Test
-    @DisplayName("장기판에 장이 없으면 false를 반환한다.")
-    void hasKingTest() {
+    @DisplayName("장기판에 장이 있으면 true를 반환한다.")
+    void hasKing_True_Test() {
         // given
         Board board = new Board(basicBoardInitializer.initialize());
 
         // when - then
         assertThat(board.hasKing(Side.HAN)).isTrue();
+    }
+
+    @Test
+    @DisplayName("장기판에 장이 없으면 false를 반환한다.")
+    void hasKing_False_Test() {
+        // given
+        Board board = new Board(new HasKingTest().initialize());
+
+        // when - then
+        assertThat(board.hasKing(Side.HAN)).isFalse();
     }
 
     @Test

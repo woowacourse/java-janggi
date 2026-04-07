@@ -51,10 +51,11 @@ public class Game {
 
         if (board.hasKing(state.getSide().opposite())) {
             state = state.nextTurn();
-            return;
         }
+    }
 
-        end();
+    public boolean isKingDead() {
+        return !board.hasKing(state.getSide().opposite());
     }
 
     public double calculateScore(Side side) {
