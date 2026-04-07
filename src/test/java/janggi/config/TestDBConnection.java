@@ -1,6 +1,7 @@
 package janggi.config;
 
 import janggi.dto.H2DBPropertiesDto;
+import janggi.exception.SQLExceptionHandler;
 import janggi.global.EntityMapper;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -32,8 +33,11 @@ public final class TestDBConnection implements DBConnection {
         try {
             Class.forName(driverClassName);
             connection = DriverManager.getConnection(url, id, password);
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            throw new IllegalStateException(String.format(
+                "드라이버 클래스 로드 실패, %s 드라이버 클래스를 찾을 수 없습니다", driverClassName));
+        } catch (SQLException e) {
+            SQLExceptionHandler.handle(e, "DB 커넥션 생성에 실패했습니다.");
         }
     }
 
@@ -50,7 +54,7 @@ public final class TestDBConnection implements DBConnection {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            SQLExceptionHandler.handle(e, "SELECT 쿼리에 실패했습니다.");
         }
 
         return Optional.empty();
@@ -70,7 +74,7 @@ public final class TestDBConnection implements DBConnection {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            SQLExceptionHandler.handle(e, "SELECT 쿼리에 실패했습니다.");
         }
 
         return result;
@@ -91,8 +95,8 @@ public final class TestDBConnection implements DBConnection {
                     generatedKey = resultSet.getLong(1);
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            SQLExceptionHandler.handle(e, "INSERT/UPDATE 쿼리에 실패했습니다.");
         }
 
         return generatedKey;
@@ -118,7 +122,7 @@ public final class TestDBConnection implements DBConnection {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            SQLExceptionHandler.handle(e, "BATCH INSERT/UPDATE 쿼리에 실패했습니다.");
         }
 
         return generatedKeys;
@@ -132,8 +136,8 @@ public final class TestDBConnection implements DBConnection {
                 preparedStatement.setObject(parameterIndex + 1, parameters[parameterIndex]);
             }
             affectedRowCount = preparedStatement.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            SQLExceptionHandler.handle(e, "DELETE 쿼리에 실패했습니다.");
         }
         return affectedRowCount != 0;
     }
@@ -144,7 +148,7 @@ public final class TestDBConnection implements DBConnection {
         try {
             connection.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            SQLExceptionHandler.handle(e, "DB 커넥션 클로즈에 실패했습니다.");
         }
     }
 

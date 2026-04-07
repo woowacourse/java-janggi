@@ -1,6 +1,7 @@
 package janggi.config;
 
 import janggi.dto.H2DBPropertiesDto;
+import janggi.exception.SQLExceptionHandler;
 import janggi.global.EntityMapper;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -31,7 +32,8 @@ public class StandardDBConnection implements DBConnection {
         try {
             Class.forName(driverClassName);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            throw new IllegalStateException(String.format(
+                "드라이버 클래스 로드 실패, %s 드라이버 클래스를 찾을 수 없습니다", driverClassName));
         }
     }
 
@@ -51,7 +53,7 @@ public class StandardDBConnection implements DBConnection {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            SQLExceptionHandler.handle(e, "SELECT 쿼리에 실패했습니다.");
         }
 
         return Optional.empty();
@@ -74,7 +76,7 @@ public class StandardDBConnection implements DBConnection {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            SQLExceptionHandler.handle(e, "SELECT 쿼리에 실패했습니다.");
         }
 
         return result;
@@ -98,8 +100,8 @@ public class StandardDBConnection implements DBConnection {
                     generatedKey = resultSet.getLong(1);
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            SQLExceptionHandler.handle(e, "INSERT/UPDATE 쿼리에 실패했습니다.");
         }
 
         return generatedKey;
@@ -127,7 +129,7 @@ public class StandardDBConnection implements DBConnection {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            SQLExceptionHandler.handle(e, "BATCH INSERT/UPDATE 쿼리에 실패했습니다.");
         }
 
         return generatedKeys;
@@ -144,8 +146,8 @@ public class StandardDBConnection implements DBConnection {
                 preparedStatement.setObject(parameterIndex + 1, parameters[parameterIndex]);
             }
             affectedRowCount = preparedStatement.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            SQLExceptionHandler.handle(e, "DELETE 쿼리에 실패했습니다.");
         }
         return affectedRowCount != 0;
     }
