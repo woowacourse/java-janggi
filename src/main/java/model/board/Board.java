@@ -3,9 +3,8 @@ package model.board;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Optional;
-import java.util.stream.Stream;
+import java.util.function.BiConsumer;
 import model.move.Move;
 import model.pieces.Piece;
 import model.pieces.PieceType;
@@ -97,8 +96,8 @@ public class Board {
                 .map(Piece::country);
     }
 
-    public Stream<Entry<Position, Piece>> getPieceStream() {
-        return board.entrySet().stream();
+    public void forEach(BiConsumer<Position, Piece> action) {
+        board.forEach(action);
     }
 
     private boolean countGeneral() {
