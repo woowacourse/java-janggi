@@ -5,7 +5,6 @@ import janggi.domain.piece.Piece;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public class Board {
 
@@ -20,8 +19,10 @@ public class Board {
     }
 
     public void movePiece(Position movePiecePosition, Position destination) {
-        Piece piece = Optional.ofNullable(board.get(movePiecePosition))
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 빈 칸은 이동시킬 수 없습니다."));
+        Piece piece = board.get(movePiecePosition);
+        if (piece == null) {
+            throw new IllegalArgumentException("[ERROR] 빈 칸은 이동시킬 수 없습니다.");
+        }
         board.remove(movePiecePosition);
         board.put(destination, piece);
     }
