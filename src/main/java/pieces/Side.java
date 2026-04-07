@@ -15,7 +15,8 @@ public enum Side {
         Delta.up(),
         Delta.left(),
         Delta.right()
-    );
+    ),
+    ;
 
     private final Delta forward;
     private final Delta back;

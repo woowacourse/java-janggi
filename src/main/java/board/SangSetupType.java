@@ -12,7 +12,8 @@ public enum SangSetupType {
     LEFT_SANG_SETUP(SANG, MA, SANG, MA),
     RIGHT_SANG_SETUP(MA, SANG, MA, SANG),
     INNER_SANG_SETUP(MA, SANG, SANG, MA),
-    OUTER_SANG_SETUP(SANG, MA, MA, SANG);
+    OUTER_SANG_SETUP(SANG, MA, MA, SANG),
+    ;
 
     private final PieceType first;
     private final PieceType second;

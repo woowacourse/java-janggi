@@ -5,7 +5,8 @@ import pieces.Side;
 public enum Turn {
 
     CHO_TURN(Side.CHO),
-    HAN_TURN(Side.HAN);
+    HAN_TURN(Side.HAN),
+    ;
 
     private final Side side;
 

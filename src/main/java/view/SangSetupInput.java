@@ -9,7 +9,8 @@ public enum SangSetupInput {
     LEFT_SANG_SETUP(1, "왼상차림", SangSetupType.LEFT_SANG_SETUP),
     RIGHT_SANG_SETUP(2, "오른상차림", SangSetupType.RIGHT_SANG_SETUP),
     INNER_SANG_SETUP(3, "안상차림", SangSetupType.INNER_SANG_SETUP),
-    OUTER_SANG_SETUP(4, "바깥상차림", SangSetupType.OUTER_SANG_SETUP);
+    OUTER_SANG_SETUP(4, "바깥상차림", SangSetupType.OUTER_SANG_SETUP),
+    ;
 
     private final int inputNumber;
     private final String displayName;

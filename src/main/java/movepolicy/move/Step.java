@@ -92,7 +92,8 @@ public enum Step {
         public Position move(Position position, Side side) {
             return position.move(side.leftBackDelta());
         }
-    };
+    },
+    ;
 
     public abstract Position move(Position position, Side side);
 

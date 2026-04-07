@@ -122,7 +122,8 @@ public enum PieceType {
         ),
         EmptyPathMoveRule.withOtherSideTargetRule(),
         new Score(0)
-    );
+    ),
+    ;
 
     private final Movement movement;
     private final MoveRule moveRule;
