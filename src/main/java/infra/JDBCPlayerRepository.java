@@ -65,7 +65,7 @@ public class JDBCPlayerRepository implements PlayerRepository {
 
     @Override
     public Optional<Map<Side, Player>> findPlayersByGameId(Long gameId) {
-        String selectSql = "SELECT side, score, player_status FROM board WHERE game_id = ?";
+        String selectSql = "SELECT side, score, player_status FROM player WHERE game_id = ?";
 
         try (Connection connection = JDBCContext.getConnection();
              PreparedStatement statement = connection.prepareStatement(selectSql)) {
