@@ -72,14 +72,23 @@ public class JanggiService {
     }
 
     public void applyMove(int gameId, Position start, Position end, JanggiGame game) {
-        boolean checkEndPosition = game.isEmptyPosition(end);
+        boolean isRemoved = !game.isEmptyPosition(end);
         game.play(start, end);
+        updatePieceData(isRemoved, gameId, start, end);
+        updateTurnData(game, gameId);
+    }
 
-        if (!checkEndPosition) {
+    private void updatePieceData(boolean isRemoved, int gameId, Position start, Position end) {
+        if (isRemoved) {
             pieceDao.deletePiece(gameId, end.getRow(), end.getCol());
         }
         pieceDao.movePiece(gameId, start.getRow(), start.getCol(), end.getRow(), end.getCol());
-        janggiGameDao.updateTurn(gameId, game.getCountry().name());
+    }
+
+    private void updateTurnData(JanggiGame game, int gameId) {
+        if (!game.isFinished()) {
+            janggiGameDao.updateTurn(gameId, game.getCountry().name());
+        }
     }
 
     public List<PieceType> createMaSang(int command) {
