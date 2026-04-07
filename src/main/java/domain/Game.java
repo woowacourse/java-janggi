@@ -36,6 +36,13 @@ public class Game {
         return board.isPlaying();
     }
 
+    public Score calculateScore(Side side) {
+        if (side == Side.HAN) {
+            return board.calculateScore(side).plus(new Score(1.5));
+        }
+        return board.calculateScore(side);
+    }
+
     public String getWinner() {
         Side winnerSide = board.getWinnerSide();
         return players.getPlayerNameBySide(winnerSide);

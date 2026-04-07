@@ -2,6 +2,7 @@ package domain.piece;
 
 import domain.Destinations;
 import domain.Position;
+import domain.Score;
 import domain.Side;
 import domain.board.BoardReader;
 import domain.strategy.MovementStrategy;
@@ -49,5 +50,9 @@ public abstract class Piece {
 
     public Side getSide() {
         return side;
+    }
+
+    public Score getScore() {
+        return getType().getScore();
     }
 }

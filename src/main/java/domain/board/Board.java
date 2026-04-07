@@ -3,6 +3,7 @@ package domain.board;
 import domain.Destinations;
 import domain.Palace;
 import domain.Position;
+import domain.Score;
 import domain.Side;
 import domain.piece.Piece;
 import domain.strategy.Direction;
@@ -51,6 +52,13 @@ public class Board implements BoardReader{
                 .toList();
     }
 
+    public Score calculateScore(Side side) {
+        return board.values().stream()
+                .filter(piece -> piece.isAlly(side))
+                .map(Piece::getScore)
+                .reduce(new Score(0.0), Score::plus);
+    }
+
     public Map<Position, Piece> getBoard() {
         return board;
     }
@@ -73,12 +81,12 @@ public class Board implements BoardReader{
         }
         return piece;
     }
-
     @Override
     public List<Direction> getPalaceDiagonals(Position position) {
         return Palace.getDiagonals(position);
 
     }
+
     @Override
     public boolean isInsidePalace(Position position) {
         return Palace.isInsideAny(position);

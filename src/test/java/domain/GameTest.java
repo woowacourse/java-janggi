@@ -118,4 +118,16 @@ class GameTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("게임이 이미 종료되었습니다.");
     }
+
+
+    @Test
+    void 현재_보드에_남아있는_양_진영의_기물을_바탕으로_총_점수를_합산하여_올바르게_계산한다() {
+        // when
+        Score actualOfCho = game.calculateScore(Side.CHO);
+        Score actualOfHan = game.calculateScore(Side.HAN);
+
+        // then
+        assertThat(actualOfCho.value()).isEqualTo(72.0);
+        assertThat(actualOfHan.value()).isEqualTo(73.5);
+    }
 }
