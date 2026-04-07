@@ -14,4 +14,6 @@ public interface Board {
     Map<Position, Piece> getBoardInfo();
 
     Team winner();
+
+    int getTotalScoreOf(Team team);
 }

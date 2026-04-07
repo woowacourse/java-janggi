@@ -49,9 +49,6 @@ public class GameOver implements Turn {
     }
 
     private int getTotalScoreOf(Team team) {
-        return board.getBoardInfo().values().stream()
-                .filter(value -> value.isSameTeam(team))
-                .mapToInt(value -> value.getPieceType().getScore())
-                .sum();
+        return board.getTotalScoreOf(team);
     }
 }

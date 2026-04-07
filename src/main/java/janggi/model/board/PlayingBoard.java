@@ -125,4 +125,12 @@ public class PlayingBoard implements Board {
     public Team winner() {
         throw new IllegalArgumentException("아직 게임이 종료되지 않았습니다.");
     }
+
+    @Override
+    public int getTotalScoreOf(Team team) {
+        return boardInfo.values().stream()
+                .filter(value -> value.isSameTeam(team))
+                .mapToInt(value -> value.getPieceType().getScore())
+                .sum();
+    }
 }
