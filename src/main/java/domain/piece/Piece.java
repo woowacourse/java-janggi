@@ -29,20 +29,29 @@ public abstract class Piece {
 
     public List<Direction> findMovingDirections(Position from, Position to) {
         Distance distance = from.calculateDistance(to);
-        int x = distance.x();
-        int y = distance.y();
+        List<Direction> directions = Direction.findDirections(distance.x(), distance.y());
 
-        List<Direction> directions = Direction.findDirections(x, y);
+        if (isInPalaceMove(from, to, pieceInfo.country())) {
+            validateDirectionsInPalace(directions);
+            return directions;
+        }
         validateDirections(directions);
         return directions;
     }
 
     abstract protected void validateDirections(List<Direction> directions);
 
+    protected void validateDirectionsInPalace(List<Direction> directions) {
+    }
+
     public void validateClearPath(Map<Position, PieceType> piecesOnPath, PieceType destinationPieceType) {
         if (!piecesOnPath.isEmpty()) {
             throw new IllegalArgumentException(CAN_NOT_MOVE_TO_POSITION);
         }
+    }
+
+    protected boolean isInPalaceMove(Position from, Position to, Country country) {
+        return false;
     }
 
     public PieceInfo getPieceInfo() {

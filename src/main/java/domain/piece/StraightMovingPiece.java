@@ -1,8 +1,8 @@
 package domain.piece;
 
+import domain.board.Country;
 import domain.board.Direction;
 import domain.board.Position;
-import dto.Distance;
 import java.util.List;
 
 public abstract class StraightMovingPiece extends Piece {
@@ -11,19 +11,6 @@ public abstract class StraightMovingPiece extends Piece {
 
     public StraightMovingPiece(PieceInfo pieceInfo) {
         super(pieceInfo);
-    }
-
-    @Override
-    public List<Direction> findMovingDirections(Position from, Position to) {
-        Distance distance = from.calculateDistance(to);
-        List<Direction> directions = Direction.findDirections(distance.x(), distance.y());
-
-        if (from.isInPalace(pieceInfo.country()) && to.isInPalace(pieceInfo.country())) {
-            validateDirectionsInPalace(directions);
-            return directions;
-        }
-        validateDirections(directions);
-        return directions;
     }
 
     @Override
@@ -45,5 +32,10 @@ public abstract class StraightMovingPiece extends Piece {
         if (!allSameDirection) {
             throw new IllegalArgumentException(FIXED_DIRECTION);
         }
+    }
+
+    @Override
+    protected boolean isInPalaceMove(Position from, Position to, Country country) {
+        return from.isInPalace(country);
     }
 }
