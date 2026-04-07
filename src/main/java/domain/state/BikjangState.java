@@ -11,7 +11,7 @@ public class BikjangState implements GameState {
     @Override
     public GameState handle(JanggiGame game, Command command) {
         if (command.isYes()) {
-            Board board = game.getBoard();
+            Board board = game.getBoard().orElseThrow();
             GameResult result = GameResult.fromScore(
                     board.calculateScore(Team.HAN),
                     board.calculateScore(Team.CHO)
@@ -27,7 +27,7 @@ public class BikjangState implements GameState {
 
     @Override
     public void display(JanggiGame game, OutputView outputView) {
-        outputView.printBoard(game.getBoard(), game.getTurn());
+        outputView.printBoard(game.getBoard().orElseThrow(), game.getTurn());
         outputView.printBikjangQuestion(game.getCurrentTeam());
     }
 

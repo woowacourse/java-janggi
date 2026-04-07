@@ -75,17 +75,13 @@ public class GameConsole {
     }
 
     private JanggiGame restoreGame(GameDto snapshot) {
-        Board board = restoreBoard(snapshot);
+        GameStateName stateName = GameStateName.valueOf(snapshot.stateName());
         Turn turn = new Turn(snapshot.currentTeam());
         GameState state = restoreState(snapshot);
-        return new JanggiGame(board, turn, state);
-    }
-
-    private Board restoreBoard(GameDto snapshot) {
-        if (snapshot.pieces().isEmpty()) {
-            return null;
+        if (stateName.isSetupState()) {
+            return new JanggiGame(turn, state);
         }
-        return new Board(new Pieces(snapshot.pieces()));
+        return new JanggiGame(new Board(new Pieces(snapshot.pieces())), turn, state);
     }
 
     private GameState restoreState(GameDto snapshot) {
@@ -112,11 +108,7 @@ public class GameConsole {
     }
 
     private void saveBoard(long currentGameId, JanggiGame game) {
-        Board board = game.getBoard();
-        if (board == null) {
-            return;
-        }
-        gameRepository.updateBoard(currentGameId, board.getAllPieces());
+        game.getBoard().ifPresent(board -> gameRepository.updateBoard(currentGameId, board.getAllPieces()));
     }
 
     private GameRoom selectOrCreateRoom() {

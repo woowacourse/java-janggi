@@ -8,6 +8,7 @@ import domain.setup.Coordinate;
 import domain.state.GameState;
 import domain.state.ReadyState;
 import io.OutputView;
+import java.util.Optional;
 
 public class JanggiGame {
     private Turn turn;
@@ -17,6 +18,11 @@ public class JanggiGame {
     public JanggiGame() {
         this.turn = new Turn(Team.HAN);
         this.gameState = new ReadyState(new Arrangements());
+    }
+
+    public JanggiGame(Turn turn, GameState gameState) {
+        this.turn = turn;
+        this.gameState = gameState;
     }
 
     public JanggiGame(Board board, Turn turn, GameState gameState) {
@@ -35,8 +41,8 @@ public class JanggiGame {
         this.turn = new Turn(Team.CHO);
     }
 
-    public Board getBoard() {
-        return board;
+    public Optional<Board> getBoard() {
+        return Optional.ofNullable(board);
     }
 
     public Turn getTurn() {

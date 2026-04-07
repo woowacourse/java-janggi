@@ -29,7 +29,7 @@ public class PlayingState implements GameState {
     }
 
     private GameState resolveAfterMove(JanggiGame game) {
-        Board board = game.getBoard();
+        Board board = game.getBoard().orElseThrow();
         Team current = game.getCurrentTeam();
         Team opponent = game.getEnemy();
 
@@ -77,7 +77,7 @@ public class PlayingState implements GameState {
 
     @Override
     public void display(JanggiGame game, OutputView outputView) {
-        Board board = game.getBoard();
+        Board board = game.getBoard().orElseThrow();
         Turn turn = game.getTurn();
         Team currentTeam = turn.team();
 

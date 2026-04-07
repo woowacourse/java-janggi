@@ -31,6 +31,6 @@ class ReadyStateTest {
         game.processCommand(new Command("3"));
         game.processCommand(new Command("4"));
 
-        assertThat(game.getBoard()).isNotNull();
+        assertThat(game.getBoard()).isPresent();
     }
 }

@@ -11,6 +11,6 @@
   - 보드 전체 상태로 인한 특수 종료 케이스
   - 합법적 수 존재 여부
 - [x] **3. DB의 createdAt을 없애고, id 기반으로 데이터 sort하도록 수정**
-- [ ] **4. restoreGame()에서 state를 먼저 확인하고 분기하기**
+- [x] **4. restoreGame()에서 state를 먼저 확인하고 분기하기**
   - restoreGame()에서 stateName으로 분기 - snapshot.stateName()이 SETUP인지 확인
   - JanggiGame에 Board 없는 생성자 추가 - SetupState 복원용

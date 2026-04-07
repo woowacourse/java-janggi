@@ -35,4 +35,8 @@ public enum GameStateName {
     };
 
     public abstract GameState toGameState();
+
+    public boolean isSetupState() {
+        return this == READY_HAN || this == READY_CHO;
+    }
 }
