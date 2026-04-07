@@ -106,15 +106,6 @@ public class JanggiGame {
         writer.printWinner(team);
     }
 
-    private void retry(Runnable action) {
-        try {
-            action.run();
-        } catch (JanggiException e) {
-            writer.printErrorMessage(e.getMessage());
-            retry(action);
-        }
-    }
-
     private <T> T retry(Supplier<T> supplier) {
         try {
             return supplier.get();
