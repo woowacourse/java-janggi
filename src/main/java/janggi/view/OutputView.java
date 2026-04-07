@@ -1,9 +1,12 @@
 package janggi.view;
 
+import static janggi.view.Message.GAME_DATA_INFO;
+
 import janggi.dto.BoardDTO;
 import janggi.dto.GameSessionDTO;
 import janggi.dto.PieceDTO;
 import janggi.dto.PositionDTO;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +23,8 @@ public class OutputView {
     private static final String ANSI_BLUE = "\u001B[34m";
     private static final String ANSI_GREEN = "\u001B[32m";
     private static final String ANSI_YELLOW = "\u001B[33m";
+
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yy-MM-dd HH:mm");
 
     public void printBoardSettingNotice() {
         printLine(Message.BOARD_SETTING_NOTICE);
@@ -150,6 +155,9 @@ public class OutputView {
     }
 
     public void printActiveGameInfo(GameSessionDTO gameSessionDTO) {
-        printLine(gameSessionDTO.toString());
+        String formattedDate = gameSessionDTO.createdAt().format(DATE_FORMATTER);
+        printLine(String.format(GAME_DATA_INFO, gameSessionDTO.gameId(), gameSessionDTO.choPlayerName(),
+                gameSessionDTO.hanPlayerName(), gameSessionDTO.currentTurn(), formattedDate));
+        printLine("");
     }
 }
