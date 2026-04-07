@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class Board {
 
-    private Map<Position, Piece> state;
+    private final Map<Position, Piece> state;
 
     private Board(Map<Position, Piece> state) {
         this.state = state;
