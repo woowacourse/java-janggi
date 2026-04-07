@@ -43,4 +43,9 @@ public class Advisor extends Piece {
     public boolean canBeCaughtByCannon() {
         return true;
     }
+
+    @Override
+    public boolean isEssential() {
+        return false;
+    }
 }

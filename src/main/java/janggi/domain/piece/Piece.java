@@ -48,4 +48,6 @@ public abstract class Piece {
     abstract public boolean canBeJumpedOver();
 
     abstract public boolean canBeCaughtByCannon();
+
+    abstract public boolean isEssential();
 }

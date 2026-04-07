@@ -45,4 +45,9 @@ public class Cannon extends Piece {
     public boolean canBeCaughtByCannon() {
         return false;
     }
+
+    @Override
+    public boolean isEssential() {
+        return false;
+    }
 }

@@ -43,4 +43,9 @@ public class Soldier extends Piece {
     public boolean canBeCaughtByCannon() {
         return true;
     }
+
+    @Override
+    public boolean isEssential() {
+        return false;
+    }
 }
