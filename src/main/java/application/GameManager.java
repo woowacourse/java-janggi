@@ -8,6 +8,7 @@ import domain.board.BoardFactory;
 import domain.board.Formation;
 import domain.player.Name;
 import domain.player.Players;
+import domain.score.RemainingPieceScorePolicy;
 import java.util.List;
 import java.util.function.Supplier;
 import parser.InputParser;
@@ -26,9 +27,11 @@ public class GameManager {
     public void play() {
         Game game = initializeGame();
         outputView.printBoard(game.getBoard());
+        printScore(game);
         while (!game.isOver()) {
             playTurn(game);
         }
+        printFinalScore(game);
         outputView.printWinner(game.getWinner());
     }
 
@@ -39,7 +42,7 @@ public class GameManager {
             return Players.createInitial(choName, hanName);
         });
         Board board = BoardFactory.create(getFormation(Side.CHO), getFormation(Side.HAN));
-        return new Game(board, players);
+        return new Game(board, players, new RemainingPieceScorePolicy());
     }
 
     private Name getPlayerName(Side side) {
@@ -57,6 +60,15 @@ public class GameManager {
             game.move(source, target);
         });
         outputView.printBoard(game.getBoard());
+        printScore(game);
+    }
+
+    private void printScore(Game game) {
+        outputView.printScore(game.getScore(Side.CHO), game.getScore(Side.HAN));
+    }
+
+    private void printFinalScore(Game game) {
+        outputView.printFinalScore(game.getScore(Side.CHO), game.getScore(Side.HAN));
     }
 
     private Position selectPiecePosition(Game game) {
