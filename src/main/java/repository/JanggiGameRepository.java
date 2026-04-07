@@ -84,7 +84,7 @@ public final class JanggiGameRepository {
                 updateCurrentTurn(conn, janggiGame, gameId);
                 syncPieces(conn, janggiGame, gameId);
                 conn.commit();
-            } catch (SQLException e) {
+            } catch (IllegalStateException e) {
                 conn.rollback();
                 throw e;
             }
@@ -189,7 +189,8 @@ public final class JanggiGameRepository {
         }
     }
 
-    private void syncPieces(Connection conn, JanggiGame janggiGame, long gameId) {
+    // TODO: 트랜잭션 테스트에서의 stubbing을 위해 일단 접근 제어자를 default로 변경함. 캡슐화 지키면서도 stbbing할 방법 찾기.
+    void syncPieces(Connection conn, JanggiGame janggiGame, long gameId) {
         String sqlForDelete = ""
                 + "DELETE FROM piece "
                 + "WHERE game_id = ?";
