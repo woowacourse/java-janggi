@@ -5,56 +5,36 @@ import janggi.domain.Column;
 import janggi.domain.Position;
 import janggi.domain.Row;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MaMoveStorage implements MoveStorage{
     private static final int FORWARD = 2;
     private static final int DIAGONAL = 1;
 
-    private static final int PATH_STEP_1 = 1;
-    private static final int PATH_STEP_0 = 0;
-
     @Override
-    public boolean canMove(Position from, Position to, BoardView boardState) {
-        //Row, Col을 사용하지 않고, int를 사용하고 있음
-        int fromRow = from.getRowValue();
-        int fromColumn = from.getColumnValue();
-        int toRow = to.getRowValue();
-        int toColumn = to.getColumnValue();
-
-        int diffX = toRow - fromRow;
-        int diffY = toColumn - fromColumn;
-
-        boolean isMaMove = (Math.abs(diffX) == FORWARD && Math.abs(diffY) == DIAGONAL) ||
-                (Math.abs(diffX) == DIAGONAL && Math.abs(diffY) == FORWARD);
-
-        if (!isMaMove) {
+    public boolean canMove(Position from, Position to, BoardView boardView) {
+        if (isNotMaPattern(from, to)) {
             return false;
         }
 
-        List<Position> movementPathPositions = new ArrayList<>();
+        Position myeok = findMyeok(from, to);
+        return !boardView.hasPieceAt(myeok);
+    }
 
-        int signX = Integer.signum(diffX);
-        int signY = Integer.signum(diffY);
+    private boolean isNotMaPattern(Position from, Position to) {
+        int rowDiff = Math.abs(from.getRowValue() - to.getRowValue());
+        int columnDiff = Math.abs(from.getColumnValue() - to.getColumnValue());
 
-        if (Math.abs(diffX) == FORWARD) {
-            int step1X = fromRow + (signX * PATH_STEP_1);
-            int step1Y = fromColumn + (signY * PATH_STEP_0);
-            movementPathPositions.add(Position.of(Row.of(step1X), Column.of(step1Y)));
+        return !((rowDiff == FORWARD && columnDiff == DIAGONAL) || (rowDiff == DIAGONAL && columnDiff == FORWARD));
+    }
+
+    private Position findMyeok(Position from, Position to) {
+        int rowDiff = to.getRowValue() - from.getRowValue();
+        int columnDiff = to.getColumnValue() - from.getColumnValue();
+
+
+        if (Math.abs(rowDiff) == FORWARD) {
+            return Position.of(Row.of(from.getRowValue() + Integer.signum(rowDiff)), Column.of(from.getColumnValue()));
         }
 
-        if (Math.abs(diffY) == FORWARD) {
-            int step1X = fromRow + (signX * PATH_STEP_0);
-            int step1Y = fromColumn + (signY * PATH_STEP_1);
-            movementPathPositions.add(Position.of(Row.of(step1X), Column.of(step1Y)));
-        }
-
-        for (Position position : movementPathPositions) {
-            if (boardState.hasPieceAt(position)) {
-                return false;
-            }
-        }
-        return true;
+        return Position.of(Row.of(from.getRowValue()), Column.of(from.getColumnValue() + Integer.signum(columnDiff)));
     }
 }
