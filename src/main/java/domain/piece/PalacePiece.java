@@ -7,6 +7,7 @@ import domain.movement.Route;
 import domain.movement.Vector;
 import domain.movement.strategy.MoveStrategy;
 import domain.movement.strategy.Straight;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -25,33 +26,32 @@ public abstract class PalacePiece extends StaticPositionedPiece {
             Intersection from,
             AlivePieces alivePieces
     ) {
-        Stream<Intersection> cardinalDestinations = Vector.cardinals()
-                .stream()
-                .flatMap(vector -> findReachableDestinations(from, vector, alivePieces));
-        Stream<Intersection> diagonalDestinations = from.getPalaceDiagonalVectors()
-                .stream()
-                .flatMap(vector -> findReachableDestinations(from, vector, alivePieces));
+        List<Vector> cardinals = Vector.cardinals();
+        List<Vector> palaceDiagonals = from.getPalaceDiagonalVectors();
 
-        return Stream.concat(cardinalDestinations, diagonalDestinations)
+        List<Vector> movableVectors = Stream.concat(cardinals.stream(), palaceDiagonals.stream())
                 .toList();
+
+        return findReachableDestinations(from, movableVectors, alivePieces);
     }
 
-    private Stream<Intersection> findReachableDestinations(
+    private List<Intersection> findReachableDestinations(
             Intersection from,
-            Vector vector,
+            Collection<Vector> vectors,
             AlivePieces alivePieces
     ) {
-        return findValidRoute(from, vector, alivePieces)
+        return findValidRoute(from, vectors, alivePieces)
                 .filter(Route::containsOnlyPalace)
-                .map(Route::getDestination);
+                .map(Route::getDestination)
+                .toList();
     }
 
     private Stream<Route> findValidRoute(
             Intersection from,
-            Vector vector,
+            Collection<Vector> vectors,
             AlivePieces alivePieces
     ) {
-        return moveStrategy.getRoutes(from, vector)
+        return moveStrategy.getRoutes(from, vectors)
                 .stream()
                 .filter(route -> route.canReachDestinationThroughPath(alivePieces, side));
     }

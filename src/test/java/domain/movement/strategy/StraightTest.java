@@ -34,7 +34,7 @@ class StraightTest {
         );
 
         // when
-        List<Route> actual = straight.getRoutes(from, vector);
+        List<Route> actual = straight.getRoutes(from, List.of(vector));
 
         // then
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
@@ -49,7 +49,7 @@ class StraightTest {
         Vector vector = Side.HAN.toForward();
 
         // when
-        List<Route> routes = straight.getRoutes(DEFAULT_INTERSECTION, vector);
+        List<Route> routes = straight.getRoutes(DEFAULT_INTERSECTION, List.of(vector));
 
         // then
         assertThat(routes).isEmpty();

@@ -7,6 +7,7 @@ import domain.movement.Route;
 import domain.movement.Vector;
 import domain.movement.strategy.MoveStrategy;
 import domain.movement.strategy.Straight;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -37,12 +38,14 @@ public final class Cannon extends StaticPositionedPiece {
             Intersection from,
             AlivePieces alivePieces
     ) {
-        Stream<Intersection> cardinalDestinations = Vector.cardinals()
-                .stream()
-                .flatMap(vector -> findReachableDestinations(from, vector, alivePieces));
-        Stream<Intersection> palaceDestinations = from.getPalaceDiagonalVectors()
-                .stream()
-                .flatMap(vector -> findReachablePalaceDestinations(from, vector, alivePieces));
+        Stream<Intersection> cardinalDestinations = findCardinalDestinations(
+                from,
+                alivePieces
+        );
+        Stream<Intersection> palaceDestinations = findPalaceDestinations(
+                from,
+                alivePieces
+        );
 
         return Stream.concat(cardinalDestinations, palaceDestinations)
                 .toList();
@@ -68,31 +71,29 @@ public final class Cannon extends StaticPositionedPiece {
         return false;
     }
 
-    private Stream<Intersection> findReachableDestinations(
+    private Stream<Intersection> findCardinalDestinations(
             Intersection from,
-            Vector vector,
             AlivePieces alivePieces
     ) {
-        return findValidRoute(from, vector, alivePieces)
+        return findValidRoute(from, Vector.cardinals(), alivePieces)
                 .map(Route::getDestination);
     }
 
-    private Stream<Intersection> findReachablePalaceDestinations(
+    private Stream<Intersection> findPalaceDestinations(
             Intersection from,
-            Vector vector,
             AlivePieces alivePieces
     ) {
-        return findValidRoute(from, vector, alivePieces)
+        return findValidRoute(from, from.getPalaceDiagonalVectors(), alivePieces)
                 .filter(Route::containsOnlyPalace)
                 .map(Route::getDestination);
     }
 
     private Stream<Route> findValidRoute(
             Intersection from,
-            Vector vector,
+            Collection<Vector> vectors,
             AlivePieces alivePieces
     ) {
-        return moveStrategy.getRoutes(from, vector)
+        return moveStrategy.getRoutes(from, vectors)
                 .stream()
                 .filter(route -> isAvailableCannonRoute(route, alivePieces))
                 .filter(route -> isDestinationAvailable(route, alivePieces));
