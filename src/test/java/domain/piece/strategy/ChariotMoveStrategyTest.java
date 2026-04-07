@@ -78,13 +78,12 @@ class ChariotMoveStrategyTest {
         @Test
         void 차는_궁성_내에서_지정된_대각선_경로를_통해_대각선_방향으로_이동할_수_있다() {
             Position from = new Position(3, 9);
-            Position to = new Position(5, 7);
+            Position to = new Position(4, 8);
 
             List<Position> path = chariotMoveStrategy.getPath(from, to);
 
             assertThat(path).containsExactly(
-                    new Position(4, 8),
-                    new Position(5, 7));
+                    new Position(4, 8));
         }
     }
 

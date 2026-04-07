@@ -9,35 +9,28 @@ import java.util.List;
 public abstract class SingleStepLinearMoveStrategy implements MoveStrategy {
     @Override
     public List<Position> getPath(Position departure, Position destination) {
-        boolean isInPalace = isDiagonalPathInPalace(departure, destination);
-        Direction direction = decideSingleLinearDirection(departure, destination, isInPalace);
+        boolean isPalacePath = Palace.isPalacePath(departure, destination);
+        Direction direction = decideSingleLinearDirection(departure, destination, isPalacePath);
 
-        validateMove(direction, isInPalace);
+        validateMove(direction, isPalacePath);
 
         return List.of(destination);
     }
 
-    private boolean isDiagonalPathInPalace(Position departure, Position destination) {
-        if (Palace.isPalaceCenter(departure) || Palace.isPalaceCenter(destination)) {
-            return Palace.isInPalace(departure) && Palace.isInPalace(destination);
-        }
-        return false;
+    protected void validateMove(Direction direction, boolean isPalacePath) {
     }
 
-    protected void validateMove(Direction direction, boolean isInPalace) {
-    }
-
-    protected Direction decideSingleLinearDirection(Position departure, Position destination, boolean isInPalace) {
+    protected Direction decideSingleLinearDirection(Position departure, Position destination, boolean isPalacePath) {
         int deltaX = departure.calculateDeltaX(destination);
         int deltaY = departure.calculateDeltaY(destination);
 
-        validateSingleLinearMove(deltaX, deltaY, isInPalace);
+        validateSingleLinearMove(deltaX, deltaY, isPalacePath);
 
         return Direction.decideDirection(deltaX, deltaY);
     }
 
-    private void validateSingleLinearMove(int deltaX, int deltaY, boolean isInPalace) {
-        if (isInPalace && isNotSingleStep(deltaX, deltaY)) {
+    private void validateSingleLinearMove(int deltaX, int deltaY, boolean isPalacePath) {
+        if (isPalacePath && isNotSingleStep(deltaX, deltaY)) {
             return;
         }
 

@@ -10,33 +10,16 @@ import java.util.List;
 public abstract class LinearMoveStrategy implements MoveStrategy {
     @Override
     public List<Position> getPath(Position departure, Position destination) {
-        Direction direction = decideLinearDirection(departure, destination);
-        return generateStraightPath(departure, destination, direction);
-    }
-
-    private Direction decideLinearDirection(Position departure, Position destination) {
         int deltaX = departure.calculateDeltaX(destination);
         int deltaY = departure.calculateDeltaY(destination);
 
-        validateLinearMove(deltaX, deltaY, isPassByPalace(departure, destination));
-
-        return Direction.decideDirection(deltaX, deltaY);
+        Direction direction = Direction.decideDirection(deltaX, deltaY);
+        validateLinearMove(deltaX, deltaY, Palace.isPalacePath(departure, destination));
+        return generateStraightPath(departure, destination, direction);
     }
 
-    private boolean isPassByPalace(Position departure, Position destination) {
-        int middlePositionColumn = (departure.column() + destination.column()) / 2;
-        int middlePositionRow = (departure.row() + destination.row()) / 2;
-        Position middlePosition = new Position(middlePositionColumn, middlePositionRow);
-
-        return isInPalace(departure, destination) && Palace.isPalaceCenter(middlePosition);
-    }
-
-    private boolean isInPalace(Position departure, Position destination) {
-        return Palace.isInPalace(departure) && Palace.isInPalace(destination);
-    }
-
-    private void validateLinearMove(int deltaX, int deltaY, boolean isPassByPalace) {
-        if (isPassByPalace) {
+    private void validateLinearMove(int deltaX, int deltaY, boolean isPalacePath) {
+        if (isPalacePath) {
             return;
         }
 
