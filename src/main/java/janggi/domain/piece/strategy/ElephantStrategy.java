@@ -13,10 +13,6 @@ public class ElephantStrategy implements MoveStrategy {
     private ElephantStrategy() {
     }
 
-    private static class SingleInstanceHolder{
-        private static final ElephantStrategy INSTANCE = new ElephantStrategy();
-    }
-
     public static ElephantStrategy getInstance() {
         return SingleInstanceHolder.INSTANCE;
     }
@@ -43,5 +39,9 @@ public class ElephantStrategy implements MoveStrategy {
                 .flatMap(wp1 -> wp1.move(diagonal)
                         .flatMap(wp2 -> wp2.move(diagonal)
                                 .map(dest -> Path.of(List.of(wp1, wp2), dest))));
+    }
+
+    private static class SingleInstanceHolder {
+        private static final ElephantStrategy INSTANCE = new ElephantStrategy();
     }
 }
