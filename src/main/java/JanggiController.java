@@ -39,10 +39,10 @@ public class JanggiController {
             int gameId = inputView.readGameNumber(findGames.stream()
                     .map(GameEntity::getUpdatedAt)
                     .toList());
-            GameEntity findGame = findGames.get(gameId);
+            GameEntity findGame = findGames.get(gameId - 1);
             List<PieceEntity> findPieces = pieceDao.findAllByGameId(findGame.getId());
             Board board = convertPieceEntitiesToBoard(findPieces);
-            Game game = Game.of(board);
+            Game game = Game.loadGame(board, findGame.getCurrentTurn(), findGame.getStatus());
             playGame(game, findGame);
         }
         if (gameType == GameType.NEW) {
@@ -138,7 +138,7 @@ public class JanggiController {
     private void executeMove(Game game, Long gameId, Position from, Position to) {
         boolean hasTargetPiece = game.getBoard().findPieceByPosition(to).isPresent();
         game.tryToMove(from, to);
-        updatePieceEntities(gameId, hasTargetPiece, to, from);
+        updatePieceEntities(gameId, hasTargetPiece, from, to);
     }
 
     private boolean isQuitOrSkipCommand(String input) {

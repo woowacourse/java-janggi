@@ -11,14 +11,21 @@ public class Game {
     private final Board board;
     private Status status;
 
-    private Game(final Board board) {
+    private Game(final Board board, String turn, String status) {
         this.turn = Turn.of();
         this.board = board;
-        this.status = Status.PLAYING;
+        this.status = Status.valueOf(status);
+        if (turn != null && !this.turn.toString().equals(turn)) {
+            this.turn.change();
+        }
     }
 
     public static Game of(final Board board) {
-        return new Game(board);
+        return new Game(board, null, Status.PLAYING.toString());
+    }
+
+    public static Game loadGame(final Board board, final String turn, String status) {
+        return new Game(board, turn, status);
     }
 
     public void tryToMove(Position from, Position to) {

@@ -45,14 +45,13 @@ public class PieceJdbcDao implements PieceDao {
 
         try {
             con = getConnection();
-            pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-
+            pstmt = con.prepareStatement(sql);
 
             pstmt.setLong(1, gameId);
             pstmt.setInt(2, row);
             pstmt.setInt(3, col);
             pstmt.executeUpdate();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             throw new RuntimeException("[ERROR] " + e.getMessage());
         } finally {
             close(con, pstmt, rs);
@@ -70,7 +69,7 @@ public class PieceJdbcDao implements PieceDao {
 
         try {
             con = getConnection();
-            pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            pstmt = con.prepareStatement(sql);
 
             pstmt.setInt(1, toRow);
             pstmt.setInt(2, toCol);
@@ -78,7 +77,7 @@ public class PieceJdbcDao implements PieceDao {
             pstmt.setInt(4, fromRow);
             pstmt.setInt(5, fromCol);
             pstmt.executeUpdate();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             throw new RuntimeException("[ERROR] " + e.getMessage());
         } finally {
             close(con, pstmt, rs);
