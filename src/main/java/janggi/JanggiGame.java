@@ -51,7 +51,7 @@ public class JanggiGame {
             playerTurn(currentPlayer);
 
             if (board.isGameOver()) {
-                outputView.printWinner(currentPlayer.name());
+                outputView.printWinner(currentPlayer.side(), currentPlayer.name());
                 break;
             }
 
