@@ -1,0 +1,34 @@
+package janggi.repository.util;
+
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.Statement;
+
+public class SchemaInitializer {
+
+    private final static String SCHEMA_FILE_PATH = "src/main/resources/schema.sql";
+    private final ConnectionProvider connectionProvider;
+
+    public SchemaInitializer(ConnectionProvider connectionProvider) {
+        this.connectionProvider = connectionProvider;
+    }
+
+    public void init() {
+        try (Connection connection = connectionProvider.getConnection();
+             Statement statement = connection.createStatement()) {
+            String sql = Files.readString(Paths.get(SCHEMA_FILE_PATH));
+
+            String[] queries = sql.split(";");
+
+            for (String query : queries) {
+                if (!query.trim().isEmpty()) {
+                    statement.execute(query);
+                }
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException("데이터베이스 스키마 초기화 실패", e);
+        }
+    }
+}
