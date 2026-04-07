@@ -49,6 +49,15 @@ public class Turn {
         return board.findWinner();
     }
 
+    public int getWinnerScore() {
+        Optional<TeamType> winnerCandidate = findWinner();
+        if (winnerCandidate.isEmpty()) {
+            throw new IllegalArgumentException("아직 승자가 존재하지 않습니다.");
+        }
+        TeamType winner = winnerCandidate.get();
+        return board.calculateScore(winner);
+    }
+
     private TeamType playingTeamType() {
         if (movedTeam == TeamType.CHU) {
             return TeamType.HAN;

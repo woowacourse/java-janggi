@@ -48,4 +48,9 @@ public class Sa implements Piece {
     public TeamType getTeamType() {
         return teamType;
     }
+
+    @Override
+    public int getScore() {
+        return pieceType.getScore();
+    }
 }

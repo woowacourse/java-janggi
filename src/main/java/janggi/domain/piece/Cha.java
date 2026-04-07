@@ -63,14 +63,6 @@ public class Cha implements Piece {
             .noneMatch(board::hasPiece);
     }
 
-    private boolean isSamePosition(int startX, int startY, int endX, int endY) {
-        return startX == endX && startY == endY;
-    }
-
-    private boolean isStraightDirection(int startX, int startY, int endX, int endY) {
-        return startX == endX || startY == endY;
-    }
-
     @Override
     public String nickname() {
         return pieceType.getNickname();
@@ -84,5 +76,18 @@ public class Cha implements Piece {
     @Override
     public TeamType getTeamType() {
         return teamType;
+    }
+
+    @Override
+    public int getScore() {
+        return pieceType.getScore();
+    }
+
+    private boolean isSamePosition(int startX, int startY, int endX, int endY) {
+        return startX == endX && startY == endY;
+    }
+
+    private boolean isStraightDirection(int startX, int startY, int endX, int endY) {
+        return startX == endX || startY == endY;
     }
 }

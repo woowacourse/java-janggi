@@ -44,4 +44,8 @@ public class Team {
     public Team move(Position piecePosition, Position targetPosition) {
         return new Team(teamType, pieces.move(piecePosition, targetPosition));
     }
+
+    public int calculatePiecesScore() {
+        return pieces.sumScore();
+    }
 }

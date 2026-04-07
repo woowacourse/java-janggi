@@ -5,8 +5,8 @@ import janggi.domain.piece.Gung;
 import janggi.domain.piece.Jol;
 import janggi.domain.piece.Ma;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.Po;
 import janggi.domain.piece.PieceType;
+import janggi.domain.piece.Po;
 import janggi.domain.piece.Sa;
 import janggi.domain.piece.Sang;
 import janggi.domain.team.TeamType;
@@ -121,5 +121,11 @@ public class Pieces {
         for (int i = 1; i < 10; i += 2) {
             pieces.put(new Position(i, indexY), new Jol(teamType));
         }
+    }
+
+    public int sumScore() {
+        return value.values().stream()
+            .mapToInt(Piece::getScore)
+            .sum();
     }
 }

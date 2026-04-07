@@ -95,6 +95,11 @@ public class Board {
         return Optional.of(TeamType.HAN);
     }
 
+    public int calculateScore(TeamType teamType) {
+        Team team = findSpecificTeam(teamType);
+        return team.calculatePiecesScore();
+    }
+
     private Piece findTeamPiece(Position position, Team nowTeam) {
         return nowTeam.findPiece(position)
             .orElseThrow(() -> new IllegalArgumentException("입력한 위치에 기물이 없습니다."));

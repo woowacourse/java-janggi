@@ -7,6 +7,7 @@ import janggi.util.DelimiterParser;
 import janggi.view.input.InputView;
 import janggi.view.output.OutputView;
 import java.util.List;
+import java.util.Optional;
 
 public class JanggiRunner {
 
@@ -22,25 +23,32 @@ public class JanggiRunner {
 
     public void execute() {
         outputView.printStartMessage();
-
         JanggiGame janggiGame = JanggiGame.createInitialJanggiGame();
-        while (true) {
+        while (isGameContinue(janggiGame)) {
             outputView.printBoard(janggiGame.makeCurrentTurnBoardSnapShot());
             Position startPosition = ActionExecutor.retryUntilSuccess(
                 () -> readValidStartPosition(janggiGame), outputView
             );
-            Position endPosition;
-            endPosition = ActionExecutor.retryUntilSuccess(
+            Optional<Position> endPosition = ActionExecutor.retryUntilSuccess(
                 () -> readValidEndPosition(janggiGame, startPosition), outputView
             );
-            janggiGame.doGame(startPosition, endPosition);
-            if (janggiGame.isGameOver()) {
-                outputView.printBoard(janggiGame.makeCurrentTurnBoardSnapShot());
-                outputView.printWinner(janggiGame.findWinner()
-                    .orElseThrow(() -> new IllegalStateException("승자가 존재하지 않습니다.")));
-                return;
+            if (endPosition.isEmpty()) {
+                outputView.printMessage("말 선택을 취소했습니다. 다시 선택해주세요.");
+                continue;
             }
+            janggiGame.doGame(startPosition, endPosition.get());
         }
+        int winnerScore = janggiGame.getWinnerScore();
+        outputView.printResult(
+            janggiGame.makeCurrentTurnBoardSnapShot(),
+            janggiGame.findWinner()
+                .orElseThrow(() -> new IllegalStateException("승자가 존재하지 않습니다.")),
+            winnerScore
+        );
+    }
+
+    private boolean isGameContinue(JanggiGame janggiGame) {
+        return !janggiGame.isGameOver();
     }
 
     private Position readValidStartPosition(JanggiGame janggiGame) {
@@ -53,16 +61,16 @@ public class JanggiRunner {
         return startPosition;
     }
 
-    private Position readValidEndPosition(JanggiGame janggiGame, Position startPosition) {
+    private Optional<Position> readValidEndPosition(JanggiGame janggiGame, Position startPosition) {
         outputView.printAskMovePosition(janggiGame.findPiece(startPosition).nickname());
         String rawMovePosition = inputView.readLine();
         if (isCancelCommand(rawMovePosition)) {
-            throw new IllegalArgumentException("말 선택을 취소했습니다. 다시 선택해 주세요.");
+            return Optional.empty();
         }
         List<String> parsedMovePosition = DelimiterParser.parse(rawMovePosition);
         Position endPosition = Position.makePosition(parsedMovePosition);
         janggiGame.validateValidEndPosition(startPosition, endPosition);
-        return endPosition;
+        return Optional.of(endPosition);
     }
 
     private boolean isCancelCommand(String input) {

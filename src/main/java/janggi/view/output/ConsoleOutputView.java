@@ -60,11 +60,6 @@ public class ConsoleOutputView implements OutputView {
     }
 
     @Override
-    public void printWinner(TeamType winner) {
-        printMessage(formatTeamType(winner) + "의 승리입니다.");
-    }
-
-    @Override
     public void printAskPiecePosition() {
         printMessage("움직일 기물의 좌표를 입력해주세요. (ex. 1,3)");
     }
@@ -72,6 +67,16 @@ public class ConsoleOutputView implements OutputView {
     @Override
     public void printAskMovePosition(String nickname) {
         printMessage(nickname + "의 목적 좌표를 입력해주세요. (ex. 1,3) /  말 선택을 취소하시려면 cancel을 입력해주세요.");
+    }
+
+    @Override
+    public void printResult(BoardSpots boardSpots, TeamType winner, int winnerScore) {
+        printBoard(boardSpots);
+        printWinner(winner, winnerScore);
+    }
+
+    private void printWinner(TeamType winner, int winnerScore) {
+        printMessage(formatTeamType(winner) + "의 승리입니다. 점수: " + winnerScore);
     }
 
     private void printHeader() {

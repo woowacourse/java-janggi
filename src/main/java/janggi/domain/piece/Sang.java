@@ -3,8 +3,8 @@ package janggi.domain.piece;
 import janggi.domain.Board;
 import janggi.domain.Delta;
 import janggi.domain.Position;
-import janggi.domain.movepath.MovePathStrategy;
 import janggi.domain.movepath.FixedMovePath;
+import janggi.domain.movepath.MovePathStrategy;
 import janggi.domain.team.TeamType;
 import java.util.List;
 import java.util.Optional;
@@ -67,5 +67,10 @@ public class Sang implements Piece {
     @Override
     public TeamType getTeamType() {
         return teamType;
+    }
+
+    @Override
+    public int getScore() {
+        return pieceType.getScore();
     }
 }
