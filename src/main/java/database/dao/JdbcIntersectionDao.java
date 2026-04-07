@@ -8,7 +8,6 @@ import domain.piece.PieceType;
 import domain.piece.Team;
 import domain.point.Point;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -39,22 +38,8 @@ public class JdbcIntersectionDao implements IntersectionDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    @Override
-    public void saveAll(Connection connection, Long boardId, List<IntersectionDto> intersections) {
-        try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_INTERSECTION_QUERY)) {
-
-            for (IntersectionDto dto : intersections) {
-                setParameters(
-                        preparedStatement,
-                        boardId, dto.y(), dto.x(), dto.pieceType(), dto.teamName(), dto.intersectionType()
-                );
-                preparedStatement.addBatch();
-            }
-
-            preparedStatement.executeBatch();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public void saveAll(Long boardId, List<IntersectionDto> intersections) throws SQLException {
+        jdbcTemplate.saveAll(INSERT_INTERSECTION_QUERY, boardId, intersections);
     }
 
     public List<Intersection> readByBoardId(Long boardId) throws SQLException{

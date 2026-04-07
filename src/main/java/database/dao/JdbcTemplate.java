@@ -1,15 +1,41 @@
 package database.dao;
 
 import database.connection.ConnectionContext;
+import database.dto.IntersectionDto;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
 public class JdbcTemplate {
+
+    public Long save(String sql) throws SQLException {
+        Connection connection = ConnectionContext.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        preparedStatement.executeUpdate();
+
+        ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+        if (generatedKeys.next()) {
+            return generatedKeys.getLong(1);
+        }
+        return null;
+    }
+
+    // TODO board 저장 한정 추상화되지 않은 saveAll
+    public void saveAll(String sql, Long boardId, List<IntersectionDto> intersections) throws SQLException {
+        Connection connection = ConnectionContext.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+        for (IntersectionDto dto : intersections) {
+            setParameters(
+                    preparedStatement,
+                    boardId, dto.y(), dto.x(), dto.pieceType(), dto.teamName(), dto.intersectionType()
+            );
+            preparedStatement.addBatch();
+        }
+
+        preparedStatement.executeBatch();
+    }
 
     public <T> T selectOne(String sql, RowMapper<T> mapper, Object... parameters) throws SQLException {
         Connection connection = ConnectionContext.getConnection();

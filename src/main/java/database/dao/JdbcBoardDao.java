@@ -5,7 +5,6 @@ import database.dto.GameResult;
 import domain.piece.Team;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class JdbcBoardDao implements BoardDao {
@@ -45,21 +44,10 @@ public class JdbcBoardDao implements BoardDao {
     }
 
     @Override
-    public Long save(Connection connection) {
-        try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_BOARD_QUERY, Statement.RETURN_GENERATED_KEYS)) {
-            preparedStatement.executeUpdate();
-
-            try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    return generatedKeys.getLong(1);
-                }
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return null;
+    public Long save() throws SQLException{
+        return jdbcTemplate.save(INSERT_BOARD_QUERY);
     }
+
 
     @Override
     public List<BoardSummaryDto> readAllPlaying() throws SQLException {

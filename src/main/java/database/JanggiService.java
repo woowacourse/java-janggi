@@ -1,7 +1,6 @@
 package database;
 
 import database.connection.BoardIdContext;
-import database.connection.DBConnector;
 import database.connection.TransactionExecutor;
 import database.dao.BoardDao;
 import database.dao.IntersectionDao;
@@ -15,8 +14,6 @@ import domain.board.dto.Moved;
 import domain.intersection.Intersection;
 import domain.piece.Team;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 
 public class JanggiService {
@@ -34,13 +31,11 @@ public class JanggiService {
     }
 
     public Long createBoard(JanggiBoard janggiBoard) {
-        try (Connection connection = DBConnector.getConnection()) {
-            Long saveId = boardDao.save(connection);
-            intersectionDao.saveAll(connection, saveId, mapper.toIntersectionDtoList(janggiBoard.getListIntersection()));
+        return executor.execute(() -> {
+            Long saveId = boardDao.save();
+            intersectionDao.saveAll(saveId, mapper.toIntersectionDtoList(janggiBoard.getListIntersection()));
             return saveId;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        });
     }
 
     public List<BoardSummaryDto> readExistPlayingBoard() {
