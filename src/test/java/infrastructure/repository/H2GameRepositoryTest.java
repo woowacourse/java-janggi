@@ -76,8 +76,8 @@ class H2GameRepositoryTest {
         gameRepository.updateArrangement(gameId, Team.HAN, Arrangement.MASANGMASANG);
 
         var snapshot = gameRepository.findLatestByRoom(roomId);
-        assertThat(snapshot.get().hanArrangement()).isEqualTo(Arrangement.MASANGMASANG);
-        assertThat(snapshot.get().choArrangement()).isNull();
+        assertThat(snapshot.get().hanArrangement()).contains(Arrangement.MASANGMASANG);
+        assertThat(snapshot.get().choArrangement()).isEmpty();
     }
 
     @Test

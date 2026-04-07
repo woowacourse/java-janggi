@@ -157,8 +157,8 @@ public class H2GameRepository implements GameRepository {
         long gameId = result.getLong("id");
         String stateName = result.getString("current_state");
         Team currentTeam = Team.valueOf(result.getString("current_team"));
-        Arrangement hanArrangement = parseArrangement(result.getString("han_arrangement"));
-        Arrangement choArrangement = parseArrangement(result.getString("cho_arrangement"));
+        Optional<Arrangement> hanArrangement = parseArrangement(result.getString("han_arrangement"));
+        Optional<Arrangement> choArrangement = parseArrangement(result.getString("cho_arrangement"));
         Map<Position, Piece> pieces = loadBoardPieces(gameId);
         return new GameDto(gameId, stateName, currentTeam, hanArrangement, choArrangement, pieces);
     }
@@ -205,10 +205,7 @@ public class H2GameRepository implements GameRepository {
         return new Position(column, row);
     }
 
-    private Arrangement parseArrangement(String value) {
-        if (value == null) {
-            return null;
-        }
-        return Arrangement.valueOf(value);
+    private Optional<Arrangement> parseArrangement(String value) {
+        return Optional.ofNullable(value).map(Arrangement::valueOf);
     }
 }

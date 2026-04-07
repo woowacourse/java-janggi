@@ -6,9 +6,10 @@ import domain.game.JanggiGame;
 import domain.game.Turn;
 import domain.piece.Team;
 import domain.room.GameRoom;
-import domain.setup.Arrangement;
+import domain.setup.Arrangements;
 import domain.state.GameState;
 import domain.state.GameStateName;
+import domain.state.ReadyState;
 import infrastructure.repository.GameDto;
 import infrastructure.repository.GameRepository;
 import infrastructure.repository.GameRoomRepository;
@@ -89,7 +90,12 @@ public class GameConsole {
 
     private GameState restoreState(GameDto snapshot) {
         GameStateName stateName = GameStateName.valueOf(snapshot.stateName());
-        return stateName.toGameState(snapshot.hanArrangement());
+        if (stateName == GameStateName.READY_CHO) {
+            Arrangements arrangements = new Arrangements()
+                    .assignArrangement(Team.HAN, snapshot.hanArrangement().orElseThrow());
+            return new ReadyState(arrangements);
+        }
+        return stateName.toGameState();
     }
 
     private void saveGame(long currentGameId, JanggiGame game) {
@@ -101,11 +107,8 @@ public class GameConsole {
     }
 
     private void saveArrangement(long currentGameId, GameState currentGameState, Team team) {
-        Arrangement arrangement = currentGameState.getArrangementOf(team);
-        if (arrangement == null) {
-            return;
-        }
-        gameRepository.updateArrangement(currentGameId, team, arrangement);
+        currentGameState.getArrangementOf(team)
+                .ifPresent(arrangement -> gameRepository.updateArrangement(currentGameId, team, arrangement));
     }
 
     private void saveBoard(long currentGameId, JanggiGame game) {

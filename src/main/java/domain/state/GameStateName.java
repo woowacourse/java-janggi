@@ -1,40 +1,38 @@
 package domain.state;
 
-import domain.setup.Arrangement;
 import domain.setup.Arrangements;
-import domain.piece.Team;
 
 public enum GameStateName {
     READY_HAN {
         @Override
-        public GameState toGameState(Arrangement hanArrangement) {
+        public GameState toGameState() {
             return new ReadyState(new Arrangements());
         }
     },
     READY_CHO {
         @Override
-        public GameState toGameState(Arrangement hanArrangement) {
-            return new ReadyState(new Arrangements().assignArrangement(Team.HAN, hanArrangement));
+        public GameState toGameState() {
+            return new ReadyState(new Arrangements());
         }
     },
     PLAYING {
         @Override
-        public GameState toGameState(Arrangement hanArrangement) {
+        public GameState toGameState() {
             return new PlayingState();
         }
     },
     BIKJANG {
         @Override
-        public GameState toGameState(Arrangement hanArrangement) {
+        public GameState toGameState() {
             return new BikjangState();
         }
     },
     END {
         @Override
-        public GameState toGameState(Arrangement hanArrangement) {
+        public GameState toGameState() {
             return new EndGameState(GameResult.DRAW);
         }
     };
 
-    public abstract GameState toGameState(Arrangement hanArrangement);
+    public abstract GameState toGameState();
 }

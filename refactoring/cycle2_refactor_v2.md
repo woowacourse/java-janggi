@@ -4,7 +4,7 @@
 
 ## ✅ 리팩토링 할 것 목록
 
-- [ ] **1. null 정리하기**
+- [x] **1. null 정리하기**
   - 없을 수 있는 값은 Optional, 없을 수 없는 값은 예외 던지기로 처리
 - [ ] **2. `PlayingState`의 `resolveAfterMove` 함수 분리**
   - 상대 패배 조건

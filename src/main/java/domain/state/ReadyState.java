@@ -6,6 +6,7 @@ import domain.setup.Arrangement;
 import domain.setup.Arrangements;
 import domain.piece.Team;
 import io.OutputView;
+import java.util.Optional;
 
 public class ReadyState implements GameState {
     private final Arrangements arrangements;
@@ -42,7 +43,10 @@ public class ReadyState implements GameState {
     }
 
     @Override
-    public Arrangement getArrangementOf(Team team) {
-        return arrangements.hasArrangementFor(team) ? arrangements.arrangeFor(team) : null;
+    public Optional<Arrangement> getArrangementOf(Team team) {
+        if (!arrangements.hasArrangementFor(team)) {
+            return Optional.empty();
+        }
+        return Optional.of(arrangements.arrangeFor(team));
     }
 }
