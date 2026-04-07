@@ -9,7 +9,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.xerial:sqlite-jdbc:3.45.1.0'
+    runtimeOnly('org.xerial:sqlite-jdbc:3.45.1.0')
     testImplementation platform('org.junit:junit-bom:5.11.4')
     testImplementation platform('org.assertj:assertj-bom:3.27.3')
     testImplementation('org.junit.jupiter:junit-jupiter')
