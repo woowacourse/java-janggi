@@ -14,6 +14,8 @@ import janggi.domain.position.Position;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 import java.util.Map;
 
@@ -138,5 +140,15 @@ public class BoardTest {
         Piece movedPiece = board.janggiBoard().get(Position.of(6, 4));
         assertThat(movedPiece.isSameCamp(Camp.CHO)).isTrue();
         assertThat(board.janggiBoard()).hasSize(31);
+    }
+
+    @ParameterizedTest
+    @EnumSource(Camp.class)
+    void 선택한_나라의_장이_있으면_true를_반환한다(Camp camp){
+        Board board = BoardFactory.create(new ElephantHorseElephantHorse(), new ElephantHorseElephantHorse());
+
+        boolean essentialPiece = board.isAliveEssentialPiece(camp);
+
+        assertThat(essentialPiece).isTrue();
     }
 }
