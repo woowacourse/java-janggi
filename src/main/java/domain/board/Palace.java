@@ -8,6 +8,10 @@ public class Palace {
     private static final int HAN_PALACE_MIN_ROW = 7;
     private static final int HAN_PALACE_MAX_ROW = 9;
 
+    public static boolean isPalace(Position position) {
+        return isChoPalace(position) || isHanPalace(position);
+    }
+
     public static boolean isChoPalace(Position position) {
         return isPalaceColumn(position.column()) && isChoPalaceRow(position.row());
     }

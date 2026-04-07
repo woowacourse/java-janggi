@@ -13,10 +13,10 @@ class PalaceTest {
 
         @Test
         void 해당_좌표가_궁성인지_반환한다() {
-            Position outPalacePosition = new Position(0,0);
+            Position outPalacePosition = new Position(0, 0);
 
             assertThat(Palace.isPalace(choPalacePosition)).isTrue();
-            assertThat(Palace.isPalace(hanPalacePosition)).isFalse();
+            assertThat(Palace.isPalace(hanPalacePosition)).isTrue();
             assertThat(Palace.isPalace(outPalacePosition)).isFalse();
         }
 
