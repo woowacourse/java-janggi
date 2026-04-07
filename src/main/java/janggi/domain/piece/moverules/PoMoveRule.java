@@ -7,7 +7,9 @@ import janggi.domain.common.Team;
 import janggi.domain.piece.Piece;
 import janggi.domain.route.Route;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PoMoveRule extends CommonMoveRule {
 
@@ -44,5 +46,14 @@ public class PoMoveRule extends CommonMoveRule {
             }
         }
         return count == 1 && !obstacles.getFirst().isPo();
+    }
+
+    @Override
+    protected Map<Position, List<Position>> convertToPositions(Position position, List<Route> routes) {
+        Map<Position, List<Position>> result = new HashMap<>();
+        for (Route route : routes) {
+            route.applyContinuousDirections(position, result);
+        }
+        return result;
     }
 }

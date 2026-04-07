@@ -3,7 +3,10 @@ package janggi.domain.piece.moverules;
 import janggi.domain.board.Board;
 import janggi.domain.common.Position;
 import janggi.domain.piece.Piece;
+import janggi.domain.route.Route;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public abstract class GeneralMoveRule extends CommonMoveRule {
 
@@ -19,5 +22,18 @@ public abstract class GeneralMoveRule extends CommonMoveRule {
             }
         }
         return false;
+    }
+
+    @Override
+    protected Map<Position, List<Position>> convertToPositions(Position position, List<Route> routes) {
+        Map<Position, List<Position>> result = new HashMap<>();
+        for (Route route : routes) {
+            List<Position> positionRoute = route.applyDirections(position);
+            if (positionRoute.isEmpty()) {
+                continue;
+            }
+            result.put(positionRoute.getLast(), positionRoute);
+        }
+        return result;
     }
 }

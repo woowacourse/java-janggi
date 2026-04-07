@@ -4,7 +4,6 @@ import janggi.domain.board.Board;
 import janggi.domain.common.Position;
 import janggi.domain.common.Team;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public class Piece {
@@ -39,10 +38,6 @@ public class Piece {
 
     public boolean isSameTeam(Piece other) {
         return team == other.team;
-    }
-
-    public Map<Position, List<Position>> convertToPosition(Position position) {
-        return pieceType.convertToPosition(position, team);
     }
 
     public List<Position> findMovablePositions(Board board, Position position) {

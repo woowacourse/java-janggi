@@ -4,6 +4,7 @@ import janggi.domain.board.Board;
 import janggi.domain.common.Position;
 import janggi.domain.common.Team;
 import janggi.domain.piece.Piece;
+import janggi.domain.route.Route;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,7 @@ public abstract class CommonMoveRule implements MoveRule {
         Piece piece = board.pieceAt(position);
 
         List<Position> availablePositions = calculateAvailablePositions(board, piece,
-                piece.convertToPosition(position));
+                convertToPositions(position, findRoutes(team)));
 
         if (availablePositions.isEmpty()) {
             throw new IllegalArgumentException("[ERROR] 이동할 수 없는 좌표입니다.");
@@ -45,4 +46,6 @@ public abstract class CommonMoveRule implements MoveRule {
     }
 
     protected abstract boolean canMove(Board board, Piece movePiece, List<Position> route, Position destination);
+
+    protected abstract Map<Position, List<Position>> convertToPositions(Position position, List<Route> routes);
 }
