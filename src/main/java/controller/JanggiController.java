@@ -21,7 +21,6 @@ import static model.game.Team.CHO;
 import static model.game.Team.HAN;
 
 public class JanggiController {
-    private static final int MAX_RETRY = 200;
 
     private final InputView inputView;
     private final OutputView outputView;
@@ -94,13 +93,9 @@ public class JanggiController {
     }
 
     private void processCommand() {
-        int turn = 0;
-        while (janggiService.isPlaying() && turn++ < MAX_RETRY) {
+        while (janggiService.isPlaying()) {
             CommandType commandType = retry(() -> inputView.readCommand(janggiService.getTurn()), processError());
             retry(() -> commandMap.get(commandType).run(), processError());
-        }
-        if (janggiService.isPlaying()) {
-            handleScore();
         }
     }
 }
