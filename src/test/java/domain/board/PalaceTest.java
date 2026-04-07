@@ -1,35 +1,57 @@
 package domain.board;
 
-import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class PalaceTest {
-    @Nested
-    class 궁성_여부_테스트 {
-        Position hanPalacePosition = new Position(3, 9);
-        Position choPalacePosition = new Position(3, 2);
+    Position hanPalacePosition;
+    Position choPalacePosition;
 
-        @Test
-        void 해당_좌표가_궁성인지_반환한다() {
-            Position outPalacePosition = new Position(0, 0);
+    @BeforeEach
+    void setUp() {
+        hanPalacePosition = new Position(4, 8);
+        choPalacePosition = new Position(4, 1);
+    }
 
-            assertThat(Palace.isPalace(choPalacePosition)).isTrue();
-            assertThat(Palace.isPalace(hanPalacePosition)).isTrue();
-            assertThat(Palace.isPalace(outPalacePosition)).isFalse();
-        }
+    @Test
+    void 해당_좌표가_궁성인지_반환한다() {
+        Position outPalacePosition = new Position(0, 0);
 
-        @Test
-        void 해당_좌표가_초의_궁성인지_반환한다() {
-            assertThat(Palace.isChoPalace(choPalacePosition)).isTrue();
-            assertThat(Palace.isChoPalace(hanPalacePosition)).isFalse();
-        }
+        assertThat(Palace.isInPalace(choPalacePosition)).isTrue();
+        assertThat(Palace.isInPalace(hanPalacePosition)).isTrue();
+        assertThat(Palace.isInPalace(outPalacePosition)).isFalse();
+    }
 
-        @Test
-        void 해당_좌표가_한의_궁성인지_반환한다() {
-            assertThat(Palace.isHanPalace(hanPalacePosition)).isTrue();
-            assertThat(Palace.isHanPalace(choPalacePosition)).isFalse();
-        }
+    @Test
+    void 해당_좌표가_초의_궁성_내부인지_반환한다() {
+        assertThat(Palace.isInChoPalace(choPalacePosition)).isTrue();
+        assertThat(Palace.isInChoPalace(hanPalacePosition)).isFalse();
+    }
+
+    @Test
+    void 해당_좌표가_한의_궁성_내부인지_반환한다() {
+        assertThat(Palace.isInHanPalace(hanPalacePosition)).isTrue();
+        assertThat(Palace.isInHanPalace(choPalacePosition)).isFalse();
+    }
+
+    @Test
+    void 해당_좌표가_궁성의_중앙인지_반환한다() {
+        assertThat(Palace.isPalaceCenter(hanPalacePosition)).isTrue();
+        assertThat(Palace.isPalaceCenter(choPalacePosition)).isFalse();
+
+    }
+
+    @Test
+    void 해당_좌표가_초의_궁성의_중앙인지_반환한다() {
+        assertThat(Palace.isChoPalaceCenter(hanPalacePosition)).isTrue();
+        assertThat(Palace.isChoPalaceCenter(choPalacePosition)).isFalse();
+    }
+
+    @Test
+    void 해당_좌표가_한의_궁성의_중앙인지_반환한다() {
+        assertThat(Palace.isHanPalaceCenter(hanPalacePosition)).isTrue();
+        assertThat(Palace.isHanPalaceCenter(choPalacePosition)).isFalse();
     }
 }
