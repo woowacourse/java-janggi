@@ -13,7 +13,7 @@ public class ConnectionProvider {
 
     private final JdbcConnectionPool connectionPool;
 
-    public ConnectionProvider(AppConfig config) {
+    public ConnectionProvider(DbConfig config) {
         createDbDirectory();
 
         this.connectionPool = JdbcConnectionPool.create(

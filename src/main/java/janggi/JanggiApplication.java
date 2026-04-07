@@ -3,8 +3,8 @@ package janggi;
 import janggi.controller.JanggiController;
 import janggi.dao.game.JdbcGameDao;
 import janggi.dao.piece.JdbcPieceDao;
-import janggi.infra.AppConfig;
 import janggi.infra.ConnectionProvider;
+import janggi.infra.DbConfig;
 import janggi.infra.transaction.TransactionExecutorImpl;
 import janggi.model.palace.Palaces;
 import janggi.model.palace.factory.DefaultPalaceFactory;
@@ -32,7 +32,7 @@ public class JanggiApplication {
 
     private static ConnectionProvider createConnectionProvider() {
         ConnectionProvider provider =
-                new ConnectionProvider(new AppConfig());
+                new ConnectionProvider(new DbConfig());
         Runtime.getRuntime()
                 .addShutdownHook(new Thread(provider::dispose));
         return provider;

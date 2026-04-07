@@ -4,24 +4,24 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class AppConfig {
+public class DbConfig {
 
     private static final String DEFAULT_PROPERTIES_FILE = "application.properties";
 
     private final Properties properties;
 
-    public AppConfig() {
+    public DbConfig() {
         this.properties = readProperties(DEFAULT_PROPERTIES_FILE);
     }
 
-    public AppConfig(String fileName) {
+    public DbConfig(String fileName) {
         this.properties = readProperties(fileName);
     }
 
     private Properties readProperties(String filename) {
         Properties properties = new Properties();
 
-        try(InputStream inputStream = getClass()
+        try (InputStream inputStream = getClass()
                 .getClassLoader()
                 .getResourceAsStream(filename)) {
 
@@ -30,7 +30,7 @@ public class AppConfig {
             }
 
             properties.load(inputStream);
-        }catch (IOException e) {
+        } catch (IOException e) {
             throw new IllegalStateException("application.properties를 읽어오는데 실패했습니다.");
         }
 

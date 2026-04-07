@@ -23,7 +23,6 @@ import janggi.service.dto.GameOptionResponse;
 import janggi.view.mapping.BoardType;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class JanggiService {
@@ -144,14 +143,8 @@ public class JanggiService {
         return transactionExecutor.execute(con -> {
             Janggi moved = janggi.play(from, to);
 
-            Optional<PieceEntity> pieceEntityOpt =
-                    pieceDao.findPieceByPosition(con, from);
-
-            if (pieceEntityOpt.isEmpty()) {
-                throw new IllegalArgumentException("해당 위치에 기물이 존재하지 않습니다.");
-            }
-
-            PieceEntity piece = pieceEntityOpt.get();
+            PieceEntity piece = pieceDao.findPieceByPosition(con, from)
+                    .orElseThrow(() -> new IllegalArgumentException("해당 위치에 기물이 존재하지 않습니다."));
 
             if (pieceDao.findPieceByPosition(con, to).isPresent()) {
                 pieceDao.deletePieceByPosition(con, to);
