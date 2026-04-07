@@ -24,6 +24,16 @@ class PhoTest {
     }
 
     @Test
+    void 포_대각선_움직임_경로_정상_판정_테스트() {
+        Piece piece = new Cha(Team.CHO);
+
+        Position from = new Position(3, 2);
+        Position to = new Position(5, 0);
+
+        assertDoesNotThrow(() -> piece.validateMove(from, to));
+    }
+
+    @Test
     void 포_움직임_예외_처리_테스트() {
         Piece piece = new Pho(Team.CHO);
 
@@ -34,6 +44,19 @@ class PhoTest {
                 .isThrownBy(() -> piece.validateMove(from, to))
                 .withMessage("[ERROR] 해당 위치로 포가 이동할 수 없습니다.");
     }
+
+    @Test
+    void 포_대각선_움직임_예외_처리_테스트() {
+        Piece piece = new Pho(Team.CHO);
+
+        Position from = new Position(0, 0);
+        Position to = new Position(1, 1);
+
+        assertThatIllegalArgumentException()
+            .isThrownBy(() -> piece.validateMove(from, to))
+            .withMessage("[ERROR] 해당 위치로 포가 이동할 수 없습니다.");
+    }
+
 
     @Test
     void 도착지에_같은_팀의_말이_있을_경우_예외_처리_테스트() {
