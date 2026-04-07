@@ -19,6 +19,12 @@ public class Game {
         this.gameState = new InProgress();
     }
 
+    public Game(Board board, Camp currentTurn, GameState restoredState) {
+        this.board = board;
+        this.currentTurn = currentTurn;
+        this.gameState = restoredState;
+    }
+
     public Board board() {
         return board;
     }

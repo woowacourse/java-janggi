@@ -3,6 +3,7 @@ package domain.board;
 import domain.piece.Camp;
 import domain.piece.Piece;
 import domain.piece.PieceType;
+import dto.PieceDTO;
 
 import java.util.*;
 
@@ -122,5 +123,16 @@ public class Board implements PathChecker {
                 .sum();
 
         return totalScore + camp.bonusScore();
+    }
+
+    public List<PieceDTO> extractPieceDTOs() {
+        return board.entrySet().stream()
+                .map(entry -> new PieceDTO(
+                        entry.getKey().x(),
+                        entry.getKey().y(),
+                        entry.getValue().camp().name(),
+                        entry.getValue().type().name()
+                ))
+                .toList();
     }
 }
