@@ -4,6 +4,7 @@ import database.SchemaInitializer;
 import database.connection.DBConnector;
 import database.dao.BoardDao;
 import database.dao.JdbcBoardDao;
+import database.dao.JdbcTemplate;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -15,13 +16,15 @@ import java.sql.SQLException;
 class BoardDaoTest {
 
     private SchemaInitializer schemaInitializer;
+    private JdbcTemplate jdbcTemplate;
     private BoardDao boardDao;
 
     @BeforeEach
     void setUp() {
         schemaInitializer = new SchemaInitializer();
         schemaInitializer.readShemaSQLFile();
-        boardDao = new JdbcBoardDao();
+        jdbcTemplate = new JdbcTemplate();
+        boardDao = new JdbcBoardDao(jdbcTemplate);
     }
 
     @Test

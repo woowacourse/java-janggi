@@ -34,6 +34,12 @@ public class JdbcIntersectionDao implements IntersectionDao {
             where board_id = ? and y = ? and x = ?
             """;
 
+    private final JdbcTemplate jdbcTemplate;
+
+    public JdbcIntersectionDao(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
     @Override
     public void saveAll(Connection connection, Long boardId, List<IntersectionDto> intersections) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_INTERSECTION_QUERY)) {
@@ -82,22 +88,15 @@ public class JdbcIntersectionDao implements IntersectionDao {
         }
     }
 
-    public void update(Connection connection, Long boardId, IntersectionDto intersection) {
-        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_INTERSECTION_QUERY)) {
-
-            setParameters(
-                    preparedStatement,
-                    intersection.pieceType(), intersection.teamName(), boardId, intersection.y(), intersection.x()
-            );
-
-            int affectedRows = preparedStatement.executeUpdate();
-            if (affectedRows == 0) {
-                throw new RuntimeException("업데이트할 인터섹션을 찾을 수 없습니다");
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public void update(Long boardId, IntersectionDto intersection) throws SQLException {
+        jdbcTemplate.update(
+                UPDATE_INTERSECTION_QUERY,
+                intersection.pieceType(),
+                intersection.teamName(),
+                boardId,
+                intersection.y(),
+                intersection.x()
+        );
     }
 
     public void setParameters(PreparedStatement preparedStatement, Object... parameters) throws SQLException {

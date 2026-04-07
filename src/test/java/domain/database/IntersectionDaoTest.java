@@ -2,10 +2,7 @@ package domain.database;
 
 import database.SchemaInitializer;
 import database.connection.DBConnector;
-import database.dao.BoardDao;
-import database.dao.IntersectionDao;
-import database.dao.JdbcBoardDao;
-import database.dao.JdbcIntersectionDao;
+import database.dao.*;
 import database.dto.IntersectionDto;
 import database.mapper.JanggiBoardMapper;
 import domain.board.JanggiBoard;
@@ -24,6 +21,7 @@ import static domain.board.Formation.ELEPHANT_HORSE_ELEPHANT_HORSE;
 
 class IntersectionDaoTest {
 
+    private JdbcTemplate jdbcTemplate;
     private SchemaInitializer schemaInitializer;
     private IntersectionDao intersectionDao;
     private JanggiBoardMapper mapper;
@@ -31,10 +29,11 @@ class IntersectionDaoTest {
 
     @BeforeEach
     void setUp() {
+        jdbcTemplate = new JdbcTemplate();
         schemaInitializer = new SchemaInitializer();
         schemaInitializer.readShemaSQLFile();
-        intersectionDao = new JdbcIntersectionDao();
-        boardDao = new JdbcBoardDao();
+        intersectionDao = new JdbcIntersectionDao(jdbcTemplate);
+        boardDao = new JdbcBoardDao(jdbcTemplate);
         mapper = new JanggiBoardMapper();
     }
 

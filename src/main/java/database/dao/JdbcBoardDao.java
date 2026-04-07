@@ -38,6 +38,12 @@ public class JdbcBoardDao implements BoardDao {
             WHERE id = ?;
             """;
 
+    private final JdbcTemplate jdbcTemplate;
+
+    public JdbcBoardDao(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
     @Override
     public Long save(Connection connection) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_BOARD_QUERY, Statement.RETURN_GENERATED_KEYS)) {
@@ -95,39 +101,24 @@ public class JdbcBoardDao implements BoardDao {
         }
     }
 
-    public void updateTurn(Connection connection, Long boardId, Team nextTurn) {
-        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BOARD_QUERY)) {
-
-            setParameters(
-                    preparedStatement,
-                    nextTurn.name(), boardId
-            );
-
-            int affectedRows = preparedStatement.executeUpdate();
-            if (affectedRows == 0) {
-                throw new SQLException("장기판 업데이트에 실패했습니다.");
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    @Override
+    public void updateTurn(Long boardId, Team nextTurn) throws SQLException {
+        jdbcTemplate.update(
+                UPDATE_BOARD_QUERY,
+                nextTurn.name(),
+                boardId
+        );
     }
 
-    public void updateResult(Connection connection, Long boardId, GameResult gameResult) {
-        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BOARD_RESULT_QUERY)) {
-
-            setParameters(
-                    preparedStatement,
-                    gameResult.winner().name(), gameResult.hanScore(), gameResult.choScore(), boardId
-            );
-
-            int affectedRows = preparedStatement.executeUpdate();
-            if (affectedRows == 0) {
-                throw new SQLException("장기판 업데이트에 실패했습니다.");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
+    @Override
+    public void updateResult(Long boardId, GameResult gameResult) throws SQLException {
+        jdbcTemplate.update(
+                UPDATE_BOARD_RESULT_QUERY,
+                gameResult.winner().name(),
+                gameResult.hanScore(),
+                gameResult.choScore(),
+                boardId
+        );
     }
 
     public void setParameters(PreparedStatement preparedStatement, Object... parameters) throws SQLException {

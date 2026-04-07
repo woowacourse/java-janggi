@@ -5,6 +5,7 @@ import database.dto.GameResult;
 import domain.piece.Team;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 public interface BoardDao {
@@ -16,8 +17,8 @@ public interface BoardDao {
 
     BoardSummaryDto readPlayingById(Connection connection, Long boardId);
 
-    void updateTurn(Connection connection, Long boardId, Team nextTurn);
+    void updateTurn(Long boardId, Team nextTurn) throws SQLException;
 
-    void updateResult(Connection connection, Long boardId, GameResult gameResult);
+    void updateResult(Long boardId, GameResult gameResult) throws SQLException;
 
 }

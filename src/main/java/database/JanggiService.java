@@ -2,6 +2,7 @@ package database;
 
 import database.connection.BoardIdContext;
 import database.connection.DBConnector;
+import database.connection.TransactionExecutor;
 import database.dao.BoardDao;
 import database.dao.IntersectionDao;
 import database.dto.BoardSummaryDto;
@@ -22,11 +23,13 @@ public class JanggiService {
 
     private final BoardDao boardDao;
     private final JanggiBoardMapper mapper;
+    private final TransactionExecutor executor;
     private final IntersectionDao intersectionDao;
 
-    public JanggiService(BoardDao boardDao, JanggiBoardMapper mapper, IntersectionDao intersectionDao) {
+    public JanggiService(BoardDao boardDao, JanggiBoardMapper mapper, TransactionExecutor executor, IntersectionDao intersectionDao) {
         this.boardDao = boardDao;
         this.mapper = mapper;
+        this.executor = executor;
         this.intersectionDao = intersectionDao;
     }
 
@@ -63,27 +66,19 @@ public class JanggiService {
 
     // TODO 상태 패턴을 사용하여, currentTurn과 isFinished를 합치면 좋을 듯.
     public void updateTurn(Moved moved, Team currentTurn) {
-        try (Connection connection = DBConnector.getConnection()) {
-
+        executor.execute(() -> {
             Long boardId = BoardIdContext.getBoardId();
-            boardDao.updateTurn(connection, boardId, currentTurn);
-            intersectionDao.update(connection, boardId, mapper.toIntersectionDto(moved.destination()));
-            intersectionDao.update(connection, boardId, mapper.toIntersectionDto(moved.origin()));
-
-        } catch (SQLException e) {
-            throw new RuntimeException();
-        }
+            boardDao.updateTurn(boardId, currentTurn);
+            intersectionDao.update(boardId, mapper.toIntersectionDto(moved.destination()));
+            intersectionDao.update(boardId, mapper.toIntersectionDto(moved.origin()));
+        });
     }
 
     public void updateBoardResult(GameResult gameResult) {
-        try (Connection connection = DBConnector.getConnection()) {
-
+        executor.execute(() -> {
             Long boardId = BoardIdContext.getBoardId();
-            boardDao.updateResult(connection, boardId, gameResult);
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+            boardDao.updateResult(boardId, gameResult);
+        });
     }
 
 }
