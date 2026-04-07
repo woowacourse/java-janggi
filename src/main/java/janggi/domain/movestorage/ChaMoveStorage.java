@@ -11,36 +11,33 @@ public class ChaMoveStorage implements MoveStorage {
 
     @Override
     public boolean canMove(Position from, Position to, BoardView boardState) {
-        List<Integer> fromPosition = from.getPosition();
-        List<Integer> toPosition = to.getPosition();
+        int fromRow = from.getRowValue();
+        int fromColumn = from.getColumnValue();
+        int toRow = to.getRowValue();
+        int toColumn = to.getColumnValue();
 
-        int fromX = fromPosition.getFirst();
-        int fromY = fromPosition.getLast();
-        int toX = toPosition.getFirst();
-        int toY = toPosition.getLast();
-
-        if (fromX != toX && fromY != toY) {
+        if (fromRow != toRow && fromColumn != toColumn) {
             return false;
         }
 
-        if (fromX == toX) {
-            int start = Math.min(fromY, toY) + 1;
-            int end = Math.max(fromY, toY);
+        if (fromRow == toRow) {
+            int start = Math.min(fromColumn, toColumn) + 1;
+            int end = Math.max(fromColumn, toColumn);
 
             for (int i = start; i < end; i++) {
-                Position position = Position.of(Row.of(fromX), Column.of(i));
+                Position position = Position.of(Row.of(fromRow), Column.of(i));
                 if (boardState.hasPieceAt(position)) {
                     return false;
                 }
             }
         }
 
-        if (fromY == toY) {
-            int start = Math.min(fromX, toX) + 1;
-            int end = Math.max(fromX, toX);
+        if (fromColumn == toColumn) {
+            int start = Math.min(fromRow, toRow) + 1;
+            int end = Math.max(fromRow, toRow);
 
             for (int i = start; i < end; i++) {
-                Position position = Position.of(Row.of(i), Column.of(fromY));
+                Position position = Position.of(Row.of(i), Column.of(fromColumn));
                 if (boardState.hasPieceAt(position)) {
                     return false;
                 }

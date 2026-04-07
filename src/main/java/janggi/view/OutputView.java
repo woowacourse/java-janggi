@@ -2,8 +2,8 @@ package janggi.view;
 
 import janggi.dto.BoardDto;
 
+import janggi.dto.BoardDto.CoordinateDto;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 public class OutputView {
@@ -26,7 +26,7 @@ public class OutputView {
     public void printErrorMessage(String errorMessage) {
         System.out.println(errorMessage);
     }
-
+    // 고민) depth 2 -> 1
     public void printBoard(BoardDto boardDto) {
         String[][] boardView = generateBoardView(boardDto);
 
@@ -47,11 +47,11 @@ public class OutputView {
             Arrays.fill(boardView[y], EMPTY_NODE);
         }
 
-        Map<List<Integer>, String> pieces = boardDto.getPieces();
-        for (Map.Entry<List<Integer>, String> entry : pieces.entrySet()) {
-            List<Integer> position = entry.getKey();
-            int x = position.get(0);
-            int y = position.get(1);
+        Map<CoordinateDto, String> pieces = boardDto.getPieces();
+        for (Map.Entry<CoordinateDto, String> entry : pieces.entrySet()) {
+            CoordinateDto coordinateDto = entry.getKey();
+            int x = coordinateDto.row();
+            int y = coordinateDto.column();
             String pieceName = entry.getValue();
 
             String colorCode = determineFactionColor(pieceName, y);
@@ -86,7 +86,7 @@ public class OutputView {
         System.out.println(xAxis.toString());
         System.out.println();
     }
-
+    // 고민) depth 2 -> 1
     private void printNodeRow(String[][] boardView, int y) {
         StringBuilder row = new StringBuilder();
         row.append(y).append("  ");
@@ -98,7 +98,7 @@ public class OutputView {
         }
         System.out.println(row.toString());
     }
-
+    // 고민) depth 2 -> 1
     private void printSpacerRows(int y) {
         int[] diagonalOffsets = {2, 5, 8};
 

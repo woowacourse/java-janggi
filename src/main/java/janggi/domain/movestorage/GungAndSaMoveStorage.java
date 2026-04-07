@@ -9,41 +9,38 @@ import java.util.List;
 public class GungAndSaMoveStorage implements MoveStorage{
     @Override
     public boolean canMove(Position from, Position to, BoardView boardState) {
-        List<Integer> fromPosition = from.getPosition();
-        List<Integer> toPosition = to.getPosition();
+        int fromRow = from.getRowValue();
+        int fromColumn = from.getColumnValue();
+        int toRow = to.getRowValue();
+        int toColumn = to.getColumnValue();
 
-        int fromX = fromPosition.getFirst();
-        int fromY = fromPosition.getLast();
-        int toX = toPosition.getFirst();
-        int toY = toPosition.getLast();
-
-        if (!(3 <= fromX && fromX <= 5) || !(3 <= toX && toX <= 5)) {
+        if (!(3 <= fromRow && fromRow <= 5) || !(3 <= toRow && toRow <= 5)) {
             return false;
         }
 
         Team currentTeam = boardState.getPieceAt(from).getTeam();
 
         if (currentTeam == Team.HAN) {
-            if (!(0 <= fromY && fromY <= 2) || !(0 <= toY && toY <= 2)) {
+            if (!(0 <= fromColumn && fromColumn <= 2) || !(0 <= toColumn && toColumn <= 2)) {
                 return false;
             }
         }
 
         if (currentTeam == Team.CHO) {
-            if (!(7 <= fromY && fromY <= 9) || !(7 <= toY && toY <= 9)) {
+            if (!(7 <= fromColumn && fromColumn <= 9) || !(7 <= toColumn && toColumn <= 9)) {
                 return false;
             }
         }
 
-        if (fromX != toX && fromY != toY) {
+        if (fromRow != toRow && fromColumn != toColumn) {
             return false;
         }
 
-        if (fromY == toY && Math.abs(fromX - toX) != 1) {
+        if (fromColumn == toColumn && Math.abs(fromRow - toRow) != 1) {
             return false;
         }
 
-        if (fromX == toX && Math.abs(fromY - toY) != 1) {
+        if (fromRow == toRow && Math.abs(fromColumn - toColumn) != 1) {
             return false;
         }
 

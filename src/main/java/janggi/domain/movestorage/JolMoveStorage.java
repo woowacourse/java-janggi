@@ -13,28 +13,25 @@ public class JolMoveStorage implements MoveStorage{
 
     @Override
     public boolean canMove(Position from, Position to, BoardView boardState) {
-        List<Integer> fromPosition = from.getPosition();
-        List<Integer> toPosition = to.getPosition();
+        int fromRow = from.getRowValue();
+        int fromColumn = from.getColumnValue();
+        int toRow = to.getRowValue();
+        int toColumn = to.getColumnValue();
 
-        int fromX = fromPosition.getFirst();
-        int fromY = fromPosition.getLast();
-        int toX = toPosition.getFirst();
-        int toY = toPosition.getLast();
-
-        if (Math.abs(fromX - toX) == NEXT_TO && fromY == toY) {
+        if (Math.abs(fromRow - toRow) == NEXT_TO && fromColumn == toColumn) {
             return true;
         }
 
         Team currentTeam = boardState.getPieceAt(from).getTeam();
 
         if (currentTeam == Team.HAN) {
-            if (toY - fromY == HAN_FORWARD && fromX == toX) {
+            if (toColumn - fromColumn == HAN_FORWARD && fromRow == toRow) {
                 return true;
             }
         }
 
         if (currentTeam == Team.CHO) {
-            if (toY - fromY == CHO_FORWARD && fromX == toX) {
+            if (toColumn - fromColumn == CHO_FORWARD && fromRow == toRow) {
                 return true;
             }
         }

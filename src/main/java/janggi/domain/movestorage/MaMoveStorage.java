@@ -17,16 +17,14 @@ public class MaMoveStorage implements MoveStorage{
 
     @Override
     public boolean canMove(Position from, Position to, BoardView boardState) {
-        List<Integer> fromPosition = from.getPosition(); //Row, Col을 사용하지 않고, int를 사용하고 있음
-        List<Integer> toPosition = to.getPosition();
+        //Row, Col을 사용하지 않고, int를 사용하고 있음
+        int fromRow = from.getRowValue();
+        int fromColumn = from.getColumnValue();
+        int toRow = to.getRowValue();
+        int toColumn = to.getColumnValue();
 
-        int fromX = fromPosition.getFirst();
-        int fromY = fromPosition.getLast();
-        int toX = toPosition.getFirst();
-        int toY = toPosition.getLast();
-
-        int diffX = toX - fromX;
-        int diffY = toY - fromY;
+        int diffX = toRow - fromRow;
+        int diffY = toColumn - fromColumn;
 
         boolean isMaMove = (Math.abs(diffX) == FORWARD && Math.abs(diffY) == DIAGONAL) ||
                 (Math.abs(diffX) == DIAGONAL && Math.abs(diffY) == FORWARD);
@@ -41,14 +39,14 @@ public class MaMoveStorage implements MoveStorage{
         int signY = Integer.signum(diffY);
 
         if (Math.abs(diffX) == FORWARD) {
-            int step1X = fromX + (signX * PATH_STEP_1);
-            int step1Y = fromY + (signY * PATH_STEP_0);
+            int step1X = fromRow + (signX * PATH_STEP_1);
+            int step1Y = fromColumn + (signY * PATH_STEP_0);
             movementPathPositions.add(Position.of(Row.of(step1X), Column.of(step1Y)));
         }
 
         if (Math.abs(diffY) == FORWARD) {
-            int step1X = fromX + (signX * PATH_STEP_0);
-            int step1Y = fromY + (signY * PATH_STEP_1);
+            int step1X = fromRow + (signX * PATH_STEP_0);
+            int step1Y = fromColumn + (signY * PATH_STEP_1);
             movementPathPositions.add(Position.of(Row.of(step1X), Column.of(step1Y)));
         }
 

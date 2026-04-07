@@ -1,7 +1,6 @@
 package janggi.domain;
 
 import janggi.exception.position.InvalidPositionException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,11 +10,10 @@ public class Position {
     private static final Map<String, Position> CACHE = new HashMap<>();
 
     static {
-        for (Row row : Row.values()) {
-            for (Column column : Column.values()) {
-                CACHE.put(generateKey(row, column), new Position(row, column));
-            }
-        }
+        Row.values().stream()
+                .flatMap(row -> Column.values().stream()
+                        .map(column -> new Position(row, column)))
+                .forEach(position -> CACHE.put(generateKey(position.row, position.column), position));
     }
 
     private final Row row;
@@ -43,7 +41,7 @@ public class Position {
         return String.format("%d,%d", row.getValue(), column.getValue());
     }
 
-    public int getRowValue() {  // 이거 활용하도록 수정하기
+    public int getRowValue() {
         return row.getValue();
     }
 
@@ -51,18 +49,18 @@ public class Position {
         return column.getValue();
     }
 
-    public List<Integer> getPosition() {    // Position을 활용
-        List<Integer> position = new ArrayList<>();
-        position.add(row.getValue());   // 캡슐화 깨짐
-        position.add(column.getValue());
-        return position;
-    }
-
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
         Position position = (Position) o;
-        return Objects.equals(row, position.row) && Objects.equals(column, position.column);
+        return row == position.row && column == position.column;
     }
 
     @Override
