@@ -10,6 +10,7 @@ import janggi.repository.GameStateDaoImpl;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.Scanner;
+import org.h2.jdbcx.JdbcConnectionPool;
 
 public class AppConfig {
 
@@ -38,6 +39,7 @@ public class AppConfig {
     }
 
     private ConnectionManager connectionManager() {
-        return new ConnectionManager(URL, USER, PASSWORD);
+        JdbcConnectionPool pool = JdbcConnectionPool.create(URL, USER, PASSWORD);
+        return new ConnectionManager(pool);
     }
 }

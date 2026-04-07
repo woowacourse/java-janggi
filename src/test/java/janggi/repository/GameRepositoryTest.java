@@ -16,6 +16,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Map;
 import org.assertj.core.api.SoftAssertions;
+import org.h2.jdbcx.JdbcDataSource;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,7 +34,12 @@ class GameRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        connectionManager = new ConnectionManager(URL, USER, PASSWORD);
+        JdbcDataSource dataSource = new JdbcDataSource();
+        dataSource.setURL(URL);
+        dataSource.setUser(USER);
+        dataSource.setPassword(PASSWORD);
+
+        connectionManager = new ConnectionManager(dataSource);
         new DatabaseInitializer(connectionManager).initialize();
 
         gameRepository = new GameRepository(
