@@ -7,14 +7,30 @@ import java.util.stream.IntStream;
 public class Position {
     private static final int ROW_SIZE = 10;
     private static final int COLUMN_SIZE = 9;
+    private static final int PALACE_CENTER_INDEX = 4;
 
     private static final List<Position> ALL_POSITION;
+    private static final List<Position> CHO_PALACE;
+    private static final List<Position> HAN_PALACE;
 
     static {
         ALL_POSITION = IntStream.range(0, ROW_SIZE)
                 .boxed()
                 .flatMap(row -> IntStream.range(0, COLUMN_SIZE)
                         .mapToObj(column -> new Position(row, column)))
+                .toList();
+    }
+
+    static {
+        CHO_PALACE = IntStream.range(0, 3)
+                .boxed()
+                .flatMap(row -> IntStream.range(3, 6)
+                        .mapToObj(column -> Position.of(row, column)))
+                .toList();
+        HAN_PALACE = IntStream.range(7, 10)
+                .boxed()
+                .flatMap(row -> IntStream.range(3, 6)
+                        .mapToObj(column -> Position.of(row, column)))
                 .toList();
     }
 
@@ -70,5 +86,24 @@ public class Position {
 
     public int getColumn() {
         return column;
+    }
+
+    public boolean isPalaceDiagonal() {
+        if (isPalace(CHO_PALACE)) {
+            return isDiagonal(CHO_PALACE);
+        }
+        if (isPalace(HAN_PALACE)) {
+            return isDiagonal(HAN_PALACE);
+        }
+        return false;
+    }
+
+    private boolean isPalace(List<Position> palace) {
+        return palace.contains(this);
+    }
+
+    private boolean isDiagonal(List<Position> palace) {
+        Position palaceCenter = palace.get(PALACE_CENTER_INDEX);
+        return (this.row == palaceCenter.row) == (this.column == palaceCenter.column);
     }
 }
