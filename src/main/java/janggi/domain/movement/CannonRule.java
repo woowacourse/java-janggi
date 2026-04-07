@@ -8,11 +8,11 @@ import janggi.domain.piece.Piece;
 import java.util.List;
 import java.util.Optional;
 
-public class RuleOfCannon implements Rule {
+public class CannonRule implements Rule {
 
     private final List<OnLineMovement> movementOrder;
 
-    public RuleOfCannon(final Direction direction) {
+    public CannonRule(final Direction direction) {
         this.movementOrder = generateMovementOrder(direction);
     }
 

@@ -16,7 +16,7 @@ import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class OnLineRuleTest {
+public class LinearRuleTest {
 
     @Test
     @DisplayName("이동 가능한 자취 경로 계산 테스트")
@@ -27,7 +27,7 @@ public class OnLineRuleTest {
         Board board = new Board(positionPieceMap);
         BoardMediator boardMediator = new BoardMediatorImpl(board);
         Direction direction = Direction.SOUTH;
-        Rule onLineRule = new OnLineRule(
+        Rule onLineRule = new LinearRule(
             List.of(new OnLineMovement(MAXIMUM_ROW, direction)));
         List<Position> expected = List.of(Position.valueOf(6, 3), Position.valueOf(7, 3),
             Position.valueOf(8, 3));

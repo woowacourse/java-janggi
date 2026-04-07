@@ -6,16 +6,16 @@ import janggi.domain.piece.Piece;
 import janggi.utils.Lists;
 import java.util.List;
 
-public class OffLineRule implements Rule {
+public class NonLinearRule implements Rule {
 
     private final List<OffLineMovement> movementOrder;
 
-    public OffLineRule(final List<OffLineMovement> movementOrder) {
+    public NonLinearRule(final List<OffLineMovement> movementOrder) {
         this.movementOrder = movementOrder;
     }
 
-    public static OffLineRule of(final OffLineMovement movement) {
-        return new OffLineRule(List.of(movement));
+    public static NonLinearRule of(final OffLineMovement movement) {
+        return new NonLinearRule(List.of(movement));
     }
 
 

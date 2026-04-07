@@ -14,7 +14,7 @@ import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class OffLineRuleTest {
+public class NonLinearRuleTest {
 
     @Test
     @DisplayName("이동 가능한 목적지 계산 테스트")
@@ -27,7 +27,7 @@ public class OffLineRuleTest {
             new OffLineMovement(1, Direction.EAST),
             new OffLineMovement(1, Direction.NORTH_EAST),
             new OffLineMovement(1, Direction.NORTH_EAST));
-        Rule offLineRule = new OffLineRule(movementOrder);
+        Rule offLineRule = new NonLinearRule(movementOrder);
         List<Position> expected = List.of(Position.valueOf(3, 6));
 
         List<Position> actual = offLineRule.execute(Position.valueOf(5, 3), boardMediator);

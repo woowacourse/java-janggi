@@ -8,16 +8,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class OnLineRule implements Rule {
+public class LinearRule implements Rule {
 
     private final List<OnLineMovement> movementOrder;
 
-    public OnLineRule(final List<OnLineMovement> movementOrder) {
+    public LinearRule(final List<OnLineMovement> movementOrder) {
         this.movementOrder = movementOrder;
     }
 
-    public static OnLineRule of(final OnLineMovement movement) {
-        return new OnLineRule(List.of(movement));
+    public static LinearRule of(final OnLineMovement movement) {
+        return new LinearRule(List.of(movement));
     }
 
     @Override
