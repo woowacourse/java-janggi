@@ -169,4 +169,8 @@ public class OutputView {
     private int toOneBasedIndex(int index) {
         return index + 1;
     }
+
+    public void printWinner(TeamNameDto winner) {
+        System.out.printf("%s나라 플레이어 승리!\n", TeamNameFormatter.format(winner.name()));
+    }
 }

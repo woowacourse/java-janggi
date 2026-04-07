@@ -5,6 +5,8 @@ import domain.board.Position;
 import domain.game.JanggiGame;
 import domain.piece.Team;
 import domain.player.Player;
+import domain.state.ChoPlayingState;
+import domain.state.GameState;
 import dto.PieceInfoDto;
 import dto.PiecePositionDto;
 import dto.PiecesDto;
@@ -18,6 +20,8 @@ import view.InputView;
 import view.OutputView;
 
 public class JanggiController {
+
+    private static final GameState FIRST_GAME_STATE = new ChoPlayingState();
 
     private final InputView inputView;
     private final OutputView outputView;
@@ -34,14 +38,16 @@ public class JanggiController {
         ElephantSetup choElephantSetup = retry(() -> initElephantSetupFor(Team.CHO));
         ElephantSetup hanElephantSetup = retry(() -> initElephantSetupFor(Team.HAN));
 
-        JanggiGame janggiGame = JanggiGame.init(choElephantSetup, hanElephantSetup);
+        JanggiGame janggiGame = JanggiGame.init(choElephantSetup, hanElephantSetup, FIRST_GAME_STATE);
 
         printJanggiBoard(janggiGame);
 
-        while (true) {
-            processTurn(janggiGame, Team.CHO);
-            processTurn(janggiGame, Team.HAN);
+        while (!janggiGame.isFinished()) {
+            processTurn(janggiGame);
         }
+
+        Team winnerTeam = janggiGame.getWinnerTeam();
+        outputView.printWinner(TeamNameDto.of(winnerTeam));
     }
 
     private Player initPlayerFor(Team team) {
@@ -77,12 +83,12 @@ public class JanggiController {
         return PiecesDto.of(pieces);
     }
 
-    private void processTurn(final JanggiGame janggiGame, final Team team) {
-        retry(() -> process(janggiGame, team));
+    private void processTurn(final JanggiGame janggiGame) {
+        retry(() -> process(janggiGame));
     }
 
-    private void process(final JanggiGame janggiGame, final Team team) {
-        List<Position> piecePositions = janggiGame.getPositionsBy(team);
+    private void process(final JanggiGame janggiGame) {
+        List<Position> piecePositions = janggiGame.getCurrentPlayerPiecePositions();
         Position from = selectPieceToMove(janggiGame, piecePositions);
 
         List<Position> movablePositions = janggiGame.getMovablePositions(from);

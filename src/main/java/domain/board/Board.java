@@ -82,4 +82,12 @@ public class Board {
             throw new IllegalArgumentException("해당 좌표에 기물이 존재하지 않습니다.");
         }
     }
+
+    public boolean isOnlyOneGeneralRemaining() {
+        int generalCount = Math.toIntExact(pieces.values().stream()
+                .filter(Piece::isGeneral)
+                .count());
+
+        return generalCount == 1;
+    }
 }

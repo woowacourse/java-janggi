@@ -9,6 +9,8 @@ import domain.movestrategy.MoveStrategyRegistry;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Team;
+import domain.state.FinishedState;
+import domain.state.GameState;
 import java.util.List;
 import java.util.Map;
 
@@ -16,24 +18,31 @@ public class JanggiGame {
 
     private final Board board;
     private final MoveStrategyRegistry moveStrategyRegistry;
+    private GameState gameState;
 
-    public JanggiGame(final Board board, final MoveStrategyRegistry moveStrategyRegistry) {
+    public JanggiGame(final Board board, final MoveStrategyRegistry moveStrategyRegistry, final GameState gameState) {
         this.board = board;
         this.moveStrategyRegistry = moveStrategyRegistry;
+        this.gameState = gameState;
     }
 
-    public static JanggiGame init(final ElephantSetup choElephantSetup, final ElephantSetup hanElephantSetup) {
+    public static JanggiGame init(
+            final ElephantSetup choElephantSetup,
+            final ElephantSetup hanElephantSetup,
+            final GameState gameState
+    ) {
         return new JanggiGame(
                 BoardInitializer.init(
                         choElephantSetup,
                         hanElephantSetup
                 ),
-                MoveStrategyRegistry.init()
+                MoveStrategyRegistry.init(),
+                gameState
         );
     }
 
-    public List<Position> getPositionsBy(final Team team) {
-        return board.getPositionsByTeam(team);
+    public List<Position> getCurrentPlayerPiecePositions() {
+        return gameState.getPiecePositions(board);
     }
 
     public List<Position> getMovablePositions(final Position from) {
@@ -44,6 +53,14 @@ public class JanggiGame {
 
     public void move(final Position from, final Position to) {
         board.move(from, to);
+        gameState = nextState();
+    }
+
+    private GameState nextState() {
+        if(board.isOnlyOneGeneralRemaining()) {
+            return new FinishedState(gameState.getTeam());
+        }
+        return gameState.nextTurn();
     }
 
     public PieceType getPieceType(final Position position) {
@@ -56,5 +73,16 @@ public class JanggiGame {
 
     public Map<Position, Piece> getPieces() {
         return board.getPieces();
+    }
+
+    public boolean isFinished() {
+        return gameState.isFinished();
+    }
+
+    public Team getWinnerTeam() {
+        if(!isFinished()) {
+            throw new IllegalStateException("게임이 종료되지 않았습니다.");
+        }
+        return gameState.getTeam();
     }
 }
