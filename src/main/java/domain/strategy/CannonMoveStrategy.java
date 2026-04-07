@@ -1,6 +1,5 @@
 package domain.strategy;
 
-import domain.Position;
 import domain.piece.PieceInfo;
 import domain.piece.PieceInfos;
 import domain.piece.PieceType;
@@ -13,14 +12,9 @@ public class CannonMoveStrategy extends StraightMoveStrategy {
     private static final int CANNON_JUMP_PIECE_COUNT = 1;
 
     @Override
-    public void validateToPiece(PieceInfos pieceInfos, Position from, Position to) {
-        super.validateToPiece(pieceInfos, from, to);
-        if (pieceInfos.isEmptyPosition(to)) {
-            return;
-        }
-        PieceInfo fromPiece = pieceInfos.get(from);
-        PieceInfo toPiece = pieceInfos.get(to);
-        if (fromPiece.pieceType() == toPiece.pieceType()) {
+    public void validateToPositionWithFromPosition(PieceInfo fromPiece, PieceInfo toPiece) {
+        super.validateToPositionWithFromPosition(fromPiece, toPiece);
+        if (toPiece.pieceType() == PieceType.CANNON) {
             throw new IllegalArgumentException(CANNOT_KILL_CANNON);
         }
     }

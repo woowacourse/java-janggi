@@ -5,14 +5,12 @@ import domain.Position;
 import domain.country.CountryType;
 import domain.strategy.MoveStrategy;
 
-public record Piece(PieceInfo pieceInfo) {
+public record Piece(PieceInfo pieceInfo, MoveStrategy moveStrategy) {
     public Path path(Position from, Position to) {
-        MoveStrategy moveStrategy = pieceInfo.pieceType().getMoveStrategy();
         return moveStrategy.path(from, to);
     }
 
     public void validateMove(PieceInfos pathPieceInfos, Position from, Position to) {
-        MoveStrategy moveStrategy = pieceInfo.pieceType().getMoveStrategy();
         moveStrategy.validateMove(pathPieceInfos, from, to);
     }
 

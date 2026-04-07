@@ -11,6 +11,7 @@ import domain.board.BoardSnapshots;
 import domain.board.BoardStates;
 import domain.country.CountryType;
 import domain.piece.Piece;
+import domain.piece.PieceFactory;
 import domain.piece.PieceInfo;
 import domain.piece.PieceInfos;
 import domain.piece.PieceType;
@@ -194,7 +195,7 @@ public class JanggiService {
                 int y = resultSet.getInt("position_y");
                 String pieceType = resultSet.getString("piece_type");
                 String pieceCountry = resultSet.getString("piece_country");
-                Piece piece = new Piece(new PieceInfo(PieceType.valueOf(pieceType), CountryType.valueOf(pieceCountry)));
+                Piece piece = PieceFactory.valueOf(pieceType).create(CountryType.valueOf(pieceCountry));
                 pieceInfos.put(new Position(x, y), piece);
             }
             return new BoardStates(pieceInfos);
@@ -249,7 +250,7 @@ public class JanggiService {
     }
 
     public void insertBoardSnapshot(PieceInfos pieceInfos, int boardId, CountryType turn) {
-        String sql = "INSERT INTO board_snapshot (`id`, `position_x`, `position_y`, `piece_type`, `piece_country`, `board_id`, `turn`) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO board_snapshot VALUES (?, ?, ?, ?, ?, ?, ?)";
         int snapshotId = getNextSnapshotId();
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {

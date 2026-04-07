@@ -3,7 +3,7 @@ package domain.board;
 import domain.Position;
 import domain.country.CountryType;
 import domain.piece.Piece;
-import domain.piece.PieceInfo;
+import domain.piece.PieceFactory;
 import domain.piece.PieceType;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,47 +29,47 @@ public class BoardFactory {
     }
 
     private void initializeSoldierPosition(Map<Position, Piece> boardStates) {
-        boardStates.put(new Position(0, 3), new Piece(new PieceInfo(PieceType.SOLDIER, CountryType.CHO)));
-        boardStates.put(new Position(2, 3), new Piece(new PieceInfo(PieceType.SOLDIER, CountryType.CHO)));
-        boardStates.put(new Position(4, 3), new Piece(new PieceInfo(PieceType.SOLDIER, CountryType.CHO)));
-        boardStates.put(new Position(6, 3), new Piece(new PieceInfo(PieceType.SOLDIER, CountryType.CHO)));
-        boardStates.put(new Position(8, 3), new Piece(new PieceInfo(PieceType.SOLDIER, CountryType.CHO)));
+        boardStates.put(new Position(0, 3), PieceFactory.SOLDIER.create(CountryType.CHO));
+        boardStates.put(new Position(2, 3), PieceFactory.SOLDIER.create(CountryType.CHO));
+        boardStates.put(new Position(4, 3), PieceFactory.SOLDIER.create(CountryType.CHO));
+        boardStates.put(new Position(6, 3), PieceFactory.SOLDIER.create(CountryType.CHO));
+        boardStates.put(new Position(8, 3), PieceFactory.SOLDIER.create(CountryType.CHO));
 
-        boardStates.put(new Position(0, 6), new Piece(new PieceInfo(PieceType.SOLDIER, CountryType.HAN)));
-        boardStates.put(new Position(2, 6), new Piece(new PieceInfo(PieceType.SOLDIER, CountryType.HAN)));
-        boardStates.put(new Position(4, 6), new Piece(new PieceInfo(PieceType.SOLDIER, CountryType.HAN)));
-        boardStates.put(new Position(6, 6), new Piece(new PieceInfo(PieceType.SOLDIER, CountryType.HAN)));
-        boardStates.put(new Position(8, 6), new Piece(new PieceInfo(PieceType.SOLDIER, CountryType.HAN)));
+        boardStates.put(new Position(0, 6), PieceFactory.SOLDIER.create(CountryType.HAN));
+        boardStates.put(new Position(2, 6), PieceFactory.SOLDIER.create(CountryType.HAN));
+        boardStates.put(new Position(4, 6), PieceFactory.SOLDIER.create(CountryType.HAN));
+        boardStates.put(new Position(6, 6), PieceFactory.SOLDIER.create(CountryType.HAN));
+        boardStates.put(new Position(8, 6), PieceFactory.SOLDIER.create(CountryType.HAN));
     }
 
     private void initializeGuardPosition(Map<Position, Piece> boardStates) {
-        boardStates.put(new Position(3, 0), new Piece(new PieceInfo(PieceType.GUARD, CountryType.CHO)));
-        boardStates.put(new Position(5, 0), new Piece(new PieceInfo(PieceType.GUARD, CountryType.CHO)));
+        boardStates.put(new Position(3, 0), PieceFactory.GUARD.create(CountryType.CHO));
+        boardStates.put(new Position(5, 0), PieceFactory.GUARD.create(CountryType.CHO));
 
-        boardStates.put(new Position(3, 9), new Piece(new PieceInfo(PieceType.GUARD, CountryType.HAN)));
-        boardStates.put(new Position(5, 9), new Piece(new PieceInfo(PieceType.GUARD, CountryType.HAN)));
+        boardStates.put(new Position(3, 9), PieceFactory.GUARD.create(CountryType.HAN));
+        boardStates.put(new Position(5, 9), PieceFactory.GUARD.create(CountryType.HAN));
     }
 
     private void initializeCannonPosition(Map<Position, Piece> boardStates) {
-        boardStates.put(new Position(1, 2), new Piece(new PieceInfo(PieceType.CANNON, CountryType.CHO)));
-        boardStates.put(new Position(7, 2), new Piece(new PieceInfo(PieceType.CANNON, CountryType.CHO)));
+        boardStates.put(new Position(1, 2), PieceFactory.CANNON.create(CountryType.CHO));
+        boardStates.put(new Position(7, 2), PieceFactory.CANNON.create(CountryType.CHO));
 
-        boardStates.put(new Position(1, 7), new Piece(new PieceInfo(PieceType.CANNON, CountryType.HAN)));
-        boardStates.put(new Position(7, 7), new Piece(new PieceInfo(PieceType.CANNON, CountryType.HAN)));
+        boardStates.put(new Position(1, 7), PieceFactory.CANNON.create(CountryType.HAN));
+        boardStates.put(new Position(7, 7), PieceFactory.CANNON.create(CountryType.HAN));
     }
 
     private void initializeChariotPosition(Map<Position, Piece> boardStates) {
-        boardStates.put(new Position(0, 0), new Piece(new PieceInfo(PieceType.CHARIOT, CountryType.CHO)));
-        boardStates.put(new Position(8, 0), new Piece(new PieceInfo(PieceType.CHARIOT, CountryType.CHO)));
+        boardStates.put(new Position(0, 0), PieceFactory.CHARIOT.create(CountryType.CHO));
+        boardStates.put(new Position(8, 0), PieceFactory.CHARIOT.create(CountryType.CHO));
 
-        boardStates.put(new Position(0, 9), new Piece(new PieceInfo(PieceType.CHARIOT, CountryType.HAN)));
-        boardStates.put(new Position(8, 9), new Piece(new PieceInfo(PieceType.CHARIOT, CountryType.HAN)));
+        boardStates.put(new Position(0, 9), PieceFactory.CHARIOT.create(CountryType.HAN));
+        boardStates.put(new Position(8, 9), PieceFactory.CHARIOT.create(CountryType.HAN));
     }
 
     private void initializeGeneralPosition(Map<Position, Piece> boardStates) {
-        boardStates.put(new Position(4, 1), new Piece(new PieceInfo(PieceType.GENERAL, CountryType.CHO)));
+        boardStates.put(new Position(4, 1), PieceFactory.GENERAL.create(CountryType.CHO));
 
-        boardStates.put(new Position(4, 8), new Piece(new PieceInfo(PieceType.GENERAL, CountryType.HAN)));
+        boardStates.put(new Position(4, 8), PieceFactory.GENERAL.create(CountryType.HAN));
     }
 
     private void initializeChoTableSetting(Map<Position, Piece> boardStates, TableSetting choTableSetting) {
@@ -100,8 +100,8 @@ public class BoardFactory {
 
     private Piece makeElephantOrHorse(PieceType pieceType, CountryType countryType) {
         if (pieceType == PieceType.ELEPHANT) {
-            return new Piece(new PieceInfo(PieceType.ELEPHANT, countryType));
+            return PieceFactory.ELEPHANT.create(countryType);
         }
-        return new Piece(new PieceInfo(PieceType.HORSE, countryType));
+        return PieceFactory.HORSE.create(countryType);
     }
 }

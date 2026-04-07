@@ -5,8 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.Position;
 import domain.country.CountryType;
-import domain.piece.Piece;
-import domain.piece.PieceInfo;
+import domain.piece.PieceFactory;
 import domain.piece.PieceInfos;
 import domain.piece.PieceType;
 import java.util.Map;
@@ -282,8 +281,8 @@ public class BoardTest {
         Position from = new Position(1, 2);
         Position to = new Position(4, 2);
 
-        stubBoardStates.put(new Position(3, 2), new Piece(new PieceInfo(PieceType.SOLDIER, CountryType.HAN)));
-        stubBoardStates.put(from, new Piece(new PieceInfo(PieceType.CANNON, CountryType.CHO)));
+        stubBoardStates.put(new Position(3, 2), PieceFactory.SOLDIER.create(CountryType.HAN));
+        stubBoardStates.put(from, PieceFactory.CANNON.create(CountryType.CHO));
 
         Board board = new Board(stubBoardStates.create(), 72, 73.5);
         board.checkEndAndPlay(from, to);
@@ -318,8 +317,8 @@ public class BoardTest {
     void calculateChoScoreTest() {
         Position hanSoldierFrom = new Position(4, 4);
         Position choSoldierTo = new Position(4, 3);
-        stubBoardStates.put(hanSoldierFrom, new Piece(new PieceInfo(PieceType.SOLDIER, CountryType.HAN)));
-        stubBoardStates.put(choSoldierTo, new Piece(new PieceInfo(PieceType.SOLDIER, CountryType.CHO)));
+        stubBoardStates.put(hanSoldierFrom, PieceFactory.SOLDIER.create(CountryType.HAN));
+        stubBoardStates.put(choSoldierTo, PieceFactory.SOLDIER.create(CountryType.CHO));
 
         Board board = new Board(stubBoardStates.create(), 72, 73.5);
         board.checkEndAndPlay(hanSoldierFrom, choSoldierTo);
@@ -334,8 +333,8 @@ public class BoardTest {
     void catchGeneralGameEndTest() {
         Position hanChariotFrom = new Position(4, 2);
         Position choGeneralTo = new Position(4, 1);
-        stubBoardStates.put(hanChariotFrom, new Piece(new PieceInfo(PieceType.CHARIOT, CountryType.HAN)));
-        stubBoardStates.put(choGeneralTo, new Piece(new PieceInfo(PieceType.GENERAL, CountryType.CHO)));
+        stubBoardStates.put(hanChariotFrom, PieceFactory.CHARIOT.create(CountryType.HAN));
+        stubBoardStates.put(choGeneralTo, PieceFactory.GENERAL.create(CountryType.CHO));
 
         Board board = new Board(stubBoardStates.create(), 72, 73.5);
 
