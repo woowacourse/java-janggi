@@ -1,0 +1,219 @@
+package janggi.repository;
+
+import janggi.dto.GameSnapshot;
+import janggi.dto.GameSummary;
+import janggi.domain.status.Team;
+import janggi.dto.PositionInfo;
+import janggi.infrastructure.JdbcConnectionManager;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+public class JdbcGameRepository implements GameRepository {
+
+    private final JdbcConnectionManager connectionManager;
+    private final TransactionalManager transactionalManager;
+
+    public JdbcGameRepository(JdbcConnectionManager connectionManager) {
+        this.connectionManager = connectionManager;
+        this.transactionalManager = new TransactionalManager(connectionManager);
+    }
+
+    @Override
+    public List<GameSummary> findAll() {
+        try (
+                Connection connection = connectionManager.getConnection();
+                PreparedStatement statement = connection.prepareStatement(
+                        "SELECT id, current_turn, finished FROM games ORDER BY id"
+                );
+                ResultSet resultSet = statement.executeQuery()
+        ) {
+            return toGameSummaries(resultSet);
+        } catch (SQLException exception) {
+            throw new IllegalStateException("[ERROR] 게임 목록 조회 중 데이터베이스 오류가 발생했습니다.", exception);
+        }
+    }
+
+    @Override
+    public Optional<GameSnapshot> findById(Long gameId) {
+        try (
+                Connection connection = connectionManager.getConnection();
+                PreparedStatement statement = connection.prepareStatement(
+                        "SELECT id, current_turn, finished, winner FROM games WHERE id = ?"
+                )
+        ) {
+            statement.setLong(1, gameId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (!resultSet.next()) {
+                    return Optional.empty();
+                }
+                return Optional.of(toGameSnapshot(connection, resultSet));
+            }
+        } catch (SQLException exception) {
+            throw new IllegalStateException("[ERROR] 게임 조회 중 데이터베이스 오류가 발생했습니다.", exception);
+        }
+    }
+
+    @Override
+    public Long save(GameSnapshot gameSnapshot) {
+        return transactionalManager.executeInTransaction(connection -> {
+            Long gameId = insertGame(connection, gameSnapshot);
+            insertPieces(connection, gameId, gameSnapshot.positions());
+            return gameId;
+        });
+    }
+
+    @Override
+    public void update(GameSnapshot gameSnapshot) {
+        transactionalManager.executeInTransaction(connection -> {
+            updateGame(connection, gameSnapshot);
+            deletePieces(connection, gameSnapshot.id());
+            insertPieces(connection, gameSnapshot.id(), gameSnapshot.positions());
+            return null;
+        });
+    }
+
+    private void updateGame(
+            Connection connection,
+            GameSnapshot gameSnapshot
+    ) throws SQLException {
+        try (
+                PreparedStatement statement = connection.prepareStatement(
+                        "UPDATE games SET current_turn = ?, finished = ?, winner = ? WHERE id = ?"
+                )
+        ) {
+            statement.setString(1, gameSnapshot.currentTurn().name());
+            statement.setBoolean(2, gameSnapshot.finished());
+            statement.setString(3, winnerName(gameSnapshot.winner()));
+            statement.setLong(4, gameSnapshot.id());
+            statement.executeUpdate();
+        }
+    }
+
+    private void deletePieces(
+            Connection connection,
+            Long gameId
+    ) throws SQLException {
+        try (
+                PreparedStatement statement = connection.prepareStatement(
+                        "DELETE FROM game_pieces WHERE game_id = ?"
+                )
+        ) {
+            statement.setLong(1, gameId);
+            statement.executeUpdate();
+        }
+    }
+
+    private Long insertGame(Connection connection, GameSnapshot gameSnapshot) throws SQLException {
+        try (
+                PreparedStatement statement = connection.prepareStatement(
+                        "INSERT INTO games(current_turn, finished, winner) VALUES (?, ?, ?)",
+                        PreparedStatement.RETURN_GENERATED_KEYS
+                )
+        ) {
+            statement.setString(1, gameSnapshot.currentTurn().name());
+            statement.setBoolean(2, gameSnapshot.finished());
+            statement.setString(3, winnerName(gameSnapshot.winner()));
+            statement.executeUpdate();
+            return generatedId(statement);
+        }
+    }
+
+    private Long generatedId(PreparedStatement statement) throws SQLException {
+        ResultSet resultSet = statement.getGeneratedKeys();
+        resultSet.next();
+        return resultSet.getLong(1);
+    }
+
+    private void insertPieces(
+            Connection connection,
+            Long gameId,
+            List<PositionInfo> positions
+    ) throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement(
+                "INSERT INTO game_pieces(game_id, team, piece_type, x_value, y_value) " +
+                        "VALUES (?, ?, ?, ?, ?)"
+        )){
+            for (PositionInfo position : positions) {
+                statement.setLong(1, gameId);
+                statement.setString(2, position.piece().getTeam().name());
+                statement.setString(3, position.piece().getType().name());
+                statement.setInt(4, position.point().getX());
+                statement.setInt(5, position.point().getY());
+                statement.addBatch();
+            }
+            statement.executeBatch();
+        }
+    }
+
+    private String winnerName(Team winner) {
+        if (winner == null) {
+            return null;
+        }
+        return winner.name();
+    }
+
+    private Team winner(String winner) {
+        if (winner == null) {
+            return null;
+        }
+        return Team.valueOf(winner);
+    }
+
+    private List<GameSummary> toGameSummaries(ResultSet resultSet) throws SQLException {
+        List<GameSummary> gameSummaries = new ArrayList<>();
+        while (resultSet.next()) {
+            gameSummaries.add(new GameSummary(
+                    resultSet.getLong("id"),
+                    resultSet.getBoolean("finished")
+            ));
+        }
+        return gameSummaries;
+    }
+
+    private List<PositionInfo> findPositions(
+            Connection connection,
+            Long gameId
+    ) throws SQLException {
+        try (
+                PreparedStatement statement = connection.prepareStatement(
+                        "SELECT team, piece_type, x_value, y_value FROM game_pieces WHERE game_id = ? ORDER BY id"
+                )
+        ) {
+            statement.setLong(1, gameId);
+            ResultSet resultSet = statement.executeQuery();
+            return toPositions(resultSet);
+        }
+    }
+
+    private List<PositionInfo> toPositions(ResultSet resultSet) throws SQLException {
+        List<PositionInfo> positions = new ArrayList<>();
+        while (resultSet.next()) {
+            positions.add(PositionInfo.from(
+                    Team.valueOf(resultSet.getString("team")),
+                    resultSet.getString("piece_type"),
+                    resultSet.getInt("x_value"),
+                    resultSet.getInt("y_value")
+            ));
+        }
+        return positions;
+    }
+
+    private GameSnapshot toGameSnapshot(
+            Connection connection,
+            ResultSet resultSet
+    ) throws SQLException {
+        Long gameId = resultSet.getLong("id");
+        return new GameSnapshot(
+                gameId,
+                Team.valueOf(resultSet.getString("current_turn")),
+                resultSet.getBoolean("finished"),
+                winner(resultSet.getString("winner")),
+                findPositions(connection, gameId)
+        );
+    }
+}

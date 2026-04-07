@@ -13,14 +13,13 @@ public record GameStatusInfo(
                 board.stream()
                         .map(GameStatusInfo::toPieceInfos)
                         .toList()
-                        .reversed()
         );
     }
 
-    private static List<PieceInfo> toPieceInfos(List<Piece> row) {
+    private static List<PieceInfo> toPieceInfos(List<Piece> piecesAtY) {
         List<PieceInfo> pieceInfos = new ArrayList<>();
 
-        for (Piece piece : row) {
+        for (Piece piece : piecesAtY) {
             pieceInfos.add(createPieceInfo(piece));
         }
         return pieceInfos;
@@ -30,13 +29,6 @@ public record GameStatusInfo(
         if (piece == null) {
             return new PieceInfo("+", null);
         }
-        return new PieceInfo(piece.getType().getName(), extractTeam(piece));
-    }
-
-    private static Team extractTeam(Piece piece) {
-        if (piece.isSameTeam(Team.HAN)) {
-            return Team.HAN;
-        }
-        return Team.CHO;
+        return new PieceInfo(piece.getType().getName(), piece.getTeam());
     }
 }

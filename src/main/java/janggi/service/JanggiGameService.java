@@ -1,0 +1,90 @@
+package janggi.service;
+
+import janggi.dto.GameSnapshot;
+import janggi.dto.GameSummary;
+import janggi.domain.Board;
+import janggi.domain.JanggiGame;
+import janggi.domain.Point;
+import janggi.domain.status.ChoTurn;
+import janggi.domain.status.FinishedGame;
+import janggi.domain.status.GameStatus;
+import janggi.domain.status.HanTurn;
+import janggi.domain.status.Team;
+import janggi.dto.PositionInfo;
+import janggi.repository.GameRepository;
+import janggi.repository.InitialBoardProvider;
+import java.util.List;
+
+public class JanggiGameService {
+
+    private final GameRepository gameRepository;
+    private final InitialBoardProvider initialBoardProvider;
+
+    public JanggiGameService(GameRepository gameRepository, InitialBoardProvider initialBoardProvider) {
+        this.gameRepository = gameRepository;
+        this.initialBoardProvider = initialBoardProvider;
+    }
+
+    public List<GameSummary> findAllGames() {
+        return validateGameList(gameRepository.findAll());
+    }
+
+    public JanggiGame startNewGame() {
+        Board board = new Board();
+        board.init(PositionInfo.toPiecesByPoint(initialBoardProvider.load()));
+        return new JanggiGame(board);
+    }
+
+    public JanggiGame loadGame(Long gameId) {
+        GameSnapshot gameSnapshot = gameRepository.findById(gameId)
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 존재하지 않는 게임입니다."));
+        Board board = new Board();
+        board.init(PositionInfo.toPiecesByPoint(gameSnapshot.positions()));
+        return new JanggiGame(board, gameStatus(gameSnapshot));
+    }
+
+    public void play(Long gameId, Point from, Point to) {
+        JanggiGame janggiGame = loadGame(gameId);
+        janggiGame.play(from, to);
+        gameRepository.update(toSnapshot(gameId, janggiGame));
+    }
+
+    public Long createGame() {
+        JanggiGame janggiGame = startNewGame();
+        return gameRepository.save(toSnapshot(null, janggiGame));
+    }
+
+    private GameStatus gameStatus(GameSnapshot gameSnapshot) {
+        if (gameSnapshot.finished()) {
+            return new FinishedGame(gameSnapshot.winner());
+        }
+        if (gameSnapshot.currentTurn() == Team.HAN) {
+            return new HanTurn();
+        }
+        return new ChoTurn();
+    }
+
+    private GameSnapshot toSnapshot(Long gameId, JanggiGame janggiGame) {
+        return new GameSnapshot(
+                gameId,
+                janggiGame.currentTurn(),
+                janggiGame.isFinished(),
+                winner(janggiGame),
+                PositionInfo.from(janggiGame.boardStatus())
+        );
+    }
+
+    private Team winner(JanggiGame janggiGame) {
+        if (!janggiGame.isFinished()) {
+            return null;
+        }
+        return janggiGame.getWinner();
+    }
+
+    private List<GameSummary> validateGameList(List<GameSummary> gameSummaries) {
+        if (gameSummaries.isEmpty()) {
+            throw new IllegalStateException("[ERROR] 저장된 게임이 없습니다.");
+        }
+        return gameSummaries;
+    }
+}

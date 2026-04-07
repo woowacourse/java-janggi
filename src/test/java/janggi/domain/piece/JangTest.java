@@ -21,4 +21,18 @@ public class JangTest {
         assertThatThrownBy(() -> jang.getRoute(from, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
+
+    @Test
+    @DisplayName("궁성 내에서 이동하지 않을 시 예외 발생")
+    void not_in_palace() {
+        // given
+        Piece jang = new Jang(Team.CHO);
+        Point from = Point.of(0,0);
+        Point to = Point.of(1, 1);
+
+        // when & then
+        assertThatThrownBy(() -> jang.getRoute(from, to))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("궁성");
+    }
 }

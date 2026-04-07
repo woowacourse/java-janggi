@@ -4,9 +4,10 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import janggi.domain.Board;
+import janggi.domain.Boards;
 import janggi.domain.Point;
-import janggi.domain.piece.Piece;
 import janggi.dto.PositionInfo;
+import janggi.fixture.PositionInfoFixture;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,17 +16,18 @@ import org.junit.jupiter.api.Test;
 
 public class HanTurnTest {
 
-    private Board board;
+    private Boards boards;
 
     @BeforeEach
     void setUp() {
-        board = new Board();
+        Board board = new Board();
         List<PositionInfo> info = new ArrayList<>();
-        info.add(PositionInfo.from(List.of("HAN","JANG", "4", "1")));
-        info.add(PositionInfo.from(List.of("CHO","JANG", "4", "8")));
-        info.add(PositionInfo.from(List.of("HAN", "CHA", "1", "1")));
-        info.add(PositionInfo.from(List.of("CHO", "CHA", "2", "3")));
-        board.init(info);
+        info.add(PositionInfoFixture.from(List.of("HAN","JANG", "4", "1")));
+        info.add(PositionInfoFixture.from(List.of("CHO","JANG", "4", "8")));
+        info.add(PositionInfoFixture.from(List.of("HAN", "CHA", "1", "1")));
+        info.add(PositionInfoFixture.from(List.of("CHO", "CHA", "2", "3")));
+        board.init(PositionInfo.toPiecesByPoint(info));
+        boards = new Boards(board);
     }
 
     @Test
@@ -37,7 +39,7 @@ public class HanTurnTest {
 
         // when
         GameStatus status = new HanTurn();
-        GameStatus gameStatus = status.move(from, to, board);
+        GameStatus gameStatus = status.move(from, to, boards);
 
         //then
         assertInstanceOf(ChoTurn.class, gameStatus);
@@ -49,8 +51,9 @@ public class HanTurnTest {
         // given
         Board board = new Board();
         List<PositionInfo> info = new ArrayList<>();
-        info.add(PositionInfo.from(List.of("CHO", "CHA", "1", "1")));
-        board.init(info);
+        info.add(PositionInfoFixture.from(List.of("CHO", "CHA", "1", "1")));
+        board.init(PositionInfo.toPiecesByPoint(info));
+        Boards boards = new Boards(board);
         Point from = Point.of(1, 1);
         Point to = Point.of(2, 3);
 
@@ -58,7 +61,7 @@ public class HanTurnTest {
         GameStatus status = new HanTurn();
 
         //then
-        assertThatThrownBy(() -> status.move(from, to, board))
-                .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> status.move(from, to, boards))
+                .isInstanceOf(IllegalStateException.class);
     }
 }

@@ -31,9 +31,9 @@ public class Ma extends BasePiece {
     }
 
     private void validateMove(int distanceX, int distanceY) {
-        if (!((distanceX == DISTANCE_MAX && distanceY == DISTANCE_MIN) ||
-                (distanceX == DISTANCE_MIN && distanceY == DISTANCE_MAX))) {
-            throw new IllegalArgumentException("해당 기물의 이동 경로의 규칙에 어긋납니다.");
+        if (!((distanceX == DISTANCE_MAX && distanceY == DISTANCE_MIN)
+                || (distanceX == DISTANCE_MIN && distanceY == DISTANCE_MAX))) {
+            throw new IllegalArgumentException("[ERROR] 해당 기물의 이동 경로의 규칙에 어긋납니다.");
         }
     }
 }

@@ -1,6 +1,6 @@
 package janggi.domain.status;
 
-import janggi.domain.Board;
+import janggi.domain.Boards;
 import janggi.domain.Point;
 
 public class FinishedGame implements GameStatus {
@@ -22,7 +22,7 @@ public class FinishedGame implements GameStatus {
     }
 
     @Override
-    public GameStatus move(Point from, Point to, Board board) {
-        throw new RuntimeException("게임이 종료되었습니다.\n 승자는 "+ winner.name());
+    public GameStatus move(Point from, Point to, Boards boards) {
+        throw new IllegalStateException("[ERROR] 게임이 종료되었습니다. 승자는 " + winner.name() + "입니다.");
     }
 }

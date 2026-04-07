@@ -9,6 +9,7 @@ public interface Piece {
     boolean canMove(List<Piece> route);
     boolean isSameTeam(Team team);
     PieceType getType();
+    Team getTeam();
 
     default boolean isSameType(PieceType type) {
         return getType() == type;
@@ -16,5 +17,9 @@ public interface Piece {
 
     default boolean canCapture(Piece targetPiece) {
         return true;
+    }
+
+    default int getScore() {
+        return getType().getScore();
     }
 }
