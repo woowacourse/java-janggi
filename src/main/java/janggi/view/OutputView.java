@@ -47,6 +47,12 @@ public final class OutputView {
     private OutputView() {
     }
 
+    public static void printStartJanggi() {
+        System.out.println("장기 게임입니다. 메뉴 번호를 입력해주세요.");
+        System.out.println("1. 새로운 게임 시작");
+        System.out.println("2. 이전 게임 시작");
+    }
+
     public static void printSetupGuide(TeamType teamType) {
         System.out.println(teamType.getName() + "의 차림법을 입력해주세요.");
         for (final String description : ELEPHANT_FORMATION_DESCRIPTIONS) {

@@ -1,5 +1,6 @@
 package janggi.controller;
 
+import janggi.domain.GameContext;
 import janggi.domain.Position;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardGenerator;
@@ -20,13 +21,28 @@ public class JanggiController {
     }
 
     public void run() {
-        Board board = BoardGenerator.generate(setupTeam(TeamType.RED), setupTeam(TeamType.BLUE));
-        TurnManager turnManager = new TurnManager();
-        while (board.hasGeneral(turnManager.currentTeamType())) {
-            playTurn(board, turnManager);
+        OutputView.printStartJanggi();
+        int inputCommand = RetryExecutor.retry(this::inputStarCommand);
+        if (inputCommand == 1) {
+            startGame();
         }
-        turnManager.changeTurn();
-        OutputView.printGameOverMessage(turnManager.currentTeamTypeToName());
+        if (inputCommand == 2) {
+            loadPreviousGame();
+        }
+    }
+
+    private int inputStarCommand() {
+        return InputView.readIntegerCommand();
+    }
+
+    private void startGame() {
+        Board board = BoardGenerator.generate(setupTeam(TeamType.RED), setupTeam(TeamType.BLUE));
+        GameContext gameContext = new GameContext(new TurnManager(), board);
+        while (gameContext.canContinueGame()) {
+            playTurn(gameContext);
+        }
+        gameContext.changeTurn();
+        OutputView.printGameOverMessage(gameContext.currentTeamTypeToName());
     }
 
     private Team setupTeam(TeamType teamType) {
@@ -37,43 +53,28 @@ public class JanggiController {
     }
 
     private SetupStrategy readSetupCommand() {
-        int inputCommand = InputView.readSetupCommand();
+        int inputCommand = InputView.readIntegerCommand();
         return SetupStrategy.from(inputCommand);
     }
 
-    private void playTurn(Board board, TurnManager turnManager) {
-        OutputView.printBoard(BoardDto.from(board), turnManager.currentTeamTypeToName());
-        Position from = findFromPosition(board, turnManager);
-        List<Position> movable = board.calculateMovablePositions(from);
-        OutputView.printBoardWithMovable(BoardDto.from(board), movable);
+    private void playTurn(GameContext gameContext) {
+        OutputView.printBoard(BoardDto.from(gameContext), gameContext.currentTeamTypeToName());
+        Position from = findFromPosition(gameContext);
+        List<Position> movable = gameContext.calculateMovablePositions(from);
+        OutputView.printBoardWithMovable(BoardDto.from(gameContext), movable);
         Position to = RetryExecutor.retry(() -> inputToPosition(movable));
-        board.movePiece(from, to);
-        turnManager.changeTurn();
+        gameContext.movePiece(from, to);
+        gameContext.changeTurn();
     }
 
-    private Position findFromPosition(Board board, TurnManager turnManager) {
+    public Position findFromPosition(GameContext gameContext) {
         while (true) {
-            Position from = RetryExecutor.retry(() -> inputFromPosition(board, turnManager));
-            List<Position> movable = board.calculateMovablePositions(from);
+            Position from = RetryExecutor.retry(() -> inputFromPosition(gameContext));
+            List<Position> movable = gameContext.calculateMovablePositions(from);
             if (!movable.isEmpty()) {
                 return from;
             }
             OutputView.printErrorMessage("이동 가능한 위치가 없습니다. 다른 기물을 선택하세요.");
-        }
-    }
-
-    private Position inputFromPosition(Board board, TurnManager turnManager) {
-        while (true) {
-            try {
-                OutputView.printInputFromPosition();
-                Position from = InputView.readPosition();
-                if (!board.isSameTeamType(from, turnManager.currentTeamType())) {
-                    throw new IllegalArgumentException("자신의 기물을 선택하세요.");
-                }
-                return from;
-            } catch (IllegalArgumentException e) {
-                OutputView.printErrorMessage(e.getMessage());
-            }
         }
     }
 
@@ -90,5 +91,24 @@ public class JanggiController {
                 OutputView.printErrorMessage(e.getMessage());
             }
         }
+    }
+
+    private Position inputFromPosition(GameContext gameContext) {
+        while (true) {
+            try {
+                OutputView.printInputFromPosition();
+                Position from = InputView.readPosition();
+                if (!gameContext.isSameTeamType(from)) {
+                    throw new IllegalArgumentException("자신의 기물을 선택하세요.");
+                }
+                return from;
+            } catch (IllegalArgumentException e) {
+                OutputView.printErrorMessage(e.getMessage());
+            }
+        }
+    }
+
+    private void loadPreviousGame() {
+        System.out.println("DB에서 이전 게임을 불러옵니다.");
     }
 }

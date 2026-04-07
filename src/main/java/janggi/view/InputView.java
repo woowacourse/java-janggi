@@ -13,7 +13,7 @@ public final class InputView {
     private InputView() {
     }
 
-    public static int readSetupCommand() {
+    public static int readIntegerCommand() {
         return Parser.parseInteger(Console.readLine());
     }
 
