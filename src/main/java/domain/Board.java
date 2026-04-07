@@ -63,7 +63,10 @@ public class Board {
                 int minCol = Math.min(startCol, endCol);
                 int maxCol = Math.max(startCol, endCol);
                 for (int i = minCol + 1; i < maxCol; i++) {
-                    pieces.add(board.getOrDefault(Position.create(startRow, i), Piece.getEmptyPiece()));
+                    Position position = Position.create(startRow, i);
+                    if (board.containsKey(position)) {
+                        pieces.add(board.get(position));
+                    }
                 }
             }
 
@@ -71,7 +74,10 @@ public class Board {
                 int minRow = Math.min(startRow, endRow);
                 int maxRow = Math.max(startRow, endRow);
                 for (int i = minRow + 1; i < maxRow; i++) {
-                    pieces.add(board.getOrDefault(Position.create(i, startCol), Piece.getEmptyPiece()));
+                    Position position = Position.create(i, startCol);
+                    if (board.containsKey(position)) {
+                        pieces.add(board.get(position));
+                    }
                 }
             }
 
@@ -82,7 +88,10 @@ public class Board {
         if (palace.isDiagonalPath(start, end)) {
             int diffRow = Math.abs(end.getRow() - start.getRow());
             if (diffRow == 2) {
-                pieces.add(board.getOrDefault(palace.getCenter(), Piece.getEmptyPiece()));
+                Position center = palace.getCenter();
+                if (board.containsKey(center)) {
+                    pieces.add(board.get(center));
+                }
             }
         }
 

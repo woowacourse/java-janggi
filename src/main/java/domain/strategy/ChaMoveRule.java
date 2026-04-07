@@ -3,6 +3,8 @@ package domain.strategy;
 import domain.Position;
 import domain.Piece;
 import domain.constant.Palace;
+import domain.constant.PieceType;
+import java.util.List;
 
 public class ChaMoveRule implements MoveRule {
 
@@ -13,5 +15,10 @@ public class ChaMoveRule implements MoveRule {
         }
         Palace palace = Palace.from(piece.getCountry());
         return palace.isDiagonalPath(start, end);
+    }
+
+    @Override
+    public boolean isAvailableRoute(List<Piece> pieces, PieceType endPieceType) {
+        return pieces.isEmpty();
     }
 }
