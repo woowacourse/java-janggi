@@ -30,7 +30,7 @@ public class JDBCGameRepository implements GameRepository {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("DB 오류" + e);
+            throw new RuntimeException("DB 오류", e);
         }
     }
 

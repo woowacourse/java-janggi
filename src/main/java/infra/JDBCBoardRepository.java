@@ -48,7 +48,7 @@ public class JDBCBoardRepository implements BoardRepository {
             }
             insertStatement.executeBatch();
         } catch (SQLException e) {
-            throw new RuntimeException("DB 오류" + e);
+            throw new RuntimeException("DB 오류", e);
         }
     }
 
@@ -79,7 +79,7 @@ public class JDBCBoardRepository implements BoardRepository {
                 return new BoardResponseDto(state);
             }
         } catch (SQLException e) {
-            throw new RuntimeException("DB 오류" + e);
+            throw new RuntimeException("DB 오류", e);
         }
     }
 }
