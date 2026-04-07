@@ -6,7 +6,9 @@ import janggi.domain.movestrategy.route.Direction;
 import janggi.domain.movestrategy.route.Route;
 import janggi.domain.movestrategy.rule.*;
 import janggi.domain.position.Position;
+import janggi.exception.business.InvalidPieceTypeException;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static janggi.domain.movestrategy.route.Direction.*;
@@ -28,6 +30,13 @@ public enum PieceType {
     PieceType(MoveStrategy moveStrategy, int score) {
         this.moveStrategy = moveStrategy;
         this.score = score;
+    }
+
+    public static PieceType from(String name) {
+        return Arrays.stream(values())
+                .filter(type -> type.name().equalsIgnoreCase(name.trim()))
+                .findFirst()
+                .orElseThrow(InvalidPieceTypeException::new);
     }
 
     public boolean canMove(Position from, Position to, BoardState boardState) {
