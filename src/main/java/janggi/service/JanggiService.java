@@ -141,9 +141,9 @@ public class JanggiService {
             Position from,
             Position to
     ) {
-        Janggi moved = janggi.play(from, to);
+        return transactionExecutor.execute(con -> {
+            Janggi moved = janggi.play(from, to);
 
-        transactionExecutor.executeWithoutResult(con -> {
             Optional<PieceEntity> pieceEntityOpt =
                     pieceDao.findPieceByPosition(con, from);
 
@@ -168,9 +168,9 @@ public class JanggiService {
                     piece.gameId(),
                     janggi.getCurrentTeam().name()
             );
-        });
 
-        return moved;
+            return moved;
+        });
     }
 
     public Janggi draw(Janggi janggi) {
