@@ -1,13 +1,13 @@
 package domain;
 
-import domain.pieces.Cannon;
-import domain.pieces.Chariot;
-import domain.pieces.Elephant;
-import domain.pieces.General;
-import domain.pieces.Guard;
-import domain.pieces.Horse;
-import domain.pieces.Piece;
-import domain.pieces.Soldier;
+import domain.piece.Cannon;
+import domain.piece.Chariot;
+import domain.piece.Elephant;
+import domain.piece.General;
+import domain.piece.Guard;
+import domain.piece.Horse;
+import domain.piece.Piece;
+import domain.piece.Soldier;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

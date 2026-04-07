@@ -1,6 +1,6 @@
 package domain;
 
-import domain.pieces.Piece;
+import domain.piece.Piece;
 
 import java.util.Collections;
 import java.util.HashMap;

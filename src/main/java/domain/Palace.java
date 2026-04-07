@@ -1,6 +1,6 @@
 package domain;
 
-import domain.pieces.MoveDirection;
+import domain.piece.MoveDirection;
 
 import java.util.HashSet;
 import java.util.Set;

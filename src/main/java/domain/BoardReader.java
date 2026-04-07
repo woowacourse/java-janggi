@@ -1,6 +1,6 @@
 package domain;
 
-import domain.pieces.Piece;
+import domain.piece.Piece;
 
 public interface BoardReader {
 

@@ -2,7 +2,7 @@ import domain.Board;
 import domain.Camp;
 import domain.ElephantFormation;
 import domain.Position;
-import domain.pieces.Piece;
+import domain.piece.Piece;
 import view.InputView;
 import view.OutputView;
 

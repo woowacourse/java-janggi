@@ -1,4 +1,4 @@
-package domain.pieces;
+package domain.piece;
 
 import domain.Board;
 import domain.Camp;

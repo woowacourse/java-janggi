@@ -2,9 +2,9 @@ import domain.Camp;
 import domain.ElephantFormation;
 import domain.PieceGenerator;
 import domain.Position;
-import domain.pieces.Elephant;
-import domain.pieces.Horse;
-import domain.pieces.Piece;
+import domain.piece.Elephant;
+import domain.piece.Horse;
+import domain.piece.Piece;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
