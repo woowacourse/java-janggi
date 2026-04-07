@@ -73,6 +73,10 @@ public class InputView {
         }
     }
 
+    public String readMenuCommand() {
+        return sc.nextLine();
+    }
+
     public record MoveCommand(List<Integer> from, List<Integer> to) {
         public Position fromPosition() {
             return Position.from(from);

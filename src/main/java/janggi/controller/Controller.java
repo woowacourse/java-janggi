@@ -19,40 +19,60 @@ public class Controller {
     }
 
     public void run() {
-        Board board = initializeGame();
-        playGame(board);
+        while (handleMenuSelection()) {
+        }
     }
 
-    private Board initializeGame() {
+    private boolean handleMenuSelection() {
+        outputView.printMenu();
+
+        String command = inputView.readMenuCommand();
+
+        if (command.equals("2")) {
+            return false;
+        }
+
+        startNewGame();
+        return true;
+    }
+
+    private void startNewGame() {
         outputView.printStartMessage();
         Board board = new Board(BoardFactory.generate());
-        outputView.printBoard(BoardDto.from(board));
-        return board;
+        playGame(board);
     }
 
     private void playGame(Board board) {
         Team currentTeam = Team.CHO;
 
-        for (int i = 0; i < 10; i++) {
+        while (!isGameOver(board)) {
+            outputView.printBoard(BoardDto.from(board));
             playTurn(board, currentTeam);
             currentTeam = currentTeam.switchTeam();
         }
     }
 
     private void playTurn(Board board, Team team) {
-        while (true) {
-            try {
-                MoveCommand command = inputView.readMoveCommand(team.getTeam());
-                movePiece(board, command);
-                outputView.printBoard(BoardDto.from(board));
-                break;
-            } catch (BusinessException e) {
-                outputView.printErrorMessage(e.getMessage());
-            }
+        boolean isSuccess = false;
+
+        while (!isSuccess) {
+            isSuccess = attemptMove(board, team);
         }
     }
 
-    private static void movePiece(Board board, MoveCommand command) {
-        board.move(command.fromPosition(), command.toPosition());
+    private boolean attemptMove(Board board, Team team) {
+        try {
+            MoveCommand command = inputView.readMoveCommand(team.getTeam());
+            board.move(command.fromPosition(), command.toPosition());
+            return true;
+        } catch (BusinessException e) {
+            outputView.printErrorMessage(e.getMessage());
+            return false;
+        }
+    }
+
+    private boolean isGameOver(Board board) {
+        // TODO: 왕(궁)이 잡혔는지 판별하는 로직 추가
+        return false;
     }
 }

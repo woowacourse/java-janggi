@@ -124,4 +124,10 @@ public class OutputView {
             spacer[x4 + offset] = '\\';
         }
     }
+
+    public void printMenu() {
+        System.out.println("1. 새 게임 시작");
+        System.out.println("2. 게임 종료");
+        System.out.print("메뉴를 선택하세요: ");
+    }
 }
