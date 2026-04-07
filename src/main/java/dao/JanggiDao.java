@@ -4,6 +4,8 @@ import config.DBConnection;
 import dto.PieceDto;
 import dto.PositionDto;
 import dto.SavedPieceDto;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,26 +16,17 @@ import java.util.List;
 public class JanggiDao {
 
     public void createTable() {
-        String createGameTable = "CREATE TABLE IF NOT EXISTS game_state (" +
-                "id INT AUTO_INCREMENT PRIMARY KEY, " +
-                "turn VARCHAR(10))";
-
-        String createBoardTable = "CREATE TABLE IF NOT EXISTS piece_state (" +
-                "id INT AUTO_INCREMENT PRIMARY KEY, " +
-                "game_id INT, " +
-                "country VARCHAR(10), " +
-                "piece_name VARCHAR(20), " +
-                "row_pos INT, " +
-                "col_pos INT, " +
-                "FOREIGN KEY (game_id) REFERENCES game_state(id) ON DELETE CASCADE)";
-
         try (Connection connection = DBConnection.getConnection();
-            PreparedStatement gameTablePstmt = connection.prepareStatement(createGameTable);
-            PreparedStatement boardTablePstmt = connection.prepareStatement(createBoardTable)) {
+             InputStream inputStream = getClass().getClassLoader().getResourceAsStream("init.sql")) {
+            if (inputStream == null) {
+                throw new RuntimeException("init.sql 파일을 찾을 수 없습니다.");
+            }
 
-            gameTablePstmt.execute();
-            boardTablePstmt.execute();
-        } catch (SQLException e) {
+            String sql = new String(inputStream.readAllBytes());
+            try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+                pstmt.execute();
+            }
+        } catch (SQLException | IOException e) {
             System.out.println("테이블 생성 중 에러 발생: " + e.getMessage());
         }
     }
@@ -42,7 +35,7 @@ public class JanggiDao {
         String sql = "INSERT INTO game_state (turn) VALUES (?)";
 
         try (Connection connection = DBConnection.getConnection();
-            PreparedStatement pstmt = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement pstmt = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setString(1, initialTurn);
             pstmt.executeUpdate();
@@ -62,7 +55,7 @@ public class JanggiDao {
         String sql = "UPDATE game_state SET turn = ? WHERE id = ?";
 
         try (Connection connection = DBConnection.getConnection();
-            PreparedStatement pstmt = connection.prepareStatement(sql)) {
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
 
             pstmt.setString(1, currentTurn);
             pstmt.setInt(2, gameId);
@@ -73,10 +66,10 @@ public class JanggiDao {
     }
 
     public void savePiecePosition(int gameId, PieceDto pieceDto, PositionDto positionDto) {
-        String sql = "INSERT INTO board_state (game_id, country, piece_name, row_pos, col_pos) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO piece_state (game_id, country, piece_name, row_pos, col_pos) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection connection = DBConnection.getConnection();
-            PreparedStatement pstmt = connection.prepareStatement(sql)) {
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
 
             pstmt.setInt(1, gameId);
             pstmt.setString(2, pieceDto.countryName());
@@ -90,10 +83,10 @@ public class JanggiDao {
     }
 
     public void movePiece(int gameId, int beforeRow, int beforeCol, int afterRow, int afterCol) {
-        String sql = "UPDATE board_state SET x_pos = ?, y_pos = ? WHERE game_id = ? AND row_pos = ? AND col_pos = ?";
+        String sql = "UPDATE piece_state SET row_pos = ?, col_pos = ? WHERE game_id = ? AND row_pos = ? AND col_pos = ?";
 
         try (Connection connection = DBConnection.getConnection();
-            PreparedStatement pstmt = connection.prepareStatement(sql)) {
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
 
             pstmt.setInt(1, afterRow);
             pstmt.setInt(2, afterCol);
@@ -107,10 +100,10 @@ public class JanggiDao {
     }
 
     public void deletePiece(int gameId, int row, int col) {
-        String sql = "DELETE FROM board_state WHERE game_id = ? AND row_pos = ? AND col_pos = ?";
+        String sql = "DELETE FROM piece_state WHERE game_id = ? AND row_pos = ? AND col_pos = ?";
 
         try (Connection connection = DBConnection.getConnection();
-            PreparedStatement pstmt = connection.prepareStatement(sql)) {
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
 
             pstmt.setInt(1, gameId);
             pstmt.setInt(2, row);
@@ -125,8 +118,8 @@ public class JanggiDao {
         String sql = "SELECT id FROM game_state";
         List<Integer> gameId = new ArrayList<>();
         try (Connection connection = DBConnection.getConnection();
-            PreparedStatement pstmt = connection.prepareStatement(sql);
-            ResultSet rs = pstmt.executeQuery()) {
+             PreparedStatement pstmt = connection.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
 
             while (rs.next()) {
                 gameId.add(rs.getInt("id"));
@@ -139,10 +132,10 @@ public class JanggiDao {
     }
 
     public List<SavedPieceDto> getSavedBoard(int gameId) {
-        String sql = "SELECT country, piece_name, row_pos, col_pos FROM board_state WHERE game_id = ?";
+        String sql = "SELECT country, piece_name, row_pos, col_pos FROM piece_state WHERE game_id = ?";
         List<SavedPieceDto> savedPieceDtos = new ArrayList<>();
         try (Connection connection = DBConnection.getConnection();
-            PreparedStatement pstmt = connection.prepareStatement(sql)) {
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, gameId);
 
             try (ResultSet rs = pstmt.executeQuery()) {
@@ -165,9 +158,9 @@ public class JanggiDao {
     public String getSavedTurn(int gameId) {
         String sql = "SELECT turn FROM game_state WHERE id = ?";
         try (Connection connection = DBConnection.getConnection();
-            PreparedStatement pstmt = connection.prepareStatement(sql)) {
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, gameId);
-            try(ResultSet rs = pstmt.executeQuery()) {
+            try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     return rs.getString("turn");
                 }

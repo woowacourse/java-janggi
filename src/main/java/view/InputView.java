@@ -48,7 +48,7 @@ public class InputView {
     }
 
     public List<Integer> requestMovePosition() {
-        System.out.println("\n이동할 좌표를 입력해 주세요. ");
+        System.out.println("\n이동할 좌표의 행과 열을 입력해 주세요. (행,열) ");
         return InputParser.splitBy(",", scanner.nextLine());
     }
 
