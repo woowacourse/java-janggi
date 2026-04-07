@@ -72,14 +72,6 @@ public class Position {
         return (row * COLUMN_SIZE) + column;
     }
 
-    public boolean compareRow(Position position) {
-        return row == position.row;
-    }
-
-    public boolean compareColumn(Position position) {
-        return column == position.column;
-    }
-
     public int getRow() {
         return row;
     }
@@ -89,17 +81,25 @@ public class Position {
     }
 
     public boolean isPalaceDiagonal() {
-        if (isPalace(CHO_PALACE)) {
+        if (isChoPalace(this)) {
             return isDiagonal(CHO_PALACE);
         }
-        if (isPalace(HAN_PALACE)) {
+        if (isHanPalace(this)) {
             return isDiagonal(HAN_PALACE);
         }
         return false;
     }
 
-    private boolean isPalace(List<Position> palace) {
-        return palace.contains(this);
+    public boolean isPalace() {
+        return isChoPalace(this) || isHanPalace(this);
+    }
+
+    private boolean isChoPalace(Position position) {
+        return CHO_PALACE.contains(position);
+    }
+
+    private boolean isHanPalace(Position position) {
+        return HAN_PALACE.contains(position);
     }
 
     private boolean isDiagonal(List<Position> palace) {
