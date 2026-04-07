@@ -11,8 +11,9 @@ public class JanggiGame {
     private static final int MIN_COL = 0;
 
     private static final String OUT_OF_RANGE_JANGGI_BOARD = "[ERROR] 장기판 범위를 벗어났습니다.";
-    private static final String NOT_SAME_TEAM_PIECE = "[ERROR] 본인의 기물이 아닙니다.";
+    private static final String CANNOT_MOVE_TO_SAME_POSITION = "[ERROR] 기물은 제자리 이동이 불가능합니다.";
     private static final String CAN_NOT_MOVE_DESTINATION = "[ERROR] 기물이 목적지에 도달할 수 없습니다.";
+    private static final String NOT_SAME_TEAM_PIECE = "[ERROR] 본인의 기물이 아닙니다.";
 
     private final Board board;
     private GameStatus gameStatus;
@@ -61,6 +62,7 @@ public class JanggiGame {
 
     private void validateMove(Position selectedPosition, Position destination) {
         validateBoardRange(destination);
+        validateDifferentSelectedPositionAndDestination(selectedPosition, destination);
         validateMoveable(selectedPosition, destination);
     }
 
@@ -73,6 +75,12 @@ public class JanggiGame {
     private static boolean isOutOfRange(Position position) {
         return (position.row() > MAX_ROW || position.row() < MIN_ROW) ||
                 (position.col() > MAX_COL || position.col() < MIN_COL);
+    }
+
+    private void validateDifferentSelectedPositionAndDestination(Position selectedPosition, Position destination) {
+        if (selectedPosition.equals(destination)) {
+            throw new IllegalArgumentException(CANNOT_MOVE_TO_SAME_POSITION);
+        }
     }
 
     private void validateMoveable(Position selectedPosition, Position destination) {
