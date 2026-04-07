@@ -32,7 +32,7 @@ public class BoardService {
         return Board.of(state);
     }
 
-    public BoardResponseDto findState(Long gameId) {
+    public BoardResponseDto findBoardState(Long gameId) {
         Board board = boardRepository.findByGameId(gameId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게임이 존재하지 않습니다."));
         return board.findState();

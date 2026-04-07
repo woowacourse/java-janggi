@@ -36,7 +36,7 @@ public class JanggiService {
     }
 
     public BoardResponseDto getBoardState(Long gameId) {
-        return boardService.findState(gameId);
+        return boardService.findBoardState(gameId);
     }
 
     public boolean isFinished(Long gameId) {
