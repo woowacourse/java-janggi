@@ -4,7 +4,7 @@ import janggi.dto.GameSnapshot;
 import janggi.dto.GameSummary;
 import janggi.domain.status.Team;
 import janggi.dto.PositionInfo;
-import janggi.util.JdbcConnectionManager;
+import janggi.infrastructure.JdbcConnectionManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,10 +16,11 @@ import java.util.Optional;
 public class JdbcGameRepository implements GameRepository {
 
     private final JdbcConnectionManager connectionManager;
-    private final TransactionalService transactionalService = new TransactionalService();
+    private final TransactionalManager transactionalManager;
 
     public JdbcGameRepository(JdbcConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
+        this.transactionalManager = new TransactionalManager(connectionManager);
     }
 
     @Override
@@ -59,29 +60,21 @@ public class JdbcGameRepository implements GameRepository {
 
     @Override
     public Long save(GameSnapshot gameSnapshot) {
-        try (Connection connection = connectionManager.getConnection()) {
-            return transactionalService.executeInTransaction(connection, conn -> {
-                Long gameId = insertGame(conn, gameSnapshot);
-                insertPieces(conn, gameId, gameSnapshot.positions());
-                return gameId;
-            });
-        } catch (SQLException exception) {
-            throw new IllegalStateException("[ERROR] 게임 저장 중 데이터베이스 오류가 발생했습니다.", exception);
-        }
+        return transactionalManager.executeInTransaction(connection -> {
+            Long gameId = insertGame(connection, gameSnapshot);
+            insertPieces(connection, gameId, gameSnapshot.positions());
+            return gameId;
+        });
     }
 
     @Override
     public void update(GameSnapshot gameSnapshot) {
-        try (Connection connection = connectionManager.getConnection()) {
-            transactionalService.executeInTransaction(connection, conn -> {
-                updateGame(conn, gameSnapshot);
-                deletePieces(conn, gameSnapshot.id());
-                insertPieces(conn, gameSnapshot.id(), gameSnapshot.positions());
-                return null;
-            });
-        } catch (SQLException exception) {
-            throw new IllegalStateException("[ERROR] 게임 수정 중 데이터베이스 오류가 발생했습니다.", exception);
-        }
+        transactionalManager.executeInTransaction(connection -> {
+            updateGame(connection, gameSnapshot);
+            deletePieces(connection, gameSnapshot.id());
+            insertPieces(connection, gameSnapshot.id(), gameSnapshot.positions());
+            return null;
+        });
     }
 
     private void updateGame(
