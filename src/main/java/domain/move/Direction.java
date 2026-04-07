@@ -1,11 +1,10 @@
-package domain.piece.move;
+package domain.move;
 
 import domain.point.Point;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Direction {
-
     private final List<Vector> vectors;
 
     public Direction(List<Vector> vectors) {
@@ -38,7 +37,6 @@ public class Direction {
             current = current.next(vector);
             points.add(current);
         }
-        return points;
+        return List.copyOf(points);
     }
-
 }

@@ -1,7 +1,6 @@
-package domain.piece.move;
+package domain.move;
 
 public enum Vector {
-
     UP(-1, 0),
     DOWN(1, 0),
     LEFT(0, -1),
@@ -28,5 +27,4 @@ public enum Vector {
     public int dx() {
         return dx;
     }
-
 }

@@ -5,7 +5,6 @@ import domain.point.Point;
 import domain.team.Team;
 
 public class IntersectionState {
-
     private final Point point;
     private final PieceType pieceType;
     private final Team team;
@@ -27,5 +26,4 @@ public class IntersectionState {
     public Team getTeam() {
         return team;
     }
-
 }

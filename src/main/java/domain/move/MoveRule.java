@@ -1,12 +1,12 @@
-package domain.piece.move;
+package domain.move;
 
 import domain.intersection.Intersection;
 import domain.piece.PieceType;
 import domain.point.Point;
+import domain.team.Team;
 import java.util.List;
 
 public abstract class MoveRule {
-
     protected final PieceType pieceType;
     protected final Directions directions;
 
@@ -22,9 +22,9 @@ public abstract class MoveRule {
     public abstract void validateMoveRule(Intersection from, List<Intersection> path);
 
     protected void validateIsSameTeam(Intersection from, Intersection to) {
-        if (from.isSameTeam(to)) {
+        Team toTeam = to.getTeam();
+        if (from.isSameTeam(toTeam)) {
             throw new IllegalArgumentException("같은 팀의 위치로 이동할 수 없습니다.");
         }
     }
-
 }

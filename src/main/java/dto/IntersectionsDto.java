@@ -3,7 +3,6 @@ package dto;
 import java.util.List;
 
 public class IntersectionsDto {
-
     private final List<IntersectionDto> intersections;
 
     public IntersectionsDto(List<IntersectionDto> intersections) {
@@ -13,5 +12,4 @@ public class IntersectionsDto {
     public List<IntersectionDto> getIntersections() {
         return List.copyOf(intersections);
     }
-
 }

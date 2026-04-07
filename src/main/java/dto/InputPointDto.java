@@ -1,7 +1,6 @@
 package dto;
 
 public class InputPointDto {
-
     private final int y;
     private final int x;
 
@@ -17,5 +16,4 @@ public class InputPointDto {
     public int getX() {
         return x;
     }
-
 }

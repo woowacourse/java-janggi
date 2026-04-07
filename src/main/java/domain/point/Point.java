@@ -1,12 +1,11 @@
 package domain.point;
 
-import domain.piece.move.Vector;
+import domain.move.Vector;
 
 public record Point(
         int y,
         int x
 ) {
-
     public Point(int y, int x) {
         validate(y, x);
         this.y = y;
@@ -33,15 +32,14 @@ public record Point(
     }
 
     public boolean isSameFile(Point other) {
-        return this.y == other.y;
+        return this.x == other.x;
     }
 
     public boolean isSameRow(Point other) {
-        return this.x == other.x;
+        return this.y == other.y;
     }
 
     public Point next(Vector vector) {
         return new Point(y + vector.dy(), x + vector.dx());
     }
-
 }

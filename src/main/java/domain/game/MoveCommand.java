@@ -1,13 +1,12 @@
-package dto;
+package domain.game;
 
 import domain.point.Point;
 
-public class Move {
-
+public class MoveCommand {
     private final Point from;
     private final Point to;
 
-    public Move(Point from, Point to) {
+    public MoveCommand(Point from, Point to) {
         this.from = from;
         this.to = to;
     }
@@ -19,5 +18,4 @@ public class Move {
     public Point getTo() {
         return to;
     }
-
 }

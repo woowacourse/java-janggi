@@ -1,14 +1,8 @@
 package domain.board;
 
 import domain.intersection.Intersection;
-import domain.piece.Cannon;
-import domain.piece.Chariot;
-import domain.piece.Elephant;
-import domain.piece.General;
-import domain.piece.Guard;
-import domain.piece.Horse;
 import domain.piece.Piece;
-import domain.piece.Soldier;
+import domain.piece.PieceType;
 import domain.point.Point;
 import domain.team.Team;
 import java.util.ArrayList;
@@ -17,7 +11,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class JanggiGenerator implements IntersectionGenerator {
-
     public static final int MAX_ROW = 9;
     public static final int DEFAULT_SOLDIER_ROW = 3;
     public static final int DEFAULT_CANNON_ROW = 2;
@@ -38,8 +31,8 @@ public class JanggiGenerator implements IntersectionGenerator {
         this.choFormation = choFormation;
     }
 
-    public List<Intersection> makeIntersection() {
-        return Stream.of(Team.values())
+    public List<Intersection> makeIntersections() {
+        return Stream.of(Team.CHO, Team.HAN)
                 .flatMap(team -> Stream.of(
                         createDefaultSoldierIntersection(team),
                         createDefaultCannonIntersection(team),
@@ -53,30 +46,35 @@ public class JanggiGenerator implements IntersectionGenerator {
     }
 
     private List<Intersection> createDefaultSoldierIntersection(Team team) {
-        return createIntersections(getRow(team, DEFAULT_SOLDIER_ROW), DEFAULT_SOLDIER_FILES, new Soldier(team));
+        return createIntersections(getRow(team, DEFAULT_SOLDIER_ROW), DEFAULT_SOLDIER_FILES,
+                new Piece(team, PieceType.SOLDIER));
     }
 
     private List<Intersection> createDefaultCannonIntersection(Team team) {
-        return createIntersections(getRow(team, DEFAULT_CANNON_ROW), DEFAULT_CANNON_FILES, new Cannon(team));
+        return createIntersections(getRow(team, DEFAULT_CANNON_ROW), DEFAULT_CANNON_FILES,
+                new Piece(team, PieceType.CANNON));
     }
 
     private List<Intersection> createDefaultGeneralIntersection(Team team) {
-        return createIntersections(getRow(team, DEFAULT_GENERAL_ROW), DEFAULT_GENERAL_FILES, new General(team));
+        return createIntersections(getRow(team, DEFAULT_GENERAL_ROW), DEFAULT_GENERAL_FILES,
+                new Piece(team, PieceType.GENERAL));
     }
 
     private List<Intersection> createDefaultGuardIntersection(Team team) {
-        return createIntersections(getRow(team, DEFAULT_BACK_ROW), DEFAULT_GUARD_FILES, new Guard(team));
+        return createIntersections(getRow(team, DEFAULT_BACK_ROW), DEFAULT_GUARD_FILES,
+                new Piece(team, PieceType.GUARD));
     }
 
     private List<Intersection> createDefaultChariotIntersection(Team team) {
-        return createIntersections(getRow(team, DEFAULT_BACK_ROW), DEFAULT_CHARIOT_FILES, new Chariot(team));
+        return createIntersections(getRow(team, DEFAULT_BACK_ROW), DEFAULT_CHARIOT_FILES,
+                new Piece(team, PieceType.CHARIOT));
     }
 
     public List<Intersection> createElephantAndHorseByFormation(Team team, Formation formation) {
         int row = getRow(team, DEFAULT_BACK_ROW);
         return Stream.concat(
-                createIntersections(row, formation.elephantFormations(), new Elephant(team)).stream(),
-                createIntersections(row, formation.horseFormations(), new Horse(team)).stream()
+                createIntersections(row, formation.elephantFormations(), new Piece(team, PieceType.ELEPHANT)).stream(),
+                createIntersections(row, formation.horseFormations(), new Piece(team, PieceType.HORSE)).stream()
         ).collect(Collectors.toCollection(ArrayList::new));
     }
 
@@ -99,5 +97,4 @@ public class JanggiGenerator implements IntersectionGenerator {
         }
         return row;
     }
-
 }

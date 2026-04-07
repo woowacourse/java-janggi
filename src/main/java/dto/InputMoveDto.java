@@ -1,7 +1,6 @@
 package dto;
 
 public class InputMoveDto {
-
     private final InputPointDto from;
     private final InputPointDto to;
 
@@ -17,5 +16,4 @@ public class InputMoveDto {
     public InputPointDto getTo() {
         return to;
     }
-
 }

@@ -4,10 +4,8 @@ import domain.board.BoardState;
 import domain.board.JanggiBoard;
 import domain.point.Point;
 import domain.team.Team;
-import dto.Move;
 
 public class Game {
-
     private final JanggiBoard janggiBoard;
     private Boolean isGameRunning;
     private Team turn;
@@ -18,17 +16,17 @@ public class Game {
         this.turn = Team.CHO;
     }
 
-    public void processTurn(Move move) {
+    public void processTurn(MoveCommand move) {
         Point from = move.getFrom();
         Point to = move.getTo();
-        checkCurrentTurnTeam(from);
+        validateTurn(from);
         janggiBoard.tryToMove(from, to);
         isGameRunning = janggiBoard.isGameRunning();
         turn = turn.nextTurn();
     }
 
-    private void checkCurrentTurnTeam(Point point) {
-        if (janggiBoard.findIntersection(point).getTeam().equals(turn)) {
+    private void validateTurn(Point point) {
+        if (janggiBoard.isSameTeamAt(point, turn)) {
             return;
         }
         throw new IllegalArgumentException("현재 턴에 해당하는 팀의 기물만 움직일 수 있습니다.");
@@ -45,5 +43,4 @@ public class Game {
     public BoardState getBoardState() {
         return janggiBoard.boardState();
     }
-
 }

@@ -1,13 +1,13 @@
-package domain.piece.move;
+package domain.move;
 
-import static domain.piece.move.Vector.DOWN;
-import static domain.piece.move.Vector.LEFT;
-import static domain.piece.move.Vector.LEFT_DOWN;
-import static domain.piece.move.Vector.LEFT_UP;
-import static domain.piece.move.Vector.RIGHT;
-import static domain.piece.move.Vector.RIGHT_DOWN;
-import static domain.piece.move.Vector.RIGHT_UP;
-import static domain.piece.move.Vector.UP;
+import static domain.move.Vector.DOWN;
+import static domain.move.Vector.LEFT;
+import static domain.move.Vector.LEFT_DOWN;
+import static domain.move.Vector.LEFT_UP;
+import static domain.move.Vector.RIGHT;
+import static domain.move.Vector.RIGHT_DOWN;
+import static domain.move.Vector.RIGHT_UP;
+import static domain.move.Vector.UP;
 
 import domain.intersection.Intersection;
 import domain.piece.PieceType;
@@ -15,7 +15,6 @@ import domain.point.Point;
 import java.util.List;
 
 public class HorseMoveRule extends MoveRule {
-
     public HorseMoveRule() {
         super(PieceType.HORSE, initializeDirections());
     }
@@ -57,5 +56,4 @@ public class HorseMoveRule extends MoveRule {
             throw new IllegalArgumentException("이동 경로에 다른 기물이 있어 통과할 수 없습니다.");
         }
     }
-
 }

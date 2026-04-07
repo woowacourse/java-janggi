@@ -4,7 +4,6 @@ import dto.InputMoveDto;
 import dto.InputPointDto;
 
 public class MoveInputParser {
-
     public static InputMoveDto parse(String from, String to) {
         return new InputMoveDto(parsePoint(from), parsePoint(to));
     }
@@ -22,5 +21,4 @@ public class MoveInputParser {
             throw new IllegalArgumentException("잘못된 입력 형식입니다.");
         }
     }
-
 }

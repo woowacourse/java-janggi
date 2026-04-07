@@ -1,19 +1,18 @@
-package domain.piece.move;
+package domain.move;
 
-import static domain.piece.move.Vector.DOWN;
-import static domain.piece.move.Vector.LEFT;
-import static domain.piece.move.Vector.RIGHT;
-import static domain.piece.move.Vector.UP;
+import static domain.move.Vector.DOWN;
+import static domain.move.Vector.LEFT;
+import static domain.move.Vector.RIGHT;
+import static domain.move.Vector.UP;
 
 import domain.intersection.Intersection;
 import domain.piece.PieceType;
 import domain.point.Point;
 import java.util.List;
 
-public class GuardMoveRule extends MoveRule {
-
-    public GuardMoveRule() {
-        super(PieceType.GUARD, initializeDirections());
+public class GeneralMoveRule extends MoveRule {
+    public GeneralMoveRule() {
+        super(PieceType.GENERAL, initializeDirections());
     }
 
     public static Directions initializeDirections() {
@@ -37,5 +36,4 @@ public class GuardMoveRule extends MoveRule {
         Intersection to = path.getLast();
         validateIsSameTeam(from, to);
     }
-
 }

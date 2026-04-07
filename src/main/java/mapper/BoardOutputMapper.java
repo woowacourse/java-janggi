@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 
 public class BoardOutputMapper {
-
     private static final Map<PieceType, String> CHO_PIECE_CHINESE_CHARACTER_MAP = Map.of(
             PieceType.GENERAL, "楚",
             PieceType.CHARIOT, "車",
@@ -19,8 +18,7 @@ public class BoardOutputMapper {
             PieceType.HORSE, "馬",
             PieceType.ELEPHANT, "象",
             PieceType.GUARD, "士",
-            PieceType.SOLDIER, "卒",
-            PieceType.NONE, "＋"
+            PieceType.SOLDIER, "卒"
     );
     private static final Map<PieceType, String> HAN_PIECE_CHINESE_CHARACTER_MAP = Map.of(
             PieceType.GENERAL, "漢",
@@ -29,13 +27,14 @@ public class BoardOutputMapper {
             PieceType.HORSE, "馬",
             PieceType.ELEPHANT, "象",
             PieceType.GUARD, "士",
-            PieceType.SOLDIER, "兵",
-            PieceType.NONE, "＋"
+            PieceType.SOLDIER, "兵"
     );
     private static final Map<Team, String> TEAM_STRING_MAP = Map.of(
             Team.CHO, "CHO",
             Team.HAN, "HAN"
     );
+    private static final String NONE_PIECE_CHARACTER = "＋";
+    private static final String NONE_PIECE_TEAM = "NONE";
 
     public IntersectionsDto toDto(BoardState boardState) {
         List<IntersectionDto> intersections = new ArrayList<>();
@@ -52,8 +51,8 @@ public class BoardOutputMapper {
     }
 
     private String getPieceLabel(PieceType pieceType, Team team) {
-        if (pieceType == PieceType.NONE || team == null) {
-            return CHO_PIECE_CHINESE_CHARACTER_MAP.get(PieceType.NONE);
+        if (pieceType == PieceType.NONE || team == Team.NONE) {
+            return NONE_PIECE_CHARACTER;
         }
         if (team == Team.CHO) {
             return CHO_PIECE_CHINESE_CHARACTER_MAP.get(pieceType);
@@ -62,10 +61,9 @@ public class BoardOutputMapper {
     }
 
     private String toTeamLabel(Team team) {
-        if (team == null) {
-            return "NONE";
+        if (team == Team.NONE) {
+            return NONE_PIECE_TEAM;
         }
         return TEAM_STRING_MAP.get(team);
     }
-
 }

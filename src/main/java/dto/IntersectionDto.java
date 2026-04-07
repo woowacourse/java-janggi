@@ -1,7 +1,6 @@
 package dto;
 
 public class IntersectionDto {
-
     private final int y;
     private final int x;
     private final String pieceLabel;
@@ -29,5 +28,4 @@ public class IntersectionDto {
     public String getTeam() {
         return team;
     }
-
 }

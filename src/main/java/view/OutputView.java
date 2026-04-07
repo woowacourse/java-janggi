@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class OutputView {
-
     private static final int MIN_INDEX = 0;
     private static final int MAX_ROW = 10;
     private static final int MAX_FILE = 9;
@@ -81,5 +80,4 @@ public class OutputView {
         }
         return pieceLabel;
     }
-
 }
