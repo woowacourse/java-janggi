@@ -1,5 +1,6 @@
 package janggi.domain.board;
 
+import janggi.domain.Camp;
 import janggi.domain.Path;
 import janggi.domain.Paths;
 import janggi.domain.piece.Piece;
@@ -61,6 +62,12 @@ public class Board {
     private void executeMove(Piece piece, Position from, Position to) {
         janggiBoard.remove(from);
         janggiBoard.put(to, piece);
+    }
+
+    public boolean isAliveEssentialPiece(Camp camp) {
+        return janggiBoard.values().stream()
+                .filter(piece -> piece.isSameCamp(camp))
+                .anyMatch(Piece::isEssential);
     }
 
     public Map<Position, Piece> janggiBoard() {
