@@ -72,6 +72,19 @@ class PalaceTest {
     @ParameterizedTest
     @CsvSource(value = {
             "0, 2", "3, 3", "0, 6",
+            "6, 4", "7, 2", "9, 6"
+    })
+    void 포지션이_궁성_밖에_존재하면_false를_반환한다(int row, int column) {
+        boolean isChoContains = Palace.cho().contains(Position.of(row, column));
+        boolean isHanContains = Palace.han().contains(Position.of(row, column));
+
+        assertThat(isChoContains).isFalse();
+        assertThat(isHanContains).isFalse();
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {
+            "0, 2", "3, 3", "0, 6",
             "1, 2", "3, 4", "1, 6",
             "2, 2", "3, 5", "2, 6"
     })
