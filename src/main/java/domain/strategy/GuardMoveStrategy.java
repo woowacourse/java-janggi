@@ -26,10 +26,39 @@ public class GuardMoveStrategy implements MoveStrategy {
         if (target == null) {
             return true;
         }
+
         return mover.isAnotherTeam(target);
     }
 
     private boolean isNotCorrectPath(final Position from, final Position to) {
+        if (hanSoldierCanDiagonalMoveInPalace(from, to) || chuSoldierCanDiagonalMoveInPalace(from, to)) {
+            return true;
+        }
+
         return Math.abs(from.getRow() - to.getRow()) + Math.abs(from.getCol() - to.getCol()) != 1;
+    }
+
+    private boolean chuSoldierCanDiagonalMoveInPalace(Position from, Position to) {
+        if ((from.getRow() == 7 && from.getCol() == 4) || (from.getRow() == 8 && from.getCol() == 3)
+                || (from.getRow() == 8 && from.getCol() == 5)) {
+            if (isDiagonal(from, to)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean hanSoldierCanDiagonalMoveInPalace(Position from, Position to) {
+        if ((from.getRow() == 2 && from.getCol() == 4) || (from.getRow() == 1 && from.getCol() == 3)
+                || (from.getRow() == 1 && from.getCol() == 5)) {
+            if (isDiagonal(from, to)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isDiagonal(final Position from, final Position to) {
+        return Math.abs(from.getRow() - to.getRow()) == 1 && Math.abs(from.getCol() - to.getCol()) == 1;
     }
 }
