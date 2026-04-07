@@ -15,7 +15,7 @@ public class DatabaseManager {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 
-    public static void initTable() {
+    public static void initTable(DdlAuto ddlAuto) {
         String gameTableSql = """
                 CREATE TABLE IF NOT EXISTS janggi_game (
                     id BIGINT NOT NULL AUTO_INCREMENT,
@@ -57,6 +57,11 @@ public class DatabaseManager {
 
         try (Connection connection = getConnection();
              Statement statement = connection.createStatement()) {
+            if (ddlAuto == DdlAuto.CREATE_DROP) {
+                statement.execute("DROP TABLE IF EXISTS movement");
+                statement.execute("DROP TABLE IF EXISTS piece");
+                statement.execute("DROP TABLE IF EXISTS janggi_game");
+            }
             statement.execute(gameTableSql);
             statement.execute(pieceTableSql);
             statement.execute(movementTableSql);
