@@ -16,15 +16,16 @@ public class Cannon extends StraightMovingPiece {
 
     @Override
     public void validateClearPath(Map<Position, PieceType> piecesOnPath, PieceType destinationPieceType) {
+        if (piecesOnPath.size() != REQUIRED_PIECES_ON_PATH) {
+            throw new IllegalArgumentException(CAN_NOT_MOVE_TO_POSITION);
+        }
+        
         for (PieceType pieceType : piecesOnPath.values()) {
             if (pieceType == PieceType.CANNON) {
                 throw new IllegalArgumentException(CAN_NOT_MOVE_TO_POSITION);
             }
         }
 
-        if (piecesOnPath.size() != REQUIRED_PIECES_ON_PATH) {
-            throw new IllegalArgumentException(CAN_NOT_MOVE_TO_POSITION);
-        }
         if (destinationPieceType == PieceType.CANNON) {
             throw new IllegalArgumentException(CANNON_CAN_NOT_CATCH_CANNON);
         }
