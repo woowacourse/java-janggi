@@ -1,7 +1,6 @@
 package janggi.persistence;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -9,14 +8,9 @@ public class DatabaseInitializer {
 
     public static void initialize(Connection connection) throws SQLException {
         try (Statement statement = connection.createStatement()) {
-            executeSchemaCreation(statement);
-            executeDummyDataInsertionIfEmpty(statement);
+            executeGameSchemaCreation(statement);
+            executeBoardSchemaCreation(statement);
         }
-    }
-
-    private static void executeSchemaCreation(Statement statement) throws SQLException {
-        executeGameSchemaCreation(statement);
-        executeBoardSchemaCreation(statement);
     }
 
     private static void executeGameSchemaCreation(Statement statement) throws SQLException {
@@ -47,23 +41,5 @@ public class DatabaseInitializer {
                     )
                 """;
         statement.execute(createSql);
-    }
-
-    private static void executeDummyDataInsertionIfEmpty(Statement statement) throws SQLException {
-        if (!hasExistingData(statement)) {
-            insertDummyData(statement);
-        }
-    }
-
-    private static boolean hasExistingData(Statement statement) throws SQLException {
-        try (ResultSet resultSet = statement.executeQuery("SELECT COUNT(*) FROM GAME")) {
-            resultSet.next();
-            return resultSet.getInt(1) > 0;
-        }
-    }
-
-    private static void insertDummyData(Statement statement) throws SQLException {
-        String insertSql = "INSERT INTO GAME (cho_player_name, han_player_name, current_turn, is_finished) VALUES ('테스트초', '테스트한', 'CHO', FALSE)";
-        statement.executeUpdate(insertSql);
     }
 }
