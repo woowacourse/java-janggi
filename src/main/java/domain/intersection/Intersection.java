@@ -1,14 +1,12 @@
 package domain.intersection;
 
 import domain.board.IntersectionState;
-import domain.piece.NonePiece;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.point.Point;
 import domain.team.Team;
 
 public class Intersection {
-
     private final Point point;
     private Piece piece;
 
@@ -18,7 +16,7 @@ public class Intersection {
     }
 
     public static Intersection empty(Point point) {
-        return new Intersection(point, new NonePiece());
+        return new Intersection(point, new Piece(PieceType.NONE));
     }
 
     public void arrive(Intersection from) {
@@ -26,7 +24,7 @@ public class Intersection {
     }
 
     public void leave() {
-        piece = new NonePiece();
+        piece = new Piece(PieceType.NONE);
     }
 
     public Point getPoint() {
@@ -38,15 +36,16 @@ public class Intersection {
     }
 
     public boolean isSamePiece(Intersection intersection) {
-        return this.piece.isSamePiece(intersection.piece);
+        PieceType otherPieceType = intersection.piece.pieceType();
+        return this.piece.isSamePiece(otherPieceType);
     }
 
     public boolean isSamePiece(PieceType pieceType) {
         return this.piece.isSamePiece(pieceType);
     }
 
-    public boolean isSameTeam(Intersection to) {
-        return piece.isSameTeam(to.piece);
+    public boolean isSameTeam(Team team) {
+        return piece.isSameTeam(team);
     }
 
     public boolean hasPiece() {
@@ -60,5 +59,4 @@ public class Intersection {
     public IntersectionState toIntersectionState() {
         return new IntersectionState(point, piece.pieceType(), piece.getTeam());
     }
-
 }

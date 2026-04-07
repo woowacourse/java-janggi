@@ -1,16 +1,17 @@
 package domain.board;
 
 import domain.intersection.Intersection;
+import domain.move.CannonMoveRule;
+import domain.move.ChariotMoveRule;
+import domain.move.ElephantMoveRule;
+import domain.move.GeneralMoveRule;
+import domain.move.GuardMoveRule;
+import domain.move.HorseMoveRule;
+import domain.move.MoveRule;
+import domain.move.SoldierMoveRule;
 import domain.piece.PieceType;
-import domain.piece.move.CannonMoveRule;
-import domain.piece.move.ChariotMoveRule;
-import domain.piece.move.ElephantMoveRule;
-import domain.piece.move.GeneralMoveRule;
-import domain.piece.move.GuardMoveRule;
-import domain.piece.move.HorseMoveRule;
-import domain.piece.move.MoveRule;
-import domain.piece.move.SoldierMoveRule;
 import domain.point.Point;
+import domain.team.Team;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +20,6 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class JanggiBoard {
-
     private static final int MAX_ROW = 10;
     private static final int MAX_FILE = 9;
 
@@ -29,7 +29,7 @@ public class JanggiBoard {
     public JanggiBoard(IntersectionGenerator intersectionGenerator) {
         this.intersections = fillEmptyIntersections();
         this.moveRules = setMoveRules();
-        for (Intersection intersection : intersectionGenerator.makeIntersection()) {
+        for (Intersection intersection : intersectionGenerator.makeIntersections()) {
             intersections.put(intersection.getPoint(), intersection);
         }
     }
@@ -72,6 +72,7 @@ public class JanggiBoard {
         return intersections.get(point);
     }
 
+
     private void validateMoveRule(Intersection from, Intersection to) {
         MoveRule moveRule = findMoveRule(from);
         List<Point> possiblePoints = moveRule.findPossiblePoints(from, to);
@@ -92,11 +93,16 @@ public class JanggiBoard {
     }
 
     public BoardState boardState() {
-        final List<IntersectionState> intersectionStates = new ArrayList<>();
+        List<IntersectionState> intersectionStates = new ArrayList<>();
         for (Intersection intersection : intersections.values()) {
             intersectionStates.add(intersection.toIntersectionState());
         }
         return new BoardState(intersectionStates);
+    }
+
+    public boolean isSameTeamAt(Point point, Team turn) {
+        Intersection intersection = intersections.get(point);
+        return intersection.isSameTeam(turn);
     }
 
     public boolean isGameRunning() {
@@ -117,5 +123,4 @@ public class JanggiBoard {
                 .map(this::findIntersection)
                 .toList();
     }
-
 }
