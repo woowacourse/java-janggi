@@ -1,5 +1,6 @@
 package database;
 
+import database.connection.BoardIdContext;
 import database.connection.DBConnector;
 import database.dao.BoardDao;
 import database.dao.IntersectionDao;
@@ -7,7 +8,9 @@ import database.dto.BoardSummaryDto;
 import domain.board.BoardSelectCommand;
 import domain.board.DBIntersectionGenerator;
 import domain.board.JanggiBoard;
+import domain.board.dto.Moved;
 import domain.intersection.Intersection;
+import domain.piece.Team;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -47,6 +50,21 @@ public class JanggiService {
             return new JanggiBoard(new DBIntersectionGenerator(intersections));
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    // TODO 상태 패턴을 사용하여, currentTurn과 isFinished를 합치면 좋을 듯.
+    public void updateTurn(Moved moved, Team currentTurn) {
+        try (Connection connection = DBConnector.getConnection()) {
+
+            Long boardId = BoardIdContext.getBoardId();
+
+            boardDao.updateBoardTurn(connection, boardId, currentTurn);
+            intersectionDao.update(connection, boardId, moved.destination());
+            intersectionDao.update(connection, boardId, moved.origin());
+
+        } catch (SQLException e) {
+            throw new RuntimeException();
         }
     }
 
