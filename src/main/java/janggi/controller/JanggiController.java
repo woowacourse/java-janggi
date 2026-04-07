@@ -33,8 +33,7 @@ public class JanggiController {
     }
 
     public void run() {
-        List<GameOptionResponse> gameOptions
-                = janggiService.loadAllGames();
+        List<GameOptionResponse> gameOptions = janggiService.loadAllGames();
         GameDetailResponse response = setUpGame(gameOptions);
 
         Long gameId = response.gameId();
@@ -72,7 +71,7 @@ public class JanggiController {
     private GameDetailResponse setUpGame(List<GameOptionResponse> gameOptionResponses) {
         Long chosenGameId = readChosenGameId(gameOptionResponses);
 
-        if (NEW_GAME_OPTION.equals(chosenGameId)) {
+        if (NEW_GAME_OPTION == chosenGameId) {
             return initNewGame();
         }
 

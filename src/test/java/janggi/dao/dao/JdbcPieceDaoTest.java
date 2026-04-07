@@ -22,19 +22,19 @@ class JdbcPieceDaoTest extends DatabaseTest {
 
     @BeforeEach
     void beforeEach() {
-        this.gameId = gameDao.save(con, "CHO");
+        this.gameId = gameDao.saveGame(con, "CHO");
     }
 
     @DisplayName("해당 게임의 기물들을 모두 조회한다.")
     @Test
-    void findAllByGameId_success() {
+    void findAllPiecesByGameId_success() {
         //given
-        pieceEntityDao.save(con, gameId, "BYEONG", 1, 1, "CHO");
-        pieceEntityDao.save(con, gameId, "JANG", 1, 2, "HAN");
-        pieceEntityDao.save(con, gameId, "SA", 1, 3, "CHO");
+        pieceEntityDao.savePiece(con, gameId, "BYEONG", 1, 1, "CHO");
+        pieceEntityDao.savePiece(con, gameId, "JANG", 1, 2, "HAN");
+        pieceEntityDao.savePiece(con, gameId, "SA", 1, 3, "CHO");
 
         //when
-        List<PieceEntity> pieceEntities = pieceEntityDao.findAllByGameId(con, gameId);
+        List<PieceEntity> pieceEntities = pieceEntityDao.findAllPiecesByGameId(con, gameId);
 
         //then
         PieceEntity first = pieceEntities.get(0);
@@ -52,7 +52,7 @@ class JdbcPieceDaoTest extends DatabaseTest {
 
     @DisplayName("보드 전체를 저장한다.")
     @Test
-    void saveBoard() {
+    void savePieceBoard() {
         //given
         Board board = BoardType.FIRST.getBoard(
                 new DefaultPalaceFactory().create()
@@ -62,15 +62,15 @@ class JdbcPieceDaoTest extends DatabaseTest {
         pieceEntityDao.saveBoard(con, board.getBoardInfo(), gameId);
 
         //then
-        assertThat(pieceEntityDao.findAllByGameId(con, gameId).size())
+        assertThat(pieceEntityDao.findAllPiecesByGameId(con, gameId).size())
                 .isEqualTo(32);
     }
 
     @DisplayName("해당 게임 아이디의 기물이 없으면 빈 리스트를 반환한다.")
     @Test
-    void findAllByGameId_fail() {
+    void findAllPiecesByGameId_fail() {
         //when
-        List<PieceEntity> pieceEntities = pieceEntityDao.findAllByGameId(con, 1L);
+        List<PieceEntity> pieceEntities = pieceEntityDao.findAllPiecesByGameId(con, 1L);
 
         //then
         assertThat(pieceEntities).isEmpty();
@@ -78,12 +78,12 @@ class JdbcPieceDaoTest extends DatabaseTest {
 
     @DisplayName("해당하는 위치의 기물을 조회한다.")
     @Test
-    void findByPosition_success() {
+    void findPieceByPosition_success() {
         //given
-        pieceEntityDao.save(con, gameId, "BYEONG", 1, 1, "CHO");
+        pieceEntityDao.savePiece(con, gameId, "BYEONG", 1, 1, "CHO");
 
         //when
-        Optional<PieceEntity> result = pieceEntityDao.findByPosition(
+        Optional<PieceEntity> result = pieceEntityDao.findPieceByPosition(
                 con,
                 new Position(Row.ONE, Column.ONE)
         );
@@ -96,9 +96,9 @@ class JdbcPieceDaoTest extends DatabaseTest {
 
     @DisplayName("해당하는 위치에 기물이 없으면 Optional.empty()를 반환한다.")
     @Test
-    void findByPosition_fail() {
+    void findPieceByPosition_fail() {
         //when
-        Optional<PieceEntity> result = pieceEntityDao.findByPosition(
+        Optional<PieceEntity> result = pieceEntityDao.findPieceByPosition(
                 con,
                 new Position(Row.ONE, Column.ONE)
         );
@@ -109,36 +109,36 @@ class JdbcPieceDaoTest extends DatabaseTest {
 
     @DisplayName("기물의 위치를 업데이트 한다.")
     @Test
-    void updatePosition() {
+    void updatePieceOfPosition() {
         //given
-        pieceEntityDao.save(con, gameId, "BYEONG", 1, 1, "CHO");
+        pieceEntityDao.savePiece(con, gameId, "BYEONG", 1, 1, "CHO");
         Long pieceId = pieceEntityDao
-                .findAllByGameId(con, gameId)
+                .findAllPiecesByGameId(con, gameId)
                 .getFirst().
                 id();
 
         //when
-        pieceEntityDao.updatePosition(con, pieceId, new Position(Row.TWO, Column.ONE));
+        pieceEntityDao.updatePieceOfPosition(con, pieceId, new Position(Row.TWO, Column.ONE));
 
         //then
         PieceEntity updated = pieceEntityDao
-                .findByPosition(con, new Position(Row.TWO, Column.ONE)).get();
+                .findPieceByPosition(con, new Position(Row.TWO, Column.ONE)).get();
 
         assertThat(updated.id()).isEqualTo(pieceId);
     }
 
     @DisplayName("해당 위치의 기물을 삭제한다.")
     @Test
-    void deleteByPosition() {
+    void deletePieceByPosition() {
         //given
-        pieceEntityDao.save(con, gameId, "BYEONG", 1, 1, "CHO");
+        pieceEntityDao.savePiece(con, gameId, "BYEONG", 1, 1, "CHO");
         Position position = new Position(Row.ONE, Column.ONE);
 
         //when
-        pieceEntityDao.deleteByPosition(con, position);
+        pieceEntityDao.deletePieceByPosition(con, position);
 
         //then
-        Optional<PieceEntity> result = pieceEntityDao.findByPosition(con, position);
+        Optional<PieceEntity> result = pieceEntityDao.findPieceByPosition(con, position);
         assertThat(result).isEmpty();
     }
 }

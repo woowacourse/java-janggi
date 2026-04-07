@@ -6,8 +6,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import janggi.dao.DatabaseTest;
 import janggi.dao.game.GameEntity;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -15,58 +13,58 @@ class JdbcGameDaoTest extends DatabaseTest {
 
     @DisplayName("게임을 삭제한다.")
     @Test
-    void deleteByGameId() {
+    void deleteGameByGameId() {
         //given
-        Long gameId = gameDao.save(con, "HAN");
+        Long gameId = gameDao.saveGame(con, "HAN");
 
         //when
-        gameDao.deleteByGameId(con, gameId);
+        gameDao.deleteGameByGameId(con, gameId);
 
         //then
-        assertThatThrownBy(() -> gameDao.findByGameId(con, gameId))
+        assertThatThrownBy(() -> gameDao.findGameByGameId(con, gameId))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 게임이 존재하지 않습니다.");
     }
 
     @DisplayName("삭제할 게임이 없으면 예외가 발생한다.")
     @Test
-    void deleteByGameId_empty() {
-        assertThatThrownBy(() ->  gameDao.deleteByGameId(con, 100L))
+    void deleteGameByGameId_empty() {
+        assertThatThrownBy(() -> gameDao.deleteGameByGameId(con, 100L))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 게임이 존재하지 않습니다.");
     }
 
     @DisplayName("현재 턴 정보를 수정한다.")
     @Test
-    void updateCurrentTurn() {
+    void updateGameOfCurrentTurn() {
         //given
-        Long gameId = gameDao.save(con, "HAN");
+        Long gameId = gameDao.saveGame(con, "HAN");
 
         //when
-        gameDao.updateCurrentTurn(con, gameId, "CHO");
+        gameDao.updateGameOfCurrentTurn(con, gameId, "CHO");
 
         //then
-        GameEntity gameEntity = gameDao.findByGameId(con, gameId);
+        GameEntity gameEntity = gameDao.findGameByGameId(con, gameId);
 
         assertThat(gameEntity.currentTurn()).isEqualTo("CHO");
     }
 
     @DisplayName("해당 하는 게임이 없으면 턴을 업데이트할 수 없다.")
     @Test
-    void updateCurrentTurn_empty() {
-        assertThatThrownBy(() ->  gameDao.updateCurrentTurn(con, 100L, "CHO"))
+    void updateGameOfCurrentTurn_empty() {
+        assertThatThrownBy(() -> gameDao.updateGameOfCurrentTurn(con, 100L, "CHO"))
                 .isInstanceOf(IllegalArgumentException.class)
-                        .hasMessage("해당 게임이 존재하지 않습니다.");
+                .hasMessage("해당 게임이 존재하지 않습니다.");
     }
 
     @DisplayName("game_id에 해당하는 게임을 조회한다.")
     @Test
-    void findByGameId() {
+    void findGameByGameId() {
         //given
-        Long gameId = gameDao.save(con, "HAN");
+        Long gameId = gameDao.saveGame(con, "HAN");
 
         //when
-        GameEntity gameEntity = gameDao.findByGameId(con, gameId);
+        GameEntity gameEntity = gameDao.findGameByGameId(con, gameId);
 
         //then
         assertThat(gameEntity.currentTurn()).isEqualTo("HAN");
@@ -74,23 +72,23 @@ class JdbcGameDaoTest extends DatabaseTest {
 
     @DisplayName("game_id에 해당하는 게임이 없으면 예외가 발생한다.")
     @Test
-    void findByGameId_empty() {
+    void findGameByGameId_empty() {
         //then
-        assertThatThrownBy(() ->  gameDao.findByGameId(con, 1L))
+        assertThatThrownBy(() -> gameDao.findGameByGameId(con, 1L))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 게임이 존재하지 않습니다.");
     }
 
     @DisplayName("모든 게임을 조회한다.")
     @Test
-    void findAll() {
+    void findAllGames() {
         //given
-        Long gameId1 = gameDao.save(con, "HAN");
-        Long gameId2 = gameDao.save(con, "CHO");
-        Long gameId3 = gameDao.save(con, "HAN");
+        Long gameId1 = gameDao.saveGame(con, "HAN");
+        Long gameId2 = gameDao.saveGame(con, "CHO");
+        Long gameId3 = gameDao.saveGame(con, "HAN");
 
         //when
-        List<GameEntity> gameEntities = gameDao.findAll(con);
+        List<GameEntity> gameEntities = gameDao.findAllGames(con);
 
         //then
         List<Long> gameIds = gameEntities.stream()

@@ -42,7 +42,7 @@ public class TestPieceDao implements PieceDao {
     }
 
     @Override
-    public Long save(
+    public Long savePiece(
             Connection con,
             Long gameId,
             String pieceType,
@@ -66,14 +66,14 @@ public class TestPieceDao implements PieceDao {
     }
 
     @Override
-    public List<PieceEntity> findAllByGameId(Connection con, long gameId) {
+    public List<PieceEntity> findAllPiecesByGameId(Connection con, long gameId) {
         return pieceEntities.stream()
                 .filter(e -> e.gameId() == gameId)
                 .toList();
     }
 
     @Override
-    public Optional<PieceEntity> findByPosition(Connection con, Position position) {
+    public Optional<PieceEntity> findPieceByPosition(Connection con, Position position) {
         return pieceEntities.stream()
                 .filter(e ->
                         e.positionRow() == position.row().getValue()
@@ -83,7 +83,7 @@ public class TestPieceDao implements PieceDao {
     }
 
     @Override
-    public void updatePosition(Connection con, Long pieceId, Position to) {
+    public void updatePieceOfPosition(Connection con, Long pieceId, Position to) {
         PieceEntity piece = pieceEntities.stream()
                 .filter(e -> e.id() == pieceId)
                 .findFirst()
@@ -103,7 +103,7 @@ public class TestPieceDao implements PieceDao {
     }
 
     @Override
-    public void deleteByPosition(Connection con, Position position) {
+    public void deletePieceByPosition(Connection con, Position position) {
         PieceEntity piece = pieceEntities.stream()
                 .filter(e ->
                         e.positionRow() == position.row().getValue()

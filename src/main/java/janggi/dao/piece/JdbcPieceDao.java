@@ -24,9 +24,9 @@ public class JdbcPieceDao implements PieceDao {
     private static final String TEAM = "team";
 
     private static final String INSERT_SQL = """
-        INSERT INTO piece(game_id, piece_type, position_row, position_column, team)      
-        VALUES (?, ?, ?, ?, ?)
-        """;
+            INSERT INTO piece(game_id, piece_type, position_row, position_column, team)      
+            VALUES (?, ?, ?, ?, ?)
+            """;
 
     @Override
     public void saveBoard(
@@ -34,7 +34,7 @@ public class JdbcPieceDao implements PieceDao {
             Map<Position, Piece> boardInfo,
             Long gameId
     ) {
-        try(PreparedStatement psmt = con.prepareStatement(INSERT_SQL)) {
+        try (PreparedStatement psmt = con.prepareStatement(INSERT_SQL)) {
             for (Entry<Position, Piece> entry : boardInfo.entrySet()) {
                 Position position = entry.getKey();
                 Piece piece = entry.getValue();
@@ -46,7 +46,7 @@ public class JdbcPieceDao implements PieceDao {
 
                 psmt.setLong(1, gameId);
                 psmt.setString(2, piece.getPieceType().name());
-                psmt.setInt(3,  position.row().getValue());
+                psmt.setInt(3, position.row().getValue());
                 psmt.setInt(4, position.column().getValue());
                 psmt.setString(5, team);
 
@@ -60,7 +60,7 @@ public class JdbcPieceDao implements PieceDao {
     }
 
     @Override
-    public Long save(
+    public Long savePiece(
             Connection con,
             Long gameId,
             String pieceType,
@@ -84,14 +84,14 @@ public class JdbcPieceDao implements PieceDao {
     }
 
     private long getGeneratedKey(PreparedStatement psmt) throws SQLException {
-        try(ResultSet rs = psmt.getGeneratedKeys()) {
+        try (ResultSet rs = psmt.getGeneratedKeys()) {
             rs.next();
             return rs.getLong(1);
         }
     }
 
     @Override
-    public List<PieceEntity> findAllByGameId(
+    public List<PieceEntity> findAllPiecesByGameId(
             Connection con,
             long gameId
     ) {
@@ -101,7 +101,7 @@ public class JdbcPieceDao implements PieceDao {
                 WHERE game_id = (?)
                 """;
 
-        try (PreparedStatement psmt = con.prepareStatement(sql)){
+        try (PreparedStatement psmt = con.prepareStatement(sql)) {
             psmt.setLong(1, gameId);
             ResultSet rs = psmt.executeQuery();
 
@@ -118,7 +118,7 @@ public class JdbcPieceDao implements PieceDao {
     }
 
     @Override
-    public Optional<PieceEntity> findByPosition(
+    public Optional<PieceEntity> findPieceByPosition(
             Connection con,
             Position position
     ) {
@@ -128,7 +128,7 @@ public class JdbcPieceDao implements PieceDao {
                 WHERE position_row = (?) AND position_column = (?)
                 """;
 
-        try(PreparedStatement psmt = con.prepareStatement(sql)) {
+        try (PreparedStatement psmt = con.prepareStatement(sql)) {
             psmt.setInt(1, position.row().getValue());
             psmt.setInt(2, position.column().getValue());
 
@@ -157,7 +157,7 @@ public class JdbcPieceDao implements PieceDao {
     }
 
     @Override
-    public void updatePosition(
+    public void updatePieceOfPosition(
             Connection con,
             Long pieceId,
             Position to
@@ -168,7 +168,7 @@ public class JdbcPieceDao implements PieceDao {
                 WHERE piece_id = (?)
                 """;
 
-        try(PreparedStatement psmt = con.prepareStatement(sql)) {
+        try (PreparedStatement psmt = con.prepareStatement(sql)) {
             psmt.setInt(1, to.row().getValue());
             psmt.setInt(2, to.column().getValue());
             psmt.setLong(3, pieceId);
@@ -180,7 +180,7 @@ public class JdbcPieceDao implements PieceDao {
     }
 
     @Override
-    public void deleteByPosition(
+    public void deletePieceByPosition(
             Connection con,
             Position position
     ) {
@@ -189,7 +189,7 @@ public class JdbcPieceDao implements PieceDao {
                 WHERE position_row = (?) AND position_column = (?)
                 """;
 
-        try(PreparedStatement psmt = con.prepareStatement(sql)) {
+        try (PreparedStatement psmt = con.prepareStatement(sql)) {
             psmt.setInt(1, position.row().getValue());
             psmt.setInt(2, position.column().getValue());
 

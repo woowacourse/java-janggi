@@ -6,22 +6,21 @@ import java.sql.Connection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public class TestGameDao implements GameDao {
 
-   private final Map<Long, String> turnByGameId = new HashMap<>();
-   private long lastGameId = 0L;
+    private final Map<Long, String> turnByGameId = new HashMap<>();
+    private long lastGameId = 0L;
 
     @Override
-    public Long save(Connection con, String currentTurn) {
+    public Long saveGame(Connection con, String currentTurn) {
         lastGameId++;
         turnByGameId.put(lastGameId, currentTurn);
         return lastGameId;
     }
 
     @Override
-    public List<GameEntity> findAll(Connection con) {
+    public List<GameEntity> findAllGames(Connection con) {
         return turnByGameId.entrySet().stream()
                 .map(entry -> new GameEntity(entry.getKey(), entry.getValue()))
                 .toList();
@@ -29,7 +28,7 @@ public class TestGameDao implements GameDao {
 
 
     @Override
-    public GameEntity findByGameId(Connection con, Long gameId) {
+    public GameEntity findGameByGameId(Connection con, Long gameId) {
         if (!turnByGameId.containsKey(gameId)) {
             throw new IllegalArgumentException("해당 게임이 존재하지 않습니다.");
         }
@@ -41,7 +40,7 @@ public class TestGameDao implements GameDao {
     }
 
     @Override
-    public void deleteByGameId(Connection con, Long gameId) {
+    public void deleteGameByGameId(Connection con, Long gameId) {
         if (!turnByGameId.containsKey(gameId)) {
             throw new IllegalStateException("해당 게임이 존재하지 않습니다.");
         }
@@ -54,7 +53,7 @@ public class TestGameDao implements GameDao {
     }
 
     @Override
-    public void updateCurrentTurn(
+    public void updateGameOfCurrentTurn(
             Connection con,
             Long gameId,
             String nextTurn

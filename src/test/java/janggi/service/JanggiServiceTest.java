@@ -61,12 +61,12 @@ class JanggiServiceTest {
     @Test
     void loadGameByGameId_success() {
         //given
-        Long gameId1 = gameDao.save(null, "HAN");
-        Long gameId2 = gameDao.save(null, "CHO");
+        Long gameId1 = gameDao.saveGame(null, "HAN");
+        Long gameId2 = gameDao.saveGame(null, "CHO");
 
-        pieceDao.save(null, gameId2, "BYEONG", 1, 1, "CHO");
-        pieceDao.save(null, gameId2, "JANG", 1, 2, "HAN");
-        pieceDao.save(null, gameId2, "SA", 1, 3, "CHO");
+        pieceDao.savePiece(null, gameId2, "BYEONG", 1, 1, "CHO");
+        pieceDao.savePiece(null, gameId2, "JANG", 1, 2, "HAN");
+        pieceDao.savePiece(null, gameId2, "SA", 1, 3, "CHO");
 
         //when
         GameDetailResponse response = janggiService.loadGameByGameId(gameId2);
@@ -106,7 +106,7 @@ class JanggiServiceTest {
     @Test
     void updateBoardWith_fail() {
         //given
-        gameDao.save(null, "CHO");
+        gameDao.saveGame(null, "CHO");
 
         //when & then
         assertThatThrownBy(() ->
@@ -136,13 +136,13 @@ class JanggiServiceTest {
 
         Janggi janggi = Janggi.of(PlayingBoard.of(boardInfo));
 
-        Long gameId = gameDao.save(null, "CHO");
+        Long gameId = gameDao.saveGame(null, "CHO");
 
         for (Entry<Position, Piece> entry : boardInfo.entrySet()) {
             Position position = entry.getKey();
             Piece piece = entry.getValue();
 
-            pieceDao.save(
+            pieceDao.savePiece(
                     null,
                     gameId,
                     piece.getPieceType().name(),
@@ -195,13 +195,13 @@ class JanggiServiceTest {
 
         Janggi janggi = Janggi.of(PlayingBoard.of(boardInfo));
 
-        Long gameId = gameDao.save(null, "CHO");
+        Long gameId = gameDao.saveGame(null, "CHO");
 
         for (Entry<Position, Piece> entry : boardInfo.entrySet()) {
             Position position = entry.getKey();
             Piece piece = entry.getValue();
 
-            pieceDao.save(
+            pieceDao.savePiece(
                     null,
                     gameId,
                     piece.getPieceType().name(),
@@ -227,7 +227,7 @@ class JanggiServiceTest {
     @Test
     void removeGame() {
         //given
-        Long gameId = gameDao.save(null, "CHO");
+        Long gameId = gameDao.saveGame(null, "CHO");
 
         //when
         janggiService.removeGame(gameId);
@@ -242,9 +242,9 @@ class JanggiServiceTest {
     @Test
     void loadAllGames() {
         //given
-        Long gameId1 = gameDao.save(null, "CHO");
-        Long gameId2 = gameDao.save(null, "HAN");
-        Long gameId3 = gameDao.save(null, "CHO");
+        Long gameId1 = gameDao.saveGame(null, "CHO");
+        Long gameId2 = gameDao.saveGame(null, "HAN");
+        Long gameId3 = gameDao.saveGame(null, "CHO");
 
         //when
         List<GameOptionResponse> responses = janggiService.loadAllGames();

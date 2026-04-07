@@ -47,7 +47,7 @@ public class JanggiService {
 
     public List<GameOptionResponse> loadAllGames() {
         return transactionExecutor.execute(con -> {
-            List<GameEntity> gameEntities = gameDao.findAll(con);
+            List<GameEntity> gameEntities = gameDao.findAllGames(con);
             return gameEntities.stream()
                     .map(game ->
                             new GameOptionResponse(
@@ -61,10 +61,10 @@ public class JanggiService {
 
     public GameDetailResponse loadGameByGameId(Long gameId) {
         return transactionExecutor.execute(con -> {
-            GameEntity gameEntity = gameDao.findByGameId(con, gameId);
+            GameEntity gameEntity = gameDao.findGameByGameId(con, gameId);
 
             List<PieceEntity> pieceEntities =
-                    pieceDao.findAllByGameId(con, gameEntity.id());
+                    pieceDao.findAllPiecesByGameId(con, gameEntity.id());
 
             PlayingBoard board = toBoard(pieceEntities);
             Turn turn = toTurn(gameEntity, board);
@@ -121,7 +121,7 @@ public class JanggiService {
         Janggi newGame = Janggi.of(board);
 
         Long gameId = transactionExecutor.execute(con -> {
-            Long result = gameDao.save(con, newGame.getCurrentTeam().name());
+            Long result = gameDao.saveGame(con, newGame.getCurrentTeam().name());
             pieceDao.saveBoard(con, newGame.getBoard().getBoardInfo(), result);
             return result;
         });
@@ -145,7 +145,7 @@ public class JanggiService {
 
         transactionExecutor.executeWithoutResult(con -> {
             Optional<PieceEntity> pieceEntityOpt =
-                    pieceDao.findByPosition(con, from);
+                    pieceDao.findPieceByPosition(con, from);
 
             if (pieceEntityOpt.isEmpty()) {
                 throw new IllegalArgumentException("해당 위치에 기물이 존재하지 않습니다.");
@@ -153,17 +153,17 @@ public class JanggiService {
 
             PieceEntity piece = pieceEntityOpt.get();
 
-            if (pieceDao.findByPosition(con, to).isPresent()) {
-                pieceDao.deleteByPosition(con, to);
+            if (pieceDao.findPieceByPosition(con, to).isPresent()) {
+                pieceDao.deletePieceByPosition(con, to);
             }
 
-            pieceDao.updatePosition(
+            pieceDao.updatePieceOfPosition(
                     con,
                     piece.id(),
                     to
             );
 
-            gameDao.updateCurrentTurn(
+            gameDao.updateGameOfCurrentTurn(
                     con,
                     piece.gameId(),
                     janggi.getCurrentTeam().name()
@@ -179,7 +179,7 @@ public class JanggiService {
 
     public void removeGame(Long gameId) {
         transactionExecutor.executeWithoutResult(con ->
-                gameDao.deleteByGameId(con, gameId)
+                gameDao.deleteGameByGameId(con, gameId)
         );
     }
 }
