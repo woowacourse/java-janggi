@@ -36,7 +36,7 @@ public class JanggiController {
             return;
         }
 
-        int choice = inputView.readGameChoice(playingGames);
+        int choice = readValidChoice(playingGames);
         if (choice == playingGames.size() + 1) {
             startNewGame();
             return;
@@ -44,6 +44,25 @@ public class JanggiController {
 
         resumeGame(playingGames.get(choice - 1));
     }
+
+    private int readValidChoice(List<JanggiGame> playingGames) {
+        while (true) {
+            try {
+                int choice = inputView.readGameChoice(playingGames);
+                validateChoiceRange(choice, playingGames.size() + 1);
+                return choice;
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    private void validateChoiceRange(int choice, int max) {
+        if (choice < 1 || choice > max) {
+            throw new IllegalArgumentException("1부터 " + max + " 사이의 번호를 입력해주세요.");
+        }
+    }
+
 
     private void startNewGame() {
         janggiGame = new JanggiGame();
