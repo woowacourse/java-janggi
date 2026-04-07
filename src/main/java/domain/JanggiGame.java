@@ -2,10 +2,12 @@ package domain;
 
 import domain.enums.Country;
 import domain.enums.PieceType;
+import domain.pieces.Piece;
 import domain.state.ChoTurn;
 import domain.state.State;
 
 import java.util.List;
+import java.util.Map;
 
 public class JanggiGame {
     private final Board board;
@@ -35,6 +37,14 @@ public class JanggiGame {
 
     public Country getCountry() {
         return state.getCountry();
+    }
+
+    public String getStateValue() {
+        return state.getValue();
+    }
+
+    public Board getBoard() {
+        return board;
     }
 
     public double calculateScore(Country country) {

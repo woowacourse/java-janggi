@@ -9,4 +9,5 @@ public interface State {
     default State exitGame() {
         return new ExitGame();
     }
+    String getValue();
 }

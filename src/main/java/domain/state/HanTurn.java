@@ -18,4 +18,9 @@ public class HanTurn implements State{
         return false;
     }
 
+    @Override
+    public String getValue(){
+        return "HanTurn";
+    }
+
 }

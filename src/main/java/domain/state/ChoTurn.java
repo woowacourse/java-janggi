@@ -17,4 +17,9 @@ public class ChoTurn implements State {
     public boolean isGameOver() {
         return false;
     }
+
+    @Override
+    public String getValue(){
+        return "ChoTurn";
+    }
 }

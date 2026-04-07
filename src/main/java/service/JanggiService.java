@@ -1,14 +1,19 @@
 package service;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import config.ConnectionManager;
 import domain.Board;
 import domain.enums.Country;
 import domain.JanggiGame;
 import domain.enums.MaSang;
 import domain.enums.PieceType;
 import domain.Position;
+import domain.pieces.Piece;
+import repository.JanggiGameRepository;
 import service.dto.BoardDto;
 import service.dto.ColorDto;
 import service.dto.PositionDto;
@@ -26,7 +31,8 @@ public class JanggiService {
         return new JanggiGame(board);
     }
 
-    public BoardDto buildBoardDto(Board board) {
+    public BoardDto buildBoardDto(JanggiGame janggiGame) {
+        Board board = janggiGame.getBoard();
         List<BoardDto.Row> boardAll = new ArrayList<>();
         for (int x = 1; x <= Position.MAX_ROW; x++) {
             List<String> values = new ArrayList<>();
@@ -39,7 +45,8 @@ public class JanggiService {
         return new BoardDto(boardAll);
     }
 
-    public ColorDto buildColorDto(Board board) {
+    public ColorDto buildColorDto(JanggiGame janggiGame)  {
+        Board board = janggiGame.getBoard();
         List<ColorDto.Row> boardAll = new ArrayList<>();
         for (int x = 1; x <= Position.MAX_ROW; x++) {
             List<String> values = new ArrayList<>();
@@ -74,11 +81,22 @@ public class JanggiService {
         return janggiGame.calculateWinner();
     }
 
-    public List<PositionDto> buildAvailabelPositions(Board board,Position start) {
+    public List<PositionDto> buildAvailabelPositions(JanggiGame janggiGame,Position start) {
+        Board board = janggiGame.getBoard();
         List<PositionDto> positionDtos = new ArrayList<>();
         for (Position position : board.findAvailablePositions(start)){
             positionDtos.add(new PositionDto(position.getX(), position.getY()));
         }
         return positionDtos;
+    }
+
+    public void initializeData(JanggiGame janggiGame) {
+        Connection conn = ConnectionManager.getConnection();
+
+        JanggiGameRepository janggiGameRepository = new JanggiGameRepository(conn);
+        int gameId= janggiGameRepository.saveGame(janggiGame);
+        janggiGameRepository.saveBoard(janggiGame.getBoard(), gameId);
+
+//        ConnectionManager.closeConnection(conn);
     }
 }

@@ -18,4 +18,9 @@ public class ExitGame implements State {
         return true;
     }
 
+    @Override
+    public String getValue(){
+        return "Exit";
+    }
+
 }

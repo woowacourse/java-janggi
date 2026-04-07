@@ -36,15 +36,19 @@ public class JanggiController {
     }
 
     public void run() {
+        // TODO : 사용자에게 게임 여부 받기
+
         Board board = initBoard();
         JanggiGame janggiGame = initJanggiGame(board);
+
+        janggiService.initializeData(janggiGame);
 
         boolean isGameContinue = true;
         while (!janggiGame.isGameOver() && isGameContinue) {
             outputView.printScore(janggiService.buildScoreDto(janggiGame));
             outputView.printChangeTurnMessage(janggiGame.getCountry());
-            playTurn(janggiGame, board);
-            outputView.printBoard(janggiService.buildBoardDto(board), janggiService.buildColorDto(board));
+            playTurn(janggiGame);
+            outputView.printBoard(janggiService.buildBoardDto(janggiGame), janggiService.buildColorDto(janggiGame));
 
             if (janggiGame.isGameOver()) {
                 break;
@@ -111,16 +115,16 @@ public class JanggiController {
         );
     }
 
-    private void playTurn(JanggiGame janggiGame, Board board) {
+    private void playTurn(JanggiGame janggiGame) {
         doRetry(() -> {
-                    outputView.printBoard(janggiService.buildBoardDto(board), janggiService.buildColorDto(board));
+                    outputView.printBoard(janggiService.buildBoardDto(janggiGame), janggiService.buildColorDto(janggiGame));
                     List<PositionDto> positionDtos = requestMovePiece(janggiGame);
                     Optional<Position> start = requestStartPiecePosition(positionDtos);
                     if (start.isEmpty()) {
                         throw new IllegalArgumentException("올바르지 않은 입력입니다. 번호를 다시 입력해주세요.");
                     }
 
-                    List<PositionDto> availableEndPositions = janggiService.buildAvailabelPositions(board, start.get());
+                    List<PositionDto> availableEndPositions = janggiService.buildAvailabelPositions(janggiGame, start.get());
                     if (availableEndPositions.isEmpty()) {
                         throw new IllegalArgumentException("이동 가능한 좌표가 없습니다.");
                     }

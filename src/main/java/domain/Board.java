@@ -97,6 +97,10 @@ public class Board {
         return positions;
     }
 
+    public Map<Position,Piece> getBoard() {
+        return board;
+    }
+
     public int calculateScore(Country country){
         return board.values().stream()
                 .filter(piece -> piece.getCountry()==country)
