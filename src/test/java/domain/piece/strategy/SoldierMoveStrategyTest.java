@@ -75,7 +75,7 @@ class SoldierMoveStrategyTest {
         }
 
         @Test
-        void 졸과_병은_궁성_중앙이_아니면_대각선_방향으로_이동할_수_없다(){
+        void 졸과_병은_출발지와_목적지_모두_궁성_중앙이_아니면_대각선_방향으로_이동할_수_없다(){
             Position from = new Position(4,7);
             Position to = new Position(3, 8);
 
@@ -83,9 +83,8 @@ class SoldierMoveStrategyTest {
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
-
         @Test
-        void 졸과_병은_궁성_중앙에서_궁성_가장자리로_대각선_방향이더라도_후퇴할_수_없다() {
+        void 졸과_병은_대각선_방향이더라도_궁성_중앙에서_궁성_가장자리로__후퇴할_수_없다() {
             Position from = new Position(3, 9);
             Position to = new Position(4, 8);
 
