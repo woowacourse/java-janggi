@@ -83,7 +83,7 @@ public class OutputView {
             return ANSI_BLUE + cell + ANSI_RESET;
         }
         if (movables.contains(current)) {
-            return ANSI_YELLOW + cell + ANSI_RESET; // null 체크 소거됨
+            return ANSI_YELLOW + cell + ANSI_RESET;
         }
 
         return applySideColor(cell, piece);
@@ -118,6 +118,10 @@ public class OutputView {
         System.out.println(message);
     }
 
+    public void printNewLine() {
+        printLine("");
+    }
+
     public void printPlayerNameNotice(String displayName) {
         printLine(String.format(Message.PLAYER_NAME_NOTICE, displayName));
     }
@@ -150,10 +154,19 @@ public class OutputView {
         String formattedDate = gameSessionDTO.createdAt().format(DATE_FORMATTER);
         printLine(String.format(GAME_DATA_INFO, gameSessionDTO.gameId(), gameSessionDTO.choPlayerName(),
                 gameSessionDTO.hanPlayerName(), gameSessionDTO.currentTurn(), formattedDate));
-        printLine("");
+        printNewLine();
     }
 
     public void printGameNotExist() {
         printLine(Message.GAME_DATA_NOT_EXIST);
+    }
+
+    public void printGenerateGameData() {
+        printLine(Message.GAME_DATA_GENERATE);
+        printNewLine();
+    }
+
+    public void printSelectGameId() {
+        printLine(Message.INPUT_TARGET_GAME_ID);
     }
 }

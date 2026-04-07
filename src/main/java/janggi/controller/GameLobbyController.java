@@ -26,12 +26,9 @@ public class GameLobbyController {
 
     public ActiveGameSession enterLobby(Connection connection) throws SQLException {
         if (gameNotExist(connection)) {
-            outputView.printGameNotExist();
-            return generateNewGame(connection);
+            return initialGame(connection);
         }
-        outputView.printSelectGameData();
-        UserCommand userCommand = UserCommand.from(inputView.readUserCommand());
-        if (userCommand.confirmed()) {
+        if (resumeGame()) {
             return loadExistingGame(connection);
         }
         return generateNewGame(connection);
@@ -41,14 +38,27 @@ public class GameLobbyController {
         return janggiService.activeGames(connection).isEmpty();
     }
 
+    private ActiveGameSession initialGame(Connection connection) throws SQLException {
+        outputView.printGameNotExist();
+        return generateNewGame(connection);
+    }
+
+    private boolean resumeGame() {
+        outputView.printSelectGameData();
+        UserCommand userCommand = UserCommand.from(inputView.readUserCommand());
+        return userCommand.confirmed();
+    }
+
     private ActiveGameSession loadExistingGame(Connection connection) throws SQLException {
         List<GameSessionDTO> activeGames = janggiService.activeGames(connection);
         activeGames.forEach(outputView::printActiveGameInfo);
+        outputView.printSelectGameId();
         long selectedGameId = inputView.readGameId();
         return janggiService.loadGameSession(connection, selectedGameId);
     }
 
     private ActiveGameSession generateNewGame(Connection connection) throws SQLException {
+        outputView.printGenerateGameData();
         String choName = readPlayerName(Side.CHO);
         String hanName = readPlayerName(Side.HAN);
         return janggiService.createNewSession(connection, choName, hanName);
