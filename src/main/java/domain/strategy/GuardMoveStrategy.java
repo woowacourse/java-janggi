@@ -12,7 +12,8 @@ public class GuardMoveStrategy implements MoveStrategy {
         if (isOutsideOwnPalace(from, to, board))
             return false;
 
-        if (MoveValidator.isNotOneStepStraight(from, to) && MoveValidator.isNotOneStepDiagonal(from, to, board))
+        if (!from.isOneStepStraightTo(to)
+                && !MoveValidator.canMoveOneStepDiagonal(from, to, board))
             return false;
 
         return board.canOccupy(from, to);

@@ -17,6 +17,24 @@ public class Position {
         return new Position(row, col);
     }
 
+    public boolean isOneStepStraightTo(Position to) {
+        return (this.row == to.row && Math.abs(this.col - to.col) == 1)
+                || (this.col == to.col && Math.abs(this.row - to.row) == 1);
+    }
+
+    public boolean isOneStepDiagonalTo(Position to) {
+        return Math.abs(this.row - to.row) == 1
+                && Math.abs(this.col - to.col) == 1;
+    }
+
+    public boolean isStraightTo(Position to) {
+        return (this.row == to.row)|| (this.col == to.col);
+    }
+
+    public boolean isDiagonalTo(Position to) {
+        return Math.abs(this.row - to.row) == Math.abs(this.col - to.col);
+    }
+
     public int getRow() {
         return this.row;
     }

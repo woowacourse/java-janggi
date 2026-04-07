@@ -7,7 +7,8 @@ public class ChariotMoveStrategy implements MoveStrategy {
 
     @Override
     public boolean canMove(final Position from, final Position to, final Board board) {
-        if (MoveValidator.isNotStraightPath(from, to) && MoveValidator.isNotDiagonalPath(from, to, board))
+        if (!from.isStraightTo(to)
+                && !MoveValidator.canMoveDiagonal(from, to, board))
             return false;
 
         int dx = Integer.compare(to.getRow(), from.getRow());

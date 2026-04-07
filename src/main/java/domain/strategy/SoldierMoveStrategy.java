@@ -8,7 +8,8 @@ public class SoldierMoveStrategy implements MoveStrategy {
 
     @Override
     public boolean canMove(final Position from, final Position to, final Board board) {
-        if (MoveValidator.isNotOneStepStraight(from, to) && MoveValidator.isNotOneStepDiagonal(from, to, board))
+        if (!from.isOneStepStraightTo(to)
+                && !MoveValidator.canMoveOneStepDiagonal(from, to, board))
             return false;
 
         if (isWithdraw(from, to, board))
