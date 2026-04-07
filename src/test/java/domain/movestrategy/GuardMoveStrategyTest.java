@@ -24,7 +24,7 @@ class GuardMoveStrategyTest {
     }
 
     @Test
-    @DisplayName("사는 궁 중앙에서 8방향 중 한 칸 이동이 가능")
+    @DisplayName("사는 궁성 중앙에서 8방향 중 한 칸 이동이 가능")
     void guardMoveTest() {
         // given
         Position from = Position.of(2, 5);
@@ -51,7 +51,7 @@ class GuardMoveStrategyTest {
     }
 
     @Test
-    @DisplayName("사는 궁 꼭짓점에서 중앙으로 대각선 이동 가능")
+    @DisplayName("사는 궁성 꼭짓점에서 중앙으로 대각선 이동 가능")
     void guardCanMoveVertexToMiddleOfPalace() {
         // given
         Position from = Position.of(1, 4);
@@ -71,7 +71,7 @@ class GuardMoveStrategyTest {
     }
 
     @Test
-    @DisplayName("사는 궁 외곽 중앙에서 다른 외곽 중앙으로 이동 불가")
+    @DisplayName("사는 궁성 외곽 중앙에서 다른 외곽 중앙으로 이동 불가")
     void guardCantMoveSideToAnotherSide() {
         // given
         Position from = Position.of(2, 4);
@@ -92,7 +92,7 @@ class GuardMoveStrategyTest {
     }
 
     @Test
-    @DisplayName("사는 궁 바깥으로 이동 불가")
+    @DisplayName("사는 궁성 바깥으로 이동 불가")
     void guardCantMoveOutSidePalace() {
         // given
         Position from = Position.of(2, 4);
