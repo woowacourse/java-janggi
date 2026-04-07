@@ -40,6 +40,11 @@ public class OutputView {
         }
     }
 
+    public void printScore(double choScore, double hanScore) {
+        System.out.printf("초 : %.1f점%n", choScore);
+        System.out.printf("한 : %.1f점%n", hanScore);
+    }
+
     public void printErrorMessage(String message) {
         System.out.println("[ERROR] " + message);
     }

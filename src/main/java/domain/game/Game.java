@@ -9,6 +9,7 @@ import domain.player.Player;
 import domain.player.Players;
 import domain.player.Team;
 import domain.position.Position;
+import domain.score.Score;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -109,5 +110,9 @@ public class Game {
 
     public String getHanPlayerName() {
         return players.getHanPlayerName();
+    }
+
+    public Score getScore() {
+        return Score.from(board.getRemainPieces());
     }
 }

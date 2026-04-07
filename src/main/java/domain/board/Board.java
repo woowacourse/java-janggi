@@ -129,4 +129,10 @@ public class Board {
     public int hashCode() {
         return Objects.hashCode(board);
     }
+
+
+    public List<Piece> getRemainPieces() {
+        return board.values().stream()
+                .toList();
+    }
 }

@@ -90,6 +90,7 @@ public class GameConsole {
         });
         outputView.printBoard(game.getBoardMap());
         outputView.printCaughtPieces(game.getCaughtPieces());
+        outputView.printScore(game.getScore().getChoScore(), game.getScore().getHanScore());
 
         gameRepository.save(game, gameId);
     }

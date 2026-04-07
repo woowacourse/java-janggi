@@ -90,4 +90,8 @@ public abstract class Piece {
     public Team getTeam() {
         return team;
     }
+
+    public double getPoint() {
+        return pieceType.getPoint();
+    }
 }
