@@ -82,8 +82,6 @@ public class ViewFormatter {
                         초나라 점수 : %.1f
                         한나라 점수 : %.1f
                         
-                        ----------------
-                        
                         """, gameRecordDto.gameId(),
                 gameRecordDto.country(),
                 gameRecordDto.choScore(),
