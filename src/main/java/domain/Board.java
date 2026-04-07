@@ -45,53 +45,109 @@ public class Board {
 
     private List<Piece> getSameLine(Piece startPiece, Position start, Position end) {
         PieceType pieceType = startPiece.getPieceType();
-        if (!pieceType.equals(PieceType.PO) && !pieceType.equals(PieceType.CHA)) {
-            return Collections.emptyList();
+        if (pieceType.equals(PieceType.MA)) {
+            return getMaRoute(start, end);
+        }
+        if (pieceType.equals(PieceType.SANG)) {
+            return getSangRoute(start, end);
+        }
+        if (pieceType.equals(PieceType.CHA) || pieceType.equals(PieceType.PO)) {
+            return getChaPoRoute(startPiece, start, end);
         }
 
-        List<Piece> pieces = new ArrayList<>();
+        return Collections.emptyList();
+    }
+
+    private List<Piece> getChaPoRoute(Piece startPiece, Position start, Position end) {
         if (start.getRow() == end.getRow() || start.getCol() == end.getCol()) {
-            int startRow = start.getRow();
-            int startCol = start.getCol();
-            int endRow = end.getRow();
-            int endCol = end.getCol();
-            if (!(startRow == endRow || startCol == endCol)) {
-                throw new IllegalArgumentException("포는 같은 줄만 이동 가능합니다.");
-            }
+            return getStraightRoute(start, end);
+        }
+        return getDiagonalRoute(startPiece, start, end);
+    }
 
-            if (startRow == endRow) {
-                int minCol = Math.min(startCol, endCol);
-                int maxCol = Math.max(startCol, endCol);
-                for (int i = minCol + 1; i < maxCol; i++) {
-                    Position position = Position.create(startRow, i);
-                    if (board.containsKey(position)) {
-                        pieces.add(board.get(position));
-                    }
-                }
-            }
+    private List<Piece> getMaRoute(Position start, Position end) {
+        List<Piece> pieces = new ArrayList<>();
+        int diffRow = end.getRow() - start.getRow();
+        int diffCol = end.getCol() - start.getCol();
 
-            if (startCol == endCol) {
-                int minRow = Math.min(startRow, endRow);
-                int maxRow = Math.max(startRow, endRow);
-                for (int i = minRow + 1; i < maxRow; i++) {
-                    Position position = Position.create(i, startCol);
-                    if (board.containsKey(position)) {
-                        pieces.add(board.get(position));
-                    }
-                }
-            }
-
-            return pieces;
+        Position position;
+        if (Math.abs(diffRow) == 2) {
+            position = Position.create(start.getRow() + (diffRow / 2), start.getCol());
+        } else {
+            position = Position.create(start.getRow(), start.getCol() + (diffCol / 2));
         }
 
+        if (board.containsKey(position)) {
+            pieces.add(board.get(position));
+        }
+
+        return pieces;
+    }
+
+    private List<Piece> getSangRoute(Position start, Position end) {
+        int diffRow = end.getRow() - start.getRow();
+        int diffCol = end.getCol() - start.getCol();
+
+        Position position;
+        if (Math.abs(diffRow) == 3) {
+            position = Position.create(start.getRow() + (diffRow / 3 * 2), start.getCol() + (diffCol / 2));
+        } else {
+            position = Position.create(start.getRow() + (diffRow / 2), start.getCol() + (diffCol / 3 * 2));
+        }
+
+        List<Piece> pieces = getMaRoute(start, position);
+        if (board.containsKey(position)) {
+            pieces.add(board.get(position));
+        }
+
+        return pieces;
+    }
+
+    private List<Piece> getStraightRoute(Position start, Position end) {
+        if (start.getRow() == end.getRow()) {
+            return getHorizontalRoute(start, end);
+        }
+        return getVerticalRoute(start, end);
+    }
+
+    private List<Piece> getHorizontalRoute(Position start, Position end) {
+        List<Piece> pieces = new ArrayList<>();
+        int row = start.getRow();
+        int minCol = Math.min(start.getCol(), end.getCol());
+        int maxCol = Math.max(start.getCol(), end.getCol());
+        for (int i = minCol + 1; i < maxCol; i++) {
+            Position position = Position.create(row, i);
+            if (board.containsKey(position)) {
+                pieces.add(board.get(position));
+            }
+        }
+
+        return pieces;
+    }
+
+    private List<Piece> getVerticalRoute(Position start, Position end) {
+        List<Piece> pieces = new ArrayList<>();
+        int col = start.getCol();
+        int minRow = Math.min(start.getRow(), end.getRow());
+        int maxRow = Math.max(start.getRow(), end.getRow());
+        for (int i = minRow + 1; i < maxRow; i++) {
+            Position position = Position.create(i, col);
+            if (board.containsKey(position)) {
+                pieces.add(board.get(position));
+            }
+        }
+
+        return pieces;
+    }
+
+    private List<Piece> getDiagonalRoute(Piece startPiece, Position start, Position end) {
+        List<Piece> pieces = new ArrayList<>();
         Palace palace = Palace.from(startPiece.getCountry());
-        if (palace.isDiagonalPath(start, end)) {
-            int diffRow = Math.abs(end.getRow() - start.getRow());
-            if (diffRow == 2) {
-                Position center = palace.getCenter();
-                if (board.containsKey(center)) {
-                    pieces.add(board.get(center));
-                }
+
+        if (palace.isDiagonalPath(start, end) && Math.abs(end.getRow() - start.getRow()) == 2) {
+            Position center = palace.getCenter();
+            if (board.containsKey(center)) {
+                pieces.add(board.get(center));
             }
         }
 
