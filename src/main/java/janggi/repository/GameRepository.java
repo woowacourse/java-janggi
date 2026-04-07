@@ -32,11 +32,11 @@ public class GameRepository {
     }
 
     public List<Long> findAllIds() {
-        return transactionManager.withoutTransaction(this::findAllIds);
+        return transactionManager.execute(this::findAllIds);
     }
 
     public Optional<LoadedGame> findById(long gameId) {
-        Optional<Game> foundGame = transactionManager.withoutTransaction(connection ->
+        Optional<Game> foundGame = transactionManager.execute(connection ->
                 findById(connection, gameId)
         );
         return foundGame.map(game -> new LoadedGame(gameId, game));
@@ -44,20 +44,20 @@ public class GameRepository {
 
     public LoadedGame create(Board board) {
         Game game = Game.start(board);
-        long gameId = transactionManager.inTransaction(connection -> {
+        long gameId = transactionManager.executeWithTransaction(connection -> {
             return create(connection, game);
         });
         return new LoadedGame(gameId, game);
     }
 
     public void update(long gameId, Game game) {
-        transactionManager.inTransaction(connection -> {
+        transactionManager.executeWithTransaction(connection -> {
             update(connection, gameId, game);
         });
     }
 
     public void deleteById(long gameId) {
-        transactionManager.inTransaction(connection -> {
+        transactionManager.executeWithTransaction(connection -> {
             deleteById(connection, gameId);
         });
     }

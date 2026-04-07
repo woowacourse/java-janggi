@@ -14,16 +14,15 @@ public class TransactionManager {
         this.connectionManager = connectionManager;
     }
 
-    public <T> T withoutTransaction(SqlFunction<T> action) {
+    public <T> T execute(SqlFunction<T> action) {
         try (Connection connection = connectionManager.getConnection()) {
-            connection.setReadOnly(true);
             return action.apply(connection);
         } catch (SQLException e) {
             throw new DataAccessException(DATABASE_ACCESS_FAILED, e);
         }
     }
 
-    public <T> T inTransaction(SqlFunction<T> action) {
+    public <T> T executeWithTransaction(SqlFunction<T> action) {
         try (Connection connection = connectionManager.getConnection()) {
             connection.setAutoCommit(false);
             return executeInTransaction(connection, action);
@@ -32,7 +31,7 @@ public class TransactionManager {
         }
     }
 
-    public void inTransaction(SqlConsumer action) {
+    public void executeWithTransaction(SqlConsumer action) {
         try (Connection connection = connectionManager.getConnection()) {
             connection.setAutoCommit(false);
             executeInTransaction(connection, action);
