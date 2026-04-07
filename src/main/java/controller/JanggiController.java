@@ -1,6 +1,5 @@
 package controller;
 
-import view.PlacementInputMapper;
 import domain.board.formation.FormationType;
 import domain.game.JanggiGame;
 import domain.game.Turn;
@@ -11,6 +10,7 @@ import service.LoadedGame;
 import util.Retry;
 import view.InputView;
 import view.OutputView;
+import view.PlacementInputMapper;
 import view.dto.BoardDto;
 
 public class JanggiController {

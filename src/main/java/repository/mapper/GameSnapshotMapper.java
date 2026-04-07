@@ -62,7 +62,8 @@ public class GameSnapshotMapper {
     }
 
     private Comparator<Map.Entry<Coordination, Piece>> pieceOrder() {
-        return Comparator.comparing((Map.Entry<Coordination, Piece> entry) -> entry.getKey().coordination().get(ROW_INDEX))
+        return Comparator.comparing(
+                        (Map.Entry<Coordination, Piece> entry) -> entry.getKey().coordination().get(ROW_INDEX))
                 .thenComparing(entry -> entry.getKey().coordination().get(COLUMN_INDEX));
     }
 
