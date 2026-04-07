@@ -39,13 +39,10 @@ class StraightLineMovementTest {
             Intersection currentIntersection = new Intersection(5, 5);
             List<Intersection> expected = allDirectionIntersectionsExcludeCurrentIntersection(currentIntersection);
 
-            // TODO 이거 extracting으로 뺄 수 있을 듯. 다른 테스트들도 슬슬 간소화 각 보기
             List<Path> movablePaths = movement.movablePaths(currentIntersection, side);
-            List<Intersection> movableDestinations = movablePaths.stream()
-                    .map(Path::destination)
-                    .toList();
 
-            assertThat(movableDestinations)
+            assertThat(movablePaths)
+                    .extracting(Path::destination)
                     .containsExactlyInAnyOrderElementsOf(expected);
         }
 
