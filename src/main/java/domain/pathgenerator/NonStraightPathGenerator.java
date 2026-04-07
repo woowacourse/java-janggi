@@ -1,12 +1,12 @@
 package domain.pathgenerator;
 
-import common.JanggiException;
 import domain.direction.Direction;
 import domain.position.Path;
 import domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class NonStraightPathGenerator implements PathGenerator {
 
@@ -18,18 +18,11 @@ public class NonStraightPathGenerator implements PathGenerator {
     }
 
     @Override
-    public Path calculatePath(Position source, Position destination) {
+    public Optional<Path> calculatePath(Position source, Position destination) {
         return paths.stream()
                 .map(directionPath -> tryBuildPath(source, destination, directionPath))
                 .filter(Objects::nonNull)
-                .findFirst()
-                .orElseThrow(() -> new JanggiException(INVALID_MOVEMENT));
-    }
-
-    @Override
-    public boolean isPathPossible(Position source, Position destination) {
-        return paths.stream()
-                .anyMatch(directionPath -> tryBuildPath(source, destination, directionPath) != null);
+                .findFirst();
     }
 
     private Path tryBuildPath(Position source, Position destination, List<Direction> directionPath) {

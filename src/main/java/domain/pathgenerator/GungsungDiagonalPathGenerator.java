@@ -1,11 +1,11 @@
 package domain.pathgenerator;
 
-import common.JanggiException;
 import domain.direction.Direction;
 import domain.position.Path;
 import domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class GungsungDiagonalPathGenerator implements PathGenerator {
 
@@ -39,22 +39,20 @@ public class GungsungDiagonalPathGenerator implements PathGenerator {
             List.of(List.of(2, 2), List.of(0, 0)),
             List.of(List.of(2, 2), List.of(1, 1))
     );
-    public static final String INVALID_GUNGSUNG_PATH = "궁성 대각선 경로가 아닙니다.";
 
     @Override
-    public Path calculatePath(Position source, Position destination) {
+    public Optional<Path> calculatePath(Position source, Position destination) {
         if (!isPathPossible(source, destination)) {
-            throw new JanggiException(INVALID_GUNGSUNG_PATH);
+            return Optional.empty();
         }
         Direction direction = determineDirection(source, destination);
         if (!direction.isDiagonal()) {
-            throw new JanggiException(INVALID_GUNGSUNG_PATH);
+            return Optional.empty();
         }
-        return buildPath(source, destination, direction);
+        return Optional.of(buildPath(source, destination, direction));
     }
 
-    @Override
-    public boolean isPathPossible(Position source, Position destination) {
+    private boolean isPathPossible(Position source, Position destination) {
         for (List<List<Integer>> length1IndexPair : MOVEABLE_INDEX_PAIR) {
             List<Integer> targetSourceIndex = length1IndexPair.getFirst();
             List<Integer> targetDestinationIndex = length1IndexPair.get(1);

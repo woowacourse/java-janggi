@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 public class Board {
@@ -58,10 +59,11 @@ public class Board {
     public boolean canMove(Position source, Position destination) {
         validateSource(source);
         Piece piece = findPiece(source);
-        if (!piece.isPathPossible(source, destination)) {
+        Optional<Path> optionalPath = piece.calculatePath(source, destination);
+        if (optionalPath.isEmpty()) {
             return false;
         }
-        Path path = piece.calculatePath(source, destination);
+        Path path = optionalPath.get();
         PathPieces pathPieces = createPathPieces(path);
         return piece.isValidPath(path, pathPieces);
     }

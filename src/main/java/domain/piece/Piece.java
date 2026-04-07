@@ -7,6 +7,7 @@ import domain.position.Path;
 import domain.position.Position;
 import domain.strategy.MovementStrategy;
 import java.util.Objects;
+import java.util.Optional;
 
 public abstract class Piece {
 
@@ -22,12 +23,8 @@ public abstract class Piece {
 
     protected abstract PathGenerator getPathGenerator();
 
-    public Path calculatePath(Position source, Position destination) {
+    public Optional<Path> calculatePath(Position source, Position destination) {
         return this.getPathGenerator().calculatePath(source, destination);
-    }
-
-    public boolean isPathPossible(Position source, Position destination) {
-        return this.getPathGenerator().isPathPossible(source, destination);
     }
 
     public boolean isValidPath(Path path, PathPieces pathPieces) {

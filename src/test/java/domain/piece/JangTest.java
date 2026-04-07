@@ -20,7 +20,7 @@ class JangTest {
         Position source = new Position(sourceRow, sourceColumn);
         Position destination = new Position(destinationRow, destinationColumn);
 
-        Path path = jang.calculatePath(source, destination);
+        Path path = jang.calculatePath(source, destination).get();
 
         assertNotNull(path);
         assertEquals(source, path.source());

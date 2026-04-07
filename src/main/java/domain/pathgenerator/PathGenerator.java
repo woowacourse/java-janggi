@@ -2,9 +2,8 @@ package domain.pathgenerator;
 
 import domain.position.Path;
 import domain.position.Position;
+import java.util.Optional;
 
 public interface PathGenerator {
-    Path calculatePath(Position source, Position destination);
-
-    boolean isPathPossible(Position source, Position destination);
+    Optional<Path> calculatePath(Position source, Position destination);
 }

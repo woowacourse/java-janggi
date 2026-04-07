@@ -20,7 +20,7 @@ class SangTest {
         Position source = new Position(sourceRow, sourceColumn);
         Position destination = new Position(destinationRow, destinationColumn);
 
-        Path path = sang.calculatePath(source, destination);
+        Path path = sang.calculatePath(source, destination).get();
 
         assertNotNull(path);
         assertEquals(source, path.source());

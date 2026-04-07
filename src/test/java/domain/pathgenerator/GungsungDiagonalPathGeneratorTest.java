@@ -2,9 +2,8 @@ package domain.pathgenerator;
 
 import static domain.TestUtil.createPosition;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import common.JanggiException;
 import domain.position.Path;
 import domain.position.Position;
 import java.util.List;
@@ -20,7 +19,7 @@ class GungsungDiagonalPathGeneratorTest {
     void 거리가_1인_궁성_안의_대각선_위치에_대해_Path를_생성한다(Position source, Position destination) {
         GungsungDiagonalPathGenerator gungsungDiagonalPathGenerator = new GungsungDiagonalPathGenerator();
 
-        Path path = gungsungDiagonalPathGenerator.calculatePath(source, destination);
+        Path path = gungsungDiagonalPathGenerator.calculatePath(source, destination).get();
 
         assertEquals(source, path.source());
         assertEquals(destination, path.destination());
@@ -32,7 +31,7 @@ class GungsungDiagonalPathGeneratorTest {
     void 거리가_2인_궁성_안의_대각선_위치에_대해_Path를_생성한다(Position source, Position destination) {
         GungsungDiagonalPathGenerator gungsungDiagonalPathGenerator = new GungsungDiagonalPathGenerator();
 
-        Path path = gungsungDiagonalPathGenerator.calculatePath(source, destination);
+        Path path = gungsungDiagonalPathGenerator.calculatePath(source, destination).get();
 
         assertEquals(source, path.source());
         assertEquals(destination, path.destination());
@@ -47,11 +46,10 @@ class GungsungDiagonalPathGeneratorTest {
 
     @ParameterizedTest
     @MethodSource("impossibleDiagonalPositions")
-    void 이동할_수_없는_위치를_입력하면_에러를_던진다(Position source, Position destination) {
+    void 이동할_수_없는_위치를_입력하면_빈_Optional을_반환한다(Position source, Position destination) {
         GungsungDiagonalPathGenerator gungsungDiagonalPathGenerator = new GungsungDiagonalPathGenerator();
 
-        assertThrows(JanggiException.class,
-                () -> gungsungDiagonalPathGenerator.calculatePath(source, destination));
+        assertTrue(gungsungDiagonalPathGenerator.calculatePath(source, destination).isEmpty());
     }
 
     private static Stream<Arguments> distanceOneDiagonalPositions() {
