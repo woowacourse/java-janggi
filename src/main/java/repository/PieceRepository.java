@@ -14,13 +14,12 @@ import java.util.Map;
 import util.PieceFactory;
 
 public class PieceRepository {
-    private final Connection connection;
 
-    public PieceRepository(Connection connection) {
-        this.connection = connection;
+    public PieceRepository() {
     }
 
-    public void save(Game game) {
+    public void save(Game game, Connection connection) {
+
         Long gameId = game.id();
         Board board = game.board();
 
@@ -48,7 +47,7 @@ public class PieceRepository {
 
     // 현재 위치에서 목적지로 위치 변경
     // TODO : gameRepository에서 연동할 것 (1. 목적지 피스 삭제, 2. 현재 기물 -> 목적지로 업데이트 )
-    public void updatePieces(Long gameId, Position from, Position to) {
+    public void updatePieces(Long gameId, Position from, Position to, Connection connection) {
         String sql = "UPDATE piece SET row_index = ? , column_index = ? WHERE game_id = ? and row_index = ? and column_index = ? ";
 
         try(PreparedStatement pstmt = connection.prepareStatement(sql)) {
@@ -65,7 +64,7 @@ public class PieceRepository {
         }
     }
 
-    public Map<Position, Piece> findByGameId(Long gameId) {
+    public Map<Position, Piece> findByGameId(Long gameId, Connection connection) {
         String sql = "SELECT row_index, column_index, piece_type, team FROM piece WHERE game_id = ?";
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
@@ -91,7 +90,7 @@ public class PieceRepository {
     }
 
     // 목적지 기물 삭제
-    public void deletePiece(Long gameId, Position position) {
+    public void deletePiece(Long gameId, Position position, Connection connection) {
         String sql = "DELETE FROM piece WHERE game_id = ? and row_index = ? and column_index = ?";
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {

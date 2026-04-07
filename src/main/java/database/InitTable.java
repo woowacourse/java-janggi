@@ -1,10 +1,13 @@
 package database;
 
+import config.DatabaseConfig;
 import java.sql.Connection;
 import java.sql.Statement;
 
 public class InitTable {
-    public static void schemaInit(Connection connection) {
+    public static void schemaInit() {
+        Connection connection = DatabaseConfig.createConnection();
+
         try (Statement stmt = connection.createStatement()){
             stmt.execute("""
                 CREATE TABLE IF NOT EXISTS game (

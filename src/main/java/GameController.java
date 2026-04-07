@@ -1,22 +1,17 @@
-import domain.Board;
-import domain.Game;
 import domain.HorseElephantFormation;
 import domain.Team;
 import dto.MoveCommand;
-import repository.GameRepository;
-import strategy.InitializeStrategy;
 import util.Parser;
 import view.InputView;
 import view.OutputView;
 
 public class GameController {
-    private final GameRepository gameRepository;
-    private Game game;
+    private final GameService gameService;
     private String choPlayer;
     private String hanPlayer;
 
-    public GameController(GameRepository gameRepository) {
-        this.gameRepository = gameRepository;
+    public GameController(GameService gameService) {
+        this.gameService = gameService;
     }
 
     public void start() {
@@ -45,22 +40,17 @@ public class GameController {
         HorseElephantFormation choFormation = HorseElephantFormation.from(choFormationInput);
         HorseElephantFormation hanFormation = HorseElephantFormation.from(hanFormationInput);
 
-        InitializeStrategy choStrategy = choFormation.createStrategy();
-        InitializeStrategy hanStrategy = hanFormation.createStrategy();
+        gameService.startNewGame(choFormation, hanFormation);
 
-        Board board = new Board(choStrategy, hanStrategy);
-        game = new Game(board);
-        gameRepository.save(game);
-
-        OutputView.printBoard(board);
+        OutputView.printBoard(gameService.getBoard());
 
         run();
     }
 
     private void resumeGame() {
-        this.game = gameRepository.findLatest();
+        gameService.resumeGame();
 
-        OutputView.printBoard(game.board());
+        OutputView.printBoard(gameService.getBoard());
 
         run();
     }
@@ -68,22 +58,22 @@ public class GameController {
 
     public void run() {
         while (true) {
-            if (!game.board().canNextTurn()) {
+            if (gameService.isGameOver()) {
                 OutputView.printGameOver();
                 start();
                 break;
             }
             try {
-                playTurn(game.board());
+                playTurn();
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
         }
     }
 
-    public void playTurn(Board board) {
+    public void playTurn() {
         String team = "초나라";
-        Team teamType = game.turn();
+        Team teamType = gameService.getCurrentTeam();
         String player = choPlayer;
 
         if (teamType == Team.HAN) {
@@ -95,12 +85,8 @@ public class GameController {
 
         MoveCommand command = Parser.parse(moveCommand);
 
-        board.move(command.from(), command.to(), command.pieceType(), teamType);
+        gameService.playTurn(command);
 
-        OutputView.printBoard(board);
-
-        game.changeTurn();
-
-        gameRepository.update(game, command.from(), command.to());
+        OutputView.printBoard(gameService.getBoard());
     }
 }

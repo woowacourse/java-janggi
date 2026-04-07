@@ -13,28 +13,26 @@ import java.util.Map;
 
 public class GameRepository {
 
-    private final Connection connection;
     private final PieceRepository pieceRepository;
 
-    public GameRepository(Connection connection) {
-        this.connection = connection;
-        this.pieceRepository = new PieceRepository(connection);
+    public GameRepository() {
+        this.pieceRepository = new PieceRepository();
     }
 
     // 초기 게임판과 게임 정보 저장
-    public void save(Game game) {
-        Long gameId = insertGame(game);
+    public void save(Game game, Connection connection) {
+        Long gameId = insertGame(game, connection);
         game.assignId(gameId);
-        pieceRepository.save(game);
+        pieceRepository.save(game, connection);
     }
 
-    public void update(Game game, Position from, Position to) {
-        updateGame(game, game.board());
-        pieceRepository.deletePiece(game.id(), to);
-        pieceRepository.updatePieces(game.id(), from, to);
+    public void update(Game game, Position from, Position to, Connection connection) {
+        updateGame(game, game.board(), connection);
+        pieceRepository.deletePiece(game.id(), to, connection);
+        pieceRepository.updatePieces(game.id(), from, to, connection);
     }
 
-    public Game findByGameId(Long gameId) {
+    public Game findByGameId(Long gameId, Connection connection) {
         String sql = "SELECT turn, is_finished FROM game WHERE id = ?";
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
@@ -48,7 +46,7 @@ public class GameRepository {
             Team team = Team.valueOf(rs.getString("turn"));
             boolean isFinished = rs.getBoolean("is_finished");
 
-            Map<Position, Piece> pieces = pieceRepository.findByGameId(gameId);
+            Map<Position, Piece> pieces = pieceRepository.findByGameId(gameId, connection);
             Board board = new Board(pieces, isFinished);
             return new Game(gameId, team, board);
 
@@ -57,7 +55,7 @@ public class GameRepository {
         }
     }
 
-    public Game findLatest() {
+    public Game findLatest(Connection connection) {
         String sql = "SELECT id FROM game ORDER BY id DESC LIMIT 1";
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
@@ -68,14 +66,14 @@ public class GameRepository {
             }
 
             Long gameId = rs.getLong("id");
-            return findByGameId(gameId);
+            return findByGameId(gameId, connection);
 
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    private void updateGame(Game game, Board board) {
+    private void updateGame(Game game, Board board, Connection connection) {
         String sql = "UPDATE game SET turn = ?, is_finished = ? WHERE id = ?";
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
@@ -90,7 +88,7 @@ public class GameRepository {
         }
     }
 
-    private Long insertGame(Game game) {
+    private Long insertGame(Game game, Connection connection) {
         String sql = "INSERT INTO game (turn, is_finished) VALUES (?, ?)";
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
