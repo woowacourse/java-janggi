@@ -50,6 +50,21 @@ class JanggiGameTest {
     }
 
     @Test
+    @DisplayName("플레이어가 선택한 기물 위치와 목적지가 동일하다면 예외를 던진다.")
+    void player_select_position_and_destination_isSame_throw_exception_test() {
+        Map<Position, Piece> testBoard = new HashMap<>();
+        Position current = new Position(3, 3);
+        Position target = new Position(3, 3);
+        Board board = Board.of(testBoard);
+
+        JanggiGame janggiGame = JanggiGame.of(board);
+
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> janggiGame.move(current, target))
+                .withMessage("[ERROR] 기물은 제자리 이동이 불가능합니다.");
+    }
+
+    @Test
     @DisplayName("플레이어가 선택한 기물 위치에 아군 기물이 존재하지 않으면 예외를 던진다.")
     void player_select_position_piece_not_exist_throw_exception_test() {
         Map<Position, Piece> testBoard = new HashMap<>();
