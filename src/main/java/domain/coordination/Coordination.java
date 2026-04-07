@@ -101,7 +101,9 @@ public class Coordination {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Coordination that = (Coordination) o;
         return Objects.equals(column, that.column) && Objects.equals(row, that.row);
     }
