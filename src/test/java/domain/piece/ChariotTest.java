@@ -2,6 +2,7 @@ package domain.piece;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static fixture.PiecePathFinder.piecesOnPath;
 
 import domain.coordination.Coordination;
 import domain.piece.error.PieceException;
@@ -25,7 +26,7 @@ class ChariotTest {
         Coordination from = Coordination.of(1, 10);
         Coordination to = Coordination.of(column, row);
 
-        assertThatThrownBy(() -> chariot.validateMovable(from, to, board))
+        assertThatThrownBy(() -> chariot.validateRule(from, to))
                 .isInstanceOf(PieceException.class);
     }
 
@@ -42,7 +43,7 @@ class ChariotTest {
         Coordination from = Coordination.of(1, 10);
         Coordination to = Coordination.of(column, row);
 
-        assertThatCode(() -> chariot.validateMovable(from, to, board))
+        assertThatCode(() -> chariot.validateRule(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -59,7 +60,7 @@ class ChariotTest {
         Coordination from = Coordination.of(1, 10);
         Coordination to = Coordination.of(column, row);
 
-        assertThatThrownBy(() -> chariot.validateMovable(from, to, board))
+        assertThatThrownBy(() -> chariot.validatePath(piecesOnPath(chariot, from, to, board)))
                 .isInstanceOf(PieceException.class);
     }
 
@@ -76,7 +77,7 @@ class ChariotTest {
         Coordination from = Coordination.of(1, 10);
         Coordination to = Coordination.of(column, row);
 
-        assertThatCode(() -> chariot.validateMovable(from, to, board))
+        assertThatCode(() -> chariot.validatePath(piecesOnPath(chariot, from, to, board)))
                 .doesNotThrowAnyException();
     }
 
@@ -93,7 +94,7 @@ class ChariotTest {
         Coordination from = Coordination.of(1, 10);
         Coordination to = Coordination.of(column, row);
 
-        assertThatThrownBy(() -> chariot.validateMovable(from, to, board))
+        assertThatThrownBy(() -> chariot.validateNotSameTeam(board.get(to)))
                 .isInstanceOf(PieceException.class);
     }
 
@@ -112,7 +113,10 @@ class ChariotTest {
         Coordination from = Coordination.of(4, 10);
         Coordination to = Coordination.of(column, row);
 
-        assertThatCode(() -> chariot.validateMovable(from, to, board))
+        assertThatCode(() -> {
+            chariot.validateRule(from, to);
+            chariot.validatePath(piecesOnPath(chariot, from, to, board));
+        })
                 .doesNotThrowAnyException();
     }
 
@@ -129,7 +133,7 @@ class ChariotTest {
         Coordination from = Coordination.of(4, 10);
         Coordination to = Coordination.of(column, row);
 
-        assertThatThrownBy(() -> chariot.validateMovable(from, to, board))
+        assertThatThrownBy(() -> chariot.validatePath(piecesOnPath(chariot, from, to, board)))
                 .isInstanceOf(PieceException.class);
     }
 }

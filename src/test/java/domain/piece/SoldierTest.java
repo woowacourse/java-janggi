@@ -26,7 +26,7 @@ class SoldierTest {
         Coordination from = Coordination.of(1, 7);
         Coordination to = Coordination.of(column, row);
 
-        assertThatThrownBy(() -> soldier.validateMovable(from, to, board))
+        assertThatThrownBy(() -> soldier.validateRule(from, to))
                 .isInstanceOf(PieceException.class);
     }
 
@@ -43,7 +43,7 @@ class SoldierTest {
         Coordination from = Coordination.of(1, 7);
         Coordination to = Coordination.of(column, row);
 
-        assertThatCode(() -> soldier.validateMovable(from, to, board))
+        assertThatCode(() -> soldier.validateRule(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -61,7 +61,7 @@ class SoldierTest {
         Coordination from = Coordination.of(1, 4);
         Coordination to = Coordination.of(column, row);
 
-        assertThatThrownBy(() -> soldier.validateMovable(from, to, board))
+        assertThatThrownBy(() -> soldier.validateRule(from, to))
                 .isInstanceOf(PieceException.class);
     }
 
@@ -78,7 +78,7 @@ class SoldierTest {
         Coordination from = Coordination.of(1, 4);
         Coordination to = Coordination.of(column, row);
 
-        assertThatCode(() -> soldier.validateMovable(from, to, board))
+        assertThatCode(() -> soldier.validateRule(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -95,7 +95,7 @@ class SoldierTest {
         Coordination from = Coordination.of(4, 3);
         Coordination to = Coordination.of(column, row);
 
-        assertThatCode(() -> soldier.validateMovable(from, to, board))
+        assertThatCode(() -> soldier.validateRule(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -112,7 +112,7 @@ class SoldierTest {
         Coordination from = Coordination.of(4, 3);
         Coordination to = Coordination.of(column, row);
 
-        assertThatThrownBy(() -> soldier.validateMovable(from, to, board))
+        assertThatThrownBy(() -> soldier.validateRule(from, to))
                 .isInstanceOf(PieceException.class);
     }
 }

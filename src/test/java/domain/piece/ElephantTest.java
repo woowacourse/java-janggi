@@ -2,6 +2,7 @@ package domain.piece;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static fixture.PiecePathFinder.piecesOnPath;
 
 import domain.coordination.Coordination;
 import domain.piece.error.PieceException;
@@ -29,7 +30,7 @@ class ElephantTest {
         Coordination from = Coordination.of(3, 10);
         Coordination to = Coordination.of(column, row);
 
-        assertThatThrownBy(() -> elephant.validateMovable(from, to, board))
+        assertThatThrownBy(() -> elephant.validateRule(from, to))
                 .isInstanceOf(PieceException.class);
     }
 
@@ -49,7 +50,7 @@ class ElephantTest {
         Coordination from = Coordination.of(4, 6);
         Coordination to = Coordination.of(column, row);
 
-        assertThatCode(() -> elephant.validateMovable(from, to, board))
+        assertThatCode(() -> elephant.validateRule(from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -68,7 +69,7 @@ class ElephantTest {
         Coordination from = Coordination.of(4, 4);
         Coordination to = Coordination.of(column, row);
 
-        assertThatThrownBy(() -> elephant.validateMovable(from, to, board))
+        assertThatThrownBy(() -> elephant.validatePath(piecesOnPath(elephant, from, to, board)))
                 .isInstanceOf(PieceException.class);
     }
 
@@ -86,7 +87,7 @@ class ElephantTest {
         Coordination from = Coordination.of(4, 5);
         Coordination to = Coordination.of(column, row);
 
-        assertThatCode(() -> elephant.validateMovable(from, to, board))
+        assertThatCode(() -> elephant.validatePath(piecesOnPath(elephant, from, to, board)))
                 .doesNotThrowAnyException();
     }
 
@@ -104,7 +105,7 @@ class ElephantTest {
         Coordination from = Coordination.of(5, 7);
         Coordination to = Coordination.of(column, row);
 
-        assertThatThrownBy(() -> elephant.validateMovable(from, to, board))
+        assertThatThrownBy(() -> elephant.validateNotSameTeam(board.get(to)))
                 .isInstanceOf(PieceException.class);
     }
 }
