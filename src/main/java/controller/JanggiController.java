@@ -32,7 +32,7 @@ public class JanggiController {
 //        JanggiService.insertPieces();
         int boardId = askLoadOrCreate();
         Board board = janggiService.readBoard(boardId);
-        BoardSnapshots boardSnapshots = janggiService.loadBoardSnapshot(boardId);
+        BoardSnapshots boardSnapshots = janggiService.loadPositionHistories(boardId);
 
         playTurn(board, boardSnapshots, boardId);
     }
@@ -52,11 +52,9 @@ public class JanggiController {
     }
 
     private int loadBoard() {
-        outputView.printBoardId(janggiService.readAllBoardId());
+        outputView.printBoardId(janggiService.readAllGameInfoIds());
         String input = inputView.readBoardSelect();
-        int boardId = InputParser.parseBoardId(input);
-        janggiService.readBoard(boardId);
-        return boardId;
+        return InputParser.parseBoardId(input);
     }
 
     private int makeBoard() {
@@ -64,14 +62,14 @@ public class JanggiController {
         TableSetting hanTableSetting = readTableSetting(CountryType.HAN);
         BoardFactory boardFactory = new BoardFactory();
         Board board = boardFactory.create(choTableSetting, hanTableSetting);
-        int boardId = janggiService.insertBoard();
+        int boardId = janggiService.insertGameInfo();
         initBoardState(board.getPieceInfos(), boardId);
         return boardId;
     }
 
     private void initBoardState(PieceInfos pieceInfos, int boardId) {
         for (Position position : pieceInfos.getKeys()) {
-            janggiService.insertBoardState(position, pieceInfos.get(position), boardId);
+            janggiService.insertPositionState(position, pieceInfos.get(position), boardId);
         }
     }
 
@@ -93,11 +91,11 @@ public class JanggiController {
         while (!isEnd) {
             CountryType countryType = janggiService.readCountryTurn(boardId);
             isEnd = checkEndAndMovePiece(board, countryType, boardSnapshots, boardId);
-            janggiService.updateBoard(countryType.anotherCountryType(), board.getScores(), boardId);
+            janggiService.updateGameInfo(countryType.anotherCountryType(), board.getScores(), boardId);
         }
-        janggiService.deleteAllBoardStateInBoard(boardId);
-        janggiService.deleteAllBoardSnapshotInBoard(boardId);
-        janggiService.deleteBoard(boardId);
+        janggiService.deleteAllPositionStates(boardId);
+        janggiService.deleteAllPositionHistoriesInBoard(boardId);
+        janggiService.deleteGameInfo(boardId);
     }
 
     private boolean checkEndAndMovePiece(Board board, CountryType turn, BoardSnapshots boardSnapshots,
@@ -125,8 +123,8 @@ public class JanggiController {
                 boolean isEnd = board.checkEndAndPlay(from, to);
                 BoardSnapshot boardSnapshot = new BoardSnapshot(board.getPieceInfos(), turn);
                 boardSnapshots.addBoardSnapshot(boardSnapshot);
-                janggiService.insertBoardSnapshot(board.getPieceInfos(), boardId, turn);
-                janggiService.changeBoardStateToAndFrom(from, to, board.getPieceInfos(), boardId);
+                janggiService.insertPositionHistory(board.getPieceInfos(), boardId, turn);
+                janggiService.changePositionStateToAndFrom(from, to, board.getPieceInfos(), boardId);
                 return isEnd;
             } catch (IllegalArgumentException exception) {
                 outputView.printErrorMessage(exception.getMessage());
