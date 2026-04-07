@@ -63,7 +63,7 @@ public class BoardFactory {
         putPiece(board, 3, 9, new GungAndSaMoveStorage(), team, 3, "士");
         putPiece(board, 5, 9, new GungAndSaMoveStorage(), team, 3, "士");
 
-        putPiece(board, 4, 8, new GungAndSaMoveStorage(), team, 0, "漢");
+        putPiece(board, 4, 8, new GungAndSaMoveStorage(), team, 0, "楚");
 
         putPiece(board, 1, 7, new PoMoveStorage(), team, 7, "包");
         putPiece(board, 7, 7, new PoMoveStorage(), team, 7, "包");
