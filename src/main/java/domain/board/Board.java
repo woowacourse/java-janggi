@@ -54,11 +54,11 @@ public class Board {
         return currentPiece.isAnotherTeam(targetPiece);
     }
 
-    public boolean isInOwnPalace(Position position, Team team) {
-        if (team == Team.CHU) {
-            return chuPalace.isInPalace(position);
-        }
-        return hanPalace.isInPalace(position);
+    public boolean canMoveInPalace(Position from, Position to) {
+        Piece piece = findPieceByPosition(from)
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 움직일 기물이 존재하지 않습니다."));
+        return isInOwnPalace(from, piece.getTeam())
+                && isInOwnPalace(to, piece.getTeam());
     }
 
     public int calculateScore(Team team) {
@@ -89,5 +89,12 @@ public class Board {
         board.remove(from);
         board.put(to, fromPiece);
         return capturedPiece;
+    }
+
+    private boolean isInOwnPalace(Position position, Team team) {
+        if (team == Team.CHU) {
+            return chuPalace.isInPalace(position);
+        }
+        return hanPalace.isInPalace(position);
     }
 }
