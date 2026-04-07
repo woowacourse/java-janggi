@@ -1,14 +1,9 @@
 package domain.team;
 
 public enum Team {
-
     CHO,
     HAN,
-    ;
-
-    public boolean isSameTeam(Team team) {
-        return this == team;
-    }
+    NONE;
 
     public Team nextTurn() {
         if (this == CHO) {
@@ -17,4 +12,7 @@ public enum Team {
         return CHO;
     }
 
+    public boolean isSameTeam(Team other) {
+        return this == other;
+    }
 }
