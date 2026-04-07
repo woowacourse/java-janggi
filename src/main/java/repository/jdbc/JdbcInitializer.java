@@ -6,6 +6,7 @@ import java.sql.Statement;
 
 public class JdbcInitializer {
 
+    private static final String ERROR_INITIALIZE_TABLE = "게임 테이블 초기화에 실패했습니다.";
     private static final String CREATE_GAMES_TABLE = """
             CREATE TABLE IF NOT EXISTS games (
                 id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -42,7 +43,7 @@ public class JdbcInitializer {
             statement.execute(CREATE_GAMES_TABLE);
             statement.execute(CREATE_GAME_PIECES_TABLE);
         } catch (SQLException e) {
-            throw new IllegalStateException("게임 테이블 초기화에 실패했습니다.", e);
+            throw new IllegalStateException(ERROR_INITIALIZE_TABLE, e);
         }
     }
 }
