@@ -42,11 +42,6 @@ public class JanggiGame {
         return gameId;
     }
 
-    public void assignId(Long gameId) {
-        this.gameId = gameId;
-    }
-
-
     public Team findWinner() {
         return winner;
     }

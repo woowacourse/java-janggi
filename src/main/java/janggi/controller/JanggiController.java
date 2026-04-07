@@ -65,14 +65,11 @@ public class JanggiController {
 
 
     private void startNewGame() {
-        janggiGame = new JanggiGame();
-        Long gameId = gameRepository.save(janggiGame);
-        janggiGame.assignId(gameId);
+        janggiGame = gameRepository.save(new JanggiGame());
 
         board = new Board();
-        pieceRepository.saveAll(gameId, board);
-
-        outputView.printGameStart(gameId);
+        pieceRepository.saveAll(janggiGame.findGameId(), board);
+        outputView.printGameStart(janggiGame.findGameId());
     }
 
     private void resumeGame(JanggiGame game) {

@@ -13,7 +13,7 @@ import java.util.List;
 
 public class GameRepository {
 
-    public Long save(JanggiGame game) {
+    public JanggiGame save(JanggiGame game) {
         String sql = "INSERT INTO game (current_turn, game_status, winner) VALUES (?, ?, ?)";
 
         try (Connection conn = DBConnectionManager.getConnection();
@@ -26,7 +26,8 @@ public class GameRepository {
 
             ResultSet rs = pstmt.getGeneratedKeys();
             if (rs.next()) {
-                return rs.getLong(1);
+                Long gameId = rs.getLong(1);
+                return new JanggiGame(gameId, game.findCurrentTeam(), game.isFinished(), game.findWinner());
             }
             throw new SQLException("게임 ID 생성에 실패했습니다.");
 
