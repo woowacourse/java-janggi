@@ -19,6 +19,16 @@ public class JanggiGame {
         this.currentTurn = Side.CHO;
     }
 
+    private JanggiGame(Board board, Players players, Side currentTurn) {
+        this.board = board;
+        this.players = players;
+        this.currentTurn = currentTurn;
+    }
+
+    public static JanggiGame of(Board board, Players players, Side currentTurn) {
+        return new JanggiGame(board, players, currentTurn);
+    }
+
     public boolean isFinished() {
         return board.isFinished();
     }

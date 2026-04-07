@@ -9,9 +9,7 @@ public interface GameRepository {
 
     void update(Long gameId, JanggiGame janggiGame);
 
-    Optional<JanggiGame> findById(Long gameId);
-
     boolean isFinished(Long gameId);
 
-    String findCurrentTurnById(Long gameId);
+    Optional<String> findCurrentTurnById(Long gameId);
 }

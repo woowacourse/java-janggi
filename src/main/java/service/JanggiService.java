@@ -2,6 +2,7 @@ package service;
 
 import domain.board.Board;
 import domain.janggigame.JanggiGame;
+import domain.piece.Side;
 import domain.players.Players;
 import domain.position.Movement;
 import dto.BoardResponseDto;
@@ -43,11 +44,22 @@ public class JanggiService {
     }
 
     private JanggiGame findGameById(Long gameId) {
-        return gameRepository.findById(gameId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게임이 존재하지 않습니다."));
+        Board board = findBoardBy(gameId);
+        Players players = findPlayersBy(gameId);
+        Side currentTurn = Side.valueOf(getWhoseTurn(gameId));
+        return JanggiGame.of(board, players, currentTurn);
+    }
+
+    private Players findPlayersBy(Long gameId) {
+        return boardService.findPlayersBy(gameId);
+    }
+
+    private Board findBoardBy(Long gameId) {
+        return boardService.findBoardBy(gameId);
     }
 
     public String getWhoseTurn(Long gameId) {
-        return gameRepository.findCurrentTurnById(gameId);
+        return gameRepository.findCurrentTurnById(gameId)
+                .orElseThrow(() -> new IllegalArgumentException("게임이 존재하지 않습니다."));
     }
 }

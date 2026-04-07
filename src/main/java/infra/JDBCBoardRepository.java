@@ -5,8 +5,6 @@ import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Side;
 import domain.position.Position;
-import dto.BoardResponseDto;
-import dto.PieceDto;
 import repository.BoardRepository;
 
 import java.sql.*;
@@ -54,30 +52,28 @@ public class JDBCBoardRepository implements BoardRepository {
     }
 
     @Override
-    public Optional<BoardResponseDto> findByGameId(Long gameId) {
+    public Optional<Board> findByGameId(Long gameId) {
         String selectSql = "SELECT row_value, column_value, piece_type, side FROM board WHERE game_id = ?";
 
-        try (Connection connection = DriverManager.getConnection(JDBCContext.URL, JDBCContext.USER, JDBCContext.PASSWORD);
+        try (Connection connection = JDBCContext.getConnection();
              PreparedStatement statement = connection.prepareStatement(selectSql)) {
 
             statement.setLong(1, gameId);
 
             try (ResultSet resultSet = statement.executeQuery()) {
-                Map<Position, PieceDto> state = new LinkedHashMap<>();
+                Map<Position, Piece> state = new LinkedHashMap<>();
                 while (resultSet.next()) {
                     int rowValue = resultSet.getInt("row_value");
                     int columnValue = resultSet.getInt("column_value");
-                    String pieceTypeName = resultSet.getString("piece_type");
-                    PieceType pieceType = PieceType.valueOf(pieceTypeName);
-                    String sideName = resultSet.getString("side");
-                    Side side = Side.valueOf(sideName);
+                    PieceType pieceType = PieceType.valueOf(resultSet.getString("piece_type"));
+                    Side side = Side.valueOf(resultSet.getString("side"));
 
                     Position position = Position.of(rowValue, columnValue);
-                    PieceDto pieceDto = new PieceDto(pieceType.getName(), side);
-                    state.put(position, pieceDto);
+                    Piece piece = Piece.of(side, pieceType);
+                    state.put(position, piece);
                 }
 
-                return Optional.of(new BoardResponseDto(state));
+                return Optional.of(Board.of(state));
             }
         } catch (SQLException e) {
             throw new RuntimeException("DB 오류", e);

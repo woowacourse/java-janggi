@@ -5,7 +5,9 @@ import domain.board.BoardStateFactory;
 import domain.board.Placement;
 import domain.board.Setup;
 import domain.piece.Piece;
+import domain.piece.Side;
 import domain.players.Player;
+import domain.players.Players;
 import domain.position.Position;
 import dto.BoardResponseDto;
 import repository.BoardRepository;
@@ -22,18 +24,18 @@ public class BoardService {
         this.boardRepository = boardRepository;
         this.playerRepository = playerRepository;
     }
-
-    public BoardResponseDto findState(Long gameId) {
-        return boardRepository.findByGameId(gameId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게임이 존재하지 않습니다."));
-    }
-
     public Board initialState(int hanPlacementCode, int choPlacementCode) {
         Setup hanSetup = Placement.from(hanPlacementCode).getSetup();
         Setup choSetup = Placement.from(choPlacementCode).getSetup();
         BoardStateFactory boardStateFactory = new BoardStateFactory(hanSetup, choSetup);
         Map<Position, Piece> state = boardStateFactory.create();
         return Board.of(state);
+    }
+
+    public BoardResponseDto findState(Long gameId) {
+        Board board = boardRepository.findByGameId(gameId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게임이 존재하지 않습니다."));
+        return board.findState();
     }
 
     public void save(Long gameId, Board board, List<Player> players) {
@@ -44,5 +46,16 @@ public class BoardService {
     public void update(Long gameId, Board board, List<Player> players) {
         boardRepository.save(gameId, board);
         playerRepository.update(gameId, players);
+    }
+
+    public Board findBoardBy(Long gameId) {
+        return boardRepository.findByGameId(gameId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게임의 보드가 존재하지 않습니다."));
+    }
+
+    public Players findPlayersBy(Long gameId) {
+        Map<Side, Player> players = playerRepository.findPlayersByGameId(gameId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게임의 플레이어가 존재하지 않습니다."));
+        return Players.of(players);
     }
 }
