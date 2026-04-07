@@ -4,6 +4,7 @@ import board.SangSetupType;
 import db.repository.JanggiGameRepository;
 import java.util.List;
 import pieces.Side;
+import view.InputGameId;
 import view.JanggiView;
 
 public class GamePreparationService {
@@ -18,19 +19,15 @@ public class GamePreparationService {
 
     public GameSession prepare() {
         List<GameSummary> savedGames = repository.findTop10GameRoomsOrderByCreatedAtDesc();
-
         if (savedGames.isEmpty()) {
             return createNewGameSession();
         }
 
-        Long selectedGameId = view.askGameId(savedGames);
-        if (selectedGameId == 0) {
+        InputGameId selectedGameId = view.askGameId(savedGames);
+        if (selectedGameId.isNewGame()) {
             return createNewGameSession();
         }
-
-        JanggiGame game = repository.findById(selectedGameId)
-            .orElseThrow(() -> new IllegalArgumentException("선택한 게임이 존재하지 않습니다."));
-        return new GameSession(selectedGameId, game, view, repository);
+        return findSavedGameSession(selectedGameId);
     }
 
     private GameSession createNewGameSession() {
@@ -38,6 +35,13 @@ public class GamePreparationService {
         SangSetupType hanSangSetupType = view.askSangSetupUntilSuccess(Side.HAN);
         JanggiGame game = JanggiGame.of(choSangSetupType, hanSangSetupType);
         Long gameId = repository.save(game);
+
         return new GameSession(gameId, game, view, repository);
+    }
+
+    private GameSession findSavedGameSession(InputGameId selectedGameId) {
+        JanggiGame game = repository.findById(selectedGameId.id())
+            .orElseThrow(() -> new IllegalArgumentException("선택한 게임이 존재하지 않습니다."));
+        return new GameSession(selectedGameId.id(), game, view, repository);
     }
 }

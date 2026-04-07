@@ -23,8 +23,8 @@ public class InputView {
         return parsePosition(readStrippedLine());
     }
 
-    public Long readGameId() {
-        return parseLong(readStrippedLine());
+    public InputGameId readGameId() {
+        return new InputGameId(parseLong(readStrippedLine()));
     }
 
     public boolean readYesOrNo() {

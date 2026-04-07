@@ -55,7 +55,7 @@ public class OutputView {
         System.out.println("기물의 도착지 좌표를 입력해주세요. (형식: row, column)");
     }
 
-    public void printGameIsOver(GameStatus status) {
+    public void printGameResult(GameStatus status) {
         System.out.println(GAME_STATUS_LABELS.get(status));
         System.out.println("게임이 종료되었습니다.");
     }

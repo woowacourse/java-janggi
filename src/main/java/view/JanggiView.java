@@ -54,35 +54,23 @@ public class JanggiView {
         return Retry.untilSuccess(in::readPosition);
     }
 
-    public void printGameIsOver(GameStatus status) {
-        out.printGameIsOver(status);
+    public void printGameResult(GameStatus status) {
+        out.printGameResult(status);
     }
 
     public void printScore(Side side, Score score) {
         out.printScore(side, score);
     }
 
-    public Long askGameId(List<GameSummary> gameSummaries) {
+    public InputGameId askGameId(List<GameSummary> gameSummaries) {
         return Retry.untilSuccess(() -> {
             out.printSavedGames(gameSummaries);
             out.askGameId();
-            Long gameId = in.readGameId();
-            if (gameId == 0) {
-                return 0L;
+            InputGameId gameId = in.readGameId();
+            if (!gameId.isNewGame()) {
+                gameId.validateWith(gameSummaries);
             }
-            validateGameId(gameSummaries, gameId);
             return gameId;
         });
-    }
-
-    private static void validateGameId(List<GameSummary> gameSummaries, Long gameId) {
-        GameSummary game = gameSummaries.stream()
-            .filter(gameSummary -> gameSummary.id().equals(gameId))
-            .findFirst()
-            .orElseThrow(() -> new IllegalArgumentException("게임 ID를 잘못 입력하셨습니다."));
-
-        if (game.status().isOver()) {
-            throw new IllegalArgumentException("종료된 게임은 입장할 수 없습니다.");
-        }
     }
 }

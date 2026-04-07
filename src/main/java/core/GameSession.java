@@ -23,29 +23,19 @@ public class GameSession {
 
     public void run() {
         while (!game.isOver()) {
-            moveUntilSuccess();
+            playUntilSuccess();
         }
-        view.printGameIsOver(game.getResult());
+        view.printGameResult(game.getResult());
     }
 
-    private void moveUntilSuccess() {
+    private void playUntilSuccess() {
         game = Retry.untilSuccess(() -> {
             printGameStatus();
 
             if (view.askEndByScore(game.getTurnSide())) {
-                JanggiGame updatedGame = game.endByScore();
-                repository.updateGameState(gameId, updatedGame.getTurn(), updatedGame.getStatus());
-                return updatedGame;
+                return endGameByScore();
             }
-
-            Position departure = view.askDeparture();
-            Position destination = view.askDestination();
-            JanggiGame updatedGame = game.move(departure, destination);
-
-            repository.updatePiecePosition(gameId, departure, destination);
-            repository.updateGameState(gameId, updatedGame.getTurn(), updatedGame.getStatus());
-
-            return updatedGame;
+            return playGame();
         });
     }
 
@@ -58,5 +48,21 @@ public class GameSession {
         view.printTurnSide(turnSide);
         view.printScore(turnSide, game.calculateScoreOf(turnSide));
         view.printScore(otherTurnSide, game.calculateScoreOf(otherTurnSide));
+    }
+
+    private JanggiGame endGameByScore() {
+        final JanggiGame updatedGame = game.endByScore();
+        repository.updateGameState(gameId, updatedGame.getTurn(), updatedGame.getStatus());
+        return updatedGame;
+    }
+
+    private JanggiGame playGame() {
+        final Position departure = view.askDeparture();
+        final Position destination = view.askDestination();
+        final JanggiGame updatedGame = game.move(departure, destination);
+
+        repository.updatePiecePosition(gameId, departure, destination);
+        repository.updateGameState(gameId, updatedGame.getTurn(), updatedGame.getStatus());
+        return updatedGame;
     }
 }
