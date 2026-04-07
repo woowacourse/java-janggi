@@ -7,6 +7,7 @@ import janggi.domain.position.Position;
 import janggi.dto.BoardDto;
 import janggi.dto.DynastyDto;
 import janggi.dto.PositionDto;
+import janggi.service.JanggiService;
 import janggi.util.HorseElephantPositionMapper;
 import janggi.view.InputView;
 import janggi.view.OutputView;

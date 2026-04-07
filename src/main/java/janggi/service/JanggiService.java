@@ -1,4 +1,4 @@
-package janggi.controller;
+package janggi.service;
 
 import janggi.domain.board.Board;
 import janggi.domain.board.HorseElephantPosition;
