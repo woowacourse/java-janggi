@@ -166,21 +166,22 @@ Board.move(movement)
 ## 사이클2 미션 중 기록
 
 **기능 추가로 인해 수정한 위치 개수**
-- 궁성  
-  - PalacePiece 상속 레이어 추가, Palace를 싱글턴으로 만들어 결과적으로 변경 되었던 곳은
-    차, 포, 장, 사, 졸과 각 테스트 코드가 변경되었습니다. 변경된 파일은 많다고 느끼지만,
-    실제로 기능이 추가되어 변경이 필요한 부분만 변경되었다고 생각합니다.
-- 점수
-  - 게임 종료 기능이 이미 추가되어 있었고, 게임 중에 점수를 표출하는 기능을 추가하기로 하여
-    JanggiGame에서 보드를 넘기며 Score도 같이 넘기도록 수정
-- DB
-  - PieceType: 기물 생성 추상 메서드 추가
-  - BoardFactory: restore() 메서드 추가
-  - JanggiGame: gameId 필드 추가, checkPreviousGame/playTurn에 DB 연동
-  - JanggiController: 기존 JanggiGame에서 View 관련 로직 이동
-  - DBConnection, DBInitializer, GameRepository, GameInfo, PieceInfo 추가
 
-**사이클1 때보다 수정 범위가 줄었는가/늘었는가**  
+- 궁성
+    - PalacePiece 상속 레이어 추가, Palace를 싱글턴으로 만들어 결과적으로 변경 되었던 곳은
+      차, 포, 장, 사, 졸과 각 테스트 코드가 변경되었습니다. 변경된 파일은 많다고 느끼지만,
+      실제로 기능이 추가되어 변경이 필요한 부분만 변경되었다고 생각합니다.
+- 점수
+    - 게임 종료 기능이 이미 추가되어 있었고, 게임 중에 점수를 표출하는 기능을 추가하기로 하여
+      JanggiGame에서 보드를 넘기며 Score도 같이 넘기도록 수정
+- DB
+    - PieceType: 기물 생성 추상 메서드 추가
+    - BoardFactory: restore() 메서드 추가
+    - JanggiGame: gameId 필드 추가, checkPreviousGame/playTurn에 DB 연동
+    - JanggiController: 기존 JanggiGame에서 View 관련 로직 이동
+    - DBConnection, DBInitializer, GameRepository, GameInfo, PieceInfo 추가
+
+**사이클1 때보다 수정 범위가 줄었는가/늘었는가**
 
 새롭게 기능이 변경되거나 추가되어 수정이 필요했던 부분을 제외하면 변경 범위 자체는 크지 않았다고 생각합니다.
 책임 분리에 매몰되어 메서드나 인스턴스를 만들었다 지웠다 한 것을 제외하면 기능을 위한 수정만 있었습니다.
@@ -199,19 +200,18 @@ SQLException도 GameRepository 안에서 RuntimeException으로 감싸서, 도�
 
 JDBC는 DB 종류에 상관없이 동일한 인터페이스를 제공하므로, H2에서 MySQL로 바꿔도 DBConnection의 URL만 변경하면 됩니다.
 현재 코드에서는 표준 SQL만 쓰고 있어서 Repository 수정 없이 연결 정보 변경만으로 DB 교체가 가능하다고 생각합니다.
-즉, GameRepository 내부의 SQL이나 도메인 코드는 수정할 필요 없을 것 같습니다. 
-결국 도메인 객체(Game, Board, Piece 등)는 DB가 뭔지 아예 모르니까 어떤 DB를 쓰든 영향이 없습니다. 
-만약 Repository를 인터페이스로 추상화하면 JDBC가 아닌 다른 저장 방식(파일, 메모리 등)으로 바꿀 때도 
+즉, GameRepository 내부의 SQL이나 도메인 코드는 수정할 필요 없을 것 같습니다.
+결국 도메인 객체(Game, Board, Piece 등)는 DB가 뭔지 아예 모르니까 어떤 DB를 쓰든 영향이 없습니다.
+만약 Repository를 인터페이스로 추상화하면 JDBC가 아닌 다른 저장 방식(파일, 메모리 등)으로 바꿀 때도
 구현체만 갈아끼우면 되기 때문에 도메인 변경 없이 대응이 가능하고 테스트를 용이하게 만들 수 있을 것 같습니다.
-
 
 **규칙 적용으로 변경한 코드 1곳**
 > 15. 저장 경계 규칙  
-> Service 계층 객체 이외의 객체들은 Repository를 몰라야한다.
+      > Service 계층 객체 이외의 객체들은 Repository를 몰라야한다.
 
-현재 Service 계층인 JanggiGame만 GameRepository를 알고 있습니다. 
-JanggiController는 JanggiGame에게 요청할 뿐 GameRepository의 존재를 모르고, 
-Board, Piece 같은 도메인 객체들도 GameRepository를 모르도록 하였습니다. 
+현재 Service 계층인 JanggiGame만 GameRepository를 알고 있습니다.
+JanggiController는 JanggiGame에게 요청할 뿐 GameRepository의 존재를 모르고,
+Board, Piece 같은 도메인 객체들도 GameRepository를 모르도록 하였습니다.
 DB 접근이 필요한 모든 작업은 JanggiGame을 통해서만 일어나게 됩니다.
 다만 현재 구조에서 아쉬운 점은, GameRepository가 인터페이스가 아니라 구현체에 직접 의존하고 있어
 JanggiGame의 테스트 코드 작성이 어려운 상태입니다.
