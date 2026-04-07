@@ -39,13 +39,13 @@ public class SingleStepStrategy implements MoveStrategy {
         }
     }
 
-    private static void addPalaceEdgePaths(Position start, List<List<Direction>> paths) {
+    private void addPalaceEdgePaths(Position start, List<List<Direction>> paths) {
         if (start.isInPalaceEdgePosition()) {
             paths.add(List.of(start.getPalaceEdgeDirection()));
         }
     }
 
-    private static void addPalaceCenterPaths(Position start, List<List<Direction>> paths) {
+    private void addPalaceCenterPaths(Position start, List<List<Direction>> paths) {
         if (start.isInPalaceCenterPosition()) {
             List<Direction> palaceDirection = start.getPalaceCenterDirection();
 

@@ -43,7 +43,7 @@ public class SlidingMoveStrategy implements MoveStrategy {
         }
     }
 
-    private static void addPalaceEdgePaths(Position start, List<List<Direction>> paths) {
+    private void addPalaceEdgePaths(Position start, List<List<Direction>> paths) {
         if (start.isInPalaceEdgePosition()) {
             Direction palaceEdgeDirection = start.getPalaceEdgeDirection();
             List<Direction> directionPath = new ArrayList<>();
@@ -56,7 +56,7 @@ public class SlidingMoveStrategy implements MoveStrategy {
         }
     }
 
-    private static void addPalaceCenterPaths(Position start, List<List<Direction>> paths) {
+    private void addPalaceCenterPaths(Position start, List<List<Direction>> paths) {
         if (start.isInPalaceCenterPosition()) {
             List<Direction> palaceDirection = start.getPalaceCenterDirection();
 
