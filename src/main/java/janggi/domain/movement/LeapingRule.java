@@ -7,16 +7,16 @@ import janggi.utils.Lists;
 import java.util.List;
 import java.util.Optional;
 
-public class NonLinearRule implements Rule {
+public class LeapingRule implements Rule {
 
     private final List<OffLineMovement> movementOrder;
 
-    public NonLinearRule(final List<OffLineMovement> movementOrder) {
+    public LeapingRule(final List<OffLineMovement> movementOrder) {
         this.movementOrder = movementOrder;
     }
 
-    public static NonLinearRule of(final OffLineMovement movement) {
-        return new NonLinearRule(List.of(movement));
+    public static LeapingRule of(final OffLineMovement movement) {
+        return new LeapingRule(List.of(movement));
     }
 
 

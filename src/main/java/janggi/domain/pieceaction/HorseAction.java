@@ -4,7 +4,7 @@ import janggi.domain.Position;
 import janggi.domain.board.BoardMediator;
 import janggi.domain.movement.Direction;
 import janggi.domain.movement.OffLineMovement;
-import janggi.domain.movement.NonLinearRule;
+import janggi.domain.movement.LeapingRule;
 import janggi.domain.movement.Rule;
 import java.util.Collection;
 import java.util.List;
@@ -15,28 +15,28 @@ public class HorseAction implements PieceAction {
 
     static {
         RULES = List.of(
-            new NonLinearRule(List.of(
+            new LeapingRule(List.of(
                 new OffLineMovement(1, Direction.EAST),
                 new OffLineMovement(1, Direction.NORTH_EAST))),
-            new NonLinearRule(List.of(
+            new LeapingRule(List.of(
                 new OffLineMovement(1, Direction.EAST),
                 new OffLineMovement(1, Direction.SOUTH_EAST))),
-            new NonLinearRule(List.of(
+            new LeapingRule(List.of(
                 new OffLineMovement(1, Direction.NORTH),
                 new OffLineMovement(1, Direction.NORTH_EAST))),
-            new NonLinearRule(List.of(
+            new LeapingRule(List.of(
                 new OffLineMovement(1, Direction.NORTH),
                 new OffLineMovement(1, Direction.NORTH_WEST))),
-            new NonLinearRule(List.of(
+            new LeapingRule(List.of(
                 new OffLineMovement(1, Direction.WEST),
                 new OffLineMovement(1, Direction.NORTH_WEST))),
-            new NonLinearRule(List.of(
+            new LeapingRule(List.of(
                 new OffLineMovement(1, Direction.WEST),
                 new OffLineMovement(1, Direction.SOUTH_WEST))),
-            new NonLinearRule(List.of(
+            new LeapingRule(List.of(
                 new OffLineMovement(1, Direction.SOUTH),
                 new OffLineMovement(1, Direction.SOUTH_WEST))),
-            new NonLinearRule(List.of(
+            new LeapingRule(List.of(
                 new OffLineMovement(1, Direction.SOUTH),
                 new OffLineMovement(1, Direction.SOUTH_EAST))));
     }
