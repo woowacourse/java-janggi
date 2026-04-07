@@ -28,7 +28,7 @@ public class SlidingRuleTest {
         BoardMediator boardMediator = new BoardMediatorImpl(board);
         Direction direction = Direction.SOUTH;
         Rule slidingRule = new SlidingRule(
-            List.of(new OnLineMovement(MAXIMUM_ROW, direction)));
+            List.of(new SlidingMovement(MAXIMUM_ROW, direction)));
         List<Position> expected = List.of(Position.valueOf(6, 3), Position.valueOf(7, 3),
             Position.valueOf(8, 3));
 

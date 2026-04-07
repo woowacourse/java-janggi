@@ -23,10 +23,10 @@ public class LeapingRuleTest {
             Position.valueOf(5, 3), new Elephant(TeamType.RED));
         Board board = new Board(positionPieceMap);
         BoardMediator boardMediator = new BoardMediatorImpl(board);
-        List<OffLineMovement> movementOrder = List.of(
-            new OffLineMovement(1, Direction.EAST),
-            new OffLineMovement(1, Direction.NORTH_EAST),
-            new OffLineMovement(1, Direction.NORTH_EAST));
+        List<LeapingMovement> movementOrder = List.of(
+            new LeapingMovement(1, Direction.EAST),
+            new LeapingMovement(1, Direction.NORTH_EAST),
+            new LeapingMovement(1, Direction.NORTH_EAST));
         Rule leapingRule = new LeapingRule(movementOrder);
         List<Position> expected = List.of(Position.valueOf(3, 6));
 

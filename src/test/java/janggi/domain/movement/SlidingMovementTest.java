@@ -19,7 +19,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-class OnLineMovementTest {
+class SlidingMovementTest {
 
     @Nested
     @DisplayName("잡기 여부 판정 테스트")
@@ -36,10 +36,10 @@ class OnLineMovementTest {
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             Direction direction = Direction.EAST;
-            OnLineMovement onLineMovement = new OnLineMovement(1, direction);
+            SlidingMovement slidingMovement = new SlidingMovement(1, direction);
             boolean expected = true;
 
-            boolean actual = onLineMovement.canCatchAnyOnPath(me, from, boardMediator);
+            boolean actual = slidingMovement.canCatchAnyOnPath(me, from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -55,10 +55,10 @@ class OnLineMovementTest {
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             Direction direction = Direction.EAST;
-            OnLineMovement onLineMovement = new OnLineMovement(1, direction);
+            SlidingMovement slidingMovement = new SlidingMovement(1, direction);
             boolean expected = false;
 
-            boolean actual = onLineMovement.canCatchAnyOnPath(me, from, boardMediator);
+            boolean actual = slidingMovement.canCatchAnyOnPath(me, from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -73,10 +73,10 @@ class OnLineMovementTest {
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             Direction direction = Direction.EAST;
-            OnLineMovement onLineMovement = new OnLineMovement(1, direction);
+            SlidingMovement slidingMovement = new SlidingMovement(1, direction);
             boolean expected = true;
 
-            boolean actual = onLineMovement.canCatchAnyOnPath(me, from, boardMediator);
+            boolean actual = slidingMovement.canCatchAnyOnPath(me, from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -91,10 +91,10 @@ class OnLineMovementTest {
             positionPieceMap.put(Position.valueOf(7, 7), new Soldier(TeamType.RED));
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
-            OnLineMovement onLineMovement = new OnLineMovement(2, Direction.NORTH_EAST);
+            SlidingMovement slidingMovement = new SlidingMovement(2, Direction.NORTH_EAST);
             boolean expected = true;
 
-            boolean actual = onLineMovement.canCatchAnyOnPath(me, from, boardMediator);
+            boolean actual = slidingMovement.canCatchAnyOnPath(me, from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
 
@@ -115,10 +115,10 @@ class OnLineMovementTest {
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             Direction direction = Direction.EAST;
-            OnLineMovement onLineMovement = new OnLineMovement(1, direction);
+            SlidingMovement slidingMovement = new SlidingMovement(1, direction);
             boolean expected = false;
 
-            boolean actual = onLineMovement.isBlocked(from, boardMediator);
+            boolean actual = slidingMovement.isBlocked(from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -134,10 +134,10 @@ class OnLineMovementTest {
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             Direction direction = Direction.EAST;
-            OnLineMovement onLineMovement = new OnLineMovement(1, direction);
+            SlidingMovement slidingMovement = new SlidingMovement(1, direction);
             boolean expected = true;
 
-            boolean actual = onLineMovement.isBlocked(from, boardMediator);
+            boolean actual = slidingMovement.isBlocked(from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -152,10 +152,10 @@ class OnLineMovementTest {
             positionPieceMap.put(Position.valueOf(7, 7), new Soldier(TeamType.RED));
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
-            OnLineMovement onLineMovement = new OnLineMovement(2, Direction.NORTH_EAST);
+            SlidingMovement slidingMovement = new SlidingMovement(2, Direction.NORTH_EAST);
             boolean expected = false;
 
-            boolean actual = onLineMovement.isBlocked(from, boardMediator);
+            boolean actual = slidingMovement.isBlocked(from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -181,10 +181,10 @@ class OnLineMovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
             Direction direction = Direction.EAST;
-            OnLineMovement onLineMovement = new OnLineMovement(maxDistance, direction);
+            SlidingMovement slidingMovement = new SlidingMovement(maxDistance, direction);
             Optional<Position> expected = Optional.of(Position.valueOf(5, 5));
 
-            Optional<Position> actual = onLineMovement.calculateDestination(from, boardMediator);
+            Optional<Position> actual = slidingMovement.calculateDestination(from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -197,10 +197,10 @@ class OnLineMovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
             Direction direction = Direction.EAST;
-            OnLineMovement onLineMovement = new OnLineMovement(maxDistance, direction);
+            SlidingMovement slidingMovement = new SlidingMovement(maxDistance, direction);
             Optional<Position> expected = Optional.of(Position.valueOf(5, 6));
 
-            Optional<Position> actual = onLineMovement.calculateDestination(from, boardMediator);
+            Optional<Position> actual = slidingMovement.calculateDestination(from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -212,10 +212,10 @@ class OnLineMovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
             Direction direction = Direction.EAST;
-            OnLineMovement onLineMovement = new OnLineMovement(maxDistance, direction);
+            SlidingMovement slidingMovement = new SlidingMovement(maxDistance, direction);
             Optional<Position> expected = Optional.of(Position.valueOf(5, 7));
 
-            Optional<Position> actual = onLineMovement.calculateDestination(from, boardMediator);
+            Optional<Position> actual = slidingMovement.calculateDestination(from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -227,10 +227,10 @@ class OnLineMovementTest {
             Position from = Position.valueOf(9, 5);
             int maxDistance = 4;
             Direction direction = Direction.NORTH_EAST;
-            OnLineMovement onLineMovement = new OnLineMovement(maxDistance, direction);
+            SlidingMovement slidingMovement = new SlidingMovement(maxDistance, direction);
             Optional<Position> expected = Optional.of(Position.valueOf(8, 6));
 
-            Optional<Position> actual = onLineMovement.calculateDestination(from, boardMediator);
+            Optional<Position> actual = slidingMovement.calculateDestination(from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -242,10 +242,10 @@ class OnLineMovementTest {
             Position from = Position.valueOf(8, 6);
             int maxDistance = 4;
             Direction direction = Direction.NORTH_EAST;
-            OnLineMovement onLineMovement = new OnLineMovement(maxDistance, direction);
+            SlidingMovement slidingMovement = new SlidingMovement(maxDistance, direction);
             Optional<Position> expected = Optional.empty();
 
-            Optional<Position> actual = onLineMovement.calculateDestination(from, boardMediator);
+            Optional<Position> actual = slidingMovement.calculateDestination(from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -272,10 +272,10 @@ class OnLineMovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
             Direction direction = Direction.EAST;
-            OnLineMovement onLineMovement = new OnLineMovement(maxDistance, direction);
+            SlidingMovement slidingMovement = new SlidingMovement(maxDistance, direction);
             List<Position> expected = List.of(Position.valueOf(5, 4), Position.valueOf(5, 5));
 
-            List<Position> actual = onLineMovement.calculatePath(from,
+            List<Position> actual = slidingMovement.calculatePath(from,
                 boardMediator.getPieceInPosition(from), boardMediator);
 
             assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
@@ -289,11 +289,11 @@ class OnLineMovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
             Direction direction = Direction.EAST;
-            OnLineMovement onLineMovement = new OnLineMovement(maxDistance, direction);
+            SlidingMovement slidingMovement = new SlidingMovement(maxDistance, direction);
             List<Position> expected = List.of(Position.valueOf(5, 4), Position.valueOf(5, 5),
                 Position.valueOf(5, 6));
 
-            List<Position> actual = onLineMovement.calculatePath(from,
+            List<Position> actual = slidingMovement.calculatePath(from,
                 boardMediator.getPieceInPosition(from), boardMediator);
 
             assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
@@ -306,11 +306,11 @@ class OnLineMovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
             Direction direction = Direction.EAST;
-            OnLineMovement OnLineMovement = new OnLineMovement(maxDistance, direction);
+            SlidingMovement SlidingMovement = new SlidingMovement(maxDistance, direction);
             List<Position> expected = List.of(Position.valueOf(5, 4), Position.valueOf(5, 5),
                 Position.valueOf(5, 6), Position.valueOf(5, 7));
 
-            List<Position> actual = OnLineMovement.calculatePath(from,
+            List<Position> actual = SlidingMovement.calculatePath(from,
                 boardMediator.getPieceInPosition(from), boardMediator);
 
             assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
@@ -324,10 +324,10 @@ class OnLineMovementTest {
             Position from = Position.valueOf(9, 5);
             int maxDistance = 4;
             Direction direction = Direction.NORTH_EAST;
-            OnLineMovement onLineMovement = new OnLineMovement(maxDistance, direction);
+            SlidingMovement slidingMovement = new SlidingMovement(maxDistance, direction);
             List<Position> expected = List.of(Position.valueOf(8, 6));
 
-            List<Position> actual = onLineMovement.calculatePath(from,
+            List<Position> actual = slidingMovement.calculatePath(from,
                 boardMediator.getPieceInPosition(from), boardMediator);
 
             assertThat(actual).isEqualTo(expected);

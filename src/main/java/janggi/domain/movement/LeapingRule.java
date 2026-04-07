@@ -9,13 +9,13 @@ import java.util.Optional;
 
 public class LeapingRule implements Rule {
 
-    private final List<OffLineMovement> movementOrder;
+    private final List<LeapingMovement> movementOrder;
 
-    public LeapingRule(final List<OffLineMovement> movementOrder) {
+    public LeapingRule(final List<LeapingMovement> movementOrder) {
         this.movementOrder = movementOrder;
     }
 
-    public static LeapingRule of(final OffLineMovement movement) {
+    public static LeapingRule of(final LeapingMovement movement) {
         return new LeapingRule(List.of(movement));
     }
 
@@ -29,9 +29,9 @@ public class LeapingRule implements Rule {
     }
 
     private Optional<Position> moveUpToLast(final Position from, final BoardMediator boardMediator) {
-        final List<OffLineMovement> movementsExceptLast = Lists.exceptLast(movementOrder);
+        final List<LeapingMovement> movementsExceptLast = Lists.exceptLast(movementOrder);
         Position updatedPosition = from;
-        for (final OffLineMovement movement : movementsExceptLast) {
+        for (final LeapingMovement movement : movementsExceptLast) {
             if (!movement.canMove(updatedPosition) || movement.isBlocked(updatedPosition, boardMediator)) {
                 return Optional.empty();
             }
@@ -42,7 +42,7 @@ public class LeapingRule implements Rule {
 
     private List<Position> proceedFinalMovement(final Position from, final Piece piece,
         final BoardMediator boardMediator) {
-        final OffLineMovement lastMovement = movementOrder.getLast();
+        final LeapingMovement lastMovement = movementOrder.getLast();
         if (lastMovement.canMove(from) && lastMovement.canCatchAnyOnPath(piece, from,
             boardMediator)) {
             return List.of(lastMovement.calculateBlockedPosition(from, boardMediator));

@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class OffLineMovement implements Movement {
+public class LeapingMovement implements Movement {
 
     private final int maxDistance;
     private final Direction direction;
 
-    public OffLineMovement(final int maxDistance, final Direction direction) {
+    public LeapingMovement(final int maxDistance, final Direction direction) {
         this.maxDistance = maxDistance;
         this.direction = direction;
     }

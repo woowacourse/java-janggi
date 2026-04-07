@@ -7,7 +7,7 @@ import static janggi.domain.board.Palace.PALACE_SIDE_LENGTH;
 import janggi.domain.Position;
 import janggi.domain.board.BoardMediator;
 import janggi.domain.movement.Direction;
-import janggi.domain.movement.OnLineMovement;
+import janggi.domain.movement.SlidingMovement;
 import janggi.domain.movement.SlidingRule;
 import janggi.domain.movement.Rule;
 import java.util.Collection;
@@ -19,14 +19,14 @@ public class ChariotAction implements PieceAction {
 
     static {
         RULES = List.of(
-            SlidingRule.of(new OnLineMovement(MAXIMUM_ROW, Direction.SOUTH)),
-            SlidingRule.of(new OnLineMovement(PALACE_SIDE_LENGTH, Direction.SOUTH_EAST)),
-            SlidingRule.of(new OnLineMovement(MAXIMUM_COLUMN, Direction.EAST)),
-            SlidingRule.of(new OnLineMovement(PALACE_SIDE_LENGTH, Direction.NORTH_EAST)),
-            SlidingRule.of(new OnLineMovement(MAXIMUM_ROW, Direction.NORTH)),
-            SlidingRule.of(new OnLineMovement(PALACE_SIDE_LENGTH, Direction.NORTH_WEST)),
-            SlidingRule.of(new OnLineMovement(MAXIMUM_COLUMN, Direction.WEST)),
-            SlidingRule.of(new OnLineMovement(PALACE_SIDE_LENGTH, Direction.SOUTH_WEST)));
+            SlidingRule.of(new SlidingMovement(MAXIMUM_ROW, Direction.SOUTH)),
+            SlidingRule.of(new SlidingMovement(PALACE_SIDE_LENGTH, Direction.SOUTH_EAST)),
+            SlidingRule.of(new SlidingMovement(MAXIMUM_COLUMN, Direction.EAST)),
+            SlidingRule.of(new SlidingMovement(PALACE_SIDE_LENGTH, Direction.NORTH_EAST)),
+            SlidingRule.of(new SlidingMovement(MAXIMUM_ROW, Direction.NORTH)),
+            SlidingRule.of(new SlidingMovement(PALACE_SIDE_LENGTH, Direction.NORTH_WEST)),
+            SlidingRule.of(new SlidingMovement(MAXIMUM_COLUMN, Direction.WEST)),
+            SlidingRule.of(new SlidingMovement(PALACE_SIDE_LENGTH, Direction.SOUTH_WEST)));
     }
 
     @Override

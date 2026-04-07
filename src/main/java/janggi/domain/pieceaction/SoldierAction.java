@@ -3,7 +3,7 @@ package janggi.domain.pieceaction;
 import janggi.domain.Position;
 import janggi.domain.board.BoardMediator;
 import janggi.domain.movement.Direction;
-import janggi.domain.movement.OnLineMovement;
+import janggi.domain.movement.SlidingMovement;
 import janggi.domain.movement.SlidingRule;
 import janggi.domain.movement.Rule;
 import janggi.domain.team.TeamType;
@@ -18,17 +18,17 @@ public class SoldierAction implements PieceAction {
     static {
         TEAM_RULES_MAP = new EnumMap<>(TeamType.class);
         TEAM_RULES_MAP.put(TeamType.RED, List.of(
-            SlidingRule.of(new OnLineMovement(1, Direction.WEST)),
-            SlidingRule.of(new OnLineMovement(1, Direction.SOUTH_WEST)),
-            SlidingRule.of(new OnLineMovement(1, Direction.SOUTH)),
-            SlidingRule.of(new OnLineMovement(1, Direction.SOUTH_EAST)),
-            SlidingRule.of(new OnLineMovement(1, Direction.EAST))));
+            SlidingRule.of(new SlidingMovement(1, Direction.WEST)),
+            SlidingRule.of(new SlidingMovement(1, Direction.SOUTH_WEST)),
+            SlidingRule.of(new SlidingMovement(1, Direction.SOUTH)),
+            SlidingRule.of(new SlidingMovement(1, Direction.SOUTH_EAST)),
+            SlidingRule.of(new SlidingMovement(1, Direction.EAST))));
         TEAM_RULES_MAP.put(TeamType.BLUE, List.of(
-            SlidingRule.of(new OnLineMovement(1, Direction.WEST)),
-            SlidingRule.of(new OnLineMovement(1, Direction.NORTH_WEST)),
-            SlidingRule.of(new OnLineMovement(1, Direction.NORTH)),
-            SlidingRule.of(new OnLineMovement(1, Direction.NORTH_EAST)),
-            SlidingRule.of(new OnLineMovement(1, Direction.EAST))));
+            SlidingRule.of(new SlidingMovement(1, Direction.WEST)),
+            SlidingRule.of(new SlidingMovement(1, Direction.NORTH_WEST)),
+            SlidingRule.of(new SlidingMovement(1, Direction.NORTH)),
+            SlidingRule.of(new SlidingMovement(1, Direction.NORTH_EAST)),
+            SlidingRule.of(new SlidingMovement(1, Direction.EAST))));
     }
 
     private final List<Rule> rules;

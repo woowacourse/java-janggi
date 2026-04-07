@@ -10,13 +10,13 @@ import java.util.List;
 
 public class SlidingRule implements Rule {
 
-    private final List<OnLineMovement> movementOrder;
+    private final List<SlidingMovement> movementOrder;
 
-    public SlidingRule(final List<OnLineMovement> movementOrder) {
+    public SlidingRule(final List<SlidingMovement> movementOrder) {
         this.movementOrder = movementOrder;
     }
 
-    public static SlidingRule of(final OnLineMovement movement) {
+    public static SlidingRule of(final SlidingMovement movement) {
         return new SlidingRule(List.of(movement));
     }
 
@@ -34,10 +34,10 @@ public class SlidingRule implements Rule {
     private Pair<Position, List<Position>> moveUpToLast(final Position from, final Piece piece,
         final BoardMediator boardMediator) {
         final List<Position> path = new ArrayList<>();
-        final List<OnLineMovement> movementsExceptLast = Lists.exceptLast(movementOrder);
+        final List<SlidingMovement> movementsExceptLast = Lists.exceptLast(movementOrder);
         Position updatedPosition = from;
 
-        for (final OnLineMovement movement : movementsExceptLast) {
+        for (final SlidingMovement movement : movementsExceptLast) {
             path.addAll(movement.calculatePath(from, piece, boardMediator));
             movement.calculateDestination(from, boardMediator)
                 .ifPresent(path::add);

@@ -18,7 +18,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-class OffLineMovementTest {
+class LeapingMovementTest {
 
     @Nested
     @DisplayName("잡기 여부 판정 테스트")
@@ -35,10 +35,10 @@ class OffLineMovementTest {
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             Direction direction = Direction.EAST;
-            OffLineMovement offLineMovement = new OffLineMovement(1, direction);
+            LeapingMovement leapingMovement = new LeapingMovement(1, direction);
             boolean expected = true;
 
-            boolean actual = offLineMovement.canCatchAnyOnPath(me, from, boardMediator);
+            boolean actual = leapingMovement.canCatchAnyOnPath(me, from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -54,10 +54,10 @@ class OffLineMovementTest {
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             Direction direction = Direction.EAST;
-            OffLineMovement offLineMovement = new OffLineMovement(1, direction);
+            LeapingMovement leapingMovement = new LeapingMovement(1, direction);
             boolean expected = false;
 
-            boolean actual = offLineMovement.canCatchAnyOnPath(me, from, boardMediator);
+            boolean actual = leapingMovement.canCatchAnyOnPath(me, from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -72,10 +72,10 @@ class OffLineMovementTest {
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             Direction direction = Direction.EAST;
-            OffLineMovement offLineMovement = new OffLineMovement(1, direction);
+            LeapingMovement leapingMovement = new LeapingMovement(1, direction);
             boolean expected = true;
 
-            boolean actual = offLineMovement.canCatchAnyOnPath(me, from, boardMediator);
+            boolean actual = leapingMovement.canCatchAnyOnPath(me, from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -90,10 +90,10 @@ class OffLineMovementTest {
             positionPieceMap.put(Position.valueOf(7, 7), new Soldier(TeamType.RED));
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
-            OffLineMovement offLineMovement = new OffLineMovement(2, Direction.NORTH_EAST);
+            LeapingMovement leapingMovement = new LeapingMovement(2, Direction.NORTH_EAST);
             boolean expected = true;
 
-            boolean actual = offLineMovement.canCatchAnyOnPath(me, from, boardMediator);
+            boolean actual = leapingMovement.canCatchAnyOnPath(me, from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
 
@@ -114,10 +114,10 @@ class OffLineMovementTest {
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             Direction direction = Direction.EAST;
-            OffLineMovement offLineMovement = new OffLineMovement(1, direction);
+            LeapingMovement leapingMovement = new LeapingMovement(1, direction);
             boolean expected = false;
 
-            boolean actual = offLineMovement.isBlocked(from, boardMediator);
+            boolean actual = leapingMovement.isBlocked(from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -133,10 +133,10 @@ class OffLineMovementTest {
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             Direction direction = Direction.EAST;
-            OffLineMovement offLineMovement = new OffLineMovement(1, direction);
+            LeapingMovement leapingMovement = new LeapingMovement(1, direction);
             boolean expected = true;
 
-            boolean actual = offLineMovement.isBlocked(from, boardMediator);
+            boolean actual = leapingMovement.isBlocked(from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -162,10 +162,10 @@ class OffLineMovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
             Direction direction = Direction.EAST;
-            OffLineMovement offLineMovement = new OffLineMovement(maxDistance, direction);
+            LeapingMovement leapingMovement = new LeapingMovement(maxDistance, direction);
             Position expected = Position.valueOf(5, 5);
 
-            Position actual = offLineMovement.calculateDestination(from, boardMediator);
+            Position actual = leapingMovement.calculateDestination(from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -178,10 +178,10 @@ class OffLineMovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
             Direction direction = Direction.EAST;
-            OffLineMovement offLineMovement = new OffLineMovement(maxDistance, direction);
+            LeapingMovement leapingMovement = new LeapingMovement(maxDistance, direction);
             Position expected = Position.valueOf(5, 6);
 
-            Position actual = offLineMovement.calculateDestination(from, boardMediator);
+            Position actual = leapingMovement.calculateDestination(from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -193,10 +193,10 @@ class OffLineMovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
             Direction direction = Direction.EAST;
-            OffLineMovement offLineMovement = new OffLineMovement(maxDistance, direction);
+            LeapingMovement leapingMovement = new LeapingMovement(maxDistance, direction);
             Position expected = Position.valueOf(5, 7);
 
-            Position actual = offLineMovement.calculateDestination(from, boardMediator);
+            Position actual = leapingMovement.calculateDestination(from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -223,10 +223,10 @@ class OffLineMovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
             Direction direction = Direction.EAST;
-            OffLineMovement offLineMovement = new OffLineMovement(maxDistance, direction);
+            LeapingMovement leapingMovement = new LeapingMovement(maxDistance, direction);
             List<Position> expected = List.of(Position.valueOf(5, 4), Position.valueOf(5, 5));
 
-            List<Position> actual = offLineMovement.calculatePath(from,
+            List<Position> actual = leapingMovement.calculatePath(from,
                 boardMediator.getPieceInPosition(from), boardMediator);
 
             assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
@@ -240,11 +240,11 @@ class OffLineMovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
             Direction direction = Direction.EAST;
-            OffLineMovement offLineMovement = new OffLineMovement(maxDistance, direction);
+            LeapingMovement leapingMovement = new LeapingMovement(maxDistance, direction);
             List<Position> expected = List.of(Position.valueOf(5, 4), Position.valueOf(5, 5),
                 Position.valueOf(5, 6));
 
-            List<Position> actual = offLineMovement.calculatePath(from,
+            List<Position> actual = leapingMovement.calculatePath(from,
                 boardMediator.getPieceInPosition(from), boardMediator);
 
             assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
@@ -257,11 +257,11 @@ class OffLineMovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
             Direction direction = Direction.EAST;
-            OffLineMovement OffLineMovement = new OffLineMovement(maxDistance, direction);
+            LeapingMovement LeapingMovement = new LeapingMovement(maxDistance, direction);
             List<Position> expected = List.of(Position.valueOf(5, 4), Position.valueOf(5, 5),
                 Position.valueOf(5, 6), Position.valueOf(5, 7));
 
-            List<Position> actual = OffLineMovement.calculatePath(from,
+            List<Position> actual = LeapingMovement.calculatePath(from,
                 boardMediator.getPieceInPosition(from), boardMediator);
 
             assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
