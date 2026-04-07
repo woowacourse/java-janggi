@@ -5,7 +5,6 @@ import domain.*;
 import java.util.List;
 
 public class Elephant extends Piece {
-    private final List<List<Direction>> elephantDirections = MoveDirection.ofElephant();
 
     public Elephant(Camp camp) {
         super(camp, PieceType.ELEPHANT);
@@ -13,7 +12,7 @@ public class Elephant extends Piece {
 
     @Override
     public boolean canMove(Position from, Position to, BoardReader boardReader) {
-        for (List<Direction> directions : elephantDirections) {
+        for (List<Direction> directions : MoveDirection.ofElephant()) {
             List<Position> path = Route.path(from, directions);
             if (path.size() == 3 && path.getLast().equals(to)) {
                 return checkPositionExist(boardReader, path);

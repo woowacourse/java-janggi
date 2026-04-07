@@ -5,7 +5,6 @@ import domain.*;
 import java.util.List;
 
 public class Horse extends Piece {
-    private final List<List<Direction>> horseDirections = MoveDirection.ofHorse();
 
     public Horse(Camp camp) {
         super(camp, PieceType.HORSE);
@@ -13,7 +12,7 @@ public class Horse extends Piece {
 
     @Override
     public boolean canMove(Position from, Position to, BoardReader boardReader) {
-        for (List<Direction> directions : horseDirections) {
+        for (List<Direction> directions : MoveDirection.ofHorse()) {
             List<Position> path = Route.path(from, directions);
             if (path.size() == 2 && path.getLast().equals(to)) {
                 return checkPositionExist(boardReader, path);
