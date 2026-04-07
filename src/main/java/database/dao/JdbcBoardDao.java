@@ -78,7 +78,7 @@ public class JdbcBoardDao implements BoardDao {
 
     public BoardSummaryDto readPlayingById(Connection connection, Long boardId) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(READ_BOARD_QUERY)) {
-            preparedStatement.setString(1, String.valueOf(boardId));
+            setParameters(preparedStatement, boardId);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
@@ -98,8 +98,10 @@ public class JdbcBoardDao implements BoardDao {
     public void updateTurn(Connection connection, Long boardId, Team nextTurn) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BOARD_QUERY)) {
 
-            preparedStatement.setString(1, nextTurn.name());
-            preparedStatement.setLong(2, boardId);
+            setParameters(
+                    preparedStatement,
+                    nextTurn.name(), boardId
+            );
 
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows == 0) {
@@ -113,10 +115,10 @@ public class JdbcBoardDao implements BoardDao {
     public void updateResult(Connection connection, Long boardId, GameResult gameResult) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BOARD_RESULT_QUERY)) {
 
-            preparedStatement.setString(1, gameResult.winner().name());
-            preparedStatement.setString(2, String.valueOf(gameResult.hanScore()));
-            preparedStatement.setString(3, String.valueOf(gameResult.choScore()));
-            preparedStatement.setString(4, String.valueOf(boardId));
+            setParameters(
+                    preparedStatement,
+                    gameResult.winner().name(), gameResult.hanScore(), gameResult.choScore(), boardId
+            );
 
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows == 0) {
@@ -125,6 +127,12 @@ public class JdbcBoardDao implements BoardDao {
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
+        }
+    }
+
+    public void setParameters(PreparedStatement preparedStatement, Object... parameters) throws SQLException {
+        for (int i = 0; i < parameters.length; i++) {
+            preparedStatement.setObject(i + 1, parameters[i]);
         }
     }
 

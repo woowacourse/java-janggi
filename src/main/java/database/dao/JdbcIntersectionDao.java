@@ -40,12 +40,14 @@ public class JdbcIntersectionDao implements IntersectionDao {
             for (Intersection intersection : intersections) {
                 Point point = intersection.getPoint();
                 Piece piece = intersection.readPiece();
-                preparedStatement.setString(1, String.valueOf(boardId));
-                preparedStatement.setString(2, String.valueOf(point.y()));
-                preparedStatement.setString(3, String.valueOf(point.x()));
-                preparedStatement.setString(4, piece.pieceType().name());
-                preparedStatement.setString(5, piece.team().name());
-                preparedStatement.setString(6, intersection.readIntersectionType().name());
+                String pieceType = piece.pieceType().name();
+                String teamName = piece.team().name();
+                String intersectionType = intersection.readIntersectionType().name();
+
+                setParameters(
+                        preparedStatement,
+                        boardId, point.y(), point.x(), pieceType, teamName, intersectionType
+                );
 
                 preparedStatement.addBatch();
             }
@@ -59,7 +61,7 @@ public class JdbcIntersectionDao implements IntersectionDao {
     @Override
     public List<Intersection> readByBoardId(Connection connection, Long boardId) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(READ_ALL_INTERSECTION_QUERY)) {
-            preparedStatement.setString(1, String.valueOf(boardId));
+            setParameters(preparedStatement, boardId);
 
             ResultSet resultSet = preparedStatement.executeQuery();
             List<Intersection> intersections = new ArrayList<>();
@@ -81,7 +83,7 @@ public class JdbcIntersectionDao implements IntersectionDao {
 
             return intersections;
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
@@ -92,14 +94,12 @@ public class JdbcIntersectionDao implements IntersectionDao {
             Piece piece = intersection.readPiece();
             String teamName = piece.team().name();
             String pieceTypeName = piece.pieceType().name();
-
             Point point = intersection.getPoint();
 
-            preparedStatement.setString(1, pieceTypeName);
-            preparedStatement.setString(2, teamName);
-            preparedStatement.setString(3, String.valueOf(boardId));
-            preparedStatement.setString(4, String.valueOf(point.y()));
-            preparedStatement.setString(5, String.valueOf(point.x()));
+            setParameters(
+                    preparedStatement,
+                    pieceTypeName, teamName, boardId, point.y(), point.x()
+            );
 
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows == 0) {
@@ -108,6 +108,12 @@ public class JdbcIntersectionDao implements IntersectionDao {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public void setParameters(PreparedStatement preparedStatement, Object... parameters) throws SQLException {
+        for (int i = 0; i < parameters.length; i++) {
+            preparedStatement.setObject(i + 1, parameters[i]);
         }
     }
 
