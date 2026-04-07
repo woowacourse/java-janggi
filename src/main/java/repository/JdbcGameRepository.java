@@ -72,7 +72,7 @@ public class JdbcGameRepository implements GameRepository {
     public Game load(Long gameId) {
         Map<Position, Piece> pieceMap = new HashMap<>();
         String boardSql = "SELECT * FROM board_state WHERE game_id = ?";
-        String gameSql = "SELECT * FROM game_room WHERE id = ?";
+        String gameSql = "SELECT * FROM game_room WHERE id = ? AND is_finished = FALSE";
 
         try (Connection conn = DatabaseConnector.getConnection()) {
             try (PreparedStatement pstmt = conn.prepareStatement(boardSql)) {
