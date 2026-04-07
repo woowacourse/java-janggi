@@ -2,6 +2,7 @@ package database.dao;
 
 import database.context.ConnectionContext;
 import database.dto.IntersectionDto;
+import database.mapper.RowMapper;
 
 import java.sql.*;
 import java.util.LinkedList;

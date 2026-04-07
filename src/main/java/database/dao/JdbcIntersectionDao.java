@@ -1,14 +1,8 @@
 package database.dao;
 
 import database.dto.IntersectionDto;
+import database.mapper.IntersectionRowMapper;
 import domain.intersection.Intersection;
-import domain.intersection.IntersectionType;
-import domain.piece.Piece;
-import domain.piece.PieceType;
-import domain.piece.Team;
-import domain.point.Point;
-
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -58,23 +52,6 @@ public class JdbcIntersectionDao implements IntersectionDao {
                 intersection.y(),
                 intersection.x()
         );
-    }
-
-    public class IntersectionRowMapper implements RowMapper<Intersection> {
-        @Override
-        public Intersection map(ResultSet resultSet) throws SQLException {
-            int y = resultSet.getInt("y");
-            int x = resultSet.getInt("x");
-
-            String pieceTypeName = resultSet.getString("piece_type");
-            String teamName = resultSet.getString("team");
-            String intersectionTypeName = resultSet.getString("intersection_type");
-
-            Point point = new Point(y, x);
-            Piece piece = new Piece(Team.valueOf(teamName), PieceType.valueOf(pieceTypeName));
-            IntersectionType type = IntersectionType.valueOf(intersectionTypeName);
-            return type.create(point, piece);
-        }
     }
 
 }

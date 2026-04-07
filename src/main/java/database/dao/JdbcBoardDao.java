@@ -2,6 +2,7 @@ package database.dao;
 
 import database.dto.BoardSummaryDto;
 import database.dto.GameResult;
+import database.mapper.SummaryDtoRowMapper;
 import domain.piece.Team;
 
 import java.sql.*;
@@ -83,17 +84,6 @@ public class JdbcBoardDao implements BoardDao {
                 gameResult.choScore(),
                 boardId
         );
-    }
-
-    class SummaryDtoRowMapper implements RowMapper<BoardSummaryDto> {
-
-        @Override
-        public BoardSummaryDto map(ResultSet resultSet) throws SQLException {
-            long id = resultSet.getLong("id");
-            String currentTeam = resultSet.getString("current_turn");
-            boolean isFinished = resultSet.getBoolean("is_finished");
-            return new BoardSummaryDto(id, currentTeam, isFinished);
-        }
     }
 
 }
