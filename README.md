@@ -10,6 +10,18 @@
 - (추가) 현재 남아 있는 기물을 기준으로 점수를 계산한다.
 - (추가) 애플리케이션을 재시작하더라도 이전 게임을 다시 불러올 수 있다.
 
+## DB 관련 추가 기능
+- [x] 장기 게임방 생성 (`gameDao` save / `BoardPieceDao` saveAll)
+- [x] 가장 최근에 생성된 게임 목록 10개 출력 (`GameDao` findTop10OrderByCreatedAtDesc)
+- [x] 사용자의 gameId 입력을 받아, 해당 게임방 입장 (`GameDao` findById)
+  - [x] 끝난 게임을 고른 경우 예외 처리
+- [x] 게임 상태 변화 시 turn, status 만 수정해서 쿼리로 업데이트 (`GameDao` updateState)
+- [x] 기물 이동시, 좌표값만 수정해서 쿼리로 업데이트 (`BoardPieceDao` updatePosition)
+- [x] 기물이 다른 기물에게 잡힐 시, 해당 기물 삭제 (`BoardPieceDao` deleteByGameIdAndPosition)
+- [ ] 마지막으로 둔 수를 저장한다. (`MoveHistoryDao` save)
+- [ ] 마지막으로 둔 수를 무를 수 있다. (`MoveHistoryDao` findLastMoveOrderByGameId, deleteById)
+- [ ] 게임의 플레이 로그를 순서대로 실행할 수 있다. (`MoveHistoryDao` findAllByGameIdOrderByMoveOrderAsc)
+
 ## 기능 명세
 
 ### 궁
