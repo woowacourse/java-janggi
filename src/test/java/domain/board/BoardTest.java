@@ -8,6 +8,7 @@ import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Team;
 import domain.point.Point;
+
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -89,19 +90,19 @@ class BoardTest {
     @DisplayName("모든 격자점에 양 팀의 장군이 존재하면 게임은 진행된다.")
     void gameWillProgressWhenOneOfGeneralDoesntExist() {
         // given
-        Point start = new Point(0, 0);
-        Point end = new Point(3, 0);
+        JanggiBoard janggiBoard = JanggiBoardFixture.generate(
+                generateIntersection(1, 4, Team.HAN, PieceType.GENERAL),
+                generateIntersection(0, 0, Team.HAN, PieceType.CHARIOT),
+                generateIntersection(0, 8, Team.HAN, PieceType.CHARIOT),
+                generateIntersection(0, 4, Team.HAN, PieceType.CANNON),
 
-        Piece hanGeneral = new Piece(Team.HAN, PieceType.GENERAL);
-        Piece choGeneral = new Piece(Team.CHO, PieceType.GENERAL);
+                generateIntersection(8, 4, Team.CHO, PieceType.GENERAL),
+                generateIntersection(9, 0, Team.CHO, PieceType.CHARIOT),
+                generateIntersection(9, 8, Team.CHO, PieceType.CHARIOT),
+                generateIntersection(9, 1, Team.CHO, PieceType.CANNON)
+        );
 
-        Intersection origin = new NormalIntersection(start, hanGeneral);
-        Intersection destination = new NormalIntersection(end, choGeneral);
-
-        // when
-        JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(origin, destination)));
-
-        // then
+        // when & then
         Assertions.assertThat(janggiBoard.isGameOver())
                 .isFalse();
     }
@@ -146,7 +147,7 @@ class BoardTest {
         );
 
         // when & then
-        Assertions.assertThat(janggiBoard.isDraw()).isTrue();
+        Assertions.assertThat(janggiBoard.hasNotEnoughPieceScore()).isTrue();
     }
 
     @Test
@@ -167,7 +168,7 @@ class BoardTest {
         );
 
         // when & then
-        Assertions.assertThat(janggiBoard.isDraw()).isFalse();
+        Assertions.assertThat(janggiBoard.hasNotEnoughPieceScore()).isFalse();
     }
 
     private static List<Point> getFormationPoints(Formation elephantHorseHorseElephant) {
