@@ -1,8 +1,8 @@
 package domain.strategy;
 
-import domain.Board;
-import domain.Piece;
-import domain.Team;
+import domain.board.Board;
+import domain.board.Piece;
+import domain.board.Team;
 import domain.vo.Position;
 
 public class GeneralMoveStrategy implements MoveStrategy {

@@ -1,6 +1,5 @@
-package domain;
+package domain.board;
 
-import domain.strategy.*;
 import domain.vo.Position;
 
 import java.util.Comparator;

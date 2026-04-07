@@ -1,4 +1,7 @@
-import domain.*;
+import domain.board.*;
+import domain.game.Game;
+import domain.game.GameType;
+import domain.game.Status;
 import domain.vo.Position;
 import entity.GameEntity;
 import entity.PieceEntity;

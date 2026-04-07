@@ -1,8 +1,8 @@
 package domain.strategy;
 
-import domain.Board;
-import domain.Piece;
-import domain.Type;
+import domain.board.Board;
+import domain.board.Piece;
+import domain.board.Type;
 import domain.vo.Position;
 
 import java.util.Optional;

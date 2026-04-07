@@ -1,7 +1,7 @@
 package domain.strategy;
 
-import domain.Board;
-import domain.Team;
+import domain.board.Board;
+import domain.board.Team;
 import domain.vo.Position;
 
 public class SoldierMoveStrategy implements MoveStrategy {

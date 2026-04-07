@@ -1,6 +1,7 @@
 package domain.strategy;
 
 import domain.*;
+import domain.board.*;
 import domain.vo.Position;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

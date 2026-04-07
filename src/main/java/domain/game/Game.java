@@ -1,5 +1,6 @@
-package domain;
+package domain.game;
 
+import domain.board.*;
 import domain.vo.Position;
 
 import java.util.Optional;

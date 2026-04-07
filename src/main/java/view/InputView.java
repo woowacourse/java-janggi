@@ -1,7 +1,7 @@
 package view;
 
-import domain.Formation;
-import domain.GameType;
+import domain.board.Formation;
+import domain.game.GameType;
 
 import java.time.OffsetDateTime;
 import java.util.List;

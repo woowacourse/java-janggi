@@ -1,5 +1,7 @@
 package domain;
 
+import domain.board.Palace;
+import domain.board.Team;
 import domain.vo.Position;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

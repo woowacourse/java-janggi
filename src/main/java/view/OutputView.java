@@ -1,7 +1,7 @@
 package view;
 
-import domain.Piece;
-import domain.Status;
+import domain.board.Piece;
+import domain.game.Status;
 import domain.vo.Position;
 
 import java.util.Map;

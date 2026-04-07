@@ -1,5 +1,6 @@
 package domain;
 
+import domain.board.*;
 import domain.strategy.SoldierMoveStrategy;
 import domain.vo.Position;
 import org.junit.jupiter.api.DisplayName;

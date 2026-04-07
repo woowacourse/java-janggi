@@ -1,9 +1,9 @@
 package domain.strategy;
 
-import domain.Board;
-import domain.Piece;
-import domain.Team;
-import domain.Type;
+import domain.board.Board;
+import domain.board.Piece;
+import domain.board.Team;
+import domain.board.Type;
 import domain.vo.Position;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

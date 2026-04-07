@@ -1,5 +1,8 @@
 package domain;
 
+import domain.board.Piece;
+import domain.board.Team;
+import domain.board.Type;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

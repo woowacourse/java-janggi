@@ -1,5 +1,8 @@
 package domain;
 
+import domain.board.*;
+import domain.game.Game;
+import domain.game.Status;
 import domain.strategy.ChariotMoveStrategy;
 import domain.strategy.GeneralMoveStrategy;
 import domain.strategy.SoldierMoveStrategy;

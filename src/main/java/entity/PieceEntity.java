@@ -1,6 +1,6 @@
 package entity;
 
-import domain.Piece;
+import domain.board.Piece;
 import domain.vo.Position;
 
 public class PieceEntity {
