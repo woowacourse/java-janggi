@@ -11,6 +11,7 @@ import domain.constant.MaSang;
 import domain.constant.PieceType;
 import dto.BoardDto;
 import dto.GameRecordDto;
+import dto.GameResultDto;
 import dto.PieceDto;
 import dto.PositionDto;
 import dto.SavedGameDto;
@@ -105,5 +106,10 @@ public class JanggiService {
 
     public List<GameRecordDto> getGameRecords() {
         return janggiGameDao.getGameRecords();
+    }
+
+    public GameResultDto getGameResult(JanggiGame janggiGame) {
+        return new GameResultDto(janggiGame.getWinnerCountry(), janggiGame.calculateChoScore(),
+                janggiGame.calculateHanScore());
     }
 }

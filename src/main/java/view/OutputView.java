@@ -3,6 +3,7 @@ package view;
 import domain.constant.Country;
 import domain.constant.PieceType;
 import dto.GameRecordDto;
+import dto.GameResultDto;
 import java.util.List;
 import java.util.Map;
 import dto.BoardDto;
@@ -80,14 +81,10 @@ public class OutputView {
         System.out.print(result);
     }
 
-    public void printGameResult(String countryName) {
+    public void printGameResult(GameResultDto gameResultDto) {
         System.out.println("\n---\n");
         System.out.println("게임이 종료되었습니다.");
-        printGameWinner(countryName);
-    }
-
-    private void printGameWinner(String countryName) {
-        System.out.print(formatter.formatGameWinner(countryName));
+        System.out.print(formatter.formatGameResult(gameResultDto));
     }
 
     public void printNewGameStart() {
@@ -100,7 +97,7 @@ public class OutputView {
         }
 
         for (GameRecordDto gameRecordDto : gameRecordDtos) {
-            System.out.print(String.format(formatter.formatGameRecord(gameRecordDto)));
+            System.out.printf(formatter.formatGameRecord(gameRecordDto));
         }
     }
 }

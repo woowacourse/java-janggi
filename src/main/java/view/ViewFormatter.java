@@ -1,6 +1,7 @@
 package view;
 
 import dto.GameRecordDto;
+import dto.GameResultDto;
 import dto.SavedGameDto;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -61,10 +62,6 @@ public class ViewFormatter {
         return "|\n";
     }
 
-    public String formatGameWinner(String countryName) {
-        return String.format("승리 : %s%n", countryName);
-    }
-
     public String formatSavedGames(SavedGameDto savedGameDto) {
         return String.format("- [%d번] 최종 수정 날짜 : %s%n", savedGameDto.gameId(),
                 formatModifiedDate(savedGameDto.modifiedDate()));
@@ -77,18 +74,35 @@ public class ViewFormatter {
 
     public String formatGameRecord(GameRecordDto gameRecordDto) {
         return String.format("""
-                
-                ----------------
-                
-                [%d번]%n
-                승리 : %s%n
-                초나라 점수 : %.1f%n
-                한나라 점수 : %.1f%n
-                ----------------
-                
-                """, gameRecordDto.gameId(),
+                        
+                        ----------------
+                        
+                        [%d번]%n
+                        승리 : %s%n
+                        초나라 점수 : %.1f%n
+                        한나라 점수 : %.1f
+                        
+                        ----------------
+                        
+                        """, gameRecordDto.gameId(),
                 gameRecordDto.country(),
                 gameRecordDto.choScore(),
                 gameRecordDto.hanScore());
+    }
+
+    public String formatGameResult(GameResultDto gameResultDto) {
+        return String.format("""
+                        
+                        ----------------
+                        
+                        승리 : %s%n
+                        초나라 점수 : %.1f%n
+                        한나라 점수 : %.1f
+                        
+                        ----------------
+                        
+                        """, gameResultDto.winner(),
+                gameResultDto.choScore(),
+                gameResultDto.hanScore());
     }
 }
