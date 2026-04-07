@@ -79,14 +79,14 @@ public class SoldierMoveStrategy implements MoveStrategy {
         return false;
     }
 
-    private boolean isInPalace(Position position) {
+    private boolean isInPalace(final Position position) {
         int row = position.getRow();
         int column = position.getCol();
 
         return (column >= 3 && column <= 5) && ((row >= 0 && row <= 2) || (row >= 7 && row <= 9));
     }
 
-    private boolean canDiagonalInPalace(Position from, Position to) {
+    private boolean canDiagonalInPalace(final Position from, final Position to) {
         if (!isDiagonal(from, to) || !isInPalace(from) || !isInPalace(to)) {
             return false;
         }
@@ -94,11 +94,11 @@ public class SoldierMoveStrategy implements MoveStrategy {
         return isCenterOfPalace(from) || isCenterOfPalace(to);
     }
 
-    private boolean isDiagonal(Position from, Position to) {
+    private boolean isDiagonal(final Position from, final Position to) {
         return Math.abs(from.getRow() - to.getRow()) == 1 && Math.abs(from.getCol() - to.getCol()) == 1;
     }
 
-    private boolean isCenterOfPalace(Position position) {
+    private boolean isCenterOfPalace(final Position position) {
         return position.getCol() == 4 && (position.getRow() == 1 || position.getRow() == 8);
     }
 }

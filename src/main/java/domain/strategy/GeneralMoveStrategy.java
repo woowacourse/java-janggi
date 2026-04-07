@@ -30,6 +30,9 @@ public class GeneralMoveStrategy implements MoveStrategy {
     }
 
     private boolean isNotCorrectPath(final Position from, final Position to) {
+        if (!palaceInRange(to)) {
+            return true;
+        }
         if (from.getRow() == to.getRow() && Math.abs(from.getCol() - to.getCol()) != 1) {
             return true;
         }
@@ -39,5 +42,10 @@ public class GeneralMoveStrategy implements MoveStrategy {
         }
 
         return false;
+    }
+
+    private boolean palaceInRange(final Position position) {
+        return (((0 <= position.getRow() && position.getRow() <= 2) || (7 <= position.getRow() && position.getRow() <= 9))
+                && (3 <= position.getCol() && position.getCol() <= 5));
     }
 }

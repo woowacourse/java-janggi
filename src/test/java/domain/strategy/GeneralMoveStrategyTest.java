@@ -1,8 +1,10 @@
 package domain.strategy;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import domain.*;
 import domain.vo.Position;
-import org.junit.jupiter.api.Assertions;
+import java.util.HashMap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,8 +29,8 @@ class GeneralMoveStrategyTest {
         Position from = Position.of(1, 4);
         Position to = Position.of(1, 5);
 
-        // when & then
-        Assertions.assertTrue(strategy.canMove(mover, from, to, Map.of()));
+        // when // then
+        assertTrue(strategy.canMove(mover, from, to, Map.of()));
     }
 
     @Test
@@ -39,8 +41,8 @@ class GeneralMoveStrategyTest {
         Position to = Position.of(1, 5);
         Piece target = Piece.of(Team.CHU, Type.SOLDIER);
 
-        // when & then
-        Assertions.assertFalse(strategy.canMove(mover, from, to, Map.of(to, target)));
+        // when // then
+        assertFalse(strategy.canMove(mover, from, to, Map.of(to, target)));
     }
 
     @Test
@@ -51,7 +53,22 @@ class GeneralMoveStrategyTest {
         Position to = Position.of(1, 5);
         Piece target = Piece.of(Team.HAN, Type.SOLDIER);
 
-        // when & then
-        Assertions.assertTrue(strategy.canMove(mover, from, to, Map.of(to, target)));
+        // when // then
+        assertTrue(strategy.canMove(mover, from, to, Map.of(to, target)));
+    }
+
+    @Test
+    @DisplayName("궁의 목적지가 궁성 밖이라면 이동하지 않는다.")
+    void 궁_목적지가_궁성_밖이라면_이동_불가() {
+        // given
+        Position from = Position.of(2, 3);
+        Position to = Position.of(2, 2);
+        Piece piece = Piece.of(Team.CHU, Type.GENERAL);
+        HashMap<Position, Piece> pieceOfPath = new HashMap<>();
+
+        pieceOfPath.put(to, null);
+
+        // when // then
+        assertFalse(piece.canMovePiece(from, to, pieceOfPath));
     }
 }
