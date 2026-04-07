@@ -8,7 +8,6 @@ import domain.piece.PieceType;
 import domain.piece.Team;
 import domain.point.Point;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -59,12 +58,6 @@ public class JdbcIntersectionDao implements IntersectionDao {
                 intersection.y(),
                 intersection.x()
         );
-    }
-
-    public void setParameters(PreparedStatement preparedStatement, Object... parameters) throws SQLException {
-        for (int i = 0; i < parameters.length; i++) {
-            preparedStatement.setObject(i + 1, parameters[i]);
-        }
     }
 
     public class IntersectionRowMapper implements RowMapper<Intersection> {

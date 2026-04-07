@@ -45,7 +45,6 @@ public class JanggiGame {
         writer.printExistingPlayingBoard(janggiService.readExistPlayingBoard());
     }
 
-    // Board PK 추가
     public JanggiBoard getJanggiBoard(BoardSelectCommand selectCommand) {
         if (selectCommand.isNewGameCommand()) {
             JanggiBoard janggiBoard = generateJanggiBoard();
