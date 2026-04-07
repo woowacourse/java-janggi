@@ -10,9 +10,9 @@ import dto.PositionDto;
 
 public class OutputView {
 
-    private final OutputViewFormatter formatter;
+    private final ViewFormatter formatter;
 
-    public OutputView(OutputViewFormatter formatter) {
+    public OutputView(ViewFormatter formatter) {
         this.formatter = formatter;
     }
 

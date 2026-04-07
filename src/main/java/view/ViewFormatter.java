@@ -1,8 +1,11 @@
 package view;
 
+import dto.SavedGameDto;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-public class OutputViewFormatter {
+public class ViewFormatter {
     private static final String PREFIX_ERROR_MESSAGE = "[ERROR]";
     private static final String EMPTY_PIECE = "＋";
     private static final List<String> COL_NUMBERS = List.of("", "１", "２", "３", "４", "５", "６", "７", "８", "９");
@@ -59,5 +62,15 @@ public class OutputViewFormatter {
 
     public String formatGameWinner(String countryName) {
         return String.format("승리 : %s%n", countryName);
+    }
+
+    public String formatSavedGames(SavedGameDto savedGameDto) {
+        return String.format("- [%d번] 최종 수정 날짜 : %s%n", savedGameDto.gameId(),
+                formatModifiedDate(savedGameDto.modifiedDate()));
+    }
+
+    private String formatModifiedDate(LocalDateTime modifiedDate) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        return modifiedDate.format(formatter);
     }
 }

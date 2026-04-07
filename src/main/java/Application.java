@@ -7,12 +7,13 @@ import controller.JanggiController;
 import service.JanggiService;
 import view.InputView;
 import view.OutputView;
-import view.OutputViewFormatter;
+import view.ViewFormatter;
 
 public class Application {
     public static void main(String[] args) {
-        InputView inputView = new InputView(new Scanner(System.in));
-        OutputView outputView = new OutputView(new OutputViewFormatter());
+        ViewFormatter viewFormatter = new ViewFormatter();
+        InputView inputView = new InputView(new Scanner(System.in), viewFormatter);
+        OutputView outputView = new OutputView(new ViewFormatter());
 
         JanggiGameDao janggiGameDao = new JanggiGameDao();
         PieceDao pieceDao = new PieceDao();

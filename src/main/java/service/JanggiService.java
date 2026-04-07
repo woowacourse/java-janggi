@@ -12,6 +12,7 @@ import domain.constant.PieceType;
 import dto.BoardDto;
 import dto.PieceDto;
 import dto.PositionDto;
+import dto.SavedGameDto;
 import dto.SavedPieceDto;
 import java.util.ArrayList;
 import java.util.List;
@@ -83,7 +84,7 @@ public class JanggiService {
         return MaSang.getMaSangPosition(command);
     }
 
-    public List<Integer> getSavedGames() {
+    public List<SavedGameDto> getSavedGames() {
         return janggiGameDao.getSavedGames();
     }
 
@@ -97,10 +98,7 @@ public class JanggiService {
         return new JanggiGame(board, country);
     }
 
-    public void finishGame(int gameId, Board board) {
-        double choScore = board.calculateScore(Country.CHO);
-        double hanScore = board.calculateScore(Country.HAN);
-
-        janggiGameDao.finishGame(gameId, choScore, hanScore);
+    public void finishGame(int gameId, JanggiGame janggiGame) {
+        janggiGameDao.finishGame(gameId, janggiGame.calculateChoScore(), janggiGame.calculateHanScore());
     }
 }

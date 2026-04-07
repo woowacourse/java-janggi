@@ -1,10 +1,12 @@
 package dao;
 
 import config.DBConnection;
+import dto.SavedGameDto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,22 +45,24 @@ public class JanggiGameDao {
         }
     }
 
-    public List<Integer> getSavedGames() {
-        String sql = "SELECT id FROM game_state";
+    public List<SavedGameDto> getSavedGames() {
+        String sql = "SELECT id, modified_date FROM game_state WHERE is_finished = FALSE";
 
-        List<Integer> gameId = new ArrayList<>();
+        List<SavedGameDto> savedGameDtos = new ArrayList<>();
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
 
+            LocalDateTime modifiedDate;
             while (rs.next()) {
-                gameId.add(rs.getInt("id"));
+                modifiedDate = rs.getTimestamp("modified_date").toLocalDateTime();
+                savedGameDtos.add(new SavedGameDto(rs.getInt("id"), modifiedDate));
             }
         } catch (SQLException e) {
             System.out.println("게임 목록 조회 중 에러 발생: " + e.getMessage());
         }
 
-        return gameId;
+        return savedGameDtos;
     }
 
     public String getSavedTurn(int gameId) {

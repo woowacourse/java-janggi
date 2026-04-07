@@ -1,5 +1,6 @@
 package view;
 
+import dto.SavedGameDto;
 import java.util.List;
 import java.util.Scanner;
 
@@ -7,17 +8,22 @@ import exception.Validator;
 import util.InputParser;
 
 public class InputView {
-    private final Scanner scanner;
     private static final int CHOICE_START_NUMBER = 1;
 
-    public InputView(Scanner scanner) {
+    private final Scanner scanner;
+    private final ViewFormatter formatter;
+
+    public InputView(Scanner scanner, ViewFormatter formatter) {
         this.scanner = scanner;
+        this.formatter = formatter;
     }
 
     public int requestGameMenu() {
-        System.out.println("게임을 시작합니다.");
-        System.out.println("1: 새 게임");
-        System.out.println("2: 이어하기");
+        System.out.println("""
+                게임을 시작합니다.
+                1: 새 게임
+                2: 이어하기
+                3: 기록보기""");
         return Validator.validateNumber(scanner.nextLine());
     }
 
@@ -52,14 +58,24 @@ public class InputView {
         return InputParser.splitBy(",", scanner.nextLine());
     }
 
-    public int requestGameId(List<Integer> savedGames) {
-        System.out.println("\n진행 중인 게임 목록입니다. 게임 방의 숫자를 입력해주세요.");
-        for (int number : savedGames) {
-            System.out.printf("- %d번방\n", number);
-        }
+    public int requestGameId(List<SavedGameDto> savedGames) {
+        printSavedGames(savedGames);
+        return requestValidGameId(savedGames);
+    }
 
+    private void printSavedGames(List<SavedGameDto> savedGames) {
+        System.out.println("\n진행 중인 게임 목록입니다. 게임 방의 숫자를 입력해주세요.");
+        for (SavedGameDto savedGameDto : savedGames) {
+            System.out.print(formatter.formatSavedGames(savedGameDto));
+        }
+    }
+
+    private int requestValidGameId(List<SavedGameDto> savedGames) {
         int input = Validator.validateNumber(scanner.nextLine());
-        Validator.validateContainsNumber(input, savedGames);
+        List<Integer> numbers = savedGames.stream()
+                .map(SavedGameDto::gameId)
+                .toList();
+        Validator.validateContainsNumber(input, numbers);
         return input;
     }
 }
