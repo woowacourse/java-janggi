@@ -16,16 +16,17 @@ public class InputView {
         System.out.println("어떤 걸 선택하시겠습니다? (숫자만 입력)");
         System.out.println("1. 새로운 게임");
         System.out.println("2. 기존 게임");
+        System.out.println("3. 게임 종료");
 
         String input = scanner.nextLine().trim();
         try {
             int parsedInput = Integer.parseInt(input);
-            if (parsedInput != 1 && parsedInput != 2)
-                throw new IllegalArgumentException();
+
             System.out.println();
             return switch (parsedInput) {
                 case 1 -> GameType.NEW;
                 case 2 -> GameType.LOAD;
+                case 3 -> GameType.EXIT;
                 default -> throw new IllegalArgumentException();
             };
         }
@@ -68,8 +69,7 @@ public class InputView {
         String input = scanner.nextLine().trim();
         try {
             int parsedInput = Integer.parseInt(input);
-            if (parsedInput < 1 || parsedInput > 4)
-                throw new IllegalArgumentException();
+
             System.out.println();
             return switch (parsedInput) {
                 case 1 -> Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT;
@@ -88,7 +88,7 @@ public class InputView {
     
     public String readPosition(String turnName) {
         System.out.println(turnName + " 차례입니다.");
-        System.out.println("움직일 기물의 위치를 입력해주세요. (예: 0 0) [게임 종료는 n] [기권은 r]");
+        System.out.println("움직일 기물의 위치를 입력해주세요. (예: 0 0) [게임 중단: n] [기권: r]");
 
         String input = scanner.nextLine();
         try {
@@ -112,7 +112,7 @@ public class InputView {
     }
 
     public String readTargetPosition() {
-        System.out.println("기물을 움직일 위치를 입력해주세요. (예: 0 0) [게임 종료는 n]");
+        System.out.println("기물을 움직일 위치를 입력해주세요. (예: 0 0) [게임 중단: n] [기권: r]");
 
         String input = scanner.nextLine();
         try {

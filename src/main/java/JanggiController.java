@@ -33,22 +33,28 @@ public class JanggiController {
     }
 
     public void run() {
-        GameType gameType = inputView.readGameType();
-        if (gameType == GameType.LOAD) {
-            List<GameEntity> findGames = gameDao.findAll();
-            int gameId = inputView.readGameNumber(findGames.stream()
-                    .map(GameEntity::getUpdatedAt)
-                    .toList());
-            GameEntity findGame = findGames.get(gameId - 1);
-            List<PieceEntity> findPieces = pieceDao.findAllByGameId(findGame.getId());
-            Board board = convertPieceEntitiesToBoard(findPieces);
-            Game game = Game.loadGame(board, findGame.getCurrentTurn(), findGame.getStatus());
-            playGame(game, findGame);
-        }
-        if (gameType == GameType.NEW) {
-            Game game = initializeGame();
-            GameEntity savedGame = saveGame(game);
-            playGame(game, savedGame);
+        while (true) {
+            GameType gameType = inputView.readGameType();
+
+            if (gameType == GameType.LOAD) {
+                List<GameEntity> findGames = gameDao.findAll();
+                int gameId = inputView.readGameNumber(findGames.stream()
+                        .map(GameEntity::getUpdatedAt)
+                        .toList());
+                GameEntity findGame = findGames.get(gameId - 1);
+                List<PieceEntity> findPieces = pieceDao.findAllByGameId(findGame.getId());
+                Board board = convertPieceEntitiesToBoard(findPieces);
+                Game game = Game.loadGame(board, findGame.getCurrentTurn(), findGame.getStatus());
+                playGame(game, findGame);
+            }
+            if (gameType == GameType.NEW) {
+                Game game = initializeGame();
+                GameEntity savedGame = saveGame(game);
+                playGame(game, savedGame);
+            }
+            if (gameType == GameType.EXIT) {
+                break;
+            }
         }
     }
 
