@@ -1,9 +1,8 @@
 package janggi.model.piece.straightMove;
 
 import janggi.model.Team;
-import janggi.model.movement.Movement;
+import janggi.model.movement.MovementSelector;
 import janggi.model.movement.StraightMovement;
-import janggi.model.movement.palace.PalaceMovement;
 import janggi.model.movement.palace.PalaceMultipleMovement;
 import janggi.model.palace.Palaces;
 import janggi.model.piece.Piece;
@@ -14,26 +13,15 @@ import java.util.List;
 
 public abstract class StraightMovePiece extends Piece {
 
-    private final PalaceMovement palaceMovement;
+    private final MovementSelector movementSelector;
 
-    private StraightMovePiece(
-            Team team,
-            PieceType pieceType,
-            Movement defaultMovement,
-            PalaceMovement palaceMovement
-    ) {
-        super(team, pieceType, defaultMovement);
-        this.palaceMovement = palaceMovement;
-    }
-
-    public StraightMovePiece(
+    protected StraightMovePiece(
             Team team,
             PieceType pieceType,
             Palaces palaces
     ) {
-        this(
-                team,
-                pieceType,
+        super(team, pieceType);
+        this.movementSelector = new MovementSelector(
                 new StraightMovement(),
                 new PalaceMultipleMovement(palaces)
         );
@@ -41,11 +29,7 @@ public abstract class StraightMovePiece extends Piece {
 
     @Override
     public PositionPath getLegalPath(Position from, Position to) {
-        if (palaceMovement.supports(from, to)) {
-            return palaceMovement.move(from, to);
-        }
-
-        return defaultMovement
+        return movementSelector.select(from, to)
                 .move(from, to);
     }
 

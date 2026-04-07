@@ -10,12 +10,15 @@ import java.util.List;
 
 public abstract class PalacePiece extends Piece {
 
+    private final Movement defaultMovement;
+
     protected PalacePiece(
             Team team,
             PieceType pieceType,
             Movement defaultMovement
     ) {
-        super(team, pieceType, defaultMovement);
+        super(team, pieceType);
+        this.defaultMovement = defaultMovement;
     }
 
     @Override

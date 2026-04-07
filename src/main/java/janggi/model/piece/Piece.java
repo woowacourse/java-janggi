@@ -1,24 +1,20 @@
 package janggi.model.piece;
 
 import janggi.model.Team;
-import janggi.model.movement.Movement;
 import janggi.model.position.absolute.Position;
 import janggi.model.position.absolute.PositionPath;
 import java.util.List;
 
 public abstract class Piece {
-    protected final Movement defaultMovement;
     protected final Team team;
     private final PieceType pieceType;
 
     protected Piece(
             Team team,
-            PieceType pieceType,
-            Movement defaultMovement
+            PieceType pieceType
     ) {
         this.team = team;
         this.pieceType = pieceType;
-        this.defaultMovement = defaultMovement;
     }
 
     public abstract PositionPath getLegalPath(Position from, Position to);

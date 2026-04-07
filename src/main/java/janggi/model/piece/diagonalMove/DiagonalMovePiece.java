@@ -10,12 +10,15 @@ import java.util.List;
 
 public abstract class DiagonalMovePiece extends Piece {
 
+    private final Movement defaultMovement;
+
     protected DiagonalMovePiece(
             Team team,
             PieceType pieceType,
             Movement defaultMovement
     ) {
-        super(team, pieceType, defaultMovement);
+        super(team, pieceType);
+        this.defaultMovement = defaultMovement;
     }
 
     @Override
