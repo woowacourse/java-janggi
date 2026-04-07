@@ -24,11 +24,33 @@ class ChaTest {
     }
 
     @Test
+    void 차_대각선_움직임_경로_정상_판정_테스트() {
+        Piece piece = new Cha(Team.CHO);
+
+        Position from = new Position(3, 2);
+        Position to = new Position(5, 0);
+
+        assertDoesNotThrow(() -> piece.validateMove(from, to));
+    }
+
+    @Test
     void 차_움직임_예외_처리_테스트() {
         Piece piece = new Cha(Team.CHO);
 
         Position from = new Position(0, 0);
         Position to = new Position(1, 1);
+
+        assertThatIllegalArgumentException()
+            .isThrownBy(() -> piece.validateMove(from, to))
+            .withMessage("[ERROR] 해당 위치로 차가 이동할 수 없습니다.");
+    }
+
+    @Test
+    void 차_대각선_움직임_예외_처리_테스트() {
+        Piece piece = new Cha(Team.CHO);
+
+        Position from = new Position(5, 1);
+        Position to = new Position(4, 0);
 
         assertThatIllegalArgumentException()
             .isThrownBy(() -> piece.validateMove(from, to))
