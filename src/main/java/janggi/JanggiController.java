@@ -12,7 +12,7 @@ public class JanggiController {
 
     private final InputView inputView;
     private final OutputView outputView;
-    private JanggiGame game;
+    private final JanggiGame game;
 
     public JanggiController(InputView inputView, OutputView outputView, JanggiGame game) {
         this.inputView = inputView;

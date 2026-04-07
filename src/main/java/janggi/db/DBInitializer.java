@@ -6,7 +6,7 @@ import java.sql.Statement;
 
 public class DBInitializer {
 
-    public void initialize(Connection conn) throws SQLException {
+    public static void initialize(Connection conn) throws SQLException {
         String createGameSql = """
                 CREATE TABLE IF NOT EXISTS game (
                 id INT AUTO_INCREMENT PRIMARY KEY,

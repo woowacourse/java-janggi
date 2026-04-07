@@ -1,7 +1,6 @@
 package janggi.domain.board;
 
 import janggi.domain.piece.General;
-import janggi.domain.piece.Palace;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Soldier;
 import janggi.domain.position.Movement;

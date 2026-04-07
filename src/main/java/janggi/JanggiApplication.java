@@ -13,9 +13,7 @@ public class JanggiApplication {
 
     public static void main(String[] args) {
         try (Connection conn = DBConnection.getConnection()) {
-            DBInitializer initializer = new DBInitializer();
-            initializer.initialize(conn);
-
+            DBInitializer.initialize(conn);
             JanggiGame game = new JanggiGame(new GameRepository(conn));
             JanggiController controller = new JanggiController(new InputView(), new OutputView(), game);
             controller.run();
