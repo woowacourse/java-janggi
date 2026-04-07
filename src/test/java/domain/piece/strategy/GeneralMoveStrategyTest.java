@@ -67,7 +67,7 @@ class GeneralMoveStrategyTest {
         }
 
         @Test
-        void 궁과_사는_출발지와_목적지_모두_궁성_중앙이_아니면_대각선_방향으로_이동할_수_없다(){
+        void 궁과_사는_궁성_내에서_지정된_대각선_경로가_아니면_대각선_방향으로_이동할_수_없다(){
             Position from = new Position(4,7);
             Position to = new Position(3, 8);
 
@@ -76,17 +76,7 @@ class GeneralMoveStrategyTest {
         }
 
         @Test
-        void 궁과_사는_궁성_중앙에서_궁성_가장자리로_대각선_방향으로_이동할_수_있다() {
-            Position from = new Position(4, 8);
-            Position to = new Position(3, 7);
-
-            List<Position> path = generalMoveStrategy.getPath(from, to);
-
-            assertThat(path).containsExactly(new Position(3, 7));
-        }
-
-        @Test
-        void 궁과_사는_궁성_가장_자리에서_궁성_중앙으로_대각선_방향으로_이동할_수_있다() {
+        void 궁과_사는_궁성_내에서_지정된_대각선_경로를_통해_대각선_방향으로_이동할_수_있다() {
             Position from = new Position(4, 8);
             Position to = new Position(3, 7);
 

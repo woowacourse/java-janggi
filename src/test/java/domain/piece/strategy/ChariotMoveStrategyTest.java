@@ -76,7 +76,7 @@ class ChariotMoveStrategyTest {
         }
 
         @Test
-        void 차는_궁성_내에서_궁성의_중앙을_지나는_대각선_방향으로_이동할_수_있다() {
+        void 차는_궁성_내에서_지정된_대각선_경로를_통해_대각선_방향으로_이동할_수_있다() {
             Position from = new Position(3, 9);
             Position to = new Position(5, 7);
 
