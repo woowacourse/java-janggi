@@ -32,7 +32,7 @@ public enum Palace {
 
     public List<Position> getPositions() {
         List<Position> positions = new ArrayList<>(diagonalPositions);
-        positions.addAll(new ArrayList<>(normalPositions));
+        positions.addAll(normalPositions);
         return positions;
     }
 
