@@ -1,6 +1,5 @@
 package janggi.domain.board;
 
-import janggi.domain.board.coordination.Coordination;
 import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.path.CandidatePath;
 import janggi.domain.path.Movement;
@@ -13,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class Board {
@@ -34,11 +34,11 @@ public class Board {
         return new HashMap<>(pieces);
     }
 
-    public Set<Point> destinations(List<Movement> movements, Point from, Coordination coordination) {
+    public Set<Point> destinations(List<Movement> movements, Point from, Predicate<Point> predicate) {
         Piece piece = getPieceAt(from)
                 .orElseThrow(() -> new IllegalArgumentException("해당 Point에 기물이 없어, 목적지가 없습니다."));
         List<CandidatePath> candidatePaths = convertToCandidatePaths(
-                movements, from, piece.pathStrategy(), coordination);
+                movements, from, piece.pathStrategy(), predicate);
 
         return piece.availablePoints(candidatePaths, findPiecesOnPaths(candidatePaths))
                 .stream()
@@ -55,9 +55,9 @@ public class Board {
     private List<CandidatePath> convertToCandidatePaths(List<Movement> movements,
                                                         Point from,
                                                         PathStrategy pathStrategy,
-                                                        Coordination coordination) {
+                                                        Predicate<Point> predicate) {
         return movements.stream()
-                .map(movement -> new CandidatePath(movement, from, pathStrategy, coordination))
+                .map(movement -> new CandidatePath(movement, from, pathStrategy, predicate))
                 .toList();
     }
 

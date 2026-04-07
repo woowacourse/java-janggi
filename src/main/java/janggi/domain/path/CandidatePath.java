@@ -1,11 +1,11 @@
 package janggi.domain.path;
 
-import janggi.domain.board.coordination.Coordination;
-import janggi.domain.point.Point;
 import janggi.domain.path.generator.PathStrategy;
+import janggi.domain.point.Point;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 public class CandidatePath {
     private final Point from;
@@ -21,8 +21,8 @@ public class CandidatePath {
         this.path = path;
     }
 
-    public CandidatePath(Movement movement, Point from, PathStrategy pathStrategy, Coordination coordination) {
-        this(from, pathStrategy.calculate(movement, from, coordination));
+    public CandidatePath(Movement movement, Point from, PathStrategy pathStrategy, Predicate<Point> predicate) {
+        this(from, pathStrategy.calculate(movement, from, predicate));
     }
 
     public boolean isForward(Direction direction) {

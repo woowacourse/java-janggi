@@ -35,17 +35,16 @@ class FixedCandidatePathStrategyTest {
             );
         }
 
-        public static Stream<Arguments> throwExceptionWhenOutOfRange() {
+        public static Stream<Arguments> returnEmptyWhenInvalidRange() {
             return Stream.of(
                     Arguments.of(
                             new Movement(List.of(Direction.NORTH, Direction.EAST, Direction.NORTH_EAST)),
-                            new Point(7, 0),
-                            List.of(new Point(8, 0), new Point(8, 1), new Point(9, 2))
+                            new Point(7, 0)
                     ),
                     Arguments.of(
                             new Movement(List.of(Direction.NORTH)),
-                            new Point(9, 0),
-                            Collections.emptyList())
+                            new Point(9, 0)
+                    )
             );
         }
 
@@ -54,19 +53,16 @@ class FixedCandidatePathStrategyTest {
         @MethodSource
         @DisplayName("points를 movement 그대로 생성한다.")
         void calculate(Movement movement, Point from, List<Point> expected) {
-            assertThat(FIXED_PATH_STRATEGY.calculate(movement, from, new BoardCoordination()))
+            assertThat(FIXED_PATH_STRATEGY.calculate(movement, from, BoardCoordination::isInRange))
                     .containsAll(expected);
         }
 
         @ParameterizedTest
         @MethodSource
         @DisplayName("지정된 범위를 벗어나면 경로를 생성하지 않는다.")
-        void throwExceptionWhenOutOfRange(Movement movement, Point from, List<Point> expected) {
-            assertThat(FIXED_PATH_STRATEGY.calculate(movement, from, new PalaceCoordination()))
-                    .size().isEqualTo(0);
-
-
+        void returnEmptyWhenInvalidRange(Movement movement, Point from) {
+            assertThat(FIXED_PATH_STRATEGY.calculate(movement, from, PalaceCoordination::isInRange))
+                    .isEmpty();
         }
-
     }
 }

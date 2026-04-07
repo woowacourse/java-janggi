@@ -1,12 +1,14 @@
 package janggi.domain.board.coordination;
 
-public class BoardCoordination implements Coordination {
+import janggi.domain.point.Point;
+
+public class BoardCoordination {
     private static final int MIN_X = 0;
     private static final int MAX_X = 9;
     private static final int MIN_Y = 0;
     private static final int MAX_Y = 8;
 
-    public boolean isInRange(int nx, int ny) {
-        return nx >= MIN_X && nx <= MAX_X && ny >= MIN_Y && ny <= MAX_Y;
+    public static boolean isInRange(Point point) {
+        return point.x() >= MIN_X && point.x() <= MAX_X && point.y() >= MIN_Y && point.y() <= MAX_Y;
     }
 }

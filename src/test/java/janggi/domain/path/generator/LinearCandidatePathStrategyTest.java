@@ -49,18 +49,16 @@ class LinearCandidatePathStrategyTest {
         @MethodSource
         @DisplayName("movement에 따른 경로 계산")
         void calculate(Movement movement, Point from, List<Point> expected) {
-            assertThat(LINEAR_PATH_STRATEGY.calculate(movement, from, new BoardCoordination()))
+            assertThat(LINEAR_PATH_STRATEGY.calculate(movement, from, BoardCoordination::isInRange))
                     .containsAll(expected);
         }
 
         @Test
         @DisplayName("[예외] 디렉션이 하나가 아니라면 예외를 반환한다.")
         void whenDirectionIsNotUnique() {
-            assertThatThrownBy(
-                    () -> LINEAR_PATH_STRATEGY.calculate(
-                            new Movement(List.of(Direction.NORTH_EAST, Direction.EAST)),
-                            new Point(0, 0),
-                            new BoardCoordination()))
+            Movement movement = new Movement(List.of(Direction.NORTH_EAST, Direction.EAST));
+            Point point = new Point(0, 0);
+            assertThatThrownBy(() -> LINEAR_PATH_STRATEGY.calculate(movement, point, BoardCoordination::isInRange))
                     .isInstanceOf(IllegalArgumentException.class);
         }
     }

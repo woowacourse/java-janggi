@@ -2,7 +2,6 @@ package janggi.domain.game;
 
 import janggi.domain.board.Board;
 import janggi.domain.board.coordination.BoardCoordination;
-import janggi.domain.board.coordination.Coordination;
 import janggi.domain.board.coordination.PalaceCoordination;
 import janggi.domain.board.coordination.PalaceMovements;
 import janggi.domain.board.setup.BoardSetUp;
@@ -15,8 +14,6 @@ import java.util.Set;
 
 public class Game {
     private static final Side INIT_TURN = Side.CHO;
-    private static final Coordination BOARD_COORDINATION = new BoardCoordination();
-    private static final Coordination PALACE_COORDINATION = new PalaceCoordination();
 
     private final Rules rules;
     private final Board board;
@@ -38,9 +35,10 @@ public class Game {
     }
 
     public Set<Point> destinations(Point from) {
-        Set<Point> destinations = board.destinations(board.getPieceMovements(from), from, BOARD_COORDINATION);
-        if (PALACE_COORDINATION.isInRange(from.x(), from.y())) {
-            destinations.addAll(board.destinations(PalaceMovements.getMovements(from), from, PALACE_COORDINATION));
+        Set<Point> destinations = board.destinations(board.getPieceMovements(from), from, BoardCoordination::isInRange);
+        if (PalaceCoordination.isInRange(from)) {
+            destinations.addAll(
+                    board.destinations(PalaceMovements.getMovements(from), from, PalaceCoordination::isInRange));
         }
 
         return destinations;

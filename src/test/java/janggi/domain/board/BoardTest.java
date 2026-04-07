@@ -31,7 +31,7 @@ class BoardTest {
         Board board = Board.setUp(testSetUp, emptyBoardSetUp);
 
         Point from = new Point(0, 0);
-        Set<Point> destinations = board.destinations(board.getPieceMovements(from), from, new BoardCoordination());
+        Set<Point> destinations = board.destinations(board.getPieceMovements(from), from, BoardCoordination::isInRange);
 
         assertThat(destinations).hasSize(1)
                 .contains(new Point(0, 1));

@@ -1,34 +1,31 @@
 package janggi.domain.path.generator;
 
-import janggi.domain.board.coordination.Coordination;
-import janggi.domain.point.Point;
 import janggi.domain.path.Direction;
 import janggi.domain.path.Movement;
+import janggi.domain.point.Point;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class LinearPathStrategy implements PathStrategy {
     private static final int LINEAR_SIZE = 1;
 
     @Override
-    public List<Point> calculate(Movement movement, Point from, Coordination coordination) {
+    public List<Point> calculate(Movement movement, Point from, Predicate<Point> predicate) {
         if (movement.getDirections().size() != LINEAR_SIZE) {
             throw new IllegalArgumentException("방향은 %d개여야 합니다.".formatted(LINEAR_SIZE));
         }
 
-        return createLinearPoints(from, movement.getDirections().getFirst(), coordination);
+        return createLinearPoints(from, movement.getDirections().getFirst(), predicate);
     }
 
-    private List<Point> createLinearPoints(Point from, Direction direction, Coordination coordination) {
+    private List<Point> createLinearPoints(Point from, Direction direction, Predicate<Point> predicate) {
         List<Point> path = new ArrayList<>();
-        int dx = direction.getDx();
-        int dy = direction.getDy();
+        Point nextPoint = from.add(direction.getDx(), direction.getDy());
 
-        while (coordination.isInRange(from.x() + dx, from.y() + dy)) {
-            Point point = from.add(dx, dy);
-            path.add(point);
-            dx += direction.getDx();
-            dy += direction.getDy();
+        while (predicate.test(nextPoint)) {
+            path.add(nextPoint);
+            nextPoint = nextPoint.add(direction.getDx(), direction.getDy());
         }
         return path;
     }

@@ -1,24 +1,24 @@
 package janggi.domain.path.generator;
 
-import janggi.domain.board.coordination.Coordination;
-import janggi.domain.point.Point;
 import janggi.domain.path.Direction;
 import janggi.domain.path.Movement;
+import janggi.domain.point.Point;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class FixedPathStrategy implements PathStrategy {
     @Override
-    public List<Point> calculate(Movement movement, Point from, Coordination coordination) {
+    public List<Point> calculate(Movement movement, Point from, Predicate<Point> predicate) {
         List<Point> points = new ArrayList<>();
-        Point point = from;
+        Point nextPoint = from;
         for (Direction direction : movement.getDirections()) {
-            if (!coordination.isInRange(point.x() + direction.getDx(), point.y() + direction.getDy())) {
+            nextPoint = nextPoint.add(direction.getDx(), direction.getDy());
+            if (!predicate.test(nextPoint)) {
                 return Collections.emptyList();
             }
-            point = point.add(direction.getDx(), direction.getDy());
-            points.add(point);
+            points.add(nextPoint);
         }
         return points;
     }
