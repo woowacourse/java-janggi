@@ -122,8 +122,10 @@ public class JanggiController {
     }
 
     private void printResult() {
-        outputView.printGameEnd(janggiGame.findWinner());
-        outputView.printScore(Team.CHO, board.calculateScore(Team.CHO));
-        outputView.printScore(Team.HAN, board.calculateScore(Team.HAN));
+        outputView.printResult(
+                janggiGame.findWinner(),
+                board.calculateScore(Team.CHO),
+                board.calculateScore(Team.HAN)
+        );
     }
 }

@@ -20,11 +20,17 @@ public class OutputView {
         System.out.println(team + "의 차례입니다.");
     }
 
-    public void printGameEnd(Team winner) {
+    public void printResult(Team winner, int choScore, int hanScore) {
+        printGameEnd(winner);
+        printScore(Team.CHO, choScore);
+        printScore(Team.HAN, hanScore);
+    }
+
+    private void printGameEnd(Team winner) {
         System.out.println("게임이 종료되었습니다. 승자: " + winner);
     }
 
-    public void printScore(Team team, int score) {
+    private void printScore(Team team, int score) {
         System.out.println(team + " 점수: " + score);
     }
 

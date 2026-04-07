@@ -15,7 +15,7 @@ public class GameRepository {
 
     private static final String INSERT_GAME = "INSERT INTO game (current_turn, game_status, winner) VALUES (?, ?, ?)";
     private static final String SELECT_PLAYING_GAMES = "SELECT game_id, current_turn, game_status, winner FROM game WHERE game_status = 'PLAYING'";
-    private static final String UPDATE_TURN = "UPDATE game SET current_turn = ?, updated_at = datetime('now', 'localtime') WHERE game_id = ?";
+    private static final String UPDAㅌTE_TURN = "UPDATE game SET current_turn = ?, updated_at = datetime('now', 'localtime') WHERE game_id = ?";
     private static final String UPDATE_FINISHED = "UPDATE game SET game_status = 'FINISHED', winner = ?, updated_at = datetime('now', 'localtime') WHERE game_id = ?";
     private static final String SELECT_BY_ID = "SELECT game_id, current_turn, game_status, winner FROM game WHERE game_id = ?";
 
