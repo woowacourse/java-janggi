@@ -86,6 +86,15 @@ class CannonMoveStrategyTest {
                     new Position(4, 8),
                     new Position(5, 7));
         }
+
+        @Test
+        void 포는_궁성_내_지정된_대각선_경로가_아니면_대각선_방향으로_이동할_수_없다(){
+            Position from = new Position(4,7);
+            Position to = new Position(3, 8);
+
+            assertThatThrownBy(() -> cannonMoveStrategy.getPath(from, to))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
     }
 
     @Test
