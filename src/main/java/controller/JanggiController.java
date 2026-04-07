@@ -77,7 +77,7 @@ public class JanggiController {
         }
 
         outputView.printGameResult(janggiGame.getWinnerCountry());
-        janggiService.deleteGame(gameId);
+        janggiService.finishGame(gameId, board);
     }
 
     private void playTurn(List<PositionDto> positionDtos, int gameId, JanggiGame janggiGame, Board board) {

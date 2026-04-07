@@ -70,7 +70,6 @@ public class JanggiService {
 
     public void applyMove(int gameId, Position start, Position end, JanggiGame game) {
         boolean checkEndPosition = game.isEmptyPosition(end);
-
         game.play(start, end);
 
         if (!checkEndPosition) {
@@ -98,7 +97,10 @@ public class JanggiService {
         return new JanggiGame(board, country);
     }
 
-    public void deleteGame(int gameId) {
-        janggiGameDao.deleteGame(gameId);
+    public void finishGame(int gameId, Board board) {
+        double choScore = board.calculateScore(Country.CHO);
+        double hanScore = board.calculateScore(Country.HAN);
+
+        janggiGameDao.finishGame(gameId, choScore, hanScore);
     }
 }

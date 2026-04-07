@@ -45,6 +45,7 @@ public class JanggiGameDao {
 
     public List<Integer> getSavedGames() {
         String sql = "SELECT id FROM game_state";
+
         List<Integer> gameId = new ArrayList<>();
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql);
@@ -62,6 +63,7 @@ public class JanggiGameDao {
 
     public String getSavedTurn(int gameId) {
         String sql = "SELECT turn FROM game_state WHERE id = ?";
+
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, gameId);
@@ -77,17 +79,18 @@ public class JanggiGameDao {
         return "";
     }
 
-    public void deleteGame(int gameId) {
-        String sql = "DELETE FROM game_state WHERE id = ?";
+    public void finishGame(int gameId, double choScore, double hanScore) {
+        String sql = "UPDATE game_state SET is_finished = TRUE, cho_score = ?, han_score = ? WHERE id = ?";
 
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
 
-            pstmt.setInt(1, gameId);
+            pstmt.setDouble(1, choScore);
+            pstmt.setDouble(2, hanScore);
+            pstmt.setInt(3, gameId);
             pstmt.executeUpdate();
-
         } catch (SQLException e) {
-            System.out.println("게임 정보 삭제 중 에러 발생: " + e.getMessage());
+            System.out.println("게임 종료 중 에러 발생: " + e.getMessage());
         }
     }
 }
