@@ -18,8 +18,9 @@ import domain.position.Position;
 class PoTest {
 
     private static final Position DEFAULT = new Position(3, 3);
+
     private Piece po() {
-        return new Po(Side.HAN);
+        return new Po(Side.CHO);
     }
 
     @Nested
@@ -126,7 +127,7 @@ class PoTest {
             }
 
             @Test
-            void 우상향이_도착지인_경우_예외를_던진다() {
+            void 궁성_밖에서_우상향이_도착지인_경우_예외를_던진다() {
                 // given
                 Piece po = po();
                 Position departure = DEFAULT;
@@ -184,6 +185,18 @@ class PoTest {
                         .isInstanceOf(InvalidMoveException.class)
                         .hasMessage(PieceErrorMessage.PO_ONE_SPACE_MOVE.message());
             }
+
+            @Test
+            void 궁성_대각선_선분_한_칸_이동이면_한_칸_이동_예외를_던진다() {
+                Piece po = po();
+                Position departure = new Position(0, 3);
+                Position destination = departure.moveRightUp();
+
+                assertThatThrownBy(() -> po.askMoveContext(departure, destination))
+                        .isInstanceOf(InvalidMoveException.class)
+                        .hasMessage(PieceErrorMessage.PO_ONE_SPACE_MOVE.message());
+            }
+
         }
     }
 
@@ -271,7 +284,7 @@ class PoTest {
     class SpecialRule {
 
         @Test
-        void 포는_포를_제외한_다른_진영의_기물만_공격할_수_있다() {
+        void 포의_이동은_PoDestinationRule을_사용한다() {
             // given
             Piece po = po();
             Position departure = DEFAULT;
@@ -284,11 +297,37 @@ class PoTest {
         }
 
         @Test
-        void 포는_이동_경로에_포를_제외한_기물이_1개_있을_때_이동할_수_있다() {
+        void 포의_이동은_PoPathRule을_사용한다() {
             // given
             Piece po = po();
             Position departure = DEFAULT;
             Position destination = departure.moveUp().moveUp();
+            // when
+            MoveContext moveContext = po.askMoveContext(departure, destination);
+            // then
+            assertThat(moveContext.pathRule())
+                    .isInstanceOf(PoPathRule.class);
+        }
+
+        @Test
+        void 궁성_대각선_이동시_PoDestinationRule을_사용한다() {
+            // given
+            Piece po = po();
+            Position departure = new Position(0, 3);
+            Position destination = departure.moveRightUp().moveRightUp();
+            // when
+            MoveContext moveContext = po.askMoveContext(departure, destination);
+            // then
+            assertThat(moveContext.destinationRule())
+                    .isInstanceOf(PoDestinationRule.class);
+        }
+
+        @Test
+        void 궁성_대각선_이동시_PoPathRule을_사용한다() {
+            // given
+            Piece po = po();
+            Position departure = new Position(0, 3);
+            Position destination = departure.moveRightUp().moveRightUp();
             // when
             MoveContext moveContext = po.askMoveContext(departure, destination);
             // then

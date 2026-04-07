@@ -1,16 +1,25 @@
 package domain.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import domain.movepolicy.exception.InvalidPathRuleException;
+import domain.movepolicy.exception.MovePolicyErrorMessage;
 import domain.pieces.Cha;
 import domain.pieces.EmptyPiece;
 import domain.pieces.FullPiece;
+import domain.pieces.Gung;
+import domain.pieces.exception.InvalidMoveException;
 import domain.pieces.Piece;
+import domain.pieces.Po;
 import domain.pieces.Side;
+import domain.pieces.exception.PieceErrorMessage;
 import domain.position.Position;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class BoardTest {
@@ -76,6 +85,155 @@ class BoardTest {
         expected.putAll(choPieces);
         expected.putAll(hanPieces);
         assertThat(mergedBoard.pieces()).isEqualTo(expected);
+    }
+
+    @Nested
+    @DisplayName("포의 이동을 보드에서 검증한다")
+    class PoMovement {
+
+        @Test
+        void 포는_이동_경로에_포를_제외한_기물이_1개_있을_때_이동할_수_있다() {
+            // given
+            Position departure = new Position(3, 3);
+            Position bridge = departure.moveUp();
+            Position destination = departure.moveUp().moveUp();
+
+            Map<Position, Piece> pieces = new HashMap<>();
+            pieces.put(departure, new Po(Side.CHO));
+            pieces.put(bridge, new Gung(Side.HAN));
+            pieces.put(destination, new EmptyPiece());
+
+            Board beforeBoard = new Board(pieces);
+
+            // when
+            Board afterBoard = beforeBoard.move(departure, destination);
+
+            // then
+            assertThat(afterBoard.pieces().get(departure).isEmpty()).isTrue();
+            assertThat(afterBoard.pieces().get(destination).getType()).isEqualTo(new Po(Side.CHO).getType());
+            assertThat(afterBoard.pieces().get(destination).isCho()).isTrue();
+        }
+
+        @Test
+        void 포는_이동_경로에_기물이_없으면_예외를_던진다() {
+            // given
+            Position departure = new Position(3, 3);
+            Position bridge = departure.moveUp();
+            Position destination = departure.moveUp().moveUp();
+
+            Map<Position, Piece> pieces = new HashMap<>();
+            pieces.put(departure, new Po(Side.CHO));
+            pieces.put(bridge, new EmptyPiece());
+            pieces.put(destination, new EmptyPiece());
+
+            Board board = new Board(pieces);
+
+            // when & then
+            assertThatThrownBy(() -> board.move(departure, destination))
+                    .isInstanceOf(InvalidPathRuleException.class)
+                    .hasMessage(MovePolicyErrorMessage.PATH_MUST_CONTAIN_PIECE.message());
+        }
+
+        @Test
+        void 포는_이동_경로의_기물이_포이면_예외를_던진다() {
+            // given
+            Position departure = new Position(3, 3);
+            Position bridge = departure.moveUp();
+            Position destination = departure.moveUp().moveUp();
+
+            Map<Position, Piece> pieces = new HashMap<>();
+            pieces.put(departure, new Po(Side.CHO));
+            pieces.put(bridge, new Po(Side.HAN));
+            pieces.put(destination, new EmptyPiece());
+
+            Board board = new Board(pieces);
+
+            // when & then
+            assertThatThrownBy(() -> board.move(departure, destination))
+                    .isInstanceOf(InvalidPathRuleException.class)
+                    .hasMessage(MovePolicyErrorMessage.PO_CANNOT_JUMP_OVER_PO.message());
+        }
+
+        @Test
+        void 궁성_대각선_이동시_포를_제외한_기물이_1개_있으면_이동할_수_있다() {
+            // given
+            Position departure = new Position(0, 3);
+            Position bridge = departure.moveRightUp();
+            Position destination = departure.moveRightUp().moveRightUp();
+
+            Map<Position, Piece> pieces = new HashMap<>();
+            pieces.put(departure, new Po(Side.CHO));
+            pieces.put(bridge, new Gung(Side.HAN));
+            pieces.put(destination, new EmptyPiece());
+
+            Board beforeBoard = new Board(pieces);
+
+            // when
+            Board afterBoard = beforeBoard.move(departure, destination);
+
+            // then
+            assertThat(afterBoard.pieces().get(departure).isEmpty()).isTrue();
+            assertThat(afterBoard.pieces().get(destination).getType()).isEqualTo(new Po(Side.CHO).getType());
+            assertThat(afterBoard.pieces().get(destination).isCho()).isTrue();
+        }
+
+        @Test
+        void 궁성_대각선_이동시_이동_경로에_기물이_없으면_예외를_던진다() {
+            // given
+            Position departure = new Position(0, 3);
+            Position bridge = departure.moveRightUp();
+            Position destination = departure.moveRightUp().moveRightUp();
+
+            Map<Position, Piece> pieces = new HashMap<>();
+            pieces.put(departure, new Po(Side.CHO));
+            pieces.put(bridge, new EmptyPiece());
+            pieces.put(destination, new EmptyPiece());
+
+            Board board = new Board(pieces);
+
+            // when & then
+            assertThatThrownBy(() -> board.move(departure, destination))
+                    .isInstanceOf(InvalidPathRuleException.class)
+                    .hasMessage(MovePolicyErrorMessage.PATH_MUST_CONTAIN_PIECE.message());
+        }
+
+        @Test
+        void 궁성_대각선_이동시_이동_경로의_기물이_포이면_예외를_던진다() {
+            // given
+            Position departure = new Position(0, 3);
+            Position bridge = departure.moveRightUp();
+            Position destination = departure.moveRightUp().moveRightUp();
+
+            Map<Position, Piece> pieces = new HashMap<>();
+            pieces.put(departure, new Po(Side.CHO));
+            pieces.put(bridge, new Po(Side.HAN));
+            pieces.put(destination, new EmptyPiece());
+
+            Board board = new Board(pieces);
+
+            // when & then
+            assertThatThrownBy(() -> board.move(departure, destination))
+                    .isInstanceOf(InvalidPathRuleException.class)
+                    .hasMessage(MovePolicyErrorMessage.PO_CANNOT_JUMP_OVER_PO.message());
+        }
+
+        @Test
+        void 궁성_대각선_선분이_아닌_대각선으로는_이동할_수_없다() {
+            // given
+            Position departure = new Position(0, 4);
+            Position destination = departure.moveRightUp();
+
+            Map<Position, Piece> pieces = new HashMap<>();
+            pieces.put(departure, new Po(Side.CHO));
+            pieces.put(destination, new EmptyPiece());
+
+            Board board = new Board(pieces);
+
+            // when & then
+            assertThatThrownBy(() -> board.move(departure, destination))
+                    .isInstanceOf(InvalidMoveException.class)
+                    .hasMessage(PieceErrorMessage.PO_INVALID_MOVE.message());
+        }
     }
 
     private Board boardWith(Position firstPosition, Piece firstPiece,

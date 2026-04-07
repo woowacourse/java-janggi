@@ -16,7 +16,7 @@ import domain.movement.SlidingPath;
 public class Cha extends FullPiece {
 
     private static final SlidingDirectionFinder SLIDING_DIRECTION_FINDER = new SlidingDirectionFinder();
-    private static final Palace palace = new Palace();
+    private static final Palace PALACE = new Palace();
 
     public Cha(Side side) {
         super(side);
@@ -29,7 +29,7 @@ public class Cha extends FullPiece {
         }
         if (!departure.isSameRow(destination)
                 && !departure.isSameColumn(destination)
-                && !palace.isChaAndPoDiagonalConnection(departure, destination)) {
+                && !PALACE.isChaAndPoDiagonalConnection(departure, destination)) {
             throw new InvalidMoveException(PieceErrorMessage.CHA_INVALID_MOVE);
         }
     }

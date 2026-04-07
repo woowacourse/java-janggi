@@ -13,7 +13,7 @@ import java.util.List;
 
 public class JolByeong extends FullPiece {
 
-    private static final Palace palace = new Palace();
+    private static final Palace PALACE = new Palace();
 
     public JolByeong(Side side) {
         super(side);
@@ -33,7 +33,7 @@ public class JolByeong extends FullPiece {
     }
 
     private boolean canMovePalaceDiagonal(Position departure, Position destination) {
-        if (!palace.isDiagonalConnection(departure, destination)) {
+        if (!PALACE.isDiagonalConnection(departure, destination)) {
             return false;
         }
         if (isCho()) {
