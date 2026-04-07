@@ -1,5 +1,6 @@
 package janggi.repository;
 
+import janggi.db.TransactionManager;
 import janggi.domain.Game;
 import janggi.domain.board.Board;
 import janggi.domain.board.Position;
@@ -16,19 +17,56 @@ import java.util.Optional;
 
 public class GameRepository {
 
+    private final TransactionManager transactionManager;
     private final GameStateDao gameStateDao;
     private final GamePieceDao gamePieceDao;
 
-    public GameRepository(GameStateDao gameStateDao, GamePieceDao gamePieceDao) {
+    public GameRepository(
+            TransactionManager transactionManager,
+            GameStateDao gameStateDao,
+            GamePieceDao gamePieceDao
+    ) {
+        this.transactionManager = transactionManager;
         this.gameStateDao = gameStateDao;
         this.gamePieceDao = gamePieceDao;
     }
 
-    public List<Long> findAllIds(Connection connection) {
+    public List<Long> findAllIds() {
+        return transactionManager.withoutTransaction(this::findAllIds);
+    }
+
+    public Optional<LoadedGame> findById(long gameId) {
+        Optional<Game> foundGame = transactionManager.withoutTransaction(connection ->
+                findById(connection, gameId)
+        );
+        return foundGame.map(game -> new LoadedGame(gameId, game));
+    }
+
+    public LoadedGame create(Board board) {
+        Game game = Game.start(board);
+        long gameId = transactionManager.inTransaction(connection -> {
+            return create(connection, game);
+        });
+        return new LoadedGame(gameId, game);
+    }
+
+    public void update(long gameId, Game game) {
+        transactionManager.inTransaction(connection -> {
+            update(connection, gameId, game);
+        });
+    }
+
+    public void deleteById(long gameId) {
+        transactionManager.inTransaction(connection -> {
+            deleteById(connection, gameId);
+        });
+    }
+
+    private List<Long> findAllIds(Connection connection) {
         return gameStateDao.findAllIds(connection);
     }
 
-    public Optional<Game> findById(Connection connection, long gameId) {
+    private Optional<Game> findById(Connection connection, long gameId) {
         Optional<String> currentTurn = gameStateDao.findCurrentTurn(connection, gameId);
         if (currentTurn.isEmpty()) {
             return Optional.empty();
@@ -39,27 +77,27 @@ public class GameRepository {
         return Optional.of(Game.restore(board, Camp.valueOf(currentTurn.orElseThrow())));
     }
 
-    public long create(Connection connection, Game game) {
+    private long create(Connection connection, Game game) {
         long gameId = gameStateDao.create(connection, game.currentTurn().name());
 
         gamePieceDao.save(
                 connection,
                 gameId,
-                toGamePieceRows(game.boardSnapshot())
+                toStoredGamePieces(game.boardSnapshot())
         );
         return gameId;
     }
 
-    public void update(Connection connection, long id, Game game) {
-        gameStateDao.update(connection, id, game.currentTurn().name());
+    private void update(Connection connection, long gameId, Game game) {
+        gameStateDao.update(connection, gameId, game.currentTurn().name());
         gamePieceDao.save(
                 connection,
-                id,
-                toGamePieceRows(game.boardSnapshot())
+                gameId,
+                toStoredGamePieces(game.boardSnapshot())
         );
     }
 
-    public void deleteById(Connection connection, long gameId) {
+    private void deleteById(Connection connection, long gameId) {
         gamePieceDao.delete(connection, gameId);
         gameStateDao.delete(connection, gameId);
     }
@@ -79,7 +117,7 @@ public class GameRepository {
         return boardSnapshot;
     }
 
-    private List<StoredGamePiece> toGamePieceRows(Map<Position, Piece> boardSnapshot) {
+    private List<StoredGamePiece> toStoredGamePieces(Map<Position, Piece> boardSnapshot) {
         List<StoredGamePiece> storedGamePieces = new ArrayList<>();
 
         for (Map.Entry<Position, Piece> entry : boardSnapshot.entrySet()) {

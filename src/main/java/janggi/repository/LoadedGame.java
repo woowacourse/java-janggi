@@ -1,4 +1,4 @@
-package janggi.service;
+package janggi.repository;
 
 import janggi.domain.Game;
 

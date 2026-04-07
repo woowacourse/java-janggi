@@ -7,8 +7,8 @@ import janggi.domain.board.initializer.BoardInitializer;
 import janggi.domain.board.initializer.ElephantSetUp;
 import janggi.domain.board.initializer.StandardBoardInitializer;
 import janggi.domain.piece.Camp;
-import janggi.service.GameService;
-import janggi.service.LoadedGame;
+import janggi.repository.GameRepository;
+import janggi.repository.LoadedGame;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import janggi.view.dto.CampDto;
@@ -21,12 +21,12 @@ public class GameRunner {
 
     private final InputView inputView;
     private final OutputView outputView;
-    private final GameService gameService;
+    private final GameRepository gameRepository;
 
-    public GameRunner(InputView inputView, OutputView outputView, GameService gameService) {
+    public GameRunner(InputView inputView, OutputView outputView, GameRepository gameRepository) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.gameService = gameService;
+        this.gameRepository = gameRepository;
     }
 
     public void run() {
@@ -39,20 +39,20 @@ public class GameRunner {
     }
 
     private LoadedGame loadOrCreateGame() {
-        outputView.printExistGameRoom(gameService.findAllIds());
+        outputView.printExistGameRoom(gameRepository.findAllIds());
         long gameId = inputView.readSelectedGameRoom();
 
         if (gameId == 0L) {
             return createNewGame();
         }
 
-        return gameService.findById(gameId)
+        return gameRepository.findById(gameId)
                 .orElseThrow(() -> new IllegalArgumentException(INVALID_GAME_ROOM));
     }
 
     private LoadedGame createNewGame() {
         Board board = createBoard();
-        return gameService.create(board);
+        return gameRepository.create(board);
     }
 
     private Board createBoard() {
@@ -89,10 +89,10 @@ public class GameRunner {
 
         boolean gameEnded = game.play(source, destination);
         if (gameEnded) {
-            gameService.deleteById(id);
+            gameRepository.deleteById(id);
             return false;
         }
-        gameService.update(id, game);
+        gameRepository.update(id, game);
         return true;
     }
 
