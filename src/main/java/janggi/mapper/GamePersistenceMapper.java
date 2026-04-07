@@ -7,6 +7,7 @@ import janggi.domain.ScoreStatus;
 import janggi.domain.Side;
 import janggi.domain.board.Board;
 import janggi.domain.piece.Piece;
+import janggi.dto.NewGameRoom;
 import janggi.factory.PieceFactory;
 import janggi.domain.piece.PieceType;
 import janggi.domain.turn.ChoTurn;
@@ -33,7 +34,18 @@ public class GamePersistenceMapper {
         this.pieceFactory = pieceFactory;
     }
 
-    public GameRoom toGameRoom(int gameRoomId, Game game) {
+    public NewGameRoom toNewGameRoom(Game game) {
+        ScoreStatus scoreStatus = game.getCurrentScoreStatus();
+
+        return new NewGameRoom(
+                game.getCurrentSide().name(),
+                game.isFinished(),
+                scoreStatus.choScore(),
+                scoreStatus.hanScore()
+        );
+    }
+
+    public GameRoom toGameRoom(long gameRoomId, Game game) {
         ScoreStatus scoreStatus = game.getCurrentScoreStatus();
 
         return new GameRoom(
@@ -45,7 +57,7 @@ public class GamePersistenceMapper {
         );
     }
 
-    public List<BoardPiece> toBoardPieces(int gameRoomId, Game game) {
+    public List<BoardPiece> toBoardPieces(long gameRoomId, Game game) {
         List<BoardPiece> boardPieces = new ArrayList<>();
         PieceInfo[][] currentBoard = game.getCurrentBoard();
 
@@ -61,7 +73,7 @@ public class GamePersistenceMapper {
         return boardPieces;
     }
 
-    private BoardPiece toBoardPiece(int gameRoomId, int row, int col, PieceInfo pieceInfo) {
+    private BoardPiece toBoardPiece(long gameRoomId, int row, int col, PieceInfo pieceInfo) {
         return new BoardPiece(
                 gameRoomId,
                 row + ARRAY_INDEX_OFFSET,

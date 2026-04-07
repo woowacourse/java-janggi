@@ -1,6 +1,7 @@
 package janggi.dao;
 
 import janggi.dto.GameRoom;
+import janggi.dto.NewGameRoom;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,8 +26,8 @@ public class JdbcGameRoomDao implements GameRoomDao {
             """;
 
     @Override
-    public long save(GameRoom gameRoom, Connection connection) {
-        try (PreparedStatement statement = createSaveStatement(gameRoom, connection)) {
+    public long save(NewGameRoom newGameRoom, Connection connection) {
+        try (PreparedStatement statement = createSaveStatement(newGameRoom, connection)) {
             statement.executeUpdate();
             return readGeneratedId(statement);
         } catch (SQLException e) {
@@ -53,12 +54,12 @@ public class JdbcGameRoomDao implements GameRoomDao {
         }
     }
 
-    private PreparedStatement createSaveStatement(GameRoom gameRoom, Connection connection) throws SQLException {
+    private PreparedStatement createSaveStatement(NewGameRoom newGameRoom, Connection connection) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(INSERT_SQL, PreparedStatement.RETURN_GENERATED_KEYS);
-        statement.setString(1, gameRoom.turn());
-        statement.setBoolean(2, gameRoom.finished());
-        statement.setDouble(3, gameRoom.choScore());
-        statement.setDouble(4, gameRoom.hanScore());
+        statement.setString(1, newGameRoom.turn());
+        statement.setBoolean(2, newGameRoom.finished());
+        statement.setDouble(3, newGameRoom.choScore());
+        statement.setDouble(4, newGameRoom.hanScore());
         return statement;
     }
 
