@@ -7,7 +7,4 @@ public record IntersectionDto(
         String teamName,
         String intersectionType
 ) {
-
-
-
 }
