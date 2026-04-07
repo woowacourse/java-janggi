@@ -43,4 +43,9 @@ public class Jang extends Piece {
     protected PathGenerator getPathGenerator() {
         return PATH_GENERATOR;
     }
+
+    @Override
+    public boolean isJang() {
+        return true;
+    }
 }

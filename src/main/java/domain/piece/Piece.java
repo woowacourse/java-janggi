@@ -48,15 +48,15 @@ public abstract class Piece {
     }
 
     public boolean isNone() {
-        return this instanceof None;
+        return false;
     }
 
     public boolean isPo() {
-        return this instanceof Po;
+        return false;
     }
 
     public boolean isJang() {
-        return this instanceof Jang;
+        return false;
     }
 
     public boolean isCho() {

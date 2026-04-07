@@ -28,4 +28,9 @@ public class None extends Piece {
     public Team getTeam() {
         throw new JanggiException(DOES_NOT_HAVE_TEAM);
     }
+
+    @Override
+    public boolean isNone() {
+        return true;
+    }
 }
