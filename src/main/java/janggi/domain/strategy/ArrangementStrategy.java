@@ -7,8 +7,6 @@ public interface ArrangementStrategy {
 
     void place(Piece[][] arrangement);
 
-    ArrangementStrategy create(Side side);
-
     default int calculateRow(int boardMaxLength, Side side) {
         if (side.equals(Side.CHO)) {
             return boardMaxLength - 1;

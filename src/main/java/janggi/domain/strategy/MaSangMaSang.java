@@ -22,9 +22,4 @@ public class MaSangMaSang implements ArrangementStrategy {
         board[row][6] = new Ma(side);
         board[row][7] = new Sang(side);
     }
-
-    @Override
-    public ArrangementStrategy create(Side side) {
-        return new MaSangMaSang(side);
-    }
 }
