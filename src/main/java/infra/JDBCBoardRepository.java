@@ -12,6 +12,7 @@ import repository.BoardRepository;
 import java.sql.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class JDBCBoardRepository implements BoardRepository {
 
@@ -53,7 +54,7 @@ public class JDBCBoardRepository implements BoardRepository {
     }
 
     @Override
-    public BoardResponseDto findByGameId(Long gameId) {
+    public Optional<BoardResponseDto> findByGameId(Long gameId) {
         String selectSql = "SELECT row_value, column_value, piece_type, side FROM board WHERE game_id = ?";
 
         try (Connection connection = DriverManager.getConnection(JDBCContext.URL, JDBCContext.USER, JDBCContext.PASSWORD);
@@ -76,7 +77,7 @@ public class JDBCBoardRepository implements BoardRepository {
                     state.put(position, pieceDto);
                 }
 
-                return new BoardResponseDto(state);
+                return Optional.of(new BoardResponseDto(state));
             }
         } catch (SQLException e) {
             throw new RuntimeException("DB 오류", e);

@@ -2,19 +2,10 @@ package service;
 
 import domain.board.Board;
 import domain.janggigame.JanggiGame;
-import domain.piece.Side;
 import domain.players.Players;
 import domain.position.Movement;
-import domain.position.Position;
+import dto.BoardResponseDto;
 import repository.GameRepository;
-import view.InputView;
-import view.OutputView;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
-import static global.util.Retry.retry;
 
 public class JanggiService {
 
@@ -26,61 +17,37 @@ public class JanggiService {
         this.boardService = boardService;
     }
 
-    public void run() {
-        selectSide();
-        Board board = placeBoardBySide();
+    public Long initialBoardState(int hanPlacementCode, int choPlacementCode) {
+        Board board = boardService.initialState(hanPlacementCode, choPlacementCode);
         Players players = new Players();
         JanggiGame janggiGame = new JanggiGame(board, players);
         Long gameId = gameRepository.save(janggiGame);
         boardService.save(gameId, janggiGame.getBoard(), janggiGame.getPlayers());
-
-        playGame(gameId, janggiGame);
-
-        // TODO: 기존 게임 시작하라
+        return gameId;
     }
 
-    private void selectSide() {
-        retry(() -> {
-            int sideCode = InputView.inputSideChoice();
-            Side side = generateSide(sideCode);
-            OutputView.printSideChoiceResult(side);
-        });
+    public void playGame(Long gameId, Movement movement) {
+        JanggiGame janggiGame = findGameById(gameId);
+        janggiGame.playGame(movement);
+        boardService.update(gameId, janggiGame.getBoard(), janggiGame.getPlayers());
+        janggiGame.switchTurn();
+        gameRepository.update(gameId, janggiGame);
     }
 
-    private Side generateSide(int sideCode) {
-        List<Side> sides = Arrays.asList(Side.values());
-        Collections.shuffle(sides);
-        return sides.get(sideCode - 1);
+    public BoardResponseDto getBoardState(Long gameId) {
+        return boardService.findState(gameId);
     }
 
-    private Board placeBoardBySide() {
-        return retry(() -> {
-            int hanPlacementCode = InputView.inputPlacementCodeBy(Side.HAN);
-            int choPlacementCode = InputView.inputPlacementCodeBy(Side.CHO);
-            Board board = boardService.initialState(hanPlacementCode, choPlacementCode);
-            OutputView.printBoard(board.findState());
-            return board;
-        });
+    public boolean isFinished(Long gameId) {
+        return gameRepository.isFinished(gameId);
     }
 
-    private void playGame(Long gameId, JanggiGame janggiGame) {
-        retry(() -> {
-            while (!janggiGame.isFinished()) {
-                Movement movement = inputAndParseToMove();
-
-                janggiGame.playGame(movement);
-                boardService.update(gameId, janggiGame.getBoard(), janggiGame.getPlayers());
-
-                janggiGame.switchTurn();
-                gameRepository.update(gameId, janggiGame);
-                OutputView.printBoard(boardService.findState(gameId));
-            }
-        });
+    private JanggiGame findGameById(Long gameId) {
+        return gameRepository.findById(gameId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게임이 존재하지 않습니다."));
     }
 
-    private Movement inputAndParseToMove() {
-        Position startPosition = InputView.inputStartPosition();
-        Position endPosition = InputView.inputEndPosition();
-        return new Movement(startPosition, endPosition);
+    public String getWhoseTurn(Long gameId) {
+        return gameRepository.findCurrentTurnById(gameId);
     }
 }

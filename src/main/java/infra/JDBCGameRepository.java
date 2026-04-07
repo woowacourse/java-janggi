@@ -4,6 +4,7 @@ import domain.janggigame.JanggiGame;
 import repository.GameRepository;
 
 import java.sql.*;
+import java.util.Optional;
 
 public class JDBCGameRepository implements GameRepository {
     @Override
@@ -49,5 +50,20 @@ public class JDBCGameRepository implements GameRepository {
         } catch (SQLException e) {
             throw new RuntimeException("게임 업데이트 실패", e);
         }
+    }
+
+    @Override
+    public boolean isFinished(Long gameId) {
+        return false;
+    }
+
+    @Override
+    public Optional<JanggiGame> findById(Long gameId) {
+        return Optional.empty();
+    }
+
+    @Override
+    public String findCurrentTurnById(Long gameId) {
+        return "";
     }
 }

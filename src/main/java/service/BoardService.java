@@ -24,7 +24,8 @@ public class BoardService {
     }
 
     public BoardResponseDto findState(Long gameId) {
-        return boardRepository.findByGameId(gameId);
+        return boardRepository.findByGameId(gameId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게임이 존재하지 않습니다."));
     }
 
     public Board initialState(int hanPlacementCode, int choPlacementCode) {
