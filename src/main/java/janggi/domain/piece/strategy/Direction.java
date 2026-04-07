@@ -54,6 +54,15 @@ public record Direction(int directionRow, int directionColumn) {
         );
     }
 
+    public static List<Direction> orthogonalDirections() {
+        return List.of(
+                north(),
+                south(),
+                west(),
+                east()
+        );
+    }
+
     public Optional<Position> findNextPosition(Position current) {
         return current.move(directionRow, directionColumn);
     }
