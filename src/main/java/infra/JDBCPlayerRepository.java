@@ -11,7 +11,7 @@ import java.util.List;
 
 public class JDBCPlayerRepository implements PlayerRepository {
     @Override
-    public void save(Long gameId, List<Player> players) {
+    public void saveAll(Long gameId, List<Player> players) {
         String sql = """
                 INSERT INTO player (game_id, player_status, score, side)
                 VALUES (?, ?, ?, ?)

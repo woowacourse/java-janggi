@@ -37,7 +37,7 @@ public class BoardService {
 
     public void save(Long gameId, Board board, List<Player> players) {
         boardRepository.save(gameId, board);
-        playerRepository.save(gameId, players);
+        playerRepository.saveAll(gameId, players);
     }
 
     public void update(Long gameId, Board board, List<Player> players) {
