@@ -1,7 +1,8 @@
-package janggi.domain.piece;
+package janggi.domain.piece.diagonal;
 
 import janggi.domain.board.BoardSnapshot;
 import janggi.domain.dynasty.Dynasty;
+import janggi.domain.piece.MoveStrategy;
 import janggi.domain.position.Direction;
 import janggi.domain.position.Position;
 import java.util.ArrayList;
@@ -16,12 +17,10 @@ public abstract class DiagonalMoveStrategy implements MoveStrategy {
         for (Direction direction : Direction.valuesFourDirection()) {
             from.nextPositionByDirection(direction)
                     .filter(board::isEmpty)
-                    .ifPresent(first ->
-                            addPlaceablePositions(board, dynasty, placeablePositions, first, direction.next(),
-                                    direction.prev())
+                    .ifPresent(first -> addPlaceablePositions(
+                            board, dynasty, placeablePositions, first, direction.next(), direction.prev())
                     );
         }
-
         return placeablePositions;
     }
 

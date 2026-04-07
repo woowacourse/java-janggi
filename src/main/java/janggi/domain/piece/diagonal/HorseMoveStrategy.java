@@ -1,6 +1,7 @@
-package janggi.domain.piece;
+package janggi.domain.piece.diagonal;
 
 import janggi.domain.board.BoardSnapshot;
+import janggi.domain.piece.MoveStrategy;
 import janggi.domain.position.Direction;
 import janggi.domain.position.Position;
 import java.util.Optional;

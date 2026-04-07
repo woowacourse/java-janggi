@@ -1,5 +1,10 @@
 package janggi.domain.piece;
 
+import janggi.domain.piece.diagonal.ElephantMoveStrategy;
+import janggi.domain.piece.diagonal.HorseMoveStrategy;
+import janggi.domain.piece.line.CannonMoveStrategy;
+import janggi.domain.piece.line.ChariotMoveStrategy;
+
 public enum PieceType {
 
     GENERAL(PalaceMoveStrategy.instance(), 0),

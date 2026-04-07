@@ -1,7 +1,8 @@
-package janggi.domain.piece;
+package janggi.domain.piece.line;
 
 import janggi.domain.board.BoardSnapshot;
 import janggi.domain.dynasty.Dynasty;
+import janggi.domain.piece.MoveStrategy;
 import janggi.domain.position.Direction;
 import janggi.domain.position.Position;
 import java.util.List;
