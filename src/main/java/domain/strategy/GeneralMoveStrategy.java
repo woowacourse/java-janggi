@@ -12,7 +12,7 @@ public class GeneralMoveStrategy implements MoveStrategy {
         if (isOutsideOwnPalace(from, to, board))
             return false;
 
-        if (isNotStraightPath(from, to) && isNotDiagonalPath(from, to, board))
+        if (MoveValidator.isNotOneStepStraight(from, to) && MoveValidator.isNotOneStepDiagonal(from, to, board))
             return false;
 
         return board.canOccupy(from, to);
@@ -31,24 +31,5 @@ public class GeneralMoveStrategy implements MoveStrategy {
             return true;
         }
         return false;
-    }
-
-    private boolean isNotStraightPath(final Position from, final Position to) {
-        if ((from.getRow() == to.getRow() && Math.abs(from.getCol() - to.getCol()) == 1)) {
-            return false;
-        }
-        if (from.getCol() == to.getCol() && Math.abs(from.getRow() - to.getRow()) == 1) {
-            return false;
-        }
-        return true;
-    }
-
-    private boolean isNotDiagonalPath(Position from, Position to, Board board) {
-        if (board.canMoveDiagonallyInPalace(from, to)
-                && Math.abs(from.getRow() - to.getRow()) == 1
-                && Math.abs(from.getCol() - to.getCol()) == 1) {
-            return false;
-        }
-        return true;
     }
 }
