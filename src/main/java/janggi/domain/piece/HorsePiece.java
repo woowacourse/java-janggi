@@ -24,7 +24,7 @@ public class HorsePiece extends Piece {
     @Override
     public boolean canMoveByBasicMovingRule(Position from, Position to) {
         return POSSIBLE_RELATIVE_POSITIONS.stream()
-                .map(relativePositions -> relativePositions.getLast())
+                .map(List::getLast)
                 .anyMatch(relativePosition -> isSamePosition(from, to, relativePosition));
     }
 

@@ -4,6 +4,7 @@ import janggi.domain.board.Board;
 import janggi.domain.board.BoardInitializer;
 import janggi.domain.board.Position;
 import janggi.domain.game.JanggiGame;
+import janggi.domain.piece.Team;
 import janggi.dto.BoardDto;
 import janggi.dto.OpeningFormationChoices;
 import janggi.view.InputView;
@@ -35,6 +36,8 @@ public class Application {
             Position endPiecePosition = readEndPositionUntilValid();
             tryMove(janggiGame, startPiecePosition, endPiecePosition);
         }
+        outputView.printBoardMap(BoardDto.from(janggiGame.board()));
+        outputView.printScore(janggiGame.calculateScore(Team.HAN), janggiGame.calculateScore(Team.CHO));
     }
 
     private void tryMove(JanggiGame janggiGame, Position from, Position to) {

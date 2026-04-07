@@ -33,6 +33,10 @@ public class JanggiGame {
         return board;
     }
 
+    public double calculateScore(Team team) {
+        return board.calculateScore(team);
+    }
+
     public boolean isPlaying() {
         return gameStatus == GameStatus.PLAYING;
     }
