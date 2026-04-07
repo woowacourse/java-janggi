@@ -1,5 +1,4 @@
 import domain.*;
-import domain.strategy.CannonMoveStrategy;
 import domain.vo.Position;
 import entity.GameEntity;
 import entity.PieceEntity;
@@ -54,7 +53,8 @@ public class JanggiController {
         Map<Position, Piece> board = new HashMap<>();
         for (PieceEntity piece : findPieces) {
             Position position = Position.of(piece.getPositionRow(), piece.getPositionCol());
-            board.put(position, Piece.of(Team.valueOf(piece.getTeam()), Type.valueOf(piece.getPieceType()), new CannonMoveStrategy()));
+            Type type = Type.valueOf(piece.getPieceType());
+            board.put(position, Piece.of(Team.valueOf(piece.getTeam()), type, type.createStrategy()));
         }
         return Board.of(board);
     }

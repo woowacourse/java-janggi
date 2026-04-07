@@ -1,13 +1,52 @@
 package domain;
 
+import domain.strategy.*;
+
 public enum Type {
-    GENERAL("궁", 0),
-    CHARIOT("차", 13),
-    CANNON("포", 7),
-    HORSE("마", 5),
-    ELEPHANT("상", 3),
-    GUARD("사", 3),
-    SOLDIER("졸", 2);
+
+    GENERAL("궁", 0) {
+        @Override
+        public MoveStrategy createStrategy() {
+            return new GeneralMoveStrategy();
+        }
+    },
+
+    CHARIOT("차", 13) {
+        @Override
+        public MoveStrategy createStrategy() {
+            return new ChariotMoveStrategy();
+        }
+    },
+    CANNON("포", 7) {
+        @Override
+        public MoveStrategy createStrategy() {
+            return new CannonMoveStrategy();
+        }
+    },
+    HORSE("마", 5) {
+        @Override
+        public MoveStrategy createStrategy() {
+            return new HorseMoveStrategy();
+        }
+    },
+    ELEPHANT("상", 3) {
+        @Override
+        public MoveStrategy createStrategy() {
+            return new ElephantMoveStrategy();
+        }
+    },
+    GUARD("사", 3) {
+        @Override
+        public MoveStrategy createStrategy() {
+            return new GuardMoveStrategy();
+        }
+    },
+    SOLDIER("졸", 2) {
+        @Override
+        public MoveStrategy createStrategy() {
+            return new SoldierMoveStrategy();
+        }
+    };
 
     private final String name;
     private final int score;
@@ -16,6 +55,8 @@ public enum Type {
         this.name = name;
         this.score = score;
     }
+
+    public abstract MoveStrategy createStrategy();
 
     public String getName() {
         return name;
