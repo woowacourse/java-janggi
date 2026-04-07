@@ -3,9 +3,9 @@ package domain.movestrategy;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.board.Board;
+import domain.board.Position;
 import domain.piece.Piece;
 import domain.piece.PieceType;
-import domain.board.Position;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +24,7 @@ class GuardMoveStrategyTest {
     }
 
     @Test
-    @DisplayName("사는 8방향 한 칸 이동이 가능")
+    @DisplayName("사는 궁 중앙에서 8방향 중 한 칸 이동이 가능")
     void guardMoveTest() {
         // given
         Position from = Position.of(2, 5);
@@ -47,6 +47,69 @@ class GuardMoveStrategyTest {
                 Position.of(3, 4),
                 Position.of(3, 5),
                 Position.of(3, 6)
+        );
+    }
+
+    @Test
+    @DisplayName("사는 궁 꼭짓점에서 중앙으로 대각선 이동 가능")
+    void guardCanMoveVertexToMiddleOfPalace() {
+        // given
+        Position from = Position.of(1, 4);
+        Map<Position, Piece> pieces = new HashMap<>();
+
+        pieces.put(from, Piece.choPieceOf(PieceType.GUARD));
+
+        Board board = Board.init(pieces);
+
+        // when
+        List<Position> result = strategy.getMovablePositions(board, from);
+
+        // then
+        assertThat(result).contains(
+                Position.of(2, 5)
+        );
+    }
+
+    @Test
+    @DisplayName("사는 궁 외곽 중앙에서 다른 외곽 중앙으로 이동 불가")
+    void guardCantMoveSideToAnotherSide() {
+        // given
+        Position from = Position.of(2, 4);
+        Map<Position, Piece> pieces = new HashMap<>();
+
+        pieces.put(from, Piece.choPieceOf(PieceType.GUARD));
+
+        Board board = Board.init(pieces);
+
+        // when
+        List<Position> result = strategy.getMovablePositions(board, from);
+
+        // then
+        assertThat(result).doesNotContain(
+                Position.of(1, 5),
+                Position.of(3, 5)
+        );
+    }
+
+    @Test
+    @DisplayName("사는 궁 바깥으로 이동 불가")
+    void guardCantMoveOutSidePalace() {
+        // given
+        Position from = Position.of(2, 4);
+        Map<Position, Piece> pieces = new HashMap<>();
+
+        pieces.put(from, Piece.choPieceOf(PieceType.GUARD));
+
+        Board board = Board.init(pieces);
+
+        // when
+        List<Position> result = strategy.getMovablePositions(board, from);
+
+        // then
+        assertThat(result).doesNotContain(
+                Position.of(1, 3),
+                Position.of(2, 3),
+                Position.of(3, 3)
         );
     }
 
