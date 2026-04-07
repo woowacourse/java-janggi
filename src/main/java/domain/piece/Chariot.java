@@ -19,6 +19,11 @@ public class Chariot extends Piece {
         validateLocation(from, to);
     }
 
+    @Override
+    public PieceType pieceType() {
+        return PieceType.CHARIOT;
+    }
+
     private void validateLocation(Coordination from, Coordination to) {
         boolean movable = from.isSameRowDifferentColumn(to)
                 || from.isSameColumnDifferentRow(to)

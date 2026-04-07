@@ -24,6 +24,11 @@ public class General extends Piece {
     }
 
     @Override
+    public PieceType pieceType() {
+        return PieceType.GENERAL;
+    }
+
+    @Override
     public boolean isAliveGeneral() {
         return true;
     }

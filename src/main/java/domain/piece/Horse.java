@@ -27,6 +27,11 @@ public class Horse extends Piece {
         validateLocation(absDifferent);
     }
 
+    @Override
+    public PieceType pieceType() {
+        return PieceType.HORSE;
+    }
+
     private void validateLocation(MoveDelta absDifferent) {
         if (!MOVABLE_ABSOLUTE_LOCATION.contains(absDifferent)) {
             throw new PieceException(IMPOSSIBLE_MOVE);
