@@ -2,6 +2,7 @@ package janggi.config;
 
 import janggi.GameRunner;
 import janggi.db.ConnectionManager;
+import janggi.db.DatabaseInitializer;
 import janggi.db.TransactionManager;
 import janggi.repository.GamePieceDaoImpl;
 import janggi.repository.GameRepository;
@@ -24,6 +25,10 @@ public class AppConfig {
         );
     }
 
+    public DatabaseInitializer databaseInitializer() {
+        return new DatabaseInitializer(connectionManager());
+    }
+
     private GameRepository gameRepository() {
         return new GameRepository(transactionManager(), new GameStateDaoImpl(), new GamePieceDaoImpl());
     }
@@ -32,7 +37,7 @@ public class AppConfig {
         return new TransactionManager(connectionManager());
     }
 
-    public ConnectionManager connectionManager() {
+    private ConnectionManager connectionManager() {
         return new ConnectionManager(URL, USER, PASSWORD);
     }
 }
