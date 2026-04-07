@@ -4,6 +4,7 @@ import janggi.domain.board.Board;
 import janggi.domain.board.HorseElephantPosition;
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.game.Game;
+import janggi.domain.game.GameState;
 import janggi.domain.position.Position;
 import janggi.entity.PieceEntity;
 import janggi.entity.TurnEntity;
@@ -37,6 +38,7 @@ public class JanggiService {
         return gameId;
     }
 
+    // TODO: 외부에서 오류 받아주지 않고 있음
     public Game findGame(Long gameId) {
         TurnEntity currentTurn = gameRepository.findByCurrentTurnById(gameId)
                 .orElseThrow(() -> new IllegalArgumentException("게임이 존재하지 않습니다."));
@@ -55,6 +57,14 @@ public class JanggiService {
 
     public void saveMovement(Long gameId, Position from, Position to) {
         movementRepository.save(gameId, from, to);
+    }
+
+    public List<Long> findPlayableGameIds() {
+        List<Long> gamedIds = gameRepository.findAllByState(GameState.PLAYING);
+        if (gamedIds.isEmpty()) {
+            throw new IllegalStateException("진행할 수 있는 게임이 없습니다.");
+        }
+        return gamedIds;
     }
 
 }

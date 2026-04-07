@@ -39,7 +39,13 @@ public class JanggiController {
     }
 
     private Long initGame() {
+        return getUntilValid(this::findGameIdToPlay);
+    }
+
+    private Long findGameIdToPlay() {
         if (inputView.readWantToRestore()) {
+            List<Long> gameIds = janggiService.findPlayableGameIds();
+            outputView.printPlayableGameIds(gameIds);
             return inputView.readGameIdToRestore();
         }
         return janggiService.makeGame(readDynastyHorseElephantPositions());

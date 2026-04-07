@@ -13,6 +13,12 @@ public class OutputView {
     private static final String ERROR_PREFIX = "[ERROR] ";
     private static final String WARNING_PREFIX = "[WARNING] ";
 
+    public void printPlayableGameIds(List<Long> gameIds) {
+        System.out.println("불러올 수 있는 게임 ID:");
+        gameIds.forEach(id -> System.out.println("- " + id));
+        System.out.println();
+    }
+
     public void printBoard(BoardDto boardDto) {
         printCell("");
         for (int column = Column.MIN_COLUMN; column <= Column.MAX_COLUMN; column++) {

@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class JdbcGameRepository implements GameRepository {
@@ -81,6 +83,26 @@ public class JdbcGameRepository implements GameRepository {
             }
         } catch (SQLException e) {
             throw new RuntimeException("수정 실패", e);
+        }
+    }
+
+    @Override
+    public List<Long> findAllByState(GameState state) {
+        String sql = "SELECT id FROM janggi_game WHERE state = ? ORDER BY id ASC";
+
+        List<Long> gameIds = new ArrayList<>();
+        try (Connection connection = DatabaseManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, state.name());
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    gameIds.add(resultSet.getLong("id"));
+                }
+            }
+            return gameIds;
+        } catch (SQLException e) {
+            throw new RuntimeException("진행 중 게임 조회 실패", e);
         }
     }
 
