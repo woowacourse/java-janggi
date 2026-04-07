@@ -46,22 +46,22 @@ public class Board implements BoardView {
 
     @Override
     public boolean isInsidePalace(Position position) {
-        return Palace.isInsidePalace(position);
+        return PalaceRule.isInsidePalace(position);
     }
 
     @Override
     public boolean canMoveDiagonallyInPalace(Position from, Position to) {
-        return Palace.canMoveDiagonally(from, to);
+        return PalaceRule.canMoveDiagonally(from, to);
     }
 
     @Override
     public boolean isDiagonalInPalace(Position from, Position to) {
-        return Palace.isDiagonalInPalace(from, to);
+        return PalaceRule.isDiagonalInPalace(from, to);
     }
 
     @Override
     public Position getDiagonalMidpointInPalace(Position from, Position to) {
-        return Palace.getDiagonalMidpoint(from, to);
+        return PalaceRule.getDiagonalMidpoint(from, to);
     }
 
     public Piece move(Position from, Position to, Team currentTeam) {

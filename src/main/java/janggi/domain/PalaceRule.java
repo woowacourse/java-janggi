@@ -2,7 +2,7 @@ package janggi.domain;
 
 import janggi.domain.vo.Position;
 
-public class Palace {
+public class PalaceRule {
 
     private static final int HAN_MIN_ROW = 0;
     private static final int HAN_MAX_ROW = 2;
