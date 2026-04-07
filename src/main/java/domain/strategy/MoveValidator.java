@@ -37,4 +37,6 @@ public class MoveValidator {
         }
         return true;
     }
+
+    private MoveValidator() {}
 }
