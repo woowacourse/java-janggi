@@ -1,6 +1,6 @@
 package janggi.repository.dao;
 
-import janggi.repository.entity.Game;
+import janggi.repository.entity.GameEntity;
 import janggi.repository.util.TransactionManager;
 import janggi.support.TestDBConnectionProvider;
 import java.util.List;
@@ -32,10 +32,10 @@ class GameDaoTest {
     @DisplayName("게임 정보를 저장하면 데이터베이스에 기록되고 자동 생성된 식별자를 반환한다.")
     void insert_PersistsEntityAndCanBeFoundById() {
         // given
-        Game game = new Game("CHO", true);
+        GameEntity gameEntity = new GameEntity("CHO", true);
 
         // when
-        Long id = gameDao.insert(game);
+        Long id = gameDao.insert(gameEntity);
 
         // then
         Assertions.assertThat(gameDao.findById(id)).get()
@@ -47,25 +47,25 @@ class GameDaoTest {
     @DisplayName("진행중인 게임이 있다면 목록을 반환한다.")
     void findActiveGames_ReturnsOnlyActiveGames() {
         // given
-        Game gameActive = new Game("CHO", true);
-        Game gameEnd = new Game("CHO", false);
-        gameDao.insert(gameActive);
-        gameDao.insert(gameActive);
-        gameDao.insert(gameEnd);
+        GameEntity gameEntityActive = new GameEntity("CHO", true);
+        GameEntity gameEntityEnd = new GameEntity("CHO", false);
+        gameDao.insert(gameEntityActive);
+        gameDao.insert(gameEntityActive);
+        gameDao.insert(gameEntityEnd);
 
         // when
-        List<Game> activeGames = gameDao.findActiveGames();
+        List<GameEntity> activeGameEntities = gameDao.findActiveGames();
 
         // then
-        Assertions.assertThat(activeGames).hasSize(2);
+        Assertions.assertThat(activeGameEntities).hasSize(2);
     }
 
     @Test
     @DisplayName("진행중인 게임의 상태를 종료 상태로 변경한다.")
     void updateIsActiveFalse_ChangesGameStateToInactive() {
         // given
-        Game game = new Game("CHO", true);
-        Long savedId = gameDao.insert(game);
+        GameEntity gameEntity = new GameEntity("CHO", true);
+        Long savedId = gameDao.insert(gameEntity);
 
         // when
         gameDao.updateIsActive(savedId, false);

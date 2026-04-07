@@ -2,8 +2,8 @@ package janggi.repository.dao;
 
 
 import janggi.domain.Location;
-import janggi.repository.entity.Game;
-import janggi.repository.entity.Piece;
+import janggi.repository.entity.GameEntity;
+import janggi.repository.entity.PieceEntity;
 import janggi.repository.util.TransactionManager;
 import janggi.support.TestDBConnectionProvider;
 import java.util.List;
@@ -20,7 +20,7 @@ class PieceDaoTest {
     PieceDao pieceDao;
     GameDao gameDao;
 
-    Game game;
+    GameEntity gameEntity;
     Long gameId;
 
     @BeforeEach
@@ -30,8 +30,8 @@ class PieceDaoTest {
         gameDao = new GameDao(transactionManager);
         transactionManager.begin();
 
-        game = new Game("CHO", true);
-        gameId = gameDao.insert(game);
+        gameEntity = new GameEntity("CHO", true);
+        gameId = gameDao.insert(gameEntity);
 
     }
 
@@ -45,11 +45,11 @@ class PieceDaoTest {
     @DisplayName("데이터베이스에 새로운 기물을 저장한다.")
     void insert_PersistsEntityAndCanBeFoundByBoardId() {
         // given
-        Piece cha = new Piece(gameId, "CHA", "CHO", 1, 1);
+        PieceEntity cha = new PieceEntity(gameId, "CHA", "CHO", 1, 1);
 
         // when
         Long id = pieceDao.insert(cha);
-        Optional<Piece> piece = pieceDao.findById(id);
+        Optional<PieceEntity> piece = pieceDao.findById(id);
 
         // then
         Assertions.assertThat(piece).get()
@@ -62,7 +62,7 @@ class PieceDaoTest {
     void findByGameIdAndLocation_ReturnsPieceAtGivenLocation() {
         // given
         Location location = Location.of(1, 1);
-        Piece cha = new Piece(gameId, "CHA", "CHO", location.row(), location.col());
+        PieceEntity cha = new PieceEntity(gameId, "CHA", "CHO", location.row(), location.col());
         pieceDao.insert(cha);
 
         // when & then
@@ -75,18 +75,18 @@ class PieceDaoTest {
     @DisplayName("게임 식별자를 전달하면 해당 게임에 존재하는 기물 목록을 반환한다.")
     void findByGameId_ReturnsPiecesInGame() {
         // given
-        Piece cha = new Piece(gameId, "CHA", "CHO", 1, 1);
-        Piece po = new Piece(gameId, "PO", "CHO", 1, 2);
-        Piece ma = new Piece(gameId, "MA", "CHO", 1, 3);
+        PieceEntity cha = new PieceEntity(gameId, "CHA", "CHO", 1, 1);
+        PieceEntity po = new PieceEntity(gameId, "PO", "CHO", 1, 2);
+        PieceEntity ma = new PieceEntity(gameId, "MA", "CHO", 1, 3);
         pieceDao.insert(cha);
         pieceDao.insert(po);
         pieceDao.insert(ma);
 
         // when
-        List<Piece> pieces = pieceDao.findByGameId(gameId);
+        List<PieceEntity> pieceEntities = pieceDao.findByGameId(gameId);
 
         // then
-        Assertions.assertThat(pieces).hasSize(3)
+        Assertions.assertThat(pieceEntities).hasSize(3)
                 .extracting("type", "side")
                 .containsExactlyInAnyOrder(
                         Assertions.tuple("CHA", "CHO"),
@@ -98,7 +98,7 @@ class PieceDaoTest {
     @DisplayName("기물의 식별자와 이동할 행, 열 인덱스를 전달하면 데이터베이스의 위치 정보가 갱신된다.")
     void updatePosition_UpdatesRowAndColumnIdx() {
         // given
-        Piece cha = new Piece(gameId, "CHA", "CHO", 1, 1);
+        PieceEntity cha = new PieceEntity(gameId, "CHA", "CHO", 1, 1);
         Long pieceId = pieceDao.insert(cha);
         Location to = Location.of(2, 2);
 
@@ -115,14 +115,14 @@ class PieceDaoTest {
     @DisplayName("기물의 식별자를 전달하면 해당 기물 정보를 데이터베이스에서 영구 삭제한다.")
     void deleteById_RemovesPieceFromDatabase() {
         // given
-        Piece piece = new Piece(gameId, "CHA", "CHO", 1, 1);
-        Long savedId = pieceDao.insert(piece);
+        PieceEntity pieceEntity = new PieceEntity(gameId, "CHA", "CHO", 1, 1);
+        Long savedId = pieceDao.insert(pieceEntity);
 
         // when
         pieceDao.deleteById(savedId);
 
         // then
-        Optional<Piece> foundPiece = pieceDao.findById(savedId);
+        Optional<PieceEntity> foundPiece = pieceDao.findById(savedId);
         Assertions.assertThat(foundPiece).isEmpty();
     }
 }

@@ -1,6 +1,6 @@
 package janggi.repository.dao;
 
-import janggi.repository.entity.Game;
+import janggi.repository.entity.GameEntity;
 import janggi.repository.util.TransactionManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,13 +19,13 @@ public class GameDao {
         this.transactionManager = transactionManager;
     }
 
-    public Long insert(Game game) {
+    public Long insert(GameEntity gameEntity) {
         Connection conn = transactionManager.getConnection();
         String sql = "INSERT INTO game (turn, is_active) VALUES (?, ?)";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            pstmt.setString(1, game.getTurn());
-            pstmt.setBoolean(2, game.isActive());
+            pstmt.setString(1, gameEntity.getTurn());
+            pstmt.setBoolean(2, gameEntity.isActive());
 
             pstmt.executeUpdate();
 
@@ -41,7 +41,7 @@ public class GameDao {
         throw new IllegalStateException("생성된 게임 ID를 가져올 수 없습니다.");
     }
 
-    public Optional<Game> findById(Long id) {
+    public Optional<GameEntity> findById(Long id) {
         Connection conn = transactionManager.getConnection();
         String sql = "SELECT id, turn, is_active FROM game WHERE id = ?";
 
@@ -50,7 +50,7 @@ public class GameDao {
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
-                    return Optional.of(new Game(
+                    return Optional.of(new GameEntity(
                             rs.getLong("id"),
                             rs.getString("turn"),
                             rs.getBoolean("is_active")
@@ -63,15 +63,15 @@ public class GameDao {
         return Optional.empty();
     }
 
-    public List<Game> findActiveGames() {
+    public List<GameEntity> findActiveGames() {
         Connection conn = transactionManager.getConnection();
         String sql = "SELECT id, turn, is_active FROM game WHERE is_active = true";
-        List<Game> games = new ArrayList<>();
+        List<GameEntity> gameEntities = new ArrayList<>();
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
             while (rs.next()) {
-                games.add(new Game(
+                gameEntities.add(new GameEntity(
                         rs.getLong("id"),
                         rs.getString("turn"),
                         rs.getBoolean("is_active")
@@ -80,7 +80,7 @@ public class GameDao {
         } catch (SQLException e) {
             throw new IllegalStateException("게임 정보 조회 실패", e);
         }
-        return games;
+        return gameEntities;
     }
 
     public void updateIsActive(Long id, boolean isActive) {
