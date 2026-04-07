@@ -1,7 +1,7 @@
 package janggi.domain.piece;
 
-import janggi.domain.mouveRule.KingMoveRule;
-import janggi.domain.mouveRule.MoveRule;
+import janggi.domain.moveRule.KingMoveRule;
+import janggi.domain.moveRule.MoveRule;
 
 public class Advisor extends Piece {
 

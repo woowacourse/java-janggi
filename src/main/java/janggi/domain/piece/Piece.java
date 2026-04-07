@@ -1,7 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.BoardView;
-import janggi.domain.mouveRule.MoveRule;
+import janggi.domain.moveRule.MoveRule;
 import janggi.domain.vo.Position;
 
 public abstract class Piece {

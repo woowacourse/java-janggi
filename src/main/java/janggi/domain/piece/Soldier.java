@@ -1,7 +1,7 @@
 package janggi.domain.piece;
 
-import janggi.domain.mouveRule.MoveRule;
-import janggi.domain.mouveRule.SoldierMoveRule;
+import janggi.domain.moveRule.MoveRule;
+import janggi.domain.moveRule.SoldierMoveRule;
 
 public class Soldier extends Piece {
 

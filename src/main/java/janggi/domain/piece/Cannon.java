@@ -1,7 +1,7 @@
 package janggi.domain.piece;
 
-import janggi.domain.mouveRule.CannonMoveRule;
-import janggi.domain.mouveRule.MoveRule;
+import janggi.domain.moveRule.CannonMoveRule;
+import janggi.domain.moveRule.MoveRule;
 
 public class Cannon extends Piece {
 

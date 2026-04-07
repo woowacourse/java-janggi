@@ -88,7 +88,7 @@ public class JanggiController {
 
             if (!janggiGame.isFinished()) {
                 janggiGame.changeTurn();
-                gameRepository.updateTurn(janggiGame);
+                gameRepository.update(janggiGame);
             }
         }
     }
@@ -111,7 +111,7 @@ public class JanggiController {
 
             janggiGame.processCaptured(captured);
             if (janggiGame.isFinished()) {
-                gameRepository.updateFinished(janggiGame);
+                gameRepository.update(janggiGame);
             }
 
             return true;

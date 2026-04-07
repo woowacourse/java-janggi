@@ -15,9 +15,26 @@ public class GameRepository {
 
     private static final String INSERT_GAME = "INSERT INTO game (current_turn, game_status, winner) VALUES (?, ?, ?)";
     private static final String SELECT_PLAYING_GAMES = "SELECT game_id, current_turn, game_status, winner FROM game WHERE game_status = 'PLAYING'";
-    private static final String UPDAㅌTE_TURN = "UPDATE game SET current_turn = ?, updated_at = datetime('now', 'localtime') WHERE game_id = ?";
+    private static final String UPDATE_TURN = "UPDATE game SET current_turn = ?, updated_at = datetime('now', 'localtime') WHERE game_id = ?";
     private static final String UPDATE_FINISHED = "UPDATE game SET game_status = 'FINISHED', winner = ?, updated_at = datetime('now', 'localtime') WHERE game_id = ?";
+    private static final String UPDATE_GAME = "UPDATE game SET current_turn = ?, game_status = ?, winner = ?, updated_at = datetime('now', 'localtime') WHERE game_id = ?";
+
     private static final String SELECT_BY_ID = "SELECT game_id, current_turn, game_status, winner FROM game WHERE game_id = ?";
+
+    public void update(JanggiGame game) {
+        try (Connection conn = DBConnectionManager.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(UPDATE_GAME)) {
+
+            pstmt.setString(1, game.findCurrentTeam().name());
+            pstmt.setString(2, toGameStatus(game));
+            pstmt.setString(3, toWinnerString(game));
+            pstmt.setLong(4, game.findGameId());
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("게임 상태 갱신에 실패했습니다.", e);
+        }
+    }
 
     public JanggiGame save(JanggiGame game) {
         try (Connection conn = DBConnectionManager.getConnection();
@@ -54,32 +71,6 @@ public class GameRepository {
 
         } catch (SQLException e) {
             throw new RuntimeException("진행 중인 게임 조회에 실패했습니다.", e);
-        }
-    }
-
-    public void updateTurn(JanggiGame game) {
-        try (Connection conn = DBConnectionManager.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(UPDATE_TURN)) {
-
-            pstmt.setString(1, game.findCurrentTeam().name());
-            pstmt.setLong(2, game.findGameId());
-            pstmt.executeUpdate();
-
-        } catch (SQLException e) {
-            throw new RuntimeException("턴 갱신에 실패했습니다.", e);
-        }
-    }
-
-    public void updateFinished(JanggiGame game) {
-        try (Connection conn = DBConnectionManager.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(UPDATE_FINISHED)) {
-
-            pstmt.setString(1, toWinnerString(game));
-            pstmt.setLong(2, game.findGameId());
-            pstmt.executeUpdate();
-
-        } catch (SQLException e) {
-            throw new RuntimeException("게임 종료 갱신에 실패했습니다.", e);
         }
     }
 

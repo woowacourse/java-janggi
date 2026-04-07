@@ -1,6 +1,6 @@
 package janggi.domain.piece;
 
-import janggi.domain.mouveRule.MoveRule;
+import janggi.domain.moveRule.MoveRule;
 
 public class EmptyPosition extends Piece {
 

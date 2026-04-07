@@ -1,4 +1,4 @@
-package janggi.domain.mouveRule;
+package janggi.domain.moveRule;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
