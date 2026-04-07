@@ -27,7 +27,7 @@ public class JDBCBoardRepository implements BoardRepository {
                 VALUES (?, ?, ?, ?, ?)
                 """;
 
-        try (Connection connection = DriverManager.getConnection(JDBCContext.URL, JDBCContext.USER, JDBCContext.PASSWORD)) {
+        try (Connection connection = JDBCContext.getConnection()) {
 
             PreparedStatement deleteStatement = connection.prepareStatement(deleteSql);
             deleteStatement.setLong(1, gameId);

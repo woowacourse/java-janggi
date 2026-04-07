@@ -14,7 +14,7 @@ public class JDBCGameRepository implements GameRepository {
                 VALUES (?, ?)
                 """;
 
-        try (Connection connection = DriverManager.getConnection(JDBCContext.URL, JDBCContext.USER, JDBCContext.PASSWORD)) {
+        try (Connection connection = JDBCContext.getConnection()) {
             PreparedStatement insertStatement = connection.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);
 
             insertStatement.setString(1, janggiGame.getWhoseTurn().name());
@@ -39,7 +39,7 @@ public class JDBCGameRepository implements GameRepository {
     public void update(Long gameId, JanggiGame janggiGame) {
         String sql = "UPDATE game SET current_turn = ?, is_finished = ? WHERE id = ?";
 
-        try (Connection connection = DriverManager.getConnection(JDBCContext.URL, JDBCContext.USER, JDBCContext.PASSWORD);
+        try (Connection connection = JDBCContext.getConnection();
         PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setString(1, janggiGame.getWhoseTurn().name());

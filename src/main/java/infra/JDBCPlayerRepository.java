@@ -4,7 +4,6 @@ import domain.players.Player;
 import repository.PlayerRepository;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
@@ -17,7 +16,7 @@ public class JDBCPlayerRepository implements PlayerRepository {
                 VALUES (?, ?, ?, ?)
                 """;
 
-        try (Connection connection = DriverManager.getConnection(JDBCContext.URL, JDBCContext.USER, JDBCContext.PASSWORD);
+        try (Connection connection = JDBCContext.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
             for (Player player : players) {
@@ -39,7 +38,7 @@ public class JDBCPlayerRepository implements PlayerRepository {
     public void update(Long gameId, List<Player> players) {
         String sql = "UPDATE player SET score = ?, player_status = ? WHERE game_id = ? AND side = ?";
 
-        try (Connection connection = DriverManager.getConnection(JDBCContext.URL, JDBCContext.USER, JDBCContext.PASSWORD);
+        try (Connection connection = JDBCContext.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
             for (Player player : players) {
