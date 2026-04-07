@@ -39,12 +39,12 @@ public class Board {
     }
 
     public void checkTurn(Position from, Country country) {
-        findPiece(from).ifPresent(fromPiece -> {
-            validatePieceExists(fromPiece);
-            if (!country.myTurn(fromPiece.country())) {
-                throw new IllegalArgumentException("[ERROR] 아군 기물이 아닙니다.");
-            }
-        });
+        findPiece(from).ifPresentOrElse(
+                fromPiece -> validatePieceCountry(fromPiece, country),
+                () -> {
+                    throw new IllegalArgumentException("[ERROR] 기물이 없습니다.");
+                }
+        );
     }
 
     public void move(Move move) {
@@ -112,9 +112,9 @@ public class Board {
         remove(move.from());
     }
 
-    private static void validatePieceExists(Piece piece) {
-        if (piece == null) {
-            throw new IllegalArgumentException("[ERROR] 기물이 없습니다.");
+    private static void validatePieceCountry(Piece fromPiece, Country country) {
+        if (!country.myTurn(fromPiece.country())) {
+            throw new IllegalArgumentException("[ERROR] 아군 기물이 아닙니다.");
         }
     }
 }
