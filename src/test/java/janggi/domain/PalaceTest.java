@@ -24,4 +24,19 @@ public class PalaceTest {
         assertThat(palace.isPalace(Position.of(0, 0))).isFalse();
     }
 
+    @DisplayName("해당 위치가 궁성의 귀에 해당하면 4개의 대각 방향을 반환한다")
+    @Test
+    void calculateDirections_IsDiagonalPosition_ReturnDiagonalDirections() {
+        Palace palace = new Palace();
+
+        assertThat(palace.calculateDirectionsByCamp(Position.of(0, 3))).hasSize(4);
+    }
+
+    @DisplayName("해당 위치가 궁성의 면에 해당하면 빈 리스트를 반환한다")
+    @Test
+    void calculateDirections_IsOrthogonalPosition_ReturnEmptyList() {
+        Palace palace = new Palace();
+
+        assertThat(palace.calculateDirectionsByCamp(Position.of(1, 3))).hasSize(0);
+    }
 }
