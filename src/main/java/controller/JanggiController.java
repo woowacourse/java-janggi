@@ -2,6 +2,8 @@ package controller;
 
 import domain.JanggiBoard;
 import domain.JanggiBoardInitializer;
+import domain.dto.JanggiBoardDto;
+import domain.piece.Blank;
 import domain.ScoreCalculator;
 import domain.Team;
 import domain.dto.JanggiBoardDto;
