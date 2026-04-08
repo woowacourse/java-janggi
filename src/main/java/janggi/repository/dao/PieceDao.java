@@ -140,7 +140,7 @@ public class PieceDao {
 
     public void deleteById(Long id) {
         Connection conn = transactionManager.getConnection();
-        String sql = "DELETE piece WHERE id = ?";
+        String sql = "DELETE FROM piece WHERE id = ?";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setLong(1, id);
