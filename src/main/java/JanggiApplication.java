@@ -6,7 +6,7 @@ public class JanggiApplication {
     public static void main(String[] args) {
         DbBootstrap.initialize();
 
-        Runner janggiGame = new Runner(new InputView(), new OutputView());
+        JanggiGameRunner janggiGame = new JanggiGameRunner(new InputView(), new OutputView());
         janggiGame.run();
     }
 }
