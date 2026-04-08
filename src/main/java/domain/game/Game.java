@@ -7,7 +7,7 @@ import domain.team.Team;
 
 public class Game {
     private final JanggiBoard janggiBoard;
-    private Boolean isGameRunning;
+    private boolean isGameRunning;
     private Team turn;
 
     public Game(JanggiBoard janggiBoard) {
