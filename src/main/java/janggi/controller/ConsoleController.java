@@ -4,6 +4,7 @@ import janggi.domain.Side;
 import janggi.domain.board.Formation;
 import janggi.domain.player.Name;
 import janggi.domain.space.Position;
+import janggi.dto.SideDto;
 import janggi.service.GameService;
 import janggi.view.InputParser;
 import janggi.view.InputView;
@@ -39,11 +40,11 @@ public class ConsoleController {
     }
 
     private Name getPlayerName(Side side) {
-        return retry(() -> InputParser.parseName(inputView.readPlayerName(side)));
+        return retry(() -> InputParser.parseName(inputView.readPlayerName(SideDto.from(side))));
     }
 
     private Formation getFormation(Side side) {
-        return retry(() -> Formation.from(InputParser.parseFormation(inputView.readFormation(side))));
+        return retry(() -> Formation.from(InputParser.parseFormation(inputView.readFormation(SideDto.from(side)))));
     }
 
     private void playTurn() {
@@ -57,7 +58,8 @@ public class ConsoleController {
 
     private Position selectPiecePosition() {
         return retry(() -> {
-            Position position = InputParser.parsePosition(inputView.readSourcePosition(gameService.getCurrentSide()));
+            Position position = InputParser.parsePosition(
+                    inputView.readSourcePosition(SideDto.from(gameService.getCurrentSide())));
             outputView.printDestinations(gameService.selectSource(position));
             return position;
         });

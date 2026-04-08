@@ -55,6 +55,10 @@ public class Game {
         return players.getCurrentSide();
     }
 
+    public Name getPlayerNameBySide(Side side) {
+        return players.getPlayerNameBySide(side);
+    }
+
     public Map<Position, Piece> getBoard() {
         return board.getBoard();
     }

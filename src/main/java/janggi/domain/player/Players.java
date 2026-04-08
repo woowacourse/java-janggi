@@ -4,6 +4,7 @@ import janggi.domain.Side;
 import janggi.domain.piece.Piece;
 import janggi.domain.turn.ActiveTurn;
 import janggi.domain.turn.InactiveTurn;
+import janggi.domain.turn.TurnState;
 import java.util.List;
 
 public class Players {
@@ -21,6 +22,21 @@ public class Players {
         );
     }
 
+    public static Players createRestored(Name choName, Name hanName, Side currentTurn) {
+        validateDuplicateName(choName, hanName);
+        return new Players(
+                new Player(choName, Side.CHO, determineTurnState(Side.CHO, currentTurn)),
+                new Player(hanName, Side.HAN, determineTurnState(Side.HAN, currentTurn))
+        );
+    }
+
+    private static TurnState determineTurnState(Side playerSide, Side currentTurn) {
+        if (playerSide == currentTurn) {
+            return ActiveTurn.INSTANCE;
+        }
+        return InactiveTurn.INSTANCE;
+    }
+
     private static void validateDuplicateName(Name choName, Name hanName) {
         if (choName.equals(hanName)) {
             throw new IllegalArgumentException("동일한 플레이어 이름을 사용할 수 없습니다.");
@@ -30,13 +46,6 @@ public class Players {
     public Player getCurrentPlayer() {
         return players.stream()
                 .filter(Player::isCurrentTurn)
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("현재 턴인 플레이어가 없습니다."));
-    }
-
-    public Player getWaitingPlayer() {
-        return players.stream()
-                .filter(player -> !player.isCurrentTurn())
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("현재 턴인 플레이어가 없습니다."));
     }

@@ -8,6 +8,7 @@ import janggi.domain.move.OneStepStrategy;
 import janggi.domain.move.SequenceStrategy;
 import janggi.domain.move.SlideStrategy;
 import java.util.Map;
+import java.util.function.Function;
 
 public class PieceFactory {
     private static final MovementStrategy LINEAR_ONE_STEP = new OneStepStrategy(MovePattern.LINEAR);
@@ -47,6 +48,16 @@ public class PieceFactory {
             Side.HAN, new Cannon(Side.HAN, JUMP_STRATEGY)
     );
 
+    private static final Map<PieceType, Function<Side, Piece>> FACTORY_MAP = Map.of(
+            PieceType.GENERAL, PieceFactory::createGeneral,
+            PieceType.GUARD, PieceFactory::createGuard,
+            PieceType.HORSE, PieceFactory::createHorse,
+            PieceType.ELEPHANT, PieceFactory::createElephant,
+            PieceType.CHARIOT, PieceFactory::createChariot,
+            PieceType.CANNON, PieceFactory::createCannon,
+            PieceType.SOLDIER, PieceFactory::createSoldier
+    );
+
     private PieceFactory() {}
 
     public static General createGeneral(Side side) { return GENERALS.get(side); }
@@ -56,4 +67,8 @@ public class PieceFactory {
     public static Chariot createChariot(Side side) { return CHARIOTS.get(side); }
     public static Cannon createCannon(Side side) { return CANNONS.get(side); }
     public static Soldier createSoldier(Side side) { return SOLDIERS.get(side); }
+
+    public static Piece create(PieceType pieceType, Side side) {
+        return FACTORY_MAP.get(pieceType).apply(side);
+    }
 }
