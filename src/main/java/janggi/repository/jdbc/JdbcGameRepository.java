@@ -1,4 +1,4 @@
-package janggi.repository.dao;
+package janggi.repository.jdbc;
 
 import janggi.database.DatabaseConnection;
 import janggi.model.Team;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class GameDao implements GameRepository {
+public class JdbcGameRepository implements GameRepository {
 
     public Long save(Team currentTurn, String name) {
         String sql = "INSERT INTO game (current_turn, name) VALUES (?, ?)";

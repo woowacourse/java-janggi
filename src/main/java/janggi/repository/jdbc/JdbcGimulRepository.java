@@ -1,4 +1,4 @@
-package janggi.repository.dao;
+package janggi.repository.jdbc;
 
 import janggi.database.DatabaseConnection;
 import janggi.model.Team;
@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GimulDao implements GimulRepository {
+public class JdbcGimulRepository implements GimulRepository {
 
     @Override
     public void deleteAll(Connection connection, Long gameId) {
