@@ -2,8 +2,23 @@ package domain.board;
 
 import domain.Position;
 import domain.Team;
-import domain.piece.*;
-import domain.strategy.*;
+import domain.piece.Blank;
+import domain.piece.Cannon;
+import domain.piece.Chariot;
+import domain.piece.Elephant;
+import domain.piece.Guard;
+import domain.piece.Horse;
+import domain.piece.King;
+import domain.piece.Pawn;
+import domain.piece.Piece;
+import domain.piece.PieceProvider;
+import domain.piece.PieceType;
+import domain.strategy.CannonStrategy;
+import domain.strategy.ChariotStrategy;
+import domain.strategy.ElephantStrategy;
+import domain.strategy.HorseStrategy;
+import domain.strategy.PalaceStrategy;
+import domain.strategy.PawnStrategy;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -63,7 +78,7 @@ public class JanggiBoard implements PieceProvider {
 
         // 졸/병
         for (int col = 0; col < 9; col += 2) {
-            janggiBoard.put(new Position(pawnRow, col), new Pawn(team, new  PawnStrategy()));
+            janggiBoard.put(new Position(pawnRow, col), new Pawn(team, new PawnStrategy()));
         }
     }
 

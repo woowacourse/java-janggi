@@ -5,7 +5,6 @@ import domain.Team;
 import domain.piece.Pawn;
 import domain.piece.Piece;
 import domain.piece.PieceProvider;
-import domain.strategy.PalaceStrategy;
 import domain.strategy.PawnStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
