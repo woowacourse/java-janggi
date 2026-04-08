@@ -27,11 +27,11 @@ public enum PalacePosition {
 
     public static EnumSet<Direction> palaceDirections(Position position) {
         Position hanPalacePosition = position.moduloRow(PALACE_DISTANCE);
-        PalacePosition target = Arrays.stream(values())
+        return Arrays.stream(values())
                 .filter(palacePosition -> palacePosition.position.equals(hanPalacePosition))
+                .map(palacePosition -> palacePosition.directions)
                 .findAny()
-                .orElse(EAST);
-        return EnumSet.copyOf(target.directions);
+                .orElseGet(() -> EnumSet.noneOf(Direction.class));
     }
 
     public static boolean isPalacePosition(Position position) {
