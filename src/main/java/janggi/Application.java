@@ -14,7 +14,7 @@ public class Application {
 
         GameDao gameDao = new GameDao(dataSource);
         PieceDao pieceDao = new PieceDao(dataSource);
-        JanggiService janggiService = new JanggiService(gameDao, pieceDao);
+        JanggiService janggiService = new JanggiService(dataSource, gameDao, pieceDao);
         JanggiController janggiController = new JanggiController(janggiService);
 
         janggiController.run();
