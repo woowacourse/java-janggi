@@ -72,6 +72,17 @@ public class Board {
                 || (hanPalace.isDiagonalPoint(position) && hanPalace.isDiagonalPoint(to));
     }
 
+    public boolean isInOwnPalace(Position position) {
+        Team team = findPieceByPosition(position)
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 움직일 기물이 존재하지 않습니다."))
+                .getTeam();
+
+        if (team == Team.CHU) {
+            return chuPalace.isInPalace(position);
+        }
+        return hanPalace.isInPalace(position);
+    }
+
     public Map<Position, Piece> getBoard() {
         return Map.copyOf(board);
     }
@@ -82,16 +93,5 @@ public class Board {
         board.remove(from);
         board.put(to, fromPiece);
         return capturedPiece;
-    }
-
-    public boolean isInOwnPalace(Position position) {
-        Team team = findPieceByPosition(position)
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 움직일 기물이 존재하지 않습니다."))
-                .getTeam();
-
-        if (team == Team.CHU) {
-            return chuPalace.isInPalace(position);
-        }
-        return hanPalace.isInPalace(position);
     }
 }
