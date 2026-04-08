@@ -2,6 +2,7 @@ package domain.pathgenerator;
 
 import common.exception.JanggiException;
 import domain.position.Path;
+import domain.position.Palace;
 import domain.position.Position;
 
 public class PalaceBoundPathGenerator implements PathGenerator {
@@ -20,7 +21,7 @@ public class PalaceBoundPathGenerator implements PathGenerator {
             return path;
         }
 
-        if (source.isInPalace() && destination.isInPalace() && source.isPalaceDiagonalReachable(destination)) {
+        if (source.isInPalace() && destination.isInPalace() && Palace.isDiagonalReachable(source, destination)) {
             return path;
         }
 
@@ -33,4 +34,3 @@ public class PalaceBoundPathGenerator implements PathGenerator {
         return rowDiff > 0 && rowDiff == columnDiff;
     }
 }
-
