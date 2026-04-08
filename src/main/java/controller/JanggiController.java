@@ -48,13 +48,12 @@ public class JanggiController {
 
         outputView.displayBoard(moveResult.board());
         moveResult.winner().ifPresent(
-                winner -> outputView.displayWinner(winner.getKoreanName()))
-        ;
+                winner -> outputView.displayWinner(winner.getKoreanName())
+        );
     }
 
     private void handleScore() {
         ScoreResult scoreResult = janggiService.calculateScoreResult();
-
         outputView.displayScores(scoreResult.choScore(), scoreResult.hanScore());
         outputView.displayWinner(scoreResult.winner().getKoreanName());
     }
