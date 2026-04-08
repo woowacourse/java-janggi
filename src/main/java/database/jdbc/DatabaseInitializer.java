@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.stream.Collectors;
 
+
 public class DatabaseInitializer {
 
     private static final String SCHEMA_PATH = "Schema.sql";
@@ -35,7 +36,7 @@ public class DatabaseInitializer {
             throw new RuntimeException(DatabaseInitializer.SCHEMA_PATH + " 파일을 찾을 수 없습니다.");
         }
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
-            return reader.lines().collect(Collectors.joining("\n"));
+            return reader.lines().collect(Collectors.joining(System.lineSeparator()));
         } catch (Exception e) {
             throw new RuntimeException(DatabaseInitializer.SCHEMA_PATH + " 읽기에 실패했습니다.", e);
         }
