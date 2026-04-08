@@ -52,4 +52,8 @@ public class Piece {
     public int score() {
         return pieceProperty.score();
     }
+
+    public PieceProperty pieceProperty() {
+        return pieceProperty;
+    }
 }
