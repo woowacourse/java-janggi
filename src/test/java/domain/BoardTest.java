@@ -1,14 +1,14 @@
 package domain;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.strategy.CannonMoveStrategy;
 import domain.strategy.HorseMoveStrategy;
 import domain.strategy.NonMoveableStrategy;
+import factory.JanggiBoardFactory;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -144,7 +144,7 @@ class BoardTest {
                 new CannonMoveStrategy());
         Piece fixedHorse = Piece.of(new PieceProperty(PieceType.HORSE, Team.GREEN),
                 new HorseMoveStrategy());
-        Piece destination = Piece.of(new PieceProperty(PieceType.EMPTY_VALUE, Team.RED),
+        Piece destination = Piece.of(new PieceProperty(PieceType.EMPTY_VALUE, Team.NONE),
                 new NonMoveableStrategy());
 
         Position current = new Position(3, 3);
@@ -157,6 +157,16 @@ class BoardTest {
         Board board = Board.of(testBoard);
 
         assertThat(board.canMove(current, target)).isTrue();
+    }
+
+    @Test
+    @DisplayName("각 팀의 남아있는 기물의 점수를 구할 수 있다.")
+    void calculate_remaining_pieceScore_test() {
+        JanggiBoardFactory janggiBoardFactory = new JanggiBoardFactory();
+        Board board = janggiBoardFactory.initialBoard();
+
+        assertThat(board.greenPiecesScore()).isEqualTo(72);
+        assertThat(board.redPiecesScore()).isEqualTo(73.5);
     }
 
     private void putPiecesOnBoard(Map<Position, Piece> testBoard, List<Position> positions, List<Piece> pieces) {
