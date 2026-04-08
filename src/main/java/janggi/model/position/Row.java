@@ -23,6 +23,9 @@ public enum Row {
     }
 
     public static Row of(int rowNumber) {
+        if (rowNumber == 0) {
+            return HAN_BACK;
+        }
         return Arrays.stream(values())
                 .filter(row -> row.value == rowNumber)
                 .findFirst()
