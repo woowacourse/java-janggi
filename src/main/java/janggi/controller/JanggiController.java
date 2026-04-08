@@ -107,6 +107,8 @@ public class JanggiController {
             turnManager.progressToNext();
             gameService.progressTurn(gameId, turnManager, from, to,
                 boardMediator.getPieceByPosition(from));
+            board.movePiece(from, to);
+            OutputView.printBoard(BoardDto.from(board, List.of()));
         }
     }
 
