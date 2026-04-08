@@ -2,7 +2,7 @@ package janggi.support;
 
 import janggi.domain.Location;
 import janggi.domain.piece.Piece;
-import janggi.strategy.ArrangementStrategy;
+import janggi.domain.strategy.ArrangementStrategy;
 import java.util.Map;
 
 public class TestArrangementStrategy implements ArrangementStrategy {
