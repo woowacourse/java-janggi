@@ -6,7 +6,6 @@ import janggi.domain.position.Position;
 import janggi.domain.position.Row;
 import janggi.domain.piece.Team;
 import janggi.dto.BoardDto;
-import janggi.dto.GameRoomDto;
 import janggi.dto.PositionInputDto;
 import janggi.dto.TeamInputDto;
 import janggi.exception.business.BusinessException;
@@ -27,7 +26,7 @@ public class Controller {
     }
 
     public void run() {
-        GameRoomDto janggiGame = janggiService.joinGame();
+        JanggiGame janggiGame = janggiService.joinGame();
 
         outputView.printStartMessage();
         outputView.printBoard(BoardDto.from(janggiGame.getBoard()));
@@ -39,21 +38,20 @@ public class Controller {
         outputView.printGameOver(teamInputDto.getTeamName());
     }
 
-    private void playSingleTurn(GameRoomDto gameRoomDto) {
+    private void playSingleTurn(JanggiGame janggiGame) {
         while (true) {
             try {
-                TeamInputDto teamInputDto = new TeamInputDto(gameRoomDto.getCurrentTeam());
+                TeamInputDto teamInputDto = new TeamInputDto(janggiGame.getCurrentTeam());
                 PositionInputDto moveInputDto = inputView.playTurn(teamInputDto.getTeamName());
 
                 Position from = Position.of(Row.of(moveInputDto.getFromRow()), Column.of(moveInputDto.getFromCol()));
                 Position to = Position.of(Row.of(moveInputDto.getToRow()), Column.of(moveInputDto.getToCol()));
 
-                int currentGameId = gameRoomDto.getGameId();
-                janggiService.move(gameRoomDto.getGame(), currentGameId, from, to);
-                outputView.printBoard(BoardDto.from(gameRoomDto.getBoard()));
+                janggiService.move(janggiGame, from, to);
+                outputView.printBoard(BoardDto.from(janggiGame.getBoard()));
 
-                int choScore = gameRoomDto.calculateScore(Team.CHO);
-                int hanScore = gameRoomDto.calculateScore(Team.HAN);
+                int choScore = janggiGame.calculateScore(Team.CHO);
+                int hanScore = janggiGame.calculateScore(Team.HAN);
                 outputView.printScore(choScore, hanScore);
                 break;
 

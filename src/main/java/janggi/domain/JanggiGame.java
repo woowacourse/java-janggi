@@ -8,17 +8,24 @@ import janggi.exception.business.InvalidTurnException;
 import java.util.Optional;
 
 public class JanggiGame {
+    private Integer gameId;
     private final Board board;
     private Team currentTeam;
 
     public JanggiGame(Board board) {
+        this.gameId = null;
         this.board = board;
         this.currentTeam = Team.CHO;
     }
 
-    public JanggiGame(Board board, Team currentTeam) {
+    public JanggiGame(Integer gameId, Board board, Team currentTeam) {
+        this.gameId = gameId;
         this.board = board;
         this.currentTeam = currentTeam;
+    }
+
+    public void assignId(Integer gameId) {
+        this.gameId = gameId;
     }
 
     public void move(Position from, Position to) {
@@ -58,5 +65,9 @@ public class JanggiGame {
 
     public Team getCurrentTeam() {
         return currentTeam;
+    }
+
+    public Integer getGameId() {
+        return gameId;
     }
 }

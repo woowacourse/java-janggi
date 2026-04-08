@@ -1,10 +1,8 @@
 package janggi;
 
 import janggi.controller.Controller;
-import janggi.repository.GameRepository;
-import janggi.repository.JdbcGameRepository;
-import janggi.repository.JdbcPieceRepository;
-import janggi.repository.PieceRepository;
+import janggi.repository.JanggiRepository;
+import janggi.repository.JdbcJanggiRepository;
 import janggi.service.JanggiService;
 import janggi.util.DBConnectionManager;
 import janggi.util.DatabaseInitializer;
@@ -19,9 +17,8 @@ public class Application {
         Connection conn = DBConnectionManager.getConnection();
         DatabaseInitializer.initialize(conn);
 
-        GameRepository gameRepository = new JdbcGameRepository();
-        PieceRepository pieceRepository = new JdbcPieceRepository();
-        JanggiService service = new JanggiService(gameRepository, pieceRepository);
+        JanggiRepository janggiRepository = new JdbcJanggiRepository();
+        JanggiService service = new JanggiService(janggiRepository);
 
         InputView inputView = new InputView();
         OutputView outputView = new OutputView();
