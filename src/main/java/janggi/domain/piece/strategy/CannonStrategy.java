@@ -23,8 +23,22 @@ public class CannonStrategy implements MoveStrategy {
             totalPaths.addAll(collectPathsByDirection(current, direction));
         }
 
+        if (current.isPalaceDiagonal()) {
+            addDiagonalPath(totalPaths, current, Direction.diagonalDirections());
+        }
+
         return Collections.unmodifiableList(totalPaths);
     }
+
+    private void addDiagonalPath(List<Path> totalPaths, Position current, List<Direction> directions) {
+        for (Direction direction : directions) {
+            List<Path> diagonalPaths = collectPathsByDirection(current, direction).stream()
+                    .filter(Path::isDestinationInsidePalace)
+                    .toList();
+            totalPaths.addAll(diagonalPaths);
+        }
+    }
+
 
     private List<Path> collectPathsByDirection(Position current, Direction direction) {
         List<Path> paths = new ArrayList<>();
@@ -37,7 +51,7 @@ public class CannonStrategy implements MoveStrategy {
             addValidPath(paths, route, destination, currentDistance);
 
             route.add(destination);
-            next = direction.findNextPosition(destination); // 다음 칸 찾기
+            next = direction.findNextPosition(destination);
             currentDistance += DISTANCE_INCREMENT;
         }
 
