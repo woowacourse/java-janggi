@@ -1,5 +1,6 @@
 package view;
 
+import domain.Team;
 import domain.JanggiBoard;
 import domain.piece.Cannon;
 import domain.piece.Car;
@@ -14,6 +15,10 @@ import domain.position.Position;
 public class OutputView {
     private static final int BOARD_ROWS = 10;
     private static final int BOARD_COLUMNS = 9;
+
+    private static final String ANSI_RESET = "\u001B[0m";
+    private static final String ANSI_RED = "\u001B[31m";
+    private static final String ANSI_BLUE = "\u001B[34m";
 
     public void printBoard(JanggiBoard board) {
         printColumnIndices();
@@ -53,8 +58,20 @@ public class OutputView {
         for (int col = 0; col < BOARD_COLUMNS; col++) {
             Position position = new Position(row, col);
             Piece piece = board.getPiece(position);
-            System.out.print(getSymbol(piece) + " ");
+            System.out.print(withTeamColor(piece) + " ");
         }
+    }
+
+    private String withTeamColor(Piece piece) {
+        String symbol = getSymbol(piece);
+        Team team = piece.getTeam();
+        if (team == Team.HAN) {
+            return ANSI_RED + symbol + ANSI_RESET;
+        }
+        if (team == Team.CHO) {
+            return ANSI_BLUE + symbol + ANSI_RESET;
+        }
+        return symbol;
     }
 
     public void printErrorMessage(IllegalArgumentException e) {
