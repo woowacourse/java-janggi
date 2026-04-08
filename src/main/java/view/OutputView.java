@@ -14,14 +14,14 @@ public class OutputView {
             Team.CHO, "초",
             Team.HAN, "한"
     );
-    private static final String divideArea = "============";
+    private static final String DIVIDE_AREA = "============";
     private final PieceAppearance appearance;
 
     public OutputView(PieceAppearance appearance) {
         this.appearance = appearance;
     }
 
-    public static void printErrorMessage(String message) {
+    public void printErrorMessage(String message) {
         System.out.println("[ERROR] " + message);
     }
 
@@ -63,9 +63,9 @@ public class OutputView {
 
     public void printWinner(boolean cho) {
         Team team = validateTeam(cho);
-        System.out.println(divideArea);
+        System.out.println(DIVIDE_AREA);
         System.out.println(TEAM_NAMES.get(team) + "나라의 승리입니다! ");
-        System.out.println(divideArea);
+        System.out.println(DIVIDE_AREA);
     }
 
     private Team validateTeam(boolean cho) {
