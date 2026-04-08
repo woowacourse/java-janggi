@@ -1,8 +1,8 @@
 package domain.piece;
 
+import domain.Offset;
 import domain.board.Palace;
 import exception.ErrorMessage;
-import domain.Offset;
 import domain.board.Position;
 
 import java.util.List;

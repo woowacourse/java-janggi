@@ -10,8 +10,7 @@ public record Offset(int dx, int dy) {
         );
     }
 
-    public Offset move(Direction direction) {
-        Offset offset = direction.getOffset();
+    public Offset add(Offset offset) {
         return new Offset(
                 this.dx + offset.dx,
                 this.dy + offset.dy
@@ -37,14 +36,14 @@ public record Offset(int dx, int dy) {
     }
 
     public boolean isDiagonalMoving() {
-        return (absX() == absY());
+        return (absX() == absY()) && (absX() != 0);
     }
 
-    public Direction getDiagonalDirection() {
-        if (!isDiagonalMoving()) {
-            throw new IllegalStateException("대각선 이동이 아닐 때는 방향을 계산할 수 없습니다.");
+    public Offset normalize() {
+        if(!(this.isStraightMoving() || this.isDiagonalMoving())) {
+            throw new IllegalStateException("단위 벡터를 계산할 수 없습니다.");
         }
-        return Direction.of(new Offset(this.dx() / this.absX(), this.dy() / this.absY()));
+        return new Offset(Integer.signum(dx), Integer.signum(dy));
     }
 
     public int absX() {
@@ -53,19 +52,5 @@ public record Offset(int dx, int dy) {
 
     public int absY() {
         return Math.abs(dy);
-    }
-
-    public Direction getMainDirection() {
-        if (absX() > absY()) {
-            return Direction.decideXDirection(dx);
-        }
-        return Direction.decideYDirection(dy);
-    }
-
-    public Direction getSubDirection() {
-        if (absX() > absY()) {
-            return Direction.decideYDirection(dy);
-        }
-        return Direction.decideXDirection(dx);
     }
 }

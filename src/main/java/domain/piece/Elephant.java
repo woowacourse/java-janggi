@@ -1,8 +1,8 @@
 package domain.piece;
 
 import domain.Direction;
-import exception.ErrorMessage;
 import domain.Offset;
+import exception.ErrorMessage;
 import domain.board.Position;
 
 import java.util.List;
@@ -24,8 +24,8 @@ public final class Elephant extends JumpMovingPiece {
     @Override
     protected List<Offset> generateRoute(Direction main, Direction sub) {
         Offset start = new Offset(0, 0);
-        Offset step1 = start.move(main);
-        Offset step2 = step1.move(main).move(sub);
+        Offset step1 = start.add(main.unit());
+        Offset step2 = step1.add(main.unit()).add(sub.unit());
         return List.of(step1, step2);
     }
 

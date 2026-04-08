@@ -1,9 +1,9 @@
 package domain.piece;
 
 import domain.Direction;
+import domain.Offset;
 import domain.board.Palace;
 import exception.ErrorMessage;
-import domain.Offset;
 import domain.board.Position;
 
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public abstract class StraightMovingPiece extends Piece {
         if (offset.isDiagonalMoving()) {
             return Palace.findPalace(from).generatePaths(from, to);
         }
-        Direction mainDirection = offset.getMainDirection();
+        Direction mainDirection = Direction.of(offset);
         int distance = offset.calculateStraightDistance();
         return generateRoute(mainDirection, distance);
     }
@@ -42,7 +42,7 @@ public abstract class StraightMovingPiece extends Piece {
         List<Offset> route = new ArrayList<>();
 
         for (int i = 0; i < distance - 1; i++) {
-            step = step.move(mainDirection);
+            step = step.add(mainDirection.unit());
             route.add(step);
         }
         return route;

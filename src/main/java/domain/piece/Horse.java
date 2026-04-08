@@ -1,8 +1,8 @@
 package domain.piece;
 
 import domain.Direction;
-import exception.ErrorMessage;
 import domain.Offset;
+import exception.ErrorMessage;
 import domain.board.Position;
 
 import java.util.List;
@@ -23,7 +23,7 @@ public final class Horse extends JumpMovingPiece {
 
     @Override
     protected List<Offset> generateRoute(Direction main, Direction sub) {
-        Offset step1 = new Offset(0, 0).move(main);
+        Offset step1 = new Offset(0, 0).add(main.unit());
         return List.of(step1);
     }
 

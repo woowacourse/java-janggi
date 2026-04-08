@@ -1,8 +1,8 @@
 package domain.piece;
 
 import domain.Direction;
-import exception.ErrorMessage;
 import domain.Offset;
+import exception.ErrorMessage;
 import domain.board.Position;
 
 public final class Soldier extends SingleStepPiece {

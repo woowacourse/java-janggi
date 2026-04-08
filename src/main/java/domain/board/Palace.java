@@ -49,10 +49,10 @@ public enum Palace {
         validateDiagonalMoveRule(from, to);
 
         Offset offset = Offset.of(from, to);
-        Direction diagonalDirection = offset.getDiagonalDirection();
+        Direction diagonalDirection = Direction.of(offset);
 
         if (isCorner(from) && isCorner(to)) {
-            return List.of(diagonalDirection.getOffset());
+            return List.of(diagonalDirection.unit());
         }
         return List.of();
     }

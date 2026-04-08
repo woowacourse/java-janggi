@@ -1,7 +1,7 @@
 package domain.piece;
 
-import exception.ErrorMessage;
 import domain.Offset;
+import exception.ErrorMessage;
 import domain.board.Position;
 
 import java.util.List;
