@@ -51,6 +51,7 @@ public final class OutputView {
         System.out.println("장기 게임입니다. 메뉴 번호를 입력해주세요.");
         System.out.println("1. 새로운 게임 시작");
         System.out.println("2. 이전 게임 시작");
+        System.out.println("3. 종료");
     }
 
     public static void printSetupGuide(TeamType teamType) {

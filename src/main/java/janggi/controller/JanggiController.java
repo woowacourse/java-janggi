@@ -25,18 +25,20 @@ public class JanggiController {
 
     public void run() {
         OutputView.printStartJanggi();
-        int inputCommand = RetryExecutor.retry(this::inputStarCommand);
-        if (inputCommand == 1) {
+        StartCommand command = RetryExecutor.retry(this::inputStarCommand);
+        if (command == StartCommand.CREATE_NEW_GAME) {
             gameContext = createNewGameContext();
+            startGame(gameContext);
         }
-        if (inputCommand == 2) {
+        if (command == StartCommand.LOAD_PREVIOUS_GAME) {
             gameContext = loadPreviousGameContext();
+            startGame(gameContext);
         }
-        startGame(gameContext);
     }
 
-    private int inputStarCommand() {
-        return InputView.readIntegerCommand();
+    private StartCommand inputStarCommand() {
+        return StartCommand.from(InputView.readIntegerCommand());
+
     }
 
     private GameContext createNewGameContext() {
