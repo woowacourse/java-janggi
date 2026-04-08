@@ -18,6 +18,10 @@ public class Score {
         return new Score(point + other.point);
     }
 
+    public Score multiply(double factor) {
+        return new Score(this.point * factor);
+    }
+
     public boolean isGreaterThan(Score other) {
         return point > other.point;
     }
