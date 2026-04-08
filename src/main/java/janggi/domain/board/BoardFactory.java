@@ -22,7 +22,6 @@ public class BoardFactory {
         return board;
     }
 
-
     private static void settingUpZol(Map<Position, Piece> board) {
         final int CHO_ZOL_ROW = 7;
         final int HAN_ZOL_ROW = 4;

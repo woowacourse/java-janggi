@@ -12,8 +12,16 @@ public class Route {
         this.routes = new ArrayList<>(routes);
     }
 
-    public List<Direction> getRoutes() {
-        return routes;
+    public List<Position> convertToPositions(Position currentPosition) {
+        List<Position> positions = new ArrayList<>();
+        for (Direction direction : routes) {
+            if (currentPosition.cannotMoveTo(direction)) {
+                continue;
+            }
+            currentPosition = direction.sumDirection(currentPosition);
+            positions.add(currentPosition);
+        }
+        return positions;
     }
 
     @Override

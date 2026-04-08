@@ -1,32 +1,32 @@
 package janggi.domain;
 
+import janggi.domain.moveRules.MoveRule;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class Piece {
 
     private final Team team;
     private final PieceType pieceType;
+    private final MoveRule moveRule;
 
     public Piece(Team team, PieceType pieceType) {
         this.team = team;
         this.pieceType = pieceType;
+        this.moveRule = pieceType.getMoveRule();
     }
 
     public boolean isAlly(Team targetTeam) {
         return this.team.isSameTeam(targetTeam);
     }
 
-    public boolean isCha() {
-        return pieceType == PieceType.CHA;
-    }
-
     public boolean isPo() {
         return pieceType == PieceType.PO;
     }
 
-    public List<Route> findRoutes() {
-        return pieceType.getMoveRule().findRoutes(this.team);
+    public List<Position> findAvailableDestinations(Position position, Map<Position, Piece> state) {
+        return moveRule.calculateAvailablePositions(position, team, state);
     }
 
     public PieceType getPieceType() {
@@ -48,5 +48,9 @@ public class Piece {
     @Override
     public int hashCode() {
         return Objects.hash(team, pieceType);
+    }
+
+    public boolean sameType(PieceType pieceType) {
+        return this.pieceType == pieceType;
     }
 }

@@ -26,10 +26,10 @@ public class Position {
         return new Position(column + direction.getColumn(), row + direction.getRow());
     }
 
-    public boolean canMoveTo(Direction direction) {
+    public boolean cannotMoveTo(Direction direction) {
         int nextColumn = this.column + direction.getColumn();
         int nextRow = this.row + direction.getRow();
-        return isInsideBoundary(nextColumn, nextRow);
+        return !isInsideBoundary(nextColumn, nextRow);
     }
 
     public int getRow() {
