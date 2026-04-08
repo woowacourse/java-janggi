@@ -38,11 +38,11 @@ public record Movement(int rowDistance, int colDistance) {
         return Math.abs(rowDistance) == 2 && Math.abs(colDistance) == 2;
     }
 
-    public boolean isInvalidMoveDistance(int firstDistance, int secondDistance) {
+    public boolean isValidMoveDistance(int firstDistance, int secondDistance) {
         int absRow = Math.abs(rowDistance);
         int absCol = Math.abs(colDistance);
 
-        return !((absRow == firstDistance && absCol == secondDistance)
-                || (absRow == secondDistance && absCol == firstDistance));
+        return (absRow == firstDistance && absCol == secondDistance)
+                || (absRow == secondDistance && absCol == firstDistance);
     }
 }

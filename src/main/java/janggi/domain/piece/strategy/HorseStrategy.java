@@ -21,7 +21,7 @@ public class HorseStrategy implements MoveStrategy {
     }
 
     private void validateDistance(Movement movement) {
-        if (movement.isInvalidMoveDistance(DIAGONAL_DISTANCE, STRAIGHT_DISTANCE + DIAGONAL_DISTANCE)) {
+        if (!movement.isValidMoveDistance(DIAGONAL_DISTANCE, STRAIGHT_DISTANCE + DIAGONAL_DISTANCE)) {
             throw new IllegalArgumentException(
                     ExceptionMessage.INVALID_DIAGONAL_STEP_MOVE.getMessage(STRAIGHT_DISTANCE, DIAGONAL_DISTANCE)
             );

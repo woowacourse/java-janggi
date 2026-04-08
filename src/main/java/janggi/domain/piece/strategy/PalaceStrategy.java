@@ -24,7 +24,7 @@ public abstract class PalaceStrategy implements MoveStrategy {
     }
 
     public void validatePalaceDistance(Movement movement) {
-        if (movement.isInvalidMoveDistance(1, 1) && movement.isInvalidMoveDistance(0, 1)) {
+        if (!movement.isValidMoveDistance(1, 1) && !movement.isValidMoveDistance(0, 1)) {
             throw new IllegalArgumentException(ExceptionMessage.INVALID_PALACE_MOVE.getMessage(DISTANCE));
         }
     }
@@ -34,7 +34,7 @@ public abstract class PalaceStrategy implements MoveStrategy {
                 || source.equals(HAN_GENERAL_POSITION) || destination.equals(HAN_GENERAL_POSITION))) {
             throw new IllegalArgumentException(ExceptionMessage.INVALID_PALACE_MOVE.getMessage(DISTANCE));
         }
-        if (movement.isInvalidMoveDistance(1, 1)) {
+        if (!movement.isValidMoveDistance(1, 1)) {
             throw new IllegalArgumentException(ExceptionMessage.INVALID_PALACE_MOVE.getMessage(DISTANCE));
         }
     }

@@ -22,7 +22,7 @@ public class SoldierStrategy extends PalaceStrategy {
     }
 
     private void validateDistance(Movement movement) {
-        if (movement.isInvalidMoveDistance(0, DISTANCE)) {
+        if (!movement.isValidMoveDistance(0, DISTANCE)) {
             throw new IllegalArgumentException(ExceptionMessage.INVALID_SINGLE_STEP_MOVE.getMessage(DISTANCE));
         }
     }
