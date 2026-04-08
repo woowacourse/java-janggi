@@ -8,7 +8,7 @@ public class Application {
         Board board = new Board(BoardInitializer.init(InputView.readBoardSetting()));
         GameController gameController = new GameController(board);
 
-        while (!board.isGameOver()) {
+        while (!board.isGameInProgress()) {
             gameController.printBoard();
             gameController.move();
         }

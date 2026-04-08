@@ -24,7 +24,7 @@ public class OutputView {
                     System.out.print(ANSI_GUIDE + "＋" + ANSI_RESET);
                 } else {
                     Piece piece = board.pieceAt(new Position(col, row));
-                    System.out.print(colorize(piece.getCamp(), symbolOf(piece.getPieceType(), piece.getCamp())));
+                    System.out.print(colorize(piece.camp(), symbolOf(piece.getPieceType(), piece.camp())));
                 }
                 if (col < MAX_COLUMN) System.out.print(" ");
             }

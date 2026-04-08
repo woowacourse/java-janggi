@@ -10,8 +10,7 @@ import java.util.Map;
 
 public class Board {
     private final Map<Position, Piece> pieces;
-    private boolean gameOver;
-    private Camp winner;
+    private boolean gameInProgress;
 
     public Board(Map<Position, Piece> pieces) {
         this.pieces = pieces;
@@ -29,16 +28,20 @@ public class Board {
         return pieces.get(position);
     }
 
-    public boolean isGameOver() {
-        return gameOver;
+    public boolean isGameInProgress() {
+        return gameInProgress;
     }
 
     public Camp winner() {
-        if (!gameOver) {
+        if (!gameInProgress) {
             throw new IllegalStateException("아직 게임이 종료되지 않았습니다.");
         }
 
-        return winner;
+        return pieces.values().stream()
+                .filter(Piece::isGeneral)
+                .map(Piece::camp)
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("궁이 존재하지 않습니다."));
     }
 
     public void move(Position departure, Position destination) {
@@ -49,7 +52,7 @@ public class Board {
     }
 
     private void validateGameStatus() {
-        if (gameOver) {
+        if (gameInProgress) {
             throw new IllegalStateException("이미 종료된 게임입니다.");
         }
     }
@@ -57,7 +60,7 @@ public class Board {
     private void handleCapture(Piece departurePiece, Position destination) {
         Piece destinationPiece = pieceAt(destination);
         validateCapture(departurePiece, destinationPiece);
-        updateGameOver(departurePiece, destinationPiece);
+        updateGameProgress(destinationPiece);
     }
 
     private void validateDepartureAndDestinationPosition(Position departure, Position destination) {
@@ -78,10 +81,9 @@ public class Board {
                 .toList();
     }
 
-    private void updateGameOver(Piece departurePiece, Piece destinationPiece) {
+    private void updateGameProgress(Piece destinationPiece) {
         if (destinationPiece.isSameType(PieceType.GENERAL)) {
-            gameOver = true;
-            winner = departurePiece.getCamp();
+            gameInProgress = true;
         }
     }
 

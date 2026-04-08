@@ -88,15 +88,17 @@ class BoardTest {
     void 왕이_잡히면_게임이_종료되고_승자를_반환한다() {
         Position from = new Position(4, 8);
         Position to = new Position(4, 9);
+        Position choGeneralPosition = new Position(4, 0);
 
         Map<Position, Piece> pieces = new HashMap<>();
+        pieces.put(choGeneralPosition, Piece.of(Camp.CHO, PieceType.GENERAL));
         pieces.put(from, Piece.of(Camp.CHO, PieceType.CHARIOT));
         pieces.put(to, Piece.of(Camp.HAN, PieceType.GENERAL));
         Board fakeBoard = new Board(pieces);
 
         fakeBoard.move(from, to);
 
-        assertThat(fakeBoard.isGameOver()).isTrue();
+        assertThat(fakeBoard.isGameInProgress()).isTrue();
         assertThat(fakeBoard.winner()).isEqualTo(Camp.CHO);
     }
 
