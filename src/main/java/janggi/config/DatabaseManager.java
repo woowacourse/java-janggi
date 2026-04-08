@@ -24,6 +24,22 @@ public class DatabaseManager {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 
+    public static <T> T withTransaction(TransactionalWorks<T> works) {
+        try (Connection connection = getConnection()) {
+            connection.setAutoCommit(false);
+            try {
+                T result = works.execute(connection);
+                connection.commit();
+                return result;
+            } catch (Exception e) {
+                connection.rollback();
+                throw e;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("트랜잭션 처리 실패", e);
+        }
+    }
+
     public static void initTable(DdlAuto ddlAuto) {
         String dropSql = readResource(DROP_SQL);
         String schemaSql = readResource(SCHEMA_SQL);

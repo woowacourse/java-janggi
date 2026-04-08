@@ -53,7 +53,7 @@ public class JanggiController {
 
     private Long readGameIdToRestore() {
         long gameId = inputView.readGameIdToRestore();
-        return janggiService.isPlayableGame(gameId);
+        return janggiService.validatePlayableGameId(gameId);
     }
 
     private Map<Dynasty, HorseElephantPosition> readDynastyHorseElephantPositions() {

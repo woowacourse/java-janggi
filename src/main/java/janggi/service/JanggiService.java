@@ -1,5 +1,6 @@
 package janggi.service;
 
+import janggi.config.DatabaseManager;
 import janggi.domain.board.Board;
 import janggi.domain.board.HorseElephantPosition;
 import janggi.domain.dynasty.Dynasty;
@@ -33,9 +34,11 @@ public class JanggiService {
     public Long makeGame(Map<Dynasty, HorseElephantPosition> horseElephantPositions) {
         Game game = Game.initGame(horseElephantPositions);
 
-        Long gameId = gameRepository.save(TurnEntity.toEntity(game));
-        pieceRepository.saveAll(gameId, PieceEntity.toEntities(game.pieces()));
-        return gameId;
+        return DatabaseManager.withTransaction(connection -> {
+            Long gameId = gameRepository.save(connection, TurnEntity.toEntity(game));
+            pieceRepository.saveAll(connection, gameId, PieceEntity.toEntities(game.pieces()));
+            return gameId;
+        });
     }
 
     public Game findGame(Long gameId) {
@@ -53,8 +56,11 @@ public class JanggiService {
         Game game = findGame(gameId);
         game.movePiece(from, to);
 
-        pieceRepository.updatePiece(gameId, from, to);
-        gameRepository.updateTurn(gameId, TurnEntity.toEntity(game));
+        DatabaseManager.withTransaction(connection -> {
+            pieceRepository.updatePiece(connection, gameId, from, to);
+            gameRepository.updateTurn(connection, gameId, TurnEntity.toEntity(game));
+            return null;
+        });
     }
 
     public void saveMovement(Long gameId, Position from, Position to) {
@@ -62,14 +68,14 @@ public class JanggiService {
     }
 
     public List<Long> findPlayableGameIds() {
-        List<Long> gamedIds = gameRepository.findAllByState(GameState.PLAYING);
-        if (gamedIds.isEmpty()) {
+        List<Long> gameIds = gameRepository.findAllByState(GameState.PLAYING);
+        if (gameIds.isEmpty()) {
             throw new IllegalStateException("진행할 수 있는 게임이 없습니다.");
         }
-        return gamedIds;
+        return gameIds;
     }
 
-    public Long isPlayableGame(Long gameId) {
+    public Long validatePlayableGameId(Long gameId) {
         List<Long> gameIds = gameRepository.findAllByState(GameState.PLAYING);
         if (!gameIds.contains(gameId)) {
             throw new IllegalArgumentException(String.format("gameId가 %s인 진행 중 게임이 존재하지 않습니다.", gameId));
@@ -78,7 +84,10 @@ public class JanggiService {
     }
 
     public void updateGameState(Long gameId) {
-        gameRepository.updateState(gameId, GameState.FINISHED);
+        DatabaseManager.withTransaction(connection -> {
+            gameRepository.updateState(connection, gameId, GameState.FINISHED);
+            return null;
+        });
     }
 
 }

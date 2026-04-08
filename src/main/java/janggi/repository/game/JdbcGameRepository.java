@@ -16,28 +16,19 @@ import java.util.Optional;
 public class JdbcGameRepository implements GameRepository {
 
     @Override
-    public Long save(TurnEntity turn) {
+    public Long save(Connection connection, TurnEntity turn) {
         String gameSql = "INSERT INTO janggi_game (turn, state) VALUES (?, ?)";
 
-        try (Connection connection = DatabaseManager.getConnection()) {
-            connection.setAutoCommit(false);
+        try (PreparedStatement gameStatement = connection.prepareStatement(gameSql, RETURN_GENERATED_KEYS)) {
+            gameStatement.setString(1, turn.currentTurn());
+            gameStatement.setString(2, GameState.PLAYING.name());
+            gameStatement.executeUpdate();
 
-            try (PreparedStatement gameStatement = connection.prepareStatement(gameSql, RETURN_GENERATED_KEYS)) {
-                gameStatement.setString(1, turn.currentTurn());
-                gameStatement.setString(2, GameState.PLAYING.name());
-                gameStatement.executeUpdate();
-
-                ResultSet keys = gameStatement.getGeneratedKeys();
-                if (!keys.next()) {
-                    throw new RuntimeException("id 생성 실패");
-                }
-
-                connection.commit();
-                return keys.getLong(1);
-            } catch (Exception e) {
-                connection.rollback();
-                throw new RuntimeException("저장 실패", e);
+            ResultSet keys = gameStatement.getGeneratedKeys();
+            if (!keys.next()) {
+                throw new RuntimeException("id 생성 실패");
             }
+            return keys.getLong(1);
         } catch (SQLException e) {
             throw new RuntimeException("저장 실패", e);
         }
@@ -65,25 +56,17 @@ public class JdbcGameRepository implements GameRepository {
     }
 
     @Override
-    public void updateTurn(Long gameId, TurnEntity game) {
+    public void updateTurn(Connection connection, Long gameId, TurnEntity game) {
         String updateGameSql = "UPDATE janggi_game SET turn = ? WHERE id = ?";
 
-        try (Connection connection = DatabaseManager.getConnection()) {
-            connection.setAutoCommit(false);
-
-            try (PreparedStatement updateGameStatement = connection.prepareStatement(updateGameSql)) {
-                updateGameStatement.setString(1, game.currentTurn());
-                updateGameStatement.setLong(2, gameId);
-                updateGameStatement.executeUpdate();
-
-                connection.commit();
-            } catch (SQLException e) {
-                connection.rollback();
-                throw new RuntimeException("수정 실패", e);
-            }
+        try (PreparedStatement updateGameStatement = connection.prepareStatement(updateGameSql)) {
+            updateGameStatement.setString(1, game.currentTurn());
+            updateGameStatement.setLong(2, gameId);
+            updateGameStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("수정 실패", e);
         }
+
     }
 
     @Override
@@ -107,11 +90,10 @@ public class JdbcGameRepository implements GameRepository {
     }
 
     @Override
-    public void updateState(Long gameId, GameState state) {
+    public void updateState(Connection connection, Long gameId, GameState state) {
         String sql = "UPDATE janggi_game SET state = ? WHERE id = ?";
 
-        try (Connection connection = DatabaseManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, state.name());
             statement.setLong(2, gameId);
             statement.executeUpdate();
