@@ -8,30 +8,26 @@ import java.util.function.Function;
 
 public abstract class Piece {
     private final Team team;
-    private final MoveRule moveRule;
+    private final List<MoveRule> moveRules;
 
-    protected Piece(Team team, MoveRule moveRule) {
+    protected Piece(Team team, List<MoveRule> moveRules) {
         this.team = team;
-        this.moveRule = moveRule;
+        this.moveRules = moveRules;
     }
 
     public void validateMove(Position source, Position target, Function<Position, Piece> pieceAt) {
-        validateReachable(source, target);
-        List<Piece> piecesOnRoute = findPiecesOnRoute(source, target, pieceAt);
+        List<Position> route = findRoute(source, target);
+        List<Piece> piecesOnRoute = route.stream().map(pieceAt).toList();
         validateRoute(piecesOnRoute);
         validateDestination(pieceAt.apply(target));
     }
 
-    private void validateReachable(Position source, Position target) {
-        if (!moveRule.canMove(source, target)) {
-            throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
-        }
-    }
-
-    private List<Piece> findPiecesOnRoute(Position source, Position target, Function<Position, Piece> pieceAt) {
-        return moveRule.calculateRoute(source, target).stream()
-                .map(pieceAt)
-                .toList();
+    private List<Position> findRoute(Position source, Position target) {
+        return moveRules.stream()
+                .filter(rule -> rule.canMove(source, target))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("이동할 수 없는 위치입니다."))
+                .calculateRoute(source, target);
     }
 
     protected void validateRoute(List<Piece> piecesOnRoute) {

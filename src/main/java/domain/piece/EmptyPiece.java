@@ -8,7 +8,7 @@ import java.util.function.Function;
 public class EmptyPiece extends Piece {
 
     private EmptyPiece() {
-        super(Team.NONE, null);
+        super(Team.NONE, List.of());
     }
 
     private static class LazyHolder {

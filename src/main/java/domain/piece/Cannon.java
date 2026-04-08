@@ -1,6 +1,7 @@
 package domain.piece;
 
 import domain.game.Team;
+import domain.rule.PalaceDiagonalStraightRule;
 import domain.rule.StraightLineRule;
 import java.util.List;
 
@@ -8,7 +9,10 @@ public class Cannon extends Piece {
     private static final double SCORE = 7.0;
 
     public Cannon(Team team) {
-        super(team, new StraightLineRule());
+        super(team, List.of(
+                new StraightLineRule(),
+                new PalaceDiagonalStraightRule()
+        ));
     }
 
     @Override
