@@ -3,7 +3,7 @@ package janggi.dao;
 import janggi.dao.game.GameDao;
 import janggi.dao.game.JdbcGameDao;
 import janggi.dao.piece.JdbcPieceDao;
-import janggi.infra.DbConfig;
+import janggi.infra.DbProperties;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -18,7 +18,7 @@ public abstract class DatabaseTest {
     @BeforeEach
     void beforeEach() throws SQLException {
         con = DriverManager.getConnection(
-                new DbConfig("application-test.properties").getDbUrl()
+                new DbProperties("application-test.properties").getDbUrl()
         );
         con.setAutoCommit(false);
     }

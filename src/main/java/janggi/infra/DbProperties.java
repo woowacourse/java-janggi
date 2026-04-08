@@ -4,17 +4,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class DbConfig {
+public class DbProperties {
 
     private static final String DEFAULT_PROPERTIES_FILE = "application.properties";
 
     private final Properties properties;
 
-    public DbConfig() {
+    public DbProperties() {
         this.properties = readProperties(DEFAULT_PROPERTIES_FILE);
     }
 
-    public DbConfig(String fileName) {
+    public DbProperties(String fileName) {
         this.properties = readProperties(fileName);
     }
 
