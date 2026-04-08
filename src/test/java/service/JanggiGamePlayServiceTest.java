@@ -8,7 +8,6 @@ import dao.BoardRepository;
 import dao.GamePersistence;
 import dao.GameRoom;
 import domain.board.Formation;
-import domain.manager.JanggiGameManager;
 import domain.player.Name;
 import domain.player.Player;
 import domain.player.Team;
@@ -23,7 +22,6 @@ import java.sql.SQLException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import support.EndedJanggiGameManager;
 
 class JanggiGamePlayServiceTest {
     private final GameRoom gameRoom = new GameRoom();

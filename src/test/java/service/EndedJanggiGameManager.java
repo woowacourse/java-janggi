@@ -1,4 +1,4 @@
-package support;
+package service;
 
 import domain.board.Formation;
 import domain.manager.JanggiGameManager;
