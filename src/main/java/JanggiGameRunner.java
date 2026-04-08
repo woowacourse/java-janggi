@@ -19,7 +19,7 @@ import java.util.function.Supplier;
 import view.InputView;
 import view.OutputView;
 
-public class Runner {
+public class JanggiGameRunner {
 
     private final InputView inputView;
     private final OutputView outputView;
@@ -28,11 +28,11 @@ public class Runner {
     private JanggiGameManager janggiGameManager;
     private long gameId;
 
-    public Runner(InputView inputView, OutputView outputView) {
+    public JanggiGameRunner(InputView inputView, OutputView outputView) {
         this(inputView, outputView, new GameRoom(), new BoardRepository());
     }
 
-    Runner(InputView inputView, OutputView outputView, GameRoom gameRoom, BoardRepository boardRepository) {
+    JanggiGameRunner(InputView inputView, OutputView outputView, GameRoom gameRoom, BoardRepository boardRepository) {
         this.inputView = inputView;
         this.outputView = outputView;
         dao.GamePersistence gamePersistence = new dao.GamePersistence(gameRoom, boardRepository);
@@ -48,8 +48,7 @@ public class Runner {
             playTurn();
         }
 
-        PlayerProfile winnerProfile = janggiGameManager.calculateFinalScore();
-        janggiGamePlayService.finishGame(gameId, janggiGameManager, winnerProfile.team());
+        PlayerProfile winnerProfile = janggiGamePlayService.finishGame(gameId, janggiGameManager);
         outputView.printResult(winnerProfile);
     }
 
