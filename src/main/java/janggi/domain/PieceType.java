@@ -1,22 +1,19 @@
 package janggi.domain;
 
 import janggi.domain.moveRules.ChaMoveRule;
-import janggi.domain.moveRules.KingMoveRule;
-import janggi.domain.moveRules.MaMoveRule;
+import janggi.domain.moveRules.JumpMoveRule;
 import janggi.domain.moveRules.MoveRule;
+import janggi.domain.moveRules.OnceMoveRule;
 import janggi.domain.moveRules.PoMoveRule;
-import janggi.domain.moveRules.SaMoveRule;
-import janggi.domain.moveRules.SangMoveRule;
-import janggi.domain.moveRules.ZolMoveRule;
 
 public enum PieceType {
-    KING(new KingMoveRule()),
-    SA(new SaMoveRule()),
-    SANG(new SangMoveRule()),
-    MA(new MaMoveRule()),
+    KING(new OnceMoveRule()),
+    SA(new OnceMoveRule()),
+    SANG(new JumpMoveRule()),
+    MA(new JumpMoveRule()),
     CHA(new ChaMoveRule()),
     PO(new PoMoveRule()),
-    ZOL(new ZolMoveRule());
+    ZOL(new OnceMoveRule());
 
     private final MoveRule moveRule;
 

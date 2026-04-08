@@ -498,18 +498,4 @@ public class BoardTest {
         assertThat(chaRoutesPositions).hasSize(5)
                 .containsExactlyInAnyOrderElementsOf(rightAnswer);
     }
-
-    @Test
-    @DisplayName("초나라 턴 일 때 한나라 기물을 선택할 수 없다")
-    void 초나라_턴일때_한나라_선택_시_오류() {
-        //given
-        Map<Position, Piece> customBoard = new HashMap<>();
-        Position choPosition = new Position(1, 7);
-        Position hanPosition = new Position(1, 6);
-        customBoard.put(choPosition, new Piece(Team.CHO, PieceType.ZOL));
-        customBoard.put(hanPosition, new Piece(Team.HAN, PieceType.ZOL));
-        Board board = new Board(customBoard);
-        //지금 턴은 cho 턴이야. 근데 han으로 끝낼 순 없어.
-
-    }
 }

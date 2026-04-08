@@ -3,11 +3,9 @@ package janggi.domain.moveRules;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.domain.Direction;
 import janggi.domain.Piece;
 import janggi.domain.PieceType;
 import janggi.domain.Position;
-import janggi.domain.Route;
 import janggi.domain.Team;
 import janggi.domain.board.Board;
 import java.util.ArrayList;
@@ -20,25 +18,6 @@ import org.junit.jupiter.api.Test;
 public class PoMoveRuleTest {
 
     @Test
-    @DisplayName("포는 직선으로 갈 수 있다")
-    void 포의_이동규칙() {
-        //given
-        MoveRule moveRule = new PoMoveRule();
-        Team team = Team.CHO;
-        Route route1 = new Route(List.of(Direction.NORTH));
-        Route route2 = new Route(List.of(Direction.EAST));
-        Route route3 = new Route(List.of(Direction.SOUTH));
-        Route route4 = new Route(List.of(Direction.WEST));
-        List<Route> routes = List.of(route1, route2, route3, route4);
-
-        //when
-        List<Route> poRoutes = moveRule.findRoutes(team);
-
-        //then
-        assertThat(poRoutes).isEqualTo(routes);
-    }
-
-    @Test
     @DisplayName("포는 중간에 포가 아닌 기물(포다리)이 하나 있으면, 그 너머 공간으로 이동할 수 있다.")
     void 포는_장애물을_넘어_빈_공간으로_이동() {
         //given
@@ -46,11 +25,10 @@ public class PoMoveRuleTest {
         Position start = new Position(5, 5);
         customBoard.put(start, new Piece(Team.CHO, PieceType.PO));
         customBoard.put(new Position(5, 6), new Piece(Team.CHO, PieceType.ZOL));
-        Board board = new Board(customBoard);
         MoveRule poMoveRule = new PoMoveRule();
 
         //when
-        List<Position> availablePositions = poMoveRule.calculateAvailablePositions(start, Team.CHO, board);
+        List<Position> availablePositions = poMoveRule.calculateAvailablePositions(start, Team.CHO, customBoard);
 
         //then
         assertThat(availablePositions).contains(
@@ -108,11 +86,10 @@ public class PoMoveRuleTest {
         Position position = new Position(5, 5);
         Piece choPo = new Piece(Team.CHO, PieceType.PO);
         customBoard.put(position, choPo);
-        Board board = new Board(customBoard);
         MoveRule poMoveRule = new PoMoveRule();
 
         //when
-        List<Position> availablePositions = poMoveRule.calculateAvailablePositions(position, Team.CHO, board);
+        List<Position> availablePositions = poMoveRule.calculateAvailablePositions(position, Team.CHO, customBoard);
 
         //then
         assertThat(availablePositions).isEmpty();
