@@ -121,4 +121,21 @@ class CannonMoveStrategyTest {
         Assertions.assertFalse(strategy.canMove(mover, from, to,
                 Map.of(Position.of(3, 1), pathCannon)));
     }
+
+    @Test
+    @DisplayName("궁성 안에서 포의 이동 가능한 대각선 이동 시 이동한다.")
+    void 궁성_안_가능한_포의_대각선_이동() {
+        // given
+        Position from = Position.of(7, 3);
+        Position to = Position.of(9, 5);
+
+        MoveStrategy strategy = new CannonMoveStrategy();
+        Piece mover = Piece.of(Team.CHU, Type.CANNON);
+        Piece general = Piece.of(Team.CHU, Type.GENERAL);
+
+        // when
+
+        // then
+        Assertions.assertTrue(strategy.canMove(mover, from, to, Map.of(Position.of(8, 4), general)));
+    }
 }

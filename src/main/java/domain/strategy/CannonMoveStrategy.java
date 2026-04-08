@@ -62,6 +62,29 @@ public class CannonMoveStrategy implements MoveStrategy {
     }
 
     private boolean isNotCorrectPath(final Position from, final Position to) {
+        if (isInPalaceAndCanDiagonalMove(from)) {
+            if (isDiagonal(from, to)) {
+                if (Math.abs(from.getRow() - to.getRow()) + Math.abs(from.getCol() - to.getCol()) <= 4) {
+                    return false;
+                }
+            }
+        }
+
         return from.getRow() != to.getRow() && from.getCol() != to.getCol();
+    }
+
+    private boolean isInPalaceAndCanDiagonalMove(final Position position) {
+        int row = position.getRow();
+        int column = position.getCol();
+        if ((row == 0 && column == 4) || (row == 2 && column == 4) || (row == 1 && column == 3) || (row == 1 && column == 5)
+                || (row == 7 && column == 4) || (row == 9 && column == 4) || (row == 8 && column == 3) || (row == 8 && column == 5)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean isDiagonal(final Position from, final Position to) {
+        return Math.abs(from.getRow() - to.getRow()) >= 1 && Math.abs(from.getCol() - to.getCol()) >= 1;
     }
 }
