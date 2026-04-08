@@ -9,6 +9,8 @@ import domain.strategy.MoveStrategy;
 import domain.strategy.NoneMoveableStrategy;
 import domain.strategy.PalacePieceMoveStrategy;
 import domain.strategy.RedSoldierMoveStrategy;
+import exception.JanggiDataException;
+import java.util.Arrays;
 import java.util.function.Function;
 
 public enum PieceType {
@@ -33,6 +35,15 @@ public enum PieceType {
     PieceType(String description, Function<Position, MoveStrategy> strategyOfPosition) {
         this.description = description;
         this.strategyOfPosition = strategyOfPosition;
+    }
+
+    public static PieceType fromDescription(String description) {
+        return Arrays.stream(values())
+                .filter(type -> type.description.equals(description)
+                        && type != GREEN_SOLDIER
+                        && type != RED_SOLDIER)
+                .findFirst()
+                .orElseThrow(() -> new JanggiDataException("알 수 없는 기물 이름: " + description));
     }
 
     public String description() {

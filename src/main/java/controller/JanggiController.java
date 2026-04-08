@@ -1,50 +1,89 @@
 package controller;
 
-import domain.JanggiGame;
 import domain.Position;
+import dto.SelectLoadGameRequest;
 import dto.SelectPositionRequest;
 import exception.JanggiGameException;
+import service.JanggiCommandService;
+import service.JanggiQueryService;
 import view.InputView;
 import view.OutputView;
 
 public class JanggiController {
 
-    private final JanggiGame janggiGame;
+    private final JanggiCommandService commandService;
+    private final JanggiQueryService queryService;
 
-    public JanggiController(JanggiGame janggiGame) {
-        this.janggiGame = janggiGame;
+    private long currentGameId = 0L;
+
+    public JanggiController(JanggiCommandService commandService, JanggiQueryService queryService) {
+        this.commandService = commandService;
+        this.queryService = queryService;
+    }
+
+    public void runGame() {
+        boolean selectLoadGame = false;
+
+        if(queryService.hasUnfinishedGameId()) {
+            SelectLoadGameRequest request = InputView.selectLoadUnfinishedGame();
+            selectLoadGame = request.select();
+        }
+
+        if(selectLoadGame) {
+            currentGameId = queryService.findLatestUnfinishedGameId();
+            OutputView.printResult(queryService.gameStatus(currentGameId));
+
+            run();
+            return;
+        }
+
+        runSetupGamePhase();
+        run();
     }
 
     public void run() {
-        while (!janggiGame.isGameFinished()) {
-            runPlayingPhase();
-        }
+        runPlayingPhase();
         runResultPhase();
     }
 
+    private void runSetupGamePhase() {
+        currentGameId = commandService.setupGame();
+    }
+
     private void runPlayingPhase() {
-        displayCurrentGameState();
-        execute(this::movePiece);
+        while (queryService.isInProgress(currentGameId)) {
+            displayCurrentGameState();
+            execute(this::movePiece);
+        }
     }
 
     private void displayCurrentGameState() {
-        OutputView.printBoard(janggiGame.allFactors());
-        OutputView.printCurrentPlayerTurn(janggiGame.currentPlayerTurn());
+        OutputView.printBoard(queryService.allFactors(currentGameId));
+        OutputView.printCurrentPlayerTurn(queryService.currentPlayerTurn(currentGameId));
     }
 
     private void movePiece() {
+        Position selected = selectPiecePositionToMove();
+        Position target = selectPiecePositionToGoFrom(selected);
+
+        commandService.move(currentGameId, selected, target);
+    }
+
+    private Position selectPiecePositionToMove() {
         SelectPositionRequest selectRequest = InputView.selectPiecePosition();
-        Position selected = Position.of(selectRequest.row(), selectRequest.col());
+        return Position.of(selectRequest.row(), selectRequest.col());
+    }
 
-        SelectPositionRequest targetRequest = InputView.selectTargetPositionOf(janggiGame.findPieceInfoAt(selected));
-        Position target = Position.of(targetRequest.row(), targetRequest.col());
+    private Position selectPiecePositionToGoFrom(Position selected) {
+        SelectPositionRequest targetRequest =
+                InputView.selectTargetPositionWith(queryService.findPieceInfoAt(currentGameId, selected));
 
-        janggiGame.move(selected, target);
+        return Position.of(targetRequest.row(), targetRequest.col());
     }
 
     private void runResultPhase() {
-        OutputView.printBoard(janggiGame.allFactors());
-        OutputView.printResult(janggiGame.gameStatus());
+        OutputView.printBoard(queryService.allFactors(currentGameId));
+        OutputView.printResult(queryService.gameStatus(currentGameId));
     }
 
     private void execute(ExecutableTask task) {

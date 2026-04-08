@@ -1,6 +1,7 @@
 package view;
 
 import dto.PieceInfo;
+import dto.SelectLoadGameRequest;
 import dto.SelectPositionRequest;
 import java.util.Scanner;
 
@@ -16,12 +17,17 @@ public final class InputView {
 
     }
 
+    public static SelectLoadGameRequest selectLoadUnfinishedGame() {
+        System.out.println("이전에 진행중이던 게임이 존재합니다. 이어하시겠습니까?.");
+        return SelectLoadGameRequest.of(readLine());
+    }
+
     public static SelectPositionRequest selectPiecePosition() {
         System.out.println("이동시킬 기물을 선택해주세요.");
         return SelectPositionRequest.of(readLine());
     }
 
-    public static SelectPositionRequest selectTargetPositionOf(PieceInfo pieceInfo) {
+    public static SelectPositionRequest selectTargetPositionWith(PieceInfo pieceInfo) {
         String message = String.format("선택한 %s 기물을 이동시킬 위치를 선택해주세요.", colorize(pieceInfo));
         System.out.println(message);
 

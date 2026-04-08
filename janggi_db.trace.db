@@ -1,0 +1,92 @@
+2026-04-08 15:06:45.830625+09:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "GAME" not found (this database is empty); SQL statement:
+INSERT INTO game (created_at) VALUES (NOW()) [42104-224]
+2026-04-08 15:35:40.267084+09:00 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "GAME_STATE" not found (this database is empty); SQL statement:
+SELECT game_id FROM game_state WHERE is_finished = false ORDER BY game_id DESC LIMIT 1 [42104-224]
+2026-04-08 15:37:48.099139+09:00 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "GAME_STATE" not found (this database is empty); SQL statement:
+SELECT game_id FROM game_state WHERE is_finished = false ORDER BY game_id DESC LIMIT 1 [42104-224]
+2026-04-08 15:41:43.892949+09:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "\000a\000aCREATE TABLE IF NOT EXISTS piece (\000a\000a    id      BIGINT AUTO_INCREMENT PRIMARY KEY,\000a                                     game_id BIGINT      NOT NULL,\000a                                     [*]row     INT         NOT NULL,\000a                                     col     INT         NOT NULL,\000a                                     name    VARCHAR(10) NOT NULL,\000a    team    VARCHAR(10) NOT NULL,\000a    FOREIGN KEY (game_id) REFERENCES game (id)\000a    )"; expected "identifier"; SQL statement:
+
+
+CREATE TABLE IF NOT EXISTS piece (
+
+    id      BIGINT AUTO_INCREMENT PRIMARY KEY,
+                                     game_id BIGINT      NOT NULL,
+                                     row     INT         NOT NULL,
+                                     col     INT         NOT NULL,
+                                     name    VARCHAR(10) NOT NULL,
+    team    VARCHAR(10) NOT NULL,
+    FOREIGN KEY (game_id) REFERENCES game (id)
+    ) [42001-224]
+2026-04-08 15:51:45.476711+09:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "is_finished" not found [42122-224]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:514)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.jdbc.JdbcResultSet.getColumnIndex(JdbcResultSet.java:3518)
+	at org.h2.jdbc.JdbcResultSet.getBoolean(JdbcResultSet.java:598)
+	at com.zaxxer.hikari.pool.HikariProxyResultSet.getBoolean(HikariProxyResultSet.java)
+	at dao.JanggiGameStateDao.findByGameId(JanggiGameStateDao.java:43)
+	at repository.JdbcJanggiRepository.lambda$loadGame$2(JdbcJanggiRepository.java:54)
+	at infrastructure.TransactionContext.lambda$query$1(TransactionContext.java:47)
+	at java.base/jdk.internal.vm.ScopedValueContainer.callWithoutScope(ScopedValueContainer.java:162)
+	at java.base/jdk.internal.vm.ScopedValueContainer.call(ScopedValueContainer.java:147)
+	at java.base/java.lang.ScopedValue$Carrier.call(ScopedValue.java:419)
+	at infrastructure.TransactionContext.query(TransactionContext.java:45)
+	at repository.JdbcJanggiRepository.loadGame(JdbcJanggiRepository.java:52)
+	at service.JanggiQueryService.findJanggiGameById(JanggiQueryService.java:39)
+	at service.JanggiQueryService.isInProgress(JanggiQueryService.java:19)
+	at controller.JanggiController.runPlayingPhase(JanggiController.java:52)
+	at controller.JanggiController.run(JanggiController.java:43)
+	at controller.JanggiController.runGame(JanggiController.java:39)
+	at Application.main(Application.java:7)
+2026-04-08 15:51:58.326740+09:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "is_finished" not found [42122-224]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:514)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.jdbc.JdbcResultSet.getColumnIndex(JdbcResultSet.java:3518)
+	at org.h2.jdbc.JdbcResultSet.getBoolean(JdbcResultSet.java:598)
+	at com.zaxxer.hikari.pool.HikariProxyResultSet.getBoolean(HikariProxyResultSet.java)
+	at dao.JanggiGameStateDao.findByGameId(JanggiGameStateDao.java:43)
+	at repository.JdbcJanggiRepository.lambda$loadGame$2(JdbcJanggiRepository.java:54)
+	at infrastructure.TransactionContext.lambda$query$1(TransactionContext.java:47)
+	at java.base/jdk.internal.vm.ScopedValueContainer.callWithoutScope(ScopedValueContainer.java:162)
+	at java.base/jdk.internal.vm.ScopedValueContainer.call(ScopedValueContainer.java:147)
+	at java.base/java.lang.ScopedValue$Carrier.call(ScopedValue.java:419)
+	at infrastructure.TransactionContext.query(TransactionContext.java:45)
+	at repository.JdbcJanggiRepository.loadGame(JdbcJanggiRepository.java:52)
+	at service.JanggiQueryService.findJanggiGameById(JanggiQueryService.java:39)
+	at service.JanggiQueryService.isInProgress(JanggiQueryService.java:19)
+	at controller.JanggiController.runPlayingPhase(JanggiController.java:52)
+	at controller.JanggiController.run(JanggiController.java:43)
+	at controller.JanggiController.runGame(JanggiController.java:34)
+	at Application.main(Application.java:7)
+2026-04-08 15:53:45.612389+09:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "is_finished" not found [42122-224]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:514)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.jdbc.JdbcResultSet.getColumnIndex(JdbcResultSet.java:3518)
+	at org.h2.jdbc.JdbcResultSet.getBoolean(JdbcResultSet.java:598)
+	at com.zaxxer.hikari.pool.HikariProxyResultSet.getBoolean(HikariProxyResultSet.java)
+	at dao.JanggiGameStateDao.findByGameId(JanggiGameStateDao.java:43)
+	at repository.JdbcJanggiRepository.lambda$loadGame$2(JdbcJanggiRepository.java:54)
+	at infrastructure.TransactionContext.lambda$query$1(TransactionContext.java:47)
+	at java.base/jdk.internal.vm.ScopedValueContainer.callWithoutScope(ScopedValueContainer.java:162)
+	at java.base/jdk.internal.vm.ScopedValueContainer.call(ScopedValueContainer.java:147)
+	at java.base/java.lang.ScopedValue$Carrier.call(ScopedValue.java:419)
+	at infrastructure.TransactionContext.query(TransactionContext.java:45)
+	at repository.JdbcJanggiRepository.loadGame(JdbcJanggiRepository.java:52)
+	at service.JanggiQueryService.findJanggiGameById(JanggiQueryService.java:39)
+	at service.JanggiQueryService.isInProgress(JanggiQueryService.java:19)
+	at controller.JanggiController.runPlayingPhase(JanggiController.java:52)
+	at controller.JanggiController.run(JanggiController.java:43)
+	at controller.JanggiController.runGame(JanggiController.java:39)
+	at Application.main(Application.java:7)
