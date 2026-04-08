@@ -240,7 +240,8 @@ public class Runner {
     }
 
     private void endByScore(Board board, TurnManager turnManager, GameDeadline deadline) {
-        TeamScores scores = scoreCalculator.calculate(board.capture());
+        TeamScores scores =
+                scoreCalculator.calculate(board.piecesOfTeam(TeamColor.CHO), board.piecesOfTeam(TeamColor.HAN));
         Optional<TeamColor> winner = scores.winner();
         outputView.printTimeOverByScore(scores, winner);
         gameStateRepository.save(

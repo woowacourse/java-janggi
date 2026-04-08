@@ -2,6 +2,7 @@ package domain;
 
 import static java.util.Optional.ofNullable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,6 +54,18 @@ public class Board implements PalaceRouter {
                 .filter(entry -> entry.getValue().isOnTeam(teamColor))
                 .sorted(Map.Entry.comparingByKey())
                 .toList();
+    }
+
+    public List<Piece> piecesOfTeam(TeamColor teamColor) {
+        return pieceValuesFromEntries(findPiecesByTeam(teamColor));
+    }
+
+    private static List<Piece> pieceValuesFromEntries(List<Map.Entry<Position, Piece>> entries) {
+        List<Piece> result = new ArrayList<>(entries.size());
+        for (Map.Entry<Position, Piece> entry : entries) {
+            result.add(entry.getValue());
+        }
+        return List.copyOf(result);
     }
 
     public MovableRoutes findMovableRoutes(Piece piece) {

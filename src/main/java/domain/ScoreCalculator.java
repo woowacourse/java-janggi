@@ -1,28 +1,25 @@
 package domain;
 
-import java.util.Map;
+import java.util.List;
 
 public final class ScoreCalculator {
 
-    public TeamScores calculate(GameSnapshot snapshot) {
-        Map<Position, Piece> placedPieces = snapshot.pieces();
-        MaterialPoints choTotal = totalForTeam(placedPieces, TeamColor.CHO);
-        MaterialPoints hanTotal = totalForTeam(placedPieces, TeamColor.HAN);
+    public TeamScores calculate(List<Piece> choPieces, List<Piece> hanPieces) {
+        MaterialPoints choTotal = totalForTeam(TeamColor.CHO, choPieces);
+        MaterialPoints hanTotal = totalForTeam(TeamColor.HAN, hanPieces);
         return TeamScores.of(choTotal, hanTotal);
     }
 
-    private MaterialPoints totalForTeam(Map<Position, Piece> pieces, TeamColor teamColor) {
+    private MaterialPoints totalForTeam(TeamColor teamColor, List<Piece> pieces) {
         MaterialPoints base = teamColor.startingScore();
-        MaterialPoints material = materialSumForTeam(pieces, teamColor);
+        MaterialPoints material = sumMaterial(pieces);
         return base.plus(material);
     }
 
-    private MaterialPoints materialSumForTeam(Map<Position, Piece> pieces, TeamColor teamColor) {
+    private MaterialPoints sumMaterial(List<Piece> pieces) {
         MaterialPoints sum = MaterialPoints.zero();
-        for (Piece piece : pieces.values()) {
-            if (piece.isOnTeam(teamColor)) {
-                sum = sum.plus(piece.materialPoints());
-            }
+        for (Piece piece : pieces) {
+            sum = sum.plus(piece.materialPoints());
         }
         return sum;
     }
