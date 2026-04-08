@@ -9,8 +9,8 @@ import java.util.List;
 public abstract class MoveablePiece extends Piece {
     protected final Strategy moveStrategy;
 
-    public MoveablePiece(Team team, Strategy moveStrategy) {
-        super(team);
+    public MoveablePiece(Team team, PieceType pieceType, Strategy moveStrategy) {
+        super(team, pieceType);
         this.moveStrategy = moveStrategy;
     }
 

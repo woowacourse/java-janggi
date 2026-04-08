@@ -6,6 +6,6 @@ import domain.strategy.PalaceStrategy;
 public class Guard extends MoveablePiece {
 
     public Guard(Team team) {
-        super(team, new PalaceStrategy());
+        super(team, PieceType.GUARD, new PalaceStrategy());
     }
 }

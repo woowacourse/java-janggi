@@ -6,6 +6,6 @@ import domain.strategy.CannonStrategy;
 public class Cannon extends MoveablePiece {
 
     public Cannon(Team team) {
-        super(team, new CannonStrategy());
+        super(team, PieceType.CANNON, new CannonStrategy());
     }
 }

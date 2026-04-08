@@ -6,6 +6,6 @@ import domain.strategy.CarStrategy;
 public class Car extends MoveablePiece {
 
     public Car(Team team) {
-        super(team, new CarStrategy());
+        super(team, PieceType.CAR, new CarStrategy());
     }
 }
