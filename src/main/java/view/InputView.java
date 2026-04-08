@@ -6,7 +6,8 @@ import java.util.Scanner;
 import view.dto.PositionInput;
 
 public class InputView {
-    private static final String QUIT_COMMAND = "종료";
+    private static final String PAUSE_COMMAND = "중단";
+    private static final String FINISH_COMMAND = "종료";
 
     private final Scanner scanner = new Scanner(System.in);
 
@@ -30,8 +31,11 @@ public class InputView {
     private PositionInput readPosition(String message) {
         System.out.println(message);
         String input = scanner.nextLine().trim();
-        if (input.equals(QUIT_COMMAND)) {
-            return PositionInput.quitting();
+        if (input.equals(PAUSE_COMMAND)) {
+            return PositionInput.pausing();
+        }
+        if (input.equals(FINISH_COMMAND)) {
+            return PositionInput.finishing();
         }
         String[] values = splitPositionInput(input);
         return PositionInput.of(parsePosition(values));

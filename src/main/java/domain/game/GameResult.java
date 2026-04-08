@@ -22,6 +22,10 @@ public record GameResult(GameStatus status, Side winner) {
         return new GameResult(GameStatus.ENDED, winner);
     }
 
+    public GameResult finishByScore(GameScore gameScore) {
+        return ended(gameScore.winner());
+    }
+
     public boolean isEnded() {
         return status.equals(GameStatus.ENDED);
     }

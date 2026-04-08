@@ -11,6 +11,7 @@ import domain.pieces.Side;
 import domain.position.Position;
 
 public class JanggiGame {
+
     private Board board;
     private Turn currentTurn = Turn.start();
     private GameResult gameResult = GameResult.running();
@@ -24,6 +25,13 @@ public class JanggiGame {
         Board choBoard = choSangSetup.initialize(Side.CHO);
         Board hanBoard = hanSangSetup.initialize(Side.HAN);
         return new JanggiGame(choBoard.merge(hanBoard));
+    }
+
+    public static JanggiGame restore(Board board, Side currentTurn, GameResult gameResult) {
+        JanggiGame janggiGame = new JanggiGame(board);
+        janggiGame.currentTurn = Turn.from(currentTurn);
+        janggiGame.gameResult = gameResult;
+        return janggiGame;
     }
 
     public void move(Position departure, Position destination) {
@@ -65,5 +73,11 @@ public class JanggiGame {
 
     public GameScore calculateScore() {
         return gameScoreCalculator.calculate(board);
+    }
+
+    public GameScore finishByScore() {
+        GameScore gameScore = calculateScore();
+        gameResult = gameResult.finishByScore(gameScore);
+        return gameScore;
     }
 }

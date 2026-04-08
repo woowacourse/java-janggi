@@ -28,6 +28,8 @@ public class OutputView {
 
     public void printMoveGuide() {
         System.out.println("이동할 기물의 출발지와 도착지를 입력하세요.");
+        System.out.println("- 중단: 현재 상태를 유지한 채 종료합니다.");
+        System.out.println("- 종료: 현재 점수 기준으로 게임을 종료합니다.");
     }
 
     public void printErrorMessage(String message) {
@@ -56,5 +58,9 @@ public class OutputView {
         System.out.printf("게임 종료: %s 승리%n", gameScoreResult.winnerName());
         System.out.printf("초 점수: %s%n", gameScoreResult.choScoreText());
         System.out.printf("한 점수: %s%n", gameScoreResult.hanScoreText());
+    }
+
+    public void printMessage(String message) {
+        System.out.println(message);
     }
 }

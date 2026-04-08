@@ -1,4 +1,4 @@
-package view;
+package view.mapper;
 
 import domain.board.Board;
 import domain.pieces.Piece;

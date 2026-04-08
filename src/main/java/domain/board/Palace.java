@@ -17,15 +17,6 @@ public class Palace {
     private final Map<Position, Set<Position>> connections = initializeConnections();
     private final Map<Position, Set<Position>> doubleConnections = initializeDoubleConnections();
 
-    private Map<Position, Set<Position>> initializeDoubleConnections() {
-        Map<Position, Set<Position>> palaceConnections = new HashMap<>();
-        connectBidirectional(palaceConnections, 9, 3, 7, 5);
-        connectBidirectional(palaceConnections, 9, 5, 7, 3);
-        connectBidirectional(palaceConnections, 0, 3, 2, 5);
-        connectBidirectional(palaceConnections, 0, 5, 2, 3);
-        return palaceConnections;
-    }
-
     public boolean contains(Position position) {
         return positions.contains(position);
     }
@@ -39,7 +30,7 @@ public class Palace {
     }
 
     public boolean isChaAndPoDiagonalConnection(Position departure, Position destination) {
-        if (!isConnected(departure, destination) && !isDoubleConnected(departure,destination)) {
+        if (!isConnected(departure, destination) && !isDoubleConnected(departure, destination)) {
             return false;
         }
         return (Math.abs(departure.row() - destination.row()) == 1
@@ -48,12 +39,21 @@ public class Palace {
                         && Math.abs(departure.column() - destination.column()) == 2);
     }
 
+    public boolean isConnected(Position departure, Position destination) {
+        return connections.getOrDefault(departure, Set.of()).contains(destination);
+    }
+
     private boolean isDoubleConnected(Position departure, Position destination) {
         return doubleConnections.getOrDefault(departure, Set.of()).contains(destination);
     }
 
-    public boolean isConnected(Position departure, Position destination) {
-        return connections.getOrDefault(departure, Set.of()).contains(destination);
+    private Map<Position, Set<Position>> initializeDoubleConnections() {
+        Map<Position, Set<Position>> palaceConnections = new HashMap<>();
+        connectBidirectional(palaceConnections, 9, 3, 7, 5);
+        connectBidirectional(palaceConnections, 9, 5, 7, 3);
+        connectBidirectional(palaceConnections, 0, 3, 2, 5);
+        connectBidirectional(palaceConnections, 0, 5, 2, 3);
+        return palaceConnections;
     }
 
     private Map<Position, Set<Position>> initializeConnections() {

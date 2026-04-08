@@ -35,8 +35,8 @@ class JanggiGameTest {
         JanggiGame janggiGame = new JanggiGame(new Board(pieces));
         // when & then
         assertThatThrownBy(() -> janggiGame.move(hanDeparture, hanDestination))
-            .isInstanceOf(InvalidTurnException.class)
-            .hasMessage(GameErrorMessage.CHO_TURN.message());
+                .isInstanceOf(InvalidTurnException.class)
+                .hasMessage(GameErrorMessage.CHO_TURN.message());
     }
 
     @Test
@@ -57,8 +57,8 @@ class JanggiGameTest {
         janggiGame.move(choChaDeparture, choChaDestination);
         // when & then
         assertThatThrownBy(() -> janggiGame.move(choChaDestination, new Position(2, 0)))
-            .isInstanceOf(InvalidTurnException.class)
-            .hasMessage(GameErrorMessage.HAN_TURN.message());
+                .isInstanceOf(InvalidTurnException.class)
+                .hasMessage(GameErrorMessage.HAN_TURN.message());
     }
 
     @Test
@@ -134,7 +134,23 @@ class JanggiGameTest {
 
         // when & then
         assertThatThrownBy(() -> janggiGame.move(destination, nextDestination))
-            .isInstanceOf(GameEndedException.class)
-            .hasMessage(GameErrorMessage.GAME_ALREADY_ENDED.message());
+                .isInstanceOf(GameEndedException.class)
+                .hasMessage(GameErrorMessage.GAME_ALREADY_ENDED.message());
+    }
+
+    @Test
+    void 점수로_게임을_종료하면_게임결과가_종료상태로_변경된다() {
+        // given
+        Map<Position, Piece> pieces = new HashMap<>();
+        pieces.put(new Position(0, 0), new Cha(Side.CHO));
+        pieces.put(new Position(8, 4), new Gung(Side.HAN));
+        JanggiGame janggiGame = new JanggiGame(new Board(pieces));
+
+        // when
+        GameScore gameScore = janggiGame.finishByScore();
+
+        // then
+        assertThat(janggiGame.gameResult().isEnded()).isTrue();
+        assertThat(janggiGame.gameResult().winner()).isEqualTo(gameScore.winner());
     }
 }

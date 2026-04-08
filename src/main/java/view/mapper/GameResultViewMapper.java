@@ -1,4 +1,4 @@
-package view;
+package view.mapper;
 
 import domain.game.GameResult;
 import domain.pieces.Side;

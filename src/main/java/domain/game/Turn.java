@@ -10,6 +10,10 @@ public record Turn(Side side) {
         return new Turn(Side.CHO);
     }
 
+    public static Turn from(Side side) {
+        return new Turn(side);
+    }
+
     public boolean isNotCurrentTurnPiece(Piece piece) {
         if (side.isCho()) {
             return piece.isHan();
