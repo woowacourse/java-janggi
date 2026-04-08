@@ -26,7 +26,7 @@ public class JanggiService {
         return gameRepository.save(currentTurn, name);
     }
 
-    public boolean exitsGame() {
+    public boolean existsGame() {
         return !gameRepository.findAllNames().isEmpty();
     }
 

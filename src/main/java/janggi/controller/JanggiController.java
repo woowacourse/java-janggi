@@ -24,7 +24,7 @@ public class JanggiController {
     }
 
     public void run() {
-        if (!janggiService.exitsGame()) {
+        if (!janggiService.existsGame()) {
             outputView.printNoGameExist();
             runNewGame();
             return;

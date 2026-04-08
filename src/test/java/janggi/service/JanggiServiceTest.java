@@ -38,7 +38,7 @@ class JanggiServiceTest {
     @Test
     void existsGame_false() {
         //given & when & then
-        assertThat(janggiService.exitsGame()).isFalse();
+        assertThat(janggiService.existsGame()).isFalse();
     }
 
     @DisplayName("현재 기존 게임이 존재한다면 true를 반환한다. ")
@@ -48,7 +48,7 @@ class JanggiServiceTest {
         janggiService.createGame("game1", Team.CHO);
 
         //when & then
-        assertThat(janggiService.exitsGame()).isTrue();
+        assertThat(janggiService.existsGame()).isTrue();
     }
 
     @DisplayName("게임 이름 목록을 반환한다.")
