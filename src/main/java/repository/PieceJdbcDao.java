@@ -76,21 +76,21 @@ public class PieceJdbcDao implements PieceDao {
 
             pstmt.setLong(1, gameId);
 
-            ResultSet rs = pstmt.executeQuery();
-
-            List<PieceEntity> pieces = new ArrayList<>();
-            while (rs.next()) {
-                PieceEntity piece = new PieceEntity(
-                        rs.getLong("id"),
-                        rs.getLong("game_id"),
-                        rs.getInt("position_row"),
-                        rs.getInt("position_col"),
-                        rs.getString("team"),
-                        rs.getString("piece_type")
-                );
-                pieces.add(piece);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                List<PieceEntity> pieces = new ArrayList<>();
+                while (rs.next()) {
+                    PieceEntity piece = new PieceEntity(
+                            rs.getLong("id"),
+                            rs.getLong("game_id"),
+                            rs.getInt("position_row"),
+                            rs.getInt("position_col"),
+                            rs.getString("team"),
+                            rs.getString("piece_type")
+                    );
+                    pieces.add(piece);
+                }
+                return pieces;
             }
-            return pieces;
         } catch (SQLException e) {
             throw new RuntimeException("[ERROR] " + e.getMessage());
         }

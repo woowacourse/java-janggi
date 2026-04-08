@@ -26,10 +26,11 @@ public class GameJdbcDao implements GameDao {
             pstmt.setObject(4, now);
             pstmt.executeUpdate();
 
-            ResultSet rs = pstmt.getGeneratedKeys();
-            if (rs.next()) {
-                Long generatedId = rs.getLong(1);
-                return new GameEntity(generatedId, game.getCurrentTurn(), game.getStatus(), game.getUpdatedAt());
+            try (ResultSet rs = pstmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    Long generatedId = rs.getLong(1);
+                    return new GameEntity(generatedId, game.getCurrentTurn(), game.getStatus(), now);
+                }
             }
             throw new RuntimeException("[ERROR] ID 생성 실패");
         } catch (SQLException e) {
@@ -64,23 +65,23 @@ public class GameJdbcDao implements GameDao {
              PreparedStatement pstmt = con.prepareStatement(sql)
         ) {
 
-            ResultSet rs = pstmt.executeQuery();
+            try (ResultSet rs = pstmt.executeQuery()) {
+                List<GameEntity> gameEntities = new ArrayList<>();
+                while (rs.next()) {
+                    GameEntity game = new GameEntity(
+                            rs.getLong("id"),
+                            rs.getString("current_turn"),
+                            rs.getString("status"),
+                            rs.getTimestamp("updated_at")
+                                    .toInstant()
+                                    .atZone(ZoneId.of("Asia/Seoul"))
+                                    .toOffsetDateTime()
+                    );
 
-            List<GameEntity> gameEntities = new ArrayList<>();
-            while (rs.next()) {
-                GameEntity game = new GameEntity(
-                        rs.getLong("id"),
-                        rs.getString("current_turn"),
-                        rs.getString("status"),
-                        rs.getTimestamp("updated_at")
-                                .toInstant()
-                                .atZone(ZoneId.of("Asia/Seoul"))
-                                .toOffsetDateTime()
-                );
-
-                gameEntities.add(game);
+                    gameEntities.add(game);
+                }
+                return gameEntities;
             }
-            return gameEntities;
         } catch (SQLException e) {
             throw new RuntimeException("[ERROR] " + e.getMessage());
         }
