@@ -22,7 +22,7 @@ public class JDBCBoardRepository implements BoardRepository {
 
     @Override
     public void saveGame(long gameId, String turn, Map<Position, Piece> arrivePieces) {
-        try (Connection connection = DatabaseConnector.getConnection()) {
+        TransactionExecutor.execute(connection -> {
             // 기존 기물 정보 삭제
             gameDAO.deletePieceByGameId(connection, gameId);
             // 현재 턴 저장
@@ -37,25 +37,19 @@ public class JDBCBoardRepository implements BoardRepository {
                 );
                 gameDAO.insertPieces(connection, gameId, pieceDto);
             }
-        } catch (SQLException e) {
-            throw new RuntimeException("DB 연결 오류", e);
-        }
+        });
     }
 
     @Override
     public List<Long> findAllGameIds() {
-        try (Connection connection = DatabaseConnector.getConnection()) {
-            return gameDAO.findAllGameIds(connection);
-        } catch (SQLException e) {
-            throw new RuntimeException("게임 목록 조회 실패: " + e.getMessage());
-        }
+        return TransactionExecutor.apply(gameDAO::findAllGameIds);
     }
 
     @Override
     public Map<Position, Piece> findPiecesById(long gameId) {
         Map<Position, Piece> pieces = new HashMap<>();
 
-        try (Connection connection = DatabaseConnector.getConnection()) {
+        TransactionExecutor.execute(connection -> {
             List<PieceDto> pieceDtos = gameDAO.findPiecesByGameId(connection, gameId);
             for (PieceDto pieceDto : pieceDtos) {
                 Position pos = new Position(pieceDto.x(), pieceDto.y());
@@ -65,28 +59,18 @@ public class JDBCBoardRepository implements BoardRepository {
                 );
                 pieces.put(pos, piece);
             }
-        } catch (SQLException e) {
-            throw new RuntimeException("기물 정보 조회 실패: " + e.getMessage());
-        }
+        });
 
         return pieces;
     }
 
     @Override
     public String findTurnById(long gameId) {
-        try (Connection connection = DatabaseConnector.getConnection()) {
-            return gameDAO.findTurnByGameId(connection, gameId);
-        } catch (SQLException e) {
-            throw new RuntimeException("턴 정보 조회 실패: " + e.getMessage());
-        }
+        return TransactionExecutor.apply(connection -> gameDAO.findTurnByGameId(connection, gameId));
     }
 
     @Override
     public boolean existsById(long gameId) {
-        try (Connection connection = DatabaseConnector.getConnection()) {
-            return gameDAO.existsById(connection, gameId);
-        } catch (SQLException e) {
-            throw new RuntimeException("게임 목록 조회 실패: " + e.getMessage());
-        }
+        return TransactionExecutor.apply(connection -> gameDAO.existsById(connection, gameId));
     }
 }
