@@ -36,7 +36,7 @@ public class BoardService {
 
     public void movePiece(final long gameId, final Position from, final Position to,
         final Piece target) {
-        boardCellRepository.upsertByPosition(gameId, to, target);
-        boardCellRepository.deleteByPosition(gameId, from);
+        boardCellRepository.upsertByPositionAndGameId(to, gameId, target);
+        boardCellRepository.deleteByPositionAndGameId(from, gameId);
     }
 }

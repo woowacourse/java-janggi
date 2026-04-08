@@ -53,24 +53,13 @@ public class BoardCellRepositoryImpl implements BoardCellRepository {
     }
 
     @Override
-    public boolean existsByPosition(final Position position) {
-        final String sql = String.format(
-            "SELECT id, row_pos, column_pos, piece_type, team, game_id FROM %s WHERE row_pos = ? AND column_pos = ?",
-            TABLE_NAME);
-        final Optional<BoardCellEntity> boardCellEntity = dbConnection.executeSelect(sql,
-            ENTITY_MAPPER,
-            position.getRow(), position.getColumn());
-        return boardCellEntity.isPresent();
-    }
-
-    @Override
-    public Optional<BoardCellEntity> findByPosition(Position position) {
+    public Optional<BoardCellEntity> findByPositionAndGameId(final Position position, final long gameId) {
         final String sql = String.format(
             "SELECT id, row_pos, column_pos, piece_type, team, game_id "
-                + "FROM %s WHERE row_pos = ? AND column_pos = ?", TABLE_NAME);
+                + "FROM %s WHERE row_pos = ? AND column_pos = ? AND game_id = ?", TABLE_NAME);
 
         return dbConnection.executeSelect(sql, ENTITY_MAPPER, position.getRow(),
-            position.getColumn());
+            position.getColumn(), gameId);
     }
 
     @Override
@@ -83,8 +72,8 @@ public class BoardCellRepositoryImpl implements BoardCellRepository {
     }
 
     @Override
-    public long upsertByPosition(final long gameId, final Position position, final Piece piece) {
-        if (!existsByPosition(position)) {
+    public long upsertByPositionAndGameId(final Position position, final long gameId, final Piece piece) {
+        if (findByPositionAndGameId(position, gameId).isEmpty()) {
             return save(BoardCellEntity.from(gameId, position, piece));
         }
         final String sql = String.format(
@@ -97,10 +86,10 @@ public class BoardCellRepositoryImpl implements BoardCellRepository {
     }
 
     @Override
-    public void deleteByPosition(final long gameId, final Position position) {
+    public void deleteByPositionAndGameId(final Position position, final long gameId) {
         final String sql = String.format(
-            "DELETE FROM %s WHERE game_id = ? AND row_pos = ? AND column_pos = ?",
+            "DELETE FROM %s WHERE row_pos = ? AND column_pos = ? AND game_id = ?",
             TABLE_NAME);
-        dbConnection.executeDelete(sql, gameId, position.getRow(), position.getColumn());
+        dbConnection.executeDelete(sql, position.getRow(), position.getColumn(), gameId);
     }
 }

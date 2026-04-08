@@ -23,6 +23,7 @@ import janggi.repository.GameRepository;
 import janggi.repository.GameRepositoryImpl;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -136,13 +137,15 @@ public class BoardServiceTest {
             BoardCellEntity expected = BoardCellEntity.from(gameId, to, target);
 
             boardService.movePiece(gameId, from, to, target);
-            BoardCellEntity actual = boardCellRepository.findByPosition(to).get();
+            Optional<BoardCellEntity> actual = boardCellRepository.findByPositionAndGameId(to, gameId);
 
             assertAll(
-                () -> assertThat(actual).usingRecursiveComparison()
+                () -> assertThat(actual).isPresent()
+                    .get()
+                    .usingRecursiveComparison()
                     .ignoringFields("id")
                     .isEqualTo(expected),
-                () -> assertThat(boardCellRepository.findByPosition(from)).isEmpty()
+                () -> assertThat(boardCellRepository.findByPositionAndGameId(from, gameId)).isEmpty()
             );
 
         }

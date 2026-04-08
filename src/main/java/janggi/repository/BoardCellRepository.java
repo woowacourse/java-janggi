@@ -12,14 +12,12 @@ public interface BoardCellRepository {
 
     List<Long> saveAll(List<BoardCellEntity> boardCellEntities);
 
-    boolean existsByPosition(Position position);
+    Optional<BoardCellEntity> findByPositionAndGameId(Position position, long gameId);
 
-    Optional<BoardCellEntity> findByPosition(Position position);
+    List<BoardCellEntity> findAllByGameId(long gameId);
 
-    List<BoardCellEntity> findAllByGameId(long id);
+    long upsertByPositionAndGameId(Position position, long gameId, Piece piece);
 
-    long upsertByPosition(long gameId, Position position, Piece piece);
-
-    void deleteByPosition(long gameId, Position position);
+    void deleteByPositionAndGameId(Position position, long gameId);
 
 }
