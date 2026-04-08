@@ -49,8 +49,8 @@ public class JdbcBoardPieceDao implements BoardPieceDao {
 
     @Override
     public List<BoardPiece> findAllByGameRoomId(long gameRoomId, Connection connection) {
-        try (PreparedStatement statement = prepareFindAllStatement(gameRoomId, connection)) {
-            ResultSet resultSet = statement.executeQuery();
+        try (PreparedStatement statement = prepareFindAllStatement(gameRoomId, connection);
+             ResultSet resultSet = statement.executeQuery()) {
             return toBoardPieces(resultSet);
         } catch (SQLException e) {
             throw new IllegalStateException("board_piece 조회 중 오류가 발생했습니다.", e);
