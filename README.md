@@ -83,9 +83,8 @@
 
 ### 1. 복원에 필요한 게임 상태를 정리
 - [x] GameState
-  - 게임 현재 턴 (Team currentTurn)
   - 기물의 상태들 (List<PieceState>)
-  - 게임 종료 여부 (GameStatus)
+  - 장기 게임의 상태 (GameStatus)
 - [x] PieceState
   - 기물 종류 및 기물 팀 (PieceProperty)
   - 기물의 위치 (Position)
@@ -93,6 +92,8 @@
 ---
 
 ### 2. Mapper 구현
+- [x] PieceState의 Mapper 구현
+- [ ] GameState의 Mapper 구현
 
 ---
 
