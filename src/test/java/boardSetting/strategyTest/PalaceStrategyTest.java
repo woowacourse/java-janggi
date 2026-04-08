@@ -1,6 +1,6 @@
 package boardSetting.strategyTest;
 
-import boardSetting.TestFIxture;
+import boardSetting.TestFixture;
 import domain.Team;
 import domain.position.Position;
 import domain.strategy.PalaceStrategy;
@@ -14,12 +14,12 @@ import static org.assertj.core.api.Assertions.*;
 public class PalaceStrategyTest {
 
     private PalaceStrategy palaceStrategy;
-    private TestFIxture testBoard;
+    private TestFixture testBoard;
 
     @BeforeEach
     void setUp() {
         palaceStrategy = new PalaceStrategy();
-        testBoard = new TestFIxture();
+        testBoard = new TestFixture();
     }
 
     @Test

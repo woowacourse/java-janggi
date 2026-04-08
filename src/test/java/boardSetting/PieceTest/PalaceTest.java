@@ -1,6 +1,6 @@
 package boardSetting.PieceTest;
 
-import boardSetting.TestFIxture;
+import boardSetting.TestFixture;
 import domain.position.Position;
 import domain.Team;
 import domain.piece.*;
@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.*;
 
 public class PalaceTest {
 
-    private TestFIxture testBoard;
+    private TestFixture testBoard;
     private King king;
     private Guard guard;
 
@@ -19,7 +19,7 @@ public class PalaceTest {
     void setUp() {
         king = new King(Team.CHO);
         guard = new Guard(Team.CHO);
-        testBoard = new TestFIxture();
+        testBoard = new TestFixture();
     }
 
     @Test

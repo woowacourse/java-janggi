@@ -1,6 +1,6 @@
 package boardSetting.PieceTest;
 
-import boardSetting.TestFIxture;
+import boardSetting.TestFixture;
 import domain.position.Position;
 import domain.Team;
 import domain.piece.*;
@@ -11,13 +11,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class ElephantTest {
 
-    private TestFIxture testBoard;
+    private TestFixture testBoard;
     private Elephant elephant;
 
     @BeforeEach
     void setUp() {
         elephant = new Elephant(Team.CHO);
-        testBoard = new TestFIxture();
+        testBoard = new TestFixture();
     }
 
     @Test

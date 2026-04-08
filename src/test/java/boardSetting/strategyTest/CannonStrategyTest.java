@@ -1,6 +1,6 @@
 package boardSetting.strategyTest;
 
-import boardSetting.TestFIxture;
+import boardSetting.TestFixture;
 import domain.position.Position;
 import domain.Team;
 import domain.piece.*;
@@ -14,12 +14,12 @@ import static org.assertj.core.api.Assertions.*;
  public class CannonStrategyTest {
 
     private CannonStrategy cannonStrategy;
-    private TestFIxture testBoard;
+    private TestFixture testBoard;
 
     @BeforeEach
     public void setUp() {
         cannonStrategy = new CannonStrategy();
-        testBoard = new TestFIxture();
+        testBoard = new TestFixture();
     }
 
     @Test

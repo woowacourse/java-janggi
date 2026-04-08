@@ -1,6 +1,6 @@
 package boardSetting.PieceTest;
 
-import boardSetting.TestFIxture;
+import boardSetting.TestFixture;
 import domain.position.Position;
 import domain.Team;
 import domain.piece.Horse;
@@ -10,13 +10,13 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
 
 public class HorseTest {
-    private TestFIxture testBoard;
+    private TestFixture testBoard;
     private Horse horse;
 
     @BeforeEach
     void setUp() {
         horse = new Horse(Team.CHO);
-        testBoard = new TestFIxture();
+        testBoard = new TestFixture();
     }
 
     @Test

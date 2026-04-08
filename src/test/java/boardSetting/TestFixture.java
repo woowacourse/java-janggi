@@ -7,7 +7,7 @@ import domain.position.Position;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TestFIxture implements PieceProvider {
+public class TestFixture implements PieceProvider {
 
 
     private final Map<Position, Piece> pieces = new HashMap<>();

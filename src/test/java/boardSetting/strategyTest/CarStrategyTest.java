@@ -1,6 +1,6 @@
 package boardSetting.strategyTest;
 
-import boardSetting.TestFIxture;
+import boardSetting.TestFixture;
 import domain.Team;
 import domain.position.Position;
 import domain.strategy.CarStrategy;
@@ -14,12 +14,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class CarStrategyTest {
 
     private CarStrategy carStrategy;
-    private TestFIxture testBoard;
+    private TestFixture testBoard;
 
     @BeforeEach
     void setUp() {
         carStrategy = new CarStrategy();
-        testBoard = new TestFIxture();
+        testBoard = new TestFixture();
     }
 
     @Test
