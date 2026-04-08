@@ -67,9 +67,12 @@ class JanggiGamePlayServiceTest {
 
     @Test
     void finishGame_승자가_CHO면_CHO_WIN으로_저장한다() {
+        Player choPlayer = createPlayer("cho", CHO);
+        Player hanPlayer = createPlayer("han", HAN);
+        EndedJanggiGameManager endedGameManager = new EndedJanggiGameManager(choPlayer, hanPlayer);
         long gameId = gameRoom.createGame("cho", "han");
 
-        janggiGamePlayService.finishGame(gameId, CHO);
+        janggiGamePlayService.finishGame(gameId, endedGameManager, CHO);
 
         assertThat(gameRoom.getCurrentTurn(gameId)).isEqualTo(CHO);
         assertThat(readGameStatus(gameId)).isEqualTo("CHO_WIN");
@@ -77,9 +80,12 @@ class JanggiGamePlayServiceTest {
 
     @Test
     void finishGame_승자가_HAN이면_HAN_WIN으로_저장한다() {
+        Player choPlayer = createPlayer("cho", CHO);
+        Player hanPlayer = createPlayer("han", HAN);
+        EndedJanggiGameManager endedGameManager = new EndedJanggiGameManager(choPlayer, hanPlayer);
         long gameId = gameRoom.createGame("cho", "han");
 
-        janggiGamePlayService.finishGame(gameId, HAN);
+        janggiGamePlayService.finishGame(gameId, endedGameManager, HAN);
 
         assertThat(gameRoom.getCurrentTurn(gameId)).isEqualTo(HAN);
         assertThat(readGameStatus(gameId)).isEqualTo("HAN_WIN");

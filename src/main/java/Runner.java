@@ -48,7 +48,7 @@ public class Runner {
         }
 
         PlayerProfile winnerProfile = janggiGameManager.calculateFinalScore();
-        janggiGamePlayService.finishGame(gameId, winnerProfile.team());
+        janggiGamePlayService.finishGame(gameId, janggiGameManager, winnerProfile.team());
         outputView.printResult(winnerProfile);
     }
 

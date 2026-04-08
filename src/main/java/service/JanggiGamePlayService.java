@@ -29,7 +29,8 @@ public class JanggiGamePlayService {
         }
     }
 
-    public void finishGame(long gameId, Team winnerTeam) {
+    public void finishGame(long gameId, JanggiGameManager janggiGameManager, Team winnerTeam) {
+        boardRepository.save(gameId, janggiGameManager.getBoard());
         gameRoom.updateGameState(gameId, winnerTeam, resolveFinishedStatus(winnerTeam));
     }
 

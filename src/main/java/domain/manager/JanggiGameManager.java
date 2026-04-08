@@ -10,14 +10,17 @@ import domain.player.PlayerProfile;
 import domain.player.Team;
 import domain.position.Position;
 import domain.rule.BigJangDrawRule;
-import domain.rule.RuleEngine;
+import domain.rule.DrawGameWinnerRule;
+import domain.rule.NormalGameWinnerRule;
+import domain.rule.DrawRuleEngine;
+import domain.rule.WinnerDeterminationRuleEngine;
 import java.util.List;
 
 public class JanggiGameManager {
-    private static final double HAN_SCORE_INCREASE = 1.5;
 
     private final Board board;
-    private final RuleEngine ruleEngine;
+    private final DrawRuleEngine drawRuleEngine;
+    private final WinnerDeterminationRuleEngine winnerDeterminationRuleEngine;
     private Player currentPlayer;
     private Player standbyPlayer;
     private boolean isGameRunning;
@@ -27,14 +30,16 @@ public class JanggiGameManager {
         this.currentPlayer = choPlayer;
         this.standbyPlayer = hanPlayer;
         this.board = BoardFactory.createWithFormation(choFormation, hanFormation);
-        this.ruleEngine = new RuleEngine(List.of(new BigJangDrawRule()));
+        this.drawRuleEngine = new DrawRuleEngine(List.of(new BigJangDrawRule()));
+        this.winnerDeterminationRuleEngine = new WinnerDeterminationRuleEngine(List.of(new NormalGameWinnerRule(), new DrawGameWinnerRule()));
         this.isGameRunning = true;
         this.isDraw = false;
     }
 
     private JanggiGameManager(Player choPlayer, Player hanPlayer, Board loadedBoard, Team currentTeam) {
         this.board = loadedBoard;
-        this.ruleEngine = new RuleEngine(List.of(new BigJangDrawRule()));
+        this.drawRuleEngine = new DrawRuleEngine(List.of(new BigJangDrawRule()));
+        this.winnerDeterminationRuleEngine = new WinnerDeterminationRuleEngine(List.of(new NormalGameWinnerRule(), new DrawGameWinnerRule()));
         this.isGameRunning = true;
         this.isDraw = false;
 
@@ -59,7 +64,7 @@ public class JanggiGameManager {
             return;
         }
 
-        if (ruleEngine.isDraw(board)) {
+        if (drawRuleEngine.isDraw(board)) {
             isDraw = true;
             isGameRunning = false;
             return;
@@ -83,33 +88,20 @@ public class JanggiGameManager {
     }
 
     public PlayerProfile calculateFinalScore() {
-        if (!isDraw) {
-            return currentPlayer.getProfile();
-        }
-
-        double choScore = board.calculateRawScore(Team.CHO);
-        double hanScore = board.calculateRawScore(Team.HAN) + HAN_SCORE_INCREASE;
-
-        if (choScore > hanScore) {
-            return findPlayerProfileByTeam(Team.CHO);
-        }
-        return findPlayerProfileByTeam(Team.HAN);
-    }
-
-    private PlayerProfile findPlayerProfileByTeam(Team team) {
-        if (currentPlayer.getProfile().team() == team) {
-            return currentPlayer.getProfile();
-        }
-        return standbyPlayer.getProfile();
+        return winnerDeterminationRuleEngine.calculateFinalScore(board, currentPlayer, standbyPlayer, isDraw);
     }
 
     public boolean isGameRunning() {
         return isGameRunning;
     }
+
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
+
     public Board getBoard() {
         return board;
     }
 }
+
+
