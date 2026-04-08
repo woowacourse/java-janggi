@@ -36,27 +36,36 @@ public class JanggiController {
     }
 
     public void run() {
-        // TODO : 사용자에게 게임 여부 받기
-
-        Board board = initBoard();
-        JanggiGame janggiGame = initJanggiGame(board);
-
-        janggiService.initializeData(janggiGame);
+        int gameId = initOrGetGame();
 
         boolean isGameContinue = true;
-        while (!janggiGame.isGameOver() && isGameContinue) {
-            outputView.printScore(janggiService.buildScoreDto(janggiGame));
-            outputView.printChangeTurnMessage(janggiGame.getCountry());
-            playTurn(janggiGame);
-            outputView.printBoard(janggiService.buildBoardDto(janggiGame), janggiService.buildColorDto(janggiGame));
+        while (!janggiService.isGameOver(gameId) && isGameContinue) {
+            outputView.printScore(janggiService.buildScoreDto(gameId));
+            outputView.printChangeTurnMessage(janggiService.getNowTurnCountry(gameId));
+            playTurn(gameId);
+            outputView.printBoard(janggiService.buildBoardDto(gameId), janggiService.buildColorDto(gameId));
 
-            if (janggiGame.isGameOver()) {
+            if (janggiService.isGameOver(gameId)) {
                 break;
             }
             isGameContinue = isGameContinue();
         }
-        outputView.printScore(janggiService.buildScoreDto(janggiGame));
-        outputView.printGameOverMessage(janggiService.getFinalWinner(janggiGame));
+        outputView.printScore(janggiService.buildScoreDto(gameId));
+        outputView.printGameOverMessage(janggiService.getFinalWinner(gameId));
+    }
+
+    private int initOrGetGame() {
+        return doRetry(() -> {
+            int choose = inputView.chooseGameStartNewOrAgain();
+            if (choose == 2) {
+                int num = inputView.requestGameId();
+                janggiService.validateExistGame(choose);
+                return num;
+            }
+            Board board = initBoard();
+            JanggiGame janggiGame = initJanggiGame(board);
+            return janggiService.initializeData(janggiGame);
+        });
     }
 
     private Board initBoard() {
@@ -81,10 +90,10 @@ public class JanggiController {
         return janggiService.createJanggiGame(board);
     }
 
-    private List<PositionDto> requestMovePiece(JanggiGame janggiGame) {
+    private List<PositionDto> requestMovePiece(int gameId) {
         return doRetry(() -> {
             PieceType pt = PieceType.of(inputView.requestPiece());
-            List<PositionDto> dtos = janggiService.getPiecePositions(janggiGame, pt);
+            List<PositionDto> dtos = janggiService.getPiecePositions(gameId, pt);
             outputView.printPiecePossiblePosition(pt, dtos);
             return dtos;
         });
@@ -101,7 +110,7 @@ public class JanggiController {
         });
     }
 
-    private void requestEndPosition(Position start, JanggiGame janggiGame) {
+    private void requestEndPosition(Position start, int gameId) {
         doRetry(() -> {
                     Optional<List<Integer>> input = inputView.requestMovePosition();
                     if (input.isEmpty()) {
@@ -109,27 +118,27 @@ public class JanggiController {
                     }
                     List<Integer> destination = input.get();
                     Position end = Position.create(destination.getFirst(), destination.getLast());
-                    janggiService.applyMove(start, end, janggiGame);
+                    janggiService.applyMove(start, end, gameId);
                     return Optional.empty();
                 }
         );
     }
 
-    private void playTurn(JanggiGame janggiGame) {
+    private void playTurn(int gameId) {
         doRetry(() -> {
-                    outputView.printBoard(janggiService.buildBoardDto(janggiGame), janggiService.buildColorDto(janggiGame));
-                    List<PositionDto> positionDtos = requestMovePiece(janggiGame);
+                    outputView.printBoard(janggiService.buildBoardDto(gameId), janggiService.buildColorDto(gameId));
+                    List<PositionDto> positionDtos = requestMovePiece(gameId);
                     Optional<Position> start = requestStartPiecePosition(positionDtos);
                     if (start.isEmpty()) {
                         throw new IllegalArgumentException("올바르지 않은 입력입니다. 번호를 다시 입력해주세요.");
                     }
 
-                    List<PositionDto> availableEndPositions = janggiService.buildAvailabelPositions(janggiGame, start.get());
+                    List<PositionDto> availableEndPositions = janggiService.buildAvailabelPositions(gameId, start.get());
                     if (availableEndPositions.isEmpty()) {
                         throw new IllegalArgumentException("이동 가능한 좌표가 없습니다.");
                     }
                     outputView.printPiecePossibleEndPosition(availableEndPositions);
-                    requestEndPosition(start.get(), janggiGame);
+                    requestEndPosition(start.get(), gameId);
             return Optional.empty();
                 }
         );

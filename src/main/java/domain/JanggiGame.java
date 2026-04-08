@@ -2,20 +2,25 @@ package domain;
 
 import domain.enums.Country;
 import domain.enums.PieceType;
-import domain.pieces.Piece;
 import domain.state.ChoTurn;
 import domain.state.State;
 
 import java.util.List;
-import java.util.Map;
 
 public class JanggiGame {
     private final Board board;
     private State state;
 
+    // 새로운 게임
     public JanggiGame(Board board) {
         this.board = board;
         this.state = new ChoTurn();
+    }
+
+    // 기존 게임
+    public JanggiGame(Board board, State state) {
+        this.board = board;
+        this.state = state;
     }
 
     public void play(Position start, Position end) {

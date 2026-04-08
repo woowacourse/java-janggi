@@ -38,6 +38,10 @@ public class Board {
         this.board = pieces;
     }
 
+    public Board(Map<Position, Piece> board) {
+        this.board = board;
+    }
+
     public List<Position> findAvailablePositions(Position start) {
         Piece startPiece = board.getOrDefault(start, None.INSTANCE);
 

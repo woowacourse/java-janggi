@@ -13,6 +13,7 @@ import domain.enums.MaSang;
 import domain.enums.PieceType;
 import domain.Position;
 import domain.pieces.Piece;
+import domain.state.State;
 import repository.JanggiGameRepository;
 import service.dto.BoardDto;
 import service.dto.ColorDto;
@@ -31,7 +32,12 @@ public class JanggiService {
         return new JanggiGame(board);
     }
 
-    public BoardDto buildBoardDto(JanggiGame janggiGame) {
+    public BoardDto buildBoardDto(int gameId) {
+        Connection conn = ConnectionManager.getConnection();
+        JanggiGameRepository janggiGameRepository = new JanggiGameRepository(conn);
+        JanggiGame janggiGame = janggiGameRepository.findByGameId(gameId);
+        ConnectionManager.closeConnection(conn);
+
         Board board = janggiGame.getBoard();
         List<BoardDto.Row> boardAll = new ArrayList<>();
         for (int x = 1; x <= Position.MAX_ROW; x++) {
@@ -45,7 +51,12 @@ public class JanggiService {
         return new BoardDto(boardAll);
     }
 
-    public ColorDto buildColorDto(JanggiGame janggiGame)  {
+    public ColorDto buildColorDto(int gameId    )  {
+        Connection conn = ConnectionManager.getConnection();
+        JanggiGameRepository janggiGameRepository = new JanggiGameRepository(conn);
+        JanggiGame janggiGame = janggiGameRepository.findByGameId(gameId);
+        ConnectionManager.closeConnection(conn);
+
         Board board = janggiGame.getBoard();
         List<ColorDto.Row> boardAll = new ArrayList<>();
         for (int x = 1; x <= Position.MAX_ROW; x++) {
@@ -59,7 +70,12 @@ public class JanggiService {
         return new ColorDto(boardAll);
     }
 
-    public List<PositionDto> getPiecePositions(JanggiGame janggiGame, PieceType pieceType) {
+    public List<PositionDto> getPiecePositions(int gameId, PieceType pieceType) {
+        Connection conn = ConnectionManager.getConnection();
+        JanggiGameRepository janggiGameRepository = new JanggiGameRepository(conn);
+        JanggiGame janggiGame = janggiGameRepository.findByGameId(gameId);
+        ConnectionManager.closeConnection(conn);
+
         List<PositionDto> positionDtos = new ArrayList<>();
         for (Position position : janggiGame.getPiecesNowPosition(pieceType)) {
             positionDtos.add(new PositionDto(position.getX(), position.getY()));
@@ -67,22 +83,40 @@ public class JanggiService {
         return positionDtos;
     }
 
-    public void applyMove(Position start, Position end, JanggiGame game) {
-        game.play(start, end);
+    public void applyMove(Position start, Position end, int gameId) {
+        Connection conn = ConnectionManager.getConnection();
+        JanggiGameRepository janggiGameRepository = new JanggiGameRepository(conn);
+        JanggiGame janggiGame = janggiGameRepository.findByGameId(gameId);
+        ConnectionManager.closeConnection(conn);
+
+        janggiGame.play(start, end);
     }
 
-    public ScoreDto buildScoreDto(JanggiGame janggiGame) {
+    public ScoreDto buildScoreDto(int gameId) {
+        Connection conn = ConnectionManager.getConnection();
+        JanggiGameRepository janggiGameRepository = new JanggiGameRepository(conn);
+        JanggiGame janggiGame = janggiGameRepository.findByGameId(gameId);
+        ConnectionManager.closeConnection(conn);
+
         double choScore = janggiGame.calculateScore(Country.CHO);
         double hanScore = janggiGame.calculateScore(Country.HAN);
         return new ScoreDto(choScore, hanScore);
     }
 
-    public Country getFinalWinner(JanggiGame janggiGame) {
+    public Country getFinalWinner(int gameId) {
+        Connection conn = ConnectionManager.getConnection();
+        JanggiGameRepository janggiGameRepository = new JanggiGameRepository(conn);
+        JanggiGame janggiGame = janggiGameRepository.findByGameId(gameId);
+        ConnectionManager.closeConnection(conn);
         return janggiGame.calculateWinner();
     }
 
-    public List<PositionDto> buildAvailabelPositions(JanggiGame janggiGame,Position start) {
-        Board board = janggiGame.getBoard();
+    public List<PositionDto> buildAvailabelPositions(int gameId,Position start) {
+        Connection conn = ConnectionManager.getConnection();
+        JanggiGameRepository janggiGameRepository = new JanggiGameRepository(conn);
+        Board board = janggiGameRepository.findBoardByGameId(gameId);
+        ConnectionManager.closeConnection(conn);
+
         List<PositionDto> positionDtos = new ArrayList<>();
         for (Position position : board.findAvailablePositions(start)){
             positionDtos.add(new PositionDto(position.getX(), position.getY()));
@@ -90,13 +124,39 @@ public class JanggiService {
         return positionDtos;
     }
 
-    public void initializeData(JanggiGame janggiGame) {
+    public int initializeData(JanggiGame janggiGame) {
         Connection conn = ConnectionManager.getConnection();
+        ConnectionManager.makeBoardAndPieceDate(conn);
 
         JanggiGameRepository janggiGameRepository = new JanggiGameRepository(conn);
         int gameId= janggiGameRepository.saveGame(janggiGame);
         janggiGameRepository.saveBoard(janggiGame.getBoard(), gameId);
 
-//        ConnectionManager.closeConnection(conn);
+        ConnectionManager.closeConnection(conn);
+        return gameId;
     }
+
+    public void validateExistGame(int num) {
+        Connection conn = ConnectionManager.getConnection();
+        JanggiGameRepository janggiGameRepository = new JanggiGameRepository(conn);
+        janggiGameRepository.validateGame(num);
+        ConnectionManager.closeConnection(conn);
+    }
+
+    public Country getNowTurnCountry(int gameId)  {
+        Connection conn = ConnectionManager.getConnection();
+        JanggiGameRepository janggiGameRepository = new JanggiGameRepository(conn);
+        State state = janggiGameRepository.findStateByGameId(gameId);
+        ConnectionManager.closeConnection(conn);
+        return state.getCountry();
+    }
+
+    public boolean isGameOver(int gameId)  {
+        Connection conn = ConnectionManager.getConnection();
+        JanggiGameRepository janggiGameRepository = new JanggiGameRepository(conn);
+        JanggiGame janggiGame = janggiGameRepository.findByGameId(gameId);
+        ConnectionManager.closeConnection(conn);
+        return janggiGame.isGameOver();
+    }
+
 }
