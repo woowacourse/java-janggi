@@ -19,8 +19,15 @@ public class GameRoom {
     private static final String GET_PLAYER_NAMES_SQL = "SELECT cho_name, han_name FROM game WHERE game_id = ?";
 
     public long createGame(String choName, String hanName) {
-        try (Connection connection = DbConnectionFactory.createConnection();
-             PreparedStatement statement = connection.prepareStatement(INSERT_GAME_SQL, Statement.RETURN_GENERATED_KEYS)) {
+        try (Connection connection = DbConnectionFactory.createConnection()) {
+            return createGame(connection, choName, hanName);
+        } catch (SQLException e) {
+            throw new IllegalStateException("게임 생성에 실패했습니다.", e);
+        }
+    }
+
+    public long createGame(Connection connection, String choName, String hanName) {
+        try (PreparedStatement statement = connection.prepareStatement(INSERT_GAME_SQL, Statement.RETURN_GENERATED_KEYS)) {
             setCreateGameParameters(statement, choName, hanName);
             statement.executeUpdate();
             return extractGeneratedGameId(statement);
@@ -48,6 +55,17 @@ public class GameRoom {
     public void updateGameState(long gameId, Team currentTurn, GameStatus status) {
         try (Connection connection = DbConnectionFactory.createConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_GAME_STATE_SQL)) {
+            statement.setString(1, currentTurn.name());
+            statement.setString(2, status.getValue());
+            statement.setLong(3, gameId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new IllegalStateException("게임 상태 업데이트에 실패했습니다.", e);
+        }
+    }
+
+    public void updateGameState(Connection connection, long gameId, Team currentTurn, GameStatus status) {
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE_GAME_STATE_SQL)) {
             statement.setString(1, currentTurn.name());
             statement.setString(2, status.getValue());
             statement.setLong(3, gameId);

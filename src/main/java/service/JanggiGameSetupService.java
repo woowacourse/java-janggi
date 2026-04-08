@@ -3,14 +3,12 @@ package service;
 import static domain.player.Team.CHO;
 import static domain.player.Team.HAN;
 
-import dao.BoardRepository;
 import dao.GameInfo;
 import dao.GameLoadResult;
-import dao.GameRoom;
+import dao.GamePersistence;
 import dao.PlayerNames;
 import domain.board.Board;
 import domain.board.Formation;
-import common.GameStatus;
 import domain.manager.JanggiGameManager;
 import domain.piece.BasicPiece;
 import domain.player.Name;
@@ -22,24 +20,25 @@ import java.util.Map;
 import java.util.Optional;
 
 public class JanggiGameSetupService {
-    private final GameRoom gameRoom;
-    private final BoardRepository boardRepository;
+    private final GamePersistence gamePersistence;
 
-    public JanggiGameSetupService(GameRoom gameRoom, BoardRepository boardRepository) {
-        this.gameRoom = gameRoom;
-        this.boardRepository = boardRepository;
+    public JanggiGameSetupService(GamePersistence gamePersistence) {
+        this.gamePersistence = gamePersistence;
     }
 
     public JanggiGameSession createNewGame(Player choPlayer, Player hanPlayer, Formation choFormation, Formation hanFormation) {
         JanggiGameManager janggiGameManager = new JanggiGameManager(choPlayer, hanPlayer, choFormation, hanFormation);
-        long gameId = gameRoom.createGame(choPlayer.getProfile().name().value(), hanPlayer.getProfile().name().value());
-        boardRepository.save(gameId, janggiGameManager.getBoard());
-        gameRoom.updateGameState(gameId, janggiGameManager.getCurrentPlayer().getProfile().team(), GameStatus.PROGRESS);
+        long gameId = gamePersistence.createNewGame(
+            choPlayer.getProfile().name().value(),
+            hanPlayer.getProfile().name().value(),
+            janggiGameManager.getBoard(),
+            janggiGameManager.getCurrentPlayer().getProfile().team()
+        );
         return new JanggiGameSession(gameId, janggiGameManager);
     }
 
     public List<GameInfo> findProgressGames() {
-        return gameRoom.findAllProgressGames();
+        return gamePersistence.findAllProgressGames();
     }
 
     public Optional<JanggiGameSession> loadSessionById(long gameId) {
@@ -47,7 +46,7 @@ public class JanggiGameSetupService {
     }
 
     public Optional<GameLoadResult> loadProgress() {
-        Optional<Long> gameIdOpt = gameRoom.findProgressGame();
+        Optional<Long> gameIdOpt = gamePersistence.findProgressGame();
         if (gameIdOpt.isEmpty()) {
             return Optional.empty();
         }
@@ -64,9 +63,9 @@ public class JanggiGameSetupService {
     }
 
     private GameLoadResult loadResult(long gameId) {
-        Map<Position, BasicPiece> boardMap = boardRepository.loadBoard(gameId);
-        Team currentTeam = gameRoom.getCurrentTurn(gameId);
-        PlayerNames playerNames = gameRoom.getPlayerNames(gameId);
+        Map<Position, BasicPiece> boardMap = gamePersistence.loadBoard(gameId);
+        Team currentTeam = gamePersistence.getCurrentTurn(gameId);
+        PlayerNames playerNames = gamePersistence.getPlayerNames(gameId);
         return new GameLoadResult(
             gameId,
             playerNames.choName(),
@@ -87,4 +86,3 @@ public class JanggiGameSetupService {
         return new JanggiGameSession(state.gameId(), janggiGameManager);
     }
 }
-

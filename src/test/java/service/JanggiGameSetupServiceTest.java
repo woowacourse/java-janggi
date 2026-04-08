@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import dao.BoardRepository;
 import dao.GameLoadResult;
+import dao.GamePersistence;
 import dao.GameRoom;
 import domain.board.Board;
 import domain.board.BoardFactory;
@@ -22,7 +23,8 @@ import org.junit.jupiter.api.Test;
 class JanggiGameSetupServiceTest {
     private final GameRoom gameRoom = new GameRoom();
     private final BoardRepository boardRepository = new BoardRepository();
-    private final JanggiGameSetupService janggiGameSetupService = new JanggiGameSetupService(gameRoom, boardRepository);
+    private final GamePersistence gamePersistence = new GamePersistence(gameRoom, boardRepository);
+    private final JanggiGameSetupService janggiGameSetupService = new JanggiGameSetupService(gamePersistence);
 
     @BeforeEach
     void setUp() {

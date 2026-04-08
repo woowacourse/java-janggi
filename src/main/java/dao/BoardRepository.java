@@ -33,14 +33,22 @@ public class BoardRepository {
         try {
             connection = DbConnectionFactory.createConnection();
             connection.setAutoCommit(false);
-            List<Position> occupiedPositions = upsertPieces(connection, gameId, board);
-            deleteMissingPieces(connection, gameId, occupiedPositions);
+            save(connection, gameId, board);
             connection.commit();
         } catch (SQLException e) {
             rollbackQuietly(connection);
             throw new IllegalStateException("보드 저장에 실패했습니다.", e);
         } finally {
             closeQuietly(connection);
+        }
+    }
+
+    public void save(Connection connection, long gameId, Board board) {
+        try {
+            List<Position> occupiedPositions = upsertPieces(connection, gameId, board);
+            deleteMissingPieces(connection, gameId, occupiedPositions);
+        } catch (SQLException e) {
+            throw new IllegalStateException("보드 저장에 실패했습니다.", e);
         }
     }
 

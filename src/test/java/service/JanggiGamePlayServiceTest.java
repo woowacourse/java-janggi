@@ -5,6 +5,7 @@ import static domain.player.Team.HAN;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import dao.BoardRepository;
+import dao.GamePersistence;
 import dao.GameRoom;
 import domain.board.Formation;
 import domain.manager.JanggiGameManager;
@@ -24,8 +25,9 @@ import org.junit.jupiter.api.Test;
 class JanggiGamePlayServiceTest {
     private final GameRoom gameRoom = new GameRoom();
     private final BoardRepository boardRepository = new BoardRepository();
-    private final JanggiGameSetupService janggiGameSetupService = new JanggiGameSetupService(gameRoom, boardRepository);
-    private final JanggiGamePlayService janggiGamePlayService = new JanggiGamePlayService(gameRoom, boardRepository);
+    private final GamePersistence gamePersistence = new GamePersistence(gameRoom, boardRepository);
+    private final JanggiGameSetupService janggiGameSetupService = new JanggiGameSetupService(gamePersistence);
+    private final JanggiGamePlayService janggiGamePlayService = new JanggiGamePlayService(gamePersistence);
 
     @BeforeEach
     void setUp() {

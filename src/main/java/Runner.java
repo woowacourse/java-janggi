@@ -35,8 +35,9 @@ public class Runner {
     Runner(InputView inputView, OutputView outputView, GameRoom gameRoom, BoardRepository boardRepository) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.janggiGameSetupService = new JanggiGameSetupService(gameRoom, boardRepository);
-        this.janggiGamePlayService = new JanggiGamePlayService(gameRoom, boardRepository);
+        dao.GamePersistence gamePersistence = new dao.GamePersistence(gameRoom, boardRepository);
+        this.janggiGameSetupService = new JanggiGameSetupService(gamePersistence);
+        this.janggiGamePlayService = new JanggiGamePlayService(gamePersistence);
     }
 
     public void run() {
