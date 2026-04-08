@@ -12,7 +12,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-public class FacadeService {
+public class JanggiService {
 
     private static final String SETUP_FAIL_MESSAGE = "데이터베이스 초기화에 실패했습니다.";
     private static final String LOAD_ONGOING_GAME_FAIL_MESSAGE = "진행 중인 게임 불러오기에 실패했습니다.";
@@ -27,7 +27,7 @@ public class FacadeService {
     private final GameService gameService;
     private final ConnectionProvider connectionProvider;
 
-    public FacadeService(BoardService boardService, GameService gameService, ConnectionProvider connectionProvider) {
+    public JanggiService(BoardService boardService, GameService gameService, ConnectionProvider connectionProvider) {
         this.boardService = boardService;
         this.gameService = gameService;
         this.connectionProvider = connectionProvider;

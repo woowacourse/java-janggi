@@ -3,8 +3,8 @@ import database.SQLiteConnectionProvider;
 import repository.BoardJdbcRepository;
 import repository.GameJdbcRepository;
 import service.BoardService;
-import service.FacadeService;
 import service.GameService;
+import service.JanggiService;
 import view.InputView;
 import view.OutputView;
 
@@ -14,7 +14,7 @@ public class Application {
         JanggiController janggiController = new JanggiController(
                 new InputView(),
                 new OutputView(),
-                new FacadeService(
+                new JanggiService(
                         new BoardService(
                                 new BoardJdbcRepository()
                         ),
