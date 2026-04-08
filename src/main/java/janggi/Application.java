@@ -5,14 +5,14 @@ import janggi.domain.JanggiGameManager;
 import janggi.domain.turn.ChoTurn;
 import janggi.domain.board.Board;
 import janggi.domain.strategy.BasicPlacementStrategy;
+import janggi.infrastructure.BoardRepository;
 import janggi.infrastructure.JDBCBoardRepository;
 import janggi.service.JanggiService;
 
 public class Application {
     public static void main(String[] args) {
-        JanggiGameManager janggiGameManager = new JanggiGameManager(
-                new ChoTurn(new Board(new BasicPlacementStrategy())));
-        JanggiService janggiService = new JanggiService(janggiGameManager, new JDBCBoardRepository());
+        BoardRepository boardRepository = new JDBCBoardRepository();
+        JanggiService janggiService = new JanggiService(boardRepository);
         JanggiController janggiController = new JanggiController(janggiService);
 
         janggiController.run();

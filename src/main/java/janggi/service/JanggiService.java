@@ -19,8 +19,7 @@ public class JanggiService {
     private JanggiGameManager gameManager;
     private final BoardRepository boardRepository;
 
-    public JanggiService(JanggiGameManager janggiGameManager, BoardRepository boardRepository) {
-        this.gameManager = janggiGameManager;
+    public JanggiService(BoardRepository boardRepository) {
         this.boardRepository = boardRepository;
     }
 
