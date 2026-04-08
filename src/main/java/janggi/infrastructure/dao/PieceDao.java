@@ -1,5 +1,7 @@
 package janggi.infrastructure.dao;
 
+import janggi.domain.piece.Piece;
+import janggi.domain.space.Position;
 import janggi.infrastructure.dao.dto.PieceEntity;
 import janggi.infrastructure.db.DatabaseConnection;
 import java.sql.Connection;
@@ -8,24 +10,26 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class PieceDao {
 
-    public void insertPiece(Long gameId, int x, int y, String side, String pieceType) {
+    public void insertPieces(Connection connection, Long gameId, Map<Position, Piece> board) throws SQLException {
         String sql = "INSERT INTO piece (game_id, x, y, side, piece_type) VALUES (?, ?, ?, ?, ?)";
 
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            for (Map.Entry<Position, Piece> entry : board.entrySet()) {
+                Position position = entry.getKey();
+                Piece piece = entry.getValue();
 
-            preparedStatement.setLong(1, gameId);
-            preparedStatement.setInt(2, x);
-            preparedStatement.setInt(3, y);
-            preparedStatement.setString(4, side);
-            preparedStatement.setString(5, pieceType);
-
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException("기물 정보 저장 중 DB 오류 발생", e);
+                preparedStatement.setLong(1, gameId);
+                preparedStatement.setInt(2, position.getX());
+                preparedStatement.setInt(3, position.getY());
+                preparedStatement.setString(4, piece.getSide().name());
+                preparedStatement.setString(5, piece.getType().name());
+                preparedStatement.addBatch();
+            }
+            preparedStatement.executeBatch();
         }
     }
 
@@ -56,16 +60,11 @@ public class PieceDao {
         return pieces;
     }
 
-    public void deleteAllByGameId(Long gameId) {
+    public void deleteAllByGameId(Connection connection, Long gameId) throws SQLException {
         String sql = "DELETE FROM piece WHERE game_id = ?";
-
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setLong(1, gameId);
             preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException("기물 삭제 중 DB 오류 발생", e);
         }
     }
 }
