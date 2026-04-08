@@ -38,6 +38,25 @@ public class GameDao {
         }
     }
 
+    public GameContext loadPreviousGame() {
+        try (Connection connection = databaseConnector.getConnection()) {
+            TurnManager turnManager = new TurnManager(selectCurrentTurn(connection));
+            Board board = new Board(selectPieceMap(connection));
+            return new GameContext(turnManager, board);
+        } catch (SQLException e) {
+            throw new RuntimeException("데이터베이스 오류");
+        }
+    }
+
+    public void deleteGameRecord() {
+        try (Connection connection = databaseConnector.getConnection()) {
+            deletePiecesTable(connection);
+            deleteGameTable(connection);
+        } catch (SQLException e) {
+            throw new RuntimeException("데이터베이스 오류");
+        }
+    }
+
     private void deletePiecesTable(Connection connection) throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement("DELETE FROM PIECE WHERE game_id = ?")) {
             statement.setInt(1, FIX_GAME_ID);
@@ -72,16 +91,6 @@ public class GameDao {
                 statement.setString(5, entry.getValue().teamType().toString());
                 statement.executeUpdate();
             }
-        }
-    }
-
-    public GameContext loadPreviousGame() {
-        try (Connection connection = databaseConnector.getConnection()) {
-            TurnManager turnManager = new TurnManager(selectCurrentTurn(connection));
-            Board board = new Board(selectPieceMap(connection));
-            return new GameContext(turnManager, board);
-        } catch (SQLException e) {
-            throw new RuntimeException("데이터베이스 오류");
         }
     }
 

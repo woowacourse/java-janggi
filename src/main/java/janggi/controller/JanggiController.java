@@ -53,6 +53,7 @@ public class JanggiController {
         }
         gameContext.changeTurn();
         OutputView.printGameOverMessage(gameContext.currentTeamTypeToName());
+        gameDao.deleteGameRecord();
     }
 
     private Team setupTeam(TeamType teamType) {
