@@ -1,6 +1,5 @@
 package janggi.domain.board;
 
-import janggi.domain.Palace;
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
@@ -21,7 +20,14 @@ public class Board implements BoardView {
     }
 
     public Board(Map<Position, Piece> board) {
-        this.board = new HashMap<>(board);
+        this.board = board.entrySet().stream()
+                .filter(entry -> !entry.getValue().isEmpty())
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (existing, replacement) -> existing,
+                        HashMap::new
+                ));
     }
 
     @Override
@@ -68,11 +74,15 @@ public class Board implements BoardView {
             throw new IllegalArgumentException("해당 기물의 이동 규칙에 맞지 않습니다.");
         }
 
-        place(from, new EmptyPiece(Team.NONE));
+        board.remove(from);
         place(to, fromPiece);
     }
 
     public void place(Position position, Piece piece) {
+        if (piece.isEmpty()) {
+            return;
+        }
+
         board.put(position, piece);
     }
 
@@ -98,6 +108,7 @@ public class Board implements BoardView {
         return board;
     }
 
+    @Override
     public Map<Position, Piece> getBoard() {
         return Map.copyOf(board);
     }
