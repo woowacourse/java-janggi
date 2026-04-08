@@ -19,7 +19,7 @@ class ScoreTest {
         Score actual = score.add(otherScore);
 
         //then
-        assertThat(actual.getValue()).isEqualTo(expected);
+        assertThat(actual.value()).isEqualTo(expected);
     }
 
     @DisplayName("zero()는 0점을 반환한다.")

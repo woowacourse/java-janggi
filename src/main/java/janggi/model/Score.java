@@ -5,10 +5,6 @@ public record Score(double value) {
         return new Score(this.value + otherScore.value);
     }
 
-    public double getValue() {
-        return this.value;
-    }
-
     public static Score zero() {
         return new Score(0);
     }

@@ -44,7 +44,7 @@ public class JanggiController {
         Janggi janggi = initializeBoard(boardType);
         Long gameId = janggiService.createGame(name, Team.CHO);
         janggi.withScore((choScore, hanScore) ->
-                outputView.printScore(choScore.getValue(), hanScore.getValue()));
+                outputView.printScore(choScore.value(), hanScore.value()));
         runGame(janggi, gameId);
     }
 
@@ -58,7 +58,7 @@ public class JanggiController {
         Long gameId = janggiService.findIdByName(name);
         Janggi janggi = janggiService.loadJanggiGameById(gameId);
         janggi.withScore((choScore, hanScore) ->
-                outputView.printScore(choScore.getValue(), hanScore.getValue()));
+                outputView.printScore(choScore.value(), hanScore.value()));
         runGame(janggi, gameId);
     }
 
@@ -74,7 +74,7 @@ public class JanggiController {
             janggi = playTurn(janggi, gameId);
         }
         janggi.withScore((choScore, hanScore) ->
-                outputView.printScore(choScore.getValue(), hanScore.getValue()));
+                outputView.printScore(choScore.value(), hanScore.value()));
         janggiService.deleteGame(gameId);
     }
 
