@@ -12,13 +12,9 @@ public class PieceJdbcDao implements PieceDao {
     public void saveAll(List<PieceEntity> pieces) {
         String sql = "insert into pieces(game_id, position_row, position_col, team, piece_type) values(?, ?, ?, ?, ?)";
 
-        Connection con = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-
-        try {
-            con = getConnection();
-            pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        try (Connection con = getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
+        ) {
 
             for (PieceEntity piece : pieces) {
                 pstmt.setLong(1, piece.getGameId());
@@ -30,8 +26,6 @@ public class PieceJdbcDao implements PieceDao {
             }
         } catch (SQLException e) {
             throw new RuntimeException("[ERROR] " + e.getMessage());
-        } finally {
-            close(con, pstmt, rs);
         }
     }
 
@@ -39,13 +33,9 @@ public class PieceJdbcDao implements PieceDao {
     public void deleteByPosition(Long gameId, int row, int col) {
         String sql = "delete from pieces where game_id = ? and position_row = ? and position_col = ?";
 
-        Connection con = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-
-        try {
-            con = getConnection();
-            pstmt = con.prepareStatement(sql);
+        try (Connection con = getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)
+        ) {
 
             pstmt.setLong(1, gameId);
             pstmt.setInt(2, row);
@@ -53,8 +43,6 @@ public class PieceJdbcDao implements PieceDao {
             pstmt.executeUpdate();
         } catch (Exception e) {
             throw new RuntimeException("[ERROR] " + e.getMessage());
-        } finally {
-            close(con, pstmt, rs);
         }
     }
 
@@ -63,13 +51,9 @@ public class PieceJdbcDao implements PieceDao {
         String sql = "update pieces set position_row = ?, position_col = ? " +
                 "where game_id = ? and position_row = ? and position_col = ?";
 
-        Connection con = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-
-        try {
-            con = getConnection();
-            pstmt = con.prepareStatement(sql);
+        try (Connection con = getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)
+        ) {
 
             pstmt.setInt(1, toRow);
             pstmt.setInt(2, toCol);
@@ -79,8 +63,6 @@ public class PieceJdbcDao implements PieceDao {
             pstmt.executeUpdate();
         } catch (Exception e) {
             throw new RuntimeException("[ERROR] " + e.getMessage());
-        } finally {
-            close(con, pstmt, rs);
         }
     }
 
@@ -88,16 +70,13 @@ public class PieceJdbcDao implements PieceDao {
     public List<PieceEntity> findAllByGameId(Long gameId) {
         String sql = "select * from pieces where game_id = ?";
 
-        Connection con = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
+        try (Connection con = getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)
+        ) {
 
-        try {
-            con = getConnection();
-            pstmt = con.prepareStatement(sql);
             pstmt.setLong(1, gameId);
 
-            rs = pstmt.executeQuery();
+            ResultSet rs = pstmt.executeQuery();
 
             List<PieceEntity> pieces = new ArrayList<>();
             while (rs.next()) {
@@ -114,36 +93,10 @@ public class PieceJdbcDao implements PieceDao {
             return pieces;
         } catch (SQLException e) {
             throw new RuntimeException("[ERROR] " + e.getMessage());
-        } finally {
-            close(con, pstmt, rs);
         }
     }
 
     private Connection getConnection() {
         return DBConnectionUtil.getConnection();
-    }
-
-    private void close(Connection con, PreparedStatement stmt, ResultSet rs) {
-        if (rs != null) {
-            try {
-                rs.close();
-            } catch (SQLException e) {
-                throw new RuntimeException("[ERROR] " + e.getMessage());
-            }
-        }
-        if (stmt != null) {
-            try {
-                stmt.close();
-            } catch (SQLException e) {
-                throw new RuntimeException("[ERROR] " + e.getMessage());
-            }
-        }
-        if (con != null) {
-            try {
-                con.close();
-            } catch (SQLException e) {
-                throw new RuntimeException("[ERROR] " + e.getMessage());
-            }
-        }
     }
 }

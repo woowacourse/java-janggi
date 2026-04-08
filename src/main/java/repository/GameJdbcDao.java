@@ -14,13 +14,9 @@ public class GameJdbcDao implements GameDao {
     public GameEntity save(GameEntity game) {
         String sql = "insert into games(current_turn, status, created_at, updated_at) values(?, ?, ?, ?)";
 
-        Connection con = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-
-        try {
-            con = getConnection();
-            pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        try (Connection con = getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
+        ) {
 
             OffsetDateTime now = OffsetDateTime.now();
 
@@ -30,7 +26,7 @@ public class GameJdbcDao implements GameDao {
             pstmt.setObject(4, now);
             pstmt.executeUpdate();
 
-            rs = pstmt.getGeneratedKeys();
+            ResultSet rs = pstmt.getGeneratedKeys();
             if (rs.next()) {
                 Long generatedId = rs.getLong(1);
                 return new GameEntity(generatedId, game.getCurrentTurn(), game.getStatus(), game.getUpdatedAt());
@@ -38,8 +34,6 @@ public class GameJdbcDao implements GameDao {
             throw new RuntimeException("[ERROR] ID 생성 실패");
         } catch (SQLException e) {
             throw new RuntimeException("[ERROR] " + e.getMessage());
-        } finally {
-            close(con, pstmt, rs);
         }
     }
 
@@ -47,13 +41,9 @@ public class GameJdbcDao implements GameDao {
     public void update(Long gameId, String turnName, String status) {
         String sql = "update games set current_turn = ?, status = ?, updated_at = ? where id = ?";
 
-        Connection con = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-
-        try {
-            con = getConnection();
-            pstmt = con.prepareStatement(sql);
+        try (Connection con = getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)
+        ) {
 
             pstmt.setString(1, turnName);
             pstmt.setString(2, status);
@@ -63,8 +53,6 @@ public class GameJdbcDao implements GameDao {
             pstmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("[ERROR] " + e.getMessage());
-        } finally {
-            close(con, pstmt, rs);
         }
     }
 
@@ -72,15 +60,11 @@ public class GameJdbcDao implements GameDao {
     public List<GameEntity> findAll() {
         String sql = "select * from games";
 
-        Connection con = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
+        try (Connection con = getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)
+        ) {
 
-        try {
-            con = getConnection();
-            pstmt = con.prepareStatement(sql);
-
-            rs = pstmt.executeQuery();
+            ResultSet rs = pstmt.executeQuery();
 
             List<GameEntity> gameEntities = new ArrayList<>();
             while (rs.next()) {
@@ -99,36 +83,10 @@ public class GameJdbcDao implements GameDao {
             return gameEntities;
         } catch (SQLException e) {
             throw new RuntimeException("[ERROR] " + e.getMessage());
-        } finally {
-            close(con, pstmt, rs);
         }
     }
 
     private Connection getConnection() {
         return DBConnectionUtil.getConnection();
-    }
-
-    private void close(Connection con, PreparedStatement stmt, ResultSet rs) {
-        if (rs != null) {
-            try {
-                rs.close();
-            } catch (SQLException e) {
-                throw new RuntimeException("[ERROR] " + e.getMessage());
-            }
-        }
-        if (stmt != null) {
-            try {
-                stmt.close();
-            } catch (SQLException e) {
-                throw new RuntimeException("[ERROR] " + e.getMessage());
-            }
-        }
-        if (con != null) {
-            try {
-                con.close();
-            } catch (SQLException e) {
-                throw new RuntimeException("[ERROR] " + e.getMessage());
-            }
-        }
     }
 }
