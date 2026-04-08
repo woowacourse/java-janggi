@@ -1,8 +1,8 @@
-package janggi.repository;
+package janggi.infrastructure.repository;
 
 import janggi.config.DBConnection;
 import janggi.domain.game.GameStatus;
-import janggi.entity.GameEntity;
+import janggi.infrastructure.entity.GameEntity;
 import janggi.global.EntityMapper;
 import java.util.List;
 import java.util.Optional;

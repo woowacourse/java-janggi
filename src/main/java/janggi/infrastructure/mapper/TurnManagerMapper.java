@@ -1,4 +1,4 @@
-package janggi.mapper;
+package janggi.infrastructure.mapper;
 
 import janggi.domain.game.GameStatus;
 import janggi.domain.setup.InnerElephantSetupPolicy;
@@ -7,7 +7,7 @@ import janggi.domain.team.RedTeam;
 import janggi.domain.team.Team;
 import janggi.domain.team.TeamType;
 import janggi.domain.turn.TurnManager;
-import janggi.entity.GameEntity;
+import janggi.infrastructure.entity.GameEntity;
 import java.util.Arrays;
 import java.util.List;
 

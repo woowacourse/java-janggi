@@ -2,9 +2,9 @@ package janggi.service;
 
 import janggi.domain.Position;
 import janggi.domain.piece.Piece;
-import janggi.mapper.BoardMapper;
-import janggi.repository.BoardCellRepository;
-import janggi.repository.GameRepository;
+import janggi.infrastructure.mapper.BoardMapper;
+import janggi.infrastructure.repository.BoardCellRepository;
+import janggi.infrastructure.repository.GameRepository;
 import java.util.Map;
 
 public class BoardService {

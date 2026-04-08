@@ -1,9 +1,9 @@
-package janggi.repository;
+package janggi.infrastructure.repository;
 
 import janggi.config.DBConnection;
 import janggi.domain.Position;
 import janggi.domain.piece.Piece;
-import janggi.entity.BoardCellEntity;
+import janggi.infrastructure.entity.BoardCellEntity;
 import janggi.global.EntityMapper;
 import java.util.List;
 import java.util.Optional;

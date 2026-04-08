@@ -1,4 +1,4 @@
-package janggi.entity;
+package janggi.infrastructure.entity;
 
 import janggi.domain.game.GameStatus;
 import janggi.domain.team.TeamType;

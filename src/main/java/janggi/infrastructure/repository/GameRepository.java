@@ -1,7 +1,7 @@
-package janggi.repository;
+package janggi.infrastructure.repository;
 
 import janggi.domain.game.GameStatus;
-import janggi.entity.GameEntity;
+import janggi.infrastructure.entity.GameEntity;
 import java.util.List;
 import java.util.Optional;
 

@@ -6,8 +6,8 @@ import janggi.config.PropertiesReader;
 import janggi.config.StandardDBConnection;
 import janggi.controller.JanggiController;
 import janggi.dto.H2DBPropertiesDto;
-import janggi.repository.BoardCellRepositoryImpl;
-import janggi.repository.GameRepositoryImpl;
+import janggi.infrastructure.repository.BoardCellRepositoryImpl;
+import janggi.infrastructure.repository.GameRepositoryImpl;
 import janggi.service.BoardService;
 import janggi.service.GameService;
 

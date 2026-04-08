@@ -1,4 +1,4 @@
-package janggi.entity;
+package janggi.infrastructure.entity;
 
 import janggi.domain.Position;
 import janggi.domain.piece.Piece;

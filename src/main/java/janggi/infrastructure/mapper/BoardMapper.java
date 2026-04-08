@@ -1,10 +1,10 @@
-package janggi.mapper;
+package janggi.infrastructure.mapper;
 
 import janggi.domain.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.team.TeamType;
-import janggi.entity.BoardCellEntity;
+import janggi.infrastructure.entity.BoardCellEntity;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
