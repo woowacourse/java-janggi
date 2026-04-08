@@ -4,7 +4,6 @@ import janggi.domain.GameContext;
 import janggi.domain.Position;
 import janggi.domain.board.Board;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceRecord;
 import janggi.domain.piece.PieceType;
 import janggi.domain.team.TeamType;
 import janggi.domain.team.TurnManager;
@@ -12,7 +11,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,65 +29,86 @@ public class GameDao {
 
     public void saveGame(GameContext gameContext) {
         try (Connection connection = databaseConnector.getConnection()) {
-            Statement statement = connection.createStatement();
-            statement.execute("DELETE FROM PIECE;");
-            statement.execute("DELETE FROM GAME;");
-
-            PreparedStatement gameStatement = connection.prepareStatement(
-                    "INSERT INTO game (id, current_turn) VALUES (?, ?);");
-            gameStatement.setInt(1, FIX_GAME_ID);
-            gameStatement.setString(2, gameContext.currentTeamType().toString());
-            gameStatement.executeUpdate();
-
-            // 맵을 다 돌면서 해야함
-            Map<Position, Piece> positionPieceMap = gameContext.getPositionPieceMap();
-            Map<Position, PieceRecord> mapForDB = new HashMap<>();
-            for (Map.Entry<Position, Piece> entry : positionPieceMap.entrySet()) {
-                mapForDB.put(entry.getKey(),
-                        new PieceRecord(FIX_GAME_ID, entry.getKey().getRow(), entry.getKey().getColumn(),
-                                entry.getValue().pieceType().toString(), entry.getValue().teamType().toString()));
-            }
-            for (Map.Entry<Position, PieceRecord> entry : mapForDB.entrySet()) {
-                PreparedStatement pieceStatement = connection.prepareStatement(
-                        "INSERT INTO piece (game_id, position_row, position_column, piece_type, team_type) VALUES (?, ?, ?, ?, ?)"
-                );
-                pieceStatement.setInt(1, 1);
-                pieceStatement.setInt(2, entry.getKey().getRow());
-                pieceStatement.setInt(3, entry.getKey().getColumn());
-                pieceStatement.setString(4, entry.getValue().pieceType());
-                pieceStatement.setString(5, entry.getValue().teamType());
-                pieceStatement.executeUpdate();
-            }
-
+            deletePiecesTable(connection);
+            deleteGameTable(connection);
+            insertCurrentTurn(connection, gameContext);
+            insertPiece(connection, gameContext);
         } catch (SQLException e) {
             throw new RuntimeException("데이터베이스 오류");
         }
     }
 
+    private void deletePiecesTable(Connection connection) throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement("DELETE FROM PIECE WHERE game_id = ?")) {
+            statement.setInt(1, FIX_GAME_ID);
+            statement.executeUpdate();
+        }
+    }
+
+    private void deleteGameTable(Connection connection) throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement("DELETE FROM GAME WHERE id = ?")) {
+            statement.setInt(1, FIX_GAME_ID);
+            statement.executeUpdate();
+        }
+    }
+
+    private void insertCurrentTurn(Connection connection, GameContext gameContext) throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement(
+                "INSERT INTO game (id, current_turn) VALUES (?, ?);")) {
+            statement.setInt(1, FIX_GAME_ID);
+            statement.setString(2, gameContext.currentTeamType().toString());
+            statement.executeUpdate();
+        }
+    }
+
+    private void insertPiece(Connection connection, GameContext gameContext) throws SQLException {
+        String sql = "INSERT INTO piece (game_id, position_row, position_column, piece_type, team_type) VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            for (Map.Entry<Position, Piece> entry : gameContext.getPositionPieceMap().entrySet()) {
+                statement.setInt(1, FIX_GAME_ID);
+                statement.setInt(2, entry.getKey().getRow());
+                statement.setInt(3, entry.getKey().getColumn());
+                statement.setString(4, entry.getValue().pieceType().toString());
+                statement.setString(5, entry.getValue().teamType().toString());
+                statement.executeUpdate();
+            }
+        }
+    }
+
     public GameContext loadPreviousGame() {
         try (Connection connection = databaseConnector.getConnection()) {
-            PreparedStatement gameStatement = connection.prepareStatement(
-                    "SELECT current_turn FROM game WHERE id = 1;");
-            ResultSet resultSet = gameStatement.executeQuery();
-            resultSet.next();
-            TurnManager turnManager = new TurnManager(resultSet.getString("current_turn"));
+            TurnManager turnManager = new TurnManager(selectCurrentTurn(connection));
+            Board board = new Board(selectPieceMap(connection));
+            return new GameContext(turnManager, board);
+        } catch (SQLException e) {
+            throw new RuntimeException("데이터베이스 오류");
+        }
+    }
 
-            PreparedStatement pieceStatement = connection.prepareStatement(
-                    "SELECT position_row, position_column, piece_type, team_type FROM piece WHERE game_id = 1;");
-            resultSet = pieceStatement.executeQuery();
+    private String selectCurrentTurn(Connection connection) throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement(
+                "SELECT current_turn FROM game WHERE id = ?")) {
+            statement.setInt(1, FIX_GAME_ID);
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            return resultSet.getString("current_turn");
+        }
+    }
+
+    private Map<Position, Piece> selectPieceMap(Connection connection) throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement(
+                "SELECT position_row, position_column, piece_type, team_type FROM piece WHERE game_id = ?;")) {
+            statement.setInt(1, FIX_GAME_ID);
+            ResultSet resultSet = statement.executeQuery();
             Map<Position, Piece> positionPieceMap = new HashMap<>();
             while (resultSet.next()) {
                 PieceType pieceType = PieceType.valueOf(resultSet.getString("piece_type"));
                 TeamType teamType = TeamType.valueOf(resultSet.getString("team_type"));
-
                 positionPieceMap.put(
                         Position.valueOf(resultSet.getInt("position_row"), resultSet.getInt("position_column")),
                         pieceType.toPiece(teamType));
             }
-            Board board = new Board(positionPieceMap);
-            return new GameContext(turnManager, board);
-        } catch (SQLException e) {
-            throw new RuntimeException("데이터베이스 오류");
+            return positionPieceMap;
         }
     }
 }
