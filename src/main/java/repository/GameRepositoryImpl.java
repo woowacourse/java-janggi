@@ -2,6 +2,7 @@ package repository;
 
 import domain.Game;
 import domain.board.TableSetting;
+import dto.GameInfo;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,9 +18,10 @@ public class GameRepositoryImpl implements GameRepository {
         try (
                 PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
         ) {
-            statement.setObject(1, game.getCreatedAt());
-            statement.setString(2, game.getChoTableSetting().name());
-            statement.setString(3, game.getHanTableSetting().name());
+            GameInfo gameInfo = game.toSaveValues();
+            statement.setObject(1, gameInfo.createdAt());
+            statement.setString(2, gameInfo.choTableSetting().name());
+            statement.setString(3, gameInfo.hanTableSetting().name());
             statement.executeUpdate();
 
             ResultSet generatedKeys = statement.getGeneratedKeys();

@@ -1,6 +1,7 @@
 package domain;
 
 import domain.board.TableSetting;
+import dto.GameInfo;
 import java.time.LocalDateTime;
 
 public class Game {
@@ -26,15 +27,7 @@ public class Game {
         return gameId;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public TableSetting getChoTableSetting() {
-        return choTableSetting;
-    }
-
-    public TableSetting getHanTableSetting() {
-        return hanTableSetting;
+    public GameInfo toSaveValues() {
+        return GameInfo.of(createdAt, choTableSetting, hanTableSetting);
     }
 }
