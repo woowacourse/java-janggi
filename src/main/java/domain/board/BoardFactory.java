@@ -47,9 +47,6 @@ public class BoardFactory {
         placeCannons(pieces);
         placeGeneral(pieces);
         placeDynamicPieces(pieces, choInitialSetting, hanInitialSetting);
-
-
-
         return new Board(pieces);
     }
 

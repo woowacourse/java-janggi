@@ -13,8 +13,11 @@ import java.util.Optional;
 
 
 public class Board {
+    private static final Palace CHO_PALACE = new Palace(new Position(4, 1));
+    private static final Palace HAN_PALACE = new Palace(new Position(4, 8));
+
     private final Map<Position, Piece> pieces;
-    private final List<Palace> palaces = List.of(new Palace(new Position(4, 1)), new Palace(new Position(4, 8)));
+    private final List<Palace> palaces = List.of(CHO_PALACE, HAN_PALACE);
 
     public Board(Map<Position, Piece> pieces) {
         if (pieces == null) {

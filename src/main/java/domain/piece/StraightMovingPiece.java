@@ -32,7 +32,7 @@ public abstract class StraightMovingPiece extends Piece {
             throw new IllegalArgumentException(ErrorMessage.INVALID_MOVE_RULE.getMessage());
         }
         Palace currentPalace = palace.get();
-        validateBothPositionInPalace(from, to, currentPalace);
+        currentPalace.requireBothInPalace(from, to);
         if (!isValidDiagonalPath(from, to, currentPalace)) {
             throw new IllegalStateException(ErrorMessage.INVALID_MOVE_RULE.getMessage());
         }
@@ -58,16 +58,7 @@ public abstract class StraightMovingPiece extends Piece {
     }
 
     private boolean isValidDiagonalPath(Position from, Position to, Palace palace) {
-        return (palace.isCenter(from) && palace.isCorner(to))
-                || (palace.isCorner(from) && palace.isCenter(to)
-                || (palace.isCorner(from) && palace.isCorner(to))
-        );
-    }
-
-    private void validateBothPositionInPalace(Position from, Position to, Palace palace) {
-        if (!(palace.isInPalace(from) && palace.isInPalace(to))) {
-            throw new IllegalStateException("출발지 또는 목적지가 궁성이 아닙니다.");
-        }
+        return palace.isValidDiagonalPath(from, to) || (palace.isCorner(from) && palace.isCorner(to));
     }
 
     @Override

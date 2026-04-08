@@ -28,6 +28,13 @@ public abstract class SingleStepPiece extends Piece {
         if (offset.isDiagonalMoving()) {
             validateDiagonalMoveInPalace(from, to, palace);
         }
+        if (mustStayInPalace()) {
+            requireInPalace(from, to, palace);
+        }
+    }
+
+    protected boolean mustStayInPalace() {
+        return false;
     }
 
     private void validateDiagonalMoveInPalace(Position from, Position to, Optional<Palace> palace) {
@@ -35,21 +42,17 @@ public abstract class SingleStepPiece extends Piece {
             throw new IllegalArgumentException(ErrorMessage.INVALID_MOVE_RULE.getMessage());
         }
         Palace currentPalace = palace.get();
-        validateBothPositionInPalace(from, to, currentPalace);
-        if (!isValidDiagonalPath(from, to, currentPalace)) {
+        currentPalace.requireBothInPalace(from, to);
+        if (!currentPalace.isValidDiagonalPath(from, to)) {
             throw new IllegalStateException(ErrorMessage.INVALID_MOVE_RULE.getMessage());
         }
     }
 
-    private boolean isValidDiagonalPath(Position from, Position to, Palace palace) {
-        return (palace.isCenter(from) && palace.isCorner(to))
-                || (palace.isCorner(from) && palace.isCenter(to));
-    }
-
-    private void validateBothPositionInPalace(Position from, Position to, Palace palace) {
-        if (!(palace.isInPalace(from) && palace.isInPalace(to))) {
-            throw new IllegalStateException("출발지 또는 목적지가 궁성이 아닙니다.");
+    private void requireInPalace(Position from, Position to, Optional<Palace> palace) {
+        if (palace.isEmpty()) {
+            throw new IllegalArgumentException(ErrorMessage.INVALID_MOVE_RULE.getMessage());
         }
+        palace.get().requireBothInPalace(from, to);
     }
 
     @Override

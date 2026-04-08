@@ -1,9 +1,17 @@
 package domain.board;
 
 import domain.Offset;
+
 import java.util.List;
 
 public class Palace {
+    private static final List<Offset> CORNER_OFFSETS = List.of(
+            new Offset(-1, -1),
+            new Offset(-1, 1),
+            new Offset(1, -1),
+            new Offset(1, 1)
+    );
+
     private final Position center;
 
     public Palace(Position center) {
@@ -22,15 +30,18 @@ public class Palace {
     }
 
     public boolean isCorner(Position position) {
-        List<Offset> cornerOffsets = List.of(
-                new Offset(-1, -1),
-                new Offset(-1, 1),
-                new Offset(1, -1),
-                new Offset(1, 1)
-        );
-
-        return cornerOffsets.stream()
+        return CORNER_OFFSETS.stream()
                 .map(offset -> offset.applyTo(center))
                 .anyMatch(position::equals);
+    }
+
+    public void requireBothInPalace(Position from, Position to) {
+        if (!(isInPalace(from) && isInPalace(to))) {
+            throw new IllegalStateException("출발지 또는 목적지가 궁성이 아닙니다.");
+        }
+    }
+
+    public boolean isValidDiagonalPath(Position from, Position to) {
+        return (isCenter(from) && isCorner(to)) || (isCorner(from) && isCenter(to));
     }
 }
