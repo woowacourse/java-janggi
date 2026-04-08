@@ -3,6 +3,7 @@ package janggi.service;
 import janggi.domain.board.Board;
 import janggi.domain.game.GameManager;
 import janggi.domain.game.Players;
+import janggi.domain.game.Side;
 import janggi.domain.game.Turn;
 import janggi.dto.GameSessionDTO;
 import janggi.persistence.ActiveGameSession;
@@ -27,9 +28,16 @@ public class JanggiService {
     }
 
     public ActiveGameSession loadGameSession(Connection connection, long gameId) throws SQLException {
+        GameSessionDTO gameSession = gameRepository.findByGameId(connection, gameId);
         Board board = boardRepository.findAllByGameId(connection, gameId);
-        GameManager gameManager = gameRepository.findByGameId(connection, gameId, board);
+        GameManager gameManager = generateGameManagerByLoadedData(gameSession, board);
         return new ActiveGameSession(gameId, gameManager);
+    }
+
+    private GameManager generateGameManagerByLoadedData(GameSessionDTO gameSession, Board board) {
+        Players players = Players.from(gameSession.choPlayerName(), gameSession.hanPlayerName());
+        Turn currentTurn = new Turn(Side.valueOf(gameSession.currentTurn()));
+        return new GameManager(players, board, currentTurn);
     }
 
     public ActiveGameSession createNewSession(Connection connection, String choName, String hanName)
