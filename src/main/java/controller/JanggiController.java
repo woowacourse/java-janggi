@@ -1,9 +1,8 @@
 package controller;
 
 import domain.Game;
-import domain.board.BasicBoardInitializer;
+import domain.entity.GameRoomEntity;
 import domain.state.Side;
-import domain.board.formation.InitialFormationType;
 import mapper.BoardMapper;
 import mapper.ScoreMapper;
 import service.JanggiService;
@@ -11,11 +10,9 @@ import view.InputHandler;
 import view.InputView;
 import view.OutputView;
 
-import java.util.Optional;
+import java.util.List;
 
 public class JanggiController {
-
-    private static final Long DEFAULT_GAME_ID = 1L;
 
     private final InputView inputView;
     private final OutputView outputView;
@@ -28,65 +25,77 @@ public class JanggiController {
     }
 
     public void run() {
-        Game game = loadOrInitializeGame();
-        play(game);
-        outputView.printVictoryMessage(game.getSide());
+        do {
+            Game game = readyGame();
+            play(game);
+            outputView.printVictoryMessage(game.getSide());
+        } while (inputView.requestRetry());
+    }
+
+    private Game readyGame() {
+        List<GameRoomEntity> rooms = janggiService.findAllRooms();
+        outputView.printGameRooms(rooms);
+        int choice = InputHandler.readUntilValid(() -> validateRoomNumber(rooms, inputView.selectRoom()));
+
+        return janggiService.prepareGame(
+                choice,
+                rooms,
+                () -> InputHandler.readUntilValid(() -> inputView.requestInitialType(Side.HAN)),
+                () -> InputHandler.readUntilValid(() -> inputView.requestInitialType(Side.CHU))
+        );
     }
 
     private void play(Game game) {
         while (!game.isFinished()) {
-            outputView.printBoard(BoardMapper.toDto(game.getBoard()));
-            outputView.printScore(ScoreMapper.toDto(game.calculateScore(Side.CHU), game.calculateScore(Side.HAN)));
+            displayCurrentState(game);
 
-            GameCommand gameCommand = GameCommandFactory.create(
-                    InputHandler.readUntilValid(() ->
-                    inputView.requestGameCommand(game.getSide()))
-            );
-            gameCommand.execute(inputView, outputView, game);
-            handleCheckMate(game);
+            GameCommand command = getGameCommand(game.getSide());
+            command.execute(game);
 
+            handleGameStateChange(game);
             janggiService.save(game);
         }
     }
 
-    private void handleCheckMate(Game game) {
+    private void displayCurrentState(Game game) {
+        outputView.printBoard(BoardMapper.toDto(game.getBoard()));
+        outputView.printScore(ScoreMapper.toDto(
+                game.calculateScore(Side.CHU),
+                game.calculateScore(Side.HAN))
+        );
+    }
+
+    private GameCommand getGameCommand(Side currentSide) {
+        CommandType type = InputHandler.readUntilValid(() -> inputView.requestGameCommand(currentSide));
+        return switch (type) {
+            case MOVE -> new MoveController(inputView);
+            case PASS -> new PassController(outputView);
+            case SURRENDER -> new SurrenderController(outputView);
+        };
+    }
+
+    private void handleGameStateChange(Game game) {
         if (game.isKingDead()) {
             game.end();
-            outputView.printKingDeadMessage(game.getSide());
+            outputView.printKingDeadMessage(game.getSide().opposite());
+            return;
+        }
+
+        if (game.isCheckmate()) {
+            game.end();
+            outputView.printCheckMateMessage();
+            return;
         }
 
         if (!game.isSafe()) {
             outputView.printCheckMessage();
         }
-
-        if (game.isCheckmate()) {
-            outputView.printCheckMateMessage();
-            game.end();
-        }
     }
 
-    private Game loadOrInitializeGame() {
-        Optional<Game> savedGame = janggiService.load(DEFAULT_GAME_ID);
-
-        if (savedGame.isPresent() && !savedGame.get().isFinished()) {
-            outputView.printLoadGameMessage();
-            return savedGame.get();
+    private int validateRoomNumber(List<GameRoomEntity> rooms, int choice) {
+        if (choice < 0 || choice > rooms.size()) {
+            throw new IllegalArgumentException("\n올바른 번호를 입력해주세요.\n");
         }
-
-        return initializeGame();
-    }
-
-    private Game initializeGame() {
-        InitialFormationType hanInitialFormation = InputHandler.readUntilValid(() -> inputView.requestInitialType(Side.HAN));
-        InitialFormationType chuInitialFormation = InputHandler.readUntilValid(() -> inputView.requestInitialType(Side.CHU));
-        Game game = new Game(
-                new BasicBoardInitializer(
-                        hanInitialFormation.create(Side.HAN),
-                        chuInitialFormation.create(Side.CHU)
-                )
-        );
-
-        game.assignId(DEFAULT_GAME_ID);
-        return game;
+        return choice;
     }
 }
