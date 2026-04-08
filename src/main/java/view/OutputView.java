@@ -1,6 +1,6 @@
 package view;
 
-import dto.BoardSnapshot;
+import dto.BoardViewSnapshot;
 
 import java.util.List;
 import java.util.Map;
@@ -31,8 +31,8 @@ public class OutputView {
         System.out.println(TURN_DIVIDER);
     }
 
-    public void printBoard(BoardSnapshot boardSnapshot) {
-        Map<List<Integer>, String> board = boardSnapshot.board();
+    public void printBoard(BoardViewSnapshot boardViewSnapshot) {
+        Map<List<Integer>, String> board = boardViewSnapshot.board();
 
         System.out.print(BOARD_INDENT);
         for (int col = 1; col <= COLUMN_SIZE; col++) {

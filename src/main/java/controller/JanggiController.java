@@ -2,7 +2,6 @@ package controller;
 
 import domain.game.JanggiGame;
 import domain.piece.Team;
-import dto.PieceSnapshot;
 import service.JanggiService;
 import util.Retry;
 import view.InputView;
@@ -42,8 +41,7 @@ public class JanggiController {
         String inputCho = inputView.inputPlacementChoOption();
         String inputHan = inputView.inputPlacementHanOption();
         JanggiGame janggiGame = JanggiGame.of(inputCho, inputHan);
-        List<PieceSnapshot> pieceSnapshots = janggiGame.capturePieces();
-        janggiService.save(pieceSnapshots, janggiGame.getTurn());
+        janggiService.save(janggiGame.toSaveRequest());
         return janggiGame;
     }
 
@@ -59,7 +57,7 @@ public class JanggiController {
         Retry.repeatUntilSuccess(() -> {
             List<Integer> to = inputView.inputDestination();
             janggiGame.start(from, to);
-            janggiService.update(from, to, janggiGame.getTurn());
+            janggiService.update(from, to, janggiGame.getTurnName());
             outputView.printBoard(janggiGame.gameSnapshot());
         });
     }

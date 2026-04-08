@@ -4,8 +4,8 @@ import database.ConnectionProvider;
 import domain.board.Board;
 import domain.game.JanggiGame;
 import domain.game.Turn;
-import dto.GameDto;
-import dto.PieceSnapshot;
+import dto.GameRowDetail;
+import dto.GameSaveRequest;
 import exception.DataAccessException;
 
 import java.sql.Connection;
@@ -42,22 +42,22 @@ public class JanggiService {
 
     public JanggiGame loadOngoingGame() {
         try (Connection connection = connectionProvider.getConnection()) {
-            GameDto gameDto = gameService.findOngoingGame(connection);
-            Board board = boardService.getBoard(connection, gameDto.id());
-            Turn turn = Turn.valueOf(gameDto.currentTurn());
+            GameRowDetail gameRowDetail = gameService.findOngoingGame(connection);
+            Board board = boardService.getBoard(connection, gameRowDetail.id());
+            Turn turn = Turn.valueOf(gameRowDetail.currentTurn());
             return JanggiGame.of(board, turn);
         } catch (SQLException e) {
             throw new DataAccessException(LOAD_ONGOING_GAME_FAIL_MESSAGE, e);
         }
     }
 
-    public void save(List<PieceSnapshot> pieceSnapshots, String turn) {
+    public void save(GameSaveRequest request) {
         Connection connection = null;
         try {
             connection = connectionProvider.getConnection();
             connection.setAutoCommit(false);
-            int gameId = gameService.save(connection, turn);
-            boardService.save(connection, gameId, pieceSnapshots);
+            int gameId = gameService.save(connection, request.turn());
+            boardService.save(connection, gameId, request.boardRowDetails());
             connection.commit();
         } catch (SQLException e) {
             rollback(connection);

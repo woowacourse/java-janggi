@@ -4,8 +4,9 @@ import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.coordination.Coordination;
 import domain.piece.Team;
-import dto.BoardSnapshot;
-import dto.PieceSnapshot;
+import dto.BoardRowDetails;
+import dto.BoardViewSnapshot;
+import dto.GameSaveRequest;
 
 import java.util.List;
 
@@ -27,8 +28,8 @@ public class JanggiGame {
         return new JanggiGame(board, turn);
     }
 
-    public String getTurn() {
-        return turn.name();
+    public GameSaveRequest toSaveRequest() {
+        return new GameSaveRequest(BoardRowDetails.from(this.board), turn.getName());
     }
 
     public String getTurnName() {
@@ -56,12 +57,8 @@ public class JanggiGame {
         turn = turn.reverse();
     }
 
-    public BoardSnapshot gameSnapshot() {
-        return BoardSnapshot.from(this.board);
-    }
-
-    public List<PieceSnapshot> capturePieces() {
-        return PieceSnapshot.from(this.board);
+    public BoardViewSnapshot gameSnapshot() {
+        return BoardViewSnapshot.from(this.board);
     }
 
     public double getScore(Team team) {

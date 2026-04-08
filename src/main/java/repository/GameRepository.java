@@ -1,6 +1,6 @@
 package repository;
 
-import dto.GameDto;
+import dto.GameRowDetail;
 
 import java.sql.Connection;
 import java.util.Optional;
@@ -11,7 +11,7 @@ public interface GameRepository {
 
     boolean existsGame(Connection connection);
 
-    Optional<GameDto> findOngoingGame(Connection connection);
+    Optional<GameRowDetail> findOngoingGame(Connection connection);
 
     int save(Connection connection, String turn);
 

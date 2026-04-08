@@ -1,7 +1,7 @@
 package repository;
 
-import dto.PieceDto;
-import dto.PieceSnapshot;
+import dto.BoardRowDetail;
+import dto.BoardRowDetails;
 import exception.DataAccessException;
 
 import java.sql.Connection;
@@ -47,15 +47,15 @@ public class BoardJdbcRepository implements BoardRepository {
     }
 
     @Override
-    public List<PieceDto> findPiecesByGameId(Connection connection, int gameId) {
+    public List<BoardRowDetail> findPiecesByGameId(Connection connection, int gameId) {
         try {
             PreparedStatement stmt = connection.prepareStatement(
                     "SELECT column, row, piece_type, team FROM board WHERE game_id = ?");
             stmt.setInt(1, gameId);
             ResultSet rs = stmt.executeQuery();
-            List<PieceDto> pieces = new ArrayList<>();
+            List<BoardRowDetail> pieces = new ArrayList<>();
             while (rs.next()) {
-                pieces.add(new PieceDto(
+                pieces.add(new BoardRowDetail(
                         rs.getInt(COLUMN),
                         rs.getInt(ROW),
                         rs.getString(PIECE_TYPE),
@@ -69,18 +69,18 @@ public class BoardJdbcRepository implements BoardRepository {
     }
 
     @Override
-    public void save(Connection connection, int gameId, List<PieceSnapshot> pieceSnapshots) {
+    public void save(Connection connection, int gameId, BoardRowDetails boardRowDetails) {
         try {
             PreparedStatement stmt = connection.prepareStatement("""
                     INSERT INTO board (game_id, column, row, piece_type, team)
                     VALUES (?, ?, ?, ?, ?)
                     """);
-            for (PieceSnapshot snapshot : pieceSnapshots) {
+            for (BoardRowDetail detail : boardRowDetails.boardRowDetails()) {
                 stmt.setInt(1, gameId);
-                stmt.setInt(2, snapshot.column());
-                stmt.setInt(3, snapshot.row());
-                stmt.setString(4, snapshot.pieceType());
-                stmt.setString(5, snapshot.team());
+                stmt.setInt(2, detail.column());
+                stmt.setInt(3, detail.row());
+                stmt.setString(4, detail.pieceType());
+                stmt.setString(5, detail.team());
                 stmt.addBatch();
             }
             stmt.executeBatch();
@@ -104,7 +104,7 @@ public class BoardJdbcRepository implements BoardRepository {
     }
 
     @Override
-    public PieceDto findPieceByPosition(Connection connection, int gameId, List<Integer> from) {
+    public BoardRowDetail findPieceByPosition(Connection connection, int gameId, List<Integer> from) {
         try {
             PreparedStatement stmt = connection.prepareStatement(
                     "SELECT piece_type, team FROM board WHERE game_id = ? AND column = ? AND row = ?");
@@ -112,7 +112,7 @@ public class BoardJdbcRepository implements BoardRepository {
             stmt.setInt(2, from.get(0));
             stmt.setInt(3, from.get(1));
             ResultSet rs = stmt.executeQuery();
-            return new PieceDto(from.get(0), from.get(1), rs.getString(PIECE_TYPE), rs.getString(TEAM));
+            return new BoardRowDetail(from.get(0), from.get(1), rs.getString(PIECE_TYPE), rs.getString(TEAM));
         } catch (SQLException e) {
             throw new DataAccessException(FIND_PIECE_FAIL_MESSAGE, e);
         }

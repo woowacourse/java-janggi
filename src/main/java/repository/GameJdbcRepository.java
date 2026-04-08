@@ -1,6 +1,6 @@
 package repository;
 
-import dto.GameDto;
+import dto.GameRowDetail;
 import exception.DataAccessException;
 
 import java.sql.Connection;
@@ -50,7 +50,7 @@ public class GameJdbcRepository implements GameRepository {
         }
     }
 
-    public Optional<GameDto> findOngoingGame(Connection connection) {
+    public Optional<GameRowDetail> findOngoingGame(Connection connection) {
         try {
             PreparedStatement stmt = connection.prepareStatement(
                     "SELECT id, current_turn FROM game WHERE is_finished = FALSE ORDER BY id DESC LIMIT 1");
@@ -58,7 +58,7 @@ public class GameJdbcRepository implements GameRepository {
             if (!rs.next()) {
                 return Optional.empty();
             }
-            return Optional.of(new GameDto(rs.getInt(ID), rs.getString(CURRENT_TURN)));
+            return Optional.of(new GameRowDetail(rs.getInt(ID), rs.getString(CURRENT_TURN)));
         } catch (SQLException e) {
             throw new DataAccessException(FIND_ONGOING_GAME_FAIL_MESSAGE, e);
         }

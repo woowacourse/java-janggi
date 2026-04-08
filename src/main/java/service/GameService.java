@@ -1,6 +1,6 @@
 package service;
 
-import dto.GameDto;
+import dto.GameRowDetail;
 import repository.GameRepository;
 
 import java.sql.Connection;
@@ -23,7 +23,7 @@ public class GameService {
         return gameRepository.existsGame(connection);
     }
 
-    public GameDto findOngoingGame(Connection connection) {
+    public GameRowDetail findOngoingGame(Connection connection) {
         return gameRepository.findOngoingGame(connection)
                 .orElseThrow(() -> new IllegalStateException(NO_ONGOING_GAME_MESSAGE));
     }

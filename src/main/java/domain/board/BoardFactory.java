@@ -7,7 +7,7 @@ import domain.piece.EmptyPiece;
 import domain.piece.Piece;
 import domain.piece.PieceFactory;
 import domain.piece.Team;
-import dto.PieceDto;
+import dto.BoardRowDetail;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,10 +25,10 @@ public class BoardFactory {
         return new Board(board);
     }
 
-    public static Board from(List<PieceDto> pieceDtos) {
+    public static Board from(List<BoardRowDetail> boardRowDetails) {
         Map<Coordination, Piece> board = new HashMap<>();
         placeEmpty(board);
-        for (PieceDto dto : pieceDtos) {
+        for (BoardRowDetail dto : boardRowDetails) {
             Coordination coordination = Coordination.of(dto.column(), dto.row());
             Piece piece = PieceFactory.create(dto.pieceType(), dto.team());
             board.put(coordination, piece);
