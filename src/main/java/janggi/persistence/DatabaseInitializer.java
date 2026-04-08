@@ -1,20 +1,18 @@
 package janggi.persistence;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class DatabaseInitializer {
 
     public static void initialize(Connection connection) throws SQLException {
-        try (Statement statement = connection.createStatement()) {
-            executeGameSchemaCreation(statement);
-            executeBoardSchemaCreation(statement);
-        }
+        executeGameSchemaCreation(connection);
+        executeBoardSchemaCreation(connection);
     }
 
-    private static void executeGameSchemaCreation(Statement statement) throws SQLException {
-        String createSql = """
+    private static void executeGameSchemaCreation(Connection connection) throws SQLException {
+        String createGameSql = """
                     CREATE TABLE IF NOT EXISTS GAME (
                         game_id IDENTITY PRIMARY KEY,
                         cho_player_name VARCHAR(50) NOT NULL,
@@ -24,11 +22,13 @@ public class DatabaseInitializer {
                         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                     )
                 """;
-        statement.execute(createSql);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(createGameSql)) {
+            preparedStatement.execute();
+        }
     }
 
-    private static void executeBoardSchemaCreation(Statement statement) throws SQLException {
-        String createSql = """
+    private static void executeBoardSchemaCreation(Connection connection) throws SQLException {
+        String createBoardSql = """
                     CREATE TABLE IF NOT EXISTS BOARD (
                         game_id BIGINT NOT NULL,
                         side VARCHAR(10) NOT NULL,
@@ -40,6 +40,8 @@ public class DatabaseInitializer {
                         FOREIGN KEY (game_id) REFERENCES GAME(game_id) ON DELETE CASCADE
                     )
                 """;
-        statement.execute(createSql);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(createBoardSql)) {
+            preparedStatement.execute();
+        }
     }
 }
