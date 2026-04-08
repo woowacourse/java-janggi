@@ -4,6 +4,7 @@ import db.dao.BoardPieceDao;
 import db.dao.GameDao;
 import db.jdbc.ConnectionManager;
 import db.jdbc.DatabaseMigrator;
+import db.jdbc.FlywayDatabaseMigrator;
 import db.jdbc.JdbcBoardPieceDao;
 import db.jdbc.JdbcGameDao;
 import db.jdbc.ProductionConnectionManager;
@@ -28,8 +29,8 @@ public class Application {
     }
 
     private static void migrate(final ConnectionManager connectionManager) {
-        final DatabaseMigrator databaseMigrator = new DatabaseMigrator(connectionManager);
-        databaseMigrator.initialize();
+        final DatabaseMigrator migrator = new FlywayDatabaseMigrator(connectionManager);
+        migrator.migrate();
     }
 
     private static JanggiGameRepository getRepository(final ConnectionManager connectionManager) {

@@ -11,6 +11,7 @@ import db.dao.BoardPieceDao;
 import db.dao.GameDao;
 import db.jdbc.ConnectionManager;
 import db.jdbc.DatabaseMigrator;
+import db.jdbc.FlywayDatabaseMigrator;
 import db.jdbc.JdbcBoardPieceDao;
 import db.jdbc.JdbcGameDao;
 import java.sql.Connection;
@@ -21,7 +22,6 @@ import java.util.Map;
 import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import participant.Turn;
 import pieces.Piece;
@@ -29,7 +29,6 @@ import pieces.PieceType;
 import pieces.Side;
 import position.Position;
 
-@Disabled
 class JdbcJanggiGameRepositoryTest {
 
     private ConnectionManager connectionManager;
@@ -38,8 +37,8 @@ class JdbcJanggiGameRepositoryTest {
     @BeforeEach
     void setUp() {
         connectionManager = new TestConnectionManager();
-        DatabaseMigrator databaseMigrator = new DatabaseMigrator(connectionManager);
-        databaseMigrator.initialize();
+        DatabaseMigrator migrator = new FlywayDatabaseMigrator(connectionManager);
+        migrator.migrate();
 
         GameDao gameDao = new JdbcGameDao();
         BoardPieceDao boardPieceDao = new JdbcBoardPieceDao();
@@ -168,6 +167,8 @@ class JdbcJanggiGameRepositoryTest {
         try (Connection connection = connectionManager.getConnection();
              Statement statement = connection.createStatement()) {
 
+            statement.executeUpdate("DELETE FROM migration");
+            statement.executeUpdate("DELETE FROM move_history");
             statement.executeUpdate("DELETE FROM board_piece");
             statement.executeUpdate("DELETE FROM game");
         } catch (SQLException e) {

@@ -3,6 +3,8 @@ package db.jdbc;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import javax.sql.DataSource;
+import org.h2.jdbcx.JdbcDataSource;
 
 public class ProductionConnectionManager implements ConnectionManager {
 
@@ -13,5 +15,14 @@ public class ProductionConnectionManager implements ConnectionManager {
     @Override
     public Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASSWORD);
+    }
+
+    @Override
+    public DataSource getDataSource() {
+        JdbcDataSource dataSource = new JdbcDataSource();
+        dataSource.setUrl(URL);
+        dataSource.setUser(USER);
+        dataSource.setPassword(PASSWORD);
+        return dataSource;
     }
 }

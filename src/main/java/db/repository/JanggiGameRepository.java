@@ -10,13 +10,13 @@ import position.Position;
 
 public interface JanggiGameRepository {
 
-    Long save(final JanggiGame game);
+    Long save(JanggiGame game);
 
-    Optional<JanggiGame> findById(final Long gameId);
+    Optional<JanggiGame> findById(Long gameId);
 
     List<GameSummary> findTop10GameRoomsOrderByCreatedAtDesc();
 
-    void updateGameState(final Long gameId, final Turn turn, final GameStatus status);
+    void updateGameState(Long gameId, Turn turn, GameStatus status);
 
-    void updatePiecePosition(final Long gameId, final Position departure, final Position destination);
+    void updatePiecePosition(Long gameId, Position departure, Position destination);
 }
