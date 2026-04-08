@@ -2,6 +2,7 @@ package janggi.controller;
 
 import janggi.domain.Board;
 import janggi.domain.GameInitializeMode;
+import janggi.domain.Team;
 import janggi.domain.dto.GameSession;
 import janggi.domain.Position;
 import janggi.domain.strategy.BasicPlacementStrategy;
@@ -24,6 +25,7 @@ public class JanggiController {
 
         Board board = session.board();
         long gameId = session.gameId();
+        Team turn = session.turn();
 
         while (!board.gameEnd()) {
             try {
@@ -31,6 +33,7 @@ public class JanggiController {
                 Position toPosition = readToPosition();
 
                 janggiGameService.move(gameId, board, fromPosition, toPosition);
+                turn = turn.next();
 
                 OutputView.printBoard(board);
                 OutputView.printTeamScore(board);
@@ -62,17 +65,20 @@ public class JanggiController {
 
     private GameSession initializeNewGame() {
         Board board = new Board(new BasicPlacementStrategy());
-        long gameId = janggiGameService.createGame(board);
+        Team initialTurn = Team.initialTeam();
+        long gameId = janggiGameService.createGame(board, initialTurn);
         OutputView.printGameId(gameId);
         OutputView.printBoard(board);
-        return new GameSession(gameId, board);
+        return new GameSession(gameId, board, initialTurn);
     }
 
     private GameSession initializePastGame() {
         long gameId = Long.parseLong(InputView.askGameId());
         Board board = janggiGameService.loadGame(gameId);
+        Team turn = janggiGameService.loadTurn(gameId);
+
         OutputView.printBoard(board);
-        return new GameSession(gameId, board);
+        return new GameSession(gameId, board, turn);
     }
 
     private Position readFromPosition() {
