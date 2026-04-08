@@ -12,7 +12,7 @@ import java.util.List;
 public class JanggiController {
 
     private static final String QUIT_COMMAND = "r";
-    private static final String SKIP_COMMAND = "n";
+    private static final String STOP_COMMAND = "n";
 
     private final InputView inputView;
     private final OutputView outputView;
@@ -102,7 +102,7 @@ public class JanggiController {
 
     private boolean proceedMove(Game game, Long gameId, String turnName) {
         String currentInput = inputView.readPosition(turnName);
-        if (handleQuitOrSkipCommand(game, turnName, currentInput)) {
+        if (handleQuitOrStopCommand(game, turnName, currentInput)) {
             return false;
         }
         Position from = parsePosition(currentInput);
@@ -110,7 +110,7 @@ public class JanggiController {
         validatePieceAndTurn(game, from);
 
         String targetInput = inputView.readTargetPosition();
-        if (handleQuitOrSkipCommand(game, turnName, targetInput)) {
+        if (handleQuitOrStopCommand(game, turnName, targetInput)) {
             return false;
         }
         Position to = parsePosition(targetInput);
@@ -125,12 +125,12 @@ public class JanggiController {
         game.checkTurn(piece.getTeam());
     }
 
-    private boolean handleQuitOrSkipCommand(Game game, String turn, String input) {
+    private boolean handleQuitOrStopCommand(Game game, String turn, String input) {
         if (input.equals(QUIT_COMMAND)) {
             game.lose(turn);
             return true;
         }
-        if (input.equals(SKIP_COMMAND)) {
+        if (input.equals(STOP_COMMAND)) {
             return true;
         }
         return false;
