@@ -2,7 +2,7 @@ package utils;
 
 import java.util.List;
 
-public class InputParser {
+public class Parser {
 
     private static final String DELIMITER = ",";
     private static final String STRICT_NUMERIC_PATTERN = "[0-9]\\d*";
@@ -14,10 +14,9 @@ public class InputParser {
 
     public static List<Integer> parseDelimitedToIntegersStrict(String input) {
         return splitByDelimiterStrict(input).stream()
-                .map(InputParser::parseIntStrict)
+                .map(Parser::parseIntStrict)
                 .toList();
     }
-
 
     private static List<String> splitByDelimiterStrict(String input) {
         validateBlank(input);
