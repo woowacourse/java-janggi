@@ -90,7 +90,9 @@ public class DefaultJanggiService implements JanggiService {
             toPiece.ifPresent(pieceEntity -> pieceDao.deleteById(pieceEntity.getId()));
 
             gameContext.update(removedPiece);
-            gameDao.updateTurn(gameId, gameContext.getCurrentSide().name());
+            if(gameContext.isInProgress()) {
+                gameDao.updateTurn(gameId, gameContext.getCurrentSide().name());
+            }
         });
     }
 
