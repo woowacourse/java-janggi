@@ -3,7 +3,7 @@ package controller;
 import domain.JanggiGame;
 import domain.Position;
 import java.util.List;
-import utils.InputParser;
+import utils.Parser;
 import view.InputView;
 import view.OutputView;
 
@@ -16,11 +16,13 @@ public class JanggiController {
     }
 
     public void run() {
+        OutputView.printRemainScore(janggiGame.showTeamPieceScores());
         while (!janggiGame.isGameFinished()) {
             playGame();
             janggiGame.checkGameFinished();
         }
 
+        OutputView.printRemainScore(janggiGame.showTeamPieceScores());
         OutputView.printGameResult(janggiGame.gameStatus());
     }
 
@@ -40,7 +42,7 @@ public class JanggiController {
 
     private Position readSelectedPiecePosition() {
         String rawSelectPiecePosition = InputView.selectPiecePosition();
-        List<Integer> selectPiecePosition = InputParser.parseDelimitedToIntegersStrict(rawSelectPiecePosition);
+        List<Integer> selectPiecePosition = Parser.parseDelimitedToIntegersStrict(rawSelectPiecePosition);
         Position selectedPosition = new Position(selectPiecePosition.getFirst(), selectPiecePosition.getLast());
         janggiGame.validatePieceSelection(selectedPosition);
         return selectedPosition;
@@ -48,7 +50,7 @@ public class JanggiController {
 
     private static Position getTargetPosition() {
         String rawTargetPosition = InputView.selectTargetPosition();
-        List<Integer> target = InputParser.parseDelimitedToIntegersStrict(rawTargetPosition);
+        List<Integer> target = Parser.parseDelimitedToIntegersStrict(rawTargetPosition);
         return new Position(target.getFirst(), target.getLast());
     }
 
