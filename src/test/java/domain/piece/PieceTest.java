@@ -48,6 +48,17 @@ class PieceTest {
         }
 
         @Test
+        void 궁성과_사는_궁성_경로_생성기로_후보_경로를_생성한다() {
+            final Piece piece = Piece.of(TeamColor.HAN, PieceType.GUARD);
+
+            assertThat(piece.makeRoutes(Position.of(0, 3))).containsExactlyInAnyOrder(
+                    new Route(Position.of(0, 3), Position.of(0, 4), List.of()),
+                    new Route(Position.of(0, 3), Position.of(1, 3), List.of()),
+                    new Route(Position.of(0, 3), Position.of(1, 4), List.of())
+            );
+        }
+
+        @Test
         void 기물은_자기_전략으로_이동_가능_여부를_판단한다() {
             final Piece piece = Piece.of(TeamColor.CHO, PieceType.PAWN);
             final Route route = new Route(Position.of(2, 3), Position.of(1, 3), List.of());

@@ -7,13 +7,12 @@ import domain.piece.TeamColor;
 import java.util.List;
 
 public class PalaceRouteGenerator {
-
     public List<Route> createRoutes(Position position, PieceType pieceType, TeamColor teamColor) {
         if (isKingOrGuard(pieceType)) {
             return createKingAndGuardRoutes(position, teamColor);
         }
         if (pieceType == PieceType.ROOK) {
-            return List.of();
+            return createRookRoutes(position, teamColor);
         }
         if (pieceType == PieceType.CANNON) {
             return List.of();
@@ -21,6 +20,10 @@ public class PalaceRouteGenerator {
         if (pieceType == PieceType.PAWN) {
             return List.of();
         }
+        return List.of();
+    }
+
+    private List<Route> createRookRoutes(Position position, TeamColor teamColor) {
         return List.of();
     }
 
@@ -34,4 +37,5 @@ public class PalaceRouteGenerator {
     private boolean isKingOrGuard(PieceType pieceType) {
         return pieceType == PieceType.KING || pieceType == PieceType.GUARD;
     }
+
 }
