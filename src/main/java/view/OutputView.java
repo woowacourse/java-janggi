@@ -84,10 +84,10 @@ public class OutputView {
 
         Piece piece = pieces.get(position);
         String color = getNationColor(piece);
-        String type = piece.getTypeName() + " ";
+        String type = piece.getTypeName();
         type = matchSoldierName(type, piece);
 
-        return color + type;
+        return color + type + " ";
     }
 
     private boolean isInPalace(int row, int col) {
