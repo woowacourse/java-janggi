@@ -23,7 +23,7 @@ public class CannonMoveStrategy extends MoveStrategy {
         paths.addAll(createStraightPaths(Direction.SOUTH));
         paths.addAll(createStraightPaths(Direction.EAST));
         paths.addAll(createStraightPaths(Direction.WEST));
-        addPalaceDiagonalPathsIfPossible(from, router, paths);
+        paths.addAll(createPalaceDiagonalPaths(from, router));
 
         return paths;
     }
@@ -40,36 +40,44 @@ public class CannonMoveStrategy extends MoveStrategy {
         return List.copyOf(paths);
     }
 
-    private void addPalaceDiagonalPathsIfPossible(Position from, PalaceRouter router, List<MovePath> paths) {
+    private List<MovePath> createPalaceDiagonalPaths(Position from, PalaceRouter router) {
         if (!router.isInsidePalace(from)) {
-            return;
+            return List.of();
         }
+        List<MovePath> result = new ArrayList<>();
         for (Position adjacent : router.getDiagonalAdjacents(from)) {
-            addDiagonalPathsFromAdjacent(from, adjacent, router, paths);
+            result.addAll(pathsFromAdjacent(from, adjacent, router));
         }
+        return List.copyOf(result);
     }
 
-    private void addDiagonalPathsFromAdjacent(
-            Position from, Position adjacent, PalaceRouter router, List<MovePath> paths) {
+    private List<MovePath> pathsFromAdjacent(
+            Position from, Position adjacent, PalaceRouter router) {
         Optional<Direction> optionalStep = Direction.of(from, adjacent);
         if (optionalStep.isEmpty()) {
-            return;
+            return List.of();
         }
-        Direction step = optionalStep.get();
-        paths.add(new MovePath(List.of(step)));
-        addTwoStepPalaceDiagonalIfValid(adjacent, step, router, paths);
+        return pathsFromAdjacentWithStep(optionalStep.get(), adjacent, router);
     }
 
-    private void addTwoStepPalaceDiagonalIfValid(
-            Position adjacent, Direction step, PalaceRouter router, List<MovePath> paths) {
+    private List<MovePath> pathsFromAdjacentWithStep(
+            Direction step, Position adjacent, PalaceRouter router) {
+        List<MovePath> paths = new ArrayList<>();
+        paths.add(new MovePath(List.of(step)));
+        paths.addAll(twoStepPalaceDiagonalIfValid(adjacent, step, router));
+        return List.copyOf(paths);
+    }
+
+    private List<MovePath> twoStepPalaceDiagonalIfValid(
+            Position adjacent, Direction step, PalaceRouter router) {
         Position oppositeCorner = adjacent.next(step);
         if (!oppositeCorner.isInsideBoard()) {
-            return;
+            return List.of();
         }
         if (!router.isInsidePalace(oppositeCorner)) {
-            return;
+            return List.of();
         }
-        paths.add(new MovePath(List.of(step, step)));
+        return List.of(new MovePath(List.of(step, step)));
     }
 
     @Override
