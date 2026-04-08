@@ -1,6 +1,7 @@
 package janggi.domain;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,7 +17,7 @@ public class Route {
         List<Position> positions = new ArrayList<>();
         for (Direction direction : routes) {
             if (currentPosition.cannotMoveTo(direction)) {
-                continue;
+                return Collections.emptyList();
             }
             currentPosition = direction.sumDirection(currentPosition);
             positions.add(currentPosition);
