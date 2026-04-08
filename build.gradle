@@ -11,6 +11,7 @@ repositories {
 dependencies {
 
     implementation 'com.zaxxer:HikariCP:7.0.2'
+    implementation 'com.h2database:h2:2.2.224'
     testImplementation platform('org.junit:junit-bom:5.11.4')
     testImplementation platform('org.assertj:assertj-bom:3.27.3')
     testImplementation('org.junit.jupiter:junit-jupiter')
@@ -21,6 +22,18 @@ java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
     }
+}
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs += ['--enable-preview']
+}
+
+tasks.withType(Test) {
+    jvmArgs(['--enable-preview'])
+}
+
+tasks.withType(JavaExec) {
+    jvmArgs(['--enable-preview'])
 }
 
 test {

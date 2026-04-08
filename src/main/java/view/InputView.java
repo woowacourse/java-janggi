@@ -1,6 +1,7 @@
 package view;
 
 import dto.PieceInfo;
+import dto.SelectLoadGameRequest;
 import dto.SelectPositionRequest;
 import java.util.Scanner;
 
@@ -14,6 +15,11 @@ public final class InputView {
 
     private InputView() {
 
+    }
+
+    public static SelectLoadGameRequest selectLoadUnfinishedGame() {
+        System.out.println("이전에 진행중이던 게임이 존재합니다. 이어하시겠습니까?.");
+        return SelectLoadGameRequest.of(readLine());
     }
 
     public static SelectPositionRequest selectPiecePosition() {

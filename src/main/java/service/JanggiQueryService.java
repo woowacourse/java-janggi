@@ -14,27 +14,37 @@ public class JanggiQueryService {
         this.janggiRepository = janggiRepository;
     }
 
-    public boolean isInProgress() {
-        return !findJanggiGame().isGameFinished();
+    public boolean isInProgress(long gameId) {
+        return !findJanggiGameById(gameId).isFinished();
     }
 
-    public List<PieceInfo> allFactors() {
-        return findJanggiGame().allFactors();
+    public List<PieceInfo> allFactors(long gameId) {
+        return findJanggiGameById(gameId).allFactors();
     }
 
-    public String currentPlayerTurn() {
-        return findJanggiGame().currentPlayerTurn();
+    public String currentPlayerTurn(long gameId) {
+        return findJanggiGameById(gameId).currentPlayerTurn();
     }
 
-    public PieceInfo findPieceInfoAt(Position selected) {
-        return findJanggiGame().findPieceInfoAt(selected);
+    public PieceInfo findPieceInfoAt(long gameId, Position selected) {
+        return findJanggiGameById(gameId).findPieceInfoAt(selected);
     }
 
-    public String gameStatus() {
-        return findJanggiGame().gameStatus();
+    public String gameStatus(long gameId) {
+        return findJanggiGameById(gameId).gameStatus();
     }
 
-    private JanggiGame findJanggiGame() {
-        return janggiRepository.findJanggiGame();
+    private JanggiGame findJanggiGameById(long gameId) {
+        return janggiRepository.loadGame(gameId);
+    }
+
+    public boolean hasUnfinishedGameId() {
+
+
+        return janggiRepository.hasUnfinishedGame();
+    }
+
+    public long findLatestUnfinishedGameId() {
+        return janggiRepository.findLatestUnfinishedGameId().get();
     }
 }

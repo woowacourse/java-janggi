@@ -3,6 +3,7 @@ package service;
 import domain.JanggiGame;
 import domain.Position;
 import factory.JanggiBoardFactory;
+import factory.JanggiGameRestorer;
 import repository.JanggiRepository;
 
 public class JanggiCommandService {
@@ -13,20 +14,20 @@ public class JanggiCommandService {
         this.janggiRepository = janggiRepository;
     }
 
-    public void setupGame() {
+    public long setupGame() {
         JanggiGame janggiGame = JanggiGame.initGame(JanggiBoardFactory.initialBoard());
 
-        // 서비스, 리포지토리 계층 도입 후 리팩토링 예정
-        janggiRepository.save(janggiGame);
+        return janggiRepository.createGame(janggiGame);
     }
 
-    public void move(Position selected, Position target) {
-        JanggiGame janggiGame = findJanggiGame();
+    public void move(long gameId, Position selected, Position target) {
+        JanggiGame janggiGame = findJanggiGame(gameId);
 
         janggiGame.move(selected, target);
+        janggiRepository.updateGame(gameId, janggiGame);
     }
 
-    private JanggiGame findJanggiGame() {
-        return janggiRepository.findJanggiGame();
+    private JanggiGame findJanggiGame(long gameId) {
+        return janggiRepository.loadGame(gameId);
     }
 }

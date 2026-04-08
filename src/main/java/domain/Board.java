@@ -76,6 +76,12 @@ public class Board {
                 .toList();
     }
 
+    public List<Piece> allPieces() {
+        return board.values().stream()
+                .filter(piece -> !piece.isNone())
+                .toList();
+    }
+
     private boolean isSameTeam(Piece piece, Piece target) {
         if (piece.isRedTeam()) {
             return target.isRedTeam();
