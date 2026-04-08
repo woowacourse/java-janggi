@@ -23,7 +23,6 @@ public final class JanggiService {
     }
 
     public void saveGame(GameWrapper gameWrapper) {
-        // TODO 게임 턴 업데이트랑 기물 업데이트를 리포지토리에서 한번에 하지말고 여기서 두 번에 호출하기
         repository.updateGameStatus(gameWrapper.game(), gameWrapper.gameId());
     }
 

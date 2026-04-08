@@ -6,6 +6,7 @@ import java.util.List;
 
 public record Intersection(int row, int file) {
 
+    private static final String ERROR_WRONG_INPUT = "잘못된 입력입니다. (7,2)처럼 좌표를 구분자(쉼표)로 구분해주세요.";
     private static final int LOWER_BOUND_ROW = 1;
     private static final int UPPER_BOUND_ROW = 10;
     private static final int LOWER_BOUND_FILE = 1;
@@ -14,11 +15,16 @@ public record Intersection(int row, int file) {
     public static Intersection parse(String rowAndFile) {
         final String delimiter = ",";
         if (!rowAndFile.contains(delimiter)) {
-            throw new IllegalArgumentException("잘못된 입력입니다. (7,2)처럼 좌표를 구분자(쉼표)로 구분해주세요.");
+            throw new IllegalArgumentException(ERROR_WRONG_INPUT);
+        }
+
+        String[] split = rowAndFile.split(delimiter);
+
+        if (split.length != 2) {
+            throw new IllegalArgumentException(ERROR_WRONG_INPUT);
         }
 
         try {
-            String[] split = rowAndFile.split(delimiter);
             int row = Integer.parseInt(split[0].trim());
             int file = Integer.parseInt(split[1].trim());
 

@@ -44,6 +44,14 @@ class IntersectionTest {
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageContaining("숫자");
         }
+
+        @DisplayName("구분자가 있지만 숫자가 하나만 입력되면 예외를 던진다")
+        @Test
+        void 숫자_하나와_구분자만_있으면_예외() {
+            assertThatThrownBy(() -> Intersection.parse("1,"))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessageContaining("구분자");
+        }
     }
 
 
