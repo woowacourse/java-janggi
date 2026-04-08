@@ -11,9 +11,9 @@ import java.util.stream.Collectors;
 
 public class DBConnectionUtil {
 
-    private static final String URL = "jdbc:h2:~/janggi;AUTO_SERVER=TRUE";
-    private static final String USERNAME = "sa";
-    private static final String PASSWORD = "";
+    private static final String URL = System.getProperty("db.url", "jdbc:h2:~/janggi;AUTO_SERVER=TRUE");
+    private static final String USERNAME = System.getProperty("db.username", "sa");
+    private static final String PASSWORD = System.getProperty("db.password", "");
 
     public static void initializeSchema() {
         try (Connection con = getConnection();

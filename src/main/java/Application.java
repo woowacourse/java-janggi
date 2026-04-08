@@ -9,7 +9,7 @@ public class Application {
     public static void main(String[] args) {
         DBConnectionUtil.initializeSchema();
 
-        JanggiController janggiController = new JanggiController(new InputView(), new OutputView(), new GameJdbcDao(), new PieceJdbcDao());
+        JanggiController janggiController = new JanggiController(new InputView(), new OutputView(), new JanggiService(new GameJdbcDao(), new PieceJdbcDao()));
         janggiController.run();
     }
 }

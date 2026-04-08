@@ -4,16 +4,10 @@ import domain.game.GameType;
 import domain.game.Status;
 import domain.vo.Position;
 import entity.GameEntity;
-import entity.PieceEntity;
-import repository.GameDao;
-import repository.PieceDao;
 import view.InputView;
 import view.OutputView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class JanggiController {
 
@@ -22,50 +16,22 @@ public class JanggiController {
 
     private final InputView inputView;
     private final OutputView outputView;
-    private final GameDao gameDao;
-    private final PieceDao pieceDao;
+    private final JanggiService janggiService;
 
-    public JanggiController(InputView inputView, OutputView outputView, GameDao gameDao, PieceDao pieceDao) {
+    public JanggiController(InputView inputView, OutputView outputView, JanggiService janggiService) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.gameDao = gameDao;
-        this.pieceDao = pieceDao;
+        this.janggiService = janggiService;
     }
 
     public void run() {
         while (true) {
             GameType gameType = inputView.readGameType();
 
-            if (gameType == GameType.LOAD) {
-                List<GameEntity> findGames = gameDao.findAll();
-                if (findGames.isEmpty()) {
-                    outputView.printMessage("기존에 진행하던 게임이 없습니다.");
+            if (gameType == GameType.LOAD && loadAndPlayGame())
                     continue;
-                }
-
-                int gameId = inputView.readGameNumber(findGames.stream()
-                        .map(GameEntity::getUpdatedAt)
-                        .toList());
-                GameEntity findGame = findGames.get(gameId - 1);
-
-                Status status = Status.valueOf(findGame.getStatus());
-                if (status != Status.PLAYING) {
-                    outputView.printGameResult(status);
-                    continue;
-                }
-
-                List<PieceEntity> findPieces = pieceDao.findAllByGameId(findGame.getId());
-                Board board = convertPieceEntitiesToBoard(findPieces);
-
-                Team team = Team.valueOf(findGame.getCurrentTurn());
-                Game game = Game.loadGame(board, team, status);
-
-                playGame(game, findGame);
-            }
             if (gameType == GameType.NEW) {
-                Game game = initializeGame();
-                GameEntity savedGame = saveGame(game);
-                playGame(game, savedGame);
+                startNewGame();
             }
             if (gameType == GameType.EXIT) {
                 break;
@@ -73,21 +39,40 @@ public class JanggiController {
         }
     }
 
-    private Board convertPieceEntitiesToBoard(List<PieceEntity> findPieces) {
-        Map<Position, Piece> board = new HashMap<>();
-        for (PieceEntity piece : findPieces) {
-            Position position = Position.of(piece.getPositionRow(), piece.getPositionCol());
-            Type type = Type.valueOf(piece.getPieceType());
-            board.put(position, Piece.of(Team.valueOf(piece.getTeam()), type, type.createStrategy()));
+    private boolean loadAndPlayGame() {
+        List<GameEntity> savedGames = janggiService.findAllGames();
+        if (savedGames.isEmpty()) {
+            outputView.printMessage("기존에 진행하던 게임이 없습니다.");
+            return true;
         }
-        return Board.of(board);
+
+        int gameId = inputView.readGameNumber(savedGames.stream()
+                .map(GameEntity::getUpdatedAt)
+                .toList());
+        GameEntity findGame = savedGames.get(gameId - 1);
+
+        Status status = Status.valueOf(findGame.getStatus());
+        if (status != Status.PLAYING) {
+            outputView.printGameResult(status);
+            return true;
+        }
+
+        Game game = janggiService.loadGame(findGame, status);
+
+        playGame(game, findGame);
+        return false;
+    }
+
+    private void startNewGame() {
+        Game game = initializeGame();
+        GameEntity savedGame = janggiService.saveGame(game);
+        playGame(game, savedGame);
     }
 
     private void playGame(Game game, GameEntity gameEntity) {
         while (true) {
             outputView.printBoard(game.getBoard().getBoard());
-            boolean isContinue = move(game, gameEntity.getId());
-            gameDao.update(gameEntity.getId(), game.getCurrentTeam().name(), game.getStatus().toString());
+            boolean isContinue = handleMove(game, gameEntity.getId());
             outputView.printScore(game.calculateScore(Team.CHU), game.calculateScore(Team.HAN));
 
             if (!isContinue) {
@@ -105,51 +90,33 @@ public class JanggiController {
         return Game.of(board);
     }
 
-    private GameEntity saveGame(Game game) {
-        GameEntity gameEntity = gameDao.save(
-                new GameEntity(game.getCurrentTeam().name(), game.getStatus().toString())
-        );
-
-        List<PieceEntity> pieces = convertBoardToPieceEntities(gameEntity.getId(), game.getBoard());
-        pieceDao.saveAll(pieces);
-        return gameEntity;
-    }
-
-    private List<PieceEntity> convertBoardToPieceEntities(Long gameId, Board board) {
-        List<PieceEntity> pieces = new ArrayList<>();
-        for (int row = 0; row < 10; row++) {
-            for (int col = 0; col < 9; col++) {
-                Position position = Position.of(row, col);
-                board.findPieceByPosition(position)
-                        .ifPresent(piece -> pieces.add(PieceEntity.from(gameId, piece, position)));
-            }
-        }
-        return pieces;
-    }
-
-    private boolean move(Game game, Long gameId) {
+    private boolean handleMove(Game game, Long gameId) {
         try {
             String turnName = game.getTurnDisplayName();
-
-            String currentInput = inputView.readPosition(turnName);
-            if (isQuitOrSkipCommand(game, turnName, currentInput))
-                return false;
-            Position from = parsePosition(currentInput);
-
-            validatePieceAndTurn(game, from);
-
-            String targetInput = inputView.readTargetPosition();
-            if (isQuitOrSkipCommand(game, turnName, targetInput))
-                return false;
-            Position to = parsePosition(targetInput);
-
-            executeMove(game, gameId, from, to);
-
-            return game.getStatus() == Status.PLAYING;
+            return proceedMove(game, gameId, turnName);
         } catch (Exception e) {
             outputView.printMessage("[ERROR] " + e.getMessage());
-            return move(game, gameId);
+            return handleMove(game, gameId);
         }
+    }
+
+    private boolean proceedMove(Game game, Long gameId, String turnName) {
+        String currentInput = inputView.readPosition(turnName);
+        if (handleQuitOrSkipCommand(game, turnName, currentInput)) {
+            return false;
+        }
+        Position from = parsePosition(currentInput);
+
+        validatePieceAndTurn(game, from);
+
+        String targetInput = inputView.readTargetPosition();
+        if (handleQuitOrSkipCommand(game, turnName, targetInput)) {
+            return false;
+        }
+        Position to = parsePosition(targetInput);
+
+        janggiService.moveAndSave(game, gameId, from, to);
+        return game.getStatus() == Status.PLAYING;
     }
 
     private void validatePieceAndTurn(Game game, Position position) {
@@ -158,13 +125,7 @@ public class JanggiController {
         game.checkTurn(piece.getTeam());
     }
 
-    private void executeMove(Game game, Long gameId, Position from, Position to) {
-        boolean hasTargetPiece = game.getBoard().findPieceByPosition(to).isPresent();
-        game.tryToMove(from, to);
-        updatePieceEntities(gameId, hasTargetPiece, from, to);
-    }
-
-    private boolean isQuitOrSkipCommand(Game game, String turn, String input) {
+    private boolean handleQuitOrSkipCommand(Game game, String turn, String input) {
         if (input.equals(QUIT_COMMAND)) {
             game.lose(turn);
             return true;
@@ -178,14 +139,5 @@ public class JanggiController {
     private Position parsePosition(String input) {
         String[] tokens = input.split(" ");
         return Position.of(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]));
-    }
-
-    private void updatePieceEntities(Long gameId, boolean hasTargetPiece, Position currentPosition, Position targetPosition) {
-        if (hasTargetPiece) {
-            pieceDao.deleteByPosition(gameId, targetPosition.getRow(), targetPosition.getCol());
-        }
-        pieceDao.updatePosition(gameId,
-                currentPosition.getRow(), currentPosition.getCol(),
-                targetPosition.getRow(), targetPosition.getCol());
     }
 }
