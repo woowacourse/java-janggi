@@ -9,9 +9,9 @@ public class InitDatabaseTable {
     private static final String sql2 = "CREATE TABLE IF NOT EXISTS piece (id INT AUTO_INCREMENT PRIMARY KEY, game_id INT, position_row INT, position_column INT, piece_type VARCHAR(50), team_type VARCHAR(50), FOREIGN KEY (game_id) REFERENCES game(id));";
 
     public static void initDatabaseTable() {
-        try (Connection connection = DatabaseConnector.getConnection();
+        DatabaseConnector databaseConnector = new DatabaseConnector();
+        try (Connection connection = databaseConnector.getConnection();
              Statement statement = connection.createStatement()) {
-
             statement.execute(sql1);
             statement.execute(sql2);
         } catch (SQLException e) {

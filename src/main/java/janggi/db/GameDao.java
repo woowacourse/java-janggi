@@ -17,14 +17,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GameDao {
-    private final Connection connection;
 
-    public GameDao(Connection connection) {
-        this.connection = connection;
+    private final DatabaseConnector databaseConnector;
+
+    public GameDao() {
+        databaseConnector = new DatabaseConnector();
+    }
+
+    public GameDao(String url) {
+        databaseConnector = new DatabaseConnector(url);
     }
 
     public void saveGame(GameContext gameContext) {
-        try {
+        try (Connection connection = databaseConnector.getConnection()) {
             Statement statement = connection.createStatement();
             statement.execute("DELETE FROM PIECE;");
             statement.execute("DELETE FROM GAME;");
@@ -59,7 +64,7 @@ public class GameDao {
     }
 
     public GameContext loadPreviousGame() {
-        try {
+        try (Connection connection = databaseConnector.getConnection()) {
             PreparedStatement gameStatement = connection.prepareStatement(
                     "SELECT current_turn FROM game WHERE id = 1;");
             ResultSet resultSet = gameStatement.executeQuery();

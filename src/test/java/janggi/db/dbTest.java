@@ -23,19 +23,19 @@ import org.junit.jupiter.api.Test;
 
 public class dbTest {
 
+    private final String TEST_URL = "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1";
     private Connection connection;
     private GameDao gameDao;
 
     @BeforeEach
     void setup() throws SQLException {
-        connection = DatabaseConnector.getConnection("jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1");
-
+        connection = new DatabaseConnector(TEST_URL).getConnection();
         Statement statement = connection.createStatement();
         statement.execute(
                 "CREATE TABLE IF NOT EXISTS game (id INT AUTO_INCREMENT PRIMARY KEY, current_turn VARCHAR(10));");
         statement.execute(
                 "CREATE TABLE IF NOT EXISTS piece (id INT AUTO_INCREMENT PRIMARY KEY, game_id INT, position_row INT, position_column INT, piece_type VARCHAR(50), team_type VARCHAR(50), FOREIGN KEY (game_id) REFERENCES game(id));");
-        gameDao = new GameDao(connection);
+        gameDao = new GameDao(TEST_URL);
     }
 
     @AfterEach
@@ -51,11 +51,13 @@ public class dbTest {
     void success1() {
         Map<Position, Piece> positionPieces = new HashMap<>();
         Board board = new Board(positionPieces);
-        GameContext gameContext = new GameContext(new TurnManager(), board);
+        TurnManager turnManager = new TurnManager();
+        turnManager.changeTurn();
+        GameContext gameContext = new GameContext(turnManager, board);
         gameDao.saveGame(gameContext);
 
         GameContext gameContextTest = gameDao.loadPreviousGame();
-        assertThat(gameContextTest.currentTeamType().equals((gameContext.currentTeamType())));
+        assertThat(gameContextTest.currentTeamType()).isEqualTo(turnManager.currentTeamType());
     }
 
     @Test

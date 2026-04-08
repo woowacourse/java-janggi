@@ -6,21 +6,29 @@ import java.sql.SQLException;
 
 public class DatabaseConnector {
 
-    private static final String URL = "jdbc:h2:./janggi";
     private static final String USER = "sa";
     private static final String PASSWORD = "";
+    private final String url;
 
-    public static Connection getConnection() {
+    public DatabaseConnector() {
+        url = "jdbc:h2:./janggi";
+    }
+
+    public DatabaseConnector(String url) {
+        this.url = url;
+    }
+
+    public Connection getConnection() {
         try {
-            return DriverManager.getConnection(URL, USER, PASSWORD);
+            return DriverManager.getConnection(url, USER, PASSWORD);
         } catch (SQLException e) {
             throw new RuntimeException("DB 접속 에러");
         }
     }
 
-    public static Connection getConnection(String testUrl) {
+    public Connection getConnection(String url) {
         try {
-            return DriverManager.getConnection(testUrl, USER, PASSWORD);
+            return DriverManager.getConnection(url, USER, PASSWORD);
         } catch (SQLException e) {
             throw new RuntimeException("DB 접속 에러");
         }
