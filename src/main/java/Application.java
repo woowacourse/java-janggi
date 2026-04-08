@@ -17,7 +17,5 @@ public class Application {
         } catch (IllegalStateException e){
             System.out.println(e.getMessage());
         }
-
-
     }
 }

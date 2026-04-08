@@ -18,7 +18,6 @@ CREATE TABLE  IF NOT EXISTS piece_position
     piece_id  INT,
     x  INT,
     y  INT,
-    is_killed  BIT,
     FOREIGN KEY (piece_id) REFERENCES piece(id),
     FOREIGN KEY (game_id) REFERENCES game(id)
 );

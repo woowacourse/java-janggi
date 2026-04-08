@@ -87,9 +87,11 @@ public class JanggiService {
         Connection conn = ConnectionManager.getConnection();
         JanggiGameRepository janggiGameRepository = new JanggiGameRepository(conn);
         JanggiGame janggiGame = janggiGameRepository.findByGameId(gameId);
-        ConnectionManager.closeConnection(conn);
 
         janggiGame.play(start, end);
+
+        janggiGameRepository.saveMoveReuslt(janggiGame,gameId);
+        ConnectionManager.closeConnection(conn);
     }
 
     public ScoreDto buildScoreDto(int gameId) {

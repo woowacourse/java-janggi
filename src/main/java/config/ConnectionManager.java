@@ -39,7 +39,6 @@ public class ConnectionManager {
     public static void startH2Server() {
         try {
             Server server = Server.createWebServer("-web", "-webPort", "8082");
-
             if (!server.isRunning(false)) {
                 server.start();
             }
@@ -89,7 +88,6 @@ public class ConnectionManager {
             e.printStackTrace(); // ⭐ 반드시 출력
             throw new IllegalStateException("Schema initialization failed", e);
         }
-
     }
 
 

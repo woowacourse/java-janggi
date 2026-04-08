@@ -43,8 +43,8 @@ public class JanggiGameRepository {
 
     public void saveBoard(Board board, int gameId) {
         String sql = """
-                Insert into piece_position (game_id, piece_id, x, y, is_killed)
-                VALUES (?, ?, ?, ?, ?)
+                Insert into piece_position (game_id, piece_id, x, y)
+                VALUES (?, ?, ?, ?)
                 """;
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             for (Map.Entry<Position, Piece> entry : board.getBoard().entrySet()) {
@@ -58,11 +58,42 @@ public class JanggiGameRepository {
                 ps.setInt(2, pieceId);
                 ps.setInt(3, position.getX());
                 ps.setInt(4, position.getY());
-                ps.setBoolean(5, false);
                 ps.addBatch(); // ⭐ batch 처리
             }
 
             ps.executeBatch();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void saveMoveReuslt(JanggiGame game, int gameId) {
+        updateStateByGameId(gameId, game);
+        updateBoardByGameId(gameId, game);
+    }
+
+    private void updateBoardByGameId(int gameId, JanggiGame janggiGame) {
+        String sql = "DELETE FROM piece_position WHERE game_id = ?";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, gameId);
+            ps.executeUpdate();
+            saveBoard(janggiGame.getBoard(),gameId);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void updateStateByGameId(int gameId, JanggiGame janggiGame) {
+        String sql = "UPDATE game SET state=? where id = ?";
+        String stateStr = janggiGame.getStateValue();
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, stateStr);
+            ps.setInt(2, gameId);
+            ps.executeUpdate();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -98,7 +129,7 @@ public class JanggiGameRepository {
         String sql = "Select id from game where id = ? and state != ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, gameId);
-            ps.setString(2, "EXIT"); // enum이면 DB에 저장된 값 기준
+            ps.setString(2, "Exit"); // enum이면 DB에 저장된 값 기준
 
             ResultSet rs = ps.executeQuery();
 
@@ -119,8 +150,6 @@ public class JanggiGameRepository {
                     FROM piece_position pp
                 JOIN piece p ON pp.piece_id = p.id
                 WHERE pp.game_id=?
-                AND pp.is_killed=false
-                
                 """;
         Map<Position, Piece> board = new HashMap<>();
 
