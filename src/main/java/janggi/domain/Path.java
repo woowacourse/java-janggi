@@ -15,6 +15,10 @@ public class Path {
         return destination;
     }
 
+    public boolean isDestinationInsidePalace() {
+        return destination.isPalace();
+    }
+
     public boolean hasDestination(Position position) {
         return destination == position;
     }

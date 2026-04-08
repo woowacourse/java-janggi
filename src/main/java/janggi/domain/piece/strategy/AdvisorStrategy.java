@@ -19,7 +19,7 @@ public class AdvisorStrategy implements MoveStrategy {
         }
 
         return paths.stream()
-                .filter(path -> path.destination().isPalace())
+                .filter(Path::isDestinationInsidePalace)
                 .toList();
     }
 
