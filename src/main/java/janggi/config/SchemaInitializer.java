@@ -6,6 +6,8 @@ import java.sql.Statement;
 
 public class SchemaInitializer {
     private static final String INIT_SCHEMA_FAIL_MESSAGE = "DB 스키마 초기화 중 오류가 발생했습니다.";
+    private static final String INVALID_DATABASE_NAME = "올바르지 않은 database 이름입니다.";
+    private static final String DATABASE_NAME_PATTERN = "[a-zA-Z0-9_]+";
 
     private static final String CREATE_GAME_ROOM_SQL = """
             CREATE TABLE IF NOT EXISTS game_room (
@@ -45,13 +47,21 @@ public class SchemaInitializer {
     }
 
     private void createDatabaseIfNotExists() {
-        String sql = "CREATE DATABASE IF NOT EXISTS " + connectionManager.getDatabaseName();
+        String databaseName = connectionManager.getDatabaseName();
+        validateDatabaseName(databaseName);
+        String sql = "CREATE DATABASE IF NOT EXISTS " + databaseName;
 
         try (Connection connection = connectionManager.getServerConnection();
              Statement statement = connection.createStatement()) {
             statement.execute(sql);
         } catch (SQLException e) {
             throw new IllegalStateException(INIT_SCHEMA_FAIL_MESSAGE, e);
+        }
+    }
+
+    private void validateDatabaseName(String databaseName){
+        if(!databaseName.matches(DATABASE_NAME_PATTERN)){
+            throw new IllegalArgumentException(INVALID_DATABASE_NAME);
         }
     }
 
