@@ -35,7 +35,7 @@ public final class TeamScores {
         return Optional.empty();
     }
 
-    private static long scaledHalfPointUnits(MaterialPoints points) {
+    private long scaledHalfPointUnits(MaterialPoints points) {
         return Math.round(points.value() * 2);
     }
 }
