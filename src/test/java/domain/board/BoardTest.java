@@ -156,6 +156,6 @@ public class BoardTest {
 
         assertThatThrownBy(() -> board.move(new Position(1, 1), new Position(1, 5)))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("이동할 수 없는 위치입니다.");
+                .hasMessage("빈 기물을 선택했습니다. 아군 기물을 선택해 주세요.");
     }
 }

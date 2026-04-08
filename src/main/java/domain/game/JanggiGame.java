@@ -3,6 +3,7 @@ package domain.game;
 import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.FormationType;
+import domain.piece.Piece;
 import domain.position.Position;
 
 public class JanggiGame {
@@ -25,7 +26,13 @@ public class JanggiGame {
     }
 
     private void validateTurn(Position source) {
-        if (!board.pieceAt(source).belongsTo(turn.current())) {
+        Piece sourcePiece = board.pieceAt(source);
+
+        if (!sourcePiece.isNotEmpty()) {
+            throw new IllegalArgumentException("빈 칸을 선택하셨습니다.");
+        }
+
+        if (!sourcePiece.belongsTo(turn.current())) {
             throw new IllegalArgumentException("현재 턴의 기물이 아닙니다.");
         }
     }
