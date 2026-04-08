@@ -120,6 +120,10 @@ public class JanggiController {
     }
 
     private GameContext loadPreviousGameContext() {
-        return gameDao.loadPreviousGame();
+        if (gameDao.hasGameData()) {
+            return gameDao.loadPreviousGame();
+        }
+        System.out.println("새 게임을 만듭니다.");
+        return createNewGameContext();
     }
 }

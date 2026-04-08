@@ -57,6 +57,21 @@ public class GameDao {
         }
     }
 
+    public boolean hasGameData() {
+        try (Connection connection = databaseConnector.getConnection();
+             PreparedStatement statement = connection.prepareStatement("SELECT COUNT(*) FROM game WHERE id = ?")) {
+            statement.setInt(1, FIX_GAME_ID);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt("COUNT(*)") == 1;
+                }
+                return false;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("데이터베이스 오류");
+        }
+    }
+
     private void deletePiecesTable(Connection connection) throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement("DELETE FROM PIECE WHERE game_id = ?")) {
             statement.setInt(1, FIX_GAME_ID);
