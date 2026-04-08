@@ -24,11 +24,16 @@ public class Board {
         if (!board.containsKey(position)) {
             throw new IllegalArgumentException("[ERROR] 선택할 수 없는 좌표입니다.");
         }
-        Piece piece = board.get(position);
-        List<Position> availablePositions = piece.findAvailableDestinations(position, board);
-        // TODO: Position에 같은 팀 진영에 있는거 필터하기
-        validateCantMovePiece(availablePositions);
-        return availablePositions;
+        Piece currentPiece = board.get(position);
+        List<Position> availablePositions = currentPiece.findAvailableDestinations(position, board);
+        List<Position> filteredPositions = availablePositions.stream()
+                .filter(targetPosition -> {
+                    Piece targetPiece = board.get(targetPosition);
+                    return targetPiece == null || !targetPiece.isAlly(currentPiece.getTeam());
+                })
+                .toList();
+        validateCantMovePiece(filteredPositions);
+        return filteredPositions;
     }
 
     public void movePiece(Position movePiecePosition, Position destination) {
