@@ -52,10 +52,6 @@ public class Intersection {
         return piece.hasPiece();
     }
 
-    public boolean isChoIntersection() {
-        return piece.isCho();
-    }
-
     public IntersectionState toIntersectionState() {
         return new IntersectionState(point, piece.pieceType(), piece.getTeam());
     }

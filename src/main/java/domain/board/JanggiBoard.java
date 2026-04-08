@@ -105,16 +105,10 @@ public class JanggiBoard {
     }
 
     public boolean isGameRunning() {
-        int generalCount = 0;
-        for (Intersection intersection : intersections.values()) {
-            if (intersection.isSamePiece(PieceType.GENERAL)) {
-                generalCount++;
-            }
-        }
-        if (generalCount == 2) {
-            return true;
-        }
-        return false;
+        int generalCount = (int) intersections.values().stream()
+                .filter(intersection -> intersection.isSamePiece(PieceType.GENERAL))
+                .count();
+        return generalCount == 2;
     }
 
     private List<Intersection> findPath(List<Point> possiblePoints) {
