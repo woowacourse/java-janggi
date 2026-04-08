@@ -7,9 +7,11 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public record Board(Map<Position, Piece> piecePosition) implements BoardInfo {
+public class Board implements BoardInfo {
 
     private static final int PALACE_MAX_COUNT = 2;
+
+    private final Map<Position, Piece> piecePosition;
 
     public Board(Map<Position, Piece> piecePosition) {
         this.piecePosition = new HashMap<>(piecePosition);
@@ -87,7 +89,6 @@ public record Board(Map<Position, Piece> piecePosition) implements BoardInfo {
         return PieceScoreCalculator.calculateScore(side, piecePosition.values());
     }
 
-    @Override
     public Map<Position, Piece> piecePosition() {
         return Map.copyOf(piecePosition);
     }
