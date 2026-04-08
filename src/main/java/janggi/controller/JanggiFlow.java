@@ -48,7 +48,6 @@ public class JanggiFlow {
             currentSide = gameContext.getCurrentSide();
             view.respondCurrentSide(SideViewResolver.toDisplayName(currentSide));
 
-            System.out.println("alive: " + board.getAlivePieces().size());
             //턴 실행
             Side finalCurrentSide = currentSide;
             retryAction(() -> {
