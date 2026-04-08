@@ -18,6 +18,7 @@ import java.util.List;
 
 public class JanggiController {
     private final GameDao gameDao = new GameDao();
+    private GameContext gameContext;
 
     public JanggiController() {
     }
@@ -26,20 +27,24 @@ public class JanggiController {
         OutputView.printStartJanggi();
         int inputCommand = RetryExecutor.retry(this::inputStarCommand);
         if (inputCommand == 1) {
-            startGame();
+            gameContext = createNewGameContext();
         }
         if (inputCommand == 2) {
-            loadPreviousGame();
+            gameContext = loadPreviousGameContext();
         }
+        startGame(gameContext);
     }
 
     private int inputStarCommand() {
         return InputView.readIntegerCommand();
     }
 
-    private void startGame() {
+    private GameContext createNewGameContext() {
         Board board = BoardGenerator.generate(setupTeam(TeamType.RED), setupTeam(TeamType.BLUE));
-        GameContext gameContext = new GameContext(new TurnManager(), board);
+        return new GameContext(new TurnManager(), board);
+    }
+
+    private void startGame(GameContext gameContext) {
         while (gameContext.canContinueGame()) {
             playTurn(gameContext);
             gameDao.saveGame(gameContext);
@@ -111,13 +116,7 @@ public class JanggiController {
         }
     }
 
-    private void loadPreviousGame() {
-        GameContext gameContext = gameDao.loadPreviousGame();
-        while (gameContext.canContinueGame()) {
-            playTurn(gameContext);
-            gameDao.saveGame(gameContext);
-        }
-        gameContext.changeTurn();
-        OutputView.printGameOverMessage(gameContext.currentTeamTypeToName());
+    private GameContext loadPreviousGameContext() {
+        return gameDao.loadPreviousGame();
     }
 }
