@@ -1,5 +1,7 @@
-package janggi.model;
+package janggi.model.board;
 
+import janggi.model.Score;
+import janggi.model.Team;
 import janggi.model.gimul.AbstractGimul;
 import janggi.model.position.Position;
 import janggi.model.position.PositionPath;

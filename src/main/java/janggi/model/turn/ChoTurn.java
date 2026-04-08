@@ -1,8 +1,8 @@
 package janggi.model.turn;
 
-import janggi.model.Board;
 import janggi.model.Score;
 import janggi.model.Team;
+import janggi.model.board.Board;
 import janggi.model.position.Position;
 import java.util.function.BiConsumer;
 

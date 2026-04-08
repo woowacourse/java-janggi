@@ -2,9 +2,9 @@ package janggi.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.model.Board;
 import janggi.model.Janggi;
 import janggi.model.Team;
+import janggi.model.board.Board;
 import janggi.model.initializer.LeftSidedTableSetting;
 import janggi.repository.InMemoryGameRepository;
 import janggi.repository.InMemoryGimulRepository;

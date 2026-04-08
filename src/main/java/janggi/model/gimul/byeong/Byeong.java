@@ -1,7 +1,9 @@
-package janggi.model.gimul;
+package janggi.model.gimul.byeong;
 
 import janggi.model.Score;
 import janggi.model.Team;
+import janggi.model.gimul.AbstractGimul;
+import janggi.model.gimul.GimulType;
 import janggi.model.position.DiagonalDelta;
 import janggi.model.position.Position;
 import janggi.model.position.PositionPath;

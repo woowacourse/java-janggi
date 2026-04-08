@@ -3,8 +3,8 @@ package janggi.turn;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.model.Board;
 import janggi.model.Team;
+import janggi.model.board.Board;
 import janggi.model.gimul.AbstractGimul;
 import janggi.model.gimul.palace.Jang;
 import janggi.model.position.Column;

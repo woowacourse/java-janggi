@@ -1,8 +1,8 @@
 package janggi.controller;
 
-import janggi.model.BoardType;
 import janggi.model.Janggi;
 import janggi.model.Team;
+import janggi.model.initializer.BoardInitializer.BoardType;
 import janggi.model.position.Column;
 import janggi.model.position.Position;
 import janggi.model.position.Row;

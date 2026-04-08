@@ -1,5 +1,6 @@
 package janggi.model;
 
+import janggi.model.board.Board;
 import janggi.model.position.Position;
 import janggi.model.turn.ChoTurn;
 import janggi.model.turn.HanTurn;

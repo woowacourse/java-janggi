@@ -1,6 +1,7 @@
 package janggi.model.gimul;
 
 import janggi.model.Team;
+import janggi.model.gimul.byeong.Byeong;
 import janggi.model.gimul.diagonalMove.Ma;
 import janggi.model.gimul.diagonalMove.Sang;
 import janggi.model.gimul.linearMove.Cha;

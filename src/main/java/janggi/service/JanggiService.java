@@ -1,8 +1,8 @@
 package janggi.service;
 
-import janggi.model.Board;
 import janggi.model.Janggi;
 import janggi.model.Team;
+import janggi.model.board.Board;
 import janggi.model.gimul.AbstractGimul;
 import janggi.model.position.Position;
 import janggi.repository.GameRepository;

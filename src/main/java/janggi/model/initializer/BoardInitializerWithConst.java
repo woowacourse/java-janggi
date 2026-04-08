@@ -2,7 +2,7 @@ package janggi.model.initializer;
 
 import janggi.model.Team;
 import janggi.model.gimul.AbstractGimul;
-import janggi.model.gimul.Byeong;
+import janggi.model.gimul.byeong.Byeong;
 import janggi.model.gimul.linearMove.Cha;
 import janggi.model.gimul.linearMove.Pho;
 import janggi.model.gimul.palace.Jang;
