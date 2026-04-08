@@ -2,7 +2,9 @@ package view;
 
 import domain.game.Team;
 import domain.position.Position;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -31,13 +33,15 @@ public class InputView {
         return number;
     }
 
-    public Position[] askMovePiecePosition(Team team) {
+    public List<Position> askMovePiecePosition(Team team) {
         System.out.println(TEAM_NAMES.get(team) + "의 차례입니다. 움직일 기물의 위치와 이동할 위치를 행과 열 순서대로 입력하세요. ( 예: 2,5,4,3 )");
         String[] tokens = Arrays.stream(scanner.nextLine().split(","))
                 .map(String::trim)
                 .toArray(String[]::new);
         validatePositionFormat(tokens);
-        return new Position[]{Position.from(tokens[0], tokens[1]), Position.from(tokens[2], tokens[3])};
+        List<Position> positons = new ArrayList<>(
+                List.of(Position.from(tokens[0], tokens[1]), Position.from(tokens[2], tokens[3])));
+        return positons;
     }
 
     private void validatePositionFormat(String[] tokens) {
