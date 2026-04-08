@@ -54,14 +54,29 @@ public class Board {
         }
     }
 
-    public void move(Position from, Position to) {
+    public void move(Team turn, Position from, Position to) {
         Space spaceFrom = piecesInfo.get(from);
         validateBlankSpace(spaceFrom);
 
         Piece selectedPiece = spaceFrom.asPiece();
+        validateTurn(turn, selectedPiece);
         validatePieceRule(from, to, selectedPiece);
 
         applyMove(from, to, selectedPiece);
+    }
+
+    private void validateBlankSpace(Space spaceFrom) {
+        if (spaceFrom.isBlank()) {
+            throw new IllegalArgumentException("[ERROR] 해당 좌표에 말이 없습니다.");
+        }
+    }
+
+    private void validateTurn(Team turn, Piece selectedPiece) {
+        if (!selectedPiece.isEqualTeam(turn)) {
+            throw new IllegalArgumentException(
+                String.format("[ERROR] %s팀의 차례입니다.", turn.getName())
+            );
+        }
     }
 
     private void validatePieceRule(Position from, Position to, Piece selectedPiece) {
@@ -72,12 +87,6 @@ public class Board {
 
         Space spaceTo = piecesInfo.get(to);
         selectedPiece.validateArrival(spaceTo);
-    }
-
-    private void validateBlankSpace(Space spaceFrom) {
-        if (spaceFrom.isBlank()) {
-            throw new IllegalArgumentException("[ERROR] 해당 좌표에 말이 없습니다.");
-        }
     }
 
     private List<Piece> getBlockedPiece(Position from, Position to, Piece selectedPiece) {
