@@ -1,6 +1,7 @@
 package controller;
 
 import domain.Game;
+import domain.TurnResult;
 import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.InitializeSetting;
@@ -31,55 +32,87 @@ public class Controller {
     }
 
     public void run() {
-        String menu = retry(inputView::readMainMenu);
-
-        if (menu.equals("1")) {
-            startNewGame();
-        } else {
-            loadExistGame();
-        }
+        long gameId = loadGame();
+        Game game = gameRepository.findById(gameId);
+        play(game, gameId);
     }
 
+    private long loadGame() {
+        String menu = retry(inputView::readMainMenu);
+        if (menu.equals("1")) {
+            return startNewGame();
+        }
+        return loadExistGame();
+    }
+
+    private long startNewGame() {
+        InitializeSetting choSetting = retry(() -> inputView.readInitialSetting("초(CHO)"));
+        InitializeSetting hanSetting = retry(() -> inputView.readInitialSetting("한(HAN)"));
+        Board board = BoardFactory.createBoard(choSetting, hanSetting);
+        Game game = new Game(board);
+        return gameRepository.create(game);
+    }
+
+
+    private long loadExistGame() {
+        Map<Long, String> savedGames = gameRepository.findAll();
+        outputView.printSavedGames(savedGames);
+        if (savedGames.isEmpty()) {
+            outputView.printStartNewGame();
+            return startNewGame();
+        }
+        return retry(inputView::readGameId);
+    }
+
+
     private void play(Game game, long gameId) {
-        while (!game.isGameEnd()) {
-            outputView.printGame(toGameDto(game));
-            boolean isContinue = executeMove(game);
-            if (!isContinue) {
+        while (true) {
+            TurnResult result = playTurn(game);
+            if (result == TurnResult.END) {
+                outputView.printGameResult(game.getWinnerTeam());
+                return;
+            }
+            if (result == TurnResult.QUIT) {
                 outputView.printGameSaved(gameId);
                 return;
             }
             gameRepository.save(gameId, game);
         }
-        outputView.printGameResult(game.getWinnerTeam());
     }
 
-    private void startNewGame() {
-        InitializeSetting choSetting = retry(() -> inputView.readInitialSetting("초(CHO)"));
-        InitializeSetting hanSetting = retry(() -> inputView.readInitialSetting("한(HAN)"));
-        Board board = BoardFactory.createBoard(choSetting, hanSetting);
-        Game game = new Game(board);
+    private TurnResult playTurn(Game game) {
 
-        long gameId = gameRepository.create(game);
-        play(game, gameId);
-    }
-
-    private void loadExistGame() {
-        Map<Long, String> savedGames = gameRepository.findAll();
-        outputView.printSavedGames(savedGames);
-
-        if (savedGames.isEmpty()) {
-            outputView.printStartNewGame();
-            startNewGame();
-            return;
+        if (game.isGameEnd()) {
+            return TurnResult.END;
         }
+        outputView.printGame(toGameDto(game));
+        if (!executeMove(game)) {
+            return TurnResult.QUIT;
+        }
+        return TurnResult.CONTINUE;
+    }
 
-        long gameId = retry(inputView::readGameId);
+    private boolean executeMove(Game game) {
+        while (true) {
+            Optional<Position> from = retry(inputView::readSourcePosition);
+            if (from.isEmpty()) {
+                return false;
+            }
+            if (tryMove(game, from.get())) {
+                return true;
+            }
+        }
+    }
+
+    private boolean tryMove(Game game, Position from) {
         try {
-            Game game = gameRepository.findById(gameId);
-            outputView.printGameLoaded(gameId);
-            play(game, gameId);
-        } catch (Exception e) {
-            outputView.printError(new IllegalArgumentException("게임을 불러오는데 실패했습니다. 방 번호를 확인하세요."));
+            game.validateMoveAblePiece(from);
+            Position to = inputView.readTargetPosition();
+            game.move(from, to);
+            return true;
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            outputView.printError(e);
+            return false;
         }
     }
 
@@ -105,24 +138,6 @@ public class Controller {
                 game.getCurrentScore(Team.HAN),
                 toPieceDtos(game)
         );
-    }
-
-    private boolean executeMove(Game game) {
-        while (true) {
-            try {
-                Optional<Position> sourcePosition = inputView.readSourcePosition();
-                if (sourcePosition.isEmpty()) {
-                    return false;
-                }
-
-                game.validateMoveAblePiece(sourcePosition.get());
-                Position to = inputView.readTargetPosition();
-                game.move(sourcePosition.get(), to);
-                return true;
-            } catch (IllegalArgumentException | IllegalStateException e) {
-                outputView.printError(e);
-            }
-        }
     }
 
     private <T> T retry(Supplier<T> supplier) {

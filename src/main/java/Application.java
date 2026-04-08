@@ -12,15 +12,8 @@ import org.h2.tools.Server;
 import java.sql.SQLException;
 
 public class Application {
-    public static void main(String[] args) {
-        Server h2Server;
-        try {
-            h2Server = Server.createWebServer("-web", "-webAllowOthers", "-webPort", "8082").start();
-            System.out.println("H2 콘솔 서버 실행에 성공했습니다.");
-        } catch (SQLException e) {
-            System.out.println("H2 콘솔 서버 실행에 실패했습니다.");
-            return;
-        }
+    public static void main(String[] args) throws SQLException {
+
         String dbUrl = "jdbc:h2:./janggi;AUTO_SERVER=TRUE;INIT=RUNSCRIPT FROM 'classpath:schema.sql'";
 
         InputView inputView = new InputView();
@@ -31,10 +24,5 @@ public class Application {
 
         Controller controller = new Controller(inputView, outputView, gameRepository);
         controller.run();
-
-        if (h2Server != null) {
-            h2Server.stop();
-            System.out.println("H2 콘솔 서버를 종료합니다.");
-        }
     }
 }
