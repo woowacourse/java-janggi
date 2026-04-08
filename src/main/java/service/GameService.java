@@ -33,6 +33,7 @@ public class GameService {
             Position target = Position.of(moveRecord.targetX(), moveRecord.targetY());
             game.move(source, target);
         }
+
         return game;
     }
 
@@ -40,9 +41,8 @@ public class GameService {
         gameRecordRepository.deleteAll();
         moveRecordRepository.deleteAll();
         gameRecordRepository.save(new GameRecord(choFormation, hanFormation));
+        Board board = BoardFactory.createBoard(choFormation, hanFormation);
 
-//        Board board = BoardFactory.createBoard(choFormation, hanFormation);
-        Board board = BoardFactory.createTestBoard();
         return new Game(board);
     }
 
@@ -52,17 +52,12 @@ public class GameService {
         if (game.isGameEnd()) {
             gameRecordRepository.deleteAll();
             moveRecordRepository.deleteAll();
+            
             return;
         }
 
         moveRecordRepository.save(
-            new MoveRecord(
-                sourcePosition.getX(),
-                sourcePosition.getY(),
-                targetPosition.getX(),
-                targetPosition.getY(),
-                game.getCurrentTurn().opposite()
-            )
-        );
+            new MoveRecord(sourcePosition.getX(), sourcePosition.getY(), targetPosition.getX(), targetPosition.getY(),
+                game.getCurrentTurn().opposite()));
     }
 }

@@ -1,11 +1,11 @@
 package domain.strategy;
 
-import domain.movement.Direction;
-import domain.vo.Position;
 import domain.movement.LinearMovement;
 import domain.movement.Movement;
 import domain.movement.PathMovement;
+import domain.path.Direction;
 import domain.path.Path;
+import domain.vo.Position;
 import java.util.List;
 
 public class LinearMovementStrategy implements PieceMoveStrategy {

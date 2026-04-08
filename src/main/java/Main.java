@@ -1,5 +1,5 @@
 import config.AppConfig;
-import domain.console.GameConsole;
+import console.GameConsole;
 
 public class Main {
 

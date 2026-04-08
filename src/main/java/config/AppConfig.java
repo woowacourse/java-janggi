@@ -1,6 +1,6 @@
 package config;
 
-import domain.console.GameConsole;
+import console.GameConsole;
 import repository.connector.Connector;
 import repository.connector.MysqlConnector;
 import repository.game_record.GameRecordRepository;

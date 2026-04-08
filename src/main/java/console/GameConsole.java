@@ -1,4 +1,4 @@
-package domain.console;
+package console;
 
 import domain.board.Formation;
 import domain.game.Game;

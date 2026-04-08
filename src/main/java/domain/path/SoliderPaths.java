@@ -1,8 +1,7 @@
 package domain.path;
 
-import domain.movement.Direction;
-import domain.vo.Position;
 import domain.piece.Side;
+import domain.vo.Position;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

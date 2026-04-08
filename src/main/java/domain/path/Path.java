@@ -1,6 +1,5 @@
 package domain.path;
 
-import domain.movement.Direction;
 import java.util.List;
 
 public class Path {

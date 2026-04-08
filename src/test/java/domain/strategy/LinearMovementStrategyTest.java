@@ -1,17 +1,17 @@
 package domain.strategy;
 
-import domain.vo.Position;
+import static domain.path.Direction.DOWN_RIGHT;
+import static domain.path.Direction.RIGHT;
+import static domain.path.Direction.UP;
+import static domain.path.Direction.UP_RIGHT;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import domain.path.Path;
+import domain.vo.Position;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import static domain.movement.Direction.DOWN_RIGHT;
-import static domain.movement.Direction.RIGHT;
-import static domain.movement.Direction.UP;
-import static domain.movement.Direction.UP_RIGHT;
-import static org.assertj.core.api.Assertions.assertThat;
 
 class LinearMovementStrategyTest {
 
