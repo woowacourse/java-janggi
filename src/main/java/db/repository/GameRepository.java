@@ -3,6 +3,7 @@ package db.repository;
 import db.connector.Connector;
 import db.parser.SideParser;
 import db.session.Session;
+import db.util.DataAccessException;
 import db.util.Transaction;
 import domain.board.Board;
 import domain.board.Intersection;
@@ -10,6 +11,7 @@ import domain.game.JanggiGame;
 import domain.game.Side;
 import domain.piece.AlivePieces;
 import domain.piece.Piece;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -32,25 +34,17 @@ public class GameRepository {
     }
 
     public Session<JanggiGame> save(JanggiGame game) {
-        String save = "INSERT INTO game (current_turn) values (?)";
-
         return transaction.execute(connection -> {
-            try (PreparedStatement statement = connection.prepareStatement(save, Statement.RETURN_GENERATED_KEYS)) {
-                statement.setString(1, SideParser.sideToString(game.getCurrentTurn()));
-                statement.executeUpdate();
+            Session<JanggiGame> gameSession = saveGame(game, connection);
+            pieceRepository.save(game.getBoard(), gameSession.id(), connection);
 
-                int gameId = getGeneratedKey(statement);
-                pieceRepository.save(game.getBoard(), gameId, connection);
-
-                return new Session<>(game, gameId);
-            }
+            return gameSession;
         });
     }
 
     public List<Integer> findAllIds() {
-        String findAllIds = "SELECT id FROM game";
-
         return transaction.execute(connection -> {
+            String findAllIds = "SELECT id FROM game";
             try (
                     PreparedStatement statement = connection.prepareStatement(findAllIds);
                     ResultSet resultSet = statement.executeQuery()
@@ -61,61 +55,102 @@ public class GameRepository {
     }
 
     public Session<JanggiGame> findById(int gameId) {
-        String findById = "SELECT current_turn FROM game WHERE id = ?";
-
         return transaction.execute(connection -> {
-            try (PreparedStatement statement = connection.prepareStatement(findById);) {
-                Side currentTurn = findCurrentTurn(statement, gameId);
-                Map<Intersection, Piece> pieces = pieceRepository.findByGameId(gameId, connection);
+            Side currentTurn = findCurrentTurn(gameId, connection);
+            Map<Intersection, Piece> pieces = pieceRepository.findByGameId(gameId, connection);
 
-                Board board = new Board(new AlivePieces(pieces));
-                JanggiGame game = new JanggiGame(board, currentTurn);
+            Board board = new Board(new AlivePieces(pieces));
+            JanggiGame game = new JanggiGame(board, currentTurn);
 
-                return new Session<>(game, gameId);
-            }
+            return new Session<>(game, gameId);
         });
     }
 
     public void update(Session<JanggiGame> gameSession) {
-        String update = "UPDATE game SET current_turn = ? WHERE id = ?";
-
         transaction.execute(connection -> {
-            try (PreparedStatement statement = connection.prepareStatement(update)) {
-                JanggiGame game = gameSession.payload();
-                int gameId = gameSession.id();
-                Map<Intersection, Piece> pieces = game.getBoard();
-
-                pieceRepository.update(pieces, gameId, connection);
-
-                statement.setString(1, SideParser.sideToString(game.getCurrentTurn()));
-                statement.setInt(2, gameId);
-                statement.executeUpdate();
-            }
+            updateCurrentTurn(gameSession, connection);
+            updatePieces(gameSession, connection);
         });
     }
 
     public void delete(Session<JanggiGame> gameSession) {
-        String delete = "DELETE FROM game WHERE id = ?";
-
         transaction.execute(connection -> {
-            try (PreparedStatement statement = connection.prepareStatement(delete)) {
-                int gameId = gameSession.id();
+            int gameId = gameSession.id();
+            pieceRepository.delete(gameId, connection);
 
-                pieceRepository.delete(gameId, connection);
-
-                statement.setInt(1, gameId);
-                statement.executeUpdate();
-            }
+            deleteGame(gameId, connection);
         });
     }
 
-    private Side findCurrentTurn(PreparedStatement findById, int gameId) throws SQLException {
-        findById.setInt(1, gameId);
+    private Session<JanggiGame> saveGame(
+            JanggiGame game,
+            Connection connection
+    ) throws SQLException {
+        String save = "INSERT INTO game (current_turn) values (?)";
 
-        try (ResultSet resultSet = findById.executeQuery()) {
+        try (PreparedStatement statement = connection.prepareStatement(save, Statement.RETURN_GENERATED_KEYS)) {
+            statement.setString(1, SideParser.sideToString(game.getCurrentTurn()));
+            statement.executeUpdate();
+
+            int gameId = getGeneratedKey(statement);
+
+            return new Session<>(game, gameId);
+        }
+    }
+
+    private Side findCurrentTurn(int gameId, Connection connection) throws SQLException {
+        String findById = "SELECT current_turn FROM game WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(findById)) {
+            statement.setInt(1, gameId);
+
+            return executeFindCurrentTurnById(statement);
+        }
+    }
+
+    private Side executeFindCurrentTurnById(PreparedStatement statement) throws SQLException {
+        try (ResultSet resultSet = statement.executeQuery()) {
+            validateResultPresent(resultSet);
             String savedSide = resultSet.getString(1);
 
             return Side.valueOf(savedSide);
+        }
+    }
+
+    private void updateCurrentTurn(
+            Session<JanggiGame> gameSession,
+            Connection connection
+    ) throws SQLException {
+        String update = "UPDATE game SET current_turn = ? WHERE id = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(update)) {
+            JanggiGame game = gameSession.payload();
+            int gameId = gameSession.id();
+
+            statement.setString(1, SideParser.sideToString(game.getCurrentTurn()));
+            statement.setInt(2, gameId);
+            statement.executeUpdate();
+        }
+    }
+
+    private void updatePieces(
+            Session<JanggiGame> gameSession,
+            Connection connection
+    ) throws SQLException {
+        JanggiGame game = gameSession.payload();
+        Map<Intersection, Piece> pieces = game.getBoard();
+
+        pieceRepository.update(pieces, gameSession.id(), connection);
+    }
+
+    private void deleteGame(
+         int gameId,
+         Connection connection
+    ) throws SQLException {
+        String delete = "DELETE FROM game WHERE id = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(delete)) {
+            statement.setInt(1, gameId);
+            statement.executeUpdate();
         }
     }
 
@@ -134,6 +169,12 @@ public class GameRepository {
             generatedKeys.next();
 
             return generatedKeys.getInt(1);
+        }
+    }
+
+    private void validateResultPresent(ResultSet resultSet) throws SQLException {
+        if (!resultSet.next()) {
+            throw new DataAccessException("장기 게임을 조회하지 못했습니다.");
         }
     }
 }
