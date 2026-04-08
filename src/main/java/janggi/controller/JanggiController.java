@@ -64,6 +64,7 @@ public class JanggiController {
         Board board = new Board(new BasicPlacementStrategy());
         long gameId = janggiGameService.createGame(board);
         OutputView.printGameId(gameId);
+        OutputView.printBoard(board);
         return new GameSession(gameId, board);
     }
 
