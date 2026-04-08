@@ -84,7 +84,9 @@ public class Runner {
     private GameSession startFreshSession() {
         Board board = initializeNewBoard();
         GameDeadline deadline = readNewDeadline();
-        return new GameSession(board, new TurnManager(), deadline);
+        TurnManager turnManager = new TurnManager();
+        turnManager.start();
+        return new GameSession(board, turnManager, deadline);
     }
 
     private GameDeadline resolveDeadlineForResume(SavedGameState saved) {

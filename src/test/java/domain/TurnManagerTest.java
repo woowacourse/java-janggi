@@ -12,6 +12,7 @@ public class TurnManagerTest {
     @BeforeEach
     public void setUp(){
         turnManager = new TurnManager();
+        turnManager.start();
     }
 
     @Nested
