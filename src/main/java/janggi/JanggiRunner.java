@@ -2,6 +2,7 @@ package janggi;
 
 import janggi.domain.JanggiGame;
 import janggi.domain.Position;
+import janggi.service.JanggiService;
 import janggi.util.ActionExecutor;
 import janggi.util.DelimiterParser;
 import janggi.view.input.InputView;
@@ -15,15 +16,17 @@ public class JanggiRunner {
 
     private final InputView inputView;
     private final OutputView outputView;
+    private final JanggiService janggiService;
 
-    public JanggiRunner(InputView inputView, OutputView outputView) {
+    public JanggiRunner(InputView inputView, OutputView outputView, JanggiService janggiService) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.janggiService = janggiService;
     }
 
     public void execute() {
         outputView.printStartMessage();
-        JanggiGame janggiGame = JanggiGame.createInitialJanggiGame();
+        JanggiGame janggiGame = janggiService.loadGame();
         while (isGameContinue(janggiGame)) {
             outputView.printBoard(janggiGame.makeCurrentTurnBoardSnapShot());
             Position startPosition = ActionExecutor.retryUntilSuccess(
@@ -36,8 +39,18 @@ public class JanggiRunner {
                 outputView.printMessage("말 선택을 취소했습니다. 다시 선택해주세요.");
                 continue;
             }
-            janggiGame.doGame(startPosition, endPosition.get());
+            play(janggiGame, startPosition, endPosition);
         }
+        finish(janggiGame);
+    }
+
+    private void play(JanggiGame janggiGame, Position startPosition, Optional<Position> endPosition) {
+        janggiGame.doGame(startPosition, endPosition.get());
+        janggiService.saveMove(janggiGame, startPosition, endPosition.get());
+    }
+
+    private void finish(JanggiGame janggiGame) {
+        janggiService.finishGame();
         int winnerScore = janggiGame.getWinnerScore();
         outputView.printResult(
             janggiGame.makeCurrentTurnBoardSnapShot(),
@@ -74,6 +87,6 @@ public class JanggiRunner {
     }
 
     private boolean isCancelCommand(String input) {
-        return CANCEL.equals(input);
+        return CANCEL.equalsIgnoreCase(input.trim());
     }
 }

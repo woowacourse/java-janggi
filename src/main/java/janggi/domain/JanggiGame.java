@@ -66,6 +66,10 @@ public class JanggiGame {
         return getLastTurn().getWinnerScore();
     }
 
+    public int getTurnCount() {
+        return turns.size() - 1;
+    }
+
     private Turn getLastTurn() {
         return turns.getLast();
     }

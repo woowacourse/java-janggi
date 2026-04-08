@@ -19,6 +19,10 @@ public class Turn {
         return new Turn(TeamType.HAN, Board.createInitialBoard());
     }
 
+    public static Turn from(TeamType movedTeam, Board board) {
+        return new Turn(movedTeam, board);
+    }
+
     public boolean isMyTeamPieceExist(Position position) {
         return board.isPieceExist(position, movedTeam);
     }
