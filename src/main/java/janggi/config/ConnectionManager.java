@@ -39,10 +39,17 @@ public class ConnectionManager {
         Properties properties = new Properties();
 
         try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("database.properties")) {
+            validatePropertyFileExists(inputStream);
             properties.load(inputStream);
             return properties;
         } catch (IOException e) {
             throw new IllegalStateException("database.properties를 읽을 수 없습니다.", e);
+        }
+    }
+
+    private void validatePropertyFileExists(InputStream inputStream){
+        if (inputStream == null) {
+            throw new IllegalStateException("database.properties 파일이 존재하지 않습니다.");
         }
     }
 
