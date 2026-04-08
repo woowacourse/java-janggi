@@ -59,7 +59,7 @@ public class Runner {
         printCurrentTurnNotice(gameManager);
         playerTurn(gameManager);
         gameManager.switchTurn();
-        janggiService.saveTurnState(connection, gameId, gameManager);
+        janggiService.saveGameState(connection, gameId, gameManager);
         return session;
     }
 

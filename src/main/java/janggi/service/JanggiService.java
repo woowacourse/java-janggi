@@ -61,11 +61,10 @@ public class JanggiService {
         return new ActiveGameSession(newGameId, newGameManager);
     }
 
-    public void saveTurnState(Connection connection, long gameId, GameManager gameManager) throws SQLException {
+    public void saveGameState(Connection connection, long gameId, GameManager gameManager) throws SQLException {
         connection.setAutoCommit(false);
         try {
-            executeAndCommitTurn(connection, gameId, gameManager);
-            updateAndCommitBoard(connection, gameId, gameManager);
+            updateAndCommitGameState(connection, gameId, gameManager);
         } catch (SQLException exception) {
             rollbackAndThrow(connection, exception);
         } finally {
@@ -73,12 +72,9 @@ public class JanggiService {
         }
     }
 
-    private void executeAndCommitTurn(Connection connection, long gameId, GameManager gameManager) throws SQLException {
+    private void updateAndCommitGameState(Connection connection, long gameId, GameManager gameManager)
+            throws SQLException {
         gameRepository.updateTurn(connection, gameId, gameManager);
-        connection.commit();
-    }
-
-    private void updateAndCommitBoard(Connection connection, long gameId, GameManager gameManager) throws SQLException {
         boardRepository.updateBoard(connection, gameId, gameManager.getBoard());
         connection.commit();
     }
