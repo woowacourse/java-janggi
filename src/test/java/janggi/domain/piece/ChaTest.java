@@ -3,9 +3,10 @@ package janggi.domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import janggi.domain.Board;
-import janggi.domain.Position;
 import janggi.domain.team.TeamType;
+import janggi.dto.MoveRoute;
+import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -68,10 +69,10 @@ class ChaTest {
     void isValidPathWhenRouteIsEmpty() {
         // given
         Cha cha = new Cha(TeamType.CHU);
-        Board board = Board.createInitialBoard();
+        MoveRoute moveRoute = new MoveRoute(List.of(), Optional.empty());
 
         // when
-        boolean result = cha.isObstaclesNotExist(new Position(1, 1), new Position(1, 3), board);
+        boolean result = cha.canMove(moveRoute);
 
         // then
         assertThat(result).isTrue();
@@ -82,10 +83,10 @@ class ChaTest {
     void cannotMoveWhenRouteIsBlocked() {
         // given
         Cha cha = new Cha(TeamType.CHU);
-        Board board = Board.createInitialBoard();
+        MoveRoute moveRoute = new MoveRoute(List.of(PieceType.JOL), Optional.empty());
 
         // when
-        boolean result = cha.isObstaclesNotExist(new Position(1, 1), new Position(1, 5), board);
+        boolean result = cha.canMove(moveRoute);
 
         // then
         assertThat(result).isFalse();
@@ -96,11 +97,10 @@ class ChaTest {
     void isValidDiagonalPathInsidePalaceWhenRouteIsEmpty() {
         // given
         Cha cha = new Cha(TeamType.CHU);
-        Board board = Board.createInitialBoard();
-        Board movedBoard = board.move(new Position(5, 2), new Position(5, 3), TeamType.CHU);
+        MoveRoute moveRoute = new MoveRoute(List.of(), Optional.empty());
 
         // when
-        boolean result = cha.isObstaclesNotExist(new Position(4, 1), new Position(6, 3), movedBoard);
+        boolean result = cha.canMove(moveRoute);
 
         // then
         assertThat(result).isTrue();
@@ -111,10 +111,10 @@ class ChaTest {
     void cannotMoveDiagonalWhenPalaceRouteIsBlocked() {
         // given
         Cha cha = new Cha(TeamType.CHU);
-        Board board = Board.createInitialBoard();
+        MoveRoute moveRoute = new MoveRoute(List.of(PieceType.GUNG), Optional.empty());
 
         // when
-        boolean result = cha.isObstaclesNotExist(new Position(4, 1), new Position(6, 3), board);
+        boolean result = cha.canMove(moveRoute);
 
         // then
         assertThat(result).isFalse();
