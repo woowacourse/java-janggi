@@ -1,12 +1,12 @@
 package janggi.domain.piece;
 
-import janggi.domain.Board;
 import janggi.domain.Delta;
 import janggi.domain.Palace;
 import janggi.domain.Position;
 import janggi.domain.movepath.FixedMovePath;
 import janggi.domain.movepath.MovePathStrategy;
 import janggi.domain.team.TeamType;
+import janggi.dto.MoveRoute;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,7 +50,7 @@ public class Jol implements Piece {
     }
 
     @Override
-    public boolean isObstaclesNotExist(Position start, Position end, Board board) {
+    public boolean canMove(MoveRoute moveRoute) {
         return true;
     }
 

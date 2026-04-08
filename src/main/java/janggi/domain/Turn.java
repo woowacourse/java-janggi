@@ -38,7 +38,7 @@ public class Turn {
     }
 
     public void canMove(Position startPosition, Position endPosition) {
-        board.canMove(startPosition, endPosition, playingTeamType());
+        board.validateMove(startPosition, endPosition, playingTeamType());
     }
 
     public TeamType nextTurnTeam() {

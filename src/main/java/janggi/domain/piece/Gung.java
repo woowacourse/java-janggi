@@ -1,10 +1,10 @@
 package janggi.domain.piece;
 
-import janggi.domain.Board;
 import janggi.domain.Palace;
 import janggi.domain.Position;
 import janggi.domain.movepath.MovePathStrategy;
 import janggi.domain.team.TeamType;
+import janggi.dto.MoveRoute;
 import java.util.Optional;
 
 public class Gung implements Piece {
@@ -30,7 +30,7 @@ public class Gung implements Piece {
     }
 
     @Override
-    public boolean isObstaclesNotExist(Position start, Position end, Board board) {
+    public boolean canMove(MoveRoute moveRoute) {
         return true;
     }
 

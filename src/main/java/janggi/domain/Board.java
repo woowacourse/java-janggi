@@ -1,13 +1,16 @@
 package janggi.domain;
 
+import janggi.domain.movepath.MovePathStrategy;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.team.Team;
 import janggi.domain.team.TeamType;
 import janggi.dto.BoardSpot;
 import janggi.dto.BoardSpots;
+import janggi.dto.MoveRoute;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -56,11 +59,7 @@ public class Board {
             .findFirst();
     }
 
-    public boolean hasPiece(Position position) {
-        return findPiece(position).isPresent();
-    }
-
-    public void canMove(Position startPosition, Position endPosition, TeamType playingTeam) {
+    public void validateMove(Position startPosition, Position endPosition, TeamType playingTeam) {
         validateRange(startPosition);
         validateRange(endPosition);
         Piece piece = findTeamPiece(startPosition, currentTeam(playingTeam));
@@ -73,7 +72,7 @@ public class Board {
         Position endPosition,
         TeamType playingTeam
     ) {
-        canMove(startPosition, endPosition, playingTeam);
+        validateMove(startPosition, endPosition, playingTeam);
         Team movedCurrentTeam = currentTeam(playingTeam).move(startPosition, endPosition);
         Team remainedOpponentTeam = removeOpponentPiece(playingTeam, endPosition);
         return createMovedBoard(playingTeam, movedCurrentTeam, remainedOpponentTeam);
@@ -114,13 +113,50 @@ public class Board {
     }
 
     private void validateCanMove(Piece piece, Position piecePosition, Position targetPosition) {
-        if (!piece.isValidMovePattern(piecePosition.getX(), piecePosition.getY(), targetPosition.getX(),
-            targetPosition.getY())) {
+        Optional<MovePathStrategy> movePath = piece.findMovePath(
+            piecePosition.getX(),
+            piecePosition.getY(),
+            targetPosition.getX(),
+            targetPosition.getY()
+        );
+        if (movePath.isEmpty()) {
             throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
         }
-        if (!piece.isObstaclesNotExist(piecePosition, targetPosition, this)) {
+        MoveRoute moveRoute = createMoveRoute(piecePosition, targetPosition, movePath.get());
+        if (!piece.canMove(moveRoute)) {
             throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
         }
+    }
+
+    private MoveRoute createMoveRoute(
+        Position startPosition,
+        Position targetPosition,
+        MovePathStrategy movePath
+    ) {
+        return new MoveRoute(
+            findIntermediatePieceTypes(startPosition, targetPosition, movePath),
+            findTargetPieceType(targetPosition)
+        );
+    }
+
+    private List<PieceType> findIntermediatePieceTypes(
+        Position startPosition,
+        Position targetPosition,
+        MovePathStrategy movePath
+    ) {
+        return movePath.intermediatePositions(startPosition, targetPosition).stream()
+            .map(this::findPieceType)
+            .flatMap(Optional::stream)
+            .toList();
+    }
+
+    private Optional<PieceType> findTargetPieceType(Position targetPosition) {
+        return findPieceType(targetPosition);
+    }
+
+    private Optional<PieceType> findPieceType(Position position) {
+        return findPiece(position)
+            .map(Piece::getPieceType);
     }
 
     private void validateTargetPosition(Team team, Position targetPosition) {

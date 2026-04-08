@@ -1,12 +1,12 @@
 package janggi.domain.piece;
 
-import janggi.domain.Board;
 import janggi.domain.Delta;
 import janggi.domain.Palace;
 import janggi.domain.Position;
 import janggi.domain.movepath.DirectionalMovePath;
 import janggi.domain.movepath.MovePathStrategy;
 import janggi.domain.team.TeamType;
+import janggi.dto.MoveRoute;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,25 +54,17 @@ public class Po implements Piece {
     }
 
     @Override
-    public boolean isObstaclesNotExist(Position start, Position end, Board board) {
-        Optional<MovePathStrategy> movePath = findMovePath(start.getX(), start.getY(), end.getX(), end.getY());
-        if (movePath.isEmpty()) {
-            return false;
-        }
-        List<Position> intermediatePositions = movePath.get().intermediatePositions(start, end);
-        List<Piece> obstacles = intermediatePositions.stream()
-            .map(board::findPiece)
-            .filter(Optional::isPresent)
-            .map(Optional::get)
-            .toList();
+    public boolean canMove(MoveRoute moveRoute) {
+        List<PieceType> obstacles = moveRoute.intermediatePieceTypes();
         if (obstacles.size() != 1) {
             return false;
         }
-        if (obstacles.getFirst().getPieceType() == PieceType.PO) {
+        if (obstacles.getFirst() == PieceType.PO) {
             return false;
         }
-        Optional<Piece> targetPiece = board.findPiece(end);
-        return targetPiece.isEmpty() || !(targetPiece.get().getPieceType() == PieceType.PO);
+        return moveRoute.targetPieceType()
+            .map(targetPieceType -> targetPieceType != PieceType.PO)
+            .orElse(true);
     }
 
     @Override
