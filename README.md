@@ -82,11 +82,11 @@
 ## DB 연결
 
 ### 1. 복원에 필요한 게임 상태를 정리
-- [ ] GameState
+- [x] GameState
   - 게임 현재 턴 (Team currentTurn)
   - 기물의 상태들 (List<PieceState>)
   - 게임 종료 여부 (GameStatus)
-- [ ] PieceState
+- [x] PieceState
   - 기물 종류 및 기물 팀 (PieceProperty)
   - 기물의 위치 (Position)
 
