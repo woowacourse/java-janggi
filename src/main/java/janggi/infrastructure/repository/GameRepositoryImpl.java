@@ -3,7 +3,7 @@ package janggi.infrastructure.repository;
 import janggi.config.DBConnection;
 import janggi.domain.game.GameStatus;
 import janggi.infrastructure.entity.GameEntity;
-import janggi.global.EntityMapper;
+import janggi.infrastructure.entity.EntityMapper;
 import java.util.List;
 import java.util.Optional;
 

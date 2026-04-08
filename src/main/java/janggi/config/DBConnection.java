@@ -1,6 +1,6 @@
 package janggi.config;
 
-import janggi.global.EntityMapper;
+import janggi.infrastructure.entity.EntityMapper;
 import java.util.List;
 import java.util.Optional;
 

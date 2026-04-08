@@ -1,4 +1,4 @@
-package janggi.global;
+package janggi.domain;
 
 import java.util.LinkedHashMap;
 import java.util.List;

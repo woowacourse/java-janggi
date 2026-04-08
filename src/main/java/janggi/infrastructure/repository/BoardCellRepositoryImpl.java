@@ -4,7 +4,7 @@ import janggi.config.DBConnection;
 import janggi.domain.Position;
 import janggi.domain.piece.Piece;
 import janggi.infrastructure.entity.BoardCellEntity;
-import janggi.global.EntityMapper;
+import janggi.infrastructure.entity.EntityMapper;
 import java.util.List;
 import java.util.Optional;
 

@@ -2,7 +2,7 @@ package janggi.config;
 
 import janggi.dto.H2DBPropertiesDto;
 import janggi.exception.SQLExceptionHandler;
-import janggi.global.EntityMapper;
+import janggi.infrastructure.entity.EntityMapper;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;

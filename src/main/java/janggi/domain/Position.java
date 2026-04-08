@@ -1,7 +1,6 @@
 package janggi.domain;
 
 import janggi.domain.movement.Direction;
-import janggi.global.MultiKeyMap;
 import janggi.global.Pair;
 import janggi.utils.Lists;
 import java.util.List;

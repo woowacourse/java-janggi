@@ -1,4 +1,4 @@
-package janggi.global;
+package janggi.infrastructure.entity;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
