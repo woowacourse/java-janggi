@@ -44,32 +44,37 @@ public class JanggiGameDao {
         String deletePiecesSql = "DELETE FROM piece WHERE janggi_game_id = ?";
         String insertPieceSql = "INSERT INTO piece (janggi_game_id, row_pos, col_pos, country, type) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = manager.getConnection()) {
-            conn.setAutoCommit(false);
+            try {
+                conn.setAutoCommit(false);
 
-            try (PreparedStatement pstmt = conn.prepareStatement(updateTurnSql)) {
-                pstmt.setString(1, turn.name());
-                pstmt.setInt(2, gameId);
-                pstmt.executeUpdate();
-            }
-
-            try (PreparedStatement pstmt = conn.prepareStatement(deletePiecesSql)) {
-                pstmt.setInt(1, gameId);
-                pstmt.executeUpdate();
-            }
-
-            try (PreparedStatement pstmt = conn.prepareStatement(insertPieceSql)) {
-                for (PieceDto piece : pieces) {
-                    pstmt.setInt(1, gameId);
-                    pstmt.setInt(2, piece.row());
-                    pstmt.setInt(3, piece.column());
-                    pstmt.setString(4, piece.country().name());
-                    pstmt.setString(5, piece.pieceType().name());
-                    pstmt.addBatch();
+                try (PreparedStatement pstmt = conn.prepareStatement(updateTurnSql)) {
+                    pstmt.setString(1, turn.name());
+                    pstmt.setInt(2, gameId);
+                    pstmt.executeUpdate();
                 }
-                pstmt.executeBatch();
-            }
 
-            conn.commit();
+                try (PreparedStatement pstmt = conn.prepareStatement(deletePiecesSql)) {
+                    pstmt.setInt(1, gameId);
+                    pstmt.executeUpdate();
+                }
+
+                try (PreparedStatement pstmt = conn.prepareStatement(insertPieceSql)) {
+                    for (PieceDto piece : pieces) {
+                        pstmt.setInt(1, gameId);
+                        pstmt.setInt(2, piece.row());
+                        pstmt.setInt(3, piece.column());
+                        pstmt.setString(4, piece.country().name());
+                        pstmt.setString(5, piece.pieceType().name());
+                        pstmt.addBatch();
+                    }
+                    pstmt.executeBatch();
+                }
+
+                conn.commit();
+            } catch (SQLException e) {
+                conn.rollback();
+                throw e;
+            }
         } catch (SQLException e) {
             throw new RuntimeException("[ERROR] 게임 저장 중 DB 오류가 발생했습니다: ", e);
         }
