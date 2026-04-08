@@ -1,94 +1,71 @@
 package domain.board;
 
-import domain.Offset;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.List;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class PalaceTest {
-    @Test
-    void 출발지와_목적지가_대각선_양코너인_경우_유효하다() {
-        Position from = new Position(3, 0);
-        Position to = new Position(5, 2);
+    private final Palace palace = new Palace(new Position(4, 1));
 
-        Assertions.assertDoesNotThrow(() -> Palace.CHO.validateDiagonalMoveRule(from, to));
+    @Test
+    void 궁성의_영역_안인지_확인한다() {
+        Position position = new Position(3, 0);
+
+        boolean inPalace = palace.isInPalace(position);
+        assertThat(inPalace).isTrue();
     }
 
     @Test
-    void 출발지가_코너이고_목적지가_센터인_경우_유효하다() {
-        Position from = new Position(5, 9);
-        Position to = new Position(4, 8);
+    void 궁성의_영역_밖인지_확인한다() {
+        Position position = new Position(3, 3);
 
-        Assertions.assertDoesNotThrow(() -> Palace.HAN.validateDiagonalMoveRule(from, to));
+        boolean inPalace = palace.isInPalace(position);
+        assertThat(inPalace).isFalse();
     }
 
     @Test
-    void 출발지가_센터이고_목적지가_코너인_경우_유효하다() {
-        Position from = new Position(4, 8);
-        Position to = new Position(5, 9);
+    void 궁성의_중심인지_확인한다() {
+        Position position = new Position(4, 1);
 
-        Assertions.assertDoesNotThrow(() -> Palace.HAN.validateDiagonalMoveRule(from, to));
+        boolean isCenter = palace.isCenter(position);
+        assertThat(isCenter).isTrue();
     }
 
     @Test
-    void 출발지가_궁성_밖이면_실패한다() {
-        Position from = new Position(2, 0);
-        Position to = new Position(3, 1);
-        assertThrows(IllegalStateException.class, () -> Palace.CHO.validateDiagonalMoveRule(from, to));
+    void 궁성의_중심이_아닌지_확인한다() {
+        Position position = new Position(4, 0);
+
+        boolean isCenter = palace.isCenter(position);
+        assertThat(isCenter).isFalse();
+    }
+
+    @ParameterizedTest
+    @MethodSource("cornerProvider")
+    void 궁성의_코너인지_확인한다(Position position) {
+        boolean isCorner = palace.isCorner(position);
+        assertThat(isCorner).isTrue();
+    }
+
+    static Stream<Arguments> cornerProvider() {
+        return Stream.of(
+                Arguments.of(new Position(3, 0)),
+                Arguments.of(new Position(3, 2)),
+                Arguments.of(new Position(5, 0)),
+                Arguments.of(new Position(5, 2))
+        );
     }
 
     @Test
-    void 목적지가_궁성_밖이면_실패한다() {
-        Position from = new Position(3, 0);
-        Position to = new Position(6, 2);
-        assertThrows(IllegalStateException.class, () -> Palace.CHO.validateDiagonalMoveRule(from, to));
+    void 궁성의_코너가_아닌지_확인한다() {
+        Position position = new Position(3, 1);
+
+        boolean isCorner = palace.isCorner(position);
+        assertThat(isCorner).isFalse();
     }
 
-
-    @Test
-    void 대각선_방향으로_가는_경로가_아니라면_유효하지_않다() {
-        Position from = new Position(3, 0);
-        Position to = new Position(5, 1);
-        assertThrows(IllegalStateException.class, () -> Palace.CHO.validateDiagonalMoveRule(from, to));
-    }
-
-    @Test
-    void 변에는_대각선_이동이_없다() {
-        Position from = new Position(4, 9);
-        Position to = new Position(5, 8);
-
-        assertThrows(IllegalStateException.class, () -> Palace.CHO.validateDiagonalMoveRule(from, to));
-    }
-
-
-    @Test
-    void 출발지와_목적지가_대각선_양코너인_경우_중앙을_경유한다() {
-        Position from = new Position(3, 0);
-        Position to = new Position(5, 2);
-
-        List<Offset> offsets = Palace.CHO.generatePaths(from, to);
-        assertThat(offsets).isEqualTo(List.of(new Offset(1, 1)));
-    }
-
-    @Test
-    void 출발지가_코너이고_목적지가_센터인_경우_경유하는_곳은_없다() {
-        Position from = new Position(5, 9);
-        Position to = new Position(4, 8);
-
-        List<Offset> offsets = Palace.HAN.generatePaths(from, to);
-        assertThat(offsets).isEqualTo(List.of());
-    }
-
-    @Test
-    void 출발지가_센터이고_목적지가_코너인_경우_경유하는_곳은_없으며_성공한다() {
-        Position from = new Position(4, 8);
-        Position to = new Position(5, 9);
-
-        List<Offset> offsets = Palace.HAN.generatePaths(from, to);
-        assertThat(offsets).isEqualTo(List.of());
-    }
 }

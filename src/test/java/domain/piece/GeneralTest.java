@@ -1,21 +1,25 @@
 package domain.piece;
 
 import domain.Offset;
+import domain.board.Palace;
 import domain.board.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class GeneralTest {
     private Piece general;
+    private Optional<Palace> choPalace;
 
     @BeforeEach
     void setUp() {
         general = new General(Team.CHO);
+        choPalace = Optional.of(new Palace(new Position(4, 1)));
     }
 
     @Test
@@ -24,7 +28,7 @@ class GeneralTest {
         Position from = new Position(4, 1);
         Position to = offset.applyTo(from);
 
-        List<Offset> pathPositions = general.getPathOffset(from, to);
+        List<Offset> pathPositions = general.getPathOffset(from, to, choPalace);
 
         assertThat(pathPositions).isEqualTo(List.of());
     }
@@ -35,7 +39,7 @@ class GeneralTest {
         Position from = new Position(4, 1);
         Position to = offset.applyTo(from);
 
-        List<Offset> pathPositions = general.getPathOffset(from, to);
+        List<Offset> pathPositions = general.getPathOffset(from, to, choPalace);
         assertThat(pathPositions).isEqualTo(List.of());
     }
 
@@ -45,7 +49,7 @@ class GeneralTest {
         Position from = new Position(4, 1);
         Position to = offset.applyTo(from);
 
-        List<Offset> pathPositions = general.getPathOffset(from, to);
+        List<Offset> pathPositions = general.getPathOffset(from, to, choPalace);
         assertThat(pathPositions).isEqualTo(List.of());
     }
 
@@ -55,7 +59,7 @@ class GeneralTest {
         Position from = new Position(4, 1);
         Position to = offset.applyTo(from);
 
-        List<Offset> pathPositions = general.getPathOffset(from, to);
+        List<Offset> pathPositions = general.getPathOffset(from, to, choPalace);
         assertThat(pathPositions).isEqualTo(List.of());
     }
 
@@ -66,7 +70,7 @@ class GeneralTest {
         Position from = new Position(3, 1);
         Position to = offset.applyTo(from);
 
-        assertThrows(IllegalArgumentException.class, () -> general.getPathOffset(from, to));
+        assertThrows(IllegalStateException.class, () -> general.getPathOffset(from, to, choPalace));
     }
 
     @Test
@@ -76,7 +80,7 @@ class GeneralTest {
         Position from = new Position(4, 1);
         Position to = offset.applyTo(from);
 
-        List<Offset> pathPositions = general.getPathOffset(from, to);
+        List<Offset> pathPositions = general.getPathOffset(from, to, choPalace);
         assertThat(pathPositions).isEqualTo(List.of());
     }
 
@@ -87,7 +91,7 @@ class GeneralTest {
         Position from = new Position(3, 0);
         Position to = offset.applyTo(from);
 
-        List<Offset> pathPositions = general.getPathOffset(from, to);
+        List<Offset> pathPositions = general.getPathOffset(from, to, choPalace);
         assertThat(pathPositions).isEqualTo(List.of());
     }
 
@@ -98,7 +102,7 @@ class GeneralTest {
         Position from = new Position(3, 2);
         Position to = offset.applyTo(from);
 
-        List<Offset> pathPositions = general.getPathOffset(from, to);
+        List<Offset> pathPositions = general.getPathOffset(from, to, choPalace);
         assertThat(pathPositions).isEqualTo(List.of());
     }
 
@@ -109,7 +113,7 @@ class GeneralTest {
         Position from = new Position(5, 0);
         Position to = offset.applyTo(from);
 
-        List<Offset> pathPositions = general.getPathOffset(from, to);
+        List<Offset> pathPositions = general.getPathOffset(from, to, choPalace);
         assertThat(pathPositions).isEqualTo(List.of());
     }
 
@@ -121,7 +125,7 @@ class GeneralTest {
         Position from = new Position(5, 2);
         Position to = offset.applyTo(from);
 
-        List<Offset> pathPositions = general.getPathOffset(from, to);
+        List<Offset> pathPositions = general.getPathOffset(from, to, choPalace);
         assertThat(pathPositions).isEqualTo(List.of());
     }
 
@@ -133,6 +137,6 @@ class GeneralTest {
         Position from = new Position(3, 0);
         Position to = offset.applyTo(from);
 
-        assertThrows(IllegalArgumentException.class, () -> general.getPathOffset(from, to));
+        assertThrows(IllegalStateException.class, () -> general.getPathOffset(from, to, choPalace));
     }
 }

@@ -5,7 +5,10 @@ import domain.board.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+
 import java.util.List;
+import java.util.Optional;
+import domain.board.Palace;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -13,10 +16,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class SoldierChoTest {
 
     private Piece soldier;
+    private Optional<Palace> hanPalace;
 
     @BeforeEach
     void setUp() {
         soldier = new Soldier(Team.CHO);
+        hanPalace = Optional.of(new Palace(new Position(4, 8)));
     }
 
     @Test
@@ -26,7 +31,7 @@ class SoldierChoTest {
         Position from = new Position(4, 4);
         Position to = offset.applyTo(from);
 
-        List<Offset> pathPositions = soldier.getPathOffset(from, to);
+        List<Offset> pathPositions = soldier.getPathOffset(from, to, Optional.empty());
 
         assertThat(pathPositions).isEqualTo(List.of());
     }
@@ -38,7 +43,7 @@ class SoldierChoTest {
         Position from = new Position(4, 4);
         Position to = offset.applyTo(from);
 
-        List<Offset> pathPositions = soldier.getPathOffset(from, to);
+        List<Offset> pathPositions = soldier.getPathOffset(from, to, Optional.empty());
 
         assertThat(pathPositions).isEqualTo(List.of());
     }
@@ -50,7 +55,7 @@ class SoldierChoTest {
         Position from = new Position(4, 4);
         Position to = offset.applyTo(from);
 
-        List<Offset> pathPositions = soldier.getPathOffset(from, to);
+        List<Offset> pathPositions = soldier.getPathOffset(from, to, Optional.empty());
 
         assertThat(pathPositions).isEqualTo(List.of());
     }
@@ -62,7 +67,7 @@ class SoldierChoTest {
         Position from = new Position(4, 4);
         Position to = offset.applyTo(from);
 
-        assertThrows(IllegalArgumentException.class, () -> soldier.getPathOffset(from, to));
+        assertThrows(IllegalStateException.class, () -> soldier.getPathOffset(from, to, Optional.empty()));
     }
 
     @Test
@@ -71,7 +76,7 @@ class SoldierChoTest {
         Position from = new Position(4, 4);
         Position to = offset.applyTo(from);
 
-        assertThrows(IllegalArgumentException.class, () -> soldier.getPathOffset(from, to));
+        assertThrows(IllegalStateException.class, () -> soldier.getPathOffset(from, to, Optional.empty()));
     }
 
     @Test
@@ -80,7 +85,7 @@ class SoldierChoTest {
         Position from = new Position(3, 7);
         Position to = offset.applyTo(from);
 
-        List<Offset> pathPositions = soldier.getPathOffset(from, to);
+        List<Offset> pathPositions = soldier.getPathOffset(from, to, hanPalace);
 
         assertThat(pathPositions).isEqualTo(List.of());
     }
@@ -91,7 +96,7 @@ class SoldierChoTest {
         Position from = new Position(4, 8);
         Position to = offset.applyTo(from);
 
-        List<Offset> pathPositions = soldier.getPathOffset(from, to);
+        List<Offset> pathPositions = soldier.getPathOffset(from, to, hanPalace);
 
         assertThat(pathPositions).isEqualTo(List.of());
     }
@@ -102,7 +107,7 @@ class SoldierChoTest {
         Position from = new Position(4, 8);
         Position to = offset.applyTo(from);
 
-        assertThrows(IllegalArgumentException.class, () -> soldier.getPathOffset(from, to));
+        assertThrows(IllegalStateException.class, () -> soldier.getPathOffset(from, to, hanPalace));
     }
 
     @Test
@@ -111,7 +116,7 @@ class SoldierChoTest {
         Position from = new Position(4, 8);
         Position to = offset.applyTo(from);
 
-        assertThrows(IllegalArgumentException.class, () -> soldier.getPathOffset(from, to));
+        assertThrows(IllegalStateException.class, () -> soldier.getPathOffset(from, to, hanPalace));
     }
 
     @Test
@@ -120,7 +125,7 @@ class SoldierChoTest {
         Position from = new Position(1, 8);
         Position to = offset.applyTo(from);
 
-        assertThrows(IllegalArgumentException.class, () -> soldier.getPathOffset(from, to));
+        assertThrows(IllegalStateException.class, () -> soldier.getPathOffset(from, to, hanPalace));
     }
 
     @Test
@@ -129,6 +134,6 @@ class SoldierChoTest {
         Position from = new Position(1, 8);
         Position to = offset.applyTo(from);
 
-        assertThrows(IllegalArgumentException.class, () -> soldier.getPathOffset(from, to));
+        assertThrows(IllegalStateException.class, () -> soldier.getPathOffset(from, to, hanPalace));
     }
 }

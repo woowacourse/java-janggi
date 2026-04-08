@@ -14,12 +14,19 @@ import java.util.Optional;
 
 public class Board {
     private final Map<Position, Piece> pieces;
+    private final List<Palace> palaces = List.of(new Palace(new Position(4, 1)), new Palace(new Position(4, 8)));
 
     public Board(Map<Position, Piece> pieces) {
         if (pieces == null) {
             throw new IllegalArgumentException("pieces는 null값일 수 없습니다.");
         }
         this.pieces = new HashMap<>(pieces);
+    }
+
+    private Optional<Palace> findPalace(Position position) {
+        return palaces.stream()
+                .filter(palace -> palace.isInPalace(position))
+                .findFirst();
     }
 
     public void move(Position from, Position to) {
@@ -29,7 +36,8 @@ public class Board {
         Optional<Piece> targetPiece = getPiece(to);
         validateNotSameTeam(sourcePiece, targetPiece);
 
-        List<Offset> pathOffset = sourcePiece.getPathOffset(from, to);
+        Optional<Palace> palace = findPalace(from);
+        List<Offset> pathOffset = sourcePiece.getPathOffset(from, to, palace);
         List<Piece> blockedPieces = getBlockedPieces(from, pathOffset);
 
         sourcePiece.validateMove(blockedPieces);

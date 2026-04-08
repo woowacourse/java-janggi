@@ -2,10 +2,12 @@ package domain.piece;
 
 import domain.Direction;
 import domain.Offset;
+import domain.board.Palace;
 import exception.ErrorMessage;
 import domain.board.Position;
 
 import java.util.List;
+import java.util.Optional;
 
 public final class Horse extends JumpMovingPiece {
 
@@ -14,9 +16,9 @@ public final class Horse extends JumpMovingPiece {
     }
 
     @Override
-    protected void validateMoveRule(Position from, Position to) {
+    protected void validateMoveRule(Position from, Position to, Optional<Palace> palace) {
         Offset offset = Offset.of(from, to);
-        if (!isHorseMove(offset)) {
+        if (!isValidMove(offset)) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_MOVE_RULE.getMessage());
         }
     }
@@ -27,8 +29,8 @@ public final class Horse extends JumpMovingPiece {
         return List.of(step1);
     }
 
-    public boolean isHorseMove(Offset offset) {
+    @Override
+    protected boolean isValidMove(Offset offset) {
         return (offset.absX() == 2 && offset.absY() == 1) || (offset.absX() == 1 && offset.absY() == 2);
     }
-
 }

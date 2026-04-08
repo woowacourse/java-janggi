@@ -2,9 +2,11 @@ package domain.piece;
 
 import domain.Direction;
 import domain.Offset;
+import domain.board.Palace;
 import domain.board.Position;
 
 import java.util.List;
+import java.util.Optional;
 
 public abstract class JumpMovingPiece extends Piece {
     public JumpMovingPiece(PieceType pieceType, Team team) {
@@ -12,7 +14,7 @@ public abstract class JumpMovingPiece extends Piece {
     }
 
     @Override
-    public List<Offset> generatePaths(Position from, Position to) {
+    public List<Offset> generatePaths(Position from, Position to, Optional<Palace> palace) {
         Offset offset = Offset.of(from, to);
         Direction mainDirection = mainAxisDirection(offset);
         Direction subDirection = subAxisDirection(offset);

@@ -28,9 +28,9 @@ public record Offset(int dx, int dy) {
         return (absX() != 0 && absY() == 0) || (absX() == 0 && absY() != 0);
     }
 
-    public int calculateStraightDistance() {
-        if (!isStraightMoving()) {
-            throw new IllegalStateException("직선 이동이 아닐 때는 직선 거리를 계산할 수 없습니다.");
+    public int calculateDistance() {
+        if (!(isStraightMoving() || isDiagonalMoving())) {
+            throw new IllegalStateException("직선 또는 대각선 이동이 아닐 때는 거리를 계산할 수 없습니다.");
         }
         return Math.max(absX(), absY());
     }
@@ -40,7 +40,7 @@ public record Offset(int dx, int dy) {
     }
 
     public Offset normalize() {
-        if(!(this.isStraightMoving() || this.isDiagonalMoving())) {
+        if (!(isStraightMoving() || isDiagonalMoving())) {
             throw new IllegalStateException("단위 벡터를 계산할 수 없습니다.");
         }
         return new Offset(Integer.signum(dx), Integer.signum(dy));

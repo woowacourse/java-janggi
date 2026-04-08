@@ -41,13 +41,14 @@ public class BoardFactory {
 
     public static Board createBoard(InitializeSetting choInitialSetting, InitializeSetting hanInitialSetting) {
         Map<Position, Piece> pieces = new HashMap<>();
-
         placeSoldiers(pieces);
         placeChariots(pieces);
         placeGuards(pieces);
         placeCannons(pieces);
         placeGeneral(pieces);
         placeDynamicPieces(pieces, choInitialSetting, hanInitialSetting);
+
+
 
         return new Board(pieces);
     }

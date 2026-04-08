@@ -24,18 +24,4 @@ class PositionTest {
         assertThrows(IllegalArgumentException.class, () ->
                 new Position(7, 11));
     }
-
-    @Test
-    void 초의_궁성_영역인지_확인한다(){
-        Position position = new Position(4, 0);
-        boolean inChoPalace = Palace.isInAnyPalace(position);
-        assertThat(inChoPalace).isTrue();
-    }
-
-    @Test
-    void 한의_궁성_영역인지_확인한다(){
-        Position position = new Position(4, 9);
-        boolean isHanPalace = Palace.isInAnyPalace(position);
-        assertThat(isHanPalace).isTrue();
-    }
 }
