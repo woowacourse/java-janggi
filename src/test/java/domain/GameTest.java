@@ -36,12 +36,10 @@ class GameTest {
         Map<Position, Piece> pieces = new HashMap<>();
         pieces.put(Position.of(1, 4), Piece.of(Team.CHU, Type.GENERAL, new GeneralMoveStrategy()));
         pieces.put(Position.of(2, 4), Piece.of(Team.HAN, Type.CHARIOT, new ChariotMoveStrategy()));
-        pieces.put(Position.of(3, 4), Piece.of(Team.CHU, Type.CHARIOT, new ChariotMoveStrategy()));
         Board board = Board.of(pieces);
-        Game game = Game.of(board);
+        Game game = Game.loadGame(board, Team.HAN, Status.PLAYING);
 
         // when
-        game.tryToMove(Position.of(3, 4), Position.of(4, 4));
         game.tryToMove(Position.of(2, 4), Position.of(1, 4));
 
         // then

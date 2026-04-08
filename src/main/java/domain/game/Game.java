@@ -37,15 +37,14 @@ public class Game {
 
         if (capturedPiece.isPresent() && capturedPiece.get().getType() == Type.GENERAL) {
             Team winner = turn.getTeam();
-            if (winner == Team.CHU) {
-                status = Status.CHU_WIN;
-                return;
-            }
-            status = Status.HAN_WIN;
-            return;
+            status = (winner == Team.CHU) ? Status.CHU_WIN : Status.HAN_WIN;
         }
+    }
 
-        turn.change();
+    public void changeTurn() {
+        if (status == Status.PLAYING) {
+            turn.change();
+        }
     }
 
     public void checkTurn(Team team) {

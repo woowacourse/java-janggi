@@ -47,6 +47,9 @@ public class JanggiService {
             try {
                 boolean hasTargetPiece = game.getBoard().findPieceByPosition(to).isPresent();
                 game.tryToMove(from, to);
+                if (game.getStatus() == Status.PLAYING) {
+                    game.changeTurn();
+                }
 
                 updateGameState(game, gameId, from, to, hasTargetPiece, con);
 
