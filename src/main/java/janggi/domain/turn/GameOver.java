@@ -1,4 +1,4 @@
-package janggi.domain.Turn;
+package janggi.domain.turn;
 
 import janggi.domain.board.Board;
 import janggi.domain.position.Position;

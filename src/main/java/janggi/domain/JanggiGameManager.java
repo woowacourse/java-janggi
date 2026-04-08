@@ -1,6 +1,6 @@
 package janggi.domain;
 
-import janggi.domain.Turn.GameState;
+import janggi.domain.turn.GameState;
 import janggi.domain.position.Position;
 import janggi.domain.space.Space;
 import janggi.domain.space.piece.Team;

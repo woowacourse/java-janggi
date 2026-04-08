@@ -1,4 +1,4 @@
-package janggi.domain.Turn;
+package janggi.domain.turn;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;

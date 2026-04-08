@@ -1,9 +1,9 @@
 package janggi.service;
 
 import janggi.domain.JanggiGameManager;
-import janggi.domain.Turn.ChoTurn;
-import janggi.domain.Turn.GameState;
-import janggi.domain.Turn.HanTurn;
+import janggi.domain.turn.ChoTurn;
+import janggi.domain.turn.GameState;
+import janggi.domain.turn.HanTurn;
 import janggi.domain.board.Board;
 import janggi.domain.position.Position;
 import janggi.domain.space.Space;

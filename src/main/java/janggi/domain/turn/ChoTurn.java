@@ -1,4 +1,4 @@
-package janggi.domain.Turn;
+package janggi.domain.turn;
 
 import janggi.domain.board.Board;
 import janggi.domain.position.Position;
@@ -7,14 +7,12 @@ import janggi.domain.space.piece.Team;
 import java.util.Map;
 import java.util.Optional;
 
-public class HanTurn implements GameState {
-    private static final double BONUS_SCORE = 1.5;
-
+public class ChoTurn implements GameState {
     private final Team team;
     private final Board board;
 
-    public HanTurn(Board board) {
-        this.team = Team.HAN;
+    public ChoTurn(Board board) {
+        team = Team.CHO;
         this.board = board;
     }
 
@@ -25,8 +23,7 @@ public class HanTurn implements GameState {
         if (board.isGameOver()) {
             return new GameOver(board);
         }
-
-        return new ChoTurn(board);
+        return new HanTurn(board);
     }
 
     @Override
@@ -46,8 +43,6 @@ public class HanTurn implements GameState {
 
     @Override
     public double calculatePieceScore() {
-        return BONUS_SCORE + board.calculatePieceScore(team);
+        return board.calculatePieceScore(team);
     }
-
-
 }
