@@ -1,11 +1,9 @@
 package domain.board;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -45,25 +43,5 @@ public class PositionTest {
                 Arguments.arguments(new Position(3, 0), new Position(3, 0)),
                 Arguments.arguments(new Position(4, 1), new Position(4, 1))
         );
-    }
-
-    @Test
-    @DisplayName("초나라 기물의 현재 위치가 궁성 내부인지 확인한다.")
-    void choPieceIsInPalaceTest() {
-        Position position = new Position(4, 1);
-        Position invalidPosition = new Position(0, 8);
-
-        assertThat(position.isInPalace(Country.CHO)).isTrue();
-        assertThat(invalidPosition.isInPalace(Country.CHO)).isFalse();
-    }
-
-    @Test
-    @DisplayName("한나라 기물의 현재 위치가 궁성 내부인지 확인한다.")
-    void hanPieceIsInPalaceTest() {
-        Position position = new Position(4, 8);
-        Position invalidPosition = new Position(8, 9);
-
-        assertThat(position.isInPalace(Country.HAN)).isTrue();
-        assertThat(invalidPosition.isInPalace(Country.HAN)).isFalse();
     }
 }

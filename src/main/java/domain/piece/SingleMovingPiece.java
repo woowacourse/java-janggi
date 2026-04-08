@@ -33,6 +33,6 @@ public abstract class SingleMovingPiece extends Piece {
 
     @Override
     protected boolean isInPalaceMove(Position from, Position to, Country country) {
-        return from.isInPalace(country) && to.isInPalace(country);
+        return country.isInPalace(from) && country.isInPalace(to);
     }
 }

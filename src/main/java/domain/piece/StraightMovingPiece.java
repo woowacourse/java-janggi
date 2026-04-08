@@ -36,6 +36,6 @@ public abstract class StraightMovingPiece extends Piece {
 
     @Override
     protected boolean isInPalaceMove(Position from, Position to, Country country) {
-        return from.isInPalace(country);
+        return country.isInPalace(from);
     }
 }

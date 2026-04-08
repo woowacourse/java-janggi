@@ -44,14 +44,4 @@ public record Position(
     public Position nextPosition(Direction direction) {
         return new Position(x + direction.getX(), y + direction.getY());
     }
-
-    public boolean isInPalace(Country country) {
-        if (country == Country.CHO) {
-            return this.x >= 3 && this.x <= 5 && y >= 0 && y <= 2;
-        }
-        if (country == Country.HAN) {
-            return this.x >= 3 && this.x <= 5 && y >= 7 && y <= 9;
-        }
-        return false;
-    }
 }
