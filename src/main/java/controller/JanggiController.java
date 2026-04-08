@@ -4,6 +4,7 @@ import model.board.ScoreResult;
 import model.coordinate.Position;
 import model.formation.JanggiFormation;
 import model.game.GameStatus;
+import model.game.MoveResult;
 import model.game.Team;
 import model.piece.Piece;
 import service.JanggiService;
@@ -44,13 +45,12 @@ public class JanggiController {
         Piece piece = janggiService.findPieceAt(current, currentTurn);
 
         Position next = inputView.readDestination(currentTurn, piece);
-        GameStatus status = janggiService.move(current, next);
+        MoveResult moveResult = janggiService.move(current, next);
 
-        outputView.displayBoard(janggiService.getBoard());
-        if (status == GameStatus.WIN_BY_CAPTURE) {
-            Team winner = janggiService.getWinnerByCapture();
-            outputView.displayWinner(winner.getKoreanName());
-        }
+        outputView.displayBoard(moveResult.board());
+        moveResult.winner().ifPresent(
+                winner -> outputView.displayWinner(winner.getKoreanName()))
+        ;
     }
 
     private void handleScore() {

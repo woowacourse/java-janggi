@@ -8,6 +8,7 @@ import model.formation.FormationFactory;
 import model.formation.JanggiFormation;
 import model.game.GameStatus;
 import model.game.Janggi;
+import model.game.MoveResult;
 import model.game.Team;
 import model.game.dto.GameDto;
 import model.piece.Piece;
@@ -52,11 +53,17 @@ public class JanggiService {
         this.gameId = janggiRepository.saveGame(janggi.getTurn(), janggi.board());
     }
 
-    public GameStatus move(Position current, Position next) {
+    public MoveResult move(Position current, Position next) {
         GameStatus status = janggi.move(current, next);
         MoveCommand moveCommand = new MoveCommand(current, next, janggi.getTurn());
         janggiRepository.updateGame(gameId, moveCommand, status);
-        return status;
+
+        Optional<Team> winnerOptional = Optional.empty();
+        if (status == GameStatus.WIN_BY_CAPTURE) {
+            winnerOptional = Optional.of(janggi.getWinnerByCapture());
+        }
+
+        return new MoveResult(janggi.board(), winnerOptional);
     }
 
     public Piece findPieceAt(Position position, Team turn) {
