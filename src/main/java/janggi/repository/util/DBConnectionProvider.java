@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class DBConnectionProvider implements ConnectionProvider {
 
-    private static final String URL = "jdbc:h2:./java-janggi";
+    private static final String URL = "jdbc:h2:./java-janggi;AUTO_SERVER=TRUE";
     private static final String USER = "sa";
     private static final String PASSWORD = "";
 
