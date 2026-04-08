@@ -8,28 +8,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class BoardFactory {
+public class BoardFactory {
 
-    private static final Map<Integer, BoardFactory> FACTORIES = Map.of(
-            1, new LeftGwimaFactory(),
-            2, new RightGwimaFactory(),
-            3, new WonangmaFactory(),
-            4, new YanggwimaFactory()
-    );
-
-    public static Map<Position, Piece> createFormation(int choFormationNumber, int hanFormationNumber) {
-        BoardFactory choBoardFactory = BoardFactory.from(choFormationNumber);
-        BoardFactory hanBoardFactory = BoardFactory.from(hanFormationNumber);
-        Map<Position, Piece> pieces = new HashMap<>();
-        setFixedChoPieces(pieces);
-        choBoardFactory.setVariablePieces(pieces, Team.CHO);
-        setFixedHanPieces(pieces);
-        hanBoardFactory.setVariablePieces(pieces, Team.HAN);
-        return pieces;
+    private BoardFactory() {
     }
 
-    public static BoardFactory from(int input) {
-        return FACTORIES.get(input);
+    public static Map<Position, Piece> createFormation(int choFormationNumber, int hanFormationNumber) {
+        Formation choFormation = Formation.from(choFormationNumber);
+        Formation hanFormation = Formation.from(hanFormationNumber);
+
+        Map<Position, Piece> pieces = new HashMap<>();
+
+        setFixedChoPieces(pieces);
+        placeVariablePieces(pieces, Team.CHO, choFormation.getVariablePieces());
+
+        setFixedHanPieces(pieces);
+        placeVariablePieces(pieces, Team.HAN, hanFormation.getVariablePieces());
+
+        return pieces;
     }
 
     private static void setFixedChoPieces(Map<Position, Piece> pieces) {
@@ -54,25 +50,27 @@ public abstract class BoardFactory {
         }
     }
 
-    protected void placeVariablePieces(Map<Position, Piece> pieces, Team team, List<PieceDefinition> formation) {
+    private static void placeVariablePieces(Map<Position, Piece> pieces, Team team, List<PieceDefinition> formation) {
         List<Integer> columns;
+
         if (team == Team.CHO) {
             columns = List.of(2, 3, 7, 8);
         } else {
             columns = List.of(8, 7, 3, 2);
         }
+
+        int row = getRow(team);
+
         for (int i = 0; i < columns.size(); i++) {
             PieceDefinition pieceDefinition = formation.get(i);
-            pieces.put(new Position(getRow(team), columns.get(i)), pieceDefinition.createPiece(team));
+            pieces.put(new Position(row, columns.get(i)), pieceDefinition.createPiece(team));
         }
     }
 
-    protected int getRow(Team team) {
-        if (team.equals(Team.CHO)) {
+    private static int getRow(Team team) {
+        if (team == Team.CHO) {
             return 1;
         }
         return 10;
     }
-
-    protected abstract void setVariablePieces(Map<Position, Piece> pieces, Team team);
 }
