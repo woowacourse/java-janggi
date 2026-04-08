@@ -6,6 +6,6 @@ import domain.strategy.PawnStrategy;
 public class Pawn extends MoveablePiece {
 
     public Pawn(Team team) {
-        super(team, new PawnStrategy());
+        super(team, PieceType.PAWN, new PawnStrategy());
     }
 }
