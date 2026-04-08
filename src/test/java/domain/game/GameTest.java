@@ -18,7 +18,7 @@ public class GameTest {
     @Test
     @DisplayName("게임 시작 시 초나라 턴으로 시작한다.")
     void startWithChoTurn() {
-        Game game = new Game(SetUp.LEFT_ELEPHANT, SetUp.RIGHT_ELEPHANT);
+        Game game = Game.start(SetUp.LEFT_ELEPHANT, SetUp.RIGHT_ELEPHANT);
 
         assertThat(game.currentTurn()).isEqualTo(Camp.CHO);
     }
@@ -26,7 +26,7 @@ public class GameTest {
     @Test
     @DisplayName("현재 턴의 기물을 이동하면 보드 상태가 변경되고 턴이 넘어간다.")
     void movePieceAndChangeTurn() {
-        Game game = new Game(SetUp.LEFT_ELEPHANT, SetUp.RIGHT_ELEPHANT);
+        Game game = Game.start(SetUp.LEFT_ELEPHANT, SetUp.RIGHT_ELEPHANT);
         Position from = new Position(1, 7);
         Position to = new Position(1, 6);
 
@@ -43,7 +43,7 @@ public class GameTest {
     @Test
     @DisplayName("현재 턴이 아닌 기물을 이동하면 예외가 발생하고 턴은 유지된다.")
     void throwExceptionWhenMoveOpponentPiece() {
-        Game game = new Game(SetUp.LEFT_ELEPHANT, SetUp.RIGHT_ELEPHANT);
+        Game game = Game.start(SetUp.LEFT_ELEPHANT, SetUp.RIGHT_ELEPHANT);
         Position from = new Position(1, 4);
         Position to = new Position(1, 5);
 
@@ -58,7 +58,7 @@ public class GameTest {
     @Test
     @DisplayName("한 턴을 넘기면 상대 진영의 기물을 이동할 수 있다.")
     void moveOpponentPieceAfterPassTurn() {
-        Game game = new Game(SetUp.LEFT_ELEPHANT, SetUp.RIGHT_ELEPHANT);
+        Game game = Game.start(SetUp.LEFT_ELEPHANT, SetUp.RIGHT_ELEPHANT);
         Position from = new Position(1, 4);
         Position to = new Position(1, 5);
 
@@ -81,7 +81,7 @@ public class GameTest {
                 new Position(5, 5), new Piece(Camp.CHO, PieceType.CHARIOT),
                 new Position(5, 2), new Piece(Camp.HAN, PieceType.GENERAL)
         ));
-        Game game = Game.restoreFromState(board, Camp.CHO);
+        Game game = Game.restore(board, Camp.CHO, false);
 
         game.move(new Position(5, 5), new Position(5, 2));
 
@@ -96,7 +96,7 @@ public class GameTest {
                 new Position(5, 2), new Piece(Camp.HAN, PieceType.SOLDIER),
                 new Position(4, 2), new Piece(Camp.HAN, PieceType.GUARD)
         ));
-        Game game = Game.restoreFromState(board, Camp.CHO);
+        Game game = Game.restore(board, Camp.CHO, false);
 
         game.move(new Position(5, 5), new Position(5, 2));
 

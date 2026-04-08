@@ -14,16 +14,16 @@ public class Game {
     private Camp currentTurn;
     private boolean finished;
 
-    public Game(SetUp choSetUp, SetUp hanSetUp) {
-        this(new Board(BoardInitializer.init(choSetUp, hanSetUp)), Camp.CHO, false);
+    public static Game start(SetUp choSetUp, SetUp hanSetUp) {
+        return new Game(choSetUp, hanSetUp);
     }
 
-    public static Game restoreFromState(Board board, Camp currentTurn) {
-        return new Game(board, currentTurn, false);
-    }
-
-    public static Game restoreFromState(Board board, Camp currentTurn, boolean finished) {
+    public static Game restore(Board board, Camp currentTurn, boolean finished) {
         return new Game(board, currentTurn, finished);
+    }
+
+    private Game(SetUp choSetUp, SetUp hanSetUp) {
+        this(new Board(BoardInitializer.init(choSetUp, hanSetUp)), Camp.CHO, false);
     }
 
     private Game(Board board, Camp currentTurn, boolean finished) {

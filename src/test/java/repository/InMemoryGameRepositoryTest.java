@@ -19,7 +19,7 @@ class InMemoryGameRepositoryTest {
     @Test
     @DisplayName("저장한 게임을 다시 조회할 수 있다")
     void findInProgressGame() {
-        Game game = new Game(SetUp.INNER_ELEPHANT, SetUp.LEFT_ELEPHANT);
+        Game game = Game.start(SetUp.INNER_ELEPHANT, SetUp.LEFT_ELEPHANT);
 
         gameRepository.save(game);
         Game savedGame = gameRepository.findInProgressGame().orElseThrow();
@@ -44,7 +44,7 @@ class InMemoryGameRepositoryTest {
                 new Position(5, 5), new Piece(Camp.CHO, PieceType.CHARIOT),
                 new Position(5, 2), new Piece(Camp.HAN, PieceType.GENERAL)
         ));
-        Game finishedGame = Game.restoreFromState(board, Camp.CHO);
+        Game finishedGame = Game.restore(board, Camp.CHO, false);
         finishedGame.move(new Position(5, 5), new Position(5, 2));
 
         gameRepository.save(finishedGame);
@@ -55,7 +55,7 @@ class InMemoryGameRepositoryTest {
     @Test
     @DisplayName("같은 게임을 다시 저장하면 최신 상태가 조회된다")
     void saveLatestGameState() {
-        Game game = new Game(SetUp.LEFT_ELEPHANT, SetUp.RIGHT_ELEPHANT);
+        Game game = Game.start(SetUp.LEFT_ELEPHANT, SetUp.RIGHT_ELEPHANT);
 
         gameRepository.save(game);
 

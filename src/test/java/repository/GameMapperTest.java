@@ -39,7 +39,7 @@ class GameMapperTest {
     @Test
     @DisplayName("게임 상태를 저장용 기물 상태 목록으로 변환할 수 있다")
     void toBoardPieces_With_Game() {
-        Game game = new Game(SetUp.INNER_ELEPHANT, SetUp.LEFT_ELEPHANT);
+        Game game = Game.start(SetUp.INNER_ELEPHANT, SetUp.LEFT_ELEPHANT);
 
         List<BoardPiece> boardPieces = gameMapper.toBoardPieces(game);
 

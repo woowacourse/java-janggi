@@ -32,6 +32,6 @@ public class GameMapper {
     public Game toGame(Camp currentTurn, boolean finished, List<BoardPiece> boardPieces) {
         Board board = toBoard(boardPieces);
 
-        return Game.restoreFromState(board, currentTurn, finished);
+        return Game.restore(board, currentTurn, finished);
     }
 }

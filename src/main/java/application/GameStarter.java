@@ -38,7 +38,7 @@ public class GameStarter {
         SetUp choSetUp = readSetUp(Camp.CHO);
         SetUp hanSetUp = readSetUp(Camp.HAN);
 
-        Game game = new Game(choSetUp, hanSetUp);
+        Game game = Game.start(choSetUp, hanSetUp);
         gameRepository.save(game);
 
         return game;
