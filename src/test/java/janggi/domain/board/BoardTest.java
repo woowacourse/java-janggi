@@ -48,7 +48,7 @@ class BoardTest {
         // when
         board.movePiece(source, destination, CampType.HAN);
         // then
-        boolean destinationExists = board.hasSamePieceRuleAt(destination, PieceRule.CANNON);
+        boolean destinationExists = board.getBoard().get(destination).isSamePieceRule(PieceRule.CANNON);
         boolean sourceExists = board.hasPieceAt(source);
 
         SoftAssertions.assertSoftly(assertSoftly -> {
@@ -156,7 +156,7 @@ class BoardTest {
         // then
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(board.hasPieceAt(source)).isFalse();
-            softly.assertThat(board.hasSamePieceRuleAt(destination, PieceRule.CHARIOT)).isTrue();
+            softly.assertThat(board.getBoard().get(destination).isSamePieceRule(PieceRule.CHARIOT)).isTrue();
             softly.assertThat(board.getScoreBoard().get(CampType.HAN)).isEqualTo(expectedScore);
         });
     }

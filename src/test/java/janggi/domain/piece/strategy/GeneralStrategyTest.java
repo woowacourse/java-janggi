@@ -4,9 +4,12 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.Position;
+import janggi.domain.board.Board;
+import janggi.domain.piece.Piece;
 import janggi.domain.piece.camp.CampType;
 import janggi.domain.piece.PieceRule;
 import janggi.exception.ExceptionMessage;
+import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -42,8 +45,9 @@ class GeneralStrategyTest {
     @ParameterizedTest
     @MethodSource("successMovePositions")
     void 직선_방향으로_1칸만_이동한다(CampType campType, Position source, Position destination) {
+        Board board = new Board(Map.of(source, new Piece(PieceRule.GENERAL, campType)));
         assertThatNoException().isThrownBy(() ->
-                moveStrategy.validate(source, destination, campType, null, PieceRule.GENERAL));
+                moveStrategy.validate(source, destination, board));
     }
 
     private static Stream<Arguments> invalidDistancePositions() {
@@ -58,7 +62,8 @@ class GeneralStrategyTest {
     @ParameterizedTest
     @MethodSource("invalidDistancePositions")
     void 직선_방향으로_1칸만_이동하지_않으면_예외가_발생한다(CampType campType, Position source, Position destination) {
-        assertThatThrownBy(() -> moveStrategy.validate(source, destination, campType, null, PieceRule.GENERAL))
+        Board board = new Board(Map.of(source, new Piece(PieceRule.GENERAL, campType)));
+        assertThatThrownBy(() -> moveStrategy.validate(source, destination, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.INVALID_PALACE_MOVE.getMessage(DISTANCE));
     }
@@ -77,7 +82,8 @@ class GeneralStrategyTest {
     @ParameterizedTest
     @MethodSource("invalidRangePositions")
     void 궁성_내에서_이동하지_않으면_예외가_발생한다(CampType campType, Position source, Position destination) {
-        assertThatThrownBy(() -> moveStrategy.validate(source, destination, campType, null, PieceRule.GENERAL))
+        Board board = new Board(Map.of(source, new Piece(PieceRule.GENERAL, campType)));
+        assertThatThrownBy(() -> moveStrategy.validate(source, destination, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.INVALID_PALACE_MOVE.getMessage(DISTANCE));
     }

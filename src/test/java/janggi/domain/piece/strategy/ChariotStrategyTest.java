@@ -29,7 +29,7 @@ class ChariotStrategyTest {
         BoardChecker board = new Board(Map.of());
         //when & then
         assertThatNoException().isThrownBy(() ->
-                moveStrategy.validate(source, destination, CampType.CHO, board, PieceRule.CHARIOT));
+                moveStrategy.validate(source, destination, board));
     }
 
     @Test
@@ -40,7 +40,7 @@ class ChariotStrategyTest {
         BoardChecker board = new Board(Map.of());
         //when & then
         assertThatNoException().isThrownBy(() ->
-                moveStrategy.validate(source, destination, CampType.CHO, board, PieceRule.CHARIOT));
+                moveStrategy.validate(source, destination, board));
     }
 
     private static Stream<Arguments> successMovePositionsInPath() {
@@ -59,7 +59,7 @@ class ChariotStrategyTest {
         BoardChecker board = new Board(Map.of());
         //when & then
         assertThatNoException().isThrownBy(() ->
-                moveStrategy.validate(source, destination, CampType.CHO, board, PieceRule.CHARIOT));
+                moveStrategy.validate(source, destination, board));
     }
 
     @Test
@@ -69,7 +69,7 @@ class ChariotStrategyTest {
         Position destination = new Position(3, 3);
         BoardChecker board = new Board(Map.of());
         //when & then
-        assertThatThrownBy(() -> moveStrategy.validate(source, destination, CampType.CHO, board, PieceRule.CHARIOT))
+        assertThatThrownBy(() -> moveStrategy.validate(source, destination, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.ONLY_STRAIGHT_MOVE_ALLOWED.getMessage());
     }
@@ -90,7 +90,7 @@ class ChariotStrategyTest {
                 new Position(1, 4), new Piece(PieceRule.ELEPHANT, CampType.CHO)
         ));
         //when & then
-        assertThatThrownBy(() -> moveStrategy.validate(source, destination, CampType.CHO, board, PieceRule.CHARIOT))
+        assertThatThrownBy(() -> moveStrategy.validate(source, destination, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.PATH_NOT_EMPTY.getMessage());
     }

@@ -42,7 +42,7 @@ class ElephantStrategyTest {
     @MethodSource("successPositions")
     void 직선_1칸_이동_후_대각선_2칸_이동한다(Position source, Position destination) {
         assertThatNoException().isThrownBy(() ->
-                moveStrategy.validate(source, destination, CampType.HAN, new Board(Map.of()), PieceRule.ELEPHANT));
+                moveStrategy.validate(source, destination, new Board(Map.of())));
     }
 
     private static Stream<Arguments> invalidDistancePositions() {
@@ -55,7 +55,7 @@ class ElephantStrategyTest {
     @ParameterizedTest
     @MethodSource("invalidDistancePositions")
     void 행마법_대로_움직이지_않으면_예외가_발생한다(Position source, Position destination) {
-        assertThatThrownBy(() -> moveStrategy.validate(source, destination, CampType.CHO, new Board(Map.of()), PieceRule.ELEPHANT))
+        assertThatThrownBy(() -> moveStrategy.validate(source, destination, new Board(Map.of())))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.INVALID_DIAGONAL_STEP_MOVE.getMessage(STRAIGHT_DISTANCE, DIAGONAL_DISTANCE));
     }
@@ -68,7 +68,7 @@ class ElephantStrategyTest {
         Position source = new Position(9, 1);
         Position destination = new Position(6, 3);
 
-        assertThatThrownBy(() -> moveStrategy.validate(source, destination, CampType.HAN, blockingBoard, PieceRule.ELEPHANT))
+        assertThatThrownBy(() -> moveStrategy.validate(source, destination, blockingBoard))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.PATH_NOT_EMPTY.getMessage());
     }

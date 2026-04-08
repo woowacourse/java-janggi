@@ -4,9 +4,12 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.Position;
+import janggi.domain.board.Board;
+import janggi.domain.piece.Piece;
 import janggi.domain.piece.camp.CampType;
 import janggi.domain.piece.PieceRule;
 import janggi.exception.ExceptionMessage;
+import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -34,8 +37,9 @@ class SoldierStrategyTest {
     @ParameterizedTest
     @MethodSource("successMovePositions")
     void 전진_또는_좌우_방향으로_1칸만_이동한다(CampType campType, Position source, Position destination) {
+        Board board = new Board(Map.of(source, new Piece(PieceRule.SOLDIER, campType)));
         assertThatNoException().isThrownBy(() ->
-                moveStrategy.validate(source, destination, campType, null, PieceRule.SOLDIER));
+                moveStrategy.validate(source, destination, board));
     }
 
     private static Stream<Arguments> successMovePositionsInPalace() {
@@ -54,8 +58,9 @@ class SoldierStrategyTest {
     @ParameterizedTest
     @MethodSource("successMovePositionsInPalace")
     void 궁성에서_전진_또는_좌우_방향으로_1칸만_이동한다(CampType campType, Position source, Position destination) {
+        Board board = new Board(Map.of(source, new Piece(PieceRule.SOLDIER, campType)));
         assertThatNoException().isThrownBy(() ->
-                moveStrategy.validate(source, destination, campType, null, PieceRule.SOLDIER));
+                moveStrategy.validate(source, destination, board));
     }
 
     private static Stream<Arguments> invalidDistancePositions() {
@@ -68,7 +73,8 @@ class SoldierStrategyTest {
     @ParameterizedTest
     @MethodSource("invalidDistancePositions")
     void 직선_방향으로_1칸만_이동하지_않으면_예외가_발생한다(CampType campType, Position source, Position destination) {
-        assertThatThrownBy(() -> moveStrategy.validate(source, destination, campType, null, PieceRule.SOLDIER))
+        Board board = new Board(Map.of(source, new Piece(PieceRule.SOLDIER, campType)));
+        assertThatThrownBy(() -> moveStrategy.validate(source, destination, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.INVALID_SINGLE_STEP_MOVE.getMessage(DISTANCE));
     }
@@ -83,7 +89,8 @@ class SoldierStrategyTest {
     @ParameterizedTest
     @MethodSource("backwardMovePositions")
     void 후진하는_경우_예외가_발생한다(CampType campType, Position source, Position destination) {
-        assertThatThrownBy(() -> moveStrategy.validate(source, destination, campType, null, PieceRule.SOLDIER))
+        Board board = new Board(Map.of(source, new Piece(PieceRule.SOLDIER, campType)));
+        assertThatThrownBy(() -> moveStrategy.validate(source, destination, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.INVALID_BACKWARD_MOVEMENT.getMessage());
     }
@@ -104,7 +111,8 @@ class SoldierStrategyTest {
     @ParameterizedTest
     @MethodSource("backwardMovePositionsInPalace")
     void 궁성에서_후진하는_경우_예외가_발생한다(CampType campType, Position source, Position destination) {
-        assertThatThrownBy(() -> moveStrategy.validate(source, destination, campType, null, PieceRule.SOLDIER))
+        Board board = new Board(Map.of(source, new Piece(PieceRule.SOLDIER, campType)));
+        assertThatThrownBy(() -> moveStrategy.validate(source, destination, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ExceptionMessage.INVALID_BACKWARD_MOVEMENT.getMessage());
     }

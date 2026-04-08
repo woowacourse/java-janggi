@@ -36,15 +36,25 @@ public class Board implements BoardChecker {
     }
 
     @Override
-    public boolean hasSamePieceRuleAt(Position position, PieceRule pieceRule) {
+    public Piece pieceAt(Position position) {
         if (hasPieceAt(position)) {
-            Piece piece = board.get(position);
-            return piece.isSamePieceRule(pieceRule);
+            return board.get(position);
+        }
+        throw new IllegalArgumentException(ExceptionMessage.SOURCE_NOT_EXISTS.getMessage());
+    }
+
+    @Override
+    public boolean isSamePieceRule(Position source, Position target) {
+        if (hasPieceAt(target)) {
+            Piece sourcePiece = board.get(source);
+            Piece targetPiece = board.get(target);
+            return sourcePiece.isSamePieceRule(targetPiece.pieceRule());
         }
         return false;
     }
 
     public MoveResultDto movePiece(Position source, Position destination, CampType campType) {
+
         validateSource(source, campType);
         validateDestination(destination, source, campType);
 

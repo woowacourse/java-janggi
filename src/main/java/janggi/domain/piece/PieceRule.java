@@ -2,7 +2,6 @@ package janggi.domain.piece;
 
 import janggi.domain.Position;
 import janggi.domain.board.BoardChecker;
-import janggi.domain.piece.camp.CampType;
 import janggi.domain.piece.strategy.CannonStrategy;
 import janggi.domain.piece.strategy.ChariotStrategy;
 import janggi.domain.piece.strategy.ElephantStrategy;
@@ -31,8 +30,8 @@ public enum PieceRule {
         this.score = score;
     }
 
-    public void validateMove(Position source, Position destination, CampType campType, BoardChecker board) {
-        moveStrategy.validate(source, destination, campType, board, this);
+    public void validateMove(Position source, Position destination, BoardChecker board) {
+        moveStrategy.validate(source, destination, board);
     }
 
     public double getScore() {

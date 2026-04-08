@@ -7,7 +7,7 @@ import janggi.domain.piece.camp.CampType;
 public record Piece(PieceRule pieceRule, CampType campType) {
 
     public void validateMove(Position source, Position destination, BoardChecker board) {
-        pieceRule.validateMove(source, destination, campType, board);
+        pieceRule.validateMove(source, destination, board);
     }
 
     public boolean isSamePieceRule(PieceRule pieceRule) {

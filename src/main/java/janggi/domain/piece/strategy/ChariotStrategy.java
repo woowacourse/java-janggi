@@ -2,8 +2,6 @@ package janggi.domain.piece.strategy;
 
 import janggi.domain.Position;
 import janggi.domain.board.BoardChecker;
-import janggi.domain.piece.PieceRule;
-import janggi.domain.piece.camp.CampType;
 import janggi.exception.ExceptionMessage;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,17 +10,17 @@ import java.util.function.BiFunction;
 public class ChariotStrategy extends PalaceStrategy {
 
     @Override
-    public void validate(Position source, Position destination, CampType campType, BoardChecker board, PieceRule pieceRule) {
+    public void validate(Position source, Position destination, BoardChecker board) {
         Movement movement = new Movement(source, destination);
         if (isPalaceRange(source, destination)) {
             List<Position> path = findPathInPalace(source, movement);
             List<Position> pathBeforeDestination = path.subList(0, path.size() - 1);
-            validatePath(pathBeforeDestination, board);
+            board.validateEmptyPath(pathBeforeDestination);
             return;
         }
         List<Position> path = findPath(source, movement);
         List<Position> pathBeforeDestination = path.subList(0, path.size() - 1);
-        validatePath(pathBeforeDestination, board);
+        board.validateEmptyPath(pathBeforeDestination);
     }
 
     private List<Position> findPathInPalace(Position source, Movement movement) {
@@ -65,16 +63,5 @@ public class ChariotStrategy extends PalaceStrategy {
             path.add(source);
         }
         return path;
-    }
-
-    private void validatePath(List<Position> path, BoardChecker board) {
-        if (isNotEmptyPath(path, board)) {
-            throw new IllegalArgumentException(ExceptionMessage.PATH_NOT_EMPTY.getMessage());
-        }
-    }
-
-    private boolean isNotEmptyPath(List<Position> path, BoardChecker board) {
-        return path.stream()
-                .anyMatch(board::hasPieceAt);
     }
 }
