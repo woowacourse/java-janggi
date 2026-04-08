@@ -1,6 +1,6 @@
 package janggi;
 
-import janggi.config.DataSourceFactory;
+import janggi.config.DataSourceConfig;
 import janggi.controller.JanggiController;
 import janggi.dao.GameDao;
 import janggi.dao.PieceDao;
@@ -10,7 +10,7 @@ import javax.sql.DataSource;
 public class Application {
 
     public static void main(String[] args) {
-        DataSource dataSource = DataSourceFactory.createDataSource();
+        DataSource dataSource = DataSourceConfig.createDataSource();
 
         GameDao gameDao = new GameDao(dataSource);
         PieceDao pieceDao = new PieceDao(dataSource);
