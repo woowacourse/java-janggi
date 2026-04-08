@@ -4,6 +4,7 @@ import domain.board.Board;
 import domain.piece.Delta;
 import domain.piece.Piece;
 import domain.piece.Position;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -42,7 +43,7 @@ public class CannonMoveStrategy implements MoveStrategy {
             current = current.move(delta);
         }
 
-        if (!board.inBoard(current) || board.getPiece(current).isCannon()) {
+        if (!board.inBoard(current) || board.getPiece(current).isSameType()) {
             return Optional.empty();
         }
 
@@ -63,7 +64,7 @@ public class CannonMoveStrategy implements MoveStrategy {
             }
 
             Piece piece = board.getPiece(current);
-            if (!fromPiece.isSameTeam(piece) && !piece.isCannon()) {
+            if (!fromPiece.isSameTeam(piece) && !piece.isSameType()) {
                 movable.add(current);
             }
             break;

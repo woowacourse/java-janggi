@@ -2,6 +2,7 @@ package domain.piece;
 
 import domain.board.Board;
 import domain.player.Team;
+
 import java.util.List;
 
 public class Piece {
@@ -39,7 +40,7 @@ public class Piece {
         return this.team == other.team;
     }
 
-    public boolean isCannon() {
+    public boolean isSameType() {
         return pieceStatus.pieceType() == PieceType.CANNON;
     }
 
