@@ -1,6 +1,5 @@
 package janggi.db.dao;
 
-import janggi.db.DatabaseConnection;
 import janggi.db.entity.GameEntity;
 
 import java.sql.*;
@@ -10,17 +9,10 @@ import java.util.Optional;
 
 public class JdbcGameDao {
 
-    private final DatabaseConnection connection;
-
-    public JdbcGameDao(final DatabaseConnection connection) {
-        this.connection = connection;
-    }
-
-    public Long insert(final String turn) {
+    public Long insert(Connection conn, final String turn) {
         String sql = "INSERT INTO game (turn) VALUES (?)";
 
-        try (Connection conn = connection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setString(1, turn);
             pstmt.executeUpdate();
@@ -33,13 +25,12 @@ public class JdbcGameDao {
         }
     }
 
-    public Optional<GameEntity> selectById(Long gameId) {
+    public Optional<GameEntity> selectById(Connection conn, Long gameId) {
         String sql = "SELECT id, turn " +
                 "FROM game " +
                 "WHERE id = ?";
 
-        try (Connection conn = connection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setLong(1, gameId);
             ResultSet rs = pstmt.executeQuery();
@@ -54,13 +45,12 @@ public class JdbcGameDao {
         }
     }
 
-    public List<GameEntity> selectAll() {
+    public List<GameEntity> selectAll(Connection conn) {
         String sql = "SELECT id, turn " +
                 "FROM game " +
                 "ORDER BY id";
 
-        try (Connection conn = connection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
+        try (PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
 
             List<GameEntity> games = new ArrayList<>();
@@ -75,13 +65,12 @@ public class JdbcGameDao {
         }
     }
 
-    public void update(Long gameId, String turn) {
+    public void update(Connection conn, Long gameId, String turn) {
         String sql = "UPDATE game " +
                 "SET turn = ? " +
                 "WHERE id = ?";
 
-        try (Connection conn = connection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, turn);
             pstmt.setLong(2, gameId);
@@ -91,12 +80,11 @@ public class JdbcGameDao {
         }
     }
 
-    public void deleteById(Long gameId) {
+    public void deleteById(Connection conn, Long gameId) {
         String sql = "DELETE FROM game " +
                 "WHERE id = ?";
 
-        try (Connection conn = connection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setLong(1, gameId);
             pstmt.executeUpdate();

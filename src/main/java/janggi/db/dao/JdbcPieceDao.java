@@ -1,6 +1,5 @@
 package janggi.db.dao;
 
-import janggi.db.DatabaseConnection;
 import janggi.db.entity.PieceEntity;
 
 import java.sql.Connection;
@@ -12,18 +11,11 @@ import java.util.List;
 
 public class JdbcPieceDao {
 
-    private final DatabaseConnection connection;
-
-    public JdbcPieceDao(DatabaseConnection connection) {
-        this.connection = connection;
-    }
-
-    public void insertAll(Long gameId, List<PieceEntity> pieces) {
+    public void insertAll(Connection conn, Long gameId, List<PieceEntity> pieces) {
         String sql = "INSERT INTO piece (game_id, piece_type, team, position_x, position_y) " +
                 "VALUES (?, ?, ?, ?, ?)";
 
-        try (Connection conn = connection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             for (PieceEntity piece : pieces) {
                 pstmt.setLong(1, gameId);
@@ -39,13 +31,12 @@ public class JdbcPieceDao {
         }
     }
 
-    public List<PieceEntity> selectByGameId(Long gameId) {
+    public List<PieceEntity> selectByGameId(Connection conn, Long gameId) {
         String sql = "SELECT id, game_id, piece_type, team, position_x, position_y " +
                 "FROM piece " +
                 "WHERE game_id = ?";
 
-        try (Connection conn = connection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setLong(1, gameId);
             ResultSet rs = pstmt.executeQuery();
@@ -67,14 +58,13 @@ public class JdbcPieceDao {
         }
     }
 
-    public void deleteByGameId(Long gameId, int x, int y) {
+    public void deleteByGameId(Connection conn, Long gameId, int x, int y) {
         String sql = "DELETE FROM piece " +
                 "WHERE game_id = ? " +
                 "AND position_x = ? " +
                 "AND position_y = ?";
 
-        try (Connection conn = connection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setLong(1, gameId);
             pstmt.setInt(2, x);
@@ -85,15 +75,14 @@ public class JdbcPieceDao {
         }
     }
 
-    public void update(Long gameId, int fromX, int fromY, int toX, int toY) {
+    public void update(Connection conn, Long gameId, int fromX, int fromY, int toX, int toY) {
         String sql = "UPDATE piece " +
                 "SET position_x = ?, position_y = ? " +
                 "WHERE game_id = ? " +
                 "AND position_x = ? " +
                 "AND position_y = ?";
 
-        try (Connection conn = connection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, toX);
             pstmt.setInt(2, toY);
