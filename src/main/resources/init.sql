@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS janggi_game (
     id BIGINT NOT NULL AUTO_INCREMENT,
     turn VARCHAR(8) NOT NULL,
+    room_name VARCHAR(32) NOT NULL,
 
     PRIMARY KEY (id)
 );

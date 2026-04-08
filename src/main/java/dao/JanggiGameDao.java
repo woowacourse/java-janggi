@@ -20,12 +20,13 @@ public class JanggiGameDao {
         this.manager = manager;
     }
 
-    public int createGame(Country turn) {
-        String sql = "INSERT INTO janggi_game (turn) VALUES (?)";
+    public int createGame(Country turn, String roomName) {
+        String sql = "INSERT INTO janggi_game (turn, room_name) VALUES (?, ?)";
         try (Connection conn = manager.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setString(1, turn.name());
+            pstmt.setString(2, roomName);
             pstmt.executeUpdate();
             ResultSet rs = pstmt.getGeneratedKeys();
 
@@ -74,20 +75,58 @@ public class JanggiGameDao {
         }
     }
 
-    public GameStatus findLatestStatus() {
-        String sql = "SELECT id, turn FROM janggi_game ORDER BY id DESC LIMIT 1";
+    public int countByRoomName(String roomName) {
+        String sql = "SELECT COUNT(*) FROM janggi_game WHERE room_name = ?";
         try (Connection conn = manager.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, roomName);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+
+            return 0;
+        } catch (SQLException e) {
+            throw new RuntimeException("[ERROR] 이름별 방의 개수를 가져오던 중 DB 오류가 발생했습니다: ", e);
+        }
+    }
+
+    public List<String> getRoomNameList() {
+        List<String> roomNameList = new ArrayList<>();
+        String sql = "SELECT room_name FROM janggi_game";
+
+        try (Connection conn = manager.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                String roomName = rs.getString("room_name");
+                roomNameList.add(roomName);
+            }
+
+            return roomNameList;
+        } catch (SQLException e) {
+            throw new RuntimeException("[ERROR] 게임방 이름을 가져오는 중 DB 오류가 발생했습니다: ", e);
+        }
+    }
+
+    public GameStatus findStatusByRoomName(String roomName) {
+        String sql = "SELECT id, turn, room_name FROM janggi_game WHERE room_name = ?";
+        try (Connection conn = manager.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, roomName);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 return new GameStatus(
                         rs.getInt("id"),
-                        Country.fromCountry(rs.getString("turn"))
+                        Country.fromCountry(rs.getString("turn")),
+                        rs.getString("room_name")
                 );
             }
             return null;
         } catch (SQLException e) {
-            throw new RuntimeException("[ERROR} 최신 정보를 불러오는 중 DB 오류가 발생했습니다: ", e);
+            throw new RuntimeException("[ERROR] 정보를 불러오는 중 DB 오류가 발생했습니다: ", e);
         }
     }
 

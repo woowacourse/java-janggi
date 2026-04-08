@@ -32,7 +32,7 @@ public class OutputView {
     public static void printRoomList(List<String> roomList) {
         System.out.println("게임방 목록입니다. 입장할 방의 이름을 입력해주세요.");
         for (int i = 1; i <= roomList.size(); i++) {
-            System.out.printf("%d. %s", i, roomList.get(i-1));
+            System.out.printf("%d. %s", i, roomList.get(i - 1));
             System.out.println();
         }
     }
