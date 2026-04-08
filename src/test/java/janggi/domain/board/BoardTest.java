@@ -151,4 +151,25 @@ public class BoardTest {
 
         assertThat(essentialPiece).isTrue();
     }
+
+    @Test
+    void 한나라보다_초나라의_기물_점수가_더_크면_초나라가_이긴다() {
+        Board board = BoardFactory.create(new ElephantHorseElephantHorse(), new ElephantHorseElephantHorse());
+        board.movePiece(Position.of(3, 0), Position.of(3, 1));
+        board.movePiece(Position.of(0, 0), Position.of(6, 0));
+        board.movePiece(Position.of(6, 0), Position.of(9, 0));
+        board.movePiece(Position.of(9, 0), Position.of(9, 1));
+        board.movePiece(Position.of(9, 1), Position.of(9, 2));
+        board.movePiece(Position.of(9, 2), Position.of(9, 3));
+        board.movePiece(Position.of(9, 3), Position.of(9, 5));
+
+        assertThat(board.calculateScoreResult()).isEqualTo(Camp.CHO);
+    }
+
+    @Test
+    void 초나라보다_한나라의_기물_점수가_더_크면_한나라가_이긴다() {
+        Board board = BoardFactory.create(new ElephantHorseElephantHorse(), new ElephantHorseElephantHorse());
+
+        assertThat(board.calculateScoreResult()).isEqualTo(Camp.HAN);
+    }
 }
