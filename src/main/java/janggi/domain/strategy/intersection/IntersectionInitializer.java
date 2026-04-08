@@ -1,6 +1,6 @@
-package janggi.domain.strategy;
+package janggi.domain.strategy.intersection;
 
-import janggi.domain.Intersection;
+import janggi.domain.board.Intersection;
 
 public interface IntersectionInitializer {
 

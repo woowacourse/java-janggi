@@ -2,7 +2,7 @@ package janggi.exception;
 
 import static janggi.exception.ErrorCode.ROUTE_RESOLVE_ERROR;
 
-import janggi.domain.Location;
+import janggi.domain.board.Location;
 import janggi.domain.piece.PieceType;
 
 public class RouteResolveException extends JanggiException {

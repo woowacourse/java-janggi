@@ -1,7 +1,7 @@
 package janggi.domain.rule.route;
 
-import janggi.domain.Intersection;
-import janggi.domain.Location;
+import janggi.domain.board.Intersection;
+import janggi.domain.board.Location;
 import janggi.domain.Side;
 import janggi.domain.piece.Piece;
 import janggi.exception.RouteResolveException;

@@ -1,6 +1,6 @@
-package janggi.sevice.mapper;
+package janggi.service.mapper;
 
-import janggi.domain.Location;
+import janggi.domain.board.Location;
 import janggi.domain.Side;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;

@@ -1,10 +1,10 @@
-package janggi.sevice;
+package janggi.service;
 
-import janggi.domain.Location;
+import janggi.domain.board.Location;
 import janggi.domain.state.GameContext;
-import janggi.domain.strategy.ArrangementStrategy;
-import janggi.domain.strategy.IntersectionInitializer;
-import janggi.sevice.dto.GameInformation;
+import janggi.domain.strategy.arrangement.ArrangementStrategy;
+import janggi.domain.strategy.intersection.IntersectionInitializer;
+import janggi.service.dto.GameInformation;
 import java.util.List;
 
 public interface JanggiService {

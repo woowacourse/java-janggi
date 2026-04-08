@@ -1,17 +1,17 @@
 package janggi.controller;
 
-import janggi.domain.Location;
+import janggi.domain.board.Location;
 import janggi.domain.Side;
 import janggi.domain.board.Board;
 import janggi.domain.state.GameContext;
-import janggi.domain.strategy.ArrangementStrategy;
-import janggi.domain.strategy.ArrangementStrategyFactory;
-import janggi.domain.strategy.IntersectionInitializer;
-import janggi.domain.strategy.PalaceIntersectionInitializer;
+import janggi.domain.strategy.arrangement.ArrangementStrategy;
+import janggi.domain.strategy.arrangement.ArrangementStrategyFactory;
+import janggi.domain.strategy.intersection.IntersectionInitializer;
+import janggi.domain.strategy.intersection.PalaceIntersectionInitializer;
 import janggi.domain.strategy.StrategyLabel;
 import janggi.exception.JanggiException;
-import janggi.sevice.JanggiService;
-import janggi.sevice.dto.GameInformation;
+import janggi.service.JanggiService;
+import janggi.service.dto.GameInformation;
 import janggi.view.ApplicationView;
 import janggi.view.Decision;
 import janggi.view.resolver.PieceViewResolver;

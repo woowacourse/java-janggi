@@ -1,6 +1,6 @@
 package janggi.domain.rule.route;
 
-import janggi.domain.Location;
+import janggi.domain.board.Location;
 import java.util.Arrays;
 
 public enum Direction {

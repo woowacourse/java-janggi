@@ -1,4 +1,4 @@
-package janggi.domain.strategy;
+package janggi.domain.strategy.intersection;
 
 import static janggi.domain.rule.route.Direction.BACK;
 import static janggi.domain.rule.route.Direction.BACK_LEFT;
@@ -9,9 +9,9 @@ import static janggi.domain.rule.route.Direction.FRONT_RIGHT;
 import static janggi.domain.rule.route.Direction.LEFT;
 import static janggi.domain.rule.route.Direction.RIGHT;
 
-import janggi.domain.Intersection;
-import janggi.domain.Location;
-import janggi.domain.location.Vector;
+import janggi.domain.board.Intersection;
+import janggi.domain.board.Location;
+import janggi.domain.board.Vector;
 import janggi.domain.piece.EmptyPiece;
 import java.util.ArrayList;
 import java.util.Collections;

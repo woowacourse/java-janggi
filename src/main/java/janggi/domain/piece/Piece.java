@@ -1,7 +1,7 @@
 package janggi.domain.piece;
 
-import janggi.domain.Intersection;
-import janggi.domain.Location;
+import janggi.domain.board.Intersection;
+import janggi.domain.board.Location;
 import janggi.domain.Side;
 import java.util.List;
 

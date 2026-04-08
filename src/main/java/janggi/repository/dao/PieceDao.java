@@ -1,6 +1,6 @@
 package janggi.repository.dao;
 
-import janggi.domain.Location;
+import janggi.domain.board.Location;
 import janggi.repository.entity.PieceEntity;
 import janggi.repository.util.TransactionManager;
 import java.sql.Connection;

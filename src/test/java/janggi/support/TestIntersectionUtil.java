@@ -9,9 +9,9 @@ import static janggi.domain.rule.route.Direction.FRONT_RIGHT;
 import static janggi.domain.rule.route.Direction.LEFT;
 import static janggi.domain.rule.route.Direction.RIGHT;
 
-import janggi.domain.Intersection;
-import janggi.domain.Location;
-import janggi.domain.location.Vector;
+import janggi.domain.board.Intersection;
+import janggi.domain.board.Location;
+import janggi.domain.board.Vector;
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
 import java.util.ArrayList;

@@ -1,6 +1,5 @@
-package janggi.domain;
+package janggi.domain.board;
 
-import janggi.domain.location.Vector;
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;

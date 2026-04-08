@@ -1,6 +1,6 @@
-package janggi.domain.strategy;
+package janggi.domain.strategy.arrangement;
 
-import janggi.domain.Location;
+import janggi.domain.board.Location;
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
 import java.util.Map;

@@ -1,6 +1,7 @@
-package janggi.domain.strategy;
+package janggi.domain.strategy.arrangement;
 
 import janggi.domain.Side;
+import janggi.domain.strategy.StrategyLabel;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.function.Function;

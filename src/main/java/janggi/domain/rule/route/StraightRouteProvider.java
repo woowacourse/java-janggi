@@ -3,9 +3,9 @@ package janggi.domain.rule.route;
 
 import static java.lang.Math.min;
 
-import janggi.domain.Intersection;
-import janggi.domain.Location;
-import janggi.domain.location.Vector;
+import janggi.domain.board.Intersection;
+import janggi.domain.board.Location;
+import janggi.domain.board.Vector;
 import janggi.exception.RouteResolveException;
 import java.util.List;
 

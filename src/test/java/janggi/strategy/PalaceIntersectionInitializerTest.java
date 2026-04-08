@@ -10,10 +10,10 @@ import static janggi.domain.rule.route.Direction.FRONT_RIGHT;
 import static janggi.domain.rule.route.Direction.LEFT;
 import static janggi.domain.rule.route.Direction.RIGHT;
 
-import janggi.domain.Intersection;
-import janggi.domain.location.Vector;
-import janggi.domain.strategy.IntersectionInitializer;
-import janggi.domain.strategy.PalaceIntersectionInitializer;
+import janggi.domain.board.Intersection;
+import janggi.domain.board.Vector;
+import janggi.domain.strategy.intersection.IntersectionInitializer;
+import janggi.domain.strategy.intersection.PalaceIntersectionInitializer;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

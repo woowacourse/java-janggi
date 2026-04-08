@@ -1,4 +1,4 @@
-package janggi.sevice.dto;
+package janggi.service.dto;
 
 import janggi.domain.Side;
 import janggi.domain.board.Board;

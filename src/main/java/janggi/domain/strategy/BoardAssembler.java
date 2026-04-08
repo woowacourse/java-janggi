@@ -1,9 +1,11 @@
 package janggi.domain.strategy;
 
-import janggi.domain.Intersection;
+import janggi.domain.board.Intersection;
 import janggi.domain.Side;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
+import janggi.domain.strategy.arrangement.ArrangementStrategy;
+import janggi.domain.strategy.intersection.IntersectionInitializer;
 import java.util.List;
 
 public class BoardAssembler {

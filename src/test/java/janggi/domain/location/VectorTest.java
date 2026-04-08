@@ -1,6 +1,7 @@
 package janggi.domain.location;
 
 
+import janggi.domain.board.Vector;
 import janggi.domain.rule.route.Direction;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

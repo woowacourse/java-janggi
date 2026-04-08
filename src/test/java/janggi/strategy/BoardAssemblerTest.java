@@ -1,14 +1,14 @@
 package janggi.strategy;
 
-import janggi.domain.Intersection;
+import janggi.domain.board.Intersection;
 import janggi.domain.Side;
 import janggi.domain.piece.PieceType;
-import janggi.domain.strategy.ArrangementStrategy;
+import janggi.domain.strategy.arrangement.ArrangementStrategy;
 import janggi.domain.strategy.BoardAssembler;
-import janggi.domain.strategy.IntersectionInitializer;
-import janggi.domain.strategy.MaSangMaSang;
-import janggi.domain.strategy.PalaceIntersectionInitializer;
-import janggi.domain.strategy.SangMaMaSang;
+import janggi.domain.strategy.intersection.IntersectionInitializer;
+import janggi.domain.strategy.arrangement.MaSangMaSang;
+import janggi.domain.strategy.intersection.PalaceIntersectionInitializer;
+import janggi.domain.strategy.arrangement.SangMaMaSang;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

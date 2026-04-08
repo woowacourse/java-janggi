@@ -1,6 +1,8 @@
 package janggi.domain;
 
-import janggi.domain.location.Vector;
+import janggi.domain.board.Intersection;
+import janggi.domain.board.Location;
+import janggi.domain.board.Vector;
 import janggi.domain.piece.Piece;
 import janggi.domain.rule.route.Direction;
 import janggi.support.TestPiece;

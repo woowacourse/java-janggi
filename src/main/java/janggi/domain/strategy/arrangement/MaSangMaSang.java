@@ -1,15 +1,15 @@
-package janggi.domain.strategy;
+package janggi.domain.strategy.arrangement;
 
 import janggi.domain.Side;
 import janggi.domain.piece.Ma;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Sang;
 
-public class SangMaSangMa implements ArrangementStrategy {
+public class MaSangMaSang implements ArrangementStrategy {
 
     private final Side side;
 
-    public SangMaSangMa(Side side) {
+    public MaSangMaSang(Side side) {
         this.side = side;
     }
 
@@ -17,9 +17,9 @@ public class SangMaSangMa implements ArrangementStrategy {
     public void place(Piece[][] board) {
         int boardMaxLength = board.length;
         int row = calculateRow(boardMaxLength, side);
-        board[row][1] = new Sang(side);
-        board[row][2] = new Ma(side);
-        board[row][6] = new Sang(side);
-        board[row][7] = new Ma(side);
+        board[row][1] = new Ma(side);
+        board[row][2] = new Sang(side);
+        board[row][6] = new Ma(side);
+        board[row][7] = new Sang(side);
     }
 }

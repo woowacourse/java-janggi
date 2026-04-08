@@ -2,14 +2,13 @@ package janggi.domain.board;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import janggi.domain.Location;
 import janggi.domain.Side;
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
-import janggi.domain.strategy.ArrangementStrategy;
+import janggi.domain.strategy.arrangement.ArrangementStrategy;
 import janggi.domain.strategy.BoardAssembler;
-import janggi.domain.strategy.IntersectionInitializer;
-import janggi.domain.strategy.PalaceIntersectionInitializer;
+import janggi.domain.strategy.intersection.IntersectionInitializer;
+import janggi.domain.strategy.intersection.PalaceIntersectionInitializer;
 import janggi.exception.JanggiException;
 import janggi.support.TestArrangementStrategy;
 import janggi.support.TestPiece;

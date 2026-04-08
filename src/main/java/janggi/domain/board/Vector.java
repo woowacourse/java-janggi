@@ -1,4 +1,4 @@
-package janggi.domain.location;
+package janggi.domain.board;
 
 import janggi.domain.rule.route.Direction;
 

@@ -1,7 +1,5 @@
 package janggi.domain.board;
 
-import janggi.domain.Intersection;
-import janggi.domain.Location;
 import janggi.domain.Side;
 import janggi.domain.piece.Piece;
 import janggi.domain.strategy.BoardAssembler;
