@@ -3,7 +3,6 @@ package janggi.controller;
 import janggi.domain.Location;
 import janggi.domain.Side;
 import janggi.domain.board.Board;
-import janggi.domain.piece.Piece;
 import janggi.domain.state.GameContext;
 import janggi.domain.strategy.ArrangementStrategy;
 import janggi.domain.strategy.ArrangementStrategyFactory;
@@ -14,6 +13,7 @@ import janggi.exception.JanggiException;
 import janggi.sevice.JanggiService;
 import janggi.sevice.dto.GameInformation;
 import janggi.view.ApplicationView;
+import janggi.view.Decision;
 import janggi.view.resolver.PieceViewResolver;
 import janggi.view.resolver.SideViewResolver;
 import janggi.view.resolver.StrategyViewResolver;
@@ -61,16 +61,20 @@ public class JanggiFlow {
 
     private GameInformation initializeGameInformation() {
         List<Long> activeGameIds = janggiService.findActiveGameIds();
-        if (activeGameIds.isEmpty()) {
-            List<ArrangementStrategy> strategies = Stream.of(Side.values())
-                    .map(this::askStrategy)
-                    .toList();
-            System.out.println("create new");
-            return janggiService.createGame(strategies, intersectionInitializer);
+        if(!activeGameIds.isEmpty() && askContinueGame()) {
+            Long gameId = activeGameIds.getFirst();
+            return janggiService.loadGameInformation(gameId, intersectionInitializer);
         }
-        Long gameId = activeGameIds.getFirst();
-        System.out.println("load: " + gameId);
-        return janggiService.loadGameInformation(gameId, intersectionInitializer);
+
+        List<ArrangementStrategy> strategies = Stream.of(Side.values())
+                .map(this::askStrategy)
+                .toList();
+        return janggiService.createGame(strategies, intersectionInitializer);
+    }
+
+    private boolean askContinueGame() {
+        Decision decision = view.requestGameContinueDecision();
+        return decision.isTrue();
     }
 
     private void printBoard(Board board) {
@@ -81,7 +85,6 @@ public class JanggiFlow {
                 .toList();
         view.respondBoardArray(displayBoard);
     }
-
 
     private Location askLocationOfPiece(Side current, Board board) {
         List<Integer> locationOfPiece = view.requestLocationOfPiece();

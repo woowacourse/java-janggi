@@ -6,5 +6,7 @@ public interface Input {
 
     int readInt();
 
+    String readString();
+
     List<Integer> readIntegers();
 }

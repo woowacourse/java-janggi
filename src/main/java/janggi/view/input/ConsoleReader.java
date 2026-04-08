@@ -23,6 +23,11 @@ public class ConsoleReader implements Input {
     }
 
     @Override
+    public String readString() {
+        return scanner.nextLine();
+    }
+
+    @Override
     public List<Integer> readIntegers() {
         String input = scanner.nextLine().trim();
         validateIsBlank(input);
