@@ -17,8 +17,8 @@ public class BoardCellRepositoryImpl implements BoardCellRepository {
         int column = resultSet.getInt(3);
         String pieceType = resultSet.getString(4);
         String team = resultSet.getString(5);
-        int boardId = resultSet.getInt(6);
-        return new BoardCellEntity(id, row, column, pieceType, team, boardId);
+        int gameId = resultSet.getInt(6);
+        return new BoardCellEntity(id, row, column, pieceType, team, gameId);
     };
 
     private final DBConnection dbConnection;

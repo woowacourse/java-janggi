@@ -28,11 +28,11 @@ public final class BoardMapper {
         return positionPieceMap;
     }
 
-    public static List<BoardCellEntity> toEntity(final long boardId,
+    public static List<BoardCellEntity> toEntity(final long gameId,
         final Map<Position, Piece> positionPieceMap) {
         return positionPieceMap.entrySet().stream()
             .map(positionPieceEntry ->
-                BoardCellEntity.from(boardId, positionPieceEntry.getKey(),
+                BoardCellEntity.from(gameId, positionPieceEntry.getKey(),
                     positionPieceEntry.getValue()))
             .toList();
     }

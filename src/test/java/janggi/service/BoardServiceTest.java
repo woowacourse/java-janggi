@@ -114,11 +114,11 @@ public class BoardServiceTest {
         @Test
         @DisplayName("보드 로드 테스트")
         void loadBoard() {
-            long boardId = 1;
-            List<BoardCellEntity> boardCellEntities = boardCellRepository.findAllByGameId(boardId);
+            long gameId = 1;
+            List<BoardCellEntity> boardCellEntities = boardCellRepository.findAllByGameId(gameId);
             Map<Position, Piece> expected = BoardMapper.toDomain(boardCellEntities);
 
-            Map<Position, Piece> actual = boardService.loadBoard(boardId);
+            Map<Position, Piece> actual = boardService.loadBoard(gameId);
 
             assertThat(actual).usingRecursiveComparison()
                 .isEqualTo(expected);
