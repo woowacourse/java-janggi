@@ -2,8 +2,8 @@ package repository;
 
 import domain.piece.Team;
 import domain.settingType.SettingType;
+import domain.state.GameInitializer;
 import domain.state.JanggiGame;
-import domain.state.Playing;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -48,7 +48,7 @@ class GameRepositoryTest {
         long savedId = gameRepository.save(team, title);
 
         // when
-        JanggiGame game = Playing.init(savedId, SettingType.LEFT, SettingType.LEFT);
+        JanggiGame game = GameInitializer.init(savedId, SettingType.LEFT, SettingType.LEFT);
         game = game.pass();
 
         gameRepository.updateTurn(game);
@@ -65,7 +65,7 @@ class GameRepositoryTest {
         long savedId = gameRepository.save(team, title);
 
         // when
-        JanggiGame game = Playing.init(savedId, SettingType.LEFT, SettingType.LEFT);
+        JanggiGame game = GameInitializer.init(savedId, SettingType.LEFT, SettingType.LEFT);
 
         gameRepository.updateResult(game);
 

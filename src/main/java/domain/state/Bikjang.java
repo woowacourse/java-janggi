@@ -5,7 +5,7 @@ import domain.piece.Team;
 import domain.position.Position;
 
 public class Bikjang extends Running {
-    protected Bikjang(long id, Board board, Team turn) {
+    public Bikjang(long id, Board board, Team turn) {
         super(id, board, turn);
     }
 

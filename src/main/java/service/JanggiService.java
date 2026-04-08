@@ -5,8 +5,8 @@ import domain.piece.Piece;
 import domain.piece.Team;
 import domain.position.Position;
 import domain.settingType.SettingType;
+import domain.state.GameInitializer;
 import domain.state.JanggiGame;
-import domain.state.Playing;
 import java.util.List;
 import java.util.Map;
 import repository.BoardRepository;
@@ -29,7 +29,7 @@ public class JanggiService {
 
     public JanggiGame createGame(String title, SettingType choSettingType, SettingType hanSettingType) {
         long gameId = gameRepository.save(Team.CHO, title);
-        JanggiGame game = Playing.init(gameId, choSettingType, hanSettingType);
+        JanggiGame game = GameInitializer.init(gameId, choSettingType, hanSettingType);
         boardRepository.saveAll(game);
         return game;
     }
@@ -42,7 +42,7 @@ public class JanggiService {
             throw new IllegalArgumentException(GAME_DOES_NOT_EXISTS);
         }
 
-        return Playing.load(gameId, Board.of(load), turn);
+        return GameInitializer.load(gameId, Board.of(load), turn);
     }
 
     public JanggiGame move(JanggiGame game, Position from, Position to) {

@@ -3,22 +3,10 @@ package domain.state;
 import domain.Board;
 import domain.piece.Team;
 import domain.position.Position;
-import domain.settingType.SettingType;
 
 public class Playing extends Running {
-    protected Playing(long id, Board board, Team turn) {
+    public Playing(long id, Board board, Team turn) {
         super(id, board, turn);
-    }
-
-    public static JanggiGame init(long id, SettingType choSettingType, SettingType hanSettingType) {
-        return new Playing(id, Board.of(choSettingType, hanSettingType), Team.CHO);
-    }
-
-    public static JanggiGame load(long id, Board board, Team turn) {
-        if (board.isBikjang()) {
-            return new Bikjang(id, board, turn);
-        }
-        return new Playing(id, board, turn);
     }
 
     @Override

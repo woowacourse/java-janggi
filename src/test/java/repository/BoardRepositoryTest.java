@@ -5,8 +5,8 @@ import domain.piece.PieceType;
 import domain.piece.Team;
 import domain.position.Position;
 import domain.settingType.SettingType;
+import domain.state.GameInitializer;
 import domain.state.JanggiGame;
-import domain.state.Playing;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -38,7 +38,7 @@ class BoardRepositoryTest {
         }
 
         gameId = gameRepository.save(Team.CHO, "테스트용 장기방");
-        game = Playing.init(gameId, SettingType.LEFT, SettingType.LEFT);
+        game = GameInitializer.init(gameId, SettingType.LEFT, SettingType.LEFT);
         boardRepository.saveAll(game);
     }
 

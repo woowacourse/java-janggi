@@ -11,8 +11,8 @@ import domain.piece.Piece;
 import domain.piece.Team;
 import domain.position.Position;
 import domain.settingType.SettingType;
+import domain.state.GameInitializer;
 import domain.state.JanggiGame;
-import domain.state.Playing;
 import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -99,7 +99,7 @@ public class JanggiServiceTest {
 
     @Test
     void move를_호출하면_메서드가_적절히_수행되어야_한다() {
-        JanggiGame game = Playing.init(1, SettingType.LEFT, SettingType.LEFT);
+        JanggiGame game = GameInitializer.init(1, SettingType.LEFT, SettingType.LEFT);
         Position from = Position.of(1, 1);
         Position to = Position.of(2, 1);
 
@@ -114,7 +114,7 @@ public class JanggiServiceTest {
 
     @Test
     void pass하면_메서드가_적절히_수행되어야_한다() {
-        JanggiGame game = Playing.init(1, SettingType.LEFT, SettingType.LEFT);
+        JanggiGame game = GameInitializer.init(1, SettingType.LEFT, SettingType.LEFT);
 
         // when
         janggiService.pass(game);
@@ -125,7 +125,7 @@ public class JanggiServiceTest {
 
     @Test
     void endGame하면_메서드가_적절히_수행되어야_한다() {
-        JanggiGame game = Playing.init(1, SettingType.LEFT, SettingType.LEFT);
+        JanggiGame game = GameInitializer.init(1, SettingType.LEFT, SettingType.LEFT);
 
         // whn
         janggiService.endGame(game);
