@@ -14,11 +14,12 @@ public class ConnectionManager {
     private static final String DB_URL = "jdbc:h2:~/janggiGame";
     private static final String USER_NAME= "sa";
     private static final String PASSWORD = "";
+    private static Server server;
 
     public static Connection getConnection(){
         try{
             Connection conn = DriverManager.getConnection(DB_URL, USER_NAME, PASSWORD );
-            System.out.println("DB 연결 성공!");
+//            System.out.println("DB 연결 성공!");
             return conn;
         } catch (SQLException e){
             throw new IllegalStateException("DB connection Error",e);
@@ -29,7 +30,7 @@ public class ConnectionManager {
         if (conn != null){
             try{
                 conn.close();
-                System.out.println("DB 닫기 성공!");
+//                System.out.println("DB 닫기 성공!");
             } catch (SQLException e){
                 throw new IllegalStateException("Connection close error", e);
             }
@@ -38,13 +39,20 @@ public class ConnectionManager {
 
     public static void startH2Server() {
         try {
-            Server server = Server.createWebServer("-web", "-webPort", "8082");
+            server = Server.createWebServer("-web", "-webPort", "8082");
             if (!server.isRunning(false)) {
                 server.start();
             }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+
+    public static void stopH2Server() {
+        if (server != null) {
+            server.stop();
         }
     }
 
@@ -79,13 +87,13 @@ public class ConnectionManager {
             for (String query : queries) {
                 String trimmed = query.trim();
                 if (!trimmed.isEmpty()) {
-                    System.out.println("Executing: " + trimmed); // 디버깅
+//                    System.out.println("Executing: " + trimmed); // 디버깅
                     stmt.execute(trimmed);
                 }
             }
 
         } catch (Exception e) {
-            e.printStackTrace(); // ⭐ 반드시 출력
+            e.printStackTrace();
             throw new IllegalStateException("Schema initialization failed", e);
         }
     }
