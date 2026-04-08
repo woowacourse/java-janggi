@@ -9,8 +9,6 @@ import janggi.model.Janggi;
 import janggi.model.Team;
 import janggi.model.board.BoardType;
 import janggi.model.board.PlayingBoard;
-import janggi.model.palace.Palaces;
-import janggi.model.palace.factory.DefaultPalaceFactory;
 import janggi.model.piece.Byeong;
 import janggi.model.piece.Piece;
 import janggi.model.piece.PieceType;
@@ -30,8 +28,6 @@ import org.junit.jupiter.api.Test;
 
 class JanggiServiceTest {
 
-    Palaces palaces = new DefaultPalaceFactory().create();
-
     GameDao gameDao;
     PieceDao pieceDao;
     JanggiService janggiService;
@@ -44,8 +40,7 @@ class JanggiServiceTest {
         janggiService = new JanggiService(
                 gameDao,
                 pieceDao,
-                new TestTransactionExecutor(null),
-                palaces
+                new TestTransactionExecutor(null)
         );
     }
 
@@ -126,12 +121,12 @@ class JanggiServiceTest {
         Map<Position, Piece> boardInfo = new HashMap<>();
 
         Position from = new Position(Row.NINE, Column.FIVE);
-        Piece pieceAtFrom = new Jang(Team.CHO, palaces);
+        Piece pieceAtFrom = new Jang(Team.CHO);
 
         boardInfo.put(from, pieceAtFrom);
         boardInfo.put(
                 new Position(Row.TWO, Column.FIVE),
-                new Jang(Team.HAN, palaces)
+                new Jang(Team.HAN)
         );
 
         Janggi janggi = Janggi.of(PlayingBoard.of(boardInfo));
@@ -179,18 +174,18 @@ class JanggiServiceTest {
         Map<Position, Piece> boardInfo = new HashMap<>();
 
         Position from = new Position(Row.NINE, Column.FIVE);
-        Piece pieceAtFrom = new Jang(Team.CHO, palaces);
+        Piece pieceAtFrom = new Jang(Team.CHO);
 
         Position to = new Position(Row.NINE, Column.SIX);
 
         boardInfo.put(from, pieceAtFrom);
         boardInfo.put(
                 new Position(Row.TWO, Column.FIVE),
-                new Jang(Team.HAN, palaces)
+                new Jang(Team.HAN)
         );
         boardInfo.put(
                 to,
-                new Byeong(Team.HAN, palaces)
+                new Byeong(Team.HAN)
         );
 
         Janggi janggi = Janggi.of(PlayingBoard.of(boardInfo));

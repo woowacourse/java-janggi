@@ -4,7 +4,7 @@ import janggi.model.Team;
 import janggi.model.movement.MovementSelector;
 import janggi.model.movement.palace.PalaceAdjacentMovement;
 import janggi.model.movement.patternBasedMovement.DefaultByeongMovement;
-import janggi.model.palace.Palaces;
+import janggi.model.palace.PalaceFactory;
 import janggi.model.position.absolute.Position;
 import janggi.model.position.absolute.PositionPath;
 import java.util.List;
@@ -22,13 +22,13 @@ public class Byeong extends Piece {
         this.movementSelector = movementSelector;
     }
 
-    public Byeong(Team team, Palaces palaces) {
-        this(
-                team,
-                PieceType.BYEONG,
+    public Byeong(Team team) {
+        this(team, PieceType.BYEONG,
                 new MovementSelector(
                         new DefaultByeongMovement(),
-                        new PalaceAdjacentMovement(palaces)
+                        new PalaceAdjacentMovement(
+                                new PalaceFactory().create()
+                        )
                 )
         );
     }

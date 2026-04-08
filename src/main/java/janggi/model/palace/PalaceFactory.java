@@ -1,14 +1,12 @@
-package janggi.model.palace.factory;
+package janggi.model.palace;
 
-import janggi.model.palace.Palace;
-import janggi.model.palace.Palaces;
 import janggi.model.position.absolute.Column;
 import janggi.model.position.absolute.Position;
 import janggi.model.position.absolute.Row;
 import janggi.model.position.absolute.UndirectedLine;
 import java.util.Set;
 
-public class DefaultPalaceFactory implements PalaceFactory {
+public class PalaceFactory {
 
     public Palaces create() {
         return new Palaces(

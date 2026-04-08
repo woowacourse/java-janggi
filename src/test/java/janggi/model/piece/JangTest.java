@@ -4,10 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.Team;
-import janggi.model.movement.Movement;
-import janggi.model.movement.palace.PalaceAdjacentMovement;
-import janggi.model.palace.Palaces;
-import janggi.model.palace.factory.DefaultPalaceFactory;
 import janggi.model.piece.palace.Jang;
 import janggi.model.piece.straightMove.Cha;
 import janggi.model.position.absolute.Column;
@@ -21,10 +17,7 @@ import org.junit.jupiter.api.Test;
 
 class JangTest {
 
-    Palaces palaces = new DefaultPalaceFactory().create();
-
     Map<Position, Piece> emptyBoard = Map.of();
-    Movement movement = new PalaceAdjacentMovement(new DefaultPalaceFactory().create());
 
     @DisplayName("from이나 to가 궁성 밖에 위치하면 예외가 발생한다.")
     @Test
@@ -32,7 +25,7 @@ class JangTest {
         //given
         Position from = new Position(Row.SEVEN, Column.FIVE);
         Position to = new Position(Row.SEVEN, Column.SEVEN);
-        Jang jang = new Jang(Team.HAN, palaces);
+        Jang jang = new Jang(Team.HAN);
 
         //when & then
         assertThatThrownBy(() -> jang.getLegalPath(from, to))
@@ -46,7 +39,7 @@ class JangTest {
         //given
         Position from = new Position(Row.EIGHT, Column.FIVE);
         Position to = new Position(Row.NINE, Column.FOUR);
-        Jang jang = new Jang(Team.HAN, palaces);
+        Jang jang = new Jang(Team.HAN);
 
         //when & then
         assertThatThrownBy(() -> jang.getLegalPath(from, to))
@@ -60,7 +53,7 @@ class JangTest {
         //given
         Position from = new Position(Row.NINE, Column.FIVE);
         Position to = new Position(Row.EIGHT, Column.FOUR);
-        Jang jang = new Jang(Team.HAN, palaces);
+        Jang jang = new Jang(Team.HAN);
 
         //when & then
         assertThat(jang.getLegalPath(
@@ -76,9 +69,9 @@ class JangTest {
         //given
         Position from = new Position(Row.NINE, Column.FIVE);
         Position to = new Position(Row.ZERO, Column.FIVE);
-        Jang jang = new Jang(Team.HAN, palaces);
+        Jang jang = new Jang(Team.HAN);
 
-        Cha cha = new Cha(Team.CHO, palaces);
+        Cha cha = new Cha(Team.CHO);
 
         //when
         PositionPath path = jang.getLegalPath(from, to);
@@ -94,9 +87,9 @@ class JangTest {
         //given
         Position from = new Position(Row.NINE, Column.FIVE);
         Position to = new Position(Row.EIGHT, Column.FIVE);
-        Jang jang = new Jang(Team.HAN, palaces);
+        Jang jang = new Jang(Team.HAN);
 
-        Cha cha = new Cha(Team.CHO, palaces);
+        Cha cha = new Cha(Team.CHO);
 
         //when
         PositionPath path = jang.getLegalPath(from, to);
@@ -112,9 +105,9 @@ class JangTest {
         //given
         Position from = new Position(Row.NINE, Column.FIVE);
         Position to = new Position(Row.NINE, Column.SIX);
-        Jang jang = new Jang(Team.HAN, palaces);
+        Jang jang = new Jang(Team.HAN);
 
-        Cha cha = new Cha(Team.CHO, palaces);
+        Cha cha = new Cha(Team.CHO);
 
         //when
         PositionPath path = jang.getLegalPath(from, to);
@@ -130,9 +123,9 @@ class JangTest {
         //given
         Position from = new Position(Row.NINE, Column.FIVE);
         Position to = new Position(Row.ZERO, Column.FOUR);
-        Jang jang = new Jang(Team.HAN, palaces);
+        Jang jang = new Jang(Team.HAN);
 
-        Cha cha = new Cha(Team.CHO, palaces);
+        Cha cha = new Cha(Team.CHO);
 
         //when
         PositionPath path = jang.getLegalPath(from, to);
@@ -147,10 +140,10 @@ class JangTest {
     void canPassThrough() {
         //given
         List<Piece> gimulsOnPath = List.of(
-                new Cha(Team.CHO, palaces)
+                new Cha(Team.CHO)
         );
-        Cha gimulAtTo = new Cha(Team.HAN, palaces);
-        Jang jang = new Jang(Team.HAN, palaces);
+        Cha gimulAtTo = new Cha(Team.HAN);
+        Jang jang = new Jang(Team.HAN);
 
         //when & then
         assertThat(jang.canPassThrough(gimulsOnPath, gimulAtTo))
@@ -162,10 +155,10 @@ class JangTest {
     void canPassThrough_sameTeam() {
         //given
         List<Piece> gimulsOnPath = List.of(
-                new Cha(Team.CHO, palaces)
+                new Cha(Team.CHO)
         );
-        Cha gimulAtTo = new Cha(Team.CHO, palaces);
-        Jang jang = new Jang(Team.HAN, palaces);
+        Cha gimulAtTo = new Cha(Team.CHO);
+        Jang jang = new Jang(Team.HAN);
 
         //when & then
         assertThat(jang.canPassThrough(gimulsOnPath, gimulAtTo))

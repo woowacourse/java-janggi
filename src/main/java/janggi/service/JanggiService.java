@@ -10,7 +10,6 @@ import janggi.model.Team;
 import janggi.model.board.Board;
 import janggi.model.board.BoardType;
 import janggi.model.board.PlayingBoard;
-import janggi.model.palace.Palaces;
 import janggi.model.piece.Piece;
 import janggi.model.piece.PieceType;
 import janggi.model.position.absolute.Column;
@@ -30,18 +29,15 @@ public class JanggiService {
     private final GameDao gameDao;
     private final PieceDao pieceDao;
     private final TransactionExecutor transactionExecutor;
-    private final Palaces palaces;
 
     public JanggiService(
             GameDao gameDao,
             PieceDao pieceDao,
-            TransactionExecutor transactionExecutor,
-            Palaces palaces
+            TransactionExecutor transactionExecutor
     ) {
         this.gameDao = gameDao;
         this.pieceDao = pieceDao;
         this.transactionExecutor = transactionExecutor;
-        this.palaces = palaces;
     }
 
     public List<GameOptionResponse> loadAllGames() {
@@ -65,7 +61,8 @@ public class JanggiService {
             List<PieceEntity> pieceEntities =
                     pieceDao.findAllPiecesByGameId(con, gameEntity.id());
 
-            PlayingBoard board = toBoard(pieceEntities);
+            Board board = toBoard(pieceEntities);
+
             Turn turn = toTurn(gameEntity, board);
 
             return new GameDetailResponse(
@@ -83,9 +80,7 @@ public class JanggiService {
                         )
                 );
 
-        return PlayingBoard.of(
-                boarInfo
-        );
+        return PlayingBoard.of(boarInfo);
     }
 
     private Position getPositionFrom(PieceEntity pieceEntity) {
@@ -100,12 +95,11 @@ public class JanggiService {
                 .valueOf(
                         pieceEntity.pieceType()
                 ).createPieceWith(
-                        Team.valueOf(pieceEntity.team()),
-                        palaces
+                        Team.valueOf(pieceEntity.team())
                 );
     }
 
-    private Turn toTurn(GameEntity foundGame, PlayingBoard board) {
+    private Turn toTurn(GameEntity foundGame, Board board) {
         Team team = Team.valueOf(foundGame.currentTurn());
 
         if (team == Team.CHO) {
@@ -116,19 +110,18 @@ public class JanggiService {
     }
 
     public GameDetailResponse initGame(BoardType boardType) {
-        Board board = boardType.getBoard(palaces);
-        Janggi newGame = Janggi.of(board);
+        return transactionExecutor.execute(con -> {
+            Board board = boardType.getBoard();
+            Janggi newGame = Janggi.of(board);
 
-        Long gameId = transactionExecutor.execute(con -> {
-            Long result = gameDao.saveGame(con, newGame.getCurrentTeam().name());
-            pieceDao.saveBoard(con, newGame.getBoard().getBoardInfo(), result);
-            return result;
+            Long gameId = gameDao.saveGame(con, newGame.getCurrentTeam().name());
+            pieceDao.saveBoard(con, newGame.getBoard().getBoardInfo(), gameId);
+
+            return new GameDetailResponse(
+                    gameId,
+                    newGame
+            );
         });
-
-        return new GameDetailResponse(
-                gameId,
-                newGame
-        );
     }
 
     public boolean isGameContinued(Janggi janggi) {

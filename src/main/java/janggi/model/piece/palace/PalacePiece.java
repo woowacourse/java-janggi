@@ -2,6 +2,8 @@ package janggi.model.piece.palace;
 
 import janggi.model.Team;
 import janggi.model.movement.Movement;
+import janggi.model.movement.palace.PalaceAdjacentMovement;
+import janggi.model.palace.PalaceFactory;
 import janggi.model.piece.Piece;
 import janggi.model.piece.PieceType;
 import janggi.model.position.absolute.Position;
@@ -12,13 +14,21 @@ public abstract class PalacePiece extends Piece {
 
     private final Movement defaultMovement;
 
-    protected PalacePiece(
+    private PalacePiece(
             Team team,
             PieceType pieceType,
             Movement defaultMovement
     ) {
         super(team, pieceType);
         this.defaultMovement = defaultMovement;
+    }
+
+    protected PalacePiece(Team team, PieceType pieceType) {
+        this(team, pieceType,
+                new PalaceAdjacentMovement(
+                        new PalaceFactory().create()
+                )
+        );
     }
 
     @Override

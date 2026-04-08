@@ -4,8 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.Team;
-import janggi.model.palace.Palaces;
-import janggi.model.palace.factory.DefaultPalaceFactory;
 import janggi.model.piece.straightMove.Cha;
 import janggi.model.piece.straightMove.Pho;
 import janggi.model.position.absolute.Column;
@@ -19,15 +17,13 @@ import org.junit.jupiter.api.Test;
 
 class PhoTest {
 
-    Palaces palaces = new DefaultPalaceFactory().create();
-
     @DisplayName("같은 행이나 열에 위치해있지 않으면 예외가 발생한다.")
     @Test
     void getLegalPath_invalidPath() {
         //given
         Position from = new Position(Row.SIX, Column.THREE);
         Position to = new Position(Row.TWO, Column.FIVE);
-        Pho pho = new Pho(Team.CHO, palaces);
+        Pho pho = new Pho(Team.CHO);
 
         //when & then
         assertThatThrownBy(() -> pho.getLegalPath(from, to))
@@ -41,7 +37,7 @@ class PhoTest {
         //given
         Position from = new Position(Row.SIX, Column.THREE);
         Position to = new Position(Row.SIX, Column.THREE);
-        Pho pho = new Pho(Team.CHO, palaces);
+        Pho pho = new Pho(Team.CHO);
 
         //when & then
         assertThatThrownBy(() -> pho.getLegalPath(from, to))
@@ -55,9 +51,9 @@ class PhoTest {
         //given
         Position from = new Position(Row.SIX, Column.THREE);
         Position to = new Position(Row.SIX, Column.FIVE);
-        Pho pho = new Pho(Team.CHO, palaces);
+        Pho pho = new Pho(Team.CHO);
 
-        Cha cha = new Cha(Team.CHO, palaces);
+        Cha cha = new Cha(Team.CHO);
 
         Map<Position, Piece> board = Map.of(
                 new Position(Row.SIX, Column.FOUR), cha
@@ -77,9 +73,9 @@ class PhoTest {
         //given
         Position from = new Position(Row.SIX, Column.THREE);
         Position to = new Position(Row.NINE, Column.THREE);
-        Pho pho = new Pho(Team.CHO, palaces);
+        Pho pho = new Pho(Team.CHO);
 
-        Cha cha = new Cha(Team.CHO, palaces);
+        Cha cha = new Cha(Team.CHO);
 
         Map<Position, Piece> board = Map.of(
                 new Position(Row.SEVEN, Column.THREE), cha
@@ -99,9 +95,9 @@ class PhoTest {
         //given
         Position from = new Position(Row.ZERO, Column.FOUR);
         Position to = new Position(Row.EIGHT, Column.SIX);
-        Pho pho = new Pho(Team.CHO, palaces);
+        Pho pho = new Pho(Team.CHO);
 
-        Byeong byeong = new Byeong(Team.CHO, palaces);
+        Byeong byeong = new Byeong(Team.CHO);
 
         Map<Position, Piece> board = Map.of(
                 new Position(Row.NINE, Column.FIVE), byeong
@@ -121,7 +117,7 @@ class PhoTest {
         //given
         Position from = new Position(Row.ZERO, Column.FIVE);
         Position to = new Position(Row.NINE, Column.FOUR);
-        Pho pho = new Pho(Team.CHO, palaces);
+        Pho pho = new Pho(Team.CHO);
 
         //when & then
         assertThatThrownBy(() -> pho.getLegalPath(from, to))
@@ -133,7 +129,7 @@ class PhoTest {
     @Test
     void canPassThrough_Empty() {
         //given
-        Pho pho = new Pho(Team.CHO, palaces);
+        Pho pho = new Pho(Team.CHO);
 
         //when & then
         assertThat(pho.canPassThrough(List.of(), null))
@@ -144,10 +140,10 @@ class PhoTest {
     @Test
     void canPassThrough_pho() {
         //given
-        Pho pho = new Pho(Team.CHO, palaces);
+        Pho pho = new Pho(Team.CHO);
 
         //when & then
-        assertThat(pho.canPassThrough(List.of(new Pho(Team.CHO, palaces)), null))
+        assertThat(pho.canPassThrough(List.of(new Pho(Team.CHO)), null))
                 .isFalse();
     }
 
@@ -156,10 +152,10 @@ class PhoTest {
     void canPassThrough_sameTeam() {
         //given
         List<Piece> gimulsOnPath = List.of(
-                new Cha(Team.CHO, palaces)
+                new Cha(Team.CHO)
         );
-        Pho gimulAtTo = new Pho(Team.CHO, palaces);
-        Pho pho = new Pho(Team.CHO, palaces);
+        Pho gimulAtTo = new Pho(Team.CHO);
+        Pho pho = new Pho(Team.CHO);
 
         //when & then
         assertThat(pho.canPassThrough(gimulsOnPath, gimulAtTo))

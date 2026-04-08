@@ -4,8 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.Team;
-import janggi.model.palace.Palaces;
-import janggi.model.palace.factory.DefaultPalaceFactory;
 import janggi.model.piece.straightMove.Cha;
 import janggi.model.position.absolute.Column;
 import janggi.model.position.absolute.Position;
@@ -19,7 +17,6 @@ import org.junit.jupiter.api.Test;
 class ByeongTest {
 
     Map<Position, Piece> emptyBoard = Map.of();
-    Palaces palaces = new DefaultPalaceFactory().create();
 
     @DisplayName("초나라일때, 북쪽으로 한칸 이동한다.")
     @Test
@@ -27,7 +24,7 @@ class ByeongTest {
         //given
         Position from = new Position(Row.SEVEN, Column.FIVE);
         Position to = new Position(Row.SIX, Column.FIVE);
-        Byeong byeong = new Byeong(Team.CHO, palaces);
+        Byeong byeong = new Byeong(Team.CHO);
 
         //when
         PositionPath path = byeong.getLegalPath(from, to);
@@ -43,7 +40,7 @@ class ByeongTest {
         //given
         Position from = new Position(Row.SEVEN, Column.FIVE);
         Position to = new Position(Row.EIGHT, Column.FIVE);
-        Byeong byeong = new Byeong(Team.HAN, palaces);
+        Byeong byeong = new Byeong(Team.HAN);
 
         //when
         PositionPath path = byeong.getLegalPath(from, to);
@@ -59,7 +56,7 @@ class ByeongTest {
         //given
         Position from = new Position(Row.SEVEN, Column.FIVE);
         Position to = new Position(Row.SEVEN, Column.SIX);
-        Byeong byeong = new Byeong(Team.CHO, palaces);
+        Byeong byeong = new Byeong(Team.CHO);
 
         //when
         PositionPath path = byeong.getLegalPath(from, to);
@@ -75,7 +72,7 @@ class ByeongTest {
         //given
         Position from = new Position(Row.SEVEN, Column.FIVE);
         Position to = new Position(Row.SEVEN, Column.FOUR);
-        Byeong byeong = new Byeong(Team.CHO, palaces);
+        Byeong byeong = new Byeong(Team.CHO);
 
         //when
         PositionPath path = byeong.getLegalPath(from, to);
@@ -91,7 +88,7 @@ class ByeongTest {
         //given
         Position from = new Position(Row.SEVEN, Column.FIVE);
         Position to = new Position(Row.EIGHT, Column.FIVE);
-        Byeong byeong = new Byeong(Team.CHO, palaces);
+        Byeong byeong = new Byeong(Team.CHO);
 
         //when & then
         assertThatThrownBy(() -> byeong.getLegalPath(from, to))
@@ -105,7 +102,7 @@ class ByeongTest {
         //given
         Position from = new Position(Row.SEVEN, Column.FIVE);
         Position to = new Position(Row.SIX, Column.FIVE);
-        Byeong byeong = new Byeong(Team.HAN, palaces);
+        Byeong byeong = new Byeong(Team.HAN);
 
         //when & then
         assertThatThrownBy(() -> byeong.getLegalPath(from, to))
@@ -119,10 +116,10 @@ class ByeongTest {
     void canPassThrough() {
         //given
         List<Piece> gimulsOnPath = List.of(
-                new Cha(Team.CHO, palaces)
+                new Cha(Team.CHO)
         );
-        Cha gimulAtTo = new Cha(Team.HAN, palaces);
-        Byeong byeong = new Byeong(Team.CHO, palaces);
+        Cha gimulAtTo = new Cha(Team.HAN);
+        Byeong byeong = new Byeong(Team.CHO);
 
         //when & then
         assertThat(byeong.canPassThrough(gimulsOnPath, gimulAtTo))
@@ -134,10 +131,10 @@ class ByeongTest {
     void canPassThrough_sameTeam() {
         //given
         List<Piece> gimulsOnPath = List.of(
-                new Cha(Team.CHO, palaces)
+                new Cha(Team.CHO)
         );
-        Cha gimulAtTo = new Cha(Team.CHO, palaces);
-        Byeong byeong = new Byeong(Team.CHO, palaces);
+        Cha gimulAtTo = new Cha(Team.CHO);
+        Byeong byeong = new Byeong(Team.CHO);
 
         //when & then
         assertThat(byeong.canPassThrough(gimulsOnPath, gimulAtTo))
@@ -150,7 +147,7 @@ class ByeongTest {
         //given
         Position from = new Position(Row.NINE, Column.FIVE);
         Position to = new Position(Row.EIGHT, Column.FOUR);
-        Byeong byeong = new Byeong(Team.CHO, palaces);
+        Byeong byeong = new Byeong(Team.CHO);
 
         //when & then
         assertThat(byeong.getLegalPath(

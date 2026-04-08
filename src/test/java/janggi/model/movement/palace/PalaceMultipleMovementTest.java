@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.movement.Movement;
+import janggi.model.palace.PalaceFactory;
 import janggi.model.palace.Palaces;
-import janggi.model.palace.factory.DefaultPalaceFactory;
 import janggi.model.piece.Piece;
 import janggi.model.position.absolute.Column;
 import janggi.model.position.absolute.Position;
@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 
 class PalaceMultipleMovementTest {
 
-    Palaces palaces = new DefaultPalaceFactory().create();
+    Palaces palaces = new PalaceFactory().create();
 
     @DisplayName("궁성 안에서 한칸 이동할 수 있다.")
     @Test

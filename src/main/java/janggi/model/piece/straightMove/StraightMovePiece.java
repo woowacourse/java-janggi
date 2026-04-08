@@ -4,7 +4,7 @@ import janggi.model.Team;
 import janggi.model.movement.MovementSelector;
 import janggi.model.movement.StraightMovement;
 import janggi.model.movement.palace.PalaceMultipleMovement;
-import janggi.model.palace.Palaces;
+import janggi.model.palace.PalaceFactory;
 import janggi.model.piece.Piece;
 import janggi.model.piece.PieceType;
 import janggi.model.position.absolute.Position;
@@ -17,13 +17,14 @@ public abstract class StraightMovePiece extends Piece {
 
     protected StraightMovePiece(
             Team team,
-            PieceType pieceType,
-            Palaces palaces
+            PieceType pieceType
     ) {
         super(team, pieceType);
         this.movementSelector = new MovementSelector(
                 new StraightMovement(),
-                new PalaceMultipleMovement(palaces)
+                new PalaceMultipleMovement(
+                        new PalaceFactory().create()
+                )
         );
     }
 

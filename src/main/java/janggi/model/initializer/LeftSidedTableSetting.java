@@ -1,7 +1,6 @@
 package janggi.model.initializer;
 
 import janggi.model.Team;
-import janggi.model.palace.Palaces;
 import janggi.model.piece.Piece;
 import janggi.model.piece.diagonalMove.Ma;
 import janggi.model.piece.diagonalMove.Sang;
@@ -33,10 +32,6 @@ public class LeftSidedTableSetting extends BoardInitializerWithConst {
             new Position(Row.ONE, Column.TWO),
             new Position(Row.ONE, Column.SEVEN)
     );
-
-    public LeftSidedTableSetting(Palaces palaces) {
-        super(palaces);
-    }
 
     @Override
     protected Map<Position, Piece> initMa() {

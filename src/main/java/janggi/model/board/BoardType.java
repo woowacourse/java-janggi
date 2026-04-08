@@ -4,26 +4,25 @@ import janggi.model.initializer.InsideTableSetting;
 import janggi.model.initializer.LeftSidedTableSetting;
 import janggi.model.initializer.OutsideTableSetting;
 import janggi.model.initializer.RightSidedTableSetting;
-import janggi.model.palace.Palaces;
 import java.util.Arrays;
-import java.util.function.Function;
+import java.util.function.Supplier;
 
 public enum BoardType {
-    FIRST(1, palaces -> new LeftSidedTableSetting(palaces).init()),
-    SECOND(2, palaces -> new RightSidedTableSetting(palaces).init()),
-    THIRD(3, palaces -> new InsideTableSetting(palaces).init()),
-    FOURTH(4, palaces -> new OutsideTableSetting(palaces).init());
+    FIRST(1, () -> new LeftSidedTableSetting().init()),
+    SECOND(2, () -> new RightSidedTableSetting().init()),
+    THIRD(3, () -> new InsideTableSetting().init()),
+    FOURTH(4, () -> new OutsideTableSetting().init());
 
     private final int value;
-    private final Function<Palaces, Board> mapper;
+    private final Supplier<Board> mapper;
 
-    BoardType(int value, Function<Palaces, Board> mapper) {
+    BoardType(int value, Supplier<Board> supplier) {
         if (value < 1 || value > 4) {
             throw new IllegalArgumentException("1에서 4 사이의 자연수가 아닙니다.");
         }
 
         this.value = value;
-        this.mapper = mapper;
+        this.mapper = supplier;
     }
 
     public static BoardType of(int value) {
@@ -33,7 +32,7 @@ public enum BoardType {
                 .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 값입니다."));
     }
 
-    public Board getBoard(Palaces palaces) {
-        return mapper.apply(palaces);
+    public Board getBoard() {
+        return mapper.get();
     }
 }

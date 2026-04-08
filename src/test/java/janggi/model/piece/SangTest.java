@@ -4,8 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.Team;
-import janggi.model.palace.Palaces;
-import janggi.model.palace.factory.DefaultPalaceFactory;
 import janggi.model.piece.diagonalMove.Sang;
 import janggi.model.piece.straightMove.Cha;
 import janggi.model.position.absolute.Column;
@@ -19,8 +17,6 @@ import org.junit.jupiter.api.Test;
 
 class SangTest {
 
-    Palaces palaces = new DefaultPalaceFactory().create();
-
     @DisplayName("상하 또는 좌우로 한칸을 간 후에 같은 방향의 대각선으로 두칸 이동한다.")
     @Test
     void getLegalPath() {
@@ -28,7 +24,7 @@ class SangTest {
         Position from = new Position(Row.SEVEN, Column.FIVE);
         Position to = new Position(Row.FOUR, Column.THREE);
 
-        Byeong byeong = new Byeong(Team.CHO, palaces);
+        Byeong byeong = new Byeong(Team.CHO);
 
         Map<Position, Piece> board = Map.of(
                 new Position(Row.SIX, Column.FIVE), byeong
@@ -63,9 +59,9 @@ class SangTest {
     void canPassThrough() {
         //given
         List<Piece> gimulsOnPath = List.of(
-                new Cha(Team.CHO, palaces)
+                new Cha(Team.CHO)
         );
-        Cha gimulAtTo = new Cha(Team.HAN, palaces);
+        Cha gimulAtTo = new Cha(Team.HAN);
         Sang sang = new Sang(Team.CHO);
 
         //when & then
@@ -78,7 +74,7 @@ class SangTest {
     void canPassThrough_sameTeam() {
         //given
         List<Piece> gimulsOnPath = List.of(
-                new Cha(Team.CHO, palaces)
+                new Cha(Team.CHO)
         );
         Sang gimulAtTo = new Sang(Team.CHO);
         Sang sang = new Sang(Team.CHO);

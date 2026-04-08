@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.Team;
+import janggi.model.palace.PalaceFactory;
 import janggi.model.palace.Palaces;
-import janggi.model.palace.factory.DefaultPalaceFactory;
 import janggi.model.piece.diagonalMove.Ma;
 import janggi.model.piece.straightMove.Cha;
 import janggi.model.position.absolute.Column;
@@ -19,13 +19,13 @@ import org.junit.jupiter.api.Test;
 
 class MaTest {
 
-    Palaces palaces = new DefaultPalaceFactory().create();
+    Palaces palaces = new PalaceFactory().create();
 
     @DisplayName("상하 또는 좌우로 한칸을 간 후에 같은 방향의 대각선으로 한칸 이동한다.")
     @Test
     void getLegalPath() {
         //given
-        Byeong byeong = new Byeong(Team.CHO, palaces);
+        Byeong byeong = new Byeong(Team.CHO);
 
         Map<Position, Piece> board = Map.of(
                 new Position(Row.SIX, Column.FIVE), byeong
@@ -63,9 +63,9 @@ class MaTest {
     void canPassThrough() {
         //given
         List<Piece> gimulsOnPath = List.of(
-                new Cha(Team.CHO, palaces)
+                new Cha(Team.CHO)
         );
-        Cha gimulAtTo = new Cha(Team.HAN, palaces);
+        Cha gimulAtTo = new Cha(Team.HAN);
 
         Ma ma = new Ma(Team.CHO);
 
@@ -79,9 +79,9 @@ class MaTest {
     void canPassThrough_sameTeam() {
         //given
         List<Piece> gimulsOnPath = List.of(
-                new Cha(Team.CHO, palaces)
+                new Cha(Team.CHO)
         );
-        Cha gimulAtTo = new Cha(Team.CHO, palaces);
+        Cha gimulAtTo = new Cha(Team.CHO);
         Ma ma = new Ma(Team.CHO);
 
         //when & then

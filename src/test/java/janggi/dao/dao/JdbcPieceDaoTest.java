@@ -6,7 +6,6 @@ import janggi.dao.DatabaseTest;
 import janggi.dao.piece.PieceEntity;
 import janggi.model.board.Board;
 import janggi.model.board.BoardType;
-import janggi.model.palace.factory.DefaultPalaceFactory;
 import janggi.model.position.absolute.Column;
 import janggi.model.position.absolute.Position;
 import janggi.model.position.absolute.Row;
@@ -54,9 +53,7 @@ class JdbcPieceDaoTest extends DatabaseTest {
     @Test
     void savePieceBoard() {
         //given
-        Board board = BoardType.FIRST.getBoard(
-                new DefaultPalaceFactory().create()
-        );
+        Board board = BoardType.FIRST.getBoard();
 
         //when
         pieceEntityDao.saveBoard(con, board.getBoardInfo(), gameId);
