@@ -13,28 +13,28 @@ import java.util.Map;
 
 public enum ElephantSetup {
 
-    InnerElephantSetup("마상상마(馬象象馬)",
+    INNER_ELEPHANT_SETUP("마상상마(馬象象馬)",
             Map.of(
                     Position.of(1, 2), new PieceStatus(HORSE, new HorseMoveStrategy()),
                     Position.of(1, 3), new PieceStatus(ELEPHANT, new ElephantMoveStrategy()),
                     Position.of(1, 7), new PieceStatus(ELEPHANT, new ElephantMoveStrategy()),
                     Position.of(1, 8), new PieceStatus(HORSE, new HorseMoveStrategy())
             )),
-    OuterElephantSetup("상마마상(象馬馬象)",
+    OUTER_ELEPHANT_SETUP("상마마상(象馬馬象)",
             Map.of(
                     Position.of(1, 2), new PieceStatus(ELEPHANT, new ElephantMoveStrategy()),
                     Position.of(1, 3), new PieceStatus(HORSE, new HorseMoveStrategy()),
                     Position.of(1, 7), new PieceStatus(HORSE, new HorseMoveStrategy()),
                     Position.of(1, 8), new PieceStatus(ELEPHANT, new ElephantMoveStrategy())
             )),
-    RightElephantSetup("마상마상(馬象馬象)",
+    RIGHT_ELEPHANT_SETUP("마상마상(馬象馬象)",
             Map.of(
                     Position.of(1, 2), new PieceStatus(HORSE, new HorseMoveStrategy()),
                     Position.of(1, 3), new PieceStatus(ELEPHANT, new ElephantMoveStrategy()),
                     Position.of(1, 7), new PieceStatus(HORSE, new HorseMoveStrategy()),
                     Position.of(1, 8), new PieceStatus(ELEPHANT, new ElephantMoveStrategy())
             )),
-    LeftElephantSetup("상마상마(象馬象馬)",
+    LEFT_ELEPHANT_SETUP("상마상마(象馬象馬)",
             Map.of(
                     Position.of(1, 2), new PieceStatus(ELEPHANT, new ElephantMoveStrategy()),
                     Position.of(1, 3), new PieceStatus(HORSE, new HorseMoveStrategy()),

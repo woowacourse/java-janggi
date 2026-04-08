@@ -25,8 +25,8 @@ class BoardTest {
     @DisplayName("보드 초기화 테스트")
     public void boardInitTest() {
         // given
-        final Board board = BoardInitializer.initialize(ElephantSetup.InnerElephantSetup,
-                ElephantSetup.InnerElephantSetup);
+        final Board board = BoardInitializer.initialize(ElephantSetup.INNER_ELEPHANT_SETUP,
+                ElephantSetup.INNER_ELEPHANT_SETUP);
 
         // when
         final BoardView view = BoardView.from(board);
