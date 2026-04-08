@@ -20,7 +20,7 @@ public class PieceDao {
         this.dataSource = dataSource;
     }
 
-    public void saveAll(long gameId, List<PieceData> pieces) {
+    public void saveAll(List<PieceData> pieces) {
         String sql = "INSERT INTO piece (game_id, x, y, team, piece_type) VALUES (?, ?, ?, ?, ?)";
 
         try (
@@ -28,7 +28,7 @@ public class PieceDao {
             PreparedStatement pstmt = conn.prepareStatement(sql)
         ) {
             for (PieceData piece : pieces) {
-                pstmt.setLong(1, gameId);
+                pstmt.setLong(1, piece.gameId());
                 pstmt.setInt(2, piece.x());
                 pstmt.setInt(3, piece.y());
                 pstmt.setString(4, piece.team().name());

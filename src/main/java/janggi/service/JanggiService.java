@@ -21,7 +21,7 @@ public class JanggiService {
 
     public long createGame(Board board) {
         long gameId = gameDao.save();
-        pieceDao.saveAll(gameId, toPieceData(gameId, board.getPieces()));
+        pieceDao.saveAll(toPieceData(gameId, board.getPieces()));
         return gameId;
     }
 
