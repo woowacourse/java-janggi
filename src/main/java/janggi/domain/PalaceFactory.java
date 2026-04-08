@@ -7,10 +7,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class PalaceFactory {
+public final class PalaceFactory {
 
     private static final String PALACE_BOUNDARY_DEFAULT_PATH = "data/PalaceBoundary.csv";
     private static final String PALACE_CENTER_DEFAULT_PATH = "data/PalaceCenter.csv";
+
+    private PalaceFactory() {
+    }
 
     public static Set<Position> generateBoundary() {
         Set<Position> palaceBoundary = new HashSet<>();
