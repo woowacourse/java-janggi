@@ -1,6 +1,6 @@
 package janggi.infrastructure.dao;
 
-import janggi.infrastructure.dao.dto.GameDto;
+import janggi.infrastructure.dao.dto.GameEntity;
 import janggi.infrastructure.db.DatabaseConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -35,7 +35,7 @@ public class GameDao {
         throw new IllegalStateException("게임 ID가 정상적으로 생성되지 않았습니다.");
     }
 
-    public Optional<GameDto> findById(Long id) {
+    public Optional<GameEntity> findById(Long id) {
         String sql = "SELECT * FROM game WHERE id = ?";
 
         try (Connection connection = DatabaseConnection.getConnection();
@@ -45,7 +45,7 @@ public class GameDao {
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    return Optional.of(new GameDto(
+                    return Optional.of(new GameEntity(
                             resultSet.getLong("id"),
                             resultSet.getString("cho_player_name"),
                             resultSet.getString("han_player_name"),

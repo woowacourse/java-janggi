@@ -2,7 +2,7 @@ package janggi.infrastructure.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.infrastructure.dao.dto.GameDto;
+import janggi.infrastructure.dao.dto.GameEntity;
 import janggi.infrastructure.db.DatabaseConnection;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -56,7 +56,7 @@ class GameDaoTest {
         Long savedId = gameDao.insertGame(choName, hanName, currentTurn);
 
         // when
-        GameDto foundGame = gameDao.findById(savedId)
+        GameEntity foundGame = gameDao.findById(savedId)
                 .orElseThrow(() -> new IllegalArgumentException("게임을 찾을 수 없습니다."));
 
         // then (검증)

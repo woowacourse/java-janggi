@@ -1,6 +1,6 @@
 package janggi.infrastructure.dao.dto;
 
-public record GameDto(
+public record GameEntity(
         Long id,
         String choPlayerName,
         String hanPlayerName,
