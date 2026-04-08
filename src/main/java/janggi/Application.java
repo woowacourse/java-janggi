@@ -4,10 +4,8 @@ import janggi.controller.JanggiController;
 import janggi.db.DatabaseConfig;
 import janggi.db.DatabaseConnection;
 import janggi.db.DatabaseInitializer;
-import janggi.db.dao.GameDao;
 import janggi.db.dao.JdbcGameDao;
 import janggi.db.dao.JdbcPieceDao;
-import janggi.db.dao.PieceDao;
 import janggi.db.repository.GameRepository;
 import janggi.db.repository.JdbcGameRepository;
 import janggi.view.InputView;
@@ -19,8 +17,8 @@ public class Application {
         DatabaseConnection connection = new DatabaseConnection(config);
         DatabaseInitializer.initialize(config);
 
-        GameDao gameDao = new JdbcGameDao(connection);
-        PieceDao pieceDao = new JdbcPieceDao(connection);
+        JdbcGameDao gameDao = new JdbcGameDao(connection);
+        JdbcPieceDao pieceDao = new JdbcPieceDao(connection);
         GameRepository gameRepository = new JdbcGameRepository(gameDao, pieceDao);
 
         JanggiController janggiController = new JanggiController(new InputView(), new OutputView(), gameRepository);

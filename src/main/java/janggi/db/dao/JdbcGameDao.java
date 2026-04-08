@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class JdbcGameDao implements GameDao {
+public class JdbcGameDao {
 
     private final DatabaseConnection connection;
 
@@ -16,8 +16,7 @@ public class JdbcGameDao implements GameDao {
         this.connection = connection;
     }
 
-    @Override
-    public Long save(final String turn) {
+    public Long insert(final String turn) {
         String sql = "INSERT INTO game (turn) VALUES (?)";
 
         try (Connection conn = connection.getConnection();
@@ -34,8 +33,7 @@ public class JdbcGameDao implements GameDao {
         }
     }
 
-    @Override
-    public Optional<GameEntity> findById(Long gameId) {
+    public Optional<GameEntity> selectById(Long gameId) {
         String sql = "SELECT id, turn " +
                 "FROM game " +
                 "WHERE id = ?";
@@ -56,8 +54,7 @@ public class JdbcGameDao implements GameDao {
         }
     }
 
-    @Override
-    public List<GameEntity> findAll() {
+    public List<GameEntity> selectAll() {
         String sql = "SELECT id, turn " +
                 "FROM game " +
                 "ORDER BY id";
@@ -78,8 +75,7 @@ public class JdbcGameDao implements GameDao {
         }
     }
 
-    @Override
-    public void updateTurn(Long gameId, String turn) {
+    public void update(Long gameId, String turn) {
         String sql = "UPDATE game " +
                 "SET turn = ? " +
                 "WHERE id = ?";
@@ -95,7 +91,6 @@ public class JdbcGameDao implements GameDao {
         }
     }
 
-    @Override
     public void deleteById(Long gameId) {
         String sql = "DELETE FROM game " +
                 "WHERE id = ?";
