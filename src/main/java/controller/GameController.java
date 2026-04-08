@@ -32,27 +32,57 @@ public class GameController {
             validateMode(num);
             return num;
         });
-
         JanggiGame game = prepareGame(mode);
-
         OutputView.printBoard(game.board());
 
         while (game.isProgressing()) {
             playTurn(game);
         }
-
         endGamePhase(game.board());
     }
 
     private JanggiGame prepareGame(int mode) {
+        List<String> roomNameList = gameService.getRoomNameList();
+        if (roomNameList.isEmpty()) {
+            OutputView.printError("[ERROR] 저장된 게임이 없습니다. 새로운 게임을 시작합니다.");
+            return startNewGame();
+        }
         if (mode == START_NEW_MODE) {
-            HorseElephantStrategy choStrategy = askHorseSetup(Country.CHO);
-            OutputView.printLine();
-            HorseElephantStrategy hanStrategy = askHorseSetup(Country.HAN);
-            return gameService.startNewGame(choStrategy, hanStrategy);
+            return startNewGame();
         }
 
-        return gameService.continueGame(mode);
+        OutputView.printRoomList(roomNameList);
+        String roomName = retry(() -> {
+            String name = InputView.readRoomName();
+            validateContinueRoomName(roomNameList, name);
+            return name;
+        });
+        return gameService.continueGame(roomName);
+    }
+
+    private JanggiGame startNewGame() {
+        OutputView.printRoomName();
+        String roomName = retry(() -> {
+            String name = InputView.readRoomName();
+            validateStartRoomName(name);
+            return name;
+        });
+        HorseElephantStrategy choStrategy = askHorseSetup(Country.CHO);
+        OutputView.printLine();
+        HorseElephantStrategy hanStrategy = askHorseSetup(Country.HAN);
+        return gameService.startNewGame(choStrategy, hanStrategy, roomName);
+    }
+
+    private void validateStartRoomName(String roomName) {
+        if (gameService.isDuplicated(roomName)) {
+            throw new IllegalArgumentException("[ERROR] 이미 존재하는 방 이름입니다. 다시 입력해주세요.");
+        }
+    }
+
+    private void validateContinueRoomName(List<String> roomNameList, String roomName) {
+        if (roomNameList.stream().noneMatch(name -> name.equals(roomName))) {
+            throw new IllegalArgumentException("[ERROR] 없는 방입니다. 다시 입력해주세요.");
+        }
     }
 
     private void playTurn(JanggiGame game) {
