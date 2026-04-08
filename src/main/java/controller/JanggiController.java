@@ -6,6 +6,7 @@ import domain.board.Board;
 import domain.board.Country;
 import domain.board.Position;
 import domain.board.TableSetting;
+import dto.CountryInfo;
 import dto.MoveResult;
 import java.util.List;
 import java.util.Optional;
@@ -62,16 +63,10 @@ public class JanggiController {
     private void playTurn(Board board, Long gameId, List<Country> playOrders) {
         int turnIndex = 0;
         while (true) {
-            Country country = playOrders.get(turnIndex);
-            Country otherSide = playOrders.get((turnIndex + 1) % 2);
-            outputView.printTurn(CountryFormatter.from(country));
-            outputView.printCurrentScores(board.calculateScore());
-            outputView.printBoard(board.getPieceInfos());
-
-            MoveResult moveResult = movePiece(board, gameId, country);
+            CountryInfo countryInfo = printOneTurn(board, turnIndex, playOrders);
+            MoveResult moveResult = movePiece(board, gameId, countryInfo.country());
             if (moveResult.isGeneralCaught()) {
-                gameService.finishGame(gameId);
-                outputView.printWinner(CountryFormatter.from(country), CountryFormatter.from(otherSide));
+                finish(gameId, countryInfo);
                 return;
             }
             turnIndex = (turnIndex + 1) % 2;
@@ -90,6 +85,16 @@ public class JanggiController {
         }
     }
 
+    private CountryInfo printOneTurn(Board board, int turnIndex, List<Country> playOrders) {
+        Country country = playOrders.get(turnIndex);
+        Country otherSide = playOrders.get((turnIndex + 1) % 2);
+        outputView.printTurn(CountryFormatter.from(country));
+        outputView.printCurrentScores(board.calculateScore());
+        outputView.printBoard(board.getPieceInfos());
+
+        return new CountryInfo(country, otherSide);
+    }
+
     private MoveResult movePiece(Board board, Long gameId, Country country) {
         while (true) {
             try {
@@ -105,6 +110,12 @@ public class JanggiController {
                 outputView.printErrorMessage(exception.getMessage());
             }
         }
+    }
+
+    private void finish(Long gameId, CountryInfo countryInfo) {
+        gameService.finishGame(gameId);
+        outputView.printWinner(CountryFormatter.from(countryInfo.country()),
+                CountryFormatter.from(countryInfo.otherSide()));
     }
 
     private Position makeFromPosition() {
