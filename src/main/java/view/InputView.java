@@ -15,6 +15,19 @@ public class InputView {
         return scanner.nextLine();
     }
 
+    public String readGameStartCommand() {
+        System.out.println("""
+                게임 시작 메뉴를 선택하세요.
+                1. 새로 시작
+                2. 게임 불러오기""");
+        return scanner.nextLine();
+    }
+
+    public String readSavedGameNumber() {
+        System.out.println("불러올 게임 번호를 입력하세요.");
+        return scanner.nextLine();
+    }
+
     public String readFormation(Side side) {
         String message = String.format("""
             %s나라 플레이어 포메이션 입력

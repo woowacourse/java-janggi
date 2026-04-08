@@ -6,6 +6,7 @@ import domain.piece.Piece;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
+import persistence.SavedGameSummary;
 
 public class OutputView {
 
@@ -74,5 +75,28 @@ public class OutputView {
 
     public void printWinner(String winner) {
         System.out.printf("%s(이/가) 승리했습니다.%n", winner);
+    }
+
+    public void printResume(String choName, String hanName, int moveCount) {
+        System.out.printf(
+                "저장된 게임을 불러왔습니다. 초: %s, 한: %s, 진행된 수: %d%n",
+                choName,
+                hanName,
+                moveCount
+        );
+    }
+
+    public void printSavedGames(List<SavedGameSummary> savedGames) {
+        System.out.println("불러올 게임을 선택하세요.");
+        for (int index = 0; index < savedGames.size(); index++) {
+            SavedGameSummary savedGame = savedGames.get(index);
+            System.out.printf(
+                    "%d. 초: %s, 한: %s (진행 수: %d)%n",
+                    index + 1,
+                    savedGame.choPlayerName(),
+                    savedGame.hanPlayerName(),
+                    savedGame.moveCount()
+            );
+        }
     }
 }

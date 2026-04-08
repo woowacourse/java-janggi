@@ -1,6 +1,5 @@
 package parser;
 
-
 import domain.Position;
 import domain.board.Formation;
 import domain.player.Name;
@@ -28,6 +27,28 @@ public class InputParser {
         return FormationCommand.from(input).toFormation();
     }
 
+    public static GameStartCommand parseGameStartCommand(String input) {
+        validateNullOrBlank(input);
+        return GameStartCommand.from(input);
+    }
+
+    public static int parseMenuNumber(String input, int min, int max) {
+        validateNullOrBlank(input);
+        validateRange(min, max);
+
+        int number;
+        try {
+            number = Integer.parseInt(input.strip());
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("숫자를 입력해야 합니다.");
+        }
+
+        if (number < min || number > max) {
+            throw new IllegalArgumentException("범위 내 번호를 입력하세요.");
+        }
+        return number;
+    }
+
     private static Position getPosition(String input) {
         List<Integer> coordinate = Arrays.stream(input.strip().split(","))
                 .map(String::strip)
@@ -46,6 +67,12 @@ public class InputParser {
     private static void validateInputFormat(String input) {
         if (!COORDINATE_CSV_PATTERN.matcher(input).matches()) {
             throw new IllegalArgumentException("질못된 입력 형식입니다.");
+        }
+    }
+
+    private static void validateRange(int min, int max) {
+        if (min > max) {
+            throw new IllegalArgumentException("범위가 올바르지 않습니다.");
         }
     }
 }
