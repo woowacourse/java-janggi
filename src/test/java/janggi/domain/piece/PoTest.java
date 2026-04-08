@@ -27,7 +27,7 @@ class PoTest {
     }
 
     @Test
-    @DisplayName("포는 대각선이나 제자리로 이동할 수 없다.")
+    @DisplayName("포는 궁성 밖 대각선이나 제자리로 이동할 수 없다.")
     void cannotMoveInvalidPattern() {
         // given
         Po po = new Po(TeamType.CHU);
@@ -35,7 +35,21 @@ class PoTest {
         // when & then
         assertAll(
             () -> assertThat(po.isValidMovePattern(4, 4, 5, 5)).isFalse(),
-            () -> assertThat(po.isValidMovePattern(4, 4, 4, 4)).isFalse()
+            () -> assertThat(po.isValidMovePattern(4, 4, 4, 4)).isFalse(),
+            () -> assertThat(po.isValidMovePattern(4, 2, 5, 1)).isFalse()
+        );
+    }
+
+    @Test
+    @DisplayName("포는 궁성 안에서 대각선 이동할 수 있다.")
+    void canMoveDiagonalInsidePalace() {
+        // given
+        Po po = new Po(TeamType.CHU);
+
+        // when & then
+        assertAll(
+            () -> assertThat(po.isValidMovePattern(4, 1, 5, 2)).isTrue(),
+            () -> assertThat(po.isValidMovePattern(4, 1, 6, 3)).isTrue()
         );
     }
 
@@ -82,4 +96,34 @@ class PoTest {
             () -> assertThat(po.isObstaclesNotExist(new Position(2, 3), new Position(2, 8), movedBoard)).isFalse()
         );
     }
+
+    @Test
+    @DisplayName("포는 궁성 대각선에 다리가 하나 있으면 이동할 수 있다.")
+    void canMoveDiagonallyInsidePalaceWithBridge() {
+        // given
+        Po po = new Po(TeamType.CHU);
+        Board board = Board.createInitialBoard();
+
+        // when
+        boolean result = po.isObstaclesNotExist(new Position(4, 1), new Position(6, 3), board);
+
+        // then
+        assertThat(result).isTrue();
+    }
+
+    @Test
+    @DisplayName("포는 궁성 대각선에 다리가 없으면 이동할 수 없다.")
+    void cannotMoveDiagonallyInsidePalaceWithoutBridge() {
+        // given
+        Po po = new Po(TeamType.CHU);
+        Board board = Board.createInitialBoard();
+        Board movedBoard = board.move(new Position(5, 2), new Position(5, 3), TeamType.CHU);
+
+        // when
+        boolean result = po.isObstaclesNotExist(new Position(4, 1), new Position(6, 3), movedBoard);
+
+        // then
+        assertThat(result).isFalse();
+    }
+
 }
