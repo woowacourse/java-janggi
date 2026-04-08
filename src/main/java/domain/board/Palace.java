@@ -54,11 +54,11 @@ public class Palace {
     }
 
     Optional<List<Position>> findDiagonalPath(Position from, Position to) {
-        return Optional.ofNullable(diagonalPaths.get(new PositionPair(from, to)));
+        return Optional.ofNullable(diagonalPaths.get(PositionPair.ordered(from, to)));
     }
 
     private PositionPair makePair(int fromX, int fromY, int toX, int toY) {
-        return new PositionPair(
+        return PositionPair.ordered(
                 new Position(fromX, fromY),
                 new Position(toX, toY)
         );
