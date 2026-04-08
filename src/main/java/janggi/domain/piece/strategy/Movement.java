@@ -34,8 +34,12 @@ public record Movement(int rowDistance, int colDistance) {
         return colDistance == 0;
     }
 
-    public boolean isDiagonal() {
-        return Math.abs(rowDistance) == 2 && Math.abs(colDistance) == 2;
+    public boolean isDiagonalLine() {
+        return Math.abs(rowDistance) == Math.abs(colDistance) && rowDistance != 0;
+    }
+
+    public boolean isStraight() {
+        return isHorizontal() || isVertical();
     }
 
     public boolean isValidMoveDistance(int firstDistance, int secondDistance) {

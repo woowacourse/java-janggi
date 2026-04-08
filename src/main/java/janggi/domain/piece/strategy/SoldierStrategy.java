@@ -10,13 +10,17 @@ public class SoldierStrategy extends PalaceStrategy {
     private static final int DISTANCE = 1;
 
     @Override
-    public void validate(Position source, Position destination, BoardChecker board) {
-        Movement movement = new Movement(source, destination);
-        if (isPalaceRange(source, destination)) {
-            validatePalaceDiagonalDistance(source, destination, movement);
+    protected void validatePalaceMove(Position source, Position destination, Movement movement, BoardChecker board) {
+        if (isPalaceDiagonalPath(source, destination, movement)) {
+            validatePalaceStepDistance(movement, DISTANCE);
             validateForwardMovement(source, movement, board);
             return;
         }
+        validateNormalMove(source, destination, movement, board);
+    }
+
+    @Override
+    protected void validateNormalMove(Position source, Position destination, Movement movement, BoardChecker board) {
         validateDistance(movement);
         validateForwardMovement(source, movement, board);
     }

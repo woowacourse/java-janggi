@@ -12,35 +12,25 @@ public class CannonStrategy extends PalaceStrategy {
     private static final long REQUIRED_PIECE_COUNT = 1;
 
     @Override
-    public void validate(Position source, Position destination, BoardChecker board) {
-        Movement movement = new Movement(source, destination);
-        if (isPalaceRange(source, destination)) {
-            List<Position> path = findPathInPalace(source, movement);
-            List<Position> pathBeforeDestination = path.subList(0, path.size() - 1);
-            validatePath(source, pathBeforeDestination, destination, board);
-            return;
-        }
+    protected void validatePalaceMove(Position source, Position destination, Movement movement, BoardChecker board) {
+        List<Position> path = findPathInPalace(source, movement);
+        List<Position> pathBeforeDestination = path.subList(0, path.size() - 1);
+        validatePath(source, pathBeforeDestination, destination, board);
+    }
+
+    @Override
+    protected void validateNormalMove(Position source, Position destination, Movement movement, BoardChecker board) {
         List<Position> path = findPath(source, movement);
         List<Position> pathBeforeDestination = path.subList(0, path.size() - 1);
         validatePath(source, pathBeforeDestination, destination, board);
     }
 
     private List<Position> findPathInPalace(Position source, Movement movement) {
-        if (movement.isHorizontal()) {
-            return createPath(source, movement.colDistance(), Position::moveCol);
+        if (movement.isStraight()) {
+            return findPath(source, movement);
         }
-        if (movement.isVertical()) {
-            return createPath(source, movement.rowDistance(), Position::moveRow);
-        }
-        if (movement.isDiagonal()) {
-            List<Position> path = new ArrayList<>();
-            int colDirection = Integer.signum(movement.colDistance());
-            int rowDirection = Integer.signum(movement.rowDistance());
-            for (int i = 0; i < Math.abs(2); i++) {
-                source = source.moveDiagonal(rowDirection, colDirection);
-                path.add(source);
-            }
-            return path;
+        if (isPalaceDiagonalPath(source, source.moveDiagonal(movement.rowDistance(), movement.colDistance()), movement)) {
+            return createDiagonalPath(source, movement);
         }
         throw new IllegalArgumentException(ExceptionMessage.ONLY_STRAIGHT_MOVE_ALLOWED.getMessage());
     }
@@ -61,6 +51,18 @@ public class CannonStrategy extends PalaceStrategy {
 
         for (int i = 0; i < Math.abs(distance); i++) {
             source = move.apply(source, direction);
+            path.add(source);
+        }
+        return path;
+    }
+
+    private List<Position> createDiagonalPath(Position source, Movement movement) {
+        List<Position> path = new ArrayList<>();
+        int colDirection = Integer.signum(movement.colDistance());
+        int rowDirection = Integer.signum(movement.rowDistance());
+        int distance = Math.abs(movement.rowDistance());
+        for (int i = 0; i < distance; i++) {
+            source = source.moveDiagonal(rowDirection, colDirection);
             path.add(source);
         }
         return path;

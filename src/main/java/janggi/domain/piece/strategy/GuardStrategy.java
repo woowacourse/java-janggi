@@ -8,13 +8,20 @@ public class GuardStrategy extends PalaceStrategy {
 
     private static final int DISTANCE = 1;
 
-
     @Override
-    public void validate(Position source, Position destination, BoardChecker board) {
-        Movement movement = new Movement(source, destination);
-        if (!isPalaceRange(source, destination)) {
+    protected void validatePalaceMove(Position source, Position destination, Movement movement, BoardChecker board) {
+        validatePalaceStepDistance(movement, DISTANCE);
+        validatePalaceDiagonalPath(source, destination, movement);
+    }
+
+    private void validatePalaceDiagonalPath(Position source, Position destination, Movement movement) {
+        if (movement.isDiagonalLine() && !isPalaceDiagonalPath(source, destination, movement)) {
             throw new IllegalArgumentException(ExceptionMessage.INVALID_PALACE_MOVE.getMessage(DISTANCE));
         }
-        validatePalaceDistance(movement);
+    }
+
+    @Override
+    protected void validateNormalMove(Position source, Position destination, Movement movement, BoardChecker board) {
+        throw new IllegalArgumentException(ExceptionMessage.INVALID_PALACE_MOVE.getMessage(DISTANCE));
     }
 }
