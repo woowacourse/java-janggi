@@ -10,6 +10,12 @@ import java.util.Map;
 
 public class OutputView {
 
+    private static final String RESET = "\u001B[0m";
+    private static final String CHO_COLOR = "\u001B[32m";
+    private static final String HAN_COLOR = "\u001B[31m";
+    private static final String EMPTY_CELL = "－";
+
+
     public void printBoardInitialTypeMessage() {
         System.out.println("상차림 유형 번호를 입력해 주세요 (1.왼상차림 2.오른상차림 3.안상차림 4.바깥상차림)");
     }
@@ -29,10 +35,8 @@ public class OutputView {
 
     private String render(Map<Position, AbstractGimul> board) {
         StringBuilder sb = new StringBuilder();
-        sb.append("    1  2  3  4  5  6  7  8  9").append(System.lineSeparator());
-        sb.append("  ┌───────────────────────────┐").append(System.lineSeparator());
+        sb.append("  1  2  3  4  5  6  7  8  9").append(System.lineSeparator());
         appendRows(sb, board);
-        sb.append("  └───────────────────────────┘").append(System.lineSeparator());
         return sb.toString();
     }
 
@@ -45,18 +49,36 @@ public class OutputView {
     private StringBuilder renderBoardRow(int row, Map<Position, AbstractGimul> board) {
         StringBuilder sb = new StringBuilder();
         Row currentRow = Row.of(row);
-        sb.append(currentRow.getDisplayName()).append(" │");
+        sb.append(currentRow.getDisplayName()).append("│");
         for (int col = 1; col <= 9; col++) {
             sb.append(renderBoardColumn(row, col, board));
         }
+        sb.append(" ");
         sb.append("│").append(System.lineSeparator());
         return sb;
     }
 
     private StringBuilder renderBoardColumn(int row, int col, Map<Position, AbstractGimul> board) {
         Position position = new Position(Row.of(row), Column.of(col));
-        String symbol = board.containsKey(position) ? board.get(position).getSymbol() : "·";
-        return new StringBuilder().append(" ").append(String.format("%-2s", symbol));
+        if (!board.containsKey(position)) {
+            return new StringBuilder().append(" ").append(EMPTY_CELL);
+        }
+        return coloredGimul(board.get(position));
+    }
+
+    private StringBuilder coloredGimul(AbstractGimul gimul) {
+        return new StringBuilder()
+                .append(getColor(gimul))
+                .append(" ")
+                .append(gimul.getSymbol())
+                .append(RESET);
+    }
+
+    private String getColor(AbstractGimul gimul) {
+        if (gimul.isSameTeam(Team.CHO)) {
+            return CHO_COLOR;
+        }
+        return HAN_COLOR;
     }
 
     public void printScore(double choScore, double hanScore) {
