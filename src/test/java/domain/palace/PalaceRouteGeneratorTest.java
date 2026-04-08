@@ -47,4 +47,39 @@ class PalaceRouteGeneratorTest {
                     .isEmpty();
         }
     }
+
+    @Nested
+    class 차의_궁성_이동 {
+        @Test
+        void 궁성_중앙에서는_추가_대각선_이동경로만_생성한다() {
+            assertThat(palaceRouteGenerator.createRoutes(Position.of(8, 4), PieceType.ROOK, TeamColor.CHO))
+                    .containsExactlyInAnyOrder(
+                            new Route(Position.of(8, 4), Position.of(7, 3), List.of()),
+                            new Route(Position.of(8, 4), Position.of(7, 5), List.of()),
+                            new Route(Position.of(8, 4), Position.of(9, 3), List.of()),
+                            new Route(Position.of(8, 4), Position.of(9, 5), List.of())
+                    );
+        }
+
+        @Test
+        void 궁성_꼭지점에서는_중앙과_반대_꼭지점으로의_추가_대각선_이동경로를_생성한다() {
+            assertThat(palaceRouteGenerator.createRoutes(Position.of(0, 3), PieceType.ROOK, TeamColor.HAN))
+                    .containsExactlyInAnyOrder(
+                            new Route(Position.of(0, 3), Position.of(1, 4), List.of()),
+                            new Route(Position.of(0, 3), Position.of(2, 5), List.of(Position.of(1, 4)))
+                    );
+        }
+
+        @Test
+        void 궁성_변의_중간점에서는_추가_대각선_이동경로를_생성하지_않는다() {
+            assertThat(palaceRouteGenerator.createRoutes(Position.of(0, 4), PieceType.ROOK, TeamColor.HAN))
+                    .isEmpty();
+        }
+
+        @Test
+        void 궁성_밖의_좌표에서는_추가_대각선_이동경로를_생성하지_않는다() {
+            assertThat(palaceRouteGenerator.createRoutes(Position.of(4, 4), PieceType.ROOK, TeamColor.HAN))
+                    .isEmpty();
+        }
+    }
 }
