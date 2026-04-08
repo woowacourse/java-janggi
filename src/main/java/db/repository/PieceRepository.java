@@ -37,9 +37,9 @@ public class PieceRepository {
         try (PreparedStatement statement = connection.prepareStatement(findByGameId)) {
             statement.setInt(1, gameId);
 
-            ResultSet resultSet = statement.executeQuery();
-
-            return parsePieces(resultSet);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                return parsePieces(resultSet);
+            }
         }
     }
 
