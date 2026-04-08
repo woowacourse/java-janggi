@@ -1,6 +1,6 @@
 package domain.strategy;
 
-import domain.PieceType;
+import domain.constant.PieceType;
 import domain.Position;
 import domain.Piece;
 import java.util.List;

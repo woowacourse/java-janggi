@@ -1,5 +1,6 @@
 package exception;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -33,12 +34,14 @@ public class ValidatorTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {
-            "123",
-            "-1",
-            "00"
+    @CsvSource(value = {
+            "123, 123",
+            "-123, -123",
+            "00, 0"
     })
-    void 정수_변환_정상_테스트(String input) {
+    void 정수_변환_정상_테스트(String input, int expectedNumber) {
+        assertThat(Validator.validateNumber(input)).isEqualTo(expectedNumber);
+
         assertThatCode(() -> Validator.validateNumber(input))
                 .doesNotThrowAnyException();
     }

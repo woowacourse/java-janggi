@@ -13,6 +13,9 @@ dependencies {
     testImplementation platform('org.assertj:assertj-bom:3.27.3')
     testImplementation('org.junit.jupiter:junit-jupiter')
     testImplementation('org.assertj:assertj-core')
+
+    // H2 데이터베이스 드라이버 추가
+    implementation 'com.h2database:h2:2.2.224'
 }
 
 java {

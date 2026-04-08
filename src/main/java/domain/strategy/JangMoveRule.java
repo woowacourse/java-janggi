@@ -7,9 +7,12 @@ public class JangMoveRule implements MoveRule {
 
     @Override
     public boolean canMovePosition(Position start, Position end, Piece piece) {
-        int diffX = end.getX() - start.getX();
-        int diffY = end.getY() - start.getY();
+        int diffRow = Math.abs(end.getRow() - start.getRow());
+        int diffCol = Math.abs(end.getCol() - start.getCol());
 
-        return Math.abs(diffX) + Math.abs(diffY) == 1;
+        boolean isStraight = (diffRow + diffCol) == 1;
+        boolean isDiagonal = (diffRow == 1 && diffCol == 1);
+
+        return isStraight || isDiagonal;
     }
 }

@@ -1,5 +1,7 @@
 package domain;
 
+import domain.constant.Country;
+import domain.constant.PieceType;
 import java.util.List;
 import java.util.Objects;
 
@@ -40,6 +42,14 @@ public class Piece {
 
     public static Piece getEmptyPiece() {
         return EMPTY;
+    }
+
+    public int getScore() {
+        return pieceType.getScore();
+    }
+
+    public boolean isPalacePiece() {
+        return pieceType.equals(PieceType.SA) || pieceType.equals(PieceType.JANG);
     }
 
     @Override
