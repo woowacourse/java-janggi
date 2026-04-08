@@ -83,4 +83,9 @@ public class OutputView {
     public void printResign(Team team) {
         System.out.println(getTeamName(team) + "나라가 기권을 선언했습니다.");
     }
+
+    public void printResumed() {
+        System.out.println("끝나지 않은 기존 게임 이력이 존재합니다...\n" +
+                "기존 게임을 불러옵니다.");
+    }
 }
