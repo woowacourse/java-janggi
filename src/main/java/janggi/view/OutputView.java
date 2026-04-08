@@ -2,9 +2,11 @@ package janggi.view;
 
 import janggi.dto.BoardDto;
 import janggi.dto.DestinationDto;
+import janggi.dto.GameDto;
 import janggi.dto.PieceDto;
 import janggi.dto.PositionDto;
 import janggi.dto.WinnerDto;
+import janggi.infrastructure.dao.dto.GameEntity;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -16,6 +18,15 @@ public class OutputView {
             "\uFF10", "\uFF11", "\uFF12", "\uFF13", "\uFF14",
             "\uFF15", "\uFF16", "\uFF17", "\uFF18", "\uFF19"
     );
+
+    public void printGameList(List<GameDto> games) {
+        System.out.println("\n[저장된 게임 목록]");
+        for (GameDto game : games) {
+            System.out.printf("ID: %d | %s vs %s | 현재 턴: %s\n",
+                    game.id(), game.choName(), game.hanName(), game.currentTurn());
+        }
+        System.out.println("-------------------------");
+    }
 
     public void printBoard(BoardDto boardDto) {
         System.out.println();
@@ -45,7 +56,7 @@ public class OutputView {
     }
 
     public void printError(String message) {
-        System.out.println(message);
+        System.out.println("[ERROR] " + message);
     }
 
     public void printDestinations(DestinationDto destinations) {
