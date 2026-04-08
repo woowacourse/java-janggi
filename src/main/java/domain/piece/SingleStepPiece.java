@@ -1,8 +1,8 @@
 package domain.piece;
 
+import domain.board.Palace;
 import exception.ErrorMessage;
 import domain.Offset;
-import domain.board.Palace;
 import domain.board.Position;
 
 import java.util.List;
@@ -21,8 +21,8 @@ public abstract class SingleStepPiece extends Piece {
     @Override
     protected void validateMoveRule(Position from, Position to) {
         Offset offset = Offset.of(from, to);
-        if (Palace.isInPalace(from) && isSingleDiagonalStep(offset)) {
-            Palace.validateDiagonalMoveRule(from, to);
+        if (Palace.isInAnyPalace(from) && isSingleDiagonalStep(offset)) {
+            Palace.findPalace(from).validateDiagonalMoveRule(from, to);
             return;
         }
         if (!isSingleStep(offset)) {

@@ -47,7 +47,6 @@ public record Offset(int dx, int dy) {
         return Direction.of(new Offset(this.dx() / this.absX(), this.dy() / this.absY()));
     }
 
-
     public int absX() {
         return Math.abs(dx);
     }

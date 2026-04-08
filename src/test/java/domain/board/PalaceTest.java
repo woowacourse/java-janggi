@@ -15,7 +15,7 @@ class PalaceTest {
         Position from = new Position(3, 0);
         Position to = new Position(5, 2);
 
-        Assertions.assertDoesNotThrow(() -> Palace.validateDiagonalMoveRule(from, to));
+        Assertions.assertDoesNotThrow(() -> Palace.CHO.validateDiagonalMoveRule(from, to));
     }
 
     @Test
@@ -23,7 +23,7 @@ class PalaceTest {
         Position from = new Position(5, 9);
         Position to = new Position(4, 8);
 
-        Assertions.assertDoesNotThrow(() -> Palace.validateDiagonalMoveRule(from, to));
+        Assertions.assertDoesNotThrow(() -> Palace.HAN.validateDiagonalMoveRule(from, to));
     }
 
     @Test
@@ -31,21 +31,21 @@ class PalaceTest {
         Position from = new Position(4, 8);
         Position to = new Position(5, 9);
 
-        Assertions.assertDoesNotThrow(() -> Palace.validateDiagonalMoveRule(from, to));
+        Assertions.assertDoesNotThrow(() -> Palace.HAN.validateDiagonalMoveRule(from, to));
     }
 
     @Test
     void 출발지가_궁성_밖이면_실패한다() {
         Position from = new Position(2, 0);
         Position to = new Position(3, 1);
-        assertThrows(IllegalStateException.class, () -> Palace.validateDiagonalMoveRule(from, to));
+        assertThrows(IllegalStateException.class, () -> Palace.CHO.validateDiagonalMoveRule(from, to));
     }
 
     @Test
     void 목적지가_궁성_밖이면_실패한다() {
         Position from = new Position(3, 0);
         Position to = new Position(6, 2);
-        assertThrows(IllegalStateException.class, () -> Palace.validateDiagonalMoveRule(from, to));
+        assertThrows(IllegalStateException.class, () -> Palace.CHO.validateDiagonalMoveRule(from, to));
     }
 
 
@@ -53,7 +53,7 @@ class PalaceTest {
     void 대각선_방향으로_가는_경로가_아니라면_유효하지_않다() {
         Position from = new Position(3, 0);
         Position to = new Position(5, 1);
-        assertThrows(IllegalStateException.class, () -> Palace.validateDiagonalMoveRule(from, to));
+        assertThrows(IllegalStateException.class, () -> Palace.CHO.validateDiagonalMoveRule(from, to));
     }
 
     @Test
@@ -61,7 +61,7 @@ class PalaceTest {
         Position from = new Position(4, 9);
         Position to = new Position(5, 8);
 
-        assertThrows(IllegalStateException.class, () -> Palace.validateDiagonalMoveRule(from, to));
+        assertThrows(IllegalStateException.class, () -> Palace.CHO.validateDiagonalMoveRule(from, to));
     }
 
 
@@ -70,7 +70,7 @@ class PalaceTest {
         Position from = new Position(3, 0);
         Position to = new Position(5, 2);
 
-        List<Offset> offsets = Palace.generatePaths(from, to);
+        List<Offset> offsets = Palace.CHO.generatePaths(from, to);
         assertThat(offsets).isEqualTo(List.of(new Offset(1, 1)));
     }
 
@@ -79,7 +79,7 @@ class PalaceTest {
         Position from = new Position(5, 9);
         Position to = new Position(4, 8);
 
-        List<Offset> offsets = Palace.generatePaths(from, to);
+        List<Offset> offsets = Palace.HAN.generatePaths(from, to);
         assertThat(offsets).isEqualTo(List.of());
     }
 
@@ -88,7 +88,7 @@ class PalaceTest {
         Position from = new Position(4, 8);
         Position to = new Position(5, 9);
 
-        List<Offset> offsets = Palace.generatePaths(from, to);
+        List<Offset> offsets = Palace.HAN.generatePaths(from, to);
         assertThat(offsets).isEqualTo(List.of());
     }
 }
