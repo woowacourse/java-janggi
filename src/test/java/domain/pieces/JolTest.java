@@ -78,4 +78,26 @@ class JolTest {
         assertThat(result).containsExactlyInAnyOrderElementsOf(expected);
     }
 
+    @Test
+    void 졸_이동_궁성_초나라_정상_테스트(){
+        Jol jol = new Jol(Country.CHO);
+        Position start = Position.create(8,6);
+        PieceFinder finder = new PieceFinder() {
+            @Override
+            public Piece find(Position position) {
+                return None.INSTANCE;
+            }
+        };
+
+        List<Position> expected = List.of(
+                Position.create(8,5),
+                Position.create(8,7),
+                Position.create(9,6),
+                Position.create(9,5)
+        );
+
+        List<Position> result = jol.getAvailableRoute(start, finder);
+        assertThat(result).containsExactlyInAnyOrderElementsOf(expected);
+    }
+
 }
