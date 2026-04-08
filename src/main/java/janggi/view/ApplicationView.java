@@ -89,7 +89,6 @@ public class ApplicationView {
 
         int row = (rowInput == 0) ? 9 : rowInput - 1;
         int col = colInput - 1;
-        System.out.println("row: " + row + "  col: " + col);
         return List.of(row, col);
     }
 
