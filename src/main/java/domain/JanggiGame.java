@@ -19,13 +19,13 @@ public class JanggiGame {
     private final Board board;
     private GameStatus gameStatus;
 
-    private JanggiGame(Board board) {
+    private JanggiGame(Board board, GameStatus gameStatus) {
         this.board = board;
-        this.gameStatus = GameStatus.GREEN_PLAYER_TURN;
+        this.gameStatus = gameStatus;
     }
 
-    public static JanggiGame of(Board board) {
-        return new JanggiGame(board);
+    public static JanggiGame of(Board board, GameStatus gameStatus) {
+        return new JanggiGame(board, gameStatus);
     }
 
     public void move(Position selectedPosition, Position destination) {
@@ -57,12 +57,16 @@ public class JanggiGame {
         return List.of(board.greenPiecesScore(), board.redPiecesScore());
     }
 
-    public String gameStatus() {
-        return this.gameStatus.description();
+    public GameStatus gameStatus() {
+        return gameStatus;
     }
 
     public BoardDto allFactors() {
         return new BoardDto(board.board());
+    }
+
+    public Board board() {
+        return board;
     }
 
     private void validateMove(Position selectedPosition, Position destination) {

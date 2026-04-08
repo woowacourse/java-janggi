@@ -28,7 +28,7 @@ class JanggiGameTest {
         testBoard.put(target, soldierPiece);
         Board board = Board.of(testBoard);
 
-        JanggiGame janggiGame = JanggiGame.of(board);
+        JanggiGame janggiGame = JanggiGame.of(board, GameStatus.GREEN_PLAYER_TURN);
 
         assertDoesNotThrow(() -> janggiGame.validatePieceSelection(current));
     }
@@ -43,7 +43,7 @@ class JanggiGameTest {
         testBoard.put(current, horsePiece);
         Board board = Board.of(testBoard);
 
-        JanggiGame janggiGame = JanggiGame.of(board);
+        JanggiGame janggiGame = JanggiGame.of(board, GameStatus.GREEN_PLAYER_TURN);
 
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> janggiGame.validatePieceSelection(current))
@@ -58,7 +58,7 @@ class JanggiGameTest {
         Position target = new Position(3, 3);
         Board board = Board.of(testBoard);
 
-        JanggiGame janggiGame = JanggiGame.of(board);
+        JanggiGame janggiGame = JanggiGame.of(board, GameStatus.GREEN_PLAYER_TURN);
 
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> janggiGame.move(current, target))
@@ -75,7 +75,7 @@ class JanggiGameTest {
         testBoard.put(current, horsePiece);
         Board board = Board.of(testBoard);
 
-        JanggiGame janggiGame = JanggiGame.of(board);
+        JanggiGame janggiGame = JanggiGame.of(board, GameStatus.GREEN_PLAYER_TURN);
 
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> janggiGame.validatePieceSelection(current))
@@ -97,7 +97,7 @@ class JanggiGameTest {
         testBoard.put(target, soldierPiece);
         Board board = Board.of(testBoard);
 
-        JanggiGame janggiGame = JanggiGame.of(board);
+        JanggiGame janggiGame = JanggiGame.of(board, GameStatus.GREEN_PLAYER_TURN);
         janggiGame.checkGameFinished();
 
         assertThat(janggiGame.isGameFinished()).isTrue();

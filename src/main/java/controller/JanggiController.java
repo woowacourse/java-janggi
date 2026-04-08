@@ -23,12 +23,12 @@ public class JanggiController {
         }
 
         OutputView.printRemainScore(janggiGame.showTeamPieceScores());
-        OutputView.printGameResult(janggiGame.gameStatus());
+        OutputView.printGameResult(janggiGame.gameStatus().description());
     }
 
     private void playGame() {
         OutputView.printBoard(janggiGame.allFactors());
-        OutputView.printCurrentPlayerTurn(janggiGame.gameStatus());
+        OutputView.printCurrentPlayerTurn(janggiGame.gameStatus().description());
         execute(this::playerPhase);
     }
 
