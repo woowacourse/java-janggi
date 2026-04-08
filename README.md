@@ -93,7 +93,7 @@
 
 ### 2. Mapper 구현
 - [x] PieceState의 Mapper 구현
-- [ ] GameState의 Mapper 구현
+- [x] GameState의 Mapper 구현
 
 ---
 
