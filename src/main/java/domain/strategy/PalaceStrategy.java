@@ -23,7 +23,10 @@ public class PalaceStrategy implements Strategy {
             int targetColumns = from.col() + direction.getColOffset(team);
 
             Position targetPosition = new Position(targetRow, targetColumns);
-            candidates.add(targetPosition);
+
+            if (targetPosition.isInPalace()) {
+                candidates.add(targetPosition);
+            }
         }
         return candidates;
     }
