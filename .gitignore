@@ -33,3 +33,6 @@ out/
 
 # H2 Database file
 *.mv.db
+
+# 컴파일된 결과물 제외
+bin/
