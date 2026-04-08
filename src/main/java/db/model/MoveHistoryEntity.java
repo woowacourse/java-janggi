@@ -1,6 +1,5 @@
 package db.model;
 
-import java.time.LocalDateTime;
 import pieces.PieceType;
 import pieces.Side;
 
@@ -16,8 +15,5 @@ public record MoveHistoryEntity(
     int destinationColumn,
     boolean isCapture,
     PieceType capturedPieceType,
-    Side capturedPieceSide,
-    Integer capturedRow,
-    Integer capturedColumn,
-    LocalDateTime createdAt) {
+    Side capturedPieceSide) {
 }
