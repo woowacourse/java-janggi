@@ -1,12 +1,12 @@
 package janggi.domain.board;
 
-import janggi.domain.Palace;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Team;
 import janggi.domain.vo.position.Position;
 
 import java.util.List;
+import java.util.Map;
 
 public interface BoardView {
     Piece findByPosition(Position position);
@@ -20,4 +20,6 @@ public interface BoardView {
     List<Piece> kingsOnBoard();
 
     List<Piece> piecesOf(Team team);
+
+    Map<Position, Piece> getBoard();
 }
