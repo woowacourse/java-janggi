@@ -85,12 +85,12 @@ public class Board {
         double choInitScore = 0;
         double hanInitScore = 1.5;
 
-        for (Entry<Position, PieceInfo> pieceInfo : getPieceInfos().entrySet()) {
-            if (pieceInfo.getValue().country() == Country.CHO) {
-                choInitScore += pieceInfo.getValue().pieceType().getScore();
+        for (PieceInfo pieceInfo : getPieceInfos().values()) {
+            if (pieceInfo.country() == Country.CHO) {
+                choInitScore += pieceInfo.pieceType().getScore();
             }
-            if (pieceInfo.getValue().country() == Country.HAN) {
-                hanInitScore += pieceInfo.getValue().pieceType().getScore();
+            if (pieceInfo.country() == Country.HAN) {
+                hanInitScore += pieceInfo.pieceType().getScore();
             }
         }
         Map<Country, Double> totalScores = new LinkedHashMap<>();
