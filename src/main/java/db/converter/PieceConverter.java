@@ -1,4 +1,4 @@
-package db.parser;
+package db.converter;
 
 import domain.game.Side;
 import domain.piece.Cannon;
@@ -12,7 +12,7 @@ import domain.piece.Soldier;
 import java.util.Arrays;
 import java.util.function.Function;
 
-public enum PieceParser {
+public enum PieceConverter {
     CANNON(Cannon.class, Cannon::new),
     CHARIOT(Chariot.class, Chariot::new),
     ELEPHANT(Elephant.class, Elephant::new),
@@ -24,7 +24,7 @@ public enum PieceParser {
     private final Class<? extends Piece> pieceType;
     private final Function<Side, Piece> pieceFactory;
 
-    PieceParser(
+    PieceConverter(
             Class<? extends Piece> pieceType,
             Function<Side, Piece> pieceFactory
     ) {
@@ -32,7 +32,7 @@ public enum PieceParser {
         this.pieceFactory = pieceFactory;
     }
 
-    public static Piece toPiece(String pieceName, Side side) {
+    public static Piece toDomain(String pieceName, Side side) {
         return Arrays.stream(values())
                 .filter(piece -> piece.hasSameName(pieceName))
                 .map(piece -> piece.createPiece(side))
@@ -40,10 +40,10 @@ public enum PieceParser {
                 .orElseThrow(() -> new IllegalStateException("정의되지 않은 기물입니다."));
     }
 
-    public static String toString(Piece piece) {
+    public static String toColumnValue(Piece piece) {
         return Arrays.stream(values())
-                .filter(pieceParser -> pieceParser.hasSameType(piece))
-                .map(PieceParser::getName)
+                .filter(pieceConverter -> pieceConverter.hasSameType(piece))
+                .map(PieceConverter::getName)
                 .findAny()
                 .orElseThrow(() -> new IllegalStateException("정의되지 않은 기물입니다."));
     }
