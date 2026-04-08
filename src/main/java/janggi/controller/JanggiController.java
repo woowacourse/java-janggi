@@ -1,23 +1,33 @@
 package janggi.controller;
 
-import janggi.domain.JanggiGame;
-import janggi.domain.board.Board;
-import janggi.domain.board.BoardInitializer;
+import janggi.domain.janggiGame.JanggiGame;
 import janggi.domain.dto.MoveCommand;
+import janggi.domain.janggiGame.StartGameResponse;
 import janggi.domain.piece.Team;
+import janggi.service.JanggiService;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 
 public class JanggiController {
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();
+    private final JanggiService janggiService;
+
+    public JanggiController(JanggiService janggiService) {
+        this.janggiService = janggiService;
+    }
 
     public void run() {
-        Board board = new Board(BoardInitializer.createBoard());
-        JanggiGame janggiGame = new JanggiGame(board);
+        StartGameResponse response = janggiService.startGame();
+        JanggiGame janggiGame = response.game();
 
-        outputView.printIntroduce();
-        outputView.printBoard(board.getBoard());
+        if (response.isResumed()) {
+            outputView.printResumed();
+        } else {
+            outputView.printIntroduce();
+        }
+
+        outputView.printBoard(janggiGame.getBoard());
 
         while (!janggiGame.isFinished()) {
             Team currentTeam = janggiGame.getCurrentTeam();
@@ -25,10 +35,9 @@ public class JanggiController {
             int option = inputView.readTurnBehavior(currentTeam);
 
             if (option == 1) {
-                janggiGame.playTurn();
                 MoveCommand moveCommand = inputView.readMovePositions(currentTeam);
-                board.move(moveCommand.getFrom(), moveCommand.getTo(), currentTeam);
-                outputView.printBoard(board.getBoard());
+                janggiService.playTurn(moveCommand, janggiGame);
+                outputView.printBoard(janggiGame.getBoard());
             }
 
             if (option == 2) {
@@ -40,8 +49,6 @@ public class JanggiController {
                 janggiGame.resign();
                 outputView.printResign(currentTeam);
             }
-
-            janggiGame.changeTurn();
         }
 
         janggiGame.decideWinner();
