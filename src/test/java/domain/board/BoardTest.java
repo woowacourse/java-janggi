@@ -4,6 +4,7 @@ import static common.Constants.MAX_COLUMN;
 import static common.Constants.MAX_ROW;
 import static common.Constants.MIN_COLUMN;
 import static common.Constants.MIN_ROW;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -13,7 +14,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import common.exception.JanggiException;
 import domain.piece.BasicPiece;
 import domain.piece.Cha;
+import domain.piece.Jang;
 import domain.piece.Jol;
+import domain.piece.Ma;
 import domain.piece.None;
 import domain.piece.Po;
 import domain.piece.Sang;
@@ -132,6 +135,23 @@ class BoardTest {
             assertTrue(board.findPiece(new Position(0, 0)).isNone());
             assertFalse(board.findPiece(new Position(0, 3)).isNone());
             assertEquals(new Cha(Team.CHO), board.findPiece(new Position(0, 3)));
+        }
+    }
+
+    @Nested
+    class ScoreTest {
+        @Test
+        void 팀별_원점수를_계산한다() {
+            Map<Position, BasicPiece> boardMap = createEmptyBoard();
+            boardMap.put(new Position(0, 0), new Cha(Team.CHO));
+            boardMap.put(new Position(0, 1), new Ma(Team.CHO));
+            boardMap.put(new Position(9, 8), new Jol(Team.HAN));
+            boardMap.put(new Position(9, 7), new Jang(Team.HAN));
+
+            Board board = new Board(boardMap);
+
+            assertThat(board.calculateRawScore(Team.CHO)).isEqualTo(18);
+            assertThat(board.calculateRawScore(Team.HAN)).isEqualTo(2);
         }
     }
 
