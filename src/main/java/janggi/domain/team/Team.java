@@ -5,7 +5,7 @@ public enum Team {
     CHO(1),
     NONE(0);
 
-    public final static Team FIRST_TURN = CHO;
+    public static final Team FIRST_TURN = CHO;
 
     private final int backwardDirection;
 

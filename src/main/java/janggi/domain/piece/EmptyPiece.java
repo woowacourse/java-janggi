@@ -23,6 +23,11 @@ public class EmptyPiece implements Piece {
     }
 
     @Override
+    public double getScore() {
+        return 0.0;
+    }
+
+    @Override
     public Team getTeam() {
         return Team.NONE;
     }

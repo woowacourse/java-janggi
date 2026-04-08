@@ -21,6 +21,11 @@ public abstract class MoveablePiece implements Piece {
     }
 
     @Override
+    public double getScore() {
+        return getType().getScore();
+    }
+
+    @Override
     public Team getTeam() {
         return team;
     }

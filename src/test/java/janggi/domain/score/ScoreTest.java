@@ -27,7 +27,7 @@ class ScoreTest {
     void 기본_점수_테스트() {
         // given
         Map<Position, Piece> board = new LinkedHashMap<>();
-        Score score = new Score(board);
+        Score score = Score.from(board);
 
         // when
         double hanScore = score.getHanScore();
@@ -46,7 +46,7 @@ class ScoreTest {
         Map<Position, Piece> board = new LinkedHashMap<>();
         board.put(Position.from("25"), hanPiece);
         board.put(Position.from("95"), choPiece);
-        Score score = new Score(board);
+        Score score = Score.from(board);
 
         // when
         double hanScore = score.getHanScore();
@@ -74,7 +74,7 @@ class ScoreTest {
     void 게임_시작_시_점수_합계_테스트() {
         // given
         Board board = BoardFactory.create(OUTER_ELEPHANT, OUTER_ELEPHANT);
-        Score score = new Score(board.showBoard());
+        Score score = Score.from(board.showBoard());
 
         // when
         double hanScore = score.getHanScore();

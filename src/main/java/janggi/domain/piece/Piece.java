@@ -13,6 +13,8 @@ public interface Piece {
 
     boolean isSameType(PieceType type);
 
+    double getScore();
+
     Team getTeam();
 
     PieceType getType();

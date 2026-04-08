@@ -68,7 +68,7 @@ public class JanggiGame {
     }
 
     public Score getScore() {
-        return new Score(board.showBoard());
+        return Score.from(board.showBoard());
     }
 
     private Movement createMovement(List<String> positions) {
