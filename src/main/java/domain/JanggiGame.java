@@ -1,6 +1,7 @@
 package domain;
 
 import dto.BoardDto;
+import java.util.List;
 import java.util.Map;
 
 public class JanggiGame {
@@ -50,6 +51,10 @@ public class JanggiGame {
 
     public boolean isGameFinished() {
         return this.gameStatus.isFinished();
+    }
+
+    public List<Double> showTeamPieceScores() {
+        return List.of(board.greenPiecesScore(), board.redPiecesScore());
     }
 
     public String gameStatus() {
