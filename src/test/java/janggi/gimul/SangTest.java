@@ -111,7 +111,7 @@ class SangTest {
         assertThat(sang.getScore()).isEqualTo(new Score(3));
     }
 
-    @DisplayName("상은 점프할 수 없다.")
+    @DisplayName("상은 점프할 수 있다.")
     @Test
     void isJumpable() {
         Sang sang = new Sang(Team.CHO);
