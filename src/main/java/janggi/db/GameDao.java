@@ -61,12 +61,7 @@ public class GameDao {
         try (Connection connection = databaseConnector.getConnection();
              PreparedStatement statement = connection.prepareStatement("SELECT COUNT(*) FROM game WHERE id = ?")) {
             statement.setInt(1, FIX_GAME_ID);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    return resultSet.getInt("COUNT(*)") == 1;
-                }
-                return false;
-            }
+            return isGamePresent(statement);
         } catch (SQLException e) {
             throw new RuntimeException("데이터베이스 오류");
         }
@@ -133,6 +128,15 @@ public class GameDao {
                         pieceType.toPiece(teamType));
             }
             return positionPieceMap;
+        }
+    }
+
+    private boolean isGamePresent(PreparedStatement statement) throws SQLException {
+        try (ResultSet resultSet = statement.executeQuery()) {
+            if (resultSet.next()) {
+                return resultSet.getInt("COUNT(*)") == 1;
+            }
+            return false;
         }
     }
 }
