@@ -35,7 +35,6 @@ public class GameDao {
             pstmt.setInt(3, dto.y());
             pstmt.setString(4, dto.pieceType());
             pstmt.setString(5, dto.team());
-            pstmt.addBatch();
             pstmt.executeBatch();
         }
     }
