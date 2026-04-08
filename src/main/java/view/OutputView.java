@@ -1,6 +1,7 @@
 package view;
 
 import domain.Piece;
+import domain.Team;
 import domain.vo.Position;
 
 import java.util.Map;
@@ -49,11 +50,11 @@ public class OutputView {
         System.out.println();
     }
 
-    public void printCurrentTurn(int turnCount) {
-        if (turnCount % 2 == 0) {
+    public void printCurrentTurn(Team team) {
+        if (team == Team.HAN) {
             System.out.println("현재는 한나라 차례입니다.");
         }
-        if (turnCount % 2 != 0) {
+        if (team == Team.CHU) {
             System.out.println("현재는 초나라 차례입니다.");
         }
     }

@@ -38,14 +38,6 @@ public class Board {
         board.put(to, fromPiece);
     }
 
-    private Map<Position, Piece> findPiecesAt(final List<Position> positions) {
-        Map<Position, Piece> result = new HashMap<>();
-        for (Position pos : positions) {
-            findPieceByPosition(pos).ifPresent(piece -> result.put(pos, piece));
-        }
-        return result;
-    }
-
     public boolean isExistPosition(final Position tempPosition) {
         return board.containsKey(tempPosition);
     }
@@ -56,5 +48,18 @@ public class Board {
 
     public Map<Position, Piece> getBoard() {
         return Map.copyOf(board);
+    }
+
+    public boolean isGeneralAlive(Team team) {
+        return board.values().stream()
+                .anyMatch(piece -> piece.getTeam() == team && piece.getType() == Type.GENERAL);
+    }
+
+    private Map<Position, Piece> findPiecesAt(final List<Position> positions) {
+        Map<Position, Piece> result = new HashMap<>();
+        for (Position pos : positions) {
+            findPieceByPosition(pos).ifPresent(piece -> result.put(pos, piece));
+        }
+        return result;
     }
 }

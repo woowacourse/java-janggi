@@ -3,6 +3,7 @@ package controller;
 import domain.Board;
 import domain.BoardFactory;
 import domain.Formation;
+import domain.JanggiGame;
 import domain.Team;
 import domain.vo.Position;
 import view.InputView;
@@ -25,11 +26,11 @@ public class JanggiController {
 
         outputView.printBoard(board.getBoard());
 
-        int turnCount = 0;
-        turnCount = movePosition(board, turnCount);
+        JanggiGame janggiGame = JanggiGame.of(board);
+        movePosition(janggiGame);
 
         while (true) {
-            turnCount = movePosition(board, turnCount);
+            movePosition(janggiGame);
         }
     }
 
@@ -77,18 +78,19 @@ public class JanggiController {
         return board;
     }
 
-    private int movePosition(Board board, int turnCount) {
+    private void movePosition(JanggiGame janggiGame) {
         while (true) {
             try {
-                outputView.printCurrentTurn(turnCount);
+                outputView.printCurrentTurn(janggiGame.currentTurn());
 
                 Position position = inputView.readPosition();
                 Position targetPosition = inputView.readTargetPosition();
 
-                Team currentTeam = Team.from(turnCount);
-                board.move(position, targetPosition, currentTeam);
-                outputView.printBoard(board.getBoard());
-                return turnCount += 1;
+                janggiGame.move(position, targetPosition);
+                outputView.printBoard(janggiGame.getBoardStatus());
+                janggiGame.passTheTurn();
+
+                return;
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 System.out.println();
