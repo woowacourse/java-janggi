@@ -81,7 +81,7 @@ class GameTest {
 
     @Test
     void 게임은_진영별_현재_점수를_조회할_수_있다() {
-        assertThat(game.getScore(Side.CHO)).isEqualTo(72);
-        assertThat(game.getScore(Side.HAN)).isEqualTo(72);
+        assertThat(game.getScore(Side.CHO)).isEqualTo(72.0);
+        assertThat(game.getScore(Side.HAN)).isEqualTo(73.5);
     }
 }

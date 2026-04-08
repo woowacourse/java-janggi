@@ -50,7 +50,7 @@ public class Game {
         return board.isGameOver();
     }
 
-    public int getScore(Side side) {
+    public double getScore(Side side) {
         return scorePolicy.calculate(board, side);
     }
 
