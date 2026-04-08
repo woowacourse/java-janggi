@@ -8,7 +8,6 @@ import domain.piece.Chariot;
 import domain.piece.EmptyPiece;
 import domain.piece.Piece;
 import domain.state.ChuSide;
-import domain.state.HanSide;
 import domain.state.Side;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
