@@ -32,7 +32,7 @@ public class GungseongDiagonalMovementPolicy implements MovementPolicy {
             return;
         }
         List<Direction> possibleDirections = findDirectionsByPosition(start);
-        isSameDirection(direction, possibleDirections);
+        validateSameDirection(direction, possibleDirections);
         new GungseongBoundaryMovementPolicy().validate(board, path, start, destination);
     }
 
@@ -44,7 +44,7 @@ public class GungseongDiagonalMovementPolicy implements MovementPolicy {
         return possibleDirections;
     }
 
-    private void isSameDirection(Direction firstStep, List<Direction> possibleDirections) {
+    private void validateSameDirection(Direction firstStep, List<Direction> possibleDirections) {
         for (Direction possibleDirection : possibleDirections) {
             if (firstStep == possibleDirection) {
                 return;
