@@ -1,24 +1,35 @@
-package janggi.domain;
+package janggi.domain.janggiGame;
 
-import janggi.domain.board.BoardView;
+import janggi.domain.board.Board;
+import janggi.domain.piece.Piece;
 import janggi.domain.piece.Team;
+import janggi.domain.vo.position.Position;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class JanggiGame {
-    private final BoardView board;
-    private Map<Team, Boolean> skip = new HashMap<>(){
+    private final Board board;
+    private final Map<Team, Boolean> skip = new HashMap<>() {
         {
             put(Team.HAN, false);
             put(Team.CHO, false);
         }
     };
-    private Team currentTurn = Team.CHO;
+    private Team currentTurn;
     private Team winner = Team.NONE;
 
-    public JanggiGame(BoardView board) {
+    public JanggiGame(Board board, Team currentTurn) {
         this.board = board;
+        this.currentTurn = currentTurn;
+    }
+
+    public JanggiGame(Board board) {
+        this(board, Team.CHO);
+    }
+
+    public Map<Position, Piece> getBoard() {
+        return board.getBoard();
     }
 
     public boolean isFinished() {
@@ -40,7 +51,6 @@ public class JanggiGame {
     public void playTurn() {
         skip.put(currentTurn, false);
     }
-
 
     public Team getWinner() {
         return winner;
@@ -69,10 +79,14 @@ public class JanggiGame {
     }
 
     private boolean allTeamSkip() {
-        return skip.values().stream().filter(status -> status == true).count() == 2;
+        return skip.values().stream().filter(status -> status).count() == 2;
     }
 
     private boolean isKingCaught() {
         return board.kingsOnBoard().size() < 2;
+    }
+
+    public void move(Position from, Position to) {
+        board.move(from, to, currentTurn);
     }
 }

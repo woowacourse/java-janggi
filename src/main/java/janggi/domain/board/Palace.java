@@ -1,5 +1,6 @@
-package janggi.domain;
+package janggi.domain.board;
 
+import janggi.domain.Direction;
 import janggi.domain.vo.position.Path;
 import janggi.domain.vo.position.Position;
 

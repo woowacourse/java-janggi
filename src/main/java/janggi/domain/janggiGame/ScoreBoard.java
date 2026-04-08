@@ -1,4 +1,4 @@
-package janggi.domain;
+package janggi.domain.janggiGame;
 
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
