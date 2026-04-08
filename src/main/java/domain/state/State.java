@@ -7,4 +7,3 @@ public interface State {
     Side getSide();
     boolean isFinished();
 }
-

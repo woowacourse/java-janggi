@@ -1,6 +1,6 @@
 import controller.JanggiController;
 
-import repository.JdbcGameRepository;
+import domain.repository.JdbcGameRepository;
 import service.JanggiService;
 import view.InputView;
 import view.OutputView;
