@@ -18,6 +18,10 @@ public class InputView {
         }
     }
 
+    public static String readRoomName() {
+        return sc.nextLine();
+    }
+
     public static int readArrangement() {
         try {
             return Integer.parseInt(sc.nextLine());
