@@ -1,0 +1,3 @@
+DROP TABLE IF EXISTS movement;
+DROP TABLE IF EXISTS piece;
+DROP TABLE IF EXISTS janggi_game;
