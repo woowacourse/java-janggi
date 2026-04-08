@@ -8,8 +8,8 @@ import java.util.stream.Collectors;
 public record GameEntity(
     long id,
     String name,
-    int turns_taken,
-    String team_queue,
+    int turnsTaken,
+    String teamQueue,
     String status
 ) {
 

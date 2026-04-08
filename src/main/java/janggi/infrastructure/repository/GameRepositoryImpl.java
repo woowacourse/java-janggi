@@ -30,8 +30,8 @@ public class GameRepositoryImpl implements GameRepository {
         final String sql = String.format(
             "INSERT INTO %s (name, turns_taken, team_queue, status) VALUES (?, ?, ?, ?)",
             TABLE_NAME);
-        return dbConnection.executeUpdate(sql, gameEntity.name(), gameEntity.turns_taken(),
-            gameEntity.team_queue(), gameEntity.status());
+        return dbConnection.executeUpdate(sql, gameEntity.name(), gameEntity.turnsTaken(),
+            gameEntity.teamQueue(), gameEntity.status());
     }
 
     @Override
@@ -58,7 +58,7 @@ public class GameRepositoryImpl implements GameRepository {
             "UPDATE %s SET turns_taken = ?, team_queue = ? WHERE id = ?",
             TABLE_NAME);
 
-        return dbConnection.executeUpdate(sql, gameEntity.turns_taken(), gameEntity.team_queue(),
+        return dbConnection.executeUpdate(sql, gameEntity.turnsTaken(), gameEntity.teamQueue(),
             id);
     }
 

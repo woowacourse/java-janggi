@@ -9,16 +9,24 @@ import janggi.config.DBConnection;
 import janggi.config.DBTableInitializer;
 import janggi.config.PropertiesReader;
 import janggi.config.TestDBConnection;
+import janggi.config.TestDataInitializer;
+import janggi.domain.Position;
 import janggi.domain.game.GameStatus;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.Soldier;
 import janggi.domain.setup.InnerElephantSetupPolicy;
 import janggi.domain.team.BlueTeam;
 import janggi.domain.team.RedTeam;
 import janggi.domain.team.Team;
 import janggi.domain.team.TeamType;
-import janggi.domain.turn.TurnManager;
+import janggi.domain.game.TurnManager;
 import janggi.dto.H2DBPropertiesDto;
+import janggi.infrastructure.entity.BoardCellEntity;
 import janggi.infrastructure.entity.GameEntity;
 import janggi.global.Pair;
+import janggi.infrastructure.mapper.TurnManagerMapper;
+import janggi.infrastructure.repository.BoardCellRepository;
+import janggi.infrastructure.repository.BoardCellRepositoryImpl;
 import janggi.infrastructure.repository.GameRepository;
 import janggi.infrastructure.repository.GameRepositoryImpl;
 import java.util.List;
@@ -34,6 +42,7 @@ class GameServiceTest {
     DBConnection dbConnection;
     DBTableInitializer dbTableInitializer;
     GameRepository gameRepository;
+    BoardCellRepository boardCellRepository;
     GameService gameService;
 
     @BeforeEach
@@ -44,7 +53,8 @@ class GameServiceTest {
         dbTableInitializer = new DBTableInitializer(dbConnection);
 
         gameRepository = new GameRepositoryImpl(dbConnection);
-        gameService = new GameService(gameRepository);
+        boardCellRepository = new BoardCellRepositoryImpl(dbConnection);
+        gameService = new GameService(gameRepository, boardCellRepository);
 
         dbConnection.init();
         dbTableInitializer.init();
@@ -56,8 +66,23 @@ class GameServiceTest {
     }
 
     @Test
-    @DisplayName("진행 중인 게임 가져오기 테스트")
-    void GetAllGamesInProgress() {
+    @DisplayName("진행 중인 모든 게임 id 가져오기 테스트")
+    void getAllGameInProgressIds() {
+        int limit = 3;
+        gameRepository.save(GameEntity.from("게임 1", 1, List.of(TeamType.RED, TeamType.BLUE)));
+        gameRepository.save(GameEntity.from("게임 2", 28, List.of(TeamType.RED, TeamType.BLUE)));
+        gameRepository.save(
+            GameEntity.from("게임 3", 99, List.of(TeamType.RED, TeamType.BLUE), GameStatus.CLOSED));
+        List<Long> expected = List.of(1L, 2L);
+
+        List<Long> actual = gameService.getAllGameInProgressIds(limit);
+
+        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
+    }
+
+    @Test
+    @DisplayName("진행 중인 모든 게임 이름 가져오기 테스트")
+    void getAllGameNamesInProgress() {
         int limit = 3;
         gameRepository.save(GameEntity.from("게임 1", 1, List.of(TeamType.RED, TeamType.BLUE)));
         gameRepository.save(GameEntity.from("게임 2", 28, List.of(TeamType.RED, TeamType.BLUE)));
@@ -65,10 +90,7 @@ class GameServiceTest {
             GameEntity.from("게임 3", 99, List.of(TeamType.RED, TeamType.BLUE), GameStatus.CLOSED));
         List<String> expected = List.of("게임 1", "게임 2");
 
-        List<String> actual = gameService.getAllGamesInProgress(limit)
-            .values()
-            .stream()
-            .toList();
+        List<String> actual = gameService.getAllGameNamesInProgress(limit);
 
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
     }
@@ -115,34 +137,44 @@ class GameServiceTest {
     }
 
     @Test
-    @DisplayName("게임 상태 업데이트 테스트")
-    void updateGame() {
+    @DisplayName("턴 진행 테스트")
+    void progressTurn() {
         long gameId = 1;
-        gameRepository.save(GameEntity.from("게임 1", 3, List.of(TeamType.RED, TeamType.BLUE),
-            GameStatus.IN_PROGRESS));
-        Team blueTeam = new BlueTeam(new InnerElephantSetupPolicy());
-        Team redTeam = new RedTeam(new InnerElephantSetupPolicy());
-        TurnManager updatedTurnManager = new TurnManager(4, List.of(blueTeam, redTeam));
-        GameEntity expected = GameEntity.from(1, "게임 1", 4, List.of(TeamType.BLUE, TeamType.RED));
+        Position from = Position.valueOf(5, 3);
+        Position to = Position.valueOf(6, 3);
+        Piece piece = new Soldier(TeamType.RED);
+        gameRepository.save(GameEntity.from(gameId, "게임 1", 33, List.of(TeamType.RED, TeamType.BLUE)));
+        boardCellRepository.save(BoardCellEntity.from(gameId, from, piece));
+        TurnManager turnManager = TurnManagerMapper.toDomain(gameRepository.findById(gameId).get());
+        GameEntity expectedGameEntity = GameEntity.from(gameId, "게임 1", 34, List.of(TeamType.BLUE, TeamType.RED));
 
-        gameService.updateGame(gameId, updatedTurnManager);
-        Optional<GameEntity> actual = gameRepository.findById(gameId);
+        turnManager.progressToNext();
+        gameService.progressTurn(gameId, turnManager, from, to, piece);
+        GameEntity actualGameEntity = gameRepository.findById(gameId).get();
 
         assertAll(
-            () -> assertThat(actual).isPresent(),
-            () -> assertThat(actual.get()).isEqualTo(expected)
+            () -> assertThat(actualGameEntity).isEqualTo(expectedGameEntity),
+            () -> {
+                Optional<BoardCellEntity> boardCellEntity =
+                    boardCellRepository.findByPositionAndGameId(from, gameId);
+                assertThat(boardCellEntity).isEmpty();
+            },
+            () -> {
+                Optional<BoardCellEntity> boardCellEntity =
+                    boardCellRepository.findByPositionAndGameId(to, gameId);
+                assertThat(boardCellEntity).get()
+                    .extracting(BoardCellEntity::pieceType, BoardCellEntity::team)
+                    .containsExactly("SOLDIER", "RED");
+            }
         );
     }
 
     @Test
     @DisplayName("게임 종료 처리 테스트")
     void closeGame() {
-        long gameId = gameRepository.save(
-            GameEntity.from("게임 1", 88, List.of(TeamType.RED, TeamType.BLUE),
-                GameStatus.IN_PROGRESS));
-        GameEntity expected = GameEntity.from(gameId, "게임 1", 88,
-            List.of(TeamType.RED, TeamType.BLUE), GameStatus.CLOSED);
-
+        long gameId = 1;
+        gameRepository.save(GameEntity.from(gameId, "게임 1", 33, List.of(TeamType.RED, TeamType.BLUE)));
+        GameEntity expected = GameEntity.from(gameId, "게임 1", 33, List.of(TeamType.RED, TeamType.BLUE), GameStatus.CLOSED);
         gameService.closeGame(gameId);
         Optional<GameEntity> actual = gameRepository.findById(gameId);
 

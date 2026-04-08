@@ -33,7 +33,7 @@ public class BoardCellRepositoryImpl implements BoardCellRepository {
             "INSERT INTO %s (row_pos, column_pos, piece_type, team, game_id) VALUES (?, ?, ?, ?, ?)",
             TABLE_NAME);
         return dbConnection.executeUpdate(sql, boardCellEntity.row(), boardCellEntity.column(),
-            boardCellEntity.piece_type(), boardCellEntity.team(), boardCellEntity.game_id());
+            boardCellEntity.pieceType(), boardCellEntity.team(), boardCellEntity.gameId());
     }
 
     @Override
@@ -45,9 +45,9 @@ public class BoardCellRepositoryImpl implements BoardCellRepository {
             .map(entity -> new Object[]{
                 entity.row(),
                 entity.column(),
-                entity.piece_type(),
+                entity.pieceType(),
                 entity.team(),
-                entity.game_id()
+                entity.gameId()
             }).toList();
         return dbConnection.executeBatchUpdate(sql, parametersList);
     }

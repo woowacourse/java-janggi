@@ -21,7 +21,7 @@ public final class BoardMapper {
             final Position position = Position.valueOf(boardCellEntity.row(),
                 boardCellEntity.column());
             final TeamType teamType = TeamType.valueOf(boardCellEntity.team());
-            final Piece piece = PieceType.valueOf(boardCellEntity.piece_type()).toPiece(teamType);
+            final Piece piece = PieceType.valueOf(boardCellEntity.pieceType()).toPiece(teamType);
             positionPieceMap.put(position, piece);
         });
 

@@ -7,9 +7,9 @@ public record BoardCellEntity(
     long id,
     int row,
     int column,
-    String piece_type,
+    String pieceType,
     String team,
-    long game_id
+    long gameId
 ) {
 
     public static BoardCellEntity from(final long gameId,

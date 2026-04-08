@@ -1,4 +1,4 @@
-package janggi.domain.turn;
+package janggi.domain.game;
 
 import janggi.domain.team.Team;
 import java.util.Deque;

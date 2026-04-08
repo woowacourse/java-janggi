@@ -38,8 +38,8 @@ public final class OutputView {
         System.out.println(ERROR_PREFIX + message);
     }
 
-    public static void printGameCreatingMessage() {
-        System.out.printf("새 게임 생성을 선택하였습니다. 새로운 게임을 시작합니다.\n");
+    public static void printGameCreationMessage() {
+        System.out.println("새 게임 생성을 선택하였습니다. 새로운 게임을 시작합니다.");
     }
 
     public static void printGameLoadingMessage(final String gameName) {
