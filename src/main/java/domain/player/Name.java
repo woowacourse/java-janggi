@@ -6,7 +6,7 @@ public record Name(String name) {
         validate(name);
     }
 
-    public void validate(String name) {
+    private static void validate(String name) {
         if (name == null || name.isBlank()) {
             throw new IllegalArgumentException("이름은 빈 값이 될 수 없습니다.");
         }
