@@ -35,27 +35,6 @@ public class JdbcGameRepository implements GameRepository {
     }
 
     @Override
-    public Optional<TurnEntity> findByCurrentTurnById(Long gameId) {
-        String gameSql = "SELECT turn FROM janggi_game WHERE id = ?";
-
-        try (Connection connection = DatabaseManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(gameSql)) {
-            statement.setLong(1, gameId);
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (!resultSet.next()) {
-                    return Optional.empty();
-                }
-
-                String currentTurn = resultSet.getString("turn");
-                return Optional.of(TurnEntity.toEntity(currentTurn));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("조회 실패", e);
-        }
-    }
-
-    @Override
     public void updateTurn(Connection connection, Long gameId, TurnEntity game) {
         String updateGameSql = "UPDATE janggi_game SET turn = ? WHERE id = ?";
 
@@ -66,7 +45,19 @@ public class JdbcGameRepository implements GameRepository {
         } catch (SQLException e) {
             throw new RuntimeException("수정 실패", e);
         }
+    }
 
+    @Override
+    public void updateState(Connection connection, Long gameId, GameState state) {
+        String sql = "UPDATE janggi_game SET state = ? WHERE id = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, state.name());
+            statement.setLong(2, gameId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("게임 상태 수정 실패", e);
+        }
     }
 
     @Override
@@ -90,15 +81,43 @@ public class JdbcGameRepository implements GameRepository {
     }
 
     @Override
-    public void updateState(Connection connection, Long gameId, GameState state) {
-        String sql = "UPDATE janggi_game SET state = ? WHERE id = ?";
+    public Optional<TurnEntity> findByCurrentTurnById(Long gameId) {
+        String gameSql = "SELECT turn FROM janggi_game WHERE id = ?";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, state.name());
-            statement.setLong(2, gameId);
-            statement.executeUpdate();
+        try (Connection connection = DatabaseManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(gameSql)) {
+            statement.setLong(1, gameId);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (!resultSet.next()) {
+                    return Optional.empty();
+                }
+
+                String currentTurn = resultSet.getString("turn");
+                return Optional.of(TurnEntity.toEntity(currentTurn));
+            }
         } catch (SQLException e) {
-            throw new RuntimeException("게임 상태 수정 실패", e);
+            throw new RuntimeException("조회 실패", e);
+        }
+    }
+
+    @Override
+    public Optional<GameState> findGameStateById(Long gameId) {
+        String sql = "SELECT state FROM janggi_game WHERE id = ?";
+
+        try (Connection connection = DatabaseManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setLong(1, gameId);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (!resultSet.next()) {
+                    return Optional.empty();
+                }
+                String state = resultSet.getString("state");
+                return Optional.of(GameState.valueOf(state));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("게임 상태 조회 실패", e);
         }
     }
 

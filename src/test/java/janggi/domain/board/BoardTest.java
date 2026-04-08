@@ -94,27 +94,6 @@ class BoardTest {
     }
 
     @Test
-    public void 나라_별로_장이_있는지_확인할_수_있다() {
-        // given
-        Position generalPosition = Position.from(2, 5);
-        Piece general = new Piece(HAN, PieceType.GENERAL);
-        Position enemy = Position.from(2, 6);
-
-        BoardDesignPolicy policy = () -> new HashMap<>(Map.of(
-                generalPosition, general,
-                enemy, new Piece(CHO, PieceType.CHARIOT)
-        ));
-        Board board = Board.from(policy);
-
-        // when
-        board.movePiece(enemy, generalPosition, CHO);
-        boolean hasGeneral = board.hasGeneral(HAN);
-
-        // then
-        assertThat(hasGeneral).isFalse();
-    }
-
-    @Test
     public void 나라_별로_기물의_점수를_계산할_수_있다() {
         // given
         DefaultBoardDesignPolicy policy = new DefaultBoardDesignPolicy(Map.of(CHO, HEHE, HAN, HEHE));

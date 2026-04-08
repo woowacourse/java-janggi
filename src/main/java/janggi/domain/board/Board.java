@@ -2,7 +2,6 @@ package janggi.domain.board;
 
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
 import java.util.List;
 import java.util.Map;
@@ -34,19 +33,14 @@ public class Board {
         return piece.placeablePositions(BoardSnapshot.of(board), from);
     }
 
-    public void movePiece(Position from, Position to, Dynasty currentTurn) {
+    public Piece movePiece(Position from, Position to, Dynasty currentTurn) {
         List<Position> positions = placeablePositions(from, currentTurn);
         if (!positions.contains(to)) {
             throw new IllegalArgumentException("해당 위치에 해당 기물을 옮길 수 없습니다.");
         }
 
         Piece fromPiece = board.remove(from);
-        board.put(to, fromPiece);
-    }
-
-    public boolean hasGeneral(Dynasty dynasty) {
-        return board.values().stream()
-                .anyMatch(piece -> piece.isSame(PieceType.GENERAL) && piece.isSame(dynasty));
+        return board.put(to, fromPiece);
     }
 
     public int sumPointsOf(Dynasty dynasty) {

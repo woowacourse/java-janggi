@@ -8,6 +8,7 @@ import janggi.domain.board.DefaultBoardDesignPolicy;
 import janggi.domain.board.HorseElephantPosition;
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
 import java.util.List;
 import java.util.Map;
@@ -43,23 +44,21 @@ public class Game {
         return positions;
     }
 
-    public void movePiece(Position from, Position to) {
-        board.movePiece(from, to, currentTurn.currentDynasty());
-        currentTurn.changeTurn();
-    }
+    // TODO: 메서드 분리
+    // TODO: null 체크 이대로 괜찮은가?
+    public GameState movePiece(Position from, Position to) {
+        Dynasty dynasty = currentTurn.currentDynasty();
+        Piece catchedPiece = board.movePiece(from, to, dynasty);
+        if (catchedPiece != null && catchedPiece.isSame(PieceType.GENERAL)) {
+            return GameState.from(dynasty);
+        }
 
-    public Dynasty judgeWinner() {
         if (isPossibleToCompareUsingPoints()) {
-            return findWinnerUsingPoints();
+            return GameState.from(findWinnerUsingPoints());
         }
-        if (board.hasGeneral(HAN)) {
-            return HAN;
-        }
-        return CHO;
-    }
 
-    public boolean isFinished() {
-        return isGeneralCaptured() || isPossibleToCompareUsingPoints();
+        currentTurn.changeTurn();
+        return GameState.PLAYING;
     }
 
     public Map<Position, Piece> pieces() {
@@ -68,10 +67,6 @@ public class Game {
 
     public Dynasty currentDynasty() {
         return currentTurn.currentDynasty();
-    }
-
-    private boolean isGeneralCaptured() {
-        return !board.hasGeneral(HAN) || !board.hasGeneral(CHO);
     }
 
     private boolean isPossibleToCompareUsingPoints() {

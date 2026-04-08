@@ -32,7 +32,7 @@ public class JanggiController {
         Long gameId = initGame();
         printBoard(gameId);
 
-        while (!janggiService.findGame(gameId).isFinished()) {
+        while (!janggiService.isFinishedGame(gameId)) {
             moveProcess(gameId);
         }
         printWinner(gameId);
@@ -73,19 +73,19 @@ public class JanggiController {
         printBoard(gameId);
     }
 
-    private Position readDestinationPositionUntilValid(Long gameId, Position from) {
-        return getUntilValid(() -> {
-            Position destination = readDestinationPosition();
-            janggiService.movePiece(gameId, from, destination);
-            return destination;
-        });
-    }
-
     private Position readSourcePositionUntilValid(Long gameId) {
         return getUntilValid(() -> {
             Position source = readSourcePosition(gameId);
             findPlaceablePosition(gameId, source);
             return source;
+        });
+    }
+
+    private Position readDestinationPositionUntilValid(Long gameId, Position from) {
+        return getUntilValid(() -> {
+            Position destination = readDestinationPosition();
+            janggiService.movePiece(gameId, from, destination);
+            return destination;
         });
     }
 
@@ -113,9 +113,8 @@ public class JanggiController {
     }
 
     private void printWinner(Long gameId) {
-        Game game = janggiService.findGame(gameId);
-        outputView.printWinner(DynastyDto.from(game.judgeWinner()));
-        janggiService.updateGameState(gameId);
+        Dynasty winner = janggiService.findWinner(gameId);
+        outputView.printWinner(DynastyDto.from(winner));
     }
 
     private <T> T getUntilValid(Supplier<T> supplier) {

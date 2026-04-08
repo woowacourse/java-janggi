@@ -52,13 +52,15 @@ public class JanggiService {
         );
     }
 
+    // TODO: turn과 state 합쳐서 game이라고 말하기
     public void movePiece(Long gameId, Position from, Position to) {
         Game game = findGame(gameId);
-        game.movePiece(from, to);
+        GameState gameState = game.movePiece(from, to);
 
         DatabaseManager.withTransaction(connection -> {
             pieceRepository.updatePiece(connection, gameId, from, to);
             gameRepository.updateTurn(connection, gameId, TurnEntity.toEntity(game));
+            gameRepository.updateState(connection, gameId, gameState);
             return null;
         });
     }
@@ -83,11 +85,16 @@ public class JanggiService {
         return gameId;
     }
 
-    public void updateGameState(Long gameId) {
-        DatabaseManager.withTransaction(connection -> {
-            gameRepository.updateState(connection, gameId, GameState.FINISHED);
-            return null;
-        });
+    public boolean isFinishedGame(Long gameId) {
+        GameState gameState = gameRepository.findGameStateById(gameId)
+                .orElseThrow(() -> new IllegalArgumentException(String.format("gameId가 %s인 게임이 존재하지 않습니다.", gameId)));
+        return gameState.isFinished();
+    }
+
+    public Dynasty findWinner(Long gameId) {
+        GameState gameState = gameRepository.findGameStateById(gameId)
+                .orElseThrow(() -> new IllegalArgumentException(String.format("gameId가 %s인 게임이 존재하지 않습니다.", gameId)));
+        return gameState.winner();
     }
 
 }

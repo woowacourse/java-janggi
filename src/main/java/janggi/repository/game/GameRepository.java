@@ -18,4 +18,6 @@ public interface GameRepository {
 
     List<Long> findAllByState(GameState state);
 
+    Optional<GameState> findGameStateById(Long gameId);
+    
 }
