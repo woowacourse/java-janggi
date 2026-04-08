@@ -51,6 +51,13 @@ public class Position implements Comparable<Position> {
         return row.isInsideBoard() && column.isInsideBoard();
     }
 
+    public boolean sharesRowOrColumnWith(Position other) {
+        if (row() == other.row()) {
+            return true;
+        }
+        return column() == other.column();
+    }
+
     @Override
     public int compareTo(Position other) {
       return Comparator.comparingInt(Position::row)

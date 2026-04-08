@@ -5,30 +5,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Palace {
-    private final int minRow;
-    private final int maxRow;
-    private final int minColumn;
-    private final int maxColumn;
-    private final Position center;
+    private final Position topLeft;
+    private final Position bottomRight;
 
     public Palace(Position center) {
-        this.center = center;
-        this.minRow = center.row() - 1;
-        this.maxRow = center.row() + 1;
-        this.minColumn = center.column() - 1;
-        this.maxColumn = center.column() + 1;
+        int row = center.row();
+        int column = center.column();
+        this.topLeft = Position.of(row - 1, column - 1);
+        this.bottomRight = Position.of(row + 1, column + 1);
     }
 
     public boolean contains(Position position) {
-        return position.row() >= minRow && position.row() <= maxRow &&
-                position.column() >= minColumn && position.column() <= maxColumn;
+        return isWithinRows(position) && isWithinColumns(position);
     }
 
     public boolean isDiagonalLink(Position from, Position to) {
         if (!contains(from) || !contains(to)) {
             return false;
         }
-        return (from.equals(center) && isCorner(to)) || (to.equals(center) && isCorner(from));
+        Position palaceCenter = center();
+        return (from.equals(palaceCenter) && isCorner(to))
+                || (to.equals(palaceCenter) && isCorner(from));
     }
 
     public List<Position> getStraightAdjacents(Position position) {
@@ -49,22 +46,13 @@ public class Palace {
         if (!contains(position)) {
             return List.of();
         }
-
-        List<Position> adjacents = new ArrayList<>();
-
-        if (position.equals(center)) {
-            Position up = position.goUp();
-            addIfContains(adjacents, up.goLeft());
-            addIfContains(adjacents, up.goRight());
-
-            Position down = position.goDown();
-            addIfContains(adjacents, down.goLeft());
-            addIfContains(adjacents, down.goRight());
-        } else if (isCorner(position)) {
-            adjacents.add(center);
+        if (position.equals(center())) {
+            return centerDiagonalNeighbors(position);
         }
-
-        return adjacents;
+        if (isCorner(position)) {
+            return List.of(center());
+        }
+        return List.of();
     }
 
     public List<Position> getAllAdjacents(Position position) {
@@ -77,9 +65,36 @@ public class Palace {
         return allAdjacents;
     }
 
+    private Position center() {
+        int centerRow = (topLeft.row() + bottomRight.row()) / 2;
+        int centerColumn = (topLeft.column() + bottomRight.column()) / 2;
+        return Position.of(centerRow, centerColumn);
+    }
+
+    private boolean isWithinRows(Position position) {
+        return position.row() >= topLeft.row() && position.row() <= bottomRight.row();
+    }
+
+    private boolean isWithinColumns(Position position) {
+        return position.column() >= topLeft.column()
+                && position.column() <= bottomRight.column();
+    }
+
     private boolean isCorner(Position position) {
-        return contains(position) && !position.equals(center) &&
-                position.row() != center.row() && position.column() != center.column();
+        Position palaceCenter = center();
+        return contains(position) && !position.equals(palaceCenter)
+                && !position.sharesRowOrColumnWith(palaceCenter);
+    }
+
+    private List<Position> centerDiagonalNeighbors(Position position) {
+        List<Position> adjacents = new ArrayList<>();
+        Position up = position.goUp();
+        addIfContains(adjacents, up.goLeft());
+        addIfContains(adjacents, up.goRight());
+        Position down = position.goDown();
+        addIfContains(adjacents, down.goLeft());
+        addIfContains(adjacents, down.goRight());
+        return adjacents;
     }
 
     private void addIfContains(List<Position> list, Position position) {
