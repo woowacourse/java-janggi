@@ -17,11 +17,8 @@ public class ConnectionManager {
 
     public static Connection getConnection(){
         try{
-            Server.createWebServer("-web", "-webPort", "8082").start();
             Connection conn = DriverManager.getConnection(DB_URL, USER_NAME, PASSWORD );
             System.out.println("DB 연결 성공!");
-            initializeSchema(conn,"schema.sql");
-            initializeSchema(conn,"initializer.sql");
             return conn;
         } catch (SQLException e){
             throw new IllegalStateException("DB connection Error",e);
@@ -37,6 +34,24 @@ public class ConnectionManager {
                 throw new IllegalStateException("Connection close error", e);
             }
         }
+    }
+
+    public static void startH2Server() {
+        try {
+            Server server = Server.createWebServer("-web", "-webPort", "8082");
+
+            if (!server.isRunning(false)) {
+                server.start();
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void makeBoardAndPieceDate(Connection conn){
+        initializeSchema(conn,"schema.sql");
+        initializeSchema(conn,"initializer.sql");
     }
 
     private static void initializeSchema(Connection conn, String filename) {
@@ -74,5 +89,8 @@ public class ConnectionManager {
             e.printStackTrace(); // ⭐ 반드시 출력
             throw new IllegalStateException("Schema initialization failed", e);
         }
+
     }
+
+
 }
