@@ -51,10 +51,6 @@ public class Game {
 
     public void movePiece(Position start, Position dest) {
         board.movePiece(start, dest);
-
-        if (board.hasKing(state.getSide().opposite())) {
-            state = state.nextTurn();
-        }
     }
 
     public boolean isKingDead() {
@@ -72,11 +68,11 @@ public class Game {
     }
 
     public boolean isSafe() {
-        return board.isSafe(state.getSide());
+        return board.isSafe(state.getSide().opposite());
     }
 
     public boolean isCheckmate() {
-        return board.isCheckmate(state.getSide());
+        return board.isCheckmate(state.getSide().opposite());
     }
 
     public boolean isFinished() {

@@ -14,6 +14,7 @@ public class SurrenderController implements GameCommand {
     @Override
     public void execute(Game game) {
         outputView.printSurrenderMessage(game.getSide());
+        game.pass();
         game.end();
     }
 }

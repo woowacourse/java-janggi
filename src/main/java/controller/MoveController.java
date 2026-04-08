@@ -5,15 +5,18 @@ import domain.coordinate.Position;
 import mapper.PossibleMovesMapper;
 import view.InputHandler;
 import view.InputView;
+import view.OutputView;
 
 import java.util.List;
 
 public class MoveController implements GameCommand {
 
     private final InputView inputView;
+    private final OutputView outputView;
 
-    public MoveController(InputView inputView) {
+    public MoveController(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
+        this.outputView = outputView;
     }
 
     @Override
@@ -31,6 +34,27 @@ public class MoveController implements GameCommand {
         );
 
         game.movePiece(start, dest);
+        handleGameStateChange(game);
+    }
+
+    private void handleGameStateChange(Game game) {
+        if (game.isKingDead()) {
+            game.end();
+            outputView.printKingDeadMessage(game.getSide().opposite());
+            return;
+        }
+
+        if (game.isCheckmate()) {
+            game.end();
+            outputView.printCheckMateMessage();
+            return;
+        }
+
+        if (!game.isSafe()) {
+            outputView.printCheckMessage();
+        }
+
+        game.pass();
     }
 
     private Position createPosition(List<Integer> inputs) {
