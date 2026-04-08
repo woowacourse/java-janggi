@@ -3,7 +3,7 @@ package janggi.service;
 import janggi.domain.JanggiGameManager;
 import janggi.domain.turn.ChoTurn;
 import janggi.domain.turn.GameState;
-import janggi.domain.turn.HanTurn;
+import janggi.domain.turn.GameStateFactory;
 import janggi.domain.board.Board;
 import janggi.domain.position.Position;
 import janggi.domain.space.Space;
@@ -29,15 +29,13 @@ public class JanggiService {
     }
 
     public void startLoadGame(long gameId) {
-        String currentTurn = boardRepository.findTurnById(gameId);
+        String rawCurrentTurn = boardRepository.findTurnById(gameId);
         Map<Position, Piece> pieceInfo = boardRepository.findPiecesByGameId(gameId);
 
         Board loadedBoard = new Board(new LoadStrategy(pieceInfo));
 
-        GameState currentState = new HanTurn(loadedBoard);
-        if ("CHO".equals(currentTurn)) {
-            currentState = new ChoTurn(loadedBoard);
-        }
+        Team currentTurn = Team.from(rawCurrentTurn);
+        GameState currentState = GameStateFactory.createInitialState(currentTurn, loadedBoard);
 
         this.gameManager = new JanggiGameManager(currentState);
     }
