@@ -19,6 +19,22 @@ public class Position implements Comparable<Position> {
         return Position.of(nextRow, nextCol);
     }
 
+    public Position goUp() {
+        return next(Direction.NORTH);
+    }
+
+    public Position goDown() {
+        return next(Direction.SOUTH);
+    }
+
+    public Position goLeft() {
+        return next(Direction.WEST);
+    }
+
+    public Position goRight() {
+        return next(Direction.EAST);
+    }
+
     public static Position of(int row, int column) {
         return new Position(new Row(row), new Column(column));
     }

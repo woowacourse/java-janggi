@@ -37,10 +37,10 @@ public class Palace {
         }
 
         List<Position> adjacents = new ArrayList<>();
-        addIfContains(adjacents, Position.of(position.row() - 1, position.column()));
-        addIfContains(adjacents, Position.of(position.row() + 1, position.column()));
-        addIfContains(adjacents, Position.of(position.row(), position.column() - 1));
-        addIfContains(adjacents, Position.of(position.row(), position.column() + 1));
+        addIfContains(adjacents, position.goUp());
+        addIfContains(adjacents, position.goDown());
+        addIfContains(adjacents, position.goLeft());
+        addIfContains(adjacents, position.goRight());
 
         return adjacents;
     }
@@ -53,10 +53,13 @@ public class Palace {
         List<Position> adjacents = new ArrayList<>();
 
         if (position.equals(center)) {
-            addIfContains(adjacents, Position.of(position.row() - 1, position.column() - 1));
-            addIfContains(adjacents, Position.of(position.row() - 1, position.column() + 1));
-            addIfContains(adjacents, Position.of(position.row() + 1, position.column() - 1));
-            addIfContains(adjacents, Position.of(position.row() + 1, position.column() + 1));
+            Position up = position.goUp();
+            addIfContains(adjacents, up.goLeft());
+            addIfContains(adjacents, up.goRight());
+
+            Position down = position.goDown();
+            addIfContains(adjacents, down.goLeft());
+            addIfContains(adjacents, down.goRight());
         } else if (isCorner(position)) {
             adjacents.add(center);
         }

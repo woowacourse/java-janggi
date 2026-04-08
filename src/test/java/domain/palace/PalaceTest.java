@@ -33,6 +33,26 @@ class PalaceTest {
     }
 
     @Test
+    void 궁성_내부에서_직선으로_이동_가능한_위치를_정확히_반환한다() {
+        Palace palace = new Palace(Position.of(1, 4));
+
+        List<Position> centerAdjacents = palace.getStraightAdjacents(Position.of(1, 4));
+        assertThat(centerAdjacents).containsExactlyInAnyOrder(
+                Position.of(0, 4), Position.of(2, 4), Position.of(1, 3), Position.of(1, 5)
+        );
+
+        List<Position> cornerAdjacents = palace.getStraightAdjacents(Position.of(0, 3));
+        assertThat(cornerAdjacents).containsExactlyInAnyOrder(
+                Position.of(1, 3), Position.of(0, 4)
+        );
+
+        List<Position> edgeAdjacents = palace.getStraightAdjacents(Position.of(0, 4));
+        assertThat(edgeAdjacents).containsExactlyInAnyOrder(
+                Position.of(1, 4), Position.of(0, 3), Position.of(0, 5)
+        );
+    }
+
+    @Test
     void 궁성_내부에서_대각선으로_이동_가능한_위치를_정확히_반환한다() {
         Palace palace = new Palace(Position.of(1, 4));
 
