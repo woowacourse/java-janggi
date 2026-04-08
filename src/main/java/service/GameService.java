@@ -1,6 +1,7 @@
 package service;
 
 import domain.Game;
+import domain.board.Board;
 import domain.board.Position;
 import domain.piece.PieceInfo;
 import java.sql.Connection;
@@ -55,7 +56,21 @@ public class GameService {
         }
     }
 
-    public void updateBoard(Long gameId, Position from, Position to, Map<Position, PieceInfo> pieceInfos) {
+    public boolean move(Board board, Long gameId, Position from, Position to) {
+        boolean isGeneralCaught = board.move(from, to);
+        updateBoard(gameId, from, to, board.getPieceInfos());
+        return isGeneralCaught;
+    }
+
+    public void finishGame(Long gameId) {
+        try (Connection connection = dataSource.getConnection()) {
+            gameRepository.finishedGame(connection, gameId);
+        } catch (SQLException exception) {
+            throw new IllegalStateException(exception.getMessage());
+        }
+    }
+
+    private void updateBoard(Long gameId, Position from, Position to, Map<Position, PieceInfo> pieceInfos) {
         try (
                 Connection connection = dataSource.getConnection()
         ) {
@@ -63,14 +78,6 @@ public class GameService {
             boardRepository.delete(connection, gameId, to);
             PieceInfo pieceInfo = pieceInfos.get(to);
             boardRepository.save(connection, gameId, to, pieceInfo);
-        } catch (SQLException exception) {
-            throw new IllegalStateException(exception.getMessage());
-        }
-    }
-
-    public void finishGame(Long gameId) {
-        try (Connection connection = dataSource.getConnection()) {
-            gameRepository.finishedGame(connection, gameId);
         } catch (SQLException exception) {
             throw new IllegalStateException(exception.getMessage());
         }

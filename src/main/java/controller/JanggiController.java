@@ -68,9 +68,7 @@ public class JanggiController {
             outputView.printCurrentScores(board.calculateScore());
             outputView.printBoard(board.getPieceInfos());
 
-            MoveResult moveResult = movePiece(board, country);
-            gameService.updateBoard(gameId, moveResult.from(), moveResult.to(), board.getPieceInfos());
-
+            MoveResult moveResult = movePiece(board, gameId, country);
             if (moveResult.isGeneralCaught()) {
                 gameService.finishGame(gameId);
                 outputView.printWinner(CountryFormatter.from(country), CountryFormatter.from(otherSide));
@@ -92,7 +90,7 @@ public class JanggiController {
         }
     }
 
-    private MoveResult movePiece(Board board, Country country) {
+    private MoveResult movePiece(Board board, Long gameId, Country country) {
         while (true) {
             try {
                 Position from = makeFromPosition();
@@ -101,7 +99,7 @@ public class JanggiController {
                 Position to = makeToPosition();
                 from.validatePositions(to);
 
-                boolean isGeneralCaught = board.move(from, to);
+                boolean isGeneralCaught = gameService.move(board, gameId, from, to);
                 return MoveResult.of(from, to, isGeneralCaught);
             } catch (IllegalArgumentException exception) {
                 outputView.printErrorMessage(exception.getMessage());
