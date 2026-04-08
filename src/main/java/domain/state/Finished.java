@@ -7,18 +7,18 @@ import domain.position.Position;
 public class Finished extends Started {
     private final static String GAME_HAS_BEEN_FINISHED = "게임이 끝나 더 이상 진행할 수 없습니다.";
 
-    protected Finished(long id, Board board, Team turn) {
+    public Finished(long id, Board board, Team turn) {
         super(id, board, turn);
     }
 
     @Override
     public JanggiGame move(Position start, Position destination) {
-        throw new IllegalArgumentException(GAME_HAS_BEEN_FINISHED);
+        throw new IllegalStateException(GAME_HAS_BEEN_FINISHED);
     }
 
     @Override
     public JanggiGame pass() {
-        throw new IllegalArgumentException(GAME_HAS_BEEN_FINISHED);
+        throw new IllegalStateException(GAME_HAS_BEEN_FINISHED);
     }
 
     @Override

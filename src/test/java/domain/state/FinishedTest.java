@@ -14,14 +14,14 @@ class FinishedTest {
     void Finished_상태에서_움직이면_예외가_발생해야_한다() {
         JanggiGame game = new Finished(ID, Board.of(SettingType.LEFT, SettingType.LEFT), Team.CHO);
         Assertions.assertThatThrownBy(() -> game.move(Position.of(1, 1), Position.of(2, 2))).isInstanceOf(
-                IllegalArgumentException.class);
+                IllegalStateException.class);
     }
 
     @Test
     void Finished_상태에서_패스하면_예외가_발생해야_한다() {
         JanggiGame game = new Finished(ID, Board.of(SettingType.LEFT, SettingType.LEFT), Team.CHO);
         Assertions.assertThatThrownBy(() -> game.pass()).isInstanceOf(
-                IllegalArgumentException.class);
+                IllegalStateException.class);
     }
 
     @Test

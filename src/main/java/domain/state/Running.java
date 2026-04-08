@@ -12,7 +12,7 @@ public abstract class Running extends Started {
 
     @Override
     public Team judgeWinner() {
-        throw new IllegalArgumentException(GAME_DOSE_NOT_FINISHED);
+        throw new IllegalStateException(GAME_DOSE_NOT_FINISHED);
     }
 
     @Override

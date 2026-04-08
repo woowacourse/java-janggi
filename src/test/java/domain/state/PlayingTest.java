@@ -28,7 +28,7 @@ public class PlayingTest {
     @Test
     void 승자를_판단하면_예외가_발생해야_한다() {
         JanggiGame game = new Playing(ID, Board.of(SettingType.LEFT, SettingType.LEFT), Team.CHO);
-        Assertions.assertThatThrownBy(() -> game.judgeWinner()).isInstanceOf(IllegalArgumentException.class);
+        Assertions.assertThatThrownBy(() -> game.judgeWinner()).isInstanceOf(IllegalStateException.class);
     }
 
     @Test
