@@ -1,5 +1,6 @@
 package view;
 
+import domain.entity.GameRoomEntity;
 import domain.state.Side;
 import domain.piece.PieceType;
 import dto.BoardDto;
@@ -10,10 +11,38 @@ import dto.ScoreDto;
 import view.message.PieceFormatter;
 import view.message.SideView;
 
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
 public class OutputView {
 
     private static final int COL_SIZE = 10;
     private static final int ROW_SIZE = 9;
+
+    public void printGameRooms(List<GameRoomEntity> rooms) {
+        System.out.println("\n<게임 방 목록>");
+
+        if (rooms.isEmpty()) {
+            System.out.println("저장된 게임이 없습니다.");
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+        int index = 1;
+
+        for (GameRoomEntity room : rooms) {
+            String status = room.isFinished() ? "종료됨" : "진행중";
+
+            System.out.printf("%d. Game ID: %d | 상태: %s | 생성: %s\n",
+                    index++,
+                    room.getId(),
+                    status,
+                    room.getCreatedAt().format(formatter)
+            );
+        }
+
+        System.out.println("0. 새 게임 시작\n");
+    }
 
     public void printBoard(BoardDto boardDto) {
         System.out.println("\n  0ㅤㅤㅤ1ㅤㅤ 2ㅤㅤ 3ㅤ ㅤ4ㅤ ㅤ5ㅤㅤㅤ6ㅤ ㅤ7ㅤㅤ 8");
@@ -63,10 +92,6 @@ public class OutputView {
 
     public void printKingDeadMessage(Side side) {
         System.out.println("\n" + SideView.from(side) + "의 장이 잡혔습니다...");
-    }
-
-    public void printLoadGameMessage() {
-        System.out.println("이전 게임을 불러옵니다.");
     }
 
     private void drawBoardGrid(int i) {
