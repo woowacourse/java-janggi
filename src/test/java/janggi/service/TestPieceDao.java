@@ -42,30 +42,6 @@ public class TestPieceDao implements PieceDao {
     }
 
     @Override
-    public Long savePiece(
-            Connection connection,
-            Long gameId,
-            String pieceType,
-            int positionRow,
-            int positionColumn,
-            String team
-    ) {
-        lastPieceId++;
-        pieceEntities.add(
-                new PieceEntity(
-                        lastPieceId,
-                        gameId,
-                        pieceType,
-                        positionRow,
-                        positionColumn,
-                        team
-                )
-        );
-
-        return lastPieceId;
-    }
-
-    @Override
     public List<PieceEntity> findAllPiecesByGameId(Connection connection, long gameId) {
         return pieceEntities.stream()
                 .filter(e -> e.gameId() == gameId)
@@ -83,7 +59,7 @@ public class TestPieceDao implements PieceDao {
     }
 
     @Override
-    public void updatePieceOfPosition(Connection connection, Long pieceId, Position to) {
+    public void updatePosition(Connection connection, Long pieceId, Position to) {
         PieceEntity piece = pieceEntities.stream()
                 .filter(e -> e.id() == pieceId)
                 .findFirst()

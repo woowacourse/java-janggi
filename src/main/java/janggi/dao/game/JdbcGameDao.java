@@ -11,7 +11,7 @@ import java.util.List;
 public class JdbcGameDao implements GameDao {
 
     private static final String GAME_ID = "game_id";
-    private static final String CURRENT_TEAM = "current_turn";
+    private static final String CURRENT_TURN = "current_turn";
 
     @Override
     public Long saveGame(
@@ -23,17 +23,17 @@ public class JdbcGameDao implements GameDao {
                 VALUES (?)
                 """;
 
-        try (PreparedStatement psmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            psmt.setString(1, currentTurn);
-            psmt.executeUpdate();
-            return getGeneratedKey(psmt);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            preparedStatement.setString(1, currentTurn);
+            preparedStatement.executeUpdate();
+            return getGeneratedKey(preparedStatement);
         } catch (SQLException e) {
             throw new IllegalStateException("game 데이터 삽입에 실패했습니다.");
         }
     }
 
-    private long getGeneratedKey(PreparedStatement psmt) throws SQLException {
-        try (ResultSet rs = psmt.getGeneratedKeys()) {
+    private long getGeneratedKey(PreparedStatement preparedStatement) throws SQLException {
+        try (ResultSet rs = preparedStatement.getGeneratedKeys()) {
             rs.next();
             return rs.getLong(1);
         }
@@ -46,14 +46,14 @@ public class JdbcGameDao implements GameDao {
                 FROM game
                 """;
 
-        try (PreparedStatement psmt = connection.prepareStatement(sql)) {
-            ResultSet rs = psmt.executeQuery();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            ResultSet rs = preparedStatement.executeQuery();
             List<GameEntity> result = new ArrayList<>();
 
             while (rs.next()) {
                 result.add(new GameEntity(
                         rs.getLong(GAME_ID),
-                        rs.getString(CURRENT_TEAM)
+                        rs.getString(CURRENT_TURN)
                 ));
             }
 
@@ -75,9 +75,9 @@ public class JdbcGameDao implements GameDao {
                 WHERE game_id = (?)
                 """;
 
-        try (PreparedStatement psmt = connection.prepareStatement(sql)) {
-            psmt.setLong(1, gameId);
-            ResultSet rs = psmt.executeQuery();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setLong(1, gameId);
+            ResultSet rs = preparedStatement.executeQuery();
 
             if (!rs.next()) {
                 throw new IllegalArgumentException("해당 게임이 존재하지 않습니다.");
@@ -85,7 +85,7 @@ public class JdbcGameDao implements GameDao {
 
             return new GameEntity(
                     rs.getLong(GAME_ID),
-                    rs.getString(CURRENT_TEAM)
+                    rs.getString(CURRENT_TURN)
             );
 
         } catch (SQLException e) {
@@ -100,9 +100,9 @@ public class JdbcGameDao implements GameDao {
                 WHERE game_id = (?)
                 """;
 
-        try (PreparedStatement psmt = connection.prepareStatement(sql)) {
-            psmt.setLong(1, gameId);
-            int affectedRow = psmt.executeUpdate();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setLong(1, gameId);
+            int affectedRow = preparedStatement.executeUpdate();
 
             if (affectedRow == 0) {
                 throw new IllegalArgumentException("해당 게임이 존재하지 않습니다.");
@@ -113,18 +113,18 @@ public class JdbcGameDao implements GameDao {
     }
 
     @Override
-    public void updateGameOfCurrentTurn(Connection connection, Long gameId, String turn) {
+    public void updateCurrentTurn(Connection connection, Long gameId, String nextTurn) {
         String sql = """
                 UPDATE game
                 SET current_turn = (?)
                 WHERE game_id = (?)
                 """;
 
-        try (PreparedStatement psmt = connection.prepareStatement(sql)) {
-            psmt.setString(1, turn);
-            psmt.setLong(2, gameId);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, nextTurn);
+            preparedStatement.setLong(2, gameId);
 
-            int affectedRow = psmt.executeUpdate();
+            int affectedRow = preparedStatement.executeUpdate();
 
             if (affectedRow == 0) {
                 throw new IllegalArgumentException("해당 게임이 존재하지 않습니다.");

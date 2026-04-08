@@ -13,15 +13,14 @@ import janggi.model.piece.Byeong;
 import janggi.model.piece.Piece;
 import janggi.model.piece.PieceType;
 import janggi.model.piece.palace.Jang;
+import janggi.model.piece.palace.Sa;
 import janggi.model.position.absolute.Column;
 import janggi.model.position.absolute.Position;
 import janggi.model.position.absolute.Row;
 import janggi.service.dto.GameDetailResponse;
 import janggi.service.dto.GameOptionResponse;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -52,31 +51,35 @@ class JanggiServiceTest {
                 .hasMessage("해당 게임이 존재하지 않습니다.");
     }
 
-    @DisplayName("진행 중이던 게임을 조회한다.")
+    @DisplayName("gameId로 게임을 조회한다.")
     @Test
     void loadGameByGameId_success() {
         //given
-        Long gameId1 = gameDao.saveGame(null, "HAN");
-        Long gameId2 = gameDao.saveGame(null, "CHO");
+        gameDao.saveGame(null, "HAN");
+        Long gameId = gameDao.saveGame(null, "CHO");
 
-        pieceDao.savePiece(null, gameId2, "BYEONG", 1, 1, "CHO");
-        pieceDao.savePiece(null, gameId2, "JANG", 1, 2, "HAN");
-        pieceDao.savePiece(null, gameId2, "SA", 1, 3, "CHO");
+        Map<Position, Piece> boardInfo = Map.of(
+                new Position(Row.ONE, Column.ONE), new Byeong(Team.CHO),
+                new Position(Row.ONE, Column.TWO), new Jang(Team.HAN),
+                new Position(Row.ONE, Column.THREE), new Sa(Team.CHO)
+        );
+
+        pieceDao.saveBoard(null, boardInfo, gameId);
 
         //when
-        GameDetailResponse response = janggiService.loadGameByGameId(gameId2);
+        GameDetailResponse response = janggiService.loadGameByGameId(gameId);
 
         //then
         Janggi janggi = response.janggi();
         assertThat(janggi.getCurrentTeam()).isEqualTo(Team.HAN);
 
-        Map<Position, Piece> boardInfo = janggi.getBoard().getBoardInfo();
+        Map<Position, Piece> result = janggi.getBoard().getBoardInfo();
 
-        assertThat(boardInfo.get(new Position(Row.ONE, Column.ONE))
+        assertThat(result.get(new Position(Row.ONE, Column.ONE))
                 .getPieceType()).isEqualTo(PieceType.BYEONG);
-        assertThat(boardInfo.get(new Position(Row.ONE, Column.TWO))
+        assertThat(result.get(new Position(Row.ONE, Column.TWO))
                 .getPieceType()).isEqualTo(PieceType.JANG);
-        assertThat(boardInfo.get(new Position(Row.ONE, Column.THREE))
+        assertThat(result.get(new Position(Row.ONE, Column.THREE))
                 .getPieceType()).isEqualTo(PieceType.SA);
     }
 
@@ -118,34 +121,18 @@ class JanggiServiceTest {
     @Test
     void updateBoardWith_success() {
         //given
-        Map<Position, Piece> boardInfo = new HashMap<>();
-
         Position from = new Position(Row.NINE, Column.FIVE);
         Piece pieceAtFrom = new Jang(Team.CHO);
 
-        boardInfo.put(from, pieceAtFrom);
-        boardInfo.put(
-                new Position(Row.TWO, Column.FIVE),
-                new Jang(Team.HAN)
+        Map<Position, Piece> boardInfo = Map.of(
+                from, pieceAtFrom,
+                new Position(Row.TWO, Column.FIVE), new Jang(Team.HAN)
         );
 
         Janggi janggi = Janggi.of(PlayingBoard.of(boardInfo));
 
         Long gameId = gameDao.saveGame(null, "CHO");
-
-        for (Entry<Position, Piece> entry : boardInfo.entrySet()) {
-            Position position = entry.getKey();
-            Piece piece = entry.getValue();
-
-            pieceDao.savePiece(
-                    null,
-                    gameId,
-                    piece.getPieceType().name(),
-                    position.row().getValue(),
-                    position.column().getValue(),
-                    Team.CHO.name()
-            );
-        }
+        pieceDao.saveBoard(null, boardInfo, gameId);
 
         Position to = new Position(Row.NINE, Column.SIX);
 
@@ -171,40 +158,21 @@ class JanggiServiceTest {
     @Test
     void updateBoardWith_success_to_exist() {
         //given
-        Map<Position, Piece> boardInfo = new HashMap<>();
-
         Position from = new Position(Row.NINE, Column.FIVE);
         Piece pieceAtFrom = new Jang(Team.CHO);
 
         Position to = new Position(Row.NINE, Column.SIX);
 
-        boardInfo.put(from, pieceAtFrom);
-        boardInfo.put(
-                new Position(Row.TWO, Column.FIVE),
-                new Jang(Team.HAN)
-        );
-        boardInfo.put(
-                to,
-                new Byeong(Team.HAN)
+        Map<Position, Piece> boardInfo = Map.of(
+                from, pieceAtFrom,
+                new Position(Row.TWO, Column.FIVE), new Jang(Team.HAN),
+                to, new Byeong(Team.HAN)
         );
 
         Janggi janggi = Janggi.of(PlayingBoard.of(boardInfo));
 
         Long gameId = gameDao.saveGame(null, "CHO");
-
-        for (Entry<Position, Piece> entry : boardInfo.entrySet()) {
-            Position position = entry.getKey();
-            Piece piece = entry.getValue();
-
-            pieceDao.savePiece(
-                    null,
-                    gameId,
-                    piece.getPieceType().name(),
-                    position.row().getValue(),
-                    position.column().getValue(),
-                    Team.CHO.name()
-            );
-        }
+        pieceDao.saveBoard(null, boardInfo, gameId);
 
         //when
         Janggi updated = janggiService.updateBoardWith(
@@ -233,7 +201,7 @@ class JanggiServiceTest {
                 .hasMessage("해당 게임이 존재하지 않습니다.");
     }
 
-    @DisplayName("모든 게임 id를 조회한다.")
+    @DisplayName("모든 게임을 조회한다.")
     @Test
     void loadAllGames() {
         //given

@@ -53,7 +53,7 @@ public class TestGameDao implements GameDao {
     }
 
     @Override
-    public void updateGameOfCurrentTurn(
+    public void updateCurrentTurn(
             Connection connection,
             Long gameId,
             String nextTurn

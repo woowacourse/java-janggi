@@ -12,7 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 public abstract class DatabaseTest {
     protected GameDao gameDao = new JdbcGameDao();
-    protected JdbcPieceDao pieceEntityDao = new JdbcPieceDao();
+    protected JdbcPieceDao pieceDao = new JdbcPieceDao();
     protected Connection connection;
 
     @BeforeEach

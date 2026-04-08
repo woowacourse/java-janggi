@@ -11,14 +11,11 @@ public interface PieceDao {
 
     void saveBoard(Connection connection, Map<Position, Piece> boardInfo, Long gameId);
 
-    Long savePiece(Connection connection, Long gameId, String pieceType, int positionRow, int positionColumn,
-                   String team);
-
     List<PieceEntity> findAllPiecesByGameId(Connection connection, long gameId);
 
     Optional<PieceEntity> findPieceByPosition(Connection connection, Position position);
 
-    void updatePieceOfPosition(Connection connection, Long pieceId, Position to);
+    void updatePosition(Connection connection, Long pieceId, Position to);
 
     void deletePieceByPosition(Connection connection, Position position);
 }

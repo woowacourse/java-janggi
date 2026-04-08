@@ -36,12 +36,12 @@ class JdbcGameDaoTest extends DatabaseTest {
 
     @DisplayName("현재 턴 정보를 수정한다.")
     @Test
-    void updateGameOfCurrentTurn() {
+    void updateCurrentTurn() {
         //given
         Long gameId = gameDao.saveGame(connection, "HAN");
 
         //when
-        gameDao.updateGameOfCurrentTurn(connection, gameId, "CHO");
+        gameDao.updateCurrentTurn(connection, gameId, "CHO");
 
         //then
         GameEntity gameEntity = gameDao.findGameByGameId(connection, gameId);
@@ -51,8 +51,8 @@ class JdbcGameDaoTest extends DatabaseTest {
 
     @DisplayName("해당 하는 게임이 없으면 턴을 업데이트할 수 없다.")
     @Test
-    void updateGameOfCurrentTurn_empty() {
-        assertThatThrownBy(() -> gameDao.updateGameOfCurrentTurn(connection, 100L, "CHO"))
+    void updateCurrentTurn_empty() {
+        assertThatThrownBy(() -> gameDao.updateCurrentTurn(connection, 100L, "CHO"))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 게임이 존재하지 않습니다.");
     }

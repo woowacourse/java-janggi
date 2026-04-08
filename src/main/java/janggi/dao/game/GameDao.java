@@ -12,5 +12,5 @@ public interface GameDao {
 
     void deleteGameByGameId(Connection connection, Long gameId);
 
-    void updateGameOfCurrentTurn(Connection connection, Long gameId, String nextTurn);
+    void updateCurrentTurn(Connection connection, Long gameId, String nextTurn);
 }

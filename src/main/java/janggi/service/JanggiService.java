@@ -143,13 +143,13 @@ public class JanggiService {
                 pieceDao.deletePieceByPosition(connection, to);
             }
 
-            pieceDao.updatePieceOfPosition(
+            pieceDao.updatePosition(
                     connection,
                     piece.id(),
                     to
             );
 
-            gameDao.updateGameOfCurrentTurn(
+            gameDao.updateCurrentTurn(
                     connection,
                     piece.gameId(),
                     janggi.getCurrentTeam().name()

@@ -7,7 +7,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +33,7 @@ public class JdbcPieceDao implements PieceDao {
             Map<Position, Piece> boardInfo,
             Long gameId
     ) {
-        try (PreparedStatement psmt = connection.prepareStatement(INSERT_SQL)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_SQL)) {
             for (Entry<Position, Piece> entry : boardInfo.entrySet()) {
                 Position position = entry.getKey();
                 Piece piece = entry.getValue();
@@ -44,49 +43,18 @@ public class JdbcPieceDao implements PieceDao {
                     team = Team.CHO.name();
                 }
 
-                psmt.setLong(1, gameId);
-                psmt.setString(2, piece.getPieceType().name());
-                psmt.setInt(3, position.row().getValue());
-                psmt.setInt(4, position.column().getValue());
-                psmt.setString(5, team);
+                preparedStatement.setLong(1, gameId);
+                preparedStatement.setString(2, piece.getPieceType().name());
+                preparedStatement.setInt(3, position.row().getValue());
+                preparedStatement.setInt(4, position.column().getValue());
+                preparedStatement.setString(5, team);
 
-                psmt.addBatch();
+                preparedStatement.addBatch();
             }
 
-            psmt.executeBatch();
+            preparedStatement.executeBatch();
         } catch (SQLException e) {
             throw new IllegalStateException("대규모 piece 데이터 삽입에 실패했습니다.", e);
-        }
-    }
-
-    @Override
-    public Long savePiece(
-            Connection connection,
-            Long gameId,
-            String pieceType,
-            int positionRow,
-            int positionColumn,
-            String team
-    ) {
-        try (PreparedStatement psmt = connection.prepareStatement(INSERT_SQL, Statement.RETURN_GENERATED_KEYS)) {
-            psmt.setLong(1, gameId);
-            psmt.setString(2, pieceType);
-            psmt.setLong(3, positionRow);
-            psmt.setLong(4, positionColumn);
-            psmt.setString(5, team);
-
-            psmt.executeUpdate();
-
-            return getGeneratedKey(psmt);
-        } catch (SQLException e) {
-            throw new IllegalStateException("piece 데이터 삽입에 실패했습니다.", e);
-        }
-    }
-
-    private long getGeneratedKey(PreparedStatement psmt) throws SQLException {
-        try (ResultSet rs = psmt.getGeneratedKeys()) {
-            rs.next();
-            return rs.getLong(1);
         }
     }
 
@@ -101,9 +69,9 @@ public class JdbcPieceDao implements PieceDao {
                 WHERE game_id = (?)
                 """;
 
-        try (PreparedStatement psmt = connection.prepareStatement(sql)) {
-            psmt.setLong(1, gameId);
-            ResultSet rs = psmt.executeQuery();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setLong(1, gameId);
+            ResultSet rs = preparedStatement.executeQuery();
 
             List<PieceEntity> result = new ArrayList<>();
 
@@ -128,11 +96,11 @@ public class JdbcPieceDao implements PieceDao {
                 WHERE position_row = (?) AND position_column = (?)
                 """;
 
-        try (PreparedStatement psmt = connection.prepareStatement(sql)) {
-            psmt.setInt(1, position.row().getValue());
-            psmt.setInt(2, position.column().getValue());
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, position.row().getValue());
+            preparedStatement.setInt(2, position.column().getValue());
 
-            ResultSet rs = psmt.executeQuery();
+            ResultSet rs = preparedStatement.executeQuery();
 
             if (!rs.next()) {
                 return Optional.empty();
@@ -157,7 +125,7 @@ public class JdbcPieceDao implements PieceDao {
     }
 
     @Override
-    public void updatePieceOfPosition(
+    public void updatePosition(
             Connection connection,
             Long pieceId,
             Position to
@@ -168,12 +136,12 @@ public class JdbcPieceDao implements PieceDao {
                 WHERE piece_id = (?)
                 """;
 
-        try (PreparedStatement psmt = connection.prepareStatement(sql)) {
-            psmt.setInt(1, to.row().getValue());
-            psmt.setInt(2, to.column().getValue());
-            psmt.setLong(3, pieceId);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, to.row().getValue());
+            preparedStatement.setInt(2, to.column().getValue());
+            preparedStatement.setLong(3, pieceId);
 
-            psmt.executeUpdate();
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new IllegalStateException("기물 업데이트에 실패했습니다.", e);
         }
@@ -189,11 +157,11 @@ public class JdbcPieceDao implements PieceDao {
                 WHERE position_row = (?) AND position_column = (?)
                 """;
 
-        try (PreparedStatement psmt = connection.prepareStatement(sql)) {
-            psmt.setInt(1, position.row().getValue());
-            psmt.setInt(2, position.column().getValue());
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, position.row().getValue());
+            preparedStatement.setInt(2, position.column().getValue());
 
-            psmt.executeUpdate();
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
