@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Soldier extends Piece {
     private static final List<Movement> SIDE_MOVEMENTS = List.of(
-            new Movement(-1, 0), new Movement(1, 0)
+            new Movement(0, -1), new Movement(0, 1)
     );
 
     public Soldier(Team team) {
@@ -27,7 +27,7 @@ public class Soldier extends Piece {
         int colDiff = target.columnDiff(source);
 
         for (Movement movement : SIDE_MOVEMENTS) {
-            if (movement.row() == colDiff && movement.col() == rowDiff) {
+            if (movement.row() == rowDiff && movement.col() == colDiff) {
                 return true;
             }
         }
