@@ -56,6 +56,7 @@ public class JanggiFlow {
                 janggiService.movePiece(gameInformation, from, to, gameContext);
             });
         }
+        view.respondWinner(gameContext.getWinner());
         janggiService.endGame(gameInformation.gameId());
     }
 

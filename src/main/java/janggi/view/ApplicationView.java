@@ -1,7 +1,9 @@
 package janggi.view;
 
+import janggi.domain.Side;
 import janggi.view.input.Input;
 import janggi.view.output.Output;
+import janggi.view.resolver.SideViewResolver;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
@@ -107,5 +109,9 @@ public class ApplicationView {
         String input = inputReader.readString();
 
         return Decision.from(input);
+    }
+
+    public void respondWinner(Side winner) {
+        outputWriter.printPromptMessage(SideViewResolver.toDisplayName(winner) + "팀이 승리하였습니다.");
     }
 }
