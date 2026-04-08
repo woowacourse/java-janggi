@@ -33,7 +33,7 @@ class BoardRepositoryTest {
     }
 
     @Test
-    void 보드를_저장하면_None을_제외한_기물_정보가_DB에_저장된다() throws SQLException {
+    void 보드를_저장하면_모든_좌표가_DB에_저장된다() throws SQLException {
         long gameId = gameRoom.createGame("CHO Player", "HAN Player");
         Board board = BoardFactory.createWithFormation(Formation.from(1), Formation.from(1));
 
@@ -46,7 +46,7 @@ class BoardRepositoryTest {
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 assertThat(resultSet.next()).isTrue();
-                assertThat(resultSet.getInt("piece_count")).isEqualTo(32);
+                assertThat(resultSet.getInt("piece_count")).isEqualTo(90);
             }
         }
     }
@@ -74,7 +74,7 @@ class BoardRepositoryTest {
     }
 
     @Test
-    void 저장된_좌표가_사라지면_DB에서도_삭제된다() throws SQLException {
+    void 저장된_보드를_빈보드로_덮어써도_모든_좌표가_유지된다() throws SQLException {
         long gameId = gameRoom.createGame("CHO Player", "HAN Player");
         Board initialBoard = BoardFactory.createWithFormation(Formation.from(1), Formation.from(1));
         boardRepository.save(gameId, initialBoard);
@@ -89,7 +89,7 @@ class BoardRepositoryTest {
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 assertThat(resultSet.next()).isTrue();
-                assertThat(resultSet.getInt("piece_count")).isZero();
+                assertThat(resultSet.getInt("piece_count")).isEqualTo(90);
             }
         }
     }
@@ -130,6 +130,28 @@ class BoardRepositoryTest {
             for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
                 Position position = new Position(row, column);
                 assertThat(loadedBoard.findPiece(position).isNone()).isTrue();
+            }
+        }
+    }
+
+    @Test
+    void 빈칸은_NONE으로_저장된다() throws SQLException {
+        long gameId = gameRoom.createGame("CHO Player", "HAN Player");
+        Board board = BoardFactory.createWithFormation(Formation.from(1), Formation.from(1));
+
+        boardRepository.save(gameId, board);
+
+        try (Connection connection = DbConnectionFactory.createConnection();
+             PreparedStatement statement = connection.prepareStatement(
+                     "SELECT team, piece_type FROM board WHERE game_id = ? AND row_idx = ? AND col_idx = ?")) {
+            statement.setLong(1, gameId);
+            statement.setInt(2, 4);
+            statement.setInt(3, 4);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                assertThat(resultSet.next()).isTrue();
+                assertThat(resultSet.getString("team")).isEqualTo("NONE");
+                assertThat(resultSet.getString("piece_type")).isEqualTo("NONE");
             }
         }
     }

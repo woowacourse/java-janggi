@@ -16,17 +16,13 @@ import java.util.Map;
 import static common.Constants.*;
 
 public class BoardRepository {
-    private static final String UPSERT_BOARD_SQL =
-            "MERGE INTO board(game_id, row_idx, col_idx, team, piece_type) KEY(game_id, row_idx, col_idx) VALUES(?, ?, ?, ?, ?)";
+    private static final String INSERT_BOARD_SQL =
+            "INSERT INTO board(game_id, row_idx, col_idx, team, piece_type) VALUES(?, ?, ?, ?, ?)";
     private static final String LOAD_BOARD_SQL =
             "SELECT row_idx, col_idx, team, piece_type FROM board WHERE game_id = ?";
     private static final String DELETE_ALL_BOARD_SQL =
             "DELETE FROM board WHERE game_id = ?";
-    private static final String DELETE_MISSING_BOARD_SQL_PREFIX =
-            "DELETE FROM board WHERE game_id = ? AND NOT (";
-    private static final String DELETE_MISSING_BOARD_SQL_SUFFIX = ")";
-    private static final String DELETE_MISSING_BOARD_SQL_OR = " OR ";
-    private static final String DELETE_MISSING_BOARD_SQL_CONDITION = "(row_idx = ? AND col_idx = ?)";
+    private static final String NONE_VALUE = "NONE";
 
     public void save(long gameId, Board board) {
         Connection connection = null;
@@ -45,8 +41,8 @@ public class BoardRepository {
 
     public void save(Connection connection, long gameId, Board board) {
         try {
-            List<Position> occupiedPositions = upsertPieces(connection, gameId, board);
-            deleteMissingPieces(connection, gameId, occupiedPositions);
+            deleteAllPieces(connection, gameId);
+            insertPieces(connection, gameId, board);
         } catch (SQLException e) {
             throw new IllegalStateException("보드 저장에 실패했습니다.", e);
         }
@@ -68,67 +64,45 @@ public class BoardRepository {
         }
     }
 
-    private List<Position> upsertPieces(Connection connection, long gameId, Board board) throws SQLException {
-        List<Position> occupiedPositions = collectOccupiedPositions(board);
-        try (PreparedStatement statement = connection.prepareStatement(UPSERT_BOARD_SQL)) {
-            for (Position pos : occupiedPositions) {
-                BasicPiece piece = board.findPiece(pos);
-                statement.setLong(1, gameId);
-                statement.setInt(2, pos.row());
-                statement.setInt(3, pos.column());
-                statement.setString(4, piece.getTeam().name());
-                statement.setString(5, piece.getPieceType().name());
-                statement.addBatch();
-            }
-            statement.executeBatch();
-        }
-        return occupiedPositions;
-    }
-
-    private List<Position> collectOccupiedPositions(Board board) {
-        List<Position> positions = new ArrayList<>();
-        for (int row = MIN_ROW; row <= MAX_ROW; row++) {
-            collectOccupiedInRow(board, positions, row);
-        }
-        return positions;
-    }
-
-    private void collectOccupiedInRow(Board board, List<Position> positions, int row) {
-        for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
-            Position pos = new Position(row, column);
-            if (!board.findPiece(pos).isNone()) {
-                positions.add(pos);
-            }
-        }
-    }
-
-    private void deleteMissingPieces(Connection connection, long gameId, List<Position> occupiedPositions) throws SQLException {
-        String sql = createDeleteMissingSql(occupiedPositions.size());
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+    private void deleteAllPieces(Connection connection, long gameId) throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement(DELETE_ALL_BOARD_SQL)) {
             statement.setLong(1, gameId);
-            int parameterIndex = 2;
-            for (Position position : occupiedPositions) {
-                statement.setInt(parameterIndex++, position.row());
-                statement.setInt(parameterIndex++, position.column());
-            }
             statement.executeUpdate();
         }
     }
 
-    private String createDeleteMissingSql(int occupiedCount) {
-        if (occupiedCount == 0) {
-            return DELETE_ALL_BOARD_SQL;
-        }
-
-        StringBuilder sql = new StringBuilder(DELETE_MISSING_BOARD_SQL_PREFIX);
-        for (int i = 0; i < occupiedCount; i++) {
-            if (i > 0) {
-                sql.append(DELETE_MISSING_BOARD_SQL_OR);
+    private void insertPieces(Connection connection, long gameId, Board board) throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement(INSERT_BOARD_SQL)) {
+            for (Position pos : collectAllPositions()) {
+                addPieceBatch(statement, gameId, pos, board.findPiece(pos));
             }
-            sql.append(DELETE_MISSING_BOARD_SQL_CONDITION);
+            statement.executeBatch();
         }
-        sql.append(DELETE_MISSING_BOARD_SQL_SUFFIX);
-        return sql.toString();
+    }
+
+    private void addPieceBatch(PreparedStatement statement, long gameId, Position position, BasicPiece piece) throws SQLException {
+        statement.setLong(1, gameId);
+        statement.setInt(2, position.row());
+        statement.setInt(3, position.column());
+        if (piece.isNone()) {
+            statement.setString(4, NONE_VALUE);
+            statement.setString(5, NONE_VALUE);
+            statement.addBatch();
+            return;
+        }
+        statement.setString(4, piece.getTeam().name());
+        statement.setString(5, piece.getPieceType().name());
+        statement.addBatch();
+    }
+
+    private List<Position> collectAllPositions() {
+        List<Position> positions = new ArrayList<>();
+        for (int row = MIN_ROW; row <= MAX_ROW; row++) {
+            for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
+                positions.add(new Position(row, column));
+            }
+        }
+        return positions;
     }
 
     public Map<Position, BasicPiece> loadBoard(long gameId) {
@@ -137,18 +111,34 @@ public class BoardRepository {
              PreparedStatement statement = connection.prepareStatement(LOAD_BOARD_SQL)) {
             statement.setLong(1, gameId);
             loadPiecesFromResultSet(statement.executeQuery(), board);
+            return board;
         } catch (SQLException e) {
             throw new IllegalStateException("보드 불러오기에 실패했습니다.", e);
         }
-        return board;
     }
 
     private void loadPiecesFromResultSet(java.sql.ResultSet resultSet, Map<Position, BasicPiece> board) throws SQLException {
         while (resultSet.next()) {
-            Position position = new Position(resultSet.getInt("row_idx"), resultSet.getInt("col_idx"));
+            Position position = toPosition(resultSet);
             BasicPiece piece = createPieceFromDb(resultSet.getString("team"), resultSet.getString("piece_type"));
             board.put(position, piece);
         }
+    }
+
+    private Position toPosition(java.sql.ResultSet resultSet) throws SQLException {
+        return new Position(resultSet.getInt("row_idx"), resultSet.getInt("col_idx"));
+    }
+
+    private BasicPiece createPieceFromDb(String teamName, String pieceTypeName) {
+        if (isNoneValue(teamName) || isNoneValue(pieceTypeName)) {
+            return domain.piece.None.getInstance();
+        }
+        return domain.piece.PieceType.valueOf(pieceTypeName)
+                .createPiece(domain.player.Team.valueOf(teamName));
+    }
+
+    private boolean isNoneValue(String value) {
+        return NONE_VALUE.equals(value);
     }
 
     private Map<Position, BasicPiece> initializeBoard() {
@@ -163,10 +153,5 @@ public class BoardRepository {
         for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
             board.put(new Position(row, column), domain.piece.None.getInstance());
         }
-    }
-
-    private BasicPiece createPieceFromDb(String teamName, String pieceTypeName) {
-        return domain.piece.PieceType.valueOf(pieceTypeName)
-                .createPiece(domain.player.Team.valueOf(teamName));
     }
 }

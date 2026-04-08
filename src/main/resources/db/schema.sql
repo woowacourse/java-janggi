@@ -14,8 +14,8 @@ CREATE TABLE board (
                        game_id BIGINT NOT NULL,
                        row_idx INT NOT NULL COMMENT '행 좌표 (0~9)',
                        col_idx INT NOT NULL COMMENT '열 좌표 (0~8)',
-                       team VARCHAR(10) NOT NULL COMMENT '기물 소속 팀 (CHO, HAN)',
-                       piece_type VARCHAR(10) NOT NULL COMMENT '기물 종류 (JANG, CHA, PO, MA, SANG, SA, JOL)',
+                       team VARCHAR(10) NOT NULL COMMENT '기물 소속 팀 (CHO, HAN, NONE)',
+                       piece_type VARCHAR(10) NOT NULL COMMENT '기물 종류 (JANG, CHA, PO, MA, SANG, SA, JOL, NONE)',
                        PRIMARY KEY (game_id, row_idx, col_idx),
                        CONSTRAINT fk_board_game FOREIGN KEY (game_id)
                            REFERENCES game (game_id) ON DELETE CASCADE
