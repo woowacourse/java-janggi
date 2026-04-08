@@ -35,6 +35,19 @@ class SangTest {
                 .isEqualTo(new Position(Row.FIVE, Column.FOUR));
     }
 
+    @DisplayName("좌우로 한칸을 간 후에 같은 방향의 대각선으로 두칸 이동한다.")
+    @Test
+    void getLegalPath_horizontalDominant() {
+        Position from = new Position(Row.SEVEN, Column.FIVE);
+        Position to = new Position(Row.FIVE, Column.EIGHT);
+        Sang sang = new Sang(Team.CHO);
+
+        PositionPath positionPath = sang.getLegalPath(from, to);
+
+        assertThat(positionPath.getDestination())
+                .isEqualTo(new Position(Row.SIX, Column.SEVEN));
+    }
+
     @DisplayName("행과 열의 거리가 각각 (1,3) 혹은 (3,1)이 아니면 예외가 발생한다.")
     @Test
     void getLegalPath_invalid() {

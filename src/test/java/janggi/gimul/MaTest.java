@@ -35,6 +35,19 @@ class MaTest {
                 .isEqualTo(new Position(Row.SIX, Column.FIVE));
     }
 
+    @DisplayName("좌우로 한칸을 간 후에 같은 방향의 대각선으로 한칸 이동한다.")
+    @Test
+    void getLegalPath_horizontalDominant() {
+        Position from = new Position(Row.SEVEN, Column.FIVE);
+        Position to = new Position(Row.SIX, Column.SEVEN);
+        Ma ma = new Ma(Team.CHO);
+
+        PositionPath positionPath = ma.getLegalPath(from, to);
+
+        assertThat(positionPath.getDestination())
+                .isEqualTo(new Position(Row.SEVEN, Column.SIX));
+    }
+
     @DisplayName("행과 열의 거리가 각각 (1,2) 혹은 (2,1)이 아니면 예외가 발생한다.")
     @Test
     void getLegalPath_invalid() {
