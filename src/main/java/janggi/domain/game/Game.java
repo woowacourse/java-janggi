@@ -44,19 +44,19 @@ public class Game {
         return positions;
     }
 
-    // TODO: 메서드 분리
-    // TODO: null 체크 이대로 괜찮은가?
     public GameState movePiece(Position from, Position to) {
         Dynasty dynasty = currentTurn.currentDynasty();
         Piece catchedPiece = board.movePiece(from, to, dynasty);
+        return judgeGameState(catchedPiece, dynasty);
+    }
+
+    private GameState judgeGameState(Piece catchedPiece, Dynasty dynasty) {
         if (catchedPiece != null && catchedPiece.isSame(PieceType.GENERAL)) {
             return GameState.from(dynasty);
         }
-
         if (isPossibleToCompareUsingPoints()) {
             return GameState.from(findWinnerUsingPoints());
         }
-
         currentTurn.changeTurn();
         return GameState.PLAYING;
     }
@@ -70,21 +70,23 @@ public class Game {
     }
 
     private boolean isPossibleToCompareUsingPoints() {
-        double pointsOfHan = board.sumPointsOf(HAN) + DEOM;
-        double pointsOfCho = board.sumPointsOf(CHO);
-
-        return pointsOfHan < POINTS_COMPARISON_THRESHOLD
-                && pointsOfCho < POINTS_COMPARISON_THRESHOLD;
+        return pointsOf(HAN) < POINTS_COMPARISON_THRESHOLD
+                && pointsOf(CHO) < POINTS_COMPARISON_THRESHOLD;
     }
 
     private Dynasty findWinnerUsingPoints() {
-        double pointsOfHan = board.sumPointsOf(HAN) + DEOM;
-        double pointsOfCho = board.sumPointsOf(CHO);
-
-        if (pointsOfHan < pointsOfCho) {
+        if (pointsOf(HAN) < pointsOf(CHO)) {
             return CHO;
         }
         return HAN;
+    }
+
+    private double pointsOf(Dynasty dynasty) {
+        double points = board.sumPointsOf(dynasty);
+        if (dynasty == HAN) {
+            return points + DEOM;
+        }
+        return points;
     }
 
 }

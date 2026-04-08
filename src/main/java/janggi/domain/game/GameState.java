@@ -4,6 +4,7 @@ import janggi.domain.dynasty.Dynasty;
 import java.util.Arrays;
 
 public enum GameState {
+
     PLAYING(null),
     HAN_WIN(Dynasty.HAN),
     CHO_WIN(Dynasty.CHO);
