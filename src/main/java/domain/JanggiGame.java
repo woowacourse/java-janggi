@@ -5,12 +5,14 @@ import java.util.Map;
 
 public class JanggiGame {
 
+    private static final int DEFAULT_TURN_COUNT = 0;
+
     private final Board board;
     private TurnCount turnCount;
 
     private JanggiGame(final Board board) {
         this.board = board;
-        this.turnCount = TurnCount.of(0);
+        this.turnCount = TurnCount.of(DEFAULT_TURN_COUNT);
     }
 
     public static JanggiGame of(final Board board) {
@@ -35,5 +37,9 @@ public class JanggiGame {
 
     public Map<Position, Piece> getBoardStatus() {
         return board.getBoard();
+    }
+
+    public boolean isFinished() {
+        return !board.isGeneralAlive(Team.CHU) || !board.isGeneralAlive(Team.HAN);
     }
 }

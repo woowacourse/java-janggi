@@ -71,4 +71,8 @@ public class OutputView {
         }
         return type;
     }
+
+    public void printGameFinishMessage() {
+        System.out.println("왕이 잡혀서 게임을 종료합니다.");
+    }
 }

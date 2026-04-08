@@ -31,6 +31,10 @@ public class JanggiController {
 
         while (true) {
             movePosition(janggiGame);
+            if (janggiGame.isFinished()) {
+                outputView.printGameFinishMessage();
+                break;
+            }
         }
     }
 
