@@ -1,10 +1,8 @@
 package controller;
 
 import domain.Game;
-import domain.board.BoardInitializer;
 import domain.coordinate.Position;
-import repository.PieceRepository;
-import service.PieceService;
+import service.JanggiService;
 import view.InputView;
 import view.OutputView;
 
@@ -14,17 +12,17 @@ public class JanggiController {
 
     private final InputView inputView;
     private final OutputView outputView;
-    private final BoardInitializer boardInitializer;
+    private final JanggiService janggiService;
 
-    public JanggiController(InputView inputView, OutputView outputView, BoardInitializer boardInitializer) {
+    public JanggiController(InputView inputView, OutputView outputView, JanggiService janggiService) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.boardInitializer = boardInitializer;
+        this.janggiService = janggiService;
     }
 
     public void play() {
-        Game game = new Game(boardInitializer);
-        PieceService pieceService = new PieceService(new PieceRepository());
+        Game game = janggiService.initializeGame();
+
         while (true) {
             outputView.printBoard(game.getBoardSnapshot());
             Position startPosition = RetryInput.read(() -> getStartPosition(game));
@@ -36,8 +34,7 @@ public class JanggiController {
 
             outputView.printAvailablePositions(possibleMoves);
             Position destination = RetryInput.read(() -> getDestination(possibleMoves));
-            //game.move(startPosition, destination);
-            pieceService.movePiece(game, startPosition, destination);
+            janggiService.movePiece(game, startPosition, destination);
         }
     }
 
