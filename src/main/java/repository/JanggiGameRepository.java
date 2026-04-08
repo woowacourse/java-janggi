@@ -62,13 +62,14 @@ public final class JanggiGameRepository {
         ) {
             pstmt.setString(1, janggiGame.currentTurn().name());
             pstmt.executeUpdate();
-            ResultSet rs = pstmt.getGeneratedKeys();
+            // TODO: ResultSet 자원도 닫아야 됨을 인지해서 일단 중첩 try-with-resources로 대응했지만, 중첩없이 해결 가능한 지 고민 필요.
+            try (ResultSet rs = pstmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    long gameId = rs.getLong(1);
+                    insertPieces(conn, gameId, janggiGame);
 
-            if (rs.next()) {
-                long gameId = rs.getLong(1);
-                insertPieces(conn, gameId, janggiGame);
-
-                return gameId;
+                    return gameId;
+                }
             }
 
             throw new SQLException("게임 생성에 실패했습니다.");
@@ -119,16 +120,16 @@ public final class JanggiGameRepository {
                 PreparedStatement pstmt = conn.prepareStatement(sql)
         ) {
             pstmt.setLong(1, gameId);
-            ResultSet rs = pstmt.executeQuery();
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    Side currentTurn = Side.from(rs.getString("current_turn"));
+                    Map<Intersection, Piece> pieces = findPieces(conn, gameId);
 
-            if (rs.next()) {
-                Side currentTurn = Side.from(rs.getString("current_turn"));
-                Map<Intersection, Piece> pieces = findPieces(conn, gameId);
-
-                return new JanggiGame(
-                        new Board(new AlivePieces(pieces)),
-                        currentTurn
-                );
+                    return new JanggiGame(
+                            new Board(new AlivePieces(pieces)),
+                            currentTurn
+                    );
+                }
             }
 
             throw new IllegalStateException("게임을 찾을 수 없습니다.");
@@ -147,14 +148,14 @@ public final class JanggiGameRepository {
                 Connection conn = dataSource.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(sql)
         ) {
-            ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                gameSummaries.add(new GameSummary(
-                        rs.getLong("game_id"),
-                        rs.getDate("created_at"),
-                        rs.getString("current_turn")
-                ));
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    gameSummaries.add(new GameSummary(
+                            rs.getLong("game_id"),
+                            rs.getDate("created_at"),
+                            rs.getString("current_turn")
+                    ));
+                }
             }
 
             return List.copyOf(gameSummaries);
@@ -236,15 +237,15 @@ public final class JanggiGameRepository {
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setLong(1, gameId);
-            ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                Intersection intersection = new Intersection(rs.getInt("position_row"), rs.getInt("position_file"));
-                Piece piece = Piece.of(
-                        PieceType.from(rs.getString("piece_type")),
-                        Side.from(rs.getString("side"))
-                );
-                pieces.put(intersection, piece);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Intersection intersection = new Intersection(rs.getInt("position_row"), rs.getInt("position_file"));
+                    Piece piece = Piece.of(
+                            PieceType.from(rs.getString("piece_type")),
+                            Side.from(rs.getString("side"))
+                    );
+                    pieces.put(intersection, piece);
+                }
             }
 
             return pieces;
