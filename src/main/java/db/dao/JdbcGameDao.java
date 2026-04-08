@@ -1,7 +1,7 @@
-package db.jdbc;
+package db.dao;
 
 import core.GameStatus;
-import db.dao.GameDao;
+import db.jdbc.SqlConnection;
 import db.model.GameEntity;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

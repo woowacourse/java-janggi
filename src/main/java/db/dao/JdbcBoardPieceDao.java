@@ -1,6 +1,6 @@
-package db.jdbc;
+package db.dao;
 
-import db.dao.BoardPieceDao;
+import db.jdbc.SqlConnection;
 import db.model.BoardPieceEntity;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
