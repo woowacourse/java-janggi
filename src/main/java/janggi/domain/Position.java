@@ -100,4 +100,12 @@ public final class Position {
     public int hashCode() {
         return Objects.hash(row, column);
     }
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getColumn() {
+        return column;
+    }
 }

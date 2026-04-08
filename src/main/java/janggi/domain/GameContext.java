@@ -44,7 +44,7 @@ public class GameContext {
         return board.isSameTeamType(from, currentTeamType());
     }
 
-    private TeamType currentTeamType() {
+    public TeamType currentTeamType() {
         return turnManager.currentTeamType();
     }
 }

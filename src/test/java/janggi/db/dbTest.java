@@ -25,7 +25,6 @@ public class dbTest {
 
     private Connection connection;
     private GameDao gameDao;
-    private GameContext gameContext;
 
     @BeforeEach
     void setup() throws SQLException {
@@ -42,8 +41,8 @@ public class dbTest {
     @AfterEach
     void tearDown() throws SQLException {
         Statement statement = connection.createStatement();
-        statement.execute("DROP TABLE IF EXISTS game;");
         statement.execute("DROP TABLE IF EXISTS piece;");
+        statement.execute("DROP TABLE IF EXISTS game;");
         connection.close();
     }
 

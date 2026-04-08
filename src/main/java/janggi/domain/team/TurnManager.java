@@ -7,6 +7,10 @@ public class TurnManager {
         currentTurnTeamType = TeamType.RED;
     }
 
+    public TurnManager(String teamType) {
+        currentTurnTeamType = TeamType.valueOf(teamType);
+    }
+
     public void changeTurn() {
         this.currentTurnTeamType = currentTurnTeamType.nextTeamType();
     }

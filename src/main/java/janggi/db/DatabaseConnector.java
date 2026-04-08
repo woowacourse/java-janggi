@@ -17,4 +17,12 @@ public class DatabaseConnector {
             throw new RuntimeException("DB 접속 에러");
         }
     }
+
+    public static Connection getConnection(String testUrl) {
+        try {
+            return DriverManager.getConnection(testUrl, USER, PASSWORD);
+        } catch (SQLException e) {
+            throw new RuntimeException("DB 접속 에러");
+        }
+    }
 }

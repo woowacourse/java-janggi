@@ -1,5 +1,7 @@
 package janggi.controller;
 
+import janggi.db.DatabaseConnector;
+import janggi.db.GameDao;
 import janggi.domain.GameContext;
 import janggi.domain.Position;
 import janggi.domain.board.Board;
@@ -16,6 +18,7 @@ import janggi.view.OutputView;
 import java.util.List;
 
 public class JanggiController {
+    private final GameDao gameDao = new GameDao(DatabaseConnector.getConnection());
 
     public JanggiController() {
     }
@@ -40,6 +43,7 @@ public class JanggiController {
         GameContext gameContext = new GameContext(new TurnManager(), board);
         while (gameContext.canContinueGame()) {
             playTurn(gameContext);
+            gameDao.saveGame(gameContext);
         }
         gameContext.changeTurn();
         OutputView.printGameOverMessage(gameContext.currentTeamTypeToName());
