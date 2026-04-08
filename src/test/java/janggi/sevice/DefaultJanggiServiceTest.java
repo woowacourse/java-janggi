@@ -5,8 +5,10 @@ import janggi.domain.Side;
 import janggi.domain.piece.Ma;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
+import janggi.domain.state.GameContext;
 import janggi.domain.strategy.ArrangementStrategy;
 import janggi.domain.strategy.IntersectionInitializer;
+import janggi.domain.strategy.MaSangMaSang;
 import janggi.domain.strategy.PalaceIntersectionInitializer;
 import janggi.repository.dao.GameDao;
 import janggi.repository.dao.PieceDao;
@@ -51,14 +53,14 @@ class DefaultJanggiServiceTest {
     @Test
     @DisplayName("진행중인 게임이 존재한다면 식별자를 반환한다.")
     void returnActiveGameIds() {
-        //given
+        // given
         Long active = gameDao.insert(new GameEntity("CHO", true));
         gameDao.insert(new GameEntity("HAN", false));
 
-        //when
+        // when
         List<Long> activeGameIds = janggiService.findActiveGameIds();
 
-        //then
+        // then
         Assertions.assertThat(activeGameIds).hasSize(1)
                 .containsExactly(active);
     }
@@ -66,14 +68,14 @@ class DefaultJanggiServiceTest {
     @Test
     @DisplayName("식별자를 전달하면 게임 정보를 로딩한다.")
     void returnGameInformationByGameId() {
-        //given
+        // given
         Long gameId = gameDao.insert(new GameEntity("CHO", true));
         pieceDao.insert(new PieceEntity(gameId, "CHA", "CHO", 1, 1));
         pieceDao.insert(new PieceEntity(gameId, "MA", "CHO", 1, 2));
         pieceDao.insert(new PieceEntity(gameId, "GUNG", "CHO", 1, 3));
         IntersectionInitializer intersectionInitializer = new PalaceIntersectionInitializer();
 
-        //when
+        // when
         GameInformation gameInformation = janggiService.loadGameInformation(gameId, intersectionInitializer);
 
         // then
@@ -87,18 +89,40 @@ class DefaultJanggiServiceTest {
     @Test
     @DisplayName("새로운 게임을 생성한다.")
     void returnGameInformationByArrangementStrategy() {
-        //given
+        // given
         List<ArrangementStrategy> arrangementStrategies = List.of(
                 new TestArrangementStrategy(Map.of(Location.of(1, 1), new Ma(Side.CHO)))
         );
         IntersectionInitializer intersectionInitializer = new PalaceIntersectionInitializer();
 
-        //when
+        // when
         GameInformation game = janggiService.createGame(arrangementStrategies, intersectionInitializer);
 
-        //then
+        // then
         Assertions.assertThat(game.gameId()).isNotNull();
         Assertions.assertThat(game.currentSide()).isEqualTo(Side.CHO);
         Assertions.assertThat(game.board().getAlivePieces()).hasSize(1);
+    }
+
+    @Test
+    @DisplayName("기물을 이동하는 경우 데이터베이스 내 위치를 업데이트 한다.")
+    void updatePieceLocation_WhenMove() {
+        // given
+        List<ArrangementStrategy> arrangementStrategies = List.of(
+                new MaSangMaSang(Side.CHO),
+                new MaSangMaSang(Side.HAN)
+        );
+        IntersectionInitializer intersectionInitializer = new PalaceIntersectionInitializer();
+        GameInformation game = janggiService.createGame(arrangementStrategies, intersectionInitializer);
+        GameContext context = GameContext.createInProgress(game.board().getAlivePieces(), game.currentSide());
+
+        // when
+        janggiService.movePiece(game, Location.of(9, 0), Location.of(8, 0), context);
+        List<List<Piece>> updatedBoardGrid = janggiService.loadGameInformation(game.gameId(),
+                new PalaceIntersectionInitializer()).board().to2DArray();
+
+        // then
+        Assertions.assertThat(updatedBoardGrid.get(8).get(0).getType()).isEqualTo(PieceType.CHA);
+        Assertions.assertThat(updatedBoardGrid.get(9).get(0).isEmpty()).isTrue();
     }
 }

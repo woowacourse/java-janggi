@@ -54,8 +54,7 @@ public class JanggiFlow {
             retryAction(() -> {
                 Location from = askLocationOfPiece(finalCurrentSide, board);
                 Location to = askLocationToMove(finalCurrentSide, board);
-                Piece removedPiece = board.move(from, to);
-                gameContext.update(removedPiece);
+                janggiService.movePiece(gameInformation, from, to, gameContext);
             });
         }
         janggiService.endGame(gameInformation.gameId());
@@ -67,9 +66,11 @@ public class JanggiFlow {
             List<ArrangementStrategy> strategies = Stream.of(Side.values())
                     .map(this::askStrategy)
                     .toList();
+            System.out.println("create new");
             return janggiService.createGame(strategies, intersectionInitializer);
         }
         Long gameId = activeGameIds.getFirst();
+        System.out.println("load: " + gameId);
         return janggiService.loadGameInformation(gameId, intersectionInitializer);
     }
 
