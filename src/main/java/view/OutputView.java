@@ -45,11 +45,18 @@ public class OutputView {
         System.out.println("\n=== 진행 중인 게임 목록 ===");
         for (int i = 0; i < games.size(); i++) {
             dao.GameInfo game = games.get(i);
+            String currentTurnName = resolveCurrentTurnName(game);
             System.out.println((i + 1) + ". " + game.choName() + " vs " + game.hanName() +
-                             " (현재 차례: " + game.currentTurn() + ")");
+                             " (현재 차례: " + currentTurnName + ")");
         }
         System.out.println((games.size() + 1) + ". 새 게임 시작");
         System.out.println();
+    }
+
+    private String resolveCurrentTurnName(dao.GameInfo game) {
+        if ("CHO".equals(game.currentTurn())) return game.choName();
+        if ("HAN".equals(game.currentTurn())) return game.hanName();
+        return game.currentTurn();
     }
 
     private void printColumnHeader() {
