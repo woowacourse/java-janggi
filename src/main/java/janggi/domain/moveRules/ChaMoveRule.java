@@ -13,24 +13,30 @@ public class ChaMoveRule implements MoveRule {
 
     @Override
     public List<Position> calculateAvailablePositions(Position startPosition, Team team, Map<Position, Piece> state) {
-        int currentColumn = startPosition.getColumn();
-        int currentRow = startPosition.getRow();
-        List<Direction> straights = getStraightDirections();
+        List<Position> availablePositions = new ArrayList<>();
+        for (Direction direction : getStraightDirections()) {
+            availablePositions.addAll(findPositionsByDirection(startPosition, direction, state));
+        }
 
+        return availablePositions;
+    }
+
+    private List<Position> findPositionsByDirection(Position startPosition, Direction direction,
+                                                    Map<Position, Piece> state) {
         List<Position> result = new ArrayList<>();
-        for (Direction direction : straights) {
+        int currentColumn = startPosition.getColumn() + direction.getColumn();
+        int currentRow = startPosition.getRow() + direction.getRow();
+
+        while (Position.isInsideBoundary(currentColumn, currentRow)) {
+            Position movePosition = new Position(currentColumn, currentRow);
+            result.add(movePosition);
+            if (state.containsKey(movePosition)) {
+                break;
+            }
             currentColumn += direction.getColumn();
             currentRow += direction.getRow();
-            Position movePosition = new Position(currentColumn, currentRow);
-            while (Position.isInsideBoundary(currentColumn, currentRow) && !state.containsKey(movePosition)) {
-                result.add(movePosition);
-                currentColumn += direction.getColumn();
-                currentRow += direction.getRow();
-            }
-            if (state.containsKey(movePosition) && state.get(movePosition).isAlly(team)) {
-                result.add(movePosition);
-            }
         }
+
         return result;
     }
 
