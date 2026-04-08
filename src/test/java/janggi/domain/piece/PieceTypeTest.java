@@ -2,6 +2,7 @@ package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import janggi.domain.Score;
 import janggi.domain.Side;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,12 +20,12 @@ class PieceTypeTest {
         Piece soldier = PieceFactory.createSoldier(Side.CHO);
         Piece general = PieceFactory.createGeneral(Side.CHO);
 
-        assertThat(chariot.getType().getScore()).isEqualTo(13);
-        assertThat(cannon.getType().getScore()).isEqualTo(7);
-        assertThat(horse.getType().getScore()).isEqualTo(5);
-        assertThat(elephant.getType().getScore()).isEqualTo(3);
-        assertThat(guard.getType().getScore()).isEqualTo(3);
-        assertThat(soldier.getType().getScore()).isEqualTo(2);
-        assertThat(general.getType().getScore()).isEqualTo(0);
+        assertThat(chariot.getType().getScore()).isEqualTo(new Score(13.0));
+        assertThat(cannon.getType().getScore()).isEqualTo(new Score(7.0));
+        assertThat(horse.getType().getScore()).isEqualTo(new Score(5.0));
+        assertThat(elephant.getType().getScore()).isEqualTo(new Score(3.0));
+        assertThat(guard.getType().getScore()).isEqualTo(new Score(3.0));
+        assertThat(soldier.getType().getScore()).isEqualTo(new Score(2.0));
+        assertThat(general.getType().getScore()).isEqualTo(new Score(0.0));
     }
 }

@@ -11,10 +11,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class GeneralTest {
+
     @Test
     @DisplayName("궁은 상하좌우 1칸 이동하며, 범위를 벗어나거나 아군이 있으면 이동할 수 없다")
     void move() {
-        // (4,1)에 궁, (4,2)에 아군 사 배치 -> (4,2) 이동 불가, (4,0), (3,1), (5,1) 이동 가능
+        // given
         Position current = Position.of(4, 1);
         Map<Position, Piece> pieces = Map.of(
                 current, PieceFactory.createGeneral(Side.CHO),
@@ -22,10 +23,18 @@ class GeneralTest {
         );
         Board board = new Board(pieces);
 
-        Destinations movable = board.findDestinations(current);
+        // when
+        Destinations actual = board.findDestinations(current);
 
-        assertThat(movable.getPositions()).containsExactlyInAnyOrder(
-                Position.of(4, 0), Position.of(3, 1), Position.of(5, 1)
+        // then
+        assertThat(actual.getPositions()).containsExactlyInAnyOrder(
+                Position.of(4, 0),
+                Position.of(3, 1),
+                Position.of(5, 1),
+                Position.of(3, 0),
+                Position.of(5, 0),
+                Position.of(3, 2),
+                Position.of(5, 2)
         );
     }
 
