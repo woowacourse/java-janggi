@@ -24,63 +24,21 @@ public class BoardInitializer {
     public static Map<Position, Piece> createBoard() {
         Map<Position, Piece> board = new HashMap<>();
 
-        initSoldier(board);
-        initCannon(board);
-        initTank(board);
-        initHorse(board);
-        initElephant(board);
-        initAdvisor(board);
-        initKing(board);
+        createPiece(board, SOLDIER_ROWS, SOLDIER_COLS, PieceType.SOLDIER);
+        createPiece(board, CANNON_ROWS, CANNON_COLS, PieceType.CANNON);
+        createPiece(board, BOTTOM_ROWS, TANK_COLS, PieceType.TANK);
+        createPiece(board, BOTTOM_ROWS, HORSE_COLS, PieceType.HORSE);
+        createPiece(board, BOTTOM_ROWS, ELEPHANT_COLS, PieceType.ELEPHANT);
+        createPiece(board, BOTTOM_ROWS, ADVISOR_COLS, PieceType.ADVISOR);
+        createPiece(board, KING_ROWS, KING_COL, PieceType.KING);
 
         return board;
     }
 
-    private static void initSoldier(Map<Position, Piece> board) {
-        for (int col : SOLDIER_COLS) {
-            board.put(new Position(getHanRow(SOLDIER_ROWS), col), new Soldier(Team.HAN));
-            board.put(new Position(getChoRow(SOLDIER_ROWS), col), new Soldier(Team.CHO));
-        }
-    }
-
-    private static void initCannon(Map<Position, Piece> board) {
-        for (int col : CANNON_COLS) {
-            board.put(new Position(getHanRow(CANNON_ROWS), col), new Cannon(Team.HAN));
-            board.put(new Position(getChoRow(CANNON_ROWS), col), new Cannon(Team.CHO));
-        }
-    }
-
-    private static void initTank(Map<Position, Piece> board) {
-        for (int col : TANK_COLS) {
-            board.put(new Position(getHanRow(BOTTOM_ROWS), col), new Tank(Team.HAN));
-            board.put(new Position(getChoRow(BOTTOM_ROWS), col), new Tank(Team.CHO));
-        }
-    }
-
-    private static void initHorse(Map<Position, Piece> board) {
-        for (int col : HORSE_COLS) {
-            board.put(new Position(getHanRow(BOTTOM_ROWS), col), new Horse(Team.HAN));
-            board.put(new Position(getChoRow(BOTTOM_ROWS), col), new Horse(Team.CHO));
-        }
-    }
-
-    private static void initElephant(Map<Position, Piece> board) {
-        for (int col : ELEPHANT_COLS) {
-            board.put(new Position(getHanRow(BOTTOM_ROWS), col), new Elephant(Team.HAN));
-            board.put(new Position(getChoRow(BOTTOM_ROWS), col), new Elephant(Team.CHO));
-        }
-    }
-
-    private static void initAdvisor(Map<Position, Piece> board) {
-        for (int col : ADVISOR_COLS) {
-            board.put(new Position(getHanRow(BOTTOM_ROWS), col), new Advisor(Team.HAN));
-            board.put(new Position(getChoRow(BOTTOM_ROWS), col), new Advisor(Team.CHO));
-        }
-    }
-
-    private static void initKing(Map<Position, Piece> board) {
-        for (int col : KING_COL) {
-            board.put(new Position(getHanRow(KING_ROWS), col), new King(Team.HAN));
-            board.put(new Position(getChoRow(KING_ROWS), col), new King(Team.CHO));
+    private static void createPiece(Map<Position, Piece> board, List<Integer> rows, List<Integer> cols, PieceType type) {
+        for (int col : cols) {
+            board.put(new Position(getHanRow(rows), col), PieceFactory.create(type, Team.HAN));
+            board.put(new Position(getChoRow(rows), col), PieceFactory.create(type, Team.CHO));
         }
     }
 
