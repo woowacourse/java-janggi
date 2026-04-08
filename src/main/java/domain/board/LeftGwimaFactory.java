@@ -7,7 +7,7 @@ import domain.position.Position;
 import java.util.List;
 import java.util.Map;
 
-public class LeftGwimaFactory extends AbstractBoardFactory {
+public class LeftGwimaFactory extends BoardFactory {
 
     private static final List<PieceDefinition> FORMATION = List.of(
             PieceDefinition.SANG, PieceDefinition.MA, PieceDefinition.SANG, PieceDefinition.MA

@@ -8,27 +8,28 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractBoardFactory {
+public abstract class BoardFactory {
 
-    private static final Map<Integer, AbstractBoardFactory> factories = Map.of(
+    private static final Map<Integer, BoardFactory> FACTORIES = Map.of(
             1, new LeftGwimaFactory(),
             2, new RightGwimaFactory(),
             3, new WonangmaFactory(),
             4, new YanggwimaFactory()
     );
 
-    public static Map<Position, Piece> createFormation(AbstractBoardFactory choAbstractBoardFactory,
-                                                       AbstractBoardFactory hanAbstractBoardFactory) {
+    public static Map<Position, Piece> createFormation(int choFormationNumber, int hanFormationNumber) {
+        BoardFactory choBoardFactory = BoardFactory.from(choFormationNumber);
+        BoardFactory hanBoardFactory = BoardFactory.from(hanFormationNumber);
         Map<Position, Piece> pieces = new HashMap<>();
         setFixedChoPieces(pieces);
-        choAbstractBoardFactory.setVariablePieces(pieces, Team.CHO);
+        choBoardFactory.setVariablePieces(pieces, Team.CHO);
         setFixedHanPieces(pieces);
-        hanAbstractBoardFactory.setVariablePieces(pieces, Team.HAN);
+        hanBoardFactory.setVariablePieces(pieces, Team.HAN);
         return pieces;
     }
 
-    public static final AbstractBoardFactory from(int input) {
-        return factories.get(input);
+    public static BoardFactory from(int input) {
+        return FACTORIES.get(input);
     }
 
     private static void setFixedChoPieces(Map<Position, Piece> pieces) {
