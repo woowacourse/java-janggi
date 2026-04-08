@@ -34,7 +34,7 @@ public abstract class ActivePiece implements Piece {
 
     @Override
     public boolean isNotEmpty() {
-        return false;
+        return true;
     }
 
     @Override
