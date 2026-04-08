@@ -1,6 +1,7 @@
 package janggi.domain.strategy;
 
 import janggi.domain.Location;
+import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
 import java.util.Map;
 
@@ -14,6 +15,12 @@ public class DBArrangementStrategy implements ArrangementStrategy {
 
     @Override
     public void place(Piece[][] arrangement) {
+        for (int row = 0; row < arrangement.length; row++) {
+            for (int col = 0; col < arrangement[row].length; col++) {
+                arrangement[row][col] = EmptyPiece.getInstance();
+            }
+        }
+
         pieces.forEach((loc, piece) ->
                 arrangement[loc.row()][loc.col()] = piece
         );
