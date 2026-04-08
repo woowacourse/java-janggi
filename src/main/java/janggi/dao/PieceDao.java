@@ -70,39 +70,27 @@ public class PieceDao {
         }
     }
 
-    public void move(long gameId, Position from, Position to) {
+    public void move(Connection conn, long gameId, Position from, Position to) {
         String deleteTargetSql = "DELETE FROM piece WHERE game_id = ? AND x = ? AND y = ?";
         String updateSourceSql = "UPDATE piece SET x = ?, y = ? WHERE game_id = ? AND x = ? AND y = ?";
 
-        try (Connection conn = dataSource.getConnection()) {
-            conn.setAutoCommit(false);
+        try (
+            PreparedStatement deletePstmt = conn.prepareStatement(deleteTargetSql);
+            PreparedStatement updatePstmt = conn.prepareStatement(updateSourceSql)
+        ) {
+            deletePstmt.setLong(1, gameId);
+            deletePstmt.setInt(2, to.x());
+            deletePstmt.setInt(3, to.y());
+            deletePstmt.executeUpdate();
 
-            try (
-                PreparedStatement deletePstmt = conn.prepareStatement(deleteTargetSql);
-                PreparedStatement updatePstmt = conn.prepareStatement(updateSourceSql)
-            ) {
-                deletePstmt.setLong(1, gameId);
-                deletePstmt.setInt(2, to.x());
-                deletePstmt.setInt(3, to.y());
-                deletePstmt.executeUpdate();
-
-                updatePstmt.setInt(1, to.x());
-                updatePstmt.setInt(2, to.y());
-                updatePstmt.setLong(3, gameId);
-                updatePstmt.setInt(4, from.x());
-                updatePstmt.setInt(5, from.y());
-
-                updatePstmt.executeUpdate();
-
-                conn.commit();
-            } catch (Exception e) {
-                conn.rollback();
-                throw new RuntimeException("[ERROR] 기물 이동 중 오류가 발생했습니다.", e);
-            } finally {
-                conn.setAutoCommit(true);
-            }
+            updatePstmt.setInt(1, to.x());
+            updatePstmt.setInt(2, to.y());
+            updatePstmt.setLong(3, gameId);
+            updatePstmt.setInt(4, from.x());
+            updatePstmt.setInt(5, from.y());
+            updatePstmt.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] 트랜잭션 처리 중 오류가 발생했습니다.", e);
+            throw new RuntimeException("[ERROR] 기물 이동 중 오류가 발생했습니다.", e);
         }
     }
 }

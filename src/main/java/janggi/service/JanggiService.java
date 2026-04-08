@@ -3,24 +3,29 @@ package janggi.service;
 import janggi.dao.GameDao;
 import janggi.dao.PieceDao;
 import janggi.domain.Board;
+import janggi.domain.Team;
 import janggi.domain.dto.BoardPieceSnapshot;
 import janggi.domain.dto.PieceData;
 import janggi.domain.Position;
 
+import java.sql.Connection;
 import java.util.List;
+import javax.sql.DataSource;
 
 public class JanggiService {
 
+    private final DataSource dataSource;
     private final GameDao gameDao;
     private final PieceDao pieceDao;
 
-    public JanggiService(GameDao gameDao, PieceDao pieceDao) {
+    public JanggiService(DataSource dataSource, GameDao gameDao, PieceDao pieceDao) {
+        this.dataSource = dataSource;
         this.gameDao = gameDao;
         this.pieceDao = pieceDao;
     }
 
-    public long createGame(Board board) {
-        long gameId = gameDao.save();
+    public long createGame(Board board, Team team) {
+        long gameId = gameDao.save(team);
         pieceDao.saveAll(toPieceData(gameId, board.getPieces()));
         return gameId;
     }
@@ -44,10 +49,32 @@ public class JanggiService {
         return Board.from(toSnapshots(pieceData));
     }
 
+    public Team loadTurn(long gameId) {
+        return gameDao.findTurnByGameId(gameId);
+    }
+
     public void move(long gameId, Board board, Position from, Position to) {
         validateGameExists(gameId);
-        board.move(from, to);
-        pieceDao.move(gameId, from, to);
+
+        Team currentTurn = gameDao.findTurnByGameId(gameId);
+        board.move(currentTurn, from, to);
+
+        Team nextTurn = currentTurn.next();
+
+        try (Connection conn = dataSource.getConnection()) {
+            conn.setAutoCommit(false);
+
+            try {
+                pieceDao.move(conn, gameId, from, to);
+                gameDao.updateTurn(conn, gameId, nextTurn);
+                conn.commit();
+            } catch (Exception e) {
+                conn.rollback();
+                throw e;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("[ERROR] 이동 저장 중 오류가 발생했습니다.", e);
+        }
     }
 
     private void validateGameExists(long gameId) {
