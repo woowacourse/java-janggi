@@ -86,9 +86,15 @@ public class JanggiController {
         Position from = readFromPosition();
         Position to = readToPosition();
         Janggi movedJanggi = janggi.play(from, to);
-        movedJanggi.withBoard((board, team) ->
-                janggiService.save(gameId, board, team));
+        saveBoard(movedJanggi, gameId);
         return movedJanggi;
+    }
+
+    private void saveBoard(Janggi movedJanggi, Long gameId) {
+        if (!movedJanggi.isGameOver()) {
+            movedJanggi.withBoard((board, team) ->
+                    janggiService.save(gameId, board, team));
+        }
     }
 
     private int readGameSelection() {
