@@ -66,7 +66,7 @@ public final class JanggiGameRepository {
             try (ResultSet rs = pstmt.getGeneratedKeys()) {
                 if (rs.next()) {
                     long gameId = rs.getLong(1);
-                    insertPieces(conn, gameId, janggiGame);
+                    insertPieces(conn, janggiGame, gameId);
 
                     return gameId;
                 }
@@ -164,7 +164,7 @@ public final class JanggiGameRepository {
         }
     }
 
-    private void insertPieces(Connection conn, long gameId, JanggiGame janggiGame) {
+    private void insertPieces(Connection conn, JanggiGame janggiGame, long gameId) {
         String sql = ""
                 + "INSERT INTO piece (game_id, position_row, position_file, piece_type, side) "
                 + "VALUES (?, ?, ?, ?, ?)";
@@ -195,9 +195,6 @@ public final class JanggiGameRepository {
         String sqlForDelete = ""
                 + "DELETE FROM piece "
                 + "WHERE game_id = ?";
-        String sqlForUpdate = ""
-                + "INSERT INTO piece (game_id, position_row, position_file, piece_type, side) "
-                + "VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sqlForDelete)) {
             pstmt.setLong(1, gameId);
@@ -206,25 +203,7 @@ public final class JanggiGameRepository {
             throw new IllegalStateException(e);
         }
 
-        try (PreparedStatement pstmt = conn.prepareStatement(sqlForUpdate)) {
-            Map<Intersection, Piece> piecesByIntersection = janggiGame.toMap();
-
-            pstmt.setLong(1, gameId);
-            for (Entry<Intersection, Piece> entry : piecesByIntersection.entrySet()) {
-                Intersection intersection = entry.getKey();
-                Piece piece = entry.getValue();
-
-                pstmt.setInt(2, intersection.row());
-                pstmt.setInt(3, intersection.file());
-                pstmt.setString(4, piece.getType().name());
-                pstmt.setString(5, piece.getSide().name());
-                pstmt.addBatch();
-            }
-
-            pstmt.executeBatch();
-        } catch (SQLException e) {
-            throw new IllegalStateException(e);
-        }
+        insertPieces(conn, janggiGame, gameId);
     }
 
     private Map<Intersection, Piece> findPieces(Connection conn, long gameId) {
