@@ -2,14 +2,14 @@ package janggi.domain.piece.strategy;
 
 import janggi.domain.Position;
 import janggi.domain.board.BoardChecker;
-import janggi.domain.piece.camp.CampType;
 import janggi.domain.piece.PieceRule;
+import janggi.domain.piece.camp.CampType;
 import janggi.exception.ExceptionMessage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiFunction;
 
-public class CannonStrategy extends PalaceStrategy implements MoveStrategy {
+public class CannonStrategy extends PalaceStrategy {
 
     private static final long REQUIRED_PIECE_COUNT = 1;
 

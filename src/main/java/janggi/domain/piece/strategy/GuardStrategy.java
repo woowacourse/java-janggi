@@ -2,11 +2,11 @@ package janggi.domain.piece.strategy;
 
 import janggi.domain.Position;
 import janggi.domain.board.BoardChecker;
-import janggi.domain.piece.camp.CampType;
 import janggi.domain.piece.PieceRule;
+import janggi.domain.piece.camp.CampType;
 import janggi.exception.ExceptionMessage;
 
-public class GuardStrategy extends PalaceStrategy implements MoveStrategy {
+public class GuardStrategy extends PalaceStrategy {
 
     private static final int DISTANCE = 1;
 

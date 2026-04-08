@@ -3,7 +3,7 @@ package janggi.domain.piece.strategy;
 import janggi.domain.Position;
 import janggi.exception.ExceptionMessage;
 
-public abstract class PalaceStrategy {
+public abstract class PalaceStrategy implements MoveStrategy {
 
     private final Position CHO_GENERAL_POSITION = new Position(1, 4);
     private final Position HAN_GENERAL_POSITION = new Position(8, 4);
