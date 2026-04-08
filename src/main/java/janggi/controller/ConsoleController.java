@@ -23,7 +23,7 @@ public class ConsoleController {
     }
 
     public void run() {
-        initializeGame();
+        retry(this::startGame);
         outputView.printBoard(gameService.getBoardDto());
         while (gameService.isPlaying()) {
             playTurn();
@@ -31,12 +31,21 @@ public class ConsoleController {
         outputView.printWinner(gameService.getWinnerDto());
     }
 
-    private void initializeGame() {
+    private void startGame() {
+        GameCommand gameCommand = InputParser.parseGameCommand(inputView.readGameCommand());
+        gameCommand.execute(this);
+    }
+
+    void initializeGame() {
         Name choName = getPlayerName(Side.CHO);
         Formation choFormation = getFormation(Side.CHO);
         Name hanName = getPlayerName(Side.HAN);
         Formation hanFormation = getFormation(Side.HAN);
         retry(() -> gameService.initializeGame(choName, hanName, choFormation, hanFormation));
+    }
+
+    void loadGame() {
+        retry(() -> gameService.loadGame(InputParser.parseGameId(inputView.readGameId())));
     }
 
     private Name getPlayerName(Side side) {

@@ -1,5 +1,6 @@
 package janggi.view;
 
+import janggi.controller.GameCommand;
 import janggi.domain.space.Position;
 import janggi.domain.board.FormationCommand;
 import janggi.domain.player.Name;
@@ -18,9 +19,32 @@ public class InputParser {
             "4", FormationCommand.FOURTH
     );
 
+    private static final Map<String, GameCommand> GAME_COMMAND_MAP = Map.of(
+            "1", GameCommand.NEW_GAME,
+            "2", GameCommand.LOAD_GAME
+    );
+
     public static Name parseName(String input) {
         validateBlank(input);
         return new Name(input.strip());
+    }
+
+    public static GameCommand parseGameCommand(String input) {
+        validateBlank(input);
+        String strippedInput = input.strip();
+
+        if (!GAME_COMMAND_MAP.containsKey(strippedInput)) {
+            throw new IllegalArgumentException("올바른 게임 명령어가 아닙니다. (1 또는 2)");
+        }
+        return GAME_COMMAND_MAP.get(strippedInput);
+    }
+
+    public static Long parseGameId(String inputId) {
+        try {
+            return Long.valueOf(inputId.strip());
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("게임 ID는 숫자만 입력 가능합니다.");
+        }
     }
 
     public static FormationCommand parseFormation(String input) {

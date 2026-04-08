@@ -10,6 +10,18 @@ public class InputView {
         this.scanner = scanner;
     }
 
+    public String readGameCommand() {
+        System.out.println("장기 게임을 시작합니다.");
+        System.out.println("1: 새로운 게임 시작");
+        System.out.println("2: 기존 게임 이어하기");
+        return scanner.nextLine();
+    }
+
+    public String readGameId() {
+        System.out.println("불러올 게임 ID를 입력하세요.");
+        return scanner.nextLine();
+    }
+
     public String readPlayerName(SideDto sideDto) {
         System.out.printf("%s나라 플레이어 이름 입력: ", sideDto.name());
         return scanner.nextLine();
