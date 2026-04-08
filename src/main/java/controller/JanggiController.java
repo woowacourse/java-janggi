@@ -1,7 +1,7 @@
 package controller;
 
 import db.repository.GameRepository;
-import db.session.Session;
+import db.persistence.Persisted;
 import domain.board.Board;
 import domain.board.ChoWings;
 import domain.board.HanWings;
@@ -29,18 +29,18 @@ public class JanggiController {
     }
 
     public void run() {
-        Session<JanggiGame> gameSession = retryOnIllegalArgument(this::startGame);
-        JanggiGame game = gameSession.payload();
+        Persisted<JanggiGame> persistedGame = retryOnIllegalArgument(this::startGame);
+        JanggiGame game = persistedGame.data();
 
         while (game.isPlaying()) {
             retryOnIllegalArgument(() -> progressTurn(game));
-            gameRepository.update(gameSession);
+            gameRepository.update(persistedGame);
         }
 
-        finishGame(gameSession);
+        finishGame(persistedGame);
     }
 
-    private Session<JanggiGame> startGame() {
+    private Persisted<JanggiGame> startGame() {
         boolean shouldStartNewGame = view.askStartNewGame();
         if (shouldStartNewGame) {
             return startNewGame();
@@ -48,7 +48,7 @@ public class JanggiController {
         return resumeExistGame();
     }
 
-    private Session<JanggiGame> startNewGame() {
+    private Persisted<JanggiGame> startNewGame() {
         ChoWings choWings = retryOnIllegalArgument(view::readChowings);
         HanWings hanWings = retryOnIllegalArgument(view::readHanWings);
 
@@ -57,13 +57,13 @@ public class JanggiController {
 
         JanggiGame game = new JanggiGame(new Board(alivePieces));
 
-        Session<JanggiGame> newGame = gameRepository.save(game);
+        Persisted<JanggiGame> newGame = gameRepository.save(game);
         view.printNewGameId(newGame.id());
 
         return newGame;
     }
 
-    private Session<JanggiGame> resumeExistGame() {
+    private Persisted<JanggiGame> resumeExistGame() {
         List<Integer> gameIds = gameRepository.findAllIds();
         int gameId = view.readExistGameId(gameIds);
 
@@ -81,14 +81,14 @@ public class JanggiController {
         game.movePiece(startIntersection, destination);
     }
 
-    private void finishGame(Session<JanggiGame> gameSession) {
-        JanggiGame game = gameSession.payload();
+    private void finishGame(Persisted<JanggiGame> persistedGame) {
+        JanggiGame game = persistedGame.data();
 
         Side winner = game.getWinner();
         List<ScoreDto> scores = calculateTotalScore(game);
         view.printWinner(winner, scores);
 
-        gameRepository.delete(gameSession);
+        gameRepository.delete(persistedGame);
     }
 
     private List<ScoreDto> calculateTotalScore(JanggiGame game) {

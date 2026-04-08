@@ -1,7 +1,7 @@
 package db.repository;
 
 import db.connector.Connector;
-import db.session.Session;
+import db.persistence.Persisted;
 import db.util.DataAccessException;
 import db.util.Transaction;
 import domain.board.Board;
@@ -32,12 +32,12 @@ public class GameRepository {
         this.pieceRepository = pieceRepository;
     }
 
-    public Session<JanggiGame> save(JanggiGame game) {
+    public Persisted<JanggiGame> save(JanggiGame game) {
         return transaction.execute(connection -> {
-            Session<JanggiGame> gameSession = saveGame(game, connection);
-            pieceRepository.save(game.getBoard(), gameSession.id(), connection);
+            Persisted<JanggiGame> persistedGame = saveGame(game, connection);
+            pieceRepository.save(game.getBoard(), persistedGame.id(), connection);
 
-            return gameSession;
+            return persistedGame;
         });
     }
 
@@ -53,7 +53,7 @@ public class GameRepository {
         });
     }
 
-    public Session<JanggiGame> findById(int gameId) {
+    public Persisted<JanggiGame> findById(int gameId) {
         return transaction.execute(connection -> {
             Side currentTurn = findCurrentTurn(gameId, connection);
             Map<Intersection, Piece> pieces = pieceRepository.findByGameId(gameId, connection);
@@ -61,27 +61,27 @@ public class GameRepository {
             Board board = new Board(new AlivePieces(pieces));
             JanggiGame game = new JanggiGame(board, currentTurn);
 
-            return new Session<>(game, gameId);
+            return new Persisted<>(game, gameId);
         });
     }
 
-    public void update(Session<JanggiGame> gameSession) {
+    public void update(Persisted<JanggiGame> persistedGame) {
         transaction.execute(connection -> {
-            updateCurrentTurn(gameSession, connection);
-            updatePieces(gameSession, connection);
+            updateCurrentTurn(persistedGame, connection);
+            updatePieces(persistedGame, connection);
         });
     }
 
-    public void delete(Session<JanggiGame> gameSession) {
+    public void delete(Persisted<JanggiGame> persistedGame) {
         transaction.execute(connection -> {
-            int gameId = gameSession.id();
+            int gameId = persistedGame.id();
             pieceRepository.delete(gameId, connection);
 
             deleteGame(gameId, connection);
         });
     }
 
-    private Session<JanggiGame> saveGame(
+    private Persisted<JanggiGame> saveGame(
             JanggiGame game,
             Connection connection
     ) throws SQLException {
@@ -95,7 +95,7 @@ public class GameRepository {
 
             int gameId = getGeneratedKey(statement);
 
-            return new Session<>(game, gameId);
+            return new Persisted<>(game, gameId);
         }
     }
 
@@ -118,29 +118,29 @@ public class GameRepository {
     }
 
     private void updateCurrentTurn(
-            Session<JanggiGame> gameSession,
+            Persisted<JanggiGame> persistedGame,
             Connection connection
     ) throws SQLException {
         String update = "UPDATE game SET current_turn = ? WHERE id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(update)) {
-            JanggiGame game = gameSession.payload();
+            JanggiGame game = persistedGame.data();
             Side currentTurn = game.getCurrentTurn();
 
             statement.setString(1, currentTurn.name());
-            statement.setInt(2, gameSession.id());
+            statement.setInt(2, persistedGame.id());
             statement.executeUpdate();
         }
     }
 
     private void updatePieces(
-            Session<JanggiGame> gameSession,
+            Persisted<JanggiGame> persistedGame,
             Connection connection
     ) throws SQLException {
-        JanggiGame game = gameSession.payload();
+        JanggiGame game = persistedGame.data();
         Map<Intersection, Piece> pieces = game.getBoard();
 
-        pieceRepository.update(pieces, gameSession.id(), connection);
+        pieceRepository.update(pieces, persistedGame.id(), connection);
     }
 
     private void deleteGame(
