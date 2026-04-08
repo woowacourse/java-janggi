@@ -4,6 +4,9 @@ import janggi.controller.JanggiFlow;
 import janggi.repository.util.ConnectionProvider;
 import janggi.repository.util.DBConnectionProvider;
 import janggi.repository.util.SchemaInitializer;
+import janggi.repository.util.TransactionManager;
+import janggi.sevice.DefaultJanggiService;
+import janggi.sevice.JanggiService;
 import janggi.view.ApplicationView;
 import janggi.view.input.ConsoleReader;
 import janggi.view.output.ConsoleWriter;
@@ -16,7 +19,10 @@ public class Application {
         schemaInitializer.init();
 
         ApplicationView view = new ApplicationView(new ConsoleWriter(), new ConsoleReader());
-        JanggiFlow janggi = new JanggiFlow(view);
+
+        TransactionManager transactionManager = new TransactionManager(connectionProvider);
+        JanggiService janggiService = new DefaultJanggiService(transactionManager);
+        JanggiFlow janggi = new JanggiFlow(view, janggiService);
 
         janggi.process();
     }

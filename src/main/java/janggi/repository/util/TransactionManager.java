@@ -65,4 +65,8 @@ public class TransactionManager {
             }
         }
     }
+
+    public boolean isNotActive() {
+        return connectionHolder.get() == null;
+    }
 }

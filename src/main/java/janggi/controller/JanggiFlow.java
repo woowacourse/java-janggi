@@ -5,13 +5,14 @@ import janggi.domain.Side;
 import janggi.domain.board.Board;
 import janggi.domain.piece.Piece;
 import janggi.domain.state.GameContext;
-import janggi.exception.JanggiException;
 import janggi.domain.strategy.ArrangementStrategy;
 import janggi.domain.strategy.ArrangementStrategyFactory;
-import janggi.domain.strategy.BoardAssembler;
 import janggi.domain.strategy.IntersectionInitializer;
 import janggi.domain.strategy.PalaceIntersectionInitializer;
 import janggi.domain.strategy.StrategyLabel;
+import janggi.exception.JanggiException;
+import janggi.sevice.JanggiService;
+import janggi.sevice.dto.GameInformation;
 import janggi.view.ApplicationView;
 import janggi.view.resolver.PieceViewResolver;
 import janggi.view.resolver.SideViewResolver;
@@ -24,30 +25,52 @@ public class JanggiFlow {
     private final ApplicationView view;
     private final ArrangementStrategyFactory arrangementFactory;
     private final IntersectionInitializer intersectionInitializer;
+    private final JanggiService janggiService;
 
-    public JanggiFlow(ApplicationView view) {
+    public JanggiFlow(ApplicationView view, JanggiService janggiService) {
         this.view = view;
+        this.janggiService = janggiService;
         this.arrangementFactory = new ArrangementStrategyFactory();
         this.intersectionInitializer = new PalaceIntersectionInitializer();
     }
 
     public void process() {
-        Board board = initializeBoard();
+        //보드 초기화
+        GameInformation gameInformation = initializeGameInformation();
+        Board board = gameInformation.board();
+        Side currentSide = gameInformation.currentSide();
 
-        GameContext gameContext = GameContext.createInProgress(board.getAlivePieces(), Side.HAN);
+        //컨텍스트 생성
+        GameContext gameContext = GameContext.createInProgress(board.getAlivePieces(), currentSide);
         while (gameContext.isInProgress()) {
+            //출력
             printBoard(board);
-
-            Side currentSide = gameContext.getCurrentSide();
+            currentSide = gameContext.getCurrentSide();
             view.respondCurrentSide(SideViewResolver.toDisplayName(currentSide));
 
+            System.out.println("alive: " + board.getAlivePieces().size());
+            //턴 실행
+            Side finalCurrentSide = currentSide;
             retryAction(() -> {
-                Location from = askLocationOfPiece(currentSide, board);
-                Location to = askLocationToMove(currentSide, board);
+                Location from = askLocationOfPiece(finalCurrentSide, board);
+                Location to = askLocationToMove(finalCurrentSide, board);
                 Piece removedPiece = board.move(from, to);
                 gameContext.update(removedPiece);
             });
         }
+        janggiService.endGame(gameInformation.gameId());
+    }
+
+    private GameInformation initializeGameInformation() {
+        List<Long> activeGameIds = janggiService.findActiveGameIds();
+        if (activeGameIds.isEmpty()) {
+            List<ArrangementStrategy> strategies = Stream.of(Side.values())
+                    .map(this::askStrategy)
+                    .toList();
+            return janggiService.createGame(strategies, intersectionInitializer);
+        }
+        Long gameId = activeGameIds.getFirst();
+        return janggiService.loadGameInformation(gameId, intersectionInitializer);
     }
 
     private void printBoard(Board board) {
@@ -59,10 +82,6 @@ public class JanggiFlow {
         view.respondBoardArray(displayBoard);
     }
 
-    private Board initializeBoard() {
-        List<ArrangementStrategy> strategies = Stream.of(Side.values()).map(this::askStrategy).toList();
-        return Board.create(BoardAssembler.of(strategies, intersectionInitializer));
-    }
 
     private Location askLocationOfPiece(Side current, Board board) {
         List<Integer> locationOfPiece = view.requestLocationOfPiece();
