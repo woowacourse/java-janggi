@@ -87,7 +87,7 @@ class JanggiRepositoryImplTest {
 
         // when
         MoveCommand move = new MoveCommand(new Position(6, 0), new Position(5, 0), Team.CHO);
-        repository.updateGame(gameId, move);
+        repository.updateGame(gameId, move, GameStatus.PLAYING);
 
         // then
         try (PreparedStatement stmt = connection.prepareStatement(
@@ -121,7 +121,7 @@ class JanggiRepositoryImplTest {
 
         // when
         MoveCommand move = new MoveCommand(new Position(6, 0), new Position(5, 0), Team.CHO);
-        repository.updateGame(gameId, move);
+        repository.updateGame(gameId, move, GameStatus.PLAYING);
 
         // then
         try (PreparedStatement stmt = connection.prepareStatement(
@@ -141,7 +141,7 @@ class JanggiRepositoryImplTest {
 
         // when
         MoveCommand move = new MoveCommand(new Position(6, 0), new Position(5, 0), Team.CHO);
-        repository.updateGame(gameId, move);
+        repository.updateGame(gameId, move, GameStatus.PLAYING);
 
         // then
         try (PreparedStatement stmt = connection.prepareStatement(

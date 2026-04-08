@@ -59,7 +59,7 @@ public class JanggiRepositoryImpl implements JanggiRepository {
     }
 
     @Override
-    public void updateGame(long gameId, MoveCommand moveCommand) {
+    public void updateGame(long gameId, MoveCommand moveCommand, GameStatus status) {
         Position source = moveCommand.source();
         Position destination = moveCommand.destination();
         Team currentTurn = moveCommand.turn();
@@ -68,6 +68,7 @@ public class JanggiRepositoryImpl implements JanggiRepository {
             deletePieceOnDestination(gameId, moveCommand.destination());
             updatePositionOfPiece(gameId, destination, source);
             updateCurrentTurn(gameId, currentTurn);
+            updateCurrentGameStatus(gameId, status);
         });
     }
 
@@ -115,20 +116,20 @@ public class JanggiRepositoryImpl implements JanggiRepository {
 
     @Override
     public Map<Position, Piece> findPiecesByGameId(long gameId) {
-        List<PieceDto> pieceDaos = jdbcTemplate.query(
+        List<PieceDto> pieceDtos = jdbcTemplate.query(
                 "SELECT piece_type, team, row_idx, col_idx FROM piece WHERE game_id = ?",
                 stmt -> stmt.setLong(1, gameId),
                 new PieceDtoMapper()
         );
-        return createBoardMap(pieceDaos);
+        return createBoardMap(pieceDtos);
     }
 
-    private Map<Position, Piece> createBoardMap(List<PieceDto> pieceDaos) {
+    private Map<Position, Piece> createBoardMap(List<PieceDto> pieceDtos) {
         Map<Position, Piece> boardMap = new HashMap<>();
-        for (PieceDto pieceDao : pieceDaos) {
-            Position position = new Position(pieceDao.rowIndex(), pieceDao.colIndex());
-            Team currentTurn = Team.fromName(pieceDao.team());
-            Piece piece = PieceType.fromName(pieceDao.pieceType()).createPiece(currentTurn);
+        for (PieceDto pieceDto : pieceDtos) {
+            Position position = new Position(pieceDto.rowIndex(), pieceDto.colIndex());
+            Team currentTurn = Team.fromName(pieceDto.team());
+            Piece piece = PieceType.fromName(pieceDto.pieceType()).createPiece(currentTurn);
             boardMap.put(position, piece);
         }
         return Map.copyOf(boardMap);

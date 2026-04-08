@@ -54,7 +54,8 @@ public class JanggiService {
 
     public GameStatus move(Position current, Position next) {
         GameStatus status = janggi.move(current, next);
-        janggiRepository.updateGame(gameId, new MoveCommand(current, next, janggi.getTurn()));
+        MoveCommand moveCommand = new MoveCommand(current, next, janggi.getTurn());
+        janggiRepository.updateGame(gameId, moveCommand, status);
         return status;
     }
 

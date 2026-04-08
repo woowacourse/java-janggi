@@ -50,7 +50,6 @@ public class JanggiController {
         if (status == GameStatus.WIN_BY_CAPTURE) {
             Team winner = janggiService.getWinnerByCapture();
             outputView.displayWinner(winner.getKoreanName());
-            janggiService.changeGameStatus(GameStatus.WIN_BY_CAPTURE);
         }
     }
 

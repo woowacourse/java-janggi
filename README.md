@@ -442,7 +442,7 @@
 
 - **DB 스키마 변경 시**
     - 컬럼 추가/이름 변경을 하는 경우
-    - JanggiRepositoryImpl`의 SQL과 DAO를 매핑하는 로직만 수정된다.
+    - JanggiRepositoryImpl`의 SQL과 Dto를 매핑하는 로직만 수정된다.
     - 도메인 코드는 변경할 일이 없다.
 - **DB 종류 변경 시**
     - 예를 들어 H2에서 MySQL로 변경하는 경우
@@ -462,7 +462,7 @@
     * "도메인은 저장 방식을 모른다" 규칙에 따라 `Janggi`가 DB를 직접 호출하는 선택지는 제외했고, 컨트롤러에 두기에는 게임 상태(`gameId`) 관리까지 떠안게 되어 책임이 과해졌다. 이를
       분산시키기 위해 Service 계층을 도입했다.
     * 결과적으로 Controller → Service → Repository 의존 방향이 잡혔고, 도메인(`Janggi`, `Board`, `Piece`)은 저장소를 전혀 모르는 구조가 되었다.
-2. `Optional<GameDao>` 반환
+2. `Optional<GameDto>` 반환
    > (If-Then) 만약 NPE가 발생할 가능성이 있는 코드가 보인다면,
    → 아래와 같이 null을 처리하는 방법을 고려해 본다.
    >

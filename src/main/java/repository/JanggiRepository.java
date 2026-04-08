@@ -14,7 +14,7 @@ public interface JanggiRepository {
 
     long saveGame(Team turn, Map<Position, Piece> board);
 
-    void updateGame(long gameId, MoveCommand moveCommand);
+    void updateGame(long gameId, MoveCommand moveCommand, GameStatus status);
 
     Optional<GameDto> findRecentGame();
 
