@@ -21,6 +21,8 @@ public enum PieceConverter {
     GUARD(Guard.class, Guard::new),
     GENERAL(General.class, General::new);
 
+    private static final String NOT_DEFINED_PIECE = "정의되지 않은 기물입니다.";
+
     private final Class<? extends Piece> pieceType;
     private final Function<Side, Piece> pieceFactory;
 
@@ -37,7 +39,7 @@ public enum PieceConverter {
                 .filter(piece -> piece.hasSameName(pieceName))
                 .map(piece -> piece.createPiece(side))
                 .findAny()
-                .orElseThrow(() -> new IllegalStateException("정의되지 않은 기물입니다."));
+                .orElseThrow(() -> new IllegalStateException(NOT_DEFINED_PIECE));
     }
 
     public static String toColumnValue(Piece piece) {
@@ -45,7 +47,7 @@ public enum PieceConverter {
                 .filter(pieceConverter -> pieceConverter.hasSameType(piece))
                 .map(PieceConverter::getName)
                 .findAny()
-                .orElseThrow(() -> new IllegalStateException("정의되지 않은 기물입니다."));
+                .orElseThrow(() -> new IllegalStateException(NOT_DEFINED_PIECE));
     }
 
     private boolean hasSameName(String pieceName) {
