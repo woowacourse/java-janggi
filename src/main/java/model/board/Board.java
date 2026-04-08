@@ -48,17 +48,6 @@ public class Board {
         return capturedPiece;
     }
 
-    private static void validatePieceExists(Piece piece) {
-        if (piece == null) {
-            throw new IllegalArgumentException("[ERROR] 기물이 없습니다.");
-        }
-    }
-
-    private void executeMove(Move move, Piece piece) {
-        place(move.to(), piece);
-        remove(move.from());
-    }
-
     public boolean isPieceAt(Position position, Piece piece) {
         return piece.equals(board.get(position));
     }
@@ -93,6 +82,27 @@ public class Board {
             current = getPosition(move, current, pieces);
         }
         return List.copyOf(pieces);
+    }
+
+    public List<PlacedPiece> placedPieces() {
+        List<PlacedPiece> placedPieces = new ArrayList<>();
+
+        for (Map.Entry<Position, Piece> entry : board.entrySet()) {
+            placedPieces.add(new PlacedPiece(entry.getKey(), entry.getValue()));
+        }
+
+        return List.copyOf(placedPieces);
+    }
+
+    private static void validatePieceExists(Piece piece) {
+        if (piece == null) {
+            throw new IllegalArgumentException("[ERROR] 기물이 없습니다.");
+        }
+    }
+
+    private void executeMove(Move move, Piece piece) {
+        place(move.to(), piece);
+        remove(move.from());
     }
 
     private Position getPosition(Move move, Position current, List<Piece> pieces) {
