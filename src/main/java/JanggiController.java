@@ -38,6 +38,11 @@ public class JanggiController {
 
             if (gameType == GameType.LOAD) {
                 List<GameEntity> findGames = gameDao.findAll();
+                if (findGames.isEmpty()) {
+                    outputView.printMessage("기존에 진행하던 게임이 없습니다.");
+                    continue;
+                }
+
                 int gameId = inputView.readGameNumber(findGames.stream()
                         .map(GameEntity::getUpdatedAt)
                         .toList());
@@ -142,7 +147,7 @@ public class JanggiController {
 
             return game.getStatus() == Status.PLAYING;
         } catch (Exception e) {
-            outputView.printError(e.getMessage());
+            outputView.printMessage("[ERROR] " + e.getMessage());
             return move(game, gameId);
         }
     }
