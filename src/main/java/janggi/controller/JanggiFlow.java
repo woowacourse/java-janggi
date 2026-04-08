@@ -28,7 +28,7 @@ public class JanggiFlow {
         ArrangementStrategy choStrategy = repeatAskStrategyUntilSuccess(Side.CHO);
         Board board = Board.create(BoardAssembler.from(List.of(hanStrategy, choStrategy)));
 
-        Side current = Side.HAN;
+        Side current = Side.CHO;
         while (board.isNotEmpty()) {
             view.showBoardArray(convertBoardStatus(board));
             view.showCurrentSide(current.getName());
