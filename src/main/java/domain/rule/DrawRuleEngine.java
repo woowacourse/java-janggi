@@ -3,10 +3,10 @@ package domain.rule;
 import domain.board.Board;
 import java.util.List;
 
-public class RuleEngine {
+public class DrawRuleEngine {
     private final List<DrawRule> drawRules;
 
-    public RuleEngine(List<DrawRule> drawRules) {
+    public DrawRuleEngine(List<DrawRule> drawRules) {
         this.drawRules = drawRules;
     }
 
