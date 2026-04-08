@@ -28,5 +28,8 @@ CREATE TABLE IF NOT EXISTS movement (
     dest_row_pos INT NOT NULL,
     dest_col_pos INT NOT NULL,
 
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    CONSTRAINT fk_movement_game
+        FOREIGN KEY (janggi_game_id) REFERENCES janggi_game(id)
+        ON DELETE CASCADE
 );
