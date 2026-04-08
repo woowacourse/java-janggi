@@ -20,13 +20,6 @@ public class GameEntity {
         this.updatedAt = updatedAt;
     }
 
-    public static GameEntity from(String currentTurn, String status) {
-        return new GameEntity(
-                currentTurn,
-                status
-        );
-    }
-
     public Long getId() {
         return id;
     }
@@ -37,10 +30,6 @@ public class GameEntity {
 
     public String getStatus() {
         return status;
-    }
-
-    public OffsetDateTime getCreatedAt() {
-        return createdAt;
     }
 
     public OffsetDateTime getUpdatedAt() {

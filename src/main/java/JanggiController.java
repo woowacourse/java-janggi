@@ -51,7 +51,10 @@ public class JanggiController {
 
                 List<PieceEntity> findPieces = pieceDao.findAllByGameId(findGame.getId());
                 Board board = convertPieceEntitiesToBoard(findPieces);
-                Game game = Game.loadGame(board, findGame.getCurrentTurn(), findGame.getStatus());
+
+                Team team = Team.valueOf(findGame.getCurrentTurn());
+                Game game = Game.loadGame(board, team, status);
+
                 playGame(game, findGame);
             }
             if (gameType == GameType.NEW) {
@@ -79,7 +82,7 @@ public class JanggiController {
         while (true) {
             outputView.printBoard(game.getBoard().getBoard());
             boolean isContinue = move(game, gameEntity.getId());
-            gameDao.update(gameEntity.getId(), game.getTurnName(), game.getStatus().toString());
+            gameDao.update(gameEntity.getId(), game.getCurrentTeam().name(), game.getStatus().toString());
             outputView.printScore(game.calculateScore(Team.CHU), game.calculateScore(Team.HAN));
 
             if (!isContinue) {
@@ -99,7 +102,7 @@ public class JanggiController {
 
     private GameEntity saveGame(Game game) {
         GameEntity gameEntity = gameDao.save(
-                GameEntity.from(game.getTurnName(), game.getStatus().toString())
+                new GameEntity(game.getCurrentTeam().name(), game.getStatus().toString())
         );
 
         List<PieceEntity> pieces = convertBoardToPieceEntities(gameEntity.getId(), game.getBoard());
@@ -121,9 +124,9 @@ public class JanggiController {
 
     private boolean move(Game game, Long gameId) {
         try {
-            String turnName = game.getTurnName();
+            String turnName = game.getTurnDisplayName();
 
-            String currentInput = inputView.readPosition(game.getTurnName());
+            String currentInput = inputView.readPosition(turnName);
             if (isQuitOrSkipCommand(game, turnName, currentInput))
                 return false;
             Position from = parsePosition(currentInput);

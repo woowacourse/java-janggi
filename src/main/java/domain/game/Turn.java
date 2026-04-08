@@ -6,12 +6,12 @@ public class Turn {
 
     private Team team;
 
-    private Turn() {
-        team = Team.CHU;
+    private Turn(final Team team) {
+        this.team = team;
     }
 
-    public static Turn of() {
-        return new Turn();
+    public static Turn of(final Team team) {
+        return new Turn(team);
     }
 
     public Team change() {

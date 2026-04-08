@@ -1,6 +1,9 @@
 package domain.game;
 
-import domain.board.*;
+import domain.board.Board;
+import domain.board.Piece;
+import domain.board.Team;
+import domain.board.Type;
 import domain.vo.Position;
 
 import java.util.Optional;
@@ -11,21 +14,18 @@ public class Game {
     private final Board board;
     private Status status;
 
-    private Game(final Board board, String turn, String status) {
-        this.turn = Turn.of();
+    private Game(final Board board, final Team team, final Status status) {
+        this.turn = Turn.of(team);
         this.board = board;
-        this.status = Status.valueOf(status);
-        if (turn != null && !this.turn.toString().equals(turn)) {
-            this.turn.change();
-        }
+        this.status = status;
     }
 
     public static Game of(final Board board) {
-        return new Game(board, null, Status.PLAYING.toString());
+        return new Game(board, Team.CHU, Status.PLAYING);
     }
 
-    public static Game loadGame(final Board board, final String turn, String status) {
-        return new Game(board, turn, status);
+    public static Game loadGame(final Board board, final Team team, final Status status) {
+        return new Game(board, team, status);
     }
 
     public void tryToMove(Position from, Position to) {
@@ -67,11 +67,11 @@ public class Game {
         }
     }
 
-    public String getTurnName() {
+    public String getTurnDisplayName() {
         return turn.getTeamName();
     }
 
-    public Team getTeam() {
+    public Team getCurrentTeam() {
         return turn.getTeam();
     }
 
