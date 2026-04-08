@@ -1,6 +1,7 @@
 package janggi.domain;
 
 import janggi.domain.board.Board;
+import janggi.domain.janggiGame.ScoreBoard;
 import janggi.domain.piece.*;
 import janggi.domain.vo.position.Position;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,6 +1,6 @@
 package janggi.domain.mouveRule;
 
-import janggi.domain.Palace;
+import janggi.domain.board.Palace;
 import janggi.domain.board.BoardView;
 import janggi.domain.vo.position.Position;
 

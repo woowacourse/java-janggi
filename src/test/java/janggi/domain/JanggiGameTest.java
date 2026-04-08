@@ -1,6 +1,8 @@
 package janggi.domain;
 
 import janggi.domain.board.Board;
+import janggi.domain.janggiGame.JanggiGame;
+import janggi.domain.janggiGame.ScoreBoard;
 import janggi.domain.piece.King;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Soldier;
