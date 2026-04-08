@@ -13,7 +13,7 @@ import java.util.Optional;
 import java.util.concurrent.Callable;
 
 public class JdbcTemplate {
-    private static final String ERROR_SQL = "SQL 문제가 발생했습니다";
+    private static final String ERROR_SQL = "SQL 처리에 문제가 발생했습니다";
     private final Connection connection;
 
     public JdbcTemplate(Connection connection) {
@@ -25,9 +25,9 @@ public class JdbcTemplate {
         try {
             task.run();
             commit();
-        } catch (Exception e) {
+        } catch (IllegalStateException e) {
             rollback();
-            throw new IllegalStateException(e);
+            throw new IllegalStateException(ERROR_SQL, e);
         } finally {
             setAutoCommit(true);
         }
@@ -37,7 +37,7 @@ public class JdbcTemplate {
         try {
             connection.rollback();
         } catch (SQLException e) {
-            throw new IllegalStateException(ERROR_SQL);
+            throw new IllegalStateException(ERROR_SQL, e);
         }
     }
 
@@ -45,7 +45,7 @@ public class JdbcTemplate {
         try {
             connection.setAutoCommit(autoCommit);
         } catch (SQLException e) {
-            throw new IllegalStateException(ERROR_SQL);
+            throw new IllegalStateException(ERROR_SQL, e);
         }
     }
 
@@ -53,7 +53,7 @@ public class JdbcTemplate {
         try {
             connection.commit();
         } catch (SQLException e) {
-            throw new IllegalStateException(ERROR_SQL);
+            throw new IllegalStateException(ERROR_SQL, e);
         }
     }
 
@@ -65,7 +65,7 @@ public class JdbcTemplate {
             return result;
         } catch (Exception e) {
             rollback();
-            throw new IllegalStateException(e);
+            throw new IllegalStateException(ERROR_SQL, e);
         } finally {
             setAutoCommit(true);
         }
@@ -82,7 +82,7 @@ public class JdbcTemplate {
             }
             return resultSet.getLong(1);
         } catch (SQLException e) {
-            throw new IllegalStateException(ERROR_SQL);
+            throw new IllegalStateException(ERROR_SQL, e);
         }
     }
 
@@ -100,7 +100,7 @@ public class JdbcTemplate {
             }
             return Optional.of(mapper.mapRow(rs));
         } catch (SQLException e) {
-            throw new IllegalStateException(ERROR_SQL);
+            throw new IllegalStateException(ERROR_SQL, e);
         }
     }
 
@@ -114,7 +114,7 @@ public class JdbcTemplate {
             }
             return results;
         } catch (SQLException e) {
-            throw new IllegalStateException(ERROR_SQL);
+            throw new IllegalStateException(ERROR_SQL, e);
         }
     }
 
@@ -123,7 +123,7 @@ public class JdbcTemplate {
             setter.setValues(preparedStatement);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new IllegalStateException(ERROR_SQL);
+            throw new IllegalStateException(ERROR_SQL, e);
         }
     }
 }
