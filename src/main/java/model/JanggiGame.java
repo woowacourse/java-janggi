@@ -3,7 +3,6 @@ package model;
 import model.board.Board;
 import model.board.Country;
 import model.move.Move;
-import model.position.Position;
 
 public class JanggiGame {
     private final int id;
