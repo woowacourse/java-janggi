@@ -2,6 +2,7 @@ package domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import domain.board.Board;
 import domain.board.Country;
@@ -89,5 +90,30 @@ public class CannonTest {
                 .isEqualTo(List.of(new Position(4, 1), new Position(5, 2)));
         assertThat(hanCannon.findPaths(new Position(3, 9), new Position(5, 7)))
                 .isEqualTo(List.of(new Position(4, 8), new Position(5, 7)));
+    }
+
+    @Test
+    @DisplayName("포가 궁성 내부에서 대각선 이동 시 중간 기물이 있으면 이동할 수 있다.")
+    void cannonDiagonalInPalaceWithMiddlePieceTest() {
+        Board board = Board.create(TableSetting.LEFT_TABLE, TableSetting.RIGHT_TABLE);
+        board.move(new Position(3, 0), new Position(3, 1));
+        board.move(new Position(3, 1), new Position(3, 2));
+        board.move(new Position(1, 2), new Position(5, 2));
+
+        assertDoesNotThrow(() -> board.move(new Position(5, 2), new Position(3, 0)));
+    }
+
+    @Test
+    @DisplayName("포가 궁성 내부에서 대각선 이동 시 중간에 기물이 없으면 예외가 발생한다.")
+    void cannonDiagonalInPalaceWithoutMiddlePieceTest() {
+        Board board = Board.create(TableSetting.LEFT_TABLE, TableSetting.RIGHT_TABLE);
+        board.move(new Position(3, 0), new Position(3, 1));
+        board.move(new Position(3, 1), new Position(3, 2));
+        board.move(new Position(1, 2), new Position(5, 2));
+        board.move(new Position(4, 1), new Position(5, 1));
+
+        assertThatThrownBy(() -> board.move(new Position(5, 2), new Position(3, 0)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 해당 경로로 기물을 이동시킬 수 없습니다.");
     }
 }
