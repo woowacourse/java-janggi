@@ -29,25 +29,20 @@ public class GamePersistence {
     }
 
     public void saveTurnProgress(long gameId, Board board, Team currentTurn) {
-        TransactionExecutor.execute(connection -> {
+        TransactionExecutor.executeVoid(connection -> {
             boardRepository.save(connection, gameId, board);
             gameRoom.updateGameState(connection, gameId, currentTurn, GameStatus.PROGRESS);
-            return null;
         });
     }
 
     public void saveBoard(long gameId, Board board) {
-        TransactionExecutor.execute(connection -> {
-            boardRepository.save(connection, gameId, board);
-            return null;
-        });
+        TransactionExecutor.executeVoid(connection -> boardRepository.save(connection, gameId, board));
     }
 
     public void finishGame(long gameId, Board board, Team winnerTeam, GameStatus status) {
-        TransactionExecutor.execute(connection -> {
+        TransactionExecutor.executeVoid(connection -> {
             boardRepository.save(connection, gameId, board);
             gameRoom.updateGameState(connection, gameId, winnerTeam, status);
-            return null;
         });
     }
 

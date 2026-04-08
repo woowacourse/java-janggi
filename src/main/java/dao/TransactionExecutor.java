@@ -4,6 +4,7 @@ import db.DbConnectionFactory;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 public final class TransactionExecutor {
@@ -18,6 +19,24 @@ public final class TransactionExecutor {
             T result = action.apply(connection);
             connection.commit();
             return result;
+        } catch (Exception e) {
+            rollbackQuietly(connection);
+            if (e instanceof RuntimeException) {
+                throw (RuntimeException) e;
+            }
+            throw new IllegalStateException("트랜잭션 처리에 실패했습니다.", e);
+        } finally {
+            closeQuietly(connection);
+        }
+    }
+
+    public static void executeVoid(Consumer<Connection> action) {
+        Connection connection = null;
+        try {
+            connection = DbConnectionFactory.createConnection();
+            connection.setAutoCommit(false);
+            action.accept(connection);
+            connection.commit();
         } catch (Exception e) {
             rollbackQuietly(connection);
             if (e instanceof RuntimeException) {
