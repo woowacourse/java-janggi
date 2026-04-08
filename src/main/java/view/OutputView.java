@@ -8,6 +8,11 @@ public class OutputView {
 
     private static final String EMPTY_CELL = "    ";
 
+    public static void printRemainScore(List<Double> scores) {
+        System.out.println(OutputMessage.GREEN_PIECES_SCORE.getMessage() + scores.getFirst());
+        System.out.println(OutputMessage.RED_PIECES_SCORE.getMessage() + scores.getLast());
+    }
+
     public static void printBoard(BoardDto boardDto) {
         List<List<String>> rows = boardDto.convertRows();
 
