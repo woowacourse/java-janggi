@@ -25,10 +25,7 @@ public class Po extends Piece {
     public List<Position> getAvailableRoute(Position start, PieceFinder finder) {
         List<Position> availableRoute = new ArrayList<>();
         List<Direction> directions = new ArrayList<>(Direction.getCardinalDirections());
-
-        if (start.isPalaceDiagonal()){
-            directions.addAll(Direction.getDiagonalDirections());
-        }
+        start.addPalaceDirection(directions);
 
         for (Direction direction : directions) {
             List<Piece> pieces = new ArrayList<>();
@@ -52,7 +49,6 @@ public class Po extends Piece {
         }
         return availableRoute;
     }
-
 
     private boolean isNotPo(Piece piece) {
         return !(piece.getPieceType() == PieceType.PO);

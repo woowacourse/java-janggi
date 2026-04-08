@@ -28,7 +28,6 @@ public class Sang extends Piece {
     public List<Position> getAvailableRoute(Position start, PieceFinder finder) {
         List<Position> availableRoute = new ArrayList<>();
         for (Direction direction : Direction.getCardinalDirections()) {
-            //TODO : 차 상의 궁성 구현
             Optional<Position> positionFirst = move(start, direction);
             if (positionFirst.isEmpty()) {
                 continue;
@@ -37,7 +36,6 @@ public class Sang extends Piece {
             if (endPiece!=None.INSTANCE) {
                 continue;
             }
-
             for (Direction moveDirection : direction.getMaSangDiagonalDirections(direction)) {
                 Optional<Position> position = move(positionFirst.get(), moveDirection);
                 if (position.isEmpty()) {
@@ -47,7 +45,6 @@ public class Sang extends Piece {
                 if (endPiece!=None.INSTANCE) {
                     continue;
                 }
-
                 position = move(position.get(), moveDirection);
                 if (position.isEmpty()) {
                     continue;

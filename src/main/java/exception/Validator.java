@@ -30,4 +30,10 @@ public final class Validator {
         }
         throw new IllegalArgumentException("입력이 올바르지 않습니다.");
     }
+
+    public static void validateDataExist(boolean isDataExist, String message) {
+        if (!isDataExist) {
+            throw new IllegalArgumentException(message);
+        }
+    }
 }

@@ -3,7 +3,6 @@ package service;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import config.ConnectionManager;
 import domain.Board;
@@ -12,7 +11,6 @@ import domain.JanggiGame;
 import domain.enums.MaSang;
 import domain.enums.PieceType;
 import domain.Position;
-import domain.pieces.Piece;
 import domain.state.State;
 import repository.JanggiGameRepository;
 import service.dto.BoardDto;
@@ -51,7 +49,7 @@ public class JanggiService {
         return new BoardDto(boardAll);
     }
 
-    public ColorDto buildColorDto(int gameId    )  {
+    public ColorDto buildColorDto(int gameId)  {
         Connection conn = ConnectionManager.getConnection();
         JanggiGameRepository janggiGameRepository = new JanggiGameRepository(conn);
         JanggiGame janggiGame = janggiGameRepository.findByGameId(gameId);
@@ -160,5 +158,4 @@ public class JanggiService {
         ConnectionManager.closeConnection(conn);
         return janggiGame.isGameOver();
     }
-
 }

@@ -11,13 +11,11 @@ public class JanggiGame {
     private final Board board;
     private State state;
 
-    // 새로운 게임
     public JanggiGame(Board board) {
         this.board = board;
         this.state = new ChoTurn();
     }
 
-    // 기존 게임
     public JanggiGame(Board board, State state) {
         this.board = board;
         this.state = state;
@@ -36,6 +34,37 @@ public class JanggiGame {
         return state.isGameOver();
     }
 
+    public Country calculateWinner(){
+        boolean isChoKingAlive = board.isKingAlive(Country.CHO);
+        boolean isHanKingAlive = board.isKingAlive(Country.HAN);
+        if (!isChoKingAlive && isHanKingAlive){
+            return Country.HAN;
+        }
+        if (isChoKingAlive && !isHanKingAlive){
+            return Country.CHO;
+        }
+        return compareScore();
+    }
+
+    public double calculateScore(Country country) {
+        if (country==Country.HAN){
+            return board.calculateScore(country)+1.5;
+        }
+        return board.calculateScore(country);
+    }
+
+    private Country compareScore() {
+        double choScore = calculateScore(Country.CHO);
+        double hanScore = calculateScore(Country.HAN);
+        if (choScore > hanScore){
+            return Country.CHO;
+        }
+        if (choScore == hanScore){
+            return Country.NONE;
+        }
+        return Country.HAN;
+    }
+
     public List<Position> getPiecesNowPosition(PieceType pieceType){
         return board.getPiecesNowPosition(state.getCountry(), pieceType);
     }
@@ -50,34 +79,5 @@ public class JanggiGame {
 
     public Board getBoard() {
         return board;
-    }
-
-    public double calculateScore(Country country) {
-        if (country==Country.HAN){
-            return board.calculateScore(country)+1.5;
-        }
-        return board.calculateScore(country);
-    }
-
-    public Country calculateWinner(){
-        double choScore = calculateScore(Country.CHO);
-        double hanScore = calculateScore(Country.HAN);
-        boolean isChoKingAlive = board.isKingAlive(Country.CHO);
-        boolean isHanKingAlive = board.isKingAlive(Country.HAN);
-        if (!isChoKingAlive && isHanKingAlive){
-            return Country.HAN;
-        }
-
-        if (isChoKingAlive && !isHanKingAlive){
-            return Country.CHO;
-        }
-
-        if (choScore > hanScore){
-            return Country.CHO;
-        }
-        if (choScore == hanScore){
-            return Country.NONE;
-        }
-        return Country.HAN;
     }
 }

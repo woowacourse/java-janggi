@@ -25,28 +25,24 @@ public class Cha extends Piece {
     public List<Position> getAvailableRoute(Position start, PieceFinder finder) {
         List<Position> availableRoute = new ArrayList<>();
         List<Direction> directions = new ArrayList<>(Direction.getCardinalDirections());
-
-        if (start.isPalaceDiagonal()){
-            directions.addAll(Direction.getDiagonalDirections());
-        }
+        start.addPalaceDirection(directions);
 
         for (Direction direction : directions) {
             int i = Position.MAX_ROW;
             Position now = start;
             while (i-- > 0) {
                 Optional<Position> position = move(now, direction);
-                if (position.isEmpty()) {
+                if (position.isEmpty() || (Direction.getDiagonalDirections().contains(direction) && (!position.get().isInPalace()))){
                     break;
                 }
-                if (Direction.getDiagonalDirections().contains(direction) && (!position.get().isInPalace())){
-                    break;
-                }
+
                 Piece endPiece = finder.find(position.get());
                 if (endPiece==None.INSTANCE) {
                     availableRoute.add(position.get());
                     now = position.get();
                     continue;
                 }
+
                 if (isDifferentCountry(endPiece.getCountry())) {
                     availableRoute.add(position.get());
                     break;

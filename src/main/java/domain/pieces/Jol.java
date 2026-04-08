@@ -33,19 +33,19 @@ public class Jol extends Piece {
     public List<Position> getAvailableRoute(Position start, PieceFinder finder) {
         List<Position> availableRoute = new ArrayList<>();
         List<Direction> directions = new ArrayList<>(Direction.getCardinalDirections());
-        if (start.isPalaceDiagonal()){
-            directions.addAll(Direction.getDiagonalDirections());
-        }
+        start.addPalaceDirection(directions);
 
         for (Direction direction : directions) {
             Optional<Position> position = move(start, direction);
             if (position.isEmpty() || isBackMovement(start, position.get())) {
                 continue;
             }
+
             Piece endPiece = finder.find(position.get());
             if (Direction.getDiagonalDirections().contains(direction) && (!position.get().isInPalace())){
                 continue;
             }
+
             if (finder.find(position.get())==None.INSTANCE || isDifferentCountry(endPiece.getCountry())) {
                 availableRoute.add(position.get());
             }

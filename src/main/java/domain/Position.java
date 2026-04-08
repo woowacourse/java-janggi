@@ -1,13 +1,15 @@
 package domain;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+
+import domain.enums.Direction;
 
 public class Position {
     public static final int MAX_ROW = 10;
     public static final int MAX_COL = 9;
     public static final int MIN_ROW_COL = 1;
-    public static final int PALACE_ROW_COL = 3;
     private static final Set<Position> PALACE_DIAGONAL_POSITIONS = Set.of(
             Position.create(1, 4), Position.create(1, 6), Position.create(2, 5),
             Position.create(3, 4), Position.create(3, 6), Position.create(8, 4),
@@ -42,6 +44,12 @@ public class Position {
 
     public boolean isPalaceDiagonal() {
         return PALACE_DIAGONAL_POSITIONS.contains(this);
+    }
+
+    public void addPalaceDirection(List<Direction> directions) {
+        if (isPalaceDiagonal()){
+            directions.addAll(Direction.getDiagonalDirections());
+        }
     }
 
     public int getX() {

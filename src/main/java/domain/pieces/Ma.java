@@ -23,6 +23,7 @@ public class Ma extends Piece {
 
         return (Math.abs(diffX) == 2 && Math.abs(diffY) == 1) || (Math.abs(diffX) == 1 && Math.abs(diffY) == 2);
     }
+
     @Override
     public List<Position> getAvailableRoute(Position start, PieceFinder finder) {
         List<Position> availableRoute = new ArrayList<>();
@@ -31,16 +32,18 @@ public class Ma extends Piece {
             if (positionFirst.isEmpty()) {
                 continue;
             }
+            
             Piece endPiece = finder.find(positionFirst.get());
             if (endPiece!=None.INSTANCE) {
                 continue;
             }
-
+            
             for (Direction moveDirection : direction.getMaSangDiagonalDirections(direction)) {
                 Optional<Position> position = move(positionFirst.get(), moveDirection);
                 if (position.isEmpty()) {
                     continue;
                 }
+                
                 endPiece = finder.find(position.get());
                 if (endPiece==None.INSTANCE || isDifferentCountry(endPiece.getCountry())) {
                     position.ifPresent(availableRoute::add);
@@ -50,7 +53,4 @@ public class Ma extends Piece {
         return availableRoute;
     }
 
-    public void move(){
-
-    }
 }

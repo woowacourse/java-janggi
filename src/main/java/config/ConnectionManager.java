@@ -12,26 +12,23 @@ import org.h2.tools.Server;
 
 public class ConnectionManager {
     private static final String DB_URL = "jdbc:h2:~/janggiGame";
-    private static final String USER_NAME= "sa";
+    private static final String USER_NAME = "sa";
     private static final String PASSWORD = "";
     private static Server server;
 
-    public static Connection getConnection(){
-        try{
-            Connection conn = DriverManager.getConnection(DB_URL, USER_NAME, PASSWORD );
-//            System.out.println("DB 연결 성공!");
-            return conn;
-        } catch (SQLException e){
-            throw new IllegalStateException("DB connection Error",e);
+    public static Connection getConnection() {
+        try {
+            return DriverManager.getConnection(DB_URL, USER_NAME, PASSWORD);
+        } catch (SQLException e) {
+            throw new IllegalStateException("DB connection Error", e);
         }
     }
 
-    public static void closeConnection(Connection conn){
-        if (conn != null){
-            try{
+    public static void closeConnection(Connection conn) {
+        if (conn != null) {
+            try {
                 conn.close();
-//                System.out.println("DB 닫기 성공!");
-            } catch (SQLException e){
+            } catch (SQLException e) {
                 throw new IllegalStateException("Connection close error", e);
             }
         }
@@ -43,7 +40,6 @@ public class ConnectionManager {
             if (!server.isRunning(false)) {
                 server.start();
             }
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -56,9 +52,9 @@ public class ConnectionManager {
         }
     }
 
-    public static void makeBoardAndPieceDate(Connection conn){
-        initializeSchema(conn,"schema.sql");
-        initializeSchema(conn,"initializer.sql");
+    public static void makeBoardAndPieceDate(Connection conn) {
+        initializeSchema(conn, "schema.sql");
+        initializeSchema(conn, "initializer.sql");
     }
 
     private static void initializeSchema(Connection conn, String filename) {
@@ -79,7 +75,7 @@ public class ConnectionManager {
             String line;
 
             while ((line = reader.readLine()) != null) {
-                sql.append(line).append("\n"); // ⭐ 중요
+                sql.append(line).append("\n");
             }
 
             String[] queries = sql.toString().split(";");
@@ -93,7 +89,6 @@ public class ConnectionManager {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
             throw new IllegalStateException("Schema initialization failed", e);
         }
     }

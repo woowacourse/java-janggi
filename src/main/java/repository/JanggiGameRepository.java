@@ -62,7 +62,6 @@ public class JanggiGameRepository {
             }
 
             ps.executeBatch();
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -125,21 +124,6 @@ public class JanggiGameRepository {
         return new JanggiGame(board, state);
     }
 
-    public void validateGame(int gameId) {
-        String sql = "Select id from game where id = ? and state != ?";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, gameId);
-            ps.setString(2, "Exit"); // enum이면 DB에 저장된 값 기준
-
-            ResultSet rs = ps.executeQuery();
-
-            validateDataExist(rs.next(), "진행중인 game이 없습니다.");
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public Board findBoardByGameId(int gameId) {
         String sql = """
                 SELECT
@@ -165,7 +149,6 @@ public class JanggiGameRepository {
 
                 PieceType pieceType = PieceType.of(pieceTypeStr);
                 Country country = Country.valueOf(countryStr);
-
                 Piece piece = PieceFactory.createPiece(pieceType, country);
                 Position position = Position.create(x, y);
                 board.put(position, piece);
@@ -183,6 +166,7 @@ public class JanggiGameRepository {
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, gameId);
+
             ResultSet rs = ps.executeQuery();
 
             validateDataExist(rs.next(), "저장된 게임 상태가 없습니다.");
@@ -207,5 +191,18 @@ public class JanggiGameRepository {
         }
     }
 
+    public void validateGame(int gameId) {
+        String sql = "Select id from game where id = ? and state != ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, gameId);
+            ps.setString(2, "Exit"); // enum이면 DB에 저장된 값 기준
+
+            ResultSet rs = ps.executeQuery();
+
+            validateDataExist(rs.next(), "진행중인 game이 없습니다.");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }
