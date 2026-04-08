@@ -15,10 +15,10 @@ public class BoardCellRepositoryImpl implements BoardCellRepository {
         long id = resultSet.getInt(1);
         int row = resultSet.getInt(2);
         int column = resultSet.getInt(3);
-        String piece_type = resultSet.getString(4);
+        String pieceType = resultSet.getString(4);
         String team = resultSet.getString(5);
-        int board_id = resultSet.getInt(6);
-        return new BoardCellEntity(id, row, column, piece_type, team, board_id);
+        int boardId = resultSet.getInt(6);
+        return new BoardCellEntity(id, row, column, pieceType, team, boardId);
     };
 
     private final DBConnection dbConnection;
