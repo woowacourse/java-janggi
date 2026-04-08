@@ -86,7 +86,7 @@ public class JanggiGameRepository implements GameRepository {
 
     @Override
     public GameSessionDTO findByGameId(Connection connection, long gameId) throws SQLException {
-        String sql = "select cho_player_name, han_player_name, current_turn, created_at from game where game_id = ?";
+        String sql = "select game_id, cho_player_name, han_player_name, current_turn, created_at from game where game_id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             return executeFindById(statement, gameId);
         }
@@ -95,6 +95,7 @@ public class JanggiGameRepository implements GameRepository {
     private GameSessionDTO executeFindById(PreparedStatement statement, long gameId) throws SQLException {
         statement.setLong(1, gameId);
         try (ResultSet resultSet = statement.executeQuery()) {
+            resultSet.next();
             return mapToSingleSession(resultSet);
         }
     }
