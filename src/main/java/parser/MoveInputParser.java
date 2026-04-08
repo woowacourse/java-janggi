@@ -4,6 +4,9 @@ import dto.InputMoveDto;
 import dto.InputPointDto;
 
 public class MoveInputParser {
+    private MoveInputParser() {
+    }
+
     public static InputMoveDto parse(String from, String to) {
         return new InputMoveDto(parsePoint(from), parsePoint(to));
     }

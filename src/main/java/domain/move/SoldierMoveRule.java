@@ -8,6 +8,7 @@ import static domain.move.Vector.UP;
 import domain.intersection.Intersection;
 import domain.piece.PieceType;
 import domain.point.Point;
+import domain.team.Team;
 import java.util.List;
 
 public class SoldierMoveRule extends MoveRule {
@@ -38,7 +39,7 @@ public class SoldierMoveRule extends MoveRule {
     }
 
     public Directions getDirections(Intersection from) {
-        if (from.isChoIntersection()) {
+        if (from.isSameTeam(Team.CHO)) {
             return new Directions(List.of(
                     new Direction(List.of(UP)),
                     new Direction(List.of(RIGHT)),
