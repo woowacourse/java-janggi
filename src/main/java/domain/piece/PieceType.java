@@ -3,49 +3,49 @@ package domain.piece;
 import domain.board.Country;
 
 public enum PieceType {
-    SOLDIER(2) {
+    SOLDIER("soldier", 2) {
         @Override
         public Piece createPiece(Country country) {
             return new Soldier(country);
         }
     },
-    GUARD(3) {
+    GUARD("guard", 3) {
         @Override
         public Piece createPiece(Country country) {
             return new Guard(country);
         }
     },
-    ELEPHANT(3) {
+    ELEPHANT("elephant", 3) {
         @Override
         public Piece createPiece(Country country) {
             return new Elephant(country);
         }
     },
-    HORSE(5) {
+    HORSE("horse", 5) {
         @Override
         public Piece createPiece(Country country) {
             return new Horse(country);
         }
     },
-    CANNON(7) {
+    CANNON("cannon", 7) {
         @Override
         public Piece createPiece(Country country) {
             return new Cannon(country);
         }
     },
-    CHARIOT(13) {
+    CHARIOT("chariot", 13) {
         @Override
         public Piece createPiece(Country country) {
             return new Chariot(country);
         }
     },
-    GENERAL(0) {
+    GENERAL("general", 0) {
         @Override
         public Piece createPiece(Country country) {
             return new General(country);
         }
     },
-    EMPTY(0) {
+    EMPTY("empty", 0) {
         @Override
         public Piece createPiece(Country country) {
             throw new IllegalStateException("[ERROR] 빈 칸은 기물을 생성할 수 없습니다.");
@@ -54,10 +54,16 @@ public enum PieceType {
 
     public abstract Piece createPiece(Country country);
 
+    private final String dbValue;
     private final int score;
 
-    PieceType(int score) {
+    PieceType(String dbValue, int score) {
+        this.dbValue = dbValue;
         this.score = score;
+    }
+
+    public String getDbValue() {
+        return dbValue;
     }
 
     public int getScore() {
