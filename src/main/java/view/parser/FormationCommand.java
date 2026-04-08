@@ -1,4 +1,4 @@
-package parser;
+package view.parser;
 
 import domain.board.Formation;
 import java.util.Arrays;

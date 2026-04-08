@@ -12,14 +12,14 @@ import domain.score.RemainingPieceScorePolicy;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
-import parser.GameStartCommand;
-import parser.InputParser;
 import persistence.JdbcGameRepository;
 import persistence.MoveCommand;
 import persistence.SavedGame;
 import persistence.SavedGameSummary;
 import view.InputView;
 import view.OutputView;
+import view.parser.GameStartCommand;
+import view.parser.InputParser;
 
 public class GameManager {
     private final InputView inputView;

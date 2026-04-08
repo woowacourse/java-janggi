@@ -1,4 +1,4 @@
-package parser;
+package view.parser;
 
 import domain.Position;
 import domain.board.Formation;

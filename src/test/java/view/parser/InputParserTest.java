@@ -1,4 +1,4 @@
-package parser;
+package view.parser;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThat;
