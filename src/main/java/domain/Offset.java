@@ -28,15 +28,15 @@ public record Offset(int dx, int dy) {
         return (absX() != 0 && absY() == 0) || (absX() == 0 && absY() != 0);
     }
 
+    public boolean isDiagonalMoving() {
+        return (absX() == absY()) && (absX() != 0);
+    }
+
     public int calculateDistance() {
         if (!(isStraightMoving() || isDiagonalMoving())) {
             throw new IllegalStateException("직선 또는 대각선 이동이 아닐 때는 거리를 계산할 수 없습니다.");
         }
         return Math.max(absX(), absY());
-    }
-
-    public boolean isDiagonalMoving() {
-        return (absX() == absY()) && (absX() != 0);
     }
 
     public Offset normalize() {
