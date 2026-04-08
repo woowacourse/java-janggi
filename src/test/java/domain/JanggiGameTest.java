@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+import domain.strategy.GreenSoldierMoveStrategy;
 import domain.strategy.HorseMoveStrategy;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +22,7 @@ class JanggiGameTest {
         Piece horsePiece = Piece.of(new PieceProperty(PieceType.HORSE, Team.GREEN),
                 new HorseMoveStrategy());
         Piece soldierPiece = Piece.of(new PieceProperty(PieceType.SOLDIER, Team.GREEN),
-                new HorseMoveStrategy());
+                new GreenSoldierMoveStrategy());
         Map<Position, Piece> testBoard = new HashMap<>();
         testBoard.put(current, horsePiece);
         testBoard.put(target, soldierPiece);
