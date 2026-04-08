@@ -75,4 +75,14 @@ public class Janggi {
     public Map<Position, Piece> getBoard() {
         return board.janggiBoard();
     }
+
+    public void surrender() {
+        finish();
+        currentCamp = currentCamp.next();
+    }
+
+    public void draw() {
+        finish();
+        currentCamp = board.calculateScoreResult();
+    }
 }

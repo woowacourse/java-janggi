@@ -15,6 +15,17 @@ public class InputView {
         return Integer.parseInt(scanner.nextLine().trim());
     }
 
+    public int readCommand() {
+        System.out.println("1. 항복 2. 무승부 3. 계속");
+        return Integer.parseInt(scanner.nextLine().trim());
+    }
+
+    public boolean confirmDraw() {
+        System.out.println("상대방이 무승부를 제안합니다. 수락하시겠습니까? (y/n)");
+        String input = scanner.nextLine().trim();
+        return input.equals("y");
+    }
+
     public Optional<PositionRequest> readPieceSelection() {
         System.out.println("기물을 선택해주세요. (예시: 0 3)");
         String input = scanner.nextLine().trim();

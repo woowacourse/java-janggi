@@ -62,6 +62,14 @@ public class OutputView {
                 .collect(Collectors.joining("　"));
     }
 
+    public void printGameResult(Camp camp){
+        if (camp.isCho()){
+            System.out.println("초나라가 승리하였습니다.");
+            return;
+        }
+        System.out.println("한나라가 승리하였습니다.");
+    }
+
     public void printErrorMessage(String message) {
         System.out.println(message);
     }

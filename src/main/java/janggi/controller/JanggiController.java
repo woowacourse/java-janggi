@@ -24,7 +24,7 @@ public class JanggiController {
             outputView.printBoard(janggi.getBoard(), janggi.currentCamp());
             playTurn(janggi);
         }
-        System.out.println(janggi.currentCamp() + "승");
+        outputView.printGameResult(janggi.currentCamp());
     }
 
     private Janggi createGame() {
@@ -36,6 +36,21 @@ public class JanggiController {
     private void playTurn(Janggi janggi) {
         while (true) {
             try {
+                int command = inputView.readCommand();
+
+                if (command == 1) {
+                    janggi.surrender();
+                    return;
+                }
+                if (command == 2) {
+                    if(inputView.confirmDraw()) {
+                        janggi.draw();
+                        return;
+                    }
+                    outputView.printErrorMessage("상대가 무승부를 거절했습니다.");
+                    continue;
+                }
+
                 Optional<PositionRequest> selection = inputView.readPieceSelection();
                 if (selection.isEmpty()) {
                     continue;
