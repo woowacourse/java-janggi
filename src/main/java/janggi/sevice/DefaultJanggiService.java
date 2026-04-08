@@ -80,10 +80,17 @@ public class DefaultJanggiService implements JanggiService {
     @Override
     public void movePiece(GameInformation gameInformation, Location from, Location to, GameContext gameContext) {
         executeInTransaction(() -> {
+            Long gameId = gameInformation.gameId();
             Board board = gameInformation.board();
             Piece removedPiece = board.move(from, to);
+
+            Optional<PieceEntity> fromPiece = pieceDao.findByGameIdAndLocation(gameId, from);
+            Optional<PieceEntity> toPiece = pieceDao.findByGameIdAndLocation(gameId, to);
+            fromPiece.ifPresent(pieceEntity -> pieceDao.updatePosition(pieceEntity.getId(), to));
+            toPiece.ifPresent(pieceEntity -> pieceDao.deleteById(pieceEntity.getId()));
+
             gameContext.update(removedPiece);
-            //TODO 이동 정보 저장
+            gameDao.updateTurn(gameId, gameContext.getCurrentSide().name());
         });
     }
 

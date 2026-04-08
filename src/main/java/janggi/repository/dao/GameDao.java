@@ -83,6 +83,20 @@ public class GameDao {
         return gameEntities;
     }
 
+    public void updateTurn(Long id, String turn) {
+        Connection conn = transactionManager.getConnection();
+        String sql = "UPDATE game SET turn = ? WHERE id = ?";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, turn);
+            pstmt.setLong(2, id);
+
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new IllegalStateException("게임 현재 차례 변경 실패", e);
+        }
+    }
+
     public void updateIsActive(Long id, boolean isActive) {
         Connection conn = transactionManager.getConnection();
         String sql = "UPDATE game SET is_active = ? WHERE id = ?";
