@@ -18,6 +18,10 @@ public class OutputView {
     private static final String MOVE_POSITION_ROW_NOTICE = "좌표의 행을 입력해주세요.";
     private static final String MOVE_POSITION_COLUMN_NOTICE = "좌표의 열을 입력해주세요.";
 
+    private static final String CONTINUE_GAME_NOTICE = "\n[안내] 진행 중인 게임이 발견되었습니다.";
+    private static final String CONTINUE_GAME_QUESTION = "이전 게임을 이어서 진행하시겠습니까? (y / n)";
+    private static final String RESUME_NOTICE = "\n이전 게임 데이터를 성공적으로 불러왔습니다. 게임을 재개합니다.";
+
     private static final String GAME_OVER_NOTICE = "\n========================== 게임 종료 ==========================";
     private static final String SCORE_RESULT_NOTICE = "\n-------------------------- [ 최종 기물 점수 결과 ] --------------------------";
     private static final String WINNER_NOTICE = "(%s) 플레이어 %s 님의 승리입니다.";
@@ -151,5 +155,14 @@ public class OutputView {
                     result.name(),
                     result.score()));
         }
+    }
+
+    public void printContinueGameNotice() {
+        printLine(CONTINUE_GAME_NOTICE);
+        printLine(CONTINUE_GAME_QUESTION);
+    }
+
+    public void printResumeNotice() {
+        printLine(RESUME_NOTICE);
     }
 }

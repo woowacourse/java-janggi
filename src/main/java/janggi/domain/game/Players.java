@@ -43,4 +43,8 @@ public class Players implements Iterable<Player> {
     public Iterator<Player> iterator() {
         return players.iterator();
     }
+
+    public Turn getTurn() {
+        return turn;
+    }
 }

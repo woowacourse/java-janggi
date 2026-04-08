@@ -9,6 +9,7 @@ import janggi.domain.board.Position;
 import janggi.domain.game.Side;
 import janggi.domain.board.BoardDTO;
 import janggi.domain.game.PlayerDTO;
+import janggi.domain.repository.JanggiRepository;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.ArrayList;
@@ -22,49 +23,29 @@ public class JanggiGame {
     private final OutputView outputView;
     private final InputView inputView;
     private final Board board;
+    private final JanggiRepository repository;
+    private final Long gameId;
 
-    public JanggiGame(OutputView outputView, InputView inputView) {
+    public JanggiGame(OutputView outputView, InputView inputView, JanggiRepository repository, Board board,
+                      Long gameId) {
         this.outputView = outputView;
         this.inputView = inputView;
-        this.board = Board.initialize();
+        this.repository = repository;
+        this.board = board;
+        this.gameId = gameId;
     }
 
-    public void run() {
-        Players players = initialPlayers();
+    public void play(Players players) {
         printBoard();
-        play(players);
-    }
 
-    private Players initialPlayers() {
-        String choPlayerName = readPlayerName(Side.CHO);
-        String hanPlayerName = readPlayerName(Side.HAN);
-
-        return Players.of(choPlayerName, hanPlayerName);
-    }
-
-    private void printBoard() {
-        outputView.printBoardSettingNotice();
-        outputView.printBoardStatus(BoardDTO.from(board));
-    }
-
-    private void play(Players players) {
         while (true) {
             Player current = players.getCurrentPlayer();
             PlayerDTO currentPlayerDTO = PlayerDTO.from(current);
             printPlayerTurnNotice(currentPlayerDTO);
-            playerTurn(currentPlayerDTO);
+            playerTurn(currentPlayerDTO, players);
 
             if (board.isGameOver()) {
-                outputView.printWinnerNotice(currentPlayerDTO.side(), currentPlayerDTO.name());
-
-                List<PlayerResultDTO> playerResults = new ArrayList<>();
-
-                for (Player player : players) {
-                    double score = board.calculateScore(player.getSide());
-                    playerResults.add(new PlayerResultDTO(player.getName(), player.getSide(), score));
-                }
-
-                outputView.printTotalScores(playerResults);
+                handleGameOver(currentPlayerDTO, players);
                 break;
             }
 
@@ -72,10 +53,28 @@ public class JanggiGame {
         }
     }
 
-    private void playerTurn(PlayerDTO currentPlayer) {
+    private void printBoard() {
+        outputView.printBoardSettingNotice();
+        outputView.printBoardStatus(BoardDTO.from(board));
+    }
+
+    private void playerTurn(PlayerDTO currentPlayer, Players players) {
         Side currentSide = currentPlayer.side();
         PieceSelection pieceSelection = selectMovablePiece(currentSide);
         movePiece(pieceSelection.selected(), pieceSelection.destinations());
+        repository.updateGameStatus(this.gameId, board, players.getTurn());
+    }
+
+    private void handleGameOver(PlayerDTO winner, Players players) {
+        repository.finishGame(this.gameId);
+        outputView.printWinnerNotice(winner.side(), winner.name());
+
+        List<PlayerResultDTO> playerResults = new ArrayList<>();
+        for (Player player : players) {
+            double score = board.calculateScore(player.getSide());
+            playerResults.add(new PlayerResultDTO(player.getName(), player.getSide(), score));
+        }
+        outputView.printTotalScores(playerResults);
     }
 
     private PieceSelection selectMovablePiece(Side currentSide) {
@@ -116,13 +115,6 @@ public class JanggiGame {
             int column = inputView.readTargetColumn();
 
             return new Position(row, column);
-        });
-    }
-
-    private String readPlayerName(Side side) {
-        return retry(() -> {
-            outputView.printPlayerNameNotice(side.getDisplayName());
-            return inputView.readPlayerName();
         });
     }
 
