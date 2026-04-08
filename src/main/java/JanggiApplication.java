@@ -13,6 +13,10 @@ public class JanggiApplication {
         GameRepository gameRepository = new GameRepository(jdbcGameDao, jdbcPieceDao);
         JanggiController janggiController = new JanggiController(new InputView(),
                 new OutputView(new ConsolePieceAppearance()), gameRepository);
-        janggiController.run();
+        try {
+            janggiController.run();
+        } catch (RuntimeException e) {
+            System.out.println("[ERROR] " + e.getMessage());
+        }
     }
 }

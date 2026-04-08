@@ -91,6 +91,4 @@ public class JanggiController {
         return new GameState(board, turn, gameId);
     }
 
-    private record GameState(Board board, Turn turn, int gameId) {
-    }
 }
