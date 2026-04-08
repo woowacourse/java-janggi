@@ -1,6 +1,5 @@
 package strategy.move;
 
-import java.util.ArrayList;
 import domain.Direction;
 import domain.MovePath;
 import domain.Piece;
@@ -8,9 +7,10 @@ import domain.Position;
 import domain.Route;
 import domain.TeamColor;
 import domain.palace.PalaceRouter;
+import java.util.ArrayList;
 import java.util.List;
 
-public class GuardMoveStrategy extends MoveStrategy {
+public final class KingAndGuardMoveStrategy extends MoveStrategy {
 
     private static final List<MovePath> PATHS = List.of(
             new MovePath(List.of(Direction.NORTH)),
@@ -20,24 +20,32 @@ public class GuardMoveStrategy extends MoveStrategy {
             new MovePath(List.of(Direction.NORTH_EAST)),
             new MovePath(List.of(Direction.NORTH_WEST)),
             new MovePath(List.of(Direction.SOUTH_EAST)),
-            new MovePath(List.of(Direction.SOUTH_WEST))
-    );
+            new MovePath(List.of(Direction.SOUTH_WEST)));
 
     @Override
     public List<MovePath> getPaths(Piece piece, Position from, PalaceRouter router) {
         if (!router.isInsidePalace(from)) {
             return List.of();
         }
+        return List.copyOf(collectPalaceStepPaths(from, router));
+    }
 
+    private static List<MovePath> collectPalaceStepPaths(Position from, PalaceRouter router) {
         List<MovePath> paths = new ArrayList<>();
         for (MovePath path : PATHS) {
-            Direction direction = path.steps().getFirst();
-            Position destination = from.next(direction);
-            if (router.isInsidePalace(destination)) {
-                paths.add(path);
-            }
+            addIfDestinationInPalace(from, path, router, paths);
         }
-        return List.copyOf(paths);
+        return paths;
+    }
+
+    private static void addIfDestinationInPalace(
+            Position from, MovePath path, PalaceRouter router, List<MovePath> paths) {
+        Direction direction = path.steps().getFirst();
+        Position destination = from.next(direction);
+        if (!router.isInsidePalace(destination)) {
+            return;
+        }
+        paths.add(path);
     }
 
     @Override
@@ -45,7 +53,6 @@ public class GuardMoveStrategy extends MoveStrategy {
         if (!blockingPieces.isEmpty()) {
             return false;
         }
-
         return pieceAtDestination == null || !pieceAtDestination.isOnTeam(myTeam);
     }
 }
