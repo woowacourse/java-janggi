@@ -43,4 +43,13 @@ class ScoreTest {
 
         assertThat(result).isFalse();
     }
+
+    @Test
+    void 점수_객체에_배율을_곱해_새로운_점수를_생성한다() {
+        Score score = new Score(5);
+
+        Score multiply = score.multiply(1.5);
+
+        assertThat(multiply.isGreaterThan(score)).isTrue();
+    }
 }
