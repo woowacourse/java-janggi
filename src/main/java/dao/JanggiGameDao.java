@@ -129,7 +129,7 @@ public class JanggiGameDao {
                         rs.getString("room_name")
                 );
             }
-            return null;
+            throw new RuntimeException("[ERROR] DB가 비어있습니다.");
         } catch (SQLException e) {
             throw new RuntimeException("[ERROR] 정보를 불러오는 중 DB 오류가 발생했습니다: ", e);
         }
