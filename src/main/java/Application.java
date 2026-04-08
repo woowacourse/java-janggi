@@ -2,7 +2,6 @@ import application.GamePersistenceService;
 import application.GameService;
 import controller.GameController;
 import infra.jdbc.JdbcConnectionManager;
-import infra.jdbc.JdbcConnectionManagerFactory;
 import infra.jdbc.JdbcGameRepository;
 import infra.jdbc.SchemaInitializer;
 import java.time.Clock;
@@ -14,7 +13,7 @@ import view.OutputView;
 
 public class Application {
     public static void main(String[] args) {
-        JdbcConnectionManager connectionManager = JdbcConnectionManagerFactory.defaultConnectionManager();
+        JdbcConnectionManager connectionManager = JdbcConnectionManager.defaultConnectionManager();
         new SchemaInitializer(connectionManager).initialize();
         JdbcGameRepository gameRepository = new JdbcGameRepository(connectionManager);
         SavedGameWriteMapper writeMapper = new SavedGameWriteMapper(Clock.systemDefaultZone());

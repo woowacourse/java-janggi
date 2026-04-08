@@ -13,7 +13,7 @@ public final class JdbcTestSupport {
     }
 
     public static JdbcConnectionManager connectionManager() {
-        return JdbcConnectionManagerFactory.fromClasspathProperties(PROPERTIES_PATH);
+        return JdbcConnectionManager.fromClasspathProperties(PROPERTIES_PATH);
     }
 
     public static void clearAll(JdbcConnectionManager connectionManager) {
