@@ -125,4 +125,27 @@ class DefaultJanggiServiceTest {
         Assertions.assertThat(updatedBoardGrid.get(8).get(0).getType()).isEqualTo(PieceType.CHA);
         Assertions.assertThat(updatedBoardGrid.get(9).get(0).isEmpty()).isTrue();
     }
+
+    @Test
+    @DisplayName("게임이 종료된 경우 게임 상태를 종료 상태로 변경한다.")
+    void updateGameState_WhenGameEnd() {
+        // given
+        List<ArrangementStrategy> arrangementStrategies = List.of(
+                new MaSangMaSang(Side.CHO),
+                new MaSangMaSang(Side.HAN)
+        );
+        IntersectionInitializer intersectionInitializer = new PalaceIntersectionInitializer();
+        GameInformation game = janggiService.createGame(arrangementStrategies, intersectionInitializer);
+
+        // when
+
+        List<Long> befoActiveGameIds = janggiService.findActiveGameIds();
+        System.out.println(befoActiveGameIds);
+        janggiService.endGame(game.gameId());
+        List<Long> activeGameIds = janggiService.findActiveGameIds();
+
+        // then
+        System.out.println(activeGameIds);
+        Assertions.assertThat(activeGameIds).isEmpty();
+    }
 }

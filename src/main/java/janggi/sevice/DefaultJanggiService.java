@@ -96,39 +96,51 @@ public class DefaultJanggiService implements JanggiService {
 
     @Override
     public void endGame(Long gameId) {
-        executeInTransaction(() -> {
-            //TODO 게임 상태 변경 로직
-        });
+        executeInTransaction(() -> gameDao.updateIsActive(gameId, false));
     }
 
     private <T> T executeInTransaction(Supplier<T> action) {
-        if (transactionManager.isNotActive()) {
+        boolean isNewTransaction = transactionManager.isNotActive();
+        if (isNewTransaction) {
             transactionManager.begin();
         }
         try {
             T result = action.get();
-            transactionManager.commit();
+            if (isNewTransaction) {
+                transactionManager.commit();
+            }
             return result;
         } catch (RuntimeException e) {
-            transactionManager.rollback();
+            if (isNewTransaction) {
+                transactionManager.rollback();
+            }
             throw e;
         } finally {
-            transactionManager.close();
+            if (isNewTransaction) {
+                transactionManager.close();
+            }
         }
     }
 
     private void executeInTransaction(Runnable action) {
-        if (transactionManager.isNotActive()) {
+        boolean isNewTransaction = transactionManager.isNotActive();
+        if (isNewTransaction) {
             transactionManager.begin();
         }
         try {
             action.run();
-            transactionManager.commit();
+            if (isNewTransaction) {
+                transactionManager.commit();
+            }
         } catch (RuntimeException e) {
-            transactionManager.rollback();
+            if (isNewTransaction) {
+                transactionManager.rollback();
+            }
             throw e;
         } finally {
-            transactionManager.close();
+            if (isNewTransaction) {
+                transactionManager.close();
+            }
         }
     }
 }
