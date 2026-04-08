@@ -22,7 +22,11 @@ import view.dto.ScoreDto;
 public class JanggiController {
 
     private final ApplicationView view = new ApplicationView();
-    private final GameRepository gameRepository = new GameRepository();
+    private final GameRepository gameRepository;
+
+    public JanggiController(GameRepository gameRepository) {
+        this.gameRepository = gameRepository;
+    }
 
     public void run() {
         Session<JanggiGame> gameSession = retryOnIllegalArgument(this::startGame);

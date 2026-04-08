@@ -1,5 +1,6 @@
 package db.repository;
 
+import db.connector.Connector;
 import db.connector.MySqlConnector;
 import db.parser.SideParser;
 import db.session.Session;
@@ -20,8 +21,16 @@ import java.util.Map;
 
 public class GameRepository {
 
-    private final Transaction transaction = new Transaction(new MySqlConnector());
-    private final PieceRepository pieceRepository = new PieceRepository();
+    private final Transaction transaction;
+    private final PieceRepository pieceRepository;
+
+    public GameRepository(
+            Connector connector,
+            PieceRepository pieceRepository
+    ) {
+        this.transaction = new Transaction(connector);
+        this.pieceRepository = pieceRepository;
+    }
 
     public Session<JanggiGame> save(JanggiGame game) {
         String save = "INSERT INTO game (current_turn) values (?)";
