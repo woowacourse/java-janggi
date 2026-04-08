@@ -21,7 +21,8 @@ public class Position {
     }
 
     public static Optional<Position> of(int col, int row) {
-        if (col < 0 || col > MAX_COL_VALUE || row < 0 || row > MAX_ROW_VALUE) {
+        if (col < MIN_COL_VALUE || col > MAX_COL_VALUE || row < MIN_ROW_VALUE
+                || row > MAX_ROW_VALUE) {
             return Optional.empty();
         }
         return Optional.of(new Position(col, row));
