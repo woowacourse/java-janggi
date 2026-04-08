@@ -50,4 +50,8 @@ public record Position(int x, int y) {
 
         return path;
     }
+
+    boolean isOrthogonallyAligned(Position to) {
+        return this.x() == to.x() || this.y() == to.y();
+    }
 }
