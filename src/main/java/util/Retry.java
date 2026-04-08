@@ -1,18 +1,18 @@
 package util;
 
-import view.OutputView;
+import java.util.function.Consumer;
 
 public final class Retry {
     private Retry() {
 
     }
 
-    public static <T> T untilSuccess(SupplierWithEx<T> supplier) {
+    public static <T> T untilSuccess(SupplierWithEx<T> supplier, Consumer<Exception> onError) {
         while (true) {
             try {
                 return supplier.get();
             } catch (IllegalArgumentException e) {
-                OutputView.printErrorMessage(e.getMessage());
+                onError.accept(e);
             }
         }
     }
@@ -20,5 +20,6 @@ public final class Retry {
     @FunctionalInterface
     public interface SupplierWithEx<T> {
         T get();
+
     }
 }
