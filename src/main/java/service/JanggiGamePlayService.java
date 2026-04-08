@@ -8,6 +8,7 @@ import domain.manager.JanggiGameManager;
 import domain.player.PlayerProfile;
 import domain.player.Team;
 import domain.position.Position;
+import domain.piece.BasicPiece;
 
 public class JanggiGamePlayService {
     private final GamePersistence gamePersistence;
@@ -18,19 +19,20 @@ public class JanggiGamePlayService {
 
     public void playTurn(long gameId, JanggiGameManager janggiGameManager, Position source, Position destination) {
         janggiGameManager.validateSource(source);
+        BasicPiece movingPiece = janggiGameManager.getBoard().findPiece(source);
         janggiGameManager.move(source, destination);
         if (janggiGameManager.isGameRunning()) {
             Team currentTeam = janggiGameManager.getCurrentPlayer().getProfile().team();
-            gamePersistence.saveTurnProgress(gameId, janggiGameManager.getBoard(), currentTeam);
+            gamePersistence.saveTurnProgress(gameId, source, destination, movingPiece, currentTeam);
             return;
         }
-        gamePersistence.saveBoard(gameId, janggiGameManager.getBoard());
+        gamePersistence.saveMove(gameId, source, destination, movingPiece);
     }
 
     public PlayerProfile finishGame(long gameId, JanggiGameManager janggiGameManager) {
         PlayerProfile winnerProfile = janggiGameManager.calculateFinalScore();
         Team winnerTeam = winnerProfile.team();
-        gamePersistence.finishGame(gameId, janggiGameManager.getBoard(), winnerTeam, resolveFinishedStatus(winnerTeam));
+        gamePersistence.finishGame(gameId, winnerTeam, resolveFinishedStatus(winnerTeam));
         return winnerProfile;
     }
 

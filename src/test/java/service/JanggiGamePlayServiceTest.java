@@ -62,7 +62,7 @@ class JanggiGamePlayServiceTest {
             Player hanPlayer = createPlayer("han", HAN);
             EndedJanggiGameManager endedGameManager = new EndedJanggiGameManager(choPlayer, hanPlayer, choPlayer.getProfile());
             long gameId = gameRoom.createGame("cho", "han");
-            boardRepository.save(gameId, endedGameManager.getBoard());
+            boardRepository.saveFullBoard(gameId, endedGameManager.getBoard());
 
             janggiGamePlayService.playTurn(gameId, endedGameManager, new Position(6, 0), new Position(5, 0));
 

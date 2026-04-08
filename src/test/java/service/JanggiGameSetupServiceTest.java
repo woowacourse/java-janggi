@@ -50,7 +50,7 @@ class JanggiGameSetupServiceTest {
     void 저장된_게임을_세션으로_불러온다() {
         long gameId = gameRoom.createGame("CHO Player", "HAN Player");
         Board board = BoardFactory.createWithFormation(Formation.from(1), Formation.from(1));
-        boardRepository.save(gameId, board);
+        boardRepository.saveFullBoard(gameId, board);
 
         Optional<JanggiGameSession> loaded = janggiGameSetupService.loadSessionById(gameId);
 
@@ -63,7 +63,7 @@ class JanggiGameSetupServiceTest {
     void loadProgress_진행중인_게임이_있으면_복원한다() {
         long gameId = gameRoom.createGame("CHO Player", "HAN Player");
         Board board = BoardFactory.createWithFormation(Formation.from(1), Formation.from(1));
-        boardRepository.save(gameId, board);
+        boardRepository.saveFullBoard(gameId, board);
 
         Optional<GameLoadResult> result = janggiGameSetupService.loadProgress();
 
@@ -96,7 +96,7 @@ class JanggiGameSetupServiceTest {
         gameRoom.createGame("CHO Player1", "HAN Player1");
         long gameId2 = gameRoom.createGame("CHO Player2", "HAN Player2");
         Board board = BoardFactory.createWithFormation(Formation.from(1), Formation.from(1));
-        boardRepository.save(gameId2, board);
+        boardRepository.saveFullBoard(gameId2, board);
 
         Optional<GameLoadResult> result = janggiGameSetupService.loadProgress();
 

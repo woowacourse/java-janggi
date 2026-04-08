@@ -1,9 +1,9 @@
 package dao;
 
+import db.DbConnectionFactory;
 import domain.board.Board;
 import domain.piece.BasicPiece;
 import domain.position.Position;
-import db.DbConnectionFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,16 +20,16 @@ public class BoardRepository {
             "INSERT INTO board(game_id, row_idx, col_idx, team, piece_type) VALUES(?, ?, ?, ?, ?)";
     private static final String LOAD_BOARD_SQL =
             "SELECT row_idx, col_idx, team, piece_type FROM board WHERE game_id = ?";
-    private static final String DELETE_ALL_BOARD_SQL =
-            "DELETE FROM board WHERE game_id = ?";
+    private static final String UPDATE_BOARD_SQL =
+            "UPDATE board SET team = ?, piece_type = ? WHERE game_id = ? AND row_idx = ? AND col_idx = ?";
     private static final String NONE_VALUE = "NONE";
 
-    public void save(long gameId, Board board) {
+    public void saveFullBoard(long gameId, Board board) {
         Connection connection = null;
         try {
             connection = DbConnectionFactory.createConnection();
             connection.setAutoCommit(false);
-            save(connection, gameId, board);
+            saveFullBoard(connection, gameId, board);
             connection.commit();
         } catch (SQLException e) {
             rollbackQuietly(connection);
@@ -39,35 +39,33 @@ public class BoardRepository {
         }
     }
 
-    public void save(Connection connection, long gameId, Board board) {
+    public void saveFullBoard(Connection connection, long gameId, Board board) {
         try {
-            deleteAllPieces(connection, gameId);
             insertPieces(connection, gameId, board);
         } catch (SQLException e) {
             throw new IllegalStateException("보드 저장에 실패했습니다.", e);
         }
     }
 
-    private void closeQuietly(Connection connection) {
-        if (connection == null) return;
-        try {
-            connection.close();
-        } catch (SQLException ignored) {
+    public void updateMove(Connection connection, long gameId, Position source, Position destination, BasicPiece movingPiece) {
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE_BOARD_SQL)) {
+            addUpdateBatch(statement, gameId, source, NONE_VALUE, NONE_VALUE);
+            addUpdateBatch(statement, gameId, destination, resolveTeam(movingPiece), resolvePieceType(movingPiece));
+            statement.executeBatch();
+        } catch (SQLException e) {
+            throw new IllegalStateException("보드 이동 저장에 실패했습니다.", e);
         }
     }
 
-    private void rollbackQuietly(Connection connection) {
-        if (connection == null) return;
-        try {
-            connection.rollback();
-        } catch (SQLException ignored) {
-        }
-    }
-
-    private void deleteAllPieces(Connection connection, long gameId) throws SQLException {
-        try (PreparedStatement statement = connection.prepareStatement(DELETE_ALL_BOARD_SQL)) {
+    public Map<Position, BasicPiece> loadBoard(long gameId) {
+        Map<Position, BasicPiece> board = initializeBoard();
+        try (Connection connection = DbConnectionFactory.createConnection();
+             PreparedStatement statement = connection.prepareStatement(LOAD_BOARD_SQL)) {
             statement.setLong(1, gameId);
-            statement.executeUpdate();
+            loadPiecesFromResultSet(statement.executeQuery(), board);
+            return board;
+        } catch (SQLException e) {
+            throw new IllegalStateException("보드 불러오기에 실패했습니다.", e);
         }
     }
 
@@ -81,40 +79,52 @@ public class BoardRepository {
     }
 
     private void addPieceBatch(PreparedStatement statement, long gameId, Position position, BasicPiece piece) throws SQLException {
+        setPositionParams(statement, gameId, position);
+        setPieceParams(statement, piece);
+        statement.addBatch();
+    }
+
+    private void setPositionParams(PreparedStatement statement, long gameId, Position position) throws SQLException {
         statement.setLong(1, gameId);
         statement.setInt(2, position.row());
         statement.setInt(3, position.column());
+    }
+
+    private void setPieceParams(PreparedStatement statement, BasicPiece piece) throws SQLException {
         if (piece.isNone()) {
-            statement.setString(4, NONE_VALUE);
-            statement.setString(5, NONE_VALUE);
-            statement.addBatch();
+            setNonePieceParams(statement);
             return;
         }
         statement.setString(4, piece.getTeam().name());
         statement.setString(5, piece.getPieceType().name());
+    }
+
+    private void setNonePieceParams(PreparedStatement statement) throws SQLException {
+        statement.setString(4, NONE_VALUE);
+        statement.setString(5, NONE_VALUE);
+    }
+
+    private void addUpdateBatch(PreparedStatement statement, long gameId, Position position, String team, String pieceType) throws SQLException {
+        statement.setString(1, team);
+        statement.setString(2, pieceType);
+        statement.setLong(3, gameId);
+        statement.setInt(4, position.row());
+        statement.setInt(5, position.column());
         statement.addBatch();
     }
 
-    private List<Position> collectAllPositions() {
-        List<Position> positions = new ArrayList<>();
-        for (int row = MIN_ROW; row <= MAX_ROW; row++) {
-            for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
-                positions.add(new Position(row, column));
-            }
+    private String resolveTeam(BasicPiece piece) {
+        if (piece.isNone()) {
+            return NONE_VALUE;
         }
-        return positions;
+        return piece.getTeam().name();
     }
 
-    public Map<Position, BasicPiece> loadBoard(long gameId) {
-        Map<Position, BasicPiece> board = initializeBoard();
-        try (Connection connection = DbConnectionFactory.createConnection();
-             PreparedStatement statement = connection.prepareStatement(LOAD_BOARD_SQL)) {
-            statement.setLong(1, gameId);
-            loadPiecesFromResultSet(statement.executeQuery(), board);
-            return board;
-        } catch (SQLException e) {
-            throw new IllegalStateException("보드 불러오기에 실패했습니다.", e);
+    private String resolvePieceType(BasicPiece piece) {
+        if (piece.isNone()) {
+            return NONE_VALUE;
         }
+        return piece.getPieceType().name();
     }
 
     private void loadPiecesFromResultSet(java.sql.ResultSet resultSet, Map<Position, BasicPiece> board) throws SQLException {
@@ -141,6 +151,16 @@ public class BoardRepository {
         return NONE_VALUE.equals(value);
     }
 
+    private List<Position> collectAllPositions() {
+        List<Position> positions = new ArrayList<>();
+        for (int row = MIN_ROW; row <= MAX_ROW; row++) {
+            for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
+                positions.add(new Position(row, column));
+            }
+        }
+        return positions;
+    }
+
     private Map<Position, BasicPiece> initializeBoard() {
         Map<Position, BasicPiece> board = new HashMap<>();
         for (int row = MIN_ROW; row <= MAX_ROW; row++) {
@@ -152,6 +172,26 @@ public class BoardRepository {
     private void initializeRow(Map<Position, BasicPiece> board, int row) {
         for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
             board.put(new Position(row, column), domain.piece.None.getInstance());
+        }
+    }
+
+    private void closeQuietly(Connection connection) {
+        if (connection == null) {
+            return;
+        }
+        try {
+            connection.close();
+        } catch (SQLException ignored) {
+        }
+    }
+
+    private void rollbackQuietly(Connection connection) {
+        if (connection == null) {
+            return;
+        }
+        try {
+            connection.rollback();
+        } catch (SQLException ignored) {
         }
     }
 }

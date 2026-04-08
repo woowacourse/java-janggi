@@ -5,6 +5,7 @@ import static common.Constants.MAX_ROW;
 import static common.Constants.MIN_COLUMN;
 import static common.Constants.MIN_ROW;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import domain.board.Board;
 import domain.board.BoardFactory;
@@ -37,7 +38,7 @@ class BoardRepositoryTest {
         long gameId = gameRoom.createGame("CHO Player", "HAN Player");
         Board board = BoardFactory.createWithFormation(Formation.from(1), Formation.from(1));
 
-        boardRepository.save(gameId, board);
+        boardRepository.saveFullBoard(gameId, board);
 
         try (Connection connection = DbConnectionFactory.createConnection();
              PreparedStatement statement = connection.prepareStatement(
@@ -56,7 +57,7 @@ class BoardRepositoryTest {
         long gameId = gameRoom.createGame("CHO Player", "HAN Player");
         Board board = BoardFactory.createWithFormation(Formation.from(1), Formation.from(1));
 
-        boardRepository.save(gameId, board);
+        boardRepository.saveFullBoard(gameId, board);
 
         try (Connection connection = DbConnectionFactory.createConnection();
              PreparedStatement statement = connection.prepareStatement(
@@ -74,31 +75,10 @@ class BoardRepositoryTest {
     }
 
     @Test
-    void 저장된_보드를_빈보드로_덮어써도_모든_좌표가_유지된다() throws SQLException {
-        long gameId = gameRoom.createGame("CHO Player", "HAN Player");
-        Board initialBoard = BoardFactory.createWithFormation(Formation.from(1), Formation.from(1));
-        boardRepository.save(gameId, initialBoard);
-
-        Board emptyBoard = new Board(createEmptyBoard());
-        boardRepository.save(gameId, emptyBoard);
-
-        try (Connection connection = DbConnectionFactory.createConnection();
-             PreparedStatement statement = connection.prepareStatement(
-                     "SELECT COUNT(*) AS piece_count FROM board WHERE game_id = ?")) {
-            statement.setLong(1, gameId);
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                assertThat(resultSet.next()).isTrue();
-                assertThat(resultSet.getInt("piece_count")).isEqualTo(90);
-            }
-        }
-    }
-
-    @Test
     void loadBoard_저장된_보드를_정확히_복원한다() {
         long gameId = gameRoom.createGame("CHO Player", "HAN Player");
         Board originalBoard = BoardFactory.createWithFormation(Formation.from(1), Formation.from(1));
-        boardRepository.save(gameId, originalBoard);
+        boardRepository.saveFullBoard(gameId, originalBoard);
 
         Map<Position, BasicPiece> loadedBoardMap = boardRepository.loadBoard(gameId);
         Board loadedBoard = new Board(loadedBoardMap);
@@ -139,7 +119,7 @@ class BoardRepositoryTest {
         long gameId = gameRoom.createGame("CHO Player", "HAN Player");
         Board board = BoardFactory.createWithFormation(Formation.from(1), Formation.from(1));
 
-        boardRepository.save(gameId, board);
+        boardRepository.saveFullBoard(gameId, board);
 
         try (Connection connection = DbConnectionFactory.createConnection();
              PreparedStatement statement = connection.prepareStatement(
@@ -154,6 +134,17 @@ class BoardRepositoryTest {
                 assertThat(resultSet.getString("piece_type")).isEqualTo("NONE");
             }
         }
+    }
+
+    @Test
+    void 이미_저장된_보드는_다시_저장할_수_없다() {
+        long gameId = gameRoom.createGame("CHO Player", "HAN Player");
+        Board initialBoard = BoardFactory.createWithFormation(Formation.from(1), Formation.from(1));
+        boardRepository.saveFullBoard(gameId, initialBoard);
+
+        Board emptyBoard = new Board(createEmptyBoard());
+
+        assertThrows(IllegalStateException.class, () -> boardRepository.saveFullBoard(gameId, emptyBoard));
     }
 
     private Map<Position, BasicPiece> createEmptyBoard() {

@@ -22,28 +22,25 @@ public class GamePersistence {
     public long createNewGame(String choName, String hanName, Board board, Team currentTurn) {
         return TransactionExecutor.execute(connection -> {
             long gameId = gameRoom.createGame(connection, choName, hanName);
-            boardRepository.save(connection, gameId, board);
+            boardRepository.saveFullBoard(connection, gameId, board);
             gameRoom.updateGameState(connection, gameId, currentTurn, GameStatus.PROGRESS);
             return gameId;
         });
     }
 
-    public void saveTurnProgress(long gameId, Board board, Team currentTurn) {
+    public void saveTurnProgress(long gameId, Position source, Position destination, BasicPiece movingPiece, Team currentTurn) {
         TransactionExecutor.executeVoid(connection -> {
-            boardRepository.save(connection, gameId, board);
+            boardRepository.updateMove(connection, gameId, source, destination, movingPiece);
             gameRoom.updateGameState(connection, gameId, currentTurn, GameStatus.PROGRESS);
         });
     }
 
-    public void saveBoard(long gameId, Board board) {
-        TransactionExecutor.executeVoid(connection -> boardRepository.save(connection, gameId, board));
+    public void saveMove(long gameId, Position source, Position destination, BasicPiece movingPiece) {
+        TransactionExecutor.executeVoid(connection -> boardRepository.updateMove(connection, gameId, source, destination, movingPiece));
     }
 
-    public void finishGame(long gameId, Board board, Team winnerTeam, GameStatus status) {
-        TransactionExecutor.executeVoid(connection -> {
-            boardRepository.save(connection, gameId, board);
-            gameRoom.updateGameState(connection, gameId, winnerTeam, status);
-        });
+    public void finishGame(long gameId, Team winnerTeam, GameStatus status) {
+        TransactionExecutor.executeVoid(connection -> gameRoom.updateGameState(connection, gameId, winnerTeam, status));
     }
 
     public List<GameInfo> findAllProgressGames() {
