@@ -72,7 +72,6 @@ public class JanggiBoard {
         return intersections.get(point);
     }
 
-
     private void validateMoveRule(Intersection from, Intersection to) {
         MoveRule moveRule = findMoveRule(from);
         List<Point> possiblePoints = moveRule.findPossiblePoints(from, to);
