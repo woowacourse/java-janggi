@@ -42,4 +42,31 @@ class InputParserTest {
         assertThatThrownBy(() -> InputParser.parseFormation(input))
                 .isInstanceOf(IllegalArgumentException.class);
     }
+
+    @Test
+    void 시작_메뉴_입력을_파싱한다() {
+        assertThat(InputParser.parseGameStartCommand("1")).isEqualTo(GameStartCommand.NEW_GAME);
+        assertThat(InputParser.parseGameStartCommand("2")).isEqualTo(GameStartCommand.LOAD_GAME);
+    }
+
+    @ParameterizedTest
+    @NullAndEmptySource
+    @ValueSource(strings = {" ", "0", "3", "a"})
+    void 잘못된_시작_메뉴_입력이면_예외가_발생한다(String input) {
+        assertThatThrownBy(() -> InputParser.parseGameStartCommand(input))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void 메뉴_번호_입력을_범위에_맞게_파싱한다() {
+        assertThat(InputParser.parseMenuNumber("1", 1, 3)).isEqualTo(1);
+        assertThat(InputParser.parseMenuNumber(" 3 ", 1, 3)).isEqualTo(3);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"0", "4", "a"})
+    void 메뉴_번호_입력이_범위를_벗어나거나_숫자가_아니면_예외가_발생한다(String input) {
+        assertThatThrownBy(() -> InputParser.parseMenuNumber(input, 1, 3))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
 }
