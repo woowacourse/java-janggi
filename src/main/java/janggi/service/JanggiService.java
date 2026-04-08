@@ -38,13 +38,15 @@ public class JanggiService {
         return gameId;
     }
 
-    // TODO: 외부에서 오류 받아주지 않고 있음
     public Game findGame(Long gameId) {
         TurnEntity currentTurn = gameRepository.findByCurrentTurnById(gameId)
-                .orElseThrow(() -> new IllegalArgumentException("게임이 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException(String.format("gameId가 %s인 게임이 존재하지 않습니다.", gameId)));
         List<PieceEntity> pieces = pieceRepository.findAllByGameId(gameId);
 
-        return Game.restore(Board.restore(PieceEntity.toDomains(pieces)), TurnEntity.toDomain(currentTurn));
+        return Game.restore(
+                Board.restore(PieceEntity.toDomains(pieces)),
+                TurnEntity.toDomain(currentTurn)
+        );
     }
 
     public void movePiece(Long gameId, Position from, Position to) {
@@ -65,6 +67,14 @@ public class JanggiService {
             throw new IllegalStateException("진행할 수 있는 게임이 없습니다.");
         }
         return gamedIds;
+    }
+
+    public Long isPlayableGame(Long gameId) {
+        List<Long> gameIds = gameRepository.findAllByState(GameState.PLAYING);
+        if (!gameIds.contains(gameId)) {
+            throw new IllegalArgumentException(String.format("gameId가 %s인 진행 중 게임이 존재하지 않습니다.", gameId));
+        }
+        return gameId;
     }
 
     public void updateGameState(Long gameId) {

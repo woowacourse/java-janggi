@@ -46,9 +46,14 @@ public class JanggiController {
         if (inputView.readWantToRestore()) {
             List<Long> gameIds = janggiService.findPlayableGameIds();
             outputView.printPlayableGameIds(gameIds);
-            return inputView.readGameIdToRestore();
+            return readGameIdToRestore();
         }
         return janggiService.makeGame(readDynastyHorseElephantPositions());
+    }
+
+    private Long readGameIdToRestore() {
+        long gameId = inputView.readGameIdToRestore();
+        return janggiService.isPlayableGame(gameId);
     }
 
     private Map<Dynasty, HorseElephantPosition> readDynastyHorseElephantPositions() {
@@ -86,7 +91,8 @@ public class JanggiController {
 
     private Position readSourcePosition(Long gameId) {
         Game game = janggiService.findGame(gameId);
-        PositionDto from = getUntilValid(() -> inputView.readPieceWantToMove(DynastyDto.from(game.currentDynasty())));
+        DynastyDto currentTurn = DynastyDto.from(game.currentDynasty());
+        PositionDto from = getUntilValid(() -> inputView.readPieceWantToMove(currentTurn));
         return Position.from(from.row(), from.column());
     }
 
