@@ -138,14 +138,10 @@ class DefaultJanggiServiceTest {
         GameInformation game = janggiService.createGame(arrangementStrategies, intersectionInitializer);
 
         // when
-
-        List<Long> befoActiveGameIds = janggiService.findActiveGameIds();
-        System.out.println(befoActiveGameIds);
         janggiService.endGame(game.gameId());
         List<Long> activeGameIds = janggiService.findActiveGameIds();
 
         // then
-        System.out.println(activeGameIds);
         Assertions.assertThat(activeGameIds).isEmpty();
     }
 }
