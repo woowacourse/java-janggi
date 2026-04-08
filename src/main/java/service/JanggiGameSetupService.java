@@ -11,7 +11,7 @@ import dao.PlayerNames;
 import domain.board.Board;
 import domain.board.Formation;
 import common.GameStatus;
-import domain.manager.GameManager;
+import domain.manager.JanggiGameManager;
 import domain.piece.BasicPiece;
 import domain.player.Name;
 import domain.player.Player;
@@ -31,11 +31,11 @@ public class JanggiGameSetupService {
     }
 
     public JanggiGameSession createNewGame(Player choPlayer, Player hanPlayer, Formation choFormation, Formation hanFormation) {
-        GameManager gameManager = new GameManager(choPlayer, hanPlayer, choFormation, hanFormation);
+        JanggiGameManager janggiGameManager = new JanggiGameManager(choPlayer, hanPlayer, choFormation, hanFormation);
         long gameId = gameRoom.createGame(choPlayer.getProfile().name().value(), hanPlayer.getProfile().name().value());
-        boardRepository.save(gameId, gameManager.getBoard());
-        gameRoom.updateGameState(gameId, gameManager.getCurrentPlayer().getProfile().team(), GameStatus.PROGRESS);
-        return new JanggiGameSession(gameId, gameManager);
+        boardRepository.save(gameId, janggiGameManager.getBoard());
+        gameRoom.updateGameState(gameId, janggiGameManager.getCurrentPlayer().getProfile().team(), GameStatus.PROGRESS);
+        return new JanggiGameSession(gameId, janggiGameManager);
     }
 
     public List<GameInfo> findProgressGames() {
@@ -78,13 +78,13 @@ public class JanggiGameSetupService {
 
     private JanggiGameSession toGameSession(GameLoadResult state) {
         Board board = new Board(state.boardMap());
-        GameManager gameManager = GameManager.fromLoadedState(
+        JanggiGameManager janggiGameManager = JanggiGameManager.fromLoadedState(
             new Player(new Name(state.choName()), CHO),
             new Player(new Name(state.hanName()), HAN),
             board,
             state.currentTeam()
         );
-        return new JanggiGameSession(state.gameId(), gameManager);
+        return new JanggiGameSession(state.gameId(), janggiGameManager);
     }
 }
 

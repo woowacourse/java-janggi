@@ -39,7 +39,7 @@ class JanggiGameSetupServiceTest {
         );
 
         assertThat(session.gameId()).isPositive();
-        assertThat(session.gameManager().getCurrentPlayer().getProfile().team()).isEqualTo(CHO);
+        assertThat(session.janggiGameManager().getCurrentPlayer().getProfile().team()).isEqualTo(CHO);
         assertThat(janggiGameSetupService.findProgressGames())
             .anyMatch(gameInfo -> gameInfo.gameId() == session.gameId());
     }
@@ -54,7 +54,7 @@ class JanggiGameSetupServiceTest {
 
         assertThat(loaded).isPresent();
         assertThat(loaded.get().gameId()).isEqualTo(gameId);
-        assertThat(loaded.get().gameManager().getCurrentPlayer().getProfile().team()).isEqualTo(CHO);
+        assertThat(loaded.get().janggiGameManager().getCurrentPlayer().getProfile().team()).isEqualTo(CHO);
     }
 
     @Test

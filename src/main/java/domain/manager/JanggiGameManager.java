@@ -13,7 +13,7 @@ import domain.rule.BigJangDrawRule;
 import domain.rule.RuleEngine;
 import java.util.List;
 
-public class GameManager {
+public class JanggiGameManager {
     private static final double HAN_SCORE_INCREASE = 1.5;
 
     private final Board board;
@@ -23,7 +23,7 @@ public class GameManager {
     private boolean isGameRunning;
     private boolean isDraw;
 
-    public GameManager(Player choPlayer, Player hanPlayer, Formation choFormation, Formation hanFormation) {
+    public JanggiGameManager(Player choPlayer, Player hanPlayer, Formation choFormation, Formation hanFormation) {
         this.currentPlayer = choPlayer;
         this.standbyPlayer = hanPlayer;
         this.board = BoardFactory.createWithFormation(choFormation, hanFormation);
@@ -32,7 +32,7 @@ public class GameManager {
         this.isDraw = false;
     }
 
-    private GameManager(Player choPlayer, Player hanPlayer, Board loadedBoard, Team currentTeam) {
+    private JanggiGameManager(Player choPlayer, Player hanPlayer, Board loadedBoard, Team currentTeam) {
         this.board = loadedBoard;
         this.ruleEngine = new RuleEngine(List.of(new BigJangDrawRule()));
         this.isGameRunning = true;
@@ -47,8 +47,8 @@ public class GameManager {
         }
     }
 
-    public static GameManager fromLoadedState(Player choPlayer, Player hanPlayer, Board loadedBoard, Team currentTeam) {
-        return new GameManager(choPlayer, hanPlayer, loadedBoard, currentTeam);
+    public static JanggiGameManager fromLoadedState(Player choPlayer, Player hanPlayer, Board loadedBoard, Team currentTeam) {
+        return new JanggiGameManager(choPlayer, hanPlayer, loadedBoard, currentTeam);
     }
 
     public void move(Position source, Position destination) {

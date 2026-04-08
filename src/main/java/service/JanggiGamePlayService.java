@@ -5,7 +5,7 @@ import static domain.player.Team.CHO;
 import dao.BoardRepository;
 import dao.GameRoom;
 import common.GameStatus;
-import domain.manager.GameManager;
+import domain.manager.JanggiGameManager;
 import domain.player.Team;
 import domain.position.Position;
 
@@ -18,13 +18,13 @@ public class JanggiGamePlayService {
         this.boardRepository = boardRepository;
     }
 
-    public void playTurn(long gameId, GameManager gameManager, Position source, Position destination) {
-        gameManager.validateSource(source);
-        gameManager.move(source, destination);
-        boardRepository.save(gameId, gameManager.getBoard());
+    public void playTurn(long gameId, JanggiGameManager janggiGameManager, Position source, Position destination) {
+        janggiGameManager.validateSource(source);
+        janggiGameManager.move(source, destination);
+        boardRepository.save(gameId, janggiGameManager.getBoard());
 
-        if (gameManager.isGameRunning()) {
-            Team currentTeam = gameManager.getCurrentPlayer().getProfile().team();
+        if (janggiGameManager.isGameRunning()) {
+            Team currentTeam = janggiGameManager.getCurrentPlayer().getProfile().team();
             gameRoom.updateGameState(gameId, currentTeam, GameStatus.PROGRESS);
         }
     }

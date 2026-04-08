@@ -1,10 +1,10 @@
 package service;
 
-import domain.manager.GameManager;
+import domain.manager.JanggiGameManager;
 
 public record JanggiGameSession(
     long gameId,
-    GameManager gameManager
+    JanggiGameManager janggiGameManager
 ) {
 }
 

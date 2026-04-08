@@ -8,7 +8,7 @@ import dao.BoardRepository;
 import dao.GameRoom;
 import common.exception.JanggiException;
 import domain.board.Formation;
-import domain.manager.GameManager;
+import domain.manager.JanggiGameManager;
 import domain.player.Name;
 import domain.player.Player;
 import domain.player.PlayerProfile;
@@ -25,7 +25,7 @@ public class Runner {
     private final OutputView outputView;
     private final JanggiGameSetupService janggiGameSetupService;
     private final JanggiGamePlayService janggiGamePlayService;
-    private GameManager gameManager;
+    private JanggiGameManager janggiGameManager;
     private long gameId;
 
     public Runner(InputView inputView, OutputView outputView) {
@@ -41,28 +41,28 @@ public class Runner {
 
     public void run() {
         initializeGameChoice();
-        outputView.printBoard(gameManager.getBoard());
+        outputView.printBoard(janggiGameManager.getBoard());
 
-        while (gameManager.isGameRunning()) {
+        while (janggiGameManager.isGameRunning()) {
             playTurn();
         }
 
-        PlayerProfile winnerProfile = gameManager.calculateFinalScore();
+        PlayerProfile winnerProfile = janggiGameManager.calculateFinalScore();
         janggiGamePlayService.finishGame(gameId, winnerProfile.team());
         outputView.printResult(winnerProfile);
     }
 
     private void playTurn() {
-        Player currentPlayer = gameManager.getCurrentPlayer();
+        Player currentPlayer = janggiGameManager.getCurrentPlayer();
         outputView.printPlayerTurnMessage(currentPlayer.getProfile());
 
         retryOnInvalidInput(() -> {
             Position source = createSource();
             Position destination = createDestination();
-            janggiGamePlayService.playTurn(gameId, gameManager, source, destination);
+            janggiGamePlayService.playTurn(gameId, janggiGameManager, source, destination);
         });
 
-        outputView.printBoard(gameManager.getBoard());
+        outputView.printBoard(janggiGameManager.getBoard());
     }
 
     private Position createSource() {
@@ -116,7 +116,7 @@ public class Runner {
             retryOnInvalidInput(this::createHanFormation)
         );
         this.gameId = session.gameId();
-        this.gameManager = session.gameManager();
+        this.janggiGameManager = session.janggiGameManager();
     }
 
     private void initializeLoadedGame() {
@@ -143,7 +143,7 @@ public class Runner {
         }
 
         this.gameId = loadedSession.gameId();
-        this.gameManager = loadedSession.gameManager();
+        this.janggiGameManager = loadedSession.janggiGameManager();
     }
 
     private Player createChoPlayer() {

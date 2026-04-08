@@ -7,7 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import dao.BoardRepository;
 import dao.GameRoom;
 import domain.board.Formation;
-import domain.manager.GameManager;
+import domain.manager.JanggiGameManager;
 import domain.player.Name;
 import domain.player.Player;
 import domain.player.Team;
@@ -44,7 +44,7 @@ class JanggiGamePlayServiceTest {
         Position source = new Position(6, 0);
         Position destination = new Position(5, 0);
 
-        janggiGamePlayService.playTurn(session.gameId(), session.gameManager(), source, destination);
+        janggiGamePlayService.playTurn(session.gameId(), session.janggiGameManager(), source, destination);
 
         assertThat(boardRepository.loadBoard(session.gameId())).containsKey(destination);
         assertThat(gameRoom.getCurrentTurn(session.gameId())).isEqualTo(HAN);
@@ -55,7 +55,7 @@ class JanggiGamePlayServiceTest {
     void playTurn_게임이_종료되면_진행상태를_업데이트하지_않는다() {
         Player choPlayer = createPlayer("cho", CHO);
         Player hanPlayer = createPlayer("han", HAN);
-        EndedGameManager endedGameManager = new EndedGameManager(choPlayer, hanPlayer);
+        EndedJanggiGameManager endedGameManager = new EndedJanggiGameManager(choPlayer, hanPlayer);
         long gameId = gameRoom.createGame("cho", "han");
         boardRepository.save(gameId, endedGameManager.getBoard());
 
@@ -105,10 +105,10 @@ class JanggiGamePlayServiceTest {
         throw new IllegalStateException("해당 게임을 찾을 수 없습니다. gameId: " + gameId);
     }
 
-    private static class EndedGameManager extends GameManager {
+    private static class EndedJanggiGameManager extends JanggiGameManager {
         private final Player hanPlayer;
 
-        EndedGameManager(Player choPlayer, Player hanPlayer) {
+        EndedJanggiGameManager(Player choPlayer, Player hanPlayer) {
             super(choPlayer, hanPlayer, Formation.from(1), Formation.from(1));
             this.hanPlayer = hanPlayer;
         }
