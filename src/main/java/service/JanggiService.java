@@ -19,19 +19,29 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import repository.JanggiRepository;
+import repository.GameInfoRepository;
+import repository.PositionHistoryRepository;
+import repository.PositionStateRepository;
 
 public class JanggiService {
-    private final JanggiRepository janggiRepository;
+    private final GameInfoRepository gameInfoRepository;
+    private final PositionStateRepository positionStateRepository;
+    private final PositionHistoryRepository positionHistoryRepository;
     private final TransactionManager transactionManager;
 
-    public JanggiService(JanggiRepository janggiRepository, TransactionManager transactionManager) {
-        this.janggiRepository = janggiRepository;
+    public JanggiService(
+            GameInfoRepository gameInfoRepository,
+            PositionStateRepository positionStateRepository,
+            PositionHistoryRepository positionHistoryRepository,
+            TransactionManager transactionManager) {
+        this.gameInfoRepository = gameInfoRepository;
+        this.positionStateRepository = positionStateRepository;
+        this.positionHistoryRepository = positionHistoryRepository;
         this.transactionManager = transactionManager;
     }
 
     public List<Integer> readAllGameInfoIds() {
-        List<GameInfo> gameInfos = transactionManager.transaction(janggiRepository::findAllGameInfos);
+        List<GameInfo> gameInfos = transactionManager.transaction(gameInfoRepository::findAllGameInfos);
         if (gameInfos.isEmpty()) {
             throw new IllegalArgumentException("[ERROR] 현재 저장된 보드가 없습니다.");
         }
@@ -41,25 +51,25 @@ public class JanggiService {
     }
 
     public int insertGameInfo() {
-        return transactionManager.transaction(janggiRepository::saveGameInfo);
+        return transactionManager.transaction(gameInfoRepository::saveGameInfo);
     }
 
     public void updateGameInfo(CountryType countryType, Map<CountryType, Double> scores, int id) {
         transactionManager.transaction(connection -> {
-            janggiRepository.updateGameInfo(countryType, scores, id, connection);
+            gameInfoRepository.updateGameInfo(countryType, scores, id, connection);
         });
     }
 
     public CountryType readCountryTurn(int id) {
         GameInfo gameInfo = transactionManager.transaction(connection -> {
-            return janggiRepository.findGameInfoById(id, connection);
+            return gameInfoRepository.findGameInfoById(id, connection);
         });
         return CountryType.valueOf(gameInfo.turn());
     }
 
     public Board readBoard(int id) {
         GameInfo gameInfo = transactionManager.transaction(connection -> {
-            return janggiRepository.findGameInfoById(id, connection);
+            return gameInfoRepository.findGameInfoById(id, connection);
         });
         BoardStates boardStates = readPositionStates(id);
         return new Board(boardStates, gameInfo.cho_score(), gameInfo.han_score());
@@ -67,7 +77,7 @@ public class JanggiService {
 
     private BoardStates readPositionStates(int gameInfoId) {
         List<PositionState> positionStates = transactionManager.transaction(connection -> {
-            return janggiRepository.findAllPositionStatesByGameInfoId(gameInfoId, connection);
+            return positionStateRepository.findAllPositionStatesByGameInfoId(gameInfoId, connection);
         });
         Map<Position, Piece> boardStates = new HashMap<>();
         for (PositionState positionState : positionStates) {
@@ -82,52 +92,52 @@ public class JanggiService {
 
     public void deleteGameInfo(int id) {
         transactionManager.transaction(connection -> {
-            janggiRepository.deleteGameInfo(id, connection);
+            gameInfoRepository.deleteGameInfo(id, connection);
         });
     }
 
     public void insertPositionState(Position position, PieceInfo pieceInfo, int gameInfoId) {
         transactionManager.transaction(connection -> {
-            janggiRepository.savePositionState(position, pieceInfo, gameInfoId, connection);
+            positionStateRepository.savePositionState(position, pieceInfo, gameInfoId, connection);
         });
     }
 
     public void changePositionStateToAndFrom(Position from, Position to, PieceInfos pieceInfos, int gameInfoId) {
         if (isEmptyPosition(to, gameInfoId)) {
             transactionManager.transaction(connection -> {
-                janggiRepository.savePositionState(to, pieceInfos.get(to), gameInfoId, connection);
-                janggiRepository.deletePositionStateByPosition(from, gameInfoId, connection);
+                positionStateRepository.savePositionState(to, pieceInfos.get(to), gameInfoId, connection);
+                positionStateRepository.deletePositionStateByPosition(from, gameInfoId, connection);
             });
             return;
         }
         transactionManager.transaction(connection -> {
-            janggiRepository.updatePositionState(to, pieceInfos.get(to), gameInfoId, connection);
-            janggiRepository.deletePositionStateByPosition(from, gameInfoId, connection);
+            positionStateRepository.updatePositionState(to, pieceInfos.get(to), gameInfoId, connection);
+            positionStateRepository.deletePositionStateByPosition(from, gameInfoId, connection);
         });
     }
 
     public boolean isEmptyPosition(Position position, int gameInfoId) {
         PositionState positionState = transactionManager.transaction(connection -> {
-            return janggiRepository.findPositionStateByPosition(position, gameInfoId, connection);
+            return positionStateRepository.findPositionStateByPosition(position, gameInfoId, connection);
         });
         return positionState == null;
     }
 
     public void deleteAllPositionStates(int gameInfoId) {
         transactionManager.transaction(connection -> {
-            janggiRepository.deleteAllPositionStatesByGameInfoId(gameInfoId, connection);
+            positionStateRepository.deleteAllPositionStatesByGameInfoId(gameInfoId, connection);
         });
     }
 
     public void insertPositionHistory(PieceInfos pieceInfos, int gameInfoId, CountryType turn) {
         transactionManager.transaction(connection -> {
-            janggiRepository.savePositionHistory(pieceInfos, gameInfoId, turn, connection);
+            positionHistoryRepository.savePositionHistory(pieceInfos, gameInfoId, turn, connection);
         });
     }
 
     public BoardSnapshots loadPositionHistories(int gameInfoId) {
         List<PositionHistory> positionHistories = transactionManager.transaction(connection -> {
-            return janggiRepository.findPositionHistoriesByGameInfoId(gameInfoId, connection);
+            return positionHistoryRepository.findPositionHistoriesByGameInfoId(gameInfoId, connection);
         });
         Map<Integer, List<PositionHistory>> groupingBoardSnapshots = positionHistories.stream()
                 .collect(Collectors.groupingBy(PositionHistory::id));
@@ -152,7 +162,7 @@ public class JanggiService {
 
     public void deleteAllPositionHistoriesInBoard(int gameInfoId) {
         transactionManager.transaction(connection -> {
-            janggiRepository.deletePositionHistoriesByGameInfoId(gameInfoId, connection);
+            positionHistoryRepository.deletePositionHistoriesByGameInfoId(gameInfoId, connection);
         });
     }
 }

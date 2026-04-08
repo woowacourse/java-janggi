@@ -2,7 +2,9 @@ import controller.JanggiController;
 import infrastructure.DatabaseInitializer;
 import infrastructure.JdbcConnectionManager;
 import infrastructure.TransactionManager;
-import repository.JdbcJanggiRepository;
+import repository.JdbcGameInfoRepository;
+import repository.JdbcPositionHistoryRepository;
+import repository.JdbcPositionStateRepository;
 import service.JanggiService;
 import view.InputView;
 import view.OutputView;
@@ -18,7 +20,9 @@ public class Main {
                 new InputView(),
                 new OutputView(),
                 new JanggiService(
-                        new JdbcJanggiRepository(),
+                        new JdbcGameInfoRepository(),
+                        new JdbcPositionStateRepository(),
+                        new JdbcPositionHistoryRepository(),
                         new TransactionManager(jdbcConnectionManager)
                 )
         );
