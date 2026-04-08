@@ -54,13 +54,6 @@ public class Board {
         return currentPiece.isAnotherTeam(targetPiece);
     }
 
-    public boolean canMoveInPalace(Position from, Position to) {
-        Piece piece = findPieceByPosition(from)
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 움직일 기물이 존재하지 않습니다."));
-        return isInOwnPalace(from, piece.getTeam())
-                && isInOwnPalace(to, piece.getTeam());
-    }
-
     public int calculateScore(Team team) {
         int totalScore = 0;
         for (Position position : board.keySet()) {
@@ -91,7 +84,11 @@ public class Board {
         return capturedPiece;
     }
 
-    private boolean isInOwnPalace(Position position, Team team) {
+    public boolean isInOwnPalace(Position position) {
+        Team team = findPieceByPosition(position)
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 움직일 기물이 존재하지 않습니다."))
+                .getTeam();
+
         if (team == Team.CHU) {
             return chuPalace.isInPalace(position);
         }
