@@ -11,11 +11,11 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class JanggiGenerator implements IntersectionGenerator {
-    public static final int MAX_ROW = 9;
-    public static final int DEFAULT_SOLDIER_ROW = 3;
-    public static final int DEFAULT_CANNON_ROW = 2;
-    public static final int DEFAULT_GENERAL_ROW = 1;
-    public static final int DEFAULT_BACK_ROW = 0;
+    private static final int MAX_ROW = 9;
+    private static final int DEFAULT_SOLDIER_ROW = 3;
+    private static final int DEFAULT_CANNON_ROW = 2;
+    private static final int DEFAULT_GENERAL_ROW = 1;
+    private static final int DEFAULT_BACK_ROW = 0;
 
     private static final List<Integer> DEFAULT_SOLDIER_FILES = List.of(0, 2, 4, 6, 8);
     private static final List<Integer> DEFAULT_CANNON_FILES = List.of(1, 7);
