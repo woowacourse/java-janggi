@@ -22,6 +22,10 @@ public class GuardMoveStrategy implements MoveStrategy {
             return false;
         }
 
+        if (!palaceInRange(to)) {
+            return false;
+        }
+
         Piece target = piecesOnPath.get(to);
         if (target == null) {
             return true;
@@ -60,5 +64,11 @@ public class GuardMoveStrategy implements MoveStrategy {
 
     private boolean isDiagonal(final Position from, final Position to) {
         return Math.abs(from.getRow() - to.getRow()) == 1 && Math.abs(from.getCol() - to.getCol()) == 1;
+    }
+
+    private boolean palaceInRange(final Position position) {
+        return (((0 <= position.getRow() && position.getRow() <= 2) || (7 <= position.getRow()
+                && position.getRow() <= 9))
+                && (3 <= position.getCol() && position.getCol() <= 5));
     }
 }
