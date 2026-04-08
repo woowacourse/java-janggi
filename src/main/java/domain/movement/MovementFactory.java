@@ -11,8 +11,8 @@ public final class MovementFactory {
     private static final Map<PieceType, Supplier<Movement>> MOVEMENT_SUPPLIERS = new EnumMap<>(PieceType.class);
 
     static {
-        MOVEMENT_SUPPLIERS.put(PieceType.GENERAL, FourDirectionMovement::new);
-        MOVEMENT_SUPPLIERS.put(PieceType.GUARD, FourDirectionMovement::new);
+        MOVEMENT_SUPPLIERS.put(PieceType.GENERAL, PalaceMovement::new);
+        MOVEMENT_SUPPLIERS.put(PieceType.GUARD, PalaceMovement::new);
         MOVEMENT_SUPPLIERS.put(PieceType.CHARIOT, LinearMovement::new);
         MOVEMENT_SUPPLIERS.put(PieceType.CANNON, LinearMovement::new);
         MOVEMENT_SUPPLIERS.put(PieceType.ELEPHANT, ElephantMovement::new);

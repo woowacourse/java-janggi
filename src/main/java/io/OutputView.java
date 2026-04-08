@@ -3,8 +3,12 @@ package io;
 import domain.board.Board;
 import domain.board.Column;
 import domain.board.Position;
-import domain.game.Turn;
 import domain.board.Row;
+import domain.game.Turn;
+import domain.piece.Team;
+import domain.room.GameRoom;
+import domain.state.GameResult;
+import java.util.List;
 
 public class OutputView {
     public static final String RED   = "\u001B[31m";
@@ -24,7 +28,7 @@ public class OutputView {
     }
 
     public void printErrorMessage(String message) {
-        System.out.println(message);
+        System.out.println("\n" + message);
     }
 
     public void printBoard(Board board, Turn turn) {
@@ -66,5 +70,48 @@ public class OutputView {
 
     public void printPieceMovement(Turn turn) {
         System.out.printf((REQUEST_MOVE) + "%n", turn.display());
+    }
+
+    public void printCheckMessage(Team checkedTeam) {
+        System.out.println("\n[장군] " + checkedTeam.display());
+    }
+
+    public void printBikjangQuestion(Team team) {
+        System.out.printf("%n[%s 진영] 빅장입니다. 무승부를 선언하시겠습니까? (y/n)%n", team.display());
+    }
+
+    public void printRoomMenu(List<GameRoom> rooms) {
+        System.out.println("\n--- 장기 게임방 ---");
+        if (rooms.isEmpty()) {
+            System.out.println("진행 중인 게임방이 없습니다.");
+        } else {
+            System.out.println("진행 중인 게임방:");
+            for (int i = 0; i < rooms.size(); i++) {
+                System.out.printf("  [%d] %s%n", i + 1, rooms.get(i).name());
+            }
+        }
+        System.out.println("\n1. 새 게임방 만들기");
+        System.out.println("2. 기존 게임방 입장");
+        System.out.print("선택: ");
+    }
+
+    public void printRoomNamePrompt() {
+        System.out.print("게임방 이름을 입력하세요: ");
+    }
+
+    public void printRoomNumberPrompt() {
+        System.out.print("입장할 게임방 번호를 입력하세요: ");
+    }
+
+    public void printRoomEntered(GameRoom room) {
+        System.out.printf("'%s' 게임방에 입장했습니다.%n", room.name());
+    }
+
+    public void printGameResult(GameResult result, Board board) {
+        System.out.println("\n게임 종료!");
+        System.out.println(result.message());
+        System.out.printf("최종 점수 - 한: %.1f점 / 초: %.1f점%n",
+                board.calculateScore(Team.HAN),
+                board.calculateScore(Team.CHO));
     }
 }

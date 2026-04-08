@@ -37,6 +37,26 @@ public class Piece {
         return pieceType == PieceType.SOLDIER;
     }
 
+    public boolean isGeneral() {
+        return pieceType == PieceType.GENERAL;
+    }
+
+    public boolean isGuard() {
+        return pieceType == PieceType.GUARD;
+    }
+
+    public boolean isPalacePiece() {
+        return pieceType == PieceType.GENERAL || pieceType == PieceType.GUARD;
+    }
+
+    public int score() {
+        return pieceType.score();
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
     public boolean isOwnedBy(Team targetTeam) {
         return this.team == targetTeam;
     }

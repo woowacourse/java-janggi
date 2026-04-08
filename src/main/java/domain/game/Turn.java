@@ -18,11 +18,19 @@ public class Turn {
         return team.colorCode(red, green);
     }
 
+    public Team team() {
+        return team;
+    }
+
     public boolean belongsTo(Piece piece) {
         return piece.isOwnedBy(team);
     }
 
     public Turn changeTeam() {
         return new Turn(team.enemy());
+    }
+
+    public Team getEnemy() {
+        return team.enemy();
     }
 }

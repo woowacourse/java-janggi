@@ -14,4 +14,12 @@ public class Command {
     public Coordinate toCoordinate() {
         return Coordinate.toCoordinate(value);
     }
+
+    public boolean isYes() {
+        return value.equalsIgnoreCase("y");
+    }
+
+    public boolean isNo() {
+        return value.equalsIgnoreCase("n");
+    }
 }

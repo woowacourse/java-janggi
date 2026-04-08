@@ -6,6 +6,7 @@ import domain.setup.Arrangement;
 import domain.setup.Arrangements;
 import domain.piece.Team;
 import io.OutputView;
+import java.util.Optional;
 
 public class ReadyState implements GameState {
     private final Arrangements arrangements;
@@ -31,5 +32,21 @@ public class ReadyState implements GameState {
     @Override
     public void display(JanggiGame game, OutputView outputView) {
         outputView.printSetupTable(game.getTurn());
+    }
+
+    @Override
+    public GameStateName stateName() {
+        if (arrangements.hasArrangementFor(Team.HAN)) {
+            return GameStateName.READY_CHO;
+        }
+        return GameStateName.READY_HAN;
+    }
+
+    @Override
+    public Optional<Arrangement> getArrangementOf(Team team) {
+        if (!arrangements.hasArrangementFor(team)) {
+            return Optional.empty();
+        }
+        return Optional.of(arrangements.arrangeFor(team));
     }
 }

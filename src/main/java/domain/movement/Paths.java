@@ -1,7 +1,9 @@
 package domain.movement;
 
+import domain.board.Position;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public final class Paths {
     private final List<Path> paths;
@@ -22,5 +24,12 @@ public final class Paths {
 
     public List<Path> asList() {
         return paths;
+    }
+
+    public List<Position> allCandidatePositions() {
+        return paths.stream()
+                .flatMap(path -> path.positions().stream())
+                .distinct()
+                .collect(Collectors.toList());
     }
 }
