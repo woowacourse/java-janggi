@@ -1,6 +1,7 @@
 package janggi.controller;
 
 import janggi.model.Janggi;
+import janggi.model.board.BoardType;
 import janggi.model.position.absolute.Column;
 import janggi.model.position.absolute.Position;
 import janggi.model.position.absolute.Row;
@@ -10,7 +11,6 @@ import janggi.service.dto.GameOptionResponse;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import janggi.view.dto.GameStatus;
-import janggi.view.mapping.BoardType;
 import java.util.List;
 
 public class JanggiController {
