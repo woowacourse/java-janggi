@@ -18,6 +18,7 @@ import java.util.Map;
 
 public class GameDao {
 
+    private final int FIX_GAME_ID = 1;
     private final DatabaseConnector databaseConnector;
 
     public GameDao() {
@@ -35,16 +36,18 @@ public class GameDao {
             statement.execute("DELETE FROM GAME;");
 
             PreparedStatement gameStatement = connection.prepareStatement(
-                    "INSERT INTO game (current_turn) VALUES (?);");
-            gameStatement.setString(1, gameContext.currentTeamType().toString());
+                    "INSERT INTO game (id, current_turn) VALUES (?, ?);");
+            gameStatement.setInt(1, FIX_GAME_ID);
+            gameStatement.setString(2, gameContext.currentTeamType().toString());
             gameStatement.executeUpdate();
 
             // 맵을 다 돌면서 해야함
             Map<Position, Piece> positionPieceMap = gameContext.getPositionPieceMap();
-            Map<Position, PieceRecord> mapForDB = new HashMap<Position, PieceRecord>();
+            Map<Position, PieceRecord> mapForDB = new HashMap<>();
             for (Map.Entry<Position, Piece> entry : positionPieceMap.entrySet()) {
-                mapForDB.put(entry.getKey(), new PieceRecord(1, entry.getKey().getRow(), entry.getKey().getColumn(),
-                        entry.getValue().pieceType().toString(), entry.getValue().teamType().toString()));
+                mapForDB.put(entry.getKey(),
+                        new PieceRecord(FIX_GAME_ID, entry.getKey().getRow(), entry.getKey().getColumn(),
+                                entry.getValue().pieceType().toString(), entry.getValue().teamType().toString()));
             }
             for (Map.Entry<Position, PieceRecord> entry : mapForDB.entrySet()) {
                 PreparedStatement pieceStatement = connection.prepareStatement(

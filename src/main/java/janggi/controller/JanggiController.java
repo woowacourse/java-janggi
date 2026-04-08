@@ -112,6 +112,12 @@ public class JanggiController {
     }
 
     private void loadPreviousGame() {
-        System.out.println("DB에서 이전 게임을 불러옵니다.");
+        GameContext gameContext = gameDao.loadPreviousGame();
+        while (gameContext.canContinueGame()) {
+            playTurn(gameContext);
+            gameDao.saveGame(gameContext);
+        }
+        gameContext.changeTurn();
+        OutputView.printGameOverMessage(gameContext.currentTeamTypeToName());
     }
 }
