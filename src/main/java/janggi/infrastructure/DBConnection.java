@@ -13,7 +13,7 @@ public class DBConnection {
         try {
             return DriverManager.getConnection(URL, USER, PASSWORD);
         } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] DB 연결 실패. 환경 변수를 확인하세요.");
+            throw new RuntimeException("[ERROR] DB 연결에 실패했습니다. 환경 변수를 확인하세요.");
         }
     }
 }
