@@ -1,6 +1,8 @@
-package domain;
+package domain.board;
 
 import constant.BoardSpec;
+import domain.vo.Position;
+import domain.piece.Side;
 import domain.piece.Empty;
 import domain.piece.Piece;
 import domain.piece.PieceType;

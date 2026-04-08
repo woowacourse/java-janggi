@@ -1,10 +1,10 @@
-package controller;
+package domain.console;
 
-import domain.Formation;
-import domain.Game;
-import domain.LoadGameDecision;
-import domain.Position;
-import domain.Side;
+import domain.board.Formation;
+import domain.game.Game;
+import domain.piece.Side;
+import domain.vo.LoadGameDecision;
+import domain.vo.Position;
 import service.GameService;
 import util.Parser;
 import view.InputView;

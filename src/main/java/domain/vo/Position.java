@@ -1,4 +1,4 @@
-package domain;
+package domain.vo;
 
 import constant.BoardSpec;
 import java.util.HashMap;

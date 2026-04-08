@@ -1,7 +1,10 @@
-package domain;
+package domain.game;
 
 import constant.BoardSpec;
+import domain.board.Board;
 import domain.piece.Piece;
+import domain.piece.Side;
+import domain.vo.Position;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +25,7 @@ public class Game {
             turn.next();
         }
     }
-    
+
     public boolean isGameEnd() {
         return board.hasKing(Side.CHO) || board.hasKing(Side.HAN);
     }

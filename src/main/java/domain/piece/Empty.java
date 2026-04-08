@@ -1,11 +1,11 @@
 package domain.piece;
 
-import domain.Position;
+import domain.vo.Position;
 import java.util.List;
 
 public class Empty extends Piece {
 
-    private static final String NAME = " .";
+    private static final String NAME = ". ";
     private static final int SCORE = 0;
 
     public Empty() {

@@ -1,7 +1,7 @@
 package domain.path;
 
-import domain.Direction;
-import domain.Position;
+import domain.movement.Direction;
+import domain.vo.Position;
 import java.util.List;
 
 public class HoresePaths implements Paths {

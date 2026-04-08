@@ -1,7 +1,6 @@
 package domain.piece;
 
-import domain.Position;
-import domain.Side;
+import domain.vo.Position;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

@@ -1,8 +1,8 @@
 package view;
 
 import constant.BoardSpec;
-import domain.Position;
-import domain.Side;
+import domain.vo.Position;
+import domain.piece.Side;
 import domain.piece.Piece;
 import java.util.Map;
 

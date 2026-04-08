@@ -1,6 +1,6 @@
-package repository.game;
+package repository.game_record.dto;
 
-import domain.Formation;
+import domain.board.Formation;
 
 public record GameRecord(
     Formation choFormation,

@@ -1,6 +1,6 @@
 package domain.strategy;
 
-import domain.Position;
+import domain.vo.Position;
 import domain.movement.PathMovement;
 import domain.path.Path;
 import java.util.List;

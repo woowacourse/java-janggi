@@ -1,6 +1,5 @@
 package domain.piece;
 
-import domain.Side;
 import domain.path.ElephantPaths;
 import domain.path.HoresePaths;
 import domain.path.LinearPiecePaths;

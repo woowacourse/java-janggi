@@ -1,7 +1,7 @@
 package domain.strategy;
 
-import domain.Direction;
-import domain.Position;
+import domain.movement.Direction;
+import domain.vo.Position;
 import domain.movement.LinearMovement;
 import domain.movement.Movement;
 import domain.movement.PathMovement;

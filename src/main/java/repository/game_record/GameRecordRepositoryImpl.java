@@ -1,13 +1,14 @@
-package repository.game;
+package repository.game_record;
 
-import domain.Formation;
+import domain.board.Formation;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import repository.connector.Connector;
+import repository.game_record.dto.GameRecord;
 
-public class GameRepositoryImpl implements GameRepository {
+public class GameRecordRepositoryImpl implements GameRecordRepository {
 
     private static final String SAVE_FAILED_MESSAGE = "데이터 저장에 실패했습니다.";
     private static final String EXISTS_FAILED_MESSAGE = "데이터 존재 여부 조회에 실패했습니다.";
@@ -16,7 +17,7 @@ public class GameRepositoryImpl implements GameRepository {
 
     private final Connector connector;
 
-    public GameRepositoryImpl(Connector connector) {
+    public GameRecordRepositoryImpl(Connector connector) {
         this.connector = connector;
     }
 

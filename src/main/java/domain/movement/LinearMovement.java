@@ -1,7 +1,6 @@
 package domain.movement;
 
-import domain.Direction;
-import domain.Position;
+import domain.vo.Position;
 import java.util.ArrayList;
 import java.util.List;
 

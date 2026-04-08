@@ -1,31 +1,31 @@
 package service;
 
-import domain.Board;
-import domain.BoardFactory;
-import domain.Formation;
-import domain.Game;
-import domain.Position;
-import repository.game.GameRecord;
-import repository.game.GameRepository;
-import repository.move_record.MoveRecord;
+import domain.board.Board;
+import domain.board.BoardFactory;
+import domain.board.Formation;
+import domain.game.Game;
+import domain.vo.Position;
+import repository.game_record.GameRecordRepository;
+import repository.game_record.dto.GameRecord;
 import repository.move_record.MoveRecordRepository;
+import repository.move_record.dto.MoveRecord;
 
 public class GameService {
 
     private final MoveRecordRepository moveRecordRepository;
-    private final GameRepository gameRepository;
+    private final GameRecordRepository gameRecordRepository;
 
-    public GameService(MoveRecordRepository moveRecordRepository, GameRepository gameRepository) {
+    public GameService(MoveRecordRepository moveRecordRepository, GameRecordRepository gameRecordRepository) {
         this.moveRecordRepository = moveRecordRepository;
-        this.gameRepository = gameRepository;
+        this.gameRecordRepository = gameRecordRepository;
     }
 
     public boolean existsGame() {
-        return gameRepository.existsGameRecord();
+        return gameRecordRepository.existsGameRecord();
     }
 
     public Game loadGame() {
-        GameRecord gameRecord = gameRepository.findGameRecord();
+        GameRecord gameRecord = gameRecordRepository.findGameRecord();
         Board board = BoardFactory.createBoard(gameRecord.choFormation(), gameRecord.hanFormation());
         Game game = new Game(board);
         for (MoveRecord moveRecord : moveRecordRepository.findAll()) {
@@ -37,9 +37,9 @@ public class GameService {
     }
 
     public Game createGame(Formation choFormation, Formation hanFormation) {
-        gameRepository.deleteAll();
+        gameRecordRepository.deleteAll();
         moveRecordRepository.deleteAll();
-        gameRepository.save(new GameRecord(choFormation, hanFormation));
+        gameRecordRepository.save(new GameRecord(choFormation, hanFormation));
 
 //        Board board = BoardFactory.createBoard(choFormation, hanFormation);
         Board board = BoardFactory.createTestBoard();
@@ -50,7 +50,7 @@ public class GameService {
         game.move(sourcePosition, targetPosition);
 
         if (game.isGameEnd()) {
-            gameRepository.deleteAll();
+            gameRecordRepository.deleteAll();
             moveRecordRepository.deleteAll();
             return;
         }

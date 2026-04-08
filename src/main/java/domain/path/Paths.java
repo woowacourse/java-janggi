@@ -1,6 +1,6 @@
 package domain.path;
 
-import domain.Position;
+import domain.vo.Position;
 import java.util.List;
 
 public interface Paths {

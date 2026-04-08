@@ -1,6 +1,8 @@
-package repository.game;
+package repository.game_record;
 
-public interface GameRepository {
+import repository.game_record.dto.GameRecord;
+
+public interface GameRecordRepository {
 
     boolean existsGameRecord();
 

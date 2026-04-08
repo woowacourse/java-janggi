@@ -1,6 +1,6 @@
-package repository.move_record;
+package repository.move_record.dto;
 
-import domain.Side;
+import domain.piece.Side;
 
 public record MoveRecord(
     int sourceX,

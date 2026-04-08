@@ -1,6 +1,6 @@
 package constant;
 
-import domain.Side;
+import domain.piece.Side;
 
 public class BoardSpec {
 

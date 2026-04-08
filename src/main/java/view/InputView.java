@@ -1,7 +1,7 @@
 package view;
 
 import constant.BoardSpec;
-import domain.Formation;
+import domain.board.Formation;
 import java.util.Scanner;
 
 public class InputView {

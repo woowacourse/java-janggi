@@ -1,10 +1,10 @@
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.Board;
-import domain.BoardFactory;
-import domain.Formation;
-import domain.Position;
-import domain.Side;
+import domain.board.Board;
+import domain.board.BoardFactory;
+import domain.board.Formation;
+import domain.vo.Position;
+import domain.piece.Side;
 import domain.piece.Elephant;
 import domain.piece.Horse;
 import domain.piece.Piece;

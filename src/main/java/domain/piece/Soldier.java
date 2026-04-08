@@ -1,7 +1,6 @@
 package domain.piece;
 
-import domain.Position;
-import domain.Side;
+import domain.vo.Position;
 import domain.path.Paths;
 import domain.strategy.PieceMoveStrategy;
 import java.util.List;

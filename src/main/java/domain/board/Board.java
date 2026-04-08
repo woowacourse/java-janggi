@@ -1,5 +1,7 @@
-package domain;
+package domain.board;
 
+import domain.vo.Position;
+import domain.piece.Side;
 import domain.piece.Empty;
 import domain.piece.King;
 import domain.piece.Piece;
