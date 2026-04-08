@@ -4,6 +4,7 @@ import janggi.domain.BoardView;
 import janggi.domain.Column;
 import janggi.domain.Position;
 import janggi.domain.Row;
+import java.util.stream.IntStream;
 
 public class ChaMoveStorage implements MoveStorage {
 
@@ -32,13 +33,9 @@ public class ChaMoveStorage implements MoveStorage {
         int start = Math.min(from.getColumnValue(), to.getColumnValue()) + 1;
         int end = Math.max(from.getColumnValue(), to.getColumnValue());
 
-        for (int column = start; column < end; column++) {
-            Position position = Position.of(Row.of(row), Column.of(column));
-            if (boardView.hasPieceAt(position)) {
-                return true;
-            }
-        }
-        return false;
+        return IntStream.range(start, end)
+                .mapToObj(column -> Position.of(Row.of(row), Column.of(column)))
+                .anyMatch(boardView::hasPieceAt);
     }
 
     private boolean isVerticalPathBlocked(Position from, Position to, BoardView boardView) {
@@ -46,12 +43,8 @@ public class ChaMoveStorage implements MoveStorage {
         int start = Math.min(from.getRowValue(), to.getRowValue()) + 1;
         int end = Math.max(from.getRowValue(), to.getRowValue());
 
-        for (int row = start; row < end; row++) {
-            Position position = Position.of(Row.of(row), Column.of(column));
-            if (boardView.hasPieceAt(position)) {
-                return true;
-            }
-        }
-        return false;
+        return IntStream.range(start, end)
+                .mapToObj(row -> Position.of(Row.of(row), Column.of(column)))
+                .anyMatch(boardView::hasPieceAt);
     }
 }
