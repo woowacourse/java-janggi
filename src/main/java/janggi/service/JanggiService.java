@@ -30,7 +30,7 @@ public class JanggiService {
 
     public void startLoadGame(long gameId) {
         String currentTurn = boardRepository.findTurnById(gameId);
-        Map<Position, Piece> pieceInfo = boardRepository.findPiecesById(gameId);
+        Map<Position, Piece> pieceInfo = boardRepository.findPiecesByGameId(gameId);
 
         Board loadedBoard = new Board(new LoadStrategy(pieceInfo));
 

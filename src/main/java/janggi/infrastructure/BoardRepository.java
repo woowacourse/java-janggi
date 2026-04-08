@@ -10,7 +10,7 @@ public interface BoardRepository {
 
     List<Long> findAllGameIds();
 
-    Map<Position, Piece> findPiecesById(long gameId);
+    Map<Position, Piece> findPiecesByGameId(long gameId);
 
     String findTurnById(long gameId);
 

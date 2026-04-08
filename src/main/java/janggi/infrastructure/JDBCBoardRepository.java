@@ -7,8 +7,6 @@ import janggi.domain.space.piece.PieceType;
 import janggi.domain.space.piece.Team;
 import janggi.infrastructure.dao.GameDao;
 import janggi.infrastructure.dto.PieceDto;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +44,7 @@ public class JDBCBoardRepository implements BoardRepository {
     }
 
     @Override
-    public Map<Position, Piece> findPiecesById(long gameId) {
+    public Map<Position, Piece> findPiecesByGameId(long gameId) {
         Map<Position, Piece> pieces = new HashMap<>();
 
         TransactionExecutor.execute(connection -> {
