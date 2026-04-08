@@ -11,12 +11,10 @@ import java.util.List;
 public class GameJdbcDao implements GameDao {
 
     @Override
-    public GameEntity save(GameEntity game) {
+    public GameEntity save(Connection con, GameEntity game) {
         String sql = "insert into games(current_turn, status, created_at, updated_at) values(?, ?, ?, ?)";
 
-        try (Connection con = getConnection();
-             PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
-        ) {
+        try (PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             OffsetDateTime now = OffsetDateTime.now();
 
@@ -39,12 +37,10 @@ public class GameJdbcDao implements GameDao {
     }
 
     @Override
-    public void update(Long gameId, String turnName, String status) {
+    public void update(Connection con, Long gameId, String turnName, String status) {
         String sql = "update games set current_turn = ?, status = ?, updated_at = ? where id = ?";
 
-        try (Connection con = getConnection();
-             PreparedStatement pstmt = con.prepareStatement(sql)
-        ) {
+        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
 
             pstmt.setString(1, turnName);
             pstmt.setString(2, status);

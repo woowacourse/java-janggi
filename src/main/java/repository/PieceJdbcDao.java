@@ -9,12 +9,10 @@ import java.util.List;
 public class PieceJdbcDao implements PieceDao {
 
     @Override
-    public void saveAll(List<PieceEntity> pieces) {
+    public void saveAll(Connection con, List<PieceEntity> pieces) {
         String sql = "insert into pieces(game_id, position_row, position_col, team, piece_type) values(?, ?, ?, ?, ?)";
 
-        try (Connection con = getConnection();
-             PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
-        ) {
+        try (PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             for (PieceEntity piece : pieces) {
                 pstmt.setLong(1, piece.getGameId());
@@ -30,12 +28,10 @@ public class PieceJdbcDao implements PieceDao {
     }
 
     @Override
-    public void deleteByPosition(Long gameId, int row, int col) {
+    public void deleteByPosition(Connection con, Long gameId, int row, int col) {
         String sql = "delete from pieces where game_id = ? and position_row = ? and position_col = ?";
 
-        try (Connection con = getConnection();
-             PreparedStatement pstmt = con.prepareStatement(sql)
-        ) {
+        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
 
             pstmt.setLong(1, gameId);
             pstmt.setInt(2, row);
@@ -47,13 +43,11 @@ public class PieceJdbcDao implements PieceDao {
     }
 
     @Override
-    public void updatePosition(Long gameId, int fromRow, int fromCol, int toRow, int toCol) {
+    public void updatePosition(Connection con, Long gameId, int fromRow, int fromCol, int toRow, int toCol) {
         String sql = "update pieces set position_row = ?, position_col = ? " +
                 "where game_id = ? and position_row = ? and position_col = ?";
 
-        try (Connection con = getConnection();
-             PreparedStatement pstmt = con.prepareStatement(sql)
-        ) {
+        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
 
             pstmt.setInt(1, toRow);
             pstmt.setInt(2, toCol);

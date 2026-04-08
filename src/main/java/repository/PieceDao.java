@@ -2,15 +2,16 @@ package repository;
 
 import entity.PieceEntity;
 
+import java.sql.Connection;
 import java.util.List;
 
 public interface PieceDao {
 
-    void saveAll(List<PieceEntity> pieceEntities);
+    void saveAll(Connection con, List<PieceEntity> pieceEntities);
 
-    void deleteByPosition(Long gameId, int row, int col);
+    void deleteByPosition(Connection con, Long gameId, int row, int col);
 
-    void updatePosition(Long gameId, int fromRow, int fromCol, int toRow, int toCol);
+    void updatePosition(Connection con, Long gameId, int fromRow, int fromCol, int toRow, int toCol);
 
     List<PieceEntity> findAllByGameId(Long gameId);
 }
