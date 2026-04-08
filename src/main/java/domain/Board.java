@@ -32,7 +32,6 @@ public class Board {
 
     public void move(Team turn, Position start, Position destination) {
         validateIsAlly(turn, start);
-        validateIsReachable(start, destination);
         validateCanMove(start, destination);
         validateCrashWithAlly(start, destination);
 
@@ -46,12 +45,6 @@ public class Board {
         if (!startPiece.isSameTeam(turn)) {
             throw new IllegalArgumentException(SHOULD_CHOOSE_CORRECT_TEAM_PIECE);
         }
-    }
-
-    private void validateIsReachable(Position start, Position destination) {
-        Piece startPiece = getPieceOrThrowException(start);
-
-        startPiece.findMovablePath(start, destination);
     }
 
     private void validateCanMove(Position start, Position destination) {
