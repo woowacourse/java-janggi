@@ -35,11 +35,6 @@ public class GameRepositoryImpl implements GameRepository {
     }
 
     @Override
-    public boolean existsById(final long id) {
-        return findById(id).isPresent();
-    }
-
-    @Override
     public List<Long> findByStatusOrderByLatest(final GameStatus gameStatus, final int limit) {
         final String sql = String.format(
             "SELECT id FROM %s WHERE status = ? ORDER BY created_at DESC LIMIT ?", TABLE_NAME);

@@ -27,7 +27,7 @@ public class BoardService {
     }
 
     public Map<Position, Piece> loadBoard(final long gameId) {
-        if (!gameRepository.existsById(gameId)) {
+        if (gameRepository.findById(gameId).isEmpty()) {
             throw new IllegalArgumentException("저장된 게임이 없습니다.");
         }
 

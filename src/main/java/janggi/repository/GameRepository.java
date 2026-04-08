@@ -9,8 +9,6 @@ public interface GameRepository {
 
     long save(GameEntity gameEntity);
 
-    boolean existsById(long id);
-
     List<Long> findByStatusOrderByLatest(GameStatus gameStatus, int limit);
 
     Optional<GameEntity> findById(long id);
