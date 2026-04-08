@@ -7,7 +7,7 @@ public class Palace {
     private static final Set<Position> BOUNDARY = PalaceFactory.generateBoundary();
     private static final Set<Position> CENTER = PalaceFactory.generateCenter();
 
-    public Palace() {
+    private Palace() {
     }
 
     public static boolean onPalace(Position position) {
