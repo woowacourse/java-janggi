@@ -1,7 +1,6 @@
 package db.repository;
 
 import db.parser.PieceParser;
-import db.parser.SideParser;
 import domain.board.Intersection;
 import domain.game.Side;
 import domain.piece.Piece;
@@ -82,10 +81,11 @@ public class PieceRepository {
     ) throws SQLException {
         Intersection intersection = placedPiece.getKey();
         Piece piece = placedPiece.getValue();
+        Side side = piece.getSide();
 
         statement.setInt(1, intersection.getRow());
         statement.setInt(2, intersection.getFile());
-        statement.setString(3, SideParser.sideToString(piece.getSide()));
+        statement.setString(3, side.toString());
         statement.setString(4, PieceParser.toString(piece));
         statement.setInt(5, gameId);
     }
@@ -111,7 +111,7 @@ public class PieceRepository {
     }
 
     private Piece parsePiece(ResultSet resultSet) throws SQLException {
-        Side side = SideParser.stringToSide(resultSet.getString(3));
+        Side side = Side.valueOf(resultSet.getString(3));
         String pieceName = resultSet.getString(4);
 
         return PieceParser.toPiece(pieceName, side);

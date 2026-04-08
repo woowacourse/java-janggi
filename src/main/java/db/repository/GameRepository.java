@@ -1,7 +1,6 @@
 package db.repository;
 
 import db.connector.Connector;
-import db.parser.SideParser;
 import db.session.Session;
 import db.util.DataAccessException;
 import db.util.Transaction;
@@ -89,7 +88,9 @@ public class GameRepository {
         String save = "INSERT INTO game (current_turn) values (?)";
 
         try (PreparedStatement statement = connection.prepareStatement(save, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setString(1, SideParser.sideToString(game.getCurrentTurn()));
+            Side currentTurn = game.getCurrentTurn();
+
+            statement.setString(1, currentTurn.name());
             statement.executeUpdate();
 
             int gameId = getGeneratedKey(statement);
@@ -124,10 +125,10 @@ public class GameRepository {
 
         try (PreparedStatement statement = connection.prepareStatement(update)) {
             JanggiGame game = gameSession.payload();
-            int gameId = gameSession.id();
+            Side currentTurn = game.getCurrentTurn();
 
-            statement.setString(1, SideParser.sideToString(game.getCurrentTurn()));
-            statement.setInt(2, gameId);
+            statement.setString(1, currentTurn.name());
+            statement.setInt(2, gameSession.id());
             statement.executeUpdate();
         }
     }
