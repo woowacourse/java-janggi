@@ -2,6 +2,7 @@ package domain.game;
 
 import domain.board.Board;
 import domain.board.Intersection;
+import domain.exception.UnexpectedException;
 import domain.piece.Piece;
 import java.util.Arrays;
 import java.util.List;
@@ -56,7 +57,7 @@ public final class JanggiGame {
         return Arrays.stream(Side.values())
                 .filter(board::hasRoyalPiece)
                 .findAny()
-                .orElseThrow(() -> new RuntimeException("승자를 조회할 수 없습니다."));
+                .orElseThrow(() -> new UnexpectedException("승자를 조회할 수 없습니다."));
     }
 
     public Side getCurrentTurn() {
