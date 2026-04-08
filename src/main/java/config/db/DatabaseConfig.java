@@ -21,7 +21,7 @@ public class DatabaseConfig {
                 .getResourceAsStream(PROPERTIES_FILE_NAME)) {
             PROPERTIES.load(in);
         } catch (IOException e) {
-            throw new IllegalStateException("데이터베이스 연결 불가");
+            throw new IllegalStateException("데이터베이스 연결 불가", e);
         }
     }
 
@@ -46,7 +46,7 @@ public class DatabaseConfig {
                     PROPERTIES.getProperty("db.password")
             );
         } catch (SQLException e) {
-            throw new IllegalStateException("데이터베이스 연결 불가");
+            throw new IllegalStateException("데이터베이스 연결 불가", e);
         }
     }
 }
