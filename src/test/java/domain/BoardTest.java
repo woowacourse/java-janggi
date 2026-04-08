@@ -65,62 +65,6 @@ class BoardTest {
         assertEquals(0, board.calculateScore(Team.HAN));
     }
 
-    @Test
-    @DisplayName("같은 궁성의 대각선 포인트 간 이동이 가능하다")
-    void shouldReturnTrueWhenBothPositionsAreOnSamePalaceDiagonal() {
-        // given
-        Board board = BoardFactory.setUp(Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT, Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT);
-
-        // when
-        Position from = Position.of(8, 4);
-        Position to = Position.of(7, 3);
-
-        // then
-        assertTrue(board.canMoveDiagonallyInPalace(from, to));
-    }
-
-    @Test
-    @DisplayName("목적지가 궁성 밖이면 대각선 이동이 불가능하다")
-    void shouldReturnFalseWhenDestinationIsOutsidePalace() {
-        // given
-        Board board = BoardFactory.setUp(Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT, Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT);
-
-        // when
-        Position from = Position.of(8, 4);
-        Position to = Position.of(6, 3);
-
-        // then
-        assertFalse(board.canMoveDiagonallyInPalace(from, to));
-    }
-
-    @Test
-    @DisplayName("목적지가 대각선 포인트가 아니면 대각선 이동이 불가능하다")
-    void shouldReturnFalseWhenDestinationIsNotDiagonalPoint() {
-        // given
-        Board board = BoardFactory.setUp(Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT, Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT);
-
-        // when
-        Position from = Position.of(8, 4);
-        Position to = Position.of(8, 3);
-
-        // then
-        assertFalse(board.canMoveDiagonallyInPalace(from, to));
-    }
-
-    @Test
-    @DisplayName("서로 다른 궁성의 대각선 포인트 간 이동은 불가능하다")
-    void shouldReturnFalseWhenPositionsAreOnDifferentPalaces() {
-        // given
-        Board board = BoardFactory.setUp(Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT, Formation.LEFT_ELEPHANT_RIGHT_ELEPHANT);
-
-        // when
-        Position from = Position.of(8, 4);
-        Position to = Position.of(1, 4);
-
-        // then
-        assertFalse(board.canMoveDiagonallyInPalace(from, to));
-    }
-
     private static Stream<Arguments> providePiece() {
         return Stream.of(
                 Arguments.of(0, 0, Type.CHARIOT),

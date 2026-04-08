@@ -33,13 +33,13 @@ public class Palace {
                 && position.getRow() <= rightTop.getRow() && position.getRow() >= leftBottom.getRow();
     }
 
-    public boolean isDiagonalPoint(Position position) {
+    public boolean isDiagonalPoint(final Position position) {
         return leftBottom.equals(position) || leftTop.equals(position)
                 || rightTop.equals(position) || rightBottom.equals(position)
                 || isCenter(position);
     }
 
-    private boolean isCenter(Position position) {
+    private boolean isCenter(final Position position) {
         int centerRow = (leftTop.getRow() + leftBottom.getRow()) / 2;
         int centerCol = (leftTop.getCol() + rightTop.getCol()) / 2;
         return position.getRow() == centerRow && position.getCol() == centerCol;

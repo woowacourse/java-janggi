@@ -67,20 +67,9 @@ public class Board {
         return totalScore;
     }
 
-    public boolean canMoveDiagonallyInPalace(Position position, Position to) {
-        return (chuPalace.isDiagonalPoint(position) && chuPalace.isDiagonalPoint(to))
-                || (hanPalace.isDiagonalPoint(position) && hanPalace.isDiagonalPoint(to));
-    }
-
-    public boolean isInOwnPalace(Position position) {
-        Team team = findPieceByPosition(position)
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 움직일 기물이 존재하지 않습니다."))
-                .getTeam();
-
-        if (team == Team.CHU) {
-            return chuPalace.isInPalace(position);
-        }
-        return hanPalace.isInPalace(position);
+    public Palace getPalace(Team team) {
+        if (team == Team.CHU) return chuPalace;
+        return hanPalace;
     }
 
     public Map<Position, Piece> getBoard() {
