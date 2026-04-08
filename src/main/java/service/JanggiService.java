@@ -71,7 +71,9 @@ public class JanggiService {
     }
 
     public ScoreResult calculateScoreResult() {
-        return janggi.calculateScoreResultOfTeams();
+        ScoreResult result = janggi.calculateScoreResultOfTeams();
+        janggiRepository.updateCurrentGameStatus(gameId, GameStatus.WIN_BY_SCORE);
+        return result;
     }
 
     public void quit() {
@@ -86,15 +88,7 @@ public class JanggiService {
         return janggi.getTurn();
     }
 
-    public Team getWinnerByCapture() {
-        return janggi.getWinnerByCapture();
-    }
-
     public Map<Position, Piece> getBoard() {
         return janggi.board();
-    }
-
-    public void changeGameStatus(GameStatus gameStatus) {
-        janggiRepository.updateCurrentGameStatus(gameId, gameStatus);
     }
 }

@@ -3,7 +3,6 @@ package controller;
 import model.board.ScoreResult;
 import model.coordinate.Position;
 import model.formation.JanggiFormation;
-import model.game.GameStatus;
 import model.game.MoveResult;
 import model.game.Team;
 import model.piece.Piece;
@@ -58,7 +57,6 @@ public class JanggiController {
 
         outputView.displayScores(scoreResult.choScore(), scoreResult.hanScore());
         outputView.displayWinner(scoreResult.winner().getKoreanName());
-        janggiService.changeGameStatus(GameStatus.WIN_BY_SCORE);
     }
 
     private void handleQuit() {
