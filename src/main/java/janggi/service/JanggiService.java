@@ -1,6 +1,5 @@
 package janggi.service;
 
-import janggi.database.DatabaseConnection;
 import janggi.model.Board;
 import janggi.model.Janggi;
 import janggi.model.Team;
@@ -8,18 +7,19 @@ import janggi.model.gimul.AbstractGimul;
 import janggi.model.position.Position;
 import janggi.repository.GameRepository;
 import janggi.repository.GimulRepository;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
 public class JanggiService {
     private final GameRepository gameRepository;
     private final GimulRepository gimulRepository;
+    private final TransactionManager transactionManager;
 
-    public JanggiService(GameRepository gameRepository, GimulRepository gimulRepository) {
+    public JanggiService(GameRepository gameRepository, GimulRepository gimulRepository,
+                         TransactionManager transactionManager) {
         this.gameRepository = gameRepository;
         this.gimulRepository = gimulRepository;
+        this.transactionManager = transactionManager;
     }
 
     public Long createGame(String name, Team currentTurn) {
@@ -42,25 +42,11 @@ public class JanggiService {
     }
 
     public void save(Long gameId, Board board, Team currentTurn) {
-        try (Connection connection = DatabaseConnection.getConnection()) {
-            connection.setAutoCommit(false);
-            saveWithTransaction(connection, gameId, board, currentTurn);
-        } catch (SQLException e) {
-            throw new IllegalStateException("DB 오류가 발생했습니다.", e);
-        }
-    }
-
-    private void saveWithTransaction(Connection connection, Long gameId, Board board, Team currentTurn)
-            throws SQLException {
-        try {
-            gameRepository.updateCurrentTurn(connection, gameId, currentTurn);
-            gimulRepository.deleteAll(connection, gameId);
-            gimulRepository.saveAll(connection, gameId, board.snapshot());
-            connection.commit();
-        } catch (SQLException e) {
-            connection.rollback();
-            throw e;
-        }
+        transactionManager.execute(() -> {
+            gameRepository.updateCurrentTurn(gameId, currentTurn);
+            gimulRepository.deleteAll(gameId);
+            gimulRepository.saveAll(gameId, board.snapshot());
+        });
     }
 
     public Long findIdByName(String name) {
@@ -69,22 +55,10 @@ public class JanggiService {
     }
 
     public void deleteGame(Long gameId) {
-        try (Connection connection = DatabaseConnection.getConnection()) {
-            connection.setAutoCommit(false);
-            deleteWithTransaction(connection, gameId);
-        } catch (SQLException e) {
-            throw new IllegalStateException("DB 오류가 발생했습니다.", e);
-        }
+        transactionManager.execute(() -> {
+            gimulRepository.deleteAll(gameId);
+            gameRepository.delete(gameId);
+        });
     }
 
-    private void deleteWithTransaction(Connection connection, Long gameId) throws SQLException {
-        try {
-            gimulRepository.deleteAll(connection, gameId);
-            gameRepository.delete(connection, gameId);
-            connection.commit();
-        } catch (SQLException e) {
-            connection.rollback();
-            throw e;
-        }
-    }
 }

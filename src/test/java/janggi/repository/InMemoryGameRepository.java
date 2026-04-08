@@ -1,7 +1,6 @@
 package janggi.repository;
 
 import janggi.model.Team;
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,12 +39,12 @@ public class InMemoryGameRepository implements GameRepository {
     }
 
     @Override
-    public void updateCurrentTurn(Connection connection, Long gameId, Team currentTurn) {
+    public void updateCurrentTurn(Long gameId, Team currentTurn) {
         turns.put(gameId, currentTurn);
     }
 
     @Override
-    public void delete(Connection connection, Long gameId) {
+    public void delete(Long gameId) {
         names.remove(gameId);
         turns.remove(gameId);
     }

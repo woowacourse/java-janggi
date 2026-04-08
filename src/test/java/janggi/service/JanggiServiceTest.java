@@ -20,7 +20,8 @@ class JanggiServiceTest {
     void beforeEach() {
         janggiService = new JanggiService(
                 new InMemoryGameRepository(),
-                new InMemoryGimulRepository()
+                new InMemoryGimulRepository(),
+                new TransactionManager()
         );
     }
 
