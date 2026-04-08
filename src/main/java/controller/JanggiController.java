@@ -10,9 +10,10 @@ import domain.piece.Piece;
 import domain.piece.Position;
 import domain.player.Player;
 import domain.player.Team;
-import java.util.List;
 import view.InputView;
 import view.OutputView;
+
+import java.util.List;
 
 public class JanggiController {
 
@@ -110,7 +111,7 @@ public class JanggiController {
         }
     }
 
-    private static void validateMovablePiece(final Board board, final Piece piece, final Position selected) {
+    private void validateMovablePiece(final Board board, final Piece piece, final Position selected) {
         piece.calculateMovablePositions(selected, board);
     }
 
