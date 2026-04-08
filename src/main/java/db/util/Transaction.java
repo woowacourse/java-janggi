@@ -2,7 +2,6 @@ package db.util;
 
 import db.connector.Connector;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class Transaction {
@@ -14,30 +13,20 @@ public class Transaction {
     }
 
     public void execute(
-            String sql,
-            StatementMode statementMode,
             TransactionalRunnable work
     ) {
-        try (
-                Connection connection = connector.getConnection();
-                PreparedStatement statement = statementMode.prepare(connection, sql)
-        ) {
-            rollbackIfThrowException(work, connection, statement);
+        try (Connection connection = connector.getConnection()) {
+            rollbackIfThrowException(work, connection);
         } catch (SQLException e) {
             throw new DataAccessException(e);
         }
     }
 
     public <T> T execute(
-            String sql,
-            StatementMode statementMode,
             TransactionalFunction<T> work
     ) {
-        try (
-                Connection connection = connector.getConnection();
-                PreparedStatement statement = statementMode.prepare(connection, sql)
-        ) {
-            return rollbackIfThrowException(work, connection, statement);
+        try (Connection connection = connector.getConnection()) {
+            return rollbackIfThrowException(work, connection);
         } catch (SQLException e) {
             throw new DataAccessException(e);
         }
@@ -45,13 +34,12 @@ public class Transaction {
 
     private void rollbackIfThrowException(
             TransactionalRunnable work,
-            Connection connection,
-            PreparedStatement statement
+            Connection connection
     ) throws SQLException {
         try {
             connection.setAutoCommit(false);
 
-            work.execute(connection, statement);
+            work.execute(connection);
 
             connection.commit();
         } catch (Exception e) {
@@ -64,12 +52,11 @@ public class Transaction {
 
     private <T> T rollbackIfThrowException(
             TransactionalFunction<T> work,
-            Connection connection,
-            PreparedStatement statement
+            Connection connection
     ) throws SQLException {
         try {
             connection.setAutoCommit(false);
-            T result = work.execute(connection, statement);
+            T result = work.execute(connection);
             connection.commit();
 
             return result;
