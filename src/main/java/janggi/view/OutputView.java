@@ -79,4 +79,9 @@ public class OutputView {
     public void printNoGameExist() {
         System.out.println("현재 진행 중인 게임이 존재하지 않습니다.");
     }
+
+    public void printGameOver(Team team) {
+        System.out.println("게임이 종료되었습니다.");
+        System.out.println(team.getDisplayName() + "나라가 승리했습니다!");
+    }
 }

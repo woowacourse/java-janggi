@@ -5,6 +5,7 @@ import janggi.model.Team;
 import janggi.model.board.Board;
 import janggi.model.position.Position;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public interface Turn {
 
@@ -15,4 +16,6 @@ public interface Turn {
     void withBoard(BiConsumer<Board, Team> consumer);
 
     void withScore(BiConsumer<Score, Score> consumer);
+
+    void withWinner(Consumer<Team> consumer);
 }

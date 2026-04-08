@@ -75,9 +75,10 @@ public class JanggiController {
         }
         janggi.withScore((choScore, hanScore) ->
                 outputView.printScore(choScore.value(), hanScore.value()));
+        janggi.withWinner(outputView::printGameOver);
         janggiService.deleteGame(gameId);
     }
-
+    
     private Janggi playTurn(Janggi janggi, Long gameId) {
         return RetryHandler.retryUntilSuccess(() -> readAndPlay(janggi, gameId));
     }

@@ -5,12 +5,15 @@ import janggi.model.Team;
 import janggi.model.board.Board;
 import janggi.model.position.Position;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class GameOver implements Turn {
     private final Board board;
+    private final Team winner;
 
-    public GameOver(Board board) {
+    public GameOver(Board board, Team winner) {
         this.board = board;
+        this.winner = winner;
     }
 
     @Override
@@ -31,5 +34,10 @@ public class GameOver implements Turn {
     @Override
     public void withScore(BiConsumer<Score, Score> consumer) {
         consumer.accept(board.calculateScore(Team.CHO), board.calculateScore(Team.HAN));
+    }
+
+    @Override
+    public void withWinner(Consumer<Team> consumer) {
+        consumer.accept(winner);
     }
 }

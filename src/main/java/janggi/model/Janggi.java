@@ -6,6 +6,7 @@ import janggi.model.turn.ChoTurn;
 import janggi.model.turn.HanTurn;
 import janggi.model.turn.Turn;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class Janggi {
 
@@ -40,5 +41,9 @@ public class Janggi {
 
     public void withScore(BiConsumer<Score, Score> consumer) {
         turn.withScore(consumer);
+    }
+
+    public void withWinner(Consumer<Team> consumer) {
+        turn.withWinner(consumer);
     }
 }

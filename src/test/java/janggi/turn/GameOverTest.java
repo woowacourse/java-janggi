@@ -33,7 +33,7 @@ class GameOverTest {
     @Test
     void play() {
         assertThatThrownBy(
-                () -> new GameOver(board).play(new Position(Row.THREE, Column.EIGHT),
+                () -> new GameOver(board, Team.CHO).play(new Position(Row.THREE, Column.EIGHT),
                         new Position(Row.FIVE, Column.EIGHT)))
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessage("게임 종료 후 턴을 수행할 수 없습니다.");
@@ -42,7 +42,7 @@ class GameOverTest {
     @DisplayName("게임 종료된 상태이면 true를 반환한다.")
     @Test
     void isGameOver() {
-        assertThat(new GameOver(board).isGameOver())
+        assertThat(new GameOver(board, Team.HAN).isGameOver())
                 .isTrue();
     }
 }
