@@ -33,6 +33,7 @@ public class JanggiController {
             movePosition(janggiGame);
             if (janggiGame.isFinished()) {
                 outputView.printGameFinishMessage();
+                outputView.printScore(janggiGame.calculateScore(Team.HAN), janggiGame.calculateScore(Team.CHU));
                 break;
             }
         }

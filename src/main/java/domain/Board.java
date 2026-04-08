@@ -55,6 +55,15 @@ public class Board {
                 .anyMatch(piece -> piece.getTeam() == team && piece.getType() == Type.GENERAL);
     }
 
+    public int calculateScore(Team team) {
+        return board.values()
+                .stream()
+                .filter(piece -> piece.getTeam() == team)
+                .map(piece -> piece.getType().getScore())
+                .mapToInt(Integer::intValue)
+                .sum();
+    }
+
     private Map<Position, Piece> findPiecesAt(final List<Position> positions) {
         Map<Position, Piece> result = new HashMap<>();
         for (Position pos : positions) {

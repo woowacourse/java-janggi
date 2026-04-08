@@ -42,4 +42,8 @@ public class JanggiGame {
     public boolean isFinished() {
         return !board.isGeneralAlive(Team.CHU) || !board.isGeneralAlive(Team.HAN);
     }
+
+    public int calculateScore(Team team) {
+        return board.calculateScore(team);
+    }
 }

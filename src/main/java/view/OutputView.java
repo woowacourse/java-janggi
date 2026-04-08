@@ -75,4 +75,10 @@ public class OutputView {
     public void printGameFinishMessage() {
         System.out.println("왕이 잡혀서 게임을 종료합니다.");
     }
+
+    public void printScore(int hanScore, int chuScore) {
+        System.out.println("== 최종 점수 ==");
+        System.out.println("한: " + hanScore + "점");
+        System.out.println("초: " + chuScore + "점");
+    }
 }
