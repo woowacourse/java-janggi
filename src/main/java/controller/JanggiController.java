@@ -48,12 +48,7 @@ public class JanggiController {
     private void play(Game game) {
         while (!game.isFinished()) {
             displayCurrentState(game);
-
-            GameCommand command = getGameCommand(game.getSide());
-            command.execute(game);
-
-            handleGameStateChange(game);
-            janggiService.save(game);
+            janggiService.execute(getGameCommand(game.getSide()), game);
         }
     }
 
@@ -68,28 +63,10 @@ public class JanggiController {
     private GameCommand getGameCommand(Side currentSide) {
         CommandType type = InputHandler.readUntilValid(() -> inputView.requestGameCommand(currentSide));
         return switch (type) {
-            case MOVE -> new MoveController(inputView);
+            case MOVE -> new MoveController(inputView, outputView);
             case PASS -> new PassController(outputView);
             case SURRENDER -> new SurrenderController(outputView);
         };
-    }
-
-    private void handleGameStateChange(Game game) {
-        if (game.isKingDead()) {
-            game.end();
-            outputView.printKingDeadMessage(game.getSide().opposite());
-            return;
-        }
-
-        if (game.isCheckmate()) {
-            game.end();
-            outputView.printCheckMateMessage();
-            return;
-        }
-
-        if (!game.isSafe()) {
-            outputView.printCheckMessage();
-        }
     }
 
     private int validateRoomNumber(List<GameRoomEntity> rooms, int choice) {

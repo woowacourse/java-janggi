@@ -1,5 +1,6 @@
 package service;
 
+import controller.GameCommand;
 import domain.Game;
 import domain.board.BasicBoardInitializer;
 import domain.board.formation.InitialFormationType;
@@ -18,12 +19,9 @@ public class JanggiService {
         this.gameRepository = gameRepository;
     }
 
-    public void save(Game game) {
-        gameRepository.save(game);
-    }
-
-    public List<GameRoomEntity> findAllRooms() {
-        return gameRepository.findAllRooms();
+    public void execute(GameCommand gameCommand, Game game) {
+        gameCommand.execute(game);
+        save(game);
     }
 
     public Game prepareGame(int choice, List<GameRoomEntity> rooms,
@@ -47,6 +45,14 @@ public class JanggiService {
 
         return gameRepository.load(selectedRoom.getId())
                 .orElseThrow(() -> new IllegalArgumentException("게임을 불러올 수 없습니다. ID: " + selectedRoom.getId()));
+    }
+
+    public List<GameRoomEntity> findAllRooms() {
+        return gameRepository.findAllRooms();
+    }
+
+    private void save(Game game) {
+        gameRepository.save(game);
     }
 
     private Game createNewGame(InitialFormationType hanType, InitialFormationType chuType) {
