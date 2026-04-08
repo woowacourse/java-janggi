@@ -21,8 +21,6 @@ class RouteTest {
     private static final Piece SAME_SIDE_PIECE = new Soldier(SIDE);
     private static final Piece OPPOSITE_SIDE_PIECE = new Soldier(OPPOSITE_SIDE);
 
-    private static final String EMPTY_ROUTE_MESSAGE = "경로에는 하나 이상의 좌표 정보가 필요합니다.";
-
     @Nested
     class 본인의_상태를_검증한다 {
 
@@ -30,7 +28,7 @@ class RouteTest {
         void 경로가_없다면_예외를_던진다() {
             assertThatThrownBy(() -> new Route(List.of()))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(EMPTY_ROUTE_MESSAGE);
+                    .hasMessage("경로에는 하나 이상의 좌표 정보가 필요합니다.");
         }
 
         @Test
