@@ -1,5 +1,6 @@
-package domain.board;
+package domain.palace;
 
+import domain.board.Position;
 import domain.piece.TeamColor;
 import java.util.Map;
 import java.util.Set;

@@ -1,7 +1,8 @@
-package domain.board;
+package domain.palace;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.board.Position;
 import domain.piece.TeamColor;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
