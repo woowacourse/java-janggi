@@ -19,24 +19,14 @@ public class OutputView {
         System.out.println();
     }
 
-    public void printBoard(BoardDto boardDto) {
+    public void printBoard(BoardDto pieces) {
         printCell("");
         for (int column = Column.MIN_COLUMN; column <= Column.MAX_COLUMN; column++) {
             printCell(String.valueOf(column));
         }
         System.out.println();
 
-        for (int row = Row.MIN_ROW; row <= Row.MAX_ROW; row++) {
-            printCell(String.valueOf(row));
-            for (int column = Column.MIN_COLUMN; column <= Column.MAX_COLUMN; column++) {
-                if (boardDto.has(row, column)) {
-                    printCell(boardDto.get(row, column));
-                    continue;
-                }
-                printCell(".");
-            }
-            System.out.println();
-        }
+        printAllPieces(pieces);
     }
 
     public void printCanMovePositions(List<PositionDto> positions) {
@@ -65,8 +55,30 @@ public class OutputView {
         System.out.println();
     }
 
+    private void printAllPieces(BoardDto pieces) {
+        for (int row = Row.MIN_ROW; row <= Row.MAX_ROW; row++) {
+            printPiecesByRow(pieces, row);
+            System.out.println();
+        }
+    }
+
+    private void printPiecesByRow(BoardDto pieces, int row) {
+        printCell(String.valueOf(row));
+        for (int column = Column.MIN_COLUMN; column <= Column.MAX_COLUMN; column++) {
+            printPiece(pieces, row, column);
+        }
+    }
+
+    private void printPiece(BoardDto pieces, int row, int column) {
+        if (pieces.isExist(row, column)) {
+            printCell(pieces.get(row, column));
+            return;
+        }
+        printCell(".");
+    }
+
     private void printCell(String value) {
-        System.out.printf(value + "\t");
+        System.out.print(value + "\t");
     }
 
 }

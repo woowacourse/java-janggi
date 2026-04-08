@@ -25,7 +25,7 @@ public record BoardDto(
         return new BoardDto(pieces);
     }
 
-    public boolean has(int row, int column) {
+    public boolean isExist(int row, int column) {
         Position from = Position.from(row, column);
         PositionDto positionDto = PositionDto.from(from);
 
