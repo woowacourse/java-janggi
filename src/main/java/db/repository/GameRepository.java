@@ -41,9 +41,9 @@ public class GameRepository {
         String findAllIds = "SELECT id FROM game";
 
         return transaction.execute(findAllIds, StatementMode.DEFAULT, (connection, statement) -> {
-            ResultSet resultSet = statement.executeQuery();
-
-            return parseGameIds(resultSet);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                return parseGameIds(resultSet);
+            }
         });
     }
 
@@ -54,10 +54,11 @@ public class GameRepository {
             Map<Intersection, Piece> pieces = pieceRepository.findByGameId(gameId, connection);
             statement.setLong(1, gameId);
 
-            ResultSet resultSet = statement.executeQuery();
-            JanggiGame game = parseGame(resultSet, pieces);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                JanggiGame game = parseGame(resultSet, pieces);
 
-            return new Session<>(game, gameId);
+                return new Session<>(game, gameId);
+            }
         });
     }
 
