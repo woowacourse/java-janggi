@@ -47,15 +47,15 @@ public class JanggiService {
 
     public JanggiGame move(JanggiGame game, Position from, Position to) {
         JanggiGame updated = game.move(from, to);
-        boardRepository.delete(game, to);
-        boardRepository.updatePosition(game, from, to);
-        gameRepository.updateTurn(game);
+        boardRepository.delete(updated, to);
+        boardRepository.updatePosition(updated, from, to);
+        gameRepository.updateTurn(updated);
         return updated;
     }
 
     public JanggiGame pass(JanggiGame game) {
         JanggiGame passed = game.pass();
-        gameRepository.updateTurn(game);
+        gameRepository.updateTurn(passed);
         return passed;
     }
 

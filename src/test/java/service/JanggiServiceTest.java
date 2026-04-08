@@ -104,12 +104,12 @@ public class JanggiServiceTest {
         Position to = Position.of(2, 1);
 
         // when
-        janggiService.move(game, from, to);
+        JanggiGame moved = janggiService.move(game, from, to);
 
         // then
-        verify(boardRepository, times(1)).delete(game, to);
-        verify(boardRepository, times(1)).updatePosition(game, from, to);
-        verify(gameRepositoryMock, times(1)).updateTurn(game);
+        verify(boardRepository, times(1)).delete(moved, to);
+        verify(boardRepository, times(1)).updatePosition(moved, from, to);
+        verify(gameRepositoryMock, times(1)).updateTurn(moved);
     }
 
     @Test
