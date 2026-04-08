@@ -5,14 +5,19 @@ import domain.coordinate.Position;
 import mapper.PossibleMovesMapper;
 import view.InputHandler;
 import view.InputView;
-import view.OutputView;
 
 import java.util.List;
 
 public class MoveController implements GameCommand {
 
+    private final InputView inputView;
+
+    public MoveController(InputView inputView) {
+        this.inputView = inputView;
+    }
+
     @Override
-    public void execute(InputView inputView, OutputView outputView, Game game) {
+    public void execute(Game game) {
         Position start = InputHandler.readUntilValid(() ->
                 game.validateMoveable(createPosition(
                         inputView.requestStartPiecePosition(game.getSide())))
