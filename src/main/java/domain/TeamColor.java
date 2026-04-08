@@ -1,13 +1,15 @@
 package domain;
 
 public enum TeamColor {
-    CHO("초"),
-    HAN("한");
+    CHO("초", 72),
+    HAN("한", 73.5);
 
     private final String displayName;
+    private final MaterialPoints startingScore;
 
-    TeamColor(String displayName) {
+    TeamColor(String displayName, double startingScoreValue) {
         this.displayName = displayName;
+        this.startingScore = MaterialPoints.of(startingScoreValue);
     }
 
     public String getDisplayName() {
@@ -15,9 +17,6 @@ public enum TeamColor {
     }
 
     public MaterialPoints startingScore() {
-        if (this == CHO) {
-            return MaterialPoints.of(72);
-        }
-        return MaterialPoints.of(73.5);
+        return startingScore;
     }
 }
