@@ -12,7 +12,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JanggiJdbcRepository implements JanggiRepository {
+public class BoardJdbcRepository implements BoardRepository {
 
     private static final String COLUMN = "column";
     private static final String ROW = "row";

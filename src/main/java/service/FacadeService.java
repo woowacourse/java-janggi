@@ -23,18 +23,18 @@ public class FacadeService {
     private static final String ROLLBACK_FAIL_MESSAGE = "트랜잭션 롤백에 실패했습니다.";
     private static final String CLOSE_FAIL_MESSAGE = "커넥션 반환에 실패했습니다.";
 
-    private final JanggiService janggiService;
+    private final BoardService boardService;
     private final GameService gameService;
     private final ConnectionProvider connectionProvider;
 
-    public FacadeService(JanggiService janggiService, GameService gameService, ConnectionProvider connectionProvider) {
-        this.janggiService = janggiService;
+    public FacadeService(BoardService boardService, GameService gameService, ConnectionProvider connectionProvider) {
+        this.boardService = boardService;
         this.gameService = gameService;
         this.connectionProvider = connectionProvider;
 
         try (Connection connection = connectionProvider.getConnection()) {
             gameService.setUp(connection);
-            janggiService.setUp(connection);
+            boardService.setUp(connection);
         } catch (SQLException e) {
             throw new DataAccessException(SETUP_FAIL_MESSAGE, e);
         }
@@ -43,7 +43,7 @@ public class FacadeService {
     public JanggiGame loadOngoingGame() {
         try (Connection connection = connectionProvider.getConnection()) {
             GameDto gameDto = gameService.findOngoingGame(connection);
-            Board board = janggiService.getBoard(connection, gameDto.id());
+            Board board = boardService.getBoard(connection, gameDto.id());
             Turn turn = Turn.valueOf(gameDto.currentTurn());
             return JanggiGame.of(board, turn);
         } catch (SQLException e) {
@@ -57,7 +57,7 @@ public class FacadeService {
             connection = connectionProvider.getConnection();
             connection.setAutoCommit(false);
             int gameId = gameService.save(connection, turn);
-            janggiService.save(connection, gameId, pieceSnapshots);
+            boardService.save(connection, gameId, pieceSnapshots);
             connection.commit();
         } catch (SQLException e) {
             rollback(connection);
@@ -73,7 +73,7 @@ public class FacadeService {
             connection = connectionProvider.getConnection();
             connection.setAutoCommit(false);
             int gameId = gameService.findOngoingGame(connection).id();
-            janggiService.update(connection, gameId, from, to);
+            boardService.update(connection, gameId, from, to);
             gameService.updateTurn(connection, gameId, turn);
             connection.commit();
         } catch (SQLException e) {

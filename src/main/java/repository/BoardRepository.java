@@ -6,7 +6,7 @@ import dto.PieceSnapshot;
 import java.sql.Connection;
 import java.util.List;
 
-public interface JanggiRepository {
+public interface BoardRepository {
 
     void createTable(Connection connection);
 
