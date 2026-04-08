@@ -11,7 +11,9 @@ import janggi.domain.repository.GameRepository;
 import janggi.domain.space.Position;
 import janggi.dto.BoardDto;
 import janggi.dto.DestinationDto;
+import janggi.dto.GameDto;
 import janggi.dto.WinnerDto;
+import java.util.List;
 
 public class GameService {
     private final GameRepository gameRepository;
@@ -37,7 +39,11 @@ public class GameService {
 
     public void move(Position source, Position target) {
         game.move(source, target);
-        gameRepository.save(game);
+        gameRepository.update(currentGameId, game);
+    }
+
+    public List<GameDto> findAllGames() {
+        return gameRepository.findAllGames();
     }
 
     public BoardDto getBoardDto() {

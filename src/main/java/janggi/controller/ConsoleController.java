@@ -4,11 +4,13 @@ import janggi.domain.Side;
 import janggi.domain.board.Formation;
 import janggi.domain.player.Name;
 import janggi.domain.space.Position;
+import janggi.dto.GameDto;
 import janggi.dto.SideDto;
 import janggi.service.GameService;
 import janggi.view.InputParser;
 import janggi.view.InputView;
 import janggi.view.OutputView;
+import java.util.List;
 import java.util.function.Supplier;
 
 public class ConsoleController {
@@ -45,6 +47,13 @@ public class ConsoleController {
     }
 
     void loadGame() {
+        List<GameDto> games = gameService.findAllGames();
+        if (games.isEmpty()) {
+            outputView.printError("저장된 게임이 없습니다. 새로운 게임을 시작합니다.");
+            initializeGame();
+            return;
+        }
+        outputView.printGameList(games);
         retry(() -> gameService.loadGame(InputParser.parseGameId(inputView.readGameId())));
     }
 
