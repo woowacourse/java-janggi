@@ -46,7 +46,7 @@ public class InputView {
         String input = scanner.nextLine().trim();
         try {
             int parsedInput = Integer.parseInt(input);
-            if (parsedInput > games.size()) {
+            if (parsedInput > games.size() || parsedInput <= 0) {
                 throw new IllegalArgumentException();
             }
             System.out.println();
