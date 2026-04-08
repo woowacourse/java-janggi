@@ -6,6 +6,7 @@ import domain.board.ElephantSetup;
 import domain.piece.Piece;
 import domain.piece.Position;
 import domain.player.Team;
+
 import java.util.List;
 
 public class OutputView {
@@ -55,7 +56,7 @@ public class OutputView {
 
 
     public void printSelectablePieces(final List<Position> positions, final BoardView board) {
-        System.out.print("이동할 기물을 선택하세요: ");
+        System.out.println("이동할 기물을 선택하세요.");
 
         for (int i = 0; i < positions.size(); i++) {
             final Position pos = positions.get(i);
@@ -74,7 +75,7 @@ public class OutputView {
 
 
     public void printMovablePositions(final List<Position> moves) {
-        System.out.print("이동할 좌표를 선택하세요: ");
+        System.out.println("이동할 좌표를 선택하세요.");
 
         for (int i = 0; i < moves.size(); i++) {
             final Position pos = moves.get(i);
