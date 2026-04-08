@@ -78,3 +78,32 @@
 - [x] 각 팀별 현재 남아 있는 기물에 대한 점수를 계산한다.
 
 ---
+
+## DB 연결
+
+### 1. 복원에 필요한 게임 상태를 정리
+- [ ] GameState
+  - 게임 현재 턴 (Team currentTurn)
+  - 기물의 상태들 (List<PieceState>)
+  - 게임 종료 여부 (GameStatus)
+- [ ] PieceState
+  - 기물 종류 및 기물 팀 (PieceProperty)
+  - 기물의 위치 (Position)
+
+---
+
+### 2. Mapper 구현
+
+---
+
+### 3. Repository
+
+---
+
+### 4. 인메모리 테스트
+
+---
+
+### 5. JDBC 구현
+
+---
