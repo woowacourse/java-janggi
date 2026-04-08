@@ -2,9 +2,7 @@ package janggi.controller;
 
 import janggi.model.Janggi;
 import janggi.model.board.BoardType;
-import janggi.model.position.absolute.Column;
 import janggi.model.position.absolute.Position;
-import janggi.model.position.absolute.Row;
 import janggi.service.JanggiService;
 import janggi.service.dto.GameDetailResponse;
 import janggi.service.dto.GameOptionResponse;
@@ -94,7 +92,9 @@ public class JanggiController {
 
     private BoardType readBoardType() {
         outputView.printBoardInitialTypeMessage();
-        return BoardType.of(inputView.readBoardInitializeType());
+        int initializeTypeValue = inputView.readBoardInitializeType();
+
+        return janggiService.createBoardTypeOf(initializeTypeValue);
     }
 
     private Position readFromPosition() {
@@ -122,10 +122,8 @@ public class JanggiController {
         int columnIndex = 1;
         Integer columnNumber = positionInfo.get(columnIndex);
 
-        Row row = Row.of(rowNumber);
-        Column column = Column.of(columnNumber);
+        return janggiService.createPositionOf(rowNumber, columnNumber);
 
-        return new Position(row, column);
     }
 
     private boolean readDrawAccept() {

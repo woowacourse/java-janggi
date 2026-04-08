@@ -168,4 +168,12 @@ public class JanggiService {
                 gameDao.deleteGameByGameId(connection, gameId)
         );
     }
+
+    public BoardType createBoardTypeOf(int typeValue) {
+        return BoardType.of(typeValue);
+    }
+
+    public Position createPositionOf(int rowNumber, Integer columnNumber) {
+        return new Position(Row.of(rowNumber), Column.of(columnNumber));
+    }
 }
