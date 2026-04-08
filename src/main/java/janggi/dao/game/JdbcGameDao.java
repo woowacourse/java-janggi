@@ -15,7 +15,7 @@ public class JdbcGameDao implements GameDao {
 
     @Override
     public Long saveGame(
-            Connection con,
+            Connection connection,
             String currentTurn
     ) {
         String sql = """
@@ -23,7 +23,7 @@ public class JdbcGameDao implements GameDao {
                 VALUES (?)
                 """;
 
-        try (PreparedStatement psmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement psmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             psmt.setString(1, currentTurn);
             psmt.executeUpdate();
             return getGeneratedKey(psmt);
@@ -40,13 +40,13 @@ public class JdbcGameDao implements GameDao {
     }
 
     @Override
-    public List<GameEntity> findAllGames(Connection con) {
+    public List<GameEntity> findAllGames(Connection connection) {
         String sql = """
                 SELECT *
                 FROM game
                 """;
 
-        try (PreparedStatement psmt = con.prepareStatement(sql)) {
+        try (PreparedStatement psmt = connection.prepareStatement(sql)) {
             ResultSet rs = psmt.executeQuery();
             List<GameEntity> result = new ArrayList<>();
 
@@ -66,7 +66,7 @@ public class JdbcGameDao implements GameDao {
 
     @Override
     public GameEntity findGameByGameId(
-            Connection con,
+            Connection connection,
             Long gameId
     ) {
         String sql = """
@@ -75,7 +75,7 @@ public class JdbcGameDao implements GameDao {
                 WHERE game_id = (?)
                 """;
 
-        try (PreparedStatement psmt = con.prepareStatement(sql)) {
+        try (PreparedStatement psmt = connection.prepareStatement(sql)) {
             psmt.setLong(1, gameId);
             ResultSet rs = psmt.executeQuery();
 
@@ -94,13 +94,13 @@ public class JdbcGameDao implements GameDao {
     }
 
     @Override
-    public void deleteGameByGameId(Connection con, Long gameId) {
+    public void deleteGameByGameId(Connection connection, Long gameId) {
         String sql = """
                 DELETE FROM game
                 WHERE game_id = (?)
                 """;
 
-        try (PreparedStatement psmt = con.prepareStatement(sql)) {
+        try (PreparedStatement psmt = connection.prepareStatement(sql)) {
             psmt.setLong(1, gameId);
             int affectedRow = psmt.executeUpdate();
 
@@ -113,14 +113,14 @@ public class JdbcGameDao implements GameDao {
     }
 
     @Override
-    public void updateGameOfCurrentTurn(Connection con, Long gameId, String turn) {
+    public void updateGameOfCurrentTurn(Connection connection, Long gameId, String turn) {
         String sql = """
                 UPDATE game
                 SET current_turn = (?)
                 WHERE game_id = (?)
                 """;
 
-        try (PreparedStatement psmt = con.prepareStatement(sql)) {
+        try (PreparedStatement psmt = connection.prepareStatement(sql)) {
             psmt.setString(1, turn);
             psmt.setLong(2, gameId);
 

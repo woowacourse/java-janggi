@@ -21,19 +21,19 @@ class JdbcPieceDaoTest extends DatabaseTest {
 
     @BeforeEach
     void beforeEach() {
-        this.gameId = gameDao.saveGame(con, "CHO");
+        this.gameId = gameDao.saveGame(connection, "CHO");
     }
 
     @DisplayName("해당 게임의 기물들을 모두 조회한다.")
     @Test
     void findAllPiecesByGameId_success() {
         //given
-        pieceEntityDao.savePiece(con, gameId, "BYEONG", 1, 1, "CHO");
-        pieceEntityDao.savePiece(con, gameId, "JANG", 1, 2, "HAN");
-        pieceEntityDao.savePiece(con, gameId, "SA", 1, 3, "CHO");
+        pieceEntityDao.savePiece(connection, gameId, "BYEONG", 1, 1, "CHO");
+        pieceEntityDao.savePiece(connection, gameId, "JANG", 1, 2, "HAN");
+        pieceEntityDao.savePiece(connection, gameId, "SA", 1, 3, "CHO");
 
         //when
-        List<PieceEntity> pieceEntities = pieceEntityDao.findAllPiecesByGameId(con, gameId);
+        List<PieceEntity> pieceEntities = pieceEntityDao.findAllPiecesByGameId(connection, gameId);
 
         //then
         PieceEntity first = pieceEntities.get(0);
@@ -56,10 +56,10 @@ class JdbcPieceDaoTest extends DatabaseTest {
         Board board = BoardType.FIRST.getBoard();
 
         //when
-        pieceEntityDao.saveBoard(con, board.getBoardInfo(), gameId);
+        pieceEntityDao.saveBoard(connection, board.getBoardInfo(), gameId);
 
         //then
-        assertThat(pieceEntityDao.findAllPiecesByGameId(con, gameId).size())
+        assertThat(pieceEntityDao.findAllPiecesByGameId(connection, gameId).size())
                 .isEqualTo(32);
     }
 
@@ -67,7 +67,7 @@ class JdbcPieceDaoTest extends DatabaseTest {
     @Test
     void findAllPiecesByGameId_fail() {
         //when
-        List<PieceEntity> pieceEntities = pieceEntityDao.findAllPiecesByGameId(con, 1L);
+        List<PieceEntity> pieceEntities = pieceEntityDao.findAllPiecesByGameId(connection, 1L);
 
         //then
         assertThat(pieceEntities).isEmpty();
@@ -77,11 +77,11 @@ class JdbcPieceDaoTest extends DatabaseTest {
     @Test
     void findPieceByPosition_success() {
         //given
-        pieceEntityDao.savePiece(con, gameId, "BYEONG", 1, 1, "CHO");
+        pieceEntityDao.savePiece(connection, gameId, "BYEONG", 1, 1, "CHO");
 
         //when
         Optional<PieceEntity> result = pieceEntityDao.findPieceByPosition(
-                con,
+                connection,
                 new Position(Row.ONE, Column.ONE)
         );
 
@@ -96,7 +96,7 @@ class JdbcPieceDaoTest extends DatabaseTest {
     void findPieceByPosition_fail() {
         //when
         Optional<PieceEntity> result = pieceEntityDao.findPieceByPosition(
-                con,
+                connection,
                 new Position(Row.ONE, Column.ONE)
         );
 
@@ -108,18 +108,18 @@ class JdbcPieceDaoTest extends DatabaseTest {
     @Test
     void updatePieceOfPosition() {
         //given
-        pieceEntityDao.savePiece(con, gameId, "BYEONG", 1, 1, "CHO");
+        pieceEntityDao.savePiece(connection, gameId, "BYEONG", 1, 1, "CHO");
         Long pieceId = pieceEntityDao
-                .findAllPiecesByGameId(con, gameId)
+                .findAllPiecesByGameId(connection, gameId)
                 .getFirst().
                 id();
 
         //when
-        pieceEntityDao.updatePieceOfPosition(con, pieceId, new Position(Row.TWO, Column.ONE));
+        pieceEntityDao.updatePieceOfPosition(connection, pieceId, new Position(Row.TWO, Column.ONE));
 
         //then
         PieceEntity updated = pieceEntityDao
-                .findPieceByPosition(con, new Position(Row.TWO, Column.ONE)).get();
+                .findPieceByPosition(connection, new Position(Row.TWO, Column.ONE)).get();
 
         assertThat(updated.id()).isEqualTo(pieceId);
     }
@@ -128,14 +128,14 @@ class JdbcPieceDaoTest extends DatabaseTest {
     @Test
     void deletePieceByPosition() {
         //given
-        pieceEntityDao.savePiece(con, gameId, "BYEONG", 1, 1, "CHO");
+        pieceEntityDao.savePiece(connection, gameId, "BYEONG", 1, 1, "CHO");
         Position position = new Position(Row.ONE, Column.ONE);
 
         //when
-        pieceEntityDao.deletePieceByPosition(con, position);
+        pieceEntityDao.deletePieceByPosition(connection, position);
 
         //then
-        Optional<PieceEntity> result = pieceEntityDao.findPieceByPosition(con, position);
+        Optional<PieceEntity> result = pieceEntityDao.findPieceByPosition(connection, position);
         assertThat(result).isEmpty();
     }
 }

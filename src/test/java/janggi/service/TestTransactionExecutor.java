@@ -7,16 +7,16 @@ import java.sql.Connection;
 
 public class TestTransactionExecutor implements TransactionExecutor {
 
-    private final Connection con;
+    private final Connection connection;
 
-    public TestTransactionExecutor(Connection con) {
-        this.con = con;
+    public TestTransactionExecutor(Connection connection) {
+        this.connection = connection;
     }
 
     @Override
     public <T> T execute(TransactionSupplier<T> action) {
         try {
-            return action.get(con);
+            return action.get(connection);
         } catch (RuntimeException e) {
             throw e;
         }
@@ -25,7 +25,7 @@ public class TestTransactionExecutor implements TransactionExecutor {
     @Override
     public void executeWithoutResult(TransactionRunnable action) {
         try {
-            action.run(con);
+            action.run(connection);
         } catch (RuntimeException e) {
             throw e;
         }

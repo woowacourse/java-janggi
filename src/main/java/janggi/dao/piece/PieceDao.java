@@ -9,17 +9,18 @@ import java.util.Optional;
 
 public interface PieceDao {
 
-    void saveBoard(Connection con, Map<Position, Piece> boardInfo, Long gameId);
+    void saveBoard(Connection connection, Map<Position, Piece> boardInfo, Long gameId);
 
-    Long savePiece(Connection con, Long gameId, String pieceType, int positionRow, int positionColumn, String team);
+    Long savePiece(Connection connection, Long gameId, String pieceType, int positionRow, int positionColumn,
+                   String team);
 
-    List<PieceEntity> findAllPiecesByGameId(Connection con, long gameId);
+    List<PieceEntity> findAllPiecesByGameId(Connection connection, long gameId);
 
-    Optional<PieceEntity> findPieceByPosition(Connection con, Position position);
+    Optional<PieceEntity> findPieceByPosition(Connection connection, Position position);
 
-    void updatePieceOfPosition(Connection con, Long pieceId, Position to);
+    void updatePieceOfPosition(Connection connection, Long pieceId, Position to);
 
-    void deletePieceByPosition(Connection con, Position position);
+    void deletePieceByPosition(Connection connection, Position position);
 }
 
 

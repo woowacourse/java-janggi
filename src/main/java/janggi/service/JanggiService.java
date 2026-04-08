@@ -41,8 +41,8 @@ public class JanggiService {
     }
 
     public List<GameOptionResponse> loadAllGames() {
-        return transactionExecutor.execute(con -> {
-            List<GameEntity> gameEntities = gameDao.findAllGames(con);
+        return transactionExecutor.execute(connection -> {
+            List<GameEntity> gameEntities = gameDao.findAllGames(connection);
             return gameEntities.stream()
                     .map(game ->
                             new GameOptionResponse(
@@ -55,11 +55,11 @@ public class JanggiService {
     }
 
     public GameDetailResponse loadGameByGameId(Long gameId) {
-        return transactionExecutor.execute(con -> {
-            GameEntity gameEntity = gameDao.findGameByGameId(con, gameId);
+        return transactionExecutor.execute(connection -> {
+            GameEntity gameEntity = gameDao.findGameByGameId(connection, gameId);
 
             List<PieceEntity> pieceEntities =
-                    pieceDao.findAllPiecesByGameId(con, gameEntity.id());
+                    pieceDao.findAllPiecesByGameId(connection, gameEntity.id());
 
             Board board = toBoard(pieceEntities);
 
@@ -110,12 +110,12 @@ public class JanggiService {
     }
 
     public GameDetailResponse initGame(BoardType boardType) {
-        return transactionExecutor.execute(con -> {
+        return transactionExecutor.execute(connection -> {
             Board board = boardType.getBoard();
             Janggi newGame = Janggi.of(board);
 
-            Long gameId = gameDao.saveGame(con, newGame.getCurrentTeam().name());
-            pieceDao.saveBoard(con, newGame.getBoard().getBoardInfo(), gameId);
+            Long gameId = gameDao.saveGame(connection, newGame.getCurrentTeam().name());
+            pieceDao.saveBoard(connection, newGame.getBoard().getBoardInfo(), gameId);
 
             return new GameDetailResponse(
                     gameId,
@@ -133,24 +133,24 @@ public class JanggiService {
             Position from,
             Position to
     ) {
-        return transactionExecutor.execute(con -> {
+        return transactionExecutor.execute(connection -> {
             Janggi moved = janggi.play(from, to);
 
-            PieceEntity piece = pieceDao.findPieceByPosition(con, from)
+            PieceEntity piece = pieceDao.findPieceByPosition(connection, from)
                     .orElseThrow(() -> new IllegalArgumentException("해당 위치에 기물이 존재하지 않습니다."));
 
-            if (pieceDao.findPieceByPosition(con, to).isPresent()) {
-                pieceDao.deletePieceByPosition(con, to);
+            if (pieceDao.findPieceByPosition(connection, to).isPresent()) {
+                pieceDao.deletePieceByPosition(connection, to);
             }
 
             pieceDao.updatePieceOfPosition(
-                    con,
+                    connection,
                     piece.id(),
                     to
             );
 
             gameDao.updateGameOfCurrentTurn(
-                    con,
+                    connection,
                     piece.gameId(),
                     janggi.getCurrentTeam().name()
             );
@@ -164,8 +164,8 @@ public class JanggiService {
     }
 
     public void removeGame(Long gameId) {
-        transactionExecutor.executeWithoutResult(con ->
-                gameDao.deleteGameByGameId(con, gameId)
+        transactionExecutor.executeWithoutResult(connection ->
+                gameDao.deleteGameByGameId(connection, gameId)
         );
     }
 }

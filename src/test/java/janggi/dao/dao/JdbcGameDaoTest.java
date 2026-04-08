@@ -15,13 +15,13 @@ class JdbcGameDaoTest extends DatabaseTest {
     @Test
     void deleteGameByGameId() {
         //given
-        Long gameId = gameDao.saveGame(con, "HAN");
+        Long gameId = gameDao.saveGame(connection, "HAN");
 
         //when
-        gameDao.deleteGameByGameId(con, gameId);
+        gameDao.deleteGameByGameId(connection, gameId);
 
         //then
-        assertThatThrownBy(() -> gameDao.findGameByGameId(con, gameId))
+        assertThatThrownBy(() -> gameDao.findGameByGameId(connection, gameId))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 게임이 존재하지 않습니다.");
     }
@@ -29,7 +29,7 @@ class JdbcGameDaoTest extends DatabaseTest {
     @DisplayName("삭제할 게임이 없으면 예외가 발생한다.")
     @Test
     void deleteGameByGameId_empty() {
-        assertThatThrownBy(() -> gameDao.deleteGameByGameId(con, 100L))
+        assertThatThrownBy(() -> gameDao.deleteGameByGameId(connection, 100L))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 게임이 존재하지 않습니다.");
     }
@@ -38,13 +38,13 @@ class JdbcGameDaoTest extends DatabaseTest {
     @Test
     void updateGameOfCurrentTurn() {
         //given
-        Long gameId = gameDao.saveGame(con, "HAN");
+        Long gameId = gameDao.saveGame(connection, "HAN");
 
         //when
-        gameDao.updateGameOfCurrentTurn(con, gameId, "CHO");
+        gameDao.updateGameOfCurrentTurn(connection, gameId, "CHO");
 
         //then
-        GameEntity gameEntity = gameDao.findGameByGameId(con, gameId);
+        GameEntity gameEntity = gameDao.findGameByGameId(connection, gameId);
 
         assertThat(gameEntity.currentTurn()).isEqualTo("CHO");
     }
@@ -52,7 +52,7 @@ class JdbcGameDaoTest extends DatabaseTest {
     @DisplayName("해당 하는 게임이 없으면 턴을 업데이트할 수 없다.")
     @Test
     void updateGameOfCurrentTurn_empty() {
-        assertThatThrownBy(() -> gameDao.updateGameOfCurrentTurn(con, 100L, "CHO"))
+        assertThatThrownBy(() -> gameDao.updateGameOfCurrentTurn(connection, 100L, "CHO"))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 게임이 존재하지 않습니다.");
     }
@@ -61,10 +61,10 @@ class JdbcGameDaoTest extends DatabaseTest {
     @Test
     void findGameByGameId() {
         //given
-        Long gameId = gameDao.saveGame(con, "HAN");
+        Long gameId = gameDao.saveGame(connection, "HAN");
 
         //when
-        GameEntity gameEntity = gameDao.findGameByGameId(con, gameId);
+        GameEntity gameEntity = gameDao.findGameByGameId(connection, gameId);
 
         //then
         assertThat(gameEntity.currentTurn()).isEqualTo("HAN");
@@ -74,7 +74,7 @@ class JdbcGameDaoTest extends DatabaseTest {
     @Test
     void findGameByGameId_empty() {
         //then
-        assertThatThrownBy(() -> gameDao.findGameByGameId(con, 1L))
+        assertThatThrownBy(() -> gameDao.findGameByGameId(connection, 1L))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 게임이 존재하지 않습니다.");
     }
@@ -83,12 +83,12 @@ class JdbcGameDaoTest extends DatabaseTest {
     @Test
     void findAllGames() {
         //given
-        Long gameId1 = gameDao.saveGame(con, "HAN");
-        Long gameId2 = gameDao.saveGame(con, "CHO");
-        Long gameId3 = gameDao.saveGame(con, "HAN");
+        Long gameId1 = gameDao.saveGame(connection, "HAN");
+        Long gameId2 = gameDao.saveGame(connection, "CHO");
+        Long gameId3 = gameDao.saveGame(connection, "HAN");
 
         //when
-        List<GameEntity> gameEntities = gameDao.findAllGames(con);
+        List<GameEntity> gameEntities = gameDao.findAllGames(connection);
 
         //then
         List<Long> gameIds = gameEntities.stream()

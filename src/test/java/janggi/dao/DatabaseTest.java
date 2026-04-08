@@ -13,19 +13,19 @@ import org.junit.jupiter.api.BeforeEach;
 public abstract class DatabaseTest {
     protected GameDao gameDao = new JdbcGameDao();
     protected JdbcPieceDao pieceEntityDao = new JdbcPieceDao();
-    protected Connection con;
+    protected Connection connection;
 
     @BeforeEach
     void beforeEach() throws SQLException {
-        con = DriverManager.getConnection(
+        connection = DriverManager.getConnection(
                 new DbProperties("application-test.properties").getDbUrl()
         );
-        con.setAutoCommit(false);
+        connection.setAutoCommit(false);
     }
 
     @AfterEach
     void afterEach() throws SQLException {
-        con.rollback();
-        con.close();
+        connection.rollback();
+        connection.close();
     }
 }

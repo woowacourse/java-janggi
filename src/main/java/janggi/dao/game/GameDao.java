@@ -4,13 +4,13 @@ import java.sql.Connection;
 import java.util.List;
 
 public interface GameDao {
-    Long saveGame(Connection con, String currentTurn);
+    Long saveGame(Connection connection, String currentTurn);
 
-    List<GameEntity> findAllGames(Connection con);
+    List<GameEntity> findAllGames(Connection connection);
 
-    GameEntity findGameByGameId(Connection con, Long gameId);
+    GameEntity findGameByGameId(Connection connection, Long gameId);
 
-    void deleteGameByGameId(Connection con, Long gameId);
+    void deleteGameByGameId(Connection connection, Long gameId);
 
-    void updateGameOfCurrentTurn(Connection con, Long gameId, String nextTurn);
+    void updateGameOfCurrentTurn(Connection connection, Long gameId, String nextTurn);
 }

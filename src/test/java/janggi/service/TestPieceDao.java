@@ -19,7 +19,7 @@ public class TestPieceDao implements PieceDao {
 
     @Override
     public void saveBoard(
-            Connection con,
+            Connection connection,
             Map<Position, Piece> boardInfo,
             Long gameId
     ) {
@@ -43,7 +43,7 @@ public class TestPieceDao implements PieceDao {
 
     @Override
     public Long savePiece(
-            Connection con,
+            Connection connection,
             Long gameId,
             String pieceType,
             int positionRow,
@@ -66,14 +66,14 @@ public class TestPieceDao implements PieceDao {
     }
 
     @Override
-    public List<PieceEntity> findAllPiecesByGameId(Connection con, long gameId) {
+    public List<PieceEntity> findAllPiecesByGameId(Connection connection, long gameId) {
         return pieceEntities.stream()
                 .filter(e -> e.gameId() == gameId)
                 .toList();
     }
 
     @Override
-    public Optional<PieceEntity> findPieceByPosition(Connection con, Position position) {
+    public Optional<PieceEntity> findPieceByPosition(Connection connection, Position position) {
         return pieceEntities.stream()
                 .filter(e ->
                         e.positionRow() == position.row().getValue()
@@ -83,7 +83,7 @@ public class TestPieceDao implements PieceDao {
     }
 
     @Override
-    public void updatePieceOfPosition(Connection con, Long pieceId, Position to) {
+    public void updatePieceOfPosition(Connection connection, Long pieceId, Position to) {
         PieceEntity piece = pieceEntities.stream()
                 .filter(e -> e.id() == pieceId)
                 .findFirst()
@@ -103,7 +103,7 @@ public class TestPieceDao implements PieceDao {
     }
 
     @Override
-    public void deletePieceByPosition(Connection con, Position position) {
+    public void deletePieceByPosition(Connection connection, Position position) {
         PieceEntity piece = pieceEntities.stream()
                 .filter(e ->
                         e.positionRow() == position.row().getValue()

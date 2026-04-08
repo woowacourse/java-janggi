@@ -16,18 +16,18 @@ public class TransactionExecutorImpl implements TransactionExecutor {
 
     @Override
     public <T> T execute(TransactionSupplier<T> action) {
-        try(Connection con = connectionProvider.getConnection()) {
-            beginTransaction(con);
+        try (Connection connection = connectionProvider.getConnection()) {
+            beginTransaction(connection);
 
             try {
-                T result = action.get(con);
-                commit(con);
+                T result = action.get(connection);
+                commit(connection);
                 return result;
             } catch (RuntimeException e) {
-                rollback(con);
+                rollback(connection);
                 throw e;
             } finally {
-                endTransaction(con);
+                endTransaction(connection);
             }
         } catch (SQLException e) {
             throw new IllegalStateException("트랜잭션 처리에 실패했습니다.", e);
@@ -37,50 +37,50 @@ public class TransactionExecutorImpl implements TransactionExecutor {
 
     @Override
     public void executeWithoutResult(TransactionRunnable action) {
-        try(Connection con = connectionProvider.getConnection()) {
-            beginTransaction(con);
+        try (Connection connection = connectionProvider.getConnection()) {
+            beginTransaction(connection);
 
             try {
-                action.run(con);
-                commit(con);
+                action.run(connection);
+                commit(connection);
             } catch (RuntimeException e) {
-                rollback(con);
+                rollback(connection);
                 throw e;
             } finally {
-                endTransaction(con);
+                endTransaction(connection);
             }
         } catch (SQLException e) {
             throw new IllegalStateException("트랜잭션 처리에 실패했습니다.", e);
         }
     }
 
-    private void beginTransaction(Connection con) {
+    private void beginTransaction(Connection connection) {
         try {
-            con.setAutoCommit(false);
+            connection.setAutoCommit(false);
         } catch (SQLException e) {
             throw new IllegalStateException("트랜잭션 시작에 실패했습니다.", e);
         }
     }
 
-    private void commit(Connection con) {
+    private void commit(Connection connection) {
         try {
-            con.commit();
+            connection.commit();
         } catch (SQLException e) {
             throw new IllegalStateException("커밋에 실패했습니다.", e);
         }
     }
 
-    private void rollback(Connection con) {
+    private void rollback(Connection connection) {
         try {
-            con.rollback();
+            connection.rollback();
         } catch (SQLException e) {
             throw new IllegalStateException("롤백에 실패했습니다.", e);
         }
     }
 
-    private void endTransaction(Connection con) {
+    private void endTransaction(Connection connection) {
         try {
-            con.setAutoCommit(true);
+            connection.setAutoCommit(true);
         } catch (SQLException e) {
             throw new IllegalStateException("autoCommit 복구에 실패했습니다.", e);
         }

@@ -13,14 +13,14 @@ public class TestGameDao implements GameDao {
     private long lastGameId = 0L;
 
     @Override
-    public Long saveGame(Connection con, String currentTurn) {
+    public Long saveGame(Connection connection, String currentTurn) {
         lastGameId++;
         turnByGameId.put(lastGameId, currentTurn);
         return lastGameId;
     }
 
     @Override
-    public List<GameEntity> findAllGames(Connection con) {
+    public List<GameEntity> findAllGames(Connection connection) {
         return turnByGameId.entrySet().stream()
                 .map(entry -> new GameEntity(entry.getKey(), entry.getValue()))
                 .toList();
@@ -28,7 +28,7 @@ public class TestGameDao implements GameDao {
 
 
     @Override
-    public GameEntity findGameByGameId(Connection con, Long gameId) {
+    public GameEntity findGameByGameId(Connection connection, Long gameId) {
         if (!turnByGameId.containsKey(gameId)) {
             throw new IllegalArgumentException("해당 게임이 존재하지 않습니다.");
         }
@@ -40,7 +40,7 @@ public class TestGameDao implements GameDao {
     }
 
     @Override
-    public void deleteGameByGameId(Connection con, Long gameId) {
+    public void deleteGameByGameId(Connection connection, Long gameId) {
         if (!turnByGameId.containsKey(gameId)) {
             throw new IllegalStateException("해당 게임이 존재하지 않습니다.");
         }
@@ -54,7 +54,7 @@ public class TestGameDao implements GameDao {
 
     @Override
     public void updateGameOfCurrentTurn(
-            Connection con,
+            Connection connection,
             Long gameId,
             String nextTurn
     ) {
