@@ -7,7 +7,6 @@ import domain.piece.PieceInfos;
 import dto.GameInfo;
 import dto.PositionHistory;
 import dto.PositionState;
-import infrastructure.JdbcConnectionManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,17 +17,10 @@ import java.util.List;
 import java.util.Map;
 
 public class JdbcJanggiRepository implements JanggiRepository {
-    private final JdbcConnectionManager jdbcConnectionManager;
-
-    public JdbcJanggiRepository(JdbcConnectionManager jdbcConnectionManager) {
-        this.jdbcConnectionManager = jdbcConnectionManager;
-    }
-
     @Override
-    public List<GameInfo> findAllGameInfos() {
+    public List<GameInfo> findAllGameInfos(Connection connection) {
         String sql = "SELECT * FROM `game_info`";
         try (
-                Connection connection = jdbcConnectionManager.getConnection();
                 Statement statement = connection.createStatement();
                 ResultSet resultSet = statement.executeQuery(sql)
         ) {
@@ -49,10 +41,9 @@ public class JdbcJanggiRepository implements JanggiRepository {
     }
 
     @Override
-    public GameInfo findGameInfoById(int id) {
+    public GameInfo findGameInfoById(int id, Connection connection) {
         String sql = "SELECT * FROM `game_info` WHERE `id` = ?";
         try (
-                Connection connection = jdbcConnectionManager.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(sql)
         ) {
             preparedStatement.setInt(1, id);
@@ -73,10 +64,9 @@ public class JdbcJanggiRepository implements JanggiRepository {
     }
 
     @Override
-    public int saveGameInfo() {
+    public int saveGameInfo(Connection connection) {
         String sql = "INSERT INTO `game_info`(`turn`, `cho_score`, `han_score`) VALUES (?, ?, ?)";
         try (
-                Connection connection = jdbcConnectionManager.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
         ) {
             preparedStatement.setString(1, CountryType.CHO.toString());
@@ -95,10 +85,10 @@ public class JdbcJanggiRepository implements JanggiRepository {
     }
 
     @Override
-    public void updateGameInfo(CountryType countryType, Map<CountryType, Double> scores, int id) {
+    public void updateGameInfo(CountryType countryType, Map<CountryType, Double> scores, int id,
+                               Connection connection) {
         String sql = "UPDATE `game_info` SET `turn` = ?, `cho_score` = ?, `han_score` = ? WHERE `id` = ?";
         try (
-                Connection connection = jdbcConnectionManager.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(sql)
         ) {
             preparedStatement.setString(1, countryType.toString());
@@ -113,10 +103,9 @@ public class JdbcJanggiRepository implements JanggiRepository {
     }
 
     @Override
-    public void deleteGameInfo(int id) {
+    public void deleteGameInfo(int id, Connection connection) {
         String sql = "DELETE FROM `game_info` WHERE `id` = ?";
         try (
-                Connection connection = jdbcConnectionManager.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(sql)
         ) {
             preparedStatement.setInt(1, id);
@@ -128,10 +117,9 @@ public class JdbcJanggiRepository implements JanggiRepository {
     }
 
     @Override
-    public List<PositionState> findAllPositionStatesByGameInfoId(int gameInfoId) {
+    public List<PositionState> findAllPositionStatesByGameInfoId(int gameInfoId, Connection connection) {
         String sql = "SELECT * FROM `position_state` WHERE `game_info_id` = ?";
         try (
-                Connection connection = jdbcConnectionManager.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(sql)
         ) {
             preparedStatement.setInt(1, gameInfoId);
@@ -154,10 +142,9 @@ public class JdbcJanggiRepository implements JanggiRepository {
     }
 
     @Override
-    public PositionState findPositionStateByPosition(Position position, int gameInfoId) {
+    public PositionState findPositionStateByPosition(Position position, int gameInfoId, Connection connection) {
         String sql = "SELECT * FROM `position_state` WHERE `position_x` = ? AND `position_y` = ? AND `game_info_id` = ?";
         try (
-                Connection connection = jdbcConnectionManager.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(sql)
         ) {
             preparedStatement.setInt(1, position.x());
@@ -177,10 +164,9 @@ public class JdbcJanggiRepository implements JanggiRepository {
     }
 
     @Override
-    public void savePositionState(Position position, PieceInfo pieceInfo, int gameInfoId) {
+    public void savePositionState(Position position, PieceInfo pieceInfo, int gameInfoId, Connection connection) {
         String sql = "INSERT INTO `position_state` (`position_x`, `position_y`, `piece_type`, `piece_country`, `game_info_id`) VALUES (?, ?, ?, ?, ?)";
         try (
-                Connection connection = jdbcConnectionManager.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(sql)
         ) {
             preparedStatement.setInt(1, position.x());
@@ -196,10 +182,9 @@ public class JdbcJanggiRepository implements JanggiRepository {
     }
 
     @Override
-    public void updatePositionState(Position position, PieceInfo pieceInfo, int gameInfoId) {
+    public void updatePositionState(Position position, PieceInfo pieceInfo, int gameInfoId, Connection connection) {
         String sql = "UPDATE `position_state` SET `piece_type` = ?, `piece_country` = ? WHERE `position_x` = ? AND `position_y` = ? AND `game_info_id` = ?";
         try (
-                Connection connection = jdbcConnectionManager.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(sql)
         ) {
             preparedStatement.setString(1, pieceInfo.pieceType().toString());
@@ -215,10 +200,9 @@ public class JdbcJanggiRepository implements JanggiRepository {
     }
 
     @Override
-    public void deletePositionStateByPosition(Position position, int gameInfoId) {
+    public void deletePositionStateByPosition(Position position, int gameInfoId, Connection connection) {
         String sql = "DELETE FROM `position_state` WHERE `position_x` = ? AND `position_y` = ? AND `game_info_id` = ?";
         try (
-                Connection connection = jdbcConnectionManager.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(sql)
         ) {
             preparedStatement.setInt(1, position.x());
@@ -232,10 +216,9 @@ public class JdbcJanggiRepository implements JanggiRepository {
     }
 
     @Override
-    public void deleteAllPositionStatesByGameInfoId(int gameInfoId) {
+    public void deleteAllPositionStatesByGameInfoId(int gameInfoId, Connection connection) {
         String sql = "DELETE FROM `position_state` WHERE `game_info_id` = ?";
         try (
-                Connection connection = jdbcConnectionManager.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(sql)
         ) {
             preparedStatement.setInt(1, gameInfoId);
@@ -247,14 +230,13 @@ public class JdbcJanggiRepository implements JanggiRepository {
     }
 
     @Override
-    public List<PositionHistory> findPositionHistoriesByGameInfoId(int gameInfoId) {
+    public List<PositionHistory> findPositionHistoriesByGameInfoId(int gameInfoId, Connection connection) {
         List<PositionHistory> positionHistories = new ArrayList<>();
         String sql = "SELECT * FROM `position_history` WHERE `id` = ? AND `game_info_id` = ?";
         try (
-                Connection connection = jdbcConnectionManager.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(sql)
         ) {
-            for (int id : getBoardSnapshotIds()) {
+            for (int id : getBoardSnapshotIds(connection)) {
                 preparedStatement.setInt(1, id);
                 preparedStatement.setInt(2, gameInfoId);
                 ResultSet resultSet = preparedStatement.executeQuery();
@@ -279,10 +261,9 @@ public class JdbcJanggiRepository implements JanggiRepository {
         }
     }
 
-    private List<Integer> getBoardSnapshotIds() {
+    private List<Integer> getBoardSnapshotIds(Connection connection) {
         String sql = "SELECT DISTINCT `id` FROM `position_history`";
         try (
-                Connection connection = jdbcConnectionManager.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(sql)
         ) {
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -298,11 +279,10 @@ public class JdbcJanggiRepository implements JanggiRepository {
     }
 
     @Override
-    public void savePositionHistory(PieceInfos pieceInfos, int gameInfoId, CountryType turn) {
+    public void savePositionHistory(PieceInfos pieceInfos, int gameInfoId, CountryType turn, Connection connection) {
         String sql = "INSERT INTO `position_history` VALUES (?, ?, ?, ?, ?, ?, ?)";
-        int snapshotId = getNextSnapshotId();
+        int snapshotId = getNextSnapshotId(connection);
         try (
-                Connection connection = jdbcConnectionManager.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(sql)
         ) {
             for (Position position : pieceInfos.getKeys()) {
@@ -321,10 +301,9 @@ public class JdbcJanggiRepository implements JanggiRepository {
         }
     }
 
-    private int getNextSnapshotId() {
+    private int getNextSnapshotId(Connection connection) {
         String sql = "SELECT MAX(id) FROM `position_history`";
         try (
-                Connection connection = jdbcConnectionManager.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
                 ResultSet resultSet = preparedStatement.executeQuery()
         ) {
@@ -339,10 +318,9 @@ public class JdbcJanggiRepository implements JanggiRepository {
     }
 
     @Override
-    public void deletePositionHistoriesByGameInfoId(int gameInfoId) {
+    public void deletePositionHistoriesByGameInfoId(int gameInfoId, Connection connection) {
         String sql = "DELETE FROM `position_history` WHERE `game_info_id` = ?";
         try (
-                Connection connection = jdbcConnectionManager.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(sql)
         ) {
             preparedStatement.setInt(1, gameInfoId);

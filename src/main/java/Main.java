@@ -1,6 +1,7 @@
 import controller.JanggiController;
 import infrastructure.DatabaseInitializer;
 import infrastructure.JdbcConnectionManager;
+import infrastructure.TransactionManager;
 import repository.JdbcJanggiRepository;
 import service.JanggiService;
 import view.InputView;
@@ -16,7 +17,10 @@ public class Main {
         JanggiController janggiController = new JanggiController(
                 new InputView(),
                 new OutputView(),
-                new JanggiService(new JdbcJanggiRepository(jdbcConnectionManager))
+                new JanggiService(
+                        new JdbcJanggiRepository(),
+                        new TransactionManager(jdbcConnectionManager)
+                )
         );
         janggiController.run();
     }
