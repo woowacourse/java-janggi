@@ -11,6 +11,7 @@ import dto.PieceInfoDto;
 import dto.PiecePositionDto;
 import dto.PiecesDto;
 import dto.PositionDto;
+import dto.ScoreDto;
 import dto.TeamNameDto;
 import java.util.List;
 import java.util.Map;
@@ -85,6 +86,9 @@ public class JanggiController {
 
     private void processTurn(final JanggiGame janggiGame) {
         retry(() -> process(janggiGame));
+
+        printJanggiBoard(janggiGame);
+        printScores(janggiGame);
     }
 
     private void process(final JanggiGame janggiGame) {
@@ -97,7 +101,6 @@ public class JanggiController {
         Position to = selectPositionToMove(movablePositions);
 
         janggiGame.move(from, to);
-        printJanggiBoard(janggiGame);
     }
 
     private void checkMovablePositionsIsEmpty(List<Position> movablePositions) {
@@ -140,6 +143,13 @@ public class JanggiController {
             String message = String.format("선택 가능한 범위를 벗어났습니다. %d 이상, %d 이하의 정수만 입력 가능합니다.", 1, count);
             throw new IllegalArgumentException(message);
         }
+    }
+
+    private void printScores(JanggiGame janggiGame) {
+        double choScore = janggiGame.getScoreBy(Team.CHO);
+        double hanScore = janggiGame.getScoreBy(Team.HAN);
+
+        outputView.printScores(ScoreDto.of(choScore, hanScore));
     }
 
     private void retry(final Runnable callback) {

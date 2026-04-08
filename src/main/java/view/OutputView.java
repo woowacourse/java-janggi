@@ -4,7 +4,9 @@ import dto.PieceInfoDto;
 import dto.PiecePositionDto;
 import dto.PiecesDto;
 import dto.PositionDto;
+import dto.ScoreDto;
 import dto.TeamNameDto;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 import view.formatter.ElephantSetupFormatter;
@@ -168,6 +170,15 @@ public class OutputView {
 
     private int toOneBasedIndex(int index) {
         return index + 1;
+    }
+
+    public void printScores(ScoreDto score) {
+        DecimalFormat decimalFormat = new DecimalFormat("0.################");
+        String choScore = decimalFormat.format(score.choScore());
+        String hanScore = decimalFormat.format(score.hanScore());
+
+        System.out.printf("초나라 점수: %s점\n", choScore);
+        System.out.printf("한나라 점수: %s점\n", hanScore);
     }
 
     public void printWinner(TeamNameDto winner) {

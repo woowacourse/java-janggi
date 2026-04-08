@@ -34,6 +34,10 @@ public class Piece {
         return this.team == team;
     }
 
+    public double getScore() {
+        return pieceType.getScore();
+    }
+
     public Team getTeam() {
         return team;
     }

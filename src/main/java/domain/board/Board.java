@@ -90,4 +90,16 @@ public class Board {
 
         return generalCount == 1;
     }
+
+    public double getScoreBy(Team team) {
+        double score = pieces.values().stream()
+                .filter(piece -> piece.isSameTeam(team))
+                .mapToDouble(Piece::getScore)
+                .sum();
+
+        if (team == Team.HAN) {
+            score += 1.5;
+        }
+        return score;
+    }
 }

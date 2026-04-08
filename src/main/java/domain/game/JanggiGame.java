@@ -85,4 +85,8 @@ public class JanggiGame {
         }
         return gameState.getTeam();
     }
+
+    public double getScoreBy(Team team) {
+        return board.getScoreBy(team);
+    }
 }
