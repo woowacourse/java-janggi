@@ -1,0 +1,17 @@
+CREATE TABLE IF NOT EXISTS game (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    cho_player_name VARCHAR(255) NOT NULL,
+    han_player_name VARCHAR(255) NOT NULL,
+    current_turn VARCHAR(255) NOT NULL,
+    is_playing BOOLEAN NOT NULL DEFAULT TRUE
+);
+
+CREATE TABLE IF NOT EXISTS piece (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    game_id BIGINT NOT NULL,
+    x INT NOT NULL,
+    y INT NOT NULL,
+    side VARCHAR(255) NOT NULL,
+    piece_type VARCHAR(255) NOT NULL,
+    CONSTRAINT fk_game_id FOREIGN KEY (game_id) REFERENCES game(id) ON DELETE CASCADE
+);
