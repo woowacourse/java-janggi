@@ -60,31 +60,72 @@
 ```
 src/main/java
 ├── Main.java
-├── controller
-│   └── JanggiController.java
+├── config
+│   └── AppConfig.java
+├── console
+│   └── GameConsole.java
+├── constant
+│   └── BoardSpec.java
 ├── domain
-│   ├── Board.java
-│   ├── Direction.java
-│   ├── Formation.java
-│   ├── Position.java
-│   ├── Side.java
-│   ├── Turn.java
-│   ├── piece
-│   │   ├── Piece.java
-│   │   ├── PieceType.java
-│   │   ├── King.java
-│   │   ├── Guard.java
-│   │   ├── Horse.java
-│   │   ├── Elephant.java
-│   │   ├── Chariot.java
-│   │   ├── Cannon.java
-│   │   ├── Soldier.java
-│   │   └── Empty.java
-│   └── strategy
-│       ├── MovementStrategy.java
-│       ├── PathMovement.java
-│       └── LinearMovement.java
+│   ├── board
+│   │   ├── Board.java
+│   │   ├── BoardFactory.java
+│   │   └── Formation.java
+│   ├── game
+│   │   ├── Game.java
+│   │   └── Turn.java
+│   ├── movement
+│   │   ├── LinearMovement.java
+│   │   ├── Movement.java
+│   │   └── PathMovement.java
+│   ├── path
+│   │   ├── Direction.java
+│   │   ├── ElephantPaths.java
+│   │   ├── HoresePaths.java
+│   │   ├── LinearPiecePaths.java
+│   │   ├── PalacePiecePaths.java
+│   │   ├── Path.java
+│   │   ├── Paths.java
+│   │   └── SoliderPaths.java
+│   ├── piece
+│   │   ├── Cannon.java
+│   │   ├── Chariot.java
+│   │   ├── Elephant.java
+│   │   ├── Empty.java
+│   │   ├── Guard.java
+│   │   ├── Horse.java
+│   │   ├── King.java
+│   │   ├── Piece.java
+│   │   ├── PieceType.java
+│   │   ├── Side.java
+│   │   └── Soldier.java
+│   ├── strategy
+│   │   ├── LinearMovementStrategy.java
+│   │   ├── PathMovementStrategy.java
+│   │   └── PieceMoveStrategy.java
+│   └── vo
+│       ├── LoadGameDecision.java
+│       └── Position.java
+├── repository
+│   ├── connector
+│   │   ├── Connector.java
+│   │   └── MysqlConnector.java
+│   ├── game_record
+│   │   ├── GameRecordRepository.java
+│   │   ├── GameRecordRepositoryImpl.java
+│   │   └── dto
+│   │       └── GameRecord.java
+│   └── move_record
+│       ├── MoveRecordRepository.java
+│       ├── MoveRecordRepositoryImpl.java
+│       └── dto
+│           └── MoveRecord.java
+├── service
+│   └── GameService.java
+├── util
+│   └── Parser.java
 └── view
     ├── InputView.java
     └── OutputView.java
+
 ```
