@@ -1,5 +1,6 @@
 package janggi.repository;
 
+import janggi.GameStatus;
 import janggi.domain.JanggiGame;
 import janggi.domain.board.Board;
 import janggi.domain.piece.Piece;
@@ -24,7 +25,7 @@ public class JdbcJanggiRepository implements JanggiRepository {
         String gameSql = "INSERT INTO Game (state, turn, start_date) VALUES (?, ?, ?)";
 
         try (PreparedStatement pstmt = conn.prepareStatement(gameSql, Statement.RETURN_GENERATED_KEYS)) {
-            pstmt.setString(1, "PROGRESS");
+            pstmt.setString(1, game.getGameStatus().name());
             pstmt.setString(2, game.getCurrentTeam().name());
             pstmt.setDate(3, new java.sql.Date(System.currentTimeMillis()));
             pstmt.executeUpdate();
@@ -48,10 +49,11 @@ public class JdbcJanggiRepository implements JanggiRepository {
     @Override
     public void update(Connection conn, JanggiGame game) {
         try {
-            String updateGameSql = "UPDATE Game SET turn = ? WHERE game_id = ?";
+            String updateGameSql = "UPDATE Game SET turn = ?, state = ? WHERE game_id = ?";
             try (PreparedStatement pstmt = conn.prepareStatement(updateGameSql)) {
                 pstmt.setString(1, game.getCurrentTeam().name());
-                pstmt.setInt(2, game.getGameId());
+                pstmt.setString(2, game.getGameStatus().name());
+                pstmt.setInt(3, game.getGameId());
                 pstmt.executeUpdate();
             }
 
@@ -78,10 +80,11 @@ public class JdbcJanggiRepository implements JanggiRepository {
             if (rs.next()) {
                 int gameId = rs.getInt("game_id");
                 String turn = rs.getString("turn");
+                String state = rs.getString("state");
 
                 Board board = fetchBoard(conn, gameId);
 
-                return Optional.of(new JanggiGame(gameId, board, Team.from(turn)));
+                return Optional.of(new JanggiGame(gameId, board, Team.from(turn), GameStatus.from(state)));
             }
         } catch (SQLException e) {
             throw new GameLoadException(e);

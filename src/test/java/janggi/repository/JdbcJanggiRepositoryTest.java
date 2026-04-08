@@ -1,5 +1,6 @@
 package janggi.repository;
 
+import janggi.GameStatus;
 import janggi.domain.JanggiGame;
 import janggi.domain.board.Board;
 import janggi.domain.piece.Piece;
@@ -65,9 +66,10 @@ class JdbcJanggiRepositoryTest {
 
     @Test
     void 새로운_게임을_저장하면_발급된_ID를_포함한_도메인_객체를_반환한다() throws SQLException {
-        // give
+        // given
         Map<Position, Piece> initialPieces = new HashMap<>();
         initialPieces.put(Position.of(Row.of(1), Column.of(1)), new Piece(Team.CHO, PieceType.CHA));
+
         JanggiGame newGame = new JanggiGame(new Board(initialPieces));
 
         // when
@@ -75,7 +77,7 @@ class JdbcJanggiRepositoryTest {
 
         // then
         assertThat(savedGame.getGameId()).isNotNull();
-        assertThat(savedGame.getGameId()).isGreaterThan(0);
+        assertThat(savedGame.getGameStatus()).isEqualTo(GameStatus.PROGRESS);
     }
 
     @Test
@@ -92,6 +94,7 @@ class JdbcJanggiRepositoryTest {
         assertThat(result).isPresent();
         JanggiGame game = result.get();
         assertThat(game.getCurrentTeam()).isEqualTo(Team.CHO);
+        assertThat(game.getGameStatus()).isEqualTo(GameStatus.PROGRESS);
         assertThat(game.getBoard().getBoard()).hasSize(1);
     }
 
@@ -105,16 +108,21 @@ class JdbcJanggiRepositoryTest {
         Map<Position, Piece> movedPieces = new HashMap<>();
         movedPieces.put(Position.of(Row.of(1), Column.of(2)), new Piece(Team.CHO, PieceType.CHA));
 
-        JanggiGame updatedGame = new JanggiGame(savedGame.getGameId(), new Board(movedPieces), Team.HAN);
+        JanggiGame updatedGame = new JanggiGame(savedGame.getGameId(), new Board(movedPieces), Team.HAN, GameStatus.END);
 
         // when
         janggiRepository.update(conn, updatedGame);
 
         // then
         Optional<JanggiGame> result = janggiRepository.findInProgressGame(conn);
-        assertThat(result).isPresent();
-        assertThat(result.get().getCurrentTeam()).isEqualTo(Team.HAN);
-        assertThat(result.get().getBoard().getBoard().get(Position.of(Row.of(1), Column.of(1)))).isNull();
-        assertThat(result.get().getBoard().getBoard().get(Position.of(Row.of(1), Column.of(2)))).isNotNull();
+        assertThat(result).isEmpty();
+
+        try (PreparedStatement pstmt = conn.prepareStatement("SELECT state FROM Game WHERE game_id = ?")) {
+            pstmt.setInt(1, savedGame.getGameId());
+            try (ResultSet rs = pstmt.executeQuery()) {
+                assertThat(rs.next()).isTrue();
+                assertThat(rs.getString("state")).isEqualTo("END");
+            }
+        }
     }
 }
