@@ -6,14 +6,20 @@ import java.sql.SQLException;
 
 public class MySqlConnector implements Connector {
 
-    private static final String URL = "jdbc:mysql://localhost:3306/janggi";
-    private static final String USERNAME = "janggi";
-    private static final String PASSWORD = "janggi";
+    private final String url;
+    private final String username;
+    private final String password;
+
+    public MySqlConnector(String url, String username, String password) {
+        this.url = url;
+        this.username = username;
+        this.password = password;
+    }
 
     @Override
     public Connection getConnection() {
         try {
-            return DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            return DriverManager.getConnection(url, username, password);
         } catch (SQLException exception) {
             throw new IllegalStateException(exception);
         }
