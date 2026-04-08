@@ -25,7 +25,8 @@ public class GameDao {
         Optional<GameData> foundGame = findInProgressLastGame(connection);
 
         if (foundGame.isPresent()) {
-            long gameId = foundGame.get().id();
+            GameData gameData = foundGame.get();
+            long gameId = gameData.id();
             update(connection, gameId, currentTurn, finished);
             return gameId;
         }

@@ -50,11 +50,12 @@ public class JdbcGameRepository implements GameRepository {
                 return Optional.empty();
             }
 
-            List<BoardPiece> boardPieces = pieceDao.findByGameId(connection, foundGame.get().id());
+            GameData gameData = foundGame.get();
+            List<BoardPiece> boardPieces = pieceDao.findByGameId(connection, gameData.id());
 
             return Optional.of(gameMapper.toGame(
-                    foundGame.get().currentTurn(),
-                    foundGame.get().finished(),
+                    gameData.currentTurn(),
+                    gameData.finished(),
                     boardPieces
             ));
         } catch (SQLException exception) {
