@@ -2,14 +2,13 @@ package controller;
 
 import database.GameRepository;
 import database.entity.GameEntity;
-import database.jdbc.JdbcGameDao;
-import database.jdbc.JdbcPieceDao;
-import domain.board.AbstractBoardFactory;
 import domain.board.Board;
+import domain.board.BoardFactory;
 import domain.game.Team;
 import domain.game.Turn;
 import domain.piece.Piece;
 import domain.position.Position;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import util.Retry;
@@ -21,14 +20,10 @@ public class JanggiController {
     private final OutputView outputView;
     private final GameRepository gameRepository;
 
-    private JanggiController(InputView inputView, OutputView outputView, GameRepository gameRepository) {
+    public JanggiController(InputView inputView, OutputView outputView, GameRepository gameRepository) {
         this.inputView = inputView;
         this.outputView = outputView;
         this.gameRepository = gameRepository;
-    }
-
-    public static JanggiController of(InputView inputView, OutputView outputView) {
-        return new JanggiController(inputView, outputView, new GameRepository(new JdbcGameDao(), new JdbcPieceDao()));
     }
 
     public void run() {
@@ -51,25 +46,30 @@ public class JanggiController {
     }
 
     private Board createBoard() {
-        int choFormationNumber = Retry.untilSuccess(() -> inputView.initialFormation(Team.CHO));
-        int hanFormationNumber = Retry.untilSuccess(() -> inputView.initialFormation(Team.HAN));
-        AbstractBoardFactory choAbstractBoardFactory = AbstractBoardFactory.from(choFormationNumber);
-        AbstractBoardFactory hanAbstractBoardFactory = AbstractBoardFactory.from(hanFormationNumber);
-        Map<Position, Piece> board = AbstractBoardFactory.createFormation(choAbstractBoardFactory,
-                hanAbstractBoardFactory);
+        int choFormationNumber = Retry.untilSuccess(
+                () -> inputView.initialFormation(Team.CHO),
+                e -> outputView.printErrorMessage(e.getMessage())
+        );
+        int hanFormationNumber = Retry.untilSuccess(
+                () -> inputView.initialFormation(Team.HAN),
+                e -> outputView.printErrorMessage(e.getMessage())
+        );
+        Map<Position, Piece> board = BoardFactory.createFormation(choFormationNumber, hanFormationNumber);
         return new Board(board);
     }
 
     private Turn playTurn(Board board, Turn turn, int gameId) {
         return Retry.untilSuccess(() -> {
-            Position[] positions = inputView.askMovePiecePosition(turn.current());
-            boolean isCapture = board.getState().containsKey(positions[1]);
-            board.move(positions[0], positions[1], turn.current());
+            List<Position> positions = inputView.askMovePiecePosition(turn.current());
+            Position src = positions.get(0);
+            Position dest = positions.get(1);
+            boolean isCapture = board.getState().containsKey(dest);
+            board.move(src, dest, turn.current());
             Turn next = turn.next();
-            gameRepository.saveMove(gameId, positions[0], positions[1], isCapture, next.current());
+            gameRepository.saveMove(gameId, src, dest, isCapture, next.current());
             outputView.printBoard(board);
             return next;
-        });
+        }, e -> outputView.printErrorMessage(e.getMessage()));
     }
 
     private GameState initializeGame() {
