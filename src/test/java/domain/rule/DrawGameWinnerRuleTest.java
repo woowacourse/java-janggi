@@ -38,18 +38,9 @@ class DrawGameWinnerRuleTest {
     }
 
     @Test
-    void 비김일때_점수가_높은_팀의_플레이어_승자() {
+    void 비김일때_한나라_가산점으로_승자_결정() {
         PlayerProfile winner = drawGameWinnerRule.determineWinner(board, choPlayer, hanPlayer);
 
-        // 초나라 원점수와 한나라 점수(원점수 + 1.5) 비교
-        double choScore = board.calculateRawScore(Team.CHO);
-        double hanScore = board.calculateRawScore(Team.HAN) + 1.5;
-
-        if (choScore > hanScore) {
-            assertThat(winner.team()).isEqualTo(Team.CHO);
-        } else {
-            assertThat(winner.team()).isEqualTo(Team.HAN);
-        }
+        assertThat(winner.team()).isEqualTo(Team.HAN);
     }
 }
-

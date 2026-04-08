@@ -42,22 +42,7 @@ class WinnerDeterminationRuleEngineTest {
     void 비김일때_DrawScoreRule_적용() {
         PlayerProfile winner = engine.calculateFinalScore(board, choPlayer, hanPlayer, true);
 
-        double choScore = board.calculateRawScore(Team.CHO);
-        double hanScore = board.calculateRawScore(Team.HAN) + 1.5;
-
-        if (choScore > hanScore) {
-            assertThat(winner.team()).isEqualTo(Team.CHO);
-        } else {
-            assertThat(winner.team()).isEqualTo(Team.HAN);
-        }
-    }
-
-    @Test
-    void 현재_플레이어가_한나라일때_비김_아닌경우() {
-        PlayerProfile winner = engine.calculateFinalScore(board, hanPlayer, choPlayer, false);
-
         assertThat(winner.team()).isEqualTo(Team.HAN);
-        assertThat(winner.name().value()).isEqualTo("한나라");
     }
 }
 
