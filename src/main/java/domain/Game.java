@@ -13,14 +13,17 @@ import java.util.Map;
 
 public class Game {
 
-    private Long id;
     private static final double FIRST_MOVE_BONUS = 1.5;
+
+    private Long id;
     private final Board board;
     private State state;
+    private Side firstMover;
 
     public Game(BoardInitializer boardInitializer) {
         this.board = new Board(boardInitializer.initialize());
         this.state = createFirstTurnSide();
+        this.firstMover = state.getSide();
     }
 
     public Game(Board board, State state) {
@@ -59,11 +62,13 @@ public class Game {
     }
 
     public double calculateScore(Side side) {
-        if (createFirstTurnSide().getSide() == side) {
-            return board.calculateScore(side) + FIRST_MOVE_BONUS;
+        double score = board.calculateScore(side);
+
+        if (side == firstMover) {
+            score += FIRST_MOVE_BONUS;
         }
-        
-        return  board.calculateScore(side);
+
+        return score;
     }
 
     public boolean isSafe() {
