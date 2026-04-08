@@ -1,36 +1,48 @@
 package controller;
 
-import domain.Board;
-import domain.BoardFactory;
 import domain.Formation;
 import domain.Game;
+import domain.LoadGameDecision;
 import domain.Position;
 import domain.Side;
+import service.GameService;
 import util.Parser;
 import view.InputView;
 import view.OutputView;
 
-public class JanggiController {
+public class GameConsole {
+
+    private final GameService gameService;
 
     private final InputView inputView;
     private final OutputView outputView;
 
-    public JanggiController(InputView inputView, OutputView outputView) {
+    public GameConsole(GameService gameService, InputView inputView, OutputView outputView) {
+        this.gameService = gameService;
         this.inputView = inputView;
         this.outputView = outputView;
     }
 
     public void run() {
+        if (gameService.existsGame() && readLoadGame()) {
+            Game game = loadGame();
+            processMove(game);
+            return;
+        }
         Game game = initGame();
         processMove(game);
+    }
+
+    private Game loadGame() {
+        Game game = gameService.loadGame();
+        outputView.printBoardStatus(game.getBoard());
+        return game;
     }
 
     private Game initGame() {
         Formation choformation = readChoFormation();
         Formation hanformation = readHanFormation();
-
-        Board board = BoardFactory.createBoard(choformation, hanformation);
-        Game game = new Game(board);
+        Game game = gameService.createGame(choformation, hanformation);
         outputView.printBoardStatus(game.getBoard());
         return game;
     }
@@ -43,7 +55,7 @@ public class JanggiController {
             Position sourcePosition = readSourcePosition();
             Position targetPosition = readTargetPosition();
             try {
-                game.move(sourcePosition, targetPosition);
+                gameService.moveAndSave(game, sourcePosition, targetPosition);
             } catch (IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());
             }
@@ -92,6 +104,17 @@ public class JanggiController {
             try {
                 String hanFormation = inputView.readHanFormation();
                 return Formation.from(hanFormation);
+            } catch (IllegalArgumentException e) {
+                outputView.printErrorMessage(e.getMessage());
+            }
+        }
+    }
+
+    private boolean readLoadGame() {
+        while (true) {
+            try {
+                String input = inputView.readLoadGame();
+                return LoadGameDecision.from(input).shouldLoad();
             } catch (IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());
             }

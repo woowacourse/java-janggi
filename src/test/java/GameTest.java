@@ -13,8 +13,8 @@ import domain.piece.Empty;
 import domain.piece.Guard;
 import domain.piece.Horse;
 import domain.piece.King;
-import domain.piece.Soldier;
 import domain.piece.PieceType;
+import domain.piece.Soldier;
 import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -382,7 +382,7 @@ public class GameTest {
 
     private void passCurrentTurn(Game game) {
         if (game.getCurrentTurn() == Side.CHO) {
-            moveOneOf(game, new MoveCandidate[] {
+            moveOneOf(game, new MoveCandidate[]{
                 new MoveCandidate(9, 7, 9, 6),
                 new MoveCandidate(9, 6, 8, 6),
                 new MoveCandidate(8, 6, 8, 5),
@@ -395,7 +395,7 @@ public class GameTest {
             return;
         }
 
-        moveOneOf(game, new MoveCandidate[] {
+        moveOneOf(game, new MoveCandidate[]{
             new MoveCandidate(9, 4, 9, 5),
             new MoveCandidate(9, 5, 8, 5),
             new MoveCandidate(8, 5, 8, 6),

@@ -23,15 +23,18 @@ public class BoardFactory {
     private static final List<Integer> FORMATION_X = List.of(2, 3, 7, 8);
 
     public static Board createBoard(Formation choFormation, Formation hanFormation) {
-        Map<Position, Piece> board = new HashMap<>();
-        for (int x = BoardSpec.MIN_X; x <= BoardSpec.MAX_X; x++) {
-            for (int y = BoardSpec.MIN_Y; y <= BoardSpec.MAX_Y; y++) {
-                placePiece(board, Position.of(x, y), new Empty());
-            }
-        }
+        Map<Position, Piece> board = createEmptyBoard();
         placePieces(board, choFormation, Side.CHO);
         placePieces(board, hanFormation, Side.HAN);
 
+        return new Board(board);
+    }
+
+    public static Board createTestBoard() {
+        Map<Position, Piece> board = createEmptyBoard();
+        placePiece(board, Position.of(5, 9), PieceType.KING.create(Side.CHO));
+        placePiece(board, Position.of(5, 6), PieceType.KING.create(Side.HAN));
+        placePiece(board, Position.of(5, 7), PieceType.SOLDIER.create(Side.CHO));
         return new Board(board);
     }
 
@@ -45,12 +48,6 @@ public class BoardFactory {
         placeFormationPiece(board, formation, FORMATION_X, rows.get(BACK_Y), side);
     }
 
-    private static void placeTestPieces(Map<Position, Piece> board, Side side) {
-        List<Integer> rows = getRowForSide(side);
-        placePiece(board, SOLIDER_X, rows.get(SOLDIER_Y), PieceType.SOLDIER, side);
-        placePiece(board, KING_X, rows.get(KING_Y), PieceType.KING, side);
-    }
-
     private static List<Integer> getRowForSide(Side side) {
         if (side == Side.HAN) {
             return List.of(1, 2, 3, 4);
@@ -60,6 +57,16 @@ public class BoardFactory {
 
     private static void placePiece(Map<Position, Piece> board, Position position, Piece piece) {
         board.put(position, piece);
+    }
+
+    private static Map<Position, Piece> createEmptyBoard() {
+        Map<Position, Piece> board = new HashMap<>();
+        for (int x = BoardSpec.MIN_X; x <= BoardSpec.MAX_X; x++) {
+            for (int y = BoardSpec.MIN_Y; y <= BoardSpec.MAX_Y; y++) {
+                placePiece(board, Position.of(x, y), new Empty());
+            }
+        }
+        return board;
     }
 
     private static void placePiece(Map<Position, Piece> board, List<Integer> xPositions, int y, PieceType pieceType,

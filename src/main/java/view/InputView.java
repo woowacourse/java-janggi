@@ -15,6 +15,7 @@ public class InputView {
         BoardSpec.MIN_X, BoardSpec.MAX_X);
     private static final String READ_TARGET_Y_POSITION = String.format("목적지의 y 좌표를 입력해주세요. (y 범위 %d~ %d)",
         BoardSpec.MIN_Y, BoardSpec.MAX_Y);
+    private static final String READ_LOAD_GAME = "진행중인 게임이 있습니다. 이어서 하시겠습니까? (y/n)";
 
     private final Scanner scanner = new Scanner(System.in);
 
@@ -49,6 +50,11 @@ public class InputView {
 
     public String readTargetYPosition() {
         System.out.println(READ_TARGET_Y_POSITION);
+        return scanner.nextLine();
+    }
+
+    public String readLoadGame() {
+        System.out.println(READ_LOAD_GAME);
         return scanner.nextLine();
     }
 

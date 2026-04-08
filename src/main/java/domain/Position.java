@@ -40,4 +40,12 @@ public class Position {
             throw new IllegalArgumentException(INVALID_POSITION_RANGE);
         }
     }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 }

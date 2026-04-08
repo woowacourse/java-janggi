@@ -19,6 +19,8 @@ public class OutputView {
     private static final String DOUBLE_DIGIT_ROW_FORMAT = "%d  ";
     private static final String PIECE_FORMAT = "%s%s ";
     private static final String CURRENT_TOTAL_SCORE_MESSAGE = "초: %.1f점          한: %.1f점\n";
+    private static final String WINNER_IS_CHO = "       초의 승리입니다!";
+    private static final String WINNER_IS_HAN = "       한의 승리입니다!";
 
     public void printBoardStatus(Map<Position, Piece> board) {
         System.out.println();
@@ -53,10 +55,10 @@ public class OutputView {
 
     public void printResult(Side winner) {
         if (winner == Side.CHO) {
-            System.out.println("초의 승리입니다!");
+            System.out.println(WINNER_IS_CHO);
             return;
         }
-        System.out.println("한의 승리입니다!");
+        System.out.println(WINNER_IS_HAN);
     }
 
     private void printRowNumber(int y) {

@@ -22,7 +22,7 @@ public class Game {
             turn.next();
         }
     }
-
+    
     public boolean isGameEnd() {
         return board.hasKing(Side.CHO) || board.hasKing(Side.HAN);
     }

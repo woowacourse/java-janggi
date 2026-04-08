@@ -32,6 +32,10 @@ public enum Formation {
         return pieceTypes;
     }
 
+    public String getOption() {
+        return option;
+    }
+
     public String toDisplayString() {
         return option + ". " + name();
     }
