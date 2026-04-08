@@ -50,18 +50,26 @@ public class ChariotMoveStrategy implements MoveStrategy {
     }
 
     private boolean isNotCorrectPath(final Position from, final Position to) {
-        if (isInPalace(from, to)) {
+        if (isInPalaceAndCanDiagonalMove(from)) {
             if (isDiagonal(from, to)) {
-
+                if (Math.abs(from.getRow() - to.getRow()) + Math.abs(from.getCol() - to.getCol()) <= 4) {
+                    return false;
+                }
             }
         }
 
         return from.getCol() != to.getCol() && from.getRow() != to.getRow();
     }
 
-    private boolean isInPalace(final Position from, final Position to) {
-//        if ()
-        return false;
+    private boolean isInPalaceAndCanDiagonalMove(final Position position) {
+        int row = position.getRow();
+        int column = position.getCol();
+        if ((row == 0 && column == 4) || (row == 2 && column == 4) || (row == 1 && column == 3) || (row == 1 && column == 5)
+        || (row == 7 && column == 4) || (row == 9 && column == 4) || (row == 8 && column == 3) || (row == 8 && column == 5)) {
+            return false;
+        }
+
+        return true;
     }
 
     private boolean isDiagonal(final Position from, final Position to) {
