@@ -36,6 +36,7 @@ public class Janggi {
         Optional<Piece> capturedPiece = board.movePiece(current, next);
         if (capturedPiece.map(Piece::isGeneral).orElse(false)) {
             this.status = GameStatus.WIN_BY_CAPTURE;
+            return status;
         }
         this.turn = turn.next();
         return status;
@@ -83,7 +84,7 @@ public class Janggi {
     }
 
     public Team getWinnerByCapture() {
-        return turn.next();
+        return this.turn;
     }
 
     public ScoreResult calculateScoreResultOfTeams() {

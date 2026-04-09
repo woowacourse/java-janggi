@@ -46,8 +46,8 @@ public class JanggiController {
         Position next = inputView.readDestination(currentTurn, piece);
         MoveResult moveResult = janggiService.move(current, next);
 
-        outputView.displayBoard(moveResult.board());
-        moveResult.winner().ifPresent(
+        outputView.displayBoard(moveResult.getBoard());
+        moveResult.getWinner().ifPresent(
                 winner -> outputView.displayWinner(winner.getKoreanName())
         );
     }

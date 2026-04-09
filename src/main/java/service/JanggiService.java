@@ -58,12 +58,15 @@ public class JanggiService {
         MoveCommand moveCommand = new MoveCommand(current, next, janggi.getTurn());
         janggiRepository.updateGame(gameId, moveCommand, status);
 
-        Optional<Team> winnerOptional = Optional.empty();
-        if (status == GameStatus.WIN_BY_CAPTURE) {
-            winnerOptional = Optional.of(janggi.getWinnerByCapture());
-        }
+        Team winner = getWinnerWhenCaptured(status);
+        return new MoveResult(janggi.board(), winner);
+    }
 
-        return new MoveResult(janggi.board(), winnerOptional);
+    private Team getWinnerWhenCaptured(GameStatus status) {
+        if (status == GameStatus.WIN_BY_CAPTURE) {
+            return janggi.getWinnerByCapture();
+        }
+        return null;
     }
 
     public Piece findPieceAt(Position position, Team turn) {
