@@ -14,6 +14,7 @@ public class Board {
     private static final int MIN_ROW = 1;
     private static final int MAX_COLUMN = 9;
     private static final int MIN_COLUMN = 1;
+    private static final double SECOND_PLAYER_HANDICAP = 1.5;
 
     private final Map<Position, Piece> pieces = new HashMap<>();
     private boolean isGameOver = false;
@@ -54,7 +55,7 @@ public class Board {
                 .sum();
 
         if (team == Team.HAN) {
-            score += 1.5;
+            score += SECOND_PLAYER_HANDICAP;
         }
         return score;
     }
