@@ -75,7 +75,7 @@ public record Board(Map<Position, Piece> pieces) {
         return new Board(moved);
     }
 
-    private Piece pieceAt(final Position position) {
+    public Piece pieceAt(final Position position) {
         return pieces.get(position);
     }
 

@@ -1,6 +1,7 @@
 package core;
 
-import db.repository.JanggiGameRepository;
+import movepolicy.MoveHistory;
+import pieces.Piece;
 import pieces.Side;
 import position.Position;
 import util.Retry;
@@ -9,28 +10,31 @@ import view.JanggiView;
 
 public class GameSession {
 
-    private final Long gameId;
     private JanggiGame game;
     private final JanggiView view;
-    private final JanggiGameRepository repository;
 
-    public GameSession(final Long gameId, final JanggiGame game, final JanggiView view,
-                       final JanggiGameRepository repository) {
-        this.gameId = gameId;
+    public GameSession(final JanggiGame game, final JanggiView view) {
         this.game = game;
         this.view = view;
-        this.repository = repository;
     }
 
-    public void run() {
-        while (!game.isOver()) {
-            playUntilSuccess();
+    public boolean isPlaying() {
+        return game.isPlaying();
+    }
+
+    public void printResult() {
+        if (isPlaying()) {
+            throw new IllegalArgumentException("아직 게임이 종료되지 않았습니다.");
         }
         view.printGameResult(game.getResult());
     }
 
-    private void playUntilSuccess() {
-        game = Retry.untilSuccess(() -> {
+    public GameTurnResult run() {
+        if (!isPlaying()) {
+            throw new IllegalArgumentException("진행중인 게임만 실행할 수 있습니다.");
+        }
+
+        final GameTurnResult result = Retry.untilSuccess(() -> {
             printGameStatus();
 
             if (view.askEndByScore(game.getTurnSide())) {
@@ -38,6 +42,9 @@ public class GameSession {
             }
             return playGame();
         });
+
+        this.game = result.updatedGame();
+        return result;
     }
 
     private void printGameStatus() {
@@ -51,19 +58,22 @@ public class GameSession {
         view.printScore(otherTurnSide, game.calculateScoreOf(otherTurnSide));
     }
 
-    private JanggiGame endGameByScore() {
+    private GameTurnResult endGameByScore() {
         final JanggiGame updatedGame = game.endByScore();
-        repository.updateGameState(gameId, updatedGame.getTurn(), updatedGame.getStatus());
-        return updatedGame;
+        return GameTurnResult.endByScore(updatedGame);
     }
 
-    private JanggiGame playGame() {
+    private GameTurnResult playGame() {
         final Position departure = view.askDeparture();
         final Position destination = view.askDestination();
+
+        final Piece movingPiece = game.getPieceAt(departure);
+        final Piece capturedPiece = game.getPieceAt(destination);
         final JanggiGame updatedGame = game.move(departure, destination);
 
-        repository.updatePiecePosition(gameId, departure, destination);
-        repository.updateGameState(gameId, updatedGame.getTurn(), updatedGame.getStatus());
-        return updatedGame;
+        return GameTurnResult.move(
+            updatedGame,
+            new MoveHistory(departure, destination, movingPiece, capturedPiece)
+        );
     }
 }
