@@ -73,9 +73,8 @@ public class GameRepository {
         });
     }
 
-    public void delete(Persisted<JanggiGame> persistedGame) {
+    public void deleteById(int gameId) {
         transaction.execute(connection -> {
-            int gameId = persistedGame.id();
             pieceRepository.delete(gameId, connection);
 
             deleteGame(gameId, connection);

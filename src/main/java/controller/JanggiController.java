@@ -89,7 +89,7 @@ public class JanggiController {
         List<ScoreDto> scores = calculateTotalScore(game);
         view.printWinner(winner, scores);
 
-        gameRepository.delete(persistedGame);
+        gameRepository.deleteById(persistedGame.id());
     }
 
     private List<ScoreDto> calculateTotalScore(JanggiGame game) {
