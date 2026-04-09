@@ -1,6 +1,7 @@
 package domain.piece;
 
 import domain.board.Country;
+import java.util.Arrays;
 
 public enum PieceType {
     SOLDIER("soldier", 2) {
@@ -60,6 +61,13 @@ public enum PieceType {
     PieceType(String dbValue, int score) {
         this.dbValue = dbValue;
         this.score = score;
+    }
+
+    public static PieceType from(String dbValue) {
+        return Arrays.stream(PieceType.values())
+                .filter(pieceType -> pieceType.dbValue.equals(dbValue))
+                .findAny()
+                .orElseThrow(() -> new IllegalStateException("[ERROR] PieceType에 일치하는 값이 존재하지 않습니다."));
     }
 
     public String getDbValue() {

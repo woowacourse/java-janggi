@@ -1,5 +1,7 @@
 package domain.board;
 
+import java.util.Arrays;
+
 public enum Country {
     HAN("한나라") {
         @Override
@@ -21,6 +23,13 @@ public enum Country {
 
     Country(String dbValue) {
         this.dbValue = dbValue;
+    }
+
+    public static Country from(String dbValue) {
+        return Arrays.stream(Country.values())
+                .filter(country -> country.dbValue.equals(dbValue))
+                .findAny()
+                .orElseThrow(() -> new IllegalStateException("[ERROR] Country에 일치하는 값이 존재하지 않습니다."));
     }
 
     public String getDbValue() {

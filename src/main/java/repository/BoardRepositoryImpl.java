@@ -81,8 +81,8 @@ public class BoardRepositoryImpl implements BoardRepository {
 
             while (resultSet.next()) {
                 Position position = new Position(resultSet.getInt("x"), resultSet.getInt("y"));
-                PieceType pieceType = PieceType.valueOf(resultSet.getString("piece_type"));
-                Country country = Country.valueOf(resultSet.getString("country"));
+                PieceType pieceType = PieceType.from(resultSet.getString("piece_type"));
+                Country country = Country.from(resultSet.getString("country"));
 
                 pieceInfos.put(position, new PieceInfo(pieceType, country));
             }
