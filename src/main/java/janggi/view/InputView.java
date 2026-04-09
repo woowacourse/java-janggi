@@ -15,7 +15,7 @@ public class InputView {
 
     public String readCommand() {
         System.out.println("플레이 할 게임을 선택해주세요.");
-        System.out.println("(게임 ID 입력: 이어하기 | new: 새 게임 시작 | exit: 게임 종료)");
+        System.out.println("(게임 ID 입력: 이어하기 | new: 새 게임 시작 | delete: 게임 삭제 | exit: 게임 종료)");
         System.out.print("> ");
         return scanner.nextLine().trim();
     }
@@ -54,5 +54,16 @@ public class InputView {
             return "\u001B[1;31m한(漢)\u001B[0m";
         }
         return "\u001B[1;34m초(楚)\u001B[0m";
+    }
+
+    public long readGameId() {
+        System.out.println("삭제하려는 게임 ID를 입력해주세요. (뒤로 가기: 0)");
+        System.out.print("> ");
+        String input = scanner.nextLine().trim();
+        try {
+            return Long.parseLong(input);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("[ERROR] 게임 ID는 숫자 형식이어야 합니다.");
+        }
     }
 }

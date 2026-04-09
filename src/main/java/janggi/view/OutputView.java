@@ -37,6 +37,7 @@ public class OutputView {
     );
 
     public void printGameList(List<GameInfo> games) {
+        System.out.println();
         System.out.println("========================= 게임 목록 ==========================");
         System.out.printf("%-6s %-19s %-6s %-6s %-6s %-6s%n", "ID", "마지막 플레이", "한 점수", "초 점수", "현재턴", "승자");
         System.out.println("------------------------------------------------------------");
@@ -76,7 +77,7 @@ public class OutputView {
     }
 
     public void printGameQuit() {
-        System.out.println("게임 목록 화면으로 돌아갑니다.\n");
+        System.out.println("게임 목록 화면으로 돌아갑니다.");
     }
 
     public void printGameEnd() {

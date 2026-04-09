@@ -14,7 +14,8 @@ import java.util.List;
 public class JanggiController {
     private static final String EXIT_COMMAND = "exit";
     private static final String QUIT_COMMAND = "quit";
-    private static final String CREATE_GAME_COMMAND = "new";
+    private static final String CREATE_COMMAND = "new";
+    private static final String DELETE_COMMAND = "delete";
     private static final int FROM_INDEX = 0;
     private static final int TO_INDEX = 1;
 
@@ -33,7 +34,7 @@ public class JanggiController {
             outputView.printGameList(service.findAllGames());
             if (processCommand()) {
                 outputView.printGameEnd();
-                return;
+                break;
             }
         }
     }
@@ -61,8 +62,27 @@ public class JanggiController {
             playGame(gameId);
             return;
         }
+        if (isDeleteCommand(command)) {
+            deleteGame();
+            return;
+        }
         long gameId = Long.parseLong(command);
         playGame(gameId);
+    }
+
+    private void deleteGame() {
+        while (true) {
+            try {
+                long gameId = inputView.readGameId();
+                if (gameId == 0) {
+                    return;
+                }
+                service.deleteGame(gameId);
+                return;
+            } catch (IllegalArgumentException | DataAccessException e) {
+                outputView.printError(e.getMessage());
+            }
+        }
     }
 
     private long createGame() {
@@ -113,10 +133,13 @@ public class JanggiController {
 
     private boolean isExitCommand(String command) {
         return command.equalsIgnoreCase(EXIT_COMMAND);
-
     }
 
     private boolean isCreateCommand(String command) {
-        return command.equalsIgnoreCase(CREATE_GAME_COMMAND);
+        return command.equalsIgnoreCase(CREATE_COMMAND);
+    }
+
+    private boolean isDeleteCommand(String command) {
+        return command.equalsIgnoreCase(DELETE_COMMAND);
     }
 }

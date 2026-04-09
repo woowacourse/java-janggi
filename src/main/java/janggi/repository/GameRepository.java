@@ -14,4 +14,6 @@ public interface GameRepository {
     void updateGame(long gameId, JanggiGame game);
 
     JanggiGame getById(long gameId);
+
+    void deleteGame(long gameId);
 }

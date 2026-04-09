@@ -39,4 +39,8 @@ public class JanggiService {
     public List<GameInfo> findAllGames() {
         return repository.findAllGames();
     }
+
+    public void deleteGame(long gameId) {
+        repository.deleteGame(gameId);
+    }
 }

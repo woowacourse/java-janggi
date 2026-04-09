@@ -56,6 +56,20 @@ public class JdbcGameRepository implements GameRepository {
         return new JanggiGame(BoardFactory.restore(pieces), currentTeam);
     }
 
+    @Override
+    public void deleteGame(long gameId) {
+        String sql = "DELETE FROM game WHERE id = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setLong(1, gameId);
+            int deleteRows = pstmt.executeUpdate();
+            if (deleteRows == 0) {
+                throw new IllegalArgumentException("[ERROR] 존재하지 않는 게임 ID입니다.");
+            }
+        } catch (SQLException e) {
+            throw new DataAccessException("[ERROR] DB 게임 삭제 실패", e);
+        }
+    }
+
     private List<GameInfo> toGameInfos(ResultSet rs) throws SQLException {
         List<GameInfo> games = new ArrayList<>();
         while (rs.next()) {
