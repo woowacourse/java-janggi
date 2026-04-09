@@ -129,7 +129,7 @@ class JolByeongTest {
             }
 
             @Test
-            void 궁성_내부_대각선_후진은_이동할_수_없다() {
+            void 궁성_내부에서_대각선_후진하면_예외를_던진다() {
                 // given
                 Piece jol = choJol();
                 Position departure = new Position(8, 4);
@@ -141,7 +141,7 @@ class JolByeongTest {
             }
 
             @Test
-            void 궁성_내부라도_대각선_선분이_아닌_대각선_전진은_이동할_수_없다() {
+            void 궁성_내부에서_대각선_선분이_아닌_대각선으로_전진하면_예외를_던진다() {
                 // given
                 Piece jol = choJol();
                 Position departure = new Position(7, 4);
@@ -295,7 +295,7 @@ class JolByeongTest {
             }
 
             @Test
-            void 궁성_내부_대각선_후진은_이동할_수_없다() {
+            void 궁성_내부에서_대각선_후진하면_예외를_던진다() {
                 // given
                 Piece byeong = hanByeong();
                 Position departure = new Position(1, 4);
@@ -307,7 +307,7 @@ class JolByeongTest {
             }
 
             @Test
-            void 궁성_내부라도_대각선_선분이_아닌_대각선_전진은_이동할_수_없다() {
+            void 궁성_내부에서_대각선_선분이_아닌_대각선으로_전진하면_예외를_던진다() {
                 // given
                 Piece byeong = hanByeong();
                 Position departure = new Position(2, 4);

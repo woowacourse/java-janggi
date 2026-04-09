@@ -218,7 +218,7 @@ class BoardTest {
         }
 
         @Test
-        void 궁성_대각선_선분이_아닌_대각선으로는_이동할_수_없다() {
+        void 궁성_대각선_선분이_아닌_대각선으로_이동하면_예외를_던진다() {
             // given
             Position departure = new Position(0, 4);
             Position destination = departure.moveRightUp();

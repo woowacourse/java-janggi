@@ -33,7 +33,7 @@ class GameResultTest {
     }
 
     @Test
-    void 진행_중인_게임은_승자를_가질_수_없다() {
+    void 진행_중인_게임에_승자가_있으면_예외를_던진다() {
         // when & then
         assertThatThrownBy(() -> new GameResult(GameStatus.RUNNING, Side.HAN))
             .isInstanceOf(InvalidGameResultException.class)
@@ -41,7 +41,7 @@ class GameResultTest {
     }
 
     @Test
-    void 종료된_게임은_승자를_가져야_한다() {
+    void 종료된_게임에_승자가_없으면_예외를_던진다() {
         // when & then
         assertThatThrownBy(() -> new GameResult(GameStatus.ENDED, null))
             .isInstanceOf(InvalidGameResultException.class)

@@ -309,7 +309,7 @@ class ChaTest {
             }
 
             @Test
-            void 초나라_차는_궁성_내부라도_대각선_선분이_아닌_우상향_이동은_할_수_없다() {
+            void 초나라_차가_궁성_내부에서_대각선_선분이_아닌_우상향으로_이동하면_예외를_던진다() {
                 // given
                 Piece cha = cha();
                 Position departure = new Position(0, 4);
@@ -322,7 +322,7 @@ class ChaTest {
             }
 
             @Test
-            void 초나라_차는_궁성_내부라도_대각선_선분이_아닌_좌상향_이동은_할_수_없다() {
+            void 초나라_차가_궁성_내부에서_대각선_선분이_아닌_좌상향으로_이동하면_예외를_던진다() {
                 // given
                 Piece cha = cha();
                 Position departure = new Position(0, 4);
@@ -335,7 +335,7 @@ class ChaTest {
             }
 
             @Test
-            void 초나라_차는_궁성_내부라도_대각선_선분이_아닌_좌하향_이동은_할_수_없다() {
+            void 초나라_차가_궁성_내부에서_대각선_선분이_아닌_좌하향으로_이동하면_예외를_던진다() {
                 // given
                 Piece cha = cha();
                 Position departure = new Position(1, 5);
@@ -348,7 +348,7 @@ class ChaTest {
             }
 
             @Test
-            void 초나라_차는_궁성_내부라도_대각선_선분이_아닌_우하향_이동은_할_수_없다() {
+            void 초나라_차가_궁성_내부에서_대각선_선분이_아닌_우하향으로_이동하면_예외를_던진다() {
                 // given
                 Piece cha = cha();
                 Position departure = new Position(1, 3);
@@ -361,7 +361,7 @@ class ChaTest {
             }
 
             @Test
-            void 초나라_차는_궁성_좌중앙에서_우상향_대각선_이동할_수_없다() {
+            void 초나라_차가_궁성_좌중앙에서_우상향_대각선으로_이동하면_예외를_던진다() {
                 // given
                 Piece cha = cha();
                 Position departure = new Position(1, 3);
@@ -374,7 +374,7 @@ class ChaTest {
             }
 
             @Test
-            void 초나라_차는_궁성_우중앙에서_좌상향_대각선_이동할_수_없다() {
+            void 초나라_차가_궁성_우중앙에서_좌상향_대각선으로_이동하면_예외를_던진다() {
                 // given
                 Piece cha = cha();
                 Position departure = new Position(1, 5);
@@ -387,7 +387,7 @@ class ChaTest {
             }
 
             @Test
-            void 초나라_차는_궁성_하중앙에서_좌하향_대각선_이동할_수_없다() {
+            void 초나라_차가_궁성_하중앙에서_좌하향_대각선으로_이동하면_예외를_던진다() {
                 // given
                 Piece cha = cha();
                 Position departure = new Position(2, 4);
@@ -400,7 +400,7 @@ class ChaTest {
             }
 
             @Test
-            void 초나라_차는_궁성_하중앙에서_우하향_대각선_이동할_수_없다() {
+            void 초나라_차가_궁성_하중앙에서_우하향_대각선으로_이동하면_예외를_던진다() {
                 // given
                 Piece cha = cha();
                 Position departure = new Position(2, 4);

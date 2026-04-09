@@ -27,12 +27,11 @@ class GameScoreTest {
     }
 
     @Test
-    void 동점이면_승자를_결정할_수_없다() {
+    void 동점인_점수는_승자를_결정할_때_예외를_던진다() {
         // given
         GameScore gameScore = new GameScore(new Score(13), new Score(13));
 
         // when & then
-        //assertThatThrownBy(gameScore::winner)
         assertThatThrownBy(gameScore::winner)
                 .isInstanceOf(InvalidGameResultException.class)
                 .hasMessage(GameErrorMessage.GAME_SCORE_CANNOT_BE_TIED.message());

@@ -118,7 +118,7 @@ class JanggiGameTest {
     }
 
     @Test
-    void 게임이_종료되면_추가_이동을_진행할_수_없다() {
+    void 게임이_종료된_후_추가_이동하면_예외를_던진다() {
         // given
         Position departure = new Position(7, 4);
         Position destination = new Position(8, 4);
