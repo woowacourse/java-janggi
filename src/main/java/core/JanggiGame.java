@@ -35,8 +35,8 @@ public class JanggiGame {
         return board;
     }
 
-    public boolean isPlaying() {
-        return status.isPlaying();
+    public boolean isOver() {
+        return status.isOver();
     }
 
     public Side getTurnSide() {
@@ -60,7 +60,7 @@ public class JanggiGame {
     }
 
     public GameStatus getResult() {
-        if (!status.isPlaying()) {
+        if (!status.isOver()) {
             throw new IllegalArgumentException("게임이 종료되지 않아 승리 진영을 조회할 수 없습니다.");
         }
         return status;
@@ -71,7 +71,7 @@ public class JanggiGame {
     }
 
     public JanggiGame endByScore() {
-        if (this.status.isPlaying()) {
+        if (status.isOver()) {
             throw new IllegalArgumentException("이미 종료된 게임입니다.");
         }
 
@@ -95,10 +95,10 @@ public class JanggiGame {
     }
 
     private void validateMoveRequest(final Position departure, final Position destination) {
-        if (status.isPlaying()) {
+        if (status.isOver()) {
             throw new IllegalArgumentException("게임이 종료되어 더 이상 말을 이동시킬 수 없습니다.");
         }
-        board.validatePositions(departure, destination, turn);
+        board.validatePositions(departure, turn);
     }
 
     private JanggiGame nextTurn(final Board updatedBoard) {

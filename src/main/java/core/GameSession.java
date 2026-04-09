@@ -19,7 +19,7 @@ public class GameSession {
     }
 
     public boolean isPlaying() {
-        return game.isPlaying();
+        return game.isOver();
     }
 
     public void printResult() {
