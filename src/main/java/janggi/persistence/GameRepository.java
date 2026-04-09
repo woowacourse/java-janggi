@@ -8,13 +8,9 @@ import java.util.List;
 
 public interface GameRepository {
 
-    List<GameSessionDTO> findAllActiveGames(Connection connection) throws SQLException;
+    List<GameSessionDTO> findAllGameStatusByFinishedFalse(Connection connection) throws SQLException;
 
-    long insertGame(Connection connection, GameManager gameManager) throws SQLException;
+    long save(Connection connection, GameManager gameManager) throws SQLException;
 
-    GameSessionDTO findByGameId(Connection connection, long gameId) throws SQLException;
-
-    void updateTurn(Connection connection, long gameId, GameManager gameManager) throws SQLException;
-
-    void updateIsFinished(Connection connection, long gameId, boolean finished) throws SQLException;
+    GameManager findByGameId(Connection connection, long gameId) throws SQLException;
 }

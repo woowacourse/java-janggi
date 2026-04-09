@@ -1,8 +1,15 @@
 package janggi.persistence;
 
+import janggi.domain.board.Board;
+import janggi.domain.board.Position;
 import janggi.domain.game.GameManager;
+import janggi.domain.game.Players;
 import janggi.domain.game.Side;
+import janggi.domain.game.Turn;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.dto.GameSessionDTO;
+import janggi.dto.PiecePositionSnapshot;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,13 +17,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class JanggiGameRepository implements GameRepository {
 
     @Override
-    public List<GameSessionDTO> findAllActiveGames(Connection connection) throws SQLException {
+    public List<GameSessionDTO> findAllGameStatusByFinishedFalse(Connection connection) throws SQLException {
         String sql = "select game_id, cho_player_name, han_player_name, current_turn, created_at " +
                 "from game where is_finished = false order by created_at desc";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -49,7 +57,21 @@ public class JanggiGameRepository implements GameRepository {
     }
 
     @Override
-    public long insertGame(Connection connection, GameManager gameManager) throws SQLException {
+    public long save(Connection connection, GameManager gameManager) throws SQLException {
+        long gameId = saveGame(connection, gameManager);
+        saveBoard(connection, gameId, gameManager.getBoard());
+        return gameId;
+    }
+
+    private long saveGame(Connection connection, GameManager gameManager) throws SQLException {
+//        if (gameManager.getId() == null) {
+//            return insertGame(connection, gameManager);
+//        }
+//        return updateGame(connection, gameManager);
+        return insertGame(connection, gameManager);
+    }
+
+    private long insertGame(Connection connection, GameManager gameManager) throws SQLException {
         String sql = "insert into game (cho_player_name, han_player_name, current_turn) VALUES (?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             return executeInsertAndGetId(statement, gameManager);
@@ -85,7 +107,13 @@ public class JanggiGameRepository implements GameRepository {
     }
 
     @Override
-    public GameSessionDTO findByGameId(Connection connection, long gameId) throws SQLException {
+    public GameManager findByGameId(Connection connection, long gameId) throws SQLException {
+        GameSessionDTO gameInfo = findGameInfoById(connection, gameId);
+        Board board = findAllPieceByGameId(connection, gameId);
+        return generateGameManager(gameInfo, board);
+    }
+
+    private GameSessionDTO findGameInfoById(Connection connection, long gameId) throws SQLException {
         String sql = "select game_id, cho_player_name, han_player_name, current_turn, created_at from game where game_id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             return executeFindById(statement, gameId);
@@ -96,28 +124,116 @@ public class JanggiGameRepository implements GameRepository {
         statement.setLong(1, gameId);
         try (ResultSet resultSet = statement.executeQuery()) {
             resultSet.next();
-            return mapToSingleSession(resultSet);
+            return mapToGameSessionDTO(resultSet);
         }
     }
 
-    @Override
-    public void updateTurn(Connection connection, long gameId, GameManager gameManager) throws SQLException {
-        String sql = "update game set current_turn = ? where game_id = ?";
+    private GameSessionDTO mapToGameSessionDTO(ResultSet resultSet) throws SQLException {
+        long gameId = resultSet.getLong("game_id");
+        String choPlayerName = resultSet.getString("cho_player_name");
+        String hanPlayerName = resultSet.getString("han_player_name");
+        String currentTurnName = resultSet.getString("current_turn");
+        LocalDateTime createdAt = resultSet.getObject("created_at", LocalDateTime.class);
+        return new GameSessionDTO(gameId, choPlayerName, hanPlayerName, currentTurnName, createdAt);
+    }
+
+    public Board findAllPieceByGameId(Connection connection, long gameId) throws SQLException {
+        String sql = "select side, piece_type, piece_number, row_index, column_index from board where game_id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, gameManager.getCurrentSide().name());
-            statement.setLong(2, gameId);
-            executeAndValidateUpdate(statement);
+            return executeFindAllById(statement, gameId);
         }
     }
 
-    @Override
-    public void updateIsFinished(Connection connection, long gameId, boolean finished) throws SQLException {
-        String sql = "update game set is_finished = ? where game_id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setBoolean(1, finished);
-            statement.setLong(2, gameId);
-            executeAndValidateUpdate(statement);
+    private Board executeFindAllById(PreparedStatement statement, long gameId) throws SQLException {
+        statement.setLong(1, gameId);
+        try (ResultSet resultSet = statement.executeQuery()) {
+            return mapToBoard(resultSet);
         }
+    }
+
+    private Board mapToBoard(ResultSet resultSet) throws SQLException {
+        Map<Position, Piece> board = new HashMap<>();
+        while (resultSet.next()) {
+            mapToSinglePiecePosition(resultSet, board);
+        }
+        return new Board(board);
+    }
+
+    private void mapToSinglePiecePosition(ResultSet resultSet, Map<Position, Piece> board) throws SQLException {
+        Side side = Side.valueOf(resultSet.getString("side"));
+        PieceType pieceType = PieceType.valueOf(resultSet.getString("piece_type"));
+        String pieceNumber = resultSet.getString("piece_number");
+        Piece piece = new Piece(side, pieceType, pieceNumber);
+
+        int rowIndex = resultSet.getInt("row_index");
+        int columnIndex = resultSet.getInt("column_index");
+        Position position = new Position(rowIndex, columnIndex);
+        board.put(position, piece);
+    }
+
+    private GameManager generateGameManager(GameSessionDTO gameInfo, Board board) {
+        Players players = Players.from(gameInfo.choPlayerName(), gameInfo.hanPlayerName());
+        Turn currentTurn = new Turn(Side.valueOf(gameInfo.currentTurn()));
+        return new GameManager(players, board, currentTurn);
+    }
+
+    public void saveBoard(Connection connection, long gameId, Board board)
+            throws SQLException {
+        deleteAllPiecesByGameId(connection, gameId);
+        insertAllPiecesByGameId(connection, gameId, board);
+    }
+
+    private void deleteAllPiecesByGameId(Connection connection, long gameId) throws SQLException {
+        String sql = "delete from board where game_id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setLong(1, gameId);
+            statement.executeUpdate();
+        }
+    }
+
+    private void insertAllPiecesByGameId(Connection connection, long gameId, Board board) throws SQLException {
+        String sql = "insert into board (game_id, side, piece_type, piece_number, row_index, column_index) values (?, ?, ?, ?, ?, ?)";
+        List<PiecePositionSnapshot> snapshots = mapToSnapshots(board.piecePosition());
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            executeBatchInsert(statement, gameId, snapshots);
+        }
+    }
+
+    private List<PiecePositionSnapshot> mapToSnapshots(Map<Position, Piece> piecePosition) {
+        return piecePosition.entrySet().stream()
+                .map(this::createSnapshot)
+                .toList();
+    }
+
+    private PiecePositionSnapshot createSnapshot(Map.Entry<Position, Piece> entry) {
+        Position position = entry.getKey();
+        Piece piece = entry.getValue();
+        return new PiecePositionSnapshot(
+                piece.side().name(),
+                piece.type().name(),
+                piece.pieceNumber(),
+                position.row(),
+                position.column()
+        );
+    }
+
+    private void executeBatchInsert(PreparedStatement statement, long gameId, List<PiecePositionSnapshot> snapshots)
+            throws SQLException {
+        for (PiecePositionSnapshot snapshot : snapshots) {
+            bindPieceParameters(statement, gameId, snapshot);
+            statement.addBatch();
+        }
+        statement.executeBatch();
+    }
+
+    private void bindPieceParameters(PreparedStatement statement, long gameId, PiecePositionSnapshot snapshot)
+            throws SQLException {
+        statement.setLong(1, gameId);
+        statement.setString(2, snapshot.side());
+        statement.setString(3, snapshot.pieceType());
+        statement.setString(4, snapshot.pieceNumber());
+        statement.setInt(5, snapshot.rowIndex());
+        statement.setInt(6, snapshot.columnIndex());
     }
 
     private void executeAndValidateUpdate(PreparedStatement statement) throws SQLException {

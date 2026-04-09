@@ -24,13 +24,11 @@ public class JanggiService {
     }
 
     public List<GameSessionDTO> activeGames(Connection connection) throws SQLException {
-        return gameRepository.findAllActiveGames(connection);
+        return gameRepository.findAllGameStatusByFinishedFalse(connection);
     }
 
     public ActiveGameSession loadGameSession(Connection connection, long gameId) throws SQLException {
-        GameSessionDTO gameSession = gameRepository.findByGameId(connection, gameId);
-        Board board = boardRepository.findAllByGameId(connection, gameId);
-        GameManager gameManager = generateGameManagerByLoadedData(gameSession, board);
+        GameManager gameManager = gameRepository.findByGameId(connection, gameId);
         return new ActiveGameSession(gameId, gameManager);
     }
 
@@ -64,15 +62,16 @@ public class JanggiService {
         Players players = Players.from(choName, hanName);
         Board board = Board.initialize();
         GameManager newGameManager = new GameManager(players, board, Turn.init());
-        long newGameId = gameRepository.insertGame(connection, newGameManager);
-        boardRepository.insertBoard(connection, newGameId, board);
+        long newGameId = gameRepository.save(connection, newGameManager);
+        System.out.println("newGameId " + newGameId);
         return new ActiveGameSession(newGameId, newGameManager);
     }
 
     public void saveGameState(Connection connection, long gameId, GameManager gameManager) throws SQLException {
         connection.setAutoCommit(false);
         try {
-            updateAndCommitGameState(connection, gameId, gameManager);
+            gameRepository.save(connection, gameManager);
+            connection.commit();
         } catch (SQLException exception) {
             rollbackAndThrow(connection, exception);
         } finally {
@@ -80,19 +79,8 @@ public class JanggiService {
         }
     }
 
-    private void updateAndCommitGameState(Connection connection, long gameId, GameManager gameManager)
-            throws SQLException {
-        gameRepository.updateTurn(connection, gameId, gameManager);
-        boardRepository.updateBoard(connection, gameId, gameManager.getBoard());
-        connection.commit();
-    }
-
     private <T> T rollbackAndThrow(Connection connection, SQLException exception) throws SQLException {
         connection.rollback();
         throw exception;
-    }
-
-    public void saveFinished(Connection connection, long gameId, boolean finished) throws SQLException {
-        gameRepository.updateIsFinished(connection, gameId, finished);
     }
 }

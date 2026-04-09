@@ -40,7 +40,7 @@ public class Runner {
             session = processTurn(connection, session);
         }
         if (session.gameManager().isFinished()) {
-            janggiService.saveFinished(connection, session.gameId(), session.gameManager().isFinished());
+            janggiService.saveGameState(connection, session.gameId(), session.gameManager());
         }
     }
 

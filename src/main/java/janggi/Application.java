@@ -31,6 +31,7 @@ public class Application {
             runner.run(connection, session.gameId());
         } catch (SQLException error) {
             outputView.printLine("[ERROR] 게임 진행 중 DB 정보 조회에 실패했습니다." + "\n" + error.getMessage());
+            error.printStackTrace();
         }
     }
 }

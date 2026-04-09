@@ -40,7 +40,7 @@ class JanggiGameRepositoryTest {
     void insertGame() throws SQLException {
         GameManager manager = createInitialGameManager();
 
-        long gameId = repository.insertGame(connection, manager);
+        long gameId = repository.saveGame(connection, manager);
 
         verifyGameInserted(gameId, "CHO", false);
     }
