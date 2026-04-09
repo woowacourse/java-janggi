@@ -24,12 +24,14 @@ CREATE TABLE IF NOT EXISTS piece
 
 CREATE TABLE IF NOT EXISTS movement
 (
-    id             BIGINT NOT NULL AUTO_INCREMENT,
-    janggi_game_id BIGINT NOT NULL,
-    src_row_pos    INT    NOT NULL,
-    src_col_pos    INT    NOT NULL,
-    dest_row_pos   INT    NOT NULL,
-    dest_col_pos   INT    NOT NULL,
+    id             BIGINT      NOT NULL AUTO_INCREMENT,
+    janggi_game_id BIGINT      NOT NULL,
+    src_row_pos    INT         NOT NULL,
+    src_col_pos    INT         NOT NULL,
+    dest_row_pos   INT         NOT NULL,
+    dest_col_pos   INT         NOT NULL,
+    dest_team      VARCHAR(8)  NULL,
+    dest_type      VARCHAR(16) NULL,
 
     PRIMARY KEY (id),
     CONSTRAINT fk_movement_game

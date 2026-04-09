@@ -56,17 +56,15 @@ public class JanggiService {
 
     public void movePiece(Long gameId, Position from, Position to) {
         Game game = findGame(gameId);
+        PieceEntity capturedPiece = findCapturedPiece(game, to);
         GameState gameState = game.movePiece(from, to);
 
         DatabaseManager.withTransaction(connection -> {
             pieceRepository.update(connection, gameId, from, to);
             gameRepository.update(connection, gameId, GameEntity.toEntity(game.currentDynasty(), gameState));
+            movementRepository.save(gameId, from, to, capturedPiece);
             return null;
         });
-    }
-
-    public void saveMovement(Long gameId, Position from, Position to) {
-        movementRepository.save(gameId, from, to);
     }
 
     public List<Long> findPlayableGameIds() {
@@ -95,6 +93,14 @@ public class JanggiService {
         GameEntity gameEntity = gameRepository.findById(gameId)
                 .orElseThrow(() -> new IllegalArgumentException(String.format("gameId가 %s인 게임이 존재하지 않습니다.", gameId)));
         return GameState.valueOf(gameEntity.gameState()).winner();
+    }
+
+    private PieceEntity findCapturedPiece(Game game, Position to) {
+        return game.pieces().entrySet().stream()
+                .filter(entry -> entry.getKey().equals(to))
+                .findFirst()
+                .map(entry -> PieceEntity.toEntity(entry.getKey(), entry.getValue()))
+                .orElse(null);
     }
 
 }

@@ -68,8 +68,6 @@ public class JanggiController {
     private void moveProcess(Long gameId) {
         Position from = readSourcePositionUntilValid(gameId);
         Position to = readDestinationPositionUntilValid(gameId, from);
-
-        janggiService.saveMovement(gameId, from, to);
         printBoard(gameId);
     }
 

@@ -7,13 +7,13 @@ import janggi.config.TestConfig;
 import janggi.domain.board.HorseElephantPosition;
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.game.Game;
+import janggi.domain.game.GameState;
 import janggi.domain.position.Position;
+import janggi.entity.GameEntity;
+import janggi.entity.PieceEntity;
 import janggi.repository.game.FakeGameRepository;
-import janggi.repository.game.GameRepository;
 import janggi.repository.movement.FakeMovementRepository;
-import janggi.repository.movement.MovementRepository;
 import janggi.repository.piece.FakePieceRepository;
-import janggi.repository.piece.PieceRepository;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -23,9 +23,9 @@ import org.junit.jupiter.api.Test;
 
 class JanggiServiceTest {
 
-    private GameRepository gameRepository;
-    private PieceRepository pieceRepository;
-    private MovementRepository movementRepository;
+    private FakeGameRepository gameRepository;
+    private FakePieceRepository pieceRepository;
+    private FakeMovementRepository movementRepository;
     private JanggiService janggiService;
 
     @BeforeAll
@@ -80,6 +80,53 @@ class JanggiServiceTest {
         assertThat(game.pieces()).doesNotContainKey(from);
         assertThat(game.pieces()).containsKey(to);
     }
+
+    @Test
+    void 기물을_이동하면_이동_기록이_저장된다_도착지에_기물이_없는_경우() {
+        // given
+        Long gameId = janggiService.makeGame(defaultHorseElephantPositions());
+        Position from = Position.from(1, 1);
+        Position to = Position.from(2, 1);
+
+        // when
+        janggiService.movePiece(gameId, from, to);
+
+        // then
+        assertThat(movementRepository.findAllByGameId(gameId)).hasSize(1);
+        FakeMovementRepository.Movement movement = movementRepository.findAllByGameId(gameId).getFirst();
+
+        assertThat(movement.from()).isEqualTo(from);
+        assertThat(movement.to()).isEqualTo(to);
+        assertThat(movement.destTeam()).isNull();
+        assertThat(movement.destType()).isNull();
+    }
+
+    @Test
+    void 기물을_잡으면_이동_기록에_잡힌_기물_정보가_저장된다() {
+        // given
+        Long gameId = gameRepository.save(null, GameEntity.toEntity(Dynasty.CHO, GameState.PLAYING));
+        pieceRepository.saveAll(null, gameId, List.of(
+                PieceEntity.toEntity(1, 1, "CHO", "CHARIOT"),
+                PieceEntity.toEntity(1, 2, "HAN", "SOLDIER")
+        ));
+
+        Position from = Position.from(1, 1);
+        Position to = Position.from(1, 2);
+
+        // when
+        janggiService.movePiece(gameId, from, to);
+
+        // then
+        assertThat(movementRepository.findAllByGameId(gameId)).hasSize(1);
+
+        FakeMovementRepository.Movement movement = movementRepository.findAllByGameId(gameId).getFirst();
+
+        assertThat(movement.from()).isEqualTo(from);
+        assertThat(movement.to()).isEqualTo(to);
+        assertThat(movement.destTeam()).isEqualTo("HAN");
+        assertThat(movement.destType()).isEqualTo("SOLDIER");
+    }
+
 
     @Test
     void 진행중인_게임_id들을_조회할_수_있다() {
