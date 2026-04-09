@@ -4,6 +4,7 @@ import database.GameRepository;
 import database.entity.GameEntity;
 import domain.board.Board;
 import domain.board.BoardFactory;
+import domain.game.Score;
 import domain.game.Team;
 import domain.game.Turn;
 import domain.piece.Piece;
@@ -25,8 +26,7 @@ public class JanggiController {
         this.outputView = outputView;
         this.gameRepository = gameRepository;
     }
-
-    //try-catch문 이동하기
+    
     public void run() {
         GameState state = initializeGame();
         Board board = state.board();
@@ -39,10 +39,10 @@ public class JanggiController {
             turn = playTurn(board, turn, gameId);
         }
 
-        board.calculateScore();
+        Map<Team, Score> scores = board.calculateScore();
         outputView.printWinner(board.decideWinner());
-        outputView.printScore(Team.CHO);
-        outputView.printScore(Team.HAN);
+        outputView.printScore(Team.CHO, scores.get(Team.CHO));
+        outputView.printScore(Team.HAN, scores.get(Team.HAN));
         gameRepository.deleteGame(gameId);
     }
 

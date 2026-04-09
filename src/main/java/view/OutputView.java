@@ -45,9 +45,8 @@ public class OutputView {
         sb.append(System.lineSeparator());
     }
 
-    public void printScore(Team team) {
-        Score teamScore = team.getTeamScore();
-        System.out.println(TEAM_NAMES.get(team) + "의 점수는 " + teamScore.toString() + "점 입니다");
+    public void printScore(Team team, Score score) {
+        System.out.println(TEAM_NAMES.get(team) + "의 점수는 " + score.toString() + "점 입니다");
     }
 
     private void appendRow(StringBuilder sb, Map<Position, Piece> boardState, int row) {

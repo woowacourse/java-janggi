@@ -22,13 +22,8 @@ public abstract class Piece {
         return team.equals(Team.CHO);
     }
 
-    public void addScore() {
-        Score pieceScore = this.type.getScore();
-        if (this.team == Team.CHO) {
-            Team.CHO.addScore(pieceScore);
-        } else if (this.team == Team.HAN) {
-            Team.HAN.addScore(pieceScore);
-        }
+    public Score getScore() {
+        return this.type.getScore();
     }
 
     public void validateSameTurnAndPiece(Team currentTeam) {
@@ -36,7 +31,6 @@ public abstract class Piece {
             throw new IllegalArgumentException("현재 차례의 기물만 이동할 수 있습니다.");
         }
     }
-
 
     private boolean isSameTeam(Piece other) {
         return this.team == other.team;

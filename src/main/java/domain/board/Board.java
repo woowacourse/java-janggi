@@ -1,10 +1,12 @@
 package domain.board;
 
+import domain.game.Score;
 import domain.game.Team;
 import domain.piece.CannonRule;
 import domain.piece.Piece;
 import domain.position.Position;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,12 +90,15 @@ public class Board {
         return generalCount == 2;
     }
 
-    public void calculateScore() {
-        Team.CHO.resetScore();
-        Team.HAN.resetScore();
-        for (Piece piece : pieces.values()) {
-            piece.addScore();
+    public Map<Team, Score> calculateScore() {
+        Map<Team, Score> scores = new EnumMap<>(Team.class);
+        for (Team team : Team.values()) {
+            scores.put(team, team.getInitialScore());
         }
+        for (Piece piece : pieces.values()) {
+            scores.merge(piece.getTeam(), piece.getScore(), Score::add);
+        }
+        return scores;
     }
 
     public boolean decideWinner() {
