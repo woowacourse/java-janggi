@@ -98,7 +98,7 @@
 ---
 
 ### 3. Repository 구현
-- [ ] GameStateRepository 인터페이스 구현
+- [x] GameStateRepository 인터페이스 구현
    - 게임 상태 저장 기능
    - 저장된 게임 상태 조회 기능
 - [ ] InMemoryGameStateRepository 구현
