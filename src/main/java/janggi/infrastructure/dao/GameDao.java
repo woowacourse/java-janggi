@@ -11,7 +11,7 @@ import java.util.List;
 public class GameDao {
 
     public void saveGameList(Connection connection, long gameId, String turn) throws SQLException {
-        String sql = "MERGE INTO GAME_LIST (GAME_ID, CURRENT_TURN) KEY (GAME_ID) VALUES (?, ?)";
+        String sql = "MERGE INTO game_list (game_id, current_turn) KEY (game_id) VALUES (?, ?)";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setLong(1, gameId);
             pstmt.setString(2, turn);
@@ -20,7 +20,7 @@ public class GameDao {
     }
 
     public void deletePieceByGameId(Connection connection, long gameId) throws SQLException {
-        String sql = "DELETE FROM PIECE WHERE GAME_ID = ?";
+        String sql = "DELETE FROM piece WHERE game_id = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setLong(1, gameId);
             pstmt.executeUpdate();
@@ -28,7 +28,7 @@ public class GameDao {
     }
 
     public void insertPieces(Connection connection, long gameId, PieceDto dto) throws SQLException {
-        String sql = "INSERT INTO PIECE (GAME_ID, X, Y, PIECE_TYPE, TEAM) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO piece (game_id, x, y, piece_type, team) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setLong(1, gameId);
             pstmt.setInt(2, dto.x());
@@ -40,7 +40,7 @@ public class GameDao {
     }
 
     public List<Long> findAllGameIds(Connection connection) throws SQLException {
-        String sql = "SELECT GAME_ID FROM GAME_LIST";
+        String sql = "SELECT game_id FROM game_list";
         List<Long> gameIds = new ArrayList<>();
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql);
