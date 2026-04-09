@@ -50,6 +50,13 @@ public class JanggiGame {
         return gameStatus.description();
     }
 
+    public int currentPlayerPiecesPointSum() {
+        if(gameStatus.equals(GameStatus.GREEN_PLAYER_TURN)) {
+            return board.greenTeamPointSum();
+        }
+        return board.redTeamPointSum();
+    }
+
     public List<PieceInfo> allFactors() {
         return board.allFactors().stream()
                 .map(PieceInfo::from)

@@ -76,6 +76,14 @@ public class Board {
                 .toList();
     }
 
+    public int greenTeamPointSum() {
+        return board.values().stream().filter(Piece::isGreenTeam).map(Piece::point).reduce(0, Integer::sum);
+    }
+
+    public int redTeamPointSum() {
+        return board.values().stream().filter(Piece::isRedTeam).map(Piece::point).reduce(0, Integer::sum);
+    }
+
     public List<Piece> allPieces() {
         return board.values().stream()
                 .filter(piece -> !piece.isNone())
