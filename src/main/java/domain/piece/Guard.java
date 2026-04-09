@@ -1,11 +1,11 @@
 package domain.piece;
 
-import domain.coordinate.Direction;
 import domain.coordinate.Path;
 import domain.coordinate.Position;
 import domain.Side;
 import domain.rule.Rule;
 import domain.rule.StepRule;
+import domain.strategy.PalaceStrategy;
 import domain.strategy.StepStrategy;
 import domain.strategy.Strategy;
 
@@ -14,10 +14,7 @@ import java.util.Map;
 
 public final class Guard extends Piece {
 
-    private static final List<Direction> DIRECTIONS = List.of(
-            Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT);
-
-    private final Strategy strategy = new StepStrategy(DIRECTIONS);
+    private final Strategy strategy = new PalaceStrategy(new StepStrategy());
     private final Rule rule = new StepRule();
 
     public Guard(Side side) {
@@ -41,7 +38,7 @@ public final class Guard extends Piece {
 
     @Override
     public List<Position> getPossibleMoves(Position start, Pieces pieces) {
-        List<Path> paths = strategy.getPaths(start);
+        List<Path> paths = strategy.getPaths(start, pieces.getTopology());
         Map<Position, Piece> pathPieces = pieces.collectPieces(paths);
         return rule.getPossiblePositions(getSide(), pathPieces, paths);
     }
