@@ -7,7 +7,7 @@ import database.dao.IntersectionDao;
 import database.dto.BoardSummaryDto;
 import database.dto.GameResult;
 import database.mapper.JanggiBoardMapper;
-import domain.board.DBIntersectionGenerator;
+import domain.board.generator.DBIntersectionGenerator;
 import domain.board.JanggiBoard;
 import database.dto.Moved;
 import domain.board.exception.BoardException;

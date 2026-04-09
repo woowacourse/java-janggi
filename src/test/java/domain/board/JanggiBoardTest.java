@@ -1,5 +1,6 @@
 package domain.board;
 
+import domain.board.generator.JanggiIntersectionGenerator;
 import domain.intersection.exception.IntersectionException;
 import domain.intersection.palace.NormalIntersection;
 import fixture.JanggiBoardFixture;

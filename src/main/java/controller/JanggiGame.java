@@ -7,7 +7,7 @@ import database.dto.GameResult;
 import domain.command.BoardSelectCommand;
 import domain.board.Formation;
 import domain.board.JanggiBoard;
-import domain.board.JanggiIntersectionGenerator;
+import domain.board.generator.JanggiIntersectionGenerator;
 import view.dto.JanggiBoardDto;
 import database.dto.Moved;
 import domain.piece.Team;

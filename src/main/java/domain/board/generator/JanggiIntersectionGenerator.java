@@ -1,5 +1,6 @@
-package domain.board;
+package domain.board.generator;
 
+import domain.board.Formation;
 import domain.intersection.Intersection;
 import domain.intersection.palace.*;
 import domain.piece.*;
