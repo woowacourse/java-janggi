@@ -1,26 +1,14 @@
 package janggi.config;
 
 import janggi.controller.JanggiController;
-import janggi.dao.game.GameDao;
-import janggi.dao.game.JdbcGameDao;
-import janggi.dao.piece.JdbcPieceDao;
-import janggi.dao.piece.PieceDao;
-import janggi.infra.ConnectionProvider;
-import janggi.infra.DbProperties;
-import janggi.infra.transaction.TransactionExecutor;
-import janggi.infra.transaction.TransactionExecutorImpl;
+import janggi.infra.PersistenceConfig;
 import janggi.service.JanggiService;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 
 public class AppConfig {
 
-    private final DbProperties dbProperties;
-    private ConnectionProvider connectionProvider;
-    private TransactionExecutor transactionExecutor;
-
-    private GameDao gameDao;
-    private PieceDao pieceDao;
+    private final PersistenceConfig persistenceConfig;
 
     private JanggiService janggiService;
 
@@ -29,48 +17,16 @@ public class AppConfig {
 
     private JanggiController janggiController;
 
-    public AppConfig(DbProperties dbProperties) {
-        this.dbProperties = dbProperties;
-    }
-
-    public ConnectionProvider connectionProvider() {
-        if (connectionProvider == null) {
-            connectionProvider = new ConnectionProvider(dbProperties);
-        }
-
-        return connectionProvider;
-    }
-
-    public TransactionExecutor transactionExecutor() {
-        if (transactionExecutor == null) {
-            transactionExecutor = new TransactionExecutorImpl(connectionProvider());
-        }
-
-        return transactionExecutor;
-    }
-
-    public GameDao gameDao() {
-        if (gameDao == null) {
-            gameDao = new JdbcGameDao();
-        }
-
-        return gameDao;
-    }
-
-    public PieceDao pieceDao() {
-        if (pieceDao == null) {
-            pieceDao = new JdbcPieceDao();
-        }
-
-        return pieceDao;
+    public AppConfig(PersistenceConfig persistenceConfig) {
+        this.persistenceConfig = persistenceConfig;
     }
 
     public JanggiService janggiService() {
         if (janggiService == null) {
             janggiService = new JanggiService(
-                    gameDao(),
-                    pieceDao(),
-                    transactionExecutor()
+                    persistenceConfig.gameDao(),
+                    persistenceConfig.pieceDao(),
+                    persistenceConfig.transactionExecutor()
             );
         }
 

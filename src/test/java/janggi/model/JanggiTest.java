@@ -15,12 +15,12 @@ class JanggiTest {
     @Test
     void continueFrom() {
         assertThat(Janggi.continueFrom(
-                new ChoTurn(PlayingBoard.of(Map.of()))
+                        new ChoTurn(PlayingBoard.of(Map.of()))
                 ).getCurrentTeam()
         ).isEqualTo(Team.HAN);
 
         assertThat(Janggi.continueFrom(
-                new HanTurn(PlayingBoard.of(Map.of()))
+                        new HanTurn(PlayingBoard.of(Map.of()))
                 ).getCurrentTeam()
         ).isEqualTo(Team.CHO);
     }

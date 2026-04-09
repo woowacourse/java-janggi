@@ -99,6 +99,4 @@ class MaTest {
         assertThat(ma.isSameTeam(Team.CHO)).isTrue();
         assertThat(ma.isSameTeam(Team.HAN)).isFalse();
     }
-
-
 }

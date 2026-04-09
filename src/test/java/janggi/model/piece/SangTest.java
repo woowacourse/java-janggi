@@ -83,6 +83,4 @@ class SangTest {
         assertThat(sang.canPassThrough(gimulsOnPath, gimulAtTo))
                 .isFalse();
     }
-
-
 }
