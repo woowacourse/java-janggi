@@ -1,9 +1,10 @@
 package controller;
 
 import domain.Position;
-import dto.SelectLoadGameRequest;
+import dto.SelectResumeOptionRequest;
 import dto.SelectPositionRequest;
 import exception.JanggiGameException;
+import java.util.function.Supplier;
 import service.JanggiCommandService;
 import service.JanggiQueryService;
 import view.InputView;
@@ -21,32 +22,44 @@ public class JanggiController {
         this.queryService = queryService;
     }
 
-    public void runGame() {
-        boolean selectLoadGame = false;
-
-        if(queryService.hasUnfinishedGameId()) {
-            SelectLoadGameRequest request = InputView.selectLoadUnfinishedGame();
-            selectLoadGame = request.select();
-        }
-
-        if(selectLoadGame) {
-            currentGameId = queryService.findLatestUnfinishedGameId();
-            OutputView.printResult(queryService.gameStatus(currentGameId));
-
-            run();
+    public void run() {
+        if(executeWithReturn(this::isPlayerWantPlayingUnfinishedGame)) {
+            runSavedGame();
             return;
         }
-
-        runSetupGamePhase();
-        run();
+        runNewGame();
     }
 
-    public void run() {
+    private void runSavedGame() {
+        execute(this::setupSavedGameId);
+        runGame();
+    }
+
+    private void setupSavedGameId() {
+        long gameId = InputView.selectSavedGameId(queryService.findUnfinishedGameInfos());
+        queryService.isInProgress(gameId);
+        currentGameId = gameId;
+    }
+
+    private boolean isPlayerWantPlayingUnfinishedGame() {
+        if(queryService.hasUnfinishedGameId()) {
+            SelectResumeOptionRequest request = InputView.selectLoadGameOrNewGame();
+            return request.select();
+        }
+        return false;
+    }
+
+    private void runNewGame() {
+        setupNewGameId();
+        runGame();
+    }
+
+    private void runGame() {
         runPlayingPhase();
         runResultPhase();
     }
 
-    private void runSetupGamePhase() {
+    private void setupNewGameId() {
         currentGameId = commandService.setupGame();
     }
 
@@ -92,6 +105,19 @@ public class JanggiController {
                 task.execute();
                 OutputView.printTaskDivider();
                 return;
+            } catch (JanggiGameException e) {
+                OutputView.printError(e.getMessage());
+                OutputView.printTaskDivider();
+            }
+        }
+    }
+
+    private <T> T executeWithReturn(Supplier<T> task) {
+        while (true) {
+            try {
+                T result = task.get(); // task 실행 후 결과값 받기
+                OutputView.printTaskDivider();
+                return result;         // 결과값 반환
             } catch (JanggiGameException e) {
                 OutputView.printError(e.getMessage());
                 OutputView.printTaskDivider();

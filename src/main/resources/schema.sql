@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS game_state (
     game_id     BIGINT      NOT NULL PRIMARY KEY,
     status      VARCHAR(50) NOT NULL,
     is_finished BOOLEAN     NOT NULL DEFAULT FALSE,
+    last_played_at DATETIME NOT NULL DEFAULT NOW(),
     FOREIGN KEY (game_id) REFERENCES game (id)
 );
 

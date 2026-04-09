@@ -1,6 +1,8 @@
 package repository;
 
 import domain.JanggiGame;
+import dto.UnfinishedGameInfo;
+import java.util.List;
 import java.util.Optional;
 
 public interface JanggiRepository {
@@ -15,6 +17,7 @@ public interface JanggiRepository {
 
     Optional<Long> findLatestUnfinishedGameId();
 
+    List<UnfinishedGameInfo> findUnfinishedGameInfos();
 
     // 게임 저장 로직 완성 후 행마 내용 저장은 고민
 
