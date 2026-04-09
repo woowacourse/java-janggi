@@ -130,4 +130,27 @@ public class BoardTest {
         assertThat(movedPiece).isEqualTo("卒");
         assertThat(movedPiece).isNotEqualTo("兵");
     }
+
+    @DisplayName("보드에 장의 개수가 1개가 아니라면 false를 반환한다")
+    @Test
+    void isOnlyGeneralOfCampAlive_IsNumberOfGeneralsNotOne_ReturnFalse() {
+        Board board = Board.initializeToBoard(new ElephantHorseElephantHorse(), new ElephantHorseElephantHorse());
+
+        assertThat(board.isOnlyGeneralOfCampAlive(Camp.CHO)).isFalse();
+    }
+
+    @DisplayName("보드에 살아있는 장이 파라미터와 같은 진영이면 true를 반환한다")
+    @Test
+    void isOnlyGeneralOfCampAlive_IsGeneralSameCamp_ReturnTrue() {
+        Board board = Board.initializeToBoard(new ElephantHorseElephantHorse(), new ElephantHorseElephantHorse());
+        Camp camp = Camp.CHO;
+
+        board.movePiece(Position.of(3, 4), Position.of(4, 4));
+        board.movePiece(Position.of(4, 4), Position.of(5, 4));
+        board.movePiece(Position.of(5, 4), Position.of(6, 4));
+        board.movePiece(Position.of(6, 4), Position.of(7, 4));
+        board.movePiece(Position.of(7, 4), Position.of(8, 4));
+
+        assertThat(board.isOnlyGeneralOfCampAlive(camp)).isTrue();
+    }
 }
