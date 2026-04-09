@@ -28,7 +28,7 @@ public class JanggiController {
 
         while (!board.gameEnd()) {
             try {
-                Position fromPosition = readFromPosition();
+                Position fromPosition = readFromPosition(gameId, board);
                 Position toPosition = readToPosition();
 
                 janggiGameService.move(gameId, board, fromPosition, toPosition);
@@ -77,12 +77,14 @@ public class JanggiController {
         return gameSession;
     }
 
-    private Position readFromPosition() {
+    private Position readFromPosition(Long gameId, Board board) {
         while (true) {
             try {
                 String rawInput = InputView.askFromPosition();
                 List<String> positionValues = InputParser.splitByDelimiter(rawInput);
-                return Position.from(positionValues);
+                Position position = Position.from(positionValues);
+                janggiGameService.validateFrom(gameId, board, position);
+                return position;
             } catch (IllegalArgumentException exception) {
                 System.out.println(exception.getMessage());
             }

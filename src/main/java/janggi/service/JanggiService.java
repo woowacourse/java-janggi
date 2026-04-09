@@ -65,6 +65,13 @@ public class JanggiService {
         return gameDao.findTurnByGameId(gameId);
     }
 
+    public void validateFrom(long gameId, Board board, Position from) {
+        validateGameExists(gameId);
+
+        Team currentTurn = gameDao.findTurnByGameId(gameId);
+        board.validateFromPiece(currentTurn, from);
+    }
+
     public void move(long gameId, Board board, Position from, Position to) {
         validateGameExists(gameId);
 

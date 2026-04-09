@@ -53,12 +53,19 @@ public class Board {
         }
     }
 
-    public void move(Team turn, Position from, Position to) {
+    public void validateFromPiece(Team turn, Position from) {
         Space spaceFrom = piecesInfo.get(from);
         validateBlankSpace(spaceFrom);
 
         Piece selectedPiece = spaceFrom.asPiece();
         validateTurn(turn, selectedPiece);
+    }
+
+    public void move(Team turn, Position from, Position to) {
+        validateFromPiece(turn, from);
+
+        Space spaceFrom = piecesInfo.get(from);
+        Piece selectedPiece = spaceFrom.asPiece();
         validatePieceRule(from, to, selectedPiece);
 
         applyMove(from, to, selectedPiece);
