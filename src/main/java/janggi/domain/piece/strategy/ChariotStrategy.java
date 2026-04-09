@@ -23,7 +23,20 @@ public class ChariotStrategy implements MoveStrategy {
             totalPaths.addAll(collectPathsByDirection(current, direction));
         }
 
+        if (current.isPalaceDiagonal()) {
+            addDiagonalPath(totalPaths, current, Direction.diagonalDirections());
+        }
+
         return Collections.unmodifiableList(totalPaths);
+    }
+
+    private void addDiagonalPath(List<Path> totalPaths, Position current, List<Direction> directions) {
+        for (Direction direction : directions) {
+            List<Path> diagonalPaths = collectPathsByDirection(current, direction).stream()
+                    .filter(Path::isDestinationInsidePalace)
+                    .toList();
+            totalPaths.addAll(diagonalPaths);
+        }
     }
 
     private List<Path> collectPathsByDirection(Position current, Direction direction) {
