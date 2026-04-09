@@ -9,7 +9,7 @@ import java.util.List;
 
 public abstract class DiagonalPalaceMovementPiece extends Piece {
 
-    protected static final String UNRESOLVABLE_PATH_MESSAGE = "이동 경로를 확인할 수 없습니다.";
+    protected static final String INVALID_MOVEMENT_PATH_MESSAGE = "두 좌표 간의 이동이 기물의 이동 규칙에 위배됩니다.";
 
     protected final PalaceMovement palaceMovement;
 
@@ -40,7 +40,7 @@ public abstract class DiagonalPalaceMovementPiece extends Piece {
         if (from.isHorizontal(to)) {
             return from.horizontalPathTo(to);
         }
-        throw new IllegalStateException(UNRESOLVABLE_PATH_MESSAGE);
+        throw new IllegalStateException(INVALID_MOVEMENT_PATH_MESSAGE);
     }
 
     private void validateNormalRule(Coordination from, Coordination to) {
