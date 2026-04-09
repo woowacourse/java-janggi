@@ -25,7 +25,7 @@ class JanggiServiceTest {
     @BeforeEach
     void setUp() throws IOException {
         DataSource dataSource = MemoryDBConnectionUtil.getDataSource();
-        janggiService = new JanggiService(dataSource, new JanggiGameRepository(dataSource));
+        janggiService = new JanggiService(new TransactionTemplate(dataSource), new JanggiGameRepository(dataSource));
         janggiService.clear();
     }
 
