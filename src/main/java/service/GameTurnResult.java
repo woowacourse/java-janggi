@@ -6,8 +6,7 @@ import core.MoveHistory;
 public record GameTurnResult(
     JanggiGame updatedGame,
     boolean undoRequested,
-    MoveHistory moveHistory
-) {
+    MoveHistory moveHistory) {
 
     public static GameTurnResult endByScore(final JanggiGame updatedGame) {
         return new GameTurnResult(updatedGame, false, null);
