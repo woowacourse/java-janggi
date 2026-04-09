@@ -1,12 +1,5 @@
 package dao;
 
-import static common.Constants.MAX_COLUMN;
-import static common.Constants.MAX_ROW;
-import static common.Constants.MIN_COLUMN;
-import static common.Constants.MIN_ROW;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import db.ConfigLoader;
 import db.DbBootstrap;
 import db.DbConnectionFactory;
@@ -17,6 +10,8 @@ import domain.board.Formation;
 import domain.piece.BasicPiece;
 import domain.piece.None;
 import domain.position.Position;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,15 +20,16 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static common.Constants.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class BoardDaoTest {
     private final ConfigLoader configLoader = new ConfigLoader("application-test.properties");
     private final DbConnectionFactory dbConnectionFactory = new DbConnectionFactory(configLoader);
     private final TransactionExecutor transactionExecutor = new TransactionExecutor(dbConnectionFactory);
-    private final JanggiGameDao janggiGameDao = new JanggiGameDao(dbConnectionFactory);
     private final BoardDao boardDao = new BoardDao(dbConnectionFactory, transactionExecutor);
+    private final JanggiGameDao janggiGameDao = new JanggiGameDao(dbConnectionFactory);
 
     @BeforeEach
     void setUp() {

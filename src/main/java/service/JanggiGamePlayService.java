@@ -1,14 +1,14 @@
 package service;
 
-import static domain.player.Team.CHO;
-
 import common.GameStatus;
-import repository.JanggiGameRepository;
 import domain.manager.JanggiGameManager;
+import domain.piece.BasicPiece;
 import domain.player.PlayerProfile;
 import domain.player.Team;
 import domain.position.Position;
-import domain.piece.BasicPiece;
+import repository.JanggiGameRepository;
+
+import static domain.player.Team.CHO;
 
 public class JanggiGamePlayService {
     private final JanggiGameRepository janggiGameRepository;

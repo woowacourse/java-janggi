@@ -1,5 +1,7 @@
 package db;
 
+import org.h2.tools.RunScript;
+
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
@@ -7,13 +9,12 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Objects;
-
-import org.h2.tools.RunScript;
 
 public class DbBootstrap {
     private static final String SCHEMA_PATH = "/db/schema.sql";
-    private static final String[] REQUIRED_TABLES = {"GAME", "BOARD"};
+    private static final List<String> REQUIRED_TABLES = List.of("GAME", "BOARD");
 
     private final DbConnectionFactory connectionFactory;
 

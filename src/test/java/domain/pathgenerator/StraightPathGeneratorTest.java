@@ -1,14 +1,15 @@
 package domain.pathgenerator;
 
-import static domain.TestUtil.createPosition;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import common.exception.JanggiException;
 import domain.position.Path;
 import domain.position.Position;
-import java.util.List;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
+import static domain.TestUtil.createPosition;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class StraightPathGeneratorTest {
 

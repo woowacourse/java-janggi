@@ -6,6 +6,7 @@ import domain.position.Position;
 
 public interface MovablePiece extends BasicPiece {
     Path calculatePath(Position source, Position destination);
+
     boolean validatePath(PathPieces pathPieces);
 }
 

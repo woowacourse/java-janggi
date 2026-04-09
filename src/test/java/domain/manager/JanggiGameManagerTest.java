@@ -1,10 +1,5 @@
 package domain.manager;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import common.exception.JanggiException;
 import domain.board.Board;
 import domain.board.Formation;
@@ -16,9 +11,12 @@ import domain.rule.BigJangDrawRule;
 import domain.rule.DrawGameWinnerRule;
 import domain.rule.GameResultEngine;
 import domain.rule.NormalGameWinnerRule;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class JanggiGameManagerTest {
 
@@ -143,8 +141,8 @@ class JanggiGameManagerTest {
 
     private GameResultEngine createGameResultEngine() {
         return new GameResultEngine(
-            List.of(new BigJangDrawRule()),
-            List.of(new NormalGameWinnerRule(), new DrawGameWinnerRule())
+                List.of(new BigJangDrawRule()),
+                List.of(new NormalGameWinnerRule(), new DrawGameWinnerRule())
         );
     }
 }

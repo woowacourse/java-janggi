@@ -10,6 +10,7 @@ import domain.rule.BigJangDrawRule;
 import domain.rule.DrawGameWinnerRule;
 import domain.rule.GameResultEngine;
 import domain.rule.NormalGameWinnerRule;
+
 import java.util.List;
 
 public class EndedJanggiGameManager extends JanggiGameManager {
@@ -18,14 +19,14 @@ public class EndedJanggiGameManager extends JanggiGameManager {
 
     public EndedJanggiGameManager(Player choPlayer, Player hanPlayer, PlayerProfile winnerProfile) {
         super(
-            choPlayer,
-            hanPlayer,
-            Formation.from(1),
-            Formation.from(1),
-            new GameResultEngine(
-                List.of(new BigJangDrawRule()),
-                List.of(new NormalGameWinnerRule(), new DrawGameWinnerRule())
-            )
+                choPlayer,
+                hanPlayer,
+                Formation.from(1),
+                Formation.from(1),
+                new GameResultEngine(
+                        List.of(new BigJangDrawRule()),
+                        List.of(new NormalGameWinnerRule(), new DrawGameWinnerRule())
+                )
         );
         this.winnerProfile = winnerProfile;
         this.winnerPlayer = winnerProfile.team() == Team.CHO ? choPlayer : hanPlayer;

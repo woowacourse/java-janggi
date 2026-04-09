@@ -1,12 +1,5 @@
 package domain.rule;
 
-import static common.Constants.MAX_COLUMN;
-import static common.Constants.MAX_ROW;
-import static common.Constants.MIN_COLUMN;
-import static common.Constants.MIN_ROW;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import domain.board.Board;
 import domain.piece.BasicPiece;
 import domain.piece.Jang;
@@ -14,9 +7,14 @@ import domain.piece.Jol;
 import domain.piece.None;
 import domain.player.Team;
 import domain.position.Position;
+import org.junit.jupiter.api.Test;
+
 import java.util.HashMap;
 import java.util.Map;
-import org.junit.jupiter.api.Test;
+
+import static common.Constants.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class BigJangDrawRuleTest {
 

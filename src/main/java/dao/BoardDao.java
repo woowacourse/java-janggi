@@ -17,12 +17,9 @@ import java.util.Map;
 import static common.Constants.*;
 
 public class BoardDao {
-    private static final String INSERT_BOARD_SQL =
-            "INSERT INTO board(game_id, row_idx, col_idx, team, piece_type) VALUES(?, ?, ?, ?, ?)";
-    private static final String LOAD_BOARD_SQL =
-            "SELECT row_idx, col_idx, team, piece_type FROM board WHERE game_id = ?";
-    private static final String UPDATE_BOARD_SQL =
-            "UPDATE board SET team = ?, piece_type = ? WHERE game_id = ? AND row_idx = ? AND col_idx = ?";
+    private static final String INSERT_BOARD_SQL = "INSERT INTO board(game_id, row_idx, col_idx, team, piece_type) VALUES(?, ?, ?, ?, ?)";
+    private static final String LOAD_BOARD_SQL = "SELECT row_idx, col_idx, team, piece_type FROM board WHERE game_id = ?";
+    private static final String UPDATE_BOARD_SQL = "UPDATE board SET team = ?, piece_type = ? WHERE game_id = ? AND row_idx = ? AND col_idx = ?";
     private static final String NONE_VALUE = "NONE";
 
     private final DbConnectionFactory dbConnectionFactory;
@@ -60,8 +57,7 @@ public class BoardDao {
 
     public Map<Position, BasicPiece> loadBoard(long gameId) {
         Map<Position, BasicPiece> board = initializeBoard();
-        try (Connection connection = dbConnectionFactory.createConnection();
-             PreparedStatement statement = connection.prepareStatement(LOAD_BOARD_SQL)) {
+        try (Connection connection = dbConnectionFactory.createConnection(); PreparedStatement statement = connection.prepareStatement(LOAD_BOARD_SQL)) {
             statement.setLong(1, gameId);
             loadPiecesFromResultSet(statement.executeQuery(), board);
             return board;
@@ -135,8 +131,7 @@ public class BoardDao {
         if (isNoneValue(teamName) || isNoneValue(pieceTypeName)) {
             return domain.piece.None.getInstance();
         }
-        return domain.piece.PieceType.valueOf(pieceTypeName)
-                .createPiece(domain.player.Team.valueOf(teamName));
+        return domain.piece.PieceType.valueOf(pieceTypeName).createPiece(domain.player.Team.valueOf(teamName));
     }
 
     private boolean isNoneValue(String value) {

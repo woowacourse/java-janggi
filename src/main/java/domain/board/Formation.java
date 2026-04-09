@@ -1,8 +1,5 @@
 package domain.board;
 
-import static domain.piece.PieceType.MA;
-import static domain.piece.PieceType.SANG;
-
 import common.exception.JanggiException;
 import domain.piece.BasicPiece;
 import domain.piece.Piece;
@@ -13,6 +10,9 @@ import domain.position.Position;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
+import static domain.piece.PieceType.MA;
+import static domain.piece.PieceType.SANG;
 
 public enum Formation {
     SANG_MA_SANG_MA(List.of(SANG, MA, SANG, MA), 1),

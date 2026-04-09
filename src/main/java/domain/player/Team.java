@@ -23,7 +23,7 @@ public enum Team {
     }
 
     public Team opposite() {
-        if(this == HAN) {
+        if (this == HAN) {
             return CHO;
         }
 

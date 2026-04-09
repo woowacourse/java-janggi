@@ -2,6 +2,7 @@ package view;
 
 import domain.piece.BasicPiece;
 import domain.piece.PieceType;
+
 import java.util.EnumMap;
 import java.util.Map;
 

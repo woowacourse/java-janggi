@@ -1,7 +1,8 @@
 package dao;
 
 public record PlayerNames(
-    String choName,
-    String hanName
-) {}
+        String choName,
+        String hanName
+) {
+}
 

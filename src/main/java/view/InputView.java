@@ -1,6 +1,7 @@
 package view;
 
 import common.exception.JanggiException;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -111,8 +112,8 @@ public class InputView {
 
     private List<Integer> parsePositionNumbers(List<String> splitString) {
         List<Integer> numbers = splitString.stream()
-            .map(Integer::parseInt)
-            .toList();
+                .map(Integer::parseInt)
+                .toList();
         if (numbers.size() != 2) {
             throw new JanggiException("숫자 두 개를 공백으로 구분하여 입력하세요.");
         }

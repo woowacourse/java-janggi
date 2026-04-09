@@ -1,26 +1,19 @@
 package domain.pathgenerator;
 
-import static domain.TestUtil.createPosition;
-import static domain.direction.Direction.EAST;
-import static domain.direction.Direction.NORTH;
-import static domain.direction.Direction.NORTH_EAST;
-import static domain.direction.Direction.NORTH_WEST;
-import static domain.direction.Direction.SOUTH;
-import static domain.direction.Direction.SOUTH_EAST;
-import static domain.direction.Direction.SOUTH_WEST;
-import static domain.direction.Direction.WEST;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import common.exception.JanggiException;
 import domain.position.Path;
 import domain.position.Position;
-import java.util.List;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
+import static domain.TestUtil.createPosition;
+import static domain.direction.Direction.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class NonStraightPathGeneratorTest {
 
-    NonStraightPathGenerator nonStraightPathGenerator;
     private static final List<DirectionPath> sangPaths = List.of(
             DirectionPath.of(NORTH, NORTH_EAST, NORTH_EAST),
             DirectionPath.of(NORTH, NORTH_WEST, NORTH_WEST),
@@ -31,6 +24,7 @@ class NonStraightPathGeneratorTest {
             DirectionPath.of(WEST, NORTH_WEST, NORTH_WEST),
             DirectionPath.of(WEST, SOUTH_WEST, SOUTH_WEST)
     );
+    NonStraightPathGenerator nonStraightPathGenerator;
 
     @Test
     void 리스트를_받으면_이동규칙으로_Path객체를_만든다() {

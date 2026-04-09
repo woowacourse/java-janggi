@@ -1,6 +1,5 @@
 package common;
 
-
 public enum GameStatus {
     PROGRESS("PROGRESS"),
     CHO_WIN("CHO_WIN"),

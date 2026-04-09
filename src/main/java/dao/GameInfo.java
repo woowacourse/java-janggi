@@ -7,4 +7,3 @@ public record GameInfo(
         String currentTurn
 ) {
 }
-

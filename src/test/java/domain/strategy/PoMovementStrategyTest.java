@@ -1,17 +1,18 @@
 package domain.strategy;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import domain.board.PathPieces;
 import domain.piece.Cha;
 import domain.piece.MovablePiece;
 import domain.piece.Po;
 import domain.player.Team;
-import java.util.List;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PoMovementStrategyTest {
 

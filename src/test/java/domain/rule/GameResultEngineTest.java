@@ -1,7 +1,5 @@
 package domain.rule;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.Formation;
@@ -9,9 +7,12 @@ import domain.player.Name;
 import domain.player.Player;
 import domain.player.PlayerProfile;
 import domain.player.Team;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class GameResultEngineTest {
 
@@ -23,8 +24,8 @@ class GameResultEngineTest {
     @BeforeEach
     void setUp() {
         engine = new GameResultEngine(
-            List.of(new BigJangDrawRule()),
-            List.of(new NormalGameWinnerRule(), new DrawGameWinnerRule())
+                List.of(new BigJangDrawRule()),
+                List.of(new NormalGameWinnerRule(), new DrawGameWinnerRule())
         );
         choPlayer = new Player(new Name("초나라"), Team.CHO);
         hanPlayer = new Player(new Name("한나라"), Team.HAN);

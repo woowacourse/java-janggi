@@ -4,6 +4,7 @@ import domain.board.PathPieces;
 import domain.player.Team;
 import domain.position.Path;
 import domain.position.Position;
+
 import java.util.Objects;
 
 public abstract class Piece implements MovablePiece {

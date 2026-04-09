@@ -1,14 +1,5 @@
-import static domain.player.Team.CHO;
-import static domain.player.Team.HAN;
-
-import dao.GameInfo;
-import repository.JanggiGameRepository;
-import service.JanggiGamePlayService;
-import service.JanggiGameSession;
-import service.JanggiGameSetupService;
-import dao.BoardDao;
-import dao.JanggiGameDao;
 import common.exception.JanggiException;
+import dao.GameInfo;
 import domain.board.Formation;
 import domain.manager.JanggiGameManager;
 import domain.player.Name;
@@ -16,10 +7,17 @@ import domain.player.Player;
 import domain.player.PlayerProfile;
 import domain.player.Team;
 import domain.position.Position;
-import java.util.List;
-import java.util.function.Supplier;
+import service.JanggiGamePlayService;
+import service.JanggiGameSession;
+import service.JanggiGameSetupService;
 import view.InputView;
 import view.OutputView;
+
+import java.util.List;
+import java.util.function.Supplier;
+
+import static domain.player.Team.CHO;
+import static domain.player.Team.HAN;
 
 public class JanggiGameRunner {
 
@@ -116,10 +114,10 @@ public class JanggiGameRunner {
         Player choPlayer = retryOnInvalidInput(this::createChoPlayer);
         Player hanPlayer = retryOnInvalidInput(() -> createHanPlayer(choPlayer));
         JanggiGameSession session = janggiGameSetupService.createNewGame(
-            choPlayer,
-            hanPlayer,
-            retryOnInvalidInput(this::createChoFormation),
-            retryOnInvalidInput(this::createHanFormation)
+                choPlayer,
+                hanPlayer,
+                retryOnInvalidInput(this::createChoFormation),
+                retryOnInvalidInput(this::createHanFormation)
         );
         this.gameId = session.gameId();
         this.janggiGameManager = session.janggiGameManager();
@@ -141,7 +139,7 @@ public class JanggiGameRunner {
         }
 
         JanggiGameSession loadedSession = janggiGameSetupService.loadSessionById(games.get(choice - 1).gameId())
-            .orElse(null);
+                .orElse(null);
         if (loadedSession == null) {
             outputView.printErrorMessage("게임을 불러올 수 없습니다. 새 게임을 생성합니다.");
             initializeNewGame();

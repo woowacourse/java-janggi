@@ -1,46 +1,21 @@
 package domain.board;
 
+import domain.piece.BasicPiece;
+import domain.piece.PieceType;
+import domain.player.Team;
+import domain.position.Position;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
+
 import static domain.piece.PieceType.MA;
 import static domain.piece.PieceType.SANG;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-import domain.piece.BasicPiece;
-import domain.piece.PieceType;
-import domain.player.Team;
-import domain.position.Position;
-import java.util.stream.Stream;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
-
 class BoardFactoryTest {
-
-    @ParameterizedTest
-    @MethodSource("provideFormations")
-    void 배치_조합을_검증한다(int choNum, int hanNum, PieceType[] choExpected, PieceType[] hanExpected) {
-        Board board = BoardFactory.createWithFormation(
-                Formation.from(choNum),
-                Formation.from(hanNum)
-        );
-
-        assertPiece(board, 0, 1, Team.HAN, hanExpected[0]);
-        assertPiece(board, 0, 2, Team.HAN, hanExpected[1]);
-        assertPiece(board, 0, 6, Team.HAN, hanExpected[2]);
-        assertPiece(board, 0, 7, Team.HAN, hanExpected[3]);
-
-        assertPiece(board, 9, 1, Team.CHO, choExpected[0]);
-        assertPiece(board, 9, 2, Team.CHO, choExpected[1]);
-        assertPiece(board, 9, 6, Team.CHO, choExpected[2]);
-        assertPiece(board, 9, 7, Team.CHO, choExpected[3]);
-    }
-
-    private void assertPiece(Board board, int row, int column, Team expectedTeam, PieceType expectedPieceType) {
-        BasicPiece piece = board.findPiece(new Position(row, column));
-        assertFalse(piece.isNone());
-        assertEquals(expectedTeam, piece.getTeam());
-        assertEquals(expectedPieceType, piece.getPieceType());
-    }
 
     static Stream<Arguments> provideFormations() {
         PieceType[] f1 = {SANG, MA, SANG, MA};
@@ -71,5 +46,31 @@ class BoardFactoryTest {
                 Arguments.of(4, 3, c4, f3),
                 Arguments.of(4, 4, c4, f4)
         );
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideFormations")
+    void 배치_조합을_검증한다(int choNum, int hanNum, PieceType[] choExpected, PieceType[] hanExpected) {
+        Board board = BoardFactory.createWithFormation(
+                Formation.from(choNum),
+                Formation.from(hanNum)
+        );
+
+        assertPiece(board, 0, 1, Team.HAN, hanExpected[0]);
+        assertPiece(board, 0, 2, Team.HAN, hanExpected[1]);
+        assertPiece(board, 0, 6, Team.HAN, hanExpected[2]);
+        assertPiece(board, 0, 7, Team.HAN, hanExpected[3]);
+
+        assertPiece(board, 9, 1, Team.CHO, choExpected[0]);
+        assertPiece(board, 9, 2, Team.CHO, choExpected[1]);
+        assertPiece(board, 9, 6, Team.CHO, choExpected[2]);
+        assertPiece(board, 9, 7, Team.CHO, choExpected[3]);
+    }
+
+    private void assertPiece(Board board, int row, int column, Team expectedTeam, PieceType expectedPieceType) {
+        BasicPiece piece = board.findPiece(new Position(row, column));
+        assertFalse(piece.isNone());
+        assertEquals(expectedTeam, piece.getTeam());
+        assertEquals(expectedPieceType, piece.getPieceType());
     }
 }

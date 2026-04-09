@@ -1,6 +1,7 @@
 package domain.piece;
 
 import domain.player.Team;
+
 import java.util.function.Function;
 
 public enum PieceType {

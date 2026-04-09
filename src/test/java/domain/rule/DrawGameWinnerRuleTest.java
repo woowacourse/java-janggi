@@ -1,7 +1,5 @@
 package domain.rule;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.Formation;
@@ -11,6 +9,8 @@ import domain.player.PlayerProfile;
 import domain.player.Team;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class DrawGameWinnerRuleTest {
 

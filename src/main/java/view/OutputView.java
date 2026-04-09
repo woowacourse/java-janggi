@@ -1,15 +1,12 @@
 package view;
 
-import static common.Constants.MAX_COLUMN;
-import static common.Constants.MAX_ROW;
-import static common.Constants.MIN_COLUMN;
-import static common.Constants.MIN_ROW;
-
 import dao.GameInfo;
 import domain.board.Board;
 import domain.piece.BasicPiece;
 import domain.player.PlayerProfile;
 import domain.position.Position;
+
+import static common.Constants.*;
 
 public class OutputView {
 
@@ -48,7 +45,7 @@ public class OutputView {
             GameInfo game = games.get(i);
             String currentTurnName = resolveCurrentTurnName(game);
             System.out.println((i + 1) + ". " + game.choName() + " vs " + game.hanName() +
-                             " (현재 차례: " + currentTurnName + ")");
+                    " (현재 차례: " + currentTurnName + ")");
         }
         System.out.println((games.size() + 1) + ". 새 게임 시작");
         System.out.println();

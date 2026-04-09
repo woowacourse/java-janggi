@@ -1,19 +1,19 @@
 package dao;
 
-import static domain.player.Team.HAN;
-import static org.assertj.core.api.Assertions.assertThat;
-
 import common.GameStatus;
 import db.ConfigLoader;
 import db.DbBootstrap;
 import db.DbConnectionFactory;
-import db.TransactionExecutor;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+
+import static domain.player.Team.HAN;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class JanggiGameDaoTest {
     private final ConfigLoader configLoader = new ConfigLoader("application-test.properties");

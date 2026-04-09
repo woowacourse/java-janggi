@@ -1,8 +1,5 @@
 package service;
 
-import static domain.player.Team.CHO;
-import static domain.player.Team.HAN;
-
 import dao.GameInfo;
 import dao.GameLoadResult;
 import dao.PlayerNames;
@@ -18,10 +15,14 @@ import domain.rule.BigJangDrawRule;
 import domain.rule.DrawGameWinnerRule;
 import domain.rule.GameResultEngine;
 import domain.rule.NormalGameWinnerRule;
+import repository.JanggiGameRepository;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import repository.JanggiGameRepository;
+
+import static domain.player.Team.CHO;
+import static domain.player.Team.HAN;
 
 public class JanggiGameSetupService {
     private final JanggiGameRepository janggiGameRepository;
@@ -29,8 +30,8 @@ public class JanggiGameSetupService {
 
     public JanggiGameSetupService(JanggiGameRepository janggiGameRepository) {
         this(janggiGameRepository, new GameResultEngine(
-            List.of(new BigJangDrawRule()),
-            List.of(new NormalGameWinnerRule(), new DrawGameWinnerRule())
+                List.of(new BigJangDrawRule()),
+                List.of(new NormalGameWinnerRule(), new DrawGameWinnerRule())
         ));
     }
 
@@ -41,17 +42,17 @@ public class JanggiGameSetupService {
 
     public JanggiGameSession createNewGame(Player choPlayer, Player hanPlayer, Formation choFormation, Formation hanFormation) {
         JanggiGameManager janggiGameManager = new JanggiGameManager(
-            choPlayer,
-            hanPlayer,
-            choFormation,
-            hanFormation,
-            gameResultEngine
+                choPlayer,
+                hanPlayer,
+                choFormation,
+                hanFormation,
+                gameResultEngine
         );
         long gameId = janggiGameRepository.createNewGame(
-            choPlayer.getProfile().name().value(),
-            hanPlayer.getProfile().name().value(),
-            janggiGameManager.getBoard(),
-            janggiGameManager.getCurrentPlayer().getProfile().team()
+                choPlayer.getProfile().name().value(),
+                hanPlayer.getProfile().name().value(),
+                janggiGameManager.getBoard(),
+                janggiGameManager.getCurrentPlayer().getProfile().team()
         );
         return new JanggiGameSession(gameId, janggiGameManager);
     }
@@ -77,22 +78,22 @@ public class JanggiGameSetupService {
         Team currentTeam = janggiGameRepository.getCurrentTurn(gameId);
         PlayerNames playerNames = janggiGameRepository.getPlayerNames(gameId);
         return new GameLoadResult(
-            gameId,
-            playerNames.choName(),
-            playerNames.hanName(),
-            currentTeam,
-            boardMap
+                gameId,
+                playerNames.choName(),
+                playerNames.hanName(),
+                currentTeam,
+                boardMap
         );
     }
 
     private JanggiGameSession toGameSession(GameLoadResult state) {
         Board board = new Board(state.boardMap());
         JanggiGameManager janggiGameManager = JanggiGameManager.fromLoadedState(
-            new Player(new Name(state.choName()), CHO),
-            new Player(new Name(state.hanName()), HAN),
-            board,
-            state.currentTeam(),
-            gameResultEngine
+                new Player(new Name(state.choName()), CHO),
+                new Player(new Name(state.hanName()), HAN),
+                board,
+                state.currentTeam(),
+                gameResultEngine
         );
         return new JanggiGameSession(state.gameId(), janggiGameManager);
     }

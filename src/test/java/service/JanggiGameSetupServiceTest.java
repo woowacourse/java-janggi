@@ -1,37 +1,38 @@
 package service;
 
-import static domain.player.Team.CHO;
-import static domain.player.Team.HAN;
-import static org.assertj.core.api.Assertions.assertThat;
-
+import common.GameStatus;
 import dao.BoardDao;
 import dao.GameInfo;
+import dao.JanggiGameDao;
 import db.ConfigLoader;
 import db.DbBootstrap;
+import db.DbConnectionFactory;
 import db.TransactionExecutor;
-import repository.JanggiGameRepository;
-import dao.JanggiGameDao;
 import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.Formation;
-import common.GameStatus;
 import domain.player.Name;
 import domain.player.Player;
 import domain.player.Team;
-import db.DbConnectionFactory;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import repository.JanggiGameRepository;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+
+import static domain.player.Team.CHO;
+import static domain.player.Team.HAN;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class JanggiGameSetupServiceTest {
     private final ConfigLoader configLoader = new ConfigLoader("application-test.properties");
     private final DbConnectionFactory dbConnectionFactory = new DbConnectionFactory(configLoader);
     private final TransactionExecutor transactionExecutor = new TransactionExecutor(dbConnectionFactory);
-    private final JanggiGameDao janggiGameDao = new JanggiGameDao(dbConnectionFactory);
     private final BoardDao boardDao = new BoardDao(dbConnectionFactory, transactionExecutor);
+    private final JanggiGameDao janggiGameDao = new JanggiGameDao(dbConnectionFactory);
     private final JanggiGameRepository janggiGameRepository = new JanggiGameRepository(janggiGameDao, boardDao, transactionExecutor);
     private final JanggiGameSetupService janggiGameSetupService = new JanggiGameSetupService(janggiGameRepository);
 
@@ -44,16 +45,16 @@ class JanggiGameSetupServiceTest {
     @Test
     void 새_게임을_생성하면_세션을_반환하고_진행_상태로_저장한다() {
         JanggiGameSession session = janggiGameSetupService.createNewGame(
-            createPlayer("CHO Player", CHO),
-            createPlayer("HAN Player", HAN),
-            Formation.from(1),
-            Formation.from(1)
+                createPlayer("CHO Player", CHO),
+                createPlayer("HAN Player", HAN),
+                Formation.from(1),
+                Formation.from(1)
         );
 
         assertThat(session.gameId()).isPositive();
         assertThat(session.janggiGameManager().getCurrentPlayer().getProfile().team()).isEqualTo(CHO);
         assertThat(janggiGameSetupService.findProgressGames())
-            .anyMatch(gameInfo -> gameInfo.gameId() == session.gameId());
+                .anyMatch(gameInfo -> gameInfo.gameId() == session.gameId());
     }
 
     @Test

@@ -2,6 +2,7 @@ package domain.pathgenerator;
 
 import common.exception.JanggiException;
 import domain.direction.Direction;
+
 import java.util.List;
 
 public final class DirectionPath {

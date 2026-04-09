@@ -1,8 +1,8 @@
 package domain.pathgenerator;
 
 import common.exception.JanggiException;
-import domain.position.Path;
 import domain.position.Palace;
+import domain.position.Path;
 import domain.position.Position;
 
 public class PalaceBoundPathGenerator implements PathGenerator {

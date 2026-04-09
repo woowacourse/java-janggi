@@ -1,22 +1,13 @@
 package domain.board;
 
-import static common.Constants.MAX_COLUMN;
-import static common.Constants.MAX_ROW;
-import static common.Constants.MIN_COLUMN;
-import static common.Constants.MIN_ROW;
-
-import domain.piece.BasicPiece;
-import domain.piece.Cha;
-import domain.piece.Jang;
-import domain.piece.Jol;
-import domain.piece.None;
-import domain.piece.Po;
-import domain.piece.Sa;
+import domain.piece.*;
 import domain.player.Team;
 import domain.position.Position;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static common.Constants.*;
 
 public class BoardFactory {
 

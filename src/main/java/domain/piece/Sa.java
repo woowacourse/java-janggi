@@ -1,14 +1,5 @@
 package domain.piece;
 
-import static domain.direction.Direction.EAST;
-import static domain.direction.Direction.NORTH;
-import static domain.direction.Direction.NORTH_EAST;
-import static domain.direction.Direction.NORTH_WEST;
-import static domain.direction.Direction.SOUTH;
-import static domain.direction.Direction.SOUTH_EAST;
-import static domain.direction.Direction.SOUTH_WEST;
-import static domain.direction.Direction.WEST;
-
 import domain.board.PathPieces;
 import domain.pathgenerator.DirectionPath;
 import domain.pathgenerator.NonStraightPathGenerator;
@@ -19,7 +10,10 @@ import domain.position.Path;
 import domain.position.Position;
 import domain.strategy.BlockedMovementStrategy;
 import domain.strategy.MovementStrategy;
+
 import java.util.List;
+
+import static domain.direction.Direction.*;
 
 public class Sa extends Piece {
 

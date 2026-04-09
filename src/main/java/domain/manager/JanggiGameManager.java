@@ -10,6 +10,7 @@ import domain.player.PlayerProfile;
 import domain.player.Team;
 import domain.position.Position;
 import domain.rule.GameResultEngine;
+
 import java.util.Map;
 
 public class JanggiGameManager {
@@ -21,11 +22,11 @@ public class JanggiGameManager {
     private GameState gameState;
 
     public JanggiGameManager(
-        Player choPlayer,
-        Player hanPlayer,
-        Formation choFormation,
-        Formation hanFormation,
-        GameResultEngine gameResultEngine
+            Player choPlayer,
+            Player hanPlayer,
+            Formation choFormation,
+            Formation hanFormation,
+            GameResultEngine gameResultEngine
     ) {
         this.currentPlayer = choPlayer;
         this.standbyPlayer = hanPlayer;
@@ -35,11 +36,11 @@ public class JanggiGameManager {
     }
 
     private JanggiGameManager(
-        Player choPlayer,
-        Player hanPlayer,
-        Board loadedBoard,
-        Team currentTeam,
-        GameResultEngine gameResultEngine
+            Player choPlayer,
+            Player hanPlayer,
+            Board loadedBoard,
+            Team currentTeam,
+            GameResultEngine gameResultEngine
     ) {
         this.board = loadedBoard;
         this.gameResultEngine = gameResultEngine;
@@ -55,11 +56,11 @@ public class JanggiGameManager {
     }
 
     public static JanggiGameManager fromLoadedState(
-        Player choPlayer,
-        Player hanPlayer,
-        Board loadedBoard,
-        Team currentTeam,
-        GameResultEngine gameResultEngine
+            Player choPlayer,
+            Player hanPlayer,
+            Board loadedBoard,
+            Team currentTeam,
+            GameResultEngine gameResultEngine
     ) {
         return new JanggiGameManager(choPlayer, hanPlayer, loadedBoard, currentTeam, gameResultEngine);
     }
@@ -96,10 +97,10 @@ public class JanggiGameManager {
 
     public PlayerProfile calculateFinalScore() {
         return gameResultEngine.calculateFinalScore(
-            board,
-            currentPlayer,
-            standbyPlayer,
-            gameState == GameState.DRAW_FINISHED
+                board,
+                currentPlayer,
+                standbyPlayer,
+                gameState == GameState.DRAW_FINISHED
         );
     }
 

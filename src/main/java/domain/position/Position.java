@@ -1,11 +1,8 @@
 package domain.position;
 
-import static common.Constants.MAX_COLUMN;
-import static common.Constants.MAX_ROW;
-import static common.Constants.MIN_COLUMN;
-import static common.Constants.MIN_ROW;
-
 import common.exception.JanggiException;
+
+import static common.Constants.*;
 
 public record Position(int row, int column) {
     public Position {

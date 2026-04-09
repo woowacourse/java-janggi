@@ -1,11 +1,11 @@
 package domain.pathgenerator;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import common.exception.JanggiException;
 import domain.position.Position;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class PalaceBoundPathGeneratorTest {
 

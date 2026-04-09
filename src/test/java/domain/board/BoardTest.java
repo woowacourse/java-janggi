@@ -1,34 +1,21 @@
 package domain.board;
 
-import static common.Constants.MAX_COLUMN;
-import static common.Constants.MAX_ROW;
-import static common.Constants.MIN_COLUMN;
-import static common.Constants.MIN_ROW;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import common.exception.JanggiException;
-import domain.piece.BasicPiece;
-import domain.piece.Cha;
-import domain.piece.Jang;
-import domain.piece.Jol;
-import domain.piece.Ma;
-import domain.piece.None;
-import domain.piece.Po;
-import domain.piece.Sang;
+import domain.piece.*;
 import domain.player.Name;
 import domain.player.Player;
 import domain.player.Team;
 import domain.position.Position;
-import java.util.HashMap;
-import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static common.Constants.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 class BoardTest {
 

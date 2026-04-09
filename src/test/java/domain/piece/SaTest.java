@@ -1,22 +1,32 @@
 package domain.piece;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import common.exception.JanggiException;
 import domain.player.Team;
 import domain.position.Path;
 import domain.position.Position;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 class SaTest {
+    private static Stream<Arguments> provideSaPaths() {
+        return Stream.of(
+                Arguments.of(1, 4, 2, 4),
+                Arguments.of(1, 4, 0, 4),
+                Arguments.of(1, 4, 1, 5),
+                Arguments.of(1, 4, 1, 3),
+                Arguments.of(1, 4, 2, 5),
+                Arguments.of(1, 4, 2, 3),
+                Arguments.of(1, 4, 0, 5),
+                Arguments.of(1, 4, 0, 3)
+        );
+    }
+
     @ParameterizedTest
     @MethodSource("provideSaPaths")
     void 사는_궁성_안에서_모든방향을_한칸_이동한다(int sourceRow, int sourceColumn, int destinationRow, int destinationColumn) {
@@ -30,19 +40,6 @@ class SaTest {
         assertEquals(source, path.source());
         assertEquals(destination, path.destination());
         assertTrue(path.waypoints().isEmpty());
-    }
-
-    private static Stream<Arguments> provideSaPaths() {
-        return Stream.of(
-                Arguments.of(1, 4, 2, 4),
-                Arguments.of(1, 4, 0, 4),
-                Arguments.of(1, 4, 1, 5),
-                Arguments.of(1, 4, 1, 3),
-                Arguments.of(1, 4, 2, 5),
-                Arguments.of(1, 4, 2, 3),
-                Arguments.of(1, 4, 0, 5),
-                Arguments.of(1, 4, 0, 3)
-        );
     }
 
     @Test

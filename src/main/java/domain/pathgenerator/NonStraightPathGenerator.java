@@ -4,6 +4,7 @@ import common.exception.JanggiException;
 import domain.direction.Direction;
 import domain.position.Path;
 import domain.position.Position;
+
 import java.util.ArrayList;
 import java.util.List;
 

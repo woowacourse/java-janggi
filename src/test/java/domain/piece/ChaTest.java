@@ -1,16 +1,15 @@
 package domain.piece;
 
-import static domain.TestUtil.createPosition;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import common.exception.JanggiException;
 import domain.player.Team;
 import domain.position.Path;
 import domain.position.Position;
-import java.util.List;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
+import static domain.TestUtil.createPosition;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ChaTest {
 

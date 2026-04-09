@@ -1,8 +1,8 @@
 package dao;
 
 import common.GameStatus;
-import domain.player.Team;
 import db.DbConnectionFactory;
+import domain.player.Team;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -44,7 +44,6 @@ public class JanggiGameDao {
         }
     }
 
-
     public Team getCurrentTurn(long gameId) {
         try (Connection connection = dbConnectionFactory.createConnection();
              PreparedStatement statement = connection.prepareStatement(GET_CURRENT_TURN_SQL)) {
@@ -64,6 +63,16 @@ public class JanggiGameDao {
                     .orElseThrow(() -> new IllegalStateException("해당 게임을 찾을 수 없습니다. gameId: " + gameId));
         } catch (SQLException e) {
             throw new IllegalStateException("플레이어 정보 조회에 실패했습니다.", e);
+        }
+    }
+
+    public List<GameInfo> findAllProgressGames() {
+        try (Connection connection = dbConnectionFactory.createConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_ALL_PROGRESS_GAMES_SQL)) {
+            statement.setString(1, INITIAL_STATUS);
+            return loadGamesFromResultSet(statement.executeQuery());
+        } catch (SQLException e) {
+            throw new IllegalStateException("진행 중인 게임 목록 조회에 실패했습니다.", e);
         }
     }
 
@@ -101,25 +110,15 @@ public class JanggiGameDao {
         }
     }
 
-    public List<GameInfo> findAllProgressGames() {
-        try (Connection connection = dbConnectionFactory.createConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_ALL_PROGRESS_GAMES_SQL)) {
-            statement.setString(1, INITIAL_STATUS);
-            return loadGamesFromResultSet(statement.executeQuery());
-        } catch (SQLException e) {
-            throw new IllegalStateException("진행 중인 게임 목록 조회에 실패했습니다.", e);
-        }
-    }
-
     private List<GameInfo> loadGamesFromResultSet(ResultSet resultSet) throws SQLException {
         List<GameInfo> games = new ArrayList<>();
         try (resultSet) {
             while (resultSet.next()) {
                 games.add(new GameInfo(
-                    resultSet.getLong("game_id"),
-                    resultSet.getString("cho_name"),
-                    resultSet.getString("han_name"),
-                    resultSet.getString("current_turn")
+                        resultSet.getLong("game_id"),
+                        resultSet.getString("cho_name"),
+                        resultSet.getString("han_name"),
+                        resultSet.getString("current_turn")
                 ));
             }
         }

@@ -1,21 +1,55 @@
 package domain.piece;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import common.exception.JanggiException;
 import domain.player.Team;
 import domain.position.Path;
 import domain.position.Position;
-import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 class JolTest {
+    private static Stream<Arguments> provideChoJolPaths() {
+        return Stream.of(
+                Arguments.of(6, 4, 5, 4),
+                Arguments.of(6, 4, 6, 5),
+                Arguments.of(6, 4, 6, 3)
+        );
+    }
+
+    private static Stream<Arguments> provideHanJolPaths() {
+        return Stream.of(
+                Arguments.of(3, 4, 4, 4),
+                Arguments.of(3, 4, 3, 5),
+                Arguments.of(3, 4, 3, 3)
+        );
+    }
+
+    private static Stream<Arguments> provideChoPalaceDiagonalPaths() {
+        return Stream.of(
+                Arguments.of(8, 4, 7, 3),
+                Arguments.of(8, 4, 7, 5)
+        );
+    }
+
+    private static Stream<Arguments> provideHanPalaceDiagonalPaths() {
+        return Stream.of(
+                Arguments.of(1, 4, 2, 3),
+                Arguments.of(1, 4, 2, 5)
+        );
+    }
+
+    private static Stream<Arguments> provideNonPalaceDiagonalPaths() {
+        return Stream.of(
+                Arguments.of(6, 4, 5, 5, Team.CHO),
+                Arguments.of(3, 4, 4, 5, Team.HAN)
+        );
+    }
+
     @ParameterizedTest
     @MethodSource("provideChoJolPaths")
     void 초의_졸은_옆과_위를_한칸_이동한다(int sourceRow, int sourceColumn, int destinationRow, int destinationColumn) {
@@ -92,42 +126,5 @@ class JolTest {
 
         assertThrows(JanggiException.class,
                 () -> jol.calculatePath(new Position(8, 4), new Position(9, 5)));
-    }
-
-    private static Stream<Arguments> provideChoJolPaths() {
-        return Stream.of(
-                Arguments.of(6, 4, 5, 4),
-                Arguments.of(6, 4, 6, 5),
-                Arguments.of(6, 4, 6, 3)
-        );
-    }
-
-    private static Stream<Arguments> provideHanJolPaths() {
-        return Stream.of(
-                Arguments.of(3, 4, 4, 4),
-                Arguments.of(3, 4, 3, 5),
-                Arguments.of(3, 4, 3, 3)
-        );
-    }
-
-    private static Stream<Arguments> provideChoPalaceDiagonalPaths() {
-        return Stream.of(
-                Arguments.of(8, 4, 7, 3),
-                Arguments.of(8, 4, 7, 5)
-        );
-    }
-
-    private static Stream<Arguments> provideHanPalaceDiagonalPaths() {
-        return Stream.of(
-                Arguments.of(1, 4, 2, 3),
-                Arguments.of(1, 4, 2, 5)
-        );
-    }
-
-    private static Stream<Arguments> provideNonPalaceDiagonalPaths() {
-        return Stream.of(
-                Arguments.of(6, 4, 5, 5, Team.CHO),
-                Arguments.of(3, 4, 4, 5, Team.HAN)
-        );
     }
 }
