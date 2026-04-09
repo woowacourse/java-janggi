@@ -19,7 +19,8 @@ public class Palace {
     }
 
     public static boolean isPalaceCorner(Position position) {
-        return isPalace(position) && isCornerOfPalace(position);
+        if (!isPalace(position)) return false;
+        return isCornerOfPalace(position);
     }
 
     public static boolean isPalaceCenter(Position position) {
@@ -46,7 +47,7 @@ public class Palace {
         int row = position.getRow();
         int column = position.getColumn();
 
-        if (!(row <= PALACE_MAX_ROW_TOP && row >= PALACE_MIN_ROW_TOP) && !(row >= PALACE_MIN_ROW_BOTTOM && row <= PALACE_MAX_ROW_BOTTOM)) {
+        if (row != PALACE_MAX_ROW_TOP && row != PALACE_MIN_ROW_TOP && row != PALACE_MIN_ROW_BOTTOM && row != PALACE_MAX_ROW_BOTTOM) {
             return false;
         }
 
