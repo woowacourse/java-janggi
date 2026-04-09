@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class JdbcGimulRepository implements GimulRepository {
-    TransactionManager transactionManager;
+    private final TransactionManager transactionManager;
 
     public JdbcGimulRepository(TransactionManager transactionManager) {
         this.transactionManager = transactionManager;

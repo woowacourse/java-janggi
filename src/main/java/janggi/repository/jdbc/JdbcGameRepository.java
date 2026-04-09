@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class JdbcGameRepository implements GameRepository {
-    TransactionManager transactionManager;
+    private final TransactionManager transactionManager;
 
     public JdbcGameRepository(TransactionManager transactionManager) {
         this.transactionManager = transactionManager;
