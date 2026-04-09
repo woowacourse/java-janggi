@@ -62,8 +62,8 @@ public class GameManager {
 
     private boolean isContinued() {
         return retry(() -> {
-            outputView.printContinueGameNotice(); // "진행 중인 게임을 계속하시겠습니까?" 출력
-            return inputView.readContinueAnswer(); // 사용자의 y/n 응답
+            outputView.printContinueGameNotice();
+            return inputView.readContinueAnswer();
         });
     }
 
