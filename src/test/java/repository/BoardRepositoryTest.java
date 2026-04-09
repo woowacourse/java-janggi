@@ -38,8 +38,8 @@ class BoardRepositoryTest {
         }
 
         gameId = gameRepository.save(Team.CHO, "테스트용 장기방");
-        game = GameInitializer.init(gameId, SettingType.LEFT, SettingType.LEFT);
-        boardRepository.saveAll(game);
+        game = GameInitializer.init(SettingType.LEFT, SettingType.LEFT);
+        boardRepository.saveAll(game, gameId);
     }
 
     @Test
@@ -48,7 +48,7 @@ class BoardRepositoryTest {
         Position to = Position.of(3, 1);
 
         // when
-        boardRepository.updatePosition(game, from, to);
+        boardRepository.updatePosition(gameId, from, to);
 
         PieceType pieceType = getPieceTypeFromDatabase(to);
 
@@ -81,7 +81,7 @@ class BoardRepositoryTest {
         Position to = Position.of(3, 1);
 
         // when
-        boardRepository.delete(game, to);
+        boardRepository.delete(gameId, to);
 
         PieceType pieceType = getPieceTypeFromDatabase(to);
 

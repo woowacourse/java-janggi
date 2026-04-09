@@ -7,12 +7,10 @@ import domain.position.Position;
 import java.util.Map;
 
 public abstract class Started implements JanggiGame {
-    protected final long id;
     protected final Board board;
     protected final Team turn;
 
-    public Started(long id, Board board, Team turn) {
-        this.id = id;
+    public Started(Board board, Team turn) {
         this.board = board;
         this.turn = turn;
     }
@@ -30,9 +28,5 @@ public abstract class Started implements JanggiGame {
     @Override
     public Team getTurn() {
         return turn;
-    }
-
-    public long getId() {
-        return id;
     }
 }

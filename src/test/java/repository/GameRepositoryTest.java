@@ -48,11 +48,11 @@ class GameRepositoryTest {
         long savedId = gameRepository.save(team, title);
 
         // when
-        JanggiGame game = GameInitializer.init(savedId, SettingType.LEFT, SettingType.LEFT);
+        JanggiGame game = GameInitializer.init(SettingType.LEFT, SettingType.LEFT);
         game = game.pass();
 
-        gameRepository.updateTurn(game);
-        Team updatedTurn = gameRepository.getInfo(savedId);
+        gameRepository.updateGame(savedId, game);
+        Team updatedTurn = gameRepository.getCurrentTeam(savedId);
 
         // then
         Assertions.assertThat(updatedTurn).isEqualTo(Team.HAN);
@@ -65,9 +65,9 @@ class GameRepositoryTest {
         long savedId = gameRepository.save(team, title);
 
         // when
-        JanggiGame game = GameInitializer.init(savedId, SettingType.LEFT, SettingType.LEFT);
+        JanggiGame game = GameInitializer.init(SettingType.LEFT, SettingType.LEFT);
 
-        gameRepository.updateResult(game);
+        gameRepository.updateGame(savedId, game);
 
         String sql = "SELECT IS_FINISHED FROM GAME_ROOM WHERE ID = ?";
 

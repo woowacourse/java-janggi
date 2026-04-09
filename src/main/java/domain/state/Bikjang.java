@@ -4,22 +4,22 @@ import domain.Board;
 import domain.piece.Team;
 
 public class Bikjang extends Running {
-    public Bikjang(long id, Board board, Team turn) {
-        super(id, board, turn);
+    public Bikjang(Board board, Team turn) {
+        super(board, turn);
     }
 
     @Override
     protected JanggiGame transitionOnBikjang() {
-        return new Finished(id, board, turn.changeTeam());
+        return new Finished(board, turn.changeTeam());
     }
 
     @Override
     protected JanggiGame transitionOnNormal() {
-        return new Playing(id, board, turn.changeTeam());
+        return new Playing(board, turn.changeTeam());
     }
 
     @Override
     public JanggiGame pass() {
-        return new Finished(id, board, turn.changeTeam());
+        return new Finished(board, turn.changeTeam());
     }
 }

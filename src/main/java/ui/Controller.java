@@ -1,11 +1,11 @@
 package ui;
 
+import domain.piece.Piece;
 import domain.piece.Team;
 import domain.position.Position;
 import domain.settingType.SettingType;
-import domain.state.JanggiGame;
 import java.util.List;
-import java.util.function.Function;
+import java.util.Map;
 import java.util.function.Supplier;
 import repository.GameRoomInfo;
 import service.JanggiService;
@@ -29,12 +29,34 @@ public class Controller {
     }
 
     public void play() {
-        JanggiGame game = selectLobbyMenu();
-        game = playTurn(game);
-        judgeResult(game);
+        long gameId = selectLobbyMenu();
+
+        while (!janggiService.isFinished(gameId)) {
+            printBoardStatus(gameId);
+            Team currentTeam = janggiService.getCurrentTeam(gameId);
+            ActionType actionType = retry(() -> inputView.readAction(currentTeam));
+
+            if (actionType == ActionType.MOVE) {
+                // TODO 연속 입력 구현 필요
+                retry(() -> tryToMove(gameId, currentTeam));
+            }
+
+            if (actionType == ActionType.PASS) {
+                janggiService.pass(gameId);
+            }
+        }
+        Team team = janggiService.getWinner(gameId);
+        resultView.printResult(team);
     }
 
-    private JanggiGame selectLobbyMenu() {
+    private void tryToMove(long gameId, Team currentTeam) {
+        MovePositionDto movePositionDto = inputView.readMovePositions(currentTeam);
+        PositionDto start = movePositionDto.getStart();
+        PositionDto destination = movePositionDto.getDestination();
+        janggiService.move(gameId, start.toDomain(), destination.toDomain());
+    }
+
+    private long selectLobbyMenu() {
         LobbyMenu lobbyMenu = retry(inputView::readGameRoomOption);
 
         if (lobbyMenu == LobbyMenu.CREATE_ROOM) {
@@ -43,68 +65,23 @@ public class Controller {
         return joinGame();
     }
 
-    private JanggiGame createGame() {
+    private long createGame() {
         String title = inputView.readGameTitle();
         List<SettingType> settingTypes = retry(inputView::readSettings);
         return janggiService.createGame(title, settingTypes.get(0), settingTypes.get(1));
     }
 
-    private JanggiGame joinGame() {
+    private long joinGame() {
         printGameRoomList();
-        return retry(this::findRoom);
+        return retry(this::selectRoom);
     }
 
-    private void printGameRoomList() {
-        List<GameRoomInfo> roomList = janggiService.getRoomList();
-        resultView.printGameRoom(roomList);
+    private long selectRoom() {
+        long gameId = inputView.readRoomId();
+        janggiService.validateIsRoomAvailable(gameId);
+        return gameId;
     }
 
-    private JanggiGame findRoom() {
-        long id = inputView.readRoomId();
-        return janggiService.joinGame(id);
-    }
-
-    private JanggiGame playTurn(JanggiGame game) {
-        while (!game.isFinished()) {
-            printBoardStatus(game);
-            game = actByActionType(game);
-        }
-        return game;
-    }
-
-    private void printBoardStatus(JanggiGame game) {
-        BoardStatusDto statusDto = BoardStatusDto.from(game.getBoard());
-
-        resultView.printBoard(statusDto);
-        resultView.printScore(game.getScoreByTeam(Team.CHO), game.getScoreByTeam(Team.HAN));
-    }
-
-    private JanggiGame actByActionType(JanggiGame game) {
-        Team currentTeam = game.getTurn();
-        ActionType actionType = retry(() -> inputView.readAction(currentTeam));
-
-        if (actionType == ActionType.MOVE) {
-            return retry(this::executeMove, game);
-        }
-        return janggiService.pass(game);
-    }
-
-    private JanggiGame executeMove(JanggiGame game) {
-        MovePositionDto movePositionDto = inputView.readMovePositions(game.getTurn());
-
-        PositionDto start = movePositionDto.getStart();
-        PositionDto destination = movePositionDto.getDestination();
-
-        Position startPosition = Position.of(start.getRow(), start.getColumn());
-        Position destinationPosition = Position.of(destination.getRow(), destination.getColumn());
-
-        return janggiService.move(game, startPosition, destinationPosition);
-    }
-
-    private void judgeResult(JanggiGame game) {
-        janggiService.endGame(game);
-        resultView.printResult(game.judgeWinner());
-    }
 
     private <T> T retry(Supplier<T> supplier) {
         while (true) {
@@ -116,13 +93,39 @@ public class Controller {
         }
     }
 
-    private JanggiGame retry(Function<JanggiGame, JanggiGame> gameFunc, JanggiGame janggiGame) {
+    private void retry(Runnable runnable) {
         while (true) {
             try {
-                return gameFunc.apply(janggiGame);
+                runnable.run();
+                return;
             } catch (IllegalArgumentException e) {
                 resultView.printErrorMessage(e.getMessage());
             }
         }
     }
+
+    private void printGameRoomList() {
+        List<GameRoomInfo> roomList = janggiService.getRoomList();
+        resultView.printGameRoom(roomList);
+    }
+
+    private void printBoardStatus(long gameId) {
+        Map<Position, Piece> gameStatus = janggiService.getGameStatus(gameId);
+        BoardStatusDto statusDto = BoardStatusDto.from(gameStatus);
+
+        resultView.printBoard(statusDto);
+        double choScore = janggiService.getTeamScore(gameId, Team.CHO);
+        double hanScore = janggiService.getTeamScore(gameId, Team.HAN);
+        resultView.printScore(choScore, hanScore);
+    }
+
+//    private JanggiGame retry(Function<JanggiGame, JanggiGame> gameFunc, JanggiGame janggiGame) {
+//        while (true) {
+//            try {
+//                return gameFunc.apply(janggiGame);
+//            } catch (IllegalArgumentException e) {
+//                resultView.printErrorMessage(e.getMessage());
+//            }
+//        }
+//    }
 }

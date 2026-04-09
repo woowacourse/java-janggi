@@ -1,6 +1,7 @@
 package service;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -52,7 +53,6 @@ public class JanggiServiceTest {
 
         // then
         verify(gameRepositoryMock, times(1)).save(Team.CHO, title);
-        verify(boardRepository, times(1)).saveAll(any(JanggiGame.class));
     }
 
     @Test
@@ -62,15 +62,15 @@ public class JanggiServiceTest {
         long gameId = 1L;
 
         when(boardRepository.load(gameId)).thenReturn(mockMap);
-        when(gameRepositoryMock.getInfo(gameId)).thenReturn(Team.CHO);
+        when(gameRepositoryMock.getCurrentTeam(gameId)).thenReturn(Team.CHO);
 
-        JanggiGame janggiGame = janggiService.joinGame(gameId);
+        JanggiGame janggiGame = janggiService.loadGame(gameId);
 
         // then
         Assertions.assertThat(janggiGame).isNotNull();
 
         verify(boardRepository, times(1)).load(gameId);
-        verify(gameRepositoryMock, times(1)).getInfo(gameId);
+        verify(gameRepositoryMock, times(1)).getCurrentTeam(gameId);
     }
 
     @Test
@@ -79,10 +79,10 @@ public class JanggiServiceTest {
         Map<Position, Piece> mockMap = board.getPieces();
         long expectGameId = 1L;
         when(boardRepository.load(expectGameId)).thenReturn(mockMap);
-        when(gameRepositoryMock.getInfo(expectGameId)).thenReturn(null);
+        when(gameRepositoryMock.getCurrentTeam(expectGameId)).thenReturn(null);
 
         // then
-        Assertions.assertThatThrownBy(() -> janggiService.joinGame(expectGameId))
+        Assertions.assertThatThrownBy(() -> janggiService.loadGame(expectGameId))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -90,48 +90,42 @@ public class JanggiServiceTest {
     void 기물_정보를_조회할_수_없으면_예외가_발생해야_한다() {
         long expectGameId = 1L;
         when(boardRepository.load(expectGameId)).thenReturn(null);
-        when(gameRepositoryMock.getInfo(expectGameId)).thenReturn(Team.CHO);
+        when(gameRepositoryMock.getCurrentTeam(expectGameId)).thenReturn(Team.CHO);
 
         // then
-        Assertions.assertThatThrownBy(() -> janggiService.joinGame(expectGameId))
+        Assertions.assertThatThrownBy(() -> janggiService.loadGame(expectGameId))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     void move를_호출하면_메서드가_적절히_수행되어야_한다() {
-        JanggiGame game = GameInitializer.init(1, SettingType.LEFT, SettingType.LEFT);
+        JanggiGame game = GameInitializer.init(SettingType.LEFT, SettingType.LEFT);
+        long gameId = 1L;
         Position from = Position.of(1, 1);
         Position to = Position.of(2, 1);
 
         // when
-        JanggiGame moved = janggiService.move(game, from, to);
+        when(boardRepository.load(gameId)).thenReturn(game.getBoard());
+        when(gameRepositoryMock.getCurrentTeam(gameId)).thenReturn(Team.CHO);
+
+        janggiService.move(gameId, from, to);
 
         // then
-        verify(boardRepository, times(1)).delete(moved, to);
-        verify(boardRepository, times(1)).updatePosition(moved, from, to);
-        verify(gameRepositoryMock, times(1)).updateTurn(moved);
+        verify(boardRepository, times(1)).delete(gameId, to);
+        verify(boardRepository, times(1)).updatePosition(gameId, from, to);
+        verify(gameRepositoryMock, times(1)).updateGame(eq(gameId), any(JanggiGame.class));
     }
 
     @Test
     void pass하면_메서드가_적절히_수행되어야_한다() {
-        JanggiGame game = GameInitializer.init(1, SettingType.LEFT, SettingType.LEFT);
-
+        JanggiGame game = GameInitializer.init(SettingType.LEFT, SettingType.LEFT);
+        long gameId = 1L;
+        when(boardRepository.load(gameId)).thenReturn(game.getBoard());
+        when(gameRepositoryMock.getCurrentTeam(gameId)).thenReturn(Team.CHO);
         // when
-        janggiService.pass(game);
+        janggiService.pass(1);
 
         // then
-        verify(gameRepositoryMock, times(1)).updateTurn(any(JanggiGame.class));
+        verify(gameRepositoryMock, times(1)).updateGame(eq(gameId), any(JanggiGame.class));
     }
-
-    @Test
-    void endGame하면_메서드가_적절히_수행되어야_한다() {
-        JanggiGame game = GameInitializer.init(1, SettingType.LEFT, SettingType.LEFT);
-
-        // whn
-        janggiService.endGame(game);
-
-        // then
-        verify(gameRepositoryMock, times(1)).updateResult(game);
-    }
-
 }

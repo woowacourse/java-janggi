@@ -7,8 +7,8 @@ import domain.position.Position;
 public abstract class Running extends Started {
     private static final String GAME_DOSE_NOT_FINISHED = "게임이 아직 끝나지 않아 결과를 집계할 수 없습니다.";
 
-    protected Running(long id, Board board, Team turn) {
-        super(id, board, turn);
+    protected Running(Board board, Team turn) {
+        super(board, turn);
     }
 
     @Override
@@ -16,7 +16,7 @@ public abstract class Running extends Started {
         board.move(turn, start, destination);
 
         if (board.isAnyJangDead()) {
-            return new Finished(id, board, turn.changeTeam());
+            return new Finished(board, turn.changeTeam());
         }
 
         if (board.isBikjang()) {

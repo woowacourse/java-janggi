@@ -19,6 +19,4 @@ public interface JanggiGame {
     boolean isFinished();
 
     double getScoreByTeam(Team team);
-
-    long getId();
 }

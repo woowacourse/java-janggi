@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 public class BoardRepository {
-    public void updatePosition(JanggiGame game, Position from, Position to) {
+    public void updatePosition(long gameId, Position from, Position to) {
         String sql = "UPDATE BOARD SET position_row = ?, position_column = ? WHERE game_room_id = ? and position_row = ? and position_column = ?";
 
         try (
@@ -26,7 +26,7 @@ public class BoardRepository {
         ) {
             psmt.setInt(1, to.getRow().getValue());
             psmt.setInt(2, to.getColumn().getValue());
-            psmt.setLong(3, game.getId());
+            psmt.setLong(3, gameId);
             psmt.setInt(4, from.getRow().getValue());
             psmt.setInt(5, from.getColumn().getValue());
 
@@ -36,14 +36,14 @@ public class BoardRepository {
         }
     }
 
-    public void delete(JanggiGame game, Position to) {
+    public void delete(long gameId, Position to) {
         String sql = "DELETE FROM BOARD WHERE game_room_id = ? and position_row = ? and position_column = ?";
 
         try (
                 Connection connection = ConnectionManager.getConnection();
                 PreparedStatement psmt = connection.prepareStatement(sql)
         ) {
-            psmt.setLong(1, game.getId());
+            psmt.setLong(1, gameId);
             psmt.setInt(2, to.getRow().getValue());
             psmt.setInt(3, to.getColumn().getValue());
 
@@ -53,7 +53,7 @@ public class BoardRepository {
         }
     }
 
-    public void saveAll(JanggiGame game) {
+    public void saveAll(JanggiGame game, long gameId) {
         String sql = "INSERT INTO BOARD (team, piece_type, position_row, position_column, game_room_id) VALUES (?, ?, ?, ?, ?)";
 
         try (
@@ -68,7 +68,7 @@ public class BoardRepository {
                 psmt.setString(2, piece.getPieceType().name());
                 psmt.setInt(3, position.getRow().getValue());
                 psmt.setInt(4, position.getColumn().getValue());
-                psmt.setLong(5, game.getId());
+                psmt.setLong(5, gameId);
 
                 psmt.addBatch();
                 psmt.clearParameters();

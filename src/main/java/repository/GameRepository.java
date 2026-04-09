@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameRepository {
+
+    public static final String GAME_ROOM_DOES_NOT_EXISTS = "존재하지 않는 게임 방 입니다.";
+
     public long save(Team turn, String title) {
         String sql = "INSERT INTO GAME_ROOM (TURN, TITLE, IS_FINISHED) VALUES (?,?, ?)";
         long id = 0L;
@@ -37,38 +40,21 @@ public class GameRepository {
         return id;
     }
 
-    public void updateTurn(JanggiGame game) {
-        String sql = "UPDATE GAME_ROOM SET TURN = ? WHERE id = ?";
-
-        try (
-                Connection connection = ConnectionManager.getConnection();
-                PreparedStatement psmt = connection.prepareStatement(sql)
-        ) {
-            psmt.setString(1, game.getTurn().name());
-            psmt.setLong(2, game.getId());
-
-            psmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void updateResult(JanggiGame game) {
-        String sql = "UPDATE GAME_ROOM SET IS_FINISHED = ? WHERE id = ?";
-
-        try (
-                Connection connection = ConnectionManager.getConnection();
-                PreparedStatement psmt = connection.prepareStatement(sql)
-        ) {
-            psmt.setBoolean(1, game.isFinished());
-            psmt.setLong(2, game.getId());
-
-            psmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
+//    public void updateResult(long gameId, JanggiGame game) {
+//        String sql = "UPDATE GAME_ROOM SET IS_FINISHED = ? WHERE id = ?";
+//
+//        try (
+//                Connection connection = ConnectionManager.getConnection();
+//                PreparedStatement psmt = connection.prepareStatement(sql)
+//        ) {
+//            psmt.setBoolean(1, game.isFinished());
+//            psmt.setLong(2, gameId);
+//
+//            psmt.executeUpdate();
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     public List<GameRoomInfo> getAll() {
         String sql = "SELECT ID, TITLE FROM GAME_ROOM WHERE IS_FINISHED = FALSE";
@@ -89,7 +75,7 @@ public class GameRepository {
         return infos;
     }
 
-    public Team getInfo(long gameId) {
+    public Team getCurrentTeam(long gameId) {
         String sql = "SELECT TURN FROM GAME_ROOM WHERE ID = ?";
 
         Team team = null;
@@ -107,5 +93,60 @@ public class GameRepository {
         }
         return team;
 
+    }
+
+    public boolean isFinished(long gameId) {
+        String sql = "SELECT IS_FINISHED FROM GAME_ROOM WHERE ID = ?";
+
+        try (
+                Connection connection = ConnectionManager.getConnection();
+                PreparedStatement psmt = connection.prepareStatement(sql)
+        ) {
+            psmt.setLong(1, gameId);
+
+            try (ResultSet rs = psmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBoolean(1);
+                }
+                throw new IllegalArgumentException(GAME_ROOM_DOES_NOT_EXISTS);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateGame(long gameId, JanggiGame game) {
+        String sql = "UPDATE GAME_ROOM SET TURN = ?, IS_FINISHED = ? WHERE id = ?";
+
+        try (
+                Connection connection = ConnectionManager.getConnection();
+                PreparedStatement psmt = connection.prepareStatement(sql)
+        ) {
+            psmt.setString(1, game.getTurn().name());
+            psmt.setBoolean(2, game.isFinished());
+            psmt.setLong(3, gameId);
+
+            psmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean isExists(long gameId) {
+        String sql = "SELECT 1 FROM GAME_ROOM WHERE id = ?";
+
+        try (
+                Connection connection = ConnectionManager.getConnection();
+                PreparedStatement psmt = connection.prepareStatement(sql)
+        ) {
+            psmt.setLong(1, gameId);
+
+            try (ResultSet rs = psmt.executeQuery()) {
+                return rs.next();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
