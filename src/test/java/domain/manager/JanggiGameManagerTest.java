@@ -12,6 +12,11 @@ import domain.player.Name;
 import domain.player.Player;
 import domain.player.Team;
 import domain.position.Position;
+import domain.rule.BigJangDrawRule;
+import domain.rule.DrawGameWinnerRule;
+import domain.rule.GameResultEngine;
+import domain.rule.NormalGameWinnerRule;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,7 +35,8 @@ class JanggiGameManagerTest {
                 choPlayer,
                 hanPlayer,
                 Formation.SANG_MA_SANG_MA,
-                Formation.SANG_MA_SANG_MA
+                Formation.SANG_MA_SANG_MA,
+                createGameResultEngine()
         );
     }
 
@@ -77,14 +83,16 @@ class JanggiGameManagerTest {
         Board originalBoard = new JanggiGameManager(
                 choPlayer, hanPlayer,
                 Formation.SANG_MA_SANG_MA,
-                Formation.SANG_MA_SANG_MA
+                Formation.SANG_MA_SANG_MA,
+                createGameResultEngine()
         ).getBoard();
 
         JanggiGameManager loadedJanggiGameManager = JanggiGameManager.fromLoadedState(
                 choPlayer,
                 hanPlayer,
                 originalBoard,
-                Team.CHO
+                Team.CHO,
+                createGameResultEngine()
         );
 
         assertEquals(choPlayer, loadedJanggiGameManager.getCurrentPlayer());
@@ -96,14 +104,16 @@ class JanggiGameManagerTest {
         Board originalBoard = new JanggiGameManager(
                 choPlayer, hanPlayer,
                 Formation.SANG_MA_SANG_MA,
-                Formation.SANG_MA_SANG_MA
+                Formation.SANG_MA_SANG_MA,
+                createGameResultEngine()
         ).getBoard();
 
         JanggiGameManager loadedJanggiGameManager = JanggiGameManager.fromLoadedState(
                 choPlayer,
                 hanPlayer,
                 originalBoard,
-                Team.HAN
+                Team.HAN,
+                createGameResultEngine()
         );
 
         assertEquals(hanPlayer, loadedJanggiGameManager.getCurrentPlayer());
@@ -114,18 +124,27 @@ class JanggiGameManagerTest {
         Board originalBoard = new JanggiGameManager(
                 choPlayer, hanPlayer,
                 Formation.SANG_MA_SANG_MA,
-                Formation.SANG_MA_SANG_MA
+                Formation.SANG_MA_SANG_MA,
+                createGameResultEngine()
         ).getBoard();
 
         JanggiGameManager loadedJanggiGameManager = JanggiGameManager.fromLoadedState(
                 choPlayer,
                 hanPlayer,
                 originalBoard,
-                Team.HAN
+                Team.HAN,
+                createGameResultEngine()
         );
         Position hanSourcePosition = new Position(1, 4);
 
         assertDoesNotThrow(
                 () -> loadedJanggiGameManager.validateSource(hanSourcePosition));
+    }
+
+    private GameResultEngine createGameResultEngine() {
+        return new GameResultEngine(
+            List.of(new BigJangDrawRule()),
+            List.of(new NormalGameWinnerRule(), new DrawGameWinnerRule())
+        );
     }
 }

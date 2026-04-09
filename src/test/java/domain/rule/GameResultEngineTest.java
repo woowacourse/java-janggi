@@ -13,16 +13,17 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class WinnerDeterminationRuleEngineTest {
+class GameResultEngineTest {
 
-    private WinnerDeterminationRuleEngine engine;
+    private GameResultEngine engine;
     private Player choPlayer;
     private Player hanPlayer;
     private Board board;
 
     @BeforeEach
     void setUp() {
-        engine = new WinnerDeterminationRuleEngine(
+        engine = new GameResultEngine(
+            List.of(new BigJangDrawRule()),
             List.of(new NormalGameWinnerRule(), new DrawGameWinnerRule())
         );
         choPlayer = new Player(new Name("초나라"), Team.CHO);

@@ -1,15 +1,13 @@
 package domain.player;
 
 public enum Team {
-    CHO(9, 0),
-    HAN(0, 1.5);
+    CHO(9),
+    HAN(0);
 
     private final int column;
-    private final double score;
 
-    Team(int column, double score) {
+    Team(int column) {
         this.column = column;
-        this.score = score;
     }
 
     public boolean isHan() {
@@ -24,7 +22,11 @@ public enum Team {
         return column;
     }
 
-    public double getScore() {
-        return score;
+    public Team opposite() {
+        if(this == HAN) {
+            return CHO;
+        }
+
+        return HAN;
     }
 }

@@ -5,7 +5,6 @@ import static domain.player.Team.HAN;
 
 import dao.GameInfo;
 import dao.GameLoadResult;
-import repository.JanggiGameRepository;
 import dao.PlayerNames;
 import domain.board.Board;
 import domain.board.Formation;
@@ -15,19 +14,39 @@ import domain.player.Name;
 import domain.player.Player;
 import domain.player.Team;
 import domain.position.Position;
+import domain.rule.BigJangDrawRule;
+import domain.rule.DrawGameWinnerRule;
+import domain.rule.GameResultEngine;
+import domain.rule.NormalGameWinnerRule;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import repository.JanggiGameRepository;
 
 public class JanggiGameSetupService {
     private final JanggiGameRepository janggiGameRepository;
+    private final GameResultEngine gameResultEngine;
 
     public JanggiGameSetupService(JanggiGameRepository janggiGameRepository) {
+        this(janggiGameRepository, new GameResultEngine(
+            List.of(new BigJangDrawRule()),
+            List.of(new NormalGameWinnerRule(), new DrawGameWinnerRule())
+        ));
+    }
+
+    public JanggiGameSetupService(JanggiGameRepository janggiGameRepository, GameResultEngine gameResultEngine) {
         this.janggiGameRepository = janggiGameRepository;
+        this.gameResultEngine = gameResultEngine;
     }
 
     public JanggiGameSession createNewGame(Player choPlayer, Player hanPlayer, Formation choFormation, Formation hanFormation) {
-        JanggiGameManager janggiGameManager = new JanggiGameManager(choPlayer, hanPlayer, choFormation, hanFormation);
+        JanggiGameManager janggiGameManager = new JanggiGameManager(
+            choPlayer,
+            hanPlayer,
+            choFormation,
+            hanFormation,
+            gameResultEngine
+        );
         long gameId = janggiGameRepository.createNewGame(
             choPlayer.getProfile().name().value(),
             hanPlayer.getProfile().name().value(),
@@ -49,7 +68,6 @@ public class JanggiGameSetupService {
         try {
             return Optional.of(loadResult(gameId));
         } catch (Exception e) {
-            System.err.println("게임 로드 실패 (gameId: " + gameId + "): " + e.getMessage());
             return Optional.empty();
         }
     }
@@ -73,7 +91,8 @@ public class JanggiGameSetupService {
             new Player(new Name(state.choName()), CHO),
             new Player(new Name(state.hanName()), HAN),
             board,
-            state.currentTeam()
+            state.currentTeam(),
+            gameResultEngine
         );
         return new JanggiGameSession(state.gameId(), janggiGameManager);
     }
