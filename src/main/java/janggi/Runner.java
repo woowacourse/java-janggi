@@ -28,8 +28,8 @@ public class Runner {
     }
 
     public void run() {
-        GameRepository gameRepository = createGameRepository();
         initializeSchema();
+        GameRepository gameRepository = createGameRepository();
         startGame(gameRepository);
     }
 
