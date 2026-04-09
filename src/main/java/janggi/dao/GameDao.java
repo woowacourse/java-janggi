@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import javax.sql.DataSource;
 
 public class GameDao {
@@ -34,6 +36,25 @@ public class GameDao {
             }
         } catch (SQLException e) {
             throw new RuntimeException("[ERROR] 게임 저장 중 오류가 발생했습니다.", e);
+        }
+    }
+
+    public List<Long> findGameIds() {
+        String sql = "SELECT id FROM game";
+
+        try (
+            Connection conn = dataSource.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery()
+        ) {
+            List<Long> gameIds = new ArrayList<>();
+
+            while (rs.next()) {
+                gameIds.add(rs.getLong("id"));
+            }
+            return gameIds;
+        } catch (SQLException e) {
+            throw new RuntimeException("[ERROR] 게임 id 조회 중 오류가 발생했습니다.", e);
         }
     }
 

@@ -47,6 +47,10 @@ public class JanggiService {
             .toList();
     }
 
+    public List<Long> loadPastGameIds() {
+        return gameDao.findGameIds();
+    }
+
     public GameSession loadPastGame(long gameId) {
         validateGameExists(gameId);
 

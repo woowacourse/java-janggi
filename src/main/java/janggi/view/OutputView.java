@@ -4,10 +4,20 @@ import janggi.domain.Board;
 import janggi.domain.Position;
 import janggi.domain.Space;
 import janggi.domain.Team;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class OutputView {
 
     private static String TEAM_SCORE = "%s나라: %.1f점";
+
+    public static void printGameIds(List<Long> gameIds) {
+        String result = gameIds.stream()
+            .map(String::valueOf)
+            .collect(Collectors.joining(", "));
+
+        System.out.println("현재 진행 중인 게임 ID: " + result);
+    }
 
     public static void printGameId(long gameId) {
         System.out.printf("id = %d 게임을 실행합니다.", gameId);

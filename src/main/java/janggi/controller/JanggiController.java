@@ -70,6 +70,9 @@ public class JanggiController {
     }
 
     private GameSession initializePastGame() {
+        List<Long> gameIds = janggiGameService.loadPastGameIds();
+        OutputView.printGameIds(gameIds);
+
         long gameId = Long.parseLong(InputView.askGameId());
         GameSession gameSession = janggiGameService.loadPastGame(gameId);
 
