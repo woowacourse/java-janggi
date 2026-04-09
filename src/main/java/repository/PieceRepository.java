@@ -15,9 +15,6 @@ import util.PieceFactory;
 
 public class PieceRepository {
 
-    public PieceRepository() {
-    }
-
     public void save(Game game, Connection connection) {
 
         Long gameId = game.id();

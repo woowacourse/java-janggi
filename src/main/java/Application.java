@@ -1,6 +1,7 @@
 import database.H2ConsoleStarter;
 import database.InitTable;
 import repository.GameRepository;
+import repository.PieceRepository;
 
 public class Application {
     public static void main(String[] args) {
@@ -8,7 +9,8 @@ public class Application {
         InitTable.schemaInit();
 
         GameRepository gameRepository = new GameRepository();
-        GameService gameService = new GameService(gameRepository);
+        PieceRepository pieceRepository = new PieceRepository();
+        GameService gameService = new GameService(gameRepository, pieceRepository);
         GameController gameController = new GameController(gameService);
 
         gameController.start();

@@ -1,11 +1,9 @@
 package repository;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
-import config.DatabaseConfig;
 import domain.Board;
 import domain.Game;
-import domain.PieceType;
 import domain.Position;
 import domain.Team;
 import domain.piece.Pawn;
@@ -19,9 +17,10 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class GameRepositoryTest {
-    private GameRepository gameRepository;
+public class PieceRepositoryTest {
+    private PieceRepository pieceRepository;
     private Connection connection;
+    private final GameRepository gameRepository = new GameRepository();
 
     @BeforeEach
     public void setUp() throws SQLException {
@@ -55,60 +54,25 @@ public class GameRepositoryTest {
             System.out.println("테이블을 생성하지 못했습니다" + e.getMessage());
             throw new RuntimeException(e);
         }
-
-        gameRepository = new GameRepository();
+        pieceRepository = new PieceRepository();
     }
 
     @Test
-    void 게임이_저장_된다() {
+    void 기물이_저장되고_조회된다() {
+        // given
         Map<Position, Piece> pieces = new HashMap<>();
         pieces.put(Position.from(1, 4), new Pawn(Team.CHO));
 
         Board board = new Board(pieces);
         Game game = new Game(board);
+        game.assignId(1L);
 
+        // when
         gameRepository.save(game, connection);
-        Game found = gameRepository.findByGameId(game.id(), connection, pieces);
+        pieceRepository.save(game, connection);
+        Map<Position, Piece> found = pieceRepository.findByGameId(1L, connection);
 
-        assertThat(found.board().getPieces()).hasSize(board.getPieces().size());
-    }
-
-    @Test
-    void 저장된_마자막_게임이_조회된다() {
-        Map<Position, Piece> pieces = new HashMap<>();
-        pieces.put(Position.from(1, 4), new Pawn(Team.CHO));
-
-        Board board = new Board(pieces);
-        Game game = new Game(board);
-
-        gameRepository.save(game, connection);
-        Game latelyGame = gameRepository.findLatest(connection, pieces);
-
-        assertThat(latelyGame.id()).isEqualTo(game.id());
-        assertThat(latelyGame.turn()).isEqualTo(game.turn());
-        assertThat(latelyGame.board().getPieces()).hasSize(board.getPieces().size());
-    }
-
-    @Test
-    void 업데이트하면_게임이_변경된다() {
-
-        Position from = Position.from(9, 5);
-        Position to = Position.from(9, 6);
-        Map<Position, Piece> testPiece = new HashMap<>();
-        testPiece.put(from, new Pawn(Team.CHO));
-        testPiece.put(to, new Pawn(Team.HAN));
-
-        Board board = new Board(testPiece);
-        Game game = new Game(board);
-
-        gameRepository.save(game, connection);
-
-        board.move(from, to, PieceType.PAWN, Team.CHO);
-        game.changeTurn();
-        gameRepository.updateGame(game, connection);
-
-        Game latelyGame = gameRepository.findLatest(connection, testPiece);
-
-        assertThat(latelyGame.turn()).isEqualTo(Team.HAN);
+        // then
+        assertThat(found).hasSize(1);
     }
 }
