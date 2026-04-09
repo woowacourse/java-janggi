@@ -7,12 +7,13 @@ import dto.BoardResponseDto;
 import dto.PieceDto;
 
 import java.util.Map;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class Board {
 
     private final Map<Position, Piece> state;
+
+    private static final double additionalScoreByHan = 1.5;
 
     private Board(Map<Position, Piece> state) {
         this.state = state;
@@ -57,7 +58,7 @@ public class Board {
                 .mapToDouble(Piece::getPieceScore)
                 .sum();
 
-        if (side.isHan()) return score + 1.5;
+        if (side.isHan()) return score + additionalScoreByHan;
         return score;
     }
 
