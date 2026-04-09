@@ -2,7 +2,7 @@ package controller;
 
 import domain.JanggiBoard;
 import domain.JanggiBoardInitializer;
-import domain.piece.Blank;
+import domain.dto.JanggiBoardDto;
 import domain.piece.MoveablePiece;
 import domain.position.Position;
 import view.InputView;
@@ -21,7 +21,7 @@ public class JanggiController {
         JanggiBoard janggiBoard = new JanggiBoard(new JanggiBoardInitializer());
         while (true) {
             try {
-                outputView.printBoard(janggiBoard);
+                outputView.printBoard(JanggiBoardDto.from(janggiBoard));
                 Position from = inputMovePosition();
                 Position to = inputTargetPosition();
                 if (janggiBoard.isBlank(from)) {
@@ -36,7 +36,7 @@ public class JanggiController {
                     throw new IllegalArgumentException("[ERROR] 해당 위치로 이동할 수 없는 기물입니다.");
                 }
                 janggiBoard.move(from, to, currentPiece);
-                outputView.printBoard(janggiBoard);
+                outputView.printBoard(JanggiBoardDto.from(janggiBoard));
             } catch (IllegalArgumentException e) {
                 outputView.printErrorMessage(e);
             }

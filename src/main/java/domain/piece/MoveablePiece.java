@@ -14,7 +14,14 @@ public abstract class MoveablePiece extends Piece {
         this.moveStrategy = moveStrategy;
     }
 
-    public abstract boolean canMove(Position from, Position to, PieceProvider pieceProvider);
+    public boolean canMove(Position from, Position to, PieceProvider pieceProvider){
+        List<Position> moveCandidates = moveStrategy.getMoveCandidates(from, team, pieceProvider);
+        if (moveCandidates.contains(to)) {
+            validateTarget(pieceProvider.getPiece(to));
+            return true;
+        }
+        return false;
+    }
 
     public List<Position> getMoveCandidates(Position from, PieceProvider board) {
         return moveStrategy.getMoveCandidates(from, team, board);
