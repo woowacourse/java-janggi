@@ -152,16 +152,9 @@ public class GameDAO {
     }
 
     private Piece createPiece(Camp camp, String pieceTypeStr) {
-        return switch (pieceTypeStr) {
-            case "CHARIOT" -> new Piece(camp, PieceType.CHARIOT);
-            case "GENERAL" -> new Piece(camp, PieceType.GENERAL);
-            case "GUARD" -> new Piece(camp, PieceType.GUARD);
-            case "SOLDIER" -> new Piece(camp, PieceType.SOLDIER);
-            case "ELEPHANT" -> new Piece(camp, PieceType.ELEPHANT);
-            case "HORSE" -> new Piece(camp, PieceType.HORSE);
-            case "CANNON" -> new Piece(camp, PieceType.CANNON);
-            default -> throw new IllegalArgumentException("알 수 없는 기물입니다: " + pieceTypeStr);
-        };
+        PieceType pieceType = PieceType.valueOf(pieceTypeStr);
+
+        return new Piece(camp, pieceType);
     }
 
     public void updateMove(int gameId, Game game, Position from, Position to) {
