@@ -101,7 +101,7 @@
 - [x] GameStateRepository 인터페이스 구현
    - 게임 상태 저장 기능
    - 저장된 게임 상태 조회 기능
-- [ ] InMemoryGameStateRepository 구현
+- [x] InMemoryGameStateRepository 구현
    - 메모리에 게임 상태 저장
    - 메모리에 저장된 게임 상태 조회
 - [ ] JdbcGameStateRepository 구현
