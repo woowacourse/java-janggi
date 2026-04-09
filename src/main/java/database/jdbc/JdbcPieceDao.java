@@ -14,10 +14,16 @@ import java.util.Map;
 
 public class JdbcPieceDao implements PieceDao {
 
+    private final DatabaseConnector connector;
+
+    public JdbcPieceDao(DatabaseConnector connector) {
+        this.connector = connector;
+    }
+
     @Override
     public void saveAll(int gameId, Map<Position, Piece> pieces) {
         String sql = "INSERT INTO piece (game_id, type, team, row_idx, col_idx) VALUES (?, ?, ?, ?, ?)";
-        try (Connection connection = DatabaseConnector.getConnection();
+        try (Connection connection = connector.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
             for (Map.Entry<Position, Piece> entry : pieces.entrySet()) {
@@ -40,7 +46,7 @@ public class JdbcPieceDao implements PieceDao {
     public Map<Position, Piece> findAll(int gameId) {
         String sql = "SELECT type, team, row_idx, col_idx FROM piece WHERE game_id = ?";
         Map<Position, Piece> pieces = new HashMap<>();
-        try (Connection connection = DatabaseConnector.getConnection();
+        try (Connection connection = connector.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setInt(1, gameId);
@@ -61,7 +67,7 @@ public class JdbcPieceDao implements PieceDao {
     @Override
     public void updatePosition(int gameId, Position src, Position dest) {
         String sql = "UPDATE piece SET row_idx = ?, col_idx = ? WHERE game_id = ? AND row_idx = ? AND col_idx = ?";
-        try (Connection connection = DatabaseConnector.getConnection();
+        try (Connection connection = connector.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setInt(1, dest.getRow());
@@ -78,7 +84,7 @@ public class JdbcPieceDao implements PieceDao {
     @Override
     public void delete(int gameId, Position position) {
         String sql = "DELETE FROM piece WHERE game_id = ? AND row_idx = ? AND col_idx = ?";
-        try (Connection connection = DatabaseConnector.getConnection();
+        try (Connection connection = connector.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setInt(1, gameId);

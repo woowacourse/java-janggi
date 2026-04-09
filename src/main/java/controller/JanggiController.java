@@ -26,6 +26,7 @@ public class JanggiController {
         this.gameRepository = gameRepository;
     }
 
+    //try-catch문 이동하기
     public void run() {
         GameState state = initializeGame();
         Board board = state.board();

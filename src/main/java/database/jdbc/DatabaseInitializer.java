@@ -13,9 +13,9 @@ public class DatabaseInitializer {
 
     private static final String SCHEMA_PATH = "Schema.sql";
 
-    public static void initialize() {
+    public static void initialize(DatabaseConnector connector) {
         String sql = loadSchema();
-        try (Connection conn = DatabaseConnector.getConnection();
+        try (Connection conn = connector.getConnection();
              Statement statement = conn.createStatement()) {
 
             for (String query : sql.split(";")) {

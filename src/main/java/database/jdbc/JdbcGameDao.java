@@ -12,10 +12,16 @@ import java.util.Optional;
 
 public class JdbcGameDao implements GameDao {
 
+    private final DatabaseConnector connector;
+
+    public JdbcGameDao(DatabaseConnector connector) {
+        this.connector = connector;
+    }
+
     @Override
     public int createGame(Team initialTurn) {
         String sql = "INSERT INTO game (status, current_turn) VALUES ('PLAYING', ?)";
-        try (Connection connection = DatabaseConnector.getConnection();
+        try (Connection connection = connector.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             statement.setString(1, initialTurn.name());
@@ -35,7 +41,7 @@ public class JdbcGameDao implements GameDao {
     @Override
     public Optional<GameEntity> findLatestPlaying() {
         String sql = "SELECT id, status, current_turn FROM game WHERE status = 'PLAYING' ORDER BY id DESC LIMIT 1";
-        try (Connection connection = DatabaseConnector.getConnection();
+        try (Connection connection = connector.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet resultSet = statement.executeQuery()) {
 
@@ -56,7 +62,7 @@ public class JdbcGameDao implements GameDao {
     @Override
     public void updateTurn(int gameId, Team team) {
         String sql = "UPDATE game SET current_turn = ? WHERE id = ?";
-        try (Connection connection = DatabaseConnector.getConnection();
+        try (Connection connection = connector.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setString(1, team.name());
@@ -70,7 +76,7 @@ public class JdbcGameDao implements GameDao {
     @Override
     public void deleteById(int id) {
         String sql = "DELETE FROM game WHERE id = ?";
-        try (Connection connection = DatabaseConnector.getConnection();
+        try (Connection connection = connector.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setInt(1, id);
