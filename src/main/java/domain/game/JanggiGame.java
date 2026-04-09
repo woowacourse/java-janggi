@@ -15,13 +15,17 @@ public class JanggiGame {
     private final Board board;
     private Turn turn;
 
+    private JanggiGame(Board board) {
+        this(board, Turn.CHO);
+    }
+
     private JanggiGame(Board board, Turn turn) {
         this.board = board;
         this.turn = turn;
     }
 
-    public static JanggiGame play(String inputCho, String inputHan) {
-        return new JanggiGame(BoardFactory.initialize(inputCho, inputHan), Turn.CHO);
+    public static JanggiGame init(String inputCho, String inputHan) {
+        return new JanggiGame(BoardFactory.initialize(inputCho, inputHan));
     }
 
     public static JanggiGame resume(Board board, Turn turn) {
