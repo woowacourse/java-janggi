@@ -1,6 +1,7 @@
 import controller.JanggiGame;
 import database.service.JanggiService;
 import database.service.SchemaInitializer;
+import database.transaction.JanggiTransactionExecutor;
 import database.transaction.TransactionExecutor;
 import database.dao.JdbcBoardDao;
 import database.dao.JdbcIntersectionDao;
@@ -22,7 +23,7 @@ public class Application {
         JanggiBoardMapper mapper = new JanggiBoardMapper();
         JdbcBoardDao jdbcBoardDao = new JdbcBoardDao(jdbcTemplate);
         JdbcIntersectionDao jdbcIntersectionDao = new JdbcIntersectionDao(jdbcTemplate);
-        TransactionExecutor transactionExecutor = new TransactionExecutor();
+        TransactionExecutor transactionExecutor = new JanggiTransactionExecutor();
 
         JanggiService janggiService = new JanggiService(jdbcBoardDao, mapper, transactionExecutor, jdbcIntersectionDao);
         JanggiGame janggiGame = new JanggiGame(inputReader, outputWriter, janggiService);
