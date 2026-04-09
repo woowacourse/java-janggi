@@ -21,40 +21,20 @@ public enum Direction {
         this.offsetColumn = offsetColumn;
     }
 
-    public static Direction fromDelta(int rowDifference, int columnDifference) {
-        if (rowDifference < 0) {
-            return getNorthDirection(columnDifference);
-        }
-        if (rowDifference > 0) {
-            return getSouthDirection(columnDifference);
-        }
-        if (columnDifference < 0) {
-            return WEST;
-        }
-        if (columnDifference > 0) {
-            return EAST;
+    public static Direction fromDelta(int deltaRow, int deltaColumn) {
+        int offsetRow = Integer.signum(deltaRow);
+        int offsetColumn = Integer.signum(deltaColumn);
+
+        return getDirection(offsetRow, offsetColumn);
+    }
+
+    private static Direction getDirection(int offsetRow, int offsetColumn) {
+        for (Direction direction : values()) {
+            if (direction.offsetRow == offsetRow && direction.offsetColumn == offsetColumn) {
+                return direction;
+            }
         }
         throw new IllegalArgumentException("방향을 계산할 수 없습니다.");
-    }
-
-    private static Direction getSouthDirection(int columnDifference) {
-        if (columnDifference < 0) {
-            return SOUTH_WEST;
-        }
-        if (columnDifference == 0) {
-            return SOUTH;
-        }
-        return SOUTH_EAST;
-    }
-
-    private static Direction getNorthDirection(int columnDifference) {
-        if (columnDifference < 0) {
-            return NORTH_WEST;
-        }
-        if (columnDifference == 0) {
-            return NORTH;
-        }
-        return NORTH_EAST;
     }
 
     public Position calculateNextPosition(Position source) {
