@@ -2,7 +2,11 @@ package domain.move;
 
 import static domain.move.Vector.DOWN;
 import static domain.move.Vector.LEFT;
+import static domain.move.Vector.LEFT_DOWN;
+import static domain.move.Vector.LEFT_UP;
 import static domain.move.Vector.RIGHT;
+import static domain.move.Vector.RIGHT_DOWN;
+import static domain.move.Vector.RIGHT_UP;
 import static domain.move.Vector.UP;
 
 import domain.intersection.Intersection;
@@ -12,10 +16,10 @@ import java.util.List;
 
 public class ChariotMoveRule extends MoveRule {
     public ChariotMoveRule() {
-        super(PieceType.CHARIOT, initializeDirections());
+        super(PieceType.CHARIOT);
     }
 
-    public static Directions initializeDirections() {
+    private Directions defaultDirection() {
         return new Directions(List.of(
                 Direction.straight(UP, 1),
                 Direction.straight(UP, 2),
@@ -59,12 +63,36 @@ public class ChariotMoveRule extends MoveRule {
         ));
     }
 
+    private Directions palaceDirection() {
+        return new Directions(List.of(
+                Direction.straight(LEFT_UP, 1),
+                Direction.straight(LEFT_UP, 2),
+
+                Direction.straight(LEFT_DOWN, 1),
+                Direction.straight(LEFT_DOWN, 2),
+
+                Direction.straight(RIGHT_UP, 1),
+                Direction.straight(RIGHT_UP, 2),
+
+                Direction.straight(RIGHT_DOWN, 1),
+                Direction.straight(RIGHT_DOWN, 2)
+        ));
+    }
+
     public boolean support(Intersection from) {
         return from.isSamePiece(pieceType);
     }
 
     public List<Point> findPossiblePoints(Intersection from, Intersection to) {
+        Directions directions = makeDirections(from, to);
         return directions.findPoints(from.getPoint(), to.getPoint());
+    }
+
+    protected Directions makeDirections(Intersection from, Intersection to) {
+        if (from.isPalaceDiagonal() && to.isPalaceDiagonal()) {
+            return defaultDirection().merge(palaceDirection());
+        }
+        return defaultDirection();
     }
 
     public void validateMoveRule(Intersection from, List<Intersection> path) {

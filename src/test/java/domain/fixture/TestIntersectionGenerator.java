@@ -12,7 +12,7 @@ public class TestIntersectionGenerator implements IntersectionGenerator {
     }
 
     @Override
-    public List<Intersection> makeIntersections() {
+    public List<Intersection> makePieceIntersections() {
         return intersections;
     }
 }

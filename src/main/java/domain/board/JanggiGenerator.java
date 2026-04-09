@@ -31,7 +31,7 @@ public class JanggiGenerator implements IntersectionGenerator {
         this.choFormation = choFormation;
     }
 
-    public List<Intersection> makeIntersections() {
+    public List<Intersection> makePieceIntersections() {
         return Stream.of(Team.CHO, Team.HAN)
                 .flatMap(team -> Stream.of(
                         createDefaultSoldierIntersection(team),

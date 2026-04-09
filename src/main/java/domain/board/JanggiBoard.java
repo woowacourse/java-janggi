@@ -29,7 +29,8 @@ public class JanggiBoard {
     public JanggiBoard(IntersectionGenerator intersectionGenerator) {
         this.intersections = fillEmptyIntersections();
         this.moveRules = setMoveRules();
-        for (Intersection intersection : intersectionGenerator.makeIntersections()) {
+
+        for (Intersection intersection : intersectionGenerator.makePieceIntersections()) {
             intersections.put(intersection.getPoint(), intersection);
         }
     }

@@ -16,10 +16,10 @@ import java.util.List;
 
 public class ElephantMoveRule extends MoveRule {
     public ElephantMoveRule() {
-        super(PieceType.ELEPHANT, initializeDirections());
+        super(PieceType.ELEPHANT);
     }
 
-    public static Directions initializeDirections() {
+    private Directions defaultDirection() {
         return new Directions(List.of(
                 new Direction(List.of(UP, LEFT_UP, LEFT_UP)),
                 new Direction(List.of(UP, RIGHT_UP, RIGHT_UP)),
@@ -37,7 +37,12 @@ public class ElephantMoveRule extends MoveRule {
     }
 
     public List<Point> findPossiblePoints(Intersection from, Intersection to) {
+        Directions directions = makeDirections(from, to);
         return directions.findPoints(from.getPoint(), to.getPoint());
+    }
+
+    protected Directions makeDirections(Intersection from, Intersection to) {
+        return defaultDirection();
     }
 
     public void validateMoveRule(Intersection from, List<Intersection> path) {

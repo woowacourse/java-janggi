@@ -31,6 +31,14 @@ public class Intersection {
         return point;
     }
 
+    public boolean isPalace() {
+        return point.isPalace();
+    }
+
+    public boolean isPalaceDiagonal() {
+        return point.isPalaceDiagonal();
+    }
+
     public Team getTeam() {
         return piece.getTeam();
     }

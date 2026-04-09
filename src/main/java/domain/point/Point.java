@@ -1,11 +1,19 @@
 package domain.point;
 
 import domain.move.Vector;
+import java.util.List;
 
 public record Point(
         int y,
         int x
 ) {
+    private static final List<Integer> PALACE_ROWS = List.of(0, 1, 2, 7, 8, 9);
+    private static final List<Integer> PALACE_FILES = List.of(3, 4, 5);
+    private static final List<Integer> CORNER_ROWS = List.of(0, 2, 7, 9);
+    private static final List<Integer> CENTER_ROWS = List.of(1, 8);
+    private static final List<Integer> CORNER_FILES = List.of(3, 5);
+    private static final int CENTER_FILE = 4;
+
     public Point(int y, int x) {
         validate(y, x);
         this.y = y;
@@ -17,6 +25,15 @@ public record Point(
             return;
         }
         throw new IllegalArgumentException("잘못된 좌표 입력입니다.");
+    }
+
+    public boolean isPalace() {
+        return PALACE_ROWS.contains(this.y) && PALACE_FILES.contains(this.x);
+    }
+
+    public boolean isPalaceDiagonal() {
+        return (CORNER_ROWS.contains(this.y) && CORNER_FILES.contains(this.x))
+                || (CENTER_ROWS.contains(this.y) && this.x == CENTER_FILE);
     }
 
     public boolean canMake(int y, int x) {

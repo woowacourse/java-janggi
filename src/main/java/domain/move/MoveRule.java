@@ -8,16 +8,16 @@ import java.util.List;
 
 public abstract class MoveRule {
     protected final PieceType pieceType;
-    protected final Directions directions;
 
-    protected MoveRule(PieceType pieceType, Directions directions) {
+    protected MoveRule(PieceType pieceType) {
         this.pieceType = pieceType;
-        this.directions = directions;
     }
 
     public abstract boolean support(Intersection from);
 
     public abstract List<Point> findPossiblePoints(Intersection from, Intersection to);
+
+    protected abstract Directions makeDirections(Intersection from, Intersection to);
 
     public abstract void validateMoveRule(Intersection from, List<Intersection> path);
 
