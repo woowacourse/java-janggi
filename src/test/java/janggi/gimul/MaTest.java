@@ -136,7 +136,7 @@ class MaTest {
         assertThat(ma.getScore()).isEqualTo(new Score(5));
     }
 
-    @DisplayName("마는 점프할 수 있다.")
+    @DisplayName("마는 넘어갈 수 있다.")
     @Test
     void canBeJumpedOver() {
         Ma ma = new Ma(Team.CHO);

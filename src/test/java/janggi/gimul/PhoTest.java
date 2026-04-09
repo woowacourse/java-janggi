@@ -218,7 +218,7 @@ class PhoTest {
         assertThat(pho.getScore()).isEqualTo(new Score(7));
     }
 
-    @DisplayName("포는 점프할 수 없다.")
+    @DisplayName("포는 넘어갈 수 없다.")
     @Test
     void canBeJumpedOver() {
         Pho pho = new Pho(Team.CHO);

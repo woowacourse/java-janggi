@@ -129,7 +129,7 @@ class SaTest {
         assertThat(sa.getScore()).isEqualTo(new Score(3));
     }
 
-    @DisplayName("사는 점프할 수 없다.")
+    @DisplayName("사는 넘어갈 수 있다.")
     @Test
     void canBeJumpedOver() {
         Sa sa = new Sa(Team.CHO);

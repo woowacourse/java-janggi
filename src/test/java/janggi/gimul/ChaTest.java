@@ -180,7 +180,7 @@ class ChaTest {
         assertThat(cha.getScore()).isEqualTo(new Score(13));
     }
 
-    @DisplayName("차는 점프할 수 있다.")
+    @DisplayName("차는 넘어갈 수 있다.")
     @Test
     void canBeJumpedOver() {
         Cha cha = new Cha(Team.CHO);

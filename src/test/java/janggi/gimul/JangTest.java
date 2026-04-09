@@ -129,7 +129,7 @@ class JangTest {
         assertThat(jang.getScore()).isEqualTo(new Score(0));
     }
 
-    @DisplayName("장군은 점프할 수 있다.")
+    @DisplayName("장군은 넘어갈 수 있다.")
     @Test
     void canBeJumpedOver() {
         Jang jang = new Jang(Team.CHO);

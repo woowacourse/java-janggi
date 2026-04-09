@@ -234,7 +234,7 @@ class ByeongTest {
         assertThat(byeong.getScore()).isEqualTo(new Score(2));
     }
 
-    @DisplayName("병은 점프할 수 있다.")
+    @DisplayName("병은 넘어갈 수 있다.")
     @Test
     void canBeJumpedOver() {
         Byeong byeong = new Byeong(Team.CHO);
