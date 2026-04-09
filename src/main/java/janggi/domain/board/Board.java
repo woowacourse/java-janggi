@@ -7,10 +7,7 @@ import janggi.domain.board.strategy.FormationStrategy;
 import janggi.domain.piece.*;
 import janggi.domain.piece.strategy.*;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Board {
@@ -110,5 +107,16 @@ public class Board {
     public Camp checkCampOfThePiece(Position position) {
         return janggiBoard.get(position)
                 .getCamp();
+    }
+
+    public boolean isOnlyGeneralOfCampAlive(Camp camp) {
+        List<Piece> generals = janggiBoard.values()
+                .stream()
+                .filter(piece -> PieceDisplayName.isGeneral(piece.displayName()))
+                .toList();
+        if (generals.size() != 1) {
+            return false;
+        }
+        return generals.getFirst().isSameCamp(camp);
     }
 }

@@ -26,4 +26,8 @@ public enum PieceDisplayName {
         }
         return hanName;
     }
+
+    public static boolean isGeneral(String displayName) {
+        return GENERAL.choName.equals(displayName) || GENERAL.hanName.equals(displayName);
+    }
 }
