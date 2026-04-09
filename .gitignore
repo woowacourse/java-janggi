@@ -1,5 +1,6 @@
 HELP.md
 .gradle
+.gradle-local/
 .gradle-user-home/
 build/
 !gradle/wrapper/gradle-wrapper.jar

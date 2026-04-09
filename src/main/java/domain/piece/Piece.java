@@ -40,7 +40,9 @@ public class Piece {
         if (isPalacePiece()) {
             return PALACE_ROUTE_GENERATOR.createRoutes(from, pieceType, teamColor);
         }
-        return currentMoveStrategy().makeRoutes(from, teamColor);
+        List<Route> routes = currentMoveStrategy().makeRoutes(from, teamColor);
+        routes.addAll(PALACE_ROUTE_GENERATOR.createRoutes(from, pieceType, teamColor));
+        return routes;
     }
 
     public boolean canMove(Route route, List<Piece> blockingPieces, Optional<Piece> destinationPiece) {
