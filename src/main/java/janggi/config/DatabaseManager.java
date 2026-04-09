@@ -16,9 +16,9 @@ public class DatabaseManager {
     private static final String DROP_SQL = "drop.sql";
     private static final String SCHEMA_SQL = "schema.sql";
 
-    private static final String URL = "jdbc:h2:./janggi-db";
-    private static final String USER = "sa";
-    private static final String PASSWORD = "";
+    private static final String URL = System.getProperty("db.url", "jdbc:h2:./janggi-db");
+    private static final String USER = System.getProperty("db.user", "sa");
+    private static final String PASSWORD = System.getProperty("db.password", "");
 
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASSWORD);
