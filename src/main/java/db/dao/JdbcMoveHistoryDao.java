@@ -112,36 +112,9 @@ public class JdbcMoveHistoryDao implements MoveHistoryDao {
         }
     }
 
-    @Override
-    public void deleteById(final SqlConnection connection, final Long id) {
-        validateId(id);
-
-        final String sql = """
-            DELETE FROM move_history
-            WHERE id = ?
-            """;
-
-        try (final PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setLong(1, id);
-
-            final int affectedRows = statement.executeUpdate();
-            if (affectedRows == 0) {
-                throw new IllegalArgumentException("삭제할 이동 기록이 존재하지 않습니다. id=" + id);
-            }
-        } catch (final SQLException e) {
-            throw new IllegalStateException("이동 기록 삭제에 실패했습니다.", e);
-        }
-    }
-
     private void validateGameId(final Long gameId) {
         if (gameId == null) {
             throw new IllegalArgumentException("게임 ID가 필요합니다.");
-        }
-    }
-
-    private void validateId(final Long id) {
-        if (id == null) {
-            throw new IllegalArgumentException("이동 기록 ID가 필요합니다.");
         }
     }
 
@@ -152,9 +125,26 @@ public class JdbcMoveHistoryDao implements MoveHistoryDao {
     }
 
     private MoveHistoryEntity parseMoveHistory(final ResultSet resultSet) throws SQLException {
+        final boolean isCaptured = resultSet.getBoolean("is_captured");
         final String capturedType = resultSet.getString("captured_piece_type");
         final String capturedSide = resultSet.getString("captured_piece_side");
 
+        if (isCaptured) {
+            return new MoveHistoryEntity(
+                resultSet.getLong("id"),
+                resultSet.getLong("game_id"),
+                resultSet.getInt("move_order"),
+                PieceType.valueOf(resultSet.getString("moving_piece_type")),
+                Side.valueOf(resultSet.getString("moving_piece_side")),
+                resultSet.getInt("departure_row"),
+                resultSet.getInt("departure_column"),
+                resultSet.getInt("destination_row"),
+                resultSet.getInt("destination_column"),
+                true,
+                PieceType.valueOf(capturedType),
+                Side.valueOf(capturedSide)
+            );
+        }
         return new MoveHistoryEntity(
             resultSet.getLong("id"),
             resultSet.getLong("game_id"),
@@ -165,9 +155,9 @@ public class JdbcMoveHistoryDao implements MoveHistoryDao {
             resultSet.getInt("departure_column"),
             resultSet.getInt("destination_row"),
             resultSet.getInt("destination_column"),
-            resultSet.getBoolean("is_captured"),
-            capturedType != null ? PieceType.valueOf(capturedType) : null,
-            capturedSide != null ? Side.valueOf(capturedSide) : null
+            false,
+            null,
+            null
         );
     }
 }

@@ -29,7 +29,7 @@ public class GameSession {
         view.printGameResult(game.getResult());
     }
 
-    public GameTurnResult run() {
+    public GameTurnResult playTurn() {
         if (isOver()) {
             throw new IllegalArgumentException("진행중인 게임만 실행할 수 있습니다.");
         }
@@ -40,7 +40,13 @@ public class GameSession {
             if (view.askEndByScore(game.getTurnSide())) {
                 return endGameByScore();
             }
-            return playGame();
+
+            GameTurnResult moved = move();
+            if (view.askUnDo()) {
+                view.printUndo();
+                return GameTurnResult.undo(game);
+            }
+            return moved;
         });
 
         this.game = result.updatedGame();
@@ -63,7 +69,7 @@ public class GameSession {
         return GameTurnResult.endByScore(updatedGame);
     }
 
-    private GameTurnResult playGame() {
+    private GameTurnResult move() {
         final Position departure = view.askDeparture();
         final Position destination = view.askDestination();
 

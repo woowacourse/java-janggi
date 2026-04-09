@@ -109,4 +109,12 @@ public class OutputView {
             System.out.println();
         });
     }
+
+    public void askUndo() {
+        System.out.println("한 수를 무르겠습니까? (y/n)");
+    }
+
+    public void printUnDo() {
+        System.out.println("한 수를 물렀습니다. 기물을 다시 이동해주세요.");
+    }
 }

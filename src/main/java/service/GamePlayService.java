@@ -79,7 +79,10 @@ public class GamePlayService {
 
     private void run(final Long gameId, final GameSession session) {
         while (!session.isOver()) {
-            final GameTurnResult turnResult = session.run();
+            final GameTurnResult turnResult = session.playTurn();
+            if (turnResult.unDo()) {
+                continue;
+            }
             saveTurn(gameId, turnResult);
         }
         session.printResult();

@@ -41,6 +41,20 @@ public class JanggiView {
         });
     }
 
+    public boolean askNewGame() {
+        return Retry.untilSuccess(() -> {
+            out.askNewGame();
+            return in.readYesOrNo();
+        });
+    }
+
+    public boolean askUnDo() {
+        return Retry.untilSuccess(() -> {
+            out.askUndo();
+            return in.readYesOrNo();
+        });
+    }
+
     public Position askDeparture() {
         out.askDeparture();
         return readPositionUntilSuccess();
@@ -63,13 +77,6 @@ public class JanggiView {
         out.printScore(side, score);
     }
 
-    public boolean askNewGame() {
-        return Retry.untilSuccess(() -> {
-            out.askNewGame();
-            return in.readYesOrNo();
-        });
-    }
-
     public SelectedGame askGameId(final List<GameSummary> gameSummaries) {
         out.printSavedGames(gameSummaries);
         out.askGameId();
@@ -85,5 +92,9 @@ public class JanggiView {
 
     public void printMoveHistories(List<MoveHistory> moveHistories) {
         out.printMoveHistories(moveHistories);
+    }
+
+    public void printUndo() {
+        out.printUnDo();
     }
 }
