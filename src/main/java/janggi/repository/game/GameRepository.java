@@ -15,4 +15,5 @@ public interface GameRepository {
     Optional<GameEntity> findById(Long gameId);
 
     List<Long> findAllByState(GameState state);
+
 }

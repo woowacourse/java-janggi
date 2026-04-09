@@ -44,10 +44,8 @@ public class JdbcPieceRepository implements PieceRepository {
                 WHERE janggi_game_id = ? AND row_pos = ? AND col_pos = ?
                 """;
 
-        try (
-                PreparedStatement deleteStatement = connection.prepareStatement(deleteSql);
-                PreparedStatement updateStatement = connection.prepareStatement(updateSql)
-        ) {
+        try (PreparedStatement deleteStatement = connection.prepareStatement(deleteSql);
+             PreparedStatement updateStatement = connection.prepareStatement(updateSql)) {
             deleteStatement.setLong(1, gameId);
             deleteStatement.setInt(2, to.row().row());
             deleteStatement.setInt(3, to.column().column());
