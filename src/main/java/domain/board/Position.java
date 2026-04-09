@@ -28,6 +28,14 @@ public record Position(int x, int y) {
         return to.y - this.y;
     }
 
+    boolean isAfter(Position other) {
+        if (this.x != other.x) {
+            return this.x > other.x;
+        }
+
+        return this.y > other.y;
+    }
+
     List<Position> findOrthogonalPath(Position destination) {
         List<Position> path = new ArrayList<>();
 
