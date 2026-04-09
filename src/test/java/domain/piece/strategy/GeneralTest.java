@@ -15,7 +15,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class GeneralTest {
 
     @Test
-    @DisplayName("궁 기물이 움직임의 여부를 판단할 수 있다.")
+    @DisplayName("궁 기물이 움직임의 여부를 판단할 수 있다.UP")
     void 궁_기물_움직임_여부_판단() {
         // given
         Map<Position, Piece> pieceMap = new LinkedHashMap<>();
@@ -30,7 +30,7 @@ public class GeneralTest {
     }
 
     @Test
-    @DisplayName("궁 기물이 움직임의 여부를 판단할 수 있다.")
+    @DisplayName("궁 기물이 움직임의 여부를 판단할 수 있다.UP_RIGHT")
     void 궁_기물_움직임_여부_판단2() {
         // given
         Map<Position, Piece> pieceMap = new LinkedHashMap<>();
@@ -45,7 +45,7 @@ public class GeneralTest {
     }
 
     @Test
-    @DisplayName("궁 기물이 움직임의 여부를 판단할 수 있다.")
+    @DisplayName("궁 기물이 움직임의 여부를 판단할 수 있다.RIGHT")
     void 궁_기물_움직임_여부_판단3() {
         // given
         Map<Position, Piece> pieceMap = new LinkedHashMap<>();
@@ -60,7 +60,7 @@ public class GeneralTest {
     }
 
     @Test
-    @DisplayName("궁 기물이 움직임의 여부를 판단할 수 있다.")
+    @DisplayName("궁 기물이 움직임의 여부를 판단할 수 있다.DOWN")
     void 궁_기물_움직임_여부_판단4() {
         // given
         Map<Position, Piece> pieceMap = new LinkedHashMap<>();
@@ -75,7 +75,7 @@ public class GeneralTest {
     }
 
     @Test
-    @DisplayName("궁 기물이 움직임의 여부를 판단할 수 있다.")
+    @DisplayName("궁 기물이 움직임의 여부를 판단할 수 있다.UP")
     void 궁_기물_움직임_여부_판단5() {
         // given
         Map<Position, Piece> pieceMap = new LinkedHashMap<>();
@@ -90,7 +90,7 @@ public class GeneralTest {
     }
 
     @Test
-    @DisplayName("궁 기물이 움직임의 여부를 판단할 수 있다.")
+    @DisplayName("궁 기물이 움직임의 여부를 판단할 수 있다.RIGHT")
     void 궁_기물_움직임_여부_판단6() {
         // given
         Map<Position, Piece> pieceMap = new LinkedHashMap<>();
@@ -105,7 +105,7 @@ public class GeneralTest {
     }
 
     @Test
-    @DisplayName("궁 기물이 움직임의 여부를 판단할 수 있다.")
+    @DisplayName("궁 기물이 움직임의 여부를 판단할 수 있다.LEFT")
     void 궁_기물_움직임_여부_판단7() {
         // given
         Map<Position, Piece> pieceMap = new LinkedHashMap<>();
@@ -120,7 +120,7 @@ public class GeneralTest {
     }
 
     @Test
-    @DisplayName("궁 기물이 움직임의 여부를 판단할 수 있다.")
+    @DisplayName("궁 기물이 움직임의 여부를 판단할 수 있다.DOWN_LEFT")
     void 궁_기물_움직임_여부_판단8() {
         // given
         Map<Position, Piece> pieceMap = new LinkedHashMap<>();
@@ -135,7 +135,7 @@ public class GeneralTest {
     }
 
     @Test
-    @DisplayName("궁 기물이 궁내에서 경로가 없는 경로로 이동할 때")
+    @DisplayName("궁 기물이 궁내에서 경로가 없는 경로로 이동할 때 이동할 수 없다.")
     void 궁_기물_움직임_실패_테스트_1() {
         // given
         Map<Position, Piece> pieceMap = new LinkedHashMap<>();
@@ -150,7 +150,7 @@ public class GeneralTest {
     }
 
     @Test
-    @DisplayName("궁 기물이 궁 밖으로 나가려고 할 때")
+    @DisplayName("궁 기물이 궁 밖으로 나가려고 할 때 이동할 수 없다.")
     void 궁_기물_움직임_실패_테스트_2() {
         // given
         Map<Position, Piece> pieceMap = new LinkedHashMap<>();

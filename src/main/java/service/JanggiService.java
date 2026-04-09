@@ -52,7 +52,7 @@ public class JanggiService {
     private JanggiGame findGameById(Long gameId) {
         Board board = findBoardBy(gameId);
         Players players = findPlayersBy(gameId);
-        Side currentTurn = Side.valueOf(getWhoseTurn(gameId));
+        Side currentTurn = getWhoseTurn(gameId);
         return JanggiGame.of(board, players, currentTurn);
     }
 

@@ -43,7 +43,7 @@ public class JanggiGame {
     }
 
     public void switchTurn() {
-        this.currentTurn = currentTurn.next();
+        this.currentTurn = currentTurn.opposite();
     }
 
     public Board getBoard() {
