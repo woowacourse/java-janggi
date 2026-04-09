@@ -27,6 +27,10 @@ public class Column {
         }
     }
 
+    public int value() {
+        return value;
+    }
+
     public Column divide(Column column) {
         return new Column((this.value + column.value) / 2);
     }
