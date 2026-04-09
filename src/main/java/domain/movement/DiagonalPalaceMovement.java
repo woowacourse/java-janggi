@@ -25,7 +25,7 @@ public class DiagonalPalaceMovement extends AbstractPalaceMovement {
             Coordination.of(6, 3), List.of(Coordination.of(5, 2), Coordination.of(4, 1))
     );
 
-    protected static final Map<Coordination, List<Coordination>> PALACE = Stream.of(CHO_PALACE, HAN_PALACE)
+    private static final Map<Coordination, List<Coordination>> PALACE = Stream.of(CHO_PALACE, HAN_PALACE)
             .flatMap(m -> m.entrySet().stream())
             .collect(Collectors.toUnmodifiableMap(Map.Entry::getKey, Map.Entry::getValue));
 
