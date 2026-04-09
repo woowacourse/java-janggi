@@ -32,18 +32,18 @@ public class Position {
         return !isInsideBoundary(nextColumn, nextRow);
     }
 
+    private void validateBoundary(int column, int row) {
+        if (column < MIN_COLUMN || column > MAX_COLUMN || row < MIN_ROW || row > MAX_ROW) {
+            throw new IllegalArgumentException("[ERROR] 보드 범위를 벗어났습니다.");
+        }
+    }
+
     public int getRow() {
         return row;
     }
 
     public int getColumn() {
         return column;
-    }
-
-    private void validateBoundary(int column, int row) {
-        if (column < MIN_COLUMN || column > MAX_COLUMN || row < MIN_ROW || row > MAX_ROW) {
-            throw new IllegalArgumentException("[ERROR] 보드 범위를 벗어났습니다.");
-        }
     }
 
     @Override

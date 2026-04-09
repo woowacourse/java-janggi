@@ -17,16 +17,16 @@ public class Piece {
         this.moveRule = pieceType.getMoveRule();
     }
 
-    public boolean isAlly(Team targetTeam) {
-        return this.team.isSameTeam(targetTeam);
+    public List<Position> findAvailableDestinations(Position position, Map<Position, Piece> state) {
+        return moveRule.calculateAvailablePositions(position, team, state);
+    }
+
+    public boolean isEnemy(Team targetTeam) {
+        return !this.team.isSameTeam(targetTeam);
     }
 
     public boolean isPo() {
         return pieceType == PieceType.PO;
-    }
-
-    public List<Position> findAvailableDestinations(Position position, Map<Position, Piece> state) {
-        return moveRule.calculateAvailablePositions(position, team, state);
     }
 
     public PieceType getPieceType() {

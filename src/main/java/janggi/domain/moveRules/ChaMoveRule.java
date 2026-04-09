@@ -40,7 +40,7 @@ public class ChaMoveRule implements MoveRule {
         return result;
     }
 
-    private static List<Direction> getStraightDirections() {
+    private List<Direction> getStraightDirections() {
         return Arrays.stream(Direction.values())
                 .filter(Direction::isStraight)
                 .toList();

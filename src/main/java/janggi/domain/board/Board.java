@@ -14,12 +14,6 @@ public class Board {
         this.board = new HashMap<>(initBoard);
     }
 
-    private static void validateCantMovePiece(List<Position> availablePositions) {
-        if (availablePositions.isEmpty()) {
-            throw new IllegalArgumentException("[ERROR] 이동할 수 없는 좌표입니다.");
-        }
-    }
-
     public List<Position> findAvailablePositions(Position position) {
         if (!board.containsKey(position)) {
             throw new IllegalArgumentException("[ERROR] 선택할 수 없는 좌표입니다.");
@@ -29,7 +23,7 @@ public class Board {
         List<Position> filteredPositions = availablePositions.stream()
                 .filter(targetPosition -> {
                     Piece targetPiece = board.get(targetPosition);
-                    return targetPiece == null || !targetPiece.isAlly(currentPiece.getTeam());
+                    return targetPiece == null || targetPiece.isEnemy(currentPiece.getTeam());
                 })
                 .toList();
         validateCantMovePiece(filteredPositions);
@@ -54,6 +48,12 @@ public class Board {
 
         if (!hasPosition) {
             throw new IllegalArgumentException("[ERROR] 이동 가능한 좌표 중에서 선택하세요.");
+        }
+    }
+
+    private static void validateCantMovePiece(List<Position> availablePositions) {
+        if (availablePositions.isEmpty()) {
+            throw new IllegalArgumentException("[ERROR] 이동할 수 없는 좌표입니다.");
         }
     }
 

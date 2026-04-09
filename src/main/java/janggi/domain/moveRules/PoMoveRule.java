@@ -29,7 +29,6 @@ public class PoMoveRule implements MoveRule {
             return null;
         }
 
-        // TODO: 보드판 범위를 벗어나는 Position으로 move 시에 오류 해결
         Position next = currentPosition.move(direction);
         Piece piece = state.get(next);
 
@@ -62,12 +61,12 @@ public class PoMoveRule implements MoveRule {
             result.add(next);
             return;
         }
-        if (!piece.isAlly(team) && !piece.isPo()) {
+        if (piece.isEnemy(team) && !piece.isPo()) {
             result.add(next);
         }
     }
 
-    private static List<Direction> getPoDirections() {
+    private List<Direction> getPoDirections() {
         return Arrays.stream(Direction.values())
                 .filter(Direction::isStraight)
                 .toList();
