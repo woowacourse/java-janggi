@@ -111,9 +111,9 @@ public class JanggiServiceTest {
         janggiService.move(gameId, from, to);
 
         // then
-        verify(boardRepository, times(1)).delete(gameId, to);
-        verify(boardRepository, times(1)).updatePosition(gameId, from, to);
-        verify(gameRepositoryMock, times(1)).updateGame(eq(gameId), any(JanggiGame.class));
+        verify(boardRepository, times(1)).delete(conn, gameId, to);
+        verify(boardRepository, times(1)).updatePosition(conn, gameId, from, to);
+        verify(gameRepositoryMock, times(1)).updateGame(conn, eq(gameId), any(JanggiGame.class));
     }
 
     @Test
@@ -126,6 +126,6 @@ public class JanggiServiceTest {
         janggiService.pass(1);
 
         // then
-        verify(gameRepositoryMock, times(1)).updateGame(eq(gameId), any(JanggiGame.class));
+        verify(gameRepositoryMock, times(1)).updateGame(conn, eq(gameId), any(JanggiGame.class));
     }
 }

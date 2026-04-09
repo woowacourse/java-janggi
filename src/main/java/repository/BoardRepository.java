@@ -17,12 +17,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 public class BoardRepository {
-    public void updatePosition(long gameId, Position from, Position to) {
+    public void updatePosition(Connection conn, long gameId, Position from, Position to) {
         String sql = "UPDATE BOARD SET position_row = ?, position_column = ? WHERE game_room_id = ? and position_row = ? and position_column = ?";
 
         try (
-                Connection connection = ConnectionManager.getConnection();
-                PreparedStatement psmt = connection.prepareStatement(sql)
+                PreparedStatement psmt = conn.prepareStatement(sql)
         ) {
             psmt.setInt(1, to.getRow().getValue());
             psmt.setInt(2, to.getColumn().getValue());
@@ -36,12 +35,11 @@ public class BoardRepository {
         }
     }
 
-    public void delete(long gameId, Position to) {
+    public void delete(Connection conn, long gameId, Position to) {
         String sql = "DELETE FROM BOARD WHERE game_room_id = ? and position_row = ? and position_column = ?";
 
         try (
-                Connection connection = ConnectionManager.getConnection();
-                PreparedStatement psmt = connection.prepareStatement(sql)
+                PreparedStatement psmt = conn.prepareStatement(sql)
         ) {
             psmt.setLong(1, gameId);
             psmt.setInt(2, to.getRow().getValue());

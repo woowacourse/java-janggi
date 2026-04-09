@@ -51,7 +51,7 @@ class GameRepositoryTest {
         JanggiGame game = GameInitializer.init(SettingType.LEFT, SettingType.LEFT);
         game = game.pass();
 
-        gameRepository.updateGame(savedId, game);
+        gameRepository.updateGame(conn, savedId, game);
         Team updatedTurn = gameRepository.getCurrentTeam(savedId);
 
         // then
@@ -67,7 +67,7 @@ class GameRepositoryTest {
         // when
         JanggiGame game = GameInitializer.init(SettingType.LEFT, SettingType.LEFT);
 
-        gameRepository.updateGame(savedId, game);
+        gameRepository.updateGame(conn, savedId, game);
 
         String sql = "SELECT IS_FINISHED FROM GAME_ROOM WHERE ID = ?";
 

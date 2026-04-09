@@ -116,12 +116,11 @@ public class GameRepository {
         }
     }
 
-    public void updateGame(long gameId, JanggiGame game) {
+    public void updateGame(Connection conn, long gameId, JanggiGame game) {
         String sql = "UPDATE GAME_ROOM SET TURN = ?, IS_FINISHED = ? WHERE id = ?";
 
         try (
-                Connection connection = ConnectionManager.getConnection();
-                PreparedStatement psmt = connection.prepareStatement(sql)
+                PreparedStatement psmt = conn.prepareStatement(sql)
         ) {
             psmt.setString(1, game.getTurn().name());
             psmt.setBoolean(2, game.isFinished());

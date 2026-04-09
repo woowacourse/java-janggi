@@ -7,9 +7,12 @@ import domain.position.Position;
 import domain.settingType.SettingType;
 import domain.state.GameInitializer;
 import domain.state.JanggiGame;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import repository.BoardRepository;
+import repository.ConnectionManager;
 import repository.GameRepository;
 import repository.GameRoomInfo;
 
@@ -40,15 +43,50 @@ public class JanggiService {
         JanggiGame game = loadGame(gameId);
         JanggiGame updated = game.move(from, to);
 
-        boardRepository.delete(gameId, to);
-        boardRepository.updatePosition(gameId, from, to);
-        gameRepository.updateGame(gameId, updated);
+        Connection conn = null;
+        try {
+            conn = ConnectionManager.getConnection();
+
+            conn.setAutoCommit(false);
+
+            boardRepository.delete(conn, gameId, to);
+            boardRepository.updatePosition(conn, gameId, from, to);
+            gameRepository.updateGame(conn, gameId, updated);
+
+            conn.commit();
+        } catch (SQLException e) {
+            if (conn != null) {
+                try {
+                    conn.rollback();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+            throw new RuntimeException(e);
+        }
     }
 
     public JanggiGame pass(long gameId) {
         JanggiGame game = loadGame(gameId);
         JanggiGame passed = game.pass();
-        gameRepository.updateGame(gameId, passed);
+
+        Connection conn = null;
+        try {
+            conn = ConnectionManager.getConnection();
+
+            conn.setAutoCommit(false);
+            gameRepository.updateGame(conn, gameId, passed);
+            conn.commit();
+        } catch (SQLException e) {
+            if (conn != null) {
+                try {
+                    conn.rollback();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+            throw new RuntimeException(e);
+        }
         return passed;
     }
 

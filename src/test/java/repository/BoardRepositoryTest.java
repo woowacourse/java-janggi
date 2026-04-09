@@ -48,7 +48,7 @@ class BoardRepositoryTest {
         Position to = Position.of(3, 1);
 
         // when
-        boardRepository.updatePosition(gameId, from, to);
+        boardRepository.updatePosition(conn, gameId, from, to);
 
         PieceType pieceType = getPieceTypeFromDatabase(to);
 
@@ -81,7 +81,7 @@ class BoardRepositoryTest {
         Position to = Position.of(3, 1);
 
         // when
-        boardRepository.delete(gameId, to);
+        boardRepository.delete(conn, gameId, to);
 
         PieceType pieceType = getPieceTypeFromDatabase(to);
 
