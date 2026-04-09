@@ -1,7 +1,3 @@
-import core.GamePlayService;
-import core.GamePreparationService;
-import core.PreparedGame;
-import core.ShowMoveHistoryService;
 import db.dao.BoardPieceDao;
 import db.dao.GameDao;
 import db.dao.JdbcBoardPieceDao;
@@ -14,6 +10,8 @@ import db.jdbc.FlywayDatabaseMigrator;
 import db.jdbc.ProductionConnectionManager;
 import db.repository.JanggiGameRepository;
 import db.repository.JdbcJanggiGameRepository;
+import service.GamePlayService;
+import service.MoveHistoryShowService;
 import view.JanggiView;
 import view.ServiceMenu;
 
@@ -27,39 +25,10 @@ public class Application {
 
         ServiceMenu menu = view.askServiceMenu();
         if (menu.isShowMoveHistory()) {
-            showMoveHistory(view, repository, connectionManager);
+            new MoveHistoryShowService(view, connectionManager, repository).show();
             return;
         }
-        playGame(view, repository, connectionManager);
-    }
-
-    private static void showMoveHistory(
-        final JanggiView view,
-        final JanggiGameRepository repository,
-        final ConnectionManager connectionManager
-    ) {
-        final ShowMoveHistoryService showMoveHistoryService = new ShowMoveHistoryService(
-            view,
-            repository,
-            connectionManager
-        );
-        showMoveHistoryService.show();
-    }
-
-    private static void playGame(
-        final JanggiView view,
-        final JanggiGameRepository repository,
-        final ConnectionManager connectionManager
-    ) {
-        final GamePreparationService preparationService = new GamePreparationService(
-            view,
-            repository,
-            connectionManager
-        );
-        final GamePlayService playService = new GamePlayService(connectionManager, repository);
-
-        PreparedGame preparedGame = preparationService.prepare();
-        playService.run(preparedGame.gameId(), preparedGame.session());
+        new GamePlayService(view, connectionManager, repository).play();
     }
 
     private static ConnectionManager getConnectionManager() {

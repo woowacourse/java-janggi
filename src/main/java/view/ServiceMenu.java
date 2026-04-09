@@ -6,8 +6,7 @@ import java.util.stream.Collectors;
 public enum ServiceMenu {
 
     SHOW_MOVE_HISTORY(1, "게임 기록 재생하기"),
-    PLAY_SAVED_GAME(2, "새로운 게임 하기"),
-    PLAY_NEW_GAME(3, "게임 이어 하기"),
+    PLAY_GAME(2, "게임 하기"),
     ;
 
     private final int number;
