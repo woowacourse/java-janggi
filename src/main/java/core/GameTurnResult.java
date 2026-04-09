@@ -17,6 +17,6 @@ public record GameTurnResult(
     }
 
     public boolean hasNoPieceMove() {
-        return moveHistory != null;
+        return moveHistory == null;
     }
 }
