@@ -2,11 +2,16 @@ package domain.board;
 
 import domain.coordination.Coordination;
 import domain.piece.Cannon;
+import domain.piece.General;
 import domain.piece.Piece;
+import domain.piece.Team;
 import domain.piece.error.PieceException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -126,5 +131,43 @@ class BoardTest {
 
         assertThatCode(() -> board.move(Coordination.of(7, 10), Coordination.of(5, 7)))
                 .doesNotThrowAnyException();
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {
+            "CHO, 72.0",
+            "HAN, 73.5"
+    })
+    void 팀별_점수를_계산한다(String team, double expectedScore) {
+        Board board = BoardFactory.initialize("1", "1");
+
+        assertThat(board.calculateScore(Team.valueOf(team))).isEqualTo(expectedScore);
+    }
+
+    @Test
+    void 기물을_잡으면_점수가_줄어든다() {
+        Board board = BoardFactory.initialize("1", "1");
+        double before = board.calculateScore(Team.HAN);
+
+        board.move(Coordination.of(1, 7), Coordination.of(2, 7));
+        board.move(Coordination.of(1, 10), Coordination.of(1, 4));
+
+        assertThat(board.calculateScore(Team.HAN)).isEqualTo(before - 2);
+    }
+
+    @Test
+    void 두_장군이_있으면_게임이_끝나지_않는다() {
+        Board board = BoardFactory.initialize("1", "1");
+
+        assertThat(board.hasTwoGenerals()).isTrue();
+    }
+
+    @Test
+    void 장군이_하나뿐이면_게임이_끝난다() {
+        Map<Coordination, Piece> boardMap = new HashMap<>();
+        boardMap.put(Coordination.of(5, 9), new General(Team.CHO));
+        Board board = new Board(boardMap);
+
+        assertThat(board.hasTwoGenerals()).isFalse();
     }
 }
