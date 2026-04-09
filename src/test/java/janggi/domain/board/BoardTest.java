@@ -1,11 +1,11 @@
 package janggi.domain.board;
 
+import janggi.domain.Team;
 import janggi.domain.piece.General;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Soldier;
 import janggi.domain.position.Movement;
 import janggi.domain.position.Position;
-import janggi.domain.Team;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

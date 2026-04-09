@@ -1,7 +1,7 @@
 package janggi.domain.piece;
 
-import janggi.domain.path.PieceOnPath;
 import janggi.domain.Team;
+import janggi.domain.path.PieceOnPath;
 
 public class Cannon extends PalacePiece {
 

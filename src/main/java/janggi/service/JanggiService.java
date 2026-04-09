@@ -1,10 +1,10 @@
 package janggi.service;
 
 import janggi.domain.JanggiGame;
+import janggi.domain.Team;
 import janggi.domain.board.BoardFactory;
 import janggi.domain.board.PieceSetup;
 import janggi.domain.position.Movement;
-import janggi.domain.Team;
 import janggi.dto.GameInfo;
 import janggi.repository.GameRepository;
 

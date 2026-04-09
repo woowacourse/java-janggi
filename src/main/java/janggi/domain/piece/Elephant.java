@@ -1,10 +1,10 @@
 package janggi.domain.piece;
 
+import janggi.domain.Team;
 import janggi.domain.path.Path;
 import janggi.domain.path.PieceOnPath;
 import janggi.domain.position.Movement;
 import janggi.domain.position.Position;
-import janggi.domain.Team;
 
 public class Elephant extends MoveablePiece {
     private static final int ONE_DIRECTION_MIN_DIFF = 2;

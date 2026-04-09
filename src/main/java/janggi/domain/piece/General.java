@@ -1,8 +1,8 @@
 package janggi.domain.piece;
 
+import janggi.domain.Team;
 import janggi.domain.path.PieceOnPath;
 import janggi.domain.position.Movement;
-import janggi.domain.Team;
 
 public class General extends PalacePiece {
     private static final int MAX_MOVE_DISTANCE = 1;

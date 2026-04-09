@@ -1,5 +1,6 @@
 package janggi.domain.board;
 
+import janggi.domain.Team;
 import janggi.domain.path.Path;
 import janggi.domain.path.PieceOnPath;
 import janggi.domain.piece.EmptyPiece;
@@ -7,7 +8,6 @@ import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.position.Movement;
 import janggi.domain.position.Position;
-import janggi.domain.Team;
 
 import java.util.Map;
 
