@@ -102,3 +102,6 @@ y
 움직일 기물의 좌표를 입력해주세요. (ex. 1,3)
 
 ```
+
+## ERD
+<img width="1090" height="344" alt="Image" src="https://github.com/user-attachments/assets/8ad6116c-728b-4280-a75d-bb4cc62ebc5c" />
