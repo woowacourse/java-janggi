@@ -82,10 +82,36 @@ public class PalaceRouteGenerator {
         return routes;
     }
 
-    private List<Route> createPawnRoutes(Position position, TeamColor teamColor) {
-        return findCurrentPalace(position)
-                .map(palace -> List.<Route>of())
+    private List<Route> createPawnRoutes(Position currentPosition, TeamColor teamColor) {
+        return findCurrentPalace(currentPosition)
+                .map(palace -> createPalacePawnRoutes(currentPosition, palace, teamColor))
                 .orElse(List.of());
+    }
+
+    private List<Route> createPalacePawnRoutes(Position currentPosition, Palace palace, TeamColor teamColor) {
+        final List<Route> candidateRoutes = createPalacePawnCandidateRoutes(currentPosition, palace);
+        return filterForwardRoutesForTeam(candidateRoutes, currentPosition, palace, teamColor);
+    }
+
+    private List<Route> createPalacePawnCandidateRoutes(Position currentPosition, Palace palace) {
+        if (palace.isCenter(currentPosition)) {
+            return createRoutesFromPalaceCenter(currentPosition, palace);
+        }
+        if (palace.isCorner(currentPosition)) {
+            return createRouteFromPalaceCornerToCenter(currentPosition, palace);
+        }
+        return List.of();
+    }
+
+    private List<Route> filterForwardRoutesForTeam(List<Route> candidateRoutes, Position currentPosition,
+                                                   Palace palace, TeamColor teamColor) {
+        return candidateRoutes.stream()
+                .filter(route -> palace.isForwardForTeam(currentPosition, route.endPos(), teamColor))
+                .toList();
+    }
+
+    private List<Route> createRouteFromPalaceCornerToCenter(Position currentPosition, Palace palace) {
+        return List.of(new Route(currentPosition, palace.center(), List.of()));
     }
 
     private Optional<Palace> findCurrentPalace(Position position) {

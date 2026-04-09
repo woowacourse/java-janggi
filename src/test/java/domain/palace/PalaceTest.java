@@ -124,5 +124,21 @@ class PalaceTest {
 
             assertThat(choPalace.oppositeCorner(Position.of(9, 4))).isEmpty();
         }
+
+        @Test
+        void 초_기준으로는_행이_작아지는_방향이_앞쪽이다() {
+            final Palace choPalace = Palace.of(TeamColor.CHO);
+
+            assertThat(choPalace.isForwardForTeam(Position.of(8, 4), Position.of(7, 3), TeamColor.CHO)).isTrue();
+            assertThat(choPalace.isBackwardForTeam(Position.of(8, 4), Position.of(9, 3), TeamColor.CHO)).isTrue();
+        }
+
+        @Test
+        void 한_기준으로는_행이_커지는_방향이_앞쪽이다() {
+            final Palace hanPalace = Palace.of(TeamColor.HAN);
+
+            assertThat(hanPalace.isForwardForTeam(Position.of(1, 4), Position.of(2, 5), TeamColor.HAN)).isTrue();
+            assertThat(hanPalace.isBackwardForTeam(Position.of(1, 4), Position.of(0, 5), TeamColor.HAN)).isTrue();
+        }
     }
 }

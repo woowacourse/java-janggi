@@ -100,4 +100,15 @@ public class Palace {
         final int oppositeColumn = center.column() - (corner.column() - center.column());
         return Optional.of(Position.of(oppositeRow, oppositeColumn));
     }
+
+    public boolean isForwardForTeam(Position currentPosition, Position targetPosition, TeamColor teamColor) {
+        if (teamColor == TeamColor.CHO) {
+            return targetPosition.row() < currentPosition.row();
+        }
+        return targetPosition.row() > currentPosition.row();
+    }
+
+    public boolean isBackwardForTeam(Position currentPosition, Position targetPosition, TeamColor teamColor) {
+        return !isForwardForTeam(currentPosition, targetPosition, teamColor);
+    }
 }
