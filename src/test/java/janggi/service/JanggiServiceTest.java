@@ -8,8 +8,11 @@ import janggi.domain.board.HorseElephantPosition;
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.game.Game;
 import janggi.domain.game.GameState;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
 import janggi.entity.GameEntity;
+import janggi.entity.MovementEntity;
 import janggi.entity.PieceEntity;
 import janggi.repository.game.FakeGameRepository;
 import janggi.repository.movement.FakeMovementRepository;
@@ -93,7 +96,7 @@ class JanggiServiceTest {
 
         // then
         assertThat(movementRepository.findAllByGameId(gameId)).hasSize(1);
-        FakeMovementRepository.Movement movement = movementRepository.findAllByGameId(gameId).getFirst();
+        MovementEntity movement = movementRepository.findAllByGameId(gameId).getFirst();
 
         assertThat(movement.from()).isEqualTo(from);
         assertThat(movement.to()).isEqualTo(to);
@@ -119,7 +122,7 @@ class JanggiServiceTest {
         // then
         assertThat(movementRepository.findAllByGameId(gameId)).hasSize(1);
 
-        FakeMovementRepository.Movement movement = movementRepository.findAllByGameId(gameId).getFirst();
+        MovementEntity movement = movementRepository.findAllByGameId(gameId).getFirst();
 
         assertThat(movement.from()).isEqualTo(from);
         assertThat(movement.to()).isEqualTo(to);
@@ -171,6 +174,47 @@ class JanggiServiceTest {
 
         // then
         assertThat(finished).isFalse();
+    }
+
+    @Test
+    void 무르기를_하면_직전_이동이_되돌아간다() {
+        // given
+        Long gameId = janggiService.makeGame(defaultHorseElephantPositions());
+        Position from = Position.from(1, 1);
+        Position to = Position.from(2, 1);
+
+        janggiService.movePiece(gameId, from, to);
+
+        // when
+        janggiService.undoMovement(gameId);
+
+        // then
+        Game game = janggiService.findGame(gameId);
+        assertThat(game.currentDynasty()).isEqualTo(Dynasty.CHO);
+        assertThat(game.pieces()).containsKey(from);
+        assertThat(game.pieces()).doesNotContainKey(to);
+        assertThat(movementRepository.findAllByGameId(gameId)).isEmpty();
+    }
+
+    @Test
+    void 무르기를_하면_잡힌_기물도_복구된다() {
+        // given
+        Long gameId = gameRepository.save(null, GameEntity.toEntity(Dynasty.CHO, GameState.PLAYING));
+        pieceRepository.saveAll(null, gameId, List.of(
+                PieceEntity.toEntity(1, 1, "CHO", "CHARIOT"),
+                PieceEntity.toEntity(1, 2, "HAN", "SOLDIER")
+        ));
+
+        janggiService.movePiece(gameId, Position.from(1, 1), Position.from(1, 2));
+
+        // when
+        janggiService.undoMovement(gameId);
+
+        // then
+        Game game = janggiService.findGame(gameId);
+        assertThat(game.pieces())
+                .containsEntry(Position.from(1, 1), new Piece(Dynasty.CHO, PieceType.CHARIOT))
+                .containsEntry(Position.from(1, 2), new Piece(Dynasty.HAN, PieceType.SOLDIER));
     }
 
     private Map<Dynasty, HorseElephantPosition> defaultHorseElephantPositions() {

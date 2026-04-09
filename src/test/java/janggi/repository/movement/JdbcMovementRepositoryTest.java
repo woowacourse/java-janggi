@@ -1,5 +1,6 @@
 package janggi.repository.movement;
 
+import static janggi.config.DatabaseManager.withTransaction;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.config.DatabaseManager;
@@ -34,11 +35,16 @@ class JdbcMovementRepositoryTest {
         Long gameId = TestConfig.insertGame("CHO", "PLAYING");
 
         // when
-        movementRepository.save(
-                gameId,
-                Position.from(1, 1),
-                Position.from(2, 1),
-                null
+        withTransaction(connection -> {
+                    movementRepository.save(
+                            connection,
+                            gameId,
+                            Position.from(1, 1),
+                            Position.from(2, 1),
+                            null
+                    );
+                    return null;
+                }
         );
 
         // then
@@ -76,11 +82,16 @@ class JdbcMovementRepositoryTest {
         PieceEntity capturedPiece = PieceEntity.toEntity(2, 1, "HAN", "SOLDIER");
 
         // when
-        movementRepository.save(
-                gameId,
-                Position.from(1, 1),
-                Position.from(2, 1),
-                capturedPiece
+        withTransaction(connection -> {
+                    movementRepository.save(
+                            connection,
+                            gameId,
+                            Position.from(1, 1),
+                            Position.from(2, 1),
+                            capturedPiece
+                    );
+                    return null;
+                }
         );
 
         // then

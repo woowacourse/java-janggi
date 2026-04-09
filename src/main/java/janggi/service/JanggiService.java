@@ -9,6 +9,7 @@ import janggi.domain.game.Game;
 import janggi.domain.game.GameState;
 import janggi.domain.position.Position;
 import janggi.entity.GameEntity;
+import janggi.entity.MovementEntity;
 import janggi.entity.PieceEntity;
 import janggi.repository.game.GameRepository;
 import janggi.repository.movement.MovementRepository;
@@ -62,7 +63,25 @@ public class JanggiService {
         DatabaseManager.withTransaction(connection -> {
             pieceRepository.update(connection, gameId, from, to);
             gameRepository.update(connection, gameId, GameEntity.toEntity(game.currentDynasty(), gameState));
-            movementRepository.save(gameId, from, to, capturedPiece);
+            movementRepository.save(connection, gameId, from, to, capturedPiece);
+            return null;
+        });
+    }
+
+    public void undoMovement(Long gameId) {
+        Game game = findGame(gameId);
+        GameEntity currentGame = gameRepository.findById(gameId)
+                .orElseThrow(() -> new IllegalArgumentException(String.format("gameId가 %s인 게임이 존재하지 않습니다.", gameId)));
+        MovementEntity latestMovement = movementRepository.findLatestByGameId(gameId)
+                .orElseThrow(() -> new IllegalStateException("무를 수 있는 이동 기록이 없습니다."));
+
+        GameState currentState = GameState.valueOf(currentGame.gameState());
+        Dynasty previousTurn = previousTurn(game.currentDynasty(), currentState);
+
+        DatabaseManager.withTransaction(connection -> {
+            pieceRepository.revert(connection, gameId, latestMovement);
+            gameRepository.update(connection, gameId, GameEntity.toEntity(previousTurn, GameState.PLAYING));
+            movementRepository.deleteById(connection, latestMovement.id());
             return null;
         });
     }
@@ -101,6 +120,13 @@ public class JanggiService {
                 .findFirst()
                 .map(entry -> PieceEntity.toEntity(entry.getKey(), entry.getValue()))
                 .orElse(null);
+    }
+
+    private Dynasty previousTurn(Dynasty currentTurn, GameState currentState) {
+        if (currentState.isFinished()) {
+            return currentTurn;
+        }
+        return currentTurn.next();
     }
 
 }

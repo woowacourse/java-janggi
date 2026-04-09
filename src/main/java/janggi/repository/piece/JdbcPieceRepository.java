@@ -2,6 +2,7 @@ package janggi.repository.piece;
 
 import janggi.config.DatabaseManager;
 import janggi.domain.position.Position;
+import janggi.entity.MovementEntity;
 import janggi.entity.PieceEntity;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -88,6 +89,48 @@ public class JdbcPieceRepository implements PieceRepository {
             return pieces;
         } catch (SQLException e) {
             throw new RuntimeException("기물 조회 실패", e);
+        }
+    }
+
+    @Override
+    public void revert(Connection connection, Long gameId, MovementEntity movement) {
+        String rollbackMoveSql = """
+                UPDATE piece
+                SET row_pos = ?, col_pos = ?
+                WHERE janggi_game_id = ? AND row_pos = ? AND col_pos = ?
+                """;
+
+        String restoreCapturedSql = """
+                INSERT INTO piece (janggi_game_id, row_pos, col_pos, team, type)
+                VALUES (?, ?, ?, ?, ?)
+                """;
+
+        try (PreparedStatement rollbackStatement = connection.prepareStatement(rollbackMoveSql)) {
+            rollbackStatement.setInt(1, movement.from().row().row());
+            rollbackStatement.setInt(2, movement.from().column().column());
+            rollbackStatement.setLong(3, gameId);
+            rollbackStatement.setInt(4, movement.to().row().row());
+            rollbackStatement.setInt(5, movement.to().column().column());
+
+            int affectedRows = rollbackStatement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new IllegalArgumentException("되돌릴 기물이 존재하지 않습니다.");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("기물 무르기 실패", e);
+        }
+
+        if (movement.hasCapturedPiece()) {
+            try (PreparedStatement restoreStatement = connection.prepareStatement(restoreCapturedSql)) {
+                restoreStatement.setLong(1, gameId);
+                restoreStatement.setInt(2, movement.to().row().row());
+                restoreStatement.setInt(3, movement.to().column().column());
+                restoreStatement.setString(4, movement.destTeam());
+                restoreStatement.setString(5, movement.destType());
+                restoreStatement.executeUpdate();
+            } catch (SQLException e) {
+                throw new RuntimeException("잡힌 기물 복구 실패", e);
+            }
         }
     }
 

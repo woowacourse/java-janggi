@@ -1,6 +1,7 @@
 package janggi.repository.piece;
 
 import janggi.domain.position.Position;
+import janggi.entity.MovementEntity;
 import janggi.entity.PieceEntity;
 import java.sql.Connection;
 import java.util.HashMap;
@@ -39,6 +40,34 @@ public class FakePieceRepository implements PieceRepository {
                 sourcePiece.type()
         );
         board.put(to, movedPiece);
+    }
+
+    @Override
+    public void revert(Connection connection, Long gameId, MovementEntity movement) {
+        Map<Position, PieceEntity> board = storage.computeIfAbsent(gameId, id -> new HashMap<>());
+
+        PieceEntity movedPiece = board.remove(movement.to());
+        if (movedPiece == null) {
+            throw new IllegalArgumentException("되돌릴 기물이 존재하지 않습니다.");
+        }
+
+        PieceEntity restoredSourcePiece = PieceEntity.toEntity(
+                movement.from().row().row(),
+                movement.from().column().column(),
+                movedPiece.dynasty(),
+                movedPiece.type()
+        );
+        board.put(movement.from(), restoredSourcePiece);
+
+        if (movement.hasCapturedPiece()) {
+            PieceEntity restoredCapturedPiece = PieceEntity.toEntity(
+                    movement.to().row().row(),
+                    movement.to().column().column(),
+                    movement.destTeam(),
+                    movement.destType()
+            );
+            board.put(movement.to(), restoredCapturedPiece);
+        }
     }
 
     @Override
