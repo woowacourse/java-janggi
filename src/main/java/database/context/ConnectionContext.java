@@ -9,6 +9,9 @@ public class ConnectionContext {
 
     private static final ThreadLocal<Connection> CONNECTION_THREAD_LOCAL = new ThreadLocal<>();
 
+    private ConnectionContext() {
+    }
+
     public static void setConnection() throws SQLException {
         if (getConnection() != null) {
             clear();
