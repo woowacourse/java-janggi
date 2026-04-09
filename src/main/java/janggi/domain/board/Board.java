@@ -119,4 +119,8 @@ public class Board {
         }
         return generals.getFirst().isSameCamp(camp);
     }
+
+    public boolean isSameCamp(Position position, Camp camp) {
+        return janggiBoard.get(position).isSameCamp(camp);
+    }
 }
