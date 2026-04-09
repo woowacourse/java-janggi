@@ -30,24 +30,24 @@ class BoardRepositoryTest {
 
     @Test
     @DisplayName("게임 Id로 게임의 장기판 상태를 가져올 수 있다.")
-    void findById_테스트() {
+    void findByGameId_테스트() {
         // given
         GameMetaData firstGame = janggiGameRepository.save(GameMetaData.newGame());
         GameMetaData secondGame = janggiGameRepository.save(GameMetaData.newGame());
 
         Board firstBoard = new Board();
         firstBoard.placePieces(Side.HAN, Placement.INNER_ELEPHANT);
-        boardRepository.savePlacementById(firstBoard, firstGame.id());
+        boardRepository.savePlacementByGameId(firstBoard, firstGame.id());
 
         Board secondBoard = new Board();
         secondBoard.placePieces(Side.CHO, Placement.INNER_ELEPHANT);
-        boardRepository.savePlacementById(secondBoard, secondGame.id());
+        boardRepository.savePlacementByGameId(secondBoard, secondGame.id());
 
         Board expectedFirstBoard = new Board();
         expectedFirstBoard.placePieces(Side.HAN, Placement.INNER_ELEPHANT);
 
         // when
-        Board firstGameBoard = boardRepository.findById(firstGame.id()).orElseThrow();
+        Board firstGameBoard = boardRepository.findByGameId(firstGame.id()).orElseThrow();
 
         // then
         assertThat(firstGameBoard.getState().size()).isEqualTo(16);
@@ -58,17 +58,17 @@ class BoardRepositoryTest {
 
     @Test
     @DisplayName("게임 id에 속해 있는 장기판에 상차림을 저장할 수 있다.")
-    void savePlacementById_테스트() {
+    void savePlacementByGameId_테스트() {
         // given
         GameMetaData gameMetaData = janggiGameRepository.save(GameMetaData.newGame());
         Board board = new Board();
         board.placePieces(Side.HAN, Placement.INNER_ELEPHANT);
 
         // when
-        boardRepository.savePlacementById(board, gameMetaData.id());
+        boardRepository.savePlacementByGameId(board, gameMetaData.id());
 
         // then
-        Board savedBoard = boardRepository.findById(gameMetaData.id()).orElseThrow();
+        Board savedBoard = boardRepository.findByGameId(gameMetaData.id()).orElseThrow();
         assertThat(savedBoard.getState()).isEqualTo(board.getState());
         assertThat(savedBoard.getState().values()).allMatch(placement -> placement.getSide() == Side.HAN);
         assertThat(savedBoard.getState().values()).noneMatch(placement -> placement.getSide() == Side.CHO);
@@ -76,18 +76,18 @@ class BoardRepositoryTest {
 
     @Test
     @DisplayName("기물의 위치정보를 변경할 수 있다.")
-    void updatePiecePosition_ById_테스트() {
+    void updatePiecePositionById_테스트() {
         // given
         GameMetaData firstGame = janggiGameRepository.save(GameMetaData.newGame());
         Board firstBoard = new Board();
         firstBoard.placePieces(Side.HAN, Placement.INNER_ELEPHANT);
-        boardRepository.savePlacementById(firstBoard, firstGame.id());
+        boardRepository.savePlacementByGameId(firstBoard, firstGame.id());
 
         // when
-        boardRepository.updatePiecePositionById(Position.of(7, 9), Position.of(7, 8), firstGame.id());
+        boardRepository.updatePiecePositionByGameId(Position.of(7, 9), Position.of(7, 8), firstGame.id());
 
         // then
-        Board board = boardRepository.findById(firstGame.id()).orElseThrow();
+        Board board = boardRepository.findByGameId(firstGame.id()).orElseThrow();
 
         assertThat(board.getState().size()).isEqualTo(16);
         assertThat(board.getState().keySet())
@@ -98,18 +98,18 @@ class BoardRepositoryTest {
 
     @Test
     @DisplayName("기물의 위치 정보를 삭제할 수 있다.")
-    void deletePiecePosition_ById_테스트() {
+    void deletePiecePositionById_테스트() {
         // given
         GameMetaData firstGame = janggiGameRepository.save(GameMetaData.newGame());
         Board firstBoard = new Board();
         firstBoard.placePieces(Side.HAN, Placement.INNER_ELEPHANT);
-        boardRepository.savePlacementById(firstBoard, firstGame.id());
+        boardRepository.savePlacementByGameId(firstBoard, firstGame.id());
 
         // when
-        boardRepository.deletePiecePositionById(Position.of(7, 9), firstGame.id());
+        boardRepository.deletePiecePositionByGameId(Position.of(7, 9), firstGame.id());
 
         // then
-        Board board = boardRepository.findById(firstGame.id()).orElseThrow();
+        Board board = boardRepository.findByGameId(firstGame.id()).orElseThrow();
         assertThat(board.getState().size()).isEqualTo(15);
         assertThat(board.getState().keySet())
                 .noneMatch(position -> position.getRow() == 7 && position.getColumn() == 9);

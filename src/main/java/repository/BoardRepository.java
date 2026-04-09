@@ -25,7 +25,7 @@ public class BoardRepository {
         this.dataSource = dataSource;
     }
 
-    public Optional<Board> findById(Long gameId) {
+    public Optional<Board> findByGameId(Long gameId) {
         String sql = "SELECT * FROM board WHERE game_id = ?";
 
         try (Connection connection = dataSource.getConnection();
@@ -52,7 +52,7 @@ public class BoardRepository {
         }
     }
 
-    public void savePlacementById(Board board, Long gameId) {
+    public void savePlacementByGameId(Board board, Long gameId) {
         String sql = "INSERT INTO board (piece_type, side, position_x, position_y, game_id) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection connection = dataSource.getConnection();
@@ -78,7 +78,7 @@ public class BoardRepository {
         }
     }
 
-    public void updatePiecePositionById(Position from, Position to, Long gameId) {
+    public void updatePiecePositionByGameId(Position from, Position to, Long gameId) {
         String sql = "UPDATE board SET position_x = ?, position_y = ? WHERE game_id = ? AND position_x = ? AND position_y = ?";
 
         try (Connection connection = dataSource.getConnection();
@@ -99,7 +99,7 @@ public class BoardRepository {
         }
     }
 
-    public void deletePiecePositionById(Position from, Long gameId) {
+    public void deletePiecePositionByGameId(Position from, Long gameId) {
         String sql = "DELETE FROM board WHERE position_x = ? AND position_y = ? AND game_id = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {

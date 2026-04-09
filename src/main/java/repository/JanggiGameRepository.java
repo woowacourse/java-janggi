@@ -92,14 +92,14 @@ public class JanggiGameRepository {
         }
     }
 
-    public void updateGameStatus(GameMetaData gameMetaData, JanggiGameStatus newStatus) {
+    public void updateGameStatusById(Long gameId, JanggiGameStatus newStatus) {
         String sql = " UPDATE game SET status = ? WHERE id = ?";
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setString(1, newStatus.name());
-            statement.setLong(2, gameMetaData.id());
+            statement.setLong(2, gameId);
 
             int affectedRows = statement.executeUpdate();
             if (affectedRows != 1) {
@@ -110,7 +110,7 @@ public class JanggiGameRepository {
         }
     }
 
-    public void updateJangGunCount(Map<Side, Integer> jangGunCount, GameMetaData gameMetaData) {
+    public void updateJangGunCountById(Map<Side, Integer> jangGunCount, Long gameId) {
         String sql = "UPDATE game SET cho_janggun_count = ?, han_janggun_count = ? WHERE id = ?";
 
         try (Connection connection = dataSource.getConnection();
@@ -118,7 +118,7 @@ public class JanggiGameRepository {
 
             statement.setInt(1, jangGunCount.getOrDefault(Side.CHO, 0));
             statement.setInt(2, jangGunCount.getOrDefault(Side.HAN, 0));
-            statement.setLong(3, gameMetaData.id());
+            statement.setLong(3, gameId);
             int affectedRows = statement.executeUpdate();
 
             if (affectedRows != 1) {
@@ -129,14 +129,14 @@ public class JanggiGameRepository {
         }
     }
 
-    public void updateTurn(Side currentTurnSide, GameMetaData gameMetaData) {
+    public void updateTurnById(Side currentTurnSide, Long gameId) {
         String sql = "UPDATE game SET current_turn = ? WHERE id = ?";
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setString(1, currentTurnSide.name());
-            statement.setLong(2, gameMetaData.id());
+            statement.setLong(2, gameId);
             int affectedRows = statement.executeUpdate();
 
             if (affectedRows != 1) {

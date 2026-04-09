@@ -55,10 +55,10 @@ class JanggiGameRepositoryTest {
 
     @Test
     @DisplayName("게임의 진행 상태를 변경할 수 있다.")
-    void updateGameStatus_테스트() {
+    void updateGameStatusById_테스트() {
         GameMetaData savedGameMetaData = janggiGameRepository.save(GameMetaData.newGame());
 
-        janggiGameRepository.updateGameStatus(savedGameMetaData, JanggiGameStatus.IN_PROGRESS);
+        janggiGameRepository.updateGameStatusById(savedGameMetaData.id(), JanggiGameStatus.IN_PROGRESS);
 
         GameMetaData updatedGameMetaData = janggiGameRepository.findLatestUnfinishedGame().orElseThrow();
         assertThat(updatedGameMetaData.status()).isEqualTo(JanggiGameStatus.IN_PROGRESS);
@@ -66,7 +66,7 @@ class JanggiGameRepositoryTest {
 
     @Test
     @DisplayName("메모리에서 바뀐 양쪽 진영의 장군카운트의 값을 DB에 저장할 수 있다.")
-    void updateJangGunCount_테스트() throws SQLException {
+    void updateJangGunCountById_테스트() throws SQLException {
         // given
         GameMetaData savedGameMetaData = janggiGameRepository.save(GameMetaData.newGame());
         Map<Side, Integer> jangGunCount = new HashMap<>();
@@ -74,7 +74,7 @@ class JanggiGameRepositoryTest {
         jangGunCount.put(Side.HAN, 2);
 
         // when
-        janggiGameRepository.updateJangGunCount(jangGunCount, savedGameMetaData);
+        janggiGameRepository.updateJangGunCountById(jangGunCount, savedGameMetaData.id());
 
         // then
         try (Connection connection = TestDataSourceConfig.testDataSource().getConnection();
@@ -93,10 +93,10 @@ class JanggiGameRepositoryTest {
 
     @Test
     @DisplayName("초기 상태의 턴은 'CHO'이며, 턴이 변경되면 DB에 'HAN'으로 수정할 수 있다.")
-    void updateTurn_테스트() {
+    void updateTurnById_테스트() {
         GameMetaData gameMetaData = janggiGameRepository.save(GameMetaData.newGame());
 
-        janggiGameRepository.updateTurn(Side.HAN, gameMetaData);
+        janggiGameRepository.updateTurnById(Side.HAN, gameMetaData.id());
         GameMetaData updatedGameMetaData = janggiGameRepository.findLatestUnfinishedGame().orElseThrow();
 
         assertThat(updatedGameMetaData.currentTurn()).isEqualTo(Side.HAN);
