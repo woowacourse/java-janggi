@@ -12,7 +12,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class ElephantTest {
+class ElephantTest {
 
     @Test
     @DisplayName("초 진영 상 기물의 움직임의 여부(UP, UP_LEFT, UP_LEFT)를 판단할 수 있다.")

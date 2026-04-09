@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class BoardTest {
+class BoardTest {
 
     @Test
     @DisplayName("한 진영이 외부 코끼리 상차림을 배치할 수 있다.")

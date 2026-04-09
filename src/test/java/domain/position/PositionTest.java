@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class PositionTest {
+class PositionTest {
     @Test
     @DisplayName("장기판안에 맞는 좌표를 생성할 수 있다.")
     void 장기판에_좌표_생성_테스트() {

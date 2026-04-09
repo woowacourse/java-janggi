@@ -1,8 +1,5 @@
 package domain.piece;
 
-import domain.piece.Piece;
-import domain.piece.PieceType;
-import domain.piece.Side;
 import domain.position.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,7 +9,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class PieceTest {
+class PieceTest {
 
     @Test
     @DisplayName("장기에서 진영과 기물 종류에 맞는 기물을 생성한다.")
@@ -32,8 +29,8 @@ public class PieceTest {
         Map<Position, Piece> pieceMap = new LinkedHashMap<>();
         Piece choPawn = Piece.of(Side.CHO, PieceType.PAWN);
         Piece hanPawn = Piece.of(Side.HAN, PieceType.PAWN);
-        pieceMap.put(Position.of(4,1), choPawn);
-        pieceMap.put(Position.of(5,1), hanPawn);
+        pieceMap.put(Position.of(4, 1), choPawn);
+        pieceMap.put(Position.of(5, 1), hanPawn);
 
         Position startPosition = Position.of(4, 1);
         Position endPosition = Position.of(5, 1);

@@ -12,7 +12,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class GeneralTest {
+class GeneralTest {
 
     @Test
     @DisplayName("궁 기물이 움직임의 여부를 판단할 수 있다.UP")

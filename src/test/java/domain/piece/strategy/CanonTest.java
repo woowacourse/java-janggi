@@ -12,7 +12,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class CanonTest {
+class CanonTest {
 
     @Test
     @DisplayName("본인 진영의 기물을 띄어넘어 빈칸으로 이동")

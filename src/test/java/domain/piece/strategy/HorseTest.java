@@ -12,14 +12,14 @@ import java.util.Map;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class HorseTest {
+class HorseTest {
     @Test
     @DisplayName("마 기물의 움직임의 여부를 판단할 수 있다.")
     void 이동성공_마_기물_움직임_여부_판단_1() {
         // given
         Map<Position, Piece> pieceMap = new LinkedHashMap<>();
         Piece choHorse = Piece.of(Side.CHO, PieceType.HORSE);
-        pieceMap.put(Position.of(1,7), choHorse);
+        pieceMap.put(Position.of(1, 7), choHorse);
 
         Position startPosition = Position.of(1, 7);
         Position endPosition = Position.of(3, 6);
@@ -35,7 +35,7 @@ public class HorseTest {
         // given
         Map<Position, Piece> pieceMap = new LinkedHashMap<>();
         Piece choHorse = Piece.of(Side.CHO, PieceType.HORSE);
-        pieceMap.put(Position.of(3,6), choHorse);
+        pieceMap.put(Position.of(3, 6), choHorse);
 
         Position startPosition = Position.of(3, 6);
         Position endPosition = Position.of(4, 4);
@@ -51,8 +51,8 @@ public class HorseTest {
         Map<Position, Piece> pieceMap = new LinkedHashMap<>();
         Piece choHorse = Piece.of(Side.CHO, PieceType.HORSE);
         Piece hanPawn = Piece.of(Side.HAN, PieceType.PAWN);
-        pieceMap.put(Position.of(1,7), choHorse);
-        pieceMap.put(Position.of(2,7), hanPawn);
+        pieceMap.put(Position.of(1, 7), choHorse);
+        pieceMap.put(Position.of(2, 7), hanPawn);
 
         Position startPosition = Position.of(1, 7);
         Position endPosition = Position.of(3, 6);
@@ -63,11 +63,11 @@ public class HorseTest {
 
     @Test
     @DisplayName("마 기물은 허용되지 않은 경로로 움직일 수 없다.")
-    void 마_움직임_실패_테스트_미허용_경로(){
+    void 마_움직임_실패_테스트_미허용_경로() {
         // given
         Map<Position, Piece> pieceMap = new LinkedHashMap<>();
         Piece choHorse = Piece.of(Side.CHO, PieceType.HORSE);
-        pieceMap.put(Position.of(1,7), choHorse);
+        pieceMap.put(Position.of(1, 7), choHorse);
 
         Position startPosition = Position.of(1, 7);
         Position endPosition = Position.of(3, 7);
