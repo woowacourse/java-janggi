@@ -13,18 +13,15 @@ src/main/java/
 │   ├── connector/
 │   │   ├── Connector - DB 연결 인터페이스
 │   │   └── MySqlConnector - MySQL DB 연결
-│   ├── parser/
-│   │   ├── PieceParser - 저장된 기물 정보를 도메인 객체로 변환
-│   │   └── SideParser - 저장된 진영 문자열과 Side 도메인 간 변환
+│   ├── converter/
+│   │   └── PieceConverter - 데이터베이스에 저장된 기물 타입과 도메인 클래스 간 변환
+│   ├── persistence/
+│   │   └── Persisted - 영속화된 데이터와 식별자(id)를 함께 담음
 │   ├── repository/
 │   │   ├── GameRepository - 게임 영속성 관련 기능 제공
 │   │   └── PieceRepository - 기물 영속성 관련 기능 제공
-│   ├── session/
-│   │   └── Session - DB 세션 관리
 │   └── util/
 │       ├── DataAccessException - 데이터 접근 계층에 대한 예외
-│       ├── PreparingStatement - PreparedStatement 생성에 대한 함수형 인터페이스
-│       ├── StatementMode - PreparedStatement 생성 방식(기본 / 생성 키 반환 등)
 │       ├── TransactionalFunction - 트랜잭션 내에서 실행할 함수형 인터페이스(반환 O)
 │       ├── TransactionalRunnable - 트랜잭션 내에서 실행할 함수형 인터페이스(반환 X)
 │       └── Transaction - 트랜잭션 실행 유틸
@@ -33,6 +30,7 @@ src/main/java/
 │   │   ├── File - 장기판의 열(Column)
 │   │   ├── Row - 장기판의 행
 │   │   ├── Intersection - 장기판의 좌표(열 + 행)
+│   │   ├── Palace - 궁성 내 좌표 및 대각선 이동 규칙
 │   │   ├── Wing - 하나의 진을 표현하는 추상 클래스
 │   │   ├── LeftWing - 좌진
 │   │   ├── RightWing - 우진
@@ -41,9 +39,12 @@ src/main/java/
 │   │   ├── HanWings - 한의 진(좌진 + 우진)
 │   │   ├── Board - 장기판
 │   │   └── InitialPieces - 모든 기물을 초기 위치에 배치
+│   ├── exception/
+│   │   └── UnexpectedException - 예상치 못한 도메인 상황에 대한 런타임 예외
 │   ├── movement/
 │   │   ├── Vector - 좌표의 이동 방향을 표현
 │   │   ├── MoveAmount - 이동 거리
+│   │   ├── Move - 출발지·목적지로 표현한 한 수의 이동
 │   │   ├── Route - 출발지부터 목적지까지의 경로
 │   │   └── strategy/
 │   │       ├── MoveStrategy - 이동 전략의 인터페이스
