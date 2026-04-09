@@ -13,6 +13,13 @@ public class InputView {
         this.scanner = new Scanner(System.in);
     }
 
+    public String readCommand() {
+        System.out.println("플레이 할 게임을 선택해주세요.");
+        System.out.println("(게임 ID 입력: 이어하기 | new: 새 게임 시작 | exit: 게임 종료)");
+        System.out.print("> ");
+        return scanner.nextLine().trim();
+    }
+
     public String readHanSetup() {
         System.out.println("[한(漢) 차림 선택]");
         System.out.println("1: 왼상차림  2: 오른상차림  3: 안상차림  4: 바깥상차림(기본)");

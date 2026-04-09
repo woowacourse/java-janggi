@@ -38,6 +38,14 @@ public class BoardFactory {
         return new Board(base);
     }
 
+    public static Board restore(Map<Position, Piece> pieces) {
+        Map<Position, Piece> base = new LinkedHashMap<>();
+        initializeEmpty(base);
+        base.putAll(pieces);
+
+        return new Board(base);
+    }
+
     private static void initializeEmpty(Map<Position, Piece> base) {
         for (int row = Row.ROW_LOWER_THRESH_HOLD; row <= Row.ROW_UPPER_THRESH_HOLD; row++) {
             for (int col = Column.COLUMN_LOWER_THRESH_HOLD; col <= Column.COLUMN_UPPER_THRESH_HOLD; col++) {

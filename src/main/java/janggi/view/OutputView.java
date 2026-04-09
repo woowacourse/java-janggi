@@ -7,7 +7,10 @@ import janggi.domain.position.Position;
 import janggi.domain.position.Row;
 import janggi.domain.score.Score;
 import janggi.domain.team.Team;
+import janggi.repository.GameInfo2;
 
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Map;
 
 import static janggi.domain.piece.PieceType.*;
@@ -27,10 +30,29 @@ public class OutputView {
     private static final String H_LINE = "---";
     private static final String V_LINE = " | ";
 
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
     private static final Map<PieceType, String> PIECE_LABEL = Map.of(
             CHARIOT, "CHA", HORSE, "HOR", ELEPHANT, "ELE", GUARD, "GRD",
             GENERAL, "GEN", CANNON, "CAN", SOLDIER, "SOL"
     );
+
+    public void printGameList(List<GameInfo2> games) {
+        System.out.println("========================= 게임 목록 ==========================");
+        System.out.printf("%-6s %-19s %-6s %-6s %-6s %-6s%n", "ID", "마지막 플레이", "한 점수", "초 점수", "현재턴", "승자");
+        System.out.println("------------------------------------------------------------");
+        for (GameInfo2 game : games) {
+            String result = game.getWinner() == Team.NONE ? "진행중" : getWinnerName(game.getWinner());
+            System.out.printf("%-6d %-22s %-7.1f %-7.1f %-17s %-6s%n",
+                    game.getId(),
+                    game.getUpdatedAt().format(formatter),
+                    game.getHanScore(),
+                    game.getChoScore(),
+                    game.getWinner() != Team.NONE ? ANSI_RED + "       " + ANSI_RESET : getWinnerName(game.getCurrentTeam()),
+                    result);
+        }
+        System.out.println("------------------------------------------------------------");
+    }
 
     public void printBoard(Map<Position, Piece> board, Score score) {
         System.out.println();
@@ -114,7 +136,13 @@ public class OutputView {
         String name = winner == Team.HAN
                 ? ANSI_RED + "한(漢)" + ANSI_RESET
                 : ANSI_BLUE + "초(楚)" + ANSI_RESET;
-        System.out.println(name + " 승리! 게임을 종료합니다.");
+        System.out.println(name + " 승리! 게임을 종료합니다.\n");
+    }
+
+    public String getWinnerName(Team winner) {
+        return winner == Team.HAN
+                ? ANSI_RED + "한(漢)" + ANSI_RESET
+                : ANSI_BLUE + "초(楚)" + ANSI_RESET;
     }
 
     public void printError(String message) {
@@ -122,6 +150,7 @@ public class OutputView {
     }
 
     public void printGameEnd() {
-        System.out.println("게임을 종료합니다.");
+        System.out.println("게임을 종료합니다.\n");
+
     }
 }
