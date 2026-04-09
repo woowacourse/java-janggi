@@ -1,7 +1,7 @@
 package database.dao;
 
 import database.dto.IntersectionDto;
-import database.mapper.IntersectionRowMapper;
+import database.mapper.JanggiBoardMapper;
 import domain.intersection.Intersection;
 import java.sql.SQLException;
 import java.util.List;
@@ -38,7 +38,13 @@ public class JdbcIntersectionDao implements IntersectionDao {
     public List<Intersection> readByBoardId(Long boardId) throws SQLException{
         return jdbcTemplate.selectList(
                 READ_ALL_INTERSECTION_QUERY,
-                new IntersectionRowMapper(),
+                resultSet -> JanggiBoardMapper.toIntersection(
+                        resultSet.getInt("y"),
+                        resultSet.getInt("x"),
+                        resultSet.getString("piece_type"),
+                        resultSet.getString("team"),
+                        resultSet.getString("intersection_type")
+                ),
                 boardId
         );
     }

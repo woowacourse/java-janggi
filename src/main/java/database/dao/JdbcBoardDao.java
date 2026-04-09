@@ -2,7 +2,6 @@ package database.dao;
 
 import database.dto.BoardSummaryDto;
 import database.dto.GameResult;
-import database.mapper.SummaryDtoRowMapper;
 import domain.piece.Team;
 
 import java.sql.*;
@@ -55,14 +54,22 @@ public class JdbcBoardDao implements BoardDao {
     public List<BoardSummaryDto> readAllNotFinished() throws SQLException {
         return jdbcTemplate.selectList(
                 READ_PLAYING_BOARD_LIST_QUERY,
-                new SummaryDtoRowMapper()
+                resultSet -> new BoardSummaryDto(
+                        resultSet.getLong("id"),
+                        resultSet.getString("current_turn"),
+                        resultSet.getBoolean("is_finished")
+                )
         );
     }
 
     public Optional<BoardSummaryDto> readPlayingById(Long boardId) throws SQLException {
         BoardSummaryDto result = jdbcTemplate.selectOne(
                 READ_BOARD_QUERY,
-                new SummaryDtoRowMapper(),
+                resultSet -> new BoardSummaryDto(
+                        resultSet.getLong("id"),
+                        resultSet.getString("current_turn"),
+                        resultSet.getBoolean("is_finished")
+                ),
                 boardId
         );
         return Optional.ofNullable(result);
