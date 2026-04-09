@@ -1,5 +1,7 @@
 package janggi;
 
+import janggi.db.ConnectionFactory;
+import janggi.db.SchemaInitializer;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardInitializer;
 import janggi.domain.board.Position;
@@ -25,6 +27,7 @@ public class Application {
     }
 
     private void run() {
+        initializeSchema();
         OpeningFormationChoices openingFormationChoices = readOpeningFormationChoiceUntilValid();
         Board board = BoardInitializer.initializeBoard(openingFormationChoices.hanChoice(),
                 openingFormationChoices.choChoice());
@@ -38,6 +41,12 @@ public class Application {
         }
         outputView.printBoardMap(BoardDto.from(janggiGame.board()));
         outputView.printScore(janggiGame.calculateScore(Team.HAN), janggiGame.calculateScore(Team.CHO));
+    }
+
+    private void initializeSchema() {
+        ConnectionFactory connectionFactory = new ConnectionFactory();
+        SchemaInitializer schemaInitializer = new SchemaInitializer(connectionFactory);
+        schemaInitializer.initialize();
     }
 
     private void tryMove(JanggiGame janggiGame, Position from, Position to) {

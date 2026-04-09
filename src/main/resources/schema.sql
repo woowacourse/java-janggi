@@ -1,0 +1,15 @@
+CREATE TABLE IF NOT EXISTS games (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    turn TEXT NOT NULL,
+    status TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS pieces (
+    game_id INTEGER NOT NULL,
+    x INTEGER NOT NULL,
+    y INTEGER NOT NULL,
+    name TEXT NOT NULL,
+    team TEXT NOT NULL,
+    PRIMARY KEY (game_id, x, y),
+    FOREIGN KEY (game_id) REFERENCES games(id) ON DELETE CASCADE
+);
