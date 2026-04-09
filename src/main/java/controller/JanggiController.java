@@ -2,6 +2,8 @@ package controller;
 
 import domain.JanggiBoard;
 import domain.JanggiBoardInitializer;
+import domain.ScoreCalculator;
+import domain.Team;
 import domain.dto.JanggiBoardDto;
 import domain.piece.MoveablePiece;
 import domain.position.Position;
@@ -44,6 +46,10 @@ public class JanggiController {
                 outputView.printErrorMessage(e);
             }
         }
+        ScoreCalculator scoreCalculator = new ScoreCalculator();
+        double choScore = scoreCalculator.calculateScore(JanggiBoardDto.from(janggiBoard), Team.CHO);
+        double hanScore = scoreCalculator.calculateScore(JanggiBoardDto.from(janggiBoard), Team.HAN);
+        outputView.printResult(choScore, hanScore);
     }
 
     private Position inputMovePosition() {

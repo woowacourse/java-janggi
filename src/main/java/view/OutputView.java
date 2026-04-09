@@ -24,6 +24,23 @@ public class OutputView {
         }
     }
 
+    public void printResult(double choScore, double hanScore) {
+        System.out.println("\n--- 최종 점수 ---");
+        System.out.printf("초(CHO) 팀: %.1f점\n", choScore);
+        System.out.printf("한(HAN) 팀: %.1f점\n", hanScore);
+        System.out.println("----------------");
+
+        if (choScore > hanScore) {
+            System.out.println(ANSI_BLUE + "초(CHO)가 승리하였습니다!" + ANSI_RESET);
+        }
+        if (hanScore > choScore) {
+            System.out.println(ANSI_RED + "한(HAN)이 승리하였습니다!" + ANSI_RESET);
+        }
+        if (choScore == hanScore) {
+            System.out.println("무승부입니다!");
+        }
+    }
+
     private void printColumnIndices() {
         System.out.print("   ");
         for (int col = 0; col < BOARD_COLUMNS; col++) {
