@@ -81,10 +81,13 @@ public class JdbcJanggiRepository implements JanggiRepository {
              ResultSet rs = pstmt.executeQuery()) {
 
             while (rs.next()) {
-                gameInformations.add(new GameInformationDto(
+                GameStatus status = GameStatus.from(rs.getString("state"));
+                Team turn = Team.from(rs.getString("turn"));
+
+                gameInformations.add(GameInformationDto.from(
                         rs.getInt("game_id"),
-                        rs.getString("state"),
-                        rs.getString("turn")
+                        status,
+                        turn
                 ));
             }
         } catch (SQLException e) {
