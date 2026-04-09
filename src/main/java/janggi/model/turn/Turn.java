@@ -1,5 +1,6 @@
 package janggi.model.turn;
 
+import janggi.model.ScorePolicy;
 import janggi.model.Team;
 import janggi.model.board.Board;
 import janggi.model.position.absolute.Position;
@@ -14,5 +15,5 @@ public interface Turn {
 
     boolean isChoTurn();
 
-    Team getWinner();
+    Team getWinner(ScorePolicy scorePolicy);
 }

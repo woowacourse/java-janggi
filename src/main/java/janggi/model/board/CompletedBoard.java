@@ -5,13 +5,7 @@ import janggi.model.piece.Piece;
 import janggi.model.position.absolute.Position;
 import java.util.Map;
 
-public class CompletedBoard implements Board {
-
-    private final Team winner;
-
-    public CompletedBoard(Team winner) {
-        this.winner = winner;
-    }
+public record CompletedBoard(Team winner) implements Board {
 
     @Override
     public Board move(Team team, Position from, Position to) {
@@ -29,12 +23,7 @@ public class CompletedBoard implements Board {
     }
 
     @Override
-    public Team winner() {
-        return this.winner;
-    }
-
-    @Override
-    public int getTotalScoreOf(Team team) {
+    public int getMaterialScoreOf(Team team) {
         throw new IllegalArgumentException("이미 게임이 종료되었습니다.");
     }
 }

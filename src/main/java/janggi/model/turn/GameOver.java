@@ -1,16 +1,11 @@
 package janggi.model.turn;
 
+import janggi.model.ScorePolicy;
 import janggi.model.Team;
 import janggi.model.board.Board;
 import janggi.model.position.absolute.Position;
 
-public class GameOver implements Turn {
-
-    private final Board board;
-
-    public GameOver(Board board) {
-        this.board = board;
-    }
+public record GameOver(Board board) implements Turn {
 
     @Override
     public Turn play(Position from, Position to) {
@@ -33,13 +28,13 @@ public class GameOver implements Turn {
     }
 
     @Override
-    public Team getWinner() {
+    public Team getWinner(ScorePolicy scorePolicy) {
         if (board.isWinnerDetermined()) {
             return board.winner();
         }
 
-        int scoreOfCho = getTotalScoreOf(Team.CHO);
-        int scoreOfHan = getTotalScoreOf(Team.HAN);
+        float scoreOfCho = getTotalScoreOf(Team.CHO, scorePolicy);
+        float scoreOfHan = getTotalScoreOf(Team.HAN, scorePolicy);
 
         if (scoreOfCho <= scoreOfHan) {
             return Team.HAN;
@@ -48,7 +43,7 @@ public class GameOver implements Turn {
         return Team.CHO;
     }
 
-    private int getTotalScoreOf(Team team) {
-        return board.getTotalScoreOf(team);
+    private float getTotalScoreOf(Team team, ScorePolicy scorePolicy) {
+        return scorePolicy.getScoreOf(board, team);
     }
 }

@@ -1,5 +1,6 @@
 package janggi.model.turn.playing;
 
+import janggi.model.ScorePolicy;
 import janggi.model.Team;
 import janggi.model.board.Board;
 import janggi.model.turn.Turn;
@@ -23,7 +24,7 @@ public abstract class PlayingTurn implements Turn {
     }
 
     @Override
-    public Team getWinner() {
+    public Team getWinner(ScorePolicy scorePolicy) {
         throw new IllegalStateException("아직 게임이 종료되지 않았습니다.");
     }
 }

@@ -127,7 +127,7 @@ public class PlayingBoard implements Board {
     }
 
     @Override
-    public int getTotalScoreOf(Team team) {
+    public int getMaterialScoreOf(Team team) {
         return boardInfo.values().stream()
                 .filter(value -> value.isSameTeam(team))
                 .mapToInt(value -> value.getPieceType().getScore())

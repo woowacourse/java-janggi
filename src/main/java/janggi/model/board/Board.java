@@ -15,5 +15,5 @@ public interface Board {
 
     Team winner();
 
-    int getTotalScoreOf(Team team);
+    int getMaterialScoreOf(Team team);
 }

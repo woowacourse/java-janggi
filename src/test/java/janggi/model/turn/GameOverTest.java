@@ -3,11 +3,10 @@ package janggi.model.turn;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.model.ScorePolicy;
 import janggi.model.Team;
 import janggi.model.board.Board;
 import janggi.model.board.PlayingBoard;
-import janggi.model.palace.PalaceFactory;
-import janggi.model.palace.Palaces;
 import janggi.model.piece.Byeong;
 import janggi.model.piece.diagonalMove.Ma;
 import janggi.model.piece.diagonalMove.Sang;
@@ -51,8 +50,6 @@ class GameOverTest {
     @Test
     void getWinner() {
         //given
-        Palaces palaces = new PalaceFactory().create();
-
         Board board = PlayingBoard.of(Map.of(
                 new Position(Row.ONE, Column.ONE), new Byeong(Team.CHO), // 2점, 초나라
                 new Position(Row.ONE, Column.TWO), new Sa(Team.HAN), // 3점, 한나라
@@ -65,7 +62,7 @@ class GameOverTest {
         GameOver gameOver = new GameOver(board);
 
         //when & then
-        assertThat(gameOver.getWinner())
-                .isEqualTo(Team.HAN);   //초나라 12점, 한나라 21점
+        assertThat(gameOver.getWinner(new ScorePolicy()))
+                .isEqualTo(Team.HAN);   //초나라 12점, 한나라 22.5점
     }
 }
