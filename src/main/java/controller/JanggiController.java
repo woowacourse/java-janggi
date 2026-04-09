@@ -11,7 +11,6 @@ import domain.piece.Piece;
 import domain.position.Position;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import util.Retry;
 import view.InputView;
 import view.OutputView;
@@ -26,74 +25,83 @@ public class JanggiController {
         this.outputView = outputView;
         this.gameRepository = gameRepository;
     }
-    
+
     public void run() {
         try {
             GameState state = initializeGame();
-            Board board = state.board();
-            Turn turn = state.turn();
-            int gameId = state.gameId();
-
-            outputView.printBoard(board);
-
-            while (board.isGeneralAlive()) {
-                turn = playTurn(board, turn, gameId);
-            }
-
-            Map<Team, Score> scores = board.calculateScore();
-            outputView.printWinner(board.decideWinner());
-            outputView.printScore(Team.CHO, scores.get(Team.CHO));
-            outputView.printScore(Team.HAN, scores.get(Team.HAN));
-            gameRepository.deleteGame(gameId);
+            outputView.printBoard(state.board());
+            playGame(state);
+            finishGame(state);
         } catch (RuntimeException e) {
             outputView.printErrorMessage(e.getMessage());
         }
     }
 
+    private void playGame(GameState state) {
+        Turn turn = state.turn();
+        while (state.board().isGeneralAlive()) {
+            turn = playTurn(state.board(), turn, state.gameId());
+        }
+    }
+
+    private void finishGame(GameState state) {
+        Board board = state.board();
+        Map<Team, Score> scores = board.calculateScore();
+        outputView.printWinner(board.decideWinner());
+        outputView.printScore(Team.CHO, scores.get(Team.CHO));
+        outputView.printScore(Team.HAN, scores.get(Team.HAN));
+        gameRepository.deleteGame(state.gameId());
+    }
+
+    private GameState initializeGame() {
+        return gameRepository.findLatestGame()
+                .map(this::resumeGame)
+                .orElseGet(this::startNewGame);
+    }
+
+    private GameState resumeGame(GameEntity entity) {
+        Board board = new Board(gameRepository.loadPieces(entity.id()));
+        Turn turn = Turn.of(entity.currentTurn());
+        return new GameState(board, turn, entity.id());
+    }
+
+    private GameState startNewGame() {
+        Board board = createBoard();
+        Turn turn = Turn.first();
+        int gameId = gameRepository.startNewGame(turn.current(), board.getState());
+        return new GameState(board, turn, gameId);
+    }
+
     private Board createBoard() {
-        int choFormationNumber = Retry.untilSuccess(
-                () -> inputView.initialFormation(Team.CHO),
-                e -> outputView.printErrorMessage(e.getMessage())
-        );
-        int hanFormationNumber = Retry.untilSuccess(
-                () -> inputView.initialFormation(Team.HAN),
-                e -> outputView.printErrorMessage(e.getMessage())
-        );
+        int choFormationNumber = getFormationNumber(Team.CHO);
+        int hanFormationNumber = getFormationNumber(Team.HAN);
         Map<Position, Piece> board = BoardFactory.createFormation(choFormationNumber, hanFormationNumber);
         return new Board(board);
     }
 
+    private int getFormationNumber(Team team) {
+        return Retry.untilSuccess(
+                () -> inputView.initialFormation(team),
+                e -> outputView.printErrorMessage(e.getMessage())
+        );
+    }
+
     private Turn playTurn(Board board, Turn turn, int gameId) {
-        return Retry.untilSuccess(() -> {
-            List<Position> positions = inputView.askMovePiecePosition(turn.current());
-            Position src = positions.get(0);
-            Position dest = positions.get(1);
-            boolean isCapture = board.hasPieceAt(dest);
-            board.move(src, dest, turn.current());
-            Turn next = turn.next();
-            gameRepository.saveMove(gameId, src, dest, isCapture, next.current());
-            outputView.printBoard(board);
-            return next;
-        }, e -> outputView.printErrorMessage(e.getMessage()));
+        return Retry.untilSuccess(
+                () -> executeMove(board, turn, gameId),
+                e -> outputView.printErrorMessage(e.getMessage())
+        );
     }
 
-    private GameState initializeGame() {
-        Optional<GameEntity> savedGame = gameRepository.findLatestGame();
-
-        Board board = savedGame
-                .map(entity -> new Board(gameRepository.loadPieces(entity.id())))
-                .orElseGet(this::createBoard);
-
-        Turn turn = savedGame
-                .map(entity -> Turn.of(entity.currentTurn()))
-                .orElse(Turn.first());
-
-        Team initialTeam = turn.current();
-        int gameId = savedGame
-                .map(GameEntity::id)
-                .orElseGet(() -> gameRepository.startNewGame(initialTeam, board.getState()));
-
-        return new GameState(board, turn, gameId);
+    private Turn executeMove(Board board, Turn turn, int gameId) {
+        List<Position> positions = inputView.askMovePiecePosition(turn.current());
+        Position src = positions.get(0);
+        Position dest = positions.get(1);
+        boolean isCapture = board.hasPieceAt(dest);
+        board.move(src, dest, turn.current());
+        Turn next = turn.next();
+        gameRepository.saveMove(gameId, src, dest, isCapture, next.current());
+        outputView.printBoard(board);
+        return next;
     }
-
 }
