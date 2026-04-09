@@ -38,8 +38,19 @@ public class JanggiService {
 
     public JanggiGame createNewGame() {
         try (Connection connection = DBConnectionManager.getConnection()) {
-            JanggiGame game = new JanggiGame(new Board(BoardFactory.generate()));
-            return janggiRepository.save(connection, game);
+            connection.setAutoCommit(false);
+            try {
+                JanggiGame game = new JanggiGame(new Board(BoardFactory.generate()));
+                JanggiGame savedGame = janggiRepository.save(connection, game);
+
+                connection.commit();
+                return savedGame;
+            } catch (Exception e) {
+                rollbackQuietly(connection);
+                throw new RuntimeException("새 게임 생성 중 오류 발생", e);
+            } finally {
+                resetAutoCommit(connection);
+            }
         } catch (SQLException e) {
             throw new RuntimeException("새 게임 생성 실패", e);
         }
