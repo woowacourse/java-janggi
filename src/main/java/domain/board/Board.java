@@ -114,12 +114,10 @@ public class Board implements PathChecker {
     }
 
     public double calculateScore(Camp camp) {
-        double totalScore = board.values().stream()
+        return board.values().stream()
                 .filter(piece -> piece.camp() == camp)
                 .mapToDouble(piece -> piece.type().score())
                 .sum();
-
-        return totalScore + camp.bonusScore();
     }
 
     @Override

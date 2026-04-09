@@ -8,6 +8,7 @@ import domain.piece.Piece;
 
 public class Game {
     private static final String INVALID_TURN_ERROR_MESSAGE = "[ERROR] 현재 턴의 기물만 움직일 수 있습니다.";
+    private static final double HAN_BONUS_SCORE = 1.5;
 
     private final Board board;
     private Camp currentTurn;
@@ -58,7 +59,7 @@ public class Game {
     private void updateGameIfDraw() {
         if (board.isOnlyGeneralAndGuard()) {
             double choScore = board.calculateScore(Camp.CHO);
-            double hanScore = board.calculateScore(Camp.HAN);
+            double hanScore = board.calculateScore(Camp.HAN) + HAN_BONUS_SCORE;
 
             checkWinCamp(choScore, hanScore);
         }
