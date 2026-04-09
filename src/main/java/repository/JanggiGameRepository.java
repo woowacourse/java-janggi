@@ -54,16 +54,12 @@ public final class JanggiGameRepository {
         }
     }
 
-    public long save(JanggiGame janggiGame) {
+    public long save(Connection conn, JanggiGame janggiGame) {
         String sql = "INSERT INTO game (current_turn) VALUES (?)";
 
-        try (
-                Connection conn = dataSource.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
-        ) {
+        try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setString(1, janggiGame.currentTurn().name());
             pstmt.executeUpdate();
-            // TODO: ResultSet 자원도 닫아야 됨을 인지해서 일단 중첩 try-with-resources로 대응했지만, 중첩없이 해결 가능한 지 고민 필요.
             try (ResultSet rs = pstmt.getGeneratedKeys()) {
                 if (rs.next()) {
                     long gameId = rs.getLong(1);
@@ -79,19 +75,12 @@ public final class JanggiGameRepository {
         }
     }
 
-    public void updateGameStatus(JanggiGame janggiGame, Long gameId) {
-        try (Connection conn = dataSource.getConnection()) {
-            try {
-                conn.setAutoCommit(false);
-                updateCurrentTurn(conn, janggiGame, gameId);
-                syncPieces(conn, janggiGame, gameId);
-                conn.commit();
-            } catch (IllegalStateException e) {
-                conn.rollback();
-                throw e;
-            }
-        } catch (SQLException e) {
-            throw new IllegalStateException(e);
+    public void updateGameStatus(Connection conn, JanggiGame janggiGame, long gameId) {
+        try {
+            updateCurrentTurn(conn, janggiGame, gameId);
+            syncPieces(conn, janggiGame, gameId);
+        } catch (IllegalStateException e) {
+            throw e;
         }
     }
 
@@ -110,16 +99,13 @@ public final class JanggiGameRepository {
         }
     }
 
-    public JanggiGame findById(long gameId) {
+    public JanggiGame findById(Connection conn, long gameId) {
         String sql = ""
                 + "SELECT * "
                 + "FROM game "
                 + "WHERE game_id = ?";
 
-        try (
-                Connection conn = dataSource.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sql)
-        ) {
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setLong(1, gameId);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
@@ -139,16 +125,13 @@ public final class JanggiGameRepository {
         }
     }
 
-    public List<GameSummary> findAll() {
+    public List<GameSummary> findAll(Connection conn) {
         String sql = ""
                 + "SELECT game_id, created_at, current_turn "
                 + "FROM game ";
 
         List<GameSummary> gameSummaries = new ArrayList<>();
-        try (
-                Connection conn = dataSource.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sql)
-        ) {
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
                     gameSummaries.add(new GameSummary(

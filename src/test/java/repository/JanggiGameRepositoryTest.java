@@ -38,9 +38,13 @@ class JanggiGameRepositoryTest {
     private static final String QUERY_DELIMITER = ";";
 
     private JanggiGameRepository repository;
+    private Connection conn;
 
     @BeforeEach
-    void setUp() throws IOException {
+    void setUp() throws IOException, SQLException {
+        conn = MemoryDBConnectionUtil.getDataSource().getConnection();
+        conn.setAutoCommit(false);
+
         DataSource dataSource = MemoryDBConnectionUtil.getDataSource();
         repository = new JanggiGameRepository(dataSource);
 
@@ -49,8 +53,8 @@ class JanggiGameRepositoryTest {
                 .split(QUERY_DELIMITER);
 
         try (
-                Connection conn = dataSource.getConnection();
-                Statement statement = conn.createStatement()
+                Connection conn2 = dataSource.getConnection();
+                Statement statement = conn2.createStatement()
         ) {
             for (String query : queries) {
                 statement.execute(query);
@@ -61,8 +65,8 @@ class JanggiGameRepositoryTest {
     }
 
     @AfterEach
-    void tearDown() {
-        repository.clear();
+    void tearDown() throws SQLException {
+        conn.rollback();
     }
 
     @DisplayName("게임을 저장한 후 ID로 조회한다")
@@ -70,8 +74,8 @@ class JanggiGameRepositoryTest {
     void 게임_저장_조회() {
         JanggiGame janggiGame = JanggiGameFixture.create_game_with_sufficient_points_and_both_general_uncaptured();
 
-        long gameId = repository.save(janggiGame);
-        JanggiGame found = repository.findById(gameId);
+        long gameId = repository.save(conn, janggiGame);
+        JanggiGame found = repository.findById(conn, gameId);
 
         assertThat(janggiGame)
                 .usingRecursiveComparison()
@@ -81,14 +85,14 @@ class JanggiGameRepositoryTest {
     @DisplayName("저장된 게임들의 요약 정보를 조회한다")
     @Test
     void 게임_목록_조회() {
-        long gameIdA = repository.save(
+        long gameIdA = repository.save(conn,
                 JanggiGameFixture.create_game_with_sufficient_points_and_both_general_uncaptured()
         );
-        long gameIdB = repository.save(
+        long gameIdB = repository.save(conn,
                 JanggiGameFixture.create_game_with_sufficient_points_only_one_side(Side.CHO)
         );
 
-        List<GameSummary> gameSummaries = repository.findAll();
+        List<GameSummary> gameSummaries = repository.findAll(conn);
 
         assertThat(gameSummaries)
                 .hasSize(2)
@@ -102,7 +106,7 @@ class JanggiGameRepositoryTest {
 
         @DisplayName("트랜잭션을 모두 완료하지 못하면, 해당 트랜잭션 자체를 취소(롤백)한다")
         @Test
-        void rollback() {
+        void rollback() throws SQLException {
             // given
             JanggiGameRepository spyGameRepository = spy(repository);
             doThrow(IllegalStateException.class)
@@ -119,15 +123,24 @@ class JanggiGameRepositoryTest {
                                     Piece.of(PieceType.CHARIOT, expectedCurrentTurn)))
                     )
             );
-            long gameIdA = spyGameRepository.save(janggiGame);
+            long gameIdA = spyGameRepository.save(conn, janggiGame);
+            conn.commit();
+            System.out.println("gameIdA = " + gameIdA);
 
             // when and then
             janggiGame.movePiece(new Intersection(10, 1), new Intersection(9, 1), expectedCurrentTurn);
 
-            assertThatThrownBy(() -> spyGameRepository.updateGameStatus(janggiGame, gameIdA))
-                    .isInstanceOf(IllegalStateException.class);
+            conn.setAutoCommit(false);
+            try {
+                spyGameRepository.updateGameStatus(conn, janggiGame, gameIdA);
+            } catch (IllegalStateException e) {
+                // [중요] 예외가 발생했을 때 테스트 코드에서 직접 롤백을 수행함
+                System.out.println("CALLBACK IN CATCH");
+                conn.rollback();
+            }
 
-            JanggiGame foundGame = spyGameRepository.findById(gameIdA);
+            System.out.println("BEFORE CALL: findById, gameId=" + gameIdA);
+            JanggiGame foundGame = spyGameRepository.findById(conn, gameIdA);
             Side actualCurrentTurn = foundGame.currentTurn();
             assertThat(actualCurrentTurn).isEqualTo(expectedCurrentTurn);
         }
@@ -143,12 +156,12 @@ class JanggiGameRepositoryTest {
                                     Piece.of(PieceType.CHARIOT, previousTurn)))
                     )
             );
-            long gameIdA = repository.save(janggiGame);
+            long gameIdA = repository.save(conn, janggiGame);
 
             // when
             janggiGame.movePiece(new Intersection(10, 1), new Intersection(9, 1), previousTurn);
-            repository.updateGameStatus(janggiGame, gameIdA);
-            JanggiGame foundGame = repository.findById(gameIdA);
+            repository.updateGameStatus(conn, janggiGame, gameIdA);
+            JanggiGame foundGame = repository.findById(conn, gameIdA);
             Side actualCurrentTurn = foundGame.currentTurn();
 
             // then

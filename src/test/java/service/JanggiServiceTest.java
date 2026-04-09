@@ -9,6 +9,7 @@ import dto.GameSummary;
 import dto.GameWrapper;
 import java.io.IOException;
 import java.util.List;
+import javax.sql.DataSource;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,9 +24,9 @@ class JanggiServiceTest {
 
     @BeforeEach
     void setUp() throws IOException {
-        janggiService = new JanggiService(
-                new JanggiGameRepository(MemoryDBConnectionUtil.getDataSource())
-        );
+        DataSource dataSource = MemoryDBConnectionUtil.getDataSource();
+        janggiService = new JanggiService(dataSource, new JanggiGameRepository(dataSource));
+        janggiService.clear();
     }
 
     @AfterEach
