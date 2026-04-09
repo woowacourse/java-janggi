@@ -36,29 +36,38 @@ public class Palace {
             )
     );
 
-    public boolean hasDiagonalRoute(Coordination from, Coordination to) {
-        return findRoute(from, to).isPresent();
-    }
-
-    public List<Coordination> diagonalPath(Coordination from, Coordination to) {
-        return findRoute(from, to)
-                .map(route -> extractPath(route, from, to))
-                .orElse(List.of());
-    }
-
-    public boolean isSamePalace(Coordination from, Coordination to) {
-        if (isTopPalace(from) && isTopPalace(to)) {
-            return true;
-        }
-        return isBottomPalace(from) && isBottomPalace(to);
-    }
-
     public boolean isTopPalace(Coordination coordination) {
         return coordination.isInRange(LEFT_COLUMN, RIGHT_COLUMN, TOP_START_ROW, TOP_END_ROW);
     }
 
     public boolean isBottomPalace(Coordination coordination) {
         return coordination.isInRange(LEFT_COLUMN, RIGHT_COLUMN, BOTTOM_START_ROW, BOTTOM_END_ROW);
+    }
+
+    public MoveContext createMoveContext(Coordination from, Coordination to) {
+        return new MoveContext(
+                from,
+                to,
+                palaceAreaOf(from),
+                palaceAreaOf(to),
+                palaceRoute(from, to)
+        );
+    }
+
+    private PalaceArea palaceAreaOf(Coordination coordination) {
+        if (isTopPalace(coordination)) {
+            return PalaceArea.TOP;
+        }
+        if (isBottomPalace(coordination)) {
+            return PalaceArea.BOTTOM;
+        }
+        return PalaceArea.NONE;
+    }
+
+    private PalaceRoute palaceRoute(Coordination from, Coordination to) {
+        return findRoute(from, to)
+                .map(route -> PalaceRoute.of(extractPath(route, from, to)))
+                .orElse(PalaceRoute.empty());
     }
 
     private Optional<List<Coordination>> findRoute(Coordination from, Coordination to) {

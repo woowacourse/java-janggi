@@ -1,14 +1,12 @@
 package domain.piece;
 
-import domain.board.Palace;
+import domain.board.MoveContext;
 import domain.coordination.Coordination;
 import domain.coordination.MoveDelta;
 import domain.piece.error.PieceException;
 import java.util.List;
 
 public class General extends Piece {
-
-    private static final Palace PALACE = new Palace();
     private static final MoveDelta ONE_STEP_DIAGONAL = new MoveDelta(1, 1);
 
     public General(Team team) {
@@ -16,8 +14,8 @@ public class General extends Piece {
     }
 
     @Override
-    public void validateRule(Coordination from, Coordination to) {
-        if (!canMoveOneStepInPalace(from, to)) {
+    public void validateRule(MoveContext moveContext) {
+        if (!canMoveOneStepInPalace(moveContext)) {
             throw new PieceException(IMPOSSIBLE_MOVE);
         }
     }
@@ -33,7 +31,7 @@ public class General extends Piece {
     }
 
     @Override
-    public List<Coordination> resolvePath(Coordination from, Coordination to) {
+    public List<Coordination> resolvePath(MoveContext moveContext) {
         return List.of();
     }
 
@@ -44,9 +42,11 @@ public class General extends Piece {
         }
     }
 
-    private boolean canMoveOneStepInPalace(Coordination from, Coordination to) {
-        return PALACE.isSamePalace(from, to)
-                && (isOrthogonalOneStep(from, to) || isDiagonalOneStepInPalace(from, to));
+    private boolean canMoveOneStepInPalace(MoveContext moveContext) {
+        Coordination from = moveContext.from();
+        Coordination to = moveContext.to();
+        return moveContext.isSamePalace()
+                && (isOrthogonalOneStep(from, to) || isDiagonalOneStepInPalace(moveContext, from, to));
     }
 
     private boolean isOrthogonalOneStep(Coordination from, Coordination to) {
@@ -54,8 +54,8 @@ public class General extends Piece {
         return absolute.deltaColumn() + absolute.deltaRow() == 1;
     }
 
-    private boolean isDiagonalOneStepInPalace(Coordination from, Coordination to) {
+    private boolean isDiagonalOneStepInPalace(MoveContext moveContext, Coordination from, Coordination to) {
         MoveDelta absolute = MoveDelta.between(from, to).absolute();
-        return ONE_STEP_DIAGONAL.equals(absolute) && PALACE.hasDiagonalRoute(from, to);
+        return ONE_STEP_DIAGONAL.equals(absolute) && moveContext.isPalaceDiagonalMove();
     }
 }

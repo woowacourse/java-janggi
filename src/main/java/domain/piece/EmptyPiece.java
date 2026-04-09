@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.board.MoveContext;
 import domain.coordination.Coordination;
 import domain.piece.error.PieceException;
 import java.util.List;
@@ -23,12 +24,12 @@ public class EmptyPiece extends Piece {
     }
 
     @Override
-    public void validateRule(Coordination from, Coordination to) {
+    public void validateRule(MoveContext moveContext) {
         throw new PieceException(NOT_EXISTS_PIECE);
     }
 
     @Override
-    public List<Coordination> resolvePath(Coordination from, Coordination to) {
+    public List<Coordination> resolvePath(MoveContext moveContext) {
         return List.of();
     }
 

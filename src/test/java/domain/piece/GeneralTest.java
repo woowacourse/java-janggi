@@ -6,6 +6,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import domain.coordination.Coordination;
 import domain.piece.error.PieceException;
 import fixture.BoardFixtureFactory;
+import fixture.MoveContextFactory;
 import java.util.Map;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -23,7 +24,7 @@ class GeneralTest {
         Coordination from = Coordination.of(5, 9);
         Coordination to = Coordination.of(column, row);
 
-        assertThatThrownBy(() -> general.validateRule(from, to))
+        assertThatThrownBy(() -> general.validateRule(MoveContextFactory.create(from, to)))
                 .isInstanceOf(PieceException.class);
     }
 
@@ -40,7 +41,7 @@ class GeneralTest {
         Coordination from = Coordination.of(5, 9);
         Coordination to = Coordination.of(column, row);
 
-        assertThatCode(() -> general.validateRule(from, to))
+        assertThatCode(() -> general.validateRule(MoveContextFactory.create(from, to)))
                 .doesNotThrowAnyException();
     }
 

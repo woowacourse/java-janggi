@@ -1,14 +1,13 @@
 package domain.piece;
 
-import domain.board.Palace;
+import domain.board.MoveContext;
+import domain.board.PalaceArea;
 import domain.coordination.Coordination;
 import domain.coordination.MoveDelta;
 import domain.piece.error.PieceException;
 import java.util.List;
 
 public class Soldier extends Piece {
-
-    private static final Palace PALACE = new Palace();
     private static final MoveDelta ONE_STEP_DIAGONAL = new MoveDelta(1, 1);
     private static final List<MoveDelta> CHO_MOVABLE_LOCATION = List.of(
             new MoveDelta(-1, 0),
@@ -26,8 +25,8 @@ public class Soldier extends Piece {
     }
 
     @Override
-    public void validateRule(Coordination from, Coordination to) {
-        validateLocation(from, to);
+    public void validateRule(MoveContext moveContext) {
+        validateLocation(moveContext);
     }
 
     @Override
@@ -36,7 +35,7 @@ public class Soldier extends Piece {
     }
 
     @Override
-    public List<Coordination> resolvePath(Coordination from, Coordination to) {
+    public List<Coordination> resolvePath(MoveContext moveContext) {
         return List.of();
     }
 
@@ -47,13 +46,15 @@ public class Soldier extends Piece {
         }
     }
 
-    private void validateLocation(Coordination from, Coordination to) {
+    private void validateLocation(MoveContext moveContext) {
+        Coordination from = moveContext.from();
+        Coordination to = moveContext.to();
         MoveDelta different = MoveDelta.between(from, to);
 
         if (movableLocation().contains(different)) {
             return;
         }
-        if (!canMoveForwardDiagonallyInEnemyPalace(from, to)) {
+        if (!canMoveForwardDiagonallyInEnemyPalace(moveContext, from, to)) {
             throw new PieceException(IMPOSSIBLE_MOVE);
         }
     }
@@ -65,23 +66,30 @@ public class Soldier extends Piece {
         return HAN_MOVABLE_LOCATION;
     }
 
-    private boolean canMoveForwardDiagonallyInEnemyPalace(Coordination from, Coordination to) {
-        return isInEnemyPalace(from)
-                && isInEnemyPalace(to)
-                && isDiagonalOneStepInPalace(from, to)
+    private boolean canMoveForwardDiagonallyInEnemyPalace(MoveContext moveContext, Coordination from, Coordination to) {
+        return isFromInEnemyPalace(moveContext)
+                && isToInEnemyPalace(moveContext)
+                && isDiagonalOneStepInPalace(moveContext, from, to)
                 && isForward(MoveDelta.between(from, to));
     }
 
-    private boolean isInEnemyPalace(Coordination coordination) {
+    private boolean isFromInEnemyPalace(MoveContext moveContext) {
         if (team.isCho()) {
-            return PALACE.isTopPalace(coordination);
+            return moveContext.fromPalaceArea() == PalaceArea.TOP;
         }
-        return PALACE.isBottomPalace(coordination);
+        return moveContext.fromPalaceArea() == PalaceArea.BOTTOM;
     }
 
-    private boolean isDiagonalOneStepInPalace(Coordination from, Coordination to) {
+    private boolean isToInEnemyPalace(MoveContext moveContext) {
+        if (team.isCho()) {
+            return moveContext.toPalaceArea() == PalaceArea.TOP;
+        }
+        return moveContext.toPalaceArea() == PalaceArea.BOTTOM;
+    }
+
+    private boolean isDiagonalOneStepInPalace(MoveContext moveContext, Coordination from, Coordination to) {
         MoveDelta absolute = MoveDelta.between(from, to).absolute();
-        return ONE_STEP_DIAGONAL.equals(absolute) && PALACE.hasDiagonalRoute(from, to);
+        return ONE_STEP_DIAGONAL.equals(absolute) && moveContext.isPalaceDiagonalMove();
     }
 
     private boolean isForward(MoveDelta delta) {

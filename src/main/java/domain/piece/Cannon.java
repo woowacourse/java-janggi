@@ -1,21 +1,19 @@
 package domain.piece;
 
-import domain.board.Palace;
+import domain.board.MoveContext;
 import domain.coordination.Coordination;
 import domain.piece.error.PieceException;
 import java.util.List;
 
 public class Cannon extends Piece {
 
-    private static final Palace PALACE = new Palace();
-
     public Cannon(Team team) {
         super(team);
     }
 
     @Override
-    public void validateRule(Coordination from, Coordination to) {
-        validateLocation(from, to);
+    public void validateRule(MoveContext moveContext) {
+        validateLocation(moveContext);
     }
 
     @Override
@@ -23,10 +21,10 @@ public class Cannon extends Piece {
         return PieceType.CANNON;
     }
 
-    private void validateLocation(Coordination from, Coordination to) {
-        boolean movable = from.isSameRowDifferentColumn(to)
-                || from.isSameColumnDifferentRow(to)
-                || PALACE.hasDiagonalRoute(from, to);
+    private void validateLocation(MoveContext moveContext) {
+        boolean movable = moveContext.isSameRowMove()
+                || moveContext.isSameColumnMove()
+                || moveContext.isPalaceDiagonalMove();
         if (!movable) {
             throw new PieceException(IMPOSSIBLE_MOVE);
         }
@@ -53,10 +51,12 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public List<Coordination> resolvePath(Coordination from, Coordination to) {
-        if (PALACE.hasDiagonalRoute(from, to)) {
-            return PALACE.diagonalPath(from, to);
+    public List<Coordination> resolvePath(MoveContext moveContext) {
+        if (moveContext.isPalaceDiagonalMove()) {
+            return moveContext.palacePath();
         }
+        Coordination from = moveContext.from();
+        Coordination to = moveContext.to();
         if (from.isSameColumnDifferentRow(to)) {
             return from.betweenRowCoordination(to);
         }

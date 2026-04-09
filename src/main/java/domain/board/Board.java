@@ -11,6 +11,7 @@ import java.util.Map;
 public class Board {
 
     private static final int TOTAL_GENERAL_COUNT = 2;
+    private static final Palace PALACE = new Palace();
 
     private final Map<Coordination, Piece> board;
 
@@ -20,9 +21,12 @@ public class Board {
 
     public void move(Coordination from, Coordination to) {
         Piece piece = board.get(from);
-        validateRule(from, to, piece);
-        validatePiecesOnPath(from, to, piece);
+        MoveContext moveContext = PALACE.createMoveContext(from, to);
+
+        validateRule(piece, moveContext);
+        validatePiecesOnPath(piece, moveContext);
         validateNotSameTeam(to, piece);
+
         resolve(from, to, piece);
     }
 
@@ -62,8 +66,8 @@ public class Board {
         piece.validateNotSameTeam(board.get(to));
     }
 
-    private void validatePiecesOnPath(Coordination from, Coordination to, Piece piece) {
-        List<Coordination> path = piece.resolvePath(from, to);
+    private void validatePiecesOnPath(Piece piece, MoveContext moveContext) {
+        List<Coordination> path = piece.resolvePath(moveContext);
         List<Piece> piecesOnPath = path.stream()
                 .map(board::get)
                 .filter(pathPiece -> !pathPiece.isEmpty())
@@ -71,7 +75,7 @@ public class Board {
         piece.validatePath(piecesOnPath);
     }
 
-    private void validateRule(Coordination from, Coordination to, Piece piece) {
-        piece.validateRule(from, to);
+    private void validateRule(Piece piece, MoveContext moveContext) {
+        piece.validateRule(moveContext);
     }
 }

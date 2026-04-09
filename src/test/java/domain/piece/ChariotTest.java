@@ -7,6 +7,7 @@ import static fixture.PiecePathFinder.piecesOnPath;
 import domain.coordination.Coordination;
 import domain.piece.error.PieceException;
 import fixture.BoardFixtureFactory;
+import fixture.MoveContextFactory;
 import java.util.Map;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -23,7 +24,7 @@ class ChariotTest {
         Coordination from = Coordination.of(1, 10);
         Coordination to = Coordination.of(column, row);
 
-        assertThatThrownBy(() -> chariot.validateRule(from, to))
+        assertThatThrownBy(() -> chariot.validateRule(MoveContextFactory.create(from, to)))
                 .isInstanceOf(PieceException.class);
     }
 
@@ -37,7 +38,7 @@ class ChariotTest {
         Coordination from = Coordination.of(1, 10);
         Coordination to = Coordination.of(column, row);
 
-        assertThatCode(() -> chariot.validateRule(from, to))
+        assertThatCode(() -> chariot.validateRule(MoveContextFactory.create(from, to)))
                 .doesNotThrowAnyException();
     }
 
@@ -107,7 +108,7 @@ class ChariotTest {
         Coordination to = Coordination.of(column, row);
 
         assertThatCode(() -> {
-            chariot.validateRule(from, to);
+            chariot.validateRule(MoveContextFactory.create(from, to));
             chariot.validatePath(piecesOnPath(chariot, from, to, board));
         })
                 .doesNotThrowAnyException();

@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.board.MoveContext;
 import domain.coordination.Coordination;
 import domain.coordination.MoveDelta;
 import domain.piece.error.PieceException;
@@ -19,7 +20,9 @@ public class Horse extends Piece {
     }
 
     @Override
-    public void validateRule(Coordination from, Coordination to) {
+    public void validateRule(MoveContext moveContext) {
+        Coordination from = moveContext.from();
+        Coordination to = moveContext.to();
         MoveDelta different = MoveDelta.between(from, to);
         MoveDelta absDifferent = different.absolute();
 
@@ -38,7 +41,9 @@ public class Horse extends Piece {
     }
 
     @Override
-    public List<Coordination> resolvePath(Coordination from, Coordination to) {
+    public List<Coordination> resolvePath(MoveContext moveContext) {
+        Coordination from = moveContext.from();
+        Coordination to = moveContext.to();
         MoveDelta different = MoveDelta.between(from, to);
         MoveDelta absDifferent = different.absolute();
         int colDifferent = different.deltaColumn();
