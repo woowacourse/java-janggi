@@ -8,7 +8,6 @@ import domain.game.InProgress;
 import domain.piece.Camp;
 import domain.piece.Piece;
 import domain.piece.PieceType;
-import dto.PieceDTO;
 
 import java.sql.*;
 import java.util.HashMap;
@@ -79,12 +78,14 @@ public class GameDAO {
             }
             System.out.println("게임 저장 완료. 발급된 게임 번호: " + generatedGameId);
 
-            for (PieceDTO pieceDTO : game.board().extractPieceDTOs()) {
+            for (Map.Entry<Position, Piece> entry : game.board().getPieces().entrySet()) {
+                Position position = entry.getKey();
+                Piece piece = entry.getValue();
                 pieceStatement.setInt(1, generatedGameId);
-                pieceStatement.setInt(2, pieceDTO.x());
-                pieceStatement.setInt(3, pieceDTO.y());
-                pieceStatement.setString(4, pieceDTO.camp());
-                pieceStatement.setString(5, pieceDTO.pieceType());
+                pieceStatement.setInt(2, position.x());
+                pieceStatement.setInt(3, position.y());
+                pieceStatement.setString(4, piece.camp().name());
+                pieceStatement.setString(5, piece.type().name());
                 pieceStatement.addBatch();
             }
 

@@ -3,7 +3,6 @@ package domain.board;
 import domain.piece.Camp;
 import domain.piece.Piece;
 import domain.piece.PieceType;
-import dto.PieceDTO;
 
 import java.util.*;
 
@@ -125,14 +124,7 @@ public class Board implements PathChecker {
         return PALACE.findPalaceCenter(from);
     }
 
-    public List<PieceDTO> extractPieceDTOs() {
-        return board.entrySet().stream()
-                .map(entry -> new PieceDTO(
-                        entry.getKey().x(),
-                        entry.getKey().y(),
-                        entry.getValue().camp().name(),
-                        entry.getValue().type().name()
-                ))
-                .toList();
+    public Map<Position, Piece> getPieces() {
+        return Collections.unmodifiableMap(this.board);
     }
 }
