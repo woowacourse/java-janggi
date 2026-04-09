@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class GameDao {
 
-    private final int FIX_GAME_ID = 1;
+    private static final int FIX_GAME_ID = 1;
     private final DatabaseConnector databaseConnector;
 
     public GameDao() {
