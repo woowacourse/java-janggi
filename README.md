@@ -104,7 +104,7 @@
 - [x] InMemoryGameStateRepository 구현
    - 메모리에 게임 상태 저장
    - 메모리에 저장된 게임 상태 조회
-- [ ] JdbcGameStateRepository 구현
+- [x] JdbcGameStateRepository 구현
   - JDBC를 사용한 게임 상태 저장
   - JDBC를 사용한 게임 상태 조회
 
@@ -118,19 +118,20 @@
 ---
 
 ### 5. JDBC 구현
-- [ ] H2 DataSource 생성
-- [ ] schema.sql 작성
+- [x] H2 DataSource 생성
+- [x] schema.sql 작성
    - game 테이블 생성
    - piece_state 테이블 생성
-- [ ] JdbcGameStateRepository의 save() 구현
+- [x] H2 DataSource 생성 팩토리 구현
+- [x] JdbcGameStateRepository의 save() 구현
    - 기존 게임 상태 삭제
    - game 테이블 저장
    - piece_state 테이블 저장
-- [ ] JdbcGameStateRepository의 load() 구현
+- [x] JdbcGameStateRepository의 load() 구현
    - game 테이블 조회
    - piece_state 테이블 조회
    - 조회한 데이터를 GameState로 복원
-- [ ] H2 인메모리 데이터베이스를 활용한 저장/조회 테스트 구현
+- [x] H2 인메모리 데이터베이스를 활용한 저장/조회 테스트 구현
 
 ---
 
