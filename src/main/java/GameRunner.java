@@ -1,4 +1,5 @@
 import domain.board.Board;
+import domain.board.MoveResult;
 import domain.piece.Piece;
 import domain.board.PiecePosition;
 import domain.board.Position;
@@ -51,8 +52,9 @@ public class GameRunner {
 
         outputView.printBoard(board);
 
-        while (true) {
-            playTurn(board);
+        boolean isRunning = true;
+        while (isRunning) {
+            isRunning = playTurn(board);
         }
     }
 
@@ -67,7 +69,7 @@ public class GameRunner {
         }
     }
 
-    private void playTurn(Board board) {
+    private boolean playTurn(Board board) {
         final TeamColor currentTurn = turnManager.getCurrentTurn();
         outputView.printCurrentTurn(currentTurn);
         outputView.printBoard(board);
@@ -81,10 +83,14 @@ public class GameRunner {
                 }
 
                 final Position destination = selectedRoute.get().endPos();
-                board.move(selectedPiece, destination);
+                final MoveResult moveResult = board.move(selectedPiece, destination);
                 outputView.printMoveResult(selectedPiece, destination);
+                if (moveResult.capturedKing()) {
+                    outputView.printWinner(currentTurn);
+                    return false;
+                }
                 turnManager.advanceTurn();
-                return;
+                return true;
             } catch (RuntimeException exception) {
                 outputView.printError(exception.getMessage());
             }

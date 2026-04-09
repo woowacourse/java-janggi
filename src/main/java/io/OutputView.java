@@ -32,6 +32,7 @@ public class OutputView {
     private static final String ROUTE_FORMAT = "%d. %s -> %s";
     private static final String PIECE_OPTION_FORMAT = "%d. %s%s";
     private static final String MOVE_RESULT_FORMAT = "%s 가 %s 로 이동했습니다.";
+    private static final String WINNER_MESSAGE_FORMAT = "게임 종료. %s 승리";
     private static final String ERROR_PREFIX = "[ERROR] ";
     private static final Map<PieceType, String> PIECE_SYMBOLS = createPieceSymbols();
     private static final String CHO_COLOR = "\u001B[38;5;71m";
@@ -98,6 +99,10 @@ public class OutputView {
 
     public void printMoveResult(Piece piece, Position destination) {
         System.out.println(MOVE_RESULT_FORMAT.formatted(formatPiece(piece), destination));
+    }
+
+    public void printWinner(TeamColor teamColor) {
+        System.out.println(WINNER_MESSAGE_FORMAT.formatted(teamColor.displayName()));
     }
 
     public void printError(String message) {

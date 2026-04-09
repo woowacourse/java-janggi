@@ -50,6 +50,21 @@ class BoardTest {
         }
 
         @Test
+        void 상대_왕을_포획하면_이동_결과에_반영한다() {
+            final Piece movingRook = Piece.of(TeamColor.CHO, PieceType.ROOK);
+            final Piece hanKing = Piece.of(TeamColor.HAN, PieceType.KING);
+            final Board movableBoard = new Board(Map.of(
+                    Position.of(4, 4), movingRook,
+                    Position.of(1, 4), hanKing
+            ));
+
+            final MoveResult moveResult = movableBoard.move(movingRook, Position.of(1, 4));
+
+            assertThat(moveResult.capturedKing()).isTrue();
+            assertThat(movableBoard.findPiece(Position.of(1, 4))).contains(movingRook);
+        }
+
+        @Test
         void 현재_판_상태를_기준으로_기물의_이동_가능_경로를_반환한다() {
             final Piece movingPawn = Piece.of(TeamColor.CHO, PieceType.PAWN);
             final Piece allyPiece = Piece.of(TeamColor.CHO, PieceType.GUARD);

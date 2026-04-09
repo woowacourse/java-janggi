@@ -54,7 +54,7 @@ public class Board {
                 .toList();
     }
 
-    public void move(Piece piece, Position destination) {
+    public MoveResult move(Piece piece, Position destination) {
         final Position currentPosition = findPositionOf(piece)
                 .orElseThrow(() -> new IllegalArgumentException("보드에 없는 기물입니다."));
 
@@ -70,7 +70,9 @@ public class Board {
             throw new IllegalArgumentException("현재 판 상태에서는 해당 목적지로 이동할 수 없습니다.");
         }
 
+        final MoveResult moveResult = MoveResult.from(destinationPiece);
         pieces.remove(currentPosition);
         pieces.put(destination, piece);
+        return moveResult;
     }
 }
