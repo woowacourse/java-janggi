@@ -32,6 +32,7 @@ class GameServiceTest {
     private static final String URL = "jdbc:h2:mem:service-test-db;DB_CLOSE_DELAY=-1";
     private static final String USER = "sa";
     private static final String PASSWORD = "";
+    private static final String INVALID_GAME_ROOM = "[ERROR] 존재하지 않는 게임방 번호입니다.";
 
     private GameService gameService;
     private Board board;
@@ -65,88 +66,87 @@ class GameServiceTest {
     }
 
     @Test
-    void 새_게임을_생성하면_게임방_번호와_초기_게임을_반환한다() {
+    void 새_게임을_생성하면_게임방_번호를_반환하고_상태를_조회할_수_있다() {
         // when
-        LoadedGame createdGame = gameService.createNewGame(board);
+        long gameId = gameService.createNewGame(board);
+        GameStatus gameStatus = gameService.getGameStatus(gameId);
 
         // then
         SoftAssertions.assertSoftly(assertSoftly -> {
-            assertSoftly.assertThat(createdGame.id()).isPositive();
-            assertSoftly.assertThat(createdGame.game().currentTurn()).isEqualTo(Camp.CHO);
-            assertSoftly.assertThat(createdGame.game().boardSnapshot()).isEqualTo(Game.start(board).boardSnapshot());
+            assertSoftly.assertThat(gameId).isPositive();
+            assertSoftly.assertThat(gameStatus.currentTurn()).isEqualTo(Camp.CHO);
+            assertSoftly.assertThat(gameStatus.boardSnapshot())
+                    .isEqualTo(Game.newGame(board).boardSnapshot());
+            assertSoftly.assertThat(gameStatus.gameEnded()).isFalse();
         });
     }
 
     @Test
-    void 저장된_게임을_조회할_수_있다() {
+    void 저장된_게임방이_존재하는지_검증할_수_있다() {
         // given
-        LoadedGame createdGame = gameService.createNewGame(board);
+        long gameId = gameService.createNewGame(board);
 
         // when
-        LoadedGame foundGame = gameService.loadGame(createdGame.id());
-
-        // then
-        SoftAssertions.assertSoftly(assertSoftly -> {
-            assertSoftly.assertThat(foundGame.id()).isEqualTo(createdGame.id());
-            assertSoftly.assertThat(foundGame.game().currentTurn()).isEqualTo(Camp.CHO);
-            assertSoftly.assertThat(foundGame.game().boardSnapshot()).isEqualTo(createdGame.game().boardSnapshot());
-        });
+        gameService.validateGameExists(gameId);
     }
 
     @Test
     void 존재하지_않는_게임방을_조회하면_예외가_발생한다() {
-        assertThatThrownBy(() -> gameService.loadGame(1L))
+        assertThatThrownBy(() -> gameService.validateGameExists(1L))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 존재하지 않는 게임방 번호입니다.");
+                .hasMessage(INVALID_GAME_ROOM);
     }
 
     @Test
     void 전체_게임방_번호를_조회할_수_있다() {
         // when
-        LoadedGame firstGame = gameService.createNewGame(createBoard());
-        LoadedGame secondGame = gameService.createNewGame(createBoard());
+        long firstGameId = gameService.createNewGame(createBoard());
+        long secondGameId = gameService.createNewGame(createBoard());
 
         // then
-        assertThat(gameService.getAllIds()).containsExactly(firstGame.id(), secondGame.id());
+        assertThat(gameService.getAllIds()).containsExactly(firstGameId, secondGameId);
     }
 
     @Test
     void 게임이_끝나지_않으면_턴을_진행_후_저장한다() {
         // given
-        LoadedGame loadedGame = gameService.createNewGame(board);
+        long gameId = gameService.createNewGame(board);
         Position source = new Position(3, 0);
         Position destination = new Position(4, 0);
 
         // when
-        boolean continueGame = gameService.playEachTurn(loadedGame, source, destination);
-        LoadedGame foundGame = gameService.loadGame(loadedGame.id());
+        GameStatus playedStatus = gameService.playEachTurn(gameId, source, destination);
+        GameStatus foundGameStatus = gameService.getGameStatus(gameId);
 
         // then
         SoftAssertions.assertSoftly(assertSoftly -> {
-            assertSoftly.assertThat(continueGame).isTrue();
-            assertSoftly.assertThat(foundGame.game().currentTurn()).isEqualTo(Camp.HAN);
-            assertSoftly.assertThat(foundGame.game().boardSnapshot()).doesNotContainKey(source);
-            assertSoftly.assertThat(foundGame.game().boardSnapshot()).containsKey(destination);
+            assertSoftly.assertThat(playedStatus.gameEnded()).isFalse();
+            assertSoftly.assertThat(playedStatus.currentTurn()).isEqualTo(Camp.HAN);
+            assertSoftly.assertThat(playedStatus.boardSnapshot()).doesNotContainKey(source);
+            assertSoftly.assertThat(playedStatus.boardSnapshot()).containsKey(destination);
+            assertSoftly.assertThat(foundGameStatus.currentTurn()).isEqualTo(Camp.HAN);
+            assertSoftly.assertThat(foundGameStatus.boardSnapshot()).isEqualTo(playedStatus.boardSnapshot());
         });
     }
 
     @Test
     void 장군을_잡으면_게임을_삭제한다() {
         // given
-        LoadedGame loadedGame = gameService.createNewGame(createEndingBoard());
+        long gameId = gameService.createNewGame(createEndingBoard());
         Position source = new Position(0, 0);
         Position destination = new Position(0, 4);
 
         // when
-        boolean continueGame = gameService.playEachTurn(loadedGame, source, destination);
+        GameStatus playedStatus = gameService.playEachTurn(gameId, source, destination);
 
         // then
         SoftAssertions.assertSoftly(assertSoftly -> {
-            assertSoftly.assertThat(continueGame).isFalse();
+            assertSoftly.assertThat(playedStatus.gameEnded()).isTrue();
+            assertSoftly.assertThat(playedStatus.currentTurn()).isEqualTo(Camp.CHO);
             assertSoftly.assertThat(gameService.getAllIds()).isEmpty();
-            assertSoftly.assertThatThrownBy(() -> gameService.loadGame(loadedGame.id()))
+            assertSoftly.assertThatThrownBy(() -> gameService.getGameStatus(gameId))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage("[ERROR] 존재하지 않는 게임방 번호입니다.");
+                    .hasMessage(INVALID_GAME_ROOM);
         });
     }
 

@@ -5,6 +5,7 @@ import janggi.domain.Game;
 import janggi.domain.board.Board;
 import janggi.domain.board.Position;
 import janggi.repository.GameRepository;
+import java.sql.Connection;
 import java.util.List;
 
 public class GameService {
@@ -19,27 +20,23 @@ public class GameService {
         this.gameRepository = gameRepository;
     }
 
-    public boolean playEachTurn(LoadedGame loadedGame, Position source, Position destination) {
-        long id = loadedGame.id();
-        Game game = loadedGame.game();
-
+    public GameStatus playEachTurn(long gameId, Position source, Position destination) {
         return transactionManager.executeWithTransaction(connection -> {
+            Game game = findGame(connection, gameId);
+
             boolean gameEnded = game.play(source, destination);
+            GameStatus gameStatus = GameStatus.from(game, gameEnded);
             if (gameEnded) {
-                gameRepository.deleteById(connection, id);
-                return false;
+                gameRepository.deleteById(connection, gameId);
+                return gameStatus;
             }
-            gameRepository.update(connection, id, game);
-            return true;
+            gameRepository.update(connection, gameId, game);
+            return gameStatus;
         });
     }
 
-    public LoadedGame loadGame(long gameId) {
-        Game game = transactionManager.execute(connection ->
-                gameRepository.findById(connection, gameId)
-                        .orElseThrow(() -> new IllegalArgumentException(INVALID_GAME_ROOM))
-        );
-        return new LoadedGame(gameId, game);
+    public void validateGameExists(long gameId) {
+        transactionManager.execute(connection -> findGame(connection, gameId));
     }
 
     public long createNewGame(Board board) {
@@ -47,10 +44,26 @@ public class GameService {
         return transactionManager.executeWithTransaction(connection -> {
             return gameRepository.create(connection, game);
         });
-        return new LoadedGame(gameId, game);
     }
 
     public List<Long> getAllIds() {
         return transactionManager.execute(gameRepository::findAllIds);
+    }
+
+    public GameStatus getGameStatus(long gameId) {
+        return transactionManager.execute(connection ->
+                GameStatus.from(findGame(connection, gameId), false)
+        );
+    }
+
+    public void validateSourceForCurrentTurn(long gameId, Position source) {
+        transactionManager.executeWithTransaction(connection -> {
+            findGame(connection, gameId).validateSourceForCurrentTurn(source);
+        });
+    }
+
+    private Game findGame(Connection connection, long gameId) {
+        return gameRepository.findById(connection, gameId)
+                .orElseThrow(() -> new IllegalArgumentException(INVALID_GAME_ROOM));
     }
 }

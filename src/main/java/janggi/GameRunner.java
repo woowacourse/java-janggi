@@ -1,6 +1,5 @@
 package janggi;
 
-import janggi.domain.Game;
 import janggi.domain.board.Board;
 import janggi.domain.board.Position;
 import janggi.domain.board.initializer.BoardInitializer;
@@ -8,7 +7,7 @@ import janggi.domain.board.initializer.ElephantSetUp;
 import janggi.domain.board.initializer.StandardBoardInitializer;
 import janggi.domain.piece.Camp;
 import janggi.service.GameService;
-import janggi.service.LoadedGame;
+import janggi.service.GameStatus;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import janggi.view.dto.CampDto;
@@ -29,14 +28,12 @@ public class GameRunner {
     }
 
     public void run() {
-        LoadedGame loadedGame = retryOnInvalidInput(this::loadOrCreateGame);
-        Game game = loadedGame.game();
-
-        outputView.printBoard(game.boardSnapshot());
-        play(loadedGame);
+        long gameId = retryOnInvalidInput(this::loadOrCreateGame);
+        outputView.printBoard(gameService.getGameStatus(gameId).boardSnapshot());
+        play(gameId);
     }
 
-    private LoadedGame loadOrCreateGame() {
+    private long loadOrCreateGame() {
         outputView.printExistGameRoom(gameService.getAllIds());
         long gameId = inputView.readSelectedGameRoom();
 
@@ -44,10 +41,11 @@ public class GameRunner {
             return createNewGame();
         }
 
-        return gameService.loadGame(gameId);
+        gameService.validateGameExists(gameId);
+        return gameId;
     }
 
-    private LoadedGame createNewGame() {
+    private long createNewGame() {
         Board board = createBoard();
         return gameService.createNewGame(board);
     }
@@ -68,31 +66,33 @@ public class GameRunner {
         elephantSetUps.put(camp, elephantSetUp);
     }
 
-    private void play(LoadedGame loadedGame) {
+    private void play(long gameId) {
         boolean continueGame = true;
-        Game game = loadedGame.game();
 
         while (continueGame) {
-            outputView.printScore(game.calculateScore());
-            continueGame = retryOnInvalidInput(() -> playTurn(loadedGame));
-            outputView.printBoard(game.boardSnapshot());
+            GameStatus beforeStatus = gameService.getGameStatus(gameId);
+            outputView.printScore(beforeStatus.score());
+
+            GameStatus afterStatus = retryOnInvalidInput(() -> playTurn(gameId, beforeStatus.currentTurn()));
+            outputView.printBoard(afterStatus.boardSnapshot());
+
+            if (afterStatus.gameEnded()) {
+                outputView.printWinner(afterStatus.currentTurn());
+                continueGame = false;
+            }
         }
-        outputView.printWinner(game.currentTurn());
     }
 
-    private boolean playTurn(LoadedGame loadedGame) {
-        Game game = loadedGame.game();
-        Camp currentTurn = game.currentTurn();
-
-        Position source = retryOnInvalidInput(() -> readSource(game, currentTurn));
+    private GameStatus playTurn(long gameId, Camp currentTurn) {
+        Position source = retryOnInvalidInput(() -> readSource(gameId, currentTurn));
         Position destination = retryOnInvalidInput(inputView::readDestination);
 
-        return gameService.playEachTurn(loadedGame, source, destination);
+        return gameService.playEachTurn(gameId, source, destination);
     }
 
-    private Position readSource(Game game, Camp currentTurn) {
+    private Position readSource(long gameId, Camp currentTurn) {
         Position source = inputView.readSource(CampDto.from(currentTurn));
-        game.validateSourceForCurrentTurn(source);
+        gameService.validateSourceForCurrentTurn(gameId, source);
         return source;
     }
 
