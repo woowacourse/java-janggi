@@ -4,7 +4,11 @@ public class GameRecord {
     private int consecutivePassCount;
 
     public GameRecord() {
-        this.consecutivePassCount = 0;
+        this(0);
+    }
+
+    public GameRecord(int consecutivePassCount) {
+        this.consecutivePassCount = consecutivePassCount;
     }
 
     public void recordMove() {
