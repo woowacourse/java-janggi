@@ -6,6 +6,9 @@ import domain.position.Position;
 import java.util.Scanner;
 
 public class InputView {
+
+    private InputView() {}
+
     private static final Scanner scanner = new Scanner(System.in);
 
     public static int inputSideChoice() {
