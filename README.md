@@ -42,3 +42,14 @@
 - [ ] 애플리케이션을 재시작하더라도 이전에 하던 게임을 이어서 할 수 있다
 
 ---
+## 환경 설정
+### 1. mySql 설치 및 실행 
+```
+docker run -d \
+--name janggi-mysql \
+-e MYSQL_ROOT_PASSWORD=password \
+-e MYSQL_DATABASE=janggi_db \
+-p 3306:3306 \
+-v $(pwd)/mysql_data:/var/lib/mysql \
+mysql:8.0
+```
