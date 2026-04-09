@@ -32,12 +32,12 @@ public class JanggiService {
         return gameDao.findAll();
     }
 
-    public Game loadGame(GameEntity gameEntity, Status status) {
+    public Game loadGame(GameEntity gameEntity) {
         List<PieceEntity> savedPieces = pieceDao.findAllByGameId(gameEntity.getId());
         Board board = convertPieceEntitiesToBoard(savedPieces);
 
         Team team = Team.valueOf(gameEntity.getCurrentTurn());
-        return Game.loadGame(board, team, status);
+        return Game.loadGame(board, team, Status.valueOf(gameEntity.getStatus()));
     }
 
     public void moveAndSave(Game game, Long gameId, Position from, Position to) {

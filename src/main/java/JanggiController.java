@@ -57,7 +57,7 @@ public class JanggiController {
             return true;
         }
 
-        Game game = janggiService.loadGame(findGame, status);
+        Game game = janggiService.loadGame(findGame);
 
         playGame(game, findGame);
         return false;
