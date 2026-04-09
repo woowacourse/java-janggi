@@ -1,10 +1,6 @@
 package database.exception;
 
-public class DataAccessException extends RuntimeException{
-
-    public DataAccessException() {
-        super();
-    }
+public class DataAccessException extends RuntimeException {
 
     public DataAccessException(String message) {
         super(message);
@@ -14,7 +10,4 @@ public class DataAccessException extends RuntimeException{
         super(message, cause);
     }
 
-    public DataAccessException(Throwable cause) {
-        super(cause);
-    }
 }

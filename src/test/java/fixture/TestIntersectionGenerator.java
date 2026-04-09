@@ -2,6 +2,7 @@ package fixture;
 
 import domain.board.IntersectionGenerator;
 import domain.intersection.Intersection;
+
 import java.util.List;
 
 public class TestIntersectionGenerator implements IntersectionGenerator {

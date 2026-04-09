@@ -32,7 +32,7 @@ class DirectionTest {
 
     @Test
     @DisplayName("주어진 경로의 좌표들을 최종적으로 반환하는지 확인한다.")
-    void returnAllPointsAlongDestination(){
+    void returnAllPointsAlongDestination() {
         Direction direction1 = new Direction(List.of(UP, Vector.LEFT_UP));
         Direction direction2 = new Direction(List.of(Vector.DOWN, Vector.RIGHT_DOWN));
         Point start = new Point(0, 0);

@@ -45,7 +45,7 @@ public class JanggiService {
     }
 
     public JanggiBoard getExistBoard(Long boardId) {
-        return executor.execute(()->{
+        return executor.execute(() -> {
             BoardSummaryDto boardSummaryDto = readBoardSummaryDto(boardId);
             List<Intersection> intersections = intersectionDao.readByBoardId(boardId);
             Team currentTurn = Team.valueOf(boardSummaryDto.currentTurn());

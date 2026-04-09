@@ -11,8 +11,7 @@ public enum DataAccessError {
     QUERY_FAILED("쿼리 실행에 실패했습니다."),
     UPDATE_NOT_FOUND("UPDATE를 수행할 행을 찾지 못했습니다."),
     PARAMETER_BINDING_FAILED("파라미터 바인딩에 실패했습니다."),
-    GENERATED_KEY_NOT_FOUND("생성된 키를 찾지 못했습니다.");
-    ;
+    GENERATED_KEY_NOT_FOUND("생성된 키를 찾지 못했습니다.");;
 
     private final String message;
 

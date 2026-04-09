@@ -4,7 +4,7 @@ import domain.intersection.Intersection;
 
 import java.util.List;
 
-public class DBIntersectionGenerator implements IntersectionGenerator{
+public class DBIntersectionGenerator implements IntersectionGenerator {
 
     private final List<Intersection> intersections;
 

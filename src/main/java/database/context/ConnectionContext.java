@@ -24,7 +24,7 @@ public class ConnectionContext {
             connection.setAutoCommit(false);
             CONNECTION_THREAD_LOCAL.set(connection);
         } catch (SQLException e) {
-            throw new DataAccessException(CONNECTION_FAILED.getMessage() ,e);
+            throw new DataAccessException(CONNECTION_FAILED.getMessage(), e);
         }
     }
 
@@ -66,7 +66,7 @@ public class ConnectionContext {
         }
     }
 
-    private static void safetyConnectionClose(Connection connection) throws SQLException{
+    private static void safetyConnectionClose(Connection connection) throws SQLException {
         if (connection != null && !connection.isClosed()) {
             connection.close();
         }

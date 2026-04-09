@@ -7,7 +7,7 @@ import database.transaction.TransactionExecutor;
 public class TestTransactionExecutor implements TransactionExecutor {
 
     public <T> T execute(TransactionCallable<T> callable) {
-        try{
+        try {
             return callable.execute();
         } catch (DataAccessException e) {
             throw e;
