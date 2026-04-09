@@ -15,5 +15,5 @@ public interface BoardPieceDao {
 
     void updatePosition(SqlConnection connection, Long id, int row, int column);
 
-    void deleteByGameIdAndPosition(SqlConnection connection, Long gameId, int row, int column);
+    void deleteById(SqlConnection connection, Long id);
 }

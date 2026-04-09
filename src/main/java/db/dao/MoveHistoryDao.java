@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface MoveHistoryDao {
 
-    Long save(SqlConnection connection, MoveHistoryEntity moveHistory);
+    void save(SqlConnection connection, MoveHistoryEntity moveHistory);
 
     List<MoveHistoryEntity> findAllByGameIdOrderByMoveOrderAsc(SqlConnection connection, Long gameId);
 
