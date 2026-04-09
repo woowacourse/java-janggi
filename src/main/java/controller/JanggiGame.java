@@ -3,7 +3,7 @@ package controller;
 import database.service.JanggiService;
 import database.context.BoardIdContext;
 import database.dto.GameResult;
-import domain.board.BoardSelectCommand;
+import view.dto.BoardSelectCommand;
 import domain.board.Formation;
 import domain.board.JanggiBoard;
 import domain.board.JanggiIntersectionGenerator;
@@ -59,7 +59,7 @@ public class JanggiGame {
         }
 
         BoardIdContext.setBoardId(selectCommand.select());
-        return janggiService.getExistBoard(selectCommand);
+        return janggiService.getExistBoard(selectCommand.select());
     }
 
     private JanggiBoard generateJanggiBoard() {

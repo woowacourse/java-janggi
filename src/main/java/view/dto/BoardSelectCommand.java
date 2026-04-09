@@ -1,4 +1,4 @@
-package domain.board;
+package view.dto;
 
 public record BoardSelectCommand(
         long select

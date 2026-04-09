@@ -1,6 +1,6 @@
 package view;
 
-import domain.board.BoardSelectCommand;
+import view.dto.BoardSelectCommand;
 import domain.board.Formation;
 import domain.piece.Team;
 import view.dto.MoveCommand;

@@ -7,7 +7,6 @@ import database.dto.GameResult;
 import database.mapper.JanggiBoardMapper;
 import database.service.JanggiService;
 import database.service.SchemaInitializer;
-import domain.board.BoardSelectCommand;
 import domain.board.JanggiBoard;
 import database.dto.Moved;
 import domain.intersection.Intersection;
@@ -88,10 +87,9 @@ class JanggiServiceTest {
         );
 
         Long savedId = janggiService.createBoard(expected);
-        BoardSelectCommand select = new BoardSelectCommand(savedId);
 
         // when
-        JanggiBoard actual = janggiService.getExistBoard(select);
+        JanggiBoard actual = janggiService.getExistBoard(savedId);
 
         // then
         Assertions.assertThat(actual)
@@ -117,7 +115,7 @@ class JanggiServiceTest {
         janggiService.updateTurn(moved, Team.HAN);
 
         // then
-        Assertions.assertThat(janggiService.getExistBoard(new BoardSelectCommand(savedId)))
+        Assertions.assertThat(janggiService.getExistBoard(savedId))
                 .usingRecursiveComparison()
                 .isEqualTo(expected);
     }
@@ -139,7 +137,7 @@ class JanggiServiceTest {
         janggiService.updateBoardResult(GameResult.from(expected));
 
         // then
-        Assertions.assertThat(janggiService.getExistBoard(new BoardSelectCommand(savedId)))
+        Assertions.assertThat(janggiService.getExistBoard(savedId))
                 .usingRecursiveComparison()
                 .isEqualTo(expected);
     }
