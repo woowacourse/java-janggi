@@ -119,7 +119,12 @@ public class JanggiRepositoryImpl implements JanggiRepository {
         List<PieceDto> pieceDtos = jdbcTemplate.query(
                 "SELECT piece_type, team, row_idx, col_idx FROM piece WHERE game_id = ?",
                 stmt -> stmt.setLong(1, gameId),
-                new PieceDtoMapper()
+                resultSet -> new PieceDto(
+                    resultSet.getString(PieceColumn.PIECE_TYPE),
+                    resultSet.getString(PieceColumn.TEAM),
+                    resultSet.getInt(PieceColumn.ROW_IDX),
+                    resultSet.getInt(PieceColumn.COL_IDX)
+            )
         );
         return createBoardMap(pieceDtos);
     }
