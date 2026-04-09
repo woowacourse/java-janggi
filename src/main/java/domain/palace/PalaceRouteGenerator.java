@@ -4,7 +4,9 @@ import domain.board.Position;
 import domain.board.Route;
 import domain.piece.PieceType;
 import domain.piece.TeamColor;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class PalaceRouteGenerator {
     public List<Route> createRoutes(Position position, PieceType pieceType, TeamColor teamColor) {
@@ -12,18 +14,14 @@ public class PalaceRouteGenerator {
             return createKingAndGuardRoutes(position, teamColor);
         }
         if (pieceType == PieceType.ROOK) {
-            return createRookRoutes(position, teamColor);
+            return createRookRoutes(position);
         }
         if (pieceType == PieceType.CANNON) {
-            return List.of();
+            return createCannonRoutes(position);
         }
         if (pieceType == PieceType.PAWN) {
-            return List.of();
+            return createPawnRoutes(position, teamColor);
         }
-        return List.of();
-    }
-
-    private List<Route> createRookRoutes(Position position, TeamColor teamColor) {
         return List.of();
     }
 
@@ -34,8 +32,66 @@ public class PalaceRouteGenerator {
                 .toList();
     }
 
+    private List<Route> createRookRoutes(Position position) {
+        return findCurrentPalace(position)
+                .map(palace -> createPalaceRookRoutes(position, palace))
+                .orElse(List.of());
+    }
+
+    private List<Route> createPalaceRookRoutes(Position currentPosition, Palace palace) {
+        if (palace.isCenter(currentPosition)) {
+            return createRoutesFromPalaceCenter(currentPosition, palace);
+        }
+        if (palace.isCorner(currentPosition)) {
+            return createRoutesFromPalaceCorner(currentPosition, palace);
+        }
+        return List.of();
+    }
+
+    private List<Route> createRoutesFromPalaceCenter(Position currentPosition, Palace palace) {
+        return palace.corners().stream()
+                .map(destination -> new Route(currentPosition, destination, List.of()))
+                .toList();
+    }
+
+    private List<Route> createRoutesFromPalaceCorner(Position currentPosition, Palace palace) {
+        final List<Route> routes = new ArrayList<>();
+        routes.add(new Route(currentPosition, palace.center(), List.of()));
+
+        palace.oppositeCorner(currentPosition)
+                .ifPresent(oppositeCorner ->
+                        routes.add(new Route(currentPosition, oppositeCorner, List.of(palace.center())))
+                );
+        return routes;
+    }
+
+    private List<Route> createCannonRoutes(Position position) {
+        return findCurrentPalace(position)
+                .map(palace -> List.<Route>of())
+                .orElse(List.of());
+    }
+
+    private List<Route> createPawnRoutes(Position position, TeamColor teamColor) {
+        return findCurrentPalace(position)
+                .map(palace -> List.<Route>of())
+                .orElse(List.of());
+    }
+
+    private Optional<Palace> findCurrentPalace(Position position) {
+        final Palace choPalace = Palace.of(TeamColor.CHO);
+        if (choPalace.contains(position)) {
+            return Optional.of(choPalace);
+        }
+
+        final Palace hanPalace = Palace.of(TeamColor.HAN);
+        if (hanPalace.contains(position)) {
+            return Optional.of(hanPalace);
+        }
+
+        return Optional.empty();
+    }
+
     private boolean isKingOrGuard(PieceType pieceType) {
         return pieceType == PieceType.KING || pieceType == PieceType.GUARD;
     }
-
 }

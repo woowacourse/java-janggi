@@ -73,5 +73,56 @@ class PalaceTest {
 
             assertThat(hanPalace.connectedPositions(Position.of(4, 4))).isEmpty();
         }
+
+        @Test
+        void 궁성은_중앙_좌표를_제공한다() {
+            final Palace choPalace = Palace.of(TeamColor.CHO);
+
+            assertThat(choPalace.center()).isEqualTo(Position.of(8, 4));
+        }
+
+        @Test
+        void 궁성은_꼭지점_좌표들을_제공한다() {
+            final Palace hanPalace = Palace.of(TeamColor.HAN);
+
+            assertThat(hanPalace.corners())
+                    .containsExactlyInAnyOrder(
+                            Position.of(0, 3),
+                            Position.of(0, 5),
+                            Position.of(2, 3),
+                            Position.of(2, 5)
+                    );
+        }
+
+        @Test
+        void 중앙_여부를_판별한다() {
+            final Palace choPalace = Palace.of(TeamColor.CHO);
+
+            assertThat(choPalace.isCenter(Position.of(8, 4))).isTrue();
+            assertThat(choPalace.isCenter(Position.of(7, 3))).isFalse();
+        }
+
+        @Test
+        void 꼭지점_여부를_판별한다() {
+            final Palace hanPalace = Palace.of(TeamColor.HAN);
+
+            assertThat(hanPalace.isCorner(Position.of(0, 3))).isTrue();
+            assertThat(hanPalace.isCorner(Position.of(0, 4))).isFalse();
+        }
+
+        @Test
+        void 꼭지점의_반대편_꼭지점을_반환한다() {
+            final Palace hanPalace = Palace.of(TeamColor.HAN);
+
+            assertThat(hanPalace.oppositeCorner(Position.of(0, 3)))
+                    .contains(Position.of(2, 5));
+        }
+
+        @Test
+        void 꼭지점이_아니면_반대편_꼭지점이_없다() {
+            final Palace choPalace = Palace.of(TeamColor.CHO);
+
+            assertThat(choPalace.oppositeCorner(Position.of(9, 4))).isEmpty();
+        }
     }
 }
