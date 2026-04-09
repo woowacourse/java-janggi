@@ -45,7 +45,7 @@ public class StepMoveRule implements MoveRule {
         if (!lastMovement.canMove(from) || !lastMovement.hasReachablePosition(from, teamType, boardMediator)) {
             return List.of();
         }
-        final Position destination = lastMovement.calculateNextPosition(from, boardMediator);
+        final Position destination = lastMovement.calculateNextPosition(from);
         return List.of(destination);
     }
 }

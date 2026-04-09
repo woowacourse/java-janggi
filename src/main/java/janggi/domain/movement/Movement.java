@@ -43,12 +43,8 @@ public class Movement {
         return to;
     }
 
-    public Position calculateNextPosition(final Position from, final BoardMediator boardMediator) {
-        final Position to = calculateNextPosition(from);
-        if (hasPieceAt(to, boardMediator)) {
-            return to;
-        }
-        return calculateNextPosition(from);
+    public Position calculateNextPosition(final Position from) {
+        return from.calculateNext(direction);
     }
 
     public Position findFirstOccupiedPositionOrMax(final Position from, final BoardMediator boardMediator) {
@@ -152,10 +148,6 @@ public class Movement {
             traces.add(to);
         }
         return true;
-    }
-
-    private Position calculateNextPosition(final Position from) {
-        return from.calculateNext(direction);
     }
 
     private Position calculateNextPosition(final Position from, final int distance) {
