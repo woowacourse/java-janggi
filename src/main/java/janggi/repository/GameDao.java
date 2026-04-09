@@ -11,7 +11,8 @@ import janggi.domain.side.Side;
 
 public class GameDao {
 
-    public int insert(Connection conn, Side turn) {
+    public int insert(Side turn) {
+        Connection conn = TransactionManager.getConnection();
         String sql = "INSERT INTO game (turn) VALUES (?)";
         try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setString(1, turn.name());
@@ -26,7 +27,8 @@ public class GameDao {
         }
     }
 
-    public void updateTurn(Connection conn, int gameId, Side turn) {
+    public void updateTurn(int gameId, Side turn) {
+        Connection conn = TransactionManager.getConnection();
         String sql = "UPDATE game SET turn = ? WHERE id = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, turn.name());
@@ -37,7 +39,8 @@ public class GameDao {
         }
     }
 
-    public void finish(Connection conn, int gameId, Side winner) {
+    public void finish(int gameId, Side winner) {
+        Connection conn = TransactionManager.getConnection();
         String sql = "UPDATE game SET is_finished = 1, winner = ? WHERE id = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, winner.name());
@@ -48,7 +51,8 @@ public class GameDao {
         }
     }
 
-    public Optional<Integer> findActiveGameId(Connection conn) {
+    public Optional<Integer> findActiveGameId() {
+        Connection conn = TransactionManager.getConnection();
         String sql = "SELECT id FROM game WHERE is_finished = 0 ORDER BY id DESC LIMIT 1";
         try (PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
@@ -61,7 +65,8 @@ public class GameDao {
         return Optional.empty();
     }
 
-    public Side findTurn(Connection conn, int gameId) {
+    public Side findTurn(int gameId) {
+        Connection conn = TransactionManager.getConnection();
         String sql = "SELECT turn FROM game WHERE id = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, gameId);

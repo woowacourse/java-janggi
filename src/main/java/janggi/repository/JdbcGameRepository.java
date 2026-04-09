@@ -20,32 +20,32 @@ public class JdbcGameRepository implements GameRepository {
 
     @Override
     public Optional<Integer> findActiveGameId() {
-        return gameDao.findActiveGameId(TransactionManager.getConnection());
+        return gameDao.findActiveGameId();
     }
 
     @Override
     public int save(Game game) {
-        int gameId = gameDao.insert(TransactionManager.getConnection(), game.getTurn());
-        pieceDao.insertAll(TransactionManager.getConnection(), gameId, game.getBoard());
+        int gameId = gameDao.insert(game.getTurn());
+        pieceDao.insertAll(gameId, game.getBoard());
         return gameId;
     }
 
     @Override
     public void update(int gameId, Game game) {
-        gameDao.updateTurn(TransactionManager.getConnection(), gameId, game.getTurn());
-        pieceDao.deleteAll(TransactionManager.getConnection(), gameId);
-        pieceDao.insertAll(TransactionManager.getConnection(), gameId, game.getBoard());
+        gameDao.updateTurn(gameId, game.getTurn());
+        pieceDao.deleteAll(gameId);
+        pieceDao.insertAll(gameId, game.getBoard());
     }
 
     @Override
     public Game load(int gameId) {
-        Side turn = gameDao.findTurn(TransactionManager.getConnection(), gameId);
-        Map<Point, Piece> board = pieceDao.findAll(TransactionManager.getConnection(), gameId);
+        Side turn = gameDao.findTurn(gameId);
+        Map<Point, Piece> board = pieceDao.findAll(gameId);
         return Game.loadGame(board, turn);
     }
 
     @Override
     public void finish(int gameId, Side winner) {
-        gameDao.finish(TransactionManager.getConnection(), gameId, winner);
+        gameDao.finish(gameId, winner);
     }
 }

@@ -14,7 +14,8 @@ import janggi.domain.side.Side;
 
 public class PieceDao {
 
-    public void insertAll(Connection conn, int gameId, Map<Point, Piece> board) {
+    public void insertAll(int gameId, Map<Point, Piece> board) {
+        Connection conn = TransactionManager.getConnection();
         String sql = "INSERT INTO game_piece (game_id, piece_type, side, x, y) VALUES (?,?,?,?,?)";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             for (Map.Entry<Point, Piece> entry : board.entrySet()) {
@@ -33,7 +34,8 @@ public class PieceDao {
         }
     }
 
-    public void deleteAll(Connection conn, int gameId) {
+    public void deleteAll(int gameId) {
+        Connection conn = TransactionManager.getConnection();
         String sql = "DELETE FROM game_piece WHERE game_id = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, gameId);
@@ -43,7 +45,8 @@ public class PieceDao {
         }
     }
 
-    public Map<Point, Piece> findAll(Connection conn, int gameId) {
+    public Map<Point, Piece> findAll(int gameId) {
+        Connection conn = TransactionManager.getConnection();
         String sql = "SELECT piece_type, side, x, y FROM game_piece WHERE game_id = ?";
         Map<Point, Piece> board = new HashMap<>();
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
