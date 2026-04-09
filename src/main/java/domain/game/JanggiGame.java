@@ -14,6 +14,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 public class JanggiGame {
+    private Long id;
     private Turn turn;
     private final Board board;
     private final List<GameEndCondition> endConditions;
@@ -31,16 +32,27 @@ public class JanggiGame {
         this.status = GameStatus.RUNNING;
     }
 
-    public static JanggiGame of(FormationType choFormation, FormationType hanFormation) {
-        List<GameEndCondition> conditions = List.of(
+    public static JanggiGame restore(long id, Turn turn, Board board,
+                                      GameRecord record, GameStatus status) {
+        JanggiGame game = new JanggiGame(turn, board, defaultConditions(), record, new ScoreCalculator());
+        game.id = id;
+        game.status = status;
+        return game;
+    }
+
+    private static List<GameEndCondition> defaultConditions() {
+        return List.of(
                 new GeneralCapturedCondition(),
                 new ConsecutivePassCondition(),
                 new BikjangCondition()
         );
+    }
+
+    public static JanggiGame of(FormationType choFormation, FormationType hanFormation) {
         return new JanggiGame(
                 Turn.first(),
                 BoardFactory.create(choFormation, hanFormation),
-                conditions,
+                defaultConditions(),
                 new GameRecord(),
                 new ScoreCalculator()
         );
@@ -125,7 +137,15 @@ public class JanggiGame {
         return board;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public GameStatus getStatus() {
         return status;
+    }
+
+    public GameRecord getRecord() {
+        return record;
     }
 }
