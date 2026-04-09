@@ -1,5 +1,7 @@
 package janggi.domain.piece.linear;
 
+import janggi.domain.board.BoardInfo;
+import janggi.domain.path.CandidatePath;
 import janggi.domain.path.Direction;
 import janggi.domain.path.Movement;
 import janggi.domain.path.generator.LinearPathStrategy;
@@ -25,6 +27,12 @@ public abstract class LinearPiece extends Piece {
                 new Movement(Direction.WEST),
                 new Movement(Direction.EAST));
     }
+
+    @Override
+    protected boolean isValidPath(CandidatePath candidatePath, BoardInfo boardInfo) {
+        return !candidatePath.isEmpty();
+    }
+
 
     @Override
     public List<Movement> getMovements() {

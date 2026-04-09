@@ -10,7 +10,6 @@ import static org.mockito.Mockito.when;
 
 import janggi.domain.game.Game;
 import janggi.entity.GameEntity;
-import janggi.entity.SetUpEntity;
 import janggi.entity.Status;
 import janggi.repository.GameRepository;
 import janggi.repository.MoveRepository;
@@ -41,8 +40,8 @@ class GameServiceTest {
 
         // Act
         Game game = gameService.createGame("테스트 게임",
-                SetUpEntity.IN_ELEPHANT.getBoardSetUp(),
-                SetUpEntity.IN_ELEPHANT.getBoardSetUp());
+                BoardSetUpFormat.IN_ELEPHANT.getBoardSetUp(),
+                BoardSetUpFormat.IN_ELEPHANT.getBoardSetUp());
 
         // Assert
         assertEquals(1, game.getId());

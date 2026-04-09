@@ -1,14 +1,12 @@
 package janggi.domain.piece.linear;
 
+import janggi.domain.board.BoardInfo;
 import janggi.domain.path.CandidatePath;
-import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceName;
 import janggi.domain.piece.Score;
 import janggi.domain.point.Point;
 import janggi.domain.side.Side;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.Collections;
 
 public class Cannon extends LinearPiece {
     private static final PieceName PIECE_NAME = PieceName.CANNON;
@@ -18,30 +16,19 @@ public class Cannon extends LinearPiece {
         super(PIECE_NAME, side, PIECE_SCORE);
     }
 
-
     @Override
-    protected CandidatePath refinePath(CandidatePath candidatePath, Map<Point, Piece> piecesOnPaths) {
-        List<Point> points = candidatePath.getPath();
-        int count = 0;
-        List<Point> cutPoints = new ArrayList<>();
+    protected CandidatePath refinePath(CandidatePath candidatePath, BoardInfo boardInfo) {
+        Point firstEncountedPoint = candidatePath.getPointEncounterPiece(boardInfo, 1);
+        Point secondEncountedPoint = candidatePath.getPointEncounterPiece(boardInfo, 2);
 
-        for (Point point : points) {
-            if (piecesOnPaths.getOrDefault(point, null) instanceof Cannon) {
-                break;
-            }
-            if (piecesOnPaths.containsKey(point)) {
-                count++;
-                if (count == 1) {
-                    continue;
-                }
-            }
-            if (count >= 1) {
-                cutPoints.add(point);
-            }
-            if (count == 2) {
-                break;
-            }
+        if (firstEncountedPoint != null && boardInfo.isSameType(firstEncountedPoint, this)) {
+            return new CandidatePath(Collections.emptyList());
         }
-        return new CandidatePath(cutPoints);
+        CandidatePath refinedPath = candidatePath.between(firstEncountedPoint, secondEncountedPoint);
+        if (secondEncountedPoint != null && !boardInfo.isSameType(secondEncountedPoint, this)) {
+            return refinedPath.add(secondEncountedPoint);
+        }
+        return refinedPath;
     }
+
 }

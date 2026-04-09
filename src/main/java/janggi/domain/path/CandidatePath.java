@@ -1,5 +1,6 @@
 package janggi.domain.path;
 
+import janggi.domain.board.BoardInfo;
 import janggi.domain.path.generator.PathStrategy;
 import janggi.domain.point.Point;
 import java.util.ArrayList;
@@ -8,21 +9,35 @@ import java.util.Objects;
 import java.util.function.Predicate;
 
 public class CandidatePath {
-    private final Point from;
+    private final Point base;
     private final List<Point> path;
 
-    public CandidatePath(Point from, List<Point> path) {
-        this.from = from;
+    public CandidatePath(Point base, List<Point> path) {
+        this.base = base;
         this.path = path;
     }
 
     public CandidatePath(List<Point> path) {
-        this.from = null;
+        this.base = null;
         this.path = path;
     }
 
-    public CandidatePath(Movement movement, Point from, PathStrategy pathStrategy, Predicate<Point> predicate) {
-        this(from, pathStrategy.calculate(movement, from, predicate));
+    public CandidatePath(Movement movement, Point base, PathStrategy pathStrategy, Predicate<Point> predicate) {
+        this(base, pathStrategy.calculate(movement, base, predicate));
+    }
+
+    public Point getPointEncounterPiece(BoardInfo boardInfo, int encounters) {
+        int count = 0;
+        for (Point point : path) {
+            if (boardInfo.isEmpty(point)) {
+                continue;
+            }
+            count++;
+            if (count == encounters) {
+                return point;
+            }
+        }
+        return null;
     }
 
     public boolean isForward(Direction direction) {
@@ -30,7 +45,7 @@ public class CandidatePath {
         int dy = direction.getDy();
 
         for (Point point : path) {
-            if (isForward(from.x(), point.x(), dx) || isForward(from.y(), point.y(), dy)) {
+            if (isForward(base.x(), point.x(), dx) || isForward(base.y(), point.y(), dy)) {
                 return true;
             }
         }
@@ -50,26 +65,43 @@ public class CandidatePath {
     }
 
     public CandidatePath takeLast() {
-        return new CandidatePath(from, List.of(path.getLast()));
+        return new CandidatePath(base, List.of(path.getLast()));
+    }
+
+    public CandidatePath add(Point point) {
+        List<Point> points = new ArrayList<>(path);
+        points.add(point);
+        return new CandidatePath(base, points);
+    }
+
+    public CandidatePath between(Point from, Point to) {
+        List<Point> curPath = new ArrayList<>();
+        boolean started = false;
+
+        for (Point point : path) {
+            if (point.equals(to)) {
+                break;
+            }
+            if (started) {
+                curPath.add(point);
+            }
+            if (point.equals(from)) {
+                started = true;
+            }
+        }
+
+        return new CandidatePath(this.base, curPath);
     }
 
     public CandidatePath takeUntil(Point to) {
-        return subPath(path.getFirst(), to);
-    }
-
-    private CandidatePath subPath(Point from, Point to) {
-        if (to == null || from == null) {
-            throw new IllegalStateException("Point 값은 null이 될 수 없습니다.");
-        }
-        List<Point> curPath = new ArrayList<>();
-        for (Point pathPoint : path) {
-            curPath.add(pathPoint);
-            if (pathPoint.equals(to)) {
+        List<Point> points = new ArrayList<>();
+        for (Point point : path) {
+            points.add(point);
+            if (point.equals(to)) {
                 break;
             }
         }
-        return new CandidatePath(from, curPath);
-
+        return new CandidatePath(base, points);
     }
 
     @Override

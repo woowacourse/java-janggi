@@ -2,6 +2,7 @@ package janggi.domain.piece.unit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import janggi.domain.board.Board;
 import janggi.domain.path.CandidatePath;
 import janggi.domain.path.Direction;
 import janggi.domain.path.Movement;
@@ -72,10 +73,11 @@ class ChariotTest {
                          List<Point> expected) {
         Piece piece = new Chariot(side);
 
-        List<Point> points = piece.availablePoints(candidatePaths, piecesOnPaths);
+        List<Point> points = piece.availablePoints(candidatePaths, new Board(piecesOnPaths));
 
-        assertThat(expected.containsAll(points)).isTrue();
-        assertThat(points.size()).isEqualTo(expected.size());
+        assertThat(points)
+                .hasSameSizeAs(expected)
+                .containsAll(expected);
     }
 
     @ParameterizedTest
@@ -86,7 +88,8 @@ class ChariotTest {
 
         List<Movement> movements = piece.getMovements();
 
-        assertThat(expected.containsAll(movements)).isTrue();
-        assertThat(movements.size()).isEqualTo(expected.size());
+        assertThat(movements)
+                .hasSameSizeAs(expected)
+                .containsAll(expected);
     }
 }

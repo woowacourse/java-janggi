@@ -1,12 +1,10 @@
 package janggi.domain.piece.linear;
 
+import janggi.domain.board.BoardInfo;
 import janggi.domain.path.CandidatePath;
-import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceName;
 import janggi.domain.piece.Score;
-import janggi.domain.point.Point;
 import janggi.domain.side.Side;
-import java.util.Map;
 
 public class Chariot extends LinearPiece {
     private static final PieceName PIECE_NAME = PieceName.CHARIOT;
@@ -17,9 +15,9 @@ public class Chariot extends LinearPiece {
     }
 
     @Override
-    protected CandidatePath refinePath(CandidatePath candidatePath, Map<Point, Piece> piecesOnPaths) {
+    protected CandidatePath refinePath(CandidatePath candidatePath, BoardInfo boardInfo) {
         return candidatePath.getPath().stream()
-                .filter(piecesOnPaths::containsKey)
+                .filter(point -> !boardInfo.isEmpty(point))
                 .findFirst()
                 .map(candidatePath::takeUntil)
                 .orElse(candidatePath);

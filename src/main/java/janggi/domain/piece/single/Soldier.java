@@ -1,19 +1,13 @@
 package janggi.domain.piece.single;
 
+import janggi.domain.board.BoardInfo;
 import janggi.domain.path.CandidatePath;
 import janggi.domain.path.Direction;
-import janggi.domain.path.Movement;
-import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceName;
 import janggi.domain.piece.Score;
-import janggi.domain.piece.stepped.SteppedPiece;
-import janggi.domain.point.Point;
 import janggi.domain.side.Side;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
-public class Soldier extends SteppedPiece {
+public class Soldier extends SinglePiece {
     private static final PieceName PIECE_NAME = PieceName.SOLDIER;
     private static final Score PIECE_SCORE = new Score(2);
 
@@ -22,7 +16,7 @@ public class Soldier extends SteppedPiece {
     }
 
     @Override
-    protected boolean isValidPath(CandidatePath candidatePath, Map<Point, Piece> piecesOnPaths) {
+    protected boolean isValidPath(CandidatePath candidatePath, BoardInfo boardInfo) {
         if (candidatePath.isEmpty()) {
             return false;
         }
@@ -37,18 +31,7 @@ public class Soldier extends SteppedPiece {
     }
 
     @Override
-    public List<Movement> getMovements() {
-        List<Movement> movements = new ArrayList<>();
-        movements.add(new Movement(List.of(Direction.NORTH)));
-        movements.add(new Movement(List.of(Direction.SOUTH)));
-        movements.add(new Movement(List.of(Direction.WEST)));
-        movements.add(new Movement(List.of(Direction.EAST)));
-
-        return movements;
-    }
-
-    @Override
-    protected CandidatePath refinePath(CandidatePath candidatePath, Map<Point, Piece> piecesOnPaths) {
+    protected CandidatePath refinePath(CandidatePath candidatePath, BoardInfo boardInfo) {
         return candidatePath;
     }
 }

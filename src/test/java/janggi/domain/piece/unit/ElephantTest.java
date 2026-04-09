@@ -2,6 +2,7 @@ package janggi.domain.piece.unit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import janggi.domain.board.Board;
 import janggi.domain.path.CandidatePath;
 import janggi.domain.path.Direction;
 import janggi.domain.path.Movement;
@@ -56,7 +57,7 @@ class ElephantTest {
                          List<Point> expected) {
         Piece piece = new Elephant(side);
 
-        List<Point> points = piece.availablePoints(candidatePaths, piecesOnPaths);
+        List<Point> points = piece.availablePoints(candidatePaths, new Board(piecesOnPaths));
 
         assertThat(expected.containsAll(points)).isTrue();
     }

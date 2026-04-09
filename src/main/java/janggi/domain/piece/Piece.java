@@ -1,12 +1,12 @@
 package janggi.domain.piece;
 
+import janggi.domain.board.BoardInfo;
 import janggi.domain.path.CandidatePath;
 import janggi.domain.path.Movement;
 import janggi.domain.path.generator.PathStrategy;
 import janggi.domain.point.Point;
 import janggi.domain.side.Side;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public abstract class Piece {
@@ -22,7 +22,11 @@ public abstract class Piece {
         this.score = score;
     }
 
-    public String getName() {
+    public final boolean isSameType(Piece piece) {
+        return name == piece.name;
+    }
+
+    public final String getName() {
         return name.getNameFormat(side);
     }
 
@@ -42,21 +46,19 @@ public abstract class Piece {
         return pathStrategy;
     }
 
-    public final List<Point> availablePoints(List<CandidatePath> candidatePaths, Map<Point, Piece> piecesOnPaths) {
+    public final List<Point> availablePoints(List<CandidatePath> candidatePaths, BoardInfo boardInfo) {
         return candidatePaths.stream()
-                .filter(path -> isValidPath(path, piecesOnPaths))
-                .map(path -> refinePath(path, piecesOnPaths))
+                .filter(path -> isValidPath(path, boardInfo))
+                .map(path -> refinePath(path, boardInfo))
                 .flatMap(path -> path.getPath().stream())
                 .toList();
     }
 
-    protected boolean isValidPath(CandidatePath candidatePath, Map<Point, Piece> piecesOnPaths) {
-        return !candidatePath.isEmpty();
-    }
+    protected abstract boolean isValidPath(CandidatePath candidatePath, BoardInfo boardInfo);
 
     public abstract List<Movement> getMovements();
 
-    protected abstract CandidatePath refinePath(CandidatePath candidatePath, Map<Point, Piece> piecesOnPaths);
+    protected abstract CandidatePath refinePath(CandidatePath candidatePath, BoardInfo boardInfo);
 
 
     @Override

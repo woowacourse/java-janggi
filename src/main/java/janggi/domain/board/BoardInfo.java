@@ -6,5 +6,5 @@ import janggi.domain.point.Point;
 public interface BoardInfo {
     boolean isEmpty(Point point);
 
-    boolean isSamePiece(Point point, Piece piece);
+    boolean isSameType(Point point, Piece piece);
 }

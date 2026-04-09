@@ -1,19 +1,14 @@
 package janggi.domain.piece.stepped;
 
-import janggi.domain.path.CandidatePath;
 import janggi.domain.path.Direction;
 import janggi.domain.path.Movement;
-import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceName;
 import janggi.domain.piece.Score;
-import janggi.domain.point.Point;
 import janggi.domain.side.Side;
 import java.util.List;
-import java.util.Map;
 
 public class Elephant extends SteppedPiece {
     private static final PieceName PIECE_NAME = PieceName.ELEPHANT;
-    private static final int PATH_SIZE = 3;
     private static final Score PIECE_SCORE = new Score(3);
     private static final List<Movement> MOVEMENTS = createMovements();
 
@@ -37,10 +32,5 @@ public class Elephant extends SteppedPiece {
     @Override
     public List<Movement> getMovements() {
         return MOVEMENTS;
-    }
-
-    @Override
-    protected CandidatePath refinePath(CandidatePath candidatePath, Map<Point, Piece> piecesOnPaths) {
-        return candidatePath.takeLast();
     }
 }

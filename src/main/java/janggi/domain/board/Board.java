@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class Board implements BoardInfo {
     private final Map<Point, Piece> pieces;
 
-    protected Board(Map<Point, Piece> pieces) {
+    public Board(Map<Point, Piece> pieces) {
         this.pieces = new HashMap<>(pieces);
     }
 
@@ -40,7 +40,7 @@ public class Board implements BoardInfo {
                 .map(movement -> new CandidatePath(movement, from, piece.pathStrategy(), predicate))
                 .toList();
 
-        return piece.availablePoints(candidatePaths, findPiecesOnPaths(candidatePaths))
+        return piece.availablePoints(candidatePaths, this)
                 .stream()
                 .filter(point -> isThereOtherSidePiece(piece, point))
                 .collect(Collectors.toSet());
@@ -75,29 +75,6 @@ public class Board implements BoardInfo {
         return to.isDifferentSide(from.getSide());
     }
 
-    private Map<Point, Piece> findPiecesOnPaths(List<CandidatePath> candidateCandidatePaths) {
-        Map<Point, Piece> piecesOnPaths = new HashMap<>();
-
-        for (CandidatePath candidatePath : candidateCandidatePaths) {
-            Map<Point, Piece> piecesOnPath = findPiecesOnCandidatePath(candidatePath);
-            piecesOnPaths.putAll(piecesOnPath);
-        }
-        return piecesOnPaths;
-    }
-
-    private Map<Point, Piece> findPiecesOnCandidatePath(CandidatePath candidatePath) {
-        Map<Point, Piece> piecesOnPath = new HashMap<>();
-
-        for (Point point : candidatePath.getPath()) {
-            Piece piece = getPieceAt(point).orElse(null);
-            if (piece == null) {
-                continue;
-            }
-            piecesOnPath.put(point, piece);
-        }
-        return piecesOnPath;
-    }
-
     private Optional<Piece> getPieceAt(Point point) {
         return Optional.ofNullable(pieces.get(point));
     }
@@ -108,10 +85,10 @@ public class Board implements BoardInfo {
     }
 
     @Override
-    public boolean isSamePiece(Point point, Piece piece) {
+    public boolean isSameType(Point point, Piece piece) {
         Piece pointPiece = getPieceAt(point)
                 .orElseThrow(() -> new IllegalStateException("point에 Piece가 없어, 같은 기물인지 확인 할 수 없습니다."));
 
-        return piece.equals(pointPiece);
+        return piece.isSameType(pointPiece);
     }
 }
