@@ -76,8 +76,6 @@ public class Board {
         return generalCount != 2;
     }
 
-    // ============= private method ==============
-
     private void validatePosition(Position from, Position to) {
         validateSamePosition(from, to);
         validateExistPiece(from);
