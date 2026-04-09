@@ -1,61 +1,147 @@
 package domain.database;
 
+import database.context.BoardIdContext;
+import database.context.ConnectionContext;
 import database.dao.*;
+import database.dto.GameResult;
 import database.mapper.JanggiBoardMapper;
 import database.service.JanggiService;
 import database.service.SchemaInitializer;
-import database.transaction.TransactionExecutor;
+import domain.board.BoardSelectCommand;
 import domain.board.JanggiBoard;
+import domain.board.dto.Moved;
+import domain.intersection.Intersection;
+import domain.piece.PieceType;
+import domain.piece.Team;
+import domain.point.Point;
 import fixture.JanggiBoardFixture;
 import fixture.TestTransactionExecutor;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
+
+import static fixture.IntersectionFixture.generate;
 
 class JanggiServiceTest {
 
-    private SchemaInitializer schemaInitializer;
-    private JdbcTemplate jdbcTemplate;
-    private BoardDao boardDao;
-    private IntersectionDao intersectionDao;
-    private TransactionExecutor transactionExecutor;
-    private JanggiBoardMapper mapper;
-    private JanggiService janggiService;
+    JdbcTemplate jdbcTemplate = new JdbcTemplate();
+    JdbcBoardDao boardDao = new JdbcBoardDao(jdbcTemplate);
+    JdbcIntersectionDao intersectionDao = new JdbcIntersectionDao(jdbcTemplate);
+    JanggiBoardMapper mapper = new JanggiBoardMapper();
+    TestTransactionExecutor transactionExecutor = new TestTransactionExecutor();
+    JanggiService janggiService = new JanggiService(boardDao, mapper, transactionExecutor, intersectionDao);
 
-    @BeforeEach
-    void setUp() {
-        schemaInitializer = new SchemaInitializer();
+    @BeforeAll
+    static void setSchemaSQL() {
+        SchemaInitializer schemaInitializer = new SchemaInitializer();
         schemaInitializer.readShemaSQLFile();
-        jdbcTemplate = new JdbcTemplate();
-        boardDao = new JdbcBoardDao(jdbcTemplate);
-        intersectionDao = new JdbcIntersectionDao(jdbcTemplate);
-        transactionExecutor = new TestTransactionExecutor();
-        mapper = new JanggiBoardMapper();
-        janggiService = new JanggiService(boardDao, mapper, transactionExecutor, intersectionDao);
     }
 
-//    @Test
-//    @DisplayName("Board를 저장하면 AutoIncrement에 의한 ID를 반환한다.")
-//    void saveBoardReturnAutoIncrementId() {
-//        JanggiBoard janggiBoard = JanggiBoardFixture.generate();
-//
-//        Assertions.assertThat(janggiService.createBoard(janggiBoard))
-//                .isNotNull()
-//                .isGreaterThan(0L);
-//    }
-//
-//    @Test
-//    @DisplayName("Board를 저장할 때마다 ID는 다르다.")
-//    void shouldDifferentBoardIdWheneverSaveBoard() {
-//        JanggiBoard janggiBoard1 = JanggiBoardFixture.generate();
-//        JanggiBoard janggiBoard2 = JanggiBoardFixture.generate();
-//
-//        Long savedId1 = janggiService.createBoard(janggiBoard1);
-//        Long savedId2 = janggiService.createBoard(janggiBoard2);
-//
-//        Assertions.assertThat(savedId1)
-//                .isNotEqualTo(savedId2);
-//    }
+    @BeforeEach
+    void startTransaction() throws SQLException {
+        ConnectionContext.setConnection();
+        Connection connection = ConnectionContext.getConnection();
+        connection.setAutoCommit(false);
+    }
+
+    @AfterEach
+    void rollbackTransaction() throws SQLException {
+        Connection connection = ConnectionContext.getConnection();
+        if (connection != null && !connection.isClosed()) {
+            connection.rollback();
+            connection.close();
+        }
+        ConnectionContext.clear();
+    }
+
+    @AfterEach
+    void clearBoardIdContext() {
+        BoardIdContext.clear();
+    }
+
+    @Test
+    void test() throws SQLException{
+        JanggiBoard janggiBoard = JanggiBoardFixture.generate(
+                generate(0, 0, Team.CHO, PieceType.CHARIOT),
+                generate(0, 8, Team.CHO, PieceType.CHARIOT)
+        );
+
+        List<Intersection> expected = janggiBoard.getListIntersection();
+
+        // when
+        Long savedId = janggiService.createBoard(janggiBoard);
+
+        // then
+        Assertions.assertThat(intersectionDao.readByBoardId(savedId))
+                .isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("기존의 장기판 조회를 테스트한다.")
+    void test1() {
+        JanggiBoard expected = JanggiBoardFixture.generate(
+                generate(0, 0, Team.CHO, PieceType.CHARIOT),
+                generate(0, 8, Team.CHO, PieceType.CHARIOT)
+        );
+
+        Long savedId = janggiService.createBoard(expected);
+        BoardSelectCommand select = new BoardSelectCommand(savedId);
+
+        // when
+        JanggiBoard actual = janggiService.getExistBoard(select);
+
+        // then
+        Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("Turn을 넘겼을 때 DB에 제대로 저장되는 지 확인한다.")
+    void test2() {
+        Point start = new Point(0, 0);
+        Point end = new Point(0, 1);
+        JanggiBoard expected = JanggiBoardFixture.generate(
+                generate(start, Team.CHO, PieceType.CHARIOT),
+                generate(end, Team.HAN, PieceType.CHARIOT)
+        );
+
+        Long savedId = janggiService.createBoard(expected);
+        BoardIdContext.setBoardId(savedId);
+        Moved moved = expected.processTurn(start, end);
+
+        // when
+        janggiService.updateTurn(moved, Team.HAN);
+
+        // then
+        Assertions.assertThat(janggiService.getExistBoard(new BoardSelectCommand(savedId)))
+                .usingRecursiveComparison()
+                .isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("장기의 게임 결과가 DB에 제대로 저장되는 지 확인한다.")
+    void test3() {
+        Point start = new Point(0, 0);
+        Point end = new Point(0, 1);
+        JanggiBoard expected = JanggiBoardFixture.generate(
+                generate(start, Team.CHO, PieceType.CHARIOT),
+                generate(end, Team.HAN, PieceType.CHARIOT)
+        );
+
+        Long savedId = janggiService.createBoard(expected);
+        BoardIdContext.setBoardId(savedId);
+
+        // when
+        janggiService.updateBoardResult(GameResult.from(expected));
+
+        // then
+        Assertions.assertThat(janggiService.getExistBoard(new BoardSelectCommand(savedId)))
+                .usingRecursiveComparison()
+                .isEqualTo(expected);
+    }
 
 }
