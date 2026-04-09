@@ -2,7 +2,6 @@ package janggi.dao;
 
 import janggi.domain.Position;
 import janggi.domain.Team;
-import janggi.domain.dto.PieceEntity;
 import janggi.domain.piece.PieceType;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

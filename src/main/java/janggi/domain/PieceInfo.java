@@ -1,6 +1,5 @@
-package janggi.domain.dto;
+package janggi.domain;
 
-import janggi.domain.Team;
 import janggi.domain.piece.PieceType;
 
 public record PieceInfo(

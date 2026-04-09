@@ -1,6 +1,5 @@
 package janggi.domain;
 
-import janggi.domain.dto.PieceInfo;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceFactory;
 import janggi.domain.piece.PieceType;

@@ -1,7 +1,4 @@
-package janggi.domain.dto;
-
-import janggi.domain.Board;
-import janggi.domain.Team;
+package janggi.domain;
 
 public record GameSession(
     long gameId,

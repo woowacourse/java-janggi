@@ -4,9 +4,9 @@ import janggi.dao.GameDao;
 import janggi.dao.PieceDao;
 import janggi.domain.Board;
 import janggi.domain.Team;
-import janggi.domain.dto.PieceInfo;
-import janggi.domain.dto.GameSession;
-import janggi.domain.dto.PieceEntity;
+import janggi.domain.PieceInfo;
+import janggi.domain.GameSession;
+import janggi.dao.PieceEntity;
 import janggi.domain.Position;
 
 import janggi.domain.strategy.BasicPlacementStrategy;
