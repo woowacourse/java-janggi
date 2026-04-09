@@ -5,16 +5,14 @@ import static domain.player.Team.HAN;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import dao.BoardDao;
-import dao.GamePersistence;
-import dao.GameDao;
+import repository.JanggiGameRepository;
+import dao.JanggiGameDao;
 import db.TestDbBootstrap;
 import domain.board.Formation;
 import domain.player.Name;
 import domain.player.Player;
 import domain.player.Team;
-import domain.player.PlayerProfile;
 import domain.position.Position;
-import db.DbBootstrap;
 import db.DbConnectionFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,11 +23,11 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class JanggiGamePlayServiceTest {
-    private final GameDao gameDao = new GameDao();
+    private final JanggiGameDao janggiGameDao = new JanggiGameDao();
     private final BoardDao boardDao = new BoardDao();
-    private final GamePersistence gamePersistence = new GamePersistence(gameDao, boardDao);
-    private final JanggiGameSetupService janggiGameSetupService = new JanggiGameSetupService(gamePersistence);
-    private final JanggiGamePlayService janggiGamePlayService = new JanggiGamePlayService(gamePersistence);
+    private final JanggiGameRepository janggiGameRepository = new JanggiGameRepository(janggiGameDao, boardDao);
+    private final JanggiGameSetupService janggiGameSetupService = new JanggiGameSetupService(janggiGameRepository);
+    private final JanggiGamePlayService janggiGamePlayService = new JanggiGamePlayService(janggiGameRepository);
 
     @BeforeEach
     void setUp() {
@@ -53,7 +51,7 @@ class JanggiGamePlayServiceTest {
             janggiGamePlayService.playTurn(session.gameId(), session.janggiGameManager(), source, destination);
 
             assertThat(boardDao.loadBoard(session.gameId())).containsKey(destination);
-            assertThat(gameDao.getCurrentTurn(session.gameId())).isEqualTo(HAN);
+            assertThat(janggiGameDao.getCurrentTurn(session.gameId())).isEqualTo(HAN);
             assertThat(readGameStatus(session.gameId())).isEqualTo("PROGRESS");
         }
 
@@ -74,7 +72,7 @@ class JanggiGamePlayServiceTest {
 
             janggiGamePlayService.playTurn(gameId, endedGameManager, new Position(6, 0), new Position(5, 0));
 
-            assertThat(gameDao.getCurrentTurn(gameId)).isEqualTo(CHO);
+            assertThat(janggiGameDao.getCurrentTurn(gameId)).isEqualTo(CHO);
             assertThat(readGameStatus(gameId)).isEqualTo("CHO_WIN");
             assertThat(boardDao.loadBoard(gameId)).containsKey(new Position(5, 0));
         }

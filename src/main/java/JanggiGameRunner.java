@@ -2,12 +2,12 @@ import static domain.player.Team.CHO;
 import static domain.player.Team.HAN;
 
 import dao.GameInfo;
-import dao.GamePersistence;
+import repository.JanggiGameRepository;
 import service.JanggiGamePlayService;
 import service.JanggiGameSession;
 import service.JanggiGameSetupService;
 import dao.BoardDao;
-import dao.GameDao;
+import dao.JanggiGameDao;
 import common.exception.JanggiException;
 import domain.board.Formation;
 import domain.manager.JanggiGameManager;
@@ -31,15 +31,15 @@ public class JanggiGameRunner {
     private long gameId;
 
     public JanggiGameRunner(InputView inputView, OutputView outputView) {
-        this(inputView, outputView, new GameDao(), new BoardDao());
+        this(inputView, outputView, new JanggiGameDao(), new BoardDao());
     }
 
-    JanggiGameRunner(InputView inputView, OutputView outputView, GameDao gameDao, BoardDao boardDao) {
+    JanggiGameRunner(InputView inputView, OutputView outputView, JanggiGameDao janggiGameDao, BoardDao boardDao) {
         this.inputView = inputView;
         this.outputView = outputView;
-        GamePersistence gamePersistence = new dao.GamePersistence(gameDao, boardDao);
-        this.janggiGameSetupService = new JanggiGameSetupService(gamePersistence);
-        this.janggiGamePlayService = new JanggiGamePlayService(gamePersistence);
+        JanggiGameRepository janggiGameRepository = new JanggiGameRepository(janggiGameDao, boardDao);
+        this.janggiGameSetupService = new JanggiGameSetupService(janggiGameRepository);
+        this.janggiGamePlayService = new JanggiGamePlayService(janggiGameRepository);
     }
 
     public void run() {

@@ -5,7 +5,7 @@ import static domain.player.Team.HAN;
 
 import dao.GameInfo;
 import dao.GameLoadResult;
-import dao.GamePersistence;
+import repository.JanggiGameRepository;
 import dao.PlayerNames;
 import domain.board.Board;
 import domain.board.Formation;
@@ -20,15 +20,15 @@ import java.util.Map;
 import java.util.Optional;
 
 public class JanggiGameSetupService {
-    private final GamePersistence gamePersistence;
+    private final JanggiGameRepository janggiGameRepository;
 
-    public JanggiGameSetupService(GamePersistence gamePersistence) {
-        this.gamePersistence = gamePersistence;
+    public JanggiGameSetupService(JanggiGameRepository janggiGameRepository) {
+        this.janggiGameRepository = janggiGameRepository;
     }
 
     public JanggiGameSession createNewGame(Player choPlayer, Player hanPlayer, Formation choFormation, Formation hanFormation) {
         JanggiGameManager janggiGameManager = new JanggiGameManager(choPlayer, hanPlayer, choFormation, hanFormation);
-        long gameId = gamePersistence.createNewGame(
+        long gameId = janggiGameRepository.createNewGame(
             choPlayer.getProfile().name().value(),
             hanPlayer.getProfile().name().value(),
             janggiGameManager.getBoard(),
@@ -38,7 +38,7 @@ public class JanggiGameSetupService {
     }
 
     public List<GameInfo> findProgressGames() {
-        return gamePersistence.findAllProgressGames();
+        return janggiGameRepository.findAllProgressGames();
     }
 
     public Optional<JanggiGameSession> loadSessionById(long gameId) {
@@ -55,9 +55,9 @@ public class JanggiGameSetupService {
     }
 
     private GameLoadResult loadResult(long gameId) {
-        Map<Position, BasicPiece> boardMap = gamePersistence.loadBoard(gameId);
-        Team currentTeam = gamePersistence.getCurrentTurn(gameId);
-        PlayerNames playerNames = gamePersistence.getPlayerNames(gameId);
+        Map<Position, BasicPiece> boardMap = janggiGameRepository.loadBoard(gameId);
+        Team currentTeam = janggiGameRepository.getCurrentTurn(gameId);
+        PlayerNames playerNames = janggiGameRepository.getPlayerNames(gameId);
         return new GameLoadResult(
             gameId,
             playerNames.choName(),

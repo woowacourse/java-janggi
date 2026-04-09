@@ -1,6 +1,7 @@
 package dao;
 
 import db.DbConnectionFactory;
+import db.TransactionExecutor;
 import domain.board.Board;
 import domain.piece.BasicPiece;
 import domain.position.Position;

@@ -24,10 +24,6 @@ java {
 
 test {
     useJUnitPlatform()
-
-    doFirst {
-        file("./build/h2").deleteDir()
-    }
 }
 
 task run(type: JavaExec) {

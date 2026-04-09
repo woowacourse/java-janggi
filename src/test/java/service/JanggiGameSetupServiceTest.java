@@ -6,8 +6,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import dao.BoardDao;
 import dao.GameInfo;
-import dao.GamePersistence;
-import dao.GameDao;
+import repository.JanggiGameRepository;
+import dao.JanggiGameDao;
 import db.TestDbBootstrap;
 import domain.board.Board;
 import domain.board.BoardFactory;
@@ -16,7 +16,6 @@ import common.GameStatus;
 import domain.player.Name;
 import domain.player.Player;
 import domain.player.Team;
-import db.DbBootstrap;
 import db.DbConnectionFactory;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -26,10 +25,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class JanggiGameSetupServiceTest {
-    private final GameDao gameDao = new GameDao();
+    private final JanggiGameDao janggiGameDao = new JanggiGameDao();
     private final BoardDao boardDao = new BoardDao();
-    private final GamePersistence gamePersistence = new GamePersistence(gameDao, boardDao);
-    private final JanggiGameSetupService janggiGameSetupService = new JanggiGameSetupService(gamePersistence);
+    private final JanggiGameRepository janggiGameRepository = new JanggiGameRepository(janggiGameDao, boardDao);
+    private final JanggiGameSetupService janggiGameSetupService = new JanggiGameSetupService(janggiGameRepository);
 
     @BeforeEach
     void setUp() {
@@ -54,7 +53,7 @@ class JanggiGameSetupServiceTest {
     @Test
     void 저장된_게임을_세션으로_불러온다() throws SQLException {
         try (Connection connection = DbConnectionFactory.createConnection()) {
-            long gameId = gameDao.createGame(connection, "CHO Player", "HAN Player");
+            long gameId = janggiGameDao.createGame(connection, "CHO Player", "HAN Player");
             Board board = BoardFactory.createWithFormation(Formation.from(1), Formation.from(1));
             boardDao.saveFullBoard(gameId, board);
 
@@ -78,11 +77,11 @@ class JanggiGameSetupServiceTest {
         try (Connection connection = DbConnectionFactory.createConnection()) {
             List<GameInfo> existingGames = janggiGameSetupService.findProgressGames();
             for (GameInfo game : existingGames) {
-                gameDao.updateGameState(connection, game.gameId(), Team.CHO, GameStatus.CHO_WIN);
+                janggiGameDao.updateGameState(connection, game.gameId(), Team.CHO, GameStatus.CHO_WIN);
             }
 
-            long gameId1 = gameDao.createGame(connection, "CHO Player1", "HAN Player1");
-            long gameId2 = gameDao.createGame(connection, "CHO Player2", "HAN Player2");
+            long gameId1 = janggiGameDao.createGame(connection, "CHO Player1", "HAN Player1");
+            long gameId2 = janggiGameDao.createGame(connection, "CHO Player2", "HAN Player2");
 
             List<GameInfo> games = janggiGameSetupService.findProgressGames();
 

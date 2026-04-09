@@ -3,7 +3,7 @@ package service;
 import static domain.player.Team.CHO;
 
 import common.GameStatus;
-import dao.GamePersistence;
+import repository.JanggiGameRepository;
 import domain.manager.JanggiGameManager;
 import domain.player.PlayerProfile;
 import domain.player.Team;
@@ -11,10 +11,10 @@ import domain.position.Position;
 import domain.piece.BasicPiece;
 
 public class JanggiGamePlayService {
-    private final GamePersistence gamePersistence;
+    private final JanggiGameRepository janggiGameRepository;
 
-    public JanggiGamePlayService(GamePersistence gamePersistence) {
-        this.gamePersistence = gamePersistence;
+    public JanggiGamePlayService(JanggiGameRepository janggiGameRepository) {
+        this.janggiGameRepository = janggiGameRepository;
     }
 
     public void playTurn(long gameId, JanggiGameManager janggiGameManager, Position source, Position destination) {
@@ -32,14 +32,14 @@ public class JanggiGamePlayService {
 
     private void saveProgressingGame(long gameId, Position source, Position destination, BasicPiece movingPiece, JanggiGameManager janggiGameManager) {
         Team currentTeam = janggiGameManager.getCurrentPlayer().getProfile().team();
-        gamePersistence.saveTurnProgress(gameId, source, destination, movingPiece, currentTeam);
+        janggiGameRepository.saveTurnProgress(gameId, source, destination, movingPiece, currentTeam);
     }
 
     private void saveFinishedGame(long gameId, Position source, Position destination, BasicPiece movingPiece, JanggiGameManager janggiGameManager) {
         PlayerProfile winnerProfile = janggiGameManager.calculateFinalScore();
         Team winnerTeam = winnerProfile.team();
         GameStatus finishedStatus = resolveFinishedStatus(winnerTeam);
-        gamePersistence.saveFinalMove(gameId, source, destination, movingPiece, winnerTeam, finishedStatus);
+        janggiGameRepository.saveFinalMove(gameId, source, destination, movingPiece, winnerTeam, finishedStatus);
     }
 
     private GameStatus resolveFinishedStatus(Team winnerTeam) {

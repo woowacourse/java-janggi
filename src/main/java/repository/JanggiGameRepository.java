@@ -1,6 +1,11 @@
-package dao;
+package repository;
 
 import common.GameStatus;
+import dao.BoardDao;
+import dao.GameInfo;
+import dao.JanggiGameDao;
+import dao.PlayerNames;
+import db.TransactionExecutor;
 import domain.board.Board;
 import domain.piece.BasicPiece;
 import domain.player.Team;
@@ -8,22 +13,21 @@ import domain.position.Position;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
-public class GamePersistence {
-    private final GameDao gameDao;
+public class JanggiGameRepository {
+    private final JanggiGameDao janggiGameDao;
     private final BoardDao boardDao;
 
-    public GamePersistence(GameDao gameDao, BoardDao boardDao) {
-        this.gameDao = gameDao;
+    public JanggiGameRepository(JanggiGameDao janggiGameDao, BoardDao boardDao) {
+        this.janggiGameDao = janggiGameDao;
         this.boardDao = boardDao;
     }
 
     public long createNewGame(String choName, String hanName, Board board, Team currentTurn) {
         return TransactionExecutor.execute(connection -> {
-            long gameId = gameDao.createGame(connection, choName, hanName);
+            long gameId = janggiGameDao.createGame(connection, choName, hanName);
             boardDao.saveFullBoard(connection, gameId, board);
-            gameDao.updateGameState(connection, gameId, currentTurn, GameStatus.PROGRESS);
+            janggiGameDao.updateGameState(connection, gameId, currentTurn, GameStatus.PROGRESS);
             return gameId;
         });
     }
@@ -31,27 +35,27 @@ public class GamePersistence {
     public void saveTurnProgress(long gameId, Position source, Position destination, BasicPiece movingPiece, Team currentTurn) {
         TransactionExecutor.executeVoid(connection -> {
             boardDao.updateMove(connection, gameId, source, destination, movingPiece);
-            gameDao.updateGameState(connection, gameId, currentTurn, GameStatus.PROGRESS);
+            janggiGameDao.updateGameState(connection, gameId, currentTurn, GameStatus.PROGRESS);
         });
     }
 
     public void saveFinalMove(long gameId, Position source, Position destination, BasicPiece movingPiece, Team winnerTeam, GameStatus status) {
         TransactionExecutor.executeVoid(connection -> {
             boardDao.updateMove(connection, gameId, source, destination, movingPiece);
-            gameDao.updateGameState(connection, gameId, winnerTeam, status);
+            janggiGameDao.updateGameState(connection, gameId, winnerTeam, status);
         });
     }
 
     public List<GameInfo> findAllProgressGames() {
-        return gameDao.findAllProgressGames();
+        return janggiGameDao.findAllProgressGames();
     }
 
     public Team getCurrentTurn(long gameId) {
-        return gameDao.getCurrentTurn(gameId);
+        return janggiGameDao.getCurrentTurn(gameId);
     }
 
     public PlayerNames getPlayerNames(long gameId) {
-        return gameDao.getPlayerNames(gameId);
+        return janggiGameDao.getPlayerNames(gameId);
     }
 
     public Map<Position, BasicPiece> loadBoard(long gameId) {

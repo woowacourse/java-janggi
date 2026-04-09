@@ -14,7 +14,6 @@ import domain.board.Formation;
 import domain.piece.BasicPiece;
 import domain.piece.None;
 import domain.position.Position;
-import db.TestDbBootstrap;
 import db.DbConnectionFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -26,7 +25,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class BoardDaoTest {
-    private final GameDao gameDao = new GameDao();
+    private final JanggiGameDao janggiGameDao = new JanggiGameDao();
     private final BoardDao boardDao = new BoardDao();
 
     @BeforeEach
@@ -37,7 +36,7 @@ class BoardDaoTest {
     @Test
     void 보드를_저장하면_모든_좌표가_DB에_저장된다() throws SQLException {
         try (Connection connection = DbConnectionFactory.createConnection()) {
-            long gameId = gameDao.createGame(connection, "CHO Player", "HAN Player");
+            long gameId = janggiGameDao.createGame(connection, "CHO Player", "HAN Player");
             Board board = BoardFactory.createWithFormation(Formation.from(1), Formation.from(1));
 
             boardDao.saveFullBoard(gameId, board);
@@ -57,7 +56,7 @@ class BoardDaoTest {
     @Test
     void 보드를_저장하면_좌표별_팀과_기물종류가_정확히_저장된다() throws SQLException {
         try (Connection connection = DbConnectionFactory.createConnection()) {
-            long gameId = gameDao.createGame(connection, "CHO Player", "HAN Player");
+            long gameId = janggiGameDao.createGame(connection, "CHO Player", "HAN Player");
             Board board = BoardFactory.createWithFormation(Formation.from(1), Formation.from(1));
 
             boardDao.saveFullBoard(gameId, board);
@@ -80,7 +79,7 @@ class BoardDaoTest {
     @Test
     void loadBoard_저장된_보드를_정확히_복원한다() throws SQLException {
         try (Connection connection = DbConnectionFactory.createConnection()) {
-            long gameId = gameDao.createGame(connection, "CHO Player", "HAN Player");
+            long gameId = janggiGameDao.createGame(connection, "CHO Player", "HAN Player");
             Board originalBoard = BoardFactory.createWithFormation(Formation.from(1), Formation.from(1));
             boardDao.saveFullBoard(gameId, originalBoard);
 
@@ -107,7 +106,7 @@ class BoardDaoTest {
     @Test
     void loadBoard_저장되지_않은_보드는_모두_None으로_초기화된다() throws SQLException {
         try (Connection connection = DbConnectionFactory.createConnection()) {
-            long gameId = gameDao.createGame(connection, "CHO Player", "HAN Player");
+            long gameId = janggiGameDao.createGame(connection, "CHO Player", "HAN Player");
 
             Map<Position, BasicPiece> loadedBoardMap = boardDao.loadBoard(gameId);
             Board loadedBoard = new Board(loadedBoardMap);
@@ -124,7 +123,7 @@ class BoardDaoTest {
     @Test
     void 빈칸은_NONE으로_저장된다() throws SQLException {
         try (Connection connection = DbConnectionFactory.createConnection()) {
-            long gameId = gameDao.createGame(connection, "CHO Player", "HAN Player");
+            long gameId = janggiGameDao.createGame(connection, "CHO Player", "HAN Player");
             Board board = BoardFactory.createWithFormation(Formation.from(1), Formation.from(1));
 
             boardDao.saveFullBoard(gameId, board);
@@ -147,7 +146,7 @@ class BoardDaoTest {
     @Test
     void 이미_저장된_보드는_다시_저장할_수_없다() throws SQLException {
         try (Connection connection = DbConnectionFactory.createConnection()) {
-            long gameId = gameDao.createGame(connection, "CHO Player", "HAN Player");
+            long gameId = janggiGameDao.createGame(connection, "CHO Player", "HAN Player");
             Board initialBoard = BoardFactory.createWithFormation(Formation.from(1), Formation.from(1));
             boardDao.saveFullBoard(gameId, initialBoard);
 
