@@ -35,14 +35,18 @@ public class InputView {
     }
 
     public List<String> readPosition(Team currentTeam) {
-        System.out.printf("%s의 차례입니다. 이동할 좌표를 입력하세요 (예: 11 21, 종료: end)%n", toDisplayName(currentTeam));
+        System.out.printf("%s의 차례입니다. 이동할 좌표를 입력하세요 (예: 11 21, 종료: quit)%n", toDisplayName(currentTeam));
         System.out.print("> ");
         String input = scanner.nextLine().trim();
         List<String> positions = List.of(input.split("\\s+"));
-        if (positions.size() == 1 && !positions.getFirst().equals("end")) {
+        if (positions.size() == 1 && !positions.getFirst().equalsIgnoreCase("quit")) {
             throw new IllegalArgumentException("[ERROR] 좌표 입력 형식에 맞게 입력해주세요.");
         }
         return positions;
+    }
+
+    public void waitForEnter() {
+        scanner.nextLine();
     }
 
     private String toDisplayName(Team team) {

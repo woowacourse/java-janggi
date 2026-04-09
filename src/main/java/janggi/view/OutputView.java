@@ -29,7 +29,6 @@ public class OutputView {
     private static final String CROSS = " + ";
     private static final String H_LINE = "---";
     private static final String V_LINE = " | ";
-
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     private static final Map<PieceType, String> PIECE_LABEL = Map.of(
@@ -42,13 +41,13 @@ public class OutputView {
         System.out.printf("%-6s %-19s %-6s %-6s %-6s %-6s%n", "ID", "마지막 플레이", "한 점수", "초 점수", "현재턴", "승자");
         System.out.println("------------------------------------------------------------");
         for (GameInfo2 game : games) {
-            String result = game.getWinner() == Team.NONE ? "진행중" : getWinnerName(game.getWinner());
+            String result = game.getWinner() == Team.NONE ? "진행중" : toColorName(game.getWinner());
             System.out.printf("%-6d %-22s %-7.1f %-7.1f %-17s %-6s%n",
                     game.getId(),
                     game.getUpdatedAt().format(formatter),
                     game.getHanScore(),
                     game.getChoScore(),
-                    game.getWinner() != Team.NONE ? ANSI_RED + "       " + ANSI_RESET : getWinnerName(game.getCurrentTeam()),
+                    game.getWinner() != Team.NONE ? ANSI_RED + "       " + ANSI_RESET : toColorName(game.getCurrentTeam()),
                     result);
         }
         System.out.println("------------------------------------------------------------");
@@ -65,6 +64,23 @@ public class OutputView {
         }
         System.out.println();
         printLegendAndScore(score);
+    }
+
+    public void printWinner(Team winner) {
+        String name = toColorName(winner);
+        System.out.println(name + " 승리! Enter를 누르면 게임 목록 화면으로 돌아갑니다.");
+    }
+
+    public void printError(String message) {
+        System.out.println(message);
+    }
+
+    public void printGameQuit() {
+        System.out.println("게임 목록 화면으로 돌아갑니다.\n");
+    }
+
+    public void printGameEnd() {
+        System.out.println("게임을 종료합니다.");
     }
 
     private void printColumnHeader() {
@@ -132,25 +148,9 @@ public class OutputView {
                 "현재 점수: " + score.getChoScore() + ANSI_RESET);
     }
 
-    public void printWinner(Team winner) {
-        String name = winner == Team.HAN
+    private String toColorName(Team team) {
+        return team == Team.HAN
                 ? ANSI_RED + "한(漢)" + ANSI_RESET
                 : ANSI_BLUE + "초(楚)" + ANSI_RESET;
-        System.out.println(name + " 승리! 게임을 종료합니다.\n");
-    }
-
-    public String getWinnerName(Team winner) {
-        return winner == Team.HAN
-                ? ANSI_RED + "한(漢)" + ANSI_RESET
-                : ANSI_BLUE + "초(楚)" + ANSI_RESET;
-    }
-
-    public void printError(String message) {
-        System.out.println(message);
-    }
-
-    public void printGameEnd() {
-        System.out.println("게임을 종료합니다.\n");
-
     }
 }
