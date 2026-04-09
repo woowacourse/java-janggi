@@ -44,8 +44,8 @@ class GameRepositoryTest {
 
         gameRepository = new GameRepository(
                 new TransactionManager(connectionManager),
-                new GameStateDaoImpl(),
-                new GamePieceDaoImpl()
+                new GameStateDao(),
+                new GamePieceDao()
         );
         board = createBoard();
     }

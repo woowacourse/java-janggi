@@ -2,9 +2,9 @@ package janggi.config;
 
 import janggi.GameRunner;
 import janggi.db.TransactionManager;
-import janggi.repository.GamePieceDaoImpl;
+import janggi.repository.GamePieceDao;
 import janggi.repository.GameRepository;
-import janggi.repository.GameStateDaoImpl;
+import janggi.repository.GameStateDao;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.Scanner;
@@ -24,8 +24,8 @@ public class AppConfig {
     private GameRunner createGameRunner(TransactionManager transactionManager) {
         GameRepository gameRepository = new GameRepository(
                 transactionManager,
-                new GameStateDaoImpl(),
-                new GamePieceDaoImpl()
+                new GameStateDao(),
+                new GamePieceDao()
         );
 
         return new GameRunner(
