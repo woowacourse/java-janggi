@@ -22,7 +22,7 @@ public class Jang extends AbstractPalaceGimul {
     }
 
     @Override
-    public boolean isJumpable() {
+    public boolean canBeJumpedOver() {
         return true;
     }
 

@@ -80,7 +80,7 @@ public class Byeong extends AbstractGimul {
     }
 
     @Override
-    public boolean isJumpable() {
+    public boolean canBeJumpedOver() {
         return true;
     }
 

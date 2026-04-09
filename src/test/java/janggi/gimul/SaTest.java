@@ -131,9 +131,9 @@ class SaTest {
 
     @DisplayName("사는 점프할 수 없다.")
     @Test
-    void isJumpable() {
+    void canBeJumpedOver() {
         Sa sa = new Sa(Team.CHO);
-        assertThat(sa.isJumpable()).isTrue();
+        assertThat(sa.canBeJumpedOver()).isTrue();
     }
 
     @DisplayName("사는 잡아야할 왕이 아니다.")

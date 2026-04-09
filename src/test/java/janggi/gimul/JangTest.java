@@ -131,9 +131,9 @@ class JangTest {
 
     @DisplayName("장군은 점프할 수 있다.")
     @Test
-    void isJumpable() {
+    void canBeJumpedOver() {
         Jang jang = new Jang(Team.CHO);
-        assertThat(jang.isJumpable()).isTrue();
+        assertThat(jang.canBeJumpedOver()).isTrue();
     }
 
     @DisplayName("장군은 잡아야할 왕이다.")

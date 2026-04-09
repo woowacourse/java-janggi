@@ -51,7 +51,7 @@ public class Ma extends AbstractDiagonalGimul {
     }
 
     @Override
-    public boolean isJumpable() {
+    public boolean canBeJumpedOver() {
         return true;
     }
 

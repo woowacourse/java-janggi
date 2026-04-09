@@ -236,9 +236,9 @@ class ByeongTest {
 
     @DisplayName("병은 점프할 수 있다.")
     @Test
-    void isJumpable() {
+    void canBeJumpedOver() {
         Byeong byeong = new Byeong(Team.CHO);
-        assertThat(byeong.isJumpable()).isTrue();
+        assertThat(byeong.canBeJumpedOver()).isTrue();
     }
 
     @DisplayName("병은 잡아야할 왕이 아니다.")

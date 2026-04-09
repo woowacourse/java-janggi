@@ -220,9 +220,9 @@ class PhoTest {
 
     @DisplayName("포는 점프할 수 없다.")
     @Test
-    void isJumpable() {
+    void canBeJumpedOver() {
         Pho pho = new Pho(Team.CHO);
-        assertThat(pho.isJumpable()).isFalse();
+        assertThat(pho.canBeJumpedOver()).isFalse();
     }
 
     @DisplayName("포는 잡아야할 왕이 아니다.")

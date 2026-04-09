@@ -22,7 +22,7 @@ public class Sa extends AbstractPalaceGimul {
     }
 
     @Override
-    public boolean isJumpable() {
+    public boolean canBeJumpedOver() {
         return true;
     }
 

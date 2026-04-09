@@ -126,9 +126,9 @@ class SangTest {
 
     @DisplayName("상은 점프할 수 있다.")
     @Test
-    void isJumpable() {
+    void canBeJumpedOver() {
         Sang sang = new Sang(Team.CHO);
-        assertThat(sang.isJumpable()).isTrue();
+        assertThat(sang.canBeJumpedOver()).isTrue();
     }
 
     @DisplayName("상은 잡아야할 왕이 아니다.")

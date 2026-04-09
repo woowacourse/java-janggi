@@ -31,7 +31,7 @@ public class Cha extends AbstractLinearMoveGimul {
     }
 
     @Override
-    public boolean isJumpable() {
+    public boolean canBeJumpedOver() {
         return true;
     }
 

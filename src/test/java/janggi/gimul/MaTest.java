@@ -138,9 +138,9 @@ class MaTest {
 
     @DisplayName("마는 점프할 수 있다.")
     @Test
-    void isJumpable() {
+    void canBeJumpedOver() {
         Ma ma = new Ma(Team.CHO);
-        assertThat(ma.isJumpable()).isTrue();
+        assertThat(ma.canBeJumpedOver()).isTrue();
     }
 
     @DisplayName("마는 잡아야할 왕이 아니다.")

@@ -182,9 +182,9 @@ class ChaTest {
 
     @DisplayName("차는 점프할 수 있다.")
     @Test
-    void isJumpable() {
+    void canBeJumpedOver() {
         Cha cha = new Cha(Team.CHO);
-        assertThat(cha.isJumpable()).isTrue();
+        assertThat(cha.canBeJumpedOver()).isTrue();
     }
 
     @DisplayName("차는 잡아야할 왕이 아니다.")
