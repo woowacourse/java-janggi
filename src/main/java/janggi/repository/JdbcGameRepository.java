@@ -47,5 +47,6 @@ public class JdbcGameRepository implements GameRepository {
     @Override
     public void finish(int gameId, Side winner) {
         gameDao.finish(gameId, winner);
+        pieceDao.deleteAll(gameId);
     }
 }
