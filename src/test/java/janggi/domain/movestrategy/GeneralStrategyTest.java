@@ -1,6 +1,7 @@
 package janggi.domain.movestrategy;
 
 import janggi.domain.board.Position;
+import janggi.domain.movestrategy.rule.PalaceDiagonalOneStepMoveRule;
 import janggi.domain.movestrategy.rule.StraightOneStepMoveRule;
 import janggi.domain.palace.PalaceFactory;
 import janggi.domain.piece.Piece;
@@ -25,7 +26,9 @@ class GeneralStrategyTest {
 
     @BeforeEach
     void setUp() {
-        generalStrategy = new GeneralStrategy(PalaceFactory.createPalace(Team.HAN), List.of(new StraightOneStepMoveRule()));
+        generalStrategy = new GeneralStrategy(PalaceFactory.createPalace(Team.HAN),
+                List.of(new StraightOneStepMoveRule(),
+                        new PalaceDiagonalOneStepMoveRule(PalaceFactory.createPalace(Team.HAN))));
         general = PieceFactory.createGeneral(Team.HAN);
         otherTeamPiece = PieceFactory.createCannon(Team.CHO);
         sameTeamPiece = PieceFactory.createCannon(Team.HAN);
@@ -49,7 +52,7 @@ class GeneralStrategyTest {
     @DisplayName("궁은 상하좌우 두 칸 이상 이동하지 못한다.")
     @CsvSource({
             "5,2,7,2",
-            "5,2,4,3",
+            "5,2,3,2",
             "5,2,5,4",
             "5,2,3,2"
     })
@@ -98,12 +101,14 @@ class GeneralStrategyTest {
         // when & then
         assertThat(generalStrategy.canCapture(general, null)).isTrue();
     }
+
     @Test
     @DisplayName("도착 경로에 상대 진영 기물이 있으면 이동할 수 있다.")
     void testCanCaptureWhenDestinationIsEnemy() {
         // when & then
         assertThat(generalStrategy.canCapture(general, otherTeamPiece)).isTrue();
     }
+
     @Test
     @DisplayName("도착 경로에 상대 진영 기물이 있으면 이동할 수 없다.")
     void testNotCanCaptureWhenDestinationIsAlly() {
