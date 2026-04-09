@@ -4,9 +4,9 @@ import static domain.player.Team.CHO;
 import static domain.player.Team.HAN;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import dao.BoardRepository;
+import dao.BoardDao;
 import dao.GamePersistence;
-import dao.GameRoom;
+import dao.GameDao;
 import domain.board.Formation;
 import domain.player.Name;
 import domain.player.Player;
@@ -24,9 +24,9 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class JanggiGamePlayServiceTest {
-    private final GameRoom gameRoom = new GameRoom();
-    private final BoardRepository boardRepository = new BoardRepository();
-    private final GamePersistence gamePersistence = new GamePersistence(gameRoom, boardRepository);
+    private final GameDao gameDao = new GameDao();
+    private final BoardDao boardDao = new BoardDao();
+    private final GamePersistence gamePersistence = new GamePersistence(gameDao, boardDao);
     private final JanggiGameSetupService janggiGameSetupService = new JanggiGameSetupService(gamePersistence);
     private final JanggiGamePlayService janggiGamePlayService = new JanggiGamePlayService(gamePersistence);
 
@@ -51,54 +51,60 @@ class JanggiGamePlayServiceTest {
 
             janggiGamePlayService.playTurn(session.gameId(), session.janggiGameManager(), source, destination);
 
-            assertThat(boardRepository.loadBoard(session.gameId())).containsKey(destination);
-            assertThat(gameRoom.getCurrentTurn(session.gameId())).isEqualTo(HAN);
+            assertThat(boardDao.loadBoard(session.gameId())).containsKey(destination);
+            assertThat(gameDao.getCurrentTurn(session.gameId())).isEqualTo(HAN);
             assertThat(readGameStatus(session.gameId())).isEqualTo("PROGRESS");
         }
 
         @Test
-        void 게임이_종료되면_진행상태를_업데이트하지_않는다() {
-            Player choPlayer = createPlayer("cho", CHO);
-            Player hanPlayer = createPlayer("han", HAN);
-            EndedJanggiGameManager endedGameManager = new EndedJanggiGameManager(choPlayer, hanPlayer, choPlayer.getProfile());
-            long gameId = gameRoom.createGame("cho", "han");
-            boardRepository.saveFullBoard(gameId, endedGameManager.getBoard());
+        void 게임이_종료되면_진행상태를_업데이트하지_않는다() throws SQLException {
+            try (Connection connection = DbConnectionFactory.createConnection()) {
+                Player choPlayer = createPlayer("cho", CHO);
+                Player hanPlayer = createPlayer("han", HAN);
+                EndedJanggiGameManager endedGameManager = new EndedJanggiGameManager(choPlayer, hanPlayer, choPlayer.getProfile());
+                long gameId = gameDao.createGame(connection, "cho", "han");
+                boardDao.saveFullBoard(gameId, endedGameManager.getBoard());
 
-            janggiGamePlayService.playTurn(gameId, endedGameManager, new Position(6, 0), new Position(5, 0));
+                janggiGamePlayService.playTurn(gameId, endedGameManager, new Position(6, 0), new Position(5, 0));
 
-            assertThat(gameRoom.getCurrentTurn(gameId)).isEqualTo(CHO);
-            assertThat(readGameStatus(gameId)).isEqualTo("PROGRESS");
+                assertThat(gameDao.getCurrentTurn(gameId)).isEqualTo(CHO);
+                assertThat(readGameStatus(gameId)).isEqualTo("PROGRESS");
+            }
         }
     }
 
     @Nested
     class FinishGameTest {
         @Test
-        void 승자가_CHO면_CHO_WIN으로_저장한다() {
-            Player choPlayer = createPlayer("cho", CHO);
-            Player hanPlayer = createPlayer("han", HAN);
-            EndedJanggiGameManager endedGameManager = new EndedJanggiGameManager(choPlayer, hanPlayer, choPlayer.getProfile());
-            long gameId = gameRoom.createGame("cho", "han");
+        void 승자가_CHO면_CHO_WIN으로_저장한다() throws SQLException {
+            try (Connection connection = DbConnectionFactory.createConnection()) {
+                Player choPlayer = createPlayer("cho", CHO);
+                Player hanPlayer = createPlayer("han", HAN);
+                EndedJanggiGameManager endedGameManager = new EndedJanggiGameManager(choPlayer, hanPlayer, choPlayer.getProfile());
+                long gameId = gameDao.createGame(connection, "cho", "han");
 
-            PlayerProfile winner = janggiGamePlayService.finishGame(gameId, endedGameManager);
+                PlayerProfile winner = janggiGamePlayService.finishGame(gameId, endedGameManager);
 
-            assertThat(winner.team()).isEqualTo(CHO);
-            assertThat(gameRoom.getCurrentTurn(gameId)).isEqualTo(CHO);
-            assertThat(readGameStatus(gameId)).isEqualTo("CHO_WIN");
+                assertThat(winner.team()).isEqualTo(CHO);
+                assertThat(gameDao.getCurrentTurn(gameId)).isEqualTo(CHO);
+                assertThat(readGameStatus(gameId)).isEqualTo("CHO_WIN");
+            }
         }
 
         @Test
-        void 승자가_HAN이면_HAN_WIN으로_저장한다() {
-            Player choPlayer = createPlayer("cho", CHO);
-            Player hanPlayer = createPlayer("han", HAN);
-            EndedJanggiGameManager endedGameManager = new EndedJanggiGameManager(choPlayer, hanPlayer, hanPlayer.getProfile());
-            long gameId = gameRoom.createGame("cho", "han");
+        void 승자가_HAN이면_HAN_WIN으로_저장한다() throws SQLException {
+            try (Connection connection = DbConnectionFactory.createConnection()) {
+                Player choPlayer = createPlayer("cho", CHO);
+                Player hanPlayer = createPlayer("han", HAN);
+                EndedJanggiGameManager endedGameManager = new EndedJanggiGameManager(choPlayer, hanPlayer, hanPlayer.getProfile());
+                long gameId = gameDao.createGame(connection, "cho", "han");
 
-            PlayerProfile winner = janggiGamePlayService.finishGame(gameId, endedGameManager);
+                PlayerProfile winner = janggiGamePlayService.finishGame(gameId, endedGameManager);
 
-            assertThat(winner.team()).isEqualTo(HAN);
-            assertThat(gameRoom.getCurrentTurn(gameId)).isEqualTo(HAN);
-            assertThat(readGameStatus(gameId)).isEqualTo("HAN_WIN");
+                assertThat(winner.team()).isEqualTo(HAN);
+                assertThat(gameDao.getCurrentTurn(gameId)).isEqualTo(HAN);
+                assertThat(readGameStatus(gameId)).isEqualTo("HAN_WIN");
+            }
         }
     }
 

@@ -37,6 +37,9 @@ public class JanggiGamePlayService {
     }
 
     private GameStatus resolveFinishedStatus(Team winnerTeam) {
-        return winnerTeam == CHO ? GameStatus.CHO_WIN : GameStatus.HAN_WIN;
+        if (winnerTeam == CHO) {
+            return GameStatus.CHO_WIN;
+        }
+        return GameStatus.HAN_WIN;
     }
 }

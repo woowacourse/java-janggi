@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class GameRoom {
+public class GameDao {
     private static final String INITIAL_STATUS = "PROGRESS";
     private static final String INSERT_GAME_SQL = "INSERT INTO game(cho_name, han_name, current_turn, status) VALUES(?, ?, ?, ?)";
     private static final String UPDATE_GAME_STATE_SQL = "UPDATE game SET current_turn = ?, status = ? WHERE game_id = ?";
@@ -17,14 +17,6 @@ public class GameRoom {
     private static final String FIND_ALL_PROGRESS_GAMES_SQL = "SELECT game_id, cho_name, han_name, current_turn FROM game WHERE status = ? ORDER BY created_at DESC";
     private static final String GET_CURRENT_TURN_SQL = "SELECT current_turn FROM game WHERE game_id = ?";
     private static final String GET_PLAYER_NAMES_SQL = "SELECT cho_name, han_name FROM game WHERE game_id = ?";
-
-    public long createGame(String choName, String hanName) {
-        try (Connection connection = DbConnectionFactory.createConnection()) {
-            return createGame(connection, choName, hanName);
-        } catch (SQLException e) {
-            throw new IllegalStateException("게임 생성에 실패했습니다.", e);
-        }
-    }
 
     public long createGame(Connection connection, String choName, String hanName) {
         try (PreparedStatement statement = connection.prepareStatement(INSERT_GAME_SQL, Statement.RETURN_GENERATED_KEYS)) {
@@ -50,18 +42,6 @@ public class GameRoom {
             }
         }
         throw new IllegalStateException("게임 생성 키를 조회하지 못했습니다.");
-    }
-
-    public void updateGameState(long gameId, Team currentTurn, GameStatus status) {
-        try (Connection connection = DbConnectionFactory.createConnection();
-             PreparedStatement statement = connection.prepareStatement(UPDATE_GAME_STATE_SQL)) {
-            statement.setString(1, currentTurn.name());
-            statement.setString(2, status.getValue());
-            statement.setLong(3, gameId);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            throw new IllegalStateException("게임 상태 업데이트에 실패했습니다.", e);
-        }
     }
 
     public void updateGameState(Connection connection, long gameId, Team currentTurn, GameStatus status) {

@@ -1,11 +1,13 @@
 import static domain.player.Team.CHO;
 import static domain.player.Team.HAN;
 
+import dao.GameInfo;
+import dao.GamePersistence;
 import service.JanggiGamePlayService;
 import service.JanggiGameSession;
 import service.JanggiGameSetupService;
-import dao.BoardRepository;
-import dao.GameRoom;
+import dao.BoardDao;
+import dao.GameDao;
 import common.exception.JanggiException;
 import domain.board.Formation;
 import domain.manager.JanggiGameManager;
@@ -29,13 +31,13 @@ public class JanggiGameRunner {
     private long gameId;
 
     public JanggiGameRunner(InputView inputView, OutputView outputView) {
-        this(inputView, outputView, new GameRoom(), new BoardRepository());
+        this(inputView, outputView, new GameDao(), new BoardDao());
     }
 
-    JanggiGameRunner(InputView inputView, OutputView outputView, GameRoom gameRoom, BoardRepository boardRepository) {
+    JanggiGameRunner(InputView inputView, OutputView outputView, GameDao gameDao, BoardDao boardDao) {
         this.inputView = inputView;
         this.outputView = outputView;
-        dao.GamePersistence gamePersistence = new dao.GamePersistence(gameRoom, boardRepository);
+        GamePersistence gamePersistence = new dao.GamePersistence(gameDao, boardDao);
         this.janggiGameSetupService = new JanggiGameSetupService(gamePersistence);
         this.janggiGamePlayService = new JanggiGamePlayService(gamePersistence);
     }
@@ -120,7 +122,7 @@ public class JanggiGameRunner {
     }
 
     private void initializeLoadedGame() {
-        java.util.List<dao.GameInfo> games = janggiGameSetupService.findProgressGames();
+        List<GameInfo> games = janggiGameSetupService.findProgressGames();
         if (games.isEmpty()) {
             outputView.printErrorMessage("저장된 게임이 없습니다. 새 게임을 생성합니다.");
             initializeNewGame();

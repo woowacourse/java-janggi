@@ -15,7 +15,7 @@ import java.util.Map;
 
 import static common.Constants.*;
 
-public class BoardRepository {
+public class BoardDao {
     private static final String INSERT_BOARD_SQL =
             "INSERT INTO board(game_id, row_idx, col_idx, team, piece_type) VALUES(?, ?, ?, ?, ?)";
     private static final String LOAD_BOARD_SQL =

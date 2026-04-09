@@ -11,55 +11,55 @@ import java.util.Map;
 import java.util.Optional;
 
 public class GamePersistence {
-    private final GameRoom gameRoom;
-    private final BoardRepository boardRepository;
+    private final GameDao gameDao;
+    private final BoardDao boardDao;
 
-    public GamePersistence(GameRoom gameRoom, BoardRepository boardRepository) {
-        this.gameRoom = gameRoom;
-        this.boardRepository = boardRepository;
+    public GamePersistence(GameDao gameDao, BoardDao boardDao) {
+        this.gameDao = gameDao;
+        this.boardDao = boardDao;
     }
 
     public long createNewGame(String choName, String hanName, Board board, Team currentTurn) {
         return TransactionExecutor.execute(connection -> {
-            long gameId = gameRoom.createGame(connection, choName, hanName);
-            boardRepository.saveFullBoard(connection, gameId, board);
-            gameRoom.updateGameState(connection, gameId, currentTurn, GameStatus.PROGRESS);
+            long gameId = gameDao.createGame(connection, choName, hanName);
+            boardDao.saveFullBoard(connection, gameId, board);
+            gameDao.updateGameState(connection, gameId, currentTurn, GameStatus.PROGRESS);
             return gameId;
         });
     }
 
     public void saveTurnProgress(long gameId, Position source, Position destination, BasicPiece movingPiece, Team currentTurn) {
         TransactionExecutor.executeVoid(connection -> {
-            boardRepository.updateMove(connection, gameId, source, destination, movingPiece);
-            gameRoom.updateGameState(connection, gameId, currentTurn, GameStatus.PROGRESS);
+            boardDao.updateMove(connection, gameId, source, destination, movingPiece);
+            gameDao.updateGameState(connection, gameId, currentTurn, GameStatus.PROGRESS);
         });
     }
 
     public void saveMove(long gameId, Position source, Position destination, BasicPiece movingPiece) {
-        TransactionExecutor.executeVoid(connection -> boardRepository.updateMove(connection, gameId, source, destination, movingPiece));
+        TransactionExecutor.executeVoid(connection -> boardDao.updateMove(connection, gameId, source, destination, movingPiece));
     }
 
     public void finishGame(long gameId, Team winnerTeam, GameStatus status) {
-        TransactionExecutor.executeVoid(connection -> gameRoom.updateGameState(connection, gameId, winnerTeam, status));
+        TransactionExecutor.executeVoid(connection -> gameDao.updateGameState(connection, gameId, winnerTeam, status));
     }
 
     public List<GameInfo> findAllProgressGames() {
-        return gameRoom.findAllProgressGames();
+        return gameDao.findAllProgressGames();
     }
 
     public Optional<Long> findProgressGame() {
-        return gameRoom.findProgressGame();
+        return gameDao.findProgressGame();
     }
 
     public Team getCurrentTurn(long gameId) {
-        return gameRoom.getCurrentTurn(gameId);
+        return gameDao.getCurrentTurn(gameId);
     }
 
     public PlayerNames getPlayerNames(long gameId) {
-        return gameRoom.getPlayerNames(gameId);
+        return gameDao.getPlayerNames(gameId);
     }
 
     public Map<Position, BasicPiece> loadBoard(long gameId) {
-        return boardRepository.loadBoard(gameId);
+        return boardDao.loadBoard(gameId);
     }
 }
