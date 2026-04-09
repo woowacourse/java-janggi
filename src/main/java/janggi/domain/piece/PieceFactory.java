@@ -12,14 +12,16 @@ public class PieceFactory {
     public static Piece createGeneral(Team team) {
         return new Piece(PieceType.GENERAL, team, new GeneralStrategy(
                 PalaceFactory.createPalace(team),
-                List.of(new StraightOneStepMoveRule())
+                List.of(new StraightOneStepMoveRule(),
+                        new PalaceDiagonalOneStepMoveRule(PalaceFactory.createPalace(team)))
         ));
     }
 
     public static Piece createGuard(Team team) {
         return new Piece(PieceType.GUARD, team, new GuardStrategy(
                 PalaceFactory.createPalace(team),
-                List.of(new StraightOneStepMoveRule())
+                List.of(new StraightOneStepMoveRule(),
+                        new PalaceDiagonalOneStepMoveRule(PalaceFactory.createPalace(team)))
         ));
     }
 
