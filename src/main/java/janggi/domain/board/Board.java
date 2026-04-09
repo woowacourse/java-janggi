@@ -14,14 +14,14 @@ public class Board {
 
     private static final int FIRST_ROW_INDEX = 0;
 
-    private final Map<Location, Piece> boardState;
     private final int height;
     private final int width;
+    private final Map<Location, Piece> boardState;
 
-    private Board(Map<Location, Piece> boardState, int height, int width) {
-        this.boardState = boardState;
+    private Board(int height, int width, Map<Location, Piece> boardState) {
         this.height = height;
         this.width = width;
+        this.boardState = boardState;
     }
 
     public static Board create(BoardAssembler assembler) {
@@ -35,7 +35,7 @@ public class Board {
             mapRowToBoardState(boardState, pieces[row], row);
         }
 
-        return new Board(boardState, height, width);
+        return new Board(height, width, boardState);
     }
 
     private static void mapRowToBoardState(Map<Location, Piece> boardState, Piece[] rowPieces, int row) {
@@ -104,7 +104,7 @@ public class Board {
     public List<List<Piece>> to2DArray() {
         List<List<Piece>> pieces = new ArrayList<>();
         for (int row = 0; row < height; row++) {
-            pieces.add(createRows(row)); // 메서드 분리
+            pieces.add(createRows(row));
         }
         return List.copyOf(pieces);
     }

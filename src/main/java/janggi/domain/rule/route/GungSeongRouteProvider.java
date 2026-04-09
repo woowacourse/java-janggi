@@ -10,13 +10,12 @@ import static janggi.domain.rule.route.Direction.LEFT;
 import static janggi.domain.rule.route.Direction.RIGHT;
 
 import janggi.domain.Location;
+import janggi.domain.board.GungSeong;
 import java.util.List;
 import java.util.Optional;
 
-@SuppressWarnings("java:S6548")
 public class GungSeongRouteProvider extends RouteProvider {
 
-    private static final GungSeongRouteProvider INSTANCE = new GungSeongRouteProvider();
     private static final List<Route> POSSIBLE_ROUTES = List.of(
             Route.from(List.of(FRONT)),
             Route.from(List.of(LEFT)),
@@ -28,15 +27,21 @@ public class GungSeongRouteProvider extends RouteProvider {
             Route.from(List.of(BACK_RIGHT))
     );
 
-    private GungSeongRouteProvider() {
+    private final GungSeong gungSeong;
+
+    private GungSeongRouteProvider(GungSeong gungSeong) {
+        this.gungSeong = gungSeong;
     }
 
-    public static GungSeongRouteProvider getInstance() {
-        return INSTANCE;
+    public static GungSeongRouteProvider of(GungSeong gungSeong) {
+        return new GungSeongRouteProvider(gungSeong);
     }
 
     @Override
     public Optional<List<Location>> calculateRoute(Location from, Location to) {
-        return findValidPath(from, to, POSSIBLE_ROUTES);
+        if (gungSeong.contains(to)) {
+            return findValidPath(from, to, POSSIBLE_ROUTES);
+        }
+        return Optional.empty();
     }
 }

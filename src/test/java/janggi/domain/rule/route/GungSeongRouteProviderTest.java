@@ -1,6 +1,7 @@
 package janggi.domain.rule.route;
 
 import janggi.domain.Location;
+import janggi.domain.board.GungSeong;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -9,7 +10,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class GungSeongRouteProviderTest {
 
-    private static final GungSeongRouteProvider GUNG_SEONG_ROUTE_PROVIDER = GungSeongRouteProvider.getInstance();
+    private static final GungSeongRouteProvider GUNG_SEONG_ROUTE_PROVIDER =
+            GungSeongRouteProvider.of(GungSeong.of(10, 9));
 
     @ParameterizedTest
     @DisplayName("궁성 안에서 이동할 수 있는 위치로 경로를 계산하면, 이동 경로를 반환한다.")
@@ -24,14 +26,14 @@ class GungSeongRouteProviderTest {
 
     static List<Location> provideReachableCoordination() {
         return List.of(
-                new Location(0, 4), // 상
-                new Location(2, 4), // 하
-                new Location(1, 3), // 좌
-                new Location(1, 5), // 우
-                new Location(0, 3), // 좌대각 전진
-                new Location(0, 5), // 우대각 전진
-                new Location(2, 3), // 좌대각 후진
-                new Location(2, 5) // 우대각 후진
+                new Location(0, 3),
+                new Location(0, 4),
+                new Location(0, 5),
+                new Location(1, 3),
+                new Location(1, 5),
+                new Location(2, 3),
+                new Location(2, 4),
+                new Location(2, 5)
         );
     }
 
@@ -48,9 +50,11 @@ class GungSeongRouteProviderTest {
 
     static List<Location> provideUnreachableCoordination() {
         return List.of(
-                new Location(4, 3),
-                new Location(2, 5),
-                new Location(3, 5)
+                new Location(1, 2),
+                new Location(2, 2),
+                new Location(3, 2),
+                new Location(3, 3),
+                new Location(3, 4)
         );
     }
 }

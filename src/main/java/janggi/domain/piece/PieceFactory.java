@@ -3,6 +3,7 @@ package janggi.domain.piece;
 import static janggi.domain.piece.PieceType.*;
 
 import janggi.domain.Side;
+import janggi.domain.board.GungSeong;
 import janggi.domain.rule.ChaMovement;
 import janggi.domain.rule.GungMovement;
 import janggi.domain.rule.JolbyeongMovement;
@@ -14,27 +15,24 @@ import janggi.domain.rule.SangMovement;
 import java.util.EnumMap;
 import java.util.Map;
 
-@SuppressWarnings("java:S6548")
 public class PieceFactory {
-
-    private static final PieceFactory INSTANCE = new PieceFactory();
 
     private final Map<PieceType, Movement> matchInfo;
 
-    private PieceFactory() {
+    private PieceFactory(GungSeong gungSeong) {
         this.matchInfo = new EnumMap<>(PieceType.class);
         matchInfo.put(CHA, ChaMovement.getInstance());
         matchInfo.put(MA, MaMovement.getInstance());
         matchInfo.put(SANG, SangMovement.getInstance());
-        matchInfo.put(SA, SaMovement.getInstance());
-        matchInfo.put(GUNG, GungMovement.getInstance());
+        matchInfo.put(SA, SaMovement.create(gungSeong));
+        matchInfo.put(GUNG, GungMovement.create(gungSeong));
         matchInfo.put(PO, PoMovement.getInstance());
         matchInfo.put(JOL, JolbyeongMovement.getInstanceBySide(Side.CHO));
         matchInfo.put(BYEONG, JolbyeongMovement.getInstanceBySide(Side.HAN));
     }
 
-    public static PieceFactory getInstance() {
-        return INSTANCE;
+    public static PieceFactory of(GungSeong gungSeong) {
+        return new PieceFactory(gungSeong);
     }
 
     public Piece createActivePiece(PieceType type, Side side) {

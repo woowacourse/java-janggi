@@ -2,6 +2,7 @@ package janggi.domain.rule;
 
 import janggi.domain.Location;
 import janggi.domain.Side;
+import janggi.domain.board.GungSeong;
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
@@ -16,7 +17,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class GungMovementTest {
 
-    private static final GungMovement MOVEMENT = GungMovement.getInstance();
+    private static final GungMovement MOVEMENT = GungMovement.create(GungSeong.of(10, 9));
 
     @Nested
     class CalculateRouteTest {
@@ -57,9 +58,11 @@ class GungMovementTest {
 
         static List<Location> provideUnreachableCoordination() {
             return List.of(
-                    new Location(4, 3),
-                    new Location(2, 5),
-                    new Location(3, 5)
+                    new Location(1, 2),
+                    new Location(2, 2),
+                    new Location(3, 2),
+                    new Location(3, 3),
+                    new Location(3, 4)
             );
         }
     }
@@ -73,10 +76,10 @@ class GungMovementTest {
         }
 
         @Test
-        @DisplayName("이동 경로에 장애물이 존재하지 않고, 도착 지점에 위치한 기물이 존재하지 않으면 예외를 반환하지 않는다.")
+        @DisplayName("도착 지점에 기물이 존재하지 않으면 예외를 반환하지 않는다.")
         void shouldNotThrowExceptionWhenNoPieceOnPathAndNoPieceOnDestination() {
             // given
-            List<Piece> piecesOnPath = List.of(EMPTY, EMPTY, EMPTY);
+            List<Piece> piecesOnPath = List.of(EMPTY);
 
             // when & then
             Assertions.assertThatNoException()
@@ -84,11 +87,11 @@ class GungMovementTest {
         }
 
         @ParameterizedTest
-        @DisplayName("이동 경로에 장애물이 존재하지 않고, 도착 지점에 위치한 기물이 상대팀이면 예외를 반환하지 않는다.")
+        @DisplayName("도착 지점에 위치한 기물이 상대팀이면 예외를 반환하지 않는다.")
         @MethodSource("provideSide")
         void shouldNotThrowExceptionWhenNoPieceOnPathAndPieceOnDestinationIsOtherSide(Side mySide) {
             // given
-            List<Piece> piecesOnPath = List.of(EMPTY, EMPTY, new TestPiece(PieceType.CHA, mySide.switchSide()));
+            List<Piece> piecesOnPath = List.of(new TestPiece(PieceType.CHA, mySide.switchSide()));
 
             // when & then
             Assertions.assertThatNoException()
@@ -96,25 +99,14 @@ class GungMovementTest {
         }
 
         @ParameterizedTest
-        @DisplayName("이동 경로에 장애물이 존재하지 않고, 도착 지점에 위치한 기물이 우리팀이면 예외를 발생시킨다.")
+        @DisplayName("도착 지점에 위치한 기물이 우리팀이면 예외를 발생시킨다.")
         @MethodSource("provideSide")
         void shouldThrowExceptionWhenNoPieceOnPathAndPieceOnDestinationIsMySide(Side mySide) {
             // given
-            List<Piece> piecesOnPath = List.of(EMPTY, EMPTY, new TestPiece(PieceType.CHA, mySide));
+            List<Piece> piecesOnPath = List.of(new TestPiece(PieceType.CHA, mySide));
 
             // when & then
             Assertions.assertThatThrownBy(() -> MOVEMENT.detectCollision(mySide, piecesOnPath))
-                    .isInstanceOf(IllegalArgumentException.class);
-        }
-
-        @Test
-        @DisplayName("이동 경로에 장애물이 존재하면 예외를 발생시킨다.")
-        void shouldThrowExceptionWhenPieceOnPath() {
-            // given
-            List<Piece> piecesOnPath = List.of(new TestPiece(PieceType.CHA, Side.CHO), EMPTY, EMPTY);
-
-            // when & then
-            Assertions.assertThatThrownBy(() -> MOVEMENT.detectCollision(Side.HAN, piecesOnPath))
                     .isInstanceOf(IllegalArgumentException.class);
         }
     }

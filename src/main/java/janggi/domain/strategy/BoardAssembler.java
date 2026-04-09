@@ -1,7 +1,9 @@
 package janggi.domain.strategy;
 
+import janggi.domain.board.GungSeong;
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceFactory;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,10 +25,13 @@ public class BoardAssembler {
     public Piece[][] assemble() {
         Piece[][] arrangement = new Piece[DEFAULT_ROWS][DEFAULT_COLS];
 
+        GungSeong gungSeong = GungSeong.of(DEFAULT_ROWS, DEFAULT_COLS);
+        PieceFactory pieceFactory = PieceFactory.of(gungSeong);
+
         setupEmptyPieces(arrangement);
 
         for (ArrangementStrategy strategy : strategies) {
-            strategy.place(arrangement);
+            strategy.place(arrangement, pieceFactory);
         }
 
         return arrangement;

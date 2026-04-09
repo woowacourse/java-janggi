@@ -16,7 +16,7 @@ class BoardAssemblerTest {
     @DisplayName("조립기는 전략을 실행한 후, 기물이 없는 나머지 빈 칸을 EmptyPiece로 채운다.")
     void shouldFillEmptySpaces() {
         // given
-        ArrangementStrategy doNothingStrategy = arrangement -> {};
+        ArrangementStrategy doNothingStrategy = (arrangement, pieceFactory) -> {};
 
         BoardAssembler assembler = BoardAssembler.from(List.of(doNothingStrategy, doNothingStrategy));
 
