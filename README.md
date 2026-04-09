@@ -111,7 +111,7 @@
 ---
 
 ### 4. 인메모리 테스트 구현
-- [ ] InMemoryGameStateRepository 저장/조회 테스트 구현
+- [x] InMemoryGameStateRepository 저장/조회 테스트 구현
    - 게임 상태 저장 검증
    - 저장된 게임 상태 조회 검증
 
