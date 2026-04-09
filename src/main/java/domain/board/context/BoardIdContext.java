@@ -1,6 +1,9 @@
-package database.context;
+package domain.board.context;
 
 public class BoardIdContext {
+
+    private BoardIdContext() {
+    }
 
     private static final ThreadLocal<Long> BOARD_ID_THREAD_LOCAL = new ThreadLocal<>();
 

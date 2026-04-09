@@ -1,6 +1,6 @@
 package service;
 
-import database.context.BoardIdContext;
+import domain.board.context.BoardIdContext;
 import database.transaction.TransactionExecutor;
 import database.dao.BoardDao;
 import database.dao.IntersectionDao;

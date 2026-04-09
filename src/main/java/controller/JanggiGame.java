@@ -2,7 +2,7 @@ package controller;
 
 import common.exception.JanggiException;
 import service.JanggiService;
-import database.context.BoardIdContext;
+import domain.board.context.BoardIdContext;
 import database.dto.GameResult;
 import domain.command.BoardSelectCommand;
 import domain.board.Formation;

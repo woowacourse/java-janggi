@@ -1,6 +1,6 @@
 package service;
 
-import database.context.BoardIdContext;
+import domain.board.context.BoardIdContext;
 import database.dao.*;
 import database.dto.GameResult;
 import database.mapper.JanggiBoardMapper;
