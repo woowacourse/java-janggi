@@ -12,13 +12,13 @@
 ```
 
 - `./gradlew run`으로 실행해야 하는 이유
-    - 애플리케이션은 H2 JDBC 드라이버와 [`jdbc.properties`](/Users/bean/Desktop/Repository/java-janggi/src/main/resources/jdbc.properties) 설정 파일을 런타임에 함께 사용한다.
+    - 애플리케이션은 H2 JDBC 드라이버와 `jdbc.properties` 설정 파일을 런타임에 함께 사용한다.
     - `./gradlew run`은 Gradle이 컴파일 결과물, 리소스 파일, 외부 의존성 jar를 모두 classpath에 올려 실행해준다.
     - 반면 `java -cp build/classes/java/main Application`처럼 직접 실행하면 H2 드라이버나 리소스가 classpath에 빠져 실행에 실패할 수 있다.
 
 ### H2 Database
 
-- 현재 애플리케이션은 [`jdbc.properties`](/Users/bean/Desktop/Repository/java-janggi/src/main/resources/jdbc.properties) 기준으로 H2 파일 DB를 사용한다.
+- 현재 애플리케이션은 `jdbc.properties` 기준으로 H2 파일 DB를 사용한다.
 
 ```properties
 db.url=jdbc:h2:./data/janggi
@@ -26,7 +26,7 @@ db.username=sa
 db.password=
 ```
 
-- 실제 DB 파일은 프로젝트 루트의 [`data/janggi.mv.db`](/Users/bean/Desktop/Repository/java-janggi/data/janggi.mv.db) 에 생성된다.
+- 실제 DB 파일은 프로젝트 루트의 `data/janggi.mv.db` 에 생성된다.
 - 애플리케이션을 한 번이라도 실행하면 스키마와 DB 파일이 자동으로 생성된다.
 - 진행 중 게임 저장 여부를 가장 쉽게 확인하는 방법은 다음과 같다.
     1. `./gradlew run`
@@ -177,7 +177,7 @@ java -cp $(find ~/.gradle/caches -name "h2-2.3.232.jar" | head -n 1) org.h2.tool
 
 - [x] 애플리케이션을 재시작해도 마지막으로 진행 중이던 장기 게임을 이어서 시작할 수 있다.
 - [x] 이동이 성공하면 현재 게임 상태를 저장할 수 있다.
-- [x] 저장된 게임 상태를 조회해 장기판, 현재 턴, 게임 상태를 복원할 수 --- 있다.
+- [x] 저장된 게임 상태를 조회해 장기판, 현재 턴, 게임 상태를 복원할 수 있다.
 
 #### 영속화 규칙
 
