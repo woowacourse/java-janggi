@@ -20,15 +20,32 @@ public class TransactionManager {
         connection.setAutoCommit(false);
         try {
             action.run();
-            connection.commit();
+            commit(connection);
         } catch (IllegalArgumentException | IllegalStateException e) {
-            connection.rollback();
+            rollback(connection);
             throw e;
         } catch (RuntimeException e) {
-            connection.rollback();
+            rollback(connection);
             throw new IllegalStateException("트랜잭션 처리 중 오류가 발생했습니다.", e);
         } finally {
             connectionHolder.remove();
+        }
+    }
+
+    private void commit(Connection connection) {
+        try {
+            connection.commit();
+        } catch (SQLException e) {
+            rollback(connection);
+            throw new IllegalStateException("커밋에 실패했습니다.", e);
+        }
+    }
+
+    private void rollback(Connection connection) {
+        try {
+            connection.rollback();
+        } catch (SQLException e) {
+            throw new IllegalStateException("롤백에 실패했습니다.", e);
         }
     }
 
