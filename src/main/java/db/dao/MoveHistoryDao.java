@@ -12,4 +12,8 @@ public interface MoveHistoryDao {
     List<MoveHistoryEntity> findAllByGameIdOrderByMoveOrderAsc(SqlConnection connection, Long gameId);
 
     Optional<Integer> findLastMoveOrderByGameId(SqlConnection connection, Long gameId);
+
+    Optional<MoveHistoryEntity> findLastByGameId(SqlConnection connection, Long gameId);
+
+    void deleteById(SqlConnection connection, Long id);
 }

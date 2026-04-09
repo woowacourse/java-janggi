@@ -112,6 +112,60 @@ public class JdbcMoveHistoryDao implements MoveHistoryDao {
         }
     }
 
+    @Override
+    public Optional<MoveHistoryEntity> findLastByGameId(
+        final SqlConnection connection,
+        final Long gameId
+    ) {
+        validateGameId(gameId);
+
+        final String sql = """
+            SELECT id, game_id, move_order, moving_piece_type, moving_piece_side,
+                   departure_row, departure_column, destination_row, destination_column,
+                   is_captured, captured_piece_type, captured_piece_side
+            FROM move_history
+            WHERE game_id = ?
+            ORDER BY move_order DESC
+            LIMIT 1
+            """;
+
+        try (final PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setLong(1, gameId);
+
+            try (final ResultSet resultSet = statement.executeQuery()) {
+                if (!resultSet.next()) {
+                    return Optional.empty();
+                }
+                return Optional.of(parseMoveHistory(resultSet));
+            }
+        } catch (final SQLException e) {
+            throw new IllegalStateException("마지막 이동 기록 조회에 실패했습니다.", e);
+        }
+    }
+
+    @Override
+    public void deleteById(final SqlConnection connection, final Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("ID가 필요합니다.");
+        }
+
+        final String sql = """
+            DELETE FROM move_history
+            WHERE id = ?
+            """;
+
+        try (final PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setLong(1, id);
+
+            final int affectedRows = statement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new IllegalArgumentException("삭제할 이동 기록이 존재하지 않습니다. id=" + id);
+            }
+        } catch (final SQLException e) {
+            throw new IllegalStateException("이동 기록 삭제에 실패했습니다.", e);
+        }
+    }
+
     private void validateGameId(final Long gameId) {
         if (gameId == null) {
             throw new IllegalArgumentException("게임 ID가 필요합니다.");
