@@ -34,3 +34,4 @@ out/
 ### h2 ###
 *.trace.db
 *.mv.db
+*.lock.db
