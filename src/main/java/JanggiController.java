@@ -28,15 +28,29 @@ public class JanggiController {
         while (true) {
             GameType gameType = inputView.readGameType();
 
-            if (gameType == GameType.LOAD && loadAndPlayGame())
-                    continue;
-            if (gameType == GameType.NEW) {
+            if (gameType == GameType.NEW)
                 startNewGame();
-            }
-            if (gameType == GameType.EXIT) {
+
+            if (gameType == GameType.LOAD && loadAndPlayGame())
+                continue;
+
+            if (gameType == GameType.EXIT)
                 break;
-            }
         }
+    }
+
+    private void startNewGame() {
+        Game game = initializeGame();
+        GameEntity savedGame = janggiService.saveGame(game);
+        playGame(game, savedGame);
+    }
+
+    private Game initializeGame() {
+        Formation hanFormation = inputView.readHorseElephantFormation(Team.HAN.getName());
+        Formation chuFormation = inputView.readHorseElephantFormation(Team.CHU.getName());
+
+        Board board = BoardFactory.setUp(hanFormation, chuFormation);
+        return Game.of(board);
     }
 
     private boolean loadAndPlayGame() {
@@ -63,11 +77,6 @@ public class JanggiController {
         return false;
     }
 
-    private void startNewGame() {
-        Game game = initializeGame();
-        GameEntity savedGame = janggiService.saveGame(game);
-        playGame(game, savedGame);
-    }
 
     private void playGame(Game game, GameEntity gameEntity) {
         while (true) {
@@ -80,14 +89,6 @@ public class JanggiController {
             }
         }
         outputView.printGameResult(game.getStatus());
-    }
-
-    private Game initializeGame() {
-        Formation hanFormation = inputView.readHorseElephantFormation(Team.HAN.getName());
-        Formation chuFormation = inputView.readHorseElephantFormation(Team.CHU.getName());
-
-        Board board = BoardFactory.setUp(hanFormation, chuFormation);
-        return Game.of(board);
     }
 
     private boolean handleMove(Game game, Long gameId) {
@@ -119,12 +120,6 @@ public class JanggiController {
         return game.getStatus() == Status.PLAYING;
     }
 
-    private void validatePieceAndTurn(Game game, Position position) {
-        Piece piece = game.getBoard().findPieceByPosition(position)
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 위치에 기물이 존재하지 않습니다."));
-        game.checkTurn(piece.getTeam());
-    }
-
     private boolean handleQuitOrStopCommand(Game game, String turn, String input) {
         if (input.equals(QUIT_COMMAND)) {
             game.lose(turn);
@@ -139,5 +134,11 @@ public class JanggiController {
     private Position parsePosition(String input) {
         String[] tokens = input.split(" ");
         return Position.of(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]));
+    }
+
+    private void validatePieceAndTurn(Game game, Position position) {
+        Piece piece = game.getBoard().findPieceByPosition(position)
+                .orElseThrow(() -> new IllegalArgumentException("해당 위치에 기물이 존재하지 않습니다."));
+        game.checkTurn(piece.getTeam());
     }
 }
