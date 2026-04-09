@@ -50,6 +50,10 @@ public class TransactionManager {
     }
 
     public Connection getConnection() {
-        return connectionHolder.get();
+        Connection connection = connectionHolder.get();
+        if (connection == null) {
+            throw new IllegalStateException("트랜잭션이 시작되지 않았습니다.");
+        }
+        return connection;
     }
 }
