@@ -12,7 +12,7 @@ public class ConnectionContext {
     private ConnectionContext() {
     }
 
-    public static void setConnection() throws SQLException {
+    public static void setConnection() {
         if (getConnection() != null) {
             clear();
         }
@@ -26,9 +26,7 @@ public class ConnectionContext {
 
     public static void rollback() {
         try {
-            if (getConnection() != null) {
-                getConnection().rollback();
-            }
+            safetyConnectionRollback(getConnection());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -37,13 +35,24 @@ public class ConnectionContext {
     public static void clear() {
         try {
             Connection connection = getConnection();
-            connection.close();
+            safetyConnectionClose(connection);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
             CONNECTION_THREAD_LOCAL.remove();
         }
+    }
 
+    private static void safetyConnectionClose(Connection connection) throws SQLException{
+        if (connection != null && !connection.isClosed()) {
+            connection.close();
+        }
+    }
+
+    private static void safetyConnectionRollback(Connection connection) throws SQLException {
+        if (connection != null && !connection.isClosed()) {
+            connection.rollback();
+        }
     }
 
 }
