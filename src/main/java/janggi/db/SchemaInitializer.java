@@ -25,8 +25,8 @@ public class SchemaInitializer {
                     statement.execute(trimmed);
                 }
             }
-        } catch (SQLException exception) {
-            throw new IllegalStateException("스키마 초기화에 실패했습니다.", exception);
+        } catch (SQLException e) {
+            throw new IllegalStateException("스키마 초기화에 실패했습니다.", e);
         }
     }
 
@@ -36,8 +36,8 @@ public class SchemaInitializer {
                 throw new IllegalStateException("schema.sql 파일을 찾을 수 없습니다.");
             }
             return new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
-        } catch (IOException exception) {
-            throw new IllegalStateException("schema.sql 파일을 읽는 데 실패했습니다.", exception);
+        } catch (IOException e) {
+            throw new IllegalStateException("schema.sql 파일을 읽는 데 실패했습니다.", e);
         }
     }
 }

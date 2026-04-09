@@ -19,8 +19,8 @@ public class ConnectionFactory {
     public Connection create() {
         try {
             return DriverManager.getConnection(url);
-        } catch (SQLException exception) {
-            throw new IllegalStateException("데이터베이스 연결에 실패했습니다.", exception);
+        } catch (SQLException e) {
+            throw new IllegalStateException("데이터베이스 연결에 실패했습니다.", e);
         }
     }
 }

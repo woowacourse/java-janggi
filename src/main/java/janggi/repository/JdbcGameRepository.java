@@ -36,8 +36,8 @@ public class JdbcGameRepository implements GameRepository {
     public long saveNewGame(JanggiGame janggiGame) {
         try (Connection connection = connectionFactory.create()) {
             return saveNewGameWithTransaction(connection, janggiGame);
-        } catch (SQLException exception) {
-            throw new IllegalStateException("새 게임 저장에 실패했습니다.", exception);
+        } catch (SQLException e) {
+            throw new IllegalStateException("새 게임 저장에 실패했습니다.", e);
         }
     }
 
@@ -54,8 +54,8 @@ public class JdbcGameRepository implements GameRepository {
             Team currentTurnTeam = Team.valueOf(savedGame.get().turn());
             JanggiGame janggiGame = JanggiGame.restore(board, currentTurnTeam);
             return Optional.of(new SavedGame(savedGameId, janggiGame));
-        } catch (SQLException exception) {
-            throw new IllegalStateException("진행 중인 게임 조회에 실패했습니다.", exception);
+        } catch (SQLException e) {
+            throw new IllegalStateException("진행 중인 게임 조회에 실패했습니다.", e);
         }
     }
 
@@ -65,8 +65,8 @@ public class JdbcGameRepository implements GameRepository {
         try (Connection connection = connectionFactory.create()) {
             updateAfterMoveWithTransaction(connection, savedGameId, janggiGame, startPiecePosition,
                     endPiecePosition);
-        } catch (SQLException exception) {
-            throw new IllegalStateException("수 반영 저장에 실패했습니다.", exception);
+        } catch (SQLException e) {
+            throw new IllegalStateException("수 반영 저장에 실패했습니다.", e);
         }
     }
 
@@ -78,9 +78,9 @@ public class JdbcGameRepository implements GameRepository {
             pieceDao.saveAll(connection, createPieceData(savedGameId, janggiGame));
             connection.commit();
             return savedGameId;
-        } catch (SQLException exception) {
+        } catch (SQLException e) {
             rollback(connection);
-            throw exception;
+            throw e;
         }
     }
 
@@ -94,9 +94,9 @@ public class JdbcGameRepository implements GameRepository {
             pieceDao.deleteOn(connection, savedGameId, startPiecePosition);
             pieceDao.save(connection, createMovedPieceData(savedGameId, janggiGame, endPiecePosition));
             connection.commit();
-        } catch (SQLException exception) {
+        } catch (SQLException e) {
             rollback(connection);
-            throw exception;
+            throw e;
         }
     }
 
@@ -115,8 +115,8 @@ public class JdbcGameRepository implements GameRepository {
     private void rollback(Connection connection) {
         try {
             connection.rollback();
-        } catch (SQLException exception) {
-            throw new IllegalStateException("트랜잭션 롤백에 실패했습니다.", exception);
+        } catch (SQLException e) {
+            throw new IllegalStateException("트랜잭션 롤백에 실패했습니다.", e);
         }
     }
 
