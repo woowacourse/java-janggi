@@ -105,10 +105,7 @@ public class Board implements PathChecker {
 
     @Override
     public boolean isInDifferencePalace(Position from, Position to) {
-        boolean isBothHanPalace = (from.y() <= 3 && to.y() <= 3);
-        boolean isBothChoPalace = (from.y() >= 8 && to.y() >= 8);
-
-        return !(isBothHanPalace || isBothChoPalace);
+        return PALACE.isInDifferencePalace(from, to);
     }
 
     public boolean isOnlyGeneralAndGuard() {

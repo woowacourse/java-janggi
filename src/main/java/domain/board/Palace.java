@@ -24,6 +24,20 @@ public class Palace {
         return isOnHanPalaceCenter(position) || isOnChoPalaceCenter(position);
     }
 
+    public Position findPalaceCenter(Position from) {
+        if (from.y() <= HAN_PALACE_MAX_Y) {
+            return HAN_GENERAL;
+        }
+        return CHO_GENERAL;
+    }
+
+    public boolean isInDifferencePalace(Position from, Position to) {
+        boolean isBothHanPalace = isInHanPalace(from) && isInHanPalace(to);
+        boolean isBothChoPalace = isInChoPalace(from) && isInChoPalace(to);
+
+        return !(isBothHanPalace || isBothChoPalace);
+    }
+
     private boolean isInChoPalace(Position position) {
         return xIsInPalace(position) && yIsInChoPalace(position);
     }
@@ -50,12 +64,5 @@ public class Palace {
 
     private boolean isOnChoPalaceCenter(Position position) {
         return position.x() == PALACE_CENTER_X && position.y() == CHO_PALACE_CENTER_Y;
-    }
-
-    public Position findPalaceCenter(Position from) {
-        if (from.y() <= HAN_PALACE_MAX_Y) {
-            return HAN_GENERAL;
-        }
-        return CHO_GENERAL;
     }
 }
