@@ -1,14 +1,12 @@
 package domain.piece;
 
-import domain.board.MoveContext;
-import domain.board.PalaceArea;
+import domain.move.MoveContext;
 import domain.coordination.Coordination;
 import domain.coordination.MoveDelta;
 import domain.piece.error.PieceException;
 import java.util.List;
 
 public class Soldier extends Piece {
-    private static final MoveDelta ONE_STEP_DIAGONAL = new MoveDelta(1, 1);
     private static final List<MoveDelta> CHO_MOVABLE_LOCATION = List.of(
             new MoveDelta(-1, 0),
             new MoveDelta(0, -1),
@@ -54,7 +52,7 @@ public class Soldier extends Piece {
         if (movableLocation().contains(different)) {
             return;
         }
-        if (!canMoveForwardDiagonallyInEnemyPalace(moveContext, from, to)) {
+        if (!canMoveForwardDiagonallyInEnemyPalace(moveContext, from)) {
             throw new PieceException(IMPOSSIBLE_MOVE);
         }
     }
@@ -66,30 +64,11 @@ public class Soldier extends Piece {
         return HAN_MOVABLE_LOCATION;
     }
 
-    private boolean canMoveForwardDiagonallyInEnemyPalace(MoveContext moveContext, Coordination from, Coordination to) {
-        return isFromInEnemyPalace(moveContext)
-                && isToInEnemyPalace(moveContext)
-                && isDiagonalOneStepInPalace(moveContext, from, to)
-                && isForward(MoveDelta.between(from, to));
-    }
-
-    private boolean isFromInEnemyPalace(MoveContext moveContext) {
-        if (team.isCho()) {
-            return moveContext.fromPalaceArea() == PalaceArea.TOP;
-        }
-        return moveContext.fromPalaceArea() == PalaceArea.BOTTOM;
-    }
-
-    private boolean isToInEnemyPalace(MoveContext moveContext) {
-        if (team.isCho()) {
-            return moveContext.toPalaceArea() == PalaceArea.TOP;
-        }
-        return moveContext.toPalaceArea() == PalaceArea.BOTTOM;
-    }
-
-    private boolean isDiagonalOneStepInPalace(MoveContext moveContext, Coordination from, Coordination to) {
-        MoveDelta absolute = MoveDelta.between(from, to).absolute();
-        return ONE_STEP_DIAGONAL.equals(absolute) && moveContext.isPalaceDiagonalMove();
+    private boolean canMoveForwardDiagonallyInEnemyPalace(MoveContext moveContext, Coordination from) {
+        return moveContext.isFromInEnemyPalace(team)
+                && moveContext.isToInEnemyPalace(team)
+                && moveContext.isPalaceDiagonalOneStep()
+                && isForward(MoveDelta.between(from, moveContext.to()));
     }
 
     private boolean isForward(MoveDelta delta) {

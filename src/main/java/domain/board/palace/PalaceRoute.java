@@ -1,4 +1,4 @@
-package domain.board;
+package domain.board.palace;
 
 import domain.coordination.Coordination;
 import java.util.List;

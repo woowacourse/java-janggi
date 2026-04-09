@@ -1,4 +1,4 @@
-package domain.board;
+package domain.board.palace;
 
 public enum PalaceArea {
     TOP,

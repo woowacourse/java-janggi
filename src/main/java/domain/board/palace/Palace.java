@@ -1,6 +1,7 @@
-package domain.board;
+package domain.board.palace;
 
 import domain.coordination.Coordination;
+import domain.move.MoveContext;
 import java.util.List;
 import java.util.Optional;
 

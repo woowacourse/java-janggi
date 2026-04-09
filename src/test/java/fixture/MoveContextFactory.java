@@ -1,7 +1,7 @@
 package fixture;
 
-import domain.board.MoveContext;
-import domain.board.Palace;
+import domain.move.MoveContext;
+import domain.board.palace.Palace;
 import domain.coordination.Coordination;
 
 public class MoveContextFactory {

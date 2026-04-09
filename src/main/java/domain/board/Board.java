@@ -1,7 +1,9 @@
 package domain.board;
 
+import domain.board.palace.Palace;
 import domain.coordination.Coordination;
 import domain.game.Turn;
+import domain.move.MoveContext;
 import domain.piece.EmptyPiece;
 import domain.piece.Piece;
 import domain.piece.Team;

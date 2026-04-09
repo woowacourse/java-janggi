@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.board.MoveContext;
+import domain.move.MoveContext;
 import domain.coordination.Coordination;
 import domain.coordination.MoveDelta;
 import domain.piece.error.PieceException;

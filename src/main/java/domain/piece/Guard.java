@@ -1,14 +1,11 @@
 package domain.piece;
 
-import domain.board.MoveContext;
+import domain.move.MoveContext;
 import domain.coordination.Coordination;
-import domain.coordination.MoveDelta;
 import domain.piece.error.PieceException;
 import java.util.List;
 
 public class Guard extends Piece {
-    private static final MoveDelta ONE_STEP_DIAGONAL = new MoveDelta(1, 1);
-
     public Guard(Team team) {
         super(team);
     }
@@ -38,19 +35,6 @@ public class Guard extends Piece {
     }
 
     private boolean canMoveOneStepInPalace(MoveContext moveContext) {
-        Coordination from = moveContext.from();
-        Coordination to = moveContext.to();
-        return moveContext.isSamePalace()
-                && (isOrthogonalOneStep(from, to) || isDiagonalOneStepInPalace(moveContext, from, to));
-    }
-
-    private boolean isOrthogonalOneStep(Coordination from, Coordination to) {
-        MoveDelta absolute = MoveDelta.between(from, to).absolute();
-        return absolute.deltaColumn() + absolute.deltaRow() == 1;
-    }
-
-    private boolean isDiagonalOneStepInPalace(MoveContext moveContext, Coordination from, Coordination to) {
-        MoveDelta absolute = MoveDelta.between(from, to).absolute();
-        return ONE_STEP_DIAGONAL.equals(absolute) && moveContext.isPalaceDiagonalMove();
+        return moveContext.isOneStepMoveInSamePalace();
     }
 }
