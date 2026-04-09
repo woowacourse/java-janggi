@@ -77,7 +77,7 @@ public class GameService {
         }
     }
 
-    private <T> T executeWithTransaction(Transaction<T> task) {
+    private <T> T executeWithTransaction(TransactionTask<T> task) {
         try (
                 Connection connection = dataSource.getConnection()
         ) {
