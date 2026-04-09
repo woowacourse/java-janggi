@@ -40,7 +40,7 @@ public class JanggiController {
         while (janggiService.isGameContinued(currentJanggi)) {
             outputView.printGameStatus(GameStatus.from(currentJanggi));
 
-            currentJanggi = janggiService.updateBoardWith(
+            currentJanggi = janggiService.playTurn(
                     currentJanggi,
                     readFromPosition(),
                     readToPosition()

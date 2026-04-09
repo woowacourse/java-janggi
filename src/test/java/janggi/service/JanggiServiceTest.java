@@ -102,13 +102,13 @@ class JanggiServiceTest {
 
     @DisplayName("from에 기물이 없으면 예외가 발생한다.")
     @Test
-    void updateBoardWith_fail() {
+    void playTurn_fail() {
         //given
         gameDao.saveGame(null, "CHO");
 
         //when & then
         assertThatThrownBy(() ->
-                janggiService.updateBoardWith(
+                janggiService.playTurn(
                         Janggi.of(PlayingBoard.of(Map.of())),
                         new Position(Row.ONE, Column.ONE),
                         new Position(Row.TWO, Column.ONE)
@@ -119,7 +119,7 @@ class JanggiServiceTest {
 
     @DisplayName("from에 있는 기물을 to로 이동시킨 것을 반영해 보드를 업데이트 한다.")
     @Test
-    void updateBoardWith_success() {
+    void playTurn_success() {
         //given
         Position from = new Position(Row.NINE, Column.FIVE);
         Piece pieceAtFrom = new Jang(Team.CHO);
@@ -137,7 +137,7 @@ class JanggiServiceTest {
         Position to = new Position(Row.NINE, Column.SIX);
 
         //when
-        janggiService.updateBoardWith(
+        janggiService.playTurn(
                 janggi,
                 from,
                 to
@@ -156,7 +156,7 @@ class JanggiServiceTest {
 
     @DisplayName("원래 to에 있던 기물을 삭제한다.")
     @Test
-    void updateBoardWith_success_to_exist() {
+    void playTurn_success_to_exist() {
         //given
         Position from = new Position(Row.NINE, Column.FIVE);
         Piece pieceAtFrom = new Jang(Team.CHO);
@@ -175,7 +175,7 @@ class JanggiServiceTest {
         pieceDao.saveBoard(null, boardInfo, gameId);
 
         //when
-        Janggi updated = janggiService.updateBoardWith(
+        Janggi updated = janggiService.playTurn(
                 janggi,
                 from,
                 to

@@ -127,7 +127,7 @@ public class JanggiService {
         return !janggi.isGameOver();
     }
 
-    public Janggi updateBoardWith(
+    public Janggi playTurn(
             Janggi janggi,
             Position from,
             Position to
