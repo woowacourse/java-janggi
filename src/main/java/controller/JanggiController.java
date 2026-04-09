@@ -19,7 +19,8 @@ public class JanggiController {
 
     public void run() {
         JanggiBoard janggiBoard = new JanggiBoard(new JanggiBoardInitializer());
-        while (true) {
+        boolean isRunning = true;
+        while (isRunning) {
             try {
                 outputView.printBoard(JanggiBoardDto.from(janggiBoard));
                 Position from = inputMovePosition();
@@ -37,6 +38,9 @@ public class JanggiController {
                 }
                 janggiBoard.move(from, to, currentPiece);
                 outputView.printBoard(JanggiBoardDto.from(janggiBoard));
+                if (janggiBoard.isGameOver()) {
+                    isRunning = false;
+                }
             } catch (IllegalArgumentException e) {
                 outputView.printErrorMessage(e);
             }

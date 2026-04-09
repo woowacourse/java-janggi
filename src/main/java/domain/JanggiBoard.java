@@ -22,6 +22,12 @@ public class JanggiBoard implements PieceProvider {
         changeTurn();
     }
 
+    public boolean isGameOver() {
+        return janggiBoard.values().stream()
+                .filter(piece -> piece.getPieceType() == PieceType.KING)
+                .count() < 2;
+    }
+
     public Map<Position, Piece> getJanggiBoard() {
         return Collections.unmodifiableMap(janggiBoard);
     }
@@ -37,7 +43,6 @@ public class JanggiBoard implements PieceProvider {
         }
         turn = Team.CHO;
     }
-
 
     @Override
     public boolean isBlank(Position position) {
