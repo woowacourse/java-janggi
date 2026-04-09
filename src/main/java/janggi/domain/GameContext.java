@@ -20,11 +20,12 @@ public class GameContext {
         return board.hasGeneral(turnManager.currentTeamType());
     }
 
-    public void changeTurn() {
-        turnManager.changeTurn();
+    public String currentTeamTypeToName() {
+        return turnManager.currentTeamTypeToName();
     }
 
-    public String currentTeamTypeToName() {
+    public String currentWinTeamTypeToName() {
+        turnManager.changeTurn();
         return turnManager.currentTeamTypeToName();
     }
 
@@ -32,8 +33,9 @@ public class GameContext {
         return board.calculateMovablePositions(from);
     }
 
-    public void movePiece(Position from, Position to) {
+    public void makeMove(Position from, Position to) {
         board.movePiece(from, to);
+        turnManager.changeTurn();
     }
 
     public Map<Position, Piece> getPositionPieceMap() {

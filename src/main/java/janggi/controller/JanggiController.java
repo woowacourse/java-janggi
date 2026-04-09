@@ -51,8 +51,7 @@ public class JanggiController {
             playTurn(gameContext);
             gameDao.saveGame(gameContext);
         }
-        gameContext.changeTurn();
-        OutputView.printGameOverMessage(gameContext.currentTeamTypeToName());
+        OutputView.printGameOverMessage(gameContext.currentWinTeamTypeToName());
         gameDao.deleteGameRecord();
     }
 
@@ -74,8 +73,7 @@ public class JanggiController {
         List<Position> movable = gameContext.calculateMovablePositions(from);
         OutputView.printBoardWithMovable(BoardDto.from(gameContext), movable);
         Position to = RetryExecutor.retry(() -> inputToPosition(movable));
-        gameContext.movePiece(from, to);
-        gameContext.changeTurn();
+        gameContext.makeMove(from, to);
     }
 
     public Position findFromPosition(GameContext gameContext) {
