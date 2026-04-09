@@ -4,6 +4,7 @@ import domain.coordinate.Direction;
 import domain.coordinate.DirectionSequence;
 import domain.coordinate.Path;
 import domain.coordinate.Position;
+import domain.coordinate.Topology;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,7 @@ public class SequenceStrategy implements Strategy {
     }
 
     @Override
-    public List<Path> getPaths(Position start) {
+    public List<Path> getPaths(Position start, Topology topology) {
         List<Path> paths = new ArrayList<>();
         for (DirectionSequence sequence : sequences) {
             Path path = buildPath(start, sequence);

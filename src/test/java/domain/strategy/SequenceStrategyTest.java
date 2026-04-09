@@ -4,14 +4,18 @@ import domain.coordinate.Direction;
 import domain.coordinate.DirectionSequence;
 import domain.coordinate.Path;
 import domain.coordinate.Position;
+import domain.coordinate.Topology;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class SequenceStrategyTest {
+
+    private static final Topology DEFAULT_TOPOLOGY = new Topology(Map.of());
 
     @Test
     @DisplayName("방향 시퀀스에 따라 경유지를 포함한 경로를 생성한다.")
@@ -24,7 +28,7 @@ class SequenceStrategyTest {
         Position start = new Position(4, 4);
 
         // when
-        List<Path> paths = strategy.getPaths(start);
+        List<Path> paths = strategy.getPaths(start, DEFAULT_TOPOLOGY);
 
         // then
         assertThat(paths).hasSize(2);
@@ -47,7 +51,7 @@ class SequenceStrategyTest {
         Position start = new Position(0, 0);
 
         // when
-        List<Path> paths = strategy.getPaths(start);
+        List<Path> paths = strategy.getPaths(start, DEFAULT_TOPOLOGY);
 
         // then
         assertThat(paths).isEmpty();
@@ -70,7 +74,7 @@ class SequenceStrategyTest {
         Position start = new Position(4, 4);
 
         // when
-        List<Path> paths = strategy.getPaths(start);
+        List<Path> paths = strategy.getPaths(start, DEFAULT_TOPOLOGY);
 
         // then
         assertThat(paths).hasSize(8);

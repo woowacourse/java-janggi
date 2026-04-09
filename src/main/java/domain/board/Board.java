@@ -2,6 +2,7 @@ package domain.board;
 
 import domain.CellSnapshot;
 import domain.coordinate.Position;
+import domain.coordinate.Topology;
 import domain.piece.EmptyPiece;
 import domain.piece.Piece;
 import domain.piece.Pieces;
@@ -15,12 +16,19 @@ public class Board implements Pieces {
     private static final BoardBounds BOUNDS = BoardBounds.JANGGI;
 
     private final Map<Position, Piece> board;
+    private final Topology topology;
 
-    public Board(Map<Position, Piece> initialize) {
+    public Board(Map<Position, Piece> initialize, Topology topology) {
+        this.topology = topology;
         board = new HashMap<>();
         for (Position position : BOUNDS.allPositions()) {
             board.put(position, initialize.getOrDefault(position, EmptyPiece.getInstance()));
         }
+    }
+
+    @Override
+    public Topology getTopology() {
+        return topology;
     }
 
     public void move(Position start, Position destination) {

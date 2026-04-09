@@ -16,14 +16,14 @@ class BoardTest {
     @DisplayName("장기판을 생성한다.")
     void BoardInitializeTest() {
         // given - when - then
-        assertDoesNotThrow(() -> new Board(basicBoardInitializer.initialize()));
+        assertDoesNotThrow(() -> new Board(basicBoardInitializer.initialize(), basicBoardInitializer.createTopology()));
     }
 
     @Test
     @DisplayName("장기판 범위 내의 좌표 입력은 정상 작동한다.")
     void moveTest() {
         // given
-        Board board = new Board(basicBoardInitializer.initialize());
+        Board board = new Board(basicBoardInitializer.initialize(), basicBoardInitializer.createTopology());
         Position start = new Position(9, 0);
         Position destination = new Position(8, 0);
 

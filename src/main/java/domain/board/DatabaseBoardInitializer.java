@@ -2,6 +2,7 @@ package domain.board;
 
 import domain.Side;
 import domain.coordinate.Position;
+import domain.coordinate.Topology;
 import domain.piece.Piece;
 import java.util.Map;
 import repository.GameRepository;
@@ -19,6 +20,11 @@ public class DatabaseBoardInitializer implements BoardInitializer {
     @Override
     public Map<Position, Piece> initialize() {
         return pieceRepository.getPiecesPosition(); // 이미 구현됨
+    }
+
+    @Override
+    public Topology createTopology() {
+        return new BasicBoardInitializer().createTopology();
     }
 
     @Override

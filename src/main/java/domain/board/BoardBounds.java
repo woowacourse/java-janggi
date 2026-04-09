@@ -52,4 +52,8 @@ public final class BoardBounds {
     public int colSize() {
         return colSize;
     }
+
+    public List<PalaceBounds> getPalaces() {
+        return palaces;
+    }
 }
