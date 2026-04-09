@@ -35,7 +35,7 @@ public class GameRepository {
     public Persisted<JanggiGame> save(JanggiGame game) {
         return transaction.execute(connection -> {
             Persisted<JanggiGame> persistedGame = saveGame(game, connection);
-            pieceRepository.save(game.getBoard(), persistedGame.id(), connection);
+            pieceRepository.save(game.getCurrentPieces(), persistedGame.id(), connection);
 
             return persistedGame;
         });
@@ -138,9 +138,10 @@ public class GameRepository {
             Connection connection
     ) throws SQLException {
         JanggiGame game = persistedGame.data();
-        Map<Intersection, Piece> pieces = game.getBoard();
+        Map<Intersection, Piece> piecesBeforeLastMove = game.getPiecesBeforeLastMove();
+        Map<Intersection, Piece> currentPieces = game.getCurrentPieces();
 
-        pieceRepository.update(pieces, persistedGame.id(), connection);
+        pieceRepository.update(currentPieces, piecesBeforeLastMove, persistedGame.id(), connection);
     }
 
     private void deleteGame(

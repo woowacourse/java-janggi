@@ -79,4 +79,8 @@ public class AlivePieces {
                 .mapToInt(Piece::getScore)
                 .sum();
     }
+
+    public AlivePieces copy() {
+        return new AlivePieces(alivePieces);
+    }
 }

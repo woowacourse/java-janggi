@@ -53,4 +53,8 @@ public final class Board {
     public Map<Intersection, Piece> getPieces() {
         return alivePieces.get();
     }
+
+    public Board copy() {
+        return new Board(alivePieces.copy());
+    }
 }

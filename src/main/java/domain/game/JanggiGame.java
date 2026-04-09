@@ -12,7 +12,8 @@ public final class JanggiGame {
 
     private static final Side FIRST_TURN = Side.CHO;
 
-    private final Board board;
+    private Board boardBeforeLastMove;
+    private final Board currentBoard;
     private Side currentTurn;
 
     public JanggiGame(Board board) {
@@ -23,14 +24,15 @@ public final class JanggiGame {
             Board board,
             Side currentTurn
     ) {
-        this.board = board;
+        this.boardBeforeLastMove = board;
+        this.currentBoard = board;
         this.currentTurn = currentTurn;
     }
 
     public List<Intersection> getMovableIntersections(Intersection startIntersection) {
         validatePlaying();
 
-        return board.getMovableIntersections(startIntersection, currentTurn);
+        return currentBoard.getMovableIntersections(startIntersection, currentTurn);
     }
 
     public void movePiece(
@@ -39,14 +41,15 @@ public final class JanggiGame {
     ) {
         validatePlaying();
 
-        board.movePiece(startIntersection, destination, currentTurn);
+        boardBeforeLastMove = currentBoard.copy();
+        currentBoard.movePiece(startIntersection, destination, currentTurn);
 
         currentTurn = currentTurn.nextTurn();
     }
 
     public boolean isPlaying() {
         return Arrays.stream(Side.values())
-                .allMatch(board::hasRoyalPiece);
+                .allMatch(currentBoard::hasRoyalPiece);
     }
 
     public Side getWinner() {
@@ -55,7 +58,7 @@ public final class JanggiGame {
         }
 
         return Arrays.stream(Side.values())
-                .filter(board::hasRoyalPiece)
+                .filter(currentBoard::hasRoyalPiece)
                 .findAny()
                 .orElseThrow(() -> new UnexpectedException("승자를 조회할 수 없습니다."));
     }
@@ -65,11 +68,15 @@ public final class JanggiGame {
     }
 
     public double getTotalScore(Side side) {
-        return side.calculateTotalScore(board.getTotalScore(side));
+        return side.calculateTotalScore(currentBoard.getTotalScore(side));
     }
 
-    public Map<Intersection, Piece> getBoard() {
-        return board.getPieces();
+    public Map<Intersection, Piece> getPiecesBeforeLastMove() {
+        return boardBeforeLastMove.getPieces();
+    }
+
+    public Map<Intersection, Piece> getCurrentPieces() {
+        return currentBoard.getPieces();
     }
 
     private void validatePlaying() {

@@ -71,7 +71,7 @@ public class JanggiController {
     }
 
     private void progressTurn(JanggiGame game) {
-        Map<Intersection, Piece> board = game.getBoard();
+        Map<Intersection, Piece> board = game.getCurrentPieces();
         Side currentTurn = game.getCurrentTurn();
 
         Intersection startIntersection = view.readSelectPieceToMove(board, currentTurn);
