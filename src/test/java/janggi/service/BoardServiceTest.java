@@ -70,10 +70,10 @@ public class BoardServiceTest {
                 GameEntity.from(gameId, "게임 1", 10, List.of(TeamType.BLUE, TeamType.RED)));
             Team redTeam = new RedTeam(new InnerElephantSetupPolicy());
             Team blueTeam = new BlueTeam(new InnerElephantSetupPolicy());
-            Map<Position, Piece> expected = BoardGenerator.generate(redTeam, blueTeam)
+            Map<Position, Piece> expected = BoardGenerator.generate(blueTeam, redTeam)
                 .getPositionPieceMap();
 
-            Map<Position, Piece> actual = boardService.loadOrCreateBoard(gameId, expected);
+            Map<Position, Piece> actual = boardService.loadOrCreateBoard(gameId, List.of(blueTeam, redTeam));
 
             assertThat(actual).usingRecursiveComparison()
                 .isEqualTo(expected);
@@ -85,8 +85,10 @@ public class BoardServiceTest {
             long gameId = 1;
             generateTestData();
             Map<Position, Piece> expected = BoardMapper.toDomain(boardCellRepository.findAllByGameId(gameId));
+            Team redTeam = new RedTeam(new InnerElephantSetupPolicy());
+            Team blueTeam = new BlueTeam(new InnerElephantSetupPolicy());
 
-            Map<Position, Piece> actual = boardService.loadOrCreateBoard(gameId, expected);
+            Map<Position, Piece> actual = boardService.loadOrCreateBoard(gameId, List.of(blueTeam, redTeam));
 
             assertThat(actual).usingRecursiveComparison()
                 .isEqualTo(expected);

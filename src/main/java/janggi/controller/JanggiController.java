@@ -29,8 +29,6 @@ public class JanggiController {
     private final GameService gameService;
     private final BoardService boardService;
 
-    private long gameId;
-
     public JanggiController(
         final GameService gameService,
         final BoardService boardService
@@ -41,10 +39,12 @@ public class JanggiController {
 
     public void run() {
         final GameSelectCommand gameSelectCommand = selectGame();
-        final TurnManager turnManager = loadOrSaveTurnManager(gameSelectCommand);
-        final Board board = loadOrSaveBoard(turnManager);
+        final Pair<Long, TurnManager> idTurnManagerPair = loadOrSaveTurnManager(gameSelectCommand);
+        final long gameId = idTurnManagerPair.left();
+        final Board board = loadOrSaveBoard(gameId, idTurnManagerPair.right());
+
         OutputView.printBoard(BoardDto.from(board, List.of()));
-        playGame(turnManager, board);
+        playGame(gameId, board);
         OutputView.printGameResult(GameResultDto.from(board));
         gameService.closeGame(gameId);
     }
@@ -57,35 +57,34 @@ public class JanggiController {
         return RetryExecutor.retry(this::readGameSelectCommand);
     }
 
-    private TurnManager loadOrSaveTurnManager(final GameSelectCommand gameSelectCommand) {
+    private Pair<Long, TurnManager> loadOrSaveTurnManager(final GameSelectCommand gameSelectCommand) {
         if (gameSelectCommand.isGenerateGame()) {
             return saveTurnManager();
         }
         return loadTurnManager(gameSelectCommand);
     }
 
-    private TurnManager saveTurnManager() {
+    private Pair<Long, TurnManager> saveTurnManager() {
         OutputView.printGameCreationMessage();
         final String gameName = RetryExecutor.retry(this::readGameName);
         final TurnManager turnManager = TurnManager.init(setupTeam(TeamType.BLUE),
             setupTeam(TeamType.RED));
-        gameId = gameService.createNewGame(gameName, turnManager);
-        return turnManager;
+        final long gameId = gameService.createNewGame(gameName, turnManager);
+        return new Pair<>(gameId, turnManager);
     }
 
-    private TurnManager loadTurnManager(final GameSelectCommand gameSelectCommand) {
+    private Pair<Long, TurnManager> loadTurnManager(final GameSelectCommand gameSelectCommand) {
         final Pair<String, TurnManager> game =
             gameService.loadGame(gameSelectCommand.getSelectedGameId());
         OutputView.printGameLoadingMessage(game.left());
-        gameId = gameSelectCommand.getSelectedGameId();
-        return game.right();
+        final long gameId = gameSelectCommand.getSelectedGameId();
+        return new Pair<>(gameId, game.right()) ;
     }
 
-    public Board loadOrSaveBoard(final TurnManager turnManager) {
+    public Board loadOrSaveBoard(final long gameId, final TurnManager turnManager) {
         final List<Team> teams = turnManager.getTeams();
-        final Board board = BoardGenerator.generate(teams.get(0), teams.get(1));
 
-        return new Board(boardService.loadOrCreateBoard(gameId, board.getPositionPieceMap()));
+        return new Board(boardService.loadOrCreateBoard(gameId, teams));
     }
 
     private Team setupTeam(final TeamType teamType) {
@@ -94,9 +93,9 @@ public class JanggiController {
         return TeamGenerator.generate(teamType, setupCommand.toPolicy());
     }
 
-    private void playGame(final TurnManager turnManager, final Board board) {
+    private void playGame(final long gameId, final Board board) {
         final BoardMediator boardMediator = new BoardMediatorImpl(board);
-        while (!board.isGameOver()) {
+        while (!boardService.isOver(gameId)) {
             final Team currentTeam = gameService.getCurrentTeam(gameId);
             OutputView.printTurnStatus(currentTeam);
             final Position from = RetryExecutor.retry(this::readFromPosition, currentTeam,
@@ -104,8 +103,7 @@ public class JanggiController {
             final List<Position> movablePositions = displayMovablePositions(from,
                 board, boardMediator);
             final Position to = RetryExecutor.retry(this::readTargetPosition, movablePositions);
-            turnManager.progressToNext();
-            gameService.progressTurn(gameId, turnManager, from, to,
+            gameService.progressTurn(gameId, from, to,
                 boardMediator.getPieceByPosition(from));
             board.movePiece(from, to);
             OutputView.printBoard(BoardDto.from(board, List.of()));

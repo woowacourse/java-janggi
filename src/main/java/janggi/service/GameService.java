@@ -2,12 +2,12 @@ package janggi.service;
 
 import janggi.domain.Position;
 import janggi.domain.game.GameStatus;
+import janggi.domain.game.TurnManager;
 import janggi.domain.piece.Piece;
 import janggi.domain.team.Team;
 import janggi.domain.team.TeamType;
-import janggi.domain.game.TurnManager;
-import janggi.infrastructure.entity.GameEntity;
 import janggi.global.Pair;
+import janggi.infrastructure.entity.GameEntity;
 import janggi.infrastructure.mapper.TurnManagerMapper;
 import janggi.infrastructure.repository.BoardCellRepository;
 import janggi.infrastructure.repository.GameRepository;
@@ -64,20 +64,20 @@ public class GameService {
 
     public void progressTurn(
         final long gameId,
-        final TurnManager turnManager,
         final Position from,
         final Position to,
         final Piece piece
     ) {
+        final TurnManager turnManager =
+            TurnManagerMapper.toDomain(gameRepository.findById(gameId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 id를 가진 게임이 존재하지 않습니다.")));
+        turnManager.progressToNext();
         boardCellRepository.upsertByPositionAndGameId(to, gameId, piece);
         boardCellRepository.deleteByPositionAndGameId(from, gameId);
         gameRepository.updateById(
             gameId,
             TurnManagerMapper.toEntity(
-                turnManager.getTurnTaken(),
-                turnManager.getTeams(),
-                GameStatus.IN_PROGRESS
-            )
+                turnManager.getTurnTaken(), turnManager.getTeams(), GameStatus.IN_PROGRESS)
         );
     }
 

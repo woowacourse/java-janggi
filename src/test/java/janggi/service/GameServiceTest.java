@@ -145,11 +145,9 @@ class GameServiceTest {
         Piece piece = new Soldier(TeamType.RED);
         gameRepository.save(GameEntity.from(gameId, "게임 1", 33, List.of(TeamType.RED, TeamType.BLUE)));
         boardCellRepository.save(BoardCellEntity.from(gameId, from, piece));
-        TurnManager turnManager = TurnManagerMapper.toDomain(gameRepository.findById(gameId).get());
         GameEntity expectedGameEntity = GameEntity.from(gameId, "게임 1", 34, List.of(TeamType.BLUE, TeamType.RED));
 
-        turnManager.progressToNext();
-        gameService.progressTurn(gameId, turnManager, from, to, piece);
+        gameService.progressTurn(gameId, from, to, piece);
         GameEntity actualGameEntity = gameRepository.findById(gameId).get();
 
         assertAll(
