@@ -1,4 +1,4 @@
-package janggi;
+package janggi.domain;
 
 import janggi.exception.business.InvalidGameStatusException;
 

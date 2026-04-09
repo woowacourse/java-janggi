@@ -1,6 +1,6 @@
 package janggi.repository;
 
-import janggi.GameStatus;
+import janggi.domain.GameStatus;
 import janggi.domain.JanggiGame;
 import janggi.domain.board.Board;
 import janggi.domain.piece.Piece;
@@ -9,12 +9,15 @@ import janggi.domain.piece.Team;
 import janggi.domain.position.Column;
 import janggi.domain.position.Position;
 import janggi.domain.position.Row;
+import janggi.dto.GameInformationDto;
 import janggi.exception.database.GameCreationException;
 import janggi.exception.database.GameLoadException;
 import janggi.exception.database.GameUpdateException;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -70,20 +73,47 @@ public class JdbcJanggiRepository implements JanggiRepository {
     }
 
     @Override
-    public Optional<JanggiGame> findInProgressGame(Connection conn) {
-        String gameSql = "SELECT * FROM Game WHERE state = 'PROGRESS' ORDER BY game_id ASC LIMIT 1";
+    public List<GameInformationDto> findAll(Connection conn) {
+        String sql = "SELECT game_id, state, turn FROM Game ORDER BY game_id DESC";
+        List<GameInformationDto> gameInformations = new ArrayList<>();
 
-        try (PreparedStatement pstmt = conn.prepareStatement(gameSql);
+        try (PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
 
-            if (rs.next()) {
-                int gameId = rs.getInt("game_id");
-                String turn = rs.getString("turn");
-                String state = rs.getString("state");
+            while (rs.next()) {
+                gameInformations.add(new GameInformationDto(
+                        rs.getInt("game_id"),
+                        rs.getString("state"),
+                        rs.getString("turn")
+                ));
+            }
+        } catch (SQLException e) {
+            throw new GameLoadException(e);
+        }
+        return gameInformations;
+    }
 
-                Board board = fetchBoard(conn, gameId);
+    @Override
+    public Optional<JanggiGame> findById(Connection conn, int gameId) {
+        String sql = "SELECT * FROM Game WHERE game_id = ?";
 
-                return Optional.of(new JanggiGame(gameId, board, Team.from(turn), GameStatus.from(state)));
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, gameId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    String turn = rs.getString("turn");
+                    String state = rs.getString("state");
+
+                    Board board = fetchBoard(conn, gameId);
+
+                    return Optional.of(new JanggiGame(
+                            gameId,
+                            board,
+                            Team.from(turn),
+                            GameStatus.from(state)
+                    ));
+                }
             }
         } catch (SQLException e) {
             throw new GameLoadException(e);

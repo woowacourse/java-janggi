@@ -1,6 +1,7 @@
 package janggi.view;
 
 import janggi.dto.BoardDto;
+import janggi.dto.GameInformationDto;
 import janggi.dto.PieceDto;
 import janggi.dto.TeamInputDto;
 
@@ -27,6 +28,40 @@ public class OutputView {
 
     public void printStartMessage() {
         System.out.println("게임을 시작하겠습니다.");
+    }
+
+    public void printMainMenu() {
+        System.out.println("[ 메인 메뉴 ]");
+        System.out.println("1. 새 게임");
+        System.out.println("2. 게임 목록");
+        System.out.println("3. 종료");
+        System.out.println("> 메뉴 번호를 입력하세요:");
+    }
+
+    public void printGameList(List<GameInformationDto> games) {
+        System.out.println("[ 게임 목록 ]");
+
+        if (games.isEmpty()) {
+            System.out.println("대국 기록이 없습니다.");
+            return;
+        }
+
+        for (GameInformationDto game : games) {
+            System.out.printf("%d번방 %s %s턴\n",
+                    game.gameId(),
+                    game.status(),
+                    game.turn()
+            );
+        }
+        System.out.println();
+    }
+
+    public void printNotification() {
+        System.out.println("게임을 중단하고 메인 메뉴로 돌아갑니다.");
+    }
+
+    public void printReadOnlyModeMessage() {
+        System.out.println("종료된 게임입니다.");
     }
 
     public void printBusinessErrorMessage(String errorMessage) {

@@ -1,6 +1,6 @@
 package janggi.repository;
 
-import janggi.GameStatus;
+import janggi.domain.GameStatus;
 import janggi.domain.JanggiGame;
 import janggi.domain.board.Board;
 import janggi.domain.piece.Piece;

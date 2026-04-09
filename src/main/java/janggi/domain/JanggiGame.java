@@ -1,6 +1,5 @@
 package janggi.domain;
 
-import janggi.GameStatus;
 import janggi.domain.board.Board;
 import janggi.domain.piece.Team;
 import janggi.domain.position.Position;
@@ -30,6 +29,10 @@ public class JanggiGame {
 
     public void assignId(Integer gameId) {
         this.gameId = gameId;
+    }
+
+    public boolean isFinished() {
+        return gameStatus.isEnd();
     }
 
     public void move(Position from, Position to) {
