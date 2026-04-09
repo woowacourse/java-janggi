@@ -2,7 +2,7 @@ package janggi.domain.game.rule;
 
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Score;
-import janggi.domain.piece.fixed.General;
+import janggi.domain.piece.single.General;
 import janggi.domain.point.Point;
 import janggi.domain.side.Side;
 import java.util.Map;

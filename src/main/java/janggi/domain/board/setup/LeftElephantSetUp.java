@@ -1,8 +1,8 @@
 package janggi.domain.board.setup;
 
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.fixed.Elephant;
-import janggi.domain.piece.fixed.Horse;
+import janggi.domain.piece.stepped.Elephant;
+import janggi.domain.piece.stepped.Horse;
 import janggi.domain.point.Point;
 import janggi.domain.side.Side;
 import java.util.Map;

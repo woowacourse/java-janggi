@@ -3,13 +3,13 @@ package janggi.domain.board.setup;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.fixed.Advisor;
-import janggi.domain.piece.fixed.Elephant;
-import janggi.domain.piece.fixed.General;
-import janggi.domain.piece.fixed.Horse;
-import janggi.domain.piece.fixed.Soldier;
 import janggi.domain.piece.linear.Cannon;
 import janggi.domain.piece.linear.Chariot;
+import janggi.domain.piece.single.Advisor;
+import janggi.domain.piece.stepped.Elephant;
+import janggi.domain.piece.single.General;
+import janggi.domain.piece.stepped.Horse;
+import janggi.domain.piece.single.Soldier;
 import janggi.domain.point.Point;
 import janggi.domain.side.Side;
 import janggi.view.BoardSetUpFormat;

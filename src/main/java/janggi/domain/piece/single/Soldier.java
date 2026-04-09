@@ -1,4 +1,4 @@
-package janggi.domain.piece.fixed;
+package janggi.domain.piece.single;
 
 import janggi.domain.path.CandidatePath;
 import janggi.domain.path.Direction;
@@ -6,13 +6,14 @@ import janggi.domain.path.Movement;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceName;
 import janggi.domain.piece.Score;
+import janggi.domain.piece.stepped.SteppedPiece;
 import janggi.domain.point.Point;
 import janggi.domain.side.Side;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Soldier extends FixedPiece {
+public class Soldier extends SteppedPiece {
     private static final PieceName PIECE_NAME = PieceName.SOLDIER;
     private static final Score PIECE_SCORE = new Score(2);
 

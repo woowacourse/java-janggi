@@ -14,7 +14,7 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class Board {
+public class Board implements BoardInfo {
     private final Map<Point, Piece> pieces;
 
     protected Board(Map<Point, Piece> pieces) {
@@ -102,4 +102,16 @@ public class Board {
         return Optional.ofNullable(pieces.get(point));
     }
 
+    @Override
+    public boolean isEmpty(Point point) {
+        return getPieceAt(point).isEmpty();
+    }
+
+    @Override
+    public boolean isSamePiece(Point point, Piece piece) {
+        Piece pointPiece = getPieceAt(point)
+                .orElseThrow(() -> new IllegalStateException("point에 Piece가 없어, 같은 기물인지 확인 할 수 없습니다."));
+
+        return piece.equals(pointPiece);
+    }
 }

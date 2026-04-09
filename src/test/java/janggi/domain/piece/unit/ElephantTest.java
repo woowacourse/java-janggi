@@ -6,7 +6,7 @@ import janggi.domain.path.CandidatePath;
 import janggi.domain.path.Direction;
 import janggi.domain.path.Movement;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.fixed.Elephant;
+import janggi.domain.piece.stepped.Elephant;
 import janggi.domain.point.Point;
 import janggi.domain.side.Side;
 import java.util.List;

@@ -6,7 +6,7 @@ import janggi.domain.path.CandidatePath;
 import janggi.domain.path.Direction;
 import janggi.domain.path.Movement;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.fixed.Soldier;
+import janggi.domain.piece.single.Soldier;
 import janggi.domain.point.Point;
 import janggi.domain.side.Side;
 import java.util.Collections;

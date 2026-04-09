@@ -1,4 +1,4 @@
-package janggi.domain.piece.fixed;
+package janggi.domain.piece.single;
 
 import janggi.domain.path.CandidatePath;
 import janggi.domain.path.Movement;
@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class General extends FixedPiece {
+public class General extends SinglePiece {
     private static final PieceName PIECE_NAME = PieceName.GENERAL;
     private static final Score PIECE_SCORE = Score.NONE;
 
