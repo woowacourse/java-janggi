@@ -4,7 +4,7 @@ import janggi.JanggiGame2;
 
 import java.util.List;
 
-public interface GameDao {
+public interface GameRepository2 {
 
     List<GameInfo2> findAllGames();
 

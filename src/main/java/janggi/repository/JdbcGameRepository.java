@@ -6,6 +6,7 @@ import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
 import janggi.domain.team.Team;
+import janggi.exception.DataAccessException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,11 +14,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class JdbcGameDao implements GameDao {
+public class JdbcGameRepository implements GameRepository2 {
 
     private final Connection conn;
 
-    public JdbcGameDao(Connection conn) {
+    public JdbcGameRepository(Connection conn) {
         this.conn = conn;
     }
 
@@ -26,20 +27,9 @@ public class JdbcGameDao implements GameDao {
         String sql = "SELECT id, updated_at, han_score, cho_score, current_turn, winner FROM game ORDER BY updated_at DESC";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             ResultSet rs = pstmt.executeQuery();
-            List<GameInfo2> games = new ArrayList<>();
-            while (rs.next()) {
-                games.add(new GameInfo2(
-                        rs.getLong("id"),
-                        rs.getTimestamp("updated_at").toLocalDateTime(),
-                        rs.getDouble("han_score"),
-                        rs.getDouble("cho_score"),
-                        Team.valueOf(rs.getString("current_turn")),
-                        Team.valueOf(rs.getString("winner"))
-                ));
-            }
-            return games;
+            return toGameInfos(rs);
         } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] DB 게임 목록 조회 실패", e);
+            throw new DataAccessException("[ERROR] DB 게임 목록 조회 실패", e);
         }
     }
 
@@ -65,6 +55,21 @@ public class JdbcGameDao implements GameDao {
         return new JanggiGame2(BoardFactory.restore(pieces), currentTeam);
     }
 
+    private List<GameInfo2> toGameInfos(ResultSet rs) throws SQLException {
+        List<GameInfo2> games = new ArrayList<>();
+        while (rs.next()) {
+            games.add(new GameInfo2(
+                    rs.getLong("id"),
+                    rs.getTimestamp("updated_at").toLocalDateTime(),
+                    rs.getDouble("han_score"),
+                    rs.getDouble("cho_score"),
+                    Team.valueOf(rs.getString("current_turn")),
+                    Team.valueOf(rs.getString("winner"))
+            ));
+        }
+        return games;
+    }
+
     private long insertGame(JanggiGame2 game) {
         String sql = "INSERT INTO game (current_turn, winner, han_score, cho_score) VALUES (?, ?, ?, ?)";
         try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -77,7 +82,7 @@ public class JdbcGameDao implements GameDao {
             rs.next();
             return rs.getLong(1);
         } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] DB 새로운 게임 추가 실패", e);
+            throw new DataAccessException("[ERROR] DB 새로운 게임 추가 실패", e);
         }
     }
 
@@ -89,7 +94,7 @@ public class JdbcGameDao implements GameDao {
             }
             pstmt.executeBatch();
         } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] DB 기물 저장 실패", e);
+            throw new DataAccessException("[ERROR] DB 기물 저장 실패", e);
         }
     }
 
@@ -115,7 +120,7 @@ public class JdbcGameDao implements GameDao {
             pstmt.setLong(5, gameId);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] DB 게임 정보 업데이트 실패", e);
+            throw new DataAccessException("[ERROR] DB 게임 정보 업데이트 실패", e);
         }
     }
 
@@ -125,7 +130,7 @@ public class JdbcGameDao implements GameDao {
             pstmt.setLong(1, gameId);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] DB 기물 삭제 실패", e);
+            throw new DataAccessException("[ERROR] DB 기물 삭제 실패", e);
         }
     }
 
@@ -135,11 +140,11 @@ public class JdbcGameDao implements GameDao {
             pstmt.setLong(1, gameId);
             ResultSet rs = pstmt.executeQuery();
             if (!rs.next()) {
-                throw new RuntimeException("[ERROR] 해당 게임이 존재하지 않습니다.");
+                throw new IllegalArgumentException("[ERROR] 해당 게임이 존재하지 않습니다.");
             }
             return Team.valueOf(rs.getString("current_turn"));
         } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] DB 게임 조회 실패", e);
+            throw new DataAccessException("[ERROR] DB 게임 조회 실패", e);
         }
     }
 
@@ -157,7 +162,7 @@ public class JdbcGameDao implements GameDao {
             }
             return pieces;
         } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] DB 기물 조회 실패", e);
+            throw new DataAccessException("[ERROR] DB 기물 조회 실패", e);
         }
     }
 }

@@ -3,6 +3,7 @@ package janggi;
 import janggi.domain.board.PieceSetup;
 import janggi.domain.position.Movement;
 import janggi.domain.position.Position;
+import janggi.exception.DataAccessException;
 import janggi.service.JanggiService;
 import janggi.view.InputView;
 import janggi.view.OutputView;
@@ -47,6 +48,8 @@ public class JanggiController2 {
                 return false;
             } catch (NumberFormatException e) {
                 outputView.printError("[ERROR] 올바른 명령어를 입력해주세요.");
+            } catch (DataAccessException e) {
+                outputView.printError(e.getMessage());
             }
         }
     }
@@ -85,7 +88,7 @@ public class JanggiController2 {
                 }
                 game = playTurn(gameId, positions);
                 printBoardAndScore(game);
-            } catch (IllegalArgumentException e) {
+            } catch (IllegalArgumentException | DataAccessException e) {
                 outputView.printError(e.getMessage());
             }
         }
