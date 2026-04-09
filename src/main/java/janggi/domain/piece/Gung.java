@@ -28,7 +28,7 @@ public class Gung extends StepPiece {
     }
 
     private void validatePalace(Position position) {
-        if (!position.isPalace()) {
+        if (!palaceTopology.isPalace(position)) {
             throw new IllegalArgumentException(GUNG_MOVE_OUTSIDE_PALACE_MESSAGE);
         }
     }

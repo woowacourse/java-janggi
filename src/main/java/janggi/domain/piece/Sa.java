@@ -28,7 +28,7 @@ public class Sa extends StepPiece {
     }
 
     private void validatePalace(Position position){
-        if(!position.isPalace()) {
+        if(!palaceTopology.isPalace(position)) {
             throw new IllegalArgumentException(SA_MOVE_OUTSIDE_PALACE_MESSAGE);
         }
     }

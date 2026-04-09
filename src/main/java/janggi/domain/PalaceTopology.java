@@ -4,6 +4,15 @@ import java.util.List;
 import java.util.Map;
 
 public class PalaceTopology {
+    private static final int PALACE_HAN_START_ROW = 1;
+    private static final int PALACE_HAN_START_COL = 4;
+    private static final int PALACE_HAN_END_ROW = 3;
+    private static final int PALACE_HAN_END_COL = 6;
+
+    private static final int PALACE_CHO_START_ROW = 8;
+    private static final int PALACE_CHO_START_COL = 4;
+    private static final int PALACE_CHO_END_ROW = 10;
+    private static final int PALACE_CHO_END_COL = 6;
     private final Map<Position, List<List<Movement>>> diagonalMovements;
 
     public PalaceTopology(Map<Position, List<List<Movement>>> diagonalMovements) {
@@ -67,5 +76,19 @@ public class PalaceTopology {
 
     public List<List<Movement>> diagonalLineMovements(Position position) {
         return diagonalMovements.getOrDefault(position, List.of());
+    }
+
+    public boolean isPalace(Position position) {
+        return isHanPalace(position) || isChoPalace(position);
+    }
+
+    public boolean isHanPalace(Position position) {
+        return PALACE_HAN_START_ROW <= position.x() && position.x() <= PALACE_HAN_END_ROW
+                && PALACE_HAN_START_COL <= position.y() && position.y() <= PALACE_HAN_END_COL;
+    }
+
+    public boolean isChoPalace(Position position) {
+        return PALACE_CHO_START_ROW <= position.x() && position.x() <= PALACE_CHO_END_ROW
+                && PALACE_CHO_START_COL <= position.y() && position.y() <= PALACE_CHO_END_COL;
     }
 }
