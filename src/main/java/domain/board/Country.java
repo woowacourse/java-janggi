@@ -19,6 +19,8 @@ public enum Country {
 
     public abstract boolean isInPalace(Position position);
 
+    private static final String NOT_EXIST_COUNTRY_DB_VALUE = "[ERROR] Country에 일치하는 값이 존재하지 않습니다.";
+
     private final String dbValue;
 
     Country(String dbValue) {
@@ -29,7 +31,7 @@ public enum Country {
         return Arrays.stream(Country.values())
                 .filter(country -> country.dbValue.equals(dbValue))
                 .findAny()
-                .orElseThrow(() -> new IllegalStateException("[ERROR] Country에 일치하는 값이 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalStateException(NOT_EXIST_COUNTRY_DB_VALUE));
     }
 
     public String getDbValue() {

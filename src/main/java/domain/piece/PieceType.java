@@ -49,11 +49,14 @@ public enum PieceType {
     EMPTY("empty", 0) {
         @Override
         public Piece createPiece(Country country) {
-            throw new IllegalStateException("[ERROR] 빈 칸은 기물을 생성할 수 없습니다.");
+            throw new IllegalStateException(EMPTY_SPACE_CANT_MAKE_PIECE);
         }
     };
 
     public abstract Piece createPiece(Country country);
+
+    private static final String EMPTY_SPACE_CANT_MAKE_PIECE = "[ERROR] 빈 칸은 기물을 생성할 수 없습니다.";
+    private static final String NOT_EXIST_PIECE_TYPE_DB_VALUE = "[ERROR] PieceType에 일치하는 값이 존재하지 않습니다.";
 
     private final String dbValue;
     private final int score;
@@ -67,7 +70,7 @@ public enum PieceType {
         return Arrays.stream(PieceType.values())
                 .filter(pieceType -> pieceType.dbValue.equals(dbValue))
                 .findAny()
-                .orElseThrow(() -> new IllegalStateException("[ERROR] PieceType에 일치하는 값이 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalStateException(NOT_EXIST_PIECE_TYPE_DB_VALUE));
     }
 
     public String getDbValue() {

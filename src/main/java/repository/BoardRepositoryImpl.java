@@ -12,6 +12,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class BoardRepositoryImpl implements BoardRepository {
+    private static final String FAILED_SAVE_ALL_BOARD_DATA = "[ERROR] DB에 모든 보드 데이터를 저장하는 도중, 오류가 발생했습니다.";
+    private static final String FAILED_SAVE_BOARD_DATA = "[ERROR] DB에 보드 데이터를 저장하는 도중, 오류가 발생했습니다.";
+    private static final String FAILED_DELETE_BOARD_DATA = "[ERROR] DB에서 보드 데이터를 삭제하는 도중, 오류가 발생했습니다.";
+    private static final String FAILED_FIND_ALL_BOARD_DATA = "[ERROR] DB에서 모든 보드 데이터를 조회하는 도중, 오류가 발생했습니다.";
+
     @Override
     public void saveAll(Connection connection, Long gameId, Map<Position, PieceInfo> pieceInfos) {
         String sql = "INSERT INTO board(x, y, piece_type, country, game_id) VALUES (?, ?, ?, ?, ?)";
@@ -30,7 +35,7 @@ public class BoardRepositoryImpl implements BoardRepository {
             }
             statement.executeBatch();
         } catch (SQLException exception) {
-            throw new IllegalStateException("[ERROR] DB에 보드 데이터를 저장하는 도중, 오류가 발생했습니다.", exception);
+            throw new IllegalStateException(FAILED_SAVE_ALL_BOARD_DATA, exception);
         }
     }
 
@@ -48,7 +53,7 @@ public class BoardRepositoryImpl implements BoardRepository {
             statement.setLong(5, gameId);
             statement.executeUpdate();
         } catch (SQLException exception) {
-            throw new IllegalStateException("[ERROR] DB에 보드 데이터를 저장하는 도중, 오류가 발생했습니다.", exception);
+            throw new IllegalStateException(FAILED_SAVE_BOARD_DATA, exception);
         }
     }
 
@@ -64,7 +69,7 @@ public class BoardRepositoryImpl implements BoardRepository {
             statement.setInt(3, from.y());
             statement.executeUpdate();
         } catch (SQLException exception) {
-            throw new IllegalStateException("[ERROR] DB에서 보드 데이터를 삭제하는 도중, 오류가 발생했습니다.", exception);
+            throw new IllegalStateException(FAILED_DELETE_BOARD_DATA, exception);
         }
     }
 
@@ -87,7 +92,7 @@ public class BoardRepositoryImpl implements BoardRepository {
                 pieceInfos.put(position, new PieceInfo(pieceType, country));
             }
         } catch (SQLException exception) {
-            throw new IllegalStateException("[ERROR] DB에서 모든 보드 데이터를 조회하는 도중, 오류가 발생했습니다.", exception);
+            throw new IllegalStateException(FAILED_FIND_ALL_BOARD_DATA, exception);
         }
         return pieceInfos;
     }

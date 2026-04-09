@@ -11,6 +11,10 @@ import java.sql.Statement;
 import java.util.Optional;
 
 public class GameRepositoryImpl implements GameRepository {
+    private static final String FAILED_SAVE_GAME_DATA = "[ERROR] DB에 게임 데이터를 저장하는 도중, 오류가 발생했습니다.";
+    private static final String FAILED_FIND_LATEST_GAME_DATA = "[ERROR] DB에서 최근 게임 데이터를 조회하는 도중, 오류가 발생했습니다.";
+    private static final String FAILED_UPDATE_GAME_FINISHED = "[ERROR] DB에서 게임 종료 처리 도중, 오류가 발생했습니다.";
+
     @Override
     public Optional<Long> save(Connection connection, Game game) {
         String sql = "INSERT INTO game(created_at, cho_table_setting, han_table_setting) VALUES (?, ?, ?)";
@@ -29,7 +33,7 @@ public class GameRepositoryImpl implements GameRepository {
                 return Optional.of(generatedKeys.getLong(1));
             }
         } catch (SQLException exception) {
-            throw new IllegalStateException("[ERROR] DB에 게임 데이터를 저장하는 도중, 오류가 발생했습니다.", exception);
+            throw new IllegalStateException(FAILED_SAVE_GAME_DATA, exception);
         }
         return Optional.empty();
     }
@@ -49,7 +53,7 @@ public class GameRepositoryImpl implements GameRepository {
                 return Optional.of(new Game(gameId, choTableSetting, hanTableSetting));
             }
         } catch (SQLException exception) {
-            throw new IllegalStateException("[ERROR] DB에서 최근 게임 데이터를 조회하는 도중, 오류가 발생했습니다.", exception);
+            throw new IllegalStateException(FAILED_FIND_LATEST_GAME_DATA, exception);
         }
         return Optional.empty();
     }
@@ -62,7 +66,7 @@ public class GameRepositoryImpl implements GameRepository {
             statement.setLong(1, gameId);
             statement.executeUpdate();
         } catch (SQLException exception) {
-            throw new IllegalStateException("[ERROR] DB에서 게임 종료 처리 도중, 오류가 발생했습니다.", exception);
+            throw new IllegalStateException(FAILED_UPDATE_GAME_FINISHED, exception);
         }
     }
 }

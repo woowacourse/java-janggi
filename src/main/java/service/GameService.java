@@ -13,6 +13,10 @@ import repository.BoardRepository;
 import repository.GameRepository;
 
 public class GameService {
+    private static final String NOT_EXIST_GAME = "[ERROR] 존재하지 않는 게임입니다.";
+    private static final String FAILED_TRANSACTION_PROCESS = "[ERROR] 트랜잭션 처리 도중 오류가 발생했습니다. 모든 변경 사항을 롤백합니다.";
+    private static final String FAILED_CONNECT_DB = "[ERROR] DB 연결에 실패했습니다.";
+
     private final DataSource dataSource;
     private final GameRepository gameRepository;
     private final BoardRepository boardRepository;
@@ -34,7 +38,7 @@ public class GameService {
     public Long saveGame(Game game, Map<Position, PieceInfo> pieceInfos) {
         return executeWithTransaction(connection -> {
             Long gameId = gameRepository.save(connection, game)
-                    .orElseThrow(() -> new IllegalStateException("[ERROR] 존재하지 않는 게임입니다."));
+                    .orElseThrow(() -> new IllegalStateException(NOT_EXIST_GAME));
             boardRepository.saveAll(connection, gameId, pieceInfos);
             return gameId;
         });
@@ -88,10 +92,10 @@ public class GameService {
                 return result;
             } catch (Exception exception) {
                 connection.rollback();
-                throw new IllegalStateException("[ERROR] DB 저장 도중 오류가 발생했습니다. 모든 변경 사항을 롤백합니다.", exception);
+                throw new IllegalStateException(FAILED_TRANSACTION_PROCESS, exception);
             }
         } catch (SQLException exception) {
-            throw new IllegalStateException("[ERROR]", exception);
+            throw new IllegalStateException(FAILED_CONNECT_DB, exception);
         }
     }
 }
