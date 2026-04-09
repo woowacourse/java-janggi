@@ -32,9 +32,9 @@ public class PalaceRouteGenerator {
                 .toList();
     }
 
-    private List<Route> createRookRoutes(Position position) {
-        return findCurrentPalace(position)
-                .map(palace -> createPalaceRookRoutes(position, palace))
+    private List<Route> createRookRoutes(Position currentPosition) {
+        return findCurrentPalace(currentPosition)
+                .map(palace -> createPalaceRookRoutes(currentPosition, palace))
                 .orElse(List.of());
     }
 
@@ -65,10 +65,21 @@ public class PalaceRouteGenerator {
         return routes;
     }
 
-    private List<Route> createCannonRoutes(Position position) {
-        return findCurrentPalace(position)
-                .map(palace -> List.<Route>of())
+    private List<Route> createCannonRoutes(Position currentPosition) {
+        return findCurrentPalace(currentPosition)
+                .map(palace -> createPalaceCannonRoutes(currentPosition, palace))
                 .orElse(List.of());
+    }
+
+    private List<Route> createPalaceCannonRoutes(Position currentPosition, Palace palace) {
+        final List<Route> routes = new ArrayList<>();
+        if(palace.isCorner(currentPosition)) {
+            palace.oppositeCorner(currentPosition)
+                    .ifPresent(oppositeCorner ->
+                            routes.add(new Route(currentPosition, oppositeCorner, List.of(palace.center())))
+                    );
+        }
+        return routes;
     }
 
     private List<Route> createPawnRoutes(Position position, TeamColor teamColor) {
