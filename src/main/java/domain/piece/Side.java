@@ -4,13 +4,13 @@ public enum Side {
 
     HAN("한", "\\u001B[31m") {
         @Override
-        public Side next() {
+        public Side opposite() {
             return CHO;
         }
     },
     CHO("초", "\\u001B[34m") {
         @Override
-        public Side next() {
+        public Side opposite() {
             return HAN;
         }
     };
@@ -39,5 +39,5 @@ public enum Side {
         return this == CHO;
     }
 
-    public abstract Side next();
+    public abstract Side opposite();
 }

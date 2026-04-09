@@ -7,6 +7,7 @@ import dto.BoardResponseDto;
 import dto.PieceDto;
 
 import java.util.Map;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class Board {
@@ -65,7 +66,7 @@ public class Board {
                 .filter(Piece::isGeneral)
                 .map(Piece::getSide)
                 .findFirst()
-                .get();
+                .orElseThrow(() -> new IllegalArgumentException("승자가 존재하지 않습니다."));
     }
 
     public boolean isFinished() {

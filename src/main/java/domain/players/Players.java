@@ -29,9 +29,9 @@ public class Players {
         players.get(Side.CHO).updateScore(board.calculateScoreBy(Side.CHO));
 
         if (board.isFinished()) {
-            Side side = board.getWinner();
-            players.get(side).updateStatus(PlayerStatus.WIN);
-            players.get(side.next()).updateStatus(PlayerStatus.LOSS);
+            Side winner = board.getWinner();
+            players.get(winner).updateStatus(PlayerStatus.WIN);
+            players.get(winner.opposite()).updateStatus(PlayerStatus.LOSS);
 
         }
     }
