@@ -33,9 +33,10 @@ public class JanggiService {
     }
 
     private GameManager generateGameManagerByLoadedData(GameSessionDTO gameSession, Board board) {
-        Players players = Players.from(gameSession.choPlayerName(), gameSession.hanPlayerName());
         Turn currentTurn = new Turn(Side.valueOf(gameSession.currentTurn()));
-        return new GameManager(players, board, currentTurn);
+        Players players = Players.fromCurrentTurn(gameSession.choPlayerName(), gameSession.hanPlayerName(),
+                currentTurn);
+        return new GameManager(players, board);
     }
 
     public ActiveGameSession createNewSession(Connection connection, String choName, String hanName)
@@ -61,7 +62,7 @@ public class JanggiService {
             throws SQLException {
         Players players = Players.from(choName, hanName);
         Board board = Board.initialize();
-        GameManager newGameManager = new GameManager(players, board, Turn.init());
+        GameManager newGameManager = new GameManager(players, board);
         long newGameId = gameRepository.save(connection, newGameManager);
         System.out.println("newGameId " + newGameId);
         return new ActiveGameSession(newGameId, newGameManager);

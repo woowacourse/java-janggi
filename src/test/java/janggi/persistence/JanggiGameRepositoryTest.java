@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import janggi.domain.board.Board;
 import janggi.domain.game.GameManager;
 import janggi.domain.game.Players;
-import janggi.domain.game.Turn;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -57,7 +56,7 @@ class JanggiGameRepositoryTest {
     }
 
     private GameManager createInitialGameManager() {
-        return new GameManager(Players.from("testCho", "testHan"), Board.initialize(), Turn.init());
+        return new GameManager(Players.from("testCho", "testHan"), Board.initialize());
     }
 
     private GameManager createTurnChangedGameManager() {

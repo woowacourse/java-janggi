@@ -21,12 +21,12 @@ public class Players {
         return new Players(Map.of(Side.CHO, choPlayer, Side.HAN, hanPlayer), Turn.init());
     }
 
-    public static Players fromCurrentSide(String choPlayerName, String hanPlayerName, Turn turn) {
+    public static Players fromCurrentTurn(String choPlayerName, String hanPlayerName, Turn currentTurn) {
         validateDuplicatedNames(choPlayerName, hanPlayerName);
         Player choPlayer = new Player(choPlayerName, Side.CHO);
         Player hanPlayer = new Player(hanPlayerName, Side.HAN);
 
-        return new Players(Map.of(Side.CHO, choPlayer, Side.HAN, hanPlayer), turn);
+        return new Players(Map.of(Side.CHO, choPlayer, Side.HAN, hanPlayer), currentTurn);
     }
 
     private static void validateDuplicatedNames(String choPlayerName, String hanPlayerName) {

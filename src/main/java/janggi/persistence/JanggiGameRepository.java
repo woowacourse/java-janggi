@@ -173,9 +173,9 @@ public class JanggiGameRepository implements GameRepository {
     }
 
     private GameManager generateGameManager(GameSessionDTO gameInfo, Board board) {
-        Players players = Players.from(gameInfo.choPlayerName(), gameInfo.hanPlayerName());
         Turn currentTurn = new Turn(Side.valueOf(gameInfo.currentTurn()));
-        return new GameManager(players, board, currentTurn);
+        Players players = Players.fromCurrentTurn(gameInfo.choPlayerName(), gameInfo.hanPlayerName(), currentTurn);
+        return new GameManager(players, board);
     }
 
     public void saveBoard(Connection connection, long gameId, Board board)
