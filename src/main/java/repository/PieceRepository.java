@@ -46,7 +46,6 @@ public class PieceRepository {
     }
 
     // 현재 위치에서 목적지로 위치 변경
-    // TODO : gameRepository에서 연동할 것 (1. 목적지 피스 삭제, 2. 현재 기물 -> 목적지로 업데이트 )
     public void updatePieces(Long gameId, Position from, Position to, Connection connection) {
         String sql = "UPDATE piece SET row_index = ? , column_index = ? WHERE game_id = ? and row_index = ? and column_index = ? ";
 

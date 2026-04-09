@@ -8,6 +8,7 @@ import domain.Team;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
+import javax.print.StreamPrintService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -140,8 +141,33 @@ class RookTest {
 
     /**
      * 정상 테스트
-     * TODO : 대각선 이동 테스트 추가하기
      */
+
+    @ParameterizedTest
+    @MethodSource("validDirectionsPalacePositions")
+    void 궁성_내에서_대각선과_상하좌우로_움직일_수_있다(Position to) {
+        // given
+        Piece rook = new Rook(Team.CHO);
+
+        // when
+        Position from = Position.from(10,4);
+
+        Map<Position, Piece> testPiece = new HashMap<>();
+        testPiece.put(from, new Rook(Team.CHO));
+
+        Board board = new Board(testPiece);
+
+        assertThat(rook.canMove(from, to, board)).isEqualTo(true);
+    }
+
+    static Stream<Position> validDirectionsPalacePositions() {
+        return Stream.of(
+                Position.from(10, 5),
+                Position.from(9,4),
+                Position.from(9,5)
+        );
+    }
+
     @ParameterizedTest
     @MethodSource("validDirectionsPositions")
     void 출발지와_도착지_사이에_기물이_없고_직선_움직임인_경우_차는_정상_이동한다(Position to) {

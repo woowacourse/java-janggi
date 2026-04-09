@@ -33,7 +33,7 @@ public class Rook extends Piece{
 
     private boolean isCorrectMoveDistanceAndDirection(Position from, Position to) {
         if (Palace.isPalaceCorner(from)) {
-            return Palace.isPalaceCorner(to) || from.isSameColumn(to) || from.isSameRow(to);
+            return Palace.isPalaceCenter(to) || Palace.isPalaceCorner(to) || from.isSameColumn(to) || from.isSameRow(to);
         }
 
         return from.isSameColumn(to) || from.isSameRow(to);
