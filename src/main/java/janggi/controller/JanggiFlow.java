@@ -33,56 +33,58 @@ public class JanggiFlow {
     }
 
     public void process() {
-        //보드 초기화
         GameInformation gameInformation = initializeGameInformation();
         Board board = gameInformation.board();
-        Side currentSide = gameInformation.currentSide();
 
-        //컨텍스트 생성
-        GameContext gameContext = GameContext.createInProgress(board.getAlivePieces(), currentSide);
+        GameContext gameContext = GameContext.createInProgress(board.getAlivePieces(), gameInformation.currentSide());
         while (gameContext.isInProgress()) {
-            //출력
             printBoard(board);
-            currentSide = gameContext.getCurrentSide();
-            view.respondCurrentSide(SideViewResolver.toDisplayName(currentSide));
-
-            //턴 실행
-            Side finalCurrentSide = currentSide;
-            retryAction(() -> {
-                Location from = askLocationOfPiece(finalCurrentSide, board);
-                Location to = askLocationToMove(finalCurrentSide, board);
-                janggiService.movePiece(gameInformation, from, to, gameContext);
-            });
+            view.respondCurrentSide(SideViewResolver.toDisplayName(gameContext.getCurrentSide()));
+            retryAction(() -> playTurn(gameInformation, gameContext));
         }
-        view.respondWinner(gameContext.getWinner());
-        janggiService.endGame(gameInformation.gameId());
+        finish(gameContext, gameInformation);
     }
 
     private GameInformation initializeGameInformation() {
         List<Long> activeGameIds = janggiService.findActiveGameIds();
-        if(!activeGameIds.isEmpty() && askContinueGame()) {
-            Long gameId = activeGameIds.getFirst();
-            return janggiService.loadGameInformation(gameId, intersectionInitializer);
+        if (hasSavedGames(activeGameIds) && askContinueGame()) {
+            return janggiService.loadGameInformation(activeGameIds.getFirst(), intersectionInitializer);
         }
+        return createNewGame();
+    }
 
+    private boolean hasSavedGames(List<Long> activeGameIds) {
+        return !activeGameIds.isEmpty();
+    }
+
+    private GameInformation createNewGame() {
         List<ArrangementStrategy> strategies = Stream.of(Side.values())
                 .map(this::askStrategy)
                 .toList();
         return janggiService.createGame(strategies, intersectionInitializer);
     }
 
-    private boolean askContinueGame() {
-        Decision decision = view.requestGameContinueDecision();
-        return decision.isTrue();
+    private void playTurn(GameInformation gameInformation, GameContext gameContext) {
+        Location from = askLocationOfPiece(gameContext.getCurrentSide(), gameInformation.board());
+        Location to = askLocationToMove(gameContext.getCurrentSide(), gameInformation.board());
+        janggiService.movePiece(gameInformation, from, to, gameContext);
+    }
+
+    private void finish(GameContext gameContext, GameInformation gameInformation) {
+        view.respondWinner(gameContext.getWinner());
+        janggiService.endGame(gameInformation.gameId());
     }
 
     private void printBoard(Board board) {
         List<List<String>> displayBoard = board.to2DArray().stream()
-                .map(row -> row.stream()
-                        .map(PieceViewResolver::toDisplayName)
-                        .toList())
+                .map(PieceViewResolver::toDisplayName)
                 .toList();
         view.respondBoardArray(displayBoard);
+    }
+
+    private boolean askContinueGame() {
+        Decision decision = view.requestGameContinueDecision();
+        return decision.isTrue();
     }
 
     private Location askLocationOfPiece(Side current, Board board) {
