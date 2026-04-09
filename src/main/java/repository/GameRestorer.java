@@ -1,6 +1,7 @@
 package repository;
 
 import model.board.Board;
+import model.game.JanggiGame;
 import model.pieces.Piece;
 import model.position.Position;
 
@@ -17,5 +18,15 @@ public class GameRestorer {
             board.place(position, piece);
         }
         return board;
+    }
+
+    public static JanggiGame restoreGame(SavedGame savedGame) {
+        Board board = restoreBoard(savedGame);
+        return JanggiGame.restore(
+                board,
+                savedGame.turn(),
+                savedGame.finished(),
+                savedGame.winner()
+        );
     }
 }

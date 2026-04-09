@@ -2,6 +2,7 @@ package repository;
 
 import model.board.Board;
 import model.board.Country;
+import model.game.JanggiGame;
 import model.pieces.Piece;
 import model.pieces.PieceType;
 import model.position.Position;
@@ -31,5 +32,24 @@ public class GameRestorerTest {
                 .isEqualTo(new Piece(Country.CHO, PieceType.CHARIOT));
         assertThat(board.findPiece(Position.of(2, 5)))
                 .isEqualTo(new Piece(Country.HAN, PieceType.GENERAL));
+    }
+
+    @Test
+    void savedGame으로부터_janggiGame을_복원할_수_있다() {
+        SavedGame savedGame = new SavedGame(
+                Country.CHO,
+                true,
+                Country.HAN,
+                List.of(
+                        new SavedPiece(10, 1, Country.CHO, PieceType.CHARIOT),
+                        new SavedPiece(2, 5, Country.HAN, PieceType.GENERAL)
+                )
+        );
+
+        JanggiGame game = GameRestorer.restoreGame(savedGame);
+
+        assertThat(game.turn()).isEqualTo(Country.CHO);
+        assertThat(game.isFinished()).isTrue();
+        assertThat(game.winner()).isEqualTo(Country.HAN);
     }
 }

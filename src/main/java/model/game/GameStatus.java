@@ -17,6 +17,10 @@ public class GameStatus {
         return new GameStatus(false, null);
     }
 
+    public static GameStatus restore(boolean finished, Country winner) {
+        return new GameStatus(finished, winner);
+    }
+
     public GameStatus update(Piece capturedPiece, Country currentTurn) {
         if (capturedPiece == null) {
             return this;

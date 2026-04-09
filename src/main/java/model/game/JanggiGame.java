@@ -16,6 +16,13 @@ public class JanggiGame {
         this.status = GameStatus.playing();
     }
 
+    public static JanggiGame restore(Board board, Country turn, boolean finished, Country winner) {
+        JanggiGame game = new JanggiGame(board);
+        game.turn = turn;
+        game.status = GameStatus.restore(finished, winner);
+        return game;
+    }
+
     public void move(Move move) {
         status.validateNotFinished();
         validateTurn(move);
