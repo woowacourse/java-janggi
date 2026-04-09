@@ -68,7 +68,7 @@ public class Board implements BoardChecker {
         }
         board.put(destination, piece);
         board.remove(source);
-        return new MoveResultDto(source, destination, captured);
+        return new MoveResultDto(piece.campType(), piece.pieceRule(), source, destination, captured);
     }
 
     public void validateSource(Position source, CampType campType) {

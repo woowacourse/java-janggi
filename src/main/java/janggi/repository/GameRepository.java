@@ -20,7 +20,8 @@ public class GameRepository {
     }
 
     public long save(Game game) {
-        return insert("INSERT INTO games(current_turn, game_status) VALUES(?, ?)", game.getCurrentTurn().name(), game.getGameStatus().name());
+        return insert("INSERT INTO games(current_turn, game_status) VALUES(?, ?)",
+                game.getCurrentTurn().name(), game.getGameStatus().name());
     }
 
     private long insert(String sql, Object... params) {
@@ -51,7 +52,7 @@ public class GameRepository {
                 });
     }
 
-    public Game findByGameId(long gameId) {
+    public Game findById(long gameId) {
         return executeQuery("SELECT * FROM games WHERE game_id = ?",
                 rs -> {
                     if (rs.next()) {
@@ -73,15 +74,10 @@ public class GameRepository {
         );
     }
 
-    public void updateTurn(long gameId, CampType currentTurn) {
-        update("UPDATE games SET current_turn = ?, last_updated_at = CURRENT_TIMESTAMP WHERE game_id = ?",
-                currentTurn.name(), gameId
+    public void update(Game game) {
+        update("UPDATE games SET current_turn = ?, game_status = ?, start_at = ?,  end_at = ?, last_updated_at = CURRENT_TIMESTAMP WHERE game_id = ?",
+                game.getCurrentTurn().name(), game.getGameStatus().name(), game.getStartAt(), game.getEndAt(), game.getGameId()
         );
-    }
-
-    public void updateStatus(long gameId, GameStatus gameStatus) {
-        update("UPDATE games SET game_status = ?, end_at = CURRENT_TIMESTAMP , last_updated_at = CURRENT_TIMESTAMP WHERE game_id = ?",
-                gameStatus.name(), gameId);
     }
 
     private void update(String sql, Object... params) {

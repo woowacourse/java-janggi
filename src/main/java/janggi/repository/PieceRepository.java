@@ -4,6 +4,7 @@ import javax.sql.DataSource;
 import janggi.domain.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceRule;
+import janggi.domain.piece.PlacedPiece;
 import janggi.domain.piece.camp.CampType;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,9 +21,13 @@ public class PieceRepository {
         this.dataSource = dataSource;
     }
 
-    public long save(long gameId, CampType campType, PieceRule pieceRule, int row, int column) {
+    public long save(PlacedPiece placedPiece) {
         return insert("INSERT INTO pieces(game_id, camp, piece_type, row_position, col_position) VALUES(?, ?, ?, ?, ?)",
-                gameId, campType.name(), pieceRule.name(), row, column);
+                placedPiece.getGameId(),
+                placedPiece.getCampType().name(),
+                placedPiece.getPieceRule().name(),
+                placedPiece.getRowPosition(),
+                placedPiece.getColPosition());
     }
 
     private long insert(String sql, Object... params) {
@@ -57,14 +62,15 @@ public class PieceRepository {
         );
     }
 
-    public void update(long gameId, Position source, Position destination) {
-        update("UPDATE pieces SET row_position = ?, col_position = ? WHERE game_id = ? AND row_position = ? AND col_position = ?",
-                destination.row(), destination.column(), gameId, source.row(), source.column());
+    public void update(PlacedPiece placedPiece) {
+        update("UPDATE pieces SET game_id = ?, camp = ?, piece_type = ?, row_position = ?, col_position = ? WHERE piece_id = ?",
+                placedPiece.getGameId(), placedPiece.getCampType().name(), placedPiece.getPieceRule().name()
+                , placedPiece.getRowPosition(), placedPiece.getColPosition(), placedPiece.getPlacedPieceId());
     }
 
-    public void delete(long gameId, Position destination) {
-        update("DELETE FROM pieces WHERE game_id = ? AND row_position = ? AND col_position = ?",
-                gameId, destination.row(), destination.column());
+    public void delete(PlacedPiece placedPiece) {
+        update("DELETE FROM pieces WHERE piece_id = ?",
+                placedPiece.getPlacedPieceId());
     }
 
     private void update(String sql, Object... params) {

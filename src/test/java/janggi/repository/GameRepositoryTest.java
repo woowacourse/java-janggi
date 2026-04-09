@@ -31,7 +31,7 @@ class GameRepositoryTest {
         // when
         long gameId = gameRepository.save(game);
         // then
-        Game found = gameRepository.findByGameId(gameId);
+        Game found = gameRepository.findById(gameId);
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(found.getCurrentTurn()).isEqualTo(CampType.CHO);
             softly.assertThat(found.getGameStatus()).isEqualTo(GameStatus.PLAYING);

@@ -10,7 +10,7 @@ import java.sql.Statement;
 public class DatabaseInitializer {
 
     private static final String SCHEMA_SQL = "schema.sql";
-    private static final String DEMIMITER = ";";
+    private static final String DELIMITER = ";";
 
     public static void initialize(DataSource dataSource) {
         try {
@@ -22,7 +22,7 @@ public class DatabaseInitializer {
                     .getResourceAsStream(SCHEMA_SQL);
             String sql = new String(inputStream.readAllBytes());
 
-            String[] sqls = sql.split(DEMIMITER);
+            String[] sqls = sql.split(DELIMITER);
             for (String query : sqls) {
                 if (!query.trim().isEmpty()) {
                     statement.execute(query);

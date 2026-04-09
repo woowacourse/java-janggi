@@ -9,6 +9,7 @@ import janggi.domain.game.Game;
 import janggi.domain.game.GameSelectionFormat;
 import janggi.domain.game.GameStatus;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PlacedPiece;
 import janggi.domain.piece.camp.CampType;
 import janggi.dto.MoveResultDto;
 import janggi.dto.PiecePositionDto;
@@ -41,19 +42,21 @@ public class JanggiGame {
             for (Map.Entry<Position, Piece> entry : board.getBoard().entrySet()) {
                 Position position = entry.getKey();
                 Piece piece = entry.getValue();
-                pieceRepository.save(gameId, piece.campType(), piece.pieceRule(), position.row(), position.column());
+                PlacedPiece placedPiece = new PlacedPiece(gameId, piece.campType(), piece.pieceRule(), position.row(), position.column());
+
+                pieceRepository.save(placedPiece);
             }
             OutputView.printBoard(toPiecePositions(board.getBoard()));
-            play(board, gameId);
+            play(board, game);
             return;
         }
         List<Long> gameIds = gameRepository.findAllGameIds();
         long gameId = InputView.readGameId(gameIds);
-        Game game = gameRepository.findByGameId(gameId);
+        Game game = gameRepository.findById(gameId);
         Map<Position, Piece> pieces = pieceRepository.findByGameId(gameId);
         OutputView.printBoard(toPiecePositions(pieces));
         Board board = Board.restore(pieces);
-        play(board, gameId);
+        play(board, game);
     }
 
     private Board createBoard() {
@@ -75,30 +78,31 @@ public class JanggiGame {
                 .toList();
     }
 
-    private void play(Board board, long gameId) {
-        Turn turn = new Turn();
+    private void play(Board board, Game game) {
+        Turn turn = new Turn(); // TODO: db 조회해서 턴 가져와야 할 듯
         while (true) {
             CampType campType = turn.currentTurn();
             RetryHandler.retryOnInvalidInput(() -> {
                 MoveResultDto moveResultDto = playTurn(board, campType);
+                PlacedPiece placedPiece = new PlacedPiece(game.getGameId(), moveResultDto.campType(), moveResultDto.pieceRule(), moveResultDto.destination().row(), moveResultDto.destination().column());
                 if (moveResultDto.captured()) {
-                    pieceRepository.delete(gameId, moveResultDto.destination());
+                    pieceRepository.delete(placedPiece);
                 }
-                pieceRepository.update(gameId, moveResultDto.source(), moveResultDto.destination());
+                pieceRepository.update(placedPiece);
             });
             OutputView.printBoard(toPiecePositions(board.getBoard()));
             if (board.isRivalGeneralKilled(turn)) {
                 break;
             }
             turn.finishTurn();
-            gameRepository.updateTurn(gameId, turn.currentTurn());
+            gameRepository.update(game);
         }
         CampType campType = turn.currentTurn();
         if (campType == CampType.CHO) {
-            gameRepository.updateStatus(gameId, GameStatus.CHO_WIN);
+            gameRepository.update(game);
             OutputView.printWinner(campType);
         }
-        gameRepository.updateStatus(gameId, GameStatus.HAN_WIN);
+        gameRepository.update(game);
         OutputView.printWinner(campType);
     }
 

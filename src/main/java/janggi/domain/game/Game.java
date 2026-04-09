@@ -7,25 +7,21 @@ import java.util.List;
 
 public class Game {
 
-    private final Long gameId;
+    private Long gameId;
 
-    private final CampType currentTurn;
+    private CampType currentTurn;
 
-    private final GameStatus gameStatus;
+    private GameStatus gameStatus;
 
-    private final LocalDateTime startAt;
+    private LocalDateTime startAt;
 
-    private final LocalDateTime endAt;
+    private LocalDateTime endAt;
 
-    private final LocalDateTime lastUpdatedAt;
+    private LocalDateTime lastUpdatedAt;
 
-    private final List<Piece> pieces;
+    private List<Piece> pieces;
 
     public Game(CampType currentTurn, GameStatus gameStatus, List<Piece> pieces) {
-        this.gameId = null;
-        this.startAt = null;
-        this.endAt = null;
-        this.lastUpdatedAt = null;
         this.currentTurn = currentTurn;
         this.gameStatus = gameStatus;
         this.pieces = pieces;
