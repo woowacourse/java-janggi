@@ -1,4 +1,4 @@
-package janggi.domain.mouveRule;
+package janggi.domain.moveRule;
 
 import janggi.domain.BoardView;
 import janggi.domain.vo.Position;

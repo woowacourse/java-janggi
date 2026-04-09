@@ -1,4 +1,4 @@
-package janggi.domain.mouveRule;
+package janggi.domain.moveRule;
 
 import janggi.domain.BoardView;
 import janggi.domain.vo.Position;
@@ -6,29 +6,40 @@ import janggi.domain.vo.Position;
 public class TankMoveRule implements MoveRule {
     @Override
     public boolean canMove(Position from, Position to, BoardView board) {
+        if (isStraightLine(from, to)) {
+            return isStraightPathClear(board, from, to);
+        }
+        if (board.isDiagonalInPalace(from, to)) {
+            return isDiagonalPathClear(board, from, to);
+        }
+        return false;
+    }
+
+    private boolean isDiagonalPathClear(BoardView board, Position from, Position to) {
+        Position midpoint = board.getDiagonalMidpointInPalace(from, to);
+        if (midpoint == null) {
+            return true;
+        }
+        return board.isEmptyPosition(midpoint);
+    }
+
+    private boolean isStraightLine(Position from, Position to) {
+        return from.getRow() == to.getRow() || from.getCol() == to.getCol();
+    }
+
+
+    private boolean isStraightPathClear(BoardView board, Position from, Position to) {
         int fromRow = from.getRow();
         int fromCol = from.getCol();
         int toRow = to.getRow();
         int toCol = to.getCol();
 
-        if (!isStraightLine(fromRow, fromCol, toRow, toCol)) {
-            return false;
-        }
-
-        return isPathClear(board, fromRow, fromCol, toRow, toCol);
-    }
-
-    private boolean isStraightLine(int fromRow, int fromCol, int toRow, int toCol) {
-        return fromRow == toRow || fromCol == toCol;
-    }
-
-    private boolean isPathClear(BoardView board, int fromRow, int fromCol, int toRow, int toCol) {
         if (fromRow == toRow) {
             return isHorizontalPathClear(board, fromRow, fromCol, toCol);
         }
-
         return isVerticalPathClear(board, fromCol, fromRow, toRow);
     }
+
 
     private boolean isHorizontalPathClear(BoardView board, int row, int fromCol, int toCol) {
         int start = Math.min(fromCol, toCol);

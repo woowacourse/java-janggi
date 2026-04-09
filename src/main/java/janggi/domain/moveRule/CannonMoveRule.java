@@ -1,4 +1,4 @@
-package janggi.domain.mouveRule;
+package janggi.domain.moveRule;
 
 import janggi.domain.BoardView;
 import janggi.domain.piece.Cannon;
@@ -9,14 +9,37 @@ public class CannonMoveRule implements MoveRule {
 
     @Override
     public boolean canMove(Position from, Position to, BoardView board) {
+        if (isStraightLine(from, to)) {
+            return canMoveStraight(from, to, board);
+        }
+        if (board.isDiagonalInPalace(from, to)) {
+            return canMovePalaceDiagonal(from, to, board);
+        }
+
+        return true;
+    }
+
+    private boolean canMovePalaceDiagonal(Position from, Position to, BoardView board) {
+        Position midpoint = board.getDiagonalMidpointInPalace(from, to);
+        if (midpoint == null) {
+            return false;
+        }
+
+        if (board.isEmptyPosition(midpoint)) {
+            return false;
+        }
+
+        Piece bridgePiece = board.findByPosition(midpoint);
+        Piece targetPiece = board.findByPosition(to);
+        return !isCannon(bridgePiece) && !isCannon(targetPiece);
+    }
+
+
+    private boolean canMoveStraight(Position from, Position to, BoardView board) {
         int fromRow = from.getRow();
         int fromCol = from.getCol();
         int toRow = to.getRow();
         int toCol = to.getCol();
-
-        if (!isStraightLine(fromRow, fromCol, toRow, toCol)) {
-            return false;
-        }
 
         int jumpedPieceCount = countPiecesBetween(board, fromRow, fromCol, toRow, toCol);
         if (jumpedPieceCount != 1) {
@@ -25,14 +48,12 @@ public class CannonMoveRule implements MoveRule {
 
         Piece bridgePiece = findBridgePiece(board, fromRow, fromCol, toRow, toCol);
         Piece targetPiece = board.findByPosition(to);
-        if (isCannon(bridgePiece) || isCannon(targetPiece)) {
-            return false;
-        }
-        return true;
+        return !isCannon(bridgePiece) && !isCannon(targetPiece);
     }
 
-    private boolean isStraightLine(int fromRow, int fromCol, int toRow, int toCol) {
-        return fromRow == toRow || fromCol == toCol;
+
+    private boolean isStraightLine(Position from, Position to) {
+        return from.getRow() == to.getRow() || from.getCol() == to.getCol();
     }
 
     private int countPiecesBetween(BoardView board, int fromRow, int fromCol, int toRow, int toCol) {

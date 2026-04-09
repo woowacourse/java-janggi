@@ -1,7 +1,7 @@
 package janggi.domain.piece;
 
-import janggi.domain.mouveRule.ElephantMoveRule;
-import janggi.domain.mouveRule.MoveRule;
+import janggi.domain.moveRule.ElephantMoveRule;
+import janggi.domain.moveRule.MoveRule;
 
 public class Elephant extends Piece {
 
@@ -17,5 +17,10 @@ public class Elephant extends Piece {
     @Override
     public MoveRule moveRule() {
         return new ElephantMoveRule();
+    }
+
+    @Override
+    public int score() {
+        return 3;
     }
 }

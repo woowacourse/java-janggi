@@ -1,7 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.BoardView;
-import janggi.domain.mouveRule.MoveRule;
+import janggi.domain.moveRule.MoveRule;
 import janggi.domain.vo.Position;
 
 public abstract class Piece {
@@ -29,7 +29,14 @@ public abstract class Piece {
 
     protected abstract MoveRule moveRule();
 
+    public String display() {
+        return team.findPrefix() + toString();
+    }
+
+
     @Override
     public abstract String toString();
+
+    public abstract int score();
 
 }

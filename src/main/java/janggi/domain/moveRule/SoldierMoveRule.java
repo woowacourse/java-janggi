@@ -1,4 +1,4 @@
-package janggi.domain.mouveRule;
+package janggi.domain.moveRule;
 
 import janggi.domain.BoardView;
 import janggi.domain.piece.Team;
@@ -16,7 +16,12 @@ public final class SoldierMoveRule implements MoveRule {
     public boolean canMove(Position from, Position to, BoardView board) {
         int rowDis = to.getRow() - from.getRow();
         int colDis = to.getCol() - from.getCol();
-        return isForward(rowDis, colDis) || isSideStep(rowDis, colDis);
+
+        if (isForward(rowDis, colDis) || isSideStep(rowDis, colDis)) {
+            return true;
+        }
+
+        return isForwardDiagonalInPalace(from, to, rowDis, board);
     }
 
     // 한이 위쪽배치임 -> 행증가가 전진
@@ -28,6 +33,14 @@ public final class SoldierMoveRule implements MoveRule {
 
     private boolean isSideStep(int rowDis, int colDis) {
         return rowDis == 0 && Math.abs(colDis) == 1;
+    }
+
+    private boolean isForwardDiagonalInPalace(Position from, Position to, int rowDis, BoardView board) {
+        if (!board.canMoveDiagonallyInPalace(from, to)) {
+            return false;
+        }
+        int forwardDirection = (team == Team.CHO) ? -1 : 1;
+        return rowDis == forwardDirection;
     }
 
 }

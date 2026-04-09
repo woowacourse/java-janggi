@@ -4,6 +4,7 @@ import janggi.domain.piece.EmptyPosition;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Team;
 import janggi.domain.vo.Position;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -43,7 +44,27 @@ public class Board implements BoardView {
         return findByPosition(position).isEmpty();
     }
 
-    public void move(Position from, Position to, Team currentTeam) {
+    @Override
+    public boolean isInsidePalace(Position position) {
+        return PalaceRule.isInsidePalace(position);
+    }
+
+    @Override
+    public boolean canMoveDiagonallyInPalace(Position from, Position to) {
+        return PalaceRule.canMoveDiagonally(from, to);
+    }
+
+    @Override
+    public boolean isDiagonalInPalace(Position from, Position to) {
+        return PalaceRule.isDiagonalInPalace(from, to);
+    }
+
+    @Override
+    public Position getDiagonalMidpointInPalace(Position from, Position to) {
+        return PalaceRule.getDiagonalMidpoint(from, to);
+    }
+
+    public Piece move(Position from, Position to, Team currentTeam) {
         Piece fromPiece = findByPosition(from);
         Piece toPiece = findByPosition(to);
 
@@ -55,6 +76,8 @@ public class Board implements BoardView {
 
         place(from, new EmptyPosition(Team.OTHER));
         place(to, fromPiece);
+
+        return toPiece;
     }
 
     private void place(Position position, Piece piece) {
@@ -75,4 +98,35 @@ public class Board implements BoardView {
             throw new IllegalArgumentException("이미 도착지점에 플레이어님의 진영 기물이 있습니다.");
         }
     }
+
+    public int calculateScore(Team team) {
+        int totalScore = 0;
+        for (List<Piece> row : board) {
+            for (Piece piece : row) {
+                if (piece.isSameTeam(team)) {
+                    totalScore += piece.score();
+                }
+            }
+        }
+        return totalScore;
+    }
+
+
+    // 빈곳은 db에 따로 저장안하려는데....
+    // board 자료구조 자체가 map이었으면.....
+    public Map<Position, Piece> findAllPieces() {
+        Map<Position, Piece> pieces = new HashMap<>();
+        for (int row = 0; row < board.size(); row++) {
+            for (int col = 0; col < board.get(row).size(); col++) {
+                Position position = new Position(row, col);
+                Piece piece = findByPosition(position);
+                if (!piece.isEmpty()) {
+                    pieces.put(position, piece);
+                }
+            }
+        }
+        return pieces;
+    }
+
+
 }

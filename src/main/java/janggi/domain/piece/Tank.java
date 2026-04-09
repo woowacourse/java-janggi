@@ -1,7 +1,7 @@
 package janggi.domain.piece;
 
-import janggi.domain.mouveRule.MoveRule;
-import janggi.domain.mouveRule.TankMoveRule;
+import janggi.domain.moveRule.MoveRule;
+import janggi.domain.moveRule.TankMoveRule;
 
 public class Tank extends Piece {
 
@@ -17,5 +17,10 @@ public class Tank extends Piece {
     @Override
     public MoveRule moveRule() {
         return new TankMoveRule();
+    }
+
+    @Override
+    public int score() {
+        return 13;
     }
 }
