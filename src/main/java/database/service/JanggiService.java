@@ -39,7 +39,7 @@ public class JanggiService {
     }
 
     public List<BoardSummaryDto> readExistPlayingBoard() {
-        return executor.execute(boardDao::readAllPlaying);
+        return executor.execute(boardDao::readAllNotFinished);
     }
 
     public JanggiBoard getExistBoard(BoardSelectCommand command) {

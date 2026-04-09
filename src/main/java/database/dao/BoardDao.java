@@ -12,7 +12,7 @@ public interface BoardDao {
 
     Long save() throws SQLException;
 
-    List<BoardSummaryDto> readAllPlaying() throws SQLException;
+    List<BoardSummaryDto> readAllNotFinished() throws SQLException;
 
     Optional<BoardSummaryDto> readPlayingById(Long boardId) throws SQLException;
 

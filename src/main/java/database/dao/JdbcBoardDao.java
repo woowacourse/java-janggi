@@ -52,7 +52,7 @@ public class JdbcBoardDao implements BoardDao {
 
 
     @Override
-    public List<BoardSummaryDto> readAllPlaying() throws SQLException {
+    public List<BoardSummaryDto> readAllNotFinished() throws SQLException {
         return jdbcTemplate.selectList(
                 READ_PLAYING_BOARD_LIST_QUERY,
                 new SummaryDtoRowMapper()
