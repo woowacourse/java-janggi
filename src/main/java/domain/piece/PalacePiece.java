@@ -1,9 +1,11 @@
 package domain.piece;
 
 import domain.board.Intersection;
+import domain.board.Palace;
 import domain.game.Side;
 import domain.movement.MoveAmount;
 import domain.movement.Route;
+import domain.movement.Vector;
 import domain.movement.strategy.MoveStrategy;
 import domain.movement.strategy.Straight;
 import java.util.Collection;
@@ -15,6 +17,7 @@ public abstract class PalacePiece extends StaticPositionedPiece {
     private static final MoveAmount MAX_MOVE_DISTANCE = new MoveAmount(1);
 
     private final MoveStrategy moveStrategy = new Straight(MAX_MOVE_DISTANCE);
+    private final Palace palace = new Palace();
 
     public PalacePiece(Side side) {
         super(side);
@@ -25,16 +28,16 @@ public abstract class PalacePiece extends StaticPositionedPiece {
             Intersection from,
             AlivePieces alivePieces
     ) {
-        Stream<Intersection> cardinalDestinations = findReachableDestinations(
-                moveStrategy.getCardinalRoutes(from),
+        Stream<Intersection> cardinalRoutes = findReachableDestinations(
+                moveStrategy.getRoutes(from, Vector.cardinals()),
                 alivePieces
         );
-        Stream<Intersection> palaceDestinations = findReachableDestinations(
-                moveStrategy.getPalaceRoutes(from),
+        Stream<Intersection> palaceRoutes = findReachableDestinations(
+                moveStrategy.getRoutes(from, palace.getDiagonalVectors(from)),
                 alivePieces
         );
 
-        return Stream.concat(cardinalDestinations, palaceDestinations)
+        return Stream.concat(cardinalRoutes, palaceRoutes)
                 .toList();
     }
 

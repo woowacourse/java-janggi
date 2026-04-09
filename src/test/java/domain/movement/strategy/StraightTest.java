@@ -8,7 +8,6 @@ import domain.movement.MoveAmount;
 import domain.movement.Route;
 import domain.movement.Vector;
 import java.util.List;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class StraightTest {
@@ -39,43 +38,6 @@ class StraightTest {
 
         // then
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
-    }
-
-    @Nested
-    class 궁성_영역에_해당하는_경로들을_반환한다 {
-
-        @Test
-        void 궁성으로_이동_가능한_모든_방향에_대한_경로를_반환한다() {
-            // given
-            Straight straight = new Straight(MoveAmount.maximum());
-
-            Intersection palaceIntersection = new Intersection(2, 5);
-
-            // when
-            List<Route> routes = straight.getPalaceRoutes(palaceIntersection);
-
-            // then=
-            assertThat(routes).isNotEmpty();
-            assertThat(routes).allMatch(Route::containsOnlyPalace);
-        }
-
-        @Test
-        void 궁성으로_이동_가능한_방향_중_허용된_방향에_대한_경로만_반환한다() {
-            // given
-            Straight straight = new Straight(new MoveAmount(1));
-
-            Intersection palceIntersection = new Intersection(2, 5);
-            Vector allowedVector = new Vector(1, 1);
-            Route expected = new Route(List.of(
-                    allowedVector.next(palceIntersection)
-            ));
-
-            // when
-            List<Route> actual = straight.getPalaceRoutes(palceIntersection, List.of(allowedVector));
-
-            // then
-            assertThat(actual).containsExactly(expected);
-        }
     }
 
     @Test

@@ -4,6 +4,7 @@ import domain.board.Intersection;
 import domain.game.Side;
 import domain.movement.MoveAmount;
 import domain.movement.Route;
+import domain.movement.Vector;
 import domain.movement.strategy.ForwardAndDiagonal;
 import domain.movement.strategy.MoveStrategy;
 import java.util.List;
@@ -23,7 +24,7 @@ public final class Elephant extends Piece {
             Intersection from,
             AlivePieces alivePieces
     ) {
-        return moveStrategy.getCardinalRoutes(from)
+        return moveStrategy.getRoutes(from, Vector.cardinals())
                 .stream()
                 .filter(route -> route.canReachDestinationThroughPath(alivePieces, side))
                 .map(Route::getDestination)
