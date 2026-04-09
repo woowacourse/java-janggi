@@ -1,8 +1,8 @@
 package janggi.dao;
 
 import janggi.domain.Position;
-import janggi.domain.dto.PieceData;
 import janggi.domain.Team;
+import janggi.domain.dto.PieceEntity;
 import janggi.domain.piece.PieceType;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,14 +20,14 @@ public class PieceDao {
         this.dataSource = dataSource;
     }
 
-    public void saveAll(List<PieceData> pieces) {
+    public void saveAll(List<PieceEntity> pieces) {
         String sql = "INSERT INTO piece (game_id, x, y, team, piece_type) VALUES (?, ?, ?, ?, ?)";
 
         try (
             Connection conn = dataSource.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)
         ) {
-            for (PieceData piece : pieces) {
+            for (PieceEntity piece : pieces) {
                 pstmt.setLong(1, piece.gameId());
                 pstmt.setInt(2, piece.x());
                 pstmt.setInt(3, piece.y());
@@ -42,10 +42,10 @@ public class PieceDao {
         }
     }
 
-    public List<PieceData> findByGameId(long gameId) {
+    public List<PieceEntity> findByGameId(long gameId) {
         String sql = "SELECT game_id, x, y, team, piece_type FROM piece WHERE game_id = ?";
 
-        List<PieceData> pieces = new ArrayList<>();
+        List<PieceEntity> pieces = new ArrayList<>();
 
         try (
             Connection conn = dataSource.getConnection();
@@ -55,7 +55,7 @@ public class PieceDao {
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
-                    pieces.add(new PieceData(
+                    pieces.add(new PieceEntity(
                         rs.getLong("game_id"),
                         rs.getInt("x"),
                         rs.getInt("y"),

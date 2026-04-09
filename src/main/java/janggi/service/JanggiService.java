@@ -4,9 +4,9 @@ import janggi.dao.GameDao;
 import janggi.dao.PieceDao;
 import janggi.domain.Board;
 import janggi.domain.Team;
-import janggi.domain.dto.BoardPieceSnapshot;
+import janggi.domain.dto.PieceInfo;
 import janggi.domain.dto.GameSession;
-import janggi.domain.dto.PieceData;
+import janggi.domain.dto.PieceEntity;
 import janggi.domain.Position;
 
 import janggi.domain.strategy.BasicPlacementStrategy;
@@ -31,13 +31,13 @@ public class JanggiService {
         Team initialTurn = Team.initialTeam();
 
         long gameId = gameDao.save(initialTurn);
-        pieceDao.saveAll(toPieceData(gameId, board.getPieces()));
+        pieceDao.saveAll(toPieceEntity(gameId, board.getPieces()));
         return new GameSession(gameId, board, initialTurn);
     }
 
-    private List<PieceData> toPieceData(long gameId, List<BoardPieceSnapshot> snapshots) {
-        return snapshots.stream()
-            .map(snapshot -> new PieceData(
+    private List<PieceEntity> toPieceEntity(long gameId, List<PieceInfo> pieceInfo) {
+        return pieceInfo.stream()
+            .map(snapshot -> new PieceEntity(
                 gameId,
                 snapshot.x(),
                 snapshot.y(),
@@ -47,14 +47,21 @@ public class JanggiService {
             .toList();
     }
 
-    public Board loadGame(long gameId) {
+    public GameSession loadPastGame(long gameId) {
         validateGameExists(gameId);
 
-        List<PieceData> pieceData = pieceDao.findByGameId(gameId);
-        return Board.from(toSnapshots(pieceData));
+        Board board = loadBoard(gameId);
+        Team turn = loadTurn(gameId);
+
+        return new GameSession(gameId, board, turn);
     }
 
-    public Team loadTurn(long gameId) {
+    private Board loadBoard(long gameId) {
+        List<PieceEntity> pieceData = pieceDao.findByGameId(gameId);
+        return Board.from(toPieceInfo(pieceData));
+    }
+
+    private Team loadTurn(long gameId) {
         return gameDao.findTurnByGameId(gameId);
     }
 
@@ -88,9 +95,9 @@ public class JanggiService {
         }
     }
 
-    private List<BoardPieceSnapshot> toSnapshots(List<PieceData> pieces) {
+    private List<PieceInfo> toPieceInfo(List<PieceEntity> pieces) {
         return pieces.stream()
-            .map(piece -> new BoardPieceSnapshot(
+            .map(piece -> new PieceInfo(
                 piece.x(),
                 piece.y(),
                 piece.team(),

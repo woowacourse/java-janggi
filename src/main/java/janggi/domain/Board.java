@@ -1,6 +1,6 @@
 package janggi.domain;
 
-import janggi.domain.dto.BoardPieceSnapshot;
+import janggi.domain.dto.PieceInfo;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceFactory;
 import janggi.domain.piece.PieceType;
@@ -27,10 +27,10 @@ public class Board {
         this.piecesInfo = piecesInfo;
     }
 
-    public static Board from(List<BoardPieceSnapshot> snapshots) {
+    public static Board from(List<PieceInfo> snapshots) {
         Map<Position, Space> board = generateBlankBoard();
 
-        for (BoardPieceSnapshot snapshot : snapshots) {
+        for (PieceInfo snapshot : snapshots) {
             Position position = new Position(snapshot.x(), snapshot.y());
             Piece piece = PieceFactory.createPiece(snapshot.team(), snapshot.pieceType());
             board.put(position, piece);
@@ -137,14 +137,14 @@ public class Board {
             .sum();
     }
 
-    public List<BoardPieceSnapshot> getPieces() {
+    public List<PieceInfo> getPieces() {
         return piecesInfo.entrySet().stream()
             .filter(entry -> !entry.getValue().isBlank())
             .map(entry -> {
                 Position position = entry.getKey();
                 Piece piece = entry.getValue().asPiece();
 
-                return new BoardPieceSnapshot(
+                return new PieceInfo(
                     position.x(),
                     position.y(),
                     piece.getTeam(),

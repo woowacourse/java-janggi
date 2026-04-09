@@ -72,11 +72,10 @@ public class JanggiController {
 
     private GameSession initializePastGame() {
         long gameId = Long.parseLong(InputView.askGameId());
-        Board board = janggiGameService.loadGame(gameId);
-        Team turn = janggiGameService.loadTurn(gameId);
+        GameSession gameSession = janggiGameService.loadPastGame(gameId);
 
-        OutputView.printBoard(board);
-        return new GameSession(gameId, board, turn);
+        OutputView.printBoard(gameSession.board());
+        return gameSession;
     }
 
     private Position readFromPosition() {
