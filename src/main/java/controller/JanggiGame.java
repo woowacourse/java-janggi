@@ -1,6 +1,5 @@
 package controller;
 
-import common.exception.JanggiException;
 import database.service.JanggiService;
 import database.context.BoardIdContext;
 import database.dto.GameResult;
@@ -8,10 +7,10 @@ import domain.board.BoardSelectCommand;
 import domain.board.Formation;
 import domain.board.JanggiBoard;
 import domain.board.JanggiIntersectionGenerator;
-import domain.board.dto.JanggiBoardDto;
-import domain.board.dto.Moved;
+import view.dto.JanggiBoardDto;
+import database.dto.Moved;
 import domain.piece.Team;
-import domain.point.dto.MoveCommand;
+import view.dto.MoveCommand;
 import view.InputReader;
 import view.OutputWriter;
 

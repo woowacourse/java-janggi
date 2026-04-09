@@ -1,6 +1,6 @@
 package domain.point;
 
-import domain.point.dto.MoveCommand;
+import view.dto.MoveCommand;
 import domain.point.exception.PointException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

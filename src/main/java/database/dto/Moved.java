@@ -1,4 +1,4 @@
-package domain.board.dto;
+package database.dto;
 
 import domain.intersection.Intersection;
 

@@ -9,7 +9,7 @@ import database.service.JanggiService;
 import database.service.SchemaInitializer;
 import domain.board.BoardSelectCommand;
 import domain.board.JanggiBoard;
-import domain.board.dto.Moved;
+import database.dto.Moved;
 import domain.intersection.Intersection;
 import domain.piece.PieceType;
 import domain.piece.Team;

@@ -1,4 +1,4 @@
-package domain.board.dto;
+package view.dto;
 
 import domain.piece.Piece;
 import view.PieceView;

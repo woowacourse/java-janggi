@@ -1,6 +1,6 @@
 package domain.board;
 
-import domain.board.dto.Moved;
+import database.dto.Moved;
 import domain.intersection.Intersection;
 import domain.intersection.palace.NormalIntersection;
 import domain.move.rule.MoveRuleManager;

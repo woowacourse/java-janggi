@@ -1,4 +1,4 @@
-package domain.point.dto;
+package view.dto;
 
 import domain.point.Point;
 import domain.point.exception.PointException;

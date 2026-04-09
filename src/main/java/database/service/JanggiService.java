@@ -10,11 +10,10 @@ import database.mapper.JanggiBoardMapper;
 import domain.board.BoardSelectCommand;
 import domain.board.DBIntersectionGenerator;
 import domain.board.JanggiBoard;
-import domain.board.dto.Moved;
+import database.dto.Moved;
 import domain.intersection.Intersection;
 import domain.piece.Team;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class JanggiService {

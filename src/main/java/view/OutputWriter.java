@@ -1,8 +1,8 @@
 package view;
 
 import database.dto.BoardSummaryDto;
-import domain.board.dto.JanggiBoardDto;
-import domain.board.dto.PieceViewDto;
+import view.dto.JanggiBoardDto;
+import view.dto.PieceViewDto;
 import domain.piece.Team;
 import domain.point.Point;
 

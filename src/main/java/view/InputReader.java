@@ -3,7 +3,7 @@ package view;
 import domain.board.BoardSelectCommand;
 import domain.board.Formation;
 import domain.piece.Team;
-import domain.point.dto.MoveCommand;
+import view.dto.MoveCommand;
 
 import java.util.Scanner;
 
