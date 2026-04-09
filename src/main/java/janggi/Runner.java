@@ -111,6 +111,9 @@ public class Runner {
             );
         } catch (IllegalArgumentException e) {
             OutputView.printErrorMessage(e.getMessage());
+        } catch (IllegalStateException e) {
+            OutputView.printErrorMessage(e.getMessage());
+            throw e;
         }
     }
 
