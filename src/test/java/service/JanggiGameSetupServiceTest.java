@@ -4,10 +4,10 @@ import static domain.player.Team.CHO;
 import static domain.player.Team.HAN;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import dao.BoardRepository;
-import dao.GameLoadResult;
+import dao.BoardDao;
+import dao.GameInfo;
 import dao.GamePersistence;
-import dao.GameRoom;
+import dao.GameDao;
 import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.Formation;
@@ -16,14 +16,18 @@ import domain.player.Name;
 import domain.player.Player;
 import domain.player.Team;
 import db.DbBootstrap;
+import db.DbConnectionFactory;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class JanggiGameSetupServiceTest {
-    private final GameRoom gameRoom = new GameRoom();
-    private final BoardRepository boardRepository = new BoardRepository();
-    private final GamePersistence gamePersistence = new GamePersistence(gameRoom, boardRepository);
+    private final GameDao gameDao = new GameDao();
+    private final BoardDao boardDao = new BoardDao();
+    private final GamePersistence gamePersistence = new GamePersistence(gameDao, boardDao);
     private final JanggiGameSetupService janggiGameSetupService = new JanggiGameSetupService(gamePersistence);
 
     @BeforeEach
@@ -47,61 +51,44 @@ class JanggiGameSetupServiceTest {
     }
 
     @Test
-    void 저장된_게임을_세션으로_불러온다() {
-        long gameId = gameRoom.createGame("CHO Player", "HAN Player");
-        Board board = BoardFactory.createWithFormation(Formation.from(1), Formation.from(1));
-        boardRepository.saveFullBoard(gameId, board);
+    void 저장된_게임을_세션으로_불러온다() throws SQLException {
+        try (Connection connection = DbConnectionFactory.createConnection()) {
+            long gameId = gameDao.createGame(connection, "CHO Player", "HAN Player");
+            Board board = BoardFactory.createWithFormation(Formation.from(1), Formation.from(1));
+            boardDao.saveFullBoard(gameId, board);
 
-        Optional<JanggiGameSession> loaded = janggiGameSetupService.loadSessionById(gameId);
+            Optional<JanggiGameSession> loaded = janggiGameSetupService.loadSessionById(gameId);
 
-        assertThat(loaded).isPresent();
-        assertThat(loaded.get().gameId()).isEqualTo(gameId);
-        assertThat(loaded.get().janggiGameManager().getCurrentPlayer().getProfile().team()).isEqualTo(CHO);
-    }
-
-    @Test
-    void loadProgress_진행중인_게임이_있으면_복원한다() {
-        long gameId = gameRoom.createGame("CHO Player", "HAN Player");
-        Board board = BoardFactory.createWithFormation(Formation.from(1), Formation.from(1));
-        boardRepository.saveFullBoard(gameId, board);
-
-        Optional<GameLoadResult> result = janggiGameSetupService.loadProgress();
-
-        assertThat(result).isPresent();
-        assertThat(result.get().gameId()).isEqualTo(gameId);
-        assertThat(result.get().choName()).isEqualTo("CHO Player");
-        assertThat(result.get().hanName()).isEqualTo("HAN Player");
-        assertThat(result.get().currentTeam()).isEqualTo(Team.CHO);
-        assertThat(result.get().boardMap()).isNotNull();
-    }
-
-    @Test
-    void loadProgress_진행중인_게임이_없으면_Empty를_반환한다() {
-        Optional<GameLoadResult> existingGame = janggiGameSetupService.loadProgress();
-        while (existingGame.isPresent()) {
-            gameRoom.updateGameState(existingGame.get().gameId(), Team.CHO, GameStatus.CHO_WIN);
-            existingGame = janggiGameSetupService.loadProgress();
+            assertThat(loaded).isPresent();
+            assertThat(loaded.get().gameId()).isEqualTo(gameId);
+            assertThat(loaded.get().janggiGameManager().getCurrentPlayer().getProfile().team()).isEqualTo(CHO);
         }
+    }
 
-        long gameId = gameRoom.createGame("CHO Player", "HAN Player");
-        gameRoom.updateGameState(gameId, Team.CHO, GameStatus.CHO_WIN);
-
-        Optional<GameLoadResult> result = janggiGameSetupService.loadProgress();
+    @Test
+    void 저장되지_않은_게임은_로드할_수_없다() {
+        Optional<JanggiGameSession> result = janggiGameSetupService.loadSessionById(999999L);
 
         assertThat(result).isEmpty();
     }
 
     @Test
-    void loadProgress_여러_게임_중_최신_게임을_반환한다() {
-        gameRoom.createGame("CHO Player1", "HAN Player1");
-        long gameId2 = gameRoom.createGame("CHO Player2", "HAN Player2");
-        Board board = BoardFactory.createWithFormation(Formation.from(1), Formation.from(1));
-        boardRepository.saveFullBoard(gameId2, board);
+    void 모든_진행중인_게임을_반환한다() throws SQLException {
+        try (Connection connection = DbConnectionFactory.createConnection()) {
+            List<GameInfo> existingGames = janggiGameSetupService.findProgressGames();
+            for (GameInfo game : existingGames) {
+                gameDao.updateGameState(connection, game.gameId(), Team.CHO, GameStatus.CHO_WIN);
+            }
 
-        Optional<GameLoadResult> result = janggiGameSetupService.loadProgress();
+            long gameId1 = gameDao.createGame(connection, "CHO Player1", "HAN Player1");
+            long gameId2 = gameDao.createGame(connection, "CHO Player2", "HAN Player2");
 
-        assertThat(result).isPresent();
-        assertThat(result.get().gameId()).isEqualTo(gameId2);
+            List<GameInfo> games = janggiGameSetupService.findProgressGames();
+
+            assertThat(games).hasSize(2);
+            assertThat(games).anyMatch(game -> game.gameId() == gameId1);
+            assertThat(games).anyMatch(game -> game.gameId() == gameId2);
+        }
     }
 
     private Player createPlayer(String name, Team team) {

@@ -45,15 +45,7 @@ public class JanggiGameSetupService {
         return loadGameById(gameId).map(this::toGameSession);
     }
 
-    public Optional<GameLoadResult> loadProgress() {
-        Optional<Long> gameIdOpt = gamePersistence.findProgressGame();
-        if (gameIdOpt.isEmpty()) {
-            return Optional.empty();
-        }
-        return loadGameById(gameIdOpt.get());
-    }
-
-    public Optional<GameLoadResult> loadGameById(long gameId) {
+    private Optional<GameLoadResult> loadGameById(long gameId) {
         try {
             return Optional.of(loadResult(gameId));
         } catch (Exception e) {
