@@ -13,11 +13,6 @@ public class PalaceTopology {
     private static final int PALACE_CHO_START_COL = 4;
     private static final int PALACE_CHO_END_ROW = 10;
     private static final int PALACE_CHO_END_COL = 6;
-    private final Map<Position, List<List<Movement>>> diagonalMovements;
-
-    public PalaceTopology(Map<Position, List<List<Movement>>> diagonalMovements) {
-        this.diagonalMovements = diagonalMovements;
-    }
 
     private static final Position HAN_PALACE_TOP_LEFT = new Position(1, 4);
     private static final Position HAN_PALACE_TOP_RIGHT = new Position(1, 6);
@@ -30,6 +25,12 @@ public class PalaceTopology {
     private static final Position CHO_PALACE_CENTER = new Position(9, 5);
     private static final Position CHO_PALACE_BOTTOM_LEFT = new Position(10, 4);
     private static final Position CHO_PALACE_BOTTOM_RIGHT = new Position(10, 6);
+
+    private final Map<Position, List<List<Movement>>> diagonalMovements;
+
+    public PalaceTopology(Map<Position, List<List<Movement>>> diagonalMovements) {
+        this.diagonalMovements = diagonalMovements;
+    }
 
     public static PalaceTopology from() {
         return new PalaceTopology(Map.of(
