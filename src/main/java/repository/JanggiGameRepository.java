@@ -16,6 +16,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -152,7 +153,7 @@ public final class JanggiGameRepository {
                 while (rs.next()) {
                     gameSummaries.add(new GameSummary(
                             rs.getLong("game_id"),
-                            rs.getDate("created_at"),
+                            rs.getObject("created_at", LocalDateTime.class),
                             rs.getString("current_turn")
                     ));
                 }

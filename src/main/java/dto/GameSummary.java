@@ -1,6 +1,6 @@
 package dto;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
-public record GameSummary(long id, Date startedAt, String currentTurn) {
+public record GameSummary(long id, LocalDateTime startedAt, String currentTurn) {
 }

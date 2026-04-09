@@ -8,6 +8,10 @@ import domain.piece.Piece;
 import domain.piece.PieceType;
 import dto.GameMenu;
 import dto.GameSummary;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -59,11 +63,21 @@ public final class OutputView {
         }
 
         System.out.println("------------- 저장된 게임 목록 -------------");
-        System.out.printf("%-5s %-15s %-5s %n", "[ID]", "[STARTED_AT]", "[CURRENT_TURN]");
+        System.out.printf("%-5s %-20s %-5s %n", "[ID]", "[STARTED_AT]", "[CURRENT_TURN]");
         gameSummaries.forEach(summary ->
-                System.out.printf(" %-5d %-15s %-5s %n", summary.id(), summary.startedAt(), summary.currentTurn())
+                System.out.printf(" %-5d %-20s %-5s %n",
+                        summary.id(), formatTime(summary.startedAt()), summary.currentTurn()
+                )
         );
         System.out.println("----------------------------------------");
+    }
+
+    // TODO: 일단 해결은 완료. 좀 더 명확하게 바꿀 필요 있음. 지금 문제는 DB에서 받아 온 DATE의 ZONEID가 뭔지 자바 코드에서 결정하고 있다는 것임.
+    private String formatTime(LocalDateTime ldt) {
+        ZonedDateTime utcZdt = ldt.atZone(ZoneId.of("UTC"));
+        ZonedDateTime asiaSeoulZdt = utcZdt.withZoneSameInstant(ZoneId.of("Asia/Seoul"));
+
+        return asiaSeoulZdt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }
 
     public void printGameStart() {
