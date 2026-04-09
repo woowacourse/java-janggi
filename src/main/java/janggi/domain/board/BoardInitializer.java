@@ -5,25 +5,26 @@ import janggi.domain.piece.PieceFactory;
 import janggi.domain.piece.Team;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class BoardInitializer {
 
-    private static final Map<Integer, int[][]> HAN_ATTIRE = Map.of(
-            1, new int[][]{{2, 7}, {3, 8}},
-            2, new int[][]{{3, 8}, {2, 7}},
-            3, new int[][]{{3, 7}, {2, 8}},
-            4, new int[][]{{2, 8}, {3, 7}}
+    private static final Map<Integer, List<List<Integer>>> HAN_ATTIRE = Map.of(
+            1, List.of(List.of(2, 7), List.of(2, 8)),
+            2, List.of(List.of(3, 8), List.of(2, 7)),
+            3, List.of(List.of(3, 7), List.of(2, 8)),
+            4, List.of(List.of(2, 8), List.of(3, 7))
     );
 
-    private static final Map<Integer, int[][]> CHO_ATTIRE = Map.of(
-            1, new int[][]{{3, 8}, {2, 7}},
-            2, new int[][]{{2, 7}, {3, 8}},
-            3, new int[][]{{3, 7}, {2, 8}},
-            4, new int[][]{{2, 8}, {3, 7}}
+    private static final Map<Integer, List<List<Integer>>> CHO_ATTIRE = Map.of(
+            1, List.of(List.of(3, 8), List.of(2, 7)),
+            2, List.of(List.of(2, 7), List.of(3, 8)),
+            3, List.of(List.of(3, 7), List.of(2, 8)),
+            4, List.of(List.of(2, 8), List.of(3, 7))
     );
 
-    public static Board initializeBoard(int hanChoice, int choChoice) {
+    public static Board initializeBoard(final int hanChoice, final int choChoice) {
         Map<Position, Piece> board = new LinkedHashMap<>();
         initializeTeam(board, Team.HAN,
                 1, 4, 3, 2,
@@ -36,7 +37,7 @@ public class BoardInitializer {
 
     private static void initializeTeam(Map<Position, Piece> board, Team team,
                                        int baseRow, int soldierRow, int cannonRow, int generalRow,
-                                       BoardDirection direction, int[][] attire) {
+                                       BoardDirection direction, List<List<Integer>> attire) {
         initializeChariots(board, team, baseRow);
         initializeGuards(board, team, baseRow);
         initializeGeneral(board, team, generalRow);
@@ -72,12 +73,12 @@ public class BoardInitializer {
     }
 
     private static void initializeAttire(Map<Position, Piece> board, Team team,
-                                         int baseRow, int[][] formation) {
-        int[] elephant = formation[0];
-        int[] horse = formation[1];
-        board.put(new Position(elephant[0], baseRow), PieceFactory.createElephant(team));
-        board.put(new Position(elephant[1], baseRow), PieceFactory.createElephant(team));
-        board.put(new Position(horse[0], baseRow), PieceFactory.createHorse(team));
-        board.put(new Position(horse[1], baseRow), PieceFactory.createHorse(team));
+                                         int baseRow, List<List<Integer>> formation) {
+        List<Integer> elephant = formation.get(0);
+        List<Integer> horse = formation.get(1);
+        board.put(new Position(elephant.get(0), baseRow), PieceFactory.createElephant(team));
+        board.put(new Position(elephant.get(1), baseRow), PieceFactory.createElephant(team));
+        board.put(new Position(horse.get(0), baseRow), PieceFactory.createHorse(team));
+        board.put(new Position(horse.get(1), baseRow), PieceFactory.createHorse(team));
     }
 }
