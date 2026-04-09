@@ -18,19 +18,19 @@ public class GameSession {
         this.view = view;
     }
 
-    public boolean isPlaying() {
+    public boolean isOver() {
         return game.isOver();
     }
 
     public void printResult() {
-        if (isPlaying()) {
+        if (!isOver()) {
             throw new IllegalArgumentException("아직 게임이 종료되지 않았습니다.");
         }
         view.printGameResult(game.getResult());
     }
 
     public GameTurnResult run() {
-        if (!isPlaying()) {
+        if (isOver()) {
             throw new IllegalArgumentException("진행중인 게임만 실행할 수 있습니다.");
         }
 

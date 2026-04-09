@@ -20,7 +20,7 @@ public class GamePlayService {
     }
 
     public void run(final Long gameId, final GameSession session) {
-        while (session.isPlaying()) {
+        while (!session.isOver()) {
             final GameTurnResult turnResult = session.run();
             saveTurn(gameId, turnResult);
         }
