@@ -12,52 +12,51 @@ public final class TransactionExecutor {
     }
 
     public static <T> T execute(Function<Connection, T> action) {
-        Connection connection = null;
-        try {
-            connection = DbConnectionFactory.createConnection();
+        try (Connection connection = DbConnectionFactory.createConnection()) {
             connection.setAutoCommit(false);
-            T result = action.apply(connection);
-            connection.commit();
-            return result;
-        } catch (Exception e) {
-            rollbackQuietly(connection);
-            if (e instanceof RuntimeException) {
-                throw (RuntimeException) e;
-            }
+            return executeAndCommit(connection, action);
+        } catch (SQLException e) {
             throw new IllegalStateException("트랜잭션 처리에 실패했습니다.", e);
-        } finally {
-            closeQuietly(connection);
         }
     }
 
     public static void executeVoid(Consumer<Connection> action) {
-        Connection connection = null;
-        try {
-            connection = DbConnectionFactory.createConnection();
+        try (Connection connection = DbConnectionFactory.createConnection()) {
             connection.setAutoCommit(false);
-            action.accept(connection);
-            connection.commit();
-        } catch (Exception e) {
-            rollbackQuietly(connection);
-            if (e instanceof RuntimeException) {
-                throw (RuntimeException) e;
-            }
+            executeAndCommitVoid(connection, action);
+        } catch (SQLException e) {
             throw new IllegalStateException("트랜잭션 처리에 실패했습니다.", e);
-        } finally {
-            closeQuietly(connection);
         }
     }
 
-    private static void closeQuietly(Connection connection) {
-        if (connection == null) return;
+    private static <T> T executeAndCommit(Connection connection, Function<Connection, T> action) {
         try {
-            connection.close();
-        } catch (SQLException ignored) {
+            T result = action.apply(connection);
+            connection.commit();
+            return result;
+        } catch (RuntimeException e) {
+            rollbackQuietly(connection);
+            throw e;
+        } catch (SQLException e) {
+            rollbackQuietly(connection);
+            throw new IllegalStateException("트랜잭션 처리에 실패했습니다.", e);
+        }
+    }
+
+    private static void executeAndCommitVoid(Connection connection, Consumer<Connection> action) {
+        try {
+            action.accept(connection);
+            connection.commit();
+        } catch (RuntimeException e) {
+            rollbackQuietly(connection);
+            throw e;
+        } catch (SQLException e) {
+            rollbackQuietly(connection);
+            throw new IllegalStateException("트랜잭션 처리에 실패했습니다.", e);
         }
     }
 
     private static void rollbackQuietly(Connection connection) {
-        if (connection == null) return;
         try {
             connection.rollback();
         } catch (SQLException ignored) {

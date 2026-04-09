@@ -25,23 +25,15 @@ public class BoardRepository {
     private static final String NONE_VALUE = "NONE";
 
     public void saveFullBoard(long gameId, Board board) {
-        Connection connection = null;
-        try {
-            connection = DbConnectionFactory.createConnection();
-            connection.setAutoCommit(false);
-            saveFullBoard(connection, gameId, board);
-            connection.commit();
-        } catch (SQLException e) {
-            rollbackQuietly(connection);
-            throw new IllegalStateException("보드 저장에 실패했습니다.", e);
-        } finally {
-            closeQuietly(connection);
-        }
+        TransactionExecutor.executeVoid(connection -> saveFullBoard(connection, gameId, board));
     }
 
     public void saveFullBoard(Connection connection, long gameId, Board board) {
-        try {
-            insertPieces(connection, gameId, board);
+        try (PreparedStatement statement = connection.prepareStatement(INSERT_BOARD_SQL)) {
+            for (Position pos : collectAllPositions()) {
+                addPieceBatch(statement, gameId, pos, board.findPiece(pos));
+            }
+            statement.executeBatch();
         } catch (SQLException e) {
             throw new IllegalStateException("보드 저장에 실패했습니다.", e);
         }
@@ -66,15 +58,6 @@ public class BoardRepository {
             return board;
         } catch (SQLException e) {
             throw new IllegalStateException("보드 불러오기에 실패했습니다.", e);
-        }
-    }
-
-    private void insertPieces(Connection connection, long gameId, Board board) throws SQLException {
-        try (PreparedStatement statement = connection.prepareStatement(INSERT_BOARD_SQL)) {
-            for (Position pos : collectAllPositions()) {
-                addPieceBatch(statement, gameId, pos, board.findPiece(pos));
-            }
-            statement.executeBatch();
         }
     }
 
@@ -172,26 +155,6 @@ public class BoardRepository {
     private void initializeRow(Map<Position, BasicPiece> board, int row) {
         for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
             board.put(new Position(row, column), domain.piece.None.getInstance());
-        }
-    }
-
-    private void closeQuietly(Connection connection) {
-        if (connection == null) {
-            return;
-        }
-        try {
-            connection.close();
-        } catch (SQLException ignored) {
-        }
-    }
-
-    private void rollbackQuietly(Connection connection) {
-        if (connection == null) {
-            return;
-        }
-        try {
-            connection.rollback();
-        } catch (SQLException ignored) {
         }
     }
 }
