@@ -1,6 +1,6 @@
 package controller;
 
-import domain.board.FormationType;
+import domain.board.formation.FormationType;
 import domain.game.JanggiGame;
 import domain.game.Team;
 import domain.position.Position;
@@ -25,6 +25,8 @@ public class JanggiController {
             playTurn(game);
             outputView.printBoard(game.getBoard());
         }
+
+        outputView.printResult(game.scoreOf(Team.CHO), game.scoreOf(Team.HAN));
     }
 
     private JanggiGame createGame() {
@@ -36,13 +38,18 @@ public class JanggiController {
     private void playTurn(JanggiGame game) {
         boolean isTurnCompleted = false;
         while (!isTurnCompleted) {
-            isTurnCompleted = executeMove(game);
+            isTurnCompleted = executeTurn(game);
         }
     }
 
-    private boolean executeMove(JanggiGame game) {
+    private boolean executeTurn(JanggiGame game) {
         try {
-            List<Position> positions = inputView.askMovePiecePosition(game.currentTurn());
+            String input = inputView.askTurnInput(game.currentTurn());
+            if (inputView.isPass(input)) {
+                game.pass();
+                return true;
+            }
+            List<Position> positions = inputView.parseMoveInput(input);
             game.move(positions.get(0), positions.get(1));
             return true;
         } catch (IllegalArgumentException e) {
