@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class GameDao {
+public class JanggiGameDao {
     private static final String INITIAL_STATUS = "PROGRESS";
     private static final String INSERT_GAME_SQL = "INSERT INTO game(cho_name, han_name, current_turn, status) VALUES(?, ?, ?, ?)";
     private static final String UPDATE_GAME_STATE_SQL = "UPDATE game SET current_turn = ?, status = ? WHERE game_id = ?";
