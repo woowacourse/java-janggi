@@ -60,7 +60,7 @@ public class Application {
     private void playJanggi(Game game, int gameId, GameDAO gameDAO) {
         progressJanggi(game, gameId, gameDAO);
 
-        if (game.isScoreWin()) {
+        if (game.isNotEnoughPieces()) {
             outputView.printScore(game.choScore(), game.hanScore());
         }
         outputView.printWinner(game.winner());

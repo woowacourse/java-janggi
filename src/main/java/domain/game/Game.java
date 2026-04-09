@@ -43,27 +43,25 @@ public class Game {
 
         board.move(from, to);
 
-        validateGameFinished(isGeneralCaptured);
-        validateGameDraw();
+        updateGameIfFinished(isGeneralCaptured);
+        updateGameIfDraw();
 
         changeTurn();
     }
 
-    private void validateGameFinished(boolean isGeneralCaptured) {
+    private void updateGameIfFinished(boolean isGeneralCaptured) {
         if (isGeneralCaptured) {
             this.gameState = new Finished(currentTurn);
-            return;
         }
     }
 
-    private void validateGameDraw() {
+    private void updateGameIfDraw() {
         if (board.isOnlyGeneralAndGuard()) {
             double choScore = board.calculateScore(Camp.CHO);
             double hanScore = board.calculateScore(Camp.HAN);
 
             checkWinCamp(choScore, hanScore);
         }
-        return;
     }
 
     private void checkWinCamp(double choScore, double hanScore) {
@@ -74,7 +72,7 @@ public class Game {
         this.gameState = new Finished(Camp.HAN);
     }
 
-    public boolean isScoreWin() {
+    public boolean isNotEnoughPieces() {
         return board.isOnlyGeneralAndGuard();
     }
 
