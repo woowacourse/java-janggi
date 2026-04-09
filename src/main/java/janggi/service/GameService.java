@@ -1,6 +1,7 @@
 package janggi.service;
 
 import janggi.domain.Position;
+import janggi.domain.board.Board;
 import janggi.domain.game.GameStatus;
 import janggi.domain.game.TurnManager;
 import janggi.domain.piece.Piece;
@@ -8,6 +9,7 @@ import janggi.domain.team.Team;
 import janggi.domain.team.TeamType;
 import janggi.global.Pair;
 import janggi.infrastructure.entity.GameEntity;
+import janggi.infrastructure.mapper.BoardMapper;
 import janggi.infrastructure.mapper.TurnManagerMapper;
 import janggi.infrastructure.repository.BoardCellRepository;
 import janggi.infrastructure.repository.GameRepository;
@@ -65,23 +67,25 @@ public class GameService {
     public void progressTurn(
         final long gameId,
         final Position from,
-        final Position to,
-        final Piece piece
+        final Position to
     ) {
-        final TurnManager turnManager =
-            TurnManagerMapper.toDomain(gameRepository.findById(gameId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 id를 가진 게임이 존재하지 않습니다.")));
+        final TurnManager turnManager = getTurnManager(gameId);
+        final Board board = new Board(BoardMapper.toDomain(boardCellRepository.findAllByGameId(gameId)));
+        final Piece piece = board.findPieceByPosition(from);
         turnManager.progressToNext();
         boardCellRepository.upsertByPositionAndGameId(to, gameId, piece);
         boardCellRepository.deleteByPositionAndGameId(from, gameId);
-        gameRepository.updateById(
-            gameId,
-            TurnManagerMapper.toEntity(
-                turnManager.getTurnTaken(), turnManager.getTeams(), GameStatus.IN_PROGRESS)
+        gameRepository.updateById(gameId,
+            TurnManagerMapper.toEntity(turnManager.getTurnTaken(), turnManager.getTeams(), GameStatus.IN_PROGRESS)
         );
     }
 
     public void closeGame(final long id) {
         gameRepository.updateStatusById(id, GameStatus.CLOSED);
+    }
+
+    private TurnManager getTurnManager(final long gameId) {
+        return TurnManagerMapper.toDomain(gameRepository.findById(gameId)
+            .orElseThrow(() -> new IllegalArgumentException("해당 id를 가진 게임이 존재하지 않습니다.")));
     }
 }

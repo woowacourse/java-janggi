@@ -147,7 +147,7 @@ class GameServiceTest {
         boardCellRepository.save(BoardCellEntity.from(gameId, from, piece));
         GameEntity expectedGameEntity = GameEntity.from(gameId, "게임 1", 34, List.of(TeamType.BLUE, TeamType.RED));
 
-        gameService.progressTurn(gameId, from, to, piece);
+        gameService.progressTurn(gameId, from, to);
         GameEntity actualGameEntity = gameRepository.findById(gameId).get();
 
         assertAll(

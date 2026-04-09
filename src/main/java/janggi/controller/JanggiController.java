@@ -2,9 +2,6 @@ package janggi.controller;
 
 import janggi.domain.Position;
 import janggi.domain.board.Board;
-import janggi.domain.board.BoardGenerator;
-import janggi.domain.board.BoardMediator;
-import janggi.domain.board.BoardMediatorImpl;
 import janggi.domain.command.SetupCommand;
 import janggi.domain.game.TurnManager;
 import janggi.domain.piece.Piece;
@@ -21,6 +18,7 @@ import janggi.utils.RetryExecutor;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.List;
+import java.util.Optional;
 
 public class JanggiController {
 
@@ -44,7 +42,7 @@ public class JanggiController {
         final Board board = loadOrSaveBoard(gameId, idTurnManagerPair.right());
 
         OutputView.printBoard(BoardDto.from(board, List.of()));
-        playGame(gameId, board);
+        playGame(gameId);
         OutputView.printGameResult(GameResultDto.from(board));
         gameService.closeGame(gameId);
     }
@@ -57,7 +55,8 @@ public class JanggiController {
         return RetryExecutor.retry(this::readGameSelectCommand);
     }
 
-    private Pair<Long, TurnManager> loadOrSaveTurnManager(final GameSelectCommand gameSelectCommand) {
+    private Pair<Long, TurnManager> loadOrSaveTurnManager(
+        final GameSelectCommand gameSelectCommand) {
         if (gameSelectCommand.isGenerateGame()) {
             return saveTurnManager();
         }
@@ -78,7 +77,7 @@ public class JanggiController {
             gameService.loadGame(gameSelectCommand.getSelectedGameId());
         OutputView.printGameLoadingMessage(game.left());
         final long gameId = gameSelectCommand.getSelectedGameId();
-        return new Pair<>(gameId, game.right()) ;
+        return new Pair<>(gameId, game.right());
     }
 
     public Board loadOrSaveBoard(final long gameId, final TurnManager turnManager) {
@@ -93,49 +92,36 @@ public class JanggiController {
         return TeamGenerator.generate(teamType, setupCommand.toPolicy());
     }
 
-    private void playGame(final long gameId, final Board board) {
-        final BoardMediator boardMediator = new BoardMediatorImpl(board);
+    private void playGame(final long gameId) {
         while (!boardService.isOver(gameId)) {
             final Team currentTeam = gameService.getCurrentTeam(gameId);
             OutputView.printTurnStatus(currentTeam);
-            final Position from = RetryExecutor.retry(this::readFromPosition, currentTeam,
-                boardMediator);
-            final List<Position> movablePositions = displayMovablePositions(from,
-                board, boardMediator);
+            final Position from = RetryExecutor.retry(this::readFromPosition, gameId, currentTeam);
+            final List<Position> movablePositions = displayMovablePositions(gameId, from);
             final Position to = RetryExecutor.retry(this::readTargetPosition, movablePositions);
-            gameService.progressTurn(gameId, from, to,
-                boardMediator.getPieceByPosition(from));
-            board.movePiece(from, to);
-            OutputView.printBoard(BoardDto.from(board, List.of()));
+            gameService.progressTurn(gameId, from, to);
+            OutputView.printBoard(BoardDto.from(boardService.getBoard(gameId), List.of()));
         }
     }
 
-    private List<Position> displayMovablePositions(
-        final Position positionOfMovingPiece,
-        final Board board,
-        final BoardMediator boardMediator
-    ) {
-        final Piece pieceToMove = boardMediator.getPieceByPosition(positionOfMovingPiece);
-        final List<Position> movablePositions =
-            pieceToMove.calculateMovablePositions(positionOfMovingPiece, boardMediator);
-        OutputView.printBoard(BoardDto.from(board, movablePositions));
+    private List<Position> displayMovablePositions(final long gameId, final Position position) {
+        final List<Position> movablePositions = boardService.getMovablePositions(gameId, position);
+        OutputView.printBoard(BoardDto.from(boardService.getBoard(gameId), movablePositions));
 
         return movablePositions;
     }
 
-    private void validateSelectedPosition(
-        final Position selectedPosition,
-        final Team team,
-        final BoardMediator boardMediator
-    ) {
-        final Piece selectedPiece = boardMediator.getPieceByPosition(selectedPosition);
-        if (!boardMediator.existsByPosition(selectedPosition)) {
+    private void validateSelectedPosition(final long gameId, final Position selectedPosition,
+        final Team team) {
+        final Optional<Piece> selectedPiece = boardService.getPieceByPosition(gameId,
+            selectedPosition);
+        if (selectedPiece.isEmpty()) {
             throw new IllegalArgumentException("입력된 위치에 기물이 존재하지 않습니다.");
         }
-        if (!team.hasPiece(selectedPiece)) {
+        if (!team.hasPiece(selectedPiece.get())) {
             throw new IllegalArgumentException("입력된 위치에 있는 기물은 팀 기물이 아닙니다.");
         }
-        if (selectedPiece.calculateMovablePositions(selectedPosition, boardMediator).isEmpty()) {
+        if (boardService.getMovablePositions(gameId, selectedPosition).isEmpty()) {
             throw new IllegalArgumentException("선택한 기물이 이동할 수 있는 지점이 없습니다.");
         }
     }
@@ -160,11 +146,11 @@ public class JanggiController {
         return SetupCommand.pick(InputView.readSetupCommand());
     }
 
-    private Position readFromPosition(final Team team, final BoardMediator boardMediator) {
+    private Position readFromPosition(final long gameId, final Team team) {
         final String rawPosition = InputView.readFromPosition();
         final Position selectedPosition = Position.from(Parser.parsePosition(rawPosition));
 
-        validateSelectedPosition(selectedPosition, team, boardMediator);
+        validateSelectedPosition(gameId, selectedPosition, team);
         return selectedPosition;
     }
 
