@@ -18,14 +18,14 @@ public class Soldier extends AbstractPiece {
                 new SingleMoveRule(new Movement(Direction.LEFT)),
                 new SingleMoveRule(new Movement(Direction.RIGHT)),
                 new SingleMoveRule(new Movement(Direction.DOWN)),
-                new PalaceMoveRule(new Movement(Direction.DOWN_LEFT)),
-                new PalaceMoveRule(new Movement(Direction.DOWN_RIGHT)));
+                new PalaceMoveRule(Direction.DOWN_LEFT),
+                new PalaceMoveRule(Direction.DOWN_RIGHT));
         final List<MoveRule> blueMovementStrategies = List.of(
                 new SingleMoveRule(new Movement(Direction.LEFT)),
                 new SingleMoveRule(new Movement(Direction.RIGHT)),
                 new SingleMoveRule(new Movement(Direction.UP)),
-                new PalaceMoveRule(new Movement(Direction.UP_LEFT)),
-                new PalaceMoveRule(new Movement(Direction.UP_RIGHT)));
+                new PalaceMoveRule(Direction.UP_LEFT),
+                new PalaceMoveRule(Direction.UP_RIGHT));
         RED_PIECE_ACTION = new PieceAction(redMovementStrategies);
         BLUE_PIECE_ACTION = new PieceAction(blueMovementStrategies);
     }

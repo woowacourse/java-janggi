@@ -8,16 +8,18 @@ import java.util.List;
 public class PalaceMoveRule implements MoveRule {
 
     private final Movement movement;
+    private final Direction direction;
 
-    public PalaceMoveRule(Movement movementOrder) {
-        this.movement = movementOrder;
+    public PalaceMoveRule(Direction direction) {
+        this.direction = direction;
+        this.movement = new Movement(direction);
     }
 
     @Override
     public List<Position> execute(Position from, final TeamType teamType, final BoardMediator boardMediator) {
-        if (!boardMediator.isPalace(from)) {
+        if (!Palace.isAllowedDirection(from, direction)) {
             return List.of();
         }
-        return movement.calculateTracesOneForPalace(from, teamType, boardMediator);
+        return movement.calculateTracesOne(from, teamType, boardMediator);
     }
 }
