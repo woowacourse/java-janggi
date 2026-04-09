@@ -1,29 +1,22 @@
 package database.dao;
 
 import database.context.ConnectionContext;
-import database.dto.IntersectionDto;
-import database.exception.DataAccessException;
 import database.mapper.RowMapper;
 
 import java.sql.*;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public class JdbcTemplate {
 
     public Long save(String sql) throws SQLException {
-        Connection connection = ConnectionContext.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-        preparedStatement.executeUpdate();
-
-        ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-        if (generatedKeys.next()) {
-            return generatedKeys.getLong(1);
-        }
-        return null;
+        return connectPrepareStatement(ConnectionContext.getConnection(), sql, Statement.RETURN_GENERATED_KEYS, preparedStatement -> {
+            preparedStatement.executeUpdate();
+            return executeResultSet(preparedStatement);
+        });
     }
 
-    public <T> void saveAll(String sql, List<T> dataList, BatchPreparedStatementSetter<T> setter) {
+    public <T> void saveAll(String sql, List<T> dataList, BatchPreparedStatementSetter<T> setter) throws SQLException {
         connectPrepareStatement(ConnectionContext.getConnection(), sql, preparedStatement -> {
             for (T data : dataList) {
                 setter.setValues(preparedStatement, data);
@@ -35,73 +28,89 @@ public class JdbcTemplate {
     }
 
     public <T> T selectOne(String sql, RowMapper<T> mapper, Object... parameters) throws SQLException {
-        Connection connection = ConnectionContext.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        setParameters(preparedStatement, parameters);
-
-        ResultSet resultSet = preparedStatement.executeQuery();
-        if (resultSet.next()) {
-            return mapper.map(resultSet);
-        }
-        return null;
+        return connectPrepareStatement(
+                ConnectionContext.getConnection(), sql,
+                preparedStatement -> executeResultSet(preparedStatement, mapper),
+                parameters);
     }
 
     public <T> List<T> selectList(String sql, RowMapper<T> mapper, Object... parameters) throws SQLException {
-        Connection connection = ConnectionContext.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        setParameters(preparedStatement, parameters);
-
-        ResultSet resultSet = preparedStatement.executeQuery();
-        List<T> list = new LinkedList<>();
-        while (resultSet.next()) {
-            list.add(mapper.map(resultSet));
-        }
-        return list;
+        return connectPrepareStatement(
+                ConnectionContext.getConnection(), sql,
+                preparedStatement -> executeResultSetList(preparedStatement, mapper),
+                parameters);
     }
 
     public <T> List<T> selectList(String sql, RowMapper<T> mapper) throws SQLException {
-        Connection connection = ConnectionContext.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
-
-        ResultSet resultSet = preparedStatement.executeQuery();
-        List<T> list = new LinkedList<>();
-        while (resultSet.next()) {
-            list.add(mapper.map(resultSet));
-        }
-        return list;
+        return connectPrepareStatement(
+                ConnectionContext.getConnection(), sql,
+                preparedStatement -> executeResultSetList(preparedStatement, mapper)
+        );
     }
 
     public void update(String sql, Object... parameters) throws SQLException {
-        Connection connection = ConnectionContext.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        setParameters(preparedStatement, parameters);
+        connectPrepareStatement(ConnectionContext.getConnection(), sql, preparedStatement -> {
+            int affectedRows = preparedStatement.executeUpdate();
+            if (affectedRows == 0) throw new SQLException("update를 수행할 행을 찾지 못했습니다.");
+            return null;
+        }, parameters);
+    }
 
-        int affectedRows = preparedStatement.executeUpdate();
-        if (affectedRows == 0) {
-            throw new SQLException("update를 수행할 행을 찾지 못했습니다.");
+    private <T> T connectPrepareStatement(Connection connection, String sql, PreparedStatementCallback<T> callback, Object... parameters) throws SQLException {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
+            setParameters(preparedStatement, parameters);
+            return callback.execute(preparedStatement);
+        } catch (SQLException e) {
+            throw new SQLException();
+        }
+    }
+
+    private <T> T connectPrepareStatement(Connection connection, String sql, int autoGeneratedKeys,
+                                          PreparedStatementCallback<T> callback) throws SQLException {
+        try (PreparedStatement ps = connection.prepareStatement(sql, autoGeneratedKeys)) {
+            return callback.execute(ps);
+        } catch (SQLException e) {
+            throw new SQLException();
+        }
+    }
+
+    private <T> T connectPrepareStatement(Connection connection, String sql, PreparedStatementCallback<T> callback) throws SQLException {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
+            return callback.execute(preparedStatement);
+        } catch (SQLException e) {
+            throw new SQLException();
+        }
+    }
+
+    private <T> T executeResultSet(PreparedStatement preparedStatement, RowMapper<T> mapper) throws SQLException {
+        try (ResultSet resultSet = preparedStatement.executeQuery()) {
+            return resultSet.next() ? mapper.map(resultSet) : null;
+        } catch (SQLException e) {
+            throw new SQLException();
+        }
+    }
+
+    private Long executeResultSet(PreparedStatement preparedStatement) throws SQLException {
+        try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
+            return resultSet.next() ? resultSet.getLong(1) : null;
+        } catch (SQLException e) {
+            throw new SQLException();
+        }
+    }
+
+    private <T> List<T> executeResultSetList(PreparedStatement preparedStatement, RowMapper<T> mapper) throws SQLException {
+        try (ResultSet resultSet = preparedStatement.executeQuery()) {
+            List<T> list = new ArrayList<>();
+            while (resultSet.next()) list.add(mapper.map(resultSet));
+            return list;
+        } catch (SQLException e) {
+            throw new SQLException();
         }
     }
 
     public void setParameters(PreparedStatement preparedStatement, Object... parameters) throws SQLException {
         for (int i = 0; i < parameters.length; i++) {
             preparedStatement.setObject(i + 1, parameters[i]);
-        }
-    }
-
-    private <T> T connectPrepareStatement(Connection connection, String sql, PreparedStatementCallback<T> callback, Object... parameters) {
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
-            setParameters(preparedStatement, parameters);
-            return callback.execute(preparedStatement);
-        }catch (SQLException e) {
-            throw new DataAccessException();
-        }
-    }
-
-    private <T> T connectPrepareStatement(Connection connection, String sql, PreparedStatementCallback<T> callback) {
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
-            return callback.execute(preparedStatement);
-        }catch (SQLException e) {
-            throw new DataAccessException();
         }
     }
 

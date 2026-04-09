@@ -32,7 +32,7 @@ public class JdbcIntersectionDao implements IntersectionDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void saveAll(Long boardId, List<IntersectionDto> intersections) {
+    public void saveAll(Long boardId, List<IntersectionDto> intersections) throws SQLException {
         jdbcTemplate.saveAll(
                 INSERT_INTERSECTION_QUERY,
                 intersections,
