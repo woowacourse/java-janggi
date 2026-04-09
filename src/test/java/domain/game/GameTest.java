@@ -93,6 +93,7 @@ public class GameTest {
     void decreaseOpponentScore_When_CapturePiece() {
         Board board = new Board(Map.of(
                 new Position(5, 5), new Piece(Camp.CHO, PieceType.CHARIOT),
+                new Position(9, 1), new Piece(Camp.HAN, PieceType.GENERAL),
                 new Position(5, 2), new Piece(Camp.HAN, PieceType.SOLDIER),
                 new Position(4, 2), new Piece(Camp.HAN, PieceType.GUARD)
         ));
@@ -101,5 +102,35 @@ public class GameTest {
         game.playMove(new Position(5, 5), new Position(5, 2));
 
         assertThat(game.scoreOf(Camp.HAN)).isEqualTo(3);
+    }
+
+    @Test
+    @DisplayName("상대 장군을 위협하는 수를 두면 장군 상태를 반환한다.")
+    void returnCheckedCamp_When_MoveCausesCheck() {
+        Board board = new Board(Map.of(
+                new Position(5, 9), new Piece(Camp.CHO, PieceType.GENERAL),
+                new Position(5, 2), new Piece(Camp.HAN, PieceType.GENERAL),
+                new Position(1, 5), new Piece(Camp.CHO, PieceType.CHARIOT)
+        ));
+        Game game = Game.restore(board, Camp.CHO, false);
+
+        TurnResult turnResult = game.playMove(new Position(1, 5), new Position(5, 5));
+
+        assertThat(turnResult.checkedCamp()).contains(Camp.HAN);
+        assertThat(turnResult.winner()).isEmpty();
+        assertThat(game.currentTurn()).isEqualTo(Camp.HAN);
+    }
+
+    @Test
+    @DisplayName("턴을 넘기면 빈 결과를 반환하고 턴이 변경된다.")
+    void returnEmptyResult_When_PassTurn() {
+        Game game = Game.start(SetUp.LEFT_ELEPHANT, SetUp.RIGHT_ELEPHANT);
+
+        TurnResult turnResult = game.passTurn();
+
+        assertThat(turnResult.capturedPieceType()).isEmpty();
+        assertThat(turnResult.checkedCamp()).isEmpty();
+        assertThat(turnResult.winner()).isEmpty();
+        assertThat(game.currentTurn()).isEqualTo(Camp.HAN);
     }
 }

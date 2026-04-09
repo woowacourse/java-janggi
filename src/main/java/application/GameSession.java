@@ -1,6 +1,7 @@
 package application;
 
 import domain.game.Game;
+import domain.game.TurnResult;
 import domain.piece.Camp;
 import repository.GameRepository;
 import view.GameCommand;
@@ -33,11 +34,12 @@ public class GameSession {
 
         try {
             GameCommand command = inputView.readCommand();
-            command.execute(game);
+            TurnResult turnResult = command.execute(game);
 
             gameRepository.save(game);
 
             outputView.printBoard(game.board());
+            outputView.printTurnResult(turnResult);
             outputView.printScore(game.scoreOf(Camp.CHO), game.scoreOf(Camp.HAN));
         } catch (IllegalArgumentException exception) {
             outputView.printError(exception.getMessage());
