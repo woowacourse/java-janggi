@@ -2,6 +2,7 @@ package application;
 
 import dao.GameDAO;
 import domain.game.Game;
+import domain.game.GameCommand;
 import domain.piece.Camp;
 import view.*;
 
@@ -95,16 +96,7 @@ public class Application {
     }
 
     private void execute(Game game, GameCommand command, int gameId, GameDAO gameDAO) {
-        command.execute(game);
-
-        if (command instanceof MoveCommand moveCommand) {
-            gameDAO.updateMove(gameId, game, moveCommand.from(), moveCommand.to());
-            return;
-        }
-
-        if (command instanceof PassCommand) {
-            gameDAO.updateGameStatus(gameId, game);
-        }
+        command.execute(game, gameDAO, gameId);
     }
 
     private String readValidMainMenu() {
