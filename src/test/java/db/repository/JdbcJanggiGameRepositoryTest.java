@@ -27,6 +27,7 @@ import java.util.Optional;
 import movepolicy.MoveHistory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import participant.Turn;
 import pieces.Piece;
@@ -34,6 +35,7 @@ import pieces.PieceType;
 import pieces.Side;
 import position.Position;
 
+@Disabled(value = "외부 DB 의존성에 의한 테스트의 결과 비일관성 방지를 위해 비활성화 합니다.")
 class JdbcJanggiGameRepositoryTest {
 
     private static final Board EMPTY_BOARD = new Board(Map.of());
