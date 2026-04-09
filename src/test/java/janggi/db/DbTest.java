@@ -32,7 +32,7 @@ public class DbTest {
         connection = new DatabaseConnector(TEST_URL).getConnection();
         Statement statement = connection.createStatement();
         statement.execute(
-                "CREATE TABLE IF NOT EXISTS game (id INT AUTO_INCREMENT PRIMARY KEY, current_turn VARCHAR(10));");
+                "CREATE TABLE IF NOT EXISTS game (id INT PRIMARY KEY, current_turn VARCHAR(10));");
         statement.execute(
                 "CREATE TABLE IF NOT EXISTS piece (id INT AUTO_INCREMENT PRIMARY KEY, game_id INT, position_row INT, position_column INT, piece_type VARCHAR(50), team_type VARCHAR(50), FOREIGN KEY (game_id) REFERENCES game(id));");
         gameDao = new GameDao(TEST_URL);
