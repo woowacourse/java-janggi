@@ -52,15 +52,15 @@ public class Piece {
         return EMPTY_INSTANCE;
     }
 
-    Side getSide() {
+    public Side getSide() {
         return side;
     }
 
-    PieceType getPieceType() {
+    public PieceType getPieceType() {
         return pieceType;
     }
 
-    String getPieceNumber() {
+    public String getPieceNumber() {
         return pieceNumber;
     }
 

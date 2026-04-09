@@ -54,6 +54,10 @@ public class Board {
         this.piecePosition = new HashMap<>(piecePosition);
     }
 
+    public static Board from(Map<Position, Piece> piecePosition) {
+        return new Board(piecePosition);
+    }
+
     public static Board initialize() {
         Map<Position, Piece> initialBoard = new HashMap<>();
 
@@ -110,7 +114,7 @@ public class Board {
         initialBoard.put(new Position(row, column), new Piece(side, pieceType, pieceNumber));
     }
 
-    Map<Position, Piece> getPiecePosition() {
+    public Map<Position, Piece> getPiecePosition() {
         return Map.copyOf(this.piecePosition);
     }
 
