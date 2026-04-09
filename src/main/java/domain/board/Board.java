@@ -82,6 +82,14 @@ public class Board {
         return Collections.unmodifiableMap(pieces);
     }
 
+    public Optional<Piece> findPieceAt(int row, int col) {
+        return Optional.ofNullable(pieces.get(new Position(row, col)));
+    }
+
+    public boolean hasPieceAt(Position position) {
+        return pieces.containsKey(position);
+    }
+
     public boolean isGeneralAlive() {
         int generalCount = 0;
         for (Piece piece : pieces.values()) {

@@ -28,22 +28,26 @@ public class JanggiController {
     }
     
     public void run() {
-        GameState state = initializeGame();
-        Board board = state.board();
-        Turn turn = state.turn();
-        int gameId = state.gameId();
+        try {
+            GameState state = initializeGame();
+            Board board = state.board();
+            Turn turn = state.turn();
+            int gameId = state.gameId();
 
-        outputView.printBoard(board);
+            outputView.printBoard(board);
 
-        while (board.isGeneralAlive()) {
-            turn = playTurn(board, turn, gameId);
+            while (board.isGeneralAlive()) {
+                turn = playTurn(board, turn, gameId);
+            }
+
+            Map<Team, Score> scores = board.calculateScore();
+            outputView.printWinner(board.decideWinner());
+            outputView.printScore(Team.CHO, scores.get(Team.CHO));
+            outputView.printScore(Team.HAN, scores.get(Team.HAN));
+            gameRepository.deleteGame(gameId);
+        } catch (RuntimeException e) {
+            outputView.printErrorMessage(e.getMessage());
         }
-
-        Map<Team, Score> scores = board.calculateScore();
-        outputView.printWinner(board.decideWinner());
-        outputView.printScore(Team.CHO, scores.get(Team.CHO));
-        outputView.printScore(Team.HAN, scores.get(Team.HAN));
-        gameRepository.deleteGame(gameId);
     }
 
     private Board createBoard() {
@@ -64,7 +68,7 @@ public class JanggiController {
             List<Position> positions = inputView.askMovePiecePosition(turn.current());
             Position src = positions.get(0);
             Position dest = positions.get(1);
-            boolean isCapture = board.getState().containsKey(dest);
+            boolean isCapture = board.hasPieceAt(dest);
             board.move(src, dest, turn.current());
             Turn next = turn.next();
             gameRepository.saveMove(gameId, src, dest, isCapture, next.current());

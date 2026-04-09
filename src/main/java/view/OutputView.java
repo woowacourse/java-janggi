@@ -4,8 +4,8 @@ import domain.board.Board;
 import domain.game.Score;
 import domain.game.Team;
 import domain.piece.Piece;
-import domain.position.Position;
 import java.util.Map;
+import java.util.Optional;
 
 public class OutputView {
     private static final int MAX_ROW = 10;
@@ -27,10 +27,9 @@ public class OutputView {
 
     public void printBoard(Board board) {
         StringBuilder sb = new StringBuilder();
-        Map<Position, Piece> boardState = board.getState();
         for (int row = MAX_ROW; row >= 1; row--) {
             sb.append(row).append("\t");
-            appendRow(sb, boardState, row);
+            appendRow(sb, board, row);
             sb.append(System.lineSeparator());
         }
         appendColumnHeader(sb);
@@ -49,11 +48,11 @@ public class OutputView {
         System.out.println(TEAM_NAMES.get(team) + "의 점수는 " + score.toString() + "점 입니다");
     }
 
-    private void appendRow(StringBuilder sb, Map<Position, Piece> boardState, int row) {
+    private void appendRow(StringBuilder sb, Board board, int row) {
         for (int col = 1; col <= MAX_COLUMN; col++) {
-            Piece piece = boardState.get(new Position(row, col));
-            if (piece != null) {
-                sb.append(appearance.colorize(piece.getTeam(), piece.getType())).append("\t");
+            Optional<Piece> piece = board.findPieceAt(row, col);
+            if (piece.isPresent()) {
+                sb.append(appearance.colorize(piece.get().getTeam(), piece.get().getType())).append("\t");
             } else {
                 sb.append(appearance.colorizeEmpty()).append("\t");
             }
