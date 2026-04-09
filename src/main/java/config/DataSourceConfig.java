@@ -34,6 +34,7 @@ public class DataSourceConfig {
         basicDataSource.setInitialSize(CONNECTION_INITIAL_SIZE);
         basicDataSource.setMaxTotal(CONNECTION_MAX_TOTAL_SIZE);
         this.dataSource = basicDataSource;
+
         initializeSchema();
     }
 

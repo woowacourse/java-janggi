@@ -62,7 +62,9 @@ public class GameRepositoryImpl implements GameRepository {
     public void finishedGame(Connection connection, Long gameId) {
         String sql = "UPDATE game SET is_finished = TRUE WHERE game_id = ?";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (
+                PreparedStatement statement = connection.prepareStatement(sql)
+        ) {
             statement.setLong(1, gameId);
             statement.executeUpdate();
         } catch (SQLException exception) {
