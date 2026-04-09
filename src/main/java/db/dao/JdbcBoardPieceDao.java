@@ -42,6 +42,27 @@ public class JdbcBoardPieceDao implements BoardPieceDao {
     }
 
     @Override
+    public void save(SqlConnection connection, BoardPieceEntity boardPieceEntity) {
+        final String sql = """
+            INSERT INTO board_piece (game_id, board_row, board_column, piece_type, piece_side, created_at, updated_at)
+            VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+            """;
+
+        try (final PreparedStatement statement = connection.prepareStatement(sql)) {
+            validateGameId(boardPieceEntity.gameId());
+
+            statement.setLong(1, boardPieceEntity.gameId());
+            statement.setInt(2, boardPieceEntity.boardRow());
+            statement.setInt(3, boardPieceEntity.boardColumn());
+            statement.setString(4, boardPieceEntity.pieceType().name());
+            statement.setString(5, boardPieceEntity.pieceSide().name());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new IllegalStateException("보드 기물 저장에 실패했습니다.", e);
+        }
+    }
+
+    @Override
     public List<BoardPieceEntity> findAllByGameId(final SqlConnection connection, final Long gameId) {
         validateGameId(gameId);
 

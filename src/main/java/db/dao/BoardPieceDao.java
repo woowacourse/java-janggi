@@ -9,6 +9,8 @@ public interface BoardPieceDao {
 
     void saveAll(SqlConnection connection, List<BoardPieceEntity> boardPieces);
 
+    void save(SqlConnection connection, BoardPieceEntity boardPiece);
+
     List<BoardPieceEntity> findAllByGameId(SqlConnection connection, Long gameId);
 
     Optional<BoardPieceEntity> findByGameIdAndPosition(SqlConnection connection, Long gameId, int row, int column);
