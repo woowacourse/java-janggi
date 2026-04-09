@@ -21,12 +21,7 @@ public class General extends SinglePiece {
     public List<Movement> getMovements() {
         return Collections.emptyList();
     }
-
-    @Override
-    protected boolean isValidPath(CandidatePath candidatePath, BoardInfo boardInfo) {
-        return !candidatePath.isEmpty();
-    }
-
+    
     @Override
     protected CandidatePath refinePath(CandidatePath candidatePath, BoardInfo boardInfo) {
         return candidatePath;

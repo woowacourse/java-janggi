@@ -40,6 +40,12 @@ public class CandidatePath {
         return null;
     }
 
+    public boolean isThereNoPieceInPathExceptForLast(BoardInfo boardInfo) {
+        return path.stream()
+                .limit((long) path.size() - 1)
+                .allMatch(boardInfo::isEmpty);
+    }
+
     public boolean isForward(Direction direction) {
         int dx = direction.getDx();
         int dy = direction.getDy();

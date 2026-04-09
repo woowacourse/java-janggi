@@ -16,9 +16,12 @@ public class SinglePathStrategy implements PathStrategy {
             throw new IllegalStateException("SinglePath는 Movement의 Direction이 한개여야 합니다.");
         }
         Direction dir = movement.getDirections().getFirst();
-        Point nextPoint = from.add(dir.getDx(), dir.getDy());
+
         List<Point> points = new ArrayList<>();
-        points.add(nextPoint);
+        Point nextPoint = from.add(dir.getDx(), dir.getDy());
+        if (predicate.test(nextPoint)) {
+            points.add(nextPoint);
+        }
 
         return points;
     }

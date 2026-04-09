@@ -1,5 +1,7 @@
 package janggi.domain.piece.single;
 
+import janggi.domain.board.BoardInfo;
+import janggi.domain.path.CandidatePath;
 import janggi.domain.path.Direction;
 import janggi.domain.path.Movement;
 import janggi.domain.path.generator.PathStrategy;
@@ -24,6 +26,11 @@ public abstract class SinglePiece extends Piece {
                 new Movement(Direction.SOUTH),
                 new Movement(Direction.WEST),
                 new Movement(Direction.EAST));
+    }
+
+    @Override
+    protected boolean isValidPath(CandidatePath candidatePath, BoardInfo boardInfo) {
+        return !candidatePath.isEmpty();
     }
 
     @Override

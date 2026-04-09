@@ -23,11 +23,6 @@ public class Advisor extends SinglePiece {
     }
 
     @Override
-    protected boolean isValidPath(CandidatePath candidatePath, BoardInfo boardInfo) {
-        return !candidatePath.isEmpty();
-    }
-
-    @Override
     protected CandidatePath refinePath(CandidatePath candidatePath, BoardInfo boardInfo) {
         return candidatePath;
     }

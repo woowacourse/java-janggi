@@ -7,9 +7,7 @@ import janggi.domain.path.generator.PathStrategy;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceName;
 import janggi.domain.piece.Score;
-import janggi.domain.point.Point;
 import janggi.domain.side.Side;
-import java.util.List;
 
 public abstract class SteppedPiece extends Piece {
     private static final PathStrategy DEFAULT_STRATEGY = new FixedPathStrategy();
@@ -20,11 +18,10 @@ public abstract class SteppedPiece extends Piece {
 
     @Override
     protected boolean isValidPath(CandidatePath candidatePath, BoardInfo boardInfo) {
-        List<Point> points = candidatePath.getPath();
-
-        return points.stream()
-                .limit(points.size() - 1)
-                .allMatch(boardInfo::isEmpty);
+        if (candidatePath.isEmpty()) {
+            return false;
+        }
+        return candidatePath.isThereNoPieceInPathExceptForLast(boardInfo);
     }
 
     @Override

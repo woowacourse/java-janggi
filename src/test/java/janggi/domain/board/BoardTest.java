@@ -3,7 +3,6 @@ package janggi.domain.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.board.coordination.BoardCoordination;
 import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.piece.single.Soldier;
 import janggi.domain.point.Point;
@@ -31,7 +30,7 @@ class BoardTest {
         Board board = Board.setUp(testSetUp, emptyBoardSetUp);
 
         Point from = new Point(0, 0);
-        Set<Point> destinations = board.destinations(board.getPieceMovements(from), from, BoardCoordination::isInRange);
+        Set<Point> destinations = board.destinations(from);
 
         assertThat(destinations).hasSize(1)
                 .contains(new Point(0, 1));

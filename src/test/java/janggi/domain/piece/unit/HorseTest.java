@@ -3,10 +3,10 @@ package janggi.domain.piece.unit;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.board.Board;
-import janggi.domain.path.CandidatePath;
 import janggi.domain.path.Direction;
 import janggi.domain.path.Movement;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.stepped.Elephant;
 import janggi.domain.piece.stepped.Horse;
 import janggi.domain.point.Point;
 import janggi.domain.side.Side;
@@ -37,10 +37,8 @@ class HorseTest {
     public static Stream<Arguments> availablePoints() {
         return Stream.of(
                 Arguments.of(Side.CHO,
-                        List.of(new CandidatePath(List.of(new Point(1, 1), new Point(2, 0))),
-                                new CandidatePath(List.of(new Point(1, 1), new Point(2, 2))),
-                                new CandidatePath(List.of(new Point(0, 2), new Point(1, 3)))), // 경로에 기물 존재
-                        Map.of(new Point(0, 2), new Horse(Side.CHO)),
+                        new Point(0, 1), // 경로에 기물 존재
+                        Map.of(new Point(0, 2), new Elephant(Side.CHO)),
                         List.of(new Point(2, 0), new Point(2, 2)))
         );
     }
@@ -48,13 +46,15 @@ class HorseTest {
     @ParameterizedTest
     @MethodSource
     @DisplayName("availablePoints(): 이동 가능한 좌표의 목록을 반환한다.")
-    void availablePoints(Side side, List<CandidatePath> candidatePaths, Map<Point, Piece> piecesOnPaths,
+    void availablePoints(Side side, Point point, Map<Point, Piece> piecesOnPaths,
                          List<Point> expected) {
         Piece horse = new Horse(side);
 
-        List<Point> points = horse.availablePoints(candidatePaths, new Board(piecesOnPaths));
+        List<Point> points = horse.availablePoints(point, new Board(piecesOnPaths));
 
-        assertThat(expected.containsAll(points)).isTrue();
+        assertThat(points)
+                .hasSameSizeAs(expected)
+                .containsAll(expected);
     }
 
     @ParameterizedTest
@@ -65,6 +65,8 @@ class HorseTest {
 
         List<Movement> movements = horse.getMovements();
 
-        assertThat(expected.containsAll(movements)).isTrue();
+        assertThat(movements)
+                .hasSameSizeAs(expected)
+                .containsAll(expected);
     }
 }

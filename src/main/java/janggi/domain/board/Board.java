@@ -1,18 +1,17 @@
 package janggi.domain.board;
 
+import janggi.domain.board.coordination.BoardCoordination;
 import janggi.domain.board.setup.BoardSetUp;
-import janggi.domain.path.CandidatePath;
 import janggi.domain.path.Movement;
 import janggi.domain.piece.Piece;
 import janggi.domain.point.Point;
 import janggi.domain.side.Side;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 public class Board implements BoardInfo {
     private final Map<Point, Piece> pieces;
@@ -33,17 +32,11 @@ public class Board implements BoardInfo {
         return new HashMap<>(pieces);
     }
 
-    public Set<Point> destinations(List<Movement> movements, Point from, Predicate<Point> predicate) {
+    public Set<Point> destinations(Point from) {
         Piece piece = getPieceAt(from)
                 .orElseThrow(() -> new IllegalArgumentException("해당 Point에 기물이 없어, 목적지가 없습니다."));
-        List<CandidatePath> candidatePaths = movements.stream()
-                .map(movement -> new CandidatePath(movement, from, piece.pathStrategy(), predicate))
-                .toList();
 
-        return piece.availablePoints(candidatePaths, this)
-                .stream()
-                .filter(point -> isThereOtherSidePiece(piece, point))
-                .collect(Collectors.toSet());
+        return new HashSet<>(piece.availablePoints(from, this));
     }
 
     public List<Movement> getPieceMovements(Point from) {
@@ -67,14 +60,6 @@ public class Board implements BoardInfo {
         return piece.getSide();
     }
 
-    private boolean isThereOtherSidePiece(Piece from, Point destination) {
-        Piece to = getPieceAt(destination).orElse(null);
-        if (to == null) {
-            return true;
-        }
-        return to.isDifferentSide(from.getSide());
-    }
-
     private Optional<Piece> getPieceAt(Point point) {
         return Optional.ofNullable(pieces.get(point));
     }
@@ -90,5 +75,19 @@ public class Board implements BoardInfo {
                 .orElseThrow(() -> new IllegalStateException("point에 Piece가 없어, 같은 기물인지 확인 할 수 없습니다."));
 
         return piece.isSameType(pointPiece);
+    }
+
+    @Override
+    public boolean isOtherSide(Piece from, Point destination) {
+        Piece to = getPieceAt(destination).orElse(null);
+        if (to == null) {
+            return true;
+        }
+        return to.isDifferentSide(from.getSide());
+    }
+
+    @Override
+    public boolean isInRange(Point point) {
+        return BoardCoordination.isInRange(point);
     }
 }

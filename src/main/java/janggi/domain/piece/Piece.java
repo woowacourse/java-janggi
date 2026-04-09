@@ -42,15 +42,21 @@ public abstract class Piece {
         return !this.side.equals(otherSide);
     }
 
-    public final PathStrategy pathStrategy() {
-        return pathStrategy;
-    }
+    public final List<Point> availablePoints(Point from, BoardInfo boardInfo) {
+        List<CandidatePath> candidatePaths = createCandidatePaths(from, boardInfo);
 
-    public final List<Point> availablePoints(List<CandidatePath> candidatePaths, BoardInfo boardInfo) {
         return candidatePaths.stream()
                 .filter(path -> isValidPath(path, boardInfo))
                 .map(path -> refinePath(path, boardInfo))
                 .flatMap(path -> path.getPath().stream())
+                .filter(point -> boardInfo.isOtherSide(this, point))
+                .toList();
+    }
+
+    private List<CandidatePath> createCandidatePaths(Point from, BoardInfo boardInfo) {
+        List<Movement> movements = getMovements();
+        return movements.stream()
+                .map(movement -> new CandidatePath(from, pathStrategy.calculate(movement, from, boardInfo::isInRange)))
                 .toList();
     }
 

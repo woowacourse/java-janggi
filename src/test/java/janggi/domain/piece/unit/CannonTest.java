@@ -55,17 +55,12 @@ class CannonTest {
         @DisplayName("첫번째 기물에 포가 있다면, 경로는 비어있어야 한다.")
         void betweenPoints_firstPieceIsCannon() {
             Side side = Side.CHO;
-            CandidatePath candidatePath = new CandidatePath(List.of(
-                    new Point(4, 5),
-                    new Point(3, 5), new Point(2, 5),
-                    new Point(1, 5), new Point(0, 5)
-            ));
 
             BoardInfo boardInfo = new Board(
                     Map.of(new Point(4, 5), new Cannon(Side.HAN)));
 
             Piece piece = new Cannon(side);
-            List<Point> points = piece.availablePoints(List.of(candidatePath), boardInfo);
+            List<Point> points = piece.availablePoints(new Point(5, 5), boardInfo);
             List<Point> expected = List.of();
 
             assertThat(points)
@@ -77,16 +72,12 @@ class CannonTest {
         @DisplayName("두번째 기물에 포가 있다면 , 마지막 경로를 제외한 사이 경로를 전달한다.")
         void betweenPoints_secondPieceIsCannon() {
             Side side = Side.CHO;
-            CandidatePath candidatePath = new CandidatePath(List.of(
-                    new Point(5, 6),
-                    new Point(5, 7),
-                    new Point(5, 8)));
 
             BoardInfo boardInfo = new Board(
                     Map.of(new Point(5, 6), new Soldier(Side.CHO), new Point(5, 8), new Cannon(Side.CHO)));
 
             Piece piece = new Cannon(side);
-            List<Point> points = piece.availablePoints(List.of(candidatePath), boardInfo);
+            List<Point> points = piece.availablePoints(new Point(5, 5), boardInfo);
             List<Point> expected = List.of(new Point(5, 7));
 
             assertThat(points)
@@ -108,7 +99,7 @@ class CannonTest {
                     new Soldier(Side.HAN)));
 
             Piece piece = new Cannon(side);
-            List<Point> points = piece.availablePoints(List.of(candidatePath), boardInfo);
+            List<Point> points = piece.availablePoints(new Point(5, 5), boardInfo);
             List<Point> expected = List.of(new Point(8, 5), new Point(9, 5));
 
             assertThat(points)

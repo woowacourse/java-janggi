@@ -1,9 +1,6 @@
 package janggi.domain.game;
 
 import janggi.domain.board.Board;
-import janggi.domain.board.coordination.BoardCoordination;
-import janggi.domain.board.coordination.PalaceCoordination;
-import janggi.domain.board.coordination.PalaceMovements;
 import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.game.rule.Rules;
 import janggi.domain.piece.Piece;
@@ -41,13 +38,7 @@ public class Game {
     }
 
     public Set<Point> destinations(Point from) {
-        Set<Point> destinations = board.destinations(board.getPieceMovements(from), from, BoardCoordination::isInRange);
-        if (PalaceCoordination.isInRange(from)) {
-            destinations.addAll(
-                    board.destinations(PalaceMovements.getMovements(from), from, PalaceCoordination::isInRange));
-        }
-
-        return destinations;
+        return board.destinations(from);
     }
 
     public boolean isTurnPiece(Point from) {
