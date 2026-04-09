@@ -1,6 +1,7 @@
 package database.service;
 
 import database.connection.DBConnector;
+import database.exception.DataAccessException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,7 +24,7 @@ public class SchemaInitializer {
             String schema = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
             executeSchemaQuery(schema);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new DataAccessException(e);
         }
     }
 
@@ -39,7 +40,7 @@ public class SchemaInitializer {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DataAccessException(e);
         }
     }
 

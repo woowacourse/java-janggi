@@ -1,6 +1,7 @@
 package database.context;
 
 import database.connection.DBConnector;
+import database.exception.DataAccessException;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -16,8 +17,13 @@ public class ConnectionContext {
         if (getConnection() != null) {
             clear();
         }
-        Connection connection = DBConnector.getConnection();
-        CONNECTION_THREAD_LOCAL.set(connection);
+        try {
+            Connection connection = DBConnector.getConnection();
+            connection.setAutoCommit(false);
+            CONNECTION_THREAD_LOCAL.set(connection);
+        } catch (SQLException e) {
+            throw new DataAccessException(e);
+        }
     }
 
     public static Connection getConnection() {
@@ -28,7 +34,7 @@ public class ConnectionContext {
         try {
             safetyConnectionRollback(getConnection());
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataAccessException(e);
         }
     }
 
@@ -37,9 +43,24 @@ public class ConnectionContext {
             Connection connection = getConnection();
             safetyConnectionClose(connection);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DataAccessException(e);
         } finally {
             CONNECTION_THREAD_LOCAL.remove();
+        }
+    }
+
+    public static void commit() {
+        try {
+            Connection connection = getConnection();
+            safetyConnectionCommit(connection);
+        } catch (SQLException e) {
+            throw new DataAccessException(e);
+        }
+    }
+
+    private static void safetyConnectionCommit(Connection connection) throws SQLException {
+        if (connection != null && !connection.isClosed()) {
+            connection.commit();
         }
     }
 

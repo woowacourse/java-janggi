@@ -51,6 +51,10 @@ public class JanggiGame {
     }
 
     public JanggiBoard getJanggiBoard(BoardSelectCommand selectCommand) {
+        if (selectCommand.isExitCommand()) {
+            return null;
+        }
+
         if (selectCommand.isNewGameCommand()) {
             JanggiBoard janggiBoard = generateJanggiBoard();
             Long boardId = janggiService.createBoard(janggiBoard);

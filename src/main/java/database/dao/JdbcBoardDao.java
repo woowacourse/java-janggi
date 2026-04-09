@@ -45,13 +45,13 @@ public class JdbcBoardDao implements BoardDao {
     }
 
     @Override
-    public Long save() throws SQLException {
+    public Long save() {
         return jdbcTemplate.save(INSERT_BOARD_QUERY);
     }
 
 
     @Override
-    public List<BoardSummaryDto> readAllNotFinished() throws SQLException {
+    public List<BoardSummaryDto> readAllNotFinished() {
         return jdbcTemplate.selectList(
                 READ_PLAYING_BOARD_LIST_QUERY,
                 resultSet -> new BoardSummaryDto(
@@ -62,7 +62,7 @@ public class JdbcBoardDao implements BoardDao {
         );
     }
 
-    public Optional<BoardSummaryDto> readPlayingById(Long boardId) throws SQLException {
+    public Optional<BoardSummaryDto> readPlayingById(Long boardId) {
         BoardSummaryDto result = jdbcTemplate.selectOne(
                 READ_BOARD_QUERY,
                 resultSet -> new BoardSummaryDto(
@@ -76,7 +76,7 @@ public class JdbcBoardDao implements BoardDao {
     }
 
     @Override
-    public void updateTurn(Long boardId, Team nextTurn) throws SQLException {
+    public void updateTurn(Long boardId, Team nextTurn) {
         jdbcTemplate.update(
                 UPDATE_BOARD_QUERY,
                 nextTurn.name(),
@@ -85,7 +85,7 @@ public class JdbcBoardDao implements BoardDao {
     }
 
     @Override
-    public void updateResult(Long boardId, GameResult gameResult) throws SQLException {
+    public void updateResult(Long boardId, GameResult gameResult) {
         jdbcTemplate.update(
                 UPDATE_BOARD_RESULT_QUERY,
                 gameResult.winner().name(),

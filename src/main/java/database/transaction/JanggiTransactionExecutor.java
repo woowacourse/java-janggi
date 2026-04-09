@@ -1,27 +1,20 @@
 package database.transaction;
 
 import database.context.ConnectionContext;
-
-import java.sql.Connection;
-import java.sql.SQLException;
+import database.exception.DataAccessException;
 
 public class JanggiTransactionExecutor implements TransactionExecutor {
 
     public <T> T execute(TransactionCallable<T> callable) {
-        try{
+        try {
             ConnectionContext.setConnection();
-            Connection connection = ConnectionContext.getConnection();
-            connection.setAutoCommit(false);
-
             T execute = callable.execute();
-
-            connection.commit();
+            ConnectionContext.commit();
             return execute;
-        } catch (SQLException e) {
+        } catch (DataAccessException e) {
             ConnectionContext.rollback();
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }finally {
+            throw e;
+        } finally {
             ConnectionContext.clear();
         }
     }

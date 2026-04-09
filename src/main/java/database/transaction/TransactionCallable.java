@@ -1,8 +1,8 @@
 package database.transaction;
 
-import java.sql.SQLException;
+import database.exception.DataAccessException;
 
 @FunctionalInterface
 public interface TransactionCallable<T> {
-    T execute() throws SQLException;
+    T execute() throws DataAccessException;
 }

@@ -4,7 +4,6 @@ import database.dto.IntersectionDto;
 import database.mapper.JanggiBoardMapper;
 import domain.intersection.Intersection;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class JdbcIntersectionDao implements IntersectionDao {
@@ -32,7 +31,7 @@ public class JdbcIntersectionDao implements IntersectionDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void saveAll(Long boardId, List<IntersectionDto> intersections) throws SQLException {
+    public void saveAll(Long boardId, List<IntersectionDto> intersections) {
         jdbcTemplate.saveAll(
                 INSERT_INTERSECTION_QUERY,
                 intersections,
@@ -47,7 +46,7 @@ public class JdbcIntersectionDao implements IntersectionDao {
         );
     }
 
-    public List<Intersection> readByBoardId(Long boardId) throws SQLException {
+    public List<Intersection> readByBoardId(Long boardId) {
         return jdbcTemplate.selectList(
                 READ_ALL_INTERSECTION_QUERY,
                 resultSet -> JanggiBoardMapper.toIntersection(
@@ -61,7 +60,7 @@ public class JdbcIntersectionDao implements IntersectionDao {
         );
     }
 
-    public void update(Long boardId, IntersectionDto intersection) throws SQLException {
+    public void update(Long boardId, IntersectionDto intersection) {
         jdbcTemplate.update(
                 UPDATE_INTERSECTION_QUERY,
                 intersection.pieceType(),
