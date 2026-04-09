@@ -12,23 +12,47 @@ import java.util.Set;
 
 public class Guard extends Piece {
 
-    private static final List<MovingFunction> movements = List.of(
-            Piece::north, Piece::south, Piece::west, Piece::east,
-            Piece::northEast, Piece::southEast, Piece::northWest, Piece::southWest
-    );
     public Guard(Camp camp) {
         super(camp);
     }
 
     @Override
     public boolean canMove(Position from, Position to, BoardChecker boardChecker) {
-
-        Set<Position> destination = new HashSet<>();
-
-        for (MovingFunction movement : movements) {
-            move(from, movement).ifPresent(destination::add);
+        Set<Position> destination = new HashSet<>(moveNormal(from));
+        if (from.isPalaceDiagonalPosition()) {
+            destination.addAll(moveDiagonal(from));
         }
         return destination.contains(to);
+    }
+
+    private Set<Position> moveDiagonal(Position from) {
+        Set<Position> destination = new HashSet<>();
+        for (MovingFunction movement : getDiagonalMovement()) {
+            move(from, movement)
+                    .filter(Position::isPalaceDiagonalPosition)
+                    .ifPresent(destination::add);
+        }
+        return destination;
+    }
+
+    private Set<Position> moveNormal(Position from) {
+        Set<Position> destination = new HashSet<>();
+        for (MovingFunction movement : getMovements()) {
+            move(from, movement)
+                    .filter(Position::isInPalace)
+                    .ifPresent(destination::add);
+        }
+        return destination;
+    }
+
+    private List<MovingFunction> getDiagonalMovement() {
+        return List.of(Piece::northEast, Piece::southEast, Piece::northWest,
+                Piece::southWest);
+    }
+
+    private List<MovingFunction> getMovements() {
+        return List.of(Piece::north, Piece::south,
+                Piece::west, Piece::east);
     }
 
     private Optional<Position> move(Position position, MovingFunction movement) {

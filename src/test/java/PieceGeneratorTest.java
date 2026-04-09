@@ -1,5 +1,4 @@
 import domain.Camp;
-import domain.ElephantFormation;
 import domain.PieceGenerator;
 import domain.Position;
 import domain.pieces.Elephant;

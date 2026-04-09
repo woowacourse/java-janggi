@@ -14,22 +14,6 @@ public abstract class Piece {
         this.camp = camp;
     }
 
-    public boolean isSameCamp(Piece comparedPiece) {
-        return this.camp == comparedPiece.camp;
-    }
-
-    public boolean isSameCamp(Camp camp) {
-        return this.camp == camp;
-    }
-
-    public abstract boolean canMove(Position from, Position to, BoardChecker boardChecker);
-
-    public abstract PieceType getPieceType();
-
-    public Camp getCamp() {
-        return this.camp;
-    }
-
     public static Optional<Position> north(Position position) {
         return Position.of(position.getCol(), position.getRow() - 1);
     }
@@ -60,5 +44,21 @@ public abstract class Piece {
 
     public static Optional<Position> southEast(Position position) {
         return Position.of(position.getCol() + 1, position.getRow() + 1);
+    }
+
+    public boolean isSameCamp(Piece comparedPiece) {
+        return this.camp == comparedPiece.camp;
+    }
+
+    public boolean isSameCamp(Camp camp) {
+        return this.camp == camp;
+    }
+
+    public abstract boolean canMove(Position from, Position to, BoardChecker boardChecker);
+
+    public abstract PieceType getPieceType();
+
+    public Camp getCamp() {
+        return this.camp;
     }
 }
