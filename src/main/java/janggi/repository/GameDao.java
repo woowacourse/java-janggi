@@ -11,13 +11,7 @@ import janggi.domain.side.Side;
 
 public class GameDao {
 
-    private final JdbcContext jdbcContext;
-
-    public GameDao(JdbcContext jdbcContext) {
-        this.jdbcContext = jdbcContext;
-    }
-
-    public int insert(Connection conn, Side turn) throws SQLException {
+    public int insert(Connection conn, Side turn) {
         String sql = "INSERT INTO game (turn) VALUES (?)";
         try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setString(1, turn.name());
@@ -26,32 +20,37 @@ public class GameDao {
             if (keys.next()) {
                 return keys.getInt(1);
             }
-            throw new SQLException("게임 저장에 실패했습니다.");
+            throw new RuntimeException("게임 저장에 실패했습니다.");
+        } catch (SQLException e) {
+            throw new RuntimeException("게임 저장에 실패했습니다.", e);
         }
     }
 
-    public void updateTurn(Connection conn, int gameId, Side turn) throws SQLException {
+    public void updateTurn(Connection conn, int gameId, Side turn) {
         String sql = "UPDATE game SET turn = ? WHERE id = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, turn.name());
             pstmt.setInt(2, gameId);
             pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("턴 업데이트에 실패했습니다.", e);
         }
     }
 
-    public void finish(Connection conn, int gameId, Side winner) throws SQLException {
+    public void finish(Connection conn, int gameId, Side winner) {
         String sql = "UPDATE game SET is_finished = 1, winner = ? WHERE id = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, winner.name());
             pstmt.setInt(2, gameId);
             pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("게임 종료 처리에 실패했습니다.", e);
         }
     }
 
-    public Optional<Integer> findActiveGameId() {
+    public Optional<Integer> findActiveGameId(Connection conn) {
         String sql = "SELECT id FROM game WHERE is_finished = 0 ORDER BY id DESC LIMIT 1";
-        try (Connection conn = jdbcContext.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
+        try (PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
             if (rs.next()) {
                 return Optional.of(rs.getInt("id"));
@@ -62,10 +61,9 @@ public class GameDao {
         return Optional.empty();
     }
 
-    public Side findTurn(int gameId) {
+    public Side findTurn(Connection conn, int gameId) {
         String sql = "SELECT turn FROM game WHERE id = ?";
-        try (Connection conn = jdbcContext.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, gameId);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {

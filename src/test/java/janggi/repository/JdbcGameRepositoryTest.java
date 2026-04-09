@@ -17,17 +17,18 @@ import org.junit.jupiter.api.Test;
 
 class JdbcGameRepositoryTest {
 
+    private static final String URL = "jdbc:sqlite:file:testdb?mode=memory&cache=shared";
+
     private Connection keepAlive;
-    private JdbcGameRepository jdbcGameRepository;
+    private TransactionManager transactionManager;
+    private GameRepository gameRepository;
 
     @BeforeEach
     void setUp() throws SQLException {
-        String url = "jdbc:sqlite:file:testdb?mode=memory&cache=shared";
-
-        this.keepAlive = java.sql.DriverManager.getConnection(url);
-
-        JdbcContext jdbcContext = new JdbcContext(url);
-        jdbcGameRepository = new JdbcGameRepository(jdbcContext);
+        this.keepAlive = java.sql.DriverManager.getConnection(URL);
+        JdbcContext jdbcContext = new JdbcContext(URL);
+        this.transactionManager = new TransactionManager(jdbcContext);
+        this.gameRepository = new JdbcGameRepository();
     }
 
     @AfterEach
@@ -42,7 +43,7 @@ class JdbcGameRepositoryTest {
     void save() {
         Game game = Game.createGame(new InSetUp(), new InSetUp());
 
-        int gameId = jdbcGameRepository.save(game);
+        int gameId = transactionManager.execute(() -> gameRepository.save(game));
 
         assertThat(gameId).isPositive();
     }
@@ -51,9 +52,9 @@ class JdbcGameRepositoryTest {
     @DisplayName("findActiveGameId(): 저장 후 진행 중인 게임 ID를 조회한다")
     void findActiveGameId() {
         Game game = Game.createGame(new InSetUp(), new InSetUp());
-        int savedId = jdbcGameRepository.save(game);
+        int savedId = transactionManager.execute(() -> gameRepository.save(game));
 
-        Optional<Integer> activeId = jdbcGameRepository.findActiveGameId();
+        Optional<Integer> activeId = transactionManager.execute(() -> gameRepository.findActiveGameId());
 
         assertThat(activeId).isPresent();
         assertThat(activeId.get()).isEqualTo(savedId);
@@ -63,11 +64,10 @@ class JdbcGameRepositoryTest {
     @DisplayName("load(): 저장한 게임을 불러오면 턴 정보가 일치한다")
     void load_turns() {
         Game game = Game.createGame(new InSetUp(), new InSetUp());
-
         game.move(Point.of(0, 0), Point.of(1, 0));
-        int gameId = jdbcGameRepository.save(game);
 
-        Game loaded = jdbcGameRepository.load(gameId);
+        int gameId = transactionManager.execute(() -> gameRepository.save(game));
+        Game loaded = transactionManager.execute(() -> gameRepository.load(gameId));
 
         assertThat(loaded.getTurn()).isEqualTo(Side.HAN);
     }
@@ -76,9 +76,9 @@ class JdbcGameRepositoryTest {
     @DisplayName("load(): 저장한 게임을 불러오면 기물 배치가 일치한다")
     void load_pieces() {
         Game game = Game.createGame(new InSetUp(), new InSetUp());
-        int gameId = jdbcGameRepository.save(game);
+        int gameId = transactionManager.execute(() -> gameRepository.save(game));
 
-        Game loaded = jdbcGameRepository.load(gameId);
+        Game loaded = transactionManager.execute(() -> gameRepository.load(gameId));
 
         assertThat(loaded.getBoard()).containsKey(Point.of(0, 0));
         assertThat(loaded.getBoard().get(Point.of(0, 0)).getSide()).isEqualTo(Side.CHO);
@@ -88,12 +88,12 @@ class JdbcGameRepositoryTest {
     @DisplayName("update(): update 후 로드하면 변경된 보드 상태를 반환한다")
     void update() {
         Game game = Game.createGame(new InSetUp(), new InSetUp());
-        int gameId = jdbcGameRepository.save(game);
+        int gameId = transactionManager.execute(() -> gameRepository.save(game));
 
         game.move(Point.of(0, 0), Point.of(1, 0));
-        jdbcGameRepository.update(gameId, game);
+        transactionManager.execute(() -> gameRepository.update(gameId, game));
 
-        Game loaded = jdbcGameRepository.load(gameId);
+        Game loaded = transactionManager.execute(() -> gameRepository.load(gameId));
 
         assertThat(loaded.getBoard()).doesNotContainKey(Point.of(0, 0));
         assertThat(loaded.getBoard()).containsKey(Point.of(1, 0));
@@ -103,11 +103,11 @@ class JdbcGameRepositoryTest {
     @DisplayName("finish(): 게임이 종료되면 게임 진행 상태에서 종료 상태가 된다")
     void finish() {
         Game game = Game.createGame(new InSetUp(), new InSetUp());
-        int gameId = jdbcGameRepository.save(game);
+        int gameId = transactionManager.execute(() -> gameRepository.save(game));
 
-        jdbcGameRepository.finish(gameId, Side.CHO);
+        transactionManager.execute(() -> gameRepository.finish(gameId, Side.CHO));
 
-        Optional<Integer> activeId = jdbcGameRepository.findActiveGameId();
+        Optional<Integer> activeId = transactionManager.execute(() -> gameRepository.findActiveGameId());
         assertThat(activeId).isEmpty();
     }
 }

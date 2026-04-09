@@ -14,13 +14,7 @@ import janggi.domain.side.Side;
 
 public class PieceDao {
 
-    private final JdbcContext jdbcContext;
-
-    public PieceDao(JdbcContext jdbcContext) {
-        this.jdbcContext = jdbcContext;
-    }
-
-    public void insertAll(Connection conn, int gameId, Map<Point, Piece> board) throws SQLException {
+    public void insertAll(Connection conn, int gameId, Map<Point, Piece> board) {
         String sql = "INSERT INTO game_piece (game_id, piece_type, side, x, y) VALUES (?,?,?,?,?)";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             for (Map.Entry<Point, Piece> entry : board.entrySet()) {
@@ -34,22 +28,25 @@ public class PieceDao {
                 pstmt.addBatch();
             }
             pstmt.executeBatch();
+        } catch (SQLException e) {
+            throw new RuntimeException("기물 저장에 실패했습니다.", e);
         }
     }
 
-    public void deleteAll(Connection conn, int gameId) throws SQLException {
+    public void deleteAll(Connection conn, int gameId) {
         String sql = "DELETE FROM game_piece WHERE game_id = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, gameId);
             pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("기물 삭제에 실패했습니다.", e);
         }
     }
 
-    public Map<Point, Piece> findAll(int gameId) {
+    public Map<Point, Piece> findAll(Connection conn, int gameId) {
         String sql = "SELECT piece_type, side, x, y FROM game_piece WHERE game_id = ?";
         Map<Point, Piece> board = new HashMap<>();
-        try (Connection conn = jdbcContext.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, gameId);
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
