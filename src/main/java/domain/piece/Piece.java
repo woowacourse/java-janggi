@@ -62,6 +62,10 @@ public abstract class Piece {
         return true;
     }
 
+    public boolean isGeneral() {
+        return false;
+    }
+
     public abstract double score();
 
     public Team getTeam() {

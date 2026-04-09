@@ -17,6 +17,11 @@ public class General extends Piece {
     }
 
     @Override
+    public boolean isGeneral() {
+        return true;
+    }
+
+    @Override
     public double score() {
         return SCORE;
     }
