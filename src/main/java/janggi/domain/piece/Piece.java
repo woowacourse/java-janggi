@@ -2,7 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.MovePath;
 import janggi.domain.Position;
-import janggi.domain.side.TeamType;
+import janggi.domain.team.TeamType;
 
 import java.util.List;
 

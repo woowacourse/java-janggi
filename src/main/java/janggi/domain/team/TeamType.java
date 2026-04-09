@@ -1,4 +1,4 @@
-package janggi.domain.side;
+package janggi.domain.team;
 
 public enum TeamType {
     CHU("초나라"),

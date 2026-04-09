@@ -1,4 +1,4 @@
-package janggi.domain.side;
+package janggi.domain.team;
 
 import janggi.domain.GameResult;
 import janggi.domain.Position;

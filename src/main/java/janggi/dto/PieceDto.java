@@ -4,7 +4,7 @@ import janggi.domain.PieceFactory;
 import janggi.domain.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
-import janggi.domain.side.TeamType;
+import janggi.domain.team.TeamType;
 
 import java.util.List;
 import java.util.Map;

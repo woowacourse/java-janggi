@@ -1,6 +1,6 @@
 package janggi.domain.piece;
 
-import janggi.domain.side.TeamType;
+import janggi.domain.team.TeamType;
 
 public enum PieceType {
     CHA("차", 13) {

@@ -2,7 +2,7 @@ package janggi.domain;
 
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
-import janggi.domain.side.TeamType;
+import janggi.domain.team.TeamType;
 
 public class PieceFactory {
 

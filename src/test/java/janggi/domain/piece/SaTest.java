@@ -1,7 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.Position;
-import janggi.domain.side.TeamType;
+import janggi.domain.team.TeamType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

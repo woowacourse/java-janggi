@@ -4,7 +4,7 @@ import janggi.domain.Delta;
 import janggi.domain.MovePath;
 import janggi.domain.Palace;
 import janggi.domain.Position;
-import janggi.domain.side.TeamType;
+import janggi.domain.team.TeamType;
 
 import java.util.Collections;
 import java.util.List;

@@ -1,14 +1,12 @@
 package janggi.domain;
 
 import janggi.domain.piece.Piece;
-import janggi.domain.side.Chu;
-import janggi.domain.side.Han;
-import janggi.domain.side.TeamType;
+import janggi.domain.team.Chu;
+import janggi.domain.team.Han;
+import janggi.domain.team.TeamType;
 import janggi.dto.GameDto;
 import janggi.dto.PieceDto;
 import janggi.dto.TurnDto;
-import janggi.view.InputView;
-import janggi.view.OutputView;
 
 import java.util.List;
 import java.util.Map;

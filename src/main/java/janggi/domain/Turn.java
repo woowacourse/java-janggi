@@ -1,7 +1,7 @@
 package janggi.domain;
 
 import janggi.domain.piece.Piece;
-import janggi.domain.side.TeamType;
+import janggi.domain.team.TeamType;
 
 import java.util.Map;
 

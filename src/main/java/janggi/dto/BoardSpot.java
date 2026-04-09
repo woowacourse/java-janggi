@@ -1,7 +1,7 @@
 package janggi.dto;
 
 import janggi.domain.piece.Piece;
-import janggi.domain.side.TeamType;
+import janggi.domain.team.TeamType;
 
 public record BoardSpot(String pieceName, TeamType teamType) {
 
