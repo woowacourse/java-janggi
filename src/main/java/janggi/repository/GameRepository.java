@@ -9,5 +9,6 @@ public interface GameRepository {
 
     Optional<SavedGame> findPlayingGame();
 
-    void updateAfterMove(long gameId, JanggiGame game, Position from, Position to);
+    void updateAfterMove(long savedGameId, JanggiGame janggiGame, Position startPiecePosition,
+                         Position endPiecePosition);
 }

@@ -36,13 +36,13 @@ public class Application {
         Board board = BoardInitializer.initializeBoard(openingFormationChoices.hanChoice(),
                 openingFormationChoices.choChoice());
         JanggiGame janggiGame = new JanggiGame(board);
-        gameRepository.saveNewGame(janggiGame);
+        long savedGameId = gameRepository.saveNewGame(janggiGame);
 
         while (janggiGame.isPlaying()) {
             outputView.printBoardMap(BoardDto.from(janggiGame.board()));
             Position startPiecePosition = readStartPositionUntilValid();
             Position endPiecePosition = readEndPositionUntilValid();
-            tryMove(janggiGame, startPiecePosition, endPiecePosition);
+            tryMove(gameRepository, savedGameId, janggiGame, startPiecePosition, endPiecePosition);
         }
         outputView.printBoardMap(BoardDto.from(janggiGame.board()));
         outputView.printScore(janggiGame.calculateScore(Team.HAN), janggiGame.calculateScore(Team.CHO));
@@ -53,9 +53,11 @@ public class Application {
         schemaInitializer.initialize();
     }
 
-    private void tryMove(JanggiGame janggiGame, Position from, Position to) {
+    private void tryMove(GameRepository gameRepository, long savedGameId, JanggiGame janggiGame,
+                         Position startPiecePosition, Position endPiecePosition) {
         try {
-            janggiGame.move(from, to);
+            janggiGame.move(startPiecePosition, endPiecePosition);
+            gameRepository.updateAfterMove(savedGameId, janggiGame, startPiecePosition, endPiecePosition);
         } catch (IllegalArgumentException e) {
             outputView.printErrorMessage(e.getMessage());
         }
