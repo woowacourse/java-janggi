@@ -16,7 +16,7 @@ public class GameDao {
         try (Connection connection = DatabaseConnector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            preparedStatement.setString(1, gameDto.gameStatus());
+            preparedStatement.setString(1, gameDto.gameStatusFormat());
             preparedStatement.executeUpdate();
 
             ResultSet rs = preparedStatement.getGeneratedKeys();
@@ -41,7 +41,7 @@ public class GameDao {
 
             try (ResultSet rs = preparedStatement.executeQuery()) {
                 while (rs.next()) {
-                    games.add(new GameDto(
+                    games.add(GameDto.of(
                             rs.getLong("id"),
                             rs.getString("game_status")
                     ));
