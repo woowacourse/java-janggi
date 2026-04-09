@@ -4,13 +4,14 @@ import domain.direction.Direction;
 import domain.position.Path;
 import domain.position.Position;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 public class NonStraightPathGenerator implements PathGenerator {
 
-    private static final String INVALID_MOVEMENT = "기물의 이동규칙에 어긋납니다.";
     private final List<List<Direction>> paths;
 
     public NonStraightPathGenerator(List<List<Direction>> paths) {
@@ -23,6 +24,16 @@ public class NonStraightPathGenerator implements PathGenerator {
                 .map(directionPath -> tryBuildPath(source, destination, directionPath))
                 .filter(Objects::nonNull)
                 .findFirst();
+    }
+
+    @Override
+    public Set<Position> findCandidateDestinations(Position source) {
+        Set<Position> candidateDestinations = new HashSet<>();
+        for (List<Direction> directionPath : paths) {
+            findDestination(source, directionPath)
+                    .ifPresent(candidateDestinations::add);
+        }
+        return candidateDestinations;
     }
 
     private Path tryBuildPath(Position source, Position destination, List<Direction> directionPath) {
@@ -43,5 +54,16 @@ public class NonStraightPathGenerator implements PathGenerator {
 
         waypoints.removeLast();
         return new Path(source, destination, waypoints);
+    }
+
+    private Optional<Position> findDestination(Position source, List<Direction> directionPath) {
+        Position current = source;
+        for (Direction direction : directionPath) {
+            if (!direction.canCalculateNextPosition(current)) {
+                return Optional.empty();
+            }
+            current = direction.calculateNextPosition(current);
+        }
+        return Optional.of(current);
     }
 }

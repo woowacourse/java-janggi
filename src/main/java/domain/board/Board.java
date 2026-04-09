@@ -43,14 +43,12 @@ public class Board {
 
     public Set<Position> findMovablePositions(Position source) {
         validateSource(source);
+        Piece sourcePiece = findPiece(source);
         Set<Position> movablePositions = new HashSet<>();
 
-        for (int row = MIN_ROW; row <= MAX_ROW; row++) {
-            for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
-                Position destination = new Position(row, column);
-                if (canMove(source, destination)) {
-                    movablePositions.add(destination);
-                }
+        for (Position destination : sourcePiece.findCandidateDestinations(source)) {
+            if (canMove(source, destination)) {
+                movablePositions.add(destination);
             }
         }
         return movablePositions;

@@ -1,11 +1,14 @@
 package domain.pathgenerator;
 
+import domain.board.Board;
 import domain.direction.Direction;
 import domain.position.Path;
 import domain.position.Position;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public class StraightPathGenerator implements PathGenerator {
 
@@ -19,6 +22,24 @@ public class StraightPathGenerator implements PathGenerator {
             return Optional.empty();
         }
         return Optional.of(buildPath(source, destination, direction));
+    }
+
+    @Override
+    public Set<Position> findCandidateDestinations(Position source) {
+        Set<Position> candidateDestinations = new HashSet<>();
+
+        for (int row = Board.MIN_ROW; row <= Board.MAX_ROW; row++) {
+            if (row != source.row()) {
+                candidateDestinations.add(new Position(row, source.column()));
+            }
+        }
+
+        for (int column = Board.MIN_COLUMN; column <= Board.MAX_COLUMN; column++) {
+            if (column != source.column()) {
+                candidateDestinations.add(new Position(source.row(), column));
+            }
+        }
+        return candidateDestinations;
     }
 
     private boolean isPathPossible(Position source, Position destination) {

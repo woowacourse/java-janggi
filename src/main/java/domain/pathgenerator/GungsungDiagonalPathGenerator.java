@@ -4,8 +4,10 @@ import domain.direction.Direction;
 import domain.position.Path;
 import domain.position.Position;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public class GungsungDiagonalPathGenerator implements PathGenerator {
 
@@ -50,6 +52,27 @@ public class GungsungDiagonalPathGenerator implements PathGenerator {
             return Optional.empty();
         }
         return Optional.of(buildPath(source, destination, direction));
+    }
+
+    @Override
+    public Set<Position> findCandidateDestinations(Position source) {
+        Set<Position> candidateDestinations = new HashSet<>();
+        for (List<Position> gungsungLine : CHO_GUNGSUNGS) {
+            for (Position destination : gungsungLine) {
+                if (isPathPossible(source, destination)) {
+                    candidateDestinations.add(destination);
+                }
+            }
+        }
+        for (List<Position> gungsungLine : HAN_GUNGSUNGS) {
+            for (Position destination : gungsungLine) {
+                if (isPathPossible(source, destination)) {
+                    candidateDestinations.add(destination);
+                }
+            }
+        }
+
+        return candidateDestinations;
     }
 
     private boolean isPathPossible(Position source, Position destination) {

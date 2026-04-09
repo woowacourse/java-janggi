@@ -8,6 +8,7 @@ import domain.position.Position;
 import domain.strategy.MovementStrategy;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 public abstract class Piece {
 
@@ -27,6 +28,10 @@ public abstract class Piece {
         return this.getPathGenerator().calculatePath(source, destination);
     }
 
+    public Set<Position> findCandidateDestinations(Position source) {
+        return this.getPathGenerator().findCandidateDestinations(source);
+    }
+
     public boolean isValidPath(Path path, PathPieces pathPieces) {
         return this.getMovementStrategy().isValidPath(path, pathPieces);
     }
@@ -37,10 +42,6 @@ public abstract class Piece {
 
     public PieceType getPieceType() {
         return pieceType;
-    }
-
-    public boolean isDifferentTeam(Team team) {
-        return this.team != team;
     }
 
     public boolean isDifferentTeam(Piece piece) {
