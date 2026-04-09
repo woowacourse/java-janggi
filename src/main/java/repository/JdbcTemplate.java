@@ -14,6 +14,7 @@ import java.util.concurrent.Callable;
 
 public class JdbcTemplate {
     private static final String ERROR_SQL = "SQL 처리에 문제가 발생했습니다";
+    private static final String ERROR_DATABASE = "데이터베이스 처리에 문제가 발생했습니다";
     private final Connection connection;
 
     public JdbcTemplate(Connection connection) {
@@ -27,7 +28,10 @@ public class JdbcTemplate {
             commit();
         } catch (IllegalStateException e) {
             rollback();
-            throw new IllegalStateException(ERROR_SQL, e);
+            throw e;
+        } catch (Exception e) {
+            rollback();
+            throw new IllegalStateException(ERROR_DATABASE, e);
         } finally {
             setAutoCommit(true);
         }
