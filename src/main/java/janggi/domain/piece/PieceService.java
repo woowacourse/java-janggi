@@ -1,6 +1,6 @@
-package janggi.domain;
+package janggi.domain.piece;
 
-import janggi.domain.piece.Piece;
+import janggi.domain.Position;
 import janggi.domain.team.TeamType;
 import janggi.dto.PieceDto;
 

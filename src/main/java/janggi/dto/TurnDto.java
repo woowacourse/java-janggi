@@ -1,6 +1,6 @@
 package janggi.dto;
 
-import janggi.domain.Turn;
+import janggi.domain.turn.Turn;
 import janggi.domain.team.TeamType;
 
 public record TurnDto(Long id, Long gameId, TeamType currentTurnTeam) {

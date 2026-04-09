@@ -1,7 +1,5 @@
-package janggi.domain;
+package janggi.domain.piece;
 
-import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceType;
 import janggi.domain.team.TeamType;
 
 public class PieceFactory {

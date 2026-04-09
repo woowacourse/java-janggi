@@ -1,5 +1,6 @@
-package janggi.domain;
+package janggi.domain.turn;
 
+import janggi.domain.DatabaseConnector;
 import janggi.dto.TurnDto;
 
 import java.sql.*;

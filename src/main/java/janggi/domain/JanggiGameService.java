@@ -1,9 +1,13 @@
 package janggi.domain;
 
+import janggi.domain.game.GameService;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceService;
 import janggi.domain.team.Chu;
 import janggi.domain.team.Han;
 import janggi.domain.team.TeamType;
+import janggi.domain.turn.Turn;
+import janggi.domain.turn.TurnService;
 import janggi.dto.GameDto;
 import janggi.dto.PieceDto;
 import janggi.dto.TurnDto;

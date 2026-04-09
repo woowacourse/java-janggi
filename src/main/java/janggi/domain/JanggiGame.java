@@ -1,6 +1,7 @@
 package janggi.domain;
 
 import janggi.domain.piece.Piece;
+import janggi.domain.turn.Turn;
 
 import java.util.ArrayList;
 import java.util.List;

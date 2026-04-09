@@ -1,12 +1,13 @@
-package janggi.domain;
+package janggi.domain.game;
 
+import janggi.domain.DatabaseConnector;
 import janggi.dto.GameDto;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static janggi.domain.GameStatus.IN_PROGRESS;
+import static janggi.domain.game.GameStatus.IN_PROGRESS;
 
 public class GameDao {
 

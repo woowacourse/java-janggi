@@ -1,6 +1,6 @@
 package janggi.domain.team;
 
-import janggi.domain.GameResult;
+import janggi.domain.game.GameResult;
 import janggi.domain.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;

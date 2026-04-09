@@ -1,6 +1,6 @@
 package janggi.dto;
 
-import janggi.domain.GameStatus;
+import janggi.domain.game.GameStatus;
 
 public record GameDto(Long id, GameStatus gameStatus) {
 

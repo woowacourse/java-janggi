@@ -1,5 +1,6 @@
-package janggi.domain;
+package janggi.domain.piece;
 
+import janggi.domain.DatabaseConnector;
 import janggi.dto.PieceDto;
 
 import java.sql.Connection;

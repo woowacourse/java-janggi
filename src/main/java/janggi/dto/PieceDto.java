@@ -1,6 +1,6 @@
 package janggi.dto;
 
-import janggi.domain.PieceFactory;
+import janggi.domain.piece.PieceFactory;
 import janggi.domain.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;

@@ -1,5 +1,6 @@
-package janggi.domain;
+package janggi.domain.game;
 
+import janggi.domain.JanggiGame;
 import janggi.dto.GameDto;
 
 import java.util.List;

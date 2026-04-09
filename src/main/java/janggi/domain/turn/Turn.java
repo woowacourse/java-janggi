@@ -1,5 +1,7 @@
-package janggi.domain;
+package janggi.domain.turn;
 
+import janggi.domain.Board;
+import janggi.domain.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.team.TeamType;
 

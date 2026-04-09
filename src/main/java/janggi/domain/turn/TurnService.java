@@ -1,4 +1,4 @@
-package janggi.domain;
+package janggi.domain.turn;
 
 import janggi.dto.TurnDto;
 
