@@ -20,11 +20,11 @@ public class CannonMoveStrategy extends StraightMoveStrategy {
     }
 
     @Override
-    public void validatePath(PieceInfos pieceInfos) {
-        if (pieceInfos.getSize() != CANNON_JUMP_PIECE_COUNT) {
+    public void validatePath(PieceInfos excludeFromAndToPieceInfos) {
+        if (excludeFromAndToPieceInfos.getSize() != CANNON_JUMP_PIECE_COUNT) {
             throw new IllegalArgumentException(INVALID_JUMP_PIECE_COUNT);
         }
-        PieceInfo pieceInfo = pieceInfos.getValues().getFirst();
+        PieceInfo pieceInfo = excludeFromAndToPieceInfos.getValues().getFirst();
         if (pieceInfo.pieceType() == PieceType.CANNON) {
             throw new IllegalArgumentException(CANNOT_JUMP_CANNON);
         }

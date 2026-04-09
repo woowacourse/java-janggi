@@ -1,6 +1,7 @@
 package domain.piece;
 
 import domain.Position;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -28,12 +29,13 @@ public class PieceInfos {
                 .toList();
     }
 
-    public void deleteFromAndTo(Position from, Position to) {
-        pieceInfos.remove(from);
-        if (isEmptyPosition(to)) {
-            return;
-        }
-        pieceInfos.remove(to);
+    public PieceInfos excludeFromAndTo(Position from, Position to) {
+        Map<Position, PieceInfo> deleteFromAndTo = new HashMap<>(pieceInfos);
+
+        deleteFromAndTo.remove(from);
+        deleteFromAndTo.remove(to);
+
+        return new PieceInfos(deleteFromAndTo);
     }
 
     public boolean isEmptyPosition(Position position) {

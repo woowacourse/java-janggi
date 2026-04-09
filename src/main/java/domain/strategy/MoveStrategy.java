@@ -37,8 +37,8 @@ public abstract class MoveStrategy {
     public final void validateMove(PieceInfos pathPieceInfos, Position from, Position to) {
         validateToPosition(pathPieceInfos, from, to);
         // from, to Piece 제외한 path 검사
-        pathPieceInfos.deleteFromAndTo(from, to);
-        validatePath(pathPieceInfos);
+        PieceInfos excludeFromAndToPieceInfos = pathPieceInfos.excludeFromAndTo(from, to);
+        validatePath(excludeFromAndToPieceInfos);
     }
 
     void validateToPosition(PieceInfos pathPieceInfos, Position from, Position to) {
@@ -54,8 +54,8 @@ public abstract class MoveStrategy {
         }
     }
 
-    void validatePath(PieceInfos pathPieceInfos) {
-        if (pathPieceInfos.getSize() > 0) {
+    void validatePath(PieceInfos excludeFromAndToPieceInfos) {
+        if (excludeFromAndToPieceInfos.getSize() > 0) {
             throw new IllegalArgumentException(NOT_EMPTY_PATH);
         }
     }
