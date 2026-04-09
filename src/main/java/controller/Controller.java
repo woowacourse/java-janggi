@@ -1,7 +1,6 @@
 package controller;
 
 import domain.Game;
-import domain.TurnResult;
 import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.InitializeSetting;
@@ -67,52 +66,42 @@ public class Controller {
 
     private void play(Game game, long gameId) {
         while (true) {
-            TurnResult result = playTurn(game);
-            if (result == TurnResult.END) {
+            outputView.printGame(toGameDto(game));
+            if (game.isGameEnd()) {
                 outputView.printGameResult(game.getWinnerTeam());
                 return;
             }
-            if (result == TurnResult.QUIT) {
+            Optional<Move> move = executeMove(game);
+            if (move.isEmpty()) {
                 outputView.printGameSaved(gameId);
                 return;
             }
-            gameRepository.save(gameId, game);
+            gameRepository.save(gameId, game, move.get().from(), move.get().to());
         }
     }
 
-    private TurnResult playTurn(Game game) {
-        outputView.printGame(toGameDto(game));
-
-        if (game.isGameEnd()) {
-            return TurnResult.END;
-        }
-        if (!executeMove(game)) {
-            return TurnResult.QUIT;
-        }
-        return TurnResult.CONTINUE;
-    }
-
-    private boolean executeMove(Game game) {
+    private Optional<Move> executeMove(Game game) {
         while (true) {
             Optional<Position> from = retry(inputView::readSourcePosition);
             if (from.isEmpty()) {
-                return false;
+                return Optional.empty();
             }
-            if (tryMove(game, from.get())) {
-                return true;
+            Optional<Move> move = tryMove(game, from.get());
+            if (move.isPresent()) {
+                return move;
             }
         }
     }
 
-    private boolean tryMove(Game game, Position from) {
+    private Optional<Move> tryMove(Game game, Position from) {
         try {
             game.validateMoveAblePiece(from);
             Position to = inputView.readTargetPosition();
             game.move(from, to);
-            return true;
+            return Optional.of(new Move(from, to));
         } catch (IllegalArgumentException | IllegalStateException e) {
             outputView.printError(e);
-            return false;
+            return Optional.empty();
         }
     }
 

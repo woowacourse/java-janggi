@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Map;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -44,12 +44,24 @@ class GameDaoTest {
     }
 
     @Test
+    void 게임을_ID로_조회한다() {
+        try (Connection connection = dbConnection.getConnection()) {
+            long gameId = gameDao.create(connection, "CHO");
+            GameRow gameRow = gameDao.findById(connection, gameId);
+            assertThat(gameRow.gameId()).isEqualTo(gameId);
+            assertThat(gameRow.turn()).isEqualTo("CHO");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
     void 게임의_턴을_성공적으로_업데이트한다() throws Exception {
         try (Connection connection = dbConnection.getConnection()) {
             long gameId = gameDao.create(connection, "CHO");
             gameDao.updateTurn(connection, gameId, "HAN");
-            String currentTurn = gameDao.findTurn(connection, gameId);
-            assertThat(currentTurn).isEqualTo("HAN");
+            GameRow gameRow = gameDao.findById(connection, gameId);
+            assertThat(gameRow.turn()).isEqualTo("HAN");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -58,7 +70,7 @@ class GameDaoTest {
     @Test
     void 존재하지_않는_방_번호를_조회하면_예외가_발생한다() throws Exception {
         try (Connection connection = dbConnection.getConnection()) {
-            assertThatThrownBy(() -> gameDao.findTurn(connection, 999L))
+            assertThatThrownBy(() -> gameDao.findById(connection, 999L))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage("존재하지 않는 게임 방입니다.");
         } catch (SQLException e) {
@@ -72,11 +84,13 @@ class GameDaoTest {
             gameDao.create(connection, "CHO"); // 1번 방
             gameDao.create(connection, "HAN"); // 2번 방
 
-            Map<Long, String> games = gameDao.findAll(connection);
+            List<GameRow> games = gameDao.findAll(connection);
 
             assertThat(games).hasSize(2);
-            assertThat(games.keySet()).containsExactly(2L, 1L);
-            assertThat(games.values()).containsExactly("HAN", "CHO");
+            assertThat(games.get(0).gameId()).isEqualTo(2L);
+            assertThat(games.get(0).turn()).isEqualTo("HAN");
+            assertThat(games.get(1).gameId()).isEqualTo(1L);
+            assertThat(games.get(1).turn()).isEqualTo("CHO");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

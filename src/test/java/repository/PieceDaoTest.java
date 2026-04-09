@@ -4,8 +4,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -34,7 +36,7 @@ class PieceDaoTest {
     }
 
     @Test
-    void 기물들을_저장한다() throws Exception {
+    void 기물들을_저장한다() throws SQLException {
         try (Connection connection = dbConnection.getConnection()) {
             long gameId = gameDao.create(connection, "CHO");
 
@@ -51,7 +53,7 @@ class PieceDaoTest {
     }
 
     @Test
-    void 방의_기물들을_정확히_불러온다() throws Exception {
+    void 방의_기물들을_정확히_불러온다() throws SQLException {
         try (Connection connection = dbConnection.getConnection()) {
             long gameId = gameDao.create(connection, "CHO");
 
@@ -70,6 +72,60 @@ class PieceDaoTest {
 
             assertThat(chariot.pieceType()).isEqualTo("CHARIOT");
             assertThat(chariot.team()).isEqualTo("CHO");
+        }
+    }
+
+    @Test
+    void 위치로_기물_ID를_조회한다() throws SQLException {
+        try (Connection connection = dbConnection.getConnection()) {
+            long gameId = gameDao.create(connection, "CHO");
+            pieceDao.saveAll(connection, gameId, List.of(new PieceRow(0, 0, "CHARIOT", "CHO")));
+
+            Optional<Long> pieceId = pieceDao.findIdByPosition(connection, gameId, 0, 0);
+
+            assertThat(pieceId).isPresent();
+        }
+    }
+
+    @Test
+    void 없는_위치를_조회하면_빈값을_반환한다() throws SQLException {
+        try (Connection connection = dbConnection.getConnection()) {
+            long gameId = gameDao.create(connection, "CHO");
+
+            Optional<Long> pieceId = pieceDao.findIdByPosition(connection, gameId, 9, 9);
+
+            assertThat(pieceId).isEmpty();
+        }
+    }
+
+    @Test
+    void 기물의_위치를_업데이트한다() throws SQLException {
+        try (Connection connection = dbConnection.getConnection()) {
+            long gameId = gameDao.create(connection, "CHO");
+            pieceDao.saveAll(connection, gameId, List.of(new PieceRow(0, 0, "CHARIOT", "CHO")));
+
+            long pieceId = pieceDao.findIdByPosition(connection, gameId, 0, 0).orElseThrow();
+            pieceDao.updatePosition(connection, pieceId, 0, 5);
+
+            Optional<Long> oldPosition = pieceDao.findIdByPosition(connection, gameId, 0, 0);
+            Optional<Long> newPosition = pieceDao.findIdByPosition(connection, gameId, 0, 5);
+
+            assertThat(oldPosition).isEmpty();
+            assertThat(newPosition).isPresent();
+        }
+    }
+
+    @Test
+    void 기물을_ID로_삭제한다() throws SQLException {
+        try (Connection connection = dbConnection.getConnection()) {
+            long gameId = gameDao.create(connection, "CHO");
+            pieceDao.saveAll(connection, gameId, List.of(new PieceRow(0, 0, "CHARIOT", "CHO")));
+
+            long pieceId = pieceDao.findIdByPosition(connection, gameId, 0, 0).orElseThrow();
+            pieceDao.deleteById(connection, pieceId);
+
+            List<PieceRow> remaining = pieceDao.findByGameId(connection, gameId);
+            assertThat(remaining).isEmpty();
         }
     }
 }
