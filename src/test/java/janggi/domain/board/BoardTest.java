@@ -143,15 +143,16 @@ public class BoardTest {
         Board board = new Board();
         Position position = new Position(4, 6);
         board.place(position, new Piece(Team.CHO, PieceType.MA));
-        Position maPos1 = new Position(3, 4);
-        Position maPos2 = new Position(5, 4);
-        Position maPos3 = new Position(6, 5);
-        Position maPos4 = new Position(6, 7);
-        Position maPos5 = new Position(3, 8);
-        Position maPos6 = new Position(5, 8);
-        Position maPos7 = new Position(2, 5);
-        Position maPos8 = new Position(2, 7);
-        List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3, maPos4, maPos5, maPos6, maPos7, maPos8);
+        Position maPosition1 = new Position(3, 4);
+        Position maPosition2 = new Position(5, 4);
+        Position maPosition3 = new Position(6, 5);
+        Position maPosition4 = new Position(6, 7);
+        Position maPosition5 = new Position(3, 8);
+        Position maPosition6 = new Position(5, 8);
+        Position maPosition7 = new Position(2, 5);
+        Position maPosition8 = new Position(2, 7);
+        List<Position> rightAnswer = List.of(maPosition1, maPosition2, maPosition3, maPosition4,
+                maPosition5, maPosition6, maPosition7, maPosition8);
 
         //when
         List<Position> maRoutesPositions = board.findAvailablePositions(position);
@@ -169,13 +170,14 @@ public class BoardTest {
         Position position = new Position(4, 6);
         board.place(position, new Piece(Team.CHO, PieceType.MA));
         board.place(new Position(4, 5), new Piece(Team.HAN, PieceType.CHA));
-        Position maPos1 = new Position(6, 5);
-        Position maPos2 = new Position(6, 7);
-        Position maPos3 = new Position(3, 8);
-        Position maPos4 = new Position(5, 8);
-        Position maPos5 = new Position(2, 5);
-        Position maPos6 = new Position(2, 7);
-        List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3, maPos4, maPos5, maPos6);
+        Position maPosition1 = new Position(6, 5);
+        Position maPosition2 = new Position(6, 7);
+        Position maPosition3 = new Position(3, 8);
+        Position maPosition4 = new Position(5, 8);
+        Position maPosition5 = new Position(2, 5);
+        Position maPosition6 = new Position(2, 7);
+        List<Position> rightAnswer = List.of(maPosition1, maPosition2, maPosition3,
+                maPosition4, maPosition5, maPosition6);
 
         //when
         List<Position> maRoutesPositions = board.findAvailablePositions(position);
@@ -193,14 +195,15 @@ public class BoardTest {
         Position position = new Position(4, 6);
         board.place(position, new Piece(Team.CHO, PieceType.MA));
         board.place(new Position(2, 7), new Piece(Team.CHO, PieceType.CHA));
-        Position maPos1 = new Position(3, 4);
-        Position maPos2 = new Position(5, 4);
-        Position maPos3 = new Position(6, 5);
-        Position maPos4 = new Position(6, 7);
-        Position maPos5 = new Position(3, 8);
-        Position maPos6 = new Position(5, 8);
-        Position maPos7 = new Position(2, 5);
-        List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3, maPos4, maPos5, maPos6, maPos7);
+        Position maPosition1 = new Position(3, 4);
+        Position maPosition2 = new Position(5, 4);
+        Position maPosition3 = new Position(6, 5);
+        Position maPosition4 = new Position(6, 7);
+        Position maPosition5 = new Position(3, 8);
+        Position maPosition6 = new Position(5, 8);
+        Position maPosition7 = new Position(2, 5);
+        List<Position> rightAnswer = List.of(maPosition1, maPosition2, maPosition3, maPosition4,
+                maPosition5, maPosition6, maPosition7);
 
         //when
         List<Position> maRoutesPositions = board.findAvailablePositions(position);
@@ -217,15 +220,16 @@ public class BoardTest {
         Board board = new Board();
         Position position = new Position(5, 7);
         board.place(position, new Piece(Team.CHO, PieceType.SANG));
-        Position maPos1 = new Position(3, 4);
-        Position maPos2 = new Position(7, 4);
-        Position maPos3 = new Position(8, 5);
-        Position maPos4 = new Position(8, 9);
-        Position maPos5 = new Position(3, 10);
-        Position maPos6 = new Position(7, 10);
-        Position maPos7 = new Position(2, 5);
-        Position maPos8 = new Position(2, 9);
-        List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3, maPos4, maPos5, maPos6, maPos7, maPos8);
+        Position sangPosition1 = new Position(3, 4);
+        Position sangPosition2 = new Position(7, 4);
+        Position sangPosition3 = new Position(8, 5);
+        Position sangPosition4 = new Position(8, 9);
+        Position sangPosition5 = new Position(3, 10);
+        Position sangPosition6 = new Position(7, 10);
+        Position sangPosition7 = new Position(2, 5);
+        Position sangPosition8 = new Position(2, 9);
+        List<Position> rightAnswer = List.of(sangPosition1, sangPosition2, sangPosition3, sangPosition4,
+                sangPosition5, sangPosition6, sangPosition7, sangPosition8);
 
         //when
         List<Position> sangRoutesPositions = board.findAvailablePositions(position);
@@ -243,14 +247,15 @@ public class BoardTest {
         Position position = new Position(5, 7);
         board.place(position, new Piece(Team.CHO, PieceType.SANG));
         board.place(new Position(6, 5), new Piece(Team.CHO, PieceType.ZOL));
-        Position maPos1 = new Position(3, 4);
-        Position maPos2 = new Position(8, 5);
-        Position maPos3 = new Position(8, 9);
-        Position maPos4 = new Position(3, 10);
-        Position maPos5 = new Position(7, 10);
-        Position maPos6 = new Position(2, 5);
-        Position maPos7 = new Position(2, 9);
-        List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3, maPos4, maPos5, maPos6, maPos7);
+        Position sangPosition1 = new Position(3, 4);
+        Position sangPosition2 = new Position(8, 5);
+        Position sangPosition3 = new Position(8, 9);
+        Position sangPosition4 = new Position(3, 10);
+        Position sangPosition5 = new Position(7, 10);
+        Position sangPosition6 = new Position(2, 5);
+        Position sangPosition7 = new Position(2, 9);
+        List<Position> rightAnswer = List.of(sangPosition1, sangPosition2, sangPosition3, sangPosition4,
+                sangPosition5, sangPosition6, sangPosition7);
 
         //when
         List<Position> sangRoutesPositions = board.findAvailablePositions(position);
@@ -268,13 +273,14 @@ public class BoardTest {
         Position position = new Position(5, 7);
         board.place(position, new Piece(Team.CHO, PieceType.SANG));
         board.place(new Position(5, 6), new Piece(Team.HAN, PieceType.ZOL));
-        Position maPos1 = new Position(8, 5);
-        Position maPos2 = new Position(8, 9);
-        Position maPos3 = new Position(3, 10);
-        Position maPos4 = new Position(7, 10);
-        Position maPos5 = new Position(2, 5);
-        Position maPos6 = new Position(2, 9);
-        List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3, maPos4, maPos5, maPos6);
+        Position sangPosition1 = new Position(8, 5);
+        Position sangPosition2 = new Position(8, 9);
+        Position sangPosition3 = new Position(3, 10);
+        Position sangPosition4 = new Position(7, 10);
+        Position sangPosition5 = new Position(2, 5);
+        Position sangPosition6 = new Position(2, 9);
+        List<Position> rightAnswer = List.of(sangPosition1, sangPosition2, sangPosition3,
+                sangPosition4, sangPosition5, sangPosition6);
 
         //when
         List<Position> sangRoutesPositions = board.findAvailablePositions(position);
@@ -292,14 +298,15 @@ public class BoardTest {
         Position position = new Position(5, 7);
         board.place(position, new Piece(Team.CHO, PieceType.SANG));
         board.place(new Position(2, 9), new Piece(Team.CHO, PieceType.ZOL));
-        Position maPos1 = new Position(3, 4);
-        Position maPos2 = new Position(7, 4);
-        Position maPos3 = new Position(8, 5);
-        Position maPos4 = new Position(8, 9);
-        Position maPos5 = new Position(3, 10);
-        Position maPos6 = new Position(7, 10);
-        Position maPos7 = new Position(2, 5);
-        List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3, maPos4, maPos5, maPos6, maPos7);
+        Position sangPosition1 = new Position(3, 4);
+        Position sangPosition2 = new Position(7, 4);
+        Position sangPosition3 = new Position(8, 5);
+        Position sangPosition4 = new Position(8, 9);
+        Position sangPosition5 = new Position(3, 10);
+        Position sangPosition6 = new Position(7, 10);
+        Position sangPosition7 = new Position(2, 5);
+        List<Position> rightAnswer = List.of(sangPosition1, sangPosition2, sangPosition3, sangPosition4,
+                sangPosition5, sangPosition6, sangPosition7);
 
         //when
         List<Position> sangRoutesPositions = board.findAvailablePositions(position);
@@ -316,18 +323,18 @@ public class BoardTest {
         Board board = new Board();
         Position position = new Position(4, 10);
         board.place(position, new Piece(Team.CHO, PieceType.SA));
-        Position maPos1 = new Position(4, 9);
-        Position maPos2 = new Position(5, 9);
-        Position maPos3 = new Position(5, 10);
-        Position maPos4 = new Position(3, 9);
-        Position maPos5 = new Position(3, 10);
-        List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3, maPos4, maPos5);
+        Position saPosition1 = new Position(4, 9);
+        Position saPosition2 = new Position(5, 9);
+        Position saPosition3 = new Position(5, 10);
+        Position saPosition4 = new Position(3, 9);
+        Position saPosition5 = new Position(3, 10);
+        List<Position> rightAnswer = List.of(saPosition1, saPosition2, saPosition3, saPosition4, saPosition5);
 
         //when
-        List<Position> maRoutesPositions = board.findAvailablePositions(position);
+        List<Position> saRoutesPositions = board.findAvailablePositions(position);
 
         //then
-        assertThat(maRoutesPositions).hasSize(5)
+        assertThat(saRoutesPositions).hasSize(5)
                 .containsExactlyInAnyOrderElementsOf(rightAnswer);
     }
 
@@ -339,17 +346,17 @@ public class BoardTest {
         Position position = new Position(4, 10);
         board.place(position, new Piece(Team.CHO, PieceType.SA));
         board.place(new Position(5, 9), new Piece(Team.CHO, PieceType.KING));
-        Position maPos1 = new Position(4, 9);
-        Position maPos2 = new Position(5, 10);
-        Position maPos3 = new Position(3, 9);
-        Position maPos4 = new Position(3, 10);
-        List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3, maPos4);
+        Position saPosition1 = new Position(4, 9);
+        Position saPosition2 = new Position(5, 10);
+        Position saPosition3 = new Position(3, 9);
+        Position saPosition4 = new Position(3, 10);
+        List<Position> rightAnswer = List.of(saPosition1, saPosition2, saPosition3, saPosition4);
 
         //when
-        List<Position> maRoutesPositions = board.findAvailablePositions(position);
+        List<Position> saRoutesPositions = board.findAvailablePositions(position);
 
         //then
-        assertThat(maRoutesPositions).hasSize(4)
+        assertThat(saRoutesPositions).hasSize(4)
                 .containsExactlyInAnyOrderElementsOf(rightAnswer);
     }
 
@@ -361,18 +368,18 @@ public class BoardTest {
         Position position = new Position(4, 10);
         board.place(position, new Piece(Team.CHO, PieceType.SA));
         board.place(new Position(5, 9), new Piece(Team.HAN, PieceType.CHA));
-        Position maPos1 = new Position(4, 9);
-        Position maPos2 = new Position(5, 10);
-        Position maPos3 = new Position(3, 9);
-        Position maPos4 = new Position(3, 10);
-        Position maPos5 = new Position(5, 9);
-        List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3, maPos4, maPos5);
+        Position saPosition1 = new Position(4, 9);
+        Position saPosition2 = new Position(5, 10);
+        Position saPosition3 = new Position(3, 9);
+        Position saPosition4 = new Position(3, 10);
+        Position saPosition5 = new Position(5, 9);
+        List<Position> rightAnswer = List.of(saPosition1, saPosition2, saPosition3, saPosition4, saPosition5);
 
         //when
-        List<Position> maRoutesPositions = board.findAvailablePositions(position);
+        List<Position> saRoutesPositions = board.findAvailablePositions(position);
 
         //then
-        assertThat(maRoutesPositions).hasSize(5)
+        assertThat(saRoutesPositions).hasSize(5)
                 .containsExactlyInAnyOrderElementsOf(rightAnswer);
     }
 
@@ -383,21 +390,22 @@ public class BoardTest {
         Board board = new Board();
         Position position = new Position(5, 9);
         board.place(position, new Piece(Team.CHO, PieceType.KING));
-        Position maPos1 = new Position(4, 8);
-        Position maPos2 = new Position(5, 8);
-        Position maPos3 = new Position(6, 8);
-        Position maPos4 = new Position(6, 9);
-        Position maPos5 = new Position(6, 10);
-        Position maPos6 = new Position(5, 10);
-        Position maPos7 = new Position(4, 10);
-        Position maPos8 = new Position(4, 9);
-        List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3, maPos4, maPos5, maPos6, maPos7, maPos8);
+        Position kingPosition1 = new Position(4, 8);
+        Position kingPosition2 = new Position(5, 8);
+        Position kingPosition3 = new Position(6, 8);
+        Position kingPosition4 = new Position(6, 9);
+        Position kingPosition5 = new Position(6, 10);
+        Position kingPosition6 = new Position(5, 10);
+        Position kingPosition7 = new Position(4, 10);
+        Position kingPosition8 = new Position(4, 9);
+        List<Position> rightAnswer = List.of(kingPosition1, kingPosition2, kingPosition3, kingPosition4,
+                kingPosition5, kingPosition6, kingPosition7, kingPosition8);
 
         //when
-        List<Position> maRoutesPositions = board.findAvailablePositions(position);
+        List<Position> kingRoutesPositions = board.findAvailablePositions(position);
 
         //then
-        assertThat(maRoutesPositions).hasSize(8)
+        assertThat(kingRoutesPositions).hasSize(8)
                 .containsExactlyInAnyOrderElementsOf(rightAnswer);
     }
 
@@ -410,19 +418,20 @@ public class BoardTest {
         board.place(position, new Piece(Team.CHO, PieceType.KING));
         board.place(new Position(4, 9), new Piece(Team.CHO, PieceType.SA));
         board.place(new Position(4, 10), new Piece(Team.CHO, PieceType.SA));
-        Position maPos1 = new Position(4, 8);
-        Position maPos2 = new Position(5, 8);
-        Position maPos3 = new Position(6, 8);
-        Position maPos4 = new Position(6, 9);
-        Position maPos5 = new Position(6, 10);
-        Position maPos6 = new Position(5, 10);
-        List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3, maPos4, maPos5, maPos6);
+        Position kingPosition1 = new Position(4, 8);
+        Position kingPosition2 = new Position(5, 8);
+        Position kingPosition3 = new Position(6, 8);
+        Position kingPosition4 = new Position(6, 9);
+        Position kingPosition5 = new Position(6, 10);
+        Position kingPosition6 = new Position(5, 10);
+        List<Position> rightAnswer = List.of(kingPosition1, kingPosition2, kingPosition3,
+                kingPosition4, kingPosition5, kingPosition6);
 
         //when
-        List<Position> maRoutesPositions = board.findAvailablePositions(position);
+        List<Position> kingRoutesPositions = board.findAvailablePositions(position);
 
         //then
-        assertThat(maRoutesPositions).hasSize(6)
+        assertThat(kingRoutesPositions).hasSize(6)
                 .containsExactlyInAnyOrderElementsOf(rightAnswer);
     }
 
@@ -435,21 +444,22 @@ public class BoardTest {
         board.place(position, new Piece(Team.CHO, PieceType.KING));
         board.place(new Position(4, 9), new Piece(Team.HAN, PieceType.ZOL));
         board.place(new Position(4, 10), new Piece(Team.HAN, PieceType.CHA));
-        Position maPos1 = new Position(4, 8);
-        Position maPos2 = new Position(5, 8);
-        Position maPos3 = new Position(6, 8);
-        Position maPos4 = new Position(6, 9);
-        Position maPos5 = new Position(6, 10);
-        Position maPos6 = new Position(5, 10);
-        Position maPos7 = new Position(4, 10);
-        Position maPos8 = new Position(4, 9);
-        List<Position> rightAnswer = List.of(maPos1, maPos2, maPos3, maPos4, maPos5, maPos6, maPos7, maPos8);
+        Position kingPosition1 = new Position(4, 8);
+        Position kingPosition2 = new Position(5, 8);
+        Position kingPosition3 = new Position(6, 8);
+        Position kingPosition4 = new Position(6, 9);
+        Position kingPosition5 = new Position(6, 10);
+        Position kingPosition6 = new Position(5, 10);
+        Position kingPosition7 = new Position(4, 10);
+        Position kingPosition8 = new Position(4, 9);
+        List<Position> rightAnswer = List.of(kingPosition1, kingPosition2, kingPosition3, kingPosition4,
+                kingPosition5, kingPosition6, kingPosition7, kingPosition8);
 
         //when
-        List<Position> maRoutesPositions = board.findAvailablePositions(position);
+        List<Position> kingRoutesPositions = board.findAvailablePositions(position);
 
         //then
-        assertThat(maRoutesPositions).hasSize(8)
+        assertThat(kingRoutesPositions).hasSize(8)
                 .containsExactlyInAnyOrderElementsOf(rightAnswer);
     }
 
@@ -557,10 +567,10 @@ public class BoardTest {
         List<Position> rightAnswer = new ArrayList<>(upRoutes);
 
         //when
-        List<Position> chaRoutesPositions = board.findAvailablePositions(position);
+        List<Position> poRoutesPositions = board.findAvailablePositions(position);
 
         //then
-        assertThat(chaRoutesPositions).hasSize(5)
+        assertThat(poRoutesPositions).hasSize(5)
                 .containsExactlyInAnyOrderElementsOf(rightAnswer);
     }
 
@@ -595,10 +605,10 @@ public class BoardTest {
         List<Position> rightAnswer = new ArrayList<>(upRoutes);
 
         //when
-        List<Position> chaRoutesPositions = board.findAvailablePositions(position);
+        List<Position> poRoutesPositions = board.findAvailablePositions(position);
 
         //then
-        assertThat(chaRoutesPositions).hasSize(1)
+        assertThat(poRoutesPositions).hasSize(1)
                 .containsExactlyInAnyOrderElementsOf(rightAnswer);
     }
 }
