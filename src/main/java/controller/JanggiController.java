@@ -10,6 +10,7 @@ import dto.CountryInfo;
 import dto.MoveResult;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 import service.GameService;
 import view.CountryFormatter;
 import view.InputParser;
@@ -39,14 +40,10 @@ public class JanggiController {
     }
 
     private boolean isGameContinue() {
-        while (true) {
-            try {
-                String input = inputView.readContinueGame();
-                return ContinueOption.from(input) == ContinueOption.CONTINUE;
-            } catch (IllegalArgumentException exception) {
-                outputView.printErrorMessage(exception.getMessage());
-            }
-        }
+        return retryUntilSuccessWithReturn(() -> {
+            String input = inputView.readContinueGame();
+            return ContinueOption.from(input) == ContinueOption.CONTINUE;
+        });
     }
 
     private void startNewGame() {
@@ -74,15 +71,11 @@ public class JanggiController {
     }
 
     private TableSetting readTableSetting(Country country) {
-        while (true) {
-            try {
-                String input = inputView.readTableSetting(CountryFormatter.from(country));
-                String tableNames = InputParser.parseTableSetting(input);
-                return TableSetting.from(tableNames);
-            } catch (IllegalArgumentException exception) {
-                outputView.printErrorMessage(exception.getMessage());
-            }
-        }
+        return retryUntilSuccessWithReturn(() -> {
+            String input = inputView.readTableSetting(CountryFormatter.from(country));
+            String tableNames = InputParser.parseTableSetting(input);
+            return TableSetting.from(tableNames);
+        });
     }
 
     private CountryInfo printOneTurn(Board board, int turnIndex, List<Country> playOrders) {
@@ -96,20 +89,16 @@ public class JanggiController {
     }
 
     private MoveResult movePiece(Board board, Long gameId, Country country) {
-        while (true) {
-            try {
-                Position from = makeFromPosition();
-                board.validateFromPosition(from, country);
+        return retryUntilSuccessWithReturn(() -> {
+            Position from = makeFromPosition();
+            board.validateFromPosition(from, country);
 
-                Position to = makeToPosition();
-                from.validatePositions(to);
+            Position to = makeToPosition();
+            from.validatePositions(to);
 
-                boolean isGeneralCaught = gameService.move(board, gameId, from, to);
-                return MoveResult.of(from, to, isGeneralCaught);
-            } catch (IllegalArgumentException exception) {
-                outputView.printErrorMessage(exception.getMessage());
-            }
-        }
+            boolean isGeneralCaught = gameService.move(board, gameId, from, to);
+            return MoveResult.of(from, to, isGeneralCaught);
+        });
     }
 
     private void finish(Long gameId, CountryInfo countryInfo) {
@@ -128,5 +117,15 @@ public class JanggiController {
         String input = inputView.readToPosition();
         List<Integer> positions = InputParser.parsePosition(input);
         return new Position(positions.get(0), positions.get(1));
+    }
+
+    private <T> T retryUntilSuccessWithReturn(Supplier<T> supplier) {
+        while (true) {
+            try {
+                return supplier.get();
+            } catch (IllegalArgumentException exception) {
+                outputView.printErrorMessage(exception.getMessage());
+            }
+        }
     }
 }
