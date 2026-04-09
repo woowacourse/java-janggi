@@ -87,7 +87,7 @@ public class GungsungDiagonalPathGenerator implements PathGenerator {
     private Direction determineDirection(Position source, Position destination) {
         int rowDifference = destination.row() - source.row();
         int columnDifference = destination.column() - source.column();
-        return Direction.fromStraight(rowDifference, columnDifference);
+        return Direction.fromDelta(rowDifference, columnDifference);
     }
 
     private Path buildPath(Position source, Position destination, Direction direction) {

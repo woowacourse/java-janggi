@@ -21,24 +21,12 @@ public enum Direction {
         this.offsetColumn = offsetColumn;
     }
 
-    public static Direction fromStraight(int rowDifference, int columnDifference) {
+    public static Direction fromDelta(int rowDifference, int columnDifference) {
         if (rowDifference < 0) {
-            if (columnDifference < 0) {
-                return NORTH_WEST;
-            }
-            if (columnDifference == 0) {
-                return NORTH;
-            }
-            return NORTH_EAST;
+            return getNorthDirection(columnDifference);
         }
         if (rowDifference > 0) {
-            if (columnDifference < 0) {
-                return SOUTH_WEST;
-            }
-            if (columnDifference == 0) {
-                return SOUTH;
-            }
-            return SOUTH_EAST;
+            return getSouthDirection(columnDifference);
         }
         if (columnDifference < 0) {
             return WEST;
@@ -47,6 +35,26 @@ public enum Direction {
             return EAST;
         }
         throw new IllegalArgumentException("방향을 계산할 수 없습니다.");
+    }
+
+    private static Direction getSouthDirection(int columnDifference) {
+        if (columnDifference < 0) {
+            return SOUTH_WEST;
+        }
+        if (columnDifference == 0) {
+            return SOUTH;
+        }
+        return SOUTH_EAST;
+    }
+
+    private static Direction getNorthDirection(int columnDifference) {
+        if (columnDifference < 0) {
+            return NORTH_WEST;
+        }
+        if (columnDifference == 0) {
+            return NORTH;
+        }
+        return NORTH_EAST;
     }
 
     public Position calculateNextPosition(Position source) {
