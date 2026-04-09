@@ -17,7 +17,7 @@ public class PalaceTopology {
     private static final Position HAN_PALACE_TOP_LEFT = new Position(1, 4);
     private static final Position HAN_PALACE_TOP_RIGHT = new Position(1, 6);
     private static final Position HAN_PALACE_CENTER = new Position(2, 5);
-    private static final Position HAN_PALACE_BOTTOM_LEFT = new Position(3, 6);
+    private static final Position HAN_PALACE_BOTTOM_LEFT = new Position(3, 4);
     private static final Position HAN_PALACE_BOTTOM_RIGHT = new Position(3, 6);
 
     private static final Position CHO_PALACE_TOP_LEFT = new Position(8, 4);
