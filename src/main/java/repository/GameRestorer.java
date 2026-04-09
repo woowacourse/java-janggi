@@ -1,12 +1,24 @@
 package repository;
 
 import model.board.Board;
+import model.game.GameSession;
 import model.game.JanggiGame;
 import model.pieces.Piece;
 import model.position.Position;
 
 public class GameRestorer {
     private GameRestorer() {
+    }
+
+    public static GameSession restore(SavedGame savedGame) {
+        Board board = restoreBoard(savedGame);
+        JanggiGame game = JanggiGame.restore(
+                board,
+                savedGame.turn(),
+                savedGame.finished(),
+                savedGame.winner()
+        );
+        return new GameSession(board, game);
     }
 
     public static Board restoreBoard(SavedGame savedGame) {
@@ -18,15 +30,5 @@ public class GameRestorer {
             board.place(position, piece);
         }
         return board;
-    }
-
-    public static JanggiGame restoreGame(SavedGame savedGame) {
-        Board board = restoreBoard(savedGame);
-        return JanggiGame.restore(
-                board,
-                savedGame.turn(),
-                savedGame.finished(),
-                savedGame.winner()
-        );
     }
 }
