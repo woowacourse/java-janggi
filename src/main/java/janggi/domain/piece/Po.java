@@ -1,13 +1,12 @@
 package janggi.domain.piece;
 
+import janggi.domain.Side;
 import janggi.domain.board.Intersection;
 import janggi.domain.board.Location;
-import janggi.domain.Side;
 import janggi.domain.rule.collision.CollisionDetector;
 import janggi.domain.rule.collision.PoCollisionDetector;
 import janggi.domain.rule.route.RouteProvider;
 import janggi.domain.rule.route.StraightRouteProvider;
-import janggi.exception.RouteResolveException;
 import java.util.List;
 
 public class Po extends ActivePiece {
@@ -21,12 +20,8 @@ public class Po extends ActivePiece {
     }
 
     @Override
-    public List<Location> calculateRoute(Intersection from, Intersection to) {
-        try {
-            return ROUTE_PROVIDER.calculateRoute(from, to);
-        } catch (RouteResolveException e) {
-            throw new RouteResolveException(pieceType, from.getLocation(), to.getLocation());
-        }
+    protected List<Location> resolveRoute(Intersection from, Intersection to) {
+        return ROUTE_PROVIDER.calculateRoute(from, to);
     }
 
     @Override

@@ -9,12 +9,13 @@ import static janggi.domain.rule.route.Direction.FRONT_RIGHT;
 import static janggi.domain.rule.route.Direction.LEFT;
 import static janggi.domain.rule.route.Direction.RIGHT;
 
+import janggi.domain.Side;
 import janggi.domain.board.Intersection;
 import janggi.domain.board.Location;
-import janggi.domain.Side;
 import janggi.domain.rule.collision.CollisionDetector;
 import janggi.domain.rule.collision.DefaultCollisionDetector;
 import janggi.domain.rule.route.Route;
+import janggi.exception.ErrorCode;
 import janggi.exception.RouteResolveException;
 import java.util.List;
 
@@ -38,8 +39,7 @@ public class Sang extends ActivePiece {
     }
 
     @Override
-    public List<Location> calculateRoute(Intersection from, Intersection to) {
-
+    protected List<Location> resolveRoute(Intersection from, Intersection to) {
         for (Route route : moveRoutes) {
             List<Location> locations = route.apply(from.getLocation());
             if (locations.getLast().equals(to.getLocation())) {
@@ -47,7 +47,7 @@ public class Sang extends ActivePiece {
             }
         }
 
-        throw new RouteResolveException(pieceType, from.getLocation(), to.getLocation());
+        throw new RouteResolveException(ErrorCode.ROUTE_RESOLVE_ERROR);
     }
 
     @Override
