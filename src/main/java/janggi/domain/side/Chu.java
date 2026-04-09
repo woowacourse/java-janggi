@@ -18,6 +18,10 @@ public class Chu extends Team {
         return new Chu(initializePieces(), GameResult.RUNNING);
     }
 
+    public static Chu loadLastChu(Map<Position, Piece> pieces) {
+        return new Chu(pieces, GameResult.RUNNING);
+    }
+
     @Override
     public Team move(Position start, Position end) {
         Map<Position, Piece> pieces = getPieces();

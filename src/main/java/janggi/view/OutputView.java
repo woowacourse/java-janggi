@@ -4,6 +4,9 @@ import janggi.domain.Position;
 import janggi.domain.side.TeamType;
 import janggi.dto.BoardSpot;
 import janggi.dto.BoardSpots;
+import janggi.dto.GameDto;
+
+import java.util.List;
 import java.util.Map;
 
 public class OutputView {
@@ -39,6 +42,18 @@ public class OutputView {
     public static void printStartMessage() {
         printMessage("장기 게임을 시작합니다.");
         printNewLine();
+    }
+
+    public static void printResumeNotice(List<GameDto> inProgressGames) {
+        printMessage("진행 중인 게임");
+        for (GameDto inProgressGame : inProgressGames) {
+            System.out.println(inProgressGame.id());
+        }
+        printMessage("이어하던 게임이 존재합니다. 이어하시겠습니까?");
+    }
+
+    public static void printResumeGameNotice() {
+        printMessage("이어할 게임의 ID를 입력하세요.");
     }
 
     public static void printBoard(BoardSpots boardSpots) {

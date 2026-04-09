@@ -25,6 +25,10 @@ public class Board {
         return new Board(Chu.createInitialChu(), Han.createInitialHan());
     }
 
+    public static Board loadPreviousBoard(Team chu, Team han) {
+        return new Board(chu, han);
+    }
+
     public boolean isRunning() {
         return chu.isRunning() && han.isRunning();
     }

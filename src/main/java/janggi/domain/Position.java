@@ -18,6 +18,10 @@ public class Position {
         this.y = y;
     }
 
+    public static Position of(int x, int y) {
+        return new Position(x, y);
+    }
+
     public static Position makePosition(List<String> parsedPiecePosition) {
         if (parsedPiecePosition.size() != POSITION_SIZE) {
             throw new IllegalArgumentException("기물의 좌표는 두 개로 입력해야 합니다.");

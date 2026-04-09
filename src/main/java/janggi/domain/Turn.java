@@ -19,6 +19,10 @@ public class Turn {
         return new Turn(TeamType.HAN, Board.createInitialBoard());
     }
 
+    public static Turn loadPreviousTurn(TeamType teamType, Board board) {
+        return new Turn(teamType, board);
+    }
+
     public boolean isRunning() {
         return board.isRunning();
     }

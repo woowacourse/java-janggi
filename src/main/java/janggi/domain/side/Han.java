@@ -17,6 +17,10 @@ public class Han extends Team {
         return new Han(initializePieces(), GameResult.RUNNING);
     }
 
+    public static Han loadLastHan(Map<Position, Piece> pieces) {
+        return new Han(pieces, GameResult.RUNNING);
+    }
+
     @Override
     public Team move(Position start, Position end) {
         Map<Position, Piece> pieces = getPieces();

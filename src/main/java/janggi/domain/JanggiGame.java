@@ -18,6 +18,10 @@ public class JanggiGame {
         return new JanggiGame(List.of(Turn.createInitialTurn()));
     }
 
+    public static JanggiGame loadPreviousJanggiGame(Turn previousTurn) {
+        return new JanggiGame(List.of(previousTurn));
+    }
+
     public boolean isRunning() {
         return getLastTurn().isRunning();
     }
