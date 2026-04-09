@@ -1,10 +1,15 @@
 package service;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.sql.Connection;
 import java.sql.SQLException;
 import javax.sql.DataSource;
 
 public class TransactionTemplate {
+
+    private static final Logger LOGGER = Logger.getLogger(TransactionTemplate.class.getName());
+    private static final String LOG_MESSAGE_FORMAT = "%s 중 예외 발생";
 
     private final DataSource dataSource;
 
@@ -25,28 +30,33 @@ public class TransactionTemplate {
             return doingResult;
         } catch (SQLException e) {
             rollback(conn);
-            // TODO: 커스텀 런타임으로 변경
-            throw new RuntimeException(e);
+            throw new DataAccessException(e);
         } finally {
             close(conn);
         }
     }
 
-    private static void rollback(Connection conn) {
+    private void rollback(Connection conn) {
+        if (conn == null) {
+            return;
+        }
+
         try {
             conn.rollback();
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, LOG_MESSAGE_FORMAT.formatted("롤백"), e);
         }
     }
 
-    private static void close(Connection conn) {
-        if (conn != null) {
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+    private void close(Connection conn) {
+        if (conn == null) {
+            return;
+        }
+
+        try {
+            conn.close();
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, LOG_MESSAGE_FORMAT.formatted("Connection 반납"), e);
         }
     }
 }

@@ -1,4 +1,4 @@
-package LAB.time;
+package laboratory.time;
 
 import java.sql.Date;
 import java.time.LocalDate;
