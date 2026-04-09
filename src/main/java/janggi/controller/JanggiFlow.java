@@ -23,14 +23,12 @@ import java.util.stream.Stream;
 public class JanggiFlow {
 
     private final ApplicationView view;
-    private final ArrangementStrategyFactory arrangementFactory;
     private final IntersectionInitializer intersectionInitializer;
     private final JanggiService janggiService;
 
     public JanggiFlow(ApplicationView view, JanggiService janggiService) {
         this.view = view;
         this.janggiService = janggiService;
-        this.arrangementFactory = new ArrangementStrategyFactory();
         this.intersectionInitializer = new PalaceIntersectionInitializer();
     }
 
@@ -107,7 +105,7 @@ public class JanggiFlow {
                 .toList();
         int decisionNumber = view.requestArrangementStrategyDecision(SideViewResolver.toDisplayName(side),
                 strategyOptions);
-        return arrangementFactory.createStrategy(StrategyLabel.from(decisionNumber), side);
+        return ArrangementStrategyFactory.createStrategy(StrategyLabel.from(decisionNumber), side);
     }
 
     private void retryAction(Runnable runnable) {
