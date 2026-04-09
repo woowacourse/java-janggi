@@ -88,6 +88,42 @@ class PieceTest {
         }
 
         @Test
+        void 포는_궁성_꼭지점에서_기본_직선_경로와_궁성_대각선_경로를_함께_생성한다() {
+            final Piece piece = Piece.of(TeamColor.HAN, PieceType.CANNON);
+
+            assertThat(piece.makeRoutes(Position.of(0, 3))).contains(
+                    new Route(Position.of(0, 3), Position.of(1, 3), List.of()),
+                    new Route(Position.of(0, 3), Position.of(0, 4), List.of()),
+                    new Route(Position.of(0, 3), Position.of(2, 5), List.of(Position.of(1, 4)))
+            );
+        }
+
+        @Test
+        void 졸은_궁성_중앙에서_기본_이동_경로와_궁성_대각선_경로를_함께_생성한다() {
+            final Piece piece = Piece.of(TeamColor.CHO, PieceType.PAWN);
+
+            assertThat(piece.makeRoutes(Position.of(8, 4))).contains(
+                    new Route(Position.of(8, 4), Position.of(7, 4), List.of()),
+                    new Route(Position.of(8, 4), Position.of(8, 3), List.of()),
+                    new Route(Position.of(8, 4), Position.of(8, 5), List.of()),
+                    new Route(Position.of(8, 4), Position.of(7, 3), List.of()),
+                    new Route(Position.of(8, 4), Position.of(7, 5), List.of())
+            );
+        }
+
+        @Test
+        void 졸은_궁성_꼭지점에서_기본_이동_경로와_궁성_대각선_경로를_함께_생성한다() {
+            final Piece piece = Piece.of(TeamColor.CHO, PieceType.PAWN);
+
+            assertThat(piece.makeRoutes(Position.of(9, 3))).contains(
+                    new Route(Position.of(9, 3), Position.of(8, 3), List.of()),
+                    new Route(Position.of(9, 3), Position.of(9, 4), List.of()),
+                    new Route(Position.of(9, 3), Position.of(9, 2), List.of()),
+                    new Route(Position.of(9, 3), Position.of(8, 4), List.of())
+            );
+        }
+
+        @Test
         void 기물은_자기_전략으로_이동_가능_여부를_판단한다() {
             final Piece piece = Piece.of(TeamColor.CHO, PieceType.PAWN);
             final Route route = new Route(Position.of(2, 3), Position.of(1, 3), List.of());
