@@ -76,13 +76,13 @@ public class JanggiGame {
         final Score choScore = calculateScoreOf(Side.CHO);
         final Score hanScore = calculateScoreOf(Side.HAN);
         if (choScore.isGreaterThan(hanScore)) {
-            return new JanggiGame(board, turn, GameStatus.CHO_WIN_BY_GUNG);
+            return new JanggiGame(board, turn, GameStatus.CHO_WIN_BY_SCORE);
         }
         return new JanggiGame(board, turn, GameStatus.HAN_WIN_BY_SCORE);
     }
 
     public JanggiGame move(final Position departure, final Position destination) {
-        validateMoveRequest(departure, destination);
+        validateDeparturePiece(departure);
         final Piece capturedPiece = board.getPieceAt(destination);
 
         final Board updatedBoard = board.move(departure, destination);
@@ -92,7 +92,7 @@ public class JanggiGame {
         return createNextGame(updatedBoard, capturedPiece);
     }
 
-    private void validateMoveRequest(final Position departure, final Position destination) {
+    private void validateDeparturePiece(final Position departure) {
         if (status.isOver()) {
             throw new IllegalArgumentException("게임이 종료되어 더 이상 말을 이동시킬 수 없습니다.");
         }

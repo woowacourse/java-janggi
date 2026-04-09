@@ -198,7 +198,7 @@ class JanggiGameTest {
             // when
             JanggiGame endGame = game.endByScore();
             // then
-            assertThat(endGame.getResult()).isEqualTo(GameStatus.CHO_WIN_BY_GUNG);
+            assertThat(endGame.getResult()).isEqualTo(GameStatus.CHO_WIN_BY_SCORE);
         }
 
         @Test

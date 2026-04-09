@@ -1,4 +1,4 @@
 package core;
 
-public record PreparedGame(Long gameId, GameSession session) {
+public record PreparedGame(Long gameId, JanggiGame game, int initialMoveCount) {
 }

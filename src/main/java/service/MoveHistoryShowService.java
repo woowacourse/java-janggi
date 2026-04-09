@@ -36,7 +36,7 @@ public class MoveHistoryShowService {
         final SelectedGame selectedGameId = view.askGameId(savedGames);
 
         List<MoveHistory> moveHistories = executeReadOnly(connection ->
-            repository.findMoveHistoriesByGameId(connection, selectedGameId.id())
+            repository.findMoveHistoriesByGameId(connection, selectedGameId.getId())
         );
         view.printMoveHistories(moveHistories);
     }

@@ -14,6 +14,13 @@ public enum Turn {
         this.side = side;
     }
 
+    public static Turn from(Side side) {
+        if (side.isCho()) {
+            return CHO_TURN;
+        }
+        return HAN_TURN;
+    }
+
     public Turn other() {
         if (this == CHO_TURN) {
             return HAN_TURN;
