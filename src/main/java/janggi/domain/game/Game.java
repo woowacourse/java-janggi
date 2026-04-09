@@ -7,9 +7,9 @@ import java.util.List;
 
 public class Game {
 
-    private final long gameId;
+    private final Long gameId;
 
-    private final CampType currnetTurn;
+    private final CampType currentTurn;
 
     private final GameStatus gameStatus;
 
@@ -21,13 +21,41 @@ public class Game {
 
     private final List<Piece> pieces;
 
-    public Game(long gameId, CampType currnetTurn, GameStatus gameStatus, LocalDateTime startAt, LocalDateTime endAt, LocalDateTime lastUpdatedAt, List<Piece> pieces) {
-        this.gameId = gameId;
-        this.currnetTurn = currnetTurn;
+    public Game(CampType currentTurn, GameStatus gameStatus, List<Piece> pieces) {
+        this.gameId = null;
+        this.startAt = null;
+        this.endAt = null;
+        this.lastUpdatedAt] = null;
+        this.currentTurn = currentTurn;
         this.gameStatus = gameStatus;
-        this.startAt = startAt;
-        this.endAt = endAt;
-        this.lastUpdatedAt = lastUpdatedAt;
         this.pieces = pieces;
+    }
+
+    public long getGameId() {
+        return gameId;
+    }
+
+    public CampType getCurrentTurn() {
+        return currentTurn;
+    }
+
+    public GameStatus getGameStatus() {
+        return gameStatus;
+    }
+
+    public LocalDateTime getStartAt() {
+        return startAt;
+    }
+
+    public LocalDateTime getEndAt() {
+        return endAt;
+    }
+
+    public LocalDateTime getLastUpdatedAt() {
+        return lastUpdatedAt;
+    }
+
+    public List<Piece> getPieces() {
+        return pieces;
     }
 }

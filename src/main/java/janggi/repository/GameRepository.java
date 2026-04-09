@@ -19,8 +19,8 @@ public class GameRepository {
         this.dataSource = dataSource;
     }
 
-    public long save() {
-        return insert("INSERT INTO games(current_turn, game_status) VALUES(?, ?)", CampType.CHO.name(), GameStatus.PLAYING.name());
+    public long save(Game game) {
+        return insert("INSERT INTO games(current_turn, game_status) VALUES(?, ?)", game.getCurrentTurn(), game.getGameStatus());
     }
 
     private long insert(String sql, Object... params) {

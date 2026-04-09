@@ -35,7 +35,9 @@ public class JanggiGame {
         GameSelectionFormat gameSelectionFormat = InputView.readGameSelection();
         if (gameSelectionFormat == GameSelectionFormat.NEW_GAME) {
             Board board = createBoard();
-            long gameId = gameRepository.save();
+            List<Piece> pieces = board.getBoard().values().stream().toList();
+            Game game = new Game(CampType.CHO, GameStatus.PLAYING, pieces);
+            long gameId = gameRepository.save(game);
             for (Map.Entry<Position, Piece> entry : board.getBoard().entrySet()) {
                 Position position = entry.getKey();
                 Piece piece = entry.getValue();
