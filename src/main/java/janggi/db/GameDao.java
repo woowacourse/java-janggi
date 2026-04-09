@@ -134,7 +134,7 @@ public class GameDao {
     private boolean isGamePresent(PreparedStatement statement) throws SQLException {
         try (ResultSet resultSet = statement.executeQuery()) {
             if (resultSet.next()) {
-                return resultSet.getInt("COUNT(*)") == 1;
+                return resultSet.getInt("COUNT(*)") > 0;
             }
             return false;
         }
