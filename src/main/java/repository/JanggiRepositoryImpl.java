@@ -10,7 +10,6 @@ import model.piece.PieceType;
 import repository.column.GameColumn;
 import repository.column.PieceColumn;
 import repository.command.MoveCommand;
-import repository.mapper.PieceDtoMapper;
 
 import java.sql.Connection;
 import java.util.HashMap;
@@ -107,6 +106,17 @@ public class JanggiRepositoryImpl implements JanggiRepository {
     }
 
     @Override
+    public void updateCurrentGameStatus(Long gameId, GameStatus gameStatus) {
+        jdbcTemplate.execute(
+                "UPDATE game SET status = ? WHERE game_id = ?",
+                stmt -> {
+                    stmt.setString(1, gameStatus.name());
+                    stmt.setLong(2, gameId);
+                }
+        );
+    }
+
+    @Override
     public Optional<GameDto> findRecentGame() {
         return jdbcTemplate.queryForSingleObject(
                 "SELECT game_id, turn FROM game WHERE status = 'PLAYING' ORDER BY game_id DESC LIMIT 1",
@@ -120,11 +130,11 @@ public class JanggiRepositoryImpl implements JanggiRepository {
                 "SELECT piece_type, team, row_idx, col_idx FROM piece WHERE game_id = ?",
                 stmt -> stmt.setLong(1, gameId),
                 resultSet -> new PieceDto(
-                    resultSet.getString(PieceColumn.PIECE_TYPE),
-                    resultSet.getString(PieceColumn.TEAM),
-                    resultSet.getInt(PieceColumn.ROW_IDX),
-                    resultSet.getInt(PieceColumn.COL_IDX)
-            )
+                        resultSet.getString(PieceColumn.PIECE_TYPE),
+                        resultSet.getString(PieceColumn.TEAM),
+                        resultSet.getInt(PieceColumn.ROW_IDX),
+                        resultSet.getInt(PieceColumn.COL_IDX)
+                )
         );
         return createBoardMap(pieceDtos);
     }
@@ -138,16 +148,5 @@ public class JanggiRepositoryImpl implements JanggiRepository {
             boardMap.put(position, piece);
         }
         return Map.copyOf(boardMap);
-    }
-
-    @Override
-    public void updateCurrentGameStatus(Long gameId, GameStatus gameStatus) {
-        jdbcTemplate.execute(
-                "UPDATE game SET status = ? WHERE game_id = ?",
-                stmt -> {
-                    stmt.setString(1, gameStatus.name());
-                    stmt.setLong(2, gameId);
-                }
-        );
     }
 }
