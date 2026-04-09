@@ -1,5 +1,6 @@
 package view;
 
+import dto.JanggiGameDto;
 import dto.PieceInfoDto;
 import dto.PiecePositionDto;
 import dto.PiecesDto;
@@ -30,9 +31,21 @@ public class OutputView {
     private static final int MIN_ROW_RANGE = 1;
     private static final int MAX_ROW_RANGE = 9;
 
-    public void printEnterPlayerNamePrompt(TeamNameDto teamName) {
-        String formattedName = TeamNameFormatter.format(teamName.name());
-        System.out.printf("%s나라 플레이어의 이름을 입력하세요(2~5자의 영문): ", formattedName);
+    public void printPlayNewGameOrPreviousGame() {
+        System.out.println("새로운 장기 게임을 생성할까요? (1: 새 게임 생성, 2: 게임 불러오기)");
+    }
+
+    public void printChoosePreviousGameId(List<JanggiGameDto> previousGames) {
+        System.out.println("플레이 할 게임 id를 입력하세요");
+        System.out.println("id\t현재 턴\t승자");
+        for (JanggiGameDto janggiGame : previousGames) {
+            System.out.printf("#%d\t%s나라", janggiGame.id(), TeamNameFormatter.format(janggiGame.currentTurn()));
+            if (janggiGame.winnerTeam() == null || janggiGame.winnerTeam().isBlank()) {
+                System.out.println();
+                continue;
+            }
+            System.out.printf("\t%s\n", janggiGame.winnerTeam());
+        }
     }
 
     public void printChooseElephantSetupPrompt(final List<String> elephantSetupNames, final TeamNameDto teamName) {

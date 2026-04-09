@@ -4,9 +4,9 @@ import domain.board.ElephantSetup;
 import domain.board.Position;
 import domain.game.JanggiGame;
 import domain.piece.Team;
-import domain.player.Player;
 import domain.state.ChoPlayingState;
 import domain.state.GameState;
+import dto.JanggiGameDto;
 import dto.PieceInfoDto;
 import dto.PiecePositionDto;
 import dto.PiecesDto;
@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import repository.JanggiGameRepository;
 import view.InputView;
 import view.OutputView;
 
@@ -26,35 +27,60 @@ public class JanggiController {
 
     private final InputView inputView;
     private final OutputView outputView;
+    private final JanggiGameRepository janggiGameRepository;
 
-    public JanggiController(final InputView inputView, final OutputView outputView) {
+    public JanggiController(
+            final InputView inputView,
+            final OutputView outputView,
+            final JanggiGameRepository janggiGameRepository
+    ) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.janggiGameRepository = janggiGameRepository;
     }
 
     public void run() {
-        Player choPlayer = retry(() -> initPlayerFor(Team.CHO));
-        Player hanPlayer = retry(() -> initPlayerFor(Team.HAN));
+        outputView.printPlayNewGameOrPreviousGame();
+        int menuSelection = inputView.readNewGameOrPreviousGame();
 
-        ElephantSetup choElephantSetup = retry(() -> initElephantSetupFor(Team.CHO));
-        ElephantSetup hanElephantSetup = retry(() -> initElephantSetupFor(Team.HAN));
+        if (menuSelection == 1) {
+            startNewGame();
+            return;
+        }
+        if (menuSelection == 2) {
+            startPreviousGame();
+            return;
+        }
+        throw new IllegalArgumentException("잘못입력함");
+    }
 
-        JanggiGame janggiGame = JanggiGame.init(choElephantSetup, hanElephantSetup, FIRST_GAME_STATE);
+    private void startNewGame() {
+        JanggiGame janggiGame = createNewGame();
+        Long gameId = janggiGameRepository.save(janggiGame);
+        play(janggiGame, gameId);
+    }
 
+    private void startPreviousGame() {
+        Long gameId = getPreviousGameId();
+        JanggiGame janggiGame = loadPreviousGame(gameId);
+        play(janggiGame, gameId);
+    }
+
+    private void play(JanggiGame janggiGame, Long gameId) {
         printJanggiBoard(janggiGame);
-
         while (!janggiGame.isFinished()) {
             processTurn(janggiGame);
+            janggiGameRepository.update(gameId, janggiGame);
         }
 
         Team winnerTeam = janggiGame.getWinnerTeam();
         outputView.printWinner(TeamNameDto.of(winnerTeam));
     }
 
-    private Player initPlayerFor(Team team) {
-        outputView.printEnterPlayerNamePrompt(TeamNameDto.of(team));
-        String playerName = inputView.readPlayerName();
-        return Player.of(playerName, team);
+    private JanggiGame createNewGame() {
+        ElephantSetup choElephantSetup = retry(() -> initElephantSetupFor(Team.CHO));
+        ElephantSetup hanElephantSetup = retry(() -> initElephantSetupFor(Team.HAN));
+        return JanggiGame.init(choElephantSetup, hanElephantSetup, FIRST_GAME_STATE);
     }
 
     private ElephantSetup initElephantSetupFor(Team team) {
@@ -68,6 +94,21 @@ public class JanggiController {
         validateIndexRange(index, elephantSetups.size());
 
         return elephantSetups.get(index);
+    }
+
+    private Long getPreviousGameId() {
+        List<JanggiGameDto> previousGames = janggiGameRepository.findAll();
+        if (previousGames.isEmpty()) {
+            throw new IllegalArgumentException("이전에 플레이 한 게임이 존재하지 않습니다. 새 게임을 시작해주세요.");
+        }
+
+        outputView.printChoosePreviousGameId(previousGames);
+        return inputView.readGameId();
+    }
+
+    private JanggiGame loadPreviousGame(Long gameId) {
+        return janggiGameRepository.findById(gameId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게임입니다."));
     }
 
     private void printJanggiBoard(final JanggiGame janggiGame) {

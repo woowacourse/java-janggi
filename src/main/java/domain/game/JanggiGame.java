@@ -41,6 +41,17 @@ public class JanggiGame {
         );
     }
 
+    public static JanggiGame of(
+            final Board board,
+            final GameState gameState
+    ) {
+        return new JanggiGame(
+                board,
+                MoveStrategyRegistry.init(),
+                gameState
+        );
+    }
+
     public List<Position> getCurrentPlayerPiecePositions() {
         return gameState.getPiecePositions(board);
     }
@@ -57,7 +68,7 @@ public class JanggiGame {
     }
 
     private GameState nextState() {
-        if(board.isOnlyOneGeneralRemaining()) {
+        if (board.isOnlyOneGeneralRemaining()) {
             return new FinishedState(gameState.getTeam());
         }
         return gameState.nextTurn();
@@ -80,7 +91,7 @@ public class JanggiGame {
     }
 
     public Team getWinnerTeam() {
-        if(!isFinished()) {
+        if (!isFinished()) {
             throw new IllegalStateException("게임이 종료되지 않았습니다.");
         }
         return gameState.getTeam();
@@ -88,5 +99,9 @@ public class JanggiGame {
 
     public double getScoreBy(Team team) {
         return board.getScoreBy(team);
+    }
+
+    public Team getCurrentTeam() {
+        return gameState.getTeam();
     }
 }

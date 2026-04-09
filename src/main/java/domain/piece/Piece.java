@@ -13,7 +13,7 @@ public class Piece {
         return new Piece(Team.HAN, pieceType);
     }
 
-    private Piece(final Team team, final PieceType pieceType) {
+    public Piece(final Team team, final PieceType pieceType) {
         this.team = team;
         this.pieceType = pieceType;
     }
