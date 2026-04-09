@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class JanggiGameStateDao {
 
     public void insert(long gameId, String status, boolean isFinished) throws SQLException {
-        String sql = "INSERT INTO game_state (game_id, status, is_finished) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO game_state (game_id, status, is_finished, last_played_at) VALUES (?, ?, ?, CURRENT_TIMESTAMP)";
 
         try (PreparedStatement ps = TransactionContext.getPreparedStatement(sql)) {
             ps.setLong(1, gameId);
@@ -20,7 +20,7 @@ public class JanggiGameStateDao {
     }
 
     public void update(long gameId, String status, boolean isFinished) throws SQLException {
-        String sql = "UPDATE game_state SET status = ?, is_finished = ? WHERE game_id = ?";
+        String sql = "UPDATE game_state SET status = ?, is_finished = ?, last_played_at = CURRENT_TIMESTAMP WHERE game_id = ?";
 
         try (PreparedStatement ps = TransactionContext.getPreparedStatement(sql)) {
             ps.setString(1, status);
@@ -38,7 +38,7 @@ public class JanggiGameStateDao {
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (!rs.next()) {
-                    throw new SQLException("game_state 없음: gameId=" + gameId);
+                    throw new SQLException("game_state 없음: game_id=" + gameId);
                 }
                 return new GameStateData(rs.getString("status"), rs.getBoolean("is_finished"));
             }
@@ -46,24 +46,24 @@ public class JanggiGameStateDao {
     }
 //
 //    public Optional<Long> findLatestUnfinishedGameId() throws SQLException {
-//        String sql = "SELECT game_id FROM game_state WHERE status IN (?, ?) ORDER BY game_id DESC LIMIT 1";
+//        String sql = "SELECT gameId FROM game_state WHERE status IN (?, ?) ORDER BY gameId DESC LIMIT 1";
 //        try (PreparedStatement ps = TransactionContext.getPreparedStatement(sql)) {
 //            ps.setString(1, GameStatus.GREEN_PLAYER_TURN.name());
 //            ps.setString(2, GameStatus.RED_PLAYER_TURN.name());
 //            try (ResultSet rs = ps.executeQuery()) {
-//                if (rs.next()) return Optional.of(rs.getLong("game_id"));
+//                if (rs.next()) return Optional.of(rs.getLong("gameId"));
 //                return Optional.empty();
 //            }
 //        }
 //    }
 
 //    public Optional<Long> findLatestUnfinishedGameId() throws SQLException {
-//        String sql = "SELECT game_id FROM game_state WHERE is_finished = false ORDER BY game_id DESC LIMIT 1";
+//        String sql = "SELECT gameId FROM game_state WHERE is_finished = false ORDER BY gameId DESC LIMIT 1";
 //
 //        try (PreparedStatement ps =  TransactionContext.getPreparedStatement(sql);
 //             ResultSet rs = ps.executeQuery()) {
 //            if (rs.next()) {
-//                return Optional.of(rs.getLong("game_id"));
+//                return Optional.of(rs.getLong("gameId"));
 //            }
 //            return Optional.empty();
 //        }

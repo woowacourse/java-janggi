@@ -1,12 +1,7 @@
 package exception;
 
-public class JanggiDataException extends RuntimeException {
-
+public class JanggiDataException extends JanggiGameException {
     public JanggiDataException(String message) {
         super(message);
-    }
-
-    public JanggiDataException(String message, Throwable cause) {
-        super(message, cause);
     }
 }

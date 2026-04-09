@@ -2,11 +2,11 @@ package dto;
 
 import exception.JanggiInputException;
 
-public record SelectLoadGameRequest(boolean select) {
+public record SelectResumeOptionRequest(boolean select) {
     private static final String POSITIVE = "y";
     private static final String NEGATIVE = "n";
 
-    public static SelectLoadGameRequest of(String rawInput) {
+    public static SelectResumeOptionRequest of(String rawInput) {
         requireNonBlank(rawInput);
         requireCorrectFormat(rawInput);
         return parse(rawInput);
@@ -24,7 +24,7 @@ public record SelectLoadGameRequest(boolean select) {
         }
     }
 
-    private static SelectLoadGameRequest parse(String rawInput) {
-        return new SelectLoadGameRequest(rawInput.equals(POSITIVE));
+    private static SelectResumeOptionRequest parse(String rawInput) {
+        return new SelectResumeOptionRequest(rawInput.equals(POSITIVE));
     }
 }

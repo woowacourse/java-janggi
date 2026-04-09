@@ -1,6 +1,7 @@
 package dao;
 
 import dto.PieceSnapshot;
+import dto.UnfinishedGameInfo;
 import infrastructure.TransactionContext;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -74,7 +75,7 @@ public class JanggiGameDao {
     }
 
     public Optional<Long> findLatestUnfinishedGameId() throws SQLException {
-        String sql = "SELECT game_id FROM game_state WHERE is_finished = false ORDER BY game_id DESC LIMIT 1";
+        String sql = "SELECT game_id FROM game_state WHERE is_finished = false ORDER BY last_played_at DESC LIMIT 1";
 
         try (PreparedStatement ps =  TransactionContext.getPreparedStatement(sql);
              ResultSet rs = ps.executeQuery()) {
@@ -82,6 +83,22 @@ public class JanggiGameDao {
                 return Optional.of(rs.getLong("game_id"));
             }
             return Optional.empty();
+        }
+    }
+
+    public List<UnfinishedGameInfo> findUnfinishedGameInfos() throws SQLException {
+        String sql = "SELECT game_id, last_played_at FROM game_state WHERE is_finished = false ORDER BY last_played_at ASC";
+
+        try (PreparedStatement ps = TransactionContext.getPreparedStatement(sql)){
+            ResultSet rs = ps.executeQuery();
+            List<UnfinishedGameInfo> unfinishedGames = new ArrayList<>();
+            while (rs.next()) {
+                unfinishedGames.add(UnfinishedGameInfo.from(
+                        rs.getLong("game_id"),
+                        rs.getTimestamp("last_played_at").toLocalDateTime()
+                ));
+            }
+            return unfinishedGames;
         }
     }
 }

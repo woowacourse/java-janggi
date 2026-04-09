@@ -1,8 +1,11 @@
 package view;
 
 import dto.PieceInfo;
-import dto.SelectLoadGameRequest;
+import dto.SelectResumeOptionRequest;
 import dto.SelectPositionRequest;
+import dto.UnfinishedGameInfo;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Scanner;
 
 public final class InputView {
@@ -17,9 +20,28 @@ public final class InputView {
 
     }
 
-    public static SelectLoadGameRequest selectLoadUnfinishedGame() {
-        System.out.println("이전에 진행중이던 게임이 존재합니다. 이어하시겠습니까?.");
-        return SelectLoadGameRequest.of(readLine());
+    public static SelectResumeOptionRequest selectLoadGameOrNewGame() {
+        System.out.println("이전에 진행중이던 게임이 존재합니다. 이어하시겠습니까?");
+        return SelectResumeOptionRequest.of(readLine());
+    }
+
+    public static long selectSavedGameId(List<UnfinishedGameInfo> unfinishedGameInfos) {
+        String separator = "+---------+----------------------+";
+
+        System.out.println(separator);
+        System.out.printf("| %-7s | %-20s |\n", "game id", "lastPlayedAt");
+        System.out.println(separator);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        for (UnfinishedGameInfo gameInfo : unfinishedGameInfos) {
+            String formattedDate = gameInfo.lastPlayedAt().format(formatter);
+            System.out.printf("| %-7d | %-20s |\n", gameInfo.gameId(), formattedDate);
+        }
+        System.out.println(separator);
+
+        System.out.print("불러올 게임의 ID를 입력하세요: ");
+        return Long.parseLong(readLine());
     }
 
     public static SelectPositionRequest selectPiecePosition() {

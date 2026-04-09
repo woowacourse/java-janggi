@@ -10,6 +10,7 @@ import infrastructure.TransactionContext;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
+import dto.UnfinishedGameInfo;
 
 public class JdbcJanggiRepository implements JanggiRepository {
 
@@ -64,6 +65,10 @@ public class JdbcJanggiRepository implements JanggiRepository {
         return TransactionContext.query(janggiGameDao::findLatestUnfinishedGameId);
     }
 
+    @Override
+    public List<UnfinishedGameInfo> findUnfinishedGameInfos() {
+        return TransactionContext.query(janggiGameDao::findUnfinishedGameInfos);
+    }
 
 //    @Override
 //    public void saveMove(long gameId, Position from, Position to, JanggiGame game) {

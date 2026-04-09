@@ -1,5 +1,6 @@
 package infrastructure;
 
+import exception.JanggiDataException;
 import java.lang.ScopedValue;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -42,14 +43,14 @@ public class TransactionContext {
 
     public static <T> T query(TransactionalQuery<T> query) {
         try (Connection conn = dataSource.getConnection()) {
-            return ScopedValue.where(CONNECTION, conn).call(() -> {
+            return ScopedValue.where(CONNECTION, conn).get(() -> {
                 try {
                     return query.execute();
                 } catch (SQLException e) {
-                    throw new RuntimeException(e);
+                    throw new JanggiDataException(e.getMessage());
                 }
             });
-        } catch (Exception e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
@@ -60,9 +61,5 @@ public class TransactionContext {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private static Connection getConnection() throws SQLException {
-        return dataSource.getConnection();
     }
 }

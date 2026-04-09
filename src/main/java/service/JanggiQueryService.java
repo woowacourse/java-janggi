@@ -3,6 +3,7 @@ package service;
 import domain.JanggiGame;
 import domain.Position;
 import dto.PieceInfo;
+import dto.UnfinishedGameInfo;
 import java.util.List;
 import repository.JanggiRepository;
 
@@ -38,9 +39,11 @@ public class JanggiQueryService {
         return janggiRepository.loadGame(gameId);
     }
 
+    public List<UnfinishedGameInfo> findUnfinishedGameInfos() {
+        return janggiRepository.findUnfinishedGameInfos();
+    }
+
     public boolean hasUnfinishedGameId() {
-
-
         return janggiRepository.hasUnfinishedGame();
     }
 
