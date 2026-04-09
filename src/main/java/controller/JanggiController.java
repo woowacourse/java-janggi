@@ -17,6 +17,10 @@ public class JanggiController {
 
     private final JanggiService janggiService;
 
+    private static final int CHOICE_1 = 1;
+    private static final int CHOICE_2 = 2;
+    private static final int CHOICE_3 = 3;
+
     public JanggiController(JanggiService janggiService) {
         this.janggiService = janggiService;
     }
@@ -24,17 +28,17 @@ public class JanggiController {
     public void run() {
         while (true) {
             int startChoice = retry(InputView::inputGameStartChoice);
-            if (startChoice == 1) {
+            if (startChoice == CHOICE_1) {
                 selectSide();
                 Long gameId = initialGame();
                 playGame(gameId);
             }
-            if (startChoice == 2) {
+            if (startChoice == CHOICE_2) {
                 Long gameId = InputView.inputExistingGameId();
                 outputBoardStateBy(gameId);
                 playGame(gameId);
             }
-            if (startChoice == 3) {
+            if (startChoice == CHOICE_3) {
                 return;
             }
         }
