@@ -1,36 +1,69 @@
 package controller;
 
+import dao.BoardDao;
 import domain.Board;
 import domain.BoardFactory;
 import domain.Formation;
 import domain.JanggiGame;
 import domain.Team;
 import domain.vo.Position;
+import presentation.PositionCommand;
 import view.InputView;
 import view.OutputView;
 
 public class JanggiController {
 
+    private static final String RESUME_GAME_NUMBER = "2";
+
     private final InputView inputView;
     private final OutputView outputView;
+    private final BoardDao boardDao;
 
-    public JanggiController(InputView inputView, OutputView outputView) {
+    public JanggiController(InputView inputView, OutputView outputView, BoardDao boardDao) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.boardDao = boardDao;
     }
 
     public void run() {
+        String command = inputView.readCommand();
+
+        if (command.equals(RESUME_GAME_NUMBER)) {
+            resumeGame();
+            return;
+        }
+
+        startNewGame();
+    }
+
+    private void startNewGame() {
         Board board = BoardFactory.setUp();
         board = readHanFormation(board);
         board = readChuFormation(board);
 
-        outputView.printBoard(board.getBoard());
-
         JanggiGame janggiGame = JanggiGame.of(board);
-        movePosition(janggiGame);
+        String gameId = boardDao.save(board, janggiGame.getTurnCount());
+
+        playGame(gameId, janggiGame);
+    }
+
+    private void resumeGame() {
+        String gameId = inputView.readGameId();
+        Board board = boardDao.findBoardByGameId(gameId);
+        int turnCount = boardDao.findTurnCountByGameId(gameId);
+        JanggiGame janggiGame = JanggiGame.of(board, turnCount);
+
+        playGame(gameId, janggiGame);
+    }
+
+    private void playGame(String gameId, JanggiGame janggiGame) {
+        outputView.printCurrentGameId(gameId);
+        outputView.printBoard(janggiGame.getBoardStatus());
 
         while (true) {
             movePosition(janggiGame);
+            boardDao.update(gameId, Board.of(janggiGame.getBoardStatus()), janggiGame.getTurnCount());
+
             if (janggiGame.isFinished()) {
                 outputView.printGameFinishMessage();
                 outputView.printScore(janggiGame.calculateScore(Team.HAN), janggiGame.calculateScore(Team.CHU));
@@ -88,8 +121,16 @@ public class JanggiController {
             try {
                 outputView.printCurrentTurn(janggiGame.currentTurn());
 
-                Position position = inputView.readPosition();
-                Position targetPosition = inputView.readTargetPosition();
+                String input = inputView.readPosition();
+                if (input.equals("항복")) {
+                    outputView.printGameFinishMessage();
+                    return;
+                }
+
+                String targetInput = inputView.readTargetPosition();
+
+                Position position = PositionCommand.from(input).toPosition();
+                Position targetPosition = PositionCommand.from(targetInput).toPosition();
 
                 janggiGame.move(position, targetPosition);
                 outputView.printBoard(janggiGame.getBoardStatus());

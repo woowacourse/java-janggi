@@ -81,4 +81,8 @@ public class OutputView {
         System.out.println("한: " + hanScore + "점");
         System.out.println("초: " + chuScore + "점");
     }
+
+    public void printCurrentGameId(String gameId) {
+        System.out.println("현재 진행중인 게임의 아이디는 " + gameId);
+    }
 }

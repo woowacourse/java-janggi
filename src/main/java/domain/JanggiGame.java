@@ -19,12 +19,23 @@ public class JanggiGame {
         return new JanggiGame(board);
     }
 
+    public static JanggiGame of(final Board board, final int turnCount) {
+        JanggiGame game = new JanggiGame(board);
+        game.turnCount = TurnCount.of(turnCount);
+
+        return game;
+    }
+
     public Team currentTurn() {
         if (turnCount.getTurnCount() % 2 == 0) {
             return Team.HAN;
         }
 
         return Team.CHU;
+    }
+
+    public int getTurnCount() {
+        return turnCount.getTurnCount();
     }
 
     public void passTheTurn() {
