@@ -30,6 +30,10 @@ public class Board {
         return new Board(new HashMap<>(pieces));
     }
 
+    public static Board mutableCopyOf(Board board) {
+        return new Board(new HashMap<>(board.pieces));
+    }
+
     public void move(Team turn, Position start, Position destination) {
         validateIsAlly(turn, start);
         validateCanMove(start, destination);

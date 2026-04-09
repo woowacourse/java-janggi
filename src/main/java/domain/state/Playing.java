@@ -10,16 +10,16 @@ public class Playing extends Running {
 
     @Override
     protected JanggiGame transitionOnBikjang() {
-        return new Bikjang(board, turn.changeTeam());
+        return new Bikjang(Board.mutableCopyOf(board), turn.changeTeam());
     }
 
     @Override
     protected JanggiGame transitionOnNormal() {
-        return new Playing(board, turn.changeTeam());
+        return new Playing(Board.mutableCopyOf(board), turn.changeTeam());
     }
 
     @Override
     public JanggiGame pass() {
-        return new Playing(board, turn.changeTeam());
+        return new Playing(Board.mutableCopyOf(board), turn.changeTeam());
     }
 }

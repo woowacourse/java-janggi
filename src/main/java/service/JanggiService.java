@@ -66,7 +66,7 @@ public class JanggiService {
         }
     }
 
-    public JanggiGame pass(long gameId) {
+    public void pass(long gameId) {
         JanggiGame game = loadGame(gameId);
         JanggiGame passed = game.pass();
 
@@ -87,7 +87,6 @@ public class JanggiService {
             }
             throw new RuntimeException(e);
         }
-        return passed;
     }
 
     public JanggiGame loadGame(long gameId) {

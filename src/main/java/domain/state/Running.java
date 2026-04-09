@@ -16,7 +16,7 @@ public abstract class Running extends Started {
         board.move(turn, start, destination);
 
         if (board.isAnyJangDead()) {
-            return new Finished(board, turn.changeTeam());
+            return new Finished(Board.mutableCopyOf(board), turn.changeTeam());
         }
 
         if (board.isBikjang()) {

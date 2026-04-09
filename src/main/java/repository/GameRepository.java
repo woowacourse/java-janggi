@@ -40,22 +40,6 @@ public class GameRepository {
         return id;
     }
 
-//    public void updateResult(long gameId, JanggiGame game) {
-//        String sql = "UPDATE GAME_ROOM SET IS_FINISHED = ? WHERE id = ?";
-//
-//        try (
-//                Connection connection = ConnectionManager.getConnection();
-//                PreparedStatement psmt = connection.prepareStatement(sql)
-//        ) {
-//            psmt.setBoolean(1, game.isFinished());
-//            psmt.setLong(2, gameId);
-//
-//            psmt.executeUpdate();
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-
     public List<GameRoomInfo> getAll() {
         String sql = "SELECT ID, TITLE FROM GAME_ROOM WHERE IS_FINISHED = FALSE";
 
