@@ -123,7 +123,7 @@ public class JanggiController {
         if (gameDao.hasGameData()) {
             return gameDao.loadPreviousGame();
         }
-        System.out.println("새 게임을 만듭니다.");
+        OutputView.printNewGameStartNotice();
         return createNewGameContext();
     }
 }
