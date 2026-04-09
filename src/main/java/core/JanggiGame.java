@@ -6,6 +6,7 @@ import board.SangSetupType;
 import java.util.Optional;
 import participant.Score;
 import participant.Turn;
+import pieces.Piece;
 import pieces.PieceType;
 import pieces.Side;
 import position.Position;
@@ -34,8 +35,8 @@ public class JanggiGame {
         return board;
     }
 
-    public boolean isOver() {
-        return status.isOver();
+    public boolean isPlaying() {
+        return status.isPlaying();
     }
 
     public Side getTurnSide() {
@@ -59,14 +60,18 @@ public class JanggiGame {
     }
 
     public GameStatus getResult() {
-        if (!status.isOver()) {
+        if (!status.isPlaying()) {
             throw new IllegalArgumentException("게임이 종료되지 않아 승리 진영을 조회할 수 없습니다.");
         }
         return status;
     }
 
+    public Piece getPieceAt(Position position) {
+        return board.pieceAt(position);
+    }
+
     public JanggiGame endByScore() {
-        if (this.status.isOver()) {
+        if (this.status.isPlaying()) {
             throw new IllegalArgumentException("이미 종료된 게임입니다.");
         }
 
@@ -90,7 +95,7 @@ public class JanggiGame {
     }
 
     private void validateMoveRequest(final Position departure, final Position destination) {
-        if (status.isOver()) {
+        if (status.isPlaying()) {
             throw new IllegalArgumentException("게임이 종료되어 더 이상 말을 이동시킬 수 없습니다.");
         }
         board.validatePositions(departure, destination, turn);

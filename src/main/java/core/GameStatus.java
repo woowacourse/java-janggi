@@ -8,7 +8,7 @@ public enum GameStatus {
     HAN_WIN_BY_SCORE,
     ;
 
-    public boolean isOver() {
-        return this != PLAYING;
+    public boolean isPlaying() {
+        return this == PLAYING;
     }
 }
