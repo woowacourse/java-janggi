@@ -1,6 +1,7 @@
 package board;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import participant.Score;
+import participant.Turn;
 import pieces.Piece;
 import pieces.PieceType;
 import pieces.Side;
@@ -122,10 +124,32 @@ class BoardTest {
         assertThat(score).isEqualTo(expected);
     }
 
-    private Side getOtherSide(Side side) {
-        if (side.isCho()) {
-            return Side.HAN;
-        }
-        return Side.CHO;
+    @Test
+    void 출발지와_도착지가_동일한_경우_예외를_던진다() {
+        // given
+        Position choDeparture = new Position(9, 0);
+        Position choDestination = new Position(8, 0);
+        Piece choPiece = new Piece(Side.CHO, PieceType.CHA);
+        Board board = new Board(Map.of(
+            choDeparture, choPiece
+        ));
+        // when & then
+        assertThatThrownBy(() -> board.move(choDestination, choDeparture))
+            .isInstanceOf(IllegalArgumentException.class);
     }
+
+    @Test
+    void 한의_턴일_때_초의_기물로_공격하는_경우_예외를_던진다() {
+        // given
+        Turn hanTurn = Turn.HAN_TURN;
+        Position choDeparture = new Position(9, 0);
+        Piece choPiece = new Piece(Side.CHO, PieceType.CHA);
+        Board board = new Board(Map.of(
+            choDeparture, choPiece
+        ));
+        // when & then
+        assertThatThrownBy(() -> board.validatePositions(choDeparture, hanTurn))
+            .isInstanceOf(IllegalArgumentException.class);
+    }
+
 }

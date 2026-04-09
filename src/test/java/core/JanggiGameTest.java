@@ -38,22 +38,6 @@ class JanggiGameTest {
         }
 
         @Test
-        void 한의_턴일_때_초의_기물로_공격하는_경우_예외를_던진다() {
-            // given
-            Position choDeparture = toPosition(9, 0);
-            Position choDestination = toPosition(8, 0);
-            Piece choPiece = piece(Side.CHO, PieceType.CHA);
-
-            JanggiGame game = startWith(Map.of(
-                choDeparture, choPiece
-            ));
-            JanggiGame nextTurnGame = game.move(choDeparture, choDestination);
-            // when & then
-            assertThatThrownBy(() -> nextTurnGame.move(choDestination, choDeparture))
-                .isInstanceOf(IllegalArgumentException.class);
-        }
-
-        @Test
         void 기물을_한_번_이동시키면_턴이_바뀐다() {
             // given
             Position choDeparture = toPosition(0, 0);
@@ -107,7 +91,7 @@ class JanggiGameTest {
             // when
             game = game.move(departure, destination);
             // then
-            assertThat(game.isPlaying()).isFalse();
+            assertThat(game.isOver()).isTrue();
         }
 
         @Test
@@ -125,7 +109,7 @@ class JanggiGameTest {
             // when
             game = game.move(departure, destination);
             // then
-            assertThat(game.isPlaying()).isTrue();
+            assertThat(game.isOver()).isFalse();
         }
 
         @Test

@@ -34,10 +34,7 @@ public record Board(Map<Position, Piece> pieces) {
         return Optional.of(piece.type());
     }
 
-    public void validatePositions(final Position departure, final Position destination, final Turn turn) {
-        if (departure.equals(destination)) {
-            throw new IllegalArgumentException("출발지와 도착지는 동일할 수 없습니다.");
-        }
+    public void validatePositions(final Position departure, final Turn turn) {
         final Piece movingPiece = requirePieceAt(departure);
         if (!movingPiece.isSameSide(turn.getSide())) {
             throw new IllegalArgumentException("본인 진영의 기물만 이동시킬 수 있습니다.");
@@ -45,6 +42,9 @@ public record Board(Map<Position, Piece> pieces) {
     }
 
     public Board move(final Position departure, final Position destination) {
+        if (departure.equals(destination)) {
+            throw new IllegalArgumentException("출발지와 도착지는 동일할 수 없습니다.");
+        }
         final Piece movingPiece = requirePieceAt(departure);
         final MoveTrace moveTrace = findMoveTrace(movingPiece, departure, destination);
 
