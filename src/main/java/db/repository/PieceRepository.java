@@ -3,14 +3,13 @@ package db.repository;
 import db.converter.PieceConverter;
 import domain.board.Intersection;
 import domain.game.Side;
+import domain.movement.Move;
 import domain.piece.Piece;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class PieceRepository {
@@ -45,18 +44,12 @@ public class PieceRepository {
     }
 
     public void update(
-            Map<Intersection, Piece> currentPieces,
-            Map<Intersection, Piece> piecesBeforeLastMove,
+            Move move,
             int gameId,
             Connection connection
     ) throws SQLException {
-        List<Intersection> removedPieceIntersections = detectRemovedPieceIntersections(currentPieces, piecesBeforeLastMove);
-        for (Intersection removedPieceIntersection : removedPieceIntersections) {
-            deleteByIntersection(removedPieceIntersection, gameId, connection);
-        }
-
-        Map<Intersection, Piece> createdPieces = detectCreatedPieces(currentPieces, piecesBeforeLastMove);
-        save(createdPieces, gameId, connection);
+        deleteByIntersection(move.to(), gameId, connection);
+        updateIntersection(move, gameId, connection);
     }
 
     public void delete(
@@ -67,6 +60,27 @@ public class PieceRepository {
 
         try (PreparedStatement statement = connection.prepareStatement(delete)) {
             statement.setInt(1, gameId);
+            statement.executeUpdate();
+        }
+    }
+
+    private void updateIntersection(
+            Move move,
+            int gameId,
+            Connection connection
+    ) throws SQLException {
+        String updateIntersection = "UPDATE piece SET `row` = ?, file = ? WHERE game_id = ? AND `row` = ? AND file = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(updateIntersection)) {
+            Intersection to = move.to();
+            Intersection from = move.from();
+
+            statement.setInt(1, to.getRow());
+            statement.setInt(2, to.getFile());
+            statement.setInt(3, gameId);
+            statement.setInt(4, from.getRow());
+            statement.setInt(5, from.getFile());
+
             statement.executeUpdate();
         }
     }
@@ -112,38 +126,6 @@ public class PieceRepository {
         statement.setString(3, side.toString());
         statement.setString(4, PieceConverter.toColumnValue(piece));
         statement.setInt(5, gameId);
-    }
-
-    private List<Intersection> detectRemovedPieceIntersections(
-            Map<Intersection, Piece> currentPieces,
-            Map<Intersection, Piece> piecesBeforeLastMove
-    ) {
-        List<Intersection> removedPieceIntersections = new ArrayList<>();
-
-        for (Map.Entry<Intersection, Piece> piece : piecesBeforeLastMove.entrySet()) {
-            Piece currentPiece = currentPieces.get(piece.getKey());
-            if (!piece.getValue().equals(currentPiece)) {
-                removedPieceIntersections.add(piece.getKey());
-            }
-        }
-
-        return removedPieceIntersections;
-    }
-
-    private Map<Intersection, Piece> detectCreatedPieces(
-            Map<Intersection, Piece> currentPieces,
-            Map<Intersection, Piece> piecesBeforeLastMove
-    ) {
-        Map<Intersection, Piece> createdPieces = new HashMap<>();
-
-        for (Map.Entry<Intersection, Piece> piece : currentPieces.entrySet()) {
-            Piece pieceBeforeMove = piecesBeforeLastMove.get(piece.getKey());
-            if (!piece.getValue().equals(pieceBeforeMove)) {
-                createdPieces.put(piece.getKey(), piece.getValue());
-            }
-        }
-
-        return createdPieces;
     }
 
     private Map<Intersection, Piece> parsePieces(ResultSet resultSet) throws SQLException {

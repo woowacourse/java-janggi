@@ -1,5 +1,6 @@
 package domain.board;
 
+import domain.movement.Move;
 import domain.game.Side;
 import domain.piece.AlivePieces;
 import domain.piece.Piece;
@@ -15,16 +16,15 @@ public final class Board {
     }
 
     public void movePiece(
-            Intersection startIntersection,
-            Intersection destination,
+            Move move,
             Side side
     ) {
-        List<Intersection> movableIntersections = getMovableIntersections(startIntersection, side);
-        if (!movableIntersections.contains(destination)) {
+        List<Intersection> movableIntersections = getMovableIntersections(move.from(), side);
+        if (!movableIntersections.contains(move.to())) {
             throw new IllegalArgumentException("도착 가능한 지점을 선택해야 합니다.");
         }
 
-        alivePieces.replace(startIntersection, destination);
+        alivePieces.replace(move);
     }
 
     public List<Intersection> getMovableIntersections(
@@ -52,9 +52,5 @@ public final class Board {
 
     public Map<Intersection, Piece> getPieces() {
         return alivePieces.get();
-    }
-
-    public Board copy() {
-        return new Board(alivePieces.copy());
     }
 }

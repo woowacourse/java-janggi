@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.game.Side;
+import domain.movement.Move;
 import domain.piece.AlivePieces;
 import domain.piece.Piece;
 import domain.piece.Soldier;
@@ -72,17 +73,13 @@ class BoardTest {
         void 이동시킬_기물이_없다면_예외를_던진다() {
             // given
             AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
-
             Board emptyBoard = new Board(emptyAlivePieces);
 
+            Move moveFromEmpty = new Move(DEFAULT_START_POINT, DEFAULT_DESTINATION);
+
             // when and then
-            assertThatThrownBy(() -> {
-                emptyBoard.movePiece(
-                        DEFAULT_START_POINT,
-                        DEFAULT_DESTINATION,
-                        DEFAULT_SIDE
-                );
-            }).isInstanceOf(IllegalArgumentException.class)
+            assertThatThrownBy(() -> emptyBoard.movePiece(moveFromEmpty, DEFAULT_SIDE))
+                    .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage(EMPTY_INTERSECTION_MESSAGE);
         }
 
@@ -96,14 +93,11 @@ class BoardTest {
 
             Board board = new Board(alivePieces);
 
+            Move moveOppositeSidePiece = new Move(oppositePieceIntersection, DEFAULT_DESTINATION);
+
             // when and then
-            assertThatThrownBy(() -> {
-                board.movePiece(
-                        oppositePieceIntersection,
-                        DEFAULT_DESTINATION,
-                        SAME_SIDE
-                );
-            }).isInstanceOf(IllegalArgumentException.class)
+            assertThatThrownBy(() -> board.movePiece(moveOppositeSidePiece, SAME_SIDE))
+                    .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage(DIFFERENT_SIDE_MESSAGE);
         }
 
@@ -118,14 +112,11 @@ class BoardTest {
 
             Board board = new Board(alivePieces);
 
+            Move moveToUnreachable = new Move(startIntersection, unreachableDestination);
+
             // when and then
-            assertThatThrownBy(() -> {
-                board.movePiece(
-                        startIntersection,
-                        unreachableDestination,
-                        SAME_SIDE
-                );
-            }).isInstanceOf(IllegalArgumentException.class)
+            assertThatThrownBy(() -> board.movePiece(moveToUnreachable, SAME_SIDE))
+                    .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage("도착 가능한 지점을 선택해야 합니다.");
         }
 
@@ -140,12 +131,10 @@ class BoardTest {
 
             Board board = new Board(alivePieces);
 
+            Move moveSameSidePiece = new Move(startIntersection, reachableDestination);
+
             // when
-            board.movePiece(
-                    startIntersection,
-                    reachableDestination,
-                    SAME_SIDE
-            );
+            board.movePiece(moveSameSidePiece, SAME_SIDE);
 
             // then
             Map<Intersection, Piece> pieces = board.getPieces();

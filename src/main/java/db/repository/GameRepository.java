@@ -8,6 +8,7 @@ import domain.board.Board;
 import domain.board.Intersection;
 import domain.game.JanggiGame;
 import domain.game.Side;
+import domain.movement.Move;
 import domain.piece.AlivePieces;
 import domain.piece.Piece;
 import java.sql.Connection;
@@ -35,7 +36,7 @@ public class GameRepository {
     public Persisted<JanggiGame> save(JanggiGame game) {
         return transaction.execute(connection -> {
             Persisted<JanggiGame> persistedGame = saveGame(game, connection);
-            pieceRepository.save(game.getCurrentPieces(), persistedGame.id(), connection);
+            pieceRepository.save(game.getPieces(), persistedGame.id(), connection);
 
             return persistedGame;
         });
@@ -138,10 +139,9 @@ public class GameRepository {
             Connection connection
     ) throws SQLException {
         JanggiGame game = persistedGame.data();
-        Map<Intersection, Piece> piecesBeforeLastMove = game.getPiecesBeforeLastMove();
-        Map<Intersection, Piece> currentPieces = game.getCurrentPieces();
+        Move lastMove = game.getLastMove();
 
-        pieceRepository.update(currentPieces, piecesBeforeLastMove, persistedGame.id(), connection);
+        pieceRepository.update(lastMove, persistedGame.id(), connection);
     }
 
     private void deleteGame(

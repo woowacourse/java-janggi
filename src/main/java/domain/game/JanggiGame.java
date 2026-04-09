@@ -3,6 +3,7 @@ package domain.game;
 import domain.board.Board;
 import domain.board.Intersection;
 import domain.exception.UnexpectedException;
+import domain.movement.Move;
 import domain.piece.Piece;
 import java.util.Arrays;
 import java.util.List;
@@ -12,7 +13,7 @@ public final class JanggiGame {
 
     private static final Side FIRST_TURN = Side.CHO;
 
-    private Board boardBeforeLastMove;
+    private Move lastMove;
     private final Board currentBoard;
     private Side currentTurn;
 
@@ -24,7 +25,6 @@ public final class JanggiGame {
             Board board,
             Side currentTurn
     ) {
-        this.boardBeforeLastMove = board;
         this.currentBoard = board;
         this.currentTurn = currentTurn;
     }
@@ -35,14 +35,11 @@ public final class JanggiGame {
         return currentBoard.getMovableIntersections(startIntersection, currentTurn);
     }
 
-    public void movePiece(
-            Intersection startIntersection,
-            Intersection destination
-    ) {
+    public void movePiece(Move move) {
         validatePlaying();
 
-        boardBeforeLastMove = currentBoard.copy();
-        currentBoard.movePiece(startIntersection, destination, currentTurn);
+        lastMove = move;
+        currentBoard.movePiece(move, currentTurn);
 
         currentTurn = currentTurn.nextTurn();
     }
@@ -71,11 +68,15 @@ public final class JanggiGame {
         return side.calculateTotalScore(currentBoard.getTotalScore(side));
     }
 
-    public Map<Intersection, Piece> getPiecesBeforeLastMove() {
-        return boardBeforeLastMove.getPieces();
+    public Move getLastMove() {
+        if (lastMove == null) {
+            throw new IllegalStateException("아직 이동하지 않았습니다.");
+        }
+
+        return lastMove;
     }
 
-    public Map<Intersection, Piece> getCurrentPieces() {
+    public Map<Intersection, Piece> getPieces() {
         return currentBoard.getPieces();
     }
 

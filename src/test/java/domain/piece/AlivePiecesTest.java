@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.board.Intersection;
 import domain.game.Side;
+import domain.movement.Move;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -51,8 +52,10 @@ class AlivePiecesTest {
                     startIntersection, DEFAULT_PIECE
             ));
 
+            Move moveToDestination = new Move(startIntersection, destination);
+
             // when
-            alivePieces.replace(startIntersection, destination);
+            alivePieces.replace(moveToDestination);
 
             // then
             Piece pieceAtDestination = alivePieces.placedAt(destination);
@@ -69,8 +72,10 @@ class AlivePiecesTest {
                     existIntersection, DEFAULT_PIECE
             ));
 
+            Move moveFromExistIntersection = new Move(existIntersection, destination);
+
             // when
-            alivePieces.replace(existIntersection, destination);
+            alivePieces.replace(moveFromExistIntersection);
 
             // then
             Piece pieceAtExistIntersection = alivePieces.placedAt(existIntersection);
@@ -91,8 +96,10 @@ class AlivePiecesTest {
                     destination, pieceAtDestination
             ));
 
+            Move moveToExistPiece = new Move(startIntersection, destination);
+
             // when
-            alivePieces.replace(startIntersection, destination);
+            alivePieces.replace(moveToExistPiece);
 
             // then
             Piece currentPieceAtDestination = alivePieces.placedAt(destination);
@@ -101,8 +108,14 @@ class AlivePiecesTest {
 
         @Test
         void 시작_위치에_기물이_없다면_아무_동작도_수행하지_않는다() {
+            // given
             Map<Intersection, Piece> piecesBeforeReplace = alivePieces.get();
-            alivePieces.replace(emptyIntersection, DEFAULT_INTERSECTION);
+            Move moveFromEmpty = new Move(emptyIntersection, DEFAULT_INTERSECTION);
+
+            // when
+            alivePieces.replace(moveFromEmpty);
+
+            // then
             Map<Intersection, Piece> piecesAfterReplace = alivePieces.get();
 
             assertThat(piecesAfterReplace).isEqualTo(piecesBeforeReplace);

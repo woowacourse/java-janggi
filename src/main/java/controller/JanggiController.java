@@ -8,6 +8,7 @@ import domain.board.HanWings;
 import domain.board.InitialPieces;
 import domain.board.Intersection;
 import domain.game.JanggiGame;
+import domain.movement.Move;
 import domain.game.Side;
 import domain.piece.AlivePieces;
 import domain.piece.Piece;
@@ -71,14 +72,14 @@ public class JanggiController {
     }
 
     private void progressTurn(JanggiGame game) {
-        Map<Intersection, Piece> board = game.getCurrentPieces();
+        Map<Intersection, Piece> board = game.getPieces();
         Side currentTurn = game.getCurrentTurn();
 
         Intersection startIntersection = view.readSelectPieceToMove(board, currentTurn);
         List<Intersection> movableIntersections = game.getMovableIntersections(startIntersection);
         Intersection destination = view.readMovePiece(board, movableIntersections);
 
-        game.movePiece(startIntersection, destination);
+        game.movePiece(new Move(startIntersection, destination));
     }
 
     private void finishGame(Persisted<JanggiGame> persistedGame) {

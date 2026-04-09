@@ -1,6 +1,7 @@
 package domain.piece;
 
 import domain.board.Intersection;
+import domain.movement.Move;
 import domain.game.Side;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,16 +14,13 @@ public class AlivePieces {
         this.alivePieces = new HashMap<>(alivePieces);
     }
 
-    public void replace(
-            Intersection from,
-            Intersection to
-    ) {
-        if (isEmpty(from)) {
+    public void replace(Move move) {
+        if (isEmpty(move.from())) {
             return;
         }
 
-        Piece piece = alivePieces.remove(from);
-        alivePieces.put(to, piece);
+        Piece piece = alivePieces.remove(move.from());
+        alivePieces.put(move.to(), piece);
     }
 
     public boolean hasRoyalPiece(Side side) {
@@ -78,9 +76,5 @@ public class AlivePieces {
                 .filter(piece -> piece.hasSameSide(side))
                 .mapToInt(Piece::getScore)
                 .sum();
-    }
-
-    public AlivePieces copy() {
-        return new AlivePieces(alivePieces);
     }
 }

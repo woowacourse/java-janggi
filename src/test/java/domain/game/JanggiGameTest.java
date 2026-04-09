@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.board.Board;
 import domain.board.Intersection;
+import domain.movement.Move;
 import domain.piece.AlivePieces;
 import domain.piece.General;
 import domain.piece.Soldier;
@@ -24,6 +25,7 @@ class JanggiGameTest {
     private static final Intersection CHO_PIECE_INTERSECTION = new Intersection(5, 5);
     private static final Intersection HAN_PIECE_INTERSECTION = new Intersection(3, 3);
     private static final Intersection CHO_DESTINATION = new Intersection(4, 5);
+    private static final Intersection HAN_DESTINATION = new Intersection(4, 3);
 
     private AlivePieces allGeneralAlivePieces;
     private AlivePieces oneGeneralDeadPieces;
@@ -59,13 +61,16 @@ class JanggiGameTest {
         // given
         Board board = new Board(allGeneralAlivePieces);
         JanggiGame janggiGame = new JanggiGame(board);
+        Move move = new Move(CHO_PIECE_INTERSECTION, CHO_DESTINATION);
+
+        Side turnBeforeMove = janggiGame.getCurrentTurn();
 
         // when
-        Side turnBeforeMove = janggiGame.getCurrentTurn();
-        janggiGame.movePiece(CHO_PIECE_INTERSECTION, CHO_DESTINATION);
-        Side turnAfterMove = janggiGame.getCurrentTurn();
+        janggiGame.movePiece(move);
 
         // then
+        Side turnAfterMove = janggiGame.getCurrentTurn();
+
         assertThat(turnAfterMove).isNotEqualTo(turnBeforeMove);
     }
 
@@ -126,6 +131,38 @@ class JanggiGameTest {
 
             // then
             assertThat(playing).isFalse();
+        }
+    }
+
+    @Nested
+    class 마지막_이동_정보를_제공한다 {
+
+        @Test
+        void 이동한_적이_없다면_예외를_던진다() {
+            // given
+            JanggiGame janggiGame = new JanggiGame(new Board(allGeneralAlivePieces));
+
+            // when and then
+            assertThatThrownBy(janggiGame::getLastMove)
+                    .isInstanceOf(IllegalStateException.class)
+                    .hasMessage("아직 이동하지 않았습니다.");
+        }
+
+        @Test
+        void 마지막으로_수행한_이동_정보를_제공한다() {
+            // given
+            JanggiGame janggiGame = new JanggiGame(new Board(allGeneralAlivePieces));
+
+            Move firstMove = new Move(CHO_PIECE_INTERSECTION, CHO_DESTINATION);
+            janggiGame.movePiece(firstMove);
+            Move secondMove = new Move(HAN_PIECE_INTERSECTION, HAN_DESTINATION);
+            janggiGame.movePiece(secondMove);
+
+            // when
+            Move lastMove = janggiGame.getLastMove();
+
+            // then
+            assertThat(lastMove).isEqualTo(secondMove);
         }
     }
 
