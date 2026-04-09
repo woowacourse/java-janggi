@@ -7,6 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class ChoTurnTest {
 
@@ -28,11 +29,23 @@ public class ChoTurnTest {
 
         GameState state = new ChoTurn();
         for (int i = 4; i < 9; i++) {
+            state = new ChoTurn();
             Position from = Position.of(i-1, 4);
             Position to = Position.of(i, 4);
             state = state.move(from, to, board);
         }
 
         assertThat(state).isInstanceOf(Checkmate.class);
+    }
+
+    @DisplayName("초의 턴에 한의 기물을 움직이려고 하면 예외가 발생한다")
+    @Test
+    void move_TryMoveDifferentPiece_ReturnException() {
+        Board board = Board.initializeToBoard(new HorseElephantHorseElephant(), new HorseElephantHorseElephant());
+        Position from = Position.of(6, 4);
+        Position to = Position.of(5, 4);
+        ChoTurn choTurn = new ChoTurn();
+
+        assertThatThrownBy(() -> choTurn.move(from, to, board)).isInstanceOf(IllegalArgumentException.class);
     }
 }
