@@ -13,6 +13,11 @@ import java.util.List;
 import java.util.Map;
 
 public class BoardFactory {
+    private static final double INITIAL_PIECE_SCORE = 72.0;
+    private static final double HAN_FIRST_MOVE_ADVANTAGE = 1.5;
+    private static final double CHO_INITIAL_SCORE = INITIAL_PIECE_SCORE;
+    private static final double HAN_INITIAL_SCORE = INITIAL_PIECE_SCORE + HAN_FIRST_MOVE_ADVANTAGE;
+
     private static final String UTILITY_CLASS_INSTANTIATION_MESSAGE = "BoardInitializer는 유틸리티 클래스이므로 인스턴스화할 수 없습니다.";
 
     private static final Map<Arrangement, List<PieceType>> arrangeMap = Map.of(
@@ -70,8 +75,8 @@ public class BoardFactory {
 
     public static Map<Side, Double> createInitialScoresBySide() {
         Map<Side, Double> scoresBySide = new HashMap<>();
-        scoresBySide.put(Side.HAN, 73.5);
-        scoresBySide.put(Side.CHO, 72.0);
+        scoresBySide.put(Side.HAN, HAN_INITIAL_SCORE);
+        scoresBySide.put(Side.CHO, CHO_INITIAL_SCORE);
         return scoresBySide;
     }
 
