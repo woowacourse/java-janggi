@@ -9,6 +9,8 @@ import janggi.domain.game.JanggiGame;
 import janggi.domain.piece.Team;
 import janggi.dto.BoardDto;
 import janggi.dto.OpeningFormationChoices;
+import janggi.repository.GameRepository;
+import janggi.repository.JdbcGameRepository;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.List;
@@ -27,11 +29,14 @@ public class Application {
     }
 
     private void run() {
-        initializeSchema();
+        ConnectionFactory connectionFactory = new ConnectionFactory();
+        initializeSchema(connectionFactory);
+        GameRepository gameRepository = new JdbcGameRepository(connectionFactory);
         OpeningFormationChoices openingFormationChoices = readOpeningFormationChoiceUntilValid();
         Board board = BoardInitializer.initializeBoard(openingFormationChoices.hanChoice(),
                 openingFormationChoices.choChoice());
         JanggiGame janggiGame = new JanggiGame(board);
+        gameRepository.saveNewGame(janggiGame);
 
         while (janggiGame.isPlaying()) {
             outputView.printBoardMap(BoardDto.from(janggiGame.board()));
@@ -43,8 +48,7 @@ public class Application {
         outputView.printScore(janggiGame.calculateScore(Team.HAN), janggiGame.calculateScore(Team.CHO));
     }
 
-    private void initializeSchema() {
-        ConnectionFactory connectionFactory = new ConnectionFactory();
+    private void initializeSchema(ConnectionFactory connectionFactory) {
         SchemaInitializer schemaInitializer = new SchemaInitializer(connectionFactory);
         schemaInitializer.initialize();
     }

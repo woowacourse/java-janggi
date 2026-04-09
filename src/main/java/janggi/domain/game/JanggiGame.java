@@ -37,6 +37,10 @@ public class JanggiGame {
         return board.calculateScore(team);
     }
 
+    public Team currentTurnTeam() {
+        return turn.team();
+    }
+
     public boolean isPlaying() {
         return gameStatus == GameStatus.PLAYING;
     }
