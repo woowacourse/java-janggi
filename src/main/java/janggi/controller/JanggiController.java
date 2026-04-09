@@ -2,49 +2,127 @@ package janggi.controller;
 
 import janggi.domain.Janggi;
 import janggi.domain.position.Position;
+import janggi.exception.DuplicateGameException;
+import janggi.service.JanggiService;
 import janggi.view.InputView;
 import janggi.view.OutputView;
-import janggi.view.dto.PositionRequest;
+import janggi.controller.dto.PositionRequest;
 
+import java.util.List;
 import java.util.Optional;
 
 public class JanggiController {
     private final InputView inputView;
     private final OutputView outputView;
+    private final JanggiService janggiService;
 
-    public JanggiController(InputView inputView, OutputView outputView) {
+    public JanggiController(InputView inputView, OutputView outputView, JanggiService janggiService) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.janggiService = janggiService;
     }
 
     public void run() {
-        Janggi janggi = createGame();
+        while (true) {
+            int option = inputView.readMenuOption();
+            if (option == 3) {
+                return;
+            }
 
-        while (janggi.isRunning()) {
-            outputView.printBoard(janggi.getBoard(), janggi.currentCamp());
-            playTurn(janggi);
+            Optional<String> gameIdOpt = selectGame(option);
+
+            if (gameIdOpt.isEmpty()) {
+                continue;
+            }
+
+            String gameId = gameIdOpt.get();
+
+            while (janggiService.isRunning(gameId)) {
+                outputView.printBoard(janggiService.getBoardStatus(gameId), janggiService.getCurrentCamp(gameId));
+                playTurn(gameId);
+            }
+
+            outputView.printGameResult(janggiService.getWinner(gameId));
         }
-        outputView.printGameResult(janggi.currentCamp());
     }
 
-    private Janggi createGame() {
-        int choFormation = inputView.readFormationChoice(1);
-        int hanFormation = inputView.readFormationChoice(2);
-        return Janggi.start(choFormation, hanFormation);
+    private Optional<String> selectGame(int option) {
+        if (option == 1) {
+            return createGame();
+        }
+        if (option == 2) {
+            return loadGame();
+        }
+        return Optional.empty();
     }
 
-    private void playTurn(Janggi janggi) {
+    private Optional<String> createGame() {
+        while (true) {
+            Optional<String> gameName = inputView.readGameName();
+            if (gameName.isEmpty()) {
+                return Optional.empty();
+            }
+
+            Optional<Integer> choFormation = inputView.readFormationChoice("초나라");
+            if (choFormation.isEmpty()) {
+                return Optional.empty();
+            }
+
+            Optional<Integer> hanFormation = inputView.readFormationChoice("한나라");
+            if (hanFormation.isEmpty()) {
+                return Optional.empty();
+            }
+
+            try {
+                String gameId = janggiService.createGame(
+                        gameName.get(),
+                        choFormation.get(),
+                        hanFormation.get()
+                );
+
+                return Optional.of(gameId);
+            } catch (DuplicateGameException e) {
+                System.out.println("[ERROR] " + e.getMessage());
+                continue;
+
+            } catch (RuntimeException e) {
+                System.out.println("[ERROR] 치명적인 시스템 오류가 발생했습니다: " + e.getMessage());
+                return Optional.empty();
+            }
+        }
+    }
+
+    private Optional<String> loadGame() {
+        List<String> gameNames = janggiService.findAllNames();
+        Optional<String> gameIdOpt = inputView.readGameName(gameNames);
+
+        if (gameIdOpt.isEmpty()) {
+            return Optional.empty();
+        }
+        validateGameId(gameIdOpt.get(), gameNames);
+        return gameIdOpt;
+    }
+
+    private void validateGameId(String gameName, List<String> names) {
+        boolean exists = names.stream()
+                .anyMatch(name -> name.equals(gameName));
+        if (!exists) {
+            throw new IllegalArgumentException("존재하지 않는 게임입니다.");
+        }
+    }
+
+    private void playTurn(String gameId) {
         while (true) {
             try {
                 int command = inputView.readCommand();
 
                 if (command == 1) {
-                    janggi.surrender();
+                    janggiService.surrender(gameId);
                     return;
                 }
                 if (command == 2) {
                     if(inputView.confirmDraw()) {
-                        janggi.draw();
+                        janggiService.draw(gameId);
                         return;
                     }
                     outputView.printErrorMessage("상대가 무승부를 거절했습니다.");
@@ -56,17 +134,17 @@ public class JanggiController {
                     continue;
                 }
                 Position from = Position.of(selection.get().row(), selection.get().column());
-                janggi.validateTurn(from);
+                janggiService.validateTurn(gameId, from);
 
                 Optional<PositionRequest> destination = inputView.readMoveDestination();
+
                 if (destination.isEmpty()) {
                     continue;
                 }
 
-
                 Position to = Position.of(destination.get().row(), destination.get().column());
 
-                janggi.play(from, to);
+                janggiService.play(gameId, from, to);
                 break;
             } catch (IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());

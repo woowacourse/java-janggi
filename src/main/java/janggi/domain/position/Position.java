@@ -27,6 +27,14 @@ public class Position {
         return Optional.empty();
     }
 
+    public int row() {
+        return row.value();
+    }
+
+    public int column() {
+        return column.value();
+    }
+
     @Override
     public final boolean equals(Object o) {
         if (!(o instanceof Position position)) return false;

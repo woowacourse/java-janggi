@@ -37,6 +37,10 @@ public abstract class Piece {
         return pieceName.of(camp);
     }
 
+    public Camp pieceCamp() {
+        return camp;
+    }
+
     public Score score() {
         return score;
     }

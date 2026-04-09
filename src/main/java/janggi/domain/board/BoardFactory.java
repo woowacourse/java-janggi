@@ -58,6 +58,11 @@ public class BoardFactory {
 
         return result;
     }
+
+    public static Board load(Map<Position, Piece> pieceMap) {
+
+        return new Board(pieceMap);
+    }
 }
 
 

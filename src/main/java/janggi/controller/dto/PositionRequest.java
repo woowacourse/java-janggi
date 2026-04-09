@@ -1,4 +1,4 @@
-package janggi.view.dto;
+package janggi.controller.dto;
 
 public record PositionRequest(int row, int column) {
     public static PositionRequest from(String input) {

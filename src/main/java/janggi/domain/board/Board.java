@@ -8,6 +8,7 @@ import janggi.domain.piece.Piece;
 import janggi.domain.position.Position;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -69,6 +70,11 @@ public class Board {
         return janggiBoard.values().stream()
                 .filter(piece -> piece.isSameCamp(camp))
                 .anyMatch(Piece::isEssential);
+    }
+
+    public Board clone() {
+        Map<Position, Piece> copiedMap = new HashMap<>(this.janggiBoard);
+        return new Board(copiedMap);
     }
 
     public Map<Position, Piece> janggiBoard() {
