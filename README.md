@@ -97,14 +97,48 @@
 
 ---
 
-### 3. Repository
+### 3. Repository 구현
+- [ ] GameStateRepository 인터페이스 구현
+   - 게임 상태 저장 기능
+   - 저장된 게임 상태 조회 기능
+- [ ] InMemoryGameStateRepository 구현
+   - 메모리에 게임 상태 저장
+   - 메모리에 저장된 게임 상태 조회
+- [ ] JdbcGameStateRepository 구현
+  - JDBC를 사용한 게임 상태 저장
+  - JDBC를 사용한 게임 상태 조회
 
 ---
 
-### 4. 인메모리 테스트
+### 4. 인메모리 테스트 구현
+- [ ] InMemoryGameStateRepository 저장/조회 테스트 구현
+   - 게임 상태 저장 검증
+   - 저장된 게임 상태 조회 검증
 
 ---
 
 ### 5. JDBC 구현
+- [ ] H2 DataSource 생성
+- [ ] schema.sql 작성
+   - game 테이블 생성
+   - piece_state 테이블 생성
+- [ ] JdbcGameStateRepository의 save() 구현
+   - 기존 게임 상태 삭제
+   - game 테이블 저장
+   - piece_state 테이블 저장
+- [ ] JdbcGameStateRepository의 load() 구현
+   - game 테이블 조회
+   - piece_state 테이블 조회
+   - 조회한 데이터를 GameState로 복원
+- [ ] H2 인메모리 데이터베이스를 활용한 저장/조회 테스트 구현
 
 ---
+
+### 6. 통합 및 애플리케이션 연결
+- [ ] 장기 게임 저장/복원 통합 테스트 구현
+   - JanggiGame → GameState 변환
+   - DB 저장 및 조회
+   - GameState → JanggiGame 복원
+- [ ] 애플리케이션 시작 시 저장된 게임 불러오기 구현
+- [ ] 저장된 게임이 없을 경우 새 게임 생성 구현
+- [ ] 게임 진행 후 현재 게임 상태 저장 구현
