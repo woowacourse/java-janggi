@@ -22,10 +22,7 @@ import persistence.GameStateRepository;
 import persistence.SaveGameStateRequest;
 import persistence.SavedGameState;
 import strategy.formation.InitialFormationStrategy;
-import strategy.formation.InnerFormationStrategy;
-import strategy.formation.LeftFormationStrategy;
-import strategy.formation.OuterFormationStrategy;
-import strategy.formation.RightFormationStrategy;
+import strategy.formation.InitialFormationStrategyFactory;
 
 public class Runner {
 
@@ -193,39 +190,11 @@ public class Runner {
     private Optional<InitialFormationStrategy> tryPickFormation(TeamColor teamColor) {
         outputView.printFormationSelectionPrompt(teamColor);
         try {
-            return Optional.of(strategyForChoice(inputView.readFormationChoice(teamColor)));
+            return Optional.of(InitialFormationStrategyFactory.from(inputView.readFormationChoice(teamColor)));
         } catch (RuntimeException exception) {
             outputView.printError("상차림 입력이 올바르지 않습니다.");
             return Optional.empty();
         }
-    }
-
-    private static InitialFormationStrategy strategyForChoice(int choice) {
-        if (choice == 1) {
-            return new InnerFormationStrategy();
-        }
-        return strategyForChoiceFromTwo(choice);
-    }
-
-    private static InitialFormationStrategy strategyForChoiceFromTwo(int choice) {
-        if (choice == 2) {
-            return new OuterFormationStrategy();
-        }
-        return strategyForChoiceFromThree(choice);
-    }
-
-    private static InitialFormationStrategy strategyForChoiceFromThree(int choice) {
-        if (choice == 3) {
-            return new LeftFormationStrategy();
-        }
-        return strategyForChoiceFromFour(choice);
-    }
-
-    private static InitialFormationStrategy strategyForChoiceFromFour(int choice) {
-        if (choice == 4) {
-            return new RightFormationStrategy();
-        }
-        throw new IllegalArgumentException("상차림 번호는 1~4 사이여야 합니다.");
     }
 
     private boolean playTurn(Board board, TurnManager turnManager, GameDeadline deadline) {
