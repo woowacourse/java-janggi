@@ -46,10 +46,7 @@ public class Rook extends Piece{
             return board.isEmpty(middlePosition);
         }
 
-        if (board.findPiecesInLinePath(from, to).isEmpty()) {
-            return true;
-        }
-        return false;
+        return board.findPiecesInLinePath(from, to).isEmpty();
     }
 
     // 대각선 끝과 끝 이동인지 확인
