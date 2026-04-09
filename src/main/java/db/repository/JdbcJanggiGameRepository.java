@@ -1,6 +1,7 @@
 package db.repository;
 
 import board.Board;
+import core.GameStatus;
 import core.GameSummary;
 import core.JanggiGame;
 import db.dao.BoardPieceDao;
@@ -15,6 +16,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import movepolicy.MoveHistory;
+import participant.Turn;
 import pieces.Piece;
 import position.Position;
 
@@ -103,6 +105,30 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
             .toList();
     }
 
+    @Override
+    public void undoLastMove(final SqlConnection connection, final Long gameId) {
+        final MoveHistoryEntity moveHistory = moveHistoryDao.findLastByGameId(connection, gameId)
+            .orElseThrow(() -> new IllegalStateException("최근 이동 기록이 없습니다."));
+
+        final BoardPieceEntity movedPiece = boardPieceDao.findByGameIdAndPosition(
+                connection, gameId, moveHistory.destinationRow(), moveHistory.destinationColumn())
+            .orElseThrow(() -> new IllegalStateException("복원할 기물을 찾을 수 없습니다."));
+
+        boardPieceDao.updatePosition(
+            connection, movedPiece.id(), moveHistory.departureRow(), moveHistory.departureColumn());
+
+        if (moveHistory.isCapture()) {
+            boardPieceDao.save(connection, parseBoardPieceEntity(gameId,
+                new Position(moveHistory.destinationRow(), moveHistory.destinationColumn()),
+                new Piece(moveHistory.capturedPieceSide(), moveHistory.capturedPieceType()))
+            );
+        }
+
+        moveHistoryDao.deleteById(connection, moveHistory.id());
+
+        gameDao.updateState(connection, gameId, Turn.from(moveHistory.movingPieceSide()), GameStatus.PLAYING);
+    }
+
     private MoveHistory parseMoveHistory(MoveHistoryEntity entity) {
         if (entity.isCapture()) {
             return new MoveHistory(
@@ -176,14 +202,11 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
 
     private List<BoardPieceEntity> parseBoardPieceEntities(final Long gameId, final Board board) {
         return board.pieces().entrySet().stream()
-            .map(entry -> parseBoardEntity(gameId, entry))
+            .map(entry -> parseBoardPieceEntity(gameId, entry.getKey(), entry.getValue()))
             .toList();
     }
 
-    private BoardPieceEntity parseBoardEntity(final Long gameId, final Map.Entry<Position, Piece> entry) {
-        final Position position = entry.getKey();
-        final Piece piece = entry.getValue();
-
+    private BoardPieceEntity parseBoardPieceEntity(final Long gameId, Position position, final Piece piece) {
         return new BoardPieceEntity(
             null,
             gameId,

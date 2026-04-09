@@ -23,4 +23,6 @@ public interface JanggiGameRepository {
     void saveMoveHistory(SqlConnection connection, Long gameId, MoveHistory moveHistory);
 
     List<MoveHistory> findMoveHistoriesByGameId(SqlConnection connection, Long gameId);
+
+    void undoLastMove(SqlConnection connection, Long gameId);
 }
