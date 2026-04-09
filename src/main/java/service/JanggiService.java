@@ -44,8 +44,8 @@ public class JanggiService {
         try (Connection connection = connectionProvider.getConnection()) {
             GameRowDetail gameRowDetail = gameService.findOngoingGame(connection);
             Board board = boardService.getBoard(connection, gameRowDetail.id());
-            Turn turn = Turn.valueOf(gameRowDetail.currentTurn());
-            return JanggiGame.of(board, turn);
+            Turn turn = Turn.from(gameRowDetail.currentTurn());
+            return JanggiGame.resume(board, turn);
         } catch (SQLException e) {
             throw new DataAccessException(LOAD_ONGOING_GAME_FAIL_MESSAGE, e);
         }

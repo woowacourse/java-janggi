@@ -40,7 +40,7 @@ public class JanggiController {
         }
         String inputCho = inputView.inputPlacementChoOption();
         String inputHan = inputView.inputPlacementHanOption();
-        JanggiGame janggiGame = JanggiGame.of(inputCho, inputHan);
+        JanggiGame janggiGame = JanggiGame.start(inputCho, inputHan);
         janggiService.save(janggiGame.toSaveRequest());
         return janggiGame;
     }

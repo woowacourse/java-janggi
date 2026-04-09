@@ -2,12 +2,17 @@ package service;
 
 import domain.board.Board;
 import domain.board.BoardFactory;
+import domain.coordination.Coordination;
+import domain.piece.Piece;
+import domain.piece.PieceFactory;
 import dto.BoardRowDetail;
 import dto.BoardRowDetails;
 import repository.BoardRepository;
 
 import java.sql.Connection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BoardService {
 
@@ -22,7 +27,14 @@ public class BoardService {
     }
 
     public Board getBoard(Connection connection, int id) {
-        return BoardFactory.from(boardRepository.findPiecesByGameId(connection, id));
+        List<BoardRowDetail> boardRowDetails = boardRepository.findPiecesByGameId(connection, id);
+        Map<Coordination, Piece> board = new HashMap<>();
+        for (BoardRowDetail boardRowDetail : boardRowDetails) {
+            Coordination coordination = Coordination.of(boardRowDetail.column(), boardRowDetail.row());
+            Piece piece = PieceFactory.create(boardRowDetail.pieceType(), boardRowDetail.team());
+            board.put(coordination, piece);
+        }
+        return BoardFactory.restore(board);
     }
 
     public void save(Connection connection, int gameId, BoardRowDetails boardRowDetails) {

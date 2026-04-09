@@ -2,6 +2,8 @@ package domain.game;
 
 import domain.piece.Team;
 
+import java.util.Arrays;
+
 public enum Turn {
 
     CHO("초"),
@@ -13,6 +15,13 @@ public enum Turn {
 
     Turn(String name) {
         this.name = name;
+    }
+
+    public static Turn from(String name) {
+        return Arrays.stream(values())
+                .filter(turn -> turn.name.equals(name))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 턴입니다: " + name));
     }
 
     public String getName() {

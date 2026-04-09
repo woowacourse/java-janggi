@@ -20,11 +20,11 @@ public class JanggiGame {
         this.turn = turn;
     }
 
-    public static JanggiGame of(String inputCho, String inputHan) {
-        return new JanggiGame(BoardFactory.create(inputCho, inputHan), Turn.CHO);
+    public static JanggiGame start(String inputCho, String inputHan) {
+        return new JanggiGame(BoardFactory.initialize(inputCho, inputHan), Turn.CHO);
     }
 
-    public static JanggiGame of(Board board, Turn turn) {
+    public static JanggiGame resume(Board board, Turn turn) {
         return new JanggiGame(board, turn);
     }
 

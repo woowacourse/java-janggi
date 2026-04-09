@@ -5,17 +5,14 @@ import domain.coordination.Coordination;
 import domain.coordination.Row;
 import domain.piece.EmptyPiece;
 import domain.piece.Piece;
-import domain.piece.PieceFactory;
 import domain.piece.Team;
-import dto.BoardRowDetail;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class BoardFactory {
 
-    public static Board create(String choOption, String hanOption) {
+    public static Board initialize(String choOption, String hanOption) {
         Map<Coordination, Piece> board = new HashMap<>();
 
         placeEmpty(board);
@@ -25,14 +22,10 @@ public class BoardFactory {
         return new Board(board);
     }
 
-    public static Board from(List<BoardRowDetail> boardRowDetails) {
+    public static Board restore(Map<Coordination, Piece> existedBoard) {
         Map<Coordination, Piece> board = new HashMap<>();
         placeEmpty(board);
-        for (BoardRowDetail dto : boardRowDetails) {
-            Coordination coordination = Coordination.of(dto.column(), dto.row());
-            Piece piece = PieceFactory.create(dto.pieceType(), dto.team());
-            board.put(coordination, piece);
-        }
+        board.putAll(existedBoard);
         return new Board(board);
     }
 
