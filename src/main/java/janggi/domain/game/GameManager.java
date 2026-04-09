@@ -10,16 +10,14 @@ public class GameManager {
 
     private final Players players;
     private final Board board;
-    private Turn turn; // 역순 TDA - 꺼내서 사용하던 Turn 을 Players 필드로
 
-    public GameManager(Players players, Board board, Turn initiativeTurn) {
+    public GameManager(Players players, Board board) {
         this.players = players;
         this.board = board;
-        this.turn = initiativeTurn;
     }
 
     public void switchTurn() {
-        turn = turn.next();
+        players.nextTurn();
     }
 
     public boolean isFinished() {
@@ -27,14 +25,13 @@ public class GameManager {
     }
 
     public Player currentPlayer() {
-        return players.currentPlayer(turn.currentSide());
+        return players.currentPlayer();
     }
 
     public boolean isThereMoveablePiece(Position selectedPosition) {
         if (board.isPieceExist(selectedPosition)) {
             Piece selectedPiece = board.findPieceBy(selectedPosition);
-            Side currentSide = turn.currentSide();
-            return players.isCurrentSidePiece(currentSide, selectedPiece) && board.isMoveablePiece(selectedPosition);
+            return players.isCurrentSidePiece(selectedPiece) && board.isMoveablePiece(selectedPosition);
         }
         return false;
     }
@@ -52,15 +49,11 @@ public class GameManager {
     }
 
     public double currentPlayerScore() {
-        return board.calculateScore(turn.currentSide());
+        return board.calculateScore(currentPlayer());
     }
 
     public Map<Side, String> getPlayersInfo() {
         return players.getPlayersInfo();
-    }
-
-    public Side getCurrentSide() {
-        return turn.currentSide();
     }
 
     public Map<Position, Piece> getPiecePositions() {

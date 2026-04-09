@@ -88,9 +88,10 @@ public class JanggiGameRepository implements GameRepository {
         Map<Side, String> playersInfo = gameManager.getPlayersInfo();
         String choPlayerName = playersInfo.get(Side.CHO);
         String hanPlayerName = playersInfo.get(Side.HAN);
+        String currentTurnName = gameManager.currentPlayer().side().name();
         statement.setString(1, choPlayerName);
         statement.setString(2, hanPlayerName);
-        statement.setString(3, gameManager.getCurrentSide().name());
+        statement.setString(3, currentTurnName);
     }
 
     private long extractGeneratedId(PreparedStatement statement) throws SQLException {

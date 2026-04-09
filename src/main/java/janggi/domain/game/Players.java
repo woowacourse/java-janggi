@@ -6,6 +6,7 @@ import java.util.Map;
 public class Players {
 
     private final Map<Side, Player> players;
+    private Turn turn;
 
     private Players(Map<Side, Player> players) {
         this.players = players;
