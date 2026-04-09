@@ -7,6 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import dao.BoardDao;
 import dao.GamePersistence;
 import dao.GameDao;
+import db.TestDbBootstrap;
 import domain.board.Formation;
 import domain.player.Name;
 import domain.player.Player;
@@ -32,7 +33,7 @@ class JanggiGamePlayServiceTest {
 
     @BeforeEach
     void setUp() {
-        DbBootstrap.initializeForTest();
+        TestDbBootstrap.initializeTestDb();
     }
 
     @Nested
@@ -57,52 +58,66 @@ class JanggiGamePlayServiceTest {
         }
 
         @Test
-        void 게임이_종료되면_보드와_종료상태가_함께_저장된다() throws SQLException {
-            try (Connection connection = DbConnectionFactory.createConnection()) {
-                Player choPlayer = createPlayer("cho", CHO);
-                Player hanPlayer = createPlayer("han", HAN);
-                EndedJanggiGameManager endedGameManager = new EndedJanggiGameManager(choPlayer, hanPlayer, choPlayer.getProfile());
-                long gameId = gameDao.createGame(connection, "cho", "han");
-                boardDao.saveFullBoard(gameId, endedGameManager.getBoard());
-
-                janggiGamePlayService.playTurn(gameId, endedGameManager, new Position(6, 0), new Position(5, 0));
-
-                // playTurn에서 게임 종료 시 보드와 상태가 함께 저장됨 (원자성 보장)
-                assertThat(gameDao.getCurrentTurn(gameId)).isEqualTo(CHO);
-                assertThat(readGameStatus(gameId)).isEqualTo("CHO_WIN");
-                assertThat(boardDao.loadBoard(gameId)).containsKey(new Position(5, 0));
-            }
-        }
-    }
-
-    @Test
-    void 게임이_종료되면_playTurn에서_승자를_반환한다() throws SQLException {
-        try (Connection connection = DbConnectionFactory.createConnection()) {
+        void 게임이_종료되면_보드와_종료상태가_함께_저장된다() {
             Player choPlayer = createPlayer("cho", CHO);
             Player hanPlayer = createPlayer("han", HAN);
+
+            JanggiGameSession session = janggiGameSetupService.createNewGame(
+                choPlayer,
+                hanPlayer,
+                Formation.from(1),
+                Formation.from(1)
+            );
+
             EndedJanggiGameManager endedGameManager = new EndedJanggiGameManager(choPlayer, hanPlayer, choPlayer.getProfile());
-            long gameId = gameDao.createGame(connection, "cho", "han");
-            boardDao.saveFullBoard(gameId, endedGameManager.getBoard());
+            long gameId = session.gameId();
 
             janggiGamePlayService.playTurn(gameId, endedGameManager, new Position(6, 0), new Position(5, 0));
 
+            assertThat(gameDao.getCurrentTurn(gameId)).isEqualTo(CHO);
             assertThat(readGameStatus(gameId)).isEqualTo("CHO_WIN");
+            assertThat(boardDao.loadBoard(gameId)).containsKey(new Position(5, 0));
         }
     }
 
     @Test
-    void HAN_승리_테스트() throws SQLException {
-        try (Connection connection = DbConnectionFactory.createConnection()) {
-            Player choPlayer = createPlayer("cho", CHO);
-            Player hanPlayer = createPlayer("han", HAN);
-            EndedJanggiGameManager endedGameManager = new EndedJanggiGameManager(choPlayer, hanPlayer, hanPlayer.getProfile());
-            long gameId = gameDao.createGame(connection, "cho", "han");
-            boardDao.saveFullBoard(gameId, endedGameManager.getBoard());
+    void 게임이_종료되면_playTurn에서_승자를_반환한다() {
+        Player choPlayer = createPlayer("cho", CHO);
+        Player hanPlayer = createPlayer("han", HAN);
 
-            janggiGamePlayService.playTurn(gameId, endedGameManager, new Position(6, 0), new Position(5, 0));
+        JanggiGameSession session = janggiGameSetupService.createNewGame(
+            choPlayer,
+            hanPlayer,
+            Formation.from(1),
+            Formation.from(1)
+        );
 
-            assertThat(readGameStatus(gameId)).isEqualTo("HAN_WIN");
-        }
+        EndedJanggiGameManager endedGameManager = new EndedJanggiGameManager(choPlayer, hanPlayer, choPlayer.getProfile());
+        long gameId = session.gameId();
+
+        janggiGamePlayService.playTurn(gameId, endedGameManager, new Position(6, 0), new Position(5, 0));
+
+        assertThat(readGameStatus(gameId)).isEqualTo("CHO_WIN");
+    }
+
+    @Test
+    void HAN_승리_테스트() {
+        Player choPlayer = createPlayer("cho", CHO);
+        Player hanPlayer = createPlayer("han", HAN);
+
+        JanggiGameSession session = janggiGameSetupService.createNewGame(
+            choPlayer,
+            hanPlayer,
+            Formation.from(1),
+            Formation.from(1)
+        );
+
+        EndedJanggiGameManager endedGameManager = new EndedJanggiGameManager(choPlayer, hanPlayer, hanPlayer.getProfile());
+        long gameId = session.gameId();
+
+        janggiGamePlayService.playTurn(gameId, endedGameManager, new Position(6, 0), new Position(5, 0));
+
+        assertThat(readGameStatus(gameId)).isEqualTo("HAN_WIN");
     }
 
     private Player createPlayer(String name, Team team) {

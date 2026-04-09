@@ -4,14 +4,12 @@ import static domain.player.Team.HAN;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import common.GameStatus;
-import db.DbBootstrap;
+import db.TestDbBootstrap;
 import db.DbConnectionFactory;
-import domain.player.Team;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +18,7 @@ class GameDaoTest {
 
     @BeforeEach
     void setUp() {
-        DbBootstrap.initializeForTest();
+        TestDbBootstrap.initializeTestDb();
     }
 
     @Test

@@ -8,6 +8,7 @@ import dao.BoardDao;
 import dao.GameInfo;
 import dao.GamePersistence;
 import dao.GameDao;
+import db.TestDbBootstrap;
 import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.Formation;
@@ -32,7 +33,7 @@ class JanggiGameSetupServiceTest {
 
     @BeforeEach
     void setUp() {
-        DbBootstrap.initializeForTest();
+        TestDbBootstrap.initializeTestDb();
     }
 
     @Test

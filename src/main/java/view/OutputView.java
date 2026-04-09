@@ -5,6 +5,7 @@ import static common.Constants.MAX_ROW;
 import static common.Constants.MIN_COLUMN;
 import static common.Constants.MIN_ROW;
 
+import dao.GameInfo;
 import domain.board.Board;
 import domain.piece.BasicPiece;
 import domain.player.PlayerProfile;
@@ -41,10 +42,10 @@ public class OutputView {
         System.out.println("승리 플레이어: " + winnerProfile.name().value());
     }
 
-    public void printAvailableGames(java.util.List<dao.GameInfo> games) {
+    public void printAvailableGames(java.util.List<GameInfo> games) {
         System.out.println("\n=== 진행 중인 게임 목록 ===");
         for (int i = 0; i < games.size(); i++) {
-            dao.GameInfo game = games.get(i);
+            GameInfo game = games.get(i);
             String currentTurnName = resolveCurrentTurnName(game);
             System.out.println((i + 1) + ". " + game.choName() + " vs " + game.hanName() +
                              " (현재 차례: " + currentTurnName + ")");
@@ -53,9 +54,13 @@ public class OutputView {
         System.out.println();
     }
 
-    private String resolveCurrentTurnName(dao.GameInfo game) {
-        if ("CHO".equals(game.currentTurn())) return game.choName();
-        if ("HAN".equals(game.currentTurn())) return game.hanName();
+    private String resolveCurrentTurnName(GameInfo game) {
+        if ("CHO".equals(game.currentTurn())) {
+            return game.choName();
+        }
+        if ("HAN".equals(game.currentTurn())) {
+            return game.hanName();
+        }
         return game.currentTurn();
     }
 

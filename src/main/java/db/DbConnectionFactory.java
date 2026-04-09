@@ -9,11 +9,13 @@ public final class DbConnectionFactory {
     }
 
     public static Connection createConnection() throws SQLException {
-        return DriverManager.getConnection(
-                DbConfig.jdbcUrl(),
-                DbConfig.user(),
-                DbConfig.password()
-        );
+        String url = ConfigLoader.getProperty("db.jdbc.url");
+        String user = ConfigLoader.getProperty("db.jdbc.user");
+        String password = ConfigLoader.getProperty("db.jdbc.password");
+        return DriverManager.getConnection(url, user, password);
     }
 }
+
+
+
 

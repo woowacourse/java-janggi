@@ -62,12 +62,4 @@ public final class DbBootstrap {
                 StandardCharsets.UTF_8
         );
     }
-
-    public static void initializeForTest() {
-        try (Connection connection = DbConnectionFactory.createConnection()) {
-            runSchema(connection);
-        } catch (SQLException e) {
-            throw new IllegalStateException("DB 초기화에 실패했습니다.", e);
-        }
-    }
 }

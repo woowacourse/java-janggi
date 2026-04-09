@@ -7,13 +7,14 @@ import static common.Constants.MIN_ROW;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import db.TestDbBootstrap;
 import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.Formation;
 import domain.piece.BasicPiece;
 import domain.piece.None;
 import domain.position.Position;
-import db.DbBootstrap;
+import db.TestDbBootstrap;
 import db.DbConnectionFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -30,7 +31,7 @@ class BoardDaoTest {
 
     @BeforeEach
     void setUp() {
-        DbBootstrap.initializeForTest();
+        TestDbBootstrap.initializeTestDb();
     }
 
     @Test
