@@ -44,16 +44,12 @@ public class GameService {
     }
 
     public Long saveGame(Game game, Map<Position, PieceInfo> pieceInfos) {
-        try (
-                Connection connection = dataSource.getConnection()
-        ) {
+        return executeWithTransaction(connection -> {
             Long gameId = gameRepository.save(connection, game)
                     .orElseThrow(() -> new IllegalStateException("[ERROR] 존재하지 않는 게임입니다."));
             boardRepository.saveAll(connection, gameId, pieceInfos);
             return gameId;
-        } catch (SQLException exception) {
-            throw new IllegalStateException(exception.getMessage());
-        }
+        });
     }
 
     public boolean move(Board board, Long gameId, Position from, Position to) {
@@ -80,6 +76,24 @@ public class GameService {
             boardRepository.save(connection, gameId, to, pieceInfo);
         } catch (SQLException exception) {
             throw new IllegalStateException(exception.getMessage());
+        }
+    }
+
+    private <T> T executeWithTransaction(Transaction<T> task) {
+        try (
+                Connection connection = dataSource.getConnection()
+        ) {
+            connection.setAutoCommit(false);
+            try {
+                T result = task.execute(connection);
+                connection.commit();
+                return result;
+            } catch (Exception exception) {
+                connection.rollback();
+                throw new IllegalStateException("[ERROR] DB 저장 도중 오류가 발생했습니다. 모든 변경 사항을 롤백합니다.", exception);
+            }
+        } catch (SQLException exception) {
+            throw new IllegalStateException("[ERROR]", exception);
         }
     }
 }
