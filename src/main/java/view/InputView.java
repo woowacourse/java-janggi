@@ -38,6 +38,11 @@ public class InputView {
         throw new IllegalArgumentException("y 또는 n 만 입력할 수 있습니다.");
     }
 
+    public ServiceMenu askServiceMenu() {
+        int menuNumber = parseInt(readStrippedLine());
+        return ServiceMenu.from(menuNumber);
+    }
+
     private Long parseLong(final String input) {
         try {
             return Long.parseLong(input);

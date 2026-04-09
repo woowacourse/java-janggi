@@ -73,4 +73,11 @@ public class JanggiView {
             return gameId;
         });
     }
+
+    public ServiceMenu askServiceMenu() {
+        return Retry.untilSuccess(() -> {
+            out.askServiceMenu();
+            return in.askServiceMenu();
+        });
+    }
 }

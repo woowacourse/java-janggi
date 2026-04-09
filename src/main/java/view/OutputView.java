@@ -78,4 +78,9 @@ public class OutputView {
     public void askGameId() {
         System.out.println("실행할 게임 ID 를 입력해주세요. 새로운 게임을 원할 경우 0을 입력해주세요.");
     }
+
+    public void askServiceMenu() {
+        System.out.println("원하는 서비스 번호를 입력해주세요.");
+        System.out.println(ServiceMenu.convertDisplayFormat());
+    }
 }
