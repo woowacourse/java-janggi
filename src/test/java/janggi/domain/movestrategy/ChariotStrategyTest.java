@@ -27,7 +27,7 @@ class ChariotStrategyTest {
 
     @BeforeEach
     void setUp() {
-        chariotMoveStrategy = new ChariotStrategy(List.of(
+        chariotMoveStrategy = new DefaultMoveStrategy(List.of(
                 new StraightForwardMoveRule(),
                 new PalaceDiagonalForwardMoveRule(List.of(
                         PalaceFactory.createPalace(Team.HAN),

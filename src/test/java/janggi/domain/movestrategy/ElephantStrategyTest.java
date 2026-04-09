@@ -1,6 +1,7 @@
 package janggi.domain.movestrategy;
 
 import janggi.domain.board.Position;
+import janggi.domain.movestrategy.rule.ElephantMoveRule;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceFactory;
 import janggi.domain.piece.Team;
@@ -23,7 +24,7 @@ class ElephantStrategyTest {
 
     @BeforeEach
     void setUp() {
-        elephantStrategy = new ElephantStrategy();
+        elephantStrategy = new DefaultMoveStrategy(List.of(new ElephantMoveRule()));
         elephant = PieceFactory.createElephant(Team.HAN);
         otherTeamPiece = PieceFactory.createCannon(Team.CHO);
         sameTeamPiece = PieceFactory.createCannon(Team.HAN);
@@ -100,12 +101,14 @@ class ElephantStrategyTest {
         // when & then
         assertThat(elephantStrategy.canCapture(elephant, null)).isTrue();
     }
+
     @Test
     @DisplayName("도착 경로에 상대 진영 기물이 있으면 이동할 수 있다.")
     void testCanCaptureWhenDestinationIsEnemy() {
         // when & then
         assertThat(elephantStrategy.canCapture(elephant, otherTeamPiece)).isTrue();
     }
+
     @Test
     @DisplayName("도착 경로에 상대 진영 기물이 있으면 이동할 수 없다.")
     void testNotCanCaptureWhenDestinationIsAlly() {

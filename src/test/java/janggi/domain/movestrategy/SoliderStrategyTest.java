@@ -33,10 +33,10 @@ class SoliderStrategyTest {
         Palace hanPalace = PalaceFactory.createPalace(Team.HAN);
         Palace choPalace = PalaceFactory.createPalace(Team.CHO);
 
-        hanSoliderStrategy = new SoliderStrategy(List.of(
+        hanSoliderStrategy = new DefaultMoveStrategy(List.of(
                 new DirectionalOneStepMoveRule(BoardDirection.UP),
                 new PalaceDiagonalDirectionalOneStepMoveRule(hanPalace, BoardDirection.UP)));
-        choSoliderStrategy = new SoliderStrategy(List.of(
+        choSoliderStrategy = new DefaultMoveStrategy(List.of(
                 new DirectionalOneStepMoveRule(BoardDirection.DOWN),
                 new PalaceDiagonalDirectionalOneStepMoveRule(choPalace, BoardDirection.DOWN)));
 

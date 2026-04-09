@@ -1,6 +1,7 @@
 package janggi.domain.movestrategy;
 
 import janggi.domain.board.Position;
+import janggi.domain.movestrategy.rule.HorseMoveRule;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceFactory;
 import janggi.domain.piece.Team;
@@ -23,7 +24,7 @@ class HorseStrategyTest {
 
     @BeforeEach
     void setUp() {
-        horseStrategy = new HorseStrategy();
+        horseStrategy = new DefaultMoveStrategy(List.of(new HorseMoveRule()));
         horse = PieceFactory.createHorse(Team.HAN);
         otherTeamPiece = PieceFactory.createCannon(Team.CHO);
         sameTeamPiece = PieceFactory.createCannon(Team.HAN);
@@ -100,12 +101,14 @@ class HorseStrategyTest {
         // when & then
         assertThat(horseStrategy.canCapture(horse, null)).isTrue();
     }
+
     @Test
     @DisplayName("도착 경로에 상대 진영 기물이 있으면 이동할 수 있다.")
     void testCanCaptureWhenDestinationIsEnemy() {
         // when & then
         assertThat(horseStrategy.canCapture(horse, otherTeamPiece)).isTrue();
     }
+
     @Test
     @DisplayName("도착 경로에 상대 진영 기물이 있으면 이동할 수 없다.")
     void testNotCanCaptureWhenDestinationIsAlly() {
