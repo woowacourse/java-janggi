@@ -37,7 +37,6 @@ public class JanggiController {
                     throw new IllegalArgumentException("[ERROR] 해당 위치로 이동할 수 없는 기물입니다.");
                 }
                 janggiBoard.move(from, to, currentPiece);
-                outputView.printBoard(JanggiBoardDto.from(janggiBoard));
                 if (janggiBoard.isGameOver()) {
                     isRunning = false;
                 }
