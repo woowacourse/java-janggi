@@ -2,7 +2,6 @@ package janggi.domain.piece;
 
 import janggi.domain.Camp;
 
-import java.security.Guard;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;

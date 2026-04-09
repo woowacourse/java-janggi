@@ -1,12 +1,10 @@
 package janggi.domain;
 
 import janggi.domain.board.Board;
-import janggi.domain.board.BoardFactory;
-import janggi.domain.board.strategy.FormationStrategy;
 import janggi.domain.piece.Piece;
 import janggi.domain.position.Position;
+
 import java.util.Map;
-import java.util.Optional;
 
 public class Janggi {
     private final Board board;
@@ -36,6 +34,7 @@ public class Janggi {
     }
 
     public void play(Position from, Position to) {
+        validateTurn(from);
         board.movePiece(from, to);
         if (!board.isAliveEssentialPiece(currentCamp.next())) {
             finish();
@@ -73,7 +72,7 @@ public class Janggi {
         finish();
     }
 
-    public Janggi clone(){
+    public Janggi clone() {
         return new Janggi(this);
     }
 

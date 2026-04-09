@@ -1,12 +1,11 @@
 package janggi.controller;
 
-import janggi.domain.Janggi;
+import janggi.controller.dto.PositionRequest;
 import janggi.domain.position.Position;
 import janggi.exception.DuplicateGameException;
 import janggi.service.JanggiService;
 import janggi.view.InputView;
 import janggi.view.OutputView;
-import janggi.controller.dto.PositionRequest;
 
 import java.util.List;
 import java.util.Optional;
@@ -121,7 +120,7 @@ public class JanggiController {
                     return;
                 }
                 if (command == 2) {
-                    if(inputView.confirmDraw()) {
+                    if (inputView.confirmDraw()) {
                         janggiService.draw(gameId);
                         return;
                     }

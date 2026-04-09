@@ -17,10 +17,6 @@ public class HorseStrategy implements MoveStrategy {
         return SingleInstanceHolder.INSTANCE;
     }
 
-    private static class SingleInstanceHolder {
-        private static final HorseStrategy INSTANCE = new HorseStrategy();
-    }
-
     @Override
     public Paths findMovablePaths(Position current) {
         return new Paths(Stream.of(
@@ -42,5 +38,9 @@ public class HorseStrategy implements MoveStrategy {
         return current.move(straight)
                 .flatMap(wp -> wp.move(diagonal)
                         .map(dest -> Path.of(List.of(wp), dest)));
+    }
+
+    private static class SingleInstanceHolder {
+        private static final HorseStrategy INSTANCE = new HorseStrategy();
     }
 }

@@ -91,7 +91,7 @@ public class GameRepositoryImpl implements GameRepository {
     }
 
     @Override
-    public List<String> findAllNames(){
+    public List<String> findAllNames() {
         return gameDao.findAllNames();
     }
 

@@ -144,7 +144,7 @@ public class BoardTest {
 
     @ParameterizedTest
     @EnumSource(Camp.class)
-    void 선택한_나라의_장이_있으면_true를_반환한다(Camp camp){
+    void 선택한_나라의_장이_있으면_true를_반환한다(Camp camp) {
         Board board = BoardFactory.create(new ElephantHorseElephantHorse(), new ElephantHorseElephantHorse());
 
         boolean essentialPiece = board.isAliveEssentialPiece(camp);

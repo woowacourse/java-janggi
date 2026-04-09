@@ -17,11 +17,6 @@ public class ElephantStrategy implements MoveStrategy {
         return SingleInstanceHolder.INSTANCE;
     }
 
-
-    private static class SingleInstanceHolder {
-        private static final ElephantStrategy INSTANCE = new ElephantStrategy();
-    }
-
     @Override
     public Paths findMovablePaths(Position current) {
         return new Paths(Stream.of(
@@ -44,5 +39,9 @@ public class ElephantStrategy implements MoveStrategy {
                 .flatMap(wp1 -> wp1.move(diagonal)
                         .flatMap(wp2 -> wp2.move(diagonal)
                                 .map(dest -> Path.of(List.of(wp1, wp2), dest))));
+    }
+
+    private static class SingleInstanceHolder {
+        private static final ElephantStrategy INSTANCE = new ElephantStrategy();
     }
 }

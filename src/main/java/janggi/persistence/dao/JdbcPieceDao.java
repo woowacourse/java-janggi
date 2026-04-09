@@ -11,14 +11,14 @@ import java.util.List;
 
 import static janggi.config.DatabaseConfig.getConnection;
 
-public class JdbcPieceDao implements PieceDao{
+public class JdbcPieceDao implements PieceDao {
 
     @Override
     public void createAll(List<PieceEntity> entities) {
         String sql = """
-            INSERT INTO piece (game_id, piece_name, camp, row_index, column_index)
-            VALUES (?, ?, ?, ?, ?)
-            """;
+                INSERT INTO piece (game_id, piece_name, camp, row_index, column_index)
+                VALUES (?, ?, ?, ?, ?)
+                """;
 
         try (Connection con = getConnection();
              PreparedStatement pstmt = con.prepareStatement(sql)) {
@@ -49,11 +49,11 @@ public class JdbcPieceDao implements PieceDao{
         List<PieceEntity> pieces = new ArrayList<>();
 
         try (Connection con = getConnection();
-             PreparedStatement pstmt = con.prepareStatement(sql)){
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
 
             pstmt.setString(1, gameId);
             try (ResultSet rs = pstmt.executeQuery()) {
-                while(rs.next()){
+                while (rs.next()) {
                     PieceEntity piece = new PieceEntity(
                             rs.getLong("id"),
                             rs.getString("game_id"),
@@ -89,10 +89,10 @@ public class JdbcPieceDao implements PieceDao{
     @Override
     public void updateAll(String gameId, List<PieceEntity> entities) {
         String sql = """
-            UPDATE piece
-            SET piece_name = ?, camp = ?, row_index = ?, column = ?
-            WHERE id = ? AND game_id = ?
-            """;
+                UPDATE piece
+                SET piece_name = ?, camp = ?, row_index = ?, column = ?
+                WHERE id = ? AND game_id = ?
+                """;
 
         try (Connection con = getConnection();
              PreparedStatement pstmt = con.prepareStatement(sql)) {

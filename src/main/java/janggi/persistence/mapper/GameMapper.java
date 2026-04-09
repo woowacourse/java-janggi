@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class GameMapper {
 
-    public GameEntity toGameEntity(String id, String name, Janggi janggi){
+    public GameEntity toGameEntity(String id, String name, Janggi janggi) {
         return new GameEntity(
                 id,
                 name,
@@ -30,8 +30,8 @@ public class GameMapper {
         );
     }
 
-    private Camp toCamp(Turn turn){
-        if(turn.isCho()){
+    private Camp toCamp(Turn turn) {
+        if (turn.isCho()) {
             return Camp.CHO;
         }
         return Camp.HAN;

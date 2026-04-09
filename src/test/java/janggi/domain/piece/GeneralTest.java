@@ -47,7 +47,7 @@ public class GeneralTest {
     }
 
     @Test
-    void 필수적인_기물이면_true를_출력한다(){
+    void 필수적인_기물이면_true를_출력한다() {
         Piece piece = new General(Camp.CHO);
         boolean essential = piece.isEssential();
 

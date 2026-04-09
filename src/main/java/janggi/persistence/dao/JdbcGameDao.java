@@ -1,6 +1,5 @@
 package janggi.persistence.dao;
 
-import janggi.config.DatabaseConfig;
 import janggi.exception.DuplicateGameException;
 import janggi.persistence.entity.GameEntity;
 import janggi.persistence.entity.vo.Status;
@@ -16,11 +15,11 @@ import java.util.Optional;
 
 import static janggi.config.DatabaseConfig.getConnection;
 
-public class JdbcGameDao implements GameDao{
+public class JdbcGameDao implements GameDao {
     private static final int SQL_DUPLICATE_CODE = 1062;
 
     @Override
-    public void create(GameEntity gameEntity){
+    public void create(GameEntity gameEntity) {
         String sql = """
                 INSERT INTO game (id, name, status, current_turn)
                 VALUES (?, ?, ?, ?)
@@ -40,7 +39,7 @@ public class JdbcGameDao implements GameDao{
         }
     }
 
-    private void validateDuplicate(SQLException e){
+    private void validateDuplicate(SQLException e) {
         if (e.getErrorCode() == SQL_DUPLICATE_CODE) {
             throw new DuplicateGameException("이미 존재하는 게임입니다.", e);
         }
@@ -68,6 +67,7 @@ public class JdbcGameDao implements GameDao{
 
         return names;
     }
+
     @Override
     public Optional<GameEntity> findByName(String name) {
         return Optional.empty();
@@ -86,11 +86,11 @@ public class JdbcGameDao implements GameDao{
                 """;
 
         try (Connection con = getConnection();
-             PreparedStatement pstmt = con.prepareStatement(sql)){
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
             pstmt.setString(1, id);
 
             try (ResultSet rs = pstmt.executeQuery()) {
-                if(rs.next()){
+                if (rs.next()) {
                     GameEntity gameEntity = new GameEntity(
                             rs.getString("id"),
                             rs.getString("name"),

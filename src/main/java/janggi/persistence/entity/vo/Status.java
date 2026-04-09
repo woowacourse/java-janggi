@@ -1,6 +1,5 @@
 package janggi.persistence.entity.vo;
 
-import janggi.domain.Camp;
 import janggi.domain.Janggi;
 
 public enum Status {
@@ -18,7 +17,7 @@ public enum Status {
         return Status.HAN_WIN;
     }
 
-    public boolean isRunning(){
+    public boolean isRunning() {
         return this == PLAYING;
     }
 

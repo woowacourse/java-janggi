@@ -19,7 +19,7 @@ public class InputView {
         System.out.println("이 게임의 이름을 입력해주세요. (예: 장기1 / q: 취소)");
         String gameName = scanner.nextLine().trim();
 
-        if(isQuit(gameName)){
+        if (isQuit(gameName)) {
             return Optional.empty();
         }
         return Optional.of(gameName);

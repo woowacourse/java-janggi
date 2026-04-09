@@ -26,7 +26,7 @@ public class JanggiService {
         return gameRepository.save(name, janggi);
     }
 
-    public List<String> findAllNames(){
+    public List<String> findAllNames() {
         return gameRepository.findAllNames();
     }
 
@@ -79,10 +79,10 @@ public class JanggiService {
     }
 
     public Camp getCurrentCamp(String gameId) {
-         return findGameById(gameId).currentCamp();
+        return findGameById(gameId).currentCamp();
     }
 
-    public Camp getWinner(String gameId){
+    public Camp getWinner(String gameId) {
         return findGameById(gameId).winner();
     }
 }

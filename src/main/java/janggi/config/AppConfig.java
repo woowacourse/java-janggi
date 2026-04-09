@@ -18,23 +18,23 @@ public class AppConfig {
         return new JanggiController(inputView(), outputView(), janggiService());
     }
 
-    public InputView inputView(){
+    public InputView inputView() {
         return new InputView();
     }
 
-    public OutputView outputView(){
+    public OutputView outputView() {
         return new OutputView();
     }
 
-    public JanggiService janggiService () {
+    public JanggiService janggiService() {
         return new JanggiService(gameRepository());
     }
 
-    public GameRepository gameRepository(){
+    public GameRepository gameRepository() {
         return new GameRepositoryImpl(gameDao(), pieceDao(), gameMapper(), pieceMapper());
     }
 
-    public GameDao gameDao(){
+    public GameDao gameDao() {
         return new JdbcGameDao();
     }
 
