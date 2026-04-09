@@ -33,14 +33,10 @@ public class Board {
     }
 
     public double calculateScore(Team team) {
-        double score = board.values().stream()
+        return board.values().stream()
                 .filter(piece -> piece.team() == team)
                 .mapToInt(piece -> piece.pieceType().score())
-                .sum();
-        if (team == Team.HAN) {
-            score += 1.5;
-        }
-        return score;
+                .sum() + team.bonus();
     }
 
     public boolean hasTwoGenerals() {
