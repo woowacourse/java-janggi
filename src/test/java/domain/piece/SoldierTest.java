@@ -3,6 +3,7 @@ package domain.piece;
 import domain.coordination.Coordination;
 import domain.movement.AbstractPalaceMovement;
 import domain.movement.ForwardPalaceMovement;
+import domain.movement.PalaceMovement;
 import domain.piece.error.PieceException;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -10,6 +11,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
+import static org.mockito.Mockito.*;
 
 class SoldierTest {
 
@@ -93,6 +95,45 @@ class SoldierTest {
                     .isInstanceOf(PieceException.class)
                     .hasMessageContaining(AbstractPalaceMovement.IMPOSSIBLE_PALACE_MOVE_MESSAGE);
         }
+
+        @ParameterizedTest
+        @CsvSource(value = {
+                "4,3,4,2",
+                "5,2,4,1",
+
+        })
+        public void 두_지점이_궁성인_경우_palaceMovement_규칙을_검증한다(int fromColumn, int fromRow, int toColumn, int toRow) {
+            PalaceMovement mockMovement = mock(PalaceMovement.class);
+            Soldier soldier = new Soldier(Team.CHO, mockMovement);
+            Coordination from = Coordination.of(fromColumn, fromRow);
+            Coordination to = Coordination.of(toColumn, toRow);
+
+            when(mockMovement.isPalace(from, to)).thenReturn(true);
+
+            soldier.validateRule(from, to);
+
+            verify(mockMovement).validateRule(from, to);
+        }
+
+        @ParameterizedTest
+        @CsvSource(value = {
+                "1,7,1,6",
+                "1,7,2,7",
+                "4,4,4,3",
+                "6,4,6,3",
+        })
+        public void 두_지점이_궁성_내에_있지_않다면_palaceMovement_규칙을_검증하지_않는다(int fromColumn, int fromRow, int toColumn, int toRow) {
+            PalaceMovement mockMovement = mock(PalaceMovement.class);
+            Soldier soldier = new Soldier(Team.CHO, mockMovement);
+            Coordination from = Coordination.of(fromColumn, fromRow);
+            Coordination to = Coordination.of(toColumn, toRow);
+
+            when(mockMovement.isPalace(from, to)).thenReturn(false);
+
+            soldier.validateRule(from, to);
+
+            verify(mockMovement, never()).validateRule(from, to);
+        }
     }
 
     @Nested
@@ -127,6 +168,44 @@ class SoldierTest {
             assertThatThrownBy(() -> soldier.validateRule(Coordination.of(fromColumn, fromRow), Coordination.of(toColumn, toRow)))
                     .isInstanceOf(PieceException.class)
                     .hasMessageContaining(ForwardPalaceMovement.IMPOSSIBLE_PALACE_MOVE_MESSAGE);
+        }
+
+        @ParameterizedTest
+        @CsvSource(value = {
+                "4,8,5,9",
+                "4,8,5,8",
+        })
+        public void 두_지점이_궁성인_경우_palaceMovement_규칙을_검증한다(int fromColumn, int fromRow, int toColumn, int toRow) {
+            PalaceMovement mockMovement = mock(PalaceMovement.class);
+            Soldier soldier = new Soldier(Team.CHO, mockMovement);
+            Coordination from = Coordination.of(fromColumn, fromRow);
+            Coordination to = Coordination.of(toColumn, toRow);
+
+            when(mockMovement.isPalace(from, to)).thenReturn(true);
+
+            soldier.validateRule(from, to);
+
+            verify(mockMovement).validateRule(from, to);
+        }
+
+        @ParameterizedTest
+        @CsvSource(value = {
+                "1,4,1,5",
+                "5,6,6,6",
+                "5,7,5,8",
+                "3,8,4,8",
+        })
+        public void 두_지점이_궁성_내에_있지_않다면_palaceMovement_규칙을_검증하지_않는다(int fromColumn, int fromRow, int toColumn, int toRow) {
+            PalaceMovement mockMovement = mock(PalaceMovement.class);
+            Soldier soldier = new Soldier(Team.HAN, mockMovement);
+            Coordination from = Coordination.of(fromColumn, fromRow);
+            Coordination to = Coordination.of(toColumn, toRow);
+
+            when(mockMovement.isPalace(from, to)).thenReturn(false);
+
+            soldier.validateRule(from, to);
+
+            verify(mockMovement, never()).validateRule(from, to);
         }
     }
 }

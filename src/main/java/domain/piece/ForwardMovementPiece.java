@@ -11,8 +11,12 @@ public abstract class ForwardMovementPiece extends Piece {
     protected final PalaceMovement palaceMovement;
 
     protected ForwardMovementPiece(Team team) {
+        this(team, new ForwardPalaceMovement(team.reverse()));
+    }
+
+    protected ForwardMovementPiece(Team team, PalaceMovement palaceMovement) {
         super(team);
-        this.palaceMovement = new ForwardPalaceMovement(team.reverse());
+        this.palaceMovement = palaceMovement;
     }
 
     @Override

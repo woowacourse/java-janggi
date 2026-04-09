@@ -1,6 +1,7 @@
 package domain.piece;
 
 import domain.coordination.Coordination;
+import domain.movement.PalaceMovement;
 import domain.piece.error.PieceException;
 
 import java.util.List;
@@ -12,6 +13,10 @@ public class Soldier extends ForwardMovementPiece {
 
     public Soldier(Team team) {
         super(team);
+    }
+
+    public Soldier(Team team, PalaceMovement palaceMovement) {
+        super(team, palaceMovement);
     }
 
     @Override
