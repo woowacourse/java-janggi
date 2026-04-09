@@ -50,7 +50,7 @@ public class JanggiGame {
             play(board, savedGame);
             return;
         }
-        List<Long> gameIds = gameRepository.findAllGameIds();
+        List<Long> gameIds = gameRepository.findAllByGameStatus(GameStatus.PLAYING);
         long gameId = InputView.readGameId(gameIds);
         Game game = gameRepository.findById(gameId);
         Map<Position, Piece> pieces = pieceRepository.findByGameId(gameId);

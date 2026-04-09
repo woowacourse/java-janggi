@@ -41,15 +41,16 @@ public class GameRepository {
         }
     }
 
-    public List<Long> findAllGameIds() {
-        return executeQuery("SELECT game_id FROM games",
+    //Q: 객체를 반환하는게 더 좋은지? & findAll로 하고 filter를 자바 객체에서 해야 하는지
+    public List<Long> findAllByGameStatus(GameStatus gameStatus) {
+        return executeQuery("SELECT game_id FROM games WHERE game_status = ?",
                 resultSet -> {
                     List<Long> ids = new ArrayList<>();
                     while (resultSet.next()) {
                         ids.add(resultSet.getLong("game_id"));
                     }
                     return ids;
-                });
+                }, gameStatus.name());
     }
 
     public Game findById(long gameId) {
