@@ -42,9 +42,9 @@ public class GameService {
         return new LoadedGame(gameId, game);
     }
 
-    public LoadedGame createNewGame(Board board) {
-        Game game = Game.start(board);
-        long gameId = transactionManager.executeWithTransaction(connection -> {
+    public long createNewGame(Board board) {
+        Game game = Game.newGame(board);
+        return transactionManager.executeWithTransaction(connection -> {
             return gameRepository.create(connection, game);
         });
         return new LoadedGame(gameId, game);

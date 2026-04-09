@@ -20,7 +20,7 @@ class GameTest {
                 source, new Piece(PieceType.CHARIOT, Camp.CHO),
                 destination, new Piece(PieceType.GENERAL, Camp.HAN)
         ));
-        Game game = Game.start(board);
+        Game game = Game.newGame(board);
 
         // when
         boolean gameEnded = game.play(source, destination);
@@ -41,7 +41,7 @@ class GameTest {
                 source, new Piece(PieceType.CHARIOT, Camp.CHO),
                 destination, new Piece(PieceType.HORSE, Camp.HAN)
         ));
-        Game game = Game.start(board);
+        Game game = Game.newGame(board);
 
         // when
         boolean gameEnded = game.play(source, destination);
@@ -61,7 +61,7 @@ class GameTest {
         Board board = new Board(() -> Map.of(
                 source, new Piece(PieceType.CHARIOT, Camp.CHO)
         ));
-        Game game = Game.start(board);
+        Game game = Game.newGame(board);
 
         // when
         boolean gameEnded = game.play(source, destination);
@@ -85,7 +85,7 @@ class GameTest {
                 new Position(7, 1), new Piece(PieceType.CANNON, Camp.HAN),
                 new Position(7, 7), new Piece(PieceType.CANNON, Camp.HAN)
         ));
-        Game game = Game.start(board);
+        Game game = Game.newGame(board);
 
         // when
         Map<Camp, Double> score = game.calculateScore();

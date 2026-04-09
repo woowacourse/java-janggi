@@ -76,7 +76,7 @@ class GameRepositoryTest {
     @Test
     void 저장된_게임을_조회하면_현재_턴과_보드를_그대로_가지고_있다() {
         // given
-        Game game = Game.start(board);
+        Game game = Game.newGame(board);
         long id = gameRepository.create(connection, game);
 
         // when
@@ -102,7 +102,7 @@ class GameRepositoryTest {
     @Test
     void 게임을_저장하면_변경된_턴과_보드가_반영된다() {
         // given
-        Game game = Game.start(board);
+        Game game = Game.newGame(board);
         long id = gameRepository.create(connection, game);
         Position source = new Position(3, 0);
         Position destination = new Position(4, 0);
@@ -144,7 +144,7 @@ class GameRepositoryTest {
     }
 
     private long createGame(Board board) {
-        return gameRepository.create(connection, Game.start(board));
+        return gameRepository.create(connection, Game.newGame(board));
     }
 
     private Game loadGame(long gameId) {

@@ -18,7 +18,7 @@ public final class Game {
         this.turn = turn;
     }
 
-    public static Game start(Board board) {
+    public static Game newGame(Board board) {
         return new Game(board, Camp.CHO);
     }
 
