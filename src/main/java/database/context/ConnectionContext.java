@@ -10,6 +10,9 @@ public class ConnectionContext {
     private static final ThreadLocal<Connection> CONNECTION_THREAD_LOCAL = new ThreadLocal<>();
 
     public static void setConnection() throws SQLException {
+        if (getConnection() != null) {
+            clear();
+        }
         Connection connection = DBConnector.getConnection();
         CONNECTION_THREAD_LOCAL.set(connection);
     }
