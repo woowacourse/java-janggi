@@ -38,7 +38,7 @@ public class TransactionManager {
             try {
                 function.accept(connection);
                 connection.commit();
-            } catch (SQLException exception) {
+            } catch (Exception exception) {
                 connection.rollback();
                 throw new IllegalStateException("[ERROR] 트랜잭션에 실패했습니다.", exception);
             }
