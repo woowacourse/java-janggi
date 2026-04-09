@@ -1,10 +1,9 @@
-package janggi.domain.piece.unit;
+package janggi.domain.piece.fixed;
 
 import janggi.domain.path.CandidatePath;
 import janggi.domain.path.Direction;
 import janggi.domain.path.Movement;
-import janggi.domain.path.generator.FixedPathStrategy;
-import janggi.domain.path.generator.PathStrategy;
+import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceName;
 import janggi.domain.piece.Score;
 import janggi.domain.point.Point;
@@ -13,14 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Horse extends Piece {
+public class Horse extends FixedPiece {
     private static final PieceName PIECE_NAME = PieceName.HORSE;
-    private static final PathStrategy DEFAULT_STRATEGY = new FixedPathStrategy();
     private static final int PATH_SIZE = 2;
     private static final Score PIECE_SCORE = new Score(5);
 
     public Horse(Side side) {
-        super(PIECE_NAME, side, DEFAULT_STRATEGY, PIECE_SCORE);
+        super(PIECE_NAME, side, PIECE_SCORE);
     }
 
     @Override
@@ -36,7 +34,7 @@ public class Horse extends Piece {
     }
 
     @Override
-    public List<Movement> createMovements() {
+    public List<Movement> getMovements() {
         List<Movement> directions = new ArrayList<>();
 
         directions.add(new Movement(List.of(Direction.NORTH, Direction.NORTH_WEST)));

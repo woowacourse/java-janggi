@@ -6,9 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import janggi.domain.side.Side;
 import janggi.entity.GameEntity;
-import janggi.entity.SetUpEntity;
 import janggi.entity.Status;
 import janggi.repository.GameRepository;
+import janggi.view.BoardSetUpFormat;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -22,10 +22,20 @@ class H2GameRepositoryTest {
     private TestH2DataSource dataSource;
     private GameRepository gameRepository;
 
+    private GameEntity game;
+
     @BeforeEach
     void setUp() {
         dataSource = new TestH2DataSource();
         gameRepository = new H2GameRepository(dataSource);
+        game = new GameEntity(
+                null,
+                "테스트 게임",
+                BoardSetUpFormat.IN_ELEPHANT,
+                BoardSetUpFormat.IN_ELEPHANT,
+                Status.IN_PROGRESS,
+                null
+        );
         clearDatabase();
     }
 
@@ -42,15 +52,6 @@ class H2GameRepositoryTest {
     @Test
     void 게임_저장_후_ID가_반환되어야_함() {
         // Arrange
-        GameEntity game = new GameEntity(
-                null,
-                "테스트 게임",
-                SetUpEntity.IN_ELEPHANT,
-                SetUpEntity.IN_ELEPHANT,
-                Status.IN_PROGRESS,
-                null
-        );
-
         // Act
         Integer id = gameRepository.save(game);
 
@@ -62,14 +63,6 @@ class H2GameRepositoryTest {
     @Test
     void 저장한_게임을_ID로_조회() {
         // Arrange
-        GameEntity game = new GameEntity(
-                null,
-                "테스트 게임",
-                SetUpEntity.IN_ELEPHANT,
-                SetUpEntity.IN_ELEPHANT,
-                Status.IN_PROGRESS,
-                null
-        );
         Integer id = gameRepository.save(game);
 
         // Act
@@ -84,14 +77,6 @@ class H2GameRepositoryTest {
     @Test
     void 게임_이름으로_조회() {
         // Arrange
-        GameEntity game = new GameEntity(
-                null,
-                "테스트 게임",
-                SetUpEntity.IN_ELEPHANT,
-                SetUpEntity.IN_ELEPHANT,
-                Status.IN_PROGRESS,
-                null
-        );
         gameRepository.save(game);
 
         // Act
@@ -105,14 +90,6 @@ class H2GameRepositoryTest {
     @Test
     void 게임_승자_업데이트() {
         // Arrange
-        GameEntity game = new GameEntity(
-                null,
-                "테스트 게임",
-                SetUpEntity.IN_ELEPHANT,
-                SetUpEntity.IN_ELEPHANT,
-                Status.IN_PROGRESS,
-                null
-        );
         Integer id = gameRepository.save(game);
 
         // Act

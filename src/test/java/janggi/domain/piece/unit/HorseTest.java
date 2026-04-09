@@ -5,6 +5,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import janggi.domain.path.CandidatePath;
 import janggi.domain.path.Direction;
 import janggi.domain.path.Movement;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.fixed.Horse;
 import janggi.domain.point.Point;
 import janggi.domain.side.Side;
 import java.util.List;
@@ -60,7 +62,7 @@ class HorseTest {
     void movements(Side side, List<Movement> expected) {
         Piece horse = new Horse(side);
 
-        List<Movement> movements = horse.createMovements();
+        List<Movement> movements = horse.getMovements();
 
         assertThat(expected.containsAll(movements)).isTrue();
     }

@@ -1,9 +1,8 @@
-package janggi.domain.piece.unit;
+package janggi.domain.piece.fixed;
 
 import janggi.domain.path.CandidatePath;
 import janggi.domain.path.Movement;
-import janggi.domain.path.generator.FixedPathStrategy;
-import janggi.domain.path.generator.PathStrategy;
+import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceName;
 import janggi.domain.piece.Score;
 import janggi.domain.point.Point;
@@ -12,17 +11,16 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class Advisor extends Piece {
+public class Advisor extends FixedPiece {
     private static final PieceName PIECE_NAME = PieceName.ADVISOR;
-    private static final PathStrategy DEFAULT_STRATEGY = new FixedPathStrategy();
     private static final Score PIECE_SCORE = new Score(3);
 
     public Advisor(Side side) {
-        super(PIECE_NAME, side, DEFAULT_STRATEGY, PIECE_SCORE);
+        super(PIECE_NAME, side, PIECE_SCORE);
     }
 
     @Override
-    public List<Movement> createMovements() {
+    public List<Movement> getMovements() {
         return Collections.emptyList();
     }
 

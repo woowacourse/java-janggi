@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.board.coordination.BoardCoordination;
 import janggi.domain.board.setup.BoardSetUp;
-import janggi.domain.piece.unit.Soldier;
+import janggi.domain.piece.fixed.Soldier;
 import janggi.domain.point.Point;
 import janggi.domain.side.Side;
 import java.util.Collections;

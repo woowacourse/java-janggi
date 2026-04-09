@@ -1,10 +1,8 @@
-package janggi.domain.piece.unit;
+package janggi.domain.piece;
 
 import janggi.domain.path.CandidatePath;
 import janggi.domain.path.Movement;
 import janggi.domain.path.generator.PathStrategy;
-import janggi.domain.piece.PieceName;
-import janggi.domain.piece.Score;
 import janggi.domain.point.Point;
 import janggi.domain.side.Side;
 import java.util.List;
@@ -56,7 +54,7 @@ public abstract class Piece {
         return !candidatePath.isEmpty();
     }
 
-    public abstract List<Movement> createMovements();
+    public abstract List<Movement> getMovements();
 
     protected abstract CandidatePath refinePath(CandidatePath candidatePath, Map<Point, Piece> piecesOnPaths);
 

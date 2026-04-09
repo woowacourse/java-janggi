@@ -2,16 +2,17 @@ package janggi.domain.board.setup;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.piece.unit.Advisor;
-import janggi.domain.piece.unit.Cannon;
-import janggi.domain.piece.unit.Chariot;
-import janggi.domain.piece.unit.Elephant;
-import janggi.domain.piece.unit.General;
-import janggi.domain.piece.unit.Horse;
-import janggi.domain.piece.unit.Piece;
-import janggi.domain.piece.unit.Soldier;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.fixed.Advisor;
+import janggi.domain.piece.fixed.Elephant;
+import janggi.domain.piece.fixed.General;
+import janggi.domain.piece.fixed.Horse;
+import janggi.domain.piece.fixed.Soldier;
+import janggi.domain.piece.linear.Cannon;
+import janggi.domain.piece.linear.Chariot;
 import janggi.domain.point.Point;
 import janggi.domain.side.Side;
+import janggi.view.BoardSetUpFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -24,11 +25,11 @@ class BoardSetUpTest {
 
     public static Stream<Arguments> generate() {
         return Stream.of(
-                Arguments.of(InElephantSetUp.INSTANCE, Side.CHO, Map.of(
+                Arguments.of(BoardSetUpFormat.IN_ELEPHANT.getBoardSetUp(), Side.CHO, Map.of(
                         new Point(0, 1), new Horse(Side.CHO), new Point(0, 2), new Elephant(Side.CHO),
                         new Point(0, 6), new Elephant(Side.CHO), new Point(0, 7), new Horse(Side.CHO))),
 
-                Arguments.of(InElephantSetUp.INSTANCE, Side.HAN, Map.of(
+                Arguments.of(BoardSetUpFormat.IN_ELEPHANT.getBoardSetUp(), Side.HAN, Map.of(
                         new Point(9, 7), new Horse(Side.HAN), new Point(9, 6), new Elephant(Side.HAN),
                         new Point(9, 2), new Elephant(Side.HAN), new Point(9, 1), new Horse(Side.HAN)
                 )),

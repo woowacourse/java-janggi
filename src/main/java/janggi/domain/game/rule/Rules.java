@@ -1,6 +1,6 @@
 package janggi.domain.game.rule;
 
-import janggi.domain.piece.unit.Piece;
+import janggi.domain.piece.Piece;
 import janggi.domain.point.Point;
 import janggi.domain.side.Side;
 import java.util.List;

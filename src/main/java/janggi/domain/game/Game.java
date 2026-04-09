@@ -6,7 +6,7 @@ import janggi.domain.board.coordination.PalaceCoordination;
 import janggi.domain.board.coordination.PalaceMovements;
 import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.game.rule.Rules;
-import janggi.domain.piece.unit.Piece;
+import janggi.domain.piece.Piece;
 import janggi.domain.point.Point;
 import janggi.domain.side.Side;
 import java.util.Map;
@@ -90,7 +90,7 @@ public class Game {
     public Side winnerSide() {
         return rules.winner(board.getPieces());
     }
-    
+
     public Integer getId() {
         return id;
     }

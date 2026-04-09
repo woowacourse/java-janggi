@@ -6,11 +6,11 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import janggi.domain.side.Side;
 import janggi.entity.GameEntity;
 import janggi.entity.MoveEntity;
-import janggi.entity.SetUpEntity;
 import janggi.entity.Status;
 import janggi.repository.GameRepository;
 import janggi.repository.JdbcDataSource;
 import janggi.repository.MoveRepository;
+import janggi.view.BoardSetUpFormat;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -45,8 +45,11 @@ class H2MoveRepositoryTest {
     void 이동_저장() {
         // Arrange
         GameEntity game = new GameEntity(
-                null, "테스트", SetUpEntity.IN_ELEPHANT,
-                SetUpEntity.IN_ELEPHANT, Status.IN_PROGRESS, null
+                null, "테스트",
+                BoardSetUpFormat.IN_ELEPHANT,
+                BoardSetUpFormat.IN_ELEPHANT,
+                Status.IN_PROGRESS,
+                null
         );
         Integer gameId = gameRepository.save(game);
 

@@ -3,7 +3,7 @@ package janggi.domain.board;
 import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.path.CandidatePath;
 import janggi.domain.path.Movement;
-import janggi.domain.piece.unit.Piece;
+import janggi.domain.piece.Piece;
 import janggi.domain.point.Point;
 import janggi.domain.side.Side;
 import java.util.HashMap;
@@ -49,7 +49,7 @@ public class Board {
     public List<Movement> getPieceMovements(Point from) {
         return getPieceAt(from)
                 .orElseThrow(() -> new IllegalArgumentException("해당하는 포인트에 Piece가 존재하지 않아 Movement를 생성할 수 없습니다."))
-                .createMovements();
+                .getMovements();
     }
 
 

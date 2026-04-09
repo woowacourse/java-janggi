@@ -14,6 +14,7 @@ import janggi.entity.SetUpEntity;
 import janggi.entity.Status;
 import janggi.repository.GameRepository;
 import janggi.repository.MoveRepository;
+import janggi.view.BoardSetUpFormat;
 import java.util.ArrayList;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
@@ -53,8 +54,8 @@ class GameServiceTest {
         // Arrange
         GameEntity mockGameEntity = new GameEntity(
                 1, "테스트 게임",
-                SetUpEntity.IN_ELEPHANT,
-                SetUpEntity.IN_ELEPHANT,
+                BoardSetUpFormat.IN_ELEPHANT,
+                BoardSetUpFormat.IN_ELEPHANT,
                 Status.IN_PROGRESS,
                 null
         );
