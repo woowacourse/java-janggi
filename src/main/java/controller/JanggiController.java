@@ -10,7 +10,6 @@ import service.LoadedGame;
 import util.Retry;
 import view.InputView;
 import view.OutputView;
-import view.PlacementInputMapper;
 import view.dto.BoardDto;
 
 public class JanggiController {
@@ -52,8 +51,8 @@ public class JanggiController {
         String inputCho = inputView.inputPlacementOption(CHO);
         String inputHan = inputView.inputPlacementOption(HAN);
 
-        FormationType choFormation = PlacementInputMapper.toFormationType(inputCho);
-        FormationType hanFormation = PlacementInputMapper.toFormationType(inputHan);
+        FormationType choFormation = FormationType.from(inputCho);
+        FormationType hanFormation = FormationType.from(inputHan);
         return JanggiGame.of(choFormation, hanFormation);
     }
 
