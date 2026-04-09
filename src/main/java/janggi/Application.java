@@ -4,7 +4,6 @@ import janggi.controller.GameLobbyController;
 import janggi.domain.game.GameManager;
 import janggi.persistence.DatabaseInitializer;
 import janggi.persistence.DatabaseProvider;
-import janggi.persistence.JanggiBoardRepository;
 import janggi.persistence.JanggiGameRepository;
 import janggi.service.JanggiService;
 import janggi.view.InputView;
@@ -17,7 +16,7 @@ public class Application {
     public static void main(String[] args) {
         InputView inputView = new InputView();
         OutputView outputView = new OutputView();
-        JanggiService janggiService = new JanggiService(new JanggiGameRepository(), new JanggiBoardRepository());
+        JanggiService janggiService = new JanggiService(new JanggiGameRepository());
         runGameLifecycle(inputView, outputView, janggiService);
         inputView.close();
     }

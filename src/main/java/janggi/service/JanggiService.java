@@ -6,7 +6,6 @@ import janggi.domain.game.Players;
 import janggi.domain.game.Side;
 import janggi.domain.game.Turn;
 import janggi.dto.GameSessionDTO;
-import janggi.persistence.BoardRepository;
 import janggi.persistence.GameRepository;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -15,11 +14,9 @@ import java.util.List;
 public class JanggiService {
 
     private final GameRepository gameRepository;
-    private final BoardRepository boardRepository;
 
-    public JanggiService(GameRepository gameRepository, BoardRepository boardRepository) {
+    public JanggiService(GameRepository gameRepository) {
         this.gameRepository = gameRepository;
-        this.boardRepository = boardRepository;
     }
 
     public List<GameSessionDTO> activeGames(Connection connection) throws SQLException {

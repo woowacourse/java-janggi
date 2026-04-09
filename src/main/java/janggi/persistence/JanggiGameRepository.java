@@ -87,7 +87,7 @@ public class JanggiGameRepository implements GameRepository {
 
     private long executeInsertAndGetId(PreparedStatement statement, GameManager gameManager) throws SQLException {
         bindInsertParameters(statement, gameManager);
-        statement.executeUpdate();
+        executeAndValidateUpdate(statement);
         return extractGeneratedId(statement);
     }
 
