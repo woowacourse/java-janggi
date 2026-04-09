@@ -23,13 +23,7 @@ public class Sa extends StepPiece {
 
     @Override
     public List<Position> findRoute(Position start, Position end) {
-        validatePalace(end);
+        validatePalace(end, SA_MOVE_OUTSIDE_PALACE_MESSAGE);
         return super.findRoute(start, end);
-    }
-
-    private void validatePalace(Position position){
-        if(!palaceTopology.isPalace(position)) {
-            throw new IllegalArgumentException(SA_MOVE_OUTSIDE_PALACE_MESSAGE);
-        }
     }
 }

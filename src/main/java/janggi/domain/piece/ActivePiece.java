@@ -26,4 +26,10 @@ public abstract class ActivePiece extends BasePiece {
             throw new IllegalArgumentException(UNMOVABLE_ROUTE_MESSAGE);
         }
     }
+
+    protected void validatePalace(Position position, String message) {
+        if (!palaceTopology.isPalace(position)) {
+            throw new IllegalArgumentException(message);
+        }
+    }
 }
