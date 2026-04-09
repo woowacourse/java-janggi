@@ -20,5 +20,4 @@ public class GameInitializer {
         }
         return new Playing(board, turn);
     }
-
 }
