@@ -37,6 +37,10 @@ public class Game {
         this.pieces = pieces;
     }
 
+    public void changeTurn(CampType campType) {
+        this.currentTurn = campType;
+    }
+
     public long getGameId() {
         return gameId;
     }

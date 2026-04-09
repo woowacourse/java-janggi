@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.Position;
 import janggi.domain.ScoreBoard;
-import janggi.domain.Turn;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceRule;
 import janggi.domain.piece.camp.CampType;
@@ -129,12 +128,12 @@ class BoardTest {
     @Test
     void 상대_진영의_왕이_존재하는지_확인한다() {
         // given
-        Turn turn = new Turn();
+        CampType currnetTurnCampType = CampType.CHO;
         Board board = new Board(Map.of(new Position(0, 4), new Piece(PieceRule.GENERAL, CampType.HAN)));
         // when
-        boolean result = board.isRivalGeneralKilled(turn);
+        boolean result = board.isRivalGeneralKilled(currnetTurnCampType);
         // then
-        assertThat(result).isFalse();
+        assertThat(result).isTrue();
     }
 
     @Test

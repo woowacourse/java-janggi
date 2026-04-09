@@ -2,7 +2,6 @@ package janggi.domain.board;
 
 import janggi.domain.Position;
 import janggi.domain.ScoreBoard;
-import janggi.domain.Turn;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceRule;
 import janggi.domain.piece.camp.CampType;
@@ -97,8 +96,7 @@ public class Board implements BoardChecker {
         return false;
     }
 
-    public boolean isRivalGeneralKilled(Turn turn) {
-        CampType campType = turn.peekNextTurn();
+    public boolean isRivalGeneralKilled(CampType campType) {
         return board.values().stream()
                 .noneMatch(piece -> piece.isSameCampType(campType) && piece.isSamePieceRule(PieceRule.GENERAL));
     }

@@ -1,7 +1,6 @@
 package janggi;
 
 import janggi.domain.Position;
-import janggi.domain.Turn;
 import janggi.domain.board.Board;
 import janggi.domain.board.ElephantFormation;
 import janggi.domain.board.InitialPiecePlacement;
@@ -39,6 +38,7 @@ public class JanggiGame {
             List<Piece> pieces = board.getBoard().values().stream().toList();
             Game game = new Game(CampType.CHO, GameStatus.PLAYING, pieces);
             long gameId = gameRepository.save(game);
+            Game savedGame = gameRepository.findById(gameId);
             for (Map.Entry<Position, Piece> entry : board.getBoard().entrySet()) {
                 Position position = entry.getKey();
                 Piece piece = entry.getValue();
@@ -47,7 +47,7 @@ public class JanggiGame {
                 pieceRepository.save(placedPiece);
             }
             OutputView.printBoard(toPiecePositions(board.getBoard()));
-            play(board, game);
+            play(board, savedGame);
             return;
         }
         List<Long> gameIds = gameRepository.findAllGameIds();
@@ -79,11 +79,11 @@ public class JanggiGame {
     }
 
     private void play(Board board, Game game) {
-        Turn turn = new Turn(); // TODO: db 조회해서 턴 가져와야 할 듯
+        CampType campType = game.getCurrentTurn();
         while (true) {
-            CampType campType = turn.currentTurn();
+            CampType finalCampType = game.getCurrentTurn();
             RetryHandler.retryOnInvalidInput(() -> {
-                MoveResultDto moveResultDto = playTurn(board, campType);
+                MoveResultDto moveResultDto = playTurn(board, finalCampType);
                 PlacedPiece placedPiece = new PlacedPiece(game.getGameId(), moveResultDto.campType(), moveResultDto.pieceRule(), moveResultDto.destination().row(), moveResultDto.destination().column());
                 if (moveResultDto.captured()) {
                     pieceRepository.delete(placedPiece);
@@ -91,13 +91,13 @@ public class JanggiGame {
                 pieceRepository.update(placedPiece);
             });
             OutputView.printBoard(toPiecePositions(board.getBoard()));
-            if (board.isRivalGeneralKilled(turn)) {
+            if (board.isRivalGeneralKilled(campType)) {
                 break;
             }
-            turn.finishTurn();
+            game.changeTurn(campType.next());
             gameRepository.update(game);
         }
-        CampType campType = turn.currentTurn();
+        campType = game.getCurrentTurn();
         if (campType == CampType.CHO) {
             gameRepository.update(game);
             OutputView.printWinner(campType);
