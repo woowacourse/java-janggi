@@ -15,7 +15,7 @@ public class MaMoveRuleTest {
 
     @Test
     @DisplayName("마는 직선으로 한 번 대각선으로 한 번 갈 수 있다")
-    void 마_이동규칙() {
+    void 마의_이동규칙() {
         //given
         MoveRule moveRule = new MaMoveRule();
         Team team = Team.HAN;

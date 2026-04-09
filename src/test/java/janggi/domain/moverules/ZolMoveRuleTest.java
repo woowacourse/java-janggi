@@ -15,7 +15,7 @@ public class ZolMoveRuleTest {
 
     @Test
     @DisplayName("초나라 졸은 위양옆으로 갈 수 있다")
-    void 초나라_졸_이동규칙() {
+    void 초나라_졸의_이동규칙() {
         //given
         MoveRule moveRule = new ZolMoveRule();
         Team cho = Team.CHO;
@@ -34,7 +34,7 @@ public class ZolMoveRuleTest {
 
     @Test
     @DisplayName("한나라 졸은 아래양옆으로 갈 수 있다")
-    void 한나라_졸_이동규칙() {
+    void 한나라_졸의_이동규칙() {
         //given
         MoveRule moveRule = new ZolMoveRule();
         Team han = Team.HAN;

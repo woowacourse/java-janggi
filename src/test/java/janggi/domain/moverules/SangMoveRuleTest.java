@@ -15,7 +15,7 @@ public class SangMoveRuleTest {
 
     @Test
     @DisplayName("상은 직선으로 한 번 대각선으로 두 번 갈 수 있다")
-    void 상_이동규칙() {
+    void 상의_이동규칙() {
         //given
         MoveRule moveRule = new SangMoveRule();
         Team team = Team.CHO;
