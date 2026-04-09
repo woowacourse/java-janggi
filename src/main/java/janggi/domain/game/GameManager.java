@@ -10,7 +10,7 @@ public class GameManager {
 
     private final Players players;
     private final Board board;
-    private Turn turn;
+    private Turn turn; // 역순 TDA - 꺼내서 사용하던 Turn 을 Players 필드로
 
     public GameManager(Players players, Board board, Turn initiativeTurn) {
         this.players = players;
