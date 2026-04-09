@@ -1,12 +1,15 @@
+import core.GamePlayService;
 import core.GamePreparationService;
-import core.GameSession;
+import core.PreparedGame;
 import db.dao.BoardPieceDao;
 import db.dao.GameDao;
+import db.dao.JdbcBoardPieceDao;
+import db.dao.JdbcGameDao;
+import db.dao.JdbcMoveHistoryDao;
+import db.dao.MoveHistoryDao;
 import db.jdbc.ConnectionManager;
 import db.jdbc.DatabaseMigrator;
 import db.jdbc.FlywayDatabaseMigrator;
-import db.dao.JdbcBoardPieceDao;
-import db.dao.JdbcGameDao;
 import db.jdbc.ProductionConnectionManager;
 import db.repository.JanggiGameRepository;
 import db.repository.JdbcJanggiGameRepository;
@@ -17,11 +20,18 @@ public class Application {
     public static void main(String[] args) {
         final ConnectionManager connectionManager = getConnectionManager();
         migrate(connectionManager);
-        final JanggiGameRepository repository = getRepository(connectionManager);
+        final JanggiGameRepository repository = getRepository();
         final JanggiView view = new JanggiView();
 
-        final GameSession session = new GamePreparationService(view, repository).prepare();
-        session.run();
+        final GamePreparationService preparationService = new GamePreparationService(
+            view,
+            repository,
+            connectionManager
+        );
+        final GamePlayService playService = new GamePlayService(connectionManager, repository);
+
+        PreparedGame preparedGame = preparationService.prepare();
+        playService.run(preparedGame.gameId(), preparedGame.session());
     }
 
     private static ConnectionManager getConnectionManager() {
@@ -33,9 +43,10 @@ public class Application {
         migrator.migrate();
     }
 
-    private static JanggiGameRepository getRepository(final ConnectionManager connectionManager) {
+    private static JanggiGameRepository getRepository() {
         final GameDao gameDao = new JdbcGameDao();
         final BoardPieceDao boardPieceDao = new JdbcBoardPieceDao();
-        return new JdbcJanggiGameRepository(gameDao, boardPieceDao, connectionManager);
+        final MoveHistoryDao moveHistoryDao = new JdbcMoveHistoryDao();
+        return new JdbcJanggiGameRepository(gameDao, boardPieceDao, moveHistoryDao);
     }
 }

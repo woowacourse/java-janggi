@@ -107,7 +107,7 @@ class JanggiGameTest {
             // when
             game = game.move(departure, destination);
             // then
-            assertThat(game.isOver()).isTrue();
+            assertThat(game.isPlaying()).isFalse();
         }
 
         @Test
@@ -125,7 +125,7 @@ class JanggiGameTest {
             // when
             game = game.move(departure, destination);
             // then
-            assertThat(game.isOver()).isFalse();
+            assertThat(game.isPlaying()).isTrue();
         }
 
         @Test
