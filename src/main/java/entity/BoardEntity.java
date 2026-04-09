@@ -3,7 +3,7 @@ package entity;
 import domain.board.Piece;
 import domain.vo.Position;
 
-public class PieceEntity {
+public class BoardEntity {
     private final Long id;
     private final Long gameId;
     private final int positionRow;
@@ -11,11 +11,11 @@ public class PieceEntity {
     private final String team;
     private final String pieceType;
 
-    public PieceEntity(Long gameId, int positionRow, int positionCol, String team, String pieceType) {
+    public BoardEntity(Long gameId, int positionRow, int positionCol, String team, String pieceType) {
         this(null, gameId, positionRow, positionCol, team, pieceType);
     }
 
-    public PieceEntity(Long id, Long gameId, int positionRow, int positionCol, String team, String pieceType) {
+    public BoardEntity(Long id, Long gameId, int positionRow, int positionCol, String team, String pieceType) {
         this.id = id;
         this.gameId = gameId;
         this.positionRow = positionRow;
@@ -24,8 +24,8 @@ public class PieceEntity {
         this.pieceType = pieceType;
     }
 
-    public static PieceEntity from(Long gameId, Piece piece, Position position) {
-        return new PieceEntity(
+    public static BoardEntity from(Long gameId, Piece piece, Position position) {
+        return new BoardEntity(
                 gameId,
                 position.getRow(),
                 position.getCol(),

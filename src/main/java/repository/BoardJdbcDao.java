@@ -1,25 +1,25 @@
 package repository;
 
-import entity.PieceEntity;
+import entity.BoardEntity;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PieceJdbcDao implements PieceDao {
+public class BoardJdbcDao implements BoardDao {
 
     @Override
-    public void saveAll(Connection con, List<PieceEntity> pieces) {
-        String sql = "insert into pieces(game_id, position_row, position_col, team, piece_type) values(?, ?, ?, ?, ?)";
+    public void saveAll(Connection con, List<BoardEntity> boards) {
+        String sql = "insert into boards(game_id, position_row, position_col, team, piece_type) values(?, ?, ?, ?, ?)";
 
         try (PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            for (PieceEntity piece : pieces) {
-                pstmt.setLong(1, piece.getGameId());
-                pstmt.setInt(2, piece.getPositionRow());
-                pstmt.setInt(3, piece.getPositionCol());
-                pstmt.setString(4, piece.getTeam());
-                pstmt.setString(5, piece.getPieceType());
+            for (BoardEntity board : boards) {
+                pstmt.setLong(1, board.getGameId());
+                pstmt.setInt(2, board.getPositionRow());
+                pstmt.setInt(3, board.getPositionCol());
+                pstmt.setString(4, board.getTeam());
+                pstmt.setString(5, board.getPieceType());
                 pstmt.executeUpdate();
             }
         } catch (SQLException e) {
@@ -29,7 +29,7 @@ public class PieceJdbcDao implements PieceDao {
 
     @Override
     public void deleteByPosition(Connection con, Long gameId, int row, int col) {
-        String sql = "delete from pieces where game_id = ? and position_row = ? and position_col = ?";
+        String sql = "delete from boards where game_id = ? and position_row = ? and position_col = ?";
 
         try (PreparedStatement pstmt = con.prepareStatement(sql)) {
 
@@ -44,7 +44,7 @@ public class PieceJdbcDao implements PieceDao {
 
     @Override
     public void updatePosition(Connection con, Long gameId, int fromRow, int fromCol, int toRow, int toCol) {
-        String sql = "update pieces set position_row = ?, position_col = ? " +
+        String sql = "update boards set position_row = ?, position_col = ? " +
                 "where game_id = ? and position_row = ? and position_col = ?";
 
         try (PreparedStatement pstmt = con.prepareStatement(sql)) {
@@ -61,8 +61,8 @@ public class PieceJdbcDao implements PieceDao {
     }
 
     @Override
-    public List<PieceEntity> findAllByGameId(Long gameId) {
-        String sql = "select * from pieces where game_id = ?";
+    public List<BoardEntity> findAllByGameId(Long gameId) {
+        String sql = "select * from boards where game_id = ?";
 
         try (Connection con = getConnection();
              PreparedStatement pstmt = con.prepareStatement(sql)
@@ -71,9 +71,9 @@ public class PieceJdbcDao implements PieceDao {
             pstmt.setLong(1, gameId);
 
             try (ResultSet rs = pstmt.executeQuery()) {
-                List<PieceEntity> pieces = new ArrayList<>();
+                List<BoardEntity> boards = new ArrayList<>();
                 while (rs.next()) {
-                    PieceEntity piece = new PieceEntity(
+                    BoardEntity board = new BoardEntity(
                             rs.getLong("id"),
                             rs.getLong("game_id"),
                             rs.getInt("position_row"),
@@ -81,9 +81,9 @@ public class PieceJdbcDao implements PieceDao {
                             rs.getString("team"),
                             rs.getString("piece_type")
                     );
-                    pieces.add(piece);
+                    boards.add(board);
                 }
-                return pieces;
+                return boards;
             }
         } catch (SQLException e) {
             throw new RuntimeException("[ERROR] " + e.getMessage());

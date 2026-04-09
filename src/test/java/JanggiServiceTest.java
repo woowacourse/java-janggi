@@ -13,7 +13,7 @@ class JanggiServiceTest {
 
     private JanggiService janggiService;
     private GameDao gameDao;
-    private PieceDao pieceDao;
+    private BoardDao boardDao;
 
     @BeforeAll
     static void beforeAll() {
@@ -25,8 +25,8 @@ class JanggiServiceTest {
     @BeforeEach
     void setUp() {
         gameDao = new GameJdbcDao();
-        pieceDao = new PieceJdbcDao();
-        janggiService = new JanggiService(gameDao, pieceDao);
+        boardDao = new BoardJdbcDao();
+        janggiService = new JanggiService(gameDao, boardDao);
 
         DBConnectionUtil.initializeSchema();
     }
