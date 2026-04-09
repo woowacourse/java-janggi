@@ -98,4 +98,19 @@ public class Board implements BoardChecker {
                 .mapToInt(Piece::score)
                 .sum();
     }
+
+    public Position findPositionOf(Camp camp, PieceType pieceType) {
+        for (Map.Entry<Position, Piece> entry : board.entrySet()) {
+            if (isTargetPiece(entry, camp, pieceType)) {
+                return entry.getKey();
+            }
+        }
+
+        throw new NoSuchElementException("[ERROR] 조건에 맞는 기물이 존재하지 않습니다.");
+    }
+
+    private boolean isTargetPiece(Map.Entry<Position, Piece> entry, Camp camp, PieceType pieceType) {
+        Piece piece = entry.getValue();
+        return piece.camp() == camp && piece.type() == pieceType;
+    }
 }

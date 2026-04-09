@@ -239,4 +239,24 @@ public class BoardTest {
                 new BoardPiece(new Position(5, 5), Camp.CHO, PieceType.CHARIOT)
         );
     }
+
+    @Test
+    @DisplayName("보드는 왕의 위치를 찾을 수 있다.")
+    void findGeneralPosition() {
+        Position generalPosition = board.findPositionOf(Camp.HAN, PieceType.GENERAL);
+
+        assertThat(generalPosition).isEqualTo(new Position(5, 2));
+    }
+
+    @Test
+    @DisplayName("기물을 찾을 수 없는 경우 예외를 발생한다.")
+    void throwException_When_CanNotFoundPiece() {
+        Board board = new Board(Map.of(
+                new Position(5, 9), new Piece(Camp.CHO, PieceType.GENERAL)
+        ));
+
+        assertThatThrownBy(() -> board.findPositionOf(Camp.HAN, PieceType.GENERAL))
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessage("[ERROR] 조건에 맞는 기물이 존재하지 않습니다.");
+    }
 }
