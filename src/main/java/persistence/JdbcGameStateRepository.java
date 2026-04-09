@@ -41,18 +41,19 @@ public final class JdbcGameStateRepository implements GameStateRepository {
     public void save(SaveGameStateRequest command) {
         try {
             saveInternal(command);
-        } catch (SQLException exception) {
+        } catch (Exception exception) {
             throw new IllegalStateException("게임 상태 저장에 실패했습니다.", exception);
         }
     }
 
     private Optional<SavedGameState> loadInternal() throws SQLException {
-        Connection connection = connectionSource.getConnection();
-        Optional<GameMetaRow> meta = readMeta(connection);
-        if (meta.isEmpty()) {
-            return Optional.empty();
+        try (Connection connection = connectionSource.getConnection()) {
+            Optional<GameMetaRow> meta = readMeta(connection);
+            if (meta.isEmpty()) {
+                return Optional.empty();
+            }
+            return buildStateIfBoardPresent(connection, meta.get());
         }
-        return buildStateIfBoardPresent(connection, meta.get());
     }
 
     private Optional<SavedGameState> buildStateIfBoardPresent(Connection connection, GameMetaRow meta)
@@ -127,21 +128,39 @@ public final class JdbcGameStateRepository implements GameStateRepository {
         pieces.put(position, piece);
     }
 
-    private void saveInternal(SaveGameStateRequest command) throws SQLException {
-        Connection connection = connectionSource.getConnection();
-        connection.setAutoCommit(false);
-        commitOrRollback(connection, command);
-        connection.setAutoCommit(true);
+    private void saveInternal(SaveGameStateRequest command) throws Exception {
+        try (Connection connection = connectionSource.getConnection()) {
+            boolean originalAutoCommit = connection.getAutoCommit();
+            beginTransaction(connection);
+            try {
+                writeGameState(connection, command);
+                connection.commit();
+            } catch (Exception exception) {
+                rollbackAndSuppressIfFailed(connection, exception);
+                throw exception;
+            } finally {
+                restoreAutoCommit(connection, originalAutoCommit);
+            }
+        }
     }
 
-    private static void commitOrRollback(Connection connection, SaveGameStateRequest command)
-            throws SQLException {
+    private static void beginTransaction(Connection connection) throws SQLException {
+        connection.setAutoCommit(false);
+    }
+
+    private static void rollbackAndSuppressIfFailed(Connection connection, Exception cause) {
         try {
-            writeGameState(connection, command);
-            connection.commit();
-        } catch (SQLException exception) {
             connection.rollback();
-            throw exception;
+        } catch (SQLException rollbackException) {
+            cause.addSuppressed(rollbackException);
+        }
+    }
+
+    private static void restoreAutoCommit(Connection connection, boolean originalAutoCommit) {
+        try {
+            connection.setAutoCommit(originalAutoCommit);
+        } catch (SQLException exception) {
+            throw new IllegalStateException("커넥션 설정 복구에 실패했습니다.", exception);
         }
     }
 

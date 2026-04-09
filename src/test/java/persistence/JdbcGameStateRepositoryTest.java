@@ -22,14 +22,16 @@ import org.junit.jupiter.api.Test;
 
 class JdbcGameStateRepositoryTest {
 
+    private static final String DATABASE_URL = "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1";
+
     private Connection connection;
     private JdbcGameStateRepository repository;
 
     @BeforeEach
     void setUp() throws SQLException, IOException {
-        connection = DriverManager.getConnection("jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1");
+        connection = DriverManager.getConnection(DATABASE_URL);
         SchemaInitializer.apply(connection);
-        repository = new JdbcGameStateRepository(() -> connection);
+        repository = new JdbcGameStateRepository(() -> DriverManager.getConnection(DATABASE_URL));
     }
 
     @AfterEach
