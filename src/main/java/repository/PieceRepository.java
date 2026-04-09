@@ -33,6 +33,13 @@ public class PieceRepository {
         }
     }
 
+    public void resetAll(Connection connection) throws SQLException {
+        String sql = "TRUNCATE TABLE piece";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.executeUpdate();
+        }
+    }
+
     private static void updatePiecePosition(Connection connection, String sql, CellSnapshot cellSnapshot,
                                             Position position) throws SQLException {
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {

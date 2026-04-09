@@ -52,4 +52,12 @@ public class GameRepository {
             pstmt.executeUpdate();
         }
     }
+
+    public void resetAll(Connection connection) throws SQLException {
+        String sql = "TRUNCATE TABLE GAME";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.executeUpdate();
+        }
+
+    }
 }

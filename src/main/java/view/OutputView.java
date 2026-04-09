@@ -30,6 +30,12 @@ public class OutputView {
         }
     }
 
+    public void printWinner(Side winner) {
+        System.out.println(
+                "\n게임이 종료되었습니다. 승자는 " + SideView.getSideColor(winner) + SideView.from(winner)
+                        + SideView.getResetColor() + "입니다.");
+    }
+
     private void printCell(CellSnapshot cell) {
         String name = PieceView.from(cell.type());
 

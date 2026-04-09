@@ -35,6 +35,9 @@ public class JanggiController {
             outputView.printAvailablePositions(possibleMoves);
             Position destination = RetryInput.read(() -> getDestination(possibleMoves));
             janggiService.movePiece(game, startPosition, destination);
+            if (checkGameOver(game)) {
+                break;
+            }
         }
     }
 
@@ -60,5 +63,15 @@ public class JanggiController {
             throw new IllegalArgumentException("번호 중에 선택하세요.");
         }
         return possibleMoves.get(index - 1);
+    }
+
+    private boolean checkGameOver(Game game) {
+        if (game.isGameOver()) {
+            outputView.printBoard(game.getBoardSnapshot());
+            outputView.printWinner(game.getWinner());
+            janggiService.resetGame();
+            return true;
+        }
+        return false;
     }
 }

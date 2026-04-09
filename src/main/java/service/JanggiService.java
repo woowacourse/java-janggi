@@ -61,4 +61,20 @@ public class JanggiService {
             throw new RuntimeException("기물 이동 중 오류가 발생했습니다.", e);
         }
     }
+
+    public void resetGame() {
+        try (Connection connection = Database.getConnection()) {
+            connection.setAutoCommit(false);
+            try {
+                gameRepository.resetAll(connection);
+                pieceRepository.resetAll(connection);
+                connection.commit();
+            } catch (SQLException e) {
+                connection.rollback();
+                throw new RuntimeException("게임 초기화 중 오류가 발생했습니다.", e);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("게임 초기화 중 오류가 발생했습니다.", e);
+        }
+    }
 }

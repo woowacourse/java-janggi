@@ -4,6 +4,7 @@ import domain.board.Board;
 import domain.board.BoardInitializer;
 import domain.coordinate.Position;
 
+import domain.piece.PieceType;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +26,25 @@ public class Game {
         validateCurrentTurnPiece(start);
         board.move(start, destination);
         changeTurn();
+    }
+
+    public boolean isGameOver() {
+        return board.toSnapshotMap().values().stream()
+                .filter(cell -> cell.type() == PieceType.KING)
+                .map(CellSnapshot::side)
+                .distinct()
+                .count() < 2;
+    }
+
+    public Side getWinner() {
+        if (!isGameOver()) {
+            throw new IllegalStateException("게임이 종료되지 않았습니다.");
+        }
+        return board.toSnapshotMap().values().stream()
+                .filter(cell -> cell.type() == PieceType.KING)
+                .map(CellSnapshot::side)
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("게임이 종료되지 않았습니다."));
     }
 
     private boolean isFriendlyPiece(Position position) {
