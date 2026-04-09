@@ -1,6 +1,7 @@
 package domain.piece;
 
 import domain.Board;
+import domain.Palace;
 import domain.PieceType;
 import domain.Position;
 import domain.Team;
@@ -12,7 +13,7 @@ public class Pawn extends Piece {
 
     @Override
     public boolean canMove(Position from, Position to, Board board) {
-        if (!isCorrectMoveDistanceAndDirection(from, to, board)) {
+        if (!isCorrectMoveDistanceAndDirection(from, to)) {
             return false;
         }
 
@@ -27,7 +28,7 @@ public class Pawn extends Piece {
         return board.isEmpty(to);
     }
 
-    private boolean isCorrectMoveDistanceAndDirection(Position from, Position to, Board board) {
+    private boolean isCorrectMoveDistanceAndDirection(Position from, Position to) {
         int rowDifference = from.rowDistanceTo(to);
         int columnDifference = from.columnDistanceTo(to);
         int forward = forwardDirection();
@@ -35,8 +36,8 @@ public class Pawn extends Piece {
         boolean isStraightMove = (Math.abs(from.columnDistanceTo(to)) == 1 && from.rowDistanceTo(to) == 0)
                 || (from.rowDistanceTo(to) == forward && from.columnDistanceTo(to) == 0);
 
-        boolean isDiagonalMove = board.isPalace(from)
-                && board.isPalace(to)
+        boolean isDiagonalMove = Palace.isPalace(from)
+                && Palace.isPalace(to)
                 && rowDifference == forward
                 && Math.abs(columnDifference) == 1;
 

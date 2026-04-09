@@ -1,6 +1,7 @@
 package domain.piece;
 
 import domain.Board;
+import domain.Palace;
 import domain.PieceType;
 import domain.Position;
 import domain.Team;
@@ -30,7 +31,7 @@ public abstract class PalacePiece extends Piece {
     @Override
     public boolean canMove(Position from, Position to, Board board) {
 
-        if (!board.isPalace(to)) {
+        if (!Palace.isPalace(to)) {
             return false;
         }
 
@@ -51,13 +52,13 @@ public abstract class PalacePiece extends Piece {
 
     private boolean isCorrectMoveDistanceAndDirection(Position from, Position to, Board board) {
         // 센터에서 이동 가능
-        if (board.isPalaceCenter(from)) {
-            return board.isPalace(to);
+        if (Palace.isPalaceCenter(from)) {
+            return Palace.isPalace(to);
         }
 
         // 궁성 코너에서 이동 가능
-        if (board.isPalaceCorner(from)) {
-            return board.isPalaceCenter(to) || canMoveStraight(to, from);
+        if (Palace.isPalaceCorner(from)) {
+            return Palace.isPalaceCenter(to) || canMoveStraight(to, from);
         }
 
         return canMoveStraight(to, from);

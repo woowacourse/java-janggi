@@ -1,6 +1,7 @@
 package domain.piece;
 
 import domain.Board;
+import domain.Palace;
 import domain.PieceType;
 import domain.Position;
 import domain.Team;
@@ -13,7 +14,7 @@ public class Rook extends Piece{
     @Override
     public boolean canMove(Position from, Position to, Board board) {
         // 1. 도착 지점이 같은 열 또는 행 or 궁성 내 간선 아닌 경우 이동 불가
-        if (!isCorrectMoveDistanceAndDirection(from, to, board)) {
+        if (!isCorrectMoveDistanceAndDirection(from, to)) {
             return false;
         }
 
@@ -30,9 +31,9 @@ public class Rook extends Piece{
         return true;
     }
 
-    private boolean isCorrectMoveDistanceAndDirection(Position from, Position to, Board board) {
-        if (board.isPalaceCorner(from)) {
-            return board.isPalaceCorner(to) || from.isSameColumn(to) || from.isSameRow(to);
+    private boolean isCorrectMoveDistanceAndDirection(Position from, Position to) {
+        if (Palace.isPalaceCorner(from)) {
+            return Palace.isPalaceCorner(to) || from.isSameColumn(to) || from.isSameRow(to);
         }
 
         return from.isSameColumn(to) || from.isSameRow(to);

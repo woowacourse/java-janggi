@@ -220,39 +220,4 @@ public class Board {
         }
         return result;
     }
-
-    public boolean isPalace(Position position) {
-        if (Objects.equals(position, Position.from(10, 4)) || Objects.equals(position, Position.from(10, 6))
-                || Objects.equals(position, Position.from(10, 5))
-                || Objects.equals(position, Position.from(9, 6)) || Objects.equals(position, Position.from(9, 4))
-                || Objects.equals(position, Position.from(9, 5))
-                || Objects.equals(position, Position.from(8, 6)) || Objects.equals(position, Position.from(8, 4))
-                || Objects.equals(position, Position.from(8, 5))
-                || Objects.equals(position, Position.from(1, 6)) || Objects.equals(position, Position.from(1, 4))
-                || Objects.equals(position, Position.from(1, 5))
-                || Objects.equals(position, Position.from(2, 6)) || Objects.equals(position, Position.from(2, 4))
-                || Objects.equals(position, Position.from(2, 5))
-                || Objects.equals(position, Position.from(3, 6)) || Objects.equals(position, Position.from(3, 4))
-                || Objects.equals(position, Position.from(3, 5))) {
-            return true;
-        }
-        return false;
-    }
-
-    public boolean isPalaceCorner(Position position) {
-        if (Objects.equals(position, Position.from(10, 4)) || Objects.equals(position, Position.from(10, 6))
-                || (Objects.equals(position, Position.from(8, 6))) || (Objects.equals(position, Position.from(8, 4)))
-                || (Objects.equals(position, Position.from(1, 4))) || (Objects.equals(position, Position.from(1, 6)))
-                || (Objects.equals(position, Position.from(3, 4))) || (Objects.equals(position, Position.from(3, 6)))) {
-            return true;
-        }
-        return false;
-    }
-
-    public boolean isPalaceCenter(Position position) {
-        if (Objects.equals(position, Position.from(9, 5)) || Objects.equals(position, Position.from(2, 5))){
-            return true;
-        }
-        return false;
-    }
 }
