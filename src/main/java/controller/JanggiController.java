@@ -16,17 +16,17 @@ import java.util.HashMap;
 
 public class JanggiController {
 
-    private final BoardRepository jdbcBoardRepository;
-    private final GameRepository jdbcGameRepository;
+    private final BoardRepository boardRepository;
+    private final GameRepository gameRepository;
 
-    public JanggiController(BoardRepository jdbcBoardRepository, GameRepository jdbcGameRepository) {
-        this.jdbcBoardRepository = jdbcBoardRepository;
-        this.jdbcGameRepository = jdbcGameRepository;
+    public JanggiController(BoardRepository boardRepository, GameRepository gameRepository) {
+        this.boardRepository = boardRepository;
+        this.gameRepository = gameRepository;
     }
 
     public void start() {
         JanggiBoard janggiBoard = initializeBoard();
-        Team currentTurn = jdbcGameRepository.findCurrentTurn();
+        Team currentTurn = gameRepository.findCurrentTurn();
         JanggiGame janggiGame = new JanggiGame(janggiBoard, currentTurn);
 
         while (!janggiGame.isFinished()) {
@@ -42,10 +42,10 @@ public class JanggiController {
     }
 
     private JanggiBoard initializeBoard() {
-        if (jdbcGameRepository.isNotFinished()) {
+        if (gameRepository.isNotFinished()) {
             String userAnswer = InputView.askResumeGame();
             if (userAnswer.equalsIgnoreCase("y")) {
-                return new JanggiBoard(jdbcBoardRepository.findAll());
+                return new JanggiBoard(boardRepository.findAll());
             }
             clearAllRepository();
         }
@@ -53,8 +53,8 @@ public class JanggiController {
     }
 
     private void clearAllRepository() {
-        jdbcBoardRepository.deleteAll();
-        jdbcGameRepository.deleteAll();
+        boardRepository.deleteAll();
+        gameRepository.deleteAll();
     }
 
     private void playTurn(JanggiBoard janggiBoard, JanggiGame janggiGame) {
@@ -73,10 +73,10 @@ public class JanggiController {
         janggiGame.progress(currentPosition, targetPosition);
         saveCurrentStatus(janggiBoard, janggiGame);
     }
-    
+
     private void saveCurrentStatus(JanggiBoard janggiBoard, JanggiGame janggiGame) {
-        jdbcBoardRepository.save(janggiBoard.getJanggiBoard());
-        jdbcGameRepository.save(
+        boardRepository.save(janggiBoard.getJanggiBoard());
+        gameRepository.save(
                 janggiGame.getCurrentTeam(),
                 janggiGame.isFinished(),
                 janggiBoard.calculateScore(Team.CHO),
