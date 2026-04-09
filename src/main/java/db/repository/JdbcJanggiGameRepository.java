@@ -35,14 +35,14 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
     }
 
     @Override
-    public Long save(final SqlConnection connection, final JanggiGame game) {
+    public Long saveGame(final SqlConnection connection, final JanggiGame game) {
         final Long gameId = gameDao.save(connection, parseGameEntity(game));
         boardPieceDao.saveAll(connection, parseBoardPieceEntities(gameId, game.getBoard()));
         return gameId;
     }
 
     @Override
-    public Optional<JanggiGame> findById(final SqlConnection connection, final Long gameId) {
+    public Optional<JanggiGame> findGameById(final SqlConnection connection, final Long gameId) {
         return gameDao.findById(connection, gameId)
             .map(gameEntity -> parseGame(gameEntity, boardPieceDao.findAllByGameId(connection, gameId)));
     }
@@ -55,7 +55,7 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
     }
 
     @Override
-    public void update(final SqlConnection connection, final Long gameId, final JanggiGame game) {
+    public void updateGame(final SqlConnection connection, final Long gameId, final JanggiGame game) {
         gameDao.updateState(connection, gameId, game.getTurn(), game.getStatus());
     }
 
@@ -97,8 +97,27 @@ public class JdbcJanggiGameRepository implements JanggiGameRepository {
     }
 
     @Override
-    public void deletePiece(SqlConnection connection, Long gameId, Position destination) {
-        boardPieceDao.deleteById(connection, gameId);
+    public List<MoveHistory> findMoveHistoriesByGameId(final SqlConnection connection, final Long gameId) {
+        return moveHistoryDao.findAllByGameIdOrderByMoveOrderAsc(connection, gameId).stream()
+            .map(this::parseMoveHistory)
+            .toList();
+    }
+
+    private MoveHistory parseMoveHistory(MoveHistoryEntity entity) {
+        if (entity.isCapture()) {
+            return new MoveHistory(
+                new Position(entity.departureRow(), entity.departureColumn()),
+                new Position(entity.destinationRow(), entity.destinationColumn()),
+                new Piece(entity.movingPieceSide(), entity.movingPieceType()),
+                new Piece(entity.capturedPieceSide(), entity.capturedPieceType())
+            );
+        }
+        return new MoveHistory(
+            new Position(entity.departureRow(), entity.departureColumn()),
+            new Position(entity.destinationRow(), entity.destinationColumn()),
+            new Piece(entity.movingPieceSide(), entity.movingPieceType()),
+            null
+        );
     }
 
     private MoveHistoryEntity parseMoveHistoryEntity(

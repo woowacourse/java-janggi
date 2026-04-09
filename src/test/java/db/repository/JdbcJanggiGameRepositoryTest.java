@@ -64,7 +64,7 @@ class JdbcJanggiGameRepositoryTest {
         JanggiGame game = new JanggiGame(EMPTY_BOARD, Turn.CHO_TURN, GameStatus.PLAYING);
         // when & then
         assertThatCode(() -> executeInTransaction(connection -> {
-            repository.save(connection, game);
+            repository.saveGame(connection, game);
             return null;
         })).doesNotThrowAnyException();
     }
@@ -73,9 +73,9 @@ class JdbcJanggiGameRepositoryTest {
     void 저장된_게임을_ID로_다시_조회할_수_있다() {
         // given
         JanggiGame game = new JanggiGame(EMPTY_BOARD, Turn.CHO_TURN, GameStatus.PLAYING);
-        Long gameId = executeInTransaction(connection -> repository.save(connection, game));
+        Long gameId = executeInTransaction(connection -> repository.saveGame(connection, game));
         // when
-        Optional<JanggiGame> found = executeReadOnly(connection -> repository.findById(connection, gameId));
+        Optional<JanggiGame> found = executeReadOnly(connection -> repository.findGameById(connection, gameId));
         // then
         assertThat(found).isPresent();
         JanggiGame foundGame = found.orElseThrow();
@@ -90,17 +90,17 @@ class JdbcJanggiGameRepositoryTest {
         Turn turn = Turn.CHO_TURN;
         GameStatus status = GameStatus.PLAYING;
         JanggiGame game = new JanggiGame(EMPTY_BOARD, turn, status);
-        Long gameId = executeInTransaction(connection -> repository.save(connection, game));
+        Long gameId = executeInTransaction(connection -> repository.saveGame(connection, game));
 
         JanggiGame updatedGame = new JanggiGame(EMPTY_BOARD, turn, GameStatus.HAN_WIN_BY_GUNG);
         // when
         executeInTransaction(connection -> {
-            repository.update(connection, gameId, updatedGame);
+            repository.updateGame(connection, gameId, updatedGame);
             return null;
         });
         // then
         JanggiGame foundGame = executeReadOnly(connection ->
-            repository.findById(connection, gameId).orElseThrow()
+            repository.findGameById(connection, gameId).orElseThrow()
         );
         assertThat(foundGame.getStatus()).isEqualTo(GameStatus.HAN_WIN_BY_GUNG);
     }
@@ -113,8 +113,8 @@ class JdbcJanggiGameRepositoryTest {
         JanggiGame firstGame = new JanggiGame(EMPTY_BOARD, turn, status);
         JanggiGame secondGame = new JanggiGame(EMPTY_BOARD, turn, status);
 
-        Long firstGameId = executeInTransaction(connection -> repository.save(connection, firstGame));
-        Long secondGameId = executeInTransaction(connection -> repository.save(connection, secondGame));
+        Long firstGameId = executeInTransaction(connection -> repository.saveGame(connection, firstGame));
+        Long secondGameId = executeInTransaction(connection -> repository.saveGame(connection, secondGame));
         // when
         List<GameSummary> foundGames = executeReadOnly(
             repository::findTop10GameRoomsOrderByCreatedAtDesc
@@ -136,7 +136,7 @@ class JdbcJanggiGameRepositoryTest {
             Turn.CHO_TURN,
             GameStatus.PLAYING
         );
-        Long gameId = executeInTransaction(connection -> repository.save(connection, game));
+        Long gameId = executeInTransaction(connection -> repository.saveGame(connection, game));
         // when
         executeInTransaction(connection -> {
             repository.updatePiecePosition(connection, gameId, beforePosition, afterPosition);
@@ -144,7 +144,7 @@ class JdbcJanggiGameRepositoryTest {
         });
         // then
         JanggiGame savedGame = executeReadOnly(connection ->
-            repository.findById(connection, gameId).orElseThrow()
+            repository.findGameById(connection, gameId).orElseThrow()
         );
         Piece savedAfterPositionPiece = savedGame.getBoard().pieces().get(afterPosition);
         assertThat(savedAfterPositionPiece).isEqualTo(beforePositionPiece);
@@ -161,7 +161,7 @@ class JdbcJanggiGameRepositoryTest {
             Turn.CHO_TURN,
             GameStatus.PLAYING
         );
-        Long gameId = executeInTransaction(connection -> repository.save(connection, game));
+        Long gameId = executeInTransaction(connection -> repository.saveGame(connection, game));
         // when
         executeInTransaction(connection -> {
             repository.updatePiecePosition(connection, gameId, beforePosition, afterPosition);
@@ -169,7 +169,7 @@ class JdbcJanggiGameRepositoryTest {
         });
         // then
         JanggiGame savedGame = executeReadOnly(connection ->
-            repository.findById(connection, gameId).orElseThrow()
+            repository.findGameById(connection, gameId).orElseThrow()
         );
         Piece savedBeforePositionPiece = savedGame.getBoard().pieces().get(beforePosition);
         assertThat(savedBeforePositionPiece).isNull();
@@ -178,7 +178,7 @@ class JdbcJanggiGameRepositoryTest {
     @Test
     void 존재하지_않는_게임은_조회할_수_없다() {
         // when
-        Optional<JanggiGame> found = executeReadOnly(connection -> repository.findById(connection, 1L));
+        Optional<JanggiGame> found = executeReadOnly(connection -> repository.findGameById(connection, 1L));
         // then
         assertThat(found).isEmpty();
     }
@@ -198,7 +198,7 @@ class JdbcJanggiGameRepositoryTest {
             Turn.CHO_TURN,
             GameStatus.PLAYING
         );
-        Long gameId = executeInTransaction(connection -> repository.save(connection, game));
+        Long gameId = executeInTransaction(connection -> repository.saveGame(connection, game));
 
         MoveHistory firstMove = new MoveHistory(departure, destination, movingPiece, capturedPiece);
         MoveHistory secondMove = new MoveHistory(destination, new Position(2, 0), movingPiece, null);
@@ -232,7 +232,7 @@ class JdbcJanggiGameRepositoryTest {
             Turn.CHO_TURN,
             GameStatus.PLAYING
         );
-        Long gameId = executeInTransaction(connection -> repository.save(connection, game));
+        Long gameId = executeInTransaction(connection -> repository.saveGame(connection, game));
         MoveHistory moveHistory = new MoveHistory(departure, destination, movingPiece, capturedPiece);
         // when
         executeInTransaction(connection -> {
@@ -259,7 +259,7 @@ class JdbcJanggiGameRepositoryTest {
             Turn.CHO_TURN,
             GameStatus.PLAYING
         );
-        Long gameId = executeInTransaction(connection -> repository.save(connection, game));
+        Long gameId = executeInTransaction(connection -> repository.saveGame(connection, game));
         MoveHistory moveHistory = new MoveHistory(departure, destination, movingPiece, null);
         // when
         executeInTransaction(connection -> {
@@ -290,7 +290,7 @@ class JdbcJanggiGameRepositoryTest {
             Turn.CHO_TURN,
             GameStatus.PLAYING
         );
-        Long gameId = executeInTransaction(connection -> repository.save(connection, game));
+        Long gameId = executeInTransaction(connection -> repository.saveGame(connection, game));
         MoveHistory moveHistory = new MoveHistory(departure, destination, movingPiece, capturedPiece);
         // when
         executeInTransaction(connection -> {
@@ -324,7 +324,7 @@ class JdbcJanggiGameRepositoryTest {
             Turn.CHO_TURN,
             GameStatus.PLAYING
         );
-        Long gameId = executeInTransaction(connection -> repository.save(connection, game));
+        Long gameId = executeInTransaction(connection -> repository.saveGame(connection, game));
         MoveHistory moveHistory = new MoveHistory(departure, destination, movingPiece, capturedPiece);
         // when
         executeInTransaction(connection -> {

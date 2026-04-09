@@ -19,9 +19,9 @@
 - [x] 게임 상태 변화 시 turn, status 만 수정해서 쿼리로 업데이트 (`GameDao` updateState)
 - [x] 기물 이동시, 좌표값만 수정해서 쿼리로 업데이트 (`BoardPieceDao` updatePosition)
 - [x] 기물이 다른 기물에게 잡힐 시, 해당 기물 삭제 (`BoardPieceDao` deleteByGameIdAndPosition)
-- [ ] 마지막으로 둔 수를 저장한다. (`MoveHistoryDao` save)
+- [x] 마지막으로 둔 수를 저장한다. (`MoveHistoryDao` save)
 - [ ] 마지막으로 둔 수를 무를 수 있다. (`MoveHistoryDao` findLastMoveOrderByGameId, deleteById)
-- [ ] 게임의 플레이 로그를 순서대로 실행할 수 있다. (`MoveHistoryDao` findAllByGameIdOrderByMoveOrderAsc)
+- [x] 게임의 플레이 로그를 순서대로 실행할 수 있다. (`MoveHistoryDao` findAllByGameIdOrderByMoveOrderAsc)
 
 ## 기능 명세
 

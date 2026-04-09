@@ -4,6 +4,7 @@ import core.GameStatus;
 import core.GameSummary;
 import java.util.List;
 import java.util.Map;
+import movepolicy.MoveHistory;
 import participant.Score;
 import pieces.Side;
 
@@ -47,6 +48,10 @@ public class OutputView {
         System.out.println(SIDE_SYMBOL.get(side) + "나라도 동의하십니까? (y/n)");
     }
 
+    public void askNewGame() {
+        System.out.println("새로운 게임을 시작하시겠습니까? (y/n)");
+    }
+
     public void askDeparture() {
         System.out.println("이동하고 싶은 기물의 좌표를 입력해주세요. (형식: row, column)");
     }
@@ -76,11 +81,32 @@ public class OutputView {
     }
 
     public void askGameId() {
-        System.out.println("실행할 게임 ID 를 입력해주세요. 새로운 게임을 원할 경우 0을 입력해주세요.");
+        System.out.println("실행할 게임 ID 를 입력해주세요.");
     }
 
     public void askServiceMenu() {
         System.out.println("원하는 서비스 번호를 입력해주세요.");
         System.out.println(ServiceMenu.convertDisplayFormat());
+    }
+
+    public void printMoveHistories(List<MoveHistory> moveHistories) {
+        if (moveHistories.isEmpty()) {
+            System.out.println("출력할 기록이 없습니다.");
+        }
+
+        moveHistories.forEach(moveHistory -> {
+            System.out.printf(
+                "이동기물: %s. (%d, %d) -> (%d, %d)\n",
+                DisplayPiece.symbolOf(moveHistory.movingPiece()),
+                moveHistory.getDepartureRowIndex(),
+                moveHistory.getDepartureColumnIndex(),
+                moveHistory.getDestinationRowIndex(),
+                moveHistory.getDestinationColumnIndex()
+            );
+            if (moveHistory.isCaptured()) {
+                System.out.println("잡힌 기물: " + DisplayPiece.symbolOf(moveHistory.capturedPiece()));
+            }
+            System.out.println();
+        });
     }
 }

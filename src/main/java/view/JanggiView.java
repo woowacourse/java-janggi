@@ -4,6 +4,7 @@ import board.SangSetupType;
 import core.GameStatus;
 import core.GameSummary;
 import java.util.List;
+import movepolicy.MoveHistory;
 import participant.Score;
 import pieces.Side;
 import position.Position;
@@ -62,16 +63,17 @@ public class JanggiView {
         out.printScore(side, score);
     }
 
-    public InputGameId askGameId(final List<GameSummary> gameSummaries) {
+    public boolean askNewGame() {
         return Retry.untilSuccess(() -> {
-            out.printSavedGames(gameSummaries);
-            out.askGameId();
-            final InputGameId gameId = in.readGameId();
-            if (!gameId.isNewGame()) {
-                gameId.validateWith(gameSummaries);
-            }
-            return gameId;
+            out.askNewGame();
+            return in.readYesOrNo();
         });
+    }
+
+    public SelectedGame askGameId(final List<GameSummary> gameSummaries) {
+        out.printSavedGames(gameSummaries);
+        out.askGameId();
+        return SelectedGame.of(in.readLong(), gameSummaries);
     }
 
     public ServiceMenu askServiceMenu() {
@@ -79,5 +81,9 @@ public class JanggiView {
             out.askServiceMenu();
             return in.askServiceMenu();
         });
+    }
+
+    public void printMoveHistories(List<MoveHistory> moveHistories) {
+        out.printMoveHistories(moveHistories);
     }
 }
