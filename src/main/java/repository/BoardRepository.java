@@ -26,7 +26,7 @@ public class BoardRepository {
     }
 
     public Optional<Board> findById(Long gameId) {
-        String sql = "SELECT * FROM piece WHERE game_id = ?";
+        String sql = "SELECT * FROM board WHERE game_id = ?";
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -53,7 +53,7 @@ public class BoardRepository {
     }
 
     public void savePlacementById(Board board, Long gameId) {
-        String sql = "INSERT INTO piece (piece_type, side, position_x, position_y, game_id) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO board (piece_type, side, position_x, position_y, game_id) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -79,7 +79,7 @@ public class BoardRepository {
     }
 
     public void updatePiecePositionById(Position from, Position to, Long gameId) {
-        String sql = "UPDATE piece SET position_x = ?, position_y = ? WHERE game_id = ? AND position_x = ? AND position_y = ?";
+        String sql = "UPDATE board SET position_x = ?, position_y = ? WHERE game_id = ? AND position_x = ? AND position_y = ?";
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -100,7 +100,7 @@ public class BoardRepository {
     }
 
     public void deletePiecePositionById(Position from, Long gameId) {
-        String sql = "DELETE FROM piece WHERE position_x = ? AND position_y = ? AND game_id = ?";
+        String sql = "DELETE FROM board WHERE position_x = ? AND position_y = ? AND game_id = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 

@@ -392,13 +392,13 @@
   - 생성 시간
 ![game_table_schema.png](game_table_schema.png)
 
-- `piece` 테이블
+- `board` 테이블
   - 기물의 고유번호
   - 기물 종류
   - 진영
   - 현재 위치 (x, y)
   - 어떤 게임에 속한 기물인지에 대한 game_id
-![piece_table_schema.png](piece_table_schema.png)
+![board_table_schema.png](board_table_schema.png)
 
 #### 저장 시점
 - 저장된 게임이 없어 새로운 게임을 만들 때
