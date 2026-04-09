@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import database.entity.GameEntity;
 import database.jdbc.DatabaseConnector;
+import database.jdbc.DatabaseInitializer;
 import database.jdbc.JdbcGameDao;
 import database.jdbc.JdbcPieceDao;
 import domain.game.Team;
@@ -19,14 +20,26 @@ import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
+@Testcontainers
 class GameRepositoryTest {
 
+    @Container
+    static final MySQLContainer<?> mysql = new MySQLContainer<>("mysql:8.0")
+            .withDatabaseName("jangi-test")
+            .withUsername("TESTUSER")
+            .withPassword("1234");
+    private DatabaseConnector connector;
     private GameRepository gameRepository;
 
     @BeforeEach
     void setUp() throws SQLException {
-        gameRepository = new GameRepository(new JdbcGameDao(), new JdbcPieceDao());
+        connector = new DatabaseConnector(mysql.getJdbcUrl(), mysql.getUsername(), mysql.getPassword());
+        DatabaseInitializer.initialize(connector);
+        gameRepository = new GameRepository(new JdbcGameDao(connector), new JdbcPieceDao(connector));
         cleanUp();
     }
 
@@ -36,7 +49,7 @@ class GameRepositoryTest {
     }
 
     private void cleanUp() throws SQLException {
-        try (Connection conn = DatabaseConnector.getConnection();
+        try (Connection conn = connector.getConnection();
              Statement stmt = conn.createStatement()) {
             stmt.execute("DELETE FROM piece");
             stmt.execute("DELETE FROM game");
