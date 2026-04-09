@@ -1,9 +1,11 @@
 package janggi.model.turn;
 
-import janggi.model.Board;
+import janggi.model.Score;
 import janggi.model.Team;
+import janggi.model.board.Board;
 import janggi.model.position.Position;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class HanTurn implements Turn {
 
@@ -17,7 +19,7 @@ public class HanTurn implements Turn {
     public Turn play(Position from, Position to) {
         Board movedBoard = board.move(Team.HAN, from, to);
         if (movedBoard.isGameOver()) {
-            return new GameOver();
+            return new GameOver(movedBoard, Team.HAN);
         }
         return new ChoTurn(movedBoard);
     }
@@ -28,7 +30,18 @@ public class HanTurn implements Turn {
     }
 
     @Override
-    public void accept(BiConsumer<Board, String> consumer) {
-        consumer.accept(board, Team.HAN.getDisplayName());
+    public void withBoard(BiConsumer<Board, Team> consumer) {
+        consumer.accept(board, Team.HAN);
+    }
+
+    @Override
+    public void withScore(BiConsumer<Score, Score> consumer) {
+        consumer.accept(board.calculateScore(Team.CHO), board.calculateScore(Team.HAN));
+    }
+
+
+    @Override
+    public void withWinner(Consumer<Team> consumer) {
+        throw new IllegalStateException("아직 게임이 종료되지 않았습니다.");
     }
 }

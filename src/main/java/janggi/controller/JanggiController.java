@@ -1,43 +1,129 @@
 package janggi.controller;
 
-import janggi.model.BoardType;
 import janggi.model.Janggi;
+import janggi.model.Team;
+import janggi.model.initializer.BoardInitializer.BoardType;
 import janggi.model.position.Column;
 import janggi.model.position.Position;
 import janggi.model.position.Row;
+import janggi.service.JanggiService;
 import janggi.view.InputView;
 import janggi.view.OutputView;
+import janggi.view.RetryHandler;
 import java.util.List;
 
 public class JanggiController {
-
+    private final JanggiService janggiService;
     private final OutputView outputView;
     private final InputView inputView;
 
-    public JanggiController(OutputView outputView, InputView inputView) {
+    public JanggiController(JanggiService janggiService, OutputView outputView, InputView inputView) {
+        this.janggiService = janggiService;
         this.outputView = outputView;
         this.inputView = inputView;
     }
 
     public void run() {
-        int boardType = readInitialBoardType();
-        Janggi janggi = initializeBoard(boardType);
+        if (!janggiService.existsGame()) {
+            outputView.printNoGameExist();
+            runNewGame();
+            return;
+        }
+        int newGameOption = 1;
+        int selection = readGameSelection();
+        if (selection == newGameOption) {
+            runNewGame();
+            return;
+        }
+        runExistingGame();
+    }
 
+    private void runNewGame() {
+        String name = readGameName();
+        BoardType boardType = readInitialBoardType();
+        Janggi janggi = initializeBoard(boardType);
+        Long gameId = janggiService.createGame(name, Team.CHO);
+        janggi.withScore((choScore, hanScore) ->
+                outputView.printScore(choScore.value(), hanScore.value()));
+        runGame(janggi, gameId);
+    }
+
+    private void runExistingGame() {
+        displayCurrentGames();
+        RetryHandler.retryUntilSuccess(this::loadAndRunGame);
+    }
+
+    private void loadAndRunGame() {
+        String name = readGameName();
+        Long gameId = janggiService.findIdByName(name);
+        Janggi janggi = janggiService.loadJanggiGameById(gameId);
+        janggi.withScore((choScore, hanScore) ->
+                outputView.printScore(choScore.value(), hanScore.value()));
+        runGame(janggi, gameId);
+    }
+
+    private void displayCurrentGames() {
+        List<String> gameNames = janggiService.findAllGameNames();
+        outputView.printGameList(gameNames);
+    }
+
+    private void runGame(Janggi janggi, Long gameId) {
         while (!janggi.isGameOver()) {
-            janggi.withBoard(outputView::printBoard);
-            Position from = readFromPosition();
-            Position to = readToPosition();
-            janggi = janggi.play(from, to);
+            janggi.withBoard((board, team) ->
+                    outputView.printBoard(board.snapshot(), team));
+            janggi = playTurn(janggi, gameId);
+        }
+        janggi.withScore((choScore, hanScore) ->
+                outputView.printScore(choScore.value(), hanScore.value()));
+        janggi.withWinner(outputView::printGameOver);
+        janggiService.deleteGame(gameId);
+    }
+    
+    private Janggi playTurn(Janggi janggi, Long gameId) {
+        return RetryHandler.retryUntilSuccess(() -> readAndPlay(janggi, gameId));
+    }
+
+    private Janggi readAndPlay(Janggi janggi, Long gameId) {
+        Position from = readFromPosition();
+        Position to = readToPosition();
+        Janggi movedJanggi = janggi.play(from, to);
+        saveBoard(movedJanggi, gameId);
+        return movedJanggi;
+    }
+
+    private void saveBoard(Janggi movedJanggi, Long gameId) {
+        if (!movedJanggi.isGameOver()) {
+            movedJanggi.withBoard((board, team) ->
+                    janggiService.save(gameId, board, team));
         }
     }
 
-    private int readInitialBoardType() {
-        outputView.printBoardInitialTypeMessage();
-        return inputView.readBoardInitializeType();
+    private int readGameSelection() {
+        return RetryHandler.retryUntilSuccess(this::requestGameSelection);
     }
 
-    private Janggi initializeBoard(int boardType) {
-        return Janggi.of(BoardType.of(boardType).init());
+    private int requestGameSelection() {
+        outputView.printGameSelectionMessage();
+        return inputView.readGameSelection();
+    }
+
+    private String readGameName() {
+        outputView.printGameNameMessage();
+        return inputView.readGameName();
+    }
+
+    private BoardType readInitialBoardType() {
+        return RetryHandler.retryUntilSuccess(this::requestInitialBoardType);
+    }
+
+    private BoardType requestInitialBoardType() {
+        outputView.printBoardInitialTypeMessage();
+        int boardTypeNumber = inputView.readBoardInitializeType();
+        return BoardType.of(boardTypeNumber);
+    }
+
+    private Janggi initializeBoard(BoardType boardType) {
+        return Janggi.of(boardType.init());
     }
 
     private Position readFromPosition() {

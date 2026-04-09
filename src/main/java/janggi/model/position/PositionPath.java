@@ -15,7 +15,8 @@ public class PositionPath {
         }
 
         path.addAll(first.path);
-        path.addAll(second.path.subList(1, second.path.size()));
+        int startIndex = 1;
+        path.addAll(second.path.subList(startIndex, second.path.size()));
 
         return new PositionPath(path);
     }

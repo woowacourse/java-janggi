@@ -3,6 +3,7 @@ package janggi.gimul;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.model.Score;
 import janggi.model.Team;
 import janggi.model.gimul.AbstractGimul;
 import janggi.model.gimul.linearMove.Cha;
@@ -11,6 +12,7 @@ import janggi.model.position.Position;
 import janggi.model.position.PositionPath;
 import janggi.model.position.Row;
 import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -39,6 +41,46 @@ class ChaTest {
         Cha cha = new Cha(Team.CHO);
 
         //when & then
+        assertThatThrownBy(() -> cha.getLegalPath(from, to))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("해당 경로로는 이동할 수 없습니다.");
+    }
+
+    @DisplayName("현재 기물이 궁성 영역에 있을때, 간선 경로를 가져 올 수 있다.")
+    @Test
+    void getLegalPath_inPalace_cho() {
+        //given
+        Position from = new Position(Row.EIGHT, Column.SIX);
+        Position middle = new Position(Row.NINE, Column.FIVE);
+        Position to = new Position(Row.HAN_BACK, Column.FOUR);
+        Cha cha = new Cha(Team.HAN);
+
+        //when & then
+        PositionPath positionPath = cha.getLegalPath(from, to);
+        assertThat(positionPath.getDestination()).isEqualTo(middle);
+    }
+
+    @DisplayName("현재 기물이 궁성 영역에 있을때, 간선 경로를 가져 올 수 있다.")
+    @Test
+    void getLegalPath_inPalace_han() {
+        //given
+        Position from = new Position(Row.THREE, Column.SIX);
+        Position middle = new Position(Row.TWO, Column.FIVE);
+        Position to = new Position(Row.ONE, Column.FOUR);
+        Cha cha = new Cha(Team.CHO);
+
+        //when & then
+        PositionPath positionPath = cha.getLegalPath(from, to);
+        assertThat(positionPath.getDestination()).isEqualTo(middle);
+    }
+
+    @DisplayName("궁성 대각선 선 위에 있지 않으면 대각선으로 이동할 수 없다.")
+    @Test
+    void getLegalPath_palace_diagonal_invalid() {
+        Position from = new Position(Row.NINE, Column.FOUR);
+        Position to = new Position(Row.EIGHT, Column.FIVE);
+        Cha cha = new Cha(Team.CHO);
+
         assertThatThrownBy(() -> cha.getLegalPath(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 경로로는 이동할 수 없습니다.");
@@ -84,7 +126,7 @@ class ChaTest {
         Cha cha = new Cha(Team.CHO);
 
         //when & then
-        assertThat(cha.canPassThrough(gimulsOnPath))
+        assertThat(cha.canPassThrough(gimulsOnPath, Optional.empty()))
                 .isTrue();
     }
 
@@ -97,7 +139,7 @@ class ChaTest {
         Cha cha = new Cha(Team.CHO);
 
         //when & then
-        assertThat(cha.canPassThrough(gimulsOnPath, gimulAtTo))
+        assertThat(cha.canPassThrough(gimulsOnPath, Optional.of(gimulAtTo)))
                 .isTrue();
     }
 
@@ -112,7 +154,7 @@ class ChaTest {
         Cha cha = new Cha(Team.CHO);
 
         //when & then
-        assertThat(cha.canPassThrough(gimulsOnPath, gimulAtTo))
+        assertThat(cha.canPassThrough(gimulsOnPath, Optional.of(gimulAtTo)))
                 .isFalse();
     }
 
@@ -127,7 +169,28 @@ class ChaTest {
         Cha cha = new Cha(Team.CHO);
 
         //when & then
-        assertThat(cha.canPassThrough(gimulsOnPath, gimulAtTo))
+        assertThat(cha.canPassThrough(gimulsOnPath, Optional.of(gimulAtTo)))
                 .isFalse();
+    }
+
+    @DisplayName("차의 점수는 13점이다.")
+    @Test
+    void getScore() {
+        Cha cha = new Cha(Team.CHO);
+        assertThat(cha.getScore()).isEqualTo(new Score(13));
+    }
+
+    @DisplayName("차는 넘어갈 수 있다.")
+    @Test
+    void canBeJumpedOver() {
+        Cha cha = new Cha(Team.CHO);
+        assertThat(cha.canBeJumpedOver()).isTrue();
+    }
+
+    @DisplayName("차는 잡아야할 왕이 아니다.")
+    @Test
+    void isKing() {
+        Cha cha = new Cha(Team.CHO);
+        assertThat(cha.isKing()).isFalse();
     }
 }

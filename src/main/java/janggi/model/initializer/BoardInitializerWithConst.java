@@ -2,7 +2,7 @@ package janggi.model.initializer;
 
 import janggi.model.Team;
 import janggi.model.gimul.AbstractGimul;
-import janggi.model.gimul.Byeong;
+import janggi.model.gimul.byeong.Byeong;
 import janggi.model.gimul.linearMove.Cha;
 import janggi.model.gimul.linearMove.Pho;
 import janggi.model.gimul.palace.Jang;
@@ -17,8 +17,8 @@ import java.util.Map;
 public abstract class BoardInitializerWithConst extends BoardInitializer {
 
     private static final List<Position> CHA_CHO = List.of(
-            new Position(Row.ZERO, Column.ONE),
-            new Position(Row.ZERO, Column.NINE)
+            new Position(Row.HAN_BACK, Column.ONE),
+            new Position(Row.HAN_BACK, Column.NINE)
     );
 
     private static final List<Position> CHA_HAN = List.of(
@@ -30,8 +30,8 @@ public abstract class BoardInitializerWithConst extends BoardInitializer {
     private static final Position JANG_HAN = new Position(Row.TWO, Column.FIVE);
 
     private static final List<Position> SA_CHO = List.of(
-            new Position(Row.ZERO, Column.FOUR),
-            new Position(Row.ZERO, Column.SIX)
+            new Position(Row.HAN_BACK, Column.FOUR),
+            new Position(Row.HAN_BACK, Column.SIX)
     );
 
     private static final List<Position> SA_HAN = List.of(

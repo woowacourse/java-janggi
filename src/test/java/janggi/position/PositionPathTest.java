@@ -17,7 +17,7 @@ class PositionPathTest {
     void getDestination() {
         //given
         PositionPath positionPath = new PositionPath(List.of(
-                new Position(Row.ZERO, Column.EIGHT),
+                new Position(Row.HAN_BACK, Column.EIGHT),
                 new Position(Row.ONE, Column.EIGHT),
                 new Position(Row.ONE, Column.SEVEN)
         ));

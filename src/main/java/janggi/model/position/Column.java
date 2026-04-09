@@ -1,47 +1,61 @@
 package janggi.model.position;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 public enum Column {
-    ONE,
-    TWO,
-    THREE,
-    FOUR,
-    FIVE,
-    SIX,
-    SEVEN,
-    EIGHT,
-    NINE;
+    ONE(1),
+    TWO(2),
+    THREE(3),
+    FOUR(4),
+    FIVE(5),
+    SIX(6),
+    SEVEN(7),
+    EIGHT(8),
+    NINE(9);
 
-    private static final List<Column> CACHE_VALUES = Arrays.asList(values());
+    private final int value;
+
+    Column(int value) {
+        this.value = value;
+    }
 
     public static Column of(int columnNumber) {
-        int adjustValue = 1;
-        return CACHE_VALUES.get(columnNumber - adjustValue);
+        return Arrays.stream(values())
+                .filter(column -> column.value == columnNumber)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 열 번호입니다."));
     }
 
     public Column moved(int displacement) {
-        int nextValue = this.ordinal() + displacement;
+        int nextValue = this.value + displacement;
 
-        if (nextValue > NINE.ordinal() || nextValue < ONE.ordinal()) {
+        if (nextValue > NINE.value || nextValue < ONE.value) {
             throw new IllegalArgumentException("보드 밖으로는 이동할 수 없습니다.");
         }
 
-        return CACHE_VALUES.get(nextValue);
+        return Column.of(nextValue);
     }
 
     public List<Column> to(Column other) {
-        int adjustValue = 1;
-        if (this.ordinal() > other.ordinal()) {
-            return CACHE_VALUES.subList(other.ordinal(), this.ordinal() + adjustValue).reversed();
+        if (this.value > other.value) {
+            return Arrays.stream(values())
+                    .filter(column -> column.value >= other.value && column.value <= this.value)
+                    .sorted(Comparator.comparingInt((Column column) -> column.value).reversed())
+                    .toList();
         }
-
-        return CACHE_VALUES.subList(this.ordinal(), other.ordinal() + adjustValue);
-
+        return Arrays.stream(values())
+                .filter(column -> column.value >= this.value && column.value <= other.value)
+                .sorted(Comparator.comparingInt(column -> column.value))
+                .toList();
     }
 
     public int getDistance(Column other) {
-        return this.ordinal() - other.ordinal();
+        return this.value - other.value;
+    }
+
+    public int getValue() {
+        return this.value;
     }
 }

@@ -3,6 +3,7 @@ package janggi.gimul;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.model.Score;
 import janggi.model.Team;
 import janggi.model.gimul.AbstractGimul;
 import janggi.model.gimul.diagonalMove.Sang;
@@ -12,6 +13,7 @@ import janggi.model.position.Position;
 import janggi.model.position.PositionPath;
 import janggi.model.position.Row;
 import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -31,6 +33,19 @@ class SangTest {
         //then
         assertThat(positionPath.getDestination())
                 .isEqualTo(new Position(Row.FIVE, Column.FOUR));
+    }
+
+    @DisplayName("좌우로 한칸을 간 후에 같은 방향의 대각선으로 두칸 이동한다.")
+    @Test
+    void getLegalPath_horizontalDominant() {
+        Position from = new Position(Row.SEVEN, Column.FIVE);
+        Position to = new Position(Row.FIVE, Column.EIGHT);
+        Sang sang = new Sang(Team.CHO);
+
+        PositionPath positionPath = sang.getLegalPath(from, to);
+
+        assertThat(positionPath.getDestination())
+                .isEqualTo(new Position(Row.SIX, Column.SEVEN));
     }
 
     @DisplayName("행과 열의 거리가 각각 (1,3) 혹은 (3,1)이 아니면 예외가 발생한다.")
@@ -55,7 +70,7 @@ class SangTest {
         Sang sang = new Sang(Team.CHO);
 
         //when & then
-        assertThat(sang.canPassThrough(gimulsOnPath))
+        assertThat(sang.canPassThrough(gimulsOnPath, Optional.empty()))
                 .isTrue();
     }
 
@@ -68,7 +83,7 @@ class SangTest {
         Sang sang = new Sang(Team.CHO);
 
         //when & then
-        assertThat(sang.canPassThrough(gimulsOnPath, gimulAtTo))
+        assertThat(sang.canPassThrough(gimulsOnPath, Optional.of(gimulAtTo)))
                 .isTrue();
     }
 
@@ -83,7 +98,7 @@ class SangTest {
         Sang sang = new Sang(Team.CHO);
 
         //when & then
-        assertThat(sang.canPassThrough(gimulsOnPath, gimulAtTo))
+        assertThat(sang.canPassThrough(gimulsOnPath, Optional.of(gimulAtTo)))
                 .isFalse();
     }
 
@@ -98,7 +113,28 @@ class SangTest {
         Sang sang = new Sang(Team.CHO);
 
         //when & then
-        assertThat(sang.canPassThrough(gimulsOnPath, gimulAtTo))
+        assertThat(sang.canPassThrough(gimulsOnPath, Optional.of(gimulAtTo)))
                 .isFalse();
+    }
+
+    @DisplayName("상의 점수는 3점이다.")
+    @Test
+    void getScore() {
+        Sang sang = new Sang(Team.CHO);
+        assertThat(sang.getScore()).isEqualTo(new Score(3));
+    }
+
+    @DisplayName("상은 넘어갈 수 있다.")
+    @Test
+    void canBeJumpedOver() {
+        Sang sang = new Sang(Team.CHO);
+        assertThat(sang.canBeJumpedOver()).isTrue();
+    }
+
+    @DisplayName("상은 잡아야할 왕이 아니다.")
+    @Test
+    void isKing() {
+        Sang sang = new Sang(Team.CHO);
+        assertThat(sang.isKing()).isFalse();
     }
 }

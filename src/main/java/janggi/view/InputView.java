@@ -33,4 +33,12 @@ public class InputView {
                 Parser.parse(parts[COLUMN_INDEX].trim())
         );
     }
+
+    public int readGameSelection() {
+        return Parser.parse(scanner.nextLine());
+    }
+
+    public String readGameName() {
+        return scanner.nextLine();
+    }
 }

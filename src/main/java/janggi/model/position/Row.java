@@ -1,54 +1,72 @@
 package janggi.model.position;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 public enum Row {
-    ONE,
-    TWO,
-    THREE,
-    FOUR,
-    FIVE,
-    SIX,
-    SEVEN,
-    EIGHT,
-    NINE,
-    ZERO;
+    ONE(1),
+    TWO(2),
+    THREE(3),
+    FOUR(4),
+    FIVE(5),
+    SIX(6),
+    SEVEN(7),
+    EIGHT(8),
+    NINE(9),
+    HAN_BACK(10);
 
-    private static final List<Row> CACHE_VALUES = Arrays.asList(values());
+    private final int value;
+
+    Row(int value) {
+        this.value = value;
+    }
 
     public static Row of(int rowNumber) {
-        int adjustValue = 1;
-        int zeroInput = 0;
-        int maxRow = 10;
-
-        if (rowNumber == zeroInput) {
-            rowNumber = maxRow;
+        if (rowNumber == 0) {
+            return HAN_BACK;
         }
-
-        return CACHE_VALUES.get(rowNumber - adjustValue);
+        return Arrays.stream(values())
+                .filter(row -> row.value == rowNumber)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 행 번호입니다."));
     }
 
     public Row moved(int displacement) {
-        int nextValue = this.ordinal() + displacement;
+        int nextValue = this.value + displacement;
 
-        if (nextValue > ZERO.ordinal() || nextValue < ONE.ordinal()) {
+        if (nextValue > HAN_BACK.value || nextValue < ONE.value) {
             throw new IllegalArgumentException("보드 밖으로는 이동할 수 없습니다.");
         }
 
-        return CACHE_VALUES.get(nextValue);
+        return Row.of(nextValue);
     }
 
     public List<Row> to(Row other) {
-        int adjustValue = 1;
-        if (this.ordinal() > other.ordinal()) {
-            return CACHE_VALUES.subList(other.ordinal(), this.ordinal() + adjustValue).reversed();
+        if (this.value > other.value) {
+            return Arrays.stream(values())
+                    .filter(row -> row.value >= other.value && row.value <= this.value)
+                    .sorted(Comparator.comparingInt((Row row) -> row.value).reversed())
+                    .toList();
         }
-
-        return CACHE_VALUES.subList(this.ordinal(), other.ordinal() + adjustValue);
+        return Arrays.stream(values())
+                .filter(row -> row.value >= this.value && row.value <= other.value)
+                .sorted(Comparator.comparingInt(row -> row.value))
+                .toList();
     }
 
     public int getDistance(Row other) {
-        return this.ordinal() - other.ordinal();
+        return this.value - other.value;
+    }
+
+    public int getDisplayName() {
+        if (this == HAN_BACK) {
+            return 0;
+        }
+        return this.value;
+    }
+
+    public int getValue() {
+        return this.value;
     }
 }

@@ -3,6 +3,7 @@ package janggi.gimul;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.model.Score;
 import janggi.model.Team;
 import janggi.model.gimul.AbstractGimul;
 import janggi.model.gimul.diagonalMove.Ma;
@@ -12,6 +13,7 @@ import janggi.model.position.Position;
 import janggi.model.position.PositionPath;
 import janggi.model.position.Row;
 import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -31,6 +33,19 @@ class MaTest {
         //then
         assertThat(positionPath.getDestination())
                 .isEqualTo(new Position(Row.SIX, Column.FIVE));
+    }
+
+    @DisplayName("좌우로 한칸을 간 후에 같은 방향의 대각선으로 한칸 이동한다.")
+    @Test
+    void getLegalPath_horizontalDominant() {
+        Position from = new Position(Row.SEVEN, Column.FIVE);
+        Position to = new Position(Row.SIX, Column.SEVEN);
+        Ma ma = new Ma(Team.CHO);
+
+        PositionPath positionPath = ma.getLegalPath(from, to);
+
+        assertThat(positionPath.getDestination())
+                .isEqualTo(new Position(Row.SEVEN, Column.SIX));
     }
 
     @DisplayName("행과 열의 거리가 각각 (1,2) 혹은 (2,1)이 아니면 예외가 발생한다.")
@@ -55,7 +70,7 @@ class MaTest {
         Ma ma = new Ma(Team.CHO);
 
         //when & then
-        assertThat(ma.canPassThrough(gimulsOnPath))
+        assertThat(ma.canPassThrough(gimulsOnPath, Optional.empty()))
                 .isTrue();
     }
 
@@ -68,7 +83,7 @@ class MaTest {
         Ma ma = new Ma(Team.CHO);
 
         //when & then
-        assertThat(ma.canPassThrough(gimulsOnPath, gimulAtTo))
+        assertThat(ma.canPassThrough(gimulsOnPath, Optional.of(gimulAtTo)))
                 .isTrue();
     }
 
@@ -84,7 +99,7 @@ class MaTest {
         Ma ma = new Ma(Team.CHO);
 
         //when & then
-        assertThat(ma.canPassThrough(gimulsOnPath, gimulAtTo))
+        assertThat(ma.canPassThrough(gimulsOnPath, Optional.of(gimulAtTo)))
                 .isFalse();
     }
 
@@ -99,7 +114,7 @@ class MaTest {
         Ma ma = new Ma(Team.CHO);
 
         //when & then
-        assertThat(ma.canPassThrough(gimulsOnPath, gimulAtTo))
+        assertThat(ma.canPassThrough(gimulsOnPath, Optional.of(gimulAtTo)))
                 .isFalse();
     }
 
@@ -112,5 +127,26 @@ class MaTest {
         //when & then
         assertThat(ma.isSameTeam(Team.CHO)).isTrue();
         assertThat(ma.isSameTeam(Team.HAN)).isFalse();
+    }
+
+    @DisplayName("마의 점수는 5점이다.")
+    @Test
+    void getScore() {
+        Ma ma = new Ma(Team.CHO);
+        assertThat(ma.getScore()).isEqualTo(new Score(5));
+    }
+
+    @DisplayName("마는 넘어갈 수 있다.")
+    @Test
+    void canBeJumpedOver() {
+        Ma ma = new Ma(Team.CHO);
+        assertThat(ma.canBeJumpedOver()).isTrue();
+    }
+
+    @DisplayName("마는 잡아야할 왕이 아니다.")
+    @Test
+    void isKing() {
+        Ma ma = new Ma(Team.CHO);
+        assertThat(ma.isKing()).isFalse();
     }
 }

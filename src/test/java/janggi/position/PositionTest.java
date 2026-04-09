@@ -2,6 +2,7 @@ package janggi.position;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+import janggi.model.Team;
 import janggi.model.position.Column;
 import janggi.model.position.Position;
 import janggi.model.position.PositionPath;
@@ -55,5 +56,60 @@ class PositionTest {
         //when & then
         PositionPath positionPath = from.moveVertical(3);
         assertThat(positionPath.getDestination()).isEqualTo(new Position(Row.NINE, Column.THREE));
+    }
+
+    @DisplayName("현재 위치가 궁성영역 안이라면 True이다.")
+    @Test
+    void isInPalace_true() {
+        //given
+        Position palacePosition = new Position(Row.EIGHT, Column.FOUR);
+
+        //when & then
+        assertThat(palacePosition.isInPalace()).isTrue();
+    }
+
+    @DisplayName("현재 위치가 궁성영역 밖이라면 False이다.")
+    @Test
+    void isInPalace_false() {
+        //given
+        Position palacePosition = new Position(Row.EIGHT, Column.ONE);
+
+        //when & thenT
+        assertThat(palacePosition.isInPalace()).isFalse();
+    }
+
+    @DisplayName("초나라 궁성 안에 있으면 true를 반환한다.")
+    @Test
+    void isInPalaceOf_cho() {
+        Position position = new Position(Row.NINE, Column.FIVE);
+        assertThat(position.isInPalaceOf(Team.CHO)).isTrue();
+    }
+
+    @DisplayName("한나라 궁성 안에 있으면 false를 반환한다.")
+    @Test
+    void isInPalaceOf_cho_false() {
+        Position position = new Position(Row.TWO, Column.FIVE);
+        assertThat(position.isInPalaceOf(Team.CHO)).isFalse();
+    }
+
+    @DisplayName("한나라 궁성 안에 있으면 true를 반환한다.")
+    @Test
+    void isInPalaceOf_han() {
+        Position position = new Position(Row.TWO, Column.FIVE);
+        assertThat(position.isInPalaceOf(Team.HAN)).isTrue();
+    }
+
+    @DisplayName("궁성 대각선 위에 있으면 true를 반환한다.")
+    @Test
+    void isOnPalaceDiagonal_true() {
+        Position position = new Position(Row.NINE, Column.FIVE);
+        assertThat(position.isOnPalaceDiagonal()).isTrue();
+    }
+
+    @DisplayName("궁성 대각선 위에 있지 않으면 false를 반환한다.")
+    @Test
+    void isOnPalaceDiagonal_false() {
+        Position position = new Position(Row.NINE, Column.FOUR);
+        assertThat(position.isOnPalaceDiagonal()).isFalse();
     }
 }

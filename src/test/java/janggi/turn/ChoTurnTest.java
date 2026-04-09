@@ -2,10 +2,11 @@ package janggi.turn;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.model.Board;
 import janggi.model.Team;
+import janggi.model.board.Board;
 import janggi.model.gimul.AbstractGimul;
 import janggi.model.gimul.diagonalMove.Ma;
+import janggi.model.gimul.palace.Jang;
 import janggi.model.position.Column;
 import janggi.model.position.Position;
 import janggi.model.position.Row;
@@ -25,26 +26,13 @@ class ChoTurnTest {
     void beforeEach() {
         Map<Position, AbstractGimul> board = new HashMap<>();
 
-        board.put(
-                new Position(Row.SEVEN, Column.FIVE),
-                new Ma(Team.CHO)
-        );
-        board.put(
-                new Position(Row.SIX, Column.SEVEN),
-                new Ma(Team.CHO)
-        );
-        board.put(
-                new Position(Row.SIX, Column.FIVE),
-                new Ma(Team.CHO)
-        );
-        board.put(
-                new Position(Row.EIGHT, Column.SEVEN),
-                new Ma(Team.HAN)
-        );
-        board.put(
-                new Position(Row.ONE, Column.ONE),
-                new Ma(Team.HAN)
-        );
+        board.put(new Position(Row.SEVEN, Column.FIVE), new Ma(Team.CHO));
+        board.put(new Position(Row.SIX, Column.SEVEN), new Ma(Team.CHO));
+        board.put(new Position(Row.SIX, Column.FIVE), new Ma(Team.CHO));
+        board.put(new Position(Row.HAN_BACK, Column.FIVE), new Jang(Team.CHO));
+        board.put(new Position(Row.EIGHT, Column.SEVEN), new Ma(Team.HAN));
+        board.put(new Position(Row.ONE, Column.ONE), new Ma(Team.HAN));
+        board.put(new Position(Row.TWO, Column.FIVE), new Jang(Team.HAN));
 
         this.board = new Board(board);
     }
@@ -61,10 +49,10 @@ class ChoTurnTest {
                 .isInstanceOf(HanTurn.class);
     }
 
-    @DisplayName("게임 진행 중인 상티이면 False를 반환한다.")
+    @DisplayName("게임 진행 중인 상태이면 false를 반환한다.")
     @Test
     void isGameOver() {
-        assertThat(new ChoTurn(new Board(new HashMap<>())).isGameOver())
+        assertThat(new ChoTurn(board).isGameOver())
                 .isFalse();
     }
 }
