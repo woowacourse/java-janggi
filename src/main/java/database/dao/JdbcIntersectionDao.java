@@ -3,6 +3,7 @@ package database.dao;
 import database.dto.IntersectionDto;
 import database.mapper.JanggiBoardMapper;
 import domain.intersection.Intersection;
+
 import java.sql.SQLException;
 import java.util.List;
 
@@ -31,11 +32,22 @@ public class JdbcIntersectionDao implements IntersectionDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void saveAll(Long boardId, List<IntersectionDto> intersections) throws SQLException {
-        jdbcTemplate.saveAll(INSERT_INTERSECTION_QUERY, boardId, intersections);
+    public void saveAll(Long boardId, List<IntersectionDto> intersections) {
+        jdbcTemplate.saveAll(
+                INSERT_INTERSECTION_QUERY,
+                intersections,
+                (ps, item) -> {
+                    ps.setLong(1, boardId);
+                    ps.setInt(2, item.y());
+                    ps.setInt(3, item.x());
+                    ps.setString(4, item.pieceType());
+                    ps.setString(5, item.teamName());
+                    ps.setString(6, item.intersectionType());
+                }
+        );
     }
 
-    public List<Intersection> readByBoardId(Long boardId) throws SQLException{
+    public List<Intersection> readByBoardId(Long boardId) throws SQLException {
         return jdbcTemplate.selectList(
                 READ_ALL_INTERSECTION_QUERY,
                 resultSet -> JanggiBoardMapper.toIntersection(

@@ -2,6 +2,7 @@ package database.dao;
 
 import database.context.ConnectionContext;
 import database.dto.IntersectionDto;
+import database.exception.DataAccessException;
 import database.mapper.RowMapper;
 
 import java.sql.*;
@@ -22,20 +23,15 @@ public class JdbcTemplate {
         return null;
     }
 
-    // TODO board 저장 한정 추상화되지 않은 saveAll
-    public void saveAll(String sql, Long boardId, List<IntersectionDto> intersections) throws SQLException {
-        Connection connection = ConnectionContext.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
-
-        for (IntersectionDto dto : intersections) {
-            setParameters(
-                    preparedStatement,
-                    boardId, dto.y(), dto.x(), dto.pieceType(), dto.teamName(), dto.intersectionType()
-            );
-            preparedStatement.addBatch();
-        }
-
-        preparedStatement.executeBatch();
+    public <T> void saveAll(String sql, List<T> dataList, BatchPreparedStatementSetter<T> setter) {
+        connectPrepareStatement(ConnectionContext.getConnection(), sql, preparedStatement -> {
+            for (T data : dataList) {
+                setter.setValues(preparedStatement, data);
+                preparedStatement.addBatch();
+            }
+            preparedStatement.executeBatch();
+            return null;
+        });
     }
 
     public <T> T selectOne(String sql, RowMapper<T> mapper, Object... parameters) throws SQLException {
@@ -84,12 +80,28 @@ public class JdbcTemplate {
         if (affectedRows == 0) {
             throw new SQLException("update를 수행할 행을 찾지 못했습니다.");
         }
-
     }
 
     public void setParameters(PreparedStatement preparedStatement, Object... parameters) throws SQLException {
         for (int i = 0; i < parameters.length; i++) {
             preparedStatement.setObject(i + 1, parameters[i]);
+        }
+    }
+
+    private <T> T connectPrepareStatement(Connection connection, String sql, PreparedStatementCallback<T> callback, Object... parameters) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
+            setParameters(preparedStatement, parameters);
+            return callback.execute(preparedStatement);
+        }catch (SQLException e) {
+            throw new DataAccessException();
+        }
+    }
+
+    private <T> T connectPrepareStatement(Connection connection, String sql, PreparedStatementCallback<T> callback) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
+            return callback.execute(preparedStatement);
+        }catch (SQLException e) {
+            throw new DataAccessException();
         }
     }
 
