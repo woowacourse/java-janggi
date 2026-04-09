@@ -1,6 +1,7 @@
 package controller;
 
-import database.service.JanggiService;
+import common.exception.JanggiException;
+import service.JanggiService;
 import database.context.BoardIdContext;
 import database.dto.GameResult;
 import view.dto.BoardSelectCommand;
@@ -118,7 +119,7 @@ public class JanggiGame {
     private <T> T retry(Supplier<T> supplier) {
         try {
             return supplier.get();
-        } catch (RuntimeException e) {
+        } catch (JanggiException e) {
             writer.printErrorMessage(e.getMessage());
             return retry(supplier);
         }

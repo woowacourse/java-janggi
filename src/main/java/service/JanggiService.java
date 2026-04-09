@@ -1,4 +1,4 @@
-package database.service;
+package service;
 
 import database.context.BoardIdContext;
 import database.transaction.TransactionExecutor;
@@ -10,10 +10,13 @@ import database.mapper.JanggiBoardMapper;
 import domain.board.DBIntersectionGenerator;
 import domain.board.JanggiBoard;
 import database.dto.Moved;
+import domain.board.exception.BoardException;
 import domain.intersection.Intersection;
 import domain.piece.Team;
 
 import java.util.List;
+
+import static domain.board.exception.BoardError.BOARD_NOT_FOUND;
 
 public class JanggiService {
 
@@ -43,15 +46,13 @@ public class JanggiService {
 
     public JanggiBoard getExistBoard(Long boardId) {
         return executor.execute(()->{
-            BoardSummaryDto boardSummaryDto = boardDao.readPlayingById(boardId)
-                    .orElseThrow(() -> new IllegalArgumentException("해당 ID의 진행 중인 게임을 찾을 수 없습니다."));
+            BoardSummaryDto boardSummaryDto = readBoardSummaryDto(boardId);
             List<Intersection> intersections = intersectionDao.readByBoardId(boardId);
             Team currentTurn = Team.valueOf(boardSummaryDto.currentTurn());
             return new JanggiBoard(new DBIntersectionGenerator(intersections), currentTurn);
         });
     }
 
-    // TODO 상태 패턴을 사용하여, currentTurn과 isFinished를 합치면 좋을 듯.
     public void updateTurn(Moved moved, Team currentTurn) {
         executor.execute(() -> {
             Long boardId = BoardIdContext.getBoardId();
@@ -68,6 +69,11 @@ public class JanggiService {
             boardDao.updateResult(boardId, gameResult);
             return null;
         });
+    }
+
+    private BoardSummaryDto readBoardSummaryDto(Long boardId) {
+        return boardDao.readPlayingById(boardId)
+                .orElseThrow(() -> new BoardException(BOARD_NOT_FOUND.getMessage()));
     }
 
 }

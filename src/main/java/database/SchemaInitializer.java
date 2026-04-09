@@ -1,4 +1,4 @@
-package database.service;
+package database;
 
 import database.connection.DBConnector;
 import database.exception.DataAccessException;

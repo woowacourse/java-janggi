@@ -1,6 +1,6 @@
 package domain.database;
 
-import database.service.SchemaInitializer;
+import database.SchemaInitializer;
 import database.connection.DBConnector;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

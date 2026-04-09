@@ -1,6 +1,6 @@
 import controller.JanggiGame;
-import database.service.JanggiService;
-import database.service.SchemaInitializer;
+import service.JanggiService;
+import database.SchemaInitializer;
 import database.transaction.JanggiTransactionExecutor;
 import database.transaction.TransactionExecutor;
 import database.dao.JdbcBoardDao;
