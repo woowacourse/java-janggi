@@ -67,12 +67,7 @@ public class Board implements BoardMediator {
     public boolean isPalace(Position position) {
         return PALACE.contains(position);
     }
-
-    @Override
-    public boolean isPalacePiece(Position position) {
-        return findPieceByPosition(position).isPalacePiece();
-    }
-
+    
     public Map<Position, Piece> getPositionPieceMap() {
         return Map.copyOf(positionPieceMap);
     }
