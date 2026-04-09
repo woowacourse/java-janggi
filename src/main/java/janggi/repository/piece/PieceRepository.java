@@ -9,7 +9,7 @@ public interface PieceRepository {
 
     void saveAll(Connection connection, Long gameId, List<PieceEntity> pieces);
 
-    void updatePiece(Connection connection, Long gameId, Position from, Position to);
+    void update(Connection connection, Long gameId, Position from, Position to);
 
     List<PieceEntity> findAllByGameId(Long gameId);
 

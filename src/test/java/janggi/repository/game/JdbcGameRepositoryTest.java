@@ -9,7 +9,7 @@ import janggi.config.DatabaseManager;
 import janggi.config.DdlAuto;
 import janggi.config.TestConfig;
 import janggi.domain.game.GameState;
-import janggi.entity.TurnEntity;
+import janggi.entity.GameEntity;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeAll;
@@ -34,71 +34,71 @@ class JdbcGameRepositoryTest {
     void 게임을_올바르게_저장한다() {
         // given
         Long gameId = withTransaction(connection ->
-                gameRepository.save(connection, TurnEntity.toEntity(CHO.name()))
+                gameRepository.save(connection, GameEntity.toEntity(CHO, GameState.PLAYING))
         );
 
         // when
-        Optional<TurnEntity> result = gameRepository.findByCurrentTurnById(gameId);
+        Optional<GameEntity> result = gameRepository.findById(gameId);
 
         // then
         assertThat(result).isPresent();
         assertThat(result.get().currentTurn()).isEqualTo(CHO.name());
+        assertThat(result.get().gameState()).isEqualTo(GameState.PLAYING.name());
     }
 
     @Test
-    void 게임_차례를_올바르게_변경할_수_있다() {
+    void 게임의_차례와_상태를_올바르게_변경할_수_있다() {
         // given
         Long gameId = withTransaction(connection ->
-                gameRepository.save(connection, TurnEntity.toEntity(CHO.name()))
+                gameRepository.save(connection, GameEntity.toEntity(CHO, GameState.PLAYING))
         );
 
         // when
         DatabaseManager.withTransaction(connection -> {
-            gameRepository.updateTurn(connection, gameId, TurnEntity.toEntity(HAN.name()));
+            gameRepository.update(connection, gameId, GameEntity.toEntity(HAN, GameState.PLAYING));
             return null;
         });
-        Optional<TurnEntity> result = gameRepository.findByCurrentTurnById(gameId);
+        Optional<GameEntity> result = gameRepository.findById(gameId);
 
         // then
         assertThat(result).isPresent();
         assertThat(result.get().currentTurn()).isEqualTo(HAN.name());
+        assertThat(result.get().gameState()).isEqualTo(GameState.PLAYING.name());
     }
 
     @Test
     void 게임_상태를_올바르게_변경하고_승자를_판단할_수_있다() {
         // given
         Long gameId = withTransaction(connection ->
-                gameRepository.save(connection, TurnEntity.toEntity(CHO.name()))
+                gameRepository.save(connection, GameEntity.toEntity(CHO, GameState.PLAYING))
         );
 
         // when
         DatabaseManager.withTransaction(connection -> {
-            gameRepository.updateState(connection, gameId, GameState.CHO_WIN);
+            gameRepository.update(connection, gameId, GameEntity.toEntity(HAN, GameState.CHO_WIN));
             return null;
         });
-        Optional<GameState> result = gameRepository.findGameStateById(gameId);
+        Optional<GameEntity> result = gameRepository.findById(gameId);
 
         // then
         assertThat(result).isPresent();
-        assertThat(result.get().winner()).isEqualTo(CHO);
+        assertThat(GameState.valueOf(result.get().gameState()).winner()).isEqualTo(CHO);
     }
 
     @Test
-    public void 특정_게임_상태를_가지는_게임들을_조회할_수_있다() {
+    void 특정_게임_상태를_가지는_게임들을_조회할_수_있다() {
         // given
         Long firstPlayingGameId = DatabaseManager.withTransaction(connection ->
-                gameRepository.save(connection, TurnEntity.toEntity("CHO"))
+                gameRepository.save(connection, GameEntity.toEntity(CHO, GameState.PLAYING))
         );
 
         Long secondPlayingGameId = DatabaseManager.withTransaction(connection ->
-                gameRepository.save(connection, TurnEntity.toEntity("HAN"))
+                gameRepository.save(connection, GameEntity.toEntity(HAN, GameState.PLAYING))
         );
 
-        Long finishedGameId = DatabaseManager.withTransaction(connection -> {
-            Long gameId = gameRepository.save(connection, TurnEntity.toEntity("CHO"));
-            gameRepository.updateState(connection, gameId, GameState.CHO_WIN);
-            return gameId;
-        });
+        Long finishedGameId = DatabaseManager.withTransaction(connection ->
+                gameRepository.save(connection, GameEntity.toEntity(CHO, GameState.CHO_WIN))
+        );
 
         // when
         List<Long> playingGameIds = gameRepository.findAllByState(GameState.PLAYING);

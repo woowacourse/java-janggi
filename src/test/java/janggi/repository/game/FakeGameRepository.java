@@ -1,7 +1,7 @@
 package janggi.repository.game;
 
 import janggi.domain.game.GameState;
-import janggi.entity.TurnEntity;
+import janggi.entity.GameEntity;
 import java.sql.Connection;
 import java.util.HashMap;
 import java.util.List;
@@ -11,43 +11,34 @@ import java.util.Optional;
 public class FakeGameRepository implements GameRepository {
 
     private long sequence = 1L;
-    private final Map<Long, TurnEntity> turns = new HashMap<>();
-    private final Map<Long, GameState> states = new HashMap<>();
+    private final Map<Long, GameEntity> games = new HashMap<>();
 
     @Override
-    public Long save(Connection connection, TurnEntity turn) {
+    public Long save(Connection connection, GameEntity game) {
         long id = sequence++;
-        turns.put(id, turn);
-        states.put(id, GameState.PLAYING);
+        games.put(id, game);
         return id;
     }
 
     @Override
-    public void updateTurn(Connection connection, Long gameId, TurnEntity game) {
-        turns.put(gameId, game);
-    }
-
-    @Override
-    public void updateState(Connection connection, Long gameId, GameState state) {
-        states.put(gameId, state);
+    public void update(Connection connection, Long gameId, GameEntity game) {
+        if (!games.containsKey(gameId)) {
+            throw new IllegalArgumentException(String.format("gameId가 %s인 게임이 존재하지 않습니다.", gameId));
+        }
+        games.put(gameId, game);
     }
 
     @Override
     public List<Long> findAllByState(GameState state) {
-        return states.entrySet().stream()
-                .filter(entry -> entry.getValue() == state)
+        return games.entrySet().stream()
+                .filter(entry -> entry.getValue().gameState().equals(state.name()))
                 .map(Map.Entry::getKey)
                 .toList();
     }
 
     @Override
-    public Optional<TurnEntity> findByCurrentTurnById(Long gameId) {
-        return Optional.ofNullable(turns.get(gameId));
-    }
-
-    @Override
-    public Optional<GameState> findGameStateById(Long gameId) {
-        return Optional.ofNullable(states.get(gameId));
+    public Optional<GameEntity> findById(Long gameId) {
+        return Optional.ofNullable(games.get(gameId));
     }
 
 }

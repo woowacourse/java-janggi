@@ -22,7 +22,7 @@ public class FakePieceRepository implements PieceRepository {
     }
 
     @Override
-    public void updatePiece(Connection connection, Long gameId, Position from, Position to) {
+    public void update(Connection connection, Long gameId, Position from, Position to) {
         Map<Position, PieceEntity> board = storage.computeIfAbsent(gameId, id -> new HashMap<>());
 
         PieceEntity sourcePiece = board.remove(from);

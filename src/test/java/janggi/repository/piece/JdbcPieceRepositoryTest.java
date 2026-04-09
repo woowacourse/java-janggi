@@ -67,7 +67,7 @@ class JdbcPieceRepositoryTest {
 
         // when
         DatabaseManager.withTransaction(connection -> {
-            pieceRepository.updatePiece(connection, gameId, from, to);
+            pieceRepository.update(connection, gameId, from, to);
             return null;
         });
 
@@ -98,7 +98,7 @@ class JdbcPieceRepositoryTest {
 
         // when
         DatabaseManager.withTransaction(connection -> {
-            pieceRepository.updatePiece(connection, gameId, from, to);
+            pieceRepository.update(connection, gameId, from, to);
             return null;
         });
 
@@ -120,7 +120,7 @@ class JdbcPieceRepositoryTest {
 
         // when & then
         assertThatThrownBy(() -> DatabaseManager.withTransaction(connection -> {
-            pieceRepository.updatePiece(connection, gameId, from, to);
+            pieceRepository.update(connection, gameId, from, to);
             return null;
         })).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("이동할 기물이 존재하지 않습니다.");

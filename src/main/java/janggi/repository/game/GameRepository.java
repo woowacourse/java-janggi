@@ -1,23 +1,18 @@
 package janggi.repository.game;
 
 import janggi.domain.game.GameState;
-import janggi.entity.TurnEntity;
+import janggi.entity.GameEntity;
 import java.sql.Connection;
 import java.util.List;
 import java.util.Optional;
 
 public interface GameRepository {
 
-    Long save(Connection connection, TurnEntity turn);
+    Long save(Connection connection, GameEntity game);
 
-    void updateTurn(Connection connection, Long gameId, TurnEntity turn);
+    void update(Connection connection, Long gameId, GameEntity game);
 
-    void updateState(Connection connection, Long gameId, GameState state);
-
-    Optional<TurnEntity> findByCurrentTurnById(Long gameId);
+    Optional<GameEntity> findById(Long gameId);
 
     List<Long> findAllByState(GameState state);
-
-    Optional<GameState> findGameStateById(Long gameId);
-    
 }

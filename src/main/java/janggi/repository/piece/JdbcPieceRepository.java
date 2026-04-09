@@ -32,7 +32,7 @@ public class JdbcPieceRepository implements PieceRepository {
     }
 
     @Override
-    public void updatePiece(Connection connection, Long gameId, Position from, Position to) {
+    public void update(Connection connection, Long gameId, Position from, Position to) {
         String deleteSql = """
                 DELETE FROM piece 
                 WHERE janggi_game_id = ? AND row_pos = ? AND col_pos = ?
