@@ -8,7 +8,6 @@ import java.util.List;
 public class Chariot extends Piece {
 
     private static final Palace PALACE = new Palace();
-    private static final int SCORE = 13;
 
     public Chariot(Team team) {
         super(team);
@@ -31,11 +30,6 @@ public class Chariot extends Piece {
         if (!movable) {
             throw new PieceException(IMPOSSIBLE_MOVE);
         }
-    }
-
-    @Override
-    public int score() {
-        return SCORE;
     }
 
     @Override

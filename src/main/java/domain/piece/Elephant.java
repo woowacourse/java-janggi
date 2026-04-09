@@ -13,7 +13,6 @@ public class Elephant extends Piece {
     );
     private static final int MAX_STEP = 3;
     private static final int HALF_STEP = 2;
-    private static final int SCORE = 3;
 
 
     public Elephant(Team team) {
@@ -81,11 +80,6 @@ public class Elephant extends Piece {
         Coordination firstIntermediate = from.plus(0, rowDifferent / MAX_STEP);
         Coordination secondIntermediate = from.plus(columnDifferent / HALF_STEP, rowDifferent * HALF_STEP / MAX_STEP);
         return List.of(firstIntermediate, secondIntermediate);
-    }
-
-    @Override
-    public int score() {
-        return SCORE;
     }
 
     @Override

@@ -20,7 +20,6 @@ public class Soldier extends Piece {
             new MoveDelta(0, 1),
             new MoveDelta(1, 0)
     );
-    private static final int SCORE = 2;
 
     public Soldier(Team team) {
         super(team);
@@ -39,11 +38,6 @@ public class Soldier extends Piece {
     @Override
     public List<Coordination> resolvePath(Coordination from, Coordination to) {
         return List.of();
-    }
-
-    @Override
-    public int score() {
-        return SCORE;
     }
 
     @Override

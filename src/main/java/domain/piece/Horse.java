@@ -12,7 +12,6 @@ public class Horse extends Piece {
             new MoveDelta(2, 1)
     );
     private static final int MAX_STEP = 2;
-    private static final int SCORE = 5;
 
 
     public Horse(Team team) {
@@ -64,11 +63,6 @@ public class Horse extends Piece {
             return List.of(intermediateRow);
         }
         return List.of();
-    }
-
-    @Override
-    public int score() {
-        return SCORE;
     }
 
     @Override

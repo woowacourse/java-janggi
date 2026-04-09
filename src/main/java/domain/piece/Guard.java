@@ -10,7 +10,6 @@ public class Guard extends Piece {
 
     private static final Palace PALACE = new Palace();
     private static final MoveDelta ONE_STEP_DIAGONAL = new MoveDelta(1, 1);
-    private static final int SCORE = 3;
 
     public Guard(Team team) {
         super(team);
@@ -26,11 +25,6 @@ public class Guard extends Piece {
     @Override
     public PieceType pieceType() {
         return PieceType.GUARD;
-    }
-
-    @Override
-    public int score() {
-        return SCORE;
     }
 
     @Override

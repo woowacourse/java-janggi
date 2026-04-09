@@ -10,7 +10,6 @@ public class General extends Piece {
 
     private static final Palace PALACE = new Palace();
     private static final MoveDelta ONE_STEP_DIAGONAL = new MoveDelta(1, 1);
-    private static final int SCORE = 0;
 
     public General(Team team) {
         super(team);
@@ -31,11 +30,6 @@ public class General extends Piece {
     @Override
     public boolean isAliveGeneral() {
         return true;
-    }
-
-    @Override
-    public int score() {
-        return SCORE;
     }
 
     @Override

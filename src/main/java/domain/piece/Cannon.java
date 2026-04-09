@@ -8,7 +8,6 @@ import java.util.List;
 public class Cannon extends Piece {
 
     private static final Palace PALACE = new Palace();
-    private static final int SCORE = 7;
 
     public Cannon(Team team) {
         super(team);
@@ -51,11 +50,6 @@ public class Cannon extends Piece {
         if (pieces.size() != 1) {
             throw new PieceException(IMPOSSIBLE_MOVE);
         }
-    }
-
-    @Override
-    public int score() {
-        return SCORE;
     }
 
     @Override

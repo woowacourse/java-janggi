@@ -42,7 +42,9 @@ public abstract class Piece {
 
     public abstract PieceType pieceType();
 
-    public abstract int score();
+    public int score() {
+        return pieceType().score();
+    }
 
     public abstract void validateRule(Coordination from, Coordination to);
 
