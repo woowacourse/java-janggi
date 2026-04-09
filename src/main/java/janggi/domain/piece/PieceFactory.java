@@ -58,29 +58,4 @@ public class PieceFactory {
                 List.of(new DirectionalOneStepMoveRule(direction),
                         new PalaceDiagonalDirectionalOneStepMoveRule(PalaceFactory.createPalace(team), direction))));
     }
-
-    public static Piece create(PieceType pieceType, Team team) {
-        if (pieceType == PieceType.GENERAL) {
-            return createGeneral(team);
-        }
-        if (pieceType == PieceType.GUARD) {
-            return createGuard(team);
-        }
-        if (pieceType == PieceType.CHARIOT) {
-            return createChariot(team);
-        }
-        if (pieceType == PieceType.CANNON) {
-            return createCannon(team);
-        }
-        if (pieceType == PieceType.HORSE) {
-            return createHorse(team);
-        }
-        if (pieceType == PieceType.ELEPHANT) {
-            return createElephant(team);
-        }
-        if (pieceType == PieceType.SOLDIER) {
-            return createSolider(team, BoardDirection.of(team));
-        }
-        throw new IllegalArgumentException("알 수 없는 기물 타입입니다: " + pieceType);
-    }
 }

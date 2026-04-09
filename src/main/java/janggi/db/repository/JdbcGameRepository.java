@@ -10,7 +10,7 @@ import janggi.domain.board.MoveResult;
 import janggi.domain.board.Position;
 import janggi.domain.game.JanggiGame;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceFactory;
+import janggi.domain.piece.PieceMapper;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Team;
 
@@ -100,7 +100,7 @@ public class JdbcGameRepository implements GameRepository {
                 Position position = new Position(entity.getPositionX(), entity.getPositionY());
                 PieceType pieceType = PieceType.valueOf(entity.getPieceType());
                 Team team = Team.valueOf(entity.getTeam());
-                Piece piece = PieceFactory.create(pieceType, team);
+                Piece piece = PieceMapper.create(pieceType, team);
                 pieces.put(position, piece);
             }
 
