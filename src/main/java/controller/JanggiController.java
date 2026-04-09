@@ -79,18 +79,18 @@ public class JanggiController {
 
     private void startNewGame() {
         List<JanggiFormation> formations = Arrays.asList(JanggiFormation.values());
-        JanggiFormation hanFormation = retry(() -> inputView.readFormationNumber(HAN, formations), processError());
-        JanggiFormation choFormation = retry(() -> inputView.readFormationNumber(CHO, formations), processError());
+        JanggiFormation hanFormation = retry(() -> inputView.readFormationNumber(HAN, formations), outputView::displayError);
+        JanggiFormation choFormation = retry(() -> inputView.readFormationNumber(CHO, formations), outputView::displayError);
         janggiService.startNewGame(hanFormation, choFormation);
     }
 
-    private Consumer<IllegalArgumentException> processError() {
-        return (e) -> outputView.displayError(e.getMessage());
+    private Consumer<String> processError() {
+        return outputView::displayError;
     }
 
     private void processCommand() {
         while (janggiService.isPlaying()) {
-            CommandType commandType = retry(() -> inputView.readCommand(janggiService.getTurn()), processError());
+            CommandType commandType = retry(() -> inputView.readCommand(janggiService.getTurn()), outputView::displayError);
             retry(() -> commandMap.get(commandType).run(), processError());
         }
     }
