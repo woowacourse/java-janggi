@@ -110,11 +110,11 @@ public class OutputView {
         });
     }
 
-    public void askUndo() {
-        System.out.println("한 수를 무르겠습니까? (y/n)");
+    public void askUndoRequest(final Side side) {
+        System.out.println(SIDE_SYMBOL.get(side) + "나라가 상대방의 직전 수를 무르겠습니까? (y/n)");
     }
 
-    public void printUnDo() {
-        System.out.println("한 수를 물렀습니다. 기물을 다시 이동해주세요.");
+    public void askConfirmUndo(final Side side) {
+        System.out.println(SIDE_SYMBOL.get(side) + "나라는 무르기에 동의하십니까? (y/n)");
     }
 }

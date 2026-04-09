@@ -29,11 +29,7 @@ public final class SelectedGame {
         return gameSummary.isOver();
     }
 
-    public boolean isNewGame() {
-        return id == 0;
-    }
-
-    public Long id() {
+    public Long getId() {
         return id;
     }
 }

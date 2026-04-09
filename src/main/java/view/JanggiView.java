@@ -48,9 +48,13 @@ public class JanggiView {
         });
     }
 
-    public boolean askUnDo() {
+    public boolean askUndoRequest(final Side side) {
         return Retry.untilSuccess(() -> {
-            out.askUndo();
+            out.askUndoRequest(side);
+            if (!in.readYesOrNo()) {
+                return false;
+            }
+            out.askConfirmUndo(side.other());
             return in.readYesOrNo();
         });
     }
@@ -94,7 +98,4 @@ public class JanggiView {
         out.printMoveHistories(moveHistories);
     }
 
-    public void printUndo() {
-        out.printUnDo();
-    }
 }
