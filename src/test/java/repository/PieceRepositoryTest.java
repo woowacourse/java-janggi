@@ -65,12 +65,11 @@ public class PieceRepositoryTest {
 
         Board board = new Board(pieces);
         Game game = new Game(board);
-        game.assignId(1L);
 
         // when
         gameRepository.save(game, connection);
         pieceRepository.save(game, connection);
-        Map<Position, Piece> found = pieceRepository.findByGameId(1L, connection);
+        Map<Position, Piece> found = pieceRepository.findByGameId(game.id(), connection);
 
         // then
         assertThat(found).hasSize(1);
