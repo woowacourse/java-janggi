@@ -11,11 +11,11 @@ import java.util.Optional;
 
 public final class Game {
     private final Board board;
-    private Camp currentTurn;
+    private Camp turn;
 
-    private Game(Board board, Camp currentTurn) {
+    private Game(Board board, Camp turn) {
         this.board = board;
-        this.currentTurn = currentTurn;
+        this.turn = turn;
     }
 
     public static Game start(Board board) {
@@ -27,7 +27,7 @@ public final class Game {
     }
 
     public Camp currentTurn() {
-        return currentTurn;
+        return turn;
     }
 
     public Map<Position, Piece> boardSnapshot() {
@@ -57,7 +57,7 @@ public final class Game {
                 .isPresent();
 
         if (!gameEnded) {
-            currentTurn = currentTurn.next();
+            turn = turn.next();
         }
 
         return gameEnded;
