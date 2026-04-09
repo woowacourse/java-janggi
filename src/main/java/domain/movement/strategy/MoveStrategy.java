@@ -12,4 +12,13 @@ public interface MoveStrategy {
             Intersection from,
             Collection<Vector> vectors
     );
+
+    List<Route> getCardinalRoutes(Intersection from);
+
+    List<Route> getPalaceRoutes(Intersection from);
+
+    List<Route> getPalaceRoutes(
+            Intersection from,
+            Collection<Vector> allowedPalaceVectors
+    );
 }

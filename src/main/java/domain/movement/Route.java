@@ -1,6 +1,7 @@
 package domain.movement;
 
 import domain.board.Intersection;
+import domain.board.Palace;
 import domain.game.Side;
 import domain.piece.AlivePieces;
 import domain.piece.Piece;
@@ -9,6 +10,7 @@ import java.util.Objects;
 
 public class Route {
 
+    private final Palace palace = new Palace();
     private final List<Intersection> route;
 
     public Route(List<Intersection> intersections) {
@@ -29,7 +31,7 @@ public class Route {
 
     public boolean containsOnlyPalace() {
         return route.stream()
-                .allMatch(Intersection::isPalace);
+                .allMatch(palace::contains);
     }
 
     public List<Piece> getPiecesOnPath(AlivePieces alivePieces) {

@@ -4,7 +4,6 @@ import domain.board.Intersection;
 import domain.game.Side;
 import domain.movement.MoveAmount;
 import domain.movement.Route;
-import domain.movement.Vector;
 import domain.movement.strategy.MoveStrategy;
 import domain.movement.strategy.Straight;
 import java.util.Collection;
@@ -37,12 +36,12 @@ public final class Chariot extends StaticPositionedPiece {
             Intersection from,
             AlivePieces alivePieces
     ) {
-        Stream<Intersection> cardinalDestinations = findCardinalDestinations(
-                from,
+        Stream<Intersection> cardinalDestinations = findReachableDestinations(
+                moveStrategy.getCardinalRoutes(from),
                 alivePieces
         );
-        Stream<Intersection> palaceDestinations = findPalaceDestinations(
-                from,
+        Stream<Intersection> palaceDestinations = findReachableDestinations(
+                moveStrategy.getPalaceRoutes(from),
                 alivePieces
         );
 
@@ -70,30 +69,12 @@ public final class Chariot extends StaticPositionedPiece {
         return true;
     }
 
-    private Stream<Intersection> findCardinalDestinations(
-            Intersection from,
+    private Stream<Intersection> findReachableDestinations(
+            Collection<Route> routes,
             AlivePieces alivePieces
     ) {
-        return findValidRoute(from, Vector.cardinals(), alivePieces)
+        return routes.stream()
+                .filter(route -> route.canReachDestinationThroughPath(alivePieces, side))
                 .map(Route::getDestination);
-    }
-
-    private Stream<Intersection> findPalaceDestinations(
-            Intersection from,
-            AlivePieces alivePieces
-    ) {
-        return findValidRoute(from, from.getPalaceDiagonalVectors(), alivePieces)
-                .filter(Route::containsOnlyPalace)
-                .map(Route::getDestination);
-    }
-
-    private Stream<Route> findValidRoute(
-            Intersection from,
-            Collection<Vector> vectors,
-            AlivePieces alivePieces
-    ) {
-        return moveStrategy.getRoutes(from, vectors)
-                .stream()
-                .filter(route -> route.canReachDestinationThroughPath(alivePieces, side));
     }
 }

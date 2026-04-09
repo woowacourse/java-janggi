@@ -1,6 +1,7 @@
 package domain.movement.strategy;
 
 import domain.board.Intersection;
+import domain.board.Palace;
 import domain.movement.MoveAmount;
 import domain.movement.Route;
 import domain.movement.Vector;
@@ -11,6 +12,7 @@ import java.util.List;
 public class ForwardAndDiagonal implements MoveStrategy {
 
     private final MoveAmount diagonalMovementAmount;
+    private final Palace palace = new Palace();
 
     public ForwardAndDiagonal(MoveAmount diagonalMovementAmount) {
         this.diagonalMovementAmount = diagonalMovementAmount;
@@ -19,11 +21,37 @@ public class ForwardAndDiagonal implements MoveStrategy {
     @Override
     public List<Route> getRoutes(
             Intersection from,
-            Collection<Vector> vectors
+            Collection<Vector> allowedVectors
     ) {
-        return vectors.stream()
+        return allowedVectors.stream()
                 .map(vector -> getRoutesOfSingleVector(from, vector))
                 .flatMap(List::stream)
+                .toList();
+    }
+
+    @Override
+    public List<Route> getCardinalRoutes(Intersection from) {
+        return getRoutes(from, Vector.cardinals());
+    }
+
+    @Override
+    public List<Route> getPalaceRoutes(Intersection from) {
+        return getRoutes(from, palace.getDiagonalVectors(from))
+                .stream()
+                .filter(Route::containsOnlyPalace)
+                .toList();
+    }
+
+    @Override
+    public List<Route> getPalaceRoutes(Intersection from, Collection<Vector> allowedPalaceVectors) {
+        List<Vector> forwardablePalaceVectors = palace.getDiagonalVectors(from)
+                .stream()
+                .filter(allowedPalaceVectors::contains)
+                .toList();
+
+        return getRoutes(from, forwardablePalaceVectors)
+                .stream()
+                .filter(Route::containsOnlyPalace)
                 .toList();
     }
 

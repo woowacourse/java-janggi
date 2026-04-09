@@ -9,6 +9,8 @@ import domain.movement.Vector;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -41,6 +43,61 @@ class ForwardAndDiagonalTest {
         // then
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
     }
+
+    @Nested
+    class 궁성_영역에_해당하는_경로들을_반환한다 {
+
+        @Test
+        void 궁성으로_이동_가능한_모든_방향에_대한_경로를_반환한다() {
+            // given
+            MoveAmount moveAmount = new MoveAmount(1);
+            ForwardAndDiagonal forwardAndDiagonal = new ForwardAndDiagonal(moveAmount);
+
+            Intersection palaceIntersection = new Intersection(3, 4);
+
+            // when
+            List<Route> routes = forwardAndDiagonal.getPalaceRoutes(palaceIntersection);
+
+            // then
+            assertThat(routes).isNotEmpty();
+            assertThat(routes).allMatch(Route::containsOnlyPalace);
+        }
+
+        @Test
+        void 궁성으로_이동_가능한_방향_중_허용된_방향에_대한_경로만_반환한다() {
+            // given
+            MoveAmount moveAmount = new MoveAmount(1);
+            ForwardAndDiagonal forwardAndDiagonal = new ForwardAndDiagonal(moveAmount);
+
+            Vector allowedVector = new Vector(1, 1);
+            Intersection palaceIntersection = new Intersection(1, 4);
+
+            Intersection expectedForwardNode = allowedVector.next(palaceIntersection);
+            Intersection expectedLeftDestination = allowedVector.turnLeft45Degrees()
+                    .next(expectedForwardNode);
+            Intersection expectedRightDestination = allowedVector.turnRight45Degrees()
+                    .next(expectedForwardNode);
+
+            List<Route> expected = List.of(
+                    new Route(List.of(
+                            expectedForwardNode,
+                            expectedLeftDestination
+                    )),
+                    new Route(List.of(
+                            expectedForwardNode,
+                            expectedRightDestination
+                    ))
+            );
+
+            // when
+            List<Route> actual = forwardAndDiagonal.getPalaceRoutes(palaceIntersection, List.of(allowedVector));
+
+            // then
+            assertThat(actual).containsAll(expected);
+            assertThat(actual).allMatch(Route::containsOnlyPalace);
+        }
+    }
+
 
     private static List<Intersection> diagonalPathFrom(
             Intersection forwardNode,

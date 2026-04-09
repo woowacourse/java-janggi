@@ -4,7 +4,6 @@ import domain.board.Intersection;
 import domain.game.Side;
 import domain.movement.MoveAmount;
 import domain.movement.Route;
-import domain.movement.Vector;
 import domain.movement.strategy.MoveStrategy;
 import domain.movement.strategy.Straight;
 import java.util.Collection;
@@ -38,12 +37,12 @@ public final class Cannon extends StaticPositionedPiece {
             Intersection from,
             AlivePieces alivePieces
     ) {
-        Stream<Intersection> cardinalDestinations = findCardinalDestinations(
-                from,
+        Stream<Intersection> cardinalDestinations = findReachableDestinations(
+                moveStrategy.getCardinalRoutes(from),
                 alivePieces
         );
-        Stream<Intersection> palaceDestinations = findPalaceDestinations(
-                from,
+        Stream<Intersection> palaceDestinations = findReachableDestinations(
+                moveStrategy.getPalaceRoutes(from),
                 alivePieces
         );
 
@@ -71,32 +70,14 @@ public final class Cannon extends StaticPositionedPiece {
         return false;
     }
 
-    private Stream<Intersection> findCardinalDestinations(
-            Intersection from,
+    private Stream<Intersection> findReachableDestinations(
+            Collection<Route> routes,
             AlivePieces alivePieces
     ) {
-        return findValidRoute(from, Vector.cardinals(), alivePieces)
-                .map(Route::getDestination);
-    }
-
-    private Stream<Intersection> findPalaceDestinations(
-            Intersection from,
-            AlivePieces alivePieces
-    ) {
-        return findValidRoute(from, from.getPalaceDiagonalVectors(), alivePieces)
-                .filter(Route::containsOnlyPalace)
-                .map(Route::getDestination);
-    }
-
-    private Stream<Route> findValidRoute(
-            Intersection from,
-            Collection<Vector> vectors,
-            AlivePieces alivePieces
-    ) {
-        return moveStrategy.getRoutes(from, vectors)
-                .stream()
+        return routes.stream()
                 .filter(route -> isAvailableCannonRoute(route, alivePieces))
-                .filter(route -> isDestinationAvailable(route, alivePieces));
+                .filter(route -> isDestinationAvailable(route, alivePieces))
+                .map(Route::getDestination);
     }
 
     private boolean isAvailableCannonRoute(Route route, AlivePieces alivePieces) {

@@ -4,7 +4,6 @@ import domain.board.Intersection;
 import domain.game.Side;
 import domain.movement.MoveAmount;
 import domain.movement.Route;
-import domain.movement.Vector;
 import domain.movement.strategy.MoveStrategy;
 import domain.movement.strategy.Straight;
 import java.util.Collection;
@@ -26,33 +25,26 @@ public abstract class PalacePiece extends StaticPositionedPiece {
             Intersection from,
             AlivePieces alivePieces
     ) {
-        List<Vector> cardinals = Vector.cardinals();
-        List<Vector> palaceDiagonals = from.getPalaceDiagonalVectors();
+        Stream<Intersection> cardinalDestinations = findReachableDestinations(
+                moveStrategy.getCardinalRoutes(from),
+                alivePieces
+        );
+        Stream<Intersection> palaceDestinations = findReachableDestinations(
+                moveStrategy.getPalaceRoutes(from),
+                alivePieces
+        );
 
-        List<Vector> movableVectors = Stream.concat(cardinals.stream(), palaceDiagonals.stream())
+        return Stream.concat(cardinalDestinations, palaceDestinations)
                 .toList();
-
-        return findReachableDestinations(from, movableVectors, alivePieces);
     }
 
-    private List<Intersection> findReachableDestinations(
-            Intersection from,
-            Collection<Vector> vectors,
+    private Stream<Intersection> findReachableDestinations(
+            Collection<Route> routes,
             AlivePieces alivePieces
     ) {
-        return findValidRoute(from, vectors, alivePieces)
+        return routes.stream()
                 .filter(Route::containsOnlyPalace)
-                .map(Route::getDestination)
-                .toList();
-    }
-
-    private Stream<Route> findValidRoute(
-            Intersection from,
-            Collection<Vector> vectors,
-            AlivePieces alivePieces
-    ) {
-        return moveStrategy.getRoutes(from, vectors)
-                .stream()
-                .filter(route -> route.canReachDestinationThroughPath(alivePieces, side));
+                .filter(route -> route.canReachDestinationThroughPath(alivePieces, side))
+                .map(Route::getDestination);
     }
 }

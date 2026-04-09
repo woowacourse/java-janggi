@@ -3,6 +3,7 @@ package domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.board.Intersection;
+import domain.board.Palace;
 import domain.game.Side;
 import domain.movement.Vector;
 import java.util.List;
@@ -127,12 +128,13 @@ class PalacePieceTest {
         void 궁성의_대각선으로_이동할_수_있다() {
             // given
             PalacePiece palacePiece = new Guard(SIDE);
+            Palace palace = new Palace();
 
             AlivePieces alivePieces = new AlivePieces(Map.of(
                     PALACE_CENTER, palacePiece
             ));
 
-            List<Vector> palaceDiagonalVectors = PALACE_CENTER.getPalaceDiagonalVectors();
+            List<Vector> palaceDiagonalVectors = palace.getDiagonalVectors(PALACE_CENTER);
             List<Intersection> expectedPalaceDestinations = palaceDiagonalVectors.stream()
                     .map(vector -> vector.next(PALACE_CENTER))
                     .toList();

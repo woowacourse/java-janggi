@@ -3,6 +3,7 @@ package domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.board.Intersection;
+import domain.board.Palace;
 import domain.game.Side;
 import domain.movement.Vector;
 import java.util.List;
@@ -165,12 +166,13 @@ class ChariotTest {
             // given
             Chariot chariot = new Chariot(SIDE);
             Intersection palaceIntersection = new Intersection(2, 5);
+            Palace palace = new Palace();
 
             AlivePieces alivePieces = new AlivePieces(Map.of(
                     palaceIntersection, chariot
             ));
 
-            List<Vector> palaceDiagonalVectors = palaceIntersection.getPalaceDiagonalVectors();
+            List<Vector> palaceDiagonalVectors = palace.getDiagonalVectors(palaceIntersection);
             List<Intersection> expectedPalaceDestinations = palaceDiagonalVectors.stream()
                     .map(vector -> vector.next(palaceIntersection))
                     .toList();
