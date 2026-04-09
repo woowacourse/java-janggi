@@ -44,4 +44,8 @@ public enum PieceType {
     public double score() {
         return score;
     }
+
+    public boolean isGeneral() {
+        return this == GENERAL;
+    }
 }

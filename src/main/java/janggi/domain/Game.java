@@ -53,7 +53,7 @@ public final class Game {
     public boolean play(Position source, Position destination) {
         Optional<PieceType> caughtPieceType = board.movePiece(source, destination, currentTurn());
         boolean gameEnded = caughtPieceType
-                .filter(pieceType -> pieceType == PieceType.GENERAL)
+                .filter(PieceType::isGeneral)
                 .isPresent();
 
         if (!gameEnded) {
