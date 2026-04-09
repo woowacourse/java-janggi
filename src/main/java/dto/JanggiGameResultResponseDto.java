@@ -14,8 +14,8 @@ public record JanggiGameResultResponseDto(
         return new JanggiGameResultResponseDto(
                 Side.CHO.getName(),
                 Side.HAN.getName(),
-                scoreBoard.getScores().get(Side.CHO),
-                scoreBoard.getScores().get(Side.HAN),
+                scoreBoard.getScoreBySide(Side.CHO),
+                scoreBoard.getScoreBySide(Side.HAN),
                 scoreBoard.determineSide().getName()
         );
     }

@@ -86,7 +86,7 @@ public class JanggiGame {
 
     private void handleInProgress(Board board, GameMetaData gameMetaData) {
         gameStart(board, gameMetaData);
-        ScoreBoard scoreBoard = calculateScore(board);
+        ScoreBoard scoreBoard = ScoreBoard.from(board);
         showResult(board, scoreBoard);
         updateGameStatus(gameMetaData, JanggiGameStatus.FINISHED);
     }
@@ -210,10 +210,6 @@ public class JanggiGame {
     private Side changeSide(Side currentTurnSide) {
         if (currentTurnSide == Side.HAN) return Side.CHO;
         return Side.HAN;
-    }
-
-    private ScoreBoard calculateScore(Board board) {
-        return board.calculateScore();
     }
 
     private void showResult(Board board, ScoreBoard scoreBoard) {

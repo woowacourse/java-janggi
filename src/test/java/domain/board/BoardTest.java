@@ -299,19 +299,4 @@ public class BoardTest {
 
         assertThat(result).isTrue();
     }
-
-    @Test
-    @DisplayName("현재 보드판의 점수를 계산할 수 있다.")
-    void calculateScore_테스트_1(){
-        Board board = new Board();
-        board.placePieces(Side.CHO, Placement.LEFT_ELEPHANT);
-        board.placePieces(Side.HAN, Placement.LEFT_ELEPHANT);
-
-        ScoreBoard scoreBoard = board.calculateScore();
-
-        Double choResult = scoreBoard.getScores().get(Side.CHO);
-        Double hanResult = scoreBoard.getScores().get(Side.HAN);
-        assertThat(choResult).isEqualTo(72.0);
-        assertThat(hanResult).isEqualTo(73.5);
-    }
 }
