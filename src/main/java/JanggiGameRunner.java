@@ -46,12 +46,16 @@ public class JanggiGameRunner {
         initializeGameChoice();
         outputView.printBoard(janggiGameManager.getBoard());
 
+        PlayerProfile winnerProfile = playGame();
+        outputView.printResult(winnerProfile);
+    }
+
+    private PlayerProfile playGame() {
         while (janggiGameManager.isGameRunning()) {
             playTurn();
         }
 
-        PlayerProfile winnerProfile = janggiGamePlayService.finishGame(gameId, janggiGameManager);
-        outputView.printResult(winnerProfile);
+        return janggiGameManager.calculateFinalScore();
     }
 
     private void playTurn() {

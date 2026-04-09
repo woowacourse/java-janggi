@@ -35,20 +35,15 @@ public class GamePersistence {
         });
     }
 
-    public void saveMove(long gameId, Position source, Position destination, BasicPiece movingPiece) {
-        TransactionExecutor.executeVoid(connection -> boardDao.updateMove(connection, gameId, source, destination, movingPiece));
-    }
-
-    public void finishGame(long gameId, Team winnerTeam, GameStatus status) {
-        TransactionExecutor.executeVoid(connection -> gameDao.updateGameState(connection, gameId, winnerTeam, status));
+    public void saveFinalMove(long gameId, Position source, Position destination, BasicPiece movingPiece, Team winnerTeam, GameStatus status) {
+        TransactionExecutor.executeVoid(connection -> {
+            boardDao.updateMove(connection, gameId, source, destination, movingPiece);
+            gameDao.updateGameState(connection, gameId, winnerTeam, status);
+        });
     }
 
     public List<GameInfo> findAllProgressGames() {
         return gameDao.findAllProgressGames();
-    }
-
-    public Optional<Long> findProgressGame() {
-        return gameDao.findProgressGame();
     }
 
     public Team getCurrentTurn(long gameId) {

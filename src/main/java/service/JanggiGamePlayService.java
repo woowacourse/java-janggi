@@ -21,19 +21,25 @@ public class JanggiGamePlayService {
         janggiGameManager.validateSource(source);
         BasicPiece movingPiece = janggiGameManager.getBoard().findPiece(source);
         janggiGameManager.move(source, destination);
+
         if (janggiGameManager.isGameRunning()) {
-            Team currentTeam = janggiGameManager.getCurrentPlayer().getProfile().team();
-            gamePersistence.saveTurnProgress(gameId, source, destination, movingPiece, currentTeam);
+            saveProgressingGame(gameId, source, destination, movingPiece, janggiGameManager);
             return;
         }
-        gamePersistence.saveMove(gameId, source, destination, movingPiece);
+
+        saveFinishedGame(gameId, source, destination, movingPiece, janggiGameManager);
     }
 
-    public PlayerProfile finishGame(long gameId, JanggiGameManager janggiGameManager) {
+    private void saveProgressingGame(long gameId, Position source, Position destination, BasicPiece movingPiece, JanggiGameManager janggiGameManager) {
+        Team currentTeam = janggiGameManager.getCurrentPlayer().getProfile().team();
+        gamePersistence.saveTurnProgress(gameId, source, destination, movingPiece, currentTeam);
+    }
+
+    private void saveFinishedGame(long gameId, Position source, Position destination, BasicPiece movingPiece, JanggiGameManager janggiGameManager) {
         PlayerProfile winnerProfile = janggiGameManager.calculateFinalScore();
         Team winnerTeam = winnerProfile.team();
-        gamePersistence.finishGame(gameId, winnerTeam, resolveFinishedStatus(winnerTeam));
-        return winnerProfile;
+        GameStatus finishedStatus = resolveFinishedStatus(winnerTeam);
+        gamePersistence.saveFinalMove(gameId, source, destination, movingPiece, winnerTeam, finishedStatus);
     }
 
     private GameStatus resolveFinishedStatus(Team winnerTeam) {

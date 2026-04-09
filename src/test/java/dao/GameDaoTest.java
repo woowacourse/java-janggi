@@ -61,46 +61,9 @@ class GameDaoTest {
         }
     }
 
-    @Test
-    void findProgressGame_진행중인_게임이_있으면_ID를_반환한다() throws SQLException {
-        try (Connection connection = DbConnectionFactory.createConnection()) {
-            // 기존 진행 중인 게임 종료
-            Optional<Long> existing = gameDao.findProgressGame();
-            while (existing.isPresent()) {
-                gameDao.updateGameState(connection, existing.get(), Team.CHO, GameStatus.CHO_WIN);
-                existing = gameDao.findProgressGame();
-            }
-
-            long gameId1 = gameDao.createGame(connection, "CHO Player", "HAN Player");
-            long gameId2 = gameDao.createGame(connection, "CHO Player2", "HAN Player2");
-
-            Optional<Long> foundId = gameDao.findProgressGame();
-
-            assertThat(foundId).isPresent();
-            assertThat(foundId.get()).isEqualTo(gameId2);
-        }
-    }
 
     @Test
-    void findProgressGame_진행중인_게임이_없으면_비어있음을_반환한다() throws SQLException {
-        try (Connection connection = DbConnectionFactory.createConnection()) {
-            Optional<Long> existingGame = gameDao.findProgressGame();
-            while (existingGame.isPresent()) {
-                gameDao.updateGameState(connection, existingGame.get(), HAN, GameStatus.CHO_WIN);
-                existingGame = gameDao.findProgressGame();
-            }
-
-            long gameId = gameDao.createGame(connection, "CHO Player", "HAN Player");
-            gameDao.updateGameState(connection, gameId, HAN, GameStatus.HAN_WIN);
-
-            Optional<Long> foundId = gameDao.findProgressGame();
-
-            assertThat(foundId).isEmpty();
-        }
-    }
-
-    @Test
-    void getCurrentTurn_해당_게임의_현재_차례를_반환한다() throws SQLException {
+    void 해당_게임의_현재_차례를_반환한다() throws SQLException {
         try (Connection connection = DbConnectionFactory.createConnection()) {
             long gameId = gameDao.createGame(connection, "CHO Player", "HAN Player");
 
@@ -111,7 +74,7 @@ class GameDaoTest {
     }
 
     @Test
-    void getCurrentTurn_업데이트_후_변경된_차례를_반환한다() throws SQLException {
+    void 업데이트_후_변경된_차례를_반환한다() throws SQLException {
         try (Connection connection = DbConnectionFactory.createConnection()) {
             long gameId = gameDao.createGame(connection, "CHO Player", "HAN Player");
             gameDao.updateGameState(connection, gameId, HAN, GameStatus.PROGRESS);

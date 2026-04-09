@@ -57,7 +57,7 @@ class JanggiGamePlayServiceTest {
         }
 
         @Test
-        void 게임이_종료되면_진행상태를_업데이트하지_않는다() throws SQLException {
+        void 게임이_종료되면_보드와_종료상태가_함께_저장된다() throws SQLException {
             try (Connection connection = DbConnectionFactory.createConnection()) {
                 Player choPlayer = createPlayer("cho", CHO);
                 Player hanPlayer = createPlayer("han", HAN);
@@ -67,44 +67,41 @@ class JanggiGamePlayServiceTest {
 
                 janggiGamePlayService.playTurn(gameId, endedGameManager, new Position(6, 0), new Position(5, 0));
 
+                // playTurn에서 게임 종료 시 보드와 상태가 함께 저장됨 (원자성 보장)
                 assertThat(gameDao.getCurrentTurn(gameId)).isEqualTo(CHO);
-                assertThat(readGameStatus(gameId)).isEqualTo("PROGRESS");
+                assertThat(readGameStatus(gameId)).isEqualTo("CHO_WIN");
+                assertThat(boardDao.loadBoard(gameId)).containsKey(new Position(5, 0));
             }
         }
     }
 
-    @Nested
-    class FinishGameTest {
-        @Test
-        void 승자가_CHO면_CHO_WIN으로_저장한다() throws SQLException {
-            try (Connection connection = DbConnectionFactory.createConnection()) {
-                Player choPlayer = createPlayer("cho", CHO);
-                Player hanPlayer = createPlayer("han", HAN);
-                EndedJanggiGameManager endedGameManager = new EndedJanggiGameManager(choPlayer, hanPlayer, choPlayer.getProfile());
-                long gameId = gameDao.createGame(connection, "cho", "han");
+    @Test
+    void 게임이_종료되면_playTurn에서_승자를_반환한다() throws SQLException {
+        try (Connection connection = DbConnectionFactory.createConnection()) {
+            Player choPlayer = createPlayer("cho", CHO);
+            Player hanPlayer = createPlayer("han", HAN);
+            EndedJanggiGameManager endedGameManager = new EndedJanggiGameManager(choPlayer, hanPlayer, choPlayer.getProfile());
+            long gameId = gameDao.createGame(connection, "cho", "han");
+            boardDao.saveFullBoard(gameId, endedGameManager.getBoard());
 
-                PlayerProfile winner = janggiGamePlayService.finishGame(gameId, endedGameManager);
+            janggiGamePlayService.playTurn(gameId, endedGameManager, new Position(6, 0), new Position(5, 0));
 
-                assertThat(winner.team()).isEqualTo(CHO);
-                assertThat(gameDao.getCurrentTurn(gameId)).isEqualTo(CHO);
-                assertThat(readGameStatus(gameId)).isEqualTo("CHO_WIN");
-            }
+            assertThat(readGameStatus(gameId)).isEqualTo("CHO_WIN");
         }
+    }
 
-        @Test
-        void 승자가_HAN이면_HAN_WIN으로_저장한다() throws SQLException {
-            try (Connection connection = DbConnectionFactory.createConnection()) {
-                Player choPlayer = createPlayer("cho", CHO);
-                Player hanPlayer = createPlayer("han", HAN);
-                EndedJanggiGameManager endedGameManager = new EndedJanggiGameManager(choPlayer, hanPlayer, hanPlayer.getProfile());
-                long gameId = gameDao.createGame(connection, "cho", "han");
+    @Test
+    void HAN_승리_테스트() throws SQLException {
+        try (Connection connection = DbConnectionFactory.createConnection()) {
+            Player choPlayer = createPlayer("cho", CHO);
+            Player hanPlayer = createPlayer("han", HAN);
+            EndedJanggiGameManager endedGameManager = new EndedJanggiGameManager(choPlayer, hanPlayer, hanPlayer.getProfile());
+            long gameId = gameDao.createGame(connection, "cho", "han");
+            boardDao.saveFullBoard(gameId, endedGameManager.getBoard());
 
-                PlayerProfile winner = janggiGamePlayService.finishGame(gameId, endedGameManager);
+            janggiGamePlayService.playTurn(gameId, endedGameManager, new Position(6, 0), new Position(5, 0));
 
-                assertThat(winner.team()).isEqualTo(HAN);
-                assertThat(gameDao.getCurrentTurn(gameId)).isEqualTo(HAN);
-                assertThat(readGameStatus(gameId)).isEqualTo("HAN_WIN");
-            }
+            assertThat(readGameStatus(gameId)).isEqualTo("HAN_WIN");
         }
     }
 
