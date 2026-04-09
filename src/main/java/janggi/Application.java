@@ -1,6 +1,6 @@
 package janggi;
 
-import janggi.controller.JanggiFlow;
+import janggi.controller.JanggiController;
 import janggi.repository.util.ConnectionProvider;
 import janggi.repository.util.DBConnectionProvider;
 import janggi.repository.util.SchemaInitializer;
@@ -22,7 +22,7 @@ public class Application {
 
         TransactionManager transactionManager = new TransactionManager(connectionProvider);
         JanggiService janggiService = new DefaultJanggiService(transactionManager);
-        JanggiFlow janggi = new JanggiFlow(view, janggiService);
+        JanggiController janggi = new JanggiController(view, janggiService);
 
         janggi.process();
     }

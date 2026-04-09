@@ -20,13 +20,13 @@ import janggi.view.resolver.StrategyViewResolver;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class JanggiFlow {
+public class JanggiController {
 
     private final ApplicationView view;
     private final IntersectionInitializer intersectionInitializer;
     private final JanggiService janggiService;
 
-    public JanggiFlow(ApplicationView view, JanggiService janggiService) {
+    public JanggiController(ApplicationView view, JanggiService janggiService) {
         this.view = view;
         this.janggiService = janggiService;
         this.intersectionInitializer = new PalaceIntersectionInitializer();
