@@ -7,7 +7,6 @@ import janggi.dao.game.GameDao;
 import janggi.dao.piece.PieceDao;
 import janggi.model.Janggi;
 import janggi.model.Team;
-import janggi.model.board.BoardType;
 import janggi.model.board.PlayingBoard;
 import janggi.model.piece.Byeong;
 import janggi.model.piece.Piece;
@@ -19,6 +18,7 @@ import janggi.model.position.absolute.Position;
 import janggi.model.position.absolute.Row;
 import janggi.service.dto.GameDetailResponse;
 import janggi.service.dto.GameOptionResponse;
+import janggi.view.mapping.BoardType;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
@@ -91,7 +91,7 @@ class JanggiServiceTest {
         BoardType boardType = BoardType.FIRST;
 
         //when
-        GameDetailResponse response = janggiService.initGame(boardType);
+        GameDetailResponse response = janggiService.initGame(boardType.getBoard());
 
         //then
         assertThat(response.gameId())

@@ -1,5 +1,6 @@
-package janggi.model.board;
+package janggi.view.mapping;
 
+import janggi.model.board.Board;
 import janggi.model.initializer.InsideTableSetting;
 import janggi.model.initializer.LeftSidedTableSetting;
 import janggi.model.initializer.OutsideTableSetting;

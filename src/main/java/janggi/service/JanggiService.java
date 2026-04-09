@@ -8,7 +8,6 @@ import janggi.infra.transaction.TransactionExecutor;
 import janggi.model.Janggi;
 import janggi.model.Team;
 import janggi.model.board.Board;
-import janggi.model.board.BoardType;
 import janggi.model.board.PlayingBoard;
 import janggi.model.piece.Piece;
 import janggi.model.piece.PieceType;
@@ -109,9 +108,8 @@ public class JanggiService {
         return new HanTurn(board);
     }
 
-    public GameDetailResponse initGame(BoardType boardType) {
+    public GameDetailResponse initGame(Board board) {
         return transactionExecutor.execute(connection -> {
-            Board board = boardType.getBoard();
             Janggi newGame = Janggi.of(board);
 
             Long gameId = gameDao.saveGame(connection, newGame.getCurrentTeam().name());
@@ -167,10 +165,6 @@ public class JanggiService {
         transactionExecutor.executeWithoutResult(connection ->
                 gameDao.deleteGameByGameId(connection, gameId)
         );
-    }
-
-    public BoardType createBoardTypeOf(int typeValue) {
-        return BoardType.of(typeValue);
     }
 
     public Position createPositionOf(int rowNumber, Integer columnNumber) {

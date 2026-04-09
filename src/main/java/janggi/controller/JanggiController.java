@@ -1,7 +1,6 @@
 package janggi.controller;
 
 import janggi.model.Janggi;
-import janggi.model.board.BoardType;
 import janggi.model.position.absolute.Position;
 import janggi.service.JanggiService;
 import janggi.service.dto.GameDetailResponse;
@@ -9,6 +8,7 @@ import janggi.service.dto.GameOptionResponse;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import janggi.view.dto.GameStatus;
+import janggi.view.mapping.BoardType;
 import java.util.List;
 
 public class JanggiController {
@@ -87,14 +87,12 @@ public class JanggiController {
 
     private GameDetailResponse initNewGame() {
         BoardType boardType = readBoardType();
-        return janggiService.initGame(boardType);
+        return janggiService.initGame(boardType.getBoard());
     }
 
     private BoardType readBoardType() {
         outputView.printBoardInitialTypeMessage();
-        int initializeTypeValue = inputView.readBoardInitializeType();
-
-        return janggiService.createBoardTypeOf(initializeTypeValue);
+        return inputView.readBoardInitializeType();
     }
 
     private Position readFromPosition() {
