@@ -1,10 +1,10 @@
-package janggi.repository;
+package janggi.dto;
 
 import janggi.domain.team.Team;
 
 import java.time.LocalDateTime;
 
-public class GameInfo2 {
+public class GameInfo {
 
     private final long id;
     private final LocalDateTime updatedAt;
@@ -13,7 +13,7 @@ public class GameInfo2 {
     private final Team currentTeam;
     private final Team winner;
 
-    public GameInfo2(long id, LocalDateTime updatedAt, double hanScore, double choScore, Team currentTeam, Team winner) {
+    public GameInfo(long id, LocalDateTime updatedAt, double hanScore, double choScore, Team currentTeam, Team winner) {
         this.id = id;
         this.updatedAt = updatedAt;
         this.hanScore = hanScore;

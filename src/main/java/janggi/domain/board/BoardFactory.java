@@ -5,10 +5,8 @@ import janggi.domain.position.Column;
 import janggi.domain.position.Position;
 import janggi.domain.position.Row;
 import janggi.domain.team.Team;
-import janggi.repository.PieceInfo;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 public class BoardFactory {
@@ -23,18 +21,6 @@ public class BoardFactory {
         placeHan(base);
         placeCho(base);
         applySetUp(base, hanSetup, choSetup);
-        return new Board(base);
-    }
-
-    public static Board restore(List<PieceInfo> pieces) {
-        Map<Position, Piece> base = new LinkedHashMap<>();
-        initializeEmpty(base);
-        for (PieceInfo pieceInfo : pieces) {
-            Position position = Position.of(pieceInfo.getRowValue(), pieceInfo.getColumnValue());
-            Team team = Team.valueOf(pieceInfo.getTeam());
-            Piece piece = PieceType.valueOf(pieceInfo.getPieceType()).createPiece(team);
-            base.put(position, piece);
-        }
         return new Board(base);
     }
 

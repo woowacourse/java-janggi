@@ -1,72 +1,121 @@
 package janggi;
 
-import janggi.domain.team.Team;
+import janggi.domain.board.PieceSetup;
+import janggi.domain.position.Movement;
+import janggi.domain.position.Position;
+import janggi.exception.DataAccessException;
+import janggi.service.JanggiService;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 
 import java.util.List;
-import java.util.Optional;
 
 public class JanggiController {
-    private static final String END_COMMAND = "end";
+    private static final String EXIT_COMMAND = "exit";
+    private static final String QUIT_COMMAND = "quit";
+    private static final String CREATE_GAME_COMMAND = "new";
+    private static final int FROM_INDEX = 0;
+    private static final int TO_INDEX = 1;
 
     private final InputView inputView;
     private final OutputView outputView;
-    private final JanggiGame game;
+    private final JanggiService service;
 
-    public JanggiController(InputView inputView, OutputView outputView, JanggiGame game) {
+    public JanggiController(InputView inputView, OutputView outputView, JanggiService service) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.game = game;
+        this.service = service;
     }
 
     public void run() {
-        Optional<Team> previousTurn = game.checkPreviousGame();
-        if (previousTurn.isEmpty()) {
-            initializeGame();
+        while (true) {
+            outputView.printGameList(service.findAllGames());
+            if (processCommand()) {
+                outputView.printGameEnd();
+                return;
+            }
         }
-        Team currentTurn = previousTurn.orElse(Team.FIRST_TURN);
-        outputView.printBoard(game.getBoard(), game.getScore());
-        startGame(currentTurn);
     }
 
-    private void initializeGame() {
+    private boolean processCommand() {
+        while (true) {
+            try {
+                String command = inputView.readCommand();
+                if (isExitCommand(command)) {
+                    return true;
+                }
+                handleCommand(command);
+                return false;
+            } catch (NumberFormatException e) {
+                outputView.printError("[ERROR] 올바른 명령어를 입력해주세요.");
+            } catch (DataAccessException e) {
+                outputView.printError(e.getMessage());
+            }
+        }
+    }
+
+    private void handleCommand(String command) {
+        if (isCreateCommand(command)) {
+            long gameId = createGame();
+            playGame(gameId);
+            return;
+        }
+        long gameId = Long.parseLong(command);
+        playGame(gameId);
+    }
+
+    private long createGame() {
         while (true) {
             try {
                 String hanSetup = inputView.readHanSetup();
                 String choSetup = inputView.readChoSetup();
-                game.initialize(hanSetup, choSetup);
-                break;
+                return service.createGame(PieceSetup.from(hanSetup), PieceSetup.from(choSetup));
             } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
             }
         }
     }
 
-    private void startGame(Team currentTeam) {
-        while (!game.isFinished(currentTeam)) {
+    private void playGame(long gameId) {
+        JanggiGame game = service.loadGame(gameId);
+        printBoardAndScore(game);
+        while (!game.isFinished()) {
             try {
-                List<String> positions = inputView.readPosition(currentTeam);
-                if (isEndCommand(positions)) {
-                    outputView.printGameEnd();
+                List<String> positions = inputView.readPosition(game.getCurrentTeam());
+                if (isQuitCommand(positions)) {
+                    outputView.printGameQuit();
                     return;
                 }
-                currentTeam = processTurn(positions, currentTeam);
-            } catch (IllegalArgumentException exception) {
-                outputView.printError(exception.getMessage());
+                game = playTurn(gameId, positions);
+                printBoardAndScore(game);
+            } catch (IllegalArgumentException | DataAccessException e) {
+                outputView.printError(e.getMessage());
             }
         }
-        game.saveWinner(currentTeam.convert());
-        outputView.printWinner(currentTeam.convert());
+        outputView.printWinner(game.getWinner());
+        inputView.waitForEnter();
     }
 
-    private Team processTurn(List<String> positions, Team currentTeam) {
-        Team nextTurn = game.playTurn(positions, currentTeam);
+    private JanggiGame playTurn(long gameId, List<String> positions) {
+        return service.playTurn(gameId, new Movement(
+                Position.from(positions.get(FROM_INDEX)),
+                Position.from(positions.get(TO_INDEX))));
+    }
+
+    private void printBoardAndScore(JanggiGame game) {
         outputView.printBoard(game.getBoard(), game.getScore());
-        return nextTurn;
     }
 
-    private boolean isEndCommand(List<String> positions) {
-        return positions.getFirst().equals(END_COMMAND);
+    private boolean isQuitCommand(List<String> positions) {
+        return positions.getFirst().equalsIgnoreCase(QUIT_COMMAND);
+    }
+
+    private boolean isExitCommand(String command) {
+        return command.equalsIgnoreCase(EXIT_COMMAND);
+
+    }
+
+    private boolean isCreateCommand(String command) {
+        return command.equalsIgnoreCase(CREATE_GAME_COMMAND);
     }
 }

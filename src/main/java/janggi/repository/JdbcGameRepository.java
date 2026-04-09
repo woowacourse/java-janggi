@@ -1,11 +1,12 @@
 package janggi.repository;
 
-import janggi.JanggiGame2;
+import janggi.JanggiGame;
 import janggi.domain.board.BoardFactory;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
 import janggi.domain.team.Team;
+import janggi.dto.GameInfo;
 import janggi.exception.DataAccessException;
 
 import java.sql.*;
@@ -14,7 +15,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class JdbcGameRepository implements GameRepository2 {
+public class JdbcGameRepository implements GameRepository {
 
     private final Connection conn;
 
@@ -23,7 +24,7 @@ public class JdbcGameRepository implements GameRepository2 {
     }
 
     @Override
-    public List<GameInfo2> findAllGames() {
+    public List<GameInfo> findAllGames() {
         String sql = "SELECT id, updated_at, han_score, cho_score, current_turn, winner FROM game ORDER BY updated_at DESC";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             ResultSet rs = pstmt.executeQuery();
@@ -34,31 +35,31 @@ public class JdbcGameRepository implements GameRepository2 {
     }
 
     @Override
-    public long createGame(JanggiGame2 game) {
+    public long createGame(JanggiGame game) {
         long gameId = insertGame(game);
         savePieces(gameId, game.getBoard());
         return gameId;
     }
 
     @Override
-    public void updateGame(long gameId, JanggiGame2 game) {
+    public void updateGame(long gameId, JanggiGame game) {
         updateGameInfo(gameId, game);
         deletePieces(gameId);
         savePieces(gameId, game.getBoard());
     }
 
     @Override
-    public JanggiGame2 getById(long gameId) {
+    public JanggiGame getById(long gameId) {
         Team currentTeam = findCurrentTeam(gameId);
         Map<Position, Piece> pieces = findPieces(gameId);
 
-        return new JanggiGame2(BoardFactory.restore(pieces), currentTeam);
+        return new JanggiGame(BoardFactory.restore(pieces), currentTeam);
     }
 
-    private List<GameInfo2> toGameInfos(ResultSet rs) throws SQLException {
-        List<GameInfo2> games = new ArrayList<>();
+    private List<GameInfo> toGameInfos(ResultSet rs) throws SQLException {
+        List<GameInfo> games = new ArrayList<>();
         while (rs.next()) {
-            games.add(new GameInfo2(
+            games.add(new GameInfo(
                     rs.getLong("id"),
                     rs.getTimestamp("updated_at").toLocalDateTime(),
                     rs.getDouble("han_score"),
@@ -70,7 +71,7 @@ public class JdbcGameRepository implements GameRepository2 {
         return games;
     }
 
-    private long insertGame(JanggiGame2 game) {
+    private long insertGame(JanggiGame game) {
         String sql = "INSERT INTO game (current_turn, winner, han_score, cho_score) VALUES (?, ?, ?, ?)";
         try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setString(1, game.getCurrentTeam().name());
@@ -110,7 +111,7 @@ public class JdbcGameRepository implements GameRepository2 {
         pstmt.addBatch();
     }
 
-    private void updateGameInfo(long gameId, JanggiGame2 game) {
+    private void updateGameInfo(long gameId, JanggiGame game) {
         String sql = "UPDATE game SET current_turn = ?, winner = ?, han_score = ?, cho_score = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, game.getCurrentTeam().name());

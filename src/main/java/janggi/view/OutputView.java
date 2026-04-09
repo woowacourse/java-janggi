@@ -7,7 +7,7 @@ import janggi.domain.position.Position;
 import janggi.domain.position.Row;
 import janggi.domain.score.Score;
 import janggi.domain.team.Team;
-import janggi.repository.GameInfo2;
+import janggi.dto.GameInfo;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -36,11 +36,11 @@ public class OutputView {
             GENERAL, "GEN", CANNON, "CAN", SOLDIER, "SOL"
     );
 
-    public void printGameList(List<GameInfo2> games) {
+    public void printGameList(List<GameInfo> games) {
         System.out.println("========================= 게임 목록 ==========================");
         System.out.printf("%-6s %-19s %-6s %-6s %-6s %-6s%n", "ID", "마지막 플레이", "한 점수", "초 점수", "현재턴", "승자");
         System.out.println("------------------------------------------------------------");
-        for (GameInfo2 game : games) {
+        for (GameInfo game : games) {
             String result = game.getWinner() == Team.NONE ? "진행중" : toColorName(game.getWinner());
             System.out.printf("%-6d %-22s %-7.1f %-7.1f %-17s %-6s%n",
                     game.getId(),
