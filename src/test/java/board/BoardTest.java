@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
 import participant.Score;
 import participant.Turn;
 import pieces.Piece;
@@ -89,22 +87,6 @@ class BoardTest {
             .filter(piece -> piece.equals(destinationPiece))
             .findAny();
         assertThat(deletedPiece.isEmpty()).isTrue();
-    }
-
-    @ParameterizedTest
-    @EnumSource(PieceType.class)
-    void 특정_위치의_기물_타입을_반환한다(PieceType expected) {
-        // given
-        Position position = new Position(0, 0);
-        Piece piece = new Piece(Side.HAN, expected);
-        Map<Position, Piece> pieces = Map.of(
-            position, piece
-        );
-        Board board = new Board(pieces);
-        // when
-        PieceType pieceType = board.getPieceTypeAt(position).get();
-        // then
-        assertThat(pieceType).isEqualTo(expected);
     }
 
     @Test

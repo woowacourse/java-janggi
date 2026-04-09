@@ -4,12 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import movepolicy.rule.MoveTrace;
 import participant.Score;
 import participant.Turn;
 import pieces.Piece;
-import pieces.PieceType;
 import pieces.Side;
 import position.Position;
 
@@ -26,12 +24,8 @@ public record Board(Map<Position, Piece> pieces) {
             .reduce(Score.zero(), Score::add);
     }
 
-    public Optional<PieceType> getPieceTypeAt(final Position position) {
-        final Piece piece = pieceAt(position);
-        if (piece == null) {
-            return Optional.empty();
-        }
-        return Optional.of(piece.type());
+    public Piece getPieceAt(final Position position) {
+        return pieces.get(position);
     }
 
     public void validatePositions(final Position departure, final Turn turn) {
@@ -56,14 +50,14 @@ public record Board(Map<Position, Piece> pieces) {
     private MoveTrace findMoveTrace(final Piece movingPiece, final Position departure, final Position destination) {
         final List<Position> pathPositions = movingPiece.findPathPositions(departure, destination);
         final List<Piece> pathPieces = findPathPieces(pathPositions);
-        final Piece targetPiece = pieceAt(destination);
+        final Piece targetPiece = getPieceAt(destination);
 
         return new MoveTrace(movingPiece, pathPieces, targetPiece);
     }
 
     private List<Piece> findPathPieces(final List<Position> pathPieces) {
         return pathPieces.stream()
-            .map(this::pieceAt)
+            .map(this::getPieceAt)
             .filter(Objects::nonNull)
             .toList();
     }
@@ -75,12 +69,8 @@ public record Board(Map<Position, Piece> pieces) {
         return new Board(moved);
     }
 
-    public Piece pieceAt(final Position position) {
-        return pieces.get(position);
-    }
-
     private Piece requirePieceAt(final Position position) {
-        final Piece piece = pieceAt(position);
+        final Piece piece = getPieceAt(position);
         if (piece == null) {
             throw new IllegalArgumentException("해당 위치에 기물이 없습니다.");
         }

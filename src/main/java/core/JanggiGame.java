@@ -3,11 +3,9 @@ package core;
 import board.Board;
 import board.SangSetup;
 import board.SangSetupType;
-import java.util.Optional;
 import participant.Score;
 import participant.Turn;
 import pieces.Piece;
-import pieces.PieceType;
 import pieces.Side;
 import position.Position;
 
@@ -67,7 +65,7 @@ public class JanggiGame {
     }
 
     public Piece getPieceAt(Position position) {
-        return board.pieceAt(position);
+        return board.getPieceAt(position);
     }
 
     public JanggiGame endByScore() {
@@ -85,13 +83,13 @@ public class JanggiGame {
 
     public JanggiGame move(final Position departure, final Position destination) {
         validateMoveRequest(departure, destination);
-        final Optional<PieceType> capturedPieceType = board.getPieceTypeAt(destination);
+        final Piece capturedPiece = board.getPieceAt(destination);
 
         final Board updatedBoard = board.move(departure, destination);
-        if (capturedPieceType.isEmpty()) {
+        if (capturedPiece == null) {
             return nextTurn(updatedBoard);
         }
-        return createNextGame(updatedBoard, capturedPieceType.get());
+        return createNextGame(updatedBoard, capturedPiece);
     }
 
     private void validateMoveRequest(final Position departure, final Position destination) {
@@ -105,8 +103,8 @@ public class JanggiGame {
         return new JanggiGame(updatedBoard, turn.other(), GameStatus.PLAYING);
     }
 
-    private JanggiGame createNextGame(final Board updatedBoard, final PieceType targetPieceType) {
-        if (targetPieceType.isGung()) {
+    private JanggiGame createNextGame(final Board updatedBoard, final Piece capturedPiece) {
+        if (capturedPiece.isGung()) {
             return gameOverByGung(updatedBoard);
         }
         return nextTurn(updatedBoard);
