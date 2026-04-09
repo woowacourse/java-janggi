@@ -1,4 +1,4 @@
-package domain.board;
+package domain.board.formation;
 
 import domain.position.Position;
 import domain.piece.Elephant;

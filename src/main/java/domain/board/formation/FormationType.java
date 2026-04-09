@@ -1,4 +1,4 @@
-package domain.board;
+package domain.board.formation;
 
 public enum FormationType {
     LEFT_GIWMA,

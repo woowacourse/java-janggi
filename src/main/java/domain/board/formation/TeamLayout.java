@@ -1,4 +1,4 @@
-package domain.board;
+package domain.board.formation;
 
 import domain.game.Team;
 import java.util.Map;
