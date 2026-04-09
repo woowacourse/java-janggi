@@ -1,6 +1,8 @@
 package repository.jdbc;
 
 import domain.game.Turn;
+import domain.piece.PieceType;
+import domain.piece.Team;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,7 +16,6 @@ import repository.mapper.GameSnapshotMapper;
 import repository.snapshot.GameSnapshot;
 import repository.snapshot.GameStatus;
 import repository.snapshot.PieceSnapshot;
-import repository.snapshot.PieceType;
 import service.LoadedGame;
 
 public class JdbcGameRepository implements GameRepository {
@@ -127,7 +128,7 @@ public class JdbcGameRepository implements GameRepository {
                             resultSet.getInt("col_no"),
                             resultSet.getInt("row_no"),
                             PieceType.valueOf(resultSet.getString("piece_type")),
-                            domain.piece.Team.valueOf(resultSet.getString("team"))
+                            Team.valueOf(resultSet.getString("team"))
                     ));
                 }
                 return pieces;

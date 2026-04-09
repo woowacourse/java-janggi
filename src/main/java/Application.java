@@ -3,7 +3,6 @@ import controller.JanggiController;
 import repository.GameRepository;
 import repository.jdbc.ConnectionProvider;
 import repository.jdbc.JdbcGameRepository;
-import repository.jdbc.JdbcInitializer;
 import service.GamePersistenceService;
 import view.InputView;
 import view.OutputView;
@@ -13,8 +12,6 @@ public class Application {
     public static void main(String[] args) {
         DbConfig dbConfig = DbConfig.load();
         ConnectionProvider connectionProvider = new ConnectionProvider(dbConfig);
-        JdbcInitializer jdbcInitializer = new JdbcInitializer(connectionProvider);
-        jdbcInitializer.initialize();
 
         GameRepository gameRepository = new JdbcGameRepository(connectionProvider);
         GamePersistenceService gamePersistenceService = new GamePersistenceService(gameRepository);
