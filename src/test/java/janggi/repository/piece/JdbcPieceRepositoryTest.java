@@ -8,8 +8,6 @@ import janggi.config.DdlAuto;
 import janggi.config.TestConfig;
 import janggi.domain.position.Position;
 import janggi.entity.PieceEntity;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,7 +30,7 @@ class JdbcPieceRepositoryTest {
     @Test
     void 기물들을_저장할_수_있다() {
         // given
-        Long gameId = insertGame("CHO", "PLAYING");
+        Long gameId = TestConfig.insertGame("CHO", "PLAYING");
         List<PieceEntity> pieces = List.of(
                 PieceEntity.toEntity(1, 1, "CHO", "CHARIOT"),
                 PieceEntity.toEntity(1, 2, "CHO", "HORSE"),
@@ -54,7 +52,7 @@ class JdbcPieceRepositoryTest {
     @Test
     void 기물을_이동할_수_있다() {
         // given
-        Long gameId = insertGame("CHO", "PLAYING");
+        Long gameId = TestConfig.insertGame("CHO", "PLAYING");
         List<PieceEntity> pieces = List.of(
                 PieceEntity.toEntity(1, 1, "CHO", "CHARIOT")
         );
@@ -84,7 +82,7 @@ class JdbcPieceRepositoryTest {
     @Test
     void 도착지의_기물을_잡으면서_이동할_수_있다() {
         // given
-        Long gameId = insertGame("CHO", "PLAYING");
+        Long gameId = TestConfig.insertGame("CHO", "PLAYING");
         List<PieceEntity> pieces = List.of(
                 PieceEntity.toEntity(1, 1, "CHO", "CHARIOT"),
                 PieceEntity.toEntity(2, 1, "HAN", "SOLDIER")
@@ -115,7 +113,7 @@ class JdbcPieceRepositoryTest {
     @Test
     void 이동할_기물이_없으면_예외가_발생한다() {
         // given
-        Long gameId = insertGame("CHO", "PLAYING");
+        Long gameId = TestConfig.insertGame("CHO", "PLAYING");
 
         Position from = Position.from(1, 1);
         Position to = Position.from(2, 1);
@@ -131,8 +129,8 @@ class JdbcPieceRepositoryTest {
     @Test
     void 특정_게임의_기물들을_조회할_수_있다() {
         // given
-        Long firstGameId = insertGame("CHO", "PLAYING");
-        Long secondGameId = insertGame("HAN", "PLAYING");
+        Long firstGameId = TestConfig.insertGame("CHO", "PLAYING");
+        Long secondGameId = TestConfig.insertGame("HAN", "PLAYING");
 
         DatabaseManager.withTransaction(connection -> {
             pieceRepository.saveAll(connection, firstGameId, List.of(
@@ -154,25 +152,6 @@ class JdbcPieceRepositoryTest {
                 PieceEntity.toEntity(1, 1, "CHO", "CHARIOT"),
                 PieceEntity.toEntity(1, 2, "CHO", "HORSE")
         );
-    }
-
-    private Long insertGame(String turn, String state) {
-        try (Connection connection = DatabaseManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(
-                     "INSERT INTO janggi_game (turn, state) VALUES (?, ?)",
-                     PreparedStatement.RETURN_GENERATED_KEYS
-             )) {
-            statement.setString(1, turn);
-            statement.setString(2, state);
-            statement.executeUpdate();
-
-            try (var keys = statement.getGeneratedKeys()) {
-                keys.next();
-                return keys.getLong(1);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("테스트용 게임 저장 실패", e);
-        }
     }
 
 }
