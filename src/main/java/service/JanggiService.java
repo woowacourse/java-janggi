@@ -64,7 +64,7 @@ public class JanggiService {
         return boardService.findBoardBy(gameId);
     }
 
-    public String getWhoseTurn(Long gameId) {
+    public Side getWhoseTurn(Long gameId) {
         return gameRepository.findCurrentTurnById(gameId)
                 .orElseThrow(() -> new IllegalArgumentException("게임이 존재하지 않습니다."));
     }

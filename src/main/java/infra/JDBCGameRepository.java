@@ -1,6 +1,7 @@
 package infra;
 
 import domain.janggigame.JanggiGame;
+import domain.piece.Side;
 import repository.GameRepository;
 
 import java.sql.*;
@@ -66,7 +67,7 @@ public class JDBCGameRepository implements GameRepository {
     }
 
     @Override
-    public Optional<String> findCurrentTurnById(Long gameId) {
+    public Optional<Side> findCurrentTurnById(Long gameId) {
         String sql = "SELECT current_turn FROM game WHERE id = ?";
 
         try (Connection connection = JDBCContext.getConnection();
@@ -74,7 +75,8 @@ public class JDBCGameRepository implements GameRepository {
             statement.setLong(1, gameId);
             ResultSet resultSet = statement.executeQuery();
             resultSet.next();
-            return Optional.of(resultSet.getString("current_turn"));
+            Side side = Side.valueOf(resultSet.getString("current_turn"));
+            return Optional.of(side);
         } catch (SQLException e) {
             throw new RuntimeException("조회 실패", e);
         }

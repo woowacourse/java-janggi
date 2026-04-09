@@ -30,13 +30,13 @@ public class InputView {
         return Integer.parseInt(input);
     }
 
-    public static Position inputStartPosition(String currentTurn) {
-        System.out.println(currentTurn + "진영은 시작 위치를 입력해주세요. ex) 1,2");
+    public static Position inputStartPosition(Side currentTurn) {
+        System.out.println(currentTurn.getName() + "진영은 시작 위치를 입력해주세요. ex) 1,2");
         return inputAndParseToPosition();
     }
 
-    public static Position inputEndPosition(String currentTurn) {
-        System.out.println(currentTurn + "진영은 도착 위치를 입력해주세요. ex) 1,2");
+    public static Position inputEndPosition(Side currentTurn) {
+        System.out.println(currentTurn.getName() + "진영은 도착 위치를 입력해주세요. ex) 1,2");
         return inputAndParseToPosition();
     }
 

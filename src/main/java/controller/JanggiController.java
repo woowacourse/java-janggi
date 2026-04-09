@@ -84,7 +84,7 @@ public class JanggiController {
     }
 
     private Movement inputAndParseToMove(Long gameId) {
-        String currentTurn = janggiService.getWhoseTurn(gameId);
+        Side currentTurn = janggiService.getWhoseTurn(gameId);
         Position startPosition = InputView.inputStartPosition(currentTurn);
         Position endPosition = InputView.inputEndPosition(currentTurn);
         return new Movement(startPosition, endPosition);

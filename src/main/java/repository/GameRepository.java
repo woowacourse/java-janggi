@@ -1,6 +1,7 @@
 package repository;
 
 import domain.janggigame.JanggiGame;
+import domain.piece.Side;
 
 import java.sql.Connection;
 import java.util.Optional;
@@ -12,5 +13,5 @@ public interface GameRepository {
 
     boolean isFinished(Long gameId);
 
-    Optional<String> findCurrentTurnById(Long gameId);
+    Optional<Side> findCurrentTurnById(Long gameId);
 }
