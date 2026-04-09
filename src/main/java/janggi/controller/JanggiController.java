@@ -76,7 +76,7 @@ public class JanggiController {
         gameContext.makeMove(from, to);
     }
 
-    public Position findFromPosition(GameContext gameContext) {
+    private Position findFromPosition(GameContext gameContext) {
         while (true) {
             Position from = RetryExecutor.retry(() -> inputFromPosition(gameContext));
             List<Position> movable = gameContext.calculateMovablePositions(from);
