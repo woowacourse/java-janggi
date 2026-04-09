@@ -3,8 +3,12 @@ package janggi.persistence;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.board.Board;
+import janggi.domain.board.Destinations;
+import janggi.domain.board.Position;
 import janggi.domain.game.GameManager;
 import janggi.domain.game.Players;
+import janggi.domain.game.Side;
+import janggi.domain.piece.PieceType;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -55,6 +59,28 @@ class JanggiGameRepositoryTest {
         verifyGameTurn(1L, "HAN");
     }
 
+    @Test
+    @DisplayName("초기 보드 상태를 저장하면 32개의 기물이 정상적으로 DB에 기록되어야 한다")
+    void insertBoard() throws SQLException {
+        GameManager manager = createInitialGameManager();
+
+        long gameId = repository.save(connection, manager);
+
+        verifyTotalPiecesCount(gameId, 32);
+    }
+
+    @Test
+    @DisplayName("보드 상태를 업데이트하면 변경된 특정 기물의 좌표가 DB에 정확히 반영되어야 한다")
+    void updateBoard() throws SQLException {
+        insertDummyGame(1L, "CHO");
+        insertDummyPiece(1L, "CHO", "PALACE", "0", 8, 4);
+        GameManager manager = createUpdatedGameManager();
+
+        repository.save(connection, manager);
+
+        verifyPieceLocation(1L, "CHO", "PALACE", "0", 7, 4);
+    }
+
     private GameManager createInitialGameManager() {
         return GameManager.newGame(Players.from("testCho", "testHan"), Board.initialize());
     }
@@ -62,7 +88,16 @@ class JanggiGameRepositoryTest {
     private GameManager createTurnChangedGameManager() {
         GameManager manager = createInitialGameManager();
         manager.switchTurn();
-        manager.assign(1);
+        manager.assign(1L);
+        return manager;
+    }
+
+    private GameManager createUpdatedGameManager() {
+        GameManager manager = createInitialGameManager();
+        manager.assign(1L);
+        Board board = manager.getBoard();
+        Destinations destinations = PieceType.PALACE.determineDestinations(new Position(8, 4), Side.CHO, board);
+        manager.movePiece(new Position(8, 4), new Position(7, 4), destinations);
         return manager;
     }
 
@@ -73,6 +108,25 @@ class JanggiGameRepositoryTest {
             statement.setString(2, turn);
             statement.executeUpdate();
         }
+    }
+
+    private void insertDummyPiece(long gameId, String side, String type, String num, int row, int col)
+            throws SQLException {
+        String sql = "INSERT INTO BOARD (game_id, side, piece_type, piece_number, row_index, column_index) VALUES (?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            bindPieceParameters(statement, gameId, side, type, num, row, col);
+            statement.executeUpdate();
+        }
+    }
+
+    private void bindPieceParameters(PreparedStatement stmt, long gameId, String side, String type, String num, int row,
+                                     int col) throws SQLException {
+        stmt.setLong(1, gameId);
+        stmt.setString(2, side);
+        stmt.setString(3, type);
+        stmt.setString(4, num);
+        stmt.setInt(5, row);
+        stmt.setInt(6, col);
     }
 
     private void verifyGameInserted(long gameId, String expectedTurn, boolean expectedFinished) throws SQLException {
@@ -93,6 +147,46 @@ class JanggiGameRepositoryTest {
             rs.next();
             assertThat(rs.getString("current_turn")).isEqualTo(expectedTurn);
             assertThat(rs.getBoolean("is_finished")).isEqualTo(expectedFinished);
+        }
+    }
+
+    private void verifyTotalPiecesCount(long gameId, int expectedCount) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM BOARD WHERE game_id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setLong(1, gameId);
+            verifyCountResultSet(stmt, expectedCount);
+        }
+    }
+
+    private void verifyCountResultSet(PreparedStatement stmt, int expectedCount) throws SQLException {
+        try (ResultSet rs = stmt.executeQuery()) {
+            rs.next();
+            assertThat(rs.getInt(1)).isEqualTo(expectedCount);
+        }
+    }
+
+    private void verifyPieceLocation(long gameId, String side, String type, String num, int row, int col)
+            throws SQLException {
+        String sql = "SELECT row_index, column_index FROM BOARD WHERE game_id = ? AND side = ? AND piece_type = ? AND piece_number = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            bindIdentifierParameters(stmt, gameId, side, type, num);
+            verifyLocationResultSet(stmt, row, col);
+        }
+    }
+
+    private void bindIdentifierParameters(PreparedStatement stmt, long gameId, String side, String type, String num)
+            throws SQLException {
+        stmt.setLong(1, gameId);
+        stmt.setString(2, side);
+        stmt.setString(3, type);
+        stmt.setString(4, num);
+    }
+
+    private void verifyLocationResultSet(PreparedStatement stmt, int expectedRow, int expectedCol) throws SQLException {
+        try (ResultSet rs = stmt.executeQuery()) {
+            rs.next();
+            assertThat(rs.getInt("row_index")).isEqualTo(expectedRow);
+            assertThat(rs.getInt("column_index")).isEqualTo(expectedCol);
         }
     }
 }
