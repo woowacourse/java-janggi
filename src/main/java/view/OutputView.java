@@ -1,5 +1,6 @@
 package view;
 
+import domain.game.GameScore;
 import domain.team.Team;
 import dto.IntersectionsDto;
 import java.util.Map;
@@ -58,6 +59,10 @@ public class OutputView {
     public void printWinnerTeam(Team winnerTeam) {
         System.out.println("게임이 종료되었습니다.");
         System.out.println(getTeamName(winnerTeam) + "의 승리입니다.\n");
+    }
+
+    public void printCurrentScore(GameScore score) {
+        System.out.printf("현재 점수 - 초(楚): %.1f점, 한(漢): %.1f점%n", score.cho(), score.han());
     }
 
     private String getTeamName(Team team) {

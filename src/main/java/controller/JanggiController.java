@@ -48,6 +48,7 @@ public class JanggiController {
 
             Team turn = game.currentTurn();
             outputView.printCurrentTurn(turn);
+            outputView.printCurrentScore(game.currentScore());
 
             InputMoveDto inputMoveDto = getInputMove();
             MoveCommand move = MoveMapper.toMove(inputMoveDto);

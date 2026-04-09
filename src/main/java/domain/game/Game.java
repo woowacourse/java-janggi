@@ -7,11 +7,15 @@ import domain.team.Team;
 
 public class Game {
     private final JanggiBoard janggiBoard;
+    private final ScoreCalculator scoreCalculator;
+    private GameScore currentScore;
     private boolean isGameRunning;
     private Team turn;
 
     public Game(JanggiBoard janggiBoard) {
         this.janggiBoard = janggiBoard;
+        this.scoreCalculator = new ScoreCalculator();
+        this.currentScore = scoreCalculator.calculate(janggiBoard.boardState());
         this.isGameRunning = true;
         this.turn = Team.CHO;
     }
@@ -22,6 +26,7 @@ public class Game {
         validateTurn(from);
         janggiBoard.tryToMove(from, to);
         isGameRunning = janggiBoard.isGameRunning();
+        currentScore = scoreCalculator.calculate(janggiBoard.boardState());
         turn = turn.nextTurn();
     }
 
@@ -42,5 +47,9 @@ public class Game {
 
     public BoardState getBoardState() {
         return janggiBoard.boardState();
+    }
+
+    public GameScore currentScore() {
+        return currentScore;
     }
 }
