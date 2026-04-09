@@ -1,6 +1,6 @@
 package janggi.dto;
 
-import janggi.domain.team.Team;
+import janggi.domain.Team;
 
 import java.time.LocalDateTime;
 

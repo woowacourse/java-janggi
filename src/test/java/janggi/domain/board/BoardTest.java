@@ -5,7 +5,7 @@ import janggi.domain.piece.Piece;
 import janggi.domain.piece.Soldier;
 import janggi.domain.position.Movement;
 import janggi.domain.position.Position;
-import janggi.domain.team.Team;
+import janggi.domain.Team;
 import org.junit.jupiter.api.Test;
 
 import java.util.LinkedHashMap;

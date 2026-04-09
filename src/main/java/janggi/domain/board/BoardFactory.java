@@ -4,7 +4,7 @@ import janggi.domain.piece.*;
 import janggi.domain.position.Column;
 import janggi.domain.position.Position;
 import janggi.domain.position.Row;
-import janggi.domain.team.Team;
+import janggi.domain.Team;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -12,7 +12,6 @@ import java.util.Map;
 public class BoardFactory {
 
     private BoardFactory() {
-
     }
 
     public static Board create(PieceSetup hanSetup, PieceSetup choSetup) {

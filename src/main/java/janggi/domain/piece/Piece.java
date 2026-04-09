@@ -3,7 +3,7 @@ package janggi.domain.piece;
 import janggi.domain.path.Path;
 import janggi.domain.path.PieceOnPath;
 import janggi.domain.position.Movement;
-import janggi.domain.team.Team;
+import janggi.domain.Team;
 
 public interface Piece {
 

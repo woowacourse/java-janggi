@@ -2,7 +2,7 @@ package janggi.domain.board;
 
 import janggi.domain.piece.Piece;
 import janggi.domain.position.Position;
-import janggi.domain.team.Team;
+import janggi.domain.Team;
 
 import java.util.Arrays;
 import java.util.Map;

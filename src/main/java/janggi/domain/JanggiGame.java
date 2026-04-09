@@ -1,11 +1,9 @@
-package janggi;
+package janggi.domain;
 
 import janggi.domain.board.Board;
 import janggi.domain.piece.Piece;
 import janggi.domain.position.Movement;
 import janggi.domain.position.Position;
-import janggi.domain.score.Score;
-import janggi.domain.team.Team;
 
 import java.util.Map;
 

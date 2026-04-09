@@ -1,6 +1,6 @@
 package janggi.domain.piece;
 
-import janggi.domain.team.Team;
+import janggi.domain.Team;
 
 public abstract class MoveablePiece implements Piece {
 

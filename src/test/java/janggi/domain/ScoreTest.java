@@ -1,4 +1,4 @@
-package janggi.domain.score;
+package janggi.domain;
 
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardFactory;
@@ -15,8 +15,8 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 import static janggi.domain.board.PieceSetup.OUTER_ELEPHANT;
-import static janggi.domain.team.Team.CHO;
-import static janggi.domain.team.Team.HAN;
+import static janggi.domain.Team.CHO;
+import static janggi.domain.Team.HAN;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 

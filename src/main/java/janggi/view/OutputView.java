@@ -5,8 +5,8 @@ import janggi.domain.piece.PieceType;
 import janggi.domain.position.Column;
 import janggi.domain.position.Position;
 import janggi.domain.position.Row;
-import janggi.domain.score.Score;
-import janggi.domain.team.Team;
+import janggi.domain.Score;
+import janggi.domain.Team;
 import janggi.dto.GameInfo;
 
 import java.time.format.DateTimeFormatter;

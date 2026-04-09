@@ -1,6 +1,6 @@
 package janggi.repository;
 
-import janggi.JanggiGame;
+import janggi.domain.JanggiGame;
 import janggi.dto.GameInfo;
 
 import java.util.List;

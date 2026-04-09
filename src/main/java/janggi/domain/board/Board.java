@@ -7,7 +7,7 @@ import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.position.Movement;
 import janggi.domain.position.Position;
-import janggi.domain.team.Team;
+import janggi.domain.Team;
 
 import java.util.Map;
 

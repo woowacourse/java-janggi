@@ -1,5 +1,6 @@
 package janggi;
 
+import janggi.controller.JanggiController;
 import janggi.db.DBConnection;
 import janggi.db.DBInitializer;
 import janggi.repository.JdbcGameRepository;

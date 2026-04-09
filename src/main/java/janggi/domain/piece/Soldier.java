@@ -2,7 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.path.PieceOnPath;
 import janggi.domain.position.Movement;
-import janggi.domain.team.Team;
+import janggi.domain.Team;
 
 public class Soldier extends PalacePiece {
     private static final int MAX_MOVE_DISTANCE = 1;

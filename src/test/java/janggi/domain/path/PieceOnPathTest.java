@@ -1,7 +1,7 @@
 package janggi.domain.path;
 
 import janggi.domain.piece.*;
-import janggi.domain.team.Team;
+import janggi.domain.Team;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;

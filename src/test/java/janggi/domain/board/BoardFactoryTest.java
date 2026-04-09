@@ -3,15 +3,15 @@ package janggi.domain.board;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
-import janggi.domain.team.Team;
+import janggi.domain.Team;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
 import static janggi.domain.board.PieceSetup.*;
 import static janggi.domain.piece.PieceType.*;
-import static janggi.domain.team.Team.CHO;
-import static janggi.domain.team.Team.HAN;
+import static janggi.domain.Team.CHO;
+import static janggi.domain.Team.HAN;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class BoardFactoryTest {

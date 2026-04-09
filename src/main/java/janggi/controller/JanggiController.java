@@ -1,5 +1,6 @@
-package janggi;
+package janggi.controller;
 
+import janggi.domain.JanggiGame;
 import janggi.domain.board.PieceSetup;
 import janggi.domain.position.Movement;
 import janggi.domain.position.Position;

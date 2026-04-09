@@ -1,8 +1,7 @@
-package janggi.domain.score;
+package janggi.domain;
 
 import janggi.domain.piece.Piece;
 import janggi.domain.position.Position;
-import janggi.domain.team.Team;
 
 import java.util.Map;
 
@@ -12,7 +11,7 @@ public class Score {
     private final double hanScore;
     private final double choScore;
 
-    public Score(double hanScore, double choScore) {
+    private Score(double hanScore, double choScore) {
         this.hanScore = hanScore;
         this.choScore = choScore;
     }

@@ -1,11 +1,11 @@
 package janggi.repository;
 
-import janggi.JanggiGame;
+import janggi.domain.JanggiGame;
 import janggi.domain.board.BoardFactory;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
-import janggi.domain.team.Team;
+import janggi.domain.Team;
 import janggi.dto.GameInfo;
 import janggi.exception.DataAccessException;
 
