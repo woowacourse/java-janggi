@@ -19,4 +19,16 @@ public record Position(int row, int column) {
             );
         }
     }
+
+    public boolean isDiagonalWith(Position other) {
+        return Math.abs(this.row - other.row) == Math.abs(this.column - other.column);
+    }
+
+    public int rowDiff(Position other) {
+        return Math.abs(this.row - other.row);
+    }
+
+    public int colDiff(Position other) {
+        return Math.abs(this.column - other.column);
+    }
 }
