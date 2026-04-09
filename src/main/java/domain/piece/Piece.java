@@ -18,8 +18,16 @@ public abstract class Piece {
         return this.team;
     }
 
-    public final PieceType getType() {
+    public PieceType getType() {
         return this.type;
+    }
+
+    public String getPieceTypeName(){
+        return this.type.getKoreanName();
+    }
+
+    public String getTeamName(){
+        return this.team.getKoreanName();
     }
 
     public Integer getScore() {

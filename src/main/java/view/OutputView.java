@@ -2,11 +2,13 @@ package view;
 
 import controller.dto.CurrentBoardStatus;
 import controller.dto.CurrentScore;
+import controller.dto.MoveStatus;
 import domain.Team;
 import java.util.List;
 import java.util.Map;
 
 public class OutputView {
+    private static final String MOVE_STATUS = "%s나라 기물 %s을(를) %d,%d로 이동하였습니다.";
     private static final String GAME_WINNER_GUIDE = "장기 게임이 종료되었습니다. 게임의 우승자는 %s나라 입니다.";
     private static final String CURRENT_SCORE_GUIDE = "[현재 점수]";
     private static final String TEAM_SCORE_FORMAT = "%s나라 : %d점";
@@ -30,6 +32,14 @@ public class OutputView {
             printRow(board, row);
             printSeparator();
         }
+    }
+
+    public void printMoveStatus(MoveStatus moveStatus) {
+        System.out.println(String.format(MOVE_STATUS, moveStatus.teamName(),
+                moveStatus.pieceName(),
+                moveStatus.destinationRow(),
+                moveStatus.destinationColumn())
+        );
     }
 
     public void printErrorMessage(String message) {

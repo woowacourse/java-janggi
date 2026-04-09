@@ -2,6 +2,7 @@ package controller;
 
 import controller.dto.CurrentBoardStatus;
 import controller.dto.CurrentScore;
+import controller.dto.MoveStatus;
 import controller.dto.MovedPieceRequest;
 import domain.GameManager;
 import domain.HorseElephantFormation;
@@ -26,7 +27,8 @@ public class JanggiController {
     private final BoardRepository boardRepository;
     private GameManager gameManager;
 
-    public JanggiController(GameExceptionHandler gameExceptionHandler, InputView inputView, OutputView outputView, BoardRepository boardRepository) {
+    public JanggiController(GameExceptionHandler gameExceptionHandler, InputView inputView, OutputView outputView,
+                            BoardRepository boardRepository) {
         this.gameExceptionHandler = gameExceptionHandler;
         this.inputView = inputView;
         this.outputView = outputView;
@@ -128,6 +130,7 @@ public class JanggiController {
     private void movePiece(Team team) {
         MovedPieceRequest movedPieceRequest = readMovedPiece();
         gameManager.movePiece(movedPieceRequest, team);
+        printMoveStatus(movedPieceRequest);
     }
 
     private void printCurrentScore() {
@@ -140,13 +143,18 @@ public class JanggiController {
         outputView.printCurrentScore(results);
     }
 
+    private void printMoveStatus(MovedPieceRequest movedPieceRequest){
+        MoveStatus moveStatus = gameManager.getMoveStatus(movedPieceRequest);
+        outputView.printMoveStatus(moveStatus);
+    }
+
     /**
      * 입력 단계 조율 메서드
      */
     private MovedPieceRequest readMovedPiece() {
-        String sourcePositionAndPieceType = readSourcePositionAndPieceType();
+        String sourcePosition = readSourcePosition();
         String targetPosition = readTargetPosition();
-        return MovedPieceRequest.of(sourcePositionAndPieceType, targetPosition);
+        return MovedPieceRequest.of(sourcePosition, targetPosition);
     }
 
     private String readEachHorseElephantFormation(Team team) {
@@ -159,11 +167,10 @@ public class JanggiController {
         }
     }
 
-    private String readSourcePositionAndPieceType() {
+    private String readSourcePosition() {
         while (true) {
             try {
-                String input = inputView.readSourcePositionAndPieceType();
-                return input;
+                return inputView.readSourcePosition();
             } catch (GameException e) {
                 gameExceptionHandler.handle(e);
             }
@@ -173,8 +180,7 @@ public class JanggiController {
     private String readTargetPosition() {
         while (true) {
             try {
-                String input = inputView.readTargetPosition();
-                return input;
+                return inputView.readTargetPosition();
             } catch (GameException e) {
                 gameExceptionHandler.handle(e);
             }

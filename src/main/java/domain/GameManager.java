@@ -1,6 +1,7 @@
 package domain;
 
 import controller.dto.CurrentBoardStatus;
+import controller.dto.MoveStatus;
 import controller.dto.MovedPieceRequest;
 import java.util.List;
 import java.util.Map;
@@ -22,11 +23,24 @@ public class GameManager {
         return board.getCurrentStatus();
     }
 
+    /**
+     * command
+     */
     public void movePiece(MovedPieceRequest request, Team team) {
         board.move(Position.from(request.currentRow(), request.currentColumn()),
-                Position.from(request.nextRow(), request.nextColumn()),
-                PieceType.getPieceType(request.pieceType()),
-                team);
+                Position.from(request.nextRow(), request.nextColumn()), team);
+    }
+
+    /**
+     * query
+     */
+    public MoveStatus getMoveStatus(MovedPieceRequest request) {
+        Position destinationPosition = Position.from(request.nextRow(), request.nextColumn());
+
+        String teamName = board.getPieceTeamOnPosition(destinationPosition);
+        String pieceName = board.getPieceTypeOnPosition(destinationPosition);
+
+        return MoveStatus.of(teamName, pieceName, request.nextRow(), request.nextColumn());
     }
 
     public Map<Team, Integer> calculateCurrentScore(List<Team> teams) {

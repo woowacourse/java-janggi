@@ -280,52 +280,29 @@ class BoardTest {
     }
 
     /**
-     * 보드 이동 예외 테스트 1. 출발 지점에, 원하는 피스가 아에 없는 경우 이동할 수 없다. 2. 출발 지점에, 원하는 피스 타입이 아닌 다른 피스가 있는 경우 이동 할 수 없다. 3. 도착 지점이
-     * 보드판의 범위를 넘어서는 경우 이동할 수 없다.
+     * 보드 이동 예외 테스트
+     * 1. 출발 지점에, 원하는 피스가 아에 없는 경우 이동할 수 없다.
+     * 2. 도착 지점이 보드판의 범위를 넘어서는 경우 이동할 수 없다.
      */
     @Test
-    void 출발_지점에_원하는_피스가_없는_경우_이동할_수_없다() {
+    void 출발_지점에_피스가_없는_경우_이동할_수_없다() {
         // given
         StubBoard board = new StubBoard(noInitializeStrategy);
-        PieceType targetType = PAWN;
 
         // when
         Position from = Position.from(5, 1);
         Position to = Position.from(5, 2);
 
         // then
-        assertThatThrownBy(() -> board.move(from, to, targetType, Team.CHO))
+        assertThatThrownBy(() -> board.move(from, to, Team.CHO))
                 .isInstanceOf(InvalidGameInputException.class)
                 .hasMessage(GameErrorMessage.PIECE_NOT_FOUND.getMessage());
-    }
-
-    @Test
-    void 출발_지점에_원하는_피스_타입이_아닌_다른_피스가_있는_경우_이동_할_수_없다() {
-        // given
-        StubBoard board = new StubBoard(noInitializeStrategy);
-        PieceType targetType = PAWN;
-
-        // when
-        Position from = Position.from(5, 1);
-        Position to = Position.from(5, 2);
-
-        Map<Position, Piece> testPiece = new HashMap<>();
-        testPiece.put(from, new Cannon(Team.CHO));
-
-        board.putPieces(testPiece);
-
-        // then
-        assertThatThrownBy(() -> board.move(from, to, targetType, Team.CHO))
-                .isInstanceOf(InvalidGameInputException.class)
-                .hasMessage(
-                        String.format(GameErrorMessage.INVALID_PIECE_TYPE.getMessage(), targetType.getKoreanName()));
     }
 
     @Test
     void 도착_지점이_보드판의_범위를_넘어서는_경우_이동할_수_없다() {
         // given
         StubBoard board = new StubBoard(noInitializeStrategy);
-        PieceType targetType = PAWN;
 
         // when
         Position from = Position.from(10, 1);
@@ -337,7 +314,7 @@ class BoardTest {
         board.putPieces(testPiece);
 
         // then
-        assertThatThrownBy(() -> board.move(from, to, targetType, Team.CHO))
+        assertThatThrownBy(() -> board.move(from, to, Team.CHO))
                 .isInstanceOf(InvalidGameInputException.class)
                 .hasMessage(GameErrorMessage.INVALID_POSITION_RANGE.getMessage());
     }
@@ -362,7 +339,7 @@ class BoardTest {
         board.putPieces(testPiece);
 
         // then
-        assertThatCode(() -> board.move(from, to, PieceType.CANNON, Team.CHO))
+        assertThatCode(() -> board.move(from, to, Team.CHO))
                 .doesNotThrowAnyException();
     }
 
@@ -381,7 +358,7 @@ class BoardTest {
         board.putPieces(testPiece);
 
         // then
-        assertThatCode(() -> board.move(from, to, PieceType.ROOK, Team.CHO))
+        assertThatCode(() -> board.move(from, to, Team.CHO))
                 .doesNotThrowAnyException();
     }
 
@@ -400,7 +377,7 @@ class BoardTest {
         board.putPieces(testPiece);
 
         // then
-        assertThatCode(() -> board.move(from, to, PieceType.GUARD, Team.CHO))
+        assertThatCode(() -> board.move(from, to, Team.CHO))
                 .doesNotThrowAnyException();
     }
 
@@ -419,7 +396,7 @@ class BoardTest {
         board.putPieces(testPiece);
 
         // then
-        assertThatCode(() -> board.move(from, to, PieceType.KING, Team.CHO))
+        assertThatCode(() -> board.move(from, to, Team.CHO))
                 .doesNotThrowAnyException();
     }
 
@@ -438,7 +415,7 @@ class BoardTest {
         board.putPieces(testPiece);
 
         // then
-        assertThatCode(() -> board.move(from, to, PAWN, Team.CHO))
+        assertThatCode(() -> board.move(from, to, Team.CHO))
                 .doesNotThrowAnyException();
     }
 
@@ -457,7 +434,7 @@ class BoardTest {
         board.putPieces(testPiece);
 
         // then
-        assertThatCode(() -> board.move(from, to, PieceType.HORSE, Team.CHO))
+        assertThatCode(() -> board.move(from, to, Team.CHO))
                 .doesNotThrowAnyException();
     }
 
@@ -475,7 +452,7 @@ class BoardTest {
         board.putPieces(testPiece);
 
         // then
-        assertThatCode(() -> board.move(from, to, PieceType.ELEPHANT, Team.CHO))
+        assertThatCode(() -> board.move(from, to, Team.CHO))
                 .doesNotThrowAnyException();
     }
 

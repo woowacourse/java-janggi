@@ -13,12 +13,11 @@ public enum GameErrorMessage {
     INVALID_POSITION_RANGE("기물의 도착 지점이 판 범위를 넘어섰습니다. 다시 입력해주세요."),
     INVALID_MOVE("해당 위치로 옮길 수 없습니다. 다시 입력해주세요."),
 
-    INVALID_POSITION_FORMAT("올바르지 않은 좌표 형식입니다. \"(1,1)\"과 같이 입력해주세요."),
-    INVALID_PIECE_TYPE_FORMAT("올바르지 않은 기물 이름 형식입니다. 앞의 좌표와 띄어쓰기 이후, \"졸\"과 같이 입력해주세요.");
+    INVALID_POSITION_FORMAT("올바르지 않은 좌표 형식입니다. \"1,1\"과 같이 입력해주세요.");
 
     private final String message;
 
-    GameErrorMessage(String message){
+    GameErrorMessage(String message) {
         this.message = message;
     }
 

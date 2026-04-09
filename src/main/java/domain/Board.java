@@ -48,8 +48,8 @@ public class Board {
         }
     }
 
-    public void move(Position from, Position to, PieceType pieceType, Team team) {
-        Piece piece = validateMovablePiece(from, to, pieceType, team);
+    public void move(Position from, Position to, Team team) {
+        Piece piece = validateMovablePiece(from, to, team);
         validateCanMove(from, to, piece);
         movePiece(from, to, piece);
     }
@@ -124,10 +124,18 @@ public class Board {
                 .sum();
     }
 
+    public String getPieceTypeOnPosition(Position target) {
+        return pieces.get(target).getPieceTypeName();
+    }
+
+    public String getPieceTeamOnPosition(Position target) {
+        return pieces.get(target).getTeamName();
+    }
+
     /**
      * 헬퍼 메서드
      */
-    private Piece validateMovablePiece(Position from, Position to, PieceType pieceType, Team team) {
+    private Piece validateMovablePiece(Position from, Position to, Team team) {
         Piece piece = pieces.get(from);
 
         if (piece == null) {
@@ -137,12 +145,6 @@ public class Board {
         if (piece.getTeam() != team) {
             throw new InvalidGameInputException(
                     String.format(GameErrorMessage.INVALID_TEAM_TURN.getMessage(), team.getKoreanName())
-            );
-        }
-
-        if (piece.getType() != pieceType) {
-            throw new InvalidGameInputException(
-                    String.format(GameErrorMessage.INVALID_PIECE_TYPE.getMessage(), pieceType.getKoreanName())
             );
         }
 

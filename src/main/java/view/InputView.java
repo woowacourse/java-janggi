@@ -6,8 +6,8 @@ import java.util.Scanner;
 
 public class InputView {
     private static final String HORSE_ELEPHANT_INPUT_GUIDE = "%s나라의 상마상마 상차림을 입력하세요: ";
-    private static final String MOVED_PIECE_SOURCE_POSITION_INPUT_GUIDE = "이동시킬 말의 이름과 현재 위치(행,열)를 함께 입력하세요.(예: \"(7,1), 졸\"): ";
-    private static final String MOVED_PIECE_TARGET_POSITION_INPUT_GUIDE = "이동시킬 말의 도착 위치(행,열)를 함께 입력하세요.(예: \"(6,1)\"): ";
+    private static final String MOVED_PIECE_SOURCE_POSITION_INPUT_GUIDE = "이동시킬 말의 현재 위치를 입력하세요.(예: \"7,1\"): ";
+    private static final String MOVED_PIECE_TARGET_POSITION_INPUT_GUIDE = "이동시킬 말의 도착 위치를 입력하세요.(예: \"6,1\"): ";
 
     private final Scanner scanner = new Scanner(System.in);
 
@@ -19,10 +19,10 @@ public class InputView {
         return input;
     }
 
-    public String readSourcePositionAndPieceType() {
+    public String readSourcePosition() {
         printMessage(MOVED_PIECE_SOURCE_POSITION_INPUT_GUIDE);
         String input = readInput();
-        validateSourcePositionAndPieceType(input);
+        validateSourcePosition(input);
         return input;
     }
 
@@ -53,10 +53,8 @@ public class InputView {
         }
     }
 
-    private void validateSourcePositionAndPieceType(String input) {
-        String[] sourceAndPiece = input.split(" ");
-        validatePositionInputFormat(sourceAndPiece[0]);
-        validatePieceTypeInputFormat(sourceAndPiece[1]);
+    private void validateSourcePosition(String input) {
+        validatePositionInputFormat(input);
     }
 
     private void validateTargetPosition(String input) {
@@ -65,16 +63,11 @@ public class InputView {
 
     private void validatePositionInputFormat(String input) {
         try {
-            Integer.parseInt(String.valueOf(input.charAt(1)));
-            Integer.parseInt(String.valueOf(input.charAt(3)));
+            String[] rowAndColumn = input.split(",");
+            Integer.parseInt(String.valueOf(rowAndColumn[0]));
+            Integer.parseInt(String.valueOf(rowAndColumn[1]));
         } catch (NumberFormatException e) {
             throw new InvalidGameInputException(GameErrorMessage.INVALID_POSITION_FORMAT.getMessage());
-        }
-    }
-
-    private void validatePieceTypeInputFormat(String input) {
-        if (input.length() != 1) {
-            throw new InvalidGameInputException(GameErrorMessage.INVALID_PIECE_TYPE_FORMAT.getMessage());
         }
     }
 }
