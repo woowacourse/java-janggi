@@ -18,7 +18,6 @@ import java.util.List;
 
 public class JanggiController {
     private final GameDao gameDao = new GameDao();
-    private GameContext gameContext;
 
     public JanggiController() {
     }
@@ -26,6 +25,7 @@ public class JanggiController {
     public void run() {
         OutputView.printStartJanggi();
         StartCommand command = RetryExecutor.retry(this::inputStarCommand);
+        GameContext gameContext;
         if (command == StartCommand.CREATE_NEW_GAME) {
             gameContext = createNewGameContext();
             startGame(gameContext);
