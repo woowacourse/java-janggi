@@ -20,7 +20,7 @@ public class GameRepository {
     }
 
     public long save(Game game) {
-        return insert("INSERT INTO games(current_turn, game_status) VALUES(?, ?)", game.getCurrentTurn(), game.getGameStatus());
+        return insert("INSERT INTO games(current_turn, game_status) VALUES(?, ?)", game.getCurrentTurn().name(), game.getGameStatus().name());
     }
 
     private long insert(String sql, Object... params) {

@@ -25,9 +25,19 @@ public class Game {
         this.gameId = null;
         this.startAt = null;
         this.endAt = null;
-        this.lastUpdatedAt] = null;
+        this.lastUpdatedAt = null;
         this.currentTurn = currentTurn;
         this.gameStatus = gameStatus;
+        this.pieces = pieces;
+    }
+
+    public Game(Long gameId, CampType currentTurn, GameStatus gameStatus, LocalDateTime startAt, LocalDateTime endAt, LocalDateTime lastUpdatedAt, List<Piece> pieces) {
+        this.gameId = gameId;
+        this.currentTurn = currentTurn;
+        this.gameStatus = gameStatus;
+        this.startAt = startAt;
+        this.endAt = endAt;
+        this.lastUpdatedAt = lastUpdatedAt;
         this.pieces = pieces;
     }
 
