@@ -10,6 +10,8 @@ public class Palace {
     private static final int PALACE_CENTER_X = 5;
     private static final int HAN_PALACE_CENTER_Y = 2;
     private static final int CHO_PALACE_CENTER_Y = 9;
+    private static final Position HAN_GENERAL = new Position(5, 2);
+    private static final Position CHO_GENERAL = new Position(5, 9);
 
     public Palace() {
     }
@@ -48,5 +50,12 @@ public class Palace {
 
     private boolean isOnChoPalaceCenter(Position position) {
         return position.x() == PALACE_CENTER_X && position.y() == CHO_PALACE_CENTER_Y;
+    }
+
+    public Position findPalaceCenter(Position from) {
+        if (from.y() <= HAN_PALACE_MAX_Y) {
+            return HAN_GENERAL;
+        }
+        return CHO_GENERAL;
     }
 }

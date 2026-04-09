@@ -125,6 +125,11 @@ public class Board implements PathChecker {
         return totalScore + camp.bonusScore();
     }
 
+    @Override
+    public Position findPalaceCenter(Position from) {
+        return PALACE.findPalaceCenter(from);
+    }
+
     public List<PieceDTO> extractPieceDTOs() {
         return board.entrySet().stream()
                 .map(entry -> new PieceDTO(

@@ -20,4 +20,6 @@ public interface PathChecker {
     boolean isOnPalaceCenter(Position position);
 
     boolean isInDifferencePalace(Position from, Position to);
+
+    Position findPalaceCenter(Position from);
 }

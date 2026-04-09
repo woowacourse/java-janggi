@@ -16,8 +16,6 @@ public class CannonStrategy implements MoveStrategy {
             "[ERROR] 포는 포를 잡을 수 없습니다.";
     private static final String INVALID_CANNON_POSITION_IN_PALACE_ERROR_MESSAGE =
             "[ERROR] 포는 궁성 내부에서 대각선 이동은 점대칭만 가능합니다.";
-    private static final Position HAN_GENERAL = new Position(5, 2);
-    private static final Position CHO_GENERAL = new Position(5, 9);
 
     @Override
     public void move(Position from, Position to, PathChecker pathChecker) {
@@ -80,7 +78,7 @@ public class CannonStrategy implements MoveStrategy {
 
     private List<Position> determinePath(Position from, Position to, PathChecker pathChecker) {
         if (isDiagonalJumpInPalace(from, to, pathChecker)) {
-            return List.of(findPalaceCenter(from));
+            return List.of(pathChecker.findPalaceCenter(from));
         }
         return from.findPath(to);
     }
@@ -90,12 +88,5 @@ public class CannonStrategy implements MoveStrategy {
         int dy = Math.abs(from.y() - to.y());
 
         return pathChecker.isInPalace(from) && pathChecker.isInPalace(to) && dx == 2 && dy == 2;
-    }
-
-    private Position findPalaceCenter(Position from) {
-        if (from.y() < 4) {
-            return HAN_GENERAL;
-        }
-        return CHO_GENERAL;
     }
 }
