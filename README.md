@@ -84,6 +84,79 @@
 ### Team
 - 초/한/빈 진영을 표현한다.
 
+## DB 실행
+
+- MySQL은 [`docker-compose.yml`](/Users/jeongjaemin/우테코_8기/Lv_1/java-janggi/docker-compose.yml)로 실행한다.
+- 스키마 생성은 [`sql/init.sql`](/Users/jeongjaemin/우테코_8기/Lv_1/java-janggi/sql/init.sql)에서 담당한다.
+- 애플리케이션은 시작 시 테이블을 생성하지 않는다. MySQL 컨테이너가 먼저 초기화되어 있어야 한다.
+- 애플리케이션 접속 정보는 [`src/main/resources/db.properties`](/Users/jeongjaemin/우테코_8기/Lv_1/java-janggi/src/main/resources/db.properties)와 Docker 설정을 동일하게 유지한다.
+- 호스트 포트는 `3307`, 컨테이너 내부 포트는 `3306`을 사용한다.
+- 현재 기본 접속 정보는 아래와 같다.
+
+```properties
+db.url=jdbc:mysql://localhost:3307/janggi?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+db.username=janggi
+db.password=1234
+```
+
+### 1. DB 컨테이너 실행
+
+```bash
+docker compose up -d
+```
+
+- 백그라운드에서 MySQL 컨테이너를 실행한다.
+- 최초 실행 시 `sql/init.sql`이 자동 실행되어 테이블을 생성한다.
+
+### 2. 컨테이너 상태 확인
+
+```bash
+docker compose ps
+```
+
+```bash
+docker compose logs -f mysql
+```
+
+- `docker compose ps`로 컨테이너가 올라왔는지 확인한다.
+- `docker compose logs -f mysql`에서 에러 없이 초기화가 끝났는지 확인한다.
+
+### 3. 테이블 생성 확인
+
+```bash
+docker compose exec mysql mysql -ujanggi -p1234 janggi -e "SHOW TABLES;"
+```
+
+- `games`, `game_pieces` 테이블이 보이면 초기화가 완료된 상태다.
+
+### 4. 애플리케이션 실행
+
+- MySQL 컨테이너가 정상 기동된 뒤 애플리케이션을 기존 방식대로 실행한다.
+- 애플리케이션은 더 이상 `JdbcInitializer`로 테이블을 만들지 않으므로, DB가 먼저 준비되어 있어야 한다.
+
+### 5. 스키마 변경 반영
+
+```bash
+docker compose down -v
+```
+
+```bash
+docker compose up -d
+```
+
+- `/docker-entrypoint-initdb.d`의 SQL은 데이터 볼륨이 비어 있을 때만 실행된다.
+- 이미 생성된 `mysql-data` 볼륨이 있으면 `sql/init.sql` 수정 내용이 자동 반영되지 않는다.
+- 스키마를 다시 적용하려면 볼륨까지 삭제한 뒤 컨테이너를 다시 실행해야 한다.
+
+### 6. 컨테이너 종료
+
+```bash
+docker compose down
+```
+
+- 컨테이너만 내리고 데이터는 유지한다.
+- 데이터까지 함께 제거하려면 `docker compose down -v`를 사용한다.
+
 ## 사이클 2 규칙 정리
 
 ### 궁성 이동
