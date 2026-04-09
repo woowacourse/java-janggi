@@ -9,9 +9,9 @@ import janggi.config.DBConnection;
 import janggi.config.DBTableInitializer;
 import janggi.config.PropertiesReader;
 import janggi.config.TestDBConnection;
-import janggi.config.TestDataInitializer;
 import janggi.domain.Position;
 import janggi.domain.game.GameStatus;
+import janggi.domain.game.TurnManager;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Soldier;
 import janggi.domain.setup.InnerElephantSetupPolicy;
@@ -19,12 +19,10 @@ import janggi.domain.team.BlueTeam;
 import janggi.domain.team.RedTeam;
 import janggi.domain.team.Team;
 import janggi.domain.team.TeamType;
-import janggi.domain.game.TurnManager;
 import janggi.dto.H2DBPropertiesDto;
+import janggi.global.Pair;
 import janggi.infrastructure.entity.BoardCellEntity;
 import janggi.infrastructure.entity.GameEntity;
-import janggi.global.Pair;
-import janggi.infrastructure.mapper.TurnManagerMapper;
 import janggi.infrastructure.repository.BoardCellRepository;
 import janggi.infrastructure.repository.BoardCellRepositoryImpl;
 import janggi.infrastructure.repository.GameRepository;
@@ -143,9 +141,11 @@ class GameServiceTest {
         Position from = Position.valueOf(5, 3);
         Position to = Position.valueOf(6, 3);
         Piece piece = new Soldier(TeamType.RED);
-        gameRepository.save(GameEntity.from(gameId, "게임 1", 33, List.of(TeamType.RED, TeamType.BLUE)));
+        gameRepository.save(
+            GameEntity.from(gameId, "게임 1", 33, List.of(TeamType.RED, TeamType.BLUE)));
         boardCellRepository.save(BoardCellEntity.from(gameId, from, piece));
-        GameEntity expectedGameEntity = GameEntity.from(gameId, "게임 1", 34, List.of(TeamType.BLUE, TeamType.RED));
+        GameEntity expectedGameEntity = GameEntity.from(gameId, "게임 1", 34,
+            List.of(TeamType.BLUE, TeamType.RED));
 
         gameService.progressTurn(gameId, from, to);
         GameEntity actualGameEntity = gameRepository.findById(gameId).get();
@@ -171,8 +171,10 @@ class GameServiceTest {
     @DisplayName("게임 종료 처리 테스트")
     void closeGame() {
         long gameId = 1;
-        gameRepository.save(GameEntity.from(gameId, "게임 1", 33, List.of(TeamType.RED, TeamType.BLUE)));
-        GameEntity expected = GameEntity.from(gameId, "게임 1", 33, List.of(TeamType.RED, TeamType.BLUE), GameStatus.CLOSED);
+        gameRepository.save(
+            GameEntity.from(gameId, "게임 1", 33, List.of(TeamType.RED, TeamType.BLUE)));
+        GameEntity expected = GameEntity.from(gameId, "게임 1", 33,
+            List.of(TeamType.RED, TeamType.BLUE), GameStatus.CLOSED);
         gameService.closeGame(gameId);
         Optional<GameEntity> actual = gameRepository.findById(gameId);
 
