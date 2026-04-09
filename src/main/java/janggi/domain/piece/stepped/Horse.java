@@ -30,7 +30,7 @@ public class Horse extends SteppedPiece {
     }
 
     @Override
-    public List<Movement> getMovements() {
+    protected List<Movement> getMovements() {
         return MOVEMENTS;
     }
 }

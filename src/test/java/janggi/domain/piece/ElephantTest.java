@@ -1,11 +1,10 @@
-package janggi.domain.piece.unit;
+package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.board.Board;
 import janggi.domain.path.Direction;
 import janggi.domain.path.Movement;
-import janggi.domain.piece.Piece;
 import janggi.domain.piece.single.Advisor;
 import janggi.domain.piece.stepped.Elephant;
 import janggi.domain.piece.stepped.Horse;

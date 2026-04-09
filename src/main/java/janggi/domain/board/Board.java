@@ -2,13 +2,11 @@ package janggi.domain.board;
 
 import janggi.domain.board.coordination.BoardCoordination;
 import janggi.domain.board.setup.BoardSetUp;
-import janggi.domain.path.Movement;
 import janggi.domain.piece.Piece;
 import janggi.domain.point.Point;
 import janggi.domain.side.Side;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -37,12 +35,6 @@ public class Board implements BoardInfo {
                 .orElseThrow(() -> new IllegalArgumentException("해당 Point에 기물이 없어, 목적지가 없습니다."));
 
         return new HashSet<>(piece.availablePoints(from, this));
-    }
-
-    public List<Movement> getPieceMovements(Point from) {
-        return getPieceAt(from)
-                .orElseThrow(() -> new IllegalArgumentException("해당하는 포인트에 Piece가 존재하지 않아 Movement를 생성할 수 없습니다."))
-                .getMovements();
     }
 
 

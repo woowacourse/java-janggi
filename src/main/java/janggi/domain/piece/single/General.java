@@ -18,10 +18,10 @@ public class General extends SinglePiece {
     }
 
     @Override
-    public List<Movement> getMovements() {
+    protected List<Movement> getMovements() {
         return Collections.emptyList();
     }
-    
+
     @Override
     protected CandidatePath refinePath(CandidatePath candidatePath, BoardInfo boardInfo) {
         return candidatePath;

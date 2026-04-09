@@ -18,7 +18,7 @@ public class Advisor extends SinglePiece {
     }
 
     @Override
-    public List<Movement> getMovements() {
+    protected List<Movement> getMovements() {
         return Collections.emptyList();
     }
 

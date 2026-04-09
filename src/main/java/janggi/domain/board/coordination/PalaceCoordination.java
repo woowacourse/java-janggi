@@ -10,6 +10,9 @@ public class PalaceCoordination {
     private static final int MIN_Y = 3;
     private static final int MAX_Y = 5;
 
+    private PalaceCoordination() {
+        /* This utility class should not be instantiated */
+    }
 
     public static boolean isInRange(Point point) {
         boolean choXInRange = point.x() >= CHO_MIN_X && point.x() <= CHO_MAX_X;

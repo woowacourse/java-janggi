@@ -1,13 +1,11 @@
-package janggi.domain.piece.unit;
+package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardInfo;
-import janggi.domain.path.CandidatePath;
 import janggi.domain.path.Direction;
 import janggi.domain.path.Movement;
-import janggi.domain.piece.Piece;
 import janggi.domain.piece.linear.Cannon;
 import janggi.domain.piece.single.Soldier;
 import janggi.domain.point.Point;
@@ -89,12 +87,6 @@ class CannonTest {
         @DisplayName("경로에 두개의 기물이 있다면, 기물 사이의 경로를 전달한다.")
         void betweenPoints() {
             Side side = Side.CHO;
-            CandidatePath candidatePath = new CandidatePath(List.of(
-                    new Point(6, 5),
-                    new Point(7, 5),
-                    new Point(8, 5),
-                    new Point(9, 5)
-            ));
             BoardInfo boardInfo = new Board(Map.of(new Point(7, 5), new Soldier(Side.CHO), new Point(9, 5),
                     new Soldier(Side.HAN)));
 

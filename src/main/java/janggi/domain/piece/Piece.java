@@ -53,7 +53,7 @@ public abstract class Piece {
                 .toList();
     }
 
-    private List<CandidatePath> createCandidatePaths(Point from, BoardInfo boardInfo) {
+    protected List<CandidatePath> createCandidatePaths(Point from, BoardInfo boardInfo) {
         List<Movement> movements = getMovements();
         return movements.stream()
                 .map(movement -> new CandidatePath(from, pathStrategy.calculate(movement, from, boardInfo::isInRange)))
@@ -62,7 +62,7 @@ public abstract class Piece {
 
     protected abstract boolean isValidPath(CandidatePath candidatePath, BoardInfo boardInfo);
 
-    public abstract List<Movement> getMovements();
+    protected abstract List<Movement> getMovements();
 
     protected abstract CandidatePath refinePath(CandidatePath candidatePath, BoardInfo boardInfo);
 
