@@ -1,8 +1,13 @@
 package database.connection;
 
+import database.exception.DataAccessException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+
+import static database.exception.DataAccessError.PROPERTIES_FILE_NOT_FOUND;
+import static database.exception.DataAccessError.PROPERTIES_LOAD_FAILED;
 
 public class JanggiProperties {
 
@@ -20,11 +25,10 @@ public class JanggiProperties {
         return INSTANCE;
     }
 
-    // TOOD 커스텀 예외.
     private void loadProperties() {
         try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("application.properties")) {
             if (inputStream == null) {
-                throw new RuntimeException("application.properties 파일을 찾을 수 없습니다.");
+                throw new DataAccessException(PROPERTIES_FILE_NOT_FOUND.getMessage());
             }
 
             Properties properties = new Properties();
@@ -35,7 +39,7 @@ public class JanggiProperties {
             this.password = properties.getProperty("database.password");
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new DataAccessException(PROPERTIES_LOAD_FAILED.getMessage());
         }
     }
 

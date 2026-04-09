@@ -13,10 +13,10 @@ import static common.constant.JanggiConstant.*;
 
 public class OutputWriter {
 
-    private static final String ROW_NUMBER_FORMAT = "%d　 ";      // 전각 공백
-    private static final String FILE_NUMBER_FORMAT = "　 %d 　";    // 전각 공백
+    private static final String ROW_NUMBER_FORMAT = "%d　 ";
+    private static final String FILE_NUMBER_FORMAT = "　 %d 　";
     private static final String BOARD_HEADER_PADDING = "　　 ";
-    private static final String PIECE_SEPARATOR = "　";           // 전각 공백
+    private static final String PIECE_SEPARATOR = "　";
     private static final String WINNER_MESSAGE = "%s팀의 승리입니다!";
     private static final String ERROR_MESSAGE_PREFIX = "［ERROR］ ";
     private static final String BOARD_SUMMARY_FORMAT = "%d번방: 현재 %s턴 \n";

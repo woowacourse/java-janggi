@@ -43,7 +43,6 @@ public class GeneralMoveRule implements MoveRule {
         }
     }
 
-    // NOTE 사이클 1에서는 궁성이 없으므로, 상하좌우만 설정
     public static Directions initializeDirections() {
         return new Directions(List.of(
                 new Direction(List.of(UP)),
