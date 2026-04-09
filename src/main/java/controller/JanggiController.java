@@ -63,7 +63,7 @@ public class JanggiController {
         return retry(() -> {
             int hanPlacementCode = InputView.inputPlacementCodeBy(Side.HAN);
             int choPlacementCode = InputView.inputPlacementCodeBy(Side.CHO);
-            Long gameId = janggiService.initialBoardState(hanPlacementCode, choPlacementCode);
+            Long gameId = janggiService.initialBoardPlacementBySide(hanPlacementCode, choPlacementCode);
             outputBoardStateBy(gameId);
             return gameId;
         });

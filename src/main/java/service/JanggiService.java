@@ -19,7 +19,7 @@ public class JanggiService {
         this.boardService = boardService;
     }
 
-    public Long initialBoardState(int hanPlacementCode, int choPlacementCode) {
+    public Long initialBoardPlacementBySide(int hanPlacementCode, int choPlacementCode) {
         return TransactionTemplate.execute(connection -> {
             Board board = boardService.initialState(hanPlacementCode, choPlacementCode);
             Players players = new Players();
