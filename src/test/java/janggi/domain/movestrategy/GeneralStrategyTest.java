@@ -26,7 +26,7 @@ class GeneralStrategyTest {
 
     @BeforeEach
     void setUp() {
-        generalStrategy = new GeneralStrategy(PalaceFactory.createPalace(Team.HAN),
+        generalStrategy = new PalaceRestrictMoveStrategy(PalaceFactory.createPalace(Team.HAN),
                 List.of(new StraightOneStepMoveRule(),
                         new PalaceDiagonalOneStepMoveRule(PalaceFactory.createPalace(Team.HAN))));
         general = PieceFactory.createGeneral(Team.HAN);

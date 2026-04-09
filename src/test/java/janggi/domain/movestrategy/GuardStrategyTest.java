@@ -26,7 +26,7 @@ class GuardStrategyTest {
 
     @BeforeEach
     void setUp() {
-        guardStrategy = new GuardStrategy(PalaceFactory.createPalace(Team.HAN),
+        guardStrategy = new PalaceRestrictMoveStrategy(PalaceFactory.createPalace(Team.HAN),
                 List.of(new StraightOneStepMoveRule(),
                         new PalaceDiagonalOneStepMoveRule(PalaceFactory.createPalace(Team.HAN))));
         guard = PieceFactory.createGuard(Team.HAN);
