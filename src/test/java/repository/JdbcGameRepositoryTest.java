@@ -49,7 +49,7 @@ class JdbcGameRepositoryTest {
                 new Position(5, 2), new Piece(Camp.HAN, PieceType.GENERAL)
         ));
         Game finishedGame = Game.restore(board, Camp.CHO, false);
-        finishedGame.move(new Position(5, 5), new Position(5, 2));
+        finishedGame.playMove(new Position(5, 5), new Position(5, 2));
 
         gameRepository.save(finishedGame);
 
@@ -63,7 +63,7 @@ class JdbcGameRepositoryTest {
 
         gameRepository.save(game);
 
-        game.move(new Position(1, 7), new Position(1, 6));
+        game.playMove(new Position(1, 7), new Position(1, 6));
         gameRepository.save(game);
 
         Game savedGame = gameRepository.findInProgressGame().orElseThrow();

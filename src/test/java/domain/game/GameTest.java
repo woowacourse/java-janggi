@@ -30,7 +30,7 @@ public class GameTest {
         Position from = new Position(1, 7);
         Position to = new Position(1, 6);
 
-        game.move(from, to);
+        game.playMove(from, to);
 
         assertThat(game.currentTurn()).isEqualTo(Camp.HAN);
         assertThat(game.board().findPiece(from)).isEmpty();
@@ -47,7 +47,7 @@ public class GameTest {
         Position from = new Position(1, 4);
         Position to = new Position(1, 5);
 
-        assertThatThrownBy(() -> game.move(from, to))
+        assertThatThrownBy(() -> game.playMove(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 현재 턴의 기물만 움직일 수 있습니다.");
 
@@ -63,7 +63,7 @@ public class GameTest {
         Position to = new Position(1, 5);
 
         game.passTurn();
-        game.move(from, to);
+        game.playMove(from, to);
 
         assertThat(game.currentTurn()).isEqualTo(Camp.CHO);
         assertThat(game.board().findPiece(from)).isEmpty();
@@ -83,7 +83,7 @@ public class GameTest {
         ));
         Game game = Game.restore(board, Camp.CHO, false);
 
-        game.move(new Position(5, 5), new Position(5, 2));
+        game.playMove(new Position(5, 5), new Position(5, 2));
 
         assertThat(game.isFinished()).isTrue();
     }
@@ -98,7 +98,7 @@ public class GameTest {
         ));
         Game game = Game.restore(board, Camp.CHO, false);
 
-        game.move(new Position(5, 5), new Position(5, 2));
+        game.playMove(new Position(5, 5), new Position(5, 2));
 
         assertThat(game.scoreOf(Camp.HAN)).isEqualTo(3);
     }

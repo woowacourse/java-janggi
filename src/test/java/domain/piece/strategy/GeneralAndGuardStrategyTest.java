@@ -40,7 +40,7 @@ public class GeneralAndGuardStrategyTest {
 
         Piece generalAndGuard = dummyBoard.get(from);
 
-        assertThatThrownBy(() -> generalAndGuard.move(from, to, boardChecker))
+        assertThatThrownBy(() -> generalAndGuard.validateMove(from, to, boardChecker))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 장군/사는 한 칸 직선 또는 궁 내부 대각선 이동만 가능합니다.");
     }
@@ -53,7 +53,7 @@ public class GeneralAndGuardStrategyTest {
 
         Piece generalAndGuard = dummyBoard.get(from);
 
-        assertThatThrownBy(() -> generalAndGuard.move(from, to, boardChecker))
+        assertThatThrownBy(() -> generalAndGuard.validateMove(from, to, boardChecker))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 장군/사는 한 칸 직선 또는 궁 내부 대각선 이동만 가능합니다.");
     }
@@ -66,7 +66,7 @@ public class GeneralAndGuardStrategyTest {
 
         Piece generalAndGuard = dummyBoard.get(from);
 
-        assertThatCode(() -> generalAndGuard.move(from, to, boardChecker))
+        assertThatCode(() -> generalAndGuard.validateMove(from, to, boardChecker))
                 .doesNotThrowAnyException();
     }
 
@@ -82,7 +82,7 @@ public class GeneralAndGuardStrategyTest {
 
         Piece general = dummyBoard.get(from);
 
-        assertThatCode(() -> general.move(from, to, boardChecker))
+        assertThatCode(() -> general.validateMove(from, to, boardChecker))
                 .doesNotThrowAnyException();
     }
 
@@ -94,7 +94,7 @@ public class GeneralAndGuardStrategyTest {
 
         Piece general = dummyBoard.get(from);
 
-        assertThatThrownBy(() -> general.move(from, to, boardChecker))
+        assertThatThrownBy(() -> general.validateMove(from, to, boardChecker))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -110,7 +110,7 @@ public class GeneralAndGuardStrategyTest {
 
         Piece general = dummyBoard.get(from);
 
-        assertThatThrownBy(() -> general.move(from, to, boardChecker))
+        assertThatThrownBy(() -> general.validateMove(from, to, boardChecker))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 장군/사는 궁성 밖으로 이동할 수 없습니다.");
     }

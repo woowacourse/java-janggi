@@ -61,7 +61,7 @@ public class BoardTest {
                 new Position(5, 2), new Piece(Camp.HAN, PieceType.GENERAL)
         ));
 
-        Piece capturedPiece = board.move(new Position(5, 5), new Position(5, 2))
+        Piece capturedPiece = board.movePiece(new Position(5, 5), new Position(5, 2))
                 .orElseThrow();
 
         assertThat(capturedPiece.camp()).isEqualTo(Camp.HAN);

@@ -61,7 +61,7 @@ public class ElephantStrategyTest {
 
         Piece elephant = dummyBoard.get(from);
 
-        assertThatThrownBy(() -> elephant.move(from, to, boardChecker))
+        assertThatThrownBy(() -> elephant.validateMove(from, to, boardChecker))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 상의 이동 방향이 올바르지 않습니다.");
     }
@@ -74,7 +74,7 @@ public class ElephantStrategyTest {
 
         Piece elephant = dummyBoard.get(from);
 
-        assertThatCode(() -> elephant.move(from, to, boardChecker))
+        assertThatCode(() -> elephant.validateMove(from, to, boardChecker))
                 .doesNotThrowAnyException();
     }
 
@@ -91,7 +91,7 @@ public class ElephantStrategyTest {
 
         Piece elephant = dummyBoard.get(from);
 
-        assertThatThrownBy(() -> elephant.move(from, to, boardChecker))
+        assertThatThrownBy(() -> elephant.validateMove(from, to, boardChecker))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 멱이 있어 이동할 수 없습니다.");
     }
@@ -109,7 +109,7 @@ public class ElephantStrategyTest {
 
         Piece elephant = dummyBoard.get(from);
 
-        assertThatThrownBy(() -> elephant.move(from, to, boardChecker))
+        assertThatThrownBy(() -> elephant.validateMove(from, to, boardChecker))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 멱이 있어 이동할 수 없습니다.");
     }

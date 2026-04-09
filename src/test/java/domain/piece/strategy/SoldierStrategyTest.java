@@ -43,7 +43,7 @@ public class SoldierStrategyTest {
 
         Piece soldier = dummyBoard.get(from);
 
-        assertThatThrownBy(() -> soldier.move(from, to, boardChecker))
+        assertThatThrownBy(() -> soldier.validateMove(from, to, boardChecker))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 졸/병은 후퇴가 불가능합니다.");
     }
@@ -56,7 +56,7 @@ public class SoldierStrategyTest {
 
         Piece soldier = dummyBoard.get(from);
 
-        assertThatThrownBy(() -> soldier.move(from, to, boardChecker))
+        assertThatThrownBy(() -> soldier.validateMove(from, to, boardChecker))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 졸/병은 후퇴가 불가능합니다.");
     }
@@ -69,7 +69,7 @@ public class SoldierStrategyTest {
 
         Piece soldier = dummyBoard.get(from);
 
-        assertThatCode(() -> soldier.move(from, to, boardChecker))
+        assertThatCode(() -> soldier.validateMove(from, to, boardChecker))
                 .doesNotThrowAnyException();
     }
 
@@ -81,7 +81,7 @@ public class SoldierStrategyTest {
 
         Piece soldier = dummyBoard.get(from);
 
-        assertThatThrownBy(() -> soldier.move(from, to, boardChecker))
+        assertThatThrownBy(() -> soldier.validateMove(from, to, boardChecker))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 졸/병은 좌우 또는 전진으로 한 칸만 이동할 수 있습니다.");
     }
@@ -94,7 +94,7 @@ public class SoldierStrategyTest {
 
         Piece soldier = dummyBoard.get(from);
 
-        assertThatCode(() -> soldier.move(from, to, boardChecker))
+        assertThatCode(() -> soldier.validateMove(from, to, boardChecker))
                 .doesNotThrowAnyException();
     }
 
@@ -106,7 +106,7 @@ public class SoldierStrategyTest {
 
         Piece soldier = dummyBoard.get(from);
 
-        assertThatThrownBy(() -> soldier.move(from, to, boardChecker))
+        assertThatThrownBy(() -> soldier.validateMove(from, to, boardChecker))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 졸/병은 좌우 또는 전진으로 한 칸만 이동할 수 있습니다.");
     }
@@ -119,7 +119,7 @@ public class SoldierStrategyTest {
 
         Piece soldier = dummyBoard.get(from);
 
-        assertThatCode(() -> soldier.move(from, to, boardChecker))
+        assertThatCode(() -> soldier.validateMove(from, to, boardChecker))
                 .doesNotThrowAnyException();
     }
 
@@ -137,7 +137,7 @@ public class SoldierStrategyTest {
 
         Piece soldier = dummyBoard.get(from);
 
-        assertThatCode(() -> soldier.move(from, to, boardChecker))
+        assertThatCode(() -> soldier.validateMove(from, to, boardChecker))
                 .doesNotThrowAnyException();
     }
 
@@ -149,7 +149,7 @@ public class SoldierStrategyTest {
 
         Piece soldier = dummyBoard.get(from);
 
-        assertThatCode(() -> soldier.move(from, to, boardChecker))
+        assertThatCode(() -> soldier.validateMove(from, to, boardChecker))
                 .doesNotThrowAnyException();
     }
 
@@ -167,7 +167,7 @@ public class SoldierStrategyTest {
 
         Piece soldier = dummyBoard.get(from);
 
-        assertThatCode(() -> soldier.move(from, to, boardChecker))
+        assertThatCode(() -> soldier.validateMove(from, to, boardChecker))
                 .doesNotThrowAnyException();
     }
 
@@ -183,7 +183,7 @@ public class SoldierStrategyTest {
 
         Piece soldier = dummyBoard.get(from);
 
-        assertThatCode(() -> soldier.move(from, to, boardChecker))
+        assertThatCode(() -> soldier.validateMove(from, to, boardChecker))
                 .doesNotThrowAnyException();
     }
 
@@ -199,7 +199,7 @@ public class SoldierStrategyTest {
 
         Piece soldier = dummyBoard.get(from);
 
-        assertThatCode(() -> soldier.move(from, to, boardChecker))
+        assertThatCode(() -> soldier.validateMove(from, to, boardChecker))
                 .doesNotThrowAnyException();
     }
 
@@ -215,7 +215,7 @@ public class SoldierStrategyTest {
 
         Piece soldier = dummyBoard.get(from);
 
-        assertThatThrownBy(() -> soldier.move(from, to, boardChecker))
+        assertThatThrownBy(() -> soldier.validateMove(from, to, boardChecker))
                 .hasMessage("[ERROR] 졸/병은 후퇴가 불가능합니다.");
     }
 }

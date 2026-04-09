@@ -12,7 +12,7 @@ public class SoldierStrategy implements MoveStrategy {
     }
 
     @Override
-    public void move(Position from, Position to, BoardChecker checker) {
+    public void validateMove(Position from, Position to, BoardChecker checker) {
         int dx = from.calculateDx(to);
         int dy = from.calculateDy(to);
 

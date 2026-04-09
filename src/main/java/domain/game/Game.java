@@ -40,11 +40,11 @@ public class Game {
         return currentTurn;
     }
 
-    public void move(Position from, Position to) {
+    public void playMove(Position from, Position to) {
         Piece piece = board.findBy(from);
         validateTurn(piece);
 
-        Optional<Piece> capturedPiece = board.move(from, to);
+        Optional<Piece> capturedPiece = board.movePiece(from, to);
 
         finished = capturedPiece
                 .map(target -> target.type() == PieceType.GENERAL)

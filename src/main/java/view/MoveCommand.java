@@ -6,6 +6,6 @@ import domain.game.Game;
 public record MoveCommand(Position from, Position to) implements GameCommand {
     @Override
     public void execute(Game game) {
-        game.move(from, to);
+        game.playMove(from, to);
     }
 }

@@ -23,12 +23,12 @@ public class Piece {
         return this.pieceType;
     }
 
-    public void move(Position from, Position to, BoardChecker boardChecker) {
+    public void validateMove(Position from, Position to, BoardChecker boardChecker) {
         if (boardChecker.isSameCamp(from, to)) {
             throw new IllegalArgumentException("[ERROR] 목적지에 같은 진영의 기물이 존재하여 이동할 수 없습니다.");
         }
 
-        strategy.move(from, to, boardChecker);
+        strategy.validateMove(from, to, boardChecker);
     }
 
     public int score() {

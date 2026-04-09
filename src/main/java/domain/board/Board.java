@@ -44,11 +44,11 @@ public class Board implements BoardChecker {
                 .orElse(false);
     }
 
-    public Optional<Piece> move(Position from, Position to) {
+    public Optional<Piece> movePiece(Position from, Position to) {
         Piece targetPiece = findBy(from);
         Optional<Piece> capturedPiece = findPiece(to);
 
-        targetPiece.move(from, to, this);
+        targetPiece.validateMove(from, to, this);
 
         board.remove(from);
         board.put(to, targetPiece);
