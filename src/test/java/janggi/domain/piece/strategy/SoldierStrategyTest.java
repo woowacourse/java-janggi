@@ -4,6 +4,7 @@ import janggi.domain.Camp;
 import janggi.domain.Path;
 import janggi.domain.Position;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
@@ -20,11 +21,55 @@ public class SoldierStrategyTest {
         MoveStrategy strategy = new SoldierStrategy(camp.forward());
         Position current = Position.of(4, 4);
         List<Path> paths = strategy.findMovablePaths(current);
-        Position expectedForwardPosition = camp.forward().findNextPosition(current).get();
+        Position expectedForwardPosition = camp.forward().findNextPosition(current).orElseThrow();
 
         assertThat(paths.get(0).destination()).isEqualTo(expectedForwardPosition);
         assertThat(paths.get(1).destination()).isEqualTo(Position.of(4, 3));
         assertThat(paths.get(2).destination()).isEqualTo(Position.of(4, 5));
     }
 
+    @DisplayName("병이 궁성 중앙에 있다면 앞, 양 옆, 왼쪽/오른쪽 대각 방향으로 이동할 수 있다")
+    @Test
+    void findMoveablePaths_InTheCenterPalace_ReturnFiveRoutes() {
+        MoveStrategy strategy = new SoldierStrategy(Camp.CHO.forward());
+        List<Path> paths = strategy.findMovablePaths(Position.of(8, 4));
+        List<Position> destinations = paths.stream()
+                .map(Path::destination)
+                .toList();
+        assertThat(destinations.contains(Position.of(9, 4))).isTrue();
+        assertThat(destinations.contains(Position.of(9, 3))).isTrue();
+        assertThat(destinations.contains(Position.of(9, 5))).isTrue();
+        assertThat(destinations.contains(Position.of(8, 3))).isTrue();
+        assertThat(destinations.contains(Position.of(8, 5))).isTrue();
+        assertThat(destinations.contains(Position.of(7, 4))).isFalse();
+        assertThat(destinations.contains(Position.of(7, 3))).isFalse();
+        assertThat(destinations.contains(Position.of(7, 5))).isFalse();
+    }
+
+    @DisplayName("병이 궁성 대각에 위치하면 기본 이동 + 궁중쪽 대각으로 이동할 수 있다 (뒤로가는 대각 제외)")
+    @Test
+    void findMoveablePaths_IsDiagonallyInThePalace_CanMovePalaceCenter() {
+        MoveStrategy strategy = new SoldierStrategy(Camp.CHO.forward());
+        List<Path> paths = strategy.findMovablePaths(Position.of(7, 3));
+        List<Position> destinations = paths.stream()
+                .map(Path::destination)
+                .toList();
+        assertThat(destinations.contains(Position.of(8, 4))).isTrue();
+        assertThat(destinations.contains(Position.of(8, 3))).isTrue();
+        assertThat(destinations.contains(Position.of(8, 2))).isFalse();
+        assertThat(destinations.contains(Position.of(7, 4))).isTrue();
+        assertThat(destinations.contains(Position.of(7, 2))).isTrue();
+    }
+
+    @DisplayName("병이 상대 진영의 baseline에 도달하면 양 옆으로만 이동할 수 있다")
+    @Test
+    void findmoveablePaths_IsOpponentsBaseline_CanMoveBothSides() {
+        MoveStrategy strategy = new SoldierStrategy(Camp.CHO.forward());
+        List<Path> paths = strategy.findMovablePaths(Position.of(9, 3));
+        List<Position> destinations = paths.stream()
+                .map(Path::destination)
+                .toList();
+        assertThat(destinations.contains(Position.of(9, 2))).isTrue();
+        assertThat(destinations.contains(Position.of(9, 4))).isTrue();
+    }
 }
