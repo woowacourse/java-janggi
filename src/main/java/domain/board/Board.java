@@ -39,9 +39,9 @@ public class Board implements Pieces {
     }
 
     public CellSnapshot[][] toSnapshot() {
-        CellSnapshot[][] snapshot = new CellSnapshot[BOUNDS.colsize()][BOUNDS.rowSize()];
-        for (int i = 0; i < BOUNDS.colsize(); i++) {
-            for (int j = 0; j < BOUNDS.rowSize(); j++) {
+        CellSnapshot[][] snapshot = new CellSnapshot[BOUNDS.rowSize()][BOUNDS.colSize()];
+        for (int i = 0; i < BOUNDS.rowSize(); i++) {
+            for (int j = 0; j < BOUNDS.colSize(); j++) {
                 Piece piece = board.get(new Position(i, j));
                 snapshot[i][j] = new CellSnapshot(piece.getType(), piece.getSide());
             }

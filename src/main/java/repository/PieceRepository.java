@@ -43,8 +43,8 @@ public class PieceRepository {
     private static void updatePiecePosition(Connection connection, String sql, CellSnapshot cellSnapshot,
                                             Position position) throws SQLException {
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setInt(1, position.col());
-            pstmt.setInt(2, position.row());
+            pstmt.setInt(1, position.row());
+            pstmt.setInt(2, position.col());
             pstmt.setString(3, cellSnapshot.typeName());
             pstmt.setString(4, cellSnapshot.sideName());
 

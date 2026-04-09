@@ -26,7 +26,7 @@ public class OutputView {
     public void printAvailablePositions(List<Position> possibleMoves) {
         int index = 1;
         for (Position possibleMove : possibleMoves) {
-            System.out.printf("%d. (%d, %d)\n", index++, possibleMove.col(), possibleMove.row());
+            System.out.printf("%d. (%d, %d)\n", index++, possibleMove.row(), possibleMove.col());
         }
     }
 

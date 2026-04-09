@@ -6,22 +6,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public record Position(int col, int row) {
+public record Position(int row, int col) {
     private static final BoardBounds bounds = BoardBounds.JANGGI;
 
     public Position {
-        validate(col, row);
+        validate(row, col);
     }
 
     public Optional<Position> tryNextPosition(Direction direction) {
-        return tryCreate(col + direction.getCol(), row + direction.getRow());
+        return tryCreate(row + direction.getRow(), col + direction.getCol());
     }
 
-    private Optional<Position> tryCreate(int col, int row) {
-        if (!bounds.contains(col, row)) {
+    public boolean isInPalace() {
+        return bounds.isInPalace(row, col);
+    }
+
+    private Optional<Position> tryCreate(int row, int col) {
+        if (!bounds.contains(row, col)) {
             return Optional.empty();
         }
-        return Optional.of(new Position(col, row));
+        return Optional.of(new Position(row, col));
     }
 
     public List<Position> rayPositions(Direction direction) {
@@ -34,11 +38,11 @@ public record Position(int col, int row) {
         return positions;
     }
 
-    private void validate(int col, int row) {
-        if (!bounds.contains(col, row)) {
+    private void validate(int row, int col) {
+        if (!bounds.contains(row, col)) {
             throw new IllegalArgumentException(
-                    String.format("잘못된 좌표: (%d, %d) (열 좌표는 0 에서 %d 사이, 행 좌표는 0 에서 %d 사이여야 합니다.)",
-                            col, row, bounds.colsize() - 1, bounds.rowSize() - 1));
+                    String.format("잘못된 좌표: (%d, %d) (행 좌표는 0 에서 %d 사이, 열 좌표는 0 에서 %d 사이여야 합니다.)",
+                            row, col, bounds.rowSize() - 1, bounds.colSize() - 1));
         }
     }
 }

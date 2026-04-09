@@ -59,10 +59,11 @@ public class BasicBoardInitializer implements BoardInitializer {
     }
 
     private Position translateChuPosition(Position pos) {
-        int row = pos.row();
-        int col = 9 - pos.col();
-        return new Position(col, row);
+        int row = 9 - pos.row();
+        int col = pos.col();
+        return new Position(row, col);
     }
+
 
     private Piece copyAsChu(Piece piece) {
         return piece.withSide(Side.CHU);
