@@ -1,12 +1,12 @@
 package domain.point;
 
-import view.dto.MoveCommand;
-import domain.point.exception.PointException;
+import domain.command.MoveCommand;
+import domain.command.exception.CommandException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static domain.point.exception.PointError.*;
+import static domain.command.exception.CommandError.*;
 
 class MoveCommandTest {
 
@@ -16,8 +16,8 @@ class MoveCommandTest {
         String overPoint = "1,2 3,4 5,6";
 
         Assertions.assertThatThrownBy(() -> MoveCommand.from(overPoint))
-                .isInstanceOf(PointException.class)
-                .hasMessage(POINT_PAIR_FORMAT_IS_WRONG.getMessage());
+                .isInstanceOf(CommandException.class)
+                .hasMessage(MOVE_COMMAND_FORMAT_IS_WRONG.getMessage());
     }
 
     @Test
@@ -26,8 +26,8 @@ class MoveCommandTest {
         String lessPoint = "1,2";
 
         Assertions.assertThatThrownBy(() -> MoveCommand.from(lessPoint))
-                .isInstanceOf(PointException.class)
-                .hasMessage(POINT_PAIR_FORMAT_IS_WRONG.getMessage());
+                .isInstanceOf(CommandException.class)
+                .hasMessage(MOVE_COMMAND_FORMAT_IS_WRONG.getMessage());
     }
 
     @Test
@@ -36,8 +36,8 @@ class MoveCommandTest {
         String blankInput = "";
 
         Assertions.assertThatThrownBy(() -> MoveCommand.from(blankInput))
-                .isInstanceOf(PointException.class)
-                .hasMessage(POINT_INPUT_IS_BLANK.getMessage());
+                .isInstanceOf(CommandException.class)
+                .hasMessage(MOVE_COMMAND_INPUT_IS_BLANK.getMessage());
     }
 
     @Test
@@ -46,8 +46,8 @@ class MoveCommandTest {
         String wrongPointFormat = "1.2 3.3";
 
         Assertions.assertThatThrownBy(() -> MoveCommand.from(wrongPointFormat))
-                .isInstanceOf(PointException.class)
-                .hasMessage(POINT_FORMAT_IS_WRONG.getMessage());
+                .isInstanceOf(CommandException.class)
+                .hasMessage(MOVE_COMMAND_FORMAT_IS_WRONG.getMessage());
     }
 
     @Test
@@ -56,8 +56,8 @@ class MoveCommandTest {
         String notNumberInput = "ㄱ,ㄴ ㄷ,ㄹ";
 
         Assertions.assertThatThrownBy(() -> MoveCommand.from(notNumberInput))
-                .isInstanceOf(PointException.class)
-                .hasMessage(POINT_IS_NOT_NUMERIC.getMessage());
+                .isInstanceOf(CommandException.class)
+                .hasMessage(MOVE_COMMAND_IS_NOT_NUMERIC.getMessage());
     }
 
     @Test

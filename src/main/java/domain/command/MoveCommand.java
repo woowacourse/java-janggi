@@ -1,9 +1,9 @@
-package view.dto;
+package domain.command;
 
+import domain.command.exception.CommandException;
 import domain.point.Point;
-import domain.point.exception.PointException;
 
-import static domain.point.exception.PointError.*;
+import static domain.command.exception.CommandError.*;
 
 public record MoveCommand(
         Point start,
@@ -38,25 +38,25 @@ public record MoveCommand(
             int x = Integer.parseInt(coordinates[COORDINATE_OF_X]);
             return new Point(y, x);
         } catch (NumberFormatException e) {
-            throw new PointException(POINT_IS_NOT_NUMERIC.getMessage());
+            throw new CommandException(MOVE_COMMAND_IS_NOT_NUMERIC.getMessage());
         }
     }
 
     private static void validateBlank(String input) {
         if (input.isBlank()) {
-            throw new PointException(POINT_INPUT_IS_BLANK.getMessage());
+            throw new CommandException(MOVE_COMMAND_INPUT_IS_BLANK.getMessage());
         }
     }
 
     private static void validateCommandSize(String[] parts) {
         if (parts.length != EXPECTED_COMMAND_SIZE) {
-            throw new PointException(POINT_PAIR_FORMAT_IS_WRONG.getMessage());
+            throw new CommandException(MOVE_COMMAND_FORMAT_IS_WRONG.getMessage());
         }
     }
 
     private static void validatePointSize(String[] coordinates) {
         if (coordinates.length != EXPECTED_POINT_SIZE) {
-            throw new PointException(POINT_FORMAT_IS_WRONG.getMessage());
+            throw new CommandException(MOVE_COMMAND_FORMAT_IS_WRONG.getMessage());
         }
     }
 }

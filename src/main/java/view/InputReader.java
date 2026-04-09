@@ -1,9 +1,9 @@
 package view;
 
-import view.dto.BoardSelectCommand;
+import domain.command.BoardSelectCommand;
 import domain.board.Formation;
 import domain.piece.Team;
-import view.dto.MoveCommand;
+import domain.command.MoveCommand;
 
 import java.util.Scanner;
 

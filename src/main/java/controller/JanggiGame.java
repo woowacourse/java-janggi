@@ -4,14 +4,14 @@ import common.exception.JanggiException;
 import service.JanggiService;
 import database.context.BoardIdContext;
 import database.dto.GameResult;
-import view.dto.BoardSelectCommand;
+import domain.command.BoardSelectCommand;
 import domain.board.Formation;
 import domain.board.JanggiBoard;
 import domain.board.JanggiIntersectionGenerator;
 import view.dto.JanggiBoardDto;
 import database.dto.Moved;
 import domain.piece.Team;
-import view.dto.MoveCommand;
+import domain.command.MoveCommand;
 import view.InputReader;
 import view.OutputWriter;
 

@@ -1,4 +1,8 @@
-package view.dto;
+package domain.command;
+
+import domain.command.exception.CommandException;
+
+import static domain.command.exception.CommandError.*;
 
 public record BoardSelectCommand(
         long select
@@ -17,15 +21,13 @@ public record BoardSelectCommand(
         try {
             Integer.parseInt(input);
         } catch (NumberFormatException e) {
-            // TODO 커스텀 예외로 변경할 것.
-            throw new IllegalArgumentException(e);
+            throw new CommandException(BOARD_SELECT_IS_NOT_NUMERIC.getMessage());
         }
     }
 
-    // TODO 커스텀 예외로 변경할 것.
     public static void validateCommandRange(long select) {
         if (select < EXIT_COMMAND) {
-            throw new IllegalArgumentException();
+            throw new CommandException(INVALID_BOARD_SELECT.getMessage());
         }
     }
 
