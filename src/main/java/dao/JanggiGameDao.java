@@ -17,6 +17,12 @@ public class JanggiGameDao {
     private static final String GET_CURRENT_TURN_SQL = "SELECT current_turn FROM game WHERE game_id = ?";
     private static final String GET_PLAYER_NAMES_SQL = "SELECT cho_name, han_name FROM game WHERE game_id = ?";
 
+    private final DbConnectionFactory dbConnectionFactory;
+
+    public JanggiGameDao(DbConnectionFactory dbConnectionFactory) {
+        this.dbConnectionFactory = dbConnectionFactory;
+    }
+
     public long createGame(Connection connection, String choName, String hanName) {
         try (PreparedStatement statement = connection.prepareStatement(INSERT_GAME_SQL, Statement.RETURN_GENERATED_KEYS)) {
             setCreateGameParameters(statement, choName, hanName);
@@ -40,7 +46,7 @@ public class JanggiGameDao {
 
 
     public Team getCurrentTurn(long gameId) {
-        try (Connection connection = DbConnectionFactory.createConnection();
+        try (Connection connection = dbConnectionFactory.createConnection();
              PreparedStatement statement = connection.prepareStatement(GET_CURRENT_TURN_SQL)) {
             statement.setLong(1, gameId);
             return executeQueryForTeam(statement)
@@ -51,7 +57,7 @@ public class JanggiGameDao {
     }
 
     public PlayerNames getPlayerNames(long gameId) {
-        try (Connection connection = DbConnectionFactory.createConnection();
+        try (Connection connection = dbConnectionFactory.createConnection();
              PreparedStatement statement = connection.prepareStatement(GET_PLAYER_NAMES_SQL)) {
             statement.setLong(1, gameId);
             return executeQueryForPlayerNames(statement)
@@ -96,7 +102,7 @@ public class JanggiGameDao {
     }
 
     public List<GameInfo> findAllProgressGames() {
-        try (Connection connection = DbConnectionFactory.createConnection();
+        try (Connection connection = dbConnectionFactory.createConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_PROGRESS_GAMES_SQL)) {
             statement.setString(1, INITIAL_STATUS);
             return loadGamesFromResultSet(statement.executeQuery());

@@ -25,8 +25,16 @@ public class BoardDao {
             "UPDATE board SET team = ?, piece_type = ? WHERE game_id = ? AND row_idx = ? AND col_idx = ?";
     private static final String NONE_VALUE = "NONE";
 
+    private final DbConnectionFactory dbConnectionFactory;
+    private final TransactionExecutor transactionExecutor;
+
+    public BoardDao(DbConnectionFactory dbConnectionFactory, TransactionExecutor transactionExecutor) {
+        this.dbConnectionFactory = dbConnectionFactory;
+        this.transactionExecutor = transactionExecutor;
+    }
+
     public void saveFullBoard(long gameId, Board board) {
-        TransactionExecutor.executeVoid(connection -> saveFullBoard(connection, gameId, board));
+        transactionExecutor.executeVoid(connection -> saveFullBoard(connection, gameId, board));
     }
 
     public void saveFullBoard(Connection connection, long gameId, Board board) {
@@ -52,7 +60,7 @@ public class BoardDao {
 
     public Map<Position, BasicPiece> loadBoard(long gameId) {
         Map<Position, BasicPiece> board = initializeBoard();
-        try (Connection connection = DbConnectionFactory.createConnection();
+        try (Connection connection = dbConnectionFactory.createConnection();
              PreparedStatement statement = connection.prepareStatement(LOAD_BOARD_SQL)) {
             statement.setLong(1, gameId);
             loadPiecesFromResultSet(statement.executeQuery(), board);

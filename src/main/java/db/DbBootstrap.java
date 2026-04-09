@@ -11,15 +11,18 @@ import java.util.Objects;
 
 import org.h2.tools.RunScript;
 
-public final class DbBootstrap {
+public class DbBootstrap {
     private static final String SCHEMA_PATH = "/db/schema.sql";
     private static final String[] REQUIRED_TABLES = {"GAME", "BOARD"};
 
-    private DbBootstrap() {
+    private final DbConnectionFactory connectionFactory;
+
+    public DbBootstrap(DbConnectionFactory connectionFactory) {
+        this.connectionFactory = connectionFactory;
     }
 
-    public static void initialize() {
-        try (Connection connection = DbConnectionFactory.createConnection()) {
+    public void initialize() {
+        try (Connection connection = connectionFactory.createConnection()) {
             if (isSchemaMissing(connection)) {
                 runSchema(connection);
             }
@@ -28,12 +31,12 @@ public final class DbBootstrap {
         }
     }
 
-    private static boolean isSchemaMissing(Connection connection) throws SQLException {
+    private boolean isSchemaMissing(Connection connection) throws SQLException {
         DatabaseMetaData metaData = connection.getMetaData();
         return hasAnyMissingTable(metaData);
     }
 
-    private static boolean hasAnyMissingTable(DatabaseMetaData metaData) throws SQLException {
+    private boolean hasAnyMissingTable(DatabaseMetaData metaData) throws SQLException {
         for (String tableName : REQUIRED_TABLES) {
             if (!hasTable(metaData, tableName)) {
                 return true;
@@ -42,13 +45,13 @@ public final class DbBootstrap {
         return false;
     }
 
-    private static boolean hasTable(DatabaseMetaData metaData, String tableName) throws SQLException {
+    private boolean hasTable(DatabaseMetaData metaData, String tableName) throws SQLException {
         try (ResultSet resultSet = metaData.getTables(null, null, tableName, new String[]{"TABLE"})) {
             return resultSet.next();
         }
     }
 
-    private static void runSchema(Connection connection) {
+    private void runSchema(Connection connection) {
         try (Reader reader = openSchemaReader()) {
             RunScript.execute(connection, reader);
         } catch (Exception e) {
@@ -56,9 +59,9 @@ public final class DbBootstrap {
         }
     }
 
-    private static Reader openSchemaReader() {
+    private Reader openSchemaReader() {
         return new InputStreamReader(
-                Objects.requireNonNull(DbBootstrap.class.getResourceAsStream(SCHEMA_PATH)),
+                Objects.requireNonNull(getClass().getResourceAsStream(SCHEMA_PATH)),
                 StandardCharsets.UTF_8
         );
     }

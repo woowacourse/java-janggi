@@ -7,35 +7,43 @@ import static common.Constants.MIN_ROW;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import db.TestDbBootstrap;
+import db.ConfigLoader;
+import db.DbBootstrap;
+import db.DbConnectionFactory;
+import db.TransactionExecutor;
 import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.Formation;
 import domain.piece.BasicPiece;
 import domain.piece.None;
 import domain.position.Position;
-import db.DbConnectionFactory;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class BoardDaoTest {
-    private final JanggiGameDao janggiGameDao = new JanggiGameDao();
-    private final BoardDao boardDao = new BoardDao();
+    private final ConfigLoader configLoader = new ConfigLoader("application-test.properties");
+    private final DbConnectionFactory dbConnectionFactory = new DbConnectionFactory(configLoader);
+    private final TransactionExecutor transactionExecutor = new TransactionExecutor(dbConnectionFactory);
+    private final JanggiGameDao janggiGameDao = new JanggiGameDao(dbConnectionFactory);
+    private final BoardDao boardDao = new BoardDao(dbConnectionFactory, transactionExecutor);
 
     @BeforeEach
     void setUp() {
-        TestDbBootstrap.initializeTestDb();
+        DbBootstrap dbBootstrap = new DbBootstrap(dbConnectionFactory);
+        dbBootstrap.initialize();
     }
 
     @Test
     void 보드를_저장하면_모든_좌표가_DB에_저장된다() throws SQLException {
-        try (Connection connection = DbConnectionFactory.createConnection()) {
+        try (Connection connection = dbConnectionFactory.createConnection()) {
             long gameId = janggiGameDao.createGame(connection, "CHO Player", "HAN Player");
             Board board = BoardFactory.createWithFormation(Formation.from(1), Formation.from(1));
 
@@ -55,7 +63,7 @@ class BoardDaoTest {
 
     @Test
     void 보드를_저장하면_좌표별_팀과_기물종류가_정확히_저장된다() throws SQLException {
-        try (Connection connection = DbConnectionFactory.createConnection()) {
+        try (Connection connection = dbConnectionFactory.createConnection()) {
             long gameId = janggiGameDao.createGame(connection, "CHO Player", "HAN Player");
             Board board = BoardFactory.createWithFormation(Formation.from(1), Formation.from(1));
 
@@ -64,8 +72,8 @@ class BoardDaoTest {
             try (PreparedStatement statement = connection.prepareStatement(
                     "SELECT team, piece_type FROM board WHERE game_id = ? AND row_idx = ? AND col_idx = ?")) {
                 statement.setLong(1, gameId);
-                statement.setInt(2, 8);
-                statement.setInt(3, 4);
+                statement.setInt(2, 8); // 초나라 진영
+                statement.setInt(3, 4); // 장(궁) 위치
 
                 try (ResultSet resultSet = statement.executeQuery()) {
                     assertThat(resultSet.next()).isTrue();
@@ -78,7 +86,7 @@ class BoardDaoTest {
 
     @Test
     void loadBoard_저장된_보드를_정확히_복원한다() throws SQLException {
-        try (Connection connection = DbConnectionFactory.createConnection()) {
+        try (Connection connection = dbConnectionFactory.createConnection()) {
             long gameId = janggiGameDao.createGame(connection, "CHO Player", "HAN Player");
             Board originalBoard = BoardFactory.createWithFormation(Formation.from(1), Formation.from(1));
             boardDao.saveFullBoard(gameId, originalBoard);
@@ -105,7 +113,8 @@ class BoardDaoTest {
 
     @Test
     void loadBoard_저장되지_않은_보드는_모두_None으로_초기화된다() throws SQLException {
-        try (Connection connection = DbConnectionFactory.createConnection()) {
+        try (Connection connection = dbConnectionFactory.createConnection()) {
+            // 게임만 만들고 보드는 저장하지 않은 상태
             long gameId = janggiGameDao.createGame(connection, "CHO Player", "HAN Player");
 
             Map<Position, BasicPiece> loadedBoardMap = boardDao.loadBoard(gameId);
@@ -122,7 +131,7 @@ class BoardDaoTest {
 
     @Test
     void 빈칸은_NONE으로_저장된다() throws SQLException {
-        try (Connection connection = DbConnectionFactory.createConnection()) {
+        try (Connection connection = dbConnectionFactory.createConnection()) {
             long gameId = janggiGameDao.createGame(connection, "CHO Player", "HAN Player");
             Board board = BoardFactory.createWithFormation(Formation.from(1), Formation.from(1));
 
@@ -131,7 +140,7 @@ class BoardDaoTest {
             try (PreparedStatement statement = connection.prepareStatement(
                     "SELECT team, piece_type FROM board WHERE game_id = ? AND row_idx = ? AND col_idx = ?")) {
                 statement.setLong(1, gameId);
-                statement.setInt(2, 4);
+                statement.setInt(2, 4); // 한가운데 빈 공간
                 statement.setInt(3, 4);
 
                 try (ResultSet resultSet = statement.executeQuery()) {
@@ -145,13 +154,12 @@ class BoardDaoTest {
 
     @Test
     void 이미_저장된_보드는_다시_저장할_수_없다() throws SQLException {
-        try (Connection connection = DbConnectionFactory.createConnection()) {
+        try (Connection connection = dbConnectionFactory.createConnection()) {
             long gameId = janggiGameDao.createGame(connection, "CHO Player", "HAN Player");
             Board initialBoard = BoardFactory.createWithFormation(Formation.from(1), Formation.from(1));
+
             boardDao.saveFullBoard(gameId, initialBoard);
-
             Board emptyBoard = new Board(createEmptyBoard());
-
             assertThrows(IllegalStateException.class, () -> boardDao.saveFullBoard(gameId, emptyBoard));
         }
     }

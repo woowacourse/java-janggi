@@ -5,12 +5,15 @@ import java.sql.SQLException;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public final class TransactionExecutor {
-    private TransactionExecutor() {
+public class TransactionExecutor {
+    private final DbConnectionFactory connectionFactory;
+
+    public TransactionExecutor(DbConnectionFactory connectionFactory) {
+        this.connectionFactory = connectionFactory;
     }
 
-    public static <T> T execute(Function<Connection, T> action) {
-        try (Connection connection = DbConnectionFactory.createConnection()) {
+    public <T> T execute(Function<Connection, T> action) {
+        try (Connection connection = connectionFactory.createConnection()) {
             connection.setAutoCommit(false);
             return executeAndCommit(connection, action);
         } catch (SQLException e) {
@@ -18,8 +21,8 @@ public final class TransactionExecutor {
         }
     }
 
-    public static void executeVoid(Consumer<Connection> action) {
-        try (Connection connection = DbConnectionFactory.createConnection()) {
+    public void executeVoid(Consumer<Connection> action) {
+        try (Connection connection = connectionFactory.createConnection()) {
             connection.setAutoCommit(false);
             executeAndCommitVoid(connection, action);
         } catch (SQLException e) {
@@ -27,7 +30,7 @@ public final class TransactionExecutor {
         }
     }
 
-    private static <T> T executeAndCommit(Connection connection, Function<Connection, T> action) {
+    private <T> T executeAndCommit(Connection connection, Function<Connection, T> action) {
         try {
             T result = action.apply(connection);
             connection.commit();
@@ -41,7 +44,7 @@ public final class TransactionExecutor {
         }
     }
 
-    private static void executeAndCommitVoid(Connection connection, Consumer<Connection> action) {
+    private void executeAndCommitVoid(Connection connection, Consumer<Connection> action) {
         try {
             action.accept(connection);
             connection.commit();
@@ -54,7 +57,7 @@ public final class TransactionExecutor {
         }
     }
 
-    private static void rollbackQuietly(Connection connection) {
+    private void rollbackQuietly(Connection connection) {
         try {
             connection.rollback();
         } catch (SQLException ignored) {

@@ -5,9 +5,11 @@ import static domain.player.Team.HAN;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import dao.BoardDao;
+import db.ConfigLoader;
+import db.DbBootstrap;
+import db.TransactionExecutor;
 import repository.JanggiGameRepository;
 import dao.JanggiGameDao;
-import db.TestDbBootstrap;
 import domain.board.Formation;
 import domain.player.Name;
 import domain.player.Player;
@@ -23,16 +25,21 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class JanggiGamePlayServiceTest {
-    private final JanggiGameDao janggiGameDao = new JanggiGameDao();
-    private final BoardDao boardDao = new BoardDao();
-    private final JanggiGameRepository janggiGameRepository = new JanggiGameRepository(janggiGameDao, boardDao);
+    private final ConfigLoader configLoader = new ConfigLoader("application-test.properties");
+    private final DbConnectionFactory dbConnectionFactory = new DbConnectionFactory(configLoader);
+    private final TransactionExecutor transactionExecutor = new TransactionExecutor(dbConnectionFactory);
+    private final JanggiGameDao janggiGameDao = new JanggiGameDao(dbConnectionFactory);
+    private final BoardDao boardDao = new BoardDao(dbConnectionFactory, transactionExecutor);
+    private final JanggiGameRepository janggiGameRepository = new JanggiGameRepository(janggiGameDao, boardDao, transactionExecutor);
     private final JanggiGameSetupService janggiGameSetupService = new JanggiGameSetupService(janggiGameRepository);
     private final JanggiGamePlayService janggiGamePlayService = new JanggiGamePlayService(janggiGameRepository);
 
     @BeforeEach
     void setUp() {
-        TestDbBootstrap.initializeTestDb();
+        DbBootstrap dbBootstrap = new DbBootstrap(dbConnectionFactory);
+        dbBootstrap.initialize();
     }
+
 
     @Nested
     class PlayTurnTest {
@@ -124,7 +131,7 @@ class JanggiGamePlayServiceTest {
 
     private String readGameStatus(long gameId) {
         String query = "SELECT status FROM game WHERE game_id = ?";
-        try (Connection connection = DbConnectionFactory.createConnection();
+        try (Connection connection = dbConnectionFactory.createConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, gameId);
             try (ResultSet resultSet = statement.executeQuery()) {

@@ -6,9 +6,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import dao.BoardDao;
 import dao.GameInfo;
+import db.ConfigLoader;
+import db.DbBootstrap;
+import db.TransactionExecutor;
 import repository.JanggiGameRepository;
 import dao.JanggiGameDao;
-import db.TestDbBootstrap;
 import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.Formation;
@@ -25,14 +27,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class JanggiGameSetupServiceTest {
-    private final JanggiGameDao janggiGameDao = new JanggiGameDao();
-    private final BoardDao boardDao = new BoardDao();
-    private final JanggiGameRepository janggiGameRepository = new JanggiGameRepository(janggiGameDao, boardDao);
+    private final ConfigLoader configLoader = new ConfigLoader("application-test.properties");
+    private final DbConnectionFactory dbConnectionFactory = new DbConnectionFactory(configLoader);
+    private final TransactionExecutor transactionExecutor = new TransactionExecutor(dbConnectionFactory);
+    private final JanggiGameDao janggiGameDao = new JanggiGameDao(dbConnectionFactory);
+    private final BoardDao boardDao = new BoardDao(dbConnectionFactory, transactionExecutor);
+    private final JanggiGameRepository janggiGameRepository = new JanggiGameRepository(janggiGameDao, boardDao, transactionExecutor);
     private final JanggiGameSetupService janggiGameSetupService = new JanggiGameSetupService(janggiGameRepository);
 
     @BeforeEach
     void setUp() {
-        TestDbBootstrap.initializeTestDb();
+        DbBootstrap dbBootstrap = new DbBootstrap(dbConnectionFactory);
+        dbBootstrap.initialize();
     }
 
     @Test
@@ -52,7 +58,7 @@ class JanggiGameSetupServiceTest {
 
     @Test
     void 저장된_게임을_세션으로_불러온다() throws SQLException {
-        try (Connection connection = DbConnectionFactory.createConnection()) {
+        try (Connection connection = dbConnectionFactory.createConnection()) {
             long gameId = janggiGameDao.createGame(connection, "CHO Player", "HAN Player");
             Board board = BoardFactory.createWithFormation(Formation.from(1), Formation.from(1));
             boardDao.saveFullBoard(gameId, board);
@@ -74,7 +80,7 @@ class JanggiGameSetupServiceTest {
 
     @Test
     void 모든_진행중인_게임을_반환한다() throws SQLException {
-        try (Connection connection = DbConnectionFactory.createConnection()) {
+        try (Connection connection = dbConnectionFactory.createConnection()) {
             List<GameInfo> existingGames = janggiGameSetupService.findProgressGames();
             for (GameInfo game : existingGames) {
                 janggiGameDao.updateGameState(connection, game.gameId(), Team.CHO, GameStatus.CHO_WIN);

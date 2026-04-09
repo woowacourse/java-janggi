@@ -30,16 +30,16 @@ public class JanggiGameRunner {
     private JanggiGameManager janggiGameManager;
     private long gameId;
 
-    public JanggiGameRunner(InputView inputView, OutputView outputView) {
-        this(inputView, outputView, new JanggiGameDao(), new BoardDao());
-    }
-
-    JanggiGameRunner(InputView inputView, OutputView outputView, JanggiGameDao janggiGameDao, BoardDao boardDao) {
+    public JanggiGameRunner(
+            InputView inputView,
+            OutputView outputView,
+            JanggiGameSetupService setupService,
+            JanggiGamePlayService playService
+    ) {
         this.inputView = inputView;
         this.outputView = outputView;
-        JanggiGameRepository janggiGameRepository = new JanggiGameRepository(janggiGameDao, boardDao);
-        this.janggiGameSetupService = new JanggiGameSetupService(janggiGameRepository);
-        this.janggiGamePlayService = new JanggiGamePlayService(janggiGameRepository);
+        this.janggiGameSetupService = setupService;
+        this.janggiGamePlayService = playService;
     }
 
     public void run() {

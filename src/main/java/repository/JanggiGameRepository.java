@@ -17,14 +17,16 @@ import java.util.Map;
 public class JanggiGameRepository {
     private final JanggiGameDao janggiGameDao;
     private final BoardDao boardDao;
+    private final TransactionExecutor transactionExecutor;
 
-    public JanggiGameRepository(JanggiGameDao janggiGameDao, BoardDao boardDao) {
+    public JanggiGameRepository(JanggiGameDao janggiGameDao, BoardDao boardDao, TransactionExecutor transactionExecutor) {
         this.janggiGameDao = janggiGameDao;
         this.boardDao = boardDao;
+        this.transactionExecutor = transactionExecutor;
     }
 
     public long createNewGame(String choName, String hanName, Board board, Team currentTurn) {
-        return TransactionExecutor.execute(connection -> {
+        return transactionExecutor.execute(connection -> {
             long gameId = janggiGameDao.createGame(connection, choName, hanName);
             boardDao.saveFullBoard(connection, gameId, board);
             janggiGameDao.updateGameState(connection, gameId, currentTurn, GameStatus.PROGRESS);
@@ -33,14 +35,14 @@ public class JanggiGameRepository {
     }
 
     public void saveTurnProgress(long gameId, Position source, Position destination, BasicPiece movingPiece, Team currentTurn) {
-        TransactionExecutor.executeVoid(connection -> {
+        transactionExecutor.executeVoid(connection -> {
             boardDao.updateMove(connection, gameId, source, destination, movingPiece);
             janggiGameDao.updateGameState(connection, gameId, currentTurn, GameStatus.PROGRESS);
         });
     }
 
     public void saveFinalMove(long gameId, Position source, Position destination, BasicPiece movingPiece, Team winnerTeam, GameStatus status) {
-        TransactionExecutor.executeVoid(connection -> {
+        transactionExecutor.executeVoid(connection -> {
             boardDao.updateMove(connection, gameId, source, destination, movingPiece);
             janggiGameDao.updateGameState(connection, gameId, winnerTeam, status);
         });

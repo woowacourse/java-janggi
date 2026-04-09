@@ -4,18 +4,22 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public final class DbConnectionFactory {
-    private DbConnectionFactory() {
+public class DbConnectionFactory {
+    private final String url;
+    private final String user;
+    private final String password;
+
+    public DbConnectionFactory(ConfigLoader configLoader) {
+        this.url = configLoader.getProperty("db.jdbc.url");
+        this.user = configLoader.getProperty("db.jdbc.user");
+        this.password = configLoader.getProperty("db.jdbc.password");
+
+        if (this.url == null || this.user == null) {
+            throw new IllegalStateException("데이터베이스 설정 정보가 누락되었습니다.");
+        }
     }
 
-    public static Connection createConnection() throws SQLException {
-        String url = ConfigLoader.getProperty("db.jdbc.url");
-        String user = ConfigLoader.getProperty("db.jdbc.user");
-        String password = ConfigLoader.getProperty("db.jdbc.password");
+    public Connection createConnection() throws SQLException {
         return DriverManager.getConnection(url, user, password);
     }
 }
-
-
-
-
