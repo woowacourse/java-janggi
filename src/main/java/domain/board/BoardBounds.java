@@ -5,35 +5,51 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class BoardBounds {
-    public static final BoardBounds JANGGI = new BoardBounds(10, 9);
+    public static final BoardBounds JANGGI = createJanggi();
 
-    private final int colSize;
     private final int rowSize;
+    private final int colSize;
+    private final List<PalaceBounds> palaces;
 
-    public BoardBounds(int colSize, int rowSize) {
-        this.colSize = colSize;
-        this.rowSize = rowSize;
+    private static BoardBounds createJanggi() {
+        PalaceBounds palace = new PalaceBounds(0, 2, 3, 5);
+        return new BoardBounds(10, 9, List.of(palace, palace.mirror(10)));
     }
 
-    public boolean contains(int col, int row) {
-        return col >= 0 && col < colSize && row >= 0 && row < rowSize;
+    public BoardBounds(int rowSize, int colSize, List<PalaceBounds> palaces) {
+        this.rowSize = rowSize;
+        this.colSize = colSize;
+        this.palaces = palaces;
+    }
+
+    public boolean contains(int row, int col) {
+        return row >= 0 && row < rowSize && col >= 0 && col < colSize;
+    }
+
+    public boolean isInPalace(int row, int col) {
+        for (PalaceBounds palace : palaces) {
+            if (palace.contains(row, col)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public List<Position> allPositions() {
         List<Position> positions = new ArrayList<>();
-        for (int col = 0; col < colSize; col++) {
-            for (int row = 0; row < rowSize; row++) {
-                positions.add(new Position(col, row));
+        for (int row = 0; row < rowSize; row++) {
+            for (int col = 0; col < colSize; col++) {
+                positions.add(new Position(row, col));
             }
         }
         return positions;
     }
 
-    public int colsize() {
-        return colSize;
-    }
-
     public int rowSize() {
         return rowSize;
+    }
+
+    public int colSize() {
+        return colSize;
     }
 }
