@@ -24,23 +24,11 @@ public class GameService {
     }
 
     public Optional<Game> loadLatestGame() {
-        try (
-                Connection connection = dataSource.getConnection()
-        ) {
-            return gameRepository.findLatest(connection);
-        } catch (SQLException exception) {
-            throw new IllegalStateException(exception.getMessage());
-        }
+        return executeWithConnection(gameRepository::findLatest);
     }
 
     public Map<Position, PieceInfo> loadBoard(Long gameId) {
-        try (
-                Connection connection = dataSource.getConnection()
-        ) {
-            return boardRepository.findAllByGameId(connection, gameId);
-        } catch (SQLException exception) {
-            throw new IllegalStateException(exception.getMessage());
-        }
+        return executeWithConnection(connection -> boardRepository.findAllByGameId(connection, gameId));
     }
 
     public Long saveGame(Game game, Map<Position, PieceInfo> pieceInfos) {
@@ -74,6 +62,16 @@ public class GameService {
             boardRepository.delete(connection, gameId, to);
             PieceInfo pieceInfo = pieceInfos.get(to);
             boardRepository.save(connection, gameId, to, pieceInfo);
+        } catch (SQLException exception) {
+            throw new IllegalStateException(exception.getMessage());
+        }
+    }
+
+    private <T> T executeWithConnection(ConnectionTask<T> task) {
+        try (
+                Connection connection = dataSource.getConnection()
+        ) {
+            return task.execute(connection);
         } catch (SQLException exception) {
             throw new IllegalStateException(exception.getMessage());
         }
