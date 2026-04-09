@@ -30,10 +30,9 @@ public class JanggiGame {
     }
 
     public void run() {
-        BoardSelectCommand selectCommand;
+        JanggiBoard janggiBoard;
         showDoesntEndBoardList();
-        while (!(selectCommand = reader.requestBoardSelectCommand()).isExitCommand()) {
-            JanggiBoard janggiBoard = getJanggiBoard(selectCommand);
+        while ((janggiBoard = requestAndGetBoard()) != null) {
             startGame(janggiBoard);
             applyGameResult(janggiBoard);
             announceWinner(janggiBoard.getWinner());
@@ -43,6 +42,13 @@ public class JanggiGame {
 
     private void showDoesntEndBoardList() {
         writer.printExistingPlayingBoard(janggiService.readExistPlayingBoard());
+    }
+
+    private JanggiBoard requestAndGetBoard() {
+        return retry(() -> {
+            BoardSelectCommand selectCommand = reader.requestBoardSelectCommand();
+            return getJanggiBoard(selectCommand);
+        });
     }
 
     public JanggiBoard getJanggiBoard(BoardSelectCommand selectCommand) {
@@ -109,7 +115,7 @@ public class JanggiGame {
     private <T> T retry(Supplier<T> supplier) {
         try {
             return supplier.get();
-        } catch (JanggiException e) {
+        } catch (RuntimeException e) {
             writer.printErrorMessage(e.getMessage());
             return retry(supplier);
         }

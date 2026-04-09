@@ -6,6 +6,7 @@ import domain.piece.Team;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 public interface BoardDao {
 
@@ -13,7 +14,7 @@ public interface BoardDao {
 
     List<BoardSummaryDto> readAllPlaying() throws SQLException;
 
-    BoardSummaryDto readPlayingById(Long boardId) throws SQLException;
+    Optional<BoardSummaryDto> readPlayingById(Long boardId) throws SQLException;
 
     void updateTurn(Long boardId, Team nextTurn) throws SQLException;
 

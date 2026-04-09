@@ -14,6 +14,7 @@ import domain.board.dto.Moved;
 import domain.intersection.Intersection;
 import domain.piece.Team;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class JanggiService {
@@ -44,7 +45,8 @@ public class JanggiService {
 
     public JanggiBoard getExistBoard(BoardSelectCommand command) {
         return executor.execute(()->{
-            BoardSummaryDto boardSummaryDto = boardDao.readPlayingById(command.select());
+            BoardSummaryDto boardSummaryDto = boardDao.readPlayingById(command.select())
+                    .orElseThrow(() -> new IllegalArgumentException("해당 ID의 진행 중인 게임을 찾을 수 없습니다."));
             List<Intersection> intersections = intersectionDao.readByBoardId(command.select());
             Team currentTurn = Team.valueOf(boardSummaryDto.currentTurn());
             return new JanggiBoard(new DBIntersectionGenerator(intersections), currentTurn);

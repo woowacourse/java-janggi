@@ -7,6 +7,7 @@ import domain.piece.Team;
 
 import java.sql.*;
 import java.util.List;
+import java.util.Optional;
 
 public class JdbcBoardDao implements BoardDao {
 
@@ -45,7 +46,7 @@ public class JdbcBoardDao implements BoardDao {
     }
 
     @Override
-    public Long save() throws SQLException{
+    public Long save() throws SQLException {
         return jdbcTemplate.save(INSERT_BOARD_QUERY);
     }
 
@@ -58,12 +59,13 @@ public class JdbcBoardDao implements BoardDao {
         );
     }
 
-    public BoardSummaryDto readPlayingById(Long boardId) throws SQLException {
-        return jdbcTemplate.selectOne(
+    public Optional<BoardSummaryDto> readPlayingById(Long boardId) throws SQLException {
+        BoardSummaryDto result = jdbcTemplate.selectOne(
                 READ_BOARD_QUERY,
                 new SummaryDtoRowMapper(),
                 boardId
         );
+        return Optional.ofNullable(result);
     }
 
     @Override
