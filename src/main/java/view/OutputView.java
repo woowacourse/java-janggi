@@ -54,6 +54,14 @@ public class OutputView {
         System.out.println(country.title() + "나라 점수: " + score);
     }
 
+    public static void printLoadedGameMessage(){
+        System.out.println("저장된 게임을 불러와 이어서 시작합니다.");
+    }
+
+    public static void printNewGameMessage(){
+        System.out.println("게임을 시작합니다.");
+    }
+
     private static void printColumn(int row, Board board) {
         for (int col = 1; col <= 9; col++) {
             Position position = Position.of(row, col);

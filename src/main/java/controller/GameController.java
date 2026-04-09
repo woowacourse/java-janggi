@@ -46,8 +46,11 @@ public class GameController {
     private GameSession loadGameSession() {
         Optional<SavedGame> savedGame = gameRepository.find();
         if (savedGame.isPresent()) {
+            OutputView.printLoadedGameMessage();
+            OutputView.printLine();
             return GameRestorer.restore(savedGame.get());
         }
+        OutputView.printNewGameMessage();
         return newGameSession();
     }
 
