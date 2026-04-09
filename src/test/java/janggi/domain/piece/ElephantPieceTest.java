@@ -14,7 +14,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 class ElephantPieceTest {
 
     @ParameterizedTest
-    @DisplayName("상는 직선 한 칸 대각선으로 두 칸 이동 가능하다.")
+    @DisplayName("상은 직선 한 칸 대각선으로 두 칸 이동 가능하다.")
     @CsvSource({
             "5, 4, 3, 1", "5, 4, 2, 2",
             "5, 4, 7, 1", "5, 4, 8, 2",
@@ -63,7 +63,7 @@ class ElephantPieceTest {
     }
 
     @Test
-    @DisplayName("마 이동 경로에 기물이 2개 있다면 이동할 수 없다.")
+    @DisplayName("상 이동 경로에 기물이 2개 있다면 이동할 수 없다.")
     void testMoveOtherPiecesInPath() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
@@ -75,7 +75,7 @@ class ElephantPieceTest {
     }
 
     @Test
-    @DisplayName("마 이동 경로에 기물이 없고 도착 경로에 같은 진영 기물이 있다면 이동할 수 없다.")
+    @DisplayName("상 이동 경로에 기물이 없고 도착 경로에 같은 진영 기물이 있다면 이동할 수 없다.")
     void testNotMoveIfSameTeamPieceInDestination() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
@@ -86,7 +86,7 @@ class ElephantPieceTest {
     }
 
     @Test
-    @DisplayName("마 이동 경로에 기물이 없고 도착 경로에 상대 진영 기물이 있다면 이동할 수 없다.")
+    @DisplayName("상 이동 경로에 기물이 없고 도착 경로에 상대 진영 기물이 있다면 이동할 수 있다.")
     void testNotMoveIfOtherTeamPieceInDestination() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 

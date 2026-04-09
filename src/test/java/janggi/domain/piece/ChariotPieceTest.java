@@ -126,7 +126,7 @@ class ChariotPieceTest {
     }
 
     @Test
-    @DisplayName("차 이동 경로에 아무 기물이 없고 도착지에 상대 진영 기물이 존재한다면 이동할 수 없다.")
+    @DisplayName("차 이동 경로에 아무 기물이 없고 도착지에 상대 진영 기물이 존재한다면 이동할 수 있다.")
     void testNotMoveIfOtherTeamPieceInDestination() {
         Map<Position, Piece> positionPieces = new LinkedHashMap<>();
 
