@@ -2,7 +2,6 @@ package domain.board;
 
 import domain.Path;
 import domain.Position;
-import domain.country.Country;
 import domain.country.CountryType;
 import domain.piece.Piece;
 import domain.piece.PieceInfo;
@@ -25,13 +24,6 @@ public class BoardStates {
         Piece fromPiece = boardStates.get(from);
         boardStates.remove(from);
         boardStates.put(to, fromPiece);
-    }
-
-    public void adjustScore(Position to, Country country) {
-        if (!boardStates.containsKey(to)) {
-            return;
-        }
-        country.minusScore(boardStates.get(to).getPieceScore());
     }
 
     public boolean isGeneralCaught(Position to) {
@@ -80,5 +72,12 @@ public class BoardStates {
             throw new IllegalArgumentException(NOT_FOUNT_PIECE_FROM_POSITION);
         }
         return boardStates.get(position).getPieceCountryType();
+    }
+
+    public double calculateScore(CountryType countryType) {
+        return boardStates.values().stream()
+                .filter(piece -> piece.getPieceCountryType() == countryType)
+                .mapToDouble(Piece::getPieceScore)
+                .sum();
     }
 }

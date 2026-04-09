@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class JdbcGameInfoRepository implements GameInfoRepository {
     @Override
@@ -24,9 +23,7 @@ public class JdbcGameInfoRepository implements GameInfoRepository {
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String turn = resultSet.getString("turn");
-                double cho_score = resultSet.getDouble("cho_score");
-                double han_score = resultSet.getDouble("han_score");
-                GameInfo gameInfo = new GameInfo(id, turn, cho_score, han_score);
+                GameInfo gameInfo = new GameInfo(id, turn);
                 gameInfos.add(gameInfo);
             }
             return gameInfos;
@@ -49,10 +46,8 @@ public class JdbcGameInfoRepository implements GameInfoRepository {
             }
 
             String turn = resultSet.getString("turn");
-            double cho_score = resultSet.getDouble("cho_score");
-            double han_score = resultSet.getDouble("han_score");
 
-            return new GameInfo(id, turn, cho_score, han_score);
+            return new GameInfo(id, turn);
         } catch (SQLException e) {
             throw new IllegalStateException("[ERROR] 보드를 불러오는 데 실패했습니다.", e);
         }
@@ -60,13 +55,11 @@ public class JdbcGameInfoRepository implements GameInfoRepository {
 
     @Override
     public int saveGameInfo(Connection connection) {
-        String sql = "INSERT INTO `game_info`(`turn`, `cho_score`, `han_score`) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO `game_info`(`turn`) VALUES (?)";
         try (
                 PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
         ) {
             preparedStatement.setString(1, CountryType.CHO.toString());
-            preparedStatement.setDouble(2, CountryType.CHO.getInitScore());
-            preparedStatement.setDouble(3, CountryType.HAN.getInitScore());
             preparedStatement.executeUpdate();
 
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
@@ -80,16 +73,13 @@ public class JdbcGameInfoRepository implements GameInfoRepository {
     }
 
     @Override
-    public void updateGameInfo(CountryType countryType, Map<CountryType, Double> scores, int id,
-                               Connection connection) {
-        String sql = "UPDATE `game_info` SET `turn` = ?, `cho_score` = ?, `han_score` = ? WHERE `id` = ?";
+    public void updateGameInfo(CountryType countryType, int id, Connection connection) {
+        String sql = "UPDATE `game_info` SET `turn` = ? WHERE `id` = ?";
         try (
                 PreparedStatement preparedStatement = connection.prepareStatement(sql)
         ) {
             preparedStatement.setString(1, countryType.toString());
-            preparedStatement.setDouble(2, scores.get(CountryType.CHO));
-            preparedStatement.setDouble(3, scores.get(CountryType.HAN));
-            preparedStatement.setInt(4, id);
+            preparedStatement.setInt(2, id);
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

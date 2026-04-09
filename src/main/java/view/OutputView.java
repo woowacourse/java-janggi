@@ -9,7 +9,6 @@ import domain.country.CountryType;
 import domain.piece.PieceInfo;
 import domain.piece.PieceInfos;
 import java.util.List;
-import java.util.Map;
 
 public class OutputView {
     private static final List<String> POSITION_NUMBERS = List.of("０", "１", "２", "３", "４", "５", "６", "７", "８", "９");
@@ -32,15 +31,21 @@ public class OutputView {
         }
     }
 
-    public void printBoard(PieceInfos pieceInfos, CountryType turn, Map<CountryType, Double> scores) {
+    public void printBoard(PieceInfos pieceInfos, CountryType turn, double choScore, double hanScore) {
         System.out.printf(LINE_SEPARATOR + PRINT_TURN + LINE_SEPARATOR, CountryFormatter.from(turn));
-        printScore(scores);
+        printScore(choScore, hanScore);
 
         for (int y = Y_MAXIMUM_POSITION; y >= INITIAL_POSITION; y--) {
             System.out.print(POSITION_NUMBERS.get(y));
             printRow(pieceInfos, y);
         }
         printXPositionNumbers();
+    }
+
+    public void printScore(double choScore, double hanScore) {
+        System.out.printf(LINE_SEPARATOR + PRINT_SCORE + LINE_SEPARATOR, CountryFormatter.from(CountryType.CHO),
+                choScore);
+        System.out.printf(PRINT_SCORE + LINE_SEPARATOR, CountryFormatter.from(CountryType.HAN), hanScore);
     }
 
     private void printRow(PieceInfos pieceInfos, int y) {
@@ -67,13 +72,6 @@ public class OutputView {
         System.out.println(String.join(STATE_SEPARATOR, POSITION_NUMBERS.subList(0, 9)));
     }
 
-    public void printScore(Map<CountryType, Double> scores) {
-        System.out.printf(LINE_SEPARATOR + PRINT_SCORE + LINE_SEPARATOR, CountryFormatter.from(CountryType.CHO),
-                scores.get(CountryType.CHO));
-        System.out.printf(PRINT_SCORE + LINE_SEPARATOR, CountryFormatter.from(CountryType.HAN),
-                scores.get(CountryType.HAN));
-    }
-
     public void printEndWithCatchGeneral(CountryType winnerCountryType) {
         String winner = CountryFormatter.from(winnerCountryType);
         String loser = CountryFormatter.from(winnerCountryType.anotherCountryType());
@@ -81,10 +79,10 @@ public class OutputView {
         printWinner(winnerCountryType);
     }
 
-    public void printEndWithBoardRepeat(Map<CountryType, Double> scores) {
+    public void printEndWithBoardRepeat(double choScore, double hanScore) {
         System.out.println(LINE_SEPARATOR + PRINT_END_WITH_BOARD_REPEAT);
-        printScore(scores);
-        if (scores.get(CountryType.HAN) > scores.get(CountryType.CHO)) {
+        printScore(choScore, hanScore);
+        if (hanScore > choScore) {
             printWinner(CountryType.HAN);
             return;
         }

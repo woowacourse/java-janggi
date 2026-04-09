@@ -91,7 +91,7 @@ public class JanggiController {
         while (!isEnd) {
             CountryType countryType = janggiService.readCountryTurn(boardId);
             isEnd = checkEndAndMovePiece(board, countryType, boardSnapshots, boardId);
-            janggiService.updateGameInfo(countryType.anotherCountryType(), board.getScores(), boardId);
+            janggiService.updateGameInfo(countryType.anotherCountryType(), boardId);
         }
         janggiService.deleteAllPositionStates(boardId);
         janggiService.deleteAllPositionHistoriesInBoard(boardId);
@@ -100,7 +100,8 @@ public class JanggiController {
 
     private boolean checkEndAndMovePiece(Board board, CountryType turn, BoardSnapshots boardSnapshots,
                                          int boardId) {
-        outputView.printBoard(board.getPieceInfos(), turn, board.getScores());
+        outputView.printBoard(board.getPieceInfos(), turn, board.calculateScore(CountryType.CHO),
+                board.calculateScore(CountryType.HAN));
 
         boolean isEndWithGeneralCaught = movePiece(board, turn, boardId, boardSnapshots);
         if (isEndWithGeneralCaught) {
@@ -108,7 +109,8 @@ public class JanggiController {
         }
         boolean isEndWithBoardRepeat = boardSnapshots.appearSamePositionThreeTurn();
         if (isEndWithBoardRepeat) {
-            outputView.printEndWithBoardRepeat(board.getScores());
+            outputView.printEndWithBoardRepeat(board.calculateScore(CountryType.CHO),
+                    board.calculateScore(CountryType.HAN));
         }
         return isEndWithGeneralCaught || isEndWithBoardRepeat;
     }

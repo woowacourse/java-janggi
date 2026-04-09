@@ -9,9 +9,7 @@ public class DatabaseInitializer {
             """
                     CREATE TABLE IF NOT EXISTS game_info (
                         id INT AUTO_INCREMENT PRIMARY KEY,
-                        turn VARCHAR(10) NOT NULL,
-                        cho_score DOUBLE NOT NULL,
-                        han_score DOUBLE NOT NULL
+                        turn VARCHAR(10) NOT NULL
                     );
                     """;
 

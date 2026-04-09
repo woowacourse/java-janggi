@@ -4,7 +4,6 @@ import domain.country.CountryType;
 import dto.GameInfo;
 import java.sql.Connection;
 import java.util.List;
-import java.util.Map;
 
 public interface GameInfoRepository {
     List<GameInfo> findAllGameInfos(Connection connection);
@@ -13,7 +12,7 @@ public interface GameInfoRepository {
 
     int saveGameInfo(Connection connection);
 
-    void updateGameInfo(CountryType countryType, Map<CountryType, Double> scores, int id, Connection connection);
+    void updateGameInfo(CountryType countryType, int id, Connection connection);
 
     void deleteGameInfo(int id, Connection connection);
 }

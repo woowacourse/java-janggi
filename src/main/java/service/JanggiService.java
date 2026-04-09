@@ -54,9 +54,9 @@ public class JanggiService {
         return transactionManager.transaction(gameInfoRepository::saveGameInfo);
     }
 
-    public void updateGameInfo(CountryType countryType, Map<CountryType, Double> scores, int id) {
+    public void updateGameInfo(CountryType countryType, int id) {
         transactionManager.transaction(connection -> {
-            gameInfoRepository.updateGameInfo(countryType, scores, id, connection);
+            gameInfoRepository.updateGameInfo(countryType, id, connection);
         });
     }
 
@@ -68,11 +68,8 @@ public class JanggiService {
     }
 
     public Board readBoard(int id) {
-        GameInfo gameInfo = transactionManager.transaction(connection -> {
-            return gameInfoRepository.findGameInfoById(id, connection);
-        });
         BoardStates boardStates = readPositionStates(id);
-        return new Board(boardStates, gameInfo.cho_score(), gameInfo.han_score());
+        return new Board(boardStates);
     }
 
     private BoardStates readPositionStates(int gameInfoId) {

@@ -23,7 +23,7 @@ public class BoardSnapshotsTest {
         stubBoardStates.put(choRight, PieceFactory.CHARIOT.create(CountryType.CHO));
         stubBoardStates.put(hanRight, PieceFactory.CHARIOT.create(CountryType.HAN));
 
-        Board board = new Board(stubBoardStates.create(), 72, 73.5);
+        Board board = new Board(stubBoardStates.create());
 
         // A 포지션
         board.checkEndAndPlay(choRight, choLeft);

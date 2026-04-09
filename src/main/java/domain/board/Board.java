@@ -2,22 +2,17 @@ package domain.board;
 
 import domain.Path;
 import domain.Position;
-import domain.country.Countries;
-import domain.country.Country;
 import domain.country.CountryType;
 import domain.piece.PieceInfos;
-import java.util.Map;
 
 public class Board {
     private static final String NOT_MY_PIECE = "[ERROR] 본인 진영의 기물이 아닙니다.";
     private static final String CANNOT_MOVE_SAME_POSITION = "[ERROR] 기물을 동일한 위치로 이동시킬 수 없습니다.";
 
     private final BoardStates boardStates;
-    private final Countries countries;
 
-    public Board(BoardStates boardStates, double choScore, double hanScore) {
+    public Board(BoardStates boardStates) {
         this.boardStates = boardStates;
-        this.countries = new Countries(choScore, hanScore);
     }
 
     public void validateFromPosition(Position from, CountryType countryType) {
@@ -31,18 +26,9 @@ public class Board {
         Path path = boardStates.getPiecePath(from, to);
 
         boardStates.validatePieceMove(from, to, path);
-        adjustScore(to);
         boolean isGeneralCaught = boardStates.isGeneralCaught(to);
         boardStates.changePiecePosition(from, to);
         return isGeneralCaught;
-    }
-
-    private void adjustScore(Position to) {
-        if (!boardStates.isEmpty(to)) {
-            CountryType countryType = boardStates.getPieceCountryType(to);
-            Country country = countries.findCountryByCountryType(countryType);
-            boardStates.adjustScore(to, country);
-        }
     }
 
     public void validateMoveSamePosition(Position from, Position to) {
@@ -55,7 +41,11 @@ public class Board {
         return boardStates.getBoardStates();
     }
 
-    public Map<CountryType, Double> getScores() {
-        return countries.getScores();
+    public double calculateScore(CountryType countryType) {
+        double score = boardStates.calculateScore(countryType);
+        if (countryType == CountryType.HAN) {
+            score += 1.5;
+        }
+        return score;
     }
 }

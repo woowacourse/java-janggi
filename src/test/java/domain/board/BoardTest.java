@@ -8,7 +8,6 @@ import domain.country.CountryType;
 import domain.piece.PieceFactory;
 import domain.piece.PieceInfos;
 import domain.piece.PieceType;
-import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -284,7 +283,7 @@ public class BoardTest {
         stubBoardStates.put(new Position(3, 2), PieceFactory.SOLDIER.create(CountryType.HAN));
         stubBoardStates.put(from, PieceFactory.CANNON.create(CountryType.CHO));
 
-        Board board = new Board(stubBoardStates.create(), 72, 73.5);
+        Board board = new Board(stubBoardStates.create());
         board.checkEndAndPlay(from, to);
         PieceInfos pieceInfos = board.getPieceInfos();
 
@@ -317,15 +316,15 @@ public class BoardTest {
     void calculateChoScoreTest() {
         Position hanSoldierFrom = new Position(4, 4);
         Position choSoldierTo = new Position(4, 3);
+        // 현재 각 진영당 기물 점수 2점씩
         stubBoardStates.put(hanSoldierFrom, PieceFactory.SOLDIER.create(CountryType.HAN));
         stubBoardStates.put(choSoldierTo, PieceFactory.SOLDIER.create(CountryType.CHO));
 
-        Board board = new Board(stubBoardStates.create(), 72, 73.5);
+        Board board = new Board(stubBoardStates.create());
         board.checkEndAndPlay(hanSoldierFrom, choSoldierTo);
-        Map<CountryType, Double> scores = board.getScores();
 
-        assertThat(scores.get(CountryType.CHO)).isEqualTo(70);
-        assertThat(scores.get(CountryType.HAN)).isEqualTo(73.5);
+        assertThat(board.calculateScore(CountryType.CHO)).isEqualTo(0d);
+        assertThat(board.calculateScore(CountryType.HAN)).isEqualTo(3.5d);
     }
 
     @Test
@@ -336,7 +335,7 @@ public class BoardTest {
         stubBoardStates.put(hanChariotFrom, PieceFactory.CHARIOT.create(CountryType.HAN));
         stubBoardStates.put(choGeneralTo, PieceFactory.GENERAL.create(CountryType.CHO));
 
-        Board board = new Board(stubBoardStates.create(), 72, 73.5);
+        Board board = new Board(stubBoardStates.create());
 
         assertThat(board.checkEndAndPlay(hanChariotFrom, choGeneralTo)).isTrue();
     }
