@@ -23,7 +23,7 @@ public class Board {
     }
 
     private Board(Map<Position, Space> piecesInfo) {
-        this.piecesInfo = piecesInfo;
+        this.piecesInfo = Map.copyOf(piecesInfo);
     }
 
     public static Board from(List<PieceInfo> snapshots) {
