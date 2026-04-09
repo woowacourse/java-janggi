@@ -12,10 +12,18 @@ public class JanggiGame {
     private GameStatus gameStatus;
     private Turn turn;
 
-    public JanggiGame(Board board) {
+    public static JanggiGame start(Board board) {
+        return new JanggiGame(board, new Turn(Team.HAN), GameStatus.PLAYING);
+    }
+
+    public static JanggiGame restore(Board board, Team currentTurnTeam) {
+        return new JanggiGame(board, new Turn(currentTurnTeam), GameStatus.PLAYING);
+    }
+
+    private JanggiGame(Board board, Turn turn, GameStatus gameStatus) {
         this.board = board;
-        this.gameStatus = GameStatus.PLAYING;
-        this.turn = new Turn(Team.HAN);
+        this.gameStatus = gameStatus;
+        this.turn = turn;
     }
 
     public void move(Position from, Position to) {

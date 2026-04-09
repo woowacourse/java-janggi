@@ -1,22 +1,35 @@
 package janggi.repository;
 
 import janggi.db.ConnectionFactory;
+import janggi.domain.board.Board;
 import janggi.domain.board.Position;
 import janggi.domain.game.JanggiGame;
+import janggi.domain.piece.Name;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceFactory;
+import janggi.domain.piece.Team;
+import janggi.repository.dao.GameDao;
+import janggi.repository.dao.PieceDao;
+import janggi.repository.data.GameData;
+import janggi.repository.data.PieceData;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 public class JdbcGameRepository implements GameRepository {
     private final ConnectionFactory connectionFactory;
+    private final GameDao gameDao;
+    private final PieceDao pieceDao;
+    private final PieceFactory pieceFactory;
 
     public JdbcGameRepository(ConnectionFactory connectionFactory) {
         this.connectionFactory = connectionFactory;
+        this.gameDao = new GameDao();
+        this.pieceDao = new PieceDao();
+        this.pieceFactory = new PieceFactory();
     }
 
     @Override
@@ -30,7 +43,20 @@ public class JdbcGameRepository implements GameRepository {
 
     @Override
     public Optional<SavedGame> findPlayingGame() {
-        return Optional.empty();
+        try (Connection connection = connectionFactory.create()) {
+            Optional<GameData> savedGame = gameDao.findPlayingGame(connection);
+            if (savedGame.isEmpty()) {
+                return Optional.empty();
+            }
+
+            long savedGameId = savedGame.get().id();
+            Board board = findBoard(connection, savedGameId);
+            Team currentTurnTeam = Team.valueOf(savedGame.get().turn());
+            JanggiGame janggiGame = JanggiGame.restore(board, currentTurnTeam);
+            return Optional.of(new SavedGame(savedGameId, janggiGame));
+        } catch (SQLException exception) {
+            throw new IllegalStateException("진행 중인 게임 조회에 실패했습니다.", exception);
+        }
     }
 
     @Override
@@ -48,8 +74,8 @@ public class JdbcGameRepository implements GameRepository {
         try {
             connection.setAutoCommit(false);
 
-            long savedGameId = saveGameState(connection, janggiGame);
-            saveAllPieces(connection, savedGameId, janggiGame);
+            long savedGameId = gameDao.save(connection, createGameData(janggiGame));
+            pieceDao.saveAll(connection, createPieceData(savedGameId, janggiGame));
             connection.commit();
             return savedGameId;
         } catch (SQLException exception) {
@@ -63,10 +89,10 @@ public class JdbcGameRepository implements GameRepository {
                                                 Position endPiecePosition) throws SQLException {
         try {
             connection.setAutoCommit(false);
-            updateGameState(connection, savedGameId, janggiGame);
-            deletePieceOn(connection, savedGameId, endPiecePosition);
-            deletePieceOn(connection, savedGameId, startPiecePosition);
-            saveMovedPiece(connection, savedGameId, janggiGame, endPiecePosition);
+            gameDao.update(connection, createGameData(savedGameId, janggiGame));
+            pieceDao.deleteOn(connection, savedGameId, endPiecePosition);
+            pieceDao.deleteOn(connection, savedGameId, startPiecePosition);
+            pieceDao.save(connection, createMovedPieceData(savedGameId, janggiGame, endPiecePosition));
             connection.commit();
         } catch (SQLException exception) {
             rollback(connection);
@@ -74,79 +100,16 @@ public class JdbcGameRepository implements GameRepository {
         }
     }
 
-    private long saveGameState(Connection connection, JanggiGame janggiGame) throws SQLException {
-        String sql = "INSERT INTO games(turn, status) VALUES(?, ?)";
+    private Board findBoard(Connection connection, long savedGameId) throws SQLException {
+        Map<Position, Piece> board = new LinkedHashMap<>();
+        List<PieceData> pieceData = pieceDao.findByGameId(connection, savedGameId);
 
-        try (PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setString(1, janggiGame.currentTurnTeam().name());
-            statement.setString(2, findStatus(janggiGame));
-            statement.executeUpdate();
-            return findGeneratedGameId(statement);
+        for (PieceData pieceDatum : pieceData) {
+            Position position = new Position(pieceDatum.x(), pieceDatum.y());
+            Piece piece = pieceFactory.create(Name.valueOf(pieceDatum.name()), Team.valueOf(pieceDatum.team()));
+            board.put(position, piece);
         }
-    }
-
-    private void saveAllPieces(Connection connection, long savedGameId, JanggiGame janggiGame) throws SQLException {
-        String sql = "INSERT INTO pieces(game_id, x, y, name, team) VALUES(?, ?, ?, ?, ?)";
-
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            for (Map.Entry<Position, Piece> entry : janggiGame.board().getBoard().entrySet()) {
-                Position position = entry.getKey();
-                Piece piece = entry.getValue();
-                statement.setLong(1, savedGameId);
-                statement.setInt(2, position.x());
-                statement.setInt(3, position.y());
-                statement.setString(4, piece.getName().name());
-                statement.setString(5, piece.getTeam().name());
-                statement.addBatch();
-            }
-            statement.executeBatch();
-        }
-    }
-
-    private long findGeneratedGameId(PreparedStatement statement) throws SQLException {
-        try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
-            if (!generatedKeys.next()) {
-                throw new IllegalStateException("저장된 게임 id를 찾을 수 없습니다.");
-            }
-            return generatedKeys.getLong(1);
-        }
-    }
-
-    private void updateGameState(Connection connection, long savedGameId, JanggiGame janggiGame) throws SQLException {
-        String sql = "UPDATE games SET turn = ?, status = ? WHERE id = ?";
-
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, janggiGame.currentTurnTeam().name());
-            statement.setString(2, findStatus(janggiGame));
-            statement.setLong(3, savedGameId);
-            statement.executeUpdate();
-        }
-    }
-
-    private void deletePieceOn(Connection connection, long savedGameId, Position piecePosition) throws SQLException {
-        String sql = "DELETE FROM pieces WHERE game_id = ? AND x = ? AND y = ?";
-
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setLong(1, savedGameId);
-            statement.setInt(2, piecePosition.x());
-            statement.setInt(3, piecePosition.y());
-            statement.executeUpdate();
-        }
-    }
-
-    private void saveMovedPiece(Connection connection, long savedGameId, JanggiGame janggiGame,
-                                Position endPiecePosition) throws SQLException {
-        String sql = "INSERT INTO pieces(game_id, x, y, name, team) VALUES(?, ?, ?, ?, ?)";
-        Piece movedPiece = janggiGame.board().findPiece(endPiecePosition);
-
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setLong(1, savedGameId);
-            statement.setInt(2, endPiecePosition.x());
-            statement.setInt(3, endPiecePosition.y());
-            statement.setString(4, movedPiece.getName().name());
-            statement.setString(5, movedPiece.getTeam().name());
-            statement.executeUpdate();
-        }
+        return new Board(board);
     }
 
     private void rollback(Connection connection) {
@@ -155,6 +118,35 @@ public class JdbcGameRepository implements GameRepository {
         } catch (SQLException exception) {
             throw new IllegalStateException("트랜잭션 롤백에 실패했습니다.", exception);
         }
+    }
+
+    private GameData createGameData(JanggiGame janggiGame) {
+        return new GameData(null, janggiGame.currentTurnTeam().name(), findStatus(janggiGame));
+    }
+
+    private GameData createGameData(long savedGameId, JanggiGame janggiGame) {
+        return new GameData(savedGameId, janggiGame.currentTurnTeam().name(), findStatus(janggiGame));
+    }
+
+    private List<PieceData> createPieceData(long savedGameId, JanggiGame janggiGame) {
+        return janggiGame.board().getBoard().entrySet().stream()
+                .map(entry -> createPieceData(savedGameId, entry.getKey(), entry.getValue()))
+                .toList();
+    }
+
+    private PieceData createMovedPieceData(long savedGameId, JanggiGame janggiGame, Position endPiecePosition) {
+        Piece movedPiece = janggiGame.board().findPiece(endPiecePosition);
+        return createPieceData(savedGameId, endPiecePosition, movedPiece);
+    }
+
+    private PieceData createPieceData(long savedGameId, Position piecePosition, Piece piece) {
+        return new PieceData(
+                savedGameId,
+                piecePosition.x(),
+                piecePosition.y(),
+                piece.getName().name(),
+                piece.getTeam().name()
+        );
     }
 
     private String findStatus(JanggiGame janggiGame) {

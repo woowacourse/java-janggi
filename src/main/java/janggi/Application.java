@@ -11,6 +11,7 @@ import janggi.dto.BoardDto;
 import janggi.dto.OpeningFormationChoices;
 import janggi.repository.GameRepository;
 import janggi.repository.JdbcGameRepository;
+import janggi.repository.SavedGame;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.List;
@@ -32,11 +33,9 @@ public class Application {
         ConnectionFactory connectionFactory = new ConnectionFactory();
         initializeSchema(connectionFactory);
         GameRepository gameRepository = new JdbcGameRepository(connectionFactory);
-        OpeningFormationChoices openingFormationChoices = readOpeningFormationChoiceUntilValid();
-        Board board = BoardInitializer.initializeBoard(openingFormationChoices.hanChoice(),
-                openingFormationChoices.choChoice());
-        JanggiGame janggiGame = new JanggiGame(board);
-        long savedGameId = gameRepository.saveNewGame(janggiGame);
+        SavedGame savedGame = findSavedGameOrCreateNewGame(gameRepository);
+        JanggiGame janggiGame = savedGame.janggiGame();
+        long savedGameId = savedGame.id();
 
         while (janggiGame.isPlaying()) {
             outputView.printBoardMap(BoardDto.from(janggiGame.board()));
@@ -51,6 +50,20 @@ public class Application {
     private void initializeSchema(ConnectionFactory connectionFactory) {
         SchemaInitializer schemaInitializer = new SchemaInitializer(connectionFactory);
         schemaInitializer.initialize();
+    }
+
+    private SavedGame findSavedGameOrCreateNewGame(GameRepository gameRepository) {
+        return gameRepository.findPlayingGame()
+                .orElseGet(() -> createNewGame(gameRepository));
+    }
+
+    private SavedGame createNewGame(GameRepository gameRepository) {
+        OpeningFormationChoices openingFormationChoices = readOpeningFormationChoiceUntilValid();
+        Board board = BoardInitializer.initializeBoard(openingFormationChoices.hanChoice(),
+                openingFormationChoices.choChoice());
+        JanggiGame janggiGame = JanggiGame.start(board);
+        long savedGameId = gameRepository.saveNewGame(janggiGame);
+        return new SavedGame(savedGameId, janggiGame);
     }
 
     private void tryMove(GameRepository gameRepository, long savedGameId, JanggiGame janggiGame,
