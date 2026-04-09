@@ -1,5 +1,6 @@
 package domain.board;
 
+import domain.intersection.exception.IntersectionException;
 import domain.intersection.palace.NormalIntersection;
 import fixture.JanggiBoardFixture;
 import fixture.TestIntersectionGenerator;
@@ -14,9 +15,13 @@ import java.util.stream.Stream;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-class BoardTest {
+import static domain.intersection.exception.IntersectionError.ORIGIN_INTERSECTION_IS_EMPTY;
+import static domain.intersection.exception.IntersectionError.ORIGIN_INTERSECTION_IS_NOT_OPPONENT;
+
+class JanggiBoardTest {
 
     public static final int DEFAULT_ELEPHANT_AND_HORSE_ROW = 0;
 
@@ -169,6 +174,87 @@ class BoardTest {
 
         // when & then
         Assertions.assertThat(janggiBoard.hasNotEnoughPieceScore()).isFalse();
+    }
+
+    @Nested
+    @DisplayName("장기판에서 기본 이동 규칙을 테스트한다.")
+    class JanggiBoardMoveTest {
+
+        @Test
+        @DisplayName("이동이 끝난 뒤 출발지는 비어있고, 도착지는 기물이 존재한다.")
+        void shouldMovePieceToDestinationAndLeaveSourceEmpty() {
+            // given
+            Team currentTurn = Team.CHO;
+            Point start = new Point(0, 0);
+            Point end = new Point(3, 0);
+
+            Piece chariot = new Piece(currentTurn, PieceType.CHARIOT);
+            Piece soldier = new Piece(Team.HAN, PieceType.SOLDIER);
+
+            Intersection origin = new NormalIntersection(start, chariot);
+            Intersection destination = new NormalIntersection(end, soldier);
+            Intersection expectedEmpty = NormalIntersection.empty(start);
+            Intersection expectedChariot = new NormalIntersection(end, chariot);
+
+            JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(origin, destination)));
+
+            // when
+            janggiBoard.processTurn(start, end);
+
+            // then
+            Assertions.assertThat(janggiBoard.findIntersection(start))
+                    .isEqualTo(expectedEmpty);
+
+            Assertions.assertThat(janggiBoard.findIntersection(end))
+                    .isEqualTo(expectedChariot);
+        }
+
+        @Test
+        @DisplayName("상대 칸을 출발 좌표로 지정하면, 예외가 발생한다.")
+        void shouldThrowExceptionWhenOriginIsOpponent() {
+            // given
+            Point start = new Point(0, 0);
+            Point end = new Point(1, 0);
+
+            Team team = Team.CHO;
+            Team opponentTeam = Team.HAN;
+            Piece choPiece = new Piece(team, PieceType.SOLDIER);
+
+            Intersection opponentIntersection = new NormalIntersection(start, choPiece);
+            Intersection destination = NormalIntersection.empty(end);
+
+            JanggiBoard janggiBoard = JanggiBoardFixture.generate(
+                    opponentTeam,
+                    opponentIntersection, destination
+            );
+
+            // when & then
+            Assertions.assertThatThrownBy(() -> janggiBoard.processTurn(start, end))
+                    .isInstanceOf(IntersectionException.class)
+                    .hasMessage(ORIGIN_INTERSECTION_IS_NOT_OPPONENT.getMessage());
+        }
+
+        @Test
+        @DisplayName("빈 칸을 출발 좌표로 지정하면, 예외가 발생한다.")
+        void shouldThrowExceptionWhenOriginIsEmpty() {
+            // given
+            Point start = new Point(0, 0);
+            Point end = new Point(1, 0);
+
+            Intersection emptyIntersection = NormalIntersection.empty(start);
+            Intersection destination = NormalIntersection.empty(end);
+
+            JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(
+                    emptyIntersection,
+                    destination)
+            ));
+
+            // when & then
+            Assertions.assertThatThrownBy(() -> janggiBoard.processTurn(start, end))
+                    .isInstanceOf(IntersectionException.class)
+                    .hasMessage(ORIGIN_INTERSECTION_IS_EMPTY.getMessage());
+        }
+
     }
 
     private static List<Point> getFormationPoints(Formation elephantHorseHorseElephant) {
