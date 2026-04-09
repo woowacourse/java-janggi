@@ -55,4 +55,8 @@ public final class Palace {
     private static boolean isContainDirection(final Position position, final Direction direction) {
         return PALACE_DIAGONAL_DIRECTIONS.get(position).contains(direction);
     }
+
+    public static boolean isPalacePosition(Position position) {
+        return PALACE_DIAGONAL_DIRECTIONS.containsKey(position);
+    }
 }
