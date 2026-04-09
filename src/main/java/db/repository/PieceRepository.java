@@ -52,7 +52,7 @@ public class PieceRepository {
     ) throws SQLException {
         List<Intersection> removedPieceIntersections = detectRemovedPieceIntersections(currentPieces, piecesBeforeLastMove);
         for (Intersection removedPieceIntersection : removedPieceIntersections) {
-            deletePieceByIntersection(removedPieceIntersection, gameId, connection);
+            deleteByIntersection(removedPieceIntersection, gameId, connection);
         }
 
         Map<Intersection, Piece> createdPieces = detectCreatedPieces(currentPieces, piecesBeforeLastMove);
@@ -71,7 +71,7 @@ public class PieceRepository {
         }
     }
 
-    private void deletePieceByIntersection(
+    private void deleteByIntersection(
             Intersection intersection,
             int gameId,
             Connection connection
