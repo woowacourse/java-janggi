@@ -73,6 +73,7 @@ public class JanggiController {
     private void displayCurrentGameState() {
         OutputView.printBoard(queryService.allFactors(currentGameId));
         OutputView.printCurrentPlayerTurn(queryService.currentPlayerTurn(currentGameId));
+        OutputView.printCurrentPlayerPiecesPointSum(queryService.currentPlayerPiecesPointSum(currentGameId));
     }
 
     private void movePiece() {

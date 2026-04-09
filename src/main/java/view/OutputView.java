@@ -30,6 +30,10 @@ public final class OutputView {
         System.out.println("현재 차례: " + turn);
     }
 
+    public static void printCurrentPlayerPiecesPointSum(int pointSum) {
+        System.out.println("현재 기물들의 점수 합: " + pointSum);
+    }
+
     public static void printResult(String result) {
         System.out.println(result);
     }
