@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 
 class JdbcMovementRepositoryTest {
 
-    private final JdbcMovementRepository movementRepository = new JdbcMovementRepository();
+    private final MovementRepository movementRepository = new JdbcMovementRepository();
 
     @BeforeAll
     static void setUp() {
@@ -33,7 +33,7 @@ class JdbcMovementRepositoryTest {
         // when
         movementRepository.save(1L, Position.from(1, 1), Position.from(2, 1));
         movementRepository.save(1L, Position.from(1, 1), Position.from(2, 1));
-        
+
         // then
         try (Connection connection = DatabaseManager.getConnection();
              PreparedStatement statement = connection.prepareStatement("SELECT COUNT(*) AS count FROM movement");

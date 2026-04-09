@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 
 class JdbcGameRepositoryTest {
 
-    private final JdbcGameRepository gameRepository = new JdbcGameRepository();
+    private final GameRepository gameRepository = new JdbcGameRepository();
 
     @BeforeAll
     static void setUp() {
