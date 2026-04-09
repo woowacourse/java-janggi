@@ -7,8 +7,8 @@ import janggi.domain.board.initializer.BoardInitializer;
 import janggi.domain.board.initializer.ElephantSetUp;
 import janggi.domain.board.initializer.StandardBoardInitializer;
 import janggi.domain.piece.Camp;
-import janggi.repository.GameRepository;
-import janggi.repository.LoadedGame;
+import janggi.service.GameService;
+import janggi.service.LoadedGame;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import janggi.view.dto.CampDto;
@@ -17,42 +17,39 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public class GameRunner {
-    private static final String INVALID_GAME_ROOM = "[ERROR] 존재하지 않는 게임방 번호입니다.";
 
     private final InputView inputView;
     private final OutputView outputView;
-    private final GameRepository gameRepository;
+    private final GameService gameService;
 
-    public GameRunner(InputView inputView, OutputView outputView, GameRepository gameRepository) {
+    public GameRunner(InputView inputView, OutputView outputView, GameService gameService) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.gameRepository = gameRepository;
+        this.gameService = gameService;
     }
 
     public void run() {
         LoadedGame loadedGame = retryOnInvalidInput(this::loadOrCreateGame);
-        long gameId = loadedGame.id();
         Game game = loadedGame.game();
 
         outputView.printBoard(game.boardSnapshot());
-        play(gameId, game);
+        play(loadedGame);
     }
 
     private LoadedGame loadOrCreateGame() {
-        outputView.printExistGameRoom(gameRepository.findAllIds());
+        outputView.printExistGameRoom(gameService.getAllIds());
         long gameId = inputView.readSelectedGameRoom();
 
         if (gameId == 0L) {
             return createNewGame();
         }
 
-        return gameRepository.findById(gameId)
-                .orElseThrow(() -> new IllegalArgumentException(INVALID_GAME_ROOM));
+        return gameService.loadGame(gameId);
     }
 
     private LoadedGame createNewGame() {
         Board board = createBoard();
-        return gameRepository.create(board);
+        return gameService.createNewGame(board);
     }
 
     private Board createBoard() {
@@ -71,29 +68,26 @@ public class GameRunner {
         elephantSetUps.put(camp, elephantSetUp);
     }
 
-    private void play(long id, Game game) {
+    private void play(LoadedGame loadedGame) {
         boolean continueGame = true;
+        Game game = loadedGame.game();
+
         while (continueGame) {
             outputView.printScore(game.calculateScore());
-            continueGame = retryOnInvalidInput(() -> playTurn(id, game));
+            continueGame = retryOnInvalidInput(() -> playTurn(loadedGame));
             outputView.printBoard(game.boardSnapshot());
         }
         outputView.printWinner(game.currentTurn());
     }
 
-    private boolean playTurn(long id, Game game) {
+    private boolean playTurn(LoadedGame loadedGame) {
+        Game game = loadedGame.game();
         Camp currentTurn = game.currentTurn();
 
         Position source = retryOnInvalidInput(() -> readSource(game, currentTurn));
         Position destination = retryOnInvalidInput(inputView::readDestination);
 
-        boolean gameEnded = game.play(source, destination);
-        if (gameEnded) {
-            gameRepository.deleteById(id);
-            return false;
-        }
-        gameRepository.update(id, game);
-        return true;
+        return gameService.playEachTurn(loadedGame, source, destination);
     }
 
     private Position readSource(Game game, Camp currentTurn) {

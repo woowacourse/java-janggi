@@ -1,6 +1,5 @@
 package janggi.repository;
 
-import janggi.db.TransactionManager;
 import janggi.domain.Game;
 import janggi.domain.board.Board;
 import janggi.domain.board.Position;
@@ -17,56 +16,19 @@ import java.util.Optional;
 
 public class GameRepository {
 
-    private final TransactionManager transactionManager;
     private final GameStateDao gameStateDao;
     private final GamePieceDao gamePieceDao;
 
-    public GameRepository(
-            TransactionManager transactionManager,
-            GameStateDao gameStateDao,
-            GamePieceDao gamePieceDao
-    ) {
-        this.transactionManager = transactionManager;
+    public GameRepository(GameStateDao gameStateDao, GamePieceDao gamePieceDao) {
         this.gameStateDao = gameStateDao;
         this.gamePieceDao = gamePieceDao;
     }
 
-    public List<Long> findAllIds() {
-        return transactionManager.execute(this::findAllIds);
-    }
-
-    public Optional<LoadedGame> findById(long gameId) {
-        Optional<Game> foundGame = transactionManager.execute(connection ->
-                findById(connection, gameId)
-        );
-        return foundGame.map(game -> new LoadedGame(gameId, game));
-    }
-
-    public LoadedGame create(Board board) {
-        Game game = Game.start(board);
-        long gameId = transactionManager.executeWithTransaction(connection -> {
-            return create(connection, game);
-        });
-        return new LoadedGame(gameId, game);
-    }
-
-    public void update(long gameId, Game game) {
-        transactionManager.executeWithTransaction(connection -> {
-            update(connection, gameId, game);
-        });
-    }
-
-    public void deleteById(long gameId) {
-        transactionManager.executeWithTransaction(connection -> {
-            deleteById(connection, gameId);
-        });
-    }
-
-    private List<Long> findAllIds(Connection connection) {
+    public List<Long> findAllIds(Connection connection) {
         return gameStateDao.findAllIds(connection);
     }
 
-    private Optional<Game> findById(Connection connection, long gameId) {
+    public Optional<Game> findById(Connection connection, long gameId) {
         Optional<String> currentTurn = gameStateDao.findCurrentTurn(connection, gameId);
         if (currentTurn.isEmpty()) {
             return Optional.empty();
@@ -77,7 +39,7 @@ public class GameRepository {
         return Optional.of(Game.restore(board, Camp.valueOf(currentTurn.orElseThrow())));
     }
 
-    private long create(Connection connection, Game game) {
+    public long create(Connection connection, Game game) {
         long gameId = gameStateDao.create(connection, game.currentTurn().name());
 
         gamePieceDao.save(
@@ -88,7 +50,7 @@ public class GameRepository {
         return gameId;
     }
 
-    private void update(Connection connection, long gameId, Game game) {
+    public void update(Connection connection, long gameId, Game game) {
         gameStateDao.update(connection, gameId, game.currentTurn().name());
         gamePieceDao.save(
                 connection,
@@ -97,7 +59,7 @@ public class GameRepository {
         );
     }
 
-    private void deleteById(Connection connection, long gameId) {
+    public void deleteById(Connection connection, long gameId) {
         gamePieceDao.delete(connection, gameId);
         gameStateDao.delete(connection, gameId);
     }

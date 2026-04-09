@@ -1,0 +1,174 @@
+package janggi.service;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import janggi.db.ConnectionManager;
+import janggi.db.DatabaseInitializer;
+import janggi.db.TransactionManager;
+import janggi.domain.Game;
+import janggi.domain.board.Board;
+import janggi.domain.board.Position;
+import janggi.domain.board.initializer.ElephantSetUp;
+import janggi.domain.board.initializer.StandardBoardInitializer;
+import janggi.domain.piece.Camp;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
+import janggi.repository.GamePieceDao;
+import janggi.repository.GameRepository;
+import janggi.repository.GameStateDao;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Map;
+import org.assertj.core.api.SoftAssertions;
+import org.h2.jdbcx.JdbcDataSource;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+class GameServiceTest {
+
+    private static final String URL = "jdbc:h2:mem:service-test-db;DB_CLOSE_DELAY=-1";
+    private static final String USER = "sa";
+    private static final String PASSWORD = "";
+
+    private GameService gameService;
+    private Board board;
+    private Connection connection;
+
+    @BeforeEach
+    void setUp() {
+        JdbcDataSource dataSource = new JdbcDataSource();
+        dataSource.setURL(URL);
+        dataSource.setUser(USER);
+        dataSource.setPassword(PASSWORD);
+
+        ConnectionManager connectionManager = new ConnectionManager(dataSource);
+        new DatabaseInitializer(connectionManager).initialize();
+        connection = connectionManager.getConnection();
+
+        gameService = new GameService(
+                new TransactionManager(connectionManager),
+                new GameRepository(
+                        new GameStateDao(),
+                        new GamePieceDao()
+                )
+        );
+        board = createBoard();
+    }
+
+    @AfterEach
+    void clear() throws SQLException {
+        clearDatabase();
+        connection.close();
+    }
+
+    @Test
+    void 새_게임을_생성하면_게임방_번호와_초기_게임을_반환한다() {
+        // when
+        LoadedGame createdGame = gameService.createNewGame(board);
+
+        // then
+        SoftAssertions.assertSoftly(assertSoftly -> {
+            assertSoftly.assertThat(createdGame.id()).isPositive();
+            assertSoftly.assertThat(createdGame.game().currentTurn()).isEqualTo(Camp.CHO);
+            assertSoftly.assertThat(createdGame.game().boardSnapshot()).isEqualTo(Game.start(board).boardSnapshot());
+        });
+    }
+
+    @Test
+    void 저장된_게임을_조회할_수_있다() {
+        // given
+        LoadedGame createdGame = gameService.createNewGame(board);
+
+        // when
+        LoadedGame foundGame = gameService.loadGame(createdGame.id());
+
+        // then
+        SoftAssertions.assertSoftly(assertSoftly -> {
+            assertSoftly.assertThat(foundGame.id()).isEqualTo(createdGame.id());
+            assertSoftly.assertThat(foundGame.game().currentTurn()).isEqualTo(Camp.CHO);
+            assertSoftly.assertThat(foundGame.game().boardSnapshot()).isEqualTo(createdGame.game().boardSnapshot());
+        });
+    }
+
+    @Test
+    void 존재하지_않는_게임방을_조회하면_예외가_발생한다() {
+        assertThatThrownBy(() -> gameService.loadGame(1L))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 존재하지 않는 게임방 번호입니다.");
+    }
+
+    @Test
+    void 전체_게임방_번호를_조회할_수_있다() {
+        // when
+        LoadedGame firstGame = gameService.createNewGame(createBoard());
+        LoadedGame secondGame = gameService.createNewGame(createBoard());
+
+        // then
+        assertThat(gameService.getAllIds()).containsExactly(firstGame.id(), secondGame.id());
+    }
+
+    @Test
+    void 게임이_끝나지_않으면_턴을_진행_후_저장한다() {
+        // given
+        LoadedGame loadedGame = gameService.createNewGame(board);
+        Position source = new Position(3, 0);
+        Position destination = new Position(4, 0);
+
+        // when
+        boolean continueGame = gameService.playEachTurn(loadedGame, source, destination);
+        LoadedGame foundGame = gameService.loadGame(loadedGame.id());
+
+        // then
+        SoftAssertions.assertSoftly(assertSoftly -> {
+            assertSoftly.assertThat(continueGame).isTrue();
+            assertSoftly.assertThat(foundGame.game().currentTurn()).isEqualTo(Camp.HAN);
+            assertSoftly.assertThat(foundGame.game().boardSnapshot()).doesNotContainKey(source);
+            assertSoftly.assertThat(foundGame.game().boardSnapshot()).containsKey(destination);
+        });
+    }
+
+    @Test
+    void 장군을_잡으면_게임을_삭제한다() {
+        // given
+        LoadedGame loadedGame = gameService.createNewGame(createEndingBoard());
+        Position source = new Position(0, 0);
+        Position destination = new Position(0, 4);
+
+        // when
+        boolean continueGame = gameService.playEachTurn(loadedGame, source, destination);
+
+        // then
+        SoftAssertions.assertSoftly(assertSoftly -> {
+            assertSoftly.assertThat(continueGame).isFalse();
+            assertSoftly.assertThat(gameService.getAllIds()).isEmpty();
+            assertSoftly.assertThatThrownBy(() -> gameService.loadGame(loadedGame.id()))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage("[ERROR] 존재하지 않는 게임방 번호입니다.");
+        });
+    }
+
+    private Board createBoard() {
+        return new Board(new StandardBoardInitializer(Map.of(
+                Camp.HAN, ElephantSetUp.LEFT_ELEPHANT,
+                Camp.CHO, ElephantSetUp.RIGHT_ELEPHANT
+        )));
+    }
+
+    private Board createEndingBoard() {
+        return new Board(() -> Map.of(
+                new Position(0, 0), new Piece(PieceType.CHARIOT, Camp.CHO),
+                new Position(0, 4), new Piece(PieceType.GENERAL, Camp.HAN)
+        ));
+    }
+
+    private void clearDatabase() {
+        try (Statement statement = connection.createStatement()) {
+            statement.execute("DROP ALL OBJECTS");
+        } catch (SQLException e) {
+            throw new IllegalStateException("[ERROR] 테스트 데이터베이스를 초기화할 수 없습니다.", e);
+        }
+    }
+}
