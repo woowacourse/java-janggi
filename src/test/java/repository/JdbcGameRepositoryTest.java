@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -88,6 +89,36 @@ public class JdbcGameRepositoryTest {
             assertThat(resultSet.next()).isFalse();
         }
     }
+
+    @Test
+    void 저장된_게임이_없으면_empty를_반환한다(){
+        GameRepository repository = new JdbcGameRepository();
+        assertThat(repository.find()).isEmpty();
+    }
+    
+    @Test
+    void 저장한_게임을_다시_조회할_수_있다(){
+        GameRepository repository = new JdbcGameRepository();
+        SavedGame savedGame = new SavedGame(
+                Country.CHO,
+                true,
+                Country.CHO,
+                List.of(
+                        new SavedPiece(10,1,Country.CHO,PieceType.CHARIOT),
+                        new SavedPiece(2,5,Country.HAN,PieceType.GENERAL)));
+
+        repository.save(savedGame);
+        Optional<SavedGame> loaded = repository.find();
+
+        assertThat(loaded).isPresent();
+        assertThat(loaded.get().turn()).isEqualTo(Country.CHO);
+        assertThat(loaded.get().finished()).isTrue();
+        assertThat(loaded.get().winner()).isEqualTo(Country.CHO);
+        assertThat(loaded.get().pieces()).containsExactlyInAnyOrder(
+                new SavedPiece(10,1,Country.CHO,PieceType.CHARIOT),
+                new SavedPiece(2,5,Country.HAN,PieceType.GENERAL));
+    }
+
 
     private void clearTables() throws SQLException {
         try (Connection connection = DatabaseConfig.getConnection();

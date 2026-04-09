@@ -1,8 +1,11 @@
 package repository;
 
 import config.DatabaseConfig;
-
+import model.board.Country;
+import model.pieces.PieceType;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class JdbcGameRepository implements GameRepository {
@@ -19,6 +22,18 @@ public class JdbcGameRepository implements GameRepository {
             VALUES(?,?,?,?,?)
             """;
 
+    private static final String SELECT_GAME = """
+            SELECT id, turn, finished, winner
+            FROM game
+            LIMIT 1
+            """;
+
+    private static final String SELECT_PIECES = """
+            SELECT row_number, column_number,country,piece_type
+            FROM piece
+            WHERE game_id = ?
+            """;
+
     @Override
     public void save(SavedGame savedGame) {
         Connection connection = null;
@@ -28,7 +43,8 @@ public class JdbcGameRepository implements GameRepository {
 
             deleteAll(connection);
             long gameId = insertGame(connection, savedGame);
-            insertPiece(connection, gameId, savedGame);
+            insertPieces(connection, gameId, savedGame);
+
             connection.commit();
         } catch (SQLException exception) {
             rollback(connection);
@@ -40,7 +56,20 @@ public class JdbcGameRepository implements GameRepository {
 
     @Override
     public Optional<SavedGame> find() {
-        return Optional.empty();
+        try (Connection connection = DatabaseConfig.getConnection();
+             PreparedStatement gameStatement = connection.prepareStatement(SELECT_GAME);
+             ResultSet gameResultSet = gameStatement.executeQuery();
+
+        ) {
+            if (!gameResultSet.next()) {
+                return Optional.empty();
+            }
+
+            return findSavedGame(gameResultSet, connection);
+
+        } catch (SQLException exception) {
+            throw new IllegalStateException("[ERROR] 저장된 게임 조회에 실패했습니다.", exception);
+        }
     }
 
     @Override
@@ -78,7 +107,7 @@ public class JdbcGameRepository implements GameRepository {
         }
     }
 
-    private void insertPiece(Connection connection, long gameId, SavedGame savedGame) throws SQLException {
+    private void insertPieces(Connection connection, long gameId, SavedGame savedGame) throws SQLException {
         for (SavedPiece savedPiece : savedGame.pieces()) {
             insertPiece(connection, gameId, savedPiece);
         }
@@ -108,7 +137,8 @@ public class JdbcGameRepository implements GameRepository {
         }
         try {
             connection.rollback();
-        } catch (SQLException ignored) {}
+        } catch (SQLException ignored) {
+        }
     }
 
     private void close(Connection connection) {
@@ -117,6 +147,41 @@ public class JdbcGameRepository implements GameRepository {
         }
         try {
             connection.close();
-        } catch (SQLException ignored) {}
+        } catch (SQLException ignored) {
+        }
+    }
+
+    private static Optional<SavedGame> findSavedGame(ResultSet gameResultSet, Connection connection) throws SQLException {
+        long gameId = gameResultSet.getLong("id");
+        Country turn = Country.valueOf(gameResultSet.getString("turn"));
+        boolean finished = gameResultSet.getBoolean("finished");
+        String winnerString = gameResultSet.getString("winner");
+
+        Country winner = null;
+        if (winnerString != null) {
+            winner = Country.valueOf(winnerString);
+        }
+
+        List<SavedPiece> savedPieces = findSavedPieces(connection, gameId);
+        SavedGame savedGame = new SavedGame(turn, finished, winner, List.copyOf(savedPieces));
+
+        return Optional.of(savedGame);
+    }
+
+    private static List<SavedPiece> findSavedPieces(Connection connection, long gameId) throws SQLException {
+        List<SavedPiece> savedPieces = new ArrayList<>();
+        try (PreparedStatement pieceStatement = connection.prepareStatement(SELECT_PIECES)) {
+            pieceStatement.setLong(1, gameId);
+            try (ResultSet pieceResultSet = pieceStatement.executeQuery()) {
+                while (pieceResultSet.next()) {
+                    int row = pieceResultSet.getInt("row_number");
+                    int col = pieceResultSet.getInt("column_number");
+                    Country country = Country.valueOf(pieceResultSet.getString("country"));
+                    PieceType pieceType = PieceType.valueOf(pieceResultSet.getString("piece_type"));
+                    savedPieces.add(new SavedPiece(row, col, country, pieceType));
+                }
+            }
+        }
+        return savedPieces;
     }
 }

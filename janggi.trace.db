@@ -1,0 +1,14 @@
+2026-04-09 17:13:14.399731+09:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT row_number, column_number,country,piece_type\000aFROM piece\000aLIMIT 1\000a[*]WHERE game_id = ?\000a"; SQL statement:
+SELECT row_number, column_number,country,piece_type
+FROM piece
+LIMIT 1
+WHERE game_id = ?
+ [42000-224]
+2026-04-09 17:20:15.332140+09:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT row_number, column_number,country,piece_type\000aFROM piece\000aLIMIT 1\000a[*]WHERE game_id = ?\000a"; SQL statement:
+SELECT row_number, column_number,country,piece_type
+FROM piece
+LIMIT 1
+WHERE game_id = ?
+ [42000-224]
