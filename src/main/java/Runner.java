@@ -212,7 +212,7 @@ public class Runner {
         TeamScores scores =
                 scoreCalculator.calculate(board.piecesOfTeam(TeamColor.CHO), board.piecesOfTeam(TeamColor.HAN));
         Optional<TeamColor> winner = scores.winner();
-        outputView.printTimeOverByScore(scores, winner);
+        outputView.printTimeOverByScore(scores, winner.orElse(null));
         gameStateRepository.save(
                 new SaveGameStateRequest(
                         board.capture(),

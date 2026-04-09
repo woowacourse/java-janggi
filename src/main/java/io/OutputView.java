@@ -2,7 +2,6 @@ package io;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import domain.Board;
 import domain.Piece;
@@ -94,8 +93,8 @@ public class OutputView {
         System.out.println("게임이 종료되었습니다. 승자: " + winner.getDisplayName());
     }
 
-    public void printTimeOverByScore(TeamScores scores, Optional<TeamColor> winner) {
-        if (winner.isEmpty()) {
+    public void printTimeOverByScore(TeamScores scores, TeamColor winner) {
+        if (winner == null) {
             System.out.println(
                     "시간이 종료되었습니다. 무승부입니다. (초: "
                             + scores.pointsFor(TeamColor.CHO).value()
@@ -106,7 +105,7 @@ public class OutputView {
         }
         System.out.println(
                 "시간이 종료되었습니다. 점수 승자: "
-                        + winner.get().getDisplayName()
+                        + winner.getDisplayName()
                         + " (초: "
                         + scores.pointsFor(TeamColor.CHO).value()
                         + ", 한: "
