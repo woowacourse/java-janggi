@@ -2,6 +2,7 @@ package domain.strategy;
 
 import domain.coordinate.Path;
 import domain.coordinate.Position;
+import domain.coordinate.Topology;
 import java.util.List;
 
 public class PalaceStrategy implements Strategy {
@@ -13,8 +14,8 @@ public class PalaceStrategy implements Strategy {
     }
 
     @Override
-    public List<Path> getPaths(Position start) {
-        return delegate.getPaths(start).stream()
+    public List<Path> getPaths(Position start, Topology topology) {
+        return delegate.getPaths(start, topology).stream()
                 .filter(path -> path.getPositions().stream().allMatch(Position::isInPalace))
                 .toList();
     }

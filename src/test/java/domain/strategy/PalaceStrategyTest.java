@@ -1,8 +1,9 @@
 package domain.strategy;
 
-import domain.coordinate.Direction;
+import domain.board.BasicBoardInitializer;
 import domain.coordinate.Path;
 import domain.coordinate.Position;
+import domain.coordinate.Topology;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -12,16 +13,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class PalaceStrategyTest {
 
+    private static final Topology TOPOLOGY = new BasicBoardInitializer().createTopology();
+
     @Test
     @DisplayName("궁성 경계에서 궁성 밖으로 나가는 경로는 제외된다.")
     void filtersOutsidePalace() {
         // given
-        Strategy strategy = new PalaceStrategy(new StepStrategy(
-                List.of(Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT)));
+        Strategy strategy = new PalaceStrategy(new StepStrategy());
         Position start = new Position(2, 3); // 상단 궁성 좌하단 모서리
 
         // when
-        List<Path> paths = strategy.getPaths(start);
+        List<Path> paths = strategy.getPaths(start, TOPOLOGY);
         List<Position> destinations = paths.stream()
                 .flatMap(path -> path.getPositions().stream())
                 .toList();
@@ -37,12 +39,11 @@ class PalaceStrategyTest {
     @DisplayName("하단 궁성 경계에서 궁성 밖으로 나가는 경로는 제외된다.")
     void filtersOutsideBottomPalace() {
         // given
-        Strategy strategy = new PalaceStrategy(new StepStrategy(
-                List.of(Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT)));
+        Strategy strategy = new PalaceStrategy(new StepStrategy());
         Position start = new Position(9, 5); // 하단 궁성 우하단 모서리
 
         // when
-        List<Path> paths = strategy.getPaths(start);
+        List<Path> paths = strategy.getPaths(start, TOPOLOGY);
         List<Position> destinations = paths.stream()
                 .flatMap(path -> path.getPositions().stream())
                 .toList();

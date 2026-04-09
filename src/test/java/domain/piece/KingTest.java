@@ -1,7 +1,9 @@
 package domain.piece;
 
 import domain.Side;
+import domain.board.BasicBoardInitializer;
 import domain.coordinate.Position;
+import domain.coordinate.Topology;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -12,16 +14,28 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class KingTest {
 
-private Pieces piecesFrom(Map<Position, Piece> pieces) {
-        return position -> pieces.getOrDefault(position, EmptyPiece.getInstance());
+    private static final Topology TOPOLOGY = new BasicBoardInitializer().createTopology();
+
+    private Pieces piecesFrom(Map<Position, Piece> pieces) {
+        return new Pieces() {
+            @Override
+            public Piece getPiece(Position position) {
+                return pieces.getOrDefault(position, EmptyPiece.getInstance());
+            }
+
+            @Override
+            public Topology getTopology() {
+                return TOPOLOGY;
+            }
+        };
     }
 
     @Test
-    @DisplayName("장은 상/하/좌/우 4방향으로 1칸 이동할 수 있다.")
+    @DisplayName("장은 해당 좌표에서 이동 가능한 모든 방향으로 1칸 이동할 수 있다.")
     void getPossibleMovesTest() {
         // given
         King king = new King(Side.HAN);
-        Position start = new Position(4, 4);
+        Position start = new Position(1, 4);
         Pieces pieces = piecesFrom(Map.of(start, king));
 
         // when
@@ -29,10 +43,14 @@ private Pieces piecesFrom(Map<Position, Piece> pieces) {
 
         // then
         assertThat(moves).containsOnly(
-                new Position(3, 4),
-                new Position(5, 4),
-                new Position(4, 3),
-                new Position(4, 5)
+                new Position(0, 4),
+                new Position(2, 4),
+                new Position(1, 3),
+                new Position(1, 5),
+                new Position(0, 3),
+                new Position(0, 5),
+                new Position(2, 3),
+                new Position(2, 5)
         );
     }
 
@@ -41,13 +59,17 @@ private Pieces piecesFrom(Map<Position, Piece> pieces) {
     void blockedByFriendlyTest() {
         // given
         King king = new King(Side.HAN);
-        Position start = new Position(4, 4);
+        Position start = new Position(1, 4);
         Pieces pieces = piecesFrom(Map.of(
                 start, king,
-                new Position(3, 4), new Guard(Side.HAN),
-                new Position(5, 4), new Guard(Side.HAN),
-                new Position(4, 3), new Guard(Side.HAN),
-                new Position(4, 5), new Guard(Side.HAN)
+                new Position(0, 4), new Guard(Side.HAN),
+                new Position(2, 4), new Guard(Side.HAN),
+                new Position(1, 3), new Guard(Side.HAN),
+                new Position(1, 5), new Guard(Side.HAN),
+                new Position(0, 3), new Guard(Side.HAN),
+                new Position(0, 5), new Guard(Side.HAN),
+                new Position(2, 3), new Guard(Side.HAN),
+                new Position(2, 5), new Guard(Side.HAN)
         ));
 
         // when
@@ -62,34 +84,34 @@ private Pieces piecesFrom(Map<Position, Piece> pieces) {
     void captureTest() {
         // given
         King king = new King(Side.HAN);
-        Position start = new Position(4, 4);
+        Position start = new Position(1, 4);
         Pieces pieces = piecesFrom(Map.of(
                 start, king,
-                new Position(3, 4), new Guard(Side.CHU)
+                new Position(0, 4), new Guard(Side.CHU)
         ));
 
         // when
         List<Position> moves = king.getPossibleMoves(start, pieces);
 
         // then
-        assertThat(moves).contains(new Position(3, 4));
+        assertThat(moves).contains(new Position(0, 4));
     }
 
     @Test
-    @DisplayName("장은 보드 가장자리에서 범위를 벗어나는 방향으로 이동할 수 없다.")
-    void edgeTest() {
+    @DisplayName("장은 궁성 밖으로 이동할 수 없다.")
+    void cannotMoveOutsidePalace() {
         // given
-        King king = new King(Side.HAN);
-        Position start = new Position(0, 0);
+        King king = new King(Side.CHU);
+        Position start = new Position(7, 3); // 하단 궁성 좌상단 모서리
         Pieces pieces = piecesFrom(Map.of(start, king));
 
         // when
         List<Position> moves = king.getPossibleMoves(start, pieces);
 
         // then
-        assertThat(moves).containsOnly(
-                new Position(1, 0),
-                new Position(0, 1)
+        assertThat(moves).doesNotContain(
+                new Position(7, 2),
+                new Position(6, 3)
         );
     }
 }
