@@ -19,49 +19,61 @@ public class PalaceTopology {
         this.diagonalMovements = diagonalMovements;
     }
 
+    private static final Position HAN_PALACE_TOP_LEFT = new Position(1, 4);
+    private static final Position HAN_PALACE_TOP_RIGHT = new Position(1, 6);
+    private static final Position HAN_PALACE_CENTER = new Position(2, 5);
+    private static final Position HAN_PALACE_BOTTOM_LEFT = new Position(3, 6);
+    private static final Position HAN_PALACE_BOTTOM_RIGHT = new Position(3, 6);
+
+    private static final Position CHO_PALACE_TOP_LEFT = new Position(8, 4);
+    private static final Position CHO_PALACE_TOP_RIGHT = new Position(8, 6);
+    private static final Position CHO_PALACE_CENTER = new Position(9, 5);
+    private static final Position CHO_PALACE_BOTTOM_LEFT = new Position(10, 4);
+    private static final Position CHO_PALACE_BOTTOM_RIGHT = new Position(10, 6);
+
     public static PalaceTopology from() {
         return new PalaceTopology(Map.of(
-                new Position(1, 4), List.of(
+                HAN_PALACE_TOP_LEFT, List.of(
                         List.of(Movement.DOWN_RIGHT),
                         List.of(Movement.DOWN_RIGHT, Movement.DOWN_RIGHT)
                 ),
-                new Position(1, 6), List.of(
+                HAN_PALACE_TOP_RIGHT, List.of(
                         List.of(Movement.DOWN_LEFT),
                         List.of(Movement.DOWN_LEFT, Movement.DOWN_LEFT)
                 ),
-                new Position(2, 5), List.of(
+                HAN_PALACE_CENTER, List.of(
                         List.of(Movement.UP_LEFT),
                         List.of(Movement.UP_RIGHT),
                         List.of(Movement.DOWN_LEFT),
                         List.of(Movement.DOWN_RIGHT)
                 ),
-                new Position(3, 4), List.of(
+                HAN_PALACE_BOTTOM_LEFT, List.of(
                         List.of(Movement.UP_RIGHT),
                         List.of(Movement.UP_RIGHT, Movement.UP_RIGHT)
                 ),
-                new Position(3, 6), List.of(
+                HAN_PALACE_BOTTOM_RIGHT, List.of(
                         List.of(Movement.UP_LEFT),
                         List.of(Movement.UP_LEFT, Movement.UP_LEFT)
                 ),
-                new Position(8, 4), List.of(
+                CHO_PALACE_TOP_LEFT, List.of(
                         List.of(Movement.DOWN_RIGHT),
                         List.of(Movement.DOWN_RIGHT, Movement.DOWN_RIGHT)
                 ),
-                new Position(8, 6), List.of(
+                CHO_PALACE_TOP_RIGHT, List.of(
                         List.of(Movement.DOWN_LEFT),
                         List.of(Movement.DOWN_LEFT, Movement.DOWN_LEFT)
                 ),
-                new Position(9, 5), List.of(
+                CHO_PALACE_CENTER, List.of(
                         List.of(Movement.UP_LEFT),
                         List.of(Movement.UP_RIGHT),
                         List.of(Movement.DOWN_LEFT),
                         List.of(Movement.DOWN_RIGHT)
                 ),
-                new Position(10, 4), List.of(
+                CHO_PALACE_BOTTOM_LEFT, List.of(
                         List.of(Movement.UP_RIGHT),
                         List.of(Movement.UP_RIGHT, Movement.UP_RIGHT)
                 ),
-                new Position(10, 6), List.of(
+                CHO_PALACE_BOTTOM_RIGHT, List.of(
                         List.of(Movement.UP_LEFT),
                         List.of(Movement.UP_LEFT, Movement.UP_LEFT)
                 )
