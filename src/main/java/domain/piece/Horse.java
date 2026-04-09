@@ -16,10 +16,9 @@ public class Horse extends MoveablePiece {
     @Override
     public boolean canMove(Position from, Position to, PieceProvider pieceProvider) {
         List<Position> moveCandidates = moveStrategy.getMoveCandidates(from,team, pieceProvider);
-        for (Position candidatePosition : moveCandidates) {
-            if (candidatePosition.equals(to)) {
-                return true;
-            }
+        if (moveCandidates.contains(to)) {
+            validateTarget(pieceProvider.getPiece(to));
+            return true;
         }
         return false;
     }
