@@ -195,6 +195,8 @@ Board.move(movement)
 GameRepository가 DB 구현 세부사항을 전부 감추도록 하였습니다.
 JanggiGame은 repository.movePiece(), repository.createGame()과 같은 메서드만 호출할 뿐 어떤 DB를 사용하는지, 어떤 쿼리를 보내는지 모릅니다.
 SQLException도 GameRepository 안에서 RuntimeException으로 감싸서, 도메인 쪽으로 checked exception이 전파되지 않게 처리했습니다.
+---
+JanggiService를 도입하여 Game에서 repository 의존성을 완전히 끊어냈습니다.
 
 **DB 변경 시 도메인 코드 영향 분석**
 
@@ -215,6 +217,9 @@ Board, Piece 같은 도메인 객체들도 GameRepository를 모르도록 하였
 DB 접근이 필요한 모든 작업은 JanggiGame을 통해서만 일어나게 됩니다.
 다만 현재 구조에서 아쉬운 점은, GameRepository가 인터페이스가 아니라 구현체에 직접 의존하고 있어
 JanggiGame의 테스트 코드 작성이 어려운 상태입니다.
+---
+JanggiService가 GameRepository 인터페이스를 알고 있도록 변경하였고, JanggiGame은 순수 도메인 객체로 분리하였습니다.
+GameRepository를 인터페이스로 추상화했고, FakeGameRepository를 활용하여 JanggiService도 쉽게 테스트할 수 있었습니다.
 
 ---
 
