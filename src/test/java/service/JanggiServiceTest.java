@@ -1,28 +1,24 @@
 package service;
 
 import database.context.BoardIdContext;
-import database.context.ConnectionContext;
 import database.dao.*;
 import database.dto.GameResult;
 import database.mapper.JanggiBoardMapper;
 import domain.board.exception.BoardException;
-import database.SchemaInitializer;
 import domain.board.JanggiBoard;
 import database.dto.Moved;
 import domain.piece.PieceType;
 import domain.piece.Team;
 import domain.point.Point;
+import fixture.DatabaseTestSupport;
 import fixture.JanggiBoardFixture;
 import fixture.TestTransactionExecutor;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-
 import static fixture.IntersectionFixture.generate;
 
-class JanggiServiceTest {
+class JanggiServiceTest extends DatabaseTestSupport {
 
     JdbcTemplate jdbcTemplate = new JdbcTemplate();
     JdbcBoardDao boardDao = new JdbcBoardDao(jdbcTemplate);
@@ -30,29 +26,6 @@ class JanggiServiceTest {
     JanggiBoardMapper mapper = new JanggiBoardMapper();
     TestTransactionExecutor transactionExecutor = new TestTransactionExecutor();
     JanggiService janggiService = new JanggiService(boardDao, mapper, transactionExecutor, intersectionDao);
-
-    @BeforeAll
-    static void setSchemaSQL() {
-        SchemaInitializer schemaInitializer = new SchemaInitializer();
-        schemaInitializer.readShemaSQLFile();
-    }
-
-    @BeforeEach
-    void startTransaction() throws SQLException {
-        ConnectionContext.setConnection();
-        Connection connection = ConnectionContext.getConnection();
-        connection.setAutoCommit(false);
-    }
-
-    @AfterEach
-    void rollbackTransaction() throws SQLException {
-        Connection connection = ConnectionContext.getConnection();
-        if (connection != null && !connection.isClosed()) {
-            connection.rollback();
-            connection.close();
-        }
-        ConnectionContext.clear();
-    }
 
     @AfterEach
     void clearBoardIdContext() {
