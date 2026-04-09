@@ -1,18 +1,11 @@
 package repository;
 
-import domain.board.Position;
-import domain.piece.Piece;
-import domain.piece.PieceType;
-import domain.piece.Team;
-import domain.piece.Chariot;
-import domain.piece.Elephant;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
 import java.sql.Statement;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -22,12 +15,13 @@ class PieceDaoTest {
 
     private GameDao gameDao;
     private PieceDao pieceDao;
+    private DBConnection dbConnection;
 
     @BeforeEach
     void setUp() {
-        DBConnection dbConnection = new H2DBConnection(TEST_URL);
-        gameDao = new GameDao(dbConnection);
-        pieceDao = new PieceDao(dbConnection);
+        dbConnection = new H2DBConnection(TEST_URL);
+        gameDao = new GameDao();
+        pieceDao = new PieceDao();
 
         try (Connection connection = dbConnection.getConnection();
              Statement statement = connection.createStatement()) {
@@ -40,32 +34,42 @@ class PieceDaoTest {
     }
 
     @Test
-    void 기물들을_저장한다() {
-        long gameId = gameDao.save("CHO");
+    void 기물들을_저장한다() throws Exception {
+        try (Connection connection = dbConnection.getConnection()) {
+            long gameId = gameDao.create(connection, "CHO");
 
-        Map<Position, Piece> piecesToSave = new HashMap<>();
-        piecesToSave.put(new Position(0, 0), new Chariot(Team.CHO));
-        piecesToSave.put(new Position(1, 0), new Elephant(Team.CHO));
+            List<PieceRow> piecesToSave = List.of(
+                    new PieceRow(0, 0, "CHARIOT", "CHO"),
+                    new PieceRow(1, 0, "ELEPHANT", "CHO")
+            );
 
-        pieceDao.saveAll(gameId, piecesToSave);
-        Map<Position, Piece> loadedPieces = pieceDao.findByGameId(gameId);
+            pieceDao.saveAll(connection, gameId, piecesToSave);
+            List<PieceRow> loadedPieces = pieceDao.findByGameId(connection, gameId);
 
-        assertThat(loadedPieces).hasSize(2);
+            assertThat(loadedPieces).hasSize(2);
+        }
     }
 
     @Test
-    void 방의_기물들을_정확히_불러온다() {
-        long gameId = gameDao.save("CHO");
+    void 방의_기물들을_정확히_불러온다() throws Exception {
+        try (Connection connection = dbConnection.getConnection()) {
+            long gameId = gameDao.create(connection, "CHO");
 
-        Map<Position, Piece> piecesToSave = new HashMap<>();
-        piecesToSave.put(new Position(0, 0), new Chariot(Team.CHO));
-        piecesToSave.put(new Position(1, 0), new Elephant(Team.CHO));
+            List<PieceRow> piecesToSave = List.of(
+                    new PieceRow(0, 0, "CHARIOT", "CHO"),
+                    new PieceRow(1, 0, "ELEPHANT", "CHO")
+            );
 
-        pieceDao.saveAll(gameId, piecesToSave);
-        Map<Position, Piece> loadedPieces = pieceDao.findByGameId(gameId);
-        Piece chariot = loadedPieces.get(new Position(0, 0));
+            pieceDao.saveAll(connection, gameId, piecesToSave);
+            List<PieceRow> loadedPieces = pieceDao.findByGameId(connection, gameId);
 
-        assertThat(chariot.getPieceType()).isEqualTo(PieceType.CHARIOT);
-        assertThat(chariot.getTeam()).isEqualTo(Team.CHO);
+            PieceRow chariot = loadedPieces.stream()
+                    .filter(p -> p.x() == 0 && p.y() == 0)
+                    .findFirst()
+                    .orElseThrow();
+
+            assertThat(chariot.pieceType()).isEqualTo("CHARIOT");
+            assertThat(chariot.team()).isEqualTo("CHO");
+        }
     }
 }

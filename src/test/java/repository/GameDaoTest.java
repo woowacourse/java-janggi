@@ -1,10 +1,10 @@
 package repository;
 
-import domain.piece.Team;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Map;
 
@@ -16,11 +16,12 @@ class GameDaoTest {
     private static final String TEST_URL = "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;INIT=RUNSCRIPT FROM 'classpath:schema.sql'";
 
     private GameDao gameDao;
+    private DBConnection dbConnection;
 
     @BeforeEach
     void setUp() {
-        DBConnection dbConnection = new H2DBConnection(TEST_URL);
-        gameDao = new GameDao(dbConnection);
+        gameDao = new GameDao();
+        dbConnection = new H2DBConnection(TEST_URL);
 
         try (Connection connection = dbConnection.getConnection();
              Statement statement = connection.createStatement()) {
@@ -34,37 +35,50 @@ class GameDaoTest {
 
     @Test
     void 새로운_게임을_저장하면_ID_1번을_반환한다() {
-        long gameId = gameDao.save("CHO");
-        assertThat(gameId).isEqualTo(1L);
+        try (Connection connection = dbConnection.getConnection()) {
+            long gameId = gameDao.create(connection, "CHO");
+            assertThat(gameId).isEqualTo(1L);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
-    void 게임의_턴을_성공적으로_업데이트한다() {
-        long gameId = gameDao.save("CHO");
-
-        gameDao.updateTurn(gameId, "HAN");
-        Team currentTurn = gameDao.findTurn(gameId);
-
-        assertThat(currentTurn).isEqualTo(Team.HAN);
+    void 게임의_턴을_성공적으로_업데이트한다() throws Exception {
+        try (Connection connection = dbConnection.getConnection()) {
+            long gameId = gameDao.create(connection, "CHO");
+            gameDao.updateTurn(connection, gameId, "HAN");
+            String currentTurn = gameDao.findTurn(connection, gameId);
+            assertThat(currentTurn).isEqualTo("HAN");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
-    void 존재하지_않는_방_번호를_조회하면_예외가_발생한다() {
-        assertThatThrownBy(() -> gameDao.findTurn(999L))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("존재하지 않는 게임 방입니다.");
+    void 존재하지_않는_방_번호를_조회하면_예외가_발생한다() throws Exception {
+        try (Connection connection = dbConnection.getConnection()) {
+            assertThatThrownBy(() -> gameDao.findTurn(connection, 999L))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage("존재하지 않는 게임 방입니다.");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
-    void 저장된_게임_목록을_최신순으로_조회한다() {
-        gameDao.save("CHO"); // 1번 방
-        gameDao.save("HAN"); // 2번 방
+    void 저장된_게임_목록을_최신순으로_조회한다() throws Exception {
+        try (Connection connection = dbConnection.getConnection()) {
+            gameDao.create(connection, "CHO"); // 1번 방
+            gameDao.create(connection, "HAN"); // 2번 방
 
-        Map<Long, String> games = gameDao.findAll();
+            Map<Long, String> games = gameDao.findAll(connection);
 
-        assertThat(games).hasSize(2);
-        // LinkedHashMap이므로 순서 검증 가능
-        assertThat(games.keySet()).containsExactly(2L, 1L);
-        assertThat(games.values()).containsExactly("HAN", "CHO");
+            assertThat(games).hasSize(2);
+            assertThat(games.keySet()).containsExactly(2L, 1L);
+            assertThat(games.values()).containsExactly("HAN", "CHO");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

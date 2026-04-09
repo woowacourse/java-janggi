@@ -8,7 +8,6 @@ import repository.PieceDao;
 import view.InputView;
 import view.OutputView;
 
-import org.h2.tools.Server;
 import java.sql.SQLException;
 
 public class Application {
@@ -20,7 +19,7 @@ public class Application {
         OutputView outputView = new OutputView();
 
         DBConnection dbConnection = new H2DBConnection(dbUrl);
-        GameRepository gameRepository = new GameRepository(new GameDao(dbConnection), new PieceDao(dbConnection));
+        GameRepository gameRepository = new GameRepository(dbConnection, new GameDao(), new PieceDao());
 
         Controller controller = new Controller(inputView, outputView, gameRepository);
         controller.run();
