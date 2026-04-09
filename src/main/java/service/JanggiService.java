@@ -33,9 +33,26 @@ public class JanggiService {
     }
 
     public long createGame(String title, SettingType choSettingType, SettingType hanSettingType) {
-        long gameId = gameRepository.save(Team.CHO, title);
-        JanggiGame game = GameInitializer.init(choSettingType, hanSettingType);
-        boardRepository.saveAll(game, gameId);
+        Connection conn = null;
+        long gameId;
+        try {
+            conn = ConnectionManager.getConnection();
+
+            conn.setAutoCommit(false);
+            gameId = gameRepository.save(Team.CHO, title);
+            JanggiGame game = GameInitializer.init(choSettingType, hanSettingType);
+            boardRepository.saveAll(game, gameId);
+            conn.commit();
+        } catch (SQLException e) {
+            if (conn != null) {
+                try {
+                    conn.rollback();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+            throw new RuntimeException(e);
+        }
         return gameId;
     }
 
