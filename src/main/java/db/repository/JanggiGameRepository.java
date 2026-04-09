@@ -1,11 +1,11 @@
 package db.repository;
 
-import core.GameSummary;
+import service.GameSummary;
 import core.JanggiGame;
 import db.jdbc.SqlConnection;
 import java.util.List;
 import java.util.Optional;
-import movepolicy.MoveHistory;
+import core.MoveHistory;
 import position.Position;
 
 public interface JanggiGameRepository {

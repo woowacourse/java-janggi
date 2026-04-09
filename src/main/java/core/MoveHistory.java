@@ -1,4 +1,4 @@
-package movepolicy;
+package core;
 
 import pieces.Piece;
 import position.Position;

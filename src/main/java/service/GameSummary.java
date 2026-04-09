@@ -1,6 +1,7 @@
-package core;
+package service;
 
-import participant.Turn;
+import core.GameStatus;
+import core.Turn;
 
 public record GameSummary(
     Long id,

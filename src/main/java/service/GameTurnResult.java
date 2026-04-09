@@ -1,6 +1,7 @@
-package core;
+package service;
 
-import movepolicy.MoveHistory;
+import core.JanggiGame;
+import core.MoveHistory;
 
 public record GameTurnResult(
     JanggiGame updatedGame,

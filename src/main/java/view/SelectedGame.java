@@ -1,6 +1,6 @@
 package view;
 
-import core.GameSummary;
+import service.GameSummary;
 import java.util.List;
 
 public final class SelectedGame {

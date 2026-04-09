@@ -23,7 +23,7 @@ import movepolicy.move.Route;
 import movepolicy.rule.EmptyPathMoveRule;
 import movepolicy.rule.MoveRule;
 import movepolicy.rule.PoMoveRule;
-import participant.Score;
+import core.Score;
 
 public enum PieceType {
 

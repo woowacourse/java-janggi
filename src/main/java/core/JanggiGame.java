@@ -3,8 +3,6 @@ package core;
 import board.Board;
 import board.SangSetup;
 import board.SangSetupType;
-import participant.Score;
-import participant.Turn;
 import pieces.Piece;
 import pieces.Side;
 import position.Position;

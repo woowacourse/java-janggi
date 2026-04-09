@@ -5,7 +5,7 @@ import db.jdbc.SqlConnection;
 import db.model.GameEntity;
 import java.util.List;
 import java.util.Optional;
-import participant.Turn;
+import core.Turn;
 
 public interface GameDao {
 

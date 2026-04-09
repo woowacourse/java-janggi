@@ -1,6 +1,5 @@
 package service;
 
-import core.GameSummary;
 import db.jdbc.ConnectionManager;
 import db.jdbc.SqlConnection;
 import db.jdbc.SqlConnectionWrapper;
@@ -8,7 +7,7 @@ import db.repository.JanggiGameRepository;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
-import movepolicy.MoveHistory;
+import core.MoveHistory;
 import view.SelectedGame;
 import view.JanggiView;
 

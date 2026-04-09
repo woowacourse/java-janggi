@@ -2,10 +2,10 @@ package view;
 
 import board.SangSetupType;
 import core.GameStatus;
-import core.GameSummary;
+import service.GameSummary;
 import java.util.List;
-import movepolicy.MoveHistory;
-import participant.Score;
+import core.MoveHistory;
+import core.Score;
 import pieces.Side;
 import position.Position;
 import util.Retry;

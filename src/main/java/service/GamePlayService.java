@@ -1,10 +1,7 @@
 package service;
 
 import board.SangSetupType;
-import core.GameSummary;
-import core.GameTurnResult;
 import core.JanggiGame;
-import core.PreparedGame;
 import db.jdbc.ConnectionManager;
 import db.jdbc.SqlConnection;
 import db.jdbc.SqlConnectionWrapper;
@@ -12,7 +9,7 @@ import db.repository.JanggiGameRepository;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
-import movepolicy.MoveHistory;
+import core.MoveHistory;
 import pieces.Piece;
 import pieces.Side;
 import position.Position;

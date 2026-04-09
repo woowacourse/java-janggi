@@ -10,7 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import participant.Turn;
+import core.Turn;
 
 public class JdbcGameDao implements GameDao {
 

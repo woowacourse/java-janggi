@@ -1,4 +1,4 @@
-package participant;
+package core;
 
 public record Score(double value) {
 

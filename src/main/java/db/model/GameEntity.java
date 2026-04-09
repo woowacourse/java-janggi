@@ -1,7 +1,7 @@
 package db.model;
 
 import core.GameStatus;
-import participant.Turn;
+import core.Turn;
 
 public record GameEntity(
     Long id,

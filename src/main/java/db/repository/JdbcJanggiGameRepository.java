@@ -2,7 +2,7 @@ package db.repository;
 
 import board.Board;
 import core.GameStatus;
-import core.GameSummary;
+import service.GameSummary;
 import core.JanggiGame;
 import db.dao.BoardPieceDao;
 import db.dao.GameDao;
@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import movepolicy.MoveHistory;
-import participant.Turn;
+import core.MoveHistory;
+import core.Turn;
 import pieces.Piece;
 import position.Position;
 

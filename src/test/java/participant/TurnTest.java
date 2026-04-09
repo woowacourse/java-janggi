@@ -2,6 +2,7 @@ package participant;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import core.Turn;
 import org.junit.jupiter.api.Test;
 import pieces.Side;
 

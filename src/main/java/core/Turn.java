@@ -1,4 +1,4 @@
-package participant;
+package core;
 
 import pieces.Side;
 

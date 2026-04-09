@@ -2,7 +2,7 @@ package pieces;
 
 import java.util.List;
 import movepolicy.rule.MoveTrace;
-import participant.Score;
+import core.Score;
 import position.Position;
 
 public record Piece(Side side, PieceType type) {
