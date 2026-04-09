@@ -22,7 +22,22 @@ public class SoldierStrategy implements MoveStrategy {
         addPath(paths, current, Direction.west());
         addPath(paths, current, Direction.east());
 
+        if (current.isPalaceDiagonal()) {
+            paths.addAll(calculateDiagonalPath(current));
+        }
+
         return Collections.unmodifiableList(paths);
+    }
+
+    private List<Path> calculateDiagonalPath(Position current) {
+        List<Path> diagonalDirections = new ArrayList<>();
+        Direction.diagonalDirections()
+                .stream()
+                .filter(forwardDirection::isSameDirectionOfProgress)
+                .forEach(direction -> addPath(diagonalDirections, current, direction));
+        return diagonalDirections.stream()
+                .filter(Path::isDestinationInsidePalace)
+                .toList();
     }
 
     private void addPath(List<Path> paths, Position current, Direction direction) {

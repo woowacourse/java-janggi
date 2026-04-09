@@ -66,4 +66,8 @@ public record Direction(int directionRow, int directionColumn) {
     public Optional<Position> findNextPosition(Position current) {
         return current.move(directionRow, directionColumn);
     }
+
+    public boolean isSameDirectionOfProgress(Direction other) {
+        return this.directionRow == other.directionRow;
+    }
 }
