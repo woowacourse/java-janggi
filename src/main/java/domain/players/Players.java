@@ -24,19 +24,16 @@ public class Players {
         return new Players(players);
     }
 
-    public void updateState(Board board) {
-        players.get(Side.HAN).updateScore(board.calculateScoreBy(Side.HAN));
-        players.get(Side.CHO).updateScore(board.calculateScoreBy(Side.CHO));
-
-        if (board.isFinished()) {
-            Side winner = board.getWinner();
-            players.get(winner).updateStatus(PlayerStatus.WIN);
-            players.get(winner.opposite()).updateStatus(PlayerStatus.LOSS);
-
-        }
+    public void updateState(Side side, double newScore) {
+        players.get(side).updateScore(newScore);
     }
 
     public List<Player> getPlayers() {
         return players.values().stream().toList();
+    }
+
+    public void updateStatus(Side winner) {
+        players.get(winner).updateStatus(PlayerStatus.WIN);
+        players.get(winner.opposite()).updateStatus(PlayerStatus.LOSS);
     }
 }

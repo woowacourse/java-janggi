@@ -39,7 +39,13 @@ public class JanggiGame {
 
     public void playGame(Movement movement) {
         board.move(movement.startPosition(), movement.endPosition(), currentTurn);
-        players.updateState(board);
+        updateScoreBySide(Side.CHO);
+        updateScoreBySide(Side.HAN);
+
+        if (isFinished()) {
+            Side winner = board.getWinner();
+            players.updateStatus(winner);
+        }
     }
 
     public void switchTurn() {
@@ -52,5 +58,9 @@ public class JanggiGame {
 
     public List<Player> getPlayers() {
         return players.getPlayers();
+    }
+
+    private void updateScoreBySide(Side side) {
+        players.updateState(side, board.calculateScoreBy(side));
     }
 }
