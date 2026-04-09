@@ -1,7 +1,7 @@
 import config.DataSourceConfig;
-import domain.piece.PieceRepository;
+import repository.BoardRepository;
 import janggigame.JanggiGame;
-import janggigame.JanggiGameRepository;
+import repository.JanggiGameRepository;
 import util.SchemaInitializer;
 
 import javax.sql.DataSource;
@@ -11,8 +11,8 @@ public class Main {
         DataSource dataSource = DataSourceConfig.dataSource();
         SchemaInitializer.initialize(dataSource);
         JanggiGameRepository janggiGameRepository = new JanggiGameRepository(dataSource);
-        PieceRepository pieceRepository = new PieceRepository(dataSource);
-        JanggiGame janggiGame = new JanggiGame(janggiGameRepository, pieceRepository);
+        BoardRepository boardRepository = new BoardRepository(dataSource);
+        JanggiGame janggiGame = new JanggiGame(janggiGameRepository, boardRepository);
         janggiGame.run();
     }
 }

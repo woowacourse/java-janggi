@@ -1,6 +1,8 @@
-package janggigame;
+package repository;
 
 import domain.piece.Side;
+import janggigame.GameMetaData;
+import janggigame.JanggiGameStatus;
 
 import javax.sql.DataSource;
 import java.sql.Connection;

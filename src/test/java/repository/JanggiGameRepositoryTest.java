@@ -1,7 +1,9 @@
-package janggigame;
+package repository;
 
-import domain.config.TestDataSourceConfig;
+import config.TestDataSourceConfig;
 import domain.piece.Side;
+import janggigame.GameMetaData;
+import janggigame.JanggiGameStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

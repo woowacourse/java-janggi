@@ -1,14 +1,13 @@
 package janggigame;
 
 import domain.board.Board;
-import domain.board.BoardAssembler;
+import repository.BoardRepository;
 import domain.board.Placement;
-import domain.piece.PieceRepository;
-import domain.piece.PieceSnapshot;
 import domain.piece.Side;
 import domain.position.Position;
 import dto.BoardResponseDto;
 import dto.JanggiGameResultResponseDto;
+import repository.JanggiGameRepository;
 import util.Parser;
 import view.InputView;
 import view.OutputView;
@@ -24,11 +23,11 @@ public class JanggiGame {
 
     private final Map<Side, Integer> jangGunCount = new EnumMap<>(Side.class);
     private final JanggiGameRepository janggiGameRepository;
-    private final PieceRepository pieceRepository;
+    private final BoardRepository boardRepository;
 
-    public JanggiGame(JanggiGameRepository janggiGameRepository, PieceRepository pieceRepository) {
+    public JanggiGame(JanggiGameRepository janggiGameRepository, BoardRepository boardRepository) {
         this.janggiGameRepository = janggiGameRepository;
-        this.pieceRepository = pieceRepository;
+        this.boardRepository = boardRepository;
     }
 
     public void run() {
@@ -55,12 +54,8 @@ public class JanggiGame {
     }
 
     private Board loadOrInitBoard(GameMetaData gameMetaData) {
-        List<PieceSnapshot> pieces = pieceRepository.findByGameId(gameMetaData);
-
-        if (pieces.isEmpty()) {
-            return new Board();
-        }
-        return BoardAssembler.assemble(pieces);
+        return boardRepository.findById(gameMetaData.id())
+                .orElseGet(Board::new);
     }
 
     private void processByStatus(Board board, GameMetaData gameMetaData) {
@@ -78,14 +73,14 @@ public class JanggiGame {
     private void handleWaitingHanPlacement(Board board, GameMetaData gameMetaData) {
         selectSide();
         initPlacement(Side.HAN, board);
-        pieceRepository.savePlacement(board, gameMetaData, Side.HAN);
+        boardRepository.savePlacementById(board, gameMetaData.id());
         updateGameStatus(gameMetaData, JanggiGameStatus.WAITING_CHO_PLACEMENT);
         handleWaitingChoPlacement(board, gameMetaData);
     }
 
     private void handleWaitingChoPlacement(Board board, GameMetaData gameMetaData) {
         initPlacement(Side.CHO, board);
-        pieceRepository.savePlacement(board, gameMetaData, Side.CHO);
+        boardRepository.savePlacementById(board, gameMetaData.id());
         updateGameStatus(gameMetaData, JanggiGameStatus.IN_PROGRESS);
         handleInProgress(board, gameMetaData);
     }
@@ -162,9 +157,9 @@ public class JanggiGame {
         board.move(from, to, currentTurnSide);
 
         if (hasEnemyPieceAtTo) {
-            pieceRepository.deletePiecePosition(to, gameMetaData);
+            boardRepository.deletePiecePositionById(to, gameMetaData.id());
         }
-        pieceRepository.updatePiecePosition(from, to, gameMetaData);
+        boardRepository.updatePiecePositionById(from, to, gameMetaData.id());
     }
 
     private void jangGunCountProcess(Board board, GameMetaData gameMetaData, Side currentTurnSide) {

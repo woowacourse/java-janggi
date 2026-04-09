@@ -1,4 +1,4 @@
-package domain.config;
+package config;
 
 import org.h2.jdbcx.JdbcDataSource;
 

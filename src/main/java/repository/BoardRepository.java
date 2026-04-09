@@ -1,8 +1,12 @@
-package domain.piece;
+package repository;
 
 import domain.board.Board;
+import domain.board.BoardAssembler;
+import domain.piece.Piece;
+import domain.piece.PieceSnapshot;
+import domain.piece.PieceType;
+import domain.piece.Side;
 import domain.position.Position;
-import janggigame.GameMetaData;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -12,21 +16,22 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
-public class PieceRepository {
+public class BoardRepository {
     private final DataSource dataSource;
 
-    public PieceRepository(DataSource dataSource) {
+    public BoardRepository(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
-    public List<PieceSnapshot> findByGameId(GameMetaData gameMetaData) {
+    public Optional<Board> findById(Long gameId) {
         String sql = "SELECT * FROM piece WHERE game_id = ?";
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
-            statement.setLong(1, gameMetaData.id());
+            statement.setLong(1, gameId);
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 List<PieceSnapshot> pieces = new ArrayList<>();
@@ -40,14 +45,14 @@ public class PieceRepository {
                     );
                     pieces.add(pieceSnapshot);
                 }
-                return pieces;
+                return Optional.of(BoardAssembler.assemble(pieces));
             }
         } catch (SQLException e) {
             throw new IllegalStateException("게임에 해당하는 기물 조회에 실패했습니다.", e);
         }
     }
 
-    public void savePlacement(Board board, GameMetaData gameMetaData, Side side) {
+    public void savePlacementById(Board board, Long gameId) {
         String sql = "INSERT INTO piece (piece_type, side, position_x, position_y, game_id) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection connection = dataSource.getConnection();
@@ -57,14 +62,11 @@ public class PieceRepository {
                 Position position = entry.getKey();
                 Piece piece = entry.getValue();
 
-                if (!piece.isSameSide(side)) {
-                    continue;
-                }
                 statement.setString(1, piece.getPieceType().name());
                 statement.setString(2, piece.getSide().name());
                 statement.setInt(3, position.getRow());
                 statement.setInt(4, position.getColumn());
-                statement.setLong(5, gameMetaData.id());
+                statement.setLong(5, gameId);
                 int affectedRows = statement.executeUpdate();
 
                 if (affectedRows != 1) {
@@ -76,7 +78,7 @@ public class PieceRepository {
         }
     }
 
-    public void updatePiecePosition(Position from, Position to, GameMetaData gameMetaData) {
+    public void updatePiecePositionById(Position from, Position to, Long gameId) {
         String sql = "UPDATE piece SET position_x = ?, position_y = ? WHERE game_id = ? AND position_x = ? AND position_y = ?";
 
         try (Connection connection = dataSource.getConnection();
@@ -84,7 +86,7 @@ public class PieceRepository {
 
             statement.setInt(1, to.getRow());
             statement.setInt(2, to.getColumn());
-            statement.setLong(3, gameMetaData.id());
+            statement.setLong(3, gameId);
             statement.setInt(4, from.getRow());
             statement.setInt(5, from.getColumn());
             int affectedRows = statement.executeUpdate();
@@ -97,14 +99,14 @@ public class PieceRepository {
         }
     }
 
-    public void deletePiecePosition(Position from, GameMetaData gameMetaData) {
+    public void deletePiecePositionById(Position from, Long gameId) {
         String sql = "DELETE FROM piece WHERE position_x = ? AND position_y = ? AND game_id = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setInt(1, from.getRow());
             statement.setInt(2, from.getColumn());
-            statement.setLong(3, gameMetaData.id());
+            statement.setLong(3, gameId);
             int affectedRows = statement.executeUpdate();
 
             if (affectedRows != 1) {
