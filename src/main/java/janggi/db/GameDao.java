@@ -108,7 +108,12 @@ public class GameDao {
         try (PreparedStatement statement = connection.prepareStatement(
                 "SELECT current_turn FROM game WHERE id = ?")) {
             statement.setInt(1, FIX_GAME_ID);
-            ResultSet resultSet = statement.executeQuery();
+            return extractCurrentTurn(statement);
+        }
+    }
+
+    private String extractCurrentTurn(PreparedStatement statement) throws SQLException {
+        try (ResultSet resultSet = statement.executeQuery()) {
             resultSet.next();
             return resultSet.getString("current_turn");
         }
@@ -118,7 +123,12 @@ public class GameDao {
         try (PreparedStatement statement = connection.prepareStatement(
                 "SELECT position_row, position_column, piece_type, team_type FROM piece WHERE game_id = ?;")) {
             statement.setInt(1, FIX_GAME_ID);
-            ResultSet resultSet = statement.executeQuery();
+            return extractPieceMap(statement);
+        }
+    }
+
+    private Map<Position, Piece> extractPieceMap(PreparedStatement statement) throws SQLException {
+        try (ResultSet resultSet = statement.executeQuery()) {
             Map<Position, Piece> positionPieceMap = new HashMap<>();
             while (resultSet.next()) {
                 PieceType pieceType = PieceType.valueOf(resultSet.getString("piece_type"));
