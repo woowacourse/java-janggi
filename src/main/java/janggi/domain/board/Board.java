@@ -14,10 +14,6 @@ public class Board {
         board.put(position, piece);
     }
 
-    public Map<Position, Piece> getBoard() {
-        return board;
-    }
-
     public void movePiece(Position movePiecePosition, Position destination) {
         Piece piece = board.get(movePiecePosition);
         if (piece == null) {

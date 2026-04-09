@@ -6,7 +6,6 @@ import janggi.domain.common.Position;
 import janggi.domain.common.Team;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
-import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -45,10 +44,9 @@ public class BoardInitiatorTest {
         //when
         boardInitiator.initializeByFormation(board, hanFormation, Team.HAN);
         boardInitiator.initializeByFormation(board, choFormation, Team.CHO);
-        Map<Position, Piece> checkPiece = board.getBoard();
 
         //then
-        assertThat(checkPiece.get(position)).isEqualTo(piece);
+        assertThat(board.pieceAt(position)).isEqualTo(piece);
     }
 
     @ParameterizedTest
@@ -84,9 +82,8 @@ public class BoardInitiatorTest {
         // when
         boardInitiator.initializeByFormation(board, hanFormation, Team.HAN);
         boardInitiator.initializeByFormation(board, choFormation, Team.CHO);
-        Map<Position, Piece> checkPiece = board.getBoard();
 
         // then
-        assertThat(checkPiece.get(position)).isEqualTo(piece);
+        assertThat(board.pieceAt(position)).isEqualTo(piece);
     }
 }
