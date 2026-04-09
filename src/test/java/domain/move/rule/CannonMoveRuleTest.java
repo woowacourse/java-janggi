@@ -241,7 +241,7 @@ class CannonMoveRuleTest {
                 opponentDestination)));
 
         // when
-        janggiBoard.tryToMove(start, end);
+        janggiBoard.processTurn(start, end);
         Intersection actual = janggiBoard.findIntersection(end);
 
         // then
@@ -273,7 +273,7 @@ class CannonMoveRuleTest {
                 opponentDestination)));
 
         // when
-        janggiBoard.tryToMove(start, end);
+        janggiBoard.processTurn(start, end);
         Intersection actual = janggiBoard.findIntersection(end);
 
         // then
@@ -299,7 +299,7 @@ class CannonMoveRuleTest {
                     .generate(leftBottomPalace, centerPalaceHasObstacle, rightTopCho);
 
             // when
-            janggiBoard.tryToMove(leftBottomPointCho, rightTopPointCho);
+            janggiBoard.processTurn(leftBottomPointCho, rightTopPointCho);
 
             // then
             Assertions.assertThat(janggiBoard.findIntersection(rightTopPointCho))
@@ -320,7 +320,7 @@ class CannonMoveRuleTest {
                     .generate(leftTopPalace, centerPalaceHasObstacle, rightBottomCho);
 
             // when
-            janggiBoard.tryToMove(leftTopPointCho, rightBottomPointCho);
+            janggiBoard.processTurn(leftTopPointCho, rightBottomPointCho);
 
             // then
             Assertions.assertThat(janggiBoard.findIntersection(rightBottomPointCho))
@@ -341,7 +341,7 @@ class CannonMoveRuleTest {
                     .generate(rightTopPalace, centerPalaceHasObstacle, leftBottomCho);
 
             // when
-            janggiBoard.tryToMove(rightTopPointCho, leftBottomPointCho);
+            janggiBoard.processTurn(rightTopPointCho, leftBottomPointCho);
 
             // then
             Assertions.assertThat(janggiBoard.findIntersection(leftBottomPointCho))
@@ -362,7 +362,7 @@ class CannonMoveRuleTest {
                     .generate(rightBottomPalace, centerPalaceHasObstacle, leftTopCho);
 
             // when
-            janggiBoard.tryToMove(rightBottomPointCho, leftTopPointCho);
+            janggiBoard.processTurn(rightBottomPointCho, leftTopPointCho);
 
             // then
             Assertions.assertThat(janggiBoard.findIntersection(leftTopPointCho))
@@ -385,7 +385,7 @@ class CannonMoveRuleTest {
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(leftBottomPalace, emptyCenterPalace, rightTopCho);
 
             // when & then
-            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(leftBottomPointCho, rightTopPointCho))
+            Assertions.assertThatThrownBy(() -> janggiBoard.processTurn(leftBottomPointCho, rightTopPointCho))
                     .isInstanceOf(PathException.class)
                     .hasMessage(CANNON_MUST_JUMP_ONE_PIECE.getMessage());
         }
@@ -399,7 +399,7 @@ class CannonMoveRuleTest {
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(leftBottomPalace, emptyCenterPalace);
 
             // when & then
-            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(leftBottomPointCho, centerPointCho))
+            Assertions.assertThatThrownBy(() -> janggiBoard.processTurn(leftBottomPointCho, centerPointCho))
                     .isInstanceOf(PathException.class)
                     .hasMessage(CANNON_MUST_JUMP_ONE_PIECE.getMessage());
         }
@@ -420,7 +420,7 @@ class CannonMoveRuleTest {
                     .generate(rightBottomPalace, hasObstacleButNormalIntersection, normalDestination);
 
             // when & then
-            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(rightBottomPointCho, destinationPoint))
+            Assertions.assertThatThrownBy(() -> janggiBoard.processTurn(rightBottomPointCho, destinationPoint))
                     .isInstanceOf(DirectionException.class)
                     .hasMessage(INVALID_DIRECTION.getMessage());
         }

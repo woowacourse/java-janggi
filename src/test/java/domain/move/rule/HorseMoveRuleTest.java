@@ -104,7 +104,7 @@ class HorseMoveRuleTest {
         )));
 
         // when
-        janggiBoard.tryToMove(start, end);
+        janggiBoard.processTurn(start, end);
         Intersection actual = janggiBoard.findIntersection(end);
 
         // then
@@ -137,7 +137,7 @@ class HorseMoveRuleTest {
         )));
 
         // when
-        janggiBoard.tryToMove(start, end);
+        janggiBoard.processTurn(start, end);
         Intersection actual = janggiBoard.findIntersection(end);
 
         // then

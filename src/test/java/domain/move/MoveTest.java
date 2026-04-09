@@ -41,7 +41,7 @@ class MoveTest {
         JanggiBoard janggiBoard = new JanggiBoard(new TestIntersectionGenerator(List.of(origin, destination)));
 
         // when
-        janggiBoard.tryToMove(start, end);
+        janggiBoard.processTurn(start, end);
         Intersection actualOrigin = janggiBoard.findIntersection(start);
         Intersection actualDestination = janggiBoard.findIntersection(end);
 
@@ -74,7 +74,7 @@ class MoveTest {
         );
 
         // then
-        Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(start, end))
+        Assertions.assertThatThrownBy(() -> janggiBoard.processTurn(start, end))
                 .isInstanceOf(IntersectionException.class)
                 .hasMessage(ORIGIN_INTERSECTION_IS_NOT_OPPONENT.getMessage());
     }
@@ -96,7 +96,7 @@ class MoveTest {
         ));
 
         // then
-        Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(start, end))
+        Assertions.assertThatThrownBy(() -> janggiBoard.processTurn(start, end))
                 .isInstanceOf(IntersectionException.class)
                 .hasMessage(ORIGIN_INTERSECTION_IS_EMPTY.getMessage());
     }

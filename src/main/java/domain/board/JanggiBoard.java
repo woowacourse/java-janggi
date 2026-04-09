@@ -33,13 +33,22 @@ public class JanggiBoard {
         this.currentTurn = currentTurn;
     }
 
-    public Moved tryToMove(Point start, Point end) {
+    public Moved processTurn(Point start, Point end) {
+        Moved moved = tryToMove(start, end);
+        changeTurn();
+        return moved;
+    }
+
+    private Moved tryToMove(Point start, Point end) {
         Intersection origin = findOriginIntersection(start, currentTurn);
         Intersection destination = findIntersection(end);
         inspectPath(origin, destination);
         origin.move(destination);
-        this.currentTurn = this.currentTurn.nextTurn();
         return new Moved(origin, destination);
+    }
+
+    public void changeTurn() {
+        this.currentTurn = this.currentTurn.nextTurn();
     }
 
     private void inspectPath(Intersection origin, Intersection destination) {

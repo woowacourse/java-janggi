@@ -82,7 +82,7 @@ public class JanggiGame {
     public Moved progressTurn(JanggiBoard janggiBoard) {
         return retry(() -> {
             MoveCommand command = requestCommand(janggiBoard.getCurrentTurn());
-            Moved moved = janggiBoard.tryToMove(command.start(), command.end());
+            Moved moved = janggiBoard.processTurn(command.start(), command.end());
             printJanggiBoard(JanggiBoardDto.from(janggiBoard));
             return moved;
         });

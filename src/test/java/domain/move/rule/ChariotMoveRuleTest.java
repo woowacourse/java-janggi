@@ -143,7 +143,7 @@ class ChariotMoveRuleTest {
                 emptyDestination)));
 
         // when
-        janggiBoard.tryToMove(start, end);
+        janggiBoard.processTurn(start, end);
         Intersection actual = janggiBoard.findIntersection(end);
 
         // then
@@ -174,7 +174,7 @@ class ChariotMoveRuleTest {
                 opponentDestination)));
 
         // when
-        janggiBoard.tryToMove(start, end);
+        janggiBoard.processTurn(start, end);
         Intersection actual = janggiBoard.findIntersection(end);
 
         // then
@@ -195,7 +195,7 @@ class ChariotMoveRuleTest {
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(leftBottomPalace, centerCho, rightTopCho);
 
             // when
-            janggiBoard.tryToMove(leftBottomPointCho, rightTopPointCho);
+            janggiBoard.processTurn(leftBottomPointCho, rightTopPointCho);
 
             // then
             Assertions.assertThat(janggiBoard.findIntersection(rightTopPointCho))
@@ -211,7 +211,7 @@ class ChariotMoveRuleTest {
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(leftBottomPalace, centerCho);
 
             // when
-            janggiBoard.tryToMove(leftBottomPointCho, centerPointCho);
+            janggiBoard.processTurn(leftBottomPointCho, centerPointCho);
 
             // then
             Assertions.assertThat(janggiBoard.findIntersection(centerPointCho))
@@ -227,7 +227,7 @@ class ChariotMoveRuleTest {
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(centerPalace, rightTopCho);
 
             // when
-            janggiBoard.tryToMove(centerPointCho, rightTopPointCho);
+            janggiBoard.processTurn(centerPointCho, rightTopPointCho);
 
             // then
             Assertions.assertThat(janggiBoard.findIntersection(rightTopPointCho))
@@ -242,7 +242,7 @@ class ChariotMoveRuleTest {
 
         @Test
         @DisplayName("차는 가운데(8,4)에서 대각선으로 두 칸 움직이면 예외가 발생한다. 테스트 방향(↗,↗)")
-        void shouldThrowExceptionTryToMoveChariotToRightTopFromCenterPalace() {
+        void shouldThrowExceptionprocessTurnChariotToRightTopFromCenterPalace() {
             // given
             Point outOtLeftUpPoint = rightTopPointCho.next(Vector.RIGHT_UP);
 
@@ -251,14 +251,14 @@ class ChariotMoveRuleTest {
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(centerPalace, rightTopCho, twiceLeftTopIntersection);
 
             // when & then
-            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(centerPointCho, outOtLeftUpPoint))
+            Assertions.assertThatThrownBy(() -> janggiBoard.processTurn(centerPointCho, outOtLeftUpPoint))
                     .isInstanceOf(DirectionException.class)
                     .hasMessage(INVALID_DIRECTION.getMessage());
         }
 
         @Test
         @DisplayName("차가 좌하궁성에 있을 때, 왼쪽 위(↖)로 움직이려하면 예외가 발생한다. ")
-        void shouldThrowExceptionTryToMoveChariotFromLeftBottomToLeftUp() {
+        void shouldThrowExceptionprocessTurnChariotFromLeftBottomToLeftUp() {
             // given
             Point leftBottomPoint = new Point(9, 3);
             Point leftUpPoint = leftBottomPoint.next(Vector.LEFT_UP);
@@ -268,14 +268,14 @@ class ChariotMoveRuleTest {
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(leftBottomPalace, rightTopCho, leftUpNormalIntersection);
 
             // when & then
-            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(leftBottomPoint, leftUpPoint))
+            Assertions.assertThatThrownBy(() -> janggiBoard.processTurn(leftBottomPoint, leftUpPoint))
                     .isInstanceOf(DirectionException.class)
                     .hasMessage(INVALID_DIRECTION.getMessage());
         }
 
         @Test
         @DisplayName("차가 일반 궁성에 있을때, 대각선으로 움직이려 하면 예외가 발생한다. 테스트 방향 (↗)")
-        void shouldThrowExceptionTryToMoveChariotToDiagonalFromNormalPalace() {
+        void shouldThrowExceptionprocessTurnChariotToDiagonalFromNormalPalace() {
             // given
             Point normalLeftPalacePoint = new Point(8, 3);
             Point normalTopPalacePoint = normalLeftPalacePoint.next(Vector.RIGHT_UP);
@@ -286,7 +286,7 @@ class ChariotMoveRuleTest {
 
             // when & then
             Assertions.assertThatThrownBy(() -> {
-                        janggiBoard.tryToMove(normalLeftPalacePoint, normalTopPalacePoint);
+                        janggiBoard.processTurn(normalLeftPalacePoint, normalTopPalacePoint);
                     }).isInstanceOf(DirectionException.class)
                     .hasMessage(INVALID_DIRECTION.getMessage());
         }

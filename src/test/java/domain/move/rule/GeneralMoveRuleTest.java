@@ -77,7 +77,7 @@ class GeneralMoveRuleTest {
         JanggiBoard janggiBoard = JanggiBoardFixture.generate(origin, emptyDestination);
 
         // when
-        janggiBoard.tryToMove(centerPointCho, end);
+        janggiBoard.processTurn(centerPointCho, end);
         Intersection actual = janggiBoard.findIntersection(end);
 
         // then
@@ -99,7 +99,7 @@ class GeneralMoveRuleTest {
         JanggiBoard janggiBoard = JanggiBoardFixture.generate(origin, opponentDestination);
 
         // when
-        janggiBoard.tryToMove(centerPointCho, end);
+        janggiBoard.processTurn(centerPointCho, end);
         Intersection actual = janggiBoard.findIntersection(end);
 
         // then
@@ -120,7 +120,7 @@ class GeneralMoveRuleTest {
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(leftBottomPalace, centerCho);
 
             // when
-            janggiBoard.tryToMove(leftBottomPointCho, centerPointCho);
+            janggiBoard.processTurn(leftBottomPointCho, centerPointCho);
 
             // then
             Assertions.assertThat(janggiBoard.findIntersection(centerPointCho))
@@ -136,7 +136,7 @@ class GeneralMoveRuleTest {
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(leftTopPalace, centerCho);
 
             // when
-            janggiBoard.tryToMove(leftTopPointCho, centerPointCho);
+            janggiBoard.processTurn(leftTopPointCho, centerPointCho);
 
             // then
             Assertions.assertThat(janggiBoard.findIntersection(centerPointCho))
@@ -152,7 +152,7 @@ class GeneralMoveRuleTest {
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(rightBottomPalace, centerCho);
 
             // when
-            janggiBoard.tryToMove(rightBottomPointCho, centerPointCho);
+            janggiBoard.processTurn(rightBottomPointCho, centerPointCho);
 
             // then
             Assertions.assertThat(janggiBoard.findIntersection(centerPointCho))
@@ -168,7 +168,7 @@ class GeneralMoveRuleTest {
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(rightTopPalace, centerCho);
 
             // when
-            janggiBoard.tryToMove(rightTopPointCho, centerPointCho);
+            janggiBoard.processTurn(rightTopPointCho, centerPointCho);
 
             // then
             Assertions.assertThat(janggiBoard.findIntersection(centerPointCho))
@@ -184,7 +184,7 @@ class GeneralMoveRuleTest {
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(centerPalace, leftBottomCho);
 
             // when
-            janggiBoard.tryToMove(centerPointCho, leftBottomPointCho);
+            janggiBoard.processTurn(centerPointCho, leftBottomPointCho);
 
             // then
             Assertions.assertThat(janggiBoard.findIntersection(leftBottomPointCho))
@@ -200,7 +200,7 @@ class GeneralMoveRuleTest {
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(centerPalace, leftTopCho);
 
             // when
-            janggiBoard.tryToMove(centerPointCho, leftTopPointCho);
+            janggiBoard.processTurn(centerPointCho, leftTopPointCho);
 
             // then
             Assertions.assertThat(janggiBoard.findIntersection(leftTopPointCho))
@@ -216,7 +216,7 @@ class GeneralMoveRuleTest {
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(centerPalace, rightBottomCho);
 
             // when
-            janggiBoard.tryToMove(centerPointCho, rightBottomPointCho);
+            janggiBoard.processTurn(centerPointCho, rightBottomPointCho);
 
             // then
             Assertions.assertThat(janggiBoard.findIntersection(rightBottomPointCho))
@@ -232,7 +232,7 @@ class GeneralMoveRuleTest {
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(centerPalace, rightTopCho);
 
             // when
-            janggiBoard.tryToMove(centerPointCho, rightTopPointCho);
+            janggiBoard.processTurn(centerPointCho, rightTopPointCho);
 
             // then
             Assertions.assertThat(janggiBoard.findIntersection(rightTopPointCho))
@@ -257,7 +257,7 @@ class GeneralMoveRuleTest {
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(leftPalace, topPalace);
 
             // when & then
-            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(leftPalacePoint, topPalacePoint))
+            Assertions.assertThatThrownBy(() -> janggiBoard.processTurn(leftPalacePoint, topPalacePoint))
                     .isInstanceOf(DirectionException.class)
                     .hasMessage(INVALID_DIRECTION.getMessage());
         }
@@ -275,7 +275,7 @@ class GeneralMoveRuleTest {
             JanggiBoard janggiBoard = JanggiBoardFixture.generate(leftPalace, outOfPalace);
 
             // when & then
-            Assertions.assertThatThrownBy(() -> janggiBoard.tryToMove(leftPalacePoint, outOfPalacePoint))
+            Assertions.assertThatThrownBy(() -> janggiBoard.processTurn(leftPalacePoint, outOfPalacePoint))
                     .isInstanceOf(PathException.class)
                     .hasMessage(GENERAL_CANNOT_GO_OUT_PALACE.getMessage());
         }
