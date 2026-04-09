@@ -12,7 +12,7 @@ import java.util.Optional;
 public class GameStateDao {
 
     private static final String CANNOT_FIND_GAME = "[ERROR] 생성된 게임방 번호를 가져올 수 없습니다.";
-    private static final String CANNOT_UPDATE_GAME_STATE = "[ERROR] 존재하지 않는 게임 상태를 수정할 수 없습니다.";
+    private static final String CANNOT_UPDATE_GAME_STATE = "[ERROR] 게임 상태가 수정되지 않았습니다.";
     private static final String GAME_STATE_ACCESS_FAILED = "[ERROR] 게임 상태 테이블 접근 중 문제가 발생했습니다.";
 
     public long create(Connection connection, String currentTurn) {
