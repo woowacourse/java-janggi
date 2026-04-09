@@ -23,11 +23,11 @@ public class JanggiController {
 
     public void start() {
         JanggiGame janggiGame = initGame();
-        outputView.printBoard(janggiGame.gameSnapshot());
+        outputView.printBoard(janggiGame.boardSnapshot());
         while (!janggiGame.isGameEnd()) {
             outputView.printTurn(janggiGame.getTurnName());
             List<Integer> from = choosePiece(janggiGame);
-            chooseDestinationAndGameStart(janggiGame, from);
+            chooseDestinationAndPlay(janggiGame, from);
         }
         janggiService.gameEnd();
         outputView.printGameEnd(janggiGame.getWinnerName());
@@ -40,8 +40,8 @@ public class JanggiController {
         }
         String inputCho = inputView.inputPlacementChoOption();
         String inputHan = inputView.inputPlacementHanOption();
-        JanggiGame janggiGame = JanggiGame.start(inputCho, inputHan);
-        janggiService.save(janggiGame.toSaveRequest());
+        JanggiGame janggiGame = JanggiGame.play(inputCho, inputHan);
+        janggiService.save(janggiGame.toInitialSetupRequest());
         return janggiGame;
     }
 
@@ -53,12 +53,12 @@ public class JanggiController {
         });
     }
 
-    private void chooseDestinationAndGameStart(JanggiGame janggiGame, List<Integer> from) {
+    private void chooseDestinationAndPlay(JanggiGame janggiGame, List<Integer> from) {
         Retry.repeatUntilSuccess(() -> {
             List<Integer> to = inputView.inputDestination();
-            janggiGame.start(from, to);
+            janggiGame.play(from, to);
             janggiService.update(from, to, janggiGame.getTurnName());
-            outputView.printBoard(janggiGame.gameSnapshot());
+            outputView.printBoard(janggiGame.boardSnapshot());
         });
     }
 }

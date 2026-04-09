@@ -20,7 +20,7 @@ public class JanggiGame {
         this.turn = turn;
     }
 
-    public static JanggiGame start(String inputCho, String inputHan) {
+    public static JanggiGame play(String inputCho, String inputHan) {
         return new JanggiGame(BoardFactory.initialize(inputCho, inputHan), Turn.CHO);
     }
 
@@ -28,7 +28,7 @@ public class JanggiGame {
         return new JanggiGame(board, turn);
     }
 
-    public GameSaveRequest toSaveRequest() {
+    public GameSaveRequest toInitialSetupRequest() {
         return new GameSaveRequest(BoardRowDetails.from(this.board), turn.getName());
     }
 
@@ -49,7 +49,7 @@ public class JanggiGame {
         return !board.hasTwoGenerals();
     }
 
-    public void start(List<Integer> from, List<Integer> to) {
+    public void play(List<Integer> from, List<Integer> to) {
         board.move(
                 Coordination.of(from.get(0), from.get(1)),
                 Coordination.of(to.get(0), to.get(1))
@@ -57,7 +57,7 @@ public class JanggiGame {
         turn = turn.reverse();
     }
 
-    public BoardViewSnapshot gameSnapshot() {
+    public BoardViewSnapshot boardSnapshot() {
         return BoardViewSnapshot.from(this.board);
     }
 
