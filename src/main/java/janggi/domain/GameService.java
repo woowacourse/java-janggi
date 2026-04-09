@@ -12,7 +12,15 @@ public class GameService {
         this.gameDao = gameDao;
     }
 
+    public Long save() {
+        return gameDao.save(GameDto.forSave());
+    }
+
     public List<GameDto> findInProgressGames() {
         return gameDao.findInProgressGames();
+    }
+
+    public void updateGameStatusFinished(JanggiGame janggiGame) {
+        gameDao.updateGameStatus(janggiGame.getId(), GameStatus.FINISHED);
     }
 }

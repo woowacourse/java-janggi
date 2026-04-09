@@ -8,6 +8,7 @@ import janggi.dto.GameDto;
 import janggi.dto.PieceDto;
 import janggi.dto.TurnDto;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -37,7 +38,21 @@ public class JanggiGameService {
                 return loadPreviousJanggiGame(GameDto.convertToIntId(inputGameId));
             }
         }
-        return JanggiGame.createInitialJanggiGame();
+        long gameId = gameService.save();
+        return JanggiGame.createInitialJanggiGame(gameId);
+    }
+
+    public void move(JanggiGame janggiGame, Position start, Position end) {
+        Turn movedTurn = janggiGame.move(start, end);
+        long turnId = turnService.save(movedTurn, janggiGame.getId());
+        Turn savedTurn = Turn.savedTurn(turnId, movedTurn);
+        janggiGame.addNewTurn(savedTurn);
+        List<PieceDto> pieceDtos = getPieceDtos(savedTurn);
+        pieceService.saveAll(pieceDtos);
+    }
+
+    public void updateGameStatusFinished(JanggiGame janggiGame) {
+        gameService.updateGameStatusFinished(janggiGame);
     }
 
     private JanggiGame loadPreviousJanggiGame(Long gameId) {
@@ -53,8 +68,19 @@ public class JanggiGameService {
 
         Board board = Board.loadPreviousBoard(chu, han);
 
-        Turn turn = Turn.loadPreviousTurn(turnDto.currentTurnTeam(), board);
+        Turn turn = Turn.loadPreviousTurn(turnDto.id(), turnDto.currentTurnTeam(), board);
 
-        return JanggiGame.loadPreviousJanggiGame(turn);
+        return JanggiGame.loadPreviousJanggiGame(gameId, turn);
+    }
+
+    private List<PieceDto> getPieceDtos(Turn savedTurn) {
+        Map<Position, Piece> allPieces = savedTurn.allPieces();
+        List<PieceDto> pieceDtos = new ArrayList<>();
+        for (Map.Entry<Position, Piece> pieceEntry : allPieces.entrySet()) {
+            Position position = pieceEntry.getKey();
+            Piece piece = pieceEntry.getValue();
+            pieceDtos.add(PieceDto.from(savedTurn.getId(), position, piece));
+        }
+        return pieceDtos;
     }
 }

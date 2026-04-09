@@ -8,18 +8,24 @@ import java.util.Map;
 
 public class JanggiGame {
 
+    private final Long id;
     private final List<Turn> turns;
 
-    private JanggiGame(List<Turn> turns) {
+    private JanggiGame(Long id, List<Turn> turns) {
+        this.id = id;
         this.turns = new ArrayList<>(turns);
     }
 
-    public static JanggiGame createInitialJanggiGame() {
-        return new JanggiGame(List.of(Turn.createInitialTurn()));
+    public static JanggiGame createInitialJanggiGame(long gameId) {
+        return new JanggiGame(gameId, List.of(Turn.createInitialTurn()));
     }
 
-    public static JanggiGame loadPreviousJanggiGame(Turn previousTurn) {
-        return new JanggiGame(List.of(previousTurn));
+    public static JanggiGame loadPreviousJanggiGame(long gameId, Turn previousTurn) {
+        return new JanggiGame(gameId, List.of(previousTurn));
+    }
+
+    public long getId() {
+        return id;
     }
 
     public boolean isRunning() {
@@ -33,7 +39,7 @@ public class JanggiGame {
 
     public String getCurrentTurnTeamName() {
         Turn lastTurn = getLastTurn();
-        return lastTurn.nextTurnTeam();
+        return lastTurn.nextTurnTeamName();
     }
 
     public void validatePieceExists(Position position) {
@@ -52,10 +58,13 @@ public class JanggiGame {
         lastTurn.validateCanMove(start, end);
     }
 
-    public void doGame(Position start, Position end) {
+    public Turn move(Position start, Position end) {
         Turn lastTurn = getLastTurn();
-        Turn newTurn = lastTurn.move(start, end);
-        turns.add(newTurn);
+        return lastTurn.move(start, end);
+    }
+
+    public void addNewTurn(Turn savedTurn) {
+        turns.add(savedTurn);
     }
 
     public String winTeamName() {

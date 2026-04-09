@@ -12,6 +12,10 @@ public record GameDto(Long id, GameStatus gameStatus) {
         }
     }
 
+    public static GameDto forSave() {
+        return new GameDto(null, GameStatus.IN_PROGRESS);
+    }
+
     public static GameDto of(long id, String gameStatus) {
         return new GameDto(id, GameStatus.from(gameStatus));
     }

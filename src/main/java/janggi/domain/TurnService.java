@@ -22,4 +22,8 @@ public class TurnService {
 
         return lastTurnDto.get();
     }
+
+    public long save(Turn turn, long gameId) {
+        return turnDao.save(TurnDto.from(turn, gameId));
+    }
 }

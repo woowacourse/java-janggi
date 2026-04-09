@@ -49,7 +49,7 @@ public class OutputView {
         for (GameDto inProgressGame : inProgressGames) {
             System.out.println(inProgressGame.id());
         }
-        printMessage("이어하던 게임이 존재합니다. 이어하시겠습니까?");
+        printMessage("이어하던 게임이 존재합니다. 이어하시겠습니까?(y/n)");
     }
 
     public static void printResumeGameNotice() {

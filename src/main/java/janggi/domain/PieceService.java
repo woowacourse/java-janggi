@@ -22,4 +22,8 @@ public class PieceService {
     public Map<Position, Piece> getPiecesByTeamType(List<PieceDto> pieceDtos, TeamType teamType) {
         return PieceDto.getPiecesByTeamType(pieceDtos, teamType);
     }
+
+    public void saveAll(List<PieceDto> pieceDtos) {
+        pieceDao.saveAll(pieceDtos);
+    }
 }

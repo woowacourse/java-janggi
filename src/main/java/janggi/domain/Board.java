@@ -74,6 +74,12 @@ public class Board {
         return createMovedBoard(currentTeamType, updatedCurrentTeam, updatedOpponentTeam);
     }
 
+    public Map<Position, Piece> allPieces() {
+        Map<Position, Piece> allPieces = new HashMap<>(chu.getPieces());
+        allPieces.putAll(han.getPieces());
+        return allPieces;
+    }
+
     public String winTeamName() {
         if (chu.isWin()) {
             return TeamType.CHU.getName();

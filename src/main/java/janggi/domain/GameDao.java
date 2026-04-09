@@ -37,7 +37,6 @@ public class GameDao {
              PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
 
             preparedStatement.setString(1, IN_PROGRESS.getFormat());
-            ;
 
             try (ResultSet rs = preparedStatement.executeQuery()) {
                 while (rs.next()) {
@@ -50,6 +49,22 @@ public class GameDao {
             return games;
         } catch (SQLException e) {
             throw new RuntimeException("진행 중인 게임 목록 추출 중 오류 발생", e);
+        }
+    }
+
+    public void updateGameStatus(Long gameId, GameStatus gameStatus) {
+        String sql = "UPDATE game SET game_status = ? WHERE id = ?";
+
+        try (Connection connection = DatabaseConnector.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+
+            pstmt.setString(1, gameStatus.name());
+            pstmt.setLong(2, gameId);
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("게임 상태 업데이트 중 오류 발생", e);
         }
     }
 }

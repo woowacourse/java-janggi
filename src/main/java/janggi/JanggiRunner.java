@@ -24,8 +24,9 @@ public class JanggiRunner {
             OutputView.printBoard(BoardSpots.from(janggiGame.makeCurrentTurnBoardSnapShot()));
             Position startPosition = ActionExecutor.retryUntilSuccess(() -> readValidStartPosition(janggiGame));
             Position endPosition = ActionExecutor.retryUntilSuccess(() -> readValidEndPosition(janggiGame, startPosition));
-            janggiGame.move(startPosition, endPosition);
+            janggiGameService.move(janggiGame, startPosition, endPosition);
         }
+        janggiGameService.updateGameStatusFinished(janggiGame);
         OutputView.printGameOver(janggiGame.winTeamName());
     }
 
