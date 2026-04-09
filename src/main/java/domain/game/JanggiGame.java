@@ -14,7 +14,7 @@ public final class JanggiGame {
     private static final Side FIRST_TURN = Side.CHO;
 
     private Move lastMove;
-    private final Board currentBoard;
+    private final Board board;
     private Side currentTurn;
 
     public JanggiGame(Board board) {
@@ -25,28 +25,28 @@ public final class JanggiGame {
             Board board,
             Side currentTurn
     ) {
-        this.currentBoard = board;
+        this.board = board;
         this.currentTurn = currentTurn;
     }
 
     public List<Intersection> getMovableIntersections(Intersection startIntersection) {
         validatePlaying();
 
-        return currentBoard.getMovableIntersections(startIntersection, currentTurn);
+        return board.getMovableIntersections(startIntersection, currentTurn);
     }
 
     public void movePiece(Move move) {
         validatePlaying();
 
         lastMove = move;
-        currentBoard.movePiece(move, currentTurn);
+        board.movePiece(move, currentTurn);
 
         currentTurn = currentTurn.nextTurn();
     }
 
     public boolean isPlaying() {
         return Arrays.stream(Side.values())
-                .allMatch(currentBoard::hasRoyalPiece);
+                .allMatch(board::hasRoyalPiece);
     }
 
     public Side getWinner() {
@@ -55,7 +55,7 @@ public final class JanggiGame {
         }
 
         return Arrays.stream(Side.values())
-                .filter(currentBoard::hasRoyalPiece)
+                .filter(board::hasRoyalPiece)
                 .findAny()
                 .orElseThrow(() -> new UnexpectedException("승자를 조회할 수 없습니다."));
     }
@@ -65,7 +65,7 @@ public final class JanggiGame {
     }
 
     public double getTotalScore(Side side) {
-        return side.calculateTotalScore(currentBoard.getTotalScore(side));
+        return side.calculateTotalScore(board.getTotalScore(side));
     }
 
     public Move getLastMove() {
@@ -77,7 +77,7 @@ public final class JanggiGame {
     }
 
     public Map<Intersection, Piece> getPieces() {
-        return currentBoard.getPieces();
+        return board.getPieces();
     }
 
     private void validatePlaying() {
