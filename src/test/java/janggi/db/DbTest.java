@@ -21,7 +21,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class dbTest {
+public class DbTest {
 
     private final String TEST_URL = "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1";
     private Connection connection;
