@@ -26,17 +26,15 @@ public class OutputView {
         System.out.println(message);
     }
 
-    public void printResult(double choScore, double hanScore) {
+    public void printResult(Team winner, double choScore, double hanScore) {
         System.out.println("게임이 종료되었습니다.");
         System.out.println(Team.CHO + " 점수: " + choScore);
         System.out.println(Team.HAN + " 점수: " + hanScore);
-        if (choScore > hanScore) {
-            System.out.println("승자: " + Team.CHO);
-        } else if (hanScore > choScore) {
-            System.out.println("승자: " + Team.HAN);
-        } else {
+        if (winner == Team.NONE) {
             System.out.println("무승부입니다.");
+            return;
         }
+        System.out.println("승자: " + winner);
     }
 
     private void appendColumnHeader(StringBuilder sb) {

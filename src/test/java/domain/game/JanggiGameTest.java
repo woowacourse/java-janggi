@@ -99,7 +99,7 @@ class JanggiGameTest {
         JanggiGame game = createGame(pieces);
 
         assertThat(game.scoreOf(Team.CHO)).isEqualTo(13.0);
-        assertThat(game.scoreOf(Team.HAN)).isEqualTo(2.0);
+        assertThat(game.scoreOf(Team.HAN)).isEqualTo(3.5);
     }
 
     @Test

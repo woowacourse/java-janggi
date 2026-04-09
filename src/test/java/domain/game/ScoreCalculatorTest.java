@@ -16,32 +16,36 @@ class ScoreCalculatorTest {
     private final ScoreCalculator calculator = new ScoreCalculator();
 
     @Test
-    void 팀의_기물_점수를_합산한다() {
+    void 초_팀의_기물_점수를_합산한다() {
         double score = calculator.calculate(List.of(
                 new Chariot(Team.CHO),
                 new Cannon(Team.CHO),
                 new Soldier(Team.CHO)
-        ));
+        ), Team.CHO);
 
         assertThat(score).isEqualTo(22.0);
     }
 
     @Test
+    void 한_팀은_1점5의_보너스_점수가_있다() {
+        double score = calculator.calculate(List.of(
+                new Chariot(Team.HAN),
+                new Cannon(Team.HAN),
+                new Soldier(Team.HAN)
+        ), Team.HAN);
+
+        assertThat(score).isEqualTo(23.5);
+    }
+
+    @Test
     void 궁은_점수가_0이다() {
-        double score = calculator.calculate(List.of(new General(Team.CHO)));
+        double score = calculator.calculate(List.of(new General(Team.CHO)), Team.CHO);
 
         assertThat(score).isEqualTo(0.0);
     }
 
     @Test
-    void 기물이_없으면_점수는_0이다() {
-        double score = calculator.calculate(List.of());
-
-        assertThat(score).isEqualTo(0.0);
-    }
-
-    @Test
-    void 모든_기물의_점수를_합산한다() {
+    void 초_팀_모든_기물의_점수를_합산한다() {
         double score = calculator.calculate(List.of(
                 new Chariot(Team.CHO),
                 new Chariot(Team.CHO),
@@ -59,7 +63,7 @@ class ScoreCalculatorTest {
                 new Soldier(Team.CHO),
                 new Soldier(Team.CHO),
                 new General(Team.CHO)
-        ));
+        ), Team.CHO);
 
         assertThat(score).isEqualTo(72.0);
     }

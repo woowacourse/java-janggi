@@ -21,6 +21,22 @@ public enum Team {
         return this != NONE && this == team;
     }
 
+    public Team opposite() {
+        if (this == CHO) {
+            return HAN;
+        }
+        if (this == HAN) {
+            return CHO;
+        }
+        return NONE;
+    }
+
+    public static Team compareScore(double choScore, double hanScore) {
+        return Double.compare(choScore, hanScore) > 0 ? CHO
+                : Double.compare(hanScore, choScore) > 0 ? HAN
+                : NONE;
+    }
+
     @Override
     public String toString() {
         return teamName;

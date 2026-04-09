@@ -2,7 +2,7 @@ package domain.game;
 
 import domain.board.Board;
 import domain.board.BoardFactory;
-리import domain.board.formation.FormationType;
+import domain.board.formation.FormationType;
 import domain.game.condition.BikjangCondition;
 import domain.game.condition.ConsecutivePassCondition;
 import domain.game.condition.GameEndCondition;
@@ -10,6 +10,8 @@ import domain.game.condition.GeneralCapturedCondition;
 import domain.piece.Piece;
 import domain.position.Position;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 public class JanggiGame {
     private Turn turn;
@@ -90,8 +92,29 @@ public class JanggiGame {
         return status.isRunning();
     }
 
+    public Team findWinner() {
+        if (status.isRunning()) {
+            throw new IllegalStateException("아직 게임이 진행 중입니다.");
+        }
+        return findCaptureWinner()
+                .orElseGet(this::findScoreWinner);
+    }
+
+    private Optional<Team> findCaptureWinner() {
+        return Stream.of(Team.CHO, Team.HAN)
+                .filter(team -> !board.hasGeneral(team))
+                .findFirst()
+                .map(Team::opposite);
+    }
+
+    private Team findScoreWinner() {
+        double choScore = scoreOf(Team.CHO);
+        double hanScore = scoreOf(Team.HAN);
+        return Team.compareScore(choScore, hanScore);
+    }
+
     public double scoreOf(Team team) {
-        return scoreCalculator.calculate(board.findPiecesByTeam(team));
+        return scoreCalculator.calculate(board.findPiecesByTeam(team), team);
     }
 
     public Team currentTurn() {

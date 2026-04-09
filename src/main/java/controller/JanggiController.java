@@ -26,7 +26,7 @@ public class JanggiController {
             outputView.printBoard(game.getBoard());
         }
 
-        outputView.printResult(game.scoreOf(Team.CHO), game.scoreOf(Team.HAN));
+        outputView.printResult(game.findWinner(), game.scoreOf(Team.CHO), game.scoreOf(Team.HAN));
     }
 
     private JanggiGame createGame() {
