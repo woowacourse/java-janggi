@@ -5,9 +5,11 @@ import janggi.dao.PieceDao;
 import janggi.domain.Board;
 import janggi.domain.Team;
 import janggi.domain.dto.BoardPieceSnapshot;
+import janggi.domain.dto.GameSession;
 import janggi.domain.dto.PieceData;
 import janggi.domain.Position;
 
+import janggi.domain.strategy.BasicPlacementStrategy;
 import java.sql.Connection;
 import java.util.List;
 import javax.sql.DataSource;
@@ -24,10 +26,13 @@ public class JanggiService {
         this.pieceDao = pieceDao;
     }
 
-    public long createGame(Board board, Team team) {
-        long gameId = gameDao.save(team);
+    public GameSession createNewGame() {
+        Board board = new Board(new BasicPlacementStrategy());
+        Team initialTurn = Team.initialTeam();
+
+        long gameId = gameDao.save(initialTurn);
         pieceDao.saveAll(toPieceData(gameId, board.getPieces()));
-        return gameId;
+        return new GameSession(gameId, board, initialTurn);
     }
 
     private List<PieceData> toPieceData(long gameId, List<BoardPieceSnapshot> snapshots) {

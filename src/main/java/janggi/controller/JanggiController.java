@@ -64,12 +64,10 @@ public class JanggiController {
     }
 
     private GameSession initializeNewGame() {
-        Board board = new Board(new BasicPlacementStrategy());
-        Team initialTurn = Team.initialTeam();
-        long gameId = janggiGameService.createGame(board, initialTurn);
-        OutputView.printGameId(gameId);
-        OutputView.printBoard(board);
-        return new GameSession(gameId, board, initialTurn);
+        GameSession gameSession = janggiGameService.createNewGame();
+        OutputView.printGameId(gameSession.gameId());
+        OutputView.printBoard(gameSession.board());
+        return gameSession;
     }
 
     private GameSession initializePastGame() {
