@@ -75,14 +75,18 @@ public class JdbcTemplate {
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             setter.setValues(preparedStatement);
             preparedStatement.executeUpdate();
+            return extractGeneratedKey(preparedStatement);
+        } catch (SQLException e) {
+            throw new IllegalStateException(ERROR_SQL, e);
+        }
+    }
 
-            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+    private Long extractGeneratedKey(PreparedStatement preparedStatement) throws SQLException {
+        try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
             if (!resultSet.next()) {
                 throw new IllegalStateException("해당 레코드가 존재하지 않습니다.");
             }
             return resultSet.getLong(1);
-        } catch (SQLException e) {
-            throw new IllegalStateException(ERROR_SQL, e);
         }
     }
 
@@ -92,9 +96,8 @@ public class JdbcTemplate {
     }
 
     public <T> Optional<T> queryForSingleObject(String sql, PreparedStatementSetter setter, RowMapper<T> mapper) {
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            setter.setValues(preparedStatement);
-            ResultSet rs = preparedStatement.executeQuery();
+        try (PreparedStatement preparedStatement = prepare(sql, setter);
+             ResultSet rs = preparedStatement.executeQuery()) {
             if (!rs.next()) {
                 return Optional.empty();
             }
@@ -104,10 +107,15 @@ public class JdbcTemplate {
         }
     }
 
+    private PreparedStatement prepare(String sql, PreparedStatementSetter setter) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        setter.setValues(preparedStatement);
+        return preparedStatement;
+    }
+
     public <T> List<T> query(String sql, PreparedStatementSetter setter, RowMapper<T> mapper) {
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            setter.setValues(preparedStatement);
-            ResultSet rs = preparedStatement.executeQuery();
+        try (PreparedStatement preparedStatement = prepare(sql, setter);
+             ResultSet rs = preparedStatement.executeQuery()) {
             List<T> results = new ArrayList<>();
             while (rs.next()) {
                 results.add(mapper.mapRow(rs));
@@ -119,8 +127,7 @@ public class JdbcTemplate {
     }
 
     public void execute(String sql, PreparedStatementSetter setter) {
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            setter.setValues(preparedStatement);
+        try (PreparedStatement preparedStatement = prepare(sql, setter)) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new IllegalStateException(ERROR_SQL, e);
