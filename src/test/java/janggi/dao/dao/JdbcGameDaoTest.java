@@ -21,9 +21,8 @@ class JdbcGameDaoTest extends DatabaseTest {
         gameDao.deleteGameByGameId(connection, gameId);
 
         //then
-        assertThatThrownBy(() -> gameDao.findGameByGameId(connection, gameId))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("해당 게임이 존재하지 않습니다.");
+        assertThat(gameDao.findGameByGameId(connection, gameId))
+                .isEmpty();
     }
 
     @DisplayName("삭제할 게임이 없으면 예외가 발생한다.")
@@ -44,7 +43,7 @@ class JdbcGameDaoTest extends DatabaseTest {
         gameDao.updateCurrentTurn(connection, gameId, "CHO");
 
         //then
-        GameEntity gameEntity = gameDao.findGameByGameId(connection, gameId);
+        GameEntity gameEntity = gameDao.findGameByGameId(connection, gameId).get();
 
         assertThat(gameEntity.currentTurn()).isEqualTo("CHO");
     }
@@ -64,19 +63,17 @@ class JdbcGameDaoTest extends DatabaseTest {
         Long gameId = gameDao.saveGame(connection, "HAN");
 
         //when
-        GameEntity gameEntity = gameDao.findGameByGameId(connection, gameId);
+        GameEntity gameEntity = gameDao.findGameByGameId(connection, gameId).get();
 
         //then
         assertThat(gameEntity.currentTurn()).isEqualTo("HAN");
     }
 
-    @DisplayName("game_id에 해당하는 게임이 없으면 예외가 발생한다.")
+    @DisplayName("game_id에 해당하는 게임이 없으면 Optional.empty()를 반환한다.")
     @Test
     void findGameByGameId_empty() {
-        //then
-        assertThatThrownBy(() -> gameDao.findGameByGameId(connection, 1L))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("해당 게임이 존재하지 않습니다.");
+        assertThat(gameDao.findGameByGameId(connection, 1L))
+                .isEmpty();
     }
 
     @DisplayName("모든 게임을 조회한다.")

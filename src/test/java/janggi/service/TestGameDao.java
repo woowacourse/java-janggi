@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class TestGameDao implements GameDao {
 
@@ -28,14 +29,16 @@ public class TestGameDao implements GameDao {
 
 
     @Override
-    public GameEntity findGameByGameId(Connection connection, Long gameId) {
+    public Optional<GameEntity> findGameByGameId(Connection connection, Long gameId) {
         if (!turnByGameId.containsKey(gameId)) {
-            throw new IllegalArgumentException("해당 게임이 존재하지 않습니다.");
+            return Optional.empty();
         }
 
-        return new GameEntity(
-                gameId,
-                turnByGameId.get(gameId)
+        return Optional.of(
+                new GameEntity(
+                        gameId,
+                        turnByGameId.get(gameId)
+                )
         );
     }
 

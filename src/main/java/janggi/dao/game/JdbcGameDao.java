@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class JdbcGameDao implements GameDao {
 
@@ -65,7 +66,7 @@ public class JdbcGameDao implements GameDao {
     }
 
     @Override
-    public GameEntity findGameByGameId(
+    public Optional<GameEntity> findGameByGameId(
             Connection connection,
             Long gameId
     ) {
@@ -80,12 +81,14 @@ public class JdbcGameDao implements GameDao {
             ResultSet rs = preparedStatement.executeQuery();
 
             if (!rs.next()) {
-                throw new IllegalArgumentException("해당 게임이 존재하지 않습니다.");
+                return Optional.empty();
             }
 
-            return new GameEntity(
-                    rs.getLong(GAME_ID),
-                    rs.getString(CURRENT_TURN)
+            return Optional.of(
+                    new GameEntity(
+                            rs.getLong(GAME_ID),
+                            rs.getString(CURRENT_TURN)
+                    )
             );
 
         } catch (SQLException e) {

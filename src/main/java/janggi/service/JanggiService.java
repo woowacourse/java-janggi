@@ -55,7 +55,8 @@ public class JanggiService {
 
     public GameDetailResponse loadGameByGameId(Long gameId) {
         return transactionExecutor.execute(connection -> {
-            GameEntity gameEntity = gameDao.findGameByGameId(connection, gameId);
+            GameEntity gameEntity = gameDao.findGameByGameId(connection, gameId)
+                    .orElseThrow(() -> new IllegalArgumentException("해당 게임이 존재하지 않습니다."));
 
             List<PieceEntity> pieceEntities =
                     pieceDao.findAllPiecesByGameId(connection, gameEntity.id());
