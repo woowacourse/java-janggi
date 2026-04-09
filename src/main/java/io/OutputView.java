@@ -1,6 +1,9 @@
 package io;
 
 import domain.board.Board;
+import domain.score.PieceScore;
+import domain.score.PieceScoreCalculator;
+import domain.palace.Palace;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.board.PiecePosition;
@@ -26,6 +29,7 @@ public class OutputView {
     private static final String ROUTE_SELECTION_MESSAGE = "이동 가능한 경로:";
     private static final String BACK_OPTION_MESSAGE = "0. 뒤로가기";
     private static final String CURRENT_BOARD_MESSAGE = "현재 장기판";
+    private static final String SCORE_MESSAGE_FORMAT = "초 점수: %.1f, 한 점수: %.1f";
     private static final String BOARD_PREFIX = "　　｜";
     private static final String ROW_SEPARATOR = "｜";
     private static final String DIVIDER_SYMBOL = "＝";
@@ -37,7 +41,20 @@ public class OutputView {
     private static final Map<PieceType, String> PIECE_SYMBOLS = createPieceSymbols();
     private static final String CHO_COLOR = "\u001B[38;5;71m";
     private static final String HAN_COLOR = "\u001B[38;5;167m";
+    private static final String PALACE_FRAME_COLOR = "\u001B[38;5;180m";
     private static final String RESET = "\u001B[0m";
+    private static final Palace CHO_PALACE = Palace.of(TeamColor.CHO);
+    private static final Palace HAN_PALACE = Palace.of(TeamColor.HAN);
+
+    private final PieceScoreCalculator pieceScoreCalculator;
+
+    public OutputView() {
+        this(new PieceScoreCalculator());
+    }
+
+    public OutputView(PieceScoreCalculator pieceScoreCalculator) {
+        this.pieceScoreCalculator = pieceScoreCalculator;
+    }
 
     public void printGameStart() {
         System.out.println(GAME_START_MESSAGE);
@@ -74,16 +91,20 @@ public class OutputView {
     }
 
     public void printBoard(Board board) {
+        final PieceScore pieceScore = pieceScoreCalculator.calculate(board);
+
         System.out.println();
         System.out.println(CURRENT_BOARD_MESSAGE);
+        System.out.println(SCORE_MESSAGE_FORMAT.formatted(pieceScore.cho(), pieceScore.han()));
         System.out.println(createBoardHeader());
         System.out.println(createBoardDivider());
         for (int row = 0; row <= Position.maxRow(); row++) {
             final StringBuilder line = new StringBuilder();
             line.append(toFullWidthNumber(row)).append(FULL_WIDTH_SPACE).append(ROW_SEPARATOR);
             for (int column = 0; column <= Position.maxColumn(); column++) {
-                final Optional<Piece> piece = board.findPiece(Position.of(row, column));
-                line.append(formatBoardCell(piece));
+                final Position position = Position.of(row, column);
+                final Optional<Piece> piece = board.findPiece(position);
+                line.append(formatBoardCell(position, piece));
                 if (column < Position.maxColumn()) {
                     line.append(ROW_SEPARATOR);
                 }
@@ -109,17 +130,19 @@ public class OutputView {
         System.out.println(ERROR_PREFIX + message);
     }
 
-    private String formatBoardCell(Optional<Piece> piece) {
+    private String formatBoardCell(Position position, Optional<Piece> piece) {
+        final boolean isPalacePosition = isPalacePosition(position);
+        final String leftFrame = framePrefix(isPalacePosition);
+        final String rightFrame = frameSuffix(isPalacePosition);
+
         if (piece.isEmpty()) {
-            return createCell("");
+            return createCell("", leftFrame, rightFrame);
         }
         final Piece actualPiece = piece.get();
-        final String cell = createCell(formatPiece(actualPiece));
+        final String cell = createCell(formatPiece(actualPiece), leftFrame, rightFrame);
+        final String foregroundColor = findTeamColor(actualPiece);
 
-        if (actualPiece.getTeamColor() == TeamColor.CHO) {
-            return CHO_COLOR + cell + RESET;
-        }
-        return HAN_COLOR + cell + RESET;
+        return foregroundColor + cell + RESET;
     }
 
     private String formatPiece(Piece piece) {
@@ -148,7 +171,36 @@ public class OutputView {
     }
 
     private String createCell(String content) {
-        return "［" + center(content, INNER_CELL_WIDTH) + "］";
+        return createCell(content, "［", "］");
+    }
+
+    private String createCell(String content, String leftFrame, String rightFrame) {
+        return leftFrame + center(content, INNER_CELL_WIDTH) + rightFrame;
+    }
+
+    private boolean isPalacePosition(Position position) {
+        return CHO_PALACE.contains(position) || HAN_PALACE.contains(position);
+    }
+
+    private String findTeamColor(Piece piece) {
+        if (piece.getTeamColor() == TeamColor.CHO) {
+            return CHO_COLOR;
+        }
+        return HAN_COLOR;
+    }
+
+    private String framePrefix(boolean isPalacePosition) {
+        if (isPalacePosition) {
+            return PALACE_FRAME_COLOR + "［" + RESET;
+        }
+        return "［";
+    }
+
+    private String frameSuffix(boolean isPalacePosition) {
+        if (isPalacePosition) {
+            return PALACE_FRAME_COLOR + "］" + RESET;
+        }
+        return "］";
     }
 
     private String center(String content, int width) {
