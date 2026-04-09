@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public class OutputView {
+    private static final String CURRENT_TEAM_GUIDE = "이번 턴은 %s나라 차례입니다.";
     private static final String MOVE_STATUS = "%s나라 기물 %s을(를) %d,%d로 이동하였습니다.";
     private static final String GAME_WINNER_GUIDE = "장기 게임이 종료되었습니다. 게임의 우승자는 %s나라 입니다.";
     private static final String CURRENT_SCORE_GUIDE = "[현재 점수]";
@@ -55,6 +56,10 @@ public class OutputView {
         for (CurrentScore currentScore : currentScores) {
             System.out.println(String.format(TEAM_SCORE_FORMAT, currentScore.teamName(), currentScore.score()));
         }
+    }
+
+    public void printCurrentTurnTeam(String teamName) {
+        System.out.println(String.format(CURRENT_TEAM_GUIDE, teamName));
     }
 
     /**

@@ -103,6 +103,7 @@ public class JanggiController {
     }
 
     private void playTurn(Team team) {
+        printCurrentTurnTeam(team);
         while (true) {
             try {
                 movePiece(team);
@@ -143,9 +144,13 @@ public class JanggiController {
         outputView.printCurrentScore(results);
     }
 
-    private void printMoveStatus(MovedPieceRequest movedPieceRequest){
+    private void printMoveStatus(MovedPieceRequest movedPieceRequest) {
         MoveStatus moveStatus = gameManager.getMoveStatus(movedPieceRequest);
         outputView.printMoveStatus(moveStatus);
+    }
+
+    private void printCurrentTurnTeam(Team team) {
+        outputView.printCurrentTurnTeam(team.getKoreanName());
     }
 
     /**
