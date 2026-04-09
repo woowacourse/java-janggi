@@ -52,6 +52,6 @@ class GameManagerTest {
     private GameManager createGameManagerWithInitialBoard() {
         Players players = Players.from("초", "한");
         Board board = Board.initialize();
-        return new GameManager(players, board);
+        return GameManager.newGame(players, board);
     }
 }

@@ -64,15 +64,22 @@ public class JanggiGameRepository implements GameRepository {
     }
 
     private long saveGame(Connection connection, GameManager gameManager) throws SQLException {
-//        if (gameManager.getId() == null) {
-//            return insertGame(connection, gameManager);
-//        }
-//        return updateGame(connection, gameManager);
-        return insertGame(connection, gameManager);
+        if (gameManager.getId() == null) {
+            return insertGame(connection, gameManager);
+        }
+        return updateGame(connection, gameManager);
+    }
+
+    private long updateGame(Connection connection, GameManager gameManager) throws SQLException {
+        String sql = "update game set cho_player_name = ?, han_player_name = ?, current_turn = ? where game_id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            statement.setLong(4, gameManager.getId());
+            return executeInsertAndGetId(statement, gameManager);
+        }
     }
 
     private long insertGame(Connection connection, GameManager gameManager) throws SQLException {
-        String sql = "insert into game (cho_player_name, han_player_name, current_turn) VALUES (?, ?, ?)";
+        String sql = "insert into game (cho_player_name, han_player_name, current_turn) values (?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             return executeInsertAndGetId(statement, gameManager);
         }
@@ -111,7 +118,7 @@ public class JanggiGameRepository implements GameRepository {
     public GameManager findByGameId(Connection connection, long gameId) throws SQLException {
         GameSessionDTO gameInfo = findGameInfoById(connection, gameId);
         Board board = findAllPieceByGameId(connection, gameId);
-        return generateGameManager(gameInfo, board);
+        return generateExistingGameManager(gameInfo, board);
     }
 
     private GameSessionDTO findGameInfoById(Connection connection, long gameId) throws SQLException {
@@ -172,10 +179,11 @@ public class JanggiGameRepository implements GameRepository {
         board.put(position, piece);
     }
 
-    private GameManager generateGameManager(GameSessionDTO gameInfo, Board board) {
+    private GameManager generateExistingGameManager(GameSessionDTO gameInfo, Board board) {
+        long gameId = gameInfo.gameId();
         Turn currentTurn = new Turn(Side.valueOf(gameInfo.currentTurn()));
         Players players = Players.fromCurrentTurn(gameInfo.choPlayerName(), gameInfo.hanPlayerName(), currentTurn);
-        return new GameManager(players, board);
+        return GameManager.loadGame(players, board, gameId);
     }
 
     public void saveBoard(Connection connection, long gameId, Board board)

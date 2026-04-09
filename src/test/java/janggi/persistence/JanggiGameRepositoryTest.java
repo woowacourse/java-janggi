@@ -56,7 +56,7 @@ class JanggiGameRepositoryTest {
     }
 
     private GameManager createInitialGameManager() {
-        return new GameManager(Players.from("testCho", "testHan"), Board.initialize());
+        return GameManager.newGame(Players.from("testCho", "testHan"), Board.initialize());
     }
 
     private GameManager createTurnChangedGameManager() {

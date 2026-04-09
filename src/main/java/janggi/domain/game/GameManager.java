@@ -10,10 +10,20 @@ public class GameManager {
 
     private final Players players;
     private final Board board;
+    private final Long gameId;
 
-    public GameManager(Players players, Board board) {
+    private GameManager(Players players, Board board, Long gameId) {
         this.players = players;
         this.board = board;
+        this.gameId = gameId;
+    }
+
+    public static GameManager newGame(Players players, Board board) {
+        return new GameManager(players, board, null);
+    }
+
+    public static GameManager loadGame(Players players, Board board, Long gameId) {
+        return new GameManager(players, board, gameId);
     }
 
     public void switchTurn() {
@@ -62,5 +72,9 @@ public class GameManager {
 
     public Board getBoard() {
         return board;
+    }
+
+    public Long getId() {
+        return gameId;
     }
 }

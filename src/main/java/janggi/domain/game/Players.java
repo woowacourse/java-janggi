@@ -53,6 +53,6 @@ public class Players {
     }
 
     public void nextTurn() {
-        turn.next();
+        turn = turn.next();
     }
 }
