@@ -81,11 +81,11 @@ public class Controller {
     }
 
     private TurnResult playTurn(Game game) {
+        outputView.printGame(toGameDto(game));
 
         if (game.isGameEnd()) {
             return TurnResult.END;
         }
-        outputView.printGame(toGameDto(game));
         if (!executeMove(game)) {
             return TurnResult.QUIT;
         }

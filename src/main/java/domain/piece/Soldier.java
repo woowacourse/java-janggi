@@ -6,15 +6,18 @@ import domain.board.Palace;
 import exception.ErrorMessage;
 import domain.board.Position;
 
+import java.util.Map;
 import java.util.Optional;
 
 public final class Soldier extends SingleStepPiece {
-    private final Direction backwardDirection; // 🌟 금지된 방향을 상태로 가짐
+    private static final Map<Team, Direction> backwardDirections = Map.of(Team.CHO, Direction.DOWN, Team.HAN, Direction.UP);
+    private final Direction backwardDirection;
 
     public Soldier(Team team) {
         super(PieceType.SOLDIER, team);
-        this.backwardDirection = team.getBackwardDirection();
+        this.backwardDirection = backwardDirections.get(team);
     }
+
 
     @Override
     protected void validateMoveRule(Position from, Position to, Optional<Palace> palace) {
