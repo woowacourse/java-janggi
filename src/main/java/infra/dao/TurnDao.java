@@ -28,7 +28,7 @@ public class TurnDao {
              PreparedStatement pstmt = conn.prepareStatement(INSERT_SQL)) {
             pstmt.setString(1, currentTurn.name());
 
-            pstmt.executeBatch();
+            pstmt.executeUpdate();
         } catch (SQLException e) {
             throw new DatabaseConnectionException(InfraErrorMessage.TURN_SAVE_ERROR.getMessage() + e);
         }
