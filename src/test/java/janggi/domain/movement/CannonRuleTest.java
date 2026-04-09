@@ -17,7 +17,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-public class RuleOfCannonTest {
+public class CannonRuleTest {
 
 
     @Nested
@@ -33,7 +33,7 @@ public class RuleOfCannonTest {
             positionPieceMap.put(Position.valueOf(6, 7), new Cannon(TeamType.RED));
             BoardMediator boardMediator = new BoardMediatorImpl(new Board(positionPieceMap));
             Position from = Position.valueOf(6, 7);
-            Rule ruleOfCannon = new RuleOfCannon(Direction.WEST);
+            Rule ruleOfCannon = new CannonRule(Direction.WEST);
             List<Position> expected = List.of(Position.valueOf(6, 3));
 
             List<Position> actual = ruleOfCannon.execute(from, boardMediator);

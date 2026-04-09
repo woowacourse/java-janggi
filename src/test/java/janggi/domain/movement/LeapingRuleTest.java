@@ -14,7 +14,7 @@ import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class RuleWithNoTracesTest {
+public class LeapingRuleTest {
 
     @Test
     @DisplayName("이동 가능한 목적지 계산 테스트")
@@ -23,16 +23,16 @@ public class RuleWithNoTracesTest {
             Position.valueOf(5, 3), new Elephant(TeamType.RED));
         Board board = new Board(positionPieceMap);
         BoardMediator boardMediator = new BoardMediatorImpl(board);
-        List<Movement> movementOrder = List.of(
-            new Movement(1, Direction.EAST),
-            new Movement(1, Direction.NORTH_EAST),
-            new Movement(1, Direction.NORTH_EAST));
-        Rule ruleWithNoTraces = new RuleWithNoTraces(movementOrder);
+        List<LeapingMovement> movementOrder = List.of(
+            new LeapingMovement(1, Direction.EAST),
+            new LeapingMovement(1, Direction.NORTH_EAST),
+            new LeapingMovement(1, Direction.NORTH_EAST));
+        Rule leapingRule = new LeapingRule(movementOrder);
         List<Position> expected = List.of(Position.valueOf(3, 6));
 
-        List<Position> actual = ruleWithNoTraces.execute(Position.valueOf(5, 3), boardMediator);
+        List<Position> actual = leapingRule.execute(Position.valueOf(5, 3), boardMediator);
 
-        assertThat(actual).hasSameElementsAs(expected);
+        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
     }
 
 }

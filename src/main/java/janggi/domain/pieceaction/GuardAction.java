@@ -2,10 +2,11 @@ package janggi.domain.pieceaction;
 
 import janggi.domain.Position;
 import janggi.domain.board.BoardMediator;
+import janggi.domain.board.Palace;
 import janggi.domain.movement.Direction;
-import janggi.domain.movement.Movement;
+import janggi.domain.movement.SlidingMovement;
+import janggi.domain.movement.SlidingRule;
 import janggi.domain.movement.Rule;
-import janggi.domain.movement.RuleWithTraces;
 import java.util.Collection;
 import java.util.List;
 
@@ -15,14 +16,14 @@ public class GuardAction implements PieceAction {
 
     static {
         RULES = List.of(
-            RuleWithTraces.of(new Movement(1, Direction.NORTH_WEST)),
-            RuleWithTraces.of(new Movement(1, Direction.NORTH)),
-            RuleWithTraces.of(new Movement(1, Direction.NORTH_EAST)),
-            RuleWithTraces.of(new Movement(1, Direction.WEST)),
-            RuleWithTraces.of(new Movement(1, Direction.EAST)),
-            RuleWithTraces.of(new Movement(1, Direction.SOUTH_WEST)),
-            RuleWithTraces.of(new Movement(1, Direction.SOUTH)),
-            RuleWithTraces.of(new Movement(1, Direction.SOUTH_EAST)));
+            SlidingRule.of(new SlidingMovement(1, Direction.NORTH_WEST)),
+            SlidingRule.of(new SlidingMovement(1, Direction.NORTH)),
+            SlidingRule.of(new SlidingMovement(1, Direction.NORTH_EAST)),
+            SlidingRule.of(new SlidingMovement(1, Direction.WEST)),
+            SlidingRule.of(new SlidingMovement(1, Direction.EAST)),
+            SlidingRule.of(new SlidingMovement(1, Direction.SOUTH_WEST)),
+            SlidingRule.of(new SlidingMovement(1, Direction.SOUTH)),
+            SlidingRule.of(new SlidingMovement(1, Direction.SOUTH_EAST)));
     }
 
     @Override
@@ -31,6 +32,7 @@ public class GuardAction implements PieceAction {
         return RULES.stream()
             .map(rule -> rule.execute(from, boardMediator))
             .flatMap(Collection::stream)
+            .filter(Palace::hasPosition)
             .toList();
     }
 }

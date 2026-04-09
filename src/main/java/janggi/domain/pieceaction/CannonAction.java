@@ -4,7 +4,7 @@ import janggi.domain.Position;
 import janggi.domain.board.BoardMediator;
 import janggi.domain.movement.Direction;
 import janggi.domain.movement.Rule;
-import janggi.domain.movement.RuleOfCannon;
+import janggi.domain.movement.CannonRule;
 import java.util.Collection;
 import java.util.List;
 
@@ -14,10 +14,14 @@ public class CannonAction implements PieceAction {
 
     static {
         RULES = List.of(
-            new RuleOfCannon(Direction.SOUTH),
-            new RuleOfCannon(Direction.NORTH),
-            new RuleOfCannon(Direction.EAST),
-            new RuleOfCannon(Direction.WEST));
+            new CannonRule(Direction.SOUTH),
+            new CannonRule(Direction.SOUTH_EAST),
+            new CannonRule(Direction.EAST),
+            new CannonRule(Direction.NORTH_EAST),
+            new CannonRule(Direction.NORTH),
+            new CannonRule(Direction.NORTH_WEST),
+            new CannonRule(Direction.WEST),
+            new CannonRule(Direction.SOUTH_WEST));
     }
 
     @Override

@@ -20,16 +20,6 @@ public class Cannon implements Piece {
     }
 
     @Override
-    public PieceType getPieceType() {
-        return PIECE_TYPE;
-    }
-
-    @Override
-    public TeamType getTeamType() {
-        return teamType;
-    }
-
-    @Override
     public boolean isOnSameTeamAs(final Piece other) {
         return this.teamType == other.getTeamType();
     }
@@ -49,5 +39,20 @@ public class Cannon implements Piece {
     public boolean canCatch(final Piece target) {
         return !UNCATCHABLE_PIECE_TYPES.contains(target.getPieceType()) && !target.isOnSameTeamAs(
             this);
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return PIECE_TYPE;
+    }
+
+    @Override
+    public TeamType getTeamType() {
+        return teamType;
+    }
+
+    @Override
+    public double getScore() {
+        return PIECE_TYPE.getScore();
     }
 }

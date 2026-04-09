@@ -28,7 +28,7 @@ public class ElephantTest {
         }
 
         @Test
-        @DisplayName("직선 한 칸, 대각선 두 칸을 가서 기물을 잡을 수 있다.")
+        @DisplayName("적군 기물을 잡을 수 있다.")
         void success_1() {
             Map<Position, Piece> positionPieceMap = Map.of(
                 Position.valueOf(6, 4), elephant,
@@ -45,7 +45,7 @@ public class ElephantTest {
             List<Position> actual = elephant.calculateMovablePositions(Position.valueOf(6, 4),
                 boardMediator);
 
-            assertThat(actual).hasSameElementsAs(expected);
+            assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
         }
 
         @Test
@@ -66,7 +66,7 @@ public class ElephantTest {
             List<Position> actual = elephant.calculateMovablePositions(Position.valueOf(6, 4),
                 boardMediator);
 
-            assertThat(actual).hasSameElementsAs(expected);
+            assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
         }
 
         @Test
@@ -83,7 +83,30 @@ public class ElephantTest {
             List<Position> actual = elephant.calculateMovablePositions(Position.valueOf(1, 1),
                 boardMediator);
 
-            assertThat(actual).hasSameElementsAs(expected);
+            assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
+        }
+
+        @Test
+        @DisplayName("직선 한 칸, 대각선 두 칸을 이동할 수 있다.")
+        void success_4() {
+            Map<Position, Piece> positionPieceMap =
+                Map.of(Position.valueOf(6, 5), elephant);
+            Board board = new Board(positionPieceMap);
+            BoardMediator boardMediator = new BoardMediatorImpl(board);
+            List<Position> expected = List.of(
+                Position.valueOf(3, 3),
+                Position.valueOf(3, 7),
+                Position.valueOf(4, 2),
+                Position.valueOf(4, 8),
+                Position.valueOf(8, 2),
+                Position.valueOf(8, 8),
+                Position.valueOf(9, 3),
+                Position.valueOf(9, 7));
+
+            List<Position> actual = elephant.calculateMovablePositions(Position.valueOf(6, 5),
+                boardMediator);
+
+            assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
         }
     }
 }

@@ -28,7 +28,7 @@ public class RedSoldierTest {
         }
 
         @Test
-        @DisplayName("앞, 좌, 우로 이동할 수 있고 적이 있으면 잡을 수 있다.")
+        @DisplayName("적군 기물을 잡을 수 있다.")
         void success_1() {
             Map<Position, Piece> positionPieceMap = Map.of(
                 Position.valueOf(6, 4), redSoldier,
@@ -46,7 +46,7 @@ public class RedSoldierTest {
                 Position.valueOf(6, 4), boardMediator
             );
 
-            assertThat(actual).hasSameElementsAs(expected);
+            assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
         }
 
         @Test
@@ -66,7 +66,7 @@ public class RedSoldierTest {
                 Position.valueOf(6, 4), boardMediator
             );
 
-            assertThat(actual).hasSameElementsAs(expected);
+            assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
         }
 
         @Test
@@ -83,7 +83,42 @@ public class RedSoldierTest {
                 Position.valueOf(10, 1), boardMediator
             );
 
-            assertThat(actual).hasSameElementsAs(expected);
+            assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
+        }
+
+        @Test
+        @DisplayName("궁성의 간선을 타고 이동할 수 있다.")
+        void success_4() {
+            Map<Position, Piece> positionPieceMap = Map.of(
+                Position.valueOf(8, 6), redSoldier);
+            Board board = new Board(positionPieceMap);
+            BoardMediator boardMediator = new BoardMediatorImpl(board);
+            List<Position> expected = List.of(Position.valueOf(8, 5), Position.valueOf(8, 7),
+                Position.valueOf(9, 5), Position.valueOf(9, 6));
+
+            List<Position> actual = redSoldier.calculateMovablePositions(
+                Position.valueOf(8, 6), boardMediator);
+
+            assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
+        }
+
+        @Test
+        @DisplayName("남, 서, 동쪽으로 1칸 이동할 수 있다.")
+        void success_5() {
+            Map<Position, Piece> positionPieceMap = Map.of(
+                Position.valueOf(6, 5), redSoldier);
+            Board board = new Board(positionPieceMap);
+            BoardMediator boardMediator = new BoardMediatorImpl(board);
+            List<Position> expected = List.of(
+                Position.valueOf(6, 4),
+                Position.valueOf(6, 6),
+                Position.valueOf(7, 5)
+            );
+
+            List<Position> actual = redSoldier.calculateMovablePositions(
+                Position.valueOf(6, 5), boardMediator);
+
+            assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
         }
     }
 }

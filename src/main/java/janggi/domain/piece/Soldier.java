@@ -20,16 +20,6 @@ public class Soldier implements Piece {
     }
 
     @Override
-    public PieceType getPieceType() {
-        return PIECE_TYPE;
-    }
-
-    @Override
-    public TeamType getTeamType() {
-        return teamType;
-    }
-
-    @Override
     public boolean isOnSameTeamAs(final Piece other) {
         return this.teamType == other.getTeamType();
     }
@@ -48,5 +38,20 @@ public class Soldier implements Piece {
     @Override
     public boolean canCatch(final Piece target) {
         return !target.isOnSameTeamAs(this);
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return PIECE_TYPE;
+    }
+
+    @Override
+    public TeamType getTeamType() {
+        return teamType;
+    }
+
+    @Override
+    public double getScore() {
+        return PIECE_TYPE.getScore();
     }
 }

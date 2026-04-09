@@ -2,121 +2,165 @@ package janggi.controller;
 
 import janggi.domain.Position;
 import janggi.domain.board.Board;
-import janggi.domain.board.BoardGenerator;
-import janggi.domain.board.BoardMediator;
-import janggi.domain.board.BoardMediatorImpl;
 import janggi.domain.command.SetupCommand;
+import janggi.domain.game.TurnManager;
 import janggi.domain.piece.Piece;
-import janggi.domain.setup.SetupPolicy;
-import janggi.domain.team.BlueTeam;
-import janggi.domain.team.RedTeam;
 import janggi.domain.team.Team;
+import janggi.domain.team.TeamGenerator;
 import janggi.domain.team.TeamType;
-import janggi.domain.turn.TurnManager;
 import janggi.dto.BoardDto;
 import janggi.dto.GameResultDto;
+import janggi.global.Pair;
+import janggi.service.BoardService;
+import janggi.service.GameService;
 import janggi.utils.Parser;
 import janggi.utils.RetryExecutor;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.List;
+import java.util.Optional;
 
 public class JanggiController {
 
-    public JanggiController() {
+    protected static final int MAXIMUM_GAMES_COUNT_IN_PROGRESS = 3;
+
+    private final GameService gameService;
+    private final BoardService boardService;
+
+    public JanggiController(
+        final GameService gameService,
+        final BoardService boardService
+    ) {
+        this.gameService = gameService;
+        this.boardService = boardService;
     }
 
     public void run() {
-        final Team redTeam = setupRedTeam();
-        final Team blueTeam = setupBlueTeam();
-        final Board board = BoardGenerator.generate(redTeam, blueTeam);
-        final TurnManager turnManager = new TurnManager(List.of(redTeam, blueTeam));
+        final GameSelectCommand gameSelectCommand = selectGame();
+        final Pair<Long, TurnManager> idTurnManagerPair = loadOrSaveTurnManager(gameSelectCommand);
+        final long gameId = idTurnManagerPair.left();
+        final Board board = loadOrSaveBoard(gameId, idTurnManagerPair.right());
+
         OutputView.printBoard(BoardDto.from(board, List.of()));
-        playGame(turnManager, board);
+        playGame(gameId);
         OutputView.printGameResult(GameResultDto.from(board));
+        gameService.closeGame(gameId);
     }
 
-    private Team setupRedTeam() {
-        OutputView.printSetupGuide(TeamType.RED);
+    private GameSelectCommand selectGame() {
+        final List<String> gameNames =
+            gameService.getAllGameNamesInProgress(MAXIMUM_GAMES_COUNT_IN_PROGRESS);
+        OutputView.printGameSelect(gameNames, MAXIMUM_GAMES_COUNT_IN_PROGRESS);
+
+        return RetryExecutor.retry(this::readGameSelectCommand);
+    }
+
+    private Pair<Long, TurnManager> loadOrSaveTurnManager(
+        final GameSelectCommand gameSelectCommand) {
+        if (gameSelectCommand.isGenerateGame()) {
+            return saveTurnManager();
+        }
+        return loadTurnManager(gameSelectCommand);
+    }
+
+    private Pair<Long, TurnManager> saveTurnManager() {
+        OutputView.printGameCreationMessage();
+        final String gameName = RetryExecutor.retry(this::readGameName);
+        final TurnManager turnManager = TurnManager.init(setupTeam(TeamType.BLUE),
+            setupTeam(TeamType.RED));
+        final long gameId = gameService.createNewGame(gameName, turnManager);
+        return new Pair<>(gameId, turnManager);
+    }
+
+    private Pair<Long, TurnManager> loadTurnManager(final GameSelectCommand gameSelectCommand) {
+        final Pair<String, TurnManager> game =
+            gameService.loadGame(gameSelectCommand.getSelectedGameId());
+        OutputView.printGameLoadingMessage(game.left());
+        final long gameId = gameSelectCommand.getSelectedGameId();
+        return new Pair<>(gameId, game.right());
+    }
+
+    public Board loadOrSaveBoard(final long gameId, final TurnManager turnManager) {
+        final List<Team> teams = turnManager.getTeams();
+
+        return new Board(boardService.loadOrCreateBoard(gameId, teams));
+    }
+
+    private Team setupTeam(final TeamType teamType) {
+        OutputView.printSetupGuide(teamType);
         final SetupCommand setupCommand = RetryExecutor.retry(this::readSetupCommand);
-        final SetupPolicy setupPolicy = setupCommand.toPolicy();
-        return new RedTeam(setupPolicy);
+        return TeamGenerator.generate(teamType, setupCommand.toPolicy());
     }
 
-    private Team setupBlueTeam() {
-        OutputView.printSetupGuide(TeamType.BLUE);
-        final SetupCommand setupCommand = RetryExecutor.retry(this::readSetupCommand);
-        final SetupPolicy setupPolicy = setupCommand.toPolicy();
-        return new BlueTeam(setupPolicy);
-    }
-
-    private SetupCommand readSetupCommand() {
-        final int commandNumber = InputView.readSetupCommand();
-        return SetupCommand.pick(commandNumber);
-    }
-
-    private void playGame(final TurnManager turnManager, final Board board) {
-        final BoardMediator boardMediator = new BoardMediatorImpl(board);
-        while (!board.isGameOver()) {
-            final Team currentTeam = turnManager.getCurrentTeam();
+    private void playGame(final long gameId) {
+        while (!boardService.isOver(gameId)) {
+            final Team currentTeam = gameService.getCurrentTeam(gameId);
             OutputView.printTurnStatus(currentTeam);
-            final Position positionOfMovingPiece = RetryExecutor.retry(
-                this::readPositionOfMovingPiece, currentTeam, boardMediator);
-            final List<Position> movablePositions = displayMovablePositions(positionOfMovingPiece,
-                board, boardMediator);
-            proceedMovement(movablePositions, board, positionOfMovingPiece);
-            turnManager.progressToNext();
+            final Position from = RetryExecutor.retry(this::readFromPosition, gameId, currentTeam);
+            final List<Position> movablePositions = displayMovablePositions(gameId, from);
+            final Position to = RetryExecutor.retry(this::readTargetPosition, movablePositions);
+            gameService.progressTurn(gameId, from, to);
+            OutputView.printBoard(BoardDto.from(boardService.getBoard(gameId), List.of()));
         }
     }
 
-    private List<Position> displayMovablePositions(final Position positionOfMovingPiece,
-        final Board board,
-        final BoardMediator boardMediator) {
-        final Piece pieceToMove = boardMediator.getPieceInPosition(positionOfMovingPiece);
-        final List<Position> movablePositions = pieceToMove.calculateMovablePositions(
-            positionOfMovingPiece, boardMediator);
-        OutputView.printBoard(BoardDto.from(board, movablePositions));
+    private List<Position> displayMovablePositions(final long gameId, final Position position) {
+        final List<Position> movablePositions = boardService.getMovablePositions(gameId, position);
+        OutputView.printBoard(BoardDto.from(boardService.getBoard(gameId), movablePositions));
 
         return movablePositions;
     }
 
-    private void proceedMovement(final List<Position> movablePositions, final Board board,
-        final Position positionOfMovingPiece) {
-        final Position targetPosition = RetryExecutor.retry(this::readTargetPosition,
-            movablePositions);
-        board.movePiece(positionOfMovingPiece, targetPosition);
-        OutputView.printBoard(BoardDto.from(board, List.of()));
-    }
-
-    private Position readPositionOfMovingPiece(final Team team, final BoardMediator boardMediator) {
-        final String rawPosition = InputView.readPositionOfMovingPiece();
-        final Position selectedPosition = Position.from(Parser.parsePosition(rawPosition));
-        validateSelectedPosition(selectedPosition, team, boardMediator);
-
-        return selectedPosition;
-    }
-
-    private void validateSelectedPosition(final Position selectedPosition, final Team team,
-        final BoardMediator boardMediator) {
-        if (!boardMediator.existsInPosition(selectedPosition)) {
+    private void validateSelectedPosition(final long gameId, final Position selectedPosition,
+        final Team team) {
+        final Optional<Piece> selectedPiece = boardService.getPieceByPosition(gameId,
+            selectedPosition);
+        if (selectedPiece.isEmpty()) {
             throw new IllegalArgumentException("입력된 위치에 기물이 존재하지 않습니다.");
         }
-        final Piece selectedPiece = boardMediator.getPieceInPosition(selectedPosition);
-        if (!team.hasPiece(selectedPiece)) {
+        if (!team.hasPiece(selectedPiece.get())) {
             throw new IllegalArgumentException("입력된 위치에 있는 기물은 팀 기물이 아닙니다.");
         }
-        if (selectedPiece.calculateMovablePositions(selectedPosition, boardMediator).isEmpty()) {
+        if (boardService.getMovablePositions(gameId, selectedPosition).isEmpty()) {
             throw new IllegalArgumentException("선택한 기물이 이동할 수 있는 지점이 없습니다.");
         }
+    }
+
+    private String readGameName() {
+        final List<String> gameNames =
+            gameService.getAllGameNamesInProgress(MAXIMUM_GAMES_COUNT_IN_PROGRESS);
+        final String inputGameName = InputView.readGameName();
+        if (gameNames.contains(inputGameName)) {
+            throw new IllegalArgumentException("입력된 이름은 이미 존재하는 게임 이름입니다.");
+        }
+        return inputGameName;
+    }
+
+    private GameSelectCommand readGameSelectCommand() {
+        final List<Long> gameIds =
+            gameService.getAllGameInProgressIds(MAXIMUM_GAMES_COUNT_IN_PROGRESS);
+        return GameSelectCommand.from(InputView.readGameSelection(), gameIds);
+    }
+
+    private SetupCommand readSetupCommand() {
+        return SetupCommand.pick(InputView.readSetupCommand());
+    }
+
+    private Position readFromPosition(final long gameId, final Team team) {
+        final String rawPosition = InputView.readFromPosition();
+        final Position selectedPosition = Position.from(Parser.parsePosition(rawPosition));
+
+        validateSelectedPosition(gameId, selectedPosition, team);
+        return selectedPosition;
     }
 
     private Position readTargetPosition(final List<Position> movablePositions) {
         final String rawPosition = InputView.readTargetPosition();
         final Position targetPosition = Position.from(Parser.parsePosition(rawPosition));
+
         if (!movablePositions.contains(targetPosition)) {
             throw new IllegalArgumentException("입력된 위치에는 이동할 수 없습니다.");
         }
-
         return targetPosition;
     }
 }

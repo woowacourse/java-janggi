@@ -3,9 +3,9 @@ package janggi.domain.pieceaction;
 import janggi.domain.Position;
 import janggi.domain.board.BoardMediator;
 import janggi.domain.movement.Direction;
-import janggi.domain.movement.Movement;
+import janggi.domain.movement.LeapingMovement;
+import janggi.domain.movement.LeapingRule;
 import janggi.domain.movement.Rule;
-import janggi.domain.movement.RuleWithNoTraces;
 import java.util.Collection;
 import java.util.List;
 
@@ -15,30 +15,30 @@ public class HorseAction implements PieceAction {
 
     static {
         RULES = List.of(
-            new RuleWithNoTraces(List.of(
-                new Movement(1, Direction.EAST),
-                new Movement(1, Direction.NORTH_EAST))),
-            new RuleWithNoTraces(List.of(
-                new Movement(1, Direction.EAST),
-                new Movement(1, Direction.SOUTH_EAST))),
-            new RuleWithNoTraces(List.of(
-                new Movement(1, Direction.NORTH),
-                new Movement(1, Direction.NORTH_EAST))),
-            new RuleWithNoTraces(List.of(
-                new Movement(1, Direction.NORTH),
-                new Movement(1, Direction.NORTH_WEST))),
-            new RuleWithNoTraces(List.of(
-                new Movement(1, Direction.WEST),
-                new Movement(1, Direction.NORTH_WEST))),
-            new RuleWithNoTraces(List.of(
-                new Movement(1, Direction.WEST),
-                new Movement(1, Direction.SOUTH_WEST))),
-            new RuleWithNoTraces(List.of(
-                new Movement(1, Direction.SOUTH),
-                new Movement(1, Direction.SOUTH_WEST))),
-            new RuleWithNoTraces(List.of(
-                new Movement(1, Direction.SOUTH),
-                new Movement(1, Direction.SOUTH_EAST))));
+            new LeapingRule(List.of(
+                new LeapingMovement(1, Direction.EAST),
+                new LeapingMovement(1, Direction.NORTH_EAST))),
+            new LeapingRule(List.of(
+                new LeapingMovement(1, Direction.EAST),
+                new LeapingMovement(1, Direction.SOUTH_EAST))),
+            new LeapingRule(List.of(
+                new LeapingMovement(1, Direction.NORTH),
+                new LeapingMovement(1, Direction.NORTH_EAST))),
+            new LeapingRule(List.of(
+                new LeapingMovement(1, Direction.NORTH),
+                new LeapingMovement(1, Direction.NORTH_WEST))),
+            new LeapingRule(List.of(
+                new LeapingMovement(1, Direction.WEST),
+                new LeapingMovement(1, Direction.NORTH_WEST))),
+            new LeapingRule(List.of(
+                new LeapingMovement(1, Direction.WEST),
+                new LeapingMovement(1, Direction.SOUTH_WEST))),
+            new LeapingRule(List.of(
+                new LeapingMovement(1, Direction.SOUTH),
+                new LeapingMovement(1, Direction.SOUTH_WEST))),
+            new LeapingRule(List.of(
+                new LeapingMovement(1, Direction.SOUTH),
+                new LeapingMovement(1, Direction.SOUTH_EAST))));
     }
 
     @Override

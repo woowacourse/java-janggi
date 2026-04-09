@@ -12,7 +12,7 @@ public final class BoardGenerator {
 
     }
 
-    public static Board generate(final Team redTeam, final Team blueTeam) {
+    public static Board generate(final Team blueTeam, final Team redTeam) {
         final Map<Position, Piece> positionPieceMap = new LinkedHashMap<>();
         positionPieceMap.putAll(redTeam.generatePieces());
         positionPieceMap.putAll(blueTeam.generatePieces());

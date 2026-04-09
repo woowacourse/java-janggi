@@ -18,35 +18,27 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-class MovementTest {
+class LeapingMovementTest {
 
     @Nested
     @DisplayName("잡기 여부 판정 테스트")
-    class CanKill {
-
-        Position from;
-        Piece me;
-        Map<Position, Piece> positionPieceMap;
-
-        @BeforeEach
-        void setUp() {
-            from = Position.valueOf(5, 3);
-            me = new Soldier(TeamType.RED);
-            positionPieceMap = new LinkedHashMap<>();
-            positionPieceMap.put(from, me);
-        }
+    class CanCatch {
 
         @Test
         @DisplayName("대상이 적군인 경우")
         void success_1() {
+            Position from = Position.valueOf(5, 3);
+            Piece me = new Soldier(TeamType.RED);
+            Map<Position, Piece> positionPieceMap = new LinkedHashMap<>();
+            positionPieceMap.put(from, me);
             positionPieceMap.put(Position.valueOf(5, 4), new Soldier(TeamType.BLUE));
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             Direction direction = Direction.EAST;
-            Movement Movement = new Movement(1, direction);
+            LeapingMovement leapingMovement = new LeapingMovement(1, direction);
             boolean expected = true;
 
-            boolean actual = Movement.canCatch(me, from, boardMediator);
+            boolean actual = leapingMovement.canCatchAnyOnPath(me, from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -54,14 +46,18 @@ class MovementTest {
         @Test
         @DisplayName("대상이 아군인 경우")
         void success_2() {
+            Position from = Position.valueOf(5, 3);
+            Piece me = new Soldier(TeamType.RED);
+            Map<Position, Piece> positionPieceMap = new LinkedHashMap<>();
+            positionPieceMap.put(from, me);
             positionPieceMap.put(Position.valueOf(5, 4), new Soldier(TeamType.RED));
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             Direction direction = Direction.EAST;
-            Movement Movement = new Movement(1, direction);
+            LeapingMovement leapingMovement = new LeapingMovement(1, direction);
             boolean expected = false;
 
-            boolean actual = Movement.canCatch(me, from, boardMediator);
+            boolean actual = leapingMovement.canCatchAnyOnPath(me, from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -69,15 +65,38 @@ class MovementTest {
         @Test
         @DisplayName("대상이 없는 경우")
         void success_3() {
+            Position from = Position.valueOf(5, 3);
+            Piece me = new Soldier(TeamType.RED);
+            Map<Position, Piece> positionPieceMap = new LinkedHashMap<>();
+            positionPieceMap.put(from, me);
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             Direction direction = Direction.EAST;
-            Movement Movement = new Movement(1, direction);
+            LeapingMovement leapingMovement = new LeapingMovement(1, direction);
             boolean expected = true;
 
-            boolean actual = Movement.canCatch(me, from, boardMediator);
+            boolean actual = leapingMovement.canCatchAnyOnPath(me, from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
+        }
+
+        @Test
+        @DisplayName("유효하지 않은 위치에 아군이 있는 경우")
+        void success_4() {
+            Position from = Position.valueOf(9, 5);
+            Piece me = new Soldier(TeamType.RED);
+            Map<Position, Piece> positionPieceMap = new LinkedHashMap<>();
+            positionPieceMap.put(from, me);
+            positionPieceMap.put(Position.valueOf(7, 7), new Soldier(TeamType.RED));
+            Board board = new Board(positionPieceMap);
+            BoardMediator boardMediator = new BoardMediatorImpl(board);
+            LeapingMovement leapingMovement = new LeapingMovement(2, Direction.NORTH_EAST);
+            boolean expected = true;
+
+            boolean actual = leapingMovement.canCatchAnyOnPath(me, from, boardMediator);
+
+            assertThat(actual).isEqualTo(expected);
+
         }
     }
 
@@ -85,28 +104,20 @@ class MovementTest {
     @DisplayName("장애물 여부 판정 테스트")
     class IsBlocked {
 
-        Position from;
-        Piece me;
-        Map<Position, Piece> positionPieceMap;
-
-        @BeforeEach
-        void setUp() {
-            from = Position.valueOf(5, 3);
-            me = new Soldier(TeamType.RED);
-            positionPieceMap = new LinkedHashMap<>();
-            positionPieceMap.put(from, me);
-        }
-
         @Test
         @DisplayName("기물이 없는 경우")
         void success_1() {
+            Position from = Position.valueOf(5, 3);
+            Piece me = new Soldier(TeamType.RED);
+            Map<Position, Piece> positionPieceMap = new LinkedHashMap<>();
+            positionPieceMap.put(from, me);
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             Direction direction = Direction.EAST;
-            Movement Movement = new Movement(1, direction);
+            LeapingMovement leapingMovement = new LeapingMovement(1, direction);
             boolean expected = false;
 
-            boolean actual = Movement.isBlocked(from, boardMediator);
+            boolean actual = leapingMovement.isBlocked(from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -114,14 +125,18 @@ class MovementTest {
         @Test
         @DisplayName("기물이 있는 경우")
         void success_2() {
+            Position from = Position.valueOf(5, 3);
+            Piece me = new Soldier(TeamType.RED);
+            Map<Position, Piece> positionPieceMap = new LinkedHashMap<>();
+            positionPieceMap.put(from, me);
             positionPieceMap.put(Position.valueOf(5, 4), new Soldier(TeamType.BLUE));
             Board board = new Board(positionPieceMap);
             BoardMediator boardMediator = new BoardMediatorImpl(board);
             Direction direction = Direction.EAST;
-            Movement Movement = new Movement(1, direction);
+            LeapingMovement leapingMovement = new LeapingMovement(1, direction);
             boolean expected = true;
 
-            boolean actual = Movement.isBlocked(from, boardMediator);
+            boolean actual = leapingMovement.isBlocked(from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -147,10 +162,10 @@ class MovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
             Direction direction = Direction.EAST;
-            Movement Movement = new Movement(maxDistance, direction);
+            LeapingMovement leapingMovement = new LeapingMovement(maxDistance, direction);
             Position expected = Position.valueOf(5, 5);
 
-            Position actual = Movement.calculateDestination(from, boardMediator);
+            Position actual = leapingMovement.calculateDestination(from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -163,10 +178,10 @@ class MovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
             Direction direction = Direction.EAST;
-            Movement Movement = new Movement(maxDistance, direction);
+            LeapingMovement leapingMovement = new LeapingMovement(maxDistance, direction);
             Position expected = Position.valueOf(5, 6);
 
-            Position actual = Movement.calculateDestination(from, boardMediator);
+            Position actual = leapingMovement.calculateDestination(from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -178,10 +193,10 @@ class MovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
             Direction direction = Direction.EAST;
-            Movement Movement = new Movement(maxDistance, direction);
+            LeapingMovement leapingMovement = new LeapingMovement(maxDistance, direction);
             Position expected = Position.valueOf(5, 7);
 
-            Position actual = Movement.calculateDestination(from, boardMediator);
+            Position actual = leapingMovement.calculateDestination(from, boardMediator);
 
             assertThat(actual).isEqualTo(expected);
         }
@@ -190,7 +205,7 @@ class MovementTest {
 
     @Nested
     @DisplayName("경로 자취 계산 테스트")
-    class CalculateTraces {
+    class CalculatePath {
 
         Map<Position, Piece> positionPieceMap = new LinkedHashMap<>();
         BoardMediator boardMediator;
@@ -208,13 +223,13 @@ class MovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
             Direction direction = Direction.EAST;
-            Movement Movement = new Movement(maxDistance, direction);
+            LeapingMovement leapingMovement = new LeapingMovement(maxDistance, direction);
             List<Position> expected = List.of(Position.valueOf(5, 4), Position.valueOf(5, 5));
 
-            List<Position> actual = Movement.calculateTraces(from,
-                boardMediator.getPieceInPosition(from), boardMediator);
+            List<Position> actual = leapingMovement.calculatePath(from,
+                boardMediator.getPieceByPosition(from), boardMediator);
 
-            assertThat(actual).hasSameElementsAs(expected);
+            assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
         }
 
         @Test
@@ -225,14 +240,14 @@ class MovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
             Direction direction = Direction.EAST;
-            Movement Movement = new Movement(maxDistance, direction);
+            LeapingMovement leapingMovement = new LeapingMovement(maxDistance, direction);
             List<Position> expected = List.of(Position.valueOf(5, 4), Position.valueOf(5, 5),
                 Position.valueOf(5, 6));
 
-            List<Position> actual = Movement.calculateTraces(from,
-                boardMediator.getPieceInPosition(from), boardMediator);
+            List<Position> actual = leapingMovement.calculatePath(from,
+                boardMediator.getPieceByPosition(from), boardMediator);
 
-            assertThat(actual).hasSameElementsAs(expected);
+            assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
         }
 
         @Test
@@ -242,14 +257,14 @@ class MovementTest {
             Position from = Position.valueOf(5, 3);
             int maxDistance = 4;
             Direction direction = Direction.EAST;
-            Movement Movement = new Movement(maxDistance, direction);
+            LeapingMovement LeapingMovement = new LeapingMovement(maxDistance, direction);
             List<Position> expected = List.of(Position.valueOf(5, 4), Position.valueOf(5, 5),
                 Position.valueOf(5, 6), Position.valueOf(5, 7));
 
-            List<Position> actual = Movement.calculateTraces(from,
-                boardMediator.getPieceInPosition(from), boardMediator);
+            List<Position> actual = LeapingMovement.calculatePath(from,
+                boardMediator.getPieceByPosition(from), boardMediator);
 
-            assertThat(actual).hasSameElementsAs(expected);
+            assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
         }
 
     }

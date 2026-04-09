@@ -1,4 +1,4 @@
-package janggi.domain.turn;
+package janggi.domain.game;
 
 import janggi.domain.team.Team;
 import java.util.Deque;
@@ -11,10 +11,17 @@ public class TurnManager {
     private static final int MAXIMUM_TEAMS_SIZE = 2;
 
     private final Deque<Team> teams;
+    private int turnTaken;
 
-    public TurnManager(final List<Team> teams) {
+    public TurnManager(final int turnTaken, final List<Team> teams) {
         validateTeamsSize(teams);
         this.teams = new LinkedList<>(teams);
+        this.turnTaken = turnTaken;
+    }
+
+    public static TurnManager init(final Team blueTeam, final Team redTeam) {
+        final int initialTurnsTaken = 1;
+        return new TurnManager(initialTurnsTaken, List.of(blueTeam, redTeam));
     }
 
     private void validateTeamsSize(final List<Team> teams) {
@@ -31,5 +38,14 @@ public class TurnManager {
 
     public void progressToNext() {
         teams.addLast(teams.removeFirst());
+        turnTaken++;
+    }
+
+    public List<Team> getTeams() {
+        return teams.stream().toList();
+    }
+
+    public int getTurnTaken() {
+        return turnTaken;
     }
 }

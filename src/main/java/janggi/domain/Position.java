@@ -3,9 +3,7 @@ package janggi.domain;
 import janggi.domain.movement.Direction;
 import janggi.global.Pair;
 import janggi.utils.Lists;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.stream.IntStream;
 
@@ -16,7 +14,7 @@ public final class Position {
     public static final int MINIMUM_ROW = 1;
     public static final int MINIMUM_COLUMN = 1;
     private static final int ROW_FLIP_VALUE = 11;
-    private static final Map<Pair<Integer, Integer>, Position> CACHE;
+    private static final MultiKeyMap<Integer, Integer, Position> CACHE;
 
     static {
         final List<Integer> rows = IntStream.rangeClosed(MINIMUM_ROW, MAXIMUM_ROW)
@@ -24,11 +22,12 @@ public final class Position {
         final List<Integer> columns = IntStream.rangeClosed(MINIMUM_COLUMN, MAXIMUM_COLUMN)
             .boxed().toList();
 
-        CACHE = new LinkedHashMap<>();
+        CACHE = new MultiKeyMap<>(rows);
+
         Lists.cartesianProduct(rows, columns)
-            .forEach(positionPair
-                -> CACHE.put(positionPair,
-                new Position(positionPair.left(), positionPair.right())));
+            .forEach(rowColumn ->
+                CACHE.put(rowColumn.left(), rowColumn.right(),
+                    new Position(rowColumn.left(), rowColumn.right())));
     }
 
     private final int row;
@@ -42,11 +41,8 @@ public final class Position {
     public static Position valueOf(final int row, final int column) {
         validateRowRange(row);
         validateColumnRange(column);
-        final Pair<Integer, Integer> positionPair = new Pair<>(row, column);
-        if (!CACHE.containsKey(positionPair)) {
-            CACHE.put(positionPair, new Position(row, column));
-        }
-        return CACHE.get(positionPair);
+
+        return CACHE.get(row, column);
     }
 
     public static Position from(final Pair<Integer, Integer> rawPosition) {
@@ -67,20 +63,6 @@ public final class Position {
         }
     }
 
-    @Override
-    public boolean equals(final Object object) {
-        if (object == null || getClass() != object.getClass()) {
-            return false;
-        }
-        final Position position = (Position) object;
-        return row == position.row && column == position.column;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(row, column);
-    }
-
     public Position flipAroundMiddleRow() {
         return Position.valueOf(ROW_FLIP_VALUE - row, column);
     }
@@ -99,5 +81,27 @@ public final class Position {
 
         return Position.valueOf(Math.clamp(nextRow, MINIMUM_ROW, MAXIMUM_ROW),
             Math.clamp(nextColumn, MINIMUM_COLUMN, MAXIMUM_COLUMN));
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
+    @Override
+    public boolean equals(final Object object) {
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+        final Position position = (Position) object;
+        return row == position.row && column == position.column;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(row, column);
     }
 }

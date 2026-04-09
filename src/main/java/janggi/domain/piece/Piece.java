@@ -7,10 +7,6 @@ import java.util.List;
 
 public interface Piece {
 
-    PieceType getPieceType();
-
-    TeamType getTeamType();
-
     boolean isOnSameTeamAs(Piece other);
 
     boolean isSameTypeAs(Piece other);
@@ -18,4 +14,10 @@ public interface Piece {
     List<Position> calculateMovablePositions(Position from, BoardMediator boardMediator);
 
     boolean canCatch(Piece target);
+
+    PieceType getPieceType();
+
+    TeamType getTeamType();
+
+    double getScore();
 }

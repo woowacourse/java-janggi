@@ -1,5 +1,7 @@
 package janggi.domain.movement;
 
+import java.util.Arrays;
+
 public enum Direction {
 
     NORTH(-1, 0),
@@ -17,6 +19,17 @@ public enum Direction {
     Direction(final int row, final int column) {
         this.row = row;
         this.column = column;
+    }
+
+    public Direction flip() {
+        return Direction.pick(-row, -column);
+    }
+
+    private static Direction pick(final int row, final int column) {
+        return Arrays.stream(values())
+            .filter(direction -> direction.row == row && direction.column == column)
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException("요청된 행과 열 방향 쌍과 일치하는 방향이 없습니다."));
     }
 
     public int getRow() {
