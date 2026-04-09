@@ -2,11 +2,10 @@ package janggi.controller;
 
 public enum StartCommand {
     CREATE_NEW_GAME(1),
-    LOAD_PREVIOUS_GAME(2),
-    QUIT(3);
+    LOAD_PREVIOUS_GAME(2);
 
     private static final int MIN_SETUP_COMMAND = 1;
-    private static final int MAX_SETUP_COMMAND = 3;
+    private static final int MAX_SETUP_COMMAND = 2;
     private final int commandNumber;
 
     StartCommand(final int commandNumber) {
