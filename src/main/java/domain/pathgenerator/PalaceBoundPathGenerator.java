@@ -16,12 +16,15 @@ public class PalaceBoundPathGenerator implements PathGenerator {
     @Override
     public Path calculatePath(Position source, Position destination) {
         Path path = delegate.calculatePath(source, destination);
+        Palace palace = Palace.findBy(source)
+                .filter(found -> found.contains(destination))
+                .orElseThrow(() -> new JanggiException("이동할 수 있는 직선/대각선 경로가 아닙니다."));
 
-        if (source.isInPalace() && destination.isInPalace() && !isDiagonalMove(source, destination)) {
+        if (!isDiagonalMove(source, destination)) {
             return path;
         }
 
-        if (source.isInPalace() && destination.isInPalace() && Palace.isDiagonalReachable(source, destination)) {
+        if (palace.isDiagonalReachable(source, destination)) {
             return path;
         }
 

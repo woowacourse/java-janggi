@@ -22,8 +22,4 @@ public record Position(int row, int column) {
             );
         }
     }
-
-    public boolean isInPalace() {
-        return Palace.isInPalace(this);
-    }
 }

@@ -21,11 +21,18 @@ public class PalaceConstrainedPathGenerator implements PathGenerator {
             return path;
         }
 
-        if (source.isInPalace() && destination.isInPalace() && Palace.isDiagonalReachable(source, destination)) {
+        if (isPalaceDiagonalReachable(source, destination)) {
             return path;
         }
 
         throw new JanggiException("이동할 수 있는 직선/대각선 경로가 아닙니다.");
+    }
+
+    private boolean isPalaceDiagonalReachable(Position source, Position destination) {
+        return Palace.findBy(source)
+                .filter(palace -> palace.contains(destination))
+                .map(palace -> palace.isDiagonalReachable(source, destination))
+                .orElse(false);
     }
 
     private boolean isDiagonalMove(Position source, Position destination) {
