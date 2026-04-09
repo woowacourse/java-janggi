@@ -2,14 +2,9 @@ package service;
 
 import board.SangSetupType;
 import core.JanggiGame;
-import db.jdbc.ConnectionManager;
-import db.jdbc.SqlConnection;
-import db.jdbc.SqlConnectionWrapper;
-import db.repository.JanggiGameRepository;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.List;
 import core.MoveHistory;
+import db.repository.JanggiGameRepository;
+import java.util.List;
 import pieces.Piece;
 import pieces.Side;
 import position.Position;
@@ -21,26 +16,26 @@ import view.SelectedGame;
 public class GamePlayService {
 
     private final JanggiView view;
-    private final ConnectionManager connectionManager;
+    private final DbTemplate dbTemplate;
     private final JanggiGameRepository repository;
 
     public GamePlayService(
         final JanggiView view,
-        final ConnectionManager connectionManager,
+        final DbTemplate dbTemplate,
         final JanggiGameRepository repository
     ) {
         this.view = view;
-        this.connectionManager = connectionManager;
+        this.dbTemplate = dbTemplate;
         this.repository = repository;
     }
 
     public void play() {
         final PreparedGame prepared = prepare();
-        run(prepared.gameId(), prepared.game(), prepared.initialMoveCount());
+        run(prepared.gameId(), prepared.game(), prepared.moveCount());
     }
 
     private PreparedGame prepare() {
-        final List<GameSummary> savedGames = executeReadOnly(
+        final List<GameSummary> savedGames = dbTemplate.readOnly(
             repository::findTop10GameRoomsOrderByCreatedAtDesc
         );
         if (savedGames.isEmpty() || view.askNewGame()) {
@@ -62,36 +57,38 @@ public class GamePlayService {
         final SangSetupType hanSangSetupType = view.askSangSetupUntilSuccess(Side.HAN);
         final JanggiGame game = JanggiGame.of(choSangSetupType, hanSangSetupType);
 
-        final Long gameId = executeInTransaction(connection -> repository.saveGame(connection, game));
-        return new PreparedGame(gameId, game, 0);
+        final Long gameId = dbTemplate.inTransaction(connection ->
+            repository.saveGame(connection, game)
+        );
+        return new PreparedGame(gameId, game, MoveCount.init());
     }
 
     private PreparedGame findSavedGame(final SelectedGame selectedGame) {
-        return executeReadOnly(connection -> {
+        return dbTemplate.readOnly(connection -> {
             final JanggiGame game = repository.findGameById(connection, selectedGame.getId())
                 .orElseThrow(() -> new IllegalArgumentException("선택한 게임이 존재하지 않습니다."));
             final int moveCount = repository.findMoveHistoriesByGameId(connection, selectedGame.getId()).size();
 
-            return new PreparedGame(selectedGame.getId(), game, moveCount);
+            return new PreparedGame(selectedGame.getId(), game, new MoveCount(moveCount));
         });
     }
 
-    private void run(final Long gameId, JanggiGame game, int moveCount) {
+    private void run(final Long gameId, JanggiGame game, MoveCount moveCount) {
         while (!game.isOver()) {
-            final GameTurnResult result = playOneTurn(game, moveCount > 0);
+            final GameTurnResult result = playOneTurn(game, moveCount.canUndo());
 
             if (result.undoRequested()) {
-                game = executeInTransaction(connection -> {
+                game = dbTemplate.inTransaction(connection -> {
                     repository.undoLastMove(connection, gameId);
                     return repository.findGameById(connection, gameId)
                         .orElseThrow(() -> new IllegalStateException("무르기 후 게임 조회에 실패했습니다."));
                 });
-                moveCount--;
+                moveCount = moveCount.unDo();
             } else {
                 saveTurn(gameId, result);
                 game = result.updatedGame();
                 if (!result.hasNoPieceMove()) {
-                    moveCount++;
+                    moveCount = moveCount.move();
                 }
             }
         }
@@ -132,7 +129,7 @@ public class GamePlayService {
     }
 
     private void saveTurn(final Long gameId, final GameTurnResult turnResult) {
-        executeInTransaction(connection -> {
+        dbTemplate.inTransaction(connection -> {
             repository.updateGame(connection, gameId, turnResult.updatedGame());
             if (turnResult.hasNoPieceMove()) {
                 return null;
@@ -143,36 +140,5 @@ public class GamePlayService {
             repository.saveMoveHistory(connection, gameId, moveHistory);
             return null;
         });
-    }
-
-    private <T> T executeReadOnly(final SqlConnectionOperation<T> operation) {
-        try (final Connection connection = connectionManager.getConnection()) {
-            return operation.execute(new SqlConnectionWrapper(connection));
-        } catch (final SQLException e) {
-            throw new IllegalStateException("DB 연결에 실패했습니다.", e);
-        } catch (final Exception e) {
-            throw new IllegalStateException("DB 조회에 실패했습니다.", e);
-        }
-    }
-
-    private <T> T executeInTransaction(final SqlConnectionOperation<T> operation) {
-        try (final Connection connection = connectionManager.getConnection()) {
-            connection.setAutoCommit(false);
-            try {
-                final T result = operation.execute(new SqlConnectionWrapper(connection));
-                connection.commit();
-                return result;
-            } catch (final Exception e) {
-                connection.rollback();
-                throw new IllegalStateException("DB 작업에 실패했습니다.", e);
-            }
-        } catch (final SQLException e) {
-            throw new IllegalStateException("DB 연결에 실패했습니다.", e);
-        }
-    }
-
-    @FunctionalInterface
-    interface SqlConnectionOperation<T> {
-        T execute(SqlConnection connection) throws Exception;
     }
 }

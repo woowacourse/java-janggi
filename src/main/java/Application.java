@@ -10,6 +10,7 @@ import db.jdbc.FlywayDatabaseMigrator;
 import db.jdbc.ProductionConnectionManager;
 import db.repository.JanggiGameRepository;
 import db.repository.JdbcJanggiGameRepository;
+import service.DbTemplate;
 import service.GamePlayService;
 import service.MoveHistoryShowService;
 import view.JanggiView;
@@ -22,13 +23,14 @@ public class Application {
         migrate(connectionManager);
         final JanggiGameRepository repository = getRepository();
         final JanggiView view = new JanggiView();
+        final DbTemplate dbTemplate = new DbTemplate(connectionManager);
 
         ServiceMenu menu = view.askServiceMenu();
         if (menu.isShowMoveHistory()) {
-            new MoveHistoryShowService(view, connectionManager, repository).show();
+            new MoveHistoryShowService(view, dbTemplate, repository).show();
             return;
         }
-        new GamePlayService(view, connectionManager, repository).play();
+        new GamePlayService(view, dbTemplate, repository).play();
     }
 
     private static ConnectionManager getConnectionManager() {
