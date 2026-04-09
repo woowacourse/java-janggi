@@ -48,6 +48,10 @@ public class Board {
     }
 
     public double scoreOf(Team team) {
+        return sumPieceScoreOf(team) + team.bonusScore();
+    }
+
+    private int sumPieceScoreOf(Team team) {
         return board.values().stream()
                 .filter(piece -> piece.isSameTeam(team))
                 .mapToInt(Piece::score)

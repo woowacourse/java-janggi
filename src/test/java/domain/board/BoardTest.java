@@ -45,7 +45,7 @@ class BoardTest {
     @ParameterizedTest
     @CsvSource(value = {
             "CHO,72.0",
-            "HAN,72.0"
+            "HAN,73.5"
     })
     void 남아있는_기물의_점수를_계산할_수_있다(Team team, double score) {
         Board board = BoardFactory.create(FormationType.DEFAULT, FormationType.DEFAULT);
