@@ -39,7 +39,7 @@ class JanggiGameRepositoryTest {
     void insertGame() throws SQLException {
         GameManager manager = createInitialGameManager();
 
-        long gameId = repository.saveGame(connection, manager);
+        long gameId = repository.save(connection, manager);
 
         verifyGameInserted(gameId, "CHO", false);
     }
@@ -50,7 +50,7 @@ class JanggiGameRepositoryTest {
         insertDummyGame(1L, "CHO");
         GameManager manager = createTurnChangedGameManager();
 
-        repository.updateTurn(connection, 1L, manager);
+        repository.save(connection, manager);
 
         verifyGameTurn(1L, "HAN");
     }
@@ -62,6 +62,7 @@ class JanggiGameRepositoryTest {
     private GameManager createTurnChangedGameManager() {
         GameManager manager = createInitialGameManager();
         manager.switchTurn();
+        manager.assign(1);
         return manager;
     }
 

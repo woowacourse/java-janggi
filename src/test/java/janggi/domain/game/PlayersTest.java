@@ -21,7 +21,7 @@ class PlayersTest {
     @Test
     void currentPlayer_ReturnsPlayerMatchingTurn() {
         Players players = Players.from("초나라", "한나라");
-        Turn turn = Turn.init().next();
+        players.nextTurn();
 
         Player current = players.currentPlayer();
 
