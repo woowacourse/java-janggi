@@ -1,8 +1,7 @@
 package domain.piece;
 
 import domain.board.Country;
-import domain.board.Position;
-import java.util.Map;
+import java.util.List;
 
 public class Cannon extends StraightMovingPiece {
     private static final String CAN_NOT_MOVE_TO_POSITION = "[ERROR] 해당 경로로 기물을 이동시킬 수 없습니다.";
@@ -15,12 +14,12 @@ public class Cannon extends StraightMovingPiece {
     }
 
     @Override
-    public void validateClearPath(Map<Position, PieceType> piecesOnPath, PieceType destinationPieceType) {
-        if (piecesOnPath.size() != REQUIRED_PIECES_ON_PATH) {
+    public void validateClearPath(List<PieceType> pieceTypes, PieceType destinationPieceType) {
+        if (pieceTypes.size() != REQUIRED_PIECES_ON_PATH) {
             throw new IllegalArgumentException(CAN_NOT_MOVE_TO_POSITION);
         }
-        
-        for (PieceType pieceType : piecesOnPath.values()) {
+
+        for (PieceType pieceType : pieceTypes) {
             if (pieceType == PieceType.CANNON) {
                 throw new IllegalArgumentException(CAN_NOT_MOVE_TO_POSITION);
             }

@@ -118,7 +118,8 @@ public class Board {
             }
         }
         PieceType destinationPieceType = getDestinationPieceType(paths.getLast());
-        fromPiece.validateClearPath(piecesOnPath, destinationPieceType);
+        List<PieceType> pieceTypes = piecesOnPath.values().stream().toList();
+        fromPiece.validateClearPath(pieceTypes, destinationPieceType);
     }
 
     private PieceType getDestinationPieceType(Position destination) {

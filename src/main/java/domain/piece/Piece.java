@@ -6,7 +6,6 @@ import domain.board.Position;
 import dto.Distance;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public abstract class Piece {
     private static final String CAN_NOT_MOVE_TO_POSITION = "[ERROR] 해당 경로로 기물을 이동시킬 수 없습니다.";
@@ -44,8 +43,8 @@ public abstract class Piece {
     protected void validateDirectionsInPalace(List<Direction> directions) {
     }
 
-    public void validateClearPath(Map<Position, PieceType> piecesOnPath, PieceType destinationPieceType) {
-        if (!piecesOnPath.isEmpty()) {
+    public void validateClearPath(List<PieceType> pieceTypes, PieceType destinationPieceType) {
+        if (!pieceTypes.isEmpty()) {
             throw new IllegalArgumentException(CAN_NOT_MOVE_TO_POSITION);
         }
     }
