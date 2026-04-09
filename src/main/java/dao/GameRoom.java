@@ -79,7 +79,7 @@ public class GameRoom {
         try (Connection connection = DbConnectionFactory.createConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_PROGRESS_GAME_SQL)) {
             statement.setString(1, INITIAL_STATUS);
-            return executeQueryForOptionalLong(statement, "game_id");
+            return executeQueryForOptionalLong(statement);
         } catch (SQLException e) {
             throw new IllegalStateException("진행 중인 게임 조회에 실패했습니다.", e);
         }
@@ -89,11 +89,8 @@ public class GameRoom {
         try (Connection connection = DbConnectionFactory.createConnection();
              PreparedStatement statement = connection.prepareStatement(GET_CURRENT_TURN_SQL)) {
             statement.setLong(1, gameId);
-            Team team = executeQueryForTeam(statement);
-            if (team != null) {
-                return team;
-            }
-            throw new IllegalStateException("해당 게임을 찾을 수 없습니다. gameId: " + gameId);
+            return executeQueryForTeam(statement)
+                    .orElseThrow(() -> new IllegalStateException("해당 게임을 찾을 수 없습니다. gameId: " + gameId));
         } catch (SQLException e) {
             throw new IllegalStateException("게임 상태 조회에 실패했습니다.", e);
         }
@@ -103,34 +100,37 @@ public class GameRoom {
         try (Connection connection = DbConnectionFactory.createConnection();
              PreparedStatement statement = connection.prepareStatement(GET_PLAYER_NAMES_SQL)) {
             statement.setLong(1, gameId);
-            PlayerNames names = executeQueryForPlayerNames(statement);
-            if (names != null) {
-                return names;
-            }
-            throw new IllegalStateException("해당 게임을 찾을 수 없습니다. gameId: " + gameId);
+            return executeQueryForPlayerNames(statement)
+                    .orElseThrow(() -> new IllegalStateException("해당 게임을 찾을 수 없습니다. gameId: " + gameId));
         } catch (SQLException e) {
             throw new IllegalStateException("플레이어 정보 조회에 실패했습니다.", e);
         }
     }
 
-    private Optional<Long> executeQueryForOptionalLong(PreparedStatement statement, String columnName) throws SQLException {
-        try (ResultSet resultSet = statement.executeQuery()) {
-            return resultSet.next() ? Optional.of(resultSet.getLong(columnName)) : Optional.empty();
-        }
-    }
-
-    private Team executeQueryForTeam(PreparedStatement statement) throws SQLException {
-        try (ResultSet resultSet = statement.executeQuery()) {
-            return resultSet.next() ? Team.valueOf(resultSet.getString("current_turn")) : null;
-        }
-    }
-
-    private PlayerNames executeQueryForPlayerNames(PreparedStatement statement) throws SQLException {
+    private Optional<Long> executeQueryForOptionalLong(PreparedStatement statement) throws SQLException {
         try (ResultSet resultSet = statement.executeQuery()) {
             if (resultSet.next()) {
-                return new PlayerNames(resultSet.getString("cho_name"), resultSet.getString("han_name"));
+                return Optional.of(resultSet.getLong("game_id"));
             }
-            return null;
+            return Optional.empty();
+        }
+    }
+
+    private Optional<Team> executeQueryForTeam(PreparedStatement statement) throws SQLException {
+        try (ResultSet resultSet = statement.executeQuery()) {
+            if (resultSet.next()) {
+                return Optional.of(Team.valueOf(resultSet.getString("current_turn")));
+            }
+            return Optional.empty();
+        }
+    }
+
+    private Optional<PlayerNames> executeQueryForPlayerNames(PreparedStatement statement) throws SQLException {
+        try (ResultSet resultSet = statement.executeQuery()) {
+            if (resultSet.next()) {
+                return Optional.of(new PlayerNames(resultSet.getString("cho_name"), resultSet.getString("han_name")));
+            }
+            return Optional.empty();
         }
     }
 
