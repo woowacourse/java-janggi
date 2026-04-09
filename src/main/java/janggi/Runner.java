@@ -7,7 +7,6 @@ import janggi.domain.game.Player;
 import janggi.dto.BoardDTO;
 import janggi.dto.PlayerDTO;
 import janggi.dto.PositionDTO;
-import janggi.persistence.ActiveGameSession;
 import janggi.service.JanggiService;
 import janggi.view.InputView;
 import janggi.view.OutputView;
@@ -29,41 +28,38 @@ public class Runner {
         this.janggiService = janggiService;
     }
 
-    public void run(Connection connection, long gameId) throws SQLException {
-        ActiveGameSession session = reloadSession(connection, gameId);
-        printBoard(session.gameManager());
-        play(connection, session);
+    public void run(Connection connection, GameManager gameManager) throws SQLException {
+        printBoard(gameManager);
+        play(connection, gameManager);
     }
 
-    private void play(Connection connection, ActiveGameSession session) throws SQLException {
-        while (!session.gameManager().isFinished()) {
-            session = processTurn(connection, session);
+    private void play(Connection connection, GameManager gameManager) throws SQLException {
+        while (!gameManager.isFinished()) {
+            gameManager = processTurn(connection, gameManager);
         }
-        if (session.gameManager().isFinished()) {
-            janggiService.saveGameState(connection, session.gameId(), session.gameManager());
+        if (gameManager.isFinished()) {
+            janggiService.saveGameState(connection, gameManager);
         }
     }
 
-    private ActiveGameSession processTurn(Connection connection, ActiveGameSession session) {
+    private GameManager processTurn(Connection connection, GameManager gameManager) {
         try {
-            return playAndSave(connection, session);
+            return playAndSave(connection, gameManager);
         } catch (SQLException exception) {
             outputView.printLine("[ERROR] 저장 실패. 이전 상태로 복구합니다.");
-            return reloadSession(connection, session.gameId());
+            return reloadSession(connection, gameManager.getId());
         }
     }
 
-    private ActiveGameSession playAndSave(Connection connection, ActiveGameSession session) throws SQLException {
-        GameManager gameManager = session.gameManager();
-        long gameId = session.gameId();
+    private GameManager playAndSave(Connection connection, GameManager gameManager) throws SQLException {
         printCurrentTurnNotice(gameManager);
         playerTurn(gameManager);
         gameManager.switchTurn();
-        janggiService.saveGameState(connection, gameId, gameManager);
-        return session;
+        janggiService.saveGameState(connection, gameManager);
+        return gameManager;
     }
 
-    private ActiveGameSession reloadSession(Connection connection, long gameId) {
+    private GameManager reloadSession(Connection connection, long gameId) {
         try {
             return janggiService.loadGameSession(connection, gameId);
         } catch (SQLException exception) {

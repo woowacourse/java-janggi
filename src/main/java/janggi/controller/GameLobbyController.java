@@ -1,8 +1,8 @@
 package janggi.controller;
 
+import janggi.domain.game.GameManager;
 import janggi.domain.game.Side;
 import janggi.dto.GameSessionDTO;
-import janggi.persistence.ActiveGameSession;
 import janggi.service.JanggiService;
 import janggi.util.SideDisplayNameMapper;
 import janggi.view.InputView;
@@ -24,7 +24,7 @@ public class GameLobbyController {
         this.janggiService = janggiService;
     }
 
-    public ActiveGameSession enterLobby(Connection connection) throws SQLException {
+    public GameManager enterLobby(Connection connection) throws SQLException {
         if (gameNotExist(connection)) {
             return initialGame(connection);
         }
@@ -38,7 +38,7 @@ public class GameLobbyController {
         return janggiService.activeGames(connection).isEmpty();
     }
 
-    private ActiveGameSession initialGame(Connection connection) throws SQLException {
+    private GameManager initialGame(Connection connection) throws SQLException {
         outputView.printGameNotExist();
         return generateNewGame(connection);
     }
@@ -49,7 +49,7 @@ public class GameLobbyController {
         return userCommand.confirmed();
     }
 
-    private ActiveGameSession loadExistingGame(Connection connection) throws SQLException {
+    private GameManager loadExistingGame(Connection connection) throws SQLException {
         List<GameSessionDTO> activeGames = janggiService.activeGames(connection);
         activeGames.forEach(outputView::printActiveGameInfo);
         outputView.printSelectGameId();
@@ -57,7 +57,7 @@ public class GameLobbyController {
         return janggiService.loadGameSession(connection, selectedGameId);
     }
 
-    private ActiveGameSession generateNewGame(Connection connection) throws SQLException {
+    private GameManager generateNewGame(Connection connection) throws SQLException {
         outputView.printGenerateGameData();
         String choName = readPlayerName(Side.CHO);
         String hanName = readPlayerName(Side.HAN);

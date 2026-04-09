@@ -6,7 +6,6 @@ import janggi.domain.game.Players;
 import janggi.domain.game.Side;
 import janggi.domain.game.Turn;
 import janggi.dto.GameSessionDTO;
-import janggi.persistence.ActiveGameSession;
 import janggi.persistence.BoardRepository;
 import janggi.persistence.GameRepository;
 import java.sql.Connection;
@@ -27,9 +26,8 @@ public class JanggiService {
         return gameRepository.findAllGameStatusByFinishedFalse(connection);
     }
 
-    public ActiveGameSession loadGameSession(Connection connection, long gameId) throws SQLException {
-        GameManager gameManager = gameRepository.findByGameId(connection, gameId);
-        return new ActiveGameSession(gameId, gameManager);
+    public GameManager loadGameSession(Connection connection, long gameId) throws SQLException {
+        return gameRepository.findByGameId(connection, gameId);
     }
 
     private GameManager generateGameManagerByLoadedData(GameSessionDTO gameSession, Board board) {
@@ -41,7 +39,7 @@ public class JanggiService {
         return GameManager.loadGame(players, board, gameId);
     }
 
-    public ActiveGameSession createNewSession(Connection connection, String choName, String hanName)
+    public GameManager createNewSession(Connection connection, String choName, String hanName)
             throws SQLException {
         connection.setAutoCommit(false);
         try {
@@ -53,24 +51,24 @@ public class JanggiService {
         }
     }
 
-    private ActiveGameSession createAndCommitNewGame(Connection connection, String choName, String hanName)
+    private GameManager createAndCommitNewGame(Connection connection, String choName, String hanName)
             throws SQLException {
-        ActiveGameSession session = generateSession(connection, choName, hanName);
+        GameManager gameManager = newGame(connection, choName, hanName);
         connection.commit();
-        return session;
+        return gameManager;
     }
 
-    private ActiveGameSession generateSession(Connection connection, String choName, String hanName)
+    private GameManager newGame(Connection connection, String choName, String hanName)
             throws SQLException {
         Players players = Players.from(choName, hanName);
         Board board = Board.initialize();
         GameManager newGameManager = GameManager.newGame(players, board);
         long gameId = gameRepository.save(connection, newGameManager);
-        System.out.println("newGameId " + gameId);
-        return new ActiveGameSession(gameId, newGameManager);
+        newGameManager.assign(gameId);
+        return newGameManager;
     }
 
-    public void saveGameState(Connection connection, long gameId, GameManager gameManager) throws SQLException {
+    public void saveGameState(Connection connection, GameManager gameManager) throws SQLException {
         connection.setAutoCommit(false);
         try {
             gameRepository.save(connection, gameManager);

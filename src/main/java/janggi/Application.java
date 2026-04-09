@@ -1,7 +1,7 @@
 package janggi;
 
 import janggi.controller.GameLobbyController;
-import janggi.persistence.ActiveGameSession;
+import janggi.domain.game.GameManager;
 import janggi.persistence.DatabaseInitializer;
 import janggi.persistence.DatabaseProvider;
 import janggi.persistence.JanggiBoardRepository;
@@ -26,12 +26,11 @@ public class Application {
         try (Connection connection = DatabaseProvider.getConnection()) {
             DatabaseInitializer.initialize(connection);
             GameLobbyController lobbyController = new GameLobbyController(inputView, outputView, janggiService);
-            ActiveGameSession session = lobbyController.enterLobby(connection);
+            GameManager gameManager = lobbyController.enterLobby(connection);
             Runner runner = new Runner(inputView, outputView, janggiService);
-            runner.run(connection, session.gameId());
+            runner.run(connection, gameManager);
         } catch (SQLException error) {
             outputView.printLine("[ERROR] 게임 진행 중 DB 정보 조회에 실패했습니다." + "\n" + error.getMessage());
-            error.printStackTrace();
         }
     }
 }
