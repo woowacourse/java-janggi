@@ -24,10 +24,7 @@ public abstract class CommonMoveRule implements MoveRule {
 
         List<Position> availablePositions = calculateAvailablePositions(board, piece,
                 convertToPositions(position, findRoutes(team)));
-
-        if (availablePositions.isEmpty()) {
-            throw new IllegalArgumentException("[ERROR] 이동할 수 없는 좌표입니다.");
-        }
+        
         return availablePositions;
     }
 

@@ -49,4 +49,10 @@ public class Board {
             throw new IllegalArgumentException("[ERROR] 이동 가능한 좌표 중에서 선택하세요.");
         }
     }
+
+    public void validateAvailablePositions(List<Position> positions) {
+        if (positions.isEmpty()) {
+            throw new IllegalArgumentException("[ERROR] 이동할 수 있는 좌표가 없습니다.");
+        }
+    }
 }

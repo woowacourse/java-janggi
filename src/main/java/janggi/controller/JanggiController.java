@@ -67,7 +67,8 @@ public class JanggiController {
                 outputView.printMoveInfo();
                 position = inputView.readPosition();
                 board.validateMovePiecePosition(position);
-                board.findAvailablePositions(position);
+                List<Position> positions = board.findAvailablePositions(position);
+                board.validateAvailablePositions(positions);
                 isInvalid = false;
             } catch (IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());
