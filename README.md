@@ -210,6 +210,33 @@
     - [x] [출력] 상대방의 장을 잡은 진영(플레이어)을 승자로 출력한다.
 
 
+## 5. 데이터베이스 연동 및 영속성 관리
+
+- [x] **[Infrastructure]** JDBC를 이용해 MySQL을 연동한다. `class DBConnection`
+    - [x] [규칙] `DB_URL`, `DB_USER`, `DB_PASSWORD`를 환경 변수로 설정해 DB를 연결한다.
+
+- [x] **[Persistence]** 게임 상태 및 보드 정보를 저장한다. `class JdbcJanggiRepository`
+    - [x] [규칙] 새로운 게임 시작 시, 플레이어 정보 및 초기화된 턴을 저장한다. `public Long save(Players players)`
+    - [x] [규칙] 기물 이동 시마다 현재 장기판의 상태를 업데이트한다. `public void updateGameStatus`
+        - [x] [규칙] 턴 변경과 보드 상태 갱신이 원자적으로 이루어지도록 트랜잭션을 보장한다.
+    - [x] [규칙] 종료되지 않고, 진행 중인 가장 최근의 게임 ID를 조회한다. `public Optional<Long> findInProgressGameId`
+    - [x] [규칙] 저장된 게임 ID를 바탕으로 이전 게임의 플레이어, 턴, 보드 상태를 복원한다.
+    - [x] [규칙] 승패 결정 시, 해당 게임의 종료 상태(`is_finished`)를 반영한다. `public void finishGame`
+
+- [x] **[Database]** 게임 영속화를 위해 데이터 스키마를 설계한다.
+    - [x] `game`: 게임 기본 정보 및 현재 턴, 종료 여부 관리
+    - [x] `board_state`: 각 게임 ID별 기물의 종류, 진영, 위치, 고유 번호 관리
+
+
+## 6. 실행 방법
+
+### 프로그램 실행을 위해 필요한 환경 변수
+
+- `DB_URL`: JDBC 연결 주소 (예: jdbc:mysql://localhost:3306/janggi_db)
+- `DB_USER`: MySQL 사용자 이름
+- `DB_PASSWORD`: MySQL 비밀번호
+
+
 ## 3️⃣ 입출력 요구 사항
 
 ### 실행 결과 예시
