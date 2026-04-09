@@ -20,18 +20,6 @@ public record Position(int row, int column) {
         return row >= MIN_ROW && row <= MAX_ROW && column >= MIN_COLUMN && column <= MAX_COLUMN;
     }
 
-    public boolean isChoGungsung() {
-        return row >= 7 && row <= 9 && column >= 3 && column <= 5;
-    }
-
-    public boolean isHanGungsung() {
-        return row >= 0 && row <= 2 && column >= 3 && column <= 5;
-    }
-
-    public boolean isGungsung() {
-        return isChoGungsung() || isHanGungsung();
-    }
-
     private void validate(int row, int column) {
         if (row < MIN_ROW || row > MAX_ROW) {
             throw new JanggiException(INVALID_ROW_RANGE.formatted(MIN_ROW, MAX_ROW, row));
