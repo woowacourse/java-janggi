@@ -20,24 +20,11 @@ public class Soldier extends ForwardMovementPiece {
     }
 
     @Override
-    public void validateRule(Coordination from, Coordination to) {
-        if (palaceMovement.isPalace(from, to)) {
-            palaceMovement.validateRule(from, to);
-            return;
-        }
-        validateNormalRule(from, to);
-    }
-
-    private void validateNormalRule(Coordination from, Coordination to) {
+    protected void validateNormalRule(Coordination from, Coordination to) {
         List<Integer> diff = List.of(from.differentColumn(to), from.differentRow(to));
         List<List<Integer>> movable = team == Team.CHO ? CHO_MOVABLE_LOCATION : HAN_MOVABLE_LOCATION;
         if (!movable.contains(diff)) {
             throw new PieceException(IMPOSSIBLE_MOVE_MESSAGE);
         }
-    }
-
-    @Override
-    public List<Coordination> resolvePath(Coordination from, Coordination to) {
-        return List.of();
     }
 }

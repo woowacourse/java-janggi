@@ -27,7 +27,7 @@ public class Board {
 
         validateRule(from, to, piece);
         validatePiecesOnPath(from, to, piece);
-        validateNotSameTeam(to, piece);
+        validateTarget(to, piece);
 
         resolve(from, to, piece);
     }
@@ -54,8 +54,8 @@ public class Board {
         piece.validateSameTeam(turn);
     }
 
-    private void validateNotSameTeam(Coordination to, Piece piece) {
-        piece.validateNotSameTeam(board.get(to));
+    private void validateTarget(Coordination to, Piece piece) {
+        piece.validateTarget(board.get(to));
     }
 
     private void validatePiecesOnPath(Coordination from, Coordination to, Piece piece) {

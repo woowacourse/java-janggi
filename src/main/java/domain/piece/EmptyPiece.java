@@ -44,7 +44,7 @@ public class EmptyPiece extends Piece {
     }
 
     @Override
-    public void validateNotSameTeam(Piece target) {
+    public void validateTarget(Piece target) {
         throw new PieceException(NOT_EXISTS_PIECE_MESSAGE);
     }
 }

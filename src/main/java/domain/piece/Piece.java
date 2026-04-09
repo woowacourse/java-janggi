@@ -30,7 +30,7 @@ public abstract class Piece {
         turn.validateSameTeam(team);
     }
 
-    public void validateNotSameTeam(Piece target) {
+    public void validateTarget(Piece target) {
         if (!target.isEmpty() && this.team == target.team) {
             throw new PieceException(SAME_TEAM_TARGET_MESSAGE);
         }
