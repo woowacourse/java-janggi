@@ -49,13 +49,6 @@ public class InputView {
         scanner.nextLine();
     }
 
-    private String toDisplayName(Team team) {
-        if (team == Team.HAN) {
-            return "\u001B[1;31m한(漢)\u001B[0m";
-        }
-        return "\u001B[1;34m초(楚)\u001B[0m";
-    }
-
     public long readGameId() {
         System.out.println("삭제하려는 게임 ID를 입력해주세요. (뒤로 가기: 0)");
         System.out.print("> ");
@@ -65,5 +58,12 @@ public class InputView {
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("[ERROR] 게임 ID는 숫자 형식이어야 합니다.");
         }
+    }
+
+    private String toDisplayName(Team team) {
+        if (team == Team.HAN) {
+            return "\u001B[1;31m한(漢)\u001B[0m";
+        }
+        return "\u001B[1;34m초(楚)\u001B[0m";
     }
 }
