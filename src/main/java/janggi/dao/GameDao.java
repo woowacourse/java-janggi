@@ -37,7 +37,7 @@ public class GameDao {
         }
     }
 
-    public boolean findById(long gameId) {
+    public boolean existsById(long gameId) {
         String sql = "SELECT 1 FROM game WHERE id = ?";
 
         try (

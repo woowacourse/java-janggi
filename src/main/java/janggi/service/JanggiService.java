@@ -90,7 +90,7 @@ public class JanggiService {
     }
 
     private void validateGameExists(long gameId) {
-        if (!gameDao.findById(gameId)) {
+        if (!gameDao.existsById(gameId)) {
             throw new IllegalArgumentException("[ERROR] 존재하지 않는 게임입니다.");
         }
     }
