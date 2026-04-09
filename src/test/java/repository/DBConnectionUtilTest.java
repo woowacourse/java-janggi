@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import support.DBConnectionUtil;
 
 @DisplayName("DB 연결 테스트")
 class DBConnectionUtilTest {

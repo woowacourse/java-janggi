@@ -16,6 +16,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import repository.JanggiGameRepository;
 import repository.MemoryDBConnectionUtil;
+import support.TransactionTemplate;
 
 @DisplayName("서비스 계층 테스트")
 class JanggiServiceTest {

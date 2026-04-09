@@ -1,4 +1,4 @@
-package repository;
+package support;
 
 import javax.sql.DataSource;
 import org.sqlite.SQLiteDataSource;

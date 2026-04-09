@@ -1,4 +1,4 @@
-package service;
+package support;
 
 public class DataAccessException extends RuntimeException {
 

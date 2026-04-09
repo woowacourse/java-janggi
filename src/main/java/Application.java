@@ -1,10 +1,10 @@
 import controller.JanggiController;
 import java.io.IOException;
 import javax.sql.DataSource;
-import repository.DBConnectionUtil;
+import support.DBConnectionUtil;
 import repository.JanggiGameRepository;
 import service.JanggiService;
-import service.TransactionTemplate;
+import support.TransactionTemplate;
 import view.InputView;
 import view.OutputView;
 

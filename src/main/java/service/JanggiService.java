@@ -6,6 +6,7 @@ import dto.GameSummary;
 import dto.GameWrapper;
 import java.util.List;
 import repository.JanggiGameRepository;
+import support.TransactionTemplate;
 
 public final class JanggiService {
 
