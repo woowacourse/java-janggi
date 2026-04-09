@@ -15,14 +15,14 @@ import view.OutputView;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
 public class JanggiGame {
     private static final int JANGGUN_COUNT = 5;
 
-    private final Map<Side, Integer> jangGunCount = new HashMap<>();
+    private final Map<Side, Integer> jangGunCount = new EnumMap<>(Side.class);
     private final JanggiGameRepository janggiGameRepository;
     private final PieceRepository pieceRepository;
 
@@ -33,6 +33,7 @@ public class JanggiGame {
 
     public void run() {
         GameMetaData gameMetaData = loadOrCreateNewGame();
+        restoreJangGunCount(gameMetaData);
         Board board = loadOrInitBoard(gameMetaData);
         processByStatus(board, gameMetaData);
     }
@@ -45,7 +46,12 @@ public class JanggiGame {
 
     private GameMetaData createNewGame() {
         OutputView.printCreateNewGame();
-        return janggiGameRepository.save(JanggiGameEntity.newGame());
+        return janggiGameRepository.save(GameMetaData.newGame());
+    }
+
+    private void restoreJangGunCount(GameMetaData gameMetaData) {
+        jangGunCount.put(Side.CHO, gameMetaData.choJangGunCount());
+        jangGunCount.put(Side.HAN, gameMetaData.hanJangGunCount());
     }
 
     private Board loadOrInitBoard(GameMetaData gameMetaData) {

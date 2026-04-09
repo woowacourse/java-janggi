@@ -31,8 +31,7 @@ class JanggiGameRepositoryTest {
     @Test
     @DisplayName("새 게임의 기본 status와 currentTurn은 각각 'WAITING_HAN_PLACEMENT'와 'CHO'이다.")
     void save_새_게임을_저장할_수_있다() {
-        JanggiGameEntity newGameEntity = JanggiGameEntity.newGame();
-        GameMetaData gameMetaData = janggiGameRepository.save(newGameEntity);
+        GameMetaData gameMetaData = GameMetaData.newGame();
 
         assertThat(gameMetaData).isNotNull();
         assertThat(gameMetaData.currentTurn()).isEqualTo(Side.CHO);
@@ -42,7 +41,7 @@ class JanggiGameRepositoryTest {
     @Test
     @DisplayName("최근에 저장된 종료되지 않은 게임을 불러올 수 있다.")
     void findLatestUnfinishedGame_테스트() {
-        GameMetaData savedGameMetaData = janggiGameRepository.save(JanggiGameEntity.newGame());
+        GameMetaData savedGameMetaData = janggiGameRepository.save(GameMetaData.newGame());
 
         GameMetaData findedGameMetaData = janggiGameRepository.findLatestUnfinishedGame().orElseThrow();
 
@@ -55,7 +54,7 @@ class JanggiGameRepositoryTest {
     @Test
     @DisplayName("게임의 진행 상태를 변경할 수 있다.")
     void updateGameStatus_테스트() {
-        GameMetaData savedGameMetaData = janggiGameRepository.save(JanggiGameEntity.newGame());
+        GameMetaData savedGameMetaData = janggiGameRepository.save(GameMetaData.newGame());
 
         janggiGameRepository.updateGameStatus(savedGameMetaData, JanggiGameStatus.IN_PROGRESS);
 
@@ -67,7 +66,7 @@ class JanggiGameRepositoryTest {
     @DisplayName("메모리에서 바뀐 양쪽 진영의 장군카운트의 값을 DB에 저장할 수 있다.")
     void updateJangGunCount_테스트() throws SQLException {
         // given
-        GameMetaData savedGameMetaData = janggiGameRepository.save(JanggiGameEntity.newGame());
+        GameMetaData savedGameMetaData = janggiGameRepository.save(GameMetaData.newGame());
         Map<Side, Integer> jangGunCount = new HashMap<>();
         jangGunCount.put(Side.CHO, 0);
         jangGunCount.put(Side.HAN, 2);
@@ -93,7 +92,7 @@ class JanggiGameRepositoryTest {
     @Test
     @DisplayName("초기 상태의 턴은 'CHO'이며, 턴이 변경되면 DB에 'HAN'으로 수정할 수 있다.")
     void updateTurn_테스트() {
-        GameMetaData gameMetaData = janggiGameRepository.save(JanggiGameEntity.newGame());
+        GameMetaData gameMetaData = janggiGameRepository.save(GameMetaData.newGame());
 
         janggiGameRepository.updateTurn(Side.HAN, gameMetaData);
         GameMetaData updatedGameMetaData = janggiGameRepository.findLatestUnfinishedGame().orElseThrow();

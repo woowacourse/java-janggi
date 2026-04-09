@@ -20,7 +20,7 @@ public class JanggiGameRepository {
         this.dataSource = dataSource;
     }
 
-    public GameMetaData save(JanggiGameEntity janggiGameEntity) {
+    public GameMetaData save(GameMetaData gameMetaData) {
         String sql = """
                 INSERT INTO game (current_turn, status, cho_janggun_count, han_janggun_count, created_at)
                 VALUES (?, ?, ?, ?, ?)
@@ -29,8 +29,8 @@ public class JanggiGameRepository {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            statement.setString(1, janggiGameEntity.getCurrenTurn().name());
-            statement.setString(2, janggiGameEntity.getStatus().name());
+            statement.setString(1, gameMetaData.currentTurn().name());
+            statement.setString(2, gameMetaData.status().name());
             statement.setInt(3, 0);
             statement.setInt(4, 0);
             statement.setTimestamp(5, Timestamp.from(Instant.now()));
@@ -46,8 +46,10 @@ public class JanggiGameRepository {
                 }
                 return new GameMetaData(
                         generatedKeys.getLong("id"),
-                        janggiGameEntity.getStatus(),
-                        janggiGameEntity.getCurrenTurn()
+                        gameMetaData.status(),
+                        gameMetaData.currentTurn(),
+                        gameMetaData.choJangGunCount(),
+                        gameMetaData.hanJangGunCount()
                 );
             }
         } catch (SQLException e) {
@@ -77,7 +79,9 @@ public class JanggiGameRepository {
                 GameMetaData gameMetaData = new GameMetaData(
                         rs.getLong("id"),
                         JanggiGameStatus.valueOf(rs.getString("status")),
-                        Side.valueOf(rs.getString("current_turn"))
+                        Side.valueOf(rs.getString("current_turn")),
+                        rs.getInt("cho_janggun_count"),
+                        rs.getInt("han_janggun_count")
                 );
                 return Optional.of(gameMetaData);
             }

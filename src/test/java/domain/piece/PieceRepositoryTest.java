@@ -5,7 +5,6 @@ import domain.board.Placement;
 import domain.config.TestDataSourceConfig;
 import domain.position.Position;
 import janggigame.GameMetaData;
-import janggigame.JanggiGameEntity;
 import janggigame.JanggiGameRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -33,8 +32,8 @@ class PieceRepositoryTest {
     @DisplayName("같은 gameId를 가진 피스들의 정보를 가져올 수 있다.")
     void findByGameId_테스트() {
         // given
-        GameMetaData firstGame = janggiGameRepository.save(JanggiGameEntity.newGame());
-        GameMetaData secondGame = janggiGameRepository.save(JanggiGameEntity.newGame());
+        GameMetaData firstGame = janggiGameRepository.save(GameMetaData.newGame());
+        GameMetaData secondGame = janggiGameRepository.save(GameMetaData.newGame());
 
         Board firstBoard = new Board();
         firstBoard.placePieces(Side.HAN, Placement.INNER_ELEPHANT);
@@ -56,7 +55,7 @@ class PieceRepositoryTest {
     @DisplayName("상차림 배치를 저장할 수 있다.")
     void savePlacement_테스트() {
         // given
-        GameMetaData firstGame = janggiGameRepository.save(JanggiGameEntity.newGame());
+        GameMetaData firstGame = janggiGameRepository.save(GameMetaData.newGame());
         Board firstBoard = new Board();
         firstBoard.placePieces(Side.HAN, Placement.INNER_ELEPHANT);
 
@@ -73,13 +72,13 @@ class PieceRepositoryTest {
     @DisplayName("기물의 위치정보를 변경할 수 있다.")
     void updatePiecePosition_테스트() {
         // given
-        GameMetaData firstGame = janggiGameRepository.save(JanggiGameEntity.newGame());
+        GameMetaData firstGame = janggiGameRepository.save(GameMetaData.newGame());
         Board firstBoard = new Board();
         firstBoard.placePieces(Side.HAN, Placement.INNER_ELEPHANT);
         pieceRepository.savePlacement(firstBoard, firstGame, Side.HAN);
 
         // when
-        pieceRepository.updatePiecePosition(Position.of(7,9), Position.of(7,8), firstGame);
+        pieceRepository.updatePiecePosition(Position.of(7, 9), Position.of(7, 8), firstGame);
 
         // then
         List<PieceSnapshot> pieceSnapshots = pieceRepository.findByGameId(firstGame);
@@ -94,13 +93,13 @@ class PieceRepositoryTest {
     @DisplayName("기물의 위치 정보를 삭제할 수 있다.")
     void deletePiecePosition_테스트() {
         // given
-        GameMetaData firstGame = janggiGameRepository.save(JanggiGameEntity.newGame());
+        GameMetaData firstGame = janggiGameRepository.save(GameMetaData.newGame());
         Board firstBoard = new Board();
         firstBoard.placePieces(Side.HAN, Placement.INNER_ELEPHANT);
         pieceRepository.savePlacement(firstBoard, firstGame, Side.HAN);
 
         // when
-        pieceRepository.deletePiecePosition(Position.of(7,9), firstGame);
+        pieceRepository.deletePiecePosition(Position.of(7, 9), firstGame);
 
         // then
         List<PieceSnapshot> pieceSnapshots = pieceRepository.findByGameId(firstGame);
