@@ -1,6 +1,7 @@
 package domain.direction;
 
 import domain.position.Position;
+import java.util.Arrays;
 
 public enum Direction {
 
@@ -29,12 +30,10 @@ public enum Direction {
     }
 
     private static Direction getDirection(int offsetRow, int offsetColumn) {
-        for (Direction direction : values()) {
-            if (direction.offsetRow == offsetRow && direction.offsetColumn == offsetColumn) {
-                return direction;
-            }
-        }
-        throw new IllegalArgumentException("방향을 계산할 수 없습니다.");
+        return Arrays.stream(values())
+                .filter(direction -> direction.offsetRow == offsetRow && direction.offsetColumn == offsetColumn)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("방향을 계산할 수 없습니다."));
     }
 
     public Position calculateNextPosition(Position source) {
