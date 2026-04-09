@@ -47,8 +47,16 @@ public class JanggiService {
 
     public void movePiece(Game game, Position start, Position destination) {
         try (Connection connection = Database.getConnection()) {
-            game.move(start, destination);
-            pieceRepository.updatePiecesPosition(connection, game.getBoardSnapshotMap());
+            connection.setAutoCommit(false);
+            try {
+                game.move(start, destination);
+                pieceRepository.updatePiecesPosition(connection, game.getBoardSnapshotMap());
+                gameRepository.updateCurrentTurn(connection, game.getTurn());
+                connection.commit();
+            } catch (SQLException e) {
+                connection.rollback();
+                throw new RuntimeException("기물 이동 중 오류가 발생했습니다.", e);
+            }
         } catch (SQLException e) {
             throw new RuntimeException("기물 이동 중 오류가 발생했습니다.", e);
         }

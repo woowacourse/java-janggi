@@ -44,4 +44,12 @@ public class GameRepository {
             pstmt.executeUpdate();
         }
     }
+
+    public void updateCurrentTurn(Connection connection, Side turn) throws SQLException {
+        String sql = "UPDATE GAME SET turn = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, turn.name());
+            pstmt.executeUpdate();
+        }
+    }
 }
