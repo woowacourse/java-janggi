@@ -37,14 +37,26 @@ public class Sa extends Piece {
         int dx = from.deltaX(to);
         int dy = from.deltaY(to);
 
-        // 사 기본 움직임 검증
+        if (validBasicMovement(dx, dy)) {
+            return true;
+        }
+        if (validDiagonalMovement(dx, dy)) {
+            return Palace.isPalaceCenter(from) || Palace.isPalaceCenter(to);
+        }
+        return false;
+    }
+
+    private boolean validBasicMovement(int dx, int dy) {
         if ((Math.abs(dx) == NO_MOVE && Math.abs(dy) == STEP) ||
             (Math.abs(dx) == STEP && Math.abs(dy) == NO_MOVE)) {
             return true;
         }
-        // 사 궁성 내 대각선 움직임 검증
+        return false;
+    }
+
+    private boolean validDiagonalMovement(int dx, int dy) {
         if ((Math.abs(dx) == STEP && Math.abs(dy) == STEP)) {
-            return Palace.isPalaceCenter(from) || Palace.isPalaceCenter(to);
+            return true;
         }
         return false;
     }

@@ -68,14 +68,26 @@ public class Cha extends Piece {
         int dx = from.deltaX(to);
         int dy = from.deltaY(to);
 
-        // 차 기본 움직임 검증
+        if (validBasicMovement(dx, dy)) {
+            return true;
+        }
+        if (validDiagonalMovement(dx, dy)) {
+            return isValidBoundary(from, to) && isValidPalaceMovePath(from, to);
+        }
+        return false;
+    }
+
+    private boolean validBasicMovement(int dx, int dy) {
         if ((Math.abs(dx) == NO_MOVE && Math.abs(dy) > NO_MOVE) ||
             (Math.abs(dx) > NO_MOVE && Math.abs(dy) == NO_MOVE)) {
             return true;
         }
-        // 차 궁성 내 대각선 움직임 검증
+        return false;
+    }
+
+    private boolean validDiagonalMovement(int dx, int dy) {
         if ((Math.abs(dx) == Math.abs(dy))) {
-            return isValidBoundary(from, to) && isValidPalaceMovePath(from, to);
+            return true;
         }
         return false;
     }

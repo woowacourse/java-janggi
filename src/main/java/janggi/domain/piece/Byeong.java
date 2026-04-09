@@ -32,14 +32,26 @@ public class Byeong extends Piece {
         int dx = from.deltaX(to);
         int dy = from.deltaY(to);
 
-        // 병 기본 움직임 검증
+        if (validBasicMovement(dx, dy)) {
+            return true;
+        }
+        if (validDiagonalMovement(dx, dy)) {
+            return Palace.isPalaceCenter(from) || Palace.isPalaceCenter(to);
+        }
+        return false;
+    }
+
+    private boolean validBasicMovement(int dx, int dy) {
         if (xMoveStrategy(dx, dy) || HanYMoveStrategy(dx, dy) || ChoYMoveStrategy(dx, dy)) {
             return true;
         }
-        // 병 궁성 내 대각선 움직임 검증
+        return false;
+    }
+
+    private boolean validDiagonalMovement(int dx, int dy) {
         if ((this.isEqualTeam(Team.HAN) && Math.abs(dx) == STEP && dy == HAN_STEP) ||
             (this.isEqualTeam(Team.CHO) && Math.abs(dx) == STEP && dy == CHO_STEP)) {
-            return Palace.isPalaceCenter(from) || Palace.isPalaceCenter(to);
+            return true;
         }
         return false;
     }
