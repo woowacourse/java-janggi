@@ -29,10 +29,12 @@ class JdbcMovementRepositoryTest {
     }
 
     @Test
-    void 이동_기록을_저장한다() throws Exception {
+    void 이동_기록을_올바르게_저장한다() throws Exception {
+        // when
         movementRepository.save(1L, Position.from(1, 1), Position.from(2, 1));
         movementRepository.save(1L, Position.from(1, 1), Position.from(2, 1));
-
+        
+        // then
         try (Connection connection = DatabaseManager.getConnection();
              PreparedStatement statement = connection.prepareStatement("SELECT COUNT(*) AS count FROM movement");
              ResultSet resultSet = statement.executeQuery()) {
