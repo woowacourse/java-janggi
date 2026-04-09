@@ -1,11 +1,10 @@
-package janggi.domain.movestrategy;
+package janggi.domain.movestrategy.rule;
 
 import janggi.domain.board.Position;
-import janggi.domain.piece.Piece;
 
 import java.util.List;
 
-public class HorseStrategy extends AbstractMoveStrategy {
+public class HorseMoveRule implements MoveRule {
 
     @Override
     public boolean canMove(Position from, Position to) {
@@ -16,10 +15,5 @@ public class HorseStrategy extends AbstractMoveStrategy {
     public List<Position> findPath(Position from, Position to) {
         Position mid = from.moveStraight(to);
         return List.of(mid);
-    }
-
-    @Override
-    public boolean checkPathRule(List<Piece> pathPieces) {
-        return pathPieces.isEmpty();
     }
 }

@@ -1,12 +1,10 @@
-package janggi.domain.movestrategy;
+package janggi.domain.movestrategy.rule;
 
 import janggi.domain.board.Position;
-import janggi.domain.piece.Piece;
 
 import java.util.List;
 
-public class ElephantStrategy extends AbstractMoveStrategy {
-
+public class ElephantMoveRule implements MoveRule {
     @Override
     public boolean canMove(Position from, Position to) {
         return from.isMatchDistance(to, 2, 3);
@@ -17,10 +15,5 @@ public class ElephantStrategy extends AbstractMoveStrategy {
         Position first = from.moveStraight(to);
         Position second = first.moveDiagonal(to);
         return List.of(first, second);
-    }
-
-    @Override
-    public boolean checkPathRule(List<Piece> pathPieces) {
-        return pathPieces.isEmpty();
     }
 }
