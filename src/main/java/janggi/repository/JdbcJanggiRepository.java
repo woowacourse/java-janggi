@@ -22,12 +22,11 @@ public class JdbcJanggiRepository implements JanggiRepository {
 
     @Override
     public JanggiGame save(Connection conn, JanggiGame game) {
-        String gameSql = "INSERT INTO Game (state, turn, start_date) VALUES (?, ?, ?)";
+        String gameSql = "INSERT INTO Game (state, turn) VALUES (?, ?)";
 
         try (PreparedStatement pstmt = conn.prepareStatement(gameSql, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setString(1, game.getGameStatus().name());
             pstmt.setString(2, game.getCurrentTeam().name());
-            pstmt.setDate(3, new java.sql.Date(System.currentTimeMillis()));
             pstmt.executeUpdate();
 
             try (ResultSet rs = pstmt.getGeneratedKeys()) {
