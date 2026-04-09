@@ -39,10 +39,6 @@ public record Piece(
         return pieceType.isLinearPiece();
     }
 
-    public boolean isDiagonalPiece() {
-        return pieceType.isDiagonalPiece();
-    }
-
     public boolean isCannon() {
         return pieceType.isCannon();
     }
