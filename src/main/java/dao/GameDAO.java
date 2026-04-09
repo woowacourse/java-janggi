@@ -50,8 +50,6 @@ public class GameDAO {
 
             gameStatement.execute();
             pieceStatement.execute();
-
-            System.out.println("장기 DB 테이블 생성 완료");
         } catch (SQLException e) {
             System.err.println("테이블 생성 실패: " + e.getMessage());
         }
