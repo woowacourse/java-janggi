@@ -7,8 +7,12 @@ import domain.position.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 class BoardTest {
 
@@ -307,5 +311,26 @@ class BoardTest {
         // when then
         assertThat(board.calculateScoreBy(Side.CHO)).isEqualTo(72);
         assertThat(board.calculateScoreBy(Side.HAN)).isEqualTo(73.5);
+    }
+
+    @Test
+    @DisplayName("장기 게임 중 궁 포획시 종료 되었는지 판단할 수 있다.")
+    void 게임_종료_판단_테스트() {
+        // given:
+        Map<Position, Piece> customState = new HashMap<>();
+        Position hanGeneralPos = Position.of(9, 4);
+        Position choChariotPos = Position.of(2, 4);
+        Position choGeneralPos = Position.of(2, 5);
+
+        customState.put(hanGeneralPos, Piece.of(Side.HAN, PieceType.GENERAL));
+        customState.put(choChariotPos, Piece.of(Side.CHO, PieceType.CHARIOT));
+        customState.put(choGeneralPos, Piece.of(Side.CHO, PieceType.GENERAL));
+
+        Board board = Board.of(customState);
+
+        // when:
+        board.move(choChariotPos, hanGeneralPos, Side.CHO);
+        assertThat(board.isFinished()).isTrue();
+        assertThat(board.getWinner()).isEqualTo(Side.CHO);
     }
 }
