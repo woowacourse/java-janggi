@@ -103,4 +103,34 @@ public class SoldierTest {
 
         Assertions.assertFalse(soldier.canMove(fromPosition, toPosition, board));
     }
+
+    @Test
+    void 초나라_기준_궁성_대각선_이동_가능() {
+        Board board = new Board();
+        Soldier soldier = new Soldier(Camp.CHO);
+        Position fromPosition = new Position(3, 2);
+        Position toPosition = new Position(4, 1);
+
+        Assertions.assertTrue(soldier.canMove(fromPosition, toPosition, board));
+    }
+
+    @Test
+    void 초나라_기준_궁성_대각선_이동_불가() {
+        Board board = new Board();
+        Soldier soldier = new Soldier(Camp.CHO);
+        Position fromPosition = new Position(3, 2);
+        Position toPosition = new Position(2, 1);
+
+        Assertions.assertFalse(soldier.canMove(fromPosition, toPosition, board));
+    }
+
+    @Test
+    void 초나라_기준_궁성_대각선_후진_불가() {
+        Board board = new Board();
+        Soldier soldier = new Soldier(Camp.CHO);
+        Position fromPosition = new Position(3, 0);
+        Position toPosition = new Position(4, 1);
+
+        Assertions.assertFalse(soldier.canMove(fromPosition, toPosition, board));
+    }
 }

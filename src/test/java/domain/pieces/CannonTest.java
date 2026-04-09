@@ -93,4 +93,31 @@ public class CannonTest {
         Assertions.assertFalse(cannon.canMove(fromPosition, new Position(7, 5), board));
         Assertions.assertFalse(cannon.canMove(fromPosition, new Position(8, 5), board));
     }
+
+    @Test
+    void 궁성_내에서_기물을_넘고_대각선_이동() {
+        Board board = new Board();
+        Cannon cannon = new Cannon(Camp.HAN);
+        Horse piece = new Horse(Camp.HAN);
+
+        Position fromPosition = new Position(3, 0);
+        Position anotherPiecePosition = new Position(4, 1);
+
+        board.locatePiece(fromPosition, cannon);
+        board.locatePiece(anotherPiecePosition, piece);
+
+        Assertions.assertTrue(cannon.canMove(fromPosition, new Position(5, 2), board));
+    }
+
+    @Test
+    void 궁성_내에서_대각선_이동_불가() {
+        Board board = new Board();
+        Cannon cannon = new Cannon(Camp.HAN);
+
+        Position fromPosition = new Position(3, 0);
+
+        board.locatePiece(fromPosition, cannon);
+
+        Assertions.assertFalse(cannon.canMove(fromPosition, new Position(5, 2), board));
+    }
 }

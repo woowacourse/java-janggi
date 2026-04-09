@@ -51,12 +51,15 @@ public class GuardTest {
     }
 
     @Test
-    void 이동_불가_좌표_이동_불가() {
+    void 궁성_밖으로_이동_불가() {
         Board board = new Board();
         Guard guard = new Guard(Camp.HAN);
-        Position fromPosition = new Position(3, 0);
-        Position toPosition = new Position(0, 0);
+        Position fromPosition = new Position(5, 0);
+        Position toPosition = new Position(6, 0);
 
-        Assertions.assertFalse(guard.canMove(fromPosition, toPosition, board));
+        board.locatePiece(fromPosition, guard);
+
+        assertThatThrownBy(() -> board.move(fromPosition, toPosition)).isInstanceOf(
+                InvalidMoveException.class).hasMessageContaining("[ERROR]", "이동할");
     }
 }
