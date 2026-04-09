@@ -10,7 +10,7 @@ public class TestTransactionExecutor implements TransactionExecutor {
         try{
             return callable.execute();
         } catch (DataAccessException e) {
-            throw new RuntimeException(e);
+            throw e;
         }
     }
 

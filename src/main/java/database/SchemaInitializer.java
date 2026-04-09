@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import static database.exception.DataAccessError.CONNECTION_FAILED;
+
 public class SchemaInitializer {
 
     public SchemaInitializer() {
@@ -24,7 +26,7 @@ public class SchemaInitializer {
             String schema = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
             executeSchemaQuery(schema);
         } catch (IOException e) {
-            throw new DataAccessException(e);
+            throw new DataAccessException(CONNECTION_FAILED.getMessage(), e);
         }
     }
 
@@ -40,7 +42,7 @@ public class SchemaInitializer {
                 }
             }
         } catch (SQLException e) {
-            throw new DataAccessException(e);
+            throw new DataAccessException(CONNECTION_FAILED.getMessage(), e);
         }
     }
 

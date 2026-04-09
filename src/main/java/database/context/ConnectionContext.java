@@ -6,6 +6,8 @@ import database.exception.DataAccessException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import static database.exception.DataAccessError.*;
+
 public class ConnectionContext {
 
     private static final ThreadLocal<Connection> CONNECTION_THREAD_LOCAL = new ThreadLocal<>();
@@ -22,7 +24,7 @@ public class ConnectionContext {
             connection.setAutoCommit(false);
             CONNECTION_THREAD_LOCAL.set(connection);
         } catch (SQLException e) {
-            throw new DataAccessException(e);
+            throw new DataAccessException(CONNECTION_FAILED.getMessage() ,e);
         }
     }
 
@@ -34,7 +36,7 @@ public class ConnectionContext {
         try {
             safetyConnectionRollback(getConnection());
         } catch (SQLException e) {
-            throw new DataAccessException(e);
+            throw new DataAccessException(ROLLBACK_FAILED.getMessage(), e);
         }
     }
 
@@ -43,7 +45,7 @@ public class ConnectionContext {
             Connection connection = getConnection();
             safetyConnectionClose(connection);
         } catch (SQLException e) {
-            throw new DataAccessException(e);
+            throw new DataAccessException(CONNECTION_CLOSE_FAILED.getMessage(), e);
         } finally {
             CONNECTION_THREAD_LOCAL.remove();
         }
@@ -54,7 +56,7 @@ public class ConnectionContext {
             Connection connection = getConnection();
             safetyConnectionCommit(connection);
         } catch (SQLException e) {
-            throw new DataAccessException(e);
+            throw new DataAccessException(COMMIT_FAILED.getMessage(), e);
         }
     }
 

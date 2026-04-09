@@ -11,7 +11,6 @@ public class DBConnector {
     private DBConnector() {
     }
 
-    // TODO 커스텀 예외
     public static Connection getConnection() throws SQLException {
         String url = properties.getUrl();
         String username = properties.getUsername();
