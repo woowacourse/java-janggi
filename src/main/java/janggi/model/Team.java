@@ -7,10 +7,12 @@ public enum Team {
     CHO;
 
     public boolean isMovingBackward(Position from, Position to) {
+        boolean locatedNorth = from.isLocatedNorthOf(to);
+
         if (this == HAN) {
-            return from.row().getValue() > to.row().getValue();
+            return !locatedNorth;
         }
 
-        return from.row().getValue() < to.row().getValue();
+        return locatedNorth;
     }
 }

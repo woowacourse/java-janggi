@@ -41,4 +41,16 @@ class PositionTest {
         assertThat(position.getDistanceTo(other))
                 .isEqualTo(3);
     }
+
+    @DisplayName("other보다 북쪽에 있는지 반환한다.")
+    @Test
+    void isLocatedNorthOf() {
+        //given
+        Position position = new Position(Row.SEVEN, Column.FIVE);
+        Position other = new Position(Row.SIX, Column.FIVE);
+
+        //when & then
+        assertThat(position.isLocatedNorthOf(new Position(Row.SIX, Column.FIVE))).isFalse();
+        assertThat(position.isLocatedNorthOf(new Position(Row.EIGHT, Column.FIVE))).isTrue();
+    }
 }

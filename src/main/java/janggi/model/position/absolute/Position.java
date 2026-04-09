@@ -30,4 +30,8 @@ public record Position(
     public boolean isSameColumn(Position other) {
         return this.column == other.column;
     }
+
+    public boolean isLocatedNorthOf(Position other) {
+        return getRowDiff(other) < 0;
+    }
 }
