@@ -1,5 +1,6 @@
 package controller;
 
+import application.GamePersistenceService;
 import domain.JanggiGame;
 import domain.Position;
 import java.util.List;
@@ -10,9 +11,11 @@ import view.OutputView;
 public class JanggiController {
 
     private final JanggiGame janggiGame;
+    private final GamePersistenceService gamePersistenceService;
 
-    public JanggiController(JanggiGame janggiGame) {
+    public JanggiController(JanggiGame janggiGame, GamePersistenceService gamePersistenceService) {
         this.janggiGame = janggiGame;
+        this.gamePersistenceService = gamePersistenceService;
     }
 
     public void run() {
@@ -20,6 +23,7 @@ public class JanggiController {
         while (!janggiGame.isGameFinished()) {
             playGame();
             janggiGame.checkGameFinished();
+            gamePersistenceService.save(janggiGame);
         }
 
         OutputView.printRemainScore(janggiGame.showTeamPieceScores());
