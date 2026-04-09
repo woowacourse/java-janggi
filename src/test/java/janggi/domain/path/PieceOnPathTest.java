@@ -2,6 +2,7 @@ package janggi.domain.path;
 
 import janggi.domain.piece.*;
 import janggi.domain.Team;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -13,6 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class PieceOnPathTest {
 
+    @DisplayName("빈 기물이 아닌 기물의 수를 반환한다.")
     @ParameterizedTest
     @MethodSource("countNonEmptyArguments")
     void 빈기물이_아닌_기물의_수를_반환한다(List<Piece> pieces, long expected) {
@@ -34,6 +36,7 @@ class PieceOnPathTest {
         );
     }
 
+    @DisplayName("특정 타입의 기물이 있는지 확인한다.")
     @ParameterizedTest
     @MethodSource("hasTypeArguments")
     void 특정_타입의_기물이_있는지_확인한다(Piece piece, PieceType type, boolean expected) {

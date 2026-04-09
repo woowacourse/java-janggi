@@ -39,6 +39,7 @@ class ScoreTest {
                 () -> assertThat(choScore).isEqualTo(0.0));
     }
 
+    @DisplayName("기물별 점수 테스트")
     @ParameterizedTest
     @MethodSource("setupPieces")
     void 기물별_점수_테스트(Piece hanPiece, Piece choPiece, double expectedHanScore, double expectedChoScore) {
@@ -70,6 +71,7 @@ class ScoreTest {
                 Arguments.of(new EmptyPiece(), new EmptyPiece(), 1.5, 0));
     }
 
+    @DisplayName("게임 시작 직후 점수는 한나라 73.5점, 초나라 72점이다.")
     @Test
     void 게임_시작_시_점수_합계_테스트() {
         // given

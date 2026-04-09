@@ -4,6 +4,7 @@ import janggi.domain.path.PieceOnPath;
 import janggi.domain.position.Movement;
 import janggi.domain.position.Position;
 import janggi.domain.Team;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -13,6 +14,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class EmptyPieceTest {
 
+    @DisplayName("빈 기물의 타입은 EMPTY이다.")
     @Test
     void 빈기물의_타입은_EMPTY이다() {
         // given
@@ -25,6 +27,7 @@ class EmptyPieceTest {
         assertThat(result).isTrue();
     }
 
+    @DisplayName("빈 기물은 빈 기물이다.")
     @Test
     void 빈_기물은_빈_기물이다() {
         // given
@@ -34,6 +37,7 @@ class EmptyPieceTest {
         assertThat(emptyPiece.isEmptyPiece()).isTrue();
     }
 
+    @DisplayName("빈 기물의 팀은 NONE이다.")
     @Test
     void 빈_기물의_팀은_NONE이다() {
         // given
@@ -43,7 +47,7 @@ class EmptyPieceTest {
         assertThat(emptyPiece.getTeam()).isEqualTo(Team.NONE);
     }
 
-
+    @DisplayName("빈 기물이 입력받은 팀과 같은 팀인지 확인한다.")
     @ParameterizedTest
     @CsvSource({
             "HAN, false",
@@ -60,6 +64,17 @@ class EmptyPieceTest {
         assertThat(result).isEqualTo(expected);
     }
 
+    @DisplayName("빈 기물의 점수는 0점이다.")
+    @Test
+    void 빈_기물의_점수는_0점이다() {
+        // given
+        EmptyPiece emptyPiece = new EmptyPiece();
+
+        // when & then
+        assertThat(emptyPiece.getScore()).isEqualTo(0.0);
+    }
+
+    @DisplayName("빈 기물에 이동 경로를 요청하면 예외가 발생한다.")
     @Test
     void 빈_기물에_이동_경로를_요청하면_예외가_발생한다() {
         // given
@@ -72,6 +87,7 @@ class EmptyPieceTest {
                 .hasMessage("[ERROR] 선택된 기물이 없습니다.");
     }
 
+    @DisplayName("빈 기물에 이동할 수 있는지 확인하면 예외가 발생한다.")
     @Test
     void 빈_기물에_이동할_수_있는지_확인하면_예외가_발생한다() {
         // given

@@ -1,5 +1,6 @@
 package janggi.domain.position;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -12,6 +13,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class MovementTest {
 
+    @DisplayName("출발 좌표와 도착 좌표가 같으면 예외가 발생한다.")
     @Test
     void 출발_좌표와_도착_좌표가_같으면_예외가_발생한다() {
         // given
@@ -24,6 +26,7 @@ class MovementTest {
                 .hasMessage("[ERROR] 출발 좌표와 도착 좌표는 같을 수 없습니다.");
     }
 
+    @DisplayName("from과 to의 행 좌표 차이를 계산한다.")
     @ParameterizedTest(name = "from={0}, to={1}, diff={2}")
     @MethodSource("rowDiffArguments")
     void from과_to의_행_좌표_차이를_계산한다(Position from, Position to, int diff) {
@@ -41,6 +44,7 @@ class MovementTest {
                 Arguments.of(Position.of(7, 7), Position.of(2, 4), -5));
     }
 
+    @DisplayName("from과 to의 열 좌표 차이를 계산한다.")
     @ParameterizedTest(name = "from={0}, to={1}, diff={2}")
     @MethodSource("columnDiffArguments")
     void from과_to의_열_좌표_차이를_계산한다(Position from, Position to, int diff) {

@@ -4,6 +4,7 @@ import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
 import janggi.domain.Team;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
@@ -16,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class BoardFactoryTest {
 
+    @DisplayName("한나라 기물 차림 입력이 4면 한나라는 바깥상 차림이다.")
     @Test
     void 한나라_기물_차림_입력이_4면_한나라는_바깥상_차림이다() {
         // given
@@ -43,6 +45,7 @@ class BoardFactoryTest {
         assertPiece(boardState, "49", SOLDIER, HAN);
     }
 
+    @DisplayName("초나라 기물 차림 입력이 4면 초나라는 바깥상 차림이다.")
     @Test
     void 초나라_기물_차림_입력이_4면_초나라는_바깥상_차림이다() {
         // given
@@ -70,6 +73,7 @@ class BoardFactoryTest {
         assertPiece(boardState, "79", SOLDIER, CHO);
     }
 
+    @DisplayName("차림 번호가 1번이면 왼상 차림이다.")
     @Test
     void 차림_번호가_1번이면_왼상차림이다() {
         // given
@@ -89,6 +93,7 @@ class BoardFactoryTest {
         assertPiece(boardState, "08", HORSE, CHO);
     }
 
+    @DisplayName("차림 번호가 2번이면 오른상차림이다.")
     @Test
     void 차림_번호가_2번이면_오른상차림이다() {
         // given
@@ -108,6 +113,7 @@ class BoardFactoryTest {
         assertPiece(boardState, "08", ELEPHANT, CHO);
     }
 
+    @DisplayName("차림 번호가 3번이면 안상차림이다.")
     @Test
     void 차림_번호가_3번이면_안상차림이다() {
         // given
@@ -127,6 +133,7 @@ class BoardFactoryTest {
         assertPiece(boardState, "08", HORSE, CHO);
     }
 
+    @DisplayName("차림 번호가 4번이면 바깥상차림이다.")
     @Test
     void 차림_번호가_4번이면_바깥상차림이다() {
         // given

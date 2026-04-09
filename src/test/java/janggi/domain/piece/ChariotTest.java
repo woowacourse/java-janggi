@@ -5,6 +5,7 @@ import janggi.domain.path.PieceOnPath;
 import janggi.domain.position.Movement;
 import janggi.domain.position.Position;
 import janggi.domain.Team;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -13,6 +14,7 @@ import static org.assertj.core.api.Assertions.*;
 
 class ChariotTest {
 
+    @DisplayName("차의 팀을 확인한다.")
     @ParameterizedTest
     @CsvSource({"HAN", "CHO"})
     void 차의_팀을_확인한다(Team team) {
@@ -23,6 +25,7 @@ class ChariotTest {
         assertThat(chariot.getTeam()).isEqualTo(team);
     }
 
+    @DisplayName("입력받은 팀과 같은 팀인지 확인한다.")
     @ParameterizedTest
     @CsvSource({
             "HAN, true",
@@ -38,6 +41,7 @@ class ChariotTest {
         assertThat(result).isEqualTo(expected);
     }
 
+    @DisplayName("차의 타입은 CHARIOT이다.")
     @Test
     void 차의_타입은_CHARIOT이다() {
         // given
@@ -50,6 +54,7 @@ class ChariotTest {
         assertThat(result).isTrue();
     }
 
+    @DisplayName("한 방향으로 이동시키면 경로를 반환한다.")
     @Test
     void 한_방향으로_이동시키면_경로를_반환한다() {
         // given
@@ -66,6 +71,7 @@ class ChariotTest {
                 Position.from("25"));
     }
 
+    @DisplayName("궁성에서 대각선으로 이동하면 경로를 반환한다.")
     @ParameterizedTest(name = "from={0}, to={1}, 경로좌표={2}")
     @CsvSource({
             "14, 36, 25",
@@ -82,6 +88,7 @@ class ChariotTest {
         assertThat(path).containsExactly(Position.from(expectedPosition));
     }
 
+    @DisplayName("한 칸을 이동시키면 빈 경로를 반환한다.")
     @ParameterizedTest(name = "from={0}, to={1}")
     @CsvSource({
             "14, 25",
@@ -98,6 +105,7 @@ class ChariotTest {
         assertThat(path).isEmpty();
     }
 
+    @DisplayName("궁성 이동이 아닐 때 직선이 아닌 방향으로 이동시키면 예외가 발생한다.")
     @ParameterizedTest(name = "from={0}, to={1}")
     @CsvSource({
             "22, 33",
@@ -113,6 +121,7 @@ class ChariotTest {
                 .hasMessage("[ERROR] 차은(는) 해당 위치로 이동할 수 없습니다.");
     }
 
+    @DisplayName("경로에 기물이 있으면 예외가 발생한다.")
     @Test
     void 경로에_기물이_있으면_예외가_발생한다() {
         // given
@@ -126,6 +135,7 @@ class ChariotTest {
                 .hasMessage("[ERROR] 차의 이동 경로에 기물이 있을 수 없습니다.");
     }
 
+    @DisplayName("이동할 위치에 같은 팀이 있으면 예외가 발생한다.")
     @Test
     void 이동할_위치에_같은_팀이_있으면_예외가_발생한다() {
         // given
@@ -139,6 +149,7 @@ class ChariotTest {
                 .hasMessage("[ERROR] 자신의 기물로 이동할 수 없습니다.");
     }
 
+    @DisplayName("이동 가능하면 예외가 발생하지 않는다.")
     @Test
     void 이동_가능하면_예외가_발생하지_않는다() {
         // given

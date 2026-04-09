@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.position.Position;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -8,6 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class PalaceTest {
 
+    @DisplayName("궁성 좌표 내에서 이동인지 판정한다.")
     @ParameterizedTest
     @CsvSource({
             "14, 25, true",
@@ -29,6 +31,7 @@ class PalaceTest {
         assertThat(result).isEqualTo(expected);
     }
 
+    @DisplayName("궁성 길 이동인지 판정한다.")
     @ParameterizedTest
     @CsvSource({
             "14, 25, true",
