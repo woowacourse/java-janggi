@@ -4,7 +4,6 @@ import database.dto.BoardSummaryDto;
 import database.dto.GameResult;
 import domain.piece.Team;
 
-import java.sql.*;
 import java.util.List;
 import java.util.Optional;
 
