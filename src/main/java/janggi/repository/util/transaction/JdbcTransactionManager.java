@@ -1,5 +1,6 @@
 package janggi.repository.util.transaction;
 
+import janggi.exception.DatabaseException;
 import janggi.repository.util.connection.ConnectionProvider;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -15,47 +16,29 @@ public class JdbcTransactionManager implements TransactionManager {
     }
 
     public <T> T executeInTransaction(Supplier<T> action) {
-        boolean isNewTransaction = isNotActive();
-        if (isNewTransaction) {
-            begin();
-        }
+        begin();
         try {
             T result = action.get();
-            if (isNewTransaction) {
-                commit();
-            }
+            commit();
             return result;
         } catch (RuntimeException e) {
-            if (isNewTransaction) {
-                rollback();
-            }
+            rollback();
             throw e;
         } finally {
-            if (isNewTransaction) {
-                close();
-            }
+            close();
         }
     }
 
     public void executeInTransaction(Runnable action) {
-        boolean isNewTransaction = isNotActive();
-        if (isNewTransaction) {
-            begin();
-        }
+        begin();
         try {
             action.run();
-            if (isNewTransaction) {
-                commit();
-            }
+            commit();
         } catch (RuntimeException e) {
-            if (isNewTransaction) {
-                rollback();
-            }
+            rollback();
             throw e;
         } finally {
-            if (isNewTransaction) {
-                close();
-            }
+            close();
         }
     }
 
@@ -65,7 +48,7 @@ public class JdbcTransactionManager implements TransactionManager {
             conn.setAutoCommit(false);
             connectionHolder.set(conn);
         } catch (SQLException e) {
-            throw new RuntimeException("트랜잭션 시작 실패", e);
+            throw new DatabaseException("트랜잭션 시작 실패", e);
         }
     }
 
@@ -83,7 +66,7 @@ public class JdbcTransactionManager implements TransactionManager {
             try {
                 conn.commit();
             } catch (SQLException e) {
-                throw new RuntimeException("트랜잭션 커밋 실패", e);
+                throw new DatabaseException("트랜잭션 커밋 실패", e);
             }
         }
     }
@@ -94,7 +77,7 @@ public class JdbcTransactionManager implements TransactionManager {
             try {
                 conn.rollback();
             } catch (SQLException e) {
-                throw new RuntimeException("트랜잭션 롤백 실패", e);
+                throw new DatabaseException("트랜잭션 롤백 실패", e);
             }
         }
     }
@@ -106,14 +89,10 @@ public class JdbcTransactionManager implements TransactionManager {
                 conn.setAutoCommit(true);
                 conn.close();
             } catch (SQLException e) {
-                throw new RuntimeException("커넥션 종료 실패", e);
+                throw new DatabaseException("커넥션 종료 실패", e);
             } finally {
                 connectionHolder.remove();
             }
         }
-    }
-
-    private boolean isNotActive() {
-        return connectionHolder.get() == null;
     }
 }
