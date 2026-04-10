@@ -21,7 +21,7 @@ class JanggiTest {
     @Test
     void calculateGameResult_isGameFinished_ReturnGameResult() {
         Janggi janggi = Janggi.start(1, 1);
-        janggi.stopGame();
+        janggi.giveUpGame();
 
         GameResult gameResult = janggi.calculateGameResult();
 
@@ -36,6 +36,13 @@ class JanggiTest {
         Assertions.assertThatThrownBy(() -> janggi.calculateGameResult())
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("게임이 종료되지 않았습니다.");
+    }
+
+    @DisplayName("항복 요청 시 그에 맞는 게임 결과를 반환한다")
+    @Test
+    void processGiveUpRequest_ReturnCorrectGameResult() {
+        Janggi janggi = Janggi.start(1, 1);
+        Assertions.assertThat(janggi.processGiveUpRequest().getDescription()).isEqualTo("한 승리");
     }
 
 }
