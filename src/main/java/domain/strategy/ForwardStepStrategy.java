@@ -6,7 +6,7 @@ import domain.coordinate.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ForwardStepStrategy implements MoveStrategy {
+public class ForwardStepStrategy extends MoveStrategy {
 
     private final List<Direction> directions;
     private final Direction forward;
@@ -17,17 +17,7 @@ public class ForwardStepStrategy implements MoveStrategy {
     }
 
     @Override
-    public List<List<Direction>> calculatePotentialPaths(Position start) {
-        List<List<Direction>> paths = new ArrayList<>();
-
-        addBasicPotentialPaths(start, paths);
-        addPalaceEdgePaths(start, paths);
-        addPalaceCenterPaths(start, paths);
-
-        return paths;
-    }
-
-    private void addBasicPotentialPaths(Position start, List<List<Direction>> paths) {
+    protected void addBasicPaths(Position start, List<List<Direction>> paths) {
         for (Direction direction : directions) {
             List<Direction> directionPath = new ArrayList<>();
             Position dest = start.nextPosition(direction);
@@ -41,25 +31,8 @@ public class ForwardStepStrategy implements MoveStrategy {
         }
     }
 
-    private void addPalaceEdgePaths(Position start, List<List<Direction>> paths) {
-        if (start.isInPalaceEdgePosition()) {
-            Direction palaceEdgeDirection = start.getPalaceEdgeDirection();
-
-            if (palaceEdgeDirection.isForward(forward)) {
-                paths.add(List.of(palaceEdgeDirection));
-            }
-        }
-    }
-
-    private void addPalaceCenterPaths(Position start, List<List<Direction>> paths) {
-        if (start.isInPalaceCenterPosition()) {
-            List<Direction> palaceCenterDirection = start.getPalaceCenterDirection();
-
-            for (Direction direction : palaceCenterDirection) {
-                if (direction.isForward(forward)) {
-                    paths.add(List.of(direction));
-                }
-            }
-        }
+    @Override
+    protected boolean isAllowedDirection(Direction direction) {
+        return direction.isForward(forward);
     }
 }

@@ -6,7 +6,7 @@ import domain.coordinate.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SlidingMoveStrategy implements MoveStrategy {
+public class SlidingMoveStrategy extends MoveStrategy {
 
     private final List<Direction> directions;
 
@@ -15,17 +15,7 @@ public class SlidingMoveStrategy implements MoveStrategy {
     }
 
     @Override
-    public List<List<Direction>> calculatePotentialPaths(Position start) {
-        List<List<Direction>> paths = new ArrayList<>();
-
-        addBasicPotentialPaths(start, paths);
-        addPalaceEdgePaths(start, paths);
-        addPalaceCenterPaths(start, paths);
-
-        return paths;
-    }
-
-    private void addBasicPotentialPaths(Position start, List<List<Direction>> paths) {
+    protected void addBasicPaths(Position start, List<List<Direction>> paths) {
         for (Direction direction : directions) {
             List<Direction> directionPath = new ArrayList<>();
 
@@ -43,26 +33,13 @@ public class SlidingMoveStrategy implements MoveStrategy {
         }
     }
 
-    private void addPalaceEdgePaths(Position start, List<List<Direction>> paths) {
-        if (start.isInPalaceEdgePosition()) {
-            Direction palaceEdgeDirection = start.getPalaceEdgeDirection();
-            List<Direction> directionPath = new ArrayList<>();
-
-            for (int i = 0; i < 2; i++) {
-                directionPath.add(palaceEdgeDirection);
-            }
-
-            paths.add(directionPath);
-        }
+    @Override
+    protected boolean isAllowedDirection(Direction direction) {
+        return true;
     }
 
-    private void addPalaceCenterPaths(Position start, List<List<Direction>> paths) {
-        if (start.isInPalaceCenterPosition()) {
-            List<Direction> palaceDirection = start.getPalaceCenterDirection();
-
-            for (Direction direction : palaceDirection) {
-                paths.add(List.of(direction));
-            }
-        }
+    @Override
+    protected List<Direction> getPalaceEdgeMovePath(Direction direction) {
+        return List.of(direction, direction);
     }
 }
