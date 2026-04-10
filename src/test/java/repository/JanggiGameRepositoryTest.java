@@ -1,7 +1,6 @@
 package repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doThrow;
@@ -125,7 +124,6 @@ class JanggiGameRepositoryTest {
             );
             long gameIdA = spyGameRepository.save(conn, janggiGame);
             conn.commit();
-            System.out.println("gameIdA = " + gameIdA);
 
             // when and then
             janggiGame.movePiece(new Intersection(10, 1), new Intersection(9, 1), expectedCurrentTurn);
@@ -134,12 +132,9 @@ class JanggiGameRepositoryTest {
             try {
                 spyGameRepository.updateGameStatus(conn, janggiGame, gameIdA);
             } catch (IllegalStateException e) {
-                // [중요] 예외가 발생했을 때 테스트 코드에서 직접 롤백을 수행함
-                System.out.println("CALLBACK IN CATCH");
                 conn.rollback();
             }
 
-            System.out.println("BEFORE CALL: findById, gameId=" + gameIdA);
             JanggiGame foundGame = spyGameRepository.findById(conn, gameIdA);
             Side actualCurrentTurn = foundGame.currentTurn();
             assertThat(actualCurrentTurn).isEqualTo(expectedCurrentTurn);
