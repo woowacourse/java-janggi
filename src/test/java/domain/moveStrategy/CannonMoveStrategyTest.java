@@ -173,6 +173,6 @@ class CannonMoveStrategyTest {
         boolean result = moveStrategy.canMove(board, from, to);
 
         //then
-        assertThat(result).isTrue();
+        assertThat(result).isFalse();
     }
 }

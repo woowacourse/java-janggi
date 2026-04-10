@@ -27,6 +27,16 @@ public class ChariotMoveStrategy extends AbstractOrthogonalMoveStrategy {
                 .anyMatch(d -> isPathClear(board, from, to, d));
     }
 
+    private boolean canMoveDiagonallyInPalace(BoardView board, Position from, Position to) {
+        if (!board.isInPalace(from) || !board.isInPalace(to)) {
+            return false;
+        }
+
+        return board.findAvailableDirections(from).stream()
+                .filter(direction -> canReachDiagonallyInPalace(board, from, to, direction))
+                .anyMatch(d -> isPathClear(board, from, to, d));
+    }
+
     private boolean isPathClear(BoardView board, Position from, Position to, Direction direction) {
         Position currentPosition = from.move(direction);
 
@@ -39,36 +49,5 @@ public class ChariotMoveStrategy extends AbstractOrthogonalMoveStrategy {
         }
 
         return true;
-    }
-
-    private boolean canMoveDiagonallyInPalace(BoardView board, Position from, Position to) {
-        if (!board.isInPalace(from) || !board.isInPalace(to)) {
-            return false;
-        }
-
-        return  board.findAvailableDirections(from).stream()
-                .anyMatch(direction -> canReach(board, from, to, direction));
-    }
-
-    private boolean canReach(BoardView board, Position from, Position to, Direction direction) {
-        Position current = from.move(direction);
-
-        while (board.isInPalace(current)) {
-            if (current.equals(to)) {
-                return true;
-            }
-
-            if (!board.isEmpty(current)) {
-                return false;
-            }
-
-            if (!board.isPalaceConnected(current, direction)) {
-                return false;
-            }
-
-            current = current.move(direction);
-        }
-
-        return false;
     }
 }
