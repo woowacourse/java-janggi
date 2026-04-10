@@ -4,21 +4,15 @@ CREATE TABLE IF NOT EXISTS game (
     han_player_name VARCHAR(5) NOT NULL,
     cho_formation VARCHAR(30) NOT NULL,
     han_formation VARCHAR(30) NOT NULL,
+    board_state CLOB NOT NULL,
+    current_side VARCHAR(20) NOT NULL,
+    move_count INT NOT NULL DEFAULT 0,
     status VARCHAR(20) NOT NULL,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS move (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    game_id BIGINT NOT NULL,
-    turn_no INT NOT NULL,
-    source_x INT NOT NULL,
-    source_y INT NOT NULL,
-    target_x INT NOT NULL,
-    target_y INT NOT NULL,
-    FOREIGN KEY (game_id) REFERENCES game(id),
-    UNIQUE (game_id, turn_no)
-);
+ALTER TABLE game ADD COLUMN IF NOT EXISTS board_state CLOB DEFAULT '' NOT NULL;
+ALTER TABLE game ADD COLUMN IF NOT EXISTS current_side VARCHAR(20) DEFAULT 'CHO' NOT NULL;
+ALTER TABLE game ADD COLUMN IF NOT EXISTS move_count INT DEFAULT 0 NOT NULL;
 
 CREATE INDEX IF NOT EXISTS idx_game_status ON game(status);
-CREATE INDEX IF NOT EXISTS idx_move_game_turn ON move(game_id, turn_no);

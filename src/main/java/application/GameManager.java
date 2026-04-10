@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 import persistence.JdbcGameRepository;
-import persistence.MoveCommand;
 import persistence.SavedGame;
 import persistence.SavedGameSummary;
 import view.InputView;
@@ -73,17 +72,22 @@ public class GameManager {
     }
 
     private GameSession restoreGame(SavedGame savedGame) {
+        Players players = restorePlayers(savedGame);
+        Board board = savedGame.board();
+        Game game = new Game(board, players, new ScorePolicy());
+        outputView.printResume(savedGame.choPlayerName(), savedGame.hanPlayerName(), savedGame.moveCount());
+        return new GameSession(savedGame.id(), game, savedGame.moveCount());
+    }
+
+    private Players restorePlayers(SavedGame savedGame) {
         Players players = Players.createInitial(
                 new Name(savedGame.choPlayerName()),
                 new Name(savedGame.hanPlayerName())
         );
-        Board board = BoardFactory.create(savedGame.choFormation(), savedGame.hanFormation());
-        Game game = new Game(board, players, new ScorePolicy());
-        for (MoveCommand move : savedGame.moves()) {
-            game.move(move.source(), move.target());
+        if (savedGame.currentSide() == Side.HAN) {
+            players.switchPlayer();
         }
-        outputView.printResume(savedGame.choPlayerName(), savedGame.hanPlayerName(), savedGame.moveCount());
-        return new GameSession(savedGame.id(), game, savedGame.moveCount());
+        return players;
     }
 
     private GameSession initializeNewGame() {
@@ -96,7 +100,10 @@ public class GameManager {
                 initializedPlayers.choName().name(),
                 initializedPlayers.hanName().name(),
                 choFormation,
-                hanFormation
+                hanFormation,
+                game.getBoard(),
+                game.getCurrentSide(),
+                0
         );
         return new GameSession(gameId, game, 0);
     }
@@ -124,9 +131,9 @@ public class GameManager {
         retry(() -> {
             Position target = InputParser.parsePosition(inputView.readTargetPosition());
             game.selectSource(source).validateDestinations(target);
-            int nextTurn = session.nextMoveCount();
-            gameRepository.saveMove(session.gameId(), nextTurn, source, target);
             game.move(source, target);
+            int nextTurn = session.nextMoveCount();
+            gameRepository.updateGameState(session.gameId(), game.getBoard(), game.getCurrentSide(), nextTurn);
             session.updateMoveCount(nextTurn);
         });
         outputView.printBoard(game.getBoard());

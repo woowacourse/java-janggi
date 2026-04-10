@@ -1,7 +1,8 @@
 package persistence;
 
+import domain.Side;
+import domain.board.Board;
 import domain.board.Formation;
-import java.util.List;
 
 public record SavedGame(
         long id,
@@ -9,13 +10,8 @@ public record SavedGame(
         String hanPlayerName,
         Formation choFormation,
         Formation hanFormation,
-        List<MoveCommand> moves
+        Board board,
+        Side currentSide,
+        int moveCount
 ) {
-    public SavedGame {
-        moves = List.copyOf(moves);
-    }
-
-    public int moveCount() {
-        return moves.size();
-    }
 }
