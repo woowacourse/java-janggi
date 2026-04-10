@@ -175,10 +175,11 @@ class GameRepositoryTest {
             JanggiGame game = new JanggiGame(board, Side.CHO);
             Persisted<JanggiGame> persistedGame = gameRepository.save(game);
 
-            game.movePiece(new Move(START_INTERSECTION, DESTINATION));
+            Move latestMove = new Move(START_INTERSECTION, DESTINATION);
+            game.movePiece(latestMove);
 
             // when
-            gameRepository.update(persistedGame);
+            gameRepository.update(persistedGame, latestMove);
 
             // then
             Request findCurrentSide = assertConnection.request("""
@@ -205,10 +206,11 @@ class GameRepositoryTest {
 
             int rowOfFrom = START_INTERSECTION.getRow();
             int fileOfFrom = START_INTERSECTION.getFile();
-            game.movePiece(new Move(START_INTERSECTION, DESTINATION));
+            Move latestMove = new Move(START_INTERSECTION, DESTINATION);
+            game.movePiece(latestMove);
 
             // when
-            gameRepository.update(persistedGame);
+            gameRepository.update(persistedGame, latestMove);
 
             // then
             Request findCurrentSide = assertConnection.request("""

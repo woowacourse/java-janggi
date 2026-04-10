@@ -13,7 +13,6 @@ public final class JanggiGame {
 
     private static final Side FIRST_TURN = Side.CHO;
 
-    private Move lastMove;
     private final Board board;
     private Side currentTurn;
 
@@ -39,7 +38,6 @@ public final class JanggiGame {
         validatePlaying();
 
         board.movePiece(move, currentTurn);
-        lastMove = move;
 
         currentTurn = currentTurn.nextTurn();
     }
@@ -66,14 +64,6 @@ public final class JanggiGame {
 
     public double getTotalScore(Side side) {
         return side.calculateTotalScore(board.getTotalScore(side));
-    }
-
-    public Move getLastMove() {
-        if (lastMove == null) {
-            throw new IllegalStateException("아직 이동하지 않았습니다.");
-        }
-
-        return lastMove;
     }
 
     public Map<Intersection, Piece> getPieces() {

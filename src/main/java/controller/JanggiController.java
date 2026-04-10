@@ -34,8 +34,8 @@ public class JanggiController {
         JanggiGame game = persistedGame.data();
 
         while (game.isPlaying()) {
-            retryOnIllegalArgument(() -> progressTurn(game));
-            gameRepository.update(persistedGame);
+            Move lastMove = retryOnIllegalArgument(() -> progressTurn(game));
+            gameRepository.update(persistedGame, lastMove);
         }
 
         finishGame(persistedGame);
@@ -71,7 +71,7 @@ public class JanggiController {
         return gameRepository.findById(gameId);
     }
 
-    private void progressTurn(JanggiGame game) {
+    private Move progressTurn(JanggiGame game) {
         Map<Intersection, Piece> board = game.getPieces();
         Side currentTurn = game.getCurrentTurn();
 
@@ -79,7 +79,10 @@ public class JanggiController {
         List<Intersection> movableIntersections = game.getMovableIntersections(startIntersection);
         Intersection destination = view.readMovePiece(board, movableIntersections);
 
-        game.movePiece(new Move(startIntersection, destination));
+        Move move = new Move(startIntersection, destination);
+        game.movePiece(move);
+
+        return move;
     }
 
     private void finishGame(Persisted<JanggiGame> persistedGame) {
@@ -100,9 +103,5 @@ public class JanggiController {
 
     private <T> T retryOnIllegalArgument(Supplier<T> retryableAction) {
         return RetryUtil.retryOnInvalidInput(retryableAction, view::printError);
-    }
-
-    private void retryOnIllegalArgument(Runnable retryableAction) {
-        RetryUtil.retryOnInvalidInput(retryableAction, view::printError);
     }
 }

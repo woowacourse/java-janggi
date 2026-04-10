@@ -66,10 +66,13 @@ public class GameRepository {
         });
     }
 
-    public void update(Persisted<JanggiGame> persistedGame) {
+    public void update(
+            Persisted<JanggiGame> persistedGame,
+            Move lastMove
+    ) {
         transaction.execute(connection -> {
             updateCurrentTurn(persistedGame, connection);
-            updatePieces(persistedGame, connection);
+            pieceRepository.update(lastMove, persistedGame.id(), connection);
         });
     }
 
@@ -131,16 +134,6 @@ public class GameRepository {
             statement.setInt(2, persistedGame.id());
             statement.executeUpdate();
         }
-    }
-
-    private void updatePieces(
-            Persisted<JanggiGame> persistedGame,
-            Connection connection
-    ) throws SQLException {
-        JanggiGame game = persistedGame.data();
-        Move lastMove = game.getLastMove();
-
-        pieceRepository.update(lastMove, persistedGame.id(), connection);
     }
 
     private void deleteGame(
