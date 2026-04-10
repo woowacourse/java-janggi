@@ -200,8 +200,8 @@ public class JdbcJanggiRepository implements JanggiRepository {
                 if (rs.next()) {
                     String choName = rs.getString(COLUMN_CHO_PLAYER);
                     String hanName = rs.getString(COLUMN_HAN_PLAYER);
-                    Side currentTurn = Side.valueOf(rs.getString(COLUMN_CURRENT_TURN));
-                    return Players.fromSavedStatus(choName, hanName, currentTurn);
+                    Turn currentTurn = findTurnById(gameId);
+                    return Players.fromSavedStatus(choName, hanName, currentTurn.getSide());
                 }
             }
         } catch (SQLException e) {
