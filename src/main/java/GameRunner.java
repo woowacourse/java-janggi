@@ -4,73 +4,69 @@ import domain.piece.Piece;
 import domain.board.PiecePosition;
 import domain.board.Position;
 import domain.board.Route;
+import domain.game.Game;
+import domain.game.FormationType;
 import domain.piece.TeamColor;
-import domain.game.TurnManager;
 import io.InputView;
 import io.OutputView;
 import java.util.List;
 import java.util.Optional;
-import strategy.formation.InitialFormationStrategy;
-import strategy.formation.InnerFormationStrategy;
-import strategy.formation.LeftFormationStrategy;
-import strategy.formation.OuterFormationStrategy;
-import strategy.formation.RightFormationStrategy;
 
 public class GameRunner {
     private static final int FIRST_OPTION_NUMBER = 1;
     private static final int BACK_OPTION_NUMBER = 0;
     private static final int ZERO_BASE_INDEX_OFFSET = 1;
-    private static final List<InitialFormationStrategy> FORMATIONS = List.of(
-            new InnerFormationStrategy(),
-            new OuterFormationStrategy(),
-            new LeftFormationStrategy(),
-            new RightFormationStrategy()
+    private static final List<FormationType> FORMATIONS = List.of(
+            FormationType.INNER,
+            FormationType.OUTER,
+            FormationType.LEFT,
+            FormationType.RIGHT
     );
 
     private final InputView inputView;
     private final OutputView outputView;
-    private final TurnManager turnManager;
+    private final NewGameFactory newGameFactory;
 
     public GameRunner() {
-        this(new InputView(), new OutputView(), new TurnManager());
+        this(new InputView(), new OutputView(), new NewGameFactory());
     }
 
-    public GameRunner(InputView inputView, OutputView outputView, TurnManager turnManager) {
+    public GameRunner(InputView inputView, OutputView outputView, NewGameFactory newGameFactory) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.turnManager = turnManager;
+        this.newGameFactory = newGameFactory;
     }
 
     public void run() {
         outputView.printGameStart();
+        Game game = createNewGame();
+        outputView.printBoard(game.board());
 
-        InitialFormationStrategy choStrategy = chooseFormationStrategy(TeamColor.CHO);
-        InitialFormationStrategy hanStrategy = chooseFormationStrategy(TeamColor.HAN);
-
-        BoardInitializer boardInitializer = new BoardInitializer(choStrategy, hanStrategy);
-        Board board = boardInitializer.initialize();
-
-        outputView.printBoard(board);
-
-        boolean isRunning = true;
-        while (isRunning) {
-            isRunning = playTurn(board);
+        while (game.isInProgress()) {
+            playTurn(game);
         }
     }
 
-    private InitialFormationStrategy chooseFormationStrategy(TeamColor teamColor) {
+    private Game createNewGame() {
+        FormationType choFormation = chooseFormation(TeamColor.CHO);
+        FormationType hanFormation = chooseFormation(TeamColor.HAN);
+        return newGameFactory.create(choFormation, hanFormation);
+    }
+
+    private FormationType chooseFormation(TeamColor teamColor) {
         while (true) {
             outputView.printFormationSelectionPrompt(teamColor);
             try {
-                return createFormationStrategy(inputView.readFormationChoice(teamColor));
-            } catch (RuntimeException exception) {
+                return createFormation(inputView.readFormationChoice(teamColor));
+            } catch (IllegalArgumentException exception) {
                 outputView.printError("상차림 입력이 올바르지 않습니다.");
             }
         }
     }
 
-    private boolean playTurn(Board board) {
-        final TeamColor currentTurn = turnManager.getCurrentTurn();
+    private void playTurn(Game game) {
+        final Board board = game.board();
+        final TeamColor currentTurn = game.currentTurn();
         outputView.printCurrentTurn(currentTurn);
         outputView.printBoard(board);
 
@@ -86,18 +82,19 @@ public class GameRunner {
                 final MoveResult moveResult = board.move(selectedPiece, destination);
                 outputView.printMoveResult(selectedPiece, destination);
                 if (moveResult.capturedKing()) {
+                    game.finish();
                     outputView.printWinner(currentTurn);
-                    return false;
+                    return;
                 }
-                turnManager.advanceTurn();
-                return true;
-            } catch (RuntimeException exception) {
+                game.advanceTurn();
+                return;
+            } catch (IllegalArgumentException exception) {
                 outputView.printError(exception.getMessage());
             }
         }
     }
 
-    private InitialFormationStrategy createFormationStrategy(int choice) {
+    private FormationType createFormation(int choice) {
         validateFormationChoice(choice);
         return FORMATIONS.get(choice - ZERO_BASE_INDEX_OFFSET);
     }
@@ -149,4 +146,3 @@ public class GameRunner {
         return routes.get(routeChoice - ZERO_BASE_INDEX_OFFSET);
     }
 }
-

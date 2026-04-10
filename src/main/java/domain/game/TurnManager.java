@@ -7,7 +7,11 @@ public class TurnManager {
     private TeamColor currentTurn;
 
     public TurnManager() {
-        currentTurn = TeamColor.CHO;
+        this(TeamColor.CHO);
+    }
+
+    public TurnManager(TeamColor currentTurn) {
+        this.currentTurn = currentTurn;
     }
 
     public void advanceTurn() {
@@ -18,5 +22,4 @@ public class TurnManager {
         return currentTurn;
     }
 }
-
 
