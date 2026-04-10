@@ -2,7 +2,9 @@ package janggi.domain;
 
 import janggi.domain.board.Board;
 import janggi.domain.board.strategy.*;
-import janggi.domain.piece.Piece;
+import janggi.domain.state.ChoTurn;
+import janggi.domain.state.GameState;
+import janggi.domain.state.GiveUp;
 import janggi.view.dto.PieceStatus;
 
 import java.util.List;
@@ -17,18 +19,18 @@ public class Janggi {
     );
 
     private final Board board;
-    private boolean ongoing;
+    private GameState gameState;
 
-    private Janggi(Board board, boolean ongoing) {
+    private Janggi(Board board, GameState gameState) {
         this.board = board;
-        this.ongoing = ongoing;
+        this.gameState = gameState;
     }
 
     public static Janggi start(int choFormationNumber, int hanFormationNumber) {
         return new Janggi(Board.initializeToBoard(
                 readFormation(choFormationNumber),
                 readFormation(hanFormationNumber)),
-                true);
+                new ChoTurn());
     }
 
     private static FormationStrategy readFormation(int choice) {
@@ -39,14 +41,11 @@ public class Janggi {
     }
 
     public void movePiece(Position from, Position to) {
-        board.movePiece(from, to);
+        gameState = gameState.move(from, to, board);
     }
 
-    public void validateCamp(Position position, Camp camp) {
-        Piece piece = board.selectPiece(position);
-        if (!piece.isSameCamp(camp)) {
-            throw new IllegalArgumentException("자신의 기물만 선택할 수 있습니다.");
-        }
+    public void validateCamp(Position position) {
+        gameState.validateCamp(position, board);
     }
 
     public List<PieceStatus> piecesStatus() {
@@ -60,10 +59,14 @@ public class Janggi {
     }
 
     public boolean isOnGoing() {
-        return ongoing;
+        return gameState.isOngoing();
     }
 
     public void stopGame() {
-        ongoing = false;
+        gameState = new GiveUp(gameState.turn());
+    }
+
+    public Camp currentTurn() {
+        return gameState.turn();
     }
 }

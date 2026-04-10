@@ -32,70 +32,58 @@ public class JanggiController {
     }
 
     private void playJanggiGame(Janggi janggi) {
-        Camp currentCamp = Camp.CHO;
         while (janggi.isOnGoing()) {
-            currentCamp = playTurn(janggi, currentCamp);
+             playTurn(janggi);
         }
     }
 
-    private Camp playTurn(Janggi janggi, Camp currentCamp) {
+    private void playTurn(Janggi janggi) {
+        Camp currentCamp = janggi.currentTurn();
         List<Integer> displayRows = IntStream.rangeClosed(0, 9)
                 .map(i -> currentCamp.calculateRow(9 - i))
                 .boxed()
                 .toList();
         outputView.printBoard(janggi.piecesStatus(), displayRows);
-        return selectAndMove(janggi, currentCamp);
+        selectAndMove(janggi);
     }
 
-    private Camp selectAndMove(Janggi janggi, Camp currentCamp) {
+    private void selectAndMove(Janggi janggi) {
         Optional<PositionRequest> fromRequest = inputView.readPieceSelection();
         if (fromRequest.isEmpty()) {
             janggi.stopGame();
-            return currentCamp;
+            return;
         }
-        return processMove(janggi, fromRequest.get(), currentCamp);
+        processMove(janggi, fromRequest.get());
     }
 
-    private Camp processMove(Janggi janggi, PositionRequest fromRequest, Camp currentCamp) {
-        if (tryMove(janggi, fromRequest, currentCamp)) {
-            return nextCamp(currentCamp);
-        }
-        return currentCamp;
+    private void processMove(Janggi janggi, PositionRequest fromRequest) {
+        tryMove(janggi, fromRequest);
     }
 
-    private boolean tryMove(Janggi janggi, PositionRequest from, Camp currentCamp) {
+    private void tryMove(Janggi janggi, PositionRequest from) {
         try {
-            janggi.validateCamp(Position.of(from.row(), from.column()), currentCamp);
-            return executeMoveSequence(janggi, from);
+            janggi.validateCamp(Position.of(from.row(), from.column()));
+            executeMoveSequence(janggi, from);
         } catch (IllegalArgumentException e) {
             outputView.printError(e.getMessage());
-            return false;
         }
     }
 
-    private boolean executeMoveSequence(Janggi janggi, PositionRequest fromRequest) {
+    private void executeMoveSequence(Janggi janggi, PositionRequest fromRequest) {
         Optional<PositionRequest> toRequest = inputView.readMoveDestination();
         if (toRequest.isEmpty()) {
-            return false;
+            return;
         }
-        return applyMoveToDomain(janggi, fromRequest, toRequest.get());
+        applyMoveToDomain(janggi, fromRequest, toRequest.get());
     }
 
-    private boolean applyMoveToDomain(Janggi janggi, PositionRequest fromRequest, PositionRequest toRequest) {
+    private void applyMoveToDomain(Janggi janggi, PositionRequest fromRequest, PositionRequest toRequest) {
         try {
             janggi.movePiece(Position.of(fromRequest.row(), fromRequest.column()),
                     Position.of(toRequest.row(), toRequest.column()));
-            return true;
         } catch (IllegalArgumentException e) {
             outputView.printError(e.getMessage());
-            return executeMoveSequence(janggi, fromRequest);
+            executeMoveSequence(janggi, fromRequest);
         }
-    }
-
-    private Camp nextCamp(Camp currentCamp) {
-        if (currentCamp.isCho()) {
-            return Camp.HAN;
-        }
-        return Camp.CHO;
     }
 }
