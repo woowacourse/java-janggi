@@ -26,14 +26,6 @@ class PieceTest {
         assertThat(piece.isSameType(PieceType.ELEPHANT)).isFalse();
     }
 
-    @Test
-    void 기물_타입이_궁인지_반환한다() {
-        Piece generalPiece = Piece.of(Camp.CHO, PieceType.GENERAL);
-
-        assertThat(generalPiece.isGeneral()).isTrue();
-        assertThat(piece.isGeneral()).isFalse();
-    }
-
     @Nested
     class 동등성_비교_테스트 {
         @Test

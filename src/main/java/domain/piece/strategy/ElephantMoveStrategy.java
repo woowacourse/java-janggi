@@ -1,20 +1,33 @@
 package domain.piece.strategy;
 
-import domain.path.Direction;
+import domain.board.Position;
+import domain.path.JumpPathGenerator;
+import domain.path.PathInfo;
+import domain.piece.BlockingPieceValidator;
 
 import java.util.List;
 
-public class ElephantMoveStrategy extends JumpMoveStrategy {
+public class ElephantMoveStrategy implements MoveStrategy {
+
     @Override
-    protected void validateMove(int deltaX, int deltaY) {
-        if (!isElephantMove(deltaX, deltaY)) {
-            throw new IllegalArgumentException("마는 직진 후, 대각선 방향으로 한 칸 이동 가능합니다.");
-        }
+    public List<Position> getPath(Position departure, Position destination) {
+        int deltaX = departure.calculateDeltaX(destination);
+        int deltaY = departure.calculateDeltaY(destination);
+
+        validateMove(deltaX, deltaY);
+
+        return JumpPathGenerator.getPath(departure, destination, 2);
     }
 
     @Override
-    protected List<Direction> generateDirections(Direction firstDirection, Direction secondDirection) {
-        return List.of(firstDirection, secondDirection, secondDirection);
+    public void validateBlockingPiece(List<PathInfo> pathInfos, Position destination) {
+        BlockingPieceValidator.validateNoBlockingPiece(pathInfos, destination);
+    }
+
+    private void validateMove(int deltaX, int deltaY) {
+        if (!isElephantMove(deltaX, deltaY)) {
+            throw new IllegalArgumentException("마는 직진 후, 대각선 방향으로 한 칸 이동 가능합니다.");
+        }
     }
 
     private boolean isElephantMove(int deltaX, int deltaY) {

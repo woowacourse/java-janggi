@@ -1,24 +1,23 @@
-package domain.piece.strategy;
+package domain.path;
 
 import domain.board.Palace;
 import domain.board.Position;
-import domain.path.Direction;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class LinearMoveStrategy implements MoveStrategy {
-    @Override
-    public List<Position> getPath(Position departure, Position destination) {
+public class LinearPathGenerator {
+    public static List<Position> getPath(Position departure, Position destination) {
         int deltaX = departure.calculateDeltaX(destination);
         int deltaY = departure.calculateDeltaY(destination);
 
         Direction direction = Direction.decideDirection(deltaX, deltaY);
         validateLinearMove(deltaX, deltaY, Palace.isPalacePath(departure, destination));
+
         return generateStraightPath(departure, destination, direction);
     }
 
-    private void validateLinearMove(int deltaX, int deltaY, boolean isPalacePath) {
+    private static void validateLinearMove(int deltaX, int deltaY, boolean isPalacePath) {
         if (isPalacePath) {
             return;
         }
@@ -28,11 +27,11 @@ public abstract class LinearMoveStrategy implements MoveStrategy {
         }
     }
 
-    private boolean isNotLinear(int deltaX, int deltaY) {
+    private static boolean isNotLinear(int deltaX, int deltaY) {
         return deltaX != 0 && deltaY != 0;
     }
 
-    private List<Position> generateStraightPath(Position departure, Position destination, Direction direction) {
+    private static List<Position> generateStraightPath(Position departure, Position destination, Direction direction) {
         List<Position> paths = new ArrayList<>();
 
         Position current = departure;
