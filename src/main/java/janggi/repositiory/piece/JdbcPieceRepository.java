@@ -1,6 +1,7 @@
 package janggi.repositiory.piece;
 
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceFactory;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Team;
 import janggi.domain.vo.position.Position;
@@ -10,8 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 public class JdbcPieceRepository implements PieceRepository {
@@ -72,7 +72,7 @@ public class JdbcPieceRepository implements PieceRepository {
     }
 
     @Override
-    public List<PieceData> findAll(Long gameId) {
+    public Map<Position, Piece> findAll(Long gameId) {
         String sql = "select * from piece where game_id = ?";
 
         try (Connection conn = getConnection();
@@ -82,17 +82,13 @@ public class JdbcPieceRepository implements PieceRepository {
 
             ResultSet rs = pstmt.executeQuery();
 
-            List<PieceData> pieces = new ArrayList<>();
+            Map<Position, Piece> pieces = new HashMap<>();
             while (rs.next()) {
-                PieceData pieceData = new PieceData(
-                        rs.getInt("game_id"),
-                        rs.getInt("row_index"),
-                        rs.getInt("col_index"),
-                        PieceType.fromCode(rs.getString("piece_type")),
-                        Team.fromCode(rs.getString("team"))
-                );
+                Position position = new Position(rs.getInt("row_index"), rs.getInt("col_index"));
+                Piece piece = PieceFactory.create(PieceType.fromCode(rs.getString("piece_type")),
+                        Team.fromCode(rs.getString("team")));
 
-                pieces.add(pieceData);
+                pieces.put(position, piece);
             }
 
             return pieces;
