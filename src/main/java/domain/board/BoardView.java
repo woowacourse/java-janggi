@@ -14,4 +14,6 @@ public interface BoardView {
     boolean isPalaceConnected(Position position, Direction direction);
 
     Set<Position> findPalaceNextPositions(Position position);
+
+    Set<Direction> findAvailableDirections(Position position);
 }

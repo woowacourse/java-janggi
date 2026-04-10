@@ -63,6 +63,11 @@ public class Palace {
                 .contains(direction);
     }
 
+    public Set<Direction> findAvailableDirections(Position position) {
+        return PALACE_DIRECTIONS_MAP
+                .getOrDefault(position, Set.of());
+    }
+
     public Set<Position> findNextPositions(Position position) {
         return PALACE_DIRECTIONS_MAP
                 .getOrDefault(position, Set.of())

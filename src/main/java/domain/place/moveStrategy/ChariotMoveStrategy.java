@@ -3,6 +3,7 @@ package domain.place.moveStrategy;
 import domain.board.BoardView;
 import domain.position.Position;
 import java.util.List;
+import java.util.Set;
 
 public class ChariotMoveStrategy extends AbstractOrthogonalMoveStrategy {
 
@@ -12,7 +13,7 @@ public class ChariotMoveStrategy extends AbstractOrthogonalMoveStrategy {
 
     @Override
     public boolean canMove(BoardView board, Position from, Position to) {
-        return canMoveOrthogonally(board, from, to);
+        return canMoveOrthogonally(board, from, to) || canMoveDiagonallyInPalace(board, from, to);
     }
 
     private boolean canMoveOrthogonally(BoardView board, Position from, Position to) {
@@ -38,5 +39,36 @@ public class ChariotMoveStrategy extends AbstractOrthogonalMoveStrategy {
         }
 
         return true;
+    }
+
+    private boolean canMoveDiagonallyInPalace(BoardView board, Position from, Position to) {
+        if (!board.isInPalace(from) || !board.isInPalace(to)) {
+            return false;
+        }
+
+        return  board.findAvailableDirections(from).stream()
+                .anyMatch(direction -> canReach(board, from, to, direction));
+    }
+
+    private boolean canReach(BoardView board, Position from, Position to, Direction direction) {
+        Position current = from.move(direction);
+
+        while (board.isInPalace(current)) {
+            if (current.equals(to)) {
+                return true;
+            }
+
+            if (!board.isEmpty(current)) {
+                return false;
+            }
+
+            if (!board.isPalaceConnected(current, direction)) {
+                return false;
+            }
+
+            current = current.move(direction);
+        }
+
+        return false;
     }
 }

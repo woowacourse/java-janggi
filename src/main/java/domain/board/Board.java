@@ -75,6 +75,11 @@ public class Board implements BoardView {
         return palace.findNextPositions(position);
     }
 
+    @Override
+    public Set<Direction> findAvailableDirections(Position position) {
+        return palace.findAvailableDirections(position);
+    }
+
     private List<String> getFormatRow(int row) {
         List<String> rowFormats = new ArrayList<>();
         for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {

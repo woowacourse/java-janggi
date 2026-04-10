@@ -133,11 +133,11 @@ class ChariotMoveStrategyTest {
     void 차_궁성_내_대각선_이동가능() {
         //given
         StubBoard stubBoard = new StubBoard();
-        stubBoard.put(new Position(8, 6), new Chariot(Side.CHO, new ChariotMoveStrategy()));
+        stubBoard.put(new Position(8, 4), new Chariot(Side.CHO, new ChariotMoveStrategy()));
         Board board = stubBoard.create();
 
-        Position from = new Position(8, 6);
-        Position to = new Position(10, 4);
+        Position from = new Position(8, 4);
+        Position to = new Position(10, 6);
 
         // when
         MoveStrategy moveStrategy = new ChariotMoveStrategy();
