@@ -14,6 +14,7 @@ import janggi.domain.space.Position;
 import janggi.dto.GameDto;
 import janggi.infrastructure.dao.GameDao;
 import janggi.infrastructure.dao.MoveHistoryDao;
+import janggi.infrastructure.dao.dto.GameSaveRequest;
 import janggi.infrastructure.dao.dto.MoveEntity;
 import java.sql.SQLException;
 import java.util.List;
@@ -32,11 +33,13 @@ public class JdbcGameRepository implements GameRepository {
     public Long save(Game game) {
         try {
             return gameDao.insertGame(
-                    game.getPlayerNameBySide(Side.CHO).name(),
-                    game.getPlayerNameBySide(Side.HAN).name(),
-                    game.getPlayerFormationBySide(Side.CHO).name(),
-                    game.getPlayerFormationBySide(Side.HAN).name(),
-                    game.getCurrentSide().name()
+                    new GameSaveRequest(
+                            game.getPlayerNameBySide(Side.CHO).name(),
+                            game.getPlayerNameBySide(Side.HAN).name(),
+                            game.getPlayerFormationBySide(Side.CHO).name(),
+                            game.getPlayerFormationBySide(Side.HAN).name(),
+                            game.getCurrentSide().name()
+                    )
             );
         } catch (SQLException e) {
             throw new RuntimeException("새 게임 저장 실패", e);

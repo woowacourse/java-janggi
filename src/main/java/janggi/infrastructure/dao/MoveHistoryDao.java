@@ -31,18 +31,22 @@ public class MoveHistoryDao {
         String sql = "SELECT source_x, source_y, target_x, target_y FROM move_history WHERE game_id = ? ORDER BY id ASC";
         try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
             preparedStatement.setLong(1, gameId);
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                List<MoveEntity> moves = new ArrayList<>();
-                while (resultSet.next()) {
-                    moves.add(new MoveEntity(
-                            resultSet.getInt("source_x"),
-                            resultSet.getInt("source_y"),
-                            resultSet.getInt("target_x"),
-                            resultSet.getInt("target_y")
-                    ));
-                }
-                return moves;
+            return extractMoves(preparedStatement);
+        }
+    }
+
+    private List<MoveEntity> extractMoves(PreparedStatement statement) throws SQLException {
+        try (ResultSet resultSet = statement.executeQuery()) {
+            List<MoveEntity> moves = new ArrayList<>();
+            while (resultSet.next()) {
+                moves.add(new MoveEntity(
+                        resultSet.getInt("source_x"),
+                        resultSet.getInt("source_y"),
+                        resultSet.getInt("target_x"),
+                        resultSet.getInt("target_y")
+                ));
             }
+            return moves;
         }
     }
 }

@@ -12,5 +12,4 @@ public interface BoardReader {
     Piece getPiece(Position position);
     List<Direction> getPalaceDiagonals(Position position);
     boolean isInsidePalace(Position position);
-    boolean isInsidePalace(Position position, Side side);
 }

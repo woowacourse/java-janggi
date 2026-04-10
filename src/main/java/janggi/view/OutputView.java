@@ -60,7 +60,7 @@ public class OutputView {
 
     public void printDestinations(DestinationDto destinations) {
         String result = destinations.positions().stream()
-                .map(pos -> String.format("(%d, %d)", pos.x(), pos.y()))
+                .map(positionDto -> String.format("(%d, %d)", positionDto.x(), positionDto.y()))
                 .reduce((a, b) -> a + ", " + b)
                 .orElse("");
         System.out.println(result);

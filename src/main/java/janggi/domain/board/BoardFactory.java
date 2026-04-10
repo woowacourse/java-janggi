@@ -31,24 +31,30 @@ public class BoardFactory {
     }
 
     private static Map<Position, Piece> getFixedPieces(Side side, SideLayout layout) {
-        Map<Position, Piece> fixedPieces = new HashMap<>();
-        fixedPieces.put(Position.of(4, layout.getGeneralY()), PieceFactory.createGeneral(side));
+        Map<Position, Piece> pieces = new HashMap<>();
+        pieces.put(Position.of(4, layout.getGeneralY()), PieceFactory.createGeneral(side));
+        putChariotsAndGuards(pieces, side, layout.getBaseY());
+        putCannons(pieces, side, layout.getCannonY());
+        putSoldiers(pieces, side, layout.getSoldierY());
+        return pieces;
+    }
 
-        int baseY = layout.getBaseY();
-        fixedPieces.put(Position.of(0, baseY), PieceFactory.createChariot(side));
-        fixedPieces.put(Position.of(8, baseY), PieceFactory.createChariot(side));
-        fixedPieces.put(Position.of(3, baseY), PieceFactory.createGuard(side));
-        fixedPieces.put(Position.of(5, baseY), PieceFactory.createGuard(side));
+    private static void putChariotsAndGuards(Map<Position, Piece> pieces, Side side, int baseY) {
+        pieces.put(Position.of(0, baseY), PieceFactory.createChariot(side));
+        pieces.put(Position.of(8, baseY), PieceFactory.createChariot(side));
+        pieces.put(Position.of(3, baseY), PieceFactory.createGuard(side));
+        pieces.put(Position.of(5, baseY), PieceFactory.createGuard(side));
+    }
 
-        int cannonY = layout.getCannonY();
-        fixedPieces.put(Position.of(1, cannonY), PieceFactory.createCannon(side));
-        fixedPieces.put(Position.of(7, cannonY), PieceFactory.createCannon(side));
+    private static void putCannons(Map<Position, Piece> pieces, Side side, int cannonY) {
+        pieces.put(Position.of(1, cannonY), PieceFactory.createCannon(side));
+        pieces.put(Position.of(7, cannonY), PieceFactory.createCannon(side));
+    }
 
-        int soldierY = layout.getSoldierY();
+    private static void putSoldiers(Map<Position, Piece> pieces, Side side, int soldierY) {
         for (int x = 0; x <= 8; x += 2) {
-            fixedPieces.put(Position.of(x, soldierY), PieceFactory.createSoldier(side));
+            pieces.put(Position.of(x, soldierY), PieceFactory.createSoldier(side));
         }
-        return fixedPieces;
     }
 
     private static Map<Position, Piece> getFormationPieces(Side side, Formation formation, SideLayout layout) {

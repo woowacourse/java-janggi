@@ -1,6 +1,7 @@
 package janggi.infrastructure.dao;
 
 import janggi.infrastructure.dao.dto.GameEntity;
+import janggi.infrastructure.dao.dto.GameSaveRequest;
 import janggi.infrastructure.db.ConnectionContext;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,15 +18,15 @@ public class GameDao {
         return ConnectionContext.get();
     }
 
-    public Long insertGame(String choName, String hanName, String choFormation, String hanFormation, String currentTurn) throws SQLException {
+    public Long insertGame(GameSaveRequest request) throws SQLException {
         String sql = "INSERT INTO game (cho_player_name, han_player_name, cho_formation, han_formation, current_turn, is_playing) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            preparedStatement.setString(1, choName);
-            preparedStatement.setString(2, hanName);
-            preparedStatement.setString(3, choFormation);
-            preparedStatement.setString(4, hanFormation);
-            preparedStatement.setString(5, currentTurn);
+            preparedStatement.setString(1, request.choName());
+            preparedStatement.setString(2, request.hanName());
+            preparedStatement.setString(3, request.choFormation());
+            preparedStatement.setString(4, request.hanFormation());
+            preparedStatement.setString(5, request.currentTurn());
             preparedStatement.setBoolean(6, true);
 
             preparedStatement.executeUpdate();

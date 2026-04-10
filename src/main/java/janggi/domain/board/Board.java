@@ -56,6 +56,11 @@ public class Board implements BoardReader{
         this.pieces.forEach(action);
     }
 
+    public boolean isKingDead(Side side) {
+        return pieces.values().stream()
+                .noneMatch(piece -> piece.isAlly(side) && piece.isVital());
+    }
+
     @Override
     public boolean isEmpty(Position position) {
         return !pieces.containsKey(position);
@@ -65,7 +70,6 @@ public class Board implements BoardReader{
     public boolean isAlly(Position position, Side side) {
         return getPiece(position).isAlly(side);
     }
-
     @Override
     public Piece getPiece(Position position) {
         Piece piece = pieces.get(position);
@@ -74,6 +78,7 @@ public class Board implements BoardReader{
         }
         return piece;
     }
+
     @Override
     public List<Direction> getPalaceDiagonals(Position position) {
         return Palace.getDiagonals(position);
@@ -83,15 +88,5 @@ public class Board implements BoardReader{
     @Override
     public boolean isInsidePalace(Position position) {
         return Palace.isInsideAny(position);
-    }
-
-    @Override
-    public boolean isInsidePalace(Position position, Side side) {
-        return Palace.isInside(position, side);
-    }
-
-    public boolean isKingDead(Side side) {
-        return pieces.values().stream()
-                .noneMatch(piece -> piece.isAlly(side) && piece.isVital());
     }
 }

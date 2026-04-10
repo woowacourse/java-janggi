@@ -8,11 +8,6 @@ public class MovePattern {
             Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST
     );
 
-    public static final List<Direction> EVERY = List.of(
-            Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST,
-            Direction.NORTH_EAST, Direction.NORTH_WEST, Direction.SOUTH_EAST, Direction.SOUTH_WEST
-    );
-
     public static final List<Direction> CHO_SOLDIER = List.of(
             Direction.NORTH, Direction.EAST, Direction.WEST
     );

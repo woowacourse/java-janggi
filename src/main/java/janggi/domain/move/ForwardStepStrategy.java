@@ -31,7 +31,7 @@ public class ForwardStepStrategy implements MovementStrategy {
 
         return movableDirections.stream()
                 .filter(current::canMove)
-                .map(dir -> Path.ofOneStep(current, dir))
+                .map(direction -> Path.ofOneStep(current, direction))
                 .filter(path -> isForward(current, path.getDestination()))
                 .toList();
     }
