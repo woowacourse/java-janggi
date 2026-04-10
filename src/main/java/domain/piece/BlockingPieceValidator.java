@@ -21,7 +21,7 @@ public class BlockingPieceValidator {
         }
     }
 
-    public static void validateHasBlockingPiece(List<PathInfo> pathInfos, Position destination) {
+    public static void validateHasBlockingPiece(List<PathInfo> pathInfos) {
         if (pathInfos.size() != 2) {
             throw new IllegalArgumentException("포는 반드시 하나의 기물만을 이동할 수 있습니다.");
         }
