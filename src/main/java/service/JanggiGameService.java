@@ -1,0 +1,40 @@
+package service;
+
+import dao.GameRoomRawData;
+import domain.board.formation.FormationType;
+import domain.game.JanggiGame;
+import domain.position.Position;
+import java.util.List;
+import repository.GameRepository;
+
+public class JanggiGameService {
+    private final GameRepository gameRepository;
+
+    public JanggiGameService(GameRepository gameRepository) {
+        this.gameRepository = gameRepository;
+    }
+
+    public JanggiGame createGame(String roomName, FormationType choFormation, FormationType hanFormation) {
+        JanggiGame game = JanggiGame.of(choFormation, hanFormation);
+        gameRepository.createGame(roomName, game);
+        return game;
+    }
+
+    public JanggiGame enterGame(long roomId) {
+        return gameRepository.loadGame(roomId);
+    }
+
+    public List<GameRoomRawData> listRooms() {
+        return gameRepository.listRooms();
+    }
+
+    public void move(JanggiGame game, Position source, Position destination) {
+        game.move(source, destination);
+        gameRepository.saveGame(game);
+    }
+
+    public void pass(JanggiGame game) {
+        game.pass();
+        gameRepository.saveGame(game);
+    }
+}
