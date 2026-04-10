@@ -4,9 +4,8 @@ import domain.board.Board;
 import domain.board.BoardInitializer;
 import domain.coordinate.Position;
 import domain.piece.Piece;
-import domain.state.ChuSide;
 import domain.state.Side;
-import domain.state.State;
+import domain.state.GameState;
 
 import java.util.List;
 import java.util.Map;
@@ -17,26 +16,24 @@ public class Game {
 
     private Long id;
     private final Board board;
-    private State state;
-    private Side firstMover;
+    private GameState gameState;
 
     public Game(BoardInitializer boardInitializer) {
         this.board = new Board(boardInitializer.initialize());
-        this.state = createFirstTurnSide();
-        this.firstMover = state.getSide();
+        this.gameState = Side.firstMoveSide();
     }
 
-    public Game(Board board, State state) {
+    public Game(Board board, GameState gameState) {
         this.board = board;
-        this.state = state;
+        this.gameState = gameState;
     }
 
     public void end() {
-        state = state.endGame();
+        gameState = gameState.endGame();
     }
 
     public void pass() {
-        state = state.nextTurn();
+        gameState = gameState.nextTurn();
     }
 
     public Position validateMoveable(Position position) {
@@ -54,33 +51,23 @@ public class Game {
     }
 
     public boolean isKingDead() {
-        return !board.hasKing(state.getSide().opposite());
+        return !board.hasKing(gameState.getSide().opposite());
     }
 
     public double calculateScore(Side side) {
-        double score = board.calculateScore(side);
-
-        if (side == firstMover) {
-            score += FIRST_MOVE_BONUS;
-        }
-
-        return score;
+        return board.calculateScore(side) + side.getBonusScore();
     }
 
     public boolean isSafe() {
-        return board.isSafe(state.getSide().opposite());
+        return board.isSafe(gameState.getSide().opposite());
     }
 
     public boolean isCheckmate() {
-        return board.isCheckmate(state.getSide().opposite());
+        return board.isCheckmate(gameState.getSide().opposite());
     }
 
     public boolean isFinished() {
-        return state.isFinished();
-    }
-
-    public State createFirstTurnSide() {
-        return new ChuSide();
+        return gameState.isFinished();
     }
 
     public Position getEndPosition(int index, List<Position> possibleMoves) {
@@ -88,7 +75,7 @@ public class Game {
     }
 
     public Side getSide() {
-        return state.getSide();
+        return gameState.getSide();
     }
 
     public Map<Position, Piece> getBoard() {
@@ -96,7 +83,7 @@ public class Game {
     }
 
     private void validateEnsureSameSidePiece(Position start) {
-        if (board.isOpponentSide(start, state.getSide())) {
+        if (board.isOpponentSide(start, gameState.getSide())) {
             throw new IllegalArgumentException("\n아군 기물만 이동 가능합니다. 다시 입력해주세요.");
         }
     }

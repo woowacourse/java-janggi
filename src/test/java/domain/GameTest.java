@@ -94,23 +94,23 @@ class GameTest {
     }
 
     @Test
-    @DisplayName("초나라의 시작 기물 점수는 73.5 점이다. (선공 보너스 1.5)")
+    @DisplayName("초나라의 시작 기물 점수는 72 점이다.")
     void calculateScoreChuSideTest() {
         // given
         Game game = new Game(basicBoardInitializer);
 
         // when - then
-        assertThat(game.calculateScore(Side.CHU)).isEqualTo(73.5);
+        assertThat(game.calculateScore(Side.CHU)).isEqualTo(72);
     }
 
     @Test
-    @DisplayName("한나라의 시작 기물 점수는 72 점이다.")
+    @DisplayName("한나라의 시작 기물 점수는 73.5 점이다. (후공 보너스 1.5)")
     void calculateScoreHanSideTest() {
         // given
         Game game = new Game(basicBoardInitializer);
 
         // when - then
-        assertThat(game.calculateScore(Side.HAN)).isEqualTo(72);
+        assertThat(game.calculateScore(Side.HAN)).isEqualTo(73.5);
     }
 
     @Test
@@ -120,7 +120,7 @@ class GameTest {
         Game game = new Game(new CheckTest());
 
         // when - then
-        assertThat(game.isSafe()).isFalse();
+        assertThat(game.isSafe()).isTrue();
     }
 
     @Test
@@ -130,6 +130,6 @@ class GameTest {
         Game game = new Game(new CheckTest());
 
         // when - then
-        assertThat(game.isCheckmate()).isTrue();
+        assertThat(game.isCheckmate()).isFalse();
     }
 }

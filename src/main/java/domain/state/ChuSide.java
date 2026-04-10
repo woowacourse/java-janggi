@@ -7,7 +7,7 @@ public class ChuSide extends Running {
     }
 
     @Override
-    protected State changeTurn() {
+    protected GameState changeTurn() {
         return new HanSide();
     }
 }
