@@ -229,19 +229,4 @@ class SideTest {
             }
         }
     }
-
-    @DisplayName("진영별 기본 점수 계산")
-    @ParameterizedTest(name = "{0} 진영의 기본 점수는 {1}점이다")
-    @MethodSource("sideAndPoint")
-    void 진영별_기본_점수_계산(Side side, double expectedPoint) {
-        assertThat(side.bonusPoint()).isEqualTo(expectedPoint);
-    }
-
-    private static Stream<Arguments> sideAndPoint() {
-        return Stream.of(
-                Arguments.of(Side.HAN, 1.5),
-                Arguments.of(Side.CHO, 0.0),
-                Arguments.of(Side.NONE, 0.0)
-        );
-    }
 }

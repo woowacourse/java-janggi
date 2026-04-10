@@ -11,6 +11,10 @@ public final class JanggiGame {
 
     private static final Side FIRST_TURN = Side.CHO;
     private static final int MINIMUM_POINT_FOR_CONTINUE = 30;
+    private static final Map<Side, Double> bonusPointBySide = Map.of(
+            Side.CHO, 0.0,
+            Side.HAN, 1.5
+    );
 
     private final Board board;
     private Side currentTurn;
@@ -57,7 +61,6 @@ public final class JanggiGame {
         return board.getMovableIntersections(selectedIntersection, side);
     }
 
-
     public boolean isFinished() {
         return isGeneralCaptured() || !hasEnoughPointsToContinue();
     }
@@ -75,7 +78,7 @@ public final class JanggiGame {
     }
 
     public double calculateScoreOf(Side side) {
-        double sideBonusPoint = side.bonusPoint();
+        double sideBonusPoint = bonusPointBySide.getOrDefault(side, 0.0);
 
         return sideBonusPoint + board.calculatePiecePointOf(side);
     }

@@ -13,32 +13,17 @@ public enum Side {
         public Side nextTurn() {
             return CHO;
         }
-
-        @Override
-        public double bonusPoint() {
-            return 1.5;
-        }
     },
     CHO(10, 1, new Up()) {
         @Override
         public Side nextTurn() {
             return HAN;
         }
-
-        @Override
-        public double bonusPoint() {
-            return 0.0;
-        }
     },
     NONE(0, 0, new NoDirection()) {
         @Override
         public Side nextTurn() {
             return NONE;
-        }
-
-        @Override
-        public double bonusPoint() {
-            return 0.0;
         }
     },
     ;
@@ -113,8 +98,6 @@ public enum Side {
     }
 
     public abstract Side nextTurn();
-
-    public abstract double bonusPoint();
 
     private static class NoDirection implements Direction {
         @Override
