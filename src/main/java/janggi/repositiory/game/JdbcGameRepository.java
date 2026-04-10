@@ -65,7 +65,7 @@ public class JdbcGameRepository implements GameRepository {
     }
 
     @Override
-    public void update(Long id, JanggiGame game) {
+    public void updateStatus(Long id, JanggiGame game) {
         String sql = "UPDATE game SET is_finished = ?, current_turn = ? WHERE id = ?";
 
         try (Connection conn = getConnection();

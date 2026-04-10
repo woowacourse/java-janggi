@@ -52,19 +52,19 @@ public class JanggiService {
         janggiGame.move(moveCommand.getFrom(), moveCommand.getTo());
 
         pieceRepository.updateALL(gameId, janggiGame.getBoard());
-        gameRepository.update(gameId, janggiGame);
+        gameRepository.updateStatus(gameId, janggiGame);
     }
 
     public void skipTurn() {
         janggiGame.skipTurn();
 
-        gameRepository.update(gameId, janggiGame);
+        gameRepository.updateStatus(gameId, janggiGame);
     }
 
     public void resign() {
         janggiGame.resign();
 
-        gameRepository.update(gameId, janggiGame);
+        gameRepository.updateStatus(gameId, janggiGame);
     }
 
     public Map<Position, Piece> getBoard() {

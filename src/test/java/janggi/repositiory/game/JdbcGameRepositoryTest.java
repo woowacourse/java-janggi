@@ -46,13 +46,13 @@ class JdbcGameRepositoryTest extends RepositoryTest {
     }
 
     @Test
-    void update_테스트() {
+    void update_Status_테스트() {
         // given
         Long id = gameRepository.save(new FinishStatus(false), Team.CHO);
         JanggiGame janggiGame = new JanggiGame(new Board(), Team.HAN);
 
         // when
-        gameRepository.update(id, janggiGame);
+        gameRepository.updateStatus(id, janggiGame);
 
         // then
         GameData updated = gameRepository.findLatestGame().get();

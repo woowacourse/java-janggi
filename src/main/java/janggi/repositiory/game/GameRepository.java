@@ -9,5 +9,5 @@ import java.util.Optional;
 public interface GameRepository {
     Long save(FinishStatus finishStatus, Team currentTurn);
     Optional<GameData> findLatestGame();
-    void update(Long id, JanggiGame game);
+    void updateStatus(Long id, JanggiGame game);
 }
