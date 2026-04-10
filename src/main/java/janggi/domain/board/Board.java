@@ -123,4 +123,11 @@ public class Board {
     public boolean isSameCamp(Position position, Camp camp) {
         return janggiBoard.get(position).isSameCamp(camp);
     }
+
+    public int calculateTotalScore(Camp camp) {
+        return janggiBoard.values()
+                .stream()
+                .mapToInt(piece -> piece.getScoreIfCampMatches(camp))
+                .sum();
+    }
 }
