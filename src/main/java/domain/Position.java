@@ -32,6 +32,14 @@ public class Position {
         return new Position(x + dx, y + dy);
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
     private void validatePosX(int x) {
         if (x < MIN_X_VALUE || x > MAX_X_VALUE) {
             throw new IllegalArgumentException("[ERROR] x 좌표는 " + MIN_X_VALUE + "~" + MAX_X_VALUE + "사이어야합니다." + " 입력값: " + x);

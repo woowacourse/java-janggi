@@ -81,6 +81,10 @@ public class OutputView {
         System.out.println(camp.getCampName() + "가 이겼습니다!");
     }
 
+    public void printSavedComplete() {
+        System.out.println("저장 완료");
+    }
+
     public void printWrongChoice() {
         System.out.println("잘못된 말 선택입니다.");
     }

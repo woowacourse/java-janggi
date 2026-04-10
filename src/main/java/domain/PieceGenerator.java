@@ -64,7 +64,7 @@ public class PieceGenerator {
         return pieces;
     }
 
-    private static Piece createPiece(Camp camp, PieceType pieceType) {
+    public static Piece createPiece(Camp camp, PieceType pieceType) {
         return switch (pieceType) {
             case GENERAL -> new General(camp);
             case GUARD -> new Guard(camp);

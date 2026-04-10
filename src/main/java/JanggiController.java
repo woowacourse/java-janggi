@@ -1,8 +1,6 @@
-import domain.Board;
-import domain.Camp;
-import domain.ElephantFormation;
-import domain.Position;
+import domain.*;
 import domain.piece.Piece;
+import repository.JanggiRepository;
 import view.InputView;
 import view.OutputView;
 
@@ -12,31 +10,25 @@ public class JanggiController {
 
     private final InputView inputView;
     private final OutputView outputView;
+    private final JanggiRepository janggiRepository;
 
-
-    JanggiController(InputView inputView, OutputView outputView) {
+    JanggiController(InputView inputView, OutputView outputView, JanggiRepository janggiRepository) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.janggiRepository = janggiRepository;
     }
 
     public void run() {
-        Board board = generateBoard();
+        boolean loadSaveBoard = inputView.askLoadSavedBoard();
+        Board board = generateBoard(loadSaveBoard);
+        Camp camp = loadTurn(loadSaveBoard);
+
         printBoard(board);
 
-        playJanggi(board);
+        playJanggi(board, camp);
     }
 
-    private Board generateBoard() {
-        Board board = new Board();
-        int choElephantFormation = inputView.askElephantFormation(Camp.CHO);
-        int hanElephantFormation = inputView.askElephantFormation(Camp.HAN);
-        board.generatePiecesBy(Camp.CHO, mappingElephantFormation(choElephantFormation));
-        board.generatePiecesBy(Camp.HAN, mappingElephantFormation(hanElephantFormation));
-        return board;
-    }
-
-    private void playJanggi(Board board) {
-        Camp camp = Camp.CHO;
+    private void playJanggi(Board board, Camp camp) {
         while (true) {
             try{
                 Position fromPosition = askFromPosition(camp, board);
@@ -46,18 +38,53 @@ public class JanggiController {
                 outputView.printErrorMessage(e);
                 continue;
             }
+
             printBoard(board);
             printScore(board);
+
             camp = turnCamp(camp);
 
-            //Todo: 사이클2 왕이 잡히면, 게임이 종료
-            Camp winner = board.checkWinner();
+            saveGame(board.getBoardStatus(), camp);
 
+            Camp winner = board.checkWinner();
             if(winner != Camp.NONE) {
                 outputView.printWinner(winner);
                 return;
             }
         }
+    }
+
+    private Board loadBoard() {
+        Board board = new Board();
+        Map<Position, Piece> boardStatus = janggiRepository.readBoard();
+        for (Position position : boardStatus.keySet()) {
+            board.locatePiece(position, boardStatus.get(position));
+        }
+        return board;
+    }
+
+    private Camp loadTurn(boolean loadSaveBoard) {
+        if(loadSaveBoard) {
+            return janggiRepository.readTurn();
+        }
+        return Camp.CHO;
+    }
+
+    private Board generateBoard(boolean loadSaveBoard) {
+        if(loadSaveBoard) {
+            return loadBoard();
+        }
+        Board board = new Board();
+        int choElephantFormation = inputView.askElephantFormation(Camp.CHO);
+        int hanElephantFormation = inputView.askElephantFormation(Camp.HAN);
+        board.generatePiecesBy(Camp.CHO, mappingElephantFormation(choElephantFormation));
+        board.generatePiecesBy(Camp.HAN, mappingElephantFormation(hanElephantFormation));
+        return board;
+    }
+
+    private void saveGame(Map<Position, Piece> boardStatus, Camp camp) {
+        janggiRepository.saveGame(boardStatus, camp);
+        outputView.printSavedComplete();
     }
 
     private Camp turnCamp(Camp camp) {
