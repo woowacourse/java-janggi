@@ -1,6 +1,7 @@
 package controller;
 
 import domain.Game;
+import domain.Side;
 import domain.coordinate.Position;
 import service.JanggiService;
 import view.InputView;
@@ -69,6 +70,7 @@ public class JanggiController {
         if (game.isGameOver()) {
             outputView.printBoard(game.getBoardSnapshot());
             outputView.printWinner(game.getWinner());
+            outputView.printEachScores(game.calculateScore(Side.HAN), game.calculateScore(Side.CHU));
             janggiService.resetGame();
             return true;
         }

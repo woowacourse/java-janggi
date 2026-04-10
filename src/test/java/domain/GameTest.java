@@ -74,6 +74,32 @@ class GameTest {
     }
 
     @Test
+    @DisplayName("초기 상태에서 초나라의 점수를 계산한다.")
+    void calculateScore_Chu_Test() {
+        // given
+        Game game = new Game(basicBoardInitializer);
+
+        // when
+        double score = game.calculateScore(Side.CHU);
+
+        // then
+        assertThat(score).isEqualTo(72);
+    }
+
+    @Test
+    @DisplayName("초기 상태에서 한나라의 점수를 계산한다.")
+    void calculateScore_Han_Test() {
+        // given
+        Game game = new Game(basicBoardInitializer);
+
+        // when
+        double score = game.calculateScore(Side.HAN);
+
+        // then
+        assertThat(score).isEqualTo(73.5);
+    }
+
+    @Test
     @DisplayName("이동을 마치면 턴이 변경된다.")
     void changeTurnTest() {
         // given

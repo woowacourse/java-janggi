@@ -10,6 +10,8 @@ import java.util.Map;
 
 public class Game {
 
+    private static final double HAN_BONUS_SCORE = 1.5;
+
     private final Board board;
     private Side turn;
 
@@ -45,6 +47,17 @@ public class Game {
                 .map(CellSnapshot::side)
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("게임이 종료되지 않았습니다."));
+    }
+
+    public double calculateScore(Side side) {
+        int allPiecesScore = board.toSnapshotMap().values().stream()
+                .filter(cell -> cell.side() == side)
+                .mapToInt(cell -> cell.type().getScore())
+                .sum();
+        if (side.isHan()) {
+            return allPiecesScore + HAN_BONUS_SCORE;
+        }
+        return allPiecesScore;
     }
 
     private boolean isFriendlyPiece(Position position) {

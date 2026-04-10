@@ -46,6 +46,12 @@ public class OutputView {
         System.out.print(" " + SideView.getSideColor(cell.side()) + name + SideView.getResetColor() + " ");
     }
 
+    public void printEachScores(double hanScore, double chuScore) {
+        System.out.println("\n최종 기물 점수:");
+        System.out.println(SideView.getSideColor(Side.HAN) + "한나라: " + hanScore + SideView.getResetColor());
+        System.out.println(SideView.getSideColor(Side.CHU) + "초나라: " + chuScore + SideView.getResetColor());
+    }
+
     public void printCanNotMovablePieceError() {
         System.out.println("\n해당 기물은 움직일 수 있는 좌표가 없습니다. 다른 기물을 선택해주세요.\n");
     }
