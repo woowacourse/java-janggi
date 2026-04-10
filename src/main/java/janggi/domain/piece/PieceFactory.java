@@ -5,6 +5,6 @@ import janggi.domain.team.TeamType;
 public class PieceFactory {
 
     public static Piece create(PieceType pieceType, TeamType teamType) {
-        return pieceType.create(teamType);
+        return pieceType.createPiece(teamType);
     }
 }
