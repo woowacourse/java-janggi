@@ -604,3 +604,53 @@
 - **고민:** 테스트마다 `@BeforeEach`에서 스키마 파일(`schema.sql`)을 읽고 테이블을 재생성(DROP/CREATE)하여 테스트 실행 시간이 늘어났다. 또한, 애플리케이션 실행 중 인텔리제이 DB 툴로 데이터를 확인하려고 하면 H2 DB 파일이 잠겨(`The file is locked`) 프로그램이 비정상 종료되는 문제가 잦았다.
 - **결정:** 첫째, 스키마 생성 같은 무거운 작업은 `@BeforeAll`을 통해 클래스당 1회만 실행하고, 각 테스트 전에는 `DELETE FROM`으로 레코드만 가볍게 지우도록 최적화했다. 둘째, 테스트 환경은 디스크 I/O가 없는 인메모리 DB(`jdbc:h2:mem:testdb`)로 분리하고, 로컬 환경에는 `AUTO_SERVER=TRUE` 옵션을 주어 다중 접속을 허용 시도했다.
 - **근거:** DDL(테이블 생성/삭제) 작업에 비해 DML(데이터 삭제) 작업이 빠르다. 물리 디스크 접근을 없앤 인메모리 환경은 TDD의 핵심인 피드백 루프를 단축시킨다.
+
+## 사이클 2 첫 피드백 후 설계
+
+### 고민
+
+1. **기물 이동 (Soldier):** 궁성 내 전진 로직을 위해 부모(`Piece`)의 메서드를 오버라이딩하면서 OCP와 전략 패턴이 붕괴됨.
+2. **턴 관리 (Turn):** `Game` 객체가 `Player`의 `TurnState`를 매번 묻고(Getter) 상태를 토글(Toggle)하는 절차지향적 코드가 발생함.
+3. **플레이어 확장성 (Player):** 턴 관리를 빼버리면 행위가 없는 빈 껍데기가 되는데, 추후 확장성(방장, 전적 등)을 고려해 구조를 어떻게 가져갈 것인가.
+4. **DB 효율성 (Piece 저장):** 매 턴마다 32개의 기물 위치를 전부 DELETE하고 INSERT하는 심각한 DB I/O 낭비가 발생함.
+5. **트랜잭션 (Connection):** DAO와 Repository 계층에서 `Connection` 획득 방식이 파편화되어 하나의 트랜잭션으로 묶기 어려움.
+6. **캡슐화 (Board):** DB 저장 및 DTO 변환을 위해 `Board` 내부 자료구조(`Map<Position, Piece>`)가 그대로 외부로 노출(Getter)됨.
+
+### 결정
+
+1. 전진 전용 전략(`ForwardStepStrategy`) 도입
+2. 상태 패턴(`State Pattern`) 설계 도입
+3. 가벼워진 VO `Player(record)`와 일급 컬렉션 `Players(Map<Side, Player>)` 구축
+4. 이벤트 소싱(Event Sourcing) 기반 이력(`MoveHistory`) 관리
+5. Service가 통제하되 구조로 숨기기 (`ThreadLocal`, `Transaction Template`)
+6. DTO 변환은 콜백 패턴(`forEachPiece`)으로, DB 저장은 이벤트 소싱으로 캡슐화 문제 해결
+
+### 근거
+
+1. **상속 대신 조합(Composition):** 기물 객체의 순수성을 지키고, 필터링 로직을 전략 객체 내부로 밀어넣어 OCP를 준수함.
+2. **Tell, Don't Ask (묻지 말고 시켜라):** `Game`은 분기문 없이 상태 객체에 행위를 위임하며, 상태 객체가 룰 검증과 다음 상태 전이를 원자적으로 처리해 사이드 이펙트를 차단함.
+3. **일급 컬렉션과 SRP:** `Player`는 데이터를 담는 불변 객체(VO)로 역할을 한정하고, `Players`는 두 진영이 반드시 존재한다는 무결성 검증만 책임짐.
+4. **객체-관계 패러다임 불일치 해소:** RDBMS의 진짜 불변성인 'APPEND ONLY(INSERT)'를 활용하여 디스크 I/O를 줄이고 도메인 식별자 오염을 방지함.
+5. **비즈니스와 인프라의 격리:** Service는 트랜잭션 경계를 통제하면서도 JDBC 기술(`Connection`)에 종속되지 않게 됨.
+6. **은닉화(Information Hiding):** 도메인(`Board`)은 외부 기술(DTO, DB)을 전혀 모른 채 자신이 가진 데이터에 행동을 적용하기만 하므로 내부 구조 변경에 완벽히 닫혀있음.
+
+---
+
+### 구현을 위한 체크리스트
+
+- [ ] **Phase 1: 도메인 캡슐화 및 다이어트**
+    - [ ] `Player`를 `record`로 변경하고 턴 관련 로직 모두 삭제
+    - [ ] `Players`를 `Map<Side, Player>` 기반의 일급 컬렉션으로 재작성
+    - [ ] `Board.java`에서 `getPieces()` Getter를 삭제하고 `forEachPiece(BiConsumer)` 추가
+    - [ ] **Phase 2: 상태 패턴 & 전략 패턴 적용 (도메인 핵심 룰 개선)
+    - [ ] `GameState` 추상 클래스 및 `ChoTurn`, `HanTurn`, `Finished` 구현체 작성
+    - [ ] `Game`에서 `ActiveTurn`, `toggleTurn` 관련 코드 삭제 후 `GameState`로 위임
+    - [ ] `Soldier`의 오버라이딩 코드를 삭제하고 `ForwardStepStrategy` 신규 생성
+- [ ] **Phase 3: 인프라 (트랜잭션 & DB 구조 변경)**
+    - [ ] `schema.sql`에서 `piece` 테이블 삭제 및 `move_history` 테이블 생성
+    - [ ] `ConnectionContext`와 `TransactionTemplate` 클래스 작성
+    - [ ] `MoveHistoryDao` 신규 생성 및 `PieceDao` 삭제
+- [ ] **Phase 4: 서비스 조립 및 레포지토리 연결**
+    - [ ] `JdbcGameRepository`에서 `pieceDao` 호출 제거 및 `MoveHistoryDao` 적용 (Replay 로직 구현)
+    - [ ] `GameService`의 `move()` 메서드에 `TransactionTemplate.execute()` 적용
+    - [ ] `GameService`의 DTO 변환부에 `board.forEachPiece` 콜백 적용
