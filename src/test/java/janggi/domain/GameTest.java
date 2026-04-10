@@ -11,8 +11,10 @@ import janggi.domain.board.FormationCommand;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceFactory;
 import janggi.domain.player.Name;
+import janggi.domain.player.Player;
 import janggi.domain.player.Players;
 import janggi.domain.space.Position;
+import janggi.domain.state.Finished;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,9 +25,11 @@ class GameTest {
 
     @BeforeEach
     void setUp() {
-        players = Players.createInitial(new Name("cho"), new Name("han"));
+        Player choPlayer = new Player(new Name("cho"), Side.CHO);
+        Player hanPlayer = new Player(new Name("han"), Side.HAN);
+        players = new Players(choPlayer, hanPlayer);
         Board board = BoardFactory.create(Formation.from(FormationCommand.FIRST), Formation.from(FormationCommand.FIRST));
-        game = new Game(board, players);
+        game = Game.startNew(board, players);
     }
 
     @Test
@@ -51,7 +55,7 @@ class GameTest {
                 Position.of(5, 0), PieceFactory.createChariot(Side.CHO),
                 Position.of(4, 1), PieceFactory.createChariot(Side.CHO)
         );
-        Game blockedGame = new Game(new Board(blockedMap), players);
+        Game blockedGame = Game.startNew(new Board(blockedMap), players);
 
         // When & Then: selectSource 내부에서 movablePositions.isEmpty() 체크 시 예외 발생
         assertThatThrownBy(() -> blockedGame.selectSource(guardPos))
@@ -75,7 +79,7 @@ class GameTest {
         Map<Position, Piece> oneGeneralMap = Map.of(
                 Position.of(4, 1), PieceFactory.createGeneral(Side.CHO)
         );
-        Game gameOverGame = new Game(new Board(oneGeneralMap), players);
+        Game gameOverGame = Game.startNew(new Board(oneGeneralMap), players);
 
         // When & Then
         assertThat(gameOverGame.isPlaying()).isFalse();
@@ -92,7 +96,7 @@ class GameTest {
                 generalOfHan, PieceFactory.createGeneral(Side.HAN),
                 soldierOfCho, PieceFactory.createSoldier(Side.CHO)
         ));
-        Game actual = new Game(board, players);
+        Game actual = Game.startNew(board, players);
         assertThat(actual.isPlaying()).isTrue();
 
         // when
@@ -108,7 +112,7 @@ class GameTest {
         Map<Position, Piece> oneGeneralMap = Map.of(
                 Position.of(4, 1), PieceFactory.createGeneral(Side.CHO)
         );
-        Game gameOverGame = new Game(new Board(oneGeneralMap), players);
+        Game gameOverGame = Game.restore(new Finished(new Board(oneGeneralMap), Side.CHO), players);
 
         assertThat(gameOverGame.isPlaying()).isFalse();
 

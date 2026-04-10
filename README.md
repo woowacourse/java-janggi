@@ -615,6 +615,7 @@
 4. **DB 효율성 (Piece 저장):** 매 턴마다 32개의 기물 위치를 전부 DELETE하고 INSERT하는 심각한 DB I/O 낭비가 발생함.
 5. **트랜잭션 (Connection):** DAO와 Repository 계층에서 `Connection` 획득 방식이 파편화되어 하나의 트랜잭션으로 묶기 어려움.
 6. **캡슐화 (Board):** DB 저장 및 DTO 변환을 위해 `Board` 내부 자료구조(`Map<Position, Piece>`)가 그대로 외부로 노출(Getter)됨.
+7. **상태를 가진 서비스 (Stateful Service):** `GameService`가 `game`과 `currentGameId`를 필드로 가져 다중 사용자(싱글톤) 환경 시 치명적인 동시성 문제가 예상됨. 또한 서비스가 상태를 버릴 경우 세션(`gameId`) 관리 책임과 도메인 이벤트(이동 내역) 수집 책임을 누구에게 어떻게 분배할 것인지 모호함.
 
 ### 결정
 
@@ -624,6 +625,7 @@
 4. 이벤트 소싱(Event Sourcing) 기반 이력(`MoveHistory`) 관리
 5. Service가 통제하되 구조로 숨기기 (`ThreadLocal`, `Transaction Template`)
 6. DTO 변환은 콜백 패턴(`forEachPiece`)으로, DB 저장은 이벤트 소싱으로 캡슐화 문제 해결
+7. 무상태(Stateless) 서비스 전환 및 미커밋 이벤트(Uncommitted Events) 패턴 도입
 
 ### 근거
 
@@ -633,24 +635,28 @@
 4. **객체-관계 패러다임 불일치 해소:** RDBMS의 진짜 불변성인 'APPEND ONLY(INSERT)'를 활용하여 디스크 I/O를 줄이고 도메인 식별자 오염을 방지함.
 5. **비즈니스와 인프라의 격리:** Service는 트랜잭션 경계를 통제하면서도 JDBC 기술(`Connection`)에 종속되지 않게 됨.
 6. **은닉화(Information Hiding):** 도메인(`Board`)은 외부 기술(DTO, DB)을 전혀 모른 채 자신이 가진 데이터에 행동을 적용하기만 하므로 내부 구조 변경에 완벽히 닫혀있음.
+7. **스레드 안전성 및 도메인 이벤트 응집력 강화:** 서비스 필드에서 상태를 제거해 다중 사용자 환경의 동시성 문제를 차단하고, 세션(`gameId`) 책임은 클라이언트 역할인 `ConsoleController`로 분리함. 또한 발생한 이벤트(이력)를 애그리거트 루트(`Game`)가 임시 보관(`List<MoveEvent>`)하고 레포지토리가 수거하도록 설계하여, 서비스 계층이 도메인 내부의 복잡한 파급 효과(기물 포획, 외통수 등)를 일일이 파악해 DB에 꽂아넣는 절차지향적 책임을 지지 않도록 도메인과 인프라를 격리함.
 
 ---
 
 ### 구현을 위한 체크리스트
 
-- [ ] **Phase 1: 도메인 캡슐화 및 다이어트**
-    - [ ] `Player`를 `record`로 변경하고 턴 관련 로직 모두 삭제
-    - [ ] `Players`를 `Map<Side, Player>` 기반의 일급 컬렉션으로 재작성
-    - [ ] `Board.java`에서 `getPieces()` Getter를 삭제하고 `forEachPiece(BiConsumer)` 추가
-    - [ ] **Phase 2: 상태 패턴 & 전략 패턴 적용 (도메인 핵심 룰 개선)
-    - [ ] `GameState` 추상 클래스 및 `ChoTurn`, `HanTurn`, `Finished` 구현체 작성
-    - [ ] `Game`에서 `ActiveTurn`, `toggleTurn` 관련 코드 삭제 후 `GameState`로 위임
+- [x] **Phase 1: 도메인 캡슐화 및 다이어트**
+    - [x] `Player`를 `record`로 변경하고 턴 관련 로직 모두 삭제
+    - [x] `Players`를 `Map<Side, Player>` 기반의 일급 컬렉션으로 재작성
+    - [x] `Board.java`에서 `getPieces()` Getter를 삭제하고 `forEachPiece(BiConsumer)` 추가
+- [ ] **Phase 2: 상태 패턴 & 전략 패턴 적용 (도메인 핵심 룰 개선)**
+    - [x] `GameState` 추상 클래스 및 `ChoTurn`, `HanTurn`, `Finished` 구현체 작성
+    - [x] `Game`에서 `ActiveTurn`, `toggleTurn` 관련 코드 삭제 후 `GameState`로 위임
     - [ ] `Soldier`의 오버라이딩 코드를 삭제하고 `ForwardStepStrategy` 신규 생성
+    - [ ] 💡 `Game` 내부에 발생 이벤트를 담을 `List<MoveEvent>` 및 `clearEvents()` 로직 추가
 - [ ] **Phase 3: 인프라 (트랜잭션 & DB 구조 변경)**
     - [ ] `schema.sql`에서 `piece` 테이블 삭제 및 `move_history` 테이블 생성
     - [ ] `ConnectionContext`와 `TransactionTemplate` 클래스 작성
     - [ ] `MoveHistoryDao` 신규 생성 및 `PieceDao` 삭제
 - [ ] **Phase 4: 서비스 조립 및 레포지토리 연결**
-    - [ ] `JdbcGameRepository`에서 `pieceDao` 호출 제거 및 `MoveHistoryDao` 적용 (Replay 로직 구현)
-    - [ ] `GameService`의 `move()` 메서드에 `TransactionTemplate.execute()` 적용
-    - [ ] `GameService`의 DTO 변환부에 `board.forEachPiece` 콜백 적용
+    - [ ] 💡 `GameService`의 인스턴스 변수(`game`, `currentGameId`) 전면 삭제 (무상태화)
+    - [ ] 💡 `ConsoleController`에 `currentGameId` 인스턴스 변수를 추가하여 세션 유지 책임 부여
+    - [ ] `GameService`의 모든 기능(move, getBoardDto 등)이 파라미터로 `Long gameId`를 받도록 서명 수정
+    - [ ] `GameService.move()` 메서드에 `TransactionTemplate.execute()` 블록 적용
+    - [ ] `JdbcGameRepository`에 이벤트 추출 로직(Game에서 이벤트 꺼내서 Dao에 넘기고 clear) 및 Replay 복원 로직 구현

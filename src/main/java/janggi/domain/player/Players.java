@@ -1,40 +1,24 @@
 package janggi.domain.player;
 
 import janggi.domain.Side;
-import janggi.domain.piece.Piece;
-import janggi.domain.turn.ActiveTurn;
-import janggi.domain.turn.InactiveTurn;
-import janggi.domain.turn.TurnState;
-import java.util.List;
+import java.util.Map;
 
 public class Players {
-    private final List<Player> players;
+    private final Map<Side, Player> players;
 
-    private Players(Player cho, Player han) {
-        this.players = List.of(cho, han);
-    }
-
-    public static Players createInitial(Name choName, Name hanName) {
-        validateDuplicateName(choName, hanName);
-        return new Players(
-                new Player(choName, Side.CHO, ActiveTurn.INSTANCE),
-                new Player(hanName, Side.HAN, InactiveTurn.INSTANCE)
+    public Players(Player choPlayer, Player hanPlayer) {
+        validate(choPlayer, hanPlayer);
+        this.players = Map.of(
+                Side.CHO, choPlayer,
+                Side.HAN, hanPlayer
         );
     }
 
-    public static Players createRestored(Name choName, Name hanName, Side currentTurn) {
-        validateDuplicateName(choName, hanName);
-        return new Players(
-                new Player(choName, Side.CHO, determineTurnState(Side.CHO, currentTurn)),
-                new Player(hanName, Side.HAN, determineTurnState(Side.HAN, currentTurn))
-        );
-    }
-
-    private static TurnState determineTurnState(Side playerSide, Side currentTurn) {
-        if (playerSide == currentTurn) {
-            return ActiveTurn.INSTANCE;
+    private void validate(Player choPlayer, Player hanPlayer) {
+        if (choPlayer.side() != Side.CHO || hanPlayer.side() != Side.HAN) {
+            throw new IllegalArgumentException("초나라와 한나라 플레이어가 각각 1명씩 필요합니다.");
         }
-        return InactiveTurn.INSTANCE;
+        validateDuplicateName(choPlayer.name(), hanPlayer.name());
     }
 
     private static void validateDuplicateName(Name choName, Name hanName) {
@@ -43,34 +27,12 @@ public class Players {
         }
     }
 
-    public Player getCurrentPlayer() {
-        return players.stream()
-                .filter(Player::isCurrentTurn)
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("현재 턴인 플레이어가 없습니다."));
+    public Player getPlayer(Side side) {
+        return players.get(side);
     }
 
-    public Side getCurrentSide() {
-        return players.stream()
-                .filter(Player::isCurrentTurn)
-                .map(Player::getSide)
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("현재 턴인 플레이어의 진영이 존재하지 않습니다."));
-    }
 
-    public void switchPlayer() {
-        players.forEach(Player::toggleTurn);
-    }
-
-    public Name getPlayerNameBySide(Side side) {
-        return players.stream()
-                .filter(player -> player.getSide() == side)
-                .map(Player::getName)
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("해당 진영의 플레이어가 없습니다."));
-    }
-
-    public void validateAlly(Piece piece) {
-        getCurrentPlayer().validateAlly(piece);
+    public Name getNameBySide(Side side) {
+        return players.get(side).name();
     }
 }

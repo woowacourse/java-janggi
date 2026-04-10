@@ -6,60 +6,57 @@ import janggi.domain.player.Name;
 import janggi.domain.player.Players;
 import janggi.domain.space.Destinations;
 import janggi.domain.space.Position;
+import janggi.domain.state.ChoTurn;
+import janggi.domain.state.GameState;
 import java.util.Map;
 
 public class Game {
-    private Board board;
+    private GameState gameState;
     private final Players players;
 
-    public Game(Board board, Players players) {
-        this.board = board;
+    private Game(GameState gameState, Players players) {
+        this.gameState = gameState;
         this.players = players;
     }
 
+    public static Game startNew(Board board, Players players) {
+        return new Game(new ChoTurn(board), players);
+    }
+
+    public static Game restore(GameState gameState, Players players) {
+        return new Game(gameState, players);
+    }
+
     public Destinations selectSource(Position source) {
-        players.validateAlly(board.getPiece(source));
-        return board.findDestinations(source);
+        return gameState.selectSource(source);
     }
 
     public void move(Position source, Position target) {
-        validateGamePlaying();
-        players.validateAlly(board.getPiece(source));
-        this.board = board.movePiece(source, target);
-        players.switchPlayer();
-    }
-
-    private void validateGamePlaying() {
-        if (!isPlaying()) {
-            throw new IllegalArgumentException("게임이 이미 종료되었습니다.");
-        }
+        this.gameState = gameState.move(source, target);
     }
 
     public boolean isPlaying() {
-        return board.isPlaying();
+        return gameState.isPlaying();
     }
 
     public Score calculateScore(Side side) {
-        if (side == Side.HAN) {
-            return board.calculateScore(side).plus(new Score(1.5));
-        }
-        return board.calculateScore(side);
+        return gameState.calculateScore(side);
     }
 
     public Name getWinner() {
-        Side winnerSide = board.getWinnerSide();
-        return players.getPlayerNameBySide(winnerSide);
+        Side winnerSide = gameState.getWinnerSide();
+        return players.getNameBySide(winnerSide);
     }
 
     public Side getCurrentSide() {
-        return players.getCurrentSide();
+        return gameState.getCurrentSide();
     }
 
     public Name getPlayerNameBySide(Side side) {
-        return players.getPlayerNameBySide(side);
+        return players.getNameBySide(side);
     }
 
     public Map<Position, Piece> getBoard() {
-        return board.getBoard();
+        return gameState.getBoard().getBoard();
     }
 }

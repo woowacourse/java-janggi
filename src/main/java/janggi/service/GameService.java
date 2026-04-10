@@ -6,6 +6,7 @@ import janggi.domain.board.Board;
 import janggi.domain.board.BoardFactory;
 import janggi.domain.board.Formation;
 import janggi.domain.player.Name;
+import janggi.domain.player.Player;
 import janggi.domain.player.Players;
 import janggi.domain.repository.GameRepository;
 import janggi.domain.space.Position;
@@ -25,9 +26,9 @@ public class GameService {
     }
 
     public void initializeGame(Name choName, Name hanName, Formation choFormation, Formation hanFormation) {
-        Players players = Players.createInitial(choName, hanName);
+        Players players = new Players(new Player(choName, Side.CHO), new Player(hanName, Side.HAN));
         Board board = BoardFactory.create(choFormation, hanFormation);
-        this.game = new Game(board, players);
+        this.game = Game.startNew(board, players);
         this.currentGameId = gameRepository.save(game);
     }
 
