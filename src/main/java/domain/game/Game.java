@@ -49,7 +49,7 @@ public class Game {
         LegalMoveAnalyzer.validate(board, from, to);
 
         Optional<Piece> capturedPiece = board.movePiece(from, to);
-        Optional<Camp> determinedWinner = determineWinner(capturedPiece, movingCamp, opponentCamp);
+        Optional<Camp> determinedWinner = findWinner(capturedPiece, movingCamp, opponentCamp);
         Optional<Camp> checkedCamp = findCheckedCamp(determinedWinner, opponentCamp);
 
         winner = determinedWinner;
@@ -92,7 +92,7 @@ public class Game {
         return board.scoreOf(camp);
     }
 
-    private Optional<Camp> determineWinner(Optional<Piece> capturedPiece, Camp movingCamp, Camp opponentCamp) {
+    private Optional<Camp> findWinner(Optional<Piece> capturedPiece, Camp movingCamp, Camp opponentCamp) {
         Optional<Camp> capturedWinner = capturedPiece
                 .filter(target -> target.type() == PieceType.GENERAL)
                 .map(ignored -> movingCamp);
