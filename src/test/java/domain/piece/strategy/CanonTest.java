@@ -12,7 +12,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class CanonTest {
+class CanonTest {
 
     @Test
     @DisplayName("본인 진영의 기물을 띄어넘어 빈칸으로 이동")
@@ -81,6 +81,23 @@ public class CanonTest {
 
         Position startPosition = Position.of(3, 8);
         Position endPosition = Position.of(10, 8);
+
+        // when, then
+        assertThat(choCanon.canMove(pieceMap, startPosition, endPosition)).isTrue();
+    }
+
+    @Test
+    @DisplayName("본인 진영의 기물을 띄어넘어 빈칸으로 이동")
+    void 이동성공_포_기물_움직임_여부_판단_5() {
+        // given
+        Map<Position, Piece> pieceMap = new LinkedHashMap<>();
+        Piece choCanon = Piece.of(Side.CHO, PieceType.CANON);
+        Piece choPawn = Piece.of(Side.CHO, PieceType.PAWN);
+        pieceMap.put(Position.of(3, 4), choCanon);
+        pieceMap.put(Position.of(2, 5), choPawn);
+
+        Position startPosition = Position.of(3, 4);
+        Position endPosition = Position.of(1, 6);
 
         // when, then
         assertThat(choCanon.canMove(pieceMap, startPosition, endPosition)).isTrue();

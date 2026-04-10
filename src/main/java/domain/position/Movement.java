@@ -1,6 +1,6 @@
 package domain.position;
 
-public record Move(
+public record Movement(
         Position startPosition,
         Position endPosition
 ) {}

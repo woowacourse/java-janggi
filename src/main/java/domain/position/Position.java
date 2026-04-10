@@ -10,6 +10,11 @@ public final class Position {
     private static final int MIN_ROW = 1;
     private static final int MIN_COLUMN = 1;
 
+    private static final  int MAX_PALACE_ROW = 3;
+    private static final  int MAX_PALACE_COLUMN = 6;
+    private static final  int MIN_PALACE_ROW = 1;
+    private static final  int MIN_PALACE_COLUMN = 4;
+
     private final Coordinate coordinate;
 
     private Position(Coordinate coordinate) {
@@ -47,6 +52,27 @@ public final class Position {
         return coordinate.column();
     }
 
+    public boolean isInPalace() {
+        return (coordinate.row() >= MIN_PALACE_ROW && coordinate.row() <= MAX_PALACE_ROW)
+                && (coordinate.column() >= MIN_PALACE_COLUMN && coordinate.column() <= MAX_PALACE_COLUMN);
+    }
+
+    public boolean isPalaceEdgeCenter() {
+        return (Objects.equals(coordinate, new Coordinate(2, 4)) ||
+                Objects.equals(coordinate, new Coordinate(2, 6)) ||
+                Objects.equals(coordinate, new Coordinate(1,5)) ||
+                Objects.equals(coordinate, new Coordinate(3,5))
+        );
+    }
+
+    public boolean isPalaceEdge() {
+        return (Objects.equals(coordinate, new Coordinate(1, 4)) ||
+                Objects.equals(coordinate, new Coordinate(1, 6)) ||
+                Objects.equals(coordinate, new Coordinate(3,4)) ||
+                Objects.equals(coordinate, new Coordinate(3,6))
+        );
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -57,6 +83,6 @@ public final class Position {
 
     @Override
     public int hashCode() {
-        return Objects.hash(coordinate.row()) + Objects.hash(coordinate.column());
+        return Objects.hash(coordinate.row(), coordinate.column());
     }
 }

@@ -12,7 +12,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class ChariotTest {
+class ChariotTest {
 
     @Test
     @DisplayName("차 기물이 움직임의 여부를 판단할 수 있다.")
@@ -71,6 +71,66 @@ public class ChariotTest {
 
         Position startPosition = Position.of(1, 9);
         Position endPosition = Position.of(2, 8);
+
+        // when, then
+        assertThat(choChariot.canMove(pieceMap, startPosition, endPosition)).isFalse();
+    }
+
+    @Test
+    @DisplayName("차 기물이 궁성영역에서 움직임의 여부를 판단할 수 있다.")
+    void 이동성공_궁성_영역_차_기물_움직임_여부_판단() {
+        // given
+        Map<Position, Piece> pieceMap = new LinkedHashMap<>();
+        Piece choChariot = Piece.of(Side.CHO, PieceType.CHARIOT);
+        pieceMap.put(Position.of(3, 4), choChariot);
+
+        Position startPosition = Position.of(3, 4);
+        Position endPosition = Position.of(1, 6);
+
+        // when, then
+        assertThat(choChariot.canMove(pieceMap, startPosition, endPosition)).isTrue();
+    }
+
+    @Test
+    @DisplayName("차 기물이 궁성영역에서 움직임의 여부를 판단할 수 있다.")
+    void 이동성공_궁성_영역_차_기물_움직임_여부_판단2() {
+        // given
+        Map<Position, Piece> pieceMap = new LinkedHashMap<>();
+        Piece choChariot = Piece.of(Side.CHO, PieceType.CHARIOT);
+        pieceMap.put(Position.of(3, 4), choChariot);
+
+        Position startPosition = Position.of(3, 4);
+        Position endPosition = Position.of(2, 5);
+
+        // when, then
+        assertThat(choChariot.canMove(pieceMap, startPosition, endPosition)).isTrue();
+    }
+
+    @Test
+    @DisplayName("차 기물이 궁성영역에서 움직임의 여부를 판단할 수 있다.")
+    void 이동성공_궁성_영역_차_기물_움직임_여부_판단3() {
+        // given
+        Map<Position, Piece> pieceMap = new LinkedHashMap<>();
+        Piece choChariot = Piece.of(Side.CHO, PieceType.CHARIOT);
+        pieceMap.put(Position.of(2, 5), choChariot);
+
+        Position startPosition = Position.of(2, 5);
+        Position endPosition = Position.of(3, 6);
+
+        // when, then
+        assertThat(choChariot.canMove(pieceMap, startPosition, endPosition)).isTrue();
+    }
+
+    @Test
+    @DisplayName("차 기물은 궁성영역에서 경로가 없는 부분은 움직일 수 없다.")
+    void 이동실패_궁성_영역_차_기물_움직임_여부_판단_4() {
+        // given
+        Map<Position, Piece> pieceMap = new LinkedHashMap<>();
+        Piece choChariot = Piece.of(Side.CHO, PieceType.CHARIOT);
+        pieceMap.put(Position.of(2, 4), choChariot);
+
+        Position startPosition = Position.of(2, 4);
+        Position endPosition = Position.of(3, 5);
 
         // when, then
         assertThat(choChariot.canMove(pieceMap, startPosition, endPosition)).isFalse();

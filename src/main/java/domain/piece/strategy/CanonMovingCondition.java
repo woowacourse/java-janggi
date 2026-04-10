@@ -16,12 +16,8 @@ public class CanonMovingCondition implements MovingCondition {
     public boolean canMove(Map<Position, Piece> state, Position startPosition, Position endPosition) {
         Queue<Direction> directions = Direction.of(startPosition, endPosition);
 
-        if (!isStraightDirection(directions)) return false;
+        if (!isInPalaceEdgePath(startPosition, endPosition) && !isStraightDirection(directions)) return false;
         return hasValidCanonPath(state, startPosition, endPosition, directions);
-    }
-
-    private boolean isStraightDirection(Queue<Direction> directions) {
-        return !directions.isEmpty() && directions.peek().isStraight();
     }
 
     private boolean hasValidCanonPath(
@@ -43,6 +39,14 @@ public class CanonMovingCondition implements MovingCondition {
             if (pieceCount > MAX_PIECE_COUNT_ON_THE_PATH) return false;
         }
         return pieceCount == MAX_PIECE_COUNT_ON_THE_PATH;
+    }
+
+    private boolean isInPalaceEdgePath(Position startPosition, Position endPosition) {
+        return startPosition.isPalaceEdge() && endPosition.isPalaceEdge();
+    }
+
+    private boolean isStraightDirection(Queue<Direction> directions) {
+        return !directions.isEmpty() && directions.peek().isStraight();
     }
 
     private boolean isBlockingCanon(Map<Position, Piece> state, Position position) {

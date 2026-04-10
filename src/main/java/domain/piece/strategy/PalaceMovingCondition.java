@@ -7,7 +7,8 @@ import domain.position.Position;
 import java.util.Map;
 import java.util.Queue;
 
-public class GeneralMovingCondition implements MovingCondition {
+public class PalaceMovingCondition implements MovingCondition {
+
     private static final int MAX_DIRECTION = 1;
 
     @Override
@@ -17,10 +18,14 @@ public class GeneralMovingCondition implements MovingCondition {
             return false;
         }
 
-        Direction direction = directions.poll();
-        if (!direction.isStraight()) {
+        if (!endPosition.isInPalace()) {
             return false;
         }
-        return true;
+
+        return !isEndToEdgeCenterByDiagonal(endPosition, directions.remove());
+    }
+
+    private boolean isEndToEdgeCenterByDiagonal(Position endPoint, Direction direction) {
+        return endPoint.isPalaceEdgeCenter() && direction.isDiagonal();
     }
 }

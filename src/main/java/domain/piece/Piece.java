@@ -1,6 +1,5 @@
 package domain.piece;
 
-import domain.board.Direction;
 import domain.piece.strategy.MovingCondition;
 import domain.position.Position;
 
@@ -45,6 +44,10 @@ public final class Piece {
 
     public boolean isSamePieceType(PieceType pieceType) {
         return this.pieceType == pieceType;
+    }
+
+    public int getPieceScore() {
+        return pieceType.getScore();
     }
 
     @Override

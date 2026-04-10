@@ -2,73 +2,65 @@ package domain.janggigame;
 
 import domain.board.Board;
 import domain.piece.Side;
+import domain.players.Player;
 import domain.players.Players;
-import domain.position.Move;
-import domain.position.Position;
-import view.InputView;
-import view.OutputView;
+import domain.position.Movement;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
-import static util.Retry.retry;
-
 public class JanggiGame {
-    private final Players players;
     private final Board board;
+    private final Players players;
+    private Side currentTurn;
 
-    public JanggiGame(Players players, Board board) {
-        this.players = players;
+    public JanggiGame(Board board, Players players) {
         this.board = board;
+        this.players = players;
+        this.currentTurn = Side.CHO;
     }
 
-    public void run() {
-        selectSide();
-        placeBoardBySide();
-        playGame();
+    private JanggiGame(Board board, Players players, Side currentTurn) {
+        this.board = board;
+        this.players = players;
+        this.currentTurn = currentTurn;
     }
 
-    private void playGame() {
-        retry(() -> {
-            while (!board.isFinished()) {
-                Move move = inputAndParseToMove();
-                players.playTurn(board, move);
-                OutputView.printBoard(board.findState());
-            }
-        });
+    public static JanggiGame of(Board board, Players players, Side currentTurn) {
+        return new JanggiGame(board, players, currentTurn);
     }
 
-    private Move inputAndParseToMove() {
-        Position startPosition = InputView.inputStartPosition();
-        Position endPosition = InputView.inputEndPosition();
-        return new Move(startPosition, endPosition);
+    public boolean isFinished() {
+        return board.isFinished();
     }
 
-    private void selectSide() {
-        retry(() -> {
-            int sideCode = InputView.inputSideChoice();
-            Side side = generateSide(sideCode);
-            OutputView.printSideChoiceResult(side);
-        });
+    public Side getWhoseTurn() {
+        return currentTurn;
     }
 
-    private Side generateSide(int sideCode) {
-        List<Side> sides = Arrays.asList(Side.values());
-        Collections.shuffle(sides);
-        return sides.get(sideCode - 1);
+    public void playGame(Movement movement) {
+        board.move(movement.startPosition(), movement.endPosition(), currentTurn);
+        updateScoreBySide(Side.CHO);
+        updateScoreBySide(Side.HAN);
+
+        if (isFinished()) {
+            Side winner = board.getWinner();
+            players.updateStatus(winner);
+        }
     }
 
-    private void placeBoardBySide() {
-        initPlacementBySide(Side.HAN);
-        initPlacementBySide(Side.CHO);
+    public void switchTurn() {
+        this.currentTurn = currentTurn.opposite();
     }
 
-    private void initPlacementBySide(Side side) {
-        retry(() -> {
-            int placementCode = InputView.inputPlacementCodeBy(side);
-            players.initPlacementBySide(side, placementCode, board);
-            OutputView.printBoard(board.findState());
-        });
+    public Board getBoard() {
+        return Board.of(board.getState());
+    }
+
+    public List<Player> getPlayers() {
+        return players.getPlayers();
+    }
+
+    private void updateScoreBySide(Side side) {
+        players.updateState(side, board.calculateScoreBy(side));
     }
 }

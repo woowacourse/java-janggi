@@ -2,33 +2,38 @@ package domain.players;
 
 import domain.board.Board;
 import domain.piece.Side;
-import domain.player.Player;
-import domain.position.Move;
+
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Players {
-    private final Player choPlayer;
-    private final Player hanPlayer;
-    private Side currentTurn;
+    private final Map<Side, Player> players;
 
-    public Players(Player choPlayer, Player hanPlayer) {
-        this.choPlayer = choPlayer;
-        this.hanPlayer = hanPlayer;
-        this.currentTurn = Side.CHO;
+    public Players() {
+        players = new LinkedHashMap<>();
+        players.put(Side.HAN, new Player(Side.HAN));
+        players.put(Side.CHO, new Player(Side.CHO));
     }
 
-    public void initPlacementBySide(Side side, int placementCode, Board board) {
-        if (side.isHan()) hanPlayer.initBoard(board, placementCode);
-        if (side.isCho()) choPlayer.initBoard(board, placementCode);
+    public Players(Map<Side, Player> players) {
+        this.players = players;
     }
 
-    public void playTurn(Board board, Move move) {
-        Player currentPlayer = getCurrentPlayer();
-        currentPlayer.play(board, move);
-        currentTurn = currentTurn.next();
+    public static Players of(Map<Side, Player> players) {
+        return new Players(players);
     }
 
-    private Player getCurrentPlayer() {
-        if (currentTurn.isCho()) return choPlayer;
-        return hanPlayer;
+    public void updateState(Side side, double newScore) {
+        players.get(side).updateScore(newScore);
+    }
+
+    public List<Player> getPlayers() {
+        return players.values().stream().toList();
+    }
+
+    public void updateStatus(Side winner) {
+        players.get(winner).updateStatus(PlayerStatus.WIN);
+        players.get(winner.opposite()).updateStatus(PlayerStatus.LOSS);
     }
 }

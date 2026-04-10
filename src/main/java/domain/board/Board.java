@@ -1,13 +1,11 @@
 package domain.board;
 
 import domain.piece.Piece;
-import domain.piece.PieceType;
 import domain.piece.Side;
 import domain.position.Position;
 import dto.BoardResponseDto;
 import dto.PieceDto;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -15,8 +13,14 @@ public class Board {
 
     private final Map<Position, Piece> state;
 
-    public Board() {
-        state = new LinkedHashMap<>();
+    private static final double additionalScoreByHan = 1.5;
+
+    private Board(Map<Position, Piece> state) {
+        this.state = state;
+    }
+
+    public static Board of(Map<Position, Piece> state) {
+        return new Board(state);
     }
 
     public Piece findBy(Position position) {
@@ -31,22 +35,39 @@ public class Board {
                 ));
     }
 
-    public void move(Position from, Position to, Side side) {
-        validatePosition(from, to);
-
-        Piece fromPiece = state.get(from);
-        Piece toPiece = state.get(to);
-
-        validateMoveBySide(side, fromPiece, toPiece);
-        validateCanMove(from, to, side, fromPiece);
-
-        state.put(to, fromPiece);
-        state.remove(from);
+    public Map<Position, Piece> getState() {
+        return Map.copyOf(state);
     }
 
-    public void placePieces(Side side, Placement placement) {
-        placeDefaultPieceBy(side);
-        placeHorseAndElephant(side, placement);
+    public void move(Position startPosition, Position endPosition, Side side) {
+        validatePosition(startPosition, endPosition);
+
+        Piece fromPiece = state.get(startPosition);
+        Piece toPiece = state.get(endPosition);
+
+        validateMoveBySide(side, fromPiece, toPiece);
+        validateCanMove(startPosition, endPosition, side, fromPiece);
+
+        state.put(endPosition, fromPiece);
+        state.remove(startPosition);
+    }
+
+    public double calculateScoreBy(Side side) {
+        double score = state.values().stream()
+                .filter(piece -> piece.isSameSide(side))
+                .mapToDouble(Piece::getPieceScore)
+                .sum();
+
+        if (side.isHan()) return score + additionalScoreByHan;
+        return score;
+    }
+
+    public Side getWinner() {
+        return state.values().stream()
+                .filter(Piece::isGeneral)
+                .map(Piece::getSide)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("승자가 존재하지 않습니다."));
     }
 
     public boolean isFinished() {
@@ -54,55 +75,6 @@ public class Board {
                 .filter(Piece::isGeneral)
                 .count();
         return generalCount != 2;
-    }
-
-    // ============= private method ==============
-
-    private void placeDefaultPieceBy(Side side) {
-        if (side.isHan()) placeBySide(side, 10, -1);
-        if (side.isCho()) placeBySide(side, 1, 1);
-    }
-
-    private void placeBySide(Side side, int startRow, int dy) {
-        placeChariot(side, startRow);
-        placeCounselor(side, startRow);
-        placeGeneral(side, startRow, dy);
-        placeCanon(side, startRow, dy);
-        placePawn(side, startRow, dy);
-    }
-
-    private void placeChariot(Side side, int startRow) {
-        state.put(Position.of(startRow, 1), Piece.of(side, PieceType.CHARIOT));
-        state.put(Position.of(startRow, 9), Piece.of(side, PieceType.CHARIOT));
-    }
-
-    private void placeCounselor(Side side, int startRow) {
-        state.put(Position.of(startRow, 4), Piece.of(side, PieceType.COUNSELOR));
-        state.put(Position.of(startRow, 6), Piece.of(side, PieceType.COUNSELOR));
-    }
-
-    private void placeGeneral(Side side, int startRow, int dy) {
-        state.put(Position.of(startRow + dy, 5), Piece.of(side, PieceType.GENERAL));
-    }
-
-    private void placeCanon(Side side, int startRow, int dy) {
-        state.put(Position.of(startRow + dy * 2, 2), Piece.of(side, PieceType.CANON));
-        state.put(Position.of(startRow + dy * 2, 8), Piece.of(side, PieceType.CANON));
-    }
-
-    private void placePawn(Side side, int startRow, int dy) {
-        state.put(Position.of(startRow + dy * 3, 1), Piece.of(side, PieceType.PAWN));
-        state.put(Position.of(startRow + dy * 3, 3), Piece.of(side, PieceType.PAWN));
-        state.put(Position.of(startRow + dy * 3, 5), Piece.of(side, PieceType.PAWN));
-        state.put(Position.of(startRow + dy * 3, 7), Piece.of(side, PieceType.PAWN));
-        state.put(Position.of(startRow + dy * 3, 9), Piece.of(side, PieceType.PAWN));
-    }
-
-    private void placeHorseAndElephant(Side side, Placement placement) {
-        state.put(adjustPositionBySide(side, Position.of(1, 2)), Piece.of(side, placement.getFirstPieceType()));
-        state.put(adjustPositionBySide(side, Position.of(1, 3)), Piece.of(side, placement.getSecondPieceType()));
-        state.put(adjustPositionBySide(side, Position.of(1, 7)), Piece.of(side, placement.getThirdPieceType()));
-        state.put(adjustPositionBySide(side, Position.of(1, 8)), Piece.of(side, placement.getFourthPieceType()));
     }
 
     private void validatePosition(Position from, Position to) {
