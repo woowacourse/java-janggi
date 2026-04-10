@@ -12,7 +12,7 @@ public class HanSoldierMoveStrategy implements MoveStrategy {
 
     @Override
     public boolean canMove(BoardView board, Position from, Position to) {
-        return canReachAdjacentPosition(from, to);
+        return canReachAdjacentPosition(from, to) || canReachPalaceNextPosition(board, from, to);
     }
 
     private boolean canReachAdjacentPosition(Position from, Position to) {

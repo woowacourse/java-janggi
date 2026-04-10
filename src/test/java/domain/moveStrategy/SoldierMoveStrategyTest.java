@@ -75,6 +75,26 @@ class SoldierMoveStrategyTest {
     }
 
     @Test
+    @DisplayName("초나라 졸은 궁성 내에서 간선 이동 가능")
+    void 초나라_졸_궁성내_간선_이동_가능() {
+        // given
+        StubBoard stub = new StubBoard();
+        stub.put(new Position(10, 4), new Soldier(Side.CHO, new ChoSoldierMoveStrategy()));
+        Board board = stub.create();
+
+        Position from = new Position(10, 4);
+        Position to = new Position(9, 5);
+
+        MoveStrategy moveStrategy = new ChoSoldierMoveStrategy();
+
+        // when
+        boolean result = moveStrategy.canMove(board, from, to);
+
+        // then
+        assertThat(result).isTrue();
+    }
+
+    @Test
     @DisplayName("초나라 졸은 뒤로 이동 불가")
     void 초나라_졸_뒤로_이동_불가() {
         // given
@@ -187,6 +207,26 @@ class SoldierMoveStrategyTest {
         Position to = new Position(9, 6);
 
         MoveStrategy moveStrategy = new HanSoldierMoveStrategy();
+
+        // when
+        boolean result = moveStrategy.canMove(board, from, to);
+
+        // then
+        assertThat(result).isTrue();
+    }
+
+    @Test
+    @DisplayName("한나라 졸은 궁성 내에서 간선 이동 가능")
+    void 한나라_졸_궁성내_간선_이동_가능() {
+        // given
+        StubBoard stub = new StubBoard();
+        stub.put(new Position(3, 4), new Soldier(Side.HAN, new HanSoldierMoveStrategy()));
+        Board board = stub.create();
+
+        Position from = new Position(3, 4);
+        Position to = new Position(2, 5);
+
+        MoveStrategy moveStrategy = new ChoSoldierMoveStrategy();
 
         // when
         boolean result = moveStrategy.canMove(board, from, to);
