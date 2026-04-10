@@ -37,7 +37,7 @@ public final class Chariot extends Piece {
 
     @Override
     public List<Position> getPossibleMoves(Position start, Pieces pieces) {
-        List<Path> paths = strategy.getPaths(start);
+        List<Path> paths = strategy.getPaths(start, pieces.getTopology());
         Map<Position, Piece> pathPieces = pieces.collectPieces(paths);
         return rule.getPossiblePositions(getSide(), pathPieces, paths);
     }
