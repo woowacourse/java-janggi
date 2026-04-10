@@ -8,7 +8,7 @@ import domain.board.BoardFactory;
 import domain.board.Formation;
 import domain.player.Name;
 import domain.player.Players;
-import domain.score.RemainingPieceScorePolicy;
+import domain.score.ScorePolicy;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -78,7 +78,7 @@ public class GameManager {
                 new Name(savedGame.hanPlayerName())
         );
         Board board = BoardFactory.create(savedGame.choFormation(), savedGame.hanFormation());
-        Game game = new Game(board, players, new RemainingPieceScorePolicy());
+        Game game = new Game(board, players, new ScorePolicy());
         for (MoveCommand move : savedGame.moves()) {
             game.move(move.source(), move.target());
         }
@@ -91,7 +91,7 @@ public class GameManager {
         Formation choFormation = getFormation(Side.CHO);
         Formation hanFormation = getFormation(Side.HAN);
         Board board = BoardFactory.create(choFormation, hanFormation);
-        Game game = new Game(board, initializedPlayers.players(), new RemainingPieceScorePolicy());
+        Game game = new Game(board, initializedPlayers.players(), new ScorePolicy());
         long gameId = gameRepository.createGame(
                 initializedPlayers.choName().name(),
                 initializedPlayers.hanName().name(),

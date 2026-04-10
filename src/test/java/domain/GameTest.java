@@ -10,7 +10,7 @@ import domain.piece.Piece;
 import domain.piece.PieceFactory;
 import domain.player.Name;
 import domain.player.Players;
-import domain.score.RemainingPieceScorePolicy;
+import domain.score.ScorePolicy;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,7 +23,7 @@ class GameTest {
     void setUp() {
         players = Players.createInitial(new Name("cho"), new Name("han"));
         Board board = BoardFactory.create(Formation.LEFT_ELEPHANT, Formation.LEFT_ELEPHANT);
-        game = new Game(board, players, new RemainingPieceScorePolicy());
+        game = new Game(board, players, new ScorePolicy());
     }
 
     @Test
@@ -49,7 +49,7 @@ class GameTest {
                 Position.of(5, 0), PieceFactory.createChariot(Side.CHO),
                 Position.of(4, 1), PieceFactory.createChariot(Side.CHO)
         );
-        Game blockedGame = new Game(new Board(blockedMap), players, new RemainingPieceScorePolicy());
+        Game blockedGame = new Game(new Board(blockedMap), players, new ScorePolicy());
 
         // When & Then: selectSource 내부에서 movablePositions.isEmpty() 체크 시 예외 발생
         assertThatThrownBy(() -> blockedGame.selectSource(guardPos))
@@ -73,7 +73,7 @@ class GameTest {
         Map<Position, Piece> oneGeneralMap = Map.of(
                 Position.of(4, 1), PieceFactory.createGeneral(Side.CHO)
         );
-        Game gameOverGame = new Game(new Board(oneGeneralMap), players, new RemainingPieceScorePolicy());
+        Game gameOverGame = new Game(new Board(oneGeneralMap), players, new ScorePolicy());
 
         // When & Then
         assertThat(gameOverGame.isOver()).isTrue();
