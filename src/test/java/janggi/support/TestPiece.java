@@ -1,8 +1,8 @@
 package janggi.support;
 
+import janggi.domain.Side;
 import janggi.domain.board.Intersection;
 import janggi.domain.board.Location;
-import janggi.domain.Side;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import java.util.List;

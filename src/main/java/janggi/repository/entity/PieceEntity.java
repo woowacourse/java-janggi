@@ -1,12 +1,12 @@
 package janggi.repository.entity;
 
 public class PieceEntity {
-    private Long id;
     private final Long gameId;
     private final String type;
     private final String side;
     private final int rowIdx;
     private final int colIdx;
+    private Long id;
 
     public PieceEntity(Long gameId, String type, String side, int rowIdx, int colIdx) {
         this.gameId = gameId;

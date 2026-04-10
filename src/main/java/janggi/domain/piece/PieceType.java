@@ -33,7 +33,7 @@ public enum PieceType {
     }
 
     public Piece createPiece(Side side) {
-        if(this == EMPTY) {
+        if (this == EMPTY) {
             return EmptyPiece.getInstance();
         }
         return pieceFactory.apply(side);

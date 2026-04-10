@@ -2,9 +2,9 @@ package janggi.repository.entity;
 
 public class GameEntity {
 
-    private Long id;
     private final String turn;
     private final boolean isActive;
+    private Long id;
 
     public GameEntity(String turn, boolean isActive) {
         this.turn = turn;

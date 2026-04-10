@@ -1,7 +1,7 @@
 package janggi.domain.strategy;
 
-import janggi.domain.board.Intersection;
 import janggi.domain.Side;
+import janggi.domain.board.Intersection;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.strategy.arrangement.ArrangementStrategy;
