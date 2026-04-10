@@ -1,20 +1,19 @@
 package domain.movestrategy;
 
-import static domain.piece.PieceType.CANNON;
-import static domain.piece.PieceType.GUARD;
-import static domain.piece.PieceType.SOLDIER;
-import static org.assertj.core.api.Assertions.assertThat;
-
 import domain.board.Board;
 import domain.piece.Piece;
 import domain.piece.PieceStatus;
 import domain.piece.Position;
 import domain.player.Team;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+
+import static domain.piece.PieceType.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class CannonMoveStrategyTest {
 
@@ -137,5 +136,38 @@ class CannonMoveStrategyTest {
 
         // then
         assertThat(result).doesNotContain(ally);
+    }
+
+    @Test
+    @DisplayName("포는 궁성 꼭짓점에서 대각선으로 점프할 수 있다.")
+    void can_jump_diagonal_in_palace() {
+        Position from = Position.of(10, 4);
+
+        Map<Position, Piece> pieces = new HashMap<>();
+        pieces.put(from, Piece.of(new PieceStatus(CANNON, new CannonMoveStrategy()), Team.CHO));
+
+        pieces.put(Position.of(9, 5),
+                Piece.of(new PieceStatus(GENERAL, new GeneralMoveStrategy()), Team.CHO)); // 점프용 기물
+
+        Board board = Board.of(pieces);
+
+        List<Position> result = strategy.calculateMovablePositions(from, board);
+
+        assertThat(result).contains(Position.of(8, 6));
+    }
+
+    @Test
+    @DisplayName("포는 궁성 꼭짓점에서도 점프할 기물이 없으면 대각선으로 이동할 수 없다.")
+    void cannot_jump_diagonal_without_jump_piece() {
+        Position from = Position.of(10, 4);
+
+        Map<Position, Piece> pieces = new HashMap<>();
+        pieces.put(from, Piece.of(new PieceStatus(CANNON, new CannonMoveStrategy()), Team.CHO));
+
+        Board board = Board.of(pieces);
+
+        List<Position> result = strategy.calculateMovablePositions(from, board);
+
+        assertThat(result).doesNotContain(Position.of(8, 6));
     }
 }
