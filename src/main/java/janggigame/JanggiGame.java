@@ -71,7 +71,7 @@ public class JanggiGame {
 
     private void handleInProgress(Board board, GameMetaData gameMetaData) {
         playGame(board, gameMetaData);
-        ScoreBoard scoreBoard = ScoreBoard.from(board);
+        ScoreBoard scoreBoard = board.calculateScore();
         showResult(board, scoreBoard);
         janggiGameService.updateGameStatus(gameMetaData, JanggiGameStatus.FINISHED);
     }

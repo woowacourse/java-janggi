@@ -5,6 +5,7 @@ import domain.piece.PieceType;
 import domain.piece.Side;
 import domain.piece.strategy.MovingCondition;
 import domain.position.Position;
+import janggigame.ScoreBoard;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -58,6 +59,10 @@ public class Board implements BoardState {
     public boolean isEmptyGeneral(Side currentTurnSide) {
         return state.values().stream()
                 .noneMatch(piece -> piece.isSameSide(currentTurnSide) && piece.isSamePieceType(PieceType.GENERAL));
+    }
+
+    public ScoreBoard calculateScore() {
+        return ScoreBoard.from(getState());
     }
 
     private Position findGeneralPosition(Side currentTurnSide) {

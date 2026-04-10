@@ -1,8 +1,8 @@
 package janggigame;
 
-import domain.board.Board;
 import domain.piece.Piece;
 import domain.piece.Side;
+import domain.position.Position;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -12,19 +12,19 @@ public class ScoreBoard {
 
     private final Map<Side, Double> scores;
 
-    public ScoreBoard(Map<Side, Double> scores) {
+    private ScoreBoard(Map<Side, Double> scores) {
         this.scores = scores;
     }
 
-    public static ScoreBoard from(Board board) {
+    public static ScoreBoard from(Map<Position, Piece> state) {
         Map<Side, Double> scores = new EnumMap<>(Side.class);
-        scores.put(Side.CHO, calculateScore(board, Side.CHO));
-        scores.put(Side.HAN, calculateScore(board, Side.HAN) + HAN_INITIAL_SCORE);
+        scores.put(Side.CHO, calculateScore(state, Side.CHO));
+        scores.put(Side.HAN, calculateScore(state, Side.HAN) + HAN_INITIAL_SCORE);
         return new ScoreBoard(scores);
     }
 
-    public static double calculateScore(Board board, Side side) {
-        return board.getState().values().stream()
+    private static double calculateScore(Map<Position, Piece> state, Side side) {
+        return state.values().stream()
                 .filter(piece -> piece.isSameSide(side))
                 .mapToDouble(Piece::getPieceValue)
                 .sum();

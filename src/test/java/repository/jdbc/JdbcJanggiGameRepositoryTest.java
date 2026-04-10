@@ -7,6 +7,7 @@ import janggigame.JanggiGameStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import repository.jdbc.JdbcJanggiGameRepository;
 import util.SchemaInitializer;
 
 import javax.sql.DataSource;
@@ -19,15 +20,15 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class JanggiGameRepositoryTest {
+class JdbcJanggiGameRepositoryTest {
 
-    JanggiGameRepository janggiGameRepository;
+    JdbcJanggiGameRepository jdbcJanggiGameRepository;
 
     @BeforeEach
     void setUp() {
         DataSource dataSource = TestDataSourceConfig.testDataSource();
         SchemaInitializer.initialize(dataSource);
-        janggiGameRepository = new JanggiGameRepository(dataSource);
+        jdbcJanggiGameRepository = new JdbcJanggiGameRepository(dataSource);
     }
 
     @Test
@@ -43,9 +44,9 @@ class JanggiGameRepositoryTest {
     @Test
     @DisplayName("최근에 저장된 종료되지 않은 게임을 불러올 수 있다.")
     void findLatestUnfinishedGame_테스트() {
-        GameMetaData savedGameMetaData = janggiGameRepository.save(GameMetaData.newGame());
+        GameMetaData savedGameMetaData = jdbcJanggiGameRepository.save(GameMetaData.newGame());
 
-        GameMetaData findedGameMetaData = janggiGameRepository.findLatestUnfinishedGame().orElseThrow();
+        GameMetaData findedGameMetaData = jdbcJanggiGameRepository.findLatestUnfinishedGame().orElseThrow();
 
         assertThat(findedGameMetaData).isNotNull();
         assertThat(findedGameMetaData.id()).isEqualTo(savedGameMetaData.id());
@@ -56,11 +57,11 @@ class JanggiGameRepositoryTest {
     @Test
     @DisplayName("게임의 진행 상태를 변경할 수 있다.")
     void updateGameStatusById_테스트() {
-        GameMetaData savedGameMetaData = janggiGameRepository.save(GameMetaData.newGame());
+        GameMetaData savedGameMetaData = jdbcJanggiGameRepository.save(GameMetaData.newGame());
 
-        janggiGameRepository.updateGameStatusById(savedGameMetaData.id(), JanggiGameStatus.IN_PROGRESS);
+        jdbcJanggiGameRepository.updateGameStatusById(savedGameMetaData.id(), JanggiGameStatus.IN_PROGRESS);
 
-        GameMetaData updatedGameMetaData = janggiGameRepository.findLatestUnfinishedGame().orElseThrow();
+        GameMetaData updatedGameMetaData = jdbcJanggiGameRepository.findLatestUnfinishedGame().orElseThrow();
         assertThat(updatedGameMetaData.status()).isEqualTo(JanggiGameStatus.IN_PROGRESS);
     }
 
@@ -68,13 +69,13 @@ class JanggiGameRepositoryTest {
     @DisplayName("메모리에서 바뀐 양쪽 진영의 장군카운트의 값을 DB에 저장할 수 있다.")
     void updateJangGunCountById_테스트() throws SQLException {
         // given
-        GameMetaData savedGameMetaData = janggiGameRepository.save(GameMetaData.newGame());
+        GameMetaData savedGameMetaData = jdbcJanggiGameRepository.save(GameMetaData.newGame());
         Map<Side, Integer> jangGunCount = new HashMap<>();
         jangGunCount.put(Side.CHO, 0);
         jangGunCount.put(Side.HAN, 2);
 
         // when
-        janggiGameRepository.updateJangGunCountById(jangGunCount, savedGameMetaData.id());
+        jdbcJanggiGameRepository.updateJangGunCountById(jangGunCount, savedGameMetaData.id());
 
         // then
         try (Connection connection = TestDataSourceConfig.testDataSource().getConnection();
@@ -94,10 +95,10 @@ class JanggiGameRepositoryTest {
     @Test
     @DisplayName("초기 상태의 턴은 'CHO'이며, 턴이 변경되면 DB에 'HAN'으로 수정할 수 있다.")
     void updateTurnById_테스트() {
-        GameMetaData gameMetaData = janggiGameRepository.save(GameMetaData.newGame());
+        GameMetaData gameMetaData = jdbcJanggiGameRepository.save(GameMetaData.newGame());
 
-        janggiGameRepository.updateTurnById(Side.HAN, gameMetaData.id());
-        GameMetaData updatedGameMetaData = janggiGameRepository.findLatestUnfinishedGame().orElseThrow();
+        jdbcJanggiGameRepository.updateTurnById(Side.HAN, gameMetaData.id());
+        GameMetaData updatedGameMetaData = jdbcJanggiGameRepository.findLatestUnfinishedGame().orElseThrow();
 
         assertThat(updatedGameMetaData.currentTurn()).isEqualTo(Side.HAN);
     }
