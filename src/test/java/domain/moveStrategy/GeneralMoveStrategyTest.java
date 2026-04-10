@@ -179,6 +179,6 @@ class GeneralMoveStrategyTest {
                 .canMove(board, from, to);
 
         // then
-        assertThat(result).isTrue();
+        assertThat(result).isFalse();
     }
 }

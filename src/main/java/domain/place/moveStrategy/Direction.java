@@ -1,6 +1,8 @@
 package domain.place.moveStrategy;
 
 
+import domain.position.Position;
+
 public enum Direction {
     TOP(1, 0),
     DOWN(-1, 0),
@@ -27,4 +29,15 @@ public enum Direction {
         return column;
     }
 
+    public static Direction findDirection(Position from, Position to) {
+        int rowDiff = to.getRow() - from.getRow();
+        int columnDiff = to.getColumn() - from.getColumn();
+
+        for (Direction direction : values()) {
+            if (direction.row == rowDiff && direction.column == columnDiff) {
+                return direction;
+            }
+        }
+        throw new IllegalArgumentException("해당 좌표들 사이의 방향이 없습니다.");
+    }
 }

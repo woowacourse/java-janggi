@@ -5,6 +5,7 @@ import static domain.common.Constant.MAX_ROW;
 import static domain.common.Constant.MIN_COLUMN;
 import static domain.common.Constant.MIN_ROW;
 
+import domain.place.moveStrategy.Direction;
 import domain.place.piece.Piece;
 import domain.position.Position;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 public class Board implements BoardView {
 
@@ -56,6 +58,21 @@ public class Board implements BoardView {
     @Override
     public boolean isEmpty(Position position) {
         return findPiece(position).isEmpty();
+    }
+
+    @Override
+    public boolean isInPalace(Position position) {
+        return palace.isInPalace(position);
+    }
+
+    @Override
+    public boolean isPalaceConnected(Position position, Direction direction) {
+        return palace.isConnected(position, direction);
+    }
+
+    @Override
+    public Set<Position> findPalaceNextPositions(Position position) {
+        return palace.findNextPositions(position);
     }
 
     private List<String> getFormatRow(int row) {

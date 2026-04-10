@@ -41,7 +41,7 @@ class PalaceTest {
     void 궁성_내부_연결_true_테스트() {
         //given
         Position position = new Position(8, 4);
-        Direction direction = Direction.RIGHT_DOWN;
+        Direction direction = Direction.RIGHT_TOP;
         Palace palace = Palace.getInstance();
 
         //when
@@ -56,7 +56,7 @@ class PalaceTest {
     void 궁성_내부_연결_false_테스트() {
         //given
         Position position = new Position(10, 4);
-        Direction direction = Direction.RIGHT_DOWN;
+        Direction direction = Direction.RIGHT_TOP;
         Palace palace = Palace.getInstance();
 
         //when
