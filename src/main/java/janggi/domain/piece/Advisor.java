@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class Advisor extends Piece {
     public Advisor(Camp camp, MoveStrategy moveStrategy) {
-        super(camp, moveStrategy);
+        super(PieceInfo.from(camp, 3), moveStrategy);
     }
 
     @Override

@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class Piece {
-    private final Camp camp;
+    private final PieceInfo pieceInfo;
     private final MoveStrategy moveStrategy;
 
-    Piece(Camp camp, MoveStrategy moveStrategy) {
-        this.camp = camp;
+    Piece(PieceInfo pieceInfo, MoveStrategy moveStrategy) {
+        this.pieceInfo = pieceInfo;
         this.moveStrategy = moveStrategy;
     }
 
@@ -22,19 +22,23 @@ public abstract class Piece {
     }
 
     public String displayName() {
-        return pieceDisplayName(camp);
+        return pieceDisplayName(pieceInfo.getCamp());
     }
 
     public boolean isSameCamp(Piece piece) {
-        return this.camp.isSameCamp(piece.camp);
+        return this.pieceInfo.isSameCamp(piece.pieceInfo);
     }
 
     public boolean isSameCamp(Camp camp) {
-        return this.camp.isSameCamp(camp);
+        return pieceInfo.isSameCamp(camp);
     }
 
     public Camp getCamp() {
-        return camp;
+        return pieceInfo.getCamp();
+    }
+
+    public int getScoreIfCampMatches(Camp camp) {
+        return pieceInfo.getScoreIfCampMatches(camp);
     }
 
     abstract public boolean canPassRoute(Map<Position, Piece> piecesInPath);

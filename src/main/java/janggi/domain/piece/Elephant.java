@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class Elephant extends Piece {
     public Elephant(Camp camp, MoveStrategy moveStrategy) {
-        super(camp, moveStrategy);
+        super(PieceInfo.from(camp, 3), moveStrategy);
     }
 
     @Override
