@@ -12,7 +12,7 @@ public class DatabaseInitializer {
 
     public static void initialize(final DatabaseConfig config) {
         try (Connection connection = DriverManager.getConnection(
-                config.getUrl(), config.getUsername(), config.getPassword());
+                config.getConnectionUrl(), config.getUsername(), config.getPassword());
              Statement statement = connection.createStatement()) {
 
             String sql = readSchemaSql();

@@ -9,14 +9,11 @@ public class DatabaseConfig {
     private final String url;
     private final String username;
     private final String password;
-    private final String name;
 
-    private DatabaseConfig(final String url, final String username,
-                           final String password, final String name) {
+    private DatabaseConfig(final String url, final String username, final String password) {
         this.url = url;
         this.username = username;
         this.password = password;
-        this.name = name;
     }
 
     public static DatabaseConfig load() {
@@ -28,8 +25,7 @@ public class DatabaseConfig {
             return new DatabaseConfig(
                     properties.getProperty("database.url"),
                     properties.getProperty("database.username"),
-                    properties.getProperty("database.password"),
-                    properties.getProperty("database.name")
+                    properties.getProperty("database.password")
             );
         } catch (IOException e) {
             throw new RuntimeException("application.properties 파일을 읽을 수 없습니다.");
@@ -37,10 +33,6 @@ public class DatabaseConfig {
     }
 
     public String getConnectionUrl() {
-        return url + "/" + name;
-    }
-
-    public String getUrl() {
         return url;
     }
 
