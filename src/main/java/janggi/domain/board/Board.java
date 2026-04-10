@@ -32,7 +32,7 @@ public class Board implements BoardView {
 
     @Override
     public Piece findByPosition(Position position) {
-        return board.getOrDefault(position, new EmptyPiece(Team.NONE));
+        return board.getOrDefault(position, EmptyPiece.getInstance());
     }
 
     @Override
