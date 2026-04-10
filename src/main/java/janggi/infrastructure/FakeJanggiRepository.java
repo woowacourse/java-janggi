@@ -24,6 +24,7 @@ public class FakeJanggiRepository implements JanggiRepository {
     public Long save(Players players) {
         long id = idGenerator.incrementAndGet();
         playersMap.put(id, players);
+        turns.put(id, players.getTurn());
         finishedStatus.put(id, false); // 진행 중
         return id;
     }
@@ -58,8 +59,16 @@ public class FakeJanggiRepository implements JanggiRepository {
 
     @Override
     public Players findPlayersById(Long gameId) {
-        return Optional.ofNullable(playersMap.get(gameId))
+        Players savedPlayers = Optional.ofNullable(playersMap.get(gameId))
                 .orElseThrow(() -> new NoSuchElementException("해당 ID의 플레이어 정보가 없습니다: " + gameId));
+
+        Turn currentTurn = turns.getOrDefault(gameId, savedPlayers.getTurn());
+
+        return Players.fromSavedStatus(
+                savedPlayers.getChoPlayerName(),
+                savedPlayers.getHanPlayerName(),
+                currentTurn.getSide()
+        );
     }
 
     @Override

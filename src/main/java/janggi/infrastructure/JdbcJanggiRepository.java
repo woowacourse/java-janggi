@@ -28,7 +28,7 @@ public class JdbcJanggiRepository implements JanggiRepository {
     private static final String SELECT_IN_PROGRESS_ID_SQL = "SELECT id FROM game WHERE is_finished = FALSE ORDER BY created_at DESC LIMIT 1";
     private static final String SELECT_ALL_IN_PROGRESS_IDS_SQL = "SELECT id FROM game WHERE is_finished = FALSE ORDER BY created_at DESC";
     private static final String SELECT_BOARD_BY_ID_SQL = "SELECT row_index, col_index, piece_type, side, piece_number FROM board_state WHERE game_id = ?";
-    private static final String SELECT_PLAYERS_BY_ID_SQL = "SELECT cho_player, han_player FROM game WHERE id = ?";
+    private static final String SELECT_PLAYERS_BY_ID_SQL = "SELECT cho_player, han_player, current_turn FROM game WHERE id = ?";
     private static final String SELECT_TURN_BY_ID_SQL = "SELECT current_turn FROM game WHERE id = ?";
     private static final String UPDATE_FINISH_GAME_SQL = "UPDATE game SET is_finished = TRUE WHERE id = ?";
 
@@ -200,7 +200,8 @@ public class JdbcJanggiRepository implements JanggiRepository {
                 if (rs.next()) {
                     String choName = rs.getString(COLUMN_CHO_PLAYER);
                     String hanName = rs.getString(COLUMN_HAN_PLAYER);
-                    return Players.of(choName, hanName);
+                    Side currentTurn = Side.valueOf(rs.getString(COLUMN_CURRENT_TURN));
+                    return Players.fromSavedStatus(choName, hanName, currentTurn);
                 }
             }
         } catch (SQLException e) {

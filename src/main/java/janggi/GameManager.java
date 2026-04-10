@@ -51,7 +51,7 @@ public class GameManager {
         return retry(() -> {
             String choPlayerName = readPlayerName(Side.CHO);
             String hanPlayerName = readPlayerName(Side.HAN);
-            return Players.of(choPlayerName, hanPlayerName);
+            return Players.createInitial(choPlayerName, hanPlayerName);
         });
     }
 

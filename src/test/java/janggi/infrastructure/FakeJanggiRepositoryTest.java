@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.board.Board;
 import janggi.domain.game.Players;
+import janggi.domain.game.Side;
 import janggi.domain.game.Turn;
 import janggi.domain.repository.JanggiRepository;
 import java.util.List;
@@ -20,7 +21,7 @@ public class FakeJanggiRepositoryTest {
     @Test
     void 새_게임_시작_게임_아이디_생성_테스트() {
         // given
-        Players players = Players.of("pobi", "jason");
+        Players players = Players.createInitial("pobi", "jason");
 
         // when
         Long gameId = repository.save(players);
@@ -33,7 +34,7 @@ public class FakeJanggiRepositoryTest {
     @Test
     void 턴_종료_시마다_게임_상태_저장_테스트() {
         // given
-        Players players = Players.of("pobi", "jason");
+        Players players = Players.createInitial("pobi", "jason");
         Long gameId = repository.save(players);
         Board board = Board.initialize();
         Turn turn = new Turn();
@@ -51,8 +52,8 @@ public class FakeJanggiRepositoryTest {
     @Test
     void 진행_중인_가장_최근_게임_조회_테스트() {
         // given
-        repository.save(Players.of("pobi", "jason"));
-        Long secondGameId = repository.save(Players.of("gugu", "lisa"));
+        repository.save(Players.createInitial("pobi", "jason"));
+        Long secondGameId = repository.save(Players.createInitial("gugu", "lisa"));
 
         // when
         Optional<Long> lastGameId = repository.findInProgressGameId();
@@ -66,9 +67,9 @@ public class FakeJanggiRepositoryTest {
     @Test
     void 진행_중인_모든_게임_조회_테스트() {
         // given
-        Long firstId = repository.save(Players.of("pobi", "jason"));
-        Long secondId = repository.save(Players.of("gugu", "lisa"));
-        Long thirdId = repository.save(Players.of("gugu", "lisa"));
+        Long firstId = repository.save(Players.createInitial("pobi", "jason"));
+        Long secondId = repository.save(Players.createInitial("gugu", "lisa"));
+        Long thirdId = repository.save(Players.createInitial("gugu", "lisa"));
 
         // when
         List<Long> allGameIds = repository.findAllInProgressGameIds();
@@ -82,7 +83,7 @@ public class FakeJanggiRepositoryTest {
     @Test
     void 게임_아이디로_보드_조회_테스트() {
         // given
-        Long gameId = repository.save(Players.of("pobi", "jason"));
+        Long gameId = repository.save(Players.createInitial("pobi", "jason"));
         Board board = Board.initialize();
         repository.updateGameStatus(gameId, board, new Turn());
 
@@ -104,7 +105,7 @@ public class FakeJanggiRepositoryTest {
     @Test
     void 게임_아이디로_플레이어_조회_테스트() {
         // given
-        Players players = Players.of("pobi", "jason");
+        Players players = Players.createInitial("pobi", "jason");
         Long gameId = repository.save(players);
 
         // when
@@ -125,7 +126,7 @@ public class FakeJanggiRepositoryTest {
     @Test
     void 게임_아이디로_턴_조회_테스트() {
         // given
-        Long gameId = repository.save(Players.of("pobi", "jason"));
+        Long gameId = repository.save(Players.createInitial("pobi", "jason"));
         Turn turn = new Turn();
         repository.updateGameStatus(gameId, Board.initialize(), turn);
 
@@ -140,7 +141,7 @@ public class FakeJanggiRepositoryTest {
     @Test
     void 게임_종료_테스트() {
         // given
-        Players players = Players.of("pobi", "jason");
+        Players players = Players.createInitial("pobi", "jason");
         Long gameId = repository.save(players);
 
         // when
@@ -149,5 +150,22 @@ public class FakeJanggiRepositoryTest {
         // then
         assertThat(repository.findInProgressGameId()).isEmpty();
         assertThat(repository.findAllInProgressGameIds()).doesNotContain(gameId);
+    }
+
+    @DisplayName("한(HAN) 진영 턴에서 중단된 게임을 재시작하는 경우, 한(HAN) 진영 턴으로 복구된다.")
+    @Test
+    void 게임_재시작_시_턴_교체_테스트() {
+        // given
+        Players initialPlayers = Players.createInitial("pobi", "jason");
+        Long gameId = repository.save(initialPlayers); // CHO 턴으로 저장
+
+        // when
+        Board board = Board.initialize();
+        Turn hanTurn = new Turn(Side.HAN);
+        repository.updateGameStatus(gameId, board, hanTurn);
+        Players loadedPlayers = repository.findPlayersById(gameId);
+
+        // then
+        assertThat(loadedPlayers.getTurn().getSide()).isEqualTo(Side.HAN);
     }
 }
