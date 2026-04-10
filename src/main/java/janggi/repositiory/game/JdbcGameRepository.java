@@ -1,5 +1,6 @@
 package janggi.repositiory.game;
 
+import janggi.domain.janggiGame.JanggiGame;
 import janggi.domain.piece.Team;
 import org.h2.jdbcx.JdbcDataSource;
 
@@ -63,14 +64,14 @@ public class JdbcGameRepository implements GameRepository {
     }
 
     @Override
-    public void update(Long id, boolean isFinished, Team currentTurn) {
+    public void update(Long id, JanggiGame game) {
         String sql = "UPDATE game SET is_finished = ?, current_turn = ? WHERE id = ?";
 
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setBoolean(1, isFinished);
-            pstmt.setString(2, currentTurn.getCode());
+            pstmt.setBoolean(1, game.isFinished());
+            pstmt.setString(2, game.getCurrentTeam().getCode());
             pstmt.setLong(3, id);
 
             int affectedRows = pstmt.executeUpdate();

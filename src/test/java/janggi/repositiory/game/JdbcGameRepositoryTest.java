@@ -1,5 +1,7 @@
 package janggi.repositiory.game;
 
+import janggi.domain.board.Board;
+import janggi.domain.janggiGame.JanggiGame;
 import janggi.domain.piece.Team;
 import janggi.repositiory.RepositoryTest;
 import org.junit.jupiter.api.BeforeEach;
@@ -46,9 +48,10 @@ class JdbcGameRepositoryTest extends RepositoryTest {
     void update_테스트() {
         // given
         Long id = gameRepository.save(false, Team.CHO);
+        JanggiGame janggiGame = new JanggiGame(new Board(), Team.HAN);
 
         // when
-        gameRepository.update(id, true, Team.HAN);
+        gameRepository.update(id, janggiGame);
 
         // then
         GameData updated = gameRepository.findLatestGame().get();
