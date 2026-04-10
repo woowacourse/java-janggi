@@ -21,8 +21,12 @@ public class JanggiController {
     }
 
     public void run() {
-        Janggi janggi = initializeJanggi();
-        playJanggiGame(janggi);
+        try {
+            Janggi janggi = initializeJanggi();
+            playJanggiGame(janggi);
+        } catch (RuntimeException e) {
+            outputView.printError(e.getMessage());
+        }
     }
 
     private Janggi initializeJanggi() {
@@ -48,12 +52,23 @@ public class JanggiController {
     }
 
     private void selectAndMove(Janggi janggi) {
-        Optional<PositionRequest> fromRequest = inputView.readPieceSelection();
-        if (fromRequest.isEmpty()) {
-            janggi.stopGame();
+        PositionRequest fromRequest = inputView.readPieceSelection();
+        if (fromRequest.howPlaying().equals("q")) {
+            outputView.printGameResult(janggi.processGiveUpRequest());
             return;
         }
-        processMove(janggi, fromRequest.get());
+        if (fromRequest.howPlaying().equals("d")) {
+            drawHandling(janggi);
+            return;
+        }
+        processMove(janggi, fromRequest);
+    }
+
+    private void drawHandling(Janggi janggi) {
+        if (inputView.readAcceptDrawRequest()) {
+            janggi.drawGame();
+            outputView.printGameResult(janggi.calculateGameResult());
+        }
     }
 
     private void processMove(Janggi janggi, PositionRequest fromRequest) {

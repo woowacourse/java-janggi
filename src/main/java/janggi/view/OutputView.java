@@ -1,6 +1,7 @@
 package janggi.view;
 
 import janggi.domain.Camp;
+import janggi.view.dto.GameResult;
 import janggi.view.dto.PieceStatus;
 
 import java.util.List;
@@ -22,6 +23,18 @@ public class OutputView {
 
     public void printError(String message) {
         System.out.println(message);
+    }
+
+    public void printGameResult(GameResult gameResult) {
+        System.out.println();
+        int choScore = gameResult.getChoScore();
+        int hanScore = gameResult.getHanScore();
+        String description = gameResult.getDescription();
+        if (choScore >= 0 && hanScore >= 0) {
+            System.out.printf("초나라 점수: %d, 한나라 점수: %d / %s!%n", choScore, hanScore, description);
+            return;
+        }
+        System.out.printf("%s!%n", description);
     }
 
     public void printBoard(List<PieceStatus> piecesStatus, List<Integer> rows) {
