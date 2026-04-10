@@ -38,8 +38,8 @@ public final class JanggiGame {
     public void movePiece(Move move) {
         validatePlaying();
 
-        lastMove = move;
         board.movePiece(move, currentTurn);
+        lastMove = move;
 
         currentTurn = currentTurn.nextTurn();
     }
