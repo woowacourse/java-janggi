@@ -42,7 +42,8 @@ public class JanggiGame {
             Player current = players.getCurrentPlayer();
             PlayerDTO currentPlayerDTO = PlayerDTO.from(current);
             printPlayerTurnNotice(currentPlayerDTO);
-            playerTurn(currentPlayerDTO, players);
+
+            playerTurn(currentPlayerDTO);
 
             if (board.isGameOver()) {
                 handleGameOver(currentPlayerDTO, players);
@@ -50,6 +51,7 @@ public class JanggiGame {
             }
 
             players.switchTurn();
+            repository.updateGameStatus(this.gameId, board, players.getTurn());
         }
     }
 
@@ -58,11 +60,10 @@ public class JanggiGame {
         outputView.printBoardStatus(BoardDTO.from(board));
     }
 
-    private void playerTurn(PlayerDTO currentPlayer, Players players) {
+    private void playerTurn(PlayerDTO currentPlayer) {
         Side currentSide = currentPlayer.side();
         PieceSelection pieceSelection = selectMovablePiece(currentSide);
         movePiece(pieceSelection.selected(), pieceSelection.destinations());
-        repository.updateGameStatus(this.gameId, board, players.getTurn());
     }
 
     private void handleGameOver(PlayerDTO winner, Players players) {
