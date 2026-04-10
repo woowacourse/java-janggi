@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import javax.sql.DataSource;
+import support.DataAccessException;
 
 public final class JanggiGameRepository {
 
@@ -50,7 +51,7 @@ public final class JanggiGameRepository {
             }
             statement.executeBatch();
         } catch (SQLException e) {
-            throw new IllegalStateException(e);
+            throw new DataAccessException(e);
         }
     }
 
@@ -71,17 +72,13 @@ public final class JanggiGameRepository {
 
             throw new SQLException("게임 생성에 실패했습니다.");
         } catch (SQLException e) {
-            throw new IllegalStateException(e);
+            throw new DataAccessException(e);
         }
     }
 
     public void updateGameStatus(Connection conn, JanggiGame janggiGame, long gameId) {
-        try {
-            updateCurrentTurn(conn, janggiGame, gameId);
-            syncPieces(conn, janggiGame, gameId);
-        } catch (IllegalStateException e) {
-            throw e;
-        }
+        updateCurrentTurn(conn, janggiGame, gameId);
+        syncPieces(conn, janggiGame, gameId);
     }
 
     private void updateCurrentTurn(Connection conn, JanggiGame janggiGame, long gameId) {
@@ -95,7 +92,7 @@ public final class JanggiGameRepository {
             pstmt.setLong(2, gameId);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            throw new IllegalStateException(e);
+            throw new DataAccessException(e);
         }
     }
 
@@ -121,7 +118,7 @@ public final class JanggiGameRepository {
 
             throw new IllegalStateException("게임을 찾을 수 없습니다.");
         } catch (SQLException e) {
-            throw new IllegalStateException(e);
+            throw new DataAccessException(e);
         }
     }
 
@@ -144,7 +141,7 @@ public final class JanggiGameRepository {
 
             return List.copyOf(gameSummaries);
         } catch (SQLException e) {
-            throw new IllegalStateException(e);
+            throw new DataAccessException(e);
         }
     }
 
@@ -170,7 +167,7 @@ public final class JanggiGameRepository {
 
             pstmt.executeBatch();
         } catch (SQLException e) {
-            throw new IllegalStateException(e);
+            throw new DataAccessException(e);
         }
     }
 
@@ -184,7 +181,7 @@ public final class JanggiGameRepository {
             pstmt.setLong(1, gameId);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            throw new IllegalStateException(e);
+            throw new DataAccessException(e);
         }
 
         insertPieces(conn, janggiGame, gameId);
@@ -213,7 +210,7 @@ public final class JanggiGameRepository {
 
             return pieces;
         } catch (SQLException e) {
-            throw new IllegalStateException(e);
+            throw new DataAccessException(e);
         }
     }
 
@@ -230,7 +227,7 @@ public final class JanggiGameRepository {
             }
             stmt.executeBatch();
         } catch (SQLException e) {
-            throw new IllegalStateException(e);
+            throw new DataAccessException(e);
         }
     }
 }
