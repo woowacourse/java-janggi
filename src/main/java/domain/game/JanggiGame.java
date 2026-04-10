@@ -67,6 +67,13 @@ public class JanggiGame {
         checkEndConditions();
     }
 
+    public void assignId(long id) {
+        if (this.id != null) {
+            throw new IllegalStateException("이미 ID가 할당된 게임입니다.");
+        }
+        this.id = id;
+    }
+
     public void pass() {
         validateRunning();
         record.recordPass();

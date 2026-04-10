@@ -27,15 +27,15 @@ public class GameRepository {
         this.boardPieceDao = boardPieceDao;
     }
 
-    public long createGame(String roomName, JanggiGame game) {
+    public void createGame(String roomName, JanggiGame game) {
         long roomId = gameRoomDao.save(
                 roomName,
                 game.currentTurn().name(),
                 game.getStatus().name(),
                 game.getRecord().consecutivePassCount()
         );
+        game.assignId(roomId);
         boardPieceDao.saveAll(roomId, toRawPieces(game.getBoard()));
-        return roomId;
     }
 
     public JanggiGame loadGame(long roomId) {
