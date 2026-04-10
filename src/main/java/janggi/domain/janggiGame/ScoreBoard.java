@@ -19,12 +19,12 @@ public class ScoreBoard {
             put(PieceType.SOLDIER, 2.0);
         }
     };
-    private double hanScore = 0;
-    private double choScore = 0;
+    private final double hanScore;
+    private final double choScore;
 
     public ScoreBoard(List<Piece> hanPieces, List<Piece> choPieces) {
-        this.choScore = calculateScore(hanPieces) + 1.5;
-        this.hanScore = calculateScore(choPieces);
+        this.hanScore = calculateScore(hanPieces) + 1.5;
+        this.choScore = calculateScore(choPieces);
     }
 
     public Team winner() {
