@@ -42,4 +42,18 @@ public class LegalMoveAnalyzerTest {
         assertThatCode(() -> legalMoveAnalyzer.validate(board, new Position(5, 4), new Position(5, 5)))
                 .doesNotThrowAnyException();
     }
+
+    @Test
+    @DisplayName("행마법에 따른 이동이 불가능할 시 기존 이동 규칙 예외를 그대로 반환한다.")
+    void throwOriginalException_When_MoveStrategyIsInvalid() {
+        Board board = new Board(Map.of(
+                new Position(1, 7), new Piece(Camp.CHO, PieceType.SOLDIER),
+                new Position(5, 9), new Piece(Camp.CHO, PieceType.GENERAL),
+                new Position(5, 2), new Piece(Camp.HAN, PieceType.GENERAL)
+        ));
+
+        assertThatThrownBy(() -> legalMoveAnalyzer.validate(board, new Position(1, 7), new Position(1, 8)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 졸/병은 후퇴가 불가능합니다.");
+    }
 }
