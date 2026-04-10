@@ -10,7 +10,7 @@ public interface GameRepository {
 
     List<GameSessionDTO> findAllGameStatusByFinishedFalse(Connection connection) throws SQLException;
 
-    long save(Connection connection, GameManager gameManager) throws SQLException;
+    GameManager save(Connection connection, GameManager gameManager) throws SQLException;
 
     GameManager findByGameId(Connection connection, long gameId) throws SQLException;
 }

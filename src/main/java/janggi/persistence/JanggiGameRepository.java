@@ -57,38 +57,41 @@ public class JanggiGameRepository implements GameRepository {
     }
 
     @Override
-    public long save(Connection connection, GameManager gameManager) throws SQLException {
-        long gameId = saveGame(connection, gameManager);
-        saveBoard(connection, gameId, gameManager.getBoard());
-        return gameId;
+    public GameManager save(Connection connection, GameManager gameManager) throws SQLException {
+        GameManager savedGame = saveGame(connection, gameManager);
+        saveBoard(connection, savedGame.getId(), gameManager.getBoard());
+        return savedGame;
     }
 
-    private long saveGame(Connection connection, GameManager gameManager) throws SQLException {
+    private GameManager saveGame(Connection connection, GameManager gameManager) throws SQLException {
         if (gameManager.getId() == null) {
             return insertGame(connection, gameManager);
         }
         return updateGame(connection, gameManager);
     }
 
-    private long updateGame(Connection connection, GameManager gameManager) throws SQLException {
-        String sql = "update game set cho_player_name = ?, han_player_name = ?, current_turn = ? where game_id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setLong(4, gameManager.getId());
-            return executeInsertAndGetId(statement, gameManager);
-        }
-    }
-
-    private long insertGame(Connection connection, GameManager gameManager) throws SQLException {
+    private GameManager insertGame(Connection connection, GameManager gameManager) throws SQLException {
         String sql = "insert into game (cho_player_name, han_player_name, current_turn) values (?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            return executeInsertAndGetId(statement, gameManager);
+            executeSave(statement, gameManager);
+            long gameId = extractGeneratedId(statement);
+            return findByGameId(connection, gameId);
         }
     }
 
-    private long executeInsertAndGetId(PreparedStatement statement, GameManager gameManager) throws SQLException {
+    private GameManager updateGame(Connection connection, GameManager gameManager) throws SQLException {
+        String sql = "update game set cho_player_name = ?, han_player_name = ?, current_turn = ? where game_id = ?";
+        long gameId = gameManager.getId();
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setLong(4, gameId);
+            executeSave(statement, gameManager);
+            return findByGameId(connection, gameId);
+        }
+    }
+
+    private void executeSave(PreparedStatement statement, GameManager gameManager) throws SQLException {
         bindInsertParameters(statement, gameManager);
         executeAndValidateUpdate(statement);
-        return extractGeneratedId(statement);
     }
 
     private void bindInsertParameters(PreparedStatement statement, GameManager gameManager) throws SQLException {
