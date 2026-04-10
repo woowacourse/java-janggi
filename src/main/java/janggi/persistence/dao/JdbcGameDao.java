@@ -2,7 +2,7 @@ package janggi.persistence.dao;
 
 import janggi.domain.game.GameManager;
 import janggi.domain.game.Side;
-import janggi.dto.GameSessionDTO;
+import janggi.dto.GameSessionDto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -66,14 +66,14 @@ public class JdbcGameDao implements GameDao {
     }
 
     @Override
-    public GameSessionDTO findById(Connection connection, long gameId) throws SQLException {
+    public GameSessionDto findById(Connection connection, long gameId) throws SQLException {
         String sql = "select game_id, cho_player_name, han_player_name, current_turn, created_at from game where game_id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             return executeFindById(statement, gameId);
         }
     }
 
-    private GameSessionDTO executeFindById(PreparedStatement statement, long gameId) throws SQLException {
+    private GameSessionDto executeFindById(PreparedStatement statement, long gameId) throws SQLException {
         statement.setLong(1, gameId);
         try (ResultSet resultSet = statement.executeQuery()) {
             resultSet.next();
@@ -82,29 +82,29 @@ public class JdbcGameDao implements GameDao {
     }
 
     @Override
-    public List<GameSessionDTO> findAllActive(Connection connection) throws SQLException {
+    public List<GameSessionDto> findAllActive(Connection connection) throws SQLException {
         String sql = "select game_id, cho_player_name, han_player_name, current_turn, created_at from game where is_finished = false order by created_at desc";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             return executeFindAllActive(statement);
         }
     }
 
-    private List<GameSessionDTO> executeFindAllActive(PreparedStatement statement) throws SQLException {
+    private List<GameSessionDto> executeFindAllActive(PreparedStatement statement) throws SQLException {
         try (ResultSet resultSet = statement.executeQuery()) {
             return mapToGameSessionList(resultSet);
         }
     }
 
-    private List<GameSessionDTO> mapToGameSessionList(ResultSet resultSet) throws SQLException {
-        List<GameSessionDTO> sessions = new ArrayList<>();
+    private List<GameSessionDto> mapToGameSessionList(ResultSet resultSet) throws SQLException {
+        List<GameSessionDto> sessions = new ArrayList<>();
         while (resultSet.next()) {
             sessions.add(mapToGameSessionDTO(resultSet));
         }
         return sessions;
     }
 
-    private GameSessionDTO mapToGameSessionDTO(ResultSet resultSet) throws SQLException {
-        return new GameSessionDTO(
+    private GameSessionDto mapToGameSessionDTO(ResultSet resultSet) throws SQLException {
+        return new GameSessionDto(
                 resultSet.getLong("game_id"),
                 resultSet.getString("cho_player_name"),
                 resultSet.getString("han_player_name"),

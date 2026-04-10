@@ -4,9 +4,9 @@ import janggi.domain.board.Destinations;
 import janggi.domain.board.Position;
 import janggi.domain.game.GameManager;
 import janggi.domain.game.Player;
-import janggi.dto.BoardDTO;
-import janggi.dto.PlayerDTO;
-import janggi.dto.PositionDTO;
+import janggi.dto.BoardDto;
+import janggi.dto.PlayerDto;
+import janggi.dto.PositionDto;
 import janggi.service.JanggiService;
 import janggi.view.InputView;
 import janggi.view.OutputView;
@@ -69,12 +69,12 @@ public class Runner {
 
     private void printCurrentTurnNotice(GameManager gameManager) {
         Player currentPlayer = gameManager.currentPlayer();
-        PlayerDTO currentPlayerDTO = PlayerDTO.from(currentPlayer);
+        PlayerDto currentPlayerDto = PlayerDto.from(currentPlayer);
         double currentPlayerScore = gameManager.currentPlayerScore();
-        printPlayerTurnNotice(currentPlayerDTO, currentPlayerScore);
+        printPlayerTurnNotice(currentPlayerDto, currentPlayerScore);
     }
 
-    private void printPlayerTurnNotice(PlayerDTO currentPlayer, double currentPlayerScore) {
+    private void printPlayerTurnNotice(PlayerDto currentPlayer, double currentPlayerScore) {
         outputView.printPlayerTurnNotice(currentPlayer.name(), currentPlayer.sideName(), currentPlayerScore);
     }
 
@@ -116,13 +116,13 @@ public class Runner {
         });
     }
 
-    private BoardDTO mapToBoardDTO(GameManager gameManager) {
-        return BoardDTO.from(gameManager.getPiecePositions());
+    private BoardDto mapToBoardDTO(GameManager gameManager) {
+        return BoardDto.from(gameManager.getPiecePositions());
     }
 
     private void movePiece(Position selected, Destinations destinations, GameManager gameManager) {
         Position target = movePieceToMoveablePosition(selected, destinations, gameManager);
-        outputView.printBoardStatus(mapToBoardDTO(gameManager), PositionDTO.from(target));
+        outputView.printBoardStatus(mapToBoardDTO(gameManager), PositionDto.from(target));
     }
 
     private Position movePieceToMoveablePosition(Position selected, Destinations destinations,
@@ -138,11 +138,11 @@ public class Runner {
     }
 
     private void printMoveableStatus(Position selected, Destinations destinations, GameManager gameManager) {
-        List<PositionDTO> dtos = destinations.getDestinations().stream()
-                .map(PositionDTO::from)
+        List<PositionDto> dtos = destinations.getDestinations().stream()
+                .map(PositionDto::from)
                 .toList();
-        BoardDTO boardDTO = mapToBoardDTO(gameManager);
-        outputView.printBoardStatus(boardDTO, PositionDTO.from(selected), dtos);
+        BoardDto boardDTO = mapToBoardDTO(gameManager);
+        outputView.printBoardStatus(boardDTO, PositionDto.from(selected), dtos);
     }
 
     private Position selectTargetPosition() {

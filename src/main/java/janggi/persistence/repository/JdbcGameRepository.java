@@ -5,7 +5,7 @@ import janggi.domain.game.GameManager;
 import janggi.domain.game.Players;
 import janggi.domain.game.Side;
 import janggi.domain.game.Turn;
-import janggi.dto.GameSessionDTO;
+import janggi.dto.GameSessionDto;
 import janggi.persistence.dao.BoardDao;
 import janggi.persistence.dao.GameDao;
 import java.sql.Connection;
@@ -23,7 +23,7 @@ public class JdbcGameRepository implements GameRepository {
     }
 
     @Override
-    public List<GameSessionDTO> findAllGameStatusByFinishedFalse(Connection connection) throws SQLException {
+    public List<GameSessionDto> findAllGameStatusByFinishedFalse(Connection connection) throws SQLException {
         return gameDao.findAllActive(connection);
     }
 
@@ -45,12 +45,12 @@ public class JdbcGameRepository implements GameRepository {
 
     @Override
     public GameManager findByGameId(Connection connection, long gameId) throws SQLException {
-        GameSessionDTO sessionDto = gameDao.findById(connection, gameId);
+        GameSessionDto sessionDto = gameDao.findById(connection, gameId);
         Board board = boardDao.findByGameId(connection, gameId);
         return assembleGameManager(sessionDto, board);
     }
 
-    private GameManager assembleGameManager(GameSessionDTO dto, Board board) {
+    private GameManager assembleGameManager(GameSessionDto dto, Board board) {
         long gameId = dto.gameId();
         Turn currentTurn = new Turn(Side.valueOf(dto.currentTurn()));
         Players players = Players.fromCurrentTurn(dto.choPlayerName(), dto.hanPlayerName(), currentTurn);

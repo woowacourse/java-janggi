@@ -5,7 +5,7 @@ import janggi.domain.game.GameManager;
 import janggi.domain.game.Players;
 import janggi.domain.game.Side;
 import janggi.domain.game.Turn;
-import janggi.dto.GameSessionDTO;
+import janggi.dto.GameSessionDto;
 import janggi.persistence.repository.GameRepository;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -19,7 +19,7 @@ public class JanggiService {
         this.gameRepository = gameRepository;
     }
 
-    public List<GameSessionDTO> activeGames(Connection connection) throws SQLException {
+    public List<GameSessionDto> activeGames(Connection connection) throws SQLException {
         return gameRepository.findAllGameStatusByFinishedFalse(connection);
     }
 
@@ -27,7 +27,7 @@ public class JanggiService {
         return gameRepository.findByGameId(connection, gameId);
     }
 
-    private GameManager generateGameManagerByLoadedData(GameSessionDTO gameSession, Board board) {
+    private GameManager generateGameManagerByLoadedData(GameSessionDto gameSession, Board board) {
         long gameId = gameSession.gameId();
         String choPlayerName = gameSession.choPlayerName();
         String hanPlayerName = gameSession.hanPlayerName();

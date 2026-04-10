@@ -1,7 +1,7 @@
 package janggi.persistence.dao;
 
 import janggi.domain.game.GameManager;
-import janggi.dto.GameSessionDTO;
+import janggi.dto.GameSessionDto;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -12,7 +12,7 @@ public interface GameDao {
 
     void update(Connection connection, GameManager gameManager) throws SQLException;
 
-    GameSessionDTO findById(Connection connection, long gameId) throws SQLException;
+    GameSessionDto findById(Connection connection, long gameId) throws SQLException;
 
-    List<GameSessionDTO> findAllActive(Connection connection) throws SQLException;
+    List<GameSessionDto> findAllActive(Connection connection) throws SQLException;
 }

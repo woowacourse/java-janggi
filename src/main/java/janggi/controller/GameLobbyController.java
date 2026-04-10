@@ -2,7 +2,7 @@ package janggi.controller;
 
 import janggi.domain.game.GameManager;
 import janggi.domain.game.Side;
-import janggi.dto.GameSessionDTO;
+import janggi.dto.GameSessionDto;
 import janggi.service.JanggiService;
 import janggi.util.SideDisplayNameMapper;
 import janggi.view.InputView;
@@ -50,7 +50,7 @@ public class GameLobbyController {
     }
 
     private GameManager loadExistingGame(Connection connection) throws SQLException {
-        List<GameSessionDTO> activeGames = janggiService.activeGames(connection);
+        List<GameSessionDto> activeGames = janggiService.activeGames(connection);
         activeGames.forEach(outputView::printActiveGameInfo);
         outputView.printSelectGameId();
         long selectedGameId = inputView.readGameId();

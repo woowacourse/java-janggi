@@ -2,10 +2,10 @@ package janggi.view;
 
 import static janggi.view.Message.GAME_DATA_INFO;
 
-import janggi.dto.BoardDTO;
-import janggi.dto.GameSessionDTO;
-import janggi.dto.PieceDTO;
-import janggi.dto.PositionDTO;
+import janggi.dto.BoardDto;
+import janggi.dto.GameSessionDto;
+import janggi.dto.PieceDto;
+import janggi.dto.PositionDto;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
@@ -30,15 +30,15 @@ public class OutputView {
         printLine(Message.BOARD_SETTING_NOTICE);
     }
 
-    public void printBoardStatus(BoardDTO boardDto) {
+    public void printBoardStatus(BoardDto boardDto) {
         printBoardStatus(boardDto, null, Collections.emptyList());
     }
 
-    public void printBoardStatus(BoardDTO boardDto, PositionDTO selected) {
+    public void printBoardStatus(BoardDto boardDto, PositionDto selected) {
         printBoardStatus(boardDto, selected, Collections.emptyList());
     }
 
-    public void printBoardStatus(BoardDTO boardDto, PositionDTO selected, List<PositionDTO> movables) {
+    public void printBoardStatus(BoardDto boardDto, PositionDto selected, List<PositionDto> movables) {
         printLine(COLUMN_INDEXES);
         printLine(DIVIDER);
         for (int row = 0; row < 10; row++) {
@@ -49,11 +49,11 @@ public class OutputView {
         printLine(COLUMN_INDEXES);
     }
 
-    private void renderRow(int row, Map<PositionDTO, PieceDTO> status, PositionDTO selected,
-                           List<PositionDTO> movables) {
+    private void renderRow(int row, Map<PositionDto, PieceDto> status, PositionDto selected,
+                           List<PositionDto> movables) {
         StringBuilder sb = new StringBuilder(toFullWidthRow(row) + "　║");
         for (int col = 0; col < 9; col++) {
-            PositionDTO current = new PositionDTO(row, col);
+            PositionDto current = new PositionDto(row, col);
             sb.append(getFormattedCell(status, current, selected, movables));
             if (col < 8) {
                 sb.append("━");
@@ -62,23 +62,23 @@ public class OutputView {
         printLine(sb.toString());
     }
 
-    private String getFormattedCell(Map<PositionDTO, PieceDTO> status, PositionDTO current, PositionDTO selected,
-                                    List<PositionDTO> movables) {
-        PieceDTO piece = status.get(current);
+    private String getFormattedCell(Map<PositionDto, PieceDto> status, PositionDto current, PositionDto selected,
+                                    List<PositionDto> movables) {
+        PieceDto piece = status.get(current);
         String baseCell = createBaseCell(piece);
 
         return applyColor(baseCell, piece, current, selected, movables);
     }
 
-    private String createBaseCell(PieceDTO piece) {
+    private String createBaseCell(PieceDto piece) {
         if (piece == null) {
             return "［" + EMPTY_CELL + "］";
         }
         return "［" + piece.label() + "］";
     }
 
-    private String applyColor(String cell, PieceDTO piece, PositionDTO current, PositionDTO selected,
-                              List<PositionDTO> movables) {
+    private String applyColor(String cell, PieceDto piece, PositionDto current, PositionDto selected,
+                              List<PositionDto> movables) {
         if (current.equals(selected)) {
             return ANSI_BLUE + cell + ANSI_RESET;
         }
@@ -89,7 +89,7 @@ public class OutputView {
         return applySideColor(cell, piece);
     }
 
-    private String applySideColor(String cell, PieceDTO piece) {
+    private String applySideColor(String cell, PieceDto piece) {
         if (piece == null) {
             return cell;
         }
@@ -150,7 +150,7 @@ public class OutputView {
         printLine(Message.GAME_DATA_SELECT_NOTICE);
     }
 
-    public void printActiveGameInfo(GameSessionDTO gameSessionDTO) {
+    public void printActiveGameInfo(GameSessionDto gameSessionDTO) {
         String formattedDate = gameSessionDTO.createdAt().format(DATE_FORMATTER);
         printLine(String.format(GAME_DATA_INFO, gameSessionDTO.gameId(), gameSessionDTO.choPlayerName(),
                 gameSessionDTO.hanPlayerName(), gameSessionDTO.currentTurn(), formattedDate));

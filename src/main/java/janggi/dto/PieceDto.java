@@ -5,13 +5,13 @@ import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.util.PieceLabelMapper;
 
-public record PieceDTO(String sideName, String label) {
+public record PieceDto(String sideName, String label) {
 
-    public PieceDTO(Side side, PieceType type, String pieceNumber) {
+    public PieceDto(Side side, PieceType type, String pieceNumber) {
         this(side.name(), PieceLabelMapper.toLabel(side, type, pieceNumber));
     }
 
-    public static PieceDTO from(Piece piece) {
-        return new PieceDTO(piece.side(), piece.type(), piece.pieceNumber());
+    public static PieceDto from(Piece piece) {
+        return new PieceDto(piece.side(), piece.type(), piece.pieceNumber());
     }
 }
