@@ -15,4 +15,9 @@ public final class InMemoryGameStateRepository implements GameStateRepository {
     public GameState load() {
         return gameState;
     }
+
+    @Override
+    public boolean exist() {
+        return false;
+    }
 }
