@@ -3,6 +3,7 @@ package domain.movestrategy;
 import domain.board.Board;
 import domain.piece.Delta;
 import domain.piece.Position;
+
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +31,11 @@ public class ElephantMoveStrategy implements MoveStrategy {
                 .filter(board::inBoard)
                 .filter(destination -> !isAlly(from, destination, board))
                 .toList();
+    }
+
+    @Override
+    public List<Position> calculatePalaceMovablePositions(final Position from, final Board board) {
+        return List.of();
     }
 
 
