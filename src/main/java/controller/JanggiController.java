@@ -30,12 +30,6 @@ public class JanggiController {
         this.janggiService = new JanggiService();
     }
 
-    private static void checkRetryLimit(int retry) {
-        if (retry > MAX_RETRY) {
-            throw new IllegalStateException("입력횟수를 초과했습니다.");
-        }
-    }
-
     public void run() {
         int gameId = initOrGetGame();
         playJanggiGame(gameId);
@@ -48,7 +42,7 @@ public class JanggiController {
             int choose = inputView.chooseGameStartNewOrAgain();
             if (choose == 2) {
                 int num = inputView.requestGameId();
-                janggiService.validateExistGame(choose);
+                janggiService.validateExistGame(num);
                 return num;
             }
             Board board = initBoard();
@@ -142,12 +136,6 @@ public class JanggiController {
         );
     }
 
-//    private void validateDataExist(boolean isDataExist, String message) {
-//        if (isDataExist) {
-//            throw new IllegalArgumentException(message);
-//        }
-//    }
-
     private boolean isGameContinue() {
         return doRetry(inputView::askGameContinue);
     }
@@ -162,6 +150,12 @@ public class JanggiController {
                 retry++;
                 checkRetryLimit(retry);
             }
+        }
+    }
+
+    private void checkRetryLimit(int retry) {
+        if (retry > MAX_RETRY) {
+            throw new IllegalStateException("입력횟수를 초과했습니다.");
         }
     }
 }

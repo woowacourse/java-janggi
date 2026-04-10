@@ -17,13 +17,6 @@ public class Jang extends Piece {
     }
 
     @Override
-    public boolean canMovePosition(Position start, Position end) {
-        int diffX = end.getX() - start.getX();
-        int diffY = end.getY() - start.getY();
-        return Math.abs(diffX) + Math.abs(diffY) == 1;
-    }
-
-    @Override
     public List<Position> getAvailableRoute(Position start, PieceFinder finder) {
         List<Position> availableRoute = new ArrayList<>();
         List<Direction> directions = new ArrayList<>(Direction.getCardinalDirections());

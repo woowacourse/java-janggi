@@ -17,14 +17,6 @@ public class Ma extends Piece {
     }
 
     @Override
-    public boolean canMovePosition(Position start, Position end) {
-        int diffX = end.getX() - start.getX();
-        int diffY = end.getY() - start.getY();
-
-        return (Math.abs(diffX) == 2 && Math.abs(diffY) == 1) || (Math.abs(diffX) == 1 && Math.abs(diffY) == 2);
-    }
-
-    @Override
     public List<Position> getAvailableRoute(Position start, PieceFinder finder) {
         List<Position> availableRoute = new ArrayList<>();
         for (Direction direction : Direction.getCardinalDirections()) {

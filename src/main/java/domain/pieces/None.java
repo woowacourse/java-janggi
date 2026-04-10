@@ -15,11 +15,6 @@ public class None extends Piece {
     }
 
     @Override
-    public boolean canMovePosition(Position start, Position end) {
-        return true;
-    }
-
-    @Override
     public List<Position> getAvailableRoute(Position start, PieceFinder finder) {
         return Collections.emptyList();
     }

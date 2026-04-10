@@ -17,11 +17,6 @@ public class Cha extends Piece {
     }
 
     @Override
-    public boolean canMovePosition(Position start, Position end) {
-        return start.getX() == end.getX() || start.getY() == end.getY();
-    }
-
-    @Override
     public List<Position> getAvailableRoute(Position start, PieceFinder finder) {
         List<Position> availableRoute = new ArrayList<>();
         List<Direction> directions = new ArrayList<>(Direction.getCardinalDirections());

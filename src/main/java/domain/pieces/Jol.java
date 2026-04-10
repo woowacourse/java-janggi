@@ -17,19 +17,6 @@ public class Jol extends Piece {
     }
 
     @Override
-    public boolean canMovePosition(Position start, Position end) {
-        int diffX = end.getX() - start.getX();
-        int diffY = end.getY() - start.getY();
-        if (Math.abs(diffX) + Math.abs(diffY) != 1) {
-            return false;
-        }
-        if (getCountry().equals(Country.CHO)) {
-            return diffX >= 0;
-        }
-        return diffX <= 0;
-    }
-
-    @Override
     public List<Position> getAvailableRoute(Position start, PieceFinder finder) {
         List<Position> availableRoute = new ArrayList<>();
         List<Direction> directions = new ArrayList<>(Direction.getCardinalDirections());
