@@ -60,10 +60,13 @@ class ElephantTest {
             AlivePieces alivePieces = new AlivePieces(Map.of(pathNode, blockingPiece));
 
             // when
-            boolean canMove = elephant.canMove(CURRENT_INTERSECTION, destination, alivePieces);
+            List<Intersection> movableIntersections = elephant.movableIntersections(
+                    CURRENT_INTERSECTION,
+                    alivePieces
+            );
 
             // then
-            assertThat(canMove).isFalse();
+            assertThat(movableIntersections).doesNotContain(destination);
         }
 
         @Test
@@ -174,5 +177,18 @@ class ElephantTest {
 
         // then
         assertThat(movableIntersections).contains(LEFT_DESTINATION, RIGHT_DESTINATION);
+    }
+
+    @Test
+    void 본인의_점수를_반환한다() {
+        // given
+        Elephant elephant = new Elephant(SIDE);
+        double expected = 3;
+
+        // when
+        double actual = elephant.getScore();
+
+        // then
+        assertThat(actual).isEqualTo(expected);
     }
 }

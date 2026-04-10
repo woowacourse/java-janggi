@@ -45,4 +45,17 @@ class GuardTest {
             assertThat(actual).isEqualTo(expected);
         }
     }
+
+    @Test
+    void 본인의_점수를_반환한다() {
+        // given
+        Guard guard = new Guard(Side.HAN);
+        double expected = 3;
+
+        // when
+        double actual = guard.getScore();
+
+        // then
+        assertThat(actual).isEqualTo(expected);
+    }
 }

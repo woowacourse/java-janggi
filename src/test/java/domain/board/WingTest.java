@@ -19,9 +19,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class WingTest {
 
-    private static final String CANNOT_BELONG_TO_WING_MESSAGE = "진에 소속될 수 없는 기물이 포함되어 있습니다";
-    private static final String DUPLICATED_PIECE_MESSAGE = "하나의 진에는 중복되지 않은 기물들만 포함될 수 있습니다";
-
     private static final Soldier DEFAULT_PIECE = new Soldier(Side.CHO);
 
     private final Piece wingPiece1 = new Elephant(Side.CHO);
@@ -90,7 +87,7 @@ class WingTest {
         // when and then
         assertThatThrownBy(() -> new LeftWing(illegalPieces))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(CANNOT_BELONG_TO_WING_MESSAGE);
+                .hasMessageContaining("진에 소속될 수 없는 기물이 포함되어 있습니다");
     }
 
     @Test
@@ -101,7 +98,7 @@ class WingTest {
         // when and then
         assertThatThrownBy(() -> new LeftWing(illegalPieces))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(DUPLICATED_PIECE_MESSAGE);
+                .hasMessageContaining("하나의 진에는 중복되지 않은 기물들만 포함될 수 있습니다");
     }
 
     @Test

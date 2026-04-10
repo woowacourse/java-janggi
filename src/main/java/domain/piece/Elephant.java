@@ -7,7 +7,6 @@ import domain.movement.Route;
 import domain.movement.Vector;
 import domain.movement.strategy.ForwardAndDiagonal;
 import domain.movement.strategy.MoveStrategy;
-import java.util.ArrayList;
 import java.util.List;
 
 public final class Elephant extends Piece {
@@ -21,28 +20,20 @@ public final class Elephant extends Piece {
     }
 
     @Override
-    public boolean canMove(
-            Intersection from,
-            Intersection to,
-            AlivePieces alivePieces
-    ) {
-        return movableIntersections(from, alivePieces)
-                .contains(to);
-    }
-
-    @Override
     public List<Intersection> movableIntersections(
             Intersection from,
             AlivePieces alivePieces
     ) {
-        List<Intersection> movableIntersections = new ArrayList<>();
+        return moveStrategy.getRoutes(from, Vector.cardinals())
+                .stream()
+                .filter(route -> route.canReachDestinationThroughPath(alivePieces, side))
+                .map(Route::getDestination)
+                .toList();
+    }
 
-        for (Vector vector : Vector.cardinals()) {
-            List<Intersection> reachableDestinations = findReachableDestinations(from, vector, alivePieces);
-            movableIntersections.addAll(reachableDestinations);
-        }
-
-        return List.copyOf(movableIntersections);
+    @Override
+    public double getScore() {
+        return 3;
     }
 
     @Override
@@ -50,15 +41,13 @@ public final class Elephant extends Piece {
         return true;
     }
 
-    private List<Intersection> findReachableDestinations(
-            Intersection from,
-            Vector vector,
-            AlivePieces alivePieces
-    ) {
-        return moveStrategy.getRoutes(from, vector)
-                .stream()
-                .filter(route -> route.canReachDestinationThroughPath(alivePieces, side))
-                .map(Route::getDestination)
-                .toList();
+    @Override
+    public boolean isRoyalPiece() {
+        return false;
+    }
+
+    @Override
+    protected boolean isScreenable() {
+        return true;
     }
 }

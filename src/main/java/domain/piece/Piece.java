@@ -13,6 +13,10 @@ public abstract class Piece {
         this.side = side;
     }
 
+    public final Side getSide() {
+        return side;
+    }
+
     public final boolean hasSameSide(Side side) {
         return this.side == side;
     }
@@ -21,18 +25,18 @@ public abstract class Piece {
         return !hasSameSide(side);
     }
 
-    public abstract boolean canMove(
-            Intersection from,
-            Intersection to,
-            AlivePieces alivePieces
-    );
-
     public abstract List<Intersection> movableIntersections(
             Intersection from,
             AlivePieces alivePieces
     );
 
+    public abstract double getScore();
+
     public abstract boolean canBelongToWing();
+
+    public abstract boolean isRoyalPiece();
+
+    protected abstract boolean isScreenable();
 
     @Override
     public boolean equals(Object o) {

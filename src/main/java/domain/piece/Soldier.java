@@ -1,13 +1,13 @@
 package domain.piece;
 
 import domain.board.Intersection;
+import domain.board.Palace;
 import domain.game.Side;
 import domain.movement.MoveAmount;
 import domain.movement.Route;
 import domain.movement.Vector;
 import domain.movement.strategy.MoveStrategy;
 import domain.movement.strategy.Straight;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
@@ -19,6 +19,7 @@ public final class Soldier extends StaticPositionedPiece {
     private static final MoveAmount MAX_MOVE_DISTANCE = new MoveAmount(1);
 
     private final MoveStrategy moveStrategy = new Straight(MAX_MOVE_DISTANCE);
+    private final Palace palace = Palace.getInstance();
 
     public Soldier(Side side) {
         super(side);
@@ -34,33 +35,27 @@ public final class Soldier extends StaticPositionedPiece {
     }
 
     @Override
-    public boolean canMove(
-            Intersection from,
-            Intersection to,
-            AlivePieces alivePieces
-    ) {
-        return movableIntersections(from, alivePieces)
-                .contains(to);
-    }
-
-    @Override
     public List<Intersection> movableIntersections(
             Intersection from,
             AlivePieces alivePieces
     ) {
-        Vector forward = side.toForward();
-        List<Route> forwardRoutes = moveStrategy.getRoutes(from, forward);
-        Vector left = Vector.left();
-        List<Route> leftRoutes = moveStrategy.getRoutes(from, left);
-        Vector right = Vector.right();
-        List<Route> rightRoutes = moveStrategy.getRoutes(from, right);
+        Stream<Route> cardinalRoutes = findValidRoutes(
+                moveStrategy.getRoutes(from, getMovableCardinalVectors()),
+                alivePieces
+        );
+        Stream<Route> palaceRoutes = findValidRoutes(
+                moveStrategy.getRoutes(from, getSoldierPalaceVectors(from)),
+                alivePieces
+        ).filter(Route::containsOnlyPalace);
 
-        List<Intersection> movableDestinations = concatRoutes(forwardRoutes, leftRoutes, rightRoutes)
-                .filter(route -> route.isDestinationAvailable(alivePieces, side))
+        return Stream.concat(cardinalRoutes, palaceRoutes)
                 .map(Route::getDestination)
                 .toList();
+    }
 
-        return List.copyOf(movableDestinations);
+    @Override
+    public double getScore() {
+        return 2;
     }
 
     @Override
@@ -68,9 +63,35 @@ public final class Soldier extends StaticPositionedPiece {
         return false;
     }
 
-    @SafeVarargs
-    private Stream<Route> concatRoutes(List<Route>... routesCollection) {
-        return Arrays.stream(routesCollection)
-                .flatMap(Collection::stream);
+    @Override
+    public boolean isRoyalPiece() {
+        return false;
+    }
+
+    @Override
+    protected boolean isScreenable() {
+        return true;
+    }
+
+    private List<Vector> getMovableCardinalVectors() {
+        return List.of(
+                side.toForward(),
+                Vector.left(),
+                Vector.right()
+        );
+    }
+
+    private List<Vector> getSoldierPalaceVectors(Intersection from) {
+        return palace.getDiagonalVectors(from).stream()
+                .filter(vector -> side.toForwardDiagonals().contains(vector))
+                .toList();
+    }
+
+    private Stream<Route> findValidRoutes(
+            Collection<Route> routes,
+            AlivePieces alivePieces
+    ) {
+        return routes.stream()
+                .filter(route -> route.canReachDestinationThroughPath(alivePieces, side));
     }
 }

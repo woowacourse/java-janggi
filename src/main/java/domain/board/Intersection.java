@@ -33,11 +33,11 @@ public class Intersection {
     }
 
     public boolean hasDifferentRow(int row) {
-        return this.row.value() == row;
+        return this.row.isDifferent(row);
     }
 
     public boolean hasDifferentFile(int file) {
-        return this.file.value() == file;
+        return this.file.isDifferent(file);
     }
 
     @Override

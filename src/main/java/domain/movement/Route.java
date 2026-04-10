@@ -1,13 +1,16 @@
 package domain.movement;
 
 import domain.board.Intersection;
+import domain.board.Palace;
 import domain.game.Side;
 import domain.piece.AlivePieces;
+import domain.piece.Piece;
 import java.util.List;
 import java.util.Objects;
 
 public class Route {
 
+    private final Palace palace = Palace.getInstance();
     private final List<Intersection> route;
 
     public Route(List<Intersection> intersections) {
@@ -26,11 +29,23 @@ public class Route {
                 && alivePieces.placedNotSameSide(getDestination(), ownSide);
     }
 
+    public boolean containsOnlyPalace() {
+        return route.stream()
+                .allMatch(palace::contains);
+    }
+
+    public List<Piece> getPiecesOnPath(AlivePieces alivePieces) {
+        return getPath().stream()
+                .filter(alivePieces::isNotEmpty)
+                .map(alivePieces::placedAt)
+                .toList();
+    }
+
     public Intersection getDestination() {
         return route.getLast();
     }
 
-    public List<Intersection> getPath() {
+    private List<Intersection> getPath() {
         if (route.size() <= 1) {
             return List.of();
         }

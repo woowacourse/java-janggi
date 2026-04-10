@@ -9,10 +9,14 @@ repositories {
 }
 
 dependencies {
+    implementation 'com.mysql:mysql-connector-j:9.6.0'
+
     testImplementation platform('org.junit:junit-bom:5.11.4')
     testImplementation platform('org.assertj:assertj-bom:3.27.3')
     testImplementation('org.junit.jupiter:junit-jupiter')
     testImplementation('org.assertj:assertj-core')
+    testImplementation('org.assertj:assertj-db:3.0.2')
+    testImplementation('com.h2database:h2:2.3.232')
 }
 
 java {

@@ -22,7 +22,22 @@ public class Guard extends PalacePiece {
     }
 
     @Override
+    public double getScore() {
+        return 3;
+    }
+
+    @Override
     public boolean canBelongToWing() {
         return false;
+    }
+
+    @Override
+    public boolean isRoyalPiece() {
+        return false;
+    }
+
+    @Override
+    protected boolean isScreenable() {
+        return true;
     }
 }

@@ -10,8 +10,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class MoveAmountTest {
 
-    private static final String NEGATIVE_AMOUNT_MESSAGE = "이동 거리는 0 이상이어야 합니다.";
-
     @ParameterizedTest
     @ValueSource(ints = {
             -1, // 엣지 케이스
@@ -20,7 +18,7 @@ class MoveAmountTest {
     void 이동_거리가_음수이면_예외를_던진다(int negativeAmount) {
         assertThatThrownBy(() -> new MoveAmount(negativeAmount))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(NEGATIVE_AMOUNT_MESSAGE);
+                .hasMessage("이동 거리는 0 이상이어야 합니다.");
     }
 
     @ParameterizedTest

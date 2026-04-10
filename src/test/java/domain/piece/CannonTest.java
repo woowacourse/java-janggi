@@ -222,6 +222,60 @@ class CannonTest {
                 // then
                 assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
             }
+
+            @Test
+            void 일직선상이_아닌_칸으로는_이동할_수_없다() {
+                // given
+                Cannon cannon = new Cannon(SIDE);
+
+                Intersection currentIntersection = new Intersection(5, 5);
+                Intersection diagonalScreenIntersection = new Intersection(4, 4);
+                AlivePieces alivePieces = new AlivePieces(Map.of(
+                        diagonalScreenIntersection, OTHER_PIECE
+                ));
+
+                // when
+                List<Intersection> movableIntersections = cannon.movableIntersections(
+                        currentIntersection,
+                        alivePieces
+                );
+
+                // then
+                assertThat(movableIntersections).isEmpty();
+            }
+
+            @Test
+            void 궁성의_대각선으로는_이동할_수_있다() {
+                // given
+                Cannon cannon = new Cannon(SIDE);
+
+                Intersection from = new Intersection(1, 4);
+                Intersection diagonalScreen = new Intersection(2, 5);
+                Intersection diagonalDestination = new Intersection(3, 6);
+                AlivePieces alivePieces = new AlivePieces(Map.of(
+                        from, cannon,
+                        diagonalScreen, OTHER_PIECE
+                ));
+
+                // when
+                List<Intersection> movableIntersections = cannon.movableIntersections(from, alivePieces);
+
+                // then
+                assertThat(movableIntersections).containsExactly(diagonalDestination);
+            }
         }
+    }
+
+    @Test
+    void 본인의_점수를_반환한다() {
+        // given
+        Cannon cannon = new Cannon(SIDE);
+        double expected = 7;
+
+        // when
+        double actual = cannon.getScore();
+
+        // then
+        assertThat(actual).isEqualTo(expected);
     }
 }

@@ -36,7 +36,7 @@ class ForwardAndDiagonalTest {
         );
 
         // when
-        List<Route> actual = forwardAndDiagonal.getRoutes(START_INTERSECTION, forward);
+        List<Route> actual = forwardAndDiagonal.getRoutes(START_INTERSECTION, List.of(forward));
 
         // then
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);

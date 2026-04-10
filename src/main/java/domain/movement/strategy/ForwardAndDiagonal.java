@@ -5,6 +5,7 @@ import domain.movement.MoveAmount;
 import domain.movement.Route;
 import domain.movement.Vector;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class ForwardAndDiagonal implements MoveStrategy {
@@ -17,6 +18,16 @@ public class ForwardAndDiagonal implements MoveStrategy {
 
     @Override
     public List<Route> getRoutes(
+            Intersection from,
+            Collection<Vector> allowedVectors
+    ) {
+        return allowedVectors.stream()
+                .map(vector -> getRoutesOfSingleVector(from, vector))
+                .flatMap(List::stream)
+                .toList();
+    }
+
+    private List<Route> getRoutesOfSingleVector(
             Intersection from,
             Vector vector
     ) {

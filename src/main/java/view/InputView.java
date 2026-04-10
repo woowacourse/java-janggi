@@ -20,8 +20,19 @@ public class InputView {
 
     private final BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
+    public boolean askStartNewGame() {
+        String answer = readLine();
+        boolean startNewGame = answer.equals("y");
+
+        return startNewGame;
+    }
+
+    public int readGameId() {
+        return Integer.parseInt(readLine());
+    }
+
     public ChoWings readChoWings() {
-        String[] wingInputs = readLine().split(WING_DELIMITER);
+        String[] wingInputs = splitWingInput(readLine());
         System.out.println();
 
         String[] leftWingInputs = wingInputs[0].split(PIECE_DELIMITER);
@@ -34,7 +45,7 @@ public class InputView {
     }
 
     public HanWings readHanWings() {
-        String[] wingInputs = readLine().split(WING_DELIMITER);
+        String[] wingInputs = splitWingInput(readLine());
         System.out.println();
 
         String[] leftWingInputs = wingInputs[0].split(PIECE_DELIMITER);
@@ -47,13 +58,33 @@ public class InputView {
     }
 
     public Intersection readIntersection() {
-        String[] inputs = readLine().split(INTERSECTION_DELIMITER);
+        String[] inputs = splitIntersectionInput(readLine());
         System.out.println();
 
         int file = Integer.parseInt(inputs[0]);
         int row = parseRow(inputs[1]);
 
         return new Intersection(row, file);
+    }
+
+    private String[] splitWingInput(String rawInput) {
+        String[] wingInputs = rawInput.split(WING_DELIMITER);
+
+        if (wingInputs.length != 2) {
+            throw new IllegalArgumentException("상차림을 올바르게 입력해주세요.");
+        }
+
+        return wingInputs;
+    }
+
+    private String[] splitIntersectionInput(String rawInput) {
+        String[] intersectionInputs = rawInput.split(INTERSECTION_DELIMITER);
+
+        if (intersectionInputs.length != 2) {
+            throw new IllegalArgumentException("좌표를 올바르게 입력해주세요.");
+        }
+
+        return intersectionInputs;
     }
 
     private List<Piece> parseWingInput(String[] wingInputs, Side side) {

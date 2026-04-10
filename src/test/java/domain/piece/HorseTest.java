@@ -143,4 +143,17 @@ class HorseTest {
                 Arguments.of(OPPOSITE_SIDE_PIECE)
         );
     }
+
+    @Test
+    void 본인의_점수를_반환한다() {
+        // given
+        Horse horse = new Horse(SIDE);
+        double expected = 5;
+
+        // when
+        double actual = horse.getScore();
+
+        // then
+        assertThat(actual).isEqualTo(expected);
+    }
 }

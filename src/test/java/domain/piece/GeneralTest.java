@@ -39,4 +39,29 @@ class GeneralTest {
             assertThat(actual).isEqualTo(expected);
         }
     }
+
+    @Test
+    void 핵심_기물로_취급된다() {
+        // given
+        General general = new General(Side.CHO);
+
+        // when
+        boolean royalPiece = general.isRoyalPiece();
+
+        // then
+        assertThat(royalPiece).isTrue();
+    }
+
+    @Test
+    void 본인의_점수를_반환한다() {
+        // given
+        General general = new General(Side.HAN);
+        double expected = 0;
+
+        // when
+        double actual = general.getScore();
+
+        // then
+        assertThat(actual).isEqualTo(expected);
+    }
 }

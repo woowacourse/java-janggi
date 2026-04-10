@@ -21,8 +21,6 @@ class RouteTest {
     private static final Piece SAME_SIDE_PIECE = new Soldier(SIDE);
     private static final Piece OPPOSITE_SIDE_PIECE = new Soldier(OPPOSITE_SIDE);
 
-    private static final String EMPTY_ROUTE_MESSAGE = "경로에는 하나 이상의 좌표 정보가 필요합니다.";
-
     @Nested
     class 본인의_상태를_검증한다 {
 
@@ -30,7 +28,7 @@ class RouteTest {
         void 경로가_없다면_예외를_던진다() {
             assertThatThrownBy(() -> new Route(List.of()))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(EMPTY_ROUTE_MESSAGE);
+                    .hasMessage("경로에는 하나 이상의 좌표 정보가 필요합니다.");
         }
 
         @Test
@@ -152,34 +150,62 @@ class RouteTest {
     }
 
     @Nested
-    class 목적지까지의_경로를_반환한다 {
+    class 궁성만_포함하고_있는지를_반환한다 {
 
         @Test
-        void 목적지만_있다면_빈_컬렉션을_반환한다() {
+        void 모든_좌표가_궁성이라면_true를_반환한다() {
             // given
-            Intersection destination = new Intersection(3, 3);
-            Route route = new Route(List.of(destination));
+            List<Intersection> palaceIntersections = List.of(
+                    new Intersection(2, 5),
+                    new Intersection(1, 4),
+                    new Intersection(3, 6)
+            );
+            Route route = new Route(palaceIntersections);
 
             // when
-            List<Intersection> path = route.getPath();
+            boolean containsOnlyPalace = route.containsOnlyPalace();
 
             // then
-            assertThat(path).isEmpty();
+            assertThat(containsOnlyPalace).isTrue();
         }
 
         @Test
-        void 경로가_있다면_경로에_대한_좌표_컬렉션을_반환한다() {
+        void 궁성이_아닌_좌표가_포함되어_있다면_false를_반환한다() {
             // given
-            Intersection firstNode = new Intersection(2, 2);
-            Intersection secondNode = new Intersection(2, 3);
-            Intersection destination = new Intersection(2, 4);
+            Intersection notPalaceIntersection = new Intersection(5, 5);
+            Intersection palaceIntersection = new Intersection(2, 5);
 
-            Route route = new Route(List.of(firstNode, secondNode, destination));
+            Route route = new Route(List.of(
+                    notPalaceIntersection,
+                    palaceIntersection
+            ));
 
-            List<Intersection> path = route.getPath();
+            // when
+            boolean containsOnlyPalace = route.containsOnlyPalace();
 
-            assertThat(path).containsExactly(firstNode, secondNode);
+            // then
+            assertThat(containsOnlyPalace).isFalse();
         }
+    }
+
+    @Test
+    void 경로에_위치한_기물들을_반환한다() {
+        // given
+        Intersection firstNode = new Intersection(2, 2);
+        Intersection secondNode = new Intersection(3, 3);
+        Intersection destination = new Intersection(4, 4);
+
+        AlivePieces alivePieces = new AlivePieces(Map.of(
+                firstNode, SAME_SIDE_PIECE,
+                secondNode, OPPOSITE_SIDE_PIECE
+        ));
+
+        // when
+        Route route = new Route(List.of(firstNode, secondNode, destination));
+
+        // then
+        List<Piece> pieces = route.getPiecesOnPath(alivePieces);
+        assertThat(pieces).containsExactly(SAME_SIDE_PIECE, OPPOSITE_SIDE_PIECE);
     }
 
     @Test

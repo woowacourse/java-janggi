@@ -1,9 +1,11 @@
 package domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.board.Intersection;
 import domain.game.Side;
+import domain.movement.Move;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -51,11 +53,13 @@ class AlivePiecesTest {
                     startIntersection, DEFAULT_PIECE
             ));
 
+            Move moveToDestination = new Move(startIntersection, destination);
+
             // when
-            alivePieces.replace(startIntersection, destination);
+            AlivePieces movedAlivePieces = alivePieces.replace(moveToDestination);
 
             // then
-            Piece pieceAtDestination = alivePieces.placedAt(destination);
+            Piece pieceAtDestination = movedAlivePieces.placedAt(destination);
             assertThat(pieceAtDestination).isEqualTo(DEFAULT_PIECE);
         }
 
@@ -69,11 +73,13 @@ class AlivePiecesTest {
                     existIntersection, DEFAULT_PIECE
             ));
 
+            Move moveFromExistIntersection = new Move(existIntersection, destination);
+
             // when
-            alivePieces.replace(existIntersection, destination);
+            AlivePieces movedAlivePieces = alivePieces.replace(moveFromExistIntersection);
 
             // then
-            Piece pieceAtExistIntersection = alivePieces.placedAt(existIntersection);
+            Piece pieceAtExistIntersection = movedAlivePieces.placedAt(existIntersection);
             assertThat(pieceAtExistIntersection).isNull();
         }
 
@@ -91,21 +97,25 @@ class AlivePiecesTest {
                     destination, pieceAtDestination
             ));
 
+            Move moveToExistPiece = new Move(startIntersection, destination);
+
             // when
-            alivePieces.replace(startIntersection, destination);
+            AlivePieces movedAlivePieces = alivePieces.replace(moveToExistPiece);
 
             // then
-            Piece currentPieceAtDestination = alivePieces.placedAt(destination);
+            Piece currentPieceAtDestination = movedAlivePieces.placedAt(destination);
             assertThat(currentPieceAtDestination).isNotEqualTo(pieceAtDestination);
         }
 
         @Test
-        void 시작_위치에_기물이_없다면_아무_동작도_수행하지_않는다() {
-            Map<Intersection, Piece> piecesBeforeReplace = alivePieces.get();
-            alivePieces.replace(emptyIntersection, DEFAULT_INTERSECTION);
-            Map<Intersection, Piece> piecesAfterReplace = alivePieces.get();
+        void 시작_위치에_기물이_없다면_예외를_던진다() {
+            // given
+            Move moveFromEmpty = new Move(emptyIntersection, DEFAULT_INTERSECTION);
 
-            assertThat(piecesAfterReplace).isEqualTo(piecesBeforeReplace);
+            // when and then
+            assertThatThrownBy(() -> alivePieces.replace(moveFromEmpty))
+                    .isInstanceOf(IllegalStateException.class)
+                    .hasMessage("기물을 움직이기 위해선, 출발지에 기물이 존재해야 합니다.");
         }
     }
 
@@ -127,7 +137,7 @@ class AlivePiecesTest {
         }
 
         @Test
-        void 아군_기물이_배치되어_있다면_true를_반환한다() {
+        void 아군_기물이_배치되어_있다면_false를_반환한다() {
             boolean result = alivePieces.isEmpty(sameSideIntersection);
 
             assertThat(result).isFalse();
@@ -225,5 +235,54 @@ class AlivePiecesTest {
 
             assertThat(result).isFalse();
         }
+    }
+
+    @Nested
+    class 궁이_살아있는지_판단한다 {
+
+        @Test
+        void 궁이_존재한다면_true를_반환한다() {
+            // given
+            AlivePieces withGeneral = new AlivePieces(Map.of(
+                    DEFAULT_INTERSECTION, new General(SIDE)
+            ));
+
+            // when
+            boolean hasRoyalPiece = withGeneral.hasRoyalPiece(SIDE);
+
+            // then
+            assertThat(hasRoyalPiece).isTrue();
+        }
+
+        @Test
+        void 궁이_존재하지_않는다면_false를_반환한다() {
+            // given
+            AlivePieces emptyAlivePieces = new AlivePieces(Map.of());
+
+            // when
+            boolean hasRoyalPiece = emptyAlivePieces.hasRoyalPiece(SIDE);
+
+            // then
+            assertThat(hasRoyalPiece).isFalse();
+        }
+    }
+
+    @Test
+    void 기물_점수의_총_합을_계산한다() {
+        // given
+        Piece piece1 = new Soldier(SIDE);
+        Piece piece2 = new Chariot(SIDE);
+        AlivePieces alivePieces = new AlivePieces(Map.of(
+                new Intersection(3, 3), piece1,
+                new Intersection(4, 4), piece2
+        ));
+
+        double expected = piece1.getScore() + piece2.getScore();
+
+        // when
+        double actual = alivePieces.getTotalScore(SIDE);
+
+        // then
+        assertThat(actual).isEqualTo(expected);
     }
 }

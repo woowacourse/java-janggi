@@ -9,32 +9,53 @@ src/main/java/
 ├── JanggiApplication
 ├── controller/
 │   └── JanggiController
+├── db/
+│   ├── connector/
+│   │   ├── Connector - DB 연결 인터페이스
+│   │   └── MySqlConnector - MySQL DB 연결
+│   ├── converter/
+│   │   └── PieceConverter - 데이터베이스에 저장된 기물 타입과 도메인 클래스 간 변환
+│   ├── persistence/
+│   │   └── Persisted - 영속화된 데이터와 식별자(id)를 함께 담음
+│   ├── repository/
+│   │   ├── GameRepository - 게임 영속성 관련 기능 제공
+│   │   └── PieceRepository - 기물 영속성 관련 기능 제공
+│   └── util/
+│       ├── DataAccessException - 데이터 접근 계층에 대한 예외
+│       ├── TransactionalFunction - 트랜잭션 내에서 실행할 함수형 인터페이스(반환 O)
+│       ├── TransactionalRunnable - 트랜잭션 내에서 실행할 함수형 인터페이스(반환 X)
+│       └── Transaction - 트랜잭션 실행 유틸
 ├── domain/
 │   ├── board/
 │   │   ├── File - 장기판의 열(Column)
 │   │   ├── Row - 장기판의 행
 │   │   ├── Intersection - 장기판의 좌표(열 + 행)
+│   │   ├── Palace - 궁성 내 좌표 및 대각선 이동 규칙
 │   │   ├── Wing - 하나의 진을 표현하는 추상 클래스
 │   │   ├── LeftWing - 좌진
 │   │   ├── RightWing - 우진
-│   │   └── Wings - 두 진(좌진 + 우진)을 표현하는 추상 클래스
+│   │   ├── Wings - 두 진(좌진 + 우진)을 표현하는 추상 클래스
 │   │   ├── ChoWings - 초의 진(좌진 + 우진)
 │   │   ├── HanWings - 한의 진(좌진 + 우진)
 │   │   ├── Board - 장기판
-│   │   ├── InitialPieces - 모든 기물을 초기 위치에 배치
-│   ├── direction/
-│   │   ├── Direction - 방향을 표현하는 인터페이스
-│   │   └── Up - 좌표 기준 위쪽 방향
-│   │   ├── Down - 좌표 기준 아래쪽 방향
-│   │   ├── Left - 좌표 기준 왼쪽 방향
-│   │   ├── Right - 좌표 기준 오른쪽 방향
+│   │   └── InitialPieces - 모든 기물을 초기 위치에 배치
+│   ├── exception/
+│   │   └── UnexpectedException - 예상치 못한 도메인 상황에 대한 런타임 예외
+│   ├── movement/
+│   │   ├── Vector - 좌표의 이동 방향을 표현
 │   │   ├── MoveAmount - 이동 거리
+│   │   ├── Move - 출발지·목적지로 표현한 한 수의 이동
+│   │   ├── Route - 출발지부터 목적지까지의 경로
+│   │   └── strategy/
+│   │       ├── MoveStrategy - 이동 전략의 인터페이스
+│   │       ├── Straight - 직선 이동에 대한 전략
+│   │       └── ForwardAndDiagonal - 전진 및 대각선 이동에 대한 전략
 │   ├── game/
 │   │   ├── JanggiGame - 장기 게임의 흐름을 담당
 │   │   └── Side - 진영(한, 초)
 │   └── piece/
 │       ├── Piece - 기물을 표현하는 추상 클래스
-│       └── StaticPositionedPiece - 시작 위치가 고정된 기물을 표현하는 추상 클래스
+│       ├── StaticPositionedPiece - 시작 위치가 고정된 기물을 표현하는 추상 클래스
 │       ├── PalacePiece - 궁성 기물(궁, 사)을 표현하는 추상 클래스
 │       ├── General - 궁
 │       ├── Chariot - 차
@@ -43,7 +64,7 @@ src/main/java/
 │       ├── Elephant - 상
 │       ├── Guard - 사
 │       ├── Soldier - 졸/병
-│       ├── AlivePieces - 게임에 남아 있는 장기말에 대한 일급 컬렉션
+│       └── AlivePieces - 게임에 남아 있는 장기말에 대한 일급 컬렉션
 ├── util/
 │   └── RetryUtil
 └── view/
@@ -52,6 +73,9 @@ src/main/java/
     ├── ErrorOutputView
     ├── GuideOutputView
     ├── InputView
+    ├── ResultOutputView
+    ├── dto/
+    │   └── ScoreDto
     └── label/
         ├── PieceLabel
         ├── SideLabel
@@ -62,27 +86,98 @@ src/main/java/
 
 ### 입력 기능
 
+- [x] 새로운 게임을 시작할지, 기존 게임을 계속할지 입력받는다.
+- [x] 기존 게임을 계속할 경우, 게임의 ID를 입력받는다.
 - [x] 상차림을 입력받는다.
 - [x] 이동할 기물의 위치를 입력받는다.
 - [x] 기물을 이동시킬 위치를 입력받는다.
 
 ### 출력 기능
 
+- [x] 기존에 진행 중이던 게임의 목록을 출력한다.
+- [x] 새로운 게임을 시작할 경우, 게임의 ID를 출력한다.
 - [x] 현재 장기판의 상황을 출력한다.
 - [x] 선택한 기물이 이동할 수 있는 지점을 모두 표시한다.
+- [x] 게임 종료 시 각 진영의 점수를 표시한다.
 
 ### 도메인 기능
+
+#### 게임 진행
+
+- [x] 각 진영은 교대로 기물을 이동한다.
+- [x] 궁이 잡히는 순간 게임이 종료된다.
+
+#### 기물 이동
 
 - [x] 각 기물은 고유한 행마법에 의해 이동할 수 있어야 한다.
 - [x] 적 기물이 있는 위치로 이동하면 해당 적 기물을 잡는다.
 - [x] 본인 진영 기물만 움직일 수 있다.
 - [x] 이동할 수 없는 지점으로 움직이려하면 예외를 던진다.
-- [x] 각 진영은 교대로 기물을 이동한다.
 
 #### 기물 초기 위치
 
 - [x] 시작 위치가 고정된 기물들은 게임 시작 시 정해진 위치에 배치되어야 한다.
 - [x] `상`과 `마`는 지정한 순서에 따른 위치에 배치되어야 한다.
+
+#### 점수 계산
+
+- [x] 각 기물은 본인의 점수를 지닌다.
+- [x] 한 진영은 1.5점의 추가 점수를 지닌다.
+
+### 데이터베이스 기능
+
+- [x] 새로운 게임을 시작하면 데이터베이스에 저장한다.
+- [x] 기존 게임을 이어서 진행할 경우, 데이터베이스에 저장된 게임 정보를 가져온다.
+- [x] 기물을 이동할 때 마다, 게임의 최신 상황을 데이터베이스에 반영한다.
+- [x] 궁이 잡힘으로 인해 게임이 종료되면, 데이터베이스에서 해당 게임 데이터를 제거한다.
+
+## 데이터베이스
+
+### 테이블 구조
+```
+┌────────────────────────┐          ┌──────────────────────────────────┐
+│          game          │          │              piece               │
+├────────────────────────┤          ├──────────────────────────────────┤
+│ [PK] id (INT)  <──┐    │          │ [PK] id (INT)                    │
+│ current_turn      │    │          │ [FK] game_id (INT) ──────────────┘
+└───────────────────│────┘          │ row (INT)                        │
+                    │               │ file (INT)                       │
+                    └─────────────○<│ side (ENUM: CHO, HAN)            │
+                                    │ type (ENUM: Cannon, Chariot,...) │
+                                    └──────────────────────────────────┘
+```
+
+### 데이터베이스 생성 쿼리
+```sql
+CREATE DATABASE janggi CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+CREATE USER 'janggi'@'%' IDENTIFIED BY 'janggi';
+
+GRANT ALL PRIVILEGES ON janggi.* TO 'janggi'@'%';
+
+FLUSH PRIVILEGES;
+```
+
+### 테이블 생성 쿼리
+```sql
+CREATE TABLE game (
+    id INT NOT NULL AUTO_INCREMENT,
+    current_turn ENUM('CHO', 'HAN') NOT NULL,
+    PRIMARY KEY (id)
+);
+
+DROP TABLE IF EXISTS piece;
+CREATE TABLE piece (
+    id INT NOT NULL AUTO_INCREMENT,
+    game_id INT NOT NULL,
+    `row` INT NOT NULL,
+    `file` INT NOT NULL,
+    side ENUM('CHO', 'HAN') NOT NULL,
+    type ENUM('Cannon', 'Chariot', 'Elephant', 'General', 'Guard', 'Horse', 'Soldier') NOT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT fk_game_id FOREIGN KEY (game_id) REFERENCES game(id)
+);
+```
 
 ## 입출력 형태
 
@@ -95,6 +190,8 @@ src/main/java/
 ### 입출력 예시
 
 ```markdown
+새로운 게임을 시작할까요? (y를 입력하면 새로운 게임을 시작합니다)
+y
 초의 상차림을 입력해주세요. (ex_ 상마 상마)
 상마 상마
 
@@ -219,3 +316,31 @@ src/main/java/
 ０ ＋ 상 마 사 ＋ 사 상 마 차
 
 ```
+
+### 결과 확인을 위한 입력
+```markdown
+y
+마상 마상
+마상 마상
+5 7
+5 6
+5 4
+5 5
+1 7
+1 6
+5 5
+5 6
+9 7
+9 6
+5 6
+5 7
+1 6
+1 5
+5 7
+5 8
+9 0
+9 9
+5 8
+5 9
+```
+복사 후 붙여넣는 것으로, 게임 결과까지 확인할 수 있습니다.

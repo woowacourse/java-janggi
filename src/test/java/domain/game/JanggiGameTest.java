@@ -1,139 +1,199 @@
 package domain.game;
 
-import static domain.util.AssertUtils.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.board.Board;
 import domain.board.Intersection;
+import domain.movement.Move;
 import domain.piece.AlivePieces;
-import domain.piece.Piece;
+import domain.piece.General;
 import domain.piece.Soldier;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 class JanggiGameTest {
 
-    private static final String HAN_TURN_MESSAGE = "지금은 " + Side.HAN + "의 차례입니다.";
-    private static final String CHO_TURN_MESSAGE = "지금은 " + Side.CHO + "의 차례입니다.";
+    private static final Intersection DEFAULT_INTERSECTION = new Intersection(4, 4);
+    private static final Intersection CHO_GENERAL_INTERSECTION = new Intersection(9, 5);
+    private static final Intersection HAN_GENERAL_INTERSECTION = new Intersection(2, 5);
+    private static final Intersection CHO_PIECE_INTERSECTION = new Intersection(5, 5);
+    private static final Intersection HAN_PIECE_INTERSECTION = new Intersection(3, 3);
+    private static final Intersection CHO_DESTINATION = new Intersection(4, 5);
+    private static final Intersection HAN_DESTINATION = new Intersection(4, 3);
 
-    private static final Piece CHO_PIECE = new Soldier(Side.CHO);
-    private static final Intersection CHO_START_INTERSECTION = new Intersection(5, 5);
-    private static final Intersection CHO_FIRST_DESTINATION = new Intersection(4, 5);
-    private static final Intersection CHO_SECOND_DESTINATION = new Intersection(3, 5);
-
-    private static final Piece HAN_PIECE = new Soldier(Side.HAN);
-    private static final Intersection HAN_START_INTERSECTION = new Intersection(3, 3);
-    private static final Intersection HAN_FIRST_DESTINATION = new Intersection(4, 3);
-
-    private AlivePieces alivePieces;
+    private AlivePieces allGeneralAlivePieces;
+    private AlivePieces oneGeneralDeadPieces;
 
     @BeforeEach
     void setUp() {
-        alivePieces = new AlivePieces(Map.of(
-                CHO_START_INTERSECTION, CHO_PIECE,
-                HAN_START_INTERSECTION, HAN_PIECE
+        allGeneralAlivePieces = new AlivePieces(Map.of(
+                CHO_PIECE_INTERSECTION, new Soldier(Side.CHO),
+                HAN_PIECE_INTERSECTION, new Soldier(Side.HAN),
+                CHO_GENERAL_INTERSECTION , new General(Side.CHO),
+                HAN_GENERAL_INTERSECTION, new General(Side.HAN)
+        ));
+        oneGeneralDeadPieces = new AlivePieces(Map.of(
+                new Intersection(5, 5), new General(Side.HAN)
         ));
     }
 
-    @Nested
-    class 첫_수는_초여야_한다 {
+    @Test
+    void 초_진영의_차례로_시작한다() {
+        // given
+        Board board = new Board(allGeneralAlivePieces);
+        JanggiGame janggiGame = new JanggiGame(board);
 
-        @Test
-        void 첫_수가_초가_아니면_예외를_던진다() {
-            // given
-            Board board = new Board(alivePieces);
-            JanggiGame janggiGame = new JanggiGame(board);
+        // when
+        Side currentTurn = janggiGame.getCurrentTurn();
 
-            // when and then
-            assertThatThrownBy(() -> janggiGame.movePiece(HAN_START_INTERSECTION, HAN_FIRST_DESTINATION, Side.HAN))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(CHO_TURN_MESSAGE);
-        }
-
-        @Test
-        void 첫_수가_초면_성공한다() {
-            // given
-            Board board = new Board(alivePieces);
-            JanggiGame janggiGame = new JanggiGame(board);
-
-            // when and then
-            assertThatNoException(() -> janggiGame.movePiece(CHO_START_INTERSECTION, CHO_FIRST_DESTINATION, Side.CHO));
-        }
+        // then
+        assertThat(currentTurn).isEqualTo(Side.CHO);
     }
 
-    @Nested
-    class 각_진영은_교대로_기물을_이동해야_한다 {
+    @Test
+    void 기물을_이동하고_나면_차례를_넘긴다() {
+        // given
+        Board board = new Board(allGeneralAlivePieces);
+        JanggiGame janggiGame = new JanggiGame(board);
+        Move move = new Move(CHO_PIECE_INTERSECTION, CHO_DESTINATION);
 
-        @Test
-        void 같은_진영이_연속해서_기물을_이동하려고_하면_예외를_던진다() {
-            // given
-            Board board = new Board(alivePieces);
-            JanggiGame janggiGame = new JanggiGame(board);
+        Side turnBeforeMove = janggiGame.getCurrentTurn();
 
-            // when and then
-            janggiGame.movePiece(
-                    CHO_START_INTERSECTION,
-                    CHO_FIRST_DESTINATION,
-                    Side.CHO
-            );
-            assertThatThrownBy(() -> {
-                janggiGame.movePiece(
-                        CHO_FIRST_DESTINATION,
-                        CHO_SECOND_DESTINATION,
-                        Side.CHO
-                );
-            }).isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(HAN_TURN_MESSAGE);
-        }
+        // when
+        JanggiGame movedGame = janggiGame.movePiece(move);
 
-        @Test
-        void 각_진영이_교대로_기물을_이동하면_성공한다() {
-            // given
-            Board board = new Board(alivePieces);
-            JanggiGame janggiGame = new JanggiGame(board);
+        // then
+        Side turnAfterMove = movedGame.getCurrentTurn();
 
-            // when and then
-            janggiGame.movePiece(CHO_START_INTERSECTION, CHO_FIRST_DESTINATION, Side.CHO);
-            assertThatNoException(() -> janggiGame.movePiece(HAN_START_INTERSECTION, HAN_FIRST_DESTINATION, Side.HAN));
-        }
+        assertThat(turnAfterMove).isNotEqualTo(turnBeforeMove);
     }
 
     @Nested
     class 기물이_이동_가능한_위치를_반환한다 {
 
         @Test
-        void 본인_진영의_차례가_아니라면_예외를_던진다() {
+        void 다른_진영의_기물을_선택하면_예외를_던진다() {
             // given
-            Board board = new Board(alivePieces);
+            Board board = new Board(allGeneralAlivePieces);
             JanggiGame janggiGame = new JanggiGame(board);
 
             // when and then
             assertThatThrownBy(() ->
-                    janggiGame.getMovableIntersections(CHO_START_INTERSECTION, Side.HAN)
+                    janggiGame.getMovableIntersections(HAN_PIECE_INTERSECTION)
             )
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage(CHO_TURN_MESSAGE);
+                    .hasMessage("같은 진영의 기물을 선택해야 합니다.");
         }
 
         @Test
-        void 본인_진영의_차례라면_기물이_이동할_수_있는_위치를_반환한다() {
-            Board board = new Board(alivePieces);
+        void 본인_진영의_기물을_선택하면_이동_가능한_위치를_반환한다() {
+            Board board = new Board(allGeneralAlivePieces);
             JanggiGame janggiGame = new JanggiGame(board);
 
-            List<Intersection> movable = janggiGame.getMovableIntersections(
-                    CHO_START_INTERSECTION,
-                    Side.CHO
-            );
+            List<Intersection> movable = janggiGame.getMovableIntersections(CHO_PIECE_INTERSECTION);
 
             assertThat(movable).containsExactlyInAnyOrder(
-                    CHO_FIRST_DESTINATION,
+                    CHO_DESTINATION,
                     new Intersection(5, 4),
                     new Intersection(5, 6)
             );
+        }
+    }
+
+    @Nested
+    class 게임이_진행_중인지_판단한다 {
+
+        @Test
+        void 모든_진영의_궁이_살아_있다면_게임_진행_중이라고_판단한다() {
+            // given
+            JanggiGame janggiGame = new JanggiGame(new Board(allGeneralAlivePieces));
+
+            // when
+            boolean playing = janggiGame.isPlaying();
+
+            // then
+            assertThat(playing).isTrue();
+        }
+
+        @Test
+        void 어느_진영이든_궁이_없다면_게임_종료라고_판단한다() {
+            // given
+            JanggiGame janggiGame = new JanggiGame(new Board(oneGeneralDeadPieces));
+
+            // when
+            boolean playing = janggiGame.isPlaying();
+
+            // then
+            assertThat(playing).isFalse();
+        }
+    }
+
+    @Nested
+    class 마지막_이동_정보를_제공한다 {
+
+        @Test
+        void 이동한_적이_없다면_예외를_던진다() {
+            // given
+            JanggiGame janggiGame = new JanggiGame(new Board(allGeneralAlivePieces));
+
+            // when and then
+            assertThatThrownBy(janggiGame::getLastMove)
+                    .isInstanceOf(IllegalStateException.class)
+                    .hasMessage("아직 기물을 움직이지 않은 게임입니다.");
+        }
+
+        @Test
+        void 마지막으로_수행한_이동_정보를_제공한다() {
+            // given
+            JanggiGame janggiGame = new JanggiGame(new Board(allGeneralAlivePieces));
+
+            Move firstMove = new Move(CHO_PIECE_INTERSECTION, CHO_DESTINATION);
+            JanggiGame firstMovedGame = janggiGame.movePiece(firstMove);
+            Move secondMove = new Move(HAN_PIECE_INTERSECTION, HAN_DESTINATION);
+            JanggiGame secondMovedGame = firstMovedGame.movePiece(secondMove);
+
+            // when
+            Move lastMove = secondMovedGame.getLastMove();
+
+            // then
+            assertThat(lastMove).isEqualTo(secondMove);
+        }
+    }
+
+    @Nested
+    class 승자를_판단한다 {
+
+        @Test
+        void 게임이_진행_중이라면_예외를_던진다() {
+            // given
+            JanggiGame playingJanggiGame = new JanggiGame(new Board(allGeneralAlivePieces));
+
+            // when and then
+            assertThatThrownBy(playingJanggiGame::getWinner)
+                    .isInstanceOf(IllegalStateException.class)
+                    .hasMessage("승자는 게임 종료 이후에 조회할 수 있습니다.");
+        }
+
+        @ParameterizedTest
+        @EnumSource(Side.class)
+        void 궁이_살아있는_진영을_승자로_취급한다(Side generalAliveSide) {
+            // given
+            AlivePieces alivePieces = new AlivePieces(Map.of(
+                    DEFAULT_INTERSECTION, new General(generalAliveSide)
+            ));
+            JanggiGame janggiGame = new JanggiGame(new Board(alivePieces));
+
+            // when
+            Side winner = janggiGame.getWinner();
+
+            // then
+            assertThat(winner).isEqualTo(generalAliveSide);
         }
     }
 }
