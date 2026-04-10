@@ -16,8 +16,6 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ScoreBoardTest {
-    private ScoreBoard scoreBoard;
-
     private static Stream<Arguments> provideVariousScoreScenarios() {
         return Stream.of(
                 // 기물 점수는 같지만 덤 때문에 한 승리 (12 vs 13.5)
@@ -41,30 +39,23 @@ class ScoreBoardTest {
         );
     }
 
-    @BeforeEach
-    void setUp() {
-        scoreBoard = new ScoreBoard();
+    @ParameterizedTest
+    @MethodSource("provideVariousScoreScenarios")
+    void 다양한_점수_판정_테스트(List<Piece> choPieces, List<Piece> hanPieces, Team expectedWinner) {
+        // when
+        ScoreBoard scoreBoard = new ScoreBoard(hanPieces, choPieces);
+
+        // then
+        assertThat(scoreBoard.winner()).isEqualTo(expectedWinner);
     }
 
     @Test
     void 최소_경계값_테스트() {
         // given, when
-        scoreBoard.saveChoScore(List.of(new King(Team.CHO)));
-        scoreBoard.saveHanScore(List.of(new King(Team.HAN)));
+        ScoreBoard scoreBoard = new ScoreBoard(List.of(new King(Team.HAN)), List.of(new King(Team.CHO)));
 
         // then
         assertThat(scoreBoard.winner()).isEqualTo(Team.HAN);
-    }
-
-    @ParameterizedTest
-    @MethodSource("provideVariousScoreScenarios")
-    void 다양한_점수_판정_테스트(List<Piece> choPieces, List<Piece> hanPieces, Team expectedWinner) {
-        // when
-        scoreBoard.saveChoScore(choPieces);
-        scoreBoard.saveHanScore(hanPieces);
-
-        // then
-        assertThat(scoreBoard.winner()).isEqualTo(expectedWinner);
     }
 
     @Test
@@ -77,8 +68,7 @@ class ScoreBoardTest {
         );
 
         // when
-        scoreBoard.saveHanScore(board.piecesOf(Team.HAN));
-        scoreBoard.saveChoScore(board.piecesOf(Team.CHO));
+        ScoreBoard scoreBoard = new ScoreBoard(board.piecesOf(Team.HAN), board.piecesOf(Team.CHO));
 
         // then
         assertThat(scoreBoard.winner()).isEqualTo(Team.HAN);
