@@ -14,3 +14,5 @@ CREATE TABLE IF NOT EXISTS boards (
     team VARCHAR(10) NOT NULL,
     piece_type VARCHAR(20) NOT NULL
 );
+
+CREATE INDEX board_game_idx ON boards (game_id);
