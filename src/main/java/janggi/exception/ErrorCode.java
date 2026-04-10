@@ -17,7 +17,11 @@ public enum ErrorCode {
     JOLBYEONG_MOVE_BACK_ERROR("졸병은 뒤로 이동할 수 없습니다."),
 
     //Palace
-    PALACE_OUT_OF_RANGE("궁성 기물은 궁성 밖으로 이동할 수 없습니다.");
+    PALACE_OUT_OF_RANGE("궁성 기물은 궁성 밖으로 이동할 수 없습니다."),
+
+    //Database
+    DATABASE_CONNECT_ERROR("데이터베이스에 연결할 수 없습니다.");
+
     private final String message;
 
     ErrorCode(String message) {

@@ -1,5 +1,6 @@
 package janggi.repository.util;
 
+import janggi.exception.DatabaseException;
 import janggi.repository.util.transaction.TransactionManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -24,7 +25,7 @@ public class JdbcQueryExecutor {
             setArguments(pstmt, args);
             return pstmt.executeUpdate();
         } catch (SQLException e) {
-            throw new IllegalStateException("데이터베이스 작업 실패: " + sql, e);
+            throw new DatabaseException("데이터베이스 작업 실패: " + sql, e);
         }
     }
 
@@ -38,9 +39,9 @@ public class JdbcQueryExecutor {
                     return rs.getLong(1);
                 }
             }
-            throw new IllegalStateException("생성된 ID를 가져올 수 없습니다: " + sql);
+            throw new DatabaseException("생성된 ID를 가져올 수 없습니다: " + sql);
         } catch (SQLException e) {
-            throw new IllegalStateException("데이터베이스 삽입 실패: " + sql, e);
+            throw new DatabaseException("데이터베이스 삽입 실패: " + sql, e);
         }
     }
 
@@ -55,7 +56,7 @@ public class JdbcQueryExecutor {
                 return Optional.empty();
             }
         } catch (SQLException e) {
-            throw new IllegalStateException("데이터베이스 조회 실패: " + sql, e);
+            throw new DatabaseException("데이터베이스 조회 실패: " + sql, e);
         }
     }
 
@@ -71,7 +72,7 @@ public class JdbcQueryExecutor {
                 return results;
             }
         } catch (SQLException e) {
-            throw new IllegalStateException("데이터베이스 목록 조회 실패: " + sql, e);
+            throw new DatabaseException("데이터베이스 목록 조회 실패: " + sql, e);
         }
     }
 

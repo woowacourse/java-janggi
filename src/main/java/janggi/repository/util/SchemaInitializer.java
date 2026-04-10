@@ -1,5 +1,6 @@
 package janggi.repository.util;
 
+import janggi.exception.DatabaseException;
 import janggi.repository.util.connection.ConnectionProvider;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -8,8 +9,9 @@ import java.sql.Statement;
 
 public class SchemaInitializer {
 
-    private final static String SCHEMA_FILE_PATH = "src/main/resources/schema.sql";
     private final ConnectionProvider connectionProvider;
+
+    private static final String SCHEMA_FILE_PATH = "src/main/resources/schema.sql";
 
     public SchemaInitializer(ConnectionProvider connectionProvider) {
         this.connectionProvider = connectionProvider;
@@ -29,7 +31,7 @@ public class SchemaInitializer {
             }
 
         } catch (Exception e) {
-            throw new RuntimeException("데이터베이스 스키마 초기화 실패", e);
+            throw new DatabaseException("데이터베이스 스키마 초기화 실패", e);
         }
     }
 }

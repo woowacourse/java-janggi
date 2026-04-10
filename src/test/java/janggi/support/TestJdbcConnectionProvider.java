@@ -1,5 +1,7 @@
 package janggi.support;
 
+import janggi.exception.DatabaseException;
+import janggi.exception.ErrorCode;
 import janggi.repository.util.connection.ConnectionProvider;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,7 +18,7 @@ public class TestJdbcConnectionProvider implements ConnectionProvider {
         try {
             return DriverManager.getConnection(URL, USER, PASSWORD);
         } catch (SQLException e) {
-            throw new RuntimeException("DB 연결 실패", e);
+            throw new DatabaseException(ErrorCode.DATABASE_CONNECT_ERROR, e);
         }
     }
 }

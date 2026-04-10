@@ -22,14 +22,8 @@ class JdbcConnectionProviderTest {
     }
 
     @AfterEach
-    void tearDown() {
-        if (conn != null) {
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                throw new RuntimeException("테스트 커넥션 종료 실패", e);
-            }
-        }
+    void tearDown() throws SQLException {
+        conn.close();
     }
 
     @Test
