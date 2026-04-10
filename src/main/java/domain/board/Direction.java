@@ -27,17 +27,6 @@ public record Direction(int column, int row) {
             Direction.LEFT_UP
     );
 
-    public static final List<Direction> ALL_DIRECTIONS = List.of(
-            Direction.UP,
-            Direction.RIGHT_UP,
-            Direction.RIGHT,
-            Direction.RIGHT_DOWN,
-            Direction.DOWN,
-            Direction.LEFT_DOWN,
-            Direction.LEFT,
-            Direction.LEFT_UP
-    );
-
     public static Direction of(final int column, final int row) {
         return new Direction(column, row);
     }
