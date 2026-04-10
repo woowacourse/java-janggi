@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -53,6 +54,20 @@ class BoardDaoTest extends DatabaseTestHelper {
             boardDao.deleteBoard(connection, boardId);
 
             assertThat(boardDao.getBoard(connection, boardId)).isEmpty();
+        }
+    }
+
+    @Test
+    void 저장된_장기판_목록을_조회한다() throws Exception {
+        try (Connection connection = getConnection(dataSource)) {
+            Long firstBoardId = boardDao.insertBoard(connection, true, Camp.CHO.name());
+            boardDao.insertBoard(connection, false, Camp.HAN.name());
+
+            List<BoardDto> result = boardDao.getAllBoards(connection);
+
+            assertThat(result).containsExactly(
+                    new BoardDto(firstBoardId, true, Camp.CHO)
+            );
         }
     }
 }

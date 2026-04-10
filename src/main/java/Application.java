@@ -1,6 +1,7 @@
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import controller.GameController;
+import data.BoardDto;
 import data.BoardRepository;
 import data.TransactionManager;
 import domain.board.Board;
@@ -8,6 +9,8 @@ import domain.board.BoardInitializer;
 import domain.piece.Camp;
 import view.InputView;
 import view.OutputView;
+
+import java.util.List;
 
 public class Application {
     public static void main(String[] args) {
@@ -43,6 +46,7 @@ public class Application {
     }
 
     private static Board initBoard(TransactionManager transactionManager, BoardRepository boardRepository) {
+        printSavedBoards(transactionManager, boardRepository);
         int boardId = InputView.readBoardNumber();
 
         Board board;
@@ -57,5 +61,13 @@ public class Application {
             return null;
         });
         return board;
+    }
+
+    private static void printSavedBoards(TransactionManager transactionManager, BoardRepository boardRepository) {
+        transactionManager.executeTransaction(connection -> {
+            List<BoardDto> boards = boardRepository.findAll(connection);
+            OutputView.printBoardSummaries(boards);
+            return null;
+        });
     }
 }

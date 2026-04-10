@@ -3,6 +3,8 @@ package data;
 import domain.piece.Camp;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class BoardDao {
@@ -49,6 +51,25 @@ public class BoardDao {
             throw new IllegalStateException("데이터 조회에 실패했습니다.", e);
         }
 
+    }
+
+    public List<BoardDto> getAllBoards(Connection connection) {
+        String sql = "SELECT `id`, `game_in_progress`, `turn` FROM boards WHERE `game_in_progress` = true ORDER BY `id`";
+        List<BoardDto> boards = new ArrayList<>();
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            while (resultSet.next()) {
+                boards.add(new BoardDto(
+                        resultSet.getLong("id"),
+                        resultSet.getBoolean("game_in_progress"),
+                        Camp.valueOf(resultSet.getString("turn"))
+                ));
+            }
+            return boards;
+        } catch (SQLException e) {
+            throw new IllegalStateException("데이터 조회에 실패했습니다.", e);
+        }
     }
 
 

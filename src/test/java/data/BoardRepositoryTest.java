@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -82,6 +83,30 @@ class BoardRepositoryTest extends DatabaseTestHelper {
 
             assertThatThrownBy(() -> boardRepository.findById(connection, board.id()))
                     .isInstanceOf(IllegalArgumentException.class);
+        }
+    }
+
+    @Test
+    void 저장된_장기판_목록을_조회한다() throws Exception {
+        Map<Position, Piece> firstPieces = new HashMap<>();
+        firstPieces.put(new Position(4, 0), Piece.of(Camp.CHO, PieceType.GENERAL));
+        firstPieces.put(new Position(4, 9), Piece.of(Camp.HAN, PieceType.GENERAL));
+        Board firstBoard = Board.from(firstPieces);
+
+        Map<Position, Piece> secondPieces = new HashMap<>();
+        secondPieces.put(new Position(4, 0), Piece.of(Camp.CHO, PieceType.GENERAL));
+        secondPieces.put(new Position(4, 9), Piece.of(Camp.HAN, PieceType.GENERAL));
+        Board secondBoard = new Board(secondPieces, false, Camp.HAN);
+
+        try (Connection connection = getConnection(dataSource)) {
+            boardRepository.save(connection, firstBoard);
+            boardRepository.save(connection, secondBoard);
+
+            List<BoardDto> result = boardRepository.findAll(connection);
+
+            assertThat(result).containsExactly(
+                    new BoardDto(firstBoard.id(), true, Camp.CHO)
+            );
         }
     }
 }

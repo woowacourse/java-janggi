@@ -50,6 +50,10 @@ public class BoardRepository {
         return new Board(pieces, boardDto.gameInProgress(), boardDto.turn());
     }
 
+    public List<BoardDto> findAll(Connection connection) {
+        return boardDao.getAllBoards(connection);
+    }
+
     public void delete(Connection connection, Board board) {
         Long boardId = board.id();
 

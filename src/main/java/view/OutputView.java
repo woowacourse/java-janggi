@@ -1,10 +1,13 @@
 package view;
 
+import data.BoardDto;
 import domain.board.Board;
 import domain.board.Position;
 import domain.piece.Camp;
 import domain.piece.Piece;
 import domain.piece.PieceType;
+
+import java.util.List;
 
 public class OutputView {
     private static final int MAX_ROW = 9;
@@ -32,13 +35,17 @@ public class OutputView {
         }
     }
 
-    public static void printError(String message) {
-        System.out.println(message);
-    }
+    public static void printBoardSummaries(List<BoardDto> boards) {
+        System.out.println("저장된 장기판 목록");
+        if (boards.isEmpty()) {
+            System.out.println("진행 중인 장기판이 없습니다.");
+            return;
+        }
 
-    public static void printWinner(Camp winner) {
-        String winnerName = (winner == Camp.CHO) ? "초" : "한";
-        System.out.println(winnerName + "의 승리입니다.");
+        for (BoardDto board : boards) {
+            System.out.printf("[%d]", board.id());
+        }
+        System.out.println();
     }
 
     public static void printWinner(Camp winner, double choScore, double hanScore) {

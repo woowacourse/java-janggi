@@ -32,7 +32,13 @@ public class GameController {
                     return null;
                 });
             } catch (IllegalArgumentException e) {
-                OutputView.printError(e.getMessage());
+                System.out.println(e.getMessage());
+            } catch (RuntimeException e) {
+                if (e.getCause() instanceof IllegalArgumentException cause) {
+                    System.out.println(cause.getMessage());
+                    continue;
+                }
+                throw e;
             }
         }
     }
