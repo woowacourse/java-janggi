@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 
 public class Board implements BoardView {
     private final Map<Position, Piece> board;
-    private final Palace palace = Palace.creatAllPalace();
 
     public Board() {
         this(new HashMap<>());
@@ -36,6 +35,11 @@ public class Board implements BoardView {
     }
 
     @Override
+    public Team findTeamByPosition(Position position) {
+        return board.getOrDefault(position, EmptyPiece.getInstance()).findTeam();
+    }
+
+    @Override
     public boolean isEmptyPosition(Position position) {
         return findByPosition(position).isEmpty();
     }
@@ -47,7 +51,7 @@ public class Board implements BoardView {
 
     @Override
     public Palace palace() {
-        return palace;
+        return Palace.creatAllPalace();
     }
 
     @Override
@@ -115,5 +119,14 @@ public class Board implements BoardView {
     @Override
     public Map<Position, Piece> getBoard() {
         return Map.copyOf(board);
+    }
+
+    @Override
+    public boolean canInnerGo(Position from, Position to) {
+        if (findTeamByPosition(from) == Team.CHO) {
+            return Palace.createChoPalace().canInnerGo(from, to);
+        }
+
+        return Palace.createHanPalace().canInnerGo(from, to);
     }
 }

@@ -15,6 +15,8 @@ public interface BoardView {
 
     PieceType findTypeByPosition(Position position);
 
+    Team findTeamByPosition(Position position);
+
     Palace palace();
 
     List<Piece> kingsOnBoard();
@@ -22,4 +24,6 @@ public interface BoardView {
     List<Piece> piecesOf(Team team);
 
     Map<Position, Piece> getBoard();
+
+    boolean canInnerGo(Position from, Position to);
 }
