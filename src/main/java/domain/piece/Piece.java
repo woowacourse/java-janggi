@@ -38,7 +38,7 @@ public class Piece {
         return camp;
     }
 
-    public PieceType getPieceType() {
+    public PieceType pieceType() {
         return pieceType;
     }
 

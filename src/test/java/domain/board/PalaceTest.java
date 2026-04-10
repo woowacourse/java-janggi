@@ -1,6 +1,5 @@
 package domain.board;
 
-import domain.path.Direction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
