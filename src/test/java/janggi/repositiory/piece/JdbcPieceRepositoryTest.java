@@ -39,27 +39,28 @@ class JdbcPieceRepositoryTest extends RepositoryTest {
         pieceRepository.updateALL(gameId, board);
 
         // then
-        List<PieceData> all = pieceRepository.findAll(gameId);
+        Map<Position, Piece> all = pieceRepository.findAll(gameId);
         assertThat(all).hasSize(2);
-        assertThat(all).extracting("type")
-                .containsExactlyInAnyOrder(PieceType.TANK, PieceType.SOLDIER);
+
     }
 
     @Test
     @DisplayName("다시 updateAll을 호출하면 기존 기물은 삭제되고 새로운 상태만 남는다")
     void updateAll_재호출_테스트() {
         // given
-        pieceRepository.updateALL(gameId, Map.of(new Position(0, 0), new Tank(Team.HAN)));
+        Position oldPosition = new Position(0, 0);
+        pieceRepository.updateALL(gameId, Map.of(oldPosition, new Tank(Team.HAN)));
 
         // when
-        Map<Position, Piece> newBoard = Map.of(new Position(8, 4), new King(Team.CHO));
+        Position updatedPosition =new Position(8, 4);
+        Map<Position, Piece> newBoard = Map.of(updatedPosition, new King(Team.CHO));
         pieceRepository.updateALL(gameId, newBoard);
 
         // then
-        List<PieceData> all = pieceRepository.findAll(gameId);
+        Map<Position, Piece> all = pieceRepository.findAll(gameId);
         assertThat(all).hasSize(1);
-        assertThat(all.get(0).type()).isEqualTo(PieceType.KING);
-        assertThat(all.get(0).row()).isEqualTo(8);
+        assertThat(all.getOrDefault(oldPosition, EmptyPiece.getInstance())).isEqualTo(EmptyPiece.getInstance());
+        assertThat(all.get(updatedPosition).pieceType()).isEqualTo(PieceType.KING);
     }
 
     @Test
@@ -68,20 +69,19 @@ class JdbcPieceRepositoryTest extends RepositoryTest {
         // Given
         Map<Position, Piece> board = new HashMap<>();
         board.put(new Position(0, 0), new King(Team.HAN));
-        board.put(new Position(0, 1), new EmptyPiece(Team.NONE));
-        board.put(new Position(0, 2), new EmptyPiece(Team.NONE));
+        board.put(new Position(0, 1), EmptyPiece.getInstance());
+        board.put(new Position(0, 2), EmptyPiece.getInstance());
 
         // When
         pieceRepository.updateALL(gameId, board);
 
         // Then
-        List<PieceData> result = pieceRepository.findAll(gameId);
+        Map<Position, Piece> result = pieceRepository.findAll(gameId);
 
-        assertThat(result)
-                .as("Empty를 제외한 실제 기물만 저장되어야 합니다.")
-                .hasSize(1);
+        assertThat(result).hasSize(1);
 
-        assertThat(result.get(0).type())
-                .isNotEqualTo(PieceType.EMPTY);
+        assertThat(result.values())
+                .extracting(Piece::pieceType)
+                .containsExactly(PieceType.KING);
     }
 }

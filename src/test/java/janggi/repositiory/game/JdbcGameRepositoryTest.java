@@ -34,7 +34,7 @@ class JdbcGameRepositoryTest extends RepositoryTest {
         Long expectedId = gameRepository.save(false, Team.CHO);
 
         // when
-        Optional<GameData> latest = gameRepository.findLatestOngoingGame();
+        Optional<GameData> latest = gameRepository.findLatestGame();
 
         // then
         assertThat(latest).isPresent();
@@ -51,7 +51,7 @@ class JdbcGameRepositoryTest extends RepositoryTest {
         gameRepository.update(id, true, Team.HAN);
 
         // then
-        GameData updated = gameRepository.findLatestOngoingGame().get();
+        GameData updated = gameRepository.findLatestGame().get();
         assertThat(updated.isFinished()).isTrue();
         assertThat(updated.currentTurn()).isEqualTo(Team.HAN);
     }
