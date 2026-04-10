@@ -3,7 +3,6 @@ package janggi.domain.state;
 import janggi.domain.Score;
 import janggi.domain.Side;
 import janggi.domain.board.Board;
-import janggi.domain.piece.Piece;
 import janggi.domain.space.Destinations;
 import janggi.domain.space.Position;
 

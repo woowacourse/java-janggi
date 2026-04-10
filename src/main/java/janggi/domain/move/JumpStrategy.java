@@ -1,10 +1,10 @@
 package janggi.domain.move;
 
+import janggi.domain.board.BoardReader;
+import janggi.domain.piece.Piece;
 import janggi.domain.space.Direction;
 import janggi.domain.space.Path;
 import janggi.domain.space.Position;
-import janggi.domain.board.BoardReader;
-import janggi.domain.piece.Piece;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

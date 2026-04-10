@@ -1,9 +1,9 @@
 package janggi.domain.move;
 
+import janggi.domain.board.BoardReader;
 import janggi.domain.space.Direction;
 import janggi.domain.space.Path;
 import janggi.domain.space.Position;
-import janggi.domain.board.BoardReader;
 import java.util.ArrayList;
 import java.util.List;
 

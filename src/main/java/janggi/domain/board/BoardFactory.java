@@ -1,9 +1,9 @@
 package janggi.domain.board;
 
-import janggi.domain.space.Position;
 import janggi.domain.Side;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceFactory;
+import janggi.domain.space.Position;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

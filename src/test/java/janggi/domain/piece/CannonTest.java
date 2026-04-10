@@ -3,10 +3,10 @@ package janggi.domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.domain.space.Destinations;
-import janggi.domain.space.Position;
 import janggi.domain.Side;
 import janggi.domain.board.Board;
+import janggi.domain.space.Destinations;
+import janggi.domain.space.Position;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

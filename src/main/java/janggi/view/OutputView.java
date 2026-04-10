@@ -6,7 +6,6 @@ import janggi.dto.GameDto;
 import janggi.dto.PieceDto;
 import janggi.dto.PositionDto;
 import janggi.dto.WinnerDto;
-import janggi.infrastructure.dao.dto.GameEntity;
 import java.util.List;
 import java.util.stream.IntStream;
 

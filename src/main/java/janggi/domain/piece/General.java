@@ -1,9 +1,9 @@
 package janggi.domain.piece;
 
-import janggi.domain.space.Palace;
-import janggi.domain.space.Position;
 import janggi.domain.Side;
 import janggi.domain.move.MovementStrategy;
+import janggi.domain.space.Palace;
+import janggi.domain.space.Position;
 
 public class General extends Piece {
     public General(Side side, MovementStrategy movementStrategy) {

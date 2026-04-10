@@ -1,10 +1,9 @@
 package janggi.view;
 
 import janggi.controller.GameCommand;
-import janggi.domain.space.Position;
 import janggi.domain.board.FormationCommand;
 import janggi.domain.player.Name;
-
+import janggi.domain.space.Position;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;

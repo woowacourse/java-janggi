@@ -1,11 +1,11 @@
 package janggi.domain.piece;
 
-import janggi.domain.space.Destinations;
-import janggi.domain.space.Position;
 import janggi.domain.Score;
 import janggi.domain.Side;
 import janggi.domain.board.BoardReader;
 import janggi.domain.move.MovementStrategy;
+import janggi.domain.space.Destinations;
+import janggi.domain.space.Position;
 import java.util.List;
 
 public abstract class Piece {

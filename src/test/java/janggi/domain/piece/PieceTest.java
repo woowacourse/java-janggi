@@ -3,13 +3,13 @@ package janggi.domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-import janggi.domain.space.Destinations;
-import janggi.domain.space.Position;
 import janggi.domain.Side;
 import janggi.domain.board.Board;
 import janggi.domain.move.MovePattern;
 import janggi.domain.move.MovementStrategy;
 import janggi.domain.move.OneStepStrategy;
+import janggi.domain.space.Destinations;
+import janggi.domain.space.Position;
 import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
