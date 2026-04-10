@@ -53,16 +53,23 @@ public class BoardRepository {
     }
 
     public void savePlacementByGameId(Board board, Long gameId, Side side) {
+        try (Connection connection = dataSource.getConnection()) {
+            savePlacementByGameId(board, gameId, side, connection);
+        } catch (SQLException e) {
+            throw new IllegalStateException("상차림 저장에 실패했습니다.", e);
+        }
+    }
+
+    public void savePlacementByGameId(Board board, Long gameId, Side side, Connection connection) {
         String sql = "INSERT INTO board (piece_type, side, position_x, position_y, game_id) VALUES (?, ?, ?, ?, ?)";
 
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
 
             for (Map.Entry<Position, Piece> entry : board.getState().entrySet()) {
                 Position position = entry.getKey();
                 Piece piece = entry.getValue();
 
-                if (!piece.isSameSide(side)){
+                if (!piece.isSameSide(side)) {
                     continue;
                 }
 
@@ -83,11 +90,17 @@ public class BoardRepository {
     }
 
     public void updatePiecePositionByGameId(Position from, Position to, Long gameId) {
+        try (Connection connection = dataSource.getConnection()) {
+            updatePiecePositionByGameId(from, to, gameId, connection);
+        } catch (SQLException e) {
+            throw new IllegalStateException("기물 이동 수정에 실패했습니다.", e);
+        }
+    }
+
+    public void updatePiecePositionByGameId(Position from, Position to, Long gameId, Connection connection) {
         String sql = "UPDATE board SET position_x = ?, position_y = ? WHERE game_id = ? AND position_x = ? AND position_y = ?";
 
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, to.getRow());
             statement.setInt(2, to.getColumn());
             statement.setLong(3, gameId);
@@ -104,10 +117,17 @@ public class BoardRepository {
     }
 
     public void deletePiecePositionByGameId(Position from, Long gameId) {
-        String sql = "DELETE FROM board WHERE position_x = ? AND position_y = ? AND game_id = ?";
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (Connection connection = dataSource.getConnection()) {
+            deletePiecePositionByGameId(from, gameId, connection);
+        } catch (SQLException e) {
+            throw new IllegalStateException("해당 기물 삭제를 실패하였습니다.", e);
+        }
+    }
 
+    public void deletePiecePositionByGameId(Position from, Long gameId, Connection connection) {
+        String sql = "DELETE FROM board WHERE position_x = ? AND position_y = ? AND game_id = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, from.getRow());
             statement.setInt(2, from.getColumn());
             statement.setLong(3, gameId);

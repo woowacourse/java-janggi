@@ -132,7 +132,7 @@ public class JanggiGame {
                     OutputView.printIsJangGun();
                 }
                 currentTurnSide = turnResult.nextTurnSide();
-            } catch (Exception e) {
+            } catch (IllegalArgumentException e) {
                 OutputView.printErrorMessage(e.getMessage());
             }
         }

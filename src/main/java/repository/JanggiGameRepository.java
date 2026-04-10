@@ -93,11 +93,17 @@ public class JanggiGameRepository {
     }
 
     public void updateGameStatusById(Long gameId, JanggiGameStatus newStatus) {
+        try (Connection connection = dataSource.getConnection()) {
+            updateGameStatusById(gameId, newStatus, connection);
+        } catch (SQLException e) {
+            throw new IllegalStateException("게임 상태 수정에 실패했습니다.", e);
+        }
+    }
+
+    public void updateGameStatusById(Long gameId, JanggiGameStatus newStatus, Connection connection) {
         String sql = " UPDATE game SET status = ? WHERE id = ?";
 
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, newStatus.name());
             statement.setLong(2, gameId);
 
@@ -111,11 +117,17 @@ public class JanggiGameRepository {
     }
 
     public void updateJangGunCountById(Map<Side, Integer> jangGunCount, Long gameId) {
+        try (Connection connection = dataSource.getConnection()) {
+            updateJangGunCountById(jangGunCount, gameId, connection);
+        } catch (SQLException e) {
+            throw new IllegalStateException("진영 별 장군 횟수를 업데이트하지 못했습니다.", e);
+        }
+    }
+
+    public void updateJangGunCountById(Map<Side, Integer> jangGunCount, Long gameId, Connection connection) {
         String sql = "UPDATE game SET cho_janggun_count = ?, han_janggun_count = ? WHERE id = ?";
 
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, jangGunCount.getOrDefault(Side.CHO, 0));
             statement.setInt(2, jangGunCount.getOrDefault(Side.HAN, 0));
             statement.setLong(3, gameId);
@@ -130,11 +142,17 @@ public class JanggiGameRepository {
     }
 
     public void updateTurnById(Side currentTurnSide, Long gameId) {
+        try (Connection connection = dataSource.getConnection()) {
+            updateTurnById(currentTurnSide, gameId, connection);
+        } catch (SQLException e) {
+            throw new IllegalStateException("현재 차례의 진영을 수정하지 못하였습니다.", e);
+        }
+    }
+
+    public void updateTurnById(Side currentTurnSide, Long gameId, Connection connection) {
         String sql = "UPDATE game SET current_turn = ? WHERE id = ?";
 
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, currentTurnSide.name());
             statement.setLong(2, gameId);
             int affectedRows = statement.executeUpdate();

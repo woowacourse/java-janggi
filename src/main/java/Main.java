@@ -1,6 +1,6 @@
 import config.DataSourceConfig;
-import repository.BoardRepository;
 import janggigame.JanggiGame;
+import repository.BoardRepository;
 import repository.JanggiGameRepository;
 import service.JanggiGameService;
 import util.SchemaInitializer;
@@ -13,7 +13,7 @@ public class Main {
         SchemaInitializer.initialize(dataSource);
         JanggiGameRepository janggiGameRepository = new JanggiGameRepository(dataSource);
         BoardRepository boardRepository = new BoardRepository(dataSource);
-        JanggiGameService janggiGameService = new JanggiGameService(janggiGameRepository, boardRepository);
+        JanggiGameService janggiGameService = new JanggiGameService(janggiGameRepository, boardRepository, dataSource);
         JanggiGame janggiGame = new JanggiGame(janggiGameService);
 
         janggiGame.run();
