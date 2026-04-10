@@ -62,11 +62,7 @@ public class JanggiController {
 
     private GameCommand getGameCommand(Side currentSide) {
         CommandType type = InputHandler.readUntilValid(() -> inputView.requestGameCommand(currentSide));
-        return switch (type) {
-            case MOVE -> new MoveController(inputView, outputView);
-            case PASS -> new PassController(outputView);
-            case SURRENDER -> new SurrenderController(outputView);
-        };
+        return type.createController(inputView, outputView);
     }
 
     private int validateRoomNumber(List<GameRoomEntity> rooms, int choice) {
