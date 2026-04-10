@@ -1,79 +1,28 @@
 package domain.piece;
 
+import domain.board.BoardFixtureInitializer;
 import domain.board.Board;
 import domain.coordinate.Position;
 import domain.state.Side;
-import domain.board.BoardInitializer;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ChariotTest {
 
-    static class ChariotTestInitializer implements BoardInitializer {
-
-        @Override
-        public Map<Position, Piece> initialize() {
-            Map<Position, Piece> piecesPosition = new HashMap<>();
-
-            piecesPosition.put(new Position(4, 4), new Chariot(Side.HAN));
-            piecesPosition.put(new Position(4, 3), new Guard(Side.HAN));
-            piecesPosition.put(new Position(4, 5), new Guard(Side.HAN));
-            piecesPosition.put(new Position(3, 4), new Guard(Side.HAN));
-            piecesPosition.put(new Position(5, 4), new Guard(Side.HAN));
-
-            piecesPosition.put(new Position(4, 8), new Chariot(Side.HAN));
-            piecesPosition.put(new Position(6, 8), new Guard(Side.CHU));
-            piecesPosition.put(new Position(8, 8), new Guard(Side.CHU));
-
-            piecesPosition.put(new Position(2, 1), new Chariot(Side.HAN));
-
-            initializeEmptyPiece(piecesPosition);
-            return piecesPosition;
-        }
-
-        private void initializeEmptyPiece(Map<Position, Piece> pieceInitPlacements) {
-            for (int i = 0; i < 10; i++) {
-                for (int j = 0; j < 9; j++) {
-                    pieceInitPlacements.putIfAbsent(new Position(i, j), EmptyPiece.getInstance());
-                }
-            }
-        }
-    }
-
-    static class ChariotPalaceTestInitializer implements BoardInitializer {
-
-        @Override
-        public Map<Position, Piece> initialize() {
-            Map<Position, Piece> piecesPosition = new HashMap<>();
-            piecesPosition.put(new Position(8, 4), new Chariot(Side.CHU));
-            piecesPosition.put(new Position(2, 3), new Chariot(Side.HAN));
-
-            initializeEmptyPiece(piecesPosition);
-            return piecesPosition;
-        }
-
-        private void initializeEmptyPiece(Map<Position, Piece> pieceInitPlacements) {
-            for (int i = 0; i < 10; i++) {
-                for (int j = 0; j < 9; j++) {
-                    pieceInitPlacements.putIfAbsent(new Position(i, j), EmptyPiece.getInstance());
-                }
-            }
-        }
-    }
+    BoardFixtureInitializer boardFixtureInitializer = new BoardFixtureInitializer();
 
     @Test
     @DisplayName("한나라 진영에서 차는 상/하/좌/우 4가지 방향으로 n 칸 이동 가능하다.")
     void getHanPossibleMovesTest() {
         // given
-        Board board = new Board(new ChariotTestInitializer().initialize());
-        Position start = new Position(2, 1);
+        Position start = Position.of(2, 1);
+        boardFixtureInitializer.put(start, new Chariot(Side.HAN));
+        Board board = boardFixtureInitializer.build();
 
         // when
         List<Position> possibleMoves = board.calculatePossibleMoves(start);
@@ -103,8 +52,13 @@ class ChariotTest {
     @DisplayName("차는 아군 기물을 뛰어넘을 수 없다.")
     void doesNotJumpTest() {
         // given
-        Board board = new Board(new ChariotTestInitializer().initialize());
-        Position start = new Position(4, 4);
+        Position start = Position.of(4, 4);
+        boardFixtureInitializer.put(start, new Chariot(Side.HAN));
+        boardFixtureInitializer.put(Position.of(4, 5), new Pawn(Side.HAN));
+        boardFixtureInitializer.put(Position.of(4, 3), new Pawn(Side.HAN));
+        boardFixtureInitializer.put(Position.of(3, 4), new Pawn(Side.HAN));
+        boardFixtureInitializer.put(Position.of(5, 4), new Pawn(Side.HAN));
+        Board board = boardFixtureInitializer.build();
 
         // when
         List<Position> possibleMoves = board.calculatePossibleMoves(start);
@@ -117,23 +71,27 @@ class ChariotTest {
     @DisplayName("차는 적 기물을 잡으면 멈춰야 한다.")
     void doesNotJumpOpponentTest() {
         // given
-        Board board = new Board(new ChariotTestInitializer().initialize());
-        Position start = new Position(4, 8);
+        Position start = Position.of(4, 4);
+        boardFixtureInitializer.put(start, new Chariot(Side.HAN));
+        boardFixtureInitializer.put(Position.of(6, 4), new Pawn(Side.CHU));
+        boardFixtureInitializer.put(Position.of(7, 4), new Pawn(Side.CHU));
+        Board board = boardFixtureInitializer.build();
 
         // when
         List<Position> possibleMoves = board.calculatePossibleMoves(start);
 
         // then
-        assertThat(possibleMoves).contains(new Position(5, 8), new Position(6, 8));
-        assertThat(possibleMoves).doesNotContain(new Position(7, 8));
+        assertThat(possibleMoves).contains(new Position(6, 4));
+        assertThat(possibleMoves).doesNotContain(new Position(7, 4));
     }
 
     @Test
-    @DisplayName("차는 궁성 영역 내의 중앙 좌표에서 4가지 방향 대각선 이동이 가능하다.")
+    @DisplayName("차는 궁성 영역 내의 중앙 좌표에서 4가지 방향 대각선 이동이 추가로 가능하다.")
     void palaceCenterTest() {
         // given
-        Board board = new Board(new ChariotPalaceTestInitializer().initialize());
-        Position start = new Position(8, 4);
+        Position start = Position.of(8, 4);
+        boardFixtureInitializer.put(start, new Chariot(Side.CHU));
+        Board board = boardFixtureInitializer.build();
 
         // when
         List<Position> possibleMoves = board.calculatePossibleMoves(start);
@@ -155,8 +113,9 @@ class ChariotTest {
     @DisplayName("차는 궁성 영역 내의 대각 끝 좌표에서 1 방향 대각선 이동이 가능하다.")
     void palaceEdgeTest() {
         // given
-        Board board = new Board(new ChariotPalaceTestInitializer().initialize());
-        Position start = new Position(2, 3);
+        Position start = Position.of(2, 3);
+        boardFixtureInitializer.put(start, new Chariot(Side.CHU));
+        Board board = boardFixtureInitializer.build();
 
         // when
         List<Position> possibleMoves = board.calculatePossibleMoves(start);

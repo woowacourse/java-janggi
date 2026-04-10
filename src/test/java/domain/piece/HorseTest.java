@@ -2,56 +2,26 @@ package domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.board.BoardFixtureInitializer;
 import domain.board.Board;
 import domain.coordinate.Position;
 import domain.state.Side;
-import domain.board.BoardInitializer;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class HorseTest {
 
-    static class HorseTestInitializer implements BoardInitializer {
-
-        @Override
-        public Map<Position, Piece> initialize() {
-            Map<Position, Piece> piecesPosition = new HashMap<>();
-
-            piecesPosition.put(new Position(4, 4), new Horse(Side.HAN));
-
-            piecesPosition.put(new Position(1, 1), new Horse(Side.HAN));
-            piecesPosition.put(new Position(0, 1), new Horse(Side.CHU));
-            piecesPosition.put(new Position(1, 0), new Horse(Side.CHU));
-            piecesPosition.put(new Position(2, 1), new Horse(Side.HAN));
-            piecesPosition.put(new Position(1, 2), new Horse(Side.HAN));
-
-            piecesPosition.put(new Position(9, 0), new Horse(Side.HAN));
-            piecesPosition.put(new Position(7, 1), new Horse(Side.HAN));
-            piecesPosition.put(new Position(8, 2), new Horse(Side.CHU));
-
-            initializeEmptyPiece(piecesPosition);
-            return piecesPosition;
-        }
-
-        private void initializeEmptyPiece(Map<Position, Piece> pieceInitPlacements) {
-            for (int i = 0; i < 10; i++) {
-                for (int j = 0; j < 9; j++) {
-                    pieceInitPlacements.putIfAbsent(new Position(i, j), EmptyPiece.getInstance());
-                }
-            }
-        }
-    }
+    BoardFixtureInitializer boardFixtureInitializer = new BoardFixtureInitializer();
 
     @Test
     @DisplayName("마는 상/하/좌/우 4가지 방향으로 1 칸 이동 후 해당 방향의 대각선으로 이동한다.")
     void getPossibleMovesTest() {
         // given
-        Board board = new Board(new HorseTestInitializer().initialize());
-        Position start = new Position(4, 4);
+        Position start = Position.of(4, 4);
+        boardFixtureInitializer.put(start, new Horse(Side.CHU));
+        Board board = boardFixtureInitializer.build();
 
         // when
         List<Position> possibleMoves = board.calculatePossibleMoves(start);
@@ -73,8 +43,13 @@ class HorseTest {
     @DisplayName("마는 1차 경로에 아군 혹은 상대 기물이 있는 경우 뛰어 넘을 수 없다.")
     void firstMoveBlockTest() {
         // given
-        Board board = new Board(new HorseTestInitializer().initialize());
-        Position start = new Position(1, 1);
+        Position start = Position.of(4, 4);
+        boardFixtureInitializer.put(start, new Horse(Side.CHU));
+        boardFixtureInitializer.put(Position.of(5, 4), new Pawn(Side.CHU));
+        boardFixtureInitializer.put(Position.of(3, 4), new Pawn(Side.CHU));
+        boardFixtureInitializer.put(Position.of(4, 3), new Pawn(Side.CHU));
+        boardFixtureInitializer.put(Position.of(4, 5), new Pawn(Side.CHU));
+        Board board = boardFixtureInitializer.build();
 
         // when
         List<Position> possibleMoves = board.calculatePossibleMoves(start);
@@ -87,27 +62,31 @@ class HorseTest {
     @DisplayName("마는 아군 기물이 있는 위치로 이동할 수 없다.")
     void doesNotMoveTest() {
         // given
-        Board board = new Board(new HorseTestInitializer().initialize());
-        Position start = new Position(9, 0);
+        Position start = Position.of(4, 4);
+        boardFixtureInitializer.put(start, new Horse(Side.CHU));
+        boardFixtureInitializer.put(Position.of(2, 3), new Pawn(Side.CHU));
+        Board board = boardFixtureInitializer.build();
 
         // when
         List<Position> possibleMoves = board.calculatePossibleMoves(start);
 
         // then
-        assertThat(possibleMoves).doesNotContain(new Position(7, 1));
+        assertThat(possibleMoves).doesNotContain(new Position(4, 4));
     }
 
     @Test
     @DisplayName("마는 상대 기물이 있는 위치로 이동할 수 있다.")
     void captureTest() {
         // given
-        Board board = new Board(new HorseTestInitializer().initialize());
-        Position start = new Position(9, 0);
+        Position start = Position.of(4, 4);
+        boardFixtureInitializer.put(start, new Horse(Side.CHU));
+        boardFixtureInitializer.put(Position.of(2, 3), new Pawn(Side.HAN));
+        Board board = boardFixtureInitializer.build();
 
         // when
         List<Position> possibleMoves = board.calculatePossibleMoves(start);
 
         // then
-        assertThat(possibleMoves).containsOnly(new Position(8, 2));
+        assertThat(possibleMoves).contains(new Position(2, 3));
     }
 }

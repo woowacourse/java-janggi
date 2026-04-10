@@ -2,50 +2,25 @@ package domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.board.BoardFixtureInitializer;
 import domain.board.Board;
 import domain.coordinate.Position;
 import domain.state.Side;
-import domain.board.BoardInitializer;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class GuardTest {
 
-    static class guardTestInitializer implements BoardInitializer {
-
-        @Override
-        public Map<Position, Piece> initialize() {
-            Map<Position, Piece> piecesPosition = new HashMap<>();
-
-            piecesPosition.put(new Position(0, 3), new Guard(Side.HAN));
-            piecesPosition.put(new Position(1, 4), new Guard(Side.CHU));
-            piecesPosition.put(new Position(2, 4), new Guard(Side.CHU));
-
-            piecesPosition.put(new Position(9, 3), new Guard(Side.CHU));
-
-
-            initializeEmptyPiece(piecesPosition);
-            return piecesPosition;
-        }
-
-        private void initializeEmptyPiece(Map<Position, Piece> pieceInitPlacements) {
-            for (int i = 0; i < 10; i++) {
-                for (int j = 0; j < 9; j++) {
-                    pieceInitPlacements.putIfAbsent(new Position(i, j), EmptyPiece.getInstance());
-                }
-            }
-        }
-    }
+    BoardFixtureInitializer boardFixtureInitializer = new BoardFixtureInitializer();
 
     @Test
     @DisplayName("한나라 진영에서 사는 한나라 진영 궁성 영역을 벗어날 수 없다.")
     void hanPalaceTest() {
         // given
-        Board board = new Board(new guardTestInitializer().initialize());
-        Position start = new Position(0, 3);
+        Position start = Position.of(0, 3);
+        boardFixtureInitializer.put(start, new Guard(Side.HAN));
+        Board board = boardFixtureInitializer.build();
 
         // when
         List<Position> possibleMoves = board.calculatePossibleMoves(start);
@@ -62,8 +37,9 @@ public class GuardTest {
     @DisplayName("초나라 진영에서 사는 초나라 진영 궁성 영역을 벗어날 수 없다.")
     void chuPalaceTest() {
         // given
-        Board board = new Board(new guardTestInitializer().initialize());
-        Position start = new Position(9, 3);
+        Position start = Position.of(9, 3);
+        boardFixtureInitializer.put(start, new Guard(Side.CHU));
+        Board board = boardFixtureInitializer.build();
 
         // when
         List<Position> possibleMoves = board.calculatePossibleMoves(start);
@@ -80,8 +56,9 @@ public class GuardTest {
     @DisplayName("궁성 영역 내의 특정 좌표에서 대각선 이동이 가능하다.")
     void getChuPossibleMovesTest() {
         // given
-        Board board = new Board(new guardTestInitializer().initialize());
-        Position start = new Position(1, 4);
+        Position start = Position.of(1, 4);
+        boardFixtureInitializer.put(start, new Guard(Side.CHU));
+        Board board = boardFixtureInitializer.build();
 
         // when
         List<Position> possibleMoves = board.calculatePossibleMoves(start);
@@ -94,6 +71,7 @@ public class GuardTest {
                 new Position(1, 3),
                 new Position(1, 5),
                 new Position(2, 3),
+                new Position(2, 4),
                 new Position(2, 5)
         );
     }
@@ -102,28 +80,31 @@ public class GuardTest {
     @DisplayName("사는 아군 기물이 있는 위치로 이동할 수 없다.")
     void doesNotMoveTest() {
         // given
-        Board board = new Board(new guardTestInitializer().initialize());
-        Position start = new Position(2, 4);
+        Position start = Position.of(1, 4);
+        boardFixtureInitializer.put(start, new Guard(Side.CHU));
+        boardFixtureInitializer.put(Position.of(2, 4), new King(Side.CHU));
+        Board board = boardFixtureInitializer.build();
 
         // when
         List<Position> possibleMoves = board.calculatePossibleMoves(start);
 
         // then
-        assertThat(possibleMoves).doesNotContain(new Position(1, 4));
-        assertThat(possibleMoves).containsOnly(new Position(2, 3), new Position(2, 5));
+        assertThat(possibleMoves).doesNotContain(new Position(2, 4));
     }
 
     @Test
     @DisplayName("사는 상대 기물이 있는 위치로 이동할 수 있다.")
     void captureTest() {
         // given
-        Board board = new Board(new guardTestInitializer().initialize());
-        Position start = new Position(0, 3);
+        Position start = Position.of(1, 4);
+        boardFixtureInitializer.put(start, new Guard(Side.CHU));
+        boardFixtureInitializer.put(Position.of(2, 4), new Chariot(Side.HAN));
+        Board board = boardFixtureInitializer.build();
 
         // when
         List<Position> possibleMoves = board.calculatePossibleMoves(start);
 
         // then
-        assertThat(possibleMoves).contains(new Position(1, 4));
+        assertThat(possibleMoves).contains(new Position(2, 4));
     }
 }
