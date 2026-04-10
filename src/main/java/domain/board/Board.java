@@ -71,11 +71,6 @@ public class Board implements BoardView {
     }
 
     @Override
-    public Set<Position> findPalaceNextPositions(Position position) {
-        return palace.findNextPositions(position);
-    }
-
-    @Override
     public Set<Direction> findAvailableDirections(Position position) {
         return palace.findAvailableDirections(position);
     }

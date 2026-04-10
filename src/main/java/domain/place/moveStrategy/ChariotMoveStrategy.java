@@ -3,7 +3,6 @@ package domain.place.moveStrategy;
 import domain.board.BoardView;
 import domain.position.Position;
 import java.util.List;
-import java.util.Set;
 
 public class ChariotMoveStrategy extends AbstractOrthogonalMoveStrategy {
 

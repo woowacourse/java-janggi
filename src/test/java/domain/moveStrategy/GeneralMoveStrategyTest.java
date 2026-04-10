@@ -4,10 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.board.Board;
 import domain.place.moveStrategy.GeneralMoveStrategy;
-import domain.place.moveStrategy.GuardMoveStrategy;
 import domain.place.moveStrategy.HanSoldierMoveStrategy;
 import domain.place.piece.General;
-import domain.place.piece.Guard;
 import domain.place.piece.Side;
 import domain.place.piece.Soldier;
 import domain.position.Position;

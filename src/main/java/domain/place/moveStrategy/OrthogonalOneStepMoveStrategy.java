@@ -30,6 +30,8 @@ public abstract class OrthogonalOneStepMoveStrategy implements MoveStrategy {
     }
 
     private boolean canReachPalaceNextPosition(BoardView board, Position from, Position to) {
-        return board.findPalaceNextPositions(from).contains(to);
+        return board.findAvailableDirections(from)
+                .stream()
+                .anyMatch(direction -> to.equals(from.move(direction)));
     }
 }

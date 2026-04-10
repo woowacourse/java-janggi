@@ -1,6 +1,7 @@
 package domain.place.moveStrategy;
 
 import domain.board.BoardView;
+import domain.place.piece.Side;
 import domain.position.Position;
 import java.util.List;
 
@@ -23,5 +24,12 @@ public class HanSoldierMoveStrategy implements MoveStrategy {
                 .filter(d -> Position.isNotOutOfBounds(currentRow + d.getRow(), currentColumn + d.getColumn()))
                 .map(from::move)
                 .anyMatch(to::equals);
+    }
+
+    private boolean canReachPalaceNextPosition(BoardView board, Position from, Position to) {
+        return board.findAvailableDirections(from)
+                .stream()
+                .filter(direction -> direction.isForward(Side.HAN))
+                .anyMatch(direction -> to.equals(from.move(direction)));
     }
 }
