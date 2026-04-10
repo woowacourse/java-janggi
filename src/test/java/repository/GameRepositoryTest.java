@@ -4,9 +4,9 @@ import domain.piece.Team;
 import domain.settingType.SettingType;
 import domain.state.GameInitializer;
 import domain.state.JanggiGame;
+import domain.state.State;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import org.assertj.core.api.Assertions;
@@ -32,7 +32,14 @@ class GameRepositoryTest {
     void save() {
         String title = "테스트용 장기방";
         Team team = Team.CHO;
-        long savedId = gameRepository.save(team, title);
+        long savedId = 0L;
+
+        try (Connection conn = ConnectionManager.getConnection()) {
+            GameRoomCreateInfo gameRoomInfo = new GameRoomCreateInfo(title, State.PLAYING, team);
+            savedId = gameRepository.save(conn, gameRoomInfo);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         List<GameRoomInfo> gameInfo = gameRepository.getAll();
 
@@ -45,47 +52,22 @@ class GameRepositoryTest {
     void 턴이_변경되면_반영되어야_한다() {
         String title = "테스트용 장기방";
         Team team = Team.CHO;
-        long savedId = gameRepository.save(team, title);
+        long savedId = 0L;
+        Team updatedTurn = null;
+        try (Connection conn = ConnectionManager.getConnection()) {
+            GameRoomCreateInfo gameRoomInfo = new GameRoomCreateInfo(title, State.PLAYING, team);
+            savedId = gameRepository.save(conn, gameRoomInfo);
+            // when
+            JanggiGame game = GameInitializer.init(SettingType.LEFT, SettingType.LEFT);
+            game = game.pass();
 
-        // when
-        JanggiGame game = GameInitializer.init(SettingType.LEFT, SettingType.LEFT);
-        game = game.pass();
-
-        gameRepository.updateGame(conn, savedId, game);
-        Team updatedTurn = gameRepository.getCurrentTeam(savedId);
-
-        // then
-        Assertions.assertThat(updatedTurn).isEqualTo(Team.HAN);
-    }
-
-    @Test
-    void 턴이_변경되어야_한다() {
-        String title = "테스트용 장기방";
-        Team team = Team.HAN;
-        long savedId = gameRepository.save(team, title);
-
-        // when
-        JanggiGame game = GameInitializer.init(SettingType.LEFT, SettingType.LEFT);
-
-        gameRepository.updateGame(conn, savedId, game);
-
-        String sql = "SELECT IS_FINISHED FROM GAME_ROOM WHERE ID = ?";
-
-        boolean isFinished = true;
-        try (
-                Connection connection = ConnectionManager.getConnection();
-                PreparedStatement psmt = connection.prepareStatement(sql)
-        ) {
-            psmt.setLong(1, savedId);
-            ResultSet resultSet = psmt.executeQuery();
-            while (resultSet.next()) {
-                isFinished = resultSet.getBoolean(1);
-            }
+            gameRepository.updateGame(conn, savedId, game);
+            updatedTurn = gameRepository.getCurrentTeam(savedId);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
         // then
-        Assertions.assertThat(isFinished).isFalse();
+        Assertions.assertThat(updatedTurn).isEqualTo(Team.HAN);
     }
 }

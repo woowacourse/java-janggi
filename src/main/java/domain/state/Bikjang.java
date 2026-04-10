@@ -22,4 +22,9 @@ public class Bikjang extends Running {
     public JanggiGame pass() {
         return new Finished(Board.mutableCopyOf(board), turn.changeTeam());
     }
+
+    @Override
+    public State getState() {
+        return State.BIKJANG;
+    }
 }

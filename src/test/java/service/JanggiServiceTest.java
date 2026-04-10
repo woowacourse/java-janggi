@@ -14,12 +14,16 @@ import domain.position.Position;
 import domain.settingType.SettingType;
 import domain.state.GameInitializer;
 import domain.state.JanggiGame;
+import domain.state.State;
+import java.sql.Connection;
 import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import repository.BoardRepository;
 import repository.GameRepository;
+import repository.GameRoomCreateInfo;
+import repository.GameRoomInfo;
 
 public class JanggiServiceTest {
     private GameRepository gameRepositoryMock;
@@ -47,12 +51,13 @@ public class JanggiServiceTest {
         SettingType hanSettingType = SettingType.LEFT;
         long expectGameId = 1L;
 
-        when(gameRepositoryMock.save(Team.CHO, title)).thenReturn(expectGameId);
+        GameRoomCreateInfo gameRoomInfo = new GameRoomCreateInfo(title, State.PLAYING, Team.CHO);
+        when(gameRepositoryMock.save(any(Connection.class), eq(gameRoomInfo))).thenReturn(expectGameId);
 
         janggiService.createGame(title, choSettingType, hanSettingType);
 
         // then
-        verify(gameRepositoryMock, times(1)).save(Team.CHO, title);
+        verify(gameRepositoryMock, times(1)).save(any(Connection.class), eq(gameRoomInfo));
     }
 
     @Test
@@ -61,8 +66,9 @@ public class JanggiServiceTest {
         Map<Position, Piece> mockMap = board.getPieces();
         long gameId = 1L;
 
+        GameRoomInfo gameRoomInfo = new GameRoomInfo(gameId, null, State.PLAYING, Team.CHO);
         when(boardRepository.load(gameId)).thenReturn(mockMap);
-        when(gameRepositoryMock.getCurrentTeam(gameId)).thenReturn(Team.CHO);
+        when(gameRepositoryMock.getGameInfo(gameId)).thenReturn(gameRoomInfo);
 
         JanggiGame janggiGame = janggiService.loadGame(gameId);
 
@@ -70,7 +76,7 @@ public class JanggiServiceTest {
         Assertions.assertThat(janggiGame).isNotNull();
 
         verify(boardRepository, times(1)).load(gameId);
-        verify(gameRepositoryMock, times(1)).getCurrentTeam(gameId);
+        verify(gameRepositoryMock, times(1)).getGameInfo(gameId);
     }
 
     @Test
@@ -79,7 +85,7 @@ public class JanggiServiceTest {
         Map<Position, Piece> mockMap = board.getPieces();
         long expectGameId = 1L;
         when(boardRepository.load(expectGameId)).thenReturn(mockMap);
-        when(gameRepositoryMock.getCurrentTeam(expectGameId)).thenReturn(null);
+        when(gameRepositoryMock.getGameInfo(expectGameId)).thenReturn(null);
 
         // then
         Assertions.assertThatThrownBy(() -> janggiService.loadGame(expectGameId))
@@ -88,12 +94,13 @@ public class JanggiServiceTest {
 
     @Test
     void 기물_정보를_조회할_수_없으면_예외가_발생해야_한다() {
-        long expectGameId = 1L;
-        when(boardRepository.load(expectGameId)).thenReturn(null);
-        when(gameRepositoryMock.getCurrentTeam(expectGameId)).thenReturn(Team.CHO);
+        long gameId = 1L;
+        when(boardRepository.load(gameId)).thenReturn(null);
+        GameRoomInfo gameRoomInfo = new GameRoomInfo(gameId, null, State.PLAYING, Team.CHO);
+        when(gameRepositoryMock.getGameInfo(gameId)).thenReturn(gameRoomInfo);
 
         // then
-        Assertions.assertThatThrownBy(() -> janggiService.loadGame(expectGameId))
+        Assertions.assertThatThrownBy(() -> janggiService.loadGame(gameId))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -103,29 +110,32 @@ public class JanggiServiceTest {
         long gameId = 1L;
         Position from = Position.of(1, 1);
         Position to = Position.of(2, 1);
+        GameRoomInfo gameRoomInfo = new GameRoomInfo(gameId, null, State.PLAYING, Team.CHO);
 
         // when
         when(boardRepository.load(gameId)).thenReturn(game.getBoard());
-        when(gameRepositoryMock.getCurrentTeam(gameId)).thenReturn(Team.CHO);
+        when(gameRepositoryMock.getGameInfo(gameId)).thenReturn(gameRoomInfo);
 
         janggiService.move(gameId, from, to);
 
         // then
-        verify(boardRepository, times(1)).delete(conn, gameId, to);
-        verify(boardRepository, times(1)).updatePosition(conn, gameId, from, to);
-        verify(gameRepositoryMock, times(1)).updateGame(conn, eq(gameId), any(JanggiGame.class));
+        verify(boardRepository, times(1)).delete(any(Connection.class), eq(gameId), eq(to));
+        verify(boardRepository, times(1)).updatePosition(any(Connection.class), eq(gameId), eq(from), eq(to));
+        verify(gameRepositoryMock, times(1)).updateGame(any(Connection.class), eq(gameId), any(JanggiGame.class));
     }
 
     @Test
     void pass하면_메서드가_적절히_수행되어야_한다() {
         JanggiGame game = GameInitializer.init(SettingType.LEFT, SettingType.LEFT);
         long gameId = 1L;
+        GameRoomInfo gameRoomInfo = new GameRoomInfo(gameId, null, State.PLAYING, Team.CHO);
+        when(gameRepositoryMock.getGameInfo(gameId)).thenReturn(gameRoomInfo);
         when(boardRepository.load(gameId)).thenReturn(game.getBoard());
-        when(gameRepositoryMock.getCurrentTeam(gameId)).thenReturn(Team.CHO);
+
         // when
         janggiService.pass(1);
 
         // then
-        verify(gameRepositoryMock, times(1)).updateGame(conn, eq(gameId), any(JanggiGame.class));
+        verify(gameRepositoryMock, times(1)).updateGame(any(Connection.class), eq(gameId), any(JanggiGame.class));
     }
 }

@@ -1,8 +1,5 @@
 package domain.state;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 import domain.Board;
 import domain.piece.Team;
 import domain.position.Position;
@@ -15,12 +12,13 @@ public class BikjangTest {
 
     @Test
     void 움직이고_빅장이_아니면_Normal_상태가_되어야_한다() {
-        Board mock = mock(Board.class);
+        Board board = Board.of(SettingType.INNER, SettingType.LEFT);
+        board.move(Team.CHO, Position.of(2, 5), Position.of(2, 6));
+        board.move(Team.HAN, Position.of(9, 5), Position.of(9, 6));
 
-        when(mock.isBikjang()).thenReturn(false);
-        JanggiGame game = new Bikjang(mock, Team.CHO);
+        JanggiGame game = new Bikjang(board, Team.HAN);
 
-        Assertions.assertThat(game.move(Position.of(1, 1), Position.of(2, 1))).isInstanceOf(Playing.class);
+        Assertions.assertThat(game.move(Position.of(9, 6), Position.of(9, 5))).isInstanceOf(Playing.class);
     }
 
     @Test
@@ -31,11 +29,11 @@ public class BikjangTest {
 
     @Test
     void move_이후_빅장이_되면_Finished_상태가_되어야_한다() {
-        Board mockBoard = mock(Board.class);
+        Board board = Board.of(SettingType.INNER, SettingType.LEFT);
+        board.move(Team.CHO, Position.of(2, 5), Position.of(2, 6));
+        board.move(Team.HAN, Position.of(9, 5), Position.of(9, 6));
 
-        when(mockBoard.isBikjang()).thenReturn(true);
-
-        JanggiGame game = new Bikjang(mockBoard, Team.CHO);
+        JanggiGame game = new Bikjang(board, Team.CHO);
         game = game.move(Position.of(1, 1), Position.of(2, 1));
 
         Assertions.assertThat(game).isInstanceOf(Finished.class);

@@ -1,8 +1,5 @@
 package domain.state;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 import domain.Board;
 import domain.piece.Team;
 import domain.position.Position;
@@ -53,12 +50,11 @@ public class PlayingTest {
 
     @Test
     void move_이후_빅장이_되면_빅장_상태가_되어야_한다() {
-        Board mockBoard = mock(Board.class);
+        Board board = Board.of(SettingType.INNER, SettingType.LEFT);
+        board.move(Team.CHO, Position.of(2, 5), Position.of(2, 6));
 
-        when(mockBoard.isBikjang()).thenReturn(true);
-
-        JanggiGame game = new Playing(mockBoard, Team.CHO);
-        game = game.move(Position.of(1, 1), Position.of(2, 1));
+        JanggiGame game = new Playing(board, Team.HAN);
+        game = game.move(Position.of(9, 5), Position.of(9, 6));
 
         Assertions.assertThat(game).isInstanceOf(Bikjang.class);
     }

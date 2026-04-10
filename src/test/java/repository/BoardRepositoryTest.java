@@ -7,6 +7,7 @@ import domain.position.Position;
 import domain.settingType.SettingType;
 import domain.state.GameInitializer;
 import domain.state.JanggiGame;
+import domain.state.State;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -33,13 +34,14 @@ class BoardRepositoryTest {
              PreparedStatement psmt2 = conn.prepareStatement(sql2)) {
             psmt1.executeUpdate();
             psmt2.executeUpdate();
+
+            GameRoomCreateInfo gameInfo = new GameRoomCreateInfo("테스트용 장기방", State.PLAYING, Team.CHO);
+            gameId = gameRepository.save(conn, gameInfo);
+            this.game = GameInitializer.init(SettingType.LEFT, SettingType.LEFT);
+            boardRepository.saveAll(conn, this.game, gameId);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-        gameId = gameRepository.save(Team.CHO, "테스트용 장기방");
-        game = GameInitializer.init(SettingType.LEFT, SettingType.LEFT);
-        boardRepository.saveAll(game, gameId);
     }
 
     @Test
@@ -48,7 +50,11 @@ class BoardRepositoryTest {
         Position to = Position.of(3, 1);
 
         // when
-        boardRepository.updatePosition(conn, gameId, from, to);
+        try (Connection conn = ConnectionManager.getConnection()) {
+            boardRepository.updatePosition(conn, gameId, from, to);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         PieceType pieceType = getPieceTypeFromDatabase(to);
 
@@ -81,8 +87,11 @@ class BoardRepositoryTest {
         Position to = Position.of(3, 1);
 
         // when
-        boardRepository.delete(conn, gameId, to);
-
+        try (Connection conn = ConnectionManager.getConnection()) {
+            boardRepository.delete(conn, gameId, to);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         PieceType pieceType = getPieceTypeFromDatabase(to);
 
         // then

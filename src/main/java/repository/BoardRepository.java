@@ -51,12 +51,11 @@ public class BoardRepository {
         }
     }
 
-    public void saveAll(JanggiGame game, long gameId) {
+    public void saveAll(Connection conn, JanggiGame game, long gameId) {
         String sql = "INSERT INTO BOARD (team, piece_type, position_row, position_column, game_room_id) VALUES (?, ?, ?, ?, ?)";
 
         try (
-                Connection connection = ConnectionManager.getConnection();
-                PreparedStatement psmt = connection.prepareStatement(sql);
+                PreparedStatement psmt = conn.prepareStatement(sql);
         ) {
             for (Entry<Position, Piece> entry : game.getBoard().entrySet()) {
                 Position position = entry.getKey();

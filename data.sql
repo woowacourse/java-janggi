@@ -1,7 +1,7 @@
-INSERT INTO GAME_ROOM (id, turn, title, is_finished) VALUES
-(1, 'CHO', 'Hello. I''m newbie', FALSE),
-(2, 'CHO', 'Please Gosu Only', FALSE),
-(3, 'CHO', 'HanSooyo kk', FALSE);
+INSERT INTO GAME_ROOM (id, turn, title, state) VALUES
+(1, 'CHO', 'Hello. I''m newbie', 'PLAYING'),
+(2, 'CHO', 'Please Gosu Only', 'PLAYING'),
+(3, 'CHO', 'HanSooyo kk', 'PLAYING');
 
 INSERT INTO BOARD (team, piece_type, game_room_id, position_row, position_column) VALUES
 ('CHO', 'CHA',  1, 5, 1), ('CHO', 'MA',   1, 1, 2), ('CHO', 'SANG', 1, 1, 3), ('CHO', 'SA', 1, 1, 4),

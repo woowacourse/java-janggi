@@ -11,11 +11,11 @@ public class GameInitializer {
         return new Playing(Board.of(choSettingType, hanSettingType), FIRST_TURN);
     }
 
-    public static JanggiGame load(Board board, Team turn) {
-        if (board.isAnyJangDead()) {
+    public static JanggiGame load(Board board, Team turn, State lastState) {
+        if (lastState == State.FINISHED) {
             return new Finished(board, turn);
         }
-        if (board.isBikjang()) {
+        if (lastState == State.BIKJANG) {
             return new Bikjang(board, turn);
         }
         return new Playing(board, turn);

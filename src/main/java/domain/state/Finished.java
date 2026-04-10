@@ -30,4 +30,9 @@ public class Finished extends Started {
     public boolean isFinished() {
         return true;
     }
+
+    @Override
+    public State getState() {
+        return State.FINISHED;
+    }
 }

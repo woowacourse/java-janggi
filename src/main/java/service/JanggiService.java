@@ -7,6 +7,7 @@ import domain.position.Position;
 import domain.settingType.SettingType;
 import domain.state.GameInitializer;
 import domain.state.JanggiGame;
+import domain.state.State;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.Map;
 import repository.BoardRepository;
 import repository.ConnectionManager;
 import repository.GameRepository;
+import repository.GameRoomCreateInfo;
 import repository.GameRoomInfo;
 
 public class JanggiService {
@@ -33,24 +35,20 @@ public class JanggiService {
     }
 
     public long createGame(String title, SettingType choSettingType, SettingType hanSettingType) {
-        Connection conn = null;
-        long gameId;
-        try {
-            conn = ConnectionManager.getConnection();
-
+        long gameId = 0L;
+        try (Connection conn = ConnectionManager.getConnection()) {
             conn.setAutoCommit(false);
-            gameId = gameRepository.save(Team.CHO, title);
-            JanggiGame game = GameInitializer.init(choSettingType, hanSettingType);
-            boardRepository.saveAll(game, gameId);
-            conn.commit();
-        } catch (SQLException e) {
-            if (conn != null) {
-                try {
-                    conn.rollback();
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
+
+            try {
+                GameRoomCreateInfo gameRoomInfo = new GameRoomCreateInfo(title, State.PLAYING, Team.CHO);
+                gameId = gameRepository.save(conn, gameRoomInfo);
+                JanggiGame game = GameInitializer.init(choSettingType, hanSettingType);
+                boardRepository.saveAll(conn, game, gameId);
+                conn.commit();
+            } catch (SQLException e) {
+                conn.rollback();
             }
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return gameId;
@@ -60,25 +58,18 @@ public class JanggiService {
         JanggiGame game = loadGame(gameId);
         JanggiGame updated = game.move(from, to);
 
-        Connection conn = null;
-        try {
-            conn = ConnectionManager.getConnection();
-
+        try (Connection conn = ConnectionManager.getConnection()) {
             conn.setAutoCommit(false);
 
-            boardRepository.delete(conn, gameId, to);
-            boardRepository.updatePosition(conn, gameId, from, to);
-            gameRepository.updateGame(conn, gameId, updated);
-
-            conn.commit();
-        } catch (SQLException e) {
-            if (conn != null) {
-                try {
-                    conn.rollback();
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
+            try {
+                boardRepository.delete(conn, gameId, to);
+                boardRepository.updatePosition(conn, gameId, from, to);
+                gameRepository.updateGame(conn, gameId, updated);
+                conn.commit();
+            } catch (SQLException e) {
+                conn.rollback();
             }
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
@@ -87,34 +78,28 @@ public class JanggiService {
         JanggiGame game = loadGame(gameId);
         JanggiGame passed = game.pass();
 
-        Connection conn = null;
-        try {
-            conn = ConnectionManager.getConnection();
-
+        try (Connection conn = ConnectionManager.getConnection()) {
             conn.setAutoCommit(false);
-            gameRepository.updateGame(conn, gameId, passed);
-            conn.commit();
-        } catch (SQLException e) {
-            if (conn != null) {
-                try {
-                    conn.rollback();
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
+            try {
+                gameRepository.updateGame(conn, gameId, passed);
+                conn.commit();
+            } catch (SQLException e) {
+                conn.rollback();
             }
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     public JanggiGame loadGame(long gameId) {
         Map<Position, Piece> load = boardRepository.load(gameId);
-        Team turn = gameRepository.getCurrentTeam(gameId);
+        GameRoomInfo info = gameRepository.getGameInfo(gameId);
 
-        if (load == null || turn == null) {
+        if (load == null || info == null || info.turn() == null) {
             throw new IllegalArgumentException(GAME_DOES_NOT_EXISTS);
         }
 
-        return GameInitializer.load(Board.of(load), turn);
+        return GameInitializer.load(Board.of(load), info.turn(), info.state());
     }
 
     public boolean isFinished(long gameId) {

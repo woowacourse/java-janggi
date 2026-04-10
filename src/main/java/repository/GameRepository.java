@@ -2,6 +2,7 @@ package repository;
 
 import domain.piece.Team;
 import domain.state.JanggiGame;
+import domain.state.State;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,17 +15,16 @@ public class GameRepository {
 
     public static final String GAME_ROOM_DOES_NOT_EXISTS = "존재하지 않는 게임 방 입니다.";
 
-    public long save(Team turn, String title) {
-        String sql = "INSERT INTO GAME_ROOM (TURN, TITLE, IS_FINISHED) VALUES (?,?, ?)";
+    public long save(Connection conn, GameRoomCreateInfo gameRoomInfo) {
+        String sql = "INSERT INTO GAME_ROOM (TURN, TITLE, STATE) VALUES (?, ?, ?)";
         long id = 0L;
 
         try (
-                Connection connection = ConnectionManager.getConnection();
-                PreparedStatement psmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
+                PreparedStatement psmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
         ) {
-            psmt.setString(1, turn.name());
-            psmt.setString(2, title);
-            psmt.setBoolean(3, false);
+            psmt.setString(1, gameRoomInfo.turn().name());
+            psmt.setString(2, gameRoomInfo.title());
+            psmt.setString(3, gameRoomInfo.state().name());
 
             int affectedRows = psmt.executeUpdate();
             if (affectedRows > 0) {
@@ -41,7 +41,7 @@ public class GameRepository {
     }
 
     public List<GameRoomInfo> getAll() {
-        String sql = "SELECT ID, TITLE FROM GAME_ROOM WHERE IS_FINISHED = FALSE";
+        String sql = "SELECT ID, TITLE, STATE, TURN FROM GAME_ROOM WHERE STATE != 'FINISHED'";
 
         List<GameRoomInfo> infos = new ArrayList<>();
         try (
@@ -49,9 +49,13 @@ public class GameRepository {
                 PreparedStatement psmt = connection.prepareStatement(sql)
         ) {
 
-            ResultSet resultSet = psmt.executeQuery();
-            while (resultSet.next()) {
-                infos.add(new GameRoomInfo(resultSet.getLong(1), resultSet.getString(2)));
+            ResultSet rs = psmt.executeQuery();
+            while (rs.next()) {
+                long gameRoomId = rs.getLong(1);
+                String title = rs.getString(2);
+                State state = State.valueOf(rs.getString(3));
+                Team turn = Team.valueOf(rs.getString(4));
+                infos.add(new GameRoomInfo(gameRoomId, title, state, turn));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -80,7 +84,7 @@ public class GameRepository {
     }
 
     public boolean isFinished(long gameId) {
-        String sql = "SELECT IS_FINISHED FROM GAME_ROOM WHERE ID = ?";
+        String sql = "SELECT STATE FROM GAME_ROOM WHERE ID = ?";
 
         try (
                 Connection connection = ConnectionManager.getConnection();
@@ -90,7 +94,7 @@ public class GameRepository {
 
             try (ResultSet rs = psmt.executeQuery()) {
                 if (rs.next()) {
-                    return rs.getBoolean(1);
+                    return rs.getString(1).equals(State.FINISHED.name());
                 }
                 throw new IllegalArgumentException(GAME_ROOM_DOES_NOT_EXISTS);
             }
@@ -101,13 +105,13 @@ public class GameRepository {
     }
 
     public void updateGame(Connection conn, long gameId, JanggiGame game) {
-        String sql = "UPDATE GAME_ROOM SET TURN = ?, IS_FINISHED = ? WHERE id = ?";
+        String sql = "UPDATE GAME_ROOM SET TURN = ?, STATE = ? WHERE id = ?";
 
         try (
                 PreparedStatement psmt = conn.prepareStatement(sql)
         ) {
             psmt.setString(1, game.getTurn().name());
-            psmt.setBoolean(2, game.isFinished());
+            psmt.setString(2, game.getState().name());
             psmt.setLong(3, gameId);
 
             psmt.executeUpdate();
@@ -131,5 +135,32 @@ public class GameRepository {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public GameRoomInfo getGameInfo(long gameId) {
+        String sql = "SELECT ID, TITLE, STATE, TURN FROM GAME_ROOM WHERE id = ?";
+        long gameRoomId = 0L;
+        String title = null;
+        State state = null;
+        Team turn = null;
+
+        try (
+                Connection connection = ConnectionManager.getConnection();
+                PreparedStatement psmt = connection.prepareStatement(sql)
+        ) {
+            psmt.setLong(1, gameId);
+
+            try (ResultSet rs = psmt.executeQuery()) {
+                if (rs.next()) {
+                    gameRoomId = rs.getLong(1);
+                    title = rs.getString(2);
+                    state = State.valueOf(rs.getString(3));
+                    turn = Team.valueOf(rs.getString(4));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return new GameRoomInfo(gameRoomId, title, state, turn);
     }
 }

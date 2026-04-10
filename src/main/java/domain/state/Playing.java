@@ -22,4 +22,9 @@ public class Playing extends Running {
     public JanggiGame pass() {
         return new Playing(Board.mutableCopyOf(board), turn.changeTeam());
     }
+
+    @Override
+    public State getState() {
+        return State.PLAYING;
+    }
 }
