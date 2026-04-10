@@ -38,7 +38,7 @@ public class JanggiGame {
         return new MoveResult(from, to, capturedPiece != null, currentTurnTeam(), gameStatus);
     }
 
-    public Board board() {
+    public Board getBoard() {
         return board;
     }
 

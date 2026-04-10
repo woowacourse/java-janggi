@@ -77,8 +77,8 @@ class JdbcGameRepositoryTest {
         Optional<SavedGame> savedGame = jdbcGameRepository.findPlayingGame();
 
         assertThat(savedGame).isPresent();
-        assertThat(savedGame.get().janggiGame().board().hasPieceAt(startPiecePosition)).isFalse();
-        assertThat(savedGame.get().janggiGame().board().hasPieceAt(endPiecePosition)).isTrue();
+        assertThat(savedGame.get().janggiGame().getBoard().hasPieceAt(startPiecePosition)).isFalse();
+        assertThat(savedGame.get().janggiGame().getBoard().hasPieceAt(endPiecePosition)).isTrue();
         assertThat(savedGame.get().janggiGame().currentTurnTeam()).isEqualTo(Team.CHO);
     }
 
@@ -98,8 +98,8 @@ class JdbcGameRepositoryTest {
         Optional<SavedGame> savedGame = jdbcGameRepository.findPlayingGame();
 
         assertThat(savedGame).isPresent();
-        assertThat(savedGame.get().janggiGame().board().hasPieceAt(new Position(1, 1))).isFalse();
-        assertThat(savedGame.get().janggiGame().board().hasPieceAt(new Position(1, 3))).isTrue();
+        assertThat(savedGame.get().janggiGame().getBoard().hasPieceAt(new Position(1, 1))).isFalse();
+        assertThat(savedGame.get().janggiGame().getBoard().hasPieceAt(new Position(1, 3))).isTrue();
         assertThat(countPieces(savedGameId)).isEqualTo(1);
     }
 

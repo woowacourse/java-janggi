@@ -102,11 +102,11 @@ public class JdbcGameRepository implements GameRepository {
 
     private Board findBoard(Connection connection, long savedGameId) throws SQLException {
         Map<Position, Piece> board = new LinkedHashMap<>();
-        List<PieceData> pieceData = pieceDao.findByGameId(connection, savedGameId);
+        List<PieceData> piecesData = pieceDao.findByGameId(connection, savedGameId);
 
-        for (PieceData pieceDatum : pieceData) {
-            Position position = new Position(pieceDatum.x(), pieceDatum.y());
-            Piece piece = pieceFactory.create(Name.valueOf(pieceDatum.name()), Team.valueOf(pieceDatum.team()));
+        for (PieceData pieceData : piecesData) {
+            Position position = new Position(pieceData.column(), pieceData.row());
+            Piece piece = pieceFactory.create(Name.valueOf(pieceData.name()), Team.valueOf(pieceData.team()));
             board.put(position, piece);
         }
         return new Board(board);
@@ -129,7 +129,7 @@ public class JdbcGameRepository implements GameRepository {
     }
 
     private List<PieceData> createPieceData(long savedGameId, JanggiGame janggiGame) {
-        return janggiGame.board().getBoard().entrySet().stream()
+        return janggiGame.getBoard().getBoard().entrySet().stream()
                 .map(entry -> createPieceData(savedGameId, entry.getKey(), entry.getValue()))
                 .toList();
     }
@@ -137,8 +137,8 @@ public class JdbcGameRepository implements GameRepository {
     private PieceData createPieceData(long savedGameId, Position piecePosition, Piece piece) {
         return new PieceData(
                 savedGameId,
-                piecePosition.x(),
                 piecePosition.y(),
+                piecePosition.x(),
                 piece.getName().name(),
                 piece.getTeam().name()
         );

@@ -6,10 +6,10 @@ CREATE TABLE IF NOT EXISTS games (
 
 CREATE TABLE IF NOT EXISTS pieces (
     game_id INTEGER NOT NULL,
-    x INTEGER NOT NULL,
-    y INTEGER NOT NULL,
+    row_index INTEGER NOT NULL,
+    column_index INTEGER NOT NULL,
     name TEXT NOT NULL,
     team TEXT NOT NULL,
-    PRIMARY KEY (game_id, x, y),
+    PRIMARY KEY (game_id, row_index, column_index),
     FOREIGN KEY (game_id) REFERENCES games(id) ON DELETE CASCADE
 );

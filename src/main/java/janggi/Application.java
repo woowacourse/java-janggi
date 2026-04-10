@@ -50,12 +50,12 @@ public class Application {
         long savedGameId = savedGame.id();
 
         while (janggiGame.isPlaying()) {
-            outputView.printBoardMap(BoardDto.from(janggiGame.board()));
+            outputView.printBoardMap(BoardDto.from(janggiGame.getBoard()));
             Position startPiecePosition = readStartPositionUntilValid();
             Position endPiecePosition = readEndPositionUntilValid();
             tryMove(gameRepository, savedGameId, janggiGame, startPiecePosition, endPiecePosition);
         }
-        outputView.printBoardMap(BoardDto.from(janggiGame.board()));
+        outputView.printBoardMap(BoardDto.from(janggiGame.getBoard()));
         outputView.printScore(janggiGame.calculateScore(Team.HAN), janggiGame.calculateScore(Team.CHO));
     }
 
