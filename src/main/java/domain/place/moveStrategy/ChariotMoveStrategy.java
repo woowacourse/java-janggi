@@ -12,6 +12,10 @@ public class ChariotMoveStrategy extends AbstractOrthogonalMoveStrategy {
 
     @Override
     public boolean canMove(BoardView board, Position from, Position to) {
+        return canMoveOrthogonally(board, from, to);
+    }
+
+    private boolean canMoveOrthogonally(BoardView board, Position from, Position to) {
         if (from.isNotStraightLine(to)) {
             return false;
         }
