@@ -9,12 +9,15 @@ import domain.movestrategy.MoveStrategyRegistry;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Team;
+import domain.state.ChoPlayingState;
 import domain.state.FinishedState;
 import domain.state.GameState;
 import java.util.List;
 import java.util.Map;
 
 public class JanggiGame {
+
+    private static final GameState FIRST_GAME_STATE = new ChoPlayingState();
 
     private final Board board;
     private final MoveStrategyRegistry moveStrategyRegistry;
@@ -37,7 +40,7 @@ public class JanggiGame {
                         hanElephantSetup
                 ),
                 MoveStrategyRegistry.init(),
-                gameState
+                FIRST_GAME_STATE
         );
     }
 

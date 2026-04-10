@@ -4,7 +4,6 @@ import domain.board.ElephantSetup;
 import domain.board.Position;
 import domain.game.JanggiGame;
 import domain.piece.Team;
-import domain.state.ChoPlayingState;
 import domain.state.GameState;
 import dto.JanggiGameDto;
 import dto.PieceInfoDto;
@@ -22,8 +21,6 @@ import view.InputView;
 import view.OutputView;
 
 public class JanggiController {
-
-    private static final GameState FIRST_GAME_STATE = new ChoPlayingState();
 
     private final InputView inputView;
     private final OutputView outputView;
@@ -80,7 +77,7 @@ public class JanggiController {
     private JanggiGame createNewGame() {
         ElephantSetup choElephantSetup = retry(() -> initElephantSetupFor(Team.CHO));
         ElephantSetup hanElephantSetup = retry(() -> initElephantSetupFor(Team.HAN));
-        return JanggiGame.init(choElephantSetup, hanElephantSetup, FIRST_GAME_STATE);
+        return JanggiGame.init(choElephantSetup, hanElephantSetup);
     }
 
     private ElephantSetup initElephantSetupFor(Team team) {
