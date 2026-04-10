@@ -74,6 +74,14 @@ public class Delta {
         return dy;
     }
 
+    public boolean isGoDown() {
+        return dy < 0;
+    }
+
+    public boolean isGoUp() {
+        return dy > 0;
+    }
+
     public Delta add(Delta delta) {
         return new Delta(this.dx + delta.dx, this.dy + delta.dy);
     }
