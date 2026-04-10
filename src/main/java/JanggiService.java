@@ -1,22 +1,15 @@
 import domain.board.Board;
-import domain.board.Piece;
-import domain.board.Team;
-import domain.board.Type;
 import domain.game.Game;
 import domain.game.Status;
 import domain.vo.Position;
-import entity.BoardEntity;
+import repository.BoardDao;
 import repository.DBConnectionUtil;
 import repository.GameDao;
-import repository.BoardDao;
 import repository.dto.GameDto;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class JanggiService {
 
@@ -33,9 +26,7 @@ public class JanggiService {
     }
 
     public Game loadGame(Long gameId) {
-        List<BoardEntity> savedPieces = boardDao.findAllByGameId(gameId);
-        Board board = convertPieceEntitiesToBoard(savedPieces);
-
+        Board board = boardDao.findAllByGameId(gameId);
         return gameDao.findById(gameId, board);
     }
 
@@ -68,9 +59,7 @@ public class JanggiService {
 
             try {
                 Game savedGame = gameDao.save(con, game);
-
-                List<BoardEntity> boards = convertBoardToPieceEntities(savedGame.getId(), game.getBoard());
-                boardDao.saveAll(con, boards);
+                boardDao.saveAll(con, savedGame.getId(),game.getBoard());
 
                 con.commit();
                 return savedGame;
@@ -90,27 +79,5 @@ public class JanggiService {
         boardDao.updatePosition(con, game.getId(), from.getRow(), from.getCol(), to.getRow(), to.getCol());
 
         gameDao.update(con, game.getId(), game.getCurrentTeam().name(), game.getStatus().toString());
-    }
-
-    private Board convertPieceEntitiesToBoard(List<BoardEntity> findPieces) {
-        Map<Position, Piece> board = new HashMap<>();
-        for (BoardEntity piece : findPieces) {
-            Position position = Position.of(piece.getPositionRow(), piece.getPositionCol());
-            Type type = Type.valueOf(piece.getPieceType());
-            board.put(position, Piece.of(Team.valueOf(piece.getTeam()), type, type.createStrategy()));
-        }
-        return Board.of(board);
-    }
-
-    private List<BoardEntity> convertBoardToPieceEntities(Long gameId, Board board) {
-        List<BoardEntity> boards = new ArrayList<>();
-        for (int row = 0; row < 10; row++) {
-            for (int col = 0; col < 9; col++) {
-                Position position = Position.of(row, col);
-                board.findPieceByPosition(position)
-                        .ifPresent(b -> boards.add(BoardEntity.from(gameId, b, position)));
-            }
-        }
-        return boards;
     }
 }

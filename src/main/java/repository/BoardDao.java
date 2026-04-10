@@ -1,17 +1,16 @@
 package repository;
 
-import entity.BoardEntity;
+import domain.board.Board;
 
 import java.sql.Connection;
-import java.util.List;
 
 public interface BoardDao {
 
-    void saveAll(Connection con, List<BoardEntity> pieceEntities);
+    void saveAll(Connection con, Long gameId, Board board);
 
     void deleteByPosition(Connection con, Long gameId, int row, int col);
 
     void updatePosition(Connection con, Long gameId, int fromRow, int fromCol, int toRow, int toCol);
 
-    List<BoardEntity> findAllByGameId(Long gameId);
+    Board findAllByGameId(Long gameId);
 }

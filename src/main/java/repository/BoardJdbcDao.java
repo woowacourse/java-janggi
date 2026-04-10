@@ -1,25 +1,30 @@
 package repository;
 
-import entity.BoardEntity;
+import domain.board.Board;
+import domain.board.Piece;
+import domain.board.Team;
+import domain.board.Type;
+import domain.vo.Position;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BoardJdbcDao implements BoardDao {
 
     @Override
-    public void saveAll(Connection con, List<BoardEntity> boards) {
-        String sql = "insert into boards(game_id, position_row, position_col, team, piece_type) values(?, ?, ?, ?, ?)";
+    public void saveAll(Connection con, Long gameId, Board board) {
+        String sql = "insert into boards(game_id, position_col, position_row, team, piece_type) values(?, ?, ?, ?, ?)";
 
-        try (PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
 
-            for (BoardEntity board : boards) {
-                pstmt.setLong(1, board.getGameId());
-                pstmt.setInt(2, board.getPositionRow());
-                pstmt.setInt(3, board.getPositionCol());
-                pstmt.setString(4, board.getTeam());
-                pstmt.setString(5, board.getPieceType());
+            Map<Position, Piece> boardMapper = board.getBoard();
+            for (Position position : boardMapper.keySet()) {
+                pstmt.setLong(1, gameId);
+                pstmt.setInt(2, position.getCol());
+                pstmt.setInt(3, position.getRow());
+                pstmt.setString(4, boardMapper.get(position).getTeam().name());
+                pstmt.setString(5, boardMapper.get(position).getType().name());
                 pstmt.executeUpdate();
             }
         } catch (SQLException e) {
@@ -61,7 +66,7 @@ public class BoardJdbcDao implements BoardDao {
     }
 
     @Override
-    public List<BoardEntity> findAllByGameId(Long gameId) {
+    public Board findAllByGameId(Long gameId) {
         String sql = "select * from boards where game_id = ?";
 
         try (Connection con = getConnection();
@@ -71,19 +76,20 @@ public class BoardJdbcDao implements BoardDao {
             pstmt.setLong(1, gameId);
 
             try (ResultSet rs = pstmt.executeQuery()) {
-                List<BoardEntity> boards = new ArrayList<>();
+                Map<Position, Piece> boardMapper = new HashMap<>();
                 while (rs.next()) {
-                    BoardEntity board = new BoardEntity(
-                            rs.getLong("id"),
-                            rs.getLong("game_id"),
-                            rs.getInt("position_row"),
-                            rs.getInt("position_col"),
-                            rs.getString("team"),
-                            rs.getString("piece_type")
-                    );
-                    boards.add(board);
+                    boardMapper.put(
+                            Position.of(
+                                    rs.getInt("position_row"),
+                                    rs.getInt("position_col")
+                            ),
+                            Piece.of(
+                                    Team.valueOf(rs.getString("team")),
+                                    Type.valueOf(rs.getString("piece_type")),
+                                    Type.valueOf(rs.getString("piece_type")).createStrategy()
+                            ));
                 }
-                return boards;
+                return Board.of(boardMapper);
             }
         } catch (SQLException e) {
             throw new RuntimeException("[ERROR] " + e.getMessage());
