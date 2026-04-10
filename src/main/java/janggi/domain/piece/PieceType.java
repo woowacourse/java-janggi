@@ -11,7 +11,6 @@ import janggi.domain.piece.moverules.PoMoveRule;
 import janggi.domain.piece.moverules.SaMoveRule;
 import janggi.domain.piece.moverules.SangMoveRule;
 import janggi.domain.piece.moverules.ZolMoveRule;
-import janggi.domain.route.Route;
 import java.util.List;
 
 public enum PieceType {
@@ -33,10 +32,6 @@ public enum PieceType {
 
     public String getName() {
         return name;
-    }
-
-    public List<Route> findRoutes(Team team) {
-        return moveRule.findRoutes(team);
     }
 
     public List<Position> findMovablePositions(Board board, Position position, Team team) {

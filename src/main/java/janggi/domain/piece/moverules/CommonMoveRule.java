@@ -22,10 +22,8 @@ public abstract class CommonMoveRule implements MoveRule {
     public List<Position> findMovablePositions(Board board, Position position, Team team) {
         Piece piece = board.pieceAt(position);
 
-        List<Position> availablePositions = calculateAvailablePositions(board, piece,
+        return calculateAvailablePositions(board, piece,
                 convertToPositions(position, findRoutes(team)));
-        
-        return availablePositions;
     }
 
     private List<Position> calculateAvailablePositions(Board board, Piece piece,
