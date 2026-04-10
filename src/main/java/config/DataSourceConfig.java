@@ -12,6 +12,7 @@ public class DataSourceConfig {
     private static final String USER_NAME = "sa";
     private static final String PASSWORD = "";
     private static final String INIT_FILE_PATH = "/init.sql";
+    private static final String NOT_EXIST_DRIVER = "[ERROR] 존재하지 않는 Driver입니다.";
 
     private static final int CONNECTION_INITIAL_SIZE = 5;
     private static final int CONNECTION_MAX_TOTAL_SIZE = 5;
@@ -21,8 +22,8 @@ public class DataSourceConfig {
     static {
         try {
             Class.forName(CLASS_NAME);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+        } catch (ClassNotFoundException exception) {
+            throw new IllegalStateException(NOT_EXIST_DRIVER, exception);
         }
     }
 
