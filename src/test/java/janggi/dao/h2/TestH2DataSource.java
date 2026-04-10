@@ -1,31 +1,29 @@
-package janggi.repository.h2;
+package janggi.dao.h2;
 
-import janggi.repository.JdbcDataSource;
+import janggi.dao.JdbcDataSource;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.stream.Collectors;
-import org.h2.jdbcx.JdbcConnectionPool;
 
-public class H2DataSource implements JdbcDataSource {
-    private static final String SQL_DIR = "game.sql";
-    private static final String URL = "jdbc:h2:~/janggi";
+public class TestH2DataSource implements JdbcDataSource {
+    private static final String SQL_DIR = "janggi.sql";
+    private static final String URL = "jdbc:h2:mem:test_janggi;DB_CLOSE_DELAY=-1";
     private static final String USER = "sa";
     private static final String PASSWORD = "";
 
-    private final JdbcConnectionPool connectionPool;
 
-    public H2DataSource() {
-        this.connectionPool = JdbcConnectionPool.create(URL, USER, PASSWORD);
+    public TestH2DataSource() {
         init();
     }
 
     @Override
     public Connection getConnection() throws SQLException {
-        return connectionPool.getConnection();
+        return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 
     private void init() {
@@ -46,7 +44,7 @@ public class H2DataSource implements JdbcDataSource {
     }
 
     private InputStream readFile() {
-        InputStream resourceAsStream = H2DataSource.class
+        InputStream resourceAsStream = TestH2DataSource.class
                 .getClassLoader()
                 .getResourceAsStream(SQL_DIR);
 

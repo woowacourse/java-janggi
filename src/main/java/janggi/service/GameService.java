@@ -1,40 +1,41 @@
 package janggi.service;
 
+import janggi.dao.GameDao;
+import janggi.dao.MoveDao;
+import janggi.dao.entity.GameEntity;
+import janggi.dao.entity.MoveEntity;
 import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.game.Game;
+import janggi.domain.game.Status;
 import janggi.domain.point.Point;
-import janggi.entity.GameEntity;
-import janggi.entity.MoveEntity;
-import janggi.repository.GameRepository;
-import janggi.repository.MoveRepository;
 import java.util.List;
 
 public class GameService {
-    private final GameRepository gameRepository;
-    private final MoveRepository moveRepository;
+    private final GameDao gameDao;
+    private final MoveDao moveDao;
 
-    public GameService(GameRepository gameRepository, MoveRepository moveRepository) {
-        this.gameRepository = gameRepository;
-        this.moveRepository = moveRepository;
+    public GameService(GameDao gameDao, MoveDao moveDao) {
+        this.gameDao = gameDao;
+        this.moveDao = moveDao;
     }
 
     public Game createGame(String gameName, BoardSetUp choSetUp, BoardSetUp hanSetUp) {
-        Integer id = gameRepository.save(GameEntity.of(gameName, choSetUp, hanSetUp));
-        return Game.createGameWithId(id, choSetUp, hanSetUp);
+        Integer id = gameDao.save(GameEntity.of(gameName, choSetUp, hanSetUp));
+        return Game.createGameWithId(id, choSetUp, hanSetUp, Status.IN_PROGRESS);
     }
 
     public List<String> findAllGameNames() {
-        return gameRepository.findAllNames();
+        return gameDao.findAllNames();
     }
 
     public Game findByName(String gameName) {
-        GameEntity gameEntity = gameRepository.findByName(gameName)
+        GameEntity gameEntity = gameDao.findByName(gameName)
                 .orElseThrow(() -> new IllegalArgumentException("해당하는 게임 이름이 없습니다. : " + gameName));
         BoardSetUp choBoardSetUp = gameEntity.choSetUp().getBoardSetUp();
         BoardSetUp hanBoardSetUp = gameEntity.hanSetUp().getBoardSetUp();
 
-        Game game = Game.createGameWithId(gameEntity.id(), choBoardSetUp, hanBoardSetUp);
-        List<MoveEntity> moveEntities = moveRepository.findByGameIdOrderByMoveNumber(gameEntity.id());
+        Game game = Game.createGameWithId(gameEntity.id(), choBoardSetUp, hanBoardSetUp, gameEntity.status());
+        List<MoveEntity> moveEntities = moveDao.findByGameIdOrderByMoveNumber(gameEntity.id());
         moveEntities.forEach(moveEntity -> loadMove(game, moveEntity));
         return game;
     }
@@ -44,6 +45,6 @@ public class GameService {
     }
 
     public void updateWinner(Game game) {
-        gameRepository.updateWinner(game.getId(), game.winnerSide());
+        gameDao.updateWinner(game.getId(), game.winnerSide());
     }
 }

@@ -8,11 +8,11 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import janggi.dao.GameDao;
+import janggi.dao.MoveDao;
+import janggi.dao.entity.GameEntity;
 import janggi.domain.game.Game;
-import janggi.entity.GameEntity;
-import janggi.entity.Status;
-import janggi.repository.GameRepository;
-import janggi.repository.MoveRepository;
+import janggi.domain.game.Status;
 import janggi.view.BoardSetUpFormat;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -21,22 +21,22 @@ import org.junit.jupiter.api.Test;
 
 class GameServiceTest {
 
-    private GameRepository gameRepositoryMock;
-    private MoveRepository moveRepositoryMock;
+    private GameDao gameDaoMock;
+    private MoveDao moveDaoMock;
     private GameService gameService;
 
     @BeforeEach
     void setUp() {
         // Mock 객체 생성
-        gameRepositoryMock = mock(GameRepository.class);
-        moveRepositoryMock = mock(MoveRepository.class);
-        gameService = new GameService(gameRepositoryMock, moveRepositoryMock);
+        gameDaoMock = mock(GameDao.class);
+        moveDaoMock = mock(MoveDao.class);
+        gameService = new GameService(gameDaoMock, moveDaoMock);
     }
 
     @Test
     void 게임_생성_시_ID가_할당되어야_함() {
         // Arrange
-        when(gameRepositoryMock.save(any())).thenReturn(1);
+        when(gameDaoMock.save(any())).thenReturn(1);
 
         // Act
         Game game = gameService.createGame("테스트 게임",
@@ -45,7 +45,7 @@ class GameServiceTest {
 
         // Assert
         assertEquals(1, game.getId());
-        verify(gameRepositoryMock, times(1)).save(any());
+        verify(gameDaoMock, times(1)).save(any());
     }
 
     @Test
@@ -59,9 +59,9 @@ class GameServiceTest {
                 null
         );
 
-        when(gameRepositoryMock.findByName("테스트 게임"))
+        when(gameDaoMock.findByName("테스트 게임"))
                 .thenReturn(Optional.of(mockGameEntity));
-        when(moveRepositoryMock.findByGameIdOrderByMoveNumber(1))
+        when(moveDaoMock.findByGameIdOrderByMoveNumber(1))
                 .thenReturn(new ArrayList<>());
 
         // Act
@@ -74,7 +74,7 @@ class GameServiceTest {
     @Test
     void 게임이_없으면_예외_발생() {
         // Arrange
-        when(gameRepositoryMock.findByName("없는 게임"))
+        when(gameDaoMock.findByName("없는 게임"))
                 .thenReturn(Optional.empty());
 
         // Act & Assert

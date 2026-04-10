@@ -7,7 +7,7 @@ import janggi.domain.path.Movement;
 import janggi.domain.path.generator.PathStrategy;
 import janggi.domain.path.generator.SinglePathStrategy;
 import janggi.domain.piece.PalacePiece;
-import janggi.domain.piece.PieceName;
+import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Score;
 import janggi.domain.side.Side;
 import java.util.List;
@@ -16,7 +16,7 @@ public abstract class SinglePiece extends PalacePiece {
     private static final PathStrategy SINGLE_PATH = new SinglePathStrategy();
     private static final List<Movement> MOVEMENTS = createMovements();
 
-    protected SinglePiece(PieceName name, Side side, Score score) {
+    protected SinglePiece(PieceType name, Side side, Score score) {
         super(name, side, SINGLE_PATH, score);
     }
 

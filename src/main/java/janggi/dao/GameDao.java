@@ -1,11 +1,11 @@
-package janggi.repository;
+package janggi.dao;
 
+import janggi.dao.entity.GameEntity;
 import janggi.domain.side.Side;
-import janggi.entity.GameEntity;
 import java.util.List;
 import java.util.Optional;
 
-public interface GameRepository {
+public interface GameDao {
     Integer save(GameEntity game);
 
     // Read

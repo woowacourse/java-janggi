@@ -1,10 +1,4 @@
-package janggi.entity;
-
-import janggi.domain.board.setup.BoardSetUp;
-import janggi.domain.board.setup.InElephantSetUp;
-import janggi.domain.board.setup.LeftElephantSetUp;
-import janggi.domain.board.setup.OutElephantSetUp;
-import janggi.domain.board.setup.RightElephantSetUp;
+package janggi.domain.board.setup;
 
 public enum SetUpEntity {
     IN_ELEPHANT(new InElephantSetUp()),

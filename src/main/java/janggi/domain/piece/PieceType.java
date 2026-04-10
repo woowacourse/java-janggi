@@ -2,7 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.side.Side;
 
-public enum PieceName {
+public enum PieceType {
     CHARIOT("車", "車"),
     CANNON("包", "包"),
     HORSE("馬", "馬"),
@@ -15,7 +15,7 @@ public enum PieceName {
     private final String choName;
     private final String hanName;
 
-    PieceName(String choName, String hanName) {
+    PieceType(String choName, String hanName) {
         this.choName = choName;
         this.hanName = hanName;
 

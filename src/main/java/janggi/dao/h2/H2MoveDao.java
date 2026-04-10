@@ -1,9 +1,10 @@
-package janggi.repository.h2;
+package janggi.dao.h2;
 
+import janggi.dao.JdbcDataSource;
+import janggi.dao.MoveDao;
+import janggi.dao.entity.MoveEntity;
+import janggi.domain.piece.PieceType;
 import janggi.domain.side.Side;
-import janggi.entity.MoveEntity;
-import janggi.repository.JdbcDataSource;
-import janggi.repository.MoveRepository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,21 +13,21 @@ import java.util.ArrayList;
 import java.util.List;
 import org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException;
 
-public class H2MoveRepository implements MoveRepository {
+public class H2MoveDao implements MoveDao {
     private final JdbcDataSource dataSource;
 
-    public H2MoveRepository(JdbcDataSource dataSource) {
+    public H2MoveDao(JdbcDataSource dataSource) {
         this.dataSource = dataSource;
     }
 
     @Override
     public void save(MoveEntity move) {
-        String sql = "INSERT INTO MOVE (GAME_ID, MOVE_NUMBER, SIDE, FROM_X, FROM_Y, TO_X, TO_Y) "
+        String sql = "INSERT INTO MOVE (GAME_ID, PIECE_TYPE, SIDE, FROM_X, FROM_Y, TO_X, TO_Y) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, move.gameId());
-            stmt.setInt(2, move.moveNumber());
+            stmt.setString(2, move.pieceType().name());
             stmt.setString(3, move.side().name());
             stmt.setInt(4, move.fromX());
             stmt.setInt(5, move.fromY());
@@ -42,7 +43,7 @@ public class H2MoveRepository implements MoveRepository {
 
     @Override
     public MoveEntity findById(int id) {
-        String sql = "SELECT ID, GAME_ID, MOVE_NUMBER, SIDE, FROM_X, FROM_Y, TO_X, TO_Y "
+        String sql = "SELECT ID, GAME_ID, PIECE_TYPE, SIDE, FROM_X, FROM_Y, TO_X, TO_Y "
                 + "FROM MOVE WHERE ID = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -60,8 +61,8 @@ public class H2MoveRepository implements MoveRepository {
 
     @Override
     public List<MoveEntity> findByGameIdOrderByMoveNumber(int gameId) {
-        String sql = "SELECT ID, GAME_ID, MOVE_NUMBER, SIDE, FROM_X, FROM_Y, TO_X, TO_Y "
-                + "FROM MOVE WHERE GAME_ID = ? ORDER BY MOVE_NUMBER";
+        String sql = "SELECT ID, GAME_ID, PIECE_TYPE, SIDE, FROM_X, FROM_Y, TO_X, TO_Y "
+                + "FROM MOVE WHERE GAME_ID = ? ORDER BY ID";
 
         List<MoveEntity> moveEntities = new ArrayList<>();
         try (Connection connection = dataSource.getConnection();
@@ -78,30 +79,11 @@ public class H2MoveRepository implements MoveRepository {
         }
     }
 
-    @Override
-    public int findNextMoveNumber(int gameId) {
-        String sql = "SELECT COALESCE(MAX(MOVE_NUMBER), 0) + 1 "
-                + "FROM MOVE WHERE GAME_ID = ?";
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, gameId);
-
-            ResultSet resultSet = stmt.executeQuery();
-
-            if (resultSet.next()) {
-                return resultSet.getInt(1);
-            }
-            return 1;
-        } catch (SQLException e) {
-            throw new IllegalStateException("게임 ID " + gameId + "의 다음 MOVE_NUMBER 조회에 실패했습니다.");
-        }
-    }
-
     private MoveEntity mapResultSetToMove(ResultSet rs) throws SQLException {
         return new MoveEntity(
                 rs.getInt("ID"),
                 rs.getInt("GAME_ID"),
-                rs.getInt("MOVE_NUMBER"),
+                PieceType.valueOf(rs.getString("PIECE_TYPE")),
                 Side.valueOf(rs.getString("SIDE")),
                 rs.getInt("FROM_X"),
                 rs.getInt("FROM_Y"),

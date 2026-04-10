@@ -1,6 +1,7 @@
-package janggi.entity;
+package janggi.dao.entity;
 
 import janggi.domain.board.setup.BoardSetUp;
+import janggi.domain.game.Status;
 import janggi.domain.side.Side;
 import janggi.view.BoardSetUpFormat;
 

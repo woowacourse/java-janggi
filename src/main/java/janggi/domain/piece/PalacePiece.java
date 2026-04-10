@@ -12,7 +12,7 @@ import java.util.List;
 
 public abstract class PalacePiece extends Piece {
 
-    protected PalacePiece(PieceName name, Side side,
+    protected PalacePiece(PieceType name, Side side,
                           PathStrategy pathStrategy, Score score) {
         super(name, side, pathStrategy, score);
     }

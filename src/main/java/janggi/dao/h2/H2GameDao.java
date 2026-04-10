@@ -1,10 +1,10 @@
-package janggi.repository.h2;
+package janggi.dao.h2;
 
+import janggi.dao.GameDao;
+import janggi.dao.JdbcDataSource;
+import janggi.dao.entity.GameEntity;
+import janggi.domain.game.Status;
 import janggi.domain.side.Side;
-import janggi.entity.GameEntity;
-import janggi.entity.Status;
-import janggi.repository.GameRepository;
-import janggi.repository.JdbcDataSource;
 import janggi.view.BoardSetUpFormat;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,11 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class H2GameRepository implements GameRepository {
+public class H2GameDao implements GameDao {
 
     private final JdbcDataSource dataSource;
 
-    public H2GameRepository(JdbcDataSource dataSource) {
+    public H2GameDao(JdbcDataSource dataSource) {
         this.dataSource = dataSource;
     }
 

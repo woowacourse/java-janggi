@@ -10,24 +10,28 @@ import java.util.List;
 import java.util.Objects;
 
 public abstract class Piece {
-    protected final PieceName name;
+    protected final PieceType pieceType;
     protected final Side side;
     protected final PathStrategy pathStrategy;
     protected final Score score;
 
-    protected Piece(PieceName name, Side side, PathStrategy pathStrategy, Score score) {
-        this.name = name;
+    protected Piece(PieceType pieceType, Side side, PathStrategy pathStrategy, Score score) {
+        this.pieceType = pieceType;
         this.side = side;
         this.pathStrategy = pathStrategy;
         this.score = score;
     }
 
     public final boolean isSameType(Piece piece) {
-        return name == piece.name;
+        return pieceType == piece.pieceType;
     }
 
-    public final String getName() {
-        return name.getNameFormat(side);
+    public final PieceType getPieceType() {
+        return pieceType;
+    }
+
+    public final String getPieceName() {
+        return pieceType.getNameFormat(side);
     }
 
     public final Score getScore() {
@@ -69,7 +73,7 @@ public abstract class Piece {
 
     @Override
     public int hashCode() {
-        int result = Objects.hashCode(name);
+        int result = Objects.hashCode(pieceType);
         result = 31 * result + Objects.hashCode(side);
         return result;
     }
@@ -83,7 +87,7 @@ public abstract class Piece {
             return false;
         }
 
-        return name == piece.name && side == piece.side;
+        return pieceType == piece.pieceType && side == piece.side;
     }
 
 }

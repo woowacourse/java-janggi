@@ -1,9 +1,9 @@
-package janggi.repository;
+package janggi.dao;
 
-import janggi.entity.MoveEntity;
+import janggi.dao.entity.MoveEntity;
 import java.util.List;
 
-public interface MoveRepository {
+public interface MoveDao {
     // Create
     void save(MoveEntity move);
 
@@ -11,6 +11,4 @@ public interface MoveRepository {
     MoveEntity findById(int id);
 
     List<MoveEntity> findByGameIdOrderByMoveNumber(int gameId);
-
-    int findNextMoveNumber(int gameId);
 }

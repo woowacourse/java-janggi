@@ -3,9 +3,9 @@ package janggi.domain.game;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.domain.board.setup.SetUpEntity;
 import janggi.domain.point.Point;
 import janggi.domain.side.Side;
-import janggi.entity.SetUpEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -19,7 +19,8 @@ class GameTest {
     void setUp() {
         game = Game.createGame(
                 SetUpEntity.IN_ELEPHANT.getBoardSetUp(),
-                SetUpEntity.IN_ELEPHANT.getBoardSetUp()
+                SetUpEntity.IN_ELEPHANT.getBoardSetUp(),
+                Status.IN_PROGRESS
         );
     }
 

@@ -3,14 +3,14 @@ package janggi.domain.piece.single;
 import janggi.domain.board.BoardInfo;
 import janggi.domain.path.CandidatePath;
 import janggi.domain.path.Movement;
-import janggi.domain.piece.PieceName;
+import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Score;
 import janggi.domain.side.Side;
 import java.util.Collections;
 import java.util.List;
 
 public class General extends SinglePiece {
-    private static final PieceName PIECE_NAME = PieceName.GENERAL;
+    private static final PieceType PIECE_NAME = PieceType.GENERAL;
     private static final Score PIECE_SCORE = Score.NONE;
 
     public General(Side side) {

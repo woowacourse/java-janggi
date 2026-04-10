@@ -1,13 +1,13 @@
-package janggi.repository.h2;
+package janggi.dao.h2;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import janggi.dao.GameDao;
+import janggi.dao.entity.GameEntity;
+import janggi.domain.game.Status;
 import janggi.domain.side.Side;
-import janggi.entity.GameEntity;
-import janggi.entity.Status;
-import janggi.repository.GameRepository;
 import janggi.view.BoardSetUpFormat;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -17,17 +17,17 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 // H2GameRepositoryTest.java
-class H2GameRepositoryTest {
+class H2GameDaoTest {
 
     private TestH2DataSource dataSource;
-    private GameRepository gameRepository;
+    private GameDao gameDao;
 
     private GameEntity game;
 
     @BeforeEach
     void setUp() {
         dataSource = new TestH2DataSource();
-        gameRepository = new H2GameRepository(dataSource);
+        gameDao = new H2GameDao(dataSource);
         game = new GameEntity(
                 null,
                 "테스트 게임",
@@ -53,7 +53,7 @@ class H2GameRepositoryTest {
     void 게임_저장_후_ID가_반환되어야_함() {
         // Arrange
         // Act
-        Integer id = gameRepository.save(game);
+        Integer id = gameDao.save(game);
 
         // Assert
         assertNotNull(id);
@@ -63,10 +63,10 @@ class H2GameRepositoryTest {
     @Test
     void 저장한_게임을_ID로_조회() {
         // Arrange
-        Integer id = gameRepository.save(game);
+        Integer id = gameDao.save(game);
 
         // Act
-        GameEntity found = gameRepository.findById(id);
+        GameEntity found = gameDao.findById(id);
 
         // Assert
         assertNotNull(found);
@@ -77,10 +77,10 @@ class H2GameRepositoryTest {
     @Test
     void 게임_이름으로_조회() {
         // Arrange
-        gameRepository.save(game);
+        gameDao.save(game);
 
         // Act
-        Optional<GameEntity> found = gameRepository.findByName("테스트 게임");
+        Optional<GameEntity> found = gameDao.findByName("테스트 게임");
 
         // Assert
         assertTrue(found.isPresent());
@@ -90,11 +90,11 @@ class H2GameRepositoryTest {
     @Test
     void 게임_승자_업데이트() {
         // Arrange
-        Integer id = gameRepository.save(game);
+        Integer id = gameDao.save(game);
 
         // Act
-        gameRepository.updateWinner(id, Side.CHO);
-        GameEntity updated = gameRepository.findById(id);
+        gameDao.updateWinner(id, Side.CHO);
+        GameEntity updated = gameDao.findById(id);
 
         // Assert
         assertEquals(Side.CHO, updated.winner());

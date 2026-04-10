@@ -1,11 +1,12 @@
-package janggi.entity;
+package janggi.dao.entity;
 
+import janggi.domain.piece.PieceType;
 import janggi.domain.side.Side;
 
 public record MoveEntity(
         Integer id,
         Integer gameId,
-        int moveNumber,
+        PieceType pieceType,
         Side side,
         int fromX,
         int fromY,

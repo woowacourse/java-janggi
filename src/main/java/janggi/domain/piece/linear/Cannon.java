@@ -2,14 +2,14 @@ package janggi.domain.piece.linear;
 
 import janggi.domain.board.BoardInfo;
 import janggi.domain.path.CandidatePath;
-import janggi.domain.piece.PieceName;
+import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Score;
 import janggi.domain.point.Point;
 import janggi.domain.side.Side;
 import java.util.Collections;
 
 public class Cannon extends LinearPiece {
-    private static final PieceName PIECE_NAME = PieceName.CANNON;
+    private static final PieceType PIECE_NAME = PieceType.CANNON;
     private static final Score PIECE_SCORE = new Score(7);
 
     public Cannon(Side side) {

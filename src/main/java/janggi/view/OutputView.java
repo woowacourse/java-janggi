@@ -35,7 +35,7 @@ public class OutputView {
                 Piece piece = board.getOrDefault(point, null);
 
                 if (destinations != null && destinations.contains(point)) {
-                    String symbol = isEmpty(piece) ? PATH_SYMBOL : piece.getName();
+                    String symbol = isEmpty(piece) ? PATH_SYMBOL : piece.getPieceName();
                     System.out.print(colored(cell(symbol), ANSI_BLUE));
                     continue;
                 }
@@ -46,7 +46,7 @@ public class OutputView {
                 }
 
                 String color = Side.CHO.equals(piece.getSide()) ? ANSI_GREEN : ANSI_RED;
-                System.out.print(colored(cell(piece.getName()), color));
+                System.out.print(colored(cell(piece.getPieceName()), color));
             }
             System.out.println();
         }

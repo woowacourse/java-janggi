@@ -18,7 +18,7 @@ class GeneralTest {
     void availablePoints() {
         Piece piece = new General(Side.CHO);
 
-        List<Point> points = piece.availablePoints(new Point(1, 4), new Board(Collections.emptyMap()));
+        List<Point> points = piece.availablePoints(new Point(1, 4), new Board(1, Collections.emptyMap()));
 
         List<Point> expected = List.of(new Point(0, 3), new Point(0, 4), new Point(0, 5),
                 new Point(1, 5), new Point(2, 5),

@@ -4,9 +4,9 @@ import janggi.domain.board.Board;
 import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.game.rule.Rules;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.domain.point.Point;
 import janggi.domain.side.Side;
-import janggi.entity.Status;
 import java.util.Map;
 import java.util.Set;
 
@@ -27,14 +27,14 @@ public class Game {
         this.turn = turn;
     }
 
-    public static Game createGame(BoardSetUp choBoardSetUp, BoardSetUp hanBoardSetUp) {
-        return new Game(null, Rules.createWithDefaultRules(), Board.setUp(choBoardSetUp, hanBoardSetUp),
-                Status.IN_PROGRESS, INIT_TURN);
+    public static Game createGame(BoardSetUp choBoardSetUp, BoardSetUp hanBoardSetUp, Status status) {
+        return new Game(null, Rules.createWithDefaultRules(), Board.setUp(null, choBoardSetUp, hanBoardSetUp),
+                status, INIT_TURN);
     }
 
-    public static Game createGameWithId(Integer id, BoardSetUp choBoardSetUp, BoardSetUp hanBoardSetUp) {
-        return new Game(id, Rules.createWithDefaultRules(), Board.setUp(choBoardSetUp, hanBoardSetUp),
-                Status.IN_PROGRESS, INIT_TURN);
+    public static Game createGameWithId(Integer id, BoardSetUp choBoardSetUp, BoardSetUp hanBoardSetUp, Status status) {
+        return new Game(id, Rules.createWithDefaultRules(), Board.setUp(null, choBoardSetUp, hanBoardSetUp),
+                status, INIT_TURN);
     }
 
 
@@ -68,6 +68,10 @@ public class Game {
 
     public Map<Point, Piece> getBoard() {
         return board.getPieces();
+    }
+
+    public PieceType getPieceType(Point point) {
+        return board.getPieceType(point);
     }
 
     protected void switchTurn() {

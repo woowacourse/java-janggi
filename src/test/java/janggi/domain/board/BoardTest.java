@@ -27,7 +27,7 @@ class BoardTest {
                 new Soldier(Side.HAN));
 
         BoardSetUp emptyBoardSetUp = side -> Collections.emptyMap();
-        Board board = Board.setUp(testSetUp, emptyBoardSetUp);
+        Board board = Board.setUp(null, testSetUp, emptyBoardSetUp);
 
         Point from = new Point(0, 0);
         Set<Point> destinations = board.destinations(from);
@@ -48,7 +48,7 @@ class BoardTest {
         BoardSetUp hanBoardSetUp = side -> Map.of(new Point(0, 1),
                 new Soldier(side));
 
-        Board board = Board.setUp(choBoardSetUp, hanBoardSetUp);
+        Board board = Board.setUp(null, choBoardSetUp, hanBoardSetUp);
 
         board.moveTo(new Point(0, 0), new Point(0, 1));
 

@@ -1,4 +1,4 @@
-package janggi.repository;
+package janggi.dao;
 
 import java.sql.Connection;
 import java.sql.SQLException;

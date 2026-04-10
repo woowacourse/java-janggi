@@ -3,6 +3,7 @@ package janggi.domain.board;
 import janggi.domain.board.coordination.BoardCoordination;
 import janggi.domain.board.setup.BoardSetUp;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.domain.point.Point;
 import janggi.domain.side.Side;
 import java.util.HashMap;
@@ -12,18 +13,24 @@ import java.util.Optional;
 import java.util.Set;
 
 public class Board implements BoardInfo {
+    private final Integer id;
     private final Map<Point, Piece> pieces;
 
-    public Board(Map<Point, Piece> pieces) {
+    public Board(Integer id, Map<Point, Piece> pieces) {
+        this.id = id;
         this.pieces = new HashMap<>(pieces);
     }
 
-    public static Board setUp(BoardSetUp choBoardSetUp, BoardSetUp hanBoardSetUp) {
+    public static Board setUp(Integer id, BoardSetUp choBoardSetUp, BoardSetUp hanBoardSetUp) {
         Map<Point, Piece> board = new HashMap<>();
         board.putAll(choBoardSetUp.generate(Side.CHO));
         board.putAll(hanBoardSetUp.generate(Side.HAN));
 
-        return new Board(board);
+        return new Board(id, board);
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public Map<Point, Piece> getPieces() {
@@ -44,6 +51,12 @@ public class Board implements BoardInfo {
 
         pieces.put(to, fromPiece);
         pieces.remove(from);
+    }
+
+    public PieceType getPieceType(Point point) {
+        return getPieceAt(point)
+                .orElseThrow(() -> new IllegalStateException("Piece가 없는 Point 입니다. PieceType을 리턴할 수 없습니다."))
+                .getPieceType();
     }
 
     public Side getSideAt(Point point) {

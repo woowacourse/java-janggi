@@ -2,13 +2,13 @@ package janggi.domain.piece.stepped;
 
 import janggi.domain.path.Direction;
 import janggi.domain.path.Movement;
-import janggi.domain.piece.PieceName;
+import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Score;
 import janggi.domain.side.Side;
 import java.util.List;
 
 public class Horse extends SteppedPiece {
-    private static final PieceName PIECE_NAME = PieceName.HORSE;
+    private static final PieceType PIECE_NAME = PieceType.HORSE;
     private static final Score PIECE_SCORE = new Score(5);
     private static final List<Movement> MOVEMENTS = createMovements();
 

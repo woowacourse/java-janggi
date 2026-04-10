@@ -5,14 +5,14 @@ import janggi.domain.path.CandidatePath;
 import janggi.domain.path.generator.FixedPathStrategy;
 import janggi.domain.path.generator.PathStrategy;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceName;
+import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Score;
 import janggi.domain.side.Side;
 
 public abstract class SteppedPiece extends Piece {
     private static final PathStrategy DEFAULT_STRATEGY = new FixedPathStrategy();
 
-    protected SteppedPiece(PieceName name, Side side, Score score) {
+    protected SteppedPiece(PieceType name, Side side, Score score) {
         super(name, side, DEFAULT_STRATEGY, score);
     }
 
