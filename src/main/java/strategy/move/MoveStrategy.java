@@ -10,14 +10,15 @@ import domain.Piece;
 import domain.Position;
 import domain.Route;
 import domain.TeamColor;
+import domain.palace.PalaceRouter;
 
 public abstract class MoveStrategy {
 
-    public abstract List<MovePath> getPaths(TeamColor teamColor);
+    public abstract List<MovePath> getPaths(Piece piece, Position from, PalaceRouter router);
 
-    public List<Route> makeRoutes(Position curPos, TeamColor teamColor) {
+    public List<Route> makeRoutes(Position curPos, Piece piece, PalaceRouter router) {
         List<Route> validRoutes = new ArrayList<>();
-        List<MovePath> paths = getPaths(teamColor);
+        List<MovePath> paths = getPaths(piece, curPos, router);
 
         for (MovePath path : paths) {
             routeIfWithinBoard(curPos, path).ifPresent(validRoutes::add);
@@ -44,6 +45,7 @@ public abstract class MoveStrategy {
         return Optional.of(new Route(start, currentPos, intermediates));
     }
 
+    // 대포는 예외 규칙이 있어 CannonMoveStrategy에서 오버라이드한다.
     public boolean canMove(Route route, List<Piece> blockingPieces, Piece pieceAtDestination, TeamColor myTeam) {
         if (!blockingPieces.isEmpty()) {
             return false;

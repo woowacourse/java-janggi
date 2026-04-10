@@ -2,11 +2,11 @@ package domain;
 
 import java.util.Map;
 import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class BoardTest {
 
@@ -87,11 +87,53 @@ class BoardTest {
                     Position.of(4, 4), movingPawn
             ));
 
-            movableBoard.move(movingPawn, Position.of(3, 4));
+            assertThat(movableBoard.move(movingPawn, Position.of(3, 4))).isEmpty();
 
             assertThat(movableBoard.findPositionOf(movingPawn)).contains(Position.of(3, 4));
             assertThat(movableBoard.findPiece(Position.of(4, 4))).isEmpty();
             assertThat(movableBoard.findPiece(Position.of(3, 4))).contains(movingPawn);
+        }
+
+        @Test
+        void 빈_칸으로_이동하면_잡힌_기물이_없다() {
+            Piece movingPawn = Piece.of(TeamColor.CHO, PieceType.PAWN);
+            Board movableBoard = new Board(Map.of(
+                    Position.of(4, 4), movingPawn
+            ));
+
+            Optional<Piece> captured = movableBoard.move(movingPawn, Position.of(3, 4));
+
+            assertThat(captured).isEmpty();
+        }
+
+        @Test
+        void 상대_일반_기물이_있는_칸으로_이동하면_잡힌_기물을_반환한다() {
+            Piece choRook = Piece.of(TeamColor.CHO, PieceType.ROOK);
+            Piece hanHorse = Piece.of(TeamColor.HAN, PieceType.HORSE);
+            Board movableBoard = new Board(Map.of(
+                    Position.of(1, 3), choRook,
+                    Position.of(1, 4), hanHorse
+            ));
+
+            Optional<Piece> captured = movableBoard.move(choRook, Position.of(1, 4));
+
+            assertThat(captured).contains(hanHorse);
+            assertThat(captured.orElseThrow().isKing()).isFalse();
+        }
+
+        @Test
+        void 상대_왕이_있는_칸으로_이동하면_잡힌_왕을_반환한다() {
+            Piece choRook = Piece.of(TeamColor.CHO, PieceType.ROOK);
+            Piece hanKing = Piece.of(TeamColor.HAN, PieceType.KING);
+            Board movableBoard = new Board(Map.of(
+                    Position.of(1, 3), choRook,
+                    Position.of(1, 4), hanKing
+            ));
+
+            Optional<Piece> captured = movableBoard.move(choRook, Position.of(1, 4));
+
+            assertThat(captured).contains(hanKing);
+            assertThat(captured.orElseThrow().isKing()).isTrue();
         }
 
         @Test
@@ -103,9 +145,47 @@ class BoardTest {
                     Position.of(4, 5), allyPiece
             ));
 
-            assertThat(movableBoard.findMovableRoutes(movingPawn))
+            MovableRoutes movable = movableBoard.findMovableRoutes(movingPawn);
+
+            assertThat(movable.routes())
                     .extracting(Route::endPos)
                     .containsExactlyInAnyOrder(Position.of(3, 4), Position.of(4, 3));
+            assertThat(movable.hasKingDestination()).isFalse();
+        }
+
+        @Test
+        void 이동_가능_경로_중_목적지에_왕이_있으면_왕_목적지_여부를_참으로_반환한다() {
+            Piece choRook = Piece.of(TeamColor.CHO, PieceType.ROOK);
+            Piece hanKing = Piece.of(TeamColor.HAN, PieceType.KING);
+            Board movableBoard = new Board(Map.of(
+                    Position.of(1, 3), choRook,
+                    Position.of(1, 4), hanKing
+            ));
+
+            MovableRoutes movable = movableBoard.findMovableRoutes(choRook);
+
+            assertThat(movable.hasKingDestination()).isTrue();
+            assertThat(movable.routes())
+                    .extracting(Route::endPos)
+                    .contains(Position.of(1, 4));
+        }
+
+        @Test
+        void 여러_이동_후보_중_일부만_왕을_목적지로_해도_왕_목적지_여부는_참이다() {
+            Piece choRook = Piece.of(TeamColor.CHO, PieceType.ROOK);
+            Piece hanKing = Piece.of(TeamColor.HAN, PieceType.KING);
+            Board movableBoard = new Board(Map.of(
+                    Position.of(4, 4), choRook,
+                    Position.of(4, 0), hanKing
+            ));
+
+            MovableRoutes movable = movableBoard.findMovableRoutes(choRook);
+
+            assertThat(movable.routes().size()).isGreaterThan(1);
+            assertThat(movable.hasKingDestination()).isTrue();
+            assertThat(movable.routes())
+                    .extracting(Route::endPos)
+                    .contains(Position.of(4, 0));
         }
     }
 }

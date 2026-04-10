@@ -2,7 +2,9 @@ package strategy.move;
 
 import domain.Direction;
 import domain.MovePath;
-import domain.TeamColor;
+import domain.Piece;
+import domain.Position;
+import domain.palace.PalaceRouter;
 import java.util.List;
 
 public class ElephantMoveStrategy extends MoveStrategy {
@@ -19,8 +21,7 @@ public class ElephantMoveStrategy extends MoveStrategy {
     );
 
     @Override
-    public List<MovePath> getPaths(TeamColor teamColor) {
+    public List<MovePath> getPaths(Piece piece, Position from, PalaceRouter router) {
         return PATHS;
     }
-
 }

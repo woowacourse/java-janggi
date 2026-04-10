@@ -19,6 +19,30 @@ public class Position implements Comparable<Position> {
         return Position.of(nextRow, nextCol);
     }
 
+    public Position goUp() {
+        return next(Direction.NORTH);
+    }
+
+    public Position goDown() {
+        return next(Direction.SOUTH);
+    }
+
+    public Position goLeft() {
+        return next(Direction.WEST);
+    }
+
+    public Position goRight() {
+        return next(Direction.EAST);
+    }
+
+    public Position goUpLeft() {
+        return next(Direction.NORTH_WEST);
+    }
+
+    public Position goDownRight() {
+        return next(Direction.SOUTH_EAST);
+    }
+
     public static Position of(int row, int column) {
         return new Position(new Row(row), new Column(column));
     }
@@ -33,6 +57,24 @@ public class Position implements Comparable<Position> {
 
     public boolean isInsideBoard() {
         return row.isInsideBoard() && column.isInsideBoard();
+    }
+
+    public boolean isWithin(Position topLeft, Position bottomRight) {
+        return row() >= topLeft.row() && row() <= bottomRight.row()
+                && column() >= topLeft.column() && column() <= bottomRight.column();
+    }
+
+    public static Position centerOf(Position topLeft, Position bottomRight) {
+        int centerRow = (topLeft.row() + bottomRight.row()) / 2;
+        int centerColumn = (topLeft.column() + bottomRight.column()) / 2;
+        return Position.of(centerRow, centerColumn);
+    }
+
+    public boolean sharesRowOrColumnWith(Position other) {
+        if (row() == other.row()) {
+            return true;
+        }
+        return column() == other.column();
     }
 
     @Override

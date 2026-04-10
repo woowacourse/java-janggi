@@ -30,4 +30,14 @@ public class InputView {
         return Integer.parseInt(scanner.nextLine().trim());
     }
 
+    public int readResumeOrNewChoice() {
+        System.out.print("선택 (1 또는 2) > ");
+        return Integer.parseInt(scanner.nextLine().trim());
+    }
+
+    public int readTimeLimitSeconds() {
+        System.out.print("제한 시간(초) > ");
+        return Integer.parseInt(scanner.nextLine().trim());
+    }
+
 }

@@ -1,5 +1,6 @@
 package strategy.move;
 
+import domain.Board;
 import domain.Direction;
 import domain.MovePath;
 import domain.Piece;
@@ -8,6 +9,8 @@ import domain.Position;
 import domain.Route;
 import domain.TeamColor;
 import java.util.List;
+import java.util.Map;
+import domain.palace.PalaceRouter;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -15,12 +18,28 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class CannonMoveStrategyTest {
 
+    private PalaceRouter outsidePalaceRouter() {
+        return new PalaceRouter() {
+            @Override
+            public boolean isInsidePalace(Position position) {
+                return false;
+            }
+
+            @Override
+            public List<Position> getDiagonalAdjacents(Position position) {
+                return List.of();
+            }
+        };
+    }
+
     @Nested
     class 이동경로 {
         @Test
         public void 포는_초나라에서_동서남북_직선_경로를_보드_끝까지_가진다() {
             MoveStrategy strategy = new CannonMoveStrategy();
-            List<MovePath> paths = strategy.getPaths(TeamColor.CHO);
+            Position from = Position.of(4, 4);
+            PalaceRouter router = outsidePalaceRouter();
+            List<MovePath> paths = strategy.getPaths(Piece.of(TeamColor.CHO, PieceType.CANNON), from, router);
 
             assertThat(paths).hasSize(36);
             assertThat(paths).contains(
@@ -38,7 +57,12 @@ public class CannonMoveStrategyTest {
         @Test
         public void 포는_현재위치에서_여러칸_떨어진_직선_목적지_경로를_생성한다() {
             MoveStrategy strategy = new CannonMoveStrategy();
-            List<Route> routes = strategy.makeRoutes(Position.of(4, 4), TeamColor.HAN);
+            PalaceRouter router = outsidePalaceRouter();
+            List<Route> routes = strategy.makeRoutes(
+                    Position.of(4, 4),
+                    Piece.of(TeamColor.HAN, PieceType.CANNON),
+                    router
+            );
 
             assertThat(routes).contains(
                     new Route(Position.of(4, 4), Position.of(0, 4),
@@ -47,6 +71,36 @@ public class CannonMoveStrategyTest {
                             List.of(Position.of(4, 5), Position.of(4, 6), Position.of(4, 7))),
                     new Route(Position.of(4, 4), Position.of(8, 4),
                             List.of(Position.of(5, 4), Position.of(6, 4), Position.of(7, 4)))
+            );
+        }
+
+        @Test
+        public void 포는_궁성_중심에서_대각선_한칸_경로를_가진다() {
+            MoveStrategy strategy = new CannonMoveStrategy();
+            PalaceRouter router = new Board(Map.<Position, Piece>of());
+
+            Position from = Position.of(1, 4);
+            List<Route> routes = strategy.makeRoutes(from, Piece.of(TeamColor.HAN, PieceType.CANNON), router);
+
+            assertThat(routes).contains(
+                    new Route(from, Position.of(0, 3), List.of()),
+                    new Route(from, Position.of(0, 5), List.of()),
+                    new Route(from, Position.of(2, 3), List.of()),
+                    new Route(from, Position.of(2, 5), List.of())
+            );
+        }
+
+        @Test
+        public void 포는_궁성_대각선_모서리에서_중앙을_거쳐_맞은편_모서리로_이동한다() {
+            MoveStrategy strategy = new CannonMoveStrategy();
+            PalaceRouter router = new Board(Map.<Position, Piece>of());
+
+            Position from = Position.of(0, 3);
+            Position center = Position.of(1, 4);
+            List<Route> routes = strategy.makeRoutes(from, Piece.of(TeamColor.HAN, PieceType.CANNON), router);
+
+            assertThat(routes).contains(
+                    new Route(from, Position.of(2, 5), List.of(center))
             );
         }
     }

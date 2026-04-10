@@ -1,123 +1,80 @@
+import java.time.Clock;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
-import domain.Board;
+import domain.GameDeadline;
+import domain.JanggiGame;
 import domain.Piece;
-import domain.Position;
-import domain.Route;
+import domain.ScoreCalculator;
 import domain.TeamColor;
-import domain.TurnManager;
+import domain.TeamScores;
+import domain.TurnOutcome;
 import io.InputView;
 import io.OutputView;
-import strategy.formation.InitialFormationStrategy;
-import strategy.formation.InnerFormationStrategy;
-import strategy.formation.LeftFormationStrategy;
-import strategy.formation.OuterFormationStrategy;
-import strategy.formation.RightFormationStrategy;
+import persistence.GameStatePersister;
 
 public class Runner {
 
     private final InputView inputView;
     private final OutputView outputView;
-    private final TurnManager turnManager;
 
-    public Runner() {
-        this(new InputView(), new OutputView(), new TurnManager());
-    }
-
-    public Runner(InputView inputView, OutputView outputView, TurnManager turnManager) {
+    public Runner(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.turnManager = turnManager;
     }
 
-    public void run() {
+    public void run(GameStatePersister persister, Clock clock) {
         outputView.printGameStart();
+        GameInitializer initializer = new GameInitializer(inputView, outputView);
+        InitializedGame initialized = initializer.resolve(persister, clock);
+        JanggiGame game = initialized.game();
+        GameDeadline deadline = initialized.deadline();
+        outputView.printBoard(game.board());
+        persister.saveInProgress(game, deadline);
+        runGameLoop(game, deadline, persister, clock);
+    }
 
-        InitialFormationStrategy choStrategy = chooseFormationStrategy(TeamColor.CHO);
-        InitialFormationStrategy hanStrategy = chooseFormationStrategy(TeamColor.HAN);
-
-        Initializer initializer = new Initializer(choStrategy, hanStrategy);
-        Board board = initializer.initialize();
-
-        outputView.printBoard(board);
-
-        while (true) {
-            playTurn(board);
+    private void runGameLoop(JanggiGame game, GameDeadline deadline, GameStatePersister persister, Clock clock) {
+        while (playTurn(game, deadline, persister, clock)) {
         }
     }
 
-    private InitialFormationStrategy chooseFormationStrategy(TeamColor teamColor) {
-        while (true) {
-            outputView.printFormationSelectionPrompt(teamColor);
-            try {
-                int choice = inputView.readFormationChoice(teamColor);
-                if (choice == 1) {
-                    return new InnerFormationStrategy();
-                }
-                if (choice == 2) {
-                    return new OuterFormationStrategy();
-                }
-                if (choice == 3) {
-                    return new LeftFormationStrategy();
-                }
-                if (choice == 4) {
-                    return new RightFormationStrategy();
-                }
-                throw new IllegalArgumentException("상차림 번호는 1~4 사이여야 합니다.");
-            } catch (RuntimeException exception) {
-                outputView.printError("상차림 입력이 올바르지 않습니다.");
-            }
+    private boolean playTurn(JanggiGame game, GameDeadline deadline, GameStatePersister persister, Clock clock) {
+        if (deadline.isExpired(clock)) {
+            endByScore(game, deadline, persister);
+            return false;
         }
+        TurnExecutor executor = new TurnExecutor(inputView, outputView);
+        TurnOutcome outcome = executor.execute(game);
+        return handleOutcome(game, outcome, deadline, persister);
     }
 
-    private void playTurn(Board board) {
-        TeamColor currentTurn = turnManager.getCurrentTurn();
-        outputView.printCurrentTurn(currentTurn);
-        outputView.printBoard(board);
-
-        while (true) {
-            try {
-                List<Map.Entry<Position, Piece>> pieces = board.findPiecesByTeam(currentTurn);
-                outputView.printPieceOptions(pieces);
-
-                int pieceChoice = inputView.readPieceChoice(currentTurn);
-                Piece selectedPiece = getSelectedPiece(pieces, pieceChoice);
-
-                List<Route> routes = board.findMovableRoutes(selectedPiece);
-                if (routes.isEmpty()) {
-                    throw new IllegalArgumentException("선택한 기물은 이동 가능한 경로가 없습니다.");
-                }
-
-                outputView.printRouteOptions(routes);
-                int routeChoice = inputView.readRouteChoice();
-
-                if (routeChoice == 0) {
-                    continue;
-                }
-
-                Position destination = getSelectedRoute(routes, routeChoice).endPos();
-                board.move(selectedPiece, destination);
-                outputView.printMoveResult(selectedPiece, destination);
-                turnManager.progressTurn();
-                return;
-            } catch (RuntimeException exception) {
-                outputView.printError(exception.getMessage());
-            }
+    private boolean handleOutcome(
+            JanggiGame game, TurnOutcome outcome, GameDeadline deadline, GameStatePersister persister) {
+        if (outcome == TurnOutcome.GAME_OVER) {
+            persister.saveEnded(game, game.currentTurn(), deadline);
+            return false;
         }
+        game.progressTurn();
+        persister.saveInProgress(game, deadline);
+        return true;
     }
 
-    private Piece getSelectedPiece(List<Map.Entry<Position, Piece>> pieces, int pieceChoice) {
-        if (pieceChoice < 1 || pieceChoice > pieces.size()) {
-            throw new IllegalArgumentException("기물 번호가 범위를 벗어났습니다.");
-        }
-        return pieces.get(pieceChoice - 1).getValue();
+    private void endByScore(JanggiGame game, GameDeadline deadline, GameStatePersister persister) {
+        ScoreCalculator calculator = new ScoreCalculator();
+        List<Piece> choPieces = game.piecesOfTeam(TeamColor.CHO);
+        List<Piece> hanPieces = game.piecesOfTeam(TeamColor.HAN);
+        TeamScores scores = calculator.calculate(choPieces, hanPieces);
+        Optional<TeamColor> winner = scores.winner();
+        printScoreResult(scores, winner);
+        persister.saveEnded(game, winner.orElse(null), deadline);
     }
 
-    private domain.Route getSelectedRoute(List<Route> routes, int routeChoice) {
-        if (routeChoice < 1 || routeChoice > routes.size()) {
-            throw new IllegalArgumentException("경로 번호가 범위를 벗어났습니다.");
+    private void printScoreResult(TeamScores scores, Optional<TeamColor> winner) {
+        if (winner.isEmpty()) {
+            outputView.printTimeOverDraw(scores);
+            return;
         }
-        return routes.get(routeChoice - 1);
+        outputView.printTimeOverWinnerByScore(scores, winner.get());
     }
 }

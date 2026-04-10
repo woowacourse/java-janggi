@@ -1,20 +1,29 @@
 package domain;
 
-import static java.util.Optional.ofNullable;
-
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import static java.util.Optional.ofNullable;
 
+import domain.palace.Palace;
+import domain.palace.PalaceRouter;
 import strategy.move.MoveStrategy;
 
-public class Board {
+public class Board implements PalaceRouter {
+
+    private static final Palace hanPalace = new Palace(Position.of(1, 4));
+    private static final Palace choPalace = new Palace(Position.of(8, 4));
 
     private final Map<Position, Piece> pieces;
 
     public Board(Map<Position, Piece> pieces) {
         this.pieces = new HashMap<>(pieces);
+    }
+
+    public GameSnapshot capture() {
+        return GameSnapshot.from(pieces);
     }
 
     public List<Piece> getBlockingPieces(Route route) {
@@ -46,26 +55,48 @@ public class Board {
                 .toList();
     }
 
-    public List<Route> findMovableRoutes(Piece piece) {
+    public List<Piece> piecesOfTeam(TeamColor teamColor) {
+        return pieceValuesFromEntries(findPiecesByTeam(teamColor));
+    }
+
+    private static List<Piece> pieceValuesFromEntries(List<Map.Entry<Position, Piece>> entries) {
+        return entries.stream()
+                .map(Map.Entry::getValue)
+                .toList();
+    }
+
+    public MovableRoutes findMovableRoutes(Piece piece) {
+        List<Route> routes = computeMovableRoutes(piece);
+        return new MovableRoutes(routes, hasKingAtAnyDestination(routes));
+    }
+
+    private List<Route> computeMovableRoutes(Piece piece) {
         Position currentPosition = findPositionOf(piece)
                 .orElseThrow(() -> new IllegalArgumentException("보드에 없는 기물입니다."));
 
         MoveStrategy moveStrategy = piece.getPieceType().moveStrategy();
 
-        return moveStrategy.makeRoutes(currentPosition, piece.getTeamColor()).stream()
+        return moveStrategy.makeRoutes(currentPosition, piece, this).stream()
                 .filter(route -> route.endPos().isInsideBoard())
                 .filter(route -> moveStrategy.canMove(route, getBlockingPieces(route),
                         getDestinationPiece(route).orElse(null), piece.getTeamColor()))
                 .toList();
     }
 
-    public void move(Piece piece, Position destination) {
+    private boolean hasKingAtAnyDestination(List<Route> routes) {
+        return routes.stream()
+                .map(this::getDestinationPiece)
+                .flatMap(Optional::stream)
+                .anyMatch(Piece::isKing);
+    }
+
+    public Optional<Piece> move(Piece piece, Position destination) {
         Position currentPosition = findPositionOf(piece)
                 .orElseThrow(() -> new IllegalArgumentException("보드에 없는 기물입니다."));
 
         MoveStrategy moveStrategy = piece.getPieceType().moveStrategy();
 
-        Route route = moveStrategy.makeRoutes(currentPosition, piece.getTeamColor()).stream()
+        Route route = moveStrategy.makeRoutes(currentPosition, piece, this).stream()
                 .filter(candidate -> candidate.endPos().equals(destination))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("해당 기물은 목적지로 이동할 수 없습니다."));
@@ -77,7 +108,21 @@ public class Board {
             throw new IllegalArgumentException("현재 판 상태에서는 해당 목적지로 이동할 수 없습니다.");
         }
 
+        Optional<Piece> captured = Optional.ofNullable(pieceAtDestination);
         pieces.remove(currentPosition);
         pieces.put(destination, piece);
+        return captured;
+    }
+
+    @Override
+    public boolean isInsidePalace(Position position) {
+        return hanPalace.contains(position) || choPalace.contains(position);
+    }
+
+    @Override
+    public List<Position> getDiagonalAdjacents(Position position) {
+        if (hanPalace.contains(position)) return hanPalace.getDiagonalAdjacents(position);
+        if (choPalace.contains(position)) return choPalace.getDiagonalAdjacents(position);
+        return List.of();
     }
 }

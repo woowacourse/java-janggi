@@ -8,6 +8,7 @@ import domain.Position;
 import domain.Route;
 import domain.TeamColor;
 import java.util.List;
+import domain.palace.PalaceRouter;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -15,12 +16,28 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class ElephantMoveStrategyTest {
 
+    private PalaceRouter outsidePalaceRouter() {
+        return new PalaceRouter() {
+            @Override
+            public boolean isInsidePalace(Position position) {
+                return false;
+            }
+
+            @Override
+            public List<Position> getDiagonalAdjacents(Position position) {
+                return List.of();
+            }
+        };
+    }
+
     @Nested
     class 이동경로 {
         @Test
         public void 초나라_상은_직진1칸_대각선2칸으로_이루어진_8개의_경로를_가진다() {
             MoveStrategy strategy = new ElephantMoveStrategy();
-            List<MovePath> paths = strategy.getPaths(TeamColor.CHO);
+            Position from = Position.of(4, 4);
+            PalaceRouter router = outsidePalaceRouter();
+            List<MovePath> paths = strategy.getPaths(Piece.of(TeamColor.CHO, PieceType.ELEPHANT), from, router);
 
             assertThat(paths).hasSize(8);
             assertThat(paths).contains(
@@ -33,7 +50,9 @@ public class ElephantMoveStrategyTest {
         @Test
         public void 한나라_상은_직진1칸_대각선2칸으로_이루어진_8개의_경로를_가진다() {
             MoveStrategy strategy = new ElephantMoveStrategy();
-            List<MovePath> paths = strategy.getPaths(TeamColor.HAN);
+            Position from = Position.of(4, 4);
+            PalaceRouter router = outsidePalaceRouter();
+            List<MovePath> paths = strategy.getPaths(Piece.of(TeamColor.HAN, PieceType.ELEPHANT), from, router);
 
             assertThat(paths).hasSize(8);
             assertThat(paths).contains(
@@ -78,8 +97,9 @@ public class ElephantMoveStrategyTest {
         public void 상이_정상적으로_진행경로_좌표를_안다() {
             Position curPos = Position.of(4, 4);
             MoveStrategy moveStrategy = new ElephantMoveStrategy();
+            PalaceRouter router = outsidePalaceRouter();
 
-            List<Route> routes = moveStrategy.makeRoutes(curPos, TeamColor.CHO);
+            List<Route> routes = moveStrategy.makeRoutes(curPos, Piece.of(TeamColor.CHO, PieceType.ELEPHANT), router);
             assertThat(routes).containsExactlyInAnyOrder(
                     new Route(curPos, Position.of(1, 2), List.of(Position.of(3, 4), Position.of(2, 3))),
                     new Route(curPos, Position.of(1, 6), List.of(Position.of(3, 4), Position.of(2, 5))),

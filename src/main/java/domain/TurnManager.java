@@ -4,7 +4,14 @@ public class TurnManager {
 
     private TeamColor currentTeamColor;
 
-    public TurnManager(){
+    public TurnManager() {
+    }
+
+    public TurnManager(TeamColor startingTeamColor) {
+        this.currentTeamColor = startingTeamColor;
+    }
+
+    public void start() {
         this.currentTeamColor = TeamColor.CHO;
     }
 
