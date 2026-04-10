@@ -39,9 +39,9 @@ class JanggiGameTest {
         janggiGame = new JanggiGame(board);
 
         // when
-        janggiGame.skipTurn(); // 초(CHO) 턴 쉼
-        janggiGame.changeTurn();
-        janggiGame.skipTurn(); // 한(HAN) 턴 쉼
+        janggiGame.skipTurn(); // 초(CHO) 턴 이행하지 않음
+        janggiGame.changeTurn(); // 턴 넘어감
+        janggiGame.skipTurn(); // 한(HAN) 턴 이행하지 않음
 
         // then
         assertThat(janggiGame.isFinished()).isTrue();
