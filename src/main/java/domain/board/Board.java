@@ -16,9 +16,11 @@ import java.util.Optional;
 public class Board implements BoardView {
 
     private final Map<Position, Piece> board;
+    private final Palace palace;
 
-    public Board(Map<Position, Piece> board) {
+    public Board(Map<Position, Piece> board, Palace palace) {
         this.board = new HashMap<>(board);
+        this.palace = palace;
     }
 
     public void move(Position from, Position to) {

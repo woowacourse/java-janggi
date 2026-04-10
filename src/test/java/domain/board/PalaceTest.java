@@ -13,9 +13,10 @@ class PalaceTest {
     void 궁성_내부_true_테스트() {
         //given
         Position position = new Position(1, 5);
+        Palace palace = Palace.getInstance();
 
         //when
-        boolean result = Palace.isInPalace(position);
+        boolean result = palace.isInPalace(position);
 
         //then
         Assertions.assertThat(result).isTrue();
@@ -26,9 +27,10 @@ class PalaceTest {
     void 궁성_내부_false_테스트() {
         //given
         Position position = new Position(1, 3);
+        Palace palace = Palace.getInstance();
 
         //when
-        boolean result = Palace.isInPalace(position);
+        boolean result = palace.isInPalace(position);
 
         //then
         Assertions.assertThat(result).isFalse();
@@ -40,9 +42,10 @@ class PalaceTest {
         //given
         Position position = new Position(8, 4);
         Direction direction = Direction.RIGHT_DOWN;
+        Palace palace = Palace.getInstance();
 
         //when
-        boolean result = Palace.isConnected(position, direction);
+        boolean result = palace.isConnected(position, direction);
 
         //then
         Assertions.assertThat(result).isTrue();
@@ -54,9 +57,10 @@ class PalaceTest {
         //given
         Position position = new Position(10, 4);
         Direction direction = Direction.RIGHT_DOWN;
+        Palace palace = Palace.getInstance();
 
         //when
-        boolean result = Palace.isConnected(position, direction);
+        boolean result = palace.isConnected(position, direction);
 
         //then
         Assertions.assertThat(result).isFalse();

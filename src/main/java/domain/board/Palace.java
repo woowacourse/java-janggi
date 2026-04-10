@@ -8,18 +8,21 @@ import java.util.Set;
 
 public class Palace {
 
-    private static final Map<Position, Set<Direction>> PALACE_DIRECTIONS_MAP;
+    private static final Palace INSTANCE = new Palace();
 
-    static {
+    private final Map<Position, Set<Direction>> PALACE_DIRECTIONS_MAP;
+
+    private Palace() {
         PALACE_DIRECTIONS_MAP = new HashMap<>();
         PALACE_DIRECTIONS_MAP.putAll(choSidePalaceMap());
         PALACE_DIRECTIONS_MAP.putAll(hanSidePalaceMap());
     }
 
-    private Palace() {
+    public static Palace getInstance() {
+        return INSTANCE;
     }
 
-    private static Map<Position, Set<Direction>> choSidePalaceMap() {
+    private Map<Position, Set<Direction>> choSidePalaceMap() {
         return Map.of(
                 new Position(8, 4), Set.of(Direction.RIGHT_DOWN),
                 new Position(8, 5), Set.of(),
@@ -34,7 +37,7 @@ public class Palace {
         );
     }
 
-    private static Map<Position, Set<Direction>> hanSidePalaceMap() {
+    private Map<Position, Set<Direction>> hanSidePalaceMap() {
         return Map.of(
                 new Position(1, 4), Set.of(Direction.RIGHT_DOWN),
                 new Position(1, 5), Set.of(),
@@ -49,11 +52,11 @@ public class Palace {
         );
     }
 
-    public static boolean isInPalace(Position position) {
+    public boolean isInPalace(Position position) {
         return PALACE_DIRECTIONS_MAP.containsKey(position);
     }
 
-    public static boolean isConnected(Position position, Direction direction) {
+    public boolean isConnected(Position position, Direction direction) {
         return PALACE_DIRECTIONS_MAP
                 .getOrDefault(position, Set.of())
                 .contains(direction);
