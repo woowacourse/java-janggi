@@ -24,6 +24,10 @@ public enum Direction {
         return new Direction[]{NORTH, EAST, SOUTH, WEST};
     }
 
+    public static Direction[] valuesFourDiagonalDirection() {
+        return new Direction[]{NORTHEAST, SOUTHEAST, SOUTHWEST, NORTHWEST};
+    }
+
     public Direction next() {
         return values()[(this.ordinal() + 1) % DIRECTION_SIZE];
     }

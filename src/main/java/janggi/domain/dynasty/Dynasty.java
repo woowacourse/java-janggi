@@ -4,8 +4,18 @@ import janggi.domain.position.Direction;
 
 public enum Dynasty {
 
-    CHO(Direction.SOUTH),
-    HAN(Direction.NORTH);
+    CHO(Direction.SOUTH) {
+        @Override
+        public Dynasty next() {
+            return Dynasty.HAN;
+        }
+    },
+    HAN(Direction.NORTH) {
+        @Override
+        public Dynasty next() {
+            return Dynasty.CHO;
+        }
+    };
 
     private final Direction front;
 
@@ -13,13 +23,10 @@ public enum Dynasty {
         this.front = front;
     }
 
+    public abstract Dynasty next();
+
     public Direction front() {
         return front;
     }
 
-    public Dynasty next() {
-        Dynasty[] values = Dynasty.values();
-        return values[(ordinal() + 1) % values.length];
-    }
-    
 }

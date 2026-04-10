@@ -10,12 +10,16 @@ public record Piece(
         PieceType pieceType
 ) {
 
-    public List<Position> canMovePosition(BoardSnapshot board, Position from) {
+    public List<Position> placeablePositions(BoardSnapshot board, Position from) {
         return pieceType.moveStrategy().findPlaceablePositions(board, from, dynasty);
     }
 
-    public boolean isSameDynasty(Dynasty dynasty) {
+    public boolean isSame(Dynasty dynasty) {
         return this.dynasty.equals(dynasty);
+    }
+
+    public boolean isSame(PieceType pieceType) {
+        return this.pieceType.equals(pieceType);
     }
 
 }

@@ -33,18 +33,22 @@ public class BoardSnapshot {
         return positions;
     }
 
+    public boolean isPlaceable(Position position, Dynasty dynasty) {
+        return isEmpty(position) || !isSameDynasty(position, dynasty);
+    }
+
     public boolean isSameDynasty(Position position, Dynasty dynasty) {
         if (isEmpty(position)) {
             return false;
         }
-        return board.get(position).isSameDynasty(dynasty);
+        return board.get(position).isSame(dynasty);
     }
 
     public boolean isSamePieceType(Position position, PieceType pieceType) {
         if (isEmpty(position)) {
             return false;
         }
-        return board.get(position).pieceType().equals(pieceType);
+        return board.get(position).isSame(pieceType);
     }
 
     public boolean isEmpty(Position position) {

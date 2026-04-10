@@ -7,6 +7,7 @@ import janggi.domain.position.Position;
 import janggi.dto.BoardDto;
 import janggi.dto.DynastyDto;
 import janggi.dto.PositionDto;
+import janggi.service.JanggiService;
 import janggi.util.HorseElephantPositionMapper;
 import janggi.view.InputView;
 import janggi.view.OutputView;
@@ -17,85 +18,107 @@ import java.util.function.Supplier;
 
 public class JanggiController {
 
+    private final JanggiService janggiService;
     private final InputView inputView;
     private final OutputView outputView;
 
-    public JanggiController(InputView inputView, OutputView outputView) {
+    public JanggiController(JanggiService janggiService, InputView inputView, OutputView outputView) {
+        this.janggiService = janggiService;
         this.inputView = inputView;
         this.outputView = outputView;
     }
 
     public void run() {
-        Map<Dynasty, HorseElephantPosition> horseElephantPositions = readDynastyHorseElephantPositionMap();
-        Game game = Game.initGame(horseElephantPositions);
-        outputView.printBoard(BoardDto.from(game.boardMap()));
+        Long gameId = initGame();
+        printBoard(gameId);
 
-        while (true) {
-            moveProcess(game);
+        while (!janggiService.isFinishedGame(gameId)) {
+            moveProcess(gameId);
         }
+        printWinner(gameId);
     }
 
-    private Map<Dynasty, HorseElephantPosition> readDynastyHorseElephantPositionMap() {
+    private Long initGame() {
+        return getUntilValid(this::findGameIdToPlay);
+    }
+
+    private Long findGameIdToPlay() {
+        if (inputView.readWantToRestore()) {
+            List<Long> gameIds = janggiService.findPlayableGameIds();
+            outputView.printPlayableGameIds(gameIds);
+            return readGameIdToRestore();
+        }
+        return janggiService.makeGame(readDynastyHorseElephantPositions());
+    }
+
+    private Long readGameIdToRestore() {
+        long gameId = inputView.readGameIdToRestore();
+        return janggiService.validatePlayableGameId(gameId);
+    }
+
+    private Map<Dynasty, HorseElephantPosition> readDynastyHorseElephantPositions() {
         Map<Dynasty, HorseElephantPosition> horseElephantPositions = new EnumMap<>(Dynasty.class);
         for (Dynasty dynasty : Dynasty.values()) {
             int ordinal = getUntilValid(() -> inputView.readHorseElephantPosition(DynastyDto.from(dynasty)));
-            HorseElephantPosition position = HorseElephantPositionMapper.from(ordinal);
-            horseElephantPositions.put(dynasty, position);
+            horseElephantPositions.put(dynasty, HorseElephantPositionMapper.from(ordinal));
         }
         return horseElephantPositions;
     }
 
-    private void moveProcess(Game game) {
-        Position from = getUntilValid(() -> {
-            Position wantToMove = readPieceWantToMove(game);
-            findCanMovePosition(game, wantToMove);
-            return wantToMove;
-        });
+    private void moveProcess(Long gameId) {
+        Position from = readSourcePositionUntilValid(gameId);
+        Position to = readDestinationPositionUntilValid(gameId, from);
+        printBoard(gameId);
+    }
 
-        runUntilValid(() -> {
-            Position to = readPositionToMove();
-            movePiece(game, from, to);
+    private Position readSourcePositionUntilValid(Long gameId) {
+        return getUntilValid(() -> {
+            Position source = readSourcePosition(gameId);
+            findPlaceablePosition(gameId, source);
+            return source;
         });
     }
 
-    private Position readPieceWantToMove(Game game) {
-        PositionDto fromDto = getUntilValid(
-                () -> inputView.readPieceWantToMove(DynastyDto.from(game.currentTurn().currentDynasty())));
-        return Position.from(fromDto.row(), fromDto.column());
+    private Position readDestinationPositionUntilValid(Long gameId, Position from) {
+        return getUntilValid(() -> {
+            Position destination = readDestinationPosition();
+            janggiService.movePiece(gameId, from, destination);
+            return destination;
+        });
     }
 
-    private void findCanMovePosition(Game game, Position from) {
-        List<Position> positions = game.canMovePosition(from);
+    private Position readSourcePosition(Long gameId) {
+        Game game = janggiService.findGame(gameId);
+        DynastyDto currentTurn = DynastyDto.from(game.currentDynasty());
+        PositionDto from = getUntilValid(() -> inputView.readPieceWantToMove(currentTurn));
+        return Position.from(from.row(), from.column());
+    }
+
+    private void findPlaceablePosition(Long gameId, Position from) {
+        Game game = janggiService.findGame(gameId);
+        List<Position> positions = game.placeablePositions(from);
         outputView.printCanMovePositions(PositionDto.fromPositions(positions));
     }
 
-    private Position readPositionToMove() {
-        PositionDto toDto = getUntilValid(inputView::readPositionToMove);
-        return Position.from(toDto.row(), toDto.column());
+    private Position readDestinationPosition() {
+        PositionDto to = getUntilValid(inputView::readDestinationPosition);
+        return Position.from(to.row(), to.column());
     }
 
-    private void movePiece(Game game, Position from, Position to) {
-        game.movePiece(from, to);
-        outputView.printBoard(BoardDto.from(game.boardMap()));
+    private void printBoard(Long gameId) {
+        Game game = janggiService.findGame(gameId);
+        outputView.printBoard(BoardDto.from(game.pieces()));
+    }
+
+    private void printWinner(Long gameId) {
+        Dynasty winner = janggiService.findWinner(gameId);
+        outputView.printWinner(DynastyDto.from(winner));
     }
 
     private <T> T getUntilValid(Supplier<T> supplier) {
         while (true) {
             try {
                 return supplier.get();
-            } catch (IllegalArgumentException | IllegalStateException e) {
-                outputView.printWarningMessage(e.getMessage());
-            } catch (Exception e) {
-                outputView.printErrorMessage(e.getMessage());
-            }
-        }
-    }
-
-    private void runUntilValid(Runnable runnable) {
-        while (true) {
-            try {
-                runnable.run();
-                break;
             } catch (IllegalArgumentException | IllegalStateException e) {
                 outputView.printWarningMessage(e.getMessage());
             } catch (Exception e) {

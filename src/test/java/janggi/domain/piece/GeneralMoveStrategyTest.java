@@ -16,11 +16,19 @@ class GeneralMoveStrategyTest {
         // given
         Map<Position, Piece> board = new HashMap<>();
         PieceType pieceType = PieceType.GENERAL;
-        Dynasty dynasty = Dynasty.CHO;
-        Position from = Position.from(5, 5);
+        Dynasty dynasty = Dynasty.HAN;
+        Position from = Position.from(9, 5);
         board.put(from, new Piece(dynasty, pieceType));
-        board.put(Position.from(6, 5), new Piece(dynasty, pieceType));
-        board.put(Position.from(5, 6), new Piece(Dynasty.HAN, pieceType));
+
+        // 궁성 상단
+        board.put(Position.from(8, 6), new Piece(dynasty, PieceType.GUARD));
+        board.put(Position.from(8, 4), new Piece(Dynasty.CHO, PieceType.GUARD));
+        // 궁성 중단
+        board.put(Position.from(9, 6), new Piece(dynasty, PieceType.GUARD));
+        board.put(Position.from(9, 4), new Piece(Dynasty.CHO, PieceType.GUARD));
+        // 궁성 하단
+        board.put(Position.from(10, 6), new Piece(dynasty, PieceType.GUARD));
+        board.put(Position.from(10, 4), new Piece(Dynasty.CHO, PieceType.GUARD));
 
         // when
         List<Position> positions = pieceType.moveStrategy()
@@ -29,9 +37,33 @@ class GeneralMoveStrategyTest {
         // then
         Assertions.assertThat(positions)
                 .containsExactlyInAnyOrder(
-                        Position.from(5, 6),
-                        Position.from(4, 5),
-                        Position.from(5, 4)
+                        Position.from(8, 4),
+                        Position.from(8, 5),
+                        Position.from(9, 4),
+                        Position.from(10, 4),
+                        Position.from(10, 5)
+                );
+    }
+
+    @Test
+    public void 장_기물은_궁성_밖으로_나갈_수_없다() {
+        // given
+        Map<Position, Piece> board = new HashMap<>();
+        PieceType pieceType = PieceType.GENERAL;
+        Dynasty dynasty = Dynasty.HAN;
+        Position from = Position.from(8, 6);
+        board.put(from, new Piece(dynasty, pieceType));
+
+        // when
+        List<Position> positions = pieceType.moveStrategy()
+                .findPlaceablePositions(BoardSnapshot.of(board), from, dynasty);
+
+        // then
+        Assertions.assertThat(positions)
+                .containsExactlyInAnyOrder(
+                        Position.from(8, 5),
+                        Position.from(9, 5),
+                        Position.from(9, 6)
                 );
     }
 

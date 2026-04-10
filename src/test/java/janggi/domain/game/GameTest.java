@@ -18,7 +18,7 @@ class GameTest {
         Position from = Position.from(3, 2);
 
         // when & then
-        assertThatThrownBy(() -> game.canMovePosition(from))
+        assertThatThrownBy(() -> game.placeablePositions(from))
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessageContaining("선택된 기물이 이동할 수 있는 위치가 없습니다.");
     }

@@ -1,57 +1,72 @@
 package janggi.domain.piece;
 
-import static janggi.domain.dynasty.Dynasty.CHO;
-import static janggi.domain.dynasty.Dynasty.HAN;
-
 import janggi.domain.board.BoardSnapshot;
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.position.Position;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.api.Test;
 
 class SoldierMoveStrategyTest {
 
-    private Map<Position, Piece> board;
-    private PieceType pieceType;
-
-    @BeforeEach
-    void setUp() {
-        board = new HashMap<>();
-        pieceType = PieceType.SOLDIER;
-    }
-
-    @ParameterizedTest
-    @MethodSource("졸_기물의_이동가능한_위치_목록_반환_테스트_케이스")
-    public void 졸_기물의_이동가능한_위치_목록을_반환한다(Dynasty ally, Dynasty enemy, List<Position> results) {
+    @Test
+    public void 한나라_졸_기물의_이동가능한_위치_목록을_반환한다() {
         // given
-        Position from = Position.from(5, 5);
-        board.put(from, new Piece(ally, pieceType));
+        Map<Position, Piece> board = new HashMap<>();
+        PieceType pieceType = PieceType.SOLDIER;
+        Dynasty dynasty = Dynasty.HAN;
+        Position from = Position.from(3, 6);
+        board.put(from, new Piece(dynasty, pieceType));
 
-        // 1. 오른쪽에 상대편
-        board.put(Position.from(5, 6), new Piece(enemy, pieceType));
-        // 2. 왼쪽에 우리편
-        board.put(Position.from(5, 4), new Piece(ally, pieceType));
+        board.put(Position.from(2, 6), new Piece(Dynasty.CHO, PieceType.SOLDIER));
+        board.put(Position.from(2, 5), new Piece(Dynasty.CHO, PieceType.SOLDIER));
+        board.put(Position.from(3, 5), new Piece(Dynasty.CHO, PieceType.SOLDIER));
+        board.put(Position.from(3, 7), new Piece(Dynasty.CHO, PieceType.SOLDIER));
 
         // when
-        List<Position> positions = pieceType.moveStrategy().findPlaceablePositions(BoardSnapshot.of(board), from, ally);
+        List<Position> positions = pieceType.moveStrategy()
+                .findPlaceablePositions(BoardSnapshot.of(board), from, dynasty);
 
         // then
         Assertions.assertThat(positions)
-                .containsExactlyInAnyOrder(results.toArray(new Position[0]));
+                .containsExactlyInAnyOrder(
+                        Position.from(2, 6),
+                        Position.from(2, 5),
+                        Position.from(3, 5),
+                        Position.from(3, 7)
+
+                );
     }
 
-    private static Stream<Arguments> 졸_기물의_이동가능한_위치_목록_반환_테스트_케이스() {
-        return Stream.of(
-                Arguments.of(CHO, HAN, List.of(Position.from(5, 6), Position.from(6, 5))),
-                Arguments.of(HAN, CHO, List.of(Position.from(5, 6), Position.from(4, 5)))
-        );
+    @Test
+    public void 초나라_졸_기물의_이동가능한_위치_목록을_반환한다() {
+        // given
+        Map<Position, Piece> board = new HashMap<>();
+        PieceType pieceType = PieceType.SOLDIER;
+        Dynasty dynasty = Dynasty.CHO;
+        Position from = Position.from(8, 6);
+        board.put(from, new Piece(dynasty, pieceType));
+
+        board.put(Position.from(8, 5), new Piece(Dynasty.HAN, PieceType.SOLDIER));
+        board.put(Position.from(9, 5), new Piece(Dynasty.HAN, PieceType.SOLDIER));
+        board.put(Position.from(9, 6), new Piece(Dynasty.HAN, PieceType.SOLDIER));
+        board.put(Position.from(8, 7), new Piece(Dynasty.HAN, PieceType.SOLDIER));
+
+        // when
+        List<Position> positions = pieceType.moveStrategy()
+                .findPlaceablePositions(BoardSnapshot.of(board), from, dynasty);
+
+        // then
+        Assertions.assertThat(positions)
+                .containsExactlyInAnyOrder(
+                        Position.from(8, 5),
+                        Position.from(9, 5),
+                        Position.from(9, 6),
+                        Position.from(8, 7)
+
+                );
     }
 
 }
