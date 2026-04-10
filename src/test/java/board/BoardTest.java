@@ -7,12 +7,27 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
+import core.Score;
+import core.Turn;
 import pieces.Piece;
 import pieces.PieceType;
 import pieces.Side;
 import position.Position;
 
 class BoardTest {
+
+    @Test
+    void 기물_정보는_내부에서_방어적_복사로_초기화한다() {
+        // given
+        Piece piece = new Piece(Side.HAN, PieceType.CHA);
+        Position departure = new Position(1, 1);
+        Map<Position, Piece> pieces = new HashMap<>();
+        Board board = new Board(pieces);
+        // when
+        pieces.put(departure, piece);
+        // then
+        assertThat(board.pieces()).hasSize(0);
+    }
 
     @Test
     void 기물의_위치를_이동시키면_기존_위치에는_기물이_존재하지_않는다() {
@@ -75,38 +90,48 @@ class BoardTest {
     }
 
     @Test
-    void 중복이_없는_두_보드를_합친다() {
+    void 남은_기물의_점수를_반환한다() {
         // given
-        Map<Position, Piece> choPieces = Map.of(
-            new Position(1, 1), new Piece(Side.CHO, PieceType.CHA)
+        Side side = Side.CHO;
+        Position departure = new Position(5, 0);
+        Piece choPiece = new Piece(side, PieceType.JOL_BYEONG);
+        Map<Position, Piece> pieces = Map.of(
+            departure, choPiece
         );
-        Map<Position, Piece> hanPieces = Map.of(
-            new Position(1, 2), new Piece(Side.HAN, PieceType.CHA)
-        );
-        Board choBoard = new Board(choPieces);
-        Board hanBoard = new Board(hanPieces);
+        Board board = new Board(pieces);
         // when
-        Board mergedBoard = choBoard.merge(hanBoard);
+        Score score = board.calculateScoreOf(side);
         // then
-        Map<Position, Piece> expected = new HashMap<>();
-        expected.putAll(choPieces);
-        expected.putAll(hanPieces);
-        assertThat(mergedBoard.pieces()).isEqualTo(expected);
+        Score expected = choPiece.getScore();
+        assertThat(score).isEqualTo(expected);
     }
 
     @Test
-    void 중복이_있는_두_보드를_합치는_경우_예외를_던진다() {
+    void 출발지와_도착지가_동일한_경우_예외를_던진다() {
         // given
-        Map<Position, Piece> choPieces = Map.of(
-            new Position(1, 1), new Piece(Side.CHO, PieceType.CHA)
-        );
-        Map<Position, Piece> hanPieces = Map.of(
-            new Position(1, 1), new Piece(Side.HAN, PieceType.CHA)
-        );
-        Board choBoard = new Board(choPieces);
-        Board hanBoard = new Board(hanPieces);
+        Position choDeparture = new Position(9, 0);
+        Position choDestination = new Position(8, 0);
+        Piece choPiece = new Piece(Side.CHO, PieceType.CHA);
+        Board board = new Board(Map.of(
+            choDeparture, choPiece
+        ));
         // when & then
-        assertThatThrownBy(() -> choBoard.merge(hanBoard))
+        assertThatThrownBy(() -> board.move(choDestination, choDeparture))
             .isInstanceOf(IllegalArgumentException.class);
     }
+
+    @Test
+    void 한의_턴일_때_초의_기물로_공격하는_경우_예외를_던진다() {
+        // given
+        Turn hanTurn = Turn.HAN_TURN;
+        Position choDeparture = new Position(9, 0);
+        Piece choPiece = new Piece(Side.CHO, PieceType.CHA);
+        Board board = new Board(Map.of(
+            choDeparture, choPiece
+        ));
+        // when & then
+        assertThatThrownBy(() -> board.validatePositions(choDeparture, hanTurn))
+            .isInstanceOf(IllegalArgumentException.class);
+    }
+
 }

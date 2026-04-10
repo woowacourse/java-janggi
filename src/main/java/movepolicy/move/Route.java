@@ -10,24 +10,23 @@ public class Route {
 
     private final List<Step> steps;
 
-    public Route(List<Step> steps) {
+    public Route(final List<Step> steps) {
         this.steps = steps;
     }
 
-    public Optional<Position> destinationOf(Position departure, Side side) {
+    public Optional<Position> destinationOf(final Position departure, final Side side) {
         Position current = departure;
         for (Step step : steps) {
-            try {
-                current = step.move(current, side);
-            } catch (IllegalArgumentException ignored) {
+            if (!step.canMove(current, side)) {
                 return Optional.empty();
             }
+            current = step.move(current, side);
         }
         return Optional.of(current);
     }
 
-    public List<Position> findPathPositions(Position departure, Side side) {
-        List<Position> positions = new ArrayList<>();
+    public List<Position> findPathPositions(final Position departure, final Side side) {
+        final List<Position> positions = new ArrayList<>();
         Position current = departure;
         for (Step step : steps) {
             current = step.move(current, side);
@@ -38,7 +37,7 @@ public class Route {
         return List.copyOf(positions);
     }
 
-    private void removeDestination(List<Position> positions) {
+    private void removeDestination(final List<Position> positions) {
         positions.removeLast();
     }
 }

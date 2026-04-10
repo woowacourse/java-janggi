@@ -22,7 +22,7 @@ class SangSetupTest {
         // given
         Map<Position, Piece> pieces = getDefaultSangSetup(side);
         // when
-        Board board = SangSetup.initialize(SangSetupType.LEFT_SANG_SETUP, side);
+        Board board = SangSetup.initialize(SangSetupType.LEFT_SANG_SETUP, SangSetupType.LEFT_SANG_SETUP);
         // then
         pieces.forEach((position, piece) ->
             assertThat(board.pieces().get(position)).isEqualTo(piece)
@@ -41,7 +41,7 @@ class SangSetupTest {
             position(side, 0, 7), new Piece(side, PieceType.MA)
         );
         // when
-        Board board = SangSetup.initialize(type, side);
+        Board board = SangSetup.initialize(type, type);
         // then
         positions.forEach((position, piece) ->
             assertThat(board.pieces().get(position)).isEqualTo(piece)
@@ -60,7 +60,7 @@ class SangSetupTest {
             position(side, 0, 7), new Piece(side, PieceType.SANG)
         );
         // when
-        Board board = SangSetup.initialize(type, side);
+        Board board = SangSetup.initialize(type, type);
         // then
         positions.forEach((position, piece) ->
             assertThat(board.pieces().get(position)).isEqualTo(piece)
@@ -79,7 +79,7 @@ class SangSetupTest {
             position(side, 0, 7), new Piece(side, PieceType.MA)
         );
         // when
-        Board board = SangSetup.initialize(type, side);
+        Board board = SangSetup.initialize(type, type);
         // then
         positions.forEach((position, piece) ->
             assertThat(board.pieces().get(position)).isEqualTo(piece)
@@ -110,14 +110,6 @@ class SangSetupTest {
         if (side.isCho()) {
             return position;
         }
-        return reverse(position);
+        return position.reverse();
     }
-
-    private Position reverse(Position position) {
-        return new Position(
-            BOARD_ROW_SIZE - position.row().index(),
-            BOARD_COLUMN_SIZE - position.column().index()
-        );
-    }
-
 }

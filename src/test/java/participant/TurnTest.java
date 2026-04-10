@@ -2,6 +2,7 @@ package participant;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import core.Turn;
 import org.junit.jupiter.api.Test;
 import pieces.Side;
 
@@ -12,7 +13,7 @@ class TurnTest {
         // given
         Turn turn = Turn.CHO_TURN;
         // when
-        Turn movedTurn = turn.move();
+        Turn movedTurn = turn.other();
         // then
         assertThat(movedTurn.getSide()).isEqualTo(Side.HAN);
     }
@@ -22,7 +23,7 @@ class TurnTest {
         // given
         Turn turn = Turn.HAN_TURN;
         // when
-        Turn movedTurn = turn.move();
+        Turn movedTurn = turn.other();
         // then
         assertThat(movedTurn.getSide()).isEqualTo(Side.CHO);
     }

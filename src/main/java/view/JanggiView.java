@@ -1,33 +1,62 @@
 package view;
 
 import board.SangSetupType;
+import core.GameStatus;
+import service.GameSummary;
+import java.util.List;
+import core.MoveHistory;
+import core.Score;
 import pieces.Side;
 import position.Position;
 import util.Retry;
 
 public class JanggiView {
 
-    private final InputView in;
-    private final OutputView out;
+    private final InputView in = new InputView();
+    private final OutputView out = new OutputView();
 
-    public JanggiView(InputView in, OutputView out) {
-        this.in = in;
-        this.out = out;
-    }
-
-    public SangSetupType askSangSetupUntilSuccess(Side side) {
+    public SangSetupType askSangSetupUntilSuccess(final Side side) {
         return Retry.untilSuccess(() -> {
             out.askSangSetup(side);
             return in.readSangSetup();
         });
     }
 
-    public void printBoard(String board) {
+    public void printBoard(final String board) {
         out.printBoard(board);
     }
 
-    public void printTurnSide(Side side) {
+    public void printTurnSide(final Side side) {
         out.printTurnSide(side);
+    }
+
+    public boolean askEndByScore(final Side turnSide) {
+        return Retry.untilSuccess(() -> {
+            out.askEndByScore();
+            if (!in.readYesOrNo()) {
+                return false;
+            }
+            out.askConfirmEndByScore(turnSide.other());
+            return in.readYesOrNo();
+        });
+    }
+
+    public boolean askNewGame() {
+        return Retry.untilSuccess(() -> {
+            out.askNewGame();
+            return in.readYesOrNo();
+        });
+    }
+
+    public boolean askUndoRequest(final Side side) {
+        return Retry.untilSuccess(() -> {
+            out.askUndoRequest(side);
+            if (!in.readYesOrNo()) {
+                return false;
+            }
+            out.askConfirmUndo(side.other());
+            return in.readYesOrNo();
+        });
     }
 
     public Position askDeparture() {
@@ -43,4 +72,30 @@ public class JanggiView {
     private Position readPositionUntilSuccess() {
         return Retry.untilSuccess(in::readPosition);
     }
+
+    public void printGameResult(final GameStatus status) {
+        out.printGameResult(status);
+    }
+
+    public void printScore(final Side side, final Score score) {
+        out.printScore(side, score);
+    }
+
+    public SelectedGame askGameId(final List<GameSummary> gameSummaries) {
+        out.printSavedGames(gameSummaries);
+        out.askGameId();
+        return SelectedGame.of(in.readLong(), gameSummaries);
+    }
+
+    public ServiceMenu askServiceMenu() {
+        return Retry.untilSuccess(() -> {
+            out.askServiceMenu();
+            return in.askServiceMenu();
+        });
+    }
+
+    public void printMoveHistories(List<MoveHistory> moveHistories) {
+        out.printMoveHistories(moveHistories);
+    }
+
 }

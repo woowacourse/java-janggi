@@ -9,7 +9,7 @@ public class MoveTrace {
     private final List<Piece> pathPieces;
     private final Piece targetPiece;
 
-    public MoveTrace(Piece movingPiece, List<Piece> pathPieces, Piece targetPiece) {
+    public MoveTrace(final Piece movingPiece, final List<Piece> pathPieces, final Piece targetPiece) {
         this.movingPiece = movingPiece;
         this.pathPieces = pathPieces;
         this.targetPiece = targetPiece;

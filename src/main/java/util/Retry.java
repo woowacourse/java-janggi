@@ -7,7 +7,7 @@ public final class Retry {
     private Retry() {
     }
 
-    public static <T> T untilSuccess(SupplierWithEx<T> supplier) {
+    public static <T> T untilSuccess(final SupplierWithEx<T> supplier) {
         while (true) {
             try {
                 return supplier.get();

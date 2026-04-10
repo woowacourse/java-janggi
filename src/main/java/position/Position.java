@@ -1,41 +1,69 @@
 package position;
 
-import pieces.Side;
+import java.util.List;
 
 public record Position(Row row, Column column) {
 
-    public Position(int row, int column) {
+    public Position(final int row, final int column) {
         this(new Row(row), new Column(column));
     }
 
-    public Position move(Delta delta) {
-        return new Position(row.add(delta), column.add(delta));
+    public boolean canMove(final Delta delta) {
+        final boolean canMoveRow = row.canMove(delta);
+        final boolean canMoveColumn = column.canMove(delta);
+        return canMoveRow && canMoveColumn;
     }
 
-    public boolean isSameRow(Position departure) {
-        return this.row.equals(departure.row);
-    }
-
-    public boolean isSameColumn(Position departure) {
-        return this.column.equals(departure.column);
-    }
-
-    public boolean isBackRow(Position destination, Side side) {
-        if (side.isCho()) {
-            return this.row.isBelow(destination.row);
+    public Position move(final Delta delta) {
+        if (!canMove(delta)) {
+            throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
         }
-        return this.row.isAbove(destination.row);
+        return new Position(row.add(delta), column.move(delta));
     }
 
-    public boolean isLeftColumn(Position destination, Side side) {
-        if (side.isCho()) {
-            return this.column.isLeft(destination.column);
-        }
-        return this.column.isRight(destination.column);
+    public boolean isSameRow(final Position departure) {
+        return row.equals(departure.row);
     }
 
-    public boolean isGapBiggerThanOne(Position destination) {
+    public boolean isSameColumn(final Position departure) {
+        return column.equals(departure.column);
+    }
+
+    public boolean isGapBiggerThanOneStep(final Position destination) {
         return row.isGapBiggerThanOne(destination.row) ||
             column.isGapBiggerThanOne(destination.column);
+    }
+
+    public boolean isRowInRange(final Row min, final Row max) {
+        return row.isInRange(min, max);
+    }
+
+    public boolean isColumnInRange(final Column min, final Column max) {
+        return column.isInRange(min, max);
+    }
+
+    public Position reverse() {
+        return new Position(row.reverse(), column.reverse());
+    }
+
+    public List<Position> getMovableOneStepDiagonals() {
+        return Delta.getDiagonals().stream()
+            .filter(this::canMove)
+            .map(this::move)
+            .toList();
+    }
+
+    public Delta calculateDeltaTo(final Position destination) {
+        final Delta rowDelta = destination.row.calculateDelta(row);
+        final Delta columnDelta = destination.column.calculateDelta(column);
+        return rowDelta.add(columnDelta);
+    }
+
+    public int getRowIndex() {
+        return row.index();
+    }
+
+    public int getColumnIndex() {
+        return column.index();
     }
 }

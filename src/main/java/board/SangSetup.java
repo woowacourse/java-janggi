@@ -9,17 +9,21 @@ import position.Position;
 
 public final class SangSetup {
 
-    private static final int BOARD_ROW_SIZE = 9;
-    private static final int BOARD_COLUMN_SIZE = 8;
-
-    public static Board initialize(SangSetupType setupType, Side side) {
-        Map<Position, Piece> board = new HashMap<>();
-        putDefaultPieces(board, side);
-        board.putAll(createSangMa(setupType, side));
-        return new Board(board);
+    public static Board initialize(final SangSetupType choSetupType, final SangSetupType hanSetupType) {
+        final Map<Position, Piece> merged = new HashMap<>();
+        merged.putAll(initialize(choSetupType, Side.CHO));
+        merged.putAll(initialize(hanSetupType, Side.HAN));
+        return new Board(merged);
     }
 
-    private static void putDefaultPieces(Map<Position, Piece> board, Side side) {
+    private static Map<Position, Piece> initialize(final SangSetupType setupType, final Side side) {
+        final Map<Position, Piece> pieces = new HashMap<>();
+        putDefaultPieces(pieces, side);
+        pieces.putAll(createSangMa(setupType, side));
+        return pieces;
+    }
+
+    private static void putDefaultPieces(final Map<Position, Piece> board, final Side side) {
         board.putAll(createCha(side));
         board.putAll(createSa(side));
         board.putAll(createGung(side));
@@ -27,34 +31,34 @@ public final class SangSetup {
         board.putAll(createJolByeong(side));
     }
 
-    private static Map<Position, Piece> createCha(Side side) {
+    private static Map<Position, Piece> createCha(final Side side) {
         return Map.of(
             toPosition(side, 0, 0), PieceType.CHA.create(side),
             toPosition(side, 0, 8), PieceType.CHA.create(side)
         );
     }
 
-    private static Map<Position, Piece> createSa(Side side) {
+    private static Map<Position, Piece> createSa(final Side side) {
         return Map.of(
             toPosition(side, 0, 3), PieceType.SA.create(side),
             toPosition(side, 0, 5), PieceType.SA.create(side)
         );
     }
 
-    private static Map<Position, Piece> createGung(Side side) {
+    private static Map<Position, Piece> createGung(final Side side) {
         return Map.of(
             toPosition(side, 1, 4), PieceType.GUNG.create(side)
         );
     }
 
-    private static Map<Position, Piece> createPo(Side side) {
+    private static Map<Position, Piece> createPo(final Side side) {
         return Map.of(
             toPosition(side, 2, 1), PieceType.PO.create(side),
             toPosition(side, 2, 7), PieceType.PO.create(side)
         );
     }
 
-    private static Map<Position, Piece> createJolByeong(Side side) {
+    private static Map<Position, Piece> createJolByeong(final Side side) {
         return Map.of(
             toPosition(side, 3, 2), PieceType.JOL_BYEONG.create(side),
             toPosition(side, 3, 4), PieceType.JOL_BYEONG.create(side),
@@ -64,7 +68,7 @@ public final class SangSetup {
         );
     }
 
-    private static Map<Position, Piece> createSangMa(SangSetupType setupType, Side side) {
+    private static Map<Position, Piece> createSangMa(final SangSetupType setupType, final Side side) {
         return Map.of(
             toPosition(side, 0, 1), setupType.createFirst(side),
             toPosition(side, 0, 2), setupType.createSecond(side),
@@ -73,18 +77,11 @@ public final class SangSetup {
         );
     }
 
-    private static Position toPosition(Side side, int choRow, int choColumn) {
-        Position position = new Position(choRow, choColumn);
+    private static Position toPosition(final Side side, final int choRow, final int choColumn) {
+        final Position position = new Position(choRow, choColumn);
         if (side.isCho()) {
             return position;
         }
-        return reverse(position);
-    }
-
-    private static Position reverse(Position position) {
-        return new Position(
-            BOARD_ROW_SIZE - position.row().index(),
-            BOARD_COLUMN_SIZE - position.column().index()
-        );
+        return position.reverse();
     }
 }

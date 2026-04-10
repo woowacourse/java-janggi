@@ -10,25 +10,38 @@ public record Column(int index) {
         validateRange(index);
     }
 
-    private void validateRange(int index) {
-        if (index < MINIMUM_BOUNDARY || index > MAXIMUM_BOUNDARY) {
+    private void validateRange(final int index) {
+        if (!isValidRange(index)) {
             throw new IllegalArgumentException("유효하지 않은 COLUMN입니다.");
         }
     }
 
-    public boolean isLeft(Column column) {
-        return this.index < column.index;
+    private boolean isValidRange(final int index) {
+        return MINIMUM_BOUNDARY <= index && index <= MAXIMUM_BOUNDARY;
     }
 
-    public boolean isRight(Column column) {
-        return this.index > column.index;
+    public boolean isInRange(final Column min, final Column max) {
+        return min.index <= index && index <= max.index;
     }
 
-    public boolean isGapBiggerThanOne(Column other) {
+    public boolean isGapBiggerThanOne(final Column other) {
         return Math.abs(this.index - other.index) > ONE_SPACE;
     }
 
-    public Column add(Delta delta) {
+    public boolean canMove(final Delta delta) {
+        int nextColumn = index + delta.columnDelta();
+        return isValidRange(nextColumn);
+    }
+
+    public Column move(final Delta delta) {
         return new Column(index + delta.columnDelta());
+    }
+
+    public Column reverse() {
+        return new Column(MAXIMUM_BOUNDARY - index);
+    }
+
+    public Delta calculateDelta(final Column column) {
+        return new Delta(0, index - column.index);
     }
 }

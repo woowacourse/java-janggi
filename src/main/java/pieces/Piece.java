@@ -1,71 +1,40 @@
 package pieces;
 
 import java.util.List;
-import java.util.Objects;
-import movepolicy.move.Movement;
-import movepolicy.rule.MoveRule;
 import movepolicy.rule.MoveTrace;
+import core.Score;
 import position.Position;
 
-public class Piece {
+public record Piece(Side side, PieceType type) {
 
-    private final Side side;
-    private final PieceType type;
-    private final MoveRule moveRule;
-    private final Movement movement;
-
-    private Piece(Side side, PieceType type, MoveRule moveRule, Movement movement) {
-        this.side = side;
-        this.type = type;
-        this.moveRule = moveRule;
-        this.movement = movement;
-    }
-
-    public Piece(Side side, PieceType type) {
-        this(side, type, type.moveRule, type.movement);
-    }
-
-    public final boolean isSameSide(Side side) {
+    public boolean isSameSide(final Side side) {
         return this.side == side;
     }
 
-    public final boolean isSameSide(Piece piece) {
+    public boolean isSameSide(final Piece piece) {
         return isSameSide(piece.side);
     }
 
-    public final void validateDestination(Position departure, Position destination) {
-        if (!movement.canReach(departure, destination, side)) {
-            throw new IllegalArgumentException("행마법으로는 해당 위치로 이동할 수 없습니다.");
-        }
-    }
-
-    public final List<Position> findPathPositions(Position departure, Position destination) {
-        return movement.findPathPositions(departure, destination, side);
-    }
-
-    public final void validate(MoveTrace moveTrace) {
-        moveRule.validate(moveTrace);
-    }
-
-    public final boolean isPo() {
+    public boolean isPo() {
         return type.isPo();
     }
 
-    public final PieceType getType() {
-        return type;
+    public boolean isGung() {
+        return type.isGung();
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) {
-            return false;
+    public Score getScore() {
+        return type.getScore();
+    }
+
+    public void validate(final Position departure, final Position destination, final MoveTrace moveTrace) {
+        if (!type.getMovement().canReach(departure, destination, side)) {
+            throw new IllegalArgumentException("행마법으로는 해당 위치로 이동할 수 없습니다.");
         }
-        Piece other = (Piece) o;
-        return side == other.side;
+        type.getMoveRule().validate(moveTrace);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(side);
+    public List<Position> findPathPositions(final Position departure, final Position destination) {
+        return type.getMovement().findPathPositions(departure, destination, side);
     }
 }

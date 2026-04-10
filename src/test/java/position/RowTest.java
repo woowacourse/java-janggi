@@ -22,33 +22,6 @@ class RowTest {
     }
 
     @Nested
-    @DisplayName("Row의 높이를 비교한다")
-    class IsLowerThan {
-
-        @Test
-        void ROW가_다른_ROW_보다_낮을_경우_TRUE를_반환한다() {
-            // given
-            Row row = new Row(1);
-            Row other = new Row(2);
-            // when
-            boolean isLower = row.isBelow(other);
-            // then
-            assertThat(isLower).isTrue();
-        }
-
-        @Test
-        void ROW가_다른_ROW_보다_높을_경우_FALSE를_반환한다() {
-            // given
-            Row row = new Row(1);
-            Row other = new Row(0);
-            // when
-            boolean isLower = row.isBelow(other);
-            // then
-            assertThat(isLower).isFalse();
-        }
-    }
-
-    @Nested
     @DisplayName("서로 다른 ROW의 합을 검증한다")
     class Add {
 
@@ -76,4 +49,16 @@ class RowTest {
                 .isInstanceOf(IllegalArgumentException.class);
         }
     }
+
+    @Test
+    void 최소_최대값을_기준으로_상하_반전_위치를_반환한다() {
+        // given
+        Row row = new Row(3);
+        // when
+        Row reversed = row.reverse();
+        // then
+        int expected = MAXIMUM_BOUNDARY - row.index();
+        assertThat(reversed.index()).isEqualTo(expected);
+    }
 }
+// dao, jdbc, model, resources, support

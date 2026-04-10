@@ -5,28 +5,29 @@ import position.Delta;
 public enum Side {
 
     CHO(
-        new Delta(1, 0),
-        new Delta(-1, 0),
-        new Delta(0, -1),
-        new Delta(0, 1)
+        Delta.up(),
+        Delta.down(),
+        Delta.right(),
+        Delta.left()
     ),
     HAN(
-        new Delta(-1, 0),
-        new Delta(1, 0),
-        new Delta(0, 1),
-        new Delta(0, -1)
-    );
+        Delta.down(),
+        Delta.up(),
+        Delta.left(),
+        Delta.right()
+    ),
+    ;
 
     private final Delta forward;
     private final Delta back;
-    private final Delta left;
     private final Delta right;
+    private final Delta left;
 
-    Side(Delta forward, Delta back, Delta left, Delta right) {
+    Side(Delta forward, Delta back, Delta right, Delta left) {
         this.forward = forward;
         this.back = back;
-        this.left = left;
         this.right = right;
+        this.left = left;
     }
 
     public boolean isCho() {
@@ -63,5 +64,12 @@ public enum Side {
 
     public Delta leftBackDelta() {
         return left.add(back);
+    }
+
+    public Side other() {
+        if (this.isCho()) {
+            return Side.HAN;
+        }
+        return Side.CHO;
     }
 }

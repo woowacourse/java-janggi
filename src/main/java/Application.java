@@ -1,45 +1,56 @@
-import board.SangSetupType;
-import core.JanggiGame;
-import pieces.Side;
-import position.Position;
-import util.Retry;
-import view.DisplayBoard;
-import view.InputView;
+import db.dao.JdbcBoardPieceDao;
+import db.dao.JdbcGameDao;
+import db.dao.JdbcMoveHistoryDao;
+import db.jdbc.ConnectionManager;
+import db.jdbc.DatabaseMigrator;
+import db.jdbc.FlywayDatabaseMigrator;
+import db.jdbc.ProductionConnectionManager;
+import db.repository.JanggiGameRepository;
+import db.repository.JdbcJanggiGameRepository;
+import service.DbTemplate;
+import service.GamePlayService;
+import service.GamePrepareService;
+import service.MoveHistoryShowService;
+import service.PreparedGame;
 import view.JanggiView;
-import view.OutputView;
+import view.ServiceMenu;
 
 public class Application {
+
     public static void main(String[] args) {
-        JanggiView view = new JanggiView(new InputView(), new OutputView());
-        SangSetupType choSangSetupType = view.askSangSetupUntilSuccess(Side.CHO);
-        SangSetupType hanSangSetupType = view.askSangSetupUntilSuccess(Side.HAN);
-        JanggiGame game = JanggiGame.of(choSangSetupType, hanSangSetupType);
+        final ConnectionManager connectionManager = new ProductionConnectionManager();
+        migrate(connectionManager);
 
-        new Application(game, view).run();
+        doService(
+            new JanggiView(),
+            new DbTemplate(connectionManager),
+            getRepository());
     }
 
-    private JanggiGame game;
-    private final JanggiView view;
-
-    public Application(JanggiGame game, JanggiView view) {
-        this.game = game;
-        this.view = view;
+    private static void migrate(final ConnectionManager connectionManager) {
+        final DatabaseMigrator migrator = new FlywayDatabaseMigrator(connectionManager);
+        migrator.migrate();
     }
 
-    public void run() {
-        while (!game.isOver()) {
-            moveUntilSuccess();
+    private static JanggiGameRepository getRepository() {
+        return new JdbcJanggiGameRepository(
+            new JdbcGameDao(),
+            new JdbcBoardPieceDao(),
+            new JdbcMoveHistoryDao()
+        );
+    }
+
+    private static void doService(
+        final JanggiView view,
+        final DbTemplate dbTemplate,
+        final JanggiGameRepository repository
+    ) {
+        ServiceMenu menu = view.askServiceMenu();
+        if (menu.isShowMoveHistory()) {
+            new MoveHistoryShowService(view, dbTemplate, repository).show();
+            return;
         }
-    }
-
-    private void moveUntilSuccess() {
-        game = Retry.untilSuccess(() -> {
-            view.printBoard(DisplayBoard.of(game.getBoard()));
-
-            view.printTurnSide(game.getTurnSide());
-            Position departure = view.askDeparture();
-            Position destination = view.askDestination();
-            return game.move(departure, destination);
-        });
+        PreparedGame prepared = new GamePrepareService(view, dbTemplate, repository).prepare();
+        new GamePlayService(view, dbTemplate, repository).play(prepared);
     }
 }
