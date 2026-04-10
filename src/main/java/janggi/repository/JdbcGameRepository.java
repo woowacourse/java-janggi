@@ -4,6 +4,7 @@ import janggi.db.ConnectionFactory;
 import janggi.domain.board.Board;
 import janggi.domain.board.Position;
 import janggi.domain.game.JanggiGame;
+import janggi.domain.game.MoveResult;
 import janggi.domain.piece.Name;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceFactory;
@@ -60,11 +61,9 @@ public class JdbcGameRepository implements GameRepository {
     }
 
     @Override
-    public void updateAfterMove(long savedGameId, JanggiGame janggiGame, Position startPiecePosition,
-                                Position endPiecePosition) {
+    public void applyMoveResult(long savedGameId, MoveResult moveResult) {
         try (Connection connection = connectionFactory.create()) {
-            updateAfterMoveWithTransaction(connection, savedGameId, janggiGame, startPiecePosition,
-                    endPiecePosition);
+            applyMoveResultWithTransaction(connection, savedGameId, moveResult);
         } catch (SQLException e) {
             throw new IllegalStateException("수 반영 저장에 실패했습니다.", e);
         }
@@ -74,7 +73,7 @@ public class JdbcGameRepository implements GameRepository {
         try {
             connection.setAutoCommit(false);
 
-            long savedGameId = gameDao.save(connection, createGameData(janggiGame));
+            long savedGameId = gameDao.save(connection, createNewGameData(janggiGame));
             pieceDao.saveAll(connection, createPieceData(savedGameId, janggiGame));
             connection.commit();
             return savedGameId;
@@ -84,15 +83,15 @@ public class JdbcGameRepository implements GameRepository {
         }
     }
 
-    private void updateAfterMoveWithTransaction(Connection connection, long savedGameId, JanggiGame janggiGame,
-                                                Position startPiecePosition,
-                                                Position endPiecePosition) throws SQLException {
+    private void applyMoveResultWithTransaction(Connection connection, long savedGameId, MoveResult moveResult)
+            throws SQLException {
         try {
             connection.setAutoCommit(false);
-            gameDao.update(connection, createGameData(savedGameId, janggiGame));
-            pieceDao.deleteOn(connection, savedGameId, endPiecePosition);
-            pieceDao.deleteOn(connection, savedGameId, startPiecePosition);
-            pieceDao.save(connection, createMovedPieceData(savedGameId, janggiGame, endPiecePosition));
+            gameDao.update(connection, createUpdatedGameData(savedGameId, moveResult));
+            if (moveResult.captured()) {
+                pieceDao.deleteOn(connection, savedGameId, moveResult.to());
+            }
+            pieceDao.move(connection, savedGameId, moveResult.from(), moveResult.to());
             connection.commit();
         } catch (SQLException e) {
             rollback(connection);
@@ -120,23 +119,18 @@ public class JdbcGameRepository implements GameRepository {
         }
     }
 
-    private GameData createGameData(JanggiGame janggiGame) {
+    private GameData createNewGameData(JanggiGame janggiGame) {
         return new GameData(null, janggiGame.currentTurnTeam().name(), findStatus(janggiGame));
     }
 
-    private GameData createGameData(long savedGameId, JanggiGame janggiGame) {
-        return new GameData(savedGameId, janggiGame.currentTurnTeam().name(), findStatus(janggiGame));
+    private GameData createUpdatedGameData(long savedGameId, MoveResult moveResult) {
+        return new GameData(savedGameId, moveResult.currentTurnTeam().name(), moveResult.gameStatus().name());
     }
 
     private List<PieceData> createPieceData(long savedGameId, JanggiGame janggiGame) {
         return janggiGame.board().getBoard().entrySet().stream()
                 .map(entry -> createPieceData(savedGameId, entry.getKey(), entry.getValue()))
                 .toList();
-    }
-
-    private PieceData createMovedPieceData(long savedGameId, JanggiGame janggiGame, Position endPiecePosition) {
-        Piece movedPiece = janggiGame.board().findPiece(endPiecePosition);
-        return createPieceData(savedGameId, endPiecePosition, movedPiece);
     }
 
     private PieceData createPieceData(long savedGameId, Position piecePosition, Piece piece) {

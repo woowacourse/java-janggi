@@ -6,6 +6,7 @@ import janggi.domain.board.Board;
 import janggi.domain.board.BoardInitializer;
 import janggi.domain.board.Position;
 import janggi.domain.game.JanggiGame;
+import janggi.domain.game.MoveResult;
 import janggi.domain.piece.Team;
 import janggi.dto.BoardDto;
 import janggi.dto.OpeningFormationChoices;
@@ -69,8 +70,8 @@ public class Application {
     private void tryMove(GameRepository gameRepository, long savedGameId, JanggiGame janggiGame,
                          Position startPiecePosition, Position endPiecePosition) {
         try {
-            janggiGame.move(startPiecePosition, endPiecePosition);
-            gameRepository.updateAfterMove(savedGameId, janggiGame, startPiecePosition, endPiecePosition);
+            MoveResult moveResult = janggiGame.move(startPiecePosition, endPiecePosition);
+            gameRepository.applyMoveResult(savedGameId, moveResult);
         } catch (IllegalArgumentException e) {
             outputView.printErrorMessage(e.getMessage());
         }

@@ -1,7 +1,7 @@
 package janggi.repository;
 
-import janggi.domain.board.Position;
 import janggi.domain.game.JanggiGame;
+import janggi.domain.game.MoveResult;
 import java.util.Optional;
 
 public interface GameRepository {
@@ -9,6 +9,5 @@ public interface GameRepository {
 
     Optional<SavedGame> findPlayingGame();
 
-    void updateAfterMove(long savedGameId, JanggiGame janggiGame, Position startPiecePosition,
-                         Position endPiecePosition);
+    void applyMoveResult(long savedGameId, MoveResult moveResult);
 }

@@ -8,6 +8,7 @@ import janggi.domain.board.Board;
 import janggi.domain.board.BoardInitializer;
 import janggi.domain.board.Position;
 import janggi.domain.game.JanggiGame;
+import janggi.domain.game.MoveResult;
 import janggi.domain.piece.Team;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -65,8 +66,8 @@ class JdbcGameRepositoryTest {
 
         Position startPiecePosition = new Position(1, 4);
         Position endPiecePosition = new Position(1, 5);
-        janggiGame.move(startPiecePosition, endPiecePosition);
-        jdbcGameRepository.updateAfterMove(savedGameId, janggiGame, startPiecePosition, endPiecePosition);
+        MoveResult moveResult = janggiGame.move(startPiecePosition, endPiecePosition);
+        jdbcGameRepository.applyMoveResult(savedGameId, moveResult);
 
         Optional<SavedGame> savedGame = jdbcGameRepository.findPlayingGame();
 

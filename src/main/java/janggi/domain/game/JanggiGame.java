@@ -26,7 +26,7 @@ public class JanggiGame {
         this.turn = turn;
     }
 
-    public void move(Position from, Position to) {
+    public MoveResult move(Position from, Position to) {
         validateGamePlayingStatus();
         validatePieceExistsAt(from);
 
@@ -35,6 +35,7 @@ public class JanggiGame {
         Piece capturedPiece = board.move(from, to);
 
         updateGameStateAfterMove(capturedPiece);
+        return new MoveResult(from, to, capturedPiece != null, currentTurnTeam(), gameStatus);
     }
 
     public Board board() {

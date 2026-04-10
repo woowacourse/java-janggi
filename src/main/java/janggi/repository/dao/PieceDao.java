@@ -60,16 +60,21 @@ public class PieceDao {
         }
     }
 
-    public void save(Connection connection, PieceData pieceData) throws SQLException {
-        String sql = "INSERT INTO pieces(game_id, x, y, name, team) VALUES(?, ?, ?, ?, ?)";
+    public void move(Connection connection, long savedGameId, Position from, Position to) throws SQLException {
+        String sql = "UPDATE pieces SET x = ?, y = ? WHERE game_id = ? AND x = ? AND y = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setLong(1, pieceData.gameId());
-            statement.setInt(2, pieceData.x());
-            statement.setInt(3, pieceData.y());
-            statement.setString(4, pieceData.name());
-            statement.setString(5, pieceData.team());
-            statement.executeUpdate();
+            statement.setInt(1, to.x());
+            statement.setInt(2, to.y());
+            statement.setLong(3, savedGameId);
+            statement.setInt(4, from.x());
+            statement.setInt(5, from.y());
+
+            int updatedCount = statement.executeUpdate();
+            if (updatedCount != 1) {
+                throw new SQLException("이동 대상 기물 수정 결과가 예상과 다릅니다.");
+            }
         }
     }
 }
+
