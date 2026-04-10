@@ -1,130 +1,102 @@
 package janggi.infrastructure.repository;
 
 import janggi.domain.Game;
+import janggi.domain.MoveEvent;
 import janggi.domain.Side;
 import janggi.domain.board.Board;
-import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceFactory;
-import janggi.domain.piece.PieceType;
+import janggi.domain.board.BoardFactory;
+import janggi.domain.board.Formation;
 import janggi.domain.player.Name;
 import janggi.domain.player.Player;
 import janggi.domain.player.Players;
 import janggi.domain.repository.GameRepository;
 import janggi.domain.space.Position;
-import janggi.domain.state.ChoTurn;
-import janggi.domain.state.Finished;
-import janggi.domain.state.GameState;
-import janggi.domain.state.HanTurn;
 import janggi.dto.GameDto;
 import janggi.infrastructure.dao.GameDao;
-import janggi.infrastructure.dao.PieceDao;
-import janggi.infrastructure.dao.dto.GameEntity;
-import janggi.infrastructure.dao.dto.PieceEntity;
-import janggi.infrastructure.db.DatabaseConnection;
-import java.sql.Connection;
+import janggi.infrastructure.dao.MoveHistoryDao;
+import janggi.infrastructure.dao.dto.MoveEntity;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class JdbcGameRepository implements GameRepository {
     private final GameDao gameDao;
-    private final PieceDao pieceDao;
+    private final MoveHistoryDao moveHistoryDao;
 
-    public JdbcGameRepository(GameDao gameDao, PieceDao pieceDao) {
+    public JdbcGameRepository(GameDao gameDao, MoveHistoryDao moveHistoryDao) {
         this.gameDao = gameDao;
-        this.pieceDao = pieceDao;
+        this.moveHistoryDao = moveHistoryDao;
     }
 
     @Override
     public Long save(Game game) {
-        try (Connection connection = DatabaseConnection.getConnection()) {
-            connection.setAutoCommit(false);
-            try {
-                String choName = game.getPlayerNameBySide(Side.CHO).name();
-                String hanName = game.getPlayerNameBySide(Side.HAN).name();
-                String currentTurn = game.getCurrentSide().name();
-
-                Long gameId = gameDao.insertGame(connection, choName, hanName, currentTurn);
-                pieceDao.insertPieces(connection, gameId, game.getBoard());
-
-                connection.commit();
-                return gameId;
-            } catch (Exception e) {
-                connection.rollback();
-                throw new RuntimeException("새 게임 저장 중 롤백 발생", e);
-            }
+        try {
+            return gameDao.insertGame(
+                    game.getPlayerNameBySide(Side.CHO).name(),
+                    game.getPlayerNameBySide(Side.HAN).name(),
+                    game.getPlayerFormationBySide(Side.CHO).name(),
+                    game.getPlayerFormationBySide(Side.HAN).name(),
+                    game.getCurrentSide().name()
+            );
         } catch (SQLException e) {
-            throw new RuntimeException("DB 커넥션 오류", e);
+            throw new RuntimeException("새 게임 저장 실패", e);
         }
     }
 
     @Override
-    public void update(Long id, Game game) {
-        try (Connection connection = DatabaseConnection.getConnection()) {
-            connection.setAutoCommit(false);
-            try {
-                gameDao.updateGame(connection, id, game.getCurrentSide().name(), game.isPlaying());
-                pieceDao.deleteAllByGameId(connection, id);
-                pieceDao.insertPieces(connection, id, game.getBoard());
-
-                connection.commit();
-            } catch (Exception e) {
-                connection.rollback();
-                throw new RuntimeException("게임 갱신 중 롤백 발생", e);
-            }
+    public void update(Long gameId, Game game) {
+        try {
+            gameDao.updateGame(gameId, game.getCurrentSide().name(), game.isPlaying());
+            saveUncommittedEvents(gameId, game);
         } catch (SQLException e) {
-            throw new RuntimeException("DB 커넥션 오류", e);
+            throw new RuntimeException("게임 업데이트 실패", e);
         }
+    }
+
+    private void saveUncommittedEvents(Long gameId, Game game) throws SQLException {
+        List<MoveEvent> events = game.getUncommittedEvents();
+        for (MoveEvent event : events) {
+            moveHistoryDao.insertMove(gameId, event.source(), event.target());
+        }
+        game.clearEvents();
     }
 
     @Override
     public Optional<Game> findById(Long gameId) {
-        return gameDao.findById(gameId)
-                .map(gameEntity -> restoreGame(gameEntity, pieceDao.findAllByGameId(gameId)));
+        return gameDao.findById(gameId).map(gameEntity -> {
+            Formation choFormation = Formation.valueOf(gameEntity.choFormation());
+            Formation hanFormation = Formation.valueOf(gameEntity.hanFormation());
+            Players players = new Players(
+                    new Player(new Name(gameEntity.choPlayerName()), Side.CHO, choFormation),
+                    new Player(new Name(gameEntity.hanPlayerName()), Side.HAN, hanFormation)
+            );
+            Board initialBoard = BoardFactory.create(choFormation, hanFormation);
+            Game game = Game.startNew(initialBoard, players);
+
+            List<MoveEntity> moves;
+            try {
+                moves = moveHistoryDao.findAllByGameId(gameId);
+            } catch (SQLException e) {
+                throw new RuntimeException("이력 조회 중 오류 발생", e);
+            }
+            for (MoveEntity entity : moves) {
+                Position source = Position.of(entity.sourceX(), entity.sourceY());
+                Position target = Position.of(entity.targetX(), entity.targetY());
+                game.move(source, target);
+            }
+            game.clearEvents();
+            return game;
+        });
     }
 
     @Override
     public List<GameDto> findAllGames() {
         return gameDao.findAll().stream()
-                .map(entity -> new GameDto(entity.id(), entity.choPlayerName(), entity.hanPlayerName(), entity.currentTurn()))
+                .map(entity -> new GameDto(
+                        entity.id(),
+                        entity.choPlayerName(),
+                        entity.hanPlayerName(),
+                        entity.currentTurn()))
                 .toList();
-    }
-
-    private Game restoreGame(GameEntity gameEntity, List<PieceEntity> pieceEntities) {
-        Board board = restoreBoard(pieceEntities);
-        Players players = restorePlayers(gameEntity);
-
-        Side currentSide = Side.valueOf(gameEntity.currentTurn());
-        GameState gameState;
-        if (!gameEntity.isPlaying()) {
-            gameState = new Finished(board, currentSide);
-        } else if (currentSide == Side.CHO) {
-            gameState = new ChoTurn(board);
-        } else {
-            gameState = new HanTurn(board);
-        }
-
-        return Game.restore(gameState, players);
-    }
-
-    private Board restoreBoard(List<PieceEntity> pieceEntities) {
-        Map<Position, Piece> boardMap = pieceEntities.stream()
-                .collect(Collectors.toMap(
-                        entity -> Position.of(entity.x(), entity.y()),
-                        entity -> PieceFactory.create(
-                                PieceType.valueOf(entity.pieceType()),
-                                Side.valueOf(entity.side())
-                        )
-                ));
-        return new Board(boardMap);
-    }
-
-    private Players restorePlayers(GameEntity gameEntity) {
-        Player choPlayer = new Player(new Name(gameEntity.choPlayerName()), Side.CHO);
-        Player hanPlayer = new Player(new Name(gameEntity.hanPlayerName()), Side.HAN);
-
-        return new Players(choPlayer, hanPlayer);
     }
 }

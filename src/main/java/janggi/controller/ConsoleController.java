@@ -32,6 +32,7 @@ public class ConsoleController {
         while (gameService.isPlaying(gameSession.gameId())) {
             playTurn();
         }
+
         outputView.printWinner(gameService.getWinnerDto(gameSession.gameId()));
     }
 
@@ -58,7 +59,15 @@ public class ConsoleController {
         }
         outputView.printGameList(gameDtos);
 
-        Long gameId = retry(() -> InputParser.parseGameId(inputView.readGameId()));
+        Long gameId = retry(() -> {
+            Long parsedId = InputParser.parseGameId(inputView.readGameId());
+            boolean isValidId = gameDtos.stream()
+                    .anyMatch(game -> game.id().equals(parsedId));
+            if (!isValidId) {
+                throw new IllegalArgumentException("목록에 존재하지 않는 게임 ID입니다. 다시 입력해 주세요.");
+            }
+            return parsedId;
+        });
         return new GameSession(gameId);
     }
 

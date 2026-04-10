@@ -2,7 +2,6 @@ package janggi.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardFactory;
@@ -25,8 +24,8 @@ class GameTest {
 
     @BeforeEach
     void setUp() {
-        Player choPlayer = new Player(new Name("cho"), Side.CHO);
-        Player hanPlayer = new Player(new Name("han"), Side.HAN);
+        Player choPlayer = new Player(new Name("cho"), Side.CHO, Formation.INNER_ELEPHANT);
+        Player hanPlayer = new Player(new Name("han"), Side.HAN, Formation.INNER_ELEPHANT);
         players = new Players(choPlayer, hanPlayer);
         Board board = BoardFactory.create(Formation.from(FormationCommand.FIRST), Formation.from(FormationCommand.FIRST));
         game = Game.startNew(board, players);
