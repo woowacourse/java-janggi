@@ -1,14 +1,14 @@
 package janggi.domain.piece.single;
 
 import janggi.domain.board.BoardInfo;
-import janggi.domain.path.CandidatePath;
-import janggi.domain.path.Direction;
-import janggi.domain.path.Movement;
-import janggi.domain.path.generator.PathStrategy;
-import janggi.domain.path.generator.SinglePathStrategy;
 import janggi.domain.piece.PalacePiece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Score;
+import janggi.domain.piece.path.CandidatePath;
+import janggi.domain.piece.path.Direction;
+import janggi.domain.piece.path.Movement;
+import janggi.domain.piece.path.generator.PathStrategy;
+import janggi.domain.piece.path.generator.SinglePathStrategy;
 import janggi.domain.side.Side;
 import java.util.List;
 

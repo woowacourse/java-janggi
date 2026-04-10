@@ -1,10 +1,10 @@
 package janggi.domain.piece;
 
 import janggi.domain.board.BoardInfo;
-import janggi.domain.board.coordination.PalaceCoordination;
-import janggi.domain.board.coordination.PalaceMovements;
-import janggi.domain.path.CandidatePath;
-import janggi.domain.path.generator.PathStrategy;
+import janggi.domain.coordination.PalaceCoordination;
+import janggi.domain.coordination.PalaceMovements;
+import janggi.domain.piece.path.CandidatePath;
+import janggi.domain.piece.path.generator.PathStrategy;
 import janggi.domain.point.Point;
 import janggi.domain.side.Side;
 import java.util.ArrayList;

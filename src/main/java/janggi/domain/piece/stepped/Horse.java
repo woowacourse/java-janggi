@@ -1,9 +1,9 @@
 package janggi.domain.piece.stepped;
 
-import janggi.domain.path.Direction;
-import janggi.domain.path.Movement;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Score;
+import janggi.domain.piece.path.Direction;
+import janggi.domain.piece.path.Movement;
 import janggi.domain.side.Side;
 import java.util.List;
 

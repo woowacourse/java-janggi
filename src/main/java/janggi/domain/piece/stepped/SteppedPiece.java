@@ -1,12 +1,12 @@
 package janggi.domain.piece.stepped;
 
 import janggi.domain.board.BoardInfo;
-import janggi.domain.path.CandidatePath;
-import janggi.domain.path.generator.FixedPathStrategy;
-import janggi.domain.path.generator.PathStrategy;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Score;
+import janggi.domain.piece.path.CandidatePath;
+import janggi.domain.piece.path.generator.FixedPathStrategy;
+import janggi.domain.piece.path.generator.PathStrategy;
 import janggi.domain.side.Side;
 
 public abstract class SteppedPiece extends Piece {

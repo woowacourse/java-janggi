@@ -1,11 +1,11 @@
-package janggi.domain.path.generator;
+package janggi.domain.piece.path.generator;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.board.coordination.BoardCoordination;
-import janggi.domain.board.coordination.PalaceCoordination;
-import janggi.domain.path.Direction;
-import janggi.domain.path.Movement;
+import janggi.domain.coordination.BoardCoordination;
+import janggi.domain.coordination.PalaceCoordination;
+import janggi.domain.piece.path.Direction;
+import janggi.domain.piece.path.Movement;
 import janggi.domain.point.Point;
 import java.util.Collections;
 import java.util.List;

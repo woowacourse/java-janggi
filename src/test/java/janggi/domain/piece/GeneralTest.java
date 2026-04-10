@@ -3,7 +3,7 @@ package janggi.domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.board.Board;
-import janggi.domain.path.Movement;
+import janggi.domain.piece.path.Movement;
 import janggi.domain.piece.single.General;
 import janggi.domain.point.Point;
 import janggi.domain.side.Side;

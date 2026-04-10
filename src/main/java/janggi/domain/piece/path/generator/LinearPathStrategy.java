@@ -1,7 +1,7 @@
-package janggi.domain.path.generator;
+package janggi.domain.piece.path.generator;
 
-import janggi.domain.path.Direction;
-import janggi.domain.path.Movement;
+import janggi.domain.piece.path.Direction;
+import janggi.domain.piece.path.Movement;
 import janggi.domain.point.Point;
 import java.util.ArrayList;
 import java.util.List;

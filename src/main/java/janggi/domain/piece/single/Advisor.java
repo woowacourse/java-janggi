@@ -1,10 +1,10 @@
 package janggi.domain.piece.single;
 
 import janggi.domain.board.BoardInfo;
-import janggi.domain.path.CandidatePath;
-import janggi.domain.path.Movement;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Score;
+import janggi.domain.piece.path.CandidatePath;
+import janggi.domain.piece.path.Movement;
 import janggi.domain.side.Side;
 import java.util.Collections;
 import java.util.List;

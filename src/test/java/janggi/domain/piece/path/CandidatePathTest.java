@@ -1,4 +1,4 @@
-package janggi.domain.path;
+package janggi.domain.piece.path;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

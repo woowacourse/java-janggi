@@ -1,9 +1,9 @@
 package janggi.domain.piece.linear;
 
 import janggi.domain.board.BoardInfo;
-import janggi.domain.path.CandidatePath;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Score;
+import janggi.domain.piece.path.CandidatePath;
 import janggi.domain.point.Point;
 import janggi.domain.side.Side;
 import java.util.Collections;

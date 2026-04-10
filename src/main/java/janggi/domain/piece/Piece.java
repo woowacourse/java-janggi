@@ -1,9 +1,9 @@
 package janggi.domain.piece;
 
 import janggi.domain.board.BoardInfo;
-import janggi.domain.path.CandidatePath;
-import janggi.domain.path.Movement;
-import janggi.domain.path.generator.PathStrategy;
+import janggi.domain.piece.path.CandidatePath;
+import janggi.domain.piece.path.Movement;
+import janggi.domain.piece.path.generator.PathStrategy;
 import janggi.domain.point.Point;
 import janggi.domain.side.Side;
 import java.util.List;

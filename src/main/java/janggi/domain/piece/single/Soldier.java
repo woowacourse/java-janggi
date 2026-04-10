@@ -1,10 +1,10 @@
 package janggi.domain.piece.single;
 
 import janggi.domain.board.BoardInfo;
-import janggi.domain.path.CandidatePath;
-import janggi.domain.path.Direction;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Score;
+import janggi.domain.piece.path.CandidatePath;
+import janggi.domain.piece.path.Direction;
 import janggi.domain.side.Side;
 
 public class Soldier extends SinglePiece {
