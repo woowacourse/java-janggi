@@ -95,6 +95,19 @@ public class CannonTest {
     }
 
     @Test
+    void 궁성_내에서_대각성_이동_시_궁성을_벗어날_수_없다() {
+        Board board = new Board();
+        Cannon cannon = new Cannon(Camp.HAN);
+
+        Position fromPosition = new Position(3, 0);
+        Position anotherPiecePosition = new Position(4, 1);
+
+        board.locatePiece(fromPosition, cannon);
+
+        Assertions.assertFalse(cannon.canMove(fromPosition, new Position(6, 3), board));
+    }
+
+    @Test
     void 궁성_내에서_기물을_넘고_대각선_이동() {
         Board board = new Board();
         Cannon cannon = new Cannon(Camp.HAN);

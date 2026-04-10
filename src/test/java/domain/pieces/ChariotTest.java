@@ -29,6 +29,18 @@ public class ChariotTest {
     }
 
     @Test
+    void 궁성_내에서_대각성_이동_시_궁성을_벗어날_수_없다() {
+        Board board = new Board();
+        Chariot chariot = new Chariot(Camp.HAN);
+
+        Position fromPosition = new Position(3, 0);
+
+        board.locatePiece(fromPosition, chariot);
+
+        Assertions.assertFalse(chariot.canMove(fromPosition, new Position(6, 3), board));
+    }
+
+    @Test
     void 궁성_내에서_대각선_이동_가능() {
         Board board = new Board();
         Chariot chariot = new Chariot(Camp.HAN);
