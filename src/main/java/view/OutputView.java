@@ -2,6 +2,7 @@ package view;
 
 import dao.GameRoomRawData;
 import domain.board.Board;
+import domain.game.GameResult;
 import domain.game.Team;
 import domain.piece.Piece;
 import domain.position.Position;
@@ -44,15 +45,15 @@ public class OutputView {
         System.out.println("게임방이 생성되었습니다. (ID: " + roomId + ")");
     }
 
-    public void printResult(Team winner, double choScore, double hanScore) {
+    public void printResult(GameResult result) {
         System.out.println("게임이 종료되었습니다.");
-        System.out.println(Team.CHO + " 점수: " + choScore);
-        System.out.println(Team.HAN + " 점수: " + hanScore);
-        if (winner == Team.NONE) {
+        System.out.println(Team.CHO + " 점수: " + result.choScore());
+        System.out.println(Team.HAN + " 점수: " + result.hanScore());
+        if (result.isDraw()) {
             System.out.println("무승부입니다.");
             return;
         }
-        System.out.println("승자: " + winner);
+        System.out.println("승자: " + result.winner());
     }
 
     private void appendColumnHeader(StringBuilder sb) {

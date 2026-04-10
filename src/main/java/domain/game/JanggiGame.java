@@ -111,6 +111,10 @@ public class JanggiGame {
         return status.isRunning();
     }
 
+    public GameResult result() {
+        return new GameResult(findWinner(), scoreOf(Team.CHO), scoreOf(Team.HAN));
+    }
+
     public Team findWinner() {
         if (status.isRunning()) {
             throw new IllegalStateException("아직 게임이 진행 중입니다.");

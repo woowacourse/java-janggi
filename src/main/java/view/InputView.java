@@ -1,5 +1,8 @@
 package view;
 
+import controller.command.MoveCommand;
+import controller.command.PassCommand;
+import controller.command.TurnCommand;
 import domain.game.Team;
 import domain.position.Position;
 import java.util.Arrays;
@@ -62,23 +65,23 @@ public class InputView {
         return number;
     }
 
-    public String askTurnInput(Team team) {
+    public TurnCommand askTurnCommand(Team team) {
         System.out.println(team + "의 차례입니다. 움직일 기물의 위치와 이동할 위치를 입력하세요. ( 예: 2,5,4,3 / 한 수 쉬기: pass )");
-        return scanner.nextLine().trim();
+        String input = scanner.nextLine().trim();
+        if (PASS_INPUT.equalsIgnoreCase(input)) {
+            return new PassCommand();
+        }
+        return parseMoveCommand(input);
     }
 
-    public boolean isPass(String input) {
-        return PASS_INPUT.equalsIgnoreCase(input);
-    }
-
-    public List<Position> parseMoveInput(String input) {
+    private MoveCommand parseMoveCommand(String input) {
         List<String> inputs = Arrays.stream(input.split(","))
                 .map(String::trim)
                 .collect(Collectors.toList());
         validatePositionFormat(inputs);
         Position source = Position.from(inputs.get(0), inputs.get(1));
         Position destination = Position.from(inputs.get(2), inputs.get(3));
-        return List.of(source, destination);
+        return new MoveCommand(source, destination);
     }
 
     private void validatePositionFormat(List<String> inputs) {
