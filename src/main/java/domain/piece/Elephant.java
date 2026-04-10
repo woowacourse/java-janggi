@@ -20,12 +20,12 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public String getName() {
-        return pieceType.getName();
+    public PieceType getPieceType() {
+        return pieceType;
     }
 
     @Override
-    public int getScore() {
-        return pieceType.getScore();
+    public String getName() {
+        return pieceType.getName();
     }
 }

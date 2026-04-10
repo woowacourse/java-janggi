@@ -61,6 +61,6 @@ public abstract class Piece {
         return false;
     }
 
+    public abstract PieceType getPieceType();
     public abstract String getName();
-    public abstract int getScore();
 }
