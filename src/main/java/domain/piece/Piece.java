@@ -1,10 +1,11 @@
 package domain.piece;
 
-import domain.ErrorMessage;
 import domain.Offset;
+import domain.board.Palace;
+import exception.ErrorMessage;
+import domain.board.Position;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 public abstract class Piece {
@@ -16,8 +17,36 @@ public abstract class Piece {
         this.team = team;
     }
 
+    public final List<Offset> getPathOffset(Position from, Position to, Optional<Palace> palace) {
+        validateMoveRule(from, to, palace);
+        return generatePaths(from, to, palace);
+    }
+
+    public void validateMove(List<Piece> blockedPieces) {
+        if (!blockedPieces.isEmpty()) {
+            throw new IllegalStateException(ErrorMessage.PATH_BLOCKED.getMessage());
+        }
+    }
+
+    public void validateTarget(Optional<Piece> target) {
+    }
+
+    protected abstract void validateMoveRule(Position from, Position to, Optional<Palace> palace);
+
+    protected abstract List<Offset> generatePaths(Position from, Position to, Optional<Palace> palace);
+
+    protected abstract boolean isValidMove(Offset offset);
+
+    public boolean isSameTeam(Team team) {
+        return this.team == team;
+    }
+
     public boolean isSameTeam(Piece another) {
-        return another.team == team;
+        return isSameTeam(another.team);
+    }
+
+    public boolean isSameType(PieceType type) {
+        return this.pieceType == type;
     }
 
     public PieceType getPieceType() {
@@ -28,28 +57,7 @@ public abstract class Piece {
         return team;
     }
 
-    abstract public List<Offset> getPathOffset(Offset offset);
-
-    public void validateMove(List<Piece> blockedPieces, Optional<Piece> to) {
-        if (!blockedPieces.isEmpty()) {
-            throw new IllegalStateException(ErrorMessage.PATH_BLOCKED.getMessage());
-        }
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) {
-            return true;
-        }
-        if (object == null || getClass() != object.getClass()) {
-            return false;
-        }
-        Piece piece = (Piece) object;
-        return pieceType == piece.pieceType && team == piece.team;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(pieceType, team);
+    public int score() {
+        return pieceType.getScore();
     }
 }

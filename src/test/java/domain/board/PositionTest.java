@@ -1,8 +1,8 @@
 package domain.board;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class PositionTest {
@@ -15,13 +15,13 @@ class PositionTest {
 
     @Test
     void 장기판의_가로_범위를_벗어날_경우_예외를_뱐환한다() {
-        Assertions.assertThrows(IllegalArgumentException.class, () ->
+        assertThrows(IllegalArgumentException.class, () ->
                 new Position(9, 7));
     }
 
     @Test
     void 장기판의_세로_범위를_벗어날_경우_예외를_뱐환한다() {
-        Assertions.assertThrows(IllegalArgumentException.class, () ->
+        assertThrows(IllegalArgumentException.class, () ->
                 new Position(7, 11));
     }
 }

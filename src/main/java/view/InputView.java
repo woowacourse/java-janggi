@@ -3,13 +3,35 @@ package view;
 import domain.board.InitializeSetting;
 import domain.board.Position;
 
+import java.util.Optional;
 import java.util.Scanner;
 
 public class InputView {
     private final Scanner scanner = new Scanner(System.in);
 
+    public String readMainMenu() {
+        System.out.println("장기 게임을 시작합니다.");
+        System.out.println("1. 새로하기");
+        System.out.println("2. 이어하기");
+        System.out.print("선택: ");
+        String choice = scanner.nextLine().trim();
+        if (!choice.equals("1") && !choice.equals("2")) {
+            throw new IllegalArgumentException("1 또는 2를 입력해주세요.");
+        }
+        return choice;
+    }
+
+    public long readGameId() {
+        System.out.print("불러올 게임 방 번호(ID)를 입력하세요: ");
+        try {
+            return Long.parseLong(scanner.nextLine().trim());
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("숫자만 입력 가능합니다.");
+        }
+    }
+
     public InitializeSetting readInitialSetting(String teamName) {
-        System.out.println("\n===" + teamName + " 진영 상차림에 대해 선택하세요(숫자로 입력해주세요.) ===");
+        System.out.println("===" + teamName + " 진영 상차림에 대해 선택하세요(숫자로 입력해주세요.) ===");
         System.out.println("1. 왼상차림 (상마상마)");
         System.out.println("2. 오른상차림 (마상마상)");
         System.out.println("3. 안상차림 (마상상마)");
@@ -30,10 +52,17 @@ public class InputView {
         }
     }
 
-    public Position readSourcePosition() {
-        System.out.println("\n움직일 기물의 좌표를 입력하세요. (예: A0, a,0)");
+    public Optional<Position> readSourcePosition() {
+        System.out.println("\n움직일 기물의 좌표를 입력하세요. (예: A0)");
+        System.out.println("게임을 중단하고 저장하려면 'Q'를 입력하세요.");
         System.out.print("출발지: ");
-        return parsePosition(scanner.nextLine());
+        String input = scanner.nextLine().trim();
+
+        if (input.equalsIgnoreCase("Q")) {
+            return Optional.empty();
+        }
+
+        return Optional.of(parsePosition(input));
     }
 
     public Position readTargetPosition() {
@@ -42,7 +71,6 @@ public class InputView {
     }
 
     private Position parsePosition(String input) {
-
         String cleaned = input.replaceAll("[^a-zA-Z0-9]", "").toUpperCase();
 
         if (cleaned.length() != 2) {

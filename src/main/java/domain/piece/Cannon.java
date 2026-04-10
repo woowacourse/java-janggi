@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.ErrorMessage;
+import exception.ErrorMessage;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,7 +11,7 @@ public final class Cannon extends StraightMovingPiece {
     }
 
     @Override
-    public void validateMove(List<Piece> blockedPieces, Optional<Piece> to) {
+    public void validateMove(List<Piece> blockedPieces) {
         if (blockedPieces.isEmpty()) {
             throw new IllegalStateException(ErrorMessage.CANNON_NEEDS_BRIDGE.getMessage());
         }
@@ -25,9 +25,14 @@ public final class Cannon extends StraightMovingPiece {
         if (piece instanceof Cannon) {
             throw new IllegalStateException(ErrorMessage.CANNON_CANNOT_OVER_CANNON.getMessage());
         }
+    }
 
-        if (to.isPresent() && to.get() instanceof Cannon) {
-            throw new IllegalStateException(ErrorMessage.CANNON_CANNOT_TAKE_CANNON.getMessage());
-        }
+    @Override
+    public void validateTarget(Optional<Piece> target) {
+        target.ifPresent(piece -> {
+            if (piece.isSameType(PieceType.CANNON)) {
+                throw new IllegalStateException(ErrorMessage.CANNON_CANNOT_TAKE_CANNON.getMessage());
+            }
+        });
     }
 }

@@ -1,8 +1,10 @@
 package domain.board;
 
-import domain.ErrorMessage;
+import exception.ErrorMessage;
 import domain.Offset;
 import domain.piece.Piece;
+import domain.piece.PieceType;
+import domain.piece.Team;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +13,11 @@ import java.util.Optional;
 
 
 public class Board {
+    private static final Palace CHO_PALACE = new Palace(new Position(4, 1));
+    private static final Palace HAN_PALACE = new Palace(new Position(4, 8));
+
     private final Map<Position, Piece> pieces;
+    private final List<Palace> palaces = List.of(CHO_PALACE, HAN_PALACE);
 
     public Board(Map<Position, Piece> pieces) {
         if (pieces == null) {
@@ -20,19 +26,26 @@ public class Board {
         this.pieces = new HashMap<>(pieces);
     }
 
+    private Optional<Palace> findPalace(Position position) {
+        return palaces.stream()
+                .filter(palace -> palace.isInPalace(position))
+                .findFirst();
+    }
+
     public void move(Position from, Position to) {
-        Offset offset = Offset.of(from, to);
-        validateActualMove(offset);
+        validateActualMove(from, to);
 
-        Piece fromPiece = getRequiredPiece(from);
-        Optional<Piece> toPiece = getPiece(to);
+        Piece sourcePiece = getRequiredPiece(from);
+        Optional<Piece> targetPiece = getPiece(to);
+        validateNotSameTeam(sourcePiece, targetPiece);
 
-        validateSameTeam(fromPiece, toPiece);
-
-        List<Offset> pathOffset = fromPiece.getPathOffset(offset);
+        Optional<Palace> palace = findPalace(from);
+        List<Offset> pathOffset = sourcePiece.getPathOffset(from, to, palace);
         List<Piece> blockedPieces = getBlockedPieces(from, pathOffset);
 
-        fromPiece.validateMove(blockedPieces, toPiece);
+        sourcePiece.validateMove(blockedPieces);
+        sourcePiece.validateTarget(targetPiece);
+
         pieces.put(to, pieces.remove(from));
     }
 
@@ -40,18 +53,18 @@ public class Board {
         return Optional.ofNullable(pieces.get(position));
     }
 
-    private Piece getRequiredPiece(Position position) {
+    public Piece getRequiredPiece(Position position) {
         return getPiece(position)
-                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.EMPTY_SOURCE.getMessage()));
+                .orElseThrow(() -> new IllegalStateException(ErrorMessage.EMPTY_SOURCE.getMessage()));
     }
 
-    private void validateActualMove(Offset offset) {
-        if(offset.dx() == 0 && offset.dy() == 0) {
+    private void validateActualMove(Position from, Position to) {
+        if (from.equals(to)) {
             throw new IllegalArgumentException(ErrorMessage.NOT_MOVE.getMessage());
         }
     }
 
-    private void validateSameTeam(Piece fromPiece, Optional<Piece> toPiece) {
+    private void validateNotSameTeam(Piece fromPiece, Optional<Piece> toPiece) {
         if (toPiece.isPresent() && fromPiece.isSameTeam(toPiece.get())) {
             throw new IllegalStateException(ErrorMessage.SAME_TEAM_OCCUPIED.getMessage());
         }
@@ -63,5 +76,22 @@ public class Board {
                 .map(this::getPiece)
                 .flatMap(Optional::stream)
                 .toList();
+    }
+
+    public double calculateScore(Team team) {
+        return team.getScore() + pieces.values().stream()
+                .filter(piece -> piece.isSameTeam(team))
+                .mapToInt(Piece::score)
+                .sum();
+    }
+
+    public boolean isAliveGeneral(Team team) {
+        return pieces.values().stream()
+                .filter(piece -> piece.isSameTeam(team))
+                .anyMatch(piece -> piece.isSameType(PieceType.GENERAL));
+    }
+
+    public Map<Position, Piece> getPieces() {
+        return Map.copyOf(pieces);
     }
 }

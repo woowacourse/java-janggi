@@ -1,25 +1,32 @@
 package domain.piece;
 
 import domain.Direction;
-import domain.ErrorMessage;
 import domain.Offset;
+import domain.board.Palace;
+import exception.ErrorMessage;
+import domain.board.Position;
 
-import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 public final class Soldier extends SingleStepPiece {
-    private final Direction backwardDirection; // 🌟 금지된 방향을 상태로 가짐
+    private static final Map<Team, Direction> backwardDirections = Map.of(Team.CHO, Direction.DOWN, Team.HAN, Direction.UP);
+    private final Direction backwardDirection;
 
     public Soldier(Team team) {
         super(PieceType.SOLDIER, team);
-        this.backwardDirection = team.getBackwardDirection();
+        this.backwardDirection = backwardDirections.get(team);
     }
 
+
     @Override
-    public List<Offset> getPathOffset(Offset offset) {
-        super.getPathOffset(offset);
-        if (offset.equals(backwardDirection.getOffset())) {
-            throw new IllegalArgumentException(ErrorMessage.INVALID_MOVE_RULE.getMessage());
+    protected void validateMoveRule(Position from, Position to, Optional<Palace> palace) {
+        super.validateMoveRule(from, to, palace);
+        Offset offset = Offset.of(from, to);
+        Direction direction = Direction.of(offset);
+
+        if (direction.containsBackWardDirection(backwardDirection)) {
+            throw new IllegalStateException(ErrorMessage.INVALID_MOVE_RULE.getMessage());
         }
-        return List.of();
     }
 }

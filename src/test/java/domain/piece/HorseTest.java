@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -24,7 +25,10 @@ class HorseTest {
     void 마는_위로_두칸_왼쪽으로_한칸_움직일_수_있는_경로가_있다() {
         Offset offset = new Offset(-1, 2);
 
-        List<Offset> pathPositions = horse.getPathOffset(offset);
+        Position from = new Position(4, 5);
+        Position to = offset.applyTo(from);
+
+        List<Offset> pathPositions = horse.getPathOffset(from, to, Optional.empty());
 
         assertThat(pathPositions).isEqualTo(List.of(new Offset(0, 1)));
     }
@@ -33,7 +37,10 @@ class HorseTest {
     void 마는_위로_두칸_오른쪽으로_한칸_움직일_수_있는_경로가_있다() {
         Offset offset = new Offset(1, 2);
 
-        List<Offset> pathPositions = horse.getPathOffset(offset);
+        Position from = new Position(4, 5);
+        Position to = offset.applyTo(from);
+
+        List<Offset> pathPositions = horse.getPathOffset(from, to, Optional.empty());
 
         assertThat(pathPositions).isEqualTo(List.of(new Offset(0, 1)));
     }
@@ -43,7 +50,10 @@ class HorseTest {
     void 마는_위로_한칸_왼쪽으로_두칸_움직일_수_있는_경로가_있다() {
         Offset offset = new Offset(-2, 1);
 
-        List<Offset> pathPositions = horse.getPathOffset(offset);
+        Position from = new Position(4, 5);
+        Position to = offset.applyTo(from);
+
+        List<Offset> pathPositions = horse.getPathOffset(from, to, Optional.empty());
 
         assertThat(pathPositions).isEqualTo(List.of(new Offset(-1, 0)));
 
@@ -54,7 +64,10 @@ class HorseTest {
     void 마는_아래로_한칸_왼쪽으로_두칸_움직일_수_있는_경로가_있다() {
         Offset offset = new Offset(-2, -1);
 
-        List<Offset> pathPositions = horse.getPathOffset(offset);
+        Position from = new Position(4, 5);
+        Position to = offset.applyTo(from);
+
+        List<Offset> pathPositions = horse.getPathOffset(from, to, Optional.empty());
 
         assertThat(pathPositions).isEqualTo(List.of(new Offset(-1, 0)));
     }
@@ -64,7 +77,10 @@ class HorseTest {
     void 마는_아래로_두칸_왼쪽으로_한칸_움직일_수_있는_경로가_있다() {
         Offset offset = new Offset(-1, -2);
 
-        List<Offset> pathPositions = horse.getPathOffset(offset);
+        Position from = new Position(4, 5);
+        Position to = offset.applyTo(from);
+
+        List<Offset> pathPositions = horse.getPathOffset(from, to, Optional.empty());
 
         assertThat(pathPositions).isEqualTo(List.of(new Offset(0, -1)));
 
@@ -75,7 +91,10 @@ class HorseTest {
     void 마는_아래로_두칸_오른쪽으로_한칸_움직일_수_있는_경로가_있다() {
         Offset offset = new Offset(1, -2);
 
-        List<Offset> pathPositions = horse.getPathOffset(offset);
+        Position from = new Position(4, 5);
+        Position to = offset.applyTo(from);
+
+        List<Offset> pathPositions = horse.getPathOffset(from, to, Optional.empty());
 
         assertThat(pathPositions).isEqualTo(List.of(new Offset(0, -1)));
     }
@@ -85,7 +104,10 @@ class HorseTest {
     void 마는_위로_한칸_오른쪽으로_두칸_움직일_수_있는_경로가_있다() {
         Offset offset = new Offset(2, 1);
 
-        List<Offset> pathPositions = horse.getPathOffset(offset);
+        Position from = new Position(4, 5);
+        Position to = offset.applyTo(from);
+
+        List<Offset> pathPositions = horse.getPathOffset(from, to, Optional.empty());
 
         assertThat(pathPositions).isEqualTo(List.of(new Offset(1, 0)));
     }
@@ -95,8 +117,10 @@ class HorseTest {
     void 마는_아래로_한칸_오른쪽으로_두칸_움직일_수_있는_경로가_있다() {
         Offset offset = new Offset(2, -1);
 
-        List<Offset> pathPositions = horse.getPathOffset(offset);
+        Position from = new Position(4, 5);
+        Position to = offset.applyTo(from);
 
+        List<Offset> pathPositions = horse.getPathOffset(from, to, Optional.empty());
         assertThat(pathPositions).isEqualTo(List.of(new Offset(1, 0)));
     }
 
@@ -112,7 +136,8 @@ class HorseTest {
         board.move(new Position(4, 0), new Position(5, 2));
 
         Piece piece = board.getPiece(new Position(5, 2)).get();
-        assertThat(piece).isEqualTo(new Horse(Team.CHO));
+        boolean result = piece.isSameTeam(Team.CHO) && piece.isSameType(PieceType.HORSE);
+        assertThat(result).isTrue();
     }
 
 
@@ -136,6 +161,8 @@ class HorseTest {
         board.move(new Position(4, 0), new Position(2, 1));
 
         Piece piece = board.getPiece(new Position(2, 1)).get();
-        assertThat(piece).isEqualTo(new Horse(Team.CHO));
+        boolean result = piece.isSameTeam(Team.CHO) && piece.isSameType(PieceType.HORSE);
+        assertThat(result).isTrue();
+
     }
 }
