@@ -12,7 +12,7 @@ public record GameDto(Long id, GameStatus gameStatus) {
         }
     }
 
-    public static GameDto forSave() {
+    public static GameDto init() {
         return new GameDto(null, GameStatus.IN_PROGRESS);
     }
 
