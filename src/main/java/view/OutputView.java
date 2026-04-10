@@ -3,6 +3,8 @@ package view;
 import domain.board.Board;
 import domain.piece.Camp;
 
+import java.util.List;
+
 public class OutputView {
     private static final String SETUP_OPTIONS =
             """
@@ -24,6 +26,7 @@ public class OutputView {
             > 2. 이어 하기
             """;
     private static final String LOAD_MENU_MESSAGE = "> 불러올 게임 번호를 입력해 주세요.";
+    private static final String LOADABLE_GAMEID_MESSAGE = "불러올 수 있는 게임 번호 목록: ";
     private static final String NEW_GAME_START_MESSAGE = "새 게임 시작 (게임 번호: %d)%n";
     private static final String LOAD_PREVIOUS_GAME_MESSAGE = "%d 번 게임을 불러왔습니다.%n";
 
@@ -65,7 +68,8 @@ public class OutputView {
         System.out.println(MENU_MESSAGE);
     }
 
-    public void printLoadGameMenu() {
+    public void printLoadGameMenu(List<Integer> activeGames) {
+        System.out.println(LOADABLE_GAMEID_MESSAGE + activeGames);
         System.out.println(LOAD_MENU_MESSAGE);
     }
 

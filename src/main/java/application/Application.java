@@ -6,6 +6,7 @@ import domain.game.GameCommand;
 import domain.piece.Camp;
 import view.*;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 public class Application {
@@ -49,7 +50,12 @@ public class Application {
     }
 
     private void loadPreviousGame(GameDAO gameDAO) {
-        int gameId = readValidGameId();
+        List<Integer> activeGames = gameDAO.findActiveGames();
+        if (activeGames.isEmpty()) {
+            return;
+        }
+
+        int gameId = readValidGameId(activeGames);
 
         Game game = gameDAO.findBy(gameId);
 
@@ -110,11 +116,15 @@ public class Application {
         }
     }
 
-    private int readValidGameId() {
+    private int readValidGameId(List<Integer> activeGames) {
         while (true) {
-            outputView.printLoadGameMenu();
+            outputView.printLoadGameMenu(activeGames);
             try {
-                return inputView.readGameId();
+                int inputId = inputView.readGameId();
+                if (!activeGames.contains(inputId)) {
+                    throw new IllegalArgumentException("[ERROR] 목록에 없는 게임 번호입니다.");
+                }
+                return inputId;
             } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
             }

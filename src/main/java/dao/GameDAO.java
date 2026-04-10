@@ -10,7 +10,9 @@ import domain.piece.Piece;
 import domain.piece.PieceType;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class GameDAO {
@@ -94,6 +96,29 @@ public class GameDAO {
         }
 
         return generatedGameId;
+    }
+
+    public List<Integer> findActiveGames() {
+        String selectActiveGameSql = "SELECT * FROM game WHERE game_state=?";
+        List<Integer> activeGames = new ArrayList<>();
+
+        try (Connection connection = getConnection();
+             PreparedStatement gameStatement = connection.prepareStatement(selectActiveGameSql)) {
+
+            gameStatement.setString(1, "IN_PROGRESS");
+
+            try (ResultSet gameResultSet = gameStatement.executeQuery()) {
+                while (gameResultSet.next()) {
+                    int gameId = gameResultSet.getInt("game_id");
+                    activeGames.add(gameId);
+                }
+            }
+
+        } catch (SQLException e) {
+            System.err.println("진행중인 게임 목록 조회 실패: " + e.getMessage());
+        }
+
+        return activeGames;
     }
 
     public Game findBy(int gameId) {
