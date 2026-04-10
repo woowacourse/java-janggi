@@ -1,6 +1,6 @@
 package janggi.domain.position;
 
-import janggi.domain.DomainException;
+import janggi.domain.exception.DomainException;
 
 public record Row(
         int row
@@ -21,11 +21,8 @@ public record Row(
         }
     }
 
-    public static Row flippedIfNeeded(boolean isFlipped, int row) {
-        if(isFlipped) {
-            return new Row(MIN_ROW + MAX_ROW - row);
-        }
-        return new Row(row);
+    public Row flip() {
+        return new Row(MIN_ROW + MAX_ROW - row);
     }
 
     public Row add(int row) {

@@ -1,6 +1,6 @@
 package janggi.domain.board;
 
-import janggi.domain.DomainException;
+import janggi.domain.exception.DomainException;
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.piece.Piece;
 import janggi.domain.position.Position;
@@ -8,6 +8,8 @@ import janggi.domain.position.Position;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static janggi.domain.piece.PieceType.GENERAL;
 
 public class Board {
 
@@ -17,8 +19,17 @@ public class Board {
     public static final String INVALID_PIECE_OWNER_MESSAGE = "해당 위치(%d, %d)에 있는 기물은 상대 편의 기물입니다.";
     public static final String INVALID_PIECE_MOVE_MESSAGE = "(%d, %d)위치의 기물을 (%d, %d)로 옮길 수 없습니다.";
 
-    public Board(BoardDesignPolicy boardDesignPolicy) {
-        this.board = new HashMap<>(boardDesignPolicy.initBoard());
+
+    private Board(Map<Position, Piece> board) {
+        this.board = board;
+    }
+
+    public static Board policyOf(BoardDesignPolicy boardDesignPolicy) {
+        return new Board(new HashMap<>(boardDesignPolicy.initBoard()));
+    }
+
+    public static Board of(Map<Position, Piece> board) {
+        return new Board(board);
     }
 
     public Map<Position, Piece> board() {
@@ -35,7 +46,7 @@ public class Board {
             throw new DomainException(
                     String.format(INVALID_PIECE_OWNER_MESSAGE, from.row().row(), from.column().column()));
         }
-        return piece.canMovePosition(board, from);
+        return piece.findMovablePositions(board, from);
     }
 
     public void movePiece(Position from, Position to, Dynasty currentTurn) {
@@ -51,4 +62,25 @@ public class Board {
         board.put(to, fromPiece);
     }
 
+    public double calculateScoreByDynasty(Dynasty dynasty) {
+        double sum = dynasty.additionalScore();
+        for (Position position : board.keySet()) {
+            Piece piece = board.get(position);
+            if (piece.dynasty().equals(dynasty)) {
+                sum += piece.pieceType().score();
+            }
+        }
+
+        return sum;
+    }
+
+    public boolean isGeneralCaughtByDynasty(Dynasty dynasty) {
+        for (Position position : board.keySet()) {
+            Piece piece = board.get(position);
+            if(GENERAL.equals(piece.pieceType()) && piece.isAlly(dynasty)) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

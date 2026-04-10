@@ -2,6 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.position.Direction;
+import janggi.domain.position.Palace;
 import janggi.domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,21 +19,43 @@ public class ChariotMoveStrategy implements MoveStrategy {
         return chariotMoveStrategy;
     }
 
-    // TODO: 궁성 관련 로직 추가
     @Override
     public List<Position> findMovablePositions(Map<Position, Piece> board, Position from, Dynasty dynasty) {
+
         List<Position> movablePositions = new ArrayList<>();
-        for (Direction dir : Direction.valuesFourDirections()) {
+
+        List<Direction> defaultMovableDirections = List.of(Direction.valuesFourDirections());
+        for (Direction dir : defaultMovableDirections) {
             List<Position> positions = from.findAllPositionsByDirection(dir);
-            movablePositions.addAll(filterMovablePositions(positions, board, dynasty));
+            movablePositions.addAll(filterMovablePositionsInNotPalace(positions, board, dynasty));
+        }
+
+        if(Palace.isPalace(from)) {
+            List<Direction> newDirectionsOfPalace = getNewDirectionsOfPalace(from, defaultMovableDirections);
+            for (Direction dir : newDirectionsOfPalace) {
+                List<Position> positions = from.findAllPositionsByDirection(dir);
+                movablePositions.addAll(filterMovablePositionsInPalace(positions, board, dynasty));
+            }
         }
 
         return movablePositions;
     }
 
-    private static List<Position> filterMovablePositions(List<Position> positions, Map<Position, Piece> board, Dynasty dynasty) {
+    private static List<Position> filterMovablePositionsInNotPalace(List<Position> positions, Map<Position, Piece> board, Dynasty dynasty) {
+        return filterMovablePositions(positions, board, dynasty, false);
+    }
+
+    private static List<Position> filterMovablePositionsInPalace(List<Position> positions, Map<Position, Piece> board, Dynasty dynasty) {
+        return filterMovablePositions(positions, board, dynasty, true);
+    }
+
+    private static List<Position> filterMovablePositions(List<Position> positions, Map<Position, Piece> board, Dynasty dynasty, boolean palaceRelated) {
         List<Position> movablePositions = new ArrayList<>();
+
         for (Position to : positions) {
+            if(palaceRelated && !Palace.isPalace(to)) {
+                break;
+            }
             if (isPiecePresent(board, to)) {
                 addIfEnemy(board, dynasty, to, movablePositions);
                 break;
@@ -41,6 +64,12 @@ public class ChariotMoveStrategy implements MoveStrategy {
         }
 
         return movablePositions;
+    }
+
+    private static List<Direction> getNewDirectionsOfPalace(Position from, List<Direction> defaultDirections) {
+        List<Direction> newDirectionsOfPalace = new ArrayList<>(Palace.getMovableDirectionsAtPalace(from));
+        newDirectionsOfPalace.removeAll(defaultDirections);
+        return newDirectionsOfPalace;
     }
 
     private static void addIfEnemy(Map<Position, Piece> board, Dynasty dynasty, Position to, List<Position> movablePositions) {

@@ -9,7 +9,6 @@ public class DynastyColorMapper {
     private static final Map<Dynasty, String> dynastyColorMap = new EnumMap<>(Dynasty.class);
     private static final String ANSI_RED = "\u001B[31m";
     private static final String ANSI_BLUE = "\u001B[34m";
-    private static final String ANSI_RESET = "\u001B[0m";
 
     static {
         dynastyColorMap.put(Dynasty.HAN, ANSI_RED);
@@ -23,10 +22,6 @@ public class DynastyColorMapper {
         return dynastyColorMap.get(dynasty);
     }
 
-    public static String getColorInfoByDynasty(Dynasty dynasty) {
-        return dynastyColorMap.get(dynasty) +
-                DynastyMapper.toKorean(dynasty) +
-                " " + ANSI_RESET;
-    }
+
 
 }

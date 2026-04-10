@@ -2,7 +2,9 @@ package janggi.domain.board;
 
 import janggi.domain.dynasty.Dynasty;
 import janggi.domain.piece.*;
+import janggi.domain.position.Column;
 import janggi.domain.position.Position;
+import janggi.domain.position.Row;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,40 +35,40 @@ public class DefaultBoardDesignPolicy implements BoardDesignPolicy {
     }
 
     private static void settingFirstRow(Map<Position, Piece> board, HorseElephantPosition horseElephantPos, Dynasty dynasty) {
-        int row = dynasty.resolveRow(1);
+        int row = 1;
 
-        board.put(Position.from(row, 1), new Piece(dynasty, CHARIOT));
-        board.put(Position.from(row, 4), new Piece(dynasty, GUARD));
-        board.put(Position.from(row, 6), new Piece(dynasty, GUARD));
-        board.put(Position.from(row, 9), new Piece(dynasty, CHARIOT));
+        board.put(new Position(dynasty.flipRowIfNeeded(new Row(row)), new Column(1)), new Piece(dynasty, CHARIOT));
+        board.put(new Position(dynasty.flipRowIfNeeded(new Row(row)), new Column(4)), new Piece(dynasty, GUARD));
+        board.put(new Position(dynasty.flipRowIfNeeded(new Row(row)), new Column(6)), new Piece(dynasty, GUARD));
+        board.put(new Position(dynasty.flipRowIfNeeded(new Row(row)), new Column(9)), new Piece(dynasty, CHARIOT));
         settingHorseAndElephant(board, horseElephantPos, dynasty, row);
     }
 
     private static void settingHorseAndElephant(Map<Position, Piece> board, HorseElephantPosition horseElephantPos, Dynasty dynasty, int row) {
-        board.put(Position.from(row, horseElephantPos.leftHorseColumn()), new Piece(dynasty, HORSE));
-        board.put(Position.from(row, horseElephantPos.leftElephantColumn()), new Piece(dynasty, ELEPHANT));
-        board.put(Position.from(row, horseElephantPos.rightHorseColumn()), new Piece(dynasty, HORSE));
-        board.put(Position.from(row, horseElephantPos.rightElephantColumn()), new Piece(dynasty, ELEPHANT));
+        board.put(new Position(dynasty.flipRowIfNeeded(new Row(row)), new Column(horseElephantPos.leftHorseColumn())), new Piece(dynasty, HORSE));
+        board.put(new Position(dynasty.flipRowIfNeeded(new Row(row)), new Column(horseElephantPos.leftElephantColumn())), new Piece(dynasty, ELEPHANT));
+        board.put(new Position(dynasty.flipRowIfNeeded(new Row(row)), new Column(horseElephantPos.rightHorseColumn())), new Piece(dynasty, HORSE));
+        board.put(new Position(dynasty.flipRowIfNeeded(new Row(row)), new Column(horseElephantPos.rightElephantColumn())), new Piece(dynasty, ELEPHANT));
     }
 
     private static void settingSecondRow(Map<Position, Piece> board, Dynasty dynasty) {
-        int row = dynasty.resolveRow(2);
-        board.put(Position.from(row, 5), new Piece(dynasty, PieceType.GENERAL));
+        int row = 2;
+        board.put(new Position(dynasty.flipRowIfNeeded(new Row(row)), new Column(5)), new Piece(dynasty, PieceType.GENERAL));
     }
 
     private static void settingThirdRow(Map<Position, Piece> board, Dynasty dynasty) {
-        int row = dynasty.resolveRow(3);
-        board.put(Position.from(row, 2), new Piece(dynasty, CANNON));
-        board.put(Position.from(row, 8), new Piece(dynasty, CANNON));
+        int row = 3;
+        board.put(new Position(dynasty.flipRowIfNeeded(new Row(row)), new Column(2)), new Piece(dynasty, CANNON));
+        board.put(new Position(dynasty.flipRowIfNeeded(new Row(row)), new Column(8)), new Piece(dynasty, CANNON));
     }
 
     private static void settingFourthRow(Map<Position, Piece> board, Dynasty dynasty) {
-        int row = dynasty.resolveRow(4);
-        board.put(Position.from(row, 1), new Piece(dynasty, SOLDIER));
-        board.put(Position.from(row, 3), new Piece(dynasty, SOLDIER));
-        board.put(Position.from(row, 5), new Piece(dynasty, SOLDIER));
-        board.put(Position.from(row, 7), new Piece(dynasty, SOLDIER));
-        board.put(Position.from(row, 9), new Piece(dynasty, SOLDIER));
+        int row = 4;
+        board.put(new Position(dynasty.flipRowIfNeeded(new Row(row)), new Column(1)), new Piece(dynasty, SOLDIER));
+        board.put(new Position(dynasty.flipRowIfNeeded(new Row(row)), new Column(3)), new Piece(dynasty, SOLDIER));
+        board.put(new Position(dynasty.flipRowIfNeeded(new Row(row)), new Column(5)), new Piece(dynasty, SOLDIER));
+        board.put(new Position(dynasty.flipRowIfNeeded(new Row(row)), new Column(7)), new Piece(dynasty, SOLDIER));
+        board.put(new Position(dynasty.flipRowIfNeeded(new Row(row)), new Column(9)), new Piece(dynasty, SOLDIER));
     }
 
 }

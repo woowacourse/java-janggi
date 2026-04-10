@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
 public record Position(
         Row row,
         Column column
@@ -31,6 +32,7 @@ public record Position(
 
         return Optional.empty();
     }
+
 
     private Position add(int row, int column) {
         return new Position(this.row.add(row), this.column.add(column));

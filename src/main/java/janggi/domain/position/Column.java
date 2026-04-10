@@ -1,6 +1,6 @@
 package janggi.domain.position;
 
-import janggi.domain.DomainException;
+import janggi.domain.exception.DomainException;
 
 public record Column(
         int column
@@ -18,8 +18,12 @@ public record Column(
     private void validate(int column) {
         if (column < MIN_COLUMN || column > MAX_COLUMN) {
             throw new DomainException(
-                    String.format(COLUMN_OUT_OF_BOUNDS_MESSAGE, column, MIN_COLUMN, MAX_COLUMN));
+                    String.format(COLUMN_OUT_OF_BOUNDS_MESSAGE, MIN_COLUMN, MAX_COLUMN, column));
         }
+    }
+
+    public Column flip() {
+        return new Column(MIN_COLUMN + MAX_COLUMN - column);
     }
 
     public Column add(int column) {

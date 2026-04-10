@@ -1,5 +1,8 @@
 package janggi.domain.dynasty;
 
+import janggi.domain.position.Column;
+import janggi.domain.position.Position;
+import janggi.domain.position.Row;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -30,12 +33,16 @@ class DynastyTest {
             "1, HAN, 10",
     })
     @DisplayName("Dynasty 타입에 맞게 row를 처리한다")
-    public void resolveRow_success(int origin, Dynasty dynasty, int result) {
+    public void flipRow_IfNeeded_success(int origin, Dynasty dynasty, int result) {
+
+        // given
+        Row row = new Row(origin);
+
         // when
-        int resolved = dynasty.resolveRow(origin);
+        Row newRow = dynasty.flipRowIfNeeded(row);
 
         // then
-        assertThat(resolved).isEqualTo(result);
+        assertThat(newRow.row()).isEqualTo(result);
     }
 
 }

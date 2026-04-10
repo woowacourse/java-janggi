@@ -10,12 +10,8 @@ public record Piece(
         PieceType pieceType
 ) {
 
-    public List<Position> canMovePosition(Map<Position, Piece> board, Position from) {
+    public List<Position> findMovablePositions(Map<Position, Piece> board, Position from) {
         return pieceType.moveStrategy().findMovablePositions(board, from, dynasty);
-    }
-
-    public PieceType pieceType() {
-        return pieceType;
     }
 
     public boolean isAlly(Dynasty dynasty) {

@@ -7,8 +7,8 @@ import static janggi.domain.dynasty.Dynasty.HAN;
 import static janggi.domain.piece.PieceType.CHARIOT;
 import static org.assertj.core.api.Assertions.*;
 
-import janggi.domain.DomainException;
-import janggi.domain.piece.ChariotMoveStrategy;
+import janggi.domain.exception.DomainException;
+import janggi.domain.dynasty.Dynasty;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
@@ -18,6 +18,9 @@ import java.util.Map;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.EnumSource;
 
 class BoardTest {
 
@@ -26,8 +29,8 @@ class BoardTest {
     public void canMovePosition_success() {
         // given
         DefaultBoardDesignPolicy policy = new DefaultBoardDesignPolicy(Map.of(CHO, HEHE, HAN, HEHE));
-        Board board = new Board(policy);
-
+        Board board = Board.policyOf(policy);
+        
         // when & then
         assertThatCode(() -> board.canMovePosition(Position.from(4, 5), CHO))
                 .doesNotThrowAnyException();
@@ -38,7 +41,7 @@ class BoardTest {
     public void canMovePosition_error1() {
         // given
         DefaultBoardDesignPolicy policy = new DefaultBoardDesignPolicy(Map.of(CHO, HEHE, HAN, HEHE));
-        Board board = new Board(policy);
+        Board board = Board.policyOf(policy);
         Position from = Position.from(4, 5);
 
         // when & then
@@ -52,7 +55,7 @@ class BoardTest {
     public void canMovePosition_error2() {
         // given
         DefaultBoardDesignPolicy policy = new DefaultBoardDesignPolicy(Map.of(CHO, HEHE, HAN, HEHE));
-        Board board = new Board(policy);
+        Board board = Board.policyOf(policy);
         Position from = Position.from(5, 5);
         // when & then
         assertThatThrownBy(() -> board.canMovePosition(from, CHO))
@@ -74,7 +77,7 @@ class BoardTest {
                 from, fromPiece,
                 toCanEat,  new Piece(CHO,  CHARIOT)
         ));
-        Board board = new Board(policy);
+        Board board = Board.policyOf(policy);
 
         // when
         board.movePiece(from, toCanEat, HAN);
@@ -96,7 +99,7 @@ class BoardTest {
         BoardDesignPolicy policy = () -> new HashMap<>(Map.of(
                 from, fromPiece
         ));
-        Board board = new Board(policy);
+        Board board = Board.policyOf(policy);
         Position to = Position.from(4, 4);
 
         // when & then
@@ -105,5 +108,65 @@ class BoardTest {
                 .hasMessageContaining(String.format(INVALID_PIECE_MOVE_MESSAGE,
                         from.row().row(), from.column().column(),
                         to.row().row(), to.column().column()));
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {
+            "CHO, 72",
+            "HAN, 73.5"
+    })
+    @DisplayName("초 나라는 72점, 한나라는 73.5점으로 시작한다.")
+    public void calculateScoreByDynasty_success(Dynasty dynasty, double expected) throws Exception {
+        // given
+        BoardDesignPolicy boardDesignPolicy =
+                new DefaultBoardDesignPolicy(Map.of(
+                        dynasty, HEHE,
+                        dynasty.next(), HEHE
+                ));
+        Board board = Board.policyOf(boardDesignPolicy);
+
+        // when
+        double score = board.calculateScoreByDynasty(dynasty);
+
+        // then
+        assertThat(score).isEqualTo(expected);
+    }
+    
+    @ParameterizedTest
+    @CsvSource(value = {
+            "2, 5, CHO",
+            "7, 5, HAN"
+    })
+    @DisplayName("장기판에 특정나라의 궁 기물이 잡힌 경우")
+    public void isGeneralCaught_ByDynasty_success1(int row, int column, Dynasty dynasty) throws Exception {
+        // given
+        BoardDesignPolicy boardDesignPolicy = () -> Map.of(
+                Position.from(row, column), new Piece(dynasty, PieceType.GENERAL)
+        );
+        Board board = Board.policyOf(boardDesignPolicy);
+
+        // when
+        boolean generalCaught = board.isGeneralCaughtByDynasty(dynasty.next());
+
+        // then
+        assertThat(generalCaught).isEqualTo(true);
+    }
+
+    @ParameterizedTest
+    @EnumSource(Dynasty.class)
+    @DisplayName("장기판에 특정 나라의 궁 기물이 있는 경우")
+    public void isGeneralCaught_ByDynasty_success2(Dynasty dynasty) throws Exception {
+        // given
+        BoardDesignPolicy boardDesignPolicy = () -> Map.of(
+                Position.from(2, 5), new Piece(CHO, PieceType.GENERAL),
+                Position.from(7, 5), new Piece(HAN, PieceType.GENERAL)
+        );
+        Board board = Board.policyOf(boardDesignPolicy);
+
+        // when
+        boolean generalCaught = board.isGeneralCaughtByDynasty(dynasty);
+
+        // then
+        assertThat(generalCaught).isEqualTo(false);
     }
 }

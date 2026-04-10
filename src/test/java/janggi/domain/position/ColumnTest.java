@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.domain.DomainException;
+import janggi.domain.exception.DomainException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -62,6 +62,25 @@ class ColumnTest {
 
         // then
         assertThat(offsetWithinBounds).isEqualTo(result);
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {
+            "1, 9",
+            "3, 7",
+            "5, 5",
+    })
+    @DisplayName("뒤집을지 여부에 따라 적절한 열 객체를 반환한다.")
+    public void flip_success(int col, int result) {
+
+        // given
+        Column column = new Column(col);
+
+        // when
+        Column resultColumn = column.flip();
+
+        // then
+        assertThat(resultColumn.column()).isEqualTo(result);
     }
 
 }
