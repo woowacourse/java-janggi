@@ -41,6 +41,7 @@ class InMemoryGameRepositoryTest {
     @DisplayName("종료된 게임은 조회되지 않는다.")
     void notFindCloseGame() {
         Board board = new Board(Map.of(
+                new Position(5, 9), new Piece(Camp.CHO, PieceType.GENERAL),
                 new Position(5, 5), new Piece(Camp.CHO, PieceType.CHARIOT),
                 new Position(5, 2), new Piece(Camp.HAN, PieceType.GENERAL)
         ));

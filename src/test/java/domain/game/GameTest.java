@@ -78,6 +78,7 @@ public class GameTest {
     @DisplayName("장군(궁)이 잡히면 게임이 종료된다.")
     void finishGame_When_GeneralCaptured() {
         Board board = new Board(Map.of(
+                new Position(5, 9), new Piece(Camp.CHO, PieceType.GENERAL),
                 new Position(5, 5), new Piece(Camp.CHO, PieceType.CHARIOT),
                 new Position(5, 2), new Piece(Camp.HAN, PieceType.GENERAL)
         ));
@@ -92,6 +93,7 @@ public class GameTest {
     @DisplayName("기물을 잡은 뒤 상대 진영의 남아 있는 점수가 줄어든다.")
     void decreaseOpponentScore_When_CapturePiece() {
         Board board = new Board(Map.of(
+                new Position(5, 9), new Piece(Camp.CHO, PieceType.GENERAL),
                 new Position(5, 5), new Piece(Camp.CHO, PieceType.CHARIOT),
                 new Position(9, 1), new Piece(Camp.HAN, PieceType.GENERAL),
                 new Position(5, 2), new Piece(Camp.HAN, PieceType.SOLDIER),
