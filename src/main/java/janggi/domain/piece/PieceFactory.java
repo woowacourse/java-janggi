@@ -21,6 +21,9 @@ public class PieceFactory {
         if (name == Name.GUARD) {
             return new GuardPiece(team);
         }
-        return new SoldierPiece(team);
+        if (name == Name.SOLDIER) {
+            return new SoldierPiece(team);
+        }
+        throw new IllegalArgumentException("지원하지 않는 기물 이름입니다: " + name);
     }
 }
