@@ -69,6 +69,18 @@ public class Board {
                 .orElseThrow(() -> new IllegalStateException("궁이 존재하지 않습니다."));
     }
 
+    public double score(Camp camp) {
+        double totalScore = pieces.values().stream()
+                .filter(piece -> piece.camp().equals(camp))
+                .mapToDouble(piece -> piece.pieceType().score())
+                .sum();
+
+        if (camp == Camp.HAN) {
+            return totalScore + 1.5;
+        }
+        return totalScore;
+    }
+
     public void move(Position departure, Position destination) {
         validateGameStatus();
         validateDepartureAndDestinationPosition(departure, destination);

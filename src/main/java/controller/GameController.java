@@ -3,6 +3,7 @@ package controller;
 
 import domain.board.Board;
 import domain.board.Position;
+import domain.piece.Camp;
 import view.InputView;
 import view.OutputView;
 
@@ -31,7 +32,7 @@ public class GameController {
     }
 
     public void printWinner() {
-        OutputView.printWinner(board.winner());
+        OutputView.printWinner(board.winner(), board.score(Camp.CHO), board.score(Camp.HAN));
     }
 
     private Position parsePosition(String value) {
