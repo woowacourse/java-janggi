@@ -38,6 +38,17 @@ public class InputView {
         }
     }
 
+    public boolean askLoadSavedBoard() {
+        while(true) {
+            System.out.print("저장된 게임 불러오기(y/n): ");
+            String input = sc.nextLine();
+            if(input.equals("y") || input.equals("n")) {
+                return input.equals("y");
+            }
+            System.out.println("잘못된 입력입니다.");
+        }
+    }
+
     private int readElephantFormation(Camp camp) {
         while (true) {
             try {
