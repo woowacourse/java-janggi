@@ -7,4 +7,6 @@ public interface GameStateRepository {
     void save(GameState gameState);
 
     GameState load();
+
+    boolean exist();
 }
