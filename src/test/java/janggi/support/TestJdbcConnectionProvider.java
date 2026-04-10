@@ -1,6 +1,6 @@
 package janggi.support;
 
-import janggi.repository.util.ConnectionProvider;
+import janggi.repository.util.connection.ConnectionProvider;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;

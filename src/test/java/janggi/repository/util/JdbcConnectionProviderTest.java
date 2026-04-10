@@ -1,6 +1,7 @@
 package janggi.repository.util;
 
 
+import janggi.repository.util.connection.ConnectionProvider;
 import janggi.support.TestJdbcConnectionProvider;
 import java.sql.Connection;
 import java.sql.SQLException;

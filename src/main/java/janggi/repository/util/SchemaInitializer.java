@@ -1,5 +1,6 @@
 package janggi.repository.util;
 
+import janggi.repository.util.connection.ConnectionProvider;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Connection;

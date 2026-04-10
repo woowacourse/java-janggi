@@ -3,7 +3,7 @@ package janggi.repository.dao;
 import janggi.domain.board.Location;
 import janggi.repository.entity.PieceEntity;
 import janggi.repository.util.JdbcQueryExecutor;
-import janggi.repository.util.TransactionManager;
+import janggi.repository.util.transaction.TransactionManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;

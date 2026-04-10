@@ -1,5 +1,6 @@
-package janggi.repository.util;
+package janggi.repository.util.transaction;
 
+import janggi.repository.util.connection.ConnectionProvider;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.function.Supplier;

@@ -1,11 +1,11 @@
 package janggi;
 
 import janggi.controller.JanggiController;
-import janggi.repository.util.ConnectionProvider;
-import janggi.repository.util.JdbcConnectionProvider;
-import janggi.repository.util.JdbcTransactionManager;
+import janggi.repository.util.connection.ConnectionProvider;
+import janggi.repository.util.connection.JdbcConnectionProvider;
+import janggi.repository.util.transaction.JdbcTransactionManager;
 import janggi.repository.util.SchemaInitializer;
-import janggi.repository.util.TransactionManager;
+import janggi.repository.util.transaction.TransactionManager;
 import janggi.service.DefaultJanggiService;
 import janggi.service.JanggiService;
 import janggi.view.ApplicationView;

@@ -12,7 +12,7 @@ import janggi.repository.dao.GameDao;
 import janggi.repository.dao.PieceDao;
 import janggi.repository.entity.GameEntity;
 import janggi.repository.entity.PieceEntity;
-import janggi.repository.util.TransactionManager;
+import janggi.repository.util.transaction.TransactionManager;
 import janggi.service.dto.GameInformation;
 import janggi.service.mapper.PieceEntityMapper;
 import java.util.List;

@@ -1,4 +1,4 @@
-package janggi.repository.util;
+package janggi.repository.util.transaction;
 
 import java.sql.Connection;
 import java.util.function.Supplier;

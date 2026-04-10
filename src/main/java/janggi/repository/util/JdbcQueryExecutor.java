@@ -1,5 +1,6 @@
 package janggi.repository.util;
 
+import janggi.repository.util.transaction.TransactionManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
