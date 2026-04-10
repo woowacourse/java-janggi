@@ -8,7 +8,6 @@ import domain.board.Board;
 import domain.board.Intersection;
 import domain.game.JanggiGame;
 import domain.game.Side;
-import domain.movement.Move;
 import domain.piece.AlivePieces;
 import domain.piece.Piece;
 import java.sql.Connection;
@@ -36,7 +35,7 @@ public class GameRepository {
     public Persisted<JanggiGame> save(JanggiGame game) {
         return transaction.execute(connection -> {
             Persisted<JanggiGame> persistedGame = saveGame(game, connection);
-            pieceRepository.save(game.getPieces(), persistedGame.id(), connection);
+            pieceRepository.save(game.getPieces(), persistedGame.getId(), connection);
 
             return persistedGame;
         });
@@ -66,13 +65,11 @@ public class GameRepository {
         });
     }
 
-    public void update(
-            Persisted<JanggiGame> persistedGame,
-            Move lastMove
-    ) {
+    public void update(Persisted<JanggiGame> persistedGame) {
         transaction.execute(connection -> {
             updateCurrentTurn(persistedGame, connection);
-            pieceRepository.update(lastMove, persistedGame.id(), connection);
+            JanggiGame game = persistedGame.getData();
+            pieceRepository.update(game.getLastMove(), persistedGame.getId(), connection);
         });
     }
 
@@ -127,11 +124,11 @@ public class GameRepository {
         String update = "UPDATE game SET current_turn = ? WHERE id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(update)) {
-            JanggiGame game = persistedGame.data();
+            JanggiGame game = persistedGame.getData();
             Side currentTurn = game.getCurrentTurn();
 
             statement.setString(1, currentTurn.name());
-            statement.setInt(2, persistedGame.id());
+            statement.setInt(2, persistedGame.getId());
             statement.executeUpdate();
         }
     }

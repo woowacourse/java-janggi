@@ -1,6 +1,7 @@
 package domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.board.Intersection;
 import domain.game.Side;
@@ -55,10 +56,10 @@ class AlivePiecesTest {
             Move moveToDestination = new Move(startIntersection, destination);
 
             // when
-            alivePieces.replace(moveToDestination);
+            AlivePieces movedAlivePieces = alivePieces.replace(moveToDestination);
 
             // then
-            Piece pieceAtDestination = alivePieces.placedAt(destination);
+            Piece pieceAtDestination = movedAlivePieces.placedAt(destination);
             assertThat(pieceAtDestination).isEqualTo(DEFAULT_PIECE);
         }
 
@@ -75,10 +76,10 @@ class AlivePiecesTest {
             Move moveFromExistIntersection = new Move(existIntersection, destination);
 
             // when
-            alivePieces.replace(moveFromExistIntersection);
+            AlivePieces movedAlivePieces = alivePieces.replace(moveFromExistIntersection);
 
             // then
-            Piece pieceAtExistIntersection = alivePieces.placedAt(existIntersection);
+            Piece pieceAtExistIntersection = movedAlivePieces.placedAt(existIntersection);
             assertThat(pieceAtExistIntersection).isNull();
         }
 
@@ -99,26 +100,22 @@ class AlivePiecesTest {
             Move moveToExistPiece = new Move(startIntersection, destination);
 
             // when
-            alivePieces.replace(moveToExistPiece);
+            AlivePieces movedAlivePieces = alivePieces.replace(moveToExistPiece);
 
             // then
-            Piece currentPieceAtDestination = alivePieces.placedAt(destination);
+            Piece currentPieceAtDestination = movedAlivePieces.placedAt(destination);
             assertThat(currentPieceAtDestination).isNotEqualTo(pieceAtDestination);
         }
 
         @Test
-        void 시작_위치에_기물이_없다면_아무_동작도_수행하지_않는다() {
+        void 시작_위치에_기물이_없다면_예외를_던진다() {
             // given
-            Map<Intersection, Piece> piecesBeforeReplace = alivePieces.get();
             Move moveFromEmpty = new Move(emptyIntersection, DEFAULT_INTERSECTION);
 
-            // when
-            alivePieces.replace(moveFromEmpty);
-
-            // then
-            Map<Intersection, Piece> piecesAfterReplace = alivePieces.get();
-
-            assertThat(piecesAfterReplace).isEqualTo(piecesBeforeReplace);
+            // when and then
+            assertThatThrownBy(() -> alivePieces.replace(moveFromEmpty))
+                    .isInstanceOf(IllegalStateException.class)
+                    .hasMessage("기물을 움직이기 위해선, 출발지에 기물이 존재해야 합니다.");
         }
     }
 

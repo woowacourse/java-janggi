@@ -15,7 +15,7 @@ public final class Board {
         this.alivePieces = alivePieces;
     }
 
-    public void movePiece(
+    public Board movePiece(
             Move move,
             Side side
     ) {
@@ -24,7 +24,7 @@ public final class Board {
             throw new IllegalArgumentException("도착 가능한 지점을 선택해야 합니다.");
         }
 
-        alivePieces.replace(move);
+        return new Board(alivePieces.replace(move));
     }
 
     public List<Intersection> getMovableIntersections(

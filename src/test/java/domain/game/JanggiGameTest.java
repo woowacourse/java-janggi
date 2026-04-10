@@ -65,10 +65,10 @@ class JanggiGameTest {
         Side turnBeforeMove = janggiGame.getCurrentTurn();
 
         // when
-        janggiGame.movePiece(move);
+        JanggiGame movedGame = janggiGame.movePiece(move);
 
         // then
-        Side turnAfterMove = janggiGame.getCurrentTurn();
+        Side turnAfterMove = movedGame.getCurrentTurn();
 
         assertThat(turnAfterMove).isNotEqualTo(turnBeforeMove);
     }

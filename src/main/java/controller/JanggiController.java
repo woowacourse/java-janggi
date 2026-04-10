@@ -31,11 +31,14 @@ public class JanggiController {
 
     public void run() {
         Persisted<JanggiGame> persistedGame = retryOnIllegalArgument(this::startGame);
-        JanggiGame game = persistedGame.data();
+        JanggiGame game = persistedGame.getData();
 
         while (game.isPlaying()) {
-            Move lastMove = retryOnIllegalArgument(() -> progressTurn(game));
-            gameRepository.update(persistedGame, lastMove);
+            JanggiGame gameSnapshot = game.copyOf();
+            game = retryOnIllegalArgument(() -> progressTurn(gameSnapshot));
+
+            persistedGame.update(game);
+            gameRepository.update(persistedGame);
         }
 
         finishGame(persistedGame);
@@ -59,7 +62,7 @@ public class JanggiController {
         JanggiGame game = new JanggiGame(new Board(alivePieces));
 
         Persisted<JanggiGame> newGame = gameRepository.save(game);
-        view.printNewGameId(newGame.id());
+        view.printNewGameId(newGame.getId());
 
         return newGame;
     }
@@ -71,7 +74,7 @@ public class JanggiController {
         return gameRepository.findById(gameId);
     }
 
-    private Move progressTurn(JanggiGame game) {
+    private JanggiGame progressTurn(JanggiGame game) {
         Map<Intersection, Piece> board = game.getPieces();
         Side currentTurn = game.getCurrentTurn();
 
@@ -80,19 +83,18 @@ public class JanggiController {
         Intersection destination = view.readMovePiece(board, movableIntersections);
 
         Move move = new Move(startIntersection, destination);
-        game.movePiece(move);
 
-        return move;
+        return game.movePiece(move);
     }
 
     private void finishGame(Persisted<JanggiGame> persistedGame) {
-        JanggiGame game = persistedGame.data();
+        JanggiGame game = persistedGame.getData();
 
         Side winner = game.getWinner();
         List<ScoreDto> scores = calculateTotalScore(game);
         view.printWinner(winner, scores);
 
-        gameRepository.deleteById(persistedGame.id());
+        gameRepository.deleteById(persistedGame.getId());
     }
 
     private List<ScoreDto> calculateTotalScore(JanggiGame game) {

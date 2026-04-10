@@ -14,7 +14,8 @@ public final class JanggiGame {
     private static final Side FIRST_TURN = Side.CHO;
 
     private final Board board;
-    private Side currentTurn;
+    private final Side currentTurn;
+    private final Move lastMove;
 
     public JanggiGame(Board board) {
         this(board, FIRST_TURN);
@@ -24,8 +25,17 @@ public final class JanggiGame {
             Board board,
             Side currentTurn
     ) {
+        this(board, currentTurn, null);
+    }
+
+    public JanggiGame(
+            Board board,
+            Side currentTurn,
+            Move lastMove
+    ) {
         this.board = board;
         this.currentTurn = currentTurn;
+        this.lastMove = lastMove;
     }
 
     public List<Intersection> getMovableIntersections(Intersection startIntersection) {
@@ -34,12 +44,13 @@ public final class JanggiGame {
         return board.getMovableIntersections(startIntersection, currentTurn);
     }
 
-    public void movePiece(Move move) {
+    public JanggiGame movePiece(Move move) {
         validatePlaying();
 
-        board.movePiece(move, currentTurn);
+        Board nextBoard = board.movePiece(move, currentTurn);
+        Side nextTurn = currentTurn.nextTurn();
 
-        currentTurn = currentTurn.nextTurn();
+        return new JanggiGame(nextBoard, nextTurn, move);
     }
 
     public boolean isPlaying() {
@@ -62,12 +73,24 @@ public final class JanggiGame {
         return currentTurn;
     }
 
+    public Move getLastMove() {
+        if (lastMove == null) {
+            throw new IllegalStateException("아직 기물을 움직이지 않은 게임입니다.");
+        }
+
+        return lastMove;
+    }
+
     public double getTotalScore(Side side) {
         return side.calculateTotalScore(board.getTotalScore(side));
     }
 
     public Map<Intersection, Piece> getPieces() {
         return board.getPieces();
+    }
+
+    public JanggiGame copyOf() {
+        return new JanggiGame(board, currentTurn, lastMove);
     }
 
     private void validatePlaying() {

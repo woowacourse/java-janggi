@@ -11,16 +11,19 @@ public class AlivePieces {
     private final Map<Intersection, Piece> alivePieces;
 
     public AlivePieces(Map<Intersection, Piece> alivePieces) {
-        this.alivePieces = new HashMap<>(alivePieces);
+        this.alivePieces = Map.copyOf(alivePieces);
     }
 
-    public void replace(Move move) {
+    public AlivePieces replace(Move move) {
         if (isEmpty(move.from())) {
-            return;
+            throw new IllegalStateException("기물을 움직이기 위해선, 출발지에 기물이 존재해야 합니다.");
         }
 
-        Piece piece = alivePieces.remove(move.from());
-        alivePieces.put(move.to(), piece);
+        HashMap<Intersection, Piece> nextAlivePieces = new HashMap<>(alivePieces);
+        Piece piece = nextAlivePieces.remove(move.from());
+        nextAlivePieces.put(move.to(), piece);
+
+        return new AlivePieces(nextAlivePieces);
     }
 
     public boolean hasRoyalPiece(Side side) {

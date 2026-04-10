@@ -134,10 +134,10 @@ class BoardTest {
             Move moveSameSidePiece = new Move(startIntersection, reachableDestination);
 
             // when
-            board.movePiece(moveSameSidePiece, SAME_SIDE);
+            Board movedBoard = board.movePiece(moveSameSidePiece, SAME_SIDE);
 
             // then
-            Map<Intersection, Piece> pieces = board.getPieces();
+            Map<Intersection, Piece> pieces = movedBoard.getPieces();
 
             assertThat(pieces.get(reachableDestination)).isEqualTo(SAME_SIDE_PIECE);
         }

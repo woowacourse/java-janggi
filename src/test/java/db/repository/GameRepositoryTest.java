@@ -65,7 +65,7 @@ class GameRepositoryTest {
                             WHERE id = ?
                             """
                     )
-                    .parameters(persisted.id())
+                    .parameters(persisted.getId())
                     .build();
 
             String expectedSide = game.getCurrentTurn()
@@ -97,7 +97,7 @@ class GameRepositoryTest {
                             WHERE game_id = ?
                             """
                     )
-                    .parameters(persisted.id())
+                    .parameters(persisted.getId())
                     .build();
 
             assertThat(pieceCount)
@@ -132,9 +132,9 @@ class GameRepositoryTest {
             Persisted<JanggiGame> foundGame = gameRepository.findById(savedGameId);
 
             // then
-            JanggiGame game = foundGame.data();
+            JanggiGame game = foundGame.getData();
 
-            assertThat(foundGame.id()).isEqualTo(savedGameId);
+            assertThat(foundGame.getId()).isEqualTo(savedGameId);
             assertThat(game.getCurrentTurn()).isEqualTo(currentTurn);
         }
 
@@ -151,10 +151,10 @@ class GameRepositoryTest {
             Persisted<JanggiGame> persistedGame = gameRepository.save(game);
 
             // when
-            Persisted<JanggiGame> found = gameRepository.findById(persistedGame.id());
+            Persisted<JanggiGame> found = gameRepository.findById(persistedGame.getId());
 
             // then
-            JanggiGame foundGame = found.data();
+            JanggiGame foundGame = found.getData();
             assertThat(foundGame.getPieces()).containsExactlyInAnyOrderEntriesOf(pieces);
         }
     }
@@ -175,11 +175,11 @@ class GameRepositoryTest {
             JanggiGame game = new JanggiGame(board, Side.CHO);
             Persisted<JanggiGame> persistedGame = gameRepository.save(game);
 
-            Move latestMove = new Move(START_INTERSECTION, DESTINATION);
-            game.movePiece(latestMove);
+            JanggiGame movedGame = game.movePiece(new Move(START_INTERSECTION, DESTINATION));
+            persistedGame.update(movedGame);
 
             // when
-            gameRepository.update(persistedGame, latestMove);
+            gameRepository.update(persistedGame);
 
             // then
             Request findCurrentSide = assertConnection.request("""
@@ -187,10 +187,10 @@ class GameRepositoryTest {
                             FROM game
                             WHERE id = ?
                             """
-                    ).parameters(persistedGame.id())
+                    ).parameters(persistedGame.getId())
                     .build();
 
-            String expectedSide = game.getCurrentTurn()
+            String expectedSide = movedGame.getCurrentTurn()
                     .name();
             assertThat(findCurrentSide)
                     .hasNumberOfRows(1)
@@ -206,11 +206,12 @@ class GameRepositoryTest {
 
             int rowOfFrom = START_INTERSECTION.getRow();
             int fileOfFrom = START_INTERSECTION.getFile();
-            Move latestMove = new Move(START_INTERSECTION, DESTINATION);
-            game.movePiece(latestMove);
+
+            JanggiGame movedGame = game.movePiece(new Move(START_INTERSECTION, DESTINATION));
+            persistedGame.update(movedGame);
 
             // when
-            gameRepository.update(persistedGame, latestMove);
+            gameRepository.update(persistedGame);
 
             // then
             Request findCurrentSide = assertConnection.request("""
@@ -218,7 +219,7 @@ class GameRepositoryTest {
                             FROM piece
                             WHERE game_id = ? AND `row` = ? AND file = ?
                             """
-                    ).parameters(persistedGame.id(), rowOfFrom, fileOfFrom)
+                    ).parameters(persistedGame.getId(), rowOfFrom, fileOfFrom)
                     .build();
 
             assertThat(findCurrentSide)
