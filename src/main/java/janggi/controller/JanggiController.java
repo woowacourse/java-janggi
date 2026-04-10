@@ -68,9 +68,21 @@ public class JanggiController {
     }
 
     private void playTurn(GameContext gameContext) {
+        Position from = pickPiece(gameContext);
+        List<Position> movable = calculateMovablePositions(from, gameContext);
+        movePiece(gameContext, movable, from);
+    }
+
+    private Position pickPiece(GameContext gameContext) {
         OutputView.printBoard(BoardDto.from(gameContext), gameContext.currentTeamTypeToName());
-        Position from = findFromPosition(gameContext);
-        List<Position> movable = gameContext.calculateMovablePositions(from);
+        return findFromPosition(gameContext);
+    }
+
+    private List<Position> calculateMovablePositions(Position from, GameContext gameContext) {
+        return gameContext.calculateMovablePositions(from);
+    }
+
+    private void movePiece(GameContext gameContext, List<Position> movable, Position from) {
         OutputView.printBoardWithMovable(BoardDto.from(gameContext), movable);
         Position to = RetryExecutor.retry(() -> inputToPosition(movable));
         gameContext.makeMove(from, to);
