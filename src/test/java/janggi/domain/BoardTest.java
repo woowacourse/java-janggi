@@ -3,14 +3,18 @@ package janggi.domain;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import janggi.domain.piece.Byeong;
-import janggi.domain.piece.Cha;
-import janggi.domain.piece.King;
-import janggi.domain.piece.Ma;
-import janggi.domain.piece.Pho;
-import janggi.domain.piece.Piece;
-import janggi.domain.piece.Sa;
-import janggi.domain.piece.Sang;
+import janggi.domain.board.Board;
+import janggi.domain.position.Position;
+import janggi.domain.space.Space;
+import janggi.domain.space.piece.Byeong;
+import janggi.domain.space.piece.Cha;
+import janggi.domain.space.piece.King;
+import janggi.domain.space.piece.Ma;
+import janggi.domain.space.piece.Pho;
+import janggi.domain.space.piece.Piece;
+import janggi.domain.space.piece.Sa;
+import janggi.domain.space.piece.Sang;
+import janggi.domain.space.piece.Team;
 import janggi.domain.strategy.BasicPlacementStrategy;
 import janggi.domain.strategy.InitializeStrategy;
 import java.util.Map;
@@ -150,11 +154,11 @@ class BoardTest {
 
         Piece king = new King(Team.HAN);
 
-        Piece piece = (Piece) board.get(new Position(5, 1));
+        Piece piece = (Piece) board.get(new Position(4, 1));
         boolean actual = piece.isSameType(king);
         assertThat(actual).isTrue();
 
-        piece = (Piece) board.get(new Position(5, 8));
+        piece = (Piece) board.get(new Position(4, 8));
         actual = piece.isSameType(king);
         assertThat(actual).isTrue();
     }
@@ -203,5 +207,16 @@ class BoardTest {
         piece = (Piece) board.get(new Position(8, 6));
         actual = piece.isSameType(byeong);
         assertThat(actual).isTrue();
+    }
+
+    @Test
+    void 기물_점수_정상_테스트() {
+        Board initBoard = new Board(strategy);
+
+        double actual = initBoard.calculatePieceScore(Team.CHO);
+
+        double expected = 72;
+
+        assertThat(actual).isEqualTo(expected);
     }
 }

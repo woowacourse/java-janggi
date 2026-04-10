@@ -1,10 +1,10 @@
 package janggi.domain.strategy;
 
-import janggi.domain.piece.PieceFactory;
-import janggi.domain.piece.PieceType;
-import janggi.domain.Position;
-import janggi.domain.Space;
-import janggi.domain.Team;
+import janggi.domain.space.piece.PieceFactory;
+import janggi.domain.space.piece.PieceType;
+import janggi.domain.position.Position;
+import janggi.domain.space.Space;
+import janggi.domain.space.piece.Team;
 import janggi.util.ResourceReader;
 import java.io.BufferedReader;
 import java.io.IOException;

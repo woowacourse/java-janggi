@@ -2,13 +2,17 @@ package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-import janggi.domain.Path;
-import janggi.domain.Position;
-import janggi.domain.Space;
-import janggi.domain.Team;
+import janggi.domain.board.Path;
+import janggi.domain.position.Position;
+import janggi.domain.space.Space;
+import janggi.domain.space.piece.Cha;
+import janggi.domain.space.piece.Piece;
+import janggi.domain.space.piece.Sang;
+import janggi.domain.space.piece.Team;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -31,7 +35,7 @@ class SangTest {
         Position from = new Position(0, 0);
         Position to = new Position(1, 1);
 
-        assertThatIllegalArgumentException()
+        assertThatIllegalStateException()
                 .isThrownBy(() -> piece.validateMove(from, to))
                 .withMessage("해당 위치로 상이 이동할 수 없습니다.");
     }
@@ -41,7 +45,7 @@ class SangTest {
         Piece piece = new Sang(Team.CHO);
         Space space = new Cha(Team.CHO);
 
-        assertThatIllegalArgumentException()
+        assertThatIllegalStateException()
                 .isThrownBy(() -> piece.validateArrival(space))
                 .withMessage("이동하려는 위치에 같은 팀의 말이 존재합니다.");
     }
@@ -51,7 +55,7 @@ class SangTest {
         Piece piece = new Sang(Team.CHO);
         List<Piece> pieces = List.of(new Cha(Team.CHO));
 
-        assertThatIllegalArgumentException()
+        assertThatIllegalStateException()
                 .isThrownBy(() -> piece.validateRoutes(pieces))
                 .withMessage("이동 경로 사이에 다른 말이 있으면 안됩니다.");
     }

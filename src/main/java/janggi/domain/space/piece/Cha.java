@@ -1,8 +1,7 @@
-package janggi.domain.piece;
+package janggi.domain.space.piece;
 
-import janggi.domain.Path;
-import janggi.domain.Position;
-import janggi.domain.Team;
+import janggi.domain.board.Path;
+import janggi.domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,10 +13,9 @@ public class Cha extends Piece {
 
     @Override
     public void validateMove(Position from, Position to) {
-        if (isMovable(from, to)) {
-            return;
+        if (!isMovable(from, to)) {
+            throw new IllegalStateException("해당 위치로 차가 이동할 수 없습니다.");
         }
-        throw new IllegalArgumentException("해당 위치로 차가 이동할 수 없습니다.");
     }
 
     @Override
@@ -54,10 +52,18 @@ public class Cha extends Piece {
     }
 
     private boolean isMovable(Position from, Position to) {
+        return isStraightMove(from, to) || isDigonalMove(from, to);
+    }
+
+    private boolean isStraightMove(Position from, Position to) {
         int dx = from.deltaX(to);
         int dy = from.deltaY(to);
 
         return (Math.abs(dx) == 0 && Math.abs(dy) > 0) ||
                 (Math.abs(dx) > 0 && Math.abs(dy) == 0);
+    }
+
+    private boolean isDigonalMove(Position from, Position to) {
+        return from.isDiagonalMoveInCastle(to);
     }
 }

@@ -1,4 +1,4 @@
-package janggi.domain;
+package janggi.domain.space;
 
 public class Blank implements Space {
 

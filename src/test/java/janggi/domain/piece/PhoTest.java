@@ -1,14 +1,20 @@
 package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import janggi.domain.Blank;
-import janggi.domain.Path;
-import janggi.domain.Position;
-import janggi.domain.Space;
-import janggi.domain.Team;
+import janggi.domain.space.Blank;
+import janggi.domain.board.Path;
+import janggi.domain.position.Position;
+import janggi.domain.space.Space;
+import janggi.domain.space.piece.Cha;
+import janggi.domain.space.piece.Ma;
+import janggi.domain.space.piece.Pho;
+import janggi.domain.space.piece.Piece;
+import janggi.domain.space.piece.Sang;
+import janggi.domain.space.piece.Team;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -31,7 +37,7 @@ class PhoTest {
         Position from = new Position(1, 2);
         Position to = new Position(2, 2);
 
-        assertThatIllegalArgumentException()
+        assertThatIllegalStateException()
                 .isThrownBy(() -> piece.validateMove(from, to))
                 .withMessage("해당 위치로 포가 이동할 수 없습니다.");
     }
@@ -41,7 +47,7 @@ class PhoTest {
         Piece piece = new Pho(Team.CHO);
         Space space = new Sang(Team.CHO);
 
-        assertThatIllegalArgumentException()
+        assertThatIllegalStateException()
                 .isThrownBy(() -> piece.validateArrival(space))
                 .withMessage("이동하려는 위치에 같은 팀의 말이 존재합니다.");
     }
@@ -163,5 +169,27 @@ class PhoTest {
                 new Position(0, 1)
         ));
         assertThat(actual).isEqualTo(expect);
+    }
+
+    @Test
+    void 포_궁성_정상_이동_테스트() {
+        Piece piece = new Pho(Team.CHO);
+
+        Position from = new Position(3, 0);
+        Position to = new Position(5, 2);
+
+        assertDoesNotThrow(() -> piece.validateMove(from, to));
+    }
+
+    @Test
+    void 포_궁성_예외_이동_테스트() {
+        Piece piece = new Pho(Team.CHO);
+
+        Position from = new Position(3, 0);
+        Position to = new Position(5, 1);
+
+        assertThatIllegalStateException()
+                .isThrownBy(() -> piece.validateMove(from, to))
+                .withMessage("해당 위치로 포가 이동할 수 없습니다.");
     }
 }

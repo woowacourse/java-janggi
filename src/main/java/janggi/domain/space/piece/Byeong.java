@@ -1,8 +1,7 @@
-package janggi.domain.piece;
+package janggi.domain.space.piece;
 
-import janggi.domain.Path;
-import janggi.domain.Position;
-import janggi.domain.Team;
+import janggi.domain.board.Path;
+import janggi.domain.position.Position;
 
 public class Byeong extends Piece {
 
@@ -12,10 +11,9 @@ public class Byeong extends Piece {
 
     @Override
     public void validateMove(Position from, Position to) {
-        if (isMovable(from, to)) {
-            return;
+        if (!isMovable(from, to)) {
+            throw new IllegalStateException("해당 위치로 병이 이동할 수 없습니다.");
         }
-        throw new IllegalArgumentException("해당 위치로 병이 이동할 수 없습니다.");
     }
 
     @Override
@@ -24,7 +22,16 @@ public class Byeong extends Piece {
     }
 
     private boolean isMovable(Position from, Position to) {
-        return xMoveStrategy(from, to) || HanYMoveStrategy(from, to) || ChoYMoveStrategy(from, to);
+        return isStraightMove(from, to) || isDigonalMove(from, to);
+    }
+
+    private boolean isStraightMove(Position from, Position to) {
+        return xMoveStrategy(from, to) ||
+                (HanYMoveStrategy(from, to) || ChoYMoveStrategy(from, to));
+    }
+
+    private boolean isDigonalMove(Position from, Position to) {
+        return from.isDiagonalMoveInCastle(to);
     }
 
     private boolean xMoveStrategy(Position from, Position to) {
@@ -39,8 +46,8 @@ public class Byeong extends Piece {
         int dy = from.deltaY(to);
 
         return Math.abs(dx) == 0 &&
-            dy == -1 &&
-            this.isEqualTeam(Team.HAN);
+                dy == -1 &&
+                this.isEqualTeam(Team.HAN);
     }
 
     private boolean ChoYMoveStrategy(Position from, Position to) {
@@ -48,7 +55,7 @@ public class Byeong extends Piece {
         int dy = from.deltaY(to);
 
         return Math.abs(dx) == 0 &&
-            dy == +1 &&
-            this.isEqualTeam(Team.CHO);
+                dy == +1 &&
+                this.isEqualTeam(Team.CHO);
     }
 }

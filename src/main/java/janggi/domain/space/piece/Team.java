@@ -1,4 +1,4 @@
-package janggi.domain;
+package janggi.domain.space.piece;
 
 import java.util.Arrays;
 
@@ -18,5 +18,10 @@ public enum Team {
                 .filter(piece -> piece.name.equals(name))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("적절하지 않은 진영입니다."));
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }
