@@ -63,6 +63,8 @@ public class GameRepositoryTest {
     void 게임이_저장_된다() {
         Map<Position, Piece> pieces = new HashMap<>();
         pieces.put(Position.from(1, 4), new Pawn(Team.CHO));
+        pieces.put(Position.from(2, 3), new Pawn(Team.CHO));
+        pieces.put(Position.from(3, 2), new Pawn(Team.CHO));
 
         Board board = new Board(pieces);
         Game game = new Game(board);
@@ -70,7 +72,7 @@ public class GameRepositoryTest {
         gameRepository.save(game, connection);
         Game found = gameRepository.findByGameId(game.id(), connection, pieces);
 
-        assertThat(found.board().getPieces()).hasSize(board.getPieces().size());
+        assertThat(found.board().getPieces()).hasSize(3);
     }
 
     @Test
