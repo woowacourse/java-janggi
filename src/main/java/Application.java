@@ -5,23 +5,47 @@ import data.BoardRepository;
 import data.TransactionManager;
 import domain.board.Board;
 import domain.board.BoardInitializer;
+import domain.piece.Camp;
 import view.InputView;
+import view.OutputView;
 
 public class Application {
     public static void main(String[] args) {
+        try (HikariDataSource hikariDataSource = createDataSource()) {
+            TransactionManager transactionManager = new TransactionManager(hikariDataSource);
+
+            BoardRepository boardRepository = new BoardRepository();
+
+            Board board = initBoard(transactionManager, boardRepository);
+
+            GameController gameController = new GameController(board, boardRepository, transactionManager);
+            gameController.run();
+
+            OutputView.printBoard(board);
+            OutputView.printWinner(board.winner(), board.score(Camp.CHO), board.score(Camp.HAN));
+
+            transactionManager.executeTransaction(connection -> {
+                        boardRepository.delete(connection, board);
+                        return null;
+                    }
+            );
+        }
+    }
+
+    private static HikariDataSource createDataSource() {
         HikariConfig hikariConfig = new HikariConfig();
         hikariConfig.setJdbcUrl("jdbc:h2:~/janggi;INIT=RUNSCRIPT FROM 'src/main/resources/create_tables.sql'");
         hikariConfig.setDriverClassName("org.h2.Driver");
         hikariConfig.setUsername("sa");
         hikariConfig.setPassword("");
 
-        HikariDataSource hikariDataSource = new HikariDataSource(hikariConfig);
-        TransactionManager transactionManager = new TransactionManager(hikariDataSource);
+        return new HikariDataSource(hikariConfig);
+    }
 
-        BoardRepository boardRepository = new BoardRepository();
+    private static Board initBoard(TransactionManager transactionManager, BoardRepository boardRepository) {
+        int boardId = InputView.readBoardNumber();
 
         Board board;
-        int boardId = InputView.readBoardNumber();
         if (boardId == 0) {
             board = Board.from(BoardInitializer.init(InputView.readBoardSetting()));
         } else {
@@ -32,25 +56,6 @@ public class Application {
             boardRepository.save(connection, board);
             return null;
         });
-
-        GameController gameController = new GameController(board);
-        while (board.isGameInProgress()) {
-            gameController.printBoard();
-
-            transactionManager.executeTransaction(connection -> {
-                gameController.move();
-                boardRepository.save(connection, board);
-                return null;
-            });
-        }
-
-        gameController.printBoard();
-        gameController.printWinner();
-
-        transactionManager.executeTransaction(connection -> {
-                    boardRepository.delete(connection, board);
-                    return null;
-                }
-        );
+        return board;
     }
 }
