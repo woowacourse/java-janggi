@@ -1,12 +1,11 @@
 package domain;
 
-import static java.util.Optional.ofNullable;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import static java.util.Optional.ofNullable;
 
 import domain.palace.Palace;
 import domain.palace.PalaceRouter;
@@ -14,8 +13,8 @@ import strategy.move.MoveStrategy;
 
 public class Board implements PalaceRouter {
 
-    private final Palace hanPalace = new Palace(Position.of(1, 4));
-    private final Palace choPalace = new Palace(Position.of(8, 4));
+    private static final Palace hanPalace = new Palace(Position.of(1, 4));
+    private static final Palace choPalace = new Palace(Position.of(8, 4));
 
     private final Map<Position, Piece> pieces;
 
