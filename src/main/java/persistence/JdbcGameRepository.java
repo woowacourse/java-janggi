@@ -38,12 +38,12 @@ public class JdbcGameRepository {
 
             try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
                 if (!generatedKeys.next()) {
-                    throw new IllegalStateException("게임 ID를 생성하지 못했습니다.");
+                    throw new RuntimeException("게임 ID를 생성하지 못했습니다.");
                 }
                 return generatedKeys.getLong(1);
             }
         } catch (SQLException e) {
-            throw new IllegalStateException("게임 생성 실패", e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -77,12 +77,12 @@ public class JdbcGameRepository {
                 try {
                     connection.rollback();
                 } catch (SQLException rollbackException) {
-                    throw new IllegalStateException("트랜잭션 롤백 실패", rollbackException);
+                    e.addSuppressed(rollbackException);
                 }
-                throw e;
+                throw new RuntimeException(e);
             }
         } catch (SQLException e) {
-            throw new IllegalStateException("수 저장 실패", e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -113,7 +113,7 @@ public class JdbcGameRepository {
                 return savedGames;
             }
         } catch (SQLException e) {
-            throw new IllegalStateException("진행 중 게임 목록 조회 실패", e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -150,7 +150,7 @@ public class JdbcGameRepository {
                 ));
             }
         } catch (SQLException e) {
-            throw new IllegalStateException("진행 중 게임 조회 실패", e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -167,7 +167,7 @@ public class JdbcGameRepository {
             preparedStatement.setLong(2, gameId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new IllegalStateException("게임 종료 저장 실패", e);
+            throw new RuntimeException(e);
         }
     }
 
