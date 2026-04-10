@@ -6,12 +6,13 @@ import java.sql.*;
 import java.util.Optional;
 
 public class BoardDao {
-    public Long insertBoard(Connection connection, String turn) {
-        String sql = "INSERT INTO boards (`turn`) VALUES (?)";
+    public Long insertBoard(Connection connection, boolean gameInProgress, String turn) {
+        String sql = "INSERT INTO boards (`game_in_progress`, `turn`) VALUES (?, ?)";
         try (
                 PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
         ) {
-            preparedStatement.setString(1, turn);
+            preparedStatement.setBoolean(1, gameInProgress);
+            preparedStatement.setString(2, turn);
 
             preparedStatement.executeUpdate();
 
@@ -28,7 +29,7 @@ public class BoardDao {
     }
 
     public Optional<BoardDto> getBoard(Connection connection, Long boardId) {
-        String sql = "SELECT FROM boards WHERE `id`=(?)";
+        String sql = "SELECT `id`, `game_in_progress`, `turn` FROM boards WHERE `id` = (?)";
         try (
                 PreparedStatement preparedStatement = connection.prepareStatement(sql)
         ) {
@@ -39,8 +40,8 @@ public class BoardDao {
                     return Optional.empty();
                 }
                 Long id = resultSet.getLong("id");
-                boolean gameInProgress = resultSet.getBoolean("gameInProgress");
-                Camp turn = Camp.valueOf(resultSet.getString("camp"));
+                boolean gameInProgress = resultSet.getBoolean("game_in_progress");
+                Camp turn = Camp.valueOf(resultSet.getString("turn"));
 
                 return Optional.of(new BoardDto(id, gameInProgress, turn));
             }
@@ -64,13 +65,14 @@ public class BoardDao {
         }
     }
 
-    public void updateTurn(Connection connection, Long boardId, String turn) {
-        String sql = "UPDATE boards SET `turn` = (?) WHERE `id` = (?)";
+    public void updateBoard(Connection connection, Long boardId, boolean gameInProgress, String turn) {
+        String sql = "UPDATE boards SET `game_in_progress` = (?), `turn` = (?) WHERE `id` = (?)";
         try (
                 PreparedStatement preparedStatement = connection.prepareStatement(sql)
         ) {
-            preparedStatement.setString(1, turn);
-            preparedStatement.setLong(2, boardId);
+            preparedStatement.setBoolean(1, gameInProgress);
+            preparedStatement.setString(2, turn);
+            preparedStatement.setLong(3, boardId);
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

@@ -20,11 +20,11 @@ public class BoardRepository {
 
         Long boardId;
         if (board.id() == null) {
-            boardId = boardDao.insertBoard(connection, board.turn().name());
+            boardId = boardDao.insertBoard(connection, board.isGameInProgress(), board.turn().name());
             board.assignId(boardId);
         } else {
             boardId = board.id();
-            boardDao.updateTurn(connection, boardId, board.turn().name());
+            boardDao.updateBoard(connection, boardId, board.isGameInProgress(), board.turn().name());
             pieceDao.deleteAllByBoard(connection, boardId);
         }
 
