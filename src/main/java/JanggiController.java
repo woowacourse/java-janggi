@@ -79,6 +79,7 @@ public class JanggiController {
         while (true) {
             outputView.printBoard(game.getBoard().getBoard());
             boolean isContinue = handleMove(game);
+            janggiService.saveGame(game);
             outputView.printScore(game.calculateScore(Team.CHU), game.calculateScore(Team.HAN));
 
             if (!isContinue) {
@@ -120,7 +121,6 @@ public class JanggiController {
     private boolean handleQuitOrStopCommand(Game game, String turn, String input) {
         if (input.equals(QUIT_COMMAND)) {
             game.lose(turn);
-            janggiService.saveGame(game);
             return true;
         }
         if (input.equals(STOP_COMMAND)) {
