@@ -51,8 +51,7 @@ public class JanggiController {
             }
         }
 
-        janggiGame.decideWinner();
-        outputView.printWinner(janggiGame.getWinner());
+        outputView.printWinner(janggiGame.decideWinner());
     }
 }
 

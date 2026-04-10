@@ -15,13 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class JanggiGameTest {
     private Board board;
-    private ScoreBoard scoreBoard;
     private JanggiGame janggiGame;
-
-    @BeforeEach
-    void setUp() {
-        scoreBoard = new ScoreBoard();
-    }
 
     @Test
     void 왕_제거_종료_테스트() {
@@ -33,9 +27,7 @@ class JanggiGameTest {
 
         // when, then
         assertThat(janggiGame.isFinished()).isTrue();
-
-        janggiGame.decideWinner();
-        assertThat(janggiGame.getWinner()).isEqualTo(Team.CHO);
+        assertThat(janggiGame.decideWinner()).isEqualTo(Team.CHO);
     }
 
     @Test
@@ -54,8 +46,7 @@ class JanggiGameTest {
         // then
         assertThat(janggiGame.isFinished()).isTrue();
 
-        janggiGame.decideWinner();
-        assertThat(janggiGame.getWinner()).isEqualTo(Team.CHO); // 2.0 vs 1.5
+        assertThat(janggiGame.decideWinner()).isEqualTo(Team.CHO); // 2.0 vs 1.5
     }
 
     @Test
@@ -83,7 +74,7 @@ class JanggiGameTest {
 
         // then
         assertThat(janggiGame.isFinished()).isTrue();
-        assertThat(janggiGame.getWinner()).isEqualTo(Team.HAN);
+        assertThat(janggiGame.decideWinner()).isEqualTo(Team.HAN);
     }
 
     private Board createBoardWithKings(Object... extraPieces) {

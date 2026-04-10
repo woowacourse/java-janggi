@@ -52,30 +52,26 @@ public class JanggiGame {
         skip.put(currentTurn, false);
     }
 
-    public Team getWinner() {
-        return winner;
-    }
-
     public void resign() {
         winner = currentTurn.anotherTeam();
     }
 
-    public void decideWinner() {
+    public Team decideWinner() {
         ScoreBoard scoreBoard = new ScoreBoard();
 
         if (winner != Team.NONE) {
-            return;
+            return winner;
         }
 
         if (isKingCaught()) {
             winner = board.kingsOnBoard().get(0).findTeam();
-            return;
+            return winner;
         }
 
         scoreBoard.saveHanScore(board.piecesOf(Team.HAN));
         scoreBoard.saveChoScore(board.piecesOf(Team.CHO));
 
-        winner = scoreBoard.winner();
+        return scoreBoard.winner();
     }
 
     private boolean allTeamSkip() {
