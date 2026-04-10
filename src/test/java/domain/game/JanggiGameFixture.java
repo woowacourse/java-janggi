@@ -21,7 +21,7 @@ public final class JanggiGameFixture {
 
         Board board = new Board(new AlivePieces(pieces));
 
-        return new JanggiGame(board, generalUncapturedSide.nextTurn());
+        return JanggiGame.load(board, generalUncapturedSide.nextTurn());
     }
 
     public static JanggiGame create_game_with_sufficient_points_and_both_general_uncaptured() {
@@ -33,7 +33,7 @@ public final class JanggiGameFixture {
 
         Board board = new Board(new AlivePieces(pieces));
 
-        return new JanggiGame(board);
+        return JanggiGame.create(board);
     }
 
     public static JanggiGame create_game_with_sufficient_points_only_one_side(Side sufficientPointsSide) {
@@ -53,7 +53,7 @@ public final class JanggiGameFixture {
 
         Board board = new Board(new AlivePieces(pieces));
 
-        return new JanggiGame(board);
+        return JanggiGame.create(board);
     }
 
     public static JanggiGame create_game_with_insufficient_points_and_both_general_uncaptured(Side winner) {
@@ -74,7 +74,7 @@ public final class JanggiGameFixture {
 
         Board board = new Board(new AlivePieces(pieces));
 
-        return new JanggiGame(board);
+        return JanggiGame.create(board);
     }
 
     public static JanggiGame create_game_with_insufficient_same_points_and_both_general_uncaptured() {

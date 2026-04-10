@@ -20,7 +20,7 @@ public final class JanggiService {
 
     public GameWrapper createGame(Board board) {
         return transactionTemplate.execute(conn -> {
-            JanggiGame janggiGame = new JanggiGame(board);
+            JanggiGame janggiGame = JanggiGame.create(board);
             long generatedKey = repository.save(conn, janggiGame);
             return new GameWrapper(generatedKey, janggiGame);
         });

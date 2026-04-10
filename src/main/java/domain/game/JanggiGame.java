@@ -9,23 +9,24 @@ import java.util.Map;
 
 public final class JanggiGame {
 
-    private static final Side FIRST_TURN = Side.CHO;
-    private static final int MINIMUM_POINT_FOR_CONTINUE = 30;
-    private static final Map<Side, Double> bonusPointBySide = Map.of(
-            Side.CHO, 0.0,
-            Side.HAN, 1.5
-    );
-
+    private final GameRule gameRule;
     private final Board board;
     private Side currentTurn;
 
-    public JanggiGame(Board board, Side currentTurn) {
+    private JanggiGame(GameRule gameRule, Board board, Side currentTurn) {
+        this.gameRule = gameRule;
         this.board = board;
         this.currentTurn = currentTurn;
     }
 
-    public JanggiGame(Board board) {
-        this(board, FIRST_TURN);
+    public static JanggiGame create(Board board) {
+        GameRule gameRule = new GameRule();
+
+        return new JanggiGame(gameRule, board, gameRule.firstTurn());
+    }
+
+    public static JanggiGame load(Board board, Side currentTurn) {
+        return new JanggiGame(new GameRule(), board, currentTurn);
     }
 
     public void movePiece(
@@ -62,25 +63,19 @@ public final class JanggiGame {
     }
 
     public boolean isFinished() {
-        return isGeneralCaptured() || !hasEnoughPointsToContinue();
+        return gameRule.isFinished(
+                isGeneralCaptured(),
+                board.calculatePiecePointOf(Side.CHO),
+                board.calculatePiecePointOf(Side.HAN)
+        );
     }
 
     private boolean isGeneralCaptured() {
         return board.isGeneralCaptured(currentTurn) || board.isGeneralCaptured(previousTurn());
     }
 
-    private boolean hasEnoughPointsToContinue() {
-        double pointOfCho = board.calculatePiecePointOf(Side.CHO);
-        double pointOfHan = board.calculatePiecePointOf(Side.HAN);
-
-        return pointOfCho >= MINIMUM_POINT_FOR_CONTINUE
-                || pointOfHan >= MINIMUM_POINT_FOR_CONTINUE;
-    }
-
     public double calculateScoreOf(Side side) {
-        double sideBonusPoint = bonusPointBySide.getOrDefault(side, 0.0);
-
-        return sideBonusPoint + board.calculatePiecePointOf(side);
+        return gameRule.bonusPointOf(side) + board.calculatePiecePointOf(side);
     }
 
     public GameResult determineResult() {

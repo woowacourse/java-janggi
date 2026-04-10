@@ -112,7 +112,7 @@ public final class JanggiGameRepository {
                     Side currentTurn = Side.valueOf(rs.getString("current_turn"));
                     Map<Intersection, Piece> pieces = findPieces(conn, gameId);
 
-                    return new JanggiGame(
+                    return JanggiGame.load(
                             new Board(new AlivePieces(pieces)),
                             currentTurn
                     );

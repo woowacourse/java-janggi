@@ -117,7 +117,7 @@ class JanggiGameRepositoryTest {
                     );
 
             Side expectedCurrentTurn = Side.CHO;
-            JanggiGame janggiGame = new JanggiGame(
+            JanggiGame janggiGame = JanggiGame.create(
                     new Board(new AlivePieces(
                             Map.of(new Intersection(10, 1),
                                     Piece.of(PieceType.CHARIOT, expectedCurrentTurn)))
@@ -150,7 +150,7 @@ class JanggiGameRepositoryTest {
         void commit() {
             // given
             Side previousTurn = Side.CHO;
-            JanggiGame janggiGame = new JanggiGame(
+            JanggiGame janggiGame = JanggiGame.create(
                     new Board(new AlivePieces(
                             Map.of(new Intersection(10, 1),
                                     Piece.of(PieceType.CHARIOT, previousTurn)))

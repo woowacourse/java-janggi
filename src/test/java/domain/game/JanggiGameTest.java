@@ -45,7 +45,7 @@ class JanggiGameTest {
         void 첫_수가_초가_아니면_예외를_던진다() {
             // given
             Board board = new Board(alivePieces);
-            JanggiGame janggiGame = new JanggiGame(board);
+            JanggiGame janggiGame = JanggiGame.create(board);
 
             // when and then
             assertThatThrownBy(() -> janggiGame.movePiece(HAN_START_INTERSECTION, HAN_FIRST_DESTINATION, Side.HAN))
@@ -56,7 +56,7 @@ class JanggiGameTest {
         void 첫_수가_초면_성공한다() {
             // given
             Board board = new Board(alivePieces);
-            JanggiGame janggiGame = new JanggiGame(board);
+            JanggiGame janggiGame = JanggiGame.create(board);
 
             // when and then
             assertThatNoException()
@@ -71,7 +71,7 @@ class JanggiGameTest {
         void 같은_진영이_연속해서_기물을_이동하려고_하면_예외를_던진다() {
             // given
             Board board = new Board(alivePieces);
-            JanggiGame janggiGame = new JanggiGame(board);
+            JanggiGame janggiGame = JanggiGame.create(board);
 
             // when and then
             janggiGame.movePiece(
@@ -92,7 +92,7 @@ class JanggiGameTest {
         void 각_진영이_교대로_기물을_이동하면_성공한다() {
             // given
             Board board = new Board(alivePieces);
-            JanggiGame janggiGame = new JanggiGame(board);
+            JanggiGame janggiGame = JanggiGame.create(board);
 
             // when and then
             janggiGame.movePiece(CHO_START_INTERSECTION, CHO_FIRST_DESTINATION, Side.CHO);
@@ -208,7 +208,7 @@ class JanggiGameTest {
     @Test
     void 진영별_점수_합계를_계산한다() {
         // given
-        JanggiGame janggiGame = new JanggiGame(new Board(alivePieces));
+        JanggiGame janggiGame = JanggiGame.create(new Board(alivePieces));
         int expectedPointWithOnlyPieces = 2;
         double expectedBonusPointOfHan = 1.5;
 
