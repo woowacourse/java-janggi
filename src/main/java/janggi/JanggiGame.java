@@ -31,6 +31,17 @@ public class JanggiGame {
         this.pieceRepository = pieceRepository;
     }
 
+    public void run2() {
+        GameSelectionFormat gameSelectionFormat = InputView.readGameSelection();
+//        Board board = getBoard();
+    }
+
+    public void getGame(GameSelectionFormat gameSelectionFormat) {
+        if (gameSelectionFormat == GameSelectionFormat.NEW_GAME) {
+            Board board = createBoard();
+        }
+    }
+
     public void run() {
         GameSelectionFormat gameSelectionFormat = InputView.readGameSelection();
         if (gameSelectionFormat == GameSelectionFormat.NEW_GAME) {

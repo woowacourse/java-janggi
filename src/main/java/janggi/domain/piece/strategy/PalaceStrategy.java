@@ -22,10 +22,11 @@ public abstract class PalaceStrategy implements MoveStrategy {
         Movement movement = new Movement(source, destination);
         if (isPalaceRange(source, destination)) {
             validatePalaceMove(source, destination, movement, board);
-        } else {
-            validateNormalMove(source, destination, movement, board);
+            return;
         }
+        validateNormalMove(source, destination, movement, board);
     }
+
 
     protected abstract void validatePalaceMove(Position source, Position destination, Movement movement, BoardChecker board);
 
@@ -64,7 +65,7 @@ public abstract class PalaceStrategy implements MoveStrategy {
 
     protected void validatePalaceStepDistance(Movement movement, int maxDistance) {
         if (Math.abs(movement.rowDistance()) > maxDistance || Math.abs(movement.colDistance()) > maxDistance) {
-             throw new IllegalArgumentException(ExceptionMessage.INVALID_PALACE_MOVE.getMessage(maxDistance));
+            throw new IllegalArgumentException(ExceptionMessage.INVALID_PALACE_MOVE.getMessage(maxDistance));
         }
     }
 }

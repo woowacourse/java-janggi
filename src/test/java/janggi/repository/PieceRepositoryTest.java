@@ -41,7 +41,7 @@ class PieceRepositoryTest {
         // given
         PlacedPiece placedPiece = new PlacedPiece(gameId, CampType.CHO, PieceRule.CHARIOT, 0, 0);
         // when
-        long pieceId = pieceRepository.save(placedPiece);
+        pieceRepository.save(placedPiece);
         // then
         Map<Position, Piece> result = pieceRepository.findByGameId(gameId);
         SoftAssertions.assertSoftly(softly -> {
