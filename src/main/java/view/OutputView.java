@@ -104,6 +104,7 @@ public final class OutputView {
     public void printWinner(GameResult gameResult) {
         System.out.printf("--- 게임이 종료되었습니다 ---%n%s의 승리!%n", gameResult.winnerName());
         printWinningReason(gameResult);
+        System.out.println();
     }
 
     private void printWinningReason(GameResult gameResult) {
