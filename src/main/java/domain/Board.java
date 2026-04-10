@@ -60,11 +60,9 @@ public class Board implements PalaceRouter {
     }
 
     private static List<Piece> pieceValuesFromEntries(List<Map.Entry<Position, Piece>> entries) {
-        List<Piece> result = new ArrayList<>(entries.size());
-        for (Map.Entry<Position, Piece> entry : entries) {
-            result.add(entry.getValue());
-        }
-        return List.copyOf(result);
+        return entries.stream()
+                .map(Map.Entry::getValue)
+                .toList();
     }
 
     public MovableRoutes findMovableRoutes(Piece piece) {
