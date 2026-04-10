@@ -61,7 +61,12 @@ public class Runner {
 
     private GameSession resumeOrNewSession(SavedGameState saved) {
         if (saved.gameStatus() == GameStatus.ENDED) {
-            outputView.printSavedGameEnded(saved.winner());
+            TeamColor winner = saved.winner();
+            if (winner == null) {
+                outputView.printSavedGameEndedWithoutWinner();
+                return startFreshSession();
+            }
+            outputView.printSavedGameEndedWithWinner(winner);
             return startFreshSession();
         }
         int choice = readResumeChoiceWithRetry();
@@ -212,13 +217,25 @@ public class Runner {
         TeamScores scores =
                 scoreCalculator.calculate(board.piecesOfTeam(TeamColor.CHO), board.piecesOfTeam(TeamColor.HAN));
         Optional<TeamColor> winner = scores.winner();
-        outputView.printTimeOverByScore(scores, winner.orElse(null));
+        if (winner.isEmpty()) {
+            outputView.printTimeOverDraw(scores);
+            gameStateRepository.save(
+                    new SaveGameStateRequest(
+                            board.capture(),
+                            turnManager.getCurrentTurn(),
+                            GameStatus.ENDED,
+                            null,
+                            deadline));
+            return;
+        }
+        TeamColor winnerColor = winner.get();
+        outputView.printTimeOverWinnerByScore(scores, winnerColor);
         gameStateRepository.save(
                 new SaveGameStateRequest(
                         board.capture(),
                         turnManager.getCurrentTurn(),
                         GameStatus.ENDED,
-                        winner.orElse(null),
+                        winnerColor,
                         deadline));
     }
 

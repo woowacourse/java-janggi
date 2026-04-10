@@ -93,16 +93,16 @@ public class OutputView {
         System.out.println("게임이 종료되었습니다. 승자: " + winner.getDisplayName());
     }
 
-    public void printTimeOverByScore(TeamScores scores, TeamColor winner) {
-        if (winner == null) {
-            System.out.println(
-                    "시간이 종료되었습니다. 무승부입니다. (초: "
-                            + scores.pointsFor(TeamColor.CHO).value()
-                            + ", 한: "
-                            + scores.pointsFor(TeamColor.HAN).value()
-                            + ")");
-            return;
-        }
+    public void printTimeOverDraw(TeamScores scores) {
+        System.out.println(
+                "시간이 종료되었습니다. 무승부입니다. (초: "
+                        + scores.pointsFor(TeamColor.CHO).value()
+                        + ", 한: "
+                        + scores.pointsFor(TeamColor.HAN).value()
+                        + ")");
+    }
+
+    public void printTimeOverWinnerByScore(TeamScores scores, TeamColor winner) {
         System.out.println(
                 "시간이 종료되었습니다. 점수 승자: "
                         + winner.getDisplayName()
@@ -113,11 +113,11 @@ public class OutputView {
                         + ")");
     }
 
-    public void printSavedGameEnded(TeamColor winner) {
-        if (winner == null) {
-            System.out.println("저장된 게임은 종료되어 새 게임을 진행합니다.");
-            return;
-        }
+    public void printSavedGameEndedWithoutWinner() {
+        System.out.println("저장된 게임은 종료되어 새 게임을 진행합니다.");
+    }
+
+    public void printSavedGameEndedWithWinner(TeamColor winner) {
         System.out.println("저장된 게임은 종료되어 새 게임을 진행합니다. 승자: " + winner.getDisplayName());
     }
 
