@@ -63,7 +63,7 @@ public class Board {
         }
 
         return pieces.values().stream()
-                .filter(Piece::isGeneral)
+                .filter(piece -> piece.isSameType(PieceType.GENERAL))
                 .map(Piece::camp)
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("궁이 존재하지 않습니다."));

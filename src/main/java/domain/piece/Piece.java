@@ -22,10 +22,6 @@ public class Piece {
         return new Piece(camp, pieceType, pieceType.moveStrategy(camp));
     }
 
-    public boolean isGeneral(){
-        return isSameType(PieceType.GENERAL);
-    }
-
     public boolean isSameCamp(Piece otherPiece) {
         return otherPiece.camp.equals(camp);
     }
