@@ -22,7 +22,7 @@ public class Guard extends PalacePiece {
     }
 
     @Override
-    public int getScore() {
+    public double getScore() {
         return 3;
     }
 

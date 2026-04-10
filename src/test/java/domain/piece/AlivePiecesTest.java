@@ -280,10 +280,10 @@ class AlivePiecesTest {
                 new Intersection(4, 4), piece2
         ));
 
-        int expected = piece1.getScore() + piece2.getScore();
+        double expected = piece1.getScore() + piece2.getScore();
 
         // when
-        int actual = alivePieces.getTotalScore(SIDE);
+        double actual = alivePieces.getTotalScore(SIDE);
 
         // then
         assertThat(actual).isEqualTo(expected);

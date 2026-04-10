@@ -189,10 +189,10 @@ class ChariotTest {
     void 본인의_점수를_반환한다() {
         // given
         Chariot chariot = new Chariot(SIDE);
-        int expected = 13;
+        double expected = 13;
 
         // when
-        int actual = chariot.getScore();
+        double actual = chariot.getScore();
 
         // then
         assertThat(actual).isEqualTo(expected);

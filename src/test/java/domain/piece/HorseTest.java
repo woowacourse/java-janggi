@@ -148,10 +148,10 @@ class HorseTest {
     void 본인의_점수를_반환한다() {
         // given
         Horse horse = new Horse(SIDE);
-        int expected = 5;
+        double expected = 5;
 
         // when
-        int actual = horse.getScore();
+        double actual = horse.getScore();
 
         // then
         assertThat(actual).isEqualTo(expected);

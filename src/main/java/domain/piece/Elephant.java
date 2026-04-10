@@ -32,7 +32,7 @@ public final class Elephant extends Piece {
     }
 
     @Override
-    public int getScore() {
+    public double getScore() {
         return 3;
     }
 

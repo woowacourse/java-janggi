@@ -46,7 +46,7 @@ public final class Board {
         return alivePieces.hasRoyalPiece(side);
     }
 
-    public int getTotalScore(Side side) {
+    public double getTotalScore(Side side) {
         return alivePieces.getTotalScore(side);
     }
 

@@ -70,11 +70,11 @@ public class AlivePieces {
         return piece.hasDifferentSide(side);
     }
 
-    public int getTotalScore(Side side) {
+    public double getTotalScore(Side side) {
         return alivePieces.values()
                 .stream()
                 .filter(piece -> piece.hasSameSide(side))
-                .mapToInt(Piece::getScore)
+                .mapToDouble(Piece::getScore)
                 .sum();
     }
 }

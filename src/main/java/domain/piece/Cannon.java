@@ -55,7 +55,7 @@ public final class Cannon extends StaticPositionedPiece {
     }
 
     @Override
-    public int getScore() {
+    public double getScore() {
         return 7;
     }
 

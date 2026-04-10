@@ -187,10 +187,10 @@ class SoldierTest {
     void 본인의_점수를_반환한다() {
         // given
         Soldier soldier = new Soldier(SIDE);
-        int expected = 2;
+        double expected = 2;
 
         // when
-        int actual = soldier.getScore();
+        double actual = soldier.getScore();
 
         // then
         assertThat(actual).isEqualTo(expected);

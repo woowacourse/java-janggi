@@ -54,7 +54,7 @@ public final class Chariot extends StaticPositionedPiece {
     }
 
     @Override
-    public int getScore() {
+    public double getScore() {
         return 13;
     }
 

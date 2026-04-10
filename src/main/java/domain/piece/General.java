@@ -20,7 +20,7 @@ public class General extends PalacePiece {
     }
 
     @Override
-    public int getScore() {
+    public double getScore() {
         return 0;
     }
 

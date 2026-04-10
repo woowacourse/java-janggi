@@ -30,7 +30,7 @@ public abstract class Piece {
             AlivePieces alivePieces
     );
 
-    public abstract int getScore();
+    public abstract double getScore();
 
     public abstract boolean canBelongToWing();
 

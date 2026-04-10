@@ -270,10 +270,10 @@ class CannonTest {
     void 본인의_점수를_반환한다() {
         // given
         Cannon cannon = new Cannon(SIDE);
-        int expected = 7;
+        double expected = 7;
 
         // when
-        int actual = cannon.getScore();
+        double actual = cannon.getScore();
 
         // then
         assertThat(actual).isEqualTo(expected);

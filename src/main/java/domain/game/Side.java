@@ -36,7 +36,7 @@ public enum Side {
         return baseRow + (forward.rowDelta() * farFromBaseRow);
     }
 
-    public double calculateTotalScore(int score) {
+    public double calculateTotalScore(double score) {
         return score + extraScore;
     }
 

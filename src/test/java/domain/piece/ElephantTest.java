@@ -183,10 +183,10 @@ class ElephantTest {
     void 본인의_점수를_반환한다() {
         // given
         Elephant elephant = new Elephant(SIDE);
-        int expected = 3;
+        double expected = 3;
 
         // when
-        int actual = elephant.getScore();
+        double actual = elephant.getScore();
 
         // then
         assertThat(actual).isEqualTo(expected);
