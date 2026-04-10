@@ -1,10 +1,10 @@
 package controller;
 
+import controller.command.TurnCommand;
 import dao.GameRoomRawData;
 import domain.board.formation.FormationType;
 import domain.game.JanggiGame;
 import domain.game.Team;
-import domain.position.Position;
 import java.util.List;
 import service.JanggiGameService;
 import view.InputView;
@@ -71,7 +71,7 @@ public class JanggiController {
             playTurn(game);
             outputView.printBoard(game.getBoard());
         }
-        outputView.printResult(game.findWinner(), game.scoreOf(Team.CHO), game.scoreOf(Team.HAN));
+        outputView.printResult(game.result());
     }
 
     private void playTurn(JanggiGame game) {
@@ -83,13 +83,8 @@ public class JanggiController {
 
     private boolean executeTurn(JanggiGame game) {
         try {
-            String input = inputView.askTurnInput(game.currentTurn());
-            if (inputView.isPass(input)) {
-                gameService.pass(game);
-                return true;
-            }
-            List<Position> positions = inputView.parseMoveInput(input);
-            gameService.move(game, positions.get(0), positions.get(1));
+            TurnCommand command = inputView.askTurnCommand(game.currentTurn());
+            command.apply(gameService, game);
             return true;
         } catch (IllegalArgumentException e) {
             outputView.printError(e.getMessage());
