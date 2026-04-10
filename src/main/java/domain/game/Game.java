@@ -63,8 +63,15 @@ public class Game {
     }
 
     public TurnResult passTurn() {
+        validatePassTurn();
         changeTurn();
         return TurnResult.empty();
+    }
+
+    private void validatePassTurn() {
+        if (ThreatAnalyzer.isInCheck(board, currentTurn)) {
+            throw new IllegalArgumentException("[ERROR] 장군 상태에서는 턴을 넘길 수 없습니다.");
+        }
     }
 
     private void validateAppropriateTurnPieces(Piece piece) {

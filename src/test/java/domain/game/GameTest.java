@@ -135,4 +135,55 @@ public class GameTest {
         assertThat(turnResult.winner()).isEmpty();
         assertThat(game.currentTurn()).isEqualTo(Camp.HAN);
     }
+
+    @Test
+    @DisplayName("자기 장군을 공격당하는 수를 두었을 때 예외가 발생한다.")
+    void throwException_When_MoveAttackOwnGeneral() {
+        Board board = new Board(Map.of(
+                new Position(5, 2), new Piece(Camp.HAN, PieceType.GENERAL),
+                new Position(5, 4), new Piece(Camp.HAN, PieceType.SOLDIER),
+                new Position(5, 5), new Piece(Camp.CHO, PieceType.CHARIOT)
+        ));
+
+        Game game = Game.restore(board, Camp.HAN, false);
+
+        assertThatThrownBy(() -> game.playMove(new Position(5, 4), new Position(4, 4)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 자신의 장군이 공격받는 수는 둘 수 없습니다.");
+    }
+
+    @Test
+    @DisplayName("자기 장군을 공격 당하는 수를 두었을 때 보드와 턴은 유지된다.")
+    void keepBoardAndTurn_When_MoveAttackOwnGeneral() {
+
+        Board board = new Board(Map.of(
+                new Position(5, 2), new Piece(Camp.HAN, PieceType.GENERAL),
+                new Position(5, 4), new Piece(Camp.HAN, PieceType.SOLDIER),
+                new Position(5, 5), new Piece(Camp.CHO, PieceType.CHARIOT)
+        ));
+
+        Game game = Game.restore(board, Camp.HAN, false);
+        game.playMove(new Position(5, 4), new Position(4, 4));
+
+        assertThat(game.currentTurn()).isEqualTo(Camp.HAN);
+        assertThat(game.board().findBy(new Position(5, 4)).type()).isEqualTo(PieceType.SOLDIER);
+        assertThat(game.board().findPiece(new Position(4, 4))).isEmpty();
+    }
+
+    @Test
+    @DisplayName("장군 상태에서는 턴을 넘길 수 없다.")
+    void throwException_When_PassInCheck() {
+        Board board = new Board(Map.of(
+                new Position(5, 9), new Piece(Camp.CHO, PieceType.GENERAL),
+                new Position(5, 2), new Piece(Camp.HAN, PieceType.GENERAL),
+                new Position(5, 5), new Piece(Camp.CHO, PieceType.CHARIOT)
+        ));
+        Game game = Game.restore(board, Camp.HAN, false);
+
+        assertThatThrownBy(game::passTurn)
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 장군 상태에서는 턴을 넘길 수 없습니다.");
+
+        assertThat(game.currentTurn()).isEqualTo(Camp.HAN);
+    }
 }
