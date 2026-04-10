@@ -6,6 +6,7 @@ import janggi.domain.game.rule.Rules;
 import janggi.domain.piece.Piece;
 import janggi.domain.point.Point;
 import janggi.domain.side.Side;
+import janggi.entity.Status;
 import java.util.Map;
 import java.util.Set;
 
@@ -15,21 +16,25 @@ public class Game {
     private final Integer id;
     private final Rules rules;
     private final Board board;
+    private Status status;
     private Side turn;
 
-    public Game(Integer id, Rules rules, Board board, Side turn) {
+    public Game(Integer id, Rules rules, Board board, Status status, Side turn) {
         this.id = id;
         this.rules = rules;
         this.board = board;
+        this.status = status;
         this.turn = turn;
     }
 
     public static Game createGame(BoardSetUp choBoardSetUp, BoardSetUp hanBoardSetUp) {
-        return new Game(null, Rules.createWithDefaultRules(), Board.setUp(choBoardSetUp, hanBoardSetUp), INIT_TURN);
+        return new Game(null, Rules.createWithDefaultRules(), Board.setUp(choBoardSetUp, hanBoardSetUp),
+                Status.IN_PROGRESS, INIT_TURN);
     }
 
     public static Game createGameWithId(Integer id, BoardSetUp choBoardSetUp, BoardSetUp hanBoardSetUp) {
-        return new Game(id, Rules.createWithDefaultRules(), Board.setUp(choBoardSetUp, hanBoardSetUp), INIT_TURN);
+        return new Game(id, Rules.createWithDefaultRules(), Board.setUp(choBoardSetUp, hanBoardSetUp),
+                Status.IN_PROGRESS, INIT_TURN);
     }
 
 
@@ -75,7 +80,14 @@ public class Game {
     }
 
     public boolean canPlay() {
-        return !rules.isEnd(board.getPieces());
+        if (status == Status.FINISHED) {
+            return false;
+        }
+        if (rules.isEnd(board.getPieces())) {
+            status = Status.FINISHED;
+            return false;
+        }
+        return true;
     }
 
     public Side winnerSide() {
@@ -84,5 +96,9 @@ public class Game {
 
     public Integer getId() {
         return id;
+    }
+
+    public Status getStatus() {
+        return status;
     }
 }
