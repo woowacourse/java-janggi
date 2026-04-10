@@ -3,8 +3,6 @@ package janggi.domain.board;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.domain.space.Destinations;
-import janggi.domain.space.Position;
 import janggi.domain.Side;
 import janggi.domain.piece.Chariot;
 import janggi.domain.piece.Elephant;
@@ -12,7 +10,9 @@ import janggi.domain.piece.General;
 import janggi.domain.piece.Horse;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceFactory;
+import janggi.domain.space.Destinations;
 import janggi.domain.space.Direction;
+import janggi.domain.space.Position;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +25,8 @@ class BoardTest {
     void 선택한_포메이션에_맞게_32개의_기물이_초기_위치에_정확히_배치된다() {
         // LEFT(상마상마), RIGHT(마상마상) 포메이션으로 초기화
         Board board = BoardFactory.create(Formation.LEFT_ELEPHANT, Formation.RIGHT_ELEPHANT);
-        Map<Position, Piece> actual = board.getBoard();
+        Map<Position, Piece> actual = new HashMap<>();
+        board.forEachPieces(actual::put);
 
         assertThat(actual).hasSize(32);
 

@@ -1,6 +1,7 @@
 package janggi.domain.player;
 
 import janggi.domain.Side;
+import janggi.domain.board.Formation;
 import java.util.Map;
 
 public class Players {
@@ -27,10 +28,9 @@ public class Players {
         }
     }
 
-    public Player getPlayer(Side side) {
-        return players.get(side);
+    public Formation getFormation(Side side) {
+        return players.get(side).formation();
     }
-
 
     public Name getNameBySide(Side side) {
         return players.get(side).name();

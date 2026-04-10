@@ -646,17 +646,17 @@
     - [x] `Players`를 `Map<Side, Player>` 기반의 일급 컬렉션으로 재작성
     - [x] `Board.java`에서 `getPieces()` Getter를 삭제하고 `forEachPiece(BiConsumer)` 추가
 - [ ] **Phase 2: 상태 패턴 & 전략 패턴 적용 (도메인 핵심 룰 개선)**
-    - [x] `GameState` 추상 클래스 및 `ChoTurn`, `HanTurn`, `Finished` 구현체 작성
-    - [x] `Game`에서 `ActiveTurn`, `toggleTurn` 관련 코드 삭제 후 `GameState`로 위임
+    - [ ] `GameState` 추상 클래스 및 `ChoTurn`, `HanTurn`, `Finished` 구현체 작성
+    - [ ] `Game`에서 `ActiveTurn`, `toggleTurn` 관련 코드 삭제 후 `GameState`로 위임
     - [ ] `Soldier`의 오버라이딩 코드를 삭제하고 `ForwardStepStrategy` 신규 생성
     - [ ] 💡 `Game` 내부에 발생 이벤트를 담을 `List<MoveEvent>` 및 `clearEvents()` 로직 추가
 - [ ] **Phase 3: 인프라 (트랜잭션 & DB 구조 변경)**
     - [ ] `schema.sql`에서 `piece` 테이블 삭제 및 `move_history` 테이블 생성
-    - [ ] `ConnectionContext`와 `TransactionTemplate` 클래스 작성
+    - [ ] `ConnectionConte t`와 `TransactionTemplate` 클래스 작성
     - [ ] `MoveHistoryDao` 신규 생성 및 `PieceDao` 삭제
 - [ ] **Phase 4: 서비스 조립 및 레포지토리 연결**
-    - [x] 💡 `GameService`의 인스턴스 변수(`game`, `currentGameId`) 전면 삭제 (무상태화)
-    - [x] 💡 `ConsoleController`에 `GameSession` 인스턴스 변수를 추가하여 세션 유지 책임 부여
-    - [x] `GameService`의 모든 기능(move, getBoardDto 등)이 파라미터로 `Long gameId`를 받도록 서명 수정
-    - [ ] `GameService.move()` 메서드에 `TransactionTemplate.execute()` 블록 적용
+    - [ ] 💡 `GameService`의 인스턴스 변수(`game`, `currentGameId`) 전면 삭제 (무상태화)
+    - [ ] 💡 `ConsoleController`에 `GameSession` 인스턴스 변수를 추가하여 세션 유지 책임 부여
+    - [ ] `GameService`의 모든 기능(move, getBoardDto 등)이 파라미터로 `Long gameId`를 받도록 서명 수정
+    - [ ] `GameService.move()` 메서드에 `TransactionTemplate.e ecute()` 블록 적용
     - [ ] `JdbcGameRepository`에 이벤트 추출 로직(Game에서 이벤트 꺼내서 Dao에 넘기고 clear) 및 Replay 복원 로직 구현

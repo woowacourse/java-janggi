@@ -1,12 +1,12 @@
 package janggi.domain.board;
 
-import janggi.domain.space.Destinations;
-import janggi.domain.space.Palace;
-import janggi.domain.space.Position;
 import janggi.domain.Score;
 import janggi.domain.Side;
 import janggi.domain.piece.Piece;
+import janggi.domain.space.Destinations;
 import janggi.domain.space.Direction;
+import janggi.domain.space.Palace;
+import janggi.domain.space.Position;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,14 +37,6 @@ public class Board implements BoardReader{
         return getVitalSides().size() >= MINIMUM_VITAL_PIECES_COUNT;
     }
 
-    public Side getWinnerSide() {
-        List<Side> vitalSides = getVitalSides();
-        if (vitalSides.size() != 1) {
-            throw new IllegalStateException("승리한 진영을 확정할 수 없는 상태입니다.");
-        }
-        return vitalSides.getFirst();
-    }
-
     private List<Side> getVitalSides() {
         return pieces.values().stream()
                 .filter(Piece::isVital)
@@ -58,10 +50,6 @@ public class Board implements BoardReader{
                 .filter(piece -> piece.isAlly(side))
                 .map(Piece::getScore)
                 .reduce(new Score(0.0), Score::plus);
-    }
-
-    public Map<Position, Piece> getBoard() {
-        return pieces;
     }
 
     public void forEachPieces(BiConsumer<Position, Piece> action) {

@@ -9,7 +9,7 @@ public interface GameRepository {
 
     Long save(Game game);
 
-    void update(Long id, Game game);
+    void update(Long gameId, Game game);
 
     Optional<Game> findById(Long gameId);
 
